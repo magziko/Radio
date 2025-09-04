@@ -1941,33 +1941,27 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 
 <!-- تلاوات وقراء -->
 <button class="filter-button" data-ar="قراء" data-en="Reciters" onclick="filterStations('reciters')">قراء</button> 
+<button class="filter-button" data-ar="تلاوات" data-en="Recitations" onclick="filterStations('Quran')">تلاوات</button>
 <button class="filter-button" data-ar="قراءات" data-en="Readings" onclick="filterStations('rewayat')">قراءات</button>
 <button class="filter-button" data-ar="مُجَوِّد" data-en="Mujawwad" onclick="filterStations('mojawwad')">مُجَوِّد</button>
-<button class="filter-button" data-ar="تجويد" data-en="Tajweed" onclick="filterStations('tajweed')">تجويد</button>
-<button class="filter-button" data-ar="المحفظ" data-en="Teach Quran" onclick="filterStations('teachers')">المحفظ</button>
-<button class="filter-button" data-ar="سورة" data-en="Surah" onclick="filterStations('surah')">سورة</button>
-<button class="filter-button" data-ar="تلاوات" data-en="Quran" onclick="filterStations('Quran')">تلاوات</button>
-
-<!-- تفسير وعلوم -->
-<button class="filter-button" data-ar="تفسير" data-en="Tafsir" onclick="filterStations('tafsir')">تفسير</button>
-<button class="filter-button" data-ar="علماء" data-en="Scholars" onclick="filterStations('scholars')">علماء</button>
-<button class="filter-button" data-ar="سير" data-en="Biographies" onclick="filterStations('sira')">سير</button>
-
+<button class="filter-button" data-ar="ٱلْمُحَفِّظ" data-en="Quran Teacher" onclick="filterStations('teachers')">ٱلْمُحَفِّظ | Quran Teacher</button>
+<button class="filter-button" data-ar="سورة" data-en="Quran Surahs" onclick="filterStations('surah')">سورة</button>
+<button class="filter-button" data-ar="منشاويات" data-en="Al-Minshawi" onclick="filterStations('Monshawiiyat')">منشاويات</button>
+<button class="filter-button" data-ar="القرآن مترجم" data-en="Quran Trans." onclick="filterStations('Translation')">القرآن مترجم | Quran Trans.</button>
+<button class="filter-button" data-ar="تفسير القرآن" data-en="Quran Tafsir" onclick="filterStations('tafsir')">تفسير القرآن | Quran Tafsir</button>
+<button class="filter-button" data-ar="الرُّقْيَة الشَّرْعِيَّة" data-en="Ruqyah" onclick="filterStations('ruqua')">الرُّقْيَة الشَّرْعِيَّة</button>
 <!-- إذاعات وترجمة -->
-<button class="filter-button" data-ar="إذاعات" data-en="Radio" onclick="filterStations('Radio')">إذاعات</button>
-<button class="filter-button" data-ar="ترجمة" data-en="Translate" onclick="filterStations('Translation')">ترجمة</button>
-<button class="filter-button" data-ar="أجنبي" data-en="Foreign" onclick="filterStations('Foreign')">أجنبي</button>
+<button class="filter-button" data-ar="محطات القرآن" data-en="Quran Stations" onclick="filterStations('Radio')">محطات القرآن | Quran Stations</button>
+<button class="filter-button" data-ar="الإذاعات العالمية" data-en="International" onclick="filterStations('Foreign')">الإذاعات العالمية</button>
+<button class="filter-button" data-ar="السيرة النبوية" data-en="Seerah" onclick="filterStations('sira')">السيرة النبوية</button>
 
-<!-- تلاوات محددة -->
-<button class="filter-button" data-ar="منشاويات" data-en="Monshawi" onclick="filterStations('Monshawiiyat')">منشاويات</button>
+<button class="filter-button" data-ar="علماء" data-en="Scholars" onclick="filterStations('scholars')">علماء</button>
 
 <!-- أذكار ورقية -->
 <button class="filter-button" data-ar="أذكار" data-en="Adhkar" onclick="filterStations('Adhkar')">أذكار</button>
-<button class="filter-button" data-ar="رقية" data-en="Ruqyah" onclick="filterStations('ruqua')">رقية</button>
-
-<!-- محتوى متنوع وبث مباشر -->
-<button class="filter-button" data-ar="متنوع" data-en="Mix" onclick="filterStations('mix')">متنوع</button>
-<button class="filter-button" data-ar="مباشر" data-en="Live" onclick="filterStations('LiveTV')">مباشر</button>
+<button class="filter-button" data-ar="تجويد" data-en="Tajweed" onclick="filterStations('tajweed')">تجويد</button>
+<button class="filter-button" data-ar="محطات إسلامية" data-en="Islamic Mix" onclick="filterStations('mix')">محطات إسلامية | Islamic Mix</button>
+<button class="filter-button" data-ar="بث مباشر" data-en="Live Stream" onclick="filterStations('LiveTV')">بث مباشر | Live Stream</button>
 
 <!-- الكل والمزيد -->
 <button class="filter-button" data-ar="المزيد" data-en="More" onclick="filterStations('More')">المزيد</button>
@@ -16125,8 +16119,8 @@ function playWelcomeScreenStation(stationUrl, stationName) {
     data-station="راديو القرآن - GitHub"
     data-ar="راديو القرآن - GitHub"
     data-en="Quran Radio - GitHub"
-    data-url="https://magziko.github.io/Radiom/#gsc.tab=0"
-    onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('https://magziko.github.io/Radiom/#gsc.tab=0', '_blank'); } else { openModal('https://magziko.github.io/Radiom/#gsc.tab=0', 'راديو القرآن - GitHub', false, true); }"
+    data-url="https://magziko.github.io/Radio/#gsc.tab=0"
+    onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('https://magziko.github.io/Radio/#gsc.tab=0', '_blank'); } else { openModal('https://magziko.github.io/Radio/#gsc.tab=0', 'راديو القرآن - GitHub', false, true); }"
     style="float: right;">
     <span class="flag"></span>
     <span class="station-text">راديو القرآن - GitHub</span>
@@ -16794,6 +16788,33 @@ function playWelcomeScreenStation(stationUrl, stationName) {
                  return false;">&#x2764;</span>
 </button>
 
+<button class="button palestine"
+    data-category="More"
+    data-station="تحميل تطبيق الأندرويد"
+    data-ar="تحميل تطبيق الأندرويد"
+    data-en="Download Android App"
+    onclick="window.open('https://median.co/share/bnakxxn#androidphone', '_blank');">
+
+  <span class="flag"></span>
+
+  <span class="station-text" style="font-size: 20px;">
+    🤖 تحميل تطبيق الأندرويد
+    <a href="https://median.co/share/bnakxxn#androidphone"
+       target="_blank"
+       title="فتح تطبيق الأندرويد في تبويب جديد"
+       style="text-decoration: none; margin-right: 6px; font-size: 26px; padding: 4px;">🤖</a>
+  </span>
+
+  <img src="https://cdn.instant.audio/images/equalizer.gif"
+       class="equalizer" style="display:none;" alt="Equalizer">
+
+  <span class="favorite-icon"
+        onclick="toggleFavorite(event, 'تحميل تطبيق الأندرويد');
+                 event.stopPropagation();
+                 return false;">&#x2764;</span>
+</button>
+
+
   <!-- زر واتساب -->
     <a href="https://web.whatsapp.com/send?phone=201154361888" class="whatsapp-button" target="_blank" title="اضغط على Ctrl + الزر لفتح شاشة واتساب مباشرة">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="واتساب" />
@@ -16829,13 +16850,13 @@ function playWelcomeScreenStation(stationUrl, stationName) {
     </a>
 
 
-<button id="toggleButton" class="toggle-button" onclick="window.open('https://median.co/share/xxaowo', '_blank')">
+<button id="toggleButton" class="toggle-button" onclick="window.open('https://median.co/share/bnakxxn#androidphone', '_blank')">
      Download Radio MA app 📻
 </button>
 
 <div onclick="copyLink()" style="cursor:pointer; color:blue;">
     🌐 اضغط هنا لفتح الموقع أو انسخ الرابط: <br>
-    https://magziko.github.io/Radiom/
+    https://magziko.github.io/Radio/
 </div>
 
 <div style="display: flex; justify-content: center; align-items: center;">
@@ -17856,9 +17877,8 @@ audioPlayers.forEach(player => {
        
 
 function copyLink() {
-    window.open('https://magziko.github.io/Radiom/', '_blank');
-    alert('لو لم يفتح المتصفح الخارجي، انسخ الرابط يدويًا: https://magziko.github.io/Radiom/');
-}
+    window.open('https://magziko.github.io/Radio/', '_blank');
+alert('لو لم يفتح المتصفح الخارجي، انسخ الرابط يدويًا: https://magziko.github.io/Radio/');}
 
  const toggle = document.getElementById('flagToggle');
   const container = document.getElementById('flagContainer');
