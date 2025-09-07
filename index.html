@@ -508,7 +508,7 @@ audio {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 15px;          /* خط أوضح */
+  font-size: 13px;          /* خط أوضح */
   font-weight: 600;         /* سميك قليلاً */
   font-family: Arial, sans-serif;
  background: #fff;
@@ -1938,17 +1938,17 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 <button class="filter-button" data-ar="منشاويات" data-en="Al-Minshawi" onclick="filterStations('Monshawiiyat')">منشاويات</button>
 <button class="filter-button" data-ar="القرآن مترجم" data-en="Quran Trans." onclick="filterStations('Translation')">القرآن مترجم | Quran Trans.</button>
 <button class="filter-button" data-ar="تفسير القرآن" data-en="Quran Tafsir" onclick="filterStations('tafsir')">تفسير القرآن | Quran Tafsir</button>
-<button class="filter-button" data-ar="الرُّقْيَة الشَّرْعِيَّة" data-en="Ruqyah" onclick="filterStations('ruqua')">الرُّقْيَة الشَّرْعِيَّة</button>
 <!-- إذاعات وترجمة -->
 <button class="filter-button" data-ar="محطات القرآن" data-en="Quran Stations" onclick="filterStations('Radio')">محطات القرآن | Quran Stations</button>
 <button class="filter-button" data-ar="الإذاعات العالمية" data-en="International" onclick="filterStations('Foreign')">الإذاعات العالمية</button>
 <button class="filter-button" data-ar="السيرة النبوية" data-en="Seerah" onclick="filterStations('sira')">السيرة النبوية</button>
 
 <button class="filter-button" data-ar="علماء" data-en="Scholars" onclick="filterStations('scholars')">علماء</button>
+<button class="filter-button" data-ar="تجويد" data-en="Tajweed" onclick="filterStations('tajweed')">تجويد</button>
 
 <!-- أذكار ورقية -->
+<button class="filter-button" data-ar="الرُّقْيَة الشَّرْعِيَّة" data-en="Ruqyah" onclick="filterStations('ruqua')">الرُّقْيَة الشَّرْعِيَّة</button>
 <button class="filter-button" data-ar="أذكار" data-en="Adhkar" onclick="filterStations('Adhkar')">أذكار</button>
-<button class="filter-button" data-ar="تجويد" data-en="Tajweed" onclick="filterStations('tajweed')">تجويد</button>
 <button class="filter-button" data-ar="محطات إسلامية" data-en="Islamic Mix" onclick="filterStations('mix')">محطات إسلامية | Islamic Mix</button>
 <button class="filter-button" data-ar="بث مباشر" data-en="Live Stream" onclick="filterStations('LiveTV')">بث مباشر | Live Stream</button>
 
@@ -18027,6 +18027,39 @@ const modernGradient = 'linear-gradient(90deg, #e3f9e5 0%, #43cea2 40%, #13a045 
 
     highlightAllSync();
 });
+
+function adjustButtonFontSize() {
+  document.querySelectorAll('.filter-button').forEach(btn => {
+    let ar = btn.querySelector('.ar');
+    let en = btn.querySelector('.en');
+
+    if (ar) {
+      let lenAr = ar.innerText.length;
+      if (lenAr > 15) {
+        ar.style.fontSize = "12px";
+      } else if (lenAr > 8) {
+        ar.style.fontSize = "14px";
+      } else {
+        ar.style.fontSize = "16px";
+      }
+    }
+
+    if (en) {
+      let lenEn = en.innerText.length;
+      if (lenEn > 20) {
+        en.style.fontSize = "11px";
+      } else if (lenEn > 12) {
+        en.style.fontSize = "13px";
+      } else {
+        en.style.fontSize = "15px";
+      }
+    }
+  });
+}
+
+window.addEventListener("load", adjustButtonFontSize);
+window.addEventListener("resize", adjustButtonFontSize);
+
 
 </script>
 
