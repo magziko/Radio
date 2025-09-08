@@ -79,17 +79,19 @@
 /* زر الإغلاق */
 #closeButton {
     position: absolute;
-    top: 10px;
+    top: 36px;
     right: 10px;
     background-color: #ff5555;
     border: none;
     color: white;
-    font-size: 16px;
-    padding: 5px 10px;
+    font-size: 30px;
+    padding: 12px 19px;
+    width: 54px;
+    height: 54px;
     cursor: pointer;
     border-radius: 50%;
     display: block;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* تأثير الظل */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* تنسيق مشغل الراديو */
@@ -499,8 +501,9 @@ audio {
 
 /* تصميم الأزرار */
 .filter-button {
-  flex: 0 0 120px;          /* عرض أصغر من الأول (120 بدل 140) */
-  height: 44px;             /* ارتفاع أصغر (44 بدل 50) */
+  flex: 0 0 160px;         /* زيادة العرض */
+  min-width: 160px;        /* ضمان عدم تقليل العرض */
+  height: 50px;            /* زيادة الارتفاع */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -508,17 +511,18 @@ audio {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 13px;          /* خط أوضح */
-  font-weight: 600;         /* سميك قليلاً */
+  font-size: 13px;
+  font-weight: 600;
   font-family: Arial, sans-serif;
- background: #fff;
+  background: #fff;
   color: #1e90ff;
   border: 2px solid currentColor;
   border-radius: 8px;
   cursor: pointer;
-  padding: 0 8px;           /* توازن النص داخل الزر */
+  padding: 0 12px;         /* زيادة المسافات الداخلية */
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
 
 .filter-button:hover,
 .filter-button.selected {
@@ -1104,6 +1108,15 @@ audio {
 
         <div id="customAutoSwitchContainer">
     <!-- زر Auto Switch مع Tooltip -->
+    
+    <!-- زر الترجمة المتغير -->
+<div id="mag_translate_toggle" style="margin: 18px auto; text-align:center;">
+  <button onclick="toggleTranslateBar()" style="padding:8px 18px; font-size:16px; border-radius:7px; cursor:pointer;">
+    🌐 Translate Website
+  </button>
+</div>
+<div id="google_translate_element" style="margin:10px auto; display:none;"></div>
+    
     <div>
         <input type="checkbox" id="customAutoSwitch" onchange="enableAutoSwitch()">
         <label id="customAutoSwitchLabel" for="customAutoSwitch" 
@@ -1386,13 +1399,7 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 </script>
 <body>
   <div class="container">
-    <!-- حالة الراديو -->
-    <!--<div id="status">الرجاء اختيار محطة راديو.</div>-->
 
-    <!-- مشغل الصوت -->
-    <!--<audio controls autoplay id="currentAudio">-->
-    <!--  الجهاز لا يدعم تشغيل الصوت.-->
-    <!--</audio>-->
  <table style="width: 100%;">
     <tr>
         <!-- زر التبديل بين اللغات في أقصى اليسار -->
@@ -1400,10 +1407,7 @@ function playWelcomeScreenStation(stationUrl, stationName) {
             <button id="languageToggle" onclick="toggleLanguage()">EN</button>
         </td>
         
-        <!--وضع زر عائم (Floating Button) لفتح شاشة الترحيب مباشرة على الصفحة.-->
-<!--<button id="welcomeShortcut" onclick="openWelcomeScreen()" style="position: fixed; bottom: 20px; right: 20px; padding: 10px; background-color: #007a3d; color: white; border-radius: 50%; border: none; cursor: pointer;">-->
-<!--    &#9733;-->
-<!--</button>-->
+  
 
         <!-- عنصر التحكم في لون الأزرار في المنتصف -->
         <td style=" text-align: center;">
@@ -17945,6 +17949,19 @@ window.addEventListener("load", adjustButtonFontSize);
 window.addEventListener("resize", adjustButtonFontSize);
 
 
+function toggleTranslateBar() {
+  var el = document.getElementById('google_translate_element');
+  // إظهار/إخفاء عنصر الترجمة
+  if (el.style.display === 'none' || el.style.display === '') {
+    el.style.display = 'block';
+    setTimeout(function() {
+      el.style.display = 'none';
+    }, 10000); // يظهر 10 ثواني فقط ثم يختفي تلقائي
+  } else {
+    el.style.display = 'none';
+  }
+}
+
 </script>
 
 <style>
@@ -18127,7 +18144,17 @@ function setSiteLanguage(lang) {
 startAutoToggle();
 
 </script>
-
+<div id="google_translate_element" style="margin-top:10px;"></div>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'ar',
+    includedLanguages: 'ar,en,fr,es,ru,pt,de,tr,fa,ur,zh,he', // أضف أو احذف اللغات حسب رغبتك
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>
