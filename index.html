@@ -1954,8 +1954,9 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 <button class="filter-button" data-ar="الرُّقْيَة الشَّرْعِيَّة" data-en="Ruqyah" onclick="filterStations('ruqua')">الرُّقْيَة الشَّرْعِيَّة</button>
 <button class="filter-button" data-ar="أذكار" data-en="Adhkar" onclick="filterStations('Adhkar')">أذكار</button>
 <button class="filter-button" data-ar="محطات إسلامية" data-en="Islamic Mix" onclick="filterStations('mix')">محطات إسلامية | Islamic Mix</button>
-<button class="filter-button" data-ar="بث مباشر" data-en="Live Stream" onclick="filterStations('LiveTV')">بث مباشر | Live Stream</button>
-
+<button class="filter-button" data-ar="البث المرئي" data-en="Live Video" onclick="filterStations('LiveTV')">
+  البث المرئي | Live Video
+</button>
 <!-- الكل والمزيد -->
 <button class="filter-button" data-ar="المزيد" data-en="More" onclick="filterStations('More')">المزيد</button>
 <button class="filter-button" data-ar="كل الإذاعات" data-en="All Stations" onclick="filterStations('all')">كل الإذاعات</button>
@@ -14865,50 +14866,281 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 
 <button class="button palestine"
         data-category="LiveTV"
-        data-station="الشيخ محمود خليل الحصري تلاوة HD"
-        data-ar="الشيخ محمود خليل الحصري تلاوة HD"
-        data-en="Sheikh Mahmoud Khalil Al-Husary Recitation HD"
+        data-station="القرآن الكريم كامل - الشيخ محمود خليل الحصري"
+        data-ar="القرآن الكريم كامل - الشيخ محمود خليل الحصري"
+        data-en="The Holy Quran Full - Sheikh Mahmoud Khalil Al-Husary"
+        data-url="https://www.youtube.com/watch?v=bz0WROn7a90"
+        onclick="openModal('bz0WROn7a90', 'القرآن الكريم كامل - الشيخ محمود خليل الحصري', true)">
+    <span class="flag"></span>
+    <span class="station-text">القرآن الكريم كامل - الشيخ محمود خليل الحصري</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'القرآن الكريم كامل - الشيخ محمود خليل الحصري');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="القرآن الكريم كامل - الشيخ محمد صديق المنشاوى"
+        data-ar="القرآن الكريم كامل - الشيخ محمد صديق المنشاوى"
+        data-en="The Holy Quran Full - Sheikh Muhammad Siddiq Al-Minshawi"
+        data-url="https://www.youtube.com/watch?v=L_DZWipt5hw"
+        onclick="openModal('L_DZWipt5hw', 'القرآن الكريم كامل - الشيخ محمد صديق المنشاوى', true)">
+    <span class="flag"></span>
+    <span class="station-text">القرآن الكريم كامل - الشيخ محمد صديق المنشاوى</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'القرآن الكريم كامل - الشيخ محمد صديق المنشاوى');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="القرآن الكريم كامل - الشيخ عبد الباسط عبد الصمد"
+        data-ar="القرآن الكريم كامل - الشيخ عبد الباسط عبد الصمد"
+        data-en="The Holy Quran Full - Sheikh Abdul Basit Abdul Samad"
+        data-url="https://www.youtube.com/watch?v=Spyc-izypAQ"
+        onclick="openModal('Spyc-izypAQ', 'القرآن الكريم كامل - الشيخ عبد الباسط عبد الصمد', true)">
+    <span class="flag"></span>
+    <span class="station-text">القرآن الكريم كامل - الشيخ عبد الباسط عبد الصمد</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'القرآن الكريم كامل - الشيخ عبد الباسط عبد الصمد');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="القرآن الكريم كاملًا - الشيخ علي جابر"
+        data-ar="القرآن الكريم كاملًا - الشيخ علي جابر"
+        data-en="The Holy Quran Full - Sheikh Ali Jaber"
+        data-url="https://www.youtube.com/watch?v=fcPlyBTzH4I"
+        onclick="openModal('fcPlyBTzH4I', 'القرآن الكريم كاملًا - الشيخ علي جابر', true)">
+    <span class="flag"></span>
+    <span class="station-text">القرآن الكريم كاملًا - الشيخ علي جابر</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'القرآن الكريم كاملًا - الشيخ علي جابر');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="القرآن الكريم كاملًا - الشيخ سعد الغامدي"
+        data-ar="القرآن الكريم كاملًا - الشيخ سعد الغامدي"
+        data-en="The Holy Quran Full - Sheikh Saad Al-Ghamdi"
+        data-url="https://www.youtube.com/watch?v=viC1MLxfPZI"
+        onclick="openModal('viC1MLxfPZI', 'القرآن الكريم كاملًا - الشيخ سعد الغامدي', true)">
+    <span class="flag"></span>
+    <span class="station-text">القرآن الكريم كاملًا - الشيخ سعد الغامدي</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'القرآن الكريم كاملًا - الشيخ سعد الغامدي');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="المصحف المرتل كاملًا بصوت الشيخ ناصر القطامي"
+        data-ar="المصحف المرتل كاملًا بصوت الشيخ ناصر القطامي"
+        data-en="The Complete Murattal Quran - Sheikh Nasser Al-Qatami"
+        data-url="https://www.youtube.com/watch?v=_uVYDpin8fs"
+        onclick="openModal('_uVYDpin8fs', 'المصحف المرتل كاملًا بصوت الشيخ ناصر القطامي', true)">
+    <span class="flag"></span>
+    <span class="station-text">المصحف المرتل كاملًا بصوت الشيخ ناصر القطامي</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'المصحف المرتل كاملًا بصوت الشيخ ناصر القطامي');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="المصحف كامل - القارئ إسلام صبحي"
+        data-ar="المصحف كامل - القارئ إسلام صبحي"
+        data-en="The Holy Quran Full - Sheikh Islam Sobhi"
+        data-url="https://www.youtube.com/watch?v=NRDSpEMoxkw"
+        onclick="openModal('NRDSpEMoxkw', 'المصحف كامل - القارئ إسلام صبحي', true)">
+    <span class="flag"></span>
+    <span class="station-text">المصحف كامل - القارئ إسلام صبحي</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'المصحف كامل - القارئ إسلام صبحي');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="المصحف كامل - الشيخ أحمد النفيس"
+        data-ar="المصحف كامل - الشيخ أحمد النفيس"
+        data-en="The Holy Quran Full - Sheikh Ahmed Al-Nafis"
+        data-url="https://www.youtube.com/watch?v=zOrZ8Dr7gio"
+        onclick="openModal('zOrZ8Dr7gio', 'المصحف كامل - الشيخ أحمد النفيس', true)">
+    <span class="flag"></span>
+    <span class="station-text">المصحف كامل - الشيخ أحمد النفيس</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'المصحف كامل - الشيخ أحمد النفيس');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="المصحف كامل - القارئ وديع اليمني"
+        data-ar="المصحف كامل - القارئ وديع اليمني"
+        data-en="The Holy Quran Full – Reciter Wadi‘ Al-Yemeni"
+        data-url="https://www.youtube.com/watch?v=Vk8yliqIKDc"
+        onclick="openModal('Vk8yliqIKDc', 'المصحف كامل - القارئ وديع اليمني', true)">
+    <span class="flag"></span>
+    <span class="station-text">المصحف كامل - القارئ وديع اليمني</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'المصحف كامل - القارئ وديع اليمني');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="المصحف كامل - الشيخ عبدالرحمن العوسي"
+        data-ar="المصحف كامل - الشيخ عبدالرحمن العوسي"
+        data-en="The Holy Quran Full – Sheikh Abdulrahman Al-Ausi"
+        data-url="https://www.youtube.com/watch?v=GDXfhOTm1LY"
+        onclick="openModal('GDXfhOTm1LY', 'المصحف كامل - الشيخ عبدالرحمن العوسي', true)">
+    <span class="flag"></span>
+    <span class="station-text">المصحف كامل - الشيخ عبدالرحمن العوسي</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'المصحف كامل - الشيخ عبدالرحمن العوسي');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="القرآن الكريم كامل - الشيخ رعد الكردي"
+        data-ar="القرآن الكريم كامل - الشيخ رعد الكردي"
+        data-en="The Holy Quran Full - Sheikh Raad Al-Kurdi"
+        data-url="https://www.youtube.com/watch?v=kttv8a4rXNc"
+        onclick="openModal('kttv8a4rXNc', 'القرآن الكريم كامل - الشيخ رعد الكردي', true)">
+    <span class="flag"></span>
+    <span class="station-text">القرآن الكريم كامل - الشيخ رعد الكردي</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'القرآن الكريم كامل - الشيخ رعد الكردي');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="القرآن الكريم كاملا - الشيخ مشاري العفاسي"
+        data-ar="القرآن الكريم كاملا - الشيخ مشاري العفاسي"
+        data-en="The Holy Quran Full - Sheikh Mishary Alafasy"
+        data-url="https://www.youtube.com/watch?v=C3v5ScU6ufM"
+        onclick="openModal('C3v5ScU6ufM', 'القرآن الكريم كاملا - الشيخ مشاري العفاسي', true)">
+    <span class="flag"></span>
+    <span class="station-text">القرآن الكريم كاملا - الشيخ مشاري العفاسي</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'القرآن الكريم كاملا - الشيخ مشاري العفاسي');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="القرآن الكريم كاملًا - القارئ فارس عباد"
+        data-ar="القرآن الكريم كاملًا - القارئ فارس عباد"
+        data-en="The Holy Quran Full - Sheikh Fares Abbad"
+        data-url="https://www.youtube.com/watch?v=hqm9fasXauU"
+        onclick="openModal('hqm9fasXauU', 'القرآن الكريم كاملًا - القارئ فارس عباد', true)">
+    <span class="flag"></span>
+    <span class="station-text">القرآن الكريم كاملًا - القارئ فارس عباد</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'القرآن الكريم كاملًا - القارئ فارس عباد');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="القرآن الكريم كامل بصوت الشيخ ماهر المعيقلي"
+        data-ar="القرآن الكريم كامل بصوت الشيخ ماهر المعيقلي"
+        data-en="The Holy Quran Full Recitation by Sheikh Maher Al-Muaiqly"
+        data-url="https://www.youtube.com/watch?v=M6z0Qql4-qo"
+        onclick="openModal('M6z0Qql4-qo', 'القرآن الكريم كامل بصوت الشيخ ماهر المعيقلي', true)">
+    <span class="flag"></span>
+    <span class="station-text">القرآن الكريم كامل بصوت الشيخ ماهر المعيقلي</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'القرآن الكريم كامل بصوت الشيخ ماهر المعيقلي');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="أروع تلاوات الشيخ محمود خليل الحصري HD"
+        data-ar="أروع تلاوات الشيخ محمود خليل الحصري HD"
+        data-en="Greatest Recitations - Sheikh Mahmoud Khalil Al-Husary HD"
         data-url="https://www.youtube.com/watch?v=0VIdyvM4YI0&ab_channel=%D9%82%D8%B1%D8%A2%D9%86%D8%A7%D8%B9%D8%AC%D8%A8%D8%A7"
-        onclick="openModal('0VIdyvM4YI0', 'الشيخ محمود خليل الحصري تلاوة HD', true)">
+        onclick="openModal('0VIdyvM4YI0', 'أروع تلاوات الشيخ محمود خليل الحصري HD', true)">
     <span class="flag"></span>
-    <span class="station-text">الشيخ محمود خليل الحصري تلاوة HD</span>
+    <span class="station-text">أروع تلاوات الشيخ محمود خليل الحصري HD</span>
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'الشيخ محمود خليل الحصري تلاوة HD');
+          onclick="toggleFavorite(event, 'أروع تلاوات الشيخ محمود خليل الحصري HD');
                    event.stopPropagation();
                    return false;">&#x2764;</span>
 </button>
 
 
+
 <button class="button palestine"
         data-category="LiveTV"
-        data-station="سورة الشعراء (الشيخ المنشاوي)"
-        data-ar="سورة الشعراء (الشيخ المنشاوي)"
-        data-en="Surah Ash-Shu'ara (Sheikh Al-Minshawi)"
+        data-station="أروع تلاوات الشيخ محمد صديق المنشاوي"
+        data-ar="أروع تلاوات الشيخ محمد صديق المنشاوي"
+        data-en="Best Recitations Sheikh Mohammed Siddiq Al-Minshawi"
         data-url="https://www.youtube.com/watch?v=ly17DqJnadY&ab_channel=%D9%82%D9%86%D8%A7%D8%A9%D8%B1%D9%88%D8%A7%D8%A6%D8%B9%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A"
-        onclick="openModal('ly17DqJnadY', 'سورة الشعراء (الشيخ المنشاوي)', true)">
+        onclick="openModal('ly17DqJnadY', 'أروع تلاوات الشيخ محمد صديق المنشاوي', true)">
     <span class="flag"></span>
-    <span class="station-text">سورة الشعراء (الشيخ المنشاوي)</span>
+    <span class="station-text">أروع تلاوات الشيخ محمد صديق المنشاوي</span>
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'سورة الشعراء (الشيخ المنشاوي)');
+          onclick="toggleFavorite(event, 'أروع تلاوات الشيخ محمد صديق المنشاوي');
                    event.stopPropagation();
                    return false;">&#x2764;</span>
 </button>
 
 
+
 <button class="button palestine"
         data-category="LiveTV"
-        data-station="الشيخ عبد الباسط عبد الصمد - باكستان"
-        data-ar="الشيخ عبد الباسط عبد الصمد - باكستان"
-        data-en="Sheikh Abdul Basit Abdul Samad - Pakistan"
+        data-station="أروع تلاوات الشيخ عبد الباسط عبد الصمد - باكستان"
+        data-ar="أروع تلاوات الشيخ عبد الباسط عبد الصمد - باكستان"
+        data-en="Best Recitations Sheikh Abdul Basit Abdul Samad - Pakistan"
         data-url="https://www.youtube.com/watch?v=LTI92UppNgY&ab_channel=%D9%85%D9%88%D9%82%D8%B9%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%A8%D8%A7%D8%B3%D8%B7%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B5%D9%85%D8%AF"
-        onclick="openModal('LTI92UppNgY', 'الشيخ عبد الباسط عبد الصمد - باكستان', true)">
+        onclick="openModal('LTI92UppNgY', 'أروع تلاوات الشيخ عبد الباسط عبد الصمد - باكستان', true)">
     <span class="flag"></span>
-    <span class="station-text">الشيخ عبد الباسط عبد الصمد - باكستان</span>
+    <span class="station-text">أروع تلاوات الشيخ عبد الباسط عبد الصمد - باكستان</span>
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'الشيخ عبد الباسط عبد الصمد - باكستان');
+          onclick="toggleFavorite(event, 'أروع تلاوات الشيخ عبد الباسط عبد الصمد - باكستان');
                    event.stopPropagation();
                    return false;">&#x2764;</span>
 </button>
@@ -14916,36 +15148,73 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 
 <button class="button palestine"
         data-category="LiveTV"
-        data-station="ما تيسر من سورة البقرة (محمد عبادة)"
-        data-ar="ما تيسر من سورة البقرة (محمد عبادة)"
-        data-en="Selection from Surah Al-Baqarah (Mohamed Obada)"
+        data-station="أروع تلاوات القارئ محمد احمد حسن"
+        data-ar="أروع تلاوات القارئ محمد احمد حسن"
+        data-en="Best Recitations - Sheikh Mohamed Ahmed Hassan"
+        data-url="https://www.youtube.com/live/O1tR-e9UE0o?si=wlMiSUnbxswTuJDp"
+        onclick="openModal('O1tR-e9UE0o', 'أروع تلاوات القارئ محمد احمد حسن', true)">
+    <span class="flag"></span>
+    <span class="station-text">أروع تلاوات القارئ محمد احمد حسن</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'أروع تلاوات القارئ محمد احمد حسن');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="أروع تلاوات القارئ هزاع البلوشي"
+        data-ar="أروع تلاوات القارئ هزاع البلوشي"
+        data-en="Best Recitations – Sheikh Hazaa Al-Baloushi"
+        data-url="https://www.youtube.com/watch?v=ZrUYRGvKT2w&si=Q2_wYqcZFlIiDz3b"
+        onclick="openModal('ZrUYRGvKT2w', 'أروع تلاوات القارئ هزاع البلوشي', true)">
+    <span class="flag"></span>
+    <span class="station-text">أروع تلاوات القارئ هزاع البلوشي</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'أروع تلاوات القارئ هزاع البلوشي');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+
+<button class="button palestine"
+        data-category="LiveTV"
+        data-station="أروع تلاوات القارئ محمد عبادة"
+        data-ar="أروع تلاوات القارئ محمد عبادة"
+        data-en="Best Recitations – Sheikh Mohamed Obada"
         data-url="https://www.youtube.com/watch?v=9El6_gcPS_4&ab_channel=%D9%85%D8%AD%D9%85%D8%AF%D8%B9%D8%A8%D8%A7%D8%AF%D8%A9-MohamedObada"
-        onclick="openModal('9El6_gcPS_4', 'ما تيسر من سورة البقرة (محمد عبادة)', true)">
+        onclick="openModal('9El6_gcPS_4', 'أروع تلاوات القارئ محمد عبادة', true)">
     <span class="flag"></span>
-    <span class="station-text">ما تيسر من سورة البقرة (محمد عبادة)</span>
+    <span class="station-text">أروع تلاوات القارئ محمد عبادة</span>
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'ما تيسر من سورة البقرة (محمد عبادة)');
+          onclick="toggleFavorite(event, 'أروع تلاوات القارئ محمد عبادة');
                    event.stopPropagation();
                    return false;">&#x2764;</span>
 </button>
+
 
 
 <button class="button palestine"
         data-category="LiveTV"
-        data-station="سورة الرحمن (إسلام صبحي)"
-        data-ar="سورة الرحمن (إسلام صبحي)"
-        data-en="Surah Ar-Rahman (Islam Sobhi)"
+        data-station="أروع تلاوات القارئ إسلام صبحي"
+        data-ar="أروع تلاوات القارئ إسلام صبحي"
+        data-en="Best Recitations – Sheikh Islam Sobhi"
         data-url="https://www.youtube.com/watch?v=ftZSUw0zZEU&t=394s&ab_channel=%D8%A7%D9%84%D9%82%D8%A7%D8%B1%D9%89%D8%A5%D8%B3%D9%84%D8%A7%D9%85%D8%B5%D8%A8%D8%AD%D9%8AIslamSobhi"
-        onclick="openModal('ftZSUw0zZEU', 'سورة الرحمن (إسلام صبحي)', true)">
+        onclick="openModal('ftZSUw0zZEU', 'أروع تلاوات القارئ إسلام صبحي', true)">
     <span class="flag"></span>
-    <span class="station-text">سورة الرحمن (إسلام صبحي)</span>
+    <span class="station-text">أروع تلاوات القارئ إسلام صبحي</span>
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'سورة الرحمن (إسلام صبحي)');
+          onclick="toggleFavorite(event, 'أروع تلاوات القارئ إسلام صبحي');
                    event.stopPropagation();
                    return false;">&#x2764;</span>
 </button>
+
 
 <button class="button palestine"
         data-category="LiveTV"
