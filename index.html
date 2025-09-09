@@ -1061,8 +1061,12 @@ audio {
 
 <div id="welcomeScreen" onclick="checkClickOutside(event)">
     <div id="welcomeContent">
-        <button id="closeButton" onclick="closeWelcomeScreenByButton(event)">X</button>
-        <div id="customRadioBox">
+<button id="closeButton" onclick="closeWelcomeScreenByButton(event)" aria-label="اغلاق">
+  <svg width="22" height="22" viewBox="0 0 22 22" style="vertical-align: middle;">
+    <line x1="4" y1="4" x2="18" y2="18" stroke="white" stroke-width="3"/>
+    <line x1="18" y1="4" x2="4" y2="18" stroke="white" stroke-width="3"/>
+  </svg>
+</button><div id="customRadioBox">
             <h2 class="customHeading">Welcome</h2>
             
          <!-- إضافة البسملة والآيات الكريمة ورقم الآية وسورة الإسراء -->
