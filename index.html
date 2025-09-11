@@ -15354,7 +15354,6 @@ function playWelcomeScreenStation(stationUrl, stationName) {
                    return false;">&#x2764;</span>
 </button>
 
-
 <button class="button palestine"
         data-category="LiveTV"
         data-station="فاهم 54 | التحرر من الغفلة - الشيخ أمجد سمير"
@@ -15964,6 +15963,27 @@ function playWelcomeScreenStation(stationUrl, stationName) {
                    return false;">&#x2764;</span>
 </button>
 
+<button class="button palestine"
+        data-category="More"
+        data-station="مصحف التجويد والتحفيظ"
+        data-ar="مصحف التجويد والتحفيظ"
+        data-en="Tajweed & Memorization Mushaf"
+        data-url="https://archive.org/details/Quran26/mode/1up?view=theater"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://archive.org/details/Quran26/mode/1up?view=theater', '_blank'); 
+                 } else { 
+                     openModal('https://archive.org/details/Quran26/mode/1up?view=theater', 'مصحف التجويد والتحفيظ', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">مصحف التجويد والتحفيظ</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'مصحف التجويد والتحفيظ');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
 
 <button class="button palestine"
         data-category="More"
@@ -16298,25 +16318,621 @@ function playWelcomeScreenStation(stationUrl, stationName) {
                    return false;">&#x2764;</span>
 </button>
 
+<button class="button palestine"
+        data-category="More"
+        data-station="Quran Translations"
+        data-ar="ترجمات معاني القرآن الكريم"
+        data-en="Quran Translations"
+        data-url="https://quran-uni.com/mos-haf/translations"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations', 'Quran Translations', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Quran Translations</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Quran Translations');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
 
 <button class="button palestine"
         data-category="More"
-        data-station="القرآن باللغة العبرية"
-        data-ar="القرآن باللغة العبرية"
-        data-en="Quran in Hebrew"
-        data-url="https://archive.org/details/20200413_20200413_2230/page/n9/mode/2up"
-        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('https://archive.org/details/20200413_20200413_2230/page/n9/mode/2up', '_blank'); } else { openModal('https://archive.org/details/20200413_20200413_2230/page/n9/mode/2up', 'القرآن باللغة العبرية', false, true); }"
+        data-station="Quran Translations (English)"
+        data-ar="ترجمات معاني القرآن الكريم (الإنجليزية)"
+        data-en="Quran Translations (English)"
+        data-url="https://quran-uni.com/mos-haf/translations/en"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/en', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/en', 'Quran Translations (English)', false, true); 
+                 }"
         style="float: right;">
     <span class="flag"></span>
-    <span class="station-text">القرآن باللغة العبرية</span>
+    <span class="station-text">Quran Translations (English)</span>
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'القرآن باللغة العبرية');
+          onclick="toggleFavorite(event, 'Quran Translations (English)');
                    event.stopPropagation();
                    return false;">&#x2764;</span>
 </button>
 
 
+<button class="button palestine"
+        data-category="More"
+        data-station="Traductions du Coran (Français)"
+        data-ar="ترجمات معاني القرآن الكريم (الفرنسية)"
+        data-en="Quran Translations (French)"
+        data-url="https://quran-uni.com/mos-haf/translations/fr"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/fr', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/fr', 'Traductions du Coran (Français)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Traductions du Coran (Français)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Traductions du Coran (Français)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Traducción del Corán (Español)"
+        data-ar="ترجمات معاني القرآن الكريم (الإسبانية)"
+        data-en="Quran Translations (Spanish)"
+        data-url="https://quran-uni.com/mos-haf/translations/es"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/es', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/es', 'Traducción del Corán (Español)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Traducción del Corán (Español)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Traducción del Corán (Español)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Tradução do Alcorão (Português)"
+        data-ar="ترجمات معاني القرآن الكريم (البرتغالية)"
+        data-en="Quran Translations (Portuguese)"
+        data-url="https://quran-uni.com/mos-haf/translations/pt"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/pt', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/pt', 'Tradução do Alcorão (Português)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Tradução do Alcorão (Português)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Tradução do Alcorão (Português)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Traduzione del Corano (Italiano)"
+        data-ar="ترجمات معاني القرآن الكريم (الإيطالية)"
+        data-en="Quran Translations (Italian)"
+        data-url="https://quran-uni.com/mos-haf/translations/it"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/it', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/it', 'Traduzione del Corano (Italiano)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Traduzione del Corano (Italiano)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Traduzione del Corano (Italiano)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Koranvertalingen (Nederlands)"
+        data-ar="ترجمات معاني القرآن الكريم (الهولندية)"
+        data-en="Quran Translations (Dutch)"
+        data-url="https://quran-uni.com/mos-haf/translations/nl"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/nl', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/nl', 'Koranvertalingen (Nederlands)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Koranvertalingen (Nederlands)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Koranvertalingen (Nederlands)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Koranübersetzungen (Deutsch)"
+        data-ar="ترجمات معاني القرآن الكريم (الألمانية)"
+        data-en="Quran Translations (German)"
+        data-url="https://quran-uni.com/mos-haf/translations/de"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/de', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/de', 'Koranübersetzungen (Deutsch)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Koranübersetzungen (Deutsch)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Koranübersetzungen (Deutsch)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Перевод Корана (Русский)"
+        data-ar="ترجمات معاني القرآن الكريم (الروسية)"
+        data-en="Quran Translations (Russian)"
+        data-url="https://quran-uni.com/mos-haf/translations/ru"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/ru', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/ru', 'Перевод Корана (Русский)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Перевод Корана (Русский)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Перевод Корана (Русский)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="クルアーンの翻訳 (日本語)"
+        data-ar="ترجمات معاني القرآن الكريم (اليابانية)"
+        data-en="Quran Translations (Japanese)"
+        data-url="https://quran-uni.com/mos-haf/translations/jp"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/jp', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/jp', 'クルアーンの翻訳 (日本語)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">クルアーンの翻訳 (日本語)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'クルアーンの翻訳 (日本語)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="코란 번역 (한국어)"
+        data-ar="ترجمات معاني القرآن الكريم (الكورية)"
+        data-en="Quran Translations (Korean)"
+        data-url="https://quran-uni.com/mos-haf/translations/ko"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/ko', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/ko', '코란 번역 (한국어)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">코란 번역 (한국어)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, '코란 번역 (한국어)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="古兰经 翻译（中文）"
+        data-ar="ترجمات معاني القرآن الكريم (الصينية)"
+        data-en="Quran Translations (Chinese)"
+        data-url="https://quran-uni.com/mos-haf/translations/zh"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/zh', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/zh', '古兰经 翻译（中文）', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">古兰经 翻译（中文）</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, '古兰经 翻译（中文）');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="قرآن ترجمہ (اردو)"
+        data-ar="ترجمات معاني القرآن الكريم (الأردية)"
+        data-en="Quran Translations (Urdu)"
+        data-url="https://quran-uni.com/mos-haf/translations/ur"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/ur', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/ur', 'قرآن ترجمہ (اردو)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">قرآن ترجمہ (اردو)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'قرآن ترجمہ (اردو)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="ترجمه فارسی قرآن مجید"
+        data-ar="ترجمات معاني القرآن الكريم (الفارسية)"
+        data-en="Quran Translations (Persian)"
+        data-url="https://quran-uni.com/mos-haf/translations/fa"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/fa', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/fa', 'ترجمه فارسی قرآن مجید', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">ترجمه فارسی قرآن مجید</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'ترجمه فارسی قرآن مجید');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="ترجمه فارسی قرآن مجید"
+        data-ar="ترجمات معاني القرآن الكريم الفارسية (فارسية)"
+        data-en="Quran Translation - Persian"
+        data-url="https://qurancomplex.gov.sa/isdarat-translations/#"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://qurancomplex.gov.sa/isdarat-translations/#', '_blank'); 
+                 } else { 
+                     openModal('https://qurancomplex.gov.sa/isdarat-translations/#', 'ترجمه فارسی قرآن مجید', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">ترجمه فارسی قرآن مجید</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'ترجمه فارسی قرآن مجید');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="قران ترجمو (سنڌي)"
+        data-ar="ترجمات معاني القرآن الكريم (السندية)"
+        data-en="Quran Translations (Sindhi)"
+        data-url="https://quran-uni.com/mos-haf/translations/sd"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/sd', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/sd', 'قران ترجمو (سنڌي)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">قران ترجمو (سنڌي)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'قران ترجمو (سنڌي)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="क़ुरान अनुवाद (हिंदी)"
+        data-ar="ترجمات معاني القرآن الكريم (الهندية)"
+        data-en="Quran Translations (Hindi)"
+        data-url="https://quran-uni.com/mos-haf/translations/hi"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/hi', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/hi', 'क़ुरान अनुवाद (हिंदी)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">क़ुरान अनुवाद (हिंदी)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'क़ुरान अनुवाद (हिंदी)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+<button class="button palestine"
+        data-category="More"
+        data-station="תרגום הקוראן (עברית)"
+        data-ar="ترجمات معاني القرآن الكريم (العبرية)"
+        data-en="Quran Translations (Hebrew)"
+        data-url="https://quran-uni.com/mos-haf/translations/he"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/he', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/he', 'תרגום הקוראן (עברית)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">תרגום הקוראן (עברית)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'תרגום הקוראן (עברית)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+
+<button class="button palestine"
+        data-category="More"
+        data-station="הקוראן בעברית"
+        data-ar="القرآن باللغة العبرية"
+        data-en="Quran in Hebrew"
+        data-url="https://archive.org/details/20200413_20200413_2230/page/n1/mode/1up?view=theater"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://archive.org/details/20200413_20200413_2230/page/n1/mode/1up?view=theater', '_blank'); 
+                 } else { 
+                     openModal('https://archive.org/details/20200413_20200413_2230/page/n1/mode/1up?view=theater', 'הקוראן בעברית', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">הקוראן בעברית</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'הקוראן בעברית');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Tafsut n Umuslim (Amazigh)"
+        data-ar="ترجمات معاني القرآن الكريم (Amazigh)"
+        data-en="Quran Translations (Amazigh)"
+        data-url="https://quran-uni.com/mos-haf/translations/ber"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/ber', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/ber', 'Tafsut n Umuslim (Amazigh)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Tafsut n Umuslim (Amazigh)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Tafsut n Umuslim (Amazigh)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="কোরান অনুবাদ (বাংলা)"
+        data-ar="ترجمات معاني القرآن الكريم (البنغالية)"
+        data-en="Quran Translations (Bengali)"
+        data-url="https://quran-uni.com/mos-haf/translations/bn"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/bn', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/bn', 'কোরান অনুবাদ (বাংলা)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">কোরান অনুবাদ (বাংলা)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'কোরান অনুবাদ (বাংলা)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Përkthimi i Kur’anit (Shqip)"
+        data-ar="ترجمات معاني القرآن الكريم (الألبانية)"
+        data-en="Quran Translations (Albanian)"
+        data-url="https://quran-uni.com/mos-haf/translations/sq"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/sq', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/sq', 'Përkthimi i Kur’anit (Shqip)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Përkthimi i Kur’anit (Shqip)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Përkthimi i Kur’anit (Shqip)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Prijevod Kur'ana (Bosanski)"
+        data-ar="ترجمات معاني القرآن الكريم (البوسنية)"
+        data-en="Quran Translations (Bosnian)"
+        data-url="https://quran-uni.com/mos-haf/translations/bs"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/bs', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/bs', 'Prijevod Kur\'ana (Bosanski)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Prijevod Kur'ana (Bosanski)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Prijevod Kur\'ana (Bosanski)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Terjemahan Al-Qur'an (Bahasa Indonesia)"
+        data-ar="ترجمات معاني القرآن الكريم (الإندونيسية)"
+        data-en="Quran Translations (Indonesian)"
+        data-url="https://quran-uni.com/mos-haf/translations/id"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/id', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/id', 'Terjemahan Al-Qur'an (Bahasa Indonesia)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Terjemahan Al-Qur'an (Bahasa Indonesia)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Terjemahan Al-Qur'an (Bahasa Indonesia)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Terjemahan Al-Qur'an (Bahasa Melayu)"
+        data-ar="ترجمات معاني القرآن الكريم (الملايوية)"
+        data-en="Quran Translations (Malay)"
+        data-url="https://quran-uni.com/mos-haf/translations/my"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/my', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/my', 'Terjemahan Al-Qur\'an (Bahasa Melayu)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Terjemahan Al-Qur'an (Bahasa Melayu)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Terjemahan Al-Qur\'an (Bahasa Melayu)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Qoraal Tarjumadda     Qur’aanka (Soomaali)"
+        data-ar="ترجمات معاني القرآن الكريم (الصومالية)"
+        data-en="Quran Translations (Somali)"
+        data-url="https://quran-uni.com/mos-haf/translations/so"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/so', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/so', 'Qoraal Tarjumadda Qur’aanka (Soomaali)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Qoraal Tarjumadda Qur’aanka (Soomaali)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Qoraal Tarjumadda Qur’aanka (Soomaali)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Tafsiri ya Qurʾān (Kiswahili)"
+        data-ar="ترجمات معاني القرآن الكريم (السواحيلية)"
+        data-en="Quran Translations (Swahili)"
+        data-url="https://quran-uni.com/mos-haf/translations/sw"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/sw', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/sw', 'Tafsiri ya Qurʾān (Kiswahili)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Tafsiri ya Qurʾān (Kiswahili)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Tafsiri ya Qurʾān (Kiswahili)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="Татар тәрҗемәсе (Tatar)"
+        data-ar="ترجمات معاني القرآن الكريم (التتارية)"
+        data-en="Quran Translations (Tatar)"
+        data-url="https://quran-uni.com/mos-haf/translations/tt"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/tt', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/tt', 'Татар тәрҗемәсе (Tatar)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">Татар тәрҗемәсе (Tatar)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Татар тәрҗемәсе (Tatar)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="More"
+        data-station="การแปลอัลกุรอาน (ภาษาไทย)"
+        data-ar="ترجمات معاني القرآن الكريم (التايلاندية)"
+        data-en="Quran Translations (Thai)"
+        data-url="https://quran-uni.com/mos-haf/translations/th"
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                     window.open('https://quran-uni.com/mos-haf/translations/th', '_blank'); 
+                 } else { 
+                     openModal('https://quran-uni.com/mos-haf/translations/th', 'การแปลอัลกุรอาน (ภาษาไทย)', false, true); 
+                 }"
+        style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">การแปลอัลกุรอาน (ภาษาไทย)</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'การแปลอัลกุรอาน (ภาษาไทย)');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
 
 <button class="button palestine"
         data-category="More"
@@ -16969,6 +17585,21 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 
 
 
+<button class="button palestine"
+    data-category="More"
+    data-station="المسبحة اونلاين"
+    data-ar="المسبحة اونلاين"
+    data-en="Masbahah Online"
+    data-url="https://masba7a.com/"
+    onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('https://masba7a.com/', '_blank'); } else { openModal('https://masba7a.com/', 'المسبحة اونلاين', false, true); }">
+    <span class="flag"></span>
+    <span class="station-text">المسبحة اونلاين</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'المسبحة اونلاين');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
 
 
 
@@ -17030,46 +17661,58 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 
 <button class="button palestine triple-click"
     data-category="More"
-    data-station="بث مشترك"
-    data-ar="بث مشترك"
-    data-en="Unified Stream"
+    data-station="📡"
+    data-ar="📡"
+    data-en="📡"
     data-urls='[
-        {"title":"بث1","url":"https://www.livekoora.cc/"},
-        {"title":"بث2","url":"https://yallalive.sx/"},
-        {"title":"بث3","url":"https://www.hd7.live/"},
-        {"title":"بث4","url":"https://www.btolat.com/video"}
+        {"title":"بث1","title_en":"Stream 1","url":"https://w2.livekoora.info/"},
+        {"title":"بث2","title_en":"Stream 2","url":"https://yallalive.sx/"},
+        {"title":"بث3","title_en":"Stream 3","url":"https://www.hd7.live/"},
+        {"title":"بث4","title_en":"Stream 4","url":"https://www.btolat.com/video"}
     ]'
     style="padding: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;">
 
     <span class="flag"></span>
 
-    <!-- الرمز الأول -->
-    <span class="station-text triple-icon"
-          style="font-size: 28px; padding: 14px;"
-          data-target="https://www.livekoora.cc/"
-          data-title="بث1"
-          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">📺</span>
+   <!-- الرمز الأول -->
+<span class="station-text triple-icon"
+      style="font-size: 28px; padding: 14px;"
+      data-target="https://w2.livekoora.info/"
+      data-title="بث1"
+      data-title-en="Stream 1"
+      onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">
+      📺
+</span>
 
     <!-- الرمز الثاني -->
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 14px;"
           data-target="https://yallalive.sx/"
           data-title="بث2"
-          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">📺</span>
+          data-title-en="Stream 2"
+          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">
+          📺
+    </span>
 
     <!-- الرمز الثالث -->
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 14px;"
           data-target="https://www.hd7.live/"
           data-title="بث3"
-          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">📺</span>
+          data-title-en="Stream 3"
+          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">
+          📺
+    </span>
 
     <!-- الرمز الرابع -->
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 14px;"
           data-target="https://www.btolat.com/video"
           data-title="بث4"
-          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">📺</span>
+          data-title-en="Stream 4"
+          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">
+          📺
+    </span>
 
     <!-- Equalizer -->
     <img src="https://cdn.instant.audio/images/equalizer.gif"
@@ -17085,50 +17728,41 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 
 
 
+
 <button class="button palestine triple-click"
     data-category="More"
-    data-station="🎮 / 🏞️ / 📡 / 💬 / 🤖"
-    data-ar="🎮 / 🏞️ / 📡 / 💬 / 🤖"
-    data-en="🎮 / 🏞️ / 📡 / 💬 / 🤖"
+    data-station=""
+    data-ar=""
+    data-en="🎮 / 🏞️ / 📡 / 💬"
     style="font-size: 16px; padding: 10px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
-
     <span class="flag"></span>
-
     <!-- 🎮 يفتح بعد 3 ضغطات -->
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
           data-target="https://papergames.io/en/"
           data-title="ألعاب"
           onclick="handleTripleClick(this)">🎮</span>
-
     <!-- 🏞️ يفتح المودال مباشرة -->
     <span class="station-text"
           style="font-size: 28px; padding: 12px;"
           onclick="openModal('https://www.pexels.com/search/videos/nature/', 'فيديوهات الطبيعة', false, true)">🏞️</span>
-
     <!-- 📡 يستدعي checkPasswordForLink -->
     <span class="station-text"
           style="font-size: 28px; padding: 12px;"
           onclick="checkPasswordForLink()">📡</span>
-
     <!-- 💬 يفتح في تبويب جديدة -->
     <span class="station-text"
           style="font-size: 28px; padding: 12px;"
           onclick="window.open('https://character.ai/chat/V2ZqWlc0izqD852WEAE_csN-TffUnJF35VD_ttLIVyQ', '_blank')">💬</span>
-
-  <!-- 🤖 يفتح chatgpt.com في تبويب جديدة -->
-<span class="station-text"
-      style="font-size: 28px; padding: 12px;"
-      onclick="window.open('https://chatgpt.com/', '_blank')">🤖</span>
-
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
-
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, '🎮 / 🏞️ / 📡 / 💬 / 🤖');
+          onclick="toggleFavorite(event, '🎮 / 🏞️ / 📡 / 💬');
                    event.stopPropagation();
-                   return false;">&#x2764;</span>
+                   return false;">❤️</span>
 </button>
+
+
 
 
 <button class="button palestine"
