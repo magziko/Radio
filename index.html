@@ -17496,8 +17496,8 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
     data-station="راديو القرآن - Netlify"
     data-ar="راديو القرآن - Netlify"
     data-en="Quran Radio - Netlify"
-    data-url="https://radiomag.netlify.app/#gsc.tab=0"
-    onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('https://radiomag.netlify.app/#gsc.tab=0', '_blank'); } else { openModal('https://radiomag.netlify.app/#gsc.tab=0', 'راديو القرآن - Netlify', false, true); }"
+    data-url="https://magziko.netlify.app/#gsc.tab=0"
+    onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('https://magziko.netlify.app/#gsc.tab=0', '_blank'); } else { openModal('https://magziko.netlify.app/#gsc.tab=0', 'راديو القرآن - Netlify', false, true); }"
     style="float: right;">
     <span class="flag"></span>
     <span class="station-text">راديو القرآن - Netlify</span>
@@ -17507,6 +17507,7 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
                    event.stopPropagation();
                    return false;">&#x2764;</span>
 </button>
+
 
 
 <button class="button palestine"
@@ -17579,6 +17580,22 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
                    return false;">&#x2764;</span>
 </button>
 
+<button class="button palestine"
+    data-category="More"
+    data-station="راديو مغازي"
+    data-ar="راديو مغازي"
+    data-en="Magziko Radio"
+    data-url="https://magziko.wixsite.com/magziko/r"
+    onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('https://magziko.wixsite.com/magziko/r', '_blank'); } else { openModal('https://magziko.wixsite.com/magziko/r', 'راديو مغازي', false, true); }"
+    style="float: right;">
+    <span class="flag"></span>
+    <span class="station-text">راديو مغازي</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'راديو مغازي');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
 
 
 <button class="button palestine"
@@ -18108,7 +18125,7 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
     data-category="More"
     data-station=""
     data-ar=""
-    data-en="🎮 / 🏞️ / 📡 / 💬"
+    data-en="🎮 / 🏞️ / 📡 / 📜 / 💬"
     style="font-size: 16px; padding: 10px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
     <span class="flag"></span>
     <!-- 🎮 يفتح بعد 3 ضغطات -->
@@ -18124,7 +18141,13 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
     <!-- 📡 يستدعي checkPasswordForLink -->
     <span class="station-text"
           style="font-size: 28px; padding: 12px;"
-          onclick="checkPasswordForLink()">📡</span>
+          onclick="checkPasswordForLink('https://example.com/old-link', 'A@1')">📡</span>
+    <!-- 📜 يتطلب 3 ضغطات ثم يظهر شاشة الباسورد -->
+    <span class="station-text triple-icon"
+          style="font-size: 28px; padding: 12px;"
+          data-target="https://docs.google.com/document/d/1DuuwsJ4mIs7PGvGRXNOYK9A9B6zAZHdZE2_5vMi8w5k/edit?usp=sharing"
+          data-password="265"
+          onclick="handleTripleClickWithPassword(this)">📜</span>
     <!-- 💬 يفتح في تبويب جديدة -->
     <span class="station-text"
           style="font-size: 28px; padding: 12px;"
@@ -18132,10 +18155,11 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, '🎮 / 🏞️ / 📡 / 💬');
+          onclick="toggleFavorite(event, '🎮 / 🏞️ / 📡 / 📜 / 💬');
                    event.stopPropagation();
                    return false;">❤️</span>
 </button>
+
 
 
 
@@ -19462,6 +19486,38 @@ function toggleTranslateBar() {
     el.style.display = 'none';
   }
 }
+
+
+function handleTripleClickWithPassword(element) {
+    // زيادة العداد عند كل ضغط
+    if (!element.clickCount) {
+        element.clickCount = 0;
+    }
+    element.clickCount++;
+
+    // بعد 3 ضغطات، يظهر شاشة الباسورد
+    if (element.clickCount >= 3) {
+        const password = element.getAttribute('data-password');
+        const url = element.getAttribute('data-target');
+
+        const userPassword = prompt("أدخل الباسورد:");
+        if (userPassword === password) {
+            window.open(url, '_blank');
+        } else {
+            alert("الباسورد غير صحيح!");
+        }
+        element.clickCount = 0; // إعادة تعيين العداد
+    }
+
+    // إعادة تعيين العداد بعد 2 ثانية إذا لم يكتمل الضغط الثلاثي
+    setTimeout(() => {
+        if (element.clickCount < 3) {
+            element.clickCount = 0;
+        }
+    }, 2000);
+}
+
+
 
 </script>
 
