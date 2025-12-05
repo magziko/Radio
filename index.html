@@ -19179,22 +19179,53 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function changeRadioButtonColor(color = document.getElementById('radioButtonColor').value, save = true) {
     const radioButtons = document.querySelectorAll('.button.palestine');
-    
+
     if (color === "default") {
         radioButtons.forEach(button => {
             button.classList.add('palestine-default');
             button.style.background = ''; // إرجاع الخلفية الافتراضية
         });
+        // استرجاع ألوان الحالة والصناديق
+        document.getElementById('status').style.background = '';
+        document.getElementById('status').style.color = '';
+        const sleepCheckbox = document.getElementById('sleepCheckbox');
+        const autoSwitchCheckbox = document.getElementById('autoSwitchCheckbox');
+        if (sleepCheckbox) sleepCheckbox.parentElement.style.background = '';
+        if (autoSwitchCheckbox) autoSwitchCheckbox.parentElement.style.background = '';
     } else {
         radioButtons.forEach(button => {
             button.classList.remove('palestine-default');
-            button.style.background = color; // تغيير الخلفية إلى المتدرج المحدد
+            button.style.background = color; // تغيير الخلفية إلى اللون المحدد
         });
+
+        // تحديث لون حالة الراديو لتتناسب مع اللون المختار
+      document.getElementById('status').style.setProperty('background', color, 'important');
+document.getElementById('status').style.setProperty('color', getContrastYIQ(color), 'important');
+
+        // تحديث خلفيات صناديق التنقل الآلي و مؤقت الإيقاف
+        const sleepCheckbox = document.getElementById('sleepCheckbox');
+        const autoSwitchCheckbox = document.getElementById('autoSwitchCheckbox');
+        if (sleepCheckbox) sleepCheckbox.parentElement.style.background = color;
+        if (autoSwitchCheckbox) autoSwitchCheckbox.parentElement.style.background = color;
     }
 
     if (save) {
         localStorage.setItem('radioButtonColor', color);
     }
+}
+
+// دالة تساعد باختيار لون نص مناسب (أسود أو أبيض) حسب لون الخلفية
+function getContrastYIQ(hexcolor){
+    hexcolor = hexcolor.replace('linear-gradient', ''); // تجاهل linear-gradient
+    if (hexcolor.includes('rgb') || hexcolor.trim() === '') {
+        return '#000'; // لون نص أسود مع التدرج أو القيم الفارغة
+    }
+    if (hexcolor.startsWith('#')) hexcolor = hexcolor.slice(1);
+    const r = parseInt(hexcolor.substr(0,2),16);
+    const g = parseInt(hexcolor.substr(2,2),16);
+    const b = parseInt(hexcolor.substr(4,2),16);
+    const yiq = ((r*299)+(g*587)+(b*114))/1000;
+    return (yiq >= 128) ? '#000' : '#fff';
 }
 
 
@@ -19896,7 +19927,7 @@ const modernGradient = 'linear-gradient(90deg, #e3f9e5 0%, #43cea2 40%, #13a045 
         }, 15000); // ← يفضل تخليها 3000 عشان يبان التغيير، ممكن تزود لو حبيت
     }
 
-    highlightAllSync();
+ // highlightAllSync();
 });
 
 function adjustButtonFontSize() {
@@ -20115,7 +20146,7 @@ window.addEventListener("load", function() {
 
 
 
-let siteLanguage = "auto";   // auto = تبديل, ar = عربي, en = انجليزي
+let siteLanguage = "ar"; // أو "en" لتثبيت اللغة
 let toggleTimeout = null;
 
 // تحديث النصوص حسب اللغة
@@ -20143,20 +20174,16 @@ function startAutoToggle() {
   cycle("ar"); // نبدأ بالعربية
 }
 
-// اختيار لغة ثابتة
+// تعطيل التبديل التلقائي
 function setSiteLanguage(lang) {
   siteLanguage = lang;
   clearTimeout(toggleTimeout);
-
-  if (lang === "auto") {
-    startAutoToggle(); // نرجع للتبديل
-  } else {
-    updateFilterLanguage(lang); // نثبت اللغة
-  }
+  updateFilterLanguage(lang); // نثبت اللغة فقط
 }
 
-// بدء التبديل الافتراضي عند تحميل الصفحة
-startAutoToggle();
+// لا تبدأ التبديل التلقائي بعد الآن
+// startAutoToggle(); // علق أو احذف السطر
+updateFilterLanguage(siteLanguage); // لتحديث اللغة عند التحميل حسب التثبيت
 
 </script>
 <div id="google_translate_element" style="margin-top:10px;"></div>
