@@ -47,260 +47,130 @@
 <!-- الاستايل -->
 <style>  
  
+ #customLogo {
+    text-align: center;
+}
+#customLogo img {
+    border-radius: 12px; /* شكل عصري للوجو */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+ 
+/* ======= شاشة ترحيب بألوان هادئة (Glass Soft Blue) ======= */
 #welcomeScreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* خلفية شفافة */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    background-image: url('https://www.transparenttextures.com/patterns/white-wall.png'); /* خلفية بنمط شفافي */
-    background-size: cover; /* جعل الخلفية تغطي الشاشة بالكامل */
-    background-position: center; /* توسيط الخلفية */
+    background: linear-gradient(135deg, #dfe9f3, #ffffff);
+    animation: fadeIn 0.8s ease-in-out;
 }
 
-/* المحتوى الرئيسي داخل الخلفية */
 #welcomeContent {
-    background-color: rgba(255, 255, 255, 0.9); /* لون خلفية مائل للشفافية */
-    padding: 20px;
-    border-radius: 12px; /* حواف ناعمة */
-    text-align: center;
-    max-width: 500px; /* العرض الأقصى */
-    width: 90%; /* عرض متجاوب */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* ظل جذاب */
-    position: relative;
-    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(10px);
+    border-radius: 22px;
+    padding: 5%;                 /* بدلاً من 28px لتكون مرنة */
+    width: 90%;                  /* نسبة من عرض الشاشة */
+    max-width: 420px;            /* الحد الأقصى على الشاشات الكبيرة */
+    min-width: 280px;            /* الحد الأدنى للموبايلات الصغيرة */
+    margin: auto;
+    margin-top: 6vh;             /* أعلى الصفحة بالنسبة للعرض الرأسي */
+    box-shadow: 0 0 25px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.4);
+    animation: slideDown 0.7s ease;
+    box-sizing: border-box;      /* لضمان احتساب البادينج ضمن الحجم */
 }
 
-/* زر الإغلاق */
-#closeButton {
-    position: absolute;
-    top: 36px;
-    right: 10px;
-    background-color: #ff5555;
-    border: none;
-    color: white;
-    font-size: 30px;
-    padding: 12px 19px;
-    width: 54px;
-    height: 54px;
-    cursor: pointer;
-    border-radius: 50%;
-    display: block;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* تحكم إضافي للشاشات الصغيرة جداً */
+@media (max-width: 360px) {
+    #welcomeContent {
+        padding: 4%;    /* تصغير البادينج */
+        border-radius: 16px;
+        margin-top: 4vh;
+    }
 }
 
-/* تنسيق مشغل الراديو */
-#customRadioBox {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 300px; /* العرض الأقصى لمشغل الراديو */
-    text-align: center;
-    margin: 15px auto; /* توسيط المشغل */
-}
 
-/* النصوص داخل مشغل الراديو */
+/* عنوان */
 .customHeading {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
-    font-weight: bold;
+    font-size: 26px;
+    color: #2c3e50;
+    text-align: center;
+    font-weight: 700;
 }
 
-/* أزرار التحكم في المشغل */
-#customControlButtons {
-    margin-top: 15px;
+/* نص الترحيب */
+#siteWelcomeText {
+    font-size: 17px;
+    color: #34495e;
+    text-align: center;
+    margin-bottom: 18px;
+    line-height: 1.6;
+}
+
+#quranVerse {
+    text-align: center;
+    font-style: italic;
+    color: #2c3e50;
+    height: 220px;          /* ارتفاع ثابت يكفي أكبر آية */
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center; /* يجعل النص في منتصف الحاوية رأسياً */
+    align-items: center;
+    overflow-y: auto;       /* يسمح بالتمرير إذا النص أطول من الحاوية */
+    box-sizing: border-box; /* يحسب البادينج ضمن الارتفاع */
 }
 
-/* تصميم الأزرار */
-.customBtnControl {
-    padding: 10px;
-    margin: 5px;
-    border: none;
-    background-color: #67b26f;
-    cursor: pointer;
-    outline: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
+#quranVerse p {
+    font-weight: 500;
+    margin: 2px 0;
+    transition: opacity 0.3s ease;
+    word-wrap: break-word;  /* يجعل النص يلتف بدل أن يخرج خارج الحاوية */
+}
+
+
+
+/* ======= أزرار التحكم ======= */
+#customControlButtons {
     display: flex;
     justify-content: center;
+    gap: 18px;
+    margin: 15px 0;
+}
+
+.customBtnControl {
+    background: #ffffff;
+    border: 2px solid #d0d8e0;
+    padding: 12px;
+    border-radius: 14px;
+    cursor: pointer;
+    width: 52px;
+    height: 52px;
+    display: flex;
     align-items: center;
-    transition: background-color 0.3s;
+    justify-content: center;
+    transition: 0.25s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .customBtnControl:hover {
-    background-color: #4ca2cd;
+    background: #eaf3fa;
+    border-color: #b5c6d6;
+    transform: translateY(-3px);
 }
 
+/* الأيقونات */
 .customBtnControl svg {
-    width: 24px;
-    height: 24px;
-    fill: white;
+    width: 28px;
+    height: 28px;
+    fill: #2c3e50;
 }
 
-/* شريط التحكم بالصوت */
-#customVolumeRange {
-    margin-top: 15px;
-    width: 100%; /* عرض الشريط كامل */
+/* ======= أنيميشن ======= */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
-
-/* التحكم في التبديل التلقائي */
-#customAutoSwitchContainer {
-    margin-top: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#customAutoSwitchLabel {
-    margin-left: 10px;
-    font-size: 14px;
-    color: #555;
-}
-
-/* التوافق مع الشاشات الصغيرة */
-@media (max-width: 768px) {
-    #welcomeContent {
-        max-width: 350px; /* حجم أصغر للمحتوى */
-        padding: 15px;
-    }
-
-    #customRadioBox {
-        max-width: 250px; /* حجم أصغر للمشغل */
-        padding: 10px;
-    }
-
-    .customBtnControl {
-        width: 40px; /* حجم أصغر للأزرار */
-        height: 40px;
-    }
-
-    #closeButton {
-        font-size: 14px; /* تصغير حجم الزر */
-        padding: 5px;
-    }
-}
-
-        /* تنسيق مشغل الراديو */
-        #customRadioBox {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 250px;
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .customHeading {
-            margin: 0;
-            font-size: 18px;
-            color: #333;
-        }
-
-        #customControlButtons {
-            margin-top: 15px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .customBtnControl {
-            padding: 10px;
-            margin: 5px;
-            border: none;
-            background-color: #67b26f;
-            cursor: pointer;
-            outline: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: background-color 0.3s;
-        }
-
-        .customBtnControl:hover {
-            background-color: #4ca2cd;
-        }
-
-        .customBtnControl svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
-        }
-
-        #customStatus {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        #customVolumeRange {
-            margin-top: 15px;
-            width: 100%;
-        }
-
-        #customAutoSwitchContainer {
-            margin-top: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #customAutoSwitchLabel {
-            margin-left: 10px;
-            font-size: 14px;
-            color: #555;
-        }
-   
- .search-container {
-  margin: 0 auto;
-  width: 98%;
-  display: flex;
-  justify-content: center;
-}
-.search-input {
-  border: 2px solid #1e90ff;
-  border-radius: 8px;
-  font-size: 16px;
-  padding: 8px 14px;
-  width: 100%;
-  max-width: 440px;
-  box-shadow: 0 2px 5px #0001;
-  box-sizing: border-box; /* مهم عشان padding مايكبرش العنصر */
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #43cea2;
-  background: #f9fdfb;
-}
-
-/* موبايل صغير جدا */
-@media (max-width: 480px) {
-  .search-input {
-    font-size: 14px;   /* خط أصغر */
-    padding: 6px 10px; /* padding أصغر */
-    max-width: 100%;   /* ياخد العرض كله */
-  }
-}
-
-/* تابلت */
-@media (min-width: 481px) and (max-width: 768px) {
-  .search-input {
-    font-size: 15px;
-    max-width: 90%;
-  }
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 /* الترانزيشن عشان التغيير يبقى انسيابي */
@@ -1067,7 +937,21 @@ audio {
     <line x1="18" y1="4" x2="4" y2="18" stroke="white" stroke-width="3"/>
   </svg>
 </button><div id="customRadioBox">
-            <h2 class="customHeading">Welcome</h2>
+
+<div id="customLogo">
+    <img src="favicon.png" alt="Logo Radio Ma" style="width:70px; height:auto; margin-bottom:12px;">
+</div>
+
+
+<p id="siteWelcomeText">
+    <span style="font-size:24px; font-weight:700; display:block;">
+        مرحبًا بكم في
+    </span>
+    <span style="font-size:17px; color:#2c3e50; display:block; margin-top:6px;">
+        <strong>Radio Ma</strong> – راديو القرآن الكريم
+    </span>
+</p>
+
             
          <!-- إضافة البسملة والآيات الكريمة ورقم الآية وسورة الإسراء -->
 <div id="quranVerse" style="text-align: center; font-style: italic; margin: 20px 0; color: #2E86C1; font-size: 18px;">
@@ -1104,7 +988,7 @@ audio {
                 </button>
             </div>
             
-            <div id="customStatus"> Radio Quran Karim Mag راديو القرآن الكريم</div>
+            <div id="customStatus"> Radio Quran Karim راديو القرآن الكريم</div>
             
             <div id="customVolumeControl">
                 <input type="range" id="customVolumeRange" min="0" max="1" step="0.1" value="0.5" onchange="adjustVolume()">
