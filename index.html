@@ -703,6 +703,23 @@ audio {
 }
 
 
+#downArrow {
+    animation: bounceDown 1.2s infinite;
+}
+
+@keyframes bounceDown {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(6px);
+    }
+    60% {
+        transform: translateY(3px);
+    }
+}
+
+
 @media (max-width: 600px) {
     .modal-content {
         width: 90%;
@@ -1065,6 +1082,15 @@ audio {
         <label for="disableWelcomeScreen">Disable Welcome Screen</label>
     </div>
     
+    <!-- سهم ينبه المستخدم ويغلق شاشة الترحيب -->
+<div id="downArrow" style="text-align:center; margin-top:16px; cursor:pointer;">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#2E86C1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <polyline points="6 13 12 19 18 13"></polyline>
+    </svg>
+</div>
+
+    
       <!-- رابط الموقع الجديد -->
    
 
@@ -1122,6 +1148,14 @@ function toggleDisableWelcomeScreen() {
                 customAudioPlayer.currentTime = 0;
             }
         }
+
+const downArrow = document.getElementById('downArrow');
+
+downArrow.addEventListener('click', function(event) {
+    event.stopPropagation(); // منع انتقال الحدث للـ welcomeScreen
+    closeWelcomeScreen();    // تنفيذ نفس وظيفة زر الإغلاق
+});
+
 
    function checkClickOutside(event) {
     // التحقق إذا كان النقر خارج محتوى الشاشة
@@ -2813,6 +2847,7 @@ function playWelcomeScreenStation(stationUrl, stationName) {
             "https://dn721505.ca.archive.org/0/items/2-1443-1443-320-kbps/2%20%D9%B1%D8%B9%D9%92%D8%A8%D9%8F%D8%AF%D9%8F%D9%88%D8%A7%DB%9F%20%D8%B1%D9%8E%D8%A8%D9%91%D9%8E%D9%83%D9%8F%D9%85%D9%8F%20%D9%B1%D9%84%D9%91%D9%8E%D8%B0%D9%90%D9%89%20%D8%AE%D9%8E%D9%84%D9%8E%D9%82%D9%8E%D9%83%D9%8F%D9%85%D9%92%20--%20%D8%B5%D9%84%D8%A7%D8%A9%20%D8%A7%D9%84%D9%82%D9%8A%D8%A7%D9%85%20--%20%D8%B1%D9%85%D8%B6%D8%A7%D9%86%20%D8%A7%D9%84%D8%B4%D8%A7%D8%B1%D9%82%D8%A9%201443%20--%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%B9%D8%A8%D8%A7%D8%AF%D8%A9%20%28320%20kbps%29.mp3",
             "https://dn721200.ca.archive.org/0/items/part-of-surah-az-zumar-1-islam-sobhi/Part%20of%20Surah%20Az%20Zumar%201%20-%20Islam%20Sobhi%20_%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%B2%D9%85%D8%B1%20%D9%A1%20-%20%D8%A7%D8%B3%D9%84%D8%A7%D9%85%20%D8%B5%D8%A8%D8%AD%D9%8A.mp3",
             "https://ia600706.us.archive.org/19/items/23-2016-by-alafasy/23%20%D9%85%D8%B4%D8%A7%D8%B1%D9%8A%20%D8%B1%D8%A7%D8%B4%D8%AF%20%D8%A7%D9%84%D8%B9%D9%81%D8%A7%D8%B3%D9%8A%20%D8%AE%D9%88%D8%A7%D8%AA%D9%8A%D9%85%20%D8%A7%D9%84%D9%85%D8%A4%D9%85%D9%86%D9%88%D9%86%20%D9%A1%D9%A4%D9%A3%D9%A7%D9%87%D9%80%20-%202016%D9%85%20by%20Alafasy.mp3",
+            "https://ia601808.us.archive.org/6/items/20251207_20251207_1216/%D9%88%D9%8E%D8%A3%D9%8E%D9%86%D8%B0%D9%90%D8%B1%D9%90%20%D8%A7%D9%84%D9%86%D9%91%D8%A7%D8%B3%D9%8E.mp3",
             "https://ia600103.us.archive.org/10/items/20250602_20250602_1914/%28%D8%A7%D9%84%D9%84%D9%91%D9%8E%D9%87%D9%8F%20%D8%A7%D9%84%D9%91%D9%8E%D8%B0%D9%90%D9%8A%20%D9%8A%D9%8F%D8%B1%D9%92%D8%B3%D9%90%D9%84%D9%8F%20%D8%A7%D9%84%D8%B1%D9%91%D9%90%D9%8A%D9%8E%D8%A7%D8%AD%D9%8E%20%D9%81%D9%8E%D8%AA%D9%8F%D8%AB%D9%90%D9%8A%D8%B1%D9%8F%20%D8%B3%D9%8E%D8%AD%D9%8E%D8%A7%D8%A8%D9%8B%D8%A7...%20%23%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A.mp3?cnt=0",
             "https://dn721909.ca.archive.org/0/items/69-1428-2/69%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AD%D8%A7%D9%82%D9%87%20%D9%84%D9%8A%D8%A7%D9%84%D9%8A%20%D9%85%D9%85%D9%84%D9%83%D8%A9%20%D8%A7%D9%84%D8%A8%D8%AD%D8%B1%D9%8A%D9%86%201428%20%28%D9%85%D8%B3%D8%AC%D8%AF%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%D8%A9%20%D8%AD%D8%B5%D8%A9%29_2_%D8%A7%D9%84%D8%AA%D8%AD%D9%88%D9%8A%D9%84%20%D9%85%D8%AE%D8%B5%D8%B5%D8%A9_%D8%A5%D8%AE%D8%B1%D8%A7%D8%AC%20%D8%A7%D9%84%D8%B5%D9%88%D8%AA%20%D9%81%D9%82%D8%B7.MP3",
             "https://ia801903.us.archive.org/1/items/mahmoud-moujahid-007-al-a-raf-34222-5811/mahmoud-moujahid-007-al-a-raf-34222-5811.mp3?cnt=0"
