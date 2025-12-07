@@ -682,25 +682,63 @@ audio {
     position: relative;
 }
 
-.close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
+#closeButton {
+    color: #d80000 !important;     /* أحمر غامق وواضح */
+    background: rgba(255, 255, 255, 0.9);
+      position: absolute;           /* يخرج من تدفق النص */
+
+    font-size: 32px;
     font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    display: none; /* بيظهر بعد 3 ثواني في الجافاسكريبت */
 }
 
-.close-button:hover,
-.close-button:focus {
-    color: black;
-    text-decoration: none;
+#closeButton:hover,
+#closeButton:focus {
+    color: white !important;
+    background: #d80000 !important;
     cursor: pointer;
 }
+
 
 @media (max-width: 600px) {
     .modal-content {
         width: 90%;
         margin: 10% auto;
     }
+}
+
+.search-input {
+    width: 90%;
+    max-width: 400px;
+    padding: 12px 18px;
+    font-size: 16px;
+    color: #2c3e50;
+    background: rgba(255, 255, 255, 0.85);
+
+    border-left: 2px solid #d0d7df;
+    border-right: 2px solid #d0d7df;
+    border-top: 1px solid #e3e6e9;      /* حد أعلى خفيف */
+    border-bottom: 1px solid #e3e6e9;   /* حد أسفل خفيف */
+
+    border-radius: 14px;
+    outline: none;
+    margin: 15px auto;
+    display: block;
+    transition: 0.3s ease;
+    box-shadow: 0 0 12px rgba(0,0,0,0.05);
+}
+
+.search-input:focus {
+    border-color: #3498db;
+    background: #ffffff;
+
+    border-top: 1px solid #3498db;
+    border-bottom: 1px solid #3498db;
+
+    box-shadow: 0 0 18px rgba(52, 152, 219, 0.4);
 }
 
 
@@ -931,16 +969,25 @@ audio {
 
 <div id="welcomeScreen" onclick="checkClickOutside(event)">
     <div id="welcomeContent">
-<button id="closeButton" onclick="closeWelcomeScreenByButton(event)" aria-label="اغلاق">
-  <svg width="22" height="22" viewBox="0 0 22 22" style="vertical-align: middle;">
-    <line x1="4" y1="4" x2="18" y2="18" stroke="white" stroke-width="3"/>
-    <line x1="18" y1="4" x2="4" y2="18" stroke="white" stroke-width="3"/>
+<button id="closeButton" onclick="closeWelcomeScreenByButton(event)" aria-label="اغلاق" class="close-btn" style="display:none;">
+  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <!-- stroke يستخدم currentColor => يتحكم فيه CSS -->
+    <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="20" y1="4" x2="4" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
   </svg>
-</button><div id="customRadioBox">
+</button>
 
-<div id="customLogo">
-    <img src="favicon.png" alt="Logo Radio Ma" style="width:70px; height:auto; margin-bottom:12px;">
+
+<div id="customRadioBox">
+
+<!-- لوجو الموقع داخل شاشة الترحيب مع رابط -->
+<div id="welcomeLogo" style="text-align:center; margin-bottom:12px;">
+    <a href="https://sites.google.com/view/radio-mag/radio-m-quran?authuser=0" target="_blank">
+        <img src="favicon.png" alt="Radio Ma Logo" 
+             style="width:80px; height:80px; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.15); cursor:pointer;">
+    </a>
 </div>
+
 
 
 <p id="siteWelcomeText">
@@ -1019,12 +1066,7 @@ audio {
     </div>
     
       <!-- رابط الموقع الجديد -->
-    <div>
-<a href="https://sites.google.com/view/radio-mag/radio-m-quran?authuser=0" target="_blank">
-            🌐 Visit Site
-        </a>
-    </div>
-</div>
+   
 
             </div>
         </div>
@@ -14395,20 +14437,21 @@ function playWelcomeScreenStation(stationUrl, stationName) {
     "https://ia903104.us.archive.org/8/items/20250625_20250625_1901/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84%D9%8A%20%D8%B9%D9%84%D9%89%20%D8%B3%D9%8A%D8%AF%D9%86%D8%A7%20%D9%85%D8%AD%D9%85%D8%AF%20-%20%D9%85%D8%B4%D8%A7%D8%B1%D9%8A%20%D8%B1%D8%A7%D8%B4%D8%AF%20%D8%A7%D9%84%D8%B9%D9%81%D8%A7%D8%B3%D9%8A%28%D8%AD%D8%A7%D9%84%D8%A7%D8%AA%20%D9%88%D8%AA%D8%B3%20.mp3?cnt=0",
     "https://ia600305.us.archive.org/16/items/Hesn_Al_Moslem_uP_bY_mUSLEm/Hesn_uP_bY_mUSLEm-108.mp3",
     "https://ia600903.us.archive.org/9/items/aqmb-wlq-4-sau-4n-dr-zw-jmha-8-hu-41-d-0-xg-pxksr-lbv-zw-kmt-4-nfqfo-wo-9-z-8-x-/AQMbWlq4Sau4nDrZwJMHA8HU-41D0XgPXKsrLBvZwKMT4NFQfoWo9Z8X9vpa7-2VrwUjwL_gBLjvdJ7IsWdrk5-U.mp3",
-       "https://i.top4top.io/m_3626seo1b1.mp3",
+    
     "https://j.top4top.io/m_3626ohace2.mp3",
-    "https://k.top4top.io/m_36262082h3.mp3",
+   
     "https://l.top4top.io/m_36266d28y4.mp3",
     "https://a.top4top.io/m_36268h5pi5.mp3",
-    "https://b.top4top.io/m_3626p2i0w6.mp3",
-    "https://c.top4top.io/m_3626bedd37.mp3",
-    "https://d.top4top.io/m_36261vmvk8.mp3",
-    "https://e.top4top.io/m_362694eu79.mp3",
+   
+    
+   
+    
     "https://f.top4top.io/m_36264t48x10.mp3",
-    "https://b.top4top.io/m_3626qeihk1.mp3",
-    "https://c.top4top.io/m_3626sgegr2.mp3",
-    "https://d.top4top.io/m_3626f8rdi3.mp3",
-    "https://e.top4top.io/m_3626gy0yi4.mp3",
+  
+    
+    
+    
+    "https://ia902307.us.archive.org/16/items/20251206_20251206_2343/إن%20الله%20وملائكته%20يصلون%20على%20النبي%20يا%20أيها%20الذين%20آمنوا%20صلوا%20عليه%20سورة%20الأحزاب%20%23عبدالباسطعبدالصمد.mp3",
     "https://f.top4top.io/m_36262fgvt5.mp3"
 ]'
 
