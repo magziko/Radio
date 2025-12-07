@@ -1315,52 +1315,339 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 }
 
  
-     // قائمة الآيات مقسمة لثلاث مقاطع واضحة
-    const verses = [
-        {
-            arabic: [
-                "إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ",
-                "وَيُبَشِّرُ الْمُؤْمِنِينَ الَّذِينَ يَعْمَلُونَ الصَّالِحَاتِ",
-                "أَنَّ لَهُمْ أَجْرًا كَبِيرًا"
-            ],
-            english: [
-                "Verily, this Quran guides to that which is most just and right",
-                "and gives glad tidings to the believers who work deeds of righteousness",
-                "that they shall have a great reward"
-            ],
-            number: "سورة الإسراء / Al-Isra، الآية 9"
-        },
-        {
-            arabic: [
-                "وَأَنَّ الَّذِينَ لَا يُؤْمِنُونَ بِالْآخِرَةِ",
-                "أَعْتَدْنَا لَهُمْ عَذَابًا أَلِيمًا",
-                ""
-            ],
-            english: [
-                "And that those who do not believe in the Hereafter",
-                "We have prepared for them a painful punishment",
-                ""
-            ],
-            number: "سورة الإسراء / Al-Isra، الآية 10"
-        }
-    ];
-
-    let current = 0;
-
-    function showVerse(index) {
-        document.getElementById('arabicVerse').innerHTML = verses[index].arabic.join("<br>");
-        document.getElementById('englishVerse').innerHTML = verses[index].english.join("<br>");
-        document.getElementById('verseNumber').innerText = verses[index].number;
+  const verses = [
+    {
+        arabic: [
+            "إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ",
+            "وَيُبَشِّرُ الْمُؤْمِنِينَ الَّذِينَ يَعْمَلُونَ الصَّالِحَاتِ",
+            "أَنَّ لَهُمْ أَجْرًا كَبِيرًا"
+        ],
+        english: [
+            "Verily, this Quran guides to that which is most just and right",
+            "and gives glad tidings to the believers who work deeds of righteousness",
+            "that they shall have a great reward"
+        ],
+        number: "سورة الإسراء / Al-Isra، الآية 9"
+    },
+    {
+        arabic: [
+            "وَنَزَّلْنَا عَلَيْكَ الْكِتَابَ تِبْيَانًا لِكُلِّ شَيْءٍ",
+            "وَهُدًى وَرَحْمَةً وَبُشْرَى لِلْمُسْلِمِينَ",
+            ""
+        ],
+        english: [
+            "And We have sent down to you the Book (the Quran) as an exposition of everything",
+            "a guidance, a mercy, and glad tidings for those who have submitted themselves",
+            "(to Allah as Muslims)"
+        ],
+        number: "سورة النحل / An-Nahl، الآية 89"
+    },
+    {
+        arabic: [
+            "كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ مُبَارَكٌ",
+            "لّيَدَّبَّرُوا آيَاتِهِ وَلِيَتَذَكَّرَ أُولُو الْأَلْبَابِ",
+            ""
+        ],
+        english: [
+            "(This is) a Book (the Quran) which We have sent down to you, full of blessings",
+            "that they may ponder over its Verses, and that men of understanding may remember",
+            ""
+        ],
+        number: "سورة ص / Sad، الآية 29"
+    },
+    {
+        arabic: [
+            "وَنُنَزِّلُ مِنَ الْقُرآنِ مَا هُوَ شِفَاءٌ",
+            "وَرَحْمَةٌ لِلْمُؤْمِنِينَ",
+            ""
+        ],
+        english: [
+            "And We send down from the Quran that which is a healing and a mercy to those who believe (in Islamic Monotheism and act on it),",
+            "and it increases the Zalimun (polytheists and wrong-doers) nothing but loss.",
+            ""
+        ],
+        number: "سورة الإسراء / Al-Isra، الآية 82"
+    },
+    {
+        arabic: [
+            "اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ",
+            "",
+            ""
+        ],
+        english: [
+            "Recite in the name of your Lord who created.",
+            "",
+            ""
+        ],
+        number: "سورة العلق / Al-'Alaq، الآية 1"
+    },
+    {
+        arabic: [
+            "وَرَتِّلِ الْقُرآنَ تَرْتِيلًا",
+            "",
+            ""
+        ],
+        english: [
+            "And recite the Qur'an with measured recitation.",
+            "",
+            ""
+        ],
+        number: "سورة المزمل / Al-Muzzammil، الآية 4"
+    },
+    {
+        arabic: [
+            "إِنَّ الَّذِينَ يَتْلُونَ كِتَابَ اللَّهِ وَأَقَامُوا الصَّلَاةَ",
+            "وَأَنفَقُوا مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً يَرْجُونَ تِجَارَةً لَّن تَبُورَ",
+            "لِيُوَفِّيَهُمْ أُجُورَهُمْ وَيَزِيدَهُم مِّن فَضْلِهِ ۚ إِنَّهُ غَفُورٌ شَكُورٌ"
+        ],
+        english: [
+            "Verily, those who recite the Book of Allah (this Quran), perform AsSalat (IqamatasSalat),",
+            "and spend (in charity) out of what We have provided for them, secretly and openly, hope for a (sure) tradegain that will never perish.",
+            "He will give them their reward and increase them out of His bounty. Verily, He is Most Forgiving, Most Appreciative."
+        ],
+        number: "سورة فاطر / Fatir، الآيات 29-30"
+    },
+    {
+        arabic: [
+            "فَإِذَا قَرَأْتَ الْقُرآنَ فَاسْتَعِذْ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+            "",
+            ""
+        ],
+        english: [
+            "So when you want to recite the Quran, seek refuge with Allah from Shaitan (Satan), the outcast (the cursed one).",
+            "",
+            ""
+        ],
+        number: "سورة النحل / An-Nahl، الآية 98"
+    },
+    
+    {
+        arabic: [
+            "وَإِذَا قُرِئَ الْقُرآنُ فَاسْتَمِعُوا لَهُ",
+            "وَأَنصِتُوا لَعَلَّكُمْ تُرْحَمُونَ",
+            ""
+        ],
+        english: [
+            "So when the Qur'an is recited, then listen to it",
+            "and pay attention that you may receive mercy.",
+            ""
+        ],
+        number: "سورة الأعراف / Al-A'raf، الآية 204"
+    },
+    {
+        arabic: [
+            "فَبَشِّرْ عِبَادِ الَّذِينَ يَسْتَمِعُونَ الْقَوْلَ",
+            "فَيَتَّبِعُونَ أَحْسَنَهُ",
+            "أُولَٰئِكَ الَّذِينَ هَدَاهُمُ اللَّهُ ۖ وَأُولَٰئِكَ هُمْ أُولُو الْأَلْبَابِ"
+        ],
+        english: [
+            "Those who listen to the Word [good advice La ilaha ill-Allah and Islamic Monotheism, etc.]",
+            "and follow the best thereof",
+            "those are whom Allah has guided, and those are men of understanding."
+        ],
+        number: "سورة الزمر / Az-Zumar، الآيات 17-18"
+    },
+    {
+        arabic: [
+            "إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ",
+            "وَإِنَّا لَهُ لَحَافِظُونَ",
+            ""
+        ],
+        english: [
+            "Verily We: It is We Who have sent down the Dhikr (i.e. the Quran)",
+            "and surely, We will guard it (from corruption).",
+            ""
+        ],
+        number: "سورة الحجر / Al-Hijr، الآية 9"
+    },
+    {
+        arabic: [
+            "وَإِنَّهُ لَتَنزِيلُ رَبِّ الْعَالَمِينَ",
+            "نَزَلَ بِهِ الرُّوحُ الْأَمِينُ",
+            "عَلَى قَلْبِكَ لِتَكُونَ مِنَ الْمُنذِرِينَ"
+        ],
+        english: [
+            "And truly, this (the Quran) is a revelation from the Lord of the 'Alamin",
+            "sent down by the trustworthy Spirit (Angel Gabriel) upon your heart,",
+            "so that you may be of the warners."
+        ],
+        number: "سورة الشعراء / Ash-Shu'ara، الآيات 192-194"
+    },
+    {
+        arabic: [
+            "ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ",
+            "هُدًى لِّلْمُتَّقِينَ",
+            ""
+        ],
+        english: [
+            "This is the Book about which there is no doubt,",
+            "a guidance for those conscious of Allah.",
+            ""
+        ],
+        number: "سورة البقرة / Al-Baqarah، الآية 2"
+    },
+    {
+        arabic: [
+            "قُل لَّئِنِ اجْتَمَعَتِ الْإِنسُ وَالْجِنُّ",
+            "عَلَى أَن يَأْتُوا بِمِثْلِ هَٰذَا الْقُرآنِ",
+            "لَا يَأْتُونَ بِمِثْلِهِ وَلَوْ كَانَ بَعْضُهُمْ لِبَعْضٍ ظَهِيرًا"
+        ],
+        english: [
+            'Say: "If mankind and the jinns were together to produce the like of this Quran,',
+            "they could not produce the like thereof, even if they helped one another.\"",
+            ""
+        ],
+        number: "سورة الإسراء / Al-Isra، الآية 88"
+    },
+    {
+        arabic: [
+            "أَفَلَا يَتَدَبَّرُونَ الْقُرآنَ",
+            "وَلَوْ كَانَ مِنْ عِندِ غَيْرِ اللَّهِ",
+            "لَوَجَدُوا فِيهِ اخْتِلَافًا كَثِيرًا"
+        ],
+        english: [
+            "Then do they not reflect upon the Qur'an?",
+            "If it had been from [any] other than Allah,",
+            "they would have found within it much contradiction."
+        ],
+        number: "سورة النساء / An-Nisa، الآية 82"
+    },
+    {
+        arabic: [
+            "أَفَلَا يَتَدَبَّرُونَ الْقُرآنَ",
+            "أَمْ عَلَى قُلُوبٍ أَقْفَالُهَا",
+            ""
+        ],
+        english: [
+            "Do they not then think deeply in the Quran,",
+            "or are their hearts locked up (from understanding it)?",
+            ""
+        ],
+        number: "سورة محمد / Muhammad، الآية 24"
+    },
+    {
+        arabic: [
+            "وَلَقَدْ يَسَّرْنَا الْقُرآنَ لِلذِّكْرِ",
+            "فَهَلْ مِن مُّدَّكِرٍ",
+            ""
+        ],
+        english: [
+            "And We have certainly made the Qur'an easy for remembrance,",
+            "so is there any who will remember?",
+            ""
+        ],
+        number: "سورة القمر / Al-Qamar، الآيات 17،22،28،32"
+    },
+    {
+        arabic: [
+            "اللَّهُ نَزَّلَ أَحْسَنَ الْحَدِيثِ كِتَابًا مُّتَشَابِهًا",
+            "تَقْشَعِرُّ مِنْهُ جُلُودُ الَّذِينَ يَخْشَوْنَ رَبَّهُمْ",
+            "ثُمَّ تَلِينُ جُلُودُهُمْ وَقُلُوبُهُمْ إِلَىٰ ذِكْرِ اللَّهِ ۚ ذَٰلِكَ هُدَى اللَّهِ"
+        ],
+        english: [
+            "Allah has sent down the best statement, a Book (this Quran), its parts resembling each other in goodness and truth, oft-repeated.",
+            "The skins of those who fear their Lord shiver from it (when they recite it or hear it).",
+            "Then their skin and their heart soften to the remembrance of Allah. That is the guidance of Allah."
+        ],
+        number: "سورة الزمر / Az-Zumar، الآية 23"
+    },
+    {
+        arabic: [
+            "إِنَّمَا الْمُؤْمِنُونَ الَّذِينَ إِذَا ذُكِرَ اللَّهُ",
+            "وَجِلَتْ قُلُوبُهُمْ وَإِذَا تُلِيَتْ عَلَيْهِمْ آيَاتُهُ",
+            "زَادَتْهُمْ إِيمَانًا وَعَلَىٰ رَبِّهِمْ يَتَوَكَّلُونَ"
+        ],
+        english: [
+            "The believers are only those who, when Allah is mentioned, feel fear in their hearts",
+            "and when His Verses are recited unto them, they increase their Faith;",
+            "and they put their trust in their Lord (Alone)."
+        ],
+        number: "سورة الأنفال / Al-Anfal، الآية 2"
+    },
+    {
+        arabic: [
+            "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ",
+            "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+            ""
+        ],
+        english: [
+            "Those who believe, and whose hearts find rest in the remembrance of Allah.",
+            "Verily, in the remembrance of Allah do hearts find rest.",
+            ""
+        ],
+        number: "سورة الرعد / Ar-Ra'd، الآية 28"
+    },
+    {
+        arabic: [
+            "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلًا",
+            "خَالِدِينَ فِيهَا لَا يَبْغُونَ عَنْهَا حِوَلًا",
+            ""
+        ],
+        english: [
+            "Verily, those who believe and do righteous deeds shall have the Gardens of Al-Firdaus (Paradise) for their entertainment,",
+            "abiding therein forever.",
+            ""
+        ],
+        number: "سورة الكهف / Al-Kahf، الآيات 107-108"
+    },
+    {
+        arabic: [
+            "وَمَن يَأْتِهِ مُؤْمِنًا قَدْ عَمِلَ الصَّالِحَاتِ فَأُولَٰئِكَ لَهُمُ الدَّرَجَاتُ الْعُلَىٰ",
+            "جَنَّاتُ عَدْنٍ تَجْرِي مِن تَحْتِهَا الْأَنْهَارُ",
+            "خَالِدِينَ فِيهَا ۚ وَذَٰلِكَ جَزَاءُ مَن تَزَكَّىٰ"
+        ],
+        english: [
+            "But whoever comes to Him as a believer and has done righteous deeds, for such are the high ranks in the Hereafter,",
+            "Gardens of Eden, flowing beneath which are rivers, abiding therein forever.",
+            ""
+        ],
+        number: "سورة طه / Ta-Ha، الآيات 75-76"
+    },
+    {
+        arabic: [
+            "مَن جَاءَ بِالْحَسَنَةِ فَلَهُ عَشْرُ أَمْثَالِهَا",
+            "وَمَن جَاءَ بِالسَّيِّئَةِ فَلَا يُجْزَىٰ إِلَّا مِثْلَهَا",
+            "وَهُمْ لَا يُظْلَمُونَ"
+        ],
+        english: [
+            "Whoever brings a good deed shall have ten times the like thereof to his credit,",
+            "and whoever brings an evil deed shall have only the recompense of the like thereof,",
+            "and they will not be wronged."
+        ],
+        number: "سورة الأنعام / Al-An'am، الآية 160"
+    },
+    {
+        arabic: [
+            "لِلَّذِينَ أَحْسَنُوا الْحُسْنَىٰ وَزِيَادَةٌ",
+            "وَلَا يَرْهَقُ وُجُوهَهُمْ قَتَرٌ وَلَا ذِلَّةٌ",
+            "أُولَٰئِكَ أَصْحَابُ الْجَنَّةِ ۖ هُمْ فِيهَا خَالِدُونَ"
+        ],
+        english: [
+            "For those who have done good is the best (reward, i.e. Paradise) and even more (honour).",
+            "Neither darkness nor dust nor any humiliating disgrace shall cover their faces.",
+            "They are the dwellers of Paradise, abiding therein forever."
+        ],
+        number: "سورة يونس / Yunus، الآية 26"
     }
+];
 
-    // عرض الآية الأولى مباشرة
+
+let current = Math.floor(Math.random() * verses.length);
+
+function showVerse(index) {
+    document.getElementById('arabicVerse').innerHTML = verses[index].arabic.join("<br>");
+    document.getElementById('englishVerse').innerHTML = verses[index].english.join("<br>");
+    document.getElementById('verseNumber').innerText = verses[index].number;
+}
+
+// عرض أول آية عشوائية عند تحميل الصفحة
+showVerse(current);
+
+// تبديل الآيات كل 5 ثواني بشكل عشوائي
+setInterval(() => {
+    current = Math.floor(Math.random() * verses.length);
     showVerse(current);
-
-    // تبديل الآيات كل 5 ثواني بشكل متكرر
-    setInterval(() => {
-        current = (current + 1) % verses.length;
-        showVerse(current);
-    }, 5000);
+}, 25000);
     
 </script>
 <body>
