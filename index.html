@@ -3174,7 +3174,7 @@ setInterval(() => {
                 <!--<label for="radioButtonColor">اختر لون الزر :</label>-->
                <select id="radioButtonColor" class="responsive-select" onchange="changeRadioButtonColor()">
     <option value="">Choose a color</option>
-    <option value="default" style="background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%);">(Palestine Flag) Color</option>
+    <option value="ps" style="background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%);">(Palestine Flag) Color</option>
 
     <!-- Black, White, and Gray -->
     <option value="#000000" style="background-color:#000000; color: white;">Black</option>
@@ -20263,7 +20263,7 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
     data-ar="📡"
     data-en="📡"
     data-urls='[
-        {"title":"بث1","title_en":"Stream 1","url":"https://w2.livekoora.info/"},
+        {"title":"بث1","title_en":"Stream 1","url":"https://w.siiir.tv/today-matches/"},
         {"title":"بث2","title_en":"Stream 2","url":"https://yallalive.sx/"},
         {"title":"بث3","title_en":"Stream 3","url":"https://www.hd7.live/"},
         {"title":"بث4","title_en":"Stream 4","url":"https://www.btolat.com/video"}
@@ -20275,7 +20275,7 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
    <!-- الرمز الأول -->
 <span class="station-text triple-icon"
       style="font-size: 28px; padding: 14px;"
-      data-target="https://w2.livekoora.info/"
+      data-target="https://w.siiir.tv/today-matches/"
       data-title="بث1"
       data-title-en="Stream 1"
       onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">
@@ -20928,7 +20928,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
         document.addEventListener('DOMContentLoaded', (event) => {
-    const savedColor = localStorage.getItem('radioButtonColor') || 'default';
+    const savedColor = localStorage.getItem('radioButtonColor') || '#f8f9fa';
     changeRadioButtonColor(savedColor, false);
     document.getElementById('radioButtonColor').value = savedColor;
 });
