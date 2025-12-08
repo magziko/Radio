@@ -78,12 +78,10 @@
     box-sizing: border-box;      /* لضمان احتساب البادينج ضمن الحجم */
 }
 
-/* تحكم إضافي للشاشات الصغيرة جداً */
-@media (max-width: 360px) {
+@media (min-width: 992px) {
     #welcomeContent {
-        padding: 4%;    /* تصغير البادينج */
-        border-radius: 16px;
-        margin-top: 4vh;
+        max-width: 900px;   /* بدل 420px */
+        width: 90%;         /* ياخد عرض كبير */
     }
 }
 
@@ -1000,10 +998,12 @@ audio {
 <!-- لوجو الموقع داخل شاشة الترحيب مع رابط -->
 <div id="welcomeLogo" style="text-align:center; margin-bottom:12px;">
     <a href="https://sites.google.com/view/radio-mag/radio-m-quran?authuser=0" target="_blank">
-        <img src="favicon.png" alt="Radio Ma Logo" 
+        <img src="https://ia904509.us.archive.org/7/items/favicon_20251207/favicon.png" 
+             alt="Radio Ma Logo" 
              style="width:80px; height:80px; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.15); cursor:pointer;">
     </a>
 </div>
+
 
 
 
@@ -1664,7 +1664,7 @@ function playWelcomeScreenStation(stationUrl, stationName) {
     ],
     english: [
         "O mankind, there has come to you instruction from your Lord,",
-        "and healing for what is in the breasts,",
+        "and healing for what is in the *****,",
         "and guidance and mercy for the believers."
     ],
     number: "سورة يونس / Yunus، الآية 57"
