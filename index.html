@@ -21908,25 +21908,28 @@ window.addEventListener("load", function() {
     }, delay);
   }
 
-  // === التنبيه الأول: الصلاة ===
-  createToast(
-    "📢 New station added: <b>Prayer</b>",
-    "📢 محطة جديدة: <b>الصلاة</b>",
-    "https://cdn-icons-png.flaticon.com/512/727/727245.png",
-    "▶ Listen",
-    function() {
-      let stationBtn = document.querySelector("button[data-station='الصلاة']");
-      if (stationBtn) {
-        let urls = JSON.parse(stationBtn.getAttribute("data-urls"));
-        if (urls && urls.length > 0) {
-          let randomIndex = Math.floor(Math.random() * urls.length);
-          stationBtn.setAttribute("data-current-index", randomIndex);
-        }
-        toggleRadio(stationBtn, new Event("click")); // تشغيل عشوائي
+  // === التنبيه الأول: الصلاة على النبي ﷺ ===
+createToast(
+  "📢 New station added: <b>Salawat upon the Prophet ﷺ Radio</b>",
+  "📢 محطة جديدة: <b>راديو الصلاة على النبي ﷺ</b>",
+  "https://cdn-icons-png.flaticon.com/512/727/727245.png",
+  "▶ Listen",
+  function () {
+    let stationBtn = document.querySelector(
+      "button[data-station='راديو الصلاة على النبي ﷺ']"
+    );
+
+    if (stationBtn) {
+      let urls = JSON.parse(stationBtn.getAttribute("data-urls"));
+      if (urls && urls.length > 0) {
+        let randomIndex = Math.floor(Math.random() * urls.length);
+        stationBtn.setAttribute("data-current-index", randomIndex);
       }
-    },
-    0
-  );
+      toggleRadio(stationBtn, new Event("click"));
+    }
+  },
+  0
+);
 
   // === التنبيه الثاني: تلاوات الشيخ محمد صديق المنشاوي ===
   createToast(
