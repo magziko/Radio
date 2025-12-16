@@ -965,7 +965,12 @@ audio {
     color: #2E86C1;
 }
 
-   
+   @keyframes fadeInOut {
+    0%   { opacity: 0; transform: translate(-50%, 10px); }
+    15%  { opacity: 1; transform: translate(-50%, 0); }
+    85%  { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -10px); }
+}
         
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -1028,10 +1033,8 @@ audio {
     <p id="verseNumber" style="font-size: 16px; color: #1A5276;">(سورة الإسراء / Al-Isra، الآية: 9)</p>
 </div>
             
-            <audio id="customAudioPlayer">
-                <source src="https://backup.qurango.net/radio/tarateel" type="audio/mpeg">
-                متصفحك لا يدعم تشغيل الصوت.
-            </audio>
+       <audio id="customAudioPlayer" autoplay></audio>
+
             
             <div id="customControlButtons">
                 <button class="customBtnControl" onclick="previousStation()">
@@ -1297,6 +1300,67 @@ function enableAutoSwitch() {
         clearInterval(autoInterval);
     }
 }
+
+
+const audio = document.getElementById("customAudioPlayer");
+
+const sources = [
+    "https://backup.qurango.net/radio/tarateel", // الأساسي
+    "https://qurango.net/radio/tarateel",        // احتياطي 1
+    "https://backup.qurango.net/radio/mix",     // احتياطي 2
+    "https://s34.radiolize.com/radio/8050/radio.mp3" // احتياطي 3
+];
+
+let index = 0;
+let notified = false;
+
+function showToast(message) {
+    if (notified) return;
+    notified = true;
+
+    const toast = document.createElement("div");
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.85);
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 22px;
+        font-size: 14px;
+        z-index: 9999;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: fadeInOut 3s forwards;
+    `;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.remove(), 3000);
+}
+
+function playSource(i) {
+    audio.src = sources[i];
+    audio.load();
+    audio.play().catch(() => {});
+}
+
+function nextSource() {
+    index++;
+    if (index < sources.length) {
+        showToast("📢 تم التحويل لمحطة احتياطية");
+        playSource(index);
+    }
+}
+
+audio.addEventListener("error", nextSource);
+audio.addEventListener("stalled", nextSource);
+audio.addEventListener("ended", nextSource);
+
+// تشغيل أول محطة
+playSource(index);
+
+
 
 
 function playWelcomeScreenStation(stationUrl, stationName) {
