@@ -1331,15 +1331,7 @@ function adjustVolume() {
     customAudioPlayer.volume = volumeRange.value;
 }
 
-function nextStationFunc() {
-    stationIndex = (stationIndex + 1) % radioStations.length;
-    playStation(radioStations[stationIndex]);
-}
 
-function previousStation() {
-    stationIndex = (stationIndex - 1 + radioStations.length) % radioStations.length;
-    playStation(radioStations[stationIndex]);
-}
 
 
 function enableAutoSwitch() {
@@ -1411,69 +1403,19 @@ playSource(index);
 let sheikhSources = [];
 let sheikhIndex = 0;
 
-function playStation(station) {
-
-    // لو محطة الشيخ (أكتر من رابط)
-    if (station.urls && Array.isArray(station.urls)) {
-
-        // ترتيب عشوائي
-        sheikhSources = [...station.urls].sort(() => Math.random() - 0.5);
-        sheikhIndex = 0;
-
-        customAudioPlayer.src = sheikhSources[sheikhIndex];
-
-    } else {
-        // محطة عادية
-        sheikhSources = [];
-        customAudioPlayer.src = station.url;
-    }
-
-    startRadio();
-}
-
-customAudioPlayer.addEventListener("error", () => {
-    if (sheikhSources.length > 0) {
-        sheikhIndex++;
-        if (sheikhIndex < sheikhSources.length) {
-            showToast("📢 تم التحويل لمحطة الشيخ الاحتياطية");
-            customAudioPlayer.src = sheikhSources[sheikhIndex];
-            customAudioPlayer.play();
-        }
-    }
-});
-
-function playMainStation() {
-    let index = 0;
-
-    function playSource(i) {
-        audio.src = sources[i];
-        audio.load();
-        audio.play().catch(() => {});
-    }
-
-    function nextSource() {
-        index++;
-        if (index < sources.length) {
-            showToast("📢 تم التحويل لمحطة احتياطية");
-            playSource(index);
-        }
-    }
-
-    audio.addEventListener("error", nextSource, { once: true });
-    audio.addEventListener("stalled", nextSource, { once: true });
-
-    // تشغيل أول محطة
-    playSource(index);
-}
 function playMainStation(station) {
+    let sources = [
+        station.url,                      // الأساسي
+        "https://qurango.net/radio/tarateel",        // بديل 1
+        "https://s34.radiolize.com/radio/8050/radio.mp3" // بديل 2
+    ];
+
     let index = 0;
 
     function playSource(i) {
-        audio.src = sources[i];
-        audio.load();
-        audio.play().catch(() => {});
-
-        // تحديث اسم المحطة دائماً بنفس الاسم
+        customAudioPlayer.src = sources[i];
+        customAudioPlayer.load();
+        customAudioPlayer.play().catch(() => {});
         currentStatus.textContent = station.name + " يعمل الآن";
     }
 
@@ -1485,15 +1427,19 @@ function playMainStation(station) {
         }
     }
 
-    audio.addEventListener("error", nextSource, { once: true });
-    audio.addEventListener("stalled", nextSource, { once: true });
+    // إعادة تعيين المستمعين لتجنب التداخل
+    customAudioPlayer.onerror = nextSource;
+    customAudioPlayer.onstalled = nextSource;
 
+    // تشغيل أول محطة
+    index = 0;
     playSource(index);
 }
+
+
 function playStation(station) {
-    if (station.url) {
-        playMainStation(station);
-    } else if (station.urls && Array.isArray(station.urls)) {
+    // محطة متعددة روابط
+    if (station.urls && Array.isArray(station.urls)) {
         sheikhSources = [...station.urls].sort(() => Math.random() - 0.5);
         sheikhIndex = 0;
 
@@ -1501,7 +1447,7 @@ function playStation(station) {
         currentStatus.textContent = station.name + " يعمل الآن";
         customAudioPlayer.play();
 
-        customAudioPlayer.addEventListener("error", () => {
+        customAudioPlayer.onerror = () => {
             sheikhIndex++;
             if (sheikhIndex < sheikhSources.length) {
                 showToast("📢 تم التحويل للرابط الاحتياطي للشيخ");
@@ -1509,9 +1455,27 @@ function playStation(station) {
                 currentStatus.textContent = station.name + " يعمل الآن";
                 customAudioPlayer.play();
             }
-        }, { once: true });
+        };
+        customAudioPlayer.onstalled = customAudioPlayer.onerror;
+
+    } else if (station.url) {
+        // محطة واحدة → استخدام playMainStation مع fallback
+        playMainStation(station);
     }
 }
+
+
+// التنقل بين المحطات
+function nextStationFunc() {
+    stationIndex = (stationIndex + 1) % radioStations.length;
+    playStation(radioStations[stationIndex]);
+}
+
+function previousStation() {
+    stationIndex = (stationIndex - 1 + radioStations.length) % radioStations.length;
+    playStation(radioStations[stationIndex]);
+}
+
 
 
 function playWelcomeScreenStation(stationUrl, stationName) {
