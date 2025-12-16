@@ -1239,17 +1239,68 @@ var volumeRange = document.getElementById('customVolumeRange');
 var playPauseSymbol = document.getElementById('customPlayPauseSymbol');
 var isAudioPlaying = false;
 var radioStations = [
-    { url: 'https://backup.qurango.net/radio/tarateel', name: 'Ma إذاعة القرآن الكريم ' }, 
-    { url: 'https://backup.qurango.net/radio/almukhtasar_fi_alsiyra', name: 'السيرة النبوية المشرفة' },
-    { url: 'https://stream.zeno.fm/awkn71iarz0vv', name: 'القرآن الكريم مصحف القراء كاملا' }, 
-    { url: 'https://backup.qurango.net/radio/saheh-bokharee', name: 'الحديث النبوى الشريف' },
+    { url: 'https://backup.qurango.net/radio/tarateel', name: 'Ma إذاعة القرآن الكريم' },
+
+
+{
+    name: 'السيرة النبوية المشرفة',
+    urls: [
+        'https://backup.qurango.net/radio/almukhtasar_fi_alsiyra',
+        'https://backup.qurango.net/radio/fi_zilal_alsiyra'
+    ]
+},
+    { url: 'https://stream.zeno.fm/awkn71iarz0vv', name: 'القرآن الكريم مصحف القراء ' },
+
+
+{
+    name: 'الحديث النبوى الشريف',
+    urls: [
+        'https://backup.qurango.net/radio/saheh-bokharee',
+        'https://backup.qurango.net/radio/saheh-muslim',
+        'https://s4.radio.co/s5a0c81b0f/listen'
+    ]
+},
+   
+   
     { url: 'https://stream.zeno.fm/bg2j1n5ntltuv', name: 'إذاعة القرآن الكريم - روائع التلاوات' },
-    { url: 'https://backup.qurango.net/radio/fi_zilal_alsiyra', name: 'سيرة النبى محمد صلى الله عليه وسلم' },
-    { url: 'https://backup.qurango.net/radio/mix', name: 'Mix إذاعة القرآن الكريم ' },
-    { url: 'https://backup.qurango.net/radio/sahabah', name: 'سير الصحابه رضوان الله عليهم أجمعين' },
-    { url: 'https://stream.zeno.fm/zorvpgdqfzbuv/', name: 'راديو الشيخ إسلام صبحى' },
-    { url: 'https://backup.qurango.net/radio/alanbiya', name: 'راديو قصص الأنبياء' }
+
+
+{
+    name: 'اذاعة سير الأنبياء والصحابة',
+    urls: [
+        'https://backup.qurango.net/radio/sahabah',
+        'https://backup.qurango.net/radio/alanbiya'
+    ]
+},
+
+
+{
+    name: 'إذاعة القرآن الكريم - متنوع',
+    urls: [
+        'https://backup.qurango.net/radio/mix',
+        'https://streaming.radio.co/s596b42805/listen',
+        'https://stream.radiojar.com/8s5u5tpdtwzuv',
+        'https://islamicbulletin.site:8108/stream',
+        'https://islamicbulletin.site:8076/stream'
+    ]
+},
+
+ 
+
+
+
+    // ⭐ محطة الشيخ (عشوائي + بديل)
+    {
+        name: 'راديو الشيخ',
+        urls: [
+            'https://stream.zeno.fm/zorvpgdqfzbuv/',
+            'https://stream.zeno.fm/w7mny9qncn0vv',
+            'https://stream.zeno.fm/wawdmw6pjuzvv'
+        ]
+    }
+
 ];
+
 
 var stationIndex = 0;
 var autoInterval = null;
@@ -1282,15 +1333,14 @@ function adjustVolume() {
 
 function nextStationFunc() {
     stationIndex = (stationIndex + 1) % radioStations.length;
-    customAudioPlayer.src = radioStations[stationIndex].url;
-    startRadio();
+    playStation(radioStations[stationIndex]);
 }
 
 function previousStation() {
     stationIndex = (stationIndex - 1 + radioStations.length) % radioStations.length;
-    customAudioPlayer.src = radioStations[stationIndex].url;
-    startRadio();
+    playStation(radioStations[stationIndex]);
 }
+
 
 function enableAutoSwitch() {
     var autoSwitchCheck = document.getElementById('customAutoSwitch');
@@ -1307,7 +1357,6 @@ const audio = document.getElementById("customAudioPlayer");
 const sources = [
     "https://backup.qurango.net/radio/tarateel", // الأساسي
     "https://qurango.net/radio/tarateel",        // احتياطي 1
-    "https://backup.qurango.net/radio/mix",     // احتياطي 2
     "https://s34.radiolize.com/radio/8050/radio.mp3" // احتياطي 3
 ];
 
@@ -1355,11 +1404,43 @@ function nextSource() {
 
 audio.addEventListener("error", nextSource);
 audio.addEventListener("stalled", nextSource);
-audio.addEventListener("ended", nextSource);
 
 // تشغيل أول محطة
 playSource(index);
 
+let sheikhSources = [];
+let sheikhIndex = 0;
+
+function playStation(station) {
+
+    // لو محطة الشيخ (أكتر من رابط)
+    if (station.urls && Array.isArray(station.urls)) {
+
+        // ترتيب عشوائي
+        sheikhSources = [...station.urls].sort(() => Math.random() - 0.5);
+        sheikhIndex = 0;
+
+        customAudioPlayer.src = sheikhSources[sheikhIndex];
+
+    } else {
+        // محطة عادية
+        sheikhSources = [];
+        customAudioPlayer.src = station.url;
+    }
+
+    startRadio();
+}
+
+customAudioPlayer.addEventListener("error", () => {
+    if (sheikhSources.length > 0) {
+        sheikhIndex++;
+        if (sheikhIndex < sheikhSources.length) {
+            showToast("📢 تم التحويل لمحطة الشيخ الاحتياطية");
+            customAudioPlayer.src = sheikhSources[sheikhIndex];
+            customAudioPlayer.play();
+        }
+    }
+});
 
 
 
@@ -4447,6 +4528,28 @@ setInterval(() => {
                    return false;">&#x2764;</span>
 </button>
 
+<button class="button palestine" 
+        data-category="quran" 
+        data-station="الارتقاء قرآن كريم" 
+        data-ar="الارتقاء قرآن كريم" 
+        data-en="Al-Irtikaa Holy Quran" 
+        data-url="https://streaming.radio.co/s596b42805/listen" 
+        onclick="if (event.ctrlKey || event.metaKey) { 
+                    window.open('https://streaming.radio.co/s596b42805/listen', '_blank'); 
+                 } else { 
+                    toggleRadio(this); 
+                 }">
+    <span class="flag"></span> 
+    <span class="station-text">الارتقاء قرآن كريم</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" 
+         style="display:none;" 
+         alt="Equalizer">
+    <span class="favorite-icon" 
+          onclick="toggleFavorite(event, 'https://streaming.radio.co/s596b42805/listen'); 
+                   event.stopPropagation(); 
+                   return false;">&#x2764;</span>
+</button>
 
 
 <button class="button palestine" 
@@ -15789,21 +15892,21 @@ setInterval(() => {
 
 
 
-<!--<button class="button palestine" -->
-<!--        data-category="sira" -->
-<!--        data-station="الارتقاء للحديث النبوي لبنان" -->
-<!--        data-ar="الارتقاء للحديث النبوي لبنان" -->
-<!--        data-en="promote for Hadith Lebanon" -->
-<!--        data-url="https://s5.radio.co/scfafe52c4/listen" -->
-<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://s5.radio.co/scfafe52c4/listen', '_blank'); } else { toggleRadio(this); }">-->
-<!--    <span class="flag"></span> -->
-<!--    <span class="station-text">الارتقاء للحديث النبوي لبنان</span>-->
-<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">-->
-<!--    <span class="favorite-icon" -->
-<!--          onclick="toggleFavorite(event, 'الارتقاء للحديث النبوي لبنان'); -->
-<!--                   event.stopPropagation(); -->
-<!--                   return false;">&#x2764;</span>-->
-<!--</button>-->
+<button class="button palestine" 
+        data-category="sira" 
+        data-station="الارتقاء للحديث النبوي لبنان" 
+        data-ar="الارتقاء للحديث النبوي لبنان" 
+        data-en="promote for Hadith Lebanon" 
+        data-url="https://s4.radio.co/s5a0c81b0f/listen" 
+        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://s4.radio.co/s5a0c81b0f/listen', '_blank'); } else { toggleRadio(this); }">
+    <span class="flag"></span> 
+    <span class="station-text">الارتقاء للحديث النبوي لبنان</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon" 
+          onclick="toggleFavorite(event, 'الارتقاء للحديث النبوي لبنان'); 
+                   event.stopPropagation(); 
+                   return false;">&#x2764;</span>
+</button>
 
 <button class="button palestine" 
         data-category="sira" 
