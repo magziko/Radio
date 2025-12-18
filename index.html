@@ -1106,6 +1106,30 @@ audio {
 
 <script>
 
+document.addEventListener("keydown", function (e) {
+
+    // منع التكرار لو الزر متضغط باستمرار
+    if (e.repeat) return;
+
+    // تشغيل / إيقاف بالمسطرة
+    if (e.code === "Space") {
+        e.preventDefault();
+
+        let audio = document.getElementById("customAudioPlayer");
+        let status = document.getElementById("customStatus");
+
+        if (!audio) return;
+
+        if (audio.paused) {
+            audio.play();
+            if (status) status.innerHTML = "▶️ Ma إذاعة القرآن الكريم يعمل الآن";
+        } else {
+            audio.pause();
+            if (status) status.innerHTML = "⏸️ تم إيقاف الإذاعة مؤقتًا";
+        }
+    }
+});
+
 window.onload = function() {
     const disableWelcome = localStorage.getItem("disableWelcomeScreen");
     
@@ -22130,8 +22154,35 @@ function handleTripleClickWithPassword(element) {
     }, 2000);
 }
 
+document.addEventListener("keydown", function (e) {
 
+    // منع التكرار
+    if (e.repeat) return;
 
+    const keyMap = {
+        "Digit1": "راديو الشيخ محمود خليل الحصري",
+        "Numpad1": "راديو الشيخ محمود خليل الحصري",
+
+        "Digit2": "راديو الشيخ عبدالباسط عبد الصمد",
+        "Numpad2": "راديو الشيخ عبدالباسط عبد الصمد",
+
+        "Digit3": "الشيخ محمود علي البنا (مجود)",
+        "Numpad3": "الشيخ محمود علي البنا (مجود)"
+    };
+
+    const stationName = keyMap[e.code];
+    if (!stationName) return;
+
+    e.preventDefault();
+
+    const btn = document.querySelector(
+        `button[data-station='${stationName}']`
+    );
+
+    if (btn) {
+        btn.click(); // نفس ضغط الماوس بالضبط
+    }
+});
 </script>
 
 <style>
