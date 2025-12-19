@@ -60,6 +60,8 @@
 #welcomeScreen {
     background: linear-gradient(135deg, #dfe9f3, #ffffff);
     animation: fadeIn 0.8s ease-in-out;
+        position: relative;
+
 }
 
 #welcomeContent {
@@ -681,16 +683,19 @@ audio {
 }
 
 #closeButton {
-    color: #d80000 !important;     /* أحمر غامق وواضح */
-    background: rgba(255, 255, 255, 0.9);
-      position: absolute;           /* يخرج من تدفق النص */
+    position: absolute;
+    top: 10px;
+    left: 10px;              /* الشمال للمستخدم */
 
+    color: #d80000 !important;
+    background: rgba(255, 255, 255, 0.9);
     font-size: 32px;
     font-weight: bold;
     padding: 4px 10px;
     border-radius: 8px;
     transition: 0.3s ease;
-    display: none; /* بيظهر بعد 3 ثواني في الجافاسكريبت */
+    display: none;
+    z-index: 9999;
 }
 
 #closeButton:hover,
@@ -698,6 +703,28 @@ audio {
     color: white !important;
     background: #d80000 !important;
     cursor: pointer;
+}
+
+
+#reloadButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;             /* الجهة المقابلة */
+
+    color: #0d6efd;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 28px;
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    z-index: 9999;
+}
+
+#reloadButton:hover {
+    color: #fff;
+    background: #0d6efd;
 }
 
 
@@ -997,6 +1024,11 @@ audio {
   </svg>
 </button>
 
+<button id="reloadButton" onclick="confirmReload()" aria-label="إعادة تحميل" style="display:none;">
+    🔄
+</button>
+
+
 
 <div id="customRadioBox">
 
@@ -1129,6 +1161,17 @@ document.addEventListener("keydown", function (e) {
         }
     }
 });
+function confirmReload() {
+    // إيقاف الراديو لو شغال
+    if (typeof mainAudio !== "undefined" && !mainAudio.paused) {
+        mainAudio.pause();
+    }
+
+    // رسالة تأكيد
+    if (confirm("هل تريد إعادة تحميل الصفحة؟")) {
+        location.reload(true);
+    }
+}
 
 window.onload = function() {
     const disableWelcome = localStorage.getItem("disableWelcomeScreen");
@@ -1148,6 +1191,8 @@ window.onload = function() {
         // إظهار زر الإغلاق بعد 3 ثوانٍ
         setTimeout(function() {
             document.getElementById('closeButton').style.display = 'block';
+                document.getElementById("reloadButton").style.display = "block";
+
         }, 3000);
 
         // التأكد من إيقاف الراديو الأساسي مؤقتًا
@@ -1156,6 +1201,8 @@ window.onload = function() {
         }
     }
 };
+
+
 
 // وظيفة لتفعيل أو تعطيل شاشة الترحيب
 function toggleDisableWelcomeScreen() {
@@ -21450,8 +21497,8 @@ function getContrastYIQ(hexcolor){
 
 
 document.addEventListener('keydown', function(event) {
-    // التحقق من الضغط على Shift + W
-    if (event.shiftKey && event.key === 'W') {
+    // التحقق من الضغط على Shift + W أو نفس موضع الزر على الكيبورد العربي
+    if (event.shiftKey && event.code === 'KeyW') {
         openWelcomeScreen();
     }
 });
