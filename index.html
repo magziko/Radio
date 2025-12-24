@@ -4179,7 +4179,7 @@ setInterval(() => {
 <div id="filters-container" class="filter-container">
 
 <!-- زر الإذاعات المفضلة -->
-<button id="viewFavoritesButton" data-ar="المفضلة" data-en="Favorites" onclick="toggleFavoritesView()">المفضلة</button>
+<button id="viewFavoritesButton" data-ar="❤ المفضلة" data-en="Favorites ❤" onclick="toggleFavoritesView()">المفضلة</button>
 
 
 <!-- تلاوات وقراء -->
@@ -21218,6 +21218,7 @@ function toggleFavorite(event, station) {
 
 function toggleFavoritesView() {
   showingFavorites = !showingFavorites;
+document.querySelector('.filter-button')?.click();
 
   // تحديث نص الزر بناءً على حالة العرض واللغة
   const viewFavoritesButton = document.getElementById('viewFavoritesButton');
