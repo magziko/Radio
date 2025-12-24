@@ -432,6 +432,57 @@ audio {
 }
 
 
+/* ========================= */
+/* 📱 موبايل */
+/* ========================= */
+@media (max-width: 767px) {
+
+  #filters-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .filter-button {
+    flex: unset;
+    min-width: unset;
+    width: 100%;
+    height: 42px;
+    font-size: 12px;
+    padding: 0 6px;
+    border-radius: 6px;
+  }
+
+  .filter-button:hover,
+  .filter-button.selected {
+    transform: scale(1.03);
+  }
+}
+
+
+/* ========================= */
+/* 📲 تابلت */
+/* ========================= */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+  #filters-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+  }
+
+  .filter-button {
+    flex: unset;
+    min-width: unset;
+    width: 100%;
+    height: 46px;
+    font-size: 13px;
+    padding: 0 8px;
+  }
+}
+
+
  .stars {
     display: flex;
     justify-content: center;
@@ -920,7 +971,11 @@ audio {
   cursor: pointer;
   padding: 0 8px;           
   transition: background-color 0.3s ease, transform 0.2s ease;
+    border: 2px solid #1e90ff !important; /* الإطار أزرق */
+
 }
+
+
 
 /* تأثير Hover */
 #viewFavoritesButton:hover {
@@ -4123,6 +4178,11 @@ setInterval(() => {
 
 <div id="filters-container" class="filter-container">
 
+<!-- زر الإذاعات المفضلة -->
+<button id="viewFavoritesButton" data-ar="المفضلة" data-en="Favorites" onclick="toggleFavoritesView()">المفضلة</button>
+
+<button class="filter-button" data-ar="كل الإذاعات" data-en="All Stations" onclick="filterStations('all')">كل الإذاعات</button>
+
 <!-- تلاوات وقراء -->
 <button class="filter-button" data-ar="قراء" data-en="Reciters" onclick="filterStations('reciters')">قراء</button> 
 <button class="filter-button" data-ar="تلاوات" data-en="Recitations" onclick="filterStations('Quran')">تلاوات</button>
@@ -4150,10 +4210,7 @@ setInterval(() => {
 </button>
 <!-- الكل والمزيد -->
 <button class="filter-button" data-ar="المزيد" data-en="More" onclick="filterStations('More')">المزيد</button>
-<button class="filter-button" data-ar="كل الإذاعات" data-en="All Stations" onclick="filterStations('all')">كل الإذاعات</button>
 
-<!-- زر الإذاعات المفضلة -->
-<button id="viewFavoritesButton" data-ar="المفضلة" data-en="Favorites" onclick="toggleFavoritesView()">المفضلة</button>
     
 
 </div>
@@ -16904,8 +16961,8 @@ setInterval(() => {
     "https://archive.org/download/4_20251213_20251213_2157/%D8%A5%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%87%20%D9%8A%D8%B5%D9%84%D9%88%D9%86%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20%20%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%A7%D9%84%D9%82%D8%A7%D8%B1%D8%A6%20%D8%B9%D9%85%D8%B1%20%D8%B9%D9%84%D9%8A%20%284%29.mp3",
     "https://archive.org/download/20251210_20251210_2050/%D9%85%D8%A7%20%D9%85%D8%B9%D9%86%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A.mp3",
     "https://archive.org/download/20251207_20251207_1940/%D8%A5%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%87%20%D9%8A%D8%B5%D9%84%D9%88%D9%86%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20-%20%D8%A8%D8%AF%D8%B1%20%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A.mp3",
-    "https://archive.org/download/o-e-78-pv-4rt-q_202512/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84%D9%90%20%D8%B9%D9%84%D9%89%20%D8%B3%D9%8A%D8%AF%D9%86%D8%A7%20%D9%85%D8%AD%D9%85%D8%AF%20__%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%87%D9%8A%D8%AB%D9%85%20%D8%A7%D9%84%D8%AF%D8%AE%D9%8A%D9%86%20%E2%9D%A4%20%5B_oE78PV4rtQ%5D.mp3",
     "https://archive.org/download/20251223_20251223_0845/%D8%B5%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%89%20%D9%88%D8%B0%D9%83%D8%B1%20%D8%BA%D9%8A%D8%B1%D9%83.mp3",
+    "https://archive.org/download/o-e-78-pv-4rt-q_202512/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84%D9%90%20%D8%B9%D9%84%D9%89%20%D8%B3%D9%8A%D8%AF%D9%86%D8%A7%20%D9%85%D8%AD%D9%85%D8%AF%20__%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%87%D9%8A%D8%AB%D9%85%20%D8%A7%D9%84%D8%AF%D8%AE%D9%8A%D9%86%20%E2%9D%A4%20%5B_oE78PV4rtQ%5D.mp3",
     "https://archive.org/download/20251209_20251209_2123/%D8%B5%D9%84%D9%88%D8%A7%20%D8%B9%D9%84%D9%8A%D9%87%20%D9%88%D8%B3%D9%84%D9%85%D9%88%D8%A7%20%20%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%AD%D8%B3%D9%8A%D9%86%20%D9%8A%D8%B9%D9%82%D9%88%D8%A8.mp3",
     "https://archive.org/download/20251210_20251210_2055/%D9%85%D8%A7%20%D8%A7%D9%84%D8%A7%D9%83%D8%AB%D8%B1%20%D8%AB%D9%88%D8%A7%D8%A8%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20%D8%A7%D9%85%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%BA%D9%81%D8%A7%D8%B1%20%20%23%D8%B9%D8%AB%D9%85%D8%A7%D9%86%D8%A7%D9%84%D8%AE%D9%85%D9%8A%D8%B3.mp3",
     "https://archive.org/download/20251207_20251207_1831/%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D9%84%D8%AD%D8%B5%D8%B1%D9%8A%20%D8%B1%D8%AD%D9%85%D9%87%20%D8%A7%D9%84%D9%84%D9%87%20%D8%A5%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%87%20%D9%8A%D8%B5%D9%84%D9%88%D9%86%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A.mp3"
