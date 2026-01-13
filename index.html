@@ -17002,12 +17002,18 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
         data-station="إذاعة الصلاة على النبي ﷺ" 
         data-ar="إذاعة الصلاة على النبي ﷺ" 
         data-en="Salat Ala Nabi Broadcast"
-        data-url="https://archive.org/download/20260108_20260108_2016/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%89%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%B5%D9%84%20%D8%A7%D9%84%D9%84%D9%87%20%D8%B9%D9%84%D9%8A%D9%87%20%D9%88%D8%B3%D9%84%D9%85%20.mp3"
+            data-random="true"
+        data-urls='[
+          "https://archive.org/download/mix-92m-25s/mix_92m25s%20%28%D8%A5%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%87%20%D9%8A%D8%B5%D9%84%D9%88%D9%86%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%29.mp3",
+          "https://archive.org/download/20260108_20260108_2016/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%89%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%B5%D9%84%20%D8%A7%D9%84%D9%84%D9%87%20%D8%B9%D9%84%D9%8A%D9%87%20%D9%88%D8%B3%D9%84%D9%85%20.mp3",
+          "https://archive.org/download/mix-84m-28s-joiner/mix_84m28s%20%D8%A5%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%87%20%D9%8A%D8%B5%D9%84%D9%88%D9%86%20%D8%B9%D9%84%D9%89%20%D8%A7%20%D9%84%D9%86%D8%A8%D9%8Ajoiner.mp3"
+        ]'
         onclick="if (event.ctrlKey || event.metaKey) { 
-                    window.open('https://archive.org/download/20260108_20260108_2016/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%89%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%B5%D9%84%20%D8%A7%D9%84%D9%84%D9%87%20%D8%B9%D9%84%D9%8A%D9%87%20%D8%B3%D9%84%D9%85%20.mp3', '_blank'); 
+                    window.open(JSON.parse(this.dataset.urls)[0], '_blank'); 
                  } else { 
                     toggleRadio(this); 
                  }">
+                 
     <span class="flag"></span> 
     <span class="station-text">إذاعة الصلاة على النبي ﷺ</span>
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
@@ -17016,6 +17022,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
                    event.stopPropagation(); 
                    return false;">&#x2764;</span>
 </button>
+
 
 
 <button class="button palestine" 
