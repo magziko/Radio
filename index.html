@@ -4825,8 +4825,8 @@ setInterval(() => {
         data-station="إذاعة القرآن الكريم الجزائر" 
         data-ar="إذاعة القرآن الكريم الجزائر" 
         data-en="Algeria Quran Radio"
-        data-url="https://webradio.tda.dz/Coran_64K.mp3"
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://webradio.tda.dz/Coran_64K.mp3', '_blank'); } else { toggleRadio(this); }">
+        data-url="https://radiocoran.ice.infomaniak.ch/coran.mp3"
+        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://radiocoran.ice.infomaniak.ch/coran.mp3', '_blank'); } else { toggleRadio(this); }">
     <span class="flag"></span> 
     <span class="station-text">إذاعة القرآن الكريم الجزائر</span>
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
@@ -4958,6 +4958,37 @@ setInterval(() => {
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
     <span class="favorite-icon"
           onclick="toggleFavorite(event, 'إذاعة القرآن الكريم من تونس');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine" 
+        data-category="Radio" 
+        data-station="إذاعة القرآن الكريم – قطر" 
+        data-ar="إذاعة القرآن الكريم – قطر" 
+        data-en="Qatar Quran Radio"
+        onclick="window.open('https://www.quranradio.qa/', '_blank');">
+    <span class="flag"></span>
+    <span class="station-text">إذاعة القرآن الكريم – قطر</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'إذاعة القرآن الكريم – قطر');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine" 
+        data-category="Radio" 
+        data-station="إذاعة القرآن الكريم 106.1 – البحرين" 
+        data-ar="إذاعة القرآن الكريم 106.1 – البحرين" 
+        data-en="Holy Quran 106.1 – Bahrain"
+        data-url="https://worldradiomap.com/bh/play/bahrain-quran"
+        onclick="window.open('https://worldradiomap.com/bh/play/bahrain-quran', '_blank');">
+    <span class="flag"></span>
+    <span class="station-text">إذاعة القرآن الكريم 106.1 – البحرين</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'إذاعة القرآن الكريم 106.1 – البحرين');
                    event.stopPropagation();
                    return false;">&#x2764;</span>
 </button>
@@ -5185,7 +5216,21 @@ setInterval(() => {
                    return false;">&#x2764;</span>
 </button>
 
-
+<button class="button palestine" 
+        data-category="Foreign" 
+        data-station="Radio Quran Islamic Bulletin" 
+        data-ar="راديو القرآن - النشرة الإسلامية" 
+        data-en="Radio Quran Islamic Bulletin"
+        data-url="https://islamicbulletin.site:8078/stream"
+        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://islamicbulletin.site:8078/stream', '_blank'); } else { toggleRadio(this); }">
+    <span class="flag"></span> 
+    <span class="station-text">Radio Quran Islamic Bulletin</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon" 
+          onclick="toggleFavorite(event, 'Radio Quran Islamic Bulletin'); 
+                   event.stopPropagation(); 
+                   return false;">&#x2764;</span>
+</button>
 
 <button class="button palestine" 
         data-category="Foreign" 
@@ -5304,6 +5349,22 @@ setInterval(() => {
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
     <span class="favorite-icon" 
           onclick="toggleFavorite(event, 'راديو الألوكة القرآن الكريم'); 
+                   event.stopPropagation(); 
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine" 
+        data-category="Quran" 
+        data-station="راديو القرآن المباشر" 
+        data-ar="راديو القرآن المباشر" 
+        data-en="Live Quran Radio" 
+        data-url="https://edge.mixlr.com/channel/rwumx"
+        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://edge.mixlr.com/channel/rwumx', '_blank'); } else { toggleRadio(this); }">
+    <span class="flag"></span> 
+    <span class="station-text">راديو القرآن المباشر</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon" 
+          onclick="toggleFavorite(event, 'راديو القرآن المباشر'); 
                    event.stopPropagation(); 
                    return false;">&#x2764;</span>
 </button>
