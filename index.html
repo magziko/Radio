@@ -19875,7 +19875,6 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
                    return false;">&#x2764;</span>
 </button>
 
-
 <button class="button palestine"
         data-category="More"
         data-station="كتاب القرآن"
@@ -21888,6 +21887,35 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
                  return false;">&#x2764;</span>
 </button>
 
+<button class="button palestine"
+    data-category="More"
+    data-station="القرآن الإلكتروني"
+    data-ar="القرآن الإلكتروني"
+    data-en="eQuran"
+    onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+        window.open('https://equran.me/', '_blank'); 
+    } else { 
+        openModal('https://equran.me/', 'القرآن الإلكتروني', false, true); 
+    }">
+
+  <span class="flag"></span>
+
+  <span class="station-text" style="font-size: 20px;">
+    📖 القرآن الإلكتروني
+    <a href="https://equran.me/"
+       target="_blank"
+       title="فتح القرآن الإلكتروني في تبويب جديد"
+       style="text-decoration: none; margin-right: 6px; font-size: 26px; padding: 4px;">📖</a>
+  </span>
+
+  <img src="https://cdn.instant.audio/images/equalizer.gif"
+       class="equalizer" style="display:none;" alt="Equalizer">
+
+  <span class="favorite-icon"
+        onclick="toggleFavorite(event, 'القرآن الإلكتروني');
+                 event.stopPropagation();
+                 return false;">&#x2764;</span>
+</button>
 
 <button class="button palestine"
     data-category="More"
@@ -21921,7 +21949,7 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
     data-ar="📡"
     data-en="📡"
     data-urls='[
-        {"title":"بث1","title_en":"Stream 1","url":"https://w.siiir.tv/today-matches/"},
+        {"title":"بث1","title_en":"Stream 1","url":"https://livehd77.pro/livve/"},
         {"title":"بث2","title_en":"Stream 2","url":"https://yallalive.sx/"},
         {"title":"بث3","title_en":"Stream 3","url":"https://www.hd7.live/"},
         {"title":"بث4","title_en":"Stream 4","url":"https://www.btolat.com/video"}
@@ -21933,7 +21961,7 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
    <!-- الرمز الأول -->
 <span class="station-text triple-icon"
       style="font-size: 28px; padding: 14px;"
-      data-target="https://w.siiir.tv/today-matches/"
+      data-target="https://livehd77.pro/livve/"
       data-title="بث1"
       data-title-en="Stream 1"
       onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">
@@ -21989,44 +22017,48 @@ data-ar="اسأل الدكتور ذاكر نايك الجزء الثاني - أ�
     data-category="More"
     data-station=""
     data-ar=""
-    data-en="🎮 / 🏞️ / 📡 / 📜 / 💬"
+    data-en="🏞️ / 📡 / ♟️ / 📜 / 💬"
     style="font-size: 16px; padding: 10px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+    
     <span class="flag"></span>
-    <!-- 🎮 يفتح بعد 3 ضغطات -->
-    <span class="station-text triple-icon"
-          style="font-size: 28px; padding: 12px;"
-          data-target="https://papergames.io/en/"
-          data-title="ألعاب"
-          onclick="handleTripleClick(this)">🎮</span>
-    <!-- 🏞️ يفتح المودال مباشرة -->
+    
+    <!-- 🏞️ -->
     <span class="station-text"
           style="font-size: 28px; padding: 12px;"
           onclick="openModal('https://www.pexels.com/search/videos/nature/', 'فيديوهات الطبيعة', false, true)">🏞️</span>
-    <!-- 📡 يستدعي checkPasswordForLink -->
+    
+    <!-- 📡 -->
     <span class="station-text"
           style="font-size: 28px; padding: 12px;"
           onclick="checkPasswordForLink('https://example.com/old-link', 'A@1')">📡</span>
-    <!-- 📜 يتطلب 3 ضغطات ثم يظهر شاشة الباسورد -->
+    
+    <!-- ♟️ في الموضع الثالث -->
+    <span class="station-text triple-icon"
+          style="font-size: 28px; padding: 12px;"
+          data-target="https://papergames.io/en/"
+          data-title="ألعاب ذكاء"
+          onclick="handleTripleClick(this)">♟️</span>
+    
+    <!-- 📜 -->
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
           data-target="https://docs.google.com/document/d/1DuuwsJ4mIs7PGvGRXNOYK9A9B6zAZHdZE2_5vMi8w5k/edit?usp=sharing"
           data-password="265"
           onclick="handleTripleClickWithPassword(this)">📜</span>
-    <!-- 💬 يفتح في تبويب جديدة -->
+    
+    <!-- 💬 -->
     <span class="station-text"
           style="font-size: 28px; padding: 12px;"
           onclick="window.open('https://character.ai/chat/V2ZqWlc0izqD852WEAE_csN-TffUnJF35VD_ttLIVyQ', '_blank')">💬</span>
+    
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
+    
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, '🎮 / 🏞️ / 📡 / 📜 / 💬');
+          onclick="toggleFavorite(event, '🏞️ / 📡 / ♟️ / 📜 / 💬');
                    event.stopPropagation();
                    return false;">❤️</span>
 </button>
-
-
-
-
 
 <button class="button palestine"
     data-category="More"
