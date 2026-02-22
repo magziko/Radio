@@ -23230,18 +23230,35 @@ function copyLink() {
     window.open('https://magziko.github.io/Radio/', '_blank');
 alert('لو لم يفتح المتصفح الخارجي، انسخ الرابط يدويًا: https://magziko.github.io/Radio/');}
 
- const toggle = document.getElementById('flagToggle');
-  const container = document.getElementById('flagContainer');
+const toggle = document.getElementById('flagToggle');
+const container = document.getElementById('flagContainer');
 
-  toggle.addEventListener('click', () => {
-    if (container.style.display === 'none' || container.style.display === '') {
-      container.style.display = 'block';
-      toggle.textContent = '🙈 Hide Visitors';
-    } else {
-      container.style.display = 'none';
-      toggle.textContent = '👁️ Show Visitors';
+let clickCount = 0;       // عداد الضغطات
+const requiredClicks = 3; // عدد الضغطات المطلوبة
+
+let longPressTimer;       // للضغط الطويل على الموبايل
+
+// للتبديل بعد عدد معين من الضغطات
+toggle.addEventListener('click', () => {
+    clickCount++;
+    if (clickCount >= requiredClicks) {
+        container.style.display = container.style.display === 'none' ? 'block' : 'none';
+        toggle.textContent = container.style.display === 'none' ? '👁️ Show Visitors' : '🙈 Hide Visitors';
+        clickCount = 0; // إعادة العد بعد النجاح
     }
-  });
+});
+
+// للضغط الطويل على الموبايل (2 ثانية)
+toggle.addEventListener('touchstart', () => {
+    longPressTimer = setTimeout(() => {
+        container.style.display = container.style.display === 'none' ? 'block' : 'none';
+        toggle.textContent = container.style.display === 'none' ? '👁️ Show Visitors' : '🙈 Hide Visitors';
+    }, 2000); 
+});
+
+toggle.addEventListener('touchend', () => {
+    clearTimeout(longPressTimer); // لو رفع الإصبع قبل الوقت المطلوب، لا يحدث شيء
+});
 
 let tripleClickTracker = {
     count: 0,
