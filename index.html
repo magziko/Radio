@@ -1102,7 +1102,14 @@ body.dark-mode .palestine {
     /* إزالة التشويش */
     text-shadow: none !important;
 }
-
+.search-wrapper {
+    display: flex;
+    justify-content: center; /* يوسّط محتوى الحاوية أفقياً */
+    margin-top: 20px;
+}
+.search-wrapper .gcse-search {
+    display: inline-block; /* لجعل العنصر قابلاً للتوسيط */
+}
 
         
     </style>
@@ -4652,10 +4659,10 @@ setInterval(() => {
 
   </div>
 
+<div class="search-wrapper">
+    <script async src="https://cse.google.com/cse.js?cx=e3e1833506ae646ca"></script>
+    <div class="gcse-search"></div>
 </div>
-<script async src="https://cse.google.com/cse.js?cx=e3e1833506ae646ca">
-</script>
-<div class="gcse-search"></div>
 
 <!-- Modal Structure -->
 <div id="modal" class="modal">
