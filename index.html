@@ -5059,14 +5059,17 @@ setInterval(() => {
                    event.stopPropagation();
                    return false;">&#x2764;</span>
 </button>
-
 <button class="button palestine" 
         data-category="Radio" 
         data-station="إذاعة القرآن الكريم 106.1 – البحرين" 
         data-ar="إذاعة القرآن الكريم 106.1 – البحرين" 
         data-en="Holy Quran 106.1 – Bahrain"
         data-url="https://worldradiomap.com/bh/play/bahrain-quran"
-        onclick="window.open('https://worldradiomap.com/bh/play/bahrain-quran', '_blank');">
+        onclick="if (event.shiftKey || event.ctrlKey || event.metaKey) { 
+                    window.open('https://worldradiomap.com/bh/play/bahrain-quran', '_blank'); 
+                 } else { 
+                    openModal('https://worldradiomap.com/bh/play/bahrain-quran', 'إذاعة القرآن الكريم 106.1 – البحرين'); 
+                 }">
     <span class="flag"></span>
     <span class="station-text">إذاعة القرآن الكريم 106.1 – البحرين</span>
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
