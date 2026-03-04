@@ -1320,8 +1320,18 @@ body.dark-mode .palestine {
 
 document.addEventListener("keydown", function (e) {
 
-    // منع التكرار لو الزر متضغط باستمرار
+    // تجاهل التكرار
     if (e.repeat) return;
+
+    // لو المستخدم بيكتب داخل input أو textarea أو عنصر قابل للتحرير
+    const active = document.activeElement;
+    if (
+        active.tagName === "INPUT" ||
+        active.tagName === "TEXTAREA" ||
+        active.isContentEditable
+    ) {
+        return; // لا تشغل الراديو
+    }
 
     // تشغيل / إيقاف بالمسطرة
     if (e.code === "Space") {
@@ -1341,6 +1351,7 @@ document.addEventListener("keydown", function (e) {
         }
     }
 });
+
 function confirmReload() {
     // إيقاف الراديو لو شغال
     if (typeof mainAudio !== "undefined" && !mainAudio.paused) {
