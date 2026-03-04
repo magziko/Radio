@@ -730,7 +730,7 @@ audio {
     background: #fff;
     width: 95%;
     max-width: 1300px;   /* كمبيوتر كبير */
-    height: 110vh;
+    height: 105vh;
 margin: 2.5vh auto;
     border-radius: 12px;
     display: flex;
@@ -5388,7 +5388,21 @@ setInterval(() => {
                    return false;">&#x2764;</span>
 </button>
 
-
+<button class="button palestine" 
+        data-category="Quran" 
+        data-station="eQuran مباشر" 
+        data-ar="eQuran مباشر" 
+        data-en="eQuran Live"
+        data-url="https://radio.equran.me/listen/quran_live_me/radio.mp3"
+        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://radio.equran.me/listen/quran_live_me/radio.mp3', '_blank'); } else { toggleRadio(this); }">
+    <span class="flag"></span> 
+    <span class="station-text">eQuran مباشر</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+    <span class="favorite-icon" 
+          onclick="toggleFavorite(event, 'eQuran مباشر'); 
+                   event.stopPropagation(); 
+                   return false;">&#x2764;</span>
+</button>
 
 <button class="button palestine" 
         data-category="Quran" 
