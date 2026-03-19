@@ -23927,6 +23927,28 @@ function handleTripleClickWithPassword(element) {
 
 document.addEventListener("keydown", function (e) {
 
+    const active = document.activeElement;
+
+    // أسماء الحقول الخاصة
+    const excludedInputs = ["sleepTimer", "autoSwitchTimer", "searchInput"];
+
+    // 1️⃣ لو داخل input أو textarea أو عنصر قابل للكتابة (يشمل Google search)
+    if (
+        active &&
+        (
+            active.tagName === "INPUT" ||
+            active.tagName === "TEXTAREA" ||
+            active.isContentEditable
+        )
+    ) {
+        return;
+    }
+
+    // 2️⃣ أو لو داخل input معين من اللي حددتهم
+    if (active && excludedInputs.includes(active.id)) {
+        return;
+    }
+
     // منع التكرار
     if (e.repeat) return;
 
@@ -23944,7 +23966,7 @@ document.addEventListener("keydown", function (e) {
         "Numpad4": "راديو الشيخ علي عبدالله جابر",
 
         "Digit5": "(حفلات) الشيخ محمد صديق المنشاوي",
-         "Numpad5": "(حفلات) الشيخ محمد صديق المنشاوي",
+        "Numpad5": "(حفلات) الشيخ محمد صديق المنشاوي",
          
         "Digit6": "الشيخ ناصر القطامي",
         "Numpad6": "الشيخ ناصر القطامي",
@@ -23952,10 +23974,10 @@ document.addEventListener("keydown", function (e) {
         "Digit7": "الشيخ محمد عبادة",
         "Numpad7": "الشيخ محمد عبادة",
 
-       "Digit8": "الشيخ إسلام صبحى",
-       "Numpad8": "الشيخ إسلام صبحى",
+        "Digit8": "الشيخ إسلام صبحى",
+        "Numpad8": "الشيخ إسلام صبحى",
 
-       "Digit9": "إذاعة الصلاة على النبي ﷺ",
+        "Digit9": "إذاعة الصلاة على النبي ﷺ",
         "Numpad9": "إذاعة الصلاة على النبي ﷺ",
 
         "Digit0": "آيات",
@@ -23972,7 +23994,7 @@ document.addEventListener("keydown", function (e) {
     );
 
     if (btn) {
-        btn.click(); // نفس ضغط الماوس بالضبط
+        btn.click();
     }
 });
 
