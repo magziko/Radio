@@ -1018,7 +1018,7 @@ border-radius: 12px;
     font-size: 16px;
     color: gray;
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: 1px;
     float: right;
   }
   .favorite-icon.favorited { 
@@ -1178,6 +1178,46 @@ body.dark-mode .palestine {
     display: inline-block; /* لجعل العنصر قابلاً للتوسيط */
 }
 
+
+.tasbih-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between; /* يبعد الرقم وزر التصفير لأقصى طرفين */
+    
+    width: 60px;
+    height: 35px;
+    
+    background: #ffffff;
+    color: #000000;
+    
+    border-radius: 8px;
+    padding: 0 10px;                /* مسافة بسيطة حول المحتوى */
+    
+    font-weight: bold;
+    font-size: 14px;
+    
+    cursor: pointer;
+    user-select: none;
+    
+    border: 1px solid #ccc;
+    
+ margin-left: 10px;   /* المسافة من النص على اليسار */
+    margin-right: 1px;   /* المسافة من الطرف الأيمن */}
+
+.tasbih-box:active {
+    background: #f1f1f1;
+}
+
+.reset-btn {
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0.6;
+    margin-left: 5px;
+}
+
+.reset-btn:hover {
+    opacity: 1;
+}
         
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -17801,6 +17841,12 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     "https://archive.org/download/20250718_20250718_1227/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20%EF%B7%BA%20%D8%A8%D8%B5%D9%88%D8%AA%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D8%B3%D9%84%D8%A7%D9%85%20%D8%B5%D8%A8%D8%AD%D9%8A.mp3",
     "https://archive.org/download/reel-audio-95036/ReelAudio-95036.mp3",
     "https://archive.org/download/f-1_20260217/F0.mp3",
+     "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20-%20%D9%85%D9%83%D8%B1%D8%B1%D8%A9%20100%20%D9%85%D8%B1%D8%A9%20.%20Salawat%20-%20repeated%20100%20times.mp3",
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20%D9%85%D8%AD%D9%85%D8%AF%20%D9%84%D9%84%D8%B1%D8%B3%D8%A7%D8%A6%D9%84.mp3",
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20%20%D9%85%D9%86%D8%B5%D9%88%D8%B1%20%D8%A7%D9%84%D8%B3%D8%A7%D9%84%D9%85%D9%8A%20..mp3",
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D9%86%D8%BA%D9%85%D8%A9%20%20%D8%B5%D9%84%D9%8A%20%D8%B9%D9%84%D9%89%20%D9%85%D8%AD%D9%85%D8%AF%20%EF%B7%BA.mp3",
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D9%86%D8%BA%D9%85%D8%A9%20%D8%A7%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9%202022%20%28%20%D8%B5%D9%84%D9%89%20%D8%B9%D9%84%D9%89%20%D9%85%D8%AD%D9%85%D8%AF%20%29%20%D9%86%D8%BA%D9%85%D8%A7%D8%AA%20%D8%AC%D9%88%D8%A7%D9%84%20%23%D9%86%D8%BA%D9%85%D8%A7%D8%AA%20%23%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9.mp3",
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D9%86%D8%BA%D9%85%D8%A9%20%D8%B1%D8%B3%D8%A7%D8%A6%D9%84%20%D8%B5%D9%84%20%D8%B9%D9%84%D9%89%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%A8%D8%A3%D8%B5%D9%88%D8%A7%D8%AA%20%D8%A2%D9%84%D8%A7%D8%AA%20%D8%A7%D9%84%D9%86%D8%B7%D9%82.mp3",
     ",https://archive.org/download/1_20260305_20260305_1506/1.mp3",
     "https://archive.org/download/20260102_20260102_0931/%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%87%20%D8%B1%D8%A7%D9%85%D9%89.mp3",
     "https://archive.org/download/20260113_20260113_1153/%D8%A5%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%87%20%D9%8A%D8%B5%D9%84%D9%88%D9%86%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%85%D8%AD%D9%85%D8%AF%20%D9%85%D8%AD%D9%85%D9%88%D8%AF%20%D8%A7%D9%84%D8%B7%D8%A8%D9%84%D8%A7%D9%88%D9%8A.mp3",
@@ -18098,6 +18144,84 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
           onclick="toggleFavorite(event, 'دعاء لأهل غزة ❤️ (فلسطين)'); event.stopPropagation(); return false;">&#x2764;</span>
 </button>
 
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد"
+    data-ar="اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد"
+    data-en="Allahumma salli wa sallim wa barik ala Nabiyyina Muhammad"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20-%20%D9%85%D9%83%D8%B1%D8%B1%D8%A9%20100%20%D9%85%D8%B1%D8%A9%20.%20Salawat%20-%20repeated%20100%20times.mp3",
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20%D9%85%D8%AD%D9%85%D8%AF%20%D9%84%D9%84%D8%B1%D8%B3%D8%A7%D8%A6%D9%84.mp3",
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20%20%D9%85%D9%86%D8%B5%D9%88%D8%B1%20%D8%A7%D9%84%D8%B3%D8%A7%D9%84%D9%85%D9%8A%20..mp3",
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D9%86%D8%BA%D9%85%D8%A9%20%20%D8%B5%D9%84%D9%8A%20%D8%B9%D9%84%D9%89%20%D9%85%D8%AD%D9%85%D8%AF%20%EF%B7%BA.mp3",
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D9%86%D8%BA%D9%85%D8%A9%20%D8%A7%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9%202022%20%28%20%D8%B5%D9%84%D9%89%20%D8%B9%D9%84%D9%89%20%D9%85%D8%AD%D9%85%D8%AF%20%29%20%D9%86%D8%BA%D9%85%D8%A7%D8%AA%20%D8%AC%D9%88%D8%A7%D9%84%20%23%D9%86%D8%BA%D9%85%D8%A7%D8%AA%20%23%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9.mp3",
+        "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D9%86%D8%BA%D9%85%D8%A9%20%D8%B1%D8%B3%D8%A7%D8%A6%D9%84%20%D8%B5%D9%84%20%D8%B9%D9%84%D9%89%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%A8%D8%A3%D8%B5%D9%88%D8%A7%D8%AA%20%D8%A2%D9%84%D8%A7%D8%AA%20%D8%A7%D9%84%D9%86%D8%B7%D9%82.mp3"
+    ]'
+    data-current-index="0"
+    title="اضغط مرتين للتبديل ⏭️ — اضغط مع Shift للرجوع ⏮️"
+    onclick="toggleRadio(this, event)">
+    
+    <span class="flag"></span>
+
+    <!-- ✅ المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <!-- زر التصفير -->
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- اسم الدعاء مع Tooltip -->
+    <span class="station-text" 
+          title="من صلى على حين يصبح وحين يمسى ادركته شفاعتى يوم القيامة.">
+        اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+    
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد'); event.stopPropagation(); return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="سُبْحانَ اللهِ وَبِحَمْدِهِ"
+    data-ar="سُبْحانَ اللهِ وَبِحَمْدِهِ"
+    data-en="SubhanAllahi wa BiHamdihi"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/100-hd_202604/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20100%20%D9%85%D8%B1%D8%A9%20%20HD%20%D8%A8%D8%B5%D9%88%D8%AA%20%D9%88%20%D8%B5%D9%88%D8%B1%D8%A9%20%D9%88%20%D8%B9%D8%AF%D8%AF.mp3",
+        "https://archive.org/download/100-hd_202604/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20%D9%85%D9%83%D8%B1%D8%B1%D8%A9%20100%20%D9%85%D8%B1%D8%A9..%20%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%20%D8%B1%D9%82%D9%85%D9%8A.mp3"
+    ]'
+    data-current-index="0"
+    title="اضغط مرتين للتبديل ⏭️ — اضغط مع Shift للرجوع ⏮️"
+    onclick="toggleRadio(this, event)">
+    
+    <span class="flag"></span>
+
+    <!-- ✅ المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <!-- زر التصفير -->
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- اسم الدعاء مع Tooltip -->
+    <span class="station-text" 
+          title="من قال : سبحان اللهِ وبحمدِه مائةَ مرةٍ غُفرَتْ له ذنوبُه وإنْ كانتْ مثلَ زبَدِ البحرِ
+لَمْ يَأْتِ أَحَدٌ يَوْمَ الْقِيَامَةِ بِأَفْضَلَ مِمَّا جَاءَ بِهِ إِلَّا أَحَدٌ قَالَ مِثْلَ مَا قَالَ أَوْ زَادَ عَلَيْهِ.">
+        سُبْحانَ اللهِ وَبِحَمْدِهِ
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+    
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'سُبْحانَ اللهِ وَبِحَمْدِهِ'); event.stopPropagation(); return false;">&#x2764;</span>
+</button>
 
 <button class="button palestine"
     data-category="Adhkar"
@@ -18124,6 +18248,13 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     onclick="toggleRadio(this, event)">
     
     <span class="flag"></span>
+    
+    <!-- ✅ المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+           <!-- زر التصفير -->
+    <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
     
     <span class="station-text">
         دعاء ليلة القدر
@@ -18154,12 +18285,23 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     
     <span class="flag"></span>
     
-    <span class="station-text">
-        دعاء يوم عرفة
-        <span class="multi-icon" 
-              title="🔁 يحتوي على عدة صيغ وأصوات — اضغط مرتين ⏭️ أو مع Shift ⏮️">🔁</span>
-    </span>
+ <!-- ✅ المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+           <!-- زر التصفير -->
+    <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+     
     
+   <span class="station-text" 
+      title="لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ.
+من قالها 100 مرة في يوم كانت له عدل عشر رقاب، وكتبت له مئة حسنة، ومحيت عنه مئة سيئة، وكانت له حرزا من الشيطان في يومه ذلك حتى يمسي ولم يأتي أحد بأفضل مما جاء به إلا احد عمل أكثر من ذلك">
+    دعاء يوم عرفة
+    <span class="multi-icon">🔁</span>
+</span>
+
+   
+
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
@@ -24045,6 +24187,52 @@ document.addEventListener("fullscreenchange", function () {
     if (!document.fullscreenElement) {
         fullscreenBtn.innerHTML = "⛶";
     }
+});
+
+// زيادة العداد
+function incrementTasbih(event) {
+    event.stopPropagation();
+
+    const box = event.currentTarget;
+    const button = box.closest("button");
+    const key = "tasbih_" + button.getAttribute("data-station");
+
+    const countEl = box.querySelector(".tasbih-count");
+
+    let count = localStorage.getItem(key);
+    count = count ? parseInt(count) : 0;
+
+    count++;
+
+    localStorage.setItem(key, count);
+    countEl.innerText = count;
+}
+
+
+// تصفير العداد
+function resetTasbih(event) {
+    event.stopPropagation();
+
+    const box = event.currentTarget.closest(".tasbih-box");
+    const button = box.closest("button");
+    const key = "tasbih_" + button.getAttribute("data-station");
+
+    localStorage.setItem(key, 0);
+    box.querySelector(".tasbih-count").innerText = 0;
+}
+
+
+// تحميل القيم
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".tasbih-box").forEach(box => {
+        const button = box.closest("button");
+        const key = "tasbih_" + button.getAttribute("data-station");
+
+        let count = localStorage.getItem(key);
+        count = count ? parseInt(count) : 0;
+
+        box.querySelector(".tasbih-count").innerText = count;
+    });
 });
 
 </script>
