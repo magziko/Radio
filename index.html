@@ -1179,30 +1179,31 @@ body.dark-mode .palestine {
 }
 
 
+/* المسبحة */
 .tasbih-box {
-    display: inline-flex;
+    position: absolute;
+    right: 45px; /* قبل القلب مباشرة (عدّل الرقم حسب مكان القلب) */
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: flex;
     align-items: center;
-    justify-content: space-between; /* يبعد الرقم وزر التصفير لأقصى طرفين */
-    
+    justify-content: space-between;
+
     width: 60px;
     height: 35px;
-    
+
     background: #ffffff;
     color: #000000;
-    
+
     border-radius: 8px;
-    padding: 0 10px;                /* مسافة بسيطة حول المحتوى */
-    
+    padding: 0 10px;
+
     font-weight: bold;
     font-size: 14px;
-    
-    cursor: pointer;
-    user-select: none;
-    
+
     border: 1px solid #ccc;
-    
- margin-left: 10px;   /* المسافة من النص على اليسار */
-    margin-right: 1px;   /* المسافة من الطرف الأيمن */}
+}
 
 .tasbih-box:active {
     background: #f1f1f1;
@@ -18146,6 +18147,82 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
     data-category="Adhkar"
+    data-station="لا إله إلا الله"
+    data-ar="لا إله إلا الله"
+    data-en="La ilaha illallah"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/adhkar_202604/la_ilaha_illallah.mp3"
+    ]'
+    data-current-index="0"
+    title="قال النبي ﷺ: «أَفْضَلُ الذِّكْرِ: لا إِلَهَ إِلا اللَّهُ، وَأَفْضَلُ الدُّعَاءِ: الْحَمْدُ لِلَّهِ» (رواه الترمذي وحسنه الألباني).">
+
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip كامل -->
+    <span class="station-text" 
+          title="قال النبي ﷺ: «أَفْضَلُ الذِّكْرِ: لا إِلَهَ إِلا اللَّهُ، وَأَفْضَلُ الدُّعَاءِ: الْحَمْدُ لِلَّهِ» (رواه الترمذي وحسنه الألباني).">
+        
+        لا إله إلا الله
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'لا إله إلا الله'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="لا حول ولا قوة إلا بالله"
+    data-ar="لا حول ولا قوة إلا بالله"
+    data-en="La hawla wa la quwwata illa billah"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/adhkar_202604/la_hawla_wa_la_quwwata.mp3"
+    ]'
+    data-current-index="0"
+    title="كنزٍ من كنوزِ الجنةِ">
+
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip كامل -->
+    <span class="station-text" 
+          title="كنزٍ من كنوزِ الجنةِ">
+        
+        لا حول ولا قوة إلا بالله
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'لا حول ولا قوة إلا بالله'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
     data-station="اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد"
     data-ar="اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد"
     data-en="Allahumma salli wa sallim wa barik ala Nabiyyina Muhammad"
@@ -18171,12 +18248,12 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
         <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
     </div>
 
-    <!-- اسم الدعاء مع Tooltip -->
-    <span class="station-text" 
-          title="من صلى على حين يصبح وحين يمسى ادركته شفاعتى يوم القيامة.">
-        اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد
-        <span class="multi-icon">🔁</span>
-    </span>
+<!-- اسم الدعاء مع Tooltip كامل -->
+<span class="station-text" 
+      title="اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد. فضل هذا الذكر: من صلى على النبي ﷺ حين يصبح وحين يمسى أدركته شفاعته يوم القيامة. جاء في الحديث: «من صلى عليَّ صلاةً واحدةً صلى الله عليه بها عشرًا» (رواه النسائي وحسنه الألباني).">
+    اللَّهُمَّ صَلِّ وَسَلِّمْ على نَبِيِّنَا مُحمَّد
+    <span class="multi-icon">🔁</span>
+</span>
 
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
@@ -18225,6 +18302,273 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
     data-category="Adhkar"
+    data-station="سُبْحانَ اللهِ الْعَظِيمِ وَبِحَمْدِهِ"
+    data-ar="سُبْحانَ اللهِ الْعَظِيمِ وَبِحَمْدِهِ"
+    data-en="SubhanAllahil Azeem wa BiHamdihi"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/100-hd_202604/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20100%20%D9%85%D8%B1%D8%A9%20%20HD%20%D8%A8%D8%B5%D9%88%D8%AA%20%D9%88%20%D8%B5%D9%88%D8%B1%D8%A9%20%D9%88%20%D8%B9%D8%AF%D8%AF.mp3",
+        "https://archive.org/download/100-hd_202604/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20%D9%85%D9%83%D8%B1%D8%B1%D8%A9%20100%20%D9%85%D8%B1%D8%A9..%20%D8%AA%D8%B9%D8%A7%D8%AF%D8%A7%D8%AF%20%D8%B1%D9%82%D9%85%D9%8A.mp3"
+    ]'
+    data-current-index="0"
+    title="اضغط مرتين للتبديل ⏭️ — اضغط مع Shift للرجوع ⏮️"
+    onclick="toggleRadio(this, event)">
+    
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- النص + الفضل -->
+    <span class="station-text" 
+          title="من قال: سبحان الله العظيم وبحمده، غُرِسَت له نخلة في الجنة.">
+        
+        سُبْحانَ اللهِ الْعَظِيمِ وَبِحَمْدِهِ
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+    
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'سُبْحانَ اللهِ الْعَظِيمِ وَبِحَمْدِهِ'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="سُبْحانَ اللهِ وَبِحَمْدِهِ سُبْحانَ اللهِ الْعَظِيمِ"
+    data-ar="سُبْحانَ اللهِ وَبِحَمْدِهِ سُبْحانَ اللهِ الْعَظِيمِ"
+    data-en="SubhanAllahi wa BiHamdihi, SubhanAllahil Azeem"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/100-hd_202604/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20100%20%D9%85%D8%B1%D8%A9%20%20HD%20%D8%A8%D8%B5%D9%88%D8%AA%20%D9%88%20%D8%B5%D9%88%D8%B1%D8%A9%20%D9%88%20%D8%B9%D8%AF%D8%AF.mp3",
+        "https://archive.org/download/100-hd_202604/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20%D9%85%D9%83%D8%B1%D8%B1%D8%A9%20100%20%D9%85%D8%B1%D8%A9..%20%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%20%D8%B1%D9%82%D9%85%D9%8A.mp3"
+    ]'
+    data-current-index="0"
+    title="اضغط مرتين للتبديل ⏭️ — اضغط مع Shift للرجوع ⏮️"
+    onclick="toggleRadio(this, event)">
+    
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- النص + الفضل -->
+    <span class="station-text" 
+          title="كلمتان خفيفتان على اللسان، ثقيلتان في الميزان، حبيبتان إلى الرحمن: سبحان الله وبحمده، سبحان الله العظيم.">
+        
+        سُبْحانَ اللهِ وَبِحَمْدِهِ سُبْحانَ اللهِ الْعَظِيمِ
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+    
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'سُبْحانَ اللهِ وَبِحَمْدِهِ سُبْحانَ اللهِ الْعَظِيمِ'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="سُـبْحانَ اللهِ، والحَمْـدُ لله، واللهُ أكْـبَر"
+    data-ar="سُـبْحانَ اللهِ، والحَمْـدُ لله، واللهُ أكْـبَر"
+    data-en="SubhanAllah, Alhamdulillah, Allahu Akbar"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/adhkar_202604/subhanallah_alhamdulillah_allahuakbar.mp3"
+    ]'
+    data-current-index="0">
+
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم كامل بدون Tooltip -->
+    <span class="station-text">
+        سُـبْحانَ اللهِ، والحَمْـدُ لله، واللهُ أكْـبَر
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'سُـبْحانَ اللهِ، والحَمْـدُ لله، واللهُ أكْـبَر'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="رَضيـتُ بِاللهِ رَبَّـاً"
+    data-ar="رَضيـتُ بِاللهِ رَبَّـاً"
+    data-en="Radheetu billahi Rabban"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/adhkar_202604/radheetu_billah.mp3"
+    ]'
+    data-current-index="0"
+    title="رَضيـتُ بِاللهِ رَبَّـاً وَبِالإسْلامِ ديـناً وَبِمُحَـمَّدٍ صلى الله عليه وسلم نَبِيّـاً. من قالها حين يصبح وحين يمسى كان حقا على الله أن يرضيه يوم القيامة."
+    onclick="toggleRadio(this, event)">
+    
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip كامل -->
+    <span class="station-text" 
+          title="رَضيـتُ بِاللهِ رَبَّـاً وَبِالإسْلامِ ديـناً وَبِمُحَـمَّدٍ صلى الله عليه وسلم نَبِيّـاً. من قالها حين يصبح وحين يمسى كان حقا على الله أن يرضيه يوم القيامة.">
+        
+        رَضيـتُ بِاللهِ رَبَّـاً
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+    
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'رَضيـتُ بِاللهِ رَبَّـاً'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك"
+    data-ar="اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك"
+    data-en="Allahumma Inni Asbahtu UshhiduKa"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/adhkar_202604/ashhadu_annaka_allah.mp3"
+    ]'
+    data-current-index="0"
+    title="اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك ، وَأُشْـهِدُ حَمَلَـةَ عَـرْشِـك ، وَمَلَائِكَتَكَ ، وَجَمـيعَ خَلْـقِك ، أَنَّـكَ أَنْـتَ اللهُ لا إلهَ إلاّ أَنْـتَ وَحْـدَكَ لا شَريكَ لَـك ، وَأَنَّ ُ مُحَمّـداً عَبْـدُكَ وَرَسـولُـك. من قالها أعتقه الله من النار.">
+
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip كامل -->
+    <span class="station-text" 
+          title="اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك ، وَأُشْـهِدُ حَمَلَـةَ عَـرْشِـك ، وَمَلَائِكَتَكَ ، وَجَمـيعَ خَلْـقِك ، أَنَّـكَ أَنْـتَ اللهُ لا إلهَ إلاّ أَنْـتَ وَحْـدَكَ لا شَريكَ لَـك ، وَأَنَّ ُ مُحَمّـداً عَبْـدُكَ وَرَسـولُـك. من قالها أعتقه الله من النار.">
+        
+        اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+    
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ"
+    data-ar="حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ"
+    data-en="Hasbiyallahu la ilaha illa Huwa"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/adhkar_202604/hasbiyallahu.mp3"
+    ]'
+    data-current-index="0"
+    title="حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم. من قالها كفاه الله ما أهمه من أمر الدنيا والأخرة.">
+
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip كامل -->
+    <span class="station-text" 
+          title="حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم. من قالها كفاه الله ما أهمه من أمر الدنيا والأخرة.">
+        
+        حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ"
+    data-ar="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ"
+    data-en="Astaghfirullah wa Atubu Ilayh"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/adhkar_202604/astaghfirullah.mp3"
+    ]'
+    data-current-index="0"
+    title="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ. مائة حسنة، ومُحيت عنه مائة سيئة، وكانت له حرزاً من الشيطان حتى يمسى.">
+
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip كامل -->
+    <span class="station-text" 
+          title="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ. مائة حسنة، ومُحيت عنه مائة سيئة، وكانت له حرزاً من الشيطان حتى يمسى.">
+        
+        أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
     data-station="دعاء ليلة القدر"
     data-ar="دعاء ليلة القدر"
     data-en="Supplication of the Night of Qadr"
@@ -18256,11 +18600,16 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
     </div>
     
-    <span class="station-text">
-        دعاء ليلة القدر
-        <span class="multi-icon" 
-              title="🔁 يحتوي على عدة صيغ وأصوات — اضغط مرتين ⏭️ أو مع Shift ⏮️">🔁</span>
-    </span>
+   <span class="station-text"
+      title="اللهم إنك عفو تحب العفو فاعفُ عني.
+ليلة القدر خير من ألف شهر، من قامها إيمانًا واحتسابًا غُفر له ما تقدم من ذنبه.">
+
+    دعاء ليلة القدر
+
+    <span class="multi-icon" 
+          title="🔁 يحتوي على عدة صيغ وأصوات — اضغط مرتين ⏭️ أو مع Shift ⏮️">🔁</span>
+
+</span>
     
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
@@ -18293,10 +18642,13 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     </div>
      
     
-   <span class="station-text" 
+<span class="station-text" 
       title="لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ.
-من قالها 100 مرة في يوم كانت له عدل عشر رقاب، وكتبت له مئة حسنة، ومحيت عنه مئة سيئة، وكانت له حرزا من الشيطان في يومه ذلك حتى يمسي ولم يأتي أحد بأفضل مما جاء به إلا احد عمل أكثر من ذلك">
+من قالها 100 مرة في يوم كانت له عدل عشر رقاب، وكتبت له مئة حسنة، ومحيت عنه مئة سيئة، وكانت له حرزًا من الشيطان يومه ذلك حتى يمسي.
+خير الدعاء دعاء يوم عرفة، وخير ما قلت أنا والنبيون من قبلي: لا إله إلا الله وحده لا شريك له.">
+
     دعاء يوم عرفة
+
     <span class="multi-icon">🔁</span>
 </span>
 
