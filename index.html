@@ -1219,6 +1219,16 @@ body.dark-mode .palestine {
 .reset-btn:hover {
     opacity: 1;
 }
+
+.multi-icon {
+  float: left;
+  margin-left: 20px; /* المسافة من الحافة اليسرى */
+}
+        
+  .read-icon {
+  float: left;
+  margin-left: 25px; /* مسافة بين هذه الأيقونة والأيقونة السابقة */
+}      
         
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -5753,7 +5763,6 @@ setInterval(() => {
                     toggleRadio(this); 
                  }">
                  
-    <span class="flag"></span> 
     <span class="station-text">إِنَّ اللَّهَ وَمَلَائِكَتَهُ يُصَلُّونَ عَلَى النَّبِيِّ ﷺ</span>
                 <span class="multi-icon" title="🔁 يحتوي على عدة تلاوات — اضغط مرتين ⏭️ أو مع Shift ⏮️">🔁</span>
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
@@ -18223,6 +18232,44 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
     data-category="Adhkar"
+    data-station="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ"
+    data-ar="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ"
+    data-en="Astaghfirullah wa Atubu Ilayh"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/adhkar_202604/astaghfirullah.mp3"
+    ]'
+    data-current-index="0"
+    title="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ. مائة حسنة، ومُحيت عنه مائة سيئة، وكانت له حرزاً من الشيطان حتى يمسى.">
+
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip كامل -->
+    <span class="station-text" 
+          title="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ. مائة حسنة، ومُحيت عنه مائة سيئة، وكانت له حرزاً من الشيطان حتى يمسى.">
+        
+        أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
     data-station="اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد"
     data-ar="اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد"
     data-en="Allahumma salli wa sallim wa barik ala Nabiyyina Muhammad"
@@ -18529,43 +18576,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     </span>
 </button>
 
-<button class="button palestine"
-    data-category="Adhkar"
-    data-station="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ"
-    data-ar="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ"
-    data-en="Astaghfirullah wa Atubu Ilayh"
-    data-random="true"
-    data-urls='[
-        "https://archive.org/download/adhkar_202604/astaghfirullah.mp3"
-    ]'
-    data-current-index="0"
-    title="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ. مائة حسنة، ومُحيت عنه مائة سيئة، وكانت له حرزاً من الشيطان حتى يمسى.">
 
-    <span class="flag"></span>
-
-    <!-- المسبحة -->
-    <div class="tasbih-box" onclick="incrementTasbih(event)">
-        <span class="tasbih-count">0</span>
-        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
-    </div>
-
-    <!-- الاسم المختصر + Tooltip كامل -->
-    <span class="station-text" 
-          title="أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ. مائة حسنة، ومُحيت عنه مائة سيئة، وكانت له حرزاً من الشيطان حتى يمسى.">
-        
-        أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ
-        
-        <span class="multi-icon">🔁</span>
-    </span>
-
-    <img src="https://cdn.instant.audio/images/equalizer.gif" 
-         class="equalizer" style="display:none;" alt="Equalizer">
-
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
-</button>
 
 <button class="button palestine"
     data-category="Adhkar"
