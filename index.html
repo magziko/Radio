@@ -1257,6 +1257,19 @@ body.dark-mode .palestine {
   margin-left: 25px; /* مسافة بين هذه الأيقونة والأيقونة السابقة */
 }      
         
+        
+   .custom-tooltip {
+  position: fixed;
+  background: #000;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  opacity: 0;
+  transition: 0.2s;
+  z-index: 9999;
+  pointer-events: none;
+}     
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     
@@ -24623,6 +24636,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
         box.querySelector(".tasbih-count").innerText = count;
     });
+});
+
+document.addEventListener("click", function(e) {
+  const el = e.target.closest("[title]");
+  if (!el) return;
+
+  const text = el.getAttribute("title");
+  if (!text) return;
+
+  // حذف القديم
+  const old = document.querySelector(".custom-tooltip");
+  if (old) old.remove();
+
+  // إنشاء العنصر
+  const tooltip = document.createElement("div");
+  tooltip.className = "custom-tooltip";
+  tooltip.innerText = text;
+
+  document.body.appendChild(tooltip);
+
+  // تحديد مكانه فوق الزر
+  const rect = el.getBoundingClientRect();
+  tooltip.style.top = (rect.top - 40) + "px";
+  tooltip.style.left = (rect.left + rect.width / 2) + "px";
+  tooltip.style.transform = "translateX(-50%)";
+
+  // إظهار
+  setTimeout(() => tooltip.style.opacity = "1", 10);
+
+  // إخفاء
+  setTimeout(() => {
+    tooltip.style.opacity = "0";
+    setTimeout(() => tooltip.remove(), 300);
+  }, 1500);
 });
 
 </script>
