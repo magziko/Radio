@@ -24645,52 +24645,6 @@ document.addEventListener("fullscreenchange", function () {
     }
 });
 
-// زيادة العداد
-function incrementTasbih(event) {
-    event.stopPropagation();
-
-    const box = event.currentTarget;
-    const button = box.closest("button");
-    const key = "tasbih_" + button.getAttribute("data-station");
-
-    const countEl = box.querySelector(".tasbih-count");
-
-    let count = localStorage.getItem(key);
-    count = count ? parseInt(count) : 0;
-
-    count++;
-
-    localStorage.setItem(key, count);
-    countEl.innerText = count;
-}
-
-
-// تصفير العداد
-function resetTasbih(event) {
-    event.stopPropagation();
-
-    const box = event.currentTarget.closest(".tasbih-box");
-    const button = box.closest("button");
-    const key = "tasbih_" + button.getAttribute("data-station");
-
-    localStorage.setItem(key, 0);
-    box.querySelector(".tasbih-count").innerText = 0;
-}
-
-
-// تحميل القيم
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".tasbih-box").forEach(box => {
-        const button = box.closest("button");
-        const key = "tasbih_" + button.getAttribute("data-station");
-
-        let count = localStorage.getItem(key);
-        count = count ? parseInt(count) : 0;
-
-        box.querySelector(".tasbih-count").innerText = count;
-    });
-});
-
 
 
 window.addEventListener("load", function() {
@@ -24830,6 +24784,86 @@ function googleTranslateElementInit() {
   }, 'google_translate_element');
 }
 
+
+// المتغير لتخزين المسبحة النشطة
+let activeTasbih = null;
+
+// زيادة العداد بالضغط على المسبحة بالماوس
+function incrementTasbih(event) {
+    event.stopPropagation();
+
+    const box = event.currentTarget;
+    const button = box.closest("button");
+    const key = "tasbih_" + button.getAttribute("data-station");
+
+    const countEl = box.querySelector(".tasbih-count");
+
+    let count = localStorage.getItem(key);
+    count = count ? parseInt(count) : 0;
+
+    count++;
+
+    localStorage.setItem(key, count);
+    countEl.innerText = count;
+
+    // تحديد المسبحة النشطة
+    activeTasbih = box;
+}
+
+// تصفير العداد
+function resetTasbih(event) {
+    event.stopPropagation();
+
+    const box = event.currentTarget.closest(".tasbih-box");
+    const button = box.closest("button");
+    const key = "tasbih_" + button.getAttribute("data-station");
+
+    localStorage.setItem(key, 0);
+    box.querySelector(".tasbih-count").innerText = 0;
+
+    // تحديد المسبحة النشطة
+    activeTasbih = box;
+}
+
+// تحميل القيم عند بداية الصفحة
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".tasbih-box").forEach(box => {
+        const button = box.closest("button");
+        const key = "tasbih_" + button.getAttribute("data-station");
+
+        let count = localStorage.getItem(key);
+        count = count ? parseInt(count) : 0;
+
+        box.querySelector(".tasbih-count").innerText = count;
+
+        // إضافة حدث لتحديد المسبحة النشطة عند الضغط
+        box.addEventListener("click", () => {
+            activeTasbih = box;
+        });
+    });
+});
+
+// زيادة العداد بالكيبورد على الزر "."
+document.addEventListener("keydown", function(e) {
+    if (!activeTasbih) return; // ما فيش مسبحة نشطة
+    if (e.key === ".") {        // الزر اللي تختاره
+        incrementTasbihKeyboard(activeTasbih);
+    }
+});
+
+// دالة زيادة العداد للكيبورد
+function incrementTasbihKeyboard(box) {
+    const button = box.closest("button");
+    const key = "tasbih_" + button.getAttribute("data-station");
+
+    let count = localStorage.getItem(key);
+    count = count ? parseInt(count) : 0;
+
+    count++;
+
+    localStorage.setItem(key, count);
+    box.querySelector(".tasbih-count").innerText = count;
+}
 
 document.addEventListener("click", function(e) {
   let el = e.target.closest("[title]");
