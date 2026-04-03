@@ -1182,7 +1182,7 @@ body.dark-mode .palestine {
 /* المسبحة */
 .tasbih-box {
     position: absolute;
-    right: 45px; /* قبل القلب مباشرة (عدّل الرقم حسب مكان القلب) */
+    right: 35px; /* قبل القلب مباشرة (عدّل الرقم حسب مكان القلب) */
     top: 50%;
     transform: translateY(-50%);
 
@@ -1190,15 +1190,14 @@ body.dark-mode .palestine {
     align-items: center;
     justify-content: space-between;
 
-    width: 60px;
+    width: 50px;
     height: 35px;
 
     background: #ffffff;
     color: #000000;
 
     border-radius: 8px;
-    padding: 0 10px;
-
+ padding-right: 20px;
     font-weight: bold;
     font-size: 14px;
 
@@ -1213,11 +1212,39 @@ body.dark-mode .palestine {
     font-size: 12px;
     cursor: pointer;
     opacity: 0.6;
-    margin-left: 5px;
+    
 }
 
 .reset-btn:hover {
     opacity: 1;
+}
+
+/* تابلت لجميع الأحجام */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .tasbih-box {
+        width: 55px;
+        height: 32px;
+        font-size: 13px;
+        transform: translateY(-5%); /* ينزل لتحت أكتر */
+        right: 40px; /* يتحرك شمال شوية */
+    }
+}
+
+@media (max-width: 600px) {
+    .tasbih-box {
+        width: 50px;
+        height: 35px;
+        font-size: 14px;
+        right: 35px;
+        padding-right: 20px;
+
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .reset-btn {
+        font-size: 12px;
+    }
 }
 
 .multi-icon {
