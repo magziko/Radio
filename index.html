@@ -208,7 +208,9 @@
     border: 2px solid white;
     border-radius: 5px;
     width: 97%;
-    
+         /* position: relative; */ /* لتثبيت العلم والمسبحة داخل الزر */
+/* كل زر يصبح مرجع للـ tasbih-box داخله */
+
     color: black;
     background-color: #f0f0f0;
     transition: color 0.3s ease, background-color 0.3s ease;
@@ -1179,6 +1181,8 @@ body.dark-mode .palestine {
 }
 
 
+
+
 /* المسبحة */
 .tasbih-box {
     position: absolute;
@@ -1257,6 +1261,55 @@ body.dark-mode .palestine {
   margin-left: 25px; /* مسافة بين هذه الأيقونة والأيقونة السابقة */
 }      
         
+        
+/* حاوية للتنبيهات */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* مسافة بين التنبيهات */
+  z-index: 9999;
+}
+
+/* شكل التوست */
+.toast {
+  background: #007bff;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast img {
+  width: 32px;
+  height: 32px;
+}
+.toast button {
+  background: #ffc107;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+}
+.toast button:hover {
+  background: #ffca2c;
+}        
         
    .custom-tooltip {
   position: fixed;
@@ -24638,94 +24691,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("click", function(e) {
-  const el = e.target.closest("[title]");
-  if (!el) return;
 
-  const text = el.getAttribute("title");
-  if (!text) return;
 
-  // حذف القديم
-  const old = document.querySelector(".custom-tooltip");
-  if (old) old.remove();
-
-  // إنشاء العنصر
-  const tooltip = document.createElement("div");
-  tooltip.className = "custom-tooltip";
-  tooltip.innerText = text;
-
-  document.body.appendChild(tooltip);
-
-  // تحديد مكانه فوق الزر
-  const rect = el.getBoundingClientRect();
-  tooltip.style.top = (rect.top - 40) + "px";
-  tooltip.style.left = (rect.left + rect.width / 2) + "px";
-  tooltip.style.transform = "translateX(-50%)";
-
-  // إظهار
-  setTimeout(() => tooltip.style.opacity = "1", 10);
-
-  // إخفاء
-  setTimeout(() => {
-    tooltip.style.opacity = "0";
-    setTimeout(() => tooltip.remove(), 300);
-  }, 1500);
-});
-
-</script>
-
-<style>
-/* حاوية للتنبيهات */
-.toast-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* مسافة بين التنبيهات */
-  z-index: 9999;
-}
-
-/* شكل التوست */
-.toast {
-  background: #007bff;
-  color: #fff;
-  padding: 15px 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  font-size: 15px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s ease;
-}
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-.toast img {
-  width: 32px;
-  height: 32px;
-}
-.toast button {
-  background: #ffc107;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #000;
-}
-.toast button:hover {
-  background: #ffca2c;
-}
-</style>
-
-<script>
 window.addEventListener("load", function() {
   let container = document.createElement("div");
   container.className = "toast-container";
@@ -24862,6 +24829,53 @@ function googleTranslateElementInit() {
     layout: google.translate.TranslateElement.InlineLayout.SIMPLE
   }, 'google_translate_element');
 }
+
+
+document.addEventListener("click", function(e) {
+  let el = e.target.closest("[title]");
+  
+  // لو ضغط على المسبحة
+  if (!el) {
+    const tasbih = e.target.closest(".tasbih-box");
+    if (tasbih) {
+      el = document.querySelector(".station-text[title]");
+    }
+  }
+
+  if (!el) return;
+
+  const text = el.getAttribute("title");
+  if (!text) return;
+
+  // حذف القديم
+  const old = document.querySelector(".custom-tooltip");
+  if (old) old.remove();
+
+  // إنشاء Tooltip
+  const tooltip = document.createElement("div");
+  tooltip.className = "custom-tooltip";
+  tooltip.innerText = text;
+
+  document.body.appendChild(tooltip);
+
+  // مكانه
+  const rect = e.target.getBoundingClientRect();
+  tooltip.style.top = (rect.top - 40) + "px";
+  tooltip.style.left = (rect.left + rect.width / 2) + "px";
+  tooltip.style.transform = "translateX(-50%)";
+
+  // إظهار
+  setTimeout(() => tooltip.style.opacity = "1", 10);
+
+  // إخفاء
+  setTimeout(() => {
+    tooltip.style.opacity = "0";
+    setTimeout(() => tooltip.remove(), 300);
+  }, 1500);
+});
+
+
+
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
