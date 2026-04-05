@@ -199,8 +199,10 @@
     flex: 1 1 calc(50% - 10px);
     box-sizing: border-box;
     padding: 8px 16px;
-    text-align: center;
-    font-size: 14px;
+ display: flex;
+    align-items: center;     /* توسيط رأسي */
+    justify-content: center; /* توسيط أفقي */  
+    font-size: 12px;
     font-weight: bold;
     margin: 5px 0;
     cursor: pointer;
@@ -18251,6 +18253,401 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
     data-category="Adhkar"
+    data-station="آية الكرسي"
+    data-ar="آية الكرسي"
+    data-en="Ayat Al-Kursi"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/20260405_20260405_0658/%D8%A2%D9%8A%D8%A9%20%D8%A7%D9%84%D9%83%D8%B1%D8%B3%D9%8A%20.mp3",
+        "https://archive.org/download/20260405_20260405_0658/%D8%A2%D9%8A%D8%A9%20%D8%A7%D9%84%D9%83%D8%B1%D8%B3%D9%8A%20%D8%A8.mp3",
+        "https://archive.org/download/20260405_20260405_0658/%D8%A2%D9%8A%D8%A9%20%D8%A7%D9%84%D9%83%D8%B1%D8%B3%D9%8A%20%D8%AF%D9%8A.mp3",
+        "https://archive.org/download/20260405_20260405_0658/%D8%A3%D8%B9%D8%B8%D9%85%20%D8%A2%D9%8A%D8%A9%20%20..mp3",
+        "https://archive.org/download/20260405_20260405_0658/%D8%A7%D9%8A%D9%87%20%D8%A7%D9%84%D9%83%D8%B1%D8%B3%D9%8A%D9%87%20..mp3"
+    ]'
+    data-current-index="0"
+         title="أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ
+اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ. [آية الكرسى - البقرة 255]"
+        onclick="toggleRadio(this, event)">
+    
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- اسم الدعاء مع Tooltip كامل -->
+    <span class="station-text">
+        آية الكرسي
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'آية الكرسي'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ..."
+    data-ar="سورة البقرة - آيتين الأخيرتين"
+    data-en="Al-Baqarah Last 2 Verses"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/3_20260405/%D8%A2%D9%85%D9%86%20%D8%A7%D9%84%D8%B1%D8%B3%D9%88%D9%84%20%282%29.mp3",
+        "https://archive.org/download/3_20260405/%D8%A2%D9%85%D9%86%20%D8%A7%D9%84%D8%B1%D8%B3%D9%88%D9%84%20%283%29.mp3",
+        "https://archive.org/download/3_20260405/%D8%A2%D9%85%D9%86%20%D8%A7%D9%84%D8%B1%D8%B3%D9%88%D9%84%20%284%29.mp3",
+        "https://archive.org/download/3_20260405/%D8%A2%D9%85%D9%86%20%D8%A7%D9%84%D8%B1%D8%B3%D9%88%D9%84%20%285%29.mp3",
+        "https://archive.org/download/3_20260405/%D8%A2%D9%85%D9%86%20%D8%A7%D9%84%D8%B1%D8%B3%D9%88%D9%84.mp3"
+    ]'
+    data-current-index="0"
+    title="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِنْ رَبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِنْ رُسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ. لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ رَبَّنَا لَا تُؤَاخِذْنَا إِنْ نَّسِينَآ أَوْ أَخْطَأْنَا رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِنْ قَبْلِنَا رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا أَنْتَ مَوْلَانَا فَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ."
+    onclick="toggleRadio(this, event)">
+
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+  <!-- الاسم المختصر + Tooltip -->
+<span class="station-text"
+      title="أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ 
+آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِنْ رَبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِنْ رُسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ. 
+لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ رَبَّنَا لَا تُؤَاخِذْنَا إِنْ نَّسِينَآ أَوْ أَخْطَأْنَا رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِنْ قَبْلِنَا 
+رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا أَنْتَ مَوْلَانَا فَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ. 
+[البقرة 285 - 286]. من قرأ آيتين من آخر سورة البقرة في ليلة كفتاه.">
+    آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ...
+    <span class="multi-icon">🔁</span>
+</span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif"
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'آيتين البقرة الأخيرتين'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="قُلْ هُوَ ٱللَّهُ أَحَدٌ"
+    data-ar="سورة الإخلاص"
+    data-en="Surah Al-Ikhlas"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/20260405_20260405_0736/%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D9%84%D8%AD%D8%B5%D8%B1%D9%8A%20-%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A5%D8%AE%D9%84%D8%A7%D8%B5%20%28%D9%85%D8%AC%D9%88%D8%AF%29.mp3",
+        "https://archive.org/download/20260405_20260405_0736/%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A5%D8%AE%D9%84%D8%A7%D8%B5%20%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A.mp3",
+        "https://archive.org/download/20260405_20260405_0736/%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A5%D8%AE%D9%84%D8%A7%D8%B5.mp3"
+    ]'
+    data-current-index="0"
+    title="بِسْمِ اللهِ الرَّحْمنِ الرَّحِيمِ
+قُلْ هُوَ ٱللَّهُ أَحَدٌ، ٱللَّهُ ٱلصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ.
+من قالها حين يصبح وحين يمسى كفته من كل شيء (الإخلاص والمعوذتين)."
+    onclick="toggleRadio(this, event)">
+
+    <span class="flag"></span>
+
+    <!-- ✅ المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip -->
+    <span class="station-text"
+          title="بِسْمِ اللهِ الرَّحْمنِ الرَّحِيمِ
+قُلْ هُوَ ٱللَّهُ أَحَدٌ، ٱللَّهُ ٱلصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ.
+من قالها حين يصبح وحين يمسى كفته من كل شيء (الإخلاص والمعوذتين).">
+        
+        قُلْ هُوَ ٱللَّهُ أَحَدٌ...
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif"
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'سورة الإخلاص'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<!-- زر آية الفلق -->
+<button class="button palestine"
+        data-category="Adhkar"
+        data-station="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ"
+        data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ"
+        data-en="Qul A'udhu Birabbi Al-Falaq"
+        data-random="true"
+        data-urls='[
+            "https://archive.org/download/your_audio_file_1.mp3",
+            "https://archive.org/download/your_audio_file_2.mp3"
+        ]'
+        data-current-index="0"
+        title="بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
+قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ، مِن شَرِّ مَا خَلَقَ، وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ، وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ.">
+
+    قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ...
+    <span class="multi-icon">🔁</span>
+
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<!-- زر آية الناس -->
+<button class="button palestine"
+        data-category="Adhkar"
+        data-station="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ"
+        data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ"
+        data-en="Qul A'udhu Birabbi An-Naas"
+        data-random="true"
+        data-urls='[
+            "https://archive.org/download/your_audio_file_1.mp3",
+            "https://archive.org/download/your_audio_file_2.mp3"
+        ]'
+        data-current-index="0"
+        title="بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
+قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ، مَلِكِ ٱلنَّاسِ، إِلَٰهِ ٱلنَّاسِ، مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ، ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ، مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ.">
+
+    قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ...
+    <span class="multi-icon">🔁</span>
+
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله..."
+    data-ar="أذكار الصباح"
+    data-en="Morning Adhkar"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/20260405_20260405_0743/%D8%AF%D8%B9%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD%20%D8%A3%D8%B5%D8%A8%D8%AD%D9%86%D8%A7%20%D9%88%D8%A3%D8%B5%D8%A8%D8%AD%20.mp3"
+    ]'
+    data-current-index="0"
+    title="أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنَ الشَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر."
+    onclick="toggleRadio(this, event)">
+
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip -->
+    <span class="station-text"
+          title="أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنَ الشَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر.">
+        
+        أَصْـبَحْنا وَأَصْـبَحَ...
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif"
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'أذكار الصباح'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="أَمْسَيْـنا وَأَمْسـى المـلكُ لله..."
+    data-ar="أذكار المساء"
+    data-en="Evening Adhkar"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/20260405_20260405_0746/%D8%A3%D9%85%D8%B3%D9%8A%D9%86%D8%A7%20%D9%88%D8%A3%D9%85%D8%B3%D9%89%20%D8%A7%D9%84%D9%85%D9%84%D9%83.mp3"
+    ]'
+    data-current-index="0"
+    title="أَمْسَيْـنا وَأَمْسـى المـلكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذهِ اللَّـيْلَةِ وَخَـيرَ ما بَعْـدَهـا ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذهِ اللَّـيْلةِ وَشَرِّ ما بَعْدَهـا ، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر."
+    onclick="toggleRadio(this, event)">
+
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip -->
+    <span class="station-text"
+          title="أَمْسَيْـنا وَأَمْسـى المـلكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذهِ اللَّـيْلَةِ وَخَـيرَ ما بَعْـدَهـا ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذهِ اللَّـيْلةِ وَشَرِّ ما بَعْدَهـا ، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر.">
+        
+        أَمْسَيْـنا وَأَمْسـى...
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif"
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'أذكار المساء'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="اللّهـمَّ أَنْتَ رَبِّـي"
+    data-ar="دعاء الاستغفار"
+    data-en="Supplication"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/20260405_20260405_0810/%D8%A7%D9%84%D9%80%D9%84%D9%80%D9%87%D9%80%D9%85%20%D8%A3%D9%86%D8%AA%20%D8%B1%D8%A8%D9%8A.mp3",
+        "https://archive.org/download/20260405_20260405_0810/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A7%D9%86%D8%AA%20%D8%B1%D8%A8%D9%8A%20%D8%AE%D9%84%D9%82%D8%AA%D9%86%D9%8A%20%D9%88%D8%A7%D9%86%D8%A7%20%D8%B9%D8%A8%D8%AF%D9%83.mp3"
+    ]'
+    data-current-index="0"
+    title="اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ.
+من قالها موقنا بها حين يمسى ومات من ليلته دخل الجنة وكذلك حين يصبح. "
+    onclick="toggleRadio(this, event)">
+
+    <span class="flag"></span>
+
+    <!-- ✅ المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip -->
+    <span class="station-text"
+          title="اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ.
+من قالها موقنا بها حين يمسى ومات من ليلته دخل الجنة وكذلك حين يصبح.">
+        
+        اللّهـمَّ أَنْتَ رَبِّـي...
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif"
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'دعاء الاستغفار'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="اللّهُـمَّ ما أَصْبَـَحَ بي..."
+    data-ar="دعاء الصباح"
+    data-en="Morning Supplication"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/4_20260405_20260405/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D9%85%D8%A7%20%D8%A7%D8%B5%D8%A8%D8%AD%20%D8%A8%D9%8A%20%20%282%29.mp3",
+        "https://archive.org/download/4_20260405_20260405/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D9%85%D8%A7%20%D8%A7%D8%B5%D8%A8%D8%AD%20%D8%A8%D9%8A%20%20%283%29.mp3",
+        "https://archive.org/download/4_20260405_20260405/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D9%85%D8%A7%20%D8%A7%D8%B5%D8%A8%D8%AD%20%D8%A8%D9%8A%20%20%284%29.mp3",
+        "https://archive.org/download/4_20260405_20260405/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D9%85%D8%A7%20%D8%A7%D8%B5%D8%A8%D8%AD%20%D8%A8%D9%8A%20%20%285%29.mp3",
+        "https://archive.org/download/4_20260405_20260405/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D9%85%D8%A7%20%D8%A7%D8%B5%D8%A8%D8%AD%20%D8%A8%D9%8A%20.mp3"
+    ]'
+    data-current-index="0"
+    title="اللّهُـمَّ ما أَصْبَـَحَ بي مِـنْ نِعْـمَةٍ أَو بِأَحَـدٍ مِـنْ خَلْـقِك ، فَمِـنْكَ وَحْـدَكَ لا شريكَ لَـك ، فَلَـكَ الْحَمْـدُ وَلَـكَ الشُّكْـر.
+من قالها حين يصبح كفته من كل شيء. "
+    onclick="toggleRadio(this, event)">
+
+    <span class="flag"></span>
+
+    <!-- ✅ المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip -->
+    <span class="station-text"
+          title="اللّهُـمَّ ما أَصْبَـَحَ بي مِـنْ نِعْـمَةٍ أَو بِأَحَـدٍ مِـنْ خَلْـقِك ، فَمِـنْكَ وَحْـدَكَ لا شريكَ لَـك ، فَلَـكَ الْحَمْـدُ وَلَـكَ الشُّكْـر.
+من قالها حين يصبح كفته من كل شيء.">
+        
+        اللّهُـمَّ ما أَصْبَـَحَ بي...
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif"
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'دعاء الصباح'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
+    data-station="اللّهُـمَّ ما أَمسى بي..."
+    data-ar="دعاء المساء"
+    data-en="Evening Supplication"
+    data-random="true"
+    data-urls='[
+        "https://archive.org/download/20260405_20260405_0823/%D9%85%D9%86%20%D8%A3%D8%B0%D9%83%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1.mp3"
+    ]'
+    data-current-index="0"
+    title="اللّهُـمَّ ما أَمسى بي مِـنْ نِعْـمَةٍ أَو بِأَحَـدٍ مِـنْ خَلْـقِك ، فَمِـنْكَ وَحْـدَكَ لا شريكَ لَـك ، فَلَـكَ الْحَمْـدُ وَلَـكَ الشُّكْـر.
+من قالها حين يمسى أدى شكر يومه."
+    onclick="toggleRadio(this, event)">
+
+    <span class="flag"></span>
+
+    <!-- ✅ المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <!-- الاسم المختصر + Tooltip -->
+    <span class="station-text"
+          title="اللّهُـمَّ ما أَمسى بي مِـنْ نِعْـمَةٍ أَو بِأَحَـدٍ مِـنْ خَلْـقِك ، فَمِـنْكَ وَحْـدَكَ لا شريكَ لَـك ، فَلَـكَ الْحَمْـدُ وَلَـكَ الشُّكْـر.
+من قالها حين يمسى أدى شكر يومه.">
+        
+        اللّهُـمَّ ما أَمسى بي...
+        
+        <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif"
+         class="equalizer" style="display:none;" alt="Equalizer">
+
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'دعاء المساء'); event.stopPropagation(); return false;">
+        &#x2764;
+    </span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
     data-station="لا إله إلا الله"
     data-ar="لا إله إلا الله"
     data-en="La ilaha illallah"
@@ -25428,9 +25825,9 @@ document.addEventListener("click", function(e) {
 
   // إخفاء
   setTimeout(() => {
-    tooltip.style.opacity = "0";
-    setTimeout(() => tooltip.remove(), 300);
-  }, 1500);
+  tooltip.style.opacity = "0";
+  setTimeout(() => tooltip.remove(), 300);
+}, 10000);
 });
 
 
