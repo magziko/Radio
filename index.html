@@ -1328,13 +1328,15 @@ body.dark-mode .palestine {
         
    .custom-tooltip {
   position: fixed;
-  background: #000;
+    background: rgba(0,0,0,0.85);
   color: #fff;
   padding: 5px 10px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 18px;
   opacity: 0;
   transition: 0.2s;
+   width: 300px;        /* 👈 عرض ثابت (جرب 280 - 350) */
+    max-width: 90vw; 
   z-index: 9999;
   pointer-events: none;
 }     
@@ -17853,10 +17855,20 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
         data-ar="راديو أذكار الصباح" 
         data-en="Morning Adhkar Radio" 
         data-url="https://backup.qurango.net/radio/athkar_sabah" 
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://backup.qurango.net/radio/athkar_sabah', '_blank'); } else { toggleRadio(this); }">
+        onclick="if (event.ctrlKey || event.metaKey) { window.open(this.dataset.url, '_blank'); } else { toggleRadio(this); }">
+
     <span class="flag"></span> 
     <span class="station-text">راديو أذكار الصباح</span>
+
+    <!-- أيقونة القراءة (مودال) -->
+    <span class="read-icon"
+          onclick="openModal('https://www.islambook.com/azkar/1/%D8%A3%D8%B0%D9%83%D8%A7%D8%B1-%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD', 
+                             'أذكار الصباح', false, true); 
+                   event.stopPropagation();
+                   return false;">📖</span>
+
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+
     <span class="favorite-icon" 
           onclick="toggleFavorite(event, 'راديو أذكار الصباح'); 
                    event.stopPropagation(); 
@@ -17871,10 +17883,20 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
         data-ar="راديو أذكار المساء" 
         data-en="Evening Adhkar Radio" 
         data-url="https://backup.qurango.net/radio/athkar_masa" 
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://backup.qurango.net/radio/athkar_masa', '_blank'); } else { toggleRadio(this); }">
+        onclick="if (event.ctrlKey || event.metaKey) { window.open(this.dataset.url, '_blank'); } else { toggleRadio(this); }">
+
     <span class="flag"></span> 
     <span class="station-text">راديو أذكار المساء</span>
+
+    <!-- أيقونة القراءة (مودال) -->
+    <span class="read-icon"
+          onclick="openModal('https://www.islambook.com/azkar/2/%D8%A3%D8%B0%D9%83%D8%A7%D8%B1-%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1', 
+                             'أذكار المساء', false, true); 
+                   event.stopPropagation();
+                   return false;">📖</span>
+
     <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
+
     <span class="favorite-icon" 
           onclick="toggleFavorite(event, 'راديو أذكار المساء'); 
                    event.stopPropagation(); 
@@ -18309,8 +18331,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 <button class="button palestine"
     data-category="Adhkar"
     data-station="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ..."
-    data-ar="سورة البقرة - آيتين الأخيرتين"
-    data-en="Al-Baqarah Last 2 Verses"
+data-ar="سورة البقرة (285 - 286)"
+data-en="Al-Baqarah Last 2 Verses"
     data-random="true"
     data-urls='[
         "https://archive.org/download/3_20260405/%D8%A2%D9%85%D9%86%20%D8%A7%D9%84%D8%B1%D8%B3%D9%88%D9%84%20%282%29.mp3",
@@ -18345,10 +18367,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'آيتين البقرة الأخيرتين'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18391,9 +18413,9 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
          class="equalizer" style="display:none;" alt="Equalizer">
 
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'سورة الإخلاص'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <!-- زر آية الفلق -->
@@ -18431,10 +18453,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
          class="equalizer" style="display:none;" alt="Equalizer">
 
     <!-- زر المفضلة -->
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <!-- زر آية الناس -->
@@ -18471,11 +18493,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <!-- زر المفضلة -->
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18511,10 +18532,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'أذكار الصباح'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18551,9 +18572,9 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
          class="equalizer" style="display:none;" alt="Equalizer">
 
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'أذكار المساء'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18593,9 +18614,9 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
          class="equalizer" style="display:none;" alt="Equalizer">
 
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء الاستغفار'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18637,10 +18658,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء الصباح'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18678,13 +18699,14 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء المساء'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+  <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
+    onclick="toggleRadio(this, event)"
     data-category="Adhkar"
     data-station="اللّهُـمَّ بِكَ أَصْـبَحْنا..."
     data-ar="دعاء الصباح والمساء"
@@ -18716,13 +18738,14 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء الصباح والمساء'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
+    onclick="toggleRadio(this, event)"
     data-category="Adhkar"
     data-station="اللّهُـمَّ بِكَ أَمْسَـينا..."
     data-ar="دعاء الصباح والمساء"
@@ -18745,19 +18768,17 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <!-- الاسم المختصر + Tooltip -->
     <span class="station-text"
           title="اللّهُـمَّ بِكَ أَمْسَـينا وَبِكَ أَصْـبَحْنا، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ الْمَصِيرُ.">
-        
         اللّهُـمَّ بِكَ أَمْسَـينا...
-        
         <span class="multi-icon">🔁</span>
     </span>
 
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء الصباح والمساء'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18770,6 +18791,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
         "https://archive.org/download/20260405_20260405_0911/%D8%A3%D8%B5%D8%A8%D8%AD%D9%86%D8%A7%20%D8%B9%D9%84%D9%89%20%D9%81%D8%B7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A5%D8%B3%D9%84%D8%A7%D9%85...mp3"
     ]'
     data-current-index="0"
+        onclick="toggleRadio(this, event)"
+
     title="أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إبْرَاهِيمَ حَنِيفاً مُسْلِماً وَمَا كَانَ مِنَ المُشْرِكِينَ.">
 
     <span class="flag"></span>
@@ -18793,9 +18816,9 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
          class="equalizer" style="display:none;" alt="Equalizer">
 
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء الصباح'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18809,6 +18832,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
         "https://archive.org/download/20260405_20260405_0914/%D8%A3%D9%85%D8%B3%D9%8A%D9%86%D9%80%D8%A7%20%D8%B9%D9%84%D9%89%20%D9%81%D8%B7%D9%80%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A5%D8%B3%D9%80%D9%84%D8%A7%D9%85.mp3"
     ]'
     data-current-index="0"
+        onclick="toggleRadio(this, event)"
+
     title="أَمْسَيْنَا عَلَى فِطْرَةِ الإسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إبْرَاهِيمَ حَنِيفاً مُسْلِماً وَمَا كَانَ مِنَ المُشْرِكِينَ.">
 
     <span class="flag"></span>
@@ -18832,9 +18857,9 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
          class="equalizer" style="display:none;" alt="Equalizer">
 
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء المساء'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18847,6 +18872,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
         "https://archive.org/download/20260405_20260405_0919/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%8A%20%D8%A3%D8%B3%D8%A7%D9%84%D9%83%20%D8%A7%D9%84%D8%B9%D9%81%D9%88%20%D9%88%D8%A7%D9%84%D8%B9%D8%A7%D9%81%D9%8A%D8%A9%20%20%D8%A3%D8%B0%D9%83%D8%A7%D8%B1.mp3"
     ]'
     data-current-index="0"
+        onclick="toggleRadio(this, event)"
+
     title="اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في الدُّنْـيا وَالآخِـرَة ، اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في ديني وَدُنْـيايَ وَأهْـلي وَمالـي ، اللّهُـمَّ اسْتُـرْ عـوْراتي وَآمِـنْ رَوْعاتـي ، اللّهُـمَّ احْفَظْـني مِن بَـينِ يَدَيَّ وَمِن خَلْفـي وَعَن يَمـيني وَعَن شِمـالي ، وَمِن فَوْقـي ، وَأَعـوذُ بِعَظَمَـتِكَ أَن أُغْـتالَ مِن تَحْتـي.">
 
     <span class="flag"></span>
@@ -18869,10 +18896,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء العفو والعافية'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18886,6 +18913,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
         "https://archive.org/download/2_20260405/%D8%A3%D8%B5%D8%A8%D9%80%D8%AD%D9%80%D9%86%D8%A7%20%D9%88%D8%A3%D8%B5%D8%A8%D9%80%D8%AD%20%D8%A7%D9%84%D9%85%D9%80%D9%84%D9%83%20.mp3"
     ]'
     data-current-index="0"
+        onclick="toggleRadio(this, event)"
+
     title="أَصْبَـحْـنا وَأَصْبَـحْ المُـلكُ للهِ رَبِّ العـالَمـين ، اللّهُـمَّ إِنِّـي أسْـأَلُـكَ خَـيْرَ هـذا الـيَوْم ، فَـتْحَهُ ، وَنَصْـرَهُ ، وَنـورَهُ وَبَـرَكَتَـهُ ، وَهُـداهُ ، وَأَعـوذُ بِـكَ مِـنْ شَـرِّ ما فـيهِ وَشَـرِّ ما بَعْـدَه.">
 
     <span class="flag"></span>
@@ -18908,10 +18937,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء الصباح'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18924,6 +18953,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
         "https://archive.org/download/20260405_20260405_0929/%D8%A3%D9%85%D8%B3%D9%8A%D9%86%D8%A7%20%D9%88%D8%A3%D9%85%D8%B3%D9%89%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D9%84%D9%84%D9%87%20%D8%B1%D8%A8%20%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D9%86.mp3"
     ]'
     data-current-index="0"
+        onclick="toggleRadio(this, event)"
+
     title="أَمْسَيْنا وَأَمْسَى الْمُلْكُ للهِ رَبِّ الْعَالَمَيْنِ، اللَّهُمَّ إِنَّي أسْأَلُكَ خَيْرَ هَذَه اللَّيْلَةِ فَتْحَهَا ونَصْرَهَا، ونُوْرَهَا وبَرَكَتهَا، وَهُدَاهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فيهِا وَشَرَّ مَا بَعْدَهَا.">
 
     <span class="flag"></span>
@@ -18946,10 +18977,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء المساء'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -18962,6 +18993,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
         "https://archive.org/download/20260405_20260405_0933/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B9%D8%A7%D9%84%D9%85%20%D8%A7%D9%84%D8%BA%D9%8A%D8%A8.mp3"
     ]'
     data-current-index="0"
+        onclick="toggleRadio(this, event)"
+
     title="اللّهُـمَّ عالِـمَ الغَـيْبِ وَالشّـهادَةِ فاطِـرَ السّماواتِ وَالأرْضِ رَبَّ كـلِّ شَـيءٍ وَمَليـكَه ، أَشْهَـدُ أَنْ لا إِلـهَ إِلاّ أَنْت ، أَعـوذُ بِكَ مِن شَـرِّ نَفْسـي وَمِن شَـرِّ الشَّيْـطانِ وَشِرْكِهِ ، وَأَنْ أَقْتَـرِفَ عَلـى نَفْسـي سوءاً أَوْ أَجُـرَّهُ إِلـى مُسْـلِم.">
 
     <span class="flag"></span>
@@ -18984,10 +19017,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء المساء'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 
@@ -19026,10 +19059,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'لا إله إلا الله'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19068,9 +19101,9 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
          class="equalizer" style="display:none;" alt="Equalizer">
 
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'لا حول ولا قوة إلا بالله'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 
@@ -19112,10 +19145,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'سُـبْحانَ اللهِ، والحَمْـدُ لله، واللهُ أكْـبَر'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 
@@ -19153,10 +19186,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'سُبْحانَ اللهِ وَبِحَمْدِهِ سُبْحانَ اللهِ الْعَظِيمِ'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 
@@ -19199,10 +19232,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'سُبْحانَ اللهِ الْعَظِيمِ وَبِحَمْدِهِ'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19239,10 +19272,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'سبحان الله وبحمده...'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19280,10 +19313,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'أستغفر الله وأتوب إليه...'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19320,10 +19353,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'لا إله إلا الله وحده...'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+  <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19359,8 +19392,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'اللَّهُمَّ صَلِّ عَلَى نَبِيِّنَا...'); event.stopPropagation(); return false;">&#x2764;</span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>4;</span>
 </button>
 
 <button class="button palestine"
@@ -19397,10 +19432,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'حسبي الله لا إله إلا هو...'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 
@@ -19439,10 +19474,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'اللهم إني أصبحت أشهدك...'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19481,9 +19516,9 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
          class="equalizer" style="display:none;" alt="Equalizer">
     
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'اللهم إني أمسيت أشهدك...'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19521,10 +19556,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'رضيت بالله رباً...'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19561,10 +19596,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'بسم الله الذي لا يضر...'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19600,9 +19635,9 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
          class="equalizer" style="display:none;" alt="Equalizer">
 
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'سبحان الله وبحمده عدد خلقه...'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19639,11 +19674,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
-    
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'اللّهُـمَّ عافِـني في بَدَنـي'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19682,10 +19716,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفر'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19723,10 +19757,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَمِّ وَالْحَزَنِ'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19763,10 +19797,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19805,10 +19839,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 
@@ -19850,10 +19884,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'أسْتَغْفِرُ اللهَ العَظِيمَ'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19891,10 +19925,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'يَا حَيُّ يَا قيُّومُ بِرَحْمَتِكَ أسْتَغِيثُ'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19931,10 +19965,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
     
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'يارب لك الحمد'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -19969,10 +20003,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer">
 
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء الصباح والمساء'); event.stopPropagation(); return false;">
-        &#x2764;
-    </span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -20023,7 +20057,9 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
          class="equalizer" style="display:none;" alt="Equalizer">
     
     <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء ليلة القدر'); event.stopPropagation(); return false;">&#x2764;</span>
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
@@ -20064,9 +20100,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
-    
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'دعاء يوم عرفة'); event.stopPropagation(); return false;">&#x2764;</span>
+   <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
 </button>
 
 
@@ -25633,34 +25670,45 @@ function handleTripleClick(element) {
 }
 
  document.addEventListener("DOMContentLoaded", function () {
-    // قائمة الفئات، مع تكرار "Quran" لزيادة احتمال ظهوره
+    const now = new Date();
+    const hour = now.getHours();
     const categories = [
-      'favorites',
-      'reciters', 'reciters','reciters','reciters','reciters', 'rewayat', 'mojawwad', 
-      'teachers', 'tafsir',
-      'Quran', 'Quran', 'Quran', 'Quran', 'Quran',// ← تكرار لرفع الاحتمال
+      'favorites', 'reciters', 'reciters','reciters','reciters','reciters', 'rewayat', 'mojawwad', 
+      'teachers', 'tafsir', 'Quran', 'Quran', 'Quran', 'Quran', 'Quran',
       'Radio', 'Radio', 'Radio', 'Translation', 'Foreign', 'Foreign','Foreign',
       'scholars', 'sira', 'Monshawiiyat',
       'Adhkar', 'ruqua', 'mix'
     ];
 
-    // اختيار عشوائي من القائمة
-    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    let selectedCategory = null;
 
-    // فتح التبويب المختار
+    // الفترة الصباحية: 5 ص - 8 ص
+    if(hour >= 5 && hour < 8){
+        selectedCategory = 'Adhkar'; // أذكار الصباح
+    }
+    // الفترة المسائية: 5 م - 6 م
+    else if(hour >= 17 && hour < 18){
+        selectedCategory = 'Adhkar'; // أذكار المساء
+    }
+
+    // إذا لم نحدد فئة حسب الوقت → اختيار عشوائي
+    if(!selectedCategory){
+        selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+    }
+
+    // فتح التبويب
     setTimeout(function () {
-      if (randomCategory === 'favorites') {
+      if (selectedCategory === 'favorites') {
         if (typeof toggleFavoritesView === 'function') {
           toggleFavoritesView();
         }
       } else {
         if (typeof filterStations === 'function') {
-          filterStations(randomCategory);
+          filterStations(selectedCategory);
         }
       }
     }, 100);
-  });
-
+});
 
 window.addEventListener("DOMContentLoaded", () => {
     let lastStation = JSON.parse(localStorage.getItem('lastStation'));
@@ -26197,10 +26245,11 @@ document.addEventListener("click", function(e) {
   document.body.appendChild(tooltip);
 
   // مكانه
-  const rect = e.target.getBoundingClientRect();
-  tooltip.style.top = (rect.top - 40) + "px";
-  tooltip.style.left = (rect.left + rect.width / 2) + "px";
-  tooltip.style.transform = "translateX(-50%)";
+ const rect = el.getBoundingClientRect();
+
+tooltip.style.top = (rect.top - tooltip.offsetHeight - 30) + "px";
+tooltip.style.left = (rect.left + rect.width / 2) + "px";
+tooltip.style.transform = "translateX(-50%)";
 
   // إظهار
   setTimeout(() => tooltip.style.opacity = "1", 10);
@@ -26209,7 +26258,7 @@ document.addEventListener("click", function(e) {
   setTimeout(() => {
   tooltip.style.opacity = "0";
   setTimeout(() => tooltip.remove(), 300);
-}, 10000);
+}, 15000);
 });
 
 
