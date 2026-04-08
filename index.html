@@ -19762,6 +19762,44 @@ data-en="Al-Baqarah Last 2 Verses"
 
 <button class="button palestine"
     data-category="Adhkar"
+    data-station="اللهم صل على محمد وعلى آله وصحبه أجمعين"
+    data-ar="اللهم صل على محمد وعلى آله وصحبه أجمعين"
+    data-en="Allahumma salli ala Muhammad wa ala ali wa sahbihi ajma'in"
+    data-random="true"
+    data-urls='[
+"https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9%20%20%D8%A3%D8%A8%D9%88%20%D8%A5%D8%B3%D8%AD%D8%A7%D9%82.mp3",
+    "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%A7%D9%84%D8%A7%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9.mp3",
+      "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9.mp3"
+]'
+    data-current-index="0"
+    title="اللهم صل على محمد وعلى آله وصحبه أجمعين"
+    onclick="toggleRadio(this, event)">
+    
+    <span class="flag"></span>
+
+    <!-- المسبحة -->
+    <div class="tasbih-box" onclick="incrementTasbih(event)">
+        <span class="tasbih-count">0</span>
+        <span class="reset-btn" onclick="resetTasbih(event)">↺</span>
+    </div>
+
+    <span class="station-text" 
+          title="اللهم صل على محمد وعلى آله وصحبه أجمعين">
+    اللهم صل على محمد وعلى آله وصحبه أجمعين
+    <span class="multi-icon">🔁</span>
+    </span>
+
+    <img src="https://cdn.instant.audio/images/equalizer.gif" 
+         class="equalizer" style="display:none;" alt="Equalizer">
+    
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, this.closest('button').getAttribute('data-station'));
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+    data-category="Adhkar"
     data-station="صلّى الله عليه وآله وسلم..."
     data-ar="صلّى الله عليه وآله وسلم"
     data-en="Salla Allahu alayhi wa aalihi wa sallam"
@@ -25798,6 +25836,12 @@ toggle.addEventListener('touchstart', () => {
 toggle.addEventListener('touchend', () => {
     clearTimeout(longPressTimer);
 });
+
+let tripleClickTracker = {
+    count: 0,
+    lastElement: null
+};
+
 
 function handleTripleClick(element) {
     if (tripleClickTracker.lastElement !== element) {
