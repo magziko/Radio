@@ -26621,7 +26621,17 @@ function shareFacebook() {
     window.open(url, "_blank");
 }
 
+function shareWhatsApp() {
+    const text = "🌿 أفضل إذاعة القرآن الكريم | Quran Radio – تلاوات وأذكار وبث مباشر\nhttps://magziko.github.io/Radio/";
+    const url = "https://wa.me/?text=" + encodeURIComponent(text);
+    window.open(url, "_blank");
+}
 
+function shareFacebook() {
+    const url = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent("https://magziko.github.io/Radio/") 
+                + "&quote=" + encodeURIComponent("🌿 أفضل إذاعة القرآن الكريم | Quran Radio – تلاوات وأذكار وبث مباشر");
+    window.open(url, "_blank");
+}
 
 
 
