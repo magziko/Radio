@@ -1406,6 +1406,21 @@ button[data-category="Adhkar"] .station-text {
 }
 
 
+.button.completed {
+    background: linear-gradient(135deg, #28a745, #5cd65c);
+    color: #fff;
+    transform: scale(1.05);
+    transition: 0.3s;
+    position: relative;
+}
+
+.button.completed::after {
+    content: "✔";
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </style>
@@ -18030,6 +18045,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 <button class="button palestine"
     data-category="Adhkar"
     data-station="آية الكرسي"
+    data-target="1"
     data-ar="آية الكرسي"
     data-en="Ayat Al-Kursi"
     data-random="true"
@@ -18077,6 +18093,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 <button class="button palestine"
     data-category="Adhkar"
     data-station="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ..."
+    data-target="1"
 data-ar="سورة البقرة (285 - 286)"
 data-en="Al-Baqarah Last 2 Verses"
     data-random="true"
@@ -18122,6 +18139,7 @@ data-en="Al-Baqarah Last 2 Verses"
 <button class="button palestine"
     data-category="Adhkar"
     data-station="قُلْ هُوَ ٱللَّهُ أَحَدٌ"
+    data-target="3"
     data-ar="سورة الإخلاص"
     data-en="Surah Al-Ikhlas"
     data-random="true"
@@ -26406,7 +26424,6 @@ function googleTranslateElementInit() {
 // المتغير لتخزين المسبحة النشطة
 let activeTasbih = null;
 
-// زيادة العداد بالضغط على المسبحة بالماوس
 function incrementTasbih(event) {
     event.stopPropagation();
 
@@ -26424,9 +26441,29 @@ function incrementTasbih(event) {
     localStorage.setItem(key, count);
     countEl.innerText = count;
 
+    // 🎯 الهدف
+    const target = parseInt(button.dataset.target) || 0;
+
+    if (target && count === target) {
+        alert(`✅ أكملت: ${button.dataset.station}`);
+
+        const audio = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
+        audio.play();
+
+        if (navigator.vibrate) {
+            navigator.vibrate(200);
+        }
+
+        button.classList.add("completed");
+    }
+
     // تحديد المسبحة النشطة
     activeTasbih = box;
 }
+
+
+
+
 
 // تصفير العداد
 function resetTasbih(event) {
@@ -26438,6 +26475,7 @@ function resetTasbih(event) {
 
     localStorage.setItem(key, 0);
     box.querySelector(".tasbih-count").innerText = 0;
+    button.classList.remove("completed");
 
     // تحديد المسبحة النشطة
     activeTasbih = box;
@@ -26453,6 +26491,12 @@ document.addEventListener("DOMContentLoaded", function () {
         count = count ? parseInt(count) : 0;
 
         box.querySelector(".tasbih-count").innerText = count;
+        
+        const target = parseInt(button.dataset.target) || 0;
+
+if (target && count >= target) {
+    button.classList.add("completed");
+}
 
         // إضافة حدث لتحديد المسبحة النشطة عند الضغط
         box.addEventListener("click", () => {
@@ -26469,16 +26513,19 @@ function confirmResetAll(event) {
 
     const boxes = document.querySelectorAll(".tasbih-box");
 
-    boxes.forEach(box => {
-        const button = box.closest("button");
-        const key = "tasbih_" + button.getAttribute("data-station");
+boxes.forEach(box => {
+    const button = box.closest("button");
+    const key = "tasbih_" + button.getAttribute("data-station");
 
-        // تصفير localStorage
-        localStorage.setItem(key, 0);
+    // تصفير localStorage
+    localStorage.setItem(key, 0);
 
-        // تصفير النص داخل المسبحة
-        box.querySelector(".tasbih-count").innerText = 0;
-    });
+    // تصفير النص داخل المسبحة
+    box.querySelector(".tasbih-count").innerText = 0;
+
+    // 👇 ده السطر الجديد (مكانه هنا بالظبط)
+    button.classList.remove("completed");
+});
 
     alert("تم تصفير جميع العدادات بنجاح ✅");
 }
