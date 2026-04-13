@@ -5047,10 +5047,10 @@ setInterval(() => {
 
 <!-- فلتر فرعي للأذكار -->
 <div id="adhkar-subfilter">
-  <button class="adhkar-sub-btn active"  data-sub="all"     onclick="filterAdhkarSub('all',this)">📿 الكل</button>
-  <button class="adhkar-sub-btn"         data-sub="morning" onclick="filterAdhkarSub('morning',this)">🌅 أذكار الصباح</button>
-  <button class="adhkar-sub-btn"         data-sub="evening" onclick="filterAdhkarSub('evening',this)">🌙 أذكار المساء</button>
-  <button class="adhkar-sub-btn"         data-sub="general" onclick="filterAdhkarSub('general',this)">📖 أذكار عامة</button>
+<button class="adhkar-sub-btn active" data-sub="all" data-ar="📿 الكل" data-en="All" onclick="filterAdhkarSub('all',this)">📿 الكل</button>
+<button class="adhkar-sub-btn" data-sub="morning" data-ar="🌅 أذكار الصباح" data-en="Morning Adhkar" onclick="filterAdhkarSub('morning',this)">🌅 أذكار الصباح</button>
+<button class="adhkar-sub-btn" data-sub="evening" data-ar="🌙 أذكار المساء" data-en="Evening Adhkar" onclick="filterAdhkarSub('evening',this)">🌙 أذكار المساء</button>
+<button class="adhkar-sub-btn" data-sub="general" data-ar="📖 أذكار عامة" data-en="General Adhkar" onclick="filterAdhkarSub('general',this)">📖 أذكار عامة</button>
 </div>
 
 <!-- البحث وأزرار الخيارات -->
@@ -18074,7 +18074,6 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
     data-category="Adhkar" 
-     data-adhkar-morning="1"
     data-station="راديو أذكار الصباح (متنوع)"
     data-ar="راديو أذكار الصباح (متنوع)"
     data-en="Morning Adhkar Radio (Various Reciters)"
@@ -18107,8 +18106,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
     data-category="Adhkar"
-    data-adhkar-morning="1"
-data-adhkar-evening="1"
+   
     data-station="أذكار الصباح والمساء"
     data-ar="أذكار الصباح والمساء"
     data-en="Morning & Evening Adhkar"
@@ -18143,10 +18141,12 @@ data-adhkar-evening="1"
     data-adhkar-type="general,morning,evening"  
      data-adhkar-morning="1"
     data-adhkar-evening="1"
-    data-station="آية الكرسي"
-    data-target="1"
-    data-ar="آية الكرسي"
-    data-en="Ayat Al-Kursi"
+   data-station="اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ"
+
+data-target="1"
+data-ar="اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَهُوَ الْعَلِيُّ الْعَظِيمُ"
+
+data-en="Allah! There is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what is behind them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great."
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0658/%D8%A2%D9%8A%D8%A9%20%D8%A7%D9%84%D9%83%D8%B1%D8%B3%D9%8A%20.mp3",
@@ -18190,10 +18190,12 @@ data-adhkar-evening="1"
 <button class="button palestine"
     data-category="Adhkar" 
 data-adhkar-evening="1"
-    data-station="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ..."
-    data-target="1"
-data-ar="سورة البقرة (285 - 286)"
-data-en="Al-Baqarah Last 2 Verses"
+  data-station="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِّن رُّسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ ۝ لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ ۗ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ"
+
+data-target="1"
+data-ar="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِّن رُّسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ ۝ لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ ۗ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ"
+
+data-en="The Messenger believes in what has been revealed to him from his Lord, and so do the believers. Each one believes in Allah, His angels, His books, and His messengers. (They say,) “We make no distinction between any of His messengers.” And they say, “We hear and we obey. (We seek) Your forgiveness, our Lord, and to You is the return.” Allah does not burden a soul beyond that it can bear. It will have what it has earned, and it will bear what it has earned. Our Lord, do not take us to task if we forget or make mistakes. Our Lord, do not place upon us a burden like that which You placed upon those before us. Our Lord, do not burden us with that which we have no ability to bear. Pardon us, forgive us, and have mercy upon us. You are our Protector, so give us victory over the disbelieving people."
     data-random="true"
     data-urls='[
         "https://archive.org/download/3_20260405/%D8%A2%D9%85%D9%86%20%D8%A7%D9%84%D8%B1%D8%B3%D9%88%D9%84%20%282%29.mp3",
@@ -18244,10 +18246,10 @@ data-en="Al-Baqarah Last 2 Verses"
     data-adhkar-morning="1"
 data-adhkar-evening="1"
 
-    data-station="قُلْ هُوَ ٱللَّهُ أَحَدٌ"
-    data-target="3"
-    data-ar="سورة الإخلاص"
-    data-en="Surah Al-Ikhlas"
+  data-station="قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ"
+data-target="3"
+data-ar="قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ"
+data-en="Say: He is Allah, the One ۝ Allah, the Eternal Refuge ۝ He neither begets nor is born ۝ Nor is there to Him any equivalent"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0736/%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D9%84%D8%AD%D8%B5%D8%B1%D9%8A%20-%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A5%D8%AE%D9%84%D8%A7%D8%B5%20%28%D9%85%D8%AC%D9%88%D8%AF%29.mp3",
@@ -18296,10 +18298,10 @@ data-adhkar-evening="1"
         data-category="Adhkar" 
         data-adhkar-morning="1"
 data-adhkar-evening="1"
-        data-station="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ"
-            data-target="3"
-        data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ"
-        data-en="Qul A'udhu Birabbi Al-Falaq"
+      data-station="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ ٱلنَّفَّاثَاتِ فِي ٱلْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ"
+data-target="3"
+data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ ٱلنَّفَّاثَاتِ فِي ٱلْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ"
+data-en="Say: I seek refuge in the Lord of daybreak ۝ From the evil of what He created ۝ And from the evil of darkness when it settles ۝ And from the evil of the blowers in knots ۝ And from the evil of an envier when he envies"
         data-random="true"
         data-urls='[
             "https://server11.mp3quran.net/yasser/113.mp3",
@@ -18340,10 +18342,10 @@ data-adhkar-evening="1"
         data-category="Adhkar" 
         data-adhkar-morning="1"
 data-adhkar-evening="1"
-        data-station="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ"
-            data-target="3"
-        data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ"
-        data-en="Qul A'udhu Birabbi An-Naas"
+       data-station="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"
+data-target="3"
+data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"
+data-en="Say: I seek refuge in the Lord of mankind ۝ The King of mankind ۝ The God of mankind ۝ From the evil of the whisperer who withdraws ۝ Who whispers in the breasts of mankind ۝ From among jinn and mankind"
         data-random="true"
         data-urls='[
             "https://server6.mp3quran.net/kurdi/114.mp3",
@@ -18382,10 +18384,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 
-    data-station="أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله..."
-        data-target="1"
-    data-ar="أذكار الصباح"
-    data-en="Morning Adhkar"
+   data-station="أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنَ الشَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر."
+data-target="1"
+data-ar="أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنَ الشَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر."
+data-en="I have entered the morning and the dominion belongs to Allah... (Morning remembrance supplication)"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0743/%D8%AF%D8%B9%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD%20%D8%A3%D8%B5%D8%A8%D8%AD%D9%86%D8%A7%20%D9%88%D8%A3%D8%B5%D8%A8%D8%AD%20.mp3"
@@ -18422,10 +18424,12 @@ data-adhkar-evening="1"
 <button class="button palestine"
     data-category="Adhkar" 
 data-adhkar-evening="1"
-    data-station="أَمْسَيْـنا وَأَمْسـى المـلكُ لله..."
-        data-target="1"
-    data-ar="أذكار المساء"
-    data-en="Evening Adhkar"
+   data-station="أَمْسَيْـنا وَأَمْسـى المـلكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذهِ اللَّـيْلَةِ وَخَـيرَ ما بَعْـدَهـا ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذهِ اللَّـيْلةِ وَشَرِّ ما بَعْدَهـا ، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر."
+
+data-target="1"
+data-ar="أَمْسَيْـنا وَأَمْسـى المـلكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذهِ اللَّـيْلةِ وَخَـيرُ ما بَعْدَهـا ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذهِ اللَّـيْلةِ وَشَرِّ ما بَعْدَهـا ، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر."
+
+data-en="We have entered the evening and all dominion belongs to Allah, and all praise is for Allah. There is no god but Allah alone, with no partner. To Him belongs the dominion and to Him is all praise, and He is over all things capable. My Lord, I ask You for the good of this night and the good of what follows it, and I seek refuge in You from the evil of this night and the evil of what follows it. My Lord, I seek refuge in You from laziness and the evil of old age. My Lord, I seek refuge in You from the punishment of the Fire and the punishment of the grave."
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0746/%D8%A3%D9%85%D8%B3%D9%8A%D9%86%D8%A7%20%D9%88%D8%A3%D9%85%D8%B3%D9%89%20%D8%A7%D9%84%D9%85%D9%84%D9%83.mp3"
@@ -18464,10 +18468,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 
-    data-station="اللّهُـمَّ ما أَصْبَـَحَ بي..."
-        data-target="1"
-    data-ar="دعاء الصباح"
-    data-en="Morning Supplication"
+    data-station="اللّهُـمَّ ما أَصْبَـَحَ بي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لا شَريكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ"
+data-target="1"
+data-ar="اللّهُـمَّ ما أَصْبَـَحَ بي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لا شَريكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ"
+data-en="O Allah, whatever blessing I or anyone among Your creation has received in the morning is from You alone; to You belongs all praise and thanks"
     data-random="true"
     data-urls='[
         "https://archive.org/download/4_20260405_20260405/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D9%85%D8%A7%20%D8%A7%D8%B5%D8%A8%D8%AD%20%D8%A8%D9%8A%20%20%282%29.mp3",
@@ -18510,10 +18514,10 @@ data-adhkar-evening="1"
 <button class="button palestine"
     data-category="Adhkar" 
 data-adhkar-evening="1"
-    data-station="اللّهُـمَّ ما أَمسى بي..."
-        data-target="1"
-    data-ar="دعاء المساء"
-    data-en="Evening Supplication"
+  data-station="اللّهُـمَّ ما أَمسى بي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لا شَريكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ"
+data-target="1"
+data-ar="اللّهُـمَّ ما أَمسى بي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لا شَريكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ"
+data-en="O Allah, whatever blessing I or anyone among Your creation has received in the evening is from You alone; to You belongs all praise and thanks"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0823/%D9%85%D9%86%20%D8%A3%D8%B0%D9%83%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1.mp3"
@@ -18554,10 +18558,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 
-    data-station="اللّهُـمَّ بِكَ أَصْـبَحْنا..."
-        data-target="1"
-    data-ar="دعاء الصباح والمساء"
-    data-en="Morning & Evening Supplication"
+ data-station="اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَيْنا وَبِكَ نَحْيا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ"
+data-target="1"
+data-ar="اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَيْنا وَبِكَ نَحْيا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ"
+data-en="O Allah, by You we enter the morning and by You we enter the evening, by You we live and by You we die, and to You is the resurrection"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0900/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A8%D9%83%20%D8%A3%D8%B5%D8%A8%D8%AD%D9%86%D8%A7%20%D9%88%D8%A8%D9%83%20%D8%A3%D9%85%D8%B3%D9%8A%D9%86%D8%A7%20.mp3"
@@ -18594,10 +18598,10 @@ data-adhkar-evening="1"
     onclick="toggleRadio(this, event)"
     data-category="Adhkar" 
 data-adhkar-evening="1"
-    data-station="اللّهُـمَّ بِكَ أَمْسَـينا..."
-        data-target="1"
-    data-ar="دعاء الصباح والمساء"
-    data-en="Morning & Evening Supplication"
+data-station="اللّهُـمَّ بِكَ أَمْسَـينا وَبِكَ أَصْبَحْنا وَبِكَ نَحْيا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ"
+data-target="1"
+data-ar="اللّهُـمَّ بِكَ أَمْسَـينا وَبِكَ أَمْسَـحْنا وَبِكَ نَحْيا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ"
+data-en="O Allah, by You we enter the evening and by You we enter the morning, by You we live and die, and to You is the final return"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0907/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A8%D9%83%20%D8%A3%D9%85%D8%B3%D9%8A%D9%86%D8%A7%20%D9%88.mp3"
@@ -18633,10 +18637,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 
-    data-station="أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ..."
-        data-target="1"
-    data-ar="دعاء الصباح"
-    data-en="Morning Supplication"
+ data-station="أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ وَعَلَى كَلِمَةِ الإِخْلاَصِ وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ"
+data-target="1"
+data-ar="أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ وَعَلَى كَلِمَةِ الإِخْلاَصِ وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ"
+data-en="We have entered the morning upon the fitrah of Islam, upon the word of sincerity, upon the religion of our Prophet Muhammad ﷺ, and upon the creed of our father Ibrahim, upright and Muslim, and he was not of the polytheists"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0911/%D8%A3%D8%B5%D8%A8%D8%AD%D9%86%D8%A7%20%D8%B9%D9%84%D9%89%20%D9%81%D8%B7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A5%D8%B3%D9%84%D8%A7%D9%85...mp3"
@@ -18675,10 +18679,10 @@ data-adhkar-evening="1"
 <button class="button palestine"
     data-category="Adhkar" 
 data-adhkar-evening="1"
-    data-station="أَمْسَيْنَا عَلَى فِطْرَةِ الإسْلاَمِ..."
-        data-target="1"
-    data-ar="دعاء المساء"
-    data-en="Evening Supplication"
+ data-station="أَمْسَيْنَا عَلَى فِطْرَةِ الإسْلاَمِ وَعَلَى كَلِمَةِ الإِخْلاَصِ وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ"
+data-target="1"
+data-ar="أَمْسَيْنَا عَلَى فِطْرَةِ الإسْلاَمِ وَعَلَى كَلِمَةِ الإِخْلاَصِ وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ"
+data-en="We have entered the evening upon the fitrah of Islam, upon the word of sincerity, upon the religion of our Prophet Muhammad ﷺ, and upon the creed of our father Ibrahim, upright and Muslim, and he was not of the polytheists"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0914/%D8%A3%D9%85%D8%B3%D9%8A%D9%86%D9%80%D8%A7%20%D8%B9%D9%84%D9%89%20%D9%81%D8%B7%D9%80%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A5%D8%B3%D9%80%D9%84%D8%A7%D9%85%20%282%29.mp3",
@@ -18720,10 +18724,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 
-    data-station="أَصْبَـحْـنا وَأَصْبَـحْ المُـلكُ للهِ رَبِّ العـالَمـين..."
-        data-target="1"
-    data-ar="دعاء الصباح"
-    data-en="Morning Supplication"
+  data-station="أَصْبَـحْـنا وَأَصْبَـحْ المُـلكُ للهِ رَبِّ العـالَمـين، اللّهُـمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذَا اليَوْمِ فَتْحَهُ وَنَصْرَهُ وَنُورَهُ وَبَرَكَتَهُ وَهُدَاهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِيهِ وَشَرِّ مَا بَعْدَهُ"
+data-target="1"
+data-ar="أَصْبَـحْـنا وَأَصْبَـحْ المُـلكُ للهِ رَبِّ العـالَمـين، اللّهُـمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذَا اليَوْمِ فَتْحَهُ وَنَصْرَهُ وَنُورَهُ وَبَرَكَتَهُ وَهُدَاهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِيهِ وَشَرِّ مَا بَعْدَهُ"
+data-en="We have entered the morning and the dominion belongs to Allah, Lord of the worlds. O Allah, I ask You for the good of this day, its opening, victory, light, blessing, and guidance, and I seek refuge in You from its evil and the evil that follows it"
     data-random="true"
     data-urls='[
         "https://archive.org/download/2_20260405/%D8%A3%D8%B5%D8%A8%D9%80%D8%AD%D9%80%D9%86%D8%A7%20%D9%88%D8%A3%D8%B5%D8%A8%D9%80%D8%AD%20%D8%A7%D9%84%D9%85%D9%80%D9%84%D9%83%20%20%282%29.mp3",
@@ -18762,10 +18766,10 @@ data-adhkar-evening="1"
 <button class="button palestine"
     data-category="Adhkar" 
 data-adhkar-evening="1"
-    data-station="أَمْسَيْنا وَأَمْسَى الْمُلْكُ للهِ رَبِّ الْعَالَمَيْنِ..."
-        data-target="1"
-    data-ar="دعاء المساء"
-    data-en="Evening Supplication"
+  data-station="أَمْسَيْنا وَأَمْسَى الْمُلْكُ للهِ رَبِّ الْعَالَمَيْنِ، اللّهُـمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذِهِ اللَّيْلَةِ فَتْحَهَا وَنَصْرَهَا وَنُورَهَا وَبَرَكَتَهَا وَهُدَاهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِيهَا وَشَرِّ مَا بَعْدَهَا"
+data-target="1"
+data-ar="أَمْسَيْنا وَأَمْسَى الْمُلْكُ للهِ رَبِّ الْعَالَمَيْنِ، اللّهُـمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذِهِ اللَّيْلَةِ فَتْحَهَا وَنَصْرَهَا وَنُورَهَا وَبَرَكَتَهَا وَهُدَاهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِيهَا وَشَرِّ مَا بَعْدَهَا"
+data-en="We have entered the evening and the dominion belongs to Allah, Lord of the worlds. O Allah, I ask You for the good of this night, its opening, victory, light, blessing, and guidance, and I seek refuge in You from its evil and the evil that follows it"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0929/%D8%A3%D9%85%D8%B3%D9%8A%D9%86%D8%A7%20%D9%88%D8%A3%D9%85%D8%B3%D9%89%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D9%84%D9%84%D9%87%20%D8%B1%D8%A8%20%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D9%86.mp3"
@@ -18804,11 +18808,11 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="اللّهـمَّ أَنْتَ رَبِّـي"
-        data-target="1"
-    data-ar="دعاء الاستغفار"
-    data-en="Supplication"
-    data-random="true"
+data-station="اللّهـمَّ أَنْتَ رَبِّـي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ"
+data-target="1"
+data-ar="اللّهـمَّ أَنْتَ رَبِّـي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ"
+data-en="O Allah, You are my Lord, there is no god but You. You created me and I am Your servant. I uphold Your covenant and promise as best as I can. I seek refuge in You from the evil I have done. I acknowledge Your favor upon me, and I acknowledge my sin, so forgive me, for none forgives sins except You"
+data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0810/%D8%A7%D9%84%D9%80%D9%84%D9%80%D9%87%D9%80%D9%85%20%D8%A3%D9%86%D8%AA%20%D8%B1%D8%A8%D9%8A.mp3",
         "https://archive.org/download/20260405_20260405_0810/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A7%D9%86%D8%AA%20%D8%B1%D8%A8%D9%8A%20%D8%AE%D9%84%D9%82%D8%AA%D9%86%D9%8A%20%D9%88%D8%A7%D9%86%D8%A7%20%D8%B9%D8%A8%D8%AF%D9%83.mp3"
@@ -18848,10 +18852,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ..."
-        data-target="1"
-    data-ar="دعاء العفو والعافية"
-    data-en="Supplication for Forgiveness and Well-being"
+data-station="اللّهُـمَّ إِنِّـي أَسْأَلُكَ العَفْوَ وَالعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللّهُـمَّ إِنِّـي أَسْأَلُكَ العَفْوَ وَالعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللّهُـمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللّهُـمَّ احْفَظْنِي مِن بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِن فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِن تَحْتِي"
+data-target="1"
+data-ar="اللّهُـمَّ إِنِّـي أَسْأَلُكَ العَفْوَ وَالعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللّهُـمَّ إِنِّـي أَسْأَلُكَ العَفْوَ وَالعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللّهُـمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللّهُـمَّ احْفَظْنِي مِن بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِن فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِن تَحْتِي"
+data-en="O Allah, I ask You for pardon and well-being in this world and the Hereafter, I ask You for pardon and well-being in my religion, my worldly life, my family, and my wealth. O Allah, conceal my faults and set my fears at ease. O Allah, protect me from in front of me, from behind me, on my right, on my left, and from above me. I seek refuge in Your greatness from being destroyed from beneath me"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0919/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%8A%20%D8%A3%D8%B3%D8%A7%D9%84%D9%83%20%D8%A7%D9%84%D8%B9%D9%81%D9%88%20%D9%88%D8%A7%D9%84%D8%B9%D8%A7%D9%81%D9%8A%D8%A9%20%20%D8%A3%D8%B0%D9%83%D8%A7%D8%B1.mp3"
@@ -18891,10 +18895,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="اللّهُـمَّ عالِـمَ الغَـيْبِ وَالشّـهادَةِ..."
-        data-target="1"
-    data-ar="اللهم عالم الغيب والشهادة"
-data-en="O Allah, Knower of the unseen and the seen"
+ data-station="اللّهُـمَّ عالِـمَ الغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَاوَاتِ وَالأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءًا أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ"
+data-target="1"
+data-ar="اللّهُـمَّ عالِـمَ الغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَاوَاتِ وَالأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءًا أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ"
+data-en="O Allah, Knower of the unseen and the seen, Originator of the heavens and the earth, Lord and Sovereign of everything. I bear witness that there is no god but You. I seek refuge in You from the evil of myself, from the evil of Satan and his شرك, and from committing harm against myself or bringing it upon any Muslim"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0933/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B9%D8%A7%D9%84%D9%85%20%D8%A7%D9%84%D8%BA%D9%8A%D8%A8.mp3"
@@ -18936,11 +18940,14 @@ data-en="O Allah, Knower of the unseen and the seen"
 <button class="button palestine"
     data-category="Adhkar" 
     data-adhkar-morning="1"
-    data-station="اللهم إني أصبحت أشهدك..."
-        data-target="4"
-    data-ar="اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك وَأُشْـهِدُ حَمَلَةَ عَـرْشِـك وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لا إِلَهَ إِلا أَنْتَ وَحْدَكَ لا شَرِيكَ لَكَ وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ"
-    data-en="Allahumma inni asbahtu ush-hiduka wa ush-hidu hamalata 'arshika..."
-    data-random="true"
+  data-station="اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ"
+
+data-target="4"
+
+data-ar="اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ"
+
+data-en="O Allah, I have entered the morning bearing witness to You, and to the bearers of Your Throne, Your angels, and all of Your creation that You are Allah, there is no god but You alone, without partner, and that Muhammad is Your servant and Messenger"
+data-random="true"
     data-urls='[
         "https://archive.org/download/shorts_202604/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%8A%20%D8%A3%D8%B5%D8%A8%D8%AD%D8%AA%20%D8%A3%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A3%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%23%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%20%23maroc%20%23%D8%AF%D8%B9%D8%A7%D8%A1%20%23%D8%A7%D8%B0%D9%83%D8%A7%D8%B1%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD%20%23quran.mp3",
         "https://archive.org/download/shorts_202604/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A7%D9%86%D9%8A%20%D8%A7%D8%B5%D8%A8%D8%AD%D8%AA%20%D8%A7%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A7%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%83%20%D9%88%D8%AC%D9%85%D9%80%D9%8A%D8%B9%20%D8%AE%D9%84%D9%80%D9%82%D9%83%20%D8%A3%D9%86%D9%80%D9%83%20%D8%A3%D9%86%D9%80%D8%AA%20%D8%A7%D9%84%D9%84%D9%87%20%D9%84%D8%A7%20%D8%A5%D9%84%D9%87%20%D8%A5%D9%84%D8%A7%20%D8%A3%D9%86%D9%80%D8%AA%20%23shorts.mp3"
@@ -18977,10 +18984,10 @@ data-en="O Allah, Knower of the unseen and the seen"
 <button class="button palestine"
     data-category="Adhkar" 
 data-adhkar-evening="1"
-    data-station="اللهم إني أمسيت أشهدك..."
-        data-target="4"
-    data-ar="اللّهُـمَّ إِنِّـي أَمْسَيْتُ أُشْـهِدُك وَأُشْـهِدُ حَمَلَةَ عَـرْشِـك وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لا إِلَهَ إِلا أَنْتَ وَحْدَكَ لا شَرِيكَ لَكَ وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ"
-    data-en="Allahumma inni amsaytu ush-hiduka wa ush-hidu hamalata 'arshika..."
+   data-station="اللهم إني أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لا إِلَهَ إِلا أَنْتَ وَحْدَكَ لا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ"
+data-target="4"
+data-ar="اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ"
+data-en="O Allah, I have entered the evening bearing witness to You, and to the bearers of Your Throne, Your angels, and all of Your creation that You are Allah, there is no god but You alone, without partner, and that Muhammad is Your servant and Messenger"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260404_20260404_1600/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%89%20%D8%A3%D9%85%D8%B3%D9%8A%D8%AA%20%D8%A3%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A3%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%83%20%D9%88%D8%AC%D9%85%D9%8A%D8%B9%20%D8%AE%D9%84%D9%82%D9%83.mp3",
@@ -19021,10 +19028,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="حسبي الله لا إله إلا هو..."
-        data-target="7"
-    data-ar="حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم"
-    data-en="Hasbiyallahu la ilaha illa Huwa, 'alayhi tawakkaltu wa Huwa Rabbul 'arshil 'azim"
+   data-station="حَسْبِـيَ اللّهُ لا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ"
+data-target="7"
+data-ar="حَسْبِـيَ اللّهُ لا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ"
+data-en="Allah is sufficient for me; there is no god but Him. In Him I have placed my trust, and He is the Lord of the Great Throne"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260404_20260404_1606/%28%D8%AD%D8%B3%D8%A8%D9%8A%20%D8%A7%D9%84%D9%84%D9%87%20%D9%84%D8%A7%20%D8%A5%D9%84%D9%87%20%D8%A5%D9%84%D8%A7%20%D9%87%D9%88%20%D8%B9%D9%84%D9%8A%D9%87%20%D8%AA%D9%88%D9%83%D9%84%D8%AA%20%D9%88%D9%87%D9%88%20%D8%B1%D8%A8%20%D8%A7%D9%84%D8%B9%D8%B1%D8%B4%20%D8%A7%D9%84%D8%B9%D8%B8%D9%8A%D9%85%29%20%D8%A7%D8%B0%D9%83%D8%A7%D8%B1%20%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD.mp3",
@@ -19107,11 +19114,11 @@ data-target="10"
 <button class="button palestine"
     data-category="Adhkar" 
     data-adhkar-morning="1"
-data-adhkar-evening="1"
-    data-station="رضيت بالله رباً..."
-        data-target="3"
-    data-ar="رَضِيتُ بِاللَّهِ رَبًّا وَبِالإِسْلَامِ دِينًا وَبِمُحَمَّدٍ ﷺ نَبِيًّا"
-    data-en="Radheetu billahi Rabban wa bil-Islami deenan wa bi-Muhammadin ﷺ Nabiyyan"
+datdata-adhkar-evening="1"
+data-station="رَضِيتُ بِاللَّهِ رَبًّا وَبِالإِسْلَامِ دِينًا وَبِمُحَمَّدٍ ﷺ نَبِيًّا"
+data-target="3"
+data-ar="رَضِيتُ بِاللَّهِ رَبًّا وَبِالإِسْلَامِ دِينًا وَبِمُحَمَّدٍ ﷺ نَبِيًّا"
+data-en="I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad ﷺ as my Prophet"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260404_20260404_1550/%D8%B1%D8%B6%D9%8A%D8%AA%20%D8%A8%D8%A7%D9%84%D9%84%D9%87%20%D8%B1%D8%A8%D8%A7%20%D9%88%D8%A8%D8%A7%D9%84%D8%A5%D8%B3%D9%84%D8%A7%D9%85%20%D8%AF%D9%8A%D9%86%D8%A7%20%D9%88%D8%A8%D9%85%D8%AD%D9%85%D8%AF%20%D8%B5%D9%84%D9%89%20%D8%A7%D9%84%D9%84%D9%87%20%D8%B9%D9%84%D9%8A%D9%87%20%D9%88%D8%B3%D9%84%D9%85%20%D8%B1%D8%B3%D9%88%D9%84%D8%A7.mp3",
@@ -19152,10 +19159,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="بسم الله الذي لا يضر..."
-            data-target="3"
-    data-ar="بِسْمِ اللَّهِ الَّذِي لا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ"
-    data-en="Bismillah alladhi la yadurru ma'asmihi shay'un fil-ardi wa la fis-sama'i wa Huwa as-Sami'ul-'Alim"
+   data-station="بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ"
+data-target="3"
+data-ar="بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ"
+data-en="In the name of Allah, with whose name nothing on earth or in the heavens can cause harm, and He is the All-Hearing, All-Knowing"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260404_20260404_1644/%D8%A8%D8%B3%D9%85%20%D8%A7%D9%84%D9%84%D9%87%20%D8%A7%D9%84%D8%B0%D9%8A%20%D9%84%D8%A7%20%D9%8A%D8%B6%D8%B1%20%D9%85%D8%B9%20%D8%A7%D8%B3%D9%85%D9%87%20%D8%B4%D9%8A%D8%A1%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A3%D8%B1%D8%B6%20%D9%88%D9%84%D8%A7%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%B3%D9%85%D8%A7%D8%A1%20%D9%88%D9%87%D9%88%20%D8%A7%D9%84%D8%B3%D9%85%D9%8A%D8%B9%20%D8%A7%D9%84%D8%B9%D9%84%D9%8A%D9%85..mp3",
@@ -19198,10 +19205,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="سبحان الله وبحمده عدد خلقه..."
-            data-target="3"
-    data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ"
-    data-en="SubhanAllahi wa bihamdihi 'adada khalqihi wa rida nafsihi wa zinata 'arshihi wa midada kalimatihi"
+  data-station="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ"
+data-target="3"
+data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ"
+data-en="Glory is to Allah and praise be to Him, as much as the number of His creation, as much as pleases Him, as heavy as His Throne, and as vast as His words"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260404_20260404_1649/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20%D8%B9%D8%AF%D8%AF%20%D8%AE%D9%84%D9%82%D9%87%20%D9%88%D8%B1%D8%B6%D8%A7%20%D9%86%D9%81%D8%B3%D9%87%20%D9%88%D8%B2%D9%86%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%87%20%D9%88%D9%85%D8%AF%D8%A7%D8%AF%20%D9%83%D9%84%D9%85%D8%A7%D8%AA%D9%87.mp3",
@@ -19239,10 +19246,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="اللّهُـمَّ عافِـني في بَدَنـي"
-            data-target="3"
-    data-ar="اللّهُـمَّ عافِـني في بَدَنـي"
-    data-en="Allahumma Afini fi Badani"
+  data-station="اللّهُـمَّ عافِـني في بَدَنـي، اللّهُـمَّ عافِـني في سَمْعِي، اللّهُـمَّ عافِـني في بَصَرِي، لا إِلَٰهَ إِلَّا أَنْتَ"
+data-target="3"
+data-ar="اللّهُـمَّ عافِـني في بَدَنـي، اللّهُـمَّ عافِـني في سَمْعِي، اللّهُـمَّ عافِـني في بَصَرِي، لا إِلَٰهَ إِلَّا أَنْتَ"
+data-en="O Allah, grant me well-being in my body, my hearing, and my sight. There is no god but You"
     data-random="true"
     data-urls='[
 "https://archive.org/download/20260404_20260404_1653/%28%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B9%D8%A7%D9%81%D9%86%D9%8A%20%D9%81%D9%8A%20%D8%A8%D8%AF%D9%86%D9%8A%20%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B9%D8%A7%D9%81%D9%86%D9%8A%20%D9%81%D9%8A%20%D8%B3%D9%85%D8%B9%D9%8A%20%29%20%D8%A7%D8%B0%D9%83%D8%A7%D8%B1%20%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD%20%D9%88%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1.mp3",
@@ -19282,10 +19289,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفر"
-            data-target="3"
-    data-ar="اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفر"
-    data-en="Allahumma inni a'udhu bika min al-kufr"
+data-station="اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفْرِ، وَالْفَقْرِ، وَأَعـوذُ بِكَ مِنْ عَذَابِ القَـبْرِ، لا إلهَ إلاّ أَنْـتَ."
+data-target="3"
+   data-ar="اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفْرِ، وَالْفَقْرِ، وَأَعـوذُ بِكَ مِنْ عَذَابِ القَـبْرِ، لا إلهَ إلاّ أَنْـتَ."
+data-en="O Allah, I seek refuge in You from disbelief, poverty, and the punishment of the grave. There is no god but You"
     data-random="true"
     data-urls='[
 "https://archive.org/download/20260404_20260404_1659/%D8%A7%D9%84%D9%84%D9%87%D9%80%D9%85%20%D8%A5%D9%86%D9%80%D9%8A%20%D8%A3%D8%B9%D9%80%D9%88%D8%B0%20%D8%A8%D9%83%20%D9%85%D9%86%20%D8%A7%D9%84%D9%83%D9%80%D9%81%D8%B1%20%20%D9%88%D8%A7%D9%84%D9%81%D9%80%D9%82%D8%B1.mp3",
@@ -19326,11 +19333,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَمِّ وَالْحَزَنِ"
+data-station="اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ"
             data-target="3"
     data-ar="اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَمِّ وَالْحَزَنِ وَأَعُوذُ بِكَ مِنْ الْعَجْزِ وَالْكَسَلِ وَأَعُوذُ بِكَ مِنْ الْجُبْنِ وَالْبُخْلِ وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ"
-    data-en="Allahumma inni a'udhu bika min al-hammi wal-hazan, wa a'udhu bika min al-ajzi wal-kasl, wa a'udhu bika min al-jubni wal-bukhl, wa a'udhu bika min ghalabatid-dayn wa qahrir-rijal"
-    data-random="true"
+data-en="O Allah, I seek refuge in You from worry and grief, from incapacity and laziness, from cowardice and miserliness, and from being overcome by debt and the oppression of men"    data-random="true"
    data-urls='[
 "https://archive.org/download/20260404_20260404_1738/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%89%20%D8%A3%D8%B9%D9%88%D8%B0.mp3",
 "https://archive.org/download/20260404_20260404_1738/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%8A%20%D8%A3%D8%B9%D9%88%D8%B0%20%D8%A8%D9%83%20%D9%85%D9%86%20%D8%A7%D9%84%D9%87%D9%85%20%D9%88%D8%A7.mp3",
@@ -19370,10 +19376,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ"
-            data-target="3"
-    data-ar="اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ"
-    data-en="Allahumma inna na'udhu bika min an nushrika bika shay'an na'lamuhu"
+   data-station="اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ، وَنَسْتَغْفِرُكَ لِمَا لَا نَعْلَمُهُ"
+data-target="3"
+data-ar="اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ، وَنَسْتَغْفِرُكَ لِمَا لَا نَعْلَمُهُ"
+data-en="O Allah, we seek refuge in You from associating anything with You knowingly, and we ask Your forgiveness for what we do not know"
     data-random="true"
     data-urls='[
 "https://archive.org/download/20260404_20260404_1718/%23%D8%AF%D8%B9%D8%A7%D8%A1%20-%20%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%8A%20%D8%A3%D8%B9%D9%88%D8%B0%20%D8%A8%D9%83%20%D8%A3%D9%86%20%D8%A3%D8%B4%D8%B1%D9%83%20%D8%A8%D9%83%20%D9%88%D8%A3%D9%86%D8%A7%20%D8%A3%D8%B9%D9%84%D9%85%20%20l%20%D8%AD%D8%A7%D9%84%D8%AA%D9%8A%20%D8%A7%D9%84%D8%AF%D8%B9%D9%88%D9%8A%D8%A9.mp3",
@@ -19413,10 +19419,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ"
-            data-target="3"
-    data-ar="أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ"
-    data-en="A'udhu bikalimatillah at-tammati"
+   data-station="أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ مِنْ شَرِّ مَا خَلَقَ"
+data-target="3"
+data-ar="أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ مِنْ شَرِّ مَا خَلَقَ"
+data-en="I seek refuge in the perfect words of Allah from the evil of what He has created"
     data-random="true"
     data-urls='[
 "https://archive.org/download/20260404_20260404_1712/%D8%A3%D8%B9%D9%88%D8%B0%20%D8%A8%D9%83%D9%84%D9%85%D8%A7%D8%AA%20%D8%A7%D9%84%D9%84%D9%87%20%D8%A7%D9%84%D8%AA%D8%A7%D9%85%D8%A7%D8%AA%20%D9%85%D9%86%20%D8%B4%D8%B1%20%D9%85%D8%A7%20%D8%AE%D9%84%D9%82.mp3",
@@ -19462,10 +19468,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="أسْتَغْفِرُ اللهَ العَظِيمَ"
-            data-target="3"
-    data-ar="أسْتَغْفِرُ اللهَ العَظِيمَ الَّذِي لاَ إلَهَ إلاَّ هُوَ، الحَيُّ القَيُّومُ، وَأتُوبُ إلَيهِ"
-    data-en="Astaghfirullah al-‘Azim alladhi la ilaha illa huwa, al-Hayy al-Qayyum, wa atubu ilayh"
+   data-station="أسْتَغْفِرُ اللهَ العَظِيمَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ، وَأَتُوبُ إِلَيْهِ"
+data-target="3"
+data-ar="أسْتَغْفِرُ اللهَ العَظِيمَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ، وَأَتُوبُ إِلَيْهِ"
+data-en="I seek forgiveness from Allah, the Most Great, besides whom there is no god, the Ever-Living, the Sustainer, and I repent to Him"
     data-random="true"
     data-urls='[
 "https://archive.org/download/20260404_20260404_1728/%D8%A7%D8%B3%D8%AA%D8%BA%D9%81%D8%B1%20%D8%A7%D9%84%D9%84%D9%87%20%D8%A7%D9%84%D8%B9%D8%B8%D9%8A%D9%85%20%D8%A7%D9%84%D8%B0%D9%8A%20%D9%84%D8%A7%20%D8%A5%D9%84%D9%87%20%D8%A5%D9%84%D8%A7%20%D9%87%D9%88%20%D8%A7%D9%84%D8%AD%D9%8A%20%D8%A7%D9%84%D9%82%D9%8A%D9%88%D9%85%20%D9%88%D8%A3%D8%AA%D9%88%D8%A8%20%D8%A5%D9%84%D9%8A%D9%87%20%20%D8%A7%D8%B3%D8%AA%D8%BA%D9%81%D8%A7%D8%B1.mp3",
@@ -19506,10 +19512,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="يَا حَيُّ يَا قيُّومُ بِرَحْمَتِكَ أسْتَغِيثُ"
-            data-target="3"
-    data-ar="يَا حَيُّ يَا قيُّومُ بِرَحْمَتِكَ أسْتَغِيثُ"
-    data-en="Ya Hayyu Ya Qayyum, bi rahmatika astaghith"
+    data-station="يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ"
+data-target="3"
+data-ar="يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ"
+data-en="O Ever-Living, O Sustainer, by Your mercy I seek help. Rectify all my affairs and do not leave me to myself even for the blink of an eye"
     data-random="true"
     data-urls='[
 "https://archive.org/download/20260404_20260404_1705/%D9%8A%D8%A7%20%D8%AD%D9%8A%20%D9%8A%D8%A7%20%D9%82%D9%8A%D9%88%D9%85%20%D8%A8%D8%B1%D8%AD%D9%85%D8%AA%D9%83%20%D8%A3%D8%B3%D8%AA%D8%BA%D9%8A%D8%AB%20%D8%A3%D8%B5%D9%84%D8%AD%20%D9%84%D9%8A%20%D8%B4%D8%A3%D9%86%D9%8A%20%D9%83%D9%84%D9%87%20%D9%88%D9%84%D8%A7%20%D8%AA%D9%83%D9%84%D9%86%D9%8A%20%D8%A5%D9%84%D9%89%20%D9%86%D9%81%D8%B3%D9%8A%20%D8%B7%D8%B1%D9%81%D8%A9%20%D8%B9%D9%8A%D9%86%20%23%D8%AF%D8%B9%D8%A7%D8%A1.mp3",
@@ -19550,10 +19556,10 @@ data-adhkar-evening="1"
     data-category="Adhkar" 
     data-adhkar-morning="1"
 data-adhkar-evening="1"
-    data-station="يارب لك الحمد"
-            data-target="3"
-    data-ar="يارب لك الحمد كما ينبغي لجلال وجهك وعظيم سلطانك"
-    data-en="Ya Rabb, laka al-hamdu kama yanbaghi lijalali wajhika wa 'azimi sultanika"
+    data-station="يَا رَبِّ لَكَ الْحَمْدُ كَمَا يَنْبَغِي لِجَلَالِ وَجْهِكَ وَعَظِيمِ سُلْطَانِكَ"
+data-target="3"
+data-ar="يَا رَبِّ لَكَ الْحَمْدُ كَمَا يَنْبَغِي لِجَلَالِ وَجْهِكَ وَعَظِيمِ سُلْطَانِكَ"
+data-en="O Lord, to You belongs all praise as befits the majesty of Your face and the greatness of Your authority"
     data-random="true"
     data-urls='[
 "https://archive.org/download/1_20260404_20260404_1734/%D9%8A%D8%A7%D8%B1%D8%A8%20%D9%84%D9%83%20%D8%A7%D9%84%D8%AD%D9%85%D8%AF%20%D9%83%D9%85%D8%A7%20%D9%8A%D9%86%D8%A8%D8%BA%D9%8A%20%D9%84%D8%AC%D9%84%D8%A7%D9%84%20%D9%88%D8%AC%D9%87%D9%83%20%D9%88%D8%B9%D8%B8%D9%8A%D9%85%20%D8%B3%D9%84%D8%B7%D8%A7%D9%86%D9%83%20%281%29.mp3",
@@ -19599,10 +19605,10 @@ data-adhkar-evening="1"
 data-adhkar-evening="1"
 data-adhkar-general="1"
 
-    data-station="لا إله إلا الله وحده..."
-            data-target="100"
-    data-ar="لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ"
-    data-en="There is no god but Allah alone..."
+    data-station="لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ"
+data-target="100"
+data-ar="لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ"
+data-en="There is no god but Allah alone, with no partner. To Him belongs the dominion and to Him belongs all praise, and He is over all things capable"
     data-random="true"
     data-urls='[
         "https://ia600302.us.archive.org/35/items/1_20250605_20250605_1152/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%AD%D8%AF%D9%87%20%D9%84%D8%A7%20%D8%B4%D8%B1%D9%8A%D9%83%20%D9%84%D9%87%20%D9%84%D9%87%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D9%88%D9%84%D9%87%20%D8%A7%D9%84%D8%AD%D9%85%D8%AF%20%D9%88%D9%87%D9%88%20%D8%B9%20%281%29.mp3",
@@ -19641,10 +19647,10 @@ data-adhkar-general="1"
 <button class="button palestine"
     data-category="Adhkar" 
 data-adhkar-evening="1"
-    data-station="اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ..."
-                data-target="1"
-    data-ar="دعاء الصباح والمساء"
-    data-en="Morning & Evening Supplication"
+   data-station="اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، عَلَيْكَ تَوَكَّلْتُ، وَأَنْتَ رَبُّ الْعَرْشِ الْعَظِيمِ، مَا شَاءَ اللَّهُ كَانَ وَمَا لَمْ يَشَأْ لَمْ يَكُنْ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ، أَعْلَمُ أَنَّ اللَّهَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، وَأَنَّ اللَّهَ قَدْ أَحَاطَ بِكُلِّ شَيْءٍ عِلْمًا، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَمِنْ شَرِّ كُلِّ دَابَّةٍ أَنْتَ آخِذٌ بِنَاصِيَتِهَا، إِنَّ رَبِّي عَلَى صِرَاطٍ مُسْتَقِيمٍ"
+data-target="1"
+data-ar="اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ..."
+data-en="O Allah, You are my Lord, there is no god but You. In You I trust, and You are the Lord of the عظیم Throne..."
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0940/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A7%D9%86%D8%AA%20%D8%B1%D8%A8%D9%8A.mp3"
@@ -19664,8 +19670,8 @@ data-adhkar-evening="1"
     <span class="station-text"
           title="اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ ، عَلَيْكَ تَوَكَّلْتُ ، وَأَنْتَ رَبُّ الْعَرْشِ الْعَظِيمِ , مَا شَاءَ اللَّهُ كَانَ ، وَمَا لَمْ يَشَأْ لَمْ يَكُنْ ، وَلا حَوْلَ وَلا قُوَّةَ إِلا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ , أَعْلَمُ أَنَّ اللَّهَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ ، وَأَنَّ اللَّهَ قَدْ أَحَاطَ بِكُلِّ شَيْءٍ عِلْمًا , اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي ، وَمِنْ شَرِّ كُلِّ دَابَّةٍ أَنْتَ آخِذٌ بِنَاصِيَتِهَا ، إِنَّ رَبِّي عَلَى صِرَاطٍ مُسْتَقِيمٍ.">
         
-        اللَّهُمَّ أَنْتَ رَبِّي...
-        
+اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ...
+
         <span class="multi-icon">🔁</span>
     </span>
 <span class="reset-all" 
@@ -25451,7 +25457,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
  
-  let isArabic = true;
+ let isArabic = true;
 
 function toggleLanguage() {
   isArabic = !isArabic;
@@ -25471,7 +25477,8 @@ function toggleLanguage() {
   // تحديث نصوص أزرار الخيارات
   document.querySelector("label[for='autoSwitchCheckbox']").textContent = isArabic ? document.querySelector("label[for='autoSwitchCheckbox']").getAttribute("data-ar") : document.querySelector("label[for='autoSwitchCheckbox']").getAttribute("data-en");
   document.querySelector("label[for='sleepCheckbox']").textContent = isArabic ? document.querySelector("label[for='sleepCheckbox']").getAttribute("data-ar") : document.querySelector("label[for='sleepCheckbox']").getAttribute("data-en");
- // تحديث خاصية placeholder للحقول بناءً على اللغة المختارة
+  
+  // تحديث خاصية placeholder للحقول بناءً على اللغة المختارة
   document.getElementById("sleepTimer").placeholder = isArabic ? document.getElementById("sleepTimer").getAttribute("data-ar") : document.getElementById("sleepTimer").getAttribute("data-en");
   document.getElementById("autoSwitchTimer").placeholder = isArabic ? document.getElementById("autoSwitchTimer").getAttribute("data-ar") : document.getElementById("autoSwitchTimer").getAttribute("data-en");
 
@@ -25479,7 +25486,14 @@ function toggleLanguage() {
   document.querySelectorAll(".filter-button").forEach(button => {
     button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
   });
-     // تحديث نصوص الأزرار التي تحتوي على data-ar و data-en
+
+  // --- الجزء الجديد الخاص بالأذكار ---
+  document.querySelectorAll("#adhkar-subfilter .adhkar-sub-btn").forEach(button => {
+    button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
+  });
+  // --------------------------------
+
+  // تحديث نصوص الأزرار التي تحتوي على data-ar و data-en
   document.querySelectorAll(".button.palestine .station-text").forEach(buttonText => {
     const button = buttonText.parentNode;
     buttonText.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
@@ -25488,6 +25502,7 @@ function toggleLanguage() {
   // تحديث نصوص الإدخال
   document.getElementById("searchInput").placeholder = isArabic ? "ابــحــث هـنـا عـن إذاعـة أو إسـم الـقـارئ" : "Search here for a station or reciter's name";
 }
+
 
 function changeBackgroundColor() {
     var color = document.getElementById("bgColor").value;
