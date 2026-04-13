@@ -394,88 +394,107 @@ audio {
     padding: 1px;
 }
 
-/* الحاوية اللي فيها كل الفلاتر */
+/* ========================= */
+/* الحاوية الأساسية */
+/* ========================= */
 #filters-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;                 /* مسافة بسيطة بين الأزرار */
+  gap: 8px;
   justify-content: center;
   margin-bottom: 10px;
 }
 
-/* تصميم الأزرار */
+/* ========================= */
+/* الأزرار */
+/* ========================= */
 .filter-button {
-  flex: 0 0 160px;         /* زيادة العرض */
-  min-width: 160px;        /* ضمان عدم تقليل العرض */
-  height: 50px;            /* زيادة الارتفاع */
+  flex: 0 0 160px;
+  min-width: 160px;
+  height: 50px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
   font-size: 13px;
   font-weight: 600;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Tahoma, "Segoe UI", sans-serif;
+
   background: #fff;
   color: #1e90ff;
+
   border: 2px solid currentColor;
   border-radius: 8px;
+
   cursor: pointer;
-  padding: 0 12px;         /* زيادة المسافات الداخلية */
+  padding: 0 12px;
+
+  box-sizing: border-box;
+
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-
+/* hover + selected */
 .filter-button:hover,
 .filter-button.selected {
   background: #1e90ff !important;
   color: #fff !important;
   transform: scale(1.05);
-    border-width: 3px;
-
+  border-width: 3px;
 }
 
-/* لتعديل الخط العربي بشكل أفضل */
+/* ========================= */
+/* خاص بالعربي (اختياري) */
+/* ========================= */
 .filter-button[data-ar] {
-  font-family: "Arial", "Tahoma", "Segoe UI", sans-serif;
+  direction: rtl;
 }
+
+/* ========================= */
+/* زر المفضلة */
+/* ========================= */
 #viewFavoritesButton {
   background: #fff !important;
   color: red !important;
   border: 2px solid #1e90ff;
 }
+
 #viewFavoritesButton:hover,
 #viewFavoritesButton.selected {
   background: red !important;
   color: #fff !important;
 }
- 
 
+/* ========================= */
+/* زر كل الإذاعات */
+/* ========================= */
 .filter-button[data-ar="كل الإذاعات"] {
   background: #fff !important;
   color: black !important;
   font-weight: 700;
   border: 2px solid #1e90ff;
 }
+
 .filter-button[data-ar="كل الإذاعات"]:hover,
 .filter-button[data-ar="كل الإذاعات"].selected {
   background: black !important;
   color: #fff !important;
 }
 
-
 /* ========================= */
 /* 📱 موبايل */
 /* ========================= */
 @media (max-width: 767px) {
-
   #filters-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
     gap: 6px;
-    justify-content: center;
   }
 
   .filter-button {
@@ -494,12 +513,10 @@ audio {
   }
 }
 
-
 /* ========================= */
 /* 📲 تابلت */
 /* ========================= */
 @media (min-width: 768px) and (max-width: 1024px) {
-
   #filters-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -513,6 +530,11 @@ audio {
     height: 46px;
     font-size: 13px;
     padding: 0 8px;
+  }
+
+  .filter-button:hover,
+  .filter-button.selected {
+    transform: scale(1.03);
   }
 }
 
@@ -4942,13 +4964,13 @@ setInterval(() => {
 <button class="filter-button" data-ar="تلاوات" data-en="Recitations" onclick="filterStations('Quran')">تلاوات</button>
 <button class="filter-button" data-ar="قراءات" data-en="Readings" onclick="filterStations('rewayat')">قراءات</button>
 <button class="filter-button" data-ar="مُجَوِّد" data-en="Mujawwad" onclick="filterStations('mojawwad')">مُجَوِّد</button>
-<button class="filter-button" data-ar="ٱلْمُحَفِّظ" data-en="Quran Teacher" onclick="filterStations('teachers')">ٱلْمُحَفِّظ | Quran Teacher</button>
+<button class="filter-button" data-ar="ٱلْمُحَفِّظ" data-en="Quran Teacher" onclick="filterStations('teachers')">ٱلْمُحَفِّظ</button>
 <button class="filter-button" data-ar="سورة" data-en="Quran Surahs" onclick="filterStations('surah')">سورة</button>
 <button class="filter-button" data-ar="منشاويات" data-en="Al-Minshawi" onclick="filterStations('Monshawiiyat')">منشاويات</button>
-<button class="filter-button" data-ar="القرآن مترجم" data-en="Quran Trans." onclick="filterStations('Translation')">القرآن مترجم | Quran Trans.</button>
-<button class="filter-button" data-ar="تفسير القرآن" data-en="Quran Tafsir" onclick="filterStations('tafsir')">تفسير القرآن | Quran Tafsir</button>
+<button class="filter-button" data-ar="القرآن مترجم" data-en="Quran Trans." onclick="filterStations('Translation')">القرآن مترجم</button>
+<button class="filter-button" data-ar="تفسير القرآن" data-en="Quran Tafsir" onclick="filterStations('tafsir')">تفسير القرآن</button>
 <!-- إذاعات وترجمة -->
-<button class="filter-button" data-ar="محطات القرآن" data-en="Quran Stations" onclick="filterStations('Radio')">محطات القرآن | Quran Stations</button>
+<button class="filter-button" data-ar="محطات القرآن" data-en="Quran Stations" onclick="filterStations('Radio')">محطات القرآن</button>
 <button class="filter-button" data-ar="الإذاعات العالمية" data-en="International" onclick="filterStations('Foreign')">الإذاعات العالمية</button>
 <button class="filter-button" data-ar="السيرة النبوية" data-en="Seerah" onclick="filterStations('sira')">السيرة النبوية</button>
 
@@ -4958,10 +4980,8 @@ setInterval(() => {
 <!-- أذكار ورقية -->
 <button class="filter-button" data-ar="الرُّقْيَة الشَّرْعِيَّة" data-en="Ruqyah" onclick="filterStations('ruqua')">الرُّقْيَة الشَّرْعِيَّة</button>
 <button class="filter-button" data-ar="أذكار" data-en="Adhkar" onclick="filterStations('Adhkar')">أذكار</button>
-<button class="filter-button" data-ar="محطات إسلامية" data-en="Islamic Mix" onclick="filterStations('mix')">محطات إسلامية | Islamic Mix</button>
-<button class="filter-button" data-ar="البث المرئي" data-en="Live Video" onclick="filterStations('LiveTV')">
-  البث المرئي | Live Video
-</button>
+<button class="filter-button" data-ar="محطات إسلامية" data-en="Islamic Mix" onclick="filterStations('mix')">محطات إسلامية</button>
+<button class="filter-button" data-ar="البث المرئي" data-en="Live Video" onclick="filterStations('LiveTV')">البث المرئي</button>
 <!-- الكل والمزيد -->
 <button class="filter-button" data-ar="المزيد" data-en="More" onclick="filterStations('More')">المزيد</button>
 
