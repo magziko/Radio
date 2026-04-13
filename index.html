@@ -1432,7 +1432,7 @@ body.dark-mode .palestine {
 .whatsapp { background: #25D366; color: white; }
 .facebook { background: #1877F2; color: white; }
 
-button[data-category="Adhkar"] .station-text {
+button[data-category="Adhkar" data-adhkar-type="general"] .station-text {
     padding-right: 55px; /* عدل الرقم زي ما تحب */
 }
 
@@ -1451,6 +1451,60 @@ border: 2px solid #2b7de9;
     position: absolute;
     top: 5px;
     left: 10px;
+}
+
+
+/* ======= شريط الفلتر الفرعي للأذكار ======= */
+#adhkar-subfilter {
+    display: none;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin: 6px auto 4px;
+    padding: 8px 10px;
+    width: 98%;
+    max-width: 700px;
+    background: rgba(30, 144, 255, 0.05);
+    border: 1px dashed rgba(30,144,255,0.3);
+    border-radius: 10px;
+    box-sizing: border-box;
+    animation: subFilterFadeIn 0.25s ease;
+}
+#adhkar-subfilter.visible {
+    display: flex;
+}
+@keyframes subFilterFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.adhkar-sub-btn {
+    flex: 0 0 auto;
+    height: 36px;
+    padding: 0 14px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: Arial, Tahoma, "Segoe UI", sans-serif;
+    background: #fff;
+    color: #1e90ff;
+    border: 2px solid #1e90ff;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    box-sizing: border-box;
+}
+.adhkar-sub-btn:hover {
+    background: #e8f4ff;
+    transform: scale(1.04);
+}
+.adhkar-sub-btn.active {
+    background: #1e90ff;
+    color: #fff;
+}
+/* موبايل */
+@media (max-width: 600px) {
+    #adhkar-subfilter { gap: 5px; padding: 6px 6px; }
+    .adhkar-sub-btn { font-size: 12px; height: 32px; padding: 0 10px; }
 }
 
     </style>
@@ -4991,6 +5045,13 @@ setInterval(() => {
 
 </div>
 
+<!-- فلتر فرعي للأذكار -->
+<div id="adhkar-subfilter">
+  <button class="adhkar-sub-btn active"  data-sub="all"     onclick="filterAdhkarSub('all',this)">📿 الكل</button>
+  <button class="adhkar-sub-btn"         data-sub="morning" onclick="filterAdhkarSub('morning',this)">🌅 أذكار الصباح</button>
+  <button class="adhkar-sub-btn"         data-sub="evening" onclick="filterAdhkarSub('evening',this)">🌙 أذكار المساء</button>
+  <button class="adhkar-sub-btn"         data-sub="general" onclick="filterAdhkarSub('general',this)">📖 أذكار عامة</button>
+</div>
 
 <!-- البحث وأزرار الخيارات -->
 <div class="search-container">
@@ -17957,6 +18018,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 <!--<div class="buttons-container">-->
 <button class="button palestine" 
         data-category="Adhkar" 
+        data-adhkar-morning="1"
         data-station="راديو أذكار الصباح" 
         data-ar="راديو أذكار الصباح" 
         data-en="Morning Adhkar Radio" 
@@ -17984,7 +18046,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 
 <button class="button palestine" 
-        data-category="Adhkar" 
+        data-category="Adhkar"  
+    data-adhkar-evening="1" 
         data-station="راديو أذكار المساء" 
         data-ar="راديو أذكار المساء" 
         data-en="Evening Adhkar Radio" 
@@ -18010,7 +18073,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+     data-adhkar-morning="1"
     data-station="راديو أذكار الصباح (متنوع)"
     data-ar="راديو أذكار الصباح (متنوع)"
     data-en="Morning Adhkar Radio (Various Reciters)"
@@ -18043,6 +18107,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
     data-category="Adhkar"
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="أذكار الصباح والمساء"
     data-ar="أذكار الصباح والمساء"
     data-en="Morning & Evening Adhkar"
@@ -18073,7 +18139,10 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+ data-category="Adhkar"
+    data-adhkar-type="general,morning,evening"  
+     data-adhkar-morning="1"
+    data-adhkar-evening="1"
     data-station="آية الكرسي"
     data-target="1"
     data-ar="آية الكرسي"
@@ -18119,7 +18188,8 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+data-adhkar-evening="1"
     data-station="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ..."
     data-target="1"
 data-ar="سورة البقرة (285 - 286)"
@@ -18170,7 +18240,10 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
+
     data-station="قُلْ هُوَ ٱللَّهُ أَحَدٌ"
     data-target="3"
     data-ar="سورة الإخلاص"
@@ -18220,7 +18293,9 @@ data-en="Al-Baqarah Last 2 Verses"
 
 <!-- زر آية الفلق -->
 <button class="button palestine"
-        data-category="Adhkar"
+        data-category="Adhkar" 
+        data-adhkar-morning="1"
+data-adhkar-evening="1"
         data-station="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ"
             data-target="3"
         data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ"
@@ -18262,7 +18337,9 @@ data-en="Al-Baqarah Last 2 Verses"
 
 <!-- زر آية الناس -->
 <button class="button palestine"
-        data-category="Adhkar"
+        data-category="Adhkar" 
+        data-adhkar-morning="1"
+data-adhkar-evening="1"
         data-station="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ"
             data-target="3"
         data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ"
@@ -18302,7 +18379,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+
     data-station="أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله..."
         data-target="1"
     data-ar="أذكار الصباح"
@@ -18341,7 +18420,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+data-adhkar-evening="1"
     data-station="أَمْسَيْـنا وَأَمْسـى المـلكُ لله..."
         data-target="1"
     data-ar="أذكار المساء"
@@ -18381,7 +18461,9 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+
     data-station="اللّهُـمَّ ما أَصْبَـَحَ بي..."
         data-target="1"
     data-ar="دعاء الصباح"
@@ -18426,7 +18508,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+data-adhkar-evening="1"
     data-station="اللّهُـمَّ ما أَمسى بي..."
         data-target="1"
     data-ar="دعاء المساء"
@@ -18468,7 +18551,9 @@ data-en="Al-Baqarah Last 2 Verses"
 
 <button class="button palestine"
     onclick="toggleRadio(this, event)"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+
     data-station="اللّهُـمَّ بِكَ أَصْـبَحْنا..."
         data-target="1"
     data-ar="دعاء الصباح والمساء"
@@ -18507,7 +18592,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 <button class="button palestine"
     onclick="toggleRadio(this, event)"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+data-adhkar-evening="1"
     data-station="اللّهُـمَّ بِكَ أَمْسَـينا..."
         data-target="1"
     data-ar="دعاء الصباح والمساء"
@@ -18544,7 +18630,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+
     data-station="أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ..."
         data-target="1"
     data-ar="دعاء الصباح"
@@ -18585,7 +18673,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+data-adhkar-evening="1"
     data-station="أَمْسَيْنَا عَلَى فِطْرَةِ الإسْلاَمِ..."
         data-target="1"
     data-ar="دعاء المساء"
@@ -18628,7 +18717,9 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+
     data-station="أَصْبَـحْـنا وَأَصْبَـحْ المُـلكُ للهِ رَبِّ العـالَمـين..."
         data-target="1"
     data-ar="دعاء الصباح"
@@ -18669,7 +18760,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+data-adhkar-evening="1"
     data-station="أَمْسَيْنا وَأَمْسَى الْمُلْكُ للهِ رَبِّ الْعَالَمَيْنِ..."
         data-target="1"
     data-ar="دعاء المساء"
@@ -18709,7 +18801,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="اللّهـمَّ أَنْتَ رَبِّـي"
         data-target="1"
     data-ar="دعاء الاستغفار"
@@ -18751,7 +18845,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ..."
         data-target="1"
     data-ar="دعاء العفو والعافية"
@@ -18792,11 +18888,13 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="اللّهُـمَّ عالِـمَ الغَـيْبِ وَالشّـهادَةِ..."
         data-target="1"
-    data-ar="دعاء المساء"
-    data-en="Evening Supplication"
+    data-ar="اللهم عالم الغيب والشهادة"
+data-en="O Allah, Knower of the unseen and the seen"
     data-random="true"
     data-urls='[
         "https://archive.org/download/20260405_20260405_0933/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B9%D8%A7%D9%84%D9%85%20%D8%A7%D9%84%D8%BA%D9%8A%D8%A8.mp3"
@@ -18836,7 +18934,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
     data-station="اللهم إني أصبحت أشهدك..."
         data-target="4"
     data-ar="اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك وَأُشْـهِدُ حَمَلَةَ عَـرْشِـك وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لا إِلَهَ إِلا أَنْتَ وَحْدَكَ لا شَرِيكَ لَكَ وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ"
@@ -18876,7 +18975,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+data-adhkar-evening="1"
     data-station="اللهم إني أمسيت أشهدك..."
         data-target="4"
     data-ar="اللّهُـمَّ إِنِّـي أَمْسَيْتُ أُشْـهِدُك وَأُشْـهِدُ حَمَلَةَ عَـرْشِـك وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لا إِلَهَ إِلا أَنْتَ وَحْدَكَ لا شَرِيكَ لَكَ وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ"
@@ -18918,7 +19018,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="حسبي الله لا إله إلا هو..."
         data-target="7"
     data-ar="حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم"
@@ -18960,9 +19062,11 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
-    data-station="اللَّهُمَّ صَلِّ عَلَى نَبِيِّنَا..."
-        data-target="10"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
+data-station="اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا محمدٍ"
+data-target="10"
     data-ar="اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد"
     data-en="Allahumma salli wa sallim wa barik ala Nabiyyina Muhammad"
     data-random="true"
@@ -19001,7 +19105,9 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="رضيت بالله رباً..."
         data-target="3"
     data-ar="رَضِيتُ بِاللَّهِ رَبًّا وَبِالإِسْلَامِ دِينًا وَبِمُحَمَّدٍ ﷺ نَبِيًّا"
@@ -19043,7 +19149,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="بسم الله الذي لا يضر..."
             data-target="3"
     data-ar="بِسْمِ اللَّهِ الَّذِي لا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ"
@@ -19087,7 +19195,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="سبحان الله وبحمده عدد خلقه..."
             data-target="3"
     data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ"
@@ -19126,7 +19236,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="اللّهُـمَّ عافِـني في بَدَنـي"
             data-target="3"
     data-ar="اللّهُـمَّ عافِـني في بَدَنـي"
@@ -19167,7 +19279,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفر"
             data-target="3"
     data-ar="اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفر"
@@ -19209,7 +19323,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَمِّ وَالْحَزَنِ"
             data-target="3"
     data-ar="اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَمِّ وَالْحَزَنِ وَأَعُوذُ بِكَ مِنْ الْعَجْزِ وَالْكَسَلِ وَأَعُوذُ بِكَ مِنْ الْجُبْنِ وَالْبُخْلِ وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ"
@@ -19251,7 +19367,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ"
             data-target="3"
     data-ar="اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ"
@@ -19292,7 +19410,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ"
             data-target="3"
     data-ar="أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ"
@@ -19339,7 +19459,9 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="أسْتَغْفِرُ اللهَ العَظِيمَ"
             data-target="3"
     data-ar="أسْتَغْفِرُ اللهَ العَظِيمَ الَّذِي لاَ إلَهَ إلاَّ هُوَ، الحَيُّ القَيُّومُ، وَأتُوبُ إلَيهِ"
@@ -19381,7 +19503,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="يَا حَيُّ يَا قيُّومُ بِرَحْمَتِكَ أسْتَغِيثُ"
             data-target="3"
     data-ar="يَا حَيُّ يَا قيُّومُ بِرَحْمَتِكَ أسْتَغِيثُ"
@@ -19423,7 +19547,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
     data-station="يارب لك الحمد"
             data-target="3"
     data-ar="يارب لك الحمد كما ينبغي لجلال وجهك وعظيم سلطانك"
@@ -19468,7 +19594,11 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
+data-adhkar-general="1"
+
     data-station="لا إله إلا الله وحده..."
             data-target="100"
     data-ar="لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ"
@@ -19509,7 +19639,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+data-adhkar-evening="1"
     data-station="اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ..."
                 data-target="1"
     data-ar="دعاء الصباح والمساء"
@@ -19551,7 +19682,9 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-general="1"
     data-station="أستغفر الله وأتوب إليه..."
                 data-target="100"
     data-ar="أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ"
@@ -19593,7 +19726,10 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-morning="1"
+data-adhkar-evening="1"
+data-adhkar-general="1"
     data-station="سبحان الله وبحمده..."
     data-target="100"
     data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ"
@@ -19637,7 +19773,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="سُبْحانَ اللهِ الْعَظِيمِ وَبِحَمْدِهِ"
     data-ar="سُبْحانَ اللهِ الْعَظِيمِ وَبِحَمْدِهِ"
     data-en="SubhanAllahil Azeem wa BiHamdihi"
@@ -19680,7 +19817,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="سُبْحانَ اللهِ وَبِحَمْدِهِ سُبْحانَ اللهِ الْعَظِيمِ"
     data-ar="سُبْحانَ اللهِ وَبِحَمْدِهِ سُبْحانَ اللهِ الْعَظِيمِ"
     data-en="SubhanAllahi wa BiHamdihi, SubhanAllahil Azeem"
@@ -19722,7 +19860,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="سُـبْحانَ اللهِ، والحَمْـدُ لله، واللهُ أكْـبَر"
     data-target="33"
     data-ar="سُـبْحانَ اللهِ، والحَمْـدُ لله، واللهُ أكْـبَر"
@@ -19766,7 +19905,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="لا حول ولا قوة إلا بالله"
     data-ar="لا حول ولا قوة إلا بالله"
     data-en="La hawla wa la quwwata illa billah"
@@ -19810,7 +19950,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="لا إله إلا الله"
     data-ar="لا إله إلا الله"
     data-en="La ilaha illallah"
@@ -19850,7 +19991,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="اللهم صل على محمد وعلى آل محمد..."
     data-target="100"
     data-ar="اللهم صلِّ على محمد وعلى آل محمد كما صليت على إبراهيم وعلى آل إبراهيم إنك حميد مجيد"
@@ -19893,7 +20035,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="اللهم صل على محمد وعلى آله وصحبه أجمعين"
     data-target="10"
     data-ar="اللهم صل على محمد وعلى آله وصحبه أجمعين"
@@ -19932,7 +20075,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="صلّى الله عليه وآله وسلم..."
     data-target="1000"
     data-ar="صلّى الله عليه وآله وسلم"
@@ -19972,7 +20116,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="عليه الصلاة والسلام..."
     data-target="100"
     data-ar="عليه الصلاة والسلام"
@@ -20012,6 +20157,7 @@ data-en="Al-Baqarah Last 2 Verses"
 
 <button class="button palestine"
     data-category="Adhkar"
+    data-adhkar-general="1"
     data-station="راديو الصلاة على النبي ﷺ"
     data-ar="راديو الصلاة على النبي ﷺ"
     data-en="Salawat Radio"
@@ -20237,7 +20383,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="تسابيح وأذكار يومية"
     data-ar="تسابيح وأذكار يومية"
     data-en="Daily Tasbeeh & Azkar"
@@ -20267,7 +20414,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="أدعية نبوية من السنة"
     data-ar="أدعية نبوية من السنة"
     data-en="Prophetic Supplications from the Sunnah"
@@ -20297,7 +20445,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="دعاء لأهل غزة ❤️ (فلسطين)"
     data-ar="دعاء لأهل غزة ❤️ (فلسطين)"
     data-en="Dua for Gaza (Palestine)"
@@ -20329,7 +20478,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="دعاء ليلة القدر"
     data-ar="دعاء ليلة القدر"
     data-en="Supplication of the Night of Qadr"
@@ -20382,7 +20532,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="دعاء يوم عرفة"
     data-ar="دعاء يوم عرفة"
     data-en="Supplication of the Day of Arafah"
@@ -20427,7 +20578,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="تكبيرات العيد"
     data-ar="تكبيرات العيد"
     data-en="Takbeerat of Eid"
@@ -20459,7 +20611,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
         data-station="المبتهل الشيخ سيد النقشبندي"
         data-ar="المبتهل الشيخ سيد النقشبندي"
         data-en="Almubathil Sheikh Sayed Al-Naqshabandi"
@@ -20481,7 +20634,7 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" data-adhkar-type="general"
     data-station="المبتهل الشيخ نصر الدين طوبار"
     data-ar="المبتهل الشيخ نصر الدين طوبار"
     data-en="Almubathil Sheikh Nasr El-Din Tobar"
@@ -20502,7 +20655,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="المبتهل الشيخ محمد عمران"
     data-ar="المبتهل الشيخ محمد عمران"
     data-en="Almubathil Sheikh Mohamed Omran"
@@ -20523,7 +20677,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="المنشد رامى الرفاعى"
     data-ar="المنشد رامى الرفاعى"
     data-en="Munshid Rami Al-Rifaai"
@@ -20556,7 +20711,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="دعاء القائد الشهيد يحيى السنوار"
     data-ar="دعاء القائد الشهيد يحيى السنوار"
     data-en="Supplication Leader Martyr Yahya Al-Sinwar"
@@ -20579,7 +20735,8 @@ data-en="Al-Baqarah Last 2 Verses"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="خطابات الشهيد أبو عبيدة"
     data-ar="خطابات الشهيد أبو عبيدة"
     data-en="Speeches of the Martyr Abu Ubaida"
@@ -20614,7 +20771,8 @@ data-en="Al-Baqarah Last 2 Verses"
 
 
 <button class="button palestine"
-    data-category="Adhkar"
+    data-category="Adhkar" 
+    data-adhkar-general="1"
     data-station="عبدالعزيز آل تويم"
     data-ar="عبدالعزيز آل تويم"
     data-en="Abdulaziz Al-Tuwaim"
@@ -26477,6 +26635,60 @@ function setSiteLanguage(lang) {
   clearTimeout(toggleTimeout);
   updateFilterLanguage(lang); // نثبت اللغة فقط
 }
+
+
+// ===== فلتر فرعي للأذكار =====
+var currentAdhkarSub = 'all';
+
+function filterAdhkarSub(subType, btn) {
+    currentAdhkarSub = subType;
+
+    // تمييز الزر النشط
+    document.querySelectorAll('.adhkar-sub-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    // فلترة أزرار الأذكار فقط
+    document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
+
+        if (subType === 'all') {
+            b.style.display = 'block';
+        } else {
+            b.style.display = b.hasAttribute('data-adhkar-' + subType)
+                ? 'block'
+                : 'none';
+        }
+
+    });
+
+    if (typeof updateButtonIndices === 'function') updateButtonIndices();
+}
+
+
+// hook على filterStations الأصلية عشان نظهر/نخفي الفلتر الفرعي
+var _origFilterStations = filterStations;
+
+filterStations = function(category) {
+    _origFilterStations(category);
+
+    var sub = document.getElementById('adhkar-subfilter');
+    if (!sub) return;
+
+    if (category === 'Adhkar') {
+        sub.classList.add('visible');
+
+        // رجّع للكل كل مرة
+        currentAdhkarSub = 'all';
+
+        document.querySelectorAll('.adhkar-sub-btn').forEach(b => b.classList.remove('active'));
+
+        var allBtn = sub.querySelector('[data-sub="all"]');
+        if (allBtn) allBtn.classList.add('active');
+
+    } else {
+        sub.classList.remove('visible');
+        currentAdhkarSub = 'all';
+    }
+};
 
 // لا تبدأ التبديل التلقائي بعد الآن
 // startAutoToggle(); // علق أو احذف السطر
