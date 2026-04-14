@@ -5096,7 +5096,7 @@ setInterval(() => {
 <!-- حالة الراديو -->
 <div id="status" data-ar="الرجاء اختيار محطة راديو." data-en="Please select a radio station." style="position: sticky; top: 0; z-index: 1000; background-color: #e0dfda;">الرجاء اختيار محطة راديو.</div> 
 <!-- مشغل الصوت -->
-<audio controls autoplay id="currentAudio" style="position: sticky; top: 40px; z-index: 1000; border: 2px solid; width: 98%;">
+<audio controls id="currentAudio" style="position: sticky; top: 40px; z-index: 1000; border: 2px solid; width: 98%;">
     الجهاز لا يدعم تشغيل الصوت.
 </audio>
 
@@ -18454,7 +18454,7 @@ data-adhkar-evening="1"
        data-station="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"
 data-target="3"
 data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"
-data-en="Say: I seek refuge in the Lord of mankind ۝ The King of mankind ۝ The God of mankind ۝ From the evil of the whisperer who withdraws ۝ Who whispers in the breasts of mankind ۝ From among jinn and mankind"
+data-en="Say: I seek refuge in the Lord of mankind ۝ The King of mankind ۝ The God of mankind ۝ From the evil of the whisperer who withdraws ۝ Who whispers in the ***** of mankind ۝ From among jinn and mankind"
         data-random="true"
         data-urls='[
             "https://server6.mp3quran.net/kurdi/114.mp3",
@@ -25231,6 +25231,12 @@ function initializeRadio() {
 }
 
 function playNewAudio(source, stationName) {
+    // ✅ منع التشغيل التلقائي فقط — أما لو المستخدم اختار بنفسه فيُسمح
+    const _ws = document.getElementById('welcomeScreen');
+    const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
+    if (welcomeOpen && !window._userInitiatedPlay) return;
+    window._userInitiatedPlay = false; // إعادة الضبط بعد الاستخدام
+
     currentSource = source;
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
     mainAudio.src = source;
@@ -25516,6 +25522,7 @@ document.getElementById('randomButton').style.display = 'block';
 buttons.forEach((button, index) => {
   button.addEventListener('click', () => {
     currentButtonIndex = index;
+    window._userInitiatedPlay = true; // ✅ المستخدم اختار يدوياً
     playNewAudio(button.getAttribute('data-source'), button.textContent);
     updateButtonColor(); // تأكد من تلوين الزر عند الضغط عليه
   });
@@ -25779,6 +25786,12 @@ function getContrastYIQ(hexcolor){
 
     // ✅ doToggle معرّفة كـ window لتكون قابلة للوصول من زر K
     window.doToggleIsolated = function() {
+        // ✅ منع التشغيل التلقائي فقط — الضغط اليدوي مسموح
+        const _ws = document.getElementById('welcomeScreen');
+        const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
+        if (welcomeOpen && !window._userInitiatedPlay) return;
+        window._userInitiatedPlay = false;
+
         const actuallyPlaying = window.isolatedAudio && !window.isolatedAudio.paused;
         if (actuallyPlaying) {
             window.isolatedAudio.pause();
@@ -25807,6 +25820,7 @@ function getContrastYIQ(hexcolor){
         if (isolatedPlayPauseButton) {
             isolatedPlayPauseButton.addEventListener('click', function(e) {
                 e.stopPropagation();
+                window._userInitiatedPlay = true; // ✅ المستخدم اختار يدوياً
                 window.doToggleIsolated();
             });
         }
@@ -25820,6 +25834,12 @@ function getContrastYIQ(hexcolor){
 
     // دالة global لتشغيل محطة بعينها
     window.playIsolatedStation = function(url, stationName) {
+        // ✅ منع التشغيل التلقائي فقط — الضغط اليدوي مسموح
+        const _ws = document.getElementById('welcomeScreen');
+        const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
+        if (welcomeOpen && !window._userInitiatedPlay) return;
+        window._userInitiatedPlay = false;
+
         if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
         if (window.isolatedAudio) window.isolatedAudio.pause();
         window.isolatedAudio = new Audio(url);
@@ -26120,6 +26140,7 @@ showButtonTemporarily();
     // تشغيل الرابط
     if (stationUrl) {
         // تأكد أن playNewAudio موجودة ومضبوطة على العنصر #main-audio
+        window._userInitiatedPlay = true; // ✅ المستخدم اختار يدوياً
         playNewAudio(stationUrl, stationDescription);
     } else {
         console.warn('لا يوجد رابط للتشغيل لهذا الزر');
@@ -26298,6 +26319,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (currentAudioEl) {
         currentAudioEl.addEventListener('play', () => {
+            // ✅ منع currentAudio من إيقاف راديو الشاشة الترحيبية طالما هي مفتوحة
+            const welcomeScreenEl = document.getElementById('welcomeScreen');
+            const welcomeIsVisible = welcomeScreenEl &&
+                welcomeScreenEl.style.display !== 'none' &&
+                welcomeScreenEl.style.display !== '';
+
+            if (welcomeIsVisible) {
+                // الشاشة الترحيبية لا تزال مفتوحة → أوقف currentAudio فوراً
+                currentAudioEl.pause();
+                return;
+            }
             stopAllOtherAudios('main');
             activeAudio = currentAudioEl;
             currentAudioEl.volume = 1;
@@ -27139,6 +27171,7 @@ document.addEventListener("keydown", function(e) {
     if (e.key === 'k' || e.key === 'K') {
         e.preventDefault();
         if (typeof window.doToggleIsolated === 'function') {
+            window._userInitiatedPlay = true; // ✅ ضغط يدوي من المستخدم
             window.doToggleIsolated();
         }
     }
@@ -27160,6 +27193,7 @@ document.addEventListener("keydown", function(e) {
                     const last = JSON.parse(lastRaw);
                     if (last && last.url) {
                         if (typeof playNewAudio === 'function') {
+                            window._userInitiatedPlay = true; // ✅ ضغط يدوي من المستخدم
                             playNewAudio(last.url, last.name || '');
                         } else {
                             mainAudioEl.src = last.url;
