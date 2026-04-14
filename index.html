@@ -1770,18 +1770,27 @@ function confirmReload() {
 window.onload = function() {
     const disableWelcome = localStorage.getItem("disableWelcomeScreen");
     
+    // ✅ إيقاف الراديو الأساسي فوراً كإجراء وقائي
+    if (mainAudio && !mainAudio.paused) {
+        mainAudio.pause();
+        mainAudio.src = '';
+    }
+
     // إذا كان خيار الإلغاء مفعلًا، لا تظهر شاشة الترحيب
     if (disableWelcome === "true") {
         document.getElementById('welcomeScreen').style.display = 'none';
+        // ✅ لا نشغل الراديو الترحيبي - نترك المستخدم يختار المحطة
     } else {
         // تشغيل شاشة الترحيب
         document.getElementById('welcomeScreen').style.display = 'block';
 
-        // إعداد وتشغيل المحطة الترحيبية تلقائيًا
-        customAudioPlayer.src = radioStations[stationIndex].url;
-        if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
-        customAudioPlayer.play();
-        updateWelcomePlayPauseButton(true); // تحديث الزر لمظهر التشغيل
+        // ✅ تأخير بسيط لضمان تحميل الصفحة الكامل قبل بدء الصوت
+        setTimeout(function() {
+            // إعداد وتشغيل المحطة الترحيبية
+            index = 0; // إعادة تعيين المؤشر
+            playSource(index);
+            updateWelcomePlayPauseButton(true); // تحديث الزر لمظهر التشغيل
+        }, 200);
 
         // إظهار زر الإغلاق بعد 3 ثوانٍ
         setTimeout(function() {
@@ -1789,11 +1798,6 @@ window.onload = function() {
                 document.getElementById("reloadButton").style.display = "block";
 
         }, 3000);
-
-        // التأكد من إيقاف الراديو الأساسي مؤقتًا
-        if (!mainAudio.paused) {
-            mainAudio.pause();
-        }
     }
 };
 
@@ -2052,24 +2056,48 @@ function showToast(message) {
 }
 
 function playSource(i) {
+    if (i >= sources.length) return;
     audio.src = sources[i];
     audio.load();
-    audio.play().catch(() => {});
+    audio.play()
+        .then(() => { switchingSource = false; }) // ✅ إعادة تعيين عند النجاح
+        .catch(() => { switchingSource = false; });
 }
 
+let switchingSource = false; // ✅ منع التبديل المزدوج
+
 function nextSource() {
+    // ✅ منع التبديل المتكرر السريع
+    if (switchingSource) return;
+    switchingSource = true;
+
     index++;
     if (index < sources.length) {
         showToast("📢 تم التحويل لمحطة احتياطية");
-        playSource(index);
+        setTimeout(function() {
+            playSource(index);
+            switchingSource = false;
+        }, 500); // تأخير 500ms لمنع التعارض
+    } else {
+        // ✅ إذا انتهت كل المصادر، نحاول من البداية بعد 10 ثوانٍ
+        showToast("📢 إعادة المحاولة...");
+        setTimeout(function() {
+            index = 0;
+            switchingSource = false;
+            playSource(index);
+        }, 10000);
     }
 }
 
-audio.addEventListener("error", nextSource);
-audio.addEventListener("stalled", nextSource);
-
-// تشغيل أول محطة
-playSource(index);
+// ✅ إصلاح: لا نشغّل الراديو الترحيبي هنا مباشرةً
+// سيتم تشغيله فقط من window.onload بعد التحقق من إعداد الشاشة الترحيبية
+audio.addEventListener("error", function() {
+    // تأخير بسيط لمنع التعارض عند التبديل السريع
+    setTimeout(nextSource, 300);
+});
+audio.addEventListener("stalled", function() {
+    setTimeout(nextSource, 1000);
+});
 
 let sheikhSources = [];
 let sheikhIndex = 0;
@@ -25376,7 +25404,15 @@ document.getElementById('nextButton').addEventListener('click', function() {
   visibleButtons[currentButtonIndex].click();
 });
 
-let firstLoad = true; // أول تحميل
+// ✅ متغير يُفعَّل فقط عند ضغط المستخدم يدوياً على فلتر
+let _userPickedFilter = false;
+
+// تفعيل العلم عند الضغط اليدوي على أي فلتر أساسي أو فرعي
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.filter-button, .adhkar-sub-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() { _userPickedFilter = true; });
+    });
+});
 
 function filterStations(category) {
   
@@ -25405,30 +25441,15 @@ function filterStations(category) {
 
   updateButtonIndices();
 
-  // ✅ scroll بعد التعديل
-  if (!firstLoad) {
-    const filtersContainer = document.getElementById('filters-container');
-    if (filtersContainer) {
-
-      let nextSection = filtersContainer.nextElementSibling;
-
-      // تخطي subfilter
-      if (nextSection && nextSection.id === "adhkar-subfilter") {
-        nextSection = nextSection.nextElementSibling;
-      }
-
-      if (nextSection) {
-        setTimeout(() => {
-          nextSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }, 50);
-      }
-    }
+  // ✅ سكرول فقط عند اختيار المستخدم يدوياً — وليس عند فتح الموقع
+  if (_userPickedFilter && category !== 'Adhkar') {
+    setTimeout(() => {
+      const firstVisible = Array.from(
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)')
+      ).find(b => b.style.display !== 'none');
+      if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
   }
-
-  firstLoad = false;
 }
 
 
@@ -25700,30 +25721,43 @@ function getContrastYIQ(hexcolor){
 
     function setPlayingUI(playing) {
         isolatedIsPlaying = playing;
+        if (!isolatedPlayPauseButton)
+            isolatedPlayPauseButton = document.getElementById('isolatedPlayPauseButton');
         if (isolatedPlayPauseButton) {
             isolatedPlayPauseButton.innerHTML = playing ? '&#10074;&#10074;' : '&#9658;';
         }
     }
 
+    // ✅ بحث في كل الأزرار (مش بس palestine) وعبر data-url أو data-urls
     function getRandomStation() {
-        const allowedCategories = ['reciters', 'mojawwad', 'Quran', 'surah', 'Monshawiiyat'];
-        const allButtons = document.querySelectorAll('.button.palestine');
-        const radioButtons = Array.from(allButtons).filter(button =>
-            allowedCategories.includes(button.getAttribute('data-category'))
-        );
+        const allButtons = Array.from(document.querySelectorAll('.button[data-category]'));
+        // استبعد أزرار التنقل
+        const radioButtons = allButtons.filter(btn => {
+            const cat = btn.getAttribute('data-category');
+            const id = btn.id;
+            if (id === 'prevButton' || id === 'nextButton' || id === 'randomButton') return false;
+            const url = btn.getAttribute('data-url') || '';
+            const urls = btn.getAttribute('data-urls') || '';
+            return (url || urls).length > 5;
+        });
         if (radioButtons.length === 0) return null;
         const randomButton = radioButtons[Math.floor(Math.random() * radioButtons.length)];
-        const match = randomButton.getAttribute('onclick').match(/'(.*?)'/);
-        if (!match) return null;
-        return { stationUrl: match[1], stationName: randomButton.getAttribute('data-station') };
+        // استخرج الرابط
+        let stationUrl = randomButton.getAttribute('data-url') || '';
+        if (!stationUrl) {
+            try {
+                const arr = JSON.parse(randomButton.getAttribute('data-urls'));
+                stationUrl = arr[0];
+            } catch(e) {}
+        }
+        if (!stationUrl) return null;
+        return { stationUrl, stationName: randomButton.getAttribute('data-station') || '' };
     }
 
     function attachAudioEvents(audio) {
-        // طبّق مستوى الصوت الحالي على الأوديو الجديد
         if (typeof window.applyCurrentVolume === 'function') {
             window.applyCurrentVolume(audio);
         } else {
-            // fallback: اقرأ من الـ slider مباشرة
             const s = document.getElementById('centralVolumeSlider');
             if (s) audio.volume = parseFloat(s.value);
         }
@@ -25733,37 +25767,50 @@ function getContrastYIQ(hexcolor){
         audio.addEventListener('ended', function() { setPlayingUI(false); });
     }
 
-    function doToggle() {
+    // ✅ doToggle معرّفة كـ window لتكون قابلة للوصول من زر K
+    window.doToggleIsolated = function() {
         const actuallyPlaying = window.isolatedAudio && !window.isolatedAudio.paused;
         if (actuallyPlaying) {
             window.isolatedAudio.pause();
+            setPlayingUI(false);
         } else {
-            if (typeof window.stopAllOtherAudios === 'function') {
-                window.stopAllOtherAudios('isolated');
+            // لو في audio موقوف، استأنفه بدل ما نعمل واحد جديد
+            if (window.isolatedAudio && window.isolatedAudio.src && window.isolatedAudio.paused) {
+                if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
+                window.isolatedAudio.play().catch(function() { setPlayingUI(false); });
+                return;
             }
+            if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
             const station = getRandomStation();
-            if (!station) return;
+            if (!station) { console.warn('isolatedAudio: لم يتم العثور على محطة'); return; }
             if (window.isolatedAudio) window.isolatedAudio.pause();
             window.isolatedAudio = new Audio(station.stationUrl);
             attachAudioEvents(window.isolatedAudio);
             window.isolatedAudio.play().catch(function() { setPlayingUI(false); });
             setPlayingUI(true);
         }
-    }
+    };
 
-    // الضغط على الدائرة البيضاء فقط
-    if (isolatedPlayPauseButton) {
-        isolatedPlayPauseButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            doToggle();
-        });
+    // ربط زر التشغيل
+    function bindButton() {
+        isolatedPlayPauseButton = document.getElementById('isolatedPlayPauseButton');
+        if (isolatedPlayPauseButton) {
+            isolatedPlayPauseButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                window.doToggleIsolated();
+            });
+        }
+    }
+    // جرّب فوراً، وإلا انتظر DOMContentLoaded
+    if (document.getElementById('isolatedPlayPauseButton')) {
+        bindButton();
+    } else {
+        document.addEventListener('DOMContentLoaded', bindButton);
     }
 
     // دالة global لتشغيل محطة بعينها
     window.playIsolatedStation = function(url, stationName) {
-        if (typeof window.stopAllOtherAudios === 'function') {
-            window.stopAllOtherAudios('isolated');
-        }
+        if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
         if (window.isolatedAudio) window.isolatedAudio.pause();
         window.isolatedAudio = new Audio(url);
         attachAudioEvents(window.isolatedAudio);
@@ -25771,7 +25818,7 @@ function getContrastYIQ(hexcolor){
         setPlayingUI(true);
     };
 
-    // دالة global لإيقاف الراديو الثالث من الخارج
+    // دالة global لإيقاف الراديو من الخارج
     window.stopIsolatedAudio = function() {
         if (window.isolatedAudio && !window.isolatedAudio.paused) {
             window.isolatedAudio.pause();
@@ -26393,27 +26440,47 @@ function handleTripleClick(element) {
     const now = new Date();
     const hour = now.getHours();
     const categories = [
-      'favorites', 'reciters', 'reciters','reciters','reciters','reciters', 'rewayat', 'mojawwad', 
-      'teachers', 'tafsir', 'Quran', 'Quran', 'Quran', 'Quran', 'Quran',
-      'Radio', 'Radio', 'Radio', 'Translation', 'Foreign', 'Foreign','Foreign',
-      'scholars', 'sira', 'Monshawiiyat',
-      'Adhkar', 'ruqua', 'mix'
+      'reciters', 'reciters', 'reciters', 'rewayat', 'mojawwad',
+      'teachers', 'tafsir', 'Quran', 'Quran', 'Quran', 'Quran',
+      'Radio', 'Radio', 'Translation', 'Foreign', 'Foreign',
+      'scholars', 'sira', 'Monshawiiyat', 'ruqua', 'mix'
     ];
 
     let selectedCategory = null;
 
-   // أذكار الصباح (تقريب شامل)
-if (hour >= 4 && hour < 11) {
-    selectedCategory = 'Adhkar'; 
-}
-  // أذكار المساء (تقريب شامل)
-else if (hour >= 16 && hour < 19) {
-    selectedCategory = 'Adhkar'; 
-}
-
-    // إذا لم نحدد فئة حسب الوقت → اختيار عشوائي
-    if(!selectedCategory){
-        selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+    // أذكار الصباح
+    if (hour >= 4 && hour < 11) {
+        selectedCategory = 'Adhkar';
+    }
+    // أذكار المساء
+    else if (hour >= 16 && hour < 19) {
+        selectedCategory = 'Adhkar';
+    }
+    // خارج وقت الأذكار → افتح على فلتر آخر محطة اختارها المستخدم، وإلا عشوائي
+    else {
+        const lastStation = localStorage.getItem('lastStation');
+        if (lastStation) {
+            try {
+                const parsed = JSON.parse(lastStation);
+                // ابحث عن الزر المقابل لآخر محطة لتحديد فئتها
+                const allBtns = document.querySelectorAll('.button[data-category]');
+                let foundCategory = null;
+                allBtns.forEach(btn => {
+                    if (
+                        btn.getAttribute('data-url') === parsed.url ||
+                        btn.getAttribute('data-ar') === parsed.name ||
+                        (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(parsed.url))
+                    ) {
+                        foundCategory = btn.getAttribute('data-category');
+                    }
+                });
+                selectedCategory = foundCategory || categories[Math.floor(Math.random() * categories.length)];
+            } catch(e) {
+                selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+            }
+        } else {
+            selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+        }
     }
 
     // فتح التبويب
@@ -26854,22 +26921,37 @@ function filterAdhkarSub(subType, btn) {
 
     // فلترة أزرار الأذكار فقط
     document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
-
         if (subType === 'all') {
             b.style.display = 'block';
         } else {
-            b.style.display = b.hasAttribute('data-adhkar-' + subType)
-                ? 'block'
-                : 'none';
+            b.style.display = b.hasAttribute('data-adhkar-' + subType) ? 'block' : 'none';
         }
-
     });
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
+
+    // سكرول لأول زر ظاهر فقط عند اختيار المستخدم يدوياً
+    if (_userPickedFilter) {
+        setTimeout(function() {
+            var allAdhkar = document.querySelectorAll('button[data-category="Adhkar"]');
+            var target = null;
+            allAdhkar.forEach(function(b) {
+                if (!target && b.style.display !== 'none') target = b;
+            });
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 80);
+    }
 }
 
+// دالة تحديد الفلتر الفرعي حسب الوقت
+function getAdhkarSubByTime() {
+    var hour = new Date().getHours();
+    if (hour >= 4 && hour < 11) return 'morning';
+    if (hour >= 16 && hour < 19) return 'evening';
+    return null;
+}
 
-// hook على filterStations الأصلية عشان نظهر/نخفي الفلتر الفرعي
+// hook على filterStations لإظهار/إخفاء الفلتر الفرعي للأذكار
 var _origFilterStations = filterStations;
 
 filterStations = function(category) {
@@ -26881,13 +26963,26 @@ filterStations = function(category) {
     if (category === 'Adhkar') {
         sub.classList.add('visible');
 
-        // رجّع للكل كل مرة
-        currentAdhkarSub = 'all';
+        // تحديد الفلتر الفرعي حسب الوقت تلقائياً
+        var autoSub = getAdhkarSubByTime();
+        var targetSub = autoSub || 'all';
 
         document.querySelectorAll('.adhkar-sub-btn').forEach(b => b.classList.remove('active'));
+        var targetBtn = sub.querySelector('[data-sub="' + targetSub + '"]');
+        if (targetBtn) targetBtn.classList.add('active');
 
-        var allBtn = sub.querySelector('[data-sub="all"]');
-        if (allBtn) allBtn.classList.add('active');
+        // تطبيق الفلتر الفرعي
+        currentAdhkarSub = targetSub;
+        document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
+            if (targetSub === 'all') {
+                b.style.display = 'block';
+            } else {
+                b.style.display = b.hasAttribute('data-adhkar-' + targetSub) ? 'block' : 'none';
+            }
+        });
+        if (typeof updateButtonIndices === 'function') updateButtonIndices();
+
+        // لا سكرول عند اختيار فلتر أذكار
 
     } else {
         sub.classList.remove('visible');
@@ -27023,6 +27118,50 @@ document.addEventListener("keydown", function(e) {
     if (!activeTasbih) return; // ما فيش مسبحة نشطة
     if (e.key === ".") {        // الزر اللي تختاره
         incrementTasbihKeyboard(activeTasbih);
+    }
+});
+
+// ✅ اختصار K: تشغيل/إيقاف isolatedAudio
+document.addEventListener("keydown", function(e) {
+    const tag = document.activeElement && document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+    if (e.key === 'k' || e.key === 'K') {
+        e.preventDefault();
+        if (typeof window.doToggleIsolated === 'function') {
+            window.doToggleIsolated();
+        }
+    }
+
+    // ✅ اختصار P: تشغيل/إيقاف currentAudio على آخر محطة اختارها المستخدم
+    if (e.key === 'p' || e.key === 'P') {
+        e.preventDefault();
+        const mainAudioEl = document.getElementById('currentAudio');
+        if (!mainAudioEl) return;
+
+        if (!mainAudioEl.paused) {
+            // إيقاف
+            mainAudioEl.pause();
+        } else {
+            // تشغيل آخر محطة محفوظة
+            const lastRaw = localStorage.getItem('lastStation');
+            if (lastRaw) {
+                try {
+                    const last = JSON.parse(lastRaw);
+                    if (last && last.url) {
+                        if (typeof playNewAudio === 'function') {
+                            playNewAudio(last.url, last.name || '');
+                        } else {
+                            mainAudioEl.src = last.url;
+                            mainAudioEl.play().catch(function(){});
+                        }
+                    }
+                } catch(ex) {}
+            } else {
+                // لو ما في محطة محفوظة → استأنف ما كان شغالاً
+                mainAudioEl.play().catch(function(){});
+            }
+        }
     }
 });
 
