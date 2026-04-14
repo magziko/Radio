@@ -25235,7 +25235,8 @@ function playNewAudio(source, stationName) {
     const _ws = document.getElementById('welcomeScreen');
     const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
     if (welcomeOpen && !window._userInitiatedPlay) return;
-    window._userInitiatedPlay = false; // إعادة الضبط بعد الاستخدام
+    // ✅ نُبقي الـ flag مرفوعاً حتى يستخدمه حدث play ثم يُصفَّر هناك
+    // window._userInitiatedPlay يُصفَّر داخل حدث play في currentAudioEl
 
     currentSource = source;
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
@@ -26319,17 +26320,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (currentAudioEl) {
         currentAudioEl.addEventListener('play', () => {
-            // ✅ منع currentAudio من إيقاف راديو الشاشة الترحيبية طالما هي مفتوحة
+            // ✅ منع التشغيل التلقائي فقط — الضغط اليدوي مسموح
             const welcomeScreenEl = document.getElementById('welcomeScreen');
-            const welcomeIsVisible = welcomeScreenEl &&
+            const welcomeOpen = welcomeScreenEl &&
                 welcomeScreenEl.style.display !== 'none' &&
                 welcomeScreenEl.style.display !== '';
 
-            if (welcomeIsVisible) {
-                // الشاشة الترحيبية لا تزال مفتوحة → أوقف currentAudio فوراً
+            if (welcomeOpen && !window._userInitiatedPlay) {
                 currentAudioEl.pause();
                 return;
             }
+            window._userInitiatedPlay = false; // ✅ إعادة الضبط هنا فقط
             stopAllOtherAudios('main');
             activeAudio = currentAudioEl;
             currentAudioEl.volume = 1;
@@ -27163,12 +27164,13 @@ document.addEventListener("keydown", function(e) {
     }
 });
 
-// ✅ اختصار K: تشغيل/إيقاف isolatedAudio
+// ✅ اختصار K/ن: تشغيل/إيقاف isolatedAudio — اختصار P/ح: تشغيل/إيقاف currentAudio
 document.addEventListener("keydown", function(e) {
     const tag = document.activeElement && document.activeElement.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
-    if (e.key === 'k' || e.key === 'K') {
+    // K أو ن → isolatedAudio (راديو العلم الفلسطيني)
+    if (e.key === 'k' || e.key === 'K' || e.key === 'ن') {
         e.preventDefault();
         if (typeof window.doToggleIsolated === 'function') {
             window._userInitiatedPlay = true; // ✅ ضغط يدوي من المستخدم
@@ -27176,8 +27178,8 @@ document.addEventListener("keydown", function(e) {
         }
     }
 
-    // ✅ اختصار P: تشغيل/إيقاف currentAudio على آخر محطة اختارها المستخدم
-    if (e.key === 'p' || e.key === 'P') {
+    // P أو ح → currentAudio (الراديو الأساسي)
+    if (e.key === 'p' || e.key === 'P' || e.key === 'ح') {
         e.preventDefault();
         const mainAudioEl = document.getElementById('currentAudio');
         if (!mainAudioEl) return;
@@ -27203,6 +27205,7 @@ document.addEventListener("keydown", function(e) {
                 } catch(ex) {}
             } else {
                 // لو ما في محطة محفوظة → استأنف ما كان شغالاً
+                window._userInitiatedPlay = true;
                 mainAudioEl.play().catch(function(){});
             }
         }
