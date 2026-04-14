@@ -25416,8 +25416,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function filterStations(category) {
   
+  // إزالة التحديد من كل الأزرار
   document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('selected'));
 
+  // تحديد الزر المختار
   document.querySelectorAll('.filter-button').forEach(btn => {
     if (
       (category === 'all' && btn.getAttribute('data-ar') === 'كل الإذاعات') ||
@@ -25427,30 +25429,38 @@ function filterStations(category) {
     }
   });
 
+  // فلترة المحطات
   document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
     if (category === 'all') {
       button.style.display = 'block';
     } else {
-      if (button.getAttribute('data-category') === category) {
-        button.style.display = 'block';
-      } else {
-        button.style.display = 'none';
-      }
+      button.style.display = (button.getAttribute('data-category') === category) ? 'block' : 'none';
     }
   });
 
   updateButtonIndices();
 
-  // ✅ سكرول فقط عند اختيار المستخدم يدوياً — وليس عند فتح الموقع
+  // ✅ سكرول فقط عند اختيار المستخدم
   if (_userPickedFilter && category !== 'Adhkar') {
     setTimeout(() => {
       const firstVisible = Array.from(
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)')
       ).find(b => b.style.display !== 'none');
-      if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      if (firstVisible) {
+        const offset = 100; // 👈 تتحكم هنا (جرّب 80 / 120)
+        const elementTop = firstVisible.getBoundingClientRect().top + window.scrollY;
+
+        window.scrollTo({
+          top: elementTop - offset,
+          behavior: 'smooth'
+        });
+      }
+
     }, 60);
   }
 }
+
 
 
 document.getElementById('searchInput').addEventListener('input', function() {
