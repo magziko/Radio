@@ -5096,7 +5096,7 @@ setInterval(() => {
 <!-- حالة الراديو -->
 <div id="status" data-ar="الرجاء اختيار محطة راديو." data-en="Please select a radio station." style="position: sticky; top: 0; z-index: 1000; background-color: #e0dfda;">الرجاء اختيار محطة راديو.</div> 
 <!-- مشغل الصوت -->
-<audio controls id="currentAudio" style="position: sticky; top: 40px; z-index: 1000; border: 2px solid; width: 98%;">
+<audio controls autoplay id="currentAudio" style="position: sticky; top: 40px; z-index: 1000; border: 2px solid; width: 98%;">
     الجهاز لا يدعم تشغيل الصوت.
 </audio>
 
@@ -18454,7 +18454,7 @@ data-adhkar-evening="1"
        data-station="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"
 data-target="3"
 data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"
-data-en="Say: I seek refuge in the Lord of mankind ۝ The King of mankind ۝ The God of mankind ۝ From the evil of the whisperer who withdraws ۝ Who whispers in the ***** of mankind ۝ From among jinn and mankind"
+data-en="Say: I seek refuge in the Lord of mankind ۝ The King of mankind ۝ The God of mankind ۝ From the evil of the whisperer who withdraws ۝ Who whispers in the breasts of mankind ۝ From among jinn and mankind"
         data-random="true"
         data-urls='[
             "https://server6.mp3quran.net/kurdi/114.mp3",
@@ -25231,13 +25231,6 @@ function initializeRadio() {
 }
 
 function playNewAudio(source, stationName) {
-    // ✅ منع التشغيل التلقائي فقط — أما لو المستخدم اختار بنفسه فيُسمح
-    const _ws = document.getElementById('welcomeScreen');
-    const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
-    if (welcomeOpen && !window._userInitiatedPlay) return;
-    // ✅ نُبقي الـ flag مرفوعاً حتى يستخدمه حدث play ثم يُصفَّر هناك
-    // window._userInitiatedPlay يُصفَّر داخل حدث play في currentAudioEl
-
     currentSource = source;
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
     mainAudio.src = source;
@@ -25423,10 +25416,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function filterStations(category) {
   
-  // إزالة التحديد من كل الأزرار
   document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('selected'));
 
-  // تحديد الزر المختار
   document.querySelectorAll('.filter-button').forEach(btn => {
     if (
       (category === 'all' && btn.getAttribute('data-ar') === 'كل الإذاعات') ||
@@ -25436,38 +25427,30 @@ function filterStations(category) {
     }
   });
 
-  // فلترة المحطات
   document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
     if (category === 'all') {
       button.style.display = 'block';
     } else {
-      button.style.display = (button.getAttribute('data-category') === category) ? 'block' : 'none';
+      if (button.getAttribute('data-category') === category) {
+        button.style.display = 'block';
+      } else {
+        button.style.display = 'none';
+      }
     }
   });
 
   updateButtonIndices();
 
-  // ✅ سكرول فقط عند اختيار المستخدم
+  // ✅ سكرول فقط عند اختيار المستخدم يدوياً — وليس عند فتح الموقع
   if (_userPickedFilter && category !== 'Adhkar') {
     setTimeout(() => {
       const firstVisible = Array.from(
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)')
       ).find(b => b.style.display !== 'none');
-
-      if (firstVisible) {
-        const offset = 100; // 👈 تتحكم هنا (جرّب 80 / 120)
-        const elementTop = firstVisible.getBoundingClientRect().top + window.scrollY;
-
-        window.scrollTo({
-          top: elementTop - offset,
-          behavior: 'smooth'
-        });
-      }
-
+      if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 60);
   }
 }
-
 
 
 document.getElementById('searchInput').addEventListener('input', function() {
@@ -25523,7 +25506,6 @@ document.getElementById('randomButton').style.display = 'block';
 buttons.forEach((button, index) => {
   button.addEventListener('click', () => {
     currentButtonIndex = index;
-    window._userInitiatedPlay = true; // ✅ المستخدم اختار يدوياً
     playNewAudio(button.getAttribute('data-source'), button.textContent);
     updateButtonColor(); // تأكد من تلوين الزر عند الضغط عليه
   });
@@ -25746,72 +25728,69 @@ function getContrastYIQ(hexcolor){
         }
     }
 
-    // ✅ بحث في كل الأزرار (مش بس palestine) وعبر data-url أو data-urls
+    // بحث عشوائي في أزرار data-url فقط (محطات راديو حقيقية مستمرة)
     function getRandomStation() {
-        const allButtons = Array.from(document.querySelectorAll('.button[data-category]'));
-        // استبعد أزرار التنقل
+        const allButtons = Array.from(document.querySelectorAll('.button[data-url]'));
         const radioButtons = allButtons.filter(btn => {
-            const cat = btn.getAttribute('data-category');
-            const id = btn.id;
-            if (id === 'prevButton' || id === 'nextButton' || id === 'randomButton') return false;
+            if (btn.id === 'prevButton' || btn.id === 'nextButton' || btn.id === 'randomButton') return false;
             const url = btn.getAttribute('data-url') || '';
-            const urls = btn.getAttribute('data-urls') || '';
-            return (url || urls).length > 5;
+            // استبعد روابط mp3/mp4 المباشرة (ملفات وليست بث مستمر)
+            if (/\.mp3|\.(mp4|ogg|wav|aac|flac)/i.test(url)) return false;
+            return url.length > 5;
         });
         if (radioButtons.length === 0) return null;
         const randomButton = radioButtons[Math.floor(Math.random() * radioButtons.length)];
-        // استخرج الرابط
-        let stationUrl = randomButton.getAttribute('data-url') || '';
-        if (!stationUrl) {
-            try {
-                const arr = JSON.parse(randomButton.getAttribute('data-urls'));
-                stationUrl = arr[0];
-            } catch(e) {}
-        }
-        if (!stationUrl) return null;
-        return { stationUrl, stationName: randomButton.getAttribute('data-station') || '' };
+        const url = randomButton.getAttribute('data-url');
+        return { stationUrl: url, stationName: randomButton.getAttribute('data-station') || '' };
     }
 
-    function attachAudioEvents(audio) {
+    function applyVolume(audio) {
         if (typeof window.applyCurrentVolume === 'function') {
             window.applyCurrentVolume(audio);
         } else {
             const s = document.getElementById('centralVolumeSlider');
             if (s) audio.volume = parseFloat(s.value);
         }
-        audio.addEventListener('play',  function() { setPlayingUI(true);  });
-        audio.addEventListener('pause', function() { setPlayingUI(false); });
-        audio.addEventListener('error', function() { setPlayingUI(false); });
-        audio.addEventListener('ended', function() { setPlayingUI(false); });
     }
 
-    // ✅ doToggle معرّفة كـ window لتكون قابلة للوصول من زر K
-    window.doToggleIsolated = function() {
-        // ✅ منع التشغيل التلقائي فقط — الضغط اليدوي مسموح
-        const _ws = document.getElementById('welcomeScreen');
-        const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
-        if (welcomeOpen && !window._userInitiatedPlay) return;
-        window._userInitiatedPlay = false;
+    // تشغيل محطة مع التنقل للتالية عند الخطأ أو الانتهاء
+    function playStationWithFallback(stationUrl, stationName) {
+        if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
+        if (window.isolatedAudio) { window.isolatedAudio.onended = null; window.isolatedAudio.onerror = null; window.isolatedAudio.pause(); }
 
+        const audio = new Audio(stationUrl);
+        window.isolatedAudio = audio;
+        applyVolume(audio);
+
+        audio.addEventListener('play',  function() { setPlayingUI(true); });
+        audio.addEventListener('pause', function() { setPlayingUI(false); });
+
+        // عند الخطأ أو انتهاء الملف → انتقل لمحطة عشوائية أخرى
+        function onFail() {
+            if (window.isolatedAudio !== audio) return; // تجاهل لو تغيّر الـ audio
+            showToast('📻 انتقال لمحطة أخرى...');
+            const next = getRandomStation();
+            if (next) playStationWithFallback(next.stationUrl, next.stationName);
+            else setPlayingUI(false);
+        }
+        audio.addEventListener('error', onFail);
+        audio.addEventListener('ended', onFail);
+
+        audio.play().catch(function() { onFail(); });
+        setPlayingUI(true);
+    }
+
+    // doToggle: إيقاف → عشوائي جديد عند التشغيل مرة أخرى
+    window.doToggleIsolated = function() {
         const actuallyPlaying = window.isolatedAudio && !window.isolatedAudio.paused;
         if (actuallyPlaying) {
             window.isolatedAudio.pause();
             setPlayingUI(false);
         } else {
-            // لو في audio موقوف، استأنفه بدل ما نعمل واحد جديد
-            if (window.isolatedAudio && window.isolatedAudio.src && window.isolatedAudio.paused) {
-                if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
-                window.isolatedAudio.play().catch(function() { setPlayingUI(false); });
-                return;
-            }
-            if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
+            // دائماً محطة عشوائية جديدة عند كل تشغيل
             const station = getRandomStation();
-            if (!station) { console.warn('isolatedAudio: لم يتم العثور على محطة'); return; }
-            if (window.isolatedAudio) window.isolatedAudio.pause();
-            window.isolatedAudio = new Audio(station.stationUrl);
-            attachAudioEvents(window.isolatedAudio);
-            window.isolatedAudio.play().catch(function() { setPlayingUI(false); });
-            setPlayingUI(true);
+            if (!station) { console.warn('isolatedAudio: لا توجد محطات متاحة'); return; }
+            playStationWithFallback(station.stationUrl, station.stationName);
         }
     };
 
@@ -25821,7 +25800,6 @@ function getContrastYIQ(hexcolor){
         if (isolatedPlayPauseButton) {
             isolatedPlayPauseButton.addEventListener('click', function(e) {
                 e.stopPropagation();
-                window._userInitiatedPlay = true; // ✅ المستخدم اختار يدوياً
                 window.doToggleIsolated();
             });
         }
@@ -25835,23 +25813,14 @@ function getContrastYIQ(hexcolor){
 
     // دالة global لتشغيل محطة بعينها
     window.playIsolatedStation = function(url, stationName) {
-        // ✅ منع التشغيل التلقائي فقط — الضغط اليدوي مسموح
-        const _ws = document.getElementById('welcomeScreen');
-        const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
-        if (welcomeOpen && !window._userInitiatedPlay) return;
-        window._userInitiatedPlay = false;
-
-        if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
-        if (window.isolatedAudio) window.isolatedAudio.pause();
-        window.isolatedAudio = new Audio(url);
-        attachAudioEvents(window.isolatedAudio);
-        window.isolatedAudio.play().catch(function() { setPlayingUI(false); });
-        setPlayingUI(true);
+        playStationWithFallback(url, stationName || '');
     };
 
     // دالة global لإيقاف الراديو من الخارج
     window.stopIsolatedAudio = function() {
-        if (window.isolatedAudio && !window.isolatedAudio.paused) {
+        if (window.isolatedAudio) {
+            window.isolatedAudio.onended = null;
+            window.isolatedAudio.onerror = null;
             window.isolatedAudio.pause();
         }
         setPlayingUI(false);
@@ -26141,7 +26110,6 @@ showButtonTemporarily();
     // تشغيل الرابط
     if (stationUrl) {
         // تأكد أن playNewAudio موجودة ومضبوطة على العنصر #main-audio
-        window._userInitiatedPlay = true; // ✅ المستخدم اختار يدوياً
         playNewAudio(stationUrl, stationDescription);
     } else {
         console.warn('لا يوجد رابط للتشغيل لهذا الزر');
@@ -26320,17 +26288,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (currentAudioEl) {
         currentAudioEl.addEventListener('play', () => {
-            // ✅ منع التشغيل التلقائي فقط — الضغط اليدوي مسموح
-            const welcomeScreenEl = document.getElementById('welcomeScreen');
-            const welcomeOpen = welcomeScreenEl &&
-                welcomeScreenEl.style.display !== 'none' &&
-                welcomeScreenEl.style.display !== '';
-
-            if (welcomeOpen && !window._userInitiatedPlay) {
-                currentAudioEl.pause();
-                return;
-            }
-            window._userInitiatedPlay = false; // ✅ إعادة الضبط هنا فقط
             stopAllOtherAudios('main');
             activeAudio = currentAudioEl;
             currentAudioEl.volume = 1;
@@ -27164,22 +27121,20 @@ document.addEventListener("keydown", function(e) {
     }
 });
 
-// ✅ اختصار K/ن: تشغيل/إيقاف isolatedAudio — اختصار P/ح: تشغيل/إيقاف currentAudio
+// ✅ اختصار K: تشغيل/إيقاف isolatedAudio
 document.addEventListener("keydown", function(e) {
     const tag = document.activeElement && document.activeElement.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
-    // K أو ن → isolatedAudio (راديو العلم الفلسطيني)
-    if (e.key === 'k' || e.key === 'K' || e.key === 'ن') {
+    if (e.key === 'k' || e.key === 'K') {
         e.preventDefault();
         if (typeof window.doToggleIsolated === 'function') {
-            window._userInitiatedPlay = true; // ✅ ضغط يدوي من المستخدم
             window.doToggleIsolated();
         }
     }
 
-    // P أو ح → currentAudio (الراديو الأساسي)
-    if (e.key === 'p' || e.key === 'P' || e.key === 'ح') {
+    // ✅ اختصار P: تشغيل/إيقاف currentAudio على آخر محطة اختارها المستخدم
+    if (e.key === 'p' || e.key === 'P') {
         e.preventDefault();
         const mainAudioEl = document.getElementById('currentAudio');
         if (!mainAudioEl) return;
@@ -27195,7 +27150,6 @@ document.addEventListener("keydown", function(e) {
                     const last = JSON.parse(lastRaw);
                     if (last && last.url) {
                         if (typeof playNewAudio === 'function') {
-                            window._userInitiatedPlay = true; // ✅ ضغط يدوي من المستخدم
                             playNewAudio(last.url, last.name || '');
                         } else {
                             mainAudioEl.src = last.url;
@@ -27205,7 +27159,6 @@ document.addEventListener("keydown", function(e) {
                 } catch(ex) {}
             } else {
                 // لو ما في محطة محفوظة → استأنف ما كان شغالاً
-                window._userInitiatedPlay = true;
                 mainAudioEl.play().catch(function(){});
             }
         }
@@ -27361,6 +27314,3 @@ function shareFacebook() {
 
 </body>
 </html>
-
-
-
