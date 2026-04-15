@@ -1241,40 +1241,320 @@ border-radius: 12px;
     transition: background 0.4s ease, color 0.4s ease;
 }
 
-/* خلفية الدارك مود فقط */
+/* ================================================
+   🌙 DARK MODE - تغطية شاملة لكل عناصر الموقع
+   ================================================ */
+
 body.dark-mode {
-    background: #121212;
-    color: inherit; /* لا نغيّر النصوص العامة */
+    background: #0f0f0f !important;
+    color: #e0e0e0 !important;
 }
 
-/* عناصر التحكم */
+/* ---- النصوص العامة ---- */
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode label,
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3,
+body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
+body.dark-mode li, body.dark-mode td, body.dark-mode th {
+    color: #e0e0e0 !important;
+}
+
+/* ---- شاشة الترحيب ---- */
+body.dark-mode #welcomeScreen {
+    background: linear-gradient(135deg, #1a1a2e, #0f0f0f) !important;
+}
+
+body.dark-mode #welcomeContent {
+    background: rgba(30, 30, 30, 0.92) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    box-shadow: 0 0 30px rgba(0,0,0,0.6) !important;
+}
+
+body.dark-mode .customHeading {
+    color: #90caf9 !important;
+}
+
+body.dark-mode #siteWelcomeText,
+body.dark-mode #siteWelcomeText span,
+body.dark-mode #siteWelcomeText strong {
+    color: #c8d6e5 !important;
+}
+
+body.dark-mode #quranVerse,
+body.dark-mode #quranVerse p,
+body.dark-mode #arabicVerse,
+body.dark-mode #verseNumber {
+    color: #80cbc4 !important;
+}
+
+body.dark-mode #englishVerse {
+    color: #aaaaaa !important;
+}
+
+body.dark-mode #customStatus {
+    color: #e0e0e0 !important;
+}
+
+/* ---- أزرار التحكم في شاشة الترحيب ---- */
+body.dark-mode .customBtnControl {
+    background: #1e1e2e !important;
+    border: 2px solid #444 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+}
+
+body.dark-mode .customBtnControl:hover {
+    background: #2a2a3e !important;
+    border-color: #666 !important;
+}
+
+body.dark-mode .customBtnControl svg {
+    fill: #90caf9 !important;
+}
+
+/* ---- عناصر الإدخال والقوائم ---- */
 body.dark-mode select,
 body.dark-mode input,
 body.dark-mode textarea {
-    background-color: #1e1e1e;
-    color: #ffffff;
-    border: 1px solid #444;
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #444 !important;
 }
 
-/* كل الأزرار */
+body.dark-mode input[type="range"] {
+    accent-color: #1e90ff;
+}
+
+body.dark-mode input[type="checkbox"] {
+    accent-color: #1e90ff;
+}
+
+/* ---- شريط الحالة (status) ---- */
+body.dark-mode #status {
+    background: linear-gradient(to right, #1a1a2e, #1e3a5f, #1a1a2e) !important;
+    color: #e0e0e0 !important;
+}
+
+/* ---- input-group (الخلفية الزرقاء الفاتحة) ---- */
+body.dark-mode .input-group {
+    background: linear-gradient(to right, #1a2a3a, #1e1e2e, #1a2a3a) !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #333 !important;
+}
+
+body.dark-mode .input-group label {
+    color: #c8d6e5 !important;
+}
+
+body.dark-mode .input-group input[type="number"] {
+    background: #252525 !important;
+    color: #e0e0e0 !important;
+    border: 2px solid #444 !important;
+}
+
+/* ---- أزرار المحطات الرئيسية ---- */
+body.dark-mode .button,
+body.dark-mode .palestine {
+    background-color: #1e1e2e !important;
+    color: #e0e0e0 !important;
+    border-color: #444 !important;
+    text-shadow: none !important;
+}
+
+body.dark-mode .button:hover,
+body.dark-mode .palestine:hover {
+    background-color: #2a2a3e !important;
+}
+
+body.dark-mode .button.playing {
+    background-color: #1a3a5a !important;
+    border-color: #1e90ff !important;
+}
+
+body.dark-mode .button.completed {
+    background: linear-gradient(135deg, #7a5c00, #8b4000) !important;
+    color: #ffe082 !important;
+    border-color: #5a7de9 !important;
+}
+
+/* ---- أزرار الفلتر ---- */
+body.dark-mode .filter-button {
+    background: #1e1e2e !important;
+    color: #64b5f6 !important;
+    border-color: #64b5f6 !important;
+}
+
+body.dark-mode .filter-button:hover,
+body.dark-mode .filter-button.selected {
+    background: #1e3a5f !important;
+    color: #90caf9 !important;
+    border-color: #90caf9 !important;
+}
+
+body.dark-mode .filter-button[data-ar="كل الإذاعات"] {
+    background: #1e1e2e !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .filter-button[data-ar="كل الإذاعات"]:hover,
+body.dark-mode .filter-button[data-ar="كل الإذاعات"].selected {
+    background: #333 !important;
+    color: #fff !important;
+}
+
+/* ---- زر المفضلة ---- */
+body.dark-mode #viewFavoritesButton {
+    background-color: #1e1e2e !important;
+    color: #ff6b6b !important;
+    border: 2px solid #64b5f6 !important;
+}
+
+body.dark-mode #viewFavoritesButton:hover {
+    background-color: #2a1a1a !important;
+    color: #ff8a80 !important;
+}
+
+/* ---- أزرار التنقل (prev/next/random) ---- */
+body.dark-mode #prevButton,
+body.dark-mode #nextButton,
+body.dark-mode #randomButton {
+    background: #1e1e2e !important;
+    color: #90caf9 !important;
+    border: 2px solid #64b5f6 !important;
+}
+
+body.dark-mode #prevButton:hover,
+body.dark-mode #nextButton:hover,
+body.dark-mode #randomButton:hover {
+    background: #1e3a5f !important;
+    color: #bbdefb !important;
+}
+
+/* ---- حقل البحث ---- */
+body.dark-mode .search-input {
+    background: rgba(30, 30, 46, 0.95) !important;
+    color: #e0e0e0 !important;
+    border: 2px solid #444 !important;
+}
+
+body.dark-mode .search-input:focus {
+    background: #252535 !important;
+    border-color: #64b5f6 !important;
+    box-shadow: 0 0 18px rgba(100, 181, 246, 0.3) !important;
+}
+
+body.dark-mode .search-input::placeholder {
+    color: #888 !important;
+}
+
+/* ---- المودال ---- */
+body.dark-mode .modal-content {
+    background: #1a1a2e !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .modal-header {
+    background: #252535 !important;
+    color: #e0e0e0 !important;
+}
+
+/* ---- المسبحة (tasbih-box) ---- */
+body.dark-mode .tasbih-box {
+    background: #252535 !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #555 !important;
+}
+
+body.dark-mode .tasbih-box:active {
+    background: #333 !important;
+}
+
+/* ---- شريط الفلتر الفرعي للأذكار ---- */
+body.dark-mode #adhkar-subfilter {
+    background: rgba(30, 30, 60, 0.5) !important;
+    border: 1px dashed rgba(100,181,246,0.3) !important;
+}
+
+body.dark-mode .adhkar-sub-btn {
+    background: #1e1e2e !important;
+    color: #64b5f6 !important;
+    border: 2px solid #64b5f6 !important;
+}
+
+body.dark-mode .adhkar-sub-btn:hover {
+    background: #1e3a5f !important;
+}
+
+body.dark-mode .adhkar-sub-btn.active {
+    background: #1e3a5f !important;
+    color: #90caf9 !important;
+}
+
+/* ---- أزرار عامة ---- */
 body.dark-mode button,
 body.dark-mode input[type="button"],
 body.dark-mode input[type="submit"],
 body.dark-mode .btn {
-    background-color: #1e1e1e;
-    color: #ffffff;
-    border-color: #444;
+    background-color: #1e1e2e !important;
+    color: #e0e0e0 !important;
+    border-color: #444 !important;
 }
 
-/* أزرار المحطات */
-body.dark-mode .button,
-body.dark-mode .palestine {
-    background-color: #1e1e1e !important;
-    color: #ffffff !important;
-    border-color: #444 !important;
+/* ---- زر تبديل اللغة ---- */
+body.dark-mode #languageToggle {
+    background-color: #333 !important;
+    color: #e0e0e0 !important;
+}
 
-    /* إزالة التشويش */
-    text-shadow: none !important;
+body.dark-mode #languageToggle:hover {
+    background-color: #555 !important;
+    color: #fff !important;
+}
+
+/* ---- زر الدارك موود العائم ---- */
+#darkModeFloatBtn {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 99999;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #1e90ff;
+    background: #fff;
+    color: #1a1a2e;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    transition: background 0.3s, color 0.3s, transform 0.2s;
+    line-height: 1;
+    padding: 0;
+}
+
+#darkModeFloatBtn:hover {
+    transform: scale(1.12);
+    box-shadow: 0 5px 18px rgba(30,144,255,0.35);
+}
+
+body.dark-mode #darkModeFloatBtn {
+    background: #1a1a2e !important;
+    color: #ffd54f !important;
+    border-color: #ffd54f !important;
+}
+
+/* ---- الفوتر ---- */
+body.dark-mode .footer-share {
+    background: #0a0a0a !important;
+    border-top: 1px solid #222 !important;
+}
+
+/* ---- Tooltip ---- */
+body.dark-mode .custom-tooltip {
+    background: rgba(20, 20, 40, 0.95) !important;
+    color: #e0e0e0 !important;
 }
 .search-wrapper {
     display: flex;
@@ -1593,6 +1873,9 @@ border: 2px solid #2b7de9;
   
 </head>
 <body class="main-content">
+
+<!-- زر الدارك موود العائم -->
+<button id="darkModeFloatBtn" onclick="toggleDarkModeFloat()" title="تبديل الوضع الليلي / Dark Mode" aria-label="Toggle Dark Mode">🌙</button>
 
 <!--<img src="https://magziki.weebly.com/uploads/5/8/4/3/58435869/published/b92abf-1347ccba3d5744d784496308254b2b89-mv2.webp?1730536125" alt="شعار الموقع" style="max-width: 110px; height: auto;" />-->
 
@@ -25652,12 +25935,44 @@ function changeBackgroundColor() {
         document.body.style.background = ""; // نسيب CSS يتحكم
         localStorage.setItem('theme', 'dark');
         localStorage.removeItem('bgColor');
+        updateDarkModeBtn(true);
     } else {
         document.body.classList.remove("dark-mode");
         document.body.style.background = color;
         localStorage.setItem('bgColor', color);
         localStorage.setItem('theme', 'light');
+        updateDarkModeBtn(false);
     }
+}
+
+function toggleDarkModeFloat() {
+    const isDark = document.body.classList.contains("dark-mode");
+    if (isDark) {
+        // تحويل إلى Light Mode
+        document.body.classList.remove("dark-mode");
+        document.body.style.background = "";
+        localStorage.setItem('theme', 'light');
+        localStorage.removeItem('bgColor');
+        const sel = document.getElementById('bgColor');
+        if (sel) sel.value = "";
+        updateDarkModeBtn(false);
+    } else {
+        // تحويل إلى Dark Mode
+        document.body.classList.add("dark-mode");
+        document.body.style.background = "";
+        localStorage.setItem('theme', 'dark');
+        localStorage.removeItem('bgColor');
+        const sel = document.getElementById('bgColor');
+        if (sel) sel.value = "dark";
+        updateDarkModeBtn(true);
+    }
+}
+
+function updateDarkModeBtn(isDark) {
+    const btn = document.getElementById('darkModeFloatBtn');
+    if (!btn) return;
+    btn.textContent = isDark ? '☀️' : '🌙';
+    btn.title = isDark ? 'تفعيل الوضع النهاري / Light Mode' : 'تفعيل الوضع الليلي / Dark Mode';
 }
 
 /* تحميل الإعدادات المحفوظة */
@@ -25670,11 +25985,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (savedTheme === 'dark') {
         document.body.classList.add("dark-mode");
         document.getElementById('bgColor').value = "dark";
+        updateDarkModeBtn(true);
     }
     // Light Mode + لون محفوظ
     else if (savedBgColor) {
         document.body.style.background = savedBgColor;
         document.getElementById('bgColor').value = savedBgColor;
+        updateDarkModeBtn(false);
     }
 
     // كود أزرار الراديو (كما هو عندك)
@@ -25737,11 +26054,14 @@ function getContrastYIQ(hexcolor){
 
 (function() {
     window.isolatedAudio = null;
-    let isolatedIsPlaying = false;
+
+    // ✅ حفظ المحطة الحالية (لا نغيّرها عند الإيقاف والاستئناف)
+    let currentStation = null;  // { stationUrl, stationName }
+    let lastStationUrl = null;  // لمنع تكرار نفس المحطة عند اختيار عشوائي جديد
+
     let isolatedPlayPauseButton = document.getElementById('isolatedPlayPauseButton');
 
     function setPlayingUI(playing) {
-        isolatedIsPlaying = playing;
         if (!isolatedPlayPauseButton)
             isolatedPlayPauseButton = document.getElementById('isolatedPlayPauseButton');
         if (isolatedPlayPauseButton) {
@@ -25749,37 +26069,60 @@ function getContrastYIQ(hexcolor){
         }
     }
 
-   let lastStationUrl = null;
+    // ✅ فلترة صارمة: فقط محطات راديو ذات بث مباشر حقيقي
+    function isRealRadioStream(url) {
+        if (!url || url.length < 5) return false;
+        // استبعاد يوتيوب
+        if (url.includes('youtube.com') || url.includes('youtu.be')) return false;
+        // استبعاد مواقع خارجية تُفتح في modal (worldradiomap, islambook, إلخ)
+        if (url.includes('worldradiomap.com')) return false;
+        if (url.includes('islambook.com')) return false;
+        if (url.includes('quranflash.com')) return false;
+        if (url.includes('facebook.com')) return false;
+        if (url.includes('drive.google.com')) return false;
+        // لا بد أن يكون رابط بث صوتي فعلي
+        return true;
+    }
 
-function getRandomStation() {
-    const allButtons = Array.from(document.querySelectorAll('.button[data-category]'));
-
-    const radioButtons = allButtons.filter(btn => {
+    function isRealRadioButton(btn) {
+        // تجاهل أزرار التحكم
         const id = btn.id;
         if (id === 'prevButton' || id === 'nextButton' || id === 'randomButton') return false;
 
-        const url = btn.getAttribute('data-url');
+        // يجب أن يكون onclick هو toggleRadio فقط (لا openModal ولا window.open)
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        if (onclickAttr.includes('openModal')) return false;
+        if (onclickAttr.includes('window.open')) return false;
+        if (onclickAttr.includes('handleTripleClick')) return false;
+
+        // يجب أن يحتوي على data-url فردي (لا data-urls متعددة)
+        const url  = btn.getAttribute('data-url');
         const urls = btn.getAttribute('data-urls');
+        if (urls) return false;  // تلاوات قرآنية بملفات متعددة
+        if (!isRealRadioStream(url)) return false;
 
-        // ✅ فقط محطات برابط واحد
-        return url && url.length > 5 && !urls;
-    });
+        return true;
+    }
 
-    if (radioButtons.length === 0) return null;
+    function getRandomStation() {
+        const allButtons = Array.from(document.querySelectorAll('.button[data-category]'));
+        const radioButtons = allButtons.filter(isRealRadioButton);
 
-    let randomButton, stationUrl;
+        if (radioButtons.length === 0) return null;
 
-    do {
-        randomButton = radioButtons[Math.floor(Math.random() * radioButtons.length)];
-        stationUrl = randomButton.getAttribute('data-url');
-    } while (stationUrl === lastStationUrl && radioButtons.length > 1);
+        let randomButton, stationUrl;
+        let attempts = 0;
+        do {
+            randomButton = radioButtons[Math.floor(Math.random() * radioButtons.length)];
+            stationUrl   = randomButton.getAttribute('data-url');
+            attempts++;
+        } while (stationUrl === lastStationUrl && radioButtons.length > 1 && attempts < 20);
 
-    return {
-        stationUrl,
-        stationName: randomButton.getAttribute('data-station') || ''
-    };
-}
-
+        return {
+            stationUrl,
+            stationName: randomButton.getAttribute('data-station') || ''
+        };
+    }
 
     function attachAudioEvents(audio) {
         if (typeof window.applyCurrentVolume === 'function') {
@@ -25794,80 +26137,95 @@ function getRandomStation() {
         audio.addEventListener('ended', function() { setPlayingUI(false); });
     }
 
-   window.doToggleIsolated = function() {
-    const _ws = document.getElementById('welcomeScreen');
-    const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
-    if (welcomeOpen && !window._userInitiatedPlay) return;
-    window._userInitiatedPlay = false;
+    function startNewStation() {
+        const station = getRandomStation();
+        if (!station) {
+            console.warn('isolatedAudio: لم يتم العثور على محطة راديو');
+            return false;
+        }
+        currentStation = station;
+        lastStationUrl = station.stationUrl;
 
-    const actuallyPlaying = window.isolatedAudio && !window.isolatedAudio.paused;
+        if (window.isolatedAudio) {
+            window.isolatedAudio.pause();
+            window.isolatedAudio.src = '';
+        }
+        window.isolatedAudio = new Audio(station.stationUrl);
+        attachAudioEvents(window.isolatedAudio);
 
-    if (actuallyPlaying) {
-        // ⏸ إيقاف
-        window.isolatedAudio.pause();
-        setPlayingUI(false);
-    } else {
-        // ▶️ تشغيل محطة جديدة كل مرة
         if (typeof window.stopAllOtherAudios === 'function') {
             window.stopAllOtherAudios('isolated');
         }
 
-        const station = getRandomStation();
-        if (!station) {
-            console.warn('isolatedAudio: لم يتم العثور على محطة');
-            return;
-        }
-
-        if (window.isolatedAudio) {
-            window.isolatedAudio.pause();
-        }
-
-        window.isolatedAudio = new Audio(station.stationUrl);
-        attachAudioEvents(window.isolatedAudio);
-
-        window.isolatedAudio.play().catch(function() {
-            setPlayingUI(false);
-        });
-
-        setPlayingUI(true);
-
-        // ✅ حفظ آخر محطة لمنع التكرار
-        lastStationUrl = station.stationUrl;
-    }
-};
-
-    // ربط زر التشغيل
-    function bindButton() {
-        isolatedPlayPauseButton = document.getElementById('isolatedPlayPauseButton');
-        if (isolatedPlayPauseButton) {
-            isolatedPlayPauseButton.addEventListener('click', function(e) {
-                e.stopPropagation();
-                window._userInitiatedPlay = true; // ✅ المستخدم اختار يدوياً
-                window.doToggleIsolated();
-            });
-        }
-    }
-    // جرّب فوراً، وإلا انتظر DOMContentLoaded
-    if (document.getElementById('isolatedPlayPauseButton')) {
-        bindButton();
-    } else {
-        document.addEventListener('DOMContentLoaded', bindButton);
+        window.isolatedAudio.play().catch(function() { setPlayingUI(false); });
+        return true;
     }
 
-    // دالة global لتشغيل محطة بعينها
-    window.playIsolatedStation = function(url, stationName) {
-        // ✅ منع التشغيل التلقائي فقط — الضغط اليدوي مسموح
-        const _ws = document.getElementById('welcomeScreen');
-        const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
-        if (welcomeOpen && !window._userInitiatedPlay) return;
+    window.doToggleIsolated = function() {
+        // ✅ إزالة الشرط المُعيق - نثق بـ _userInitiatedPlay المُعيّن قبل الاستدعاء
         window._userInitiatedPlay = false;
 
+        const actuallyPlaying = window.isolatedAudio
+                                && !window.isolatedAudio.paused
+                                && !window.isolatedAudio.ended;
+
+        if (actuallyPlaying) {
+            // ⏸ إيقاف مؤقت - نحفظ المحطة الحالية ولا نغيّرها
+            window.isolatedAudio.pause();
+            setPlayingUI(false);
+        } else {
+            // ▶️ استئناف نفس المحطة إن وُجدت، وإلا اختر محطة جديدة
+            if (window.isolatedAudio && window.isolatedAudio.src && window.isolatedAudio.src !== window.location.href) {
+                // استئناف نفس المحطة
+                if (typeof window.stopAllOtherAudios === 'function') {
+                    window.stopAllOtherAudios('isolated');
+                }
+                window.isolatedAudio.play().catch(function() {
+                    // إذا فشل الاستئناف، ابدأ محطة جديدة
+                    startNewStation();
+                });
+            } else {
+                // أول تشغيل - اختر محطة جديدة
+                startNewStation();
+            }
+        }
+    };
+
+    // ربط الزر - بعد DOMContentLoaded لضمان وجوده
+    function bindButton() {
+        isolatedPlayPauseButton = document.getElementById('isolatedPlayPauseButton');
+        if (!isolatedPlayPauseButton) return;
+
+        // تجنب تكرار الربط
+        isolatedPlayPauseButton.replaceWith(isolatedPlayPauseButton.cloneNode(true));
+        isolatedPlayPauseButton = document.getElementById('isolatedPlayPauseButton');
+
+        isolatedPlayPauseButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            window._userInitiatedPlay = true;
+            window.doToggleIsolated();
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindButton);
+    } else {
+        bindButton();
+    }
+
+    // دالة global لتشغيل محطة بعينها من الخارج
+    window.playIsolatedStation = function(url, stationName) {
+        if (!isRealRadioStream(url)) return;
+
+        currentStation = { stationUrl: url, stationName: stationName || '' };
+        lastStationUrl = url;
+
         if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
-        if (window.isolatedAudio) window.isolatedAudio.pause();
+        if (window.isolatedAudio) { window.isolatedAudio.pause(); window.isolatedAudio.src = ''; }
+
         window.isolatedAudio = new Audio(url);
         attachAudioEvents(window.isolatedAudio);
         window.isolatedAudio.play().catch(function() { setPlayingUI(false); });
-        setPlayingUI(true);
     };
 
     // دالة global لإيقاف الراديو من الخارج
