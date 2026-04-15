@@ -1511,11 +1511,11 @@ body.dark-mode #languageToggle:hover {
     color: #fff !important;
 }
 
-/* ---- زر الدارك موود العائم ---- */
+/* ---- زر الدارك موود العائم (خارج شاشة الترحيب) ---- */
 #darkModeFloatBtn {
     position: fixed;
-    top: 12px;
-    left: 12px;
+    top: 80px;
+    right: 12px;
     z-index: 99999;
     width: 44px;
     height: 44px;
@@ -1534,6 +1534,12 @@ body.dark-mode #languageToggle:hover {
     padding: 0;
 }
 
+/* إخفاء الزر العائم عند ظهور شاشة الترحيب */
+body:has(#welcomeScreen[style*="block"]) #darkModeFloatBtn,
+body:has(#welcomeScreen:not([style*="none"])) #darkModeFloatBtn {
+    display: none !important;
+}
+
 #darkModeFloatBtn:hover {
     transform: scale(1.12);
     box-shadow: 0 5px 18px rgba(30,144,255,0.35);
@@ -1543,6 +1549,54 @@ body.dark-mode #darkModeFloatBtn {
     background: #1a1a2e !important;
     color: #ffd54f !important;
     border-color: #ffd54f !important;
+}
+
+/* ---- زر الدارك موود المثبت داخل شاشة الترحيب ---- */
+#welcomeDarkModeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin: 14px auto 0;
+    padding: 8px 20px;
+    border-radius: 22px;
+    border: 1.5px solid #b0c4de;
+    background: rgba(255,255,255,0.7);
+    color: #2c3e50;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s, border-color 0.25s, box-shadow 0.25s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    width: fit-content;
+    backdrop-filter: blur(6px);
+}
+
+#welcomeDarkModeBtn:hover {
+    background: rgba(30,144,255,0.1);
+    border-color: #1e90ff;
+    box-shadow: 0 4px 14px rgba(30,144,255,0.2);
+}
+
+#welcomeDarkModeBtn .wdm-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+#welcomeDarkModeBtn .wdm-text {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+}
+
+body.dark-mode #welcomeDarkModeBtn {
+    background: rgba(26,26,46,0.85) !important;
+    color: #ffd54f !important;
+    border-color: #ffd54f !important;
+    box-shadow: 0 2px 12px rgba(255,213,79,0.2) !important;
+}
+
+body.dark-mode #welcomeDarkModeBtn:hover {
+    background: rgba(40,40,70,0.95) !important;
 }
 
 /* ---- الفوتر ---- */
@@ -1991,6 +2045,14 @@ border: 2px solid #2b7de9;
     </svg>
 </div>
 
+<!-- زر Dark Mode مثبت داخل شاشة الترحيب -->
+<div style="text-align:center;">
+    <button id="welcomeDarkModeBtn" onclick="toggleDarkModeFloat()" title="تبديل الوضع الليلي / Dark Mode" aria-label="Toggle Dark Mode">
+        <span class="wdm-icon">🌙</span>
+        <span class="wdm-text" id="welcomeDarkModeTxt">Dark Mode</span>
+    </button>
+</div>
+
     
       <!-- رابط الموقع الجديد -->
    
@@ -2340,46 +2402,90 @@ function showToast(message) {
 
 function playSource(i) {
     if (i >= sources.length) return;
+    // إلغاء أي مؤقت بديل سابق لمنع التبديل المبكر
+    clearTimeout(welcomeErrorTimer);
+    clearTimeout(welcomeStalledTimer);
+
     audio.src = sources[i];
     audio.load();
     audio.play()
-        .then(() => { switchingSource = false; }) // ✅ إعادة تعيين عند النجاح
-        .catch(() => { switchingSource = false; });
+        .then(() => {
+            switchingSource = false;
+            // تشغيل ناجح — إعادة ضبط العداد
+            welcomeConsecutiveErrors = 0;
+        })
+        .catch(() => {
+            switchingSource = false;
+        });
 }
 
-let switchingSource = false; // ✅ منع التبديل المزدوج
+let switchingSource = false;          // منع التبديل المزدوج
+let welcomeErrorTimer   = null;       // مؤقت خطأ الاتصال
+let welcomeStalledTimer = null;       // مؤقت توقف البث
+let welcomeConsecutiveErrors = 0;     // عداد الأخطاء المتتالية
+
+// كم ثانية ننتظر قبل التبديل للمحطة الاحتياطية
+// مدة كافية للإنترنت البطيء (15 ثانية للخطأ، 20 للتوقف)
+const WELCOME_ERROR_DELAY   = 15000; // 15 ثانية
+const WELCOME_STALLED_DELAY = 20000; // 20 ثانية
 
 function nextSource() {
-    // ✅ منع التبديل المتكرر السريع
     if (switchingSource) return;
     switchingSource = true;
 
+    welcomeConsecutiveErrors++;
     index++;
+
     if (index < sources.length) {
         showToast("📢 تم التحويل لمحطة احتياطية");
         setTimeout(function() {
             playSource(index);
             switchingSource = false;
-        }, 500); // تأخير 500ms لمنع التعارض
+        }, 800);
     } else {
-        // ✅ إذا انتهت كل المصادر، نحاول من البداية بعد 10 ثوانٍ
+        // انتهت كل المصادر — إعادة المحاولة من البداية بعد 15 ثانية
         showToast("📢 إعادة المحاولة...");
         setTimeout(function() {
             index = 0;
             switchingSource = false;
+            welcomeConsecutiveErrors = 0;
             playSource(index);
-        }, 10000);
+        }, 15000);
     }
 }
 
 // ✅ إصلاح: لا نشغّل الراديو الترحيبي هنا مباشرةً
 // سيتم تشغيله فقط من window.onload بعد التحقق من إعداد الشاشة الترحيبية
+
+// خطأ حقيقي في الاتصال — ننتظر مدة كافية أولاً
 audio.addEventListener("error", function() {
-    // تأخير بسيط لمنع التعارض عند التبديل السريع
-    setTimeout(nextSource, 300);
+    clearTimeout(welcomeErrorTimer);
+    welcomeErrorTimer = setTimeout(function() {
+        // تحقق أن الصوت لا يزال متوقفاً فعلاً قبل التبديل
+        if (audio.error || audio.networkState === 3) {
+            nextSource();
+        }
+    }, WELCOME_ERROR_DELAY);
 });
+
+// توقف البث (stalled) — قد يكون الإنترنت بطيئاً فقط، ننتظر أكثر
 audio.addEventListener("stalled", function() {
-    setTimeout(nextSource, 1000);
+    clearTimeout(welcomeStalledTimer);
+    welcomeStalledTimer = setTimeout(function() {
+        // تحقق: هل الصوت لا يزال متوقفاً ولم يبدأ التشغيل؟
+        if (audio.paused || audio.readyState < 2) {
+            nextSource();
+        }
+        // إذا كان يشتغل بالفعل → لا تبديل
+    }, WELCOME_STALLED_DELAY);
+});
+
+// إلغاء أي مؤقت بديل عند بدء التشغيل الفعلي (يمنع التبديل بعد النجاح)
+audio.addEventListener("playing", function() {
+    clearTimeout(welcomeErrorTimer);
+    clearTimeout(welcomeStalledTimer);
+    switchingSource = false;
+    welcomeConsecutiveErrors = 0;
 });
 
 let sheikhSources = [];
@@ -2387,14 +2493,19 @@ let sheikhIndex = 0;
 
 function playMainStation(station) {
     let sources = [
-        station.url,                      // الأساسي
-        "https://qurango.net/radio/tarateel",        // بديل 1
-        "https://qurango.net/radio/tarateel" // بديل 2
+        station.url,                               // الأساسي
+        "https://qurango.net/radio/tarateel",      // بديل 1
+        "https://backup.qurango.net/radio/mix"     // بديل 2
     ];
 
     let index = 0;
+    let mainErrorTimer   = null;
+    let mainStalledTimer = null;
+    let mainSwitching    = false;
 
     function playSource(i) {
+        clearTimeout(mainErrorTimer);
+        clearTimeout(mainStalledTimer);
         customAudioPlayer.src = sources[i];
         customAudioPlayer.load();
         customAudioPlayer.play().catch(() => {});
@@ -2402,16 +2513,46 @@ function playMainStation(station) {
     }
 
     function nextSource() {
+        if (mainSwitching) return;
+        mainSwitching = true;
         index++;
         if (index < sources.length) {
             showToast("📢 تم التحويل لمحطة احتياطية");
-            playSource(index);
+            setTimeout(function() {
+                playSource(index);
+                mainSwitching = false;
+            }, 800);
+        } else {
+            mainSwitching = false;
         }
     }
 
-    // إعادة تعيين المستمعين لتجنب التداخل
-    customAudioPlayer.onerror = nextSource;
-    customAudioPlayer.onstalled = nextSource;
+    // خطأ حقيقي — انتظر 15 ثانية قبل التبديل
+    customAudioPlayer.onerror = function() {
+        clearTimeout(mainErrorTimer);
+        mainErrorTimer = setTimeout(function() {
+            if (customAudioPlayer.error || customAudioPlayer.networkState === 3) {
+                nextSource();
+            }
+        }, 15000);
+    };
+
+    // توقف بسبب بطء الإنترنت — انتظر 20 ثانية
+    customAudioPlayer.onstalled = function() {
+        clearTimeout(mainStalledTimer);
+        mainStalledTimer = setTimeout(function() {
+            if (customAudioPlayer.paused || customAudioPlayer.readyState < 2) {
+                nextSource();
+            }
+        }, 20000);
+    };
+
+    // إلغاء المؤقتات عند بدء التشغيل الفعلي
+    customAudioPlayer.onplaying = function() {
+        clearTimeout(mainErrorTimer);
+        clearTimeout(mainStalledTimer);
+        mainSwitching = false;
+    };
 
     // تشغيل أول محطة
     index = 0;
@@ -20379,6 +20520,10 @@ data-adhkar-general="1"
         <span class="multi-icon">🔁</span>
     </span>
 
+<span class="reset-all" 
+      onclick="confirmResetAll(event)" 
+      title="تصفير جميع العدادات">↻</span>
+
     <img src="https://cdn.instant.audio/images/equalizer.gif" 
          class="equalizer" style="display:none;" alt="Equalizer">
 
@@ -20813,7 +20958,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
     data-station="أدعية نبوية من السنة"
     data-ar="أدعية نبوية من السنة"
     data-en="Prophetic Supplications from the Sunnah"
@@ -20844,7 +20988,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
     data-station="دعاء لأهل غزة ❤️ (فلسطين)"
     data-ar="دعاء لأهل غزة ❤️ (فلسطين)"
     data-en="Dua for Gaza (Palestine)"
@@ -20877,7 +21020,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
     data-station="دعاء ليلة القدر"
     data-ar="دعاء ليلة القدر"
     data-en="Supplication of the Night of Qadr"
@@ -20931,7 +21073,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
     data-station="دعاء يوم عرفة"
     data-ar="دعاء يوم عرفة"
     data-en="Supplication of the Day of Arafah"
@@ -20977,7 +21118,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
     data-station="تكبيرات العيد"
     data-ar="تكبيرات العيد"
     data-en="Takbeerat of Eid"
@@ -21010,7 +21150,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
         data-station="المبتهل الشيخ سيد النقشبندي"
         data-ar="المبتهل الشيخ سيد النقشبندي"
         data-en="Almubathil Sheikh Sayed Al-Naqshabandi"
@@ -21032,7 +21171,7 @@ data-adhkar-general="1"
 </button>
 
 <button class="button palestine"
-    data-category="Adhkar" data-adhkar-type="general"
+    data-category="Adhkar" 
     data-station="المبتهل الشيخ نصر الدين طوبار"
     data-ar="المبتهل الشيخ نصر الدين طوبار"
     data-en="Almubathil Sheikh Nasr El-Din Tobar"
@@ -21054,7 +21193,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
     data-station="المبتهل الشيخ محمد عمران"
     data-ar="المبتهل الشيخ محمد عمران"
     data-en="Almubathil Sheikh Mohamed Omran"
@@ -21076,7 +21214,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
     data-station="المنشد رامى الرفاعى"
     data-ar="المنشد رامى الرفاعى"
     data-en="Munshid Rami Al-Rifaai"
@@ -21110,7 +21247,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
     data-station="دعاء القائد الشهيد يحيى السنوار"
     data-ar="دعاء القائد الشهيد يحيى السنوار"
     data-en="Supplication Leader Martyr Yahya Al-Sinwar"
@@ -21134,7 +21270,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
     data-station="خطابات الشهيد أبو عبيدة"
     data-ar="خطابات الشهيد أبو عبيدة"
     data-en="Speeches of the Martyr Abu Ubaida"
@@ -21170,7 +21305,6 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="Adhkar" 
-    data-adhkar-general="1"
     data-station="عبدالعزيز آل تويم"
     data-ar="عبدالعزيز آل تويم"
     data-en="Abdulaziz Al-Tuwaim"
@@ -25969,10 +26103,18 @@ function toggleDarkModeFloat() {
 }
 
 function updateDarkModeBtn(isDark) {
+    // الزر العائم (خارج شاشة الترحيب)
     const btn = document.getElementById('darkModeFloatBtn');
-    if (!btn) return;
-    btn.textContent = isDark ? '☀️' : '🌙';
-    btn.title = isDark ? 'تفعيل الوضع النهاري / Light Mode' : 'تفعيل الوضع الليلي / Dark Mode';
+    if (btn) {
+        btn.textContent = isDark ? '☀️' : '🌙';
+        btn.title = isDark ? 'تفعيل الوضع النهاري / Light Mode' : 'تفعيل الوضع الليلي / Dark Mode';
+    }
+    // زر شاشة الترحيب
+    const wBtn  = document.getElementById('welcomeDarkModeBtn');
+    const wTxt  = document.getElementById('welcomeDarkModeTxt');
+    const wIcon = wBtn ? wBtn.querySelector('.wdm-icon') : null;
+    if (wIcon) wIcon.textContent = isDark ? '☀️' : '🌙';
+    if (wTxt)  wTxt.textContent  = isDark ? 'Light Mode' : 'Dark Mode';
 }
 
 /* تحميل الإعدادات المحفوظة */
