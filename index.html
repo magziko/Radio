@@ -5096,7 +5096,7 @@ setInterval(() => {
 <!-- حالة الراديو -->
 <div id="status" data-ar="الرجاء اختيار محطة راديو." data-en="Please select a radio station." style="position: sticky; top: 0; z-index: 1000; background-color: #e0dfda;">الرجاء اختيار محطة راديو.</div> 
 <!-- مشغل الصوت -->
-<audio controls autoplay id="currentAudio" style="position: sticky; top: 40px; z-index: 1000; border: 2px solid; width: 98%;">
+<audio controls id="currentAudio" style="position: sticky; top: 40px; z-index: 1000; border: 2px solid; width: 98%;">
     الجهاز لا يدعم تشغيل الصوت.
 </audio>
 
@@ -18454,7 +18454,7 @@ data-adhkar-evening="1"
        data-station="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"
 data-target="3"
 data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"
-data-en="Say: I seek refuge in the Lord of mankind ۝ The King of mankind ۝ The God of mankind ۝ From the evil of the whisperer who withdraws ۝ Who whispers in the breasts of mankind ۝ From among jinn and mankind"
+data-en="Say: I seek refuge in the Lord of mankind ۝ The King of mankind ۝ The God of mankind ۝ From the evil of the whisperer who withdraws ۝ Who whispers in the ***** of mankind ۝ From among jinn and mankind"
         data-random="true"
         data-urls='[
             "https://server6.mp3quran.net/kurdi/114.mp3",
@@ -25231,19 +25231,29 @@ function initializeRadio() {
 }
 
 function playNewAudio(source, stationName) {
+    const _ws = document.getElementById('welcomeScreen');
+    const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
+    if (welcomeOpen && !window._userInitiatedPlay) return;
+
+    // ✅ حفظ onended قبل تغيير المصدر — لأن بعض المتصفحات تمسحه عند تغيير src
+    var savedOnEnded = mainAudio.onended;
+
     currentSource = source;
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
     mainAudio.src = source;
     mainAudio.play();
-    updateStatus("تشغيل: " + stationName);
 
-    // حفظ آخر محطة
+    // ✅ إعادة onended فوراً بعد play()
+    if (savedOnEnded) {
+        mainAudio.onended = savedOnEnded;
+    }
+
+    updateStatus("تشغيل: " + stationName);
     localStorage.setItem('lastStation', JSON.stringify({ url: source, name: stationName }));
 
-    // منغيرش onended هنا أبداً
-    mainAudio.onerror = () => {
+    mainAudio.onerror = function() {
         updateStatus("حدث خطأ. محاولة إعادة الاتصال.");
-        retryTimeout = setTimeout(() => {
+        retryTimeout = setTimeout(function() {
             playNewAudio(currentSource, stationName);
         }, retryInterval);
     };
@@ -25416,8 +25426,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function filterStations(category) {
   
+  // إزالة التحديد من كل الأزرار
   document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('selected'));
 
+  // تحديد الزر المختار
   document.querySelectorAll('.filter-button').forEach(btn => {
     if (
       (category === 'all' && btn.getAttribute('data-ar') === 'كل الإذاعات') ||
@@ -25427,30 +25439,38 @@ function filterStations(category) {
     }
   });
 
+  // فلترة المحطات
   document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
     if (category === 'all') {
       button.style.display = 'block';
     } else {
-      if (button.getAttribute('data-category') === category) {
-        button.style.display = 'block';
-      } else {
-        button.style.display = 'none';
-      }
+      button.style.display = (button.getAttribute('data-category') === category) ? 'block' : 'none';
     }
   });
 
   updateButtonIndices();
 
-  // ✅ سكرول فقط عند اختيار المستخدم يدوياً — وليس عند فتح الموقع
+  // ✅ سكرول فقط عند اختيار المستخدم
   if (_userPickedFilter && category !== 'Adhkar') {
     setTimeout(() => {
       const firstVisible = Array.from(
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)')
       ).find(b => b.style.display !== 'none');
-      if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      if (firstVisible) {
+        const offset = 100; // 👈 تتحكم هنا (جرّب 80 / 120)
+        const elementTop = firstVisible.getBoundingClientRect().top + window.scrollY;
+
+        window.scrollTo({
+          top: elementTop - offset,
+          behavior: 'smooth'
+        });
+      }
+
     }, 60);
   }
 }
+
 
 
 document.getElementById('searchInput').addEventListener('input', function() {
@@ -25506,6 +25526,7 @@ document.getElementById('randomButton').style.display = 'block';
 buttons.forEach((button, index) => {
   button.addEventListener('click', () => {
     currentButtonIndex = index;
+    window._userInitiatedPlay = true; // ✅ المستخدم اختار يدوياً
     playNewAudio(button.getAttribute('data-source'), button.textContent);
     updateButtonColor(); // تأكد من تلوين الزر عند الضغط عليه
   });
@@ -25728,71 +25749,92 @@ function getContrastYIQ(hexcolor){
         }
     }
 
-    // بحث عشوائي في أزرار data-url فقط (محطات راديو حقيقية مستمرة)
-    function getRandomStation() {
-        const allButtons = Array.from(document.querySelectorAll('.button[data-url]'));
-        const radioButtons = allButtons.filter(btn => {
-            if (btn.id === 'prevButton' || btn.id === 'nextButton' || btn.id === 'randomButton') return false;
-            const url = btn.getAttribute('data-url') || '';
-            // استبعد روابط mp3/mp4 المباشرة (ملفات وليست بث مستمر)
-            if (/\.mp3|\.(mp4|ogg|wav|aac|flac)/i.test(url)) return false;
-            return url.length > 5;
-        });
-        if (radioButtons.length === 0) return null;
-        const randomButton = radioButtons[Math.floor(Math.random() * radioButtons.length)];
-        const url = randomButton.getAttribute('data-url');
-        return { stationUrl: url, stationName: randomButton.getAttribute('data-station') || '' };
-    }
+   let lastStationUrl = null;
 
-    function applyVolume(audio) {
+function getRandomStation() {
+    const allButtons = Array.from(document.querySelectorAll('.button[data-category]'));
+
+    const radioButtons = allButtons.filter(btn => {
+        const id = btn.id;
+        if (id === 'prevButton' || id === 'nextButton' || id === 'randomButton') return false;
+
+        const url = btn.getAttribute('data-url');
+        const urls = btn.getAttribute('data-urls');
+
+        // ✅ فقط محطات برابط واحد
+        return url && url.length > 5 && !urls;
+    });
+
+    if (radioButtons.length === 0) return null;
+
+    let randomButton, stationUrl;
+
+    do {
+        randomButton = radioButtons[Math.floor(Math.random() * radioButtons.length)];
+        stationUrl = randomButton.getAttribute('data-url');
+    } while (stationUrl === lastStationUrl && radioButtons.length > 1);
+
+    return {
+        stationUrl,
+        stationName: randomButton.getAttribute('data-station') || ''
+    };
+}
+
+
+    function attachAudioEvents(audio) {
         if (typeof window.applyCurrentVolume === 'function') {
             window.applyCurrentVolume(audio);
         } else {
             const s = document.getElementById('centralVolumeSlider');
             if (s) audio.volume = parseFloat(s.value);
         }
-    }
-
-    // تشغيل محطة مع التنقل للتالية عند الخطأ أو الانتهاء
-    function playStationWithFallback(stationUrl, stationName) {
-        if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
-        if (window.isolatedAudio) { window.isolatedAudio.onended = null; window.isolatedAudio.onerror = null; window.isolatedAudio.pause(); }
-
-        const audio = new Audio(stationUrl);
-        window.isolatedAudio = audio;
-        applyVolume(audio);
-
-        audio.addEventListener('play',  function() { setPlayingUI(true); });
+        audio.addEventListener('play',  function() { setPlayingUI(true);  });
         audio.addEventListener('pause', function() { setPlayingUI(false); });
-
-        // عند الخطأ أو انتهاء الملف → انتقل لمحطة عشوائية أخرى
-        function onFail() {
-            if (window.isolatedAudio !== audio) return; // تجاهل لو تغيّر الـ audio
-            showToast('📻 انتقال لمحطة أخرى...');
-            const next = getRandomStation();
-            if (next) playStationWithFallback(next.stationUrl, next.stationName);
-            else setPlayingUI(false);
-        }
-        audio.addEventListener('error', onFail);
-        audio.addEventListener('ended', onFail);
-
-        audio.play().catch(function() { onFail(); });
-        setPlayingUI(true);
+        audio.addEventListener('error', function() { setPlayingUI(false); });
+        audio.addEventListener('ended', function() { setPlayingUI(false); });
     }
 
-    // doToggle: إيقاف → عشوائي جديد عند التشغيل مرة أخرى
-    window.doToggleIsolated = function() {
-        const actuallyPlaying = window.isolatedAudio && !window.isolatedAudio.paused;
-        if (actuallyPlaying) {
-            window.isolatedAudio.pause();
-            setPlayingUI(false);
-        } else {
-            // دائماً محطة عشوائية جديدة عند كل تشغيل
-            const station = getRandomStation();
-            if (!station) { console.warn('isolatedAudio: لا توجد محطات متاحة'); return; }
-            playStationWithFallback(station.stationUrl, station.stationName);
+   window.doToggleIsolated = function() {
+    const _ws = document.getElementById('welcomeScreen');
+    const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
+    if (welcomeOpen && !window._userInitiatedPlay) return;
+    window._userInitiatedPlay = false;
+
+    const actuallyPlaying = window.isolatedAudio && !window.isolatedAudio.paused;
+
+    if (actuallyPlaying) {
+        // ⏸ إيقاف
+        window.isolatedAudio.pause();
+        setPlayingUI(false);
+    } else {
+        // ▶️ تشغيل محطة جديدة كل مرة
+        if (typeof window.stopAllOtherAudios === 'function') {
+            window.stopAllOtherAudios('isolated');
         }
-    };
+
+        const station = getRandomStation();
+        if (!station) {
+            console.warn('isolatedAudio: لم يتم العثور على محطة');
+            return;
+        }
+
+        if (window.isolatedAudio) {
+            window.isolatedAudio.pause();
+        }
+
+        window.isolatedAudio = new Audio(station.stationUrl);
+        attachAudioEvents(window.isolatedAudio);
+
+        window.isolatedAudio.play().catch(function() {
+            setPlayingUI(false);
+        });
+
+        setPlayingUI(true);
+
+        // ✅ حفظ آخر محطة لمنع التكرار
+        lastStationUrl = station.stationUrl;
+    }
+};
 
     // ربط زر التشغيل
     function bindButton() {
@@ -25800,6 +25842,7 @@ function getContrastYIQ(hexcolor){
         if (isolatedPlayPauseButton) {
             isolatedPlayPauseButton.addEventListener('click', function(e) {
                 e.stopPropagation();
+                window._userInitiatedPlay = true; // ✅ المستخدم اختار يدوياً
                 window.doToggleIsolated();
             });
         }
@@ -25813,14 +25856,23 @@ function getContrastYIQ(hexcolor){
 
     // دالة global لتشغيل محطة بعينها
     window.playIsolatedStation = function(url, stationName) {
-        playStationWithFallback(url, stationName || '');
+        // ✅ منع التشغيل التلقائي فقط — الضغط اليدوي مسموح
+        const _ws = document.getElementById('welcomeScreen');
+        const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
+        if (welcomeOpen && !window._userInitiatedPlay) return;
+        window._userInitiatedPlay = false;
+
+        if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
+        if (window.isolatedAudio) window.isolatedAudio.pause();
+        window.isolatedAudio = new Audio(url);
+        attachAudioEvents(window.isolatedAudio);
+        window.isolatedAudio.play().catch(function() { setPlayingUI(false); });
+        setPlayingUI(true);
     };
 
     // دالة global لإيقاف الراديو من الخارج
     window.stopIsolatedAudio = function() {
-        if (window.isolatedAudio) {
-            window.isolatedAudio.onended = null;
-            window.isolatedAudio.onerror = null;
+        if (window.isolatedAudio && !window.isolatedAudio.paused) {
             window.isolatedAudio.pause();
         }
         setPlayingUI(false);
@@ -25945,9 +25997,11 @@ showButtonTemporarily();
 
     if (isPlaying) {
         // إيقاف الصوت إذا كان قيد التشغيل
-        var audioElement = document.getElementById('main-audio');
+        var audioElement = document.getElementById('currentAudio');
         if (audioElement) {
             audioElement.pause();
+            audioElement.onended = null; // ✅ إلغاء autoNext عند الإيقاف اليدوي
+            window._lastAutoNext = null;
         }
         button.classList.remove('playing');
         var eq1 = button.querySelector('.equalizer');
@@ -25977,105 +26031,90 @@ showButtonTemporarily();
         }
     }
 (function() {
-    // متغير لتعقب حالة التكرار المستمر
-    let repeatModeButton = null;
-    let repeatModeActive = false;
+    // ✅ متغيرات عالمية حتى يمكن الوصول إليها من toggleRadio وplayNewAudio
+    window._repeatModeActive = false;
+    window._repeatModeButton = null;
 
-    // إشعار بسيط (يمكنك تعديله حسب رغبتك)
     function showRepeatToast(msg) {
-        let toast = document.createElement('div');
+        var toast = document.createElement('div');
         toast.textContent = msg;
-        toast.style.position = 'fixed';
-        toast.style.bottom = '30px';
-        toast.style.right = '30px';
-        toast.style.background = '#28a745';
-        toast.style.color = '#fff';
-        toast.style.padding = '12px 20px';
-        toast.style.fontSize = '16px';
-        toast.style.borderRadius = '9px';
-        toast.style.zIndex = '999999';
-        toast.style.boxShadow = '0 2px 8px #0003';
+        toast.style.cssText = 'position:fixed;bottom:30px;right:30px;background:#28a745;color:#fff;padding:12px 20px;font-size:16px;border-radius:9px;z-index:999999;box-shadow:0 2px 8px #0003;';
         document.body.appendChild(toast);
-        setTimeout(() => { toast.remove(); }, 2200);
+        setTimeout(function() { toast.remove(); }, 2500);
     }
 
-    // تعيين خاصية التكرار المستمر
-    function setRepeatMode(button, enable) {
-        repeatModeButton = enable ? button : null;
-        repeatModeActive = !!enable;
+    // ✅ تفعيل أو إلغاء وضع التكرار
+    window.setRepeatMode = function(btn, enable) {
+        window._repeatModeButton = enable ? btn : null;
+        window._repeatModeActive = !!enable;
+
         if (enable) {
-            // عند الانتهاء يعيد نفس الرابط فقط
-            mainAudio.onended = function() {
-                let urls = JSON.parse(button.getAttribute('data-urls'));
-                let idx = parseInt(button.getAttribute('data-current-index'), 10) || 0;
-                let url = urls[idx === 0 ? 0 : idx-1]; // آخر ما تم تشغيله فعليًا
-                let desc = button.getAttribute('data-ar') || button.getAttribute('data-station') || "محطة إذاعية";
-                playNewAudio(url, desc);
-            };
-            showRepeatToast('🔁 تم تفعيل تكرار نفس التلاوة. اضغط مطولًا مرة أخرى للإلغاء.');
-        } else {
-            // يرجع الوضع الافتراضي (التنقل التلقائي)
-            mainAudio.onended = null;
-            showRepeatToast('تم إلغاء تكرار التلاوة. سيعود التنقل التلقائي.');
-        }
-    }
-
-    // إضافة مستمعي الضغط المطول لكل زر فيه data-urls فقط
-    document.querySelectorAll('.button[data-urls]').forEach(button => {
-        let timer = null;
-        let longPress = false;
-
-        button.addEventListener('mousedown', function(e) {
-            if (e.button !== 0) return; // زر الفأرة الأساسي فقط
-            timer = setTimeout(() => {
-                longPress = true;
-                // تبديل وضع التكرار
-                if (!repeatModeActive) {
-                    setRepeatMode(button, true);
-                } else {
-                    setRepeatMode(button, false);
-                }
-            }, 650); // مدة الضغط المطول (يمكنك تعديلها)
-        });
-        button.addEventListener('mouseup', function(e) {
-            clearTimeout(timer);
-            if (!longPress) {
-                // ضغط عادي: دع الكود الأصلي يعمل (toggleRadio)
+            // احسب الرابط الذي يعمل الآن (السابق للـ index الحالي)
+            var urlsRaw = btn.getAttribute('data-urls');
+            var repeatUrl = null;
+            var repeatDesc = btn.getAttribute('data-ar') || btn.getAttribute('data-station') || 'محطة إذاعية';
+            if (urlsRaw) {
+                try {
+                    var arr = JSON.parse(urlsRaw);
+                    var idx = parseInt(btn.getAttribute('data-current-index'), 10) || 0;
+                    // الرابط الذي يعمل الآن هو السابق للـ index (لأن index تقدم بعد الضغط)
+                    var playingIdx = (idx - 1 + arr.length) % arr.length;
+                    repeatUrl = arr[playingIdx];
+                } catch(e) {}
             }
-            longPress = false;
+            if (!repeatUrl) repeatUrl = mainAudio.src;
+
+            // ✅ ربط onended لإعادة نفس الرابط
+            mainAudio.onended = function repeatOne() {
+                mainAudio.currentTime = 0;
+                mainAudio.play();
+                mainAudio.onended = repeatOne;
+            };
+            showRepeatToast('🔁 تكرار نفس التلاوة. اضغط مطولاً مرة أخرى للإلغاء.');
+        } else {
+            // ✅ استعادة autoNext المحفوظ بدلاً من null
+            mainAudio.onended = window._lastAutoNext || null;
+            window._repeatModeActive = false;
+            window._repeatModeButton = null;
+            showRepeatToast('▶️ تم إلغاء التكرار. سيعود التنقل التلقائي.');
+        }
+    };
+
+    // ✅ إضافة مستمعي الضغط المطول لكل زر فيه data-urls
+    document.querySelectorAll('.button[data-urls]').forEach(function(btn) {
+        var timer = null;
+        var longPress = false;
+
+        function triggerLongPress() {
+            longPress = true;
+            if (!window._repeatModeActive) {
+                window.setRepeatMode(btn, true);
+            } else {
+                window.setRepeatMode(btn, false);
+            }
+        }
+
+        btn.addEventListener('mousedown', function(e) {
+            if (e.button !== 0) return;
+            timer = setTimeout(triggerLongPress, 650);
         });
-        button.addEventListener('mouseleave', function(e) {
-            clearTimeout(timer);
-            longPress = false;
-        });
-        // دعم التاتش للجوال
-        button.addEventListener('touchstart', function(e) {
-            timer = setTimeout(() => {
-                longPress = true;
-                if (!repeatModeActive) {
-                    setRepeatMode(button, true);
-                } else {
-                    setRepeatMode(button, false);
-                }
-            }, 650);
-        });
-        button.addEventListener('touchend', function(e) {
-            clearTimeout(timer);
-            longPress = false;
-        });
-        button.addEventListener('touchmove', function(e) {
-            clearTimeout(timer);
-            longPress = false;
-        });
+        btn.addEventListener('mouseup',    function() { clearTimeout(timer); longPress = false; });
+        btn.addEventListener('mouseleave', function() { clearTimeout(timer); longPress = false; });
+
+        btn.addEventListener('touchstart', function(e) {
+            timer = setTimeout(triggerLongPress, 650);
+        }, { passive: true });
+        btn.addEventListener('touchend',  function() { clearTimeout(timer); longPress = false; });
+        btn.addEventListener('touchmove', function() { clearTimeout(timer); longPress = false; });
     });
 
-    // عند تغيير الزر أو الضغط العادي، أعد الوضع الافتراضي إذا كان repeatMode نشط وغير هذا الزر
-    const origToggleRadio = window.toggleRadio;
-    window.toggleRadio = function(button, event) {
-        if (repeatModeActive && button !== repeatModeButton) {
-            setRepeatMode(repeatModeButton, false); // إلغاء التكرار عند اختيار زر آخر
+    // ✅ عند الضغط على زر آخر: إلغاء التكرار تلقائياً
+    var origToggleRadio = window.toggleRadio;
+    window.toggleRadio = function(btn, event) {
+        if (window._repeatModeActive && btn !== window._repeatModeButton) {
+            window.setRepeatMode(window._repeatModeButton, false);
         }
-        origToggleRadio(button, event);
+        origToggleRadio(btn, event);
     };
 })();
     var stationDescription = button.getAttribute('data-ar') || "محطة إذاعية";
@@ -26110,6 +26149,7 @@ showButtonTemporarily();
     // تشغيل الرابط
     if (stationUrl) {
         // تأكد أن playNewAudio موجودة ومضبوطة على العنصر #main-audio
+        window._userInitiatedPlay = true; // ✅ المستخدم اختار يدوياً
         playNewAudio(stationUrl, stationDescription);
     } else {
         console.warn('لا يوجد رابط للتشغيل لهذا الزر');
@@ -26117,25 +26157,29 @@ showButtonTemporarily();
     }
 
 
-// -- بداية التعديل: خاصية التشغيل التلقائي التالي لأي زر متعدد التراكات --
-  if (urls && Array.isArray(urls) && urls.length > 0) {
-    mainAudio.onended = function autoNext() {
-        let currentIndex = parseInt(button.getAttribute('data-current-index'), 10);
-        if (isNaN(currentIndex)) currentIndex = 0;
-
-        if (currentIndex >= urls.length) currentIndex = 0;
-
-        playNewAudio(urls[currentIndex], stationDescription);
-
-        button.setAttribute('data-current-index', (currentIndex + 1) % urls.length);
-
-        // مهم: إعادة ربط نفس الدالة
+// -- التشغيل التلقائي التالي أو تكرار الملف الواحد --
+if (urls && Array.isArray(urls) && urls.length > 1) {
+    // قائمة متعددة: انتقل للتالي تلقائيًا
+    var autoNext = function() {
+        if (window._repeatModeActive) return;
+        var idx = parseInt(button.getAttribute('data-current-index'), 10);
+        if (isNaN(idx) || idx >= urls.length) idx = 0;
+        playNewAudio(urls[idx], stationDescription);
+        button.setAttribute('data-current-index', (idx + 1) % urls.length);
         mainAudio.onended = autoNext;
     };
+    mainAudio.onended = autoNext;
+    window._lastAutoNext = autoNext;
 } else {
-    mainAudio.onended = function() {
-        mainAudio.play(); // تكرار للرابط الواحد
+    // ملف واحد: كرره تلقائيًا
+    var autoRepeat = function() {
+        if (window._repeatModeActive) return;
+        mainAudio.currentTime = 0;
+        mainAudio.play();
+        mainAudio.onended = autoRepeat;
     };
+    mainAudio.onended = autoRepeat;
+    window._lastAutoNext = autoRepeat;
 }
 
 
@@ -26288,6 +26332,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (currentAudioEl) {
         currentAudioEl.addEventListener('play', () => {
+            // ✅ منع التشغيل التلقائي فقط — الضغط اليدوي مسموح
+            const welcomeScreenEl = document.getElementById('welcomeScreen');
+            const welcomeOpen = welcomeScreenEl &&
+                welcomeScreenEl.style.display !== 'none' &&
+                welcomeScreenEl.style.display !== '';
+
+            if (welcomeOpen && !window._userInitiatedPlay) {
+                currentAudioEl.pause();
+                return;
+            }
+            window._userInitiatedPlay = false; // ✅ إعادة الضبط هنا فقط
             stopAllOtherAudios('main');
             activeAudio = currentAudioEl;
             currentAudioEl.volume = 1;
@@ -27121,20 +27176,22 @@ document.addEventListener("keydown", function(e) {
     }
 });
 
-// ✅ اختصار K: تشغيل/إيقاف isolatedAudio
+// ✅ اختصار K/ن: تشغيل/إيقاف isolatedAudio — اختصار P/ح: تشغيل/إيقاف currentAudio
 document.addEventListener("keydown", function(e) {
     const tag = document.activeElement && document.activeElement.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
-    if (e.key === 'k' || e.key === 'K') {
+    // K أو ن → isolatedAudio (راديو العلم الفلسطيني)
+    if (e.key === 'k' || e.key === 'K' || e.key === 'ن') {
         e.preventDefault();
         if (typeof window.doToggleIsolated === 'function') {
+            window._userInitiatedPlay = true; // ✅ ضغط يدوي من المستخدم
             window.doToggleIsolated();
         }
     }
 
-    // ✅ اختصار P: تشغيل/إيقاف currentAudio على آخر محطة اختارها المستخدم
-    if (e.key === 'p' || e.key === 'P') {
+    // P أو ح → currentAudio (الراديو الأساسي)
+    if (e.key === 'p' || e.key === 'P' || e.key === 'ح') {
         e.preventDefault();
         const mainAudioEl = document.getElementById('currentAudio');
         if (!mainAudioEl) return;
@@ -27150,6 +27207,7 @@ document.addEventListener("keydown", function(e) {
                     const last = JSON.parse(lastRaw);
                     if (last && last.url) {
                         if (typeof playNewAudio === 'function') {
+                            window._userInitiatedPlay = true; // ✅ ضغط يدوي من المستخدم
                             playNewAudio(last.url, last.name || '');
                         } else {
                             mainAudioEl.src = last.url;
@@ -27159,6 +27217,7 @@ document.addEventListener("keydown", function(e) {
                 } catch(ex) {}
             } else {
                 // لو ما في محطة محفوظة → استأنف ما كان شغالاً
+                window._userInitiatedPlay = true;
                 mainAudioEl.play().catch(function(){});
             }
         }
@@ -27314,3 +27373,6 @@ function shareFacebook() {
 
 </body>
 </html>
+
+
+
