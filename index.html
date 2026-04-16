@@ -1371,6 +1371,15 @@ body.dark-mode .button.playing {
     border-color: #1e90ff !important;
 }
 
+/* ✅ لون النص للمحطة النشطة في الوضع العادي والداكن */
+.button.playing .station-text,
+.button[style*="color: rgb(30, 144, 255)"] .station-text {
+    color: #1e90ff !important;
+}
+body.dark-mode .button.playing .station-text {
+    color: #64b5f6 !important;
+}
+
 body.dark-mode .button.completed {
     background: linear-gradient(135deg, #7a5c00, #8b4000) !important;
     color: #ffe082 !important;
@@ -6194,21 +6203,21 @@ setInterval(() => {
 </button>
 
 
-<button class="button palestine" 
-        data-category="Foreign" 
-        data-station="Radio Voice of the Muslim FM 93.8" 
-        data-ar="راديو صوت المسلم FM 93.8" 
-        data-en="Radio Voice of the Muslim FM 93.8" 
-        data-url="https://pu.klikhost.com/proxy/suaramuslim/stream?1733314348325" 
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://pu.klikhost.com/proxy/suaramuslim/stream?1733314348325', '_blank'); } else { toggleRadio(this); }">
-    <span class="flag"></span> 
-    <span class="station-text">Radio Voice of the Muslim FM 93.8</span>
-    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
-    <span class="favorite-icon" 
-          onclick="toggleFavorite(event, 'Radio Voice of the Muslim FM 93.8'); 
-                   event.stopPropagation(); 
-                   return false;">&#x2764;</span>
-</button>
+<!--<button class="button palestine" -->
+<!--        data-category="Foreign" -->
+<!--        data-station="Radio Voice of the Muslim FM 93.8" -->
+<!--        data-ar="راديو صوت المسلم FM 93.8" -->
+<!--        data-en="Radio Voice of the Muslim FM 93.8" -->
+<!--        data-url="https://pu.klikhost.com/proxy/suaramuslim/stream?1733314348325" -->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://pu.klikhost.com/proxy/suaramuslim/stream?1733314348325', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span> -->
+<!--    <span class="station-text">Radio Voice of the Muslim FM 93.8</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">-->
+<!--    <span class="favorite-icon" -->
+<!--          onclick="toggleFavorite(event, 'Radio Voice of the Muslim FM 93.8'); -->
+<!--                   event.stopPropagation(); -->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
 
 
 <button class="button palestine" 
@@ -25693,14 +25702,16 @@ window.addEventListener('load', function() {
 function updateButtonColor() {
   if (!buttons.length) return;
   if (currentButtonIndex < 0 || currentButtonIndex >= buttons.length) return;
-  buttons.forEach(button => button.classList.remove('selected'));
-  buttons[currentButtonIndex].classList.add('selected');
-  buttons[currentButtonIndex].style.color = 'red';
+  const isDarkMode = document.body.classList.contains('dark-mode');
+  const activeColor  = '#1e90ff';                         // أزرق — لون الموقع الأساسي
+  const normalColor  = isDarkMode ? '#e0e0e0' : 'black';  // أبيض في الداك مود / أسود في العادي
+
   buttons.forEach((button, index) => {
-    if (index !== currentButtonIndex) {
-      button.style.color = 'black';
-    }
+    button.classList.remove('selected');
+    button.style.color = normalColor;
   });
+  buttons[currentButtonIndex].classList.add('selected');
+  buttons[currentButtonIndex].style.color = activeColor;
 }
 
 
@@ -25821,14 +25832,24 @@ document.getElementById('sleepCheckbox').addEventListener('change', activateSlee
 
 document.getElementById('prevButton').addEventListener('click', function() {
   let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none');
-  currentButtonIndex = (currentButtonIndex - 1 + visibleButtons.length) % visibleButtons.length;
-  visibleButtons[currentButtonIndex].click();
+  if (!visibleButtons.length) return;
+  let playingBtn = document.querySelector('.button.playing:not(#prevButton):not(#nextButton):not(#randomButton)');
+  let visibleIndex = playingBtn ? visibleButtons.indexOf(playingBtn) : 0;
+  if (visibleIndex < 0) visibleIndex = 0;
+  let newVisibleIndex = (visibleIndex - 1 + visibleButtons.length) % visibleButtons.length;
+  currentButtonIndex = parseInt(visibleButtons[newVisibleIndex].getAttribute('data-index'), 10) || 0;
+  visibleButtons[newVisibleIndex].click();
 });
 
 document.getElementById('nextButton').addEventListener('click', function() {
   let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none');
-  currentButtonIndex = (currentButtonIndex + 1) % visibleButtons.length;
-  visibleButtons[currentButtonIndex].click();
+  if (!visibleButtons.length) return;
+  let playingBtn = document.querySelector('.button.playing:not(#prevButton):not(#nextButton):not(#randomButton)');
+  let visibleIndex = playingBtn ? visibleButtons.indexOf(playingBtn) : -1;
+  if (visibleIndex < 0) visibleIndex = -1;
+  let newVisibleIndex = (visibleIndex + 1) % visibleButtons.length;
+  currentButtonIndex = parseInt(visibleButtons[newVisibleIndex].getAttribute('data-index'), 10) || 0;
+  visibleButtons[newVisibleIndex].click();
 });
 
 // ✅ متغير يُفعَّل فقط عند ضغط المستخدم يدوياً على فلتر
@@ -26687,6 +26708,20 @@ if (urls && Array.isArray(urls) && urls.length > 1) {
     button.classList.add('playing');
     var eq = button.querySelector('.equalizer');
     if (eq) eq.style.display = 'inline';
+
+    // ✅ مزامنة currentButtonIndex مع الزر المضغوط وتحديث اللون
+    if (typeof buttons !== 'undefined' && buttons.length) {
+        var btnIndex = parseInt(button.getAttribute('data-index'), 10);
+        if (!isNaN(btnIndex)) {
+            currentButtonIndex = btnIndex;
+        } else {
+            // fallback: ابحث عن الزر في المصفوفة
+            var allBtns = Array.from(buttons);
+            var foundIdx = allBtns.indexOf(button);
+            if (foundIdx >= 0) currentButtonIndex = foundIdx;
+        }
+        if (typeof updateButtonColor === 'function') updateButtonColor();
+    }
 }
 
 
@@ -27873,6 +27908,3 @@ function shareFacebook() {
 
 </body>
 </html>
-
-
-
