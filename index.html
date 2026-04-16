@@ -28080,6 +28080,35 @@ function shareFacebook() {
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
   padding: 0;
 }
+
+/* 📱 موبايل */
+@media (max-width: 768px) {
+  #scrollToTopBtn {
+    right: 20px;     /* قريب من الحافة */
+    bottom: 90px;    /* فوق الأزرار التانية */
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* 📲 تابلت */
+@media (min-width: 769px) and (max-width: 1024px) {
+  #scrollToTopBtn {
+    right: 40px;
+    bottom: 85px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* 💻 شاشات كبيرة */
+@media (min-width: 1025px) {
+  #scrollToTopBtn {
+    right: 140px;
+    bottom: 74px;
+  }
+}
+
 #scrollToTopBtn:hover {
   background: #1e90ff;
   color: #fff;
@@ -28098,94 +28127,183 @@ body.dark-mode #scrollToTopBtn:hover {
   color: #fff;
 }
 
-/* ===== تطوير المشغل الثابت العلوي: إضافة أزرار التنقل ===== */
+/* ===== المشغل الموحد الاحترافي ===== */
 #sticky-player-wrap {
   position: sticky;
   top: 0;
   z-index: 1001;
-  background: inherit;
   padding: 0;
   margin: 0;
+  font-family: 'Cairo', Arial, Tahoma, sans-serif;
 }
 
-/* صف أزرار التنقل داخل المشغل */
+/* ── الشريط العلوي: أزرار + اسم المحطة + صوت ── */
 #player-nav-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 6px;
-  padding: 4px 6px 3px;
-  background: linear-gradient(to right, #1a2a3a 0%, #1e3a5f 50%, #1a2a3a 100%);
-  border-bottom: 1px solid rgba(100,181,246,0.2);
+  padding: 6px 10px;
+  background: linear-gradient(135deg, #0a1628 0%, #0f2744 50%, #0a1628 100%);
+  border-bottom: 1px solid rgba(100,181,246,0.18);
   direction: rtl;
+  min-height: 56px;
 }
 
-/* اسم المحطة في المشغل */
+/* اسم المحطة + نقطة بث */
 #player-station-label {
   flex: 1;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   color: #90caf9;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: Arial, Tahoma, "Segoe UI", sans-serif;
-  padding: 0 4px;
+  font-family: 'Cairo', Arial, Tahoma, sans-serif;
+  padding: 0 6px;
   min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-/* أزرار التنقل بالمشغل */
+/* نقطة بث مباشر */
+.live-dot-player {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: #4caf50;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pdot 1.6s infinite;
+}
+@keyframes pdot {
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.4;transform:scale(0.65);}
+}
+
+/* ── أزرار التنقل العامة ── */
 .pnb-btn {
   flex-shrink: 0;
-  width: 34px;
-  height: 30px;
-  border-radius: 7px;
-  border: 1.5px solid rgba(100,181,246,0.4);
-  background: rgba(30,144,255,0.12);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(100,181,246,0.38);
+  background: rgba(255,255,255,0.06);
   color: #90caf9;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0;
-  transition: background 0.18s, transform 0.12s, border-color 0.18s;
+  transition: background 0.18s, transform 0.13s, border-color 0.18s, color 0.18s;
   padding: 0;
+  position: relative;
 }
 .pnb-btn:hover {
-  background: rgba(30,144,255,0.32);
+  background: rgba(30,144,255,0.28);
   border-color: #64b5f6;
   color: #fff;
-  transform: scale(1.08);
+  transform: scale(1.12);
 }
-.pnb-btn:active { transform: scale(0.93); }
+.pnb-btn:active { transform: scale(0.9); }
 
-/* زر العشوائي */
+/* تولتيب صغير تحت الزر */
+.pnb-btn::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  white-space: nowrap;
+  color: #64b5f6;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 0;
+}
+.pnb-btn:hover::after { opacity: 1; }
+
+/* ── زر التشغيل الرئيسي (المنتصف) ── */
+#pnb-play {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid rgba(100,181,246,0.65);
+  background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%);
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(30,144,255,0.35);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+#pnb-play.is-playing {
+  animation: play-pulse 2.2s infinite;
+}
+@keyframes play-pulse {
+  0%,100%{box-shadow:0 0 0 0 rgba(30,144,255,0.35);}
+  50%{box-shadow:0 0 0 10px rgba(30,144,255,0);}
+}
+#pnb-play:hover {
+  background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+  transform: scale(1.1);
+}
+#pnb-play svg { width: 20px; height: 20px; }
+
+/* ── زر العشوائي ── */
 #pnb-random {
-  border-color: rgba(255,213,79,0.5) !important;
-  background: rgba(255,193,7,0.12) !important;
+  border-color: rgba(255,193,7,0.45) !important;
+  background: rgba(255,193,7,0.1) !important;
   color: #ffd54f !important;
 }
 #pnb-random:hover {
-  background: rgba(255,193,7,0.3) !important;
+  background: rgba(255,193,7,0.28) !important;
   border-color: #ffd54f !important;
+  color: #fff !important;
 }
 
-/* شريط الصوت أفقي داخل #player-nav-bar */
+/* ── فاصل رأسي ── */
+.pnb-divider {
+  width: 1px;
+  height: 30px;
+  background: rgba(100,181,246,0.18);
+  flex-shrink: 0;
+}
+
+/* ── تسمية صغيرة تحت كل زر ── */
+.pnb-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.pnb-group .pnb-lbl {
+  font-size: 9px;
+  color: rgba(100,181,246,0.7);
+  font-family: 'Cairo', Arial, sans-serif;
+  white-space: nowrap;
+  line-height: 1;
+}
+.pnb-group:has(#pnb-random) .pnb-lbl { color: rgba(255,213,79,0.75); }
+.pnb-group:has(#pnb-play) .pnb-lbl { color: rgba(100,181,246,0.85); }
+
+/* ── شريط الصوت ── */
 #player-vol-wrap {
   display: flex;
   align-items: center;
   gap: 4px;
   flex-shrink: 0;
 }
-#player-vol-wrap span { font-size: 13px; line-height: 1; }
+#player-vol-wrap .vol-ico { font-size: 14px; line-height: 1; }
 
 #player-vol-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 70px;
+  width: 72px;
   height: 4px;
   border-radius: 10px;
-  background: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.22);
   outline: none;
   cursor: pointer;
   transition: background 0.2s;
@@ -28196,11 +28314,10 @@ body.dark-mode #scrollToTopBtn:hover {
   border-radius: 50%;
   background: #90caf9;
   border: 2px solid #1e90ff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
   cursor: pointer;
   transition: transform 0.12s;
 }
-#player-vol-slider::-webkit-slider-thumb:hover { transform: scale(1.25); }
+#player-vol-slider::-webkit-slider-thumb:hover { transform: scale(1.28); }
 #player-vol-slider::-moz-range-thumb {
   width: 14px; height: 14px;
   border-radius: 50%;
@@ -28209,132 +28326,258 @@ body.dark-mode #scrollToTopBtn:hover {
   cursor: pointer;
 }
 
-/* اللايت مود */
+/* ── شريط الحالة (status) ── */
+/* الشكل الأساسي (هيظهر على الموبايل فقط) */
+#status {
+  background: linear-gradient(to right, #e3f2fd 0%, #1e90ff 50%, #e3f2fd 100%) !important;
+  color: #000 !important;
+  font-weight: 700;
+  border-radius: 0;
+  padding: 7px 12px;
+  box-shadow: none;
+  text-align: center;
+  width: 100%;
+  margin: 0;
+  position: relative;
+  top: unset;
+  z-index: auto;
+  font-size: 13px;
+  font-family: 'Cairo', Arial, Tahoma, sans-serif;
+  border-bottom: 0.5px solid rgba(30,144,255,0.2);
+}
+
+/* 📲 إخفاء على التابلت والديسكتوب */
+@media (min-width: 769px) {
+  #status {
+    display: none !important;
+  }
+}
+
+/* ── مشغل الصوت ── */
+#currentAudio {
+  position: sticky;
+  top: 112px;
+  z-index: 1000;
+  width: 100%;
+  display: none;
+  background: #f8f9fa;
+  border: none;
+  padding: 4px 8px;
+  box-sizing: border-box;
+}
+
+/* ── لايت مود ── */
 body:not(.dark-mode) #player-nav-bar {
-  background: linear-gradient(to right, #e3f2fd 0%, #bbdefb 50%, #e3f2fd 100%);
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #e3f2fd 100%);
   border-bottom: 1px solid rgba(30,144,255,0.2);
 }
 body:not(.dark-mode) #player-station-label { color: #1565c0; }
+body:not(.dark-mode) .live-dot-player { background: #2e7d32; }
 body:not(.dark-mode) .pnb-btn {
-  background: rgba(30,144,255,0.1);
-  border-color: rgba(30,144,255,0.4);
+  background: rgba(30,144,255,0.08);
+  border-color: rgba(30,144,255,0.38);
   color: #1565c0;
 }
 body:not(.dark-mode) .pnb-btn:hover {
-  background: rgba(30,144,255,0.25);
+  background: rgba(30,144,255,0.22);
   color: #0d47a1;
 }
+body:not(.dark-mode) #pnb-play {
+  background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%);
+  color: #fff;
+  border-color: rgba(30,144,255,0.65);
+}
 body:not(.dark-mode) #pnb-random {
-  background: rgba(255,193,7,0.15) !important;
+  background: rgba(255,193,7,0.12) !important;
   border-color: rgba(230,162,0,0.5) !important;
-  color: #c07800 !important;
+  color: #b76e00 !important;
 }
-body:not(.dark-mode) #player-vol-slider {
-  background: rgba(30,144,255,0.2);
-}
+body:not(.dark-mode) .pnb-group .pnb-lbl { color: rgba(21,101,192,0.75); }
+body:not(.dark-mode) #player-vol-slider { background: rgba(30,144,255,0.18); }
 body:not(.dark-mode) #player-vol-slider::-webkit-slider-thumb {
   background: #1e90ff;
   border-color: #1565c0;
 }
+body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
 
-@media (max-width: 400px) {
-  #player-vol-slider { width: 50px; }
-  .pnb-btn { width: 30px; height: 28px; }
+/* ── موبايل صغير ── */
+@media (max-width: 420px) {
+  #player-vol-slider { width: 52px; }
+  .pnb-btn { width: 32px; height: 32px; }
+  #pnb-play { width: 42px; height: 42px; }
   #player-station-label { font-size: 11px; }
+  #player-nav-bar { gap: 4px; padding: 5px 7px; }
+  .pnb-group .pnb-lbl { display: none; }
+  .pnb-divider { height: 24px; }
 }
 </style>
 
 <script>
 (function() {
-  // ===== زر العودة للأعلى =====
+
+  /* ===== زر العودة للأعلى ===== */
   var topBtn = document.getElementById('scrollToTopBtn');
   window.addEventListener('scroll', function() {
     if (!topBtn) return;
     topBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
   }, { passive: true });
 
-  // ===== ربط مشغل الصوت بشريط الصوت الجديد =====
+  /* ===== المشغل الموحد الاحترافي ===== */
   document.addEventListener('DOMContentLoaded', function() {
-    var mainAudio = document.getElementById('currentAudio');
-    var volSlider = document.getElementById('player-vol-slider');
-    if (mainAudio && volSlider) {
-      // تزامن القيمة الأولية
-      volSlider.value = mainAudio.volume;
-      volSlider.addEventListener('input', function() {
-        mainAudio.volume = this.value;
-        // تزامن مع volumeControl القديم إن وجد
-        var oldVol = document.getElementById('volumeControl');
-        if (oldVol) oldVol.value = this.value;
-      });
-      // تحديث الـ slider لو تغير الصوت من مكان آخر
-      mainAudio.addEventListener('volumechange', function() {
-        volSlider.value = mainAudio.volume;
-      });
-    }
-
-    // ===== تحديث اسم المحطة في المشغل =====
-    var statusDiv = document.getElementById('status');
-    var label = document.getElementById('player-station-label');
-    function syncLabel() {
-      if (!statusDiv || !label) return;
-      var txt = (statusDiv.textContent || '').trim();
-      // إزالة بادئة "تشغيل: " أو "Playing: "
-      txt = txt.replace(/^تشغيل:\s*/,'').replace(/^Playing:\s*/i,'');
-      label.textContent = txt || 'اختر محطة...';
-    }
-    if (statusDiv) {
-      new MutationObserver(syncLabel).observe(statusDiv, { childList:true, subtree:true, characterData:true });
-      syncLabel();
-    }
-
-    // ===== إنشاء شريط تنقل المشغل ونقل العناصر =====
     var statusEl = document.getElementById('status');
     var audioEl  = document.getElementById('currentAudio');
     if (!statusEl || !audioEl) return;
 
-    // إنشاء الحاوية اللاصقة
+    /* ── بناء الحاوية اللاصقة ── */
     var wrap = document.createElement('div');
     wrap.id = 'sticky-player-wrap';
 
-    // إنشاء شريط التنقل
+    /* ── بناء شريط التحكم الرئيسي ── */
     var navBar = document.createElement('div');
     navBar.id = 'player-nav-bar';
-    navBar.innerHTML = `
-      <button class="pnb-btn" id="pnb-prev" title="المحطة السابقة" onclick="document.getElementById('prevButton').click()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
-      </button>
-      <button class="pnb-btn" id="pnb-random" title="اخترنا لك – عشوائي" onclick="document.getElementById('randomButton').click()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
-      </button>
-      <span id="player-station-label">اختر محطة...</span>
-      <div id="player-vol-wrap">
-        <span>🔈</span>
-        <input type="range" id="player-vol-slider" min="0" max="1" step="0.05" value="1">
-        <span>🔊</span>
-      </div>
-      <button class="pnb-btn" id="pnb-next" title="المحطة التالية" onclick="document.getElementById('nextButton').click()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>
-      </button>
-    `;
+    navBar.innerHTML = [
 
-    // إدراج الحاوية قبل #status مباشرة
+      /* زر السابقة + تسمية */
+      '<div class="pnb-group">',
+        '<button class="pnb-btn" id="pnb-prev" title="المحطة السابقة">',
+          '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>',
+        '</button>',
+        '<span class="pnb-lbl">السابقة</span>',
+      '</div>',
+
+      /* فاصل */
+      '<div class="pnb-divider"></div>',
+
+      /* زر اخترنا لك + تسمية */
+      '<div class="pnb-group">',
+        '<button class="pnb-btn" id="pnb-random" title="اخترنا لك – عشوائي">',
+          '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>',
+        '</button>',
+        '<span class="pnb-lbl" style="color:rgba(255,213,79,.8);">اخترنا لك</span>',
+      '</div>',
+
+      /* فاصل */
+      '<div class="pnb-divider"></div>',
+
+      /* ── زر التشغيل المركزي ── */
+      '<div class="pnb-group">',
+        '<button class="pnb-btn" id="pnb-play" title="تشغيل / إيقاف">',
+          '<svg id="pnb-play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>',
+        '</button>',
+        '<span class="pnb-lbl" style="color:rgba(144,202,249,.9);">تشغيل</span>',
+      '</div>',
+
+      /* فاصل */
+      '<div class="pnb-divider"></div>',
+
+      /* اسم المحطة ونقطة البث */
+      '<span id="player-station-label">',
+        '<span id="pnb-dot" class="live-dot-player" style="display:none;"></span>',
+        '<span id="pnb-name">اختر محطة...</span>',
+      '</span>',
+
+      /* شريط الصوت */
+      '<div id="player-vol-wrap">',
+        '<span class="vol-ico">🔈</span>',
+        '<input type="range" id="player-vol-slider" min="0" max="1" step="0.05" value="1">',
+        '<span class="vol-ico">🔊</span>',
+      '</div>',
+
+      /* فاصل */
+      '<div class="pnb-divider"></div>',
+
+      /* زر التالية + تسمية */
+      '<div class="pnb-group">',
+        '<button class="pnb-btn" id="pnb-next" title="المحطة التالية">',
+          '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>',
+        '</button>',
+        '<span class="pnb-lbl">التالية</span>',
+      '</div>'
+
+    ].join('');
+
+    /* ── إدراج العناصر في الحاوية ── */
     statusEl.parentNode.insertBefore(wrap, statusEl);
     wrap.appendChild(navBar);
     wrap.appendChild(statusEl);
     wrap.appendChild(audioEl);
 
-    // ربط الصوت بعد الإنشاء
-    var mainAudioEl = document.getElementById('currentAudio');
-    var newSlider   = document.getElementById('player-vol-slider');
-    if (mainAudioEl && newSlider) {
-      newSlider.value = mainAudioEl.volume;
-      newSlider.addEventListener('input', function() { mainAudioEl.volume = this.value; });
-      mainAudioEl.addEventListener('volumechange', function() { newSlider.value = mainAudioEl.volume; });
+    /* ── مراجع العناصر ── */
+    var playBtn  = document.getElementById('pnb-play');
+    var playIcon = document.getElementById('pnb-play-icon');
+    var dot      = document.getElementById('pnb-dot');
+    var nameEl   = document.getElementById('pnb-name');
+    var volSlider= document.getElementById('player-vol-slider');
+    var prevHidden   = document.getElementById('prevButton');
+    var nextHidden   = document.getElementById('nextButton');
+    var randomHidden = document.getElementById('randomButton');
+
+    /* ── تزامن الصوت ── */
+    if (audioEl && volSlider) {
+      volSlider.value = audioEl.volume;
+      volSlider.addEventListener('input', function() {
+        audioEl.volume = this.value;
+        var oldVol = document.getElementById('volumeControl');
+        if (oldVol) oldVol.value = this.value;
+      });
+      audioEl.addEventListener('volumechange', function() {
+        if (volSlider) volSlider.value = audioEl.volume;
+      });
     }
 
-    // إعادة syncLabel بعد الإنشاء
-    syncLabel();
+    /* ── مزامنة اسم المحطة من #status ── */
+    function syncStationName() {
+      var txt = (statusEl.textContent || '').trim();
+      txt = txt.replace(/^تشغيل:\s*/,'').replace(/^Playing:\s*/i,'').replace(/^جارٍ التشغيل:\s*/,'');
+      var isPlaying = txt && txt !== 'الرجاء اختيار محطة راديو.' && txt !== 'Please select a radio station.';
+      nameEl.textContent = isPlaying ? txt : 'اختر محطة...';
+      dot.style.display = isPlaying ? 'inline-block' : 'none';
+      if (isPlaying) {
+        playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+        playBtn.classList.add('is-playing');
+      }
+    }
+
+    new MutationObserver(syncStationName).observe(statusEl, { childList: true, subtree: true, characterData: true });
+    syncStationName();
+
+    /* ── ربط زر التشغيل/الإيقاف ── */
+    playBtn.addEventListener('click', function() {
+      if (!audioEl.src && !audioEl.currentSrc) return;
+      if (audioEl.paused) {
+        audioEl.play().catch(function(){});
+        playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+        playBtn.classList.add('is-playing');
+      } else {
+        audioEl.pause();
+        playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+        playBtn.classList.remove('is-playing');
+      }
+    });
+
+    /* مزامنة أيقونة التشغيل مع حالة الصوت الفعلية */
+    audioEl.addEventListener('play', function() {
+      playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+      playBtn.classList.add('is-playing');
+    });
+    audioEl.addEventListener('pause', function() {
+      playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      playBtn.classList.remove('is-playing');
+    });
+
+    /* ── ربط أزرار التنقل بالأزرار المخفية ── */
+    document.getElementById('pnb-prev').addEventListener('click', function() {
+      if (prevHidden) prevHidden.click();
+    });
+    document.getElementById('pnb-next').addEventListener('click', function() {
+      if (nextHidden) nextHidden.click();
+    });
+    document.getElementById('pnb-random').addEventListener('click', function() {
+      if (randomHidden) randomHidden.click();
+    });
+
   });
+
 })();
 </script>
 
