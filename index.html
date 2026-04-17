@@ -373,17 +373,20 @@ background: linear-gradient(
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
   text-align: center;
   width: 98%;
+  max-width: 100%;
+  box-sizing: border-box; /* ✅ إصلاح: الـ padding لا يزيد العرض */
   margin: 0 auto 5px auto;
   position: sticky;
-  top: 38px; /* بعد شريط التنقل الجديد */
+  top: 38px;
   z-index: 1000;
 }
 
 @media (max-width: 600px) {
   #status {
-    width: 99%;
-    font-size: 14px;
-    padding: 9px 4px;
+    width: 100%; /* ✅ على الموبايل يأخذ عرض كامل بدون هامش */
+    font-size: 13px;
+    padding: 8px 10px;
+    border-radius: 0;
   }
 }
 
@@ -819,19 +822,7 @@ audio {
 
 
 
-          .toggle-button {
-            position: fixed; 
-            bottom: 10px; 
-    left: 50%; /* المنتصف أفقيًا */
-        transform: translate(-50%, -50%); /* لتعديل الإزاحة إلى المنتصف */
-
-            padding: 10px 20px; 
-            background-color: #e0dfda; 
-            color: black; 
-            font-size: 16px; 
-            border-radius: 10px; 
-            cursor: pointer;
-        }
+          /* ✅ مُعاد تعريفه بشكل أفضل في قسم tasbih أسفله */
         
     
         
@@ -853,7 +844,7 @@ audio {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.6);
-    z-index: 1000;
+    z-index: 2000; /* ✅ أعلى من sticky-player-wrap (1001) */
     overflow-y: auto;
 }
 
@@ -1607,10 +1598,11 @@ body.dark-mode .custom-tooltip {
 
 
 
-/* المسبحة */
+
+
 .tasbih-box {
     position: absolute;
-    right: 35px; /* قبل القلب مباشرة (عدّل الرقم حسب مكان القلب) */
+    right: 35px;
     top: 50%;
     transform: translateY(-50%);
 
@@ -1625,11 +1617,14 @@ body.dark-mode .custom-tooltip {
     color: #000000;
 
     border-radius: 8px;
- padding-right: 20px;
+    padding-right: 20px;
     font-weight: bold;
     font-size: 14px;
 
     border: 1px solid #ccc;
+
+    /* ✅ منع ظهور المسبحة خارج حدود الزر */
+    z-index: 1;
 }
 
 .tasbih-box:active {
@@ -1640,7 +1635,6 @@ body.dark-mode .custom-tooltip {
     font-size: 12px;
     cursor: pointer;
     opacity: 0.6;
-    
 }
 
 .reset-btn:hover {
@@ -1653,8 +1647,8 @@ body.dark-mode .custom-tooltip {
         width: 55px;
         height: 32px;
         font-size: 13px;
-        transform: translateY(-5%); /* ينزل لتحت أكتر */
-        right: 40px; /* يتحرك شمال شوية */
+        transform: translateY(-50%);
+        right: 40px;
     }
 }
 
@@ -1665,7 +1659,6 @@ body.dark-mode .custom-tooltip {
         font-size: 14px;
         right: 35px;
         padding-right: 20px;
-
         top: 50%;
         transform: translateY(-50%);
     }
@@ -1673,6 +1666,15 @@ body.dark-mode .custom-tooltip {
     .reset-btn {
         font-size: 12px;
     }
+}
+
+/* ✅ تثبيت toggle-button في أسفل الشاشة بشكل ثابت على جميع الأجهزة */
+.toggle-button {
+    position: fixed !important;
+    bottom: 10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important; /* ✅ مصحح: فقط أفقي بدون -50% رأسي */
+    z-index: 500; /* أقل من player-nav-bar لكن فوق المحتوى */
 }
 
 .multi-icon {
@@ -26947,18 +26949,28 @@ function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'r
     document.getElementById('contentContainer').innerHTML = iframeContent;
     modal.style.display = "block";
 
+    // ✅ [إصلاح] إخفاء شريط التشغيل العائم عند فتح المودال حتى لا يحجبه
+    var playerWrap = document.getElementById('sticky-player-wrap');
+    if (playerWrap) playerWrap.style.zIndex = '0';
+    var navBar = document.getElementById('player-nav-bar');
+    if (navBar) navBar.style.position = 'relative';
+
+    function closeAndRestore() {
+        modal.style.display = "none";
+        document.getElementById('contentContainer').innerHTML = '';
+        // ✅ استعادة شريط التشغيل
+        if (playerWrap) playerWrap.style.zIndex = '';
+        if (navBar) navBar.style.position = '';
+    }
+
     // إغلاق الـ modal عند الضغط على زر الإغلاق
     var span = document.getElementsByClassName("close-button")[0];
-    span.onclick = function() {
-        modal.style.display = "none";
-        document.getElementById('contentContainer').innerHTML = ''; // تفريغ المحتوى
-    };
+    span.onclick = closeAndRestore;
 
     // إغلاق الـ modal عند الضغط خارج الإطار
     window.onclick = function(event) {
         if (event.target == modal) {
-            modal.style.display = "none";
-            document.getElementById('contentContainer').innerHTML = ''; // تفريغ المحتوى
+            closeAndRestore();
         }
     };
 }
@@ -28385,13 +28397,20 @@ body.dark-mode #scrollToTopBtn:hover {
   box-shadow: none;
   text-align: center;
   width: 100%;
+  max-width: 100%; /* ✅ منع التمدد خارج الشاشة */
   margin: 0;
   position: relative;
   top: unset;
   z-index: auto;
-  font-size: 13px;
+  font-size: 13px; /* ✅ حجم ثابت مناسب للموبايل */
   font-family: 'Cairo', Arial, Tahoma, sans-serif;
   border-bottom: 0.5px solid rgba(30,144,255,0.2);
+  box-sizing: border-box; /* ✅ الـ padding لا يزيد العرض */
+  overflow: hidden; /* ✅ منع النص من كسر التصميم */
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block; /* ✅ ضمان عرض كامل وليس inline */
+  line-height: 1.4;
 }
 
 /* 📲 إخفاء على التابلت والديسكتوب */
