@@ -395,6 +395,7 @@ audio {
    color: #e0dfda;
     
     padding: 1px;
+    display: none !important; /* ✅ إخفاء شريط الـ audio الافتراضي - يتحكم فيه player-nav-bar */
 }
 
 /* ========================= */
@@ -2202,10 +2203,14 @@ function toggleWelcomePlayPause() {
 function closeWelcomeScreen() {
     // إخفاء شاشة الترحيب
     document.getElementById('welcomeScreen').style.display = 'none';
-    
-    // إيقاف مشغل الصوت الخاص بشاشة الترحيب
+
+    // ✅ علامة: الشاشة أُغلقت — تمنع أي play() تلقائي لاحق
+    window._welcomeScreenClosed = true;
+
+    // إيقاف مشغل الصوت الخاص بشاشة الترحيب ومسح المصدر كلياً
     customAudioPlayer.pause();
     customAudioPlayer.currentTime = 0;
+    customAudioPlayer.src = '';  // ✅ مسح المصدر لمنع إعادة التشغيل
 
   // 1. دعم رابط محطة مباشرة
     const params = new URLSearchParams(window.location.search);
@@ -25918,8 +25923,13 @@ document.querySelector('.filter-button')?.click();
 
 function switchToNextButton() {
   let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none');
-  currentButtonIndex = (currentButtonIndex + 1) % visibleButtons.length;
-  visibleButtons[currentButtonIndex].click();
+  if (!visibleButtons.length) return;
+  // ✅ ابحث عن الزر النشط فعلياً بدلاً من الاعتماد على currentButtonIndex
+  let playingBtn = document.querySelector('.button.playing:not(#prevButton):not(#nextButton):not(#randomButton)');
+  let currentVisibleIndex = playingBtn ? visibleButtons.indexOf(playingBtn) : -1;
+  let newVisibleIndex = (currentVisibleIndex + 1) % visibleButtons.length;
+  currentButtonIndex = parseInt(visibleButtons[newVisibleIndex].getAttribute('data-index'), 10) || 0;
+  visibleButtons[newVisibleIndex].click();
 }
 
 function activateAutoSwitch() {
@@ -26216,6 +26226,23 @@ function toggleLanguage() {
     button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
   });
   // --------------------------------
+
+  // ✅ [إصلاح 4] ترجمة تسميات أزرار المشغل العلوي (pnb-lbl)
+  var pnbLabels = {
+    'pnb-prev':   { ar: 'السابقة',   en: 'Prev'   },
+    'pnb-next':   { ar: 'التالية',   en: 'Next'   },
+    'pnb-random': { ar: 'اخترنا لك', en: 'Random' },
+    'pnb-play':   { ar: 'تشغيل',    en: 'Play'   },
+  };
+  document.querySelectorAll('#player-nav-bar .pnb-group').forEach(function(group) {
+    var btn = group.querySelector('.pnb-btn');
+    var lbl = group.querySelector('.pnb-lbl');
+    if (!btn || !lbl) return;
+    var key = btn.id;
+    if (pnbLabels[key]) {
+      lbl.textContent = isArabic ? pnbLabels[key].ar : pnbLabels[key].en;
+    }
+  });
 
   // تحديث نصوص الأزرار التي تحتوي على data-ar و data-en
   document.querySelectorAll(".button.palestine .station-text").forEach(buttonText => {
@@ -27006,6 +27033,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (customAudioPlayerEl) {
         customAudioPlayerEl.addEventListener('play', () => {
+            // ✅ منع التشغيل إذا أُغلقت شاشة الترحيب
+            if (window._welcomeScreenClosed) {
+                customAudioPlayerEl.pause();
+                customAudioPlayerEl.src = '';
+                return;
+            }
             stopAllOtherAudios('welcome');
             activeAudio = customAudioPlayerEl;
             customAudioPlayerEl.volume = 1;
@@ -27921,13 +27954,28 @@ function incrementTasbihKeyboard(box) {
 }
 
 document.addEventListener("click", function(e) {
-  let el = e.target.closest("[title]");
-  
-  // لو ضغط على المسبحة
+  // ✅ [إصلاح 5] الـ tooltip يظهر فقط لأزرار الأذكار التي لها title
+  let el = null;
+
+  // البحث عن عنصر [title] بداية من نقطة الضغط
+  let candidate = e.target.closest("[title]");
+  if (candidate) {
+    // تحقق أن العنصر داخل زر ذكر (data-category="Adhkar") أو هو station-text داخله
+    let parentBtn = candidate.closest('button[data-category="Adhkar"]');
+    if (parentBtn) {
+      el = candidate;
+    }
+  }
+
+  // لو ضغط على المسبحة داخل زر ذكر
   if (!el) {
     const tasbih = e.target.closest(".tasbih-box");
     if (tasbih) {
-      el = document.querySelector(".station-text[title]");
+      const adhkarBtn = tasbih.closest('button[data-category="Adhkar"]');
+      if (adhkarBtn) {
+        const stText = adhkarBtn.querySelector(".station-text[title]");
+        if (stText) el = stText;
+      }
     }
   }
 
@@ -28354,16 +28402,32 @@ body.dark-mode #scrollToTopBtn:hover {
 }
 
 /* ── مشغل الصوت ── */
+/* الشكل الطبيعي */
 #currentAudio {
-  position: sticky;
-  top: 112px;
-  z-index: 1000;
+  position: relative;
   width: 100%;
-  display: none;
+  display: block;
   background: #f8f9fa;
-  border: none;
-  padding: 4px 8px;
+  padding: 6px 10px;
   box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+/* الشكل المصغر */
+#currentAudio.mini {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
+  z-index: 9999;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+  padding: 4px 8px;
+}
+
+/* تصغير شكل الكنترول نفسه */
+#currentAudio.mini::-webkit-media-controls-panel {
+  transform: scale(0.9);
 }
 
 /* ── لايت مود ── */
