@@ -316,9 +316,57 @@ background: linear-gradient(
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 98%;
+justify-content: flex-start; 
+gap: 10px;
+width: 98%;
   margin: 0 auto 5px auto;
+}
+
+/* Desktop: الثلاثة في سطر واحد */
+.controls-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+/* موبايل: البحث يكون آخر عنصر */
+@media (max-width: 991px) {
+  .controls-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .controls-row .search-input {
+    order: 3;
+  }
+  .controls-row .input-group:first-child {
+    order: 1;
+  }
+  .controls-row .input-group:last-child {
+    order: 2;
+  }
+}
+
+@media (min-width: 992px) {
+  .controls-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 98%;
+    margin: 0 auto 5px auto;
+  }
+  .controls-row .input-group {
+    flex: 1;
+    width: auto;
+    margin: 0;
+    white-space: nowrap;
+  }
+  .controls-row .search-input {
+    flex: 2;
+    width: auto !important;
+    margin: 0 !important;
+  }
 }
 
 .input-group label {
@@ -329,12 +377,13 @@ background: linear-gradient(
 }
 
 .input-group input[type="number"] {
-  width: 24%;
+  width: 44%;
   padding: 8px;
-  margin-left: 5px;
+  margin: 0;
   font-size: 14px;
   border: 2px solid #ddd;
   border-radius: 5px;
+
 }
 
 .input-group input[type="checkbox"] {
@@ -1368,58 +1417,33 @@ body.dark-mode .tasbih-box:active {
     background: #333 !important;
 }
 
-body.dark-mode #adhkar-subfilter {
+body.dark-mode #adhkar-subfilter .subfilter-scroll-strip,
+body.dark-mode #quransciences-subfilter .subfilter-scroll-strip,
+body.dark-mode #qurankarim-subfilter .subfilter-scroll-strip {
     background: rgba(30, 30, 60, 0.5) !important;
-    border: 1px dashed rgba(100,181,246,0.3) !important;
+    border-color: rgba(100,181,246,0.3) !important;
 }
 
-body.dark-mode .adhkar-sub-btn {
-    background: #1e1e2e !important;
-    color: #64b5f6 !important;
-    border: 2px solid #64b5f6 !important;
-}
-
-body.dark-mode .adhkar-sub-btn:hover {
-    background: #1e3a5f !important;
-}
-
-body.dark-mode .adhkar-sub-btn.active {
-    background: #1e3a5f !important;
-    color: #90caf9 !important;
-}
-
-body.dark-mode #quransciences-subfilter {
-    background: rgba(30, 30, 60, 0.5) !important;
-    border: 1px dashed rgba(100,181,246,0.3) !important;
-}
-body.dark-mode .quransciences-sub-btn {
-    background: #1e1e2e !important;
-    color: #64b5f6 !important;
-    border: 2px solid #64b5f6 !important;
-}
-body.dark-mode .quransciences-sub-btn:hover {
-    background: #1e3a5f !important;
-}
-body.dark-mode .quransciences-sub-btn.active {
-    background: #1e3a5f !important;
-    color: #90caf9 !important;
-}
-
-body.dark-mode #qurankarim-subfilter {
-    background: rgba(30, 30, 60, 0.5) !important;
-    border: 1px dashed rgba(100,181,246,0.3) !important;
-}
+body.dark-mode .adhkar-sub-btn,
+body.dark-mode .quransciences-sub-btn,
 body.dark-mode .qurankarim-sub-btn {
     background: #1e1e2e !important;
     color: #64b5f6 !important;
     border: 2px solid #64b5f6 !important;
 }
+
+body.dark-mode .adhkar-sub-btn:hover,
+body.dark-mode .quransciences-sub-btn:hover,
 body.dark-mode .qurankarim-sub-btn:hover {
     background: #1e3a5f !important;
 }
+
+body.dark-mode .adhkar-sub-btn.active,
+body.dark-mode .quransciences-sub-btn.active,
 body.dark-mode .qurankarim-sub-btn.active {
-    background: #1e3a5f !important;
-    color: #90caf9 !important;
+    background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%) !important;
+    color: #fff !important;
+    border-color: transparent !important;
 }
 
 body.dark-mode button,
@@ -1759,262 +1783,160 @@ border: 2px solid #2b7de9;
 
 
 
-#livetv-subfilter {
-    display: none;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin: 6px auto 4px;
-    padding: 8px 10px;
-    width: 98%;
-    max-width: 700px;
-    background: rgba(30, 144, 255, 0.05);
-    border: 1px dashed rgba(30,144,255,0.3);
-    border-radius: 10px;
-    box-sizing: border-box;
-    animation: subFilterFadeIn 0.25s ease;
+/* ========== SMART SCROLL SUBFILTER — shared base ========== */
+@keyframes subFilterFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
-#livetv-subfilter.visible { display: flex; }
-.livetv-sub-btn {
-    flex: 0 0 auto;
-    height: 36px;
-    padding: 0 14px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: Arial, Tahoma, "Segoe UI", sans-serif;
-    background: #fff;
-    color: #1e90ff;
-    border: 2px solid #1e90ff;
-    border-radius: 8px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s, color 0.2s, transform 0.15s;
-    box-sizing: border-box;
+@keyframes subFilterPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(30,144,255,0.45); }
+    60%  { box-shadow: 0 0 0 8px rgba(30,144,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(30,144,255,0); }
 }
-.livetv-sub-btn:hover  { background: #e8f4ff; transform: scale(1.04); }
-.livetv-sub-btn.active { background: #1e90ff; color: #fff; }
-body.dark-mode #livetv-subfilter {
-    background: rgba(100,181,246,0.07);
-    border-color: rgba(100,181,246,0.3);
-}
-body.dark-mode .livetv-sub-btn {
-    background: #1a2a3a; color: #64b5f6; border-color: #64b5f6;
-}
-body.dark-mode .livetv-sub-btn:hover  { background: #1e3a55; }
-body.dark-mode .livetv-sub-btn.active { background: #1e90ff; color: #fff; }
-@media (max-width: 600px) {
-    #livetv-subfilter { gap: 5px; padding: 6px; }
-    .livetv-sub-btn { font-size: 12px; height: 32px; padding: 0 10px; }
+@keyframes subFilterSlideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
 }
 
-#more-subfilter {
+/* wrapper that holds the scroll strip + fade edges */
+.subfilter-scroll-wrap {
     display: none;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin: 6px auto 4px;
-    padding: 8px 10px;
+    position: relative;
     width: 98%;
     max-width: 700px;
-    background: rgba(30, 144, 255, 0.05);
-    border: 1px dashed rgba(30,144,255,0.3);
-    border-radius: 10px;
+    margin: 6px auto 4px;
     box-sizing: border-box;
-    animation: subFilterFadeIn 0.25s ease;
 }
-#more-subfilter.visible {
+.subfilter-scroll-wrap.visible { display: block; }
+.subfilter-scroll-wrap.highlight-attention .subfilter-scroll-strip {
+    animation: subFilterPulse 0.7s ease 0.1s 2;
+}
+
+/* left/right fade-out edges (scroll hint) */
+.subfilter-scroll-wrap::before,
+.subfilter-scroll-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 28px;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+.subfilter-scroll-wrap::before {
+    right: 0;
+    background: linear-gradient(to left, rgba(245,242,230,0.92) 30%, transparent);
+}
+.subfilter-scroll-wrap::after {
+    left: 0;
+    background: linear-gradient(to right, rgba(245,242,230,0.92) 30%, transparent);
+}
+body.dark-mode .subfilter-scroll-wrap::before {
+    background: linear-gradient(to left, rgba(22,33,44,0.92) 30%, transparent);
+}
+body.dark-mode .subfilter-scroll-wrap::after {
+    background: linear-gradient(to right, rgba(22,33,44,0.92) 30%, transparent);
+}
+
+/* the scrollable strip itself */
+.subfilter-scroll-strip {
     display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 12px;
+    background: rgba(30, 144, 255, 0.05);
+    border: 1.5px solid rgba(30,144,255,0.25);
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    animation: subFilterFadeIn 0.3s ease;
 }
-.more-sub-btn {
+.subfilter-scroll-strip::-webkit-scrollbar { display: none; }
+
+body.dark-mode .subfilter-scroll-strip {
+    background: rgba(100,181,246,0.07);
+    border-color: rgba(100,181,246,0.28);
+}
+
+/* shared button style for ALL sub-filter types */
+.subfilter-scroll-strip button {
     flex: 0 0 auto;
     height: 36px;
-    padding: 0 14px;
+    padding: 0 16px;
     font-size: 13px;
     font-weight: 600;
     font-family: Arial, Tahoma, "Segoe UI", sans-serif;
     background: #fff;
     color: #1e90ff;
     border: 2px solid #1e90ff;
-    border-radius: 8px;
+    border-radius: 20px;
     cursor: pointer;
     white-space: nowrap;
-    transition: background 0.2s, color 0.2s, transform 0.15s;
+    transition: background 0.18s, color 0.18s, transform 0.15s, box-shadow 0.18s;
     box-sizing: border-box;
+    animation: subFilterSlideIn 0.25s ease both;
 }
-.more-sub-btn:hover {
+.subfilter-scroll-strip button:hover {
     background: #e8f4ff;
-    transform: scale(1.04);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(30,144,255,0.18);
 }
-.more-sub-btn.active {
-    background: #1e90ff;
+.subfilter-scroll-strip button.active {
+    background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%);
     color: #fff;
+    border-color: transparent;
+    box-shadow: 0 3px 10px rgba(30,144,255,0.38);
+    transform: translateY(-1px);
 }
-body.dark-mode #more-subfilter {
-    background: rgba(100,181,246,0.07);
-    border-color: rgba(100,181,246,0.3);
-}
-body.dark-mode .more-sub-btn {
+body.dark-mode .subfilter-scroll-strip button {
     background: #1a2a3a;
     color: #64b5f6;
     border-color: #64b5f6;
 }
-body.dark-mode .more-sub-btn:hover {
+body.dark-mode .subfilter-scroll-strip button:hover {
     background: #1e3a55;
 }
-body.dark-mode .more-sub-btn.active {
-    background: #1e90ff;
+body.dark-mode .subfilter-scroll-strip button.active {
+    background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%);
     color: #fff;
-}
-@media (max-width: 600px) {
-    #more-subfilter { gap: 5px; padding: 6px 6px; }
-    .more-sub-btn { font-size: 12px; height: 32px; padding: 0 10px; }
+    border-color: transparent;
 }
 
-#adhkar-subfilter {
-    display: none;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin: 6px auto 4px;
-    padding: 8px 10px;
-    width: 98%;
-    max-width: 700px;
-    background: rgba(30, 144, 255, 0.05);
-    border: 1px dashed rgba(30,144,255,0.3);
-    border-radius: 10px;
-    box-sizing: border-box;
-    animation: subFilterFadeIn 0.25s ease;
-}
-#adhkar-subfilter.visible {
-    display: flex;
-}
-@keyframes subFilterFadeIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-.adhkar-sub-btn {
-    flex: 0 0 auto;
-    height: 36px;
-    padding: 0 14px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: Arial, Tahoma, "Segoe UI", sans-serif;
-    background: #fff;
-    color: #1e90ff;
-    border: 2px solid #1e90ff;
-    border-radius: 8px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s, color 0.2s, transform 0.15s;
-    box-sizing: border-box;
-}
-.adhkar-sub-btn:hover {
-    background: #e8f4ff;
-    transform: scale(1.04);
-}
-.adhkar-sub-btn.active {
-    background: #1e90ff;
-    color: #fff;
-}
+/* staggered slide-in for children */
+.subfilter-scroll-strip button:nth-child(1) { animation-delay: 0.00s; }
+.subfilter-scroll-strip button:nth-child(2) { animation-delay: 0.04s; }
+.subfilter-scroll-strip button:nth-child(3) { animation-delay: 0.08s; }
+.subfilter-scroll-strip button:nth-child(4) { animation-delay: 0.12s; }
+.subfilter-scroll-strip button:nth-child(5) { animation-delay: 0.16s; }
+.subfilter-scroll-strip button:nth-child(6) { animation-delay: 0.20s; }
+.subfilter-scroll-strip button:nth-child(7) { animation-delay: 0.24s; }
+.subfilter-scroll-strip button:nth-child(8) { animation-delay: 0.28s; }
 
 @media (max-width: 600px) {
-    #adhkar-subfilter { gap: 5px; padding: 6px 6px; }
-    .adhkar-sub-btn { font-size: 12px; height: 32px; padding: 0 10px; }
+    .subfilter-scroll-strip { padding: 6px 10px; gap: 6px; }
+    .subfilter-scroll-strip button { font-size: 12px; height: 32px; padding: 0 12px; }
 }
 
-#quransciences-subfilter {
-    display: none;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin: 6px auto 4px;
-    padding: 8px 10px;
-    width: 98%;
-    max-width: 700px;
-    background: rgba(30, 144, 255, 0.05);
-    border: 1px dashed rgba(30,144,255,0.3);
-    border-radius: 10px;
-    box-sizing: border-box;
-    animation: subFilterFadeIn 0.25s ease;
-}
-#quransciences-subfilter.visible {
-    display: flex;
-}
-.quransciences-sub-btn {
-    flex: 0 0 auto;
-    height: 36px;
-    padding: 0 14px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: Arial, Tahoma, "Segoe UI", sans-serif;
-    background: #fff;
-    color: #1e90ff;
-    border: 2px solid #1e90ff;
-    border-radius: 8px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s, color 0.2s, transform 0.15s;
-    box-sizing: border-box;
-}
-.quransciences-sub-btn:hover {
-    background: #e8f4ff;
-    transform: scale(1.04);
-}
-.quransciences-sub-btn.active {
-    background: #1e90ff;
-    color: #fff;
-}
-@media (max-width: 600px) {
-    #quransciences-subfilter { gap: 5px; padding: 6px 6px; }
-    .quransciences-sub-btn { font-size: 12px; height: 32px; padding: 0 10px; }
-}
-
-#qurankarim-subfilter {
-    display: none;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin: 6px auto 4px;
-    padding: 8px 10px;
-    width: 98%;
-    max-width: 700px;
-    background: rgba(30, 144, 255, 0.05);
-    border: 1px dashed rgba(30,144,255,0.3);
-    border-radius: 10px;
-    box-sizing: border-box;
-    animation: subFilterFadeIn 0.25s ease;
-}
-#qurankarim-subfilter.visible {
-    display: flex;
-}
-.qurankarim-sub-btn {
-    flex: 0 0 auto;
-    height: 36px;
-    padding: 0 14px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: Arial, Tahoma, "Segoe UI", sans-serif;
-    background: #fff;
-    color: #1e90ff;
-    border: 2px solid #1e90ff;
-    border-radius: 8px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s, color 0.2s, transform 0.15s;
-    box-sizing: border-box;
-}
-.qurankarim-sub-btn:hover {
-    background: #e8f4ff;
-    transform: scale(1.04);
-}
-.qurankarim-sub-btn.active {
-    background: #1e90ff;
-    color: #fff;
-}
-@media (max-width: 600px) {
-    #qurankarim-subfilter { gap: 5px; padding: 6px 6px; }
-    .qurankarim-sub-btn { font-size: 12px; height: 32px; padding: 0 10px; }
-}
+/* ---- keep old selectors working (classes now inside .subfilter-scroll-strip) ---- */
+/* livetv */
+#livetv-subfilter  { display: none; }
+#livetv-subfilter.visible { display: block; }
+/* more */
+#more-subfilter    { display: none; }
+#more-subfilter.visible { display: block; }
+/* adhkar */
+#adhkar-subfilter  { display: none; }
+#adhkar-subfilter.visible { display: block; }
+/* quransciences */
+#quransciences-subfilter { display: none; }
+#quransciences-subfilter.visible { display: block; }
+/* qurankarim */
+#qurankarim-subfilter { display: none; }
+#qurankarim-subfilter.visible { display: block; }
 
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -5485,7 +5407,8 @@ setInterval(() => {
 </div>
 
 
-<div id="more-subfilter">
+<div class="subfilter-scroll-wrap" id="more-subfilter">
+<div class="subfilter-scroll-strip">
 <button class="more-sub-btn active" data-sub="all" data-ar="📂 الكل" data-en="All" onclick="filterMoreSub('all',this)">📂 الكل</button>
 <button class="more-sub-btn" data-sub="more-mushaf" data-ar="📖 مصاحف" data-en="Mushafs" onclick="filterMoreSub('more-mushaf',this)">📖 مصاحف</button>
 <button class="more-sub-btn" data-sub="more-azkar" data-ar="🌿 أذكار" data-en="Azkar" onclick="filterMoreSub('more-azkar',this)">🌿 أذكار</button>
@@ -5494,9 +5417,11 @@ setInterval(() => {
 <button class="more-sub-btn" data-sub="more-radio" data-ar="📻 راديو" data-en="Radio" onclick="filterMoreSub('more-radio',this)">📻 راديو</button>
 <button class="more-sub-btn" data-sub="more-sites" data-ar="🌐 مواقع" data-en="Sites" onclick="filterMoreSub('more-sites',this)">🌐 مواقع</button>
 </div>
+</div>
 
 
-<div id="livetv-subfilter">
+<div class="subfilter-scroll-wrap" id="livetv-subfilter">
+<div class="subfilter-scroll-strip">
 <button class="livetv-sub-btn active" data-sub="all"           data-ar="📺 الكل"           data-en="All"           onclick="filterLiveTVSub('all',this)">📺 الكل</button>
 <button class="livetv-sub-btn"        data-sub="ltv-channels"  data-ar="📡 قنوات قرآنية"   data-en="Quran Channels" onclick="filterLiveTVSub('ltv-channels',this)">📡 قنوات قرآنية</button>
 <button class="livetv-sub-btn"        data-sub="ltv-full"      data-ar="📖 المصحف كامل"    data-en="Full Quran"     onclick="filterLiveTVSub('ltv-full',this)">📖 المصحف كامل</button>
@@ -5506,22 +5431,28 @@ setInterval(() => {
 <button class="livetv-sub-btn"        data-sub="ltv-news"      data-ar="📰 أخبار"          data-en="News"           onclick="filterLiveTVSub('ltv-news',this)">📰 أخبار</button>
 <button class="livetv-sub-btn"        data-sub="ltv-learn"     data-ar="🎓 تعلم"           data-en="Learn"          onclick="filterLiveTVSub('ltv-learn',this)">🎓 تعلم</button>
 </div>
+</div>
 
-<div id="adhkar-subfilter">
+<div class="subfilter-scroll-wrap" id="adhkar-subfilter">
+<div class="subfilter-scroll-strip">
 <button class="adhkar-sub-btn active" data-sub="all" data-ar="📿 الكل" data-en="All" onclick="filterAdhkarSub('all',this)">📿 الكل</button>
 <button class="adhkar-sub-btn" data-sub="morning" data-ar="🌅 أذكار الصباح" data-en="Morning Adhkar" onclick="filterAdhkarSub('morning',this)">🌅 أذكار الصباح</button>
 <button class="adhkar-sub-btn" data-sub="evening" data-ar="🌙 أذكار المساء" data-en="Evening Adhkar" onclick="filterAdhkarSub('evening',this)">🌙 أذكار المساء</button>
 <button class="adhkar-sub-btn" data-sub="general" data-ar="📖 أذكار عامة" data-en="General Adhkar" onclick="filterAdhkarSub('general',this)">📖 أذكار عامة</button>
 <button class="adhkar-sub-btn" data-sub="ruqya" data-ar="🌿 الرُّقْيَة الشَّرْعِيَّة" data-en="Ruqyah" onclick="filterAdhkarSub('ruqya',this)">🌿 الرُّقْيَة الشَّرْعِيَّة</button>
 </div>
+</div>
 
-<div id="quransciences-subfilter">
+<div class="subfilter-scroll-wrap" id="quransciences-subfilter">
+<div class="subfilter-scroll-strip">
 <button class="quransciences-sub-btn active" data-sub="Translation" data-ar="🌍 القرآن مترجم" data-en="Translation" onclick="filterQuranSciencesSub('Translation',this)">🌍 القرآن مترجم</button>
 <button class="quransciences-sub-btn" data-sub="tafsir" data-ar="📖 تفسير القرآن" data-en="Tafsir" onclick="filterQuranSciencesSub('tafsir',this)">📖 تفسير القرآن</button>
 <button class="quransciences-sub-btn" data-sub="tajweed" data-ar="🎵 تجويد" data-en="Tajweed" onclick="filterQuranSciencesSub('tajweed',this)">🎵 تجويد</button>
 </div>
+</div>
 
-<div id="qurankarim-subfilter">
+<div class="subfilter-scroll-wrap" id="qurankarim-subfilter">
+<div class="subfilter-scroll-strip">
 <button class="qurankarim-sub-btn active" data-sub="Quran" data-ar="📻 تلاوات" data-en="Recitations" onclick="filterQuranKarimSub('Quran',this)">📻 تلاوات</button>
 <button class="qurankarim-sub-btn" data-sub="mojawwad" data-ar="🎙️ مُجَوِّد" data-en="Mujawwad" onclick="filterQuranKarimSub('mojawwad',this)">🎙️ مُجَوِّد</button>
 <button class="qurankarim-sub-btn" data-sub="rewayat" data-ar="📖 قراءات" data-en="Readings" onclick="filterQuranKarimSub('rewayat',this)">📖 قراءات</button>
@@ -5529,19 +5460,27 @@ setInterval(() => {
 <button class="qurankarim-sub-btn" data-sub="surah" data-ar="📂 سور" data-en="Surahs" onclick="filterQuranKarimSub('surah',this)">📂 سور</button>
 <button class="qurankarim-sub-btn" data-sub="teachers" data-ar="🎓 المحفِّظ" data-en="Teacher" onclick="filterQuranKarimSub('teachers',this)">🎓 المحفِّظ</button>
 </div>
+</div>
 
 <div class="search-container">
-  <div class="input-group">
-     <label for="autoSwitchTimer"></label>
+  <div class="controls-row">
+
+    <div class="input-group">
+       <label for="autoSwitchTimer"></label>
 <input type="number" id="autoSwitchTimer" min="1" data-ar="أدخل عدد الدقائق" data-en="Enter number of minutes" placeholder="أدخل عدد الدقائق">
     <label for="autoSwitchCheckbox" data-ar="التنقل الآلي " data-en="Auto Switch">التنقل الآلي </label>
     <input type="checkbox" id="autoSwitchCheckbox">
+    </div>
 
+    <input type="text" id="searchInput" class="search-input" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
+
+    <div class="input-group">
 <label for="sleepTimer"></label>
 <input type="number" id="sleepTimer" min="1" data-ar="أدخل عدد الدقائق" data-en="Enter number of minutes" placeholder="أدخل عدد الدقائق">
 
 <label for="sleepCheckbox" data-ar="مؤقت الإيقاف" data-en="Sleep Mode">مؤقت الإيقاف </label>
 <input type="checkbox" id="sleepCheckbox">
+    </div>
 
   </div>
 
@@ -5567,7 +5506,6 @@ setInterval(() => {
 
 <div id="restoreButton" title="Restore">➕</div>
 
-  <input type="text" id="searchInput" class="search-input" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
 </div>
 
     <div class="buttons-container">
@@ -25193,6 +25131,10 @@ function toggleLanguage() {
     button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
   });
 
+  document.querySelectorAll(".qurankarim-sub-btn, .quransciences-sub-btn").forEach(button => {
+    button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
+  });
+
   // ترجمة قسم المشاركة
   var shareTitle = document.getElementById('share-title');
   if (shareTitle) shareTitle.textContent = isArabic ? shareTitle.getAttribute('data-ar') : shareTitle.getAttribute('data-en');
@@ -26606,6 +26548,16 @@ function setSiteLanguage(lang) {
 var currentAdhkarSub = 'all';
 
 
+function _scrollActiveBtnInStrip(btn) {
+    if (!btn) return;
+    var strip = btn.closest('.subfilter-scroll-strip');
+    if (!strip) return;
+    var btnLeft   = btn.offsetLeft;
+    var btnWidth  = btn.offsetWidth;
+    var stripW    = strip.offsetWidth;
+    strip.scrollTo({ left: btnLeft - (stripW / 2) + (btnWidth / 2), behavior: 'smooth' });
+}
+
 function filterLiveTVSub(subType, btn) {
     document.querySelectorAll('.livetv-sub-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
@@ -26618,6 +26570,7 @@ function filterLiveTVSub(subType, btn) {
     });
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
+    _scrollActiveBtnInStrip(btn);
 
     if (_userPickedFilter) {
         var _target = null;
@@ -26636,7 +26589,6 @@ function filterMoreSub(subType, btn) {
     if (subType === 'all') {
         allMoreCats.forEach(function(cat) {
             document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-                // في "الكل" داخل المزيد: نظهر كل شيء بما فيه data-hidden-sub
                 b.style.display = 'block';
             });
         });
@@ -26653,6 +26605,7 @@ function filterMoreSub(subType, btn) {
     }
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
+    _scrollActiveBtnInStrip(btn);
 
     if (_userPickedFilter) {
         var _moreTarget = null;
@@ -26678,6 +26631,7 @@ function filterAdhkarSub(subType, btn) {
     });
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
+    _scrollActiveBtnInStrip(btn);
 
     if (_userPickedFilter) {
         var _adhkarTarget = null;
@@ -26699,27 +26653,20 @@ function filterQuranKarimSub(subType, btn) {
     });
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
+    _scrollActiveBtnInStrip(btn);
 
-    // scroll: ينزل إلى الـ subfilter أولاً ثم يكمل إلى أول محطة ظاهرة
-    var subfilter = document.getElementById('qurankarim-subfilter');
-    if (subfilter) {
-        subfilter.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    setTimeout(function() {
-        var firstVisible = null;
+    // Scroll to first visible station
+    if (_userPickedFilter) {
+        var _qkTarget = null;
         ['Quran', 'mojawwad', 'rewayat', 'Monshawiiyat', 'surah', 'teachers'].forEach(function(cat) {
-            if (!firstVisible) {
-                var btns = document.querySelectorAll('button[data-category="' + cat + '"]');
-                btns.forEach(function(b) {
-                    if (!firstVisible && b.style.display !== 'none') firstVisible = b;
+            if (!_qkTarget) {
+                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
+                    if (!_qkTarget && b.style.display !== 'none') _qkTarget = b;
                 });
             }
         });
-        if (firstVisible) {
-            firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }, 350);
+        smartScrollToStations(_qkTarget, 80);
+    }
 }
 
 function filterQuranSciencesSub(subType, btn) {
@@ -26733,6 +26680,20 @@ function filterQuranSciencesSub(subType, btn) {
     });
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
+    _scrollActiveBtnInStrip(btn);
+
+    // Scroll to first visible station
+    if (_userPickedFilter) {
+        var _qsTarget = null;
+        ['Translation', 'tafsir', 'tajweed'].forEach(function(cat) {
+            if (!_qsTarget) {
+                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
+                    if (!_qsTarget && b.style.display !== 'none') _qsTarget = b;
+                });
+            }
+        });
+        smartScrollToStations(_qsTarget, 80);
+    }
 }
 
 function getAdhkarSubByTime() {
@@ -26758,6 +26719,12 @@ filterStations = function(category) {
                     b.style.display = 'block';
                 });
             });
+            // Smart scroll to subfilter
+            setTimeout(function() {
+                moreSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                moreSub.classList.add('highlight-attention');
+                setTimeout(function() { moreSub.classList.remove('highlight-attention'); }, 1800);
+            }, 120);
         } else {
             moreSub.classList.remove('visible');
         }
@@ -26776,6 +26743,12 @@ filterStations = function(category) {
                     b.style.display = 'block';
                 });
             });
+            // Smart scroll to subfilter
+            setTimeout(function() {
+                ltvSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                ltvSub.classList.add('highlight-attention');
+                setTimeout(function() { ltvSub.classList.remove('highlight-attention'); }, 1800);
+            }, 120);
         } else {
             ltvSub.classList.remove('visible');
         }
@@ -26795,6 +26768,12 @@ filterStations = function(category) {
                 });
             });
             if (typeof updateButtonIndices === 'function') updateButtonIndices();
+            // Smart scroll: scroll to subfilter and pulse to grab attention
+            setTimeout(function() {
+                qkSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                qkSub.classList.add('highlight-attention');
+                setTimeout(function() { qkSub.classList.remove('highlight-attention'); }, 1800);
+            }, 120);
         } else {
             qkSub.classList.remove('visible');
             if (category !== 'all') {
@@ -26821,6 +26800,12 @@ filterStations = function(category) {
                 });
             });
             if (typeof updateButtonIndices === 'function') updateButtonIndices();
+            // Smart scroll + attention pulse
+            setTimeout(function() {
+                qsSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                qsSub.classList.add('highlight-attention');
+                setTimeout(function() { qsSub.classList.remove('highlight-attention'); }, 1800);
+            }, 120);
         } else {
             qsSub.classList.remove('visible');
             // When leaving QuranSciences, hide all 3 sub-categories
@@ -26858,6 +26843,12 @@ filterStations = function(category) {
             }
         });
         if (typeof updateButtonIndices === 'function') updateButtonIndices();
+        // Smart scroll + attention pulse
+        setTimeout(function() {
+            sub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            sub.classList.add('highlight-attention');
+            setTimeout(function() { sub.classList.remove('highlight-attention'); }, 1800);
+        }, 120);
 
     } else {
         sub.classList.remove('visible');
