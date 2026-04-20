@@ -374,6 +374,7 @@ width: 98%;
   font-size: 16px;
   color: #000;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 .input-group input[type="number"] {
@@ -1418,29 +1419,37 @@ body.dark-mode .tasbih-box:active {
 }
 
 body.dark-mode #adhkar-subfilter .subfilter-scroll-strip,
+body.dark-mode #sira-subfilter .subfilter-scroll-strip,
 body.dark-mode #quransciences-subfilter .subfilter-scroll-strip,
-body.dark-mode #qurankarim-subfilter .subfilter-scroll-strip {
+body.dark-mode #qurankarim-subfilter .subfilter-scroll-strip,
+body.dark-mode #mix-subfilter .subfilter-scroll-strip {
     background: rgba(30, 30, 60, 0.5) !important;
     border-color: rgba(100,181,246,0.3) !important;
 }
 
 body.dark-mode .adhkar-sub-btn,
+body.dark-mode .sira-sub-btn,
 body.dark-mode .quransciences-sub-btn,
-body.dark-mode .qurankarim-sub-btn {
+body.dark-mode .qurankarim-sub-btn,
+body.dark-mode .mix-sub-btn {
     background: #1e1e2e !important;
     color: #64b5f6 !important;
     border: 2px solid #64b5f6 !important;
 }
 
 body.dark-mode .adhkar-sub-btn:hover,
+body.dark-mode .sira-sub-btn:hover,
 body.dark-mode .quransciences-sub-btn:hover,
-body.dark-mode .qurankarim-sub-btn:hover {
+body.dark-mode .qurankarim-sub-btn:hover,
+body.dark-mode .mix-sub-btn:hover {
     background: #1e3a5f !important;
 }
 
 body.dark-mode .adhkar-sub-btn.active,
+body.dark-mode .sira-sub-btn.active,
 body.dark-mode .quransciences-sub-btn.active,
-body.dark-mode .qurankarim-sub-btn.active {
+body.dark-mode .qurankarim-sub-btn.active,
+body.dark-mode .mix-sub-btn.active {
     background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%) !important;
     color: #fff !important;
     border-color: transparent !important;
@@ -1931,12 +1940,18 @@ body.dark-mode .subfilter-scroll-strip button.active {
 /* adhkar */
 #adhkar-subfilter  { display: none; }
 #adhkar-subfilter.visible { display: block; }
+
+#sira-subfilter    { display: none; }
+#sira-subfilter.visible { display: block; }
 /* quransciences */
 #quransciences-subfilter { display: none; }
 #quransciences-subfilter.visible { display: block; }
 /* qurankarim */
 #qurankarim-subfilter { display: none; }
 #qurankarim-subfilter.visible { display: block; }
+/* mix */
+#mix-subfilter { display: none; }
+#mix-subfilter.visible { display: block; }
 
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -5391,7 +5406,7 @@ setInterval(() => {
 
 <button class="filter-button" data-ar="محطات القرآن" data-en="Quran Stations" onclick="filterStations('Radio')">محطات القرآن</button>
 <button class="filter-button" data-ar="الإذاعات العالمية" data-en="International" onclick="filterStations('Foreign')">الإذاعات العالمية</button>
-<button class="filter-button" data-ar="السيرة النبوية" data-en="Seerah" onclick="filterStations('sira')">السيرة النبوية</button>
+<button class="filter-button" data-ar="السيرة والحديث" data-en="Seerah & Hadith" onclick="filterStations('sira')">السيرة والحديث</button>
 
 <button class="filter-button" data-ar="علماء" data-en="Scholars" onclick="filterStations('scholars')">علماء</button>
 
@@ -5433,6 +5448,16 @@ setInterval(() => {
 </div>
 </div>
 
+<div class="subfilter-scroll-wrap" id="sira-subfilter">
+<div class="subfilter-scroll-strip">
+<button class="sira-sub-btn active" data-sub="all"     data-ar="📚 الكل"              data-en="All"               onclick="filterSiraSub('all',this)">📚 الكل</button>
+<button class="sira-sub-btn"        data-sub="seerah"  data-ar="🌟 السيرة النبوية"     data-en="Prophet's Seerah"  onclick="filterSiraSub('seerah',this)">🌟 السيرة النبوية</button>
+<button class="sira-sub-btn"        data-sub="hadith"  data-ar="📜 الحديث والسنة"      data-en="Hadith & Sunnah"   onclick="filterSiraSub('hadith',this)">📜 الحديث والسنة</button>
+<button class="sira-sub-btn"        data-sub="anbiya"  data-ar="📖 قصص الأنبياء"       data-en="Prophets Stories"  onclick="filterSiraSub('anbiya',this)">📖 قصص الأنبياء</button>
+<button class="sira-sub-btn"        data-sub="sahabah" data-ar="🌹 سير الصحابة"         data-en="Companions"        onclick="filterSiraSub('sahabah',this)">🌹 سير الصحابة</button>
+</div>
+</div>
+
 <div class="subfilter-scroll-wrap" id="adhkar-subfilter">
 <div class="subfilter-scroll-strip">
 <button class="adhkar-sub-btn active" data-sub="all" data-ar="📿 الكل" data-en="All" onclick="filterAdhkarSub('all',this)">📿 الكل</button>
@@ -5459,6 +5484,17 @@ setInterval(() => {
 <button class="qurankarim-sub-btn" data-sub="Monshawiiyat" data-ar="🎵 منشاويات" data-en="Al-Minshawi" onclick="filterQuranKarimSub('Monshawiiyat',this)">🎵 منشاويات</button>
 <button class="qurankarim-sub-btn" data-sub="surah" data-ar="📂 سور" data-en="Surahs" onclick="filterQuranKarimSub('surah',this)">📂 سور</button>
 <button class="qurankarim-sub-btn" data-sub="teachers" data-ar="🎓 المحفِّظ" data-en="Teacher" onclick="filterQuranKarimSub('teachers',this)">🎓 المحفِّظ</button>
+</div>
+</div>
+
+<div class="subfilter-scroll-wrap" id="mix-subfilter">
+<div class="subfilter-scroll-strip">
+<button class="mix-sub-btn active" data-sub="all"      data-ar="🕌 الكل"              data-en="All"              onclick="filterMixSub('all',this)">🕌 الكل</button>
+<button class="mix-sub-btn"        data-sub="alukah"   data-ar="📡 قنوات الألوكة"     data-en="Alukah Channels"  onclick="filterMixSub('alukah',this)">📡 قنوات الألوكة</button>
+<button class="mix-sub-btn"        data-sub="pillars"  data-ar="🤲 أركان الإسلام"     data-en="Pillars of Islam" onclick="filterMixSub('pillars',this)">🤲 أركان الإسلام</button>
+<button class="mix-sub-btn"        data-sub="occasions" data-ar="🌙 مناسبات إسلامية" data-en="Islamic Occasions" onclick="filterMixSub('occasions',this)">🌙 مناسبات إسلامية</button>
+<button class="mix-sub-btn"        data-sub="fiqh"     data-ar="📜 فتاوى وفقه"        data-en="Fatwas & Fiqh"    onclick="filterMixSub('fiqh',this)">📜 فتاوى وفقه</button>
+<button class="mix-sub-btn"        data-sub="radios"   data-ar="📻 إذاعات متنوعة"     data-en="Islamic Radios"   onclick="filterMixSub('radios',this)">📻 إذاعات متنوعة</button>
 </div>
 </div>
 
@@ -17647,6 +17683,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="seerah"
         data-station="راديو المختصر في السيرة"
         data-ar="راديو المختصر في السيرة"
         data-en="Mukhtasar Seerah Radio"
@@ -17663,6 +17700,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="seerah"
         data-station="راديو في ظلال السيرة"
         data-ar="راديو في ظلال السيرة"
         data-en="Fi Zilal Al-Seerah Radio"
@@ -17679,6 +17717,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="hadith"
         data-station="الارتقاء للحديث النبوي لبنان"
         data-ar="الارتقاء للحديث النبوي لبنان"
         data-en="promote for Hadith Lebanon"
@@ -17695,6 +17734,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="hadith"
         data-station="صحيح البخاري"
         data-ar="صحيح البخاري"
         data-en="Saheeh Al-Bukhari"
@@ -17711,6 +17751,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="hadith"
         data-station="صحيح مسلم"
         data-ar="صحيح مسلم"
         data-en="Saheeh Muslim"
@@ -17727,6 +17768,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="hadith"
         data-station="رياض الصالحين"
         data-ar="رياض الصالحين"
         data-en="Riyadh As-Salihin"
@@ -17748,6 +17790,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="hadith"
         data-station="إذاعة السنة"
         data-ar="إذاعة السنة"
         data-en="Sunnah Radio"
@@ -17764,6 +17807,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="seerah"
         data-station="إذاعة الصلاة على النبي ﷺ"
         data-ar="إذاعة الصلاة على النبي ﷺ"
         data-en="Salat Ala Nabi Broadcast"
@@ -17791,6 +17835,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="seerah"
         data-station="رحمة للعالمين Sirah"
         data-ar="رحمة للعالمين Sirah"
         data-en="Rahmat Lil-Alamin Sirah"
@@ -17807,6 +17852,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="anbiya"
         data-station="راديو قصص الأنبياء"
         data-ar="راديو قصص الأنبياء"
         data-en="Prophets Stories Radio"
@@ -17823,6 +17869,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="sahabah"
         data-station="راديو سير الصحابة"
         data-ar="راديو سير الصحابة"
         data-en="Sahabah Radio"
@@ -17839,6 +17886,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="sahabah"
         data-station="أبو عبيدة بن الجراح رضي الله عنه"
         data-ar="أبو عبيدة بن الجراح رضي الله عنه"
         data-en="Abu Ubaidah ibn al-Jarrah"
@@ -17865,6 +17913,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="sahabah"
         data-station="حذيفة بن اليمان رضي الله عنه"
         data-ar="حذيفة بن اليمان رضي الله عنه"
         data-en="Hudhaifah ibn al-Yaman"
@@ -17881,6 +17930,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="sahabah"
         data-station="أنس بن مالك رضي الله عنه"
         data-ar="أنس بن مالك رضي الله عنه"
         data-en="Anas bin Malik"
@@ -17897,6 +17947,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="sahabah"
         data-station="خالد بن الوليد رضي الله عنه"
         data-ar="خالد بن الوليد رضي الله عنه"
         data-en="Khalid ibn al-Walid"
@@ -17913,6 +17964,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="sahabah"
         data-station="صفية بنت عبد المطلب رضي الله عنها"
         data-ar="صفية بنت عبد المطلب رضي الله عنها"
         data-en="Safiyyah bint Abdul-Muttalib"
@@ -17929,6 +17981,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="sahabah"
         data-station="فاطمة بنت رسول الله ﷺ"
         data-ar="فاطمة بنت رسول الله ﷺ"
         data-en="Fatima bint Muhammad"
@@ -17945,6 +17998,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="sahabah"
         data-station="الرميساء بنت ملحان رضي الله عنها"
         data-ar="الرميساء بنت ملحان رضي الله عنها"
         data-en="Rumaisa bint Milhan"
@@ -17961,6 +18015,7 @@ data-station="ترجمه معانی قرآن به زبان فارسی – اهل
 
 <button class="button palestine"
         data-category="sira"
+        data-sira-sub="sahabah"
         data-station="التابعي: عروة بن الزبير رضي الله عنه"
         data-ar="التابعي: عروة بن الزبير رضي الله عنه"
         data-en="Urwa ibn al-Zubayr (Tabi'i)"
@@ -20648,6 +20703,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة علوم القرآن الكريم الألوكة"
         data-ar="قناة علوم القرآن الكريم الألوكة"
         data-en="Alukah Quran Sciences Channel"
@@ -20664,6 +20720,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة العقيدة والتوحيد الألوكة"
         data-ar="قناة العقيدة والتوحيد الألوكة"
         data-en="Alukah Aqidah and Tawheed Channel"
@@ -20680,6 +20737,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة الحديث وعلومه الألوكة"
         data-ar="قناة الحديث وعلومه الألوكة"
         data-en="Alukah Hadith and Its Sciences Channel"
@@ -20696,6 +20754,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="القناة الفقهية الألوكة"
         data-ar="القناة الفقهية الألوكة"
         data-en="Alukah Fiqh Channel"
@@ -20712,6 +20771,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة السيرة النبوية وقصص القرآن والأنبياء والصحابة"
         data-ar="قناة السيرة النبوية وقصص القرآن والأنبياء والصحابة"
         data-en="Seerah Channel and Stories of the Prophets and Companions"
@@ -20728,6 +20788,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة الفكر والدعوة"
         data-ar="قناة الفكر والدعوة"
         data-en="Al Fikr and Dawah Channel"
@@ -20744,6 +20805,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة التوعية الاجتماعية"
         data-ar="قناة التوعية الاجتماعية"
         data-en="Social Awareness Channel"
@@ -20760,6 +20822,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة المرأة المسلمة"
         data-ar="قناة المرأة المسلمة"
         data-en="Muslim Woman Channel"
@@ -20776,6 +20839,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة السلوك والآداب والأخلاق ومحاسن الأعمال"
         data-ar="قناة السلوك والآداب والأخلاق ومحاسن الأعمال"
         data-en="Behavior, Etiquette, and Morals Channel"
@@ -20792,6 +20856,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة المهارات الحياتية والعلوم التربوية"
         data-ar="قناة المهارات الحياتية والعلوم التربوية"
         data-en="Life Skills and Educational Sciences Channel"
@@ -20808,6 +20873,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة اللغة العربية وعلومه"
         data-ar="قناة اللغة العربية وعلومه"
         data-en="Arabic Language and Its Sciences Channel"
@@ -20824,6 +20890,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة الأدب والتراث العربي"
         data-ar="قناة الأدب والتراث العربي"
         data-en="Arabic Literature and Heritage Channel"
@@ -20840,6 +20907,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة الأدعية والأذكار اليومية"
         data-ar="قناة الأدعية والأذكار اليومية"
         data-en="Daily Supplications and Adhkar Channel"
@@ -20856,6 +20924,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة التراجم والتاريخ والسير"
         data-ar="قناة التراجم والتاريخ والسير"
         data-en="Translation, History, and Biographies Channel"
@@ -20872,6 +20941,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="mix"
+        data-mix-sub="pillars"
     data-station="الصلاة"
     data-ar="الصلاة"
     data-en="Prayer"
@@ -20904,6 +20974,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
     data-category="mix"
+        data-mix-sub="pillars"
     data-station="الزكاة"
     data-ar="الزكاة"
     data-en="Zakat"
@@ -20930,6 +21001,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="alukah"
         data-station="قناة الحج الألوكة"
         data-ar="قناة الحج الألوكة"
         data-en="Hajj Channel"
@@ -20946,6 +21018,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="occasions"
         data-station="قناة شهر رمضان المبارك"
         data-ar="قناة شهر رمضان المبارك"
         data-en="Ramadan Channel"
@@ -20962,6 +21035,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="occasions"
         data-station="شهر رمضان المبارك"
         data-ar="شهر رمضان المبارك"
         data-en="Ramadan Mubarak"
@@ -20978,6 +21052,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="occasions"
         data-station="تكبيرات العيد المبارك"
         data-ar="تكبيرات العيد المبارك"
         data-en="Blessed Eid Takbeerat"
@@ -20994,6 +21069,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="occasions"
         data-station="ستة أيام من شوال"
         data-ar="ستة أيام من شوال"
         data-en="Six Days of Shawwal"
@@ -21010,6 +21086,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="occasions"
         data-station="عشر ذي الحجة"
         data-ar="عشر ذي الحجة"
         data-en="Ten Days of Dhul Hijjah"
@@ -21026,6 +21103,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="occasions"
         data-station="يوم عاشوراء"
         data-ar="يوم عاشوراء"
         data-en="The Day of Ashoora"
@@ -21042,6 +21120,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="radios"
         data-station="إذاعة النهج الواضح"
         data-ar="إذاعة النهج الواضح"
         data-en="An-Nahj Al-Wadih Radio"
@@ -21058,6 +21137,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="radios"
         data-station="إذاعة حسنى الناس للناس"
         data-ar="إذاعة حسنى الناس للناس"
         data-en="Hosna Radio People for People"
@@ -21074,6 +21154,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="radios"
         data-station="FM 100.3 إذاعة طريق السلف ليبيا"
         data-ar="FM 100.3 إذاعة طريق السلف ليبيا"
         data-en="The Salaf Way FM 100.3"
@@ -21090,6 +21171,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="radios"
         data-station="إذاعة ذكركم جرهم اليمن"
         data-ar="إذاعة ذكركم جرهم"
         data-en="Dhikrakum Jerhum Yemen Radio"
@@ -21106,6 +21188,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="fiqh"
         data-station="راديو كتاب الاختيارات الفقهية"
         data-ar="راديو كتاب الاختيارات الفقهية"
         data-en="Islamic Jurisprudence Choices Radio"
@@ -21122,6 +21205,7 @@ data-adhkar-general="1"
 
 <button class="button palestine"
         data-category="mix"
+        data-mix-sub="fiqh"
         data-station="راديو الفتاوى الفقهية"
         data-ar="راديو الفتاوى الفقهية"
         data-en="Islamic Fatwas Radio"
@@ -24893,7 +24977,7 @@ document.getElementById('nextButton').addEventListener('click', function() {
 let _userPickedFilter = false;
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.filter-button, .adhkar-sub-btn, .more-sub-btn, .livetv-sub-btn').forEach(function(btn) {
+    document.querySelectorAll('.filter-button, .adhkar-sub-btn, .sira-sub-btn, .more-sub-btn, .livetv-sub-btn').forEach(function(btn) {
         btn.addEventListener('click', function() { _userPickedFilter = true; });
     });
 });
@@ -24929,6 +25013,8 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
         // إضافة ارتفاع الفلاتر الفرعية لو ظاهرة
         if (adhkarSub && adhkarSub.classList.contains('visible')) stickyH += adhkarSub.offsetHeight;
         if (moreSub   && moreSub.classList.contains('visible'))   stickyH += moreSub.offsetHeight;
+        var siraSub2 = document.getElementById('sira-subfilter');
+        if (siraSub2  && siraSub2.classList.contains('visible'))  stickyH += siraSub2.offsetHeight;
 
         // هامش إضافي حسب حجم الشاشة
         var w = window.innerWidth;
@@ -24973,7 +25059,7 @@ function filterStations(category) {
   updateButtonIndices();
 
   // الأقسام التي لها فلاتر فرعية → لا نسكرول هنا، ينتظر اختيار الفرعي
-  var _hasSubFilter = (category === 'Adhkar' || category === 'More' || category === 'LiveTV' || category === 'QuranSciences' || category === 'QuranKarim');
+  var _hasSubFilter = (category === 'Adhkar' || category === 'More' || category === 'LiveTV' || category === 'QuranSciences' || category === 'QuranKarim' || category === 'sira' || category === 'mix');
   if (_userPickedFilter && !_hasSubFilter) {
     var _firstVisible = Array.from(
       document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)')
@@ -25127,7 +25213,7 @@ function toggleLanguage() {
     button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
   });
 
-  document.querySelectorAll("#adhkar-subfilter .adhkar-sub-btn, #more-subfilter .more-sub-btn, #livetv-subfilter .livetv-sub-btn").forEach(button => {
+  document.querySelectorAll("#adhkar-subfilter .adhkar-sub-btn, #sira-subfilter .sira-sub-btn, #more-subfilter .more-sub-btn, #livetv-subfilter .livetv-sub-btn").forEach(button => {
     button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
   });
 
@@ -26515,7 +26601,7 @@ let toggleTimeout = null;
 
 function updateFilterLanguage(lang) {
   document.querySelectorAll(
-    '#filters-container .filter-button, #viewFavoritesButton, .adhkar-sub-btn, .more-sub-btn, .livetv-sub-btn, .qurankarim-sub-btn, .quransciences-sub-btn'
+    '#filters-container .filter-button, #viewFavoritesButton, .adhkar-sub-btn, .sira-sub-btn, .more-sub-btn, .livetv-sub-btn, .qurankarim-sub-btn, .quransciences-sub-btn'
   ).forEach(button => {
     const val = button.getAttribute('data-' + lang);
     if (val) button.textContent = val;
@@ -26613,6 +26699,30 @@ function filterMoreSub(subType, btn) {
             if (!_moreTarget && b.style.display !== 'none') _moreTarget = b;
         });
         smartScrollToStations(_moreTarget, 80);
+    }
+}
+
+function filterSiraSub(subType, btn) {
+    document.querySelectorAll('.sira-sub-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    document.querySelectorAll('button[data-category="sira"]').forEach(function(b) {
+        if (subType === 'all') {
+            b.style.display = 'block';
+        } else {
+            b.style.display = (b.getAttribute('data-sira-sub') === subType) ? 'block' : 'none';
+        }
+    });
+
+    if (typeof updateButtonIndices === 'function') updateButtonIndices();
+    _scrollActiveBtnInStrip(btn);
+
+    if (_userPickedFilter) {
+        var _siraTarget = null;
+        document.querySelectorAll('button[data-category="sira"]').forEach(function(b) {
+            if (!_siraTarget && b.style.display !== 'none') _siraTarget = b;
+        });
+        smartScrollToStations(_siraTarget, 80);
     }
 }
 
@@ -26821,6 +26931,28 @@ filterStations = function(category) {
 
     _origFilterStations(category === 'QuranSciences' ? 'Translation' : category === 'QuranKarim' ? 'Quran' : category);
 
+    // Handle Sira sub-filter visibility
+    var siraSub = document.getElementById('sira-subfilter');
+    if (siraSub) {
+        if (category === 'sira') {
+            siraSub.classList.add('visible');
+            document.querySelectorAll('.sira-sub-btn').forEach(b => b.classList.remove('active'));
+            var allSiraBtn = siraSub.querySelector('[data-sub="all"]');
+            if (allSiraBtn) allSiraBtn.classList.add('active');
+            document.querySelectorAll('button[data-category="sira"]').forEach(function(b) {
+                b.style.display = 'block';
+            });
+            if (typeof updateButtonIndices === 'function') updateButtonIndices();
+            setTimeout(function() {
+                siraSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                siraSub.classList.add('highlight-attention');
+                setTimeout(function() { siraSub.classList.remove('highlight-attention'); }, 1800);
+            }, 120);
+        } else {
+            siraSub.classList.remove('visible');
+        }
+    }
+
     var sub = document.getElementById('adhkar-subfilter');
     if (!sub) return;
 
@@ -26854,7 +26986,54 @@ filterStations = function(category) {
         sub.classList.remove('visible');
         currentAdhkarSub = 'all';
     }
+
+    // Handle mix (محطات إسلامية) sub-filter visibility
+    var mixSub = document.getElementById('mix-subfilter');
+    if (mixSub) {
+        if (category === 'mix') {
+            mixSub.classList.add('visible');
+            document.querySelectorAll('.mix-sub-btn').forEach(b => b.classList.remove('active'));
+            var allMixBtn = mixSub.querySelector('[data-sub="all"]');
+            if (allMixBtn) allMixBtn.classList.add('active');
+            // Show all mix stations
+            document.querySelectorAll('button[data-category="mix"]').forEach(function(b) {
+                b.style.display = 'block';
+            });
+            if (typeof updateButtonIndices === 'function') updateButtonIndices();
+            setTimeout(function() {
+                mixSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                mixSub.classList.add('highlight-attention');
+                setTimeout(function() { mixSub.classList.remove('highlight-attention'); }, 1800);
+            }, 120);
+        } else {
+            mixSub.classList.remove('visible');
+        }
+    }
 };
+
+function filterMixSub(subType, btn) {
+    document.querySelectorAll('.mix-sub-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    document.querySelectorAll('button[data-category="mix"]').forEach(function(b) {
+        if (subType === 'all') {
+            b.style.display = 'block';
+        } else {
+            b.style.display = (b.getAttribute('data-mix-sub') === subType) ? 'block' : 'none';
+        }
+    });
+
+    if (typeof updateButtonIndices === 'function') updateButtonIndices();
+    if (typeof _scrollActiveBtnInStrip === 'function') _scrollActiveBtnInStrip(btn);
+
+    if (typeof _userPickedFilter !== 'undefined' && _userPickedFilter) {
+        var _mixTarget = null;
+        document.querySelectorAll('button[data-category="mix"]').forEach(function(b) {
+            if (!_mixTarget && b.style.display !== 'none') _mixTarget = b;
+        });
+        if (typeof smartScrollToStations === 'function') smartScrollToStations(_mixTarget, 80);
+    }
+}
 
 updateFilterLanguage(siteLanguage);
 
