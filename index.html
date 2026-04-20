@@ -25559,9 +25559,23 @@ document.getElementById('searchInput').addEventListener('input', function() {
 });
 
 document.getElementById('randomButton').addEventListener('click', function () {
+    // ─── أوقات ذروة أمريكا وأوروبا (بتوقيت UTC) ──────────────────────────────
+    const _now = new Date();
+    const _utcH = _now.getUTCHours();
+    // أوروبا: 15:00–22:00 UTC | أمريكا: 21:00–03:00 UTC
+    const _isWesternPeak = (_utcH >= 15 && _utcH < 22) || (_utcH >= 21 || _utcH < 3);
+
+    // الفئات المسموح بها في الوضع العشوائي الاعتيادي
     const allowedCategories = [
         'reciters', 'mojawwad', 'Quran', 'surah', 'Monshawiiyat',
          'Translation'
+    ];
+
+    // فئات مُرجَّحة لأوقات الذروة الغربية (Translation + Foreign يأخذان ~60%)
+    const westernPeakCategories = [
+        'Translation', 'Translation', 'Translation',
+        'Foreign', 'Foreign', 'Foreign',
+        'reciters', 'Quran', 'mojawwad', 'tafsir'
     ];
 
     const allButtons = Array.from(document.querySelectorAll('.button.palestine'));
@@ -25571,9 +25585,22 @@ document.getElementById('randomButton').addEventListener('click', function () {
     let useAllowedOnly = visibleButtons.length === allButtons.length;
 
     if (useAllowedOnly) {
-        visibleButtons = visibleButtons.filter(button =>
-            allowedCategories.includes(button.getAttribute('data-category'))
-        );
+        if (_isWesternPeak) {
+            // اختر فئة من القائمة الغربية المرجَّحة
+            const _pickedCat = westernPeakCategories[Math.floor(Math.random() * westernPeakCategories.length)];
+            const _catButtons = visibleButtons.filter(button =>
+                button.getAttribute('data-category') === _pickedCat
+            );
+            // إن لم توجد محطات من الفئة المختارة، ارجع إلى الفئات المسموح بها
+            visibleButtons = _catButtons.length > 0 ? _catButtons :
+                visibleButtons.filter(button =>
+                    allowedCategories.includes(button.getAttribute('data-category'))
+                );
+        } else {
+            visibleButtons = visibleButtons.filter(button =>
+                allowedCategories.includes(button.getAttribute('data-category'))
+            );
+        }
     }
 
     if (visibleButtons.length === 0) return;
@@ -26691,6 +26718,8 @@ function handleTripleClick(element) {
  document.addEventListener("DOMContentLoaded", function () {
     const now = new Date();
     const hour = now.getHours();
+
+    // ─── الفئات الاعتيادية (الاختيار العشوائي الافتراضي) ─────────────────────
     const categories = [
       'reciters', 'reciters', 'reciters', 'rewayat', 'mojawwad',
       'teachers', 'tafsir', 'Quran', 'Quran', 'Quran', 'Quran',
@@ -26698,8 +26727,25 @@ function handleTripleClick(element) {
       'scholars', 'sira', 'Monshawiiyat', 'mix'
     ];
 
+    // ─── فئات مُرجَّحة للزوار الأمريكيين والأوروبيين ────────────────────────
+    // أوروبا ذروة: 18:00–23:00 بتوقيت القاهرة (UTC+3) ≈ 15:00–20:00 UTC
+    // أمريكا ذروة: 20:00–02:00 بتوقيت القاهرة     ≈ 17:00–23:00 UTC
+    // التحقق بتوقيت UTC حتى يعمل بصرف النظر عن جهاز الزائر
+    const utcHour = now.getUTCHours();
+    const isEuropePeak  = (utcHour >= 15 && utcHour < 22); // 15:00–22:00 UTC
+    const isAmericaPeak = (utcHour >= 21 || utcHour < 3);  // 21:00–03:00 UTC
+
+    // فئات مُرجَّحة تجعل Translation و Foreign أكثر ظهوراً (60 %)
+    const categoriesWesternPeak = [
+      'Translation', 'Translation', 'Translation',
+      'Foreign', 'Foreign', 'Foreign',
+      'reciters', 'Quran', 'Quran',
+      'tafsir', 'mojawwad', 'Radio'
+    ];
+
     let selectedCategory = null;
 
+    // ─── أوقات الأذكار: الصباح والمساء (بتوقيت الجهاز المحلي) ───────────────
     if (hour >= 4 && hour < 11) {
         selectedCategory = 'Adhkar';
     }
@@ -26708,6 +26754,40 @@ function handleTripleClick(element) {
         selectedCategory = 'Adhkar';
     }
 
+    // ─── ذروة الغرب: أفضل Translation / foreign ─────────────────────────────
+    else if (isEuropePeak || isAmericaPeak) {
+        const westPool = categoriesWesternPeak;
+        const lastStation = localStorage.getItem('lastStation');
+        if (lastStation) {
+            try {
+                const parsed = JSON.parse(lastStation);
+                const allBtns = document.querySelectorAll('.button[data-category]');
+                let foundCategory = null;
+                allBtns.forEach(btn => {
+                    if (
+                        btn.getAttribute('data-url') === parsed.url ||
+                        btn.getAttribute('data-ar') === parsed.name ||
+                        (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(parsed.url))
+                    ) {
+                        foundCategory = btn.getAttribute('data-category');
+                    }
+                });
+                // إذا كانت المحطة الأخيرة Translation أو Foreign نكمل معها
+                // وإلا نختار من مجموعة الذروة الغربية
+                if (foundCategory && (foundCategory === 'Translation' || foundCategory === 'Foreign')) {
+                    selectedCategory = foundCategory;
+                } else {
+                    selectedCategory = westPool[Math.floor(Math.random() * westPool.length)];
+                }
+            } catch(e) {
+                selectedCategory = westPool[Math.floor(Math.random() * westPool.length)];
+            }
+        } else {
+            selectedCategory = westPool[Math.floor(Math.random() * westPool.length)];
+        }
+    }
+
+    // ─── الأوقات العادية: الاختيار العشوائي الاعتيادي ───────────────────────
     else {
         const lastStation = localStorage.getItem('lastStation');
         if (lastStation) {
