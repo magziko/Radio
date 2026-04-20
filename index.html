@@ -25289,11 +25289,13 @@ function updateStatus(message, enMessage) {
 window.addEventListener('load', function() {
     initializeRadio();
 
-    if (localStorage.getItem('siteLang') === 'en') {
-
+    // طبّق اللغة المكتشفة (من المتصفح أو المحفوظة) عند التحميل
+    if (!isArabic) {
+        // اللغة الإنجليزية مطلوبة → نعيّن العربية أولاً ثم نبدّل
         isArabic = true;
         toggleLanguage();
     }
+    // إذا كانت isArabic = true فالصفحة محمّلة بالعربية افتراضياً → لا نحتاج شيئاً
 });
 
 function updateButtonColor() {
@@ -25667,7 +25669,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 });
 
- let isArabic = localStorage.getItem('siteLang') !== 'en';
+ // اللغة: إذا كان المستخدم اختار من قبل → استخدم اختياره المحفوظ
+ // إذا لم يكن هناك اختيار محفوظ → اكتشف لغة المتصفح تلقائياً
+ let isArabic = (function() {
+   var saved = localStorage.getItem('siteLang');
+   if (saved !== null) {
+     // المستخدم اختار مسبقاً → احترم اختياره
+     return saved !== 'en';
+   }
+   // لا يوجد اختيار محفوظ → اكتشف لغة المتصفح
+   var browserLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+   // العربية وجميع اللهجات العربية (ar, ar-sa, ar-eg, ...)
+   return browserLang.startsWith('ar');
+ })();
 
 function toggleSettingsPanel() {
   var panel  = document.getElementById('settings-panel');
