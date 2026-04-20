@@ -392,11 +392,52 @@ width: 98%;
   transform: scale(1.2);
 }
 
+@media (max-width: 991px) {
+  .controls-row .input-group {
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 8px 14px;
+    gap: 8px;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .controls-row .input-group label {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .controls-row .input-group input[type="number"] {
+    width: 80px;
+    padding: 6px 8px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .controls-row .input-group input[type="checkbox"] {
+    transform: scale(1.1);
+    flex-shrink: 0;
+  }
+}
+
 @media (max-width: 600px) {
   .input-group {
     width: 99%;
     font-size: 14px;
     padding: 9px 4px;
+  }
+  .controls-row .input-group {
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 7px 12px;
+    justify-content: center;
+  }
+  .controls-row .input-group label {
+    font-size: 13px;
+  }
+  .controls-row .input-group input[type="number"] {
+    width: 75px;
+    padding: 5px 7px;
+    font-size: 12px;
   }
 }
 
@@ -451,10 +492,8 @@ audio {
 }
 
 .filter-button {
-  flex: 0 0 160px;
-  min-width: 160px;
-  height: 50px;
-
+  flex: 0 0 120px;
+    height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -520,26 +559,48 @@ audio {
 }
 
 @media (max-width: 767px) {
+
   #filters-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
     gap: 6px;
   }
 
-  .filter-button {
+  .filter-button,
+  #viewFavoritesButton {
     flex: unset;
     min-width: unset;
     width: 100%;
-    height: 42px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     font-size: 12px;
+    font-weight: 600;
+    font-family: Arial, Tahoma, "Segoe UI", sans-serif;
+
     padding: 0 6px;
     border-radius: 6px;
+
+    box-sizing: border-box;
+  }
+
+  /* توحيد الشكل (المهم) */
+  #viewFavoritesButton {
+    border: 2px solid currentColor !important;
+    background: #fff !important;
+    color: red !important;
   }
 
   .filter-button:hover,
-  .filter-button.selected {
+  .filter-button.selected,
+  #viewFavoritesButton:hover,
+  #viewFavoritesButton.selected {
     transform: scale(1.03);
   }
+
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -1392,6 +1453,12 @@ body.dark-mode .search-input:focus {
     background: #252535 !important;
     border-color: #64b5f6 !important;
     box-shadow: 0 0 18px rgba(100, 181, 246, 0.3) !important;
+}
+
+body.dark-mode #settings-toggle-bar {
+    background: linear-gradient(to right, #1a2a3a, #1e1e2e, #1a2a3a) !important;
+    border-color: #333 !important;
+    color: #64b5f6 !important;
 }
 
 body.dark-mode .search-input::placeholder {
@@ -5405,7 +5472,7 @@ setInterval(() => {
 <button class="filter-button" data-ar="قراء" data-en="Reciters" onclick="filterStations('reciters')">قراء</button>
 
 <button class="filter-button" data-ar="محطات القرآن" data-en="Quran Stations" onclick="filterStations('Radio')">محطات القرآن</button>
-<button class="filter-button" data-ar="الإذاعات العالمية" data-en="International" onclick="filterStations('Foreign')">الإذاعات العالمية</button>
+
 <button class="filter-button" data-ar="السيرة والحديث" data-en="Seerah & Hadith" onclick="filterStations('sira')">السيرة والحديث</button>
 
 <button class="filter-button" data-ar="علماء" data-en="Scholars" onclick="filterStations('scholars')">علماء</button>
@@ -5490,6 +5557,7 @@ setInterval(() => {
 <div class="subfilter-scroll-wrap" id="mix-subfilter">
 <div class="subfilter-scroll-strip">
 <button class="mix-sub-btn active" data-sub="all"      data-ar="🕌 الكل"              data-en="All"              onclick="filterMixSub('all',this)">🕌 الكل</button>
+<button class="mix-sub-btn"        data-sub="foreign"  data-ar="🌍 إذاعات عالمية"     data-en="🌍 International"  onclick="filterMixSub('foreign',this)">🌍 إذاعات عالمية</button>
 <button class="mix-sub-btn"        data-sub="alukah"   data-ar="📡 قنوات الألوكة"     data-en="Alukah Channels"  onclick="filterMixSub('alukah',this)">📡 قنوات الألوكة</button>
 <button class="mix-sub-btn"        data-sub="pillars"  data-ar="🤲 أركان الإسلام"     data-en="Pillars of Islam" onclick="filterMixSub('pillars',this)">🤲 أركان الإسلام</button>
 <button class="mix-sub-btn"        data-sub="occasions" data-ar="🌙 مناسبات إسلامية" data-en="Islamic Occasions" onclick="filterMixSub('occasions',this)">🌙 مناسبات إسلامية</button>
@@ -5499,25 +5567,55 @@ setInterval(() => {
 </div>
 
 <div class="search-container">
+
+  <!-- زر فتح/إغلاق الإعدادات -->
+  <div id="settings-toggle-bar" onclick="toggleSettingsPanel()" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto 6px auto;
+    padding: 7px 14px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #e3f2fd 0%, #fff 50%, #e3f2fd 100%);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    border: 1px solid #d0dce8;
+    font-weight: 700;
+    font-size: 14px;
+    color: #1e90ff;
+    user-select: none;
+    transition: background 0.2s;
+  ">
+    <span id="settings-toggle-label" data-ar="⚙️ الإعدادات" data-en="⚙️ Settings">⚙️ الإعدادات</span>
+    <span id="settings-arrow" style="font-size:12px; transition: transform 0.3s;">▼</span>
+  </div>
+
+  <!-- لوحة الإعدادات القابلة للطي -->
+  <div id="settings-panel" style="
+    display: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  ">
   <div class="controls-row">
 
     <div class="input-group">
-       <label for="autoSwitchTimer"></label>
-<input type="number" id="autoSwitchTimer" min="1" data-ar="أدخل عدد الدقائق" data-en="Enter number of minutes" placeholder="أدخل عدد الدقائق">
-    <label for="autoSwitchCheckbox" data-ar="التنقل الآلي " data-en="Auto Switch">التنقل الآلي </label>
-    <input type="checkbox" id="autoSwitchCheckbox">
+      <label for="autoSwitchCheckbox" data-ar="التنقل الآلي" data-en="Auto Switch">التنقل الآلي</label>
+      <input type="number" id="autoSwitchTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" placeholder="الدقائق">
+      <input type="checkbox" id="autoSwitchCheckbox">
     </div>
 
     <input type="text" id="searchInput" class="search-input" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
 
     <div class="input-group">
-<label for="sleepTimer"></label>
-<input type="number" id="sleepTimer" min="1" data-ar="أدخل عدد الدقائق" data-en="Enter number of minutes" placeholder="أدخل عدد الدقائق">
-
-<label for="sleepCheckbox" data-ar="مؤقت الإيقاف" data-en="Sleep Mode">مؤقت الإيقاف </label>
-<input type="checkbox" id="sleepCheckbox">
+      <label for="sleepCheckbox" data-ar="مؤقت الإيقاف" data-en="Sleep Mode">مؤقت الإيقاف</label>
+      <input type="number" id="sleepTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" placeholder="الدقائق">
+      <input type="checkbox" id="sleepCheckbox">
     </div>
 
+  </div>
   </div>
 
 <div class="search-wrapper">
@@ -5843,21 +5941,21 @@ setInterval(() => {
                    return false;">&#x2764;</span>
 </button>
 
-<button class="button palestine"
-        data-category="Foreign"
-        data-station="Quran for the Soul San Francisco"
-        data-ar="القرآن للروح سان فرانسيسكو"
-        data-en="Quran for the Soul San Francisco"
-        data-url="https://islamicbulletin.site:8102/stream"
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://islamicbulletin.site:8102/stream', '_blank'); } else { toggleRadio(this); }">
-    <span class="flag"></span>
-    <span class="station-text">Quran for the Soul San Francisco</span>
-    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'Quran for the Soul San Francisco');
-                   event.stopPropagation();
-                   return false;">&#x2764;</span>
-</button>
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="Quran for the Soul San Francisco"-->
+<!--        data-ar="القرآن للروح سان فرانسيسكو"-->
+<!--        data-en="Quran for the Soul San Francisco"-->
+<!--        data-url="https://islamicbulletin.site:8102/stream"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://islamicbulletin.site:8102/stream', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">Quran for the Soul San Francisco</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'Quran for the Soul San Francisco');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
 
 <button class="button palestine"
         data-category="Foreign"
@@ -5874,6 +5972,54 @@ setInterval(() => {
                    event.stopPropagation();
                    return false;">&#x2764;</span>
 </button>
+
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="هاتف فرانسيسكو الفرنسية | Français"-->
+<!--        data-ar="هاتف فرانسيسكو الفرنسية"-->
+<!--        data-en="Francisco French Radio"-->
+<!--        data-url="http://104.7.66.64:8099/;?icy=http"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('http://104.7.66.64:8099/;?icy=http', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">هاتف فرانسيسكو الفرنسية | Français</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'هاتف فرانسيسكو الفرنسية | Français');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
+
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="إذاعة الإيطالية | Italiano"-->
+<!--        data-ar="إذاعة الإيطالية"-->
+<!--        data-en="Italian Radio"-->
+<!--        data-url="http://104.7.66.64:8094/;?icy=http"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('http://104.7.66.64:8094/;?icy=http', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">إذاعة الإيطالية | Italiano</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'إذاعة الإيطالية | Italiano');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
+
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="إذاعة إسلامية أردو | اردو"-->
+<!--        data-ar="إذاعة إسلامية أردو"-->
+<!--        data-en="Islamic Radio Urdu"-->
+<!--        data-url="http://104.7.66.64:8092/;?icy=http"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('http://104.7.66.64:8092/;?icy=http', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">إذاعة إسلامية أردو | اردو</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'إذاعة إسلامية أردو | اردو');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
 
 <button class="button palestine"
         data-category="Foreign"
@@ -5923,6 +6069,70 @@ setInterval(() => {
                    return false;">&#x2764;</span>
 </button>
 
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="إذاعة ماليزيا الملاييّة | Melayu"-->
+<!--        data-ar="إذاعة ماليزيا الملاييّة"-->
+<!--        data-en="Malaysia Radio Melayu"-->
+<!--        data-url="http://104.7.66.64:8008/;?icy=http"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('http://104.7.66.64:8008/;?icy=http', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">إذاعة ماليزيا المَلاييّة | Melayu</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'إذاعة ماليزيا الملاييّة | Melayu');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
+
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="إذاعة الصين الصينية | 中文"-->
+<!--        data-ar="إذاعة الصين الصينية"-->
+<!--        data-en="China Radio Chinese"-->
+<!--        data-url="http://104.7.66.64:8002/;?icy=http"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('http://104.7.66.64:8002/;?icy=http', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">إذاعة الصين الصينية | 中文</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'إذاعة الصين الصينية | 中文');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
+
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="إذاعة إثيوبيا الحبشية | አማርኛ"-->
+<!--        data-ar="إذاعة إثيوبيا الحبشية"-->
+<!--        data-en="Ethiopia Radio Amharic"-->
+<!--        data-url="http://104.7.66.64:8000/;?icy=http"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('http://104.7.66.64:8000/;?icy=http', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">إذاعة إثيوبيا الحبشية | አማርኛ</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'إذاعة إثيوبيا الحبشية | አማርኛ');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
+
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="المراهقين في الدين | English"-->
+<!--        data-ar="المراهقين في الدين"-->
+<!--        data-en="Religion for Youth English"-->
+<!--        data-url="http://104.7.66.64:8003/;?icy=http"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('http://104.7.66.64:8003/;?icy=http', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">المراهقين في الدين | English</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'المراهقين في الدين | English');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
+
 <button class="button palestine"
         data-category="Foreign"
         data-station="muslim vanoli"
@@ -5955,21 +6165,21 @@ setInterval(() => {
                    return false;">&#x2764;</span>
 </button>
 
-<button class="button palestine"
-        data-category="Foreign"
-        data-station="Muslim Community Radio"
-        data-ar="إذاعة المجتمع الإسلامي"
-        data-en="Muslim Community Radio"
-        data-url="https://2mfm.org.au/live"
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://2mfm.org.au/live', '_blank'); } else { toggleRadio(this); }">
-    <span class="flag"></span>
-    <span class="station-text">Muslim Community Radio</span>
-    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'Muslim Community Radio');
-                   event.stopPropagation();
-                   return false;">&#x2764;</span>
-</button>
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="Muslim Community Radio"-->
+<!--        data-ar="إذاعة المجتمع الإسلامي"-->
+<!--        data-en="Muslim Community Radio"-->
+<!--        data-url="https://2mfm.org.au/live"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://2mfm.org.au/live', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">Muslim Community Radio</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'Muslim Community Radio');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
 
 <button class="button palestine"
         data-category="Foreign"
@@ -6003,21 +6213,21 @@ setInterval(() => {
                    return false;">&#x2764;</span>
 </button>
 
-<button class="button palestine"
-        data-category="Foreign"
-        data-station="Islamic Bulletin from San Francisco"
-        data-ar="النشرة الإسلامية من سان فرانسيسكو"
-        data-en="Islamic Bulletin from San Francisco"
-        data-url="https://islamicbulletin.site:8076/stream"
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://islamicbulletin.site:8076/stream', '_blank'); } else { toggleRadio(this); }">
-    <span class="flag"></span>
-    <span class="station-text">Islamic Bulletin from San Francisco</span>
-    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'Islamic Bulletin from San Francisco');
-                   event.stopPropagation();
-                   return false;">&#x2764;</span>
-</button>
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="Islamic Bulletin from San Francisco"-->
+<!--        data-ar="النشرة الإسلامية من سان فرانسيسكو"-->
+<!--        data-en="Islamic Bulletin from San Francisco"-->
+<!--        data-url="https://islamicbulletin.site:8076/stream"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://islamicbulletin.site:8076/stream', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">Islamic Bulletin from San Francisco</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'Islamic Bulletin from San Francisco');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
 
 <button class="button palestine"
         data-category="Foreign"
@@ -25015,6 +25225,8 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
         if (moreSub   && moreSub.classList.contains('visible'))   stickyH += moreSub.offsetHeight;
         var siraSub2 = document.getElementById('sira-subfilter');
         if (siraSub2  && siraSub2.classList.contains('visible'))  stickyH += siraSub2.offsetHeight;
+        var mixSub2 = document.getElementById('mix-subfilter');
+        if (mixSub2   && mixSub2.classList.contains('visible'))   stickyH += mixSub2.offsetHeight;
 
         // هامش إضافي حسب حجم الشاشة
         var w = window.innerWidth;
@@ -25046,11 +25258,13 @@ function filterStations(category) {
     var isHiddenSub = button.hasAttribute('data-hidden-sub');
     var cat = button.getAttribute('data-category');
     if (category === 'all') {
-      button.style.display = isHiddenSub ? 'none' : 'block';
+      button.style.display = (isHiddenSub || cat === 'Foreign') ? 'none' : 'block';
     } else if (category === 'More') {
       button.style.display = moreSubCats.includes(cat) ? 'block' : 'none';
     } else if (category === 'LiveTV') {
       button.style.display = ltvSubCats.includes(cat) ? 'block' : 'none';
+    } else if (category === 'mix') {
+      button.style.display = (cat === 'mix') ? 'block' : 'none';
     } else {
       button.style.display = (cat === category) ? 'block' : 'none';
     }
@@ -25190,6 +25404,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
  let isArabic = localStorage.getItem('siteLang') !== 'en';
 
+function toggleSettingsPanel() {
+  var panel  = document.getElementById('settings-panel');
+  var arrow  = document.getElementById('settings-arrow');
+  var isOpen = panel.style.display !== 'none';
+
+  if (isOpen) {
+    panel.style.display = 'none';
+    arrow.style.transform = 'rotate(0deg)';
+  } else {
+    panel.style.display = 'block';
+    arrow.style.transform = 'rotate(180deg)';
+    // نركز على السيرش لما يفتح
+    setTimeout(function() {
+      var s = document.getElementById('searchInput');
+      if (s) s.focus();
+    }, 200);
+  }
+}
+
 function toggleLanguage() {
   isArabic = !isArabic;
   localStorage.setItem('siteLang', isArabic ? 'ar' : 'en');
@@ -25213,7 +25446,7 @@ function toggleLanguage() {
     button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
   });
 
-  document.querySelectorAll("#adhkar-subfilter .adhkar-sub-btn, #sira-subfilter .sira-sub-btn, #more-subfilter .more-sub-btn, #livetv-subfilter .livetv-sub-btn").forEach(button => {
+  document.querySelectorAll("#adhkar-subfilter .adhkar-sub-btn, #sira-subfilter .sira-sub-btn, #more-subfilter .more-sub-btn, #livetv-subfilter .livetv-sub-btn, #mix-subfilter .mix-sub-btn").forEach(button => {
     button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
   });
 
@@ -25222,6 +25455,10 @@ function toggleLanguage() {
   });
 
   // ترجمة قسم المشاركة
+  // ترجمة زر الإعدادات
+  var settingsLabel = document.getElementById('settings-toggle-label');
+  if (settingsLabel) settingsLabel.textContent = isArabic ? settingsLabel.getAttribute('data-ar') : settingsLabel.getAttribute('data-en');
+
   var shareTitle = document.getElementById('share-title');
   if (shareTitle) shareTitle.textContent = isArabic ? shareTitle.getAttribute('data-ar') : shareTitle.getAttribute('data-en');
   document.querySelectorAll('.share-btn').forEach(function(btn) {
@@ -27015,20 +27252,32 @@ function filterMixSub(subType, btn) {
     document.querySelectorAll('.mix-sub-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
-    document.querySelectorAll('button[data-category="mix"]').forEach(function(b) {
-        if (subType === 'all') {
+    if (subType === 'foreign') {
+        document.querySelectorAll('button[data-category="mix"]').forEach(function(b) {
+            b.style.display = 'none';
+        });
+        document.querySelectorAll('button[data-category="Foreign"]').forEach(function(b) {
             b.style.display = 'block';
-        } else {
-            b.style.display = (b.getAttribute('data-mix-sub') === subType) ? 'block' : 'none';
-        }
-    });
+        });
+    } else {
+        document.querySelectorAll('button[data-category="Foreign"]').forEach(function(b) {
+            b.style.display = 'none';
+        });
+        document.querySelectorAll('button[data-category="mix"]').forEach(function(b) {
+            if (subType === 'all') {
+                b.style.display = 'block';
+            } else {
+                b.style.display = (b.getAttribute('data-mix-sub') === subType) ? 'block' : 'none';
+            }
+        });
+    }
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
     if (typeof _scrollActiveBtnInStrip === 'function') _scrollActiveBtnInStrip(btn);
 
     if (typeof _userPickedFilter !== 'undefined' && _userPickedFilter) {
         var _mixTarget = null;
-        document.querySelectorAll('button[data-category="mix"]').forEach(function(b) {
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
             if (!_mixTarget && b.style.display !== 'none') _mixTarget = b;
         });
         if (typeof smartScrollToStations === 'function') smartScrollToStations(_mixTarget, 80);
