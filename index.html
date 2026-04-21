@@ -1512,6 +1512,7 @@ body.dark-mode #adhkar-subfilter .subfilter-scroll-strip,
 body.dark-mode #sira-subfilter .subfilter-scroll-strip,
 body.dark-mode #quransciences-subfilter .subfilter-scroll-strip,
 body.dark-mode #qurankarim-subfilter .subfilter-scroll-strip,
+body.dark-mode #radio-subfilter .subfilter-scroll-strip,
 body.dark-mode #mix-subfilter .subfilter-scroll-strip {
     background: rgba(30, 30, 60, 0.5) !important;
     border-color: rgba(100,181,246,0.3) !important;
@@ -1521,6 +1522,7 @@ body.dark-mode .adhkar-sub-btn,
 body.dark-mode .sira-sub-btn,
 body.dark-mode .quransciences-sub-btn,
 body.dark-mode .qurankarim-sub-btn,
+body.dark-mode .radio-sub-btn,
 body.dark-mode .mix-sub-btn {
     background: #1e1e2e !important;
     color: #64b5f6 !important;
@@ -1531,6 +1533,7 @@ body.dark-mode .adhkar-sub-btn:hover,
 body.dark-mode .sira-sub-btn:hover,
 body.dark-mode .quransciences-sub-btn:hover,
 body.dark-mode .qurankarim-sub-btn:hover,
+body.dark-mode .radio-sub-btn:hover,
 body.dark-mode .mix-sub-btn:hover {
     background: #1e3a5f !important;
 }
@@ -1539,6 +1542,7 @@ body.dark-mode .adhkar-sub-btn.active,
 body.dark-mode .sira-sub-btn.active,
 body.dark-mode .quransciences-sub-btn.active,
 body.dark-mode .qurankarim-sub-btn.active,
+body.dark-mode .radio-sub-btn.active,
 body.dark-mode .mix-sub-btn.active {
     background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%) !important;
     color: #fff !important;
@@ -2045,6 +2049,50 @@ body.dark-mode .subfilter-scroll-strip button.active {
 /* quransciences */
 #quransciences-subfilter { display: none; }
 #quransciences-subfilter.visible { display: block; }
+/* radio-external subfilter */
+#radio-subfilter { display: none; }
+#radio-subfilter.visible { display: block; }
+
+body.dark-mode #radio-subfilter .subfilter-scroll-strip {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.10);
+}
+
+.radio-sub-btn {
+  background: #fff;
+  color: #1e90ff;
+  border: 2px solid #1e90ff;
+}
+
+body.dark-mode .radio-sub-btn {
+  background: rgba(255,255,255,0.06);
+  color: #90caf9;
+  border-color: rgba(144,202,249,0.35);
+}
+
+.radio-sub-btn:hover {
+  background: #1e90ff !important;
+  color: #fff !important;
+}
+
+body.dark-mode .radio-sub-btn:hover {
+  background: rgba(144,202,249,0.22) !important;
+  color: #fff !important;
+}
+
+.radio-sub-btn.active {
+  background: #1e90ff !important;
+  color: #fff !important;
+  border-color: #1565c0 !important;
+  font-weight: 700;
+}
+
+body.dark-mode .radio-sub-btn.active {
+  background: rgba(144,202,249,0.25) !important;
+  color: #90caf9 !important;
+  border-color: rgba(144,202,249,0.6) !important;
+}
+
 /* qurankarim */
 #qurankarim-subfilter { display: none; }
 #qurankarim-subfilter.visible { display: block; }
@@ -5506,7 +5554,7 @@ setInterval(() => {
 <button class="filter-button" data-ar="القرآن الكريم" data-en="Holy Quran" onclick="filterStations('QuranKarim')">القرآن الكريم</button>
 <button class="filter-button" data-ar="قراء" data-en="Reciters" onclick="filterStations('reciters')">قراء</button>
 
-<button class="filter-button" data-ar="محطات القرآن" data-en="Quran Stations" onclick="filterStations('Radio')">محطات القرآن</button>
+<button class="filter-button" data-ar="📻 إذاعات قرآنية" data-en="Quran Radios" onclick="filterStations('Radio')">📻 إذاعات قرآنية</button>
 
 <button class="filter-button" data-ar="السيرة والحديث" data-en="Seerah & Hadith" onclick="filterStations('sira')">السيرة والحديث</button>
 
@@ -5589,6 +5637,13 @@ setInterval(() => {
 </div>
 </div>
 
+<div class="subfilter-scroll-wrap" id="radio-subfilter">
+<div class="subfilter-scroll-strip">
+<button class="radio-sub-btn active" data-sub="radio-live" data-ar="📻 بث مباشر" data-en="Live Stream" onclick="filterRadioSub('radio-live',this)">📻 بث مباشر</button>
+<button class="radio-sub-btn" data-sub="radio-external" data-ar="🌐 موقع خارجي" data-en="External Site" onclick="filterRadioSub('radio-external',this)">🌐 موقع خارجي</button>
+</div>
+</div>
+
 <div class="subfilter-scroll-wrap" id="mix-subfilter">
 <div class="subfilter-scroll-strip">
 <button class="mix-sub-btn active" data-sub="all"      data-ar="🕌 الكل"              data-en="All"              onclick="filterMixSub('all',this)">🕌 الكل</button>
@@ -5603,7 +5658,7 @@ setInterval(() => {
 
 <div class="subfilter-scroll-wrap" id="reciters-subfilter">
 <div class="subfilter-scroll-strip">
-<button class="reciters-sub-btn active" data-sub="radio" data-ar="📻 إذاعة القراء" data-en="📻 Reciters Radio" onclick="filterRecitersSub('radio',this)">📻 إذاعة القراء</button>
+<button class="reciters-sub-btn active" data-sub="radio" data-ar="📻 حفص عن عاصم" data-en="📻 Hafs 'an 'Asim" title="رواية حفص عن عاصم | Hafs 'an 'Asim" onclick="filterRecitersSub('radio',this)">📻 حفص عن عاصم</button>
 <button class="reciters-sub-btn" data-sub="alpha" data-ar="🔤 ترتيب أبجدي" data-en="🔤 A–Z Sort" onclick="filterRecitersSub('alpha',this)">🔤 ترتيب أبجدي</button>
 <button class="reciters-sub-btn" data-sub="mp3" data-ar="🎵 MP3" data-en="🎵 MP3" onclick="filterRecitersSub('mp3',this)">🎵 MP3</button>
 <button class="reciters-sub-btn" data-sub="hussary" data-ar="🌟 الشيخ الحصري" data-en="🌟 Sheikh Al-Hussary" onclick="filterRecitersSub('hussary',this)">🌟 الشيخ الحصري</button>
@@ -5942,6 +5997,54 @@ setInterval(() => {
 
 <button class="button palestine"
         data-category="Radio"
+        data-station="Quran for the Heart San Francisco CA, US"
+        data-ar="القرآن للقلب سان فرانسيسكو"
+        data-en="Quran for the Heart San Francisco CA, US"
+        data-url="https://edge.mixlr.com/channel/rwumx"
+        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://edge.mixlr.com/channel/rwumx', '_blank'); } else { toggleRadio(this); }">
+    <span class="flag"></span>
+    <span class="station-text">Quran for the Heart San Francisco CA, US</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Quran for the Heart San Francisco CA, US');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="Radio"
+        data-station="Quran.uz radio Uzbekistan"
+        data-ar="Quran.uz راديو أوزبكستان"
+        data-en="Quran.uz radio Uzbekistan"
+        data-url="https://radio.islom.uz/quranuz"
+        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://radio.islom.uz/quranuz', '_blank'); } else { toggleRadio(this); }">
+    <span class="flag"></span>
+    <span class="station-text">Quran.uz radio Uzbekistan</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Quran.uz radio Uzbekistan');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="Radio"
+        data-station="radio-muslim-am-1467"
+        data-ar="راديو مسلم AM 1467"
+        data-en="Radio Muslim AM 1467"
+        data-url="https://streaming.radiomuslim.com/;stream/1"
+        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://streaming.radiomuslim.com/;stream/1', '_blank'); } else { toggleRadio(this); }">
+    <span class="flag"></span>
+    <span class="station-text">Radio Muslim AM 1467</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'radio-muslim-am-1467');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="radio-external"
         data-station="إذاعة القرآن الكريم – قطر"
         data-ar="إذاعة القرآن الكريم – قطر"
         data-en="Qatar Quran Radio"
@@ -5955,7 +6058,7 @@ setInterval(() => {
                    return false;">&#x2764;</span>
 </button>
 <button class="button palestine"
-        data-category="Radio"
+        data-category="radio-external"
         data-station="إذاعة القرآن الكريم 106.1 – البحرين"
         data-ar="إذاعة القرآن الكريم 106.1 – البحرين"
         data-en="Holy Quran 106.1 – Bahrain"
@@ -5974,21 +6077,7 @@ setInterval(() => {
                    return false;">&#x2764;</span>
 </button>
 
-<button class="button palestine"
-        data-category="Foreign"
-        data-station="radio-muslim-am-1467"
-        data-ar="راديو مسلم AM 1467"
-        data-en="Radio Muslim AM 1467"
-        data-url="https://streaming.radiomuslim.com/;stream/1"
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://streaming.radiomuslim.com/;stream/1', '_blank'); } else { toggleRadio(this); }">
-    <span class="flag"></span>
-    <span class="station-text">Radio Muslim AM 1467</span>
-    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'radio-muslim-am-1467');
-                   event.stopPropagation();
-                   return false;">&#x2764;</span>
-</button>
+
 
 <!--<button class="button palestine"-->
 <!--        data-category="Foreign"-->
@@ -6006,21 +6095,7 @@ setInterval(() => {
 <!--                   return false;">&#x2764;</span>-->
 <!--</button>-->
 
-<button class="button palestine"
-        data-category="Foreign"
-        data-station="Quran for the Heart San Francisco CA, US"
-        data-ar="القرآن للقلب سان فرانسيسكو"
-        data-en="Quran for the Heart San Francisco CA, US"
-        data-url="https://edge.mixlr.com/channel/rwumx"
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://edge.mixlr.com/channel/rwumx', '_blank'); } else { toggleRadio(this); }">
-    <span class="flag"></span>
-    <span class="station-text">Quran for the Heart San Francisco CA, US</span>
-    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'Quran for the Heart San Francisco CA, US');
-                   event.stopPropagation();
-                   return false;">&#x2764;</span>
-</button>
+
 
 <!--<button class="button palestine"-->
 <!--        data-category="Foreign"-->
@@ -6070,53 +6145,9 @@ setInterval(() => {
 <!--                   return false;">&#x2764;</span>-->
 <!--</button>-->
 
-<button class="button palestine"
-        data-category="Foreign"
-        data-station="Quran.uz radio Uzbekistan"
-        data-ar="Quran.uz راديو أوزبكستان"
-        data-en="Quran.uz radio Uzbekistan"
-        data-url="https://radio.islom.uz/quranuz"
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://radio.islom.uz/quranuz', '_blank'); } else { toggleRadio(this); }">
-    <span class="flag"></span>
-    <span class="station-text">Quran.uz radio Uzbekistan</span>
-    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'Quran.uz radio Uzbekistan');
-                   event.stopPropagation();
-                   return false;">&#x2764;</span>
-</button>
 
-<button class="button palestine"
-        data-category="Foreign"
-        data-station="Saut-ul-Quran Pakistan"
-        data-ar="صوت القرآن باكستان"
-        data-en="Saut-ul-Quran Pakistan"
-        data-url="https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12"
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12', '_blank'); } else { toggleRadio(this); }">
-    <span class="flag"></span>
-    <span class="station-text">Saut-ul-Quran Pakistan</span>
-    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'Saut-ul-Quran Pakistan');
-                   event.stopPropagation();
-                   return false;">&#x2764;</span>
-</button>
 
-<button class="button palestine"
-        data-category="Foreign"
-        data-station="Voice Of MuslimThai - AM 837"
-        data-ar="صوت المسلم التايلاندي - AM 837"
-        data-en="Voice Of MuslimThai - AM 837"
-        data-url="https://radio12.plathong.net/7234/;stream.mp3"
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://radio12.plathong.net/7234/;stream.mp3', '_blank'); } else { toggleRadio(this); }">
-    <span class="flag"></span>
-    <span class="station-text">Voice Of MuslimThai - AM 837</span>
-    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
-    <span class="favorite-icon"
-          onclick="toggleFavorite(event, 'Voice Of MuslimThai - AM 837');
-                   event.stopPropagation();
-                   return false;">&#x2764;</span>
-</button>
+
 
 <!--<button class="button palestine"-->
 <!--        data-category="Foreign"-->
@@ -6182,6 +6213,24 @@ setInterval(() => {
 <!--                   return false;">&#x2764;</span>-->
 <!--</button>-->
 
+
+
+<!--<button class="button palestine"-->
+<!--        data-category="Foreign"-->
+<!--        data-station="Muslim Community Radio"-->
+<!--        data-ar="إذاعة المجتمع الإسلامي"-->
+<!--        data-en="Muslim Community Radio"-->
+<!--        data-url="https://2mfm.org.au/live"-->
+<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://2mfm.org.au/live', '_blank'); } else { toggleRadio(this); }">-->
+<!--    <span class="flag"></span>-->
+<!--    <span class="station-text">Muslim Community Radio</span>-->
+<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
+<!--    <span class="favorite-icon"-->
+<!--          onclick="toggleFavorite(event, 'Muslim Community Radio');-->
+<!--                   event.stopPropagation();-->
+<!--                   return false;">&#x2764;</span>-->
+<!--</button>-->
+
 <button class="button palestine"
         data-category="Foreign"
         data-station="muslim vanoli"
@@ -6214,21 +6263,37 @@ setInterval(() => {
                    return false;">&#x2764;</span>
 </button>
 
-<!--<button class="button palestine"-->
-<!--        data-category="Foreign"-->
-<!--        data-station="Muslim Community Radio"-->
-<!--        data-ar="إذاعة المجتمع الإسلامي"-->
-<!--        data-en="Muslim Community Radio"-->
-<!--        data-url="https://2mfm.org.au/live"-->
-<!--        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://2mfm.org.au/live', '_blank'); } else { toggleRadio(this); }">-->
-<!--    <span class="flag"></span>-->
-<!--    <span class="station-text">Muslim Community Radio</span>-->
-<!--    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">-->
-<!--    <span class="favorite-icon"-->
-<!--          onclick="toggleFavorite(event, 'Muslim Community Radio');-->
-<!--                   event.stopPropagation();-->
-<!--                   return false;">&#x2764;</span>-->
-<!--</button>-->
+<button class="button palestine"
+        data-category="Foreign"
+        data-station="Saut-ul-Quran Pakistan"
+        data-ar="صوت القرآن باكستان"
+        data-en="Saut-ul-Quran Pakistan"
+        data-url="https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12"
+        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12', '_blank'); } else { toggleRadio(this); }">
+    <span class="flag"></span>
+    <span class="station-text">Saut-ul-Quran Pakistan</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Saut-ul-Quran Pakistan');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
+
+<button class="button palestine"
+        data-category="Foreign"
+        data-station="Voice Of MuslimThai - AM 837"
+        data-ar="صوت المسلم التايلاندي - AM 837"
+        data-en="Voice Of MuslimThai - AM 837"
+        data-url="https://radio12.plathong.net/7234/;stream.mp3"
+        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://radio12.plathong.net/7234/;stream.mp3', '_blank'); } else { toggleRadio(this); }">
+    <span class="flag"></span>
+    <span class="station-text">Voice Of MuslimThai - AM 837</span>
+    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
+    <span class="favorite-icon"
+          onclick="toggleFavorite(event, 'Voice Of MuslimThai - AM 837');
+                   event.stopPropagation();
+                   return false;">&#x2764;</span>
+</button>
 
 <button class="button palestine"
         data-category="Foreign"
@@ -25791,13 +25856,16 @@ function filterStations(category) {
     var isHiddenSub = button.hasAttribute('data-hidden-sub');
     var cat = button.getAttribute('data-category');
     if (category === 'all') {
-      button.style.display = (isHiddenSub || cat === 'Foreign') ? 'none' : 'block';
+      button.style.display = (isHiddenSub || cat === 'Foreign' || cat === 'radio-external') ? 'none' : 'block';
     } else if (category === 'More') {
       button.style.display = moreSubCats.includes(cat) ? 'block' : 'none';
     } else if (category === 'LiveTV') {
       button.style.display = ltvSubCats.includes(cat) ? 'block' : 'none';
     } else if (category === 'mix') {
       button.style.display = (cat === 'mix') ? 'block' : 'none';
+    } else if (category === 'Radio') {
+      // radio-external handled by subfilter; only show direct-stream stations here
+      button.style.display = (cat === 'Radio') ? 'block' : 'none';
     } else {
       button.style.display = (cat === category) ? 'block' : 'none';
     }
@@ -25806,7 +25874,7 @@ function filterStations(category) {
   updateButtonIndices();
 
   // الأقسام التي لها فلاتر فرعية → لا نسكرول هنا، ينتظر اختيار الفرعي
-  var _hasSubFilter = (category === 'Adhkar' || category === 'More' || category === 'LiveTV' || category === 'QuranSciences' || category === 'QuranKarim' || category === 'sira' || category === 'mix' || category === 'reciters');
+  var _hasSubFilter = (category === 'Adhkar' || category === 'More' || category === 'LiveTV' || category === 'QuranSciences' || category === 'QuranKarim' || category === 'sira' || category === 'mix' || category === 'reciters' || category === 'Radio');
   if (_userPickedFilter && !_hasSubFilter) {
     var _firstVisible = Array.from(
       document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)')
@@ -25997,7 +26065,12 @@ function toggleSettingsPanel() {
 
 function toggleLanguage() {
   isArabic = !isArabic;
-  localStorage.setItem('siteLang', isArabic ? 'ar' : 'en');
+  var lang = isArabic ? 'ar' : 'en';
+
+  // ── توحيد المتغيرين في نظام واحد ──
+  siteLanguage = lang;
+  localStorage.setItem('siteLang', lang);
+
   document.getElementById("languageToggle").textContent = isArabic ? "EN" : "ع";
 
   document.getElementById("prevButton").textContent = isArabic ? document.getElementById("prevButton").getAttribute("data-ar") : document.getElementById("prevButton").getAttribute("data-en");
@@ -26014,17 +26087,8 @@ function toggleLanguage() {
   document.getElementById("sleepTimer").placeholder = isArabic ? document.getElementById("sleepTimer").getAttribute("data-ar") : document.getElementById("sleepTimer").getAttribute("data-en");
   document.getElementById("autoSwitchTimer").placeholder = isArabic ? document.getElementById("autoSwitchTimer").getAttribute("data-ar") : document.getElementById("autoSwitchTimer").getAttribute("data-en");
 
-  document.querySelectorAll(".filter-button").forEach(button => {
-    button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
-  });
-
-  document.querySelectorAll("#adhkar-subfilter .adhkar-sub-btn, #sira-subfilter .sira-sub-btn, #more-subfilter .more-sub-btn, #livetv-subfilter .livetv-sub-btn, #mix-subfilter .mix-sub-btn, #reciters-subfilter .reciters-sub-btn").forEach(button => {
-    button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
-  });
-
-  document.querySelectorAll(".qurankarim-sub-btn, .quransciences-sub-btn").forEach(button => {
-    button.textContent = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
-  });
+  // ── تحديث كل الفلاتر الرئيسية والفرعية بمصدر واحد ──
+  updateFilterLanguage(lang);
 
   // ترجمة قسم المشاركة
   // ترجمة زر الإعدادات
@@ -27462,10 +27526,21 @@ let siteLanguage = "ar";
 let toggleTimeout = null;
 
 function updateFilterLanguage(lang) {
+  // ── مصدر واحد يحدّث كل الفلاتر الرئيسية والفرعية ──
   document.querySelectorAll(
-    '#filters-container .filter-button, #viewFavoritesButton, .adhkar-sub-btn, .sira-sub-btn, .more-sub-btn, .livetv-sub-btn, .qurankarim-sub-btn, .quransciences-sub-btn, .reciters-sub-btn, .mix-sub-btn'
-  ).forEach(button => {
-    const val = button.getAttribute('data-' + lang);
+    '#filters-container .filter-button, ' +
+    '#viewFavoritesButton, ' +
+    '.adhkar-sub-btn, ' +
+    '.sira-sub-btn, ' +
+    '.more-sub-btn, ' +
+    '.livetv-sub-btn, ' +
+    '.qurankarim-sub-btn, ' +
+    '.quransciences-sub-btn, ' +
+    '.reciters-sub-btn, ' +
+    '.mix-sub-btn, ' +
+    '.radio-sub-btn'
+  ).forEach(function(button) {
+    var val = button.getAttribute('data-' + lang);
     if (val) button.textContent = val;
   });
 }
@@ -27489,6 +27564,9 @@ function startAutoToggle() {
 
 function setSiteLanguage(lang) {
   siteLanguage = lang;
+  // ── تزامن مع isArabic علشان النظامين يشتغلوا بقيمة واحدة ──
+  if (lang === 'ar') isArabic = true;
+  if (lang === 'en') isArabic = false;
   clearTimeout(toggleTimeout);
   updateFilterLanguage(lang);
 }
@@ -27611,6 +27689,43 @@ function filterAdhkarSub(subType, btn) {
             if (!_adhkarTarget && b.style.display !== 'none') _adhkarTarget = b;
         });
         smartScrollToStations(_adhkarTarget, 80);
+    }
+}
+
+function filterRadioSub(subType, btn) {
+    document.querySelectorAll('.radio-sub-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    if (subType === 'radio-live') {
+        // Show only direct-stream stations
+        document.querySelectorAll('button[data-category="Radio"]').forEach(function(b) {
+            b.style.display = 'block';
+        });
+        document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) {
+            b.style.display = 'none';
+        });
+    } else if (subType === 'radio-external') {
+        // Show only external-site stations
+        document.querySelectorAll('button[data-category="Radio"]').forEach(function(b) {
+            b.style.display = 'none';
+        });
+        document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) {
+            b.style.display = 'block';
+        });
+    }
+
+    if (typeof updateButtonIndices === 'function') updateButtonIndices();
+    if (typeof _scrollActiveBtnInStrip === 'function') _scrollActiveBtnInStrip(btn);
+    if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined') {
+        updateFilterLanguage(isArabic ? 'ar' : 'en');
+    }
+
+    // Scroll to first visible station
+    if (_userPickedFilter) {
+        var _rTarget = Array.from(
+            document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)')
+        ).find(function(b) { return b.style.display !== 'none'; });
+        if (typeof smartScrollToStations === 'function') smartScrollToStations(_rTarget, 80);
     }
 }
 
@@ -27792,6 +27907,41 @@ filterStations = function(category) {
     }
 
 
+    // Handle Radio sub-filter visibility
+    var radioSub = document.getElementById('radio-subfilter');
+    if (radioSub) {
+        if (category === 'Radio') {
+            radioSub.classList.add('visible');
+            document.querySelectorAll('.radio-sub-btn').forEach(b => b.classList.remove('active'));
+            var defRadioBtn = radioSub.querySelector('[data-sub="radio-live"]');
+            if (defRadioBtn) defRadioBtn.classList.add('active');
+            // Show only live-stream stations by default, hide external ones
+            document.querySelectorAll('button[data-category="Radio"]').forEach(function(b) {
+                b.style.display = 'block';
+            });
+            document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) {
+                b.style.display = 'none';
+            });
+            if (typeof updateButtonIndices === 'function') updateButtonIndices();
+            if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined') {
+                updateFilterLanguage(isArabic ? 'ar' : 'en');
+            }
+            setTimeout(function() {
+                radioSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                radioSub.classList.add('highlight-attention');
+                setTimeout(function() { radioSub.classList.remove('highlight-attention'); }, 1800);
+            }, 120);
+        } else {
+            radioSub.classList.remove('visible');
+            // Hide radio-external when leaving Radio filter
+            if (category !== 'all') {
+                document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) {
+                    b.style.display = 'none';
+                });
+            }
+        }
+    }
+
     // Handle Reciters sub-filter visibility
     var recitersSub = document.getElementById('reciters-subfilter');
     if (recitersSub) {
@@ -27800,7 +27950,7 @@ filterStations = function(category) {
         }
     }
 
-        _origFilterStations(category === 'QuranSciences' ? 'Translation' : category === 'QuranKarim' ? 'Quran' : category);
+        _origFilterStations(category === 'QuranSciences' ? 'Translation' : category === 'QuranKarim' ? 'Quran' : category === 'Radio' ? 'Radio' : category);
 
     // After _origFilterStations runs, apply reciters sub-filter logic
     if (recitersSub) {
