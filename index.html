@@ -1501,6 +1501,7 @@ body.dark-mode .tasbih-box {
     background: #252535 !important;
     color: #e0e0e0 !important;
     border: 1px solid #555 !important;
+    border-bottom: none !important;
 }
 
 body.dark-mode .tasbih-box:active {
@@ -1641,8 +1642,9 @@ body.dark-mode .custom-tooltip {
 .tasbih-box {
     position: absolute;
     right: 35px;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 0;
+    top: auto;
+    transform: none;
 
     display: flex;
     align-items: center;
@@ -1654,12 +1656,13 @@ body.dark-mode .custom-tooltip {
     background: #ffffff;
     color: #000000;
 
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     padding-right: 20px;
     font-weight: bold;
     font-size: 14px;
 
     border: 1px solid #ccc;
+    border-bottom: none;
 
     z-index: 1;
 }
@@ -1683,8 +1686,12 @@ body.dark-mode .custom-tooltip {
         width: 55px;
         height: 32px;
         font-size: 13px;
-        transform: translateY(-50%);
+        bottom: 0;
+        top: auto;
+        transform: none;
         right: 40px;
+        border-radius: 8px 8px 0 0;
+        border-bottom: none;
     }
 }
 
@@ -1695,8 +1702,11 @@ body.dark-mode .custom-tooltip {
         font-size: 14px;
         right: 35px;
         padding-right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
+        bottom: 0;
+        top: auto;
+        transform: none;
+        border-radius: 8px 8px 0 0;
+        border-bottom: none;
     }
 
     .reset-btn {
@@ -1875,7 +1885,7 @@ border: 2px solid #2b7de9;
 .button.completed::after {
     content: "✔";
     position: absolute;
-    top: 5px;
+    bottom: 2px;
     left: 10px;
 }
 
@@ -18855,7 +18865,6 @@ data-en="Allah! There is no deity except Him, the Ever-Living, the Sustainer of 
 اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ. [آية الكرسى - البقرة 255]"
         onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -18901,7 +18910,6 @@ data-en="The Messenger believes in what has been revealed to him from his Lord, 
     title="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِنْ رَبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِنْ رُسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ. لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ رَبَّنَا لَا تُؤَاخِذْنَا إِنْ نَّسِينَآ أَوْ أَخْطَأْنَا رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِنْ قَبْلِنَا رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا أَنْتَ مَوْلَانَا فَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -18952,7 +18960,6 @@ data-en="Say: He is Allah, the One ۝ Allah, the Eternal Refuge ۝ He neither be
 من قالها حين يصبح وحين يمسى كفته من كل شيء (الإخلاص والمعوذتين)."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19000,7 +19007,6 @@ data-en="Say: I seek refuge in the Lord of daybreak ۝ From the evil of what He 
 قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ، مِن شَرِّ مَا خَلَقَ، وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِي ٱلْعُقَدِ، وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ."
         onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19040,7 +19046,6 @@ data-en="Say: I seek refuge in the Lord of mankind ۝ The King of mankind ۝ The
 قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ، مَلِكِ ٱلنَّاسِ، إِلَٰهِ ٱلنَّاسِ، مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ، ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ، مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ."
         onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19077,7 +19082,6 @@ data-en="I have entered the morning and the dominion belongs to Allah... (Mornin
     title="أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنَ الشَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19117,7 +19121,6 @@ data-en="We have entered the evening and all dominion belongs to Allah, and all 
     title="أَمْسَيْـنا وَأَمْسـى المـلكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذهِ اللَّـيْلَةِ وَخَـيرَ ما بَعْـدَهـا ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذهِ اللَّـيْلةِ وَشَرِّ ما بَعْدَهـا ، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19161,7 +19164,6 @@ data-en="O Allah, whatever blessing I or anyone among Your creation has received
 من قالها حين يصبح كفته من كل شيء. "
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19201,7 +19203,6 @@ data-en="O Allah, whatever blessing I or anyone among Your creation has received
 من قالها حين يمسى أدى شكر يومه."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19241,7 +19242,6 @@ data-en="O Allah, by You we enter the morning and by You we enter the evening, b
     data-current-index="0"
     title="اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَـينا ، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ النُّـشُور.">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19279,7 +19279,6 @@ data-en="O Allah, by You we enter the evening and by You we enter the morning, b
     data-current-index="0"
     title="اللّهُـمَّ بِكَ أَمْسَـينا وَبِكَ أَصْـبَحْنا، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ الْمَصِيرُ.">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19318,7 +19317,6 @@ data-en="We have entered the morning upon the fitrah of Islam, upon the word of 
 
     title="أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إبْرَاهِيمَ حَنِيفاً مُسْلِماً وَمَا كَانَ مِنَ المُشْرِكِينَ.">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19359,7 +19357,6 @@ data-en="We have entered the evening upon the fitrah of Islam, upon the word of 
 
     title="أَمْسَيْنَا عَلَى فِطْرَةِ الإسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إبْرَاهِيمَ حَنِيفاً مُسْلِماً وَمَا كَانَ مِنَ المُشْرِكِينَ.">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19401,7 +19398,6 @@ data-en="We have entered the morning and the dominion belongs to Allah, Lord of 
 
     title="أَصْبَـحْـنا وَأَصْبَـحْ المُـلكُ للهِ رَبِّ العـالَمـين ، اللّهُـمَّ إِنِّـي أسْـأَلُـكَ خَـيْرَ هـذا الـيَوْم ، فَـتْحَهُ ، وَنَصْـرَهُ ، وَنـورَهُ وَبَـرَكَتَـهُ ، وَهُـداهُ ، وَأَعـوذُ بِـكَ مِـنْ شَـرِّ ما فـيهِ وَشَـرِّ ما بَعْـدَه.">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19440,7 +19436,6 @@ data-en="We have entered the evening and the dominion belongs to Allah, Lord of 
 
     title="أَمْسَيْنا وَأَمْسَى الْمُلْكُ للهِ رَبِّ الْعَالَمَيْنِ، اللَّهُمَّ إِنَّي أسْأَلُكَ خَيْرَ هَذَه اللَّيْلَةِ فَتْحَهَا ونَصْرَهَا، ونُوْرَهَا وبَرَكَتهَا، وَهُدَاهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فيهِا وَشَرَّ مَا بَعْدَهَا.">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19481,7 +19476,6 @@ data-random="true"
 من قالها موقنا بها حين يمسى ومات من ليلته دخل الجنة وكذلك حين يصبح. "
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19522,7 +19516,6 @@ data-en="O Allah, I ask You for pardon and well-being in this world and the Here
 
     title="اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في الدُّنْـيا وَالآخِـرَة ، اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في ديني وَدُنْـيايَ وَأهْـلي وَمالـي ، اللّهُـمَّ اسْتُـرْ عـوْراتي وَآمِـنْ رَوْعاتـي ، اللّهُـمَّ احْفَظْـني مِن بَـينِ يَدَيَّ وَمِن خَلْفـي وَعَن يَمـيني وَعَن شِمـالي ، وَمِن فَوْقـي ، وَأَعـوذُ بِعَظَمَـتِكَ أَن أُغْـتالَ مِن تَحْتـي.">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19562,7 +19555,6 @@ data-en="O Allah, Knower of the unseen and the seen, Originator of the heavens a
 
     title="اللّهُـمَّ عالِـمَ الغَـيْبِ وَالشّـهادَةِ فاطِـرَ السّماواتِ وَالأرْضِ رَبَّ كـلِّ شَـيءٍ وَمَليـكَه ، أَشْهَـدُ أَنْ لا إِلـهَ إِلاّ أَنْت ، أَعـوذُ بِكَ مِن شَـرِّ نَفْسـي وَمِن شَـرِّ الشَّيْـطانِ وَشِرْكِهِ ، وَأَنْ أَقْتَـرِفَ عَلـى نَفْسـي سوءاً أَوْ أَجُـرَّهُ إِلـى مُسْـلِم.">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19608,7 +19600,6 @@ data-random="true"
 من قالها أربع مرات أعتقه الله من النار."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19649,7 +19640,6 @@ data-en="O Allah, I have entered the evening bearing witness to You, and to the 
 من قالها أربع مرات أعتقه الله من النار."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19690,7 +19680,6 @@ data-en="Allah is sufficient for me; there is no god but Him. In Him I have plac
 من قالها سبع مرات كفاه الله ما أهمه من أمر الدنيا والآخرة."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19731,7 +19720,6 @@ data-target="10"
     title="اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد. فضل هذا الذكر: من صلى على النبي ﷺ حين يصبح وحين يمسى أدركته شفاعته يوم القيامة. جاء في الحديث: «من صلى عليَّ صلاةً واحدةً صلى الله عليه بها عشرًا» (رواه النسائي وحسنه الألباني)."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19773,7 +19761,6 @@ data-en="I am pleased with Allah as my Lord, with Islam as my religion, and with
 من قالها حين يصبح وحين يمسي كان حقًا على الله أن يرضيه يوم القيامة."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19814,7 +19801,6 @@ data-en="In the name of Allah, with whose name nothing on earth or in the heaven
 من قالها ثلاث مرات لم يضره شيء."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19856,7 +19842,6 @@ data-en="Glory is to Allah and praise be to Him, as much as the number of His cr
     title="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19896,7 +19881,6 @@ data-en="O Allah, grant me well-being in my body, my hearing, and my sight. Ther
     title="اللّهُـمَّ عافِـني في بَدَنـي ، اللّهُـمَّ عافِـني في سَمْـعي ، اللّهُـمَّ عافِـني في بَصَـري ، لا إلهَ إلاّ أَنْـتَ"
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19938,7 +19922,6 @@ data-en="O Allah, I seek refuge in You from disbelief, poverty, and the punishme
     title="اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفر ، وَالفَـقْر ، وَأَعـوذُ بِكَ مِنْ عَذابِ القَـبْر ، لا إلهَ إلاّ أَنْـتَ."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -19978,7 +19961,6 @@ data-en="O Allah, I seek refuge in You from worry and grief, from incapacity and
     title="اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَمِّ وَالْحَزَنِ وَالْعَجْزِ وَالْكَسَلِ وَالْجُبْنِ وَالْبُخْلِ وَغَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ"
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20019,7 +20001,6 @@ data-en="O Allah, we seek refuge in You from associating anything with You knowi
     title="اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ ، وَنَسْتَغْفِرُكَ لِمَا لَا نَعْلَمُهُ."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20062,7 +20043,6 @@ data-en="I seek refuge in the perfect words of Allah from the evil of what He ha
     title="أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ مِنْ شَـرِّ ما خَلَـق."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20104,7 +20084,6 @@ data-en="I seek forgiveness from Allah, the Most Great, besides whom there is no
     title="أسْتَغْفِرُ اللهَ العَظِيمَ الَّذِي لاَ إلَهَ إلاَّ هُوَ، الحَيُّ القَيُّومُ، وَأتُوبُ إلَيهِ"
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20146,7 +20125,6 @@ data-en="O Ever-Living, O Sustainer, by Your mercy I seek help. Rectify all my a
     title="يَا حَيُّ يَا قيُّومُ بِرَحْمَتِكَ أسْتَغِيثُ أصْلِحْ لِي شَأنِي كُلَّهُ وَلاَ تَكِلْنِي إلَى نَفْسِي طَـرْفَةَ عَيْنٍ."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20187,7 +20165,6 @@ data-en="O Lord, to You belongs all praise as befits the majesty of Your face an
     title="يارب لك الحمد كما ينبغي لجلال وجهك وعظيم سلطانك"
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20232,7 +20209,6 @@ data-en="There is no god but Allah alone, with no partner. To Him belongs the do
 خير الدعاء دعاء يوم عرفة، وخير ما قلت أنا والنبيون من قبلي: لا إله إلا الله وحده لا شريك له."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20268,7 +20244,6 @@ data-en="O Allah, You are my Lord, there is no god but You. In You I trust, and 
     data-current-index="0"
     title="اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ ، عَلَيْكَ تَوَكَّلْتُ ، وَأَنْتَ رَبُّ الْعَرْشِ الْعَظِيمِ , مَا شَاءَ اللَّهُ كَانَ ، وَمَا لَمْ يَشَأْ لَمْ يَكُنْ ، وَلا حَوْلَ وَلا قُوَّةَ إِلا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ , أَعْلَمُ أَنَّ اللَّهَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ ، وَأَنَّ اللَّهَ قَدْ أَحَاطَ بِكُلِّ شَيْءٍ عِلْمًا , اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي ، وَمِنْ شَرِّ كُلِّ دَابَّةٍ أَنْتَ آخِذٌ بِنَاصِيَتِهَا ، إِنَّ رَبِّي عَلَى صِرَاطٍ مُسْتَقِيمٍ.">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20315,7 +20290,6 @@ data-adhkar-general="1"
 من قالها مائة مرة كُتبت له مائة حسنة، ومُحيت عنه مائة سيئة، وكانت له حرزًا من الشيطان حتى يمسي."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20438,7 +20412,6 @@ data-adhkar-general="1"
     title="اضغط مرتين للتبديل ⏭️ — اضغط مع Shift للرجوع ⏮️"
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20478,7 +20451,6 @@ data-adhkar-general="1"
     title="اضغط مرتين للتبديل ⏭️ — اضغط مع Shift للرجوع ⏮️"
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20520,7 +20492,6 @@ data-adhkar-general="1"
     title="اضغط مرتين للتبديل ⏭️ — اضغط مع Shift للرجوع ⏮️"
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20559,7 +20530,6 @@ data-adhkar-general="1"
     title="اضغط مرتين للتبديل ⏭️ — اضغط مع Shift للرجوع ⏮️"
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20593,7 +20563,7 @@ data-adhkar-general="1"
     data-station="اللهم صل على محمد وعلى آل محمد..."
     data-target="100"
     data-ar="اللهم صلِّ على محمد وعلى آل محمد كما صليت على إبراهيم وعلى آل إبراهيم إنك حميد مجيد"
-    data-en="Allahumma salli ala Muhammad wa ala ali Muhammad kama sallayta ala Ibrahim"
+    data-en="Allahumma salli ala Muhammad wa ala aal Muhammad kama sallayta ala Ibrahim"
     data-random="true"
    data-urls='[
     "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%20%D8%A7%D9%84%D8%AD%D9%88%D9%8A%D9%86%D9%8A.mp3",
@@ -20608,7 +20578,6 @@ data-adhkar-general="1"
     title="اللهم صلِّ على محمد وعلى آل محمد كما صليت على إبراهيم وعلى آل إبراهيم. فضلها: من أفضل صيغ الصلاة على النبي ﷺ وهي الصلاة الإبراهيمية التي تقال في التشهد."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20651,7 +20620,6 @@ data-adhkar-general="1"
     title="اللهم صل وسلم على محمد وآل محمد. من أفضل صيغ الصلاة على النبي ﷺ."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20690,7 +20658,6 @@ data-adhkar-general="1"
     title="اللهم صل على محمد وعلى آل محمد وسلم. من أفضل صيغ الصلاة على النبي ﷺ."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20718,7 +20685,7 @@ data-adhkar-general="1"
     data-station="اللهم صل على محمد وعلى آله وصحبه أجمعين"
     data-target="10"
     data-ar="اللهم صل على محمد وعلى آله وصحبه أجمعين"
-    data-en="Allahumma salli ala Muhammad wa ala ali wa sahbihi ajma'in"
+    data-en="Allahumma salli ala Muhammad wa ala aalhe  wa sahbihi ajma'in"
     data-random="true"
     data-urls='[
 "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9%20%20%D8%A3%D8%A8%D9%88%20%D8%A5%D8%B3%D8%AD%D8%A7%D9%82.mp3",
@@ -20729,7 +20696,6 @@ data-adhkar-general="1"
     title="اللهم صل على محمد وعلى آله وصحبه أجمعين"
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20769,7 +20735,6 @@ data-adhkar-general="1"
     title="صلّى الله عليه وآله وسلم. من أعظم صيغ الصلاة على النبي ﷺ وأيسرها على اللسان."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
@@ -20808,7 +20773,6 @@ data-adhkar-general="1"
     title="عليه الصلاة والسلام. من أشهر صيغ الصلاة على النبي ﷺ المختصرة وسهلة التكرار."
     onclick="toggleRadio(this, event)">
 
-    <span class="flag"></span>
 
     <div class="tasbih-box" onclick="incrementTasbih(event)">
         <span class="tasbih-count">0</span>
