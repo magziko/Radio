@@ -2,6 +2,8 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -483,142 +485,234 @@ audio {
     display: none !important;
 }
 
+/* ══ FILTER BAR REDESIGN ══ */
 #filters-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
   justify-content: center;
-  margin-bottom: 10px;
+  padding: 10px 10px 8px;
+  margin: 0 auto 6px;
+  max-width: 900px;
+  background: #eef4fb;
+  border: 1.5px solid rgba(30,144,255,0.18);
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(30,144,255,0.07), inset 0 1px 0 rgba(255,255,255,0.55);
+  position: relative;
+  box-sizing: border-box;
+  background-image: radial-gradient(ellipse 60% 40% at 50% -10%, rgba(30,144,255,0.10) 0%, transparent 70%);
+}
+
+#filters-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 2.5px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(90deg, transparent 0%, #1e90ff 30%, #42d4f4 50%, #1e90ff 70%, transparent 100%);
+  opacity: 0.6;
 }
 
 .filter-button {
-  flex: 0 0 120px;
-    height: 38px;
-  display: flex;
+  font-family: 'Cairo', Arial, Tahoma, "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  text-align: center;
+  gap: 5px;
+  height: 36px;
+  padding: 0 16px;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  font-size: 13px;
-  font-weight: 600;
-  font-family: Arial, Tahoma, "Segoe UI", sans-serif;
-
-  background: #fff;
-  color: #1e90ff;
-
-  border: 2px solid currentColor;
-  border-radius: 8px;
-
+  border-radius: 999px;
+  border: 1.5px solid rgba(30,144,255,0.28);
   cursor: pointer;
-  padding: 0 12px;
-
+  outline: none;
   box-sizing: border-box;
-
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,0.82);
+  color: #1565c0;
+  box-shadow: 0 1px 4px rgba(30,144,255,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+  transition: background 0.22s cubic-bezier(.4,0,.2,1), color 0.22s cubic-bezier(.4,0,.2,1), border-color 0.22s cubic-bezier(.4,0,.2,1), box-shadow 0.22s cubic-bezier(.4,0,.2,1), transform 0.22s cubic-bezier(.4,0,.2,1);
+  animation: filterAppear 0.35s ease both;
 }
 
-.filter-button:hover,
-.filter-button.selected {
-  background: #1e90ff !important;
-  color: #fff !important;
-  transform: scale(1.05);
-  border-width: 3px;
+@keyframes filterAppear {
+  from { opacity: 0; transform: translateY(6px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+#filters-container > *:nth-child(1)  { animation-delay:.03s }
+#filters-container > *:nth-child(2)  { animation-delay:.06s }
+#filters-container > *:nth-child(3)  { animation-delay:.09s }
+#filters-container > *:nth-child(4)  { animation-delay:.12s }
+#filters-container > *:nth-child(5)  { animation-delay:.15s }
+#filters-container > *:nth-child(6)  { animation-delay:.18s }
+#filters-container > *:nth-child(7)  { animation-delay:.21s }
+#filters-container > *:nth-child(8)  { animation-delay:.24s }
+#filters-container > *:nth-child(9)  { animation-delay:.27s }
+#filters-container > *:nth-child(10) { animation-delay:.30s }
+#filters-container > *:nth-child(11) { animation-delay:.33s }
+#filters-container > *:nth-child(12) { animation-delay:.36s }
+
+.filter-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.filter-button:active::after { opacity: 1; }
 
 .filter-button[data-ar] {
   direction: rtl;
 }
 
-#viewFavoritesButton {
-  background: #fff !important;
-  color: red !important;
-  border: 2px solid #1e90ff;
+.filter-button:hover {
+  background: rgba(30,144,255,0.10);
+  color: #1565c0;
+  border-color: #1e90ff;
+  box-shadow: 0 3px 12px rgba(30,144,255,0.18), inset 0 1px 0 rgba(255,255,255,0.6);
+  transform: translateY(-2px) scale(1.03);
 }
 
-#viewFavoritesButton:hover,
-#viewFavoritesButton.selected {
-  background: red !important;
+@keyframes selectedPing {
+  0%   { box-shadow: 0 0 0 0 rgba(30,144,255,0.50), 0 4px 16px rgba(30,144,255,0.22); }
+  60%  { box-shadow: 0 0 0 7px rgba(30,144,255,0),  0 4px 16px rgba(30,144,255,0.22); }
+  100% { box-shadow: 0 0 0 0 rgba(30,144,255,0),    0 4px 16px rgba(30,144,255,0.22); }
+}
+
+.filter-button.selected {
+  background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%) !important;
   color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 16px rgba(30,144,255,0.30) !important;
+  transform: translateY(-1px) scale(1.02) !important;
+  font-weight: 900 !important;
+  animation: selectedPing 1.8s ease-out infinite !important;
+}
+
+#viewFavoritesButton {
+  font-family: 'Cairo', Arial, Tahoma, "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 16px;
+  white-space: nowrap;
+  border-radius: 999px;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  color: #e53935 !important;
+  border: 1.5px solid rgba(229,57,53,0.35) !important;
+  background: rgba(255,255,255,0.85) !important;
+  box-shadow: 0 1px 4px rgba(229,57,53,0.08);
+  transition: background 0.22s cubic-bezier(.4,0,.2,1), color 0.22s cubic-bezier(.4,0,.2,1), border-color 0.22s cubic-bezier(.4,0,.2,1), box-shadow 0.22s cubic-bezier(.4,0,.2,1), transform 0.22s cubic-bezier(.4,0,.2,1);
+  animation: filterAppear 0.35s ease both;
+}
+
+#viewFavoritesButton:hover {
+  background: rgba(229,57,53,0.10) !important;
+  border-color: #e53935 !important;
+  color: #e53935 !important;
+  transform: translateY(-2px) scale(1.03) !important;
+  box-shadow: 0 3px 14px rgba(229,57,53,0.18) !important;
+}
+
+@keyframes selectedPingRed {
+  0%   { box-shadow: 0 0 0 0 rgba(229,57,53,0.5),  0 4px 16px rgba(229,57,53,0.25); }
+  60%  { box-shadow: 0 0 0 7px rgba(229,57,53,0),   0 4px 16px rgba(229,57,53,0.25); }
+  100% { box-shadow: 0 0 0 0 rgba(229,57,53,0),     0 4px 16px rgba(229,57,53,0.25); }
+}
+
+#viewFavoritesButton.selected {
+  background: linear-gradient(135deg, #e53935 0%, #b71c1c 100%) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 16px rgba(229,57,53,0.35) !important;
+  animation: selectedPingRed 1.8s ease-out infinite !important;
 }
 
 .filter-button[data-ar="كل الإذاعات"] {
-  background: #fff !important;
-  color: black !important;
-  font-weight: 700;
-  border: 2px solid #1e90ff;
+  color: #263238 !important;
+  border-color: rgba(38,50,56,0.30) !important;
+  background: rgba(255,255,255,0.85) !important;
+  font-weight: 900 !important;
 }
 
-.filter-button[data-ar="كل الإذاعات"]:hover,
+.filter-button[data-ar="كل الإذاعات"]:hover {
+  background: rgba(38,50,56,0.10) !important;
+  border-color: #263238 !important;
+  color: #263238 !important;
+  box-shadow: 0 3px 12px rgba(38,50,56,0.15) !important;
+}
+
 .filter-button[data-ar="كل الإذاعات"].selected {
-  background: black !important;
+  background: linear-gradient(135deg, #37474f 0%, #263238 100%) !important;
   color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 14px rgba(38,50,56,0.30) !important;
 }
 
 @media (max-width: 767px) {
-
   #filters-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 6px;
+    padding: 8px 8px 6px;
+    border-radius: 14px;
   }
-
   .filter-button,
   #viewFavoritesButton {
     flex: unset;
     min-width: unset;
     width: 100%;
-    height: 38px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    height: 34px;
     font-size: 12px;
-    font-weight: 600;
-    font-family: Arial, Tahoma, "Segoe UI", sans-serif;
-
-    padding: 0 6px;
-    border-radius: 6px;
-
+    padding: 0 8px;
+    border-radius: 999px;
+    justify-content: center;
     box-sizing: border-box;
   }
-
-  /* توحيد الشكل (المهم) */
   #viewFavoritesButton {
-    border: 2px solid currentColor !important;
-    background: #fff !important;
-    color: red !important;
+    border: 1.5px solid rgba(229,57,53,0.35) !important;
+    background: rgba(255,255,255,0.85) !important;
+    color: #e53935 !important;
   }
-
   .filter-button:hover,
   .filter-button.selected,
   #viewFavoritesButton:hover,
   #viewFavoritesButton.selected {
     transform: scale(1.03);
   }
-
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
   #filters-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 7px;
+    border-radius: 16px;
   }
-
-  .filter-button {
+  .filter-button,
+  #viewFavoritesButton {
     flex: unset;
     min-width: unset;
     width: 100%;
-    height: 46px;
+    height: 38px;
     font-size: 13px;
     padding: 0 8px;
   }
-
   .filter-button:hover,
   .filter-button.selected {
     transform: scale(1.03);
@@ -1245,46 +1339,7 @@ border-radius: 12px;
     color: red;
   }
 
-#viewFavoritesButton {
-  flex: 0 0 120px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 15px;
-  font-weight: 600;
-  font-family: "Tahoma", "Segoe UI", Arial, sans-serif;
-  line-height: 1.2;
-  background-color: #1e90ff;
-  color: #ff0000;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  padding: 0 8px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-    border: 2px solid #1e90ff !important;
-
-}
-
-#viewFavoritesButton:hover {
-  background-color: #1c7ed6;
-  transform: scale(1.05);
-}
-
-.filter-button[data-ar="كل الإذاعات"] {
-  color: #000;
-  font-weight: 700;
-  background-color: #1e90ff;
-}
-
-.filter-button[data-ar="كل الإذاعات"]:hover {
-  background-color: #1c7ed6;
-  transform: scale(1.05);
-}
+/* duplicate viewFavoritesButton removed – see redesign block above */
 
 #togglePlayPause, #volumeControl {
     position: fixed;
@@ -1476,38 +1531,55 @@ body.dark-mode .button.completed {
 }
 
 body.dark-mode .filter-button {
-    background: #1e1e2e !important;
-    color: #64b5f6 !important;
-    border-color: #64b5f6 !important;
+    background: rgba(20,30,48,0.75) !important;
+    color: #90caf9 !important;
+    border-color: rgba(100,181,246,0.28) !important;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04) !important;
 }
 
-body.dark-mode .filter-button:hover,
+body.dark-mode .filter-button:hover {
+    background: rgba(100,181,246,0.14) !important;
+    color: #bbdefb !important;
+    border-color: rgba(100,181,246,0.55) !important;
+    box-shadow: 0 3px 14px rgba(100,181,246,0.20) !important;
+}
+
 body.dark-mode .filter-button.selected {
-    background: #1e3a5f !important;
-    color: #90caf9 !important;
-    border-color: #90caf9 !important;
+    background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%) !important;
+    color: #fff !important;
+    border-color: transparent !important;
 }
 
 body.dark-mode .filter-button[data-ar="كل الإذاعات"] {
-    background: #1e1e2e !important;
-    color: #e0e0e0 !important;
+    background: rgba(20,30,48,0.75) !important;
+    color: #cfd8dc !important;
+    border-color: rgba(207,216,220,0.28) !important;
 }
 
 body.dark-mode .filter-button[data-ar="كل الإذاعات"]:hover,
 body.dark-mode .filter-button[data-ar="كل الإذاعات"].selected {
-    background: #333 !important;
+    background: linear-gradient(135deg, #546e7a 0%, #37474f 100%) !important;
     color: #fff !important;
+    border-color: transparent !important;
 }
 
 body.dark-mode #viewFavoritesButton {
-    background-color: #1e1e2e !important;
+    background: rgba(20,30,48,0.75) !important;
     color: #ff6b6b !important;
-    border: 2px solid #64b5f6 !important;
+    border: 1.5px solid rgba(255,107,107,0.35) !important;
 }
 
 body.dark-mode #viewFavoritesButton:hover {
-    background-color: #2a1a1a !important;
-    color: #ff8a80 !important;
+    background: rgba(229,57,53,0.14) !important;
+    border-color: rgba(255,107,107,0.65) !important;
+    color: #ff6b6b !important;
+}
+
+body.dark-mode #filters-container {
+    background: rgba(22,32,44,0.85);
+    border-color: rgba(100,181,246,0.18);
+    box-shadow: 0 2px 18px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.04);
+    background-image: radial-gradient(ellipse 60% 40% at 50% -10%, rgba(100,181,246,0.09) 0%, transparent 70%);
 }
 
 
@@ -27657,34 +27729,48 @@ function openWelcomeScreen() {
     customAudioPlayer.play();
 }
 
-let touchPoints = [];
+// Triple tap (touch) OR triple click (mouse) anywhere to open welcome screen
+let _tripleCount = 0;
+let _tripleTimer = null;
 
-document.addEventListener('touchstart', function(e) {
-    touchPoints = [{ x: e.touches[0].screenX, y: e.touches[0].screenY }];
-}, false);
-
-document.addEventListener('touchmove', function(e) {
-    touchPoints.push({ x: e.touches[0].screenX, y: e.touches[0].screenY });
-}, false);
-
-document.addEventListener('touchend', function(e) {
-    analyzeGesture();
-}, false);
-
-function analyzeGesture() {
-    if (touchPoints.length < 5) return;
-
-    const first = touchPoints[0];
-    const middle = touchPoints[Math.floor(touchPoints.length / 2)];
-    const last = touchPoints[touchPoints.length - 1];
-
-    const verticalMove = middle.y - first.y;
-    const horizontalMove = last.x - middle.x;
-
-    if (verticalMove > 100 && horizontalMove > 100) {
+function _handleTriple() {
+    _tripleCount++;
+    if (_tripleTimer) clearTimeout(_tripleTimer);
+    _tripleTimer = setTimeout(function() {
+        _tripleCount = 0;
+    }, 600);
+    if (_tripleCount >= 3) {
+        _tripleCount = 0;
+        clearTimeout(_tripleTimer);
         openWelcomeScreen();
     }
 }
+
+function _isInteractive(el) {
+    var tags = ['BUTTON','A','INPUT','SELECT','TEXTAREA','LABEL','AUDIO','VIDEO'];
+    while (el && el !== document.body) {
+        if (tags.indexOf(el.tagName) !== -1) return true;
+        if (el.classList && (
+            el.classList.contains('button') ||
+            el.classList.contains('filter-button') ||
+            el.classList.contains('customBtnControl') ||
+            el.classList.contains('pnb-btn') ||
+            el.classList.contains('palestine') ||
+            el.classList.contains('radio-button')
+        )) return true;
+        if (el.getAttribute('onclick') || el.getAttribute('role') === 'button') return true;
+        el = el.parentElement;
+    }
+    return false;
+}
+
+document.addEventListener('touchend', function(e) {
+    if (!_isInteractive(e.target)) _handleTriple();
+}, false);
+
+document.addEventListener('click', function(e) {
+    if (!_isInteractive(e.target)) _handleTriple();
+}, false);
 
 function openWelcomeScreen() {
     document.getElementById('welcomeScreen').style.display = 'flex';
