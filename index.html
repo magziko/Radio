@@ -1339,24 +1339,37 @@ border-radius: 12px;
     color: red;
   }
 
-/* duplicate viewFavoritesButton removed – see redesign block above */
-
-#togglePlayPause, #volumeControl {
+#togglePlayPause {
     position: fixed;
-    display: block;
-    z-index: 1000;
+    bottom: 18px;
+    left: 14px;
 
-    color: white;
+    width: 25px;
+    height: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    font-size: 16px;
+
+    background: linear-gradient(135deg, #1e90ff, #1565c0);
+    color: #fff;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    padding: 8px;
-    transition: background-color 0.3s ease;
+
+    box-shadow: 0 2px 10px rgba(30,144,255,0.3);
+    transition: all 0.3s ease;
+    opacity: 0.9;
+
+    display: none; /* مهم */
 }
 
-#togglePlayPause {
-    bottom: 13px;
-    left: 0px;
+#togglePlayPause:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(30,144,255,0.5);
+    opacity: 1;
 }
 
 #volumeControl {
@@ -27713,21 +27726,49 @@ function getContrastYIQ(hexcolor){
 })();
 
 document.addEventListener('keydown', function(event) {
+    // تجاهل لو المستخدم بيكتب في خانة
+    var tag = document.activeElement ? document.activeElement.tagName : '';
+    var isTyping = (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' ||
+                    document.activeElement.isContentEditable);
+    if (isTyping) return;
 
     if (event.shiftKey && event.code === 'KeyW') {
         openWelcomeScreen();
     }
+
+    // مسطرة = تشغيل/إيقاف راديو الشاشة الترحيبية في أي وقت
+    if (event.code === 'Space' && !event.shiftKey && !event.ctrlKey && !event.metaKey) {
+        event.preventDefault();
+        var wsVisible = document.getElementById('welcomeScreen') &&
+                        document.getElementById('welcomeScreen').style.display !== 'none';
+        if (wsVisible) {
+            // الشاشة مفتوحة → play/pause
+            toggleWelcomePlayPause();
+        } else {
+            // الشاشة مغلقة → تشغيل/إيقاف راديو الشاشة بدون فتحها
+            var cap = document.getElementById('customAudioPlayer');
+            if (!cap) return;
+            if (cap.paused) {
+                window._welcomeScreenClosed = false;
+                index = 0;
+                switchingSource = false;
+                welcomeConsecutiveErrors = 0;
+                clearTimeout(welcomeErrorTimer);
+                clearTimeout(welcomeStalledTimer);
+                // وقف الراديو الرئيسي أول
+                var mainAu = document.getElementById('currentAudio');
+                if (mainAu && !mainAu.paused) mainAu.pause();
+                playSource(index);
+                isAudioPlaying = true;
+                updateWelcomePlayPauseButton(true);
+            } else {
+                cap.pause();
+                isAudioPlaying = false;
+                updateWelcomePlayPauseButton(false);
+            }
+        }
+    }
 });
-
-function openWelcomeScreen() {
-
-    if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
-
-    document.getElementById('welcomeScreen').style.display = 'flex';
-
-    var customAudioPlayer = document.getElementById('customAudioPlayer');
-    customAudioPlayer.play();
-}
 
 // Triple tap (touch) OR triple click (mouse) anywhere to open welcome screen
 let _tripleCount = 0;
@@ -27773,10 +27814,22 @@ document.addEventListener('click', function(e) {
 }, false);
 
 function openWelcomeScreen() {
+    // إعادة تعيين الفلاق عشان customAudioPlayer يقدر يشتغل
+    window._welcomeScreenClosed = false;
+
     document.getElementById('welcomeScreen').style.display = 'flex';
+
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
-    var customAudioPlayer = document.getElementById('customAudioPlayer');
-    customAudioPlayer.play();
+
+    // دايماً نبدأ من أول محطة عند فتح الشاشة
+    index = 0;
+    switchingSource = false;
+    welcomeConsecutiveErrors = 0;
+    clearTimeout(welcomeErrorTimer);
+    clearTimeout(welcomeStalledTimer);
+    playSource(index);
+    isAudioPlaying = true;
+    updateWelcomePlayPauseButton(true);
 }
 
 function openPasswordModal() {
@@ -30216,12 +30269,29 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
 (function() {
 
   var topBtn = document.getElementById('scrollToTopBtn');
+
+  function updateTogglePlayBtnVisibility() {
+    var playBtn = document.getElementById('togglePlayPause');
+    var mainAudioForBtn = document.getElementById('currentAudio');
+    if (!playBtn || !mainAudioForBtn) return;
+    var scrolled = window.scrollY > 300;
+    var playing = !mainAudioForBtn.paused && !!mainAudioForBtn.src && mainAudioForBtn.src !== window.location.href;
+    playBtn.style.display = (scrolled || playing) ? 'flex' : 'none';
+  }
+
+  // نفس منطق زر السهم بالضبط
   window.addEventListener('scroll', function() {
-    if (!topBtn) return;
-    topBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+    if (topBtn) topBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+    updateTogglePlayBtnVisibility();
   }, { passive: true });
 
   document.addEventListener('DOMContentLoaded', function() {
+    var mainAudioEl = document.getElementById('currentAudio');
+    if (mainAudioEl) {
+      mainAudioEl.addEventListener('play', updateTogglePlayBtnVisibility);
+      mainAudioEl.addEventListener('pause', updateTogglePlayBtnVisibility);
+      mainAudioEl.addEventListener('emptied', updateTogglePlayBtnVisibility);
+    }
     var statusEl = document.getElementById('status');
     var audioEl  = document.getElementById('currentAudio');
     if (!statusEl || !audioEl) return;
