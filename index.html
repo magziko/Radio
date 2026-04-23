@@ -2654,37 +2654,7 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
 
 <script>
 
-document.addEventListener("keydown", function (e) {
-
-    if (e.repeat) return;
-
-    const active = document.activeElement;
-    if (
-        active.tagName === "INPUT" ||
-        active.tagName === "TEXTAREA" ||
-        active.isContentEditable
-    ) {
-        return;
-    }
-
-    if (e.code === "Space") {
-        e.preventDefault();
-
-        let audio = document.getElementById("customAudioPlayer");
-        let status = document.getElementById("customStatus");
-
-        if (!audio) return;
-
-        if (audio.paused) {
-            if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
-            audio.play();
-            if (status) status.innerHTML = "▶️ Ma إذاعة القرآن الكريم يعمل الآن";
-        } else {
-            audio.pause();
-            if (status) status.innerHTML = "⏸️ تم إيقاف الإذاعة مؤقتًا";
-        }
-    }
-});
+// [Space keydown unified below — see main keyboard handler]
 
 function confirmReload() {
 
@@ -2737,14 +2707,6 @@ function toggleDisableWelcomeScreen() {
     }
 }
 
-  function closeWelcomeScreen(event) {
-
-            if (event.target.id === 'welcomeScreen') {
-                document.getElementById('welcomeScreen').style.display = 'none';
-                customAudioPlayer.pause();
-                customAudioPlayer.currentTime = 0;
-            }
-        }
 
 const downArrow = document.getElementById('downArrow');
 
@@ -2766,8 +2728,12 @@ function closeWelcomeScreenByButton(event) {
 }
 
 document.addEventListener('keydown', function(event) {
-    if (document.activeElement === document.body && (event.key === 'Escape' || event.keyCode === 27)) {
-        closeWelcomeScreen();
+    if (event.key === 'Escape' || event.keyCode === 27) {
+        // Escape تغلق الشاشة الترحيبية بغض النظر عن العنصر النشط
+        var ws = document.getElementById('welcomeScreen');
+        if (ws && ws.style.display !== 'none') {
+            closeWelcomeScreen();
+        }
     }
 });
 
@@ -2784,12 +2750,11 @@ function updateWelcomePlayPauseButton(isPlaying) {
 }
 
 function toggleWelcomePlayPause() {
+    // دايماً نستخدم startRadio/stopRadio عشان isAudioPlaying يفضل متزامن مع الزر
     if (customAudioPlayer.paused) {
-        customAudioPlayer.play();
-        updateWelcomePlayPauseButton(true);
+        startRadio();
     } else {
-        customAudioPlayer.pause();
-        updateWelcomePlayPauseButton(false);
+        stopRadio();
     }
 }
 
@@ -2828,6 +2793,22 @@ var currentStatus = document.getElementById('customStatus');
 var volumeRange = document.getElementById('customVolumeRange');
 var playPauseSymbol = document.getElementById('customPlayPauseSymbol');
 var isAudioPlaying = false;
+
+// ── مستمعو الأحداث: يضمنون تزامن الزر مع حالة الصوت الفعلية دائماً ──
+// سواء شُغِّل بالماوس أو المسطرة أو أي مصدر آخر
+customAudioPlayer.addEventListener('play', function() {
+    isAudioPlaying = true;
+    updateWelcomePlayPauseButton(true);
+});
+customAudioPlayer.addEventListener('pause', function() {
+    isAudioPlaying = false;
+    updateWelcomePlayPauseButton(false);
+});
+customAudioPlayer.addEventListener('ended', function() {
+    isAudioPlaying = false;
+    updateWelcomePlayPauseButton(false);
+});
+
 var radioStations = [
     { url: 'https://backup.qurango.net/radio/tarateel', name: 'Ma إذاعة القرآن الكريم' },
 
@@ -2895,21 +2876,15 @@ var autoInterval = null;
 
 function startRadio() {
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
-    customAudioPlayer.play();
-    currentStatus.textContent = radioStations[stationIndex].name + " يعمل الآن";
-    playPauseSymbol.setAttribute("d", "M6 19h4V5H6v14zm8-14v14h4V5h-4z");
-    isAudioPlaying = true;
-    var playBtn = document.getElementById('customPlayToggleButton');
-    if (playBtn) playBtn.classList.add('playing');
+    customAudioPlayer.play().catch(function() {});
+    // isAudioPlaying والزر يتحدّثوا تلقائياً من مستمع 'play'
+    if (currentStatus) currentStatus.textContent = radioStations[stationIndex].name + " يعمل الآن";
 }
 
 function stopRadio() {
     customAudioPlayer.pause();
-    currentStatus.textContent = "الراديو متوقف";
-    playPauseSymbol.setAttribute("d", "M8 5v14l11-7z");
-    isAudioPlaying = false;
-    var playBtn = document.getElementById('customPlayToggleButton');
-    if (playBtn) playBtn.classList.remove('playing');
+    // isAudioPlaying والزر يتحدّثوا تلقائياً من مستمع 'pause'
+    if (currentStatus) currentStatus.textContent = "الراديو متوقف";
 }
 
 function togglePlayPauseFunc() {
@@ -2941,11 +2916,12 @@ const sources = [
 ];
 
 let index = 0;
-let notified = false;
+let _lastToastTime = 0;
 
 function showToast(message) {
-    if (notified) return;
-    notified = true;
+    const now = Date.now();
+    if (now - _lastToastTime < 3500) return; // throttle: max one toast per 3.5s
+    _lastToastTime = now;
 
     const toast = document.createElement("div");
     toast.textContent = message;
@@ -27684,45 +27660,33 @@ document.getElementById("languageToggle").innerHTML = isArabic ? "🌐 EN" : "�
   }
 }
 
-function changeBackgroundColor() {
-    var color = document.getElementById("bgColor").value;
-
-    if (color === "dark") {
-        document.body.classList.add("dark-mode");
-        document.body.style.background = "";
-        localStorage.setItem('theme', 'dark');
-        localStorage.removeItem('bgColor');
-        updateDarkModeBtn(true);
-    } else {
-        document.body.classList.remove("dark-mode");
-        document.body.style.background = color;
-        localStorage.setItem('bgColor', color);
-        localStorage.setItem('theme', 'light');
-        updateDarkModeBtn(false);
-    }
-}
-
-function toggleDarkModeFloat() {
-    const isDark = document.body.classList.contains("dark-mode");
-    if (isDark) {
-
-        document.body.classList.remove("dark-mode");
-        document.body.style.background = "";
-        localStorage.setItem('theme', 'light');
-        localStorage.removeItem('bgColor');
-        const sel = document.getElementById('bgColor');
-        if (sel) sel.value = "";
-        updateDarkModeBtn(false);
-    } else {
-
+// ── دالة مشتركة: تفعيل/إيقاف الوضع الليلي ──────────────────────────────────
+function applyDarkMode(enable, customBg) {
+    if (enable) {
         document.body.classList.add("dark-mode");
         document.body.style.background = "";
         localStorage.setItem('theme', 'dark');
         localStorage.removeItem('bgColor');
         const sel = document.getElementById('bgColor');
         if (sel) sel.value = "dark";
-        updateDarkModeBtn(true);
+    } else {
+        document.body.classList.remove("dark-mode");
+        document.body.style.background = customBg || "";
+        if (customBg) localStorage.setItem('bgColor', customBg);
+        localStorage.setItem('theme', 'light');
+        const sel = document.getElementById('bgColor');
+        if (sel && !customBg) sel.value = "";
     }
+    updateDarkModeBtn(enable);
+}
+
+function changeBackgroundColor() {
+    var color = document.getElementById("bgColor").value;
+    applyDarkMode(color === "dark", color !== "dark" ? color : null);
+}
+
+function toggleDarkModeFloat() {
+    applyDarkMode(!document.body.classList.contains("dark-mode"));
 }
 
 function updateDarkModeBtn(isDark) {
@@ -27746,15 +27710,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const savedBgColor = localStorage.getItem('bgColor');
 
     if (savedTheme === 'dark') {
-        document.body.classList.add("dark-mode");
-        document.getElementById('bgColor').value = "dark";
-        updateDarkModeBtn(true);
-    }
-
-    else if (savedBgColor) {
-        document.body.style.background = savedBgColor;
-        document.getElementById('bgColor').value = savedBgColor;
-        updateDarkModeBtn(false);
+        applyDarkMode(true);
+    } else if (savedBgColor) {
+        applyDarkMode(false, savedBgColor);
     }
 
     const savedColor = localStorage.getItem('radioButtonColor') || '#f8f9fa';
@@ -27987,46 +27945,61 @@ function getContrastYIQ(hexcolor){
     };
 })();
 
+// ══════════════════════════════════════════════════════════════
+// المسطرة (Space) — مفتاح موحّد لتشغيل/إيقاف راديو الشاشة الترحيبية
+// يعمل سواء الشاشة مفتوحة أو مغلقة، ومتزامن تماماً مع زر التشغيل
+// ══════════════════════════════════════════════════════════════
 document.addEventListener('keydown', function(event) {
-    // تجاهل لو المستخدم بيكتب في خانة
-    var tag = document.activeElement ? document.activeElement.tagName : '';
-    var isTyping = (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' ||
-                    document.activeElement.isContentEditable);
-    if (isTyping) return;
 
+    // ── استثناء: لا تستجيب لو المستخدم بيكتب في input/search/textarea ──
+    var activeEl = document.activeElement;
+    var tag = activeEl ? activeEl.tagName : '';
+    var excludedIds = ['sleepTimer', 'autoSwitchTimer', 'searchInput'];
+    if (
+        tag === 'INPUT' || tag === 'TEXTAREA' ||
+        tag === 'SELECT' || (activeEl && activeEl.isContentEditable) ||
+        (activeEl && excludedIds.indexOf(activeEl.id) !== -1)
+    ) return;
+
+    // ── Shift+W: فتح الشاشة الترحيبية ──
     if (event.shiftKey && event.code === 'KeyW') {
-        openWelcomeScreen();
+        if (typeof openWelcomeScreen === 'function') openWelcomeScreen();
+        return;
     }
 
-    // مسطرة = تشغيل/إيقاف راديو الشاشة الترحيبية في أي وقت
+    // ── Space: تشغيل / إيقاف (بدون Shift / Ctrl / Meta) ──
     if (event.code === 'Space' && !event.shiftKey && !event.ctrlKey && !event.metaKey) {
         event.preventDefault();
-        var wsVisible = document.getElementById('welcomeScreen') &&
-                        document.getElementById('welcomeScreen').style.display !== 'none';
+        if (event.repeat) return; // تجاهل الضغط المستمر
+
+        var wsScreen   = document.getElementById('welcomeScreen');
+        var wsVisible  = wsScreen && wsScreen.style.display !== 'none';
+        var cap        = document.getElementById('customAudioPlayer');
+        if (!cap) return;
+
         if (wsVisible) {
-            // الشاشة مفتوحة → play/pause
+            // ── الشاشة مفتوحة: toggleWelcomePlayPause يتولى كل شيء ──
             toggleWelcomePlayPause();
+
         } else {
-            // الشاشة مغلقة → تشغيل/إيقاف راديو الشاشة بدون فتحها
-            var cap = document.getElementById('customAudioPlayer');
-            if (!cap) return;
+            // ── الشاشة مغلقة: تشغيل/إيقاف بدون فتح الشاشة ──
             if (cap.paused) {
+                // إعادة تهيئة المصدر ثم تشغيل
                 window._welcomeScreenClosed = false;
                 index = 0;
                 switchingSource = false;
                 welcomeConsecutiveErrors = 0;
                 clearTimeout(welcomeErrorTimer);
                 clearTimeout(welcomeStalledTimer);
-                // وقف الراديو الرئيسي أول
                 var mainAu = document.getElementById('currentAudio');
                 if (mainAu && !mainAu.paused) mainAu.pause();
-                playSource(index);
+                // playSource يضبط الـ src ويشغّل — نحدّث الحالة بعده مباشرة
+                playSource(0);
                 isAudioPlaying = true;
                 updateWelcomePlayPauseButton(true);
             } else {
-                cap.pause();
-                isAudioPlaying = false;
-                updateWelcomePlayPauseButton(false);
+                // إيقاف عبر stopRadio (يحدث isAudioPlaying والزر معاً)
+                stopRadio();
             }
         }
     }
@@ -28539,9 +28512,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 }
 
-function copyLink() {
-    window.open('https://magziko.github.io/Radio/', '_blank');
-alert('لو لم يفتح المتصفح الخارجي، انسخ الرابط يدويًا: https://magziko.github.io/Radio/');}
 
 const toggle = document.getElementById('flagToggle');
 const container = document.getElementById('flagContainer');
@@ -28798,6 +28768,7 @@ const modernGradient = 'linear-gradient(90deg, #e3f9e5 0%, #43cea2 40%, #13a045 
         }, 15000);
     }
 
+    highlightAllSync(); // بدء الأنيميشن فور تحميل الصفحة
 });
 
 function adjustButtonFontSize() {
@@ -29367,278 +29338,150 @@ function getAdhkarSubByTime() {
     return null;
 }
 
+// ── دالة مساعدة مشتركة: إظهار subfilter + scroll + pulse ─────────────────
+function _showSubfilter(subId, activeClass, defaultSubAttr, onShow) {
+    var sub = document.getElementById(subId);
+    if (!sub) return;
+
+    sub.classList.add('visible');
+    document.querySelectorAll('.' + activeClass).forEach(function(b) { b.classList.remove('active'); });
+    var defBtn = defaultSubAttr ? sub.querySelector('[data-sub="' + defaultSubAttr + '"]') : null;
+    if (defBtn) defBtn.classList.add('active');
+
+    if (typeof onShow === 'function') onShow();
+    if (typeof updateButtonIndices === 'function') updateButtonIndices();
+
+    setTimeout(function() {
+        sub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        sub.classList.add('highlight-attention');
+        setTimeout(function() { sub.classList.remove('highlight-attention'); }, 1800);
+    }, 120);
+}
+
+function _hideSubfilter(subId) {
+    var sub = document.getElementById(subId);
+    if (sub) sub.classList.remove('visible');
+}
+
 var _origFilterStations = filterStations;
 
 filterStations = function(category) {
-    // Handle More sub-filter visibility
-    var moreSub = document.getElementById('more-subfilter');
-    if (moreSub) {
-        if (category === 'More') {
-            moreSub.classList.add('visible');
-            document.querySelectorAll('.more-sub-btn').forEach(b => b.classList.remove('active'));
-            var allMoreBtn = moreSub.querySelector('[data-sub="all"]');
-            if (allMoreBtn) allMoreBtn.classList.add('active');
+
+    // More
+    if (category === 'More') {
+        _showSubfilter('more-subfilter', 'more-sub-btn', 'all', function() {
             ['more-mushaf','more-azkar','more-translations','more-hadith','more-radio','more-sites'].forEach(function(cat) {
-                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-                    b.style.display = 'block';
-                });
+                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) { b.style.display = 'block'; });
             });
-            // Smart scroll to subfilter
-            setTimeout(function() {
-                moreSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                moreSub.classList.add('highlight-attention');
-                setTimeout(function() { moreSub.classList.remove('highlight-attention'); }, 1800);
-            }, 120);
-        } else {
-            moreSub.classList.remove('visible');
-        }
-    }
+        });
+    } else { _hideSubfilter('more-subfilter'); }
 
-    // Handle LiveTV sub-filter visibility
-    var ltvSub = document.getElementById('livetv-subfilter');
-    if (ltvSub) {
-        if (category === 'LiveTV') {
-            ltvSub.classList.add('visible');
-            document.querySelectorAll('.livetv-sub-btn').forEach(b => b.classList.remove('active'));
-            var allLtvBtn = ltvSub.querySelector('[data-sub="all"]');
-            if (allLtvBtn) allLtvBtn.classList.add('active');
+    // LiveTV
+    if (category === 'LiveTV') {
+        _showSubfilter('livetv-subfilter', 'livetv-sub-btn', 'all', function() {
             ['ltv-channels','ltv-full','ltv-best','ltv-salawat','ltv-lectures','ltv-news','ltv-learn'].forEach(function(cat) {
-                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-                    b.style.display = 'block';
-                });
+                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) { b.style.display = 'block'; });
             });
-            // Smart scroll to subfilter
-            setTimeout(function() {
-                ltvSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                ltvSub.classList.add('highlight-attention');
-                setTimeout(function() { ltvSub.classList.remove('highlight-attention'); }, 1800);
-            }, 120);
-        } else {
-            ltvSub.classList.remove('visible');
-        }
-    }
+        });
+    } else { _hideSubfilter('livetv-subfilter'); }
 
-    // Handle QuranKarim sub-filter visibility
-    var qkSub = document.getElementById('qurankarim-subfilter');
-    if (qkSub) {
-        if (category === 'QuranKarim') {
-            qkSub.classList.add('visible');
-            document.querySelectorAll('.qurankarim-sub-btn').forEach(b => b.classList.remove('active'));
-            var defQkBtn = qkSub.querySelector('[data-sub="Quran"]');
-            if (defQkBtn) defQkBtn.classList.add('active');
-            ['Quran', 'mojawwad', 'rewayat', 'Monshawiiyat', 'surah', 'teachers'].forEach(function(cat) {
+    // QuranKarim
+    if (category === 'QuranKarim') {
+        _showSubfilter('qurankarim-subfilter', 'qurankarim-sub-btn', 'Quran', function() {
+            ['Quran','mojawwad','rewayat','Monshawiiyat','surah','teachers'].forEach(function(cat) {
                 document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
                     b.style.display = (cat === 'Quran') ? 'block' : 'none';
                 });
             });
-            if (typeof updateButtonIndices === 'function') updateButtonIndices();
-            // Smart scroll: scroll to subfilter and pulse to grab attention
-            setTimeout(function() {
-                qkSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                qkSub.classList.add('highlight-attention');
-                setTimeout(function() { qkSub.classList.remove('highlight-attention'); }, 1800);
-            }, 120);
-        } else {
-            qkSub.classList.remove('visible');
-            if (category !== 'all') {
-                ['Quran', 'mojawwad', 'rewayat', 'Monshawiiyat', 'surah', 'teachers'].forEach(function(cat) {
-                    document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-                        b.style.display = 'none';
-                    });
-                });
-            }
+        });
+    } else {
+        _hideSubfilter('qurankarim-subfilter');
+        if (category !== 'all') {
+            ['Quran','mojawwad','rewayat','Monshawiiyat','surah','teachers'].forEach(function(cat) {
+                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) { b.style.display = 'none'; });
+            });
         }
     }
 
-    // Handle QuranSciences sub-filter visibility
-    var qsSub = document.getElementById('quransciences-subfilter');
-    if (qsSub) {
-        if (category === 'QuranSciences') {
-            qsSub.classList.add('visible');
-            document.querySelectorAll('.quransciences-sub-btn').forEach(b => b.classList.remove('active'));
-            var defBtn = qsSub.querySelector('[data-sub="Translation"]');
-            if (defBtn) defBtn.classList.add('active');
-            ['Translation', 'tafsir', 'tajweed'].forEach(function(cat) {
+    // QuranSciences
+    if (category === 'QuranSciences') {
+        _showSubfilter('quransciences-subfilter', 'quransciences-sub-btn', 'Translation', function() {
+            ['Translation','tafsir','tajweed'].forEach(function(cat) {
                 document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
                     b.style.display = (cat === 'Translation') ? 'block' : 'none';
                 });
             });
-            // Hide rewayat stations by default
-            document.querySelectorAll('button[data-category="rewayat"]').forEach(function(b) {
-                b.style.display = 'none';
+            document.querySelectorAll('button[data-category="rewayat"]').forEach(function(b) { b.style.display = 'none'; });
+        });
+    } else {
+        _hideSubfilter('quransciences-subfilter');
+        if (category !== 'all') {
+            ['Translation','tafsir','tajweed'].forEach(function(cat) {
+                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) { b.style.display = 'none'; });
             });
-            if (typeof updateButtonIndices === 'function') updateButtonIndices();
-            // Smart scroll + attention pulse
-            setTimeout(function() {
-                qsSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                qsSub.classList.add('highlight-attention');
-                setTimeout(function() { qsSub.classList.remove('highlight-attention'); }, 1800);
-            }, 120);
-        } else {
-            qsSub.classList.remove('visible');
-            // When leaving QuranSciences, hide all sub-categories + rewayat
-            if (category !== 'all') {
-                ['Translation', 'tafsir', 'tajweed'].forEach(function(cat) {
-                    document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-                        b.style.display = 'none';
-                    });
-                });
-                document.querySelectorAll('button[data-category="rewayat"]').forEach(function(b) {
-                    b.style.display = 'none';
-                });
-            }
+            document.querySelectorAll('button[data-category="rewayat"]').forEach(function(b) { b.style.display = 'none'; });
         }
     }
 
-
-    // Handle Radio sub-filter visibility
-    var radioSub = document.getElementById('radio-subfilter');
-    if (radioSub) {
-        if (category === 'Radio') {
-            radioSub.classList.add('visible');
-            document.querySelectorAll('.radio-sub-btn').forEach(b => b.classList.remove('active'));
-            var defRadioBtn = radioSub.querySelector('[data-sub="radio-live"]');
-            if (defRadioBtn) defRadioBtn.classList.add('active');
-            // Show only live-stream stations by default, hide external ones
-            document.querySelectorAll('button[data-category="Radio"]').forEach(function(b) {
-                b.style.display = 'block';
-            });
-            document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) {
-                b.style.display = 'none';
-            });
-            if (typeof updateButtonIndices === 'function') updateButtonIndices();
-            if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined') {
-                updateFilterLanguage(isArabic ? 'ar' : 'en');
-            }
-            setTimeout(function() {
-                radioSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                radioSub.classList.add('highlight-attention');
-                setTimeout(function() { radioSub.classList.remove('highlight-attention'); }, 1800);
-            }, 120);
-        } else {
-            radioSub.classList.remove('visible');
-            // Hide radio-external when leaving Radio filter
-            if (category !== 'all') {
-                document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) {
-                    b.style.display = 'none';
-                });
-            }
+    // Radio
+    if (category === 'Radio') {
+        _showSubfilter('radio-subfilter', 'radio-sub-btn', 'radio-live', function() {
+            document.querySelectorAll('button[data-category="Radio"]').forEach(function(b) { b.style.display = 'block'; });
+            document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) { b.style.display = 'none'; });
+            if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined') updateFilterLanguage(isArabic ? 'ar' : 'en');
+        });
+    } else {
+        _hideSubfilter('radio-subfilter');
+        if (category !== 'all') {
+            document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) { b.style.display = 'none'; });
         }
     }
 
-    // Handle Reciters sub-filter visibility
-    var recitersSub = document.getElementById('reciters-subfilter');
-    if (recitersSub) {
-        if (category !== 'reciters') {
-            recitersSub.classList.remove('visible');
-        }
-    }
+    // Reciters (must run _orig first)
+    if (category !== 'reciters') { _hideSubfilter('reciters-subfilter'); }
 
-        _origFilterStations(category === 'QuranSciences' ? 'Translation' : category === 'QuranKarim' ? 'Quran' : category === 'Radio' ? 'Radio' : category);
+    _origFilterStations(category === 'QuranSciences' ? 'Translation' : category === 'QuranKarim' ? 'Quran' : category === 'Radio' ? 'Radio' : category);
 
-    // After _origFilterStations runs, apply reciters sub-filter logic
-    if (recitersSub) {
-        if (category === 'reciters') {
-            recitersSub.classList.add('visible');
-            document.querySelectorAll('.reciters-sub-btn').forEach(b => b.classList.remove('active'));
-            var defRecBtn = recitersSub.querySelector('[data-sub="radio"]');
-            if (defRecBtn) defRecBtn.classList.add('active');
-            // _origFilterStations already showed all reciters; now filter to radio only
+    if (category === 'reciters') {
+        _showSubfilter('reciters-subfilter', 'reciters-sub-btn', 'radio', function() {
             document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
                 b.style.display = (b.getAttribute('data-reciter-type') === 'radio') ? 'block' : 'none';
             });
-            if (typeof updateButtonIndices === 'function') updateButtonIndices();
-            // sync sub-filter button labels to current language
-            if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined') {
-                updateFilterLanguage(isArabic ? 'ar' : 'en');
-            }
-            // Smart scroll + attention pulse
-            setTimeout(function() {
-                recitersSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                recitersSub.classList.add('highlight-attention');
-                setTimeout(function() { recitersSub.classList.remove('highlight-attention'); }, 1800);
-            }, 120);
-        }
-    }
-
-    // Handle Sira sub-filter visibility
-    var siraSub = document.getElementById('sira-subfilter');
-    if (siraSub) {
-        if (category === 'sira') {
-            siraSub.classList.add('visible');
-            document.querySelectorAll('.sira-sub-btn').forEach(b => b.classList.remove('active'));
-            var allSiraBtn = siraSub.querySelector('[data-sub="all"]');
-            if (allSiraBtn) allSiraBtn.classList.add('active');
-            document.querySelectorAll('button[data-category="sira"]').forEach(function(b) {
-                b.style.display = 'block';
-            });
-            if (typeof updateButtonIndices === 'function') updateButtonIndices();
-            setTimeout(function() {
-                siraSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                siraSub.classList.add('highlight-attention');
-                setTimeout(function() { siraSub.classList.remove('highlight-attention'); }, 1800);
-            }, 120);
-        } else {
-            siraSub.classList.remove('visible');
-        }
-    }
-
-    var sub = document.getElementById('adhkar-subfilter');
-    if (!sub) return;
-
-    if (category === 'Adhkar') {
-        sub.classList.add('visible');
-
-        var autoSub = getAdhkarSubByTime();
-        var targetSub = autoSub || 'all';
-
-        document.querySelectorAll('.adhkar-sub-btn').forEach(b => b.classList.remove('active'));
-        var targetBtn = sub.querySelector('[data-sub="' + targetSub + '"]');
-        if (targetBtn) targetBtn.classList.add('active');
-
-        currentAdhkarSub = targetSub;
-        document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
-            if (targetSub === 'all') {
-                b.style.display = 'block';
-            } else {
-                b.style.display = b.hasAttribute('data-adhkar-' + targetSub) ? 'block' : 'none';
-            }
+            if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined') updateFilterLanguage(isArabic ? 'ar' : 'en');
         });
-        if (typeof updateButtonIndices === 'function') updateButtonIndices();
-        // Smart scroll + attention pulse
-        setTimeout(function() {
-            sub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            sub.classList.add('highlight-attention');
-            setTimeout(function() { sub.classList.remove('highlight-attention'); }, 1800);
-        }, 120);
-
-    } else {
-        sub.classList.remove('visible');
-        currentAdhkarSub = 'all';
     }
 
-    // Handle mix (محطات إسلامية) sub-filter visibility
-    var mixSub = document.getElementById('mix-subfilter');
-    if (mixSub) {
-        if (category === 'mix') {
-            mixSub.classList.add('visible');
-            document.querySelectorAll('.mix-sub-btn').forEach(b => b.classList.remove('active'));
-            var allMixBtn = mixSub.querySelector('[data-sub="all"]');
-            if (allMixBtn) allMixBtn.classList.add('active');
-            // Show all mix stations
-            document.querySelectorAll('button[data-category="mix"]').forEach(function(b) {
-                b.style.display = 'block';
+    // Sira
+    if (category === 'sira') {
+        _showSubfilter('sira-subfilter', 'sira-sub-btn', 'all', function() {
+            document.querySelectorAll('button[data-category="sira"]').forEach(function(b) { b.style.display = 'block'; });
+        });
+    } else { _hideSubfilter('sira-subfilter'); }
+
+    // Adhkar
+    var sub = document.getElementById('adhkar-subfilter');
+    if (sub) {
+        if (category === 'Adhkar') {
+            var autoSub = getAdhkarSubByTime();
+            var targetSub = autoSub || 'all';
+            _showSubfilter('adhkar-subfilter', 'adhkar-sub-btn', targetSub, function() {
+                currentAdhkarSub = targetSub;
+                document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
+                    b.style.display = (targetSub === 'all' || b.hasAttribute('data-adhkar-' + targetSub)) ? 'block' : 'none';
+                });
             });
-            if (typeof updateButtonIndices === 'function') updateButtonIndices();
-            setTimeout(function() {
-                mixSub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                mixSub.classList.add('highlight-attention');
-                setTimeout(function() { mixSub.classList.remove('highlight-attention'); }, 1800);
-            }, 120);
         } else {
-            mixSub.classList.remove('visible');
+            _hideSubfilter('adhkar-subfilter');
+            currentAdhkarSub = 'all';
         }
     }
+
+    // Mix
+    if (category === 'mix') {
+        _showSubfilter('mix-subfilter', 'mix-sub-btn', 'all', function() {
+            document.querySelectorAll('button[data-category="mix"]').forEach(function(b) { b.style.display = 'block'; });
+        });
+    } else { _hideSubfilter('mix-subfilter'); }
 };
 
 function filterMixSub(subType, btn) {
@@ -30129,17 +29972,6 @@ function showMessage(msg) {
         toast.style.opacity = "0";
         setTimeout(() => { document.body.removeChild(toast); }, 300);
     }, 2500);
-}
-
-function shareWhatsApp() {
-    const text = "🌿 موقع رائع للأذكار والقرآن:\n" + window.location.href;
-    const url = "https://wa.me/?text=" + encodeURIComponent(text);
-    window.open(url, "_blank");
-}
-
-function shareFacebook() {
-    const url = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.href);
-    window.open(url, "_blank");
 }
 
 function shareWhatsApp() {
