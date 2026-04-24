@@ -9,7 +9,7 @@
 
   <title>إذاعة القرآن الكريم | Quran Radio – تلاوات وأذكار وبث مباشر</title>
 
-  <meta name="description" content="إذاعة القرآن الكريم - Quran Radio: استمع إلى تلاوات القرآن، الأذكار، الأدعية وتفسير القرآن بث مباشر 24/7. Listen to live Quran recitations, adhkar & duas anytime. Escucha el Corán en vivo, adhkar y súplicas 24/7.">
+  <meta name="description" content="إذاعة القرآن الكريم - Quran Radio: استمع إلى تلاوات القرآن، الأذكار، الأدعية والحديث الشريف والسنة النبوية 24/7. Listen to Holy Quran Radio, Hadith & Sunnah, recitations & adhkar anytime. Escucha el Corán, hadices y súplicas 24/7.">
 
 <meta name="keywords" content="إذاعة القرآن الكريم, Quran Radio, Radio Quran, تلاوات القرآن, أذكار, أدعية, تفسير القرآن, Islamic Radio, Radio Ma Quran">
 
@@ -53,9 +53,12 @@
 
 <style>
 
- #customLogo {
+#customLogo {
     text-align: center;
+    margin-top: -20px; /* رفع اللوجو لفوق */
+    margin-bottom: 5px;
 }
+
 #customLogo img {
     border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -64,8 +67,7 @@
 #welcomeScreen {
     background: linear-gradient(135deg, #dfe9f3, #ffffff);
     animation: fadeIn 0.8s ease-in-out;
-        position: relative;
-
+    position: relative;
 }
 
 #welcomeContent {
@@ -82,6 +84,7 @@
     border: 1px solid rgba(255,255,255,0.4);
     animation: slideDown 0.7s ease;
     box-sizing: border-box;
+
     /* flex column so the bottom bar stays at the bottom */
     display: flex;
     flex-direction: column;
@@ -92,6 +95,7 @@
         max-width: 900px;
         width: 90%;
     }
+
     /* on wide screens, bottom row never needs to wrap */
     #welcome-bottom-row {
         flex-wrap: nowrap;
@@ -103,13 +107,15 @@
     color: #2c3e50;
     text-align: center;
     font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 6px; /* تقليل المسافة أسفل الترحيب */
 }
 
 #siteWelcomeText {
     font-size: 17px;
     color: #34495e;
     text-align: center;
-    margin-bottom: 18px;
+    margin-bottom: 8px; /* تقليل المسافة أسفل Radio Ma */
     line-height: 1.6;
 }
 
@@ -117,7 +123,7 @@
     text-align: center;
     font-style: italic;
     color: #2c3e50;
-    height: 250px;
+    height: 320px; /* بدل 250px لإعطاء مساحة أكبر للآيات والترجمة */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -132,7 +138,6 @@
     transition: opacity 0.3s ease;
     word-wrap: break-word;
 }
-
 #customControlButtons {
     display: flex;
     justify-content: center;
@@ -1159,9 +1164,11 @@ border-radius: 12px;
     justify-content: space-between;
     padding: 8px 12px;
     border-radius: 16px 16px 0 0;
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+
+    background: transparent; /* تم إلغاء لون الخلفية */
+    backdrop-filter: none;   /* إلغاء تأثير الضبابية */
+    border-bottom: none;     /* اختياري: إزالة الخط السفلي */
+
     margin: -5% -5% 12px -5%;
     position: relative;
 }
@@ -1566,10 +1573,13 @@ body.dark-mode .customHeading {
 }
 
 body.dark-mode #siteWelcomeText,
-body.dark-mode #siteWelcomeText span,
 body.dark-mode #siteWelcomeText strong {
     color: #c8d6e5 !important;
 }
+body.dark-mode #siteWelcomeText span:nth-child(1) { color: #78909c !important; }
+body.dark-mode #siteWelcomeText span:nth-child(2) { color: #90caf9 !important; }
+body.dark-mode #siteWelcomeText span:nth-child(3) { color: #64b5f6 !important; }
+body.dark-mode #siteWelcomeText span:nth-child(4) { color: #78909c !important; }
 
 body.dark-mode #quranVerse,
 body.dark-mode #quranVerse p,
@@ -1930,18 +1940,18 @@ body.dark-mode .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 4px;
     flex: 1 1 0;                   /* يتوزعون بالتساوي */
     min-width: 0;                  /* يسمح بالانكماش */
-    height: 36px;
+    height: 28px;
     box-sizing: border-box;
-    padding: 0 10px;
+    padding: 0 8px;
     /* شكل */
-    border-radius: 18px;
+    border-radius: 14px;
     border: 1.5px solid #b0c4de;
     background: rgba(255,255,255,0.72);
     color: #2c3e50;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
@@ -1960,26 +1970,44 @@ body.dark-mode .btn {
     box-shadow: 0 3px 12px rgba(30,144,255,0.18);
 }
 .welcome-toggle-btn.active {
-    background: rgba(30,144,255,0.15);
-    border-color: #1e90ff;
-    color: #0d6ecc;
-    box-shadow: 0 2px 10px rgba(30,144,255,0.2);
+    background: linear-gradient(135deg, #1e90ff 0%, #0d6ecc 100%);
+    border-color: #0d6ecc;
+    color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(30,144,255,0.25), 0 4px 14px rgba(30,144,255,0.45);
+    font-weight: 700;
+}
+
+.welcome-toggle-btn.active .wtb-icon {
+    display: inline-block;
+    animation: spin-icon 1.8s linear infinite;
+}
+
+@keyframes spin-icon {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+body.dark-mode .welcome-toggle-btn.active {
+    background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%) !important;
+    border-color: #64b5f6 !important;
+    color: #e3f2fd !important;
+    box-shadow: 0 0 0 2px rgba(100,181,246,0.3), 0 4px 14px rgba(100,181,246,0.35) !important;
 }
 
 /* الأيقونة والنص — حجم موحّد */
 :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wdm-icon,
 :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wtb-icon {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1;
     flex-shrink: 0;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
 }
 /* SVG icons inside wtb-icon get stroke from currentColor automatically */
 .wtb-icon svg, .wdm-icon svg { display: block; }
 :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wdm-text,
 :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wtb-text {
-    font-size: 11.5px;
+    font-size: 10.5px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -1999,12 +2027,6 @@ body.dark-mode #welcomeDarkModeBtn {
     color: #ffd54f !important;
     border-color: rgba(255,213,79,0.5) !important;
 }
-body.dark-mode .welcome-toggle-btn.active {
-    background: rgba(30,60,110,0.9) !important;
-    border-color: #64b5f6 !important;
-    color: #e3f2fd !important;
-}
-
 /* ══════════════════════════════════════════════
    صف Translate السفلي
    ══════════════════════════════════════════════ */
@@ -2035,9 +2057,9 @@ body.dark-mode .welcome-toggle-btn.active {
 @media (max-width: 991px) and (min-width: 481px) {
     #welcome-bottom-row { gap: 6px; }
     :is(#welcomeDarkModeBtn, .welcome-toggle-btn) {
-        font-size: 11.5px;
-        padding: 0 8px;
-        height: 34px;
+        font-size: 10.5px;
+        padding: 0 6px;
+        height: 26px;
     }
 }
 
@@ -2049,18 +2071,70 @@ body.dark-mode .welcome-toggle-btn.active {
     }
     :is(#welcomeDarkModeBtn, .welcome-toggle-btn) {
         flex: 1 1 0;
-        height: 34px;
-        font-size: 10.5px;
-        padding: 0 6px;
-        border-radius: 12px;
+        height: 26px;
+        font-size: 9.5px;
+        padding: 0 5px;
+        border-radius: 10px;
     }
     #translateBarBtn {
-        height: 34px;
-        font-size: 11px;
+        height: 26px;
+        font-size: 10px;
     }
 }
 
 /* #welcomeDarkModeBtn base styles now handled by shared :is() token above */
+
+/* Dark Mode button inside top bar — matches lang toggle style */
+#welcome-top-bar #welcomeDarkModeBtn {
+    position: static !important;
+    top: unset !important;
+    right: unset !important;
+    z-index: auto !important;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: rgba(255,255,255,0.85);
+    color: #1565c0;
+    border: 1.5px solid rgba(21,101,192,0.25);
+    box-shadow: 0 1px 6px rgba(21,101,192,0.08);
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s;
+    flex-direction: row;
+    gap: 0;
+}
+
+#welcome-top-bar #welcomeDarkModeBtn .wdm-text {
+    display: none;
+}
+
+#welcome-top-bar #welcomeDarkModeBtn .wdm-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+#welcome-top-bar #welcomeDarkModeBtn:hover {
+    background: #1565c0 !important;
+    color: #fff !important;
+    border-color: #1565c0 !important;
+    box-shadow: 0 1px 6px rgba(21,101,192,0.25) !important;
+}
+
+body.dark-mode #welcome-top-bar #welcomeDarkModeBtn {
+    background: rgba(20,30,48,0.85) !important;
+    color: #ffd54f !important;
+    border-color: rgba(255,213,79,0.35) !important;
+    box-shadow: 0 1px 6px rgba(255,213,79,0.15) !important;
+}
+
+body.dark-mode #welcome-top-bar #welcomeDarkModeBtn:hover {
+    background: rgba(40,40,70,0.95) !important;
+    border-color: #ffd54f !important;
+}
 
 #welcomeDarkModeBtn:hover {
     background: rgba(30,144,255,0.1);
@@ -2948,6 +3022,10 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
     </div>
     <div class="wtb-center"></div>
     <div class="wtb-right">
+        <button id="welcomeDarkModeBtn" onclick="toggleDarkModeFloat()" title="تبديل الوضع الليلي / Dark Mode" aria-label="Toggle Dark Mode">
+            <span class="wdm-icon">🌙</span>
+            <span class="wdm-text" id="welcomeDarkModeTxt">Dark Mode</span>
+        </button>
         <button id="welcomeLangToggle" onclick="toggleLanguage()">🌐 EN</button>
         <button id="reloadButton" onclick="confirmReload()" aria-label="إعادة تحميل" style="display:none;">🔄</button>
     </div>
@@ -2964,11 +3042,17 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
 </div>
 
 <p id="siteWelcomeText">
-    <span style="font-size:24px; font-weight:700; display:block;">
+    <span style="font-size:13px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:#7f8c8d; display:block; margin-bottom:4px;">
+        🕌 بسم الله الرحمن الرحيم
+    </span>
+    <span style="font-size:26px; font-weight:900; display:block; color:#1a237e; line-height:1.2;">
         مرحبًا بكم في
     </span>
-    <span style="font-size:17px; color:#2c3e50; display:block; margin-top:6px;">
-        <strong>Radio Ma</strong> – راديو القرآن الكريم
+    <span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0; letter-spacing:0.5px;">
+        📻 <strong>Radio Ma</strong>
+    </span>
+    <span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">
+        إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية
     </span>
 </p>
 
@@ -3031,18 +3115,6 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
                     <span class="wtb-text" id="autoSwitchToggleTxt">Auto Switch</span>
                 </button>
 
-                <button id="welcomeDarkModeBtn" onclick="toggleDarkModeFloat()" title="تبديل الوضع الليلي / Dark Mode" aria-label="Toggle Dark Mode">
-                    <span class="wdm-icon">🌙</span>
-                    <span class="wdm-text" id="welcomeDarkModeTxt">Dark Mode</span>
-                </button>
-
-                <button id="disableWelcomeToggleBtn"
-                        onclick="toggleDisableWelcomeBtn()"
-                        title="إخفاء شاشة الترحيب / Disable Welcome Screen"
-                        class="welcome-toggle-btn">
-                    <svg class="wtb-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                    <span class="wtb-text" id="disableWelcomeTxt">Disable Welcome</span>
-                </button>
             </div>
 
             <!-- الصف السفلي: Translate وحده + قائمته تنفتح تحته -->
@@ -3097,11 +3169,10 @@ window.onload = function() {
         document.getElementById('welcomeScreen').style.display = 'block';
 
         setTimeout(function() {
-
             index = 0;
             playSource(index);
-            isAudioPlaying = true;
-            updateWelcomePlayPauseButton(true);
+            // isAudioPlaying والزر يتحدّثوا تلقائياً من مستمع 'play'
+            updateWelcomePlayPauseButton(false); // default to paused until play fires
         }, 200);
 
         setTimeout(function() {
@@ -3223,15 +3294,6 @@ function updateWelcomePlayPauseButton(isPlaying) {
     } else {
         playPauseSymbol.setAttribute("d", "M8 5v14l11-7z");
         if (playBtn) playBtn.classList.remove('playing');
-    }
-}
-
-function toggleWelcomePlayPause() {
-    // دايماً نستخدم startRadio/stopRadio عشان isAudioPlaying يفضل متزامن مع الزر
-    if (customAudioPlayer.paused) {
-        startRadio();
-    } else {
-        stopRadio();
     }
 }
 
@@ -3385,7 +3447,8 @@ function enableAutoSwitch() {
     }
 }
 
-const audio = document.getElementById("customAudioPlayer");
+// alias — نفس العنصر اللي اتعرّف فوق كـ customAudioPlayer
+var audio = customAudioPlayer;
 
 const sources = [
     "https://backup.qurango.net/radio/tarateel",
@@ -3427,12 +3490,11 @@ function playSource(i) {
     clearTimeout(welcomeErrorTimer);
     clearTimeout(welcomeStalledTimer);
 
-    audio.src = sources[i];
-    audio.load();
-    audio.play()
+    customAudioPlayer.src = sources[i];
+    customAudioPlayer.load();
+    customAudioPlayer.play()
         .then(() => {
             switchingSource = false;
-
             welcomeConsecutiveErrors = 0;
         })
         .catch(() => {
@@ -6609,6 +6671,17 @@ setInterval(() => {
 
     </select>
     </div>
+  </div>
+
+  <!-- Disable Welcome Screen button inside settings panel -->
+  <div style="display:flex; justify-content:center; margin: 8px 0 4px;">
+    <button id="disableWelcomeToggleBtn"
+            onclick="toggleDisableWelcomeBtn()"
+            title="إخفاء شاشة الترحيب / Disable Welcome Screen"
+            class="welcome-toggle-btn">
+        <svg class="wtb-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span class="wtb-text" id="disableWelcomeTxt">Disable Welcome</span>
+    </button>
   </div>
 
   </div>
@@ -26955,12 +27028,16 @@ function toggleLanguage() {
   if (welcomeText) {
     if (isArabic) {
       welcomeText.innerHTML =
-        '<span style="font-size:24px; font-weight:700; display:block;">مرحبًا بكم في</span>' +
-        '<span style="font-size:17px; color:#2c3e50; display:block; margin-top:6px;"><strong>Radio Ma</strong> \u2013 \u0631\u0627\u062f\u064a\u0648 \u0627\u0644\u0642\u0631\u0622\u0646 \u0627\u0644\u0643\u0631\u064a\u0645</span>';
+        '<span style="font-size:13px; font-weight:600; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px;">🕌 بسم الله الرحمن الرحيم</span>' +
+        '<span style="font-size:26px; font-weight:900; display:block; color:#1a237e; line-height:1.2;">مرحبًا بكم في</span>' +
+        '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;">📻 <strong>Radio Ma</strong></span>' +
+        '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية</span>';
     } else {
       welcomeText.innerHTML =
-        '<span style="font-size:24px; font-weight:700; display:block;">Welcome to</span>' +
-        '<span style="font-size:17px; color:#2c3e50; display:block; margin-top:6px;"><strong>Radio Ma</strong> &ndash; Holy Quran Radio</span>';
+        '<span style="font-size:13px; font-weight:600; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px;">🕌 In the Name of Allah</span>' +
+        '<span style="font-size:26px; font-weight:900; display:block; color:#1a237e; line-height:1.2;">Welcome to</span>' +
+        '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;">📻 <strong>Radio Ma</strong></span>' +
+        '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</span>';
     }
   }
 
@@ -26996,6 +27073,7 @@ function toggleLanguage() {
   }
 
 
+  var bgSel = document.getElementById('bgColor');
   if (bgSel && bgSel.options[0]) {
     bgSel.options[0].textContent = isArabic ? 'اختر لونًا' : 'Choose color';
   }
@@ -27348,8 +27426,8 @@ document.addEventListener('keydown', function(event) {
         if (!cap) return;
 
         if (wsVisible) {
-            // ── الشاشة مفتوحة: toggleWelcomePlayPause يتولى كل شيء ──
-            toggleWelcomePlayPause();
+            // ── الشاشة مفتوحة: togglePlayPauseFunc يتولى كل شيء ──
+            togglePlayPauseFunc();
 
         } else {
             // ── الشاشة مغلقة: تشغيل/إيقاف بدون فتح الشاشة ──
