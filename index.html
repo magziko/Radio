@@ -713,9 +713,7 @@ audio {
 }
 
 /* Hide "Powered by Google" text */
-#google_translate_element .goog-te-gadget > span,
 #google_translate_element .goog-logo-link {
-  display: none !important;
 }
 
 /* Style the select dropdown */
@@ -3117,13 +3115,7 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
 
             </div>
 
-            <!-- الصف السفلي: Translate وحده + قائمته تنفتح تحته -->
-            <div id="welcome-translate-row">
-                <div id="mag_translate_toggle">
-                    <button id="translateBarBtn" onclick="toggleTranslateBar()">🌐 Translate</button>
-                </div>
-                <div id="google_translate_element" style="display:none;"></div>
-            </div>
+          <div id="google_translate_element"></div>
 
             <!-- Down arrow -->
             <div id="downArrow" style="text-align:center; margin-top:4px; cursor:pointer;">
@@ -20211,7 +20203,7 @@ data-en="O Allah, by You we enter the morning and by You we enter the evening, b
 data-adhkar-evening="1"
 data-station="اللّهُـمَّ بِكَ أَمْسَـينا وَبِكَ أَصْبَحْنا وَبِكَ نَحْيا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ"
 data-target="1"
-data-ar="اللّهُـمَّ بِكَ أَمْسَـينا وَبِكَ أَمْسَـحْنا وَبِكَ نَحْيا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ"
+data-ar="اللّهُـمَّ بِكَ أَمْسَـينا وَبِكَ أَصْبَحْنا وَبِكَ نَحْيا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ"
 data-en="O Allah, by You we enter the evening and by You we enter the morning, by You we live and die, and to You is the final return"
     data-random="true"
     data-urls='[
@@ -28289,24 +28281,17 @@ window.addEventListener("resize", adjustButtonFontSize);
 function toggleTranslateBar() {
   var el = document.getElementById('google_translate_element');
 
-  if (el.style.display === 'none' || el.style.display === '') {
-    el.style.display = 'block';
-    // نحاول نغير النص فور الظهور بعدة محاولات
-    var tries = 0;
-    var iv = setInterval(function() {
-      var sel = el.querySelector('select.goog-te-combo');
-      if (sel && sel.options[0]) {
-        sel.options[0].textContent = '🌐 Select Language';
-        clearInterval(iv);
-      }
-      if (++tries > 20) clearInterval(iv);
-    }, 80);
-    setTimeout(function() {
-      el.style.display = 'none';
-    }, 10000);
-  } else {
-    el.style.display = 'none';
-  }
+  el.style.display = 'block';
+
+  var tries = 0;
+  var iv = setInterval(function () {
+    var sel = el.querySelector('select.goog-te-combo');
+    if (sel && sel.options[0]) {
+      sel.options[0].textContent = '🌐 Select Language';
+      clearInterval(iv);
+    }
+    if (++tries > 20) clearInterval(iv);
+  }, 80);
 }
 
 function handleTripleClickWithPassword(element) {
@@ -29197,7 +29182,7 @@ updateFilterLanguage(siteLanguage);
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({
     pageLanguage: 'ar',
-    includedLanguages: 'ar,en,fr,es,ru,pt,de,tr,fa,ur,zh,he',
+    includedLanguages: 'ar,en,fr,es,ru,pt,de,tr,fa,ur,zh-CN,he,nl,sv,ga,da,it,hi,bn,id,ms,ko,uk,pl,cs,fi,el,ro,hu,bg,sr,hr,bs,sl,sk,lt,lv,et,sq,sw,am,ps,ku',
     layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
     autoDisplay: false,
     multilanguagePage: true
