@@ -3230,31 +3230,6 @@ function toggleDisableWelcomeBtn() {
 
 /* restore toggle button states on page load */
 (function initToggleBtns() {
-    document.addEventListener('DOMContentLoaded', function() {
-        /* Auto Switch state */
-        const asBtn  = document.getElementById('autoSwitchToggleBtn');
-        const asCb   = document.getElementById('customAutoSwitch');
-        if (asBtn && asCb && asCb.checked) {
-            asBtn.classList.add('active');
-            asBtn.querySelector('.wtb-icon').textContent = '🔄';
-        }
-        /* Disable Welcome state */
-        const dwBtn  = document.getElementById('disableWelcomeToggleBtn');
-        const dwCb   = document.getElementById('disableWelcomeScreen');
-        const dwTxt  = document.getElementById('disableWelcomeTxt');
-        const isAr2  = (typeof isArabic !== 'undefined') ? isArabic : false;
-        const SVG_EYE_OFF = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
-        if (dwBtn && dwCb) {
-            const stored = localStorage.getItem('disableWelcomeScreen');
-            if (stored === 'true') {
-                dwCb.checked = true;
-                dwBtn.classList.add('active');
-                const dwIcon = dwBtn.querySelector('.wtb-icon');
-                if (dwIcon) dwIcon.innerHTML = SVG_EYE_OFF;
-                if (dwTxt) dwTxt.textContent = isAr2 ? 'الترحيب: مخفي' : 'Welcome: Off';
-            }
-        }
-    });
 })();
 
 const downArrow = document.getElementById('downArrow');
@@ -6996,6 +6971,7 @@ function renderStationButtons(arr, container, opts) {
         if (s.urls) {
             btn.setAttribute('data-urls', JSON.stringify(s.urls));
             btn.setAttribute('data-current-index', '0');
+            btn.setAttribute('data-url', s.urls[0]); // للـ isolated player
             btn.setAttribute('data-random', 'true');
             btn.setAttribute('onclick', 'toggleRadio(this, event)');
             // title: use the dhikr text if present, else navigation hint
@@ -9372,6 +9348,7 @@ const recitersStations = [
     if (s.urls) {
       btn.setAttribute('data-urls', JSON.stringify(s.urls));
       btn.setAttribute('data-current-index', '0');
+      btn.setAttribute('data-url', s.urls[0]); // للـ isolated player يعرف يجيب URL
       if (s.random) btn.setAttribute('data-random', 'true');
       btn.setAttribute('title', 'Click \u23ed\ufe0f / Shift+Click \u23ee\ufe0f');
       btn.setAttribute('onclick', 'toggleRadio(this, event)');
@@ -15097,6 +15074,22 @@ const ltvStations = [
   { category: "ltv-lectures", station: "الصلاة من المسجد النبوي", ar: "الصلاة من المسجد النبوي", en: "Prayer from Al-Masjid An-Nabawi", videoId: null, externalUrl: "https://www.facebook.com/reel/10213455468115628" },
   { category: "ltv-lectures", station: "معاذ عليان", ar: "معاذ عليان", en: "Moaz Alian", videoId: "DuVtA_OvnnA", modalTitle: "بث مباشر قناة الندى الفضائية" },
 
+
+  // ltv-news
+  { category: "ltv-news", station: "قناة الجزيرة",                    ar: "قناة الجزيرة",                    en: "Al Jazeera Channel",        videoId: "bNyUyrR0PHo",                       modalTitle: "بث مباشر قناة الجزيرة" },
+  { category: "ltv-news", station: "الجزيرة مباشر",                   ar: "الجزيرة مباشر",                   en: "Al Jazeera Mubasher",       videoId: "8D5QY5gw_Xk?si=PDDMoNcu6GanBJdY",   tripleClick: true },
+  { category: "ltv-news", station: "الجزيرة الإنجليزية مباشر",       ar: "الجزيرة الإنجليزية مباشر",       en: "Al Jazeera English | Live", videoId: "gCNeDWCI0vo?si=ewDoHBEspxN6O_0D",   tripleClick: true, displayText: "Al Jazeera English | Live" },
+  { category: "ltv-news", station: "CBC News",                         ar: "سي بي سي نيوز",                  en: "CBC News",                  videoId: "5vfaDsMhCF4?si=AcR4qybXvXhGnbjq",    tripleClick: true },
+  { category: "ltv-news", station: "Sky News",                         ar: "سكاي نيوز",                      en: "Sky News",                  videoId: "YDvsBbKfLPA?si=kYHQ8tzzEYfVozBE",    tripleClick: true },
+  { category: "ltv-news", station: "TalkTV",                           ar: "توك تي في",                     en: "TalkTV",                    videoId: "DFYaNjzI1aI?si=-z0IbaFqdU6p7oGv",    tripleClick: true },
+  { category: "ltv-news", station: "FRANCE 24 English – LIVE",         ar: "FRANCE 24 English – LIVE",       en: "FRANCE 24 English – LIVE",  videoId: "Ap-UM1O9RBU?si=OBOiuYESzXCcBnuO",    tripleClick: true },
+  { category: "ltv-news", station: "DW News Livestream",               ar: "DW News Livestream",             en: "DW News Livestream",        videoId: "LuKwFajn37U?si=ZKm1YPmlGZFpDhVS",    tripleClick: true },
+  { category: "ltv-news", station: "GB News Live",                     ar: "GB News Live",                   en: "GB News Live",              videoId: "QliL4CGc7iY?si=p2JZpKyElzYkJ6FE",    tripleClick: true },
+  { category: "ltv-news", station: "ABC News Live",                    ar: "ABC News Live",                  en: "ABC News Live",             videoId: "iipR5yUp36o?si=Nj4cmjcID4owCY78",    tripleClick: true },
+  { category: "ltv-news", station: "ABC News Australia",               ar: "ABC News أستراليا",              en: "ABC News Australia",        videoId: "vOTiJkg1voo?si=KGK4liuHLObFVLFG",    tripleClick: true },
+  { category: "ltv-news", station: "CGTN Europe News",                 ar: "CGTN Europe News",               en: "CGTN Europe News",          videoId: "_6dRRfnYJws?si=DLS30kmrxsSWodVf",    tripleClick: true },
+  { category: "ltv-news", station: "Euronews English Live",            ar: "Euronews English Live",          en: "Euronews English Live",     videoId: "pykpO5kQJ98?si=mSvORMy8KpdQpwya",    tripleClick: true },
+
   // ltv-learn
   { category: "ltv-learn", station: "تعلم الإنجليزية الأمريكية المستوى الثاني", ar: "تعلم الإنجليزية الأمريكية المستوى الثاني", en: "Learn American English Level 2", videoId: "vuTY4FDAbpA?si=pxDo3dnELBh3wnBL", tripleClick: true },
   { category: "ltv-learn", station: "تعلم الإنجليزية الأمريكية المستوى السادس", ar: "تعلم الإنجليزية الأمريكية المستوى السادس", en: "Learn American English Level 6", videoId: "tabVA7bEhSc?si=vqT74XHM-JEdLKNR", tripleClick: true }
@@ -15854,11 +15847,6 @@ document.getElementById('nextButton').addEventListener('click', function() {
 
 let _userPickedFilter = false;
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.filter-button, .adhkar-sub-btn, .sira-sub-btn, .more-sub-btn, .livetv-sub-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() { _userPickedFilter = true; });
-    });
-});
 
 
 /* =====================================================
@@ -16082,29 +16070,6 @@ function loadRating() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    loadRating();
-
-    const stars = document.querySelectorAll('.star');
-
-    stars.forEach((star, index) => {
-        star.addEventListener('mouseover', () => handleMouseOver(index));
-        star.addEventListener('mouseout', handleMouseOut);
-        star.addEventListener('click', () => rate(index + 1));
-    });
-
-    function handleMouseOver(index) {
-        for (let i = 0; i <= index; i++) {
-            stars[i].classList.add('hover');
-        }
-    }
-
-    function handleMouseOut() {
-        stars.forEach(star => {
-            star.classList.remove('hover');
-        });
-    }
-});
 
  // اللغة: إذا كان المستخدم اختار من قبل → استخدم اختياره المحفوظ
  // إذا لم يكن هناك اختيار محفوظ → اكتشف لغة المتصفح تلقائياً
@@ -16348,21 +16313,6 @@ function updateDarkModeBtn(isDark) {
       : (isArabic ? 'الوضع الليلي'  : 'Dark Mode');
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-
-    const savedTheme = localStorage.getItem('theme');
-    const savedBgColor = localStorage.getItem('bgColor');
-
-    if (savedTheme === 'dark') {
-        applyDarkMode(true);
-    } else if (savedBgColor) {
-        applyDarkMode(false, savedBgColor);
-    }
-
-    const savedColor = localStorage.getItem('radioButtonColor') || '#f8f9fa';
-    changeRadioButtonColor(savedColor, false);
-    document.getElementById('radioButtonColor').value = savedColor;
-});
 
 function changeRadioButtonColor(color = document.getElementById('radioButtonColor').value, save = true) {
     const radioButtons = document.querySelectorAll('.button.palestine');
@@ -16451,10 +16401,10 @@ function getContrastYIQ(hexcolor){
         if (onclickAttr.includes('openModal')) return false;
         if (onclickAttr.includes('window.open')) return false;
         if (onclickAttr.includes('handleTripleClick')) return false;
+        if (onclickAttr.includes('handleClickWithCounter')) return false;
 
-        const url  = btn.getAttribute('data-url');
-        const urls = btn.getAttribute('data-urls');
-        if (urls) return false;
+        // نتحقق من data-url مباشرة (data-urls لا تمنع — الزر ممكن يكون راديو حقيقي)
+        const url = btn.getAttribute('data-url');
         if (!isRealRadioStream(url)) return false;
 
         return true;
@@ -17012,27 +16962,6 @@ function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'r
     };
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const whatsappButton = document.querySelector('.whatsapp-button');
-    const telegramButton = document.querySelector('.telegram-button');
-
-    whatsappButton.classList.add('hidden');
-    telegramButton.classList.add('hidden');
-
-    function showButtonsForEightSeconds() {
-        whatsappButton.classList.remove('hidden');
-        telegramButton.classList.remove('hidden');
-
-        setTimeout(() => {
-            whatsappButton.classList.add('hidden');
-            telegramButton.classList.add('hidden');
-        }, 8000);
-    }
-
-    setInterval(showButtonsForEightSeconds, 120000);
-
-    showButtonsForEightSeconds();
-});
 
     function stopAllOtherAudios(activePlayer) {
 
@@ -17218,205 +17147,8 @@ function handleTripleClick(element) {
     }
 }
 
- document.addEventListener("DOMContentLoaded", function () {
-    const now = new Date();
-    const hour = now.getHours();
 
-    // ─── الفئات الاعتيادية (الاختيار العشوائي الافتراضي) ─────────────────────
-    const categories = [
-      'reciters', 'reciters', 'reciters', 'rewayat', 'mojawwad',
-      'teachers', 'tafsir', 'Quran', 'Quran', 'Quran', 'Quran',
-      'Radio', 'Radio', 'Translation', 'Foreign', 'Foreign',
-      'scholars', 'sira', 'Monshawiiyat', 'mix'
-    ];
 
-    // ─── فئات مُرجَّحة للزوار الأمريكيين والأوروبيين ────────────────────────
-    // أوروبا ذروة: 18:00–23:00 بتوقيت القاهرة (UTC+3) ≈ 15:00–20:00 UTC
-    // أمريكا ذروة: 20:00–02:00 بتوقيت القاهرة     ≈ 17:00–23:00 UTC
-    // التحقق بتوقيت UTC حتى يعمل بصرف النظر عن جهاز الزائر
-    const utcHour = now.getUTCHours();
-    const isEuropePeak  = (utcHour >= 15 && utcHour < 22); // 15:00–22:00 UTC
-    const isAmericaPeak = (utcHour >= 21 || utcHour < 3);  // 21:00–03:00 UTC
-
-    // فئات مُرجَّحة تجعل Translation و Foreign أكثر ظهوراً (60 %)
-    const categoriesWesternPeak = [
-      'Translation', 'Translation', 'Translation',
-      'Foreign', 'Foreign', 'Foreign',
-      'reciters', 'Quran', 'Quran',
-      'tafsir', 'mojawwad', 'Radio'
-    ];
-
-    let selectedCategory = null;
-
-    // ─── أوقات الأذكار: الصباح والمساء (بتوقيت الجهاز المحلي) ───────────────
-    if (hour >= 4 && hour < 11) {
-        selectedCategory = 'Adhkar';
-    }
-
-    else if (hour >= 16 && hour < 19) {
-        selectedCategory = 'Adhkar';
-    }
-
-    // ─── ذروة الغرب: أفضل Translation / foreign ─────────────────────────────
-    else if (isEuropePeak || isAmericaPeak) {
-        const westPool = categoriesWesternPeak;
-        const lastStation = localStorage.getItem('lastStation');
-        if (lastStation) {
-            try {
-                const parsed = JSON.parse(lastStation);
-                const allBtns = document.querySelectorAll('.button[data-category]');
-                let foundCategory = null;
-                allBtns.forEach(btn => {
-                    if (
-                        btn.getAttribute('data-url') === parsed.url ||
-                        btn.getAttribute('data-ar') === parsed.name ||
-                        (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(parsed.url))
-                    ) {
-                        foundCategory = btn.getAttribute('data-category');
-                    }
-                });
-                // إذا كانت المحطة الأخيرة Translation أو Foreign نكمل معها
-                // وإلا نختار من مجموعة الذروة الغربية
-                if (foundCategory && (foundCategory === 'Translation' || foundCategory === 'Foreign')) {
-                    selectedCategory = foundCategory;
-                } else {
-                    selectedCategory = westPool[Math.floor(Math.random() * westPool.length)];
-                }
-            } catch(e) {
-                selectedCategory = westPool[Math.floor(Math.random() * westPool.length)];
-            }
-        } else {
-            selectedCategory = westPool[Math.floor(Math.random() * westPool.length)];
-        }
-    }
-
-    // ─── الأوقات العادية: الاختيار العشوائي الاعتيادي ───────────────────────
-    else {
-        const lastStation = localStorage.getItem('lastStation');
-        if (lastStation) {
-            try {
-                const parsed = JSON.parse(lastStation);
-
-                const allBtns = document.querySelectorAll('.button[data-category]');
-                let foundCategory = null;
-                allBtns.forEach(btn => {
-                    if (
-                        btn.getAttribute('data-url') === parsed.url ||
-                        btn.getAttribute('data-ar') === parsed.name ||
-                        (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(parsed.url))
-                    ) {
-                        foundCategory = btn.getAttribute('data-category');
-                    }
-                });
-                selectedCategory = foundCategory || categories[Math.floor(Math.random() * categories.length)];
-            } catch(e) {
-                selectedCategory = categories[Math.floor(Math.random() * categories.length)];
-            }
-        } else {
-            selectedCategory = categories[Math.floor(Math.random() * categories.length)];
-        }
-    }
-
-    setTimeout(function () {
-      if (selectedCategory === 'favorites') {
-        if (typeof toggleFavoritesView === 'function') {
-          toggleFavoritesView();
-        }
-      } else {
-        if (typeof filterStations === 'function') {
-          filterStations(selectedCategory);
-        }
-      }
-    }, 100);
-});
-
-window.addEventListener("DOMContentLoaded", () => {
-    let lastStation = JSON.parse(localStorage.getItem('lastStation'));
-    if (lastStation) {
-        let buttons = document.querySelectorAll('.button');
-        buttons.forEach(btn => {
-            if (
-                btn.getAttribute('data-url') === lastStation.url ||
-                (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(lastStation.url)) ||
-                btn.getAttribute('data-ar') === lastStation.name
-            ) {
-                toggleRadio(btn);
-            }
-        });
-    }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const status = document.getElementById('status');
-    const prevBtn = document.getElementById('prevButton');
-    const nextBtn = document.getElementById('nextButton');
-    const randomBtn = document.getElementById('randomButton');
-
-    const statusBg = window.getComputedStyle(status).background;
-    const statusColor = window.getComputedStyle(status).color;
-    const prevBg = window.getComputedStyle(prevBtn).background;
-    const prevColor = window.getComputedStyle(prevBtn).color;
-    const nextBg = window.getComputedStyle(nextBtn).background;
-    const nextColor = window.getComputedStyle(nextBtn).color;
-    const randomBg = window.getComputedStyle(randomBtn).background;
-    const randomColor = window.getComputedStyle(randomBtn).color;
-
-const modernGradient = 'linear-gradient(90deg, #e3f2fd 0%, #64b5f6 40%, #1e90ff 50%, #64b5f6 60%, #e3f2fd 100%)';
-
-    function highlightAllSync() {
-
-    [prevBtn, nextBtn, randomBtn].forEach(btn => {
-    btn.style.setProperty('background', '#fff', 'important');
-    btn.style.color = '#000';
-    btn.style.textShadow = 'none';
-});
-
-        status.style.setProperty('background', modernGradient, 'important');
-        status.style.color = '#fff';
-        status.style.textShadow = '';
-
-        const sleepCheckbox = document.getElementById('sleepCheckbox');
-        const autoSwitchCheckbox = document.getElementById('autoSwitchCheckbox');
-        if (sleepCheckbox) {
-            sleepCheckbox.parentElement.style.background = modernGradient;
-            sleepCheckbox.parentElement.style.color = '#000';
-            sleepCheckbox.parentElement.style.borderRadius = '8px';
-        }
-        if (autoSwitchCheckbox) {
-            autoSwitchCheckbox.parentElement.style.background = modernGradient;
-            autoSwitchCheckbox.parentElement.style.color = '#000';
-            autoSwitchCheckbox.parentElement.style.borderRadius = '8px';
-        }
-
-        setTimeout(() => {
-
-            status.style.setProperty('background', statusBg, 'important');
-            status.style.color = statusColor;
-            status.style.textShadow = '';
-
-            [prevBtn, nextBtn, randomBtn].forEach((btn, i) => {
-                btn.style.setProperty('background', [prevBg, nextBg, randomBg][i], 'important');
-                btn.style.color = [prevColor, nextColor, randomColor][i];
-                btn.style.textShadow = '';
-            });
-
-            if (sleepCheckbox) {
-                sleepCheckbox.parentElement.style.background = '';
-                sleepCheckbox.parentElement.style.color = '';
-                sleepCheckbox.parentElement.style.borderRadius = '';
-            }
-            if (autoSwitchCheckbox) {
-                autoSwitchCheckbox.parentElement.style.background = '';
-                autoSwitchCheckbox.parentElement.style.color = '';
-                autoSwitchCheckbox.parentElement.style.borderRadius = '';
-            }
-
-            setTimeout(highlightAllSync, 10000);
-        }, 15000);
-    }
-
-    highlightAllSync(); // بدء الأنيميشن فور تحميل الصفحة
-});
 
 function adjustButtonFontSize() {
   document.querySelectorAll('.filter-button').forEach(btn => {
@@ -17465,18 +17197,6 @@ window.addEventListener("resize", adjustButtonFontSize);
   }
 
   // راقب الـ container بـ MutationObserver لو الـ widget اتحمّل بعدين
-  document.addEventListener('DOMContentLoaded', function() {
-    var container = document.getElementById('google_translate_element');
-    if (!container) return;
-
-    var observer = new MutationObserver(function() {
-      var sel = container.querySelector('select.goog-te-combo');
-      if (sel && sel.options.length > 0) {
-        sel.options[0].textContent = '🌐 Select Language';
-      }
-    });
-    observer.observe(container, { childList: true, subtree: true });
-  });
 
   // استدعاء مباشر بعد تحميل الصفحة كذلك
   window.addEventListener('load', patchGoogSelect);
@@ -18443,27 +18163,6 @@ function resetTasbih(event) {
     activeTasbih = box;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".tasbih-box").forEach(box => {
-        const button = box.closest("button");
-        const key = "tasbih_" + button.getAttribute("data-station");
-
-        let count = localStorage.getItem(key);
-        count = count ? parseInt(count) : 0;
-
-        box.querySelector(".tasbih-count").innerText = count;
-
-        const target = parseInt(button.dataset.target) || 0;
-
-if (target && count >= target) {
-    button.classList.add("completed");
-}
-
-        box.addEventListener("click", () => {
-            activeTasbih = box;
-        });
-    });
-});
 
 function confirmResetAll(event) {
     event.stopPropagation();
@@ -18685,7 +18384,7 @@ function shareFacebook() {
 
   var topBtn = document.getElementById('scrollToTopBtn');
 
-  function updateTogglePlayBtnVisibility() {
+  window.updateTogglePlayBtnVisibility = function() {
     var playBtn = document.getElementById('togglePlayPause');
     var mainAudioForBtn = document.getElementById('currentAudio');
     if (!playBtn || !mainAudioForBtn) return;
@@ -18697,178 +18396,508 @@ function shareFacebook() {
   // نفس منطق زر السهم بالضبط
   window.addEventListener('scroll', function() {
     if (topBtn) topBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
-    updateTogglePlayBtnVisibility();
+    window.updateTogglePlayBtnVisibility();
   }, { passive: true });
 
-  document.addEventListener('DOMContentLoaded', function() {
-    var mainAudioEl = document.getElementById('currentAudio');
-    if (mainAudioEl) {
-      mainAudioEl.addEventListener('play', updateTogglePlayBtnVisibility);
-      mainAudioEl.addEventListener('pause', updateTogglePlayBtnVisibility);
-      mainAudioEl.addEventListener('emptied', updateTogglePlayBtnVisibility);
-    }
-    var statusEl = document.getElementById('status');
-    var audioEl  = document.getElementById('currentAudio');
-    if (!statusEl || !audioEl) return;
-
-    var wrap = document.createElement('div');
-    wrap.id = 'sticky-player-wrap';
-
-    var navBar = document.createElement('div');
-    navBar.id = 'player-nav-bar';
-    navBar.innerHTML = [
-
-      '<div class="pnb-group">',
-        '<button class="pnb-btn" id="pnb-prev" title="المحطة السابقة">',
-          '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>',
-        '</button>',
-        '<span class="pnb-lbl">السابقة</span>',
-      '</div>',
-
-      '<div class="pnb-divider"></div>',
-
-      '<div class="pnb-group">',
-        '<button class="pnb-btn" id="pnb-random" title="اخترنا لك – عشوائي">',
-          '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>',
-        '</button>',
-        '<span class="pnb-lbl" style="color:rgba(255,213,79,.8);">اخترنا لك</span>',
-      '</div>',
-
-      '<div class="pnb-divider"></div>',
-
-      '<div class="pnb-group">',
-        '<button class="pnb-btn" id="pnb-play" title="تشغيل / إيقاف">',
-          '<svg id="pnb-play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>',
-        '</button>',
-        '<span class="pnb-lbl" style="color:rgba(144,202,249,.9);">تشغيل</span>',
-      '</div>',
-
-      '<div class="pnb-divider"></div>',
-
-      '<span id="player-station-label">',
-        '<span id="pnb-dot" class="live-dot-player" style="display:none;"></span>',
-        '<span id="pnb-name">اختر محطة...</span>',
-      '</span>',
-
-      '<div id="player-vol-wrap">',
-        '<span class="vol-ico">🔈</span>',
-        '<input type="range" id="player-vol-slider" min="0" max="1" step="0.05" value="1">',
-        '<span class="vol-ico">🔊</span>',
-      '</div>',
-
-      '<div class="pnb-divider"></div>',
-
-      '<div class="pnb-group">',
-        '<button class="pnb-btn" id="pnb-next" title="المحطة التالية">',
-          '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>',
-        '</button>',
-        '<span class="pnb-lbl">التالية</span>',
-      '</div>'
-
-    ].join('');
-
-    statusEl.parentNode.insertBefore(wrap, statusEl);
-    wrap.appendChild(navBar);
-    wrap.appendChild(statusEl);
-    wrap.appendChild(audioEl);
-
-    var playBtn  = document.getElementById('pnb-play');
-    var playIcon = document.getElementById('pnb-play-icon');
-    var dot      = document.getElementById('pnb-dot');
-    var nameEl   = document.getElementById('pnb-name');
-    var volSlider= document.getElementById('player-vol-slider');
-    var prevHidden   = document.getElementById('prevButton');
-    var nextHidden   = document.getElementById('nextButton');
-    var randomHidden = document.getElementById('randomButton');
-
-    if (audioEl && volSlider) {
-      volSlider.value = audioEl.volume;
-      volSlider.addEventListener('input', function() {
-        audioEl.volume = this.value;
-        var oldVol = document.getElementById('volumeControl');
-        if (oldVol) oldVol.value = this.value;
-      });
-      audioEl.addEventListener('volumechange', function() {
-        if (volSlider) volSlider.value = audioEl.volume;
-      });
-    }
-
-    function syncStationName() {
-      var txt = (statusEl.textContent || '').trim();
-      var isPlaying = txt && txt !== 'الرجاء اختيار محطة راديو.' && txt !== 'Please select a radio station.'
-                         && txt !== 'اختر محطة...' && txt !== 'Choose a station...';
-
-      if (isPlaying) {
-
-        var arTxt = (statusEl.getAttribute('data-ar') || txt)
-                    .replace(/^تشغيل:\s*/,'').replace(/^Playing:\s*/i,'').replace(/^جارٍ التشغيل:\s*/,'');
-
-        var enTxt = (statusEl.getAttribute('data-en') || '')
-                    .replace(/^Playing:\s*/i,'').replace(/^تشغيل:\s*/,'');
-
-        nameEl.dataset.arName = arTxt;
-        if (enTxt && enTxt !== arTxt) {
-          nameEl.dataset.enName = enTxt;
-        }
-
-        var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-        var enName = nameEl.dataset.enName;
-        if (!isAr && enName) {
-          nameEl.textContent = enName;
-        } else {
-          nameEl.textContent = arTxt;
-        }
-        dot.style.display = 'inline-block';
-        playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-        playBtn.classList.add('is-playing');
-      } else {
-        nameEl.dataset.arName = '';
-        nameEl.dataset.enName = '';
-        var isAr2 = (typeof isArabic !== 'undefined') ? isArabic : true;
-        nameEl.textContent = isAr2 ? 'اختر محطة...' : 'Choose a station...';
-        dot.style.display = 'none';
-      }
-    }
-
-    new MutationObserver(syncStationName).observe(statusEl, { childList: true, subtree: true, characterData: true });
-    syncStationName();
-
-    playBtn.addEventListener('click', function() {
-      if (!audioEl.src && !audioEl.currentSrc) return;
-      if (audioEl.paused) {
-        audioEl.play().catch(function(){});
-        playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-        playBtn.classList.add('is-playing');
-      } else {
-        audioEl.pause();
-        playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-        playBtn.classList.remove('is-playing');
-      }
-    });
-
-    audioEl.addEventListener('play', function() {
-      playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-      playBtn.classList.add('is-playing');
-    });
-    audioEl.addEventListener('pause', function() {
-      playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-      playBtn.classList.remove('is-playing');
-    });
-
-    document.getElementById('pnb-prev').addEventListener('click', function() {
-      if (prevHidden) prevHidden.click();
-    });
-    document.getElementById('pnb-next').addEventListener('click', function() {
-      if (nextHidden) nextHidden.click();
-    });
-    document.getElementById('pnb-random').addEventListener('click', function() {
-      if (randomHidden) randomHidden.click();
-    });
-
-  });
 
 })();
 </script>
 
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// DOMContentLoaded — بلوك واحد مدموج (دُمج من 11 بلوك منفصلة)
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+    // ── 1. Toggle buttons: Auto Switch + Disable Welcome ──
+        /* Auto Switch state */
+        const asBtn  = document.getElementById('autoSwitchToggleBtn');
+        const asCb   = document.getElementById('customAutoSwitch');
+        if (asBtn && asCb && asCb.checked) {
+            asBtn.classList.add('active');
+            asBtn.querySelector('.wtb-icon').textContent = '🔄';
+        }
+        /* Disable Welcome state */
+        const dwBtn  = document.getElementById('disableWelcomeToggleBtn');
+        const dwCb   = document.getElementById('disableWelcomeScreen');
+        const dwTxt  = document.getElementById('disableWelcomeTxt');
+        const isAr2  = (typeof isArabic !== 'undefined') ? isArabic : false;
+        const SVG_EYE_OFF = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+        if (dwBtn && dwCb) {
+            const stored = localStorage.getItem('disableWelcomeScreen');
+            if (stored === 'true') {
+                dwCb.checked = true;
+                dwBtn.classList.add('active');
+                const dwIcon = dwBtn.querySelector('.wtb-icon');
+                if (dwIcon) dwIcon.innerHTML = SVG_EYE_OFF;
+                if (dwTxt) dwTxt.textContent = isAr2 ? 'الترحيب: مخفي' : 'Welcome: Off';
+            }
+        }
+
+    // ── 2. Filter buttons click tracking ──
+    document.querySelectorAll('.filter-button, .adhkar-sub-btn, .sira-sub-btn, .more-sub-btn, .livetv-sub-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() { _userPickedFilter = true; });
+    });
+
+    // ── 3. Rating stars ──
+    loadRating();
+
+    const stars = document.querySelectorAll('.star');
+
+    stars.forEach((star, index) => {
+        star.addEventListener('mouseover', () => handleMouseOver(index));
+        star.addEventListener('mouseout', handleMouseOut);
+        star.addEventListener('click', () => rate(index + 1));
+    });
+
+    function handleMouseOver(index) {
+        for (let i = 0; i <= index; i++) {
+            stars[i].classList.add('hover');
+        }
+    }
+
+    function handleMouseOut() {
+        stars.forEach(star => {
+            star.classList.remove('hover');
+        });
+    }
+
+    // ── 4. Restore theme & button colors ──
+
+    const savedTheme = localStorage.getItem('theme');
+    const savedBgColor = localStorage.getItem('bgColor');
+
+    if (savedTheme === 'dark') {
+        applyDarkMode(true);
+    } else if (savedBgColor) {
+        applyDarkMode(false, savedBgColor);
+    }
+
+    const savedColor = localStorage.getItem('radioButtonColor') || '#f8f9fa';
+    changeRadioButtonColor(savedColor, false);
+    document.getElementById('radioButtonColor').value = savedColor;
+
+    // ── 5. WhatsApp / Telegram visibility ──
+    const whatsappButton = document.querySelector('.whatsapp-button');
+    const telegramButton = document.querySelector('.telegram-button');
+
+    whatsappButton.classList.add('hidden');
+    telegramButton.classList.add('hidden');
+
+    function showButtonsForEightSeconds() {
+        whatsappButton.classList.remove('hidden');
+        telegramButton.classList.remove('hidden');
+
+        setTimeout(() => {
+            whatsappButton.classList.add('hidden');
+            telegramButton.classList.add('hidden');
+        }, 8000);
+    }
+
+    setInterval(showButtonsForEightSeconds, 120000);
+
+    showButtonsForEightSeconds();
+
+    // ── 6. Smart category filter on load ──
+    const now = new Date();
+    const hour = now.getHours();
+
+    // ─── الفئات الاعتيادية (الاختيار العشوائي الافتراضي) ─────────────────────
+    const categories = [
+      'reciters', 'reciters', 'reciters', 'rewayat', 'mojawwad',
+      'teachers', 'tafsir', 'Quran', 'Quran', 'Quran', 'Quran',
+      'Radio', 'Radio', 'Translation', 'Foreign', 'Foreign',
+      'scholars', 'sira', 'Monshawiiyat', 'mix'
+    ];
+
+    // ─── فئات مُرجَّحة للزوار الأمريكيين والأوروبيين ────────────────────────
+    // أوروبا ذروة: 18:00–23:00 بتوقيت القاهرة (UTC+3) ≈ 15:00–20:00 UTC
+    // أمريكا ذروة: 20:00–02:00 بتوقيت القاهرة     ≈ 17:00–23:00 UTC
+    // التحقق بتوقيت UTC حتى يعمل بصرف النظر عن جهاز الزائر
+    const utcHour = now.getUTCHours();
+    const isEuropePeak  = (utcHour >= 15 && utcHour < 22); // 15:00–22:00 UTC
+    const isAmericaPeak = (utcHour >= 21 || utcHour < 3);  // 21:00–03:00 UTC
+
+    // فئات مُرجَّحة تجعل Translation و Foreign أكثر ظهوراً (60 %)
+    const categoriesWesternPeak = [
+      'Translation', 'Translation', 'Translation',
+      'Foreign', 'Foreign', 'Foreign',
+      'reciters', 'Quran', 'Quran',
+      'tafsir', 'mojawwad', 'Radio'
+    ];
+
+    let selectedCategory = null;
+
+    // ─── أوقات الأذكار: الصباح والمساء (بتوقيت الجهاز المحلي) ───────────────
+    if (hour >= 4 && hour < 11) {
+        selectedCategory = 'Adhkar';
+    }
+
+    else if (hour >= 16 && hour < 19) {
+        selectedCategory = 'Adhkar';
+    }
+
+    // ─── ذروة الغرب: أفضل Translation / foreign ─────────────────────────────
+    else if (isEuropePeak || isAmericaPeak) {
+        const westPool = categoriesWesternPeak;
+        const lastStation = localStorage.getItem('lastStation');
+        if (lastStation) {
+            try {
+                const parsed = JSON.parse(lastStation);
+                const allBtns = document.querySelectorAll('.button[data-category]');
+                let foundCategory = null;
+                allBtns.forEach(btn => {
+                    if (
+                        btn.getAttribute('data-url') === parsed.url ||
+                        btn.getAttribute('data-ar') === parsed.name ||
+                        (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(parsed.url))
+                    ) {
+                        foundCategory = btn.getAttribute('data-category');
+                    }
+                });
+                // إذا كانت المحطة الأخيرة Translation أو Foreign نكمل معها
+                // وإلا نختار من مجموعة الذروة الغربية
+                if (foundCategory && (foundCategory === 'Translation' || foundCategory === 'Foreign')) {
+                    selectedCategory = foundCategory;
+                } else {
+                    selectedCategory = westPool[Math.floor(Math.random() * westPool.length)];
+                }
+            } catch(e) {
+                selectedCategory = westPool[Math.floor(Math.random() * westPool.length)];
+            }
+        } else {
+            selectedCategory = westPool[Math.floor(Math.random() * westPool.length)];
+        }
+    }
+
+    // ─── الأوقات العادية: الاختيار العشوائي الاعتيادي ───────────────────────
+    else {
+        const lastStation = localStorage.getItem('lastStation');
+        if (lastStation) {
+            try {
+                const parsed = JSON.parse(lastStation);
+
+                const allBtns = document.querySelectorAll('.button[data-category]');
+                let foundCategory = null;
+                allBtns.forEach(btn => {
+                    if (
+                        btn.getAttribute('data-url') === parsed.url ||
+                        btn.getAttribute('data-ar') === parsed.name ||
+                        (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(parsed.url))
+                    ) {
+                        foundCategory = btn.getAttribute('data-category');
+                    }
+                });
+                selectedCategory = foundCategory || categories[Math.floor(Math.random() * categories.length)];
+            } catch(e) {
+                selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+            }
+        } else {
+            selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+        }
+    }
+
+    setTimeout(function () {
+      if (selectedCategory === 'favorites') {
+        if (typeof toggleFavoritesView === 'function') {
+          toggleFavoritesView();
+        }
+      } else {
+        if (typeof filterStations === 'function') {
+          filterStations(selectedCategory);
+        }
+      }
+    }, 100);
+
+    // ── 7. Restore last station ──
+    let lastStation = JSON.parse(localStorage.getItem('lastStation'));
+    if (lastStation) {
+        let buttons = document.querySelectorAll('.button');
+        buttons.forEach(btn => {
+            if (
+                btn.getAttribute('data-url') === lastStation.url ||
+                (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(lastStation.url)) ||
+                btn.getAttribute('data-ar') === lastStation.name
+            ) {
+                toggleRadio(btn);
+            }
+        });
+    }
+
+    // ── 8. Highlight sync animation ──
+    const status = document.getElementById('status');
+    const prevBtn = document.getElementById('prevButton');
+    const nextBtn = document.getElementById('nextButton');
+    const randomBtn = document.getElementById('randomButton');
+
+    const statusBg = window.getComputedStyle(status).background;
+    const statusColor = window.getComputedStyle(status).color;
+    const prevBg = window.getComputedStyle(prevBtn).background;
+    const prevColor = window.getComputedStyle(prevBtn).color;
+    const nextBg = window.getComputedStyle(nextBtn).background;
+    const nextColor = window.getComputedStyle(nextBtn).color;
+    const randomBg = window.getComputedStyle(randomBtn).background;
+    const randomColor = window.getComputedStyle(randomBtn).color;
+
+const modernGradient = 'linear-gradient(90deg, #e3f2fd 0%, #64b5f6 40%, #1e90ff 50%, #64b5f6 60%, #e3f2fd 100%)';
+
+    function highlightAllSync() {
+
+    [prevBtn, nextBtn, randomBtn].forEach(btn => {
+    btn.style.setProperty('background', '#fff', 'important');
+    btn.style.color = '#000';
+    btn.style.textShadow = 'none';
+});
+
+        status.style.setProperty('background', modernGradient, 'important');
+        status.style.color = '#fff';
+        status.style.textShadow = '';
+
+        const sleepCheckbox = document.getElementById('sleepCheckbox');
+        const autoSwitchCheckbox = document.getElementById('autoSwitchCheckbox');
+        if (sleepCheckbox) {
+            sleepCheckbox.parentElement.style.background = modernGradient;
+            sleepCheckbox.parentElement.style.color = '#000';
+            sleepCheckbox.parentElement.style.borderRadius = '8px';
+        }
+        if (autoSwitchCheckbox) {
+            autoSwitchCheckbox.parentElement.style.background = modernGradient;
+            autoSwitchCheckbox.parentElement.style.color = '#000';
+            autoSwitchCheckbox.parentElement.style.borderRadius = '8px';
+        }
+
+        setTimeout(() => {
+
+            status.style.setProperty('background', statusBg, 'important');
+            status.style.color = statusColor;
+            status.style.textShadow = '';
+
+            [prevBtn, nextBtn, randomBtn].forEach((btn, i) => {
+                btn.style.setProperty('background', [prevBg, nextBg, randomBg][i], 'important');
+                btn.style.color = [prevColor, nextColor, randomColor][i];
+                btn.style.textShadow = '';
+            });
+
+            if (sleepCheckbox) {
+                sleepCheckbox.parentElement.style.background = '';
+                sleepCheckbox.parentElement.style.color = '';
+                sleepCheckbox.parentElement.style.borderRadius = '';
+            }
+            if (autoSwitchCheckbox) {
+                autoSwitchCheckbox.parentElement.style.background = '';
+                autoSwitchCheckbox.parentElement.style.color = '';
+                autoSwitchCheckbox.parentElement.style.borderRadius = '';
+            }
+
+            setTimeout(highlightAllSync, 10000);
+        }, 15000);
+    }
+
+    highlightAllSync(); // بدء الأنيميشن فور تحميل الصفحة
+
+    // ── 9. Google Translate MutationObserver ──
+    (function() {
+        var container = document.getElementById('google_translate_element');
+        if (!container) return;
+        var observer = new MutationObserver(function() {
+            var sel = container.querySelector('select.goog-te-combo');
+            if (sel && sel.options.length > 0) {
+                sel.options[0].textContent = '🌐 Select Language';
+            }
+        });
+        observer.observe(container, { childList: true, subtree: true });
+    })();
+
+    // ── 10. Tasbih counters restore ──
+    document.querySelectorAll(".tasbih-box").forEach(box => {
+        const button = box.closest("button");
+        const key = "tasbih_" + button.getAttribute("data-station");
+
+        let count = localStorage.getItem(key);
+        count = count ? parseInt(count) : 0;
+
+        box.querySelector(".tasbih-count").innerText = count;
+
+        const target = parseInt(button.dataset.target) || 0;
+
+if (target && count >= target) {
+    button.classList.add("completed");
+}
+
+        box.addEventListener("click", () => {
+            activeTasbih = box;
+        });
+    });
+
+    // ── 11. Sticky player + audio events ──
+    (function() {
+        var mainAudioEl = document.getElementById('currentAudio');
+        if (mainAudioEl) {
+          mainAudioEl.addEventListener('play', updateTogglePlayBtnVisibility);
+          mainAudioEl.addEventListener('pause', updateTogglePlayBtnVisibility);
+          mainAudioEl.addEventListener('emptied', updateTogglePlayBtnVisibility);
+        }
+        var statusEl = document.getElementById('status');
+        var audioEl  = document.getElementById('currentAudio');
+        if (!statusEl || !audioEl) return;
+
+        var wrap = document.createElement('div');
+        wrap.id = 'sticky-player-wrap';
+
+        var navBar = document.createElement('div');
+        navBar.id = 'player-nav-bar';
+        navBar.innerHTML = [
+
+          '<div class="pnb-group">',
+            '<button class="pnb-btn" id="pnb-prev" title="المحطة السابقة">',
+              '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>',
+            '</button>',
+            '<span class="pnb-lbl">السابقة</span>',
+          '</div>',
+
+          '<div class="pnb-divider"></div>',
+
+          '<div class="pnb-group">',
+            '<button class="pnb-btn" id="pnb-random" title="اخترنا لك – عشوائي">',
+              '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>',
+            '</button>',
+            '<span class="pnb-lbl" style="color:rgba(255,213,79,.8);">اخترنا لك</span>',
+          '</div>',
+
+          '<div class="pnb-divider"></div>',
+
+          '<div class="pnb-group">',
+            '<button class="pnb-btn" id="pnb-play" title="تشغيل / إيقاف">',
+              '<svg id="pnb-play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>',
+            '</button>',
+            '<span class="pnb-lbl" style="color:rgba(144,202,249,.9);">تشغيل</span>',
+          '</div>',
+
+          '<div class="pnb-divider"></div>',
+
+          '<span id="player-station-label">',
+            '<span id="pnb-dot" class="live-dot-player" style="display:none;"></span>',
+            '<span id="pnb-name">اختر محطة...</span>',
+          '</span>',
+
+          '<div id="player-vol-wrap">',
+            '<span class="vol-ico">🔈</span>',
+            '<input type="range" id="player-vol-slider" min="0" max="1" step="0.05" value="1">',
+            '<span class="vol-ico">🔊</span>',
+          '</div>',
+
+          '<div class="pnb-divider"></div>',
+
+          '<div class="pnb-group">',
+            '<button class="pnb-btn" id="pnb-next" title="المحطة التالية">',
+              '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>',
+            '</button>',
+            '<span class="pnb-lbl">التالية</span>',
+          '</div>'
+
+        ].join('');
+
+        statusEl.parentNode.insertBefore(wrap, statusEl);
+        wrap.appendChild(navBar);
+        wrap.appendChild(statusEl);
+        wrap.appendChild(audioEl);
+
+        var playBtn  = document.getElementById('pnb-play');
+        var playIcon = document.getElementById('pnb-play-icon');
+        var dot      = document.getElementById('pnb-dot');
+        var nameEl   = document.getElementById('pnb-name');
+        var volSlider= document.getElementById('player-vol-slider');
+        var prevHidden   = document.getElementById('prevButton');
+        var nextHidden   = document.getElementById('nextButton');
+        var randomHidden = document.getElementById('randomButton');
+
+        if (audioEl && volSlider) {
+          volSlider.value = audioEl.volume;
+          volSlider.addEventListener('input', function() {
+            audioEl.volume = this.value;
+            var oldVol = document.getElementById('volumeControl');
+            if (oldVol) oldVol.value = this.value;
+          });
+          audioEl.addEventListener('volumechange', function() {
+            if (volSlider) volSlider.value = audioEl.volume;
+          });
+        }
+
+        function syncStationName() {
+          var txt = (statusEl.textContent || '').trim();
+          var isPlaying = txt && txt !== 'الرجاء اختيار محطة راديو.' && txt !== 'Please select a radio station.'
+                             && txt !== 'اختر محطة...' && txt !== 'Choose a station...';
+
+          if (isPlaying) {
+
+            var arTxt = (statusEl.getAttribute('data-ar') || txt)
+                        .replace(/^تشغيل:\s*/,'').replace(/^Playing:\s*/i,'').replace(/^جارٍ التشغيل:\s*/,'');
+
+            var enTxt = (statusEl.getAttribute('data-en') || '')
+                        .replace(/^Playing:\s*/i,'').replace(/^تشغيل:\s*/,'');
+
+            nameEl.dataset.arName = arTxt;
+            if (enTxt && enTxt !== arTxt) {
+              nameEl.dataset.enName = enTxt;
+            }
+
+            var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+            var enName = nameEl.dataset.enName;
+            if (!isAr && enName) {
+              nameEl.textContent = enName;
+            } else {
+              nameEl.textContent = arTxt;
+            }
+            dot.style.display = 'inline-block';
+            playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            playBtn.classList.add('is-playing');
+          } else {
+            nameEl.dataset.arName = '';
+            nameEl.dataset.enName = '';
+            var isAr2 = (typeof isArabic !== 'undefined') ? isArabic : true;
+            nameEl.textContent = isAr2 ? 'اختر محطة...' : 'Choose a station...';
+            dot.style.display = 'none';
+          }
+        }
+
+        new MutationObserver(syncStationName).observe(statusEl, { childList: true, subtree: true, characterData: true });
+        syncStationName();
+
+        playBtn.addEventListener('click', function() {
+          if (!audioEl.src && !audioEl.currentSrc) return;
+          if (audioEl.paused) {
+            audioEl.play().catch(function(){});
+            playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            playBtn.classList.add('is-playing');
+          } else {
+            audioEl.pause();
+            playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+            playBtn.classList.remove('is-playing');
+          }
+        });
+
+        audioEl.addEventListener('play', function() {
+          playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+          playBtn.classList.add('is-playing');
+        });
+        audioEl.addEventListener('pause', function() {
+          playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+          playBtn.classList.remove('is-playing');
+        });
+
+        document.getElementById('pnb-prev').addEventListener('click', function() {
+          if (prevHidden) prevHidden.click();
+        });
+        document.getElementById('pnb-next').addEventListener('click', function() {
+          if (nextHidden) nextHidden.click();
+        });
+        document.getElementById('pnb-random').addEventListener('click', function() {
+          if (randomHidden) randomHidden.click();
+        });
+
+    })();
+
+});
+</script>
 </body>
 </html>
