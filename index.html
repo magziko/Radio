@@ -2182,7 +2182,7 @@ body.dark-mode .custom-tooltip {
 .tasbih-box {
     position: absolute;
     right: 35px;
-    bottom: 0;
+    bottom: 4px; /* كان 0 - رفع بسيط للأعلى */
     top: auto;
     transform: none;
 
@@ -2190,8 +2190,8 @@ body.dark-mode .custom-tooltip {
     align-items: center;
     justify-content: space-between;
 
-    width: 50px;
-    height: 35px;
+    width: 70px;
+    height: 45px;
 
     background: #ffffff;
     color: #000000;
@@ -2210,10 +2210,12 @@ body.dark-mode .custom-tooltip {
 .tasbih-box:active {
     background: #f1f1f1;
 }
+
 /* منع النص من التداخل مع مربع التسبيح */
 .button.has-tasbih {
-    padding-bottom: 42px;
+    padding-bottom: 27px;
 }
+
 .button.has-tasbih .station-text {
     display: block;
     width: 100%;
@@ -2232,10 +2234,10 @@ body.dark-mode .custom-tooltip {
 
 @media (min-width: 768px) and (max-width: 1024px) {
     .tasbih-box {
-        width: 55px;
-        height: 32px;
+    width: 70px;
+    height: 45px;
         font-size: 13px;
-        bottom: 0;
+        bottom: 4px; /* رفع بسيط */
         top: auto;
         transform: none;
         right: 40px;
@@ -2246,12 +2248,12 @@ body.dark-mode .custom-tooltip {
 
 @media (max-width: 600px) {
     .tasbih-box {
-        width: 50px;
-        height: 35px;
+    width: 70px;
+    height: 45px;
         font-size: 14px;
         right: 35px;
         padding-right: 20px;
-        bottom: 0;
+        bottom: 4px; /* رفع بسيط */
         top: auto;
         transform: none;
         border-radius: 8px 8px 0 0;
@@ -2262,7 +2264,6 @@ body.dark-mode .custom-tooltip {
         font-size: 12px;
     }
 }
-
 .toggle-button {
     position: fixed !important;
     bottom: 10px !important;
@@ -2270,6 +2271,7 @@ body.dark-mode .custom-tooltip {
     transform: translateX(-50%) !important;
     z-index: 500;
 }
+
 
 .multi-icon {
   float: left;
@@ -6660,12 +6662,12 @@ setInterval(() => {
     </button>
   </div>
 
-  </div>
-
-<div class="search-wrapper">
+  <div class="search-wrapper" style="margin-top: 10px;">
     <script async src="https://cse.google.com/cse.js?cx=e3e1833506ae646ca"></script>
     <div class="gcse-search"></div>
-</div>
+  </div>
+
+  </div>
 
 <div id="modal" class="modal">
     <div class="modal-content" id="modalContent">
@@ -16371,11 +16373,11 @@ function getContrastYIQ(hexcolor){
     let isolatedPlayPauseButton = document.getElementById('isolatedPlayPauseButton');
 
     function setPlayingUI(playing) {
-        if (!isolatedPlayPauseButton)
-            isolatedPlayPauseButton = document.getElementById('isolatedPlayPauseButton');
-        if (isolatedPlayPauseButton) {
-            isolatedPlayPauseButton.innerHTML = playing ? '&#10074;&#10074;' : '&#9658;';
+        const btn = document.getElementById('isolatedPlayPauseButton');
+        if (btn) {
+            btn.innerHTML = playing ? '&#10074;&#10074;' : '&#9658;';
         }
+        isolatedPlayPauseButton = btn;
     }
 
     function isRealRadioStream(url) {
@@ -16399,11 +16401,12 @@ function getContrastYIQ(hexcolor){
 
         const onclickAttr = btn.getAttribute('onclick') || '';
         if (onclickAttr.includes('openModal')) return false;
-        if (onclickAttr.includes('window.open')) return false;
         if (onclickAttr.includes('handleTripleClick')) return false;
         if (onclickAttr.includes('handleClickWithCounter')) return false;
+        // window.open وحده مش مشكلة لو الزر فيه toggleRadio كمان (Ctrl+Click fallback)
+        if (onclickAttr.includes('window.open') && !onclickAttr.includes('toggleRadio')) return false;
 
-        // نتحقق من data-url مباشرة (data-urls لا تمنع — الزر ممكن يكون راديو حقيقي)
+        // نتحقق من data-url
         const url = btn.getAttribute('data-url');
         if (!isRealRadioStream(url)) return false;
 
@@ -16411,8 +16414,22 @@ function getContrastYIQ(hexcolor){
     }
 
     function getRandomStation() {
+        // الفئات المسموح بها لراديو العلم
+        const isolatedAllowedCategories = [
+            'Quran', 'mojawwad', 'rewayat', 'Monshawiiyat', 'surah', 'teachers', // QuranKarim
+            'reciters',                                                              // reciters
+            'Translation', 'tafsir', 'tajweed',                                    // quransciences
+            'Radio',                                                                 // radio-live
+            'mix', 'Foreign'                                                         // filterMix
+        ];
+
         const allButtons = Array.from(document.querySelectorAll('.button[data-category]'));
-        const radioButtons = allButtons.filter(isRealRadioButton);
+        const radioButtons = allButtons.filter(function(btn) {
+            if (!isRealRadioButton(btn)) return false;
+            const cat = btn.getAttribute('data-category');
+            if (cat === 'Radio' && btn.getAttribute('data-foreign') === 'true') return true;
+            return isolatedAllowedCategories.includes(cat);
+        });
 
         if (radioButtons.length === 0) return null;
 
@@ -16985,7 +17002,7 @@ function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'r
             } else if (window.isolatedAudio && !window.isolatedAudio.paused) {
                 window.isolatedAudio.pause();
                 const isolatedBtn = document.getElementById('isolatedPlayPauseButton');
-                if (isolatedBtn) isolatedBtn.innerHTML = '&#9658; Play';
+                if (isolatedBtn) isolatedBtn.innerHTML = '&#9658;';
             }
         }
     }
