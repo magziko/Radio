@@ -3,7 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://archive.org">
+  <link rel="dns-prefetch" href="https://cse.google.com">
+  <link rel="dns-prefetch" href="https://cdn.instant.audio">
+  <link rel="dns-prefetch" href="https://translate.google.com">
+  <link rel="dns-prefetch" href="https://audio.islamweb.net">
+  <link rel="dns-prefetch" href="https://backup.qurango.net">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -81,6 +88,7 @@
     margin: auto;
     margin-top: 1vh;
     box-shadow: 0 0 25px rgba(0,0,0,0.08);
+    contain: layout style;
     border: 1px solid rgba(255,255,255,0.4);
     animation: slideDown 0.7s ease;
     box-sizing: border-box;
@@ -538,7 +546,7 @@ audio {
   border-color: transparent !important;
   box-shadow: 0 4px 16px rgba(30,144,255,0.30) !important;
   transform: translateY(-1px) scale(1.02) !important;
-  font-weight: 900 !important;
+  font-weight: 700 !important;
   animation: selectedPing 1.8s ease-out infinite !important;
 }
 
@@ -592,7 +600,7 @@ audio {
   color: #263238 !important;
   border-color: rgba(38,50,56,0.30) !important;
   background: rgba(255,255,255,0.85) !important;
-  font-weight: 900 !important;
+  font-weight: 700 !important;
 }
 
 .filter-button[data-ar="كل الإذاعات"]:hover {
@@ -720,7 +728,7 @@ audio {
 #google_translate_element select.goog-te-combo {
   font-family: 'Cairo', Arial, sans-serif !important;
   font-size: 13px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   padding: 6px 12px !important;
   border-radius: 20px !important;
   border: 1.5px solid rgba(21,101,192,0.30) !important;
@@ -1472,7 +1480,6 @@ body.dark-mode #welcome-top-bar #welcomeLangToggle {
     box-shadow: 0 2px 10px rgba(30,144,255,0.3);
     transition: all 0.3s ease;
     opacity: 0.9;
-    z-index: 9999; /* فوق المودال دايمًا */
 
     display: none; /* مهم */
 }
@@ -1512,7 +1519,7 @@ body.dark-mode #welcome-top-bar #welcomeLangToggle {
 #mag_translate_toggle button {
     padding: 7px 15px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     border-radius: 20px;
     cursor: pointer;
     border: 1.5px solid rgba(21,101,192,0.3);
@@ -1951,7 +1958,7 @@ body.dark-mode .btn {
     background: rgba(255,255,255,0.72);
     color: #2c3e50;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
@@ -2526,7 +2533,7 @@ body.dark-mode .subfilter-scroll-strip {
     height: 36px;
     padding: 0 16px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     font-family: Arial, Tahoma, "Segoe UI", sans-serif;
     background: #fff;
     color: #1e90ff;
@@ -3013,6 +3020,19 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
   .pnb-group .pnb-lbl { display: none; }
   .pnb-divider { height: 24px; }
 }
+
+/* ── Performance optimizations ── */
+#customPlayToggleButton.playing {
+    will-change: box-shadow;
+}
+.customBtnControl {
+    will-change: transform;
+}
+/* Offscreen content: defer paint */
+.button-grid, .tasbih-box {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 50px;
+}
 </style>
 
 <body class="main-content">
@@ -3052,10 +3072,10 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
 </div>
 
 <p id="siteWelcomeText">
-    <span style="font-size:13px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:#7f8c8d; display:block; margin-bottom:4px;">
+    <span style="font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#7f8c8d; display:block; margin-bottom:4px;">
         🕌 بسم الله الرحمن الرحيم
     </span>
-    <span style="font-size:26px; font-weight:900; display:block; color:#1a237e; line-height:1.2;">
+    <span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">
         مرحبًا بكم في
     </span>
     <span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0; letter-spacing:0.5px;">
@@ -15596,7 +15616,7 @@ const moreTranslations = [
 <div class="flag-counter-container" id="flagContainer" style="display: none; margin-top: 10px;">
   <a href="http://s01.flagcounter.com/more/Qgi">
     <img src="https://s01.flagcounter.com/count2/Qgi/bg_FFFFFF/txt_000000/border_CCCCCC/columns_9/maxflags_100/viewers_Visitors/labels_1/pageviews_1/flags_0/percent_0/"
-         alt="Flag Counter" class="flag-counter" border="0" loading="eager">
+         alt="Flag Counter" class="flag-counter" border="0" loading="lazy">
   </a>
 </div>
 <!-- pixel tracker: يسجل كل زيارة بغض النظر عن الضغط على الزر -->
@@ -16192,14 +16212,14 @@ function toggleLanguage() {
   if (welcomeText) {
     if (isArabic) {
       welcomeText.innerHTML =
-        '<span style="font-size:13px; font-weight:600; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px;">🕌 بسم الله الرحمن الرحيم</span>' +
-        '<span style="font-size:26px; font-weight:900; display:block; color:#1a237e; line-height:1.2;">مرحبًا بكم في</span>' +
+        '<span style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px;">🕌 بسم الله الرحمن الرحيم</span>' +
+        '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">مرحبًا بكم في</span>' +
         '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;">📻 <strong>Radio Ma</strong></span>' +
         '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية</span>';
     } else {
       welcomeText.innerHTML =
-        '<span style="font-size:13px; font-weight:600; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px;">🕌 In the Name of Allah</span>' +
-        '<span style="font-size:26px; font-weight:900; display:block; color:#1a237e; line-height:1.2;">Welcome to</span>' +
+        '<span style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px;">🕌 In the Name of Allah</span>' +
+        '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Welcome to</span>' +
         '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;">📻 <strong>Radio Ma</strong></span>' +
         '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</span>';
     }
@@ -16956,7 +16976,6 @@ function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'r
 
     document.getElementById('contentContainer').innerHTML = iframeContent;
     modal.style.display = "block";
-    if (typeof updateTogglePlayBtnVisibility === 'function') updateTogglePlayBtnVisibility();
 
     var playerWrap = document.getElementById('sticky-player-wrap');
     if (playerWrap) playerWrap.style.zIndex = '0';
@@ -16969,7 +16988,6 @@ function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'r
 
         if (playerWrap) playerWrap.style.zIndex = '';
         if (navBar) navBar.style.position = '';
-        if (typeof updateTogglePlayBtnVisibility === 'function') updateTogglePlayBtnVisibility();
     }
 
     var span = document.getElementsByClassName("close-button")[0];
@@ -18410,8 +18428,7 @@ function shareFacebook() {
     if (!playBtn || !mainAudioForBtn) return;
     var scrolled = window.scrollY > 300;
     var playing = !mainAudioForBtn.paused && !!mainAudioForBtn.src && mainAudioForBtn.src !== window.location.href;
-    var modalOpen = (document.getElementById('modal') || {}).style && document.getElementById('modal').style.display === 'block';
-    playBtn.style.display = (scrolled || playing || modalOpen) ? 'flex' : 'none';
+    playBtn.style.display = (scrolled || playing) ? 'flex' : 'none';
   }
 
   // نفس منطق زر السهم بالضبط
@@ -18714,7 +18731,12 @@ const modernGradient = 'linear-gradient(90deg, #e3f2fd 0%, #64b5f6 40%, #1e90ff 
         }, 15000);
     }
 
-    highlightAllSync(); // بدء الأنيميشن فور تحميل الصفحة
+    // تأخير بدء الأنيميشن لحين انتهاء التحميل الأساسي
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => setTimeout(highlightAllSync, 3000), { timeout: 5000 });
+    } else {
+        setTimeout(highlightAllSync, 5000);
+    }
 
     // ── 9. Google Translate MutationObserver ──
     (function() {
