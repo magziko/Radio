@@ -1472,6 +1472,7 @@ body.dark-mode #welcome-top-bar #welcomeLangToggle {
     box-shadow: 0 2px 10px rgba(30,144,255,0.3);
     transition: all 0.3s ease;
     opacity: 0.9;
+    z-index: 9999; /* فوق المودال دايمًا */
 
     display: none; /* مهم */
 }
@@ -16955,6 +16956,7 @@ function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'r
 
     document.getElementById('contentContainer').innerHTML = iframeContent;
     modal.style.display = "block";
+    if (typeof updateTogglePlayBtnVisibility === 'function') updateTogglePlayBtnVisibility();
 
     var playerWrap = document.getElementById('sticky-player-wrap');
     if (playerWrap) playerWrap.style.zIndex = '0';
@@ -16967,6 +16969,7 @@ function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'r
 
         if (playerWrap) playerWrap.style.zIndex = '';
         if (navBar) navBar.style.position = '';
+        if (typeof updateTogglePlayBtnVisibility === 'function') updateTogglePlayBtnVisibility();
     }
 
     var span = document.getElementsByClassName("close-button")[0];
@@ -18407,7 +18410,8 @@ function shareFacebook() {
     if (!playBtn || !mainAudioForBtn) return;
     var scrolled = window.scrollY > 300;
     var playing = !mainAudioForBtn.paused && !!mainAudioForBtn.src && mainAudioForBtn.src !== window.location.href;
-    playBtn.style.display = (scrolled || playing) ? 'flex' : 'none';
+    var modalOpen = (document.getElementById('modal') || {}).style && document.getElementById('modal').style.display === 'block';
+    playBtn.style.display = (scrolled || playing || modalOpen) ? 'flex' : 'none';
   }
 
   // نفس منطق زر السهم بالضبط
