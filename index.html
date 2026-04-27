@@ -1407,6 +1407,13 @@ body.dark-mode #welcome-top-bar #welcomeLangToggle {
         .telegram-button {
             right: 20px;
             background-color: #0088cc;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0;
+            line-height: 1.1;
+            text-align: center;
+            padding: 2px;
         }
 
         .whatsapp-button img, .telegram-button img {
@@ -3054,7 +3061,7 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
     <div class="wtb-right">
         <button id="welcomeDarkModeBtn" onclick="toggleDarkModeFloat()" title="تبديل الوضع الليلي / Dark Mode" aria-label="Toggle Dark Mode">
             <span class="wdm-icon">🌙</span>
-            <span class="wdm-text" id="welcomeDarkModeTxt">Dark Mode</span>
+            <span class="wdm-text" id="welcomeDarkModeTxt">الوضع الليلي</span>
         </button>
         <button id="welcomeLangToggle" onclick="toggleLanguage()">🌐 EN</button>
         <button id="reloadButton" onclick="confirmReload()" aria-label="إعادة تحميل" style="display:none;">🔄</button>
@@ -3142,7 +3149,7 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
                         title="Automatically switches between the stations"
                         class="welcome-toggle-btn">
                     <span class="wtb-icon">🔁</span>
-                    <span class="wtb-text" id="autoSwitchToggleTxt">Auto Switch</span>
+                    <span class="wtb-text" id="autoSwitchToggleTxt">تبديل تلقائي</span>
                 </button>
 
             </div>
@@ -6277,219 +6284,219 @@ setInterval(() => {
     <div class="color-setting-item">
       <label data-ar="🎨 لون الأزرار" data-en="🎨 Button Color">🎨 لون الأزرار</label>
       <select id="radioButtonColor" class="responsive-select" onchange="changeRadioButtonColor()">
-    <option value="">Choose a color</option>
-    <option value="default" style="background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%);">(Palestine Flag) Color</option>
-
-    <option value="#000000" style="background-color:#000000; color: white;">Black</option>
-    <option value="#222222" style="background-color:#222222; color: white;">Jet Black</option>
-    <option value="#2f2f2f" style="background-color:#2f2f2f; color: white;">Dark Gray</option>
-    <option value="#444444" style="background-color:#444444; color: white;">Charcoal Gray</option>
-    <option value="#808080" style="background-color:#808080; color: white;">Medium Gray</option>
-    <option value="#d3d3d3" style="background-color:#d3d3d3; color: black;">Very Light Gray</option>
-    <option value="#f0f0f0" style="background-color:#f0f0f0; color: black;">Light Gray</option>
-    <option value="#ffffff" style="background-color:#ffffff; color: black;">White</option>
-    <option value="#f8f9fa" style="background-color:#f8f9fa; color: black;">Snow White</option>
-    <option value="#eaeaea" style="background-color:#eaeaea; color: black;">Light Grayish White</option>
-
-    <option value="#ff0000" style="background-color:#ff0000; color: white;">Bright Red</option>
-    <option value="#e57373" style="background-color:#e57373; color: black;">Pastel Red</option>
-    <option value="#b71c1c" style="background-color:#b71c1c; color: white;">Wine Red</option>
-    <option value="#ff6347" style="background-color:#ff6347; color: black;">Tomato Red</option>
-    <option value="#ff7f7f" style="background-color:#ff7f7f; color: black;">Light Red</option>
-    <option value="#8b0000" style="background-color:#8b0000; color: white;">Dark Red</option>
-    <option value="#dc143c" style="background-color:#dc143c; color: white;">Crimson</option>
-    <option value="#b22222" style="background-color:#b22222; color: white;">Dark Crimson</option>
-
-    <option value="#008000" style="background-color:#008000; color: white;">Dark Green</option>
-    <option value="#43a047" style="background-color:#43a047; color: white;">Medium Green</option>
-    <option value="#90ee90" style="background-color:#90ee90; color: black;">Light Green</option>
-    <option value="#00ff7f" style="background-color:#00ff7f; color: black;">Spring Green</option>
-    <option value="#7fffd4" style="background-color:#7fffd4; color: black;">Aquamarine</option>
-    <option value="#adff2f" style="background-color:#adff2f; color: black;">Yellowish Green</option>
-    <option value="#2e8b57" style="background-color:#2e8b57; color: white;">Sea Green</option>
-    <option value="#556b2f" style="background-color:#556b2f; color: white;">Dark Olive Green</option>
-    <option value="#20b2aa" style="background-color:#20b2aa; color: white;">Medium Aquamarine</option>
-
-    <option value="#0000ff" style="background-color:#0000ff; color: white;">Blue</option>
-    <option value="#1e90ff" style="background-color:#1e90ff; color: white;">Dodger Blue</option>
-    <option value="#87ceeb" style="background-color:#87ceeb; color: black;">Light Blue</option>
-    <option value="#1565c0" style="background-color:#1565c0; color: white;">Dark Royal Blue</option>
-    <option value="#000080" style="background-color:#000080; color: white;">Navy Blue</option>
-    <option value="#4682b4" style="background-color:#4682b4; color: white;">Steel Blue</option>
-    <option value="#6a5acd" style="background-color:#6a5acd; color: white;">Slate Blue</option>
-    <option value="#483d8b" style="background-color:#483d8b; color: white;">Dark Slate Blue</option>
-    <option value="#5f9ea0" style="background-color:#5f9ea0; color: white;">Cadet Blue</option>
-    <option value="#add8e6" style="background-color:#add8e6; color: black;">Very Light Blue</option>
-    <option value="#6495ed" style="background-color:#6495ed; color: white;">Cornflower Blue</option>
-    <option value="#2f67d6" style="background-color:#2f67d6; color: white;">Dark Blue</option>
+    <option data-ar="اختر لونًا" data-en="Choose a color" value="">اختر لونًا</option>
+    <option data-ar="لون علم فلسطين" data-en="(Palestine Flag) Color" value="default" style="background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%);">لون علم فلسطين</option>
+
+    <option data-ar="أسود" data-en="Black" value="#000000" style="background-color:#000000; color: white;">أسود</option>
+    <option data-ar="أسود فاحم" data-en="Jet Black" value="#222222" style="background-color:#222222; color: white;">أسود فاحم</option>
+    <option data-ar="رمادي داكن" data-en="Dark Gray" value="#2f2f2f" style="background-color:#2f2f2f; color: white;">رمادي داكن</option>
+    <option data-ar="رمادي فحمي" data-en="Charcoal Gray" value="#444444" style="background-color:#444444; color: white;">رمادي فحمي</option>
+    <option data-ar="رمادي متوسط" data-en="Medium Gray" value="#808080" style="background-color:#808080; color: white;">رمادي متوسط</option>
+    <option data-ar="رمادي فاتح جداً" data-en="Very Light Gray" value="#d3d3d3" style="background-color:#d3d3d3; color: black;">رمادي فاتح جداً</option>
+    <option data-ar="رمادي فاتح" data-en="Light Gray" value="#f0f0f0" style="background-color:#f0f0f0; color: black;">رمادي فاتح</option>
+    <option data-ar="أبيض" data-en="White" value="#ffffff" style="background-color:#ffffff; color: black;">أبيض</option>
+    <option data-ar="أبيض ثلجي" data-en="Snow White" value="#f8f9fa" style="background-color:#f8f9fa; color: black;">أبيض ثلجي</option>
+    <option data-ar="أبيض رمادي فاتح" data-en="Light Grayish White" value="#eaeaea" style="background-color:#eaeaea; color: black;">أبيض رمادي فاتح</option>
+
+    <option data-ar="أحمر ساطع" data-en="Bright Red" value="#ff0000" style="background-color:#ff0000; color: white;">أحمر ساطع</option>
+    <option data-ar="أحمر باستيل" data-en="Pastel Red" value="#e57373" style="background-color:#e57373; color: black;">أحمر باستيل</option>
+    <option data-ar="أحمر خمري" data-en="Wine Red" value="#b71c1c" style="background-color:#b71c1c; color: white;">أحمر خمري</option>
+    <option data-ar="أحمر طماطم" data-en="Tomato Red" value="#ff6347" style="background-color:#ff6347; color: black;">أحمر طماطم</option>
+    <option data-ar="أحمر فاتح" data-en="Light Red" value="#ff7f7f" style="background-color:#ff7f7f; color: black;">أحمر فاتح</option>
+    <option data-ar="أحمر داكن" data-en="Dark Red" value="#8b0000" style="background-color:#8b0000; color: white;">أحمر داكن</option>
+    <option data-ar="قرمزي" data-en="Crimson" value="#dc143c" style="background-color:#dc143c; color: white;">قرمزي</option>
+    <option data-ar="قرمزي داكن" data-en="Dark Crimson" value="#b22222" style="background-color:#b22222; color: white;">قرمزي داكن</option>
+
+    <option data-ar="أخضر داكن" data-en="Dark Green" value="#008000" style="background-color:#008000; color: white;">أخضر داكن</option>
+    <option data-ar="أخضر متوسط" data-en="Medium Green" value="#43a047" style="background-color:#43a047; color: white;">أخضر متوسط</option>
+    <option data-ar="أخضر فاتح" data-en="Light Green" value="#90ee90" style="background-color:#90ee90; color: black;">أخضر فاتح</option>
+    <option data-ar="أخضر ربيعي" data-en="Spring Green" value="#00ff7f" style="background-color:#00ff7f; color: black;">أخضر ربيعي</option>
+    <option data-ar="أخضر مائي" data-en="Aquamarine" value="#7fffd4" style="background-color:#7fffd4; color: black;">أخضر مائي</option>
+    <option data-ar="أخضر مصفر" data-en="Yellowish Green" value="#adff2f" style="background-color:#adff2f; color: black;">أخضر مصفر</option>
+    <option data-ar="أخضر بحري" data-en="Sea Green" value="#2e8b57" style="background-color:#2e8b57; color: white;">أخضر بحري</option>
+    <option data-ar="أخضر زيتوني داكن" data-en="Dark Olive Green" value="#556b2f" style="background-color:#556b2f; color: white;">أخضر زيتوني داكن</option>
+    <option data-ar="أخضر مائي متوسط" data-en="Medium Aquamarine" value="#20b2aa" style="background-color:#20b2aa; color: white;">أخضر مائي متوسط</option>
+
+    <option data-ar="أزرق" data-en="Blue" value="#0000ff" style="background-color:#0000ff; color: white;">أزرق</option>
+    <option data-ar="أزرق سماوي" data-en="Dodger Blue" value="#1e90ff" style="background-color:#1e90ff; color: white;">أزرق سماوي</option>
+    <option data-ar="أزرق فاتح" data-en="Light Blue" value="#87ceeb" style="background-color:#87ceeb; color: black;">أزرق فاتح</option>
+    <option data-ar="أزرق ملكي داكن" data-en="Dark Royal Blue" value="#1565c0" style="background-color:#1565c0; color: white;">أزرق ملكي داكن</option>
+    <option data-ar="أزرق كحلي" data-en="Navy Blue" value="#000080" style="background-color:#000080; color: white;">أزرق كحلي</option>
+    <option data-ar="أزرق فولاذي" data-en="Steel Blue" value="#4682b4" style="background-color:#4682b4; color: white;">أزرق فولاذي</option>
+    <option data-ar="أزرق أردوازي" data-en="Slate Blue" value="#6a5acd" style="background-color:#6a5acd; color: white;">أزرق أردوازي</option>
+    <option data-ar="أزرق أردوازي داكن" data-en="Dark Slate Blue" value="#483d8b" style="background-color:#483d8b; color: white;">أزرق أردوازي داكن</option>
+    <option data-ar="أزرق كادت" data-en="Cadet Blue" value="#5f9ea0" style="background-color:#5f9ea0; color: white;">أزرق كادت</option>
+    <option data-ar="أزرق فاتح جداً" data-en="Very Light Blue" value="#add8e6" style="background-color:#add8e6; color: black;">أزرق فاتح جداً</option>
+    <option data-ar="أزرق ذرة" data-en="Cornflower Blue" value="#6495ed" style="background-color:#6495ed; color: white;">أزرق ذرة</option>
+    <option data-ar="أزرق داكن" data-en="Dark Blue" value="#2f67d6" style="background-color:#2f67d6; color: white;">أزرق داكن</option>
 
-    <option value="#ffff00" style="background-color:#ffff00; color: black;">Yellow</option>
-    <option value="#fffacd" style="background-color:#fffacd; color: black;">Very Light Yellow</option>
-    <option value="#ffd700" style="background-color:#ffd700; color: black;">Gold</option>
-    <option value="#9acd32" style="background-color:#9acd32; color: black;">Yellow Green</option>
+    <option data-ar="أصفر" data-en="Yellow" value="#ffff00" style="background-color:#ffff00; color: black;">أصفر</option>
+    <option data-ar="أصفر فاتح جداً" data-en="Very Light Yellow" value="#fffacd" style="background-color:#fffacd; color: black;">أصفر فاتح جداً</option>
+    <option data-ar="ذهبي" data-en="Gold" value="#ffd700" style="background-color:#ffd700; color: black;">ذهبي</option>
+    <option data-ar="أصفر أخضر" data-en="Yellow Green" value="#9acd32" style="background-color:#9acd32; color: black;">أصفر أخضر</option>
 
-    <option value="#ffa500" style="background-color:#ffa500; color: black;">Orange</option>
-    <option value="#ff9800" style="background-color:#ff9800; color: black;">Modern Orange</option>
-    <option value="#ff8c00" style="background-color:#ff8c00; color: black;">Dark Orange</option>
-    <option value="#ff4500" style="background-color:#ff4500; color: white;">Orange Red</option>
-    <option value="#ffefd5" style="background-color:#ffefd5; color: black;">Light Orange</option>
+    <option data-ar="برتقالي" data-en="Orange" value="#ffa500" style="background-color:#ffa500; color: black;">برتقالي</option>
+    <option data-ar="برتقالي عصري" data-en="Modern Orange" value="#ff9800" style="background-color:#ff9800; color: black;">برتقالي عصري</option>
+    <option data-ar="برتقالي داكن" data-en="Dark Orange" value="#ff8c00" style="background-color:#ff8c00; color: black;">برتقالي داكن</option>
+    <option data-ar="برتقالي أحمر" data-en="Orange Red" value="#ff4500" style="background-color:#ff4500; color: white;">برتقالي أحمر</option>
+    <option data-ar="برتقالي فاتح" data-en="Light Orange" value="#ffefd5" style="background-color:#ffefd5; color: black;">برتقالي فاتح</option>
 
-    <option value="#800080" style="background-color:#800080; color: white;">Dark Purple</option>
-    <option value="#8e24aa" style="background-color:#8e24aa; color: white;">Fashion Purple</option>
-    <option value="#ce93d8" style="background-color:#ce93d8; color: black;">Pastel Purple</option>
-    <option value="#dda0dd" style="background-color:#dda0dd; color: black;">Plum</option>
-    <option value="#8a2be2" style="background-color:#8a2be2; color: white;">Blue Violet</option>
-    <option value="#da70d6" style="background-color:#da70d6; color: black;">Light Orchid</option>
-    <option value="#ee82ee" style="background-color:#ee82ee; color: black;">Violet</option>
-    <option value="#7b68ee" style="background-color:#7b68ee; color: white;">Medium Purple</option>
-    <option value="#8b008b" style="background-color:#8b008b; color: white;">Dark Magenta</option>
+    <option data-ar="بنفسجي داكن" data-en="Dark Purple" value="#800080" style="background-color:#800080; color: white;">بنفسجي داكن</option>
+    <option data-ar="بنفسجي موضة" data-en="Fashion Purple" value="#8e24aa" style="background-color:#8e24aa; color: white;">بنفسجي موضة</option>
+    <option data-ar="بنفسجي باستيل" data-en="Pastel Purple" value="#ce93d8" style="background-color:#ce93d8; color: black;">بنفسجي باستيل</option>
+    <option data-ar="برقوقي" data-en="Plum" value="#dda0dd" style="background-color:#dda0dd; color: black;">برقوقي</option>
+    <option data-ar="بنفسجي مزرق" data-en="Blue Violet" value="#8a2be2" style="background-color:#8a2be2; color: white;">بنفسجي مزرق</option>
+    <option data-ar="أوركيد فاتح" data-en="Light Orchid" value="#da70d6" style="background-color:#da70d6; color: black;">أوركيد فاتح</option>
+    <option data-ar="بنفسجي" data-en="Violet" value="#ee82ee" style="background-color:#ee82ee; color: black;">بنفسجي</option>
+    <option data-ar="بنفسجي متوسط" data-en="Medium Purple" value="#7b68ee" style="background-color:#7b68ee; color: white;">بنفسجي متوسط</option>
+    <option data-ar="ماجنتا داكن" data-en="Dark Magenta" value="#8b008b" style="background-color:#8b008b; color: white;">ماجنتا داكن</option>
 
-    <option value="#a52a2a" style="background-color:#a52a2a; color: white;">Brown</option>
-    <option value="#deb887" style="background-color:#deb887; color: black;">Light Brown</option>
-    <option value="#bcaaa4" style="background-color:#bcaaa4; color: black;">Medium Nude Brown</option>
-    <option value="#8b4513" style="background-color:#8b4513; color: white;">Saddle Brown</option>
-    <option value="#d2691e" style="background-color:#d2691e; color: white;">Chocolate</option>
-    <option value="#a0522d" style="background-color:#a0522d; color: white;">Sienna</option>
-    <option value="#bc8f8f" style="background-color:#bc8f8f; color: black;">Rosy Brown</option>
+    <option data-ar="بني" data-en="Brown" value="#a52a2a" style="background-color:#a52a2a; color: white;">بني</option>
+    <option data-ar="بني فاتح" data-en="Light Brown" value="#deb887" style="background-color:#deb887; color: black;">بني فاتح</option>
+    <option data-ar="بيج بني متوسط" data-en="Medium Nude Brown" value="#bcaaa4" style="background-color:#bcaaa4; color: black;">بيج بني متوسط</option>
+    <option data-ar="بني سروج" data-en="Saddle Brown" value="#8b4513" style="background-color:#8b4513; color: white;">بني سروج</option>
+    <option data-ar="شيكولاتي" data-en="Chocolate" value="#d2691e" style="background-color:#d2691e; color: white;">شيكولاتي</option>
+    <option data-ar="سيينا" data-en="Sienna" value="#a0522d" style="background-color:#a0522d; color: white;">سيينا</option>
+    <option data-ar="بني وردي" data-en="Rosy Brown" value="#bc8f8f" style="background-color:#bc8f8f; color: black;">بني وردي</option>
 
-    <option value="#ff69b4" style="background-color:#ff69b4; color: black;">Hot Pink</option>
-    <option value="#ffc1cc" style="background-color:#ffc1cc; color: black;">Pastel Pink</option>
-    <option value="#ffb6c1" style="background-color:#ffb6c1; color: black;">Light Pink</option>
-    <option value="#ff1493" style="background-color:#ff1493; color: white;">Deep Pink</option>
-    <option value="#f08080" style="background-color:#f08080; color: black;">Light Coral</option>
-    <option value="#ffe4e1" style="background-color:#ffe4e1; color: black;">Misty Rose</option>
+    <option data-ar="وردي ساطع" data-en="Hot Pink" value="#ff69b4" style="background-color:#ff69b4; color: black;">وردي ساطع</option>
+    <option data-ar="وردي باستيل" data-en="Pastel Pink" value="#ffc1cc" style="background-color:#ffc1cc; color: black;">وردي باستيل</option>
+    <option data-ar="وردي فاتح" data-en="Light Pink" value="#ffb6c1" style="background-color:#ffb6c1; color: black;">وردي فاتح</option>
+    <option data-ar="وردي عميق" data-en="Deep Pink" value="#ff1493" style="background-color:#ff1493; color: white;">وردي عميق</option>
+    <option data-ar="مرجاني فاتح" data-en="Light Coral" value="#f08080" style="background-color:#f08080; color: black;">مرجاني فاتح</option>
+    <option data-ar="وردة ضبابية" data-en="Misty Rose" value="#ffe4e1" style="background-color:#ffe4e1; color: black;">وردة ضبابية</option>
 
-    <option value="linear-gradient(to right, #000000, #ffffff)">Black - White</option>
-    <option value="linear-gradient(to right, #ff0000, #ff6347)">Red - Tomato Red</option>
-    <option value="linear-gradient(to right, #008000, #7fffd4)">Green - Aquamarine</option>
-    <option value="linear-gradient(to right, #0000ff, #40e0d0)">Blue - Turquoise</option>
-    <option value="linear-gradient(to right, #ffa500, #ff4500)">Orange - Orange Red</option>
-    <option value="linear-gradient(to right, #ff0000, #ffffff, #000000)">Egypt Flag: Red - White - Black</option>
-    <option value="linear-gradient(to right, #000000, #ffffff, #007a3d, #ff0000)">Palestine Flag: Black - White - Green - Red</option>
+    <option data-ar="أسود - أبيض" data-en="Black - White" value="linear-gradient(to right, #000000, #ffffff)">أسود - أبيض</option>
+    <option data-ar="أحمر - أحمر طماطم" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
+    <option data-ar="أخضر - أخضر مائي" data-en="Green - Aquamarine" value="linear-gradient(to right, #008000, #7fffd4)">أخضر - أخضر مائي</option>
+    <option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
+    <option data-ar="برتقالي - برتقالي أحمر" data-en="Orange - Orange Red" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي أحمر</option>
+    <option data-ar="علم مصر: أحمر - أبيض - أسود" data-en="Egypt Flag: Red - White - Black" value="linear-gradient(to right, #ff0000, #ffffff, #000000)">علم مصر: أحمر - أبيض - أسود</option>
+    <option data-ar="علم فلسطين: أسود - أبيض - أخضر - أحمر" data-en="Palestine Flag: Black - White - Green - Red" value="linear-gradient(to right, #000000, #ffffff, #007a3d, #ff0000)">علم فلسطين: أسود - أبيض - أخضر - أحمر</option>
 
-    <option value="linear-gradient(90deg, #ffb6c1, #ba68c8, #81d4fa)">Pink - Purple - Light Blue</option>
+    <option data-ar="وردي - بنفسجي - أزرق فاتح" data-en="Pink - Purple - Light Blue" value="linear-gradient(90deg, #ffb6c1, #ba68c8, #81d4fa)">وردي - بنفسجي - أزرق فاتح</option>
 
-    <option value="linear-gradient(90deg, #00ffb3, #40e0d0, #1e90ff)">Mint Green - Turquoise - Sky Blue</option>
+    <option data-ar="أخضر نعناعي - تركواز - أزرق سماوي" data-en="Mint Green - Turquoise - Sky Blue" value="linear-gradient(90deg, #00ffb3, #40e0d0, #1e90ff)">أخضر نعناعي - تركواز - أزرق سماوي</option>
 
-    <option value="linear-gradient(90deg, #fff700, #ffc300, #ff5733)">Yellow - Orange - Red</option>
+    <option data-ar="أصفر - برتقالي - أحمر" data-en="Yellow - Orange - Red" value="linear-gradient(90deg, #fff700, #ffc300, #ff5733)">أصفر - برتقالي - أحمر</option>
 
-    <option value="linear-gradient(90deg, #6a1b9a, #9c27b0, #ffb6c1)">Dark Purple - Light Purple - Pink</option>
+    <option data-ar="بنفسجي داكن - بنفسجي فاتح - وردي" data-en="Dark Purple - Light Purple - Pink" value="linear-gradient(90deg, #6a1b9a, #9c27b0, #ffb6c1)">بنفسجي داكن - بنفسجي فاتح - وردي</option>
 
-    <option value="linear-gradient(90deg, #e0c097, #ffe0b2, #ffffff)">Sandy Nude - Beige - White</option>
+    <option data-ar="نيود رملي - بيج - أبيض" data-en="Sandy Nude - Beige - White" value="linear-gradient(90deg, #e0c097, #ffe0b2, #ffffff)">نيود رملي - بيج - أبيض</option>
 
-    <option value="linear-gradient(90deg, #1565c0, #1e90ff, #7fffd4)">Dark Blue - Sky Blue - Light Green</option>
+    <option data-ar="أزرق داكن - أزرق سماوي - أخضر فاتح" data-en="Dark Blue - Sky Blue - Light Green" value="linear-gradient(90deg, #1565c0, #1e90ff, #7fffd4)">أزرق داكن - أزرق سماوي - أخضر فاتح</option>
 
-    <option value="linear-gradient(90deg, #f0f0f0, #ffffff, #ffd700)">Light Gray - White - Gold</option>
+    <option data-ar="رمادي فاتح - أبيض - ذهبي" data-en="Light Gray - White - Gold" value="linear-gradient(90deg, #f0f0f0, #ffffff, #ffd700)">رمادي فاتح - أبيض - ذهبي</option>
 
-    <option value="linear-gradient(90deg, #556b2f, #adff2f, #ffea00)">Olive Green - Spring Green - Lemon Yellow</option>
+    <option data-ar="أخضر زيتوني - أخضر ربيعي - أصفر ليموني" data-en="Olive Green - Spring Green - Lemon Yellow" value="linear-gradient(90deg, #556b2f, #adff2f, #ffea00)">أخضر زيتوني - أخضر ربيعي - أصفر ليموني</option>
 
-    <option value="linear-gradient(90deg, #8d5524, #c68642, #ffe4ec)">Brown - Beige - Light Pink</option>
+    <option data-ar="بني - بيج - وردي فاتح" data-en="Brown - Beige - Light Pink" value="linear-gradient(90deg, #8d5524, #c68642, #ffe4ec)">بني - بيج - وردي فاتح</option>
 
-    <option value="linear-gradient(90deg, #800080, #0000ff, #40e0d0, #00ff7f)">Purple - Blue - Turquoise - Green</option>
+    <option data-ar="بنفسجي - أزرق - تركواز - أخضر" data-en="Purple - Blue - Turquoise - Green" value="linear-gradient(90deg, #800080, #0000ff, #40e0d0, #00ff7f)">بنفسجي - أزرق - تركواز - أخضر</option>
 
-    <option value="linear-gradient(to right, #ff0000, #ff6347)">Red - Tomato Red</option>
+    <option data-ar="أحمر - أحمر طماطم" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
 
-    <option value="linear-gradient(to right, #008000, #7fffd4)">Green - Aquamarine</option>
+    <option data-ar="أخضر - أخضر مائي" data-en="Green - Aquamarine" value="linear-gradient(to right, #008000, #7fffd4)">أخضر - أخضر مائي</option>
 
-    <option value="linear-gradient(to right, #0000ff, #40e0d0)">Blue - Turquoise</option>
+    <option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
 
-    <option value="linear-gradient(to right, #ffa500, #ff4500)">Orange - Orange Red</option>
+    <option data-ar="برتقالي - برتقالي أحمر" data-en="Orange - Orange Red" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي أحمر</option>
 
-    <option value="linear-gradient(to right, #800080, #dda0dd)">Purple - Plum</option>
+    <option data-ar="بنفسجي - برقوقي" data-en="Purple - Plum" value="linear-gradient(to right, #800080, #dda0dd)">بنفسجي - برقوقي</option>
 
-    <option value="linear-gradient(to right, #a52a2a, #8a2be2)">Brown - Purple</option>
+    <option data-ar="بني - أرجواني" data-en="Brown - Purple" value="linear-gradient(to right, #a52a2a, #8a2be2)">بني - أرجواني</option>
 
-    <option value="linear-gradient(to right, #f0f0f0, #ee82ee)">Light Gray - Light Purple</option>
+    <option data-ar="رمادي فاتح - بنفسجي فاتح" data-en="Light Gray - Light Purple" value="linear-gradient(to right, #f0f0f0, #ee82ee)">رمادي فاتح - بنفسجي فاتح</option>
 
-    <option value="linear-gradient(to right, #40e0d0, #00ff7f)">Turquoise - Spring Green</option>
+    <option data-ar="تركواز - أخضر ربيعي" data-en="Turquoise - Spring Green" value="linear-gradient(to right, #40e0d0, #00ff7f)">تركواز - أخضر ربيعي</option>
 
-    <option value="linear-gradient(to right, #ff0000, #dc143c)">Red - Crimson</option>
+    <option data-ar="أحمر - قرمزي" data-en="Red - Crimson" value="linear-gradient(to right, #ff0000, #dc143c)">أحمر - قرمزي</option>
 
-    <option value="linear-gradient(to right, #ff0000, #ff6347)">Red - Tomato Red</option>
+    <option data-ar="أحمر - أحمر طماطم" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
 
-    <option value="linear-gradient(to right, #e63946, #ffb6c1)">Crimson - Light Pink</option>
+    <option data-ar="قرمزي - وردي فاتح" data-en="Crimson - Light Pink" value="linear-gradient(to right, #e63946, #ffb6c1)">قرمزي - وردي فاتح</option>
 
-    <option value="linear-gradient(to right, #ffa500, #ff4500)">Orange - Orange Red</option>
+    <option data-ar="برتقالي - برتقالي أحمر" data-en="Orange - Orange Red" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي أحمر</option>
 
-    <option value="linear-gradient(to right, #ffa500, #ffd700)">Orange - Gold</option>
+    <option data-ar="برتقالي - ذهبي" data-en="Orange - Gold" value="linear-gradient(to right, #ffa500, #ffd700)">برتقالي - ذهبي</option>
 
-    <option value="linear-gradient(to right, #f4a460, #ffe4b5)">Light Orange - Beige</option>
+    <option data-ar="برتقالي فاتح - بيج" data-en="Light Orange - Beige" value="linear-gradient(to right, #f4a460, #ffe4b5)">برتقالي فاتح - بيج</option>
 
-    <option value="linear-gradient(to right, #ffff00, #ffd700)">Yellow - Gold</option>
+    <option data-ar="أصفر - ذهبي" data-en="Yellow - Gold" value="linear-gradient(to right, #ffff00, #ffd700)">أصفر - ذهبي</option>
 
-    <option value="linear-gradient(to right, #adff2f, #ffea00)">Spring Green - Lemon Yellow</option>
+    <option data-ar="أخضر ربيعي - أصفر ليموني" data-en="Spring Green - Lemon Yellow" value="linear-gradient(to right, #adff2f, #ffea00)">أخضر ربيعي - أصفر ليموني</option>
 
-    <option value="linear-gradient(to right, #0000ff, #40e0d0)">Blue - Turquoise</option>
+    <option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
 
-    <option value="linear-gradient(to right, #1e90ff, #87ceeb)">Sky Blue - Light Blue</option>
+    <option data-ar="أزرق سماوي - أزرق فاتح" data-en="Sky Blue - Light Blue" value="linear-gradient(to right, #1e90ff, #87ceeb)">أزرق سماوي - أزرق فاتح</option>
 
-    <option value="linear-gradient(to right, #0077b6, #00b4d8)">Navy Blue - Turquoise</option>
+    <option data-ar="أزرق بحري - تركواز" data-en="Navy Blue - Turquoise" value="linear-gradient(to right, #0077b6, #00b4d8)">أزرق بحري - تركواز</option>
 
-    <option value="linear-gradient(to right, #1565c0, #1e90ff)">Dark Blue - Sky Blue</option>
+    <option data-ar="أزرق داكن - أزرق سماوي" data-en="Dark Blue - Sky Blue" value="linear-gradient(to right, #1565c0, #1e90ff)">أزرق داكن - أزرق سماوي</option>
 
-    <option value="linear-gradient(to right, #800080, #dda0dd)">Purple - Plum</option>
+    <option data-ar="بنفسجي - برقوقي" data-en="Purple - Plum" value="linear-gradient(to right, #800080, #dda0dd)">بنفسجي - برقوقي</option>
 
-    <option value="linear-gradient(to right, #6a1b9a, #9c27b0)">Dark Purple - Light Purple</option>
+    <option data-ar="بنفسجي داكن - بنفسجي فاتح" data-en="Dark Purple - Light Purple" value="linear-gradient(to right, #6a1b9a, #9c27b0)">بنفسجي داكن - بنفسجي فاتح</option>
 
-    <option value="linear-gradient(to right, #8a2be2, #d8bfd8)">Purple - Light Violet</option>
+    <option data-ar="أرجواني - بنفسجي فاتح" data-en="Purple - Light Violet" value="linear-gradient(to right, #8a2be2, #d8bfd8)">أرجواني - بنفسجي فاتح</option>
 
-    <option value="linear-gradient(to right, #f0f0f0, #ee82ee)">Light Gray - Light Purple</option>
+    <option data-ar="رمادي فاتح - بنفسجي فاتح" data-en="Light Gray - Light Purple" value="linear-gradient(to right, #f0f0f0, #ee82ee)">رمادي فاتح - بنفسجي فاتح</option>
 
-    <option value="linear-gradient(to right, #a9a9a9, #d3d3d3)">Medium Gray - Silver</option>
+    <option data-ar="رمادي متوسط - فضي" data-en="Medium Gray - Silver" value="linear-gradient(to right, #a9a9a9, #d3d3d3)">رمادي متوسط - فضي</option>
 
-    <option value="linear-gradient(to right, #696969, #f0f0f0)">Dark Gray - Light Gray</option>
+    <option data-ar="رمادي داكن - رمادي فاتح" data-en="Dark Gray - Light Gray" value="linear-gradient(to right, #696969, #f0f0f0)">رمادي داكن - رمادي فاتح</option>
 
-    <option value="linear-gradient(to right, #a52a2a, #8a2be2)">Brown - Purple</option>
+    <option data-ar="بني - أرجواني" data-en="Brown - Purple" value="linear-gradient(to right, #a52a2a, #8a2be2)">بني - أرجواني</option>
 
-    <option value="linear-gradient(to right, #8d5524, #c68642)">Brown - Beige</option>
+    <option data-ar="بني - بيج" data-en="Brown - Beige" value="linear-gradient(to right, #8d5524, #c68642)">بني - بيج</option>
 
-    <option value="linear-gradient(to right, #5e3023, #d2691e)">Chocolate Brown - Bronze</option>
+    <option data-ar="بني شوكولاتة - برونزي" data-en="Chocolate Brown - Bronze" value="linear-gradient(to right, #5e3023, #d2691e)">بني شوكولاتة - برونزي</option>
 
-    <option value="linear-gradient(to right, #f5f5dc, #ffe4b5)">Beige - Golden Beige</option>
+    <option data-ar="بيج - بيج ذهبي" data-en="Beige - Golden Beige" value="linear-gradient(to right, #f5f5dc, #ffe4b5)">بيج - بيج ذهبي</option>
 
-    <option value="linear-gradient(to right, #ffd700, #fffacd)">Gold - Light Yellow</option>
+    <option data-ar="ذهبي - أصفر فاتح" data-en="Gold - Light Yellow" value="linear-gradient(to right, #ffd700, #fffacd)">ذهبي - أصفر فاتح</option>
 
-    <option value="linear-gradient(to right, #f0f0f0, #ffffff)">Light Gray - White</option>
+    <option data-ar="رمادي فاتح - أبيض" data-en="Light Gray - White" value="linear-gradient(to right, #f0f0f0, #ffffff)">رمادي فاتح - أبيض</option>
 
-    <option value="linear-gradient(to right, #ff6b6b, #a0e7ff)">Light Pink - Sky Blue</option>
+    <option data-ar="وردي فاتح - أزرق سماوي" data-en="Light Pink - Sky Blue" value="linear-gradient(to right, #ff6b6b, #a0e7ff)">وردي فاتح - أزرق سماوي</option>
 
-    <option value="linear-gradient(to right, #a8e6cf, #ffd3b6)">Light Green - Light Orange</option>
+    <option data-ar="أخضر فاتح - برتقالي فاتح" data-en="Light Green - Light Orange" value="linear-gradient(to right, #a8e6cf, #ffd3b6)">أخضر فاتح - برتقالي فاتح</option>
 
-    <option value="linear-gradient(to right, #d4a5ff, #ffd6a5)">Light Purple - Golden Yellow</option>
+    <option data-ar="بنفسجي فاتح - أصفر ذهبي" data-en="Light Purple - Golden Yellow" value="linear-gradient(to right, #d4a5ff, #ffd6a5)">بنفسجي فاتح - أصفر ذهبي</option>
 
-    <option value="linear-gradient(to right, #ff9a8b, #fecfef)">Burnt Pink - Light Pink</option>
+    <option data-ar="وردي محروق - وردي فاتح" data-en="Burnt Pink - Light Pink" value="linear-gradient(to right, #ff9a8b, #fecfef)">وردي محروق - وردي فاتح</option>
 
-    <option value="linear-gradient(to right, #a8edea, #fed6e3)">Light Turquoise - Light Pink</option>
+    <option data-ar="تركواز فاتح - وردي فاتح" data-en="Light Turquoise - Light Pink" value="linear-gradient(to right, #a8edea, #fed6e3)">تركواز فاتح - وردي فاتح</option>
 
-    <option value="linear-gradient(to right, #FF6B6B, #FFD166, #06D6A0)">Light Pink - Golden Yellow - Aquamarine</option>
+    <option data-ar="وردي فاتح - أصفر ذهبي - أخضر مائي" data-en="Light Pink - Golden Yellow - Aquamarine" value="linear-gradient(to right, #FF6B6B, #FFD166, #06D6A0)">وردي فاتح - أصفر ذهبي - أخضر مائي</option>
 
-    <option value="linear-gradient(to right, #4CC9F0, #7209B7, #F72585)">Sky Blue - Purple - Deep Pink</option>
+    <option data-ar="أزرق سماوي - بنفسجي - وردي قاني" data-en="Sky Blue - Purple - Deep Pink" value="linear-gradient(to right, #4CC9F0, #7209B7, #F72585)">أزرق سماوي - بنفسجي - وردي قاني</option>
 
-    <option value="linear-gradient(to right, #112D4E, #3F72AF, #DBE2EF)">Dark Blue - Medium Blue - Light Blue</option>
+    <option data-ar="أزرق داكن - أزرق متوسط - أزرق فاتح" data-en="Dark Blue - Medium Blue - Light Blue" value="linear-gradient(to right, #112D4E, #3F72AF, #DBE2EF)">أزرق داكن - أزرق متوسط - أزرق فاتح</option>
 
-    <option value="linear-gradient(to right, #F9F7F7, #DB4C40, #A30000)">Beige - Crimson - Dark Red</option>
+    <option data-ar="بيج - قرمزي - أحمر داكن" data-en="Beige - Crimson - Dark Red" value="linear-gradient(to right, #F9F7F7, #DB4C40, #A30000)">بيج - قرمزي - أحمر داكن</option>
 
-    <option value="linear-gradient(to right, #A8E6CF, #FFD3B6, #FFAAA5)">Light Green - Light Orange - Light Pink</option>
+    <option data-ar="أخضر فاتح - برتقالي فاتح - وردي فاتح" data-en="Light Green - Light Orange - Light Pink" value="linear-gradient(to right, #A8E6CF, #FFD3B6, #FFAAA5)">أخضر فاتح - برتقالي فاتح - وردي فاتح</option>
 
-    <option value="linear-gradient(to right, #FF0000, #FF8C00, #FFD700, #FFFF00)">Red - Orange - Gold - Yellow</option>
+    <option data-ar="أحمر - برتقالي - ذهبي - أصفر" data-en="Red - Orange - Gold - Yellow" value="linear-gradient(to right, #FF0000, #FF8C00, #FFD700, #FFFF00)">أحمر - برتقالي - ذهبي - أصفر</option>
 
-    <option value="linear-gradient(to right, #00B4D8, #90E0EF, #CAF0F8, #FFFFFF)">Turquoise - Light Blue - Sky Blue - White</option>
+    <option data-ar="تركواز - أزرق فاتح - أزرق سماوي - أبيض" data-en="Turquoise - Light Blue - Sky Blue - White" value="linear-gradient(to right, #00B4D8, #90E0EF, #CAF0F8, #FFFFFF)">تركواز - أزرق فاتح - أزرق سماوي - أبيض</option>
 
-    <option value="linear-gradient(to right, #8B0000, #DC143C, #FF69B4, #FFB6C1)">Burgundy - Crimson - Deep Pink - Light Pink</option>
+    <option data-ar="بورجوندي - قرمزي - وردي قاني - وردي فاتح" data-en="Burgundy - Crimson - Deep Pink - Light Pink" value="linear-gradient(to right, #8B0000, #DC143C, #FF69B4, #FFB6C1)">بورجوندي - قرمزي - وردي قاني - وردي فاتح</option>
 
-    <option value="linear-gradient(to right, #4B0082, #8A2BE2, #9370DB, #DDA0DD)">Dark Purple - Purple - Medium Purple - Plum</option>
+    <option data-ar="بنفسجي داكن - أرجواني - بنفسجي متوسط - برقوقي" data-en="Dark Purple - Purple - Medium Purple - Plum" value="linear-gradient(to right, #4B0082, #8A2BE2, #9370DB, #DDA0DD)">بنفسجي داكن - أرجواني - بنفسجي متوسط - برقوقي</option>
 
-    <option value="linear-gradient(to right, #2F4F4F, #696969, #A9A9A9, #D3D3D3)">Dark Gray - Medium Gray - Light Gray - Silver</option>
+    <option data-ar="رمادي داكن - رمادي متوسط - رمادي فاتح - فضي" data-en="Dark Gray - Medium Gray - Light Gray - Silver" value="linear-gradient(to right, #2F4F4F, #696969, #A9A9A9, #D3D3D3)">رمادي داكن - رمادي متوسط - رمادي فاتح - فضي</option>
 
-    <option value="linear-gradient(to right, #FF6B35, #F7931E, #FFD166, #06D6A0)">Orange Red - Gold - Light Yellow - Aquamarine</option>
+    <option data-ar="برتقالي أحمر - ذهبي - أصفر فاتح - أخضر مائي" data-en="Orange Red - Gold - Light Yellow - Aquamarine" value="linear-gradient(to right, #FF6B35, #F7931E, #FFD166, #06D6A0)">برتقالي أحمر - ذهبي - أصفر فاتح - أخضر مائي</option>
 
-    <option value="linear-gradient(to right, #0077B6, #00B4D8, #90E0EF, #CAF0F8)">Navy Blue - Turquoise - Light Blue - Sky Blue</option>
+    <option data-ar="أزرق بحري - تركواز - أزرق فاتح - أزرق سماوي" data-en="Navy Blue - Turquoise - Light Blue - Sky Blue" value="linear-gradient(to right, #0077B6, #00B4D8, #90E0EF, #CAF0F8)">أزرق بحري - تركواز - أزرق فاتح - أزرق سماوي</option>
 
-    <option value="linear-gradient(to right, #E63946, #F1C27B, #FFE66D, #BCE784)">Crimson - Light Orange - Yellow - Light Green</option>
+    <option data-ar="قرمزي - برتقالي فاتح - أصفر - أخضر فاتح" data-en="Crimson - Light Orange - Yellow - Light Green" value="linear-gradient(to right, #E63946, #F1C27B, #FFE66D, #BCE784)">قرمزي - برتقالي فاتح - أصفر - أخضر فاتح</option>
 
-    <option value="linear-gradient(to right, #5E3023, #D2691E, #F4A460, #FFDAB9)">Chocolate Brown - Bronze - Light Orange - Beige</option>
+    <option data-ar="بني شوكولاتة - برونزي - برتقالي فاتح - بيج" data-en="Chocolate Brown - Bronze - Light Orange - Beige" value="linear-gradient(to right, #5E3023, #D2691E, #F4A460, #FFDAB9)">بني شوكولاتة - برونزي - برتقالي فاتح - بيج</option>
 
-    <option value="linear-gradient(to right, #1A1A2E, #16213E, #4CC9F0, #F72585)">Midnight Blue - Dark Blue - Sky Blue - Deep Pink</option>
+    <option data-ar="أزرق ليلي - أزرق داكن - أزرق سماوي - وردي قاني" data-en="Midnight Blue - Dark Blue - Sky Blue - Deep Pink" value="linear-gradient(to right, #1A1A2E, #16213E, #4CC9F0, #F72585)">أزرق ليلي - أزرق داكن - أزرق سماوي - وردي قاني</option>
 </select>
     </div>
     <div class="color-setting-item" id="settings-lang-item">
@@ -6501,172 +6508,172 @@ setInterval(() => {
     <div class="color-setting-item">
       <label data-ar="🖼️ لون الخلفية" data-en="🖼️ Background Color">🖼️ لون الخلفية</label>
       <select id="bgColor" class="responsive-select" onchange="changeBackgroundColor()">
-        <option value="">اختر لونًا</option>
-<option value="dark">🌙 Dark Mode</option>
+        <option data-ar="اختر لونًا" data-en="Choose a color" value="">اختر لونًا</option>
+<option data-ar="🌙 Dark Mode" data-en="🌙 Dark Mode" value="dark">🌙 Dark Mode</option>
 
-        <option value="#ffffff" style="background-color: #ffffff; color: black;">أبيض</option>
-        <option value="#f8f9fa" style="background-color: #f8f9fa; color: black;">أبيض ثلجي</option>
-        <option value="#eaeaea" style="background-color: #eaeaea; color: black;">أبيض رمادي فاتح</option>
+        <option data-ar="أبيض" data-en="White" value="#ffffff" style="background-color: #ffffff; color: black;">أبيض</option>
+        <option data-ar="أبيض ثلجي" data-en="Snow White" value="#f8f9fa" style="background-color: #f8f9fa; color: black;">أبيض ثلجي</option>
+        <option data-ar="أبيض رمادي فاتح" data-en="Light Grayish White" value="#eaeaea" style="background-color: #eaeaea; color: black;">أبيض رمادي فاتح</option>
 
-        <option value="#f0f0f0" style="background-color: #f0f0f0; color: black;">رمادي فاتح جداً</option>
-        <option value="#dcdcdc" style="background-color: #dcdcdc; color: black;">رمادي فاتح</option>
-        <option value="#c0c0c0" style="background-color: #c0c0c0; color: black;">رمادي متوسط</option>
-        <option value="#808080" style="background-color: #808080; color: white;">رمادي</option>
-        <option value="#555555" style="background-color: #555555; color: white;">رمادي غامق</option>
+        <option data-ar="رمادي فاتح جداً" data-en="Very Light Gray" value="#f0f0f0" style="background-color: #f0f0f0; color: black;">رمادي فاتح جداً</option>
+        <option data-ar="رمادي فاتح" data-en="Light Gray" value="#dcdcdc" style="background-color: #dcdcdc; color: black;">رمادي فاتح</option>
+        <option data-ar="رمادي متوسط" data-en="Medium Gray" value="#c0c0c0" style="background-color: #c0c0c0; color: black;">رمادي متوسط</option>
+        <option data-ar="رمادي" data-en="Gray" value="#808080" style="background-color: #808080; color: white;">رمادي</option>
+        <option data-ar="رمادي غامق" data-en="Dark Gray" value="#555555" style="background-color: #555555; color: white;">رمادي غامق</option>
 
-        <option value="#000000" style="background-color: #000000; color: white;">أسود</option>
-        <option value="#222222" style="background-color: #222222; color: white;">أسود فاحم</option>
+        <option data-ar="أسود" data-en="Black" value="#000000" style="background-color: #000000; color: white;">أسود</option>
+        <option data-ar="أسود فاحم" data-en="Jet Black" value="#222222" style="background-color: #222222; color: white;">أسود فاحم</option>
 
-        <option value="#0000ff" style="background-color: #0000ff; color: white;">أزرق</option>
-        <option value="#1e90ff" style="background-color: #1e90ff; color: white;">أزرق سماوي</option>
-        <option value="#87ceeb" style="background-color: #87ceeb; color: black;">أزرق فاتح</option>
-        <option value="#add8e6" style="background-color: #add8e6; color: black;">أزرق فاتح جداً</option>
-        <option value="#6495ed" style="background-color: #6495ed; color: white;">أزرق ملكي</option>
+        <option data-ar="أزرق" data-en="Blue" value="#0000ff" style="background-color: #0000ff; color: white;">أزرق</option>
+        <option data-ar="أزرق سماوي" data-en="Sky Blue" value="#1e90ff" style="background-color: #1e90ff; color: white;">أزرق سماوي</option>
+        <option data-ar="أزرق فاتح" data-en="Light Blue" value="#87ceeb" style="background-color: #87ceeb; color: black;">أزرق فاتح</option>
+        <option data-ar="أزرق فاتح جداً" data-en="Very Light Blue" value="#add8e6" style="background-color: #add8e6; color: black;">أزرق فاتح جداً</option>
+        <option data-ar="أزرق ملكي" data-en="Royal Blue" value="#6495ed" style="background-color: #6495ed; color: white;">أزرق ملكي</option>
 
-        <option value="#008000" style="background-color: #008000; color: white;">أخضر</option>
-        <option value="#90ee90" style="background-color: #90ee90; color: black;">أخضر فاتح</option>
-        <option value="#98fb98" style="background-color: #98fb98; color: black;">أخضر فاتح جداً</option>
-        <option value="#20b2aa" style="background-color: #20b2aa; color: white;">أخضر معتدل</option>
+        <option data-ar="أخضر" data-en="Green" value="#008000" style="background-color: #008000; color: white;">أخضر</option>
+        <option data-ar="أخضر فاتح" data-en="Light Green" value="#90ee90" style="background-color: #90ee90; color: black;">أخضر فاتح</option>
+        <option data-ar="أخضر فاتح جداً" data-en="Very Light Green" value="#98fb98" style="background-color: #98fb98; color: black;">أخضر فاتح جداً</option>
+        <option data-ar="أخضر معتدل" data-en="Medium Green" value="#20b2aa" style="background-color: #20b2aa; color: white;">أخضر معتدل</option>
 
-        <option value="#ff0000" style="background-color: #ff0000; color: white;">أحمر</option>
-        <option value="#ff7f7f" style="background-color: #ff7f7f; color: black;">أحمر فاتح</option>
-        <option value="#e57373" style="background-color: #e57373; color: black;">أحمر باستيل</option>
-        <option value="#b71c1c" style="background-color: #b71c1c; color: white;">أحمر خمري</option>
+        <option data-ar="أحمر" data-en="Red" value="#ff0000" style="background-color: #ff0000; color: white;">أحمر</option>
+        <option data-ar="أحمر فاتح" data-en="Light Red" value="#ff7f7f" style="background-color: #ff7f7f; color: black;">أحمر فاتح</option>
+        <option data-ar="أحمر باستيل" data-en="Pastel Red" value="#e57373" style="background-color: #e57373; color: black;">أحمر باستيل</option>
+        <option data-ar="أحمر خمري" data-en="Wine Red" value="#b71c1c" style="background-color: #b71c1c; color: white;">أحمر خمري</option>
 
-        <option value="#ffa500" style="background-color: #ffa500; color: black;">برتقالي</option>
-        <option value="#ff9800" style="background-color: #ff9800; color: black;">برتقالي عصري</option>
-        <option value="#ff6347" style="background-color: #ff6347; color: black;">برتقالي مُحمر (طماطم)</option>
+        <option data-ar="برتقالي" data-en="Orange" value="#ffa500" style="background-color: #ffa500; color: black;">برتقالي</option>
+        <option data-ar="برتقالي عصري" data-en="Modern Orange" value="#ff9800" style="background-color: #ff9800; color: black;">برتقالي عصري</option>
+        <option data-ar="برتقالي مُحمر (طماطم)" data-en="Tomato Orange" value="#ff6347" style="background-color: #ff6347; color: black;">برتقالي مُحمر (طماطم)</option>
 
-        <option value="#ffff00" style="background-color: #ffff00; color: black;">أصفر</option>
-        <option value="#fffacd" style="background-color: #fffacd; color: black;">أصفر فاتح جداً</option>
-        <option value="#ffd700" style="background-color: #ffd700; color: black;">ذهبي</option>
+        <option data-ar="أصفر" data-en="Yellow" value="#ffff00" style="background-color: #ffff00; color: black;">أصفر</option>
+        <option data-ar="أصفر فاتح جداً" data-en="Very Light Yellow" value="#fffacd" style="background-color: #fffacd; color: black;">أصفر فاتح جداً</option>
+        <option data-ar="ذهبي" data-en="Gold" value="#ffd700" style="background-color: #ffd700; color: black;">ذهبي</option>
 
-        <option value="#800080" style="background-color: #800080; color: white;">بنفسجي</option>
-        <option value="#8a2be2" style="background-color: #8a2be2; color: white;">أرجواني</option>
-        <option value="#dda0dd" style="background-color: #dda0dd; color: black;">برقوقي فاتح</option>
+        <option data-ar="بنفسجي" data-en="Purple" value="#800080" style="background-color: #800080; color: white;">بنفسجي</option>
+        <option data-ar="أرجواني" data-en="Violet" value="#8a2be2" style="background-color: #8a2be2; color: white;">أرجواني</option>
+        <option data-ar="برقوقي فاتح" data-en="Light Plum" value="#dda0dd" style="background-color: #dda0dd; color: black;">برقوقي فاتح</option>
 
-        <option value="#ff69b4" style="background-color: #ff69b4; color: black;">وردي فاتح عصري</option>
-        <option value="#ffb6c1" style="background-color: #ffb6c1; color: black;">زهري فاتح</option>
+        <option data-ar="وردي فاتح عصري" data-en="Modern Light Pink" value="#ff69b4" style="background-color: #ff69b4; color: black;">وردي فاتح عصري</option>
+        <option data-ar="زهري فاتح" data-en="Light Rose" value="#ffb6c1" style="background-color: #ffb6c1; color: black;">زهري فاتح</option>
 
-        <option value="#fbe9e7" style="background-color: #fbe9e7; color: black;">نيود فاتح</option>
-        <option value="#ffe0b2" style="background-color: #ffe0b2; color: black;">بيج فاتح عصري</option>
-        <option value="#f5f5dc" style="background-color: #f5f5dc; color: black;">بيج</option>
+        <option data-ar="نيود فاتح" data-en="Light Nude" value="#fbe9e7" style="background-color: #fbe9e7; color: black;">نيود فاتح</option>
+        <option data-ar="بيج فاتح عصري" data-en="Modern Light Beige" value="#ffe0b2" style="background-color: #ffe0b2; color: black;">بيج فاتح عصري</option>
+        <option data-ar="بيج" data-en="Beige" value="#f5f5dc" style="background-color: #f5f5dc; color: black;">بيج</option>
 
-        <option value="linear-gradient(to right, #000000, #ffffff)">أسود - أبيض</option>
-        <option value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طما</option>
-        <option value="linear-gradient(to right, #008000, #7fffd4)">أخضر - أخضر مائي</option>
-        <option value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
-        <option value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي محروق</option>
+        <option data-ar="أسود - أبيض" data-en="Black - White" value="linear-gradient(to right, #000000, #ffffff)">أسود - أبيض</option>
+        <option data-ar="أحمر - أحمر طما" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طما</option>
+        <option data-ar="أخضر - أخضر مائي" data-en="Green - Aquamarine" value="linear-gradient(to right, #008000, #7fffd4)">أخضر - أخضر مائي</option>
+        <option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
+        <option data-ar="برتقالي - برتقالي محروق" data-en="Orange - Burnt Orange" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي محروق</option>
 
-        <option value="#a52a2a" style="background-color: #a52a2a; color: white;">بني</option>
+        <option data-ar="بني" data-en="Brown" value="#a52a2a" style="background-color: #a52a2a; color: white;">بني</option>
 
-        <option value="#f5f2e6" style="background-color: #f5f2e6; color: black;">لون خفيف</option>
-        <option value="#f5deb3" style="background-color: #f5deb3; color: black;">قمح</option>
-        <option value="#f08080" style="background-color: #f08080; color: black;">وردي معتدل</option>
-        <option value="#d3d3d3" style="background-color: #d3d3d3; color: black;">رمادي فاتح جداً</option>
-        <option value="#ffdab9" style="background-color: #ffdab9; color: black;">خوخي</option>
-        <option value="#e6e6fa" style="background-color: #e6e6fa; color: black;">لافندر</option>
-        <option value="#faebd7" style="background-color: #faebd7; color: black;">أنتيك وايت</option>
-        <option value="#deb887" style="background-color: #deb887; color: black;">بني فاتح</option>
-        <option value="#ffefd5" style="background-color: #ffefd5; color: black;">برتقالي فاتح</option>
-        <option value="#ffd700" style="background-color: #ffd700; color: black;">ذهبي</option>
-        <option value="#00ced1" style="background-color: #00ced1; color: black;">فيروز</option>
-        <option value="#dc143c" style="background-color: #dc143c; color: white;">قرمزي</option>
-        <option value="#d2691e" style="background-color: #d2691e; color: white;">شيكولاتي</option>
-        <option value="#b22222" style="background-color: #b22222; color: white;">قرمزي داكن</option>
-        <option value="#ffdead" style="background-color: #ffdead; color: black;">خشب الساج الفاتح</option>
-        <option value="#4682b4" style="background-color: #4682b4; color: white;">أزرق فولاذي</option>
-        <option value="#da70d6" style="background-color: #da70d6; color: black;">أرجواني فاتح</option>
-        <option value="#7b68ee" style="background-color: #7b68ee; color: white;">أزرق أردوازي متوسط</option>
-        <option value="#6a5acd" style="background-color: #6a5acd; color: white;">أزرق أردوازي</option>
-        <option value="#8b4513" style="background-color: #8b4513; color: white;">بني سروج</option>
-        <option value="#ff00ff" style="background-color: #ff00ff; color: black;">ماجنتا</option>
-        <option value="#8a2be2" style="background-color: #8a2be2; color: white;">أرجواني</option>
-        <option value="#ff4500" style="background-color: #ff4500; color: white;">برتقالي محروق</option>
-        <option value="#00ff7f" style="background-color: #00ff7f; color: black;">أخضر ربيعي</option>
-        <option value="#ff1493" style="background-color: #ff1493; color: white;">زهري عميق</option>
-        <option value="#1e90ff" style="background-color: #1e90ff; color: white;">أزرق سماوي</option>
-        <option value="#00ced1" style="background-color: #00ced1; color: black;">فيروزي داكن</option>
-        <option value="#000080" style="background-color: #000080; color: white;">أزرق كحلي</option>
-        <option value="#ff8c00" style="background-color: #ff8c00; color: black;">برتقالي داكن</option>
-        <option value="#adff2f" style="background-color: #adff2f; color: black;">أخضر مصفر</option>
+        <option data-ar="لون خفيف" data-en="Light Tone" value="#f5f2e6" style="background-color: #f5f2e6; color: black;">لون خفيف</option>
+        <option data-ar="قمح" data-en="Wheat" value="#f5deb3" style="background-color: #f5deb3; color: black;">قمح</option>
+        <option data-ar="وردي معتدل" data-en="Moderate Pink" value="#f08080" style="background-color: #f08080; color: black;">وردي معتدل</option>
+        <option data-ar="رمادي فاتح جداً" data-en="Very Light Gray" value="#d3d3d3" style="background-color: #d3d3d3; color: black;">رمادي فاتح جداً</option>
+        <option data-ar="خوخي" data-en="Peach" value="#ffdab9" style="background-color: #ffdab9; color: black;">خوخي</option>
+        <option data-ar="لافندر" data-en="Lavender" value="#e6e6fa" style="background-color: #e6e6fa; color: black;">لافندر</option>
+        <option data-ar="أنتيك وايت" data-en="Antique White" value="#faebd7" style="background-color: #faebd7; color: black;">أنتيك وايت</option>
+        <option data-ar="بني فاتح" data-en="Light Brown" value="#deb887" style="background-color: #deb887; color: black;">بني فاتح</option>
+        <option data-ar="برتقالي فاتح" data-en="Light Orange" value="#ffefd5" style="background-color: #ffefd5; color: black;">برتقالي فاتح</option>
+        <option data-ar="ذهبي" data-en="Gold" value="#ffd700" style="background-color: #ffd700; color: black;">ذهبي</option>
+        <option data-ar="فيروز" data-en="Turquoise" value="#00ced1" style="background-color: #00ced1; color: black;">فيروز</option>
+        <option data-ar="قرمزي" data-en="Crimson" value="#dc143c" style="background-color: #dc143c; color: white;">قرمزي</option>
+        <option data-ar="شيكولاتي" data-en="Chocolate" value="#d2691e" style="background-color: #d2691e; color: white;">شيكولاتي</option>
+        <option data-ar="قرمزي داكن" data-en="Dark Crimson" value="#b22222" style="background-color: #b22222; color: white;">قرمزي داكن</option>
+        <option data-ar="خشب الساج الفاتح" data-en="Light Teak Wood" value="#ffdead" style="background-color: #ffdead; color: black;">خشب الساج الفاتح</option>
+        <option data-ar="أزرق فولاذي" data-en="Steel Blue" value="#4682b4" style="background-color: #4682b4; color: white;">أزرق فولاذي</option>
+        <option data-ar="أرجواني فاتح" data-en="Light Violet" value="#da70d6" style="background-color: #da70d6; color: black;">أرجواني فاتح</option>
+        <option data-ar="أزرق أردوازي متوسط" data-en="Medium Slate Blue" value="#7b68ee" style="background-color: #7b68ee; color: white;">أزرق أردوازي متوسط</option>
+        <option data-ar="أزرق أردوازي" data-en="Slate Blue" value="#6a5acd" style="background-color: #6a5acd; color: white;">أزرق أردوازي</option>
+        <option data-ar="بني سروج" data-en="Saddle Brown" value="#8b4513" style="background-color: #8b4513; color: white;">بني سروج</option>
+        <option data-ar="ماجنتا" data-en="Magenta" value="#ff00ff" style="background-color: #ff00ff; color: black;">ماجنتا</option>
+        <option data-ar="أرجواني" data-en="Violet" value="#8a2be2" style="background-color: #8a2be2; color: white;">أرجواني</option>
+        <option data-ar="برتقالي محروق" data-en="Burnt Orange" value="#ff4500" style="background-color: #ff4500; color: white;">برتقالي محروق</option>
+        <option data-ar="أخضر ربيعي" data-en="Spring Green" value="#00ff7f" style="background-color: #00ff7f; color: black;">أخضر ربيعي</option>
+        <option data-ar="زهري عميق" data-en="Deep Pink" value="#ff1493" style="background-color: #ff1493; color: white;">زهري عميق</option>
+        <option data-ar="أزرق سماوي" data-en="Sky Blue" value="#1e90ff" style="background-color: #1e90ff; color: white;">أزرق سماوي</option>
+        <option data-ar="فيروزي داكن" data-en="Dark Turquoise" value="#00ced1" style="background-color: #00ced1; color: black;">فيروزي داكن</option>
+        <option data-ar="أزرق كحلي" data-en="Navy Blue" value="#000080" style="background-color: #000080; color: white;">أزرق كحلي</option>
+        <option data-ar="برتقالي داكن" data-en="Dark Orange" value="#ff8c00" style="background-color: #ff8c00; color: black;">برتقالي داكن</option>
+        <option data-ar="أخضر مصفر" data-en="Yellowish Green" value="#adff2f" style="background-color: #adff2f; color: black;">أخضر مصفر</option>
 
-<option value="linear-gradient(to right, #ff0000, #ffffff, #000000)">علم مصر: أحمر - أبيض - أسود</option>
-<option value="linear-gradient(to right, #000000, #ffffff, #007a3d, #ff0000)">علم فلسطين: أسود - أبيض - أخضر - أحمر</option>
+<option data-ar="علم مصر: أحمر - أبيض - أسود" data-en="Egypt Flag: Red - White - Black" value="linear-gradient(to right, #ff0000, #ffffff, #000000)">علم مصر: أحمر - أبيض - أسود</option>
+<option data-ar="علم فلسطين: أسود - أبيض - أخضر - أحمر" data-en="Palestine Flag: Black - White - Green - Red" value="linear-gradient(to right, #000000, #ffffff, #007a3d, #ff0000)">علم فلسطين: أسود - أبيض - أخضر - أحمر</option>
 
-<option value="linear-gradient(90deg, #ffb6c1, #ba68c8, #81d4fa)">وردي - بنفسجي - أزرق فاتح</option>
+<option data-ar="وردي - بنفسجي - أزرق فاتح" data-en="Pink - Purple - Light Blue" value="linear-gradient(90deg, #ffb6c1, #ba68c8, #81d4fa)">وردي - بنفسجي - أزرق فاتح</option>
 
-<option value="linear-gradient(90deg, #00ffb3, #40e0d0, #1e90ff)">أخضر نعناعي - تركواز - أزرق سماوي</option>
+<option data-ar="أخضر نعناعي - تركواز - أزرق سماوي" data-en="Mint Green - Turquoise - Sky Blue" value="linear-gradient(90deg, #00ffb3, #40e0d0, #1e90ff)">أخضر نعناعي - تركواز - أزرق سماوي</option>
 
-<option value="linear-gradient(90deg, #fff700, #ffc300, #ff5733)">أصفر - برتقالي - أحمر</option>
+<option data-ar="أصفر - برتقالي - أحمر" data-en="Yellow - Orange - Red" value="linear-gradient(90deg, #fff700, #ffc300, #ff5733)">أصفر - برتقالي - أحمر</option>
 
-<option value="linear-gradient(90deg, #6a1b9a, #9c27b0, #ffb6c1)">بنفسجي غامق - بنفسجي فاتح - وردي</option>
+<option data-ar="بنفسجي غامق - بنفسجي فاتح - وردي" data-en="Dark Purple - Light Purple - Pink" value="linear-gradient(90deg, #6a1b9a, #9c27b0, #ffb6c1)">بنفسجي غامق - بنفسجي فاتح - وردي</option>
 
-<option value="linear-gradient(90deg, #e0c097, #ffe0b2, #ffffff)">نيود رملي - بيج - أبيض</option>
+<option data-ar="نيود رملي - بيج - أبيض" data-en="Sandy Nude - Beige - White" value="linear-gradient(90deg, #e0c097, #ffe0b2, #ffffff)">نيود رملي - بيج - أبيض</option>
 
-<option value="linear-gradient(90deg, #1565c0, #1e90ff, #7fffd4)">أزرق داكن - أزرق سماوي - أخضر فاتح</option>
+<option data-ar="أزرق داكن - أزرق سماوي - أخضر فاتح" data-en="Dark Blue - Sky Blue - Light Green" value="linear-gradient(90deg, #1565c0, #1e90ff, #7fffd4)">أزرق داكن - أزرق سماوي - أخضر فاتح</option>
 
-<option value="linear-gradient(90deg, #f0f0f0, #ffffff, #ffd700)">رمادي فاتح - أبيض - ذهبي</option>
+<option data-ar="رمادي فاتح - أبيض - ذهبي" data-en="Light Gray - White - Gold" value="linear-gradient(90deg, #f0f0f0, #ffffff, #ffd700)">رمادي فاتح - أبيض - ذهبي</option>
 
-<option value="linear-gradient(90deg, #556b2f, #adff2f, #ffea00)">أخضر زيتوني - أخضر ربيعي - أصفر ليموني</option>
+<option data-ar="أخضر زيتوني - أخضر ربيعي - أصفر ليموني" data-en="Olive Green - Spring Green - Lemon Yellow" value="linear-gradient(90deg, #556b2f, #adff2f, #ffea00)">أخضر زيتوني - أخضر ربيعي - أصفر ليموني</option>
 
-<option value="linear-gradient(90deg, #8d5524, #c68642, #ffe4ec)">بني - بيج - وردي فاتح</option>
+<option data-ar="بني - بيج - وردي فاتح" data-en="Brown - Beige - Light Pink" value="linear-gradient(90deg, #8d5524, #c68642, #ffe4ec)">بني - بيج - وردي فاتح</option>
 
-<option value="linear-gradient(90deg, #800080, #0000ff, #40e0d0, #00ff7f)">بنفسجي - أزرق - تركواز - أخضر</option>
+<option data-ar="بنفسجي - أزرق - تركواز - أخضر" data-en="Purple - Blue - Turquoise - Green" value="linear-gradient(90deg, #800080, #0000ff, #40e0d0, #00ff7f)">بنفسجي - أزرق - تركواز - أخضر</option>
 
-<option value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
-<option value="linear-gradient(to right, #008000, #7fffd4)">أخضر - أخضر مائي</option>
-<option value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
-<option value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي محروق</option>
-<option value="linear-gradient(to right, #800080, #dda0dd)">بنفسجي - برقوقي فاتح</option>
-<option value="linear-gradient(to right, #a52a2a, #8a2be2)">بني - أرجواني</option>
-<option value="linear-gradient(to right, #f0f0f0, #ee82ee)">رمادي فاتح - بنفسجي فاتح</option>
-<option value="linear-gradient(to right, #40e0d0, #00ff7f)">تركواز - أخضر ربيعي</option>
-<option value="linear-gradient(to right, #ff0000, #dc143c)">أحمر - أحمر قاني</option>
-<option value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
-<option value="linear-gradient(to right, #e63946, #ffb6c1)">أحمر قاني - وردي فاتح</option>
-<option value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي محروق</option>
-<option value="linear-gradient(to right, #ffa500, #ffd700)">برتقالي - ذهبي</option>
-<option value="linear-gradient(to right, #f4a460, #ffe4b5)">برتقالي فاتح - بيج</option>
-<option value="linear-gradient(to right, #ffff00, #ffd700)">أصفر - ذهبي</option>
-<option value="linear-gradient(to right, #adff2f, #ffea00)">أخضر ربيعي - أصفر ليموني</option>
-<option value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
-<option value="linear-gradient(to right, #1e90ff, #87ceeb)">أزرق سماوي - أزرق فاتح</option>
-<option value="linear-gradient(to right, #0077b6, #00b4d8)">أزرق بحري - تركواز</option>
-<option value="linear-gradient(to right, #1565c0, #1e90ff)">أزرق داكن - أزرق سماوي</option>
-<option value="linear-gradient(to right, #800080, #dda0dd)">بنفسجي - برقوقي فاتح</option>
-<option value="linear-gradient(to right, #6a1b9a, #9c27b0)">بنفسجي غامق - بنفسجي فاتح</option>
-<option value="linear-gradient(to right, #8a2be2, #d8bfd8)">أرجواني - بنفسجي فاتح</option>
-<option value="linear-gradient(to right, #f0f0f0, #ee82ee)">رمادي فاتح - بنفسجي فاتح</option>
-<option value="linear-gradient(to right, #a9a9a9, #d3d3d3)">رمادي متوسط - فضي</option>
-<option value="linear-gradient(to right, #696969, #f0f0f0)">رمادي داكن - رمادي فاتح</option>
-<option value="linear-gradient(to right, #a52a2a, #8a2be2)">بني - أرجواني</option>
-<option value="linear-gradient(to right, #8d5524, #c68642)">بني - بيج</option>
-<option value="linear-gradient(to right, #5e3023, #d2691e)">بني شوكولاتة - برونزي</option>
-<option value="linear-gradient(to right, #f5f5dc, #ffe4b5)">بيج - بيج ذهبي</option>
-<option value="linear-gradient(to right, #ffd700, #fffacd)">ذهبي - أصفر فاتح</option>
-<option value="linear-gradient(to right, #f0f0f0, #ffffff)">رمادي فاتح - أبيض</option>
-<option value="linear-gradient(to right, #ff6b6b, #a0e7ff)">وردي فاتح - أزرق سماوي</option>
-<option value="linear-gradient(to right, #a8e6cf, #ffd3b6)">أخضر فاتح - برتقالي فاتح</option>
-<option value="linear-gradient(to right, #d4a5ff, #ffd6a5)">بنفسجي فاتح - أصفر ذهبي</option>
-<option value="linear-gradient(to right, #ff9a8b, #fecfef)">وردي محروق - وردي فاتح</option>
-<option value="linear-gradient(to right, #a8edea, #fed6e3)">تركواز فاتح - وردي فاتح</option>
+<option data-ar="أحمر - أحمر طماطم" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
+<option data-ar="أخضر - أخضر مائي" data-en="Green - Aquamarine" value="linear-gradient(to right, #008000, #7fffd4)">أخضر - أخضر مائي</option>
+<option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
+<option data-ar="برتقالي - برتقالي محروق" data-en="Orange - Burnt Orange" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي محروق</option>
+<option data-ar="بنفسجي - برقوقي فاتح" data-en="Purple - Light Plum" value="linear-gradient(to right, #800080, #dda0dd)">بنفسجي - برقوقي فاتح</option>
+<option data-ar="بني - أرجواني" data-en="Brown - Violet" value="linear-gradient(to right, #a52a2a, #8a2be2)">بني - أرجواني</option>
+<option data-ar="رمادي فاتح - بنفسجي فاتح" data-en="Light Gray - Light Purple" value="linear-gradient(to right, #f0f0f0, #ee82ee)">رمادي فاتح - بنفسجي فاتح</option>
+<option data-ar="تركواز - أخضر ربيعي" data-en="Turquoise - Spring Green" value="linear-gradient(to right, #40e0d0, #00ff7f)">تركواز - أخضر ربيعي</option>
+<option data-ar="أحمر - أحمر قاني" data-en="Red - Crimson" value="linear-gradient(to right, #ff0000, #dc143c)">أحمر - أحمر قاني</option>
+<option data-ar="أحمر - أحمر طماطم" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
+<option data-ar="أحمر قاني - وردي فاتح" data-en="Crimson - Light Pink" value="linear-gradient(to right, #e63946, #ffb6c1)">أحمر قاني - وردي فاتح</option>
+<option data-ar="برتقالي - برتقالي محروق" data-en="Orange - Burnt Orange" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي محروق</option>
+<option data-ar="برتقالي - ذهبي" data-en="Orange - Gold" value="linear-gradient(to right, #ffa500, #ffd700)">برتقالي - ذهبي</option>
+<option data-ar="برتقالي فاتح - بيج" data-en="Light Orange - Beige" value="linear-gradient(to right, #f4a460, #ffe4b5)">برتقالي فاتح - بيج</option>
+<option data-ar="أصفر - ذهبي" data-en="Yellow - Gold" value="linear-gradient(to right, #ffff00, #ffd700)">أصفر - ذهبي</option>
+<option data-ar="أخضر ربيعي - أصفر ليموني" data-en="Spring Green - Lemon Yellow" value="linear-gradient(to right, #adff2f, #ffea00)">أخضر ربيعي - أصفر ليموني</option>
+<option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
+<option data-ar="أزرق سماوي - أزرق فاتح" data-en="Sky Blue - Light Blue" value="linear-gradient(to right, #1e90ff, #87ceeb)">أزرق سماوي - أزرق فاتح</option>
+<option data-ar="أزرق بحري - تركواز" data-en="Navy Blue - Turquoise" value="linear-gradient(to right, #0077b6, #00b4d8)">أزرق بحري - تركواز</option>
+<option data-ar="أزرق داكن - أزرق سماوي" data-en="Dark Blue - Sky Blue" value="linear-gradient(to right, #1565c0, #1e90ff)">أزرق داكن - أزرق سماوي</option>
+<option data-ar="بنفسجي - برقوقي فاتح" data-en="Purple - Light Plum" value="linear-gradient(to right, #800080, #dda0dd)">بنفسجي - برقوقي فاتح</option>
+<option data-ar="بنفسجي غامق - بنفسجي فاتح" data-en="Dark Purple - Light Purple" value="linear-gradient(to right, #6a1b9a, #9c27b0)">بنفسجي غامق - بنفسجي فاتح</option>
+<option data-ar="أرجواني - بنفسجي فاتح" data-en="Violet - Light Purple" value="linear-gradient(to right, #8a2be2, #d8bfd8)">أرجواني - بنفسجي فاتح</option>
+<option data-ar="رمادي فاتح - بنفسجي فاتح" data-en="Light Gray - Light Purple" value="linear-gradient(to right, #f0f0f0, #ee82ee)">رمادي فاتح - بنفسجي فاتح</option>
+<option data-ar="رمادي متوسط - فضي" data-en="Medium Gray - Silver" value="linear-gradient(to right, #a9a9a9, #d3d3d3)">رمادي متوسط - فضي</option>
+<option data-ar="رمادي داكن - رمادي فاتح" data-en="Dark Gray - Light Gray" value="linear-gradient(to right, #696969, #f0f0f0)">رمادي داكن - رمادي فاتح</option>
+<option data-ar="بني - أرجواني" data-en="Brown - Violet" value="linear-gradient(to right, #a52a2a, #8a2be2)">بني - أرجواني</option>
+<option data-ar="بني - بيج" data-en="Brown - Beige" value="linear-gradient(to right, #8d5524, #c68642)">بني - بيج</option>
+<option data-ar="بني شوكولاتة - برونزي" data-en="Chocolate Brown - Bronze" value="linear-gradient(to right, #5e3023, #d2691e)">بني شوكولاتة - برونزي</option>
+<option data-ar="بيج - بيج ذهبي" data-en="Beige - Golden Beige" value="linear-gradient(to right, #f5f5dc, #ffe4b5)">بيج - بيج ذهبي</option>
+<option data-ar="ذهبي - أصفر فاتح" data-en="Gold - Light Yellow" value="linear-gradient(to right, #ffd700, #fffacd)">ذهبي - أصفر فاتح</option>
+<option data-ar="رمادي فاتح - أبيض" data-en="Light Gray - White" value="linear-gradient(to right, #f0f0f0, #ffffff)">رمادي فاتح - أبيض</option>
+<option data-ar="وردي فاتح - أزرق سماوي" data-en="Light Pink - Sky Blue" value="linear-gradient(to right, #ff6b6b, #a0e7ff)">وردي فاتح - أزرق سماوي</option>
+<option data-ar="أخضر فاتح - برتقالي فاتح" data-en="Light Green - Light Orange" value="linear-gradient(to right, #a8e6cf, #ffd3b6)">أخضر فاتح - برتقالي فاتح</option>
+<option data-ar="بنفسجي فاتح - أصفر ذهبي" data-en="Light Purple - Golden Yellow" value="linear-gradient(to right, #d4a5ff, #ffd6a5)">بنفسجي فاتح - أصفر ذهبي</option>
+<option data-ar="وردي محروق - وردي فاتح" data-en="Burnt Pink - Light Pink" value="linear-gradient(to right, #ff9a8b, #fecfef)">وردي محروق - وردي فاتح</option>
+<option data-ar="تركواز فاتح - وردي فاتح" data-en="Light Turquoise - Light Pink" value="linear-gradient(to right, #a8edea, #fed6e3)">تركواز فاتح - وردي فاتح</option>
 
-<option value="linear-gradient(to right, #FF6B6B, #FFD166, #06D6A0)">وردي فاتح - أصفر ذهبي - أخضر مائي</option>
-<option value="linear-gradient(to right, #4CC9F0, #7209B7, #F72585)">أزرق سماوي - بنفسجي - وردي قاني</option>
-<option value="linear-gradient(to right, #112D4E, #3F72AF, #DBE2EF)">أزرق داكن - أزرق متوسط - أزرق فاتح</option>
-<option value="linear-gradient(to right, #F9F7F7, #DB4C40, #A30000)">بيج - أحمر قاني - أحمر داكن</option>
-<option value="linear-gradient(to right, #A8E6CF, #FFD3B6, #FFAAA5)">أخضر فاتح - برتقالي فاتح - وردي فاتح</option>
-<option value="linear-gradient(to right, #FF0000, #FF8C00, #FFD700, #FFFF00)">أحمر - برتقالي - ذهبي - أصفر</option>
-<option value="linear-gradient(to right, #00B4D8, #90E0EF, #CAF0F8, #FFFFFF)">تركواز - أزرق فاتح - أزرق سماوي - أبيض</option>
-<option value="linear-gradient(to right, #8B0000, #DC143C, #FF69B4, #FFB6C1)">بورجوندي - أحمر قاني - وردي قاني - وردي فاتح</option>
-<option value="linear-gradient(to right, #4B0082, #8A2BE2, #9370DB, #DDA0DD)">بنفسجي داكن - أرجواني - بنفسجي متوسط - برقوقي</option>
-<option value="linear-gradient(to right, #2F4F4F, #696969, #A9A9A9, #D3D3D3)">رمادي داكن - رمادي متوسط - رمادي فاتح - فضي</option>
-<option value="linear-gradient(to right, #FF6B35, #F7931E, #FFD166, #06D6A0)">برتقالي محروق - ذهبي - أصفر فاتح - أخضر مائي</option>
-<option value="linear-gradient(to right, #0077B6, #00B4D8, #90E0EF, #CAF0F8)">أزرق بحري - تركواز - أزرق فاتح - أزرق سماوي</option>
-<option value="linear-gradient(to right, #E63946, #F1C27B, #FFE66D, #BCE784)">أحمر قاني - برتقالي فاتح - أصفر - أخضر فاتح</option>
-<option value="linear-gradient(to right, #5E3023, #D2691E, #F4A460, #FFDAB9)">بني شوكولاتة - برونزي - برتقالي فاتح - بيج</option>
-<option value="linear-gradient(to right, #1A1A2E, #16213E, #4CC9F0, #F72585)">أزرق ليلي - أزرق داكن - أزرق سماوي - وردي قاني</option>
+<option data-ar="وردي فاتح - أصفر ذهبي - أخضر مائي" data-en="Light Pink - Golden Yellow - Aquamarine" value="linear-gradient(to right, #FF6B6B, #FFD166, #06D6A0)">وردي فاتح - أصفر ذهبي - أخضر مائي</option>
+<option data-ar="أزرق سماوي - بنفسجي - وردي قاني" data-en="Sky Blue - Purple - Deep Pink" value="linear-gradient(to right, #4CC9F0, #7209B7, #F72585)">أزرق سماوي - بنفسجي - وردي قاني</option>
+<option data-ar="أزرق داكن - أزرق متوسط - أزرق فاتح" data-en="Dark Blue - Medium Blue - Light Blue" value="linear-gradient(to right, #112D4E, #3F72AF, #DBE2EF)">أزرق داكن - أزرق متوسط - أزرق فاتح</option>
+<option data-ar="بيج - أحمر قاني - أحمر داكن" data-en="Beige - Crimson - Dark Red" value="linear-gradient(to right, #F9F7F7, #DB4C40, #A30000)">بيج - أحمر قاني - أحمر داكن</option>
+<option data-ar="أخضر فاتح - برتقالي فاتح - وردي فاتح" data-en="Light Green - Light Orange - Light Pink" value="linear-gradient(to right, #A8E6CF, #FFD3B6, #FFAAA5)">أخضر فاتح - برتقالي فاتح - وردي فاتح</option>
+<option data-ar="أحمر - برتقالي - ذهبي - أصفر" data-en="Red - Orange - Gold - Yellow" value="linear-gradient(to right, #FF0000, #FF8C00, #FFD700, #FFFF00)">أحمر - برتقالي - ذهبي - أصفر</option>
+<option data-ar="تركواز - أزرق فاتح - أزرق سماوي - أبيض" data-en="Turquoise - Light Blue - Sky Blue - White" value="linear-gradient(to right, #00B4D8, #90E0EF, #CAF0F8, #FFFFFF)">تركواز - أزرق فاتح - أزرق سماوي - أبيض</option>
+<option data-ar="بورجوندي - أحمر قاني - وردي قاني - وردي فاتح" data-en="Burgundy - Crimson - Deep Pink - Light Pink" value="linear-gradient(to right, #8B0000, #DC143C, #FF69B4, #FFB6C1)">بورجوندي - أحمر قاني - وردي قاني - وردي فاتح</option>
+<option data-ar="بنفسجي داكن - أرجواني - بنفسجي متوسط - برقوقي" data-en="Dark Purple - Violet - Medium Purple - Plum" value="linear-gradient(to right, #4B0082, #8A2BE2, #9370DB, #DDA0DD)">بنفسجي داكن - أرجواني - بنفسجي متوسط - برقوقي</option>
+<option data-ar="رمادي داكن - رمادي متوسط - رمادي فاتح - فضي" data-en="Dark Gray - Medium Gray - Light Gray - Silver" value="linear-gradient(to right, #2F4F4F, #696969, #A9A9A9, #D3D3D3)">رمادي داكن - رمادي متوسط - رمادي فاتح - فضي</option>
+<option data-ar="برتقالي محروق - ذهبي - أصفر فاتح - أخضر مائي" data-en="Burnt Orange - Gold - Light Yellow - Aquamarine" value="linear-gradient(to right, #FF6B35, #F7931E, #FFD166, #06D6A0)">برتقالي محروق - ذهبي - أصفر فاتح - أخضر مائي</option>
+<option data-ar="أزرق بحري - تركواز - أزرق فاتح - أزرق سماوي" data-en="Navy Blue - Turquoise - Light Blue - Sky Blue" value="linear-gradient(to right, #0077B6, #00B4D8, #90E0EF, #CAF0F8)">أزرق بحري - تركواز - أزرق فاتح - أزرق سماوي</option>
+<option data-ar="أحمر قاني - برتقالي فاتح - أصفر - أخضر فاتح" data-en="Crimson - Light Orange - Yellow - Light Green" value="linear-gradient(to right, #E63946, #F1C27B, #FFE66D, #BCE784)">أحمر قاني - برتقالي فاتح - أصفر - أخضر فاتح</option>
+<option data-ar="بني شوكولاتة - برونزي - برتقالي فاتح - بيج" data-en="Chocolate Brown - Bronze - Light Orange - Beige" value="linear-gradient(to right, #5E3023, #D2691E, #F4A460, #FFDAB9)">بني شوكولاتة - برونزي - برتقالي فاتح - بيج</option>
+<option data-ar="أزرق ليلي - أزرق داكن - أزرق سماوي - وردي قاني" data-en="Midnight Blue - Dark Blue - Sky Blue - Deep Pink" value="linear-gradient(to right, #1A1A2E, #16213E, #4CC9F0, #F72585)">أزرق ليلي - أزرق داكن - أزرق سماوي - وردي قاني</option>
 
     </select>
     </div>
@@ -6679,7 +6686,7 @@ setInterval(() => {
             title="إخفاء شاشة الترحيب / Disable Welcome Screen"
             class="welcome-toggle-btn">
         <svg class="wtb-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span class="wtb-text" id="disableWelcomeTxt">Disable Welcome</span>
+        <span class="wtb-text" id="disableWelcomeTxt">إخفاء شاشة الترحيب</span>
     </button>
   </div>
 
@@ -15485,8 +15492,8 @@ const moreTranslations = [
        style="margin-right: 6px; font-size: 22px;">📦</a>
   </span>
 
-  <span style="position:absolute; top:5px; left:5px; background:#999; color:#fff; padding:2px 6px; border-radius:5px; font-size:12px;">
-    OLD
+  <span id="oldBadge" data-ar="قديم" data-en="OLD" style="position:absolute; top:5px; left:5px; background:#999; color:#fff; padding:2px 6px; border-radius:5px; font-size:12px;">
+    قديم
   </span>
 
   <img src="https://cdn.instant.audio/images/equalizer.gif"
@@ -15517,8 +15524,8 @@ const moreTranslations = [
        style="margin-right: 6px; font-size: 24px;">🚀</a>
   </span>
 
-  <span style="position:absolute; top:5px; left:5px; background:#28a745; color:#fff; padding:2px 6px; border-radius:5px; font-size:12px;">
-    NEW
+  <span id="newBadge" data-ar="جديد" data-en="NEW" style="position:absolute; top:5px; left:5px; background:#28a745; color:#fff; padding:2px 6px; border-radius:5px; font-size:12px;">
+    جديد
   </span>
 
   <img src="https://cdn.instant.audio/images/equalizer.gif"
@@ -15534,7 +15541,7 @@ const moreTranslations = [
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="واتساب" / loading="lazy">
     </a>
 
-<a href="https://t.me/Magziko" class="telegram-button" target="_blank" title="اضغط على Ctrl + الزر لفتح شاشة تليجرام مباشرة">Let's Chat</a>
+<a href="https://t.me/Magziko" class="telegram-button" target="_blank" title="اضغط على Ctrl + الزر لفتح شاشة تليجرام مباشرة" data-ar="تليجرام" data-en="Telegram">تليجرام</a>
 
 </div>
 
@@ -15550,7 +15557,7 @@ const moreTranslations = [
         <span class="vol-icon">🔊</span>
     </div>
 
-    <span class="free-palestine-text">Free Palestine</span>
+    <span class="free-palestine-text" id="freePalestineText" data-ar="فلسطين حرة" data-en="Free Palestine">فلسطين حرة</span>
 </div>
 
 <div style="display: flex; justify-content: center; align-items: center;">
@@ -15703,16 +15710,103 @@ function updateStatus(message, enMessage) {
     }
 }
 
+
+// ── applyInitialLanguage: يكمّل الترجمة الكاملة عند load ──────────────────
+function applyInitialLanguage() {
+  if (!isArabic) {
+    // إنجليزية: نطبّق الترجمة مباشرة — isArabic تفضل false عشان التوجل يشتغل صح
+    var lang = 'en';
+    isArabic = false; // تأكيد صريح — التوجل أول ضغطة يروح عربي ✓
+    siteLanguage = lang;
+
+    var wlt = document.getElementById('welcomeLangToggle');
+    if (wlt) wlt.innerHTML = '🌐 AR';
+    var slTxt = document.getElementById('settingsLangText');
+    if (slTxt) slTxt.textContent = 'AR';
+
+    ['prevButton','randomButton','nextButton','status','viewFavoritesButton'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = el.getAttribute('data-en');
+    });
+    var asCbLbl = document.querySelector("label[for='autoSwitchCheckbox']");
+    if (asCbLbl) asCbLbl.textContent = asCbLbl.getAttribute('data-en');
+    var slCbLbl = document.querySelector("label[for='sleepCheckbox']");
+    if (slCbLbl) slCbLbl.textContent = slCbLbl.getAttribute('data-en');
+    document.getElementById('sleepTimer').placeholder      = document.getElementById('sleepTimer').getAttribute('data-en');
+    document.getElementById('autoSwitchTimer').placeholder = document.getElementById('autoSwitchTimer').getAttribute('data-en');
+
+    updateFilterLanguage(lang);
+
+    var settingsLabel = document.getElementById('settings-toggle-label');
+    if (settingsLabel) settingsLabel.textContent = settingsLabel.getAttribute('data-en');
+    var shareTitle = document.getElementById('share-title');
+    if (shareTitle) shareTitle.textContent = shareTitle.getAttribute('data-en');
+    document.querySelectorAll('.share-btn').forEach(function(btn) { btn.textContent = btn.getAttribute('data-en'); });
+    var fbBtn = document.getElementById('facebookFollowBtn');
+    if (fbBtn) { var fbIcon = fbBtn.querySelector('i'); fbBtn.textContent = fbBtn.getAttribute('data-en'); if (fbIcon) fbBtn.appendChild(fbIcon); }
+    var toggleBtn = document.getElementById('toggleButton');
+    if (toggleBtn) toggleBtn.textContent = toggleBtn.getAttribute('data-en');
+
+    var pnbMap = { 'pnb-prev':'Prev', 'pnb-next':'Next', 'pnb-random':'Random', 'pnb-play':'Play' };
+    document.querySelectorAll('#player-nav-bar .pnb-group').forEach(function(group) {
+      var btn = group.querySelector('.pnb-btn'), lbl = group.querySelector('.pnb-lbl');
+      if (btn && lbl && pnbMap[btn.id]) lbl.textContent = pnbMap[btn.id];
+    });
+
+    document.querySelectorAll('.button.palestine .station-text').forEach(function(st) {
+      var b = st.parentNode;
+      if (!b.hasAttribute('data-hidden-sub')) st.textContent = b.getAttribute('data-en');
+    });
+
+    document.getElementById('searchInput').placeholder = "Search here for a station or reciter's name";
+
+    var welcomeText = document.getElementById('siteWelcomeText');
+    if (welcomeText) welcomeText.innerHTML =
+      '<span style="font-size:13px;font-weight:700;letter-spacing:2px;color:#7f8c8d;display:block;margin-bottom:4px;">\u{1F54C} In the Name of Allah</span>' +
+      '<span style="font-size:26px;font-weight:700;display:block;color:#1a237e;line-height:1.2;">Welcome to</span>' +
+      '<span style="font-size:20px;font-weight:700;display:block;margin-top:4px;color:#1565c0;">\u{1F4FB} <strong>Radio Ma</strong></span>' +
+      '<span style="font-size:14px;color:#546e7a;display:block;margin-top:3px;font-style:italic;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</span>';
+
+    document.querySelectorAll('.color-setting-item label[data-ar][data-en]').forEach(function(lbl) { lbl.textContent = lbl.getAttribute('data-en'); });
+
+    var translateBtn = document.getElementById('translateBarBtn');
+    if (translateBtn) translateBtn.textContent = '\u{1F310} Translate';
+    var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+    if (darkModeTxt) darkModeTxt.textContent = 'Dark Mode';
+    var autoSwitchLbl = document.getElementById('customAutoSwitchLabel');
+    if (autoSwitchLbl) autoSwitchLbl.textContent = 'Auto Switch';
+    var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+    if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Auto Switch';
+    var disableWelcomeTxtEl = document.getElementById('disableWelcomeTxt');
+    if (disableWelcomeTxtEl) {
+      var dwCb = document.getElementById('disableWelcomeScreen');
+      disableWelcomeTxtEl.textContent = (dwCb && dwCb.checked) ? 'Welcome: Hidden' : 'Disable Welcome Screen';
+    }
+
+    var bgSel = document.getElementById('bgColor');
+    if (bgSel) Array.from(bgSel.options).forEach(function(o) { var en = o.getAttribute('data-en'); if (en) o.textContent = en; });
+    var btnSel = document.getElementById('radioButtonColor');
+    if (btnSel) Array.from(btnSel.options).forEach(function(o) { var en = o.getAttribute('data-en'); if (en) o.textContent = en; });
+
+    var tgEl = document.querySelector('a.telegram-button[data-en]');
+    if (tgEl) tgEl.textContent = tgEl.getAttribute('data-en');
+    var fpEl = document.getElementById('freePalestineText');
+    if (fpEl) fpEl.textContent = fpEl.getAttribute('data-en');
+    var oldB = document.getElementById('oldBadge');
+    if (oldB) oldB.textContent = oldB.getAttribute('data-en');
+    var newB = document.getElementById('newBadge');
+    if (newB) newB.textContent = newB.getAttribute('data-en');
+
+    var nameEl = document.getElementById('pnb-name');
+    if (nameEl && nameEl.textContent.trim() === '\u0627\u062E\u062A\u0631 \u0645\u062D\u0637\u0629...') nameEl.textContent = 'Choose a station...';
+  }
+  // عربية: HTML يبدأ عربي بالفعل \u2714
+}
+
 window.addEventListener('load', function() {
     initializeRadio();
-
-    // طبّق اللغة المكتشفة (من المتصفح أو المحفوظة) عند التحميل
-    if (!isArabic) {
-        // اللغة الإنجليزية مطلوبة → نعيّن العربية أولاً ثم نبدّل
-        isArabic = true;
-        toggleLanguage();
-    }
-    // إذا كانت isArabic = true فالصفحة محمّلة بالعربية افتراضياً → لا نحتاج شيئاً
+    // طبّق اللغة الصحيحة (من المتصفح أو المحفوظة) عند أوّل تحميل
+    applyInitialLanguage();
 });
 
 function updateButtonColor() {
@@ -16099,12 +16193,9 @@ function loadRating() {
  let isArabic = (function() {
    var saved = localStorage.getItem('siteLang');
    if (saved !== null) {
-     // المستخدم اختار مسبقاً → احترم اختياره
      return saved !== 'en';
    }
-   // لا يوجد اختيار محفوظ → اكتشف لغة المتصفح
    var browserLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
-   // العربية وجميع اللهجات العربية (ar, ar-sa, ar-eg, ...)
    return browserLang.startsWith('ar');
  })();
 
@@ -16288,6 +16379,43 @@ function toggleLanguage() {
     if (txt === 'اختر محطة...' && !isArabic)  nameElCheck.textContent = 'Choose a station...';
     if (txt === 'Choose a station...' && isArabic) nameElCheck.textContent = 'اختر محطة...';
   }
+
+  // ── ترجمة options لون الأزرار (radioButtonColor) ──
+  var btnSel = document.getElementById('radioButtonColor');
+  if (btnSel) {
+    Array.from(btnSel.options).forEach(function(opt) {
+      var ar = opt.getAttribute('data-ar');
+      var en = opt.getAttribute('data-en');
+      if (ar && en) opt.textContent = isArabic ? ar : en;
+    });
+    // الـ placeholder option (index 0) دايمًا
+    if (btnSel.options[0]) btnSel.options[0].textContent = isArabic ? 'اختر لونًا' : 'Choose a color';
+  }
+
+  // ── ترجمة options لون الخلفية (bgColor) ──
+  var bgSel2 = document.getElementById('bgColor');
+  if (bgSel2) {
+    Array.from(bgSel2.options).forEach(function(opt) {
+      var ar = opt.getAttribute('data-ar');
+      var en = opt.getAttribute('data-en');
+      if (ar && en) opt.textContent = isArabic ? ar : en;
+    });
+  }
+
+  // ── ترجمة زر Let's Chat ──
+  var letsChatEl = document.querySelector('a.telegram-button[data-ar]');
+  if (letsChatEl) letsChatEl.textContent = isArabic ? letsChatEl.getAttribute('data-ar') : letsChatEl.getAttribute('data-en');
+
+  // ── ترجمة نص Free Palestine ──
+  var fpEl = document.getElementById('freePalestineText');
+  if (fpEl) fpEl.textContent = isArabic ? fpEl.getAttribute('data-ar') : fpEl.getAttribute('data-en');
+
+  // ── ترجمة شارات OLD / NEW ──
+  var oldBadge = document.getElementById('oldBadge');
+  if (oldBadge) oldBadge.textContent = isArabic ? oldBadge.getAttribute('data-ar') : oldBadge.getAttribute('data-en');
+  var newBadge = document.getElementById('newBadge');
+  if (newBadge) newBadge.textContent = isArabic ? newBadge.getAttribute('data-ar') : newBadge.getAttribute('data-en');
+
 }
 
 // ── دالة مشتركة: تفعيل/إيقاف الوضع الليلي ──────────────────────────────────
@@ -17489,7 +17617,12 @@ createToast(
   );
 });
 
-let siteLanguage = "ar";
+let siteLanguage = (function() {
+  var saved = localStorage.getItem('siteLang');
+  if (saved === 'en' || saved === 'ar') return saved;
+  var browserLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+  return browserLang.startsWith('ar') ? 'ar' : 'en';
+})();
 let toggleTimeout = null;
 
 function updateFilterLanguage(lang) {
