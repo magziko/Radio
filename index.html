@@ -7482,7 +7482,7 @@ const adhkarStations = [
     title: null,
     hasFlag: true,
     hasTasbih: false,
-    hasResetAll: false,
+    hasResetAll: true,
     multiIcon: false,
     readUrl: "https://www.islambook.com/azkar/1/%D8%A3%D8%B0%D9%83%D8%A7%D8%B1-%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD",
     readTitle: "\u0623\u0630\u0643\u0627\u0631 \u0627\u0644\u0635\u0628\u0627\u062d"
@@ -7501,7 +7501,7 @@ const adhkarStations = [
     title: null,
     hasFlag: true,
     hasTasbih: false,
-    hasResetAll: false,
+    hasResetAll: true,
     multiIcon: false,
     readUrl: "https://www.islambook.com/azkar/2/%D8%A3%D8%B0%D9%83%D8%A7%D8%B1-%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1",
     readTitle: "\u0623\u0630\u0643\u0627\u0631 \u0627\u0644\u0645\u0633\u0627\u0621"
@@ -16885,7 +16885,11 @@ function _handleTriple() {
     if (_tripleCount >= 3) {
         _tripleCount = 0;
         clearTimeout(_tripleTimer);
-        openWelcomeScreen();
+        // افتح الشاشة الترحيبية فقط لو مغلقة
+        var _ws = document.getElementById('welcomeScreen');
+        if (_ws && (_ws.style.display === 'none' || _ws.style.display === '')) {
+            openWelcomeScreen();
+        }
     }
 }
 
