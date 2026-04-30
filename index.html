@@ -1941,51 +1941,61 @@ body.dark-mode .btn {
     overflow: visible;
 }
 
-/* ── Token مشترك — كل الأزرار متطابقة تماماً ── */
+/* ── Token مشترك — كل الأزرار ── */
 :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) {
-    /* layout */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 4px;
-    flex: 1 1 0;                   /* يتوزعون بالتساوي */
-    min-width: 0;                  /* يسمح بالانكماش */
-    height: 28px;
+
+    flex: 0 0 auto;
+    width: fit-content;
+    max-width: 100%;
+
+    height: auto;
+    min-height: 33px;
+    padding: 6px 12px;
     box-sizing: border-box;
-    padding: 0 8px;
-    /* شكل */
-    border-radius: 14px;
+
+    border-radius: 20px;
     border: 1.5px solid #b0c4de;
     background: rgba(255,255,255,0.72);
     color: #2c3e50;
-    font-size: 11px;
+
+    font-size: 13px;
     font-weight: 700;
+
     cursor: pointer;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
     backdrop-filter: blur(6px);
     box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    transition: background .22s, color .22s, border-color .22s, box-shadow .22s;
+    transition: all .22s ease;
+
     margin: 0;
     font-family: inherit;
-    letter-spacing: 0;
 }
+
+/* Hover */
 :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn):hover {
     background: rgba(30,144,255,0.1);
     border-color: #1e90ff;
     box-shadow: 0 3px 12px rgba(30,144,255,0.18);
 }
+
+/* Active */
 .welcome-toggle-btn.active {
     background: linear-gradient(135deg, #1e90ff 0%, #0d6ecc 100%);
     border-color: #0d6ecc;
     color: #ffffff;
     box-shadow: 0 0 0 2px rgba(30,144,255,0.25), 0 4px 14px rgba(30,144,255,0.45);
-    font-weight: 700;
 }
 
+/* Spin icon */
 .welcome-toggle-btn.active .wtb-icon {
-    display: inline-block;
     animation: spin-icon 1.8s linear infinite;
 }
 
@@ -1994,29 +2004,24 @@ body.dark-mode .btn {
     to   { transform: rotate(360deg); }
 }
 
-body.dark-mode .welcome-toggle-btn.active {
-    background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%) !important;
-    border-color: #64b5f6 !important;
-    color: #e3f2fd !important;
-    box-shadow: 0 0 0 2px rgba(100,181,246,0.3), 0 4px 14px rgba(100,181,246,0.35) !important;
+/* النص */
+:is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wtb-text,
+:is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wdm-text {
+    font-size: inherit; /* مهم */
 }
 
-/* الأيقونة والنص — حجم موحّد */
-:is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wdm-icon,
-:is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wtb-icon {
+/* الأيقونات */
+:is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wtb-icon,
+:is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wdm-icon {
     font-size: 12px;
-    line-height: 1;
-    flex-shrink: 0;
     width: 12px;
     height: 12px;
+    flex-shrink: 0;
 }
-/* SVG icons inside wtb-icon get stroke from currentColor automatically */
-.wtb-icon svg, .wdm-icon svg { display: block; }
-:is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wdm-text,
-:is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wtb-text {
-    font-size: 10.5px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+/* SVG */
+.wtb-icon svg, .wdm-icon svg {
+    display: block;
 }
 
 /* ── Dark mode ── */
@@ -2026,14 +2031,42 @@ body.dark-mode :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) {
     border-color: rgba(100,181,246,0.30) !important;
     box-shadow: none !important;
 }
+
 body.dark-mode :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn):hover {
     background: rgba(40,40,70,0.95) !important;
     border-color: rgba(100,181,246,0.6) !important;
 }
+
 body.dark-mode #welcomeDarkModeBtn {
     color: #ffd54f !important;
     border-color: rgba(255,213,79,0.5) !important;
 }
+
+body.dark-mode .welcome-toggle-btn.active {
+    background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%) !important;
+    border-color: #64b5f6 !important;
+    color: #e3f2fd !important;
+    box-shadow: 0 0 0 2px rgba(100,181,246,0.3), 0 4px 14px rgba(100,181,246,0.35) !important;
+}
+
+/* ── موبايل ── */
+@media (max-width: 600px) {
+    :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) {
+        font-size: 12px;
+        padding: 5px 10px;
+        min-height: 30px;
+        gap: 3px;
+        border-radius: 18px;
+    }
+
+    :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wtb-icon,
+    :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) .wdm-icon {
+        font-size: 11px;
+        width: 11px;
+        height: 11px;
+    }
+}
+
 /* ══════════════════════════════════════════════
    صف Translate السفلي
    ══════════════════════════════════════════════ */
@@ -2064,9 +2097,11 @@ body.dark-mode #welcomeDarkModeBtn {
 @media (max-width: 991px) and (min-width: 481px) {
     #welcome-bottom-row { gap: 6px; }
     :is(#welcomeDarkModeBtn, .welcome-toggle-btn) {
-        font-size: 10.5px;
-        padding: 0 6px;
-        height: 26px;
+        font-size: 12px;
+        padding: 5px 10px;
+        min-height: 31px;
+        height: auto;
+        border-radius: 18px;
     }
 }
 
@@ -2078,14 +2113,16 @@ body.dark-mode #welcomeDarkModeBtn {
     }
     :is(#welcomeDarkModeBtn, .welcome-toggle-btn) {
         flex: 1 1 0;
-        height: 26px;
-        font-size: 9.5px;
-        padding: 0 5px;
-        border-radius: 10px;
+        min-height: 30px;
+        height: auto;
+        font-size: 11px;
+        padding: 5px 6px;
+        border-radius: 16px;
     }
     #translateBarBtn {
-        height: 26px;
-        font-size: 10px;
+        min-height: 30px;
+        height: auto;
+        font-size: 11px;
     }
 }
 
@@ -3143,7 +3180,7 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
                         title="Automatically switches between the stations"
                         class="welcome-toggle-btn">
                     <span class="wtb-icon">🔁</span>
-                    <span class="wtb-text" id="autoSwitchToggleTxt">تبديل تلقائي</span>
+                    <span class="wtb-text" id="autoSwitchToggleTxt">تنقل تلقائي</span>
                 </button>
 
             </div>
@@ -7556,7 +7593,7 @@ const adhkarStations = [
     subCategory: ["morning", "evening"],
     station: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ",
     stationText: "آية الكرسي – الله لا إله إلا هو...",
-    ar: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+ar: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ",
 en: "Allah — there is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and preserving them does not tire Him. And He is the Most High, the Most Great.",
 target: 1,
     url: null,
@@ -7679,7 +7716,7 @@ url: null,
     stationText: "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ... (×3)",
 
 ar: "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ (×3)",
-en: "Say, I seek refuge in the Lord of mankind - The Sovereign of mankind - The God of mankind - From the evil of the retreating whisperer - Who whispers evil into the breasts of mankind - From among the jinn and mankind (×3)",
+en: "Say, I seek refuge in the Lord of mankind - The Sovereign of mankind - The God of mankind - From the evil of the retreating whisperer - Who whispers evil into the ***** of mankind - From among the jinn and mankind (×3)",
 target: 3,
     url: null,
     urls: [
@@ -16002,10 +16039,10 @@ function activateAutoSwitch() {
       autoSwitchTimeout = setTimeout(autoSwitch, autoSwitchInterval);
     }, autoSwitchInterval);
 
-    alert("تم تفعيل التبديل التلقائي كل " + autoSwitchMinutes + " دقيقة.");
+    alert("تم تفعيل التنقل التلقائي كل " + autoSwitchMinutes + " دقيقة.");
   } else {
     clearTimeout(autoSwitchTimeout);
-    alert("تم إلغاء التبديل التلقائي.");
+    alert("تم إلغاء التنقل التلقائي.");
   }
 }
 
@@ -16437,14 +16474,14 @@ function toggleLanguage() {
   if (darkModeTxt) darkModeTxt.textContent = isArabic ? 'الوضع الليلي' : 'Dark Mode';
 
   var autoSwitchLbl = document.getElementById('customAutoSwitchLabel');
-  if (autoSwitchLbl) autoSwitchLbl.textContent = isArabic ? 'تبديل تلقائي' : 'Auto Switch';
+  if (autoSwitchLbl) autoSwitchLbl.textContent = isArabic ? 'تنقل تلقائي' : 'Auto Switch';
 
   var disableWelcomeLbl = document.getElementById('disableWelcomeLabel');
   if (disableWelcomeLbl) disableWelcomeLbl.textContent = isArabic ? 'إخفاء شاشة الترحيب' : 'Disable Welcome Screen';
 
   /* update new toggle button texts */
   var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
-  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = isArabic ? 'تبديل تلقائي' : 'Auto Switch';
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = isArabic ? 'تنقل تلقائي' : 'Auto Switch';
   var dwCb2 = document.getElementById('disableWelcomeScreen');
   var disableWelcomeTxtEl = document.getElementById('disableWelcomeTxt');
   if (disableWelcomeTxtEl) {
