@@ -16543,7 +16543,7 @@ function toggleLanguage() {
   var pnbLabels = {
     'pnb-prev':   { ar: 'السابقة',   en: 'Prev'   },
     'pnb-next':   { ar: 'التالية',   en: 'Next'   },
-    'pnb-random': { ar: 'اخترنا لك', en: 'Random' },
+    'pnb-random': { ar: 'عشوائي', en: 'Random' },
     'pnb-play':   { ar: 'تشغيل',    en: 'Play'   },
   };
   document.querySelectorAll('#player-nav-bar .pnb-group').forEach(function(group) {
@@ -19200,6 +19200,7 @@ if (target && count >= target) {
         navBar.id = 'player-nav-bar';
         navBar.innerHTML = [
 
+          /* 1. زر السابقة */
           '<div class="pnb-group">',
             '<button class="pnb-btn" id="pnb-prev" title="المحطة السابقة">',
               '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>',
@@ -19209,15 +19210,7 @@ if (target && count >= target) {
 
           '<div class="pnb-divider"></div>',
 
-          '<div class="pnb-group">',
-            '<button class="pnb-btn" id="pnb-random" title="اخترنا لك – عشوائي">',
-              '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>',
-            '</button>',
-            '<span class="pnb-lbl" style="color:rgba(255,213,79,.8);">اخترنا لك</span>',
-          '</div>',
-
-          '<div class="pnb-divider"></div>',
-
+          /* 2. زر التشغيل – المحور الرئيسي */
           '<div class="pnb-group">',
             '<button class="pnb-btn" id="pnb-play" title="تشغيل / إيقاف">',
               '<svg id="pnb-play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>',
@@ -19227,24 +19220,37 @@ if (target && count >= target) {
 
           '<div class="pnb-divider"></div>',
 
-          '<span id="player-station-label">',
-            '<span id="pnb-dot" class="live-dot-player" style="display:none;"></span>',
-            '<span id="pnb-name">اختر محطة...</span>',
-          '</span>',
-
-          '<div id="player-vol-wrap">',
-            '<span class="vol-ico">🔈</span>',
-            '<input type="range" id="player-vol-slider" min="0" max="1" step="0.05" value="1">',
-            '<span class="vol-ico">🔊</span>',
-          '</div>',
-
-          '<div class="pnb-divider"></div>',
-
+          /* 3. زر التالية */
           '<div class="pnb-group">',
             '<button class="pnb-btn" id="pnb-next" title="المحطة التالية">',
               '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>',
             '</button>',
             '<span class="pnb-lbl">التالية</span>',
+          '</div>',
+
+          '<div class="pnb-divider"></div>',
+
+          /* 4. زر العشوائي – ثانوي بعيد عن التشغيل */
+          '<div class="pnb-group">',
+            '<button class="pnb-btn" id="pnb-random" title="اخترنا لك – عشوائي">',
+              '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>',
+            '</button>',
+            '<span class="pnb-lbl" style="color:rgba(255,213,79,.8);">عشوائي</span>',
+          '</div>',
+
+          '<div class="pnb-divider"></div>',
+
+          /* 5. اسم المحطة – وسط مرن */
+          '<span id="player-station-label">',
+            '<span id="pnb-dot" class="live-dot-player" style="display:none;"></span>',
+            '<span id="pnb-name">اختر محطة...</span>',
+          '</span>',
+
+          /* 6. التحكم بالصوت – طرف يسار */
+          '<div id="player-vol-wrap">',
+            '<span class="vol-ico">🔈</span>',
+            '<input type="range" id="player-vol-slider" min="0" max="1" step="0.05" value="1">',
+            '<span class="vol-ico">🔊</span>',
           '</div>'
 
         ].join('');
