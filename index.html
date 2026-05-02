@@ -16688,6 +16688,10 @@ function toggleLanguage() {
   var newBadge = document.getElementById('newBadge');
   if (newBadge) newBadge.textContent = isArabic ? newBadge.getAttribute('data-ar') : newBadge.getAttribute('data-en');
 
+  // ── اتجاه شريط المشغل حسب اللغة ──
+  var playerBar = document.getElementById('player-nav-bar');
+  if (playerBar) playerBar.style.direction = isArabic ? 'rtl' : 'ltr';
+
 }
 
 // ── دالة مشتركة: تفعيل/إيقاف الوضع الليلي ──────────────────────────────────
@@ -19259,6 +19263,12 @@ if (target && count >= target) {
         wrap.appendChild(navBar);
         wrap.appendChild(statusEl);
         wrap.appendChild(audioEl);
+
+        // ── ضبط اتجاه المشغل عند التهيئة حسب لغة الموقع ──
+        (function() {
+          var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+          navBar.style.direction = isAr ? 'rtl' : 'ltr';
+        })();
 
         var playBtn  = document.getElementById('pnb-play');
         var playIcon = document.getElementById('pnb-play-icon');
