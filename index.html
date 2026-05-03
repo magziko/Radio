@@ -16465,6 +16465,11 @@ function loadRating() {
    return browserLang.startsWith('ar');
  })();
 
+// ── تطبيق الاتجاه على الفلاتر والأزرار عند تحميل الصفحة ──
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof applyDirection === 'function') applyDirection(isArabic);
+});
+
 function toggleSettingsPanel() {
   var panel  = document.getElementById('settings-panel');
   var arrow  = document.getElementById('settings-arrow');
@@ -16688,10 +16693,40 @@ function toggleLanguage() {
   var newBadge = document.getElementById('newBadge');
   if (newBadge) newBadge.textContent = isArabic ? newBadge.getAttribute('data-ar') : newBadge.getAttribute('data-en');
 
-  // ── اتجاه شريط المشغل حسب اللغة ──
-  var playerBar = document.getElementById('player-nav-bar');
-  if (playerBar) playerBar.style.direction = isArabic ? 'rtl' : 'ltr';
+  // ── اتجاه شريط المشغل + الفلاتر + الأزرار حسب اللغة ──
+  applyDirection(isArabic);
 
+}
+
+// ── دالة مركزية لضبط اتجاه العناصر حسب اللغة ──────────────────────────────
+function applyDirection(isAr) {
+  var dir = isAr ? 'rtl' : 'ltr';
+
+  // شريط المشغل
+  var playerBar = document.getElementById('player-nav-bar');
+  if (playerBar) playerBar.style.direction = dir;
+
+  // الفلاتر الرئيسية
+  var filtersContainer = document.getElementById('filters-container');
+  if (filtersContainer) filtersContainer.style.direction = dir;
+
+  // كل الفلاتر الفرعية (subfilter-scroll-wrap)
+  document.querySelectorAll('.subfilter-scroll-wrap').forEach(function(el) {
+    el.style.direction = dir;
+  });
+
+  // شريط الأزرار الداخلي (subfilter-scroll-strip)
+  document.querySelectorAll('.subfilter-scroll-strip').forEach(function(el) {
+    el.style.direction = dir;
+  });
+
+  // الحاوية الرئيسية للمحطات
+  var container = document.querySelector('.container');
+  if (container) container.style.direction = dir;
+
+  // document root direction
+  document.documentElement.setAttribute('dir', dir);
+  document.documentElement.setAttribute('lang', isAr ? 'ar' : 'en');
 }
 
 // ── دالة مشتركة: تفعيل/إيقاف الوضع الليلي ──────────────────────────────────
@@ -19264,10 +19299,11 @@ if (target && count >= target) {
         wrap.appendChild(statusEl);
         wrap.appendChild(audioEl);
 
-        // ── ضبط اتجاه المشغل عند التهيئة حسب لغة الموقع ──
+        // ── ضبط اتجاه كل العناصر عند التهيئة حسب لغة الموقع ──
         (function() {
           var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-          navBar.style.direction = isAr ? 'rtl' : 'ltr';
+          if (typeof applyDirection === 'function') applyDirection(isAr);
+          else navBar.style.direction = isAr ? 'rtl' : 'ltr';
         })();
 
         var playBtn  = document.getElementById('pnb-play');
