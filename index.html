@@ -282,7 +282,6 @@ body {
   .buttons-container {
     display: grid;
        justify-content: start;
-            direction: rtl;
     grid-template-columns: repeat(4, 1fr);
         
 
@@ -6770,6 +6769,7 @@ const quranRadioStations = [
     "station": "إذاعة القرآن الكريم المنصورة",
     "ar": "إذاعة القرآن الكريم المنصورة",
     "en": "Mansoura Quran Radio",
+    "hasFlag": false,
     "urls": ["https://stream.zeno.fm/awkn71iarz0vv"],
     "url": "https://stream.zeno.fm/awkn71iarz0vv",
     "pdfUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/2"
@@ -6954,7 +6954,8 @@ const quranRadioStations = [
     }
 
     // inner HTML
-    let inner = '<span class="flag"></span>';
+    let inner = '';
+    if (s.hasFlag !== false) inner += '<span class="flag"></span>';
     inner += '<span class="station-text">' + s.ar + '</span>';
     inner += '<img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">';
     inner += '<span class="favorite-icon" onclick="toggleFavorite(event, \'' + s.station.replace(/'/g, "\'") + '\'); event.stopPropagation(); return false;">&#x2764;</span>';
@@ -7518,7 +7519,7 @@ const adhkarStations = [
     urls: null,
     random: false,
     title: null,
-    hasFlag: true,
+    hasFlag: false,
     hasTasbih: false,
     hasResetAll: true,
     multiIcon: false,
@@ -7537,7 +7538,7 @@ const adhkarStations = [
     urls: null,
     random: false,
     title: null,
-    hasFlag: true,
+    hasFlag: false,
     hasTasbih: false,
     hasResetAll: true,
     multiIcon: false,
@@ -10026,7 +10027,7 @@ const translationStations = [
 <script>
 const surahStations = [
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الفاتحة",
     "ar": "سورة الفاتحة",
     "en": "Surah Al-Fatihah",
@@ -10069,7 +10070,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/3"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة البقرة",
     "ar": "سورة البقرة",
     "en": "Surah Al-Baqarah",
@@ -10112,7 +10113,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/4"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة آل عمران",
     "ar": "سورة آل عمران",
     "en": "Surah Al-Imran",
@@ -10153,7 +10154,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/52"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة النساء",
     "ar": "سورة النساء",
     "en": "Surah An-Nisa",
@@ -10190,7 +10191,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/79"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة المائدة",
     "ar": "سورة المائدة",
     "en": "Surah Al-Ma'idah",
@@ -10219,7 +10220,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/108"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الأنعام",
     "ar": "سورة الأنعام",
     "en": "Surah Al-An'am",
@@ -10254,7 +10255,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/130"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الأعراف",
     "ar": "سورة الأعراف",
     "en": "Surah Al-A'raf",
@@ -10290,7 +10291,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/153"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الأنفال",
     "ar": "سورة الأنفال",
     "en": "Surah Al-Anfal",
@@ -10333,7 +10334,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/179"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة التوبة",
     "ar": "سورة التوبة",
     "en": "Surah At-Tawbah",
@@ -10376,7 +10377,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/189"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة يونس",
     "ar": "سورة يونس",
     "en": "Surah Yunus",
@@ -10418,7 +10419,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/210"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة هود",
     "ar": "سورة هود",
     "en": "Surah Hud",
@@ -10459,7 +10460,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/223"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة يوسف",
     "ar": "سورة يوسف",
     "en": "Surah Yusuf",
@@ -10503,7 +10504,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/237"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الرعد",
     "ar": "سورة الرعد",
     "en": "Surah Ar-Ra'd",
@@ -10547,7 +10548,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/251"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة إبراهيم",
     "ar": "سورة إبراهيم",
     "en": "Surah Ibrahim",
@@ -10589,7 +10590,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/257"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الحجر",
     "ar": "سورة الحجر",
     "en": "Surah Al-Hijr",
@@ -10630,7 +10631,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/264"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة النحل",
     "ar": "سورة النحل",
     "en": "Surah An-Nahl",
@@ -10674,7 +10675,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/269"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الإسراء",
     "ar": "سورة الإسراء",
     "en": "Surah Al-Isra",
@@ -10720,7 +10721,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/284"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "راديو سورة الكهف",
     "ar": "راديو سورة الكهف",
     "en": "Surah Al-Kahf Radio",
@@ -10761,7 +10762,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/295"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة مريم",
     "ar": "سورة مريم",
     "en": "Surah Maryam",
@@ -10804,7 +10805,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/307"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة طه",
     "ar": "سورة طه",
     "en": "Surah Taha",
@@ -10848,7 +10849,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/314"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الأنبياء",
     "ar": "سورة الأنبياء",
     "en": "Surah Al-Anbiya",
@@ -10893,7 +10894,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/324"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الحج",
     "ar": "سورة الحج",
     "en": "Surah Al-Hajj",
@@ -10938,7 +10939,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/334"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة المؤمنون",
     "ar": "سورة المؤمنون",
     "en": "Surah Al-Mu'minun",
@@ -10982,7 +10983,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/344"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة النور",
     "ar": "سورة النور",
     "en": "Surah An-Nur",
@@ -11027,7 +11028,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/352"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الفرقان",
     "ar": "سورة الفرقان",
     "en": "Surah Al-Furqan",
@@ -11072,7 +11073,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/361"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الشعراء",
     "ar": "سورة الشعراء",
     "en": "Surah Ash-Shu'ara",
@@ -11117,7 +11118,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/369"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة النمل",
     "ar": "سورة النمل",
     "en": "Surah An-Naml",
@@ -11140,7 +11141,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/379"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة القصص",
     "ar": "سورة القصص",
     "en": "Surah Al-Qasas",
@@ -11163,7 +11164,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/387"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة العنكبوت",
     "ar": "سورة العنكبوت",
     "en": "Surah Al-Ankabut",
@@ -11187,7 +11188,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/398"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الروم",
     "ar": "سورة الروم",
     "en": "Surah Ar-Rum",
@@ -11214,7 +11215,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/406"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة لقمان",
     "ar": "سورة لقمان",
     "en": "Surah Luqman",
@@ -11241,7 +11242,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/413"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة السجدة",
     "ar": "سورة السجدة",
     "en": "Surah As-Sajdah",
@@ -11268,7 +11269,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/417"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الأحزاب",
     "ar": "سورة الأحزاب",
     "en": "Surah Al-Ahzab",
@@ -11295,7 +11296,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/420"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة سبأ",
     "ar": "سورة سبأ",
     "en": "Surah Saba",
@@ -11322,7 +11323,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/430"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة فاطر",
     "ar": "سورة فاطر",
     "en": "Surah Fatir",
@@ -11349,7 +11350,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/436"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة يس",
     "ar": "سورة يس",
     "en": "Surah Ya-Sin",
@@ -11376,7 +11377,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/442"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الصافات",
     "ar": "سورة الصافات",
     "en": "Surah As-Saffat",
@@ -11403,7 +11404,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/448"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة ص",
     "ar": "سورة ص",
     "en": "Surah Sad",
@@ -11430,7 +11431,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/455"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الزمر",
     "ar": "سورة الزمر",
     "en": "Surah Az-Zumar",
@@ -11457,7 +11458,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/460"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة غافر",
     "ar": "سورة غافر",
     "en": "Surah Ghafir",
@@ -11484,7 +11485,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/469"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة فصلت",
     "ar": "سورة فصلت",
     "en": "Surah Fussilat",
@@ -11511,7 +11512,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/479"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الشورى",
     "ar": "سورة الشورى",
     "en": "Surah Ash-Shura",
@@ -11539,7 +11540,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/485"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الزخرف",
     "ar": "سورة الزخرف",
     "en": "Surah Az-Zukhruf",
@@ -11566,7 +11567,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/491"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الدخان",
     "ar": "سورة الدخان",
     "en": "Surah Ad-Dukhan",
@@ -11593,7 +11594,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Tajweed?ar#/reader/chapter/496"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الجاثية",
     "ar": "سورة الجاثية",
     "en": "Surah Al-Jathiyah",
@@ -11620,7 +11621,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/501"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الأحقاف",
     "ar": "سورة الأحقاف",
     "en": "Surah Al-Ahqaf",
@@ -11647,7 +11648,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/504"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة محمد",
     "ar": "سورة محمد",
     "en": "Surah Muhammad",
@@ -11674,7 +11675,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/509"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الفتح",
     "ar": "سورة الفتح",
     "en": "Surah Al-Fath",
@@ -11701,7 +11702,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/513"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الحجرات",
     "ar": "سورة الحجرات",
     "en": "Surah Al-Hujurat",
@@ -11728,7 +11729,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/517"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة ق",
     "ar": "سورة ق",
     "en": "Surah Qaf",
@@ -11757,7 +11758,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/520"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الذاريات",
     "ar": "سورة الذاريات",
     "en": "Surah Adh-Dhariyat",
@@ -11784,7 +11785,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/522"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الطور",
     "ar": "سورة الطور",
     "en": "Surah At-Tur",
@@ -11811,7 +11812,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/525"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة النجم",
     "ar": "سورة النجم",
     "en": "Surah An-Najm",
@@ -11838,7 +11839,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/528"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة القمر",
     "ar": "سورة القمر",
     "en": "Surah Al-Qamar",
@@ -11865,7 +11866,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/530"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الرحمن",
     "ar": "سورة الرحمن",
     "en": "Surah Ar-Rahman",
@@ -11904,7 +11905,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/533"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الواقعة",
     "ar": "سورة الواقعة",
     "en": "Surah Al-Waqiah",
@@ -11945,7 +11946,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/536"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الحديد",
     "ar": "سورة الحديد",
     "en": "Surah Al-Hadid",
@@ -11987,7 +11988,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/539"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة المجادلة",
     "ar": "سورة المجادلة",
     "en": "Surah Al-Mujadila",
@@ -12016,7 +12017,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/544"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الحشر",
     "ar": "سورة الحشر",
     "en": "Surah Al-Hashr",
@@ -12044,7 +12045,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/547"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الممتحنة",
     "ar": "سورة الممتحنة",
     "en": "Surah Al-Mumtahanah",
@@ -12073,7 +12074,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/551"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الصف",
     "ar": "سورة الصف",
     "en": "Surah As-Saff",
@@ -12102,7 +12103,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/553"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الجمعة",
     "ar": "سورة الجمعة",
     "en": "Surah Al-Jumuah",
@@ -12130,7 +12131,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/555"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة المنافقون",
     "ar": "سورة المنافقون",
     "en": "Surah Al-Munafiqun",
@@ -12159,7 +12160,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/556"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة التغابن",
     "ar": "سورة التغابن",
     "en": "Surah At-Taghabun",
@@ -12186,7 +12187,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/558"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الطلاق",
     "ar": "سورة الطلاق",
     "en": "Surah At-Talaq",
@@ -12213,7 +12214,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina1?ar#/reader/chapter/560"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة التحريم",
     "ar": "سورة التحريم",
     "en": "Surah At-Tahrim",
@@ -12240,7 +12241,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/562"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "راديو سورة الملك",
     "ar": "راديو سورة الملك",
     "en": "Radio Surah Al-Mulk",
@@ -12270,7 +12271,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/564"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة القلم",
     "ar": "سورة القلم",
     "en": "Surah Al-Qalam",
@@ -12297,7 +12298,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/566"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الحاقة",
     "ar": "سورة الحاقة",
     "en": "Surah Al-Haqqah",
@@ -12326,7 +12327,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/568"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة المعارج",
     "ar": "سورة المعارج",
     "en": "Surah Al-Maarij",
@@ -12355,7 +12356,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/570"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة نوح",
     "ar": "سورة نوح",
     "en": "Surah Nuh",
@@ -12384,7 +12385,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/572"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الجن",
     "ar": "سورة الجن",
     "en": "Surah Al-Jinn",
@@ -12412,7 +12413,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/574"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة المزمل",
     "ar": "سورة المزمل",
     "en": "Surah Al-Muzzammil",
@@ -12441,7 +12442,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/576"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة المدثر",
     "ar": "سورة المدثر",
     "en": "Surah Al-Muddaththir",
@@ -12469,7 +12470,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/577"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة القيامة",
     "ar": "سورة القيامة",
     "en": "Surah Al-Qiyamah",
@@ -12498,7 +12499,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/579"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الانسان",
     "ar": "سورة الانسان",
     "en": "Surah Al-Insan",
@@ -12527,7 +12528,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/580"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة المرسلات",
     "ar": "سورة المرسلات",
     "en": "Surah Al-Mursalat",
@@ -12556,7 +12557,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/582"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة النبأ",
     "ar": "سورة النبأ",
     "en": "Surah An-Naba",
@@ -12585,7 +12586,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/584"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة النازعات",
     "ar": "سورة النازعات",
     "en": "Surah An-*****'at",
@@ -12614,7 +12615,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/585"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة عبس",
     "ar": "سورة عبس",
     "en": "Surah Abasa",
@@ -12643,7 +12644,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/587"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة التكوير",
     "ar": "سورة التكوير",
     "en": "Surah At-Takwir",
@@ -12672,7 +12673,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/588"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الانفطار",
     "ar": "سورة الانفطار",
     "en": "Surah Al-Infitar",
@@ -12701,7 +12702,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/589"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة المطففين",
     "ar": "سورة المطففين",
     "en": "Surah Al-Mutaffifin",
@@ -12730,7 +12731,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/589"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الانشقاق",
     "ar": "سورة الانشقاق",
     "en": "Surah Al-Inshiqaq",
@@ -12759,7 +12760,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/591"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة البروج",
     "ar": "سورة البروج",
     "en": "Surah Al-Buruj",
@@ -12788,7 +12789,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/592"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الطارق",
     "ar": "سورة الطارق",
     "en": "Surah At-Tariq",
@@ -12817,7 +12818,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/593"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الأعلى",
     "ar": "سورة الأعلى",
     "en": "Surah Al-A'la",
@@ -12846,7 +12847,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/593"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الغاشية",
     "ar": "سورة الغاشية",
     "en": "Surah Al-Ghashiyah",
@@ -12875,7 +12876,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/594"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الفجر",
     "ar": "سورة الفجر",
     "en": "Surah Al-Fajr",
@@ -12904,7 +12905,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/595"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة البلد",
     "ar": "سورة البلد",
     "en": "Surah Al-Balad",
@@ -12933,7 +12934,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/596"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الشمس",
     "ar": "سورة الشمس",
     "en": "Surah Ash-Shams",
@@ -12962,7 +12963,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/597"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الليل",
     "ar": "سورة الليل",
     "en": "Surah Al-Lail",
@@ -12991,7 +12992,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/597"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الضحى",
     "ar": "سورة الضحى",
     "en": "Surah Ad-Dhuha",
@@ -13020,7 +13021,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/598"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الشرح",
     "ar": "سورة الشرح",
     "en": "Surah Ash-Sharh",
@@ -13049,7 +13050,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Tajweed?ar#/reader/chapter/596"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة التين",
     "ar": "سورة التين",
     "en": "Surah At-Tin",
@@ -13078,7 +13079,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/599"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة العلق",
     "ar": "سورة العلق",
     "en": "Surah Al-Alaq",
@@ -13107,7 +13108,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Tajweed?ar#/reader/chapter/597"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة القدر",
     "ar": "سورة القدر",
     "en": "Surah Al-Qadr",
@@ -13136,7 +13137,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/600"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة البينة",
     "ar": "سورة البينة",
     "en": "Surah Al-Bayyinah",
@@ -13165,7 +13166,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina1?ar#/reader/chapter/600"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الزلزلة",
     "ar": "سورة الزلزلة",
     "en": "Surah Az-Zalzalah",
@@ -13194,7 +13195,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/601"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة العاديات",
     "ar": "سورة العاديات",
     "en": "Surah Al-'Adiyat",
@@ -13223,7 +13224,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Tajweed?ar#/reader/chapter/599"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة القارعة",
     "ar": "سورة القارعة",
     "en": "Surah Al-Qari'ah",
@@ -13252,7 +13253,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/602"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة التكاثر",
     "ar": "سورة التكاثر",
     "en": "Surah Al-Takathur",
@@ -13281,7 +13282,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Tajweed?ar#/reader/chapter/600"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة العصر",
     "ar": "سورة العصر",
     "en": "Surah Al-'Asr",
@@ -13310,7 +13311,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/603"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الهمزة",
     "ar": "سورة الهمزة",
     "en": "Surah Al-Humzah",
@@ -13339,7 +13340,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Tajweed?ar#/reader/chapter/601"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الفيل",
     "ar": "سورة الفيل",
     "en": "Surah Al-Fil",
@@ -13368,7 +13369,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/603"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة قريش",
     "ar": "سورة قريش",
     "en": "Surah Quraish",
@@ -13397,7 +13398,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina1?ar#/reader/chapter/604"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الماعون",
     "ar": "سورة الماعون",
     "en": "Surah Al-Ma'un",
@@ -13426,7 +13427,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/604"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الكوثر",
     "ar": "سورة الكوثر",
     "en": "Surah Al-Kawthar",
@@ -13455,7 +13456,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Tajweed?ar#/reader/chapter/602"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الكافرون",
     "ar": "سورة الكافرون",
     "en": "Surah Al-Kafirun",
@@ -13484,7 +13485,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina1?ar#/reader/chapter/605"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة النصر",
     "ar": "سورة النصر",
     "en": "Surah An-Nasr",
@@ -13513,7 +13514,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/605"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة المسد",
     "ar": "سورة المسد",
     "en": "Surah Al-Masad",
@@ -13542,7 +13543,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Tajweed?ar#/reader/chapter/603"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الإخلاص",
     "ar": "سورة الإخلاص",
     "en": "Surah Al-Ikhlas",
@@ -13571,7 +13572,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina1?ar#/reader/chapter/606"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الفلق",
     "ar": "سورة الفلق",
     "en": "Surah Al-Falaq",
@@ -13600,7 +13601,7 @@ const surahStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/604"
   },
   {
-    "category": "surah",
+    "category": "surah", "hasFlag": false,
     "station": "سورة الناس",
     "ar": "سورة الناس",
     "en": "Surah An-Nas",
@@ -13638,7 +13639,7 @@ const surahStations = [
 <script>
 const monshawiiyatStations = [
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الفاتحة",
     "ar": "ما تيسر من سورة الفاتحة",
     "en": "Ma Tayassar from Surat Al-Fatiha",
@@ -13650,7 +13651,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/3"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة البقرة",
     "ar": "ما تيسر من سورة البقرة",
     "en": "Ma Tayassar from Surat Al-Baqara",
@@ -13664,7 +13665,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/4"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة آل عمران",
     "ar": "ما تيسر من سورة آل عمران",
     "en": "Ma Tayassar from Surat Aal-Imran",
@@ -13678,7 +13679,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/52"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة النساء",
     "ar": "ما تيسر من سورة النساء",
     "en": "Ma Tayassar from Surat An-Nisaa",
@@ -13691,7 +13692,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/79"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة المائدة",
     "ar": "ما تيسر من سورة المائدة",
     "en": "Ma Tayassar from Surat Al-Ma'idah",
@@ -13706,7 +13707,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/108"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الأنعام",
     "ar": "ما تيسر من سورة الأنعام",
     "en": "Ma Tayassar from Surat Al-An'am",
@@ -13718,7 +13719,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/130"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الأعراف",
     "ar": "ما تيسر من سورة الأعراف",
     "en": "Ma Tayassar from Surat Al-A'raf",
@@ -13732,7 +13733,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/153"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الأنفال",
     "ar": "ما تيسر من سورة الأنفال",
     "en": "Ma Tayassar from Surat Al-Anfal",
@@ -13746,7 +13747,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/179"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة التوبة",
     "ar": "ما تيسر من سورة التوبة",
     "en": "Ma Tayassar from Surat At-Tawbah",
@@ -13760,7 +13761,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/189"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة يونس",
     "ar": "ما تيسر من سورة يونس",
     "en": "Ma Tayassar from Surat Yunus",
@@ -13774,7 +13775,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/210"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة هود",
     "ar": "ما تيسر من سورة هود",
     "en": "Ma Tayassar from Surat Hud",
@@ -13788,7 +13789,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/223"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة يوسف",
     "ar": "ما تيسر من سورة يوسف",
     "en": "Ma Tayassar from Surat Yusuf",
@@ -13802,7 +13803,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/237"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الرعد",
     "ar": "ما تيسر من سورة الرعد",
     "en": "Ma Tayassar from Surat Ar-Ra'd",
@@ -13816,7 +13817,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/251"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة ابراهيم",
     "ar": "ما تيسر من سورة ابراهيم",
     "en": "Ma Tayassar from Surat Ibrahim",
@@ -13829,7 +13830,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/257"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الحجر",
     "ar": "ما تيسر من سورة الحجر",
     "en": "Ma Tayassar from Surat Al-Hijr",
@@ -13841,7 +13842,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/264"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة النحل",
     "ar": "ما تيسر من سورة النحل",
     "en": "Ma Tayassar from Surat An-Nahl",
@@ -13854,7 +13855,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/269"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الإسراء",
     "ar": "ما تيسر من سورة الإسراء",
     "en": "Ma Tayassar from Surat Al-Israa",
@@ -13867,7 +13868,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/284"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الكهف",
     "ar": "ما تيسر من سورة الكهف",
     "en": "Ma Tayassar from Surat Al-Kahf",
@@ -13879,7 +13880,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/295"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة مريم",
     "ar": "ما تيسر من سورة مريم",
     "en": "Ma Tayassar from Surat Maryam",
@@ -13892,7 +13893,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/307"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة طه",
     "ar": "ما تيسر من سورة طه",
     "en": "Ma Tayassar from Surat Taha",
@@ -13905,7 +13906,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/314"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الأنبياء",
     "ar": "ما تيسر من سورة الأنبياء",
     "en": "Ma Tayassar from Surat Al-Anbiya",
@@ -13919,7 +13920,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/324"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الحج",
     "ar": "ما تيسر من سورة الحج",
     "en": "Ma Tayassar from Surat Al-Hajj",
@@ -13933,7 +13934,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/334"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة المؤمنون",
     "ar": "ما تيسر من سورة المؤمنون",
     "en": "Ma Tayassar from Surat Al-Mu’minoon",
@@ -13947,7 +13948,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/344"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة النور",
     "ar": "ما تيسر من سورة النور",
     "en": "Ma Tayassar from Surat An-Nur",
@@ -13960,7 +13961,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/352"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الفرقان",
     "ar": "ما تيسر من سورة الفرقان",
     "en": "Ma Tayassar from Surat Al-Furqan",
@@ -13973,7 +13974,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/361"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الشعراء",
     "ar": "ما تيسر من سورة الشعراء",
     "en": "Ma Tayassar from Surat Ash-Shu'ara",
@@ -13987,7 +13988,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/369"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة النمل",
     "ar": "ما تيسر من سورة النمل",
     "en": "Ma Tayassar from Surat An-Naml",
@@ -13999,7 +14000,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/379"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة القصص",
     "ar": "ما تيسر من سورة القصص",
     "en": "Ma Tayassar from Surat Al-Qasas",
@@ -14013,7 +14014,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/387"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة العنكبوت",
     "ar": "ما تيسر من سورة العنكبوت",
     "en": "Ma Tayassar from Surat Al-Ankaboot",
@@ -14026,7 +14027,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/398"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الروم",
     "ar": "ما تيسر من سورة الروم",
     "en": "Ma Tayassar from Surat Ar-Rum",
@@ -14038,7 +14039,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/406"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة لقمان",
     "ar": "ما تيسر من سورة لقمان",
     "en": "Ma Tayassar from Surah Luqman",
@@ -14051,7 +14052,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/413"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة السجدة",
     "ar": "ما تيسر من سورة السجدة",
     "en": "Ma Tayassar from Surah As-Sajdah",
@@ -14063,7 +14064,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/417"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الأحزاب",
     "ar": "ما تيسر من سورة الأحزاب",
     "en": "Ma Tayassar from Surah Al-Ahzab",
@@ -14077,7 +14078,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/420"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة سبأ",
     "ar": "ما تيسر من سورة سبأ",
     "en": "Ma Tayassar from Surah Saba",
@@ -14090,7 +14091,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/430"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة فاطر",
     "ar": "ما تيسر من سورة فاطر",
     "en": "Ma Tayassar from Surah Fatir",
@@ -14101,7 +14102,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/436"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة يس",
     "ar": "ما تيسر من سورة يس",
     "en": "Ma Tayassar from Surah Ya-Sin",
@@ -14112,7 +14113,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/442"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الصافات",
     "ar": "ما تيسر من سورة الصافات",
     "en": "Ma Tayassar from Surah As-Saffat",
@@ -14123,7 +14124,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/448"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة ص",
     "ar": "ما تيسر من سورة ص",
     "en": "Ma Tayassar from Surah Sad",
@@ -14134,7 +14135,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/455"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الزمر",
     "ar": "ما تيسر من سورة الزمر",
     "en": "Ma Tayassar from Surah Az-Zumar",
@@ -14145,7 +14146,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/460"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة غافر",
     "ar": "ما تيسر من سورة غافر",
     "en": "Ma Tayassar from Surah Ghafir",
@@ -14156,7 +14157,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/469"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة فصلت",
     "ar": "ما تيسر من سورة فصلت",
     "en": "Ma Tayassar from Surah Fussilat",
@@ -14167,7 +14168,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/479"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الشورى",
     "ar": "ما تيسر من سورة الشورى",
     "en": "Ma Tayassar from Surah Ash-Shura",
@@ -14178,7 +14179,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/485"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الزخرف",
     "ar": "ما تيسر من سورة الزخرف",
     "en": "Ma Tayassar from Surah Az-Zukhruf",
@@ -14190,7 +14191,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/491"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الدخان",
     "ar": "ما تيسر من سورة الدخان",
     "en": "Ma Tayassar from Surah Ad-Dukhan",
@@ -14201,7 +14202,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Tajweed?ar#/reader/chapter/496"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الجاثية",
     "ar": "ما تيسر من سورة الجاثية",
     "en": "Ma Tayassar from Surah Al-Jathiya",
@@ -14212,7 +14213,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/501"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الأحقاف",
     "ar": "ما تيسر من سورة الأحقاف",
     "en": "Ma Tayassar from Surah Al-Ahqaf",
@@ -14223,7 +14224,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/504"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة محمد",
     "ar": "ما تيسر من سورة محمد",
     "en": "Ma Tayassar from Surah Muhammad",
@@ -14234,7 +14235,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/509"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الفتح",
     "ar": "ما تيسر من سورة الفتح",
     "en": "Ma Tayassar from Surah Al-Fath",
@@ -14245,7 +14246,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/513"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الحجرات",
     "ar": "ما تيسر من سورة الحجرات",
     "en": "Ma Tayassar from Surah Al-Hujurat",
@@ -14256,7 +14257,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/517"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة ق",
     "ar": "ما تيسر من سورة ق",
     "en": "Ma Tayassar from Surah Qaf",
@@ -14267,7 +14268,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/520"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الذاريات",
     "ar": "ما تيسر من سورة الذاريات",
     "en": "Ma Tayassar from Surah Adh-Dhariyat",
@@ -14278,7 +14279,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/522"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الطور",
     "ar": "ما تيسر من سورة الطور",
     "en": "Ma Tayassar from Surah At-Tur",
@@ -14289,7 +14290,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/525"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة النجم",
     "ar": "ما تيسر من سورة النجم",
     "en": "Ma Tayassar from Surah An-Najm",
@@ -14300,7 +14301,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/528"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة القمر",
     "ar": "ما تيسر من سورة القمر",
     "en": "Ma Tayassar from Surah Al-Qamar",
@@ -14311,7 +14312,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/530"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الرحمن",
     "ar": "ما تيسر من سورة الرحمن",
     "en": "Ma Tayassar from Surah Ar-Rahman",
@@ -14322,7 +14323,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/533"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الواقعة",
     "ar": "ما تيسر من سورة الواقعة",
     "en": "Ma Tayassar from Surah Al-Waqi'ah",
@@ -14333,7 +14334,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/536"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الحديد",
     "ar": "ما تيسر من سورة الحديد",
     "en": "Ma Tayassar from Surah Al-Hadid",
@@ -14344,7 +14345,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/539"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة المجادلة",
     "ar": "ما تيسر من سورة المجادلة",
     "en": "Ma Tayassar from Surah Al-Mujadila",
@@ -14355,7 +14356,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/544"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الحشر",
     "ar": "ما تيسر من سورة الحشر",
     "en": "Ma Tayassar from Surah Al-Hashr",
@@ -14368,7 +14369,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/547"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الممتحنة",
     "ar": "ما تيسر من سورة الممتحنة",
     "en": "Ma Tayassar from Surah Al-Mumtahina",
@@ -14379,7 +14380,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/551"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الصف",
     "ar": "ما تيسر من سورة الصف",
     "en": "Ma Tayassar from Surah As-Saff",
@@ -14391,7 +14392,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/553"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الجمعة",
     "ar": "ما تيسر من سورة الجمعة",
     "en": "Ma Tayassar from Surah Al-Jumu'ah",
@@ -14402,7 +14403,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/555"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة المنافقون",
     "ar": "ما تيسر من سورة المنافقون",
     "en": "Ma Tayassar from Surah Al-Munafiqun",
@@ -14413,7 +14414,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/556"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة التغابن",
     "ar": "ما تيسر من سورة التغابن",
     "en": "Ma Tayassar from Surah At-Taghabun",
@@ -14424,7 +14425,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/558"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الطلاق",
     "ar": "ما تيسر من سورة الطلاق",
     "en": "Ma Tayassar from Surah At-Talaq",
@@ -14436,7 +14437,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina1?ar#/reader/chapter/560"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة التحريم",
     "ar": "ما تيسر من سورة التحريم",
     "en": "Ma Tayassar from Surah At-Tahreem",
@@ -14448,7 +14449,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/562"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الملك",
     "ar": "ما تيسر من سورة الملك",
     "en": "Ma Tayassar from Surah Al-Mulk",
@@ -14459,7 +14460,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/564"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة القلم",
     "ar": "ما تيسر من سورة القلم",
     "en": "Ma Tayassar from Surah Al-Qalam",
@@ -14470,7 +14471,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/566"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الحاقة",
     "ar": "ما تيسر من سورة الحاقة",
     "en": "Ma Tayassar from Surah Al-Haqqah",
@@ -14482,7 +14483,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/568"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة المعارج",
     "ar": "ما تيسر من سورة المعارج",
     "en": "Ma Tayassar from Surah Al-Ma'arij",
@@ -14494,7 +14495,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/570"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة نوح",
     "ar": "ما تيسر من سورة نوح",
     "en": "Ma Tayassar from Surah Nuh",
@@ -14505,7 +14506,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/572"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الجن",
     "ar": "ما تيسر من سورة الجن",
     "en": "Ma Tayassar from Surah Al-Jinn",
@@ -14517,7 +14518,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/574"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة المزمل",
     "ar": "ما تيسر من سورة المزمل",
     "en": "Ma Tayassar from Surah Al-Muzzammil",
@@ -14528,7 +14529,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/576"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة المدثر",
     "ar": "ما تيسر من سورة المدثر",
     "en": "Ma Tayassar from Surah Al-Muddathir",
@@ -14539,7 +14540,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/577"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة القيامة",
     "ar": "ما تيسر من سورة القيامة",
     "en": "Ma Tayassar from Surah Al-Qiyamah",
@@ -14550,7 +14551,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/579"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة الإنسان",
     "ar": "ما تيسر من سورة الإنسان",
     "en": "Ma Tayassar from Surah Al-Insan",
@@ -14562,7 +14563,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/580"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من سورة المرسلات",
     "ar": "ما تيسر من سورة المرسلات",
     "en": "Ma Tayassar from Surah Al-Mursalat",
@@ -14574,7 +14575,7 @@ const monshawiiyatStations = [
     "quranflashUrl": "https://app.quranflash.com/book/Medina3?ar#/reader/chapter/582"
   },
   {
-    "category": "Monshawiiyat",
+    "category": "Monshawiiyat", "hasFlag": false,
     "station": "ما تيسر من جزء عمّ وقصار السور",
     "ar": "ما تيسر من جزء عمّ وقصار السور",
     "en": "Ma Tayassar from Juz Amma and Short Surahs",
@@ -16723,6 +16724,11 @@ function applyDirection(isAr) {
   // الحاوية الرئيسية للمحطات
   var container = document.querySelector('.container');
   if (container) container.style.direction = dir;
+
+  // حاوية أزرار المحطات
+  document.querySelectorAll('.buttons-container').forEach(function(el) {
+    el.style.direction = dir;
+  });
 
   // document root direction
   document.documentElement.setAttribute('dir', dir);
