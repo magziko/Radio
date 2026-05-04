@@ -1218,6 +1218,319 @@ border-radius: 12px;
     }
 }
 
+/* ══ Site Multi-Modal (floating windows) ══ */
+.site-modal-window {
+    position: fixed;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.45);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 2100;
+    min-width: 340px;
+    min-height: 260px;
+    resize: both;
+}
+
+.site-modal-window.minimized { display: none; }
+
+.site-modal-window.maximized {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    resize: none !important;
+    z-index: 9000 !important;
+    transition: left 0.18s ease, top 0.18s ease, width 0.18s ease, height 0.18s ease;
+}
+
+.site-modal-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #f2f2f2 0%, #e8ecf0 100%);
+    padding: 8px 12px;
+    cursor: grab;
+    user-select: none;
+    flex-shrink: 0;
+    border-bottom: 1px solid #d0d8e0;
+    gap: 8px;
+}
+
+body.dark-mode .site-modal-titlebar {
+    background: linear-gradient(135deg, #1e2a38 0%, #16202c 100%);
+    border-bottom-color: #2e3e50;
+}
+
+.site-modal-titlebar:active { cursor: grabbing; }
+
+.site-modal-favicon {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+.site-modal-title {
+    color: #2c3e50;
+    font-size: 13px;
+    font-weight: 700;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    direction: rtl;
+    text-align: right;
+    font-family: 'Cairo', Arial, sans-serif;
+}
+
+body.dark-mode .site-modal-title { color: #cdd8e3; }
+
+.site-modal-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.site-modal-btn {
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, transform 0.1s;
+    flex-shrink: 0;
+}
+
+.site-modal-btn:hover { transform: scale(1.12); }
+
+.sm-btn-min { background: #f0c040; color: #333; }
+.sm-btn-max { background: #3a9e44; color: #fff; font-size: 12px; }
+.sm-btn-ext { background: #2563eb; color: #fff; font-size: 12px; }
+.sm-btn-cls { background: #e53e3e; color: #fff; }
+
+.site-modal-body {
+    flex: 1;
+    overflow: hidden;
+    background: #fff;
+}
+
+.site-modal-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* ══ YouTube Multi-Modal System ══ */
+.yt-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    pointer-events: none;
+}
+
+.yt-modal-window {
+    position: fixed;
+    background: #0f0f0f;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 3100;
+    pointer-events: all;
+    min-width: 320px;
+    min-height: 240px;
+    resize: both;
+}
+
+.yt-modal-window.minimized {
+    display: none;
+}
+
+.yt-modal-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 8px 12px;
+    cursor: grab;
+    user-select: none;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255,0,0,0.3);
+    gap: 8px;
+}
+
+.yt-modal-titlebar:active {
+    cursor: grabbing;
+}
+
+.yt-modal-title {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    direction: rtl;
+    text-align: right;
+}
+
+.yt-modal-yt-logo {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.yt-modal-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.yt-modal-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, transform 0.1s;
+    flex-shrink: 0;
+}
+
+.yt-modal-btn:hover { transform: scale(1.1); }
+
+.yt-btn-min  { background: #f0c040; color: #333; }
+.yt-btn-max  { background: #3a9e44; color: #fff; font-size: 13px; }
+.yt-btn-ext  { background: #2563eb; color: #fff; font-size: 13px; }
+.yt-btn-cls  { background: #e53e3e; color: #fff; }
+
+.yt-modal-window.maximized {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    resize: none !important;
+    z-index: 9999 !important;
+    transition: left 0.18s ease, top 0.18s ease, width 0.18s ease, height 0.18s ease;
+}
+
+.yt-modal-body {
+    flex: 1;
+    overflow: hidden;
+    background: #000;
+}
+
+.yt-modal-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* ══ Shared Taskbar for all minimized windows ══ */
+#yt-taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9800;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 10px;
+    background: rgba(15,15,30,0.95);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(100,130,180,0.3);
+    pointer-events: all;
+    max-height: 60px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+#yt-taskbar:empty {
+    display: none;
+}
+
+.yt-taskbar-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 4px 10px 4px 8px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    max-width: 200px;
+    transition: background 0.15s;
+    user-select: none;
+}
+
+.yt-taskbar-item:hover {
+    background: rgba(255,0,0,0.25);
+    border-color: rgba(255,0,0,0.4);
+}
+
+/* site modal taskbar item - slightly different accent */
+.sm-taskbar-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(100,160,255,0.3);
+    border-radius: 8px;
+    padding: 4px 10px 4px 8px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    max-width: 200px;
+    transition: background 0.15s;
+    user-select: none;
+}
+
+.sm-taskbar-item:hover {
+    background: rgba(37,99,235,0.35);
+    border-color: rgba(100,160,255,0.6);
+}
+
+.yt-taskbar-item span,
+.sm-taskbar-item span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.yt-taskbar-close,
+.sm-taskbar-close {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-right: -4px;
+    padding: 0 2px;
+}
+.yt-taskbar-close:hover,
+.sm-taskbar-close:hover { opacity: 1; color: #f87171; }
+
 
 
 /* ── Welcome Screen Top Action Bar ── */
@@ -6932,7 +7245,7 @@ function playWelcomeScreenStation(stationUrl, stationName) {
         ],
         // Dutch
         [
-            `En het is een Koran die Wij hebben verdeeld, zodat jij hem geleidelijk aan de mensen kunt voordragen.`,
+            `En het is een Koran die Wij hebben verdeeld, zodat jij hem geleidelijk aan de mensen ***** voordragen.`,
             ``,
             ``
         ],
@@ -7603,7 +7916,7 @@ function playWelcomeScreenStation(stationUrl, stationName) {
         ],
         // Indonesian
         [
-            `Dan Kami tidak mengutus sebelum engkau seorang rasul dan tidak pula seorang nabi`,
+            `Dan Kami tidak mengutus sebelum engkau seorang rasul dan tidak ***** seorang nabi`,
             `melainkan apabila dia membaca, setan menyusupkan sesuatu dalam bacaannya`,
             `maka Allah menghapus apa yang disusupkan setan itu, kemudian Allah menguatkan ayat-ayat-Nya. Dan Allah Maha Mengetahui lagi Maha Bijaksana.`
         ],
@@ -10681,7 +10994,7 @@ function playWelcomeScreenStation(stationUrl, stationName) {
         ],
         // German
         [
-            `Wisset, dass das diesseitige Leben nur Spiel, Vergnügen, Schmuck, gegenseitiges Prahlen und Wettstreit in Besitz und Kindern ist. Es ist wie Regen, dessen Pflanzenwuchs die Bauern erfreut, dann verdorrt er und du siehst ihn gelb werden, dann wird er zu Bruchstücken. Und im Jenseits gibt es strenge Strafe, Vergebung von Allah und Sein Wohlgefallen. Und das diesseitige Leben ist nur trügerischer Genuss.`,
+            `Wisset, dass das diesseitige Leben nur Spiel, Vergnügen, *****, gegenseitiges Prahlen und Wettstreit in Besitz und Kindern ist. Es ist wie Regen, dessen Pflanzenwuchs die Bauern erfreut, dann verdorrt er und du siehst ihn gelb werden, dann wird er zu Bruchstücken. Und im Jenseits gibt es strenge Strafe, Vergebung von Allah und Sein Wohlgefallen. Und das diesseitige Leben ist nur trügerischer Genuss.`,
             ``,
             ``
         ],
@@ -12107,6 +12420,15 @@ scheduleNextTranslation();
 </div>
 
 <div id="restoreButton" title="Restore">➕</div>
+
+<!-- YouTube Multi-Modal Container -->
+<div id="yt-modal-overlay" class="yt-modal-overlay"></div>
+
+<!-- Site Multi-Modal Container -->
+<div id="site-modal-overlay" style="position:fixed;inset:0;z-index:2050;pointer-events:none;"></div>
+
+<!-- Minimized YouTube Windows Taskbar -->
+<div id="yt-taskbar"></div>
 
 </div>
 
@@ -22760,52 +23082,411 @@ function openQuranFlash(event, url) {
     }
 }
 
-function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'rgba(0, 0, 0, 0.8)') {
-    var iframeContent;
+/* ══════════════════════════════════════════════
+   YouTube Multi-Modal Manager
+   ══════════════════════════════════════════════ */
+const YTModalManager = (function() {
+    let modalCounter = 0;
+    const openModals = {}; // id -> { win, taskbarItem, title, videoId }
 
-    if (isYouTube) {
-        iframeContent = `
-            <iframe width="941" height="480" src="https://www.youtube.com/embed/${url}" title="${title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        `;
-    } else {
-        if (fullSize) {
-            iframeContent = `
-                <iframe src="${url}" title="${title}" style="border:none; width: 100%; height: 100vh;" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media"></iframe>
-            `;
+    const overlay  = () => document.getElementById('yt-modal-overlay');
+    const taskbar  = () => document.getElementById('yt-taskbar');
+
+    /* ── make a window draggable by its titlebar ── */
+    function makeDraggable(win, handle) {
+        let startX, startY, startLeft, startTop;
+        handle.addEventListener('mousedown', function(e) {
+            if (e.target.closest('.yt-modal-btn')) return;
+            e.preventDefault();
+            const rect = win.getBoundingClientRect();
+            startX = e.clientX; startY = e.clientY;
+            startLeft = rect.left; startTop = rect.top;
+            win.style.transition = 'none';
+
+            function onMove(e) {
+                const dx = e.clientX - startX, dy = e.clientY - startY;
+                win.style.left = Math.max(0, startLeft + dx) + 'px';
+                win.style.top  = Math.max(0, startTop  + dy) + 'px';
+                win.style.right  = 'auto';
+                win.style.bottom = 'auto';
+            }
+            function onUp() {
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup',   onUp);
+            }
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup',   onUp);
+        });
+
+        /* touch drag */
+        handle.addEventListener('touchstart', function(e) {
+            if (e.target.closest('.yt-modal-btn')) return;
+            const t = e.touches[0];
+            const rect = win.getBoundingClientRect();
+            startX = t.clientX; startY = t.clientY;
+            startLeft = rect.left; startTop = rect.top;
+
+            function onMove(e) {
+                const t = e.touches[0];
+                const dx = t.clientX - startX, dy = t.clientY - startY;
+                win.style.left = Math.max(0, startLeft + dx) + 'px';
+                win.style.top  = Math.max(0, startTop  + dy) + 'px';
+                win.style.right  = 'auto';
+                win.style.bottom = 'auto';
+            }
+            function onEnd() {
+                handle.removeEventListener('touchmove', onMove);
+                handle.removeEventListener('touchend',  onEnd);
+            }
+            handle.addEventListener('touchmove', onMove, { passive: false });
+            handle.addEventListener('touchend',  onEnd);
+        }, { passive: true });
+    }
+
+    /* ── open a new YouTube modal window ── */
+    function open(videoId, title) {
+        const id = ++modalCounter;
+        const isMobile = window.innerWidth <= 768;
+
+        /* window size / position */
+        const W = isMobile ? Math.min(window.innerWidth - 10, 360) : 700;
+        const H = isMobile ? Math.round(W * 9/16) + 44 : 435;
+        const offsetStep = 30;
+        const count = Object.keys(openModals).length;
+        const left = isMobile ? 5 : Math.min(80 + count * offsetStep, window.innerWidth  - W - 20);
+        const top  = isMobile ? 60 : Math.min(60 + count * offsetStep, window.innerHeight - H - 80);
+
+        /* build window */
+        const win = document.createElement('div');
+        win.className = 'yt-modal-window';
+        win.id = 'yt-win-' + id;
+        win.style.cssText = `width:${W}px;height:${H}px;left:${left}px;top:${top}px;`;
+
+        win.innerHTML = `
+          <div class="yt-modal-titlebar" id="yt-titlebar-${id}">
+            <svg class="yt-modal-yt-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="24" height="24" rx="5" fill="#FF0000"/>
+              <polygon points="9.5,7 9.5,17 17,12" fill="white"/>
+            </svg>
+            <span class="yt-modal-title" title="${title}">${title}</span>
+            <div class="yt-modal-controls">
+              <button class="yt-modal-btn yt-btn-min"  title="تصغير"          id="yt-min-${id}">−</button>
+              <button class="yt-modal-btn yt-btn-max"  title="تكبير / استعادة" id="yt-max-${id}">⛶</button>
+              <button class="yt-modal-btn yt-btn-ext"  title="فتح في تبويب"   id="yt-ext-${id}">↗</button>
+              <button class="yt-modal-btn yt-btn-cls"  title="إغلاق"           id="yt-cls-${id}">✕</button>
+            </div>
+          </div>
+          <div class="yt-modal-body">
+            <iframe
+              src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+              title="${title}"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>`;
+
+        overlay().appendChild(win);
+        makeDraggable(win, win.querySelector('#yt-titlebar-' + id));
+
+        /* double-click titlebar = toggle maximize */
+        win.querySelector('#yt-titlebar-' + id).addEventListener('dblclick', function(e) {
+            if (e.target.closest('.yt-modal-btn')) return;
+            toggleMaximize(id);
+        });
+
+        /* ── taskbar item ── */
+        const tbItem = document.createElement('div');
+        tbItem.className = 'yt-taskbar-item';
+        tbItem.dataset.modalId = id;
+        tbItem.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <rect width="24" height="24" rx="4" fill="#FF0000"/>
+            <polygon points="9.5,7 9.5,17 17,12" fill="white"/>
+          </svg>
+          <span>${title}</span>
+          <span class="yt-taskbar-close" data-close="${id}">✕</span>`;
+
+        tbItem.addEventListener('click', function(e) {
+            if (e.target.dataset.close) { close(+e.target.dataset.close); return; }
+            restore(id);
+        });
+
+        /* ── button events ── */
+        win.querySelector('#yt-min-' + id).addEventListener('click', () => minimize(id));
+        win.querySelector('#yt-max-' + id).addEventListener('click', () => toggleMaximize(id));
+        win.querySelector('#yt-ext-' + id).addEventListener('click', () => {
+            window.open('https://www.youtube.com/watch?v=' + videoId, '_blank');
+        });
+        win.querySelector('#yt-cls-' + id).addEventListener('click', () => close(id));
+
+        /* ── click to bring to front ── */
+        win.addEventListener('mousedown', () => bringToFront(id));
+
+        openModals[id] = { win, taskbarItem: tbItem, title, videoId };
+        bringToFront(id);
+        return id;
+    }
+
+    function minimize(id) {
+        const m = openModals[id]; if (!m) return;
+        m.win.classList.add('minimized');
+        taskbar().appendChild(m.taskbarItem);
+    }
+
+    function restore(id) {
+        const m = openModals[id]; if (!m) return;
+        m.win.classList.remove('minimized');
+        if (m.taskbarItem.parentNode) m.taskbarItem.parentNode.removeChild(m.taskbarItem);
+        bringToFront(id);
+    }
+
+    function toggleMaximize(id) {
+        const m = openModals[id]; if (!m) return;
+        const win = m.win;
+        const btn = win.querySelector('#yt-max-' + id);
+        if (win.classList.contains('maximized')) {
+            /* restore to saved size/position */
+            win.classList.remove('maximized');
+            win.style.left   = m.savedLeft   || '80px';
+            win.style.top    = m.savedTop    || '60px';
+            win.style.width  = m.savedWidth  || '700px';
+            win.style.height = m.savedHeight || '435px';
+            win.style.right  = 'auto';
+            win.style.bottom = 'auto';
+            if (btn) btn.textContent = '⛶';
         } else {
-            iframeContent = `
-                <iframe width="560" height="315" src="${url}" title="${title}" style="border:none;" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media"></iframe>
-            `;
+            /* save current position/size then maximise */
+            const rect = win.getBoundingClientRect();
+            m.savedLeft   = rect.left   + 'px';
+            m.savedTop    = rect.top    + 'px';
+            m.savedWidth  = rect.width  + 'px';
+            m.savedHeight = rect.height + 'px';
+            win.classList.add('maximized');
+            if (btn) btn.textContent = '🗗';
+            bringToFront(id);
         }
     }
 
-    var modal = document.getElementById('modal');
-    modal.style.backgroundColor = bgColor;
-
-    document.getElementById('contentContainer').innerHTML = iframeContent;
-    modal.style.display = "block";
-
-    var playerWrap = document.getElementById('sticky-player-wrap');
-    if (playerWrap) playerWrap.style.zIndex = '0';
-    var navBar = document.getElementById('player-nav-bar');
-    if (navBar) navBar.style.position = 'relative';
-
-    function closeAndRestore() {
-        modal.style.display = "none";
-        document.getElementById('contentContainer').innerHTML = '';
-
-        if (playerWrap) playerWrap.style.zIndex = '';
-        if (navBar) navBar.style.position = '';
+    function close(id) {
+        const m = openModals[id]; if (!m) return;
+        /* stop iframe playback */
+        const iframe = m.win.querySelector('iframe');
+        if (iframe) iframe.src = 'about:blank';
+        if (m.win.parentNode) m.win.parentNode.removeChild(m.win);
+        if (m.taskbarItem.parentNode) m.taskbarItem.parentNode.removeChild(m.taskbarItem);
+        delete openModals[id];
     }
 
-    var span = document.getElementsByClassName("close-button")[0];
-    span.onclick = closeAndRestore;
+    function bringToFront(id) {
+        /* get highest z-index among open modals */
+        let maxZ = 3100;
+        Object.keys(openModals).forEach(k => {
+            const z = parseInt(openModals[k].win.style.zIndex) || 3100;
+            if (z > maxZ) maxZ = z;
+        });
+        if (openModals[id]) openModals[id].win.style.zIndex = maxZ + 1;
+    }
 
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            closeAndRestore();
+    return { open, minimize, restore, close, toggleMaximize };
+})();
+
+/* ══════════════════════════════════════════════
+   Site Multi-Modal Manager (websites / PDFs)
+   ══════════════════════════════════════════════ */
+const SiteModalManager = (function() {
+    let counter = 0;
+    const openModals = {};
+    const taskbar  = () => document.getElementById('yt-taskbar');
+    const overlay  = () => document.getElementById('site-modal-overlay');
+
+    /* ── draggable ── */
+    function makeDraggable(win, handle) {
+        let sx, sy, sl, st;
+        function startDrag(cx, cy) {
+            const r = win.getBoundingClientRect();
+            sx = cx; sy = cy; sl = r.left; st = r.top;
+            win.style.transition = 'none';
         }
-    };
+        function moveDrag(cx, cy) {
+            win.style.left   = Math.max(0, sl + cx - sx) + 'px';
+            win.style.top    = Math.max(0, st + cy - sy) + 'px';
+            win.style.right  = 'auto';
+            win.style.bottom = 'auto';
+        }
+        handle.addEventListener('mousedown', e => {
+            if (e.target.closest('.site-modal-btn')) return;
+            e.preventDefault();
+            startDrag(e.clientX, e.clientY);
+            const up = () => { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); };
+            const mv = e => moveDrag(e.clientX, e.clientY);
+            document.addEventListener('mousemove', mv);
+            document.addEventListener('mouseup', up);
+        });
+        handle.addEventListener('touchstart', e => {
+            if (e.target.closest('.site-modal-btn')) return;
+            const t = e.touches[0]; startDrag(t.clientX, t.clientY);
+            const end = () => { handle.removeEventListener('touchmove', mv); handle.removeEventListener('touchend', end); };
+            const mv  = e => { const t = e.touches[0]; moveDrag(t.clientX, t.clientY); };
+            handle.addEventListener('touchmove', mv, { passive: false });
+            handle.addEventListener('touchend', end);
+        }, { passive: true });
+    }
+
+    /* ── try to get favicon ── */
+    function faviconFor(url) {
+        try {
+            const host = new URL(url).origin;
+            return `https://www.google.com/s2/favicons?sz=32&domain_url=${encodeURIComponent(host)}`;
+        } catch(e) { return ''; }
+    }
+
+    /* ── open ── */
+    function open(url, title, fullSize = false) {
+        const id = ++counter;
+        const isMobile = window.innerWidth <= 768;
+        const W = isMobile ? Math.min(window.innerWidth - 10, 380) : Math.min(window.innerWidth  - 40, 1100);
+        const H = isMobile ? Math.min(window.innerHeight - 80, 560) : Math.min(window.innerHeight - 80, 800);
+        const count = Object.keys(openModals).length;
+        const step  = 28;
+        const left  = isMobile ? 5  : Math.min(40 + count * step, window.innerWidth  - W - 20);
+        const top   = isMobile ? 55 : Math.min(40 + count * step, window.innerHeight - H - 80);
+
+        const favicon = faviconFor(url);
+        const faviconHTML = favicon
+            ? `<img class="site-modal-favicon" src="${favicon}" onerror="this.style.display='none'" alt="">`
+            : `<span style="font-size:15px;flex-shrink:0;">🌐</span>`;
+
+        const safeTitle = title.replace(/"/g, '&quot;');
+
+        const win = document.createElement('div');
+        win.className = 'site-modal-window';
+        win.id = 'sm-win-' + id;
+        win.style.cssText = `width:${W}px;height:${H}px;left:${left}px;top:${top}px;pointer-events:all;`;
+
+        win.innerHTML = `
+          <div class="site-modal-titlebar" id="sm-titlebar-${id}">
+            ${faviconHTML}
+            <span class="site-modal-title" title="${safeTitle}">${title}</span>
+            <div class="site-modal-controls">
+              <button class="site-modal-btn sm-btn-min" title="تصغير"           id="sm-min-${id}">−</button>
+              <button class="site-modal-btn sm-btn-max" title="تكبير / استعادة" id="sm-max-${id}">⛶</button>
+              <button class="site-modal-btn sm-btn-ext" title="فتح في تبويب"    id="sm-ext-${id}">↗</button>
+              <button class="site-modal-btn sm-btn-cls" title="إغلاق"            id="sm-cls-${id}">✕</button>
+            </div>
+          </div>
+          <div class="site-modal-body">
+            <iframe src="${url}" title="${safeTitle}"
+              allowfullscreen
+              allow="autoplay; fullscreen; picture-in-picture; xr-spatial-tracking; encrypted-media">
+            </iframe>
+          </div>`;
+
+        overlay().appendChild(win);
+        makeDraggable(win, win.querySelector('#sm-titlebar-' + id));
+
+        /* double-click titlebar = maximize */
+        win.querySelector('#sm-titlebar-' + id).addEventListener('dblclick', e => {
+            if (e.target.closest('.site-modal-btn')) return;
+            toggleMaximize(id);
+        });
+
+        /* taskbar item */
+        const tbItem = document.createElement('div');
+        tbItem.className = 'sm-taskbar-item';
+        tbItem.dataset.modalId = id;
+        tbItem.innerHTML = `
+          ${favicon ? `<img width="14" height="14" src="${favicon}" style="border-radius:2px;flex-shrink:0;" onerror="this.style.display='none'" alt="">` : '🌐'}
+          <span>${title}</span>
+          <span class="sm-taskbar-close" data-smclose="${id}">✕</span>`;
+        tbItem.addEventListener('click', e => {
+            if (e.target.dataset.smclose) { close(+e.target.dataset.smclose); return; }
+            restore(id);
+        });
+
+        /* buttons */
+        win.querySelector('#sm-min-' + id).addEventListener('click', () => minimize(id));
+        win.querySelector('#sm-max-' + id).addEventListener('click', () => toggleMaximize(id));
+        win.querySelector('#sm-ext-' + id).addEventListener('click', () => window.open(url, '_blank'));
+        win.querySelector('#sm-cls-' + id).addEventListener('click', () => close(id));
+
+        /* click = bring to front */
+        win.addEventListener('mousedown', () => bringToFront(id));
+
+        openModals[id] = { win, taskbarItem: tbItem, title, url };
+        bringToFront(id);
+        return id;
+    }
+
+    function minimize(id) {
+        const m = openModals[id]; if (!m) return;
+        m.win.classList.add('minimized');
+        taskbar().appendChild(m.taskbarItem);
+    }
+
+    function restore(id) {
+        const m = openModals[id]; if (!m) return;
+        m.win.classList.remove('minimized');
+        if (m.taskbarItem.parentNode) m.taskbarItem.parentNode.removeChild(m.taskbarItem);
+        bringToFront(id);
+    }
+
+    function toggleMaximize(id) {
+        const m = openModals[id]; if (!m) return;
+        const win = m.win;
+        const btn = win.querySelector('#sm-max-' + id);
+        if (win.classList.contains('maximized')) {
+            win.classList.remove('maximized');
+            win.style.left   = m.savedLeft   || '40px';
+            win.style.top    = m.savedTop    || '40px';
+            win.style.width  = m.savedWidth  || '1100px';
+            win.style.height = m.savedHeight || '800px';
+            win.style.right  = 'auto';
+            win.style.bottom = 'auto';
+            if (btn) btn.textContent = '⛶';
+        } else {
+            const r = win.getBoundingClientRect();
+            m.savedLeft = r.left + 'px'; m.savedTop = r.top + 'px';
+            m.savedWidth = r.width + 'px'; m.savedHeight = r.height + 'px';
+            win.classList.add('maximized');
+            if (btn) btn.textContent = '🗗';
+            bringToFront(id);
+        }
+    }
+
+    function close(id) {
+        const m = openModals[id]; if (!m) return;
+        const iframe = m.win.querySelector('iframe');
+        if (iframe) iframe.src = 'about:blank';
+        if (m.win.parentNode) m.win.parentNode.removeChild(m.win);
+        if (m.taskbarItem.parentNode) m.taskbarItem.parentNode.removeChild(m.taskbarItem);
+        delete openModals[id];
+    }
+
+    function bringToFront(id) {
+        let maxZ = 2100;
+        Object.keys(openModals).forEach(k => {
+            const z = parseInt(openModals[k].win.style.zIndex) || 2100;
+            if (z > maxZ) maxZ = z;
+        });
+        if (openModals[id]) openModals[id].win.style.zIndex = maxZ + 1;
+    }
+
+    return { open, minimize, restore, close, toggleMaximize };
+})();
+
+/* ══════════════════════════════════════════════
+   openModal  – router:
+     isYouTube=true  → YTModalManager (floating)
+     otherwise       → SiteModalManager (floating)
+   ══════════════════════════════════════════════ */
+function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'rgba(0, 0, 0, 0.8)') {
+    if (isYouTube) {
+        YTModalManager.open(url, title);
+    } else {
+        SiteModalManager.open(url, title, fullSize);
+    }
 }
 
 
@@ -23160,48 +23841,7 @@ document.addEventListener("keydown", function (e) {
     }
 });
 
-const modal = document.getElementById("modal");
-const minimizeBtn = document.querySelector(".minimize-button");
-const closeBtn = document.querySelector(".close-button");
-const restoreBtn = document.getElementById("restoreButton");
-
-closeBtn.addEventListener("click", function () {
-    modal.style.display = "none";
-    restoreBtn.style.display = "none";
-});
-
-minimizeBtn.addEventListener("click", function () {
-    modal.style.display = "none";
-    restoreBtn.style.display = "flex";
-});
-
-restoreBtn.addEventListener("click", function () {
-    modal.style.display = "block";
-    restoreBtn.style.display = "none";
-});
-
-const modalContent = document.querySelector(".modal-content");
-const fullscreenBtn = document.querySelector(".fullscreen-button");
-
-fullscreenBtn.addEventListener("click", function () {
-
-    if (!document.fullscreenElement) {
-        modalContent.requestFullscreen().catch(err => {
-            alert("Fullscreen error: " + err.message);
-        });
-        fullscreenBtn.innerHTML = "🗗";
-    } else {
-        document.exitFullscreen();
-        fullscreenBtn.innerHTML = "⛶";
-    }
-
-});
-
-document.addEventListener("fullscreenchange", function () {
-    if (!document.fullscreenElement) {
-        fullscreenBtn.innerHTML = "⛶";
-    }
-});
+/* old single-modal JS removed — now handled by SiteModalManager */
 
 window.addEventListener("load", function() {
   let container = document.createElement("div");
