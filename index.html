@@ -138,12 +138,65 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow-y: auto;
+    overflow: hidden;
     box-sizing: border-box;
     background: linear-gradient(160deg, rgba(46,134,193,0.04) 0%, rgba(255,255,255,0) 100%);
     border-radius: 16px;
     border: 1px solid rgba(46,134,193,0.10);
     position: relative;
+    flex-shrink: 0;
+}
+
+/* موبايل: ارتفاع ثابت أكبر يسع الآيات الطويلة بدون سكرول */
+@media (max-width: 767px) {
+    #welcomeContent {
+        width: 97% !important;
+        max-width: 97% !important;
+        padding: 4% 3% !important;
+    }
+    #quranVerse {
+        height: 400px;
+        padding: 14px 10px;
+    }
+    #arabicVerse {
+        font-size: 13.5px !important;
+        line-height: 1.85 !important;
+        max-width: 100% !important;
+    }
+    #englishVerse {
+        font-size: 11.5px !important;
+        line-height: 1.55 !important;
+        max-width: 98% !important;
+    }
+    .basmala-line {
+        font-size: 13px !important;
+        margin-bottom: 4px !important;
+    }
+    #verseNumber {
+        font-size: 10.5px !important;
+        margin-top: 4px !important;
+    }
+}
+
+/* تابليت */
+@media (min-width: 768px) and (max-width: 991px) {
+    #welcomeContent {
+        width: 95% !important;
+        max-width: 95% !important;
+    }
+    #quranVerse {
+        height: 370px;
+        padding: 14px 14px;
+    }
+    #arabicVerse {
+        font-size: 14.5px !important;
+        line-height: 1.9 !important;
+        max-width: 100% !important;
+    }
+    #englishVerse {
+        font-size: 12.5px !important;
+        line-height: 1.6 !important;
+    }
 }
 
 /* خطوط زخرفية خفيفة فوق وتحت */
@@ -3515,7 +3568,7 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
     </span>
 </p>
 
-<div id="quranVerse" style="margin: 20px 0;">
+<div id="quranVerse" style="margin: 20px 0; flex-shrink: 0;">
     <p class="basmala-line">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
     <p id="arabicVerse">إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ وَيُبَشِّرُ الْمُؤْمِنِينَ الَّذِينَ يَعْمَلُونَ الصَّالِحَاتِ أَنَّ لَهُمْ أَجْرًا كَبِيرًا</p>
     <p id="englishVerse">
@@ -11720,6 +11773,50 @@ function fadeElement(el, newHTML, callback) {
     }, 500);
 }
 
+/* ضبط حجم الخط تلقائياً حسب طول الآية على الموبايل والتابليت */
+function autoScaleVerseFont() {
+    const isMobile  = window.innerWidth <= 767;
+    const isTablet  = window.innerWidth >= 768 && window.innerWidth <= 991;
+    if (!isMobile && !isTablet) return;
+
+    const arabicEl = document.getElementById('arabicVerse');
+    const transEl  = document.getElementById('englishVerse');
+    const box      = document.getElementById('quranVerse');
+    if (!arabicEl || !box) return;
+
+    // حساب إجمالي طول النص العربي (عدد الحروف)
+    const arabicLen = (arabicEl.innerText || arabicEl.textContent || '').length;
+
+    let arSize, trSize, lhAr;
+
+    if (isMobile) {
+        // آية قصيرة ≤ 120 حرف
+        if (arabicLen <= 120) {
+            arSize = 15; trSize = 12.5; lhAr = 1.95;
+        // آية متوسطة 121-220
+        } else if (arabicLen <= 220) {
+            arSize = 13.5; trSize = 11.5; lhAr = 1.85;
+        // آية طويلة > 220
+        } else {
+            arSize = 12; trSize = 10.5; lhAr = 1.75;
+        }
+    } else { // tablet
+        if (arabicLen <= 120) {
+            arSize = 16; trSize = 13.5; lhAr = 2;
+        } else if (arabicLen <= 220) {
+            arSize = 14.5; trSize = 12.5; lhAr = 1.9;
+        } else {
+            arSize = 13; trSize = 11.5; lhAr = 1.8;
+        }
+    }
+
+    arabicEl.style.setProperty('font-size', arSize + 'px', 'important');
+    arabicEl.style.setProperty('line-height', lhAr, 'important');
+    if (transEl) {
+        transEl.style.setProperty('font-size', trSize + 'px', 'important');
+    }
+}
+
 function showVerseWithTranslation(verseIndex, transIndex) {
     const v = verses[verseIndex];
     const arabicEl  = document.getElementById('arabicVerse');
@@ -11738,6 +11835,9 @@ function showVerseWithTranslation(verseIndex, transIndex) {
         : '';
 
     fadeElement(transEl, langBadge + trans.join("<br>"));
+
+    // ضبط حجم الخط تلقائياً بعد تحميل النص
+    setTimeout(autoScaleVerseFont, 50);
 }
 
 function scheduleNextTranslation() {
@@ -11773,6 +11873,8 @@ function scheduleNextTranslation() {
 // Initial display
 showVerseWithTranslation(current, 0);
 scheduleNextTranslation();
+// ضبط الخط عند التحميل الأول
+setTimeout(autoScaleVerseFont, 100);
 
 </script>
 <body>
