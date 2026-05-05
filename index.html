@@ -22803,6 +22803,53 @@ function getContrastYIQ(hexcolor){
         }
         setPlayingUI(false);
     };
+
+    // ── قائمة مرتبة للتنقل بالأسهم في الراديو المنعزل ──────────
+    var _isoList  = [];
+    var _isoIndex = -1;
+
+    function buildIsoList() {
+        var isolatedAllowedCategories = [
+            'Quran', 'mojawwad', 'rewayat', 'Monshawiiyat', 'surah', 'teachers',
+            'reciters', 'Translation', 'tafsir', 'tajweed', 'Radio', 'mix', 'Foreign'
+        ];
+        var allButtons = Array.from(document.querySelectorAll('.button[data-category]'));
+        _isoList = allButtons
+            .filter(function(btn) {
+                if (!isRealRadioButton(btn)) return false;
+                var cat = btn.getAttribute('data-category');
+                if (cat === 'Radio' && btn.getAttribute('data-foreign') === 'true') return true;
+                return isolatedAllowedCategories.indexOf(cat) !== -1;
+            })
+            .map(function(btn) {
+                return { url: btn.getAttribute('data-url'), name: btn.getAttribute('data-station') || '' };
+            });
+    }
+
+    function playIsoAt(idx) {
+        if (_isoList.length === 0) buildIsoList();
+        if (_isoList.length === 0) return;
+        _isoIndex = ((idx % _isoList.length) + _isoList.length) % _isoList.length;
+        var st = _isoList[_isoIndex];
+        lastStationUrl = st.url;
+        currentStation = { stationUrl: st.url, stationName: st.name };
+        if (window.isolatedAudio) { window.isolatedAudio.pause(); window.isolatedAudio.src = ''; }
+        window.isolatedAudio = new Audio(st.url);
+        attachAudioEvents(window.isolatedAudio);
+        if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
+        window.isolatedAudio.play().catch(function() { setPlayingUI(false); });
+    }
+
+    window.isolatedNext = function() {
+        if (_isoList.length === 0) buildIsoList();
+        playIsoAt(_isoIndex + 1);
+    };
+
+    window.isolatedPrev = function() {
+        if (_isoList.length === 0) buildIsoList();
+        playIsoAt(_isoIndex - 1);
+    };
+
 })();
 
 // ══════════════════════════════════════════════════════════════
@@ -24783,6 +24830,72 @@ document.addEventListener("keydown", function(e) {
     if (!activeTasbih) return;
     if (e.key === ".") {
         incrementTasbihKeyboard(activeTasbih);
+    }
+});
+
+// ══════════════════════════════════════════════════════════════
+// تنقل بين المحطات والتحكم في الصوت بأسهم الكيبورد
+// ← → : المحطة السابقة / التالية   ↑ ↓ : رفع / خفض الصوت
+// يعمل مع الراديو الشغال حالياً (الترحيبي أو الرئيسي أو المنعزل)
+// ══════════════════════════════════════════════════════════════
+document.addEventListener("keydown", function(e) {
+    var activeEl = document.activeElement;
+    var tag = activeEl ? activeEl.tagName : '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (activeEl && activeEl.isContentEditable)) return;
+
+    var isArrow = (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown');
+    if (!isArrow) return;
+
+    // تحديد أيٍّ من الرواديو الثلاثة يشتغل حالياً
+    var wsScreen    = document.getElementById('welcomeScreen');
+    var wsVisible   = wsScreen && wsScreen.style.display !== 'none';
+    var capEl       = document.getElementById('customAudioPlayer');   // الراديو 1 (ترحيبي)
+    var mainAudioEl = document.getElementById('currentAudio');        // الراديو 2 (رئيسي)
+    var isoAudio    = window.isolatedAudio;                           // الراديو 3 (منعزل)
+
+    var welcomeActive  = wsVisible && capEl  && !capEl.paused;
+    var mainActive     = !wsVisible && mainAudioEl && !mainAudioEl.paused;
+    var isoActive      = isoAudio && !isoAudio.paused;
+
+    // ── الراديو الترحيبي ──────────────────────────────────────
+    if (welcomeActive) {
+        e.preventDefault();
+        if (e.key === 'ArrowLeft')  { if (typeof previousStation  === 'function') previousStation();  }
+        if (e.key === 'ArrowRight') { if (typeof nextStationFunc  === 'function') nextStationFunc();  }
+        if (e.key === 'ArrowUp'  )  { capEl.volume = Math.min(1, +(capEl.volume + 0.05).toFixed(2));
+                                      var vr = document.getElementById('customVolumeRange');
+                                      if (vr) vr.value = capEl.volume; }
+        if (e.key === 'ArrowDown')  { capEl.volume = Math.max(0, +(capEl.volume - 0.05).toFixed(2));
+                                      var vr2 = document.getElementById('customVolumeRange');
+                                      if (vr2) vr2.value = capEl.volume; }
+        return;
+    }
+
+    // ── الراديو المنعزل ───────────────────────────────────────
+    if (isoActive && !mainActive) {
+        e.preventDefault();
+        if (e.key === 'ArrowLeft')  { if (typeof window.isolatedPrev === 'function') window.isolatedPrev(); }
+        if (e.key === 'ArrowRight') { if (typeof window.isolatedNext === 'function') window.isolatedNext(); }
+        if (e.key === 'ArrowUp'  )  { if (isoAudio) { isoAudio.volume = Math.min(1, +(isoAudio.volume + 0.05).toFixed(2));
+                                      var cvs = document.getElementById('centralVolumeSlider');
+                                      if (cvs) cvs.value = isoAudio.volume; } }
+        if (e.key === 'ArrowDown')  { if (isoAudio) { isoAudio.volume = Math.max(0, +(isoAudio.volume - 0.05).toFixed(2));
+                                      var cvs2 = document.getElementById('centralVolumeSlider');
+                                      if (cvs2) cvs2.value = isoAudio.volume; } }
+        return;
+    }
+
+    // ── الراديو الرئيسي ───────────────────────────────────────
+    if (mainActive || (!welcomeActive && !isoActive && mainAudioEl)) {
+        e.preventDefault();
+        if (e.key === 'ArrowLeft')  { var pb = document.getElementById('prevButton');   if (pb) pb.click(); }
+        if (e.key === 'ArrowRight') { var nb = document.getElementById('nextButton');   if (nb) nb.click(); }
+        if (e.key === 'ArrowUp'  )  { if (mainAudioEl) { mainAudioEl.volume = Math.min(1, +(mainAudioEl.volume + 0.05).toFixed(2));
+                                      var pvs = document.getElementById('player-vol-slider');
+                                      if (pvs) { pvs.value = mainAudioEl.volume; pvs.dispatchEvent(new Event('input')); } } }
+        if (e.key === 'ArrowDown')  { if (mainAudioEl) { mainAudioEl.volume = Math.max(0, +(mainAudioEl.volume - 0.05).toFixed(2));
+                                      var pvs2 = document.getElementById('player-vol-slider');
+                                      if (pvs2) { pvs2.value = mainAudioEl.volume; pvs2.dispatchEvent(new Event('input')); } } }
     }
 });
 
