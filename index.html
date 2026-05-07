@@ -3646,6 +3646,9 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
 
 <script>
 
+// ── تعريف مبكر لـ mainAudio — متاح لكل الدوال قبل تعريفه التفصيلي لاحقاً ──
+var mainAudio = document.getElementById('currentAudio');
+
 // [Space keydown unified below — see main keyboard handler]
 
 function confirmReload() {
@@ -4053,11 +4056,11 @@ let sheikhSources = [];
 let sheikhIndex = 0;
 
 function playMainStation(station) {
-    let sources = [
-        station.url,
-        "https://qurango.net/radio/tarateel",
-        "https://backup.qurango.net/radio/mix"
-    ];
+    // الـ fallback يكون من المحطة نفسها إن وُجد، وإلا لا يوجد fallback خارجي مربك
+    let sources = [station.url];
+    if (Array.isArray(station.fallbacks) && station.fallbacks.length) {
+        sources = sources.concat(station.fallbacks);
+    }
 
     let index = 0;
     let mainErrorTimer   = null;
@@ -4088,29 +4091,37 @@ function playMainStation(station) {
         }
     }
 
-    customAudioPlayer.onerror = function() {
+    function onMainError() {
         clearTimeout(mainErrorTimer);
         mainErrorTimer = setTimeout(function() {
             if (customAudioPlayer.error || customAudioPlayer.networkState === 3) {
                 nextMainSource();
             }
         }, 15000);
-    };
+    }
 
-    customAudioPlayer.onstalled = function() {
+    function onMainStalled() {
         clearTimeout(mainStalledTimer);
         mainStalledTimer = setTimeout(function() {
             if (customAudioPlayer.paused || customAudioPlayer.readyState < 2) {
                 nextMainSource();
             }
         }, 20000);
-    };
+    }
 
-    customAudioPlayer.onplaying = function() {
+    function onMainPlaying() {
         clearTimeout(mainErrorTimer);
         clearTimeout(mainStalledTimer);
         mainSwitching = false;
-    };
+    }
+
+    // تنظيف المستمعين القديمين قبل الإضافة
+    customAudioPlayer.removeEventListener('error',   onMainError);
+    customAudioPlayer.removeEventListener('stalled', onMainStalled);
+    customAudioPlayer.removeEventListener('playing', onMainPlaying);
+    customAudioPlayer.addEventListener('error',   onMainError);
+    customAudioPlayer.addEventListener('stalled', onMainStalled);
+    customAudioPlayer.addEventListener('playing', onMainPlaying);
 
     index = 0;
     playMainSource(index);
@@ -4127,7 +4138,7 @@ function playStation(station) {
         currentStatus.textContent = station.name + " يعمل الآن";
         customAudioPlayer.play();
 
-        customAudioPlayer.onerror = () => {
+        function onSheikhError() {
             sheikhIndex++;
             if (sheikhIndex < sheikhSources.length) {
                 showToast("📢 تم التحويل للرابط الاحتياطي للشيخ");
@@ -4135,8 +4146,13 @@ function playStation(station) {
                 currentStatus.textContent = station.name + " يعمل الآن";
                 customAudioPlayer.play();
             }
-        };
-        customAudioPlayer.onstalled = customAudioPlayer.onerror;
+        }
+
+        // تنظيف المستمعين القديمين قبل الإضافة
+        customAudioPlayer.removeEventListener('error',   onSheikhError);
+        customAudioPlayer.removeEventListener('stalled', onSheikhError);
+        customAudioPlayer.addEventListener('error',   onSheikhError);
+        customAudioPlayer.addEventListener('stalled', onSheikhError);
 
     } else if (station.url) {
 
@@ -4160,7 +4176,6 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
 
-    var customAudioPlayer = document.getElementById('customAudioPlayer');
     customAudioPlayer.src = stationUrl;
     customAudioPlayer.play();
     updateStatus("تشغيل: " + stationName);
@@ -11851,49 +11866,49 @@ const quranRadioStationsExtra = [
     "station": "قرآن راديو 24*7",
     "ar": "قرآن راديو 24*7",
     "en": "Radio Quran 24x7",
-    "url": "https://stream-153.zeno.fm/dok66ovac9guv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJkb2s2Nm92YWM5Z3V2IiwiaG9zdCI6InN0cmVhbS0xNTMuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjNkNGd0RlJEUkhldEIweXh2UFNVOXciLCJpYXQiOjE3MzM1Njk0NTYsImV4cCI6MTczMzU2OTUxNn0.TGt02h0_q5tSXxHrsPEURQSUsSlNBChgpE1VUEONTxA&adtonosListenerId=01J7TEXP8F1KV3XNTPW18X403D"
+    "url": "https://stream-153.zeno.fm/dok66ovac9guv"
   },
   {
     "category": "Quran",
     "station": "إذاعة القرآن FM",
     "ar": "إذاعة القرآن FM",
     "en": "Quran FM",
-    "url": "https://stream-175.zeno.fm/pn1b9y56h0hvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJwbjFiOXk1NmgwaHZ2IiwiaG9zdCI6InN0cmVhbS0xNzUuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InpOOUQ2V3BkU2ZXYWJfZkdFZ3ZsQkEiLCJpYXQiOjE3MzM1Njk2ODEsImV4cCI6MTczMzU2OTc0MX0.q7p-G2DAVFrrByg0bkdxb8gzIYoe1Lskm6awgOBtARM&adtonosListenerId=01J7TEXP8F1KV3XNTPW18X403D"
+    "url": "https://stream-175.zeno.fm/pn1b9y56h0hvv"
   },
   {
     "category": "Quran",
     "station": "حديقة القرآن",
     "ar": "حديقة القرآن",
     "en": "Quran Garden",
-    "url": "https://stream-153.zeno.fm/bcezpz655p8uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJiY2V6cHo2NTVwOHV2IiwiaG9zdCI6InN0cmVhbS0xNTMuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImVFOXU3VVNLVFJXNHVpNElpOVFVbkEiLCJpYXQiOjE3MzM1NzA0MDMsImV4cCI6MTczMzU3MDQ2M30.XHruEhJSfVhYesqb6nTpxjF2gQbzffHzDRcVyL1RBsw&adtonosListenerId=01J7TEXP8F1KV3XNTPW18X403D"
+    "url": "https://stream-153.zeno.fm/bcezpz655p8uv"
   },
   {
     "category": "Quran",
     "station": "القرآن الكريم",
     "ar": "القرآن الكريم",
     "en": "AL Quran AL Kareem",
-    "url": "https://stream-176.zeno.fm/f5ve851shm8uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJmNXZlODUxc2htOHV2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjR2dF9MWGRnVDUtWV9XZV9kMEpDRHciLCJpYXQiOjE3MzM1NzA1MzksImV4cCI6MTczMzU3MDU5OX0.B-S9qZfWX5ptuOoa66eWs-qlrUo1uFyMYTqri5wsH2o&adtonosListenerId=01J7TEXP8F1KV3XNTPW18X403D"
+    "url": "https://stream-176.zeno.fm/f5ve851shm8uv"
   },
   {
     "category": "Quran",
     "station": "راديو بلال القرآن",
     "ar": "راديو بلال القرآن",
     "en": "Radio Bilal Quran",
-    "url": "https://stream-172.zeno.fm/a488q3w4za0uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJhNDg4cTN3NHphMHV2IiwiaG9zdCI6InN0cmVhbS0xNzIuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjhNRFNfdmQ0U19xb0RBVFVmb0xlV0EiLCJpYXQiOjE3MzM1Njk5OTQsImV4cCI6MTczMzU3MDA1NH0.TLkmBXeYrS2tIA7_qbidINgsaXJYGIBvD-TKCLLSCt8&adtonosListenerId=01J7TEXP8F1KV3XNTPW18X403D"
+    "url": "https://stream-172.zeno.fm/a488q3w4za0uv"
   },
   {
     "category": "Quran",
     "station": "شروق القرآن الكريم",
     "ar": "شروق القرآن الكريم",
     "en": "Shurooq Quran Kareem",
-    "url": "https://stream-164.zeno.fm/7qksfg8x6bhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI3cWtzZmc4eDZiaHZ2IiwiaG9zdCI6InN0cmVhbS0xNjQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IlhBMFpjTXBwU3JHR1otNU1sVG95VlEiLCJpYXQiOjE3MzM1NzAyODUsImV4cCI6MTczMzU3MDM0NX0.3EPuX1gAIQZGwnrrSdXwL0VBCx4epVL2i93A9D3iQvw&adtonosListenerId=01J7TEXP8F1KV3XNTPW18X403D"
+    "url": "https://stream-164.zeno.fm/7qksfg8x6bhvv"
   },
   {
     "category": "Quran",
     "station": "زهراء الرحمن للقرآن الكريم",
     "ar": "زهراء الرحمن للقرآن الكريم",
     "en": "Zahrt Elrahmen For the Holy Quran",
-    "url": "https://stream-176.zeno.fm/5nmws512ag0uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI1bm13czUxMmFnMHV2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkZ1UUJxUFUtUXppem15V1BveWQ5bXciLCJpYXQiOjE3MzM1NzAxNTQsImV4cCI6MTczMzU3MDIxNH0.WHevg6Bun0M6fStbBnejocxxIfjC-c3mt1ANcj72mX8&adtonosListenerId=01J7TEXP8F1KV3XNTPW18X403D"
+    "url": "https://stream-176.zeno.fm/5nmws512ag0uv"
   },
   {
     "category": "Quran",
@@ -14088,7 +14103,7 @@ hasFlag: false,
 const recitersStations = [
   {"category": "reciters", "station": "راديو الشيخ عبدالباسط عبد الصمد", "ar": "راديو الشيخ عبدالباسط عبد الصمد", "en": "Sheikh Abdulbasit Abdulsamad Radio", "basit": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/abdulbasit_abdulsamad"},
   {"category": "reciters", "station": "الشيخ عبدالباسط عبد الصمد 2", "ar": "الشيخ عبدالباسط عبد الصمد 2", "en": "Sheikh Abdulbasit Abdulsamad 2", "basit": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8004/;*.mp3"},
-  {"category": "reciters", "station": "الشيخ عبدالباسط عبد الصمد 3", "ar": "الشيخ عبدالباسط عبد الصمد 3", "en": "Sheikh Abdul Basit Abdul Samad 3", "basit": true, "reciterType": "radio", "url": "https://stream-173.zeno.fm/5rmezvh3r98uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI1cm1lenZoM3I5OHV2IiwiaG9zdCI6InN0cmVhbS0xNzMuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InRmR3MzZWdpVFhtS2MzSXBHdjJVTmciLCJpYXQiOjE3MzM1NzA2NDEsImV4cCI6MTczMzU3MDcwMX0.Gs-mtWjlm6aDeXn80uUsrvVj6zEXJy3kgnmp8C0DPAY&adtonosListenerId=01J7TEXP8F1KV3XNTPW18X403D"},
+  {"category": "reciters", "station": "الشيخ عبدالباسط عبد الصمد 3", "ar": "الشيخ عبدالباسط عبد الصمد 3", "en": "Sheikh Abdul Basit Abdul Samad 3", "basit": true, "reciterType": "radio", "url": "https://stream-173.zeno.fm/5rmezvh3r98uv"},
   {"category": "mojawwad", "station": "راديو الشيخ عبدالباسط عبد الصمد (مجود)", "ar": "راديو الشيخ عبدالباسط عبد الصمد (مجود)", "en": "Sheikh Abdulbasit Abdulsamad Radio (Mujawwad)", "basit": true, "reciterType": "radio", "url": "https://backup.qurango.net/radio/abdulbasit_abdulsamad_mojawwad"},
   {"category": "reciters", "station": "راديو الشيخ محمد صديق المنشاوي", "ar": "راديو الشيخ محمد صديق المنشاوي", "en": "Sheikh Muhammad Siddiq Al-Minshawi Radio", "minshawi": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/mohammed_siddiq_alminshawi"},
   {"category": "reciters", "station": "الشيخ محمد صديق المنشاوي 2", "ar": "الشيخ محمد صديق المنشاوي 2", "en": "Sheikh Muhammad Siddiq Al-Minshawi Radio 2", "minshawi": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8074/;*.mp3"},
@@ -14098,7 +14113,7 @@ const recitersStations = [
   {"category": "reciters", "station": "راديو الشيخ محمود خليل الحصري", "ar": "راديو الشيخ محمود خليل الحصري", "en": "Sheikh Mahmoud Khalil Al-Hussary Radio", "hussary": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary"},
   {"category": "reciters", "station": "الشيخ محمود خليل الحصري 2", "ar": "الشيخ محمود خليل الحصري 2", "en": "Sheikh Mahmoud Khalil Al-Hussary 2", "hussary": true, "reciterType": "radio", "url": "https://qurango.net/radio/mahmoud_khalil_alhussary"},
   {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 3", "ar": "الشيخ محمود خليل الحصرى 3", "en": "Sheikh Mahmoud Khalil Al-Hussary 3", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8018/;*.mp3"},
-  {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 4", "ar": "الشيخ محمود خليل الحصرى 4", "en": "Sheikh Mahmoud Khalil Al-Hussary 4", "hussary": true, "reciterType": "radio", "url": "https://stream-172.zeno.fm/vsfa9n4g698uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2c2ZhOW40ZzY5OHV2IiwiaG9zdCI6InN0cmVhbS0xNzIuemVuby5mbSIsInJ0dGwiOjUsImp0dCI6IkxKejRmaVVvUXBPbm9fUm5QMzZ5MVEiLCJpYXQiOjE3MzAyMzI3MjQsImV4cCI6MTczMDIzMjc4NH0.cJByZB7HMEoqXfzziZmDfPn4Hq7S2OSo3KNINpB05WM&adtonosListenerId=01J8G52MQ581A1WF3GDE33B09A"},
+  {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 4", "ar": "الشيخ محمود خليل الحصرى 4", "en": "Sheikh Mahmoud Khalil Al-Hussary 4", "hussary": true, "reciterType": "radio", "url": "https://stream-172.zeno.fm/vsfa9n4g698uv"},
   {"category": "mojawwad", "station": "الشيخ محمود خليل الحصري (مجود)", "ar": "الشيخ محمود خليل الحصري (مجود)", "en": "Sheikh Mahmoud Khalil Al-Hussary (Mujawwad)", "hussary": true, "reciterType": "radio", "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary_mojawwad"},
   {"category": "teachers", "station": "المصحف المعلم الشيخ الحصري بالإنجليزية", "ar": "المصحف المعلم الشيخ الحصري بالإنجليزية", "en": "Sheikh Al-Hussary Teaching Quran in English", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8092/;*.mp3"},
   {"category": "teachers", "station": "المصحف المعلم الشيخ الحصري بالفرنسية", "ar": "المصحف المعلم الشيخ الحصري بالفرنسية", "en": "Sheikh Al-Husari Teaching Quran in French", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8094/;*.mp3"},
@@ -14126,7 +14141,7 @@ const recitersStations = [
   {"category": "reciters", "station": "الشيخ محمد جبريل", "ar": "الشيخ محمد جبريل", "en": "Sheikh Mohammed Jibreel", "rising": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/mohammed_jibreel"},
   {"category": "reciters", "station": "الشيخ محمد عبادة", "ar": "الشيخ محمد عبادة", "en": "Sheikh Muhammad Abadah", "rising": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://stream.zeno.fm/wawdmw6pjuzvv"},
   {"category": "reciters", "station": "الشيخ إسلام صبحى", "ar": "الشيخ إسلام صبحى", "en": "Sheikh Islam Sobhi", "rising": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://stream.zeno.fm/zorvpgdqfzbuv/"},
-  {"category": "reciters", "station": "الشيخ إسلام صبحى 2", "ar": "الشيخ إسلام صبحى 2", "en": "Sheikh Islam Sobhi 2", "rising": true, "reciterType": "radio", "url": "https://stream-175.zeno.fm/9jbilrphr3dvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI5amJpbHJwaHIzZHZ2IiwiaG9zdCI6InN0cmVhbS0xNzUuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkJxQ1RWUUtMU09PNWNIejNnRURNdnciLCJpYXQiOjE3Mjg2NjY1NDQsImV4cCI6MTcyODY2NjYwNH0.Wlb6-0rV5h4ombpbwhQt8JPd49MRf_9gKEO-vsdZzZQ&adtonosListenerId=01J8G52MQ581A1WF3GDE33B09A"},
+  {"category": "reciters", "station": "الشيخ إسلام صبحى 2", "ar": "الشيخ إسلام صبحى 2", "en": "Sheikh Islam Sobhi 2", "rising": true, "reciterType": "radio", "url": "https://stream-175.zeno.fm/9jbilrphr3dvv"},
   {"category": "reciters", "station": "راديو الشيخ علي عبدالله جابر", "ar": "راديو الشيخ علي عبدالله جابر", "en": "Sheikh Ali Abdullah Jaber Radio", "haramain": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/ali_jaber"},
   {"category": "reciters", "station": "الشيخ علي عبد الله جابر", "ar": "الشيخ علي عبد الله جابر", "en": "Sheikh Ali Abdullah Jaber", "haramain": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8150/;*.mp3"},
   {"category": "reciters", "station": "الشيخ على الحذيفى", "ar": "الشيخ على الحذيفى", "en": "Sheikh Ali Al-Hudhaifi", "haramain": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/ali_alhuthaifi"},
@@ -14167,7 +14182,7 @@ const recitersStations = [
   {"category": "reciters", "station": "الشيخ أبو بكر الشاطري", "ar": "الشيخ أبو بكر الشاطري", "en": "Sheikh Abu Bakr Al-Shatri", "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/shaik_abu_bakr_al_shatri"},
   {"category": "reciters", "station": "الشيخ وديع اليمني", "ar": "الشيخ وديع اليمني", "en": "Sheikh Wadie Al-Yemeni", "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://server03.quran-uni.com:7133/;*.mp3"},
   {"category": "reciters", "station": "الشيخ فارس عباد", "ar": "الشيخ فارس عباد", "en": "Sheikh Fares Abbad", "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/fares_abbad"},
-  {"category": "reciters", "station": "الشيخ أحمد النفيس", "ar": "الشيخ أحمد النفيس", "en": "Sheikh Ahmed Al-Nafis", "rising": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://stream-175.zeno.fm/5erutxnt9gptv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiI1ZXJ1dHhudDlncHR2IiwiaG9zdCI6InN0cmVhbS0xNzUuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkZFV3RfZjJRVHBXTnN5M3FMNWtuQ0EiLCJpYXQiOjE3MzMzMDEyNDUsImV4cCI6MTczMzMwMTMwNX0.IApTzceIjJMhss12DBDboPuPhnpfrmQbGEQKGPqah28&adtonosListenerId=01J7TEXP8F1KV3XNTPW18X403D"},
+  {"category": "reciters", "station": "الشيخ أحمد النفيس", "ar": "الشيخ أحمد النفيس", "en": "Sheikh Ahmed Al-Nafis", "rising": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://stream-175.zeno.fm/5erutxnt9gptv"},
   {"category": "reciters", "station": "الشيخ شايع التميمي", "ar": "الشيخ شايع التميمي", "en": "Sheikh Shaya Al-Tamimi", "rising": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8264/;*.mp3"},
   {"category": "reciters", "station": "الشيخ فهد الكندري", "ar": "الشيخ فهد الكندري", "en": "Sheikh Fahad Al-Kandari", "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8240/;*.mp3"},
   {"category": "reciters", "station": "الشيخ جزاع الصويلح", "ar": "الشيخ جزاع الصويلح", "en": "Sheikh Jaza’a Al-Suwailh", "rising": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8228/;*.mp3"},
@@ -19202,7 +19217,7 @@ const scholarsStations = [
     "station": "راديو الشيخ ابو اسحاق الحوينى",
     "ar": "راديو الشيخ ابو اسحاق الحوينى",
     "en": "Sheikh Abu Ishaq Al-Huwaini Radio",
-    "url": "https://stream-176.zeno.fm/c2uvmrknmolvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJjMnV2bXJrbm1vbHZ2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImhIbktpN0V2VGcydG5DdTFRQlJlTnciLCJpYXQiOjE3Mjg4NTUxNTMsImV4cCI6MTcyODg1NTIxM30.U_YqrufPqKSwcxqnB7lQC2Y4l3PaVYPPBRdONxNUOmQ"
+    "url": "https://stream-176.zeno.fm/c2uvmrknmolvv"
   },
   {
     "category": "scholars",
@@ -19334,7 +19349,7 @@ const tafsirStations = [
     "station": "راديو تفسير القران الكريم (السعدى)",
     "ar": "(السعدى) راديو تفسير القران الكريم",
     "en": "Tafsir Radio (Al-Saadi)",
-    "url": "https://stream-154.zeno.fm/0ermkt2htg8uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIwZXJta3QyaHRnOHV2IiwiaG9zdCI6InN0cmVhbS0xNTQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkdXX2R3djE0U01XS2lGMTE3UWJzRHciLCJpYXQiOjE3MzM1NjkwOTAsImV4cCI6MTczMzU2OTE1MH0.d_yNS1F89lu1FLuZBea7G7T5Vu-yZ6CBguTQmmF-kGk"
+    "url": "https://stream-154.zeno.fm/0ermkt2htg8uv"
   },
   {
     "category": "tafsir",
@@ -19362,7 +19377,7 @@ const tafsirStations = [
     "station": "آيات القرآن الكريم (النابلسى)",
     "ar": "(النابلسى) آيات القرآن الكريم",
     "en": "Verses of the Quran (Al-Nabulsi)",
-    "url": "https://stream-155.zeno.fm/vf2hfg10d48uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2ZjJoZmcxMGQ0OHV2IiwiaG9zdCI6InN0cmVhbS0xNTUuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InRyWHFyZldJU0phb2xSMEpEMUVGb1EiLCJpYXQiOjE3MzM1NjkxMzMsImV4cCI6MTczMzU2OTE5M30.IS8ZYtQuidS_xpxZb-5M6gV3yggKlEuTVFXZGnd285s&adtonosListenerId=01J7TEXP8F1KV3XNTPW18X403D"
+    "url": "https://stream-155.zeno.fm/vf2hfg10d48uv"
   },
   {
     "category": "tafsir",
@@ -20482,7 +20497,8 @@ const moreTranslations = [
 
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let showingFavorites = false;
-let mainAudio = document.getElementById('currentAudio');
+// mainAudio معرَّف مسبقاً في أعلى الصفحة — نتأكد فقط من المرجع
+mainAudio = mainAudio || document.getElementById('currentAudio');
 let statusDiv = document.getElementById('status');
 let currentButtonIndex = 0;
 let buttons = [];
@@ -20501,15 +20517,18 @@ function initializeRadio() {
 
 }
 
-function playNewAudio(source, stationName) {
+function playNewAudio(source, stationName, stationNameEn, _fromUser) {
     const _ws = document.getElementById('welcomeScreen');
     const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
-    if (welcomeOpen && !window._userInitiatedPlay) return;
+    // نمنع التشغيل التلقائي للراديو الرئيسي فقط لو شاشة الترحيب مفتوحة
+    // ولم يكن الاستدعاء صادراً عن فعل مباشر من المستخدم
+    if (welcomeOpen && !_fromUser) return;
 
     var savedOnEnded = mainAudio.onended;
 
     currentSource = source;
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
+    window._mainPlayAllowed = true;   // نأذن للـ play event بالمرور
     mainAudio.src = source;
     mainAudio.play();
 
@@ -20527,7 +20546,7 @@ function playNewAudio(source, stationName) {
         pnbNameEl.dataset.enName = stationNameEn || stationName;
     }
 
-    mainAudio.onerror = function() {
+    function onMainAudioError() {
         updateStatus("⏳ جارٍ إعادة الاتصال بالمحطة، يُرجى الانتظار...", "⏳ Reconnecting, please wait...");
 
         var pnbNameEl2 = document.getElementById('pnb-name');
@@ -20538,7 +20557,12 @@ function playNewAudio(source, stationName) {
         retryTimeout = setTimeout(function() {
             playNewAudio(currentSource, stationName, stationNameEn);
         }, retryInterval);
-    };
+    }
+
+    // تنظيف المستمع القديم قبل الإضافة لتفادي التراكم
+    mainAudio.removeEventListener('error', mainAudio._onErrorHandler || function(){});
+    mainAudio._onErrorHandler = onMainAudioError;
+    mainAudio.addEventListener('error', onMainAudioError);
 
     updateButtonColor();
 }
@@ -20988,7 +21012,6 @@ function updateButtonIndices() {
 buttons.forEach((button, index) => {
   button.addEventListener('click', () => {
     currentButtonIndex = index;
-    window._userInitiatedPlay = true;
     var arName = button.getAttribute('data-ar') || button.querySelector('.station-text') ?
                  (button.querySelector('.station-text') ? button.querySelector('.station-text').getAttribute('data-ar') || button.querySelector('.station-text').textContent : button.getAttribute('data-ar')) :
                  button.textContent.trim();
@@ -20999,7 +21022,7 @@ buttons.forEach((button, index) => {
       nameEl2.dataset.arName = arName;
       nameEl2.dataset.enName = enName;
     }
-    playNewAudio(button.getAttribute('data-source'), button.textContent);
+    playNewAudio(button.getAttribute('data-source'), button.textContent, null, true);
     updateButtonColor();
   });
 });
@@ -21538,8 +21561,6 @@ function getContrastYIQ(hexcolor){
 
     window.doToggleIsolated = function() {
 
-        window._userInitiatedPlay = false;
-
         const actuallyPlaying = window.isolatedAudio
                                 && !window.isolatedAudio.paused
                                 && !window.isolatedAudio.ended;
@@ -21575,7 +21596,6 @@ function getContrastYIQ(hexcolor){
 
         isolatedPlayPauseButton.addEventListener('click', function(e) {
             e.stopPropagation();
-            window._userInitiatedPlay = true;
             window.doToggleIsolated();
         });
     }
@@ -21967,8 +21987,7 @@ showButtonTemporarily();
 
     if (stationUrl) {
 
-        window._userInitiatedPlay = true;
-        playNewAudio(stationUrl, stationDescription, stationDescriptionEn);
+        playNewAudio(stationUrl, stationDescription, stationDescriptionEn, true);
     } else {
         console.warn('لا يوجد رابط للتشغيل لهذا الزر');
         return;
@@ -22496,22 +22515,33 @@ function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'r
                 welcomeScreenEl.style.display !== 'none' &&
                 welcomeScreenEl.style.display !== '';
 
-            if (welcomeOpen && !window._userInitiatedPlay) {
+            // نمنع التشغيل التلقائي فقط لو الشاشة مفتوحة وما فيش src جديد ضُبط عن قصد
+            // window._mainPlayAllowed تُرفع بواسطة playNewAudio عند كل استدعاء مقصود
+            if (welcomeOpen && !window._mainPlayAllowed) {
                 currentAudioEl.pause();
                 return;
             }
-            window._userInitiatedPlay = false;
+            window._mainPlayAllowed = false;
             stopAllOtherAudios('main');
             activeAudio = currentAudioEl;
             currentAudioEl.volume = 1;
         });
     }
 
+
+
+    // ── منطق موحّد للصوت — syncAllVolume هي المرجع الوحيد ──────────────────
     const centralVolumeSlider = document.getElementById('centralVolumeSlider');
 
-    function applyVolumeToAll(val) {
-        const v = parseFloat(val);
+    /**
+     * syncAllVolume(val)
+     * تطبّق قيمة الصوت على كل العناصر الثلاثة وتزامن السلايدرز الثلاثة.
+     * استدعِها من أي مكان بدل تكرار نفس المنطق.
+     */
+    window.syncAllVolume = function(val) {
+        const v = Math.min(1, Math.max(0, parseFloat(val)));
 
+        // ── تطبيق على العناصر الصوتية ──
         const welcomeAudio = document.getElementById('customAudioPlayer');
         if (welcomeAudio) welcomeAudio.volume = v;
 
@@ -22520,28 +22550,39 @@ function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'r
 
         if (window.isolatedAudio) window.isolatedAudio.volume = v;
 
+        // ── تزامن السلايدرز الثلاثة ──
         const welcomeRange = document.getElementById('customVolumeRange');
         if (welcomeRange) welcomeRange.value = v;
-    }
+
+        if (centralVolumeSlider) {
+            centralVolumeSlider.value = v;
+            const pct = Math.round(v * 100);
+            centralVolumeSlider.style.background =
+                `linear-gradient(to right, #007a3d ${pct}%, rgba(255,255,255,0.4) ${pct}%)`;
+        }
+
+        const playerVolSlider = document.getElementById('player-vol-slider');
+        if (playerVolSlider) {
+            playerVolSlider.value = v;
+            playerVolSlider.dispatchEvent(new Event('input'));
+        }
+    };
+
+    // applyCurrentVolume — alias متوافق مع الاستدعاءات القديمة
+    window.applyCurrentVolume = function(audio) {
+        if (audio && centralVolumeSlider) {
+            audio.volume = parseFloat(centralVolumeSlider.value);
+        }
+    };
 
     if (centralVolumeSlider) {
-
         centralVolumeSlider.addEventListener('input', function() {
-            applyVolumeToAll(this.value);
-
-            const pct = Math.round(this.value * 100);
-            this.style.background =
-                `linear-gradient(to right, #007a3d ${pct}%, rgba(255,255,255,0.4) ${pct}%)`;
+            window.syncAllVolume(this.value);
         });
-
-        window.applyCurrentVolume = function(audio) {
-            if (audio && centralVolumeSlider) {
-                audio.volume = parseFloat(centralVolumeSlider.value);
-            }
-        };
-
-        centralVolumeSlider.dispatchEvent(new Event('input'));
+        // تطبيق القيمة الافتراضية عند التهيئة
+        window.syncAllVolume(centralVolumeSlider.value);
     }
+    // ── نهاية منطق الصوت الموحّد ─────────────────────────────────────────
 
       function handleClickWithCounter(event, btn, videoId, title) {
 
@@ -23646,7 +23687,7 @@ document.addEventListener("keydown", function(e) {
     var tag = activeEl ? activeEl.tagName : '';
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (activeEl && activeEl.isContentEditable)) return;
 
-    var isArrow = (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown');
+    var isArrow = (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === '+' || e.key === '-');
     if (!isArrow) return;
 
     // تحديد أيٍّ من الرواديو الثلاثة يشتغل حالياً
@@ -23665,12 +23706,10 @@ document.addEventListener("keydown", function(e) {
         e.preventDefault();
         if (e.key === 'ArrowLeft')  { if (typeof previousStation  === 'function') previousStation();  }
         if (e.key === 'ArrowRight') { if (typeof nextStationFunc  === 'function') nextStationFunc();  }
-        if (e.key === 'ArrowUp'  )  { capEl.volume = Math.min(1, +(capEl.volume + 0.05).toFixed(2));
-                                      var vr = document.getElementById('customVolumeRange');
-                                      if (vr) vr.value = capEl.volume; }
-        if (e.key === 'ArrowDown')  { capEl.volume = Math.max(0, +(capEl.volume - 0.05).toFixed(2));
-                                      var vr2 = document.getElementById('customVolumeRange');
-                                      if (vr2) vr2.value = capEl.volume; }
+        if (e.key === '+'        )  { capEl.volume = Math.min(1, +(capEl.volume + 0.05).toFixed(2));
+                                      if (window.syncAllVolume) window.syncAllVolume(capEl.volume); }
+        if (e.key === '-'        )  { capEl.volume = Math.max(0, +(capEl.volume - 0.05).toFixed(2));
+                                      if (window.syncAllVolume) window.syncAllVolume(capEl.volume); }
         return;
     }
 
@@ -23679,12 +23718,10 @@ document.addEventListener("keydown", function(e) {
         e.preventDefault();
         if (e.key === 'ArrowLeft')  { if (typeof window.isolatedPrev === 'function') window.isolatedPrev(); }
         if (e.key === 'ArrowRight') { if (typeof window.isolatedNext === 'function') window.isolatedNext(); }
-        if (e.key === 'ArrowUp'  )  { if (isoAudio) { isoAudio.volume = Math.min(1, +(isoAudio.volume + 0.05).toFixed(2));
-                                      var cvs = document.getElementById('centralVolumeSlider');
-                                      if (cvs) cvs.value = isoAudio.volume; } }
-        if (e.key === 'ArrowDown')  { if (isoAudio) { isoAudio.volume = Math.max(0, +(isoAudio.volume - 0.05).toFixed(2));
-                                      var cvs2 = document.getElementById('centralVolumeSlider');
-                                      if (cvs2) cvs2.value = isoAudio.volume; } }
+        if (e.key === '+'        )  { if (isoAudio) { isoAudio.volume = Math.min(1, +(isoAudio.volume + 0.05).toFixed(2));
+                                      if (window.syncAllVolume) window.syncAllVolume(isoAudio.volume); } }
+        if (e.key === '-'        )  { if (isoAudio) { isoAudio.volume = Math.max(0, +(isoAudio.volume - 0.05).toFixed(2));
+                                      if (window.syncAllVolume) window.syncAllVolume(isoAudio.volume); } }
         return;
     }
 
@@ -23693,12 +23730,10 @@ document.addEventListener("keydown", function(e) {
         e.preventDefault();
         if (e.key === 'ArrowLeft')  { var pb = document.getElementById('prevButton');   if (pb) pb.click(); }
         if (e.key === 'ArrowRight') { var nb = document.getElementById('nextButton');   if (nb) nb.click(); }
-        if (e.key === 'ArrowUp'  )  { if (mainAudioEl) { mainAudioEl.volume = Math.min(1, +(mainAudioEl.volume + 0.05).toFixed(2));
-                                      var pvs = document.getElementById('player-vol-slider');
-                                      if (pvs) { pvs.value = mainAudioEl.volume; pvs.dispatchEvent(new Event('input')); } } }
-        if (e.key === 'ArrowDown')  { if (mainAudioEl) { mainAudioEl.volume = Math.max(0, +(mainAudioEl.volume - 0.05).toFixed(2));
-                                      var pvs2 = document.getElementById('player-vol-slider');
-                                      if (pvs2) { pvs2.value = mainAudioEl.volume; pvs2.dispatchEvent(new Event('input')); } } }
+        if (e.key === '+'        )  { if (mainAudioEl) { mainAudioEl.volume = Math.min(1, +(mainAudioEl.volume + 0.05).toFixed(2));
+                                      if (window.syncAllVolume) window.syncAllVolume(mainAudioEl.volume); } }
+        if (e.key === '-'        )  { if (mainAudioEl) { mainAudioEl.volume = Math.max(0, +(mainAudioEl.volume - 0.05).toFixed(2));
+                                      if (window.syncAllVolume) window.syncAllVolume(mainAudioEl.volume); } }
     }
 });
 
@@ -23709,7 +23744,6 @@ document.addEventListener("keydown", function(e) {
     if (e.key === 'k' || e.key === 'K' || e.key === 'ن') {
         e.preventDefault();
         if (typeof window.doToggleIsolated === 'function') {
-            window._userInitiatedPlay = true;
             window.doToggleIsolated();
         }
     }
@@ -23730,9 +23764,9 @@ document.addEventListener("keydown", function(e) {
                     const last = JSON.parse(lastRaw);
                     if (last && last.url) {
                         if (typeof playNewAudio === 'function') {
-                            window._userInitiatedPlay = true;
-                            playNewAudio(last.url, last.name || '');
+                            playNewAudio(last.url, last.name || '', null, true);
                         } else {
+                            window._mainPlayAllowed = true;
                             mainAudioEl.src = last.url;
                             mainAudioEl.play().catch(function(){});
                         }
@@ -23740,7 +23774,7 @@ document.addEventListener("keydown", function(e) {
                 } catch(ex) {}
             } else {
 
-                window._userInitiatedPlay = true;
+                window._mainPlayAllowed = true;
                 mainAudioEl.play().catch(function(){});
             }
         }
