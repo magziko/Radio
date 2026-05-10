@@ -1880,15 +1880,183 @@ body.dark-mode #welcome-top-bar #welcomeLangToggle {
 }
 
  .favorite-icon {
-    font-size: 16px;
-    color: gray;
+    font-size: 18px;
+    color: #bbb !important;
     cursor: pointer;
     margin-left: 1px;
     float: right;
+    transition: color 0.2s, transform 0.15s, text-shadow 0.2s;
+    text-shadow: none;
+  }
+  .favorite-icon:hover {
+    transform: scale(1.3);
   }
   .favorite-icon.favorited {
-    color: red;
+    color: #e53935 !important;
+    text-shadow: 0 0 7px rgba(229,57,53,0.45);
   }
+  body.dark-mode .favorite-icon {
+    color: #888 !important;
+  }
+  body.dark-mode .favorite-icon.favorited {
+    color: #ff5252 !important;
+    text-shadow: 0 0 8px rgba(255,82,82,0.70);
+  }
+
+/* ══ Favorites Manager Modal ══ */
+#favManagerOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+#favManagerOverlay.open {
+  display: flex;
+}
+#favManagerBox {
+  background: #fff;
+  border-radius: 18px;
+  width: 92%;
+  max-width: 460px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+  overflow: hidden;
+  animation: slideDown 0.25s ease;
+  font-family: 'Cairo', Arial, sans-serif;
+}
+body.dark-mode #favManagerBox {
+  background: #1e1e2e;
+  color: #e0e0e0;
+}
+#favManagerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  gap: 8px;
+}
+body.dark-mode #favManagerHeader {
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+#favManagerTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #e53935;
+  flex: 1;
+  text-align: center;
+}
+body.dark-mode #favManagerTitle { color: #ff6b6b; }
+
+#favManagerClose {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #999;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+#favManagerClose:hover { color: #e53935; }
+#favManagerList {
+  overflow-y: auto;
+  flex: 1;
+  padding: 8px 12px;
+}
+.fav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+.fav-item:last-child { border-bottom: none; }
+.fav-item:hover { background: rgba(229,57,53,0.05); }
+body.dark-mode .fav-item { border-bottom-color: rgba(255,255,255,0.06); }
+body.dark-mode .fav-item:hover { background: rgba(255,107,107,0.08); }
+.fav-item-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: right;
+  direction: rtl;
+}
+body.dark-mode .fav-item-name { color: #e0e0e0; }
+.fav-item-del {
+  background: none;
+  border: 1.5px solid rgba(229,57,53,0.4);
+  color: #e53935;
+  border-radius: 8px;
+  font-size: 13px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  white-space: nowrap;
+  font-family: 'Cairo', Arial, sans-serif;
+}
+.fav-item-del:hover {
+  background: #e53935;
+  color: #fff;
+}
+body.dark-mode .fav-item-del {
+  border-color: rgba(255,107,107,0.45);
+  color: #ff6b6b;
+}
+body.dark-mode .fav-item-del:hover {
+  background: #c62828;
+  color: #fff;
+}
+#favManagerFooter {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+body.dark-mode #favManagerFooter { border-top-color: rgba(255,255,255,0.08); }
+#favManagerDelAll {
+  background: linear-gradient(135deg, #e53935, #b71c1c);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 22px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Cairo', Arial, sans-serif;
+  transition: opacity 0.18s, transform 0.15s;
+}
+#favManagerDelAll:hover { opacity: 0.88; transform: scale(1.03); }
+#favManagerCancel {
+  background: none;
+  border: 1.5px solid #ccc;
+  color: #666;
+  border-radius: 10px;
+  padding: 9px 18px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: 'Cairo', Arial, sans-serif;
+  transition: background 0.18s;
+}
+#favManagerCancel:hover { background: rgba(0,0,0,0.05); }
+body.dark-mode #favManagerCancel { border-color: #555; color: #aaa; }
+#favManagerEmpty {
+  text-align: center;
+  padding: 30px 10px;
+  color: #aaa;
+  font-size: 15px;
+}
+
 
 #togglePlayPause {
     position: fixed;
@@ -10716,7 +10884,9 @@ setTimeout(autoScaleVerseFont, 100);
 
 <div id="filters-container" class="filter-container">
 
-<button id="viewFavoritesButton" data-ar="❤ المفضلة" data-en="Favorites ❤" onclick="toggleFavoritesView()">المفضلة</button>
+<button id="viewFavoritesButton" data-ar="❤ المفضلة" data-en="Favorites ❤" onclick="toggleFavoritesView()">
+  <span id="favHeart" onclick="event.stopPropagation(); confirmClearFavorites();" title="حذف كل المفضلة" style="cursor:pointer;padding:0 3px 0 5px;font-size:15px;display:inline-block;vertical-align:middle;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.35)'" onmouseout="this.style.transform='scale(1)'">❤</span><span id="favLabel"> المفضلة</span>
+</button>
 
 <button class="filter-button" data-ar="القرآن الكريم" data-en="Holy Quran" onclick="filterStations('QuranKarim')">القرآن الكريم</button>
 <button class="filter-button" data-ar="القراء" data-en="Reciters" onclick="filterStations('reciters')">القراء</button>
@@ -11332,6 +11502,22 @@ setTimeout(autoScaleVerseFont, 100);
 </div>
 
 <div id="restoreButton" title="Restore">➕</div>
+
+<!-- Favorites Manager Modal -->
+<div id="favManagerOverlay" onclick="if(event.target===this) closeFavManager()">
+  <div id="favManagerBox">
+    <div id="favManagerHeader">
+      <button id="favManagerClose" onclick="closeFavManager()" title="إغلاق">✕</button>
+      <span id="favManagerTitle">❤ إدارة المفضلة</span>
+      <span style="width:28px;"></span>
+    </div>
+    <div id="favManagerList"></div>
+    <div id="favManagerFooter">
+      <button id="favManagerDelAll" onclick="deleteAllFavorites()">🗑 حذف الكل</button>
+      <button id="favManagerCancel" onclick="closeFavManager()">إغلاق</button>
+    </div>
+  </div>
+</div>
 
 <!-- YouTube Multi-Modal Container -->
 <div id="yt-modal-overlay" class="yt-modal-overlay"></div>
@@ -20593,10 +20779,13 @@ function applyInitialLanguage() {
     var slTxt = document.getElementById('settingsLangText');
     if (slTxt) slTxt.textContent = 'AR';
 
-    ['prevButton','randomButton','nextButton','status','viewFavoritesButton'].forEach(function(id) {
+    ['prevButton','randomButton','nextButton','status'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.textContent = el.getAttribute('data-en');
     });
+    // زر المفضلة له span داخلي — نغير النص فقط
+    var favLbl = document.getElementById('favLabel');
+    if (favLbl) favLbl.textContent = ' Favorites';
     var asCbLbl = document.querySelector("label[for='autoSwitchCheckbox']");
     if (asCbLbl) asCbLbl.textContent = asCbLbl.getAttribute('data-en');
     var slCbLbl = document.querySelector("label[for='sleepCheckbox']");
@@ -20702,15 +20891,16 @@ function updateButtonColor() {
 }
 
 function updateFavoritesIcons() {
-  document.querySelectorAll('.palestine').forEach(button => {
+  document.querySelectorAll('.button[data-station]').forEach(button => {
     const station = button.getAttribute('data-station');
+    if (!station) return;
     const icon = button.querySelector('.favorite-icon');
+    if (!icon) return;
+    icon.style.color = ''; // نترك الـ CSS يتحكم
     if (favorites.includes(station)) {
       icon.classList.add('favorited');
-      icon.style.color = 'red';
     } else {
       icon.classList.remove('favorited');
-      icon.style.color = 'gray';
     }
   });
 }
@@ -20718,35 +20908,72 @@ function updateFavoritesIcons() {
 function toggleFavorite(event, station) {
   event.stopPropagation();
   const icon = event.target;
+  icon.style.color = ''; // نترك الـ CSS يتحكم دايماً
   if (favorites.includes(station)) {
     favorites = favorites.filter(fav => fav !== station);
     icon.classList.remove('favorited');
-    icon.style.color = 'gray';
   } else {
     favorites.push(station);
     icon.classList.add('favorited');
-    icon.style.color = 'red';
   }
   localStorage.setItem('favorites', JSON.stringify(favorites));
 
   if (showingFavorites) {
-    toggleFavoritesView();
+    // نخفي الزر المحذوف مباشرة بدل ما نعمل toggle كامل
+    document.querySelectorAll('.button[data-station]').forEach(button => {
+      const st = button.getAttribute('data-station');
+      if (!st) return;
+      button.style.display = !favorites.includes(st) ? 'none' : 'block';
+    });
+    updateButtonIndices();
+    // لو المفضلة فضت نرجع للوضع الطبيعي
+    if (favorites.length === 0) {
+      showingFavorites = false;
+      const viewFavoritesButton = document.getElementById('viewFavoritesButton');
+      const favLabel2 = document.getElementById('favLabel');
+      const favHeart2 = document.getElementById('favHeart');
+      if (favLabel2) favLabel2.textContent = isArabic ? ' المفضلة' : ' Favorites';
+      if (favHeart2) favHeart2.style.display = 'inline-block';
+      viewFavoritesButton.classList.remove('selected');
+      document.querySelectorAll('.button[data-station]').forEach(b => b.style.display = 'block');
+      updateButtonIndices();
+    }
   }
 }
 
 function toggleFavoritesView() {
   showingFavorites = !showingFavorites;
-document.querySelector('.filter-button')?.click();
 
   const viewFavoritesButton = document.getElementById('viewFavoritesButton');
-  const favoritesText = isArabic ? viewFavoritesButton.getAttribute('data-ar') : viewFavoritesButton.getAttribute('data-en');
-  const allStationsText = isArabic ? "كل المحطات" : "All Stations";
-  viewFavoritesButton.textContent = showingFavorites ? allStationsText : favoritesText;
+  const favLabel = document.getElementById('favLabel');
+  const favHeart = document.getElementById('favHeart');
+  const allStationsText = isArabic ? " كل المحطات" : " All Stations";
+  const favText = isArabic ? " المفضلة" : " Favorites";
+  if (favLabel) favLabel.textContent = showingFavorites ? allStationsText : favText;
+  if (favHeart) favHeart.style.display = showingFavorites ? 'none' : 'inline-block';
+  viewFavoritesButton.classList.toggle('selected', showingFavorites);
 
-  document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
-    const station = button.getAttribute('data-station');
-    button.style.display = showingFavorites && !favorites.includes(station) ? 'none' : 'block';
-  });
+  // إزالة رسالة الفارغة القديمة لو موجودة
+  var oldMsg = document.getElementById('favoritesEmptyMsg');
+  if (oldMsg) oldMsg.remove();
+
+  if (showingFavorites && favorites.length === 0) {
+    // عرض رسالة المفضلة الفارغة
+    const msg = document.createElement('div');
+    msg.id = 'favoritesEmptyMsg';
+    msg.style.cssText = 'text-align:center;padding:30px 10px;font-size:16px;color:#888;font-family:Cairo,sans-serif;';
+    msg.innerHTML = isArabic
+      ? '❤️ لا توجد محطات في المفضلة بعد.<br><span style="font-size:13px;color:#aaa;">اضغط على ❤ بجانب أي محطة لإضافتها</span>'
+      : '❤️ No favorite stations yet.<br><span style="font-size:13px;color:#aaa;">Tap ❤ next to any station to add it</span>';
+    const container = document.querySelector('.buttons-container') || document.getElementById('buttons-container');
+    if (container) container.parentNode.insertBefore(msg, container);
+    document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(b => b.style.display = 'none');
+  } else {
+    document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
+      const station = button.getAttribute('data-station');
+      button.style.display = showingFavorites && !favorites.includes(station) ? 'none' : 'block';
+    });
+  }
 
   updateButtonIndices();
 }
@@ -21123,7 +21350,8 @@ function toggleLanguage() {
 
   document.getElementById("status").textContent = isArabic ? document.getElementById("status").getAttribute("data-ar") : document.getElementById("status").getAttribute("data-en");
 
-  document.getElementById("viewFavoritesButton").textContent = isArabic ? document.getElementById("viewFavoritesButton").getAttribute("data-ar") : document.getElementById("viewFavoritesButton").getAttribute("data-en");
+  var _favLbl = document.getElementById('favLabel');
+  if (_favLbl) _favLbl.textContent = isArabic ? ' المفضلة' : ' Favorites';
 
   document.querySelector("label[for='autoSwitchCheckbox']").textContent = isArabic ? document.querySelector("label[for='autoSwitchCheckbox']").getAttribute("data-ar") : document.querySelector("label[for='autoSwitchCheckbox']").getAttribute("data-en");
   document.querySelector("label[for='sleepCheckbox']").textContent = isArabic ? document.querySelector("label[for='sleepCheckbox']").getAttribute("data-ar") : document.querySelector("label[for='sleepCheckbox']").getAttribute("data-en");
@@ -24256,7 +24484,146 @@ const modernGradient = 'linear-gradient(90deg, #e3f2fd 0%, #64b5f6 40%, #1e90ff 
         observer.observe(container, { childList: true, subtree: true });
     })();
 
-    // ── 10. Tasbih counters restore ──
+// ── Favorites Manager Modal ──────────────────────────────────────────
+function openFavManager() {
+  const overlay = document.getElementById('favManagerOverlay');
+  const list    = document.getElementById('favManagerList');
+  const footer  = document.getElementById('favManagerFooter');
+  const title   = document.getElementById('favManagerTitle');
+  const delAll  = document.getElementById('favManagerDelAll');
+  const cancel  = document.getElementById('favManagerCancel');
+
+  const ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+  title.textContent  = ar ? '❤ إدارة المفضلة'   : '❤ Manage Favorites';
+  delAll.textContent = ar ? '🗑 حذف الكل'        : '🗑 Delete All';
+  cancel.textContent = ar ? 'إغلاق'              : 'Close';
+
+  list.innerHTML = '';
+  if (!favorites || favorites.length === 0) {
+    list.innerHTML = '<div id="favManagerEmpty">'
+      + (ar ? '❤️ المفضلة فارغة<br><span style="font-size:12px;color:#bbb;">اضغط ❤ بجانب أي محطة لإضافتها</span>'
+             : '❤️ No favorites yet<br><span style="font-size:12px;color:#bbb;">Tap ❤ next to any station to add it</span>')
+      + '</div>';
+    footer.style.display = 'none';
+  } else {
+    footer.style.display = 'flex';
+    favorites.forEach(function(station) {
+      var item = document.createElement('div');
+      item.className = 'fav-item';
+      var name = document.createElement('span');
+      name.className = 'fav-item-name';
+      name.textContent = station;
+      var del = document.createElement('button');
+      del.className = 'fav-item-del';
+      del.textContent = ar ? 'حذف' : 'Remove';
+      del.onclick = function() { removeFavItem(station, item); };
+      item.appendChild(del);
+      item.appendChild(name);
+      list.appendChild(item);
+    });
+  }
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFavManager() {
+  var overlay = document.getElementById('favManagerOverlay');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function removeFavItem(station, itemEl) {
+  favorites = favorites.filter(function(f) { return f !== station; });
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+  updateFavoritesIcons();
+
+  // أنيميشن خروج
+  itemEl.style.transition = 'opacity 0.25s, transform 0.25s';
+  itemEl.style.opacity = '0';
+  itemEl.style.transform = 'translateX(30px)';
+  setTimeout(function() {
+    itemEl.remove();
+    // لو المفضلة فضت نحدّث الـ list
+    var list = document.getElementById('favManagerList');
+    if (!list) return;
+    if (favorites.length === 0) {
+      var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+      list.innerHTML = '<div id="favManagerEmpty">'
+        + (ar ? '❤️ المفضلة فارغة<br><span style="font-size:12px;color:#bbb;">اضغط ❤ بجانب أي محطة لإضافتها</span>'
+               : '❤️ No favorites yet<br><span style="font-size:12px;color:#bbb;">Tap ❤ next to any station to add it</span>')
+        + '</div>';
+      var footer = document.getElementById('favManagerFooter');
+      if (footer) footer.style.display = 'none';
+    }
+  }, 260);
+
+  if (showingFavorites) {
+    document.querySelectorAll('.button[data-station]').forEach(function(button) {
+      var st = button.getAttribute('data-station');
+      button.style.display = !favorites.includes(st) ? 'none' : 'block';
+    });
+    updateButtonIndices();
+    if (favorites.length === 0) {
+      showingFavorites = false;
+      var viewFavoritesButton = document.getElementById('viewFavoritesButton');
+      var _fl = document.getElementById('favLabel');
+      var _fh = document.getElementById('favHeart');
+      if (_fl) _fl.textContent = isArabic ? ' المفضلة' : ' Favorites';
+      if (_fh) _fh.style.display = 'inline-block';
+      viewFavoritesButton.classList.remove('selected');
+      document.querySelectorAll('.button[data-station]').forEach(function(b) { b.style.display = 'block'; });
+      updateButtonIndices();
+    }
+  }
+}
+
+function confirmClearFavorites() {
+  var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+  if (favorites.length === 0) {
+    alert(ar ? 'المفضلة فارغة بالفعل ❤' : 'No favorites to delete ❤');
+    return;
+  }
+  var msg = ar
+    ? 'هل تريد حذف كل المحطات من المفضلة؟'
+    : 'Delete all favorite stations?';
+  if (!confirm(msg)) return;
+  deleteAllFavorites(true);
+}
+
+function deleteAllFavorites(skipConfirm) {
+  var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+  if (!skipConfirm) {
+    var msg = ar ? 'هل تريد حذف جميع المحطات من المفضلة؟' : 'Delete all favorite stations?';
+    if (!confirm(msg)) return;
+  }
+  favorites = [];
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+  updateFavoritesIcons();
+
+  var list = document.getElementById('favManagerList');
+  if (list) {
+    list.innerHTML = '<div id="favManagerEmpty">'
+      + (ar ? '❤️ المفضلة فارغة<br><span style="font-size:12px;color:#bbb;">اضغط ❤ بجانب أي محطة لإضافتها</span>'
+             : '❤️ No favorites yet<br><span style="font-size:12px;color:#bbb;">Tap ❤ next to any station to add it</span>')
+      + '</div>';
+  }
+  var footer = document.getElementById('favManagerFooter');
+  if (footer) footer.style.display = 'none';
+
+  if (showingFavorites) {
+    showingFavorites = false;
+    var viewFavoritesButton2 = document.getElementById('viewFavoritesButton');
+    var _fl2 = document.getElementById('favLabel');
+    var _fh2 = document.getElementById('favHeart');
+    if (_fl2) _fl2.textContent = ar ? ' المفضلة' : ' Favorites';
+    if (_fh2) _fh2.style.display = 'inline-block';
+    viewFavoritesButton2.classList.remove('selected');
+    document.querySelectorAll('.button[data-station]').forEach(function(b) { b.style.display = 'block'; });
+    updateButtonIndices();
+  }
+}
+
     document.querySelectorAll(".tasbih-box").forEach(box => {
         const button = box.closest("button");
         const key = "tasbih_" + button.getAttribute("data-station");
@@ -24456,6 +24823,49 @@ if (target && count >= target) {
           if (randomHidden) randomHidden.click();
         });
 
+    })();
+
+    // ── 12. Long press على زر المفضلة لتصفيرها ──
+    (function() {
+        var favBtn = document.getElementById('viewFavoritesButton');
+        if (!favBtn) return;
+        var timer = null;
+        var triggered = false;
+
+        function startPress() {
+            triggered = false;
+            timer = setTimeout(function() {
+                triggered = true;
+                var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+                var favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+                if (favs.length === 0) {
+                    alert(ar ? '❤ المفضلة فارغة بالفعل' : '❤ No favorites yet');
+                    return;
+                }
+                var msg = ar
+                    ? 'هل تريد حذف كل المحطات من المفضلة؟'
+                    : 'Delete all favorite stations?';
+                if (!confirm(msg)) return;
+                if (typeof deleteAllFavorites === 'function') deleteAllFavorites(true);
+            }, 600);
+        }
+
+        function cancelPress() { clearTimeout(timer); }
+
+        favBtn.addEventListener('mousedown',  startPress);
+        favBtn.addEventListener('mouseup',    cancelPress);
+        favBtn.addEventListener('mouseleave', cancelPress);
+        favBtn.addEventListener('touchstart', startPress, { passive: true });
+        favBtn.addEventListener('touchend',   function() {
+            cancelPress();
+            if (triggered) event.preventDefault();
+        });
+        favBtn.addEventListener('touchcancel', cancelPress);
+
+        // لو اتعمل long press نمنع الـ click العادي
+        favBtn.addEventListener('click', function(e) {
+            if (triggered) { e.stopImmediatePropagation(); triggered = false; }
+        }, true);
     })();
 
 });
