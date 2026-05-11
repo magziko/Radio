@@ -2825,8 +2825,19 @@ body.dark-mode .footer-share {
 }
 
 body.dark-mode .custom-tooltip {
-    background: rgba(20, 20, 40, 0.95) !important;
-    color: #e0e0e0 !important;
+    background: linear-gradient(135deg, #0f1e30 0%, #1a2a3a 55%, #0f1e2e 100%) !important;
+    color: #b2dfdb !important;
+    border-color: rgba(100,181,246,0.30) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.50), 0 2px 8px rgba(0,0,0,0.35) !important;
+}
+
+body.dark-mode .custom-tooltip::before {
+    background: linear-gradient(90deg, transparent, #64b5f6 35%, #81d4fa 50%, #64b5f6 65%, transparent) !important;
+    opacity: 0.45 !important;
+}
+
+body.dark-mode .custom-tooltip::after {
+    border-top-color: rgba(100,181,246,0.30) !important;
 }
 .search-wrapper {
     display: flex;
@@ -2988,19 +2999,75 @@ body.dark-mode .custom-tooltip {
   background: #ffca2c;
 }
 
-   .custom-tooltip {
-  position: fixed;
-    background: rgba(0,0,0,0.85);
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 18px;
-  opacity: 0;
-  transition: 0.2s;
-   width: 300px;
-    max-width: 90vw;
-  z-index: 9999;
-  pointer-events: none;
+/* ── Custom Tooltip (أذكار) ── */
+.custom-tooltip {
+    position: fixed;
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 55%, #eaf3fb 100%);
+    color: #1a3a52;
+    border: 1.5px solid rgba(30,144,255,0.25);
+    box-shadow: 0 8px 32px rgba(30,144,255,0.14), 0 2px 8px rgba(0,0,0,0.10);
+    padding: 14px 16px 12px;
+    border-radius: 16px;
+    font-family: 'Cairo', 'Amiri', serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 2;
+    direction: rtl;
+    text-align: right;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    width: 320px;
+    max-width: calc(100vw - 24px);
+    z-index: 99999;
+    pointer-events: auto;
+    cursor: pointer;
+    box-sizing: border-box;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+/* خط زخرفي علوي */
+.custom-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 18%; right: 18%;
+    height: 2.5px;
+    border-radius: 0 0 4px 4px;
+    background: linear-gradient(90deg, transparent, #1e90ff 35%, #42d4f4 50%, #1e90ff 65%, transparent);
+    opacity: 0.55;
+}
+
+/* سهم صغير في أعلى الـ tooltip يشير للزر */
+.custom-tooltip::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid rgba(30,144,255,0.22);
+}
+
+/* ── Tablet ── */
+@media (min-width: 600px) and (max-width: 991px) {
+    .custom-tooltip {
+        font-size: 14px;
+        width: 300px;
+        padding: 13px 15px 11px;
+        border-radius: 14px;
+        line-height: 1.95;
+    }
+}
+
+/* ── Mobile ── */
+@media (max-width: 599px) {
+    .custom-tooltip {
+        font-size: 13px;
+        padding: 12px 14px 10px;
+        border-radius: 13px;
+        line-height: 1.9;
+    }
 }
 
 .footer-button, .facebook-button {
@@ -3683,6 +3750,8 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
     content-visibility: auto;
     contain-intrinsic-size: 0 50px;
 }
+
+
 </style>
 
 <body class="main-content">
@@ -24022,56 +24091,102 @@ function incrementTasbihKeyboard(box) {
     box.querySelector(".tasbih-count").innerText = count;
 }
 
+// ── Tooltip الأذكار ──
+var _ttLastBtn = null;
+var _ttTimer   = null;
+
 document.addEventListener("click", function(e) {
 
-  let el = null;
-
-  let candidate = e.target.closest("[title]");
-  if (candidate) {
-
-    let parentBtn = candidate.closest('button[data-category="Adhkar"]');
-    if (parentBtn) {
-      el = candidate;
-    }
+  // إغلاق بالضغط على الـ tooltip نفسه
+  if (e.target.closest(".custom-tooltip")) {
+    var tt = e.target.closest(".custom-tooltip");
+    tt.style.opacity = "0";
+    setTimeout(function(){ if (tt.parentNode) tt.remove(); }, 300);
+    if (_ttTimer) { clearTimeout(_ttTimer); _ttTimer = null; }
+    _ttLastBtn = null;
+    return;
   }
 
-  if (!el) {
-    const tasbih = e.target.closest(".tasbih-box");
-    if (tasbih) {
-      const adhkarBtn = tasbih.closest('button[data-category="Adhkar"]');
-      if (adhkarBtn) {
-        const stText = adhkarBtn.querySelector(".station-text[title]");
-        if (stText) el = stText;
-      }
+  // إيجاد زر الأذكار المضغوط
+  var adhkarBtn = e.target.closest('button[data-category="Adhkar"]');
+
+  if (!adhkarBtn) {
+    // ضغط خارج → أغلق
+    var old = document.querySelector(".custom-tooltip");
+    if (old) {
+      old.style.opacity = "0";
+      setTimeout(function(){ if (old.parentNode) old.remove(); }, 300);
+      if (_ttTimer) { clearTimeout(_ttTimer); _ttTimer = null; }
+      _ttLastBtn = null;
     }
+    return;
   }
 
-  if (!el) return;
+  // جيب النص من الـ button نفسه أولاً، ثم من station-text[title]
+  var text = adhkarBtn.getAttribute("title");
+  if (!text) {
+    var stEl = adhkarBtn.querySelector(".station-text[title]");
+    if (stEl) text = stEl.getAttribute("title");
+  }
 
-  const text = el.getAttribute("title");
-  if (!text) return;
+  if (!text || text === "Click ⏭️ / Shift+Click ⏮️") {
+    // زر بدون title نصي → أغلق أي tooltip مفتوح
+    var old2 = document.querySelector(".custom-tooltip");
+    if (old2) {
+      old2.style.opacity = "0";
+      setTimeout(function(){ if (old2.parentNode) old2.remove(); }, 300);
+      if (_ttTimer) { clearTimeout(_ttTimer); _ttTimer = null; }
+      _ttLastBtn = null;
+    }
+    return;
+  }
 
-  const old = document.querySelector(".custom-tooltip");
-  if (old) old.remove();
+  // Toggle: نفس الزر مرة تانية → أغلق
+  if (_ttLastBtn === adhkarBtn) {
+    var old3 = document.querySelector(".custom-tooltip");
+    if (old3) {
+      old3.style.opacity = "0";
+      setTimeout(function(){ if (old3.parentNode) old3.remove(); }, 300);
+    }
+    if (_ttTimer) { clearTimeout(_ttTimer); _ttTimer = null; }
+    _ttLastBtn = null;
+    return;
+  }
 
-  const tooltip = document.createElement("div");
+  // أزل القديم فوراً
+  var old4 = document.querySelector(".custom-tooltip");
+  if (old4) old4.remove();
+  if (_ttTimer) { clearTimeout(_ttTimer); _ttTimer = null; }
+
+  // أنشئ الـ tooltip
+  var tooltip = document.createElement("div");
   tooltip.className = "custom-tooltip";
   tooltip.innerText = text;
-
   document.body.appendChild(tooltip);
 
- const rect = el.getBoundingClientRect();
+  // موضع أسفل الزر مباشرة — position:fixed فـ بدون scrollY
+  var rect    = adhkarBtn.getBoundingClientRect();
+  var vw      = window.innerWidth;
+  var ttWidth = Math.min(320, vw - 24);
 
-tooltip.style.top = (rect.top - tooltip.offsetHeight - 30) + "px";
-tooltip.style.left = (rect.left + rect.width / 2) + "px";
-tooltip.style.transform = "translateX(-50%)";
+  var leftPos = rect.left + rect.width / 2;
+  leftPos = Math.max(ttWidth / 2 + 8, Math.min(leftPos, vw - ttWidth / 2 - 8));
 
-  setTimeout(() => tooltip.style.opacity = "1", 10);
+  tooltip.style.width     = ttWidth + "px";
+  tooltip.style.left      = (leftPos - ttWidth / 2) + "px";
+  tooltip.style.top       = (rect.bottom + 8) + "px";
+  tooltip.style.transform = "none";
 
-  setTimeout(() => {
-  tooltip.style.opacity = "0";
-  setTimeout(() => tooltip.remove(), 300);
-}, 16000);
+  setTimeout(function(){ tooltip.style.opacity = "1"; }, 10);
+
+  _ttLastBtn = adhkarBtn;
+
+  _ttTimer = setTimeout(function() {
+    tooltip.style.opacity = "0";
+    setTimeout(function(){ if (tooltip.parentNode) tooltip.remove(); }, 300);
+    _ttLastBtn = null;
+    _ttTimer   = null;
+  }, 16000);
 });
 
 function copyLink() {
