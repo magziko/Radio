@@ -74,6 +74,7 @@
 }
 
 #welcomeScreen {
+    display: none;
     background: linear-gradient(135deg, #dfe9f3, #ffffff);
     animation: fadeIn 0.8s ease-in-out;
     position: relative;
@@ -3899,34 +3900,40 @@ function confirmReload() {
     }
 }
 
-window.onload = function() {
-    const disableWelcome = localStorage.getItem("disableWelcomeScreen");
+// ── شاشة الترحيب: تُفتح مبكراً بـ DOMContentLoaded بدل onload ──
+(function initWelcomeScreen() {
+    var disableWelcome = localStorage.getItem("disableWelcomeScreen");
+    var ws = document.getElementById('welcomeScreen');
 
+    if (disableWelcome === "true") {
+        // مخفية بالـ CSS بالفعل، لا شيء يُفعل
+        return;
+    }
+
+    // أظهرها فوراً بدون انتظار onload
+    ws.style.display = 'block';
+    window._welcomeScreenOpened = true;
+
+    setTimeout(function() {
+        index = 0;
+        playSource(index);
+        updateWelcomePlayPauseButton(false);
+    }, 200);
+
+    setTimeout(function() {
+        // لو المستخدم أغلقها خلال الـ 3 ثواني → لا تُظهر الأزرار
+        if (window._welcomeScreenClosed) return;
+        document.getElementById('closeButton').style.display = 'block';
+        document.getElementById("reloadButton").style.display = "block";
+    }, 3000);
+})();
+
+window.onload = function() {
     if (mainAudio && !mainAudio.paused) {
         mainAudio.pause();
         mainAudio.src = '';
     }
-
-    if (disableWelcome === "true") {
-        document.getElementById('welcomeScreen').style.display = 'none';
-
-    } else {
-
-        document.getElementById('welcomeScreen').style.display = 'block';
-
-        setTimeout(function() {
-            index = 0;
-            playSource(index);
-            // isAudioPlaying والزر يتحدّثوا تلقائياً من مستمع 'play'
-            updateWelcomePlayPauseButton(false); // default to paused until play fires
-        }, 200);
-
-        setTimeout(function() {
-            document.getElementById('closeButton').style.display = 'block';
-                document.getElementById("reloadButton").style.display = "block";
-
-        }, 3000);
-    }
+    // لا تعيد فتح الشاشة لو المستخدم أغلقها أو لو هي مش مفعّلة
 };
 
 function toggleDisableWelcomeScreen() {
