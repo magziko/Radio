@@ -75,7 +75,7 @@
 
 #welcomeScreen {
     display: none;
-    background: linear-gradient(135deg, #dfe9f3, #ffffff);
+    background: #eaf3fb;
     animation: fadeIn 0.8s ease-in-out;
     position: relative;
 }
@@ -336,7 +336,7 @@ body.dark-mode #customPlayToggleButton.playing {
 }
 
 body {
-  background-color: #f5f2e6;
+  background-color: #eaf3fb;
   font-family: Arial, sans-serif;
   text-align: center;
   margin: 0;
@@ -4031,28 +4031,30 @@ function closeWelcomeScreen() {
 
     window._welcomeScreenClosed = true;
 
+    // أوقف راديو الشاشة الترحيبية تماماً أولاً
     customAudioPlayer.pause();
     customAudioPlayer.currentTime = 0;
     customAudioPlayer.src = '';
 
-    const params = new URLSearchParams(window.location.search);
-    const url = params.get('url');
-    const name = params.get('station');
-    if (url) {
-        playNewAudio(url, name || 'محطة مخصصة');
+    // انتظر قليلاً لضمان وقف راديو الترحيب قبل تشغيل الرئيسي
+    setTimeout(function() {
+        const params = new URLSearchParams(window.location.search);
+        const url = params.get('url');
+        const name = params.get('station');
+        if (url) {
+            localStorage.setItem('lastStation', JSON.stringify({ url: url, name: name || 'محطة مخصصة' }));
+            playNewAudio(url, name || 'محطة مخصصة', null, true);
+            return;
+        }
 
-        localStorage.setItem('lastStation', JSON.stringify({ url: url, name: name || 'محطة مخصصة' }));
-        return;
-    }
-
-    const last = localStorage.getItem('lastStation');
-    if (last) {
-        const { url, name } = JSON.parse(last);
-        playNewAudio(url, name);
-    } else {
-
-        playNewAudio(currentSource, "إذاعة القرآن الكريم ❤️  القاهرة FM 98.2");
-    }
+        const last = localStorage.getItem('lastStation');
+        if (last) {
+            const { url: lastUrl, name: lastName } = JSON.parse(last);
+            playNewAudio(lastUrl, lastName, null, true);
+        } else {
+            playNewAudio(currentSource, "إذاعة القرآن الكريم ❤️  القاهرة FM 98.2", null, true);
+        }
+    }, 300);
 }
 
 var customAudioPlayer = document.getElementById('customAudioPlayer');
@@ -11798,11 +11800,11 @@ const quranRadioStations = [
       btn.setAttribute('onclick', "window.open('" + s.url + "', '_blank');");
     } else if (s.url === 'https://sawtelghad.org:8888/;') {
       btn.setAttribute('onclick',
-        "if (event.ctrlKey || event.metaKey) { window.open('" + s.url + "'); } else { toggleRadio(this); }"
+        "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
       );
     } else {
       btn.setAttribute('onclick',
-        "if (event.ctrlKey || event.metaKey) { window.open('" + s.url + "', '_blank'); } else { toggleRadio(this); }"
+        "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
       );
     }
 
@@ -11907,10 +11909,10 @@ function renderStationButtons(arr, container, opts) {
             if (s.title) btn.setAttribute('title', s.title);
             if (s.url === 'https://sawtelghad.org:8888/;') {
                 btn.setAttribute('onclick',
-                    "if (event.ctrlKey || event.metaKey) { window.open('" + s.url + "'); } else { toggleRadio(this); }");
+                    "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }");
             } else {
                 btn.setAttribute('onclick',
-                    "if (event.ctrlKey || event.metaKey) { window.open('" + s.url.replace(/'/g, "\\'") + "', '_blank'); } else { toggleRadio(this); }");
+                    "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }");
             }
         }
 
@@ -14501,7 +14503,7 @@ const recitersStations = [
     } else if (s.url) {
       btn.setAttribute('data-url', s.url);
       btn.setAttribute('onclick',
-        "if (event.ctrlKey || event.metaKey) { window.open('" + s.url + "', '_blank'); } else { toggleRadio(this); }"
+        "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
       );
     }
 
@@ -14751,7 +14753,7 @@ const rewayatStations = [
     if (s.basit)  btn.setAttribute('data-basit',  'true');
     if (s.hussary) btn.setAttribute('data-hussary', 'true');
     btn.setAttribute('onclick',
-      "if (event.ctrlKey || event.metaKey) { window.open('" + s.url + "', '_blank'); } else { toggleRadio(this); }"
+      "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
     );
     btn.innerHTML =
       '<span class="flag"></span>' +
@@ -14872,7 +14874,7 @@ const translationStations = [
     }
 
     btn.setAttribute('onclick',
-      "if (event.ctrlKey || event.metaKey) { window.open('" + s.url.replace(/'/g, "\\'") + "', '_blank'); } else { toggleRadio(this); }"
+      "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
     );
 
     btn.innerHTML =
@@ -19661,7 +19663,7 @@ const tafsirStations = [
     btn.setAttribute('data-en', s.en);
     btn.setAttribute('data-url', s.url);
     btn.setAttribute('onclick',
-      "if (event.ctrlKey || event.metaKey) { window.open('" + s.url + "', '_blank'); } else { toggleRadio(this); }"
+      "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
     );
     btn.innerHTML =
       '<span class="flag"></span>' +
@@ -20140,7 +20142,7 @@ const tajweedStations = [
     btn.setAttribute('data-en', s.en);
     btn.setAttribute('data-url', s.url);
     btn.setAttribute('onclick',
-      "if (event.ctrlKey || event.metaKey) { window.open('" + s.url + "', '_blank'); } else { toggleRadio(this); }"
+      "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
     );
     btn.innerHTML =
       '<span class="flag"></span>' +
@@ -22139,6 +22141,24 @@ function showButtonTemporarily() {
 setInterval(showButtonTemporarily, 60000);
 
 showButtonTemporarily();
+
+// ── Ctrl+Click على زر فيه urls → يفتح رابط عشوائي منها في new tab ──
+function openRandomUrl(btn, evt) {
+    var urlsAttr = btn.getAttribute('data-urls');
+    if (urlsAttr) {
+        try {
+            var arr = JSON.parse(urlsAttr);
+            if (arr && arr.length > 0) {
+                var picked = arr[Math.floor(Math.random() * arr.length)];
+                window.open(picked, '_blank');
+                return;
+            }
+        } catch(e) {}
+    }
+    // fallback: رابط واحد عادي
+    var single = btn.getAttribute('data-url') || btn.getAttribute('data-source') || '';
+    if (single) window.open(single, '_blank');
+}
 
  function toggleRadio(button, event = null) {
 
