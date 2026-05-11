@@ -11897,12 +11897,12 @@ function renderStationButtons(arr, container, opts) {
             btn.setAttribute('data-current-index', '0');
             btn.setAttribute('data-url', s.urls[0]); // للـ isolated player
             btn.setAttribute('data-random', 'true');
-            btn.setAttribute('onclick', 'if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else if (event.shiftKey) { openAllUrls(this, event); } else { toggleRadio(this, event); }');
+            btn.setAttribute('onclick', 'if ((event.ctrlKey || event.metaKey) && event.shiftKey) { openAllUrls(this, event); } else if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this, event); }');
             // title: use the dhikr text if present, else navigation hint
             if (s.title) {
                 btn.setAttribute('title', s.title);
             } else {
-                btn.setAttribute('title', 'Click ⏭️ / Shift+Click 🔗 فتح كل الروابط / Ctrl+Click 🔗 الرابط الحالي');
+                btn.setAttribute('title', 'Click ⏭️ / Shift+Click ⏮️ / Ctrl+Click 🔗 الرابط الحالي / Ctrl+Shift+Click 🔗 كل الروابط');
             }
         } else if (s.url) {
             btn.setAttribute('data-url', s.url);
@@ -14498,8 +14498,8 @@ const recitersStations = [
       btn.setAttribute('data-current-index', '0');
       btn.setAttribute('data-url', s.urls[0]); // للـ isolated player يعرف يجيب URL
       if (s.random) btn.setAttribute('data-random', 'true');
-      btn.setAttribute('title', 'Click ⏭️ / Shift+Click 🔗 فتح كل الروابط / Ctrl+Click 🔗 الرابط الحالي');
-      btn.setAttribute('onclick', 'if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else if (event.shiftKey) { openAllUrls(this, event); } else { toggleRadio(this, event); }');
+      btn.setAttribute('title', 'Click ⏭️ / Shift+Click ⏮️ / Ctrl+Click 🔗 الرابط الحالي / Ctrl+Shift+Click 🔗 كل الروابط');
+      btn.setAttribute('onclick', 'if ((event.ctrlKey || event.metaKey) && event.shiftKey) { openAllUrls(this, event); } else if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this, event); }');
     } else if (s.url) {
       btn.setAttribute('data-url', s.url);
       btn.setAttribute('onclick',
@@ -22234,8 +22234,8 @@ function openRandomUrl(btn, evt) {
     var allButtons = document.querySelectorAll('.button');
     var evt = event || window.event || null;
 
-    // Shift+Click على محطة متعددة الروابط → فتح كل الروابط في tabs
-    if (evt && evt.shiftKey && button.getAttribute('data-urls')) {
+    // Ctrl+Shift+Click على محطة متعددة الروابط → فتح كل الروابط في tabs
+    if (evt && (evt.ctrlKey || evt.metaKey) && evt.shiftKey && button.getAttribute('data-urls')) {
         openAllUrls(button, evt);
         return;
     }
