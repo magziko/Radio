@@ -11897,12 +11897,12 @@ function renderStationButtons(arr, container, opts) {
             btn.setAttribute('data-current-index', '0');
             btn.setAttribute('data-url', s.urls[0]); // للـ isolated player
             btn.setAttribute('data-random', 'true');
-            btn.setAttribute('onclick', 'toggleRadio(this, event)');
+            btn.setAttribute('onclick', 'if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else if (event.shiftKey) { openAllUrls(this, event); } else { toggleRadio(this, event); }');
             // title: use the dhikr text if present, else navigation hint
             if (s.title) {
                 btn.setAttribute('title', s.title);
             } else {
-                btn.setAttribute('title', 'Click ⏭️ / Shift+Click ⏮️');
+                btn.setAttribute('title', 'Click ⏭️ / Shift+Click 🔗 فتح كل الروابط / Ctrl+Click 🔗 الرابط الحالي');
             }
         } else if (s.url) {
             btn.setAttribute('data-url', s.url);
@@ -14498,8 +14498,8 @@ const recitersStations = [
       btn.setAttribute('data-current-index', '0');
       btn.setAttribute('data-url', s.urls[0]); // للـ isolated player يعرف يجيب URL
       if (s.random) btn.setAttribute('data-random', 'true');
-      btn.setAttribute('title', 'Click \u23ed\ufe0f / Shift+Click \u23ee\ufe0f');
-      btn.setAttribute('onclick', 'toggleRadio(this, event)');
+      btn.setAttribute('title', 'Click ⏭️ / Shift+Click 🔗 فتح كل الروابط / Ctrl+Click 🔗 الرابط الحالي');
+      btn.setAttribute('onclick', 'if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else if (event.shiftKey) { openAllUrls(this, event); } else { toggleRadio(this, event); }');
     } else if (s.url) {
       btn.setAttribute('data-url', s.url);
       btn.setAttribute('onclick',
@@ -22143,19 +22143,87 @@ setInterval(showButtonTemporarily, 60000);
 showButtonTemporarily();
 
 // ── Ctrl+Click على زر فيه urls → يفتح رابط عشوائي منها في new tab ──
+function openAllUrls(btn, evt) {
+    if (evt) { evt.preventDefault(); evt.stopPropagation(); }
+    var urlsAttr = btn.getAttribute('data-urls');
+    var arr = [];
+    if (urlsAttr) { try { arr = JSON.parse(urlsAttr); } catch(e) {} }
+    if (!arr || arr.length === 0) {
+        var single = btn.getAttribute('data-url') || btn.getAttribute('data-source') || '';
+        if (single) arr = [single];
+    }
+    arr = arr.filter(Boolean);
+    if (arr.length === 0) return;
+
+    var stationName = btn.getAttribute('data-ar') || btn.getAttribute('data-station') || 'الروابط';
+    var linksHtml = arr.map(function(u, i) {
+        return '<div style="margin:8px 0"><span style="color:#888;font-size:13px;margin-left:6px">' + (i+1) + '.</span>'
+             + '<a href="' + u + '" target="_blank" id="lnk' + i + '" '
+             + 'style="color:#1565c0;word-break:break-all;font-size:14px;text-decoration:underline">' + u + '</a></div>';
+    }).join('');
+
+    var autoScript = arr.map(function(u, i) {
+        return 'try{ document.getElementById("lnk' + i + '").click(); }catch(e){}';
+    }).join('\n');
+
+    var html = '<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8">'
+        + '<title>\u0631\u0648\u0627\u0628\u0637: ' + stationName + '</title>'
+        + '<style>body{font-family:Arial,sans-serif;padding:24px;background:#f0f4f8;direction:rtl}'
+        + 'h2{color:#1a3a52;margin-bottom:4px} p{color:#555;font-size:13px;margin-top:0}'
+        + '.box{background:#fff;border-radius:10px;padding:18px;box-shadow:0 2px 8px #0001}</style></head><body>'
+        + '<h2>\uD83D\uDD17 ' + stationName + '</h2>'
+        + '<p>\u0633\u064a\u062a\u0645 \u0641\u062a\u062d \u0643\u0644 \u0631\u0627\u0628\u0637 \u0641\u064a \u062a\u0627\u0628 \u062c\u062f\u064a\u062f\u0629 \u2014 \u0627\u0636\u063a\u0637 \u0639\u0644\u0649 \u0627\u0644\u0631\u0648\u0627\u0628\u0637 \u064a\u062f\u0648\u064a\u0627\u064b \u0625\u0646 \u0644\u0645 \u062a\u0641\u062a\u062d \u062a\u0644\u0642\u0627\u0626\u064a\u0627\u064b</p>'
+        + '<div class="box">' + linksHtml + '</div>'
+        + '<script>window.onload=function(){' + autoScript + '};<\/script>'
+        + '</body></html>';
+
+    var blob = new Blob([html], { type: 'text/html' });
+    var blobUrl = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = blobUrl;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 1000);
+}
+
 function openRandomUrl(btn, evt) {
     var urlsAttr = btn.getAttribute('data-urls');
     if (urlsAttr) {
         try {
             var arr = JSON.parse(urlsAttr);
             if (arr && arr.length > 0) {
-                var picked = arr[Math.floor(Math.random() * arr.length)];
-                window.open(picked, '_blank');
+                // data-current-index يشير للـ index التالى بعد التشغيل
+                // فالرابط الذى تم اختياره فعلاً = index السابق
+                var nextIdx = parseInt(btn.getAttribute('data-current-index'), 10);
+                if (isNaN(nextIdx)) nextIdx = 0;
+                var playingIdx = (nextIdx - 1 + arr.length) % arr.length;
+
+                // تحقق من الـ audio src إذا كانت المحطة شغّالة
+                var audioEl = document.getElementById('currentAudio');
+                var currentSrc = audioEl ? (audioEl.src || audioEl.currentSrc || '') : '';
+                var matchIdx = -1;
+                arr.forEach(function(u, i) {
+                    if (currentSrc && u && currentSrc.indexOf(u) !== -1) matchIdx = i;
+                });
+
+                // إذا الزر شغّال والـ audio src موجود فى القائمة → استخدمه
+                // وإلا استخدم الـ index السابق (الرابط الذى اختاره الكود عشوائياً)
+                var urlToOpen = (matchIdx !== -1 && btn.classList.contains('playing'))
+                    ? arr[matchIdx]
+                    : arr[playingIdx];
+
+                if (urlToOpen) { window.open(urlToOpen, '_blank'); return; }
+
+                // إذا لم تُشغَّل المحطة بعد → افتح أول رابط
+                window.open(arr[0], '_blank');
                 return;
             }
         } catch(e) {}
     }
-    // fallback: رابط واحد عادي
+    // رابط واحد عادي
     var single = btn.getAttribute('data-url') || btn.getAttribute('data-source') || '';
     if (single) window.open(single, '_blank');
 }
@@ -22165,6 +22233,12 @@ function openRandomUrl(btn, evt) {
     var isPlaying = button.classList.contains('playing');
     var allButtons = document.querySelectorAll('.button');
     var evt = event || window.event || null;
+
+    // Shift+Click على محطة متعددة الروابط → فتح كل الروابط في tabs
+    if (evt && evt.shiftKey && button.getAttribute('data-urls')) {
+        openAllUrls(button, evt);
+        return;
+    }
 
     if (isPlaying) {
 
