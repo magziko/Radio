@@ -20507,7 +20507,7 @@ const moreTranslations = [
 <button class="button palestine triple-click"
     data-category="more-sites"
     data-hidden-sub="true"
-    data-station="📡"
+    data-station="بث مشترك"
     data-ar="📡"
     data-en="📡"
     data-urls='[
@@ -20569,8 +20569,8 @@ const moreTranslations = [
 <button class="button palestine triple-click"
     data-category="more-sites"
     data-hidden-sub="true"
-    data-station=""
-    data-ar=""
+    data-station="🏞️ / 📡 / ♟️ / 📜 / 💬"
+    data-ar="🏞️ / 📡 / ♟️ / 📜 / 💬"
     data-en="🏞️ / 📡 / ♟️ / 📜 / 💬"
     style="font-size: 16px; padding: 10px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
 
@@ -20611,8 +20611,8 @@ const moreTranslations = [
 
 <button class="button palestine"
     data-category="more-sites"
-    data-station="تحميل تطبيق الأندرويد"
-    data-ar="تحميل تطبيق الأندرويد"
+    data-station="تحميل تطبيق الأندرويد (قديم)"
+    data-ar="تحميل تطبيق الأندرويد (قديم)"
     data-en="Download Android App (Old)"
     style="opacity: 0.7; border: 1px dashed #999; position: relative;"
     onclick="window.open('https://median.co/share/xxaowo', '_blank');">
@@ -20636,15 +20636,15 @@ const moreTranslations = [
        class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
 
   <span class="favorite-icon"
-        onclick="toggleFavorite(event, 'تحميل تطبيق الأندرويد');
+        onclick="toggleFavorite(event, 'تحميل تطبيق الأندرويد (قديم)');
                  event.stopPropagation();
                  return false;">&#x2764;</span>
 </button>
 
 <button class="button palestine"
     data-category="more-sites"
-    data-station="تحميل تطبيق الأندرويد"
-    data-ar="تحميل تطبيق الأندرويد"
+    data-station="تحميل تطبيق الأندرويد (جديد)"
+    data-ar="تحميل تطبيق الأندرويد (جديد)"
     data-en="Download Android App (New)"
     style="border: 2px solid #28a745; background: #eafaf1; position: relative;"
     onclick="window.open('https://median.co/share/bnakxxn#androidphone', '_blank');">
@@ -20668,7 +20668,7 @@ const moreTranslations = [
        class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
 
   <span class="favorite-icon"
-        onclick="toggleFavorite(event, 'تحميل تطبيق الأندرويد');
+        onclick="toggleFavorite(event, 'تحميل تطبيق الأندرويد (جديد)');
                  event.stopPropagation();
                  return false;">&#x2764;</span>
 </button>
@@ -20980,13 +20980,25 @@ function updateButtonColor() {
   buttons[currentButtonIndex].style.color = activeColor;
 }
 
+// ── helper: يجيب مفتاح المحطة من الزر (data-station أو من الـ favorite-icon) ──
+function getButtonStationKey(button) {
+  var key = button.getAttribute('data-station');
+  if (key) return key;
+  // fallback: نقرأ الـ key من onclick الخاص بالـ favorite-icon داخل الزر
+  var icon = button.querySelector('.favorite-icon');
+  if (!icon) return null;
+  var oc = icon.getAttribute('onclick') || '';
+  var m = oc.match(/toggleFavorite\s*\(event\s*,\s*['"]([^'"]+)['"]/);
+  return m ? m[1] : null;
+}
+
 function updateFavoritesIcons() {
-  document.querySelectorAll('.button[data-station]').forEach(button => {
-    const station = button.getAttribute('data-station');
+  document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
+    var station = getButtonStationKey(button);
     if (!station) return;
-    const icon = button.querySelector('.favorite-icon');
+    var icon = button.querySelector('.favorite-icon');
     if (!icon) return;
-    icon.style.color = ''; // نترك الـ CSS يتحكم
+    icon.style.color = '';
     if (favorites.includes(station)) {
       icon.classList.add('favorited');
     } else {
@@ -21009,9 +21021,8 @@ function toggleFavorite(event, station) {
   localStorage.setItem('favorites', JSON.stringify(favorites));
 
   if (showingFavorites) {
-    // نخفي الزر المحذوف مباشرة بدل ما نعمل toggle كامل
-    document.querySelectorAll('.button[data-station]').forEach(button => {
-      const st = button.getAttribute('data-station');
+    document.querySelectorAll('.button[data-station], .button:has(.favorite-icon)').forEach(button => {
+      const st = getButtonStationKey(button);
       if (!st) return;
       button.style.display = !favorites.includes(st) ? 'none' : 'block';
     });
@@ -21025,7 +21036,7 @@ function toggleFavorite(event, station) {
       if (favLabel2) favLabel2.textContent = isArabic ? ' المفضلة' : ' Favorites';
       if (favHeart2) favHeart2.style.display = 'inline-block';
       viewFavoritesButton.classList.remove('selected');
-      document.querySelectorAll('.button[data-station]').forEach(b => b.style.display = 'block');
+      document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(b => b.style.display = 'block');
       updateButtonIndices();
     }
   }
@@ -21060,7 +21071,7 @@ function toggleFavoritesView() {
     document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(b => b.style.display = 'none');
   } else {
     document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
-      const station = button.getAttribute('data-station');
+      const station = getButtonStationKey(button);
       button.style.display = showingFavorites && !favorites.includes(station) ? 'none' : 'block';
     });
   }
