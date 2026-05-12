@@ -3914,11 +3914,20 @@ function confirmReload() {
     ws.style.display = 'block';
     window._welcomeScreenOpened = true;
 
-    setTimeout(function() {
+    // ── شغّل الراديو عند أول تفاعل (ماوس أو لمس) بدلاً من التشغيل الفوري ──
+    // المتصفحات الحديثة تمنع autoplay بدون تفاعل من المستخدم
+    var _started = false;
+    function _startRadio() {
+        if (_started) return;
+        _started = true;
+        window.removeEventListener('mousemove',  _startRadio);
+        window.removeEventListener('touchstart', _startRadio);
         index = 0;
         playSource(index);
         updateWelcomePlayPauseButton(false);
-    }, 200);
+    }
+    window.addEventListener('mousemove',  _startRadio, { passive: true, once: true });
+    window.addEventListener('touchstart', _startRadio, { passive: true, once: true });
 
     setTimeout(function() {
         // لو المستخدم أغلقها خلال الـ 3 ثواني → لا تُظهر الأزرار
@@ -3929,11 +3938,14 @@ function confirmReload() {
 })();
 
 window.onload = function() {
-    if (mainAudio && !mainAudio.paused) {
+    // أوقف المشغل الرئيسي فقط لو الشاشة الترحيبية لسه مفتوحة
+    // لو المستخدم أغلقها قبل اكتمال التحميل → لا تقاطع التشغيل
+    var ws = document.getElementById('welcomeScreen');
+    var wsOpen = ws && ws.style.display !== 'none' && ws.style.display !== '';
+    if (wsOpen && mainAudio && !mainAudio.paused) {
         mainAudio.pause();
         mainAudio.src = '';
     }
-    // لا تعيد فتح الشاشة لو المستخدم أغلقها أو لو هي مش مفعّلة
 };
 
 function toggleDisableWelcomeScreen() {
