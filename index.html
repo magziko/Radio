@@ -25107,6 +25107,67 @@ if (target && count >= target) {
         }, true);
     })();
 
+    // ── 13. Long press على فلتر الأذكار (الرئيسي والفرعية) لتصفير عدادات التسبيح ──
+    (function() {
+
+        function resetVisibleTasbihCounters() {
+            var boxes = document.querySelectorAll('.tasbih-box');
+            var resetCount = 0;
+            boxes.forEach(function(box) {
+                var btn = box.closest('button');
+                if (!btn || btn.style.display === 'none') return;
+                var key = 'tasbih_' + btn.getAttribute('data-station');
+                localStorage.setItem(key, 0);
+                box.querySelector('.tasbih-count').innerText = 0;
+                btn.classList.remove('completed');
+                resetCount++;
+            });
+            return resetCount;
+        }
+
+        function bindLongPressReset(el) {
+            if (!el) return;
+            var timer = null;
+            var triggered = false;
+
+            function startPress() {
+                triggered = false;
+                timer = setTimeout(function() {
+                    triggered = true;
+                    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+                    var count = resetVisibleTasbihCounters();
+                    if (count > 0) {
+                        showToast(ar
+                            ? '↺ تم تصفير ' + count + ' عداد'
+                            : '↺ Reset ' + count + ' counter' + (count > 1 ? 's' : ''));
+                    }
+                }, 700);
+            }
+
+            function cancelPress() { clearTimeout(timer); }
+
+            el.addEventListener('mousedown',   startPress);
+            el.addEventListener('mouseup',     cancelPress);
+            el.addEventListener('mouseleave',  cancelPress);
+            el.addEventListener('touchstart',  startPress, { passive: true });
+            el.addEventListener('touchend',    function() { cancelPress(); });
+            el.addEventListener('touchcancel', cancelPress);
+
+            // نمنع تفعيل الـ click لو كان long press
+            el.addEventListener('click', function(e) {
+                if (triggered) { e.stopImmediatePropagation(); triggered = false; }
+            }, true);
+        }
+
+        // الزر الرئيسي "أذكار"
+        var adhkarFilterBtn = document.querySelector('.filter-button[data-en="Adhkar"]');
+        bindLongPressReset(adhkarFilterBtn);
+
+        // الأزرار الفرعية داخل #adhkar-subfilter
+        document.querySelectorAll('#adhkar-subfilter .adhkar-sub-btn').forEach(bindLongPressReset);
+
+    })();
+
 });
 </script>
 </body>
