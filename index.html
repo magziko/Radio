@@ -20793,6 +20793,29 @@ function initializeRadio() {
 
 }
 
+// ── تحديد سبب فشل الـ audio (offline / بطيء / رابط مش شغال) ──
+function getAudioFailReason(audioEl) {
+    if (!navigator.onLine) return 'offline';
+    // networkState 3 = NETWORK_NO_SOURCE, 2 = NETWORK_LOADING (بطيء أو stalled)
+    if (audioEl && audioEl.networkState === 2 && audioEl.readyState < 2) return 'slow';
+    // Connection API (Chrome/Android)
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (conn) {
+        var slow = ['slow-2g', '2g'];
+        if (slow.indexOf(conn.effectiveType) !== -1) return 'slow';
+        if (conn.downlink !== undefined && conn.downlink < 0.2) return 'slow';
+    }
+    // error code
+    if (audioEl && audioEl.error) {
+        var code = audioEl.error.code;
+        // MEDIA_ERR_NETWORK = 2, MEDIA_ERR_SRC_NOT_SUPPORTED = 4, MEDIA_ERR_DECODE = 3
+        if (code === 2) return 'slow'; // network error = غالباً بطيء أو انقطع
+        if (code === 4) return 'dead'; // src not supported = رابط مش شغال
+        if (code === 3) return 'dead'; // decode error = رابط تالف
+    }
+    return 'dead'; // default
+}
+
 function playNewAudio(source, stationName, stationNameEn, _fromUser) {
     const _ws = document.getElementById('welcomeScreen');
     const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
@@ -20823,12 +20846,32 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
     }
 
     function onMainAudioError() {
-        updateStatus("⏳ جارٍ إعادة الاتصال بالمحطة، يُرجى الانتظار...", "⏳ Reconnecting, please wait...");
+        var reason = getAudioFailReason(mainAudio);
+        var arMsg, enMsg, pnbAr, pnbEn;
+
+        if (reason === 'offline') {
+            arMsg = '❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...';
+            enMsg = '❌ No internet connection, retrying...';
+            pnbAr = '❌ لا إنترنت...';
+            pnbEn = '❌ No internet...';
+        } else if (reason === 'slow') {
+            arMsg = '⏳ الاتصال بطيء، جارٍ الانتظار...';
+            enMsg = '⏳ Slow connection, please wait...';
+            pnbAr = '⏳ اتصال بطيء...';
+            pnbEn = '⏳ Slow connection...';
+        } else {
+            arMsg = '⚠️ الرابط غير متاح، جارٍ إعادة المحاولة...';
+            enMsg = '⚠️ Stream unavailable, retrying...';
+            pnbAr = '⚠️ جارٍ الاتصال...';
+            pnbEn = '⚠️ Connecting...';
+        }
+
+        updateStatus(arMsg, enMsg);
 
         var pnbNameEl2 = document.getElementById('pnb-name');
         if (pnbNameEl2) {
             var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-            pnbNameEl2.textContent = isAr ? '⏳ جارٍ الاتصال...' : '⏳ Connecting...';
+            pnbNameEl2.textContent = isAr ? pnbAr : pnbEn;
         }
         retryTimeout = setTimeout(function() {
             playNewAudio(currentSource, stationName, stationNameEn);
@@ -22415,6 +22458,70 @@ function openRandomUrl(btn, evt) {
     }
 
 if (urls && Array.isArray(urls) && urls.length > 1) {
+
+    // مستمع الخطأ للمحطات متعددة الروابط مع تمييز سبب الفشل
+    function onMultiUrlError() {
+        var reason = getAudioFailReason(mainAudio);
+        var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+
+        if (reason === 'offline') {
+            // ❌ مفيش إنترنت — لا تنتقل للرابط التالي، استنى يرجع
+            updateStatus(
+                '❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...',
+                '❌ No internet connection, retrying...'
+            );
+            var offlineRetry = setTimeout(function() {
+                mainAudio.src = mainAudio.src;
+                mainAudio.load();
+                mainAudio.play().catch(function(){});
+            }, 8000);
+            window.addEventListener('online', function onBackOnline() {
+                clearTimeout(offlineRetry);
+                updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...');
+                setTimeout(function() {
+                    mainAudio.src = mainAudio.src;
+                    mainAudio.load();
+                    mainAudio.play().catch(function(){});
+                }, 1500);
+                window.removeEventListener('online', onBackOnline);
+            });
+
+        } else if (reason === 'slow') {
+            // ⏳ إنترنت بطيء — لا تنتقل للرابط التالي، استنى وأعد المحاولة
+            updateStatus(
+                '⏳ الاتصال بطيء، جارٍ الانتظار...',
+                '⏳ Slow connection, please wait...'
+            );
+            setTimeout(function() {
+                mainAudio.src = mainAudio.src;
+                mainAudio.load();
+                mainAudio.play().catch(function(){});
+            }, 10000);
+
+        } else {
+            // ⚠️ الرابط نفسه فيه مشكلة → انتقل للتالي
+            var idx = parseInt(button.getAttribute('data-current-index'), 10);
+            if (isNaN(idx) || idx >= urls.length) idx = 0;
+            var nextUrl = urls[idx];
+            if (typeof showToast === 'function') {
+                showToast(isAr
+                    ? '⚠️ الرابط غير متاح، جارٍ تجربة رابط آخر...'
+                    : '⚠️ Link unavailable, trying next...');
+            }
+            updateStatus(
+                '⚠️ الرابط غير متاح، جارٍ تجربة رابط آخر...',
+                '⚠️ Link unavailable, trying next...'
+            );
+            button.setAttribute('data-current-index', (idx + 1) % urls.length);
+            setTimeout(function() {
+                playNewAudio(nextUrl, stationDescription, stationDescriptionEn, true);
+            }, 800);
+        }
+    }
+
+    mainAudio.removeEventListener('error', mainAudio._onMultiUrlErrorHandler || function(){});
+    mainAudio._onMultiUrlErrorHandler = onMultiUrlError;
+    mainAudio.addEventListener('error', onMultiUrlError);
 
     var autoNext = function() {
         if (window._repeatModeActive) return;
@@ -25095,7 +25202,7 @@ if (target && count >= target) {
         favBtn.addEventListener('mouseup',    cancelPress);
         favBtn.addEventListener('mouseleave', cancelPress);
         favBtn.addEventListener('touchstart', startPress, { passive: true });
-        favBtn.addEventListener('touchend',   function() {
+        favBtn.addEventListener('touchend',   function(event) {
             cancelPress();
             if (triggered) event.preventDefault();
         });
