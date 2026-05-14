@@ -2061,32 +2061,74 @@ body.dark-mode #favManagerCancel { border-color: #555; color: #aaa; }
 
 #togglePlayPause {
     position: fixed;
-    bottom: 18px;
+    bottom: 74px;
     left: 14px;
+    z-index: 999999;
 
-    width: 25px;
-    height: 25px;
+    width: 38px;
+    height: 38px;
 
     display: none; /* مخفي افتراضياً — يصبح flex عند الإظهار بالـ JS */
     align-items: center;
     justify-content: center;
 
     border-radius: 50%;
-    font-size: 16px;
+    font-size: 18px;
 
-    background: linear-gradient(135deg, #1e90ff, #1565c0);
-    color: #fff;
-    border: none;
+    background: rgba(255,255,255,0.92);
+    color: #1e90ff;
+    border: 1.5px solid rgba(30,144,255,0.55);
     cursor: pointer;
 
-    box-shadow: 0 2px 10px rgba(30,144,255,0.3);
-    transition: all 0.3s ease;
-    opacity: 0.9;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    backdrop-filter: blur(6px);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    padding: 0;
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+  #togglePlayPause {
+    bottom: 90px;
+    left: 20px;
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  #togglePlayPause {
+    bottom: 85px;
+    left: 20px;
+    width: 36px;
+    height: 36px;
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1025px) {
+  #togglePlayPause {
+    bottom: 74px;
+    left: 14px;
+  }
+}
+
+body.dark-mode #togglePlayPause {
+  background: rgba(26,26,46,0.95);
+  color: #90caf9;
+  border-color: rgba(100,181,246,0.5);
+}
+body.dark-mode #togglePlayPause:hover {
+  background: #1e3a5f;
+  color: #fff;
 }
 
 #togglePlayPause:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 16px rgba(30,144,255,0.5);
+    background: #1e90ff;
+    color: #fff;
+    transform: scale(1.12);
+    box-shadow: 0 5px 16px rgba(30,144,255,0.35);
     opacity: 1;
 }
 
@@ -2849,6 +2891,16 @@ body.dark-mode .custom-tooltip::after {
     display: inline-block;
 }
 
+/* منع gcse من إنشاء مساحة فارغة عندما يكون البانل مخفياً */
+#settings-panel[style*="display: none"] .search-wrapper,
+#settings-panel[style*="display: none"] iframe,
+#settings-panel[style*="display: none"] .gsc-control-cse {
+    display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    max-height: 0 !important;
+}
+
 .tasbih-box {
     position: absolute;
     right: 35px;
@@ -3380,7 +3432,7 @@ body.dark-mode .radio-sub-btn.active {
   position: fixed;
   bottom: 74px;
   right: 140px;
-  z-index: 9999;
+  z-index: 999999;
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -11125,6 +11177,11 @@ setTimeout(autoScaleVerseFont, 100);
   display: inline-block;
   width: 100%;
 }
+/* إخفاء الـ wrapper تلقائياً عندما يكون الزر الداخلي مخفياً */
+.pl-check-wrap:has(> button[style*="display: none"]),
+.pl-check-wrap:has(> button.hidden) {
+  display: none !important;
+}
 /* الـ checkbox نفسه — يجلس على اليمين بعد القلب مباشرة */
 .pl-check-wrap .pl-cb {
   float: right;
@@ -11668,7 +11725,7 @@ setTimeout(autoScaleVerseFont, 100);
     </button>
   </div>
 
-  <div class="search-wrapper" style="margin-top: 10px;">
+  <div class="search-wrapper" style="margin-top: 10px; display: none;">
     <script async src="https://cse.google.com/cse.js?cx=e3e1833506ae646ca"></script>
     <div class="gcse-search"></div>
   </div>
@@ -20873,7 +20930,9 @@ const moreTranslations = [
      style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;top:0;left:0;"
      alt="" loading="eager" aria-hidden="true">
 
-<button id="togglePlayPause" onclick="togglePlayPause()">▶️</button>
+<button id="togglePlayPause" onclick="togglePlayPause()">
+  <svg id="togglePlayPauseIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+</button>
 
 <script>
 
@@ -21173,7 +21232,10 @@ function toggleFavorite(event, station) {
     document.querySelectorAll('.button[data-station], .button:has(.favorite-icon)').forEach(button => {
       const st = getButtonStationKey(button);
       if (!st) return;
-      button.style.display = !favorites.includes(st) ? 'none' : 'block';
+      var show = favorites.includes(st);
+      button.style.display = show ? 'block' : 'none';
+      var wrap = button.parentElement;
+      if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
     });
     updateButtonIndices();
     // لو المفضلة فضت نرجع للوضع الطبيعي
@@ -21185,7 +21247,11 @@ function toggleFavorite(event, station) {
       if (favLabel2) favLabel2.textContent = isArabic ? ' المفضلة' : ' Favorites';
       if (favHeart2) favHeart2.style.display = 'inline-block';
       viewFavoritesButton.classList.remove('selected');
-      document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(b => b.style.display = 'block');
+      document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(b => {
+        b.style.display = 'block';
+        var wrap = b.parentElement;
+        if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = 'inline-block';
+      });
       updateButtonIndices();
     }
   }
@@ -21217,11 +21283,18 @@ function toggleFavoritesView() {
       : '❤️ No favorite stations yet.<br><span style="font-size:13px;color:#aaa;">Tap ❤ next to any station to add it</span>';
     const container = document.querySelector('.buttons-container') || document.getElementById('buttons-container');
     if (container) container.parentNode.insertBefore(msg, container);
-    document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(b => b.style.display = 'none');
+    document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(b => {
+      b.style.display = 'none';
+      var wrap = b.parentElement;
+      if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = 'none';
+    });
   } else {
     document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
       const station = getButtonStationKey(button);
-      button.style.display = showingFavorites && !favorites.includes(station) ? 'none' : 'block';
+      var show = !(showingFavorites && !favorites.includes(station));
+      button.style.display = show ? 'block' : 'none';
+      var wrap = button.parentElement;
+      if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
     });
   }
 
@@ -21386,23 +21459,29 @@ function filterStations(category) {
   document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
     var isHiddenSub = button.hasAttribute('data-hidden-sub');
     var cat = button.getAttribute('data-category');
+    var shouldShow;
     if (category === 'all') {
-      button.style.display = (isHiddenSub || cat === 'Foreign' || cat === 'radio-external') ? 'none' : 'block';
+      shouldShow = !(isHiddenSub || cat === 'Foreign' || cat === 'radio-external');
     } else if (category === 'More') {
-      button.style.display = moreSubCats.includes(cat) ? 'block' : 'none';
+      shouldShow = moreSubCats.includes(cat);
     } else if (category === 'LiveTV') {
-      button.style.display = ltvSubCats.includes(cat) ? 'block' : 'none';
+      shouldShow = ltvSubCats.includes(cat);
     } else if (category === 'mix') {
-      button.style.display = (cat === 'mix') ? 'block' : 'none';
+      shouldShow = (cat === 'mix');
     } else if (category === 'Radio') {
-      // radio-external handled by subfilter; leave its display to filterRadioSub
-      if (cat === 'Radio') {
-        button.style.display = 'block';
-      } else if (cat !== 'radio-external') {
-        button.style.display = 'none';
-      }
+      if (cat === 'Radio') shouldShow = true;
+      else if (cat !== 'radio-external') shouldShow = false;
     } else {
-      button.style.display = (cat === category) ? 'block' : 'none';
+      shouldShow = (cat === category);
+    }
+    if (shouldShow !== undefined) {
+      var disp = shouldShow ? 'block' : 'none';
+      button.style.display = disp;
+      // إخفاء/إظهار الـ wrapper أيضاً لمنع المساحة الفارغة
+      var wrap = button.parentElement;
+      if (wrap && wrap.classList.contains('pl-check-wrap')) {
+        wrap.style.display = shouldShow ? 'inline-block' : 'none';
+      }
     }
   });
 
@@ -21422,7 +21501,10 @@ document.getElementById('searchInput').addEventListener('input', function() {
   var query = this.value.toLowerCase();
   buttons.forEach(button => {
     var text = button.textContent.toLowerCase();
-    button.style.display = text.includes(query) ? 'block' : 'none';
+    var show = text.includes(query);
+    button.style.display = show ? 'block' : 'none';
+    var wrap = button.parentElement;
+    if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
   });
   updateButtonIndices();
 });
@@ -21509,13 +21591,14 @@ const toggleButton = document.getElementById("togglePlayPause");
 const volumeControl = document.getElementById("volumeControl");
 
 function togglePlayPause() {
+    var icon = document.getElementById('togglePlayPauseIcon');
     if (audioPlayer.paused) {
         if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
         audioPlayer.play();
-        toggleButton.textContent = "⏸️";
+        if (icon) icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
     } else {
         audioPlayer.pause();
-        toggleButton.textContent = "▶️";
+        if (icon) icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
     }
 }
 
@@ -21565,9 +21648,15 @@ function toggleSettingsPanel() {
   if (isOpen) {
     panel.style.display = 'none';
     arrow.style.transform = 'rotate(0deg)';
+    // إخفاء gcse لمنع المساحة الفارغة
+    var sw = panel.querySelector('.search-wrapper');
+    if (sw) sw.style.display = 'none';
   } else {
     panel.style.display = 'block';
     arrow.style.transform = 'rotate(180deg)';
+    // إظهار gcse عند فتح البانل
+    var sw = panel.querySelector('.search-wrapper');
+    if (sw) sw.style.display = 'flex';
     // نركز على السيرش لما يفتح
     setTimeout(function() {
       var s = document.getElementById('searchInput');
@@ -23649,7 +23738,10 @@ function filterLiveTVSub(subType, btn) {
     var allLiveTVCats = ['ltv-channels','ltv-full','ltv-best','ltv-salawat','ltv-lectures','ltv-news','ltv-learn'];
     allLiveTVCats.forEach(function(cat) {
         document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-            b.style.display = (subType === 'all' || cat === subType) ? 'block' : 'none';
+            var show = (subType === 'all' || cat === subType);
+            b.style.display = show ? 'block' : 'none';
+            var wrap = b.parentElement;
+            if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
         });
     });
 
@@ -23671,23 +23763,19 @@ function filterMoreSub(subType, btn) {
     if (btn) btn.classList.add('active');
 
     var allMoreCats = ['more-mushaf','more-azkar','more-translations','more-hadith','more-radio','more-sites'];
-    if (subType === 'all') {
-        allMoreCats.forEach(function(cat) {
-            document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-                b.style.display = 'block';
-            });
+    allMoreCats.forEach(function(cat) {
+        document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
+            var show;
+            if (b.hasAttribute('data-hidden-sub')) {
+                show = false;
+            } else {
+                show = (subType === 'all') ? true : (cat === subType);
+            }
+            b.style.display = show ? 'block' : 'none';
+            var wrap = b.parentElement;
+            if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
         });
-    } else {
-        allMoreCats.forEach(function(cat) {
-            document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-                if (b.hasAttribute('data-hidden-sub')) {
-                    b.style.display = 'none';
-                } else {
-                    b.style.display = (cat === subType) ? 'block' : 'none';
-                }
-            });
-        });
-    }
+    });
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
     _scrollActiveBtnInStrip(btn);
@@ -23707,11 +23795,10 @@ function filterSiraSub(subType, btn) {
     if (btn) btn.classList.add('active');
 
     document.querySelectorAll('button[data-category="sira"]').forEach(function(b) {
-        if (subType === 'all') {
-            b.style.display = 'block';
-        } else {
-            b.style.display = (b.getAttribute('data-sira-sub') === subType) ? 'block' : 'none';
-        }
+        var show = (subType === 'all') ? true : (b.getAttribute('data-sira-sub') === subType);
+        b.style.display = show ? 'block' : 'none';
+        var wrap = b.parentElement;
+        if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
     });
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
@@ -23734,10 +23821,11 @@ function filterAdhkarSub(subType, btn) {
     if (btn) btn.classList.add('active');
 
     document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
-        if (subType === 'all') {
-            b.style.display = 'block';
-        } else {
-            b.style.display = b.hasAttribute('data-adhkar-' + subType) ? 'block' : 'none';
+        var show = (subType === 'all') ? true : b.hasAttribute('data-adhkar-' + subType);
+        b.style.display = show ? 'block' : 'none';
+        var wrap = b.parentElement;
+        if (wrap && wrap.classList.contains('pl-check-wrap')) {
+            wrap.style.display = show ? 'inline-block' : 'none';
         }
     });
 
@@ -23758,22 +23846,18 @@ function filterRadioSub(subType, btn) {
     document.querySelectorAll('.radio-sub-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
+    function _setDisp(b, show) {
+        b.style.display = show ? 'block' : 'none';
+        var wrap = b.parentElement;
+        if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
+    }
+
     if (subType === 'radio-live') {
-        // Show only direct-stream stations
-        document.querySelectorAll('button[data-category="Radio"]').forEach(function(b) {
-            b.style.display = 'block';
-        });
-        document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) {
-            b.style.display = 'none';
-        });
+        document.querySelectorAll('button[data-category="Radio"]').forEach(function(b) { _setDisp(b, true); });
+        document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) { _setDisp(b, false); });
     } else if (subType === 'radio-external') {
-        // Show only external-site stations
-        document.querySelectorAll('button[data-category="Radio"]').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) {
-            b.style.display = 'block';
-        });
+        document.querySelectorAll('button[data-category="Radio"]').forEach(function(b) { _setDisp(b, false); });
+        document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) { _setDisp(b, true); });
     }
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
@@ -23798,7 +23882,12 @@ function filterQuranKarimSub(subType, btn) {
 
     ['Quran', 'mojawwad', 'rewayat', 'Monshawiiyat', 'surah', 'teachers'].forEach(function(cat) {
         document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-            b.style.display = (subType === cat) ? 'block' : 'none';
+            var show = (subType === cat);
+            b.style.display = show ? 'block' : 'none';
+            var wrap = b.parentElement;
+            if (wrap && wrap.classList.contains('pl-check-wrap')) {
+                wrap.style.display = show ? 'inline-block' : 'none';
+            }
         });
     });
 
@@ -23830,14 +23919,20 @@ function filterQuranSciencesSub(subType, btn) {
     // Hide/show fixed categories
     ['Translation', 'tafsir', 'tajweed'].forEach(function(cat) {
         document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-            b.style.display = (!isRewaya && subType === cat) ? 'block' : 'none';
+            var show = (!isRewaya && subType === cat);
+            b.style.display = show ? 'block' : 'none';
+            var wrap = b.parentElement;
+            if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
         });
     });
 
     // Show/hide rewayat buttons by selected rewaya
     // Show/hide rewayat buttons AND merged reciters buttons by selected rewaya
     document.querySelectorAll('button[data-category="rewayat"], button[data-category="reciters"][data-rewaya]').forEach(function(b) {
-        b.style.display = (isRewaya && b.getAttribute('data-rewaya') === subType) ? 'block' : 'none';
+        var show = (isRewaya && b.getAttribute('data-rewaya') === subType);
+        b.style.display = show ? 'block' : 'none';
+        var wrap = b.parentElement;
+        if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
     });
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
@@ -24010,24 +24105,20 @@ function filterMixSub(subType, btn) {
     document.querySelectorAll('.mix-sub-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
+    function _sd(b, show) {
+        b.style.display = show ? 'block' : 'none';
+        var w = b.parentElement;
+        if (w && w.classList.contains('pl-check-wrap')) w.style.display = show ? 'inline-block' : 'none';
+    }
+
     if (subType === 'foreign') {
-        document.querySelectorAll('button[data-category="mix"]').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        // Show Foreign category buttons AND merged Radio buttons that have data-foreign="true"
-        document.querySelectorAll('button[data-category="Foreign"], button[data-category="Radio"][data-foreign="true"]').forEach(function(b) {
-            b.style.display = 'block';
-        });
+        document.querySelectorAll('button[data-category="mix"]').forEach(function(b) { _sd(b, false); });
+        document.querySelectorAll('button[data-category="Foreign"], button[data-category="Radio"][data-foreign="true"]').forEach(function(b) { _sd(b, true); });
     } else {
-        document.querySelectorAll('button[data-category="Foreign"], button[data-category="Radio"][data-foreign="true"]').forEach(function(b) {
-            b.style.display = 'none';
-        });
+        document.querySelectorAll('button[data-category="Foreign"], button[data-category="Radio"][data-foreign="true"]').forEach(function(b) { _sd(b, false); });
         document.querySelectorAll('button[data-category="mix"]').forEach(function(b) {
-            if (subType === 'all') {
-                b.style.display = 'block';
-            } else {
-                b.style.display = (b.getAttribute('data-mix-sub') === subType) ? 'block' : 'none';
-            }
+            var show = (subType === 'all') ? true : (b.getAttribute('data-mix-sub') === subType);
+            _sd(b, show);
         });
     }
 
@@ -24043,6 +24134,13 @@ function filterMixSub(subType, btn) {
     }
 }
 
+
+// ── دالة مساعدة: إخفاء/إظهار زر مع الـ wrapper الخارجي pl-check-wrap ──
+function _setButtonDisplay(b, show) {
+    b.style.display = show ? 'block' : 'none';
+    var w = b.parentElement;
+    if (w && w.classList.contains('pl-check-wrap')) w.style.display = show ? 'inline-block' : 'none';
+}
 
 function filterRecitersSub(subType, btn) {
     _highlightParentFilter('reciters');
@@ -24077,104 +24175,60 @@ function filterRecitersSub(subType, btn) {
                     'ltv-channels', 'ltv-full', 'ltv-best', 'ltv-salawat',
                     'ltv-lectures', 'ltv-news', 'ltv-learn', 'Quran'];
 
+    // دالة مساعدة محلية لإخفاء/إظهار الأزرار مع wrapper
+    function _sd2(b, show) { _setButtonDisplay(b, show); }
+
     if (subType === 'hussary') {
-        // Hide everything first, then show only hussary buttons across ALL categories
-        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        document.querySelectorAll('button[data-hussary="true"]').forEach(function(b) {
-            b.style.display = 'block';
-        });
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
+        document.querySelectorAll('button[data-hussary="true"]').forEach(function(b) { _sd2(b, true); });
     } else if (subType === 'radio') {
-        // Hide all first
-        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        // Show only reciters with single url
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
-            b.style.display = b.getAttribute('data-reciter-type') === 'radio' ? 'block' : 'none';
+            _sd2(b, b.getAttribute('data-reciter-type') === 'radio');
         });
     } else if (subType === 'mp3') {
-        // Hide all first
-        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        // Show only reciters with multiple urls
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
-            b.style.display = b.getAttribute('data-reciter-type') === 'mp3' ? 'block' : 'none';
+            _sd2(b, b.getAttribute('data-reciter-type') === 'mp3');
         });
     } else if (subType === 'basit') {
-        // Hide all first
-        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        // Show all basit stations across ALL categories
-        document.querySelectorAll('button[data-basit="true"]').forEach(function(b) {
-            b.style.display = 'block';
-        });
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
+        document.querySelectorAll('button[data-basit="true"]').forEach(function(b) { _sd2(b, true); });
     } else if (subType === 'minshawi') {
-        // Hide all first
-        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        // Show all minshawi stations across ALL categories
-        document.querySelectorAll('button[data-minshawi="true"]').forEach(function(b) {
-            b.style.display = 'block';
-        });
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
+        document.querySelectorAll('button[data-minshawi="true"]').forEach(function(b) { _sd2(b, true); });
     } else if (subType === 'banna') {
-        // Hide all first
-        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        // Show all banna stations across ALL categories
-        document.querySelectorAll('button[data-banna="true"]').forEach(function(b) {
-            b.style.display = 'block';
-        });
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
+        document.querySelectorAll('button[data-banna="true"]').forEach(function(b) { _sd2(b, true); });
     } else if (subType === 'haramain') {
-        // Hide all first
-        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        // Show all haramain reciters stations
-        document.querySelectorAll('button[data-haramain="true"]').forEach(function(b) {
-            b.style.display = 'block';
-        });
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
+        document.querySelectorAll('button[data-haramain="true"]').forEach(function(b) { _sd2(b, true); });
     } else if (subType === 'rising') {
-        // Hide all first
-        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        // Show all rising voices stations
-        document.querySelectorAll('button[data-rising="true"]').forEach(function(b) {
-            b.style.display = 'block';
-        });
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
+        document.querySelectorAll('button[data-rising="true"]').forEach(function(b) { _sd2(b, true); });
     } else if (subType === 'alpha') {
-        // Hide all first
-        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
-            b.style.display = 'none';
-        });
-        // Show only reciters category buttons
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         var _alphaBtns = Array.from(document.querySelectorAll('button[data-category="reciters"]'));
-        _alphaBtns.forEach(function(b) { b.style.display = 'block'; });
+        _alphaBtns.forEach(function(b) { _sd2(b, true); });
 
         // Helper: strip prefixes to get sortable name
         function _getSortName(btn) {
             var name = (btn.getAttribute('data-ar') || btn.textContent || '').trim();
-            // Remove leading patterns: راديو الشيخ / راديو القارئ / (حفلات) الشيخ / الشيخ / القارئ
             name = name.replace(/^راديو\s+(الشيخ|القارئ)\s+/u, '');
             name = name.replace(/^\([^)]+\)\s+(الشيخ|القارئ)\s+/u, '');
             name = name.replace(/^(الشيخ|القارئ)\s+/u, '');
             return name.trim();
         }
 
-        // Sort buttons by stripped name using Arabic locale
-        var _container = _alphaBtns[0] && _alphaBtns[0].parentNode;
+        var _container = _alphaBtns[0] && (_alphaBtns[0].parentElement.classList.contains('pl-check-wrap') ? _alphaBtns[0].parentElement.parentNode : _alphaBtns[0].parentNode);
         if (_container) {
             _alphaBtns.sort(function(a, b) {
                 return _getSortName(a).localeCompare(_getSortName(b), 'ar');
             });
-            // Re-insert in sorted order
-            _alphaBtns.forEach(function(b) { _container.appendChild(b); });
+            _alphaBtns.forEach(function(b) {
+                var node = b.parentElement.classList.contains('pl-check-wrap') ? b.parentElement : b;
+                _container.appendChild(node);
+            });
         }
     }
 
@@ -24614,6 +24668,13 @@ function shareFacebook() {
     var scrolled = window.scrollY > 300;
     var playing = !mainAudioForBtn.paused && !!mainAudioForBtn.src && mainAudioForBtn.src !== window.location.href;
     playBtn.style.display = (scrolled || playing) ? 'flex' : 'none';
+    // تحديث الأيقون حسب حالة التشغيل
+    var icon = document.getElementById('togglePlayPauseIcon');
+    if (icon) {
+      icon.innerHTML = playing
+        ? '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'
+        : '<path d="M8 5v14l11-7z"/>';
+    }
   }
 
   // نفس منطق زر السهم بالضبط
@@ -25510,12 +25571,18 @@ if (target && count >= target) {
         filterQuranKarimSub = function(subType, btn) {
             _origFQKS(subType, btn);
             if (subType === 'surah' || subType === 'Monshawiiyat') {
-                // نحقن الـ checkboxes للفيلتر الجديد ونحدث العداد — البانل يفضل ظاهر
+                // إخفاء البانل أولاً لتجنب المساحة الفارغة عند التبديل بين الفيلترين
+                var p = document.getElementById('surah-playlist-panel');
+                if (p) p.style.display = 'none';
+
                 _activeCat = subType;
                 injectCheckboxes(subType);
                 updateCount();
-                var p = document.getElementById('surah-playlist-panel');
-                if (p) p.style.display = 'block';
+
+                // إعادة إظهار البانل بعد تحديث DOM لتجنب الوميض والمساحة الفارغة
+                requestAnimationFrame(function() {
+                    if (p) p.style.display = 'block';
+                });
             } else {
                 hidePanel();
             }
