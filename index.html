@@ -3915,6 +3915,121 @@ body.dark-mode #salah-pip-btn:active { background: #0a6647; }
 body.dark-mode .sp-btn:hover         { background: rgba(29,158,117,0.22); }
 body.dark-mode #sp-pip-toggle:hover  { background: rgba(24,95,165,0.35); }
 
+/* ══════════════════════════════════════
+   بانلات قوائم التشغيل — Playlist Panels
+   ══════════════════════════════════════ */
+.pl-panel {
+    display: none;
+    direction: rtl;
+    font-family: 'Cairo', Arial, sans-serif;
+    margin: 0 auto 6px auto;
+    max-width: 900px;
+    width: 98%;
+    box-sizing: border-box;
+}
+.pl-toolbar {
+    border-radius: 12px;
+    padding: 8px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+/* ── لون أزرق (سور) ── */
+.pl-toolbar--blue {
+    background: linear-gradient(135deg,#eaf3fb,#f0f7ff);
+    border: 1.5px solid rgba(30,144,255,0.22);
+}
+.pl-label--blue  { color: #1a3a52; }
+.pl-count--blue  { color: #1565c0; background: rgba(30,144,255,0.1); }
+.pl-btn--blue-border { border-color: rgba(30,144,255,0.3) !important; color: #1565c0 !important; }
+
+/* ── لون أخضر (أذكار) ── */
+.pl-toolbar--green {
+    background: linear-gradient(135deg,#f0faf0,#e8f5e9);
+    border: 1.5px solid rgba(40,167,69,0.22);
+}
+.pl-label--green  { color: #1a3a2a; }
+.pl-count--green  { color: #1e7e34; background: rgba(40,167,69,0.1); }
+.pl-btn--green-border { border-color: rgba(40,167,69,0.3) !important; color: #1e7e34 !important; }
+
+/* ── label المشترك ── */
+.pl-label {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* ── الأزرار المشتركة ── */
+.pl-btn {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: opacity 0.15s, background 0.15s;
+}
+.pl-btn--play {
+    padding: 5px 14px;
+    border: none;
+    background: linear-gradient(135deg,#28a745,#1e7e34);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(40,167,69,0.3);
+}
+.pl-btn--play:hover { opacity: 0.88; }
+.pl-btn--select {
+    background: rgba(255,255,255,0.9);
+    border: 1.5px solid transparent;
+}
+.pl-btn--clear {
+    background: rgba(255,255,255,0.9);
+    border: 1.5px solid rgba(229,57,53,0.3);
+    color: #c62828;
+}
+.pl-btn--clear:hover { background: rgba(229,57,53,0.08); }
+
+/* ── badge العداد ── */
+.pl-count {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+/* ── شريط السورة/الذكر الحالي ── */
+.pl-now {
+    margin-top: 5px;
+    border-radius: 10px;
+    padding: 6px 14px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+.pl-now--blue  { background: rgba(30,144,255,0.08); border: 1.5px solid rgba(30,144,255,0.2); color: #1a3a52; }
+.pl-now--green { background: rgba(40,167,69,0.08);  border: 1.5px solid rgba(40,167,69,0.2);  color: #1a3a2a; }
+
+/* ══ DARK MODE ══ */
+body.dark-mode .pl-toolbar--blue {
+    background: linear-gradient(135deg,#0d1e30,#111d2e);
+    border-color: rgba(30,144,255,0.3);
+}
+body.dark-mode .pl-toolbar--green {
+    background: linear-gradient(135deg,#0d1f12,#0f2015);
+    border-color: rgba(40,167,69,0.3);
+}
+body.dark-mode .pl-label--blue  { color: #90caf9; }
+body.dark-mode .pl-label--green { color: #81c784; }
+body.dark-mode .pl-count--blue  { color: #64b5f6; background: rgba(30,144,255,0.18); }
+body.dark-mode .pl-count--green { color: #66bb6a; background: rgba(40,167,69,0.18); }
+body.dark-mode .pl-btn--select  { background: rgba(255,255,255,0.06); }
+body.dark-mode .pl-btn--blue-border  { border-color: rgba(30,144,255,0.45) !important; color: #64b5f6 !important; }
+body.dark-mode .pl-btn--green-border { border-color: rgba(40,167,69,0.45) !important; color: #66bb6a !important; }
+body.dark-mode .pl-btn--clear  { background: rgba(255,255,255,0.06); border-color: rgba(229,57,53,0.4); color: #ef9a9a; }
+body.dark-mode .pl-btn--clear:hover { background: rgba(229,57,53,0.15); }
+body.dark-mode .pl-now--blue  { background: rgba(30,144,255,0.1); border-color: rgba(30,144,255,0.3); color: #90caf9; }
+body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: rgba(40,167,69,0.3);  color: #81c784; }
+
 
 </style>
 
@@ -11210,15 +11325,15 @@ setTimeout(autoScaleVerseFont, 100);
 </div>
 
 <!-- ══ بانل قائمة تشغيل الأذكار ══ -->
-<div id="adhkar-playlist-panel" style="display:none; direction:rtl; font-family:'Cairo',Arial,sans-serif; margin:0 auto 6px auto; max-width:900px; width:98%; box-sizing:border-box;">
-  <div style="background:linear-gradient(135deg,#f0faf0,#e8f5e9); border:1.5px solid rgba(40,167,69,0.22); border-radius:12px; padding:8px 12px; display:flex; flex-wrap:wrap; align-items:center; gap:8px; justify-content:center;">
-    <span style="font-size:13px;font-weight:700;color:#1a3a2a;">📋 قائمة تشغيل:</span>
-    <button onclick="adhkarPlaylistStart()" style="font-family:'Cairo',Arial,sans-serif;font-size:12px;font-weight:700;padding:5px 14px;border-radius:999px;border:none;background:linear-gradient(135deg,#28a745,#1e7e34);color:#fff;cursor:pointer;box-shadow:0 2px 6px rgba(40,167,69,0.3);">▶ تشغيل المختارة</button>
-    <button onclick="adhkarPlaylistSelectAll()" style="font-family:'Cairo',Arial,sans-serif;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;border:1.5px solid rgba(40,167,69,0.3);background:rgba(255,255,255,0.9);color:#1e7e34;cursor:pointer;">✔ تحديد الكل</button>
-    <button onclick="adhkarPlaylistClear()" style="font-family:'Cairo',Arial,sans-serif;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;border:1.5px solid rgba(229,57,53,0.3);background:rgba(255,255,255,0.9);color:#c62828;cursor:pointer;">✖ إلغاء التحديد</button>
-    <span id="adhkar-pl-count" style="font-size:12px;font-weight:700;color:#1e7e34;background:rgba(40,167,69,0.1);padding:3px 10px;border-radius:999px;">0 مختار</span>
+<div id="adhkar-playlist-panel" class="pl-panel pl-panel--green">
+  <div class="pl-toolbar pl-toolbar--green">
+    <span class="pl-label pl-label--green">📋 قائمة تشغيل:</span>
+    <button onclick="adhkarPlaylistStart()" class="pl-btn pl-btn--play">▶ تشغيل المختارة</button>
+    <button onclick="adhkarPlaylistSelectAll()" class="pl-btn pl-btn--select pl-btn--green-border">✔ تحديد الكل</button>
+    <button onclick="adhkarPlaylistClear()" class="pl-btn pl-btn--clear">✖ إلغاء التحديد</button>
+    <span id="adhkar-pl-count" class="pl-count pl-count--green">0 مختار</span>
   </div>
-  <div id="adhkar-pl-now" style="display:none; margin-top:5px; background:rgba(40,167,69,0.08); border:1.5px solid rgba(40,167,69,0.2); border-radius:10px; padding:6px 14px; text-align:center; font-size:13px; font-weight:700; color:#1a3a2a;"></div>
+  <div id="adhkar-pl-now" class="pl-now pl-now--green" style="display:none;"></div>
 </div>
 
 <div class="subfilter-scroll-wrap" id="quransciences-subfilter">
@@ -11251,33 +11366,19 @@ setTimeout(autoScaleVerseFont, 100);
 </div>
 
 <!-- ══ بانل قائمة تشغيل السور ══ -->
-<div id="surah-playlist-panel" style="display:none; direction:rtl; font-family:'Cairo',Arial,sans-serif; margin:0 auto 6px auto; max-width:900px; width:98%; box-sizing:border-box;">
+<div id="surah-playlist-panel" class="pl-panel pl-panel--blue">
 
   <!-- شريط الأدوات -->
-  <div style="background:linear-gradient(135deg,#eaf3fb,#f0f7ff); border:1.5px solid rgba(30,144,255,0.22); border-radius:12px; padding:8px 12px; display:flex; flex-wrap:wrap; align-items:center; gap:8px; justify-content:center;">
-
-    <span style="font-size:13px; font-weight:700; color:#1a3a52;">📋 قائمة تشغيل:</span>
-
-    <button onclick="surahPlaylistStart()" id="surah-pl-play" style="font-family:'Cairo',Arial,sans-serif;font-size:12px;font-weight:700;padding:5px 14px;border-radius:999px;border:none;background:linear-gradient(135deg,#28a745,#1e7e34);color:#fff;cursor:pointer;box-shadow:0 2px 6px rgba(40,167,69,0.3);">
-      ▶ تشغيل المختارة
-    </button>
-
-    <button onclick="surahPlaylistSelectAll()" style="font-family:'Cairo',Arial,sans-serif;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;border:1.5px solid rgba(30,144,255,0.3);background:rgba(255,255,255,0.9);color:#1565c0;cursor:pointer;">
-      ✔ تحديد الكل
-    </button>
-
-    <button onclick="surahPlaylistClear()" style="font-family:'Cairo',Arial,sans-serif;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;border:1.5px solid rgba(229,57,53,0.3);background:rgba(255,255,255,0.9);color:#c62828;cursor:pointer;">
-      ✖ إلغاء التحديد
-    </button>
-
-    <span id="surah-pl-count" style="font-size:12px;font-weight:700;color:#1565c0;background:rgba(30,144,255,0.1);padding:3px 10px;border-radius:999px;">0 مختار</span>
-
-
-
+  <div class="pl-toolbar pl-toolbar--blue">
+    <span class="pl-label pl-label--blue">📋 قائمة تشغيل:</span>
+    <button onclick="surahPlaylistStart()" id="surah-pl-play" class="pl-btn pl-btn--play">▶ تشغيل المختارة</button>
+    <button onclick="surahPlaylistSelectAll()" class="pl-btn pl-btn--select pl-btn--blue-border">✔ تحديد الكل</button>
+    <button onclick="surahPlaylistClear()" class="pl-btn pl-btn--clear">✖ إلغاء التحديد</button>
+    <span id="surah-pl-count" class="pl-count pl-count--blue">0 مختار</span>
   </div>
 
   <!-- شريط السورة الحالية -->
-  <div id="surah-pl-now" style="display:none; margin-top:5px; background:rgba(30,144,255,0.08); border:1.5px solid rgba(30,144,255,0.2); border-radius:10px; padding:6px 14px; text-align:center; font-size:13px; font-weight:700; color:#1a3a52;"></div>
+  <div id="surah-pl-now" class="pl-now pl-now--blue" style="display:none;"></div>
 
 </div>
 
@@ -21175,12 +21276,76 @@ body.dark-mode .sp-target-row label { color: #aaa; }
 body.dark-mode .sp-target-row select { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
 #sp-pip-note { font-size: 11px; color: #888; margin-top: 4px; min-height: 16px; }
 body.dark-mode #sp-pip-note { color: #6b8f7d; }
+
+/* ── كومبوليست الأذكار ── */
+.sp-athkar-row {
+    display: flex; gap: 6px; align-items: center; justify-content: center;
+    margin-bottom: 6px; flex-wrap: wrap;
+}
+.sp-athkar-label { font-size: 12px; color: #555; white-space: nowrap; }
+body.dark-mode .sp-athkar-label { color: #aaa; }
+#sp-athkar-sel {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px; padding: 4px 8px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(29,158,117,0.35);
+    background: rgba(255,255,255,0.9);
+    color: #0F6E56;
+    cursor: pointer;
+    max-width: 220px;
+    flex: 1;
+}
+body.dark-mode #sp-athkar-sel { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
+#sp-athkar-display {
+    font-size: 14px; font-weight: 700;
+    color: #0F6E56;
+    margin: 0 0 8px;
+    line-height: 1.6;
+    padding: 6px 10px;
+    background: rgba(29,158,117,0.07);
+    border-radius: 10px;
+    border: 1px solid rgba(29,158,117,0.15);
+    min-height: 36px;
+    word-break: break-word;
+}
+body.dark-mode #sp-athkar-display {
+    color: #5DCAA5;
+    background: rgba(29,158,117,0.1);
+    border-color: rgba(29,158,117,0.25);
+}
 </style>
 
 <div id="salah-pip-section">
-    <p class="sp-title"
-       data-ar="اللهم صلِّ وسلِّم على نبينا محمد ﷺ"
-       data-en="O Allah, send blessings upon our Prophet Muhammad ﷺ">اللهم صلِّ وسلِّم على نبينا محمد ﷺ</p>
+
+    <!-- ── اختيار الذكر ── -->
+    <div class="sp-athkar-row">
+        <label class="sp-athkar-label" data-ar="الذكر:" data-en="Dhikr:">الذكر:</label>
+        <select id="sp-athkar-sel">
+            <option value="0"  data-ar="اللهم صلِّ وسلِّم على نبينا محمد ﷺ"  data-en="O Allah, bless our Prophet Muhammad ﷺ"   selected>اللهم صلِّ وسلِّم على نبينا محمد ﷺ</option>
+            <option value="1"  data-ar="سبحان الله"                            data-en="SubhanAllah">سبحان الله</option>
+            <option value="2"  data-ar="الحمد لله"                             data-en="Alhamdulillah">الحمد لله</option>
+            <option value="3"  data-ar="الله أكبر"                             data-en="Allahu Akbar">الله أكبر</option>
+            <option value="4"  data-ar="لا إله إلا الله"                       data-en="La ilaha illallah">لا إله إلا الله</option>
+            <option value="5"  data-ar="سبحان الله وبحمده"                     data-en="SubhanAllahi wa bihamdih">سبحان الله وبحمده</option>
+            <option value="6"  data-ar="سبحان الله العظيم"                     data-en="SubhanAllahil Azeem">سبحان الله العظيم</option>
+            <option value="7"  data-ar="لا حول ولا قوة إلا بالله"              data-en="La hawla wala quwwata illa billah">لا حول ولا قوة إلا بالله</option>
+            <option value="8"  data-ar="أستغفر الله"                           data-en="Astaghfirullah">أستغفر الله</option>
+            <option value="9"  data-ar="أستغفر الله وأتوب إليه"                data-en="Astaghfirullah wa atubu ilaih">أستغفر الله وأتوب إليه</option>
+            <option value="10" data-ar="لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير" data-en="La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamd, wa huwa ala kulli shay'in qadir">لا إله إلا الله وحده لا شريك له...</option>
+            <option value="11" data-ar="سبحان الله وبحمده، سبحان الله العظيم"  data-en="SubhanAllahi wa bihamdih, SubhanAllahil Azeem">سبحان الله وبحمده، سبحان الله العظيم</option>
+            <option value="12" data-ar="اللهم اغفر لي وتب عليَّ"               data-en="Allahumma ighfir li wa tub alayya">اللهم اغفر لي وتب عليَّ</option>
+            <option value="13" data-ar="حسبي الله ونعم الوكيل"                 data-en="HasbiyAllahu wa ni'mal wakeel">حسبي الله ونعم الوكيل</option>
+            <option value="14" data-ar="اللهم صلِّ على محمد"                   data-en="Allahumma salli ala Muhammad">اللهم صلِّ على محمد</option>
+            <option value="15" data-ar="بسم الله الرحمن الرحيم"                data-en="Bismillahir Rahmanir Raheem">بسم الله الرحمن الرحيم</option>
+            <option value="16" data-ar="رب اغفر لي"                            data-en="Rabbi ighfir li">رب اغفر لي</option>
+            <option value="17" data-ar="اللهم إني أسألك الجنة"                 data-en="Allahumma inni as'alukal jannah">اللهم إني أسألك الجنة</option>
+            <option value="18" data-ar="اللهم أعني على ذكرك وشكرك وحسن عبادتك" data-en="Allahumma a'inni ala dhikrik wa shukrik wa husni ibadatik">اللهم أعني على ذكرك وشكرك...</option>
+            <option value="19" data-ar="يا حي يا قيوم برحمتك أستغيث"           data-en="Ya Hayyu Ya Qayyum, bi rahmatika astaghith">يا حي يا قيوم برحمتك أستغيث</option>
+        </select>
+    </div>
+
+    <!-- العرض الكامل للذكر المختار -->
+    <p id="sp-athkar-display">اللهم صلِّ وسلِّم على نبينا محمد ﷺ</p>
 
     <div class="sp-target-row">
         <label data-ar="الهدف:" data-en="Target:">الهدف:</label>
@@ -21190,6 +21355,7 @@ body.dark-mode #sp-pip-note { color: #6b8f7d; }
             <option value="200">٢٠٠</option>
             <option value="500">٥٠٠</option>
             <option value="1000">١٠٠٠</option>
+            <option value="10000">١٠٠٠٠</option>
         </select>
     </div>
 
@@ -21227,6 +21393,21 @@ body.dark-mode #sp-pip-note { color: #6b8f7d; }
     var spVideo = document.getElementById('spVideo');
 
     function toAr(n){ return n.toString().replace(/\d/g,function(d){return'٠١٢٣٤٥٦٧٨٩'[d];}); }
+
+    /* ── الذكر الحالي ── */
+    function spGetDhikr(){
+        var ar = spAr();
+        var sel = document.getElementById('sp-athkar-sel');
+        if(!sel) return ar ? 'اللهم صلِّ على محمد ﷺ' : 'O Allah, bless Muhammad ﷺ';
+        var opt = sel.options[sel.selectedIndex];
+        return ar ? (opt.getAttribute('data-ar') || opt.textContent)
+                  : (opt.getAttribute('data-en') || opt.textContent);
+    }
+
+    function spUpdateDhikrDisplay(){
+        var disp = document.getElementById('sp-athkar-display');
+        if(disp) disp.textContent = spGetDhikr();
+    }
 
     function spUpdateUI(){
         var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
@@ -21275,10 +21456,48 @@ body.dark-mode #sp-pip-note { color: #6b8f7d; }
         spUpdateMediaSession();
     });
 
+    document.getElementById('sp-athkar-sel').addEventListener('change', function(){
+        spCount = 0;           /* تصفير العداد عند تغيير الذكر */
+        spUpdateDhikrDisplay();
+        spUpdateUI();
+        spDrawCanvas();
+        spUpdateMediaSession();
+    });
+
+    /* ── helper: اللغة الحالية ── */
+    function spAr(){ return (typeof isArabic !== 'undefined') ? isArabic : true; }
+
+    /* ── نصوص ثنائية اللغة ── */
+    var spT = {
+        title:      { ar: 'اللهم صلِّ على محمد ﷺ',       en: 'O Allah, bless Muhammad ﷺ' },
+        pressNext:  { ar: '⏭  اضغط زر التالي للتسبيح  ⏭', en: '⏭  Press NEXT button to count  ⏭' },
+        targetLbl:  { ar: 'الهدف: ',                       en: 'Target: ' },
+        remLbl:     { ar: '  |  المتبقي: ',                en: '  |  Remaining: ' },
+        pressSpace: { ar: 'أو اضغط Space من لوحة المفاتيح', en: 'Or press Space on your keyboard' },
+        done:       { ar: '🎉 أتممت الهدف! بارك الله فيك', en: '🎉 Goal reached! May Allah reward you' },
+        msTitle:    { ar: ' — صلِّ على النبي ﷺ',           en: ' — Blessings upon the Prophet ﷺ' },
+        msArtist:   { ar: '⏭ اضغط "التالي" للتسبيح  |  ⏮ تصفير', en: '⏭ Press NEXT to count  |  ⏮ Reset' },
+        msAlbum:    { ar: 'المتبقي: ',                     en: 'Remaining: ' },
+        msSetup:    { ar: 'عداد الصلاة على النبي',         en: 'Salah Counter' },
+        msPress:    { ar: '⏭ اضغط "التالي" للتسبيح',      en: '⏭ Press NEXT to count' },
+        pipOpen:    { ar: '📺 فتح PiP',                    en: '📺 Open PiP' },
+        pipClose:   { ar: '✖ إغلاق PiP',                  en: '✖ Close PiP' },
+        pipActive:  { ar: '✅ اضغط زر ⏭ في نافذة PiP للتسبيح من أي تاب!', en: '✅ Press ⏭ in the PiP window to count from any tab!' },
+        pipNote:    { ar: 'افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب',         en: 'Open PiP then press ⏭ to count from any tab' },
+        pipLeave:   { ar: 'افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب',         en: 'Open PiP then press ⏭ to count from any tab' },
+        pipNoSupport:{ ar: '⚠️ متصفحك لا يدعم PiP — جرب Chrome أو Edge',   en: '⚠️ Your browser does not support PiP — try Chrome or Edge' },
+        pipError:   { ar: '⚠️ تعذّر فتح PiP: ',                            en: '⚠️ Could not open PiP: ' },
+    };
+    function t(key){ var ar = spAr(); return spT[key] ? (ar ? spT[key].ar : spT[key].en) : key; }
+
     /* ── رسم الـ Canvas ── */
     function spDrawCanvas(){
+        var ar  = spAr();
         var w = spCanvas.width, h = spCanvas.height;
         var done = spCount >= spTarget;
+        var rem  = Math.max(0, spTarget - spCount);
+        var dhikr = spGetDhikr();
+
         spCtx.clearRect(0,0,w,h);
         spCtx.fillStyle = done ? '#FFF8E8' : '#E8F8F2';
         spCtx.fillRect(0,0,w,h);
@@ -21286,56 +21505,77 @@ body.dark-mode #sp-pip-note { color: #6b8f7d; }
         spCtx.lineWidth = 5;
         spCtx.strokeRect(3,3,w-6,h-6);
 
-        spCtx.direction = 'rtl';
+        spCtx.direction = ar ? 'rtl' : 'ltr';
         spCtx.textAlign = 'center';
-        spCtx.font = 'bold 20px Cairo, Arial, sans-serif';
-        spCtx.fillStyle = done ? '#633806' : '#0F6E56';
-        spCtx.fillText('اللهم صلِّ على محمد ﷺ', w/2, 40);
 
-        /* تعليمة الضغط */
+        /* عنوان الذكر — يكسر السطر لو كان طويلًا */
+        spCtx.font = 'bold 17px Cairo, Arial, sans-serif';
+        spCtx.fillStyle = done ? '#633806' : '#0F6E56';
+        var maxW = w - 20;
+        var words = dhikr.split(' ');
+        var line1 = '', line2 = '', lineY = 34;
+        for(var i=0;i<words.length;i++){
+            var test = line1 ? line1+' '+words[i] : words[i];
+            if(spCtx.measureText(test).width > maxW && line1){
+                line2 = words.slice(i).join(' ');
+                break;
+            }
+            line1 = test;
+        }
+        if(line2){
+            spCtx.fillText(line1, w/2, lineY);
+            spCtx.font = 'bold 14px Cairo, Arial, sans-serif';
+            /* اقتطع لو طويل جدًا */
+            while(line2 && spCtx.measureText(line2).width > maxW) line2 = line2.slice(0,-2)+'…';
+            spCtx.fillText(line2, w/2, lineY+20);
+            lineY += 20;
+        } else {
+            spCtx.fillText(line1, w/2, lineY);
+        }
+
         spCtx.font = 'bold 13px Cairo, Arial, sans-serif';
         spCtx.fillStyle = done ? '#BA7517' : '#1D9E75';
-        spCtx.fillText('⏭  اضغط زر التالي للتسبيح  ⏭', w/2, 62);
+        spCtx.fillText(t('pressNext'), w/2, lineY + 22);
 
-        spCtx.font = 'bold 96px Cairo, Arial, sans-serif';
+        spCtx.font = 'bold 90px Cairo, Arial, sans-serif';
         spCtx.fillStyle = done ? '#BA7517' : '#1D9E75';
-        spCtx.fillText(toAr(spCount), w/2, 168);
+        spCtx.fillText(ar ? toAr(spCount) : spCount, w/2, lineY + 112);
 
-        spCtx.font = '18px Cairo, Arial, sans-serif';
+        spCtx.font = '17px Cairo, Arial, sans-serif';
         spCtx.fillStyle = done ? '#854F0B' : '#0F6E56';
-        var rem = Math.max(0, spTarget - spCount);
-        spCtx.fillText('الهدف: ' + toAr(spTarget) + '  |  المتبقي: ' + toAr(rem), w/2, 212);
+        var targetStr = ar ? toAr(spTarget) : String(spTarget);
+        var remStr    = ar ? toAr(rem)      : String(rem);
+        spCtx.fillText(t('targetLbl') + targetStr + t('remLbl') + remStr, w/2, lineY + 138);
 
-        spCtx.font = done ? 'bold 16px Cairo, Arial, sans-serif' : '14px Cairo, Arial, sans-serif';
+        spCtx.font = done ? 'bold 15px Cairo, Arial, sans-serif' : '13px Cairo, Arial, sans-serif';
         spCtx.fillStyle = done ? '#854F0B' : '#777';
-        spCtx.fillText(done ? '🎉 أتممت الهدف! بارك الله فيك' : 'أو اضغط Space من لوحة المفاتيح', w/2, 252);
+        spCtx.fillText(done ? t('done') : t('pressSpace'), w/2, lineY + 160);
     }
 
-    /* ── Media Session: يجعل زر ⏭ في الـ PiP يُسبِّح ── */
+    /* ── Media Session ── */
     function spSetupMediaSession(){
         if(!('mediaSession' in navigator)) return;
         navigator.mediaSession.metadata = new MediaMetadata({
-            title: 'اللهم صلِّ على محمد ﷺ',
-            artist: '⏭ اضغط "التالي" للتسبيح',
-            album: 'عداد الصلاة على النبي'
+            title:  spGetDhikr(),
+            artist: t('msPress'),
+            album:  t('msSetup')
         });
-        navigator.mediaSession.setActionHandler('nexttrack', function(){
-            window.spIncrement();
-        });
-        navigator.mediaSession.setActionHandler('previoustrack', function(){
-            window.spReset();
-        });
-        /* نحتاج حالة playing حتى تظهر الأزرار */
+        navigator.mediaSession.setActionHandler('nexttrack',     function(){ window.spIncrement(); });
+        navigator.mediaSession.setActionHandler('previoustrack', function(){ window.spReset(); });
         navigator.mediaSession.playbackState = 'playing';
     }
 
     function spUpdateMediaSession(){
         if(!('mediaSession' in navigator)) return;
+        var ar  = spAr();
         var rem = Math.max(0, spTarget - spCount);
+        var cStr = ar ? toAr(spCount)  : String(spCount);
+        var tStr = ar ? toAr(spTarget) : String(spTarget);
+        var rStr = ar ? toAr(rem)      : String(rem);
         navigator.mediaSession.metadata = new MediaMetadata({
-            title: toAr(spCount) + ' / ' + toAr(spTarget) + ' — صلِّ على النبي ﷺ',
-            artist: '⏭ اضغط "التالي" للتسبيح  |  ⏮ تصفير',
-            album: 'المتبقي: ' + toAr(rem)
+            title:  cStr + ' / ' + tStr + ' — ' + spGetDhikr(),
+            artist: t('msArtist'),
+            album:  t('msAlbum') + rStr
         });
     }
 
@@ -21347,19 +21587,19 @@ body.dark-mode #sp-pip-note { color: #6b8f7d; }
 
     /* ── فتح / إغلاق PiP ── */
     window.spTogglePip = async function(){
-        var btn = document.getElementById('sp-pip-toggle');
+        var btn  = document.getElementById('sp-pip-toggle');
         var note = document.getElementById('sp-pip-note');
         if(typeof document.pictureInPictureEnabled === 'undefined' || !document.pictureInPictureEnabled){
-            note.textContent = '⚠️ متصفحك لا يدعم PiP — جرب Chrome أو Edge';
+            note.textContent = t('pipNoSupport');
             return;
         }
         if(spPipActive){
             try{ await document.exitPictureInPicture(); }catch(e){}
             spPipActive = false;
-            btn.textContent = '📺 فتح PiP';
+            btn.textContent = t('pipOpen');
             btn.classList.remove('active');
             spStopLoop();
-            note.textContent = 'افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب';
+            note.textContent = t('pipNote');
             return;
         }
         try{
@@ -21370,19 +21610,19 @@ body.dark-mode #sp-pip-note { color: #6b8f7d; }
             spSetupMediaSession();
             await spVideo.requestPictureInPicture();
             spPipActive = true;
-            btn.textContent = '✖ إغلاق PiP';
+            btn.textContent = t('pipClose');
             btn.classList.add('active');
-            note.textContent = '✅ اضغط زر ⏭ في نافذة PiP للتسبيح من أي تاب!';
+            note.textContent = t('pipActive');
             spStartLoop();
             spVideo.addEventListener('leavepictureinpicture', function(){
                 spPipActive = false;
-                btn.textContent = '📺 فتح PiP';
+                btn.textContent = t('pipOpen');
                 btn.classList.remove('active');
                 spStopLoop();
-                note.textContent = 'افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب';
+                note.textContent = t('pipLeave');
             }, { once: true });
         }catch(e){
-            note.textContent = '⚠️ تعذّر فتح PiP: ' + (e.message || 'حاول مجددًا');
+            note.textContent = t('pipError') + (e.message || '');
         }
     };
 
@@ -21397,8 +21637,39 @@ body.dark-mode #sp-pip-note { color: #6b8f7d; }
         }
     });
 
-    spUpdateUI();
-    spDrawCanvas();
+    /* ── تهيؤ مؤجَّل حتى تكون isArabic معرَّفة ── */
+    function spInit(){
+        spUpdateDhikrDisplay();
+        spUpdateUI();
+        spDrawCanvas();
+        /* تطبيق الترجمة على النصوص الثابتة حسب اللغة المحفوظة */
+        var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+        var els = [
+            { id: 'salah-pip-hint' },
+            { id: 'sp-pip-toggle'  },
+            { id: 'sp-reset-btn'   },
+            { id: 'sp-pip-note'    },
+        ];
+        els.forEach(function(o){
+            var el = document.getElementById(o.id);
+            if(!el) return;
+            var txt = ar ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+            if(txt) el.textContent = txt;
+        });
+        var spTitle = document.querySelector('#salah-pip-section .sp-title');
+        if(spTitle){ var t2 = ar ? spTitle.getAttribute('data-ar') : spTitle.getAttribute('data-en'); if(t2) spTitle.textContent = t2; }
+        var spLbl = document.querySelector('.sp-target-row label');
+        if(spLbl){ var t3 = ar ? spLbl.getAttribute('data-ar') : spLbl.getAttribute('data-en'); if(t3) spLbl.textContent = t3; }
+        var sec = document.getElementById('salah-pip-section');
+        if(sec) sec.style.direction = ar ? 'rtl' : 'ltr';
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', spInit);
+    } else {
+        /* الصفحة محمَّلة مسبقًا — نؤجّل tick واحد حتى تُعرَّف isArabic */
+        setTimeout(spInit, 0);
+    }
 })();
 </script>
 <!-- ══ نهاية عداد PiP ══ -->
@@ -22449,8 +22720,12 @@ function toggleLanguage() {
 
     // زر PiP
     var spPipBtn = document.getElementById('sp-pip-toggle');
-    if(spPipBtn && !spPipBtn.classList.contains('active')){
-      spPipBtn.textContent = ar ? spPipBtn.getAttribute('data-ar') : spPipBtn.getAttribute('data-en');
+    if(spPipBtn){
+      if(!spPipBtn.classList.contains('active')){
+        spPipBtn.textContent = ar ? spPipBtn.getAttribute('data-ar') : spPipBtn.getAttribute('data-en');
+      } else {
+        spPipBtn.textContent = ar ? '✖ إغلاق PiP' : '✖ Close PiP';
+      }
     }
 
     // زر تصفير
@@ -22459,15 +22734,37 @@ function toggleLanguage() {
 
     // نص التعليمة
     var spNote = document.getElementById('sp-pip-note');
-    if(spNote && !spPipBtn?.classList.contains('active')){
-      spNote.textContent = ar
-        ? spNote.getAttribute('data-ar')
-        : spNote.getAttribute('data-en');
+    if(spNote && spPipBtn && !spPipBtn.classList.contains('active')){
+      spNote.textContent = ar ? spNote.getAttribute('data-ar') : spNote.getAttribute('data-en');
     }
 
     // اتجاه القسم
     var spSec = document.getElementById('salah-pip-section');
     if(spSec) spSec.style.direction = ar ? 'rtl' : 'ltr';
+
+    // ترجمة label الذكر
+    var spAthkarLbl = document.querySelector('.sp-athkar-label');
+    if(spAthkarLbl) spAthkarLbl.textContent = ar ? spAthkarLbl.getAttribute('data-ar') : spAthkarLbl.getAttribute('data-en');
+
+    // ترجمة خيارات كومبوليست الأذكار
+    var spAthkarSel = document.getElementById('sp-athkar-sel');
+    if(spAthkarSel){
+      Array.from(spAthkarSel.options).forEach(function(opt){
+        var txt = ar ? opt.getAttribute('data-ar') : opt.getAttribute('data-en');
+        if(txt) opt.textContent = txt;
+      });
+    }
+
+    // تحديث عرض الذكر الحالي
+    var spDisp = document.getElementById('sp-athkar-display');
+    if(spDisp && spAthkarSel){
+      var selOpt = spAthkarSel.options[spAthkarSel.selectedIndex];
+      spDisp.textContent = ar ? (selOpt.getAttribute('data-ar') || selOpt.textContent)
+                               : (selOpt.getAttribute('data-en') || selOpt.textContent);
+    }
+
+    // إعادة رسم الـ Canvas باللغة الجديدة فورًا
+    if(typeof spDrawCanvas === 'function') spDrawCanvas();
   })();
 
 }
