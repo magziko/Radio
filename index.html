@@ -3804,6 +3804,117 @@ body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
     contain-intrinsic-size: 0 50px;
 }
 
+/* ══════════════════════════════════════════════
+   DARK MODE — عناصر كانت بدون دعم الوضع الليلي
+   ══════════════════════════════════════════════ */
+
+/* شاشة الترحيب */
+body.dark-mode #siteWelcomeText { color: #a0b4c8; }
+body.dark-mode .customHeading    { color: #cdd9e5; }
+
+/* الآية القرآنية */
+body.dark-mode #arabicVerse  { color: #c8d8e8 !important; text-shadow: none !important; }
+body.dark-mode #englishVerse { color: #8aa0b4 !important; }
+body.dark-mode #verseNumber  { color: #5b9bd5 !important; }
+body.dark-mode .basmala-line { color: #7ab3d9 !important; }
+body.dark-mode #quranVerse   {
+    background: linear-gradient(160deg, rgba(30,80,120,0.12) 0%, rgba(0,0,0,0) 100%);
+    border-color: rgba(90,160,220,0.15);
+}
+
+/* شريط الفلاتر */
+body.dark-mode #filters-container { background: #1a2535; border-color: rgba(100,181,246,0.12); }
+body.dark-mode .subfilter-scroll-strip { background: rgba(30,144,255,0.06); }
+body.dark-mode .subfilter-scroll-strip button {
+    background: #1e2d3e;
+    color: #90caf9;
+    border-color: rgba(100,181,246,0.2);
+}
+body.dark-mode .subfilter-scroll-strip button.active,
+body.dark-mode .subfilter-scroll-strip button:hover {
+    background: rgba(30,144,255,0.22);
+    color: #64b5f6;
+}
+
+/* عنصر الصوت */
+body.dark-mode audio { background: #1a2535; color-scheme: dark; }
+body.dark-mode #currentAudio { background: #1a2535; border-color: #2e4a6a; }
+
+/* زر الرجوع لأعلى */
+body.dark-mode #scrollToTopBtn {
+    background: rgba(26,37,53,0.95);
+    color: #90caf9;
+    border-color: rgba(100,181,246,0.25);
+}
+body.dark-mode #scrollToTopBtn:hover { background: rgba(30,144,255,0.2); }
+
+/* بلاير فلسطين المعزول */
+body.dark-mode .isolated-radio-player { background: rgba(15,25,40,0.85); border-color: rgba(100,181,246,0.2); }
+body.dark-mode .isolated-play-button  { background: #1e2d3e; color: #90caf9; border-color: rgba(100,181,246,0.3); }
+body.dark-mode .isolated-play-button:hover  { background: #253d55; }
+body.dark-mode .isolated-play-button:active { background: #1a2a3a; }
+
+/* tooltip الأذكار */
+body.dark-mode .custom-tooltip {
+    background: linear-gradient(135deg, #1a2535 0%, #1e2d3e 100%);
+    color: #c8d8e8;
+    border-color: rgba(100,181,246,0.2);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+body.dark-mode .custom-tooltip::after { border-top-color: #1a2535; }
+
+/* النجوم */
+body.dark-mode .star       { color: #4a5568; }
+body.dark-mode .star.checked,
+body.dark-mode .star:hover { color: #f6c90e; }
+
+/* التوست */
+body.dark-mode .toast {
+    background: #1e3a5f;
+    color: #e0eaf8;
+    border-color: rgba(100,181,246,0.25);
+}
+body.dark-mode .toast button { background: rgba(255,193,7,0.15); color: #ffc107; }
+body.dark-mode .toast button:hover { background: rgba(255,193,7,0.28); }
+
+/* أزرار المشاركة والفوتر */
+body.dark-mode .footer-button  { background: #1565c0; color: #fff; }
+body.dark-mode .footer-button:hover { background: #1976d2; }
+body.dark-mode .facebook-button { background: #1a3a6e; color: #90b8f8; }
+body.dark-mode .facebook-button:hover { background: #213f7a; }
+body.dark-mode .copy      { background: #2d3748; color: #e2e8f0; }
+body.dark-mode .copy:hover { background: #3a4a5e; }
+
+/* مودال المفضلة */
+body.dark-mode #favManagerOverlay { background: rgba(0,0,0,0.72); }
+body.dark-mode #favManagerEmpty   { color: #6b8a9e; }
+body.dark-mode #favManagerClose   { color: #6b8a9e; }
+body.dark-mode #favManagerClose:hover { color: #e53935; }
+
+/* نوافذ site-modal */
+body.dark-mode .site-modal-window { background: #1a2535; border-color: rgba(100,181,246,0.2); }
+body.dark-mode .site-modal-body   { background: #1a2535; color: #c8d8e8; }
+
+/* translate */
+body.dark-mode #mag_translate_toggle button { background: rgba(26,37,53,0.9); color: #90caf9; border-color: rgba(100,181,246,0.25); }
+body.dark-mode #mag_translate_toggle button:hover { background: #1565c0 !important; color: #fff !important; }
+
+/* أزرار التحكم العلوية */
+body.dark-mode :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) {
+    background: rgba(26,37,53,0.85);
+    color: #90caf9;
+    border-color: rgba(100,181,246,0.25);
+}
+body.dark-mode :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn):hover {
+    background: rgba(30,144,255,0.15);
+    color: #64b5f6;
+}
+
+/* أزرار hover في الـ PiP section */
+body.dark-mode #salah-pip-btn:active { background: #0a6647; }
+body.dark-mode .sp-btn:hover         { background: rgba(29,158,117,0.22); }
+body.dark-mode #sp-pip-toggle:hover  { background: rgba(24,95,165,0.35); }
+
 
 </style>
 
@@ -20974,6 +21085,324 @@ const moreTranslations = [
     <span class="free-palestine-text" id="freePalestineText" data-ar="فلسطين حرة" data-en="Free Palestine">فلسطين حرة</span>
 </div>
 
+<!-- ══ عداد الصلاة على النبي ﷺ مع PiP ══ -->
+<style>
+#salah-pip-section {
+    direction: rtl;
+    font-family: 'Cairo', Arial, sans-serif;
+    text-align: center;
+    margin: 14px auto 10px auto;
+    max-width: 340px;
+    width: 95%;
+    background: rgba(255,255,255,0.72);
+    border: 1.5px solid rgba(29,158,117,0.25);
+    border-radius: 18px;
+    padding: 14px 12px 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    backdrop-filter: blur(6px);
+    box-sizing: border-box;
+}
+body.dark-mode #salah-pip-section {
+    background: rgba(30,40,35,0.82);
+    border-color: rgba(29,158,117,0.35);
+}
+#salah-pip-section .sp-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0F6E56;
+    margin: 0 0 10px;
+    line-height: 1.5;
+}
+body.dark-mode #salah-pip-section .sp-title { color: #5DCAA5; }
+#salah-pip-btn {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    border: 3px solid #1D9E75;
+    background: #E1F5EE;
+    cursor: pointer;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    margin: 0 auto 10px;
+    transition: transform 0.1s, background 0.15s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    color: #0F6E56;
+}
+#salah-pip-btn:active { transform: scale(0.92); background: #9FE1CB; }
+#salah-pip-btn.sp-done { border-color: #BA7517; background: #FAEEDA; color: #854F0B; }
+body.dark-mode #salah-pip-btn { background: #0F3D2E; border-color: #1D9E75; color: #5DCAA5; }
+body.dark-mode #salah-pip-btn.sp-done { background: #3D2800; border-color: #BA7517; color: #EF9F27; }
+#salah-pip-num { font-size: 44px; font-weight: 700; line-height: 1; }
+#salah-pip-hint { font-size: 11px; margin-top: 3px; opacity: 0.75; }
+#salah-pip-info { font-size: 12px; color: #555; margin-bottom: 8px; }
+body.dark-mode #salah-pip-info { color: #aaa; }
+.sp-row { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; margin-bottom: 7px; }
+.sp-btn {
+    border: 1.5px solid rgba(29,158,117,0.35);
+    background: rgba(255,255,255,0.9);
+    color: #0F6E56;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.sp-btn:hover { background: #E1F5EE; }
+body.dark-mode .sp-btn { background: rgba(29,158,117,0.12); color: #5DCAA5; border-color: rgba(29,158,117,0.4); }
+#sp-pip-toggle {
+    background: #E6F1FB;
+    color: #185FA5;
+    border-color: rgba(24,95,165,0.35);
+}
+#sp-pip-toggle:hover { background: #B5D4F4; }
+#sp-pip-toggle.active { background: #378ADD; color: #fff; border-color: #378ADD; }
+body.dark-mode #sp-pip-toggle { background: rgba(24,95,165,0.18); color: #85B7EB; }
+body.dark-mode #sp-pip-toggle.active { background: #185FA5; color: #fff; }
+.sp-target-row { display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 8px; }
+.sp-target-row label { font-size: 12px; color: #555; }
+body.dark-mode .sp-target-row label { color: #aaa; }
+.sp-target-row select {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px; padding: 3px 7px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(29,158,117,0.3);
+    background: rgba(255,255,255,0.9);
+    color: #0F6E56;
+    cursor: pointer;
+}
+body.dark-mode .sp-target-row select { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
+#sp-pip-note { font-size: 11px; color: #888; margin-top: 4px; min-height: 16px; }
+body.dark-mode #sp-pip-note { color: #6b8f7d; }
+</style>
+
+<div id="salah-pip-section">
+    <p class="sp-title"
+       data-ar="اللهم صلِّ وسلِّم على نبينا محمد ﷺ"
+       data-en="O Allah, send blessings upon our Prophet Muhammad ﷺ">اللهم صلِّ وسلِّم على نبينا محمد ﷺ</p>
+
+    <div class="sp-target-row">
+        <label data-ar="الهدف:" data-en="Target:">الهدف:</label>
+        <select id="sp-target-sel">
+            <option value="33">٣٣</option>
+            <option value="100" selected>١٠٠</option>
+            <option value="200">٢٠٠</option>
+            <option value="500">٥٠٠</option>
+            <option value="1000">١٠٠٠</option>
+        </select>
+    </div>
+
+    <button id="salah-pip-btn" onclick="spIncrement()">
+        <span id="salah-pip-num">٠</span>
+        <span id="salah-pip-hint" data-ar="اضغط للتسبيح" data-en="Tap to count">اضغط للتسبيح</span>
+    </button>
+
+    <p id="salah-pip-info">الهدف: ١٠٠ &nbsp;|&nbsp; المتبقي: ١٠٠</p>
+
+    <div class="sp-row">
+        <button class="sp-btn" id="sp-pip-toggle"
+                data-ar="📺 فتح PiP" data-en="📺 Open PiP"
+                onclick="spTogglePip()">📺 فتح PiP</button>
+        <button class="sp-btn" id="sp-reset-btn"
+                data-ar="↺ تصفير" data-en="↺ Reset"
+                onclick="spReset()">↺ تصفير</button>
+    </div>
+    <p id="sp-pip-note"
+       data-ar="افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب"
+       data-en="Open PiP then press ⏭ to count from any tab">افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب</p>
+</div>
+
+<canvas id="spCanvas" width="400" height="280" style="display:none;"></canvas>
+<video id="spVideo" style="display:none;" muted playsinline></video>
+
+<script>
+(function(){
+    var spCount = 0;
+    var spTarget = 100;
+    var spPipActive = false;
+    var spAnimFrame = null;
+    var spCanvas = document.getElementById('spCanvas');
+    var spCtx = spCanvas.getContext('2d');
+    var spVideo = document.getElementById('spVideo');
+
+    function toAr(n){ return n.toString().replace(/\d/g,function(d){return'٠١٢٣٤٥٦٧٨٩'[d];}); }
+
+    function spUpdateUI(){
+        var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+        var toAr = function(n){ return n.toString().replace(/\d/g,function(d){return'٠١٢٣٤٥٦٧٨٩'[d];}); };
+
+        // العداد — دائمًا أرقام عربية
+        document.getElementById('salah-pip-num').textContent = toAr(spCount);
+
+        var rem = Math.max(0, spTarget - spCount);
+        var infoEl = document.getElementById('salah-pip-info');
+        if(infoEl){
+            infoEl.setAttribute('data-count', spCount);
+            infoEl.setAttribute('data-target', spTarget);
+            if(isAr){
+                infoEl.innerHTML = 'الهدف: ' + toAr(spTarget) + ' &nbsp;|&nbsp; المتبقي: ' + toAr(rem);
+            } else {
+                infoEl.innerHTML = 'Target: ' + spTarget + ' &nbsp;|&nbsp; Remaining: ' + rem;
+            }
+        }
+
+        var btn = document.getElementById('salah-pip-btn');
+        if(spCount >= spTarget) btn.classList.add('sp-done');
+        else btn.classList.remove('sp-done');
+    }
+
+    window.spIncrement = function(){
+        spCount++;
+        spUpdateUI();
+        spDrawCanvas();
+        spUpdateMediaSession();
+        if(spCount === spTarget && typeof showToast === 'function')
+            showToast('🎉 أتممت الهدف! جزاك الله خيرًا');
+    };
+
+    window.spReset = function(){
+        spCount = 0;
+        spUpdateUI();
+        spDrawCanvas();
+        spUpdateMediaSession();
+    };
+
+    document.getElementById('sp-target-sel').addEventListener('change', function(){
+        spTarget = parseInt(this.value);
+        spUpdateUI();
+        spDrawCanvas();
+        spUpdateMediaSession();
+    });
+
+    /* ── رسم الـ Canvas ── */
+    function spDrawCanvas(){
+        var w = spCanvas.width, h = spCanvas.height;
+        var done = spCount >= spTarget;
+        spCtx.clearRect(0,0,w,h);
+        spCtx.fillStyle = done ? '#FFF8E8' : '#E8F8F2';
+        spCtx.fillRect(0,0,w,h);
+        spCtx.strokeStyle = done ? '#BA7517' : '#1D9E75';
+        spCtx.lineWidth = 5;
+        spCtx.strokeRect(3,3,w-6,h-6);
+
+        spCtx.direction = 'rtl';
+        spCtx.textAlign = 'center';
+        spCtx.font = 'bold 20px Cairo, Arial, sans-serif';
+        spCtx.fillStyle = done ? '#633806' : '#0F6E56';
+        spCtx.fillText('اللهم صلِّ على محمد ﷺ', w/2, 40);
+
+        /* تعليمة الضغط */
+        spCtx.font = 'bold 13px Cairo, Arial, sans-serif';
+        spCtx.fillStyle = done ? '#BA7517' : '#1D9E75';
+        spCtx.fillText('⏭  اضغط زر التالي للتسبيح  ⏭', w/2, 62);
+
+        spCtx.font = 'bold 96px Cairo, Arial, sans-serif';
+        spCtx.fillStyle = done ? '#BA7517' : '#1D9E75';
+        spCtx.fillText(toAr(spCount), w/2, 168);
+
+        spCtx.font = '18px Cairo, Arial, sans-serif';
+        spCtx.fillStyle = done ? '#854F0B' : '#0F6E56';
+        var rem = Math.max(0, spTarget - spCount);
+        spCtx.fillText('الهدف: ' + toAr(spTarget) + '  |  المتبقي: ' + toAr(rem), w/2, 212);
+
+        spCtx.font = done ? 'bold 16px Cairo, Arial, sans-serif' : '14px Cairo, Arial, sans-serif';
+        spCtx.fillStyle = done ? '#854F0B' : '#777';
+        spCtx.fillText(done ? '🎉 أتممت الهدف! بارك الله فيك' : 'أو اضغط Space من لوحة المفاتيح', w/2, 252);
+    }
+
+    /* ── Media Session: يجعل زر ⏭ في الـ PiP يُسبِّح ── */
+    function spSetupMediaSession(){
+        if(!('mediaSession' in navigator)) return;
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: 'اللهم صلِّ على محمد ﷺ',
+            artist: '⏭ اضغط "التالي" للتسبيح',
+            album: 'عداد الصلاة على النبي'
+        });
+        navigator.mediaSession.setActionHandler('nexttrack', function(){
+            window.spIncrement();
+        });
+        navigator.mediaSession.setActionHandler('previoustrack', function(){
+            window.spReset();
+        });
+        /* نحتاج حالة playing حتى تظهر الأزرار */
+        navigator.mediaSession.playbackState = 'playing';
+    }
+
+    function spUpdateMediaSession(){
+        if(!('mediaSession' in navigator)) return;
+        var rem = Math.max(0, spTarget - spCount);
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: toAr(spCount) + ' / ' + toAr(spTarget) + ' — صلِّ على النبي ﷺ',
+            artist: '⏭ اضغط "التالي" للتسبيح  |  ⏮ تصفير',
+            album: 'المتبقي: ' + toAr(rem)
+        });
+    }
+
+    function spStartLoop(){
+        if(spAnimFrame) return;
+        (function loop(){ spDrawCanvas(); spAnimFrame = requestAnimationFrame(loop); })();
+    }
+    function spStopLoop(){ if(spAnimFrame){ cancelAnimationFrame(spAnimFrame); spAnimFrame = null; } }
+
+    /* ── فتح / إغلاق PiP ── */
+    window.spTogglePip = async function(){
+        var btn = document.getElementById('sp-pip-toggle');
+        var note = document.getElementById('sp-pip-note');
+        if(typeof document.pictureInPictureEnabled === 'undefined' || !document.pictureInPictureEnabled){
+            note.textContent = '⚠️ متصفحك لا يدعم PiP — جرب Chrome أو Edge';
+            return;
+        }
+        if(spPipActive){
+            try{ await document.exitPictureInPicture(); }catch(e){}
+            spPipActive = false;
+            btn.textContent = '📺 فتح PiP';
+            btn.classList.remove('active');
+            spStopLoop();
+            note.textContent = 'افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب';
+            return;
+        }
+        try{
+            spDrawCanvas();
+            var stream = spCanvas.captureStream(30);
+            spVideo.srcObject = stream;
+            await spVideo.play();
+            spSetupMediaSession();
+            await spVideo.requestPictureInPicture();
+            spPipActive = true;
+            btn.textContent = '✖ إغلاق PiP';
+            btn.classList.add('active');
+            note.textContent = '✅ اضغط زر ⏭ في نافذة PiP للتسبيح من أي تاب!';
+            spStartLoop();
+            spVideo.addEventListener('leavepictureinpicture', function(){
+                spPipActive = false;
+                btn.textContent = '📺 فتح PiP';
+                btn.classList.remove('active');
+                spStopLoop();
+                note.textContent = 'افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب';
+            }, { once: true });
+        }catch(e){
+            note.textContent = '⚠️ تعذّر فتح PiP: ' + (e.message || 'حاول مجددًا');
+        }
+    };
+
+    /* ── Space bar للتسبيح من نفس التاب ── */
+    document.addEventListener('keydown', function(e){
+        if(e.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT' && document.activeElement.tagName !== 'TEXTAREA'){
+            var sec = document.getElementById('salah-pip-section');
+            if(sec && sec.style.display !== 'none'){
+                e.preventDefault();
+                window.spIncrement();
+            }
+        }
+    });
+
+    spUpdateUI();
+    spDrawCanvas();
+})();
+</script>
+<!-- ══ نهاية عداد PiP ══ -->
+
 <div style="display: flex; justify-content: center; align-items: center;">
   <iframe id="iframe" title="prayerWidget" class="widget-m-top"
       style="height: 358px; width: 100%; max-width: 250px; border: 1px solid #ddd;"
@@ -21987,6 +22416,59 @@ function toggleLanguage() {
 
   // ── اتجاه شريط المشغل + الفلاتر + الأزرار حسب اللغة ──
   applyDirection(isArabic);
+
+  // ── ترجمة عداد الصلاة على النبي ﷺ (PiP) ──
+  (function(){
+    var ar = isArabic;
+
+    // العنوان
+    var spTitle = document.querySelector('#salah-pip-section .sp-title');
+    if(spTitle) spTitle.textContent = ar ? spTitle.getAttribute('data-ar') : spTitle.getAttribute('data-en');
+
+    // label الهدف
+    var spLbl = document.querySelector('.sp-target-row label');
+    if(spLbl) spLbl.textContent = ar ? spLbl.getAttribute('data-ar') : spLbl.getAttribute('data-en');
+
+    // hint داخل الزر
+    var spHint = document.getElementById('salah-pip-hint');
+    if(spHint) spHint.textContent = ar ? spHint.getAttribute('data-ar') : spHint.getAttribute('data-en');
+
+    // info (الهدف / المتبقي) — نعيد بناءه بالأرقام الصحيحة
+    var spInfo = document.getElementById('salah-pip-info');
+    if(spInfo){
+      var count = parseInt(spInfo.getAttribute('data-count') || '0');
+      var target = parseInt(spInfo.getAttribute('data-target') || '100');
+      var rem = Math.max(0, target - count);
+      var toAr = function(n){ return n.toString().replace(/\d/g,function(d){return'٠١٢٣٤٥٦٧٨٩'[d];}); };
+      if(ar){
+        spInfo.innerHTML = 'الهدف: ' + toAr(target) + ' &nbsp;|&nbsp; المتبقي: ' + toAr(rem);
+      } else {
+        spInfo.innerHTML = 'Target: ' + target + ' &nbsp;|&nbsp; Remaining: ' + rem;
+      }
+    }
+
+    // زر PiP
+    var spPipBtn = document.getElementById('sp-pip-toggle');
+    if(spPipBtn && !spPipBtn.classList.contains('active')){
+      spPipBtn.textContent = ar ? spPipBtn.getAttribute('data-ar') : spPipBtn.getAttribute('data-en');
+    }
+
+    // زر تصفير
+    var spResetBtn = document.getElementById('sp-reset-btn');
+    if(spResetBtn) spResetBtn.textContent = ar ? spResetBtn.getAttribute('data-ar') : spResetBtn.getAttribute('data-en');
+
+    // نص التعليمة
+    var spNote = document.getElementById('sp-pip-note');
+    if(spNote && !spPipBtn?.classList.contains('active')){
+      spNote.textContent = ar
+        ? spNote.getAttribute('data-ar')
+        : spNote.getAttribute('data-en');
+    }
+
+    // اتجاه القسم
+    var spSec = document.getElementById('salah-pip-section');
+    if(spSec) spSec.style.direction = ar ? 'rtl' : 'ltr';
+  })();
 
 }
 
