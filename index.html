@@ -388,9 +388,11 @@ body {
     background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Palestine.svg/1280px-Flag_of_Palestine.svg.png');
     background-size: cover;
     position: absolute;
-    left: 0px;
-    top: 50%;
-    transform: translateY(-50%);
+    left: 4px;
+    bottom: 4px;
+    top: auto;
+    transform: none;
+    border-radius: 4px;
   }
   .button:hover {
     transform: scale(1.05);
@@ -1911,6 +1913,11 @@ body.dark-mode #welcome-top-bar #welcomeLangToggle {
     cursor: pointer;
     margin-left: 1px;
     float: right;
+    vertical-align: middle;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
     transition: color 0.2s, transform 0.15s, text-shadow 0.2s;
     text-shadow: none;
   }
@@ -2086,7 +2093,7 @@ body.dark-mode #favManagerCancel { border-color: #555; color: #aaa; }
 
 #togglePlayPause {
     position: fixed;
-    bottom: 74px;
+    bottom: 14px;
     left: 14px;
     z-index: 999999;
 
@@ -2114,7 +2121,7 @@ body.dark-mode #favManagerCancel { border-color: #555; color: #aaa; }
 
 @media (max-width: 768px) {
   #togglePlayPause {
-    bottom: 90px;
+    bottom: 20px;
     left: 20px;
     width: 34px;
     height: 34px;
@@ -2124,7 +2131,7 @@ body.dark-mode #favManagerCancel { border-color: #555; color: #aaa; }
 
 @media (min-width: 769px) and (max-width: 1024px) {
   #togglePlayPause {
-    bottom: 85px;
+    bottom: 20px;
     left: 20px;
     width: 36px;
     height: 36px;
@@ -2134,7 +2141,7 @@ body.dark-mode #favManagerCancel { border-color: #555; color: #aaa; }
 
 @media (min-width: 1025px) {
   #togglePlayPause {
-    bottom: 74px;
+    bottom: 14px;
     left: 14px;
   }
 }
@@ -2925,7 +2932,7 @@ body.dark-mode .custom-tooltip::after {
 .tasbih-box {
     position: absolute;
     right: 35px;
-    bottom: 4px; /* كان 0 - رفع بسيط للأعلى */
+    bottom: 3px; /* رفع بسيط */
     top: auto;
     transform: none;
 
@@ -2945,7 +2952,6 @@ body.dark-mode .custom-tooltip::after {
     font-size: 14px;
 
     border: 1px solid #ccc;
-    border-bottom: none;
 
     z-index: 1;
 }
@@ -2980,12 +2986,11 @@ body.dark-mode .custom-tooltip::after {
     width: 70px;
     height: 45px;
         font-size: 13px;
-        bottom: 4px; /* رفع بسيط */
+        bottom: 3px; /* رفع بسيط */
         top: auto;
         transform: none;
         right: 40px;
         border-radius: 8px 8px 0 0;
-        border-bottom: none;
     }
 }
 
@@ -2996,11 +3001,10 @@ body.dark-mode .custom-tooltip::after {
         font-size: 14px;
         right: 35px;
         padding-right: 20px;
-        bottom: 4px; /* رفع بسيط */
+        bottom: 3px; /* رفع بسيط */
         top: auto;
         transform: none;
         border-radius: 8px 8px 0 0;
-        border-bottom: none;
     }
 
     .reset-btn {
@@ -3008,11 +3012,18 @@ body.dark-mode .custom-tooltip::after {
     }
 }
 .toggle-button {
-    position: fixed !important;
-    bottom: 10px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 500;
+    display: none; /* يُظهره JS عند الحاجة */
+    margin: 8px auto 6px auto;
+    position: static !important;
+    transform: none !important;
+    z-index: auto;
+    padding: 7px 18px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 
@@ -3185,7 +3196,7 @@ body.dark-mode .custom-tooltip::after {
 /* ══ UNIFIED FOOTER — Light Mode ══ */
 .footer-share {
     text-align: center;
-    padding: 14px 12px 12px;
+    padding: 7px 12px 6px;
     background: linear-gradient(180deg, #deeaf6 0%, #c8ddf0 100%);
     color: #1a2a3a;
     border-top: 2px solid rgba(44,110,170,0.15);
@@ -3197,18 +3208,12 @@ body.dark-mode .custom-tooltip::after {
     width: 50px;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(44,110,170,0.3), transparent);
-    margin: 8px auto;
+    margin: 4px auto;
     border-radius: 2px;
     transition: background 0.4s ease;
 }
 
-.footer-social-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 7px;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .footer-social-btn {
@@ -3298,11 +3303,7 @@ body.dark-mode .custom-tooltip::after {
 .footer-share .star.hover  { color: #e6a800; }
 
 /* ── Footer Stats Row ── */
-.footer-stats-row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 4px;
+    margin-top: 2px;
     gap: 4px;
 }
 .footer-stats-row .flag-counter-container { margin-top: 0 !important; }
@@ -3574,7 +3575,7 @@ body.dark-mode .radio-sub-btn.active {
 
 #scrollToTopBtn {
   position: fixed;
-  bottom: 74px;
+  bottom: 14px;
   right: 140px;
   z-index: 999999;
   width: 38px;
@@ -3596,7 +3597,7 @@ body.dark-mode .radio-sub-btn.active {
 @media (max-width: 768px) {
   #scrollToTopBtn {
     right: 20px;
-    bottom: 90px;
+    bottom: 20px;
     width: 34px;
     height: 34px;
   }
@@ -3605,7 +3606,7 @@ body.dark-mode .radio-sub-btn.active {
 @media (min-width: 769px) and (max-width: 1024px) {
   #scrollToTopBtn {
     right: 40px;
-    bottom: 85px;
+    bottom: 20px;
     width: 36px;
     height: 36px;
   }
@@ -3614,7 +3615,7 @@ body.dark-mode .radio-sub-btn.active {
 @media (min-width: 1025px) {
   #scrollToTopBtn {
     right: 140px;
-    bottom: 74px;
+    bottom: 14px;
   }
 }
 
@@ -13116,6 +13117,65 @@ target: 3,
     readUrl: null,
     readTitle: null
   },
+   {
+    category: "Adhkar",
+    subCategory: ["morning"],
+    station: "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ",
+    stationText: "🌅 اللهم إني أصبحت أشهدك (×4)",
+
+ar: "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ (×4)",
+
+en: "O Allah, I have entered the morning bearing witness to You, and to the bearers of Your Throne, Your angels, and all of Your creation that You are Allah, there is no god but You alone, without partner, and that Muhammad is Your servant and Messenger (×4)",
+target: 4,
+    url: null,
+    urls: [
+    "https://archive.org/download/shorts_202604/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%8A%20%D8%A3%D8%B5%D8%A8%D8%AD%D8%AA%20%D8%A3%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A3%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%23%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%20%23maroc%20%23%D8%AF%D8%B9%D8%A7%D8%A1%20%23%D8%A7%D8%B0%D9%83%D8%A7%D8%B1%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD%20%23quran.mp3",
+    "https://archive.org/download/shorts_202604/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A7%D9%86%D9%8A%20%D8%A7%D8%B5%D8%A8%D8%AD%D8%AA%20%D8%A7%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A7%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%83%20%D9%88%D8%AC%D9%85%D9%80%D9%8A%D8%B9%20%D8%AE%D9%84%D9%80%D9%82%D9%83%20%D8%A3%D9%86%D9%80%D9%83%20%D8%A3%D9%86%D9%80%D8%AA%20%D8%A7%D9%84%D9%84%D9%87%20%D9%84%D8%A7%20%D8%A5%D9%84%D9%87%20%D8%A5%D9%84%D8%A7%20%D8%A3%D9%86%D9%80%D8%AA%20%23shorts.mp3"
+],
+    random: true,
+   title: `اللّهُـمَّ إِنِّـي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.
+
+قال رسول الله ﷺ:
+«من قالها حين يصبح أو يمسي أربع مرات أعتقه الله من النار»
+رواه أبو داود والترمذي`,
+
+    hasFlag: false,
+    hasTasbih: true,
+    hasResetAll: false,
+    multiIcon: false,
+    readUrl: null,
+    readTitle: null
+  },
+  {
+    category: "Adhkar",
+    subCategory: ["evening"],
+    station: "اللهم إني أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لا إِلَهَ إِلا أَنْتَ وَحْدَكَ لا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ",
+    stationText: "🌙 اللهم إني أمسيت أشهدك (×4)",
+
+ar: "اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ (×4)",
+
+en: "O Allah, I have entered the evening bearing witness to You, and to the bearers of Your Throne, Your angels, and all of Your creation that You are Allah, there is no god but You alone, without partner, and that Muhammad is Your servant and Messenger (×4)",
+target: 4,
+    url: null,
+    urls: [
+    "https://archive.org/download/20260404_20260404_1600/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%89%20%D8%A3%D9%85%D8%B3%D9%8A%D8%AA%20%D8%A3%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A3%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%83%20%D9%88%D8%AC%D9%85%D9%8A%D8%B9%20%D8%AE%D9%84%D9%82%D9%83.mp3",
+    "https://archive.org/download/20260404_20260404_1600/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%8A%20%D8%A3%D9%85%D8%B3%D9%8A%D8%AA%20%D8%A3%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A3%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%20%23%D8%A3%D8%B0%D9%83%D8%A7%D8%B1%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1%20%D8%A8%D8%B5%D9%88%D8%AA%20%23%D8%A7%D9%84%D9%82%D8%A7%D8%B1%D8%A6%D9%85%D8%AD%D9%85%D8%AF%D8%A3%D8%A8%D9%88%D8%AE%D9%88%D8%B5%D8%A9%20%40mohkhosa.mp3",
+    "https://archive.org/download/20260404_20260404_1600/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A7%D9%86%D9%89%20%D8%A7%D9%85%D8%B3%D9%8A%D8%AA%20%D8%A3%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A3%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%23%D8%A7%D8%B0%D9%83%D8%A7%D8%B1%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1%20%20%20%23%D9%85%D8%AD%D9%85%D8%AF%D9%8A%D9%88%D8%B3%D9%81.mp3",
+    "https://archive.org/download/20260404_20260404_1600/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A7%D9%86%D9%8A%20%D8%A7%D9%85%D8%B3%D9%8A%D8%AA%20%D8%A7%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A7%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83.mp3"
+],
+  title: `اللّهُـمَّ إِنِّـي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.
+
+قال رسول الله ﷺ:
+«من قالها حين يصبح أو يمسي أربع مرات أعتقه الله من النار»
+رواه أبو داود والترمذي`,
+
+    hasFlag: false,
+    hasTasbih: true,
+    hasResetAll: false,
+    multiIcon: false,
+    readUrl: null,
+    readTitle: null
+  },
   {
     category: "Adhkar",
     subCategory: ["morning"],
@@ -13268,65 +13328,7 @@ hasFlag: false,
     readUrl: null,
     readTitle: null
   },
-  {
-    category: "Adhkar",
-    subCategory: ["morning"],
-    station: "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ",
-    stationText: "🌅 اللهم إني أصبحت أشهدك (×4)",
-
-ar: "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ (×4)",
-
-en: "O Allah, I have entered the morning bearing witness to You, and to the bearers of Your Throne, Your angels, and all of Your creation that You are Allah, there is no god but You alone, without partner, and that Muhammad is Your servant and Messenger (×4)",
-target: 4,
-    url: null,
-    urls: [
-    "https://archive.org/download/shorts_202604/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%8A%20%D8%A3%D8%B5%D8%A8%D8%AD%D8%AA%20%D8%A3%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A3%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%23%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8%20%23maroc%20%23%D8%AF%D8%B9%D8%A7%D8%A1%20%23%D8%A7%D8%B0%D9%83%D8%A7%D8%B1%D8%A7%D9%84%D8%B5%D8%A8%D8%A7%D8%AD%20%23quran.mp3",
-    "https://archive.org/download/shorts_202604/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A7%D9%86%D9%8A%20%D8%A7%D8%B5%D8%A8%D8%AD%D8%AA%20%D8%A7%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A7%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%83%20%D9%88%D8%AC%D9%85%D9%80%D9%8A%D8%B9%20%D8%AE%D9%84%D9%80%D9%82%D9%83%20%D8%A3%D9%86%D9%80%D9%83%20%D8%A3%D9%86%D9%80%D8%AA%20%D8%A7%D9%84%D9%84%D9%87%20%D9%84%D8%A7%20%D8%A5%D9%84%D9%87%20%D8%A5%D9%84%D8%A7%20%D8%A3%D9%86%D9%80%D8%AA%20%23shorts.mp3"
-],
-    random: true,
-   title: `اللّهُـمَّ إِنِّـي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.
-
-قال رسول الله ﷺ:
-«من قالها حين يصبح أو يمسي أربع مرات أعتقه الله من النار»
-رواه أبو داود والترمذي`,
-
-    hasFlag: false,
-    hasTasbih: true,
-    hasResetAll: false,
-    multiIcon: false,
-    readUrl: null,
-    readTitle: null
-  },
-  {
-    category: "Adhkar",
-    subCategory: ["evening"],
-    station: "اللهم إني أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لا إِلَهَ إِلا أَنْتَ وَحْدَكَ لا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ",
-    stationText: "🌙 اللهم إني أمسيت أشهدك (×4)",
-
-ar: "اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ (×4)",
-
-en: "O Allah, I have entered the evening bearing witness to You, and to the bearers of Your Throne, Your angels, and all of Your creation that You are Allah, there is no god but You alone, without partner, and that Muhammad is Your servant and Messenger (×4)",
-target: 4,
-    url: null,
-    urls: [
-    "https://archive.org/download/20260404_20260404_1600/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%89%20%D8%A3%D9%85%D8%B3%D9%8A%D8%AA%20%D8%A3%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A3%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%D9%88%D9%85%D9%84%D8%A7%D8%A6%D9%83%D8%AA%D9%83%20%D9%88%D8%AC%D9%85%D9%8A%D8%B9%20%D8%AE%D9%84%D9%82%D9%83.mp3",
-    "https://archive.org/download/20260404_20260404_1600/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A5%D9%86%D9%8A%20%D8%A3%D9%85%D8%B3%D9%8A%D8%AA%20%D8%A3%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A3%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%20%20%23%D8%A3%D8%B0%D9%83%D8%A7%D8%B1%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1%20%D8%A8%D8%B5%D9%88%D8%AA%20%23%D8%A7%D9%84%D9%82%D8%A7%D8%B1%D8%A6%D9%85%D8%AD%D9%85%D8%AF%D8%A3%D8%A8%D9%88%D8%AE%D9%88%D8%B5%D8%A9%20%40mohkhosa.mp3",
-    "https://archive.org/download/20260404_20260404_1600/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A7%D9%86%D9%89%20%D8%A7%D9%85%D8%B3%D9%8A%D8%AA%20%D8%A3%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A3%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83%23%D8%A7%D8%B0%D9%83%D8%A7%D8%B1%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%A1%20%20%20%23%D9%85%D8%AD%D9%85%D8%AF%D9%8A%D9%88%D8%B3%D9%81.mp3",
-    "https://archive.org/download/20260404_20260404_1600/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%A7%D9%86%D9%8A%20%D8%A7%D9%85%D8%B3%D9%8A%D8%AA%20%D8%A7%D8%B4%D9%87%D8%AF%D9%83%20%D9%88%D8%A7%D8%B4%D9%87%D8%AF%20%D8%AD%D9%85%D9%84%D8%A9%20%D8%B9%D8%B1%D8%B4%D9%83.mp3"
-],
-  title: `اللّهُـمَّ إِنِّـي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.
-
-قال رسول الله ﷺ:
-«من قالها حين يصبح أو يمسي أربع مرات أعتقه الله من النار»
-رواه أبو داود والترمذي`,
-
-    hasFlag: false,
-    hasTasbih: true,
-    hasResetAll: false,
-    multiIcon: false,
-    readUrl: null,
-    readTitle: null
-  },
+ 
   {
     category: "Adhkar",
     subCategory: ["morning"],
@@ -21408,6 +21410,12 @@ body.dark-mode .sp-target-row label { color: #aaa; }
 body.dark-mode .sp-target-row select { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
 #sp-pip-note { font-size: 11px; color: #888; margin-top: 4px; min-height: 16px; }
 body.dark-mode #sp-pip-note { color: #6b8f7d; }
+#sp-auto-btn { background: #F0FBF7; color: #0F6E56; border-color: rgba(29,158,117,0.35); }
+#sp-auto-btn:hover { background: #D4F4EA; }
+#sp-auto-btn.active { background: #1D9E75; color: #fff; border-color: #1D9E75; animation: sp-auto-pulse 2s infinite; }
+body.dark-mode #sp-auto-btn { background: rgba(29,158,117,0.12); color: #5DCAA5; }
+body.dark-mode #sp-auto-btn.active { background: #0F6E56; color: #fff; }
+@keyframes sp-auto-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(29,158,117,0.4); } 50%{ box-shadow:0 0 0 6px rgba(29,158,117,0); } }
 
 /* ── كومبوليست الأذكار ── */
 .sp-athkar-row {
@@ -21522,6 +21530,11 @@ body.dark-mode #sp-athkar-display {
                 data-ar="↺ تصفير" data-en="↺ Reset"
                 onclick="spReset()">↺ تصفير</button>
     </div>
+    <div class="sp-row">
+        <button class="sp-btn" id="sp-auto-btn"
+                data-ar="⏩ تسبيح تلقائي" data-en="⏩ Auto Dhikr"
+                onclick="spToggleAuto()">⏩ تسبيح تلقائي</button>
+    </div>
     <p id="sp-pip-note"
        data-ar="افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب"
        data-en="Open PiP then press ⏭ to count from any tab">افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب</p>
@@ -21587,8 +21600,8 @@ body.dark-mode #sp-athkar-display {
         var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
         var toAr = function(n){ return n.toString().replace(/\d/g,function(d){return'٠١٢٣٤٥٦٧٨٩'[d];}); };
 
-        // العداد — دائمًا أرقام عربية
-        document.getElementById('salah-pip-num').textContent = toAr(spCount);
+        // العداد — أرقام حسب اللغة المختارة
+        document.getElementById('salah-pip-num').textContent = isAr ? toAr(spCount) : spCount;
 
         var rem = Math.max(0, spTarget - spCount);
         var infoEl = document.getElementById('salah-pip-info');
@@ -21608,6 +21621,7 @@ body.dark-mode #sp-athkar-display {
     }
 
     window.spIncrement = function(){
+        activeTasbih = null; // إلغاء التركيز عن أي tasbih-box نشط
         spCount++;
         spSaveCount();
         spUpdateUI();
@@ -21618,12 +21632,63 @@ body.dark-mode #sp-athkar-display {
     };
 
     window.spReset = function(){
+        spStopAuto();
         spCount = 0;
         spSaveCount();
         spUpdateUI();
         spDrawCanvas();
         spUpdateMediaSession();
     };
+
+    /* ── التسبيح التلقائي ── */
+    var spAutoTimer = null;
+
+    function spGetAutoInterval(){
+        /* الـ interval بالملي ثانية حسب طول نص الذكر */
+        var sel = document.getElementById('sp-athkar-sel');
+        if(!sel) return 3000;
+        var opt = sel.options[sel.selectedIndex];
+        var ar = spAr ? spAr() : true;
+        var txt = ar ? (opt.getAttribute('data-ar') || '') : (opt.getAttribute('data-en') || '');
+        var len = txt.length;
+        if(len <= 15)  return 2000;   /* ذكر قصير  → 2 ثانية */
+        if(len <= 50)  return 3000;   /* ذكر متوسط → 3 ثانية */
+        if(len <= 120) return 4000;   /* ذكر طويل  → 4 ثانية */
+        return 5000;                  /* ذكر مطول  → 5 ثانية */
+    }
+
+    function spStartAuto(){
+        if(spAutoTimer) clearInterval(spAutoTimer);
+        var btn = document.getElementById('sp-auto-btn');
+        if(btn){ btn.classList.add('active'); btn.textContent = '⏸ إيقاف التلقائي'; }
+        function tick(){
+            if(spCount >= spTarget){
+                spStopAuto();
+                return;
+            }
+            window.spIncrement();
+        }
+        spAutoTimer = setInterval(tick, spGetAutoInterval());
+    }
+
+    function spStopAuto(){
+        if(spAutoTimer){ clearInterval(spAutoTimer); spAutoTimer = null; }
+        var btn = document.getElementById('sp-auto-btn');
+        if(btn){
+            btn.classList.remove('active');
+            var ar = spAr ? spAr() : true;
+            btn.textContent = ar ? '⏩ تسبيح تلقائي' : '⏩ Auto Dhikr';
+        }
+    }
+
+    window.spToggleAuto = function(){
+        if(spAutoTimer){ spStopAuto(); } else { spStartAuto(); }
+    };
+
+    /* إعادة ضبط الـ interval لو تغيّر الذكر وكان التلقائي شغّال */
+    document.getElementById('sp-athkar-sel').addEventListener('change', function(){
+        if(spAutoTimer){ spStopAuto(); spStartAuto(); }
+    });
 
     document.getElementById('sp-target-sel').addEventListener('change', function(){
         spTarget = parseInt(this.value);
@@ -21810,25 +21875,16 @@ body.dark-mode #sp-athkar-display {
         var tag = document.activeElement.tagName;
         var inField = (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA');
 
-        /* زر . (Period/NumpadDecimal) → تسبيح */
+        /* زر . (Period/NumpadDecimal) → تسبيح salah-pip فقط لو مفيش tasbih-box نشط */
         if((e.code === 'Period' || e.code === 'NumpadDecimal') && !inField){
+            if(typeof activeTasbih !== 'undefined' && activeTasbih) return;
             e.preventDefault();
+            e.stopImmediatePropagation();
             window.spIncrement();
             return;
         }
 
-        /* زر Space → تغيير الذكر للتالي */
-        if(e.code === 'Space' && !inField){
-            e.preventDefault();
-            var sel = document.getElementById('sp-athkar-sel');
-            if(sel){
-                var next = sel.selectedIndex + 1;
-                if(next >= sel.options.length) next = 0;
-                sel.selectedIndex = next;
-                sel.dispatchEvent(new Event('change'));
-            }
-            return;
-        }
+
     });
 
     /* ── تهيؤ مؤجَّل حتى تكون isArabic معرَّفة ── */
@@ -22980,6 +23036,16 @@ function toggleLanguage() {
     var spHint = document.getElementById('salah-pip-hint');
     if(spHint) spHint.textContent = ar ? spHint.getAttribute('data-ar') : spHint.getAttribute('data-en');
 
+    // الرقم الكبير في الدائرة
+    var spNum = document.getElementById('salah-pip-num');
+    if(spNum){
+      var toAr2 = function(n){ return n.toString().replace(/\d/g,function(d){return'٠١٢٣٤٥٦٧٨٩'[d];}); };
+      var currentCount = parseInt(spNum.getAttribute('data-count') || spNum.textContent.replace(/[٠-٩]/g, function(d){ return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); }) || '0');
+      var spInfo2 = document.getElementById('salah-pip-info');
+      var c = spInfo2 ? parseInt(spInfo2.getAttribute('data-count') || '0') : 0;
+      spNum.textContent = ar ? toAr2(c) : c;
+    }
+
     // info (الهدف / المتبقي) — نعيد بناءه بالأرقام الصحيحة
     var spInfo = document.getElementById('salah-pip-info');
     if(spInfo){
@@ -23007,6 +23073,11 @@ function toggleLanguage() {
     // زر تصفير
     var spResetBtn = document.getElementById('sp-reset-btn');
     if(spResetBtn) spResetBtn.textContent = ar ? spResetBtn.getAttribute('data-ar') : spResetBtn.getAttribute('data-en');
+
+    // زر التلقائي — لا نغير النص لو كان نشطاً (يظل "⏸ إيقاف")
+    var spAutoBtn = document.getElementById('sp-auto-btn');
+    if(spAutoBtn && !spAutoBtn.classList.contains('active'))
+      spAutoBtn.textContent = ar ? spAutoBtn.getAttribute('data-ar') : spAutoBtn.getAttribute('data-en');
 
     // نص التعليمة
     var spNote = document.getElementById('sp-pip-note');
@@ -25531,6 +25602,7 @@ boxes.forEach(box => {
 document.addEventListener("keydown", function(e) {
     if (!activeTasbih) return;
     if (e.key === ".") {
+        e.preventDefault();
         incrementTasbihKeyboard(activeTasbih);
     }
 });
@@ -26575,7 +26647,7 @@ if (target && count >= target) {
 
                 var wrapper = document.createElement('span');
                 wrapper.className = 'pl-cb-wrapper upl-cb-wrapper';
-                wrapper.style.cssText = 'float:right;position:relative;display:inline-flex;align-items:center;margin-right:2px;';
+                wrapper.style.cssText = 'float:right;position:relative;display:inline-flex;align-items:center;align-self:center;margin-right:2px;height:100%;';
 
                 var cb = document.createElement('input');
                 cb.type = 'checkbox';
