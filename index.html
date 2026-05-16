@@ -793,18 +793,19 @@ audio {
  .stars {
     display: flex;
     justify-content: center;
+    gap: 4px;
     margin-top: 10px;
 }
 .star {
-    font-size: 24px;
+    font-size: 28px;
     cursor: pointer;
-    color: grey;
+    color: #ccc;
+    transition: color 0.15s ease, transform 0.15s ease;
+    user-select: none;
 }
-.star.checked,
-.star:hover,
-.star:hover ~ .star {
-    color: gold;
-}
+.star.checked  { color: gold; }
+.star.hover    { color: gold; transform: scale(1.2); }
+.star:active   { transform: scale(0.9); }
 
 
 
@@ -1842,7 +1843,7 @@ body.dark-mode #welcome-top-bar #welcomeLangToggle {
             height: 45px;
             border-radius: 50%;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            display: flex;
+            display: none !important; /* moved to unified footer */
             align-items: center;
             justify-content: center;
             z-index: 1000;
@@ -2886,10 +2887,6 @@ body.dark-mode #welcomeDarkModeBtn:hover {
     background: rgba(40,40,70,0.95) !important;
 }
 
-body.dark-mode .footer-share {
-    background: #0a0a0a !important;
-    border-top: 1px solid #222 !important;
-}
 
 body.dark-mode .custom-tooltip {
     background: linear-gradient(135deg, #0f1e30 0%, #1a2a3a 55%, #0f1e2e 100%) !important;
@@ -3185,42 +3182,165 @@ body.dark-mode .custom-tooltip::after {
     transform: translateY(-2px);
 }
 
+/* ══ UNIFIED FOOTER — Light Mode ══ */
 .footer-share {
     text-align: center;
-    padding: 15px;
-    background: #111;
-    color: #fff;
-    border-top: 1px solid #333;
+    padding: 14px 12px 12px;
+    background: linear-gradient(180deg, #deeaf6 0%, #c8ddf0 100%);
+    color: #1a2a3a;
+    border-top: 2px solid rgba(44,110,170,0.15);
+    font-family: 'Cairo', sans-serif;
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
+.footer-divider {
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(44,110,170,0.3), transparent);
+    margin: 8px auto;
+    border-radius: 2px;
+    transition: background 0.4s ease;
+}
+
+.footer-social-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.footer-social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 13px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    white-space: nowrap;
+    font-family: 'Cairo', sans-serif;
+    letter-spacing: 0.2px;
+}
+
+.footer-social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    filter: brightness(1.08);
+}
+
+.footer-social-btn:active { transform: scale(0.96); }
+
+.fsb-facebook  { background: linear-gradient(135deg,#1877F2,#0d5dbf); color:#fff; }
+.fsb-whatsapp  { background: linear-gradient(135deg,#25D366,#1aad52); color:#fff; }
+.fsb-telegram  { background: linear-gradient(135deg,#0088cc,#006faa); color:#fff; }
+.fsb-facebook  svg, .fsb-whatsapp  svg, .fsb-telegram  svg { width:14px; height:14px; flex-shrink:0; }
+
 .share-title {
-    margin-bottom: 10px;
-    font-size: 14px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: #2c4a6a;
+    opacity: 0.8;
+    letter-spacing: 0.3px;
+    transition: color 0.4s ease;
 }
 
 .share-buttons {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 6px;
     flex-wrap: wrap;
 }
 
 .share-btn {
     border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
+    padding: 5px 12px;
+    border-radius: 50px;
     cursor: pointer;
-    font-size: 13px;
-    transition: 0.3s;
+    font-size: 11px;
+    font-weight: 600;
+    transition: 0.2s;
+    font-family: 'Cairo', sans-serif;
 }
 
-.share-btn:hover {
-    transform: scale(1.05);
+.share-btn:hover { transform: scale(1.06); box-shadow: 0 3px 10px rgba(0,0,0,0.13); }
+
+/* Light mode share buttons */
+.copy     { background: rgba(44,110,170,0.12); color: #1a2a3a; border: 1px solid rgba(44,110,170,0.25); }
+.copy:hover { background: rgba(44,110,170,0.22); }
+.whatsapp { background: linear-gradient(135deg,#25D366,#1aad52); color: white; }
+.facebook { background: linear-gradient(135deg,#1877F2,#0d5dbf); color: white; }
+
+/* ── Footer Rating Row ── */
+.footer-rating-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+}
+.footer-rating-label {
+    font-size: 11px;
+    color: #2c4a6a;
+    opacity: 0.7;
+    letter-spacing: 0.3px;
+    transition: color 0.4s ease;
 }
 
-.copy { background: #555; color: white; }
-.whatsapp { background: #25D366; color: white; }
-.facebook { background: #1877F2; color: white; }
+/* Stars — light mode */
+.footer-share .star        { color: rgba(44,110,170,0.25); font-size: 22px; }
+.footer-share .star.checked,
+.footer-share .star.hover  { color: #e6a800; }
+
+/* ── Footer Stats Row ── */
+.footer-stats-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4px;
+    gap: 4px;
+}
+.footer-stats-row .flag-counter-container { margin-top: 0 !important; }
+
+/* ══ DARK MODE overrides ══ */
+body.dark-mode .footer-share {
+    background: linear-gradient(180deg, #0b0f14 0%, #0f1620 100%);
+    color: #d0dce8;
+    border-top-color: rgba(255,255,255,0.07);
+}
+
+body.dark-mode .footer-divider {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+}
+
+body.dark-mode .share-title {
+    color: #a0b8cc;
+    opacity: 0.85;
+}
+
+body.dark-mode .footer-rating-label {
+    color: #8aaabf;
+}
+
+body.dark-mode .footer-share .star        { color: rgba(255,255,255,0.15); }
+body.dark-mode .footer-share .star.checked,
+body.dark-mode .footer-share .star.hover  { color: #f6c90e; }
+
+body.dark-mode .copy {
+    background: rgba(255,255,255,0.08);
+    color: #c8dae8;
+    border-color: rgba(255,255,255,0.15);
+}
+body.dark-mode .copy:hover { background: rgba(255,255,255,0.14); }
+
+body.dark-mode .footer-social-btn:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+}
 
 button[data-category="Adhkar" data-adhkar-type="general"] .station-text {
     padding-right: 55px;
@@ -3888,9 +4008,9 @@ body.dark-mode .custom-tooltip {
 body.dark-mode .custom-tooltip::after { border-top-color: #1a2535; }
 
 /* النجوم */
-body.dark-mode .star       { color: #4a5568; }
+body.dark-mode .star         { color: #4a5568; }
 body.dark-mode .star.checked,
-body.dark-mode .star:hover { color: #f6c90e; }
+body.dark-mode .star.hover   { color: #f6c90e; }
 
 /* التوست */
 body.dark-mode .toast {
@@ -11388,6 +11508,7 @@ setTimeout(autoScaleVerseFont, 100);
 <button class="qurankarim-sub-btn" data-sub="teachers" data-ar="🎓 المحفِّظ" data-en="Teacher" onclick="filterQuranKarimSub('teachers',this)">🎓 المحفِّظ</button>
 </div>
 </div>
+<div id="qurankarim-playlist-slot"></div>
 
 <!-- ══ نهاية بانل قائمة التشغيل الموحدة ══ -->
 
@@ -21415,6 +21536,32 @@ body.dark-mode #sp-athkar-display {
     var spTarget = 100;
     var spPipActive = false;
     var spAnimFrame = null;
+
+    /* ── localStorage helpers: حفظ/تحميل عداد كل ذكر منفصلاً ── */
+    function spCurrentKey(){
+        var sel = document.getElementById('sp-athkar-sel');
+        var val = sel ? sel.value : '0';
+        return 'sp_count_v' + val;
+    }
+    function spSaveCount(){
+        var key = spCurrentKey();
+        var data = { count: spCount, ts: Date.now() };
+        try{ localStorage.setItem(key, JSON.stringify(data)); }catch(e){}
+    }
+    function spLoadCount(){
+        var key = spCurrentKey();
+        try{
+            var raw = localStorage.getItem(key);
+            if(!raw) return 0;
+            var data = JSON.parse(raw);
+            /* تصفير تلقائي بعد 24 ساعة */
+            if(Date.now() - (data.ts || 0) > 86400000){
+                localStorage.removeItem(key);
+                return 0;
+            }
+            return data.count || 0;
+        }catch(e){ return 0; }
+    }
     var spCanvas = document.getElementById('spCanvas');
     var spCtx = spCanvas.getContext('2d');
     var spVideo = document.getElementById('spVideo');
@@ -21462,6 +21609,7 @@ body.dark-mode #sp-athkar-display {
 
     window.spIncrement = function(){
         spCount++;
+        spSaveCount();
         spUpdateUI();
         spDrawCanvas();
         spUpdateMediaSession();
@@ -21471,6 +21619,7 @@ body.dark-mode #sp-athkar-display {
 
     window.spReset = function(){
         spCount = 0;
+        spSaveCount();
         spUpdateUI();
         spDrawCanvas();
         spUpdateMediaSession();
@@ -21484,7 +21633,8 @@ body.dark-mode #sp-athkar-display {
     });
 
     document.getElementById('sp-athkar-sel').addEventListener('change', function(){
-        spCount = 0;           /* تصفير العداد عند تغيير الذكر */
+        /* تحميل العداد المحفوظ للذكر الجديد (بدون تصفير) */
+        spCount = spLoadCount();
         spUpdateDhikrDisplay();
         spUpdateUI();
         spDrawCanvas();
@@ -21500,7 +21650,7 @@ body.dark-mode #sp-athkar-display {
         pressNext:  { ar: '⏭  اضغط زر التالي للتسبيح  ⏭', en: '⏭  Press NEXT button to count  ⏭' },
         targetLbl:  { ar: 'الهدف: ',                       en: 'Target: ' },
         remLbl:     { ar: '  |  المتبقي: ',                en: '  |  Remaining: ' },
-        pressSpace: { ar: 'أو اضغط Space من لوحة المفاتيح', en: 'Or press Space on your keyboard' },
+        pressSpace: { ar: 'اضغط . للتسبيح  |  Space لتغيير الذكر', en: 'Press . to count  |  Space to change dhikr' },
         done:       { ar: '🎉 أتممت الهدف! بارك الله فيك', en: '🎉 Goal reached! May Allah reward you' },
         msTitle:    { ar: ' — صلِّ على النبي ﷺ',           en: ' — Blessings upon the Prophet ﷺ' },
         msArtist:   { ar: '⏭ اضغط "التالي" للتسبيح  |  ⏮ تصفير', en: '⏭ Press NEXT to count  |  ⏮ Reset' },
@@ -21653,19 +21803,38 @@ body.dark-mode #sp-athkar-display {
         }
     };
 
-    /* ── Space bar للتسبيح من نفس التاب ── */
+    /* ── اختصارات لوحة المفاتيح ── */
     document.addEventListener('keydown', function(e){
-        if(e.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT' && document.activeElement.tagName !== 'TEXTAREA'){
-            var sec = document.getElementById('salah-pip-section');
-            if(sec && sec.style.display !== 'none'){
-                e.preventDefault();
-                window.spIncrement();
+        var sec = document.getElementById('salah-pip-section');
+        if(!sec || sec.style.display === 'none') return;
+        var tag = document.activeElement.tagName;
+        var inField = (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA');
+
+        /* زر . (Period/NumpadDecimal) → تسبيح */
+        if((e.code === 'Period' || e.code === 'NumpadDecimal') && !inField){
+            e.preventDefault();
+            window.spIncrement();
+            return;
+        }
+
+        /* زر Space → تغيير الذكر للتالي */
+        if(e.code === 'Space' && !inField){
+            e.preventDefault();
+            var sel = document.getElementById('sp-athkar-sel');
+            if(sel){
+                var next = sel.selectedIndex + 1;
+                if(next >= sel.options.length) next = 0;
+                sel.selectedIndex = next;
+                sel.dispatchEvent(new Event('change'));
             }
+            return;
         }
     });
 
     /* ── تهيؤ مؤجَّل حتى تكون isArabic معرَّفة ── */
     function spInit(){
+        /* تحميل العداد المحفوظ عند بدء التشغيل */
+        spCount = spLoadCount();
         spUpdateDhikrDisplay();
         spUpdateUI();
         spDrawCanvas();
@@ -21709,15 +21878,7 @@ body.dark-mode #sp-athkar-display {
   </iframe>
 </div>
 
-<a href="https://www.facebook.com/groups/httpsradiom.tiiny.site"
-   class="facebook-button"
-   id="facebookFollowBtn"
-   data-ar="تابعنا على فيسبوك"
-   data-en="Follow us on Facebook"
-   target="_blank">
-    تابعنا على فيسبوك
-    <i class="fab fa-facebook"></i>
-</a>
+
 
 <button id="toggleButton" class="toggle-button"
     data-ar="تحميل التطبيق 📻"
@@ -21728,6 +21889,46 @@ body.dark-mode #sp-athkar-display {
 
 <div class="footer-share">
 
+    <!-- ── أزرار التواصل الاجتماعي ── -->
+    <div class="footer-social-row">
+
+        <a href="https://www.facebook.com/groups/httpsradiom.tiiny.site"
+           class="footer-social-btn fsb-facebook"
+           id="facebookFollowBtn"
+           data-ar="تابعنا على فيسبوك"
+           data-en="Follow us on Facebook"
+           target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+            <span data-ar="تابعنا على فيسبوك" data-en="Follow on Facebook">تابعنا على فيسبوك</span>
+        </a>
+
+        <a href="https://web.whatsapp.com/send?phone=201154361888"
+           class="footer-social-btn fsb-whatsapp"
+           id="footerWhatsappBtn"
+           data-ar="تواصل واتساب"
+           data-en="WhatsApp Us"
+           target="_blank"
+           title="اضغط على Ctrl + الزر لفتح شاشة واتساب مباشرة">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span data-ar="تواصل واتساب" data-en="WhatsApp Us">تواصل واتساب</span>
+        </a>
+
+        <a href="https://t.me/Magziko"
+           class="footer-social-btn fsb-telegram"
+           id="footerTelegramBtn"
+           data-ar="قناة تليجرام"
+           data-en="Telegram Channel"
+           target="_blank"
+           title="اضغط على Ctrl + الزر لفتح شاشة تليجرام مباشرة">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            <span data-ar="قناة تليجرام" data-en="Telegram Channel">قناة تليجرام</span>
+        </a>
+
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <!-- ── مشاركة الموقع ── -->
     <div class="share-title" id="share-title" data-ar="🤍 انشر الخير وشارك الأجر" data-en="🤍 Spread the Good – Share the Reward">🤍 انشر الخير وشارك الأجر</div>
 
     <div class="share-buttons">
@@ -21746,31 +21947,39 @@ body.dark-mode #sp-athkar-display {
 
     </div>
 
+    <div class="footer-divider"></div>
+
+    <!-- ── التقييم ── -->
+    <div class="footer-rating-row">
+        <div class="footer-rating-label" data-ar="قيّم تجربتك:" data-en="Rate your experience:">قيّم تجربتك:</div>
+        <div id="stars" class="stars">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+    </div>
+
+    <!-- ── عداد الزوار (مخفي، يظهر بـ 3 ضغطات) ── -->
+    <div class="footer-stats-row">
+        <span id="flagToggle" style="cursor:pointer; user-select:none; font-size:16px; opacity:0.5;" title="اضغط 3 مرات لإظهار إحصائيات الزوار">📊</span>
+        <div class="flag-counter-container" id="flagContainer" style="display:none; margin-top:10px;">
+            <a href="http://s01.flagcounter.com/more/Qgi">
+                <img src="https://s01.flagcounter.com/count2/Qgi/bg_FFFFFF/txt_000000/border_CCCCCC/columns_9/maxflags_100/viewers_Visitors/labels_1/pageviews_1/flags_0/percent_0/"
+                     alt="Flag Counter" class="flag-counter" border="0" loading="lazy">
+            </a>
+        </div>
+    </div>
+
 </div>
 
-<div class="container">
-<div id="stars" class="stars">
-    <span class="star" data-value="1">★</span>
-    <span class="star" data-value="2">★</span>
-    <span class="star" data-value="3">★</span>
-    <span class="star" data-value="4">★</span>
-    <span class="star" data-value="5">★</span>
-</div>
-
-<div id="flagToggle" style="cursor: pointer; user-select: none; font-size: 18px; font-weight: bold;">
-  📊
-</div>
-
-<div class="flag-counter-container" id="flagContainer" style="display: none; margin-top: 10px;">
-  <a href="http://s01.flagcounter.com/more/Qgi">
-    <img src="https://s01.flagcounter.com/count2/Qgi/bg_FFFFFF/txt_000000/border_CCCCCC/columns_9/maxflags_100/viewers_Visitors/labels_1/pageviews_1/flags_0/percent_0/"
-         alt="Flag Counter" class="flag-counter" border="0" loading="lazy">
-  </a>
-</div>
 <!-- pixel tracker: يسجل كل زيارة بغض النظر عن الضغط على الزر -->
 <img src="https://s01.flagcounter.com/count2/Qgi/bg_FFFFFF/txt_000000/border_CCCCCC/columns_9/maxflags_100/viewers_Visitors/labels_1/pageviews_1/flags_0/percent_0/"
      style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;top:0;left:0;"
      alt="" loading="eager" aria-hidden="true">
+
+<div class="container">
 
 <button id="togglePlayPause" onclick="togglePlayPause()">
   <svg id="togglePlayPauseIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
@@ -21941,7 +22150,11 @@ function applyInitialLanguage() {
     if (shareTitle) shareTitle.textContent = shareTitle.getAttribute('data-en');
     document.querySelectorAll('.share-btn').forEach(function(btn) { btn.textContent = btn.getAttribute('data-en'); });
     var fbBtn = document.getElementById('facebookFollowBtn');
-    if (fbBtn) { var fbIcon = fbBtn.querySelector('i'); fbBtn.textContent = fbBtn.getAttribute('data-en'); if (fbIcon) fbBtn.appendChild(fbIcon); }
+    if (fbBtn) { var fbSpan = fbBtn.querySelector('span'); if(fbSpan) fbSpan.textContent = fbBtn.getAttribute('data-en'); }
+    var waBtnF = document.getElementById('footerWhatsappBtn');
+    if (waBtnF) { var waSpan = waBtnF.querySelector('span'); if(waSpan) waSpan.textContent = waBtnF.getAttribute('data-en'); }
+    var tgBtnF = document.getElementById('footerTelegramBtn');
+    if (tgBtnF) { var tgSpan = tgBtnF.querySelector('span'); if(tgSpan) tgSpan.textContent = tgBtnF.getAttribute('data-en'); }
     var toggleBtn = document.getElementById('toggleButton');
     if (toggleBtn) toggleBtn.textContent = toggleBtn.getAttribute('data-en');
 
@@ -22478,25 +22691,27 @@ function togglePlayPause() {
     }
 }
 
-function rate(stars, showAlert = true) {
+function rate(value, notify) {
+    value = parseInt(value) || 0;
+    notify = (notify === undefined) ? true : notify;
     var starElements = document.getElementById('stars').getElementsByClassName('star');
     for (var i = 0; i < starElements.length; i++) {
-        starElements[i].classList.remove('checked');
+        if (i < value) {
+            starElements[i].classList.add('checked');
+        } else {
+            starElements[i].classList.remove('checked');
+        }
     }
-    for (var i = 0; i < stars; i++) {
-        starElements[i].classList.add('checked');
-    }
-    localStorage.setItem("rating", stars);
-    if (showAlert) {
-        alert("شكراً لتقييمك بـ " + stars + " نجوم!");
+    localStorage.setItem('rating', value);
+    if (notify && typeof showToast === 'function') {
+        var msgs = ['', '⭐ شكراً! نتمنى التحسن', '⭐⭐ شكراً على تقييمك', '⭐⭐⭐ جيد! شكراً جزيلاً', '⭐⭐⭐⭐ رائع! بارك الله فيك', '⭐⭐⭐⭐⭐ ممتاز! جزاك الله خيراً'];
+        showToast(msgs[value] || ('⭐ تقييم ' + value));
     }
 }
 
 function loadRating() {
-    const savedRating = localStorage.getItem("rating");
-    if (savedRating) {
-        rate(savedRating, false);
-    }
+    var savedRating = parseInt(localStorage.getItem('rating')) || 0;
+    if (savedRating > 0) { rate(savedRating, false); }
 }
 
 
@@ -22588,13 +22803,13 @@ function toggleLanguage() {
     btn.textContent = isArabic ? btn.getAttribute('data-ar') : btn.getAttribute('data-en');
   });
 
-  // ترجمة زر فيسبوك وزر تحميل التطبيق
+  // ترجمة أزرار الفوتر الاجتماعية
   var fbBtn = document.getElementById('facebookFollowBtn');
-  if (fbBtn) {
-    var fbIcon = fbBtn.querySelector('i');
-    fbBtn.textContent = isArabic ? fbBtn.getAttribute('data-ar') : fbBtn.getAttribute('data-en');
-    if (fbIcon) fbBtn.appendChild(fbIcon);
-  }
+  if (fbBtn) { var fbSpan = fbBtn.querySelector('span'); if(fbSpan) fbSpan.textContent = isArabic ? fbBtn.getAttribute('data-ar') : fbBtn.getAttribute('data-en'); }
+  var waBtnF = document.getElementById('footerWhatsappBtn');
+  if (waBtnF) { var waSpan = waBtnF.querySelector('span'); if(waSpan) waSpan.textContent = isArabic ? waBtnF.getAttribute('data-ar') : waBtnF.getAttribute('data-en'); }
+  var tgBtnF = document.getElementById('footerTelegramBtn');
+  if (tgBtnF) { var tgSpan = tgBtnF.querySelector('span'); if(tgSpan) tgSpan.textContent = isArabic ? tgBtnF.getAttribute('data-ar') : tgBtnF.getAttribute('data-en'); }
   var toggleBtn = document.getElementById('toggleButton');
   if (toggleBtn) toggleBtn.textContent = isArabic ? toggleBtn.getAttribute('data-ar') : toggleBtn.getAttribute('data-en');
 
@@ -25685,20 +25900,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     stars.forEach((star, index) => {
         star.addEventListener('mouseover', () => handleMouseOver(index));
-        star.addEventListener('mouseout', handleMouseOut);
-        star.addEventListener('click', () => rate(index + 1));
+        star.addEventListener('mouseout',  handleMouseOut);
+        star.addEventListener('click',     () => rate(index + 1));
     });
 
-    function handleMouseOver(index) {
-        for (let i = 0; i <= index; i++) {
-            stars[i].classList.add('hover');
-        }
+    function handleMouseOver(hoverIndex) {
+        stars.forEach((star, i) => {
+            star.classList.remove('hover');
+            if (i <= hoverIndex) star.classList.add('hover');
+        });
     }
 
     function handleMouseOut() {
-        stars.forEach(star => {
-            star.classList.remove('hover');
-        });
+        stars.forEach(star => star.classList.remove('hover'));
     }
 
     // ── 4. Restore theme & button colors ──
@@ -26609,11 +26823,11 @@ if (target && count >= target) {
             if (subType === 'surah') {
                 var p = document.getElementById('unified-playlist-panel');
                 if (p) p.style.display = 'none';
-                requestAnimationFrame(function() { showPanel('surah', 'قائمة تشغيل السور', null); });
+                requestAnimationFrame(function() { showPanel('surah', 'قائمة تشغيل السور', 'qurankarim-playlist-slot'); });
             } else if (subType === 'Monshawiiyat') {
                 var p = document.getElementById('unified-playlist-panel');
                 if (p) p.style.display = 'none';
-                requestAnimationFrame(function() { showPanel('Monshawiiyat', 'قائمة تشغيل المنشاويات', null); });
+                requestAnimationFrame(function() { showPanel('Monshawiiyat', 'قائمة تشغيل المنشاويات', 'qurankarim-playlist-slot'); });
             } else {
                 hidePanel();
             }
