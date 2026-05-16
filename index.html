@@ -1039,11 +1039,11 @@ body.dark-mode .color-setting-item .responsive-select {
     width: 100%;
     max-width: 840px;
     height: 400px;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Palestine.svg/1920px-Flag_of_Palestine.svg.png');
-    background-size: cover;
-    background-position: center;
+    background-image: none;
+    background-color: transparent;
+    position: relative;
     border-radius: 0;
-    display: flex;
+    display: none; /* مخفي افتراضياً */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -1053,6 +1053,30 @@ body.dark-mode .color-setting-item .responsive-select {
     margin: 0 auto;
     overflow: hidden;
     animation: waveFlag 3s infinite ease-in-out;
+}
+
+/* صورة العلم كـ img حقيقية خلف المحتوى */
+.isolated-radio-player .flag-bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* كل المحتوى فوق الصورة */
+.isolated-radio-player > *:not(.flag-bg-img) {
+    position: relative;
+    z-index: 1;
+}
+
+/* إظهار البلاير فقط في فلتر العلماء أو المفضلة */
+body.filter-scholars .isolated-radio-player,
+body.filter-favorites .isolated-radio-player {
+    display: flex;
 }
 
 @media (max-width: 768px) {
@@ -3849,7 +3873,7 @@ body.dark-mode #scrollToTopBtn {
 body.dark-mode #scrollToTopBtn:hover { background: rgba(30,144,255,0.2); }
 
 /* بلاير فلسطين المعزول */
-body.dark-mode .isolated-radio-player { background: rgba(15,25,40,0.85); border-color: rgba(100,181,246,0.2); }
+body.dark-mode .isolated-radio-player { background: transparent; border-color: rgba(100,181,246,0.2); }
 body.dark-mode .isolated-play-button  { background: #1e2d3e; color: #90caf9; border-color: rgba(100,181,246,0.3); }
 body.dark-mode .isolated-play-button:hover  { background: #253d55; }
 body.dark-mode .isolated-play-button:active { background: #1a2a3a; }
@@ -21172,6 +21196,7 @@ const moreTranslations = [
 </div>
 
 <div class="isolated-radio-player" id="isolatedRadioWrapper">
+    <img class="flag-bg-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Palestine.svg/1920px-Flag_of_Palestine.svg.png" alt="علم فلسطين" loading="lazy">
     <div class="isolated-controls">
         <button class="isolated-play-button" id="isolatedPlayPauseButton">&#9658;</button>
     </div>
@@ -21321,26 +21346,42 @@ body.dark-mode #sp-athkar-display {
     <div class="sp-athkar-row">
         <label class="sp-athkar-label" data-ar="الذكر:" data-en="Dhikr:">الذكر:</label>
         <select id="sp-athkar-sel">
-            <option value="0"  data-ar="اللهم صلِّ وسلِّم على نبينا محمد ﷺ"  data-en="O Allah, bless our Prophet Muhammad ﷺ"   selected>اللهم صلِّ وسلِّم على نبينا محمد ﷺ</option>
+            <!-- ١ - أفضل الذكر: لا إله إلا الله -->
+            <option value="4"  data-ar="لا إله إلا الله"                       data-en="La ilaha illallah">لا إله إلا الله</option>
+            <!-- ٢ - أفضل الكلام بعد القرآن -->
+            <option value="10" data-ar="لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير" data-en="La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamd, wa huwa ala kulli shay'in qadir">لا إله إلا الله وحده لا شريك له...</option>
+            <!-- ٣ - أحب الكلام إلى الله -->
+            <option value="11" data-ar="سبحان الله وبحمده، سبحان الله العظيم"  data-en="SubhanAllahi wa bihamdih, SubhanAllahil Azeem">سبحان الله وبحمده، سبحان الله العظيم</option>
+            <!-- ٤ - الباقيات الصالحات -->
             <option value="1"  data-ar="سبحان الله"                            data-en="SubhanAllah">سبحان الله</option>
             <option value="2"  data-ar="الحمد لله"                             data-en="Alhamdulillah">الحمد لله</option>
             <option value="3"  data-ar="الله أكبر"                             data-en="Allahu Akbar">الله أكبر</option>
-            <option value="4"  data-ar="لا إله إلا الله"                       data-en="La ilaha illallah">لا إله إلا الله</option>
+            <!-- ٥ - الصلاة على النبي ﷺ -->
+            <option value="0"  data-ar="اللهم صلِّ وسلِّم على نبينا محمد ﷺ"  data-en="O Allah, bless our Prophet Muhammad ﷺ" selected>اللهم صلِّ وسلِّم على نبينا محمد ﷺ</option>
+            <option value="14" data-ar="اللهم صلِّ على محمد"                   data-en="Allahumma salli ala Muhammad">اللهم صلِّ على محمد</option>
+            <!-- ٦ - تسبيحات -->
             <option value="5"  data-ar="سبحان الله وبحمده"                     data-en="SubhanAllahi wa bihamdih">سبحان الله وبحمده</option>
             <option value="6"  data-ar="سبحان الله العظيم"                     data-en="SubhanAllahil Azeem">سبحان الله العظيم</option>
-            <option value="7"  data-ar="لا حول ولا قوة إلا بالله"              data-en="La hawla wala quwwata illa billah">لا حول ولا قوة إلا بالله</option>
+            <option value="20" data-ar="سبحان الله وبحمده عدد خلقه، ورضا نفسه، وزنة عرشه، ومداد كلماته" data-en="SubhanAllahi wa bihamdih, adada khalqih, wa rida nafsih, wa zinata arshih, wa midada kalimatih">سبحان الله وبحمده عدد خلقه...</option>
+            <!-- ٧ - الاستغفار -->
             <option value="8"  data-ar="أستغفر الله"                           data-en="Astaghfirullah">أستغفر الله</option>
             <option value="9"  data-ar="أستغفر الله وأتوب إليه"                data-en="Astaghfirullah wa atubu ilaih">أستغفر الله وأتوب إليه</option>
-            <option value="10" data-ar="لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير" data-en="La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamd, wa huwa ala kulli shay'in qadir">لا إله إلا الله وحده لا شريك له...</option>
-            <option value="11" data-ar="سبحان الله وبحمده، سبحان الله العظيم"  data-en="SubhanAllahi wa bihamdih, SubhanAllahil Azeem">سبحان الله وبحمده، سبحان الله العظيم</option>
             <option value="12" data-ar="اللهم اغفر لي وتب عليَّ"               data-en="Allahumma ighfir li wa tub alayya">اللهم اغفر لي وتب عليَّ</option>
-            <option value="13" data-ar="حسبي الله ونعم الوكيل"                 data-en="HasbiyAllahu wa ni'mal wakeel">حسبي الله ونعم الوكيل</option>
-            <option value="14" data-ar="اللهم صلِّ على محمد"                   data-en="Allahumma salli ala Muhammad">اللهم صلِّ على محمد</option>
-            <option value="15" data-ar="بسم الله الرحمن الرحيم"                data-en="Bismillahir Rahmanir Raheem">بسم الله الرحمن الرحيم</option>
+            <option value="21" data-ar="اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت، أعوذ بك من شر ما صنعت، أبوء لك بنعمتك عليَّ، وأبوء بذنبي فاغفر لي فإنه لا يغفر الذنوب إلا أنت" data-en="Sayyid al-Istighfar">سيد الاستغفار</option>
+            <option value="22" data-ar="اللهم اغفر لي وارحمني واهدني وعافني وارزقني" data-en="Allahumma ighfir li warhamni wahdini wa'afini warzuqni">اللهم اغفر لي وارحمني واهدني...</option>
             <option value="16" data-ar="رب اغفر لي"                            data-en="Rabbi ighfir li">رب اغفر لي</option>
+            <option value="23" data-ar="اللهم إني ظلمت نفسي ظلمًا كثيرًا، ولا يغفر الذنوب إلا أنت، فاغفر لي مغفرةً من عندك وارحمني، إنك أنت الغفور الرحيم" data-en="Allahumma inni zalamtu nafsi zhulman kathiran, wa la yaghfiru al-dhunuba illa ant">اللهم إني ظلمت نفسي ظلمًا كثيرًا...</option>
+            <!-- ٨ - أذكار قرآنية -->
+            <option value="24" data-ar="لا إله إلا أنت سبحانك إني كنت من الظالمين" data-en="La ilaha illa anta subhanaka inni kuntu mina al-dhalimin">لا إله إلا أنت سبحانك... (دعاء يونس)</option>
+            <option value="7"  data-ar="لا حول ولا قوة إلا بالله"              data-en="La hawla wala quwwata illa billah">لا حول ولا قوة إلا بالله</option>
+            <option value="13" data-ar="حسبنا الله ونعم الوكيل"                data-en="HasbunAllahu wa ni'mal wakeel">حسبنا الله ونعم الوكيل</option>
+            <option value="25" data-ar="رضيت بالله ربًا، وبالإسلام دينًا، وبمحمد ﷺ نبيًا" data-en="Raditu billahi rabba, wa bil-Islami dinan, wa bi-Muhammadin nabiyya">رضيت بالله ربًا وبالإسلام دينًا...</option>
+            <!-- ٩ - أدعية جامعة -->
+            <option value="19" data-ar="يا حي يا قيوم برحمتك أستغيث"           data-en="Ya Hayyu Ya Qayyum, bi rahmatika astaghith">يا حي يا قيوم برحمتك أستغيث</option>
+            <option value="26" data-ar="اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل، والبخل والجبن، وضلع الدين وغلبة الرجال" data-en="Allahumma inni a'udhu bika minal hammi wal-huzn...">اللهم إني أعوذ بك من الهم والحزن...</option>
             <option value="17" data-ar="اللهم إني أسألك الجنة"                 data-en="Allahumma inni as'alukal jannah">اللهم إني أسألك الجنة</option>
             <option value="18" data-ar="اللهم أعني على ذكرك وشكرك وحسن عبادتك" data-en="Allahumma a'inni ala dhikrik wa shukrik wa husni ibadatik">اللهم أعني على ذكرك وشكرك...</option>
-            <option value="19" data-ar="يا حي يا قيوم برحمتك أستغيث"           data-en="Ya Hayyu Ya Qayyum, bi rahmatika astaghith">يا حي يا قيوم برحمتك أستغيث</option>
+            <option value="27" data-ar="لا إله إلا الله الملك الحق المبين"    data-en="La ilaha illallah al-Malik al-Haqq al-Mubin">لا إله إلا الله الملك الحق المبين</option>
         </select>
     </div>
 
@@ -21674,7 +21715,7 @@ body.dark-mode #sp-athkar-display {
 </script>
 <!-- ══ نهاية عداد PiP ══ -->
 
-<div style="display: flex; justify-content: center; align-items: center;">
+<div id="prayerWidgetWrapper" style="display: none; justify-content: center; align-items: center;">
   <iframe id="iframe" title="prayerWidget" class="widget-m-top"
       style="height: 358px; width: 100%; max-width: 250px; border: 1px solid #ddd;"
       scrolling="no"
@@ -22075,6 +22116,19 @@ function toggleFavorite(event, station) {
 function toggleFavoritesView() {
   showingFavorites = !showingFavorites;
 
+  // ── تحديث العناصر المرتبطة بالفلتر ──
+  // بلاير العلم: يظهر فقط في المفضلة والعلماء
+  document.body.classList.toggle('filter-favorites', showingFavorites);
+  if (showingFavorites) document.body.classList.remove('filter-scholars');
+
+  // ويدجت مواقيت الصلاة: مخفي دائماً في المفضلة
+  var prayerWidgetFav = document.getElementById('prayerWidgetWrapper');
+  if (prayerWidgetFav) prayerWidgetFav.style.display = 'none';
+
+  // عداد التسبيح: مخفي في المفضلة، ظاهر عند إلغائها
+  var salahPipFav = document.getElementById('salah-pip-section');
+  if (salahPipFav) salahPipFav.style.display = showingFavorites ? 'none' : '';
+
   const viewFavoritesButton = document.getElementById('viewFavoritesButton');
   const favLabel = document.getElementById('favLabel');
   const favHeart = document.getElementById('favHeart');
@@ -22257,6 +22311,27 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
 }
 
 function filterStations(category) {
+
+  // ── تحديث العناصر المرتبطة بالفلتر ──
+
+  // بلاير العلم: يظهر فقط في فلتر العلماء
+  document.body.classList.remove('filter-scholars', 'filter-favorites');
+  if (category === 'scholars') document.body.classList.add('filter-scholars');
+
+  // ويدجت مواقيت الصلاة: يظهر فقط في محطات إسلامية / البث المرئي / المزيد
+  var prayerWidget = document.getElementById('prayerWidgetWrapper');
+  if (prayerWidget) {
+    prayerWidget.style.display =
+      (category === 'mix' || category === 'LiveTV' || category === 'More') ? 'flex' : 'none';
+  }
+
+  // عداد التسبيح: مخفي في محطات إسلامية / البث المرئي / المزيد / العلماء
+  var salahPip = document.getElementById('salah-pip-section');
+  if (salahPip) {
+    salahPip.style.display =
+      (category === 'mix' || category === 'LiveTV' || category === 'More' || category === 'scholars')
+      ? 'none' : '';
+  }
 
   document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('selected'));
 
@@ -26492,28 +26567,29 @@ if (target && count >= target) {
     })();
 
     // ══════════════════════════════════════════════════════════════
-    // ── قائمة تشغيل الأذكار (صباح + مساء) — نظام مستقل تماماً ──
+    // ── قائمة تشغيل الأذكار — تظهر في فلتر "كل الإذاعات" فقط ──
     // ══════════════════════════════════════════════════════════════
     (function() {
 
-        var _plIndex   = -1;
-        var _plList    = [];
-        var _plActive  = false;
-        var _activeSub = null; // 'morning' أو 'evening'
+        var _plIndex  = -1;
+        var _plList   = [];
+        var _plActive = false;
 
-        // ── 1. حقن checkbox بعد favorite-icon في أزرار الأذكار المرئية ──
-        function injectAdhkarCheckboxes(subType) {
-            // نختار الأزرار اللي عندها الـ attribute المناسب
-            var selector = subType === 'morning'
-                ? 'button.button[data-category="Adhkar"][data-adhkar-morning]'
-                : 'button.button[data-category="Adhkar"][data-adhkar-evening]';
+        // ── 1. حقن checkbox في كل أزرار الأذكار (مرة واحدة فقط) ──
+        function injectAdhkarCheckboxes() {
+            var panelVisible = (function() {
+                var p = document.getElementById('adhkar-playlist-panel');
+                return p && p.style.display !== 'none';
+            })();
 
-            document.querySelectorAll(selector).forEach(function(btn) {
+            document.querySelectorAll('button.button[data-category="Adhkar"]').forEach(function(btn) {
                 if (btn.querySelector('.adhkar-pl-cb')) return;
 
                 var wrapper = document.createElement('span');
                 wrapper.className = 'pl-cb-wrapper';
                 wrapper.style.cssText = 'float:right;position:relative;display:inline-flex;align-items:center;margin-right:2px;';
+                // مخفي بالأساس إن لم يكن البانل ظاهراً
+                if (!panelVisible) wrapper.style.display = 'none';
 
                 var cb = document.createElement('input');
                 cb.type = 'checkbox';
@@ -26558,13 +26634,11 @@ if (target && count >= target) {
             if (el) el.textContent = count + ' مختار';
         }
 
-        // ── 3. تحديد الكل (الفيلتر الحالي فقط) ──
+        // ── 3. تحديد الكل ──
         window.adhkarPlaylistSelectAll = function() {
-            if (!_activeSub) return;
-            var selector = _activeSub === 'morning'
-                ? 'button.button[data-category="Adhkar"][data-adhkar-morning] .adhkar-pl-cb'
-                : 'button.button[data-category="Adhkar"][data-adhkar-evening] .adhkar-pl-cb';
-            document.querySelectorAll(selector).forEach(function(cb) {
+            document.querySelectorAll('button.button[data-category="Adhkar"] .adhkar-pl-cb').forEach(function(cb) {
+                var btn = cb.closest('button.button');
+                if (!btn || btn.style.display === 'none') return;
                 cb.checked = true;
                 var wrap = cb.closest('.pl-check-wrap');
                 if (wrap) wrap.classList.add('pl-selected');
@@ -26583,7 +26657,7 @@ if (target && count >= target) {
             stopPlaylist();
         };
 
-        // ── 5. تشغيل — يجمع صباح + مساء معاً ──
+        // ── 5. تشغيل المختارة ──
         window.adhkarPlaylistStart = function() {
             _plList = Array.from(
                 document.querySelectorAll('.adhkar-pl-cb:checked')
@@ -26658,16 +26732,23 @@ if (target && count >= target) {
             if (nowEl) nowEl.style.display = 'none';
         }
 
-        // ── 6. إظهار / إخفاء البانل ──
-        function showPanel(sub) {
-            _activeSub = sub;
-            injectAdhkarCheckboxes(sub);
+        // ── 6. إظهار/إخفاء البانل والتشيك بوكسات — يظهران فقط في فلتر "أذكار عامة" ──
+        function showPanel() {
+            injectAdhkarCheckboxes();
             updateCount();
+            // إظهار التشيك بوكسات على الأزرار الظاهرة فقط
+            document.querySelectorAll('.adhkar-pl-cb').forEach(function(cb) {
+                cb.closest('.pl-cb-wrapper') && (cb.closest('.pl-cb-wrapper').style.display = '');
+            });
             var p = document.getElementById('adhkar-playlist-panel');
             if (p) p.style.display = 'block';
         }
         function hidePanel() {
-            _activeSub = null;
+            // إخفاء التشيك بوكسات عن جميع أزرار الأذكار
+            document.querySelectorAll('.adhkar-pl-cb').forEach(function(cb) {
+                var wrapper = cb.closest('.pl-cb-wrapper');
+                if (wrapper) wrapper.style.display = 'none';
+            });
             var p = document.getElementById('adhkar-playlist-panel');
             if (p) p.style.display = 'none';
             stopPlaylist();
@@ -26677,14 +26758,11 @@ if (target && count >= target) {
         var _origFAS = filterAdhkarSub;
         filterAdhkarSub = function(subType, btn) {
             _origFAS(subType, btn);
-            if (subType === 'morning' || subType === 'evening') {
-                showPanel(subType);
-            } else {
-                hidePanel();
-            }
+            if (subType === 'general') showPanel();
+            else hidePanel();
         };
 
-        // ── 8. إخفاء البانل لو غيرنا الفيلتر الرئيسي ──
+        // ── 8. إخفاء البانل عند تغيير الفلتر الرئيسي ──
         var _origFS2 = filterStations;
         filterStations = function(category) {
             _origFS2(category);
