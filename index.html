@@ -11348,16 +11348,16 @@ setTimeout(autoScaleVerseFont, 100);
 </div>
 </div>
 
-<!-- ══ بانل قائمة تشغيل الأذكار ══ -->
-<div id="adhkar-playlist-panel" class="pl-panel pl-panel--green">
-  <div class="pl-toolbar pl-toolbar--green">
-    <span class="pl-label pl-label--green">📋 قائمة تشغيل:</span>
-    <button onclick="adhkarPlaylistStart()" class="pl-btn pl-btn--play">▶ تشغيل المختارة</button>
-    <button onclick="adhkarPlaylistSelectAll()" class="pl-btn pl-btn--select pl-btn--green-border">✔ تحديد الكل</button>
-    <button onclick="adhkarPlaylistClear()" class="pl-btn pl-btn--clear">✖ إلغاء التحديد</button>
-    <span id="adhkar-pl-count" class="pl-count pl-count--green">0 مختار</span>
+<!-- ══ بانل قائمة التشغيل الموحدة ══ -->
+<div id="unified-playlist-panel" class="pl-panel pl-panel--blue" style="display:none;">
+  <div class="pl-toolbar pl-toolbar--blue">
+    <span class="pl-label pl-label--blue" id="upl-label">📋 قائمة تشغيل:</span>
+    <button onclick="uplStart()" class="pl-btn pl-btn--play">▶ تشغيل المختارة</button>
+    <button onclick="uplSelectAll()" class="pl-btn pl-btn--select pl-btn--blue-border">✔ تحديد الكل</button>
+    <button onclick="uplClear()" class="pl-btn pl-btn--clear">✖ إلغاء التحديد</button>
+    <span id="upl-count" class="pl-count pl-count--blue">0 مختار</span>
   </div>
-  <div id="adhkar-pl-now" class="pl-now pl-now--green" style="display:none;"></div>
+  <div id="upl-now" class="pl-now pl-now--blue" style="display:none;"></div>
 </div>
 
 <div class="subfilter-scroll-wrap" id="quransciences-subfilter">
@@ -11389,22 +11389,7 @@ setTimeout(autoScaleVerseFont, 100);
 </div>
 </div>
 
-<!-- ══ بانل قائمة تشغيل السور ══ -->
-<div id="surah-playlist-panel" class="pl-panel pl-panel--blue">
-
-  <!-- شريط الأدوات -->
-  <div class="pl-toolbar pl-toolbar--blue">
-    <span class="pl-label pl-label--blue">📋 قائمة تشغيل:</span>
-    <button onclick="surahPlaylistStart()" id="surah-pl-play" class="pl-btn pl-btn--play">▶ تشغيل المختارة</button>
-    <button onclick="surahPlaylistSelectAll()" class="pl-btn pl-btn--select pl-btn--blue-border">✔ تحديد الكل</button>
-    <button onclick="surahPlaylistClear()" class="pl-btn pl-btn--clear">✖ إلغاء التحديد</button>
-    <span id="surah-pl-count" class="pl-count pl-count--blue">0 مختار</span>
-  </div>
-
-  <!-- شريط السورة الحالية -->
-  <div id="surah-pl-now" class="pl-now pl-now--blue" style="display:none;"></div>
-
-</div>
+<!-- ══ نهاية بانل قائمة التشغيل الموحدة ══ -->
 
 <style>
 /* ══ Playlist checkbox على أزرار السور والمنشاويات ══ */
@@ -11499,6 +11484,7 @@ setTimeout(autoScaleVerseFont, 100);
 <button class="reciters-sub-btn" data-sub="rising" data-ar="✨ جديد" data-en="✨ Rising Voices" onclick="filterRecitersSub('rising',this)">✨ جديد</button>
 </div>
 </div>
+<div id="reciters-playlist-slot"></div>
 
 <div class="search-container">
 
@@ -26351,250 +26337,36 @@ if (target && count >= target) {
     })();
 
     // ══════════════════════════════════════════════════════════════
-    // ── قائمة تشغيل السور والمنشاويات — نظام مستقل تماماً ──
+    // ── قائمة التشغيل الموحدة — تعمل في كل فلتر يملك أزرار URLs ──
     // ══════════════════════════════════════════════════════════════
     (function() {
 
         var _plIndex  = -1;
         var _plList   = [];
         var _plActive = false;
-        // الفيلتر الحالي المفتوح: 'surah' أو 'Monshawiiyat'
-        var _activeCat = null;
+        var _activeCat = null; // الفيلتر النشط الحالي
 
-        // ── 1. حقن الـ checkbox داخل innerHTML الزر بعد favorite-icon ──
-        function injectCheckboxes(category) {
-            document.querySelectorAll('button.button[data-category="' + category + '"]').forEach(function(btn) {
-                if (btn.querySelector('.pl-cb')) return; // مش هنعمله تاني
+        // ── الفلاتر التي يظهر فيها البانل والتشيك بوكس ──
+        // surah, Monshawiiyat: فلاتر السور
+        // general: أذكار عامة
+        // يمكن إضافة أي فلتر آخر هنا لاحقاً
+        var PLAYLIST_CATS = ['surah', 'Monshawiiyat', 'general', 'reciters', 'Quran', 'mojawwad'];
 
-                // ننشئ wrapper للـ checkbox + tooltip
-                var wrapper = document.createElement('span');
-                wrapper.className = 'pl-cb-wrapper';
-                wrapper.style.cssText = 'float:right; position:relative; display:inline-flex; align-items:center; margin-right:2px;';
-
-                var cb = document.createElement('input');
-                cb.type = 'checkbox';
-                cb.className = 'pl-cb';
-                cb.style.cssText = 'width:17px;height:17px;cursor:pointer;accent-color:#1e90ff;margin:0;vertical-align:middle;flex-shrink:0;';
-                cb.setAttribute('title', '');
-                // نمنع click الـ checkbox من تفعيل toggleRadio
-                cb.addEventListener('click', function(e) { e.stopPropagation(); });
-                cb.addEventListener('change', function(e) {
-                    e.stopPropagation();
-                    var wrap = btn.closest('.pl-check-wrap');
-                    if (wrap) {
-                        if (cb.checked) wrap.classList.add('pl-selected');
-                        else            wrap.classList.remove('pl-selected');
-                    }
-                    updateCount();
-                });
-
-                var tooltip = document.createElement('span');
-                tooltip.className = 'pl-cb-tooltip';
-                tooltip.textContent = 'أضف/احذف من قائمة التشغيل';
-
-                wrapper.appendChild(cb);
-                wrapper.appendChild(tooltip);
-
-                // نلف الزر بـ pl-check-wrap لو مش ملفوف
-                if (!btn.parentElement.classList.contains('pl-check-wrap')) {
-                    var wrap = document.createElement('div');
-                    wrap.className = 'pl-check-wrap';
-                    wrap.style.cssText = 'display:inline-block;width:100%;';
-                    btn.parentNode.insertBefore(wrap, btn);
-                    wrap.appendChild(btn);
-                }
-
-                // أدرج الـ wrapper بعد favorite-icon مباشرة (أو في نهاية الزر)
-                var favIcon = btn.querySelector('.favorite-icon');
-                if (favIcon) {
-                    favIcon.insertAdjacentElement('afterend', wrapper);
-                } else {
-                    btn.appendChild(wrapper);
-                }
-            });
-        }
-
-        // ── 2. عداد المختارين ──
-        function updateCount() {
-            var count = document.querySelectorAll('.pl-cb:checked').length;
-            var el = document.getElementById('surah-pl-count');
-            if (el) el.textContent = count + ' مختار';
-        }
-
-        // ── 3. تحديد الكل (حسب الفيلتر المفتوح) ──
-        window.surahPlaylistSelectAll = function() {
-            var cat = _activeCat;
-            if (!cat) return;
-            document.querySelectorAll('button.button[data-category="' + cat + '"] .pl-cb').forEach(function(cb) {
-                cb.checked = true;
-                var wrap = cb.closest('.pl-check-wrap');
-                if (wrap) wrap.classList.add('pl-selected');
-            });
-            updateCount();
-        };
-
-        // ── 4. إلغاء التحديد الكل ──
-        window.surahPlaylistClear = function() {
-            document.querySelectorAll('.pl-cb').forEach(function(cb) {
-                cb.checked = false;
-                var wrap = cb.closest('.pl-check-wrap');
-                if (wrap) wrap.classList.remove('pl-selected');
-            });
-            updateCount();
-            stopPlaylist();
-        };
-
-        // ── 5. بدء التشغيل — يجمع من كل الـ categories المحددة ──
-        window.surahPlaylistStart = function() {
-            // نجمع كل المختارين من سور ومنشاويات معاً بترتيب DOM
-            _plList = Array.from(
-                document.querySelectorAll('button.button[data-category="surah"] .pl-cb:checked, button.button[data-category="Monshawiiyat"] .pl-cb:checked')
-            ).map(function(cb) {
-                return cb.closest('button.button');
-            }).filter(Boolean);
-
-            if (_plList.length === 0) {
-                if (typeof showToast === 'function') showToast('⚠️ لم تختر أي عنصر');
-                return;
-            }
-            _plIndex  = 0;
-            _plActive = true;
-            playAtIndex(0);
-        };
-
-        function playAtIndex(i) {
-            if (!_plActive || i >= _plList.length) {
-                if (_plActive) {
-                    if (typeof showToast === 'function') showToast('🔄 إعادة قائمة التشغيل من البداية...');
-                    _plIndex = 0;
-                    playAtIndex(0);
-                    return;
-                }
-                return;
-            }
-            var btn = _plList[i];
-            _plIndex = i;
-
-            var nowEl = document.getElementById('surah-pl-now');
-            if (nowEl) {
-                var name = btn.getAttribute('data-ar') || btn.getAttribute('data-station') || '';
-                nowEl.style.display = 'block';
-                nowEl.textContent = '🎧 يُشغَّل الآن: ' + name + '  (' + (i+1) + ' / ' + _plList.length + ')';
-            }
-
-            var urls = null;
-            var urlsAttr = btn.getAttribute('data-urls');
-            if (urlsAttr) { try { urls = JSON.parse(urlsAttr); } catch(e) {} }
-            var url = (urls && urls.length > 0)
-                ? urls[Math.floor(Math.random() * urls.length)]
-                : btn.getAttribute('data-url');
-            if (!url) { playAtIndex(i + 1); return; }
-
-            var nameAr = btn.getAttribute('data-ar') || btn.getAttribute('data-station') || '';
-            var nameEn = btn.getAttribute('data-en') || nameAr;
-
-            if (typeof playNewAudio === 'function') {
-                playNewAudio(url, nameAr, nameEn, true);
-            } else {
-                var audio = document.getElementById('currentAudio');
-                if (audio) { audio.src = url; audio.load(); audio.play().catch(function(){}); }
-            }
-
-            setTimeout(function() {
-                var audio = document.getElementById('currentAudio') || window.mainAudio;
-                if (!audio) return;
-                audio.onended = function() {
-                    if (!_plActive) return;
-                    playAtIndex(_plIndex + 1);
-                };
-                window._lastAutoNext = audio.onended;
-            }, 600);
-
-            if (typeof showToast === 'function') showToast('⏭ ' + nameAr);
-        }
-
-        function stopPlaylist() {
-            _plActive = false;
-            _plIndex  = -1;
-            var nowEl = document.getElementById('surah-pl-now');
-            if (nowEl) nowEl.style.display = 'none';
-        }
-
-        // ── 6. إظهار / إخفاء البانل ──
-        function showPanel(cat) {
-            _activeCat = cat;
-            injectCheckboxes(cat);
-            updateCount();
-            var p = document.getElementById('surah-playlist-panel');
-            if (p) p.style.display = 'block';
-        }
-        function hidePanel() {
-            _activeCat = null;
-            var p = document.getElementById('surah-playlist-panel');
-            if (p) p.style.display = 'none';
-            stopPlaylist();
-        }
-
-        // ── 7. Hook على filterQuranKarimSub (سور + منشاويات) ──
-        var _origFQKS = filterQuranKarimSub;
-        filterQuranKarimSub = function(subType, btn) {
-            _origFQKS(subType, btn);
-            if (subType === 'surah' || subType === 'Monshawiiyat') {
-                // إخفاء البانل أولاً لتجنب المساحة الفارغة عند التبديل بين الفيلترين
-                var p = document.getElementById('surah-playlist-panel');
-                if (p) p.style.display = 'none';
-
-                _activeCat = subType;
-                injectCheckboxes(subType);
-                updateCount();
-
-                // إعادة إظهار البانل بعد تحديث DOM لتجنب الوميض والمساحة الفارغة
-                requestAnimationFrame(function() {
-                    if (p) p.style.display = 'block';
-                });
-            } else {
-                hidePanel();
-            }
-        };
-
-        // ── 8. Hook على filterStations ──
-        var _origFS = filterStations;
-        filterStations = function(category) {
-            _origFS(category);
-            if (category !== 'QuranKarim') hidePanel();
-        };
-
-    })();
-
-    // ══════════════════════════════════════════════════════════════
-    // ── قائمة تشغيل الأذكار — تظهر في فلتر "كل الإذاعات" فقط ──
-    // ══════════════════════════════════════════════════════════════
-    (function() {
-
-        var _plIndex  = -1;
-        var _plList   = [];
-        var _plActive = false;
-
-        // ── 1. حقن checkbox في كل أزرار الأذكار (مرة واحدة فقط) ──
-        function injectAdhkarCheckboxes() {
-            var panelVisible = (function() {
-                var p = document.getElementById('adhkar-playlist-panel');
-                return p && p.style.display !== 'none';
-            })();
-
-            document.querySelectorAll('button.button[data-category="Adhkar"]').forEach(function(btn) {
-                if (btn.querySelector('.adhkar-pl-cb')) return;
+        // ── 1. حقن checkbox على كل زرار يملك data-urls أو data-url ──
+        function injectCheckboxes(selector) {
+            document.querySelectorAll(selector).forEach(function(btn) {
+                // فقط الأزرار التي لديها URLs
+                if (!btn.hasAttribute('data-urls') && !btn.hasAttribute('data-url')) return;
+                if (btn.querySelector('.upl-cb')) return; // مرة واحدة فقط
 
                 var wrapper = document.createElement('span');
-                wrapper.className = 'pl-cb-wrapper';
+                wrapper.className = 'pl-cb-wrapper upl-cb-wrapper';
                 wrapper.style.cssText = 'float:right;position:relative;display:inline-flex;align-items:center;margin-right:2px;';
-                // مخفي بالأساس إن لم يكن البانل ظاهراً
-                if (!panelVisible) wrapper.style.display = 'none';
 
                 var cb = document.createElement('input');
                 cb.type = 'checkbox';
-                cb.className = 'adhkar-pl-cb pl-cb';
-                cb.style.cssText = 'width:17px;height:17px;cursor:pointer;accent-color:#28a745;margin:0;vertical-align:middle;flex-shrink:0;';
+                cb.className = 'upl-cb pl-cb';
+                cb.style.cssText = 'width:17px;height:17px;cursor:pointer;accent-color:#1e90ff;margin:0;vertical-align:middle;flex-shrink:0;';
                 cb.addEventListener('click', function(e) { e.stopPropagation(); });
                 cb.addEventListener('change', function(e) {
                     e.stopPropagation();
@@ -26629,14 +26401,19 @@ if (target && count >= target) {
 
         // ── 2. عداد المختارين ──
         function updateCount() {
-            var count = document.querySelectorAll('.adhkar-pl-cb:checked').length;
-            var el = document.getElementById('adhkar-pl-count');
+            var count = document.querySelectorAll('.upl-cb:checked').length;
+            var el = document.getElementById('upl-count');
             if (el) el.textContent = count + ' مختار';
+            // compat: تحديث العدادات القديمة لو موجودة
+            var el2 = document.getElementById('surah-pl-count');
+            if (el2) el2.textContent = count + ' مختار';
+            var el3 = document.getElementById('adhkar-pl-count');
+            if (el3) el3.textContent = count + ' مختار';
         }
 
-        // ── 3. تحديد الكل ──
-        window.adhkarPlaylistSelectAll = function() {
-            document.querySelectorAll('button.button[data-category="Adhkar"] .adhkar-pl-cb').forEach(function(cb) {
+        // ── 3. تحديد الكل (الأزرار الظاهرة فقط) ──
+        window.uplSelectAll = function() {
+            document.querySelectorAll('.upl-cb').forEach(function(cb) {
                 var btn = cb.closest('button.button');
                 if (!btn || btn.style.display === 'none') return;
                 cb.checked = true;
@@ -26646,9 +26423,13 @@ if (target && count >= target) {
             updateCount();
         };
 
+        // ── compat aliases ──
+        window.surahPlaylistSelectAll  = window.uplSelectAll;
+        window.adhkarPlaylistSelectAll = window.uplSelectAll;
+
         // ── 4. إلغاء التحديد ──
-        window.adhkarPlaylistClear = function() {
-            document.querySelectorAll('.adhkar-pl-cb').forEach(function(cb) {
+        window.uplClear = function() {
+            document.querySelectorAll('.upl-cb').forEach(function(cb) {
                 cb.checked = false;
                 var wrap = cb.closest('.pl-check-wrap');
                 if (wrap) wrap.classList.remove('pl-selected');
@@ -26657,16 +26438,19 @@ if (target && count >= target) {
             stopPlaylist();
         };
 
+        window.surahPlaylistClear  = window.uplClear;
+        window.adhkarPlaylistClear = window.uplClear;
+
         // ── 5. تشغيل المختارة ──
-        window.adhkarPlaylistStart = function() {
+        window.uplStart = function() {
             _plList = Array.from(
-                document.querySelectorAll('.adhkar-pl-cb:checked')
+                document.querySelectorAll('.upl-cb:checked')
             ).map(function(cb) {
                 return cb.closest('button.button');
             }).filter(Boolean);
 
             if (_plList.length === 0) {
-                if (typeof showToast === 'function') showToast('⚠️ لم تختر أي ذكر');
+                if (typeof showToast === 'function') showToast('⚠️ لم تختر أي عنصر');
                 return;
             }
             _plIndex  = 0;
@@ -26674,10 +26458,13 @@ if (target && count >= target) {
             playAtIndex(0);
         };
 
+        window.surahPlaylistStart  = window.uplStart;
+        window.adhkarPlaylistStart = window.uplStart;
+
         function playAtIndex(i) {
             if (!_plActive || i >= _plList.length) {
                 if (_plActive) {
-                    if (typeof showToast === 'function') showToast('🔄 إعادة قائمة الأذكار من البداية...');
+                    if (typeof showToast === 'function') showToast('🔄 إعادة قائمة التشغيل من البداية...');
                     _plIndex = 0;
                     playAtIndex(0);
                     return;
@@ -26687,12 +26474,17 @@ if (target && count >= target) {
             var btn = _plList[i];
             _plIndex = i;
 
-            var nowEl = document.getElementById('adhkar-pl-now');
+            var nowEl = document.getElementById('upl-now');
             if (nowEl) {
                 var name = btn.getAttribute('data-ar') || btn.getAttribute('data-station') || '';
                 nowEl.style.display = 'block';
                 nowEl.textContent = '🎧 يُشغَّل الآن: ' + name + '  (' + (i+1) + ' / ' + _plList.length + ')';
             }
+            // compat: surah-pl-now / adhkar-pl-now
+            ['surah-pl-now', 'adhkar-pl-now'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) { el.style.display = 'block'; el.textContent = (nowEl ? nowEl.textContent : ''); }
+            });
 
             var urls = null;
             var urlsAttr = btn.getAttribute('data-urls');
@@ -26728,48 +26520,177 @@ if (target && count >= target) {
         function stopPlaylist() {
             _plActive = false;
             _plIndex  = -1;
-            var nowEl = document.getElementById('adhkar-pl-now');
+            var nowEl = document.getElementById('upl-now');
             if (nowEl) nowEl.style.display = 'none';
+            ['surah-pl-now', 'adhkar-pl-now'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
         }
 
-        // ── 6. إظهار/إخفاء البانل والتشيك بوكسات — يظهران فقط في فلتر "أذكار عامة" ──
-        function showPanel() {
-            injectAdhkarCheckboxes();
+        // ── 6. إظهار/إخفاء البانل والتشيك بوكسات ──
+        // slotId: ID الـ div الذي سيُوضع فيه البانل ('reciters-playlist-slot' أو null = مكانه الأصلي)
+        var _panelOrigParent = null;
+        var _panelOrigNext   = null;
+
+        function showPanel(cat, label, slotId) {
+            _activeCat = cat;
+            var p = document.getElementById('unified-playlist-panel');
+            if (!p) return;
+
+            // تحريك البانل للـ slot المطلوب
+            if (slotId) {
+                var slot = document.getElementById(slotId);
+                if (slot && p.parentElement !== slot) {
+                    // احفظ المكان الأصلي عند أول تحريك
+                    if (!_panelOrigParent) {
+                        _panelOrigParent = p.parentElement;
+                        _panelOrigNext   = p.nextSibling;
+                    }
+                    slot.appendChild(p);
+                }
+            } else {
+                // أعد البانل لمكانه الأصلي
+                if (_panelOrigParent && p.parentElement !== _panelOrigParent) {
+                    if (_panelOrigNext && _panelOrigNext.parentElement === _panelOrigParent) {
+                        _panelOrigParent.insertBefore(p, _panelOrigNext);
+                    } else {
+                        _panelOrigParent.appendChild(p);
+                    }
+                }
+            }
+
+            // حقن checkboxes على الأزرار حسب الفيلتر
+            var selector = cat
+                ? 'button.button[data-category="' + cat + '"]'
+                : 'button.button[data-urls], button.button[data-url]';
+            injectCheckboxes(selector);
+
+            // إظهار checkboxes الأزرار الظاهرة فقط
+            document.querySelectorAll('.upl-cb-wrapper').forEach(function(w) {
+                var btn = w.closest('button.button') || (w.parentElement && w.parentElement.querySelector('button.button'));
+                if (!btn) btn = w.closest('.pl-check-wrap') && w.closest('.pl-check-wrap').querySelector('button.button');
+                var visible = btn && btn.style.display !== 'none';
+                w.style.display = visible ? '' : 'none';
+            });
+
+            // تحديث عنوان البانل
+            var lbl = document.getElementById('upl-label');
+            if (lbl && label) lbl.textContent = '📋 ' + label + ':';
+
             updateCount();
-            // إظهار التشيك بوكسات على الأزرار الظاهرة فقط
-            document.querySelectorAll('.adhkar-pl-cb').forEach(function(cb) {
-                cb.closest('.pl-cb-wrapper') && (cb.closest('.pl-cb-wrapper').style.display = '');
-            });
-            var p = document.getElementById('adhkar-playlist-panel');
-            if (p) p.style.display = 'block';
+            p.style.display = 'block';
         }
+
         function hidePanel() {
-            // إخفاء التشيك بوكسات عن جميع أزرار الأذكار
-            document.querySelectorAll('.adhkar-pl-cb').forEach(function(cb) {
-                var wrapper = cb.closest('.pl-cb-wrapper');
-                if (wrapper) wrapper.style.display = 'none';
+            _activeCat = null;
+            document.querySelectorAll('.upl-cb-wrapper').forEach(function(w) {
+                w.style.display = 'none';
             });
-            var p = document.getElementById('adhkar-playlist-panel');
-            if (p) p.style.display = 'none';
+            var p = document.getElementById('unified-playlist-panel');
+            if (p) {
+                // أعد البانل لمكانه الأصلي لو اتحرك
+                if (_panelOrigParent && p.parentElement !== _panelOrigParent) {
+                    if (_panelOrigNext && _panelOrigNext.parentElement === _panelOrigParent) {
+                        _panelOrigParent.insertBefore(p, _panelOrigNext);
+                    } else {
+                        _panelOrigParent.appendChild(p);
+                    }
+                }
+                p.style.display = 'none';
+            }
             stopPlaylist();
         }
 
-        // ── 7. Hook على filterAdhkarSub ──
+        // ── 7. Hook على filterQuranKarimSub (سور + منشاويات) ──
+        var _origFQKS = filterQuranKarimSub;
+        filterQuranKarimSub = function(subType, btn) {
+            _origFQKS(subType, btn);
+            if (subType === 'surah') {
+                var p = document.getElementById('unified-playlist-panel');
+                if (p) p.style.display = 'none';
+                requestAnimationFrame(function() { showPanel('surah', 'قائمة تشغيل السور', null); });
+            } else if (subType === 'Monshawiiyat') {
+                var p = document.getElementById('unified-playlist-panel');
+                if (p) p.style.display = 'none';
+                requestAnimationFrame(function() { showPanel('Monshawiiyat', 'قائمة تشغيل المنشاويات', null); });
+            } else {
+                hidePanel();
+            }
+        };
+
+        // ── 8. Hook على filterAdhkarSub (أذكار عامة) ──
         var _origFAS = filterAdhkarSub;
         filterAdhkarSub = function(subType, btn) {
             _origFAS(subType, btn);
-            if (subType === 'general') showPanel();
-            else hidePanel();
+            if (subType === 'general') {
+                showPanel('Adhkar', 'قائمة تشغيل الأذكار', null);
+            } else {
+                hidePanel();
+            }
         };
 
-        // ── 8. إخفاء البانل عند تغيير الفلتر الرئيسي ──
-        var _origFS2 = filterStations;
+        // ── 9. Hook على filterRecitersSub (MP3) ──
+        var _origFRS = filterRecitersSub;
+        filterRecitersSub = function(subType, btn) {
+            _origFRS(subType, btn);
+            if (subType === 'mp3') {
+                var p = document.getElementById('unified-playlist-panel');
+                if (p) p.style.display = 'none';
+                requestAnimationFrame(function() {
+                    // حقن checkboxes على أزرار MP3 بعد ما filterRecitersSub يُظهرها
+                    injectCheckboxes('button[data-category="reciters"][data-reciter-type="mp3"]');
+                    document.querySelectorAll('.upl-cb-wrapper').forEach(function(w) {
+                        var wrap = w.closest('.pl-check-wrap');
+                        var b = wrap && wrap.querySelector('button.button');
+                        w.style.display = (b && b.style.display !== 'none') ? '' : 'none';
+                    });
+                    var lbl = document.getElementById('upl-label');
+                    if (lbl) lbl.textContent = '📋 قائمة تشغيل MP3:';
+                    updateCount();
+                    // نحرك البانل لـ slot القراء
+                    var panel = document.getElementById('unified-playlist-panel');
+                    var slot  = document.getElementById('reciters-playlist-slot');
+                    if (panel && slot) {
+                        if (!_panelOrigParent) {
+                            _panelOrigParent = panel.parentElement;
+                            _panelOrigNext   = panel.nextSibling;
+                        }
+                        slot.appendChild(panel);
+                    }
+                    if (panel) panel.style.display = 'block';
+                });
+            } else {
+                hidePanel();
+            }
+        };
+
+        // ── 10. إخفاء البانل عند تغيير الفلتر الرئيسي ──
+        var _origFS = filterStations;
         filterStations = function(category) {
-            _origFS2(category);
-            if (category !== 'Adhkar') hidePanel();
+            _origFS(category);
+            if (category !== 'QuranKarim' && category !== 'Adhkar' && category !== 'reciters') {
+                hidePanel();
+            }
+        };
+
+        // ── 10. إظهار checkboxes عند إعادة عرض الأزرار بعد فلترة ──
+        window._uplRefreshVisible = function() {
+            if (!document.getElementById('unified-playlist-panel') ||
+                document.getElementById('unified-playlist-panel').style.display === 'none') return;
+            document.querySelectorAll('.upl-cb-wrapper').forEach(function(w) {
+                var wrap = w.closest('.pl-check-wrap');
+                var btn  = wrap && wrap.querySelector('button.button');
+                if (!btn) return;
+                w.style.display = (btn.style.display !== 'none') ? '' : 'none';
+            });
         };
 
     })();
+
+    // ── compat: دوال قديمة شايلة أسماء السور/أذكار (لو في كود تاني يناديها) ──
+    window.surahPlaylistSelectAll  = window.surahPlaylistSelectAll  || window.uplSelectAll;
+    window.adhkarPlaylistSelectAll = window.adhkarPlaylistSelectAll || window.uplSelectAll;
 
     // ── 13. Long press على فلتر الأذكار (الرئيسي والفرعية) لتصفير عدادات التسبيح ──
     (function() {
