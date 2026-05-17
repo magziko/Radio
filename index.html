@@ -25058,6 +25058,10 @@ function filterAdhkarSub(subType, btn) {
     _highlightParentFilter('Adhkar');
     currentAdhkarSub = subType;
 
+    // إعادة تعيين مفتاح الجلسة حتى تظهر الرسالة مجدداً عند التبديل
+    if (subType === 'morning') sessionStorage.removeItem('adhkar_done_shown_morning');
+    if (subType === 'evening') sessionStorage.removeItem('adhkar_done_shown_evening');
+
     document.querySelectorAll('.adhkar-sub-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
@@ -25557,9 +25561,148 @@ function incrementTasbih(event) {
         }
 
         button.classList.add("completed");
+
+        // ── تحقق من اكتمال كل أذكار الصباح أو المساء ──
+        checkAdhkarGroupCompletion(button);
     }
 
     activeTasbih = box;
+}
+
+// ══════════════════════════════════════════════════════════════
+// checkAdhkarGroupCompletion – يتحقق هل اكتملت كل أذكار الصباح أو المساء
+// ══════════════════════════════════════════════════════════════
+function checkAdhkarGroupCompletion(completedBtn) {
+    // تحديد نوع الذكر (صباح / مساء)
+    var isMorning = completedBtn.hasAttribute('data-adhkar-morning');
+    var isEvening = completedBtn.hasAttribute('data-adhkar-evening');
+    if (!isMorning && !isEvening) return;
+
+    var attr = isMorning ? 'data-adhkar-morning' : 'data-adhkar-evening';
+
+    // الأزرار الظاهرة حالياً من هذا النوع (غير مخفية)
+    var groupBtns = Array.from(document.querySelectorAll('button[' + attr + ']')).filter(function(b) {
+        return b.style.display !== 'none';
+    });
+    if (groupBtns.length === 0) return;
+
+    // كل الأزرار مكتملة؟
+    // الأزرار بدون عداد (target=0) تُحسب مكتملة تلقائياً
+    var allDone = groupBtns.every(function(b) {
+        var hasTarget = parseInt(b.dataset.target) > 0;
+        return !hasTarget || b.classList.contains('completed');
+    });
+    if (!allDone) return;
+
+    // لا تُظهر الرسالة أكثر من مرة لنفس الجلسة
+    var sessionKey = 'adhkar_done_shown_' + (isMorning ? 'morning' : 'evening');
+    if (sessionStorage.getItem(sessionKey)) return;
+    sessionStorage.setItem(sessionKey, '1');
+
+    // إظهار الـ modal الاحتفالي
+    showAdhkarDoneModal(isMorning ? 'morning' : 'evening');
+}
+
+function showAdhkarDoneModal(type) {
+    // إزالة أي modal سابق
+    var old = document.getElementById('adhkar-done-modal');
+    if (old) old.remove();
+
+    var isMorning = type === 'morning';
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+
+    var titleText   = isMorning
+        ? (isAr ? '🌅 أحسنت! أتممت أذكار الصباح' : '🌅 Well done! Morning Adhkar Complete')
+        : (isAr ? '🌙 أحسنت! أتممت أذكار المساء' : '🌙 Well done! Evening Adhkar Complete');
+    var bodyText    = isMorning
+        ? (isAr ? 'بارك الله فيك، وحفظك وأهلك وأحبابك في هذا اليوم المبارك 🤲' : 'May Allah bless you and protect you this blessed day 🤲')
+        : (isAr ? 'بارك الله فيك، وحفظك وأهلك وأحبابك في هذه الليلة المباركة 🤲' : 'May Allah bless you and protect you this blessed night 🤲');
+    var closeText   = isAr ? 'آمين ✨' : 'Ameen ✨';
+
+    var modal = document.createElement('div');
+    modal.id = 'adhkar-done-modal';
+    modal.style.cssText = [
+        'position:fixed','top:0','left:0','width:100%','height:100%',
+        'background:rgba(0,0,0,0.52)','z-index:99999',
+        'display:flex','align-items:center','justify-content:center',
+        'animation:adhkarFadeIn 0.35s ease'
+    ].join(';');
+
+    var box = document.createElement('div');
+    box.style.cssText = [
+        'background:linear-gradient(145deg,#ffffff,#eaf6ff)',
+        'border-radius:24px','padding:36px 30px 28px','max-width:360px','width:88%',
+        'text-align:center','box-shadow:0 12px 48px rgba(30,144,255,0.25)',
+        'position:relative','animation:adhkarSlideUp 0.4s cubic-bezier(.34,1.56,.64,1)',
+        'direction:rtl'
+    ].join(';');
+
+    // أيقونة كبيرة
+    var icon = document.createElement('div');
+    icon.style.cssText = 'font-size:64px;margin-bottom:12px;line-height:1;';
+    icon.textContent = isMorning ? '🌅' : '🌙';
+
+    // العنوان
+    var title = document.createElement('h2');
+    title.style.cssText = 'margin:0 0 10px;font-size:20px;color:#1a3a52;font-family:Cairo,Arial,sans-serif;font-weight:700;';
+    title.textContent = titleText;
+
+    // النص
+    var body = document.createElement('p');
+    body.style.cssText = 'margin:0 0 22px;font-size:15px;color:#2c5f7a;line-height:1.7;font-family:Cairo,Arial,sans-serif;';
+    body.textContent = bodyText;
+
+    // زر الإغلاق
+    var btn = document.createElement('button');
+    btn.textContent = closeText;
+    btn.style.cssText = [
+        'background:linear-gradient(135deg,#1e90ff,#00bcd4)',
+        'color:#fff','border:none','border-radius:14px',
+        'padding:12px 36px','font-size:16px','font-weight:700',
+        'cursor:pointer','font-family:Cairo,Arial,sans-serif',
+        'box-shadow:0 4px 16px rgba(30,144,255,0.35)',
+        'transition:transform 0.15s'
+    ].join(';');
+    btn.onmouseover = function(){ this.style.transform='scale(1.05)'; };
+    btn.onmouseout  = function(){ this.style.transform='scale(1)'; };
+    btn.onclick = function() {
+        modal.style.animation = 'adhkarFadeOut 0.25s ease forwards';
+        setTimeout(function(){ modal.remove(); }, 250);
+    };
+
+    // نجوم صغيرة زخرفية
+    var stars = document.createElement('div');
+    stars.style.cssText = 'font-size:22px;margin-bottom:14px;letter-spacing:6px;';
+    stars.textContent = '✦ ✦ ✦';
+
+    box.appendChild(icon);
+    box.appendChild(title);
+    box.appendChild(stars);
+    box.appendChild(body);
+    box.appendChild(btn);
+    modal.appendChild(box);
+
+    // إغلاق عند الضغط خارج الـ modal
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) btn.click();
+    });
+
+    // CSS للأنيميشن
+    if (!document.getElementById('adhkar-done-style')) {
+        var style = document.createElement('style');
+        style.id = 'adhkar-done-style';
+        style.textContent = [
+            '@keyframes adhkarFadeIn{from{opacity:0}to{opacity:1}}',
+            '@keyframes adhkarFadeOut{from{opacity:1}to{opacity:0}}',
+            '@keyframes adhkarSlideUp{from{transform:translateY(40px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}'
+        ].join('');
+        document.head.appendChild(style);
+    }
+
+    document.body.appendChild(modal);
+
+    // اهتزاز احتفالي
+    if (navigator.vibrate) navigator.vibrate([100, 60, 100, 60, 200]);
 }
 
 function resetTasbih(event) {
@@ -25722,6 +25865,12 @@ function incrementTasbihKeyboard(box) {
 
     localStorage.setItem(key, count);
     box.querySelector(".tasbih-count").innerText = count;
+
+    const target = parseInt(button.dataset.target) || 0;
+    if (target && count === target) {
+        button.classList.add("completed");
+        checkAdhkarGroupCompletion(button);
+    }
 }
 
 // ── Tooltip الأذكار ──
