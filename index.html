@@ -3816,6 +3816,43 @@ body.dark-mode #scrollToTopBtn:hover {
 }
 #pnb-play svg { width: 20px; height: 20px; }
 
+/* ── زر نسخ الرابط ── */
+#pnb-copy {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(100,181,246,0.35);
+  background: rgba(255,255,255,0.05);
+  color: #90caf9;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, transform 0.13s, border-color 0.18s, color 0.18s;
+  padding: 0;
+  position: relative;
+  opacity: 0.5;
+  pointer-events: none;
+}
+#pnb-copy.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+#pnb-copy:hover {
+  background: rgba(30,144,255,0.25);
+  border-color: #64b5f6;
+  color: #fff;
+  transform: scale(1.12);
+}
+#pnb-copy:active { transform: scale(0.9); }
+#pnb-copy svg { width: 14px; height: 14px; }
+#pnb-copy.copied {
+  border-color: #66bb6a !important;
+  color: #66bb6a !important;
+  background: rgba(102,187,106,0.15) !important;
+}
+
 #pnb-random {
   border-color: rgba(255,193,7,0.45) !important;
   background: rgba(255,193,7,0.1) !important;
@@ -22602,35 +22639,137 @@ function activateAutoSwitch() {
   }
 }
 
-function activateSleepMode() {
-  const sleepCheckbox = document.getElementById('sleepCheckbox');
-  const sleepTimer = document.getElementById('sleepTimer');
+/* ══ Sleep Timer – نظام جديد ══ */
+(function() {
+  var _sleepTimeout   = null;   // الـ timeout الرئيسي للإيقاف
+  var _countInterval  = null;   // الـ interval لتحديث العداد
+  var _endTime        = 0;      // وقت الانتهاء (Date.now + ms)
+  var _labelEl        = null;   // عنصر العداد في الـ player bar
 
-  if (sleepCheckbox.checked) {
-    const sleepMinutes = parseInt(sleepTimer.value);
+  /* ── إنشاء عنصر العداد في الـ player bar ── */
+  function ensureSleepLabel() {
+    if (_labelEl) return _labelEl;
+    _labelEl = document.createElement('span');
+    _labelEl.id = 'pnb-sleep-label';
+    _labelEl.style.cssText = [
+      'font-size:11px',
+      'font-family:Cairo,Arial,sans-serif',
+      'color:#ffb74d',
+      'white-space:nowrap',
+      'flex-shrink:0',
+      'display:none',
+      'align-items:center',
+      'gap:3px',
+      'cursor:pointer',
+      'padding:0 4px',
+      'border-radius:8px',
+      'transition:background .2s'
+    ].join(';');
+    _labelEl.title = 'اضغط لإلغاء مؤقت النوم';
+    _labelEl.addEventListener('click', cancelSleep);
+    // أضيف قبل زر الصوت مباشرة
+    var volWrap = document.getElementById('player-vol-wrap');
+    if (volWrap && volWrap.parentNode) {
+      volWrap.parentNode.insertBefore(_labelEl, volWrap);
+    }
+    return _labelEl;
+  }
 
-    if (isNaN(sleepMinutes) || sleepMinutes <= 0) {
-      alert("يرجى إدخال عدد دقائق صحيح.");
-      sleepCheckbox.checked = false;
+  /* ── تحديث العداد كل ثانية ── */
+  function startCountdown() {
+    var lbl = ensureSleepLabel();
+    lbl.style.display = 'flex';
+
+    _countInterval = setInterval(function() {
+      var remaining = Math.max(0, _endTime - Date.now());
+      var totalSec  = Math.round(remaining / 1000);
+      var h = Math.floor(totalSec / 3600);
+      var m = Math.floor((totalSec % 3600) / 60);
+      var s = totalSec % 60;
+      var txt = h > 0
+        ? h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0')
+        : m + ':' + String(s).padStart(2,'0');
+      lbl.innerHTML = '🌙 ' + txt;
+      if (remaining === 0) clearInterval(_countInterval);
+    }, 1000);
+  }
+
+  /* ── إلغاء مؤقت النوم ── */
+  function cancelSleep() {
+    clearTimeout(_sleepTimeout);
+    clearInterval(_countInterval);
+    _sleepTimeout = null;
+    var cb = document.getElementById('sleepCheckbox');
+    if (cb) cb.checked = false;
+    var lbl = document.getElementById('pnb-sleep-label');
+    if (lbl) lbl.style.display = 'none';
+    if (typeof showToast === 'function') showToast('❌ تم إلغاء مؤقت النوم');
+  }
+
+  /* ── fade out الصوت تدريجياً ثم إيقافه ── */
+  function fadeAndStop(audio, callback) {
+    var startVol  = audio.volume;
+    var step      = startVol / 30;   // 30 خطوة
+    var fadeInt   = setInterval(function() {
+      var next = audio.volume - step;
+      if (next <= 0.01) {
+        audio.volume = startVol;     // رجّع الصوت لأصله بعد الإيقاف
+        audio.pause();
+        clearInterval(fadeInt);
+        if (callback) callback();
+      } else {
+        audio.volume = next;
+      }
+    }, 100);  // كل 100ms → مدة الـ fade ~3 ثواني
+  }
+
+  /* ══ الدالة الرئيسية ══ */
+  window.activateSleepMode = function() {
+    var cb    = document.getElementById('sleepCheckbox');
+    var input = document.getElementById('sleepTimer');
+
+    if (!cb.checked) { cancelSleep(); return; }
+
+    var mins = parseInt(input.value);
+    if (isNaN(mins) || mins <= 0) {
+      if (typeof showToast === 'function') showToast('⚠️ أدخل عدد دقائق صحيح');
+      cb.checked = false;
       return;
     }
 
-    const sleepInterval = sleepMinutes * 60 * 1000;
+    // إلغاء أي مؤقت سابق
+    clearTimeout(_sleepTimeout);
+    clearInterval(_countInterval);
 
-    sleepTimeout = setTimeout(() => {
-      const audio = document.getElementById('currentAudio');
-      if (audio) {
-        audio.pause();
-        alert("تم إيقاف الراديو بسبب وضع النوم.");
+    _endTime = Date.now() + mins * 60 * 1000;
+
+    _sleepTimeout = setTimeout(function() {
+      clearInterval(_countInterval);
+      var audio = document.getElementById('currentAudio')
+                  || document.querySelector('audio');
+      if (audio && !audio.paused) {
+        fadeAndStop(audio, function() {
+          if (typeof showToast === 'function') showToast('🌙 تم إيقاف الراديو — تصبح على خير');
+          var lbl = document.getElementById('pnb-sleep-label');
+          if (lbl) lbl.style.display = 'none';
+          cb.checked = false;
+        });
+      } else {
+        if (typeof showToast === 'function') showToast('🌙 تم إيقاف الراديو — تصبح على خير');
+        var lbl2 = document.getElementById('pnb-sleep-label');
+        if (lbl2) lbl2.style.display = 'none';
+        cb.checked = false;
       }
-    }, sleepInterval);
+    }, mins * 60 * 1000);
 
-    alert(`تم تفعيل وضع النوم لمدة ${sleepMinutes} دقيقة.`);
-  } else {
-    clearTimeout(sleepTimeout);
-    alert("تم إلغاء وضع النوم.");
-  }
-}
+    startCountdown();
+    if (typeof showToast === 'function') {
+      showToast('🌙 مؤقت النوم: ' + mins + ' دقيقة');
+    }
+  };
+})();
+
+function activateSleepMode() { window.activateSleepMode(); }
 
 document.getElementById('autoSwitchCheckbox').addEventListener('change', activateAutoSwitch);
 document.getElementById('sleepCheckbox').addEventListener('change', activateSleepMode);
@@ -26844,6 +26983,14 @@ if (target && count >= target) {
             '<span id="pnb-name">اختر محطة...</span>',
           '</span>',
 
+          /* 5b. زر نسخ رابط المحطة */
+          '<button id="pnb-copy" title="نسخ رابط المحطة" aria-label="نسخ رابط المحطة">',
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">',
+              '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>',
+              '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>',
+            '</svg>',
+          '</button>',
+
           /* 6. التحكم بالصوت – طرف يسار */
           '<div id="player-vol-wrap">',
             '<span class="vol-ico">🔈</span>',
@@ -26956,6 +27103,65 @@ if (target && count >= target) {
         });
         document.getElementById('pnb-random').addEventListener('click', function() {
           if (randomHidden) randomHidden.click();
+        });
+
+        // ── زر نسخ رابط المحطة ──
+        var copyBtn = document.getElementById('pnb-copy');
+        var _copyUrl  = '';
+        var _copyName = '';
+
+        // دالة تحديث حالة الزر (تُستدعى كل ما تغيرت المحطة)
+        function updateCopyBtn() {
+          var url  = (typeof currentStation !== 'undefined' && currentStation)
+                     ? (currentStation.stationUrl || currentStation.url || '')
+                     : (audioEl.src || '');
+          var name = (typeof currentStation !== 'undefined' && currentStation)
+                     ? (currentStation.stationName || currentStation.name || '')
+                     : (nameEl.textContent || '');
+
+          if (url && url !== window.location.href) {
+            _copyUrl  = url;
+            _copyName = name;
+            copyBtn.classList.add('active');
+          } else {
+            _copyUrl  = '';
+            _copyName = '';
+            copyBtn.classList.remove('active');
+          }
+        }
+
+        // راقب تغييرات الـ status عشان يحدّث الزر
+        new MutationObserver(updateCopyBtn).observe(statusEl, { childList: true, subtree: true, characterData: true });
+        audioEl.addEventListener('play', updateCopyBtn);
+        updateCopyBtn();
+
+        copyBtn.addEventListener('click', function() {
+          if (!_copyUrl) return;
+          var shareUrl = window.location.origin + window.location.pathname
+                         + '?url=' + encodeURIComponent(_copyUrl)
+                         + '&station=' + encodeURIComponent(_copyName);
+
+          navigator.clipboard.writeText(shareUrl).then(function() {
+            copyBtn.classList.add('copied');
+            // غيّر الأيقونة لـ ✓
+            copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            if (typeof showToast === 'function') showToast('✅ تم نسخ رابط المحطة!');
+            setTimeout(function() {
+              copyBtn.classList.remove('copied');
+              copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+            }, 2000);
+          }).catch(function() {
+            // fallback لو clipboard مش متاح
+            var ta = document.createElement('textarea');
+            ta.value = shareUrl;
+            ta.style.position = 'fixed';
+            ta.style.opacity  = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            if (typeof showToast === 'function') showToast('✅ تم نسخ رابط المحطة!');
+          });
         });
 
     })();
