@@ -2321,9 +2321,18 @@ body.dark-mode input[type="checkbox"] {
     accent-color: #1e90ff;
 }
 
+/* وضع داكن: لون ثابت واضح */
 body.dark-mode #status {
-    background: linear-gradient(to right, #1a1a2e, #1e3a5f, #1a1a2e) !important;
-    color: #e0e0e0 !important;
+  background: #0f2744 !important;
+  color: #90caf9 !important;
+  border-bottom: 0.5px solid rgba(100,181,246,0.18) !important;
+}
+
+/* حالة الخطأ — وضع داكن: أبيض على خلفية داكنة */
+body.dark-mode #status.status-error {
+  background: #0f2744 !important;
+  color: #ffffff !important;
+  border-bottom: 0.5px solid rgba(255,255,255,0.15) !important;
 }
 
 body.dark-mode .input-group {
@@ -3880,8 +3889,9 @@ body.dark-mode #scrollToTopBtn:hover {
 }
 
 #status {
-  background: linear-gradient(to right, #e3f2fd 0%, #1e90ff 50%, #e3f2fd 100%) !important;
-  color: #000 !important;
+  /* وضع عادي: لون ثابت واضح */
+  background: #dbeeff !important;
+  color: #0d47a1 !important;
   font-weight: 700;
   border-radius: 0;
   padding: 7px 12px;
@@ -3895,13 +3905,20 @@ body.dark-mode #scrollToTopBtn:hover {
   z-index: auto;
   font-size: 13px;
   font-family: 'Cairo', Arial, Tahoma, sans-serif;
-  border-bottom: 0.5px solid rgba(30,144,255,0.2);
+  border-bottom: 0.5px solid rgba(30,144,255,0.25);
   box-sizing: border-box;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   display: block;
   line-height: 1.4;
+}
+
+/* حالة الخطأ — وضع عادي: أصفر ثابت وواضح */
+#status.status-error {
+  background: #ffecb3 !important;
+  color: #6d3b00 !important;
+  border-bottom: 0.5px solid rgba(255,160,0,0.35) !important;
 }
 
 @media (min-width: 769px) {
@@ -22276,6 +22293,14 @@ function updateStatus(message, enMessage) {
 
         statusDiv.setAttribute('data-en', message);
     }
+
+    // إضافة/إزالة كلاس الخطأ حسب محتوى الرسالة
+    var isError = /⚠️|❌|⏳|غير متاح|لا يوجد اتصال|بطيء|unavailable|no internet|slow/i.test(message + (enMessage || ''));
+    if (isError) {
+        statusDiv.classList.add('status-error');
+    } else {
+        statusDiv.classList.remove('status-error');
+    }
 }
 
 
@@ -23360,8 +23385,9 @@ function changeRadioButtonColor(color = document.getElementById('radioButtonColo
             button.style.background = color;
         });
 
-      document.getElementById('status').style.setProperty('background', color, 'important');
-document.getElementById('status').style.setProperty('color', getContrastYIQ(color), 'important');
+      /* لا نغيّر لون شريط الحالة عند تغيير لون الأزرار — الألوان ثابتة */
+      /* document.getElementById('status').style.setProperty('background', color, 'important'); */
+/* document.getElementById('status').style.setProperty('color', getContrastYIQ(color), 'important'); */
 
         const sleepCheckbox = document.getElementById('sleepCheckbox');
         const autoSwitchCheckbox = document.getElementById('autoSwitchCheckbox');
@@ -26524,8 +26550,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const randomBg = window.getComputedStyle(randomBtn).background;
     const randomColor = window.getComputedStyle(randomBtn).color;
 
-const modernGradient = 'linear-gradient(90deg, #e3f2fd 0%, #64b5f6 40%, #1e90ff 50%, #64b5f6 60%, #e3f2fd 100%)';
-
     function highlightAllSync() {
 
     [prevBtn, nextBtn, randomBtn].forEach(btn => {
@@ -26534,27 +26558,24 @@ const modernGradient = 'linear-gradient(90deg, #e3f2fd 0%, #64b5f6 40%, #1e90ff 
     btn.style.textShadow = 'none';
 });
 
-        status.style.setProperty('background', modernGradient, 'important');
-        status.style.color = '#fff';
+        // لا نغير لون الـ status أثناء الـ highlight
         status.style.textShadow = '';
 
         const sleepCheckbox = document.getElementById('sleepCheckbox');
         const autoSwitchCheckbox = document.getElementById('autoSwitchCheckbox');
         if (sleepCheckbox) {
-            sleepCheckbox.parentElement.style.background = modernGradient;
-            sleepCheckbox.parentElement.style.color = '#000';
-            sleepCheckbox.parentElement.style.borderRadius = '8px';
+            sleepCheckbox.parentElement.style.background = '';
+            sleepCheckbox.parentElement.style.color = '';
+            sleepCheckbox.parentElement.style.borderRadius = '';
         }
         if (autoSwitchCheckbox) {
-            autoSwitchCheckbox.parentElement.style.background = modernGradient;
-            autoSwitchCheckbox.parentElement.style.color = '#000';
-            autoSwitchCheckbox.parentElement.style.borderRadius = '8px';
+            autoSwitchCheckbox.parentElement.style.background = '';
+            autoSwitchCheckbox.parentElement.style.color = '';
+            autoSwitchCheckbox.parentElement.style.borderRadius = '';
         }
 
         setTimeout(() => {
 
-            status.style.setProperty('background', statusBg, 'important');
-            status.style.color = statusColor;
             status.style.textShadow = '';
 
             [prevBtn, nextBtn, randomBtn].forEach((btn, i) => {
