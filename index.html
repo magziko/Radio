@@ -21672,6 +21672,10 @@ body.dark-mode #sp-athkar-display {
             <option value="17" data-ar="اللهم إني أسألك الجنة"                 data-en="Allahumma inni as'alukal jannah">اللهم إني أسألك الجنة</option>
             <option value="18" data-ar="اللهم أعني على ذكرك وشكرك وحسن عبادتك" data-en="Allahumma a'inni ala dhikrik wa shukrik wa husni ibadatik">اللهم أعني على ذكرك وشكرك...</option>
             <option value="27" data-ar="لا إله إلا الله الملك الحق المبين"    data-en="La ilaha illallah al-Malik al-Haqq al-Mubin">لا إله إلا الله الملك الحق المبين</option>
+            <!-- ١٠ - تكبيرات ذي الحجة -->
+            <option value="28" data-ar="الله أكبر، الله أكبر، الله أكبر، لا إله إلا الله، الله أكبر، الله أكبر، ولله الحمد" data-en="Allahu Akbar, Allahu Akbar, Allahu Akbar, La ilaha illallah, Allahu Akbar, Allahu Akbar, wa Lillahil Hamd">تكبيرات ذي الحجة (الصيغة الأولى)</option>
+            <option value="29" data-ar="الله أكبر كبيرًا، والحمد لله كثيرًا، وسبحان الله بكرةً وأصيلًا" data-en="Allahu Akbar kabiran, walhamdu lillahi kathiran, wa subhanallahi bukratan wa asilan">تكبيرات ذي الحجة (الصيغة الثانية)</option>
+            <option value="30" data-ar="الله أكبر، الله أكبر، لا إله إلا الله، والله أكبر، الله أكبر، ولله الحمد" data-en="Allahu Akbar, Allahu Akbar, La ilaha illallah, wallahu Akbar, Allahu Akbar, wa Lillahil Hamd">تكبيرات ذي الحجة (الصيغة الثالثة)</option>
         </select>
     </div>
 
@@ -21835,7 +21839,11 @@ body.dark-mode #sp-athkar-display {
     function spStartAuto(){
         if(spAutoTimer) clearInterval(spAutoTimer);
         var btn = document.getElementById('sp-auto-btn');
-        if(btn){ btn.classList.add('active'); btn.textContent = '⏸ إيقاف التلقائي'; }
+        if(btn){
+            btn.classList.add('active');
+            var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+            btn.textContent = ar ? '⏸ إيقاف التلقائي' : '⏸ Stop Auto';
+        }
         function tick(){
             if(spCount >= spTarget){
                 spStopAuto();
@@ -22467,6 +22475,78 @@ function applyInitialLanguage() {
       });
       notifWrap.style.direction = 'ltr';
       if (typeof updateAdhkarNotifUI === 'function') updateAdhkarNotifUI();
+    }
+
+    // ── ترجمة قسم التقييم ──
+    var ratingLbl = document.querySelector('.footer-rating-label[data-en]');
+    if (ratingLbl) ratingLbl.textContent = ratingLbl.getAttribute('data-en');
+
+    // ── ترجمة قسم عداد التسبيح (salah-pip-section) ──
+    var spSec = document.getElementById('salah-pip-section');
+    if (spSec) {
+      spSec.style.direction = 'ltr';
+
+      // label الذكر
+      var spAthkarLbl = spSec.querySelector('.sp-athkar-label[data-en]');
+      if (spAthkarLbl) spAthkarLbl.textContent = spAthkarLbl.getAttribute('data-en');
+
+      // label الهدف
+      var spTargetLbl = spSec.querySelector('.sp-target-row label[data-en]');
+      if (spTargetLbl) spTargetLbl.textContent = spTargetLbl.getAttribute('data-en');
+
+      // hint زر التسبيح
+      var spHint = document.getElementById('salah-pip-hint');
+      if (spHint) spHint.textContent = spHint.getAttribute('data-en');
+
+      // عنوان القسم
+      var spTitle = spSec.querySelector('.sp-title[data-en]');
+      if (spTitle) spTitle.textContent = spTitle.getAttribute('data-en');
+
+      // زر PiP
+      var spPipBtn = document.getElementById('sp-pip-toggle');
+      if (spPipBtn && !spPipBtn.classList.contains('active'))
+        spPipBtn.textContent = spPipBtn.getAttribute('data-en');
+
+      // زر تصفير
+      var spResetBtn = document.getElementById('sp-reset-btn');
+      if (spResetBtn) spResetBtn.textContent = spResetBtn.getAttribute('data-en');
+
+      // زر تسبيح تلقائي
+      var spAutoBtn = document.getElementById('sp-auto-btn');
+      if (spAutoBtn) {
+        if (spAutoBtn.classList.contains('active'))
+          spAutoBtn.textContent = '⏸ Stop Auto';
+        else
+          spAutoBtn.textContent = spAutoBtn.getAttribute('data-en');
+      }
+
+      // نص التعليمة
+      var spNote = document.getElementById('sp-pip-note');
+      if (spNote) spNote.textContent = spNote.getAttribute('data-en');
+
+      // خيارات قائمة الأذكار
+      var spSel = document.getElementById('sp-athkar-sel');
+      if (spSel) {
+        Array.from(spSel.options).forEach(function(opt) {
+          var en = opt.getAttribute('data-en');
+          if (en) opt.textContent = en;
+        });
+        // تحديث عرض الذكر المختار
+        var spDisp = document.getElementById('sp-athkar-display');
+        if (spDisp) {
+          var selOpt = spSel.options[spSel.selectedIndex];
+          spDisp.textContent = selOpt.getAttribute('data-en') || selOpt.textContent;
+        }
+      }
+
+      // info (Target / Remaining)
+      var spInfo = document.getElementById('salah-pip-info');
+      if (spInfo) {
+        var count  = parseInt(spInfo.getAttribute('data-count')  || '0');
+        var target = parseInt(spInfo.getAttribute('data-target') || '100');
+        var rem    = Math.max(0, target - count);
+        spInfo.innerHTML = 'Target: ' + target + ' &nbsp;|&nbsp; Remaining: ' + rem;
+      }
     }
   }
   // عربية: HTML يبدأ عربي بالفعل ✔
@@ -23370,10 +23450,15 @@ function toggleLanguage() {
     var spResetBtn = document.getElementById('sp-reset-btn');
     if(spResetBtn) spResetBtn.textContent = ar ? spResetBtn.getAttribute('data-ar') : spResetBtn.getAttribute('data-en');
 
-    // زر التلقائي — لا نغير النص لو كان نشطاً (يظل "⏸ إيقاف")
+    // زر التلقائي — نغير النص حسب الحالة (نشط أو لا)
     var spAutoBtn = document.getElementById('sp-auto-btn');
-    if(spAutoBtn && !spAutoBtn.classList.contains('active'))
-      spAutoBtn.textContent = ar ? spAutoBtn.getAttribute('data-ar') : spAutoBtn.getAttribute('data-en');
+    if(spAutoBtn){
+      if(spAutoBtn.classList.contains('active')){
+        spAutoBtn.textContent = ar ? '⏸ إيقاف التلقائي' : '⏸ Stop Auto';
+      } else {
+        spAutoBtn.textContent = ar ? spAutoBtn.getAttribute('data-ar') : spAutoBtn.getAttribute('data-en');
+      }
+    }
 
     // نص التعليمة
     var spNote = document.getElementById('sp-pip-note');
@@ -23409,6 +23494,10 @@ function toggleLanguage() {
     // إعادة رسم الـ Canvas باللغة الجديدة فورًا
     if(typeof spDrawCanvas === 'function') spDrawCanvas();
   })();
+
+  // ── ترجمة قسم التقييم ──
+  var ratingLbl = document.querySelector('.footer-rating-label[data-ar][data-en]');
+  if (ratingLbl) ratingLbl.textContent = isArabic ? ratingLbl.getAttribute('data-ar') : ratingLbl.getAttribute('data-en');
 
   // ── ترجمة إعدادات إشعارات الأذكار ──
   (function() {
@@ -27815,8 +27904,7 @@ if (target && count >= target) {
             // اهتزاز
             if (navigator.vibrate) navigator.vibrate([150, 80, 150, 80, 150]);
 
-            // إغلاق تلقائي بعد 30 ثانية
-            setTimeout(hideBanner, 30000);
+            // البانر يبقى ظاهراً حتى يختار المستخدم (لا إغلاق تلقائي)
         }
 
         // ── تحميل الإعدادات المحفوظة ──
@@ -27885,6 +27973,14 @@ if (target && count >= target) {
                 return setTimeout(function() {
                     sendBrowserNotification(type); // إشعار المتصفح إن كان مسموحاً
                     showInPageBanner(type);         // البانر الداخلي دائماً
+                    // سجّل أن البانر عُرض اليوم
+                    try {
+                        var now2 = new Date();
+                        var key2 = 'adhkar_shown_' + now2.getFullYear() + '-' + (now2.getMonth()+1) + '-' + now2.getDate();
+                        var sh2 = JSON.parse(localStorage.getItem(key2) || '{}');
+                        sh2[type] = true;
+                        localStorage.setItem(key2, JSON.stringify(sh2));
+                    } catch(e){}
                     scheduleOne(type, hhmm);        // يومياً
                 }, ms);
             }
@@ -27933,6 +28029,44 @@ if (target && count >= target) {
         updateUI(settings);
         if (settings.enabled) {
             scheduleReminders(settings); // البانر الداخلي يشتغل دائماً
+
+            // ── فحص الفوات عند فتح الموقع ──
+            // يظهر فقط التذكير الأقرب فواتاً (الأحدث وقتاً) ولم يُعرض بعد
+            (function checkMissed() {
+                var now      = new Date();
+                var todayKey = now.getFullYear() + '-' + (now.getMonth()+1) + '-' + now.getDate();
+                var MISSED_KEY = 'adhkar_shown_' + todayKey;
+                var shown;
+                try { shown = JSON.parse(localStorage.getItem(MISSED_KEY) || '{}'); } catch(e){ shown = {}; }
+
+                function timeToMinutes(hhmm) {
+                    var p = (hhmm || '').split(':');
+                    return (parseInt(p[0])||0)*60 + (parseInt(p[1])||0);
+                }
+
+                var nowMin     = now.getHours()*60 + now.getMinutes();
+                var morningMin = timeToMinutes(settings.morning);
+                var eveningMin = timeToMinutes(settings.evening);
+
+                // اجمع المواعيد الفائتة غير المعروضة مع كم دقيقة فاتت
+                var missed = [];
+                if (nowMin >= morningMin && !shown.morning)
+                    missed.push({ type: 'morning', minutesAgo: nowMin - morningMin });
+                if (nowMin >= eveningMin && !shown.evening)
+                    missed.push({ type: 'evening', minutesAgo: nowMin - eveningMin });
+
+                if (missed.length === 0) return;
+
+                // رتّب تصاعدياً حسب minutesAgo → الأقل = الأحدث فواتاً
+                missed.sort(function(a, b){ return a.minutesAgo - b.minutesAgo; });
+
+                var winner = missed[0];
+                // علّم كل الفائتة كمعروضة حتى لا تظهر مرة ثانية
+                missed.forEach(function(m){ shown[m.type] = true; });
+                try { localStorage.setItem(MISSED_KEY, JSON.stringify(shown)); } catch(e){}
+
+                showInPageBanner(winner.type);
+            })();
         }
 
     })();
