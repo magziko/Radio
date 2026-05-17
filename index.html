@@ -3363,7 +3363,61 @@ border: 2px solid #2b7de9;
     left: 10px;
 }
 
-/* ========== SMART SCROLL SUBFILTER — shared base ========== */
+/* ══ شريط تقدم الأذكار ══ */
+#adhkar-progress-wrap {
+    margin: 6px auto 4px;
+    width: 97%;
+    max-width: 900px;
+    padding: 8px 14px 10px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(30,144,255,0.10);
+    border: 1px solid rgba(30,144,255,0.13);
+    box-sizing: border-box;
+    direction: rtl;
+}
+#adhkar-progress-bar-bg {
+    width: 100%;
+    height: 12px;
+    background: #ddeeff;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+#adhkar-progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #1e90ff, #00c9a7);
+    transition: width 0.5s cubic-bezier(.34,1.2,.64,1);
+}
+#adhkar-progress-label {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a3a52;
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+body.dark-mode #adhkar-progress-wrap {
+    background: rgba(30,50,70,0.7);
+    border-color: rgba(100,181,246,0.2);
+}
+body.dark-mode #adhkar-progress-bar-bg { background: #1a2a3a; }
+body.dark-mode #adhkar-progress-label  { color: #b0cfe8; }
+
+/* ══ أنيميشن اكتمال الشريط ══ */
+@keyframes adhkarBarDone {
+    0%   { filter: brightness(1); }
+    40%  { filter: brightness(1.3); }
+    100% { filter: brightness(1); }
+}
+#adhkar-progress-bar-fill.done {
+    background: linear-gradient(90deg, #00c851, #00e676);
+    animation: adhkarBarDone 0.7s ease;
+}
+
+/* ══ بانل قائمة التشغيل الموحدة ══ */
 @keyframes subFilterFadeIn {
     from { opacity: 0; transform: translateY(-8px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -11469,6 +11523,14 @@ setTimeout(autoScaleVerseFont, 100);
 </div>
 </div>
 
+<!-- ══ شريط تقدم الأذكار ══ -->
+<div id="adhkar-progress-wrap" style="display:none;">
+  <div id="adhkar-progress-bar-bg">
+    <div id="adhkar-progress-bar-fill"></div>
+  </div>
+  <div id="adhkar-progress-label"></div>
+</div>
+
 <!-- ══ بانل قائمة التشغيل الموحدة ══ -->
 <div id="unified-playlist-panel" class="pl-panel pl-panel--blue" style="display:none;">
   <div class="pl-toolbar pl-toolbar--blue">
@@ -12056,6 +12118,52 @@ setTimeout(autoScaleVerseFont, 100);
 
     </select>
     </div>
+  </div>
+
+  <!-- ══ إعدادات إشعارات الأذكار ══ -->
+  <div id="adhkar-notif-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(30,144,255,0.07),rgba(0,201,167,0.07));
+    border: 1.5px solid rgba(30,144,255,0.18);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <span data-ar="🔔 تذكير الأذكار" data-en="🔔 Adhkar Reminder"
+      style="font-size:15px;font-weight:700;color:#1a3a52;white-space:nowrap;">🔔 تذكير الأذكار</span>
+
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+      <label data-ar="🌅 الصباح" data-en="🌅 Morning"
+        style="font-size:13px;color:#2c5f7a;white-space:nowrap;">🌅 الصباح</label>
+      <input type="time" id="notif-morning-time" value="06:00"
+        style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:13px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
+      <label data-ar="🌙 المساء" data-en="🌙 Evening"
+        style="font-size:13px;color:#2c5f7a;white-space:nowrap;">🌙 المساء</label>
+      <input type="time" id="notif-evening-time" value="18:00"
+        style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:13px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
+    </div>
+
+    <button id="notif-toggle-btn" onclick="toggleAdhkarNotifications()"
+      data-ar="تفعيل التذكير" data-en="Enable Reminder"
+      style="
+        padding:6px 18px;border-radius:10px;border:none;cursor:pointer;
+        font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;
+        background:linear-gradient(135deg,#1e90ff,#00c9a7);color:#fff;
+        box-shadow:0 2px 8px rgba(30,144,255,0.25);transition:transform 0.15s;
+        white-space:nowrap;
+      "
+      onmouseover="this.style.transform='scale(1.05)'"
+      onmouseout="this.style.transform='scale(1)'">
+      تفعيل التذكير
+    </button>
+    <span id="notif-status-text" style="font-size:12px;color:#888;"></span>
   </div>
 
   <!-- Disable Welcome Screen button inside settings panel -->
@@ -22274,8 +22382,19 @@ function applyInitialLanguage() {
 
     var nameEl = document.getElementById('pnb-name');
     if (nameEl && nameEl.textContent.trim() === '\u0627\u062E\u062A\u0631 \u0645\u062D\u0637\u0629...') nameEl.textContent = 'Choose a station...';
+
+    // ترجمة إعدادات إشعارات الأذكار
+    var notifWrap = document.getElementById('adhkar-notif-settings');
+    if (notifWrap) {
+      notifWrap.querySelectorAll('[data-ar][data-en]').forEach(function(el) {
+        if (el.id === 'notif-toggle-btn') return; // تتحكم فيه updateAdhkarNotifUI
+        el.textContent = el.getAttribute('data-en');
+      });
+      notifWrap.style.direction = 'ltr';
+      if (typeof updateAdhkarNotifUI === 'function') updateAdhkarNotifUI();
+    }
   }
-  // عربية: HTML يبدأ عربي بالفعل \u2714
+  // عربية: HTML يبدأ عربي بالفعل ✔
 }
 
 window.addEventListener('load', function() {
@@ -23112,6 +23231,27 @@ function toggleLanguage() {
 
     // إعادة رسم الـ Canvas باللغة الجديدة فورًا
     if(typeof spDrawCanvas === 'function') spDrawCanvas();
+  })();
+
+  // ── ترجمة إعدادات إشعارات الأذكار ──
+  (function() {
+    var ar = isArabic;
+
+    // ترجمة العناصر التي عندها data-ar / data-en داخل قسم الإشعارات
+    var notifWrap = document.getElementById('adhkar-notif-settings');
+    if (!notifWrap) return;
+
+    notifWrap.querySelectorAll('[data-ar][data-en]').forEach(function(el) {
+      // الزر نتحقق منه بشكل خاص عشان حالته (مفعّل/موقف) بتغيّر نصه
+      if (el.id === 'notif-toggle-btn') return;
+      el.textContent = ar ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+    });
+
+    // اتجاه القسم
+    notifWrap.style.direction = ar ? 'rtl' : 'ltr';
+
+    // تحديث نص الزر ونص الحالة عبر updateUI
+    if (typeof updateAdhkarNotifUI === 'function') updateAdhkarNotifUI();
   })();
 
 }
@@ -25084,6 +25224,9 @@ function filterAdhkarSub(subType, btn) {
         });
         smartScrollToStations(_adhkarTarget, 80);
     }
+
+    // ── تحديث شريط التقدم عند تغيير الفلتر ──
+    requestAnimationFrame(updateAdhkarProgress);
 }
 
 function filterRadioSub(subType, btn) {
@@ -25566,12 +25709,77 @@ function incrementTasbih(event) {
         checkAdhkarGroupCompletion(button);
     }
 
+    // ── تحديث شريط التقدم ──
+    updateAdhkarProgress();
+
     activeTasbih = box;
 }
 
 // ══════════════════════════════════════════════════════════════
-// checkAdhkarGroupCompletion – يتحقق هل اكتملت كل أذكار الصباح أو المساء
+// updateAdhkarProgress – يحدّث شريط التقدم لأذكار الصباح/المساء/الكل
 // ══════════════════════════════════════════════════════════════
+function updateAdhkarProgress() {
+    var wrap  = document.getElementById('adhkar-progress-wrap');
+    var fill  = document.getElementById('adhkar-progress-bar-fill');
+    var label = document.getElementById('adhkar-progress-label');
+    if (!wrap || !fill || !label) return;
+
+    // الأزرار الظاهرة حالياً من قسم الأذكار
+    var visible = Array.from(
+        document.querySelectorAll('button[data-category="Adhkar"]')
+    ).filter(function(b) { return b.style.display !== 'none'; });
+
+    // فقط الأزرار التى عندها عداد (target > 0)
+    var withTarget = visible.filter(function(b) {
+        return parseInt(b.dataset.target) > 0;
+    });
+
+    // لو مفيش أذكار بعداد → اخفي الشريط
+    if (withTarget.length === 0) {
+        wrap.style.display = 'none';
+        return;
+    }
+
+    var done  = withTarget.filter(function(b) {
+        return b.classList.contains('completed');
+    }).length;
+    var total = withTarget.length;
+    var pct   = Math.round((done / total) * 100);
+
+    // تحويل الأرقام لعربي
+    function toAr(n) {
+        return n.toString().replace(/\d/g, function(d) {
+            return '٠١٢٣٤٥٦٧٨٩'[d];
+        });
+    }
+
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+
+    // نص التقدم
+    var labelText;
+    if (done === total) {
+        labelText = isAr
+            ? '✅ أتممت جميع الأذكار! (' + toAr(done) + ' / ' + toAr(total) + ')'
+            : '✅ All adhkar completed! (' + done + ' / ' + total + ')';
+    } else {
+        labelText = isAr
+            ? 'تم: ' + toAr(done) + ' / ' + toAr(total) + ' ذكر  •  ' + toAr(pct) + '%'
+            : 'Done: ' + done + ' / ' + total + ' adhkar  •  ' + pct + '%';
+    }
+
+    wrap.style.display = 'block';
+    fill.style.width   = pct + '%';
+    label.textContent  = labelText;
+
+    // لون أخضر عند الاكتمال
+    if (done === total) {
+        fill.classList.add('done');
+    } else {
+        fill.classList.remove('done');
+    }
+}
+
+
 function checkAdhkarGroupCompletion(completedBtn) {
     // تحديد نوع الذكر (صباح / مساء)
     var isMorning = completedBtn.hasAttribute('data-adhkar-morning');
@@ -25716,6 +25924,7 @@ function resetTasbih(event) {
     box.querySelector(".tasbih-count").innerText = 0;
     button.classList.remove("completed");
 
+    updateAdhkarProgress();
     activeTasbih = box;
 }
 
@@ -25740,6 +25949,7 @@ boxes.forEach(box => {
 });
 
     alert("تم تصفير جميع العدادات بنجاح ✅");
+    updateAdhkarProgress();
 }
 
 document.addEventListener("keydown", function(e) {
@@ -25871,6 +26081,7 @@ function incrementTasbihKeyboard(box) {
         button.classList.add("completed");
         checkAdhkarGroupCompletion(button);
     }
+    updateAdhkarProgress();
 }
 
 // ── Tooltip الأذكار ──
@@ -27107,6 +27318,9 @@ if (target && count >= target) {
             if (category !== 'QuranKarim' && category !== 'Adhkar' && category !== 'reciters') {
                 hidePanel();
             }
+            // إخفاء شريط التقدم لو المستخدم راح لقسم تاني
+            var pw = document.getElementById('adhkar-progress-wrap');
+            if (pw) pw.style.display = (category === 'Adhkar') ? '' : 'none';
         };
 
         // ── 10. إظهار checkboxes عند إعادة عرض الأزرار بعد فلترة ──
@@ -27160,6 +27374,7 @@ if (target && count >= target) {
                         showToast(ar
                             ? '↺ تم تصفير ' + count + ' عداد'
                             : '↺ Reset ' + count + ' counter' + (count > 1 ? 's' : ''));
+                        updateAdhkarProgress();
                     }
                 }, 700);
             }
@@ -27185,6 +27400,184 @@ if (target && count >= target) {
 
         // الأزرار الفرعية داخل #adhkar-subfilter
         document.querySelectorAll('#adhkar-subfilter .adhkar-sub-btn').forEach(bindLongPressReset);
+
+    })();
+
+    // ══════════════════════════════════════════════════════════════
+    // 🔔 نظام إشعارات تذكير الأذكار
+    // ══════════════════════════════════════════════════════════════
+    (function initAdhkarNotifications() {
+
+        var STORAGE_KEY = 'adhkar_notif_settings';
+        var _morningTimer = null;
+        var _eveningTimer = null;
+
+        // ── تحميل الإعدادات المحفوظة ──
+        function loadSettings() {
+            try {
+                var raw = localStorage.getItem(STORAGE_KEY);
+                return raw ? JSON.parse(raw) : { enabled: false, morning: '06:00', evening: '18:00' };
+            } catch(e) { return { enabled: false, morning: '06:00', evening: '18:00' }; }
+        }
+
+        // ── حفظ الإعدادات ──
+        function saveSettings(s) {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch(e) {}
+        }
+
+        // ── تحديث واجهة الإعدادات ──
+        function updateUI(settings) {
+            var btn      = document.getElementById('notif-toggle-btn');
+            var status   = document.getElementById('notif-status-text');
+            var mInput   = document.getElementById('notif-morning-time');
+            var eInput   = document.getElementById('notif-evening-time');
+            var isAr     = (typeof isArabic !== 'undefined') ? isArabic : true;
+
+            if (mInput) mInput.value = settings.morning || '06:00';
+            if (eInput) eInput.value = settings.evening || '18:00';
+
+            if (settings.enabled) {
+                if (btn) {
+                    btn.textContent = isAr ? 'إيقاف التذكير' : 'Disable Reminder';
+                    btn.style.background = 'linear-gradient(135deg,#e74c3c,#c0392b)';
+                }
+                if (status) status.textContent = isAr
+                    ? '✅ التذكير مفعّل — ' + settings.morning + ' صباحاً  •  ' + settings.evening + ' مساءً'
+                    : '✅ Reminders ON — ' + settings.morning + ' morning  •  ' + settings.evening + ' evening';
+            } else {
+                if (btn) {
+                    btn.textContent = isAr ? 'تفعيل التذكير' : 'Enable Reminder';
+                    btn.style.background = 'linear-gradient(135deg,#1e90ff,#00c9a7)';
+                }
+                if (status) status.textContent = isAr ? '🔕 التذكير متوقف' : '🔕 Reminders off';
+            }
+        }
+
+        // تعريض الدالة خارجياً لاستخدامها من toggleLanguage
+        window.updateAdhkarNotifUI = function() { updateUI(loadSettings()); };
+
+        // ── حساب كم ثانية لحد الوقت الجاي ──
+        function msUntilTime(hhmm) {
+            var parts = hhmm.split(':');
+            var h = parseInt(parts[0]) || 0;
+            var m = parseInt(parts[1]) || 0;
+            var now   = new Date();
+            var target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0, 0);
+            if (target <= now) target.setDate(target.getDate() + 1); // بكرا لو فات
+            return target - now;
+        }
+
+        // ── إرسال الإشعار ──
+        function sendNotification(type) {
+            if (Notification.permission !== 'granted') return;
+            var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+            var title, body, icon;
+            if (type === 'morning') {
+                title = isAr ? '🌅 حان وقت أذكار الصباح' : '🌅 Morning Adhkar Time';
+                body  = isAr ? 'لا تنسَ أذكار الصباح — ابدأ يومك بذكر الله 🤲' : 'Start your day with the morning remembrance of Allah 🤲';
+            } else {
+                title = isAr ? '🌙 حان وقت أذكار المساء' : '🌙 Evening Adhkar Time';
+                body  = isAr ? 'لا تنسَ أذكار المساء — اختم يومك بذكر الله 🤲' : 'End your day with the evening remembrance of Allah 🤲';
+            }
+            icon = 'https://archive.org/download/favicon_20251207/favicon.png';
+
+            try {
+                var notif = new Notification(title, { body: body, icon: icon, dir: 'rtl', lang: 'ar' });
+                notif.onclick = function() {
+                    window.focus();
+                    // انتقل لقسم الأذكار
+                    var adhkarBtn = document.querySelector('.filter-button[data-en="Adhkar"]');
+                    if (adhkarBtn) adhkarBtn.click();
+                    var subBtn = document.querySelector('.adhkar-sub-btn[data-sub="' + type + '"]');
+                    if (subBtn) subBtn.click();
+                    notif.close();
+                };
+                // اهتزاز خفيف
+                if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
+            } catch(e) {}
+        }
+
+        // ── جدولة التذكيرات ──
+        function scheduleReminders(settings) {
+            // إلغاء القديمة
+            if (_morningTimer) { clearTimeout(_morningTimer); _morningTimer = null; }
+            if (_eveningTimer) { clearTimeout(_eveningTimer); _eveningTimer = null; }
+            if (!settings.enabled) return;
+
+            function scheduleOne(type, hhmm, timerRef) {
+                var ms = msUntilTime(hhmm);
+                return setTimeout(function() {
+                    sendNotification(type);
+                    // جدول التالي (يومياً)
+                    scheduleOne(type, hhmm, timerRef);
+                }, ms);
+            }
+
+            _morningTimer = scheduleOne('morning', settings.morning);
+            _eveningTimer = scheduleOne('evening', settings.evening);
+        }
+
+        // ── الدالة الرئيسية: تفعيل/إيقاف ──
+        window.toggleAdhkarNotifications = function() {
+            var settings = loadSettings();
+            var mInput   = document.getElementById('notif-morning-time');
+            var eInput   = document.getElementById('notif-evening-time');
+            if (mInput) settings.morning = mInput.value || '06:00';
+            if (eInput) settings.evening = eInput.value || '18:00';
+            var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+
+            if (settings.enabled) {
+                // إيقاف
+                settings.enabled = false;
+                saveSettings(settings);
+                scheduleReminders(settings);
+                updateUI(settings);
+                showToast(isAr ? '🔕 تم إيقاف التذكير' : '🔕 Reminders disabled');
+                return;
+            }
+
+            // تفعيل — اطلب إذن الإشعارات أولاً
+            if (!('Notification' in window)) {
+                showToast(isAr ? '⚠️ متصفحك لا يدعم الإشعارات' : '⚠️ Browser does not support notifications');
+                return;
+            }
+
+            if (Notification.permission === 'granted') {
+                settings.enabled = true;
+                saveSettings(settings);
+                scheduleReminders(settings);
+                updateUI(settings);
+                showToast(isAr ? '✅ تم تفعيل التذكير!' : '✅ Reminders enabled!');
+            } else if (Notification.permission === 'denied') {
+                showToast(isAr
+                    ? '❌ الإشعارات محجوبة — افتح إعدادات المتصفح وفعّلها'
+                    : '❌ Notifications blocked — enable them in browser settings');
+            } else {
+                Notification.requestPermission().then(function(perm) {
+                    if (perm === 'granted') {
+                        settings.enabled = true;
+                        saveSettings(settings);
+                        scheduleReminders(settings);
+                        updateUI(settings);
+                        showToast(isAr ? '✅ تم تفعيل التذكير!' : '✅ Reminders enabled!');
+                    } else {
+                        showToast(isAr ? '❌ لم تسمح بالإشعارات' : '❌ Permission denied');
+                    }
+                });
+            }
+        };
+
+        // ── تهيئة عند التحميل ──
+        var settings = loadSettings();
+        updateUI(settings);
+        if (settings.enabled && typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+            scheduleReminders(settings);
+        } else if (settings.enabled) {
+            // إذا الإذن اتسحب، وقّف التذكير
+            settings.enabled = false;
+            saveSettings(settings);
+            updateUI(settings);
+        }
 
     })();
 
