@@ -4441,6 +4441,14 @@ function confirmReload() {
         return;
     }
 
+    // لو في رابط محطة في الـ URL → تخطّ الشاشة الترحيبية تماماً
+    var _urlParams = new URLSearchParams(window.location.search);
+    if (_urlParams.get('url')) {
+        window._welcomeScreenClosed = true;
+        ws.style.display = 'none';
+        return;
+    }
+
     // أظهرها فوراً بدون انتظار onload
     ws.style.display = 'block';
     window._welcomeScreenOpened = true;
@@ -4471,6 +4479,9 @@ function confirmReload() {
 window.onload = function() {
     // أوقف المشغل الرئيسي فقط لو الشاشة الترحيبية لسه مفتوحة
     // لو المستخدم أغلقها قبل اكتمال التحميل → لا تقاطع التشغيل
+    // لو في رابط محطة في الـ URL → لا تقاطع التشغيل
+    var _p = new URLSearchParams(window.location.search);
+    if (_p.get('url')) return;
     var ws = document.getElementById('welcomeScreen');
     var wsOpen = ws && ws.style.display !== 'none' && ws.style.display !== '';
     if (wsOpen && mainAudio && !mainAudio.paused) {
