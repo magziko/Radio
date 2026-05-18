@@ -14422,8 +14422,8 @@ hasFlag: false,
   target: 100,
   url: null,
   urls: [
-    "https://archive.org/download/100-hd_202604/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20100%20%D9%85%D8%B1%D8%A9%20HD.mp3",
-    "https://archive.org/download/100-hd_202604/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20%D9%85%D9%83%D8%B1%D8%B1%D8%A9%20100%20%D9%85%D8%B1%D8%A9.mp3"
+    "https://archive.org/download/100-hd_202604/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20100%20%D9%85%D8%B1%D8%A9%20%20HD%20%D8%A8%D8%B5%D9%88%D8%AA%20%D9%88%20%D8%B5%D9%88%D8%B1%D8%A9%20%D9%88%20%D8%B9%D8%AF%D8%AF.mp3",
+    "https://archive.org/download/100-hd_202604/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A8%D8%AD%D9%85%D8%AF%D9%87%20%D9%85%D9%83%D8%B1%D8%B1%D8%A9%20100%20%D9%85%D8%B1%D8%A9..%20%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%20%D8%B1%D9%82%D9%85%D9%8A.mp3"
   ],
 
   random: true,
@@ -24673,7 +24673,9 @@ function openRandomUrl(btn, evt) {
     window._repeatModeActive = false;
     window._repeatModeButton = null;
 
-    function showRepeatToast(msg) {
+    function showRepeatToast(msgAr, msgEn) {
+        var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+        var msg = ar ? msgAr : (msgEn || msgAr);
         var toast = document.createElement('div');
         toast.textContent = msg;
         toast.style.cssText = 'position:fixed;bottom:30px;right:30px;background:#28a745;color:#fff;padding:12px 20px;font-size:16px;border-radius:9px;z-index:999999;box-shadow:0 2px 8px #0003;';
@@ -24706,14 +24708,14 @@ function openRandomUrl(btn, evt) {
                 mainAudio.play();
                 mainAudio.onended = repeatOne;
             };
-            showRepeatToast('🔁 تكرار نفس التلاوة. اضغط مطولاً مرة أخرى للإلغاء.');
+            showRepeatToast('🔁 تكرار نفس التلاوة. اضغط الزر مرة للإلغاء.', '🔁 Repeating this recitation. Tap the button once to cancel.');
         } else {
 
             mainAudio.onended = null;
             window._lastAutoNext = null;
             window._repeatModeActive = false;
             window._repeatModeButton = null;
-            showRepeatToast('▶️ تم إلغاء التكرار. سيعود التنقل التلقائي.');
+            showRepeatToast('▶️ تم إلغاء التكرار. سيعود التنقل التلقائي.', '▶️ Repeat cancelled. Auto-navigation resumed.');
         }
     };
 
@@ -24723,11 +24725,7 @@ function openRandomUrl(btn, evt) {
 
         function triggerLongPress() {
             longPress = true;
-            if (!window._repeatModeActive) {
-                window.setRepeatMode(btn, true);
-            } else {
-                window.setRepeatMode(btn, false);
-            }
+            window.setRepeatMode(btn, true);
         }
 
         btn.addEventListener('mousedown', function(e) {
@@ -24769,7 +24767,7 @@ function openRandomUrl(btn, evt) {
             window._repeatModeButton = null;
             mainAudio.onended = null;
             window._lastAutoNext = null;
-            showRepeatToast('▶️ تم إلغاء التكرار. سيعود التنقل التلقائي.');
+            showRepeatToast('▶️ تم إلغاء التكرار. سيعود التنقل التلقائي.', '▶️ Repeat cancelled. Auto-navigation resumed.');
         }
         origToggleRadio(btn, event);
     };
