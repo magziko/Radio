@@ -316,6 +316,27 @@ body.dark-mode #customPlayToggleButton.playing {
     fill: #2c3e50;
 }
 
+#customRandomBtn svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: #1D9E75;
+}
+
+#customRandomBtn:hover {
+    background: #e8f8f3 !important;
+    border-color: #1D9E75 !important;
+}
+
+body.dark-mode #customRandomBtn svg {
+    stroke: #4dd6a3;
+}
+
+body.dark-mode #customRandomBtn:hover {
+    background: #0d2a20 !important;
+    border-color: #4dd6a3 !important;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -1756,6 +1777,95 @@ body.dark-mode #welcome-top-bar #welcomeLangToggle {
     border-color: rgba(100,181,246,0.30) !important;
 }
 
+#welcome-top-bar #welcomeTopAiBtn {
+    position: static !important;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: rgba(255,255,255,0.85);
+    color: #1D9E75;
+    border: 1.5px solid rgba(29,158,117,0.30);
+    box-shadow: 0 1px 6px rgba(29,158,117,0.10);
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.15s;
+}
+
+#welcome-top-bar #welcomeTopAiBtn:hover {
+    background: #1D9E75 !important;
+    color: #fff !important;
+    border-color: #1D9E75 !important;
+    box-shadow: 0 3px 12px rgba(29,158,117,0.28) !important;
+    transform: scale(1.08);
+}
+
+body.dark-mode #welcome-top-bar #welcomeTopAiBtn {
+    background: rgba(20,40,35,0.85) !important;
+    color: #4dd6a3 !important;
+    border-color: rgba(77,214,163,0.30) !important;
+}
+
+body.dark-mode #welcome-top-bar #welcomeTopAiBtn:hover {
+    background: #1D9E75 !important;
+    color: #fff !important;
+    border-color: #1D9E75 !important;
+}
+
+#welcome-top-bar #welcomeTopHideBtn {
+    position: static !important;
+    height: 34px;
+    padding: 0 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.85);
+    color: #546e7a;
+    border: 1.5px solid rgba(84,110,122,0.28);
+    box-shadow: 0 1px 6px rgba(84,110,122,0.10);
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.15s;
+    white-space: nowrap;
+}
+
+#welcome-top-bar #welcomeTopHideBtn:hover {
+    background: #546e7a !important;
+    color: #fff !important;
+    border-color: #546e7a !important;
+    box-shadow: 0 3px 12px rgba(84,110,122,0.25) !important;
+    transform: scale(1.05);
+}
+
+#welcome-top-bar #welcomeTopHideBtn.active {
+    background: #e53935 !important;
+    color: #fff !important;
+    border-color: #e53935 !important;
+}
+
+#welcome-top-bar #welcomeTopHideBtn.active:hover {
+    background: #b71c1c !important;
+    border-color: #b71c1c !important;
+}
+
+body.dark-mode #welcome-top-bar #welcomeTopHideBtn {
+    background: rgba(20,25,35,0.85) !important;
+    color: #b0bec5 !important;
+    border-color: rgba(176,190,197,0.28) !important;
+}
+
+body.dark-mode #welcome-top-bar #welcomeTopHideBtn.active {
+    background: #c62828 !important;
+    color: #fff !important;
+    border-color: #c62828 !important;
+}
+
 #downArrow {
     animation: bounceDown 1.2s infinite;
 }
@@ -2678,6 +2788,70 @@ body.dark-mode :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn):h
 body.dark-mode #welcomeDarkModeBtn {
     color: #ffd54f !important;
     border-color: rgba(255,213,79,0.5) !important;
+}
+
+/* ===== زر مساعد الذكاء الاصطناعي في الشاشة الترحيبية ===== */
+#welcomeAiShortcutBtn {
+    position: relative;
+    background: linear-gradient(135deg, rgba(29,158,117,0.12) 0%, rgba(255,255,255,0.80) 100%) !important;
+    border-color: rgba(29,158,117,0.5) !important;
+    color: #0d7a5a !important;
+}
+
+#welcomeAiShortcutBtn:hover {
+    background: linear-gradient(135deg, rgba(29,158,117,0.22) 0%, rgba(232,255,246,1) 100%) !important;
+    border-color: #1D9E75 !important;
+    box-shadow: 0 3px 14px rgba(29,158,117,0.30) !important;
+    transform: translateY(-1px);
+}
+
+body.dark-mode #welcomeAiShortcutBtn {
+    background: rgba(13,122,90,0.22) !important;
+    color: #a8f0d8 !important;
+    border-color: rgba(29,158,117,0.45) !important;
+}
+
+body.dark-mode #welcomeAiShortcutBtn:hover {
+    background: rgba(29,158,117,0.30) !important;
+    border-color: #1D9E75 !important;
+}
+
+/* نبضة التنبيه */
+@keyframes aiPulseRing {
+    0%   { box-shadow: 0 0 0 0 rgba(29,158,117,0.55), 0 2px 8px rgba(0,0,0,0.07); }
+    60%  { box-shadow: 0 0 0 8px rgba(29,158,117,0.0), 0 2px 8px rgba(0,0,0,0.07); }
+    100% { box-shadow: 0 0 0 0 rgba(29,158,117,0.0), 0 2px 8px rgba(0,0,0,0.07); }
+}
+
+#welcomeAiShortcutBtn {
+    animation: aiPulseRing 2.2s ease-out infinite;
+}
+
+#welcomeAiShortcutBtn:hover {
+    animation: none;
+}
+
+/* نقطة التنبيه الخضراء */
+#welcomeAiShortcutBtn::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    width: 7px;
+    height: 7px;
+    background: #1D9E75;
+    border-radius: 50%;
+    border: 1.5px solid #fff;
+    animation: aiDotPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes aiDotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.7); }
+}
+
+body.dark-mode #welcomeAiShortcutBtn::after {
+    border-color: rgba(26,26,46,0.85);
 }
 
 body.dark-mode .welcome-toggle-btn.active {
@@ -4379,9 +4553,18 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
             <line x1="20" y1="4" x2="4" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
           </svg>
         </button>
+        <button id="welcomeTopHideBtn" onclick="toggleDisableWelcomeBtn()" title="إخفاء الشاشة الترحيبية / Hide Welcome Screen" aria-label="Hide Welcome Screen">
+          <svg id="welcomeTopHideIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+          <span id="welcomeTopHideTxt">Hide</span>
+        </button>
     </div>
     <div class="wtb-center"></div>
     <div class="wtb-right">
+        <button id="welcomeTopAiBtn" onclick="openAiAssistantFromWelcome()" title="مساعد الذكاء الاصطناعي / AI Assistant" aria-label="AI Assistant">
+            <span class="wtai-icon">🤖</span>
+        </button>
         <button id="welcomeDarkModeBtn" onclick="toggleDarkModeFloat()" title="تبديل الوضع الليلي / Dark Mode" aria-label="Toggle Dark Mode">
             <span class="wdm-icon">🌙</span>
             <span class="wdm-text" id="welcomeDarkModeTxt">الوضع الليلي</span>
@@ -4428,7 +4611,7 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
        <audio id="customAudioPlayer" autoplay></audio>
 
             <div id="customControlButtons">
-                <button class="customBtnControl" onclick="previousStation()">
+                <button class="customBtnControl" onclick="previousStation()" title="المحطة السابقة">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M15 5v14l-7-7z"/>
                         <path d="M19 5v14l-7-7z"/>
@@ -4439,12 +4622,13 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
                         <path id="customPlayPauseSymbol" d="M8 5v14l11-7z"/>
                     </svg>
                 </button>
-                <button class="customBtnControl" onclick="nextStationFunc()">
+                <button class="customBtnControl" onclick="nextStationFunc()" title="المحطة التالية">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M8 5v14l7-7z"/>
                         <path d="M4 5v14l7-7z"/>
                     </svg>
                 </button>
+
             </div>
 
             <div id="customStatus"> Radio Quran Karim راديو القرآن الكريم</div>
@@ -4473,6 +4657,14 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
                         class="welcome-toggle-btn">
                     <span class="wtb-icon">🔁</span>
                     <span class="wtb-text" id="autoSwitchToggleTxt">تنقل تلقائي</span>
+                </button>
+
+                <button id="customRandomBtn"
+                        onclick="randomStationFunc()"
+                        title="محطة عشوائية / Random Station"
+                        class="welcome-toggle-btn">
+                    <span class="wtb-icon">🔀</span>
+                    <span class="wtb-text" data-ar="عشوائي" data-en="Random">عشوائي</span>
                 </button>
 
             </div>
@@ -4585,19 +4777,31 @@ function toggleAutoSwitchBtn() {
 function toggleDisableWelcomeBtn() {
     const cb   = document.getElementById('disableWelcomeScreen');
     const btn  = document.getElementById('disableWelcomeToggleBtn');
-    const icon = btn.querySelector('.wtb-icon');
+    const icon = btn ? btn.querySelector('.wtb-icon') : null;
     const txt  = document.getElementById('disableWelcomeTxt');
     const isAr = (typeof isArabic !== 'undefined') ? isArabic : false;
     cb.checked = !cb.checked;
     cb.dispatchEvent(new Event('change'));
+
+    // الزر الجديد في الشريط العلوي
+    const topBtn  = document.getElementById('welcomeTopHideBtn');
+    const topIcon = document.getElementById('welcomeTopHideIcon');
+    const topTxt  = document.getElementById('welcomeTopHideTxt');
+
     if (cb.checked) {
-        btn.classList.add('active');
-        icon.innerHTML = '<path d=\"M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24\"/><line x1=\"1\" y1=\"1\" x2=\"23\" y2=\"23\"/>';
-        txt.textContent = isAr ? 'الترحيب: مخفي' : 'Welcome: Off';
+        if (btn)  btn.classList.add('active');
+        if (topBtn) topBtn.classList.add('active');
+        if (icon) icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+        if (topIcon) topIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+        if (txt)    txt.textContent    = isAr ? 'الترحيب: مخفي' : 'Welcome: Off';
+        if (topTxt) topTxt.textContent = isAr ? 'مخفي' : 'Hidden';
     } else {
-        btn.classList.remove('active');
-        icon.innerHTML = '<path d=\"M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>';
-        txt.textContent = isAr ? 'إخفاء الترحيب' : 'Disable Welcome';
+        if (btn)  btn.classList.remove('active');
+        if (topBtn) topBtn.classList.remove('active');
+        if (icon) icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+        if (topIcon) topIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+        if (txt)    txt.textContent    = isAr ? 'إخفاء الترحيب' : 'Disable Welcome';
+        if (topTxt) topTxt.textContent = isAr ? 'إخفاء' : 'Hide';
     }
 }
 
@@ -4680,6 +4884,54 @@ var currentStatus = document.getElementById('customStatus');
 var volumeRange = document.getElementById('customVolumeRange');
 var playPauseSymbol = document.getElementById('customPlayPauseSymbol');
 var isAudioPlaying = false;
+
+// ===== فتح مساعد الذكاء الاصطناعي من الشاشة الترحيبية =====
+function openAiAssistantFromWelcome() {
+    // 1. أغلق الشاشة الترحيبية
+    closeWelcomeScreen();
+
+    // 2. بعد الإغلاق انتقل للإعدادات وافتح الـ AI box
+    setTimeout(function() {
+        // افتح قسم الإعدادات إذا كان مغلقاً
+        var panel = document.getElementById('settings-panel');
+        var arrow = document.getElementById('settings-arrow');
+        if (panel && panel.style.display === 'none') {
+            panel.style.display = 'block';
+            if (arrow) arrow.style.transform = 'rotate(180deg)';
+            var sw = panel.querySelector('.search-wrapper');
+            if (sw) sw.style.display = 'flex';
+        }
+
+        // افتح الـ AI box إذا كان مغلقاً
+        var aiBody = document.getElementById('ai-assistant-body');
+        var aiIcon = document.getElementById('ai-assistant-toggle-icon');
+        if (aiBody && !aiBody.classList.contains('open')) {
+            aiBody.classList.add('open');
+            if (aiIcon) aiIcon.classList.add('open');
+        }
+
+        // انتقل ناعماً للـ AI box
+        var aiBox = document.getElementById('ai-assistant-box');
+        if (aiBox) {
+            aiBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // تأثير تمييز (highlight) للفت الانتباه
+            aiBox.style.transition = 'box-shadow 0.4s ease, transform 0.4s ease';
+            aiBox.style.boxShadow = '0 0 0 3px #1D9E75, 0 8px 32px rgba(29,158,117,0.45)';
+            aiBox.style.transform = 'scale(1.012)';
+            setTimeout(function() {
+                aiBox.style.boxShadow = '';
+                aiBox.style.transform = '';
+            }, 1600);
+        }
+
+        // ركّز على حقل الإدخال
+        setTimeout(function() {
+            var inp = document.getElementById('ai-user-input');
+            if (inp) inp.focus();
+        }, 600);
+    }, 380);
+}
 
 customAudioPlayer.addEventListener('play', function() {
     isAudioPlaying = true;
@@ -5026,6 +5278,31 @@ function nextStationFunc() {
 function previousStation() {
     stationIndex = (stationIndex - 1 + radioStations.length) % radioStations.length;
     playStation(radioStations[stationIndex]);
+}
+
+function randomStationFunc() {
+    if (!radioStations || radioStations.length === 0) return;
+    var newIndex;
+    do {
+        newIndex = Math.floor(Math.random() * radioStations.length);
+    } while (newIndex === stationIndex && radioStations.length > 1);
+    stationIndex = newIndex;
+    playStation(radioStations[stationIndex]);
+    // أنيميشن على الأيقونة
+    var btn = document.getElementById('customRandomBtn');
+    if (btn) {
+        var icon = btn.querySelector('.wtb-icon');
+        if (icon) {
+            icon.style.display = 'inline-block';
+            icon.style.transition = 'transform 0.4s ease';
+            icon.style.transform = 'rotate(360deg)';
+            setTimeout(function() {
+                icon.style.transform = '';
+                icon.style.transition = '';
+            }, 400);
+        }
+    }
+    showToast('🔀 محطة عشوائية');
 }
 
 function playWelcomeScreenStation(stationUrl, stationName) {
@@ -25534,6 +25811,10 @@ function updateFilterLanguage(lang) {
 
   // تحديث زر المصحف أيضاً
   if (typeof updateMushafBtnLabel === 'function') updateMushafBtnLabel();
+
+  // تحديث زر مساعد الذكاء الاصطناعي في الشاشة الترحيبية
+  var welcomeAiTxt = document.getElementById('welcomeAiTxt');
+  if (welcomeAiTxt) welcomeAiTxt.textContent = isAr ? 'مساعد ذكي' : 'AI Help';
 }
 
 function startAutoToggle() {
@@ -28140,10 +28421,179 @@ if (target && count >= target) {
 
 (function() {
 
-  var AI_SITE_CONTEXT = `أنت مساعد ذكاء اصطناعي مدمج في موقع "إذاعة القرآن الكريم" (Radio Ma).
-الموقع يقدم: إذاعات القرآن الكريم المصرية والعالمية، قراءات للقرآن الكريم بأصوات مختلفين، أذكار الصباح والمساء، أحاديث نبوية، سيرة نبوية، ومحاضرات علماء.
-المميزات: قائمة مفضلة، مشغّل صوتي رئيسي، عداد تسبيح، تذكير بأذكار الصباح والمساء، وضع ليلي، تبديل لغة عربي/إنجليزي، قائمة تشغيل مخصصة.
-أجب بإيجاز ووضوح. إذا كان السؤال باللغة العربية أجب بالعربية، وإذا كان بالإنجليزية أجب بالإنجليزية.`;
+  var AI_SITE_CONTEXT = `أنت مساعد ذكاء اصطناعي متخصص مدمج في موقع "إذاعة القرآن الكريم" (Radio Ma) على الرابط: https://magziko.github.io/Radio/
+أجب دائماً بنفس لغة المستخدم: إذا كتب بالعربية أجب بالعربية، وإذا كتب بالإنجليزية أجب بالإنجليزية.
+أجب بإيجاز ووضوح واحترافية. لا تتكلم عن نفسك كثيراً، ركز على إفادة المستخدم.
+
+═══════════════════════════════
+📌 نبذة عن الموقع
+═══════════════════════════════
+موقع إذاعة القرآن الكريم هو منصة إسلامية صوتية ومرئية متكاملة تعمل 24/7، تجمع في مكان واحد:
+- مئات المحطات الإذاعية القرآنية من مصر والعالم الإسلامي
+- قراءات لأشهر القراء بأصوات متعددة
+- أذكار الصباح والمساء والأذكار العامة والرقية الشرعية
+- محاضرات علماء إسلاميين كبار
+- السيرة النبوية والحديث الشريف وقصص الأنبياء
+- علوم القرآن والتفسير والتجويد والروايات
+- بث مرئي مباشر من قنوات قرآنية متعددة
+- مصاحف رقمية للقراءة
+- مواقع ومصادر إسلامية خارجية
+
+═══════════════════════════════
+📂 الفئات الرئيسية وما تحتوي
+═══════════════════════════════
+
+1️⃣ القرآن الكريم (Holy Quran) - يحتوي على:
+   • تلاوات (Recitations): تلاوات مباشرة لقراء متعددين
+   • مُجَوِّد (Mujawwad): تلاوات بأسلوب التجويد المُجَوَّد
+   • قراءات (Readings): روايات قرآنية متنوعة
+   • منشاويات (Al-Minshawi): تلاوات وحفلات الشيخ المنشاوي تشغيل متعدد متتالي
+   • سور (Surahs): تشغيل سورة بعينها بصوت قارئ مختار - يفتح قائمة تشغيل 114 سورة
+   • المحفِّظ (Teacher): مصحف معلم لتحفيظ القرآن
+
+2️⃣ القراء (Reciters) - يضم أكثر من 90 قارئاً:
+   من أبرزهم: عبد الباسط عبد الصمد، محمد صديق المنشاوي، محمود خليل الحصري، مصطفى إسماعيل، محمود علي البنا، محمد الطبلاوي، علي عبدالله جابر، ماهر المعيقلي، ناصر القطامي، سعد الغامدي، عبدالرحمن السديس، سعود الشريم، ياسر الدوسري، خالد الجليل، أبو بكر الشاطري، فهد الكندري، محمد جبريل، هاني الرفاعي، أحمد العجمي، إسلام صبحي، بندر بليلة، رعد الكردي، هزاع البلوشي، وكثيرون غيرهم.
+   • يمكن الترتيب أبجدياً (A–Z)
+   • يدعم تشغيل MP3
+
+3️⃣ إذاعات قرآنية (Quran Radios) - يضم:
+   • بث مباشر: إذاعة القرآن الكريم القاهرة FM 98.2، المنصورة، نابلس (فلسطين)، مكة، الرياض، الحرم المكي، الجزائر، عمان، الشارقة، الفجيرة، دبي، تونس، قطر، البحرين 106.1، ليبيا Almunir 94.9، إذاعات دولية (Uzbekistan, San Francisco, Pakistan, Thailand, Australia, South Africa, Radio Islam)
+   • مواقع خارجية: إذاعات عبر مواقع خاصة
+
+4️⃣ السيرة والحديث (Seerah & Hadith) - يحتوي على:
+   • السيرة النبوية (Prophet's Seerah)
+   • الحديث والسنة (Hadith & Sunnah)
+   • قصص الأنبياء (Prophets Stories)
+   • سير الصحابة (Companions)
+   • التابعون (Tabi'een)
+
+5️⃣ علماء (Scholars) - يضم محطات:
+   الشيخ عبد الحميد كشك، الشيخ محمد راتب النابلسي، الشيخ أبو إسحاق الحويني، الشيخ محمد متولي الشعراوي، الشيخ محمد حسان، الشيخ جمال حامد جازية، الشيخ سمير مصطفى، الشيخ أمجد سمير، الشيخ نبيل العوضي، الشيخ عمر عبد الكافي، قناة كبار العلماء
+
+6️⃣ أذكار (Adhkar) - يحتوي على:
+   • أذكار الصباح (Morning Adhkar)
+   • أذكار المساء (Evening Adhkar)
+   • أذكار عامة (General Adhkar)
+   • الرقية الشرعية (Ruqyah)
+
+7️⃣ علوم القرآن (Quran Sciences) - يحتوي على:
+   • القرآن مترجم (Translation) - بلغات متعددة
+   • تفسير القرآن (Tafsir)
+   • تجويد (Tajweed)
+   • روايات قرآنية: ورش عن نافع، قالون عن نافع، حفص عن عاصم، الدوري عن أبي عمرو، الدوري عن الكسائي، السوسي عن أبي عمرو، خلف عن حمزة، البزي وقنبل، ابن ذكوان، يعقوب الحضرمي
+
+8️⃣ محطات إسلامية (Islamic Mix) - يحتوي على:
+   • إذاعات عالمية (International)
+   • قنوات الألوكة
+   • أركان الإسلام (Pillars of Islam)
+   • مناسبات إسلامية (Islamic Occasions)
+   • فتاوى وفقه (Fatwas & Fiqh)
+   • إذاعات متنوعة (Islamic Radios)
+
+9️⃣ البث المرئي (Live Video) - يحتوي على:
+   • قنوات قرآنية (Quran Channels)
+   • المصحف كامل (Full Quran) - مقاطع فيديو كاملة لقراء كبار
+   • أروع التلاوات (Best Recitations)
+   • صلوات (Salawat)
+   • محاضرات (Lectures)
+   • أخبار (News)
+   • تعلم (Learn)
+
+🔟 المزيد (More) - يحتوي على:
+   • مصاحف رقمية: مصحف المدينة، مصحف التجويد، مصحف التجويد والتحفيظ، مصحف ورش، مصحف قالون، مصحف الدوري، المصحف 12 سطر، مصحف آيات، وغيرها
+   • أذكار: تطبيقات وصفحات أذكار خارجية
+   • ترجمات معاني القرآن بلغات مختلفة
+   • أحاديث: مواقع أحاديث نبوية
+   • راديو: محطات راديو إسلامية إضافية
+   • مواقع: مواقع إسلامية موثوقة
+
+═══════════════════════════════
+⚙️ مميزات الموقع ووظائفه
+═══════════════════════════════
+
+🎵 المشغّل الصوتي الرئيسي:
+   - يعمل في الأعلى باستمرار أثناء التصفح
+   - أزرار: تشغيل/إيقاف، المحطة التالية، المحطة السابقة، عشوائي "اخترنا لك"، ضبط الصوت
+   - يعرض اسم المحطة الحالية
+
+❤️ قائمة المفضلة (Favorites):
+   - يمكن حفظ أي محطة بالضغط على قلب ❤️ بجانبها
+   - الوصول للمفضلة بالضغط على زر "المفضلة"
+   - يمكن تشغيل جميع المحطات المختارة تلقائياً
+
+📋 قائمة تشغيل مخصصة (Custom Playlist):
+   - اختيار عدة محطات بالضغط على مربعات التحديد ☑
+   - ثم "تشغيل المختارة" لتشغيلها بالترتيب
+   - "تحديد الكل" أو "إلغاء التحديد"
+
+🔁 التنقل الآلي (Auto Switch):
+   - يتنقل بين المحطات تلقائياً كل فترة زمنية محددة (بالدقائق)
+   - يُفعَّل من قائمة الإعدادات
+
+😴 مؤقت الإيقاف (Sleep Mode/Sleep Timer):
+   - يوقف التشغيل تلقائياً بعد عدد دقائق تحددها
+   - يُفعَّل من قائمة الإعدادات
+
+📿 عداد التسبيح (Tasbih Counter):
+   - متاح على بعض المحطات (يظهر عليها أيقونة تسبيح)
+   - يعد التسبيحات تلقائياً أو يدوياً
+   - ميزة PiP: يمكن فتح عداد التسبيح في نافذة منبثقة صغيرة تعمل فوق أي تبويب
+   - زر "تسبيح تلقائي" للعد الذاتي
+
+🔔 تذكير الأذكار (Adhkar Reminder):
+   - يذكّر المستخدم بأذكار الصباح والمساء في أوقاتها
+   - يُفعَّل ويُضبط من قائمة الإعدادات
+   - يمكن تحديد وقت الصباح والمساء
+
+📖 المصحف الشريف:
+   - زر ثابت في أسفل الشاشة "افتح المصحف / Open Mushaf"
+   - يفتح مصحف المدينة كاملاً في وضع ملء الشاشة
+   - زر ✕ لإغلاقه، أو مفتاح Escape
+   - يمكن فتحه في تبويب جديد
+
+🌙 الوضع الليلي (Dark Mode):
+   - يُفعَّل من قائمة الإعدادات > لون الخلفية > Dark Mode
+
+🎨 تخصيص الخلفية:
+   - اختيار لون خلفية الموقع من ألوان متعددة
+   - اختيار تدرجات ملونة جميلة
+
+🌐 تبديل اللغة (Language Toggle):
+   - التبديل بين العربية والإنجليزية بضغطة واحدة
+   - يغير نصوص جميع أزرار الموقع تلقائياً
+   - الزر في الإعدادات: 🌐 EN / AR
+
+🔍 البحث في المحطات:
+   - حقل بحث للتصفية السريعة بين المحطات
+
+═══════════════════════════════
+🛠️ الإعدادات (Settings Panel)
+═══════════════════════════════
+تُفتح بالضغط على "⚙️ الإعدادات" في الشريط الوسط، وتحتوي على:
+- تبديل اللغة عربي/إنجليزي
+- لون الخلفية (ألوان + Dark Mode)
+- تدرج ألوان الأزرار
+- مؤقت الإيقاف (Sleep Timer) بالدقائق
+- التنقل الآلي (Auto Switch) بالدقائق
+- تذكير أذكار الصباح والمساء (مع ضبط الأوقات)
+- مساعد الذكاء الاصطناعي (أنا!)
+
+═══════════════════════════════
+📱 دعم الأجهزة
+═══════════════════════════════
+الموقع متجاوب تماماً ويعمل على:
+- الحاسوب (Desktop)
+- الجوال والأجهزة اللوحية (Mobile & Tablet) بما فيها Android وiOS
+
+═══════════════════════════════
+🤖 دورك كمساعد
+═══════════════════════════════
+- أجب على أسئلة المستخدمين عن الموقع ومحتواه وكيفية استخدامه
+- إذا سألك أحد عن قارئ معين، أخبره بأنه موجود في فئة "القراء" وابحث له في القائمة أعلاه
+- إذا سألك عن ميزة معينة، اشرح لها كيفية استخدامها خطوة بخطوة
+- يمكنك الإجابة على أسئلة إسلامية عامة بأسلوب لطيف ومحترم
+- إذا لم تعرف إجابة سؤال محدد، قل ذلك بصراحة واقترح البديل`;
+
 
   // ضع مفتاح Groq هنا
   var GROQ_API_KEY = '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';
