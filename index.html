@@ -4664,7 +4664,7 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
                         title="محطة عشوائية / Random Station"
                         class="welcome-toggle-btn">
                     <span class="wtb-icon">🔀</span>
-                    <span class="wtb-text" data-ar="عشوائي" data-en="Random">عشوائي</span>
+                    <span class="wtb-text" data-ar="اختيارك" data-en="Random">اختيارك</span>
                 </button>
 
             </div>
@@ -23711,6 +23711,9 @@ function loadRating() {
 
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof applyDirection === 'function') applyDirection(isArabic);
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = isArabic ? 'اختيارك' : 'Random';
 });
 
 function toggleSettingsPanel() {
@@ -23852,6 +23855,10 @@ function toggleLanguage() {
 
   var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
   if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = isArabic ? 'تنقل تلقائي' : 'Auto Switch';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = isArabic ? 'اختيارك' : 'Random';
+
   var dwCb2 = document.getElementById('disableWelcomeScreen');
   var disableWelcomeTxtEl = document.getElementById('disableWelcomeTxt');
   if (disableWelcomeTxtEl) {
@@ -24702,7 +24709,8 @@ function openRandomUrl(btn, evt) {
             showRepeatToast('🔁 تكرار نفس التلاوة. اضغط مطولاً مرة أخرى للإلغاء.');
         } else {
 
-            mainAudio.onended = window._lastAutoNext || null;
+            mainAudio.onended = null;
+            window._lastAutoNext = null;
             window._repeatModeActive = false;
             window._repeatModeButton = null;
             showRepeatToast('▶️ تم إلغاء التكرار. سيعود التنقل التلقائي.');
@@ -24724,22 +24732,44 @@ function openRandomUrl(btn, evt) {
 
         btn.addEventListener('mousedown', function(e) {
             if (e.button !== 0) return;
+            longPress = false;
             timer = setTimeout(triggerLongPress, 650);
         });
-        btn.addEventListener('mouseup',    function() { clearTimeout(timer); longPress = false; });
+        btn.addEventListener('mouseup', function() { clearTimeout(timer); });
         btn.addEventListener('mouseleave', function() { clearTimeout(timer); longPress = false; });
 
+        // منع الـ click من التنفيذ بعد الـ long press
+        btn.addEventListener('click', function(e) {
+            if (longPress) {
+                longPress = false;
+                e.stopImmediatePropagation();
+                e.preventDefault();
+            }
+        }, true);
+
         btn.addEventListener('touchstart', function(e) {
+            longPress = false;
             timer = setTimeout(triggerLongPress, 650);
         }, { passive: true });
-        btn.addEventListener('touchend',  function() { clearTimeout(timer); longPress = false; });
+        btn.addEventListener('touchend', function(e) {
+            clearTimeout(timer);
+            if (longPress) {
+                longPress = false;
+                e.preventDefault();
+            }
+        });
         btn.addEventListener('touchmove', function() { clearTimeout(timer); longPress = false; });
     });
 
     var origToggleRadio = window.toggleRadio;
     window.toggleRadio = function(btn, event) {
-        if (window._repeatModeActive && btn !== window._repeatModeButton) {
-            window.setRepeatMode(window._repeatModeButton, false);
+        if (window._repeatModeActive) {
+            // إلغاء التكرار وتنظيف onended تماماً قبل تشغيل الزر الجديد
+            window._repeatModeActive = false;
+            window._repeatModeButton = null;
+            mainAudio.onended = null;
+            window._lastAutoNext = null;
+            showRepeatToast('▶️ تم إلغاء التكرار. سيعود التنقل التلقائي.');
         }
         origToggleRadio(btn, event);
     };
