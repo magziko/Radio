@@ -66,6 +66,62 @@ body.dark-mode #welcomeScreen{background:#1a1a2e}
 #welcomeContent{text-align:center;padding:20px;max-width:420px;width:90%}
 #welcomeSpinner{width:48px;height:48px;border:4px solid #eee;border-top-color:#1D9E75;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* بادج نوع المصحف على أزرار السور */
+.badge-muratal, .badge-mojawwad {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 8px;
+    margin-right: 4px;
+    vertical-align: middle;
+    line-height: 1.4;
+    white-space: nowrap;
+    pointer-events: none;
+}
+.badge-muratal {
+    background: rgba(33, 150, 243, 0.15);
+    color: #1565c0;
+    border: 1px solid rgba(33, 150, 243, 0.35);
+}
+.badge-mojawwad {
+    background: rgba(76, 175, 80, 0.15);
+    color: #2e7d32;
+    border: 1px solid rgba(76, 175, 80, 0.35);
+}
+body.dark-mode .badge-muratal {
+    background: rgba(100, 181, 246, 0.15);
+    color: #90caf9;
+    border-color: rgba(100, 181, 246, 0.35);
+}
+body.dark-mode .badge-mojawwad {
+    background: rgba(129, 199, 132, 0.15);
+    color: #a5d6a7;
+    border-color: rgba(129, 199, 132, 0.35);
+}
+
+/* بادج مرتل على أزرار السور */
+.badge-muratal {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 8px;
+    margin-left: 5px;
+    vertical-align: middle;
+    line-height: 1.4;
+    white-space: nowrap;
+    pointer-events: none;
+    background: rgba(33, 150, 243, 0.13);
+    color: #1565c0;
+    border: 1px solid rgba(33, 150, 243, 0.35);
+}
+body.dark-mode .badge-muratal {
+    background: rgba(100, 181, 246, 0.15);
+    color: #90caf9;
+    border-color: rgba(100, 181, 246, 0.35);
+}
 </style>
 </head>
 
@@ -4290,6 +4346,20 @@ body.dark-mode #sp-pip-toggle:hover  { background: rgba(24,95,165,0.35); }
     color: #c62828;
 }
 .pl-btn--clear:hover { background: rgba(229,57,53,0.08); }
+.pl-btn--nav {
+    background: rgba(255,255,255,0.9);
+    border: 1.5px solid rgba(30,144,255,0.3);
+    color: #1565c0;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 3px 11px;
+    line-height: 1;
+    min-width: 32px;
+}
+.pl-btn--nav:hover { background: rgba(30,144,255,0.1); }
+.pl-btn--nav:disabled { opacity: 0.35; cursor: default; }
+body.dark-mode .pl-btn--nav { background: rgba(255,255,255,0.06); border-color: rgba(30,144,255,0.45); color: #64b5f6; }
+body.dark-mode .pl-btn--nav:hover { background: rgba(30,144,255,0.18); }
 
 .pl-count {
     font-size: 12px;
@@ -11924,9 +11994,16 @@ setTimeout(autoScaleVerseFont, 100);
 <div id="unified-playlist-panel" class="pl-panel pl-panel--blue" style="display:none;">
   <div class="pl-toolbar pl-toolbar--blue">
     <span class="pl-label pl-label--blue" id="upl-label">📋 قائمة تشغيل:</span>
-    <button onclick="uplStart()" class="pl-btn pl-btn--play">▶ تشغيل المختارة</button>
-    <button onclick="uplSelectAll()" class="pl-btn pl-btn--select pl-btn--blue-border">✔ تحديد الكل</button>
-    <button onclick="uplClear()" class="pl-btn pl-btn--clear">✖ إلغاء التحديد</button>
+    <button onclick="uplStart()" class="pl-btn pl-btn--play" id="upl-start-btn"
+      data-ar="▶ تشغيل المختارة" data-en="▶ Play Selected">▶ تشغيل المختارة</button>
+    <button onclick="uplPrev()" class="pl-btn pl-btn--nav" id="upl-prev-btn"
+      data-ar="›" data-en="‹" title="السابق">›</button>
+    <button onclick="uplNext()" class="pl-btn pl-btn--nav" id="upl-next-btn"
+      data-ar="‹" data-en="›" title="التالي">‹</button>
+    <button onclick="uplSelectAll()" class="pl-btn pl-btn--select pl-btn--blue-border" id="upl-select-all-btn"
+      data-ar="✔ تحديد الكل" data-en="✔ Select All">✔ تحديد الكل</button>
+    <button onclick="uplClear()" class="pl-btn pl-btn--clear" id="upl-clear-btn"
+      data-ar="✖ إلغاء التحديد" data-en="✖ Clear">✖ إلغاء التحديد</button>
     <span id="upl-count" class="pl-count pl-count--blue">0 مختار</span>
   </div>
   <div id="upl-now" class="pl-now pl-now--blue" style="display:none;"></div>
@@ -12064,6 +12141,7 @@ setTimeout(autoScaleVerseFont, 100);
 <button class="banna-sub-btn" data-banna-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" onclick="filterBannaSub('mojawwad',this)">🎙️ المصحف المجود</button>
 </div>
 </div>
+<div id="banna-playlist-slot"></div>
 <!-- Hussary sub-sub filter -->
 <div class="subfilter-scroll-wrap" id="hussary-subfilter" style="display:none;">
 <div class="subfilter-scroll-strip">
@@ -12072,6 +12150,7 @@ setTimeout(autoScaleVerseFont, 100);
 <button class="hussary-sub-btn" data-hussary-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" onclick="filterHussarySub('mojawwad',this)">🎙️ المصحف المجود</button>
 </div>
 </div>
+<div id="hussary-playlist-slot"></div>
 <div id="reciters-playlist-slot"></div>
 
 <div class="search-container">
@@ -12994,6 +13073,12 @@ function renderStationButtons(arr, container, opts) {
 
         // Station text label
         var label = s.stationText || s.ar;
+        if (s.hussaryType === 'muratal') {
+            label += ' <span class="badge-muratal" data-ar="مرتل" data-en="Muratal">مرتل</span>';
+        }
+        if (s.hussaryType === 'mojawwad') {
+            label += ' <span class="badge-mojawwad" data-ar="مجود" data-en="Mujawwad">مجود</span>';
+        }
         var stationTitle = s.title ? ' title="' + s.title.replace(/"/g, '&quot;') + '"' : '';
         if (s.multiIcon) {
             inner += '<span class="station-text"' + stationTitle + '>'
@@ -15434,11 +15519,239 @@ const recitersStations = [
   {"category": "mojawwad", "station": "الشيخ محمد صديق المنشاوي (مجود)", "ar": "الشيخ محمد صديق المنشاوي (مجود)", "en": "Sheikh Muhammad Siddiq Al-Minshawi (Mujawwad)", "minshawi": true, "reciterType": "radio", "url": "https://backup.qurango.net/radio/mohammed_siddiq_alminshawi_mojawwad"},
   {"category": "mojawwad", "station": "الشيخ محمد صديق المنشاوي (مجود 2)", "ar": "الشيخ محمد صديق المنشاوي (مجود 2)", "en": "Sheikh Muhammad Siddiq Al-Minshawi (Mujawwad 2)", "minshawi": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8230/;*.mp3"},
   {"category": "teachers", "station": "المصحف المعلم المنشاوي", "ar": "المصحف المعلم المنشاوي", "en": "Sheikh Al-Minshawi Teaching Quran", "minshawi": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8242/;*.mp3"},
-  {"category": "reciters", "station": "راديو الشيخ محمود خليل الحصري", "ar": "راديو الشيخ محمود خليل الحصري", "en": "Sheikh Mahmoud Khalil Al-Hussary Radio", "hussary": true, "hussaryType": "muratal", "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary"},
-  {"category": "reciters", "station": "الشيخ محمود خليل الحصري 2", "ar": "الشيخ محمود خليل الحصري 2", "en": "Sheikh Mahmoud Khalil Al-Hussary 2", "hussary": true, "hussaryType": "muratal", "reciterType": "radio", "url": "https://qurango.net/radio/mahmoud_khalil_alhussary"},
-  {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 3", "ar": "الشيخ محمود خليل الحصرى 3", "en": "Sheikh Mahmoud Khalil Al-Hussary 3", "hussary": true, "hussaryType": "muratal", "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8018/;*.mp3"},
-  {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 4", "ar": "الشيخ محمود خليل الحصرى 4", "en": "Sheikh Mahmoud Khalil Al-Hussary 4", "hussary": true, "hussaryType": "muratal", "reciterType": "radio", "url": "https://stream-172.zeno.fm/vsfa9n4g698uv"},
-  {"category": "mojawwad", "station": "الشيخ محمود خليل الحصري (مجود)", "ar": "الشيخ محمود خليل الحصري (مجود)", "en": "Sheikh Mahmoud Khalil Al-Hussary (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "radio", "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary_mojawwad"},
+  {"category": "reciters", "station": "راديو الشيخ محمود خليل الحصري", "ar": "راديو الشيخ محمود خليل الحصري", "en": "Sheikh Mahmoud Khalil Al-Hussary Radio", "hussary": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary"},
+  {"category": "reciters", "station": "الشيخ محمود خليل الحصري 2", "ar": "الشيخ محمود خليل الحصري 2", "en": "Sheikh Mahmoud Khalil Al-Hussary 2", "hussary": true, "reciterType": "radio", "url": "https://qurango.net/radio/mahmoud_khalil_alhussary"},
+  {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 3", "ar": "الشيخ محمود خليل الحصرى 3", "en": "Sheikh Mahmoud Khalil Al-Hussary 3", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8018/;*.mp3"},
+  {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 4", "ar": "الشيخ محمود خليل الحصرى 4", "en": "Sheikh Mahmoud Khalil Al-Hussary 4", "hussary": true, "reciterType": "radio", "url": "https://stream-172.zeno.fm/vsfa9n4g698uv"},
+  {"category": "reciters", "station": "سورة الفاتحة (مرتل)", "ar": "سورة الفاتحة (مرتل)", "en": "Surah Al-Fatiha (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/001.mp3"},
+  {"category": "reciters", "station": "سورة البقرة (مرتل)", "ar": "سورة البقرة (مرتل)", "en": "Surah Al-Baqara (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/002.mp3"},
+  {"category": "reciters", "station": "سورة آل عمران (مرتل)", "ar": "سورة آل عمران (مرتل)", "en": "Surah Aal-Imran (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/003.mp3"},
+  {"category": "reciters", "station": "سورة النساء (مرتل)", "ar": "سورة النساء (مرتل)", "en": "Surah An-Nisa (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/004.mp3"},
+  {"category": "reciters", "station": "سورة المائدة (مرتل)", "ar": "سورة المائدة (مرتل)", "en": "Surah Al-Ma'ida (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/005.mp3"},
+  {"category": "reciters", "station": "سورة الأنعام (مرتل)", "ar": "سورة الأنعام (مرتل)", "en": "Surah Al-An'am (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/006.mp3"},
+  {"category": "reciters", "station": "سورة الأعراف (مرتل)", "ar": "سورة الأعراف (مرتل)", "en": "Surah Al-A'raf (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/007.mp3"},
+  {"category": "reciters", "station": "سورة الأنفال (مرتل)", "ar": "سورة الأنفال (مرتل)", "en": "Surah Al-Anfal (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/008.mp3"},
+  {"category": "reciters", "station": "سورة التوبة (مرتل)", "ar": "سورة التوبة (مرتل)", "en": "Surah At-Tawba (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/009.mp3"},
+  {"category": "reciters", "station": "سورة يونس (مرتل)", "ar": "سورة يونس (مرتل)", "en": "Surah Yunus (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/010.mp3"},
+  {"category": "reciters", "station": "سورة هود (مرتل)", "ar": "سورة هود (مرتل)", "en": "Surah Hud (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/011.mp3"},
+  {"category": "reciters", "station": "سورة يوسف (مرتل)", "ar": "سورة يوسف (مرتل)", "en": "Surah Yusuf (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/012.mp3"},
+  {"category": "reciters", "station": "سورة الرعد (مرتل)", "ar": "سورة الرعد (مرتل)", "en": "Surah Ar-Ra'd (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/013.mp3"},
+  {"category": "reciters", "station": "سورة إبراهيم (مرتل)", "ar": "سورة إبراهيم (مرتل)", "en": "Surah Ibrahim (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/014.mp3"},
+  {"category": "reciters", "station": "سورة الحجر (مرتل)", "ar": "سورة الحجر (مرتل)", "en": "Surah Al-Hijr (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/015.mp3"},
+  {"category": "reciters", "station": "سورة النحل (مرتل)", "ar": "سورة النحل (مرتل)", "en": "Surah An-Nahl (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/016.mp3"},
+  {"category": "reciters", "station": "سورة الإسراء (مرتل)", "ar": "سورة الإسراء (مرتل)", "en": "Surah Al-Isra (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/017.mp3"},
+  {"category": "reciters", "station": "سورة الكهف (مرتل)", "ar": "سورة الكهف (مرتل)", "en": "Surah Al-Kahf (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/018.mp3"},
+  {"category": "reciters", "station": "سورة مريم (مرتل)", "ar": "سورة مريم (مرتل)", "en": "Surah Maryam (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/019.mp3"},
+  {"category": "reciters", "station": "سورة طه (مرتل)", "ar": "سورة طه (مرتل)", "en": "Surah Taha (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/020.mp3"},
+  {"category": "reciters", "station": "سورة الأنبياء (مرتل)", "ar": "سورة الأنبياء (مرتل)", "en": "Surah Al-Anbiya (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/021.mp3"},
+  {"category": "reciters", "station": "سورة الحج (مرتل)", "ar": "سورة الحج (مرتل)", "en": "Surah Al-Hajj (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/022.mp3"},
+  {"category": "reciters", "station": "سورة المؤمنون (مرتل)", "ar": "سورة المؤمنون (مرتل)", "en": "Surah Al-Mu'minun (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/023.mp3"},
+  {"category": "reciters", "station": "سورة النور (مرتل)", "ar": "سورة النور (مرتل)", "en": "Surah An-Nur (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/024.mp3"},
+  {"category": "reciters", "station": "سورة الفرقان (مرتل)", "ar": "سورة الفرقان (مرتل)", "en": "Surah Al-Furqan (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/025.mp3"},
+  {"category": "reciters", "station": "سورة الشعراء (مرتل)", "ar": "سورة الشعراء (مرتل)", "en": "Surah Ash-Shu'ara (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/026.mp3"},
+  {"category": "reciters", "station": "سورة النمل (مرتل)", "ar": "سورة النمل (مرتل)", "en": "Surah An-Naml (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/027.mp3"},
+  {"category": "reciters", "station": "سورة القصص (مرتل)", "ar": "سورة القصص (مرتل)", "en": "Surah Al-Qasas (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/028.mp3"},
+  {"category": "reciters", "station": "سورة العنكبوت (مرتل)", "ar": "سورة العنكبوت (مرتل)", "en": "Surah Al-Ankabut (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/029.mp3"},
+  {"category": "reciters", "station": "سورة الروم (مرتل)", "ar": "سورة الروم (مرتل)", "en": "Surah Ar-Rum (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/030.mp3"},
+  {"category": "reciters", "station": "سورة لقمان (مرتل)", "ar": "سورة لقمان (مرتل)", "en": "Surah Luqman (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/031.mp3"},
+  {"category": "reciters", "station": "سورة السجدة (مرتل)", "ar": "سورة السجدة (مرتل)", "en": "Surah As-Sajda (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/032.mp3"},
+  {"category": "reciters", "station": "سورة الأحزاب (مرتل)", "ar": "سورة الأحزاب (مرتل)", "en": "Surah Al-Ahzab (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/033.mp3"},
+  {"category": "reciters", "station": "سورة سبأ (مرتل)", "ar": "سورة سبأ (مرتل)", "en": "Surah Saba (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/034.mp3"},
+  {"category": "reciters", "station": "سورة فاطر (مرتل)", "ar": "سورة فاطر (مرتل)", "en": "Surah Fatir (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/035.mp3"},
+  {"category": "reciters", "station": "سورة يس (مرتل)", "ar": "سورة يس (مرتل)", "en": "Surah Ya-Sin (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/036.mp3"},
+  {"category": "reciters", "station": "سورة الصافات (مرتل)", "ar": "سورة الصافات (مرتل)", "en": "Surah As-Saffat (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/037.mp3"},
+  {"category": "reciters", "station": "سورة ص (مرتل)", "ar": "سورة ص (مرتل)", "en": "Surah Sad (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/038.mp3"},
+  {"category": "reciters", "station": "سورة الزمر (مرتل)", "ar": "سورة الزمر (مرتل)", "en": "Surah Az-Zumar (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/039.mp3"},
+  {"category": "reciters", "station": "سورة غافر (مرتل)", "ar": "سورة غافر (مرتل)", "en": "Surah Ghafir (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/040.mp3"},
+  {"category": "reciters", "station": "سورة فصلت (مرتل)", "ar": "سورة فصلت (مرتل)", "en": "Surah Fussilat (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/041.mp3"},
+  {"category": "reciters", "station": "سورة الشورى (مرتل)", "ar": "سورة الشورى (مرتل)", "en": "Surah Ash-Shura (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/042.mp3"},
+  {"category": "reciters", "station": "سورة الزخرف (مرتل)", "ar": "سورة الزخرف (مرتل)", "en": "Surah Az-Zukhruf (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/043.mp3"},
+  {"category": "reciters", "station": "سورة الدخان (مرتل)", "ar": "سورة الدخان (مرتل)", "en": "Surah Ad-Dukhan (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/044.mp3"},
+  {"category": "reciters", "station": "سورة الجاثية (مرتل)", "ar": "سورة الجاثية (مرتل)", "en": "Surah Al-Jathiya (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/045.mp3"},
+  {"category": "reciters", "station": "سورة الأحقاف (مرتل)", "ar": "سورة الأحقاف (مرتل)", "en": "Surah Al-Ahqaf (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/046.mp3"},
+  {"category": "reciters", "station": "سورة محمد (مرتل)", "ar": "سورة محمد (مرتل)", "en": "Surah Muhammad (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/047.mp3"},
+  {"category": "reciters", "station": "سورة الفتح (مرتل)", "ar": "سورة الفتح (مرتل)", "en": "Surah Al-Fath (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/048.mp3"},
+  {"category": "reciters", "station": "سورة الحجرات (مرتل)", "ar": "سورة الحجرات (مرتل)", "en": "Surah Al-Hujurat (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/049.mp3"},
+  {"category": "reciters", "station": "سورة ق (مرتل)", "ar": "سورة ق (مرتل)", "en": "Surah Qaf (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/050.mp3"},
+  {"category": "reciters", "station": "سورة الذاريات (مرتل)", "ar": "سورة الذاريات (مرتل)", "en": "Surah Adh-Dhariyat (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/051.mp3"},
+  {"category": "reciters", "station": "سورة الطور (مرتل)", "ar": "سورة الطور (مرتل)", "en": "Surah At-Tur (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/052.mp3"},
+  {"category": "reciters", "station": "سورة النجم (مرتل)", "ar": "سورة النجم (مرتل)", "en": "Surah An-Najm (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/053.mp3"},
+  {"category": "reciters", "station": "سورة القمر (مرتل)", "ar": "سورة القمر (مرتل)", "en": "Surah Al-Qamar (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/054.mp3"},
+  {"category": "reciters", "station": "سورة الرحمن (مرتل)", "ar": "سورة الرحمن (مرتل)", "en": "Surah Ar-Rahman (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/055.mp3"},
+  {"category": "reciters", "station": "سورة الواقعة (مرتل)", "ar": "سورة الواقعة (مرتل)", "en": "Surah Al-Waqi'a (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/056.mp3"},
+  {"category": "reciters", "station": "سورة الحديد (مرتل)", "ar": "سورة الحديد (مرتل)", "en": "Surah Al-Hadid (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/057.mp3"},
+  {"category": "reciters", "station": "سورة المجادلة (مرتل)", "ar": "سورة المجادلة (مرتل)", "en": "Surah Al-Mujadila (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/058.mp3"},
+  {"category": "reciters", "station": "سورة الحشر (مرتل)", "ar": "سورة الحشر (مرتل)", "en": "Surah Al-Hashr (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/059.mp3"},
+  {"category": "reciters", "station": "سورة الممتحنة (مرتل)", "ar": "سورة الممتحنة (مرتل)", "en": "Surah Al-Mumtahana (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/060.mp3"},
+  {"category": "reciters", "station": "سورة الصف (مرتل)", "ar": "سورة الصف (مرتل)", "en": "Surah As-Saf (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/061.mp3"},
+  {"category": "reciters", "station": "سورة الجمعة (مرتل)", "ar": "سورة الجمعة (مرتل)", "en": "Surah Al-Jumu'a (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/062.mp3"},
+  {"category": "reciters", "station": "سورة المنافقون (مرتل)", "ar": "سورة المنافقون (مرتل)", "en": "Surah Al-Munafiqun (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/063.mp3"},
+  {"category": "reciters", "station": "سورة التغابن (مرتل)", "ar": "سورة التغابن (مرتل)", "en": "Surah At-Taghabun (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/064.mp3"},
+  {"category": "reciters", "station": "سورة الطلاق (مرتل)", "ar": "سورة الطلاق (مرتل)", "en": "Surah At-Talaq (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/065.mp3"},
+  {"category": "reciters", "station": "سورة التحريم (مرتل)", "ar": "سورة التحريم (مرتل)", "en": "Surah At-Tahrim (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/066.mp3"},
+  {"category": "reciters", "station": "سورة الملك (مرتل)", "ar": "سورة الملك (مرتل)", "en": "Surah Al-Mulk (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/067.mp3"},
+  {"category": "reciters", "station": "سورة القلم (مرتل)", "ar": "سورة القلم (مرتل)", "en": "Surah Al-Qalam (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/068.mp3"},
+  {"category": "reciters", "station": "سورة الحاقة (مرتل)", "ar": "سورة الحاقة (مرتل)", "en": "Surah Al-Haqqa (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/069.mp3"},
+  {"category": "reciters", "station": "سورة المعارج (مرتل)", "ar": "سورة المعارج (مرتل)", "en": "Surah Al-Ma'arij (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/070.mp3"},
+  {"category": "reciters", "station": "سورة نوح (مرتل)", "ar": "سورة نوح (مرتل)", "en": "Surah Nuh (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/071.mp3"},
+  {"category": "reciters", "station": "سورة الجن (مرتل)", "ar": "سورة الجن (مرتل)", "en": "Surah Al-Jinn (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/072.mp3"},
+  {"category": "reciters", "station": "سورة المزمل (مرتل)", "ar": "سورة المزمل (مرتل)", "en": "Surah Al-Muzzammil (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/073.mp3"},
+  {"category": "reciters", "station": "سورة المدثر (مرتل)", "ar": "سورة المدثر (مرتل)", "en": "Surah Al-Muddaththir (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/074.mp3"},
+  {"category": "reciters", "station": "سورة القيامة (مرتل)", "ar": "سورة القيامة (مرتل)", "en": "Surah Al-Qiyama (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/075.mp3"},
+  {"category": "reciters", "station": "سورة الإنسان (مرتل)", "ar": "سورة الإنسان (مرتل)", "en": "Surah Al-Insan (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/076.mp3"},
+  {"category": "reciters", "station": "سورة المرسلات (مرتل)", "ar": "سورة المرسلات (مرتل)", "en": "Surah Al-Mursalat (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/077.mp3"},
+  {"category": "reciters", "station": "سورة النبأ (مرتل)", "ar": "سورة النبأ (مرتل)", "en": "Surah An-Naba (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/078.mp3"},
+  {"category": "reciters", "station": "سورة النازعات (مرتل)", "ar": "سورة النازعات (مرتل)", "en": "Surah An-Nazi'at (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/079.mp3"},
+  {"category": "reciters", "station": "سورة عبس (مرتل)", "ar": "سورة عبس (مرتل)", "en": "Surah Abasa (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/080.mp3"},
+  {"category": "reciters", "station": "سورة التكوير (مرتل)", "ar": "سورة التكوير (مرتل)", "en": "Surah At-Takwir (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/081.mp3"},
+  {"category": "reciters", "station": "سورة الانفطار (مرتل)", "ar": "سورة الانفطار (مرتل)", "en": "Surah Al-Infitar (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/082.mp3"},
+  {"category": "reciters", "station": "سورة المطففين (مرتل)", "ar": "سورة المطففين (مرتل)", "en": "Surah Al-Mutaffifin (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/083.mp3"},
+  {"category": "reciters", "station": "سورة الانشقاق (مرتل)", "ar": "سورة الانشقاق (مرتل)", "en": "Surah Al-Inshiqaq (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/084.mp3"},
+  {"category": "reciters", "station": "سورة البروج (مرتل)", "ar": "سورة البروج (مرتل)", "en": "Surah Al-Buruj (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/085.mp3"},
+  {"category": "reciters", "station": "سورة الطارق (مرتل)", "ar": "سورة الطارق (مرتل)", "en": "Surah At-Tariq (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/086.mp3"},
+  {"category": "reciters", "station": "سورة الأعلى (مرتل)", "ar": "سورة الأعلى (مرتل)", "en": "Surah Al-A'la (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/087.mp3"},
+  {"category": "reciters", "station": "سورة الغاشية (مرتل)", "ar": "سورة الغاشية (مرتل)", "en": "Surah Al-Ghashiya (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/088.mp3"},
+  {"category": "reciters", "station": "سورة الفجر (مرتل)", "ar": "سورة الفجر (مرتل)", "en": "Surah Al-Fajr (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/089.mp3"},
+  {"category": "reciters", "station": "سورة البلد (مرتل)", "ar": "سورة البلد (مرتل)", "en": "Surah Al-Balad (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/090.mp3"},
+  {"category": "reciters", "station": "سورة الشمس (مرتل)", "ar": "سورة الشمس (مرتل)", "en": "Surah Ash-Shams (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/091.mp3"},
+  {"category": "reciters", "station": "سورة الليل (مرتل)", "ar": "سورة الليل (مرتل)", "en": "Surah Al-Layl (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/092.mp3"},
+  {"category": "reciters", "station": "سورة الضحى (مرتل)", "ar": "سورة الضحى (مرتل)", "en": "Surah Ad-Duha (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/093.mp3"},
+  {"category": "reciters", "station": "سورة الشرح (مرتل)", "ar": "سورة الشرح (مرتل)", "en": "Surah Ash-Sharh (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/094.mp3"},
+  {"category": "reciters", "station": "سورة التين (مرتل)", "ar": "سورة التين (مرتل)", "en": "Surah At-Tin (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/095.mp3"},
+  {"category": "reciters", "station": "سورة العلق (مرتل)", "ar": "سورة العلق (مرتل)", "en": "Surah Al-Alaq (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/096.mp3"},
+  {"category": "reciters", "station": "سورة القدر (مرتل)", "ar": "سورة القدر (مرتل)", "en": "Surah Al-Qadr (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/097.mp3"},
+  {"category": "reciters", "station": "سورة البينة (مرتل)", "ar": "سورة البينة (مرتل)", "en": "Surah Al-Bayyina (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/098.mp3"},
+  {"category": "reciters", "station": "سورة الزلزلة (مرتل)", "ar": "سورة الزلزلة (مرتل)", "en": "Surah Az-Zalzala (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/099.mp3"},
+  {"category": "reciters", "station": "سورة العاديات (مرتل)", "ar": "سورة العاديات (مرتل)", "en": "Surah Al-Adiyat (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/100.mp3"},
+  {"category": "reciters", "station": "سورة القارعة (مرتل)", "ar": "سورة القارعة (مرتل)", "en": "Surah Al-Qari'a (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/101.mp3"},
+  {"category": "reciters", "station": "سورة التكاثر (مرتل)", "ar": "سورة التكاثر (مرتل)", "en": "Surah At-Takathur (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/102.mp3"},
+  {"category": "reciters", "station": "سورة العصر (مرتل)", "ar": "سورة العصر (مرتل)", "en": "Surah Al-Asr (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/103.mp3"},
+  {"category": "reciters", "station": "سورة الهمزة (مرتل)", "ar": "سورة الهمزة (مرتل)", "en": "Surah Al-Humaza (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/104.mp3"},
+  {"category": "reciters", "station": "سورة الفيل (مرتل)", "ar": "سورة الفيل (مرتل)", "en": "Surah Al-Fil (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/105.mp3"},
+  {"category": "reciters", "station": "سورة قريش (مرتل)", "ar": "سورة قريش (مرتل)", "en": "Surah Quraysh (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/106.mp3"},
+  {"category": "reciters", "station": "سورة الماعون (مرتل)", "ar": "سورة الماعون (مرتل)", "en": "Surah Al-Ma'un (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/107.mp3"},
+  {"category": "reciters", "station": "سورة الكوثر (مرتل)", "ar": "سورة الكوثر (مرتل)", "en": "Surah Al-Kawthar (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/108.mp3"},
+  {"category": "reciters", "station": "سورة الكافرون (مرتل)", "ar": "سورة الكافرون (مرتل)", "en": "Surah Al-Kafirun (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/109.mp3"},
+  {"category": "reciters", "station": "سورة النصر (مرتل)", "ar": "سورة النصر (مرتل)", "en": "Surah An-Nasr (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/110.mp3"},
+  {"category": "reciters", "station": "سورة المسد (مرتل)", "ar": "سورة المسد (مرتل)", "en": "Surah Al-Masad (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/111.mp3"},
+  {"category": "reciters", "station": "سورة الإخلاص (مرتل)", "ar": "سورة الإخلاص (مرتل)", "en": "Surah Al-Ikhlas (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/112.mp3"},
+  {"category": "reciters", "station": "سورة الفلق (مرتل)", "ar": "سورة الفلق (مرتل)", "en": "Surah Al-Falaq (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/113.mp3"},
+  {"category": "reciters", "station": "سورة الناس (مرتل)", "ar": "سورة الناس (مرتل)", "en": "Surah An-Nas (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/114.mp3"},
+  {"category": "mojawwad", "station": "الشيخ محمود خليل الحصري (مجود)", "ar": "الشيخ محمود خليل الحصري (مجود)", "en": "Sheikh Mahmoud Khalil Al-Hussary (Mujawwad)", "hussary": true, "reciterType": "radio", "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary_mojawwad"},
+  {"category": "reciters", "station": "سورة الفاتحة (مجود)", "ar": "سورة الفاتحة (مجود)", "en": "Surah Al-Fatiha (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/001.mp3"},
+  {"category": "reciters", "station": "سورة البقرة (مجود)", "ar": "سورة البقرة (مجود)", "en": "Surah Al-Baqara (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/002.mp3"},
+  {"category": "reciters", "station": "سورة آل عمران (مجود)", "ar": "سورة آل عمران (مجود)", "en": "Surah Aal-Imran (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/003.mp3"},
+  {"category": "reciters", "station": "سورة النساء (مجود)", "ar": "سورة النساء (مجود)", "en": "Surah An-Nisa (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/004.mp3"},
+  {"category": "reciters", "station": "سورة المائدة (مجود)", "ar": "سورة المائدة (مجود)", "en": "Surah Al-Ma'ida (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/005.mp3"},
+  {"category": "reciters", "station": "سورة الأنعام (مجود)", "ar": "سورة الأنعام (مجود)", "en": "Surah Al-An'am (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/006.mp3"},
+  {"category": "reciters", "station": "سورة الأعراف (مجود)", "ar": "سورة الأعراف (مجود)", "en": "Surah Al-A'raf (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/007.mp3"},
+  {"category": "reciters", "station": "سورة الأنفال (مجود)", "ar": "سورة الأنفال (مجود)", "en": "Surah Al-Anfal (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/008.mp3"},
+  {"category": "reciters", "station": "سورة التوبة (مجود)", "ar": "سورة التوبة (مجود)", "en": "Surah At-Tawba (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/009.mp3"},
+  {"category": "reciters", "station": "سورة يونس (مجود)", "ar": "سورة يونس (مجود)", "en": "Surah Yunus (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/010.mp3"},
+  {"category": "reciters", "station": "سورة هود (مجود)", "ar": "سورة هود (مجود)", "en": "Surah Hud (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/011.mp3"},
+  {"category": "reciters", "station": "سورة يوسف (مجود)", "ar": "سورة يوسف (مجود)", "en": "Surah Yusuf (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/012.mp3"},
+  {"category": "reciters", "station": "سورة الرعد (مجود)", "ar": "سورة الرعد (مجود)", "en": "Surah Ar-Ra'd (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/013.mp3"},
+  {"category": "reciters", "station": "سورة إبراهيم (مجود)", "ar": "سورة إبراهيم (مجود)", "en": "Surah Ibrahim (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/014.mp3"},
+  {"category": "reciters", "station": "سورة الحجر (مجود)", "ar": "سورة الحجر (مجود)", "en": "Surah Al-Hijr (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/015.mp3"},
+  {"category": "reciters", "station": "سورة النحل (مجود)", "ar": "سورة النحل (مجود)", "en": "Surah An-Nahl (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/016.mp3"},
+  {"category": "reciters", "station": "سورة الإسراء (مجود)", "ar": "سورة الإسراء (مجود)", "en": "Surah Al-Isra (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/017.mp3"},
+  {"category": "reciters", "station": "سورة الكهف (مجود)", "ar": "سورة الكهف (مجود)", "en": "Surah Al-Kahf (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/018.mp3"},
+  {"category": "reciters", "station": "سورة مريم (مجود)", "ar": "سورة مريم (مجود)", "en": "Surah Maryam (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/019.mp3"},
+  {"category": "reciters", "station": "سورة طه (مجود)", "ar": "سورة طه (مجود)", "en": "Surah Taha (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/020.mp3"},
+  {"category": "reciters", "station": "سورة الأنبياء (مجود)", "ar": "سورة الأنبياء (مجود)", "en": "Surah Al-Anbiya (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/021.mp3"},
+  {"category": "reciters", "station": "سورة الحج (مجود)", "ar": "سورة الحج (مجود)", "en": "Surah Al-Hajj (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/022.mp3"},
+  {"category": "reciters", "station": "سورة المؤمنون (مجود)", "ar": "سورة المؤمنون (مجود)", "en": "Surah Al-Mu'minun (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/023.mp3"},
+  {"category": "reciters", "station": "سورة النور (مجود)", "ar": "سورة النور (مجود)", "en": "Surah An-Nur (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/024.mp3"},
+  {"category": "reciters", "station": "سورة الفرقان (مجود)", "ar": "سورة الفرقان (مجود)", "en": "Surah Al-Furqan (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/025.mp3"},
+  {"category": "reciters", "station": "سورة الشعراء (مجود)", "ar": "سورة الشعراء (مجود)", "en": "Surah Ash-Shu'ara (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/026.mp3"},
+  {"category": "reciters", "station": "سورة النمل (مجود)", "ar": "سورة النمل (مجود)", "en": "Surah An-Naml (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/027.mp3"},
+  {"category": "reciters", "station": "سورة القصص (مجود)", "ar": "سورة القصص (مجود)", "en": "Surah Al-Qasas (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/028.mp3"},
+  {"category": "reciters", "station": "سورة العنكبوت (مجود)", "ar": "سورة العنكبوت (مجود)", "en": "Surah Al-Ankabut (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/029.mp3"},
+  {"category": "reciters", "station": "سورة الروم (مجود)", "ar": "سورة الروم (مجود)", "en": "Surah Ar-Rum (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/030.mp3"},
+  {"category": "reciters", "station": "سورة لقمان (مجود)", "ar": "سورة لقمان (مجود)", "en": "Surah Luqman (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/031.mp3"},
+  {"category": "reciters", "station": "سورة السجدة (مجود)", "ar": "سورة السجدة (مجود)", "en": "Surah As-Sajda (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/032.mp3"},
+  {"category": "reciters", "station": "سورة الأحزاب (مجود)", "ar": "سورة الأحزاب (مجود)", "en": "Surah Al-Ahzab (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/033.mp3"},
+  {"category": "reciters", "station": "سورة سبأ (مجود)", "ar": "سورة سبأ (مجود)", "en": "Surah Saba (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/034.mp3"},
+  {"category": "reciters", "station": "سورة فاطر (مجود)", "ar": "سورة فاطر (مجود)", "en": "Surah Fatir (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/035.mp3"},
+  {"category": "reciters", "station": "سورة يس (مجود)", "ar": "سورة يس (مجود)", "en": "Surah Ya-Sin (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/036.mp3"},
+  {"category": "reciters", "station": "سورة الصافات (مجود)", "ar": "سورة الصافات (مجود)", "en": "Surah As-Saffat (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/037.mp3"},
+  {"category": "reciters", "station": "سورة ص (مجود)", "ar": "سورة ص (مجود)", "en": "Surah Sad (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/038.mp3"},
+  {"category": "reciters", "station": "سورة الزمر (مجود)", "ar": "سورة الزمر (مجود)", "en": "Surah Az-Zumar (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/039.mp3"},
+  {"category": "reciters", "station": "سورة غافر (مجود)", "ar": "سورة غافر (مجود)", "en": "Surah Ghafir (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/040.mp3"},
+  {"category": "reciters", "station": "سورة فصلت (مجود)", "ar": "سورة فصلت (مجود)", "en": "Surah Fussilat (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/041.mp3"},
+  {"category": "reciters", "station": "سورة الشورى (مجود)", "ar": "سورة الشورى (مجود)", "en": "Surah Ash-Shura (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/042.mp3"},
+  {"category": "reciters", "station": "سورة الزخرف (مجود)", "ar": "سورة الزخرف (مجود)", "en": "Surah Az-Zukhruf (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/043.mp3"},
+  {"category": "reciters", "station": "سورة الدخان (مجود)", "ar": "سورة الدخان (مجود)", "en": "Surah Ad-Dukhan (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/044.mp3"},
+  {"category": "reciters", "station": "سورة الجاثية (مجود)", "ar": "سورة الجاثية (مجود)", "en": "Surah Al-Jathiya (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/045.mp3"},
+  {"category": "reciters", "station": "سورة الأحقاف (مجود)", "ar": "سورة الأحقاف (مجود)", "en": "Surah Al-Ahqaf (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/046.mp3"},
+  {"category": "reciters", "station": "سورة محمد (مجود)", "ar": "سورة محمد (مجود)", "en": "Surah Muhammad (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/047.mp3"},
+  {"category": "reciters", "station": "سورة الفتح (مجود)", "ar": "سورة الفتح (مجود)", "en": "Surah Al-Fath (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/048.mp3"},
+  {"category": "reciters", "station": "سورة الحجرات (مجود)", "ar": "سورة الحجرات (مجود)", "en": "Surah Al-Hujurat (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/049.mp3"},
+  {"category": "reciters", "station": "سورة ق (مجود)", "ar": "سورة ق (مجود)", "en": "Surah Qaf (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/050.mp3"},
+  {"category": "reciters", "station": "سورة الذاريات (مجود)", "ar": "سورة الذاريات (مجود)", "en": "Surah Adh-Dhariyat (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/051.mp3"},
+  {"category": "reciters", "station": "سورة الطور (مجود)", "ar": "سورة الطور (مجود)", "en": "Surah At-Tur (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/052.mp3"},
+  {"category": "reciters", "station": "سورة النجم (مجود)", "ar": "سورة النجم (مجود)", "en": "Surah An-Najm (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/053.mp3"},
+  {"category": "reciters", "station": "سورة القمر (مجود)", "ar": "سورة القمر (مجود)", "en": "Surah Al-Qamar (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/054.mp3"},
+  {"category": "reciters", "station": "سورة الرحمن (مجود)", "ar": "سورة الرحمن (مجود)", "en": "Surah Ar-Rahman (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/055.mp3"},
+  {"category": "reciters", "station": "سورة الواقعة (مجود)", "ar": "سورة الواقعة (مجود)", "en": "Surah Al-Waqi'a (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/056.mp3"},
+  {"category": "reciters", "station": "سورة الحديد (مجود)", "ar": "سورة الحديد (مجود)", "en": "Surah Al-Hadid (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/057.mp3"},
+  {"category": "reciters", "station": "سورة المجادلة (مجود)", "ar": "سورة المجادلة (مجود)", "en": "Surah Al-Mujadila (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/058.mp3"},
+  {"category": "reciters", "station": "سورة الحشر (مجود)", "ar": "سورة الحشر (مجود)", "en": "Surah Al-Hashr (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/059.mp3"},
+  {"category": "reciters", "station": "سورة الممتحنة (مجود)", "ar": "سورة الممتحنة (مجود)", "en": "Surah Al-Mumtahana (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/060.mp3"},
+  {"category": "reciters", "station": "سورة الصف (مجود)", "ar": "سورة الصف (مجود)", "en": "Surah As-Saf (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/061.mp3"},
+  {"category": "reciters", "station": "سورة الجمعة (مجود)", "ar": "سورة الجمعة (مجود)", "en": "Surah Al-Jumu'a (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/062.mp3"},
+  {"category": "reciters", "station": "سورة المنافقون (مجود)", "ar": "سورة المنافقون (مجود)", "en": "Surah Al-Munafiqun (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/063.mp3"},
+  {"category": "reciters", "station": "سورة التغابن (مجود)", "ar": "سورة التغابن (مجود)", "en": "Surah At-Taghabun (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/064.mp3"},
+  {"category": "reciters", "station": "سورة الطلاق (مجود)", "ar": "سورة الطلاق (مجود)", "en": "Surah At-Talaq (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/065.mp3"},
+  {"category": "reciters", "station": "سورة التحريم (مجود)", "ar": "سورة التحريم (مجود)", "en": "Surah At-Tahrim (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/066.mp3"},
+  {"category": "reciters", "station": "سورة الملك (مجود)", "ar": "سورة الملك (مجود)", "en": "Surah Al-Mulk (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/067.mp3"},
+  {"category": "reciters", "station": "سورة القلم (مجود)", "ar": "سورة القلم (مجود)", "en": "Surah Al-Qalam (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/068.mp3"},
+  {"category": "reciters", "station": "سورة الحاقة (مجود)", "ar": "سورة الحاقة (مجود)", "en": "Surah Al-Haqqa (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/069.mp3"},
+  {"category": "reciters", "station": "سورة المعارج (مجود)", "ar": "سورة المعارج (مجود)", "en": "Surah Al-Ma'arij (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/070.mp3"},
+  {"category": "reciters", "station": "سورة نوح (مجود)", "ar": "سورة نوح (مجود)", "en": "Surah Nuh (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/071.mp3"},
+  {"category": "reciters", "station": "سورة الجن (مجود)", "ar": "سورة الجن (مجود)", "en": "Surah Al-Jinn (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/072.mp3"},
+  {"category": "reciters", "station": "سورة المزمل (مجود)", "ar": "سورة المزمل (مجود)", "en": "Surah Al-Muzzammil (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/073.mp3"},
+  {"category": "reciters", "station": "سورة المدثر (مجود)", "ar": "سورة المدثر (مجود)", "en": "Surah Al-Muddaththir (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/074.mp3"},
+  {"category": "reciters", "station": "سورة القيامة (مجود)", "ar": "سورة القيامة (مجود)", "en": "Surah Al-Qiyama (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/075.mp3"},
+  {"category": "reciters", "station": "سورة الإنسان (مجود)", "ar": "سورة الإنسان (مجود)", "en": "Surah Al-Insan (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/076.mp3"},
+  {"category": "reciters", "station": "سورة المرسلات (مجود)", "ar": "سورة المرسلات (مجود)", "en": "Surah Al-Mursalat (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/077.mp3"},
+  {"category": "reciters", "station": "سورة النبأ (مجود)", "ar": "سورة النبأ (مجود)", "en": "Surah An-Naba (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/078.mp3"},
+  {"category": "reciters", "station": "سورة النازعات (مجود)", "ar": "سورة النازعات (مجود)", "en": "Surah An-Nazi'at (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/079.mp3"},
+  {"category": "reciters", "station": "سورة عبس (مجود)", "ar": "سورة عبس (مجود)", "en": "Surah Abasa (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/080.mp3"},
+  {"category": "reciters", "station": "سورة التكوير (مجود)", "ar": "سورة التكوير (مجود)", "en": "Surah At-Takwir (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/081.mp3"},
+  {"category": "reciters", "station": "سورة الانفطار (مجود)", "ar": "سورة الانفطار (مجود)", "en": "Surah Al-Infitar (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/082.mp3"},
+  {"category": "reciters", "station": "سورة المطففين (مجود)", "ar": "سورة المطففين (مجود)", "en": "Surah Al-Mutaffifin (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/083.mp3"},
+  {"category": "reciters", "station": "سورة الانشقاق (مجود)", "ar": "سورة الانشقاق (مجود)", "en": "Surah Al-Inshiqaq (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/084.mp3"},
+  {"category": "reciters", "station": "سورة البروج (مجود)", "ar": "سورة البروج (مجود)", "en": "Surah Al-Buruj (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/085.mp3"},
+  {"category": "reciters", "station": "سورة الطارق (مجود)", "ar": "سورة الطارق (مجود)", "en": "Surah At-Tariq (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/086.mp3"},
+  {"category": "reciters", "station": "سورة الأعلى (مجود)", "ar": "سورة الأعلى (مجود)", "en": "Surah Al-A'la (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/087.mp3"},
+  {"category": "reciters", "station": "سورة الغاشية (مجود)", "ar": "سورة الغاشية (مجود)", "en": "Surah Al-Ghashiya (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/088.mp3"},
+  {"category": "reciters", "station": "سورة الفجر (مجود)", "ar": "سورة الفجر (مجود)", "en": "Surah Al-Fajr (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/089.mp3"},
+  {"category": "reciters", "station": "سورة البلد (مجود)", "ar": "سورة البلد (مجود)", "en": "Surah Al-Balad (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/090.mp3"},
+  {"category": "reciters", "station": "سورة الشمس (مجود)", "ar": "سورة الشمس (مجود)", "en": "Surah Ash-Shams (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/091.mp3"},
+  {"category": "reciters", "station": "سورة الليل (مجود)", "ar": "سورة الليل (مجود)", "en": "Surah Al-Layl (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/092.mp3"},
+  {"category": "reciters", "station": "سورة الضحى (مجود)", "ar": "سورة الضحى (مجود)", "en": "Surah Ad-Duha (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/093.mp3"},
+  {"category": "reciters", "station": "سورة الشرح (مجود)", "ar": "سورة الشرح (مجود)", "en": "Surah Ash-Sharh (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/094.mp3"},
+  {"category": "reciters", "station": "سورة التين (مجود)", "ar": "سورة التين (مجود)", "en": "Surah At-Tin (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/095.mp3"},
+  {"category": "reciters", "station": "سورة العلق (مجود)", "ar": "سورة العلق (مجود)", "en": "Surah Al-Alaq (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/096.mp3"},
+  {"category": "reciters", "station": "سورة القدر (مجود)", "ar": "سورة القدر (مجود)", "en": "Surah Al-Qadr (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/097.mp3"},
+  {"category": "reciters", "station": "سورة البينة (مجود)", "ar": "سورة البينة (مجود)", "en": "Surah Al-Bayyina (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/098.mp3"},
+  {"category": "reciters", "station": "سورة الزلزلة (مجود)", "ar": "سورة الزلزلة (مجود)", "en": "Surah Az-Zalzala (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/099.mp3"},
+  {"category": "reciters", "station": "سورة العاديات (مجود)", "ar": "سورة العاديات (مجود)", "en": "Surah Al-Adiyat (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/100.mp3"},
+  {"category": "reciters", "station": "سورة القارعة (مجود)", "ar": "سورة القارعة (مجود)", "en": "Surah Al-Qari'a (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/101.mp3"},
+  {"category": "reciters", "station": "سورة التكاثر (مجود)", "ar": "سورة التكاثر (مجود)", "en": "Surah At-Takathur (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/102.mp3"},
+  {"category": "reciters", "station": "سورة العصر (مجود)", "ar": "سورة العصر (مجود)", "en": "Surah Al-Asr (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/103.mp3"},
+  {"category": "reciters", "station": "سورة الهمزة (مجود)", "ar": "سورة الهمزة (مجود)", "en": "Surah Al-Humaza (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/104.mp3"},
+  {"category": "reciters", "station": "سورة الفيل (مجود)", "ar": "سورة الفيل (مجود)", "en": "Surah Al-Fil (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/105.mp3"},
+  {"category": "reciters", "station": "سورة قريش (مجود)", "ar": "سورة قريش (مجود)", "en": "Surah Quraysh (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/106.mp3"},
+  {"category": "reciters", "station": "سورة الماعون (مجود)", "ar": "سورة الماعون (مجود)", "en": "Surah Al-Ma'un (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/107.mp3"},
+  {"category": "reciters", "station": "سورة الكوثر (مجود)", "ar": "سورة الكوثر (مجود)", "en": "Surah Al-Kawthar (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/108.mp3"},
+  {"category": "reciters", "station": "سورة الكافرون (مجود)", "ar": "سورة الكافرون (مجود)", "en": "Surah Al-Kafirun (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/109.mp3"},
+  {"category": "reciters", "station": "سورة النصر (مجود)", "ar": "سورة النصر (مجود)", "en": "Surah An-Nasr (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/110.mp3"},
+  {"category": "reciters", "station": "سورة المسد (مجود)", "ar": "سورة المسد (مجود)", "en": "Surah Al-Masad (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/111.mp3"},
+  {"category": "reciters", "station": "سورة الإخلاص (مجود)", "ar": "سورة الإخلاص (مجود)", "en": "Surah Al-Ikhlas (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/112.mp3"},
+  {"category": "reciters", "station": "سورة الفلق (مجود)", "ar": "سورة الفلق (مجود)", "en": "Surah Al-Falaq (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/113.mp3"},
+  {"category": "reciters", "station": "سورة الناس (مجود)", "ar": "سورة الناس (مجود)", "en": "Surah An-Nas (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/114.mp3"},
   {"category": "teachers", "station": "المصحف المعلم الشيخ الحصري بالإنجليزية", "ar": "المصحف المعلم الشيخ الحصري بالإنجليزية", "en": "Sheikh Al-Hussary Teaching Quran in English", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8092/;*.mp3"},
   {"category": "teachers", "station": "المصحف المعلم الشيخ الحصري بالفرنسية", "ar": "المصحف المعلم الشيخ الحصري بالفرنسية", "en": "Sheikh Al-Husari Teaching Quran in French", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8094/;*.mp3"},
   {"category": "teachers", "station": "المصحف المعلم الشيخ الحصري بالإسبانية", "ar": "المصحف المعلم الشيخ الحصري بالإسبانية", "en": "Sheikh Al-Husari Teaching Quran in Spanish", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8098/;*.mp3"},
@@ -23761,7 +24074,7 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
 
 function filterStations(category) {
 
-  // إخفاء الفلاتر الفرعية الخاصة بالبنا والحصري عند الانتقال لأي فلتر آخر
+  // إخفاء الفلاتر الفرعية البنا والحصري عند الانتقال لأي فلتر رئيسي آخر
   if (category !== 'reciters') {
     var _bsf = document.getElementById('banna-subfilter');
     var _hsf = document.getElementById('hussary-subfilter');
@@ -23982,7 +24295,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // تطبيق اللغة الأولية على جميع أزرار الفلاتر الفرعية
   document.querySelectorAll(
     '.reciters-sub-btn, .qurankarim-sub-btn, .adhkar-sub-btn, .sira-sub-btn, ' +
-    '.more-sub-btn, .livetv-sub-btn, .banna-sub-btn'
+    '.more-sub-btn, .livetv-sub-btn, .banna-sub-btn, .hussary-sub-btn'
   ).forEach(function(btn) {
     var text = isArabic ? btn.getAttribute('data-ar') : btn.getAttribute('data-en');
     if (!text) return;
@@ -24120,8 +24433,15 @@ function toggleLanguage() {
     var newText = isArabic ? btn.getAttribute('data-ar') : btn.getAttribute('data-en');
     if (!newText) return;
     var resetAll = stEl.querySelector('.reset-all');
+    // احتفظ بالبادجات (مرتل / مجود) عند تغيير اللغة
+    var badge = stEl.querySelector('.badge-muratal, .badge-mojawwad');
     if (resetAll) {
       stEl.firstChild.textContent = newText;
+    } else if (badge) {
+      // غيّر نص بادج اللغة
+      badge.textContent = isArabic ? badge.getAttribute('data-ar') : badge.getAttribute('data-en');
+      // غيّر النص الرئيسي مع الحفاظ على البادج
+      stEl.childNodes[0].textContent = newText + ' ';
     } else {
       stEl.textContent = newText;
     }
@@ -24246,7 +24566,7 @@ function toggleLanguage() {
   // تحديث نصوص جميع أزرار الفلاتر الفرعية
   document.querySelectorAll(
     '.reciters-sub-btn, .qurankarim-sub-btn, .adhkar-sub-btn, .sira-sub-btn, ' +
-    '.more-sub-btn, .livetv-sub-btn, .banna-sub-btn, .filter-button'
+    '.more-sub-btn, .livetv-sub-btn, .banna-sub-btn, .hussary-sub-btn, .filter-button'
   ).forEach(function(btn) {
     var text = isArabic ? btn.getAttribute('data-ar') : btn.getAttribute('data-en');
     if (!text) return;
@@ -24361,6 +24681,34 @@ function toggleLanguage() {
     notifWrap.style.direction = ar ? 'rtl' : 'ltr';
 
     if (typeof updateAdhkarNotifUI === 'function') updateAdhkarNotifUI();
+  })();
+
+  // ترجمة أزرار قائمة التشغيل
+  (function() {
+    var ar = isArabic;
+    var ids = ['upl-start-btn', 'upl-select-all-btn', 'upl-clear-btn', 'upl-prev-btn', 'upl-next-btn'];
+    ids.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var txt = ar ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+      if (txt) el.textContent = txt;
+      // تحديث title للسهمين
+      if (id === 'upl-prev-btn') el.title = ar ? 'السابق' : 'Previous';
+      if (id === 'upl-next-btn') el.title = ar ? 'التالي' : 'Next';
+    });
+    // تحديث عداد "مختار"
+    var countEl = document.getElementById('upl-count');
+    if (countEl) {
+      var num = countEl.textContent.replace(/[^0-9]/g, '');
+      countEl.textContent = num + (ar ? ' مختار' : ' selected');
+    }
+    // تحديث "يُشغَّل الآن" لو ظاهر
+    var nowEl = document.getElementById('upl-now');
+    if (nowEl && nowEl.style.display !== 'none') {
+      nowEl.textContent = nowEl.textContent
+        .replace('🎧 يُشغَّل الآن:', '🎧 Now Playing:')
+        .replace('🎧 Now Playing:', ar ? '🎧 يُشغَّل الآن:' : '🎧 Now Playing:');
+    }
   })();
 
 }
@@ -26129,7 +26477,9 @@ function updateFilterLanguage(lang) {
     '.quransciences-sub-btn, ' +
     '.reciters-sub-btn, ' +
     '.mix-sub-btn, ' +
-    '.radio-sub-btn'
+    '.radio-sub-btn, ' +
+    '.hussary-sub-btn, ' +
+    '.banna-sub-btn'
   ).forEach(function(button) {
     var val = button.getAttribute('data-' + lang);
     if (val) button.textContent = val;
@@ -26547,7 +26897,18 @@ filterStations = function(category) {
         }
     }
 
-    if (category !== 'reciters') { _hideSubfilter('reciters-subfilter'); }
+    if (category !== 'reciters') {
+        _hideSubfilter('reciters-subfilter');
+        // استعادة الترتيب الأصلي لأزرار القراء عند مغادرة فلتر القراء
+        if (window._recitersOrigOrder && window._recitersOrigContainer) {
+            var _rCont = window._recitersOrigContainer;
+            window._recitersOrigOrder.forEach(function(b) {
+                var node = (b.parentElement && b.parentElement.classList.contains('pl-check-wrap'))
+                    ? b.parentElement : b;
+                _rCont.appendChild(node);
+            });
+        }
+    }
 
     _origFilterStations(category === 'QuranSciences' ? 'Translation' : category === 'QuranKarim' ? 'Quran' : category === 'Radio' ? 'Radio' : category);
 
@@ -26640,8 +27001,7 @@ function filterHussarySub(subType, btn) {
 
     if (subType === 'radio') {
         document.querySelectorAll('button[data-hussary="true"]').forEach(function(b) {
-            var ht = b.getAttribute('data-hussary-type');
-            _sd(b, ht === 'muratal' || (!ht && b.getAttribute('data-reciter-type') === 'radio'));
+            _sd(b, b.getAttribute('data-reciter-type') === 'radio');
         });
     } else if (subType === 'muratal') {
         document.querySelectorAll('button[data-hussary-type="muratal"]').forEach(function(b) { _sd(b, true); });
@@ -26687,25 +27047,23 @@ function filterRecitersSub(subType, btn) {
         if (hussarySubFilter) hussarySubFilter.style.display = 'none';
     }
 
-    document.querySelectorAll('button[data-category="reciters"]').forEach(function(b, i) {
-        if (!b.hasAttribute('data-orig-order')) b.setAttribute('data-orig-order', i);
-    });
+    // حفظ الترتيب الأصلي مرة واحدة عند أول استدعاء
+    if (!window._recitersOrigOrder) {
+        var _btnsForOrder = Array.from(document.querySelectorAll('button[data-category="reciters"]'));
+        window._recitersOrigOrder = _btnsForOrder;
+        window._recitersOrigContainer = _btnsForOrder.length
+            ? (_btnsForOrder[0].closest('.buttons-container') || _btnsForOrder[0].parentNode)
+            : null;
+    }
 
-    if (subType !== 'alpha') {
-        var _container = document.querySelector('button[data-category="reciters"]');
-        _container = _container ? _container.parentNode : null;
-        if (_container) {
-            var _allRec = Array.from(document.querySelectorAll('button[data-category="reciters"]'));
-            var _needsRestore = _allRec.some(function(b, i) {
-                return parseInt(b.getAttribute('data-orig-order')) !== i;
-            });
-            if (_needsRestore) {
-                _allRec.sort(function(a, b) {
-                    return parseInt(a.getAttribute('data-orig-order')) - parseInt(b.getAttribute('data-orig-order'));
-                });
-                _allRec.forEach(function(b) { _container.appendChild(b); });
-            }
-        }
+    // استعادة الترتيب الأصلي عند الانتقال لأي sub غير alpha
+    if (subType !== 'alpha' && window._recitersOrigOrder && window._recitersOrigContainer) {
+        var _cont = window._recitersOrigContainer;
+        window._recitersOrigOrder.forEach(function(b) {
+            var node = (b.parentElement && b.parentElement.classList.contains('pl-check-wrap'))
+                ? b.parentElement : b;
+            _cont.appendChild(node);
+        });
     }
 
     var _allCats = ['reciters', 'mojawwad', 'rewayat', 'teachers', 'Translation',
@@ -26725,14 +27083,12 @@ function filterRecitersSub(subType, btn) {
     } else if (subType === 'radio') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
-            // استثناء أزرار البنا الفرعية والحصري الفرعية
             if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type')) return;
             _sd2(b, b.getAttribute('data-reciter-type') === 'radio');
         });
     } else if (subType === 'mp3') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
-            // استثناء أزرار البنا الفرعية (مرتل/مجود) وأزرار الحصري الفرعية
             if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type')) return;
             _sd2(b, b.getAttribute('data-reciter-type') === 'mp3');
         });
@@ -26758,8 +27114,17 @@ function filterRecitersSub(subType, btn) {
         document.querySelectorAll('button[data-rising="true"]').forEach(function(b) { _sd2(b, true); });
     } else if (subType === 'alpha') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
-        var _alphaBtns = Array.from(document.querySelectorAll('button[data-category="reciters"]')).filter(function(b) {
-            // استثناء أزرار البنا الفرعية والحصري الفرعية من الترتيب الأبجدي
+
+        // تأكد من حفظ الترتيب الأصلي قبل الفرز
+        if (!window._recitersOrigOrder) {
+            var _btnsAll = Array.from(document.querySelectorAll('button[data-category="reciters"]'));
+            window._recitersOrigOrder = _btnsAll;
+            window._recitersOrigContainer = _btnsAll.length
+                ? (_btnsAll[0].closest('.buttons-container') || _btnsAll[0].parentNode)
+                : null;
+        }
+
+        var _alphaBtns = window._recitersOrigOrder.filter(function(b) {
             return !b.hasAttribute('data-banna-type') && !b.hasAttribute('data-hussary-type');
         });
         _alphaBtns.forEach(function(b) { _sd2(b, true); });
@@ -26772,14 +27137,15 @@ function filterRecitersSub(subType, btn) {
             return name.trim();
         }
 
-        var _container = _alphaBtns[0] && (_alphaBtns[0].parentElement.classList.contains('pl-check-wrap') ? _alphaBtns[0].parentElement.parentNode : _alphaBtns[0].parentNode);
-        if (_container) {
-            _alphaBtns.sort(function(a, b) {
+        var _alphaCont = window._recitersOrigContainer;
+        if (_alphaCont) {
+            var _sorted = _alphaBtns.slice().sort(function(a, b) {
                 return _getSortName(a).localeCompare(_getSortName(b), 'ar');
             });
-            _alphaBtns.forEach(function(b) {
-                var node = b.parentElement.classList.contains('pl-check-wrap') ? b.parentElement : b;
-                _container.appendChild(node);
+            _sorted.forEach(function(b) {
+                var node = (b.parentElement && b.parentElement.classList.contains('pl-check-wrap'))
+                    ? b.parentElement : b;
+                _alphaCont.appendChild(node);
             });
         }
     }
@@ -28190,13 +28556,15 @@ if (target && count >= target) {
 
         function updateCount() {
             var count = document.querySelectorAll('.upl-cb:checked').length;
+            var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+            var suffix = ar ? ' مختار' : ' selected';
             var el = document.getElementById('upl-count');
-            if (el) el.textContent = count + ' مختار';
+            if (el) el.textContent = count + suffix;
 
             var el2 = document.getElementById('surah-pl-count');
-            if (el2) el2.textContent = count + ' مختار';
+            if (el2) el2.textContent = count + suffix;
             var el3 = document.getElementById('adhkar-pl-count');
-            if (el3) el3.textContent = count + ' مختار';
+            if (el3) el3.textContent = count + suffix;
         }
 
         window.uplSelectAll = function() {
@@ -28234,7 +28602,8 @@ if (target && count >= target) {
             }).filter(Boolean);
 
             if (_plList.length === 0) {
-                if (typeof showToast === 'function') showToast('⚠️ لم تختر أي عنصر');
+                var _ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+                if (typeof showToast === 'function') showToast(_ar ? '⚠️ لم تختر أي عنصر' : '⚠️ No items selected');
                 return;
             }
             _plIndex  = 0;
@@ -28245,10 +28614,31 @@ if (target && count >= target) {
         window.surahPlaylistStart  = window.uplStart;
         window.adhkarPlaylistStart = window.uplStart;
 
+        window.uplNext = function() {
+            if (!_plActive || _plList.length === 0) {
+                var _ar = (typeof isArabic !== 'undefined') ? isArabic : true; if (typeof showToast === 'function') showToast(_ar ? '⚠️ شغّل القائمة أولاً' : '⚠️ Start playlist first');
+                return;
+            }
+            var next = _plIndex + 1;
+            if (next >= _plList.length) next = 0;
+            playAtIndex(next);
+        };
+
+        window.uplPrev = function() {
+            if (!_plActive || _plList.length === 0) {
+                var _ar = (typeof isArabic !== 'undefined') ? isArabic : true; if (typeof showToast === 'function') showToast(_ar ? '⚠️ شغّل القائمة أولاً' : '⚠️ Start playlist first');
+                return;
+            }
+            var prev = _plIndex - 1;
+            if (prev < 0) prev = _plList.length - 1;
+            playAtIndex(prev);
+        };
+
         function playAtIndex(i) {
             if (!_plActive || i >= _plList.length) {
                 if (_plActive) {
-                    if (typeof showToast === 'function') showToast('🔄 إعادة قائمة التشغيل من البداية...');
+                    var _ar2 = (typeof isArabic !== 'undefined') ? isArabic : true;
+                    if (typeof showToast === 'function') showToast(_ar2 ? '🔄 إعادة قائمة التشغيل من البداية...' : '🔄 Restarting playlist...');
                     _plIndex = 0;
                     playAtIndex(0);
                     return;
@@ -28260,9 +28650,13 @@ if (target && count >= target) {
 
             var nowEl = document.getElementById('upl-now');
             if (nowEl) {
-                var name = btn.getAttribute('data-ar') || btn.getAttribute('data-station') || '';
+                var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+                var name = ar
+                    ? (btn.getAttribute('data-ar') || btn.getAttribute('data-station') || '')
+                    : (btn.getAttribute('data-en') || btn.getAttribute('data-ar') || btn.getAttribute('data-station') || '');
+                var nowPrefix = ar ? '🎧 يُشغَّل الآن: ' : '🎧 Now Playing: ';
                 nowEl.style.display = 'block';
-                nowEl.textContent = '🎧 يُشغَّل الآن: ' + name + '  (' + (i+1) + ' / ' + _plList.length + ')';
+                nowEl.textContent = nowPrefix + name + '  (' + (i+1) + ' / ' + _plList.length + ')';
             }
 
             ['surah-pl-now', 'adhkar-pl-now'].forEach(function(id) {
@@ -28298,7 +28692,8 @@ if (target && count >= target) {
                 window._lastAutoNext = audio.onended;
             }, 600);
 
-            if (typeof showToast === 'function') showToast('⏭ ' + nameAr);
+            var _ar3 = (typeof isArabic !== 'undefined') ? isArabic : true;
+            if (typeof showToast === 'function') showToast('⏭ ' + (_ar3 ? nameAr : nameEn));
         }
 
         function stopPlaylist() {
@@ -28354,7 +28749,11 @@ if (target && count >= target) {
             });
 
             var lbl = document.getElementById('upl-label');
-            if (lbl && label) lbl.textContent = '📋 ' + label + ':';
+            if (lbl && label) {
+                var ar2 = (typeof isArabic !== 'undefined') ? isArabic : true;
+                var txt2 = (typeof label === 'object') ? (ar2 ? label.ar : label.en) : label;
+                lbl.textContent = '📋 ' + txt2 + ':';
+            }
 
             updateCount();
             p.style.display = 'block';
@@ -28407,12 +28806,12 @@ if (target && count >= target) {
             if (subType === 'surah') {
                 var p = document.getElementById('unified-playlist-panel');
                 if (p) p.style.display = 'none';
-                requestAnimationFrame(function() { showPanel('surah', 'قائمة تشغيل السور', 'qurankarim-playlist-slot'); });
+                requestAnimationFrame(function() { showPanel('surah', {ar: 'قائمة تشغيل السور', en: 'Surahs Playlist'}, 'qurankarim-playlist-slot'); });
                 _setMushafBarVisible(true);
             } else if (subType === 'Monshawiiyat') {
                 var p = document.getElementById('unified-playlist-panel');
                 if (p) p.style.display = 'none';
-                requestAnimationFrame(function() { showPanel('Monshawiiyat', 'قائمة تشغيل المنشاويات', 'qurankarim-playlist-slot'); });
+                requestAnimationFrame(function() { showPanel('Monshawiiyat', {ar: 'قائمة تشغيل المنشاويات', en: 'Al-Minshawi Playlist'}, 'qurankarim-playlist-slot'); });
                 _setMushafBarVisible(false);
             } else {
                 hidePanel();
@@ -28424,7 +28823,7 @@ if (target && count >= target) {
         filterAdhkarSub = function(subType, btn) {
             _origFAS(subType, btn);
             if (subType === 'general') {
-                showPanel('Adhkar', 'قائمة تشغيل الأذكار', null);
+                showPanel('Adhkar', {ar: 'قائمة تشغيل الأذكار', en: 'Adhkar Playlist'}, null);
             } else {
                 hidePanel();
             }
@@ -28445,7 +28844,8 @@ if (target && count >= target) {
                         w.style.display = (b && b.style.display !== 'none') ? '' : 'none';
                     });
                     var lbl = document.getElementById('upl-label');
-                    if (lbl) lbl.textContent = '📋 قائمة تشغيل MP3:';
+                    var ar3 = (typeof isArabic !== 'undefined') ? isArabic : true;
+                    if (lbl) lbl.textContent = '📋 ' + (ar3 ? 'قائمة تشغيل MP3' : 'MP3 Playlist') + ':';
                     updateCount();
 
                     var panel = document.getElementById('unified-playlist-panel');
@@ -28458,6 +28858,104 @@ if (target && count >= target) {
                         slot.appendChild(panel);
                     }
                     if (panel) panel.style.display = 'block';
+                });
+            } else if (subType !== 'hussary' && subType !== 'banna') {
+                // hussary/banna لهم override منفصل يتحكم في البانل
+                hidePanel();
+            }
+        };
+
+        // دالة مساعدة لعرض البانل مع selector مخصص في slot معين
+        // label يمكن أن يكون string أو {ar: '...', en: '...'}
+        function showPanelWithSelector(selector, label, slotId) {
+            var p = document.getElementById('unified-playlist-panel');
+            if (!p) return;
+
+            var slot = slotId ? document.getElementById(slotId) : null;
+            if (slot && p.parentElement !== slot) {
+                if (!_panelOrigParent) {
+                    _panelOrigParent = p.parentElement;
+                    _panelOrigNext   = p.nextSibling;
+                }
+                slot.appendChild(p);
+            }
+
+            injectCheckboxes(selector);
+
+            document.querySelectorAll('.upl-cb-wrapper').forEach(function(w) {
+                var btn = w.closest('button.button');
+                if (!btn) {
+                    var wrap2 = w.closest('.pl-check-wrap');
+                    btn = wrap2 && wrap2.querySelector('button.button');
+                }
+                var visible = btn && btn.style.display !== 'none';
+                w.style.display = visible ? '' : 'none';
+            });
+
+            var lbl = document.getElementById('upl-label');
+            if (lbl && label) {
+                var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+                var txt = (typeof label === 'object')
+                    ? (ar ? label.ar : label.en)
+                    : label;
+                lbl.textContent = '📋 ' + txt + ':';
+            }
+
+            updateCount();
+            p.style.display = 'block';
+        }
+
+        // إعادة تعريف filterHussarySub وfilterBannaSub لاستخدام showPanelWithSelector
+        var _origFHS = filterHussarySub;
+        filterHussarySub = function(subType, btn) {
+            _origFHS(subType, btn);
+            if (subType === 'muratal') {
+                var p = document.getElementById('unified-playlist-panel');
+                if (p) p.style.display = 'none';
+                requestAnimationFrame(function() {
+                    showPanelWithSelector(
+                        'button[data-hussary-type="muratal"]',
+                        {ar: 'قائمة تشغيل الحصري - مرتل', en: 'Al-Hussary Playlist - Muratal'},
+                        'hussary-playlist-slot'
+                    );
+                });
+            } else if (subType === 'mojawwad') {
+                var p = document.getElementById('unified-playlist-panel');
+                if (p) p.style.display = 'none';
+                requestAnimationFrame(function() {
+                    showPanelWithSelector(
+                        'button[data-hussary-type="mojawwad"]',
+                        {ar: 'قائمة تشغيل الحصري - مجود', en: 'Al-Hussary Playlist - Mujawwad'},
+                        'hussary-playlist-slot'
+                    );
+                });
+            } else {
+                hidePanel();
+            }
+        };
+
+        var _origFBS = filterBannaSub;
+        filterBannaSub = function(subType, btn) {
+            _origFBS(subType, btn);
+            if (subType === 'muratal') {
+                var p = document.getElementById('unified-playlist-panel');
+                if (p) p.style.display = 'none';
+                requestAnimationFrame(function() {
+                    showPanelWithSelector(
+                        'button[data-banna-type="muratal"]',
+                        {ar: 'قائمة تشغيل البنا - مرتل', en: 'Al-Banna Playlist - Muratal'},
+                        'banna-playlist-slot'
+                    );
+                });
+            } else if (subType === 'mojawwad') {
+                var p = document.getElementById('unified-playlist-panel');
+                if (p) p.style.display = 'none';
+                requestAnimationFrame(function() {
+                    showPanelWithSelector(
+                        'button[data-banna-type="mojawwad"]',
+                        {ar: 'قائمة تشغيل البنا - مجود', en: 'Al-Banna Playlist - Mujawwad'},
+                        'banna-playlist-slot'
+                    );
                 });
             } else {
                 hidePanel();
