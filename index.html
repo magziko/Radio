@@ -2593,6 +2593,7 @@ body.dark-mode #quransciences-subfilter .subfilter-scroll-strip,
 body.dark-mode #qurankarim-subfilter .subfilter-scroll-strip,
 body.dark-mode #radio-subfilter .subfilter-scroll-strip,
 body.dark-mode #banna-subfilter .subfilter-scroll-strip,
+body.dark-mode #hussary-subfilter .subfilter-scroll-strip,
 body.dark-mode #mix-subfilter .subfilter-scroll-strip {
     background: rgba(30, 30, 60, 0.5) !important;
     border-color: rgba(100,181,246,0.3) !important;
@@ -12063,6 +12064,14 @@ setTimeout(autoScaleVerseFont, 100);
 <button class="banna-sub-btn" data-banna-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" onclick="filterBannaSub('mojawwad',this)">🎙️ المصحف المجود</button>
 </div>
 </div>
+<!-- Hussary sub-sub filter -->
+<div class="subfilter-scroll-wrap" id="hussary-subfilter" style="display:none;">
+<div class="subfilter-scroll-strip">
+<button class="hussary-sub-btn active" data-hussary-sub="radio" data-ar="📻 راديو" data-en="📻 Radio" onclick="filterHussarySub('radio',this)">📻 راديو</button>
+<button class="hussary-sub-btn" data-hussary-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" onclick="filterHussarySub('muratal',this)">🎵 المصحف المرتل</button>
+<button class="hussary-sub-btn" data-hussary-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" onclick="filterHussarySub('mojawwad',this)">🎙️ المصحف المجود</button>
+</div>
+</div>
 <div id="reciters-playlist-slot"></div>
 
 <div class="search-container">
@@ -15425,11 +15434,11 @@ const recitersStations = [
   {"category": "mojawwad", "station": "الشيخ محمد صديق المنشاوي (مجود)", "ar": "الشيخ محمد صديق المنشاوي (مجود)", "en": "Sheikh Muhammad Siddiq Al-Minshawi (Mujawwad)", "minshawi": true, "reciterType": "radio", "url": "https://backup.qurango.net/radio/mohammed_siddiq_alminshawi_mojawwad"},
   {"category": "mojawwad", "station": "الشيخ محمد صديق المنشاوي (مجود 2)", "ar": "الشيخ محمد صديق المنشاوي (مجود 2)", "en": "Sheikh Muhammad Siddiq Al-Minshawi (Mujawwad 2)", "minshawi": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8230/;*.mp3"},
   {"category": "teachers", "station": "المصحف المعلم المنشاوي", "ar": "المصحف المعلم المنشاوي", "en": "Sheikh Al-Minshawi Teaching Quran", "minshawi": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8242/;*.mp3"},
-  {"category": "reciters", "station": "راديو الشيخ محمود خليل الحصري", "ar": "راديو الشيخ محمود خليل الحصري", "en": "Sheikh Mahmoud Khalil Al-Hussary Radio", "hussary": true, "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary"},
-  {"category": "reciters", "station": "الشيخ محمود خليل الحصري 2", "ar": "الشيخ محمود خليل الحصري 2", "en": "Sheikh Mahmoud Khalil Al-Hussary 2", "hussary": true, "reciterType": "radio", "url": "https://qurango.net/radio/mahmoud_khalil_alhussary"},
-  {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 3", "ar": "الشيخ محمود خليل الحصرى 3", "en": "Sheikh Mahmoud Khalil Al-Hussary 3", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8018/;*.mp3"},
-  {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 4", "ar": "الشيخ محمود خليل الحصرى 4", "en": "Sheikh Mahmoud Khalil Al-Hussary 4", "hussary": true, "reciterType": "radio", "url": "https://stream-172.zeno.fm/vsfa9n4g698uv"},
-  {"category": "mojawwad", "station": "الشيخ محمود خليل الحصري (مجود)", "ar": "الشيخ محمود خليل الحصري (مجود)", "en": "Sheikh Mahmoud Khalil Al-Hussary (Mujawwad)", "hussary": true, "reciterType": "radio", "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary_mojawwad"},
+  {"category": "reciters", "station": "راديو الشيخ محمود خليل الحصري", "ar": "راديو الشيخ محمود خليل الحصري", "en": "Sheikh Mahmoud Khalil Al-Hussary Radio", "hussary": true, "hussaryType": "muratal", "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary"},
+  {"category": "reciters", "station": "الشيخ محمود خليل الحصري 2", "ar": "الشيخ محمود خليل الحصري 2", "en": "Sheikh Mahmoud Khalil Al-Hussary 2", "hussary": true, "hussaryType": "muratal", "reciterType": "radio", "url": "https://qurango.net/radio/mahmoud_khalil_alhussary"},
+  {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 3", "ar": "الشيخ محمود خليل الحصرى 3", "en": "Sheikh Mahmoud Khalil Al-Hussary 3", "hussary": true, "hussaryType": "muratal", "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8018/;*.mp3"},
+  {"category": "reciters", "station": "الشيخ محمود خليل الحصرى 4", "ar": "الشيخ محمود خليل الحصرى 4", "en": "Sheikh Mahmoud Khalil Al-Hussary 4", "hussary": true, "hussaryType": "muratal", "reciterType": "radio", "url": "https://stream-172.zeno.fm/vsfa9n4g698uv"},
+  {"category": "mojawwad", "station": "الشيخ محمود خليل الحصري (مجود)", "ar": "الشيخ محمود خليل الحصري (مجود)", "en": "Sheikh Mahmoud Khalil Al-Hussary (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "radio", "url": "https://backup.qurango.net/radio/mahmoud_khalil_alhussary_mojawwad"},
   {"category": "teachers", "station": "المصحف المعلم الشيخ الحصري بالإنجليزية", "ar": "المصحف المعلم الشيخ الحصري بالإنجليزية", "en": "Sheikh Al-Hussary Teaching Quran in English", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8092/;*.mp3"},
   {"category": "teachers", "station": "المصحف المعلم الشيخ الحصري بالفرنسية", "ar": "المصحف المعلم الشيخ الحصري بالفرنسية", "en": "Sheikh Al-Husari Teaching Quran in French", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8094/;*.mp3"},
   {"category": "teachers", "station": "المصحف المعلم الشيخ الحصري بالإسبانية", "ar": "المصحف المعلم الشيخ الحصري بالإسبانية", "en": "Sheikh Al-Husari Teaching Quran in Spanish", "hussary": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8098/;*.mp3"},
@@ -15766,6 +15775,7 @@ const recitersStations = [
     if (s.basit)      btn.setAttribute('data-basit',    'true');
     if (s.minshawi)   btn.setAttribute('data-minshawi', 'true');
     if (s.hussary)    btn.setAttribute('data-hussary',  'true');
+    if (s.hussaryType) btn.setAttribute('data-hussary-type', s.hussaryType);
     if (s.banna)      btn.setAttribute('data-banna',    'true');
     if (s.bannaType)  btn.setAttribute('data-banna-type', s.bannaType);
     if (s.haramain)   btn.setAttribute('data-haramain', 'true');
@@ -23751,6 +23761,14 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
 
 function filterStations(category) {
 
+  // إخفاء الفلاتر الفرعية الخاصة بالبنا والحصري عند الانتقال لأي فلتر آخر
+  if (category !== 'reciters') {
+    var _bsf = document.getElementById('banna-subfilter');
+    var _hsf = document.getElementById('hussary-subfilter');
+    if (_bsf) _bsf.style.display = 'none';
+    if (_hsf) _hsf.style.display = 'none';
+  }
+
   document.body.classList.remove('filter-scholars', 'filter-favorites');
   if (category === 'scholars') document.body.classList.add('filter-scholars');
 
@@ -26612,6 +26630,26 @@ function _setButtonDisplay(b, show) {
     if (w && w.classList.contains('pl-check-wrap')) w.style.display = show ? 'inline-block' : 'none';
 }
 
+function filterHussarySub(subType, btn) {
+    document.querySelectorAll('.hussary-sub-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    function _sd(b, show) { _setButtonDisplay(b, show); }
+
+    document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd(b, false); });
+
+    if (subType === 'radio') {
+        document.querySelectorAll('button[data-hussary="true"]').forEach(function(b) {
+            var ht = b.getAttribute('data-hussary-type');
+            _sd(b, ht === 'muratal' || (!ht && b.getAttribute('data-reciter-type') === 'radio'));
+        });
+    } else if (subType === 'muratal') {
+        document.querySelectorAll('button[data-hussary-type="muratal"]').forEach(function(b) { _sd(b, true); });
+    } else if (subType === 'mojawwad') {
+        document.querySelectorAll('button[data-hussary-type="mojawwad"]').forEach(function(b) { _sd(b, true); });
+    }
+}
+
 function filterBannaSub(subType, btn) {
     document.querySelectorAll('.banna-sub-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
@@ -26642,6 +26680,11 @@ function filterRecitersSub(subType, btn) {
     if (subType !== 'banna') {
         var bannaSubFilter = document.getElementById('banna-subfilter');
         if (bannaSubFilter) bannaSubFilter.style.display = 'none';
+    }
+    // hide hussary sub-sub-filter unless hussary is selected
+    if (subType !== 'hussary') {
+        var hussarySubFilter = document.getElementById('hussary-subfilter');
+        if (hussarySubFilter) hussarySubFilter.style.display = 'none';
     }
 
     document.querySelectorAll('button[data-category="reciters"]').forEach(function(b, i) {
@@ -26674,14 +26717,23 @@ function filterRecitersSub(subType, btn) {
     if (subType === 'hussary') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-hussary="true"]').forEach(function(b) { _sd2(b, true); });
+        // show hussary sub-sub filter, default to radio
+        var hussarySubFilter = document.getElementById('hussary-subfilter');
+        if (hussarySubFilter) hussarySubFilter.style.display = 'block';
+        // apply default radio sub
+        filterHussarySub('radio', document.querySelector('.hussary-sub-btn[data-hussary-sub="radio"]'));
     } else if (subType === 'radio') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
+            // استثناء أزرار البنا الفرعية والحصري الفرعية
+            if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type')) return;
             _sd2(b, b.getAttribute('data-reciter-type') === 'radio');
         });
     } else if (subType === 'mp3') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
+            // استثناء أزرار البنا الفرعية (مرتل/مجود) وأزرار الحصري الفرعية
+            if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type')) return;
             _sd2(b, b.getAttribute('data-reciter-type') === 'mp3');
         });
     } else if (subType === 'basit') {
@@ -26706,7 +26758,10 @@ function filterRecitersSub(subType, btn) {
         document.querySelectorAll('button[data-rising="true"]').forEach(function(b) { _sd2(b, true); });
     } else if (subType === 'alpha') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
-        var _alphaBtns = Array.from(document.querySelectorAll('button[data-category="reciters"]'));
+        var _alphaBtns = Array.from(document.querySelectorAll('button[data-category="reciters"]')).filter(function(b) {
+            // استثناء أزرار البنا الفرعية والحصري الفرعية من الترتيب الأبجدي
+            return !b.hasAttribute('data-banna-type') && !b.hasAttribute('data-hussary-type');
+        });
         _alphaBtns.forEach(function(b) { _sd2(b, true); });
 
         function _getSortName(btn) {
