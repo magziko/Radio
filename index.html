@@ -21260,6 +21260,11 @@ const ltvStations = [
 
   { category: "ltv-channels", station: "🕋 قناة مكة المكرمة قرآن كريم", ar: "🕋 قناة مكة المكرمة قرآن كريم", en: "🕋 Makkah Live Quran TV", videoId: "TR237ZoVJCU", modalTitle: "🔴 Makkah Live Tv Online 24/7 | بث مباشر || 🕋 قناة مكة المكرمة قرآن كريم" },
   { category: "ltv-channels", station: "قناة السنة النبوية المدينة المنورة", ar: "قناة السنة النبوية المدينة المنورة", en: "Sunnah Channel Madinah Live", videoId: "yq-zVNR3muo", modalTitle: "🔴 Madina Live Tv Online 24/7 | بث مباشر || قناة السنة النبوية المدينة المنورة Madinah Live Today HD" },
+  { category: "ltv-channels", station: "🕋 بث مباشر الحج - مكة المكرمة", ar: "🕋 بث مباشر الحج - مكة المكرمة", en: "🕋 Hajj Live - Makkah", videoId: null, iframeSrc: "https://makkahlive.org/live/hajj", modalTitle: "🔴 بث مباشر الحج | Hajj Live Stream" },
+  { category: "ltv-channels", station: "🕋 بث مباشر الحرم المكي", ar: "🕋 بث مباشر الحرم المكي", en: "🕋 Makkah Haram Live", videoId: null, iframeSrc: "https://makkahlive.org/live/haram", modalTitle: "🔴 الحرم المكي بث مباشر | Makkah Haram Live" },
+  { category: "ltv-channels", station: "🕌 بث مباشر الحرم النبوي", ar: "🕌 بث مباشر الحرم النبوي", en: "🕌 Madinah Nabawi Live", videoId: null, iframeSrc: "https://makkahlive.org/live/nabawi", modalTitle: "🔴 الحرم النبوي بث مباشر | Madinah Nabawi Live" },
+  { category: "ltv-channels", station: "📡 قناة القرآن الكريم - السعودية", ar: "📡 قناة القرآن الكريم - السعودية", en: "📡 Saudi Quran Channel Live", videoId: null, iframeSrc: "https://aloula.sba.sa/live/quran", modalTitle: "🔴 قناة القرآن الكريم السعودية بث مباشر | Saudi Quran Channel Live" },
+  { category: "ltv-channels", station: "📡 قناة السنة النبوية - السعودية", ar: "📡 قناة السنة النبوية - السعودية", en: "📡 Saudi Sunnah Channel Live", videoId: null, iframeSrc: "https://aloula.sba.sa/live/sunna", modalTitle: "🔴 قناة السنة النبوية السعودية بث مباشر | Saudi Sunnah Channel Live" },
   { category: "ltv-channels", station: "قناة آيات", ar: "قناة آيات", en: "Ayat TV", videoId: "QxM2NGTccwY", modalTitle: "🔴 Ayat TV Live | قناة آيات بث مباشر" },
 
   { category: "ltv-full", station: "القرآن الكريم كامل - الشيخ محمود خليل الحصري", ar: "القرآن الكريم كامل - الشيخ محمود خليل الحصري", en: "The Holy Quran Full - Sheikh Mahmoud Khalil Al-Husary", videoId: "LkGMu3RVcfg", extraAttr: {"data-hussary": "true"} },
@@ -21361,6 +21366,9 @@ const ltvStations = [
     if (s.externalUrl) {
       btn.setAttribute('data-url', s.externalUrl);
       btn.setAttribute('onclick', "window.open('" + s.externalUrl + "', '_blank')");
+    } else if (s.iframeSrc) {
+      btn.setAttribute('data-url', s.iframeSrc);
+      btn.setAttribute('onclick', "openModal(null, '" + modalTitle.replace(/'/g, "\\'") + "', true, false, undefined, '" + s.iframeSrc.replace(/'/g, "\\'") + "')");
     } else if (s.tripleClick) {
       btn.setAttribute('data-url', 'https://www.youtube.com/live/' + s.videoId);
       btn.setAttribute('onclick', "handleClickWithCounter(event, this, '" + s.videoId + "', '" + s.station.replace(/'/g, "\'") + "');");
@@ -24986,16 +24994,30 @@ const YTModalManager = (function() {
         }, { passive: true });
     }
 
-    function open(videoId, title) {
+    function open(videoId, title, iframeSrc) {
         const id = ++modalCounter;
-        const isMobile = window.innerWidth <= 768;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const isMobile = vw <= 600;
+        const isTablet = vw > 600 && vw <= 1024;
 
-        const W = isMobile ? Math.min(window.innerWidth - 10, 360) : 700;
-        const H = isMobile ? Math.round(W * 9/16) + 44 : 435;
+        const W = isMobile
+            ? vw - 10
+            : isTablet
+                ? Math.round(vw * 0.85)
+                : Math.min(Math.round(vw * 0.70), 1100);
+
+        const titlebarH = 44;
+        const H = isMobile
+            ? Math.round(W * 9/16) + titlebarH
+            : isTablet
+                ? Math.round(W * 9/16) + titlebarH
+                : Math.min(Math.round(W * 9/16) + titlebarH, vh - 100);
+
         const offsetStep = 30;
         const count = Object.keys(openModals).length;
-        const left = isMobile ? 5 : Math.min(80 + count * offsetStep, window.innerWidth  - W - 20);
-        const top  = isMobile ? 60 : Math.min(60 + count * offsetStep, window.innerHeight - H - 80);
+        const left = isMobile ? 5 : Math.min(Math.round((vw - W) / 2) + count * offsetStep, vw - W - 20);
+        const top  = isMobile ? 55 : Math.min(Math.round((vh - H) / 2) + count * offsetStep, vh - H - 20);
 
         const win = document.createElement('div');
         win.className = 'yt-modal-window';
@@ -25018,7 +25040,7 @@ const YTModalManager = (function() {
           </div>
           <div class="yt-modal-body">
             <iframe
-              src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+              src="${iframeSrc || 'https://www.youtube.com/embed/' + videoId + '?autoplay=1'}"
               title="${title}"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -25054,13 +25076,13 @@ const YTModalManager = (function() {
         win.querySelector('#yt-min-' + id).addEventListener('click', () => minimize(id));
         win.querySelector('#yt-max-' + id).addEventListener('click', () => toggleMaximize(id));
         win.querySelector('#yt-ext-' + id).addEventListener('click', () => {
-            window.open('https://www.youtube.com/watch?v=' + videoId, '_blank');
+            window.open(openModals[id].iframeSrc || 'https://www.youtube.com/watch?v=' + videoId, '_blank');
         });
         win.querySelector('#yt-cls-' + id).addEventListener('click', () => close(id));
 
         win.addEventListener('mousedown', () => bringToFront(id));
 
-        openModals[id] = { win, taskbarItem: tbItem, title, videoId };
+        openModals[id] = { win, taskbarItem: tbItem, title, videoId, iframeSrc };
         bringToFront(id);
         return id;
     }
@@ -25311,9 +25333,9 @@ const SiteModalManager = (function() {
      isYouTube=true  → YTModalManager (floating)
      otherwise       → SiteModalManager (floating)
    ══════════════════════════════════════════════ */
-function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'rgba(0, 0, 0, 0.8)') {
+function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'rgba(0, 0, 0, 0.8)', iframeSrc = null) {
     if (isYouTube) {
-        YTModalManager.open(url, title);
+        YTModalManager.open(url, title, iframeSrc);
     } else {
         SiteModalManager.open(url, title, fullSize);
     }
