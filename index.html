@@ -129,7 +129,10 @@ button[data-minshawi-type="mojawwad"] .flag,
 button[data-hussary-type="muratal"] .flag,
 button[data-hussary-type="mojawwad"] .flag,
 button[data-banna-type="muratal"] .flag,
-button[data-banna-type="mojawwad"] .flag {
+button[data-banna-type="mojawwad"] .flag,
+button[data-basit-type="mojawwad"] .flag,
+button[data-basit-type="muratal"] .flag,
+button[data-basit-type="saudi-muratal"] .flag {
     display: none !important;
 }
 </style>
@@ -2661,6 +2664,7 @@ body.dark-mode #radio-subfilter .subfilter-scroll-strip,
 body.dark-mode #banna-subfilter .subfilter-scroll-strip,
 body.dark-mode #hussary-subfilter .subfilter-scroll-strip,
 body.dark-mode #minshawi-subfilter .subfilter-scroll-strip,
+body.dark-mode #basit-subfilter .subfilter-scroll-strip,
 body.dark-mode #mix-subfilter .subfilter-scroll-strip {
     background: rgba(30, 30, 60, 0.5) !important;
     border-color: rgba(100,181,246,0.3) !important;
@@ -12036,7 +12040,6 @@ setTimeout(autoScaleVerseFont, 100);
 <button class="qurankarim-sub-btn active" data-sub="Quran" data-ar="📻 تلاوات" data-en="Recitations" onclick="filterQuranKarimSub('Quran',this)">📻 تلاوات</button>
 <button class="qurankarim-sub-btn" data-sub="mojawwad" data-ar="🎙️ مُجَوِّد" data-en="Mujawwad" onclick="filterQuranKarimSub('mojawwad',this)">🎙️ مُجَوِّد</button>
 <button class="qurankarim-sub-btn" data-sub="rewayat" data-ar="📖 قراءات" data-en="Readings" onclick="filterQuranKarimSub('rewayat',this)">📖 قراءات</button>
-<button class="qurankarim-sub-btn" data-sub="Monshawiiyat" data-ar="🎵 منشاويات" data-en="Al-Minshawi" onclick="filterQuranKarimSub('Monshawiiyat',this)">🎵 منشاويات <span class="multi-icon">🔁</span></button>
 <button class="qurankarim-sub-btn" data-sub="surah" data-ar="📂 سور" data-en="Surahs" onclick="filterQuranKarimSub('surah',this)">📂 سور <span class="multi-icon">🔁</span></button>
 <button class="qurankarim-sub-btn" data-sub="teachers" data-ar="🎓 المحفِّظ" data-en="Teacher" onclick="filterQuranKarimSub('teachers',this)">🎓 المحفِّظ</button>
 </div>
@@ -12159,6 +12162,16 @@ setTimeout(autoScaleVerseFont, 100);
 <button class="minshawi-sub-btn active" data-minshawi-sub="radio" data-ar="📻 راديو" data-en="📻 Radio" onclick="filterMinshawySub('radio',this)">📻 راديو</button>
 <button class="minshawi-sub-btn" data-minshawi-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" onclick="filterMinshawySub('muratal',this)">🎵 المصحف المرتل</button>
 <button class="minshawi-sub-btn" data-minshawi-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" onclick="filterMinshawySub('mojawwad',this)">🎙️ المصحف المجود</button>
+<button class="minshawi-sub-btn" data-minshawi-sub="haflaaat" data-ar="🎵 منشاويات (حفلات)" data-en="🎵 Monshawiiyat (Concerts)" onclick="filterMinshawySub('haflaaat',this)">🎵 منشاويات (حفلات) <span class="multi-icon">🔁</span></button>
+</div>
+</div>
+<!-- Basit sub-sub filter -->
+<div class="subfilter-scroll-wrap" id="basit-subfilter" style="display:none;">
+<div class="subfilter-scroll-strip">
+<button class="basit-sub-btn active" data-basit-sub="radio" data-ar="📻 راديو" data-en="📻 Radio" onclick="filterBasitSub('radio',this)">📻 راديو</button>
+<button class="basit-sub-btn" data-basit-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" onclick="filterBasitSub('muratal',this)">🎵 المصحف المرتل</button>
+<button class="basit-sub-btn" data-basit-sub="saudi-muratal" data-ar="📻 المصحف المرتل [الإذاعة السعودية]" data-en="📻 Muratal Mushaf [Saudi Radio]" onclick="filterBasitSub('saudi-muratal',this)">📻 المصحف المرتل [الإذاعة السعودية]</button>
+<button class="basit-sub-btn" data-basit-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" onclick="filterBasitSub('mojawwad',this)">🎙️ المصحف المجود</button>
 </div>
 </div>
 <div id="reciters-playlist-slot"></div>
@@ -13085,6 +13098,13 @@ function renderStationButtons(arr, container, opts) {
         var label = s.stationText || s.ar;
         if (s.hussaryType === 'muratal') {
             label += ' <span class="badge-muratal">مرتل</span>';
+        }
+        if (s.basitType === 'muratal') {
+            label += ' <span class="badge-muratal">مرتل</span>';
+        } else if (s.basitType === 'saudi-muratal') {
+            label += ' <span class="badge-muratal">مرتل [سعودي]</span>';
+        } else if (s.basitType === 'mojawwad') {
+            label += ' <span class="badge-mojawwad">مجود</span>';
         }
         var stationTitle = s.title ? ' title="' + s.title.replace(/"/g, '&quot;') + '"' : '';
         if (s.multiIcon) {
@@ -15521,6 +15541,348 @@ const recitersStations = [
   {"category": "reciters", "station": "الشيخ عبدالباسط عبد الصمد 2", "ar": "الشيخ عبدالباسط عبد الصمد 2", "en": "Sheikh Abdulbasit Abdulsamad 2", "basit": true, "reciterType": "radio", "url": "https://serverkw.quran-uni.com:8004/;*.mp3"},
   {"category": "reciters", "station": "الشيخ عبدالباسط عبد الصمد 3", "ar": "الشيخ عبدالباسط عبد الصمد 3", "en": "Sheikh Abdul Basit Abdul Samad 3", "basit": true, "reciterType": "radio", "url": "https://stream-173.zeno.fm/5rmezvh3r98uv"},
   {"category": "mojawwad", "station": "راديو الشيخ عبدالباسط عبد الصمد (مجود)", "ar": "راديو الشيخ عبدالباسط عبد الصمد (مجود)", "en": "Sheikh Abdulbasit Abdulsamad Radio (Mujawwad)", "basit": true, "reciterType": "radio", "url": "https://backup.qurango.net/radio/abdulbasit_abdulsamad_mojawwad"},
+  {"category": "reciters", "station": "سورة الفاتحة (مجود) - عبد الباسط", "ar": "سورة الفاتحة (مجود)", "en": "Surah Al-Fatiha (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/001.mp3"},
+  {"category": "reciters", "station": "سورة البقرة (مجود) - عبد الباسط", "ar": "سورة البقرة (مجود)", "en": "Surah Al-Baqara (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/002.mp3"},
+  {"category": "reciters", "station": "سورة آل عمران (مجود) - عبد الباسط", "ar": "سورة آل عمران (مجود)", "en": "Surah Aal-Imran (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/003.mp3"},
+  {"category": "reciters", "station": "سورة النساء (مجود) - عبد الباسط", "ar": "سورة النساء (مجود)", "en": "Surah An-Nisa (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/004.mp3"},
+  {"category": "reciters", "station": "سورة المائدة (مجود) - عبد الباسط", "ar": "سورة المائدة (مجود)", "en": "Surah Al-Ma'ida (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/005.mp3"},
+  {"category": "reciters", "station": "سورة الأنعام (مجود) - عبد الباسط", "ar": "سورة الأنعام (مجود)", "en": "Surah Al-An'am (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/006.mp3"},
+  {"category": "reciters", "station": "سورة الأعراف (مجود) - عبد الباسط", "ar": "سورة الأعراف (مجود)", "en": "Surah Al-A'raf (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/007.mp3"},
+  {"category": "reciters", "station": "سورة الأنفال (مجود) - عبد الباسط", "ar": "سورة الأنفال (مجود)", "en": "Surah Al-Anfal (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/008.mp3"},
+  {"category": "reciters", "station": "سورة التوبة (مجود) - عبد الباسط", "ar": "سورة التوبة (مجود)", "en": "Surah At-Tawba (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/009.mp3"},
+  {"category": "reciters", "station": "سورة يونس (مجود) - عبد الباسط", "ar": "سورة يونس (مجود)", "en": "Surah Yunus (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/010.mp3"},
+  {"category": "reciters", "station": "سورة هود (مجود) - عبد الباسط", "ar": "سورة هود (مجود)", "en": "Surah Hud (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/011.mp3"},
+  {"category": "reciters", "station": "سورة يوسف (مجود) - عبد الباسط", "ar": "سورة يوسف (مجود)", "en": "Surah Yusuf (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/012.mp3"},
+  {"category": "reciters", "station": "سورة الرعد (مجود) - عبد الباسط", "ar": "سورة الرعد (مجود)", "en": "Surah Ar-Ra'd (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/013.mp3"},
+  {"category": "reciters", "station": "سورة إبراهيم (مجود) - عبد الباسط", "ar": "سورة إبراهيم (مجود)", "en": "Surah Ibrahim (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/014.mp3"},
+  {"category": "reciters", "station": "سورة الحجر (مجود) - عبد الباسط", "ar": "سورة الحجر (مجود)", "en": "Surah Al-Hijr (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/015.mp3"},
+  {"category": "reciters", "station": "سورة النحل (مجود) - عبد الباسط", "ar": "سورة النحل (مجود)", "en": "Surah An-Nahl (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/016.mp3"},
+  {"category": "reciters", "station": "سورة الإسراء (مجود) - عبد الباسط", "ar": "سورة الإسراء (مجود)", "en": "Surah Al-Isra (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/017.mp3"},
+  {"category": "reciters", "station": "سورة الكهف (مجود) - عبد الباسط", "ar": "سورة الكهف (مجود)", "en": "Surah Al-Kahf (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/018.mp3"},
+  {"category": "reciters", "station": "سورة مريم (مجود) - عبد الباسط", "ar": "سورة مريم (مجود)", "en": "Surah Maryam (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/019.mp3"},
+  {"category": "reciters", "station": "سورة طه (مجود) - عبد الباسط", "ar": "سورة طه (مجود)", "en": "Surah Taha (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/020.mp3"},
+  {"category": "reciters", "station": "سورة الأنبياء (مجود) - عبد الباسط", "ar": "سورة الأنبياء (مجود)", "en": "Surah Al-Anbiya (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/021.mp3"},
+  {"category": "reciters", "station": "سورة الحج (مجود) - عبد الباسط", "ar": "سورة الحج (مجود)", "en": "Surah Al-Hajj (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/022.mp3"},
+  {"category": "reciters", "station": "سورة المؤمنون (مجود) - عبد الباسط", "ar": "سورة المؤمنون (مجود)", "en": "Surah Al-Mu'minun (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/023.mp3"},
+  {"category": "reciters", "station": "سورة النور (مجود) - عبد الباسط", "ar": "سورة النور (مجود)", "en": "Surah An-Nur (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/024.mp3"},
+  {"category": "reciters", "station": "سورة الفرقان (مجود) - عبد الباسط", "ar": "سورة الفرقان (مجود)", "en": "Surah Al-Furqan (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/025.mp3"},
+  {"category": "reciters", "station": "سورة الشعراء (مجود) - عبد الباسط", "ar": "سورة الشعراء (مجود)", "en": "Surah Ash-Shu'ara (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/026.mp3"},
+  {"category": "reciters", "station": "سورة النمل (مجود) - عبد الباسط", "ar": "سورة النمل (مجود)", "en": "Surah An-Naml (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/027.mp3"},
+  {"category": "reciters", "station": "سورة القصص (مجود) - عبد الباسط", "ar": "سورة القصص (مجود)", "en": "Surah Al-Qasas (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/028.mp3"},
+  {"category": "reciters", "station": "سورة العنكبوت (مجود) - عبد الباسط", "ar": "سورة العنكبوت (مجود)", "en": "Surah Al-'Ankabut (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/029.mp3"},
+  {"category": "reciters", "station": "سورة الروم (مجود) - عبد الباسط", "ar": "سورة الروم (مجود)", "en": "Surah Ar-Rum (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/030.mp3"},
+  {"category": "reciters", "station": "سورة لقمان (مجود) - عبد الباسط", "ar": "سورة لقمان (مجود)", "en": "Surah Luqman (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/031.mp3"},
+  {"category": "reciters", "station": "سورة السجدة (مجود) - عبد الباسط", "ar": "سورة السجدة (مجود)", "en": "Surah As-Sajda (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/032.mp3"},
+  {"category": "reciters", "station": "سورة الأحزاب (مجود) - عبد الباسط", "ar": "سورة الأحزاب (مجود)", "en": "Surah Al-Ahzab (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/033.mp3"},
+  {"category": "reciters", "station": "سورة سبأ (مجود) - عبد الباسط", "ar": "سورة سبأ (مجود)", "en": "Surah Saba (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/034.mp3"},
+  {"category": "reciters", "station": "سورة فاطر (مجود) - عبد الباسط", "ar": "سورة فاطر (مجود)", "en": "Surah Fatir (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/035.mp3"},
+  {"category": "reciters", "station": "سورة يس (مجود) - عبد الباسط", "ar": "سورة يس (مجود)", "en": "Surah Ya-Sin (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/036.mp3"},
+  {"category": "reciters", "station": "سورة الصافات (مجود) - عبد الباسط", "ar": "سورة الصافات (مجود)", "en": "Surah As-Saffat (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/037.mp3"},
+  {"category": "reciters", "station": "سورة ص (مجود) - عبد الباسط", "ar": "سورة ص (مجود)", "en": "Surah Sad (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/038.mp3"},
+  {"category": "reciters", "station": "سورة الزمر (مجود) - عبد الباسط", "ar": "سورة الزمر (مجود)", "en": "Surah Az-Zumar (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/039.mp3"},
+  {"category": "reciters", "station": "سورة غافر (مجود) - عبد الباسط", "ar": "سورة غافر (مجود)", "en": "Surah Ghafir (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/040.mp3"},
+  {"category": "reciters", "station": "سورة فصلت (مجود) - عبد الباسط", "ar": "سورة فصلت (مجود)", "en": "Surah Fussilat (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/041.mp3"},
+  {"category": "reciters", "station": "سورة الشورى (مجود) - عبد الباسط", "ar": "سورة الشورى (مجود)", "en": "Surah Ash-Shura (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/042.mp3"},
+  {"category": "reciters", "station": "سورة الزخرف (مجود) - عبد الباسط", "ar": "سورة الزخرف (مجود)", "en": "Surah Az-Zukhruf (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/043.mp3"},
+  {"category": "reciters", "station": "سورة الدخان (مجود) - عبد الباسط", "ar": "سورة الدخان (مجود)", "en": "Surah Ad-Dukhan (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/044.mp3"},
+  {"category": "reciters", "station": "سورة الجاثية (مجود) - عبد الباسط", "ar": "سورة الجاثية (مجود)", "en": "Surah Al-Jathiya (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/045.mp3"},
+  {"category": "reciters", "station": "سورة الأحقاف (مجود) - عبد الباسط", "ar": "سورة الأحقاف (مجود)", "en": "Surah Al-Ahqaf (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/046.mp3"},
+  {"category": "reciters", "station": "سورة محمد (مجود) - عبد الباسط", "ar": "سورة محمد (مجود)", "en": "Surah Muhammad (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/047.mp3"},
+  {"category": "reciters", "station": "سورة الفتح (مجود) - عبد الباسط", "ar": "سورة الفتح (مجود)", "en": "Surah Al-Fath (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/048.mp3"},
+  {"category": "reciters", "station": "سورة الحجرات (مجود) - عبد الباسط", "ar": "سورة الحجرات (مجود)", "en": "Surah Al-Hujurat (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/049.mp3"},
+  {"category": "reciters", "station": "سورة ق (مجود) - عبد الباسط", "ar": "سورة ق (مجود)", "en": "Surah Qaf (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/050.mp3"},
+  {"category": "reciters", "station": "سورة الذاريات (مجود) - عبد الباسط", "ar": "سورة الذاريات (مجود)", "en": "Surah Adh-Dhariyat (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/051.mp3"},
+  {"category": "reciters", "station": "سورة الطور (مجود) - عبد الباسط", "ar": "سورة الطور (مجود)", "en": "Surah At-Tur (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/052.mp3"},
+  {"category": "reciters", "station": "سورة النجم (مجود) - عبد الباسط", "ar": "سورة النجم (مجود)", "en": "Surah An-Najm (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/053.mp3"},
+  {"category": "reciters", "station": "سورة القمر (مجود) - عبد الباسط", "ar": "سورة القمر (مجود)", "en": "Surah Al-Qamar (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/054.mp3"},
+  {"category": "reciters", "station": "سورة الرحمن (مجود) - عبد الباسط", "ar": "سورة الرحمن (مجود)", "en": "Surah Ar-Rahman (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/055.mp3"},
+  {"category": "reciters", "station": "سورة الواقعة (مجود) - عبد الباسط", "ar": "سورة الواقعة (مجود)", "en": "Surah Al-Waqi'a (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/056.mp3"},
+  {"category": "reciters", "station": "سورة الحديد (مجود) - عبد الباسط", "ar": "سورة الحديد (مجود)", "en": "Surah Al-Hadid (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/057.mp3"},
+  {"category": "reciters", "station": "سورة المجادلة (مجود) - عبد الباسط", "ar": "سورة المجادلة (مجود)", "en": "Surah Al-Mujadila (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/058.mp3"},
+  {"category": "reciters", "station": "سورة الحشر (مجود) - عبد الباسط", "ar": "سورة الحشر (مجود)", "en": "Surah Al-Hashr (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/059.mp3"},
+  {"category": "reciters", "station": "سورة الممتحنة (مجود) - عبد الباسط", "ar": "سورة الممتحنة (مجود)", "en": "Surah Al-Mumtahana (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/060.mp3"},
+  {"category": "reciters", "station": "سورة الصف (مجود) - عبد الباسط", "ar": "سورة الصف (مجود)", "en": "Surah As-Saf (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/061.mp3"},
+  {"category": "reciters", "station": "سورة الجمعة (مجود) - عبد الباسط", "ar": "سورة الجمعة (مجود)", "en": "Surah Al-Jumu'a (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/062.mp3"},
+  {"category": "reciters", "station": "سورة المنافقون (مجود) - عبد الباسط", "ar": "سورة المنافقون (مجود)", "en": "Surah Al-Munafiqun (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/063.mp3"},
+  {"category": "reciters", "station": "سورة التغابن (مجود) - عبد الباسط", "ar": "سورة التغابن (مجود)", "en": "Surah At-Taghabun (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/064.mp3"},
+  {"category": "reciters", "station": "سورة الطلاق (مجود) - عبد الباسط", "ar": "سورة الطلاق (مجود)", "en": "Surah At-Talaq (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/065.mp3"},
+  {"category": "reciters", "station": "سورة التحريم (مجود) - عبد الباسط", "ar": "سورة التحريم (مجود)", "en": "Surah At-Tahrim (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/066.mp3"},
+  {"category": "reciters", "station": "سورة الملك (مجود) - عبد الباسط", "ar": "سورة الملك (مجود)", "en": "Surah Al-Mulk (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/067.mp3"},
+  {"category": "reciters", "station": "سورة القلم (مجود) - عبد الباسط", "ar": "سورة القلم (مجود)", "en": "Surah Al-Qalam (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/068.mp3"},
+  {"category": "reciters", "station": "سورة الحاقة (مجود) - عبد الباسط", "ar": "سورة الحاقة (مجود)", "en": "Surah Al-Haqqah (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/069.mp3"},
+  {"category": "reciters", "station": "سورة المعارج (مجود) - عبد الباسط", "ar": "سورة المعارج (مجود)", "en": "Surah Al-Ma'arij (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/070.mp3"},
+  {"category": "reciters", "station": "سورة نوح (مجود) - عبد الباسط", "ar": "سورة نوح (مجود)", "en": "Surah Nuh (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/071.mp3"},
+  {"category": "reciters", "station": "سورة الجن (مجود) - عبد الباسط", "ar": "سورة الجن (مجود)", "en": "Surah Al-Jinn (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/072.mp3"},
+  {"category": "reciters", "station": "سورة المزمل (مجود) - عبد الباسط", "ar": "سورة المزمل (مجود)", "en": "Surah Al-Muzzammil (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/073.mp3"},
+  {"category": "reciters", "station": "سورة المدثر (مجود) - عبد الباسط", "ar": "سورة المدثر (مجود)", "en": "Surah Al-Muddathir (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/074.mp3"},
+  {"category": "reciters", "station": "سورة القيامة (مجود) - عبد الباسط", "ar": "سورة القيامة (مجود)", "en": "Surah Al-Qiyama (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/075.mp3"},
+  {"category": "reciters", "station": "سورة الإنسان (مجود) - عبد الباسط", "ar": "سورة الإنسان (مجود)", "en": "Surah Al-Insan (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/076.mp3"},
+  {"category": "reciters", "station": "سورة المرسلات (مجود) - عبد الباسط", "ar": "سورة المرسلات (مجود)", "en": "Surah Al-Mursalat (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/077.mp3"},
+  {"category": "reciters", "station": "سورة النبأ (مجود) - عبد الباسط", "ar": "سورة النبأ (مجود)", "en": "Surah An-Naba (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/078.mp3"},
+  {"category": "reciters", "station": "سورة النازعات (مجود) - عبد الباسط", "ar": "سورة النازعات (مجود)", "en": "Surah An-Nazi'at (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/079.mp3"},
+  {"category": "reciters", "station": "سورة عبس (مجود) - عبد الباسط", "ar": "سورة عبس (مجود)", "en": "Surah Abasa (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/080.mp3"},
+  {"category": "reciters", "station": "سورة التكوير (مجود) - عبد الباسط", "ar": "سورة التكوير (مجود)", "en": "Surah At-Takwir (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/081.mp3"},
+  {"category": "reciters", "station": "سورة الانفطار (مجود) - عبد الباسط", "ar": "سورة الانفطار (مجود)", "en": "Surah Al-Infitar (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/082.mp3"},
+  {"category": "reciters", "station": "سورة المطففين (مجود) - عبد الباسط", "ar": "سورة المطففين (مجود)", "en": "Surah Al-Mutaffifin (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/083.mp3"},
+  {"category": "reciters", "station": "سورة الانشقاق (مجود) - عبد الباسط", "ar": "سورة الانشقاق (مجود)", "en": "Surah Al-Inshiqaq (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/084.mp3"},
+  {"category": "reciters", "station": "سورة البروج (مجود) - عبد الباسط", "ar": "سورة البروج (مجود)", "en": "Surah Al-Buruj (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/085.mp3"},
+  {"category": "reciters", "station": "سورة الطارق (مجود) - عبد الباسط", "ar": "سورة الطارق (مجود)", "en": "Surah At-Tariq (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/086.mp3"},
+  {"category": "reciters", "station": "سورة الأعلى (مجود) - عبد الباسط", "ar": "سورة الأعلى (مجود)", "en": "Surah Al-A'la (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/087.mp3"},
+  {"category": "reciters", "station": "سورة الغاشية (مجود) - عبد الباسط", "ar": "سورة الغاشية (مجود)", "en": "Surah Al-Ghashiya (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/088.mp3"},
+  {"category": "reciters", "station": "سورة الفجر (مجود) - عبد الباسط", "ar": "سورة الفجر (مجود)", "en": "Surah Al-Fajr (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/089.mp3"},
+  {"category": "reciters", "station": "سورة البلد (مجود) - عبد الباسط", "ar": "سورة البلد (مجود)", "en": "Surah Al-Balad (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/090.mp3"},
+  {"category": "reciters", "station": "سورة الشمس (مجود) - عبد الباسط", "ar": "سورة الشمس (مجود)", "en": "Surah Ash-Shams (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/091.mp3"},
+  {"category": "reciters", "station": "سورة الليل (مجود) - عبد الباسط", "ar": "سورة الليل (مجود)", "en": "Surah Al-Layl (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/092.mp3"},
+  {"category": "reciters", "station": "سورة الضحى (مجود) - عبد الباسط", "ar": "سورة الضحى (مجود)", "en": "Surah Ad-Duha (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/093.mp3"},
+  {"category": "reciters", "station": "سورة الشرح (مجود) - عبد الباسط", "ar": "سورة الشرح (مجود)", "en": "Surah Ash-Sharh (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/094.mp3"},
+  {"category": "reciters", "station": "سورة التين (مجود) - عبد الباسط", "ar": "سورة التين (مجود)", "en": "Surah At-Tin (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/095.mp3"},
+  {"category": "reciters", "station": "سورة العلق (مجود) - عبد الباسط", "ar": "سورة العلق (مجود)", "en": "Surah Al-Alaq (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/096.mp3"},
+  {"category": "reciters", "station": "سورة القدر (مجود) - عبد الباسط", "ar": "سورة القدر (مجود)", "en": "Surah Al-Qadr (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/097.mp3"},
+  {"category": "reciters", "station": "سورة البينة (مجود) - عبد الباسط", "ar": "سورة البينة (مجود)", "en": "Surah Al-Bayyina (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/098.mp3"},
+  {"category": "reciters", "station": "سورة الزلزلة (مجود) - عبد الباسط", "ar": "سورة الزلزلة (مجود)", "en": "Surah Az-Zalzala (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/099.mp3"},
+  {"category": "reciters", "station": "سورة العاديات (مجود) - عبد الباسط", "ar": "سورة العاديات (مجود)", "en": "Surah Al-Adiyat (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/100.mp3"},
+  {"category": "reciters", "station": "سورة القارعة (مجود) - عبد الباسط", "ar": "سورة القارعة (مجود)", "en": "Surah Al-Qari'a (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/101.mp3"},
+  {"category": "reciters", "station": "سورة التكاثر (مجود) - عبد الباسط", "ar": "سورة التكاثر (مجود)", "en": "Surah At-Takathur (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/102.mp3"},
+  {"category": "reciters", "station": "سورة العصر (مجود) - عبد الباسط", "ar": "سورة العصر (مجود)", "en": "Surah Al-Asr (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/103.mp3"},
+  {"category": "reciters", "station": "سورة الهمزة (مجود) - عبد الباسط", "ar": "سورة الهمزة (مجود)", "en": "Surah Al-Humaza (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/104.mp3"},
+  {"category": "reciters", "station": "سورة الفيل (مجود) - عبد الباسط", "ar": "سورة الفيل (مجود)", "en": "Surah Al-Fil (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/105.mp3"},
+  {"category": "reciters", "station": "سورة قريش (مجود) - عبد الباسط", "ar": "سورة قريش (مجود)", "en": "Surah Quraysh (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/106.mp3"},
+  {"category": "reciters", "station": "سورة الماعون (مجود) - عبد الباسط", "ar": "سورة الماعون (مجود)", "en": "Surah Al-Ma'un (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/107.mp3"},
+  {"category": "reciters", "station": "سورة الكوثر (مجود) - عبد الباسط", "ar": "سورة الكوثر (مجود)", "en": "Surah Al-Kawthar (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/108.mp3"},
+  {"category": "reciters", "station": "سورة الكافرون (مجود) - عبد الباسط", "ar": "سورة الكافرون (مجود)", "en": "Surah Al-Kafirun (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/109.mp3"},
+  {"category": "reciters", "station": "سورة النصر (مجود) - عبد الباسط", "ar": "سورة النصر (مجود)", "en": "Surah An-Nasr (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/110.mp3"},
+  {"category": "reciters", "station": "سورة المسد (مجود) - عبد الباسط", "ar": "سورة المسد (مجود)", "en": "Surah Al-Masad (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/111.mp3"},
+  {"category": "reciters", "station": "سورة الإخلاص (مجود) - عبد الباسط", "ar": "سورة الإخلاص (مجود)", "en": "Surah Al-Ikhlas (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/112.mp3"},
+  {"category": "reciters", "station": "سورة الفلق (مجود) - عبد الباسط", "ar": "سورة الفلق (مجود)", "en": "Surah Al-Falaq (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/113.mp3"},
+  {"category": "reciters", "station": "سورة الناس (مجود) - عبد الباسط", "ar": "سورة الناس (مجود)", "en": "Surah An-Nas (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/114.mp3"},
+  {"category": "reciters", "station": "سورة الفاتحة (مرتل) - عبد الباسط", "ar": "سورة الفاتحة (مرتل)", "en": "Surah Al-Fatiha (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/001.mp3"},
+  {"category": "reciters", "station": "سورة البقرة (مرتل) - عبد الباسط", "ar": "سورة البقرة (مرتل)", "en": "Surah Al-Baqara (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/002.mp3"},
+  {"category": "reciters", "station": "سورة آل عمران (مرتل) - عبد الباسط", "ar": "سورة آل عمران (مرتل)", "en": "Surah Aal-Imran (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/003.mp3"},
+  {"category": "reciters", "station": "سورة النساء (مرتل) - عبد الباسط", "ar": "سورة النساء (مرتل)", "en": "Surah An-Nisa (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/004.mp3"},
+  {"category": "reciters", "station": "سورة المائدة (مرتل) - عبد الباسط", "ar": "سورة المائدة (مرتل)", "en": "Surah Al-Ma'ida (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/005.mp3"},
+  {"category": "reciters", "station": "سورة الأنعام (مرتل) - عبد الباسط", "ar": "سورة الأنعام (مرتل)", "en": "Surah Al-An'am (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/006.mp3"},
+  {"category": "reciters", "station": "سورة الأعراف (مرتل) - عبد الباسط", "ar": "سورة الأعراف (مرتل)", "en": "Surah Al-A'raf (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/007.mp3"},
+  {"category": "reciters", "station": "سورة الأنفال (مرتل) - عبد الباسط", "ar": "سورة الأنفال (مرتل)", "en": "Surah Al-Anfal (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/008.mp3"},
+  {"category": "reciters", "station": "سورة التوبة (مرتل) - عبد الباسط", "ar": "سورة التوبة (مرتل)", "en": "Surah At-Tawba (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/009.mp3"},
+  {"category": "reciters", "station": "سورة يونس (مرتل) - عبد الباسط", "ar": "سورة يونس (مرتل)", "en": "Surah Yunus (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/010.mp3"},
+  {"category": "reciters", "station": "سورة هود (مرتل) - عبد الباسط", "ar": "سورة هود (مرتل)", "en": "Surah Hud (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/011.mp3"},
+  {"category": "reciters", "station": "سورة يوسف (مرتل) - عبد الباسط", "ar": "سورة يوسف (مرتل)", "en": "Surah Yusuf (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/012.mp3"},
+  {"category": "reciters", "station": "سورة الرعد (مرتل) - عبد الباسط", "ar": "سورة الرعد (مرتل)", "en": "Surah Ar-Ra'd (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/013.mp3"},
+  {"category": "reciters", "station": "سورة إبراهيم (مرتل) - عبد الباسط", "ar": "سورة إبراهيم (مرتل)", "en": "Surah Ibrahim (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/014.mp3"},
+  {"category": "reciters", "station": "سورة الحجر (مرتل) - عبد الباسط", "ar": "سورة الحجر (مرتل)", "en": "Surah Al-Hijr (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/015.mp3"},
+  {"category": "reciters", "station": "سورة النحل (مرتل) - عبد الباسط", "ar": "سورة النحل (مرتل)", "en": "Surah An-Nahl (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/016.mp3"},
+  {"category": "reciters", "station": "سورة الإسراء (مرتل) - عبد الباسط", "ar": "سورة الإسراء (مرتل)", "en": "Surah Al-Isra (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/017.mp3"},
+  {"category": "reciters", "station": "سورة الكهف (مرتل) - عبد الباسط", "ar": "سورة الكهف (مرتل)", "en": "Surah Al-Kahf (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/018.mp3"},
+  {"category": "reciters", "station": "سورة مريم (مرتل) - عبد الباسط", "ar": "سورة مريم (مرتل)", "en": "Surah Maryam (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/019.mp3"},
+  {"category": "reciters", "station": "سورة طه (مرتل) - عبد الباسط", "ar": "سورة طه (مرتل)", "en": "Surah Taha (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/020.mp3"},
+  {"category": "reciters", "station": "سورة الأنبياء (مرتل) - عبد الباسط", "ar": "سورة الأنبياء (مرتل)", "en": "Surah Al-Anbiya (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/021.mp3"},
+  {"category": "reciters", "station": "سورة الحج (مرتل) - عبد الباسط", "ar": "سورة الحج (مرتل)", "en": "Surah Al-Hajj (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/022.mp3"},
+  {"category": "reciters", "station": "سورة المؤمنون (مرتل) - عبد الباسط", "ar": "سورة المؤمنون (مرتل)", "en": "Surah Al-Mu'minun (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/023.mp3"},
+  {"category": "reciters", "station": "سورة النور (مرتل) - عبد الباسط", "ar": "سورة النور (مرتل)", "en": "Surah An-Nur (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/024.mp3"},
+  {"category": "reciters", "station": "سورة الفرقان (مرتل) - عبد الباسط", "ar": "سورة الفرقان (مرتل)", "en": "Surah Al-Furqan (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/025.mp3"},
+  {"category": "reciters", "station": "سورة الشعراء (مرتل) - عبد الباسط", "ar": "سورة الشعراء (مرتل)", "en": "Surah Ash-Shu'ara (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/026.mp3"},
+  {"category": "reciters", "station": "سورة النمل (مرتل) - عبد الباسط", "ar": "سورة النمل (مرتل)", "en": "Surah An-Naml (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/027.mp3"},
+  {"category": "reciters", "station": "سورة القصص (مرتل) - عبد الباسط", "ar": "سورة القصص (مرتل)", "en": "Surah Al-Qasas (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/028.mp3"},
+  {"category": "reciters", "station": "سورة العنكبوت (مرتل) - عبد الباسط", "ar": "سورة العنكبوت (مرتل)", "en": "Surah Al-'Ankabut (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/029.mp3"},
+  {"category": "reciters", "station": "سورة الروم (مرتل) - عبد الباسط", "ar": "سورة الروم (مرتل)", "en": "Surah Ar-Rum (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/030.mp3"},
+  {"category": "reciters", "station": "سورة لقمان (مرتل) - عبد الباسط", "ar": "سورة لقمان (مرتل)", "en": "Surah Luqman (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/031.mp3"},
+  {"category": "reciters", "station": "سورة السجدة (مرتل) - عبد الباسط", "ar": "سورة السجدة (مرتل)", "en": "Surah As-Sajda (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/032.mp3"},
+  {"category": "reciters", "station": "سورة الأحزاب (مرتل) - عبد الباسط", "ar": "سورة الأحزاب (مرتل)", "en": "Surah Al-Ahzab (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/033.mp3"},
+  {"category": "reciters", "station": "سورة سبأ (مرتل) - عبد الباسط", "ar": "سورة سبأ (مرتل)", "en": "Surah Saba (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/034.mp3"},
+  {"category": "reciters", "station": "سورة فاطر (مرتل) - عبد الباسط", "ar": "سورة فاطر (مرتل)", "en": "Surah Fatir (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/035.mp3"},
+  {"category": "reciters", "station": "سورة يس (مرتل) - عبد الباسط", "ar": "سورة يس (مرتل)", "en": "Surah Ya-Sin (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/036.mp3"},
+  {"category": "reciters", "station": "سورة الصافات (مرتل) - عبد الباسط", "ar": "سورة الصافات (مرتل)", "en": "Surah As-Saffat (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/037.mp3"},
+  {"category": "reciters", "station": "سورة ص (مرتل) - عبد الباسط", "ar": "سورة ص (مرتل)", "en": "Surah Sad (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/038.mp3"},
+  {"category": "reciters", "station": "سورة الزمر (مرتل) - عبد الباسط", "ar": "سورة الزمر (مرتل)", "en": "Surah Az-Zumar (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/039.mp3"},
+  {"category": "reciters", "station": "سورة غافر (مرتل) - عبد الباسط", "ar": "سورة غافر (مرتل)", "en": "Surah Ghafir (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/040.mp3"},
+  {"category": "reciters", "station": "سورة فصلت (مرتل) - عبد الباسط", "ar": "سورة فصلت (مرتل)", "en": "Surah Fussilat (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/041.mp3"},
+  {"category": "reciters", "station": "سورة الشورى (مرتل) - عبد الباسط", "ar": "سورة الشورى (مرتل)", "en": "Surah Ash-Shura (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/042.mp3"},
+  {"category": "reciters", "station": "سورة الزخرف (مرتل) - عبد الباسط", "ar": "سورة الزخرف (مرتل)", "en": "Surah Az-Zukhruf (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/043.mp3"},
+  {"category": "reciters", "station": "سورة الدخان (مرتل) - عبد الباسط", "ar": "سورة الدخان (مرتل)", "en": "Surah Ad-Dukhan (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/044.mp3"},
+  {"category": "reciters", "station": "سورة الجاثية (مرتل) - عبد الباسط", "ar": "سورة الجاثية (مرتل)", "en": "Surah Al-Jathiya (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/045.mp3"},
+  {"category": "reciters", "station": "سورة الأحقاف (مرتل) - عبد الباسط", "ar": "سورة الأحقاف (مرتل)", "en": "Surah Al-Ahqaf (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/046.mp3"},
+  {"category": "reciters", "station": "سورة محمد (مرتل) - عبد الباسط", "ar": "سورة محمد (مرتل)", "en": "Surah Muhammad (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/047.mp3"},
+  {"category": "reciters", "station": "سورة الفتح (مرتل) - عبد الباسط", "ar": "سورة الفتح (مرتل)", "en": "Surah Al-Fath (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/048.mp3"},
+  {"category": "reciters", "station": "سورة الحجرات (مرتل) - عبد الباسط", "ar": "سورة الحجرات (مرتل)", "en": "Surah Al-Hujurat (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/049.mp3"},
+  {"category": "reciters", "station": "سورة ق (مرتل) - عبد الباسط", "ar": "سورة ق (مرتل)", "en": "Surah Qaf (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/050.mp3"},
+  {"category": "reciters", "station": "سورة الذاريات (مرتل) - عبد الباسط", "ar": "سورة الذاريات (مرتل)", "en": "Surah Adh-Dhariyat (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/051.mp3"},
+  {"category": "reciters", "station": "سورة الطور (مرتل) - عبد الباسط", "ar": "سورة الطور (مرتل)", "en": "Surah At-Tur (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/052.mp3"},
+  {"category": "reciters", "station": "سورة النجم (مرتل) - عبد الباسط", "ar": "سورة النجم (مرتل)", "en": "Surah An-Najm (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/053.mp3"},
+  {"category": "reciters", "station": "سورة القمر (مرتل) - عبد الباسط", "ar": "سورة القمر (مرتل)", "en": "Surah Al-Qamar (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/054.mp3"},
+  {"category": "reciters", "station": "سورة الرحمن (مرتل) - عبد الباسط", "ar": "سورة الرحمن (مرتل)", "en": "Surah Ar-Rahman (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/055.mp3"},
+  {"category": "reciters", "station": "سورة الواقعة (مرتل) - عبد الباسط", "ar": "سورة الواقعة (مرتل)", "en": "Surah Al-Waqi'a (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/056.mp3"},
+  {"category": "reciters", "station": "سورة الحديد (مرتل) - عبد الباسط", "ar": "سورة الحديد (مرتل)", "en": "Surah Al-Hadid (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/057.mp3"},
+  {"category": "reciters", "station": "سورة المجادلة (مرتل) - عبد الباسط", "ar": "سورة المجادلة (مرتل)", "en": "Surah Al-Mujadila (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/058.mp3"},
+  {"category": "reciters", "station": "سورة الحشر (مرتل) - عبد الباسط", "ar": "سورة الحشر (مرتل)", "en": "Surah Al-Hashr (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/059.mp3"},
+  {"category": "reciters", "station": "سورة الممتحنة (مرتل) - عبد الباسط", "ar": "سورة الممتحنة (مرتل)", "en": "Surah Al-Mumtahana (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/060.mp3"},
+  {"category": "reciters", "station": "سورة الصف (مرتل) - عبد الباسط", "ar": "سورة الصف (مرتل)", "en": "Surah As-Saf (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/061.mp3"},
+  {"category": "reciters", "station": "سورة الجمعة (مرتل) - عبد الباسط", "ar": "سورة الجمعة (مرتل)", "en": "Surah Al-Jumu'a (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/062.mp3"},
+  {"category": "reciters", "station": "سورة المنافقون (مرتل) - عبد الباسط", "ar": "سورة المنافقون (مرتل)", "en": "Surah Al-Munafiqun (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/063.mp3"},
+  {"category": "reciters", "station": "سورة التغابن (مرتل) - عبد الباسط", "ar": "سورة التغابن (مرتل)", "en": "Surah At-Taghabun (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/064.mp3"},
+  {"category": "reciters", "station": "سورة الطلاق (مرتل) - عبد الباسط", "ar": "سورة الطلاق (مرتل)", "en": "Surah At-Talaq (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/065.mp3"},
+  {"category": "reciters", "station": "سورة التحريم (مرتل) - عبد الباسط", "ar": "سورة التحريم (مرتل)", "en": "Surah At-Tahrim (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/066.mp3"},
+  {"category": "reciters", "station": "سورة الملك (مرتل) - عبد الباسط", "ar": "سورة الملك (مرتل)", "en": "Surah Al-Mulk (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/067.mp3"},
+  {"category": "reciters", "station": "سورة القلم (مرتل) - عبد الباسط", "ar": "سورة القلم (مرتل)", "en": "Surah Al-Qalam (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/068.mp3"},
+  {"category": "reciters", "station": "سورة الحاقة (مرتل) - عبد الباسط", "ar": "سورة الحاقة (مرتل)", "en": "Surah Al-Haqqah (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/069.mp3"},
+  {"category": "reciters", "station": "سورة المعارج (مرتل) - عبد الباسط", "ar": "سورة المعارج (مرتل)", "en": "Surah Al-Ma'arij (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/070.mp3"},
+  {"category": "reciters", "station": "سورة نوح (مرتل) - عبد الباسط", "ar": "سورة نوح (مرتل)", "en": "Surah Nuh (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/071.mp3"},
+  {"category": "reciters", "station": "سورة الجن (مرتل) - عبد الباسط", "ar": "سورة الجن (مرتل)", "en": "Surah Al-Jinn (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/072.mp3"},
+  {"category": "reciters", "station": "سورة المزمل (مرتل) - عبد الباسط", "ar": "سورة المزمل (مرتل)", "en": "Surah Al-Muzzammil (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/073.mp3"},
+  {"category": "reciters", "station": "سورة المدثر (مرتل) - عبد الباسط", "ar": "سورة المدثر (مرتل)", "en": "Surah Al-Muddathir (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/074.mp3"},
+  {"category": "reciters", "station": "سورة القيامة (مرتل) - عبد الباسط", "ar": "سورة القيامة (مرتل)", "en": "Surah Al-Qiyama (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/075.mp3"},
+  {"category": "reciters", "station": "سورة الإنسان (مرتل) - عبد الباسط", "ar": "سورة الإنسان (مرتل)", "en": "Surah Al-Insan (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/076.mp3"},
+  {"category": "reciters", "station": "سورة المرسلات (مرتل) - عبد الباسط", "ar": "سورة المرسلات (مرتل)", "en": "Surah Al-Mursalat (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/077.mp3"},
+  {"category": "reciters", "station": "سورة النبأ (مرتل) - عبد الباسط", "ar": "سورة النبأ (مرتل)", "en": "Surah An-Naba (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/078.mp3"},
+  {"category": "reciters", "station": "سورة النازعات (مرتل) - عبد الباسط", "ar": "سورة النازعات (مرتل)", "en": "Surah An-Nazi'at (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/079.mp3"},
+  {"category": "reciters", "station": "سورة عبس (مرتل) - عبد الباسط", "ar": "سورة عبس (مرتل)", "en": "Surah Abasa (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/080.mp3"},
+  {"category": "reciters", "station": "سورة التكوير (مرتل) - عبد الباسط", "ar": "سورة التكوير (مرتل)", "en": "Surah At-Takwir (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/081.mp3"},
+  {"category": "reciters", "station": "سورة الانفطار (مرتل) - عبد الباسط", "ar": "سورة الانفطار (مرتل)", "en": "Surah Al-Infitar (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/082.mp3"},
+  {"category": "reciters", "station": "سورة المطففين (مرتل) - عبد الباسط", "ar": "سورة المطففين (مرتل)", "en": "Surah Al-Mutaffifin (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/083.mp3"},
+  {"category": "reciters", "station": "سورة الانشقاق (مرتل) - عبد الباسط", "ar": "سورة الانشقاق (مرتل)", "en": "Surah Al-Inshiqaq (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/084.mp3"},
+  {"category": "reciters", "station": "سورة البروج (مرتل) - عبد الباسط", "ar": "سورة البروج (مرتل)", "en": "Surah Al-Buruj (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/085.mp3"},
+  {"category": "reciters", "station": "سورة الطارق (مرتل) - عبد الباسط", "ar": "سورة الطارق (مرتل)", "en": "Surah At-Tariq (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/086.mp3"},
+  {"category": "reciters", "station": "سورة الأعلى (مرتل) - عبد الباسط", "ar": "سورة الأعلى (مرتل)", "en": "Surah Al-A'la (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/087.mp3"},
+  {"category": "reciters", "station": "سورة الغاشية (مرتل) - عبد الباسط", "ar": "سورة الغاشية (مرتل)", "en": "Surah Al-Ghashiya (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/088.mp3"},
+  {"category": "reciters", "station": "سورة الفجر (مرتل) - عبد الباسط", "ar": "سورة الفجر (مرتل)", "en": "Surah Al-Fajr (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/089.mp3"},
+  {"category": "reciters", "station": "سورة البلد (مرتل) - عبد الباسط", "ar": "سورة البلد (مرتل)", "en": "Surah Al-Balad (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/090.mp3"},
+  {"category": "reciters", "station": "سورة الشمس (مرتل) - عبد الباسط", "ar": "سورة الشمس (مرتل)", "en": "Surah Ash-Shams (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/091.mp3"},
+  {"category": "reciters", "station": "سورة الليل (مرتل) - عبد الباسط", "ar": "سورة الليل (مرتل)", "en": "Surah Al-Layl (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/092.mp3"},
+  {"category": "reciters", "station": "سورة الضحى (مرتل) - عبد الباسط", "ar": "سورة الضحى (مرتل)", "en": "Surah Ad-Duha (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/093.mp3"},
+  {"category": "reciters", "station": "سورة الشرح (مرتل) - عبد الباسط", "ar": "سورة الشرح (مرتل)", "en": "Surah Ash-Sharh (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/094.mp3"},
+  {"category": "reciters", "station": "سورة التين (مرتل) - عبد الباسط", "ar": "سورة التين (مرتل)", "en": "Surah At-Tin (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/095.mp3"},
+  {"category": "reciters", "station": "سورة العلق (مرتل) - عبد الباسط", "ar": "سورة العلق (مرتل)", "en": "Surah Al-Alaq (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/096.mp3"},
+  {"category": "reciters", "station": "سورة القدر (مرتل) - عبد الباسط", "ar": "سورة القدر (مرتل)", "en": "Surah Al-Qadr (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/097.mp3"},
+  {"category": "reciters", "station": "سورة البينة (مرتل) - عبد الباسط", "ar": "سورة البينة (مرتل)", "en": "Surah Al-Bayyina (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/098.mp3"},
+  {"category": "reciters", "station": "سورة الزلزلة (مرتل) - عبد الباسط", "ar": "سورة الزلزلة (مرتل)", "en": "Surah Az-Zalzala (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/099.mp3"},
+  {"category": "reciters", "station": "سورة العاديات (مرتل) - عبد الباسط", "ar": "سورة العاديات (مرتل)", "en": "Surah Al-Adiyat (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/100.mp3"},
+  {"category": "reciters", "station": "سورة القارعة (مرتل) - عبد الباسط", "ar": "سورة القارعة (مرتل)", "en": "Surah Al-Qari'a (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/101.mp3"},
+  {"category": "reciters", "station": "سورة التكاثر (مرتل) - عبد الباسط", "ar": "سورة التكاثر (مرتل)", "en": "Surah At-Takathur (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/102.mp3"},
+  {"category": "reciters", "station": "سورة العصر (مرتل) - عبد الباسط", "ar": "سورة العصر (مرتل)", "en": "Surah Al-Asr (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/103.mp3"},
+  {"category": "reciters", "station": "سورة الهمزة (مرتل) - عبد الباسط", "ar": "سورة الهمزة (مرتل)", "en": "Surah Al-Humaza (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/104.mp3"},
+  {"category": "reciters", "station": "سورة الفيل (مرتل) - عبد الباسط", "ar": "سورة الفيل (مرتل)", "en": "Surah Al-Fil (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/105.mp3"},
+  {"category": "reciters", "station": "سورة قريش (مرتل) - عبد الباسط", "ar": "سورة قريش (مرتل)", "en": "Surah Quraysh (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/106.mp3"},
+  {"category": "reciters", "station": "سورة الماعون (مرتل) - عبد الباسط", "ar": "سورة الماعون (مرتل)", "en": "Surah Al-Ma'un (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/107.mp3"},
+  {"category": "reciters", "station": "سورة الكوثر (مرتل) - عبد الباسط", "ar": "سورة الكوثر (مرتل)", "en": "Surah Al-Kawthar (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/108.mp3"},
+  {"category": "reciters", "station": "سورة الكافرون (مرتل) - عبد الباسط", "ar": "سورة الكافرون (مرتل)", "en": "Surah Al-Kafirun (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/109.mp3"},
+  {"category": "reciters", "station": "سورة النصر (مرتل) - عبد الباسط", "ar": "سورة النصر (مرتل)", "en": "Surah An-Nasr (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/110.mp3"},
+  {"category": "reciters", "station": "سورة المسد (مرتل) - عبد الباسط", "ar": "سورة المسد (مرتل)", "en": "Surah Al-Masad (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/111.mp3"},
+  {"category": "reciters", "station": "سورة الإخلاص (مرتل) - عبد الباسط", "ar": "سورة الإخلاص (مرتل)", "en": "Surah Al-Ikhlas (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/112.mp3"},
+  {"category": "reciters", "station": "سورة الفلق (مرتل) - عبد الباسط", "ar": "سورة الفلق (مرتل)", "en": "Surah Al-Falaq (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/113.mp3"},
+  {"category": "reciters", "station": "سورة الناس (مرتل) - عبد الباسط", "ar": "سورة الناس (مرتل)", "en": "Surah An-Nas (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/114.mp3"},
+  {"category": "reciters", "station": "سورة الفاتحة [الإذاعة السعودية]", "ar": "سورة الفاتحة [سعودي]", "en": "Surah Al-Fatiha [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/001.mp3"},
+  {"category": "reciters", "station": "سورة البقرة [الإذاعة السعودية]", "ar": "سورة البقرة [سعودي]", "en": "Surah Al-Baqara [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/002.mp3"},
+  {"category": "reciters", "station": "سورة آل عمران [الإذاعة السعودية]", "ar": "سورة آل عمران [سعودي]", "en": "Surah Aal-Imran [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/003.mp3"},
+  {"category": "reciters", "station": "سورة النساء [الإذاعة السعودية]", "ar": "سورة النساء [سعودي]", "en": "Surah An-Nisa [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/004.mp3"},
+  {"category": "reciters", "station": "سورة المائدة [الإذاعة السعودية]", "ar": "سورة المائدة [سعودي]", "en": "Surah Al-Ma'ida [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/005.mp3"},
+  {"category": "reciters", "station": "سورة الأنعام [الإذاعة السعودية]", "ar": "سورة الأنعام [سعودي]", "en": "Surah Al-An'am [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/006.mp3"},
+  {"category": "reciters", "station": "سورة الأعراف [الإذاعة السعودية]", "ar": "سورة الأعراف [سعودي]", "en": "Surah Al-A'raf [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/007.mp3"},
+  {"category": "reciters", "station": "سورة الأنفال [الإذاعة السعودية]", "ar": "سورة الأنفال [سعودي]", "en": "Surah Al-Anfal [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/008.mp3"},
+  {"category": "reciters", "station": "سورة التوبة [الإذاعة السعودية]", "ar": "سورة التوبة [سعودي]", "en": "Surah At-Tawba [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/009.mp3"},
+  {"category": "reciters", "station": "سورة يونس [الإذاعة السعودية]", "ar": "سورة يونس [سعودي]", "en": "Surah Yunus [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/010.mp3"},
+  {"category": "reciters", "station": "سورة هود [الإذاعة السعودية]", "ar": "سورة هود [سعودي]", "en": "Surah Hud [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/011.mp3"},
+  {"category": "reciters", "station": "سورة يوسف [الإذاعة السعودية]", "ar": "سورة يوسف [سعودي]", "en": "Surah Yusuf [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/012.mp3"},
+  {"category": "reciters", "station": "سورة الرعد [الإذاعة السعودية]", "ar": "سورة الرعد [سعودي]", "en": "Surah Ar-Ra'd [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/013.mp3"},
+  {"category": "reciters", "station": "سورة إبراهيم [الإذاعة السعودية]", "ar": "سورة إبراهيم [سعودي]", "en": "Surah Ibrahim [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/014.mp3"},
+  {"category": "reciters", "station": "سورة الحجر [الإذاعة السعودية]", "ar": "سورة الحجر [سعودي]", "en": "Surah Al-Hijr [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/015.mp3"},
+  {"category": "reciters", "station": "سورة النحل [الإذاعة السعودية]", "ar": "سورة النحل [سعودي]", "en": "Surah An-Nahl [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/016.mp3"},
+  {"category": "reciters", "station": "سورة الإسراء [الإذاعة السعودية]", "ar": "سورة الإسراء [سعودي]", "en": "Surah Al-Isra [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/017.mp3"},
+  {"category": "reciters", "station": "سورة الكهف [الإذاعة السعودية]", "ar": "سورة الكهف [سعودي]", "en": "Surah Al-Kahf [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/018.mp3"},
+  {"category": "reciters", "station": "سورة مريم [الإذاعة السعودية]", "ar": "سورة مريم [سعودي]", "en": "Surah Maryam [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/019.mp3"},
+  {"category": "reciters", "station": "سورة طه [الإذاعة السعودية]", "ar": "سورة طه [سعودي]", "en": "Surah Taha [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/020.mp3"},
+  {"category": "reciters", "station": "سورة الأنبياء [الإذاعة السعودية]", "ar": "سورة الأنبياء [سعودي]", "en": "Surah Al-Anbiya [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/021.mp3"},
+  {"category": "reciters", "station": "سورة الحج [الإذاعة السعودية]", "ar": "سورة الحج [سعودي]", "en": "Surah Al-Hajj [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/022.mp3"},
+  {"category": "reciters", "station": "سورة المؤمنون [الإذاعة السعودية]", "ar": "سورة المؤمنون [سعودي]", "en": "Surah Al-Mu'minun [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/023.mp3"},
+  {"category": "reciters", "station": "سورة النور [الإذاعة السعودية]", "ar": "سورة النور [سعودي]", "en": "Surah An-Nur [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/024.mp3"},
+  {"category": "reciters", "station": "سورة الفرقان [الإذاعة السعودية]", "ar": "سورة الفرقان [سعودي]", "en": "Surah Al-Furqan [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/025.mp3"},
+  {"category": "reciters", "station": "سورة الشعراء [الإذاعة السعودية]", "ar": "سورة الشعراء [سعودي]", "en": "Surah Ash-Shu'ara [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/026.mp3"},
+  {"category": "reciters", "station": "سورة النمل [الإذاعة السعودية]", "ar": "سورة النمل [سعودي]", "en": "Surah An-Naml [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/027.mp3"},
+  {"category": "reciters", "station": "سورة القصص [الإذاعة السعودية]", "ar": "سورة القصص [سعودي]", "en": "Surah Al-Qasas [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/028.mp3"},
+  {"category": "reciters", "station": "سورة العنكبوت [الإذاعة السعودية]", "ar": "سورة العنكبوت [سعودي]", "en": "Surah Al-'Ankabut [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/029.mp3"},
+  {"category": "reciters", "station": "سورة الروم [الإذاعة السعودية]", "ar": "سورة الروم [سعودي]", "en": "Surah Ar-Rum [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/030.mp3"},
+  {"category": "reciters", "station": "سورة لقمان [الإذاعة السعودية]", "ar": "سورة لقمان [سعودي]", "en": "Surah Luqman [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/031.mp3"},
+  {"category": "reciters", "station": "سورة السجدة [الإذاعة السعودية]", "ar": "سورة السجدة [سعودي]", "en": "Surah As-Sajda [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/032.mp3"},
+  {"category": "reciters", "station": "سورة الأحزاب [الإذاعة السعودية]", "ar": "سورة الأحزاب [سعودي]", "en": "Surah Al-Ahzab [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/033.mp3"},
+  {"category": "reciters", "station": "سورة سبأ [الإذاعة السعودية]", "ar": "سورة سبأ [سعودي]", "en": "Surah Saba [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/034.mp3"},
+  {"category": "reciters", "station": "سورة فاطر [الإذاعة السعودية]", "ar": "سورة فاطر [سعودي]", "en": "Surah Fatir [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/035.mp3"},
+  {"category": "reciters", "station": "سورة يس [الإذاعة السعودية]", "ar": "سورة يس [سعودي]", "en": "Surah Ya-Sin [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/036.mp3"},
+  {"category": "reciters", "station": "سورة الصافات [الإذاعة السعودية]", "ar": "سورة الصافات [سعودي]", "en": "Surah As-Saffat [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/037.mp3"},
+  {"category": "reciters", "station": "سورة ص [الإذاعة السعودية]", "ar": "سورة ص [سعودي]", "en": "Surah Sad [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/038.mp3"},
+  {"category": "reciters", "station": "سورة الزمر [الإذاعة السعودية]", "ar": "سورة الزمر [سعودي]", "en": "Surah Az-Zumar [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/039.mp3"},
+  {"category": "reciters", "station": "سورة غافر [الإذاعة السعودية]", "ar": "سورة غافر [سعودي]", "en": "Surah Ghafir [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/040.mp3"},
+  {"category": "reciters", "station": "سورة فصلت [الإذاعة السعودية]", "ar": "سورة فصلت [سعودي]", "en": "Surah Fussilat [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/041.mp3"},
+  {"category": "reciters", "station": "سورة الشورى [الإذاعة السعودية]", "ar": "سورة الشورى [سعودي]", "en": "Surah Ash-Shura [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/042.mp3"},
+  {"category": "reciters", "station": "سورة الزخرف [الإذاعة السعودية]", "ar": "سورة الزخرف [سعودي]", "en": "Surah Az-Zukhruf [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/043.mp3"},
+  {"category": "reciters", "station": "سورة الدخان [الإذاعة السعودية]", "ar": "سورة الدخان [سعودي]", "en": "Surah Ad-Dukhan [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/044.mp3"},
+  {"category": "reciters", "station": "سورة الجاثية [الإذاعة السعودية]", "ar": "سورة الجاثية [سعودي]", "en": "Surah Al-Jathiya [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/045.mp3"},
+  {"category": "reciters", "station": "سورة الأحقاف [الإذاعة السعودية]", "ar": "سورة الأحقاف [سعودي]", "en": "Surah Al-Ahqaf [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/046.mp3"},
+  {"category": "reciters", "station": "سورة محمد [الإذاعة السعودية]", "ar": "سورة محمد [سعودي]", "en": "Surah Muhammad [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/047.mp3"},
+  {"category": "reciters", "station": "سورة الفتح [الإذاعة السعودية]", "ar": "سورة الفتح [سعودي]", "en": "Surah Al-Fath [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/048.mp3"},
+  {"category": "reciters", "station": "سورة الحجرات [الإذاعة السعودية]", "ar": "سورة الحجرات [سعودي]", "en": "Surah Al-Hujurat [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/049.mp3"},
+  {"category": "reciters", "station": "سورة ق [الإذاعة السعودية]", "ar": "سورة ق [سعودي]", "en": "Surah Qaf [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/050.mp3"},
+  {"category": "reciters", "station": "سورة الذاريات [الإذاعة السعودية]", "ar": "سورة الذاريات [سعودي]", "en": "Surah Adh-Dhariyat [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/051.mp3"},
+  {"category": "reciters", "station": "سورة الطور [الإذاعة السعودية]", "ar": "سورة الطور [سعودي]", "en": "Surah At-Tur [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/052.mp3"},
+  {"category": "reciters", "station": "سورة النجم [الإذاعة السعودية]", "ar": "سورة النجم [سعودي]", "en": "Surah An-Najm [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/053.mp3"},
+  {"category": "reciters", "station": "سورة القمر [الإذاعة السعودية]", "ar": "سورة القمر [سعودي]", "en": "Surah Al-Qamar [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/054.mp3"},
+  {"category": "reciters", "station": "سورة الرحمن [الإذاعة السعودية]", "ar": "سورة الرحمن [سعودي]", "en": "Surah Ar-Rahman [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/055.mp3"},
+  {"category": "reciters", "station": "سورة الواقعة [الإذاعة السعودية]", "ar": "سورة الواقعة [سعودي]", "en": "Surah Al-Waqi'a [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/056.mp3"},
+  {"category": "reciters", "station": "سورة الحديد [الإذاعة السعودية]", "ar": "سورة الحديد [سعودي]", "en": "Surah Al-Hadid [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/057.mp3"},
+  {"category": "reciters", "station": "سورة المجادلة [الإذاعة السعودية]", "ar": "سورة المجادلة [سعودي]", "en": "Surah Al-Mujadila [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/058.mp3"},
+  {"category": "reciters", "station": "سورة الحشر [الإذاعة السعودية]", "ar": "سورة الحشر [سعودي]", "en": "Surah Al-Hashr [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/059.mp3"},
+  {"category": "reciters", "station": "سورة الممتحنة [الإذاعة السعودية]", "ar": "سورة الممتحنة [سعودي]", "en": "Surah Al-Mumtahana [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/060.mp3"},
+  {"category": "reciters", "station": "سورة الصف [الإذاعة السعودية]", "ar": "سورة الصف [سعودي]", "en": "Surah As-Saf [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/061.mp3"},
+  {"category": "reciters", "station": "سورة الجمعة [الإذاعة السعودية]", "ar": "سورة الجمعة [سعودي]", "en": "Surah Al-Jumu'a [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/062.mp3"},
+  {"category": "reciters", "station": "سورة المنافقون [الإذاعة السعودية]", "ar": "سورة المنافقون [سعودي]", "en": "Surah Al-Munafiqun [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/063.mp3"},
+  {"category": "reciters", "station": "سورة التغابن [الإذاعة السعودية]", "ar": "سورة التغابن [سعودي]", "en": "Surah At-Taghabun [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/064.mp3"},
+  {"category": "reciters", "station": "سورة الطلاق [الإذاعة السعودية]", "ar": "سورة الطلاق [سعودي]", "en": "Surah At-Talaq [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/065.mp3"},
+  {"category": "reciters", "station": "سورة التحريم [الإذاعة السعودية]", "ar": "سورة التحريم [سعودي]", "en": "Surah At-Tahrim [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/066.mp3"},
+  {"category": "reciters", "station": "سورة الملك [الإذاعة السعودية]", "ar": "سورة الملك [سعودي]", "en": "Surah Al-Mulk [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/067.mp3"},
+  {"category": "reciters", "station": "سورة القلم [الإذاعة السعودية]", "ar": "سورة القلم [سعودي]", "en": "Surah Al-Qalam [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/068.mp3"},
+  {"category": "reciters", "station": "سورة الحاقة [الإذاعة السعودية]", "ar": "سورة الحاقة [سعودي]", "en": "Surah Al-Haqqah [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/069.mp3"},
+  {"category": "reciters", "station": "سورة المعارج [الإذاعة السعودية]", "ar": "سورة المعارج [سعودي]", "en": "Surah Al-Ma'arij [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/070.mp3"},
+  {"category": "reciters", "station": "سورة نوح [الإذاعة السعودية]", "ar": "سورة نوح [سعودي]", "en": "Surah Nuh [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/071.mp3"},
+  {"category": "reciters", "station": "سورة الجن [الإذاعة السعودية]", "ar": "سورة الجن [سعودي]", "en": "Surah Al-Jinn [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/072.mp3"},
+  {"category": "reciters", "station": "سورة المزمل [الإذاعة السعودية]", "ar": "سورة المزمل [سعودي]", "en": "Surah Al-Muzzammil [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/073.mp3"},
+  {"category": "reciters", "station": "سورة المدثر [الإذاعة السعودية]", "ar": "سورة المدثر [سعودي]", "en": "Surah Al-Muddathir [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/074.mp3"},
+  {"category": "reciters", "station": "سورة القيامة [الإذاعة السعودية]", "ar": "سورة القيامة [سعودي]", "en": "Surah Al-Qiyama [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/075.mp3"},
+  {"category": "reciters", "station": "سورة الإنسان [الإذاعة السعودية]", "ar": "سورة الإنسان [سعودي]", "en": "Surah Al-Insan [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/076.mp3"},
+  {"category": "reciters", "station": "سورة المرسلات [الإذاعة السعودية]", "ar": "سورة المرسلات [سعودي]", "en": "Surah Al-Mursalat [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/077.mp3"},
+  {"category": "reciters", "station": "سورة النبأ [الإذاعة السعودية]", "ar": "سورة النبأ [سعودي]", "en": "Surah An-Naba [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/078.mp3"},
+  {"category": "reciters", "station": "سورة النازعات [الإذاعة السعودية]", "ar": "سورة النازعات [سعودي]", "en": "Surah An-Nazi'at [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/079.mp3"},
+  {"category": "reciters", "station": "سورة عبس [الإذاعة السعودية]", "ar": "سورة عبس [سعودي]", "en": "Surah Abasa [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/080.mp3"},
+  {"category": "reciters", "station": "سورة التكوير [الإذاعة السعودية]", "ar": "سورة التكوير [سعودي]", "en": "Surah At-Takwir [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/081.mp3"},
+  {"category": "reciters", "station": "سورة الانفطار [الإذاعة السعودية]", "ar": "سورة الانفطار [سعودي]", "en": "Surah Al-Infitar [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/082.mp3"},
+  {"category": "reciters", "station": "سورة المطففين [الإذاعة السعودية]", "ar": "سورة المطففين [سعودي]", "en": "Surah Al-Mutaffifin [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/083.mp3"},
+  {"category": "reciters", "station": "سورة الانشقاق [الإذاعة السعودية]", "ar": "سورة الانشقاق [سعودي]", "en": "Surah Al-Inshiqaq [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/084.mp3"},
+  {"category": "reciters", "station": "سورة البروج [الإذاعة السعودية]", "ar": "سورة البروج [سعودي]", "en": "Surah Al-Buruj [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/085.mp3"},
+  {"category": "reciters", "station": "سورة الطارق [الإذاعة السعودية]", "ar": "سورة الطارق [سعودي]", "en": "Surah At-Tariq [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/086.mp3"},
+  {"category": "reciters", "station": "سورة الأعلى [الإذاعة السعودية]", "ar": "سورة الأعلى [سعودي]", "en": "Surah Al-A'la [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/087.mp3"},
+  {"category": "reciters", "station": "سورة الغاشية [الإذاعة السعودية]", "ar": "سورة الغاشية [سعودي]", "en": "Surah Al-Ghashiya [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/088.mp3"},
+  {"category": "reciters", "station": "سورة الفجر [الإذاعة السعودية]", "ar": "سورة الفجر [سعودي]", "en": "Surah Al-Fajr [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/089.mp3"},
+  {"category": "reciters", "station": "سورة البلد [الإذاعة السعودية]", "ar": "سورة البلد [سعودي]", "en": "Surah Al-Balad [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/090.mp3"},
+  {"category": "reciters", "station": "سورة الشمس [الإذاعة السعودية]", "ar": "سورة الشمس [سعودي]", "en": "Surah Ash-Shams [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/091.mp3"},
+  {"category": "reciters", "station": "سورة الليل [الإذاعة السعودية]", "ar": "سورة الليل [سعودي]", "en": "Surah Al-Layl [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/092.mp3"},
+  {"category": "reciters", "station": "سورة الضحى [الإذاعة السعودية]", "ar": "سورة الضحى [سعودي]", "en": "Surah Ad-Duha [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/093.mp3"},
+  {"category": "reciters", "station": "سورة الشرح [الإذاعة السعودية]", "ar": "سورة الشرح [سعودي]", "en": "Surah Ash-Sharh [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/094.mp3"},
+  {"category": "reciters", "station": "سورة التين [الإذاعة السعودية]", "ar": "سورة التين [سعودي]", "en": "Surah At-Tin [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/095.mp3"},
+  {"category": "reciters", "station": "سورة العلق [الإذاعة السعودية]", "ar": "سورة العلق [سعودي]", "en": "Surah Al-Alaq [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/096.mp3"},
+  {"category": "reciters", "station": "سورة القدر [الإذاعة السعودية]", "ar": "سورة القدر [سعودي]", "en": "Surah Al-Qadr [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/097.mp3"},
+  {"category": "reciters", "station": "سورة البينة [الإذاعة السعودية]", "ar": "سورة البينة [سعودي]", "en": "Surah Al-Bayyina [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/098.mp3"},
+  {"category": "reciters", "station": "سورة الزلزلة [الإذاعة السعودية]", "ar": "سورة الزلزلة [سعودي]", "en": "Surah Az-Zalzala [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/099.mp3"},
+  {"category": "reciters", "station": "سورة العاديات [الإذاعة السعودية]", "ar": "سورة العاديات [سعودي]", "en": "Surah Al-Adiyat [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/100.mp3"},
+  {"category": "reciters", "station": "سورة القارعة [الإذاعة السعودية]", "ar": "سورة القارعة [سعودي]", "en": "Surah Al-Qari'a [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/101.mp3"},
+  {"category": "reciters", "station": "سورة التكاثر [الإذاعة السعودية]", "ar": "سورة التكاثر [سعودي]", "en": "Surah At-Takathur [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/102.mp3"},
+  {"category": "reciters", "station": "سورة العصر [الإذاعة السعودية]", "ar": "سورة العصر [سعودي]", "en": "Surah Al-Asr [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/103.mp3"},
+  {"category": "reciters", "station": "سورة الهمزة [الإذاعة السعودية]", "ar": "سورة الهمزة [سعودي]", "en": "Surah Al-Humaza [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/104.mp3"},
+  {"category": "reciters", "station": "سورة الفيل [الإذاعة السعودية]", "ar": "سورة الفيل [سعودي]", "en": "Surah Al-Fil [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/105.mp3"},
+  {"category": "reciters", "station": "سورة قريش [الإذاعة السعودية]", "ar": "سورة قريش [سعودي]", "en": "Surah Quraysh [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/106.mp3"},
+  {"category": "reciters", "station": "سورة الماعون [الإذاعة السعودية]", "ar": "سورة الماعون [سعودي]", "en": "Surah Al-Ma'un [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/107.mp3"},
+  {"category": "reciters", "station": "سورة الكوثر [الإذاعة السعودية]", "ar": "سورة الكوثر [سعودي]", "en": "Surah Al-Kawthar [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/108.mp3"},
+  {"category": "reciters", "station": "سورة الكافرون [الإذاعة السعودية]", "ar": "سورة الكافرون [سعودي]", "en": "Surah Al-Kafirun [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/109.mp3"},
+  {"category": "reciters", "station": "سورة النصر [الإذاعة السعودية]", "ar": "سورة النصر [سعودي]", "en": "Surah An-Nasr [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/110.mp3"},
+  {"category": "reciters", "station": "سورة المسد [الإذاعة السعودية]", "ar": "سورة المسد [سعودي]", "en": "Surah Al-Masad [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/111.mp3"},
+  {"category": "reciters", "station": "سورة الإخلاص [الإذاعة السعودية]", "ar": "سورة الإخلاص [سعودي]", "en": "Surah Al-Ikhlas [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/112.mp3"},
+  {"category": "reciters", "station": "سورة الفلق [الإذاعة السعودية]", "ar": "سورة الفلق [سعودي]", "en": "Surah Al-Falaq [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/113.mp3"},
+  {"category": "reciters", "station": "سورة الناس [الإذاعة السعودية]", "ar": "سورة الناس [سعودي]", "en": "Surah An-Nas [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/114.mp3"},
   {"category": "reciters", "station": "راديو الشيخ محمد صديق المنشاوي", "ar": "راديو الشيخ محمد صديق المنشاوي", "en": "Sheikh Muhammad Siddiq Al-Minshawi Radio", "minshawi": true, "minshawiType": "radio", "rewaya": "rewaya-hafs", "reciterType": "radio", "url": "https://backup.qurango.net/radio/mohammed_siddiq_alminshawi"},
   {"category": "reciters", "station": "سورة الفاتحة (مرتل)", "ar": "سورة الفاتحة (مرتل)", "en": "Surah Al-Fatiha (Muratal)", "minshawi": true, "minshawiType": "muratal", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/001.mp3"},
   {"category": "reciters", "station": "سورة البقرة (مرتل)", "ar": "سورة البقرة (مرتل)", "en": "Surah Al-Baqara (Muratal)", "minshawi": true, "minshawiType": "muratal", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/002.mp3"},
@@ -16325,6 +16687,7 @@ const recitersStations = [
     if (s.hussary)    btn.setAttribute('data-hussary',  'true');
     if (s.hussaryType)  btn.setAttribute('data-hussary-type', s.hussaryType);
     if (s.minshawiType) btn.setAttribute('data-minshawi-type', s.minshawiType);
+    if (s.basitType)    btn.setAttribute('data-basit-type', s.basitType);
     if (s.banna)      btn.setAttribute('data-banna',    'true');
     if (s.bannaType)  btn.setAttribute('data-banna-type', s.bannaType);
     if (s.haramain)   btn.setAttribute('data-haramain', 'true');
@@ -24123,14 +24486,16 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
 
 function filterStations(category) {
 
-  // إخفاء الفلاتر الفرعية البنا والحصري والمنشاوي عند الانتقال لأي فلتر رئيسي آخر
+  // إخفاء الفلاتر الفرعية البنا والحصري والمنشاوي وعبد الباسط عند الانتقال لأي فلتر رئيسي آخر
   if (category !== 'reciters') {
     var _bsf = document.getElementById('banna-subfilter');
     var _hsf = document.getElementById('hussary-subfilter');
     var _msf = document.getElementById('minshawi-subfilter');
+    var _basf = document.getElementById('basit-subfilter');
     if (_bsf) _bsf.style.display = 'none';
     if (_hsf) _hsf.style.display = 'none';
     if (_msf) _msf.style.display = 'none';
+    if (_basf) _basf.style.display = 'none';
   }
 
   document.body.classList.remove('filter-scholars', 'filter-favorites');
@@ -26490,20 +26855,23 @@ createToast(
     "▶ Listen",
     function() {
 
-      var mainFilterBtn = document.querySelector("button.filter-button[data-ar='القرآن الكريم']");
+      var mainFilterBtn = document.querySelector("button.filter-button[data-ar='القراء']");
       if (mainFilterBtn) mainFilterBtn.click();
 
       setTimeout(() => {
 
-        var subBtn = document.querySelector(".qurankarim-sub-btn[data-sub='Monshawiiyat']");
-        if (subBtn) subBtn.click();
+        var minshawiBtn = document.querySelector(".reciters-sub-btn[data-sub='minshawi']");
+        if (minshawiBtn) minshawiBtn.click();
 
         setTimeout(() => {
 
-          var subfilter = document.getElementById('qurankarim-subfilter');
+          var subfilter = document.getElementById('minshawi-subfilter');
           if (subfilter) {
             subfilter.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
+
+          var haflaBtn = document.querySelector(".minshawi-sub-btn[data-minshawi-sub='haflaaat']");
+          if (haflaBtn) haflaBtn.click();
 
           setTimeout(() => {
             let stationBtns = document.querySelectorAll("button[data-category='Monshawiiyat']");
@@ -26543,7 +26911,8 @@ function updateFilterLanguage(lang) {
     '.radio-sub-btn, ' +
     '.hussary-sub-btn, ' +
     '.banna-sub-btn, ' +
-    '.minshawi-sub-btn'
+    '.minshawi-sub-btn, ' +
+    '.basit-sub-btn'
   ).forEach(function(button) {
     var val = button.getAttribute('data-' + lang);
     if (val) button.textContent = val;
@@ -26798,7 +27167,7 @@ function filterQuranKarimSub(subType, btn) {
     document.querySelectorAll('.qurankarim-sub-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
-    ['Quran', 'mojawwad', 'rewayat', 'Monshawiiyat', 'surah', 'teachers'].forEach(function(cat) {
+    ['Quran', 'mojawwad', 'rewayat', 'surah', 'teachers'].forEach(function(cat) {
         document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
             var show = (subType === cat);
             b.style.display = show ? 'block' : 'none';
@@ -26814,7 +27183,7 @@ function filterQuranKarimSub(subType, btn) {
 
     if (_userPickedFilter) {
         var _qkTarget = null;
-        ['Quran', 'mojawwad', 'rewayat', 'Monshawiiyat', 'surah', 'teachers'].forEach(function(cat) {
+        ['Quran', 'mojawwad', 'rewayat', 'surah', 'teachers'].forEach(function(cat) {
             if (!_qkTarget) {
                 document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
                     if (!_qkTarget && b.style.display !== 'none') _qkTarget = b;
@@ -26914,7 +27283,7 @@ filterStations = function(category) {
 
     if (category === 'QuranKarim') {
         _showSubfilter('qurankarim-subfilter', 'qurankarim-sub-btn', 'Quran', function() {
-            ['Quran','mojawwad','rewayat','Monshawiiyat','surah','teachers'].forEach(function(cat) {
+            ['Quran','mojawwad','rewayat','surah','teachers'].forEach(function(cat) {
                 document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
                     b.style.display = (cat === 'Quran') ? 'block' : 'none';
                 });
@@ -26923,7 +27292,7 @@ filterStations = function(category) {
     } else {
         _hideSubfilter('qurankarim-subfilter');
         if (category !== 'all') {
-            ['Quran','mojawwad','rewayat','Monshawiiyat','surah','teachers'].forEach(function(cat) {
+            ['Quran','mojawwad','rewayat','surah','teachers'].forEach(function(cat) {
                 document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) { b.style.display = 'none'; });
             });
         }
@@ -27080,6 +27449,8 @@ function filterMinshawySub(subType, btn) {
         document.querySelectorAll('button[data-minshawi-type="muratal"]').forEach(function(b) { _sd(b, true); });
     } else if (subType === 'mojawwad') {
         document.querySelectorAll('button[data-minshawi-type="mojawwad"]').forEach(function(b) { _sd(b, true); });
+    } else if (subType === 'haflaaat') {
+        document.querySelectorAll('button[data-category="Monshawiiyat"]').forEach(function(b) { _sd(b, true); });
     }
 }
 
@@ -27104,6 +27475,28 @@ function filterBannaSub(subType, btn) {
     }
 }
 
+function filterBasitSub(subType, btn) {
+    document.querySelectorAll('.basit-sub-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    function _sd(b, show) { _setButtonDisplay(b, show); }
+
+    document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd(b, false); });
+
+    if (subType === 'radio') {
+        document.querySelectorAll('button[data-basit="true"]').forEach(function(b) {
+            var bt = b.getAttribute('data-basit-type');
+            _sd(b, b.getAttribute('data-reciter-type') === 'radio' && !bt);
+        });
+    } else if (subType === 'muratal') {
+        document.querySelectorAll('button[data-basit-type="muratal"]').forEach(function(b) { _sd(b, true); });
+    } else if (subType === 'saudi-muratal') {
+        document.querySelectorAll('button[data-basit-type="saudi-muratal"]').forEach(function(b) { _sd(b, true); });
+    } else if (subType === 'mojawwad') {
+        document.querySelectorAll('button[data-basit-type="mojawwad"]').forEach(function(b) { _sd(b, true); });
+    }
+}
+
 function filterRecitersSub(subType, btn) {
     _highlightParentFilter('reciters');
     document.querySelectorAll('.reciters-sub-btn').forEach(b => b.classList.remove('active'));
@@ -27123,6 +27516,11 @@ function filterRecitersSub(subType, btn) {
     if (subType !== 'minshawi') {
         var minshawiSubFilter = document.getElementById('minshawi-subfilter');
         if (minshawiSubFilter) minshawiSubFilter.style.display = 'none';
+    }
+    // hide basit sub-sub-filter unless basit is selected
+    if (subType !== 'basit') {
+        var basitSubFilter = document.getElementById('basit-subfilter');
+        if (basitSubFilter) basitSubFilter.style.display = 'none';
     }
 
     document.querySelectorAll('button[data-category="reciters"]').forEach(function(b, i) {
@@ -27163,18 +27561,22 @@ function filterRecitersSub(subType, btn) {
     } else if (subType === 'radio') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
-            if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type') || b.hasAttribute('data-minshawi-type')) return;
+            if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type') || b.hasAttribute('data-minshawi-type') || b.hasAttribute('data-basit-type') || b.getAttribute('data-basit') === 'true') return;
             _sd2(b, b.getAttribute('data-reciter-type') === 'radio');
         });
     } else if (subType === 'mp3') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
-            if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type') || b.hasAttribute('data-minshawi-type')) return;
+            if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type') || b.hasAttribute('data-minshawi-type') || b.hasAttribute('data-basit-type') || b.getAttribute('data-basit') === 'true') return;
             _sd2(b, b.getAttribute('data-reciter-type') === 'mp3');
         });
     } else if (subType === 'basit') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-basit="true"]').forEach(function(b) { _sd2(b, true); });
+        // show basit sub-sub filter, default to radio
+        var basitSubFilter = document.getElementById('basit-subfilter');
+        if (basitSubFilter) basitSubFilter.style.display = 'block';
+        filterBasitSub('radio', document.querySelector('.basit-sub-btn[data-basit-sub="radio"]'));
     } else if (subType === 'minshawi') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         document.querySelectorAll('button[data-minshawi="true"]').forEach(function(b) { _sd2(b, true); });
@@ -27199,7 +27601,7 @@ function filterRecitersSub(subType, btn) {
     } else if (subType === 'alpha') {
         document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd2(b, false); });
         var _alphaBtns = Array.from(document.querySelectorAll('button[data-category="reciters"]')).filter(function(b) {
-            return !b.hasAttribute('data-banna-type') && !b.hasAttribute('data-hussary-type') && !b.hasAttribute('data-minshawi-type');
+            return !b.hasAttribute('data-banna-type') && !b.hasAttribute('data-hussary-type') && !b.hasAttribute('data-minshawi-type') && !b.hasAttribute('data-basit-type') && b.getAttribute('data-basit') !== 'true';
         });
         _alphaBtns.forEach(function(b) { _sd2(b, true); });
 
@@ -28600,8 +29002,13 @@ if (target && count >= target) {
                     e.stopPropagation();
                     var wrap = btn.closest('.pl-check-wrap');
                     if (wrap) {
-                        if (cb.checked) wrap.classList.add('pl-selected');
-                        else            wrap.classList.remove('pl-selected');
+                        if (cb.checked) {
+                            wrap.classList.add('pl-selected');
+                            cb.dataset.selOrder = Date.now();
+                        } else {
+                            wrap.classList.remove('pl-selected');
+                            delete cb.dataset.selOrder;
+                        }
                     }
                     updateCount();
                 });
@@ -28641,10 +29048,12 @@ if (target && count >= target) {
         }
 
         window.uplSelectAll = function() {
-            document.querySelectorAll('.upl-cb').forEach(function(cb) {
+            var t = Date.now();
+            document.querySelectorAll('.upl-cb').forEach(function(cb, i) {
                 var btn = cb.closest('button.button');
                 if (!btn || btn.style.display === 'none') return;
                 cb.checked = true;
+                if (!cb.dataset.selOrder) cb.dataset.selOrder = t + i;
                 var wrap = cb.closest('.pl-check-wrap');
                 if (wrap) wrap.classList.add('pl-selected');
             });
@@ -28657,6 +29066,7 @@ if (target && count >= target) {
         window.uplClear = function() {
             document.querySelectorAll('.upl-cb').forEach(function(cb) {
                 cb.checked = false;
+                delete cb.dataset.selOrder;
                 var wrap = cb.closest('.pl-check-wrap');
                 if (wrap) wrap.classList.remove('pl-selected');
             });
@@ -28670,7 +29080,9 @@ if (target && count >= target) {
         window.uplStart = function() {
             _plList = Array.from(
                 document.querySelectorAll('.upl-cb:checked')
-            ).map(function(cb) {
+            ).sort(function(a, b) {
+                return (parseInt(a.dataset.selOrder) || 0) - (parseInt(b.dataset.selOrder) || 0);
+            }).map(function(cb) {
                 return cb.closest('button.button');
             }).filter(Boolean);
 
@@ -28875,11 +29287,6 @@ if (target && count >= target) {
                 if (p) p.style.display = 'none';
                 requestAnimationFrame(function() { var _ar = (typeof isArabic!=='undefined')?isArabic:true; showPanel('surah', _ar?'قائمة تشغيل السور':'Surah Playlist', 'qurankarim-playlist-slot'); });
                 _setMushafBarVisible(true);
-            } else if (subType === 'Monshawiiyat') {
-                var p = document.getElementById('unified-playlist-panel');
-                if (p) p.style.display = 'none';
-                requestAnimationFrame(function() { var _ar = (typeof isArabic!=='undefined')?isArabic:true; showPanel('Monshawiiyat', _ar?'قائمة تشغيل المنشاويات':'Al-Minshawi Playlist', 'qurankarim-playlist-slot'); });
-                _setMushafBarVisible(false);
             } else {
                 hidePanel();
                 _setMushafBarVisible(false);
@@ -28987,6 +29394,69 @@ if (target && count >= target) {
                     if (lbl) lbl.textContent = subType === 'muratal'
                         ? (_ar ? '📋 قائمة تشغيل المصحف المرتل (المنشاوي):' : '📋 Al-Minshawi Muratal Playlist:')
                         : (_ar ? '📋 قائمة تشغيل المصحف المجود (المنشاوي):' : '📋 Al-Minshawi Mujawwad Playlist:');
+                    updateCount();
+                    var panel = document.getElementById('unified-playlist-panel');
+                    var slot  = document.getElementById('reciters-playlist-slot');
+                    if (panel && slot) {
+                        if (!_panelOrigParent) {
+                            _panelOrigParent = panel.parentElement;
+                            _panelOrigNext   = panel.nextSibling;
+                        }
+                        slot.appendChild(panel);
+                    }
+                    if (panel) panel.style.display = 'block';
+                });
+            } else if (subType === 'haflaaat') {
+                var p = document.getElementById('unified-playlist-panel');
+                if (p) p.style.display = 'none';
+                requestAnimationFrame(function() {
+                    injectCheckboxes('button[data-category="Monshawiiyat"]');
+                    document.querySelectorAll('.upl-cb-wrapper').forEach(function(w) {
+                        var wrap = w.closest('.pl-check-wrap');
+                        var b = wrap && wrap.querySelector('button.button');
+                        w.style.display = (b && b.style.display !== 'none') ? '' : 'none';
+                    });
+                    var lbl = document.getElementById('upl-label');
+                    var _ar = (typeof isArabic!=='undefined')?isArabic:true;
+                    if (lbl) lbl.textContent = _ar ? '📋 قائمة تشغيل المنشاويات (حفلات):' : '📋 Monshawiiyat (Concerts) Playlist:';
+                    updateCount();
+                    var panel = document.getElementById('unified-playlist-panel');
+                    var slot  = document.getElementById('reciters-playlist-slot');
+                    if (panel && slot) {
+                        if (!_panelOrigParent) {
+                            _panelOrigParent = panel.parentElement;
+                            _panelOrigNext   = panel.nextSibling;
+                        }
+                        slot.appendChild(panel);
+                    }
+                    if (panel) panel.style.display = 'block';
+                });
+            } else {
+                hidePanel();
+            }
+        };
+
+        var _origFBASITS = filterBasitSub;
+        filterBasitSub = function(subType, btn) {
+            _origFBASITS(subType, btn);
+            if (subType === 'muratal' || subType === 'mojawwad' || subType === 'saudi-muratal') {
+                var p = document.getElementById('unified-playlist-panel');
+                if (p) p.style.display = 'none';
+                requestAnimationFrame(function() {
+                    var selector = 'button[data-basit-type="' + subType + '"]';
+                    injectCheckboxes(selector);
+                    document.querySelectorAll('.upl-cb-wrapper').forEach(function(w) {
+                        var wrap = w.closest('.pl-check-wrap');
+                        var b = wrap && wrap.querySelector('button.button');
+                        w.style.display = (b && b.style.display !== 'none') ? '' : 'none';
+                    });
+                    var lbl = document.getElementById('upl-label');
+                    var _ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+                    if (lbl) lbl.textContent = subType === 'muratal'
+                        ? (_ar ? '📋 قائمة تشغيل المصحف المرتل (عبد الباسط):' : '📋 Abdul Basit Muratal Playlist:')
+                        : subType === 'saudi-muratal'
+                        ? (_ar ? '📋 قائمة تشغيل المصحف المرتل [الإذاعة السعودية]:' : '📋 Abdul Basit Saudi Radio Muratal Playlist:')
+                        : (_ar ? '📋 قائمة تشغيل المصحف المجود (عبد الباسط):' : '📋 Abdul Basit Mujawwad Playlist:');
                     updateCount();
                     var panel = document.getElementById('unified-playlist-panel');
                     var slot  = document.getElementById('reciters-playlist-slot');
