@@ -24480,21 +24480,16 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
 
 function filterStations(category) {
 
-  // إخفاء الفلاتر الفرعية البنا والحصري والمنشاوي وعبد الباسط عند الانتقال لأي فلتر رئيسي آخر
-  if (category !== 'reciters') {
-    var _bsf = document.getElementById('banna-subfilter');
-    var _hsf = document.getElementById('hussary-subfilter');
-    var _msf = document.getElementById('minshawi-subfilter');
-    var _basf = document.getElementById('basit-subfilter');
-    if (_bsf) _bsf.style.display = 'none';
-    if (_hsf) _hsf.style.display = 'none';
-    if (_msf) _msf.style.display = 'none';
-    if (_basf) _basf.style.display = 'none';
-  }
+  // ── 1. ترجمة الفلاتر المركّبة إلى category حقيقي للأزرار ──────────────
+  var realCat = category;
+  if (category === 'QuranSciences') realCat = 'Translation';
+  if (category === 'QuranKarim')    realCat = 'Quran';
 
+  // ── 2. body classes ───────────────────────────────────────────────────
   document.body.classList.remove('filter-scholars', 'filter-favorites');
   if (category === 'scholars') document.body.classList.add('filter-scholars');
 
+  // ── 3. عناصر UI مشروطة ───────────────────────────────────────────────
   var prayerWidget = document.getElementById('prayerWidgetWrapper');
   if (prayerWidget) {
     prayerWidget.style.display =
@@ -24508,9 +24503,9 @@ function filterStations(category) {
       ? 'none' : '';
   }
 
-  document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('selected'));
-
-  document.querySelectorAll('.filter-button').forEach(btn => {
+  // ── 4. تحديد زر الفلتر الرئيسي النشط ────────────────────────────────
+  document.querySelectorAll('.filter-button').forEach(function(btn) {
+    btn.classList.remove('selected');
     if (
       (category === 'all' && btn.getAttribute('data-ar') === 'كل الإذاعات') ||
       (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + category + "'"))
@@ -24519,17 +24514,21 @@ function filterStations(category) {
     }
   });
 
+  // ── 5. إخفاء/إظهار أزرار المحطات (مرور واحد فقط على كل الأزرار) ──────
   var moreSubCats = ['more-mushaf','more-azkar','more-translations','more-hadith','more-radio','more-sites'];
   var ltvSubCats  = ['ltv-channels','ltv-full','ltv-best','ltv-salawat','ltv-lectures','ltv-news','ltv-learn'];
-  document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
-    var isHiddenSub = button.hasAttribute('data-hidden-sub');
-    var cat = button.getAttribute('data-category');
+
+  document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(button) {
+    var cat          = button.getAttribute('data-category');
+    var isHiddenSub  = button.hasAttribute('data-hidden-sub');
+    var hasSpecialAttr = button.hasAttribute('data-minshawi-type') || button.hasAttribute('data-hussary-type')
+                      || button.hasAttribute('data-banna-type')    || button.hasAttribute('data-basit-type');
     var shouldShow;
+
     if (category === 'all') {
-      shouldShow = !(isHiddenSub || cat === 'Foreign' || cat === 'radio-external'
+      shouldShow = !(isHiddenSub || hasSpecialAttr
+                     || cat === 'Foreign' || cat === 'radio-external'
                      || button.hasAttribute('data-adhkar-morning') || button.hasAttribute('data-adhkar-evening')
-                     || button.hasAttribute('data-basit-type') || button.hasAttribute('data-hussary-type')
-                     || button.hasAttribute('data-minshawi-type') || button.hasAttribute('data-banna-type')
                      || cat === 'surah' || cat === 'Monshawiiyat'
                      || cat === 'ltv-news' || cat === 'ltv-learn'
                      || cat === 'more-azkar' || cat === 'more-translations' || cat === 'more-hadith'
@@ -24541,15 +24540,21 @@ function filterStations(category) {
     } else if (category === 'mix') {
       shouldShow = (cat === 'mix');
     } else if (category === 'Radio') {
-      if (cat === 'Radio') shouldShow = true;
-      else if (cat !== 'radio-external') shouldShow = false;
+      shouldShow = (cat === 'Radio');
+    } else if (category === 'reciters') {
+      // القراء: أظهر فقط radio بشكل افتراضي، المرتل/المجود تتحكم بهم الفلاتر الفرعية
+      shouldShow = (cat === 'reciters' && button.getAttribute('data-reciter-type') === 'radio' && !hasSpecialAttr);
+    } else if (category === 'QuranKarim') {
+      // افتراضي: أظهر Quran فقط، الباقي يتحكم بهم الفلتر الفرعي
+      shouldShow = (cat === 'Quran' && !hasSpecialAttr);
+    } else if (category === 'QuranSciences') {
+      shouldShow = (cat === 'Translation');
     } else {
-      shouldShow = (cat === category);
+      shouldShow = (cat === realCat) && !hasSpecialAttr;
     }
-    if (shouldShow !== undefined) {
-      var disp = shouldShow ? 'block' : 'none';
-      button.style.display = disp;
 
+    if (shouldShow !== undefined) {
+      button.style.display = shouldShow ? 'block' : 'none';
       var wrap = button.parentElement;
       if (wrap && wrap.classList.contains('pl-check-wrap')) {
         wrap.style.display = shouldShow ? 'inline-block' : 'none';
@@ -24557,13 +24562,71 @@ function filterStations(category) {
     }
   });
 
+  // ── 6. الفلاتر الفرعية ────────────────────────────────────────────────
+
+  // إخفاء subfilters الشيوخ إذا مش في القراء
+  if (category !== 'reciters') {
+    ['banna-subfilter','hussary-subfilter','minshawi-subfilter','basit-subfilter'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+  }
+
+  // subfilters رئيسية
+  if (category === 'More')         { _showSubfilter('more-subfilter',         'more-sub-btn',         'all');        }
+  else                             { _hideSubfilter('more-subfilter'); }
+
+  if (category === 'LiveTV')       { _showSubfilter('livetv-subfilter',       'livetv-sub-btn',       'all');        }
+  else                             { _hideSubfilter('livetv-subfilter'); }
+
+  if (category === 'QuranKarim')   { _showSubfilter('qurankarim-subfilter',   'qurankarim-sub-btn',   'Quran');      }
+  else                             { _hideSubfilter('qurankarim-subfilter'); }
+
+  if (category === 'QuranSciences'){ _showSubfilter('quransciences-subfilter','quransciences-sub-btn','Translation');}
+  else                             { _hideSubfilter('quransciences-subfilter'); }
+
+  if (category === 'Radio') {
+    _showSubfilter('radio-subfilter', 'radio-sub-btn', 'radio-live');
+    if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined')
+      updateFilterLanguage(isArabic ? 'ar' : 'en');
+  } else { _hideSubfilter('radio-subfilter'); }
+
+  if (category === 'reciters') {
+    _showSubfilter('reciters-subfilter', 'reciters-sub-btn', 'radio');
+    if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined')
+      updateFilterLanguage(isArabic ? 'ar' : 'en');
+  } else { _hideSubfilter('reciters-subfilter'); }
+
+  if (category === 'sira')         { _showSubfilter('sira-subfilter',         'sira-sub-btn',         'all');        }
+  else                             { _hideSubfilter('sira-subfilter'); }
+
+  if (category === 'mix')          { _showSubfilter('mix-subfilter',          'mix-sub-btn',          'all');        }
+  else                             { _hideSubfilter('mix-subfilter'); }
+
+  if (category === 'Adhkar') {
+    var autoSub  = getAdhkarSubByTime();
+    var targetSub = autoSub || 'all';
+    currentAdhkarSub = targetSub;
+    _showSubfilter('adhkar-subfilter', 'adhkar-sub-btn', targetSub, function() {
+      document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
+        b.style.display = (targetSub === 'all' || b.hasAttribute('data-adhkar-' + targetSub)) ? 'block' : 'none';
+      });
+    });
+  } else {
+    _hideSubfilter('adhkar-subfilter');
+    currentAdhkarSub = 'all';
+  }
+
+  // ── 7. تحديث الـ indices والـ scroll ──────────────────────────────────
   updateButtonIndices();
 
-  var _hasSubFilter = (category === 'Adhkar' || category === 'More' || category === 'LiveTV' || category === 'QuranSciences' || category === 'QuranKarim' || category === 'sira' || category === 'mix' || category === 'reciters' || category === 'Radio');
+  var _hasSubFilter = (category === 'Adhkar' || category === 'More' || category === 'LiveTV'
+                    || category === 'QuranSciences' || category === 'QuranKarim' || category === 'sira'
+                    || category === 'mix' || category === 'reciters' || category === 'Radio');
   if (_userPickedFilter && !_hasSubFilter) {
     var _firstVisible = Array.from(
       document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)')
-    ).find(function(b){ return b.style.display !== 'none'; });
+    ).find(function(b) { return b.style.display !== 'none'; });
     smartScrollToStations(_firstVisible, 60);
   }
 }
@@ -27272,12 +27335,6 @@ function _showSubfilter(subId, activeClass, defaultSubAttr, onShow) {
 
     if (typeof onShow === 'function') onShow();
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
-
-    setTimeout(function() {
-        sub.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        sub.classList.add('highlight-attention');
-        setTimeout(function() { sub.classList.remove('highlight-attention'); }, 1800);
-    }, 120);
 }
 
 function _hideSubfilter(subId) {
@@ -27285,117 +27342,7 @@ function _hideSubfilter(subId) {
     if (sub) sub.classList.remove('visible');
 }
 
-var _origFilterStations = filterStations;
 
-filterStations = function(category) {
-
-    if (category === 'More') {
-        _showSubfilter('more-subfilter', 'more-sub-btn', 'all', function() {
-            ['more-mushaf','more-azkar','more-translations','more-hadith','more-radio','more-sites'].forEach(function(cat) {
-                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) { b.style.display = 'block'; });
-            });
-        });
-    } else { _hideSubfilter('more-subfilter'); }
-
-    if (category === 'LiveTV') {
-        _showSubfilter('livetv-subfilter', 'livetv-sub-btn', 'all', function() {
-            ['ltv-channels','ltv-full','ltv-best','ltv-salawat','ltv-lectures','ltv-news','ltv-learn'].forEach(function(cat) {
-                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) { b.style.display = 'block'; });
-            });
-        });
-    } else { _hideSubfilter('livetv-subfilter'); }
-
-    if (category === 'QuranKarim') {
-        _showSubfilter('qurankarim-subfilter', 'qurankarim-sub-btn', 'Quran', function() {
-            ['Quran','mojawwad','rewayat','surah','teachers'].forEach(function(cat) {
-                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-                    b.style.display = (cat === 'Quran') ? 'block' : 'none';
-                });
-            });
-        });
-    } else {
-        _hideSubfilter('qurankarim-subfilter');
-        if (category !== 'all') {
-            ['Quran','mojawwad','rewayat','surah','teachers'].forEach(function(cat) {
-                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) { b.style.display = 'none'; });
-            });
-        }
-    }
-
-    if (category === 'QuranSciences') {
-        _showSubfilter('quransciences-subfilter', 'quransciences-sub-btn', 'Translation', function() {
-            ['Translation','tafsir','tajweed'].forEach(function(cat) {
-                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
-                    b.style.display = (cat === 'Translation') ? 'block' : 'none';
-                });
-            });
-            document.querySelectorAll('button[data-category="rewayat"]').forEach(function(b) { b.style.display = 'none'; });
-        });
-    } else {
-        _hideSubfilter('quransciences-subfilter');
-        if (category !== 'all') {
-            ['Translation','tafsir','tajweed'].forEach(function(cat) {
-                document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) { b.style.display = 'none'; });
-            });
-            document.querySelectorAll('button[data-category="rewayat"]').forEach(function(b) { b.style.display = 'none'; });
-        }
-    }
-
-    if (category === 'Radio') {
-        _showSubfilter('radio-subfilter', 'radio-sub-btn', 'radio-live', function() {
-            document.querySelectorAll('button[data-category="Radio"]').forEach(function(b) { b.style.display = 'block'; });
-            document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) { b.style.display = 'none'; });
-            if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined') updateFilterLanguage(isArabic ? 'ar' : 'en');
-        });
-    } else {
-        _hideSubfilter('radio-subfilter');
-        if (category !== 'all') {
-            document.querySelectorAll('button[data-category="radio-external"]').forEach(function(b) { b.style.display = 'none'; });
-        }
-    }
-
-    if (category !== 'reciters') { _hideSubfilter('reciters-subfilter'); }
-
-    _origFilterStations(category === 'QuranSciences' ? 'Translation' : category === 'QuranKarim' ? 'Quran' : category);
-
-    if (category === 'reciters') {
-        _showSubfilter('reciters-subfilter', 'reciters-sub-btn', 'radio', function() {
-            document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
-                b.style.display = (b.getAttribute('data-reciter-type') === 'radio') ? 'block' : 'none';
-            });
-            if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined') updateFilterLanguage(isArabic ? 'ar' : 'en');
-        });
-    }
-
-    if (category === 'sira') {
-        _showSubfilter('sira-subfilter', 'sira-sub-btn', 'all', function() {
-            document.querySelectorAll('button[data-category="sira"]').forEach(function(b) { b.style.display = 'block'; });
-        });
-    } else { _hideSubfilter('sira-subfilter'); }
-
-    var sub = document.getElementById('adhkar-subfilter');
-    if (sub) {
-        if (category === 'Adhkar') {
-            var autoSub = getAdhkarSubByTime();
-            var targetSub = autoSub || 'all';
-            _showSubfilter('adhkar-subfilter', 'adhkar-sub-btn', targetSub, function() {
-                currentAdhkarSub = targetSub;
-                document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
-                    b.style.display = (targetSub === 'all' || b.hasAttribute('data-adhkar-' + targetSub)) ? 'block' : 'none';
-                });
-            });
-        } else {
-            _hideSubfilter('adhkar-subfilter');
-            currentAdhkarSub = 'all';
-        }
-    }
-
-    if (category === 'mix') {
-        _showSubfilter('mix-subfilter', 'mix-sub-btn', 'all', function() {
-            document.querySelectorAll('button[data-category="mix"]').forEach(function(b) { b.style.display = 'block'; });
-        });
-    } else { _hideSubfilter('mix-subfilter'); }
-};
 
 function filterMixSub(subType, btn) {
     _highlightParentFilter('mix');
@@ -27463,7 +27410,8 @@ function filterMinshawySub(subType, btn) {
 
     function _sd(b, show) { _setButtonDisplay(b, show); }
 
-    document.querySelectorAll('button[data-minshawi="true"]').forEach(function(b) { _sd(b, false); });
+    // إخفاء كل الأزرار أولاً (مثل باقي الـ sub-functions)
+    document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) { _sd(b, false); });
 
     if (subType === 'radio') {
         document.querySelectorAll('button[data-minshawi="true"]').forEach(function(b) {
@@ -28374,17 +28322,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     showButtonsForEightSeconds();
 
-    const now = new Date();
-    const hour = now.getHours();
-
-    // الفلاتر الرئيسية الصحيحة فقط
-    const categories = [
-      'reciters', 'reciters', 'reciters',
-      'QuranKarim', 'QuranKarim', 'QuranKarim',
-      'Radio', 'Radio',
-      'QuranSciences',
-      'scholars', 'sira', 'mix', 'Adhkar'
-    ];
+    // ======================================================
+    // منطق الفلتر عند فتح الموقع (مبسط بدون تعارض)
+    // ======================================================
 
     // map من data-category للفلتر الرئيسي المقابل
     const catToMain = {
@@ -28401,7 +28341,7 @@ document.addEventListener('DOMContentLoaded', function() {
       'sira': 'sira', 'scholars': 'scholars', 'mix': 'mix',
     };
 
-    // دائماً نحاول نفتح على فلتر آخر محطة شغّلها المستخدم
+    // نحاول نجيب فلتر آخر محطة شغّلها المستخدم
     function getLastStationFilter() {
       try {
         const last = localStorage.getItem('lastStation');
@@ -28423,32 +28363,13 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch(e) { return null; }
     }
 
-    let selectedCategory = getLastStationFilter();
-
-    // إذا مفيش آخر محطة — نختار حسب الوقت أو عشوائي
-    if (!selectedCategory) {
-      const utcHour = now.getUTCHours();
-      const isWesternPeak = (utcHour >= 15 && utcHour < 22) || (utcHour >= 21 || utcHour < 3);
-
-      if ((hour >= 4 && hour < 11) || (hour >= 16 && hour < 19)) {
-        selectedCategory = 'Adhkar';
-      } else if (isWesternPeak) {
-        const westPool = ['QuranKarim','QuranKarim','QuranSciences','reciters','Radio'];
-        selectedCategory = westPool[Math.floor(Math.random() * westPool.length)];
-      } else {
-        selectedCategory = categories[Math.floor(Math.random() * categories.length)];
-      }
-    }
+    // لو المستخدم شغّل محطة قبل كده → افتح على فلترها
+    // لو أول مرة أو مفيش تاريخ → افتح على Translation (الفلتر الافتراضي)
+    var selectedCategory = getLastStationFilter() || 'QuranSciences';
 
     setTimeout(function () {
-      if (selectedCategory === 'favorites') {
-        if (typeof toggleFavoritesView === 'function') {
-          toggleFavoritesView();
-        }
-      } else {
-        if (typeof filterStations === 'function') {
-          filterStations(selectedCategory);
-        }
+      if (typeof filterStations === 'function') {
+        filterStations(selectedCategory);
       }
     }, 100);
 
