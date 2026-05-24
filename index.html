@@ -22914,6 +22914,58 @@ body.dark-mode #sp-athkar-display {
 
 <!-- ===== MUSHAF SECTION ===== -->
 <style>
+/* ===== منبه الصلاة على النبى ===== */
+.sp-alarm-row {
+    display: flex; gap: 6px; align-items: center; justify-content: center;
+    margin-bottom: 7px; flex-wrap: wrap;
+}
+.sp-alarm-label { font-size: 12px; color: #555; white-space: nowrap; }
+body.dark-mode .sp-alarm-label { color: #aaa; }
+#sp-alarm-interval-sel {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px; padding: 3px 7px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(29,158,117,0.3);
+    background: rgba(255,255,255,0.9);
+    color: #0F6E56;
+    cursor: pointer;
+}
+body.dark-mode #sp-alarm-interval-sel { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
+#sp-alarm-btn {
+    background: #FFF8EE;
+    color: #8B5200;
+    border-color: rgba(186,117,23,0.4);
+}
+#sp-alarm-btn:hover { background: #FAEBD7; }
+#sp-alarm-btn.active {
+    background: #E9920A;
+    color: #fff;
+    border-color: #E9920A;
+    animation: sp-alarm-pulse 2s infinite;
+}
+body.dark-mode #sp-alarm-btn { background: rgba(186,117,23,0.12); color: #EFB84A; border-color: rgba(186,117,23,0.4); }
+body.dark-mode #sp-alarm-btn.active { background: #BA7517; color: #fff; }
+@keyframes sp-alarm-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(233,146,10,0.45); } 50%{ box-shadow:0 0 0 7px rgba(233,146,10,0); } }
+#sp-alarm-status {
+    font-size: 11px;
+    color: #888;
+    margin: 0 0 5px;
+    min-height: 16px;
+    text-align: center;
+}
+body.dark-mode #sp-alarm-status { color: #6b8f7d; }
+#sp-alarm-today-bar {
+    font-size: 11px;
+    color: #0F6E56;
+    background: rgba(29,158,117,0.08);
+    border-radius: 8px;
+    padding: 3px 10px;
+    margin: 0 0 6px;
+    text-align: center;
+    display: none;
+}
+body.dark-mode #sp-alarm-today-bar { color: #5DCAA5; background: rgba(29,158,117,0.14); }
+
 /* ===== زر فتح المصحف في الشريط السفلي ===== */
 #mushaf-toggle-wrap {
   display: flex;
@@ -23341,6 +23393,28 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
                 data-ar="⏩ تسبيح تلقائي" data-en="⏩ Auto Dhikr"
                 onclick="spToggleAuto()">⏩ تسبيح تلقائي</button>
     </div>
+
+    <!-- ===== منبه الصلاة على النبى ===== -->
+    <div class="sp-alarm-row">
+        <label class="sp-alarm-label" data-ar="كل:" data-en="Every:">كل:</label>
+        <select id="sp-alarm-interval-sel">
+            <option value="1"  data-ar="١ دقيقة"  data-en="1 min">١ دقيقة</option>
+            <option value="2"  data-ar="٢ دقيقتان" data-en="2 min">٢ دقيقتان</option>
+            <option value="5"  data-ar="٥ دقائق"  data-en="5 min">٥ دقائق</option>
+            <option value="10" data-ar="١٠ دقائق" data-en="10 min" selected>١٠ دقائق</option>
+            <option value="15" data-ar="١٥ دقيقة" data-en="15 min">١٥ دقيقة</option>
+            <option value="20" data-ar="٢٠ دقيقة" data-en="20 min">٢٠ دقيقة</option>
+            <option value="30" data-ar="٣٠ دقيقة" data-en="30 min">٣٠ دقيقة</option>
+            <option value="60" data-ar="ساعة"     data-en="1 hour">ساعة</option>
+        </select>
+        <button class="sp-btn" id="sp-alarm-btn"
+                data-ar="🔔 تفعيل المنبه" data-en="🔔 Enable Alarm"
+                onclick="spToggleAlarm()">🔔 تفعيل المنبه</button>
+    </div>
+    <p id="sp-alarm-status"></p>
+    <div id="sp-alarm-today-bar"></div>
+    <!-- ===== نهاية منبه الصلاة على النبى ===== -->
+
     <p id="sp-pip-note"
        data-ar="افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب"
        data-en="Open PiP then press ⏭ to count from any tab">افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب</p>
@@ -23716,6 +23790,235 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 })();
 </script>
 
+
+<script>
+/* =====================================================
+   منبه الصلاة على النبى ﷺ — Salawat Alarm System
+   ===================================================== */
+(function(){
+
+    var spAlarmTimer      = null;   // setInterval handle
+    var spAlarmNextTime   = 0;      // timestamp لأقرب رنة قادمة
+    var spAlarmCountdown  = null;   // setInterval للعداد التنازلي
+    var spAlarmTodayKey   = 'sp_alarm_today_' + new Date().toDateString();
+    var spAlarmTodayCount = 0;
+    var spAlarmSound      = null;   // HTMLAudioElement
+
+    /* ---- صوت المنبه (ملف صوتي قصير من archive.org) ---- */
+    var ALARM_SOUND_URL =
+        "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3";
+
+    /* ---- helper: لغة ---- */
+    function alAr(){ return (typeof isArabic !== 'undefined') ? isArabic : true; }
+    function toArN(n){ return n.toString().replace(/\d/g,function(d){return'٠١٢٣٤٥٦٧٨٩'[d];}); }
+
+    /* ---- قراءة/حفظ إحصائية اليوم ---- */
+    function alLoadToday(){
+        try{
+            var raw = localStorage.getItem(spAlarmTodayKey);
+            spAlarmTodayCount = raw ? (parseInt(raw)||0) : 0;
+        }catch(e){ spAlarmTodayCount = 0; }
+    }
+    function alSaveToday(){
+        try{ localStorage.setItem(spAlarmTodayKey, spAlarmTodayCount); }catch(e){}
+        /* احذف مفاتيح الأيام القديمة */
+        try{
+            var today = 'sp_alarm_today_' + new Date().toDateString();
+            Object.keys(localStorage).forEach(function(k){
+                if(k.startsWith('sp_alarm_today_') && k !== today) localStorage.removeItem(k);
+            });
+        }catch(e){}
+    }
+
+    /* ---- تحديث شريط الإحصائية ---- */
+    function alUpdateTodayBar(){
+        var bar = document.getElementById('sp-alarm-today-bar');
+        if(!bar) return;
+        if(spAlarmTodayCount === 0){ bar.style.display='none'; return; }
+        var ar = alAr();
+        bar.style.display = 'block';
+        var c = ar ? toArN(spAlarmTodayCount) : spAlarmTodayCount;
+        bar.textContent = ar
+            ? ('✅ صليت على النبى ﷺ اليوم: ' + c + ' مرة')
+            : ('✅ Salawat today: ' + c + ' times');
+    }
+
+    /* ---- عداد تنازلي في حالة النص ---- */
+    function alStartCountdown(ms){
+        alStopCountdown();
+        spAlarmNextTime = Date.now() + ms;
+        function tick(){
+            var rem = Math.max(0, spAlarmNextTime - Date.now());
+            var st  = document.getElementById('sp-alarm-status');
+            if(!st) return;
+            var m = Math.floor(rem/60000);
+            var s = Math.floor((rem%60000)/1000);
+            var ar = alAr();
+            var mStr = ar ? toArN(m) : m;
+            var sStr = ar ? toArN(s) : s;
+            var pad  = s < 10 ? (ar ? '٠' : '0') : '';
+            st.textContent = ar
+                ? ('⏰ المنبه فعّال — الصلاة القادمة بعد: ' + mStr + ':' + pad + sStr)
+                : ('⏰ Alarm on — next in: ' + m + ':' + (s<10?'0':'') + s);
+        }
+        tick();
+        spAlarmCountdown = setInterval(tick, 1000);
+    }
+    function alStopCountdown(){
+        if(spAlarmCountdown){ clearInterval(spAlarmCountdown); spAlarmCountdown = null; }
+    }
+
+    /* ---- تشغيل صوت المنبه ---- */
+    function alPlaySound(){
+        try{
+            if(!spAlarmSound){
+                spAlarmSound = new Audio(ALARM_SOUND_URL);
+                spAlarmSound.volume = 0.8;
+            }
+            spAlarmSound.currentTime = 0;
+            var p = spAlarmSound.play();
+            if(p && p.catch) p.catch(function(){});
+        }catch(e){}
+    }
+
+    /* ---- الإشعار ---- */
+    function alNotify(dhikr){
+        var ar = alAr();
+        var title = ar ? 'صلِّ على النبى ﷺ' : 'Send Salawat upon the Prophet ﷺ';
+        var body  = dhikr || (ar ? 'اللهم صلِّ وسلِّم على نبينا محمد ﷺ' : 'Allahumma salli wa sallim ala nabiyyina Muhammad ﷺ');
+        if(typeof Notification !== 'undefined' && Notification.permission === 'granted'){
+            try{
+                var n = new Notification(title, {
+                    body: body,
+                    icon: 'favicon.png',
+                    tag:  'salawat-alarm',
+                    renotify: true,
+                    silent: false
+                });
+                /* أغلق الإشعار بعد 8 ثواني */
+                setTimeout(function(){ try{ n.close(); }catch(e){} }, 8000);
+            }catch(e){}
+        }
+        /* toast داخل الصفحة دائماً */
+        if(typeof showToast === 'function'){
+            showToast('🤍 ' + (ar ? 'صلِّ على النبى ﷺ — ' : 'Salawat ﷺ — ') + body);
+        }
+    }
+
+    /* ---- الرنة الواحدة ---- */
+    function alRing(){
+        var dhikr = (typeof window.spGetDhikr === 'function') ? window.spGetDhikr()
+            : 'اللهم صلِّ وسلِّم على نبينا محمد ﷺ';
+        /* زيادة العداد */
+        if(typeof window.spIncrement === 'function') window.spIncrement();
+        /* صوت */
+        alPlaySound();
+        /* إشعار */
+        alNotify(dhikr);
+        /* إحصائية */
+        spAlarmTodayCount++;
+        alSaveToday();
+        alUpdateTodayBar();
+        /* أعد العداد التنازلي */
+        var mins = parseInt(document.getElementById('sp-alarm-interval-sel').value) || 10;
+        alStartCountdown(mins * 60 * 1000);
+    }
+
+    /* ---- تفعيل/إيقاف المنبه ---- */
+    window.spToggleAlarm = function(){
+        if(spAlarmTimer){
+            alStopAlarm();
+        } else {
+            alStartAlarm();
+        }
+    };
+
+    function alStartAlarm(){
+        var mins = parseInt(document.getElementById('sp-alarm-interval-sel').value) || 10;
+        var ms   = mins * 60 * 1000;
+
+        /* طلب إذن الإشعارات */
+        if(typeof Notification !== 'undefined' && Notification.permission === 'default'){
+            Notification.requestPermission().then(function(perm){
+                if(perm === 'granted'){
+                    if(typeof showToast === 'function'){
+                        var ar = alAr();
+                        showToast(ar ? '✅ تم السماح بالإشعارات' : '✅ Notifications allowed');
+                    }
+                }
+            }).catch(function(){});
+        }
+
+        /* ابدأ الـ interval */
+        if(spAlarmTimer) clearInterval(spAlarmTimer);
+        spAlarmTimer = setInterval(alRing, ms);
+
+        /* حدّث الزر */
+        var btn = document.getElementById('sp-alarm-btn');
+        if(btn){
+            btn.classList.add('active');
+            var ar = alAr();
+            btn.textContent = ar ? '🔕 إيقاف المنبه' : '🔕 Stop Alarm';
+        }
+        alStartCountdown(ms);
+    }
+
+    function alStopAlarm(){
+        if(spAlarmTimer){ clearInterval(spAlarmTimer); spAlarmTimer = null; }
+        alStopCountdown();
+
+        var btn = document.getElementById('sp-alarm-btn');
+        if(btn){
+            btn.classList.remove('active');
+            var ar = alAr();
+            btn.textContent = ar ? '🔔 تفعيل المنبه' : '🔔 Enable Alarm';
+        }
+        var st = document.getElementById('sp-alarm-status');
+        if(st) st.textContent = '';
+    }
+
+    /* ---- init: تحميل إحصائية اليوم ---- */
+    function alInit(){
+        alLoadToday();
+        alUpdateTodayBar();
+        /* اللغة على الـ label ضبط النص */
+        var ar = alAr();
+        var lbl = document.querySelector('.sp-alarm-label');
+        if(lbl){ var t = ar ? lbl.getAttribute('data-ar') : lbl.getAttribute('data-en'); if(t) lbl.textContent = t; }
+        var btn = document.getElementById('sp-alarm-btn');
+        if(btn){ var t2 = ar ? btn.getAttribute('data-ar') : btn.getAttribute('data-en'); if(t2) btn.textContent = t2; }
+        /* خيارات الـ select: نص عربي أو إنجليزي */
+        var sel = document.getElementById('sp-alarm-interval-sel');
+        if(sel){
+            Array.from(sel.options).forEach(function(opt){
+                var txt = ar ? opt.getAttribute('data-ar') : opt.getAttribute('data-en');
+                if(txt) opt.textContent = txt;
+            });
+        }
+    }
+
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', alInit);
+    } else {
+        setTimeout(alInit, 0);
+    }
+
+    /* ---- تحديث اللغة عند التبديل ---- */
+    /* نعلّق على الـ lang toggle إذا وُجد */
+    document.addEventListener('langchange', function(){
+        alInit();
+        if(spAlarmTimer){
+            /* أعد نص الزر لأنه active */
+            var btn = document.getElementById('sp-alarm-btn');
+            if(btn){
+                var ar = alAr();
+                btn.textContent = ar ? '🔕 إيقاف المنبه' : '🔕 Stop Alarm';
+            }
+        }
+    });
+
+})();
+</script>
 
 <div id="prayerWidgetWrapper" style="display: none; justify-content: center; align-items: center;">
   <iframe id="iframe" title="prayerWidget" class="widget-m-top"
