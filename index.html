@@ -14944,6 +14944,7 @@ hasFlag: false,
     "https://archive.org/download/reel-audio-46487/ReelAudio-46487.mp3",
     "https://archive.org/download/9_20260305_20260305_1512/6.mp3",
     "https://archive.org/download/fdo-5/FDo1.mp3",
+    "https://archive.org/download/mix-saly/mix%20saly.mp3",
     "https://archive.org/download/9_20260305_20260305_1512/2%20%282%29.mp3",
     "https://archive.org/download/f-1_20260217/F1.mp3",
     "https://archive.org/download/20260419_20260419_1500/%D8%B7%D9%8A%D8%A8%20%D8%B5%D9%84.mp3",
@@ -15136,6 +15137,8 @@ hasFlag: false,
     target: 1000,
     url: null,
     urls: [
+        "https://archive.org/download/mix-saly/mix%20saly.mp3",
+
         "https://archive.org/download/mix_20260524_202605/mix%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84%20%D8%B9%D9%84%D9%89%20%D8%B3%D9%8A%D8%AF%D9%86%D8%A7%20%D9%85%D8%AD%D9%85%D8%AF.mp3"
     ],
 },
@@ -23517,6 +23520,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         spUpdateUI();
         spDrawCanvas();
         spUpdateMediaSession();
+        try{ localStorage.removeItem(alTodayKey()); }catch(e){}
+        alUpdateTodayBar();
     };
 
     var spAutoTimer = null;
@@ -23543,6 +23548,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
             btn.textContent = ar ? '⏸ إيقاف التلقائي' : '⏸ Stop Auto';
         }
+        alRequestWakeLock();
         function tick(){
             if(spCount >= spTarget){
                 spStopAuto();
@@ -23561,6 +23567,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             var ar = spAr ? spAr() : true;
             btn.textContent = ar ? '⏩ تسبيح تلقائي' : '⏩ Auto Dhikr';
         }
+        alReleaseWakeLock();
     }
 
     window.spToggleAuto = function(){
@@ -23574,6 +23581,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         spDrawCanvas();
         spUpdateMediaSession();
         if(spAutoTimer){ spStopAuto(); spStartAuto(); }
+        if(typeof alUpdateTodayBar === 'function') alUpdateTodayBar();
     });
 
     document.getElementById('sp-target-sel').addEventListener('change', function(){
@@ -23800,6 +23808,25 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 (function(){
 
     var spAlarmTimer      = null;   // setInterval handle
+    var spWakeLock        = null;   // Wake Lock مشترك بين المنبه والتسبيح
+
+    /* ---- Wake Lock helpers ---- */
+    function alRequestWakeLock(){
+        if(!('wakeLock' in navigator)) return;
+        if(spWakeLock) return; // مفعّل بالفعل
+        navigator.wakeLock.request('screen').then(function(wl){
+            spWakeLock = wl;
+        }).catch(function(){});
+    }
+    function alReleaseWakeLock(){
+        /* حرّر فقط لو لا المنبه ولا التسبيح التلقائي شغّالَين */
+        var alarmOn = !!spAlarmTimer;
+        var autoOn  = !!(typeof spAutoTimer !== 'undefined' && spAutoTimer);
+        if(!alarmOn && !autoOn && spWakeLock){
+            spWakeLock.release().catch(function(){});
+            spWakeLock = null;
+        }
+    }
     var spAlarmNextTime   = 0;      // timestamp لأقرب رنة قادمة
     var spAlarmCountdown  = null;   // setInterval للعداد التنازلي
     var spAlarmTodayKey   = 'sp_alarm_today_' + new Date().toDateString();
@@ -23811,7 +23838,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         /* اللهم صلِّ وسلِّم على نبينا محمد ﷺ */
         '0':  "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3",
         /* اللهم صلِّ على محمد */
-        '14': "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3",
+        '14': "https://archive.org/download/mix-saly/mix%20saly.mp3",
         /* لا إله إلا الله وحده لا شريك له */
         '10': "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3"
     };
@@ -23827,33 +23854,58 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
     /* ---- قراءة/حفظ إحصائية اليوم ---- */
     function alLoadToday(){
-        try{
-            var raw = localStorage.getItem(spAlarmTodayKey);
-            spAlarmTodayCount = raw ? (parseInt(raw)||0) : 0;
-        }catch(e){ spAlarmTodayCount = 0; }
+        spAlarmTodayCount = 0;
     }
     function alSaveToday(){
-        try{ localStorage.setItem(spAlarmTodayKey, spAlarmTodayCount); }catch(e){}
-        /* احذف مفاتيح الأيام القديمة */
         try{
-            var today = 'sp_alarm_today_' + new Date().toDateString();
+            var key = alTodayKey();
+            var prev = parseInt(localStorage.getItem(key)) || 0;
+            localStorage.setItem(key, prev + 1);
+        }catch(e){}
+        try{
+            var todayStr = new Date().toDateString();
             Object.keys(localStorage).forEach(function(k){
-                if(k.startsWith('sp_alarm_today_') && k !== today) localStorage.removeItem(k);
+                if(k.startsWith('sp_alarm_today_') && k.indexOf(todayStr) === -1){
+                    localStorage.removeItem(k);
+                }
             });
         }catch(e){}
+    }
+
+    /* ---- مفتاح localStorage للذكر الحالي ---- */
+    function alTodayKey(){
+        var sel = document.getElementById('sp-athkar-sel');
+        var val = sel ? sel.value : '0';
+        return 'sp_alarm_today_' + new Date().toDateString() + '_' + val;
+    }
+
+    /* ---- نص مختصر للذكر المختار ---- */
+    function alGetDhikrLabel(){
+        var sel = document.getElementById('sp-athkar-sel');
+        if(!sel) return null;
+        var opt = sel.options[sel.selectedIndex];
+        if(!opt) return null;
+        var ar = alAr();
+        var full = ar
+            ? (opt.getAttribute('data-ar') || opt.textContent)
+            : (opt.getAttribute('data-en') || opt.textContent);
+        return full.length > 40 ? full.substring(0, 40) + '…' : full;
     }
 
     /* ---- تحديث شريط الإحصائية ---- */
     function alUpdateTodayBar(){
         var bar = document.getElementById('sp-alarm-today-bar');
         if(!bar) return;
-        if(spAlarmTodayCount === 0){ bar.style.display='none'; return; }
+        var count = 0;
+        try{ count = parseInt(localStorage.getItem(alTodayKey())) || 0; }catch(e){}
+        if(count === 0){ bar.style.display='none'; return; }
         var ar = alAr();
         bar.style.display = 'block';
-        var c = ar ? toArN(spAlarmTodayCount) : spAlarmTodayCount;
+        var c = ar ? toArN(count) : count;
+        var label = alGetDhikrLabel();
         bar.textContent = ar
-            ? ('✅ صليت على النبى ﷺ اليوم: ' + c + ' مرة')
-            : ('✅ Salawat today: ' + c + ' times');
+            ? ('✅ ' + (label || 'الذكر') + ': ' + c + ' مرة اليوم')
+            : ('✅ ' + (label || 'Dhikr') + ': ' + c + ' times today');
     }
 
     /* ---- عداد تنازلي في حالة النص ---- */
@@ -23871,7 +23923,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             var sStr = ar ? toArN(s) : s;
             var pad  = s < 10 ? (ar ? '٠' : '0') : '';
             st.textContent = ar
-                ? ('⏰ المنبه فعّال — الصلاة القادمة بعد: ' + mStr + ':' + pad + sStr)
+                ? ('⏰ المنبه فعّال — الذكر القادم بعد: ' + mStr + ':' + pad + sStr)
                 : ('⏰ Alarm on — next in: ' + m + ':' + (s<10?'0':'') + s);
         }
         tick();
@@ -23933,7 +23985,6 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         /* إشعار */
         alNotify(dhikr);
         /* إحصائية */
-        spAlarmTodayCount++;
         alSaveToday();
         alUpdateTodayBar();
         /* أعد العداد التنازلي */
@@ -23969,6 +24020,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         /* ابدأ الـ interval */
         if(spAlarmTimer) clearInterval(spAlarmTimer);
         spAlarmTimer = setInterval(alRing, ms);
+        alRequestWakeLock();
 
         /* حدّث الزر */
         var btn = document.getElementById('sp-alarm-btn');
@@ -23983,6 +24035,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     function alStopAlarm(){
         if(spAlarmTimer){ clearInterval(spAlarmTimer); spAlarmTimer = null; }
         alStopCountdown();
+        alReleaseWakeLock();
 
         var btn = document.getElementById('sp-alarm-btn');
         if(btn){
