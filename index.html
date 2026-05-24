@@ -23520,8 +23520,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         spUpdateUI();
         spDrawCanvas();
         spUpdateMediaSession();
-        try{ localStorage.removeItem(alTodayKey()); }catch(e){}
-        alUpdateTodayBar();
+        try{ if(typeof window.alTodayKey === 'function') localStorage.removeItem(window.alTodayKey()); }catch(e){}
+        if(typeof window.alUpdateTodayBar === 'function') window.alUpdateTodayBar();
     };
 
     var spAutoTimer = null;
@@ -23548,7 +23548,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
             btn.textContent = ar ? '⏸ إيقاف التلقائي' : '⏸ Stop Auto';
         }
-        alRequestWakeLock();
+        if(typeof window.alRequestWakeLock === 'function') window.alRequestWakeLock();
         function tick(){
             if(spCount >= spTarget){
                 spStopAuto();
@@ -23567,7 +23567,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             var ar = spAr ? spAr() : true;
             btn.textContent = ar ? '⏩ تسبيح تلقائي' : '⏩ Auto Dhikr';
         }
-        alReleaseWakeLock();
+        if(typeof window.alReleaseWakeLock === 'function') window.alReleaseWakeLock();
     }
 
     window.spToggleAuto = function(){
@@ -23581,7 +23581,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         spDrawCanvas();
         spUpdateMediaSession();
         if(spAutoTimer){ spStopAuto(); spStartAuto(); }
-        if(typeof alUpdateTodayBar === 'function') alUpdateTodayBar();
+        if(typeof window.alUpdateTodayBar === 'function') window.alUpdateTodayBar();
     });
 
     document.getElementById('sp-target-sel').addEventListener('change', function(){
@@ -23808,25 +23808,23 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 (function(){
 
     var spAlarmTimer      = null;   // setInterval handle
-    var spWakeLock        = null;   // Wake Lock مشترك بين المنبه والتسبيح
+    var spWakeLock        = null;   // Wake Lock مشترك
 
-    /* ---- Wake Lock helpers ---- */
-    function alRequestWakeLock(){
+    window.alRequestWakeLock = function(){
         if(!('wakeLock' in navigator)) return;
-        if(spWakeLock) return; // مفعّل بالفعل
+        if(spWakeLock) return;
         navigator.wakeLock.request('screen').then(function(wl){
             spWakeLock = wl;
         }).catch(function(){});
-    }
-    function alReleaseWakeLock(){
-        /* حرّر فقط لو لا المنبه ولا التسبيح التلقائي شغّالَين */
+    };
+    window.alReleaseWakeLock = function(){
         var alarmOn = !!spAlarmTimer;
         var autoOn  = !!(typeof spAutoTimer !== 'undefined' && spAutoTimer);
         if(!alarmOn && !autoOn && spWakeLock){
             spWakeLock.release().catch(function(){});
             spWakeLock = null;
         }
-    }
+    };
     var spAlarmNextTime   = 0;      // timestamp لأقرب رنة قادمة
     var spAlarmCountdown  = null;   // setInterval للعداد التنازلي
     var spAlarmTodayKey   = 'sp_alarm_today_' + new Date().toDateString();
@@ -23858,7 +23856,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     }
     function alSaveToday(){
         try{
-            var key = alTodayKey();
+            var key = window.alTodayKey();
             var prev = parseInt(localStorage.getItem(key)) || 0;
             localStorage.setItem(key, prev + 1);
         }catch(e){}
@@ -23873,11 +23871,11 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     }
 
     /* ---- مفتاح localStorage للذكر الحالي ---- */
-    function alTodayKey(){
+    window.alTodayKey = function(){
         var sel = document.getElementById('sp-athkar-sel');
         var val = sel ? sel.value : '0';
         return 'sp_alarm_today_' + new Date().toDateString() + '_' + val;
-    }
+    };
 
     /* ---- نص مختصر للذكر المختار ---- */
     function alGetDhikrLabel(){
@@ -23893,11 +23891,11 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     }
 
     /* ---- تحديث شريط الإحصائية ---- */
-    function alUpdateTodayBar(){
+    window.alUpdateTodayBar = function(){
         var bar = document.getElementById('sp-alarm-today-bar');
         if(!bar) return;
         var count = 0;
-        try{ count = parseInt(localStorage.getItem(alTodayKey())) || 0; }catch(e){}
+        try{ count = parseInt(localStorage.getItem(window.alTodayKey())) || 0; }catch(e){}
         if(count === 0){ bar.style.display='none'; return; }
         var ar = alAr();
         bar.style.display = 'block';
@@ -23906,7 +23904,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         bar.textContent = ar
             ? ('✅ ' + (label || 'الذكر') + ': ' + c + ' مرة اليوم')
             : ('✅ ' + (label || 'Dhikr') + ': ' + c + ' times today');
-    }
+    };
 
     /* ---- عداد تنازلي في حالة النص ---- */
     function alStartCountdown(ms){
@@ -23986,7 +23984,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         alNotify(dhikr);
         /* إحصائية */
         alSaveToday();
-        alUpdateTodayBar();
+        window.alUpdateTodayBar();
         /* أعد العداد التنازلي */
         var mins = parseInt(document.getElementById('sp-alarm-interval-sel').value) || 10;
         alStartCountdown(mins * 60 * 1000);
@@ -24020,7 +24018,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         /* ابدأ الـ interval */
         if(spAlarmTimer) clearInterval(spAlarmTimer);
         spAlarmTimer = setInterval(alRing, ms);
-        alRequestWakeLock();
+        window.alRequestWakeLock();
 
         /* حدّث الزر */
         var btn = document.getElementById('sp-alarm-btn');
@@ -24035,7 +24033,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     function alStopAlarm(){
         if(spAlarmTimer){ clearInterval(spAlarmTimer); spAlarmTimer = null; }
         alStopCountdown();
-        alReleaseWakeLock();
+        window.alReleaseWakeLock();
 
         var btn = document.getElementById('sp-alarm-btn');
         if(btn){
