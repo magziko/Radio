@@ -14413,6 +14413,7 @@ hasFlag: false,
   url: null,
   urls: [
     "https://ia600302.us.archive.org/35/items/1_20250605_20250605_1152/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%AD%D8%AF%D9%87%20%D9%84%D8%A7%20%D8%B4%D8%B1%D9%8A%D9%83%20%D9%84%D9%87%20%D9%84%D9%87%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D9%88%D9%84%D9%87%20%D8%A7%D9%84%D8%AD%D9%85%D8%AF%20%D9%88%D9%87%D9%88%20%D8%B9%20%281%29.mp3",
+    "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3",
     "https://ia801202.us.archive.org/31/items/20250605_20250605_1209/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%AD%D8%AF%D9%87%20%D9%84%D8%A7%20%D8%B4%D8%B1%D9%8A%D9%83%20%D9%84%D9%87%20%D9%84%D9%87%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D9%88%D9%84%D9%87%20%D8%A7%D9%84%D8%AD%D9%85%D8%AF%20%D9%88%D9%87%D9%88%20%D8%B9.mp3?cnt=0"
   ],
 
@@ -15250,6 +15251,7 @@ hasFlag: false,
     url: null,
     urls: [
     "https://ia600302.us.archive.org/35/items/1_20250605_20250605_1152/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%AD%D8%AF%D9%87%20%D9%84%D8%A7%20%D8%B4%D8%B1%D9%8A%D9%83%20%D9%84%D9%87%20%D9%84%D9%87%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D9%88%D9%84%D9%87%20%D8%A7%D9%84%D8%AD%D9%85%D8%AF%20%D9%88%D9%87%D9%88%20%D8%B9%20%281%29.mp3",
+    "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3",
     "https://ia801202.us.archive.org/31/items/20250605_20250605_1209/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%AD%D8%AF%D9%87%20%D9%84%D8%A7%20%D8%B4%D8%B1%D9%8A%D9%83%20%D9%84%D9%87%20%D9%84%D9%87%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D9%88%D9%84%D9%87%20%D8%A7%D9%84%D8%AD%D9%85%D8%AF%20%D9%88%D9%87%D9%88%20%D8%B9.mp3?cnt=0"
 ],
     random: true,
@@ -23802,11 +23804,22 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var spAlarmCountdown  = null;   // setInterval للعداد التنازلي
     var spAlarmTodayKey   = 'sp_alarm_today_' + new Date().toDateString();
     var spAlarmTodayCount = 0;
-    var spAlarmSound      = null;   // HTMLAudioElement
 
     /* ---- صوت المنبه (ملف صوتي قصير من archive.org) ---- */
-    var ALARM_SOUND_URL =
+    /* ---- خريطة الأصوات لكل ذكر (value من sp-athkar-sel) ---- */
+    var ALARM_SOUNDS = {
+        /* اللهم صلِّ وسلِّم على نبينا محمد ﷺ */
+        '0':  "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3",
+        /* اللهم صلِّ على محمد */
+        '14': "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3",
+        /* لا إله إلا الله وحده لا شريك له */
+        '10': "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3"
+    };
+    /* صوت افتراضي لأي ذكر ليس في الخريطة */
+    var ALARM_SOUND_DEFAULT =
         "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3";
+
+    var spAlarmSoundCache = {}; /* cache لكل Audio object */
 
     /* ---- helper: لغة ---- */
     function alAr(){ return (typeof isArabic !== 'undefined') ? isArabic : true; }
@@ -23868,15 +23881,19 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         if(spAlarmCountdown){ clearInterval(spAlarmCountdown); spAlarmCountdown = null; }
     }
 
-    /* ---- تشغيل صوت المنبه ---- */
+    /* ---- تشغيل صوت المنبه (حسب الذكر المحدد) ---- */
     function alPlaySound(){
         try{
-            if(!spAlarmSound){
-                spAlarmSound = new Audio(ALARM_SOUND_URL);
-                spAlarmSound.volume = 0.8;
+            var sel = document.getElementById('sp-athkar-sel');
+            var val = sel ? sel.value : '0';
+            var url = ALARM_SOUNDS[val] || ALARM_SOUND_DEFAULT;
+            if(!spAlarmSoundCache[url]){
+                spAlarmSoundCache[url] = new Audio(url);
+                spAlarmSoundCache[url].volume = 0.8;
             }
-            spAlarmSound.currentTime = 0;
-            var p = spAlarmSound.play();
+            var snd = spAlarmSoundCache[url];
+            snd.currentTime = 0;
+            var p = snd.play();
             if(p && p.catch) p.catch(function(){});
         }catch(e){}
     }
