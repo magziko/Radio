@@ -13086,12 +13086,7 @@ function renderStationButtons(arr, container, opts) {
 
 
 function lazyRender(arr, container) {
-    if (!container) return;
-    if (typeof requestIdleCallback !== 'undefined') {
-        requestIdleCallback(function() { renderStationButtons(arr, container); }, { timeout: 2000 });
-    } else {
-        setTimeout(function() { renderStationButtons(arr, container); }, 0);
-    }
+    renderStationButtons(arr, container);
 }
 </script>
 <script>
@@ -24876,6 +24871,7 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
 }
 
 function filterStations(category) {
+  window._lastActiveCategory = category;
 
   // ── 1. ترجمة الفلاتر المركّبة إلى category حقيقي للأزرار ──────────────
   var realCat = category;
@@ -28933,8 +28929,12 @@ function removeFavItem(station, itemEl) {
       if (_fl) _fl.textContent = isArabic ? ' المفضلة' : ' Favorites';
       if (_fh) _fh.style.display = 'inline-block';
       viewFavoritesButton.classList.remove('selected');
-      document.querySelectorAll('.button[data-station]').forEach(function(b) { b.style.display = 'block'; });
-      updateButtonIndices();
+      if (typeof filterStations === 'function' && window._lastActiveCategory) {
+        filterStations(window._lastActiveCategory);
+      } else {
+        document.querySelectorAll('.button[data-station]').forEach(function(b) { b.style.display = 'block'; });
+        updateButtonIndices();
+      }
     }
   }
 }
@@ -28980,8 +28980,12 @@ function deleteAllFavorites(skipConfirm) {
     if (_fl2) _fl2.textContent = ar ? ' المفضلة' : ' Favorites';
     if (_fh2) _fh2.style.display = 'inline-block';
     viewFavoritesButton2.classList.remove('selected');
-    document.querySelectorAll('.button[data-station]').forEach(function(b) { b.style.display = 'block'; });
-    updateButtonIndices();
+    if (typeof filterStations === 'function' && window._lastActiveCategory) {
+      filterStations(window._lastActiveCategory);
+    } else {
+      document.querySelectorAll('.button[data-station]').forEach(function(b) { b.style.display = 'block'; });
+      updateButtonIndices();
+    }
   }
 }
 
