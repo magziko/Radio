@@ -4767,6 +4767,15 @@ function confirmReload() {
     if (_urlParams.get('url')) {
         window._welcomeScreenClosed = true;
         ws.style.display = 'none';
+        // شغّل المحطة بعد تهيئة الصفحة
+        setTimeout(function() {
+            var _url  = _urlParams.get('url');
+            var _name = _urlParams.get('station') || 'محطة مخصصة';
+            localStorage.setItem('lastStation', JSON.stringify({ url: _url, name: _name }));
+            if (typeof playNewAudio === 'function') {
+                playNewAudio(_url, _name, null, true);
+            }
+        }, 400);
         return;
     }
 
@@ -24250,6 +24259,8 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
     var savedOnEnded = mainAudio.onended;
 
     currentSource = source;
+    window._currentPlayingUrl  = source;
+    window._currentPlayingName = stationName;
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
     window._mainPlayAllowed = true;
     mainAudio.src = source;
@@ -29192,12 +29203,14 @@ if (target && count >= target) {
         var _copyName = '';
 
         function updateCopyBtn() {
-          var url  = (typeof currentStation !== 'undefined' && currentStation)
-                     ? (currentStation.stationUrl || currentStation.url || '')
-                     : (audioEl.src || '');
-          var name = (typeof currentStation !== 'undefined' && currentStation)
-                     ? (currentStation.stationName || currentStation.name || '')
-                     : (nameEl.textContent || '');
+          var url  = window._currentPlayingUrl
+                     || ((typeof currentStation !== 'undefined' && currentStation)
+                         ? (currentStation.stationUrl || currentStation.url || '')
+                         : (audioEl.src || ''));
+          var name = window._currentPlayingName
+                     || ((typeof currentStation !== 'undefined' && currentStation)
+                         ? (currentStation.stationName || currentStation.name || '')
+                         : (nameEl.textContent || ''));
 
           if (url && url !== window.location.href) {
             _copyUrl  = url;
