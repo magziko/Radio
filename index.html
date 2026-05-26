@@ -3379,6 +3379,19 @@ body.dark-mode .custom-tooltip::after {
     letter-spacing: 0.2px;
 }
 
+@media (max-width: 480px) {
+    .footer-social-btn {
+        font-size: 10px;
+        padding: 5px 9px;
+        gap: 3px;
+        letter-spacing: 0;
+    }
+    .fsb-facebook svg, .fsb-whatsapp svg, .fsb-telegram svg {
+        width: 11px;
+        height: 11px;
+    }
+}
+
 .footer-social-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0,0,0,0.18);
@@ -4263,7 +4276,7 @@ body.dark-mode :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn):h
 
 body.dark-mode #salah-pip-btn:active { background: #0a6647; }
 body.dark-mode .sp-btn:hover         { background: rgba(29,158,117,0.22); }
-body.dark-mode #sp-pip-toggle:hover  { background: rgba(24,95,165,0.35); }
+body.dark-mode #sp-pip-toggle:hover  { background: rgba(29,158,117,0.30); }
 
 .pl-panel {
     display: none;
@@ -12839,13 +12852,6 @@ const quranRadioStations = [
     "en": "Zuwara Quran 103.7 FM Libya",
     "url": "https://stream-155.zeno.fm/snczwewpsg0uv"
   },
-  {
-  "category": "Radio",
-  "station": "إذاعة القرآن الكريم البحرين",
-  "ar": "إذاعة القرآن الكريم البحرين",
-  "en": "Holy Quran Radio Bahrain",
-  "url": "https://5c7b683162943.streamlock.net/live/ngrp:radio-106-1_all/playlist.m3u8"
-},
   {
     "category": "Radio",
     "station": "إذاعة القرآن الكريم عمان",
@@ -22824,7 +22830,7 @@ body.dark-mode #salah-pip-section {
 }
 body.dark-mode #salah-pip-section .sp-title { color: #5DCAA5; }
 #salah-pip-btn {
-    width: 120px; height: 120px;
+    width: 160px; height: 160px;
     border-radius: 50%;
     border: 3px solid #1D9E75;
     background: #E1F5EE;
@@ -22838,14 +22844,62 @@ body.dark-mode #salah-pip-section .sp-title { color: #5DCAA5; }
     color: #0F6E56;
 }
 #salah-pip-btn:active { transform: scale(0.92); background: #9FE1CB; }
-#salah-pip-btn.sp-done { border-color: #BA7517; background: #FAEEDA; color: #854F0B; }
+#salah-pip-btn.sp-done { border-color: #1D9E75; background: #C2EBD9; color: #0F6E56; }
 body.dark-mode #salah-pip-btn { background: #0F3D2E; border-color: #1D9E75; color: #5DCAA5; }
-body.dark-mode #salah-pip-btn.sp-done { background: #3D2800; border-color: #BA7517; color: #EF9F27; }
-#salah-pip-num { font-size: 44px; font-weight: 700; line-height: 1; }
+body.dark-mode #salah-pip-btn.sp-done { background: #0a4a30; border-color: #1D9E75; color: #5DCAA5; }
+#salah-pip-num { font-size: 46px; font-weight: 700; line-height: 1; }
 #salah-pip-hint { font-size: 11px; margin-top: 3px; opacity: 0.75; }
 #salah-pip-info { font-size: 12px; color: #555; margin-bottom: 8px; }
+
+/* تكبير salah-pip-section على التابليت والكمبيوتر */
+@media (min-width: 768px) {
+    #salah-pip-section {
+        max-width: 560px;
+        width: 90%;
+        padding: 24px 28px 20px;
+        border-radius: 24px;
+    }
+    #salah-pip-section .sp-title {
+        font-size: 19px;
+        margin: 0 0 16px;
+    }
+    #salah-pip-btn {
+        width: 220px;
+        height: 220px;
+        border-width: 4px;
+        margin: 0 auto 16px;
+    }
+    #salah-pip-num { font-size: 64px; }
+    #salah-pip-hint { font-size: 14px; margin-top: 6px; }
+    #salah-pip-info { font-size: 15px; margin-bottom: 12px; }
+}
+@media (min-width: 992px) {
+    #salah-pip-section {
+        max-width: 680px;
+        width: 80%;
+        padding: 30px 36px 26px;
+    }
+    #salah-pip-section .sp-title {
+        font-size: 22px;
+        margin: 0 0 20px;
+    }
+    #salah-pip-btn {
+        width: 260px;
+        height: 260px;
+    }
+    #salah-pip-num { font-size: 76px; }
+    #salah-pip-hint { font-size: 16px; }
+    #salah-pip-info { font-size: 17px; margin-bottom: 16px; }
+}
 body.dark-mode #salah-pip-info { color: #aaa; }
 .sp-row { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; margin-bottom: 7px; }
+.sp-main-controls { margin-bottom: 10px; }
+.sp-divider {
+    width: 80%;
+    margin: 10px auto;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(29,158,117,0.2), transparent);
+}
 .sp-btn {
     border: 1.5px solid rgba(29,158,117,0.35);
     background: rgba(255,255,255,0.9);
@@ -22858,17 +22912,31 @@ body.dark-mode #salah-pip-info { color: #aaa; }
     cursor: pointer;
     transition: background 0.15s;
 }
+@media (min-width: 768px) {
+    .sp-row { gap: 10px; margin-bottom: 10px; }
+    .sp-btn { font-size: 14px; padding: 7px 18px; border-radius: 22px; }
+    .sp-target-row label { font-size: 14px; }
+    .sp-target-row select { font-size: 14px; padding: 5px 10px; }
+    #sp-pip-note { font-size: 13px; }
+}
+@media (min-width: 992px) {
+    .sp-row { gap: 12px; margin-bottom: 12px; }
+    .sp-btn { font-size: 15px; padding: 8px 22px; }
+    .sp-target-row label { font-size: 15px; }
+    .sp-target-row select { font-size: 15px; }
+    #sp-pip-note { font-size: 14px; }
+}
 .sp-btn:hover { background: #E1F5EE; }
 body.dark-mode .sp-btn { background: rgba(29,158,117,0.12); color: #5DCAA5; border-color: rgba(29,158,117,0.4); }
 #sp-pip-toggle {
-    background: #E6F1FB;
-    color: #185FA5;
-    border-color: rgba(24,95,165,0.35);
+    background: #E1F5EE;
+    color: #0F6E56;
+    border-color: rgba(29,158,117,0.35);
 }
-#sp-pip-toggle:hover { background: #B5D4F4; }
-#sp-pip-toggle.active { background: #378ADD; color: #fff; border-color: #378ADD; }
-body.dark-mode #sp-pip-toggle { background: rgba(24,95,165,0.18); color: #85B7EB; }
-body.dark-mode #sp-pip-toggle.active { background: #185FA5; color: #fff; }
+#sp-pip-toggle:hover { background: #C2EBD9; }
+#sp-pip-toggle.active { background: #1D9E75; color: #fff; border-color: #1D9E75; }
+body.dark-mode #sp-pip-toggle { background: rgba(29,158,117,0.18); color: #5DCAA5; border-color: rgba(29,158,117,0.4); }
+body.dark-mode #sp-pip-toggle.active { background: #0F6E56; color: #fff; border-color: #1D9E75; }
 .sp-target-row { display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 8px; }
 .sp-target-row label { font-size: 12px; color: #555; }
 body.dark-mode .sp-target-row label { color: #aaa; }
@@ -22948,20 +23016,20 @@ body.dark-mode .sp-alarm-label { color: #aaa; }
 }
 body.dark-mode #sp-alarm-interval-sel { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
 #sp-alarm-btn {
-    background: #FFF8EE;
-    color: #8B5200;
-    border-color: rgba(186,117,23,0.4);
+    background: #E1F5EE;
+    color: #0F6E56;
+    border-color: rgba(29,158,117,0.35);
 }
-#sp-alarm-btn:hover { background: #FAEBD7; }
+#sp-alarm-btn:hover { background: #C2EBD9; }
 #sp-alarm-btn.active {
-    background: #E9920A;
+    background: #1D9E75;
     color: #fff;
-    border-color: #E9920A;
+    border-color: #1D9E75;
     animation: sp-alarm-pulse 2s infinite;
 }
-body.dark-mode #sp-alarm-btn { background: rgba(186,117,23,0.12); color: #EFB84A; border-color: rgba(186,117,23,0.4); }
-body.dark-mode #sp-alarm-btn.active { background: #BA7517; color: #fff; }
-@keyframes sp-alarm-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(233,146,10,0.45); } 50%{ box-shadow:0 0 0 7px rgba(233,146,10,0); } }
+body.dark-mode #sp-alarm-btn { background: rgba(29,158,117,0.12); color: #5DCAA5; border-color: rgba(29,158,117,0.4); }
+body.dark-mode #sp-alarm-btn.active { background: #0F6E56; color: #fff; }
+@keyframes sp-alarm-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(29,158,117,0.4); } 50%{ box-shadow:0 0 0 7px rgba(29,158,117,0); } }
 #sp-alarm-status {
     font-size: 11px;
     color: #888;
@@ -23389,30 +23457,31 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         </select>
     </div>
 
+    <!-- زرار التسبيح الرئيسي -->
     <button id="salah-pip-btn" onclick="spIncrement()">
         <span id="salah-pip-num">٠</span>
         <span id="salah-pip-hint" data-ar="اضغط للتسبيح" data-en="Tap to count">اضغط للتسبيح</span>
     </button>
 
+    <!-- التقدم -->
     <p id="salah-pip-info">الهدف: ١٠٠ &nbsp;|&nbsp; المتبقي: ١٠٠</p>
 
-    <div class="sp-row">
-        <button class="sp-btn" id="sp-pip-toggle"
-                data-ar="📺 فتح PiP" data-en="📺 Open PiP"
-                onclick="spTogglePip()">📺 فتح PiP</button>
+    <!-- أزرار التحكم الأساسية: تسبيح تلقائي + تصفير -->
+    <div class="sp-row sp-main-controls">
+        <button class="sp-btn" id="sp-auto-btn"
+                data-ar="⏩ تلقائي" data-en="⏩ Auto"
+                onclick="spToggleAuto()">⏩ تلقائي</button>
         <button class="sp-btn" id="sp-reset-btn"
                 data-ar="↺ تصفير" data-en="↺ Reset"
                 onclick="spReset()">↺ تصفير</button>
     </div>
-    <div class="sp-row">
-        <button class="sp-btn" id="sp-auto-btn"
-                data-ar="⏩ تسبيح تلقائي" data-en="⏩ Auto Dhikr"
-                onclick="spToggleAuto()">⏩ تسبيح تلقائي</button>
-    </div>
 
-    <!-- ===== منبه الصلاة على النبى ===== -->
+    <!-- فاصل -->
+    <div class="sp-divider"></div>
+
+    <!-- قسم المنبه -->
     <div class="sp-alarm-row">
-        <label class="sp-alarm-label" data-ar="كل:" data-en="Every:">كل:</label>
+        <label class="sp-alarm-label" data-ar="🔔 تذكير كل:" data-en="🔔 Remind every:">🔔 تذكير كل:</label>
         <select id="sp-alarm-interval-sel">
             <option value="1"  data-ar="١ دقيقة"  data-en="1 min">١ دقيقة</option>
             <option value="2"  data-ar="٢ دقيقتان" data-en="2 min">٢ دقيقتان</option>
@@ -23429,8 +23498,16 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     </div>
     <p id="sp-alarm-status"></p>
     <div id="sp-alarm-today-bar"></div>
-    <!-- ===== نهاية منبه الصلاة على النبى ===== -->
 
+    <!-- فاصل -->
+    <div class="sp-divider"></div>
+
+    <!-- PiP وملاحظته -->
+    <div class="sp-row">
+        <button class="sp-btn" id="sp-pip-toggle"
+                data-ar="📺 وضع النافذة العائمة PiP" data-en="📺 Open PiP Window"
+                onclick="spTogglePip()">📺 وضع النافذة العائمة PiP</button>
+    </div>
     <p id="sp-pip-note"
        data-ar="افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب"
        data-en="Open PiP then press ⏭ to count from any tab">افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب</p>
@@ -23634,9 +23711,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         var dhikr = spGetDhikr();
 
         spCtx.clearRect(0,0,w,h);
-        spCtx.fillStyle = done ? '#FFF8E8' : '#E8F8F2';
+        spCtx.fillStyle = done ? '#E8F8F2' : '#E8F8F2';
         spCtx.fillRect(0,0,w,h);
-        spCtx.strokeStyle = done ? '#BA7517' : '#1D9E75';
+        spCtx.strokeStyle = done ? '#0F6E56' : '#1D9E75';
         spCtx.lineWidth = 5;
         spCtx.strokeRect(3,3,w-6,h-6);
 
@@ -23644,7 +23721,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         spCtx.textAlign = 'center';
 
         spCtx.font = 'bold 17px Cairo, Arial, sans-serif';
-        spCtx.fillStyle = done ? '#633806' : '#0F6E56';
+        spCtx.fillStyle = done ? '#0F6E56' : '#0F6E56';
         var maxW = w - 20;
         var words = dhikr.split(' ');
         var line1 = '', line2 = '', lineY = 34;
@@ -23668,21 +23745,21 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         }
 
         spCtx.font = 'bold 13px Cairo, Arial, sans-serif';
-        spCtx.fillStyle = done ? '#BA7517' : '#1D9E75';
+        spCtx.fillStyle = done ? '#0F6E56' : '#1D9E75';
         spCtx.fillText(t('pressNext'), w/2, lineY + 22);
 
         spCtx.font = 'bold 90px Cairo, Arial, sans-serif';
-        spCtx.fillStyle = done ? '#BA7517' : '#1D9E75';
+        spCtx.fillStyle = done ? '#0F6E56' : '#1D9E75';
         spCtx.fillText(ar ? toAr(spCount) : spCount, w/2, lineY + 112);
 
         spCtx.font = '17px Cairo, Arial, sans-serif';
-        spCtx.fillStyle = done ? '#854F0B' : '#0F6E56';
+        spCtx.fillStyle = done ? '#0F6E56' : '#0F6E56';
         var targetStr = ar ? toAr(spTarget) : String(spTarget);
         var remStr    = ar ? toAr(rem)      : String(rem);
         spCtx.fillText(t('targetLbl') + targetStr + t('remLbl') + remStr, w/2, lineY + 138);
 
         spCtx.font = done ? 'bold 15px Cairo, Arial, sans-serif' : '13px Cairo, Arial, sans-serif';
-        spCtx.fillStyle = done ? '#854F0B' : '#777';
+        spCtx.fillStyle = done ? '#0F6E56' : '#777';
         spCtx.fillText(done ? t('done') : t('pressSpace'), w/2, lineY + 160);
     }
 
@@ -24143,12 +24220,12 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         <a href="https://t.me/Magziko"
            class="footer-social-btn fsb-telegram"
            id="footerTelegramBtn"
-           data-ar="قناة تليجرام"
-           data-en="Telegram Channel"
+           data-ar="تليجرام"
+           data-en="Telegram"
            target="_blank"
            title="اضغط على Ctrl + الزر لفتح شاشة تليجرام مباشرة">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-            <span data-ar="قناة تليجرام" data-en="Telegram Channel">قناة تليجرام</span>
+            <span data-ar="تليجرام" data-en="Telegram">تليجرام</span>
         </a>
 
     </div>
