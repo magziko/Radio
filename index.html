@@ -3191,49 +3191,205 @@ body.dark-mode .custom-tooltip::after {
 
 .toast-container {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  z-index: 9999;
+  gap: 8px;
+  z-index: 99999;
+  width: 220px;
+  max-width: 220px;
+  pointer-events: none;
 }
 
 .toast {
-  background: #007bff;
-  color: #fff;
-  padding: 15px 20px;
+  background: linear-gradient(135deg,
+    rgba(219, 236, 255, 0.88) 0%,
+    rgba(235, 246, 255, 0.84) 50%,
+    rgba(210, 232, 255, 0.86) 100%);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  color: #1a3a5c;
+  padding: 7px 9px;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  font-size: 15px;
-  font-weight: bold;
+  box-shadow:
+    0 2px 12px rgba(42, 108, 196, 0.16),
+    0 1px 3px rgba(42, 108, 196, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.65);
+  font-size: 11px;
+  font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s ease;
+  transform: translateY(-20px) scale(0.97);
+  transition: opacity 0.38s cubic-bezier(.4,0,.2,1),
+              transform 0.38s cubic-bezier(.4,0,.2,1);
+  border: 1px solid rgba(100, 160, 240, 0.28);
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  pointer-events: auto;
+  will-change: transform, opacity;
 }
+
 .toast.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
+
+.toast.hide {
+  opacity: 0;
+  transform: translateY(-18px) scale(0.97);
+}
+
 .toast img {
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  filter: none;
+  opacity: 0.85;
 }
-.toast button {
-  background: #ffc107;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 14px;
+
+.toast-text {
+  flex: 1;
+  line-height: 1.35;
+  font-size: 11px;
+  color: #1a3a5c;
+  direction: rtl;
+  text-align: right;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.toast-text b {
+  display: inline;
+  font-size: 11px;
+  opacity: 0.9;
+  font-weight: 700;
+  color: #1a4a7a;
+}
+
+.toast-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  flex-direction: column;
+}
+
+.toast button.toast-play-btn {
+  background: linear-gradient(135deg, rgba(42,108,196,0.18) 0%, rgba(70,140,220,0.22) 100%);
+  border: 1px solid rgba(42,108,196,0.30);
+  padding: 3px 7px;
+  border-radius: 7px;
+  font-size: 10px;
   cursor: pointer;
-  font-weight: bold;
-  color: #000;
+  font-weight: 700;
+  color: #1a4080;
+  transition: background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  font-family: inherit;
 }
-.toast button:hover {
-  background: #ffca2c;
+
+.toast button.toast-play-btn:hover {
+  background: linear-gradient(135deg, rgba(42,108,196,0.28) 0%, rgba(70,140,220,0.33) 100%);
+  border-color: rgba(42,108,196,0.50);
+}
+
+.toast button.toast-close-btn {
+  background: rgba(42,108,196,0.10);
+  border: 1px solid rgba(42,108,196,0.18);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+  color: rgba(26,58,92,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.toast button.toast-close-btn:hover {
+  background: rgba(42,108,196,0.22);
+  color: #1a3a5c;
+}
+
+/* ===== Tablet (768px – 1023px) ===== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .toast-container {
+    top: 12px;
+    width: 260px;
+    max-width: 260px;
+  }
+  .toast {
+    padding: 8px 10px;
+    font-size: 12px;
+    gap: 7px;
+  }
+  .toast img {
+    width: 22px;
+    height: 22px;
+  }
+  .toast-text { font-size: 12px; }
+  .toast-text b { font-size: 12px; }
+  .toast button.toast-play-btn {
+    padding: 4px 9px;
+    font-size: 11px;
+  }
+  .toast button.toast-close-btn {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ===== Desktop (1024px+) ===== */
+@media (min-width: 1024px) {
+  .toast-container {
+    top: 22px;
+    width: calc(100vw - 48px);
+    max-width: 460px;
+  }
+  .toast {
+    padding: 13px 17px;
+    font-size: 14px;
+    gap: 12px;
+  }
+  .toast img {
+    width: 30px;
+    height: 30px;
+  }
+  .toast-text {
+    font-size: 14px;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    display: block;
+  }
+  .toast-text b {
+    display: block;
+    font-size: 13px;
+  }
+  .toast-actions {
+    flex-direction: row;
+    gap: 6px;
+  }
+  .toast button.toast-play-btn {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+  .toast button.toast-close-btn {
+    width: 23px;
+    height: 23px;
+  }
 }
 
 .custom-tooltip {
@@ -4239,13 +4395,47 @@ body.dark-mode .star.checked,
 body.dark-mode .star.hover   { color: #f6c90e; }
 
 body.dark-mode .toast {
-    background: #1e3a5f;
-    color: #e0eaf8;
-    border-color: rgba(100,181,246,0.25);
+    background: linear-gradient(135deg,
+      rgba(15, 35, 65, 0.82) 0%,
+      rgba(20, 45, 80, 0.80) 50%,
+      rgba(12, 30, 58, 0.82) 100%);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    color: #b8d8f8;
+    border-color: rgba(80, 140, 220, 0.28);
+    box-shadow:
+      0 2px 18px rgba(20, 70, 160, 0.28),
+      0 1px 4px rgba(0,0,0,0.25),
+      inset 0 1px 0 rgba(100,160,255,0.12);
 }
-body.dark-mode .toast button { background: rgba(255,193,7,0.15); color: #ffc107; }
-body.dark-mode .toast button:hover { background: rgba(255,193,7,0.28); }
-
+body.dark-mode .toast-text { color: #b8d8f8; }
+body.dark-mode .toast-text b { color: #90c4f4; }
+body.dark-mode .toast button.toast-play-btn {
+  background: linear-gradient(135deg, rgba(60,120,220,0.22) 0%, rgba(80,150,240,0.28) 100%);
+  border-color: rgba(80,140,220,0.35);
+  color: #90c4f4;
+}
+body.dark-mode .toast button.toast-play-btn:hover {
+  background: linear-gradient(135deg, rgba(60,120,220,0.35) 0%, rgba(80,150,240,0.42) 100%);
+  border-color: rgba(80,140,220,0.55);
+}
+body.dark-mode .toast button.toast-close-btn {
+  background: rgba(80,140,220,0.12);
+  border-color: rgba(80,140,220,0.22);
+  color: rgba(184,216,248,0.65);
+}
+body.dark-mode .toast button.toast-close-btn:hover {
+  background: rgba(80,140,220,0.25);
+  color: #b8d8f8;
+}
+body.dark-mode .toast-lang-btn {
+  background: rgba(80,140,220,0.14);
+  border-color: rgba(80,140,220,0.28);
+  color: #90c4f4;
+}
+body.dark-mode .toast-lang-btn:hover {
+  background: rgba(80,140,220,0.25);
+}
 body.dark-mode .footer-button  { background: #1565c0; color: #fff; }
 body.dark-mode .footer-button:hover { background: #1976d2; }
 body.dark-mode .facebook-button { background: #1a3a6e; color: #90b8f8; }
@@ -11920,7 +12110,6 @@ setTimeout(autoScaleVerseFont, 100);
 <button id="viewFavoritesButton" data-ar="❤ المفضلة" data-en="Favorites ❤" onclick="toggleFavoritesView()">
   <span id="favHeart" onclick="event.stopPropagation(); confirmClearFavorites();" title="حذف كل المفضلة" style="cursor:pointer;padding:0 3px 0 5px;font-size:15px;display:inline-block;vertical-align:middle;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.35)'" onmouseout="this.style.transform='scale(1)'">❤</span><span id="favLabel"> المفضلة</span>
 </button>
-
 <button class="filter-button" data-ar="القرآن الكريم" data-en="Holy Quran" onclick="filterStations('QuranKarim')">القرآن الكريم</button>
 <button class="filter-button" data-ar="القراء" data-en="Reciters" onclick="filterStations('reciters')">القراء</button>
 
@@ -24469,6 +24658,57 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let showingFavorites = false;
 
+// ===== تشغيل محطة باسمها مباشرة =====
+function playStationByName(stationName) {
+  // أولاً: ابحث عن زر بـ data-station مطابق وانقر عليه
+  var allBtns = document.querySelectorAll('button[data-station]');
+  for (var i = 0; i < allBtns.length; i++) {
+    if (allBtns[i].getAttribute('data-station') === stationName) {
+      allBtns[i].click();
+      return;
+    }
+  }
+  // ثانياً: fallback من مصفوفات المحطات
+  var allStations = (typeof radioStations !== 'undefined' ? radioStations : []).concat(typeof adhkarStations !== 'undefined' ? adhkarStations : []);
+  for (var j = 0; j < allStations.length; j++) {
+    if (allStations[j].station === stationName || allStations[j].ar === stationName) {
+      if (typeof playStation === 'function') playStation(allStations[j]);
+      return;
+    }
+  }
+}
+
+function playRandomFavorite() {
+  if (!favorites || favorites.length === 0) {
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    showToast(ar ? '❤ المفضلة فارغة' : '❤ No favorites yet');
+    return;
+  }
+  var pick = favorites[Math.floor(Math.random() * favorites.length)];
+  var allBtns = document.querySelectorAll('button[data-station]');
+  var found = false;
+  for (var i = 0; i < allBtns.length; i++) {
+    if (allBtns[i].getAttribute('data-station') === pick) {
+      allBtns[i].click();
+      found = true;
+      showToast('🔀❤ ' + pick);
+      break;
+    }
+  }
+  if (!found) {
+    var allStations = (typeof radioStations !== 'undefined' ? radioStations : []).concat(typeof adhkarStations !== 'undefined' ? adhkarStations : []);
+    for (var j = 0; j < allStations.length; j++) {
+      if (allStations[j].station === pick || allStations[j].ar === pick) {
+        if (typeof playStation === 'function') playStation(allStations[j]);
+        showToast('🔀❤ ' + pick);
+        found = true;
+        break;
+      }
+    }
+  }
+  if (!found) showToast('❤ ' + pick);
+}
+
 mainAudio = mainAudio || document.getElementById('currentAudio');
 let statusDiv = document.getElementById('status');
 let currentButtonIndex = 0;
@@ -25433,6 +25673,8 @@ function loadRating() {
 
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof applyDirection === 'function') applyDirection(isArabic);
+
+  // تحديث ظهور زر المحطة العشوائية من المفضلة
 
   var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
   if (customRandomBtnTxt) customRandomBtnTxt.textContent = isArabic ? 'اختيارك' : 'Random';
@@ -27525,75 +27767,205 @@ window.addEventListener("load", function() {
   container.className = "toast-container";
   document.body.appendChild(container);
 
-  function createToast(messageEn, messageAr, imgUrl, btnText, onClick, delay=0) {
-    setTimeout(() => {
-      let toast = document.createElement("div");
-      toast.className = "toast";
-      toast.innerHTML = `
-        <img src="${imgUrl}" alt="icon" loading="lazy">
-        <span class="toast-text">${messageEn}</span>
-        <button>${btnText}</button>
-      `;
-      container.appendChild(toast);
+  // ===== لغة الإشعارات — نفس منطق siteLanguage =====
+  const _toastLang = (function() {
+    var saved = localStorage.getItem('siteLang');
+    if (saved === 'en' || saved === 'ar') return saved;
+    var bl = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+    return bl.startsWith('ar') ? 'ar' : 'en';
+  })();
 
-      setTimeout(() => toast.classList.add("show"), 200);
+  // ===== نظام Queue للإشعارات =====
+  // كل إشعار يظهر بعد انتهاء السابق — أضف أي إشعار جديد في مصفوفة toastQueue فقط
+  const TOAST_VISIBLE_MS  = 10000; // مدة ظهور الإشعار
+  const TOAST_ANIM_MS     = 500;   // مدة أنيميشن الاختفاء
+  const TOAST_GAP_MS      = 600;   // فترة انتظار بين إشعار وآخر
+  const TOAST_INITIAL_MS  = 1200;  // تأخير ظهور أول إشعار بعد تحميل الصفحة
 
+  let toastQueue = [];
+  let toastRunning = false;
+
+  function _showNextToast() {
+    if (toastRunning || toastQueue.length === 0) return;
+    toastRunning = true;
+
+    const { messageEn, messageAr, imgUrl, btnText, onClick } = toastQueue.shift();
+
+    const _isAr = _toastLang === 'ar';
+
+    let toast = document.createElement("div");
+    toast.className = "toast";
+
+    const _btnLabel = typeof btnText === 'object' && btnText !== null
+      ? (_isAr ? btnText.ar : btnText.en)
+      : btnText;
+
+    const _msg = _isAr ? messageAr : messageEn;
+
+    toast.innerHTML = `
+      <img src="${imgUrl}" alt="icon" loading="lazy">
+      <span class="toast-text" style="direction:${_isAr ? 'rtl' : 'ltr'};text-align:${_isAr ? 'right' : 'left'};">${_msg}</span>
+      <div class="toast-actions">
+        ${_btnLabel ? `<button class="toast-play-btn">${_btnLabel}</button>` : ''}
+        <button class="toast-close-btn" title="${_isAr ? 'إغلاق' : 'Close'}">×</button>
+      </div>
+    `;
+    container.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 80);
+
+    // دالة الإخفاء — تنسحب للأعلى
+    function dismissToast() {
+      toast.classList.remove("show");
+      toast.classList.add("hide");
       setTimeout(() => {
-        let textEl = toast.querySelector(".toast-text");
-        if (textEl) textEl.innerHTML = messageAr;
-      }, 3000);
-
-      toast.querySelector("button").addEventListener("click", function() {
-        onClick();
         toast.remove();
-      });
+        toastRunning = false;
+        setTimeout(_showNextToast, TOAST_GAP_MS);
+      }, TOAST_ANIM_MS);
+    }
 
-      setTimeout(() => {
-        toast.classList.remove("show");
-        setTimeout(() => toast.remove(), 500);
-      }, 10000);
-    }, delay);
+    // زرار الاستماع
+    const playBtn = toast.querySelector(".toast-play-btn");
+    if (playBtn) {
+      playBtn.addEventListener("click", function() {
+        if (onClick) onClick();
+        dismissToast();
+      });
+    }
+
+    // زرار الإغلاق
+    toast.querySelector(".toast-close-btn").addEventListener("click", dismissToast);
+
+    // اختفاء تلقائي
+    setTimeout(dismissToast, TOAST_VISIBLE_MS);
   }
 
-createToast(
-  "📢 New station added: <b>Salawat upon the Prophet ﷺ Radio</b>",
-  "📢 محطة جديدة: <b>راديو الصلاة على النبي ﷺ</b>",
-  "https://cdn-icons-png.flaticon.com/512/727/727245.png",
-  "▶ Listen",
-  function () {
-    let stationBtn = document.querySelector(
-      "button[data-station='راديو الصلاة على النبي ﷺ']"
-    );
+  function queueToast(messageEn, messageAr, imgUrl, btnText, onClick) {
+    toastQueue.push({ messageEn, messageAr, imgUrl, btnText, onClick });
+    // لو الـ Queue كان واقفاً وجاء إشعار جديد (مثلاً بعد رد API) — يبدأ تلقائياً
+    if (!toastRunning) setTimeout(_showNextToast, 0);
+  }
 
-    if (stationBtn) {
-      let urls = JSON.parse(stationBtn.getAttribute("data-urls"));
-      if (urls && urls.length > 0) {
-        let randomIndex = Math.floor(Math.random() * urls.length);
-        stationBtn.setAttribute("data-current-index", randomIndex);
-      }
-      toggleRadio(stationBtn, new Event("click"));
+  // ===== قائمة الإشعارات — أضف إشعارات جديدة هنا فقط =====
+
+  // ===== إشعار المناسبات الإسلامية (يظهر أولاً) =====
+  (function() {
+    function toHijri(gy, gm, gd) {
+      var a = Math.floor((14 - gm) / 12);
+      var y = gy + 4800 - a;
+      var m = gm + 12 * a - 3;
+      var JDN = gd + Math.floor((153 * m + 2) / 5) + 365 * y
+              + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+      var days = (JDN - 0.5) - 1948438.5;
+      var mTotal = Math.floor(days / 29.530589);
+      var hy = Math.floor(mTotal / 12) + 1;
+      var hm = (mTotal % 12) + 1;
+      var hd = Math.round(days - mTotal * 29.530589) + 1;
+      return { y: hy, m: hm, d: hd };
     }
-  },
-  0
-);
+    var now = new Date();
+    var h = toHijri(now.getFullYear(), now.getMonth() + 1, now.getDate());
+    var hm = h.m, hd = h.d;
+    var occasions = [
+      { m: 9, d1: 1, d2: 30,
+        ar: '🌙 رمضان كريم! — استمع لتلاوات القرآن الكريم',
+        en: '🌙 Ramadan Kareem! — Listen to Holy Quran recitations',
+        btnAr: '▶ تلاوات', btnEn: '▶ Recitations',
+        action: function() { var btn = document.querySelector("button.filter-button[data-ar='القراء']"); if (btn) btn.click(); }
+      },
+      { m: 12, d1: 1, d2: 8,
+        ar: '🕌 أيام العشر من ذي الحجة — أفضل أيام الدنيا',
+        en: '🕌 The Ten Days of Dhul Hijja — Best days of the year',
+        btnAr: '▶ أذكار', btnEn: '▶ Adhkar',
+        action: function() { var btn = document.querySelector("button.filter-button[data-ar='أذكار']"); if (btn) btn.click(); }
+      },
+      { m: 12, d1: 9, d2: 9,
+        ar: '🤲 يوم عرفة — أكثر من الدعاء والذكر والصيام',
+        en: '🤲 Day of Arafah — Fast, make dua and dhikr',
+        btnAr: '▶ دعاء عرفة', btnEn: '▶ Arafah Dua',
+        action: function() { playStationByName('دعاء يوم عرفة'); }
+      },
+      { m: 12, d1: 10, d2: 10,
+        ar: '🎉 عيد الأضحى المبارك — كل عام وأنتم بخير',
+        en: '🎉 Eid Al-Adha Mubarak — May Allah accept from us all',
+        btnAr: '▶ تكبيرات', btnEn: '▶ Takbeer',
+        action: function() { playStationByName('تكبيرات العيد'); }
+      },
+      { m: 12, d1: 11, d2: 13,
+        ar: '📿 أيام التشريق — أيام أكل وشرب وذكر لله',
+        en: '📿 Days of Tashreeq — Days of remembrance and gratitude',
+        btnAr: '▶ تكبيرات', btnEn: '▶ Takbeer',
+        action: function() { playStationByName('تكبيرات العيد'); }
+      },
+      { m: 10, d1: 1, d2: 1,
+        ar: '🎉 عيد الفطر المبارك — تقبل الله منا ومنكم',
+        en: '🎉 Eid Al-Fitr Mubarak — May Allah accept our deeds',
+        btnAr: '▶ تكبيرات', btnEn: '▶ Takbeer',
+        action: function() { playStationByName('تكبيرات العيد'); }
+      },
+      { m: 1, d1: 10, d2: 10,
+        ar: '📿 يوم عاشوراء — يوم صيام وذكر',
+        en: '📿 Day of Ashura — A blessed day of fasting',
+        btnAr: '▶ أذكار', btnEn: '▶ Adhkar',
+        action: function() { var btn = document.querySelector("button.filter-button[data-ar='أذكار']"); if (btn) btn.click(); }
+      },
+      { m: 3, d1: 12, d2: 12,
+        ar: '💚 ذكرى المولد النبوي الشريف — صلِّ على النبي ﷺ',
+        en: "💚 Prophet's Birthday — Send salawat upon the Prophet ﷺ",
+        btnAr: '▶ صلاة على النبي', btnEn: '▶ Salawat',
+        action: function() { var btn = document.querySelector("button[data-station='راديو الصلاة على النبي ﷺ']"); if (btn) toggleRadio(btn, new Event('click')); }
+      },
+    ];
+    for (var i = 0; i < occasions.length; i++) {
+      var oc = occasions[i];
+      if (hm === oc.m && hd >= oc.d1 && hd <= oc.d2) {
+        var finalOc = oc;
+        queueToast(
+          finalOc.en, finalOc.ar,
+          "https://cdn-icons-png.flaticon.com/512/3176/3176366.png",
+          { ar: finalOc.btnAr, en: finalOc.btnEn },
+          finalOc.action
+        );
+        break;
+      }
+    }
+  })();
 
-  createToast(
+  queueToast(
+    "📢 New station added: <b>Salawat upon the Prophet ﷺ Radio</b>",
+    "📢 محطة جديدة: <b>راديو الصلاة على النبي ﷺ</b>",
+    "https://cdn-icons-png.flaticon.com/512/727/727245.png",
+    { ar: "▶ استمع", en: "▶ Listen" },
+    function() {
+      let stationBtn = document.querySelector(
+        "button[data-station='راديو الصلاة على النبي ﷺ']"
+      );
+      if (stationBtn) {
+        let urls = JSON.parse(stationBtn.getAttribute("data-urls"));
+        if (urls && urls.length > 0) {
+          let randomIndex = Math.floor(Math.random() * urls.length);
+          stationBtn.setAttribute("data-current-index", randomIndex);
+        }
+        toggleRadio(stationBtn, new Event("click"));
+      }
+    }
+  );
+
+  queueToast(
     "🎙️ New: <b>Recitations of Sheikh Muhammad Siddiq Al-Minshawi</b>",
     "🎙️ جديد: <b>تلاوات الشيخ محمد صديق المنشاوي</b>",
     "https://cdn-icons-png.flaticon.com/512/3069/3069186.png",
-    "▶ Listen",
+    { ar: "▶ استمع", en: "▶ Listen" },
     function() {
-
       var mainFilterBtn = document.querySelector("button.filter-button[data-ar='القراء']");
       if (mainFilterBtn) mainFilterBtn.click();
 
       setTimeout(() => {
-
         var minshawiBtn = document.querySelector(".reciters-sub-btn[data-sub='minshawi']");
         if (minshawiBtn) minshawiBtn.click();
 
         setTimeout(() => {
-
           var subfilter = document.getElementById('minshawi-subfilter');
           if (subfilter) {
             subfilter.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -27611,9 +27983,145 @@ createToast(
           }, 400);
         }, 400);
       }, 600);
-    },
-    2000
+    }
   );
+
+  // ===== إشعار استئناف الجلسة =====
+  (function() {
+    try {
+      const last = JSON.parse(localStorage.getItem('lastStation'));
+      if (!last || !last.name) return;
+
+      const nameDisplay = last.name;
+
+      queueToast(
+        `🔖 Welcome back! Last station: <b>${nameDisplay}</b> — continue?`,
+        `🔖 أهلاً بعودتك! آخر محطة: <b>${nameDisplay}</b> — تكمل؟`,
+        "https://cdn-icons-png.flaticon.com/512/1041/1041916.png",
+        { ar: "▶ تشغيل", en: "▶ Resume" },
+        function() {
+          // نفس منطق الاستئناف الموجود في الكود
+          const buttons = document.querySelectorAll('.button');
+          buttons.forEach(btn => {
+            if (
+              btn.getAttribute('data-url') === last.url ||
+              (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(last.url)) ||
+              btn.getAttribute('data-ar') === last.name
+            ) {
+              toggleRadio(btn);
+            }
+          });
+        }
+      );
+    } catch(e) {}
+  })();
+
+  // ===== إشعار المحطة العشوائية من المفضلة =====
+  (function() {
+    try {
+      var favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+      if (!favs || favs.length === 0) return;
+      var pick = favs[Math.floor(Math.random() * favs.length)];
+      queueToast(
+        '🔀 Random from your favorites: <b>' + pick + '</b>',
+        '🔀 عشوائي من مفضلتك: <b>' + pick + '</b>',
+        'https://cdn-icons-png.flaticon.com/512/833/833472.png',
+        { ar: '▶ تشغيل', en: '▶ Play' },
+        function() { playRandomFavorite(); }
+      );
+    } catch(e) {}
+  })();
+
+  // ===== إشعار وقت الصلاة القادمة =====
+  // يطلب الموقع في كل زيارة كتذكير — لو وافق يحسب الوقت الفعلي، لو رفض يعرض رسالة تشجيعية
+  (function() {
+    const PRAYER_NAMES_AR = { Fajr:'الفجر', Sunrise:'الشروق', Dhuhr:'الظهر', Asr:'العصر', Maghrib:'المغرب', Isha:'العشاء' };
+    const PRAYER_NAMES_EN = { Fajr:'Fajr', Sunrise:'Sunrise', Dhuhr:'Dhuhr', Asr:'Asr', Maghrib:'Maghrib', Isha:'Isha' };
+    const PRAYER_ORDER    = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+
+    function minsUntil(timeStr) {
+      const now  = new Date();
+      const [h, m] = timeStr.split(':').map(Number);
+      const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
+      return Math.round((target - now) / 60000);
+    }
+
+    function findNextPrayer(timings) {
+      for (const name of PRAYER_ORDER) {
+        if (!timings[name]) continue;
+        const mins = minsUntil(timings[name].split(' ')[0]);
+        if (mins > 0) return { name, mins };
+      }
+      // كل صلوات اليوم فاتت → الفجر الغد تقريباً
+      const fajrMins = minsUntil(timings['Fajr'].split(' ')[0]);
+      return { name: 'Fajr', mins: fajrMins + 1440 };
+    }
+
+    function formatMins(mins) {
+      if (mins < 60) return { ar: `بعد ${mins} دقيقة`, en: `in ${mins} min` };
+      const h = Math.floor(mins/60), m = mins % 60;
+      const arH = h + ' ساعة', arM = m ? ` و${m} دقيقة` : '';
+      const enH = h + 'h', enM = m ? ` ${m}m` : '';
+      return { ar: `بعد ${arH}${arM}`, en: `in ${enH}${enM}` };
+    }
+
+    function goToAdhkar() {
+      var adhkarBtn = document.querySelector("button.filter-button[data-ar='أذكار']");
+      if (adhkarBtn) adhkarBtn.click();
+    }
+
+    function buildPrayerToast(name, mins) {
+      const time = formatMins(mins);
+      const ar = `🕌 <b>${PRAYER_NAMES_AR[name]}</b> ${time.ar}`;
+      const en = `🕌 <b>${PRAYER_NAMES_EN[name]}</b> ${time.en}`;
+      queueToast(en, ar,
+        "https://cdn-icons-png.flaticon.com/512/3176/3176366.png",
+        { ar: "▶ أذكار", en: "▶ Adhkar" },
+        goToAdhkar
+      );
+    }
+
+    function buildFallbackToast() {
+      queueToast(
+        "🕌 Remember Allah — prayer time is near",
+        "🕌 لا تنسَ الصلاة",
+        "https://cdn-icons-png.flaticon.com/512/3176/3176366.png",
+        null,
+        null
+      );
+    }
+
+    function fetchPrayerTimes(lat, lon) {
+      const today = new Date();
+      const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
+      fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lon}&method=4`)
+        .then(r => r.json())
+        .then(data => {
+          if (data && data.data && data.data.timings) {
+            const next = findNextPrayer(data.data.timings);
+            if (next) buildPrayerToast(next.name, next.mins);
+            else buildFallbackToast();
+          } else {
+            buildFallbackToast();
+          }
+        })
+        .catch(() => buildFallbackToast());
+    }
+
+    // طلب الموقع في كل زيارة كتذكير
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        pos => fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude),
+        ()  => buildFallbackToast(),
+        { timeout: 8000 }
+      );
+    } else {
+      buildFallbackToast();
+    }
+  })();
+
+  // ===== بدء تشغيل الـ Queue =====
+  setTimeout(_showNextToast, TOAST_INITIAL_MS);
 });
 
 let siteLanguage = (function() {
