@@ -29364,10 +29364,11 @@ document.addEventListener("keydown", function(e) {
         }
         return;
     }
+
 });
 
 // ═══════════════════════════════════════════════════════
-// نافذة الإرشادات واختصارات لوحة المفاتيح
+// نافذة الإرشادات واختصارات لوحة المفاتيح — ثنائية اللغة
 // ═══════════════════════════════════════════════════════
 (function() {
     // إنشاء الـ CSS
@@ -29376,6 +29377,7 @@ document.addEventListener("keydown", function(e) {
         '#kb-modal-overlay{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}',
         '#kb-modal-overlay.open{display:flex}',
         '#kb-modal{background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;direction:rtl;font-family:"Cairo",Arial,sans-serif;box-shadow:0 8px 40px rgba(0,0,0,0.18)}',
+        '#kb-modal.lang-en{direction:ltr}',
         'body.dark-mode #kb-modal{background:#1e1e2e;color:#e0e0e0}',
         '#kb-modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid rgba(0,0,0,0.09)}',
         'body.dark-mode #kb-modal-header{border-color:rgba(255,255,255,0.1)}',
@@ -29403,9 +29405,64 @@ document.addEventListener("keydown", function(e) {
         '#kb-help-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.18);background:none;cursor:pointer;font-size:15px;font-weight:700;opacity:0.65;transition:.2s;color:inherit}',
         '#kb-help-btn:hover{opacity:1;background:rgba(0,0,0,0.06);transform:scale(1.08)}',
         'body.dark-mode #kb-help-btn{border-color:rgba(255,255,255,0.25)}',
-        'body.dark-mode #kb-help-btn:hover{background:rgba(255,255,255,0.1)}'
+        'body.dark-mode #kb-help-btn:hover{background:rgba(255,255,255,0.1)}',
+        /* Lang toggle button */
+        '#kb-lang-toggle{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;border:1.5px solid rgba(0,0,0,0.15);background:none;cursor:pointer;font-size:12px;font-weight:700;opacity:0.7;transition:.2s;color:inherit;font-family:inherit}',
+        '#kb-lang-toggle:hover{opacity:1;background:rgba(0,0,0,0.05)}',
+        'body.dark-mode #kb-lang-toggle{border-color:rgba(255,255,255,0.2)}',
+        'body.dark-mode #kb-lang-toggle:hover{background:rgba(255,255,255,0.08)}'
     ].join('');
     document.head.appendChild(style);
+
+    // بيانات ثنائية اللغة
+    var T = {
+        title:       { ar: '⌨️ الإرشادات واختصارات لوحة المفاتيح', en: '⌨️ Help & Keyboard Shortcuts' },
+        close:       { ar: 'إغلاق', en: 'Close' },
+        sec1:        { ar: 'التشغيل والتحكم', en: 'Playback & Control' },
+        r_space:     { ar: 'تشغيل / إيقاف', en: 'Play / Pause' },
+        r_p:         { ar: 'تشغيل / إيقاف المحطة الرئيسية', en: 'Play / Pause main station' },
+        r_k:         { ar: 'تشغيل / إيقاف المحطة الفورية', en: 'Play / Pause instant station' },
+        r_plus:      { ar: 'رفع مستوى الصوت', en: 'Volume up' },
+        r_minus:     { ar: 'خفض مستوى الصوت', en: 'Volume down' },
+        sec2:        { ar: 'التنقل بين المحطات', en: 'Navigate Stations' },
+        r_next:      { ar: 'المحطة التالية', en: 'Next station' },
+        r_prev:      { ar: 'المحطة السابقة', en: 'Previous station' },
+        sec3:        { ar: 'التنقل بين مقاطع المحطة الواحدة', en: 'Navigate Station Segments' },
+        r_n:         { ar: 'المقطع التالي داخل نفس المحطة', en: 'Next segment in current station' },
+        r_b:         { ar: 'المقطع السابق داخل نفس المحطة', en: 'Previous segment in current station' },
+        r_r:         { ar: 'تبديل تكرار المقطع الحالي', en: 'Toggle repeat current segment' },
+        tip_seg:     { ar: 'المقاطع متاحة فقط في المحطات التي تحتوي على أكثر من رابط (مثل محطات الصلاة على النبي ﷺ وبعض المحطات المركّبة)', en: 'Segments are only available in stations with more than one link (e.g. Salah upon the Prophet ﷺ stations and some compound stations).' },
+        sec4:        { ar: 'اختصار سريع للمحطات 0–9', en: 'Quick Station Shortcuts 0–9' },
+        r_1:         { ar: 'الشيخ محمود خليل الحصري', en: 'Sheikh Mahmoud Khalil Al-Hussary' },
+        r_2:         { ar: 'الشيخ عبدالباسط عبد الصمد', en: 'Sheikh Abdul Basit Abdul Samad' },
+        r_3:         { ar: 'الشيخ محمود علي البنا (مجود)', en: 'Sheikh Mahmoud Ali Al-Banna (Mujawwad)' },
+        r_4:         { ar: 'الشيخ علي عبدالله جابر', en: 'Sheikh Ali Abdullah Jaber' },
+        r_5:         { ar: 'الشيخ محمد صديق المنشاوي (حفلات)', en: 'Sheikh Mohamed Siddiq Al-Minshawi (Live)' },
+        r_6:         { ar: 'الشيخ ناصر القطامي', en: 'Sheikh Nasser Al-Qatami' },
+        r_7:         { ar: 'الشيخ محمد عبادة', en: 'Sheikh Mohamed Abbada' },
+        r_8:         { ar: 'الشيخ إسلام صبحي', en: 'Sheikh Islam Sobhi' },
+        r_9:         { ar: 'إذاعة الصلاة على النبي ﷺ', en: 'Salah upon the Prophet ﷺ Radio' },
+        r_0:         { ar: 'آيات', en: 'Ayat' },
+        sec5:        { ar: 'الواجهة والتنقل', en: 'UI & Navigation' },
+        r_q:         { ar: 'فتح/إغلاق هذه النافذة', en: 'Open/Close this window' },
+        r_sw:        { ar: 'فتح شاشة الترحيب', en: 'Open welcome screen' },
+        r_esc:       { ar: 'إغلاق شاشة الترحيب / هذه النافذة', en: 'Close welcome screen / this window' },
+        sec_tasbih:  { ar: '📿 عداد التسبيح', en: '📿 Dhikr Counter' },
+        r_dot:       { ar: 'إضافة تسبيحة (في المحطة النشطة)', en: 'Add dhikr count (active station)' },
+        tip_tasbih:  { ar: 'يعمل فقط عندما تكون المحطة النشطة تحتوي على عداد تسبيح', en: 'Works only when the active station has a dhikr counter.' },
+        sec_mobile:  { ar: '📱 إيماءات الموبايل', en: '📱 Mobile Gestures' },
+        m_swipe_l:   { ar: 'سحب لليسار → المحطة التالية', en: 'Swipe left → Next station' },
+        m_swipe_r:   { ar: 'سحب لليمين → المحطة السابقة', en: 'Swipe right → Previous station' },
+        m_long:      { ar: 'ضغط مطوّل على محطة → تكرار تلقائي', en: 'Long-press station → Auto-repeat' },
+        m_triple:    { ar: 'ثلاث نقرات على مساحة فارغة → شاشة الترحيب', en: 'Triple-tap empty area → Welcome screen' },
+        sec6:        { ar: 'تلميحات إضافية', en: 'Additional Tips' },
+        tip_long:    { ar: 'اضغط <strong>مطولاً</strong> على أي محطة لتفعيل التكرار التلقائي للمقطع الحالي', en: '<strong>Long-press</strong> any station to enable auto-repeat for the current segment.' },
+        tip_ctrl:    { ar: '<strong>Ctrl + Click</strong> على محطة لفتح بثها مباشرةً في تبويب جديد', en: '<strong>Ctrl + Click</strong> a station to open its stream directly in a new tab.' },
+        tip_triple:  { ar: 'اضغط <strong>ثلاث مرات</strong> على مساحة فارغة لفتح شاشة الترحيب', en: 'Tap <strong>three times</strong> on an empty area to open the welcome screen.' },
+        footer:      { ar: '⌨️ الاختصارات تعمل خارج حقول الإدخال فقط', en: '⌨️ Shortcuts work outside input fields only' },
+        footer_key:  { ar: 'لفتح هذه النافذة', en: 'to open this window' },
+        toggle_en:   { ar: 'EN', en: 'عربي' }
+    };
 
     // إنشاء HTML الـ Modal
     var overlay = document.createElement('div');
@@ -29420,117 +29477,166 @@ document.addEventListener("keydown", function(e) {
         }).join('<span class="kb-sep">+</span>');
     }
 
-    function kbRow(desc, keys) {
-        return '<div class="kb-row"><span class="kb-row-desc">' + desc + '</span><div class="kb-keys">' + kbKey(keys) + '</div></div>';
+    function kbRow(id, keys, lang) {
+        return '<div class="kb-row"><span class="kb-row-desc">' + T[id][lang] + '</span><div class="kb-keys">' + kbKey(keys) + '</div></div>';
     }
 
-    overlay.innerHTML = [
-        '<div id="kb-modal">',
-          '<div id="kb-modal-header">',
-            '<h2>⌨️ الإرشادات واختصارات لوحة المفاتيح</h2>',
-            '<button id="kb-modal-close" aria-label="إغلاق">✕</button>',
-          '</div>',
-          '<div id="kb-modal-body">',
-
-            '<div>',
-              '<p class="kb-section-title">التشغيل والتحكم</p>',
-              '<div class="kb-rows">',
-                kbRow('تشغيل / إيقاف', ['Space']),
-                kbRow('تشغيل / إيقاف المحطة الرئيسية', ['P']),
-                kbRow('تشغيل / إيقاف المحطة الفورية', ['K']),
-                kbRow('رفع مستوى الصوت', ['+']),
-                kbRow('خفض مستوى الصوت', ['-']),
+    function buildModal(lang) {
+        return [
+            '<div id="kb-modal"' + (lang === 'en' ? ' class="lang-en"' : '') + '>',
+              '<div id="kb-modal-header">',
+                '<h2>' + T.title[lang] + '</h2>',
+                '<div style="display:flex;align-items:center;gap:8px">',
+                  '<button id="kb-lang-toggle" title="' + (lang === 'ar' ? 'Switch to English' : 'التبديل للعربية') + '">' + T.toggle_en[lang] + '</button>',
+                  '<button id="kb-modal-close" aria-label="' + T.close[lang] + '">✕</button>',
+                '</div>',
               '</div>',
-            '</div>',
+              '<div id="kb-modal-body">',
 
-            '<div class="kb-divider"></div>',
+                '<div>',
+                  '<p class="kb-section-title">' + T.sec1[lang] + '</p>',
+                  '<div class="kb-rows">',
+                    kbRow('r_space', ['Space'], lang),
+                    kbRow('r_p', ['P'], lang),
+                    kbRow('r_k', ['K'], lang),
+                    kbRow('r_plus', ['+'], lang),
+                    kbRow('r_minus', ['-'], lang),
+                  '</div>',
+                '</div>',
 
-            '<div>',
-              '<p class="kb-section-title">التنقل بين المحطات</p>',
-              '<div class="kb-rows">',
-                kbRow('المحطة التالية', ['←']),
-                kbRow('المحطة السابقة', ['→']),
+                '<div class="kb-divider"></div>',
+
+                '<div>',
+                  '<p class="kb-section-title">' + T.sec2[lang] + '</p>',
+                  '<div class="kb-rows">',
+                    kbRow('r_next', ['←'], lang),
+                    kbRow('r_prev', ['→'], lang),
+                  '</div>',
+                '</div>',
+
+                '<div class="kb-divider"></div>',
+
+                '<div>',
+                  '<p class="kb-section-title">' + T.sec3[lang] + '</p>',
+                  '<div class="kb-rows">',
+                    kbRow('r_n', ['N'], lang),
+                    kbRow('r_b', ['B'], lang),
+                    kbRow('r_r', ['R'], lang),
+                  '</div>',
+                  '<div class="kb-tip" style="margin-top:8px">',
+                    '<span style="font-size:15px;flex-shrink:0">💡</span>',
+                    '<span>' + T.tip_seg[lang] + '</span>',
+                  '</div>',
+                '</div>',
+
+                '<div class="kb-divider"></div>',
+
+                '<div>',
+                  '<p class="kb-section-title">' + T.sec4[lang] + '</p>',
+                  '<div class="kb-rows">',
+                    kbRow('r_1', ['1'], lang),
+                    kbRow('r_2', ['2'], lang),
+                    kbRow('r_3', ['3'], lang),
+                    kbRow('r_4', ['4'], lang),
+                    kbRow('r_5', ['5'], lang),
+                    kbRow('r_6', ['6'], lang),
+                    kbRow('r_7', ['7'], lang),
+                    kbRow('r_8', ['8'], lang),
+                    kbRow('r_9', ['9'], lang),
+                    kbRow('r_0', ['0'], lang),
+                  '</div>',
+                '</div>',
+
+                '<div class="kb-divider"></div>',
+
+                '<div>',
+                  '<p class="kb-section-title">' + T.sec5[lang] + '</p>',
+                  '<div class="kb-rows">',
+                    kbRow('r_q', ['?'], lang),
+                    kbRow('r_sw', ['Shift', 'W'], lang),
+                    kbRow('r_esc', ['Esc'], lang),
+                  '</div>',
+                '</div>',
+
+                '<div class="kb-divider"></div>',
+
+                '<div>',
+                  '<p class="kb-section-title">' + T.sec_tasbih[lang] + '</p>',
+                  '<div class="kb-rows">',
+                    '<div class="kb-row"><span class="kb-row-desc">' + T.r_dot[lang] + '</span><div class="kb-keys"><span class="kb-key">.</span></div></div>',
+                  '</div>',
+                  '<div class="kb-tip" style="margin-top:8px">',
+                    '<span style="font-size:15px;flex-shrink:0">📿</span>',
+                    '<span>' + T.tip_tasbih[lang] + '</span>',
+                  '</div>',
+                '</div>',
+
+                '<div class="kb-divider"></div>',
+
+                '<div>',
+                  '<p class="kb-section-title">' + T.sec_mobile[lang] + '</p>',
+                  '<div class="kb-rows">',
+                    '<div class="kb-row"><span class="kb-row-desc">' + T.m_swipe_l[lang] + '</span><div class="kb-keys"><span class="kb-key">👈</span></div></div>',
+                    '<div class="kb-row"><span class="kb-row-desc">' + T.m_swipe_r[lang] + '</span><div class="kb-keys"><span class="kb-key">👉</span></div></div>',
+                    '<div class="kb-row"><span class="kb-row-desc">' + T.m_long[lang] + '</span><div class="kb-keys"><span class="kb-key">👇</span></div></div>',
+                    '<div class="kb-row"><span class="kb-row-desc">' + T.m_triple[lang] + '</span><div class="kb-keys"><span class="kb-key">3×</span></div></div>',
+                  '</div>',
+                '</div>',
+
+                '<div class="kb-divider"></div>',
+
+                '<div>',
+                  '<p class="kb-section-title">' + T.sec6[lang] + '</p>',
+                  '<div class="kb-tip">',
+                    '<span style="font-size:15px;flex-shrink:0">🖱️</span>',
+                    '<span>' + T.tip_long[lang] + '</span>',
+                  '</div>',
+                  '<div class="kb-tip" style="margin-top:6px">',
+                    '<span style="font-size:15px;flex-shrink:0">🔀</span>',
+                    '<span>' + T.tip_ctrl[lang] + '</span>',
+                  '</div>',
+                  '<div class="kb-tip" style="margin-top:6px">',
+                    '<span style="font-size:15px;flex-shrink:0">👆</span>',
+                    '<span>' + T.tip_triple[lang] + '</span>',
+                  '</div>',
+                '</div>',
+
               '</div>',
-            '</div>',
-
-            '<div class="kb-divider"></div>',
-
-            '<div>',
-              '<p class="kb-section-title">التنقل بين مقاطع المحطة الواحدة</p>',
-              '<div class="kb-rows">',
-                kbRow('المقطع التالي داخل نفس المحطة', ['N']),
-                kbRow('المقطع السابق داخل نفس المحطة', ['B']),
-                kbRow('تبديل تكرار المقطع الحالي', ['R']),
+              '<div id="kb-modal-footer">',
+                '<span class="kb-footer-note">' + T.footer[lang] + '</span>',
+                '<div class="kb-keys"><span class="kb-key">?</span><span style="font-size:11.5px;opacity:0.4;margin-' + (lang === 'ar' ? 'right' : 'left') + ':4px">' + T.footer_key[lang] + '</span></div>',
               '</div>',
-              '<div class="kb-tip" style="margin-top:8px">',
-                '<span style="font-size:15px;flex-shrink:0">💡</span>',
-                '<span>المقاطع متاحة فقط في المحطات التي تحتوي على أكثر من رابط (مثل محطات الصلاة على النبي ﷺ وبعض المحطات المركّبة)</span>',
-              '</div>',
-            '</div>',
+            '</div>'
+        ].join('');
+    }
 
-            '<div class="kb-divider"></div>',
+    // تحديد اللغة الافتراضية من إعداد الموقع
+    function getSiteLang() {
+        return (typeof isArabic !== 'undefined' && !isArabic) ? 'en' : 'ar';
+    }
 
-            '<div>',
-              '<p class="kb-section-title">اختصار سريع للمحطات 0–9</p>',
-              '<div class="kb-rows">',
-                kbRow('الشيخ محمود خليل الحصري', ['1']),
-                kbRow('الشيخ عبدالباسط عبد الصمد', ['2']),
-                kbRow('الشيخ محمود علي البنا (مجود)', ['3']),
-                kbRow('الشيخ علي عبدالله جابر', ['4']),
-                kbRow('الشيخ محمد صديق المنشاوي (حفلات)', ['5']),
-                kbRow('الشيخ ناصر القطامي', ['6']),
-                kbRow('الشيخ محمد عبادة', ['7']),
-                kbRow('الشيخ إسلام صبحي', ['8']),
-                kbRow('إذاعة الصلاة على النبي ﷺ', ['9']),
-                kbRow('آيات', ['0']),
-              '</div>',
-            '</div>',
+    var kbCurrentLang = getSiteLang();
 
-            '<div class="kb-divider"></div>',
-
-            '<div>',
-              '<p class="kb-section-title">الواجهة والتنقل</p>',
-              '<div class="kb-rows">',
-                kbRow('فتح/إغلاق هذه النافذة', ['?']),
-                kbRow('فتح شاشة الترحيب', ['Shift', 'W']),
-                kbRow('إغلاق شاشة الترحيب / هذه النافذة', ['Esc']),
-              '</div>',
-            '</div>',
-
-            '<div class="kb-divider"></div>',
-
-            '<div>',
-              '<p class="kb-section-title">تلميحات إضافية</p>',
-              '<div class="kb-tip">',
-                '<span style="font-size:15px;flex-shrink:0">🖱️</span>',
-                '<span>اضغط <strong>مطولاً</strong> على أي محطة لتفعيل التكرار التلقائي للمقطع الحالي</span>',
-              '</div>',
-              '<div class="kb-tip" style="margin-top:6px">',
-                '<span style="font-size:15px;flex-shrink:0">🔀</span>',
-                '<span><strong>Ctrl + Click</strong> على محطة لفتح بثها مباشرةً في تبويب جديد</span>',
-              '</div>',
-              '<div class="kb-tip" style="margin-top:6px">',
-                '<span style="font-size:15px;flex-shrink:0">👆</span>',
-                '<span>اضغط <strong>ثلاث مرات</strong> على مساحة فارغة لفتح شاشة الترحيب</span>',
-              '</div>',
-            '</div>',
-
-          '</div>',
-          '<div id="kb-modal-footer">',
-            '<span class="kb-footer-note">⌨️ الاختصارات تعمل خارج حقول الإدخال فقط</span>',
-            '<div class="kb-keys"><span class="kb-key">?</span><span style="font-size:11.5px;opacity:0.4;margin-right:4px">لفتح هذه النافذة</span></div>',
-          '</div>',
-        '</div>'
-    ].join('');
+    overlay.innerHTML = buildModal(kbCurrentLang);
     document.body.appendChild(overlay);
 
-    // إغلاق بالضغط على الخلفية أو زر الإغلاق
-    overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) toggleShortcutsModal(false);
-    });
-    document.getElementById('kb-modal-close').addEventListener('click', function() {
-        toggleShortcutsModal(false);
-    });
+    function attachListeners() {
+        var closeBtn = document.getElementById('kb-modal-close');
+        if (closeBtn) closeBtn.addEventListener('click', function() { toggleShortcutsModal(false); });
+
+        var langBtn = document.getElementById('kb-lang-toggle');
+        if (langBtn) langBtn.addEventListener('click', function() {
+            kbCurrentLang = (kbCurrentLang === 'ar') ? 'en' : 'ar';
+            overlay.innerHTML = buildModal(kbCurrentLang);
+            attachListeners();
+        });
+
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) toggleShortcutsModal(false);
+        });
+    }
+
+    attachListeners();
 
     // إغلاق بـ Escape
     document.addEventListener('keydown', function(e) {
@@ -29548,7 +29654,14 @@ document.addEventListener("keydown", function(e) {
         if (!ov) return;
         var isOpen = ov.classList.contains('open');
         var open = (forceState !== undefined) ? forceState : !isOpen;
+        // مزامنة اللغة مع الموقع عند الفتح
         if (open) {
+            var siteLang = getSiteLang();
+            if (siteLang !== kbCurrentLang) {
+                kbCurrentLang = siteLang;
+                overlay.innerHTML = buildModal(kbCurrentLang);
+                attachListeners();
+            }
             ov.classList.add('open');
         } else {
             ov.classList.remove('open');
