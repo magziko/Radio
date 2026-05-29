@@ -980,6 +980,54 @@ body.dark-mode #settingsLangToggle:hover {
   border-color: transparent !important;
 }
 
+#settings-shortcuts-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#settingsShortcutsBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Cairo', Arial, sans-serif;
+  border-radius: 20px;
+  border: 1.5px solid rgba(21,101,192,0.30);
+  background: linear-gradient(to right, #e3f2fd 0%, #fff 50%, #e3f2fd 100%);
+  color: #1565c0;
+  cursor: pointer;
+  box-shadow: 0 1px 5px rgba(21,101,192,0.10);
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+  white-space: nowrap;
+  width: 100%;
+}
+#settingsShortcutsBtn:hover {
+  background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 3px 10px rgba(21,101,192,0.25);
+  transform: translateY(-1px);
+}
+#settingsShortcutsBtn #settingsShortcutsIcon {
+  font-size: 15px;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+body.dark-mode #settingsShortcutsBtn {
+  background: linear-gradient(to right, #1a2a3a, #1e2d3e, #1a2a3a) !important;
+  color: #90caf9 !important;
+  border-color: rgba(100,181,246,0.30) !important;
+}
+body.dark-mode #settingsShortcutsBtn:hover {
+  background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
 .color-settings-row {
   display: flex;
   flex-direction: row;
@@ -1819,6 +1867,42 @@ body.dark-mode #welcome-top-bar #welcomeLangToggle {
     background: rgba(20,30,48,0.85) !important;
     color: #90caf9 !important;
     border-color: rgba(100,181,246,0.30) !important;
+}
+
+#welcome-top-bar #welcomeHelpBtn {
+    position: static !important;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: Georgia, serif;
+    background: rgba(255,255,255,0.85);
+    color: #1565c0;
+    border: 1.5px solid rgba(21,101,192,0.25);
+    box-shadow: 0 1px 6px rgba(21,101,192,0.08);
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s, transform 0.18s;
+    line-height: 1;
+}
+#welcome-top-bar #welcomeHelpBtn:hover {
+    background: #1565c0 !important;
+    color: #fff !important;
+    border-color: #1565c0 !important;
+    transform: scale(1.1);
+}
+body.dark-mode #welcome-top-bar #welcomeHelpBtn {
+    background: rgba(20,30,48,0.85) !important;
+    color: #90caf9 !important;
+    border-color: rgba(100,181,246,0.30) !important;
+}
+body.dark-mode #welcome-top-bar #welcomeHelpBtn:hover {
+    background: #1565c0 !important;
+    color: #fff !important;
 }
 
 #welcome-top-bar #welcomeTopAiBtn {
@@ -4829,6 +4913,7 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
             <span class="wdm-text" id="welcomeDarkModeTxt">الوضع الليلي</span>
         </button>
         <button id="welcomeLangToggle" onclick="toggleLanguage()">🌐 EN</button>
+        <button id="welcomeHelpBtn" onclick="toggleShortcutsModal()" title="الإرشادات واختصارات لوحة المفاتيح / Help &amp; Keyboard Shortcuts" aria-label="Help &amp; Keyboard Shortcuts">?</button>
         <button id="reloadButton" onclick="confirmReload()" aria-label="إعادة تحميل" style="display:none;">🔄</button>
     </div>
 </div>
@@ -12633,6 +12718,12 @@ setTimeout(autoScaleVerseFont, 100);
       <button id="settingsLangToggle" onclick="toggleLanguage()">
         <span id="settingsLangIcon">🌐</span>
         <span id="settingsLangText">EN</span>
+      </button>
+    </div>
+    <div class="color-setting-item" id="settings-shortcuts-item">
+      <button id="settingsShortcutsBtn" onclick="toggleShortcutsModal()" title="الإرشادات واختصارات لوحة المفاتيح / Help &amp; Keyboard Shortcuts">
+        <span id="settingsShortcutsIcon" style="font-weight:700;font-size:16px;">?</span>
+        <span id="settingsShortcutsText" data-ar="الاختصارات" data-en="Shortcuts">الاختصارات</span>
       </button>
     </div>
     <div class="color-setting-item">
@@ -25769,6 +25860,9 @@ function toggleLanguage() {
   var slTxt = document.getElementById('settingsLangText');
   if (slTxt) slTxt.textContent = isArabic ? 'EN' : 'AR';
 
+  var ssTxt = document.getElementById('settingsShortcutsText');
+  if (ssTxt) ssTxt.textContent = isArabic ? 'الاختصارات' : 'Shortcuts';
+
   document.getElementById("prevButton").textContent = isArabic ? document.getElementById("prevButton").getAttribute("data-ar") : document.getElementById("prevButton").getAttribute("data-en");
   document.getElementById("randomButton").textContent = isArabic ? document.getElementById("randomButton").getAttribute("data-ar") : document.getElementById("randomButton").getAttribute("data-en");
   document.getElementById("nextButton").textContent = isArabic ? document.getElementById("nextButton").getAttribute("data-ar") : document.getElementById("nextButton").getAttribute("data-en");
@@ -29179,6 +29273,302 @@ document.addEventListener("keydown", function(e) {
         }
     }
 });
+
+
+// ═══════════════════════════════════════════════════════
+// اختصارات التنقل بين مقاطع المحطة الواحدة وتكرارها
+// N = المقطع التالي داخل نفس المحطة
+// B = المقطع السابق داخل نفس المحطة
+// R = تبديل تكرار المقطع الحالي
+// ? = فتح/إغلاق نافذة الإرشادات
+// ═══════════════════════════════════════════════════════
+document.addEventListener("keydown", function(e) {
+    const tag = document.activeElement && document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    if (document.activeElement && document.activeElement.isContentEditable) return;
+    if (e.repeat) return;
+
+    // ? → فتح/إغلاق نافذة الإرشادات
+    if (e.key === '?' || e.key === '/') {
+        e.preventDefault();
+        if (typeof toggleShortcutsModal === 'function') toggleShortcutsModal();
+        return;
+    }
+
+    // الحصول على زر المحطة النشطة حالياً
+    function getActiveBtn() {
+        return document.querySelector('.button.playing:not(#prevButton):not(#nextButton):not(#randomButton)');
+    }
+
+    // N أو ن = المقطع التالي داخل نفس المحطة
+    if (e.key === 'n' || e.key === 'N' || e.key === 'ى') {
+        e.preventDefault();
+        var btn = getActiveBtn();
+        if (!btn) return;
+        var urlsRaw = btn.getAttribute('data-urls');
+        if (!urlsRaw) return;
+        try {
+            var urls = JSON.parse(urlsRaw);
+            if (!urls || urls.length < 2) return;
+            var idx = parseInt(btn.getAttribute('data-current-index'), 10) || 0;
+            var nextUrl = urls[idx];
+            var nextIdx = (idx + 1) % urls.length;
+            btn.setAttribute('data-current-index', nextIdx);
+            var desc = btn.getAttribute('data-ar') || btn.getAttribute('data-station') || '';
+            var descEn = btn.getAttribute('data-en') || desc;
+            if (typeof playNewAudio === 'function') playNewAudio(nextUrl, desc, descEn, true);
+            if (typeof showToast === 'function') {
+                var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+                showToast(ar ? ('▶ مقطع ' + (nextIdx === 0 ? urls.length : idx + 1) + ' / ' + urls.length) : ('▶ Track ' + (nextIdx === 0 ? urls.length : idx + 1) + ' / ' + urls.length));
+            }
+        } catch(ex) {}
+        return;
+    }
+
+    // B أو ب = المقطع السابق داخل نفس المحطة
+    if (e.key === 'b' || e.key === 'B' || e.key === 'لا') {
+        e.preventDefault();
+        var btn = getActiveBtn();
+        if (!btn) return;
+        var urlsRaw = btn.getAttribute('data-urls');
+        if (!urlsRaw) return;
+        try {
+            var urls = JSON.parse(urlsRaw);
+            if (!urls || urls.length < 2) return;
+            var idx = parseInt(btn.getAttribute('data-current-index'), 10) || 0;
+            // الرجوع: نحسب المقطع اللي كان يشتغل (idx-1) ثم نرجع لما قبله (idx-2)
+            var playingIdx = (idx - 1 + urls.length) % urls.length;
+            var prevIdx    = (playingIdx - 1 + urls.length) % urls.length;
+            var prevUrl    = urls[prevIdx];
+            btn.setAttribute('data-current-index', (prevIdx + 1) % urls.length);
+            var desc = btn.getAttribute('data-ar') || btn.getAttribute('data-station') || '';
+            var descEn = btn.getAttribute('data-en') || desc;
+            if (typeof playNewAudio === 'function') playNewAudio(prevUrl, desc, descEn, true);
+            if (typeof showToast === 'function') {
+                var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+                showToast(ar ? ('⏮ مقطع ' + (prevIdx + 1) + ' / ' + urls.length) : ('⏮ Track ' + (prevIdx + 1) + ' / ' + urls.length));
+            }
+        } catch(ex) {}
+        return;
+    }
+
+    // R أو ر = تبديل تكرار المقطع الحالي
+    if (e.key === 'r' || e.key === 'R' || e.key === 'ق') {
+        e.preventDefault();
+        var btn = getActiveBtn();
+        if (!btn) return;
+        if (window._repeatModeActive) {
+            if (typeof window.setRepeatMode === 'function') window.setRepeatMode(btn, false);
+        } else {
+            if (typeof window.setRepeatMode === 'function') window.setRepeatMode(btn, true);
+        }
+        return;
+    }
+});
+
+// ═══════════════════════════════════════════════════════
+// نافذة الإرشادات واختصارات لوحة المفاتيح
+// ═══════════════════════════════════════════════════════
+(function() {
+    // إنشاء الـ CSS
+    var style = document.createElement('style');
+    style.textContent = [
+        '#kb-modal-overlay{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}',
+        '#kb-modal-overlay.open{display:flex}',
+        '#kb-modal{background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;direction:rtl;font-family:"Cairo",Arial,sans-serif;box-shadow:0 8px 40px rgba(0,0,0,0.18)}',
+        'body.dark-mode #kb-modal{background:#1e1e2e;color:#e0e0e0}',
+        '#kb-modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid rgba(0,0,0,0.09)}',
+        'body.dark-mode #kb-modal-header{border-color:rgba(255,255,255,0.1)}',
+        '#kb-modal-header h2{font-size:15px;font-weight:700;margin:0;display:flex;align-items:center;gap:8px;color:inherit}',
+        '#kb-modal-close{width:30px;height:30px;border-radius:50%;border:none;background:rgba(0,0,0,0.06);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:inherit}',
+        'body.dark-mode #kb-modal-close{background:rgba(255,255,255,0.1)}',
+        '#kb-modal-body{overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:14px}',
+        '.kb-section-title{font-size:11px;font-weight:700;letter-spacing:0.07em;opacity:0.45;text-transform:uppercase;margin-bottom:6px}',
+        '.kb-rows{display:flex;flex-direction:column;gap:2px}',
+        '.kb-row{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:8px}',
+        '.kb-row:hover{background:rgba(0,0,0,0.04)}',
+        'body.dark-mode .kb-row:hover{background:rgba(255,255,255,0.06)}',
+        '.kb-row-desc{font-size:13px}',
+        '.kb-keys{display:flex;align-items:center;gap:3px;flex-shrink:0}',
+        '.kb-key{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:22px;padding:0 7px;background:rgba(0,0,0,0.05);border:1px solid rgba(0,0,0,0.15);border-bottom-width:2.5px;border-radius:5px;font-size:11.5px;font-family:monospace;font-weight:600;color:inherit}',
+        'body.dark-mode .kb-key{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2)}',
+        '.kb-sep{font-size:10px;opacity:0.4}',
+        '.kb-divider{height:1px;background:rgba(0,0,0,0.07);margin:2px 0}',
+        'body.dark-mode .kb-divider{background:rgba(255,255,255,0.08)}',
+        '.kb-tip{background:rgba(30,144,255,0.07);border-radius:8px;padding:9px 13px;font-size:12px;display:flex;gap:8px;align-items:flex-start;line-height:1.55}',
+        'body.dark-mode .kb-tip{background:rgba(100,180,255,0.1)}',
+        '#kb-modal-footer{padding:10px 18px;border-top:1px solid rgba(0,0,0,0.09);display:flex;align-items:center;justify-content:space-between}',
+        'body.dark-mode #kb-modal-footer{border-color:rgba(255,255,255,0.1)}',
+        '.kb-footer-note{font-size:11.5px;opacity:0.45;display:flex;align-items:center;gap:6px}',
+        '#kb-help-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.18);background:none;cursor:pointer;font-size:15px;font-weight:700;opacity:0.65;transition:.2s;color:inherit}',
+        '#kb-help-btn:hover{opacity:1;background:rgba(0,0,0,0.06);transform:scale(1.08)}',
+        'body.dark-mode #kb-help-btn{border-color:rgba(255,255,255,0.25)}',
+        'body.dark-mode #kb-help-btn:hover{background:rgba(255,255,255,0.1)}'
+    ].join('');
+    document.head.appendChild(style);
+
+    // إنشاء HTML الـ Modal
+    var overlay = document.createElement('div');
+    overlay.id = 'kb-modal-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'اختصارات لوحة المفاتيح');
+
+    function kbKey(keys) {
+        return keys.map(function(k) {
+            return '<span class="kb-key">' + k + '</span>';
+        }).join('<span class="kb-sep">+</span>');
+    }
+
+    function kbRow(desc, keys) {
+        return '<div class="kb-row"><span class="kb-row-desc">' + desc + '</span><div class="kb-keys">' + kbKey(keys) + '</div></div>';
+    }
+
+    overlay.innerHTML = [
+        '<div id="kb-modal">',
+          '<div id="kb-modal-header">',
+            '<h2>⌨️ الإرشادات واختصارات لوحة المفاتيح</h2>',
+            '<button id="kb-modal-close" aria-label="إغلاق">✕</button>',
+          '</div>',
+          '<div id="kb-modal-body">',
+
+            '<div>',
+              '<p class="kb-section-title">التشغيل والتحكم</p>',
+              '<div class="kb-rows">',
+                kbRow('تشغيل / إيقاف', ['Space']),
+                kbRow('تشغيل / إيقاف المحطة الرئيسية', ['P']),
+                kbRow('تشغيل / إيقاف المحطة الفورية', ['K']),
+                kbRow('رفع مستوى الصوت', ['+']),
+                kbRow('خفض مستوى الصوت', ['-']),
+              '</div>',
+            '</div>',
+
+            '<div class="kb-divider"></div>',
+
+            '<div>',
+              '<p class="kb-section-title">التنقل بين المحطات</p>',
+              '<div class="kb-rows">',
+                kbRow('المحطة التالية', ['←']),
+                kbRow('المحطة السابقة', ['→']),
+              '</div>',
+            '</div>',
+
+            '<div class="kb-divider"></div>',
+
+            '<div>',
+              '<p class="kb-section-title">التنقل بين مقاطع المحطة الواحدة</p>',
+              '<div class="kb-rows">',
+                kbRow('المقطع التالي داخل نفس المحطة', ['N']),
+                kbRow('المقطع السابق داخل نفس المحطة', ['B']),
+                kbRow('تبديل تكرار المقطع الحالي', ['R']),
+              '</div>',
+              '<div class="kb-tip" style="margin-top:8px">',
+                '<span style="font-size:15px;flex-shrink:0">💡</span>',
+                '<span>المقاطع متاحة فقط في المحطات التي تحتوي على أكثر من رابط (مثل محطات الصلاة على النبي ﷺ وبعض المحطات المركّبة)</span>',
+              '</div>',
+            '</div>',
+
+            '<div class="kb-divider"></div>',
+
+            '<div>',
+              '<p class="kb-section-title">اختصار سريع للمحطات 0–9</p>',
+              '<div class="kb-rows">',
+                kbRow('الشيخ محمود خليل الحصري', ['1']),
+                kbRow('الشيخ عبدالباسط عبد الصمد', ['2']),
+                kbRow('الشيخ محمود علي البنا (مجود)', ['3']),
+                kbRow('الشيخ علي عبدالله جابر', ['4']),
+                kbRow('الشيخ محمد صديق المنشاوي (حفلات)', ['5']),
+                kbRow('الشيخ ناصر القطامي', ['6']),
+                kbRow('الشيخ محمد عبادة', ['7']),
+                kbRow('الشيخ إسلام صبحي', ['8']),
+                kbRow('إذاعة الصلاة على النبي ﷺ', ['9']),
+                kbRow('آيات', ['0']),
+              '</div>',
+            '</div>',
+
+            '<div class="kb-divider"></div>',
+
+            '<div>',
+              '<p class="kb-section-title">الواجهة والتنقل</p>',
+              '<div class="kb-rows">',
+                kbRow('فتح/إغلاق هذه النافذة', ['?']),
+                kbRow('فتح شاشة الترحيب', ['Shift', 'W']),
+                kbRow('إغلاق شاشة الترحيب / هذه النافذة', ['Esc']),
+              '</div>',
+            '</div>',
+
+            '<div class="kb-divider"></div>',
+
+            '<div>',
+              '<p class="kb-section-title">تلميحات إضافية</p>',
+              '<div class="kb-tip">',
+                '<span style="font-size:15px;flex-shrink:0">🖱️</span>',
+                '<span>اضغط <strong>مطولاً</strong> على أي محطة لتفعيل التكرار التلقائي للمقطع الحالي</span>',
+              '</div>',
+              '<div class="kb-tip" style="margin-top:6px">',
+                '<span style="font-size:15px;flex-shrink:0">🔀</span>',
+                '<span><strong>Ctrl + Click</strong> على محطة لفتح بثها مباشرةً في تبويب جديد</span>',
+              '</div>',
+              '<div class="kb-tip" style="margin-top:6px">',
+                '<span style="font-size:15px;flex-shrink:0">👆</span>',
+                '<span>اضغط <strong>ثلاث مرات</strong> على مساحة فارغة لفتح شاشة الترحيب</span>',
+              '</div>',
+            '</div>',
+
+          '</div>',
+          '<div id="kb-modal-footer">',
+            '<span class="kb-footer-note">⌨️ الاختصارات تعمل خارج حقول الإدخال فقط</span>',
+            '<div class="kb-keys"><span class="kb-key">?</span><span style="font-size:11.5px;opacity:0.4;margin-right:4px">لفتح هذه النافذة</span></div>',
+          '</div>',
+        '</div>'
+    ].join('');
+    document.body.appendChild(overlay);
+
+    // إغلاق بالضغط على الخلفية أو زر الإغلاق
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) toggleShortcutsModal(false);
+    });
+    document.getElementById('kb-modal-close').addEventListener('click', function() {
+        toggleShortcutsModal(false);
+    });
+
+    // إغلاق بـ Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            var ov = document.getElementById('kb-modal-overlay');
+            if (ov && ov.classList.contains('open')) {
+                e.stopImmediatePropagation();
+                toggleShortcutsModal(false);
+            }
+        }
+    }, true);
+
+    window.toggleShortcutsModal = function(forceState) {
+        var ov = document.getElementById('kb-modal-overlay');
+        if (!ov) return;
+        var isOpen = ov.classList.contains('open');
+        var open = (forceState !== undefined) ? forceState : !isOpen;
+        if (open) {
+            ov.classList.add('open');
+        } else {
+            ov.classList.remove('open');
+        }
+    };
+
+    // إشعار Toast في أول زيارة
+    window.addEventListener('load', function() {
+        if (localStorage.getItem('kb_hint_shown')) return;
+        localStorage.setItem('kb_hint_shown', '1');
+        setTimeout(function() {
+            if (typeof showToast === 'function') {
+                var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+                showToast(ar
+                    ? '⌨️ اضغط <strong>?</strong> لعرض اختصارات لوحة المفاتيح'
+                    : '⌨️ Press <strong>?</strong> to see keyboard shortcuts');
+            }
+        }, 5000);
+    });
+})();
 
 function incrementTasbihKeyboard(box) {
     const button = box.closest("button");
