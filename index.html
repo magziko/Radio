@@ -4948,7 +4948,7 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
         مرحبًا بكم في
     </span>
     <span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0; letter-spacing:0.5px;">
-        📻 <strong>Radio Ma</strong>
+        <a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; cursor:pointer;">📻</a> <strong>Radio Ma</strong>
     </span>
     <span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">
         إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية
@@ -30166,19 +30166,24 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }, 100);
 
-    let lastStation = JSON.parse(localStorage.getItem('lastStation'));
-    if (lastStation) {
-        let buttons = document.querySelectorAll('.button');
-        buttons.forEach(btn => {
-            if (
-                btn.getAttribute('data-url') === lastStation.url ||
-                (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(lastStation.url)) ||
-                btn.getAttribute('data-ar') === lastStation.name
-            ) {
-                toggleRadio(btn);
-            }
-        });
+    // استئناف آخر محطة فقط إذا كانت الشاشة الترحيبية مغلقة بالفعل
+    // (مستخدم عائد سبق له إغلاقها) — وليس عند أول تحميل للصفحة
+    if (window._welcomeScreenClosed) {
+        let lastStation = JSON.parse(localStorage.getItem('lastStation'));
+        if (lastStation) {
+            let buttons = document.querySelectorAll('.button');
+            buttons.forEach(btn => {
+                if (
+                    btn.getAttribute('data-url') === lastStation.url ||
+                    (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(lastStation.url)) ||
+                    btn.getAttribute('data-ar') === lastStation.name
+                ) {
+                    toggleRadio(btn);
+                }
+            });
+        }
     }
+    // ملاحظة: استئناف آخر محطة للمستخدم الجديد يتم داخل closeWelcomeScreen() بعد إغلاق الشاشة الترحيبية
 
     const status = document.getElementById('status');
     const prevBtn = document.getElementById('prevButton');
