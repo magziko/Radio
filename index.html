@@ -4948,7 +4948,7 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
         مرحبًا بكم في
     </span>
     <span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0; letter-spacing:0.5px;">
-        <a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; cursor:pointer;">📻</a> <strong>Radio Ma</strong>
+        <a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit; cursor:pointer;">📻 <strong>Radio Ma</strong></a>
     </span>
     <span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">
         إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية
@@ -25131,7 +25131,7 @@ function applyInitialLanguage() {
     if (welcomeText) welcomeText.innerHTML =
       '<span style="font-size:13px;font-weight:700;letter-spacing:2px;color:#7f8c8d;display:block;margin-bottom:4px;">\u{1F54C} In the Name of Allah</span>' +
       '<span style="font-size:26px;font-weight:700;display:block;color:#1a237e;line-height:1.2;">Welcome to</span>' +
-      '<span style="font-size:20px;font-weight:700;display:block;margin-top:4px;color:#1565c0;">\u{1F4FB} <strong>Radio Ma</strong></span>' +
+      '<span style="font-size:20px;font-weight:700;display:block;margin-top:4px;color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">\u{1F4FB} <strong>Radio Ma</strong></a></span>' +
       '<span style="font-size:14px;color:#546e7a;display:block;margin-top:3px;font-style:italic;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</span>';
 
     document.querySelectorAll('.color-setting-item label[data-ar][data-en]').forEach(function(lbl) { lbl.textContent = lbl.getAttribute('data-en'); });
@@ -26083,13 +26083,13 @@ function toggleLanguage() {
       welcomeText.innerHTML =
         '<span style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px;">🕌 بسم الله الرحمن الرحيم</span>' +
         '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">مرحبًا بكم في</span>' +
-        '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;">📻 <strong>Radio Ma</strong></span>' +
+        '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
         '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية</span>';
     } else {
       welcomeText.innerHTML =
         '<span style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px;">🕌 In the Name of Allah</span>' +
         '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Welcome to</span>' +
-        '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;">📻 <strong>Radio Ma</strong></span>' +
+        '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
         '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</span>';
     }
   }
