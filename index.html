@@ -5100,10 +5100,26 @@ function confirmReload() {
         _player.src = _src;
         _player.load();
         _player.play().catch(function() {
-            // autoplay مرفوض (زيارة أولى) — أعد الـ flag فقط
-            // المتصفح سيسمح بالتشغيل بعد أول تفاعل حقيقي من المستخدم
-            _player.src = '';
+            // autoplay مرفوض (زيارة أولى) — انتظر أول تفاعل من المستخدم
             window._welcomePlayInitiated = false;
+
+            function _onFirstInteraction() {
+                if (window._welcomeScreenClosed) return;
+                if (window._welcomePlayInitiated || window._welcomeRadioBgStarted) return;
+                var p = document.getElementById('customAudioPlayer');
+                if (!p) return;
+                window._welcomePlayInitiated = true;
+                p.src = _src;
+                p.load();
+                p.play().catch(function() {
+                    window._welcomePlayInitiated = false;
+                });
+                document.removeEventListener('click', _onFirstInteraction);
+                document.removeEventListener('touchstart', _onFirstInteraction);
+            }
+
+            document.addEventListener('click', _onFirstInteraction, { once: false });
+            document.addEventListener('touchstart', _onFirstInteraction, { once: false });
         });
     }
 
@@ -5533,6 +5549,27 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 
 function adjustVolume() {
     if (volumeRange) customAudioPlayer.volume = volumeRange.value;
+}
+
+// ── تشغيل محطة من الإشعارات حتى لو الشاشة الترحيبية مفتوحة ──
+// يوقف راديو الترحيبية فوراً ويشغّل المحطة المطلوبة في الراديو الأساسي
+function playFromNotification(btn, evt) {
+    // 1. أوقف راديو الشاشة الترحيبية فوراً
+    var _wp = document.getElementById('customAudioPlayer');
+    if (_wp && !_wp.paused) {
+        _wp.pause();
+        _wp.src = '';
+    }
+    window._welcomePlayInitiated  = false;
+    window._welcomeRadioBgStarted = false;
+
+    // 2. اسمح للراديو الأساسي بالتشغيل رغم أن الشاشة الترحيبية مفتوحة
+    window._mainPlayAllowed = true;
+
+    // 3. شغّل المحطة
+    if (btn) {
+        toggleRadio(btn, evt || new Event('click'));
+    }
 }
 
 // ===== فتح مساعد الذكاء الاصطناعي من الشاشة الترحيبية =====
@@ -24120,6 +24157,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
     document.getElementById('sp-target-sel').addEventListener('change', function(){
         spTarget = parseInt(this.value);
+        /* حفظ الهدف المختار */
+        try{ localStorage.setItem('sp_target', this.value); }catch(e){}
         spUpdateUI();
         spDrawCanvas();
         spUpdateMediaSession();
@@ -24299,6 +24338,18 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
     function spInit(){
 
+        /* ── استرجاع الهدف المحفوظ ── */
+        try{
+            var savedTarget = localStorage.getItem('sp_target');
+            if(savedTarget){
+                var targetSel = document.getElementById('sp-target-sel');
+                if(targetSel){
+                    targetSel.value = savedTarget;
+                    spTarget = parseInt(savedTarget) || 100;
+                }
+            }
+        }catch(e){}
+
         spCount = spLoadCount();
         spUpdateDhikrDisplay();
         spUpdateUI();
@@ -24372,7 +24423,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         /* اللهم صلِّ على محمد */
         '14': "https://archive.org/download/mix-saly/mix%20saly.mp3",
         /* لا إله إلا الله وحده لا شريك له */
-        '10': "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3"
+        '10': "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3",
+        /* أستغفر الله */
+        '8':  "https://archive.org/download/20260530_20260530_1151/%D8%A3%D8%B3%D8%AA%D8%BA%D9%81%D8%B1%20%D8%A7%D9%84%D9%84%D9%87.mp3"
     };
     /* صوت افتراضي لأي ذكر ليس في الخريطة */
     var ALARM_SOUND_DEFAULT =
@@ -24485,8 +24538,25 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     /* ---- الإشعار ---- */
     function alNotify(dhikr){
         var ar = alAr();
-        var title = ar ? 'صلِّ على النبى ﷺ' : 'Send Salawat upon the Prophet ﷺ';
-        var body  = dhikr || (ar ? 'اللهم صلِّ وسلِّم على نبينا محمد ﷺ' : 'Allahumma salli wa sallim ala nabiyyina Muhammad ﷺ');
+
+        /* ── جلب نص الذكر المختار من الـ select ── */
+        var sel = document.getElementById('sp-athkar-sel');
+        var selAr = '', selEn = '';
+        if(sel && sel.options[sel.selectedIndex]){
+            var opt = sel.options[sel.selectedIndex];
+            selAr = opt.getAttribute('data-ar') || opt.textContent || '';
+            selEn = opt.getAttribute('data-en') || selAr;
+        }
+
+        /* العنوان = الذكر المختار (مختصر لـ 60 حرف) */
+        var titleAr = selAr.length > 60 ? selAr.substring(0, 60) + '…' : selAr;
+        var titleEn = selEn.length > 60 ? selEn.substring(0, 60) + '…' : selEn;
+        var title = ar ? (titleAr || '⏰ حان وقت الذكر') : (titleEn || '⏰ Dhikr Reminder');
+
+        /* الجسم = نص الذكر الكامل أو ما أُرسل */
+        var body = dhikr || (ar ? selAr : selEn)
+                   || (ar ? 'اللهم صلِّ وسلِّم على نبينا محمد ﷺ' : 'Allahumma salli wa sallim ala nabiyyina Muhammad ﷺ');
+
         if(typeof Notification !== 'undefined' && Notification.permission === 'granted'){
             try{
                 var n = new Notification(title, {
@@ -24500,9 +24570,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
                 setTimeout(function(){ try{ n.close(); }catch(e){} }, 8000);
             }catch(e){}
         }
-        /* toast داخل الصفحة دائماً */
+        /* toast داخل الصفحة — يعرض الذكر المختار */
         if(typeof showToast === 'function'){
-            showToast('🤍 ' + (ar ? 'صلِّ على النبى ﷺ — ' : 'Salawat ﷺ — ') + body);
+            showToast('🔔 ' + title);
         }
     }
 
@@ -24579,25 +24649,101 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         if(st) st.textContent = '';
     }
 
-    /* ---- init: تحميل إحصائية اليوم ---- */
+    /* ---- حفظ واسترجاع إعدادات المنبه ---- */
+    var AL_PREFS_KEY = 'al_alarm_prefs';
+
+    function alSavePrefs(){
+        try{
+            var dhikrSel   = document.getElementById('sp-athkar-sel');
+            var intervalSel = document.getElementById('sp-alarm-interval-sel');
+            var prefs = {
+                dhikr:    dhikrSel    ? dhikrSel.value    : '0',
+                interval: intervalSel ? intervalSel.value : '10',
+                active:   !!spAlarmTimer
+            };
+            localStorage.setItem(AL_PREFS_KEY, JSON.stringify(prefs));
+        }catch(e){}
+    }
+
+    function alLoadPrefs(){
+        try{
+            var raw = localStorage.getItem(AL_PREFS_KEY);
+            return raw ? JSON.parse(raw) : null;
+        }catch(e){ return null; }
+    }
+
+    /* ---- init: تحميل إحصائية اليوم واسترجاع الإعدادات ---- */
     function alInit(){
         alLoadToday();
         alUpdateTodayBar();
+
         /* اللغة على الـ label ضبط النص */
         var ar = alAr();
         var lbl = document.querySelector('.sp-alarm-label');
         if(lbl){ var t = ar ? lbl.getAttribute('data-ar') : lbl.getAttribute('data-en'); if(t) lbl.textContent = t; }
         var btn = document.getElementById('sp-alarm-btn');
         if(btn){ var t2 = ar ? btn.getAttribute('data-ar') : btn.getAttribute('data-en'); if(t2) btn.textContent = t2; }
+
         /* خيارات الـ select: نص عربي أو إنجليزي */
-        var sel = document.getElementById('sp-alarm-interval-sel');
-        if(sel){
-            Array.from(sel.options).forEach(function(opt){
+        var intervalSel = document.getElementById('sp-alarm-interval-sel');
+        if(intervalSel){
+            Array.from(intervalSel.options).forEach(function(opt){
                 var txt = ar ? opt.getAttribute('data-ar') : opt.getAttribute('data-en');
                 if(txt) opt.textContent = txt;
             });
         }
+
+        /* ── استرجاع آخر إعدادات ── */
+        var prefs = alLoadPrefs();
+        if(prefs){
+            /* استرجاع الذكر */
+            var dhikrSel = document.getElementById('sp-athkar-sel');
+            if(dhikrSel && prefs.dhikr !== undefined){
+                dhikrSel.value = prefs.dhikr;
+            }
+            /* استرجاع الفترة */
+            if(intervalSel && prefs.interval){
+                intervalSel.value = prefs.interval;
+            }
+            /* استرجاع حالة المنبه — أعد تشغيله لو كان شغّالاً */
+            if(prefs.active && !spAlarmTimer){
+                alStartAlarm();
+            }
+        }
+
+        /* حفظ تلقائي عند تغيير الذكر أو الفترة */
+        var dhikrSel2 = document.getElementById('sp-athkar-sel');
+        if(dhikrSel2 && !dhikrSel2._alSaveAttached){
+            dhikrSel2._alSaveAttached = true;
+            dhikrSel2.addEventListener('change', alSavePrefs);
+        }
+        if(intervalSel && !intervalSel._alSaveAttached){
+            intervalSel._alSaveAttached = true;
+            intervalSel.addEventListener('change', function(){
+                alSavePrefs();
+                /* لو المنبه شغّال، أعد ضبطه بالفترة الجديدة فوراً */
+                if(spAlarmTimer){
+                    clearInterval(spAlarmTimer);
+                    var mins = parseInt(intervalSel.value) || 10;
+                    var ms   = mins * 60 * 1000;
+                    spAlarmTimer = setInterval(alRing, ms);
+                    alStartCountdown(ms);
+                }
+            });
+        }
     }
+
+    /* تغليف alStartAlarm و alStopAlarm لحفظ الحالة */
+    var _origStartAlarm = alStartAlarm;
+    var _origStopAlarm  = alStopAlarm;
+    alStartAlarm = function(){
+        _origStartAlarm();
+        alSavePrefs();
+    };
+    alStopAlarm = function(){
+        _origStopAlarm();
+        alSavePrefs();
+    };
 
     if(document.readyState === 'loading'){
         document.addEventListener('DOMContentLoaded', alInit);
@@ -24606,11 +24752,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     }
 
     /* ---- تحديث اللغة عند التبديل ---- */
-    /* نعلّق على الـ lang toggle إذا وُجد */
     document.addEventListener('langchange', function(){
         alInit();
         if(spAlarmTimer){
-            /* أعد نص الزر لأنه active */
             var btn = document.getElementById('sp-alarm-btn');
             if(btn){
                 var ar = alAr();
@@ -24741,11 +24885,11 @@ let showingFavorites = false;
 
 // ===== تشغيل محطة باسمها مباشرة =====
 function playStationByName(stationName) {
-  // أولاً: ابحث عن زر بـ data-station مطابق وانقر عليه
+  // أولاً: ابحث عن زر بـ data-station مطابق وشغّله عبر playFromNotification
   var allBtns = document.querySelectorAll('button[data-station]');
   for (var i = 0; i < allBtns.length; i++) {
     if (allBtns[i].getAttribute('data-station') === stationName) {
-      allBtns[i].click();
+      playFromNotification(allBtns[i]);
       return;
     }
   }
@@ -24770,7 +24914,7 @@ function playRandomFavorite() {
   var found = false;
   for (var i = 0; i < allBtns.length; i++) {
     if (allBtns[i].getAttribute('data-station') === pick) {
-      allBtns[i].click();
+      playFromNotification(allBtns[i]);
       found = true;
       showToast('🔀❤ ' + pick);
       break;
@@ -27999,7 +28143,7 @@ window.addEventListener("load", function() {
         ar: '💚 ذكرى المولد النبوي الشريف — صلِّ على النبي ﷺ',
         en: "💚 Prophet's Birthday — Send salawat upon the Prophet ﷺ",
         btnAr: '▶ صلاة على النبي', btnEn: '▶ Salawat',
-        action: function() { var btn = document.querySelector("button[data-station='راديو الصلاة على النبي ﷺ']"); if (btn) toggleRadio(btn, new Event('click')); }
+        action: function() { var btn = document.querySelector("button[data-station='راديو الصلاة على النبي ﷺ']"); if (btn) playFromNotification(btn); }
       },
     ];
     for (var i = 0; i < occasions.length; i++) {
@@ -28032,7 +28176,7 @@ window.addEventListener("load", function() {
           let randomIndex = Math.floor(Math.random() * urls.length);
           stationBtn.setAttribute("data-current-index", randomIndex);
         }
-        toggleRadio(stationBtn, new Event("click"));
+        playFromNotification(stationBtn);
       }
     }
   );
@@ -28063,7 +28207,7 @@ window.addEventListener("load", function() {
             let stationBtns = document.querySelectorAll("button[data-category='Monshawiiyat']");
             if (stationBtns.length > 0) {
               let randomIndex = Math.floor(Math.random() * stationBtns.length);
-              stationBtns[randomIndex].click();
+              playFromNotification(stationBtns[randomIndex]);
             }
           }, 400);
         }, 400);
@@ -28093,7 +28237,7 @@ window.addEventListener("load", function() {
               (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(last.url)) ||
               btn.getAttribute('data-ar') === last.name
             ) {
-              toggleRadio(btn);
+              playFromNotification(btn);
             }
           });
         }
