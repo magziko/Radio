@@ -4884,6 +4884,18 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
 
 <body class="main-content">
 
+<script>
+/* ⚡ يُشغَّل فوراً قبل أي شيء – يخفي الشاشة الترحيبية فقط إذا كانت معطَّلة */
+(function(){
+  var _hide = localStorage.getItem("disableWelcomeScreen") === "true"
+           || !!new URLSearchParams(location.search).get('url');
+  if (_hide) {
+    document.write('<style>#welcomeScreen{display:none!important}</style>');
+    window._welcomeScreenClosed = true;
+  }
+})();
+</script>
+
 <div id="welcomeScreen" onclick="checkClickOutside(event)">
     <div id="welcomeContent">
 
@@ -5042,20 +5054,14 @@ function confirmReload() {
     }
 }
 
+// ============================================================
+// تهيئة الشاشة الترحيبية
+// ============================================================
 (function initWelcomeScreen() {
-    var disableWelcome = localStorage.getItem("disableWelcomeScreen");
-    var ws = document.getElementById('welcomeScreen');
 
-    if (disableWelcome === "true") {
-
-        return;
-    }
-
+    // حالة URL param – الشاشة مخفية مسبقاً، شغّل المحطة بعد تهيئة الصفحة
     var _urlParams = new URLSearchParams(window.location.search);
     if (_urlParams.get('url')) {
-        window._welcomeScreenClosed = true;
-        ws.style.display = 'none';
-        // شغّل المحطة بعد تهيئة الصفحة
         setTimeout(function() {
             var _url  = _urlParams.get('url');
             var _name = _urlParams.get('station') || 'محطة مخصصة';
@@ -5067,24 +5073,48 @@ function confirmReload() {
         return;
     }
 
-    ws.style.display = 'block';
+    // الشاشة معطَّلة من الـ script الفوري أعلى الـ body
+    if (window._welcomeScreenClosed) return;
+
+    // اضبط inline style (مطلوب لكل فحوصات display في الكود)
+    document.getElementById('welcomeScreen').style.display = 'flex';
     window._welcomeScreenOpened = true;
+    window._welcomeRadioBgStarted = false;
+    window._welcomePlayInitiated  = false;
 
-    var _started = false;
-    function _startRadio() {
-        if (_started) return;
-        _started = true;
-        window.removeEventListener('mousemove',  _startRadio);
-        window.removeEventListener('touchstart', _startRadio);
-        index = 0;
-        playSource(index);
-        updateWelcomePlayPauseButton(false);
+    // ── دالة التشغيل الوحيدة ──────────────────────────────
+    // تُستدعى تلقائياً بعد load — تنجح للزوار العائدين
+    // لو فشلت (زيارة أولى)، أي ضغطة بالصفحة تعطي المتصفح إذن autoplay تلقائياً
+    // وعندها يكفي أن يضغط المستخدم على أي زر (محطة، إشعار، إلخ) فيشتغل مباشرة
+    function _playWelcomeAudio() {
+        if (window._welcomePlayInitiated || window._welcomeRadioBgStarted) return;
+        window._welcomePlayInitiated = true;
+
+        var _player = document.getElementById('customAudioPlayer');
+        if (!_player) { window._welcomePlayInitiated = false; return; }
+
+        var _src = (typeof sources !== 'undefined' && sources[0])
+            ? sources[0]
+            : 'https://backup.qurango.net/radio/tarateel';
+
+        _player.src = _src;
+        _player.load();
+        _player.play().catch(function() {
+            // autoplay مرفوض (زيارة أولى) — أعد الـ flag فقط
+            // المتصفح سيسمح بالتشغيل بعد أول تفاعل حقيقي من المستخدم
+            _player.src = '';
+            window._welcomePlayInitiated = false;
+        });
     }
-    window.addEventListener('mousemove',  _startRadio, { passive: true, once: true });
-    window.addEventListener('touchstart', _startRadio, { passive: true, once: true });
 
+    if (document.readyState === 'complete') {
+        _playWelcomeAudio();
+    } else {
+        window.addEventListener('load', _playWelcomeAudio, { once: true });
+    }
+
+    // إظهار زرَّي الإغلاق وإعادة التحميل بعد 3 ثواني
     setTimeout(function() {
-
         if (window._welcomeScreenClosed) return;
         document.getElementById('closeButton').style.display = 'block';
         document.getElementById("reloadButton").style.display = "block";
@@ -5193,6 +5223,7 @@ document.addEventListener('keydown', function(event) {
 function updateWelcomePlayPauseButton(isPlaying) {
     var playPauseSymbol = document.getElementById('customPlayPauseSymbol');
     var playBtn = document.getElementById('customPlayToggleButton');
+    if (!playPauseSymbol) return;
     if (isPlaying) {
         playPauseSymbol.setAttribute("d", "M6 19h4V5H6v14zm8-14v14h4V5h-4z");
         if (playBtn) playBtn.classList.add('playing');
@@ -5233,10 +5264,276 @@ function closeWelcomeScreen() {
 }
 
 var customAudioPlayer = document.getElementById('customAudioPlayer');
-var currentStatus = document.getElementById('customStatus');
-var volumeRange = document.getElementById('customVolumeRange');
-var playPauseSymbol = document.getElementById('customPlayPauseSymbol');
-var isAudioPlaying = false;
+var currentStatus     = document.getElementById('customStatus');
+var volumeRange       = document.getElementById('customVolumeRange');
+var playPauseSymbol   = document.getElementById('customPlayPauseSymbol');
+var isAudioPlaying    = false;
+
+// ============================================================
+// محرك تشغيل الشاشة الترحيبية — منظومة موحّدة
+// ============================================================
+
+// مصادر الراديو الافتراضي للشاشة الترحيبية
+const sources = [
+    "https://backup.qurango.net/radio/tarateel",
+    "https://qurango.net/radio/tarateel"
+];
+
+var audio        = customAudioPlayer;
+var index        = 0;
+var stationIndex = 0;
+var autoInterval = null;
+
+var _lastToastTime = 0;
+function showToast(message) {
+    var now = Date.now();
+    if (now - _lastToastTime < 3500) return;
+    _lastToastTime = now;
+    var toast = document.createElement("div");
+    toast.textContent = message;
+    toast.style.cssText = [
+        'position:fixed', 'bottom:20px', 'left:50%',
+        'transform:translateX(-50%)',
+        'background:rgba(0,0,0,0.85)', 'color:#fff',
+        'padding:10px 20px', 'border-radius:22px',
+        'font-size:14px', 'z-index:9999',
+        'box-shadow:0 5px 15px rgba(0,0,0,0.3)',
+        'animation:fadeInOut 3s forwards'
+    ].join(';');
+    document.body.appendChild(toast);
+    setTimeout(function() { toast.remove(); }, 3000);
+}
+
+// متغيرات حماية الـ error handlers
+var switchingSource          = false;
+var welcomeErrorTimer        = null;
+var welcomeStalledTimer      = null;
+var welcomeConsecutiveErrors = 0;
+const WELCOME_ERROR_DELAY   = 15000;
+const WELCOME_STALLED_DELAY = 20000;
+
+// ── handler الأخطاء العامة (يشتغل للمحطة الافتراضية فقط) ──
+audio.addEventListener("error", function() {
+    if (window._welcomeScreenClosed) return;
+    clearTimeout(welcomeErrorTimer);
+    welcomeErrorTimer = setTimeout(function() {
+        if (audio.error || audio.networkState === 3) nextSource();
+    }, WELCOME_ERROR_DELAY);
+});
+
+audio.addEventListener("stalled", function() {
+    if (window._welcomeScreenClosed) return;
+    clearTimeout(welcomeStalledTimer);
+    welcomeStalledTimer = setTimeout(function() {
+        if (audio.paused || audio.readyState < 2) nextSource();
+    }, WELCOME_STALLED_DELAY);
+});
+
+audio.addEventListener("playing", function() {
+    clearTimeout(welcomeErrorTimer);
+    clearTimeout(welcomeStalledTimer);
+    switchingSource          = false;
+    welcomeConsecutiveErrors = 0;
+});
+
+// ── تحديث زر التشغيل/الإيقاف ──
+customAudioPlayer.addEventListener('play', function() {
+    isAudioPlaying = true;
+    updateWelcomePlayPauseButton(true);
+});
+customAudioPlayer.addEventListener('pause', function() {
+    isAudioPlaying = false;
+    updateWelcomePlayPauseButton(false);
+});
+customAudioPlayer.addEventListener('ended', function() {
+    isAudioPlaying = false;
+    updateWelcomePlayPauseButton(false);
+});
+
+// ── الدالة الأساسية: تشغيل مصدر بالـ index ──
+function playSource(i) {
+    if (!sources[i]) return;
+    clearTimeout(welcomeErrorTimer);
+    clearTimeout(welcomeStalledTimer);
+    customAudioPlayer.src = sources[i];
+    customAudioPlayer.load();
+    customAudioPlayer.play()
+        .then(function() {
+            switchingSource          = false;
+            welcomeConsecutiveErrors = 0;
+        })
+        .catch(function() {
+            switchingSource = false;
+        });
+}
+
+// ── الانتقال للمصدر الاحتياطي عند الخطأ ──
+function nextSource() {
+    if (switchingSource) return;
+    if (window._welcomeScreenClosed) return;
+
+    switchingSource = true;
+    welcomeConsecutiveErrors++;
+    index++;
+
+    if (index < sources.length) {
+        showToast("📢 تم التحويل لمحطة احتياطية");
+        setTimeout(function() {
+            playSource(index);
+            switchingSource = false;
+        }, 800);
+    } else {
+        showToast("📢 إعادة المحاولة...");
+        setTimeout(function() {
+            index                    = 0;
+            switchingSource          = false;
+            welcomeConsecutiveErrors = 0;
+            playSource(index);
+        }, 15000);
+    }
+}
+
+// ── زر التشغيل/الإيقاف في الشاشة الترحيبية ──
+function togglePlayPauseFunc() {
+    if (isAudioPlaying) {
+        customAudioPlayer.pause();
+        if (currentStatus) currentStatus.textContent = "الراديو متوقف";
+    } else {
+        // لو مفيش src، ابدأ من المصدر الأول
+        if (!customAudioPlayer.src || customAudioPlayer.src === window.location.href) {
+            index = 0;
+            playSource(index);
+        } else {
+            customAudioPlayer.play().catch(function() {});
+        }
+        if (currentStatus && radioStations[stationIndex])
+            currentStatus.textContent = radioStations[stationIndex].name + " يعمل الآن";
+    }
+}
+
+// للتوافق مع الكود القديم
+function startRadio() { if (!isAudioPlaying) togglePlayPauseFunc(); }
+function stopRadio()  { if (isAudioPlaying)  togglePlayPauseFunc(); }
+
+// ── تشغيل محطة من قائمة radioStations (station object) ──
+// نستخدم handler محلي يُزال ويُعاد عند كل تغيير محطة لتجنب تراكم الـ listeners
+var _stationErrorHandler   = null;
+var _stationStalledHandler = null;
+var _stationPlayingHandler = null;
+
+function _clearStationHandlers() {
+    if (_stationErrorHandler)   { customAudioPlayer.removeEventListener('error',   _stationErrorHandler);   _stationErrorHandler   = null; }
+    if (_stationStalledHandler) { customAudioPlayer.removeEventListener('stalled', _stationStalledHandler); _stationStalledHandler = null; }
+    if (_stationPlayingHandler) { customAudioPlayer.removeEventListener('playing', _stationPlayingHandler); _stationPlayingHandler = null; }
+}
+
+function playStation(station) {
+    if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
+    _clearStationHandlers();
+
+    var stationSrcs = [];
+    if (station.urls && Array.isArray(station.urls)) {
+        stationSrcs = [...station.urls].sort(function() { return Math.random() - 0.5; });
+    } else if (station.url) {
+        stationSrcs = [station.url];
+        if (Array.isArray(station.fallbacks)) stationSrcs = stationSrcs.concat(station.fallbacks);
+    }
+    if (!stationSrcs.length) return;
+
+    var sIdx         = 0;
+    var sSwitching   = false;
+    var sErrorTimer  = null;
+    var sStalledTimer= null;
+
+    function playSrc(i) {
+        clearTimeout(sErrorTimer);
+        clearTimeout(sStalledTimer);
+        customAudioPlayer.src = stationSrcs[i];
+        customAudioPlayer.load();
+        customAudioPlayer.play().catch(function() {});
+        if (currentStatus) currentStatus.textContent = station.name + " يعمل الآن";
+    }
+
+    function nextSrc() {
+        if (sSwitching) return;
+        sSwitching = true;
+        sIdx++;
+        if (sIdx < stationSrcs.length) {
+            showToast("📢 تم التحويل للرابط الاحتياطي");
+            setTimeout(function() { playSrc(sIdx); sSwitching = false; }, 800);
+        } else {
+            sSwitching = false;
+        }
+    }
+
+    _stationErrorHandler = function() {
+        clearTimeout(sErrorTimer);
+        sErrorTimer = setTimeout(function() {
+            if (customAudioPlayer.error || customAudioPlayer.networkState === 3) nextSrc();
+        }, 15000);
+    };
+    _stationStalledHandler = function() {
+        clearTimeout(sStalledTimer);
+        sStalledTimer = setTimeout(function() {
+            if (customAudioPlayer.paused || customAudioPlayer.readyState < 2) nextSrc();
+        }, 20000);
+    };
+    _stationPlayingHandler = function() {
+        clearTimeout(sErrorTimer);
+        clearTimeout(sStalledTimer);
+        sSwitching = false;
+    };
+
+    customAudioPlayer.addEventListener('error',   _stationErrorHandler);
+    customAudioPlayer.addEventListener('stalled', _stationStalledHandler);
+    customAudioPlayer.addEventListener('playing', _stationPlayingHandler);
+
+    playSrc(sIdx);
+}
+
+function nextStationFunc() {
+    stationIndex = (stationIndex + 1) % radioStations.length;
+    playStation(radioStations[stationIndex]);
+}
+
+function previousStation() {
+    stationIndex = (stationIndex - 1 + radioStations.length) % radioStations.length;
+    playStation(radioStations[stationIndex]);
+}
+
+function randomStationFunc() {
+    if (!radioStations || radioStations.length === 0) return;
+    var newIndex;
+    do { newIndex = Math.floor(Math.random() * radioStations.length); }
+    while (newIndex === stationIndex && radioStations.length > 1);
+    stationIndex = newIndex;
+    playStation(radioStations[stationIndex]);
+    var btn = document.getElementById('customRandomBtn');
+    if (btn) {
+        var icon = btn.querySelector('.wtb-icon');
+        if (icon) {
+            icon.style.transition = 'transform 0.4s ease';
+            icon.style.transform  = 'rotate(360deg)';
+            setTimeout(function() { icon.style.transform = ''; icon.style.transition = ''; }, 400);
+        }
+    }
+    showToast('🔀 محطة عشوائية');
+}
+
+// ── تشغيل محطة بـ URL مباشر (من روابط خارجية أو إشعارات) ──
+function playWelcomeScreenStation(stationUrl, stationName) {
+    openWelcomeScreen();
+    _clearStationHandlers();
+    if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
+    customAudioPlayer.src = stationUrl;
+    customAudioPlayer.load();
+    customAudioPlayer.play().catch(function() {});
+    if (currentStatus) currentStatus.textContent = "تشغيل: " + stationName;
+}
+
+function adjustVolume() {
+    if (volumeRange) customAudioPlayer.volume = volumeRange.value;
+}
 
 // ===== فتح مساعد الذكاء الاصطناعي من الشاشة الترحيبية =====
 function openAiAssistantFromWelcome() {
@@ -5361,313 +5658,6 @@ var radioStations = [
 
 ];
 
-var stationIndex = 0;
-var autoInterval = null;
-
-function startRadio() {
-    if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
-    customAudioPlayer.play().catch(function() {});
-
-    if (currentStatus) currentStatus.textContent = radioStations[stationIndex].name + " يعمل الآن";
-}
-
-function stopRadio() {
-    customAudioPlayer.pause();
-
-    if (currentStatus) currentStatus.textContent = "الراديو متوقف";
-}
-
-function togglePlayPauseFunc() {
-    if (isAudioPlaying) {
-        stopRadio();
-    } else {
-        startRadio();
-    }
-}
-
-function adjustVolume() {
-    customAudioPlayer.volume = volumeRange.value;
-}
-
-function enableAutoSwitch() {
-    var autoSwitchCheck = document.getElementById('customAutoSwitch');
-    if (autoSwitchCheck.checked) {
-        autoInterval = setInterval(nextStationFunc, 300000);
-    } else {
-        clearInterval(autoInterval);
-    }
-}
-
-var audio = customAudioPlayer;
-
-const sources = [
-    "https://backup.qurango.net/radio/tarateel",
-    "https://qurango.net/radio/tarateel"
-];
-
-let index = 0;
-let _lastToastTime = 0;
-
-function showToast(message) {
-    const now = Date.now();
-    if (now - _lastToastTime < 3500) return;
-    _lastToastTime = now;
-
-    const toast = document.createElement("div");
-    toast.textContent = message;
-    toast.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0,0,0,0.85);
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 22px;
-        font-size: 14px;
-        z-index: 9999;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        animation: fadeInOut 3s forwards;
-    `;
-    document.body.appendChild(toast);
-
-    setTimeout(() => toast.remove(), 3000);
-}
-
-function playSource(i) {
-    if (i >= sources.length) return;
-
-    clearTimeout(welcomeErrorTimer);
-    clearTimeout(welcomeStalledTimer);
-
-    customAudioPlayer.src = sources[i];
-    customAudioPlayer.load();
-    customAudioPlayer.play()
-        .then(() => {
-            switchingSource = false;
-            welcomeConsecutiveErrors = 0;
-        })
-        .catch(() => {
-            switchingSource = false;
-        });
-}
-
-let switchingSource = false;
-let welcomeErrorTimer   = null;
-let welcomeStalledTimer = null;
-let welcomeConsecutiveErrors = 0;
-
-const WELCOME_ERROR_DELAY   = 15000;
-const WELCOME_STALLED_DELAY = 20000;
-
-function nextSource() {
-    if (switchingSource) return;
-
-    var ws = document.getElementById('welcomeScreen');
-    var welcomeOpen = ws && ws.style.display !== 'none' && ws.style.display !== '';
-    if (!welcomeOpen || !customAudioPlayer.src) return;
-
-    switchingSource = true;
-    welcomeConsecutiveErrors++;
-    index++;
-
-    if (index < sources.length) {
-        showToast("📢 تم التحويل لمحطة احتياطية");
-        setTimeout(function() {
-            playSource(index);
-            switchingSource = false;
-        }, 800);
-    } else {
-
-        showToast("📢 إعادة المحاولة...");
-        setTimeout(function() {
-            index = 0;
-            switchingSource = false;
-            welcomeConsecutiveErrors = 0;
-            playSource(index);
-        }, 15000);
-    }
-}
-
-audio.addEventListener("error", function() {
-    clearTimeout(welcomeErrorTimer);
-    welcomeErrorTimer = setTimeout(function() {
-
-        if (audio.error || audio.networkState === 3) {
-            nextSource();
-        }
-    }, WELCOME_ERROR_DELAY);
-});
-
-audio.addEventListener("stalled", function() {
-    clearTimeout(welcomeStalledTimer);
-    welcomeStalledTimer = setTimeout(function() {
-
-        if (audio.paused || audio.readyState < 2) {
-            nextSource();
-        }
-
-    }, WELCOME_STALLED_DELAY);
-});
-
-audio.addEventListener("playing", function() {
-    clearTimeout(welcomeErrorTimer);
-    clearTimeout(welcomeStalledTimer);
-    switchingSource = false;
-    welcomeConsecutiveErrors = 0;
-});
-
-let sheikhSources = [];
-let sheikhIndex = 0;
-
-function playMainStation(station) {
-
-    let sources = [station.url];
-    if (Array.isArray(station.fallbacks) && station.fallbacks.length) {
-        sources = sources.concat(station.fallbacks);
-    }
-
-    let index = 0;
-    let mainErrorTimer   = null;
-    let mainStalledTimer = null;
-    let mainSwitching    = false;
-
-    function playMainSource(i) {
-        clearTimeout(mainErrorTimer);
-        clearTimeout(mainStalledTimer);
-        customAudioPlayer.src = sources[i];
-        customAudioPlayer.load();
-        customAudioPlayer.play().catch(() => {});
-        currentStatus.textContent = station.name + " يعمل الآن";
-    }
-
-    function nextMainSource() {
-        if (mainSwitching) return;
-        mainSwitching = true;
-        index++;
-        if (index < sources.length) {
-            showToast("📢 تم التحويل لمحطة احتياطية");
-            setTimeout(function() {
-                playMainSource(index);
-                mainSwitching = false;
-            }, 800);
-        } else {
-            mainSwitching = false;
-        }
-    }
-
-    function onMainError() {
-        clearTimeout(mainErrorTimer);
-        mainErrorTimer = setTimeout(function() {
-            if (customAudioPlayer.error || customAudioPlayer.networkState === 3) {
-                nextMainSource();
-            }
-        }, 15000);
-    }
-
-    function onMainStalled() {
-        clearTimeout(mainStalledTimer);
-        mainStalledTimer = setTimeout(function() {
-            if (customAudioPlayer.paused || customAudioPlayer.readyState < 2) {
-                nextMainSource();
-            }
-        }, 20000);
-    }
-
-    function onMainPlaying() {
-        clearTimeout(mainErrorTimer);
-        clearTimeout(mainStalledTimer);
-        mainSwitching = false;
-    }
-
-    customAudioPlayer.removeEventListener('error',   onMainError);
-    customAudioPlayer.removeEventListener('stalled', onMainStalled);
-    customAudioPlayer.removeEventListener('playing', onMainPlaying);
-    customAudioPlayer.addEventListener('error',   onMainError);
-    customAudioPlayer.addEventListener('stalled', onMainStalled);
-    customAudioPlayer.addEventListener('playing', onMainPlaying);
-
-    index = 0;
-    playMainSource(index);
-}
-
-function playStation(station) {
-    if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
-
-    if (station.urls && Array.isArray(station.urls)) {
-        sheikhSources = [...station.urls].sort(() => Math.random() - 0.5);
-        sheikhIndex = 0;
-
-        customAudioPlayer.src = sheikhSources[sheikhIndex];
-        currentStatus.textContent = station.name + " يعمل الآن";
-        customAudioPlayer.play();
-
-        function onSheikhError() {
-            sheikhIndex++;
-            if (sheikhIndex < sheikhSources.length) {
-                showToast("📢 تم التحويل للرابط الاحتياطي للشيخ");
-                customAudioPlayer.src = sheikhSources[sheikhIndex];
-                currentStatus.textContent = station.name + " يعمل الآن";
-                customAudioPlayer.play();
-            }
-        }
-
-        customAudioPlayer.removeEventListener('error',   onSheikhError);
-        customAudioPlayer.removeEventListener('stalled', onSheikhError);
-        customAudioPlayer.addEventListener('error',   onSheikhError);
-        customAudioPlayer.addEventListener('stalled', onSheikhError);
-
-    } else if (station.url) {
-
-        playMainStation(station);
-    }
-}
-
-function nextStationFunc() {
-    stationIndex = (stationIndex + 1) % radioStations.length;
-    playStation(radioStations[stationIndex]);
-}
-
-function previousStation() {
-    stationIndex = (stationIndex - 1 + radioStations.length) % radioStations.length;
-    playStation(radioStations[stationIndex]);
-}
-
-function randomStationFunc() {
-    if (!radioStations || radioStations.length === 0) return;
-    var newIndex;
-    do {
-        newIndex = Math.floor(Math.random() * radioStations.length);
-    } while (newIndex === stationIndex && radioStations.length > 1);
-    stationIndex = newIndex;
-    playStation(radioStations[stationIndex]);
-    // أنيميشن على الأيقونة
-    var btn = document.getElementById('customRandomBtn');
-    if (btn) {
-        var icon = btn.querySelector('.wtb-icon');
-        if (icon) {
-            icon.style.display = 'inline-block';
-            icon.style.transition = 'transform 0.4s ease';
-            icon.style.transform = 'rotate(360deg)';
-            setTimeout(function() {
-                icon.style.transform = '';
-                icon.style.transition = '';
-            }, 400);
-        }
-    }
-    showToast('🔀 محطة عشوائية');
-}
-
-function playWelcomeScreenStation(stationUrl, stationName) {
-
-    showWelcomeScreen();
-
-    if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
-
-    customAudioPlayer.src = stationUrl;
-    customAudioPlayer.play();
-    updateStatus("تشغيل: " + stationName);
-}
 
   const verses = [
 {
@@ -26659,7 +26649,9 @@ document.addEventListener('click', function(e) {
 
 function openWelcomeScreen() {
 
-    window._welcomeScreenClosed = false;
+    window._welcomeScreenClosed   = false;
+    window._welcomeRadioBgStarted = false;
+    window._welcomePlayInitiated  = false;
 
     document.getElementById('welcomeScreen').style.display = 'flex';
 
@@ -26671,8 +26663,7 @@ function openWelcomeScreen() {
     clearTimeout(welcomeErrorTimer);
     clearTimeout(welcomeStalledTimer);
     playSource(index);
-    isAudioPlaying = true;
-    updateWelcomePlayPauseButton(true);
+    // isAudioPlaying و updateWelcomePlayPauseButton يتضبطان تلقائياً في play event
 }
 
 function openPasswordModal() {
