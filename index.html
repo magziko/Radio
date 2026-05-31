@@ -3626,7 +3626,7 @@ body.dark-mode .custom-tooltip::after {
         gap: 3px;
         letter-spacing: 0;
     }
-    .fsb-facebook svg, .fsb-whatsapp svg, .fsb-telegram svg {
+    .fsb-facebook svg, .fsb-whatsapp svg, .fsb-telegram svg, .fsb-email svg {
         width: 11px;
         height: 11px;
     }
@@ -3643,7 +3643,44 @@ body.dark-mode .custom-tooltip::after {
 .fsb-facebook  { background: linear-gradient(135deg,#1877F2,#0d5dbf); color:#fff; }
 .fsb-whatsapp  { background: linear-gradient(135deg,#25D366,#1aad52); color:#fff; }
 .fsb-telegram  { background: linear-gradient(135deg,#0088cc,#006faa); color:#fff; }
-.fsb-facebook  svg, .fsb-whatsapp  svg, .fsb-telegram  svg { width:14px; height:14px; flex-shrink:0; }
+.fsb-email     { background: linear-gradient(135deg,#EA4335,#c0392b); color:#fff; cursor:pointer; border:none; font-family:inherit; font-size:inherit; line-height:1; box-sizing:border-box; }
+.fsb-facebook  svg, .fsb-whatsapp  svg, .fsb-telegram  svg, .fsb-email svg { width:14px; height:14px; flex-shrink:0; }
+
+/* Contact Modal */
+#contactModal { display:none; position:fixed; inset:0; z-index:9000; background:rgba(0,0,0,0.55); align-items:center; justify-content:center; }
+#contactModal.open { display:flex; }
+#contactModalBox {
+  background:#fff; border-radius:16px; padding:28px 24px 24px;
+  width:90%; max-width:460px; box-shadow:0 8px 40px rgba(0,0,0,0.22);
+  direction:rtl; animation:contactSlideIn .22s ease;
+}
+@keyframes contactSlideIn { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+body.dark-mode #contactModalBox { background:#1a2535; color:#c8d8e8; }
+#contactModalBox h3 { margin:0 0 18px; font-size:18px; color:#1D9E75; display:flex; align-items:center; gap:8px; }
+#contactModalBox label { display:block; font-size:13px; margin-bottom:4px; opacity:.75; }
+#contactModalBox input, #contactModalBox textarea, #contactModalBox select {
+  width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #dde;
+  border-radius:9px; font-size:14px; font-family:inherit; margin-bottom:14px;
+  background:#f8f9fb; transition:border .2s;
+}
+body.dark-mode #contactModalBox input,
+body.dark-mode #contactModalBox textarea,
+body.dark-mode #contactModalBox select { background:#111c2a; border-color:#2a3a55; color:#c8d8e8; }
+#contactModalBox input:focus, #contactModalBox textarea:focus { outline:none; border-color:#1D9E75; }
+#contactModalBox textarea { resize:vertical; min-height:110px; }
+#contactModalBtns { display:flex; gap:10px; justify-content:flex-end; margin-top:4px; }
+#contactSendBtn {
+  background:linear-gradient(135deg,#1D9E75,#16816e); color:#fff;
+  border:none; border-radius:9px; padding:10px 22px; font-size:14px;
+  font-family:inherit; cursor:pointer; font-weight:700; transition:transform .15s,box-shadow .15s;
+}
+#contactSendBtn:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(29,158,117,.35); }
+#contactCancelBtn {
+  background:transparent; border:1.5px solid #ccd; border-radius:9px;
+  padding:10px 18px; font-size:14px; font-family:inherit; cursor:pointer; color:inherit;
+}
+body.dark-mode #contactCancelBtn { border-color:#2a3a55; }
+#contactStatus { font-size:13px; margin-top:10px; text-align:center; min-height:20px; }
 
 .share-title {
     margin-bottom: 6px;
@@ -22814,6 +22851,9 @@ const moreRadio = [
   { ar: 'راديو القرآن | ويبلي',  en: 'Quran Station | Weebly',url: 'https://magziki.weebly.com/radio-ma1.html#gsc.tab=0' },
   { ar: 'راديو القرآن | تيينى',  en: 'Quran Station | Tiiny', url: 'https://radio-m.tiiny.site/' },
   { ar: 'راديو مغازي',            en: 'Magziko Radio',         url: 'https://magziko.wixsite.com/magziko/r' },
+  { ar: '🎬 صفحة الإنترو',       en: '🎬 Intro Page',          url: 'https://radioquran.github.io/M/' },
+  { ar: 'راديو القرآن | MA',     en: 'Radio Quran GitHub MA',  url: 'https://radioquran.github.io/MA/#gsc.tab=0' },
+  { ar: 'راديو القرآن | i',      en: 'Radio Quran GitHub i',   url: 'https://radioquran.github.io/i/#gsc.tab=0' },
 ];
 
 const moreTranslations = [
@@ -24817,6 +24857,15 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
             <span data-ar="تليجرام" data-en="Telegram">تليجرام</span>
         </a>
+
+        <button onclick="openContactModal()"
+           class="footer-social-btn fsb-email"
+           id="footerEmailBtn"
+           data-ar="راسلنا"
+           data-en="Email Us">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span data-ar="راسلنا" data-en="Email Us">راسلنا</span>
+        </button>
 
     </div>
 
@@ -29803,19 +29852,7 @@ document.addEventListener("keydown", function(e) {
         }
     };
 
-    // إشعار Toast في أول زيارة
-    window.addEventListener('load', function() {
-        if (localStorage.getItem('kb_hint_shown')) return;
-        localStorage.setItem('kb_hint_shown', '1');
-        setTimeout(function() {
-            if (typeof showToast === 'function') {
-                var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
-                showToast(ar
-                    ? '⌨️ اضغط <strong>?</strong> لعرض اختصارات لوحة المفاتيح'
-                    : '⌨️ Press <strong>?</strong> to see keyboard shortcuts');
-            }
-        }, 5000);
-    });
+
 })();
 
 function incrementTasbihKeyboard(box) {
@@ -32169,6 +32206,157 @@ if (target && count >= target) {
 
 })();
 
+</script>
+
+<!-- ===== Contact / Email Modal ===== -->
+<div id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle" onclick="if(event.target===this)closeContactModal()">
+  <div id="contactModalBox">
+    <h3 id="contactModalTitle">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#1D9E75"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      <span id="contactModalTitleText">راسلنا</span>
+    </h3>
+
+    <label id="contactLabelName" for="contactName">الاسم (اختياري)</label>
+    <input type="text" id="contactName" placeholder="اسمك" autocomplete="name">
+
+    <label id="contactLabelEmail" for="contactEmail">بريدك الإلكتروني (اختياري)</label>
+    <input type="email" id="contactEmail" placeholder="example@email.com" autocomplete="email">
+
+    <label id="contactLabelSubject" for="contactSubject">الموضوع</label>
+    <select id="contactSubject">
+      <option value="اقتراح">💡 اقتراح</option>
+      <option value="مشكلة تقنية">🔧 مشكلة تقنية</option>
+      <option value="إضافة محتوى">➕ إضافة محتوى</option>
+      <option value="أخرى">📩 أخرى</option>
+    </select>
+
+    <label id="contactLabelMsg" for="contactMessage">رسالتك <span style="color:#e53935">*</span></label>
+    <textarea id="contactMessage" placeholder="اكتب رسالتك هنا..."></textarea>
+
+    <div id="contactStatus"></div>
+
+    <div id="contactModalBtns">
+      <button id="contactCancelBtn" onclick="closeContactModal()">إلغاء</button>
+      <button id="contactSendBtn" onclick="sendContactEmail()">✉️ إرسال</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+
+  window.openContactModal = function() {
+    var m = document.getElementById('contactModal');
+    m.classList.add('open');
+    document.getElementById('contactStatus').textContent = '';
+    applyContactLang();
+  };
+
+  window.closeContactModal = function() {
+    document.getElementById('contactModal').classList.remove('open');
+  };
+
+  function applyContactLang() {
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var strings = {
+      title:      { ar: 'راسلنا', en: 'Contact Us' },
+      labelName:  { ar: 'الاسم (اختياري)', en: 'Name (optional)' },
+      labelEmail: { ar: 'بريدك الإلكتروني (اختياري)', en: 'Your Email (optional)' },
+      labelSubj:  { ar: 'الموضوع', en: 'Subject' },
+      labelMsg:   { ar: 'رسالتك', en: 'Your Message' },
+      cancel:     { ar: 'إلغاء', en: 'Cancel' },
+      send:       { ar: '✉️ إرسال', en: '✉️ Send' },
+      namePh:     { ar: 'اسمك', en: 'Your name' },
+      msgPh:      { ar: 'اكتب رسالتك هنا...', en: 'Write your message here...' },
+      subjects:   {
+        ar: ['💡 اقتراح','🔧 مشكلة تقنية','➕ إضافة محتوى','📩 أخرى'],
+        en: ['💡 Suggestion','🔧 Technical Issue','➕ Add Content','📩 Other']
+      }
+    };
+    var get = function(k){ return ar ? strings[k].ar : strings[k].en; };
+
+    var titleEl = document.getElementById('contactModalTitleText');
+    if (titleEl) titleEl.textContent = get('title');
+    var lName = document.getElementById('contactLabelName');
+    if (lName) lName.childNodes[0] && (lName.childNodes[0].textContent = get('labelName'));
+    var lEmail = document.getElementById('contactLabelEmail');
+    if (lEmail) lEmail.childNodes[0] && (lEmail.childNodes[0].textContent = get('labelEmail'));
+    var lSubj = document.getElementById('contactLabelSubject');
+    if (lSubj) lSubj.textContent = get('labelSubj');
+    var lMsg = document.getElementById('contactLabelMsg');
+    if (lMsg) lMsg.firstChild.textContent = get('labelMsg') + ' ';
+    var nameInp = document.getElementById('contactName');
+    if (nameInp) nameInp.placeholder = get('namePh');
+    var msgInp = document.getElementById('contactMessage');
+    if (msgInp) msgInp.placeholder = get('msgPh');
+    var cancelBtn = document.getElementById('contactCancelBtn');
+    if (cancelBtn) cancelBtn.textContent = get('cancel');
+    var sendBtn = document.getElementById('contactSendBtn');
+    if (sendBtn) sendBtn.textContent = get('send');
+    var sel = document.getElementById('contactSubject');
+    if (sel) {
+      var opts = strings.subjects[ar ? 'ar' : 'en'];
+      for (var i=0; i<sel.options.length; i++) {
+        if (opts[i]) sel.options[i].text = opts[i];
+      }
+    }
+  }
+
+  window.sendContactEmail = function() {
+    var msg  = (document.getElementById('contactMessage').value || '').trim();
+    var name = (document.getElementById('contactName').value || '').trim();
+    var from = (document.getElementById('contactEmail').value || '').trim();
+    var subj = document.getElementById('contactSubject').value || '';
+    var statusEl = document.getElementById('contactStatus');
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+
+    if (!msg) {
+      statusEl.style.color = '#e53935';
+      statusEl.textContent = ar ? '⚠️ يرجى كتابة رسالتك أولاً' : '⚠️ Please write your message first';
+      return;
+    }
+
+    var body = '';
+    if (name)  body += (ar ? 'الاسم: ' : 'Name: ')  + name + '\n';
+    if (from)  body += (ar ? 'البريد: ' : 'Email: ') + from + '\n';
+    body += (ar ? 'الموضوع: ' : 'Subject: ') + subj + '\n\n';
+    body += (ar ? 'الرسالة:\n' : 'Message:\n') + msg;
+
+    var mailtoLink = 'mailto:magziko@gmail.com'
+      + '?subject=' + encodeURIComponent((ar ? 'رسالة من الموقع - ' : 'Message from site - ') + subj)
+      + '&body='    + encodeURIComponent(body);
+
+    window.location.href = mailtoLink;
+
+    statusEl.style.color = '#1D9E75';
+    statusEl.textContent = ar ? '✅ سيتم فتح تطبيق البريد لإرسال رسالتك' : '✅ Your mail app will open to send the message';
+
+    setTimeout(function() { closeContactModal(); }, 2800);
+  };
+
+  // Update email button text on language toggle
+  var _origToggle = window.toggleLanguage;
+  if (typeof _origToggle === 'function') {
+    window.toggleLanguage = function() {
+      _origToggle.apply(this, arguments);
+      var emailBtn = document.getElementById('footerEmailBtn');
+      if (emailBtn) {
+        var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+        var sp = emailBtn.querySelector('span');
+        if (sp) sp.textContent = ar ? emailBtn.getAttribute('data-ar') : emailBtn.getAttribute('data-en');
+      }
+    };
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      var m = document.getElementById('contactModal');
+      if (m && m.classList.contains('open')) closeContactModal();
+    }
+  });
+
+})();
 </script>
 
 
