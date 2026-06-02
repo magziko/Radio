@@ -22735,8 +22735,15 @@ const ltvStations = [
   { category: "ltv-news", station: "CGTN Europe News",                 ar: "CGTN Europe News",               en: "CGTN Europe News",          videoId: "_6dRRfnYJws?si=DLS30kmrxsSWodVf",    tripleClick: true },
   { category: "ltv-news", station: "Euronews English Live",            ar: "Euronews English Live",          en: "Euronews English Live",     videoId: "pykpO5kQJ98?si=mSvORMy8KpdQpwya",    tripleClick: true },
 
-  { category: "ltv-learn", station: "تعلم الإنجليزية الأمريكية المستوى الثاني", ar: "تعلم الإنجليزية الأمريكية المستوى الثاني", en: "Learn American English Level 2", videoId: "vuTY4FDAbpA?si=pxDo3dnELBh3wnBL", tripleClick: true },
-  { category: "ltv-learn", station: "تعلم الإنجليزية الأمريكية المستوى السادس", ar: "تعلم الإنجليزية الأمريكية المستوى السادس", en: "Learn American English Level 6", videoId: "tabVA7bEhSc?si=vqT74XHM-JEdLKNR", tripleClick: true }
+  {
+  category: "ltv-learn",
+  station: "محادثات إنجليزية للمبتدئين - بث مباشر 24/7",
+  ar: "محادثات إنجليزية للمبتدئين - بث مباشر 24/7",
+  en: "English Conversations LIVE 24/7 ",
+  videoId: "xPgo8dIHy7I?si=YF08mVuiFl-CFPwi",
+  tripleClick: true
+},
+  { category: "ltv-learn", station: "تعلم الإنجليزية الأمريكية المستوى الثاني", ar: "تعلم الإنجليزية الأمريكية المستوى الثاني", en: "Learn American English Level 2", videoId: "vuTY4FDAbpA?si=pxDo3dnELBh3wnBL", tripleClick: true }
 
 ];
 
@@ -28425,6 +28432,199 @@ window.addEventListener("load", function() {
   // ===== بدء تشغيل الـ Queue =====
   setTimeout(_showNextToast, TOAST_INITIAL_MS);
 });
+
+// ===== نظام الأذان التلقائي =====
+(function() {
+  const ADHAN_URL = "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9.mp3";
+  const PRAYER_ORDER = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+  const PRAYER_NAMES_AR = { Fajr:'الفجر', Dhuhr:'الظهر', Asr:'العصر', Maghrib:'المغرب', Isha:'العشاء' };
+  const PRAYER_NAMES_EN = { Fajr:'Fajr', Dhuhr:'Dhuhr', Asr:'Asr', Maghrib:'Maghrib', Isha:'Isha' };
+  const STORAGE_KEY = 'adhanLastPlayed';
+
+  let adhanAudio = null;
+  let adhanTimers = [];
+  let adhanEnabled = (localStorage.getItem('adhanEnabled') !== 'false'); // مفعّل افتراضياً
+
+  // ---- واجهة زر تفعيل/إيقاف الأذان ----
+  function injectAdhanToggle() {
+    // ابحث عن منطقة الإعدادات أو الـ sidebar وأضف الزر
+    const style = document.createElement('style');
+    style.textContent = `
+      #adhan-toggle-wrap {
+        display: flex; align-items: center; gap: 10px;
+        padding: 10px 16px; cursor: pointer; border-radius: 10px;
+        transition: background .2s;
+      }
+      #adhan-toggle-wrap:hover { background: rgba(29,158,117,.08); }
+      #adhan-toggle-icon { font-size: 20px; }
+      #adhan-toggle-label { font-size: 13px; font-weight: 600; color: var(--text-primary, #222); flex:1; }
+      body.dark-mode #adhan-toggle-label { color: #ddd; }
+      #adhan-toggle-switch {
+        width: 38px; height: 22px; background: #ccc; border-radius: 11px;
+        position: relative; transition: background .3s; flex-shrink:0;
+      }
+      #adhan-toggle-switch.on { background: #1D9E75; }
+      #adhan-toggle-switch::after {
+        content:''; position:absolute; top:3px; left:3px;
+        width:16px; height:16px; border-radius:50%; background:#fff;
+        transition: transform .3s; box-shadow: 0 1px 3px rgba(0,0,0,.3);
+      }
+      #adhan-toggle-switch.on::after { transform: translateX(16px); }
+      #adhan-banner {
+        display:none; position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+        background:#1D9E75; color:#fff; padding:12px 22px; border-radius:16px;
+        font-size:14px; font-weight:700; z-index:99999; box-shadow:0 4px 20px rgba(0,0,0,.25);
+        align-items:center; gap:12px; min-width:240px; text-align:center;
+        animation: adhanSlideUp .4s ease;
+      }
+      #adhan-banner.show { display:flex; }
+      #adhan-banner-stop {
+        background:rgba(255,255,255,.25); border:none; color:#fff; border-radius:8px;
+        padding:5px 12px; cursor:pointer; font-size:13px; font-weight:700; flex-shrink:0;
+      }
+      #adhan-banner-stop:hover { background:rgba(255,255,255,.4); }
+      @keyframes adhanSlideUp {
+        from { opacity:0; transform:translateX(-50%) translateY(20px); }
+        to   { opacity:1; transform:translateX(-50%) translateY(0); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // الزر — نضيفه داخل قسم الإعدادات أو آخر الـ sidebar
+    const wrap = document.createElement('div');
+    wrap.id = 'adhan-toggle-wrap';
+    wrap.innerHTML = `
+      <span id="adhan-toggle-icon">🕌</span>
+      <span id="adhan-toggle-label" id="adhan-lbl">أذان تلقائي</span>
+      <div id="adhan-toggle-switch" class="${adhanEnabled ? 'on' : ''}"></div>
+    `;
+    wrap.addEventListener('click', toggleAdhan);
+
+    // نحاول إضافته في قسم الإعدادات، وإلا نضيف في آخر .sidebar أو .settings-section
+    const settingsSection = document.querySelector('.settings-section, .settings-panel, #settings-section, #pip-section, #salah-pip-section');
+    if (settingsSection) {
+      settingsSection.parentNode.insertBefore(wrap, settingsSection.nextSibling);
+    } else {
+      const sidebar = document.querySelector('.sidebar, #sidebar, .side-panel');
+      if (sidebar) sidebar.appendChild(wrap);
+      else document.body.appendChild(wrap);
+    }
+
+    // بانر الأذان
+    const banner = document.createElement('div');
+    banner.id = 'adhan-banner';
+    banner.innerHTML = `<span id="adhan-banner-text">🕌 حان وقت الأذان</span><button id="adhan-banner-stop">إيقاف</button>`;
+    document.body.appendChild(banner);
+    document.getElementById('adhan-banner-stop').addEventListener('click', stopAdhan);
+  }
+
+  function toggleAdhan() {
+    adhanEnabled = !adhanEnabled;
+    localStorage.setItem('adhanEnabled', adhanEnabled ? 'true' : 'false');
+    const sw = document.getElementById('adhan-toggle-switch');
+    if (sw) sw.classList.toggle('on', adhanEnabled);
+    if (!adhanEnabled) stopAdhan();
+  }
+
+  // ---- تشغيل / إيقاف الأذان ----
+  function playAdhan(prayerName) {
+    if (!adhanEnabled) return;
+
+    // لا يشغّل نفس الصلاة مرتين في نفس اليوم
+    const todayKey = new Date().toDateString() + '_' + prayerName;
+    if (localStorage.getItem(STORAGE_KEY) === todayKey) return;
+    localStorage.setItem(STORAGE_KEY, todayKey);
+
+    // إيقاف أي مشغّل آخر بالموقع مؤقتاً
+    const mainAudio = document.getElementById('audioPlayer') || document.querySelector('audio');
+    const wasPlaying = mainAudio && !mainAudio.paused;
+    if (wasPlaying) mainAudio.pause();
+
+    adhanAudio = new Audio(ADHAN_URL);
+    adhanAudio.volume = 1.0;
+    adhanAudio.play().catch(() => {});
+
+    // إظهار البانر
+    const banner = document.getElementById('adhan-banner');
+    const txt = document.getElementById('adhan-banner-text');
+    if (banner && txt) {
+      const ar = PRAYER_NAMES_AR[prayerName] || '';
+      const en = PRAYER_NAMES_EN[prayerName] || '';
+      txt.textContent = `🕌 أذان ${ar}  —  ${en} Adhan`;
+      banner.classList.add('show');
+    }
+
+    adhanAudio.onended = () => {
+      stopAdhan();
+      // استئناف المشغّل الرئيسي بعد انتهاء الأذان
+      if (wasPlaying && mainAudio) mainAudio.play().catch(() => {});
+    };
+  }
+
+  function stopAdhan() {
+    if (adhanAudio) { adhanAudio.pause(); adhanAudio.currentTime = 0; adhanAudio = null; }
+    const banner = document.getElementById('adhan-banner');
+    if (banner) banner.classList.remove('show');
+  }
+
+  // ---- جدولة المؤقتات ----
+  function clearAdhanTimers() {
+    adhanTimers.forEach(clearTimeout);
+    adhanTimers = [];
+  }
+
+  function scheduleAdhan(timings) {
+    clearAdhanTimers();
+    const now = new Date();
+    PRAYER_ORDER.forEach(name => {
+      if (!timings[name]) return;
+      const timeStr = timings[name].split(' ')[0]; // "HH:MM"
+      const [h, m] = timeStr.split(':').map(Number);
+      const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
+      const diff = target - now;
+      if (diff > 0) {
+        const t = setTimeout(() => playAdhan(name), diff);
+        adhanTimers.push(t);
+      }
+    });
+  }
+
+  function fetchAndSchedule(lat, lon) {
+    const today = new Date();
+    const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
+    fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lon}&method=4`)
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.data && data.data.timings) {
+          scheduleAdhan(data.data.timings);
+          // إعادة الجدولة كل يوم في منتصف الليل
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          tomorrow.setHours(0, 1, 0, 0);
+          const msToMidnight = tomorrow - new Date();
+          setTimeout(() => fetchAndSchedule(lat, lon), msToMidnight);
+        }
+      })
+      .catch(() => {});
+  }
+
+  // ---- البدء ----
+  window.addEventListener('DOMContentLoaded', function() {
+    injectAdhanToggle();
+  });
+  // على حال إذا DOMContentLoaded فات
+  if (document.readyState !== 'loading') {
+    injectAdhanToggle();
+  }
+
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      pos => fetchAndSchedule(pos.coords.latitude, pos.coords.longitude),
+      () => {}, // لو رفض المستخدم الموقع → لا جدولة
+      { timeout: 10000 }
+    );
+  }
+})();
 
 let siteLanguage = (function() {
   var saved = localStorage.getItem('siteLang');
