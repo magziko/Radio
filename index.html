@@ -25979,6 +25979,22 @@ function loadRating() {
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof applyDirection === 'function') applyDirection(isArabic);
 
+  // تطبيق اللغة على زر راسلنا عند التحميل
+  var emailBtn = document.getElementById('footerEmailBtn');
+  if (emailBtn) {
+    var sp = emailBtn.querySelector('span');
+    if (sp) sp.textContent = isArabic ? (emailBtn.getAttribute('data-ar') || 'راسلنا') : (emailBtn.getAttribute('data-en') || 'Email Us');
+  }
+
+  // تحديث زر تبديل اللغة ليعكس اللغة الحالية
+  var wlt = document.getElementById('welcomeLangToggle');
+  if (wlt) wlt.innerHTML = isArabic ? '🌐 EN' : '🌐 AR';
+  var slTxt = document.getElementById('settingsLangText');
+  if (slTxt) slTxt.textContent = isArabic ? 'EN' : 'AR';
+
+  // تطبيق اللغة على نص أذان تلقائي
+  if (typeof window._updateAdhanLang === 'function') window._updateAdhanLang(isArabic);
+
   // تحديث ظهور زر المحطة العشوائية من المفضلة
 
   var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
@@ -26418,6 +26434,14 @@ function toggleLanguage() {
     if (typeof updateAdhkarNotifUI === 'function') updateAdhkarNotifUI();
   })();
 
+  if (typeof window._updateAdhanLang === 'function') window._updateAdhanLang(isArabic);
+
+  // update email/contact button text
+  var emailBtn = document.getElementById('footerEmailBtn');
+  if (emailBtn) {
+    var sp = emailBtn.querySelector('span');
+    if (sp) sp.textContent = isArabic ? (emailBtn.getAttribute('data-ar') || 'راسلنا') : (emailBtn.getAttribute('data-en') || 'Email Us');
+  }
 }
 
 function applyDirection(isAr) {
@@ -28473,13 +28497,19 @@ window.addEventListener("load", function() {
     return nextName ? { name: nextName, ms: nextMs } : null;
   }
 
-  function formatCountdown(ms) {
+  function formatCountdown(ms, useArabic) {
     const totalSec = Math.floor(ms / 1000);
     const h = Math.floor(totalSec / 3600);
     const min = Math.floor((totalSec % 3600) / 60);
-    if (h > 0) return `${h} ساعة ${min} دقيقة`;
-    if (min > 0) return `${min} دقيقة`;
-    return 'أقل من دقيقة';
+    if (useArabic) {
+      if (h > 0) return `${h} ساعة ${min} دقيقة`;
+      if (min > 0) return `${min} دقيقة`;
+      return 'أقل من دقيقة';
+    } else {
+      if (h > 0) return `${h}h ${min}m`;
+      if (min > 0) return `${min} min`;
+      return 'less than a minute';
+    }
   }
 
   function updateCountdownDisplay() {
@@ -28487,12 +28517,17 @@ window.addEventListener("load", function() {
     if (!el) return;
     const next = getNextPrayer();
     if (!next) { el.textContent = ''; return; }
-    const ar = PRAYER_NAMES_AR[next.name] || next.name;
-    if (next.ms <= 60000) { // أقل من دقيقة = الآن
-      el.textContent = `🕌 صلاة ${ar} الآن`;
+    const useArabic = (typeof isArabic !== 'undefined') ? isArabic : true;
+    const prayerName = useArabic
+      ? (PRAYER_NAMES_AR[next.name] || next.name)
+      : (PRAYER_NAMES_EN[next.name] || next.name);
+    if (next.ms <= 60000) {
+      el.textContent = useArabic ? `🕌 صلاة ${prayerName} الآن` : `🕌 ${prayerName} prayer is now`;
       el.classList.add('adhan-now');
     } else {
-      el.textContent = `⏰ ${ar} بعد ${formatCountdown(next.ms)}`;
+      el.textContent = useArabic
+        ? `⏰ ${prayerName} بعد ${formatCountdown(next.ms, true)}`
+        : `⏰ ${prayerName} in ${formatCountdown(next.ms, false)}`;
       el.classList.remove('adhan-now');
     }
   }
@@ -28565,14 +28600,27 @@ window.addEventListener("load", function() {
     // الزر — نضيفه داخل قسم الإعدادات أو آخر الـ sidebar
     const wrap = document.createElement('div');
     wrap.id = 'adhan-toggle-wrap';
+    const _initAr = (typeof isArabic !== 'undefined') ? isArabic : true;
     wrap.innerHTML = `
       <span id="adhan-toggle-icon">🕌</span>
       <span id="adhan-toggle-label-wrap">
-        <span id="adhan-toggle-label">أذان تلقائي</span>
-        <span id="adhan-next-info">جارٍ تحميل المواقيت...</span>
+        <span id="adhan-toggle-label" data-ar="أذان تلقائي" data-en="Auto Adhan">${_initAr ? 'أذان تلقائي' : 'Auto Adhan'}</span>
+        <span id="adhan-next-info">${_initAr ? 'جارٍ تحميل المواقيت...' : 'Loading prayer times...'}</span>
       </span>
       <div id="adhan-toggle-switch" class="${adhanEnabled ? 'on' : ''}"></div>
     `;
+
+    // دالة تحديث نصوص الأذان عند تغيير اللغة
+    window._updateAdhanLang = function(useAr) {
+      const lbl = document.getElementById('adhan-toggle-label');
+      if (lbl) lbl.textContent = useAr ? 'أذان تلقائي' : 'Auto Adhan';
+      const info = document.getElementById('adhan-next-info');
+      if (info && (info.textContent === 'جارٍ تحميل المواقيت...' || info.textContent === 'Loading prayer times...')) {
+        info.textContent = useAr ? 'جارٍ تحميل المواقيت...' : 'Loading prayer times...';
+      } else {
+        updateCountdownDisplay(); // تحديث نص العدّ التنازلي
+      }
+    };
     wrap.addEventListener('click', toggleAdhan);
 
     // نحاول إضافته في قسم الإعدادات، وإلا نضيف في آخر .sidebar أو .settings-section
