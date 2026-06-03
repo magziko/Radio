@@ -320,8 +320,8 @@ button[data-basit-type="saudi-muratal"] .flag {
 
 .customBtnControl {
     background: #ffffff;
-    border: 2px solid #d0d8e0;
-    padding: 12px;
+    border: 1.5px solid rgba(30,144,255,0.22);
+    padding: 0;
     border-radius: 14px;
     cursor: pointer;
     width: 52px;
@@ -329,14 +329,15 @@ button[data-basit-type="saudi-muratal"] .flag {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.25s;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: background 0.22s cubic-bezier(.4,0,.2,1), border-color 0.22s, box-shadow 0.22s, transform 0.18s;
+    box-shadow: 0 2px 8px rgba(30,144,255,0.08);
 }
 
 .customBtnControl:hover {
-    background: #eaf3fa;
-    border-color: #b5c6d6;
-    transform: translateY(-3px);
+    background: #f0f7ff;
+    border-color: #1e90ff;
+    box-shadow: 0 4px 16px rgba(30,144,255,0.18);
+    transform: translateY(-3px) scale(1.06);
 }
 
 @keyframes waveRipple {
@@ -347,8 +348,9 @@ button[data-basit-type="saudi-muratal"] .flag {
 
 #customPlayToggleButton.playing {
     animation: waveRipple 1.4s ease-out infinite;
-    border-color: #1e90ff;
-    background: #e8f4ff;
+    border-color: #1D9E75;
+    background: linear-gradient(135deg, #f0fdf8 0%, #e8f7f2 100%);
+    box-shadow: 0 4px 18px rgba(29,158,117,0.22);
 }
 
 body.dark-mode #customPlayToggleButton.playing {
@@ -358,9 +360,9 @@ body.dark-mode #customPlayToggleButton.playing {
 }
 
 .customBtnControl svg {
-    width: 28px;
-    height: 28px;
-    fill: #2c3e50;
+    width: 26px;
+    height: 26px;
+    fill: #1565c0;
 }
 
 #customRandomBtn svg {
@@ -414,22 +416,23 @@ body {
   .button, .palestine {
     flex: 1 1 calc(50% - 10px);
     box-sizing: border-box;
-    padding: 8px 16px;
- display: flex;
+    padding: 10px 16px;
+    display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
-    font-weight: bold;
-    margin: 5px 0;
+    font-weight: 700;
+    margin: 4px 0;
     cursor: pointer;
-    border: 2px solid white;
-    border-radius: 5px;
+    border: 1.5px solid rgba(30,144,255,0.18);
+    border-radius: 12px;
     width: 97%;
-
-    color: black;
-    background-color: #f0f0f0;
-    transition: color 0.3s ease, background-color 0.3s ease;
-    text-shadow: 1px 1px 2px white, -1px -1px 2px white, 1px -1px 2px white, -1px 1px 2px white;
+    color: #2c3e50;
+    background-color: #ffffff;
+    box-shadow: 0 1px 6px rgba(30,144,255,0.07), inset 0 1px 0 rgba(255,255,255,0.9);
+    transition: background 0.22s cubic-bezier(.4,0,.2,1), border-color 0.22s, box-shadow 0.22s, transform 0.18s;
+    text-shadow: none;
+    font-family: 'Cairo', Arial, sans-serif;
   }
 
 @media (max-width: 992px) {
@@ -441,6 +444,7 @@ body {
 @media (max-width: 600px) {
     .button, .palestine {
         font-size: 12px;
+        border-radius: 10px;
     }
 }
 
@@ -463,7 +467,18 @@ body {
     border-radius: 4px;
   }
   .button:hover {
-    transform: scale(1.05);
+    background-color: #f0f7ff;
+    border-color: rgba(30,144,255,0.45);
+    box-shadow: 0 4px 16px rgba(30,144,255,0.14);
+    transform: translateY(-2px) scale(1.01);
+  }
+
+  .button.playing {
+    background: linear-gradient(135deg, #f0fdf8 0%, #e8f7f2 100%) !important;
+    border-color: #1D9E75 !important;
+    color: #0F6E56 !important;
+    box-shadow: 0 4px 18px rgba(29,158,117,0.18) !important;
+    text-shadow: none !important;
   }
 
   .buttons-container {
@@ -2556,8 +2571,9 @@ body.dark-mode .button,
 body.dark-mode .palestine {
     background-color: #1e1e2e !important;
     color: #e0e0e0 !important;
-    border-color: #444 !important;
+    border-color: rgba(100,181,246,0.25) !important;
     text-shadow: none !important;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.3) !important;
 }
 
 body.dark-mode .button:hover,
@@ -29778,7 +29794,7 @@ document.addEventListener("keydown", function(e) {
         }
     }
 
-    if (e.key === 'p' || e.key === 'P' || e.key === 'ح') {
+    if ((e.key === 'p' || e.key === 'P' || e.key === 'ح') && !e.shiftKey) {
         e.preventDefault();
         const mainAudioEl = document.getElementById('currentAudio');
         if (!mainAudioEl) return;
@@ -29902,6 +29918,166 @@ document.addEventListener("keydown", function(e) {
         return;
     }
 
+    // E = تحويل لغة الموقع إلى الإنجليزية
+    if (e.key === 'e' || e.key === 'E') {
+        if (typeof isArabic !== 'undefined' && isArabic) {
+            e.preventDefault();
+            if (typeof toggleLanguage === 'function') toggleLanguage();
+            if (typeof showToast === 'function') showToast('🌐 English');
+        }
+        return;
+    }
+
+    // A = تحويل لغة الموقع إلى العربية
+    if (e.key === 'a' || e.key === 'A' || e.key === 'ش') {
+        if (typeof isArabic !== 'undefined' && !isArabic) {
+            e.preventDefault();
+            if (typeof toggleLanguage === 'function') toggleLanguage();
+            if (typeof showToast === 'function') showToast('🌐 العربية');
+        }
+        return;
+    }
+
+    // M = كتم / رفع الصوت
+    if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault();
+        var sldr = document.getElementById('centralVolumeSlider');
+        if (!sldr) return;
+        var curVol = parseFloat(sldr.value);
+        if (curVol > 0) {
+            window._preMuteVol = curVol;
+            if (typeof window.syncAllVolume === 'function') window.syncAllVolume(0);
+            if (typeof showToast === 'function') showToast(typeof isArabic !== 'undefined' && !isArabic ? '🔇 Muted' : '🔇 الصوت مكتوم');
+        } else {
+            var restoreVol = window._preMuteVol || 0.7;
+            if (typeof window.syncAllVolume === 'function') window.syncAllVolume(restoreVol);
+            if (typeof showToast === 'function') showToast(typeof isArabic !== 'undefined' && !isArabic ? '🔊 Sound On' : '🔊 الصوت مفعّل');
+        }
+        return;
+    }
+
+    // D = تبديل الوضع الليلي/النهاري
+    if (e.key === 'd' || e.key === 'D' || e.key === 'ي') {
+        e.preventDefault();
+        if (typeof toggleDarkModeFloat === 'function') toggleDarkModeFloat();
+        var isDark = document.body.classList.contains('dark-mode');
+        if (typeof showToast === 'function') showToast(isDark
+            ? (typeof isArabic !== 'undefined' && !isArabic ? '🌙 Dark Mode' : '🌙 الوضع الليلي')
+            : (typeof isArabic !== 'undefined' && !isArabic ? '☀️ Light Mode' : '☀️ الوضع النهاري'));
+        return;
+    }
+
+    // S = فتح البحث مباشرةً
+    // S = فتح البحث مباشرةً
+    if (e.key === 's' || e.key === 'S' || e.key === 'س') {
+        e.preventDefault();
+        var searchEl = document.getElementById('searchInput');
+        if (searchEl) {
+            searchEl.focus();
+            searchEl.select();
+            if (typeof showToast === 'function') showToast(typeof isArabic !== 'undefined' && !isArabic ? '🔍 Search' : '🔍 بحث');
+        }
+        return;
+    }
+
+    // F = عرض / إخفاء المفضلة  (يجب فحص Shift+F أولاً)
+    if ((e.key === 'F' || e.key === 'f') && e.shiftKey) {
+        e.preventDefault();
+        var favList = (typeof favorites !== 'undefined') ? favorites : [];
+        if (!favList || favList.length === 0) {
+            if (typeof showToast === 'function') showToast(typeof isArabic !== 'undefined' && !isArabic ? '❤️ No favorites yet' : '❤️ لا توجد محطات في المفضلة');
+            return;
+        }
+        var randFavKey = favList[Math.floor(Math.random() * favList.length)];
+        var favBtn = document.querySelector('.button[data-station="' + randFavKey + '"]');
+        if (!favBtn) favBtn = document.querySelector('.button[data-ar="' + randFavKey + '"]');
+        if (favBtn) {
+            favBtn.click();
+            if (typeof showToast === 'function') showToast('🎲❤️ ' + randFavKey);
+        }
+        return;
+    }
+
+    if ((e.key === 'f' || e.key === 'F' || e.key === 'ب') && !e.shiftKey) {
+        e.preventDefault();
+        if (typeof toggleFavoritesView === 'function') {
+            toggleFavoritesView();
+            var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+            var showingFav = document.body.classList.contains('filter-favorites');
+            if (typeof showToast === 'function') showToast(showingFav
+                ? (ar ? '❤️ المفضلة' : '❤️ Favorites')
+                : (ar ? '📻 كل المحطات' : '📻 All Stations'));
+        }
+        return;
+    }
+
+    // Shift + P = إعادة تشغيل المحطة الحالية
+    if ((e.key === 'P' || e.key === 'p') && e.shiftKey) {
+        e.preventDefault();
+        var reloadAudio = document.getElementById('currentAudio');
+        if (reloadAudio && reloadAudio.src) {
+            var curSrc = reloadAudio.src;
+            reloadAudio.src = '';
+            reloadAudio.src = curSrc;
+            reloadAudio.load();
+            reloadAudio.play().catch(function(){});
+            if (typeof showToast === 'function') showToast(typeof isArabic !== 'undefined' && !isArabic ? '🔄 Reloading stream…' : '🔄 إعادة تشغيل البث…');
+        }
+        return;
+    }
+
+    // L = فتح المصحف
+    if (e.key === 'l' || e.key === 'L' || e.key === 'ل') {
+        e.preventDefault();
+        var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+        if (typeof openModal === 'function') {
+            openModal('https://app.quranflash.com/book/Medina3?ar#/reader/chapter/2', ar ? 'المصحف' : 'Quran Reader', false, true);
+            if (typeof showToast === 'function') showToast(ar ? '📖 المصحف' : '📖 Quran Reader');
+        }
+        return;
+    }
+
+    // H = الانتقال للمسبحة
+    if ((e.key === 'h' || e.key === 'H' || e.key === 'ط') && !e.shiftKey) {
+        e.preventDefault();
+        var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+        // أولاً: جرّب salah-pip-section
+        var pipEl = document.getElementById('salah-pip-section');
+        // ثانياً: أول محطة بها عداد تسبيح
+        var tasbihEl = document.querySelector('.button.has-tasbih');
+        var target = (pipEl && pipEl.offsetParent !== null) ? pipEl : (tasbihEl || pipEl);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (typeof showToast === 'function') showToast(ar ? '📿 المسبحة' : '📿 Dhikr Counter');
+        }
+        return;
+    }
+
+    // U = الانتقال لعلوم القرآن
+    if (e.key === 'u' || e.key === 'U' || e.key === 'ع') {
+        e.preventDefault();
+        var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+        if (typeof filterStations === 'function') {
+            filterStations('QuranSciences');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (typeof showToast === 'function') showToast(ar ? '📚 علوم القرآن' : '📚 Quran Sciences');
+        }
+        return;
+    }
+
+    // W = مواقيت الصلاة  (Shift+W محجوز لشاشة الترحيب، فنستخدم W العادي)
+    if ((e.key === 'w' || e.key === 'W' || e.key === 'و') && !e.shiftKey) {
+        e.preventDefault();
+        var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+        if (typeof filterStations === 'function') filterStations('More');
+        setTimeout(function() {
+            var pw = document.getElementById('prayerWidgetWrapper');
+            if (pw) pw.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 200);
+        if (typeof showToast === 'function') showToast(ar ? '🕌 مواقيت الصلاة' : '🕌 Prayer Times');
+        return;
+    }
+
 });
 
 // ═══════════════════════════════════════════════════════
@@ -29984,6 +30160,8 @@ document.addEventListener("keydown", function(e) {
         r_q:         { ar: 'فتح/إغلاق هذه النافذة', en: 'Open/Close this window' },
         r_sw:        { ar: 'فتح شاشة الترحيب', en: 'Open welcome screen' },
         r_esc:       { ar: 'إغلاق شاشة الترحيب / هذه النافذة', en: 'Close welcome screen / this window' },
+        r_e:         { ar: 'تحويل الموقع للإنجليزية', en: 'Switch site to English' },
+        r_a:         { ar: 'تحويل الموقع للعربية', en: 'Switch site to Arabic' },
         sec_tasbih:  { ar: '📿 عداد التسبيح', en: '📿 Dhikr Counter' },
         r_dot:       { ar: 'إضافة تسبيحة (في المحطة النشطة)', en: 'Add dhikr count (active station)' },
         tip_tasbih:  { ar: 'يعمل فقط عندما تكون المحطة النشطة تحتوي على عداد تسبيح', en: 'Works only when the active station has a dhikr counter.' },
@@ -29992,6 +30170,15 @@ document.addEventListener("keydown", function(e) {
         m_swipe_r:   { ar: 'سحب لليمين → المحطة السابقة', en: 'Swipe right → Previous station' },
         m_long:      { ar: 'ضغط مطوّل على محطة → تكرار تلقائي', en: 'Long-press station → Auto-repeat' },
         m_triple:    { ar: 'ثلاث نقرات على مساحة فارغة → شاشة الترحيب', en: 'Triple-tap empty area → Welcome screen' },
+        r_m:         { ar: 'كتم / رفع الصوت', en: 'Mute / Unmute' },
+        r_sp:        { ar: 'إعادة تشغيل المحطة الحالية', en: 'Restart current stream' },
+        r_d:         { ar: 'تبديل الوضع الليلي/النهاري', en: 'Toggle Dark / Light mode' },
+        r_s:         { ar: 'فتح البحث مباشرةً', en: 'Focus search bar' },        r_f:         { ar: 'عرض / إخفاء المفضلة', en: 'Toggle Favorites view' },
+        r_sf:        { ar: 'محطة عشوائية من المفضلة', en: 'Random station from Favorites' },
+        r_g:         { ar: 'فتح المصحف الشريف', en: 'Open Quran Reader' },
+        r_t:         { ar: 'الانتقال للمسبحة', en: 'Go to Dhikr Counter' },
+        r_c:         { ar: 'الانتقال لعلوم القرآن', en: 'Go to Quran Sciences' },
+        r_st:        { ar: 'الانتقال لمواقيت الصلاة', en: 'Go to Prayer Times' },
         sec6:        { ar: 'تلميحات إضافية', en: 'Additional Tips' },
         tip_long:    { ar: 'اضغط <strong>مطولاً</strong> على أي محطة لتفعيل التكرار التلقائي للمقطع الحالي', en: '<strong>Long-press</strong> any station to enable auto-repeat for the current segment.' },
         tip_ctrl:    { ar: '<strong>Ctrl + Click</strong> على محطة لفتح بثها مباشرةً في تبويب جديد', en: '<strong>Ctrl + Click</strong> a station to open its stream directly in a new tab.' },
@@ -30038,6 +30225,8 @@ document.addEventListener("keydown", function(e) {
                     kbRow('r_k', ['K'], lang),
                     kbRow('r_plus', ['+'], lang),
                     kbRow('r_minus', ['-'], lang),
+                    kbRow('r_m', ['M'], lang),
+                    '<div class="kb-row"><span class="kb-row-desc">' + T.r_sp[lang] + '</span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">P</span></div></div>',
                   '</div>',
                 '</div>',
 
@@ -30092,6 +30281,16 @@ document.addEventListener("keydown", function(e) {
                     kbRow('r_q', ['?'], lang),
                     kbRow('r_sw', ['Shift', 'W'], lang),
                     kbRow('r_esc', ['Esc'], lang),
+                    kbRow('r_e', ['E'], lang),
+                    kbRow('r_a', ['A'], lang),
+                    kbRow('r_d', ['D'], lang),
+                    kbRow('r_s', ['S'], lang),
+                    kbRow('r_f', ['F'], lang),
+                    '<div class="kb-row"><span class="kb-row-desc">' + T.r_sf[lang] + '</span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">F</span></div></div>',
+                    kbRow('r_g', ['L'], lang),
+                    kbRow('r_t', ['H'], lang),
+                    kbRow('r_c', ['U'], lang),
+                    kbRow('r_st', ['W'], lang),
                   '</div>',
                 '</div>',
 
