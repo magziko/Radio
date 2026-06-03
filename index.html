@@ -13114,6 +13114,10 @@ setTimeout(autoScaleVerseFont, 100);
         <button class="ai-quick-btn" data-ar="كيف أضيف محطة للمفضلة؟" data-en="How to add to favorites?" onclick="aiQuickAsk(this)">كيف أضيف للمفضلة؟</button>
         <button class="ai-quick-btn" data-ar="كيف أستخدم عداد التسبيح؟" data-en="How to use the dhikr counter?" onclick="aiQuickAsk(this)">عداد التسبيح</button>
         <button class="ai-quick-btn" data-ar="شرح ميزة التشغيل التلقائي" data-en="Explain auto-play feature" onclick="aiQuickAsk(this)">التشغيل التلقائي</button>
+        <button class="ai-quick-btn" data-ar="كيف يعمل مؤقت الإيقاف؟" data-en="How does sleep timer work?" onclick="aiQuickAsk(this)">مؤقت الإيقاف 😴</button>
+        <button class="ai-quick-btn" data-ar="كيف أفعّل تذكير الأذكار؟" data-en="How to enable adhkar reminder?" onclick="aiQuickAsk(this)">تذكير الأذكار 🔔</button>
+        <button class="ai-quick-btn" data-ar="كيف أفتح المصحف؟" data-en="How to open the Mushaf?" onclick="aiQuickAsk(this)">المصحف الشريف 📖</button>
+        <button class="ai-quick-btn" data-ar="كيف أستخدم الموقع؟" data-en="How to use the site?" onclick="aiQuickAsk(this)">دليل الاستخدام 📋</button>
       </div>
 
       <div id="ai-input-row">
@@ -32456,9 +32460,6 @@ if (target && count >= target) {
 - إذا لم تعرف إجابة سؤال محدد، قل ذلك بصراحة واقترح البديل`;
 
 
-  // ضع مفتاح Groq هنا
-  var GROQ_API_KEY = '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';
-
   var aiMessages = [];
 
   window.toggleAiBox = function() {
@@ -32538,8 +32539,79 @@ if (target && count >= target) {
     sendAiMessage();
   };
 
-  window.sendAiMessage =
-    async function() {
+  // ===== قاموس الردود الجاهزة =====
+  var AI_REPLIES = [
+    // التحيات
+    { keys: ['السلام عليكم','سلام عليكم','السلام'], reply: 'وعليكم السلام ورحمة الله وبركاته 🌿 أهلاً بك في إذاعة القرآن الكريم، كيف أقدر أساعدك؟' },
+    { keys: ['صباح الخير','صباح النور'], reply: 'صباح النور والسعادة ☀️ أهلاً بك، كيف أقدر أساعدك اليوم؟' },
+    { keys: ['مساء الخير','مساء النور'], reply: 'مساء النور والبركة 🌙 أهلاً بك، بِمَ أقدر أخدمك؟' },
+    { keys: ['أهلاً','اهلا','مرحبا','مرحباً','هلا','هلو','hi','hello'], reply: 'أهلاً وسهلاً بك 😊 أنا مساعدك في موقع إذاعة القرآن الكريم. كيف أقدر أساعدك؟' },
+    { keys: ['كيف حالك','كيف الحال','عامل إيه','عامل ايه'], reply: 'بخير الحمد لله 🌿 جاهز لمساعدتك، بِمَ تحتاج؟' },
+    { keys: ['شكراً','شكرا','شكرا جزيلا','جزاك الله','بارك الله'], reply: 'وإياك، جزاك الله خيراً 🌸 هل تحتاج أي مساعدة أخرى؟' },
+    { keys: ['مع السلامة','وداعاً','وداعا','باي','bye'], reply: 'مع السلامة 🌿 حفظك الله ورعاك، نراك قريباً إن شاء الله.' },
+
+    // أسئلة عن الموقع
+    { keys: ['القراء','قائمة القراء','فين القراء','اين القراء','أين القراء'], reply: 'قسم القراء موجود في القائمة الرئيسية للموقع 📖 يمكنك إيجاد جميع القراء والضغط على أي قارئ للاستماع إليه مباشرة.' },
+    { keys: ['كيف أسمع','كيف استمع','كيف اسمع','طريقة الاستماع'], reply: 'للاستماع، اختر القارئ الذي تريده من قسم "القراء" ثم اضغط على زر التشغيل ▶️ وسيبدأ البث مباشرة.' },
+    { keys: ['المنشاوي','منشاوي'], reply: 'الشيخ محمد صديق المنشاوي موجود في قسم القراء 🎙️ يمكنك الاستماع لروايتي المرتل والمجوّد.' },
+    { keys: ['الحصري','حصري'], reply: 'الشيخ محمود خليل الحصري موجود في قسم القراء 🎙️ له روايتا المرتل والمجوّد.' },
+    { keys: ['البنا','بنا'], reply: 'الشيخ محمد محمود البنا موجود في قسم القراء 🎙️' },
+    { keys: ['عبد الباسط','عبدالباسط'], reply: 'الشيخ عبد الباسط عبد الصمد موجود في قسم القراء 🎙️ أحد أشهر قراء القرآن في العالم.' },
+    { keys: ['الأذكار','اذكار','أذكار الصباح','أذكار المساء'], reply: 'قسم الأذكار متاح في الموقع 📿 يشمل أذكار الصباح والمساء وأذكار متنوعة.' },
+    { keys: ['الأدعية','ادعية','دعاء'], reply: 'قسم الأدعية متاح في الموقع 🤲 يشمل أدعية من القرآن والسنة النبوية.' },
+    { keys: ['الحديث','احاديث','أحاديث','السنة النبوية'], reply: 'قسم الحديث الشريف والسنة النبوية متاح في الموقع 📚' },
+    { keys: ['البث المباشر','بث مباشر','لايف'], reply: 'نعم الموقع يوفر بثاً مباشراً 24/7 🎙️ يمكنك الاستماع في أي وقت.' },
+    { keys: ['داكر','الوضع الداكن','dark mode','الليلي'], reply: 'يمكنك تفعيل الوضع الداكن من خلال أيقونة 🌙 في أعلى الصفحة.' },
+    { keys: ['اللغة','تغيير اللغة','english','إنجليزي','انجليزي'], reply: 'يمكنك تغيير لغة الموقع من عربي إلى إنجليزي بالضغط على زر اللغة في أعلى الصفحة 🌍' },
+    { keys: ['تواصل','تواصل معنا','راسلنا','اقتراح','شكوى'], reply: 'يمكنك التواصل معنا عبر زر "راسلنا" في أسفل الصفحة ✉️ نسعد بملاحظاتك واقتراحاتك.' },
+    { keys: ['الموقع','عن الموقع','من انتم','من أنتم'], reply: 'موقع إذاعة القرآن الكريم 🕌 منصة متخصصة للاستماع إلى تلاوات القرآن الكريم، الأذكار، الأدعية والحديث الشريف على مدار الساعة.' },
+
+    // ===== أسئلة الأزرار السريعة الأربعة =====
+    { keys: ['ما هي المحطات المتاحة','المحطات المتاحة','المحطات الموجودة','ما هي المحطات'], reply: 'المحطات المتاحة في الموقع 📻:\n\n1️⃣ Ma إذاعة القرآن الكريم – البث الرئيسي للتلاوات\n2️⃣ السيرة النبوية المشرفة – بث مستمر لسيرة النبي ﷺ\n3️⃣ القرآن الكريم – مصحف القراء وروائع التلاوات\n4️⃣ الحديث النبوي الشريف – أحاديث وأدعية وصلوات على النبي ﷺ\n5️⃣ إذاعة القرآن الكريم - متنوع – برامج متنوعة متعددة\n6️⃣ اذاعة سير الأنبياء والصحابة – قصص الأنبياء والصحابة الكرام\n7️⃣ راديو الشيخ – محاضرات وتلاوات مختارة\n\nبالإضافة إلى أقسام القراء والأذكار والأدعية 🌿' },
+
+    { keys: ['كيف أضيف محطة للمفضلة','أضيف للمفضلة','اضيف للمفضلة','اضافة مفضلة','إضافة مفضلة','المفضلة','مفضلة'], reply: 'لإضافة محطة للمفضلة ❤️:\n\n1. ابحث عن المحطة التي تريدها في القائمة\n2. اضغط على أيقونة القلب ❤️ بجانب اسم المحطة\n3. ستتحول الأيقونة للون الأحمر تأكيداً للحفظ\n\nللوصول للمفضلة:\n• اضغط على زر "المفضلة" في شريط التنقل\n• ستظهر لك جميع محطاتك المحفوظة فقط\n• يمكنك تشغيلها مباشرة أو إزالتها في أي وقت 🌿' },
+
+    { keys: ['كيف أستخدم عداد التسبيح','عداد التسبيح','التسبيح','استخدام التسبيح','كيف استخدم التسبيح'], reply: 'عداد التسبيح 📿:\n\n• يظهر عداد التسبيح على المحطات التي تدعمه (ستجد أيقونة 📿 عليها)\n• اضغط على زر المحطة لتشغيلها وسيظهر العداد\n\nطريقة الاستخدام:\n1. اضغط على العداد في كل مرة تسبح فيها\n2. يحتسب العدد تلقائياً\n3. زر "تسبيح تلقائي" للعد الذاتي دون ضغط\n\nميزة PiP 🪄:\n• يمكن فتح عداد التسبيح في نافذة صغيرة عائمة تعمل فوق أي تطبيق آخر على شاشتك 🌿' },
+
+    { keys: ['شرح ميزة التشغيل التلقائي','التشغيل التلقائي','تشغيل تلقائي','auto switch','التنقل الآلي','تبديل تلقائي'], reply: 'ميزة التشغيل التلقائي (Auto Switch) 🔁:\n\nتقوم هذه الميزة بالتنقل التلقائي بين المحطات كل فترة زمنية تحددها أنت.\n\nكيفية التفعيل:\n1. افتح "⚙️ الإعدادات" من الشريط الأوسط\n2. ابحث عن خيار "التنقل الآلي (Auto Switch)"\n3. أدخل عدد الدقائق التي تريدها بين كل محطة\n4. سيتنقل الموقع تلقائياً دون تدخل منك\n\nميزات إضافية للتشغيل:\n• زر ⏮️ للمحطة السابقة\n• زر ⏭️ للمحطة التالية\n• زر 🔀 لمحطة عشوائية 🌿' },
+
+    // أسئلة إضافية جديدة
+    { keys: ['مؤقت الإيقاف','مؤقت','sleep timer','وقت الإيقاف','موقت النوم'], reply: 'مؤقت الإيقاف (Sleep Timer) 😴:\n\nيوقف تشغيل الصوت تلقائياً بعد الوقت الذي تحدده.\n\nكيفية الاستخدام:\n1. افتح "⚙️ الإعدادات"\n2. اختر "مؤقت الإيقاف"\n3. أدخل عدد الدقائق\n4. سيوقف الموقع التشغيل تلقائياً عند انتهاء الوقت 🌙\n\nمفيد جداً عند الاستماع قبل النوم 🌿' },
+
+    { keys: ['تذكير الأذكار','تذكير','أذكار الصباح','أذكار المساء','تنبيه الأذكار','reminder'], reply: 'تذكير الأذكار 🔔:\n\nالموقع يذكّرك بأذكار الصباح والمساء في أوقاتها تلقائياً!\n\nكيفية الإعداد:\n1. افتح "⚙️ الإعدادات"\n2. فعّل "تذكير أذكار الصباح والمساء"\n3. اضبط وقت الصباح والمساء حسب ما يناسبك\n4. ستصلك إشعارات في الوقت المحدد 🌅\n\nتأكد من السماح للموقع بإرسال الإشعارات 🌿' },
+
+    { keys: ['المصحف','الصحف','مصحف المدينة','افتح المصحف','mushaf'], reply: 'المصحف الشريف 📖:\n\n• يوجد زر "افتح المصحف / Open Mushaf" ثابت في أسفل الشاشة\n• اضغط عليه لفتح مصحف المدينة المنورة كاملاً في وضع ملء الشاشة\n• اضغط ✕ لإغلاقه أو اضغط Escape من لوحة المفاتيح\n• يمكنك فتحه في تبويب جديد للتصفح المريح 🌿' },
+
+    { keys: ['البحث','بحث عن محطة','كيف أبحث','كيف ابحث','تصفية المحطات'], reply: 'البحث في المحطات 🔍:\n\nيوجد حقل بحث في أعلى قائمة المحطات.\nاكتب اسم المحطة أو القارئ وستظهر لك النتائج فوراً دون الحاجة للتمرير 🌿' },
+
+    { keys: ['الوضع الليلي','الوضع الداكن','dark mode','تغيير اللون','لون الخلفية','تخصيص'], reply: 'تخصيص المظهر 🎨:\n\nمن "⚙️ الإعدادات" > "لون الخلفية" يمكنك:\n• تفعيل الوضع الداكن 🌙 (Dark Mode)\n• اختيار لون خلفية من ألوان متعددة\n• اختيار تدرجات ألوان جميلة للأزرار\n\nجميع التغييرات تُحفظ تلقائياً 🌿' },
+
+    { keys: ['كيف يعمل الموقع','كيف أستخدم الموقع','كيف استخدم الموقع','شرح الموقع','دليل الاستخدام'], reply: 'دليل سريع لاستخدام الموقع 📋:\n\n1️⃣ اختر المحطة أو القارئ من القائمة واضغط للتشغيل\n2️⃣ استخدم أزرار ⏮️ ⏭️ للتنقل بين المحطات\n3️⃣ اضغط ❤️ لحفظ محطة في المفضلة\n4️⃣ افتح ⚙️ الإعدادات للمزايا المتقدمة\n5️⃣ استخدم 📿 عداد التسبيح مع محطات الأذكار\n6️⃣ افتح المصحف من الزر في أسفل الشاشة\n\nهل تريد شرحاً لميزة معينة؟ 🌿' },
+
+    // أسئلة إسلامية
+    { keys: ['بسم الله','بسم الله الرحمن الرحيم'], reply: 'بسم الله الرحمن الرحيم 🌿' },
+    { keys: ['الحمد لله','الحمد'], reply: 'الحمد لله رب العالمين 🌿' },
+    { keys: ['سبحان الله'], reply: 'سبحان الله وبحمده، سبحان الله العظيم 🌿' },
+    { keys: ['ما هو القرآن','القرآن الكريم'], reply: 'القرآن الكريم هو كلام الله المنزل على نبيه محمد ﷺ، المتعبد بتلاوته، المعجز بلفظه ومعناه 📖' },
+    { keys: ['الصلاة على النبي','صلى الله عليه','اللهم صل'], reply: 'اللهم صلِّ وسلم وبارك على نبينا محمد ﷺ 🌹' },
+    { keys: ['رمضان','شهر رمضان'], reply: 'شهر رمضان المبارك هو شهر القرآن، قال تعالى: "شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ" 🌙' },
+  ];
+
+  function getSmartReply(text) {
+    var t = text.trim().toLowerCase();
+    for (var i = 0; i < AI_REPLIES.length; i++) {
+      var item = AI_REPLIES[i];
+      for (var j = 0; j < item.keys.length; j++) {
+        if (t.indexOf(item.keys[j].toLowerCase()) !== -1) {
+          return item.reply;
+        }
+      }
+    }
+    return null;
+  }
+  // ===== نهاية قاموس الردود =====
+
+  window.sendAiMessage = function() {
 
     var inp =
       document.getElementById(
@@ -32561,205 +32633,52 @@ if (target && count >= target) {
     if (!messages) return;
 
     inp.value = '';
-
     inp.style.height = 'auto';
 
     // رسالة المستخدم
     var userDiv =
       document.createElement('div');
 
-    userDiv.className =
-      'ai-msg user';
-
+    userDiv.className = 'ai-msg user';
     userDiv.textContent = text;
-
     messages.appendChild(userDiv);
 
     // مؤشر الكتابة
     var typingDiv =
       document.createElement('div');
 
-    typingDiv.className =
-      'ai-typing';
+    typingDiv.className = 'ai-typing';
+    typingDiv.id = 'ai-typing-indicator';
+    typingDiv.innerHTML = '<span></span><span></span><span></span>';
+    messages.appendChild(typingDiv);
+    messages.scrollTop = messages.scrollHeight;
 
-    typingDiv.id =
-      'ai-typing-indicator';
+    // البحث عن رد مناسب بعد تأخير بسيط يحاكي التفكير
+    setTimeout(function() {
 
-    typingDiv.innerHTML =
-      '<span></span><span></span><span></span>';
-
-    messages.appendChild(
-      typingDiv
-    );
-
-    messages.scrollTop =
-      messages.scrollHeight;
-
-    var sendBtn =
-      document.getElementById(
-        'ai-send-btn'
-      );
-
-    if (sendBtn) {
-      sendBtn.disabled = true;
-    }
-
-    aiMessages.push({
-      role: 'user',
-      content: text
-    });
-
-    try {
-
-      var response =
-        await fetch(
-
-        'https://api.groq.com/openai/v1/chat/completions',
-
-        {
-          method: 'POST',
-
-          headers: {
-
-            'Content-Type':
-              'application/json',
-
-            'Authorization':
-              'Bearer ' +
-              GROQ_API_KEY
-          },
-
-          body: JSON.stringify({
-
-            model:
-              'llama-3.3-70b-versatile',
-
-            messages: [
-
-              {
-                role: 'system',
-                content:
-                  AI_SITE_CONTEXT
-              },
-
-              ...aiMessages
-
-            ],
-
-            temperature: 0.7,
-
-            max_tokens: 1000
-
-          })
-        });
-
-      var data =
-        await response.json();
-
-      console.log(
-        'Groq Response:',
-        data
-      );
-
-      var typing =
-        document.getElementById(
-          'ai-typing-indicator'
-        );
-
+      var typing = document.getElementById('ai-typing-indicator');
       if (typing) typing.remove();
 
-      if (sendBtn) {
-        sendBtn.disabled = false;
+      var reply = getSmartReply(text);
+
+      if (!reply) {
+        reply = 'عذراً، لا أملك إجابة على هذا السؤال حالياً 🙏\nيمكنك التواصل معنا عبر زر "راسلنا" في أسفل الصفحة وسنساعدك بإذن الله.';
       }
 
-      var reply = '';
-
-      if (
-        data.choices &&
-        data.choices[0] &&
-        data.choices[0].message
-      ) {
-
-        reply =
-          data.choices[0]
-          .message.content;
-
-      } else if (
-        data.error
-      ) {
-
-        reply =
-          '⚠️ ' +
-          data.error.message;
-
-      } else {
-
-        reply =
-          '⚠️ لم يتم استلام رد';
-      }
-
-      aiMessages.push({
-        role: 'assistant',
-        content: reply
-      });
-
-      var botDiv =
-        document.createElement(
-          'div'
-        );
-
-      botDiv.className =
-        'ai-msg bot';
-
+      var botDiv = document.createElement('div');
+      botDiv.className = 'ai-msg bot';
       botDiv.innerHTML =
         '<span class="ai-bot-label">✦ AI</span>' +
-        escapeHtml(reply)
-        .replace(/\n/g, '<br>');
+        escapeHtml(reply).replace(/\n/g, '<br>');
 
-      messages.appendChild(
-        botDiv
-      );
+      messages.appendChild(botDiv);
+      messages.scrollTop = messages.scrollHeight;
 
-      messages.scrollTop =
-        messages.scrollHeight;
+    }, 700);
 
-    } catch(err) {
+    // dummy push للحفاظ على التوافق
+    aiMessages.push({ role: 'user', content: text });
 
-      console.error(
-        'Groq Error:',
-        err
-      );
-
-      var typing =
-        document.getElementById(
-          'ai-typing-indicator'
-        );
-
-      if (typing) typing.remove();
-
-      if (sendBtn) {
-        sendBtn.disabled = false;
-      }
-
-      var errDiv =
-        document.createElement(
-          'div'
-        );
-
-      errDiv.className =
-        'ai-msg bot';
-
-      errDiv.innerHTML =
-        '<span class="ai-bot-label">✦ AI</span>' +
-        '⚠️ تعذر الاتصال بالخادم';
-
-      messages.appendChild(
-        errDiv
-      );
-
-      messages.scrollTop =
-        messages.scrollHeight;
-    }
   };
 
   window.clearAiChat =
