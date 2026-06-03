@@ -1958,6 +1958,40 @@ body.dark-mode #welcome-top-bar #welcomeTopAiBtn:hover {
     border-color: #1D9E75 !important;
 }
 
+#welcome-top-bar #welcomeTopSearchBtn {
+    position: static !important;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.85);
+    color: #2E86C1;
+    border: 1.5px solid rgba(46,134,193,0.30);
+    box-shadow: 0 1px 6px rgba(46,134,193,0.10);
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.15s;
+}
+#welcome-top-bar #welcomeTopSearchBtn:hover {
+    background: #2E86C1 !important;
+    color: #fff !important;
+    border-color: #2E86C1 !important;
+    box-shadow: 0 3px 12px rgba(46,134,193,0.28) !important;
+    transform: scale(1.08);
+}
+body.dark-mode #welcome-top-bar #welcomeTopSearchBtn {
+    background: rgba(15,30,50,0.85) !important;
+    color: #64b5f6 !important;
+    border-color: rgba(100,181,246,0.30) !important;
+}
+body.dark-mode #welcome-top-bar #welcomeTopSearchBtn:hover {
+    background: #2E86C1 !important;
+    color: #fff !important;
+    border-color: #2E86C1 !important;
+}
+
 #welcome-top-bar #welcomeTopHideBtn {
     position: static !important;
     height: 34px;
@@ -4972,6 +5006,22 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
     <div class="wtb-right">
         <button id="welcomeTopAiBtn" onclick="openAiAssistantFromWelcome()" title="مساعد الذكاء الاصطناعي / AI Assistant" aria-label="AI Assistant">
             <span class="wtai-icon">🤖</span>
+        </button>
+        <button id="welcomeTopSearchBtn" onclick="(function(){
+            var panel=document.getElementById('settings-panel');
+            var el=document.getElementById('searchInput');
+            if(!el) return;
+            var wasClosed = panel && panel.style.display==='none';
+            if(wasClosed && typeof toggleSettingsPanel==='function') toggleSettingsPanel();
+            setTimeout(function(){
+                el.scrollIntoView({behavior:'smooth',block:'center'});
+                el.focus(); el.select();
+            }, wasClosed ? 320 : 0);
+        })()" title="بحث / Search" aria-label="Search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+            </svg>
         </button>
         <button id="welcomeDarkModeBtn" onclick="toggleDarkModeFloat()" title="تبديل الوضع الليلي / Dark Mode" aria-label="Toggle Dark Mode">
             <span class="wdm-icon">🌙</span>
@@ -29971,12 +30021,18 @@ document.addEventListener("keydown", function(e) {
     // S = فتح البحث مباشرةً
     if (e.key === 's' || e.key === 'S' || e.key === 'س') {
         e.preventDefault();
+        var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+        var panel = document.getElementById('settings-panel');
         var searchEl = document.getElementById('searchInput');
-        if (searchEl) {
+        if (!searchEl) return;
+        var wasClosed = panel && panel.style.display === 'none';
+        if (wasClosed && typeof toggleSettingsPanel === 'function') toggleSettingsPanel();
+        setTimeout(function() {
+            searchEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
             searchEl.focus();
             searchEl.select();
-            if (typeof showToast === 'function') showToast(typeof isArabic !== 'undefined' && !isArabic ? '🔍 Search' : '🔍 بحث');
-        }
+        }, wasClosed ? 320 : 0);
+        if (typeof showToast === 'function') showToast(ar ? '🔍 بحث' : '🔍 Search');
         return;
     }
 
