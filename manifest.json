@@ -1,0 +1,36 @@
+{
+  "name": "إذاعة القرآن الكريم",
+  "short_name": "قرآن راديو",
+  "description": "استمع إلى تلاوات القرآن الكريم والأذكار والأدعية 24/7",
+  "start_url": "/Radio/",
+  "scope": "/Radio/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#1D9E75",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["music", "lifestyle", "education"],
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}
