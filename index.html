@@ -27300,25 +27300,96 @@ if (urls && Array.isArray(urls) && urls.length > 1) {
 
         if (reason === 'offline') {
 
-            updateStatus(
-                '❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...',
-                '❌ No internet connection, retrying...'
-            );
-            var offlineRetry = setTimeout(function() {
-                mainAudio.src = mainAudio.src;
-                mainAudio.load();
-                mainAudio.play().catch(function(){});
-            }, 8000);
-            window.addEventListener('online', function onBackOnline() {
-                clearTimeout(offlineRetry);
-                updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...');
-                setTimeout(function() {
+            // ── أولاً: ابحث عن رابط محفوظ من نفس المحطة في الكاش ──
+            var archiveUrls = urls.filter(function(u) {
+                return u.includes('archive.org') && (u.includes('.mp3') || u.includes('.ogg'));
+            });
+
+            if (archiveUrls.length > 0 && navigator.serviceWorker && navigator.serviceWorker.controller) {
+                updateStatus(
+                    '📦 لا يوجد إنترنت، جارٍ البحث في الملفات المحفوظة...',
+                    '📦 No internet, searching cached files...'
+                );
+
+                var swMessageHandler = function(event) {
+                    if (event.data && event.data.type === 'CACHED_URL_RESULT') {
+                        navigator.serviceWorker.removeEventListener('message', swMessageHandler);
+
+                        if (event.data.url) {
+                            // وجدنا رابط محفوظ — شغّله
+                            updateStatus(
+                                '✅ يتم التشغيل من الملفات المحفوظة (بدون إنترنت)',
+                                '✅ Playing from cached files (offline)'
+                            );
+                            mainAudio.src = event.data.url;
+                            mainAudio.load();
+                            mainAudio.play().catch(function(){});
+
+                            // لما النت يرجع — ارجع للتشغيل العشوائي الطبيعي
+                            window.addEventListener('online', function onBackOnline() {
+                                updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...');
+                                button.removeAttribute('data-random-played');
+                                setTimeout(function() {
+                                    var randomIdx = Math.floor(Math.random() * urls.length);
+                                    button.setAttribute('data-current-index', (randomIdx + 1) % urls.length);
+                                    playNewAudio(urls[randomIdx], stationDescription, stationDescriptionEn, true);
+                                }, 1500);
+                                window.removeEventListener('online', onBackOnline);
+                            });
+
+                        } else {
+                            // مفيش في الكاش — انتظر النت
+                            updateStatus(
+                                '❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...',
+                                '❌ No internet connection, retrying...'
+                            );
+                            var offlineRetry = setTimeout(function() {
+                                mainAudio.src = mainAudio.src;
+                                mainAudio.load();
+                                mainAudio.play().catch(function(){});
+                            }, 8000);
+                            window.addEventListener('online', function onBackOnline() {
+                                clearTimeout(offlineRetry);
+                                updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...');
+                                setTimeout(function() {
+                                    mainAudio.src = mainAudio.src;
+                                    mainAudio.load();
+                                    mainAudio.play().catch(function(){});
+                                }, 1500);
+                                window.removeEventListener('online', onBackOnline);
+                            });
+                        }
+                    }
+                };
+
+                navigator.serviceWorker.addEventListener('message', swMessageHandler);
+                navigator.serviceWorker.controller.postMessage({
+                    type: 'FIND_CACHED_URL',
+                    urls: archiveUrls
+                });
+
+            } else {
+                // مش archive.org أو مفيش service worker — السلوك القديم
+                updateStatus(
+                    '❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...',
+                    '❌ No internet connection, retrying...'
+                );
+                var offlineRetry = setTimeout(function() {
                     mainAudio.src = mainAudio.src;
                     mainAudio.load();
                     mainAudio.play().catch(function(){});
-                }, 1500);
-                window.removeEventListener('online', onBackOnline);
-            });
+                }, 8000);
+                window.addEventListener('online', function onBackOnline() {
+                    clearTimeout(offlineRetry);
+                    updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...');
+                    setTimeout(function() {
+                        mainAudio.src = mainAudio.src;
+                        mainAudio.load();
+                        mainAudio.play().catch(function(){});
+                    }, 1500);
+                    window.removeEventListener('online', onBackOnline);
+                });
+            }
 
         } else if (reason === 'slow') {
 
