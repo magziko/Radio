@@ -1,80 +1,123 @@
 /* ============================================
    Service Worker — إذاعة القرآن الكريم
-   يحفظ الواجهة محلياً للتشغيل السريع
    ============================================ */
 
-const CACHE_NAME = 'quran-radio-v1';
+const CACHE_STATIC = 'quran-radio-static-v1';
+const CACHE_AUDIO  = 'quran-radio-audio-v1';
 
-// الملفات اللي هتتحفظ محلياً
+const MAX_AUDIO_FILES = 50;
+
 const STATIC_ASSETS = [
   '/Radio/',
   '/Radio/index.html',
   '/Radio/favicon.png',
-  '/Radio/manifest.json'
+  '/Radio/manifest.json',
+  '/Radio/icon-192.png',
+  '/Radio/icon-512.png'
 ];
 
-/* ── التثبيت: احفظ الملفات الأساسية ── */
+/* ── التثبيت ── */
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(STATIC_ASSETS);
-    })
+    caches.open(CACHE_STATIC).then(cache => cache.addAll(STATIC_ASSETS))
   );
   self.skipWaiting();
 });
 
-/* ── التفعيل: احذف الكاش القديم ── */
+/* ── التفعيل ── */
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
+          .filter(k => k !== CACHE_STATIC && k !== CACHE_AUDIO)
+          .map(k => caches.delete(k))
       )
     )
   );
   self.clients.claim();
 });
 
-/* ── الطلبات: استراتيجية Network First ── */
-// يحاول يجيب من الإنترنت أولاً (عشان يأخذ أحدث نسخة)
-// لو فشل يرجع للكاش المحفوظ
+/* ── الطلبات ── */
 self.addEventListener('fetch', event => {
-  const url = new URL(event.request.url);
+  const url = event.request.url;
 
-  // تجاهل طلبات البث الصوتي — دي لازم تيجي من الإنترنت دايماً
-  if (
-    event.request.url.includes('stream') ||
-    event.request.url.includes('live') ||
-    event.request.url.includes('radio') ||
-    event.request.url.includes('mp3') ||
-    event.request.url.includes('audio') ||
-    event.request.url.includes('aladhan.com') ||
-    event.request.url.includes('translate.google') ||
-    event.request.url.includes('cse.google')
-  ) {
-    return; // اسيبه يروح للإنترنت مباشرة
+  // ── ملفات archive.org الصوتية: Cache on Play ──
+  if (url.includes('archive.org') && (url.includes('.mp3') || url.includes('.ogg'))) {
+    event.respondWith(handleAudio(event.request));
+    return;
   }
 
-  // باقي الطلبات: Network First
+  // ── بث مباشر وخدمات خارجية: مباشرة من النت دايماً ──
+  if (
+    url.includes('stream') ||
+    url.includes('live')   ||
+    url.includes('aladhan.com') ||
+    url.includes('translate.google') ||
+    url.includes('cse.google') ||
+    url.includes('youtube')
+  ) {
+    return;
+  }
+
+  // ── باقي الطلبات: Network First ──
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // لو النسخة من الإنترنت اشتغلت، احفظها في الكاش
         if (response && response.status === 200 && response.type === 'basic') {
           const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, clone);
-          });
+          caches.open(CACHE_STATIC).then(cache => cache.put(event.request, clone));
         }
         return response;
       })
-      .catch(() => {
-        // الإنترنت مش شغال — رجّع من الكاش
-        return caches.match(event.request).then(cached => {
-          return cached || caches.match('/Radio/');
-        });
-      })
+      .catch(() =>
+        caches.match(event.request).then(cached => cached || caches.match('/Radio/'))
+      )
   );
 });
+
+/* ── Cache on Play لملفات archive.org ── */
+async function handleAudio(request) {
+  const cache = await caches.open(CACHE_AUDIO);
+  const cached = await cache.match(request);
+
+  // لو موجود في الكاش رجّعه فوراً
+  if (cached) return cached;
+
+  // مش موجود — جيبه من النت واحفظه
+  try {
+    const response = await fetch(request);
+    if (response && response.status === 200) {
+      cache.put(request, response.clone());
+      trimAudioCache(cache);
+    }
+    return response;
+  } catch {
+    return new Response('', { status: 503 });
+  }
+}
+
+/* ── رسالة من الصفحة: ابحث عن أي رابط محفوظ من نفس المحطة ── */
+self.addEventListener('message', async event => {
+  if (event.data && event.data.type === 'FIND_CACHED_URL') {
+    const urls   = event.data.urls;   // كل روابط المحطة
+    const cache  = await caches.open(CACHE_AUDIO);
+    let found    = null;
+
+    for (const url of urls) {
+      const match = await cache.match(url);
+      if (match) { found = url; break; }
+    }
+
+    event.source.postMessage({ type: 'CACHED_URL_RESULT', url: found });
+  }
+});
+
+/* ── احذف الملفات القديمة لو تجاوز الحد ── */
+async function trimAudioCache(cache) {
+  const keys = await cache.keys();
+  if (keys.length > MAX_AUDIO_FILES) {
+    const toDelete = keys.slice(0, keys.length - MAX_AUDIO_FILES);
+    await Promise.all(toDelete.map(k => cache.delete(k)));
+  }
+}
