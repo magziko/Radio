@@ -23752,8 +23752,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 <div id="mushafFullscreenOverlay">
   <div id="mushafFullscreenHeader">
     <button id="mushafCloseFullscreenBtn" onclick="closeMushafFullscreen()" title="إغلاق المصحف">✕</button>
-    <span class="mshf-header-title">📖 المصحف الشريف – مصحف المدينة</span>
-    <a class="mshf-new-tab" href="https://app.quranflash.com/book/Medina3?ar#/reader" target="_blank">🔗 فتح في تبويب</a>
+    <span class="mshf-header-title" id="mushafHeaderTitle">📖 المصحف الشريف | Holy Quran</span>
+    <a class="mshf-new-tab" id="mushafNewTabLink" href="https://app.quranflash.com/book/Medina3?ar#/reader" target="_blank">🔗 فتح في تبويب | Open in Tab</a>
   </div>
   <div id="mushafFullscreenLoading">
     <div style="width:50px;height:50px;border:5px solid #e0eaf6;border-top-color:#1B6CA8;border-radius:50%;animation:mushafSpin 0.8s linear infinite;"></div>
@@ -23772,7 +23772,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   <div id="mushafPanel"></div>
   <button id="mushafToggleBtn" onclick="toggleMushaf()">
     <span class="mshf-icon">📖</span>
-    <span class="mshf-label">📖 افتح المصحف</span>
+    <span class="mshf-label">📖 المصحف الشريف | Holy Quran</span>
     <span class="mshf-arrow">&#8964;</span>
   </button>
 </div>
@@ -23785,10 +23785,16 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   function getMushafLabel(isOpen) {
     var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
     if (isOpen) {
-      return ar ? '📖 أغلق المصحف' : '📖 Close Mushaf';
+      return ar ? '📖 أغلق المصحف | Close' : '📖 Close | أغلق المصحف';
     } else {
-      return ar ? '📖 افتح المصحف' : '📖 Open Mushaf';
+      return ar ? '📖 المصحف الشريف | Holy Quran' : '📖 Holy Quran | المصحف الشريف';
     }
+  }
+
+  function updateMushafHeaderLang() {
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var link = document.getElementById('mushafNewTabLink');
+    if (link) link.textContent = ar ? '🔗 فتح في تبويب | Open in Tab' : '🔗 Open in Tab | فتح في تبويب';
   }
 
   function updateMushafBtnLabel() {
@@ -23807,6 +23813,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       window.toggleLanguage = function() {
         _origToggleLang.apply(this, arguments);
         setTimeout(updateMushafBtnLabel, 50);
+        setTimeout(updateMushafHeaderLang, 50);
       };
     }
   }, 200);
@@ -30167,13 +30174,16 @@ document.addEventListener("keydown", function(e) {
         return;
     }
 
-    // L = فتح المصحف
-    if (e.key === 'l' || e.key === 'L' || e.key === 'ل') {
+    // L = فتح المصحف ملء الشاشة
+    if (e.key === 'l' || e.key === 'L' || e.key === 'م') {
         e.preventDefault();
         var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
-        if (typeof openModal === 'function') {
-            openModal('https://app.quranflash.com/book/Medina3?ar#/reader/chapter/2', ar ? 'المصحف' : 'Quran Reader', false, true);
-            if (typeof showToast === 'function') showToast(ar ? '📖 المصحف' : '📖 Quran Reader');
+        var overlay = document.getElementById('mushafFullscreenOverlay');
+        if (overlay && overlay.classList.contains('active')) {
+            if (typeof closeMushafFullscreen === 'function') closeMushafFullscreen();
+        } else {
+            if (typeof toggleMushaf === 'function') toggleMushaf();
+            if (typeof showToast === 'function') showToast(ar ? '📖 المصحف الشريف' : '📖 Holy Quran');
         }
         return;
     }
@@ -32988,7 +32998,7 @@ if (target && count >= target) {
 
 <!-- PWA Service Worker -->
 <script>
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     window.addEventListener('load', function() {
       navigator.serviceWorker.register('/Radio/service-worker.js')
         .then(function(reg) { console.log('SW registered'); })
