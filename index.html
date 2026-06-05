@@ -13290,6 +13290,13 @@ const quranRadioStations = [
   "en": "Holy Quran Radio Bahrain",
   "url": "https://5c7b683162943.streamlock.net/live/ngrp:radio-106-1_all/playlist.m3u8"
 },
+  // {
+  //   "category": "Radio",
+  //   "station": "إذاعة القرآن الكريم الأردنية JRTV",
+  //   "ar": "إذاعة القرآن الكريم الأردنية JRTV",
+  //   "en": "Jordan JRTV Quran Radio",
+  //   "url": "https://jrtv-live.ercdn.net/jrradio/quranradio.m3u8"
+  // },
   {
     "category": "Radio",
     "station": "إذاعة القرآن الكريم الشارقة",
@@ -13358,7 +13365,7 @@ const quranRadioStations = [
     "url": "https://worldradiomap.com/bh/play/bahrain-quran",
     "external": true,
     "modal": true
-  }
+  },
 ];
 
 (function renderRadioStations() {
@@ -32218,6 +32225,14 @@ if (target && count >= target) {
             _bannerEl.style.animation = 'adhkarBannerIn 0.5s cubic-bezier(.22,.68,0,1.3)';
 
             if (navigator.vibrate) navigator.vibrate([150, 80, 150, 80, 150]);
+
+            // ── صوت التنبيه (يشتغل offline لأنه محفوظ في الكاش) ──
+            try {
+                var reminderSoundUrl = "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3";
+                var reminderAudio = new Audio(reminderSoundUrl);
+                reminderAudio.volume = 0.7;
+                reminderAudio.play().catch(function(){});
+            } catch(e) {}
 
         }
 
