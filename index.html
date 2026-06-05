@@ -495,6 +495,8 @@ body {
 
     gap: 10px;
     margin-top: 5px;
+    padding: 0 6px;
+    box-sizing: border-box;
   }
    @media (max-width: 768px) { .buttons-container { grid-template-columns: 1fr; } }
  .input-group {
@@ -5466,15 +5468,62 @@ audio.addEventListener("playing", function() {
 customAudioPlayer.addEventListener('play', function() {
     isAudioPlaying = true;
     updateWelcomePlayPauseButton(true);
+    if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession();
 });
 customAudioPlayer.addEventListener('pause', function() {
     isAudioPlaying = false;
     updateWelcomePlayPauseButton(false);
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
 });
 customAudioPlayer.addEventListener('ended', function() {
     isAudioPlaying = false;
     updateWelcomePlayPauseButton(false);
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none';
 });
+
+// ══════════════════════════════════════════════
+//  Media Session API — الراديو يفضل شغال في الخلفية
+// ══════════════════════════════════════════════
+(function() {
+    if (!('mediaSession' in navigator)) return;
+
+    var FAVICON = 'https://archive.org/download/favicon_20251207/favicon.png';
+
+    window._radioUpdateMediaSession = function(name) {
+        if (!('mediaSession' in navigator)) return;
+        var stName = name || window._currentPlayingName || '\u0625\u0630\u0627\u0639\u0629 \u0627\u0644\u0642\u0631\u0622\u0646 \u0627\u0644\u0643\u0631\u064a\u0645';
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title:  stName,
+            artist: '\u0625\u0630\u0627\u0639\u0629 \u0627\u0644\u0642\u0631\u0622\u0646 \u0627\u0644\u0643\u0631\u064a\u0645 | Quran Radio',
+            album:  '\u0628\u062b \u0645\u0628\u0627\u0634\u0631',
+            artwork: [
+                { src: FAVICON, sizes: '96x96',  type: 'image/png' },
+                { src: FAVICON, sizes: '192x192', type: 'image/png' },
+                { src: FAVICON, sizes: '512x512', type: 'image/png' }
+            ]
+        });
+        navigator.mediaSession.playbackState = 'playing';
+    };
+
+    navigator.mediaSession.setActionHandler('play', function() {
+        customAudioPlayer.play().catch(function(){});
+    });
+    navigator.mediaSession.setActionHandler('pause', function() {
+        customAudioPlayer.pause();
+    });
+    navigator.mediaSession.setActionHandler('stop', function() {
+        customAudioPlayer.pause();
+        customAudioPlayer.src = '';
+    });
+    navigator.mediaSession.setActionHandler('nexttrack', function() {
+        if (typeof nextStationFunc === 'function') nextStationFunc();
+    });
+    navigator.mediaSession.setActionHandler('previoustrack', function() {
+        if (typeof previousStation === 'function') previousStation();
+    });
+
+    window._radioUpdateMediaSession();
+})();
 
 // ── الدالة الأساسية: تشغيل مصدر بالـ index ──
 function playSource(i) {
@@ -5578,6 +5627,7 @@ function playStation(station) {
         customAudioPlayer.load();
         customAudioPlayer.play().catch(function() {});
         if (currentStatus) currentStatus.textContent = station.name + " يعمل الآن";
+        if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession(station.name);
     }
 
     function nextSrc() {
@@ -25164,6 +25214,7 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
     window._mainPlayAllowed = true;
     mainAudio.src = source;
     mainAudio.play();
+    if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession(stationName);
 
     if (savedOnEnded) {
         mainAudio.onended = savedOnEnded;
@@ -27928,6 +27979,17 @@ function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'r
                 if (isolatedBtn) isolatedBtn.innerHTML = '&#9658;';
             }
         }
+
+        // إيقاف الأذان لو مشغّل شيء تاني (مش الأذان نفسه)
+        if (activePlayer !== 'adhan') {
+            if (typeof adhanAudio !== 'undefined' && adhanAudio && !adhanAudio.paused) {
+                adhanAudio.pause();
+                adhanAudio.currentTime = 0;
+                adhanAudio = null;
+                const banner = document.getElementById('adhan-banner');
+                if (banner) banner.classList.remove('show');
+            }
+        }
     }
 
     window.stopAllOtherAudios = stopAllOtherAudios;
@@ -28814,6 +28876,12 @@ window.addEventListener("load", function() {
     if (!adhanEnabled) stopAdhan();
   }
 
+  // يُستدعى من رسالة الـ SW لما الصفحة تصحى بعد ما كانت مقفلة
+  window._swPlayAdhan = function(prayerName) {
+    if (!adhanEnabled) return;
+    playAdhan(prayerName);
+  };
+
   // ---- تشغيل / إيقاف الأذان ----
   function playAdhan(prayerName) {
     if (!adhanEnabled) return;
@@ -28823,14 +28891,72 @@ window.addEventListener("load", function() {
     if (localStorage.getItem(STORAGE_KEY) === todayKey) return;
     localStorage.setItem(STORAGE_KEY, todayKey);
 
-    // إيقاف أي مشغّل آخر بالموقع مؤقتاً
-    const mainAudio = document.getElementById('audioPlayer') || document.querySelector('audio');
-    const wasPlaying = mainAudio && !mainAudio.paused;
-    if (wasPlaying) mainAudio.pause();
+    // احفظ حالة الثلاث راديوهات قبل الإيقاف عشان ترجع بعد الأذان
+    const _adhanResume = [];
+    const _elWelcome  = document.getElementById('customAudioPlayer');
+    const _elMain     = document.getElementById('currentAudio');
+    const _elIsolated = window.isolatedAudio || null;
 
-    adhanAudio = new Audio(ADHAN_URL);
-    adhanAudio.volume = 1.0;
-    adhanAudio.play().catch(() => {});
+    if (_elWelcome  && !_elWelcome.paused)  _adhanResume.push({ el: _elWelcome,  src: _elWelcome.src });
+    if (_elMain     && !_elMain.paused)     _adhanResume.push({ el: _elMain,     src: _elMain.src });
+    if (_elIsolated && !_elIsolated.paused) _adhanResume.push({ el: _elIsolated, src: _elIsolated.src });
+
+    // إيقاف جميع الراديوهات
+    if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('adhan');
+
+    // علامة نشاط الأذان — لو المستخدم وقّف أثناء الـ fetch نتجاهل النتيجة
+    var _adhanActive = true;
+
+    // تشغيل الأذان من كاش الـ SW أولاً (يشتغل أوفلاين وشاشة مقفلة)
+    function _startAdhanAudio(src) {
+        // لو المستخدم وقّف الأذان أثناء تحميل الملف → نوقف هنا
+        if (!_adhanActive) {
+            _adhanResume.forEach(function(item) {
+                if (item.el && item.src) item.el.play().catch(() => {});
+            });
+            return;
+        }
+        adhanAudio = new Audio(src);
+        adhanAudio.volume = 1.0;
+
+        // Media Session بعد ما الصوت بدأ فعلاً
+        adhanAudio.addEventListener('playing', function() {
+            if (!('mediaSession' in navigator)) return;
+            var FAVICON = 'https://archive.org/download/favicon_20251207/favicon.png';
+            var arName = PRAYER_NAMES_AR[prayerName] || prayerName;
+            var enName = PRAYER_NAMES_EN[prayerName] || prayerName;
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title:   'أذان ' + arName + '  —  ' + enName + ' Adhan',
+                artist:  'إذاعة القرآن الكريم | Quran Radio',
+                album:   'أذان تلقائي',
+                artwork: [
+                    { src: FAVICON, sizes: '96x96',  type: 'image/png' },
+                    { src: FAVICON, sizes: '192x192', type: 'image/png' },
+                    { src: FAVICON, sizes: '512x512', type: 'image/png' }
+                ]
+            });
+            navigator.mediaSession.playbackState = 'playing';
+            navigator.mediaSession.setActionHandler('pause', function() { stopAdhan(); });
+            navigator.mediaSession.setActionHandler('stop',  function() { stopAdhan(); });
+        }, { once: true });
+
+        adhanAudio.play().catch(() => {});
+        adhanAudio.onended = () => {
+            stopAdhan();
+            // استئناف كل راديو كان شغال قبل الأذان
+            _adhanResume.forEach(function(item) {
+                if (item.el && item.src) item.el.play().catch(() => {});
+            });
+        };
+    }
+
+    // نحفظ مرجع لـ _adhanActive في stopAdhan عشان يقدر يلغيه
+    window._adhanCancelFetch = function() { _adhanActive = false; };
+
+    fetch(ADHAN_URL)
+        .then(function(res) { return res.blob(); })
+        .then(function(blob) { _startAdhanAudio(URL.createObjectURL(blob)); })
+        .catch(function()    { _startAdhanAudio(ADHAN_URL); }); // fallback مباشر
 
     // إظهار البانر
     const banner = document.getElementById('adhan-banner');
@@ -28843,14 +28969,14 @@ window.addEventListener("load", function() {
     }
     updateCountdownDisplay(); // تحديث فوري لعرض "الآن"
 
-    adhanAudio.onended = () => {
-      stopAdhan();
-      // استئناف المشغّل الرئيسي بعد انتهاء الأذان
-      if (wasPlaying && mainAudio) mainAudio.play().catch(() => {});
-    };
   }
 
   function stopAdhan() {
+    // إلغاء الـ fetch لو لسه شغال
+    if (typeof window._adhanCancelFetch === 'function') {
+      window._adhanCancelFetch();
+      window._adhanCancelFetch = null;
+    }
     if (adhanAudio) { adhanAudio.pause(); adhanAudio.currentTime = 0; adhanAudio = null; }
     const banner = document.getElementById('adhan-banner');
     if (banner) banner.classList.remove('show');
@@ -28913,11 +29039,31 @@ window.addEventListener("load", function() {
 
   if ('geolocation' in navigator) {
     navigator.geolocation.getCurrentPosition(
-      pos => fetchAndSchedule(pos.coords.latitude, pos.coords.longitude),
-      () => {}, // لو رفض المستخدم الموقع → لا جدولة
+      pos => {
+        fetchAndSchedule(pos.coords.latitude, pos.coords.longitude);
+        // أرسل الإحداثيات للـ Service Worker عشان يحفظها
+        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({
+            type: 'ADHAN_SCHEDULE',
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude
+          });
+        }
+      },
+      () => {},
       { timeout: 10000 }
     );
   }
+
+  // Keep-Alive: أرسل رسالة للـ SW كل 20 ثانية عشان يعرف إن الصوت شغال
+  setInterval(function() {
+    var isPlaying = (typeof customAudioPlayer !== 'undefined' && !customAudioPlayer.paused)
+                 || (typeof adhanAudio !== 'undefined' && adhanAudio && !adhanAudio.paused);
+    if (navigator.serviceWorker && navigator.serviceWorker.controller && isPlaying) {
+      navigator.serviceWorker.controller.postMessage({ type: 'AUDIO_ALIVE' });
+    }
+  }, 20000);
+
 })();
 
 let siteLanguage = (function() {
@@ -33018,6 +33164,19 @@ if (target && count >= target) {
       navigator.serviceWorker.register('/Radio/service-worker.js')
         .then(function(reg) { console.log('SW registered'); })
         .catch(function(err) { console.log('SW failed:', err); });
+    });
+
+    // استقبال رسائل من الـ SW (مثل: شغّل الأذان)
+    navigator.serviceWorker.addEventListener('message', function(event) {
+      var data = event.data;
+      if (!data) return;
+
+      // الـ SW طلب تشغيل الأذان (لما الشاشة كانت مقفلة وفتحت تاني)
+      if (data.type === 'SW_PLAY_ADHAN') {
+        if (typeof window._swPlayAdhan === 'function') {
+          window._swPlayAdhan(data.prayerName);
+        }
+      }
     });
   }
 </script>
