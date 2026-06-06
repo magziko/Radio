@@ -22697,6 +22697,14 @@ const mixStations = [
     "url": "https://s2.voscast.com:10445/stream"
   },
   {
+  "category": "mix",
+  "station": "إذاعة نهر النيل Live",
+  "ar": "إذاعة نهر النيل Live",
+  "en": "Nile Radio Live",
+  "mix_sub": "radios",
+  "url": "http://104.7.66.64:8087/;?icy=http"
+},
+  {
     "category": "mix",
     "station": "FM 100.3 إذاعة طريق السلف ليبيا",
     "ar": "FM 100.3 إذاعة طريق السلف ليبيا",
@@ -28327,6 +28335,17 @@ window.addEventListener("load", function() {
   container.className = "toast-container";
   document.body.appendChild(container);
 
+  // ضع الـ toast أسفل الـ player bar مباشرة (ديناميكي بدل قيمة ثابتة)
+  function _updateToastTop() {
+    const player = document.getElementById('sticky-player-wrap') || document.getElementById('player-nav-bar');
+    if (player) {
+      const h = player.getBoundingClientRect().height || player.offsetHeight;
+      container.style.top = (h + 8) + 'px';
+    }
+  }
+  _updateToastTop();
+  window.addEventListener('resize', _updateToastTop, { passive: true });
+
   // ===== لغة الإشعارات — نفس منطق siteLanguage =====
   const _toastLang = (function() {
     var saved = localStorage.getItem('siteLang');
@@ -28603,7 +28622,7 @@ window.addEventListener("load", function() {
       const now  = new Date();
       const [h, m] = timeStr.split(':').map(Number);
       const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
-      return Math.round((target - now) / 60000);
+      return Math.floor((target - now) / 60000);
     }
 
     function findNextPrayer(timings) {
@@ -28632,13 +28651,23 @@ window.addEventListener("load", function() {
 
     function buildPrayerToast(name, mins) {
       const time = formatMins(mins);
-      const ar = `🕌 <b>${PRAYER_NAMES_AR[name]}</b> ${time.ar}`;
-      const en = `🕌 <b>${PRAYER_NAMES_EN[name]}</b> ${time.en}`;
+      // لو الوقت ≤ دقيقتين → الصلاة حانت الآن فعلاً
+      const isNow = mins <= 2;
+      const ar = isNow
+        ? `🕌 حان الآن وقت صلاة <b>${PRAYER_NAMES_AR[name]}</b>`
+        : `🕌 <b>${PRAYER_NAMES_AR[name]}</b> ${time.ar}`;
+      const en = isNow
+        ? `🕌 It's time for <b>${PRAYER_NAMES_EN[name]}</b> prayer now`
+        : `🕌 <b>${PRAYER_NAMES_EN[name]}</b> ${time.en}`;
       queueToast(en, ar,
         "https://cdn-icons-png.flaticon.com/512/3176/3176366.png",
         { ar: "▶ أذكار", en: "▶ Adhkar" },
         goToAdhkar
       );
+      // لو الصلاة حانت الآن → شغّل الأذان مباشرة
+      if (isNow && typeof window._swPlayAdhan === 'function') {
+        window._swPlayAdhan(name);
+      }
     }
 
     function buildFallbackToast() {
@@ -28668,8 +28697,25 @@ window.addEventListener("load", function() {
         .catch(() => buildFallbackToast());
     }
 
-    // طلب الموقع في كل زيارة كتذكير
-    if ('geolocation' in navigator) {
+    // استخدم كاش الإحداثيات المشترك (نفس كاش نظام الأذان)
+    const _GEO_CACHE_KEY = 'adhanGeoCache';
+    function _getToastCachedGeo() {
+      try {
+        const raw = localStorage.getItem(_GEO_CACHE_KEY);
+        if (!raw) return null;
+        const { lat, lon, ts } = JSON.parse(raw);
+        if (!lat || !lon) return null;
+        // مقبول حتى 30 يوم
+        if (Date.now() - ts > 30 * 24 * 60 * 60 * 1000) return null;
+        return { lat, lon };
+      } catch(e) { return null; }
+    }
+
+    const _toastGeo = _getToastCachedGeo();
+    if (_toastGeo) {
+      // كاش موجود → ابدأ فوراً بدون طلب GPS
+      fetchPrayerTimes(_toastGeo.lat, _toastGeo.lon);
+    } else if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         pos => fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude),
         ()  => buildFallbackToast(),
@@ -28804,6 +28850,16 @@ window.addEventListener("load", function() {
       body.dark-mode #adhan-next-info { color: #5DCAA5; }
       body.dark-mode #adhan-next-info.adhan-now { color: #ffb74d; }
       #adhan-toggle-label-wrap { display: flex; flex-direction: column; flex: 1; }
+      #adhan-test-btn {
+        font-size: 11px; font-weight: 700; padding: 3px 9px;
+        border-radius: 7px; border: 1.5px solid rgba(29,158,117,0.45);
+        background: rgba(29,158,117,0.10); color: #1D9E75;
+        cursor: pointer; flex-shrink: 0; font-family: inherit;
+        transition: background .2s, border-color .2s;
+      }
+      #adhan-test-btn:hover { background: rgba(29,158,117,0.22); border-color: #1D9E75; }
+      body.dark-mode #adhan-test-btn { color: #5DCAA5; border-color: rgba(93,202,165,0.4); background: rgba(93,202,165,0.08); }
+      body.dark-mode #adhan-test-btn:hover { background: rgba(93,202,165,0.18); }
       #adhan-banner {
         display:none; position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
         background:#1D9E75; color:#fff; padding:12px 22px; border-radius:16px;
@@ -28834,6 +28890,7 @@ window.addEventListener("load", function() {
         <span id="adhan-toggle-label" data-ar="أذان تلقائي" data-en="Auto Adhan">${_initAr ? 'أذان تلقائي' : 'Auto Adhan'}</span>
         <span id="adhan-next-info">${_initAr ? 'جارٍ تحميل المواقيت...' : 'Loading prayer times...'}</span>
       </span>
+      <button id="adhan-test-btn" title="${_initAr ? 'تجربة الأذان' : 'Test Adhan'}">▶ تجربة</button>
       <div id="adhan-toggle-switch" class="${adhanEnabled ? 'on' : ''}"></div>
     `;
 
@@ -28841,14 +28898,30 @@ window.addEventListener("load", function() {
     window._updateAdhanLang = function(useAr) {
       const lbl = document.getElementById('adhan-toggle-label');
       if (lbl) lbl.textContent = useAr ? 'أذان تلقائي' : 'Auto Adhan';
+      const testB = document.getElementById('adhan-test-btn');
+      if (testB) { testB.textContent = useAr ? '▶ تجربة' : '▶ Test'; testB.title = useAr ? 'تجربة الأذان' : 'Test Adhan'; }
       const info = document.getElementById('adhan-next-info');
       if (info && (info.textContent === 'جارٍ تحميل المواقيت...' || info.textContent === 'Loading prayer times...')) {
         info.textContent = useAr ? 'جارٍ تحميل المواقيت...' : 'Loading prayer times...';
       } else {
-        updateCountdownDisplay(); // تحديث نص العدّ التنازلي
+        updateCountdownDisplay();
       }
     };
     wrap.addEventListener('click', toggleAdhan);
+
+    // زر التجربة — يشغّل الأذان فوراً بدون تغيير حالة التفعيل
+    const testBtn = wrap.querySelector('#adhan-test-btn');
+    if (testBtn) {
+      testBtn.addEventListener('click', function(e) {
+        e.stopPropagation(); // منع تفعيل toggleAdhan
+        // حذف مفتاح "شُغِّل اليوم" مؤقتاً عشان يسمح بالتشغيل
+        const _todayKey = new Date().toDateString() + '_test';
+        localStorage.removeItem(STORAGE_KEY);
+        playAdhan('Dhuhr');
+        // اعمل restore للمفتاح بعد ثانية عشان ما يتسجّلش كصلاة حقيقية
+        setTimeout(() => localStorage.removeItem(STORAGE_KEY), 1000);
+      });
+    }
 
     // نحاول إضافته في قسم الإعدادات، وإلا نضيف في آخر .sidebar أو .settings-section
     const settingsSection = document.querySelector('.settings-section, .settings-panel, #settings-section, #pip-section, #salah-pip-section');
@@ -29037,18 +29110,57 @@ window.addEventListener("load", function() {
     injectAdhanToggle();
   }
 
-  if ('geolocation' in navigator) {
+  // ---- نظام GPS مع كاش 30 يوم ----
+  const GEO_CACHE_KEY  = 'adhanGeoCache';   // { lat, lon, ts }
+  const GEO_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 يوم
+
+  function _getCachedGeo() {
+    try {
+      const raw = localStorage.getItem(GEO_CACHE_KEY);
+      if (!raw) return null;
+      const { lat, lon, ts } = JSON.parse(raw);
+      if (!lat || !lon || !ts) return null;
+      if (Date.now() - ts > GEO_MAX_AGE_MS) return null; // منتهي
+      return { lat, lon };
+    } catch(e) { return null; }
+  }
+
+  function _saveCachedGeo(lat, lon) {
+    try {
+      localStorage.setItem(GEO_CACHE_KEY, JSON.stringify({ lat, lon, ts: Date.now() }));
+    } catch(e) {}
+  }
+
+  function _startWithCoords(lat, lon) {
+    fetchAndSchedule(lat, lon);
+    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'ADHAN_SCHEDULE', lat, lon
+      });
+    }
+  }
+
+  // جرّب الكاش أولاً — لو موجود ابدأ فوراً بدون طلب GPS
+  const _cached = _getCachedGeo();
+  if (_cached) {
+    _startWithCoords(_cached.lat, _cached.lon);
+    // جدّد الكاش في الخلفية كل 7 أيام بصمت (بدون popup للمستخدم)
+    const _cacheAge = Date.now() - (function() {
+      try { return JSON.parse(localStorage.getItem(GEO_CACHE_KEY)).ts; } catch(e) { return 0; }
+    })();
+    if (_cacheAge > 7 * 24 * 60 * 60 * 1000 && 'geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        pos => _saveCachedGeo(pos.coords.latitude, pos.coords.longitude),
+        () => {},
+        { timeout: 10000, maximumAge: 3600000 }
+      );
+    }
+  } else if ('geolocation' in navigator) {
+    // أول مرة: اطلب GPS واحفظه
     navigator.geolocation.getCurrentPosition(
       pos => {
-        fetchAndSchedule(pos.coords.latitude, pos.coords.longitude);
-        // أرسل الإحداثيات للـ Service Worker عشان يحفظها
-        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-          navigator.serviceWorker.controller.postMessage({
-            type: 'ADHAN_SCHEDULE',
-            lat: pos.coords.latitude,
-            lon: pos.coords.longitude
-          });
-        }
+        _saveCachedGeo(pos.coords.latitude, pos.coords.longitude);
+        _startWithCoords(pos.coords.latitude, pos.coords.longitude);
       },
       () => {},
       { timeout: 10000 }
