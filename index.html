@@ -33087,87 +33087,308 @@ if (target && count >= target) {
 
   // ===== قاموس الردود الجاهزة =====
   var AI_REPLIES = [
-    // التحيات
-    { keys: ['السلام عليكم','سلام عليكم','السلام'], reply: 'وعليكم السلام ورحمة الله وبركاته 🌿 أهلاً بك في إذاعة القرآن الكريم، كيف أقدر أساعدك؟' },
-    { keys: ['صباح الخير','صباح النور'], reply: 'صباح النور والسعادة ☀️ أهلاً بك، كيف أقدر أساعدك اليوم؟' },
-    { keys: ['مساء الخير','مساء النور'], reply: 'مساء النور والبركة 🌙 أهلاً بك، بِمَ أقدر أخدمك؟' },
-    { keys: ['أهلاً','اهلا','مرحبا','مرحباً','هلا','هلو','hi','hello'], reply: 'أهلاً وسهلاً بك 😊 أنا مساعدك في موقع إذاعة القرآن الكريم. كيف أقدر أساعدك؟' },
-    { keys: ['كيف حالك','كيف الحال','عامل إيه','عامل ايه'], reply: 'بخير الحمد لله 🌿 جاهز لمساعدتك، بِمَ تحتاج؟' },
-    { keys: ['شكراً','شكرا','شكرا جزيلا','جزاك الله','بارك الله'], reply: 'وإياك، جزاك الله خيراً 🌸 هل تحتاج أي مساعدة أخرى؟' },
-    { keys: ['مع السلامة','وداعاً','وداعا','باي','bye'], reply: 'مع السلامة 🌿 حفظك الله ورعاك، نراك قريباً إن شاء الله.' },
+    // التحيات / Greetings
+    {
+      keys: ['السلام عليكم','سلام عليكم','السلام'],
+      reply: 'وعليكم السلام ورحمة الله وبركاته 🌿 أهلاً بك في إذاعة القرآن الكريم، كيف أقدر أساعدك؟',
+      keys_en: ['assalamu alaikum','salam'],
+      reply_en: 'Wa Alaikum Assalam wa Rahmatullahi wa Barakatuh 🌿 Welcome to Quran Radio! How can I help you?'
+    },
+    {
+      keys: ['صباح الخير','صباح النور'],
+      reply: 'صباح النور والسعادة ☀️ أهلاً بك، كيف أقدر أساعدك اليوم؟',
+      keys_en: ['good morning'],
+      reply_en: 'Good morning! ☀️ Welcome, how can I help you today?'
+    },
+    {
+      keys: ['مساء الخير','مساء النور'],
+      reply: 'مساء النور والبركة 🌙 أهلاً بك، بِمَ أقدر أخدمك؟',
+      keys_en: ['good evening','good afternoon'],
+      reply_en: 'Good evening! 🌙 Welcome, how can I assist you?'
+    },
+    {
+      keys: ['أهلاً','اهلا','مرحبا','مرحباً','هلا','هلو','hi','hello'],
+      reply: 'أهلاً وسهلاً بك 😊 أنا مساعدك في موقع إذاعة القرآن الكريم. كيف أقدر أساعدك؟',
+      keys_en: ['hi','hello','hey','greetings'],
+      reply_en: 'Hello and welcome! 😊 I\'m your AI assistant for Quran Radio. How can I help you?'
+    },
+    {
+      keys: ['كيف حالك','كيف الحال','عامل إيه','عامل ايه'],
+      reply: 'بخير الحمد لله 🌿 جاهز لمساعدتك، بِمَ تحتاج؟',
+      keys_en: ['how are you','how r you'],
+      reply_en: 'Alhamdulillah, doing well! 🌿 Ready to help you. What do you need?'
+    },
+    {
+      keys: ['شكراً','شكرا','شكرا جزيلا','جزاك الله','بارك الله'],
+      reply: 'وإياك، جزاك الله خيراً 🌸 هل تحتاج أي مساعدة أخرى؟',
+      keys_en: ['thank you','thanks','thank u','jazakallah'],
+      reply_en: 'You\'re welcome! Jazakallah Khayran 🌸 Is there anything else I can help you with?'
+    },
+    {
+      keys: ['مع السلامة','وداعاً','وداعا','باي','bye'],
+      reply: 'مع السلامة 🌿 حفظك الله ورعاك، نراك قريباً إن شاء الله.',
+      keys_en: ['goodbye','bye','see you','take care'],
+      reply_en: 'Goodbye! 🌿 May Allah protect you. See you soon, insha\'Allah.'
+    },
 
-    // أسئلة عن الموقع
-    { keys: ['القراء','قائمة القراء','فين القراء','اين القراء','أين القراء'], reply: 'قسم القراء موجود في القائمة الرئيسية للموقع 📖 يمكنك إيجاد جميع القراء والضغط على أي قارئ للاستماع إليه مباشرة.' },
-    { keys: ['كيف أسمع','كيف استمع','كيف اسمع','طريقة الاستماع'], reply: 'للاستماع، اختر القارئ الذي تريده من قسم "القراء" ثم اضغط على زر التشغيل ▶️ وسيبدأ البث مباشرة.' },
-    { keys: ['المنشاوي','منشاوي'], reply: 'الشيخ محمد صديق المنشاوي موجود في قسم القراء 🎙️ يمكنك الاستماع لروايتي المرتل والمجوّد.' },
-    { keys: ['الحصري','حصري'], reply: 'الشيخ محمود خليل الحصري موجود في قسم القراء 🎙️ له روايتا المرتل والمجوّد.' },
-    { keys: ['البنا','بنا'], reply: 'الشيخ محمد محمود البنا موجود في قسم القراء 🎙️' },
-    { keys: ['عبد الباسط','عبدالباسط'], reply: 'الشيخ عبد الباسط عبد الصمد موجود في قسم القراء 🎙️ أحد أشهر قراء القرآن في العالم.' },
-    { keys: ['الأذكار','اذكار','أذكار الصباح','أذكار المساء'], reply: 'قسم الأذكار متاح في الموقع 📿 يشمل أذكار الصباح والمساء وأذكار متنوعة.' },
-    { keys: ['الأدعية','ادعية','دعاء'], reply: 'قسم الأدعية متاح في الموقع 🤲 يشمل أدعية من القرآن والسنة النبوية.' },
-    { keys: ['الحديث','احاديث','أحاديث','السنة النبوية'], reply: 'قسم الحديث الشريف والسنة النبوية متاح في الموقع 📚' },
-    { keys: ['البث المباشر','بث مباشر','لايف'], reply: 'نعم الموقع يوفر بثاً مباشراً 24/7 🎙️ يمكنك الاستماع في أي وقت.' },
-    { keys: ['داكر','الوضع الداكن','dark mode','الليلي'], reply: 'يمكنك تفعيل الوضع الداكن من خلال أيقونة 🌙 في أعلى الصفحة.' },
-    { keys: ['اللغة','تغيير اللغة','english','إنجليزي','انجليزي'], reply: 'يمكنك تغيير لغة الموقع من عربي إلى إنجليزي بالضغط على زر اللغة في أعلى الصفحة 🌍' },
-    { keys: ['تواصل','تواصل معنا','راسلنا','اقتراح','شكوى'], reply: 'يمكنك التواصل معنا عبر زر "راسلنا" في أسفل الصفحة ✉️ نسعد بملاحظاتك واقتراحاتك.' },
-    { keys: ['الموقع','عن الموقع','من انتم','من أنتم'], reply: 'موقع إذاعة القرآن الكريم 🕌 منصة متخصصة للاستماع إلى تلاوات القرآن الكريم، الأذكار، الأدعية والحديث الشريف على مدار الساعة.' },
+    // أسئلة عن الموقع / Site questions
+    {
+      keys: ['القراء','قائمة القراء','فين القراء','اين القراء','أين القراء'],
+      reply: 'قسم القراء موجود في القائمة الرئيسية للموقع 📖 يمكنك إيجاد جميع القراء والضغط على أي قارئ للاستماع إليه مباشرة.',
+      keys_en: ['reciters','list of reciters','where are the reciters','qurra'],
+      reply_en: 'The Reciters section is in the main menu 📖 Browse all reciters and tap any one to listen immediately.'
+    },
+    {
+      keys: ['كيف أسمع','كيف استمع','كيف اسمع','طريقة الاستماع'],
+      reply: 'للاستماع، اختر القارئ الذي تريده من قسم "القراء" ثم اضغط على زر التشغيل ▶️ وسيبدأ البث مباشرة.',
+      keys_en: ['how to listen','how do i listen','how to play','start listening'],
+      reply_en: 'To listen, choose a reciter from the "Reciters" section and tap the play button ▶️ — the stream starts immediately.'
+    },
+    {
+      keys: ['المنشاوي','منشاوي'],
+      reply: 'الشيخ محمد صديق المنشاوي موجود في قسم القراء 🎙️ يمكنك الاستماع لروايتي المرتل والمجوّد.',
+      keys_en: ['minshawi','al-minshawi'],
+      reply_en: 'Sheikh Muhammad Siddiq Al-Minshawi is in the Reciters section 🎙️ You can listen to both his Muratal and Mujawwad recitations.'
+    },
+    {
+      keys: ['الحصري','حصري'],
+      reply: 'الشيخ محمود خليل الحصري موجود في قسم القراء 🎙️ له روايتا المرتل والمجوّد.',
+      keys_en: ['hussary','al-hussary','husary'],
+      reply_en: 'Sheikh Mahmoud Khalil Al-Hussary is in the Reciters section 🎙️ He has both Muratal and Mujawwad recitations.'
+    },
+    {
+      keys: ['البنا','بنا'],
+      reply: 'الشيخ محمد محمود البنا موجود في قسم القراء 🎙️',
+      keys_en: ['al-banna','banna'],
+      reply_en: 'Sheikh Muhammad Mahmoud Al-Banna is in the Reciters section 🎙️'
+    },
+    {
+      keys: ['عبد الباسط','عبدالباسط'],
+      reply: 'الشيخ عبد الباسط عبد الصمد موجود في قسم القراء 🎙️ أحد أشهر قراء القرآن في العالم.',
+      keys_en: ['abdul basit','abdel basset','abdelbasset'],
+      reply_en: 'Sheikh Abdul Basit Abdus Samad is in the Reciters section 🎙️ One of the most famous Quran reciters in the world.'
+    },
+    {
+      keys: ['الأذكار','اذكار','أذكار الصباح','أذكار المساء'],
+      reply: 'قسم الأذكار متاح في الموقع 📿 يشمل أذكار الصباح والمساء وأذكار متنوعة.',
+      keys_en: ['adhkar','dhikr','morning adhkar','evening adhkar','azkar'],
+      reply_en: 'The Adhkar section is available on the site 📿 It includes morning, evening, and various types of adhkar.'
+    },
+    {
+      keys: ['الأدعية','ادعية','دعاء'],
+      reply: 'قسم الأدعية متاح في الموقع 🤲 يشمل أدعية من القرآن والسنة النبوية.',
+      keys_en: ['duas','dua','supplication','prayers'],
+      reply_en: 'The Duas section is available on the site 🤲 It includes supplications from the Quran and Sunnah.'
+    },
+    {
+      keys: ['الحديث','احاديث','أحاديث','السنة النبوية'],
+      reply: 'قسم الحديث الشريف والسنة النبوية متاح في الموقع 📚',
+      keys_en: ['hadith','hadiths','sunnah','prophetic tradition'],
+      reply_en: 'The Hadith and Sunnah section is available on the site 📚'
+    },
+    {
+      keys: ['البث المباشر','بث مباشر','لايف'],
+      reply: 'نعم الموقع يوفر بثاً مباشراً 24/7 🎙️ يمكنك الاستماع في أي وقت.',
+      keys_en: ['live stream','live radio','24/7','live broadcast'],
+      reply_en: 'Yes! The site provides live streaming 24/7 🎙️ You can listen anytime.'
+    },
+    {
+      keys: ['داكر','الوضع الداكن','الليلي'],
+      reply: 'يمكنك تفعيل الوضع الداكن من خلال أيقونة 🌙 في أعلى الصفحة.',
+      keys_en: ['dark mode','night mode'],
+      reply_en: 'You can enable Dark Mode from ⚙️ Settings > Background Color > Dark Mode 🌙'
+    },
+    {
+      keys: ['اللغة','تغيير اللغة','إنجليزي','انجليزي'],
+      reply: 'يمكنك تغيير لغة الموقع من عربي إلى إنجليزي بالضغط على زر اللغة في أعلى الصفحة 🌍',
+      keys_en: ['language','change language','arabic','switch language'],
+      reply_en: 'You can switch the site language between Arabic and English by pressing the language button 🌍'
+    },
+    {
+      keys: ['تواصل','تواصل معنا','راسلنا','اقتراح','شكوى'],
+      reply: 'يمكنك التواصل معنا عبر زر "راسلنا" في أسفل الصفحة ✉️ نسعد بملاحظاتك واقتراحاتك.',
+      keys_en: ['contact','contact us','feedback','suggestion','report issue','email'],
+      reply_en: 'You can reach us via the "Contact Us" button at the bottom of the page ✉️ We welcome your feedback and suggestions.'
+    },
+    {
+      keys: ['الموقع','عن الموقع','من انتم','من أنتم'],
+      reply: 'موقع إذاعة القرآن الكريم 🕌 منصة متخصصة للاستماع إلى تلاوات القرآن الكريم، الأذكار، الأدعية والحديث الشريف على مدار الساعة.',
+      keys_en: ['about','about the site','who are you','what is this site','what is this'],
+      reply_en: 'Quran Radio 🕌 is a dedicated platform for listening to Holy Quran recitations, adhkar, duas, and hadith around the clock.'
+    },
 
-    // ===== أسئلة الأزرار السريعة الأربعة =====
-    { keys: ['ما هي المحطات المتاحة','المحطات المتاحة','المحطات الموجودة','ما هي المحطات'], reply: 'المحطات المتاحة في الموقع 📻:\n\n1️⃣ Ma إذاعة القرآن الكريم – البث الرئيسي للتلاوات\n2️⃣ السيرة النبوية المشرفة – بث مستمر لسيرة النبي ﷺ\n3️⃣ القرآن الكريم – مصحف القراء وروائع التلاوات\n4️⃣ الحديث النبوي الشريف – أحاديث وأدعية وصلوات على النبي ﷺ\n5️⃣ إذاعة القرآن الكريم - متنوع – برامج متنوعة متعددة\n6️⃣ اذاعة سير الأنبياء والصحابة – قصص الأنبياء والصحابة الكرام\n7️⃣ راديو الشيخ – محاضرات وتلاوات مختارة\n\nبالإضافة إلى أقسام القراء والأذكار والأدعية 🌿\n\n⌨️ نصيحة: استخدم مفاتيح 1–9 و0 للوصول الفوري لقراء مختارين. اضغط ? لقائمة كل الاختصارات.' },
+    // ===== أسئلة الأزرار السريعة الأربعة / Quick button questions =====
+    {
+      keys: ['ما هي المحطات المتاحة','المحطات المتاحة','المحطات الموجودة','ما هي المحطات'],
+      reply: 'المحطات المتاحة في الموقع 📻:\n\n1️⃣ Ma إذاعة القرآن الكريم – البث الرئيسي للتلاوات\n2️⃣ السيرة النبوية المشرفة – بث مستمر لسيرة النبي ﷺ\n3️⃣ القرآن الكريم – مصحف القراء وروائع التلاوات\n4️⃣ الحديث النبوي الشريف – أحاديث وأدعية وصلوات على النبي ﷺ\n5️⃣ إذاعة القرآن الكريم - متنوع – برامج متنوعة متعددة\n6️⃣ اذاعة سير الأنبياء والصحابة – قصص الأنبياء والصحابة الكرام\n7️⃣ راديو الشيخ – محاضرات وتلاوات مختارة\n\nبالإضافة إلى أقسام القراء والأذكار والأدعية 🌿\n\n⌨️ نصيحة: استخدم مفاتيح 1–9 و0 للوصول الفوري لقراء مختارين. اضغط ? لقائمة كل الاختصارات.',
+      keys_en: ['available stations','what stations','list stations','all stations','channels'],
+      reply_en: 'Available stations 📻:\n\n1️⃣ Ma Quran Radio – Main recitation stream\n2️⃣ Prophetic Biography – Continuous Seerah broadcast\n3️⃣ Holy Quran – Reciters & finest recitations\n4️⃣ Prophetic Hadith – Hadiths, duas & salawat\n5️⃣ Quran Radio Variety – Various Islamic programs\n6️⃣ Stories of Prophets & Companions – Seerah stories\n7️⃣ Sheikh Radio – Selected lectures & recitations\n\nPlus Reciters, Adhkar & Duas sections 🌿\n\n⌨️ Tip: Use keys 1–9 and 0 for instant access to selected reciters. Press ? for all shortcuts.'
+    },
+    {
+      keys: ['كيف أضيف محطة للمفضلة','أضيف للمفضلة','اضيف للمفضلة','اضافة مفضلة','إضافة مفضلة','المفضلة','مفضلة'],
+      reply: 'لإضافة محطة للمفضلة ❤️:\n\n1. ابحث عن المحطة التي تريدها في القائمة\n2. اضغط على أيقونة القلب ❤️ بجانب اسم المحطة\n3. ستتحول الأيقونة للون الأحمر تأكيداً للحفظ\n\nللوصول للمفضلة:\n• اضغط على زر "المفضلة" في شريط التنقل\n• أو اضغط F من الكيبورد مباشرةً ⌨️\n• ستظهر لك جميع محطاتك المحفوظة فقط\n• اضغط Shift+F لتشغيل محطة عشوائية من مفضلتك 🎲\n\n💡 اضغط ? لرؤية كل اختصارات الكيبورد 🌿',
+      keys_en: ['add to favorites','favorites','favourite','bookmark station','how to favorite','saved stations'],
+      reply_en: 'To add a station to Favorites ❤️:\n\n1. Find the station in the list\n2. Tap the heart icon ❤️ next to it\n3. It turns red to confirm it\'s saved\n\nTo access Favorites:\n• Press the "Favorites" button in the nav bar\n• Or press F on your keyboard ⌨️\n• Shows only your saved stations\n• Press Shift+F to play a random favorite 🎲\n\n💡 Press ? to see all keyboard shortcuts 🌿'
+    },
+    {
+      keys: ['كيف أستخدم عداد التسبيح','عداد التسبيح','التسبيح','استخدام التسبيح','كيف استخدم التسبيح'],
+      reply: 'عداد التسبيح 📿:\n\n• يظهر عداد التسبيح على المحطات التي تدعمه (ستجد أيقونة 📿 عليها)\n• اضغط على زر المحطة لتشغيلها وسيظهر العداد\n\nطريقة الاستخدام:\n1. اضغط على العداد في كل مرة تسبح فيها\n2. يحتسب العدد تلقائياً\n3. زر "تسبيح تلقائي" للعد الذاتي دون ضغط\n\nميزة PiP 🪄:\n• يمكن فتح عداد التسبيح في نافذة صغيرة عائمة تعمل فوق أي تطبيق آخر على شاشتك\n\n⌨️ اختصارات الكيبورد:\n• H = الانتقال لعداد التسبيح مباشرةً\n• . (نقطة) = إضافة تسبيحة بدون لمس الشاشة\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿',
+      keys_en: ['tasbih counter','dhikr counter','how to use tasbih','subhanallah counter','tasbeeh'],
+      reply_en: 'Tasbih Counter 📿:\n\n• The counter appears on supported stations (look for the 📿 icon)\n• Tap the station button to launch it and the counter will appear\n\nHow to use:\n1. Tap the counter each time you say tasbih\n2. It counts automatically\n3. Use "Auto Tasbih" for hands-free counting\n\nPiP Feature 🪄:\n• Open the tasbih counter in a small floating window that works above any other app\n\n⌨️ Keyboard shortcuts:\n• H = jump to tasbih counter\n• . (period) = add a tasbih without touching the screen\n\n💡 Press ? to see all shortcuts 🌿'
+    },
+    {
+      keys: ['شرح ميزة التشغيل التلقائي','التشغيل التلقائي','تشغيل تلقائي','auto switch','التنقل الآلي','تبديل تلقائي'],
+      reply: 'ميزة التشغيل التلقائي (Auto Switch) 🔁:\n\nتقوم هذه الميزة بالتنقل التلقائي بين المحطات كل فترة زمنية تحددها أنت.\n\nكيفية التفعيل:\n1. افتح "⚙️ الإعدادات" من الشريط الأوسط\n2. ابحث عن خيار "التنقل الآلي (Auto Switch)"\n3. أدخل عدد الدقائق التي تريدها بين كل محطة\n4. سيتنقل الموقع تلقائياً دون تدخل منك\n\nميزات إضافية للتشغيل:\n• زر ⏮️ للمحطة السابقة | اضغط ← من الكيبورد\n• زر ⏭️ للمحطة التالية | اضغط → من الكيبورد\n• زر 🔀 لمحطة عشوائية\n• Space أو P = تشغيل/إيقاف فوري\n• M = كتم الصوت | + / - = التحكم في الصوت\n\n💡 اضغط ? لفتح نافذة الاختصارات الكاملة ⌨️ 🌿',
+      keys_en: ['auto switch','automatic playback','auto play','station rotation','auto rotate stations'],
+      reply_en: 'Auto Switch Feature 🔁:\n\nThis feature automatically switches between stations at an interval you set.\n\nHow to enable:\n1. Open "⚙️ Settings" from the middle bar\n2. Find "Auto Switch"\n3. Enter the number of minutes between each station\n4. The site will switch automatically without any input from you\n\nExtra playback controls:\n• ⏮️ Previous station | or press ← on keyboard\n• ⏭️ Next station | or press → on keyboard\n• 🔀 Random station\n• Space or P = play/pause instantly\n• M = mute | + / - = volume control\n\n💡 Press ? for the full shortcuts window ⌨️ 🌿'
+    },
 
-    { keys: ['كيف أضيف محطة للمفضلة','أضيف للمفضلة','اضيف للمفضلة','اضافة مفضلة','إضافة مفضلة','المفضلة','مفضلة'], reply: 'لإضافة محطة للمفضلة ❤️:\n\n1. ابحث عن المحطة التي تريدها في القائمة\n2. اضغط على أيقونة القلب ❤️ بجانب اسم المحطة\n3. ستتحول الأيقونة للون الأحمر تأكيداً للحفظ\n\nللوصول للمفضلة:\n• اضغط على زر "المفضلة" في شريط التنقل\n• أو اضغط F من الكيبورد مباشرةً ⌨️\n• ستظهر لك جميع محطاتك المحفوظة فقط\n• اضغط Shift+F لتشغيل محطة عشوائية من مفضلتك 🎲\n\n💡 اضغط ? لرؤية كل اختصارات الكيبورد 🌿' },
+    // أسئلة إضافية / Additional questions
+    {
+      keys: ['مؤقت الإيقاف','مؤقت','وقت الإيقاف','موقت النوم'],
+      reply: 'مؤقت الإيقاف (Sleep Timer) 😴:\n\nيوقف تشغيل الصوت تلقائياً بعد الوقت الذي تحدده.\n\nكيفية الاستخدام:\n1. افتح "⚙️ الإعدادات"\n2. اختر "مؤقت الإيقاف"\n3. أدخل عدد الدقائق\n4. سيوقف الموقع التشغيل تلقائياً عند انتهاء الوقت 🌙\n\nمفيد جداً عند الاستماع قبل النوم 🌿',
+      keys_en: ['sleep timer','timer','stop timer','auto stop'],
+      reply_en: 'Sleep Timer 😴:\n\nAutomatically stops playback after a set time.\n\nHow to use:\n1. Open "⚙️ Settings"\n2. Choose "Sleep Timer"\n3. Enter the number of minutes\n4. The site will stop playback automatically when time is up 🌙\n\nPerfect for listening before sleep 🌿'
+    },
+    {
+      keys: ['تذكير الأذكار','تذكير','تنبيه الأذكار','reminder'],
+      reply: 'تذكير الأذكار 🔔:\n\nالموقع يذكّرك بأذكار الصباح والمساء في أوقاتها تلقائياً!\n\nكيفية الإعداد:\n1. افتح "⚙️ الإعدادات"\n2. فعّل "تذكير أذكار الصباح والمساء"\n3. اضبط وقت الصباح والمساء حسب ما يناسبك\n4. ستصلك إشعارات في الوقت المحدد 🌅\n\nتأكد من السماح للموقع بإرسال الإشعارات 🌿',
+      keys_en: ['adhkar reminder','dhikr reminder','adhkar notification','morning reminder','evening reminder'],
+      reply_en: 'Adhkar Reminder 🔔:\n\nThe site reminds you of morning and evening adhkar automatically!\n\nHow to set it up:\n1. Open "⚙️ Settings"\n2. Enable "Morning & Evening Adhkar Reminder"\n3. Set your preferred morning and evening times\n4. You\'ll receive notifications at those times 🌅\n\nMake sure to allow the site to send notifications 🌿'
+    },
+    {
+      keys: ['المصحف','الصحف','مصحف المدينة','افتح المصحف','mushaf'],
+      reply: 'المصحف الشريف 📖:\n\n• يوجد زر "افتح المصحف / Open Mushaf" ثابت في أسفل الشاشة\n• اضغط عليه لفتح مصحف المدينة المنورة كاملاً في وضع ملء الشاشة\n• اضغط ✕ لإغلاقه أو اضغط Escape من لوحة المفاتيح\n• يمكنك فتحه في تبويب جديد للتصفح المريح\n\n⌨️ اختصار الكيبورد: اضغط L لفتح المصحف مباشرةً\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿',
+      keys_en: ['mushaf','quran book','open mushaf','madina mushaf','quran pages'],
+      reply_en: 'The Holy Mushaf 📖:\n\n• There is a fixed "Open Mushaf" button at the bottom of the screen\n• Tap it to open the full Madinah Mushaf in fullscreen mode\n• Press ✕ or Escape to close it\n• You can open it in a new tab for comfortable reading\n\n⌨️ Keyboard shortcut: Press L to open the Mushaf directly\n\n💡 Press ? to see all shortcuts 🌿'
+    },
+    {
+      keys: ['البحث','بحث عن محطة','كيف أبحث','كيف ابحث','تصفية المحطات'],
+      reply: 'البحث في المحطات 🔍:\n\nيوجد حقل بحث في أعلى قائمة المحطات.\nاكتب اسم المحطة أو القارئ وستظهر لك النتائج فوراً دون الحاجة للتمرير 🌿',
+      keys_en: ['search','search station','find station','filter stations','search reciter'],
+      reply_en: 'Station Search 🔍:\n\nThere is a search field at the top of the stations list.\nType the station name or reciter and results appear instantly without scrolling 🌿'
+    },
+    {
+      keys: ['الوضع الليلي','الوضع الداكن','تغيير اللون','لون الخلفية','تخصيص'],
+      reply: 'تخصيص المظهر 🎨:\n\nمن "⚙️ الإعدادات" > "لون الخلفية" يمكنك:\n• تفعيل الوضع الداكن 🌙 (Dark Mode)\n• اختيار لون خلفية من ألوان متعددة\n• اختيار تدرجات ألوان جميلة للأزرار\n\nجميع التغييرات تُحفظ تلقائياً 🌿',
+      keys_en: ['dark mode','night mode','background color','customize','theme','appearance'],
+      reply_en: 'Appearance Customization 🎨:\n\nFrom "⚙️ Settings" > "Background Color" you can:\n• Enable Dark Mode 🌙\n• Choose a background color from multiple options\n• Select beautiful color gradients for buttons\n\nAll changes are saved automatically 🌿'
+    },
+    {
+      keys: ['كيف يعمل الموقع','كيف أستخدم الموقع','كيف استخدم الموقع','شرح الموقع','دليل الاستخدام'],
+      reply: 'دليل سريع لاستخدام الموقع 📋:\n\n1️⃣ اختر المحطة أو القارئ من القائمة واضغط للتشغيل\n2️⃣ استخدم أزرار ⏮️ ⏭️ للتنقل | أو ← → من الكيبورد\n3️⃣ اضغط ❤️ لحفظ محطة في المفضلة | اختصار: F\n4️⃣ افتح ⚙️ الإعدادات للمزايا المتقدمة\n5️⃣ استخدم 📿 عداد التسبيح | اختصار: H أو . (نقطة)\n6️⃣ افتح المصحف من الزر في أسفل الشاشة | اختصار: L\n7️⃣ اضغط مفاتيح 1–9 للوصول الفوري لقراء مختارين\n\n⌨️ اضغط ? في أي وقت لنافذة الاختصارات الكاملة\nهل تريد شرحاً لميزة معينة؟ 🌿',
+      keys_en: ['how does the site work','how to use the site','user guide','quick guide','how to use','help'],
+      reply_en: 'Quick Site Guide 📋:\n\n1️⃣ Choose a station or reciter and tap to play\n2️⃣ Use ⏮️ ⏭️ buttons to navigate | or ← → on keyboard\n3️⃣ Tap ❤️ to save a station to favorites | shortcut: F\n4️⃣ Open ⚙️ Settings for advanced features\n5️⃣ Use 📿 Tasbih Counter | shortcut: H or . (period)\n6️⃣ Open the Mushaf from the button at the bottom | shortcut: L\n7️⃣ Press keys 1–9 for instant access to selected reciters\n\n⌨️ Press ? anytime for the full shortcuts window\nWould you like an explanation of a specific feature? 🌿'
+    },
 
-    { keys: ['كيف أستخدم عداد التسبيح','عداد التسبيح','التسبيح','استخدام التسبيح','كيف استخدم التسبيح'], reply: 'عداد التسبيح 📿:\n\n• يظهر عداد التسبيح على المحطات التي تدعمه (ستجد أيقونة 📿 عليها)\n• اضغط على زر المحطة لتشغيلها وسيظهر العداد\n\nطريقة الاستخدام:\n1. اضغط على العداد في كل مرة تسبح فيها\n2. يحتسب العدد تلقائياً\n3. زر "تسبيح تلقائي" للعد الذاتي دون ضغط\n\nميزة PiP 🪄:\n• يمكن فتح عداد التسبيح في نافذة صغيرة عائمة تعمل فوق أي تطبيق آخر على شاشتك\n\n⌨️ اختصارات الكيبورد:\n• H = الانتقال لعداد التسبيح مباشرةً\n• . (نقطة) = إضافة تسبيحة بدون لمس الشاشة\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿' },
+    // اختصارات لوحة المفاتيح / Keyboard shortcuts
+    {
+      keys: ['اختصارات لوحة المفاتيح','اختصارات الكيبورد','اختصارات','كيبورد','keyboard shortcuts','مفاتيح الاختصار','ما هي الاختصارات','الاختصارات المتاحة'],
+      reply: '⌨️ اختصارات لوحة المفاتيح:\n\n▶️ التشغيل والتحكم:\n• Space — تشغيل / إيقاف\n• P — تشغيل / إيقاف المحطة الرئيسية\n• K — تشغيل / إيقاف المحطة الفورية\n• M — كتم / رفع الصوت\n• + / - — رفع أو خفض مستوى الصوت\n\n⏭️ التنقل بين المحطات:\n• ← السهم الأيسر — المحطة السابقة\n• → السهم الأيمن — المحطة التالية\n• N — المقطع التالي داخل نفس المحطة\n• B — المقطع السابق\n• R — تبديل تكرار المقطع الحالي\n\n🔢 اختصارات سريعة للقراء (0–9):\n• 1 = الحصري | 2 = عبدالباسط | 3 = البنا\n• 4 = علي جابر | 5 = المنشاوي | 6 = القطامي\n• 7 = عبادة | 8 = إسلام صبحي | 9 = الصلاة على النبي ﷺ | 0 = آيات\n\n🖥️ الواجهة والتنقل:\n• ? — فتح/إغلاق نافذة الاختصارات\n• S — فتح البحث مباشرةً\n• F — عرض/إخفاء المفضلة\n• Shift+F — محطة عشوائية من المفضلة\n• D — تبديل الوضع الليلي/النهاري\n• G — فتح المصحف الشريف\n• T — الانتقال لعداد التسبيح\n• E — تحويل للإنجليزية | A — تحويل للعربية\n• Esc — إغلاق الشاشة الحالية\n\n📿 عداد التسبيح:\n• . (نقطة) — إضافة تسبيحة\n\n💡 اضغط ? في أي وقت لفتح نافذة الاختصارات الكاملة 🌿',
+      keys_en: ['keyboard shortcuts','shortcuts','keyboard','hotkeys','what are the shortcuts'],
+      reply_en: '⌨️ Keyboard Shortcuts:\n\n▶️ Playback Controls:\n• Space — play / pause\n• P — play / pause main station\n• K — play / pause instant station\n• M — mute / unmute\n• + / - — raise or lower volume\n\n⏭️ Station Navigation:\n• ← left arrow — previous station\n• → right arrow — next station\n• N — next track within same station\n• B — previous track\n• R — toggle repeat for current track\n\n🔢 Quick Reciter Shortcuts (0–9):\n• 1 = Hussary | 2 = Abdul Basit | 3 = Al-Banna\n• 4 = Ali Jaber | 5 = Minshawi | 6 = Al-Qatami\n• 7 = Ibadah | 8 = Islam Sobhi | 9 = Salawat | 0 = Ayat\n\n🖥️ Interface & Navigation:\n• ? — open/close shortcuts window\n• S — open search directly\n• F — show/hide favorites\n• Shift+F — random station from favorites\n• D — toggle dark/light mode\n• G — open the Holy Mushaf\n• T — go to tasbih counter\n• E — switch to English | A — switch to Arabic\n• Esc — close current screen\n\n📿 Tasbih Counter:\n• . (period) — add a tasbih\n\n💡 Press ? anytime for the full shortcuts window 🌿'
+    },
+    {
+      keys: ['زر الاختصارات','نافذة الاختصارات','فتح الاختصارات','أين الاختصارات','شرح نافذة الاختصارات'],
+      reply: '⌨️ نافذة الاختصارات الكاملة:\n\nالموقع يحتوي على نافذة متكاملة لجميع الاختصارات!\n\nطرق فتحها:\n• اضغط زر ❓ في شاشة الترحيب\n• أو اضغط "الاختصارات" من داخل ⚙️ الإعدادات\n• أو اضغط مفتاح ? مباشرةً من لوحة المفاتيح\n\nتحتوي النافذة على:\n✅ اختصارات التشغيل والتحكم بالصوت\n✅ اختصارات التنقل بين المحطات\n✅ اختصارات سريعة للقراء (0–9)\n✅ اختصارات الواجهة والتنقل\n✅ اختصارات عداد التسبيح\n✅ إيماءات الموبايل (السحب والضغط المطوّل)\n✅ تلميحات وحيل مخفية\n\n🌐 النافذة ثنائية اللغة عربي/إنجليزي 🌿',
+      keys_en: ['shortcuts window','shortcuts panel','where are shortcuts','open shortcuts'],
+      reply_en: '⌨️ Full Shortcuts Window:\n\nThe site has a complete shortcuts window!\n\nHow to open it:\n• Press the ❓ button on the welcome screen\n• Or go to ⚙️ Settings > Shortcuts\n• Or press the ? key directly on your keyboard\n\nThe window includes:\n✅ Playback and volume shortcuts\n✅ Station navigation shortcuts\n✅ Quick reciter shortcuts (0–9)\n✅ Interface and navigation shortcuts\n✅ Tasbih counter shortcuts\n✅ Mobile gestures (swipe and long press)\n✅ Tips and hidden tricks\n\n🌐 The window is bilingual Arabic/English 🌿'
+    },
+    {
+      keys: ['إيماءات الموبايل','ايماءات الجوال','gestures','سحب','swipe','ضغط مطول','long press'],
+      reply: '📱 إيماءات الموبايل:\n\n• 👈 سحب لليسار → المحطة التالية\n• 👉 سحب لليمين → المحطة السابقة\n• 👇 ضغط مطوّل على محطة → تكرار تلقائي للمقطع\n• ×3 ثلاث نقرات على مساحة فارغة → شاشة الترحيب\n\n💡 Ctrl + Click على أي محطة يفتح بثها في تبويب جديد مباشرةً 🌿',
+      keys_en: ['mobile gestures','gestures','swipe','long press','touch gestures'],
+      reply_en: '📱 Mobile Gestures:\n\n• 👈 Swipe left → Next station\n• 👉 Swipe right → Previous station\n• 👇 Long press on a station → Auto-repeat that track\n• ×3 Triple tap on empty space → Welcome screen\n\n💡 Ctrl + Click on any station opens its stream in a new tab directly 🌿'
+    },
+    {
+      keys: ['محطة عشوائية','عشوائي','random station','shuffle'],
+      reply: 'المحطة العشوائية 🔀:\n\n• اضغط زر 🔀 في شريط التشغيل للانتقال لمحطة عشوائية\n• أو اضغط Shift + F لاختيار محطة عشوائية من مفضلتك تحديداً\n• رائعة لاكتشاف تلاوات جديدة لم تسمعها من قبل 🌿',
+      keys_en: ['random station','shuffle','random','surprise me'],
+      reply_en: 'Random Station 🔀:\n\n• Press the 🔀 button in the player bar to switch to a random station\n• Or press Shift + F to pick a random station from your favorites specifically\n• Great for discovering new recitations you haven\'t heard before 🌿'
+    },
+    {
+      keys: ['تكرار المحطة','تكرار','repeat','تكرار تلقائي','إعادة التشغيل','loop'],
+      reply: 'تكرار المقطع 🔁:\n\n• اضغط R من الكيبورد لتبديل تكرار المقطع الحالي\n• أو اضغط مطوّلاً على أي محطة (موبايل وكمبيوتر) لتفعيل التكرار التلقائي\n• مفيد لحفظ السور أو الاستماع المتواصل لتلاوة بعينها 🌿',
+      keys_en: ['repeat','loop','repeat station','repeat track'],
+      reply_en: 'Repeat Track 🔁:\n\n• Press R on your keyboard to toggle repeat for the current track\n• Or long press on any station (mobile and desktop) to enable auto-repeat\n• Useful for memorizing surahs or continuous listening to a specific recitation 🌿'
+    },
+    {
+      keys: ['كتم الصوت','صامت','mute','اسكات الصوت'],
+      reply: 'كتم الصوت 🔇:\n\n• اضغط M من الكيبورد لكتم / رفع الصوت\n• أو اضغط + و - للتحكم في مستوى الصوت خطوة بخطوة 🌿',
+      keys_en: ['mute','mute sound','silent','volume'],
+      reply_en: 'Mute 🔇:\n\n• Press M on your keyboard to mute / unmute\n• Or press + and - to control volume step by step 🌿'
+    },
+    {
+      keys: ['مواقيت الصلاة','أوقات الصلاة','وقت الصلاة','prayer times'],
+      reply: 'مواقيت الصلاة 🕌:\n\nالموقع يحتوي على قسم مواقيت الصلاة!\n• اضغط W من الكيبورد للانتقال إليه مباشرةً\n• أو ابحث عنه في قائمة أقسام الموقع 🌿',
+      keys_en: ['prayer times','salah times','namaz times','prayer schedule'],
+      reply_en: 'Prayer Times 🕌:\n\nThe site has a Prayer Times section!\n• Press W on your keyboard to go there directly\n• Or find it in the site sections menu 🌿'
+    },
+    {
+      keys: ['علوم القرآن','تفسير','تفسير القرآن','علوم','quran sciences'],
+      reply: 'علوم القرآن 📚:\n\nيمكنك الانتقال لقسم علوم القرآن مباشرةً:\n• اضغط U من لوحة المفاتيح\n• أو ابحث عنه في قائمة أقسام الموقع 🌿',
+      keys_en: ['quran sciences','tafsir','quran interpretation','quran study'],
+      reply_en: 'Quran Sciences 📚:\n\nYou can go to the Quran Sciences section directly:\n• Press U on your keyboard\n• Or find it in the site sections menu 🌿'
+    },
+    {
+      keys: ['ما يميز الموقع','ما الذي يميزك','مميزات الموقع','لماذا هذا الموقع','أفضل ما في الموقع','تميز','مميزات'],
+      reply: 'ما يميز موقع إذاعة القرآن الكريم ✨:\n\n🎙️ أكثر من 7 محطات بث مباشر 24/7 شاملة تلاوات وأذكار وسيرة وأحاديث\n📿 عداد التسبيح التفاعلي مع وضع PiP (نافذة عائمة فوق أي تطبيق)\n⌨️ اختصارات كيبورد شاملة لكل وظائف الموقع (اضغط ? لرؤيتها)\n📱 إيماءات موبايل ذكية: سحب، ضغط مطوّل، ثلاث نقرات\n🔢 اختصارات سريعة 0–9 للوصول الفوري للقراء\n🔔 تذكير تلقائي بأذكار الصباح والمساء بأوقات قابلة للضبط\n❤️ نظام مفضلة مع تشغيل عشوائي من المفضلة\n📖 مصحف المدينة المنورة كاملاً بضغطة واحدة\n😴 مؤقت إيقاف للاستماع قبل النوم\n🔁 تشغيل تلقائي مع تنقل آلي بين المحطات\n🌙 وضع ليلي وتخصيص كامل للألوان\n🌐 واجهة ثنائية اللغة عربي/إنجليزي\n🖥️📱 يعمل على الكمبيوتر والجوال والأجهزة اللوحية 🌿',
+      keys_en: ['what makes this site special','site features','why this site','best features','what do you offer'],
+      reply_en: 'What makes Quran Radio special ✨:\n\n🎙️ 7+ live stations 24/7 covering recitations, adhkar, seerah & hadith\n📿 Interactive Tasbih Counter with PiP mode (floating window above any app)\n⌨️ Comprehensive keyboard shortcuts for all functions (press ? to see them)\n📱 Smart mobile gestures: swipe, long press, triple tap\n🔢 Quick shortcuts 0–9 for instant access to reciters\n🔔 Automatic morning & evening adhkar reminders with custom times\n❤️ Favorites system with random playback from favorites\n📖 Full Madinah Mushaf with one tap\n😴 Sleep timer for listening before bed\n🔁 Auto Switch for automated station rotation\n🌙 Dark mode and full color customization\n🌐 Bilingual Arabic/English interface\n🖥️📱 Works on desktop, mobile & tablet 🌿'
+    },
 
-    { keys: ['شرح ميزة التشغيل التلقائي','التشغيل التلقائي','تشغيل تلقائي','auto switch','التنقل الآلي','تبديل تلقائي'], reply: 'ميزة التشغيل التلقائي (Auto Switch) 🔁:\n\nتقوم هذه الميزة بالتنقل التلقائي بين المحطات كل فترة زمنية تحددها أنت.\n\nكيفية التفعيل:\n1. افتح "⚙️ الإعدادات" من الشريط الأوسط\n2. ابحث عن خيار "التنقل الآلي (Auto Switch)"\n3. أدخل عدد الدقائق التي تريدها بين كل محطة\n4. سيتنقل الموقع تلقائياً دون تدخل منك\n\nميزات إضافية للتشغيل:\n• زر ⏮️ للمحطة السابقة | اضغط ← من الكيبورد\n• زر ⏭️ للمحطة التالية | اضغط → من الكيبورد\n• زر 🔀 لمحطة عشوائية\n• Space أو P = تشغيل/إيقاف فوري\n• M = كتم الصوت | + / - = التحكم في الصوت\n\n💡 اضغط ? لفتح نافذة الاختصارات الكاملة ⌨️ 🌿' },
-
-    // أسئلة إضافية جديدة
-    { keys: ['مؤقت الإيقاف','مؤقت','sleep timer','وقت الإيقاف','موقت النوم'], reply: 'مؤقت الإيقاف (Sleep Timer) 😴:\n\nيوقف تشغيل الصوت تلقائياً بعد الوقت الذي تحدده.\n\nكيفية الاستخدام:\n1. افتح "⚙️ الإعدادات"\n2. اختر "مؤقت الإيقاف"\n3. أدخل عدد الدقائق\n4. سيوقف الموقع التشغيل تلقائياً عند انتهاء الوقت 🌙\n\nمفيد جداً عند الاستماع قبل النوم 🌿' },
-
-    { keys: ['تذكير الأذكار','تذكير','أذكار الصباح','أذكار المساء','تنبيه الأذكار','reminder'], reply: 'تذكير الأذكار 🔔:\n\nالموقع يذكّرك بأذكار الصباح والمساء في أوقاتها تلقائياً!\n\nكيفية الإعداد:\n1. افتح "⚙️ الإعدادات"\n2. فعّل "تذكير أذكار الصباح والمساء"\n3. اضبط وقت الصباح والمساء حسب ما يناسبك\n4. ستصلك إشعارات في الوقت المحدد 🌅\n\nتأكد من السماح للموقع بإرسال الإشعارات 🌿' },
-
-    { keys: ['المصحف','الصحف','مصحف المدينة','افتح المصحف','mushaf'], reply: 'المصحف الشريف 📖:\n\n• يوجد زر "افتح المصحف / Open Mushaf" ثابت في أسفل الشاشة\n• اضغط عليه لفتح مصحف المدينة المنورة كاملاً في وضع ملء الشاشة\n• اضغط ✕ لإغلاقه أو اضغط Escape من لوحة المفاتيح\n• يمكنك فتحه في تبويب جديد للتصفح المريح\n\n⌨️ اختصار الكيبورد: اضغط L لفتح المصحف مباشرةً\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿' },
-
-    { keys: ['البحث','بحث عن محطة','كيف أبحث','كيف ابحث','تصفية المحطات'], reply: 'البحث في المحطات 🔍:\n\nيوجد حقل بحث في أعلى قائمة المحطات.\nاكتب اسم المحطة أو القارئ وستظهر لك النتائج فوراً دون الحاجة للتمرير 🌿' },
-
-    { keys: ['الوضع الليلي','الوضع الداكن','dark mode','تغيير اللون','لون الخلفية','تخصيص'], reply: 'تخصيص المظهر 🎨:\n\nمن "⚙️ الإعدادات" > "لون الخلفية" يمكنك:\n• تفعيل الوضع الداكن 🌙 (Dark Mode)\n• اختيار لون خلفية من ألوان متعددة\n• اختيار تدرجات ألوان جميلة للأزرار\n\nجميع التغييرات تُحفظ تلقائياً 🌿' },
-
-    { keys: ['كيف يعمل الموقع','كيف أستخدم الموقع','كيف استخدم الموقع','شرح الموقع','دليل الاستخدام'], reply: 'دليل سريع لاستخدام الموقع 📋:\n\n1️⃣ اختر المحطة أو القارئ من القائمة واضغط للتشغيل\n2️⃣ استخدم أزرار ⏮️ ⏭️ للتنقل | أو ← → من الكيبورد\n3️⃣ اضغط ❤️ لحفظ محطة في المفضلة | اختصار: F\n4️⃣ افتح ⚙️ الإعدادات للمزايا المتقدمة\n5️⃣ استخدم 📿 عداد التسبيح | اختصار: H أو . (نقطة)\n6️⃣ افتح المصحف من الزر في أسفل الشاشة | اختصار: L\n7️⃣ اضغط مفاتيح 1–9 للوصول الفوري لقراء مختارين\n\n⌨️ اضغط ? في أي وقت لنافذة الاختصارات الكاملة\nهل تريد شرحاً لميزة معينة؟ 🌿' },
-
-    // اختصارات لوحة المفاتيح
-    { keys: ['اختصارات لوحة المفاتيح','اختصارات الكيبورد','اختصارات','كيبورد','keyboard shortcuts','مفاتيح الاختصار','ما هي الاختصارات','الاختصارات المتاحة'], reply: '⌨️ اختصارات لوحة المفاتيح:\n\n▶️ التشغيل والتحكم:\n• Space — تشغيل / إيقاف\n• P — تشغيل / إيقاف المحطة الرئيسية\n• K — تشغيل / إيقاف المحطة الفورية\n• M — كتم / رفع الصوت\n• + / - — رفع أو خفض مستوى الصوت\n\n⏭️ التنقل بين المحطات:\n• ← السهم الأيسر — المحطة السابقة\n• → السهم الأيمن — المحطة التالية\n• N — المقطع التالي داخل نفس المحطة\n• B — المقطع السابق\n• R — تبديل تكرار المقطع الحالي\n\n🔢 اختصارات سريعة للقراء (0–9):\n• 1 = الحصري | 2 = عبدالباسط | 3 = البنا\n• 4 = علي جابر | 5 = المنشاوي | 6 = القطامي\n• 7 = عبادة | 8 = إسلام صبحي | 9 = الصلاة على النبي ﷺ | 0 = آيات\n\n🖥️ الواجهة والتنقل:\n• ? — فتح/إغلاق نافذة الاختصارات\n• S — فتح البحث مباشرةً\n• F — عرض/إخفاء المفضلة\n• Shift+F — محطة عشوائية من المفضلة\n• D — تبديل الوضع الليلي/النهاري\n• G — فتح المصحف الشريف\n• T — الانتقال لعداد التسبيح\n• E — تحويل للإنجليزية | A — تحويل للعربية\n• Esc — إغلاق الشاشة الحالية\n\n📿 عداد التسبيح:\n• . (نقطة) — إضافة تسبيحة\n\n💡 اضغط ? في أي وقت لفتح نافذة الاختصارات الكاملة 🌿' },
-
-    { keys: ['زر الاختصارات','نافذة الاختصارات','فتح الاختصارات','أين الاختصارات','شرح نافذة الاختصارات'], reply: '⌨️ نافذة الاختصارات الكاملة:\n\nالموقع يحتوي على نافذة متكاملة لجميع الاختصارات!\n\nطرق فتحها:\n• اضغط زر ❓ في شاشة الترحيب\n• أو اضغط "الاختصارات" من داخل ⚙️ الإعدادات\n• أو اضغط مفتاح ? مباشرةً من لوحة المفاتيح\n\nتحتوي النافذة على:\n✅ اختصارات التشغيل والتحكم بالصوت\n✅ اختصارات التنقل بين المحطات\n✅ اختصارات سريعة للقراء (0–9)\n✅ اختصارات الواجهة والتنقل\n✅ اختصارات عداد التسبيح\n✅ إيماءات الموبايل (السحب والضغط المطوّل)\n✅ تلميحات وحيل مخفية\n\n🌐 النافذة ثنائية اللغة عربي/إنجليزي 🌿' },
-
-    { keys: ['إيماءات الموبايل','ايماءات الجوال','gestures','سحب','swipe','ضغط مطول','long press'], reply: '📱 إيماءات الموبايل:\n\n• 👈 سحب لليسار → المحطة التالية\n• 👉 سحب لليمين → المحطة السابقة\n• 👇 ضغط مطوّل على محطة → تكرار تلقائي للمقطع\n• ×3 ثلاث نقرات على مساحة فارغة → شاشة الترحيب\n\n💡 Ctrl + Click على أي محطة يفتح بثها في تبويب جديد مباشرةً 🌿' },
-
-    { keys: ['محطة عشوائية','عشوائي','random station','shuffle'], reply: 'المحطة العشوائية 🔀:\n\n• اضغط زر 🔀 في شريط التشغيل للانتقال لمحطة عشوائية\n• أو اضغط Shift + F لاختيار محطة عشوائية من مفضلتك تحديداً\n• رائعة لاكتشاف تلاوات جديدة لم تسمعها من قبل 🌿' },
-
-    { keys: ['تكرار المحطة','تكرار','repeat','تكرار تلقائي','إعادة التشغيل','loop'], reply: 'تكرار المقطع 🔁:\n\n• اضغط R من الكيبورد لتبديل تكرار المقطع الحالي\n• أو اضغط مطوّلاً على أي محطة (موبايل وكمبيوتر) لتفعيل التكرار التلقائي\n• مفيد لحفظ السور أو الاستماع المتواصل لتلاوة بعينها 🌿' },
-
-    { keys: ['كتم الصوت','صامت','mute','اسكات الصوت'], reply: 'كتم الصوت 🔇:\n\n• اضغط M من الكيبورد لكتم / رفع الصوت\n• أو اضغط + و - للتحكم في مستوى الصوت خطوة بخطوة 🌿' },
-
-    { keys: ['مواقيت الصلاة','أوقات الصلاة','وقت الصلاة','prayer times'], reply: 'مواقيت الصلاة 🕌:\n\nالموقع يحتوي على قسم مواقيت الصلاة!\n• اضغط W من الكيبورد للانتقال إليه مباشرةً\n• أو ابحث عنه في قائمة أقسام الموقع 🌿' },
-
-    { keys: ['علوم القرآن','تفسير','تفسير القرآن','علوم','quran sciences'], reply: 'علوم القرآن 📚:\n\nيمكنك الانتقال لقسم علوم القرآن مباشرةً:\n• اضغط U من لوحة المفاتيح\n• أو ابحث عنه في قائمة أقسام الموقع 🌿' },
-
-    { keys: ['ما يميز الموقع','ما الذي يميزك','مميزات الموقع','لماذا هذا الموقع','أفضل ما في الموقع','تميز','مميزات'], reply: 'ما يميز موقع إذاعة القرآن الكريم ✨:\n\n🎙️ أكثر من 7 محطات بث مباشر 24/7 شاملة تلاوات وأذكار وسيرة وأحاديث\n📿 عداد التسبيح التفاعلي مع وضع PiP (نافذة عائمة فوق أي تطبيق)\n⌨️ اختصارات كيبورد شاملة لكل وظائف الموقع (اضغط ? لرؤيتها)\n📱 إيماءات موبايل ذكية: سحب، ضغط مطوّل، ثلاث نقرات\n🔢 اختصارات سريعة 0–9 للوصول الفوري للقراء\n🔔 تذكير تلقائي بأذكار الصباح والمساء بأوقات قابلة للضبط\n❤️ نظام مفضلة مع تشغيل عشوائي من المفضلة\n📖 مصحف المدينة المنورة كاملاً بضغطة واحدة\n😴 مؤقت إيقاف للاستماع قبل النوم\n🔁 تشغيل تلقائي مع تنقل آلي بين المحطات\n🌙 وضع ليلي وتخصيص كامل للألوان\n🌐 واجهة ثنائية اللغة عربي/إنجليزي\n🖥️📱 يعمل على الكمبيوتر والجوال والأجهزة اللوحية 🌿' },
-
-    // أسئلة إسلامية
-    { keys: ['بسم الله','بسم الله الرحمن الرحيم'], reply: 'بسم الله الرحمن الرحيم 🌿' },
-    { keys: ['الحمد لله','الحمد'], reply: 'الحمد لله رب العالمين 🌿' },
-    { keys: ['سبحان الله'], reply: 'سبحان الله وبحمده، سبحان الله العظيم 🌿' },
-    { keys: ['ما هو القرآن','القرآن الكريم'], reply: 'القرآن الكريم هو كلام الله المنزل على نبيه محمد ﷺ، المتعبد بتلاوته، المعجز بلفظه ومعناه 📖' },
-    { keys: ['الصلاة على النبي','صلى الله عليه','اللهم صل'], reply: 'اللهم صلِّ وسلم وبارك على نبينا محمد ﷺ 🌹' },
-    { keys: ['رمضان','شهر رمضان'], reply: 'شهر رمضان المبارك هو شهر القرآن، قال تعالى: "شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ" 🌙' },
+    // أسئلة إسلامية / Islamic phrases
+    {
+      keys: ['بسم الله','بسم الله الرحمن الرحيم'],
+      reply: 'بسم الله الرحمن الرحيم 🌿',
+      keys_en: ['bismillah','in the name of allah'],
+      reply_en: 'Bismillah ir-Rahman ir-Raheem 🌿'
+    },
+    {
+      keys: ['الحمد لله','الحمد'],
+      reply: 'الحمد لله رب العالمين 🌿',
+      keys_en: ['alhamdulillah','praise be to allah'],
+      reply_en: 'Alhamdulillahi Rabbil Aalameen 🌿'
+    },
+    {
+      keys: ['سبحان الله'],
+      reply: 'سبحان الله وبحمده، سبحان الله العظيم 🌿',
+      keys_en: ['subhanallah','glory be to allah'],
+      reply_en: 'SubhanAllahi wa bihamdih, SubhanAllahil Azeem 🌿'
+    },
+    {
+      keys: ['ما هو القرآن','القرآن الكريم'],
+      reply: 'القرآن الكريم هو كلام الله المنزل على نبيه محمد ﷺ، المتعبد بتلاوته، المعجز بلفظه ومعناه 📖',
+      keys_en: ['what is the quran','the holy quran','quran'],
+      reply_en: 'The Holy Quran is the word of Allah revealed to His Prophet Muhammad ﷺ — its recitation is an act of worship, and it is miraculous in both its wording and meaning 📖'
+    },
+    {
+      keys: ['الصلاة على النبي','صلى الله عليه','اللهم صل'],
+      reply: 'اللهم صلِّ وسلم وبارك على نبينا محمد ﷺ 🌹',
+      keys_en: ['salawat','send blessings on the prophet','peace be upon him'],
+      reply_en: 'Allahumma salli wa sallim wa barik ala nabiyyina Muhammad ﷺ 🌹'
+    },
+    {
+      keys: ['رمضان','شهر رمضان'],
+      reply: 'شهر رمضان المبارك هو شهر القرآن، قال تعالى: "شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ" 🌙',
+      keys_en: ['ramadan','holy month','month of quran'],
+      reply_en: 'The blessed month of Ramadan is the month of the Quran. Allah says: "The month of Ramadan in which the Quran was revealed" 🌙'
+    },
   ];
 
   function getSmartReply(text) {
     var t = text.trim().toLowerCase();
+    var isEn = (typeof isArabic !== 'undefined') ? !isArabic : false;
     for (var i = 0; i < AI_REPLIES.length; i++) {
       var item = AI_REPLIES[i];
-      for (var j = 0; j < item.keys.length; j++) {
-        if (t.indexOf(item.keys[j].toLowerCase()) !== -1) {
+      // Search in the appropriate language keys
+      var keysToSearch = isEn ? (item.keys_en || []) : item.keys;
+      // Also always search Arabic keys (user might type Arabic even in EN mode)
+      var allKeys = isEn ? (item.keys_en || []).concat(item.keys) : item.keys.concat(item.keys_en || []);
+      for (var j = 0; j < allKeys.length; j++) {
+        if (t.indexOf(allKeys[j].toLowerCase()) !== -1) {
+          // Return the reply in the current language
+          if (isEn && item.reply_en) return item.reply_en;
           return item.reply;
         }
       }
@@ -33227,7 +33448,10 @@ if (target && count >= target) {
       var reply = getSmartReply(text);
 
       if (!reply) {
-        reply = 'عذراً، لا أملك إجابة على هذا السؤال حالياً 🙏\nيمكنك التواصل معنا عبر زر "راسلنا" في أسفل الصفحة وسنساعدك بإذن الله.';
+        var isEnFb = (typeof isArabic !== 'undefined') ? !isArabic : false;
+        reply = isEnFb
+          ? "Sorry, I don't have an answer to that question right now 🙏\nYou can reach us via the \"Contact Us\" button at the bottom of the page and we'll help you, insha'Allah."
+          : 'عذراً، لا أملك إجابة على هذا السؤال حالياً 🙏\nيمكنك التواصل معنا عبر زر "راسلنا" في أسفل الصفحة وسنساعدك بإذن الله.';
       }
 
       var botDiv = document.createElement('div');
