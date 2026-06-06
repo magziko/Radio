@@ -2178,32 +2178,14 @@ body.dark-mode #welcome-top-bar #welcomeTopHideBtn.active {
 }
 
  .favorite-icon {
-    font-size: 18px;
-    color: #bbb !important;
+    font-size: 16px;
+    color: gray;
     cursor: pointer;
     margin-left: 1px;
     float: right;
-    vertical-align: middle;
-    line-height: 1;
-    display: inline-flex;
-    align-items: center;
-    height: 100%;
-    transition: color 0.2s, transform 0.15s, text-shadow 0.2s;
-    text-shadow: none;
-  }
-  .favorite-icon:hover {
-    transform: scale(1.3);
   }
   .favorite-icon.favorited {
-    color: #e53935 !important;
-    text-shadow: 0 0 7px rgba(229,57,53,0.45);
-  }
-  body.dark-mode .favorite-icon {
-    color: #888 !important;
-  }
-  body.dark-mode .favorite-icon.favorited {
-    color: #ff5252 !important;
-    text-shadow: 0 0 8px rgba(255,82,82,0.70);
+    color: red;
   }
 
 #favManagerOverlay {
@@ -2744,6 +2726,12 @@ body.dark-mode .search-input:focus {
 }
 
 body.dark-mode #settings-toggle-bar {
+    background: linear-gradient(to right, #1a2a3a, #1e1e2e, #1a2a3a) !important;
+    border-color: #333 !important;
+    color: #64b5f6 !important;
+}
+
+body.dark-mode #settings-toggle-bar-bottom {
     background: linear-gradient(to right, #1a2a3a, #1e1e2e, #1a2a3a) !important;
     border-color: #333 !important;
     color: #64b5f6 !important;
@@ -13201,6 +13189,31 @@ setTimeout(autoScaleVerseFont, 100);
   <div class="search-wrapper" style="margin-top: 10px; display: none;">
     <script defer src="https://cse.google.com/cse.js?cx=e3e1833506ae646ca"></script>
     <div class="gcse-search"></div>
+  </div>
+
+  <!-- زر إغلاق الإعدادات في الأسفل -->
+  <div id="settings-toggle-bar-bottom" onclick="toggleSettingsPanel()" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    width: 90%;
+    max-width: 400px;
+    margin: 10px auto 6px auto;
+    padding: 7px 14px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #e3f2fd 0%, #fff 50%, #e3f2fd 100%);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    border: 1px solid #d0cde8;
+    font-weight: 700;
+    font-size: 14px;
+    color: #1e90ff;
+    user-select: none;
+    transition: background 0.2s;
+  ">
+    <span data-ar="⚙️ إغلاق الإعدادات" data-en="⚙️ Close Settings">⚙️ إغلاق الإعدادات</span>
+    <span style="font-size:12px;">▲</span>
   </div>
 
   </div>
@@ -25309,6 +25322,9 @@ function applyInitialLanguage() {
     var slTxt = document.getElementById('settingsLangText');
     if (slTxt) slTxt.textContent = 'AR';
 
+    var ssTxt = document.getElementById('settingsShortcutsText');
+    if (ssTxt) ssTxt.textContent = 'Shortcuts';
+
     ['prevButton','randomButton','nextButton','status'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.textContent = el.getAttribute('data-en');
@@ -25506,16 +25522,15 @@ function getButtonStationKey(button) {
 }
 
 function updateFavoritesIcons() {
-  document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(button => {
-    var station = getButtonStationKey(button);
-    if (!station) return;
-    var icon = button.querySelector('.favorite-icon');
-    if (!icon) return;
-    icon.style.color = '';
+  document.querySelectorAll('.palestine').forEach(button => {
+    const station = button.getAttribute('data-station');
+    const icon = button.querySelector('.favorite-icon');
     if (favorites.includes(station)) {
       icon.classList.add('favorited');
+      icon.style.color = 'red';
     } else {
       icon.classList.remove('favorited');
+      icon.style.color = 'gray';
     }
   });
 }
@@ -25523,42 +25538,19 @@ function updateFavoritesIcons() {
 function toggleFavorite(event, station) {
   event.stopPropagation();
   const icon = event.target;
-  icon.style.color = '';
   if (favorites.includes(station)) {
     favorites = favorites.filter(fav => fav !== station);
     icon.classList.remove('favorited');
+    icon.style.color = 'gray';
   } else {
     favorites.push(station);
     icon.classList.add('favorited');
+    icon.style.color = 'red';
   }
   localStorage.setItem('favorites', JSON.stringify(favorites));
 
   if (showingFavorites) {
-    document.querySelectorAll('.button[data-station], .button:has(.favorite-icon)').forEach(button => {
-      const st = getButtonStationKey(button);
-      if (!st) return;
-      var show = favorites.includes(st);
-      button.style.display = show ? 'block' : 'none';
-      var wrap = button.parentElement;
-      if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
-    });
-    updateButtonIndices();
-
-    if (favorites.length === 0) {
-      showingFavorites = false;
-      const viewFavoritesButton = document.getElementById('viewFavoritesButton');
-      const favLabel2 = document.getElementById('favLabel');
-      const favHeart2 = document.getElementById('favHeart');
-      if (favLabel2) favLabel2.textContent = isArabic ? ' المفضلة' : ' Favorites';
-      if (favHeart2) favHeart2.style.display = 'inline-block';
-      viewFavoritesButton.classList.remove('selected');
-      document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(b => {
-        b.style.display = 'block';
-        var wrap = b.parentElement;
-        if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = 'inline-block';
-      });
-      updateButtonIndices();
-    }
+    toggleFavoritesView();
   }
 }
 
@@ -26208,6 +26200,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function toggleSettingsPanel() {
   var panel  = document.getElementById('settings-panel');
   var arrow  = document.getElementById('settings-arrow');
+  var bottomBar = document.getElementById('settings-toggle-bar-bottom');
   var isOpen = panel.style.display !== 'none';
 
   if (isOpen) {
@@ -26228,6 +26221,13 @@ function toggleSettingsPanel() {
       if (s) s.focus();
     }, 200);
   }
+
+  // تحديث نص زر الأسفل حسب اللغة
+  if (bottomBar) {
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var lbl = bottomBar.querySelector('span[data-ar]');
+    if (lbl) lbl.textContent = ar ? lbl.getAttribute('data-ar') : lbl.getAttribute('data-en');
+  }
 }
 
 function toggleLanguage() {
@@ -26245,6 +26245,13 @@ function toggleLanguage() {
 
   var ssTxt = document.getElementById('settingsShortcutsText');
   if (ssTxt) ssTxt.textContent = isArabic ? 'الاختصارات' : 'Shortcuts';
+
+  // تحديث زر الإعدادات السفلي
+  var bottomBar = document.getElementById('settings-toggle-bar-bottom');
+  if (bottomBar) {
+    var lbl = bottomBar.querySelector('span[data-ar]');
+    if (lbl) lbl.textContent = isArabic ? lbl.getAttribute('data-ar') : lbl.getAttribute('data-en');
+  }
 
   document.getElementById("prevButton").textContent = isArabic ? document.getElementById("prevButton").getAttribute("data-ar") : document.getElementById("prevButton").getAttribute("data-en");
   document.getElementById("randomButton").textContent = isArabic ? document.getElementById("randomButton").getAttribute("data-ar") : document.getElementById("randomButton").getAttribute("data-en");
@@ -30464,6 +30471,19 @@ document.addEventListener("keydown", function(e) {
         return;
     }
 
+    // # (Shift+3) = فتح / إغلاق قائمة الإعدادات
+    if (e.key === '#') {
+        e.preventDefault();
+        var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+        if (typeof toggleSettingsPanel === 'function') toggleSettingsPanel();
+        var panel = document.getElementById('settings-panel');
+        var isNowOpen = panel && panel.style.display !== 'none';
+        if (typeof showToast === 'function') showToast(isNowOpen
+            ? (ar ? '⚙️ الإعدادات مفتوحة' : '⚙️ Settings opened')
+            : (ar ? '⚙️ الإعدادات مغلقة' : '⚙️ Settings closed'));
+        return;
+    }
+
     // S = فتح البحث مباشرةً
     // S = فتح البحث مباشرةً
     if (e.key === 's' || e.key === 'S' || e.key === 'س') {
@@ -30692,6 +30712,7 @@ document.addEventListener("keydown", function(e) {
         r_d:         { ar: 'تبديل الوضع الليلي/النهاري', en: 'Toggle Dark / Light mode' },
         r_s:         { ar: 'فتح البحث مباشرةً', en: 'Focus search bar' },        r_f:         { ar: 'عرض / إخفاء المفضلة', en: 'Toggle Favorites view' },
         r_sf:        { ar: 'محطة عشوائية من المفضلة', en: 'Random station from Favorites' },
+        r_o:         { ar: 'فتح / إغلاق قائمة الإعدادات', en: 'Open / Close Settings panel' },
         r_g:         { ar: 'فتح المصحف الشريف', en: 'Open Quran Reader' },
         r_t:         { ar: 'الانتقال للمسبحة', en: 'Go to Dhikr Counter' },
         r_c:         { ar: 'الانتقال لعلوم القرآن', en: 'Go to Quran Sciences' },
@@ -30749,6 +30770,7 @@ document.addEventListener("keydown", function(e) {
         r_a:     { key: 'a',          code: 'KeyA'      },
         r_d:     { key: 'd',          code: 'KeyD'      },
         r_s:     { key: 's',          code: 'KeyS'      },
+        r_o:     { key: '#',          code: 'Digit3',  shift: true },
         r_f:     { key: 'f',          code: 'KeyF'      },
         r_sf:    { key: 'F',          code: 'KeyF',   shift: true },
         r_g:     { key: 'l',          code: 'KeyL'      },
@@ -30883,6 +30905,7 @@ document.addEventListener("keydown", function(e) {
                     kbRow('r_a', ['A'], lang),
                     kbRow('r_d', ['D'], lang),
                     kbRow('r_s', ['S'], lang),
+                    '<div class="kb-row" data-action="r_o" role="button" tabindex="0" onclick="window._kbFireAction(\'r_o\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_o\')"><span class="kb-row-desc">' + T.r_o[lang] + '<span class="kb-row-tap-hint">' + (lang==='ar'?'اضغط للتنفيذ':'Tap to trigger') + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">3</span><span class="kb-sep">(</span><span class="kb-key">#</span><span class="kb-sep">)</span></div></div>',
                     kbRow('r_f', ['F'], lang),
                     '<div class="kb-row" data-action="r_sf" role="button" tabindex="0" onclick="window._kbFireAction(\'r_sf\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_sf\')"><span class="kb-row-desc">' + T.r_sf[lang] + '<span class="kb-row-tap-hint">' + (lang==='ar'?'اضغط للتنفيذ':'Tap to trigger') + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">F</span></div></div>',
                     kbRow('r_g', ['L'], lang),
@@ -33284,9 +33307,9 @@ if (target && count >= target) {
     // اختصارات لوحة المفاتيح / Keyboard shortcuts
     {
       keys: ['اختصارات لوحة المفاتيح','اختصارات الكيبورد','اختصارات','كيبورد','keyboard shortcuts','مفاتيح الاختصار','ما هي الاختصارات','الاختصارات المتاحة'],
-      reply: '⌨️ اختصارات لوحة المفاتيح:\n\n▶️ التشغيل والتحكم:\n• Space — تشغيل / إيقاف\n• P — تشغيل / إيقاف المحطة الرئيسية\n• K — تشغيل / إيقاف المحطة الفورية\n• M — كتم / رفع الصوت\n• + / - — رفع أو خفض مستوى الصوت\n\n⏭️ التنقل بين المحطات:\n• ← السهم الأيسر — المحطة السابقة\n• → السهم الأيمن — المحطة التالية\n• N — المقطع التالي داخل نفس المحطة\n• B — المقطع السابق\n• R — تبديل تكرار المقطع الحالي\n\n🔢 اختصارات سريعة للقراء (0–9):\n• 1 = الحصري | 2 = عبدالباسط | 3 = البنا\n• 4 = علي جابر | 5 = المنشاوي | 6 = القطامي\n• 7 = عبادة | 8 = إسلام صبحي | 9 = الصلاة على النبي ﷺ | 0 = آيات\n\n🖥️ الواجهة والتنقل:\n• ? — فتح/إغلاق نافذة الاختصارات\n• S — فتح البحث مباشرةً\n• F — عرض/إخفاء المفضلة\n• Shift+F — محطة عشوائية من المفضلة\n• D — تبديل الوضع الليلي/النهاري\n• G — فتح المصحف الشريف\n• T — الانتقال لعداد التسبيح\n• E — تحويل للإنجليزية | A — تحويل للعربية\n• Esc — إغلاق الشاشة الحالية\n\n📿 عداد التسبيح:\n• . (نقطة) — إضافة تسبيحة\n\n💡 اضغط ? في أي وقت لفتح نافذة الاختصارات الكاملة 🌿',
+      reply: '⌨️ اختصارات لوحة المفاتيح:\n\n▶️ التشغيل والتحكم:\n• Space — تشغيل / إيقاف\n• P — تشغيل / إيقاف المحطة الرئيسية\n• K — تشغيل / إيقاف المحطة الفورية\n• M — كتم / رفع الصوت\n• + / - — رفع أو خفض مستوى الصوت\n\n⏭️ التنقل بين المحطات:\n• ← السهم الأيسر — المحطة السابقة\n• → السهم الأيمن — المحطة التالية\n• N — المقطع التالي داخل نفس المحطة\n• B — المقطع السابق\n• R — تبديل تكرار المقطع الحالي\n\n🔢 اختصارات سريعة للقراء (0–9):\n• 1 = الحصري | 2 = عبدالباسط | 3 = البنا\n• 4 = علي جابر | 5 = المنشاوي | 6 = القطامي\n• 7 = عبادة | 8 = إسلام صبحي | 9 = الصلاة على النبي ﷺ | 0 = آيات\n\n🖥️ الواجهة والتنقل:\n• ? — فتح/إغلاق نافذة الاختصارات\n• S — فتح البحث مباشرةً\n• Shift+3 (#) — فتح/إغلاق الإعدادات\n• F — عرض/إخفاء المفضلة\n• Shift+F — محطة عشوائية من المفضلة\n• D — تبديل الوضع الليلي/النهاري\n• G — فتح المصحف الشريف\n• T — الانتقال لعداد التسبيح\n• E — تحويل للإنجليزية | A — تحويل للعربية\n• Esc — إغلاق الشاشة الحالية\n\n📿 عداد التسبيح:\n• . (نقطة) — إضافة تسبيحة\n\n💡 اضغط ? في أي وقت لفتح نافذة الاختصارات الكاملة 🌿',
       keys_en: ['keyboard shortcuts','shortcuts','keyboard','hotkeys','what are the shortcuts'],
-      reply_en: '⌨️ Keyboard Shortcuts:\n\n▶️ Playback Controls:\n• Space — play / pause\n• P — play / pause main station\n• K — play / pause instant station\n• M — mute / unmute\n• + / - — raise or lower volume\n\n⏭️ Station Navigation:\n• ← left arrow — previous station\n• → right arrow — next station\n• N — next track within same station\n• B — previous track\n• R — toggle repeat for current track\n\n🔢 Quick Reciter Shortcuts (0–9):\n• 1 = Hussary | 2 = Abdul Basit | 3 = Al-Banna\n• 4 = Ali Jaber | 5 = Minshawi | 6 = Al-Qatami\n• 7 = Ibadah | 8 = Islam Sobhi | 9 = Salawat | 0 = Ayat\n\n🖥️ Interface & Navigation:\n• ? — open/close shortcuts window\n• S — open search directly\n• F — show/hide favorites\n• Shift+F — random station from favorites\n• D — toggle dark/light mode\n• G — open the Holy Mushaf\n• T — go to tasbih counter\n• E — switch to English | A — switch to Arabic\n• Esc — close current screen\n\n📿 Tasbih Counter:\n• . (period) — add a tasbih\n\n💡 Press ? anytime for the full shortcuts window 🌿'
+      reply_en: '⌨️ Keyboard Shortcuts:\n\n▶️ Playback Controls:\n• Space — play / pause\n• P — play / pause main station\n• K — play / pause instant station\n• M — mute / unmute\n• + / - — raise or lower volume\n\n⏭️ Station Navigation:\n• ← left arrow — previous station\n• → right arrow — next station\n• N — next track within same station\n• B — previous track\n• R — toggle repeat for current track\n\n🔢 Quick Reciter Shortcuts (0–9):\n• 1 = Hussary | 2 = Abdul Basit | 3 = Al-Banna\n• 4 = Ali Jaber | 5 = Minshawi | 6 = Al-Qatami\n• 7 = Ibadah | 8 = Islam Sobhi | 9 = Salawat | 0 = Ayat\n\n🖥️ Interface & Navigation:\n• ? — open/close shortcuts window\n• S — open search directly\n• Shift+3 (#) — open/close Settings panel\n• F — show/hide favorites\n• Shift+F — random station from favorites\n• D — toggle dark/light mode\n• G — open the Holy Mushaf\n• T — go to tasbih counter\n• E — switch to English | A — switch to Arabic\n• Esc — close current screen\n\n📿 Tasbih Counter:\n• . (period) — add a tasbih\n\n💡 Press ? anytime for the full shortcuts window 🌿'
     },
     {
       keys: ['زر الاختصارات','نافذة الاختصارات','فتح الاختصارات','أين الاختصارات','شرح نافذة الاختصارات'],
