@@ -29133,10 +29133,36 @@ window.addEventListener("load", function() {
   function fetchAndSchedule(lat, lon) {
     const today = new Date();
     const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
+    const TIMINGS_KEY = 'adhanTimingsCache'; // { timings, date, lat, lon }
+
+    // دالة مساعدة لتحميل الكاش واستخدامه كـ fallback
+    function _loadCachedTimings() {
+      try {
+        const raw = localStorage.getItem(TIMINGS_KEY);
+        if (!raw) return null;
+        const { timings, date } = JSON.parse(raw);
+        // مقبول فقط لو نفس اليوم (المواقيت تتغير يومياً)
+        if (date === dateStr && timings) return timings;
+        return null;
+      } catch(e) { return null; }
+    }
+
+    // جرّب الكاش أولاً لو الـ API بطيء — عشان الـ countdown يبدأ فوراً
+    const _cached = _loadCachedTimings();
+    if (_cached) scheduleAdhan(_cached);
+
     fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lon}&method=4`)
       .then(r => r.json())
       .then(data => {
         if (data && data.data && data.data.timings) {
+          // احفظ المواقيت الجديدة في الكاش
+          try {
+            localStorage.setItem(TIMINGS_KEY, JSON.stringify({
+              timings: data.data.timings,
+              date: dateStr,
+              lat, lon
+            }));
+          } catch(e) {}
           scheduleAdhan(data.data.timings);
           // إعادة الجدولة كل يوم في منتصف الليل
           const tomorrow = new Date();
@@ -29144,9 +29170,22 @@ window.addEventListener("load", function() {
           tomorrow.setHours(0, 1, 0, 0);
           const msToMidnight = tomorrow - new Date();
           setTimeout(() => fetchAndSchedule(lat, lon), msToMidnight);
+        } else if (!_cached) {
+          // API فشل ولا يوجد كاش → لا نعمل شيء
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        // API فشل — لو ما في كاش محمّل، حاول كاش أمس كـ fallback أخير
+        if (!_cached) {
+          try {
+            const raw = localStorage.getItem(TIMINGS_KEY);
+            if (raw) {
+              const { timings } = JSON.parse(raw);
+              if (timings) scheduleAdhan(timings); // أمس قريب كفاية كـ تقريب
+            }
+          } catch(e) {}
+        }
+      });
   }
 
   // ---- البدء ----
