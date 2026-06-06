@@ -28851,15 +28851,27 @@ window.addEventListener("load", function() {
       body.dark-mode #adhan-next-info.adhan-now { color: #ffb74d; }
       #adhan-toggle-label-wrap { display: flex; flex-direction: column; flex: 1; }
       #adhan-test-btn {
-        font-size: 11px; font-weight: 700; padding: 3px 9px;
-        border-radius: 7px; border: 1.5px solid rgba(29,158,117,0.45);
+        font-size: 15px; width: 28px; height: 28px;
+        border-radius: 50%; border: 1.5px solid rgba(29,158,117,0.45);
         background: rgba(29,158,117,0.10); color: #1D9E75;
         cursor: pointer; flex-shrink: 0; font-family: inherit;
+        display: flex; align-items: center; justify-content: center; padding: 0;
         transition: background .2s, border-color .2s;
       }
       #adhan-test-btn:hover { background: rgba(29,158,117,0.22); border-color: #1D9E75; }
       body.dark-mode #adhan-test-btn { color: #5DCAA5; border-color: rgba(93,202,165,0.4); background: rgba(93,202,165,0.08); }
       body.dark-mode #adhan-test-btn:hover { background: rgba(93,202,165,0.18); }
+      #adhan-gps-btn {
+        font-size: 15px; width: 28px; height: 28px;
+        border-radius: 50%; border: 1.5px solid rgba(29,158,117,0.45);
+        background: rgba(29,158,117,0.10); color: #1D9E75;
+        cursor: pointer; flex-shrink: 0; font-family: inherit;
+        display: flex; align-items: center; justify-content: center; padding: 0;
+        transition: background .2s, border-color .2s;
+      }
+      #adhan-gps-btn:hover { background: rgba(29,158,117,0.22); border-color: #1D9E75; }
+      body.dark-mode #adhan-gps-btn { color: #5DCAA5; border-color: rgba(93,202,165,0.4); background: rgba(93,202,165,0.08); }
+      body.dark-mode #adhan-gps-btn:hover { background: rgba(93,202,165,0.18); }
       #adhan-banner {
         display:none; position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
         background:#1D9E75; color:#fff; padding:12px 22px; border-radius:16px;
@@ -28890,7 +28902,8 @@ window.addEventListener("load", function() {
         <span id="adhan-toggle-label" data-ar="أذان تلقائي" data-en="Auto Adhan">${_initAr ? 'أذان تلقائي' : 'Auto Adhan'}</span>
         <span id="adhan-next-info">${_initAr ? 'جارٍ تحميل المواقيت...' : 'Loading prayer times...'}</span>
       </span>
-      <button id="adhan-test-btn" title="${_initAr ? 'تجربة الأذان' : 'Test Adhan'}">▶ تجربة</button>
+      <button id="adhan-gps-btn" title="${_initAr ? 'تحديث الموقع' : 'Update location'}">📍</button>
+      <button id="adhan-test-btn" title="${_initAr ? 'تجربة الأذان' : 'Test Adhan'}">▶</button>
       <div id="adhan-toggle-switch" class="${adhanEnabled ? 'on' : ''}"></div>
     `;
 
@@ -28899,7 +28912,9 @@ window.addEventListener("load", function() {
       const lbl = document.getElementById('adhan-toggle-label');
       if (lbl) lbl.textContent = useAr ? 'أذان تلقائي' : 'Auto Adhan';
       const testB = document.getElementById('adhan-test-btn');
-      if (testB) { testB.textContent = useAr ? '▶ تجربة' : '▶ Test'; testB.title = useAr ? 'تجربة الأذان' : 'Test Adhan'; }
+      if (testB) testB.title = useAr ? 'تجربة الأذان' : 'Test Adhan';
+      const gpsB = document.getElementById('adhan-gps-btn');
+      if (gpsB) gpsB.title = useAr ? 'تحديث الموقع' : 'Update location';
       const info = document.getElementById('adhan-next-info');
       if (info && (info.textContent === 'جارٍ تحميل المواقيت...' || info.textContent === 'Loading prayer times...')) {
         info.textContent = useAr ? 'جارٍ تحميل المواقيت...' : 'Loading prayer times...';
@@ -28913,13 +28928,49 @@ window.addEventListener("load", function() {
     const testBtn = wrap.querySelector('#adhan-test-btn');
     if (testBtn) {
       testBtn.addEventListener('click', function(e) {
-        e.stopPropagation(); // منع تفعيل toggleAdhan
-        // حذف مفتاح "شُغِّل اليوم" مؤقتاً عشان يسمح بالتشغيل
-        const _todayKey = new Date().toDateString() + '_test';
+        e.stopPropagation();
         localStorage.removeItem(STORAGE_KEY);
         playAdhan('Dhuhr');
-        // اعمل restore للمفتاح بعد ثانية عشان ما يتسجّلش كصلاة حقيقية
         setTimeout(() => localStorage.removeItem(STORAGE_KEY), 1000);
+      });
+    }
+
+    // زر GPS — يمسح الكاش ويطلب الإذن من جديد
+    const gpsBtn = wrap.querySelector('#adhan-gps-btn');
+    if (gpsBtn) {
+      gpsBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const useAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+        const infoEl = document.getElementById('adhan-next-info');
+        if (!('geolocation' in navigator)) {
+          if (infoEl) infoEl.textContent = useAr ? '⚠️ المتصفح لا يدعم GPS' : '⚠️ GPS not supported';
+          return;
+        }
+        // مسح الكاش القديم لإجبار طلب جديد
+        localStorage.removeItem('adhanGeoCache');
+        gpsBtn.textContent = '⏳';
+        gpsBtn.style.pointerEvents = 'none';
+        if (infoEl) infoEl.textContent = useAr ? 'جارٍ تحديد موقعك...' : 'Locating...';
+        navigator.geolocation.getCurrentPosition(
+          function(pos) {
+            const { latitude: lat, longitude: lon } = pos.coords;
+            // احفظ الكاش الجديد
+            try { localStorage.setItem('adhanGeoCache', JSON.stringify({ lat, lon, ts: Date.now() })); } catch(e) {}
+            // أعد جدولة الأذان بالموقع الجديد
+            fetchAndSchedule(lat, lon);
+            gpsBtn.textContent = '📍';
+            gpsBtn.style.pointerEvents = '';
+            if (infoEl) infoEl.textContent = useAr ? '✅ تم تحديث الموقع' : '✅ Location updated';
+            setTimeout(updateCountdownDisplay, 2000);
+          },
+          function() {
+            gpsBtn.textContent = '📍';
+            gpsBtn.style.pointerEvents = '';
+            if (infoEl) infoEl.textContent = useAr ? '❌ تم رفض إذن الموقع' : '❌ Location denied';
+            setTimeout(updateCountdownDisplay, 3000);
+          },
+          { timeout: 10000 }
+        );
       });
     }
 
