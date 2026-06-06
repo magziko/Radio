@@ -30629,7 +30629,18 @@ document.addEventListener("keydown", function(e) {
         '#kb-lang-toggle{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;border:1.5px solid rgba(0,0,0,0.15);background:none;cursor:pointer;font-size:12px;font-weight:700;opacity:0.7;transition:.2s;color:inherit;font-family:inherit}',
         '#kb-lang-toggle:hover{opacity:1;background:rgba(0,0,0,0.05)}',
         'body.dark-mode #kb-lang-toggle{border-color:rgba(255,255,255,0.2)}',
-        'body.dark-mode #kb-lang-toggle:hover{background:rgba(255,255,255,0.08)}'
+        'body.dark-mode #kb-lang-toggle:hover{background:rgba(255,255,255,0.08)}',
+        /* Touch-button rows */
+        '.kb-row{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:background 0.15s,transform 0.1s}',
+        '.kb-row:active{background:rgba(29,158,117,0.13)!important;transform:scale(0.98)}',
+        'body.dark-mode .kb-row:active{background:rgba(100,220,180,0.15)!important}',
+        '.kb-row-tap-hint{font-size:9px;opacity:0.38;margin-top:1px;display:block;text-align:center}',
+        '.kb-row[data-action]:hover .kb-key{background:rgba(29,158,117,0.12);border-color:rgba(29,158,117,0.35);color:#0F6E56}',
+        'body.dark-mode .kb-row[data-action]:hover .kb-key{background:rgba(100,220,180,0.15);border-color:rgba(100,220,180,0.4);color:#4dd6a3}',
+        '@keyframes kb-flash{0%{background:rgba(29,158,117,0.25)}100%{background:transparent}}',
+        '.kb-row-flash{animation:kb-flash 0.4s ease-out}',
+        '#kb-mobile-note{display:none}',
+        '@media(hover:none) and (pointer:coarse){#kb-mobile-note{display:flex}}'
     ].join('');
     document.head.appendChild(style);
 
@@ -30707,8 +30718,84 @@ document.addEventListener("keydown", function(e) {
         }).join('<span class="kb-sep">+</span>');
     }
 
+    // خريطة ربط id الاختصار بالمفتاح/الحدث الذي يُطلَق عند الضغط
+    var actionMap = {
+        r_space: { key: ' ',          code: 'Space'     },
+        r_p:     { key: 'p',          code: 'KeyP'      },
+        r_k:     { key: 'k',          code: 'KeyK'      },
+        r_plus:  { key: '+',          code: 'Equal'     },
+        r_minus: { key: '-',          code: 'Minus'     },
+        r_m:     { key: 'm',          code: 'KeyM'      },
+        r_sp:    { key: 'P',          code: 'KeyP',  shift: true },
+        r_next:  { key: 'ArrowLeft',  code: 'ArrowLeft' },
+        r_prev:  { key: 'ArrowRight', code: 'ArrowRight'},
+        r_n:     { key: 'n',          code: 'KeyN'      },
+        r_b:     { key: 'b',          code: 'KeyB'      },
+        r_r:     { key: 'r',          code: 'KeyR'      },
+        r_1:     { key: '1',          code: 'Digit1'    },
+        r_2:     { key: '2',          code: 'Digit2'    },
+        r_3:     { key: '3',          code: 'Digit3'    },
+        r_4:     { key: '4',          code: 'Digit4'    },
+        r_5:     { key: '5',          code: 'Digit5'    },
+        r_6:     { key: '6',          code: 'Digit6'    },
+        r_7:     { key: '7',          code: 'Digit7'    },
+        r_8:     { key: '8',          code: 'Digit8'    },
+        r_9:     { key: '9',          code: 'Digit9'    },
+        r_0:     { key: '0',          code: 'Digit0'    },
+        r_q:     { key: '?',          code: 'Slash',  shift: true },
+        r_sw:    { key: 'W',          code: 'KeyW',   shift: true },
+        r_esc:   { key: 'Escape',     code: 'Escape'    },
+        r_e:     { key: 'e',          code: 'KeyE'      },
+        r_a:     { key: 'a',          code: 'KeyA'      },
+        r_d:     { key: 'd',          code: 'KeyD'      },
+        r_s:     { key: 's',          code: 'KeyS'      },
+        r_f:     { key: 'f',          code: 'KeyF'      },
+        r_sf:    { key: 'F',          code: 'KeyF',   shift: true },
+        r_g:     { key: 'l',          code: 'KeyL'      },
+        r_t:     { key: 'h',          code: 'KeyH'      },
+        r_c:     { key: 'u',          code: 'KeyU'      },
+        r_st:    { key: 'w',          code: 'KeyW'      },
+        r_dot:   { key: '.',          code: 'Period'    }
+    };
+
+    // دالة تطلق حدث لوحة المفاتيح بشكل برمجي
+    window._kbFireAction = function(id) {
+        var act = actionMap[id];
+        if (!act) return;
+        var row = document.querySelector('.kb-row[data-action="' + id + '"]');
+        if (row) {
+            row.classList.remove('kb-row-flash');
+            void row.offsetWidth; // reflow
+            row.classList.add('kb-row-flash');
+        }
+        // أطلق حدث keydown على document
+        var ev = new KeyboardEvent('keydown', {
+            key: act.key,
+            code: act.code,
+            shiftKey: !!act.shift,
+            bubbles: true,
+            cancelable: true
+        });
+        // أغلق النافذة أولاً للاختصارات التي تحتاج ذلك (غير ? و Esc)
+        if (id !== 'r_q' && id !== 'r_esc') {
+            var ov = document.getElementById('kb-modal-overlay');
+            if (ov && ov.classList.contains('open')) {
+                // أخّر الإغلاق قليلاً لتُرى الـ flash
+                setTimeout(function() {
+                    toggleShortcutsModal(false);
+                    setTimeout(function() { document.dispatchEvent(ev); }, 80);
+                }, 220);
+                return;
+            }
+        }
+        document.dispatchEvent(ev);
+    };
+
     function kbRow(id, keys, lang) {
-        return '<div class="kb-row"><span class="kb-row-desc">' + T[id][lang] + '</span><div class="kb-keys">' + kbKey(keys) + '</div></div>';
+        var hasAction = !!actionMap[id];
+        var actionAttr = hasAction ? ' data-action="' + id + '" role="button" tabindex="0" onclick="window._kbFireAction(\'' + id + '\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'' + id + '\')"' : '';
+        var tapHint = hasAction ? '<span class="kb-row-tap-hint">' + (lang === 'ar' ? 'اضغط للتنفيذ' : 'Tap to trigger') + '</span>' : '';
+        return '<div class="kb-row"' + actionAttr + '><span class="kb-row-desc">' + T[id][lang] + tapHint + '</span><div class="kb-keys">' + kbKey(keys) + '</div></div>';
     }
 
     function buildModal(lang) {
@@ -30723,6 +30810,11 @@ document.addEventListener("keydown", function(e) {
               '</div>',
               '<div id="kb-modal-body">',
 
+                '<div id="kb-mobile-note" style="background:rgba(29,158,117,0.10);border-radius:10px;padding:9px 13px;font-size:12px;gap:8px;align-items:center;line-height:1.5;margin-bottom:2px">',
+                  '<span style="font-size:16px;flex-shrink:0">👆</span>',
+                  '<span>' + (lang==='ar' ? 'اضغط على أي اختصار لتنفيذه مباشرةً من الموبايل' : 'Tap any shortcut row to trigger it on mobile') + '</span>',
+                '</div>',
+
                 '<div>',
                   '<p class="kb-section-title">' + T.sec1[lang] + '</p>',
                   '<div class="kb-rows">',
@@ -30732,7 +30824,7 @@ document.addEventListener("keydown", function(e) {
                     kbRow('r_plus', ['+'], lang),
                     kbRow('r_minus', ['-'], lang),
                     kbRow('r_m', ['M'], lang),
-                    '<div class="kb-row"><span class="kb-row-desc">' + T.r_sp[lang] + '</span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">P</span></div></div>',
+                    '<div class="kb-row" data-action="r_sp" role="button" tabindex="0" onclick="window._kbFireAction(\'r_sp\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_sp\')"><span class="kb-row-desc">' + T.r_sp[lang] + '<span class="kb-row-tap-hint">' + (lang==='ar'?'اضغط للتنفيذ':'Tap to trigger') + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">P</span></div></div>',
                   '</div>',
                 '</div>',
 
@@ -30792,7 +30884,7 @@ document.addEventListener("keydown", function(e) {
                     kbRow('r_d', ['D'], lang),
                     kbRow('r_s', ['S'], lang),
                     kbRow('r_f', ['F'], lang),
-                    '<div class="kb-row"><span class="kb-row-desc">' + T.r_sf[lang] + '</span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">F</span></div></div>',
+                    '<div class="kb-row" data-action="r_sf" role="button" tabindex="0" onclick="window._kbFireAction(\'r_sf\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_sf\')"><span class="kb-row-desc">' + T.r_sf[lang] + '<span class="kb-row-tap-hint">' + (lang==='ar'?'اضغط للتنفيذ':'Tap to trigger') + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">F</span></div></div>',
                     kbRow('r_g', ['L'], lang),
                     kbRow('r_t', ['H'], lang),
                     kbRow('r_c', ['U'], lang),
