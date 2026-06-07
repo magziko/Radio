@@ -5113,6 +5113,15 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
                         class="welcome-toggle-btn">
                     <span class="wtb-icon">🔁</span>
                     <span class="wtb-text" id="autoSwitchToggleTxt">تنقل تلقائي</span>
+                    <span id="autoSwitchCountdown" style="
+                        font-size:0.72em;
+                        opacity:0.9;
+                        font-variant-numeric:tabular-nums;
+                        letter-spacing:0.03em;
+                        min-width:2.8em;
+                        display:inline-block;
+                        text-align:center;
+                    "></span>
                 </button>
 
                 <button id="customRandomBtn"
@@ -5261,15 +5270,136 @@ function toggleDisableWelcomeScreen() {
 function toggleAutoSwitchBtn() {
     const cb   = document.getElementById('customAutoSwitch');
     const btn  = document.getElementById('autoSwitchToggleBtn');
-    const icon = btn.querySelector('.wtb-icon');
+    const icon = btn ? btn.querySelector('.wtb-icon') : null;
     cb.checked = !cb.checked;
     cb.dispatchEvent(new Event('change'));
     if (cb.checked) {
         btn.classList.add('active');
-        icon.textContent = '🔄';
+        if (icon) icon.textContent = '🔄';
     } else {
         btn.classList.remove('active');
-        icon.textContent = '🔁';
+        if (icon) icon.textContent = '🔁';
+    }
+}
+
+// ─────────────────────────────────────────────────────────────
+// التنقل التلقائي بين محطات الشاشة الترحيبية - كل 5 دقائق
+// ─────────────────────────────────────────────────────────────
+var _asTimer        = null;   // setTimeout للتنقل
+var _asTick         = null;   // setInterval للعداد
+var _asSecondsLeft  = 0;
+var AS_DURATION_SEC = 300;    // 5 دقائق = 300 ثانية (قابل للتغيير من الإعدادات)
+
+// ─── تحميل القيمة المحفوظة من localStorage ───────────────────
+(function loadWelcomeAutoSwitchDuration() {
+    var saved = localStorage.getItem('welcomeAutoSwitchDuration');
+    if (saved) {
+        var mins = parseInt(saved);
+        if (!isNaN(mins) && mins >= 1) {
+            AS_DURATION_SEC = mins * 60;
+        }
+    }
+    // تعبئة الحقل بعد تحميل الصفحة
+    window.addEventListener('load', function() {
+        var inp = document.getElementById('welcomeAutoSwitchDuration');
+        if (inp) {
+            var m = Math.round(AS_DURATION_SEC / 60);
+            inp.value = m;
+        }
+    });
+})();
+
+// ─── دالة تغيير مدة التنقل من الإعدادات ─────────────────────
+function setWelcomeAutoSwitchDuration() {
+    var inp = document.getElementById('welcomeAutoSwitchDuration');
+    if (!inp) return;
+    var mins = parseInt(inp.value);
+    if (isNaN(mins) || mins < 1) {
+        inp.value = Math.round(AS_DURATION_SEC / 60);
+        return;
+    }
+    if (mins > 60) { mins = 60; inp.value = 60; }
+    AS_DURATION_SEC = mins * 60;
+    localStorage.setItem('welcomeAutoSwitchDuration', String(mins));
+
+    // لو التنقل شغّال الآن → أعد تشغيل الدورة بالمدة الجديدة
+    var cb = document.getElementById('customAutoSwitch');
+    if (cb && cb.checked) {
+        _asClearAll();
+        _asStartCycle();
+    }
+
+    // إشعار للمستخدم
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var msg = isAr
+        ? '✅ مدة التنقل: ' + mins + ' دقيقة'
+        : '✅ Cycle duration: ' + mins + ' min';
+    if (typeof showToast === 'function') {
+        showToast(msg);
+    }
+}
+
+function _asFormatCountdown(sec) {
+    if (sec <= 0)  return '';
+    if (sec >= 60) {
+        var m = Math.floor(sec / 60);
+        var s = sec % 60;
+        return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+    return sec + 's';
+}
+
+function _asClearAll() {
+    clearTimeout(_asTimer);
+    clearInterval(_asTick);
+    _asTimer = null;
+    _asTick  = null;
+    var cdSpan = document.getElementById('autoSwitchCountdown');
+    if (cdSpan) cdSpan.textContent = '';
+}
+
+function _asStartCycle() {
+    var cb = document.getElementById('customAutoSwitch');
+    if (!cb || !cb.checked) { _asClearAll(); return; }
+
+    _asSecondsLeft = AS_DURATION_SEC;
+
+    // تحديث العداد كل ثانية
+    var cdSpan = document.getElementById('autoSwitchCountdown');
+    clearInterval(_asTick);
+    if (cdSpan) cdSpan.textContent = _asFormatCountdown(_asSecondsLeft);
+
+    _asTick = setInterval(function () {
+        _asSecondsLeft--;
+        if (cdSpan) cdSpan.textContent = _asFormatCountdown(_asSecondsLeft);
+        if (_asSecondsLeft <= 0) clearInterval(_asTick);
+    }, 1000);
+
+    // عند انتهاء المؤقت → انتقل للمحطة التالية وابدأ دورة جديدة
+    clearTimeout(_asTimer);
+    _asTimer = setTimeout(function () {
+        var cbNow = document.getElementById('customAutoSwitch');
+        if (!cbNow || !cbNow.checked) { _asClearAll(); return; }
+        if (typeof nextStationFunc === 'function') nextStationFunc();
+        _asStartCycle();   // دورة جديدة
+    }, AS_DURATION_SEC * 1000);
+}
+
+function enableAutoSwitch() {
+    var cb   = document.getElementById('customAutoSwitch');
+    var btn  = document.getElementById('autoSwitchToggleBtn');
+    var icon = btn ? btn.querySelector('.wtb-icon') : null;
+
+    if (cb && cb.checked) {
+        // تفعيل
+        if (btn)  btn.classList.add('active');
+        if (icon) icon.textContent = '🔄';
+        _asStartCycle();
+    } else {
+        // إيقاف
+        _asClearAll();
+        if (btn)  btn.classList.remove('active');
+        if (icon) icon.textContent = '🔁';
     }
 }
 
@@ -12655,17 +12785,50 @@ setTimeout(autoScaleVerseFont, 100);
   <div class="controls-row">
 
     <div class="input-group">
-      <label for="autoSwitchCheckbox" data-ar="التنقل الآلي" data-en="Auto Switch">التنقل الآلي</label>
-      <input type="number" id="autoSwitchTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" placeholder="الدقائق">
-      <input type="checkbox" id="autoSwitchCheckbox">
+      <label for="autoSwitchTimer" data-ar="التنقل الآلي" data-en="Auto Switch">التنقل الآلي</label>
+      <input type="number" id="autoSwitchTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" placeholder="الدقائق"
+             onchange="(function(){var cb=document.getElementById('autoSwitchCheckbox');var v=parseInt(document.getElementById('autoSwitchTimer').value);if(!isNaN(v)&&v>0){cb.checked=true;}else{cb.checked=false;}cb.dispatchEvent(new Event('change'));})()">
+      <input type="checkbox" id="autoSwitchCheckbox" style="display:none">
+      <span id="autoSwitch-countdown-settings" style="
+        display:none;
+        font-size:12px;
+        font-weight:700;
+        font-family:'Cairo',Arial,sans-serif;
+        font-variant-numeric:tabular-nums;
+        color:#1D9E75;
+        background:rgba(29,158,117,0.10);
+        border:1px solid rgba(29,158,117,0.25);
+        border-radius:8px;
+        padding:2px 7px;
+        white-space:nowrap;
+        letter-spacing:0.03em;
+        cursor:pointer;
+        title='اضغط لإيقاف التنقل';
+      " onclick="document.getElementById('autoSwitchCheckbox').checked=false;document.getElementById('autoSwitchCheckbox').dispatchEvent(new Event('change'));"></span>
     </div>
 
     <input type="text" id="searchInput" class="search-input" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
 
     <div class="input-group">
-      <label for="sleepCheckbox" data-ar="مؤقت الإيقاف" data-en="Sleep Mode">مؤقت الإيقاف</label>
-      <input type="number" id="sleepTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" placeholder="الدقائق">
-      <input type="checkbox" id="sleepCheckbox">
+      <label for="sleepTimer" data-ar="مؤقت الإيقاف" data-en="Sleep Mode">مؤقت الإيقاف</label>
+      <input type="number" id="sleepTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" placeholder="الدقائق"
+             onchange="(function(){var cb=document.getElementById('sleepCheckbox');var v=parseInt(document.getElementById('sleepTimer').value);if(!isNaN(v)&&v>0){cb.checked=true;}else{cb.checked=false;}cb.dispatchEvent(new Event('change'));})()">
+      <input type="checkbox" id="sleepCheckbox" style="display:none">
+      <span id="sleep-countdown-settings" style="
+        display:none;
+        font-size:12px;
+        font-weight:700;
+        font-family:'Cairo',Arial,sans-serif;
+        font-variant-numeric:tabular-nums;
+        color:#ffb74d;
+        background:rgba(255,183,77,0.12);
+        border:1px solid rgba(255,183,77,0.30);
+        border-radius:8px;
+        padding:2px 7px;
+        white-space:nowrap;
+        letter-spacing:0.03em;
+        cursor:pointer;
+      " onclick="document.getElementById('sleepCheckbox').checked=false;document.getElementById('sleepCheckbox').dispatchEvent(new Event('change'));" title="اضغط لإلغاء مؤقت النوم"></span>
     </div>
 
   </div>
@@ -13122,7 +13285,7 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   
-  <div style="display:flex; justify-content:center; margin: 8px 0 4px;">
+  <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 8px 0 4px; flex-wrap:wrap;">
     <button id="disableWelcomeToggleBtn"
             onclick="toggleDisableWelcomeBtn()"
             title="إخفاء شاشة الترحيب / Disable Welcome Screen"
@@ -13130,6 +13293,15 @@ setTimeout(autoScaleVerseFont, 100);
         <svg class="wtb-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         <span class="wtb-text" id="disableWelcomeTxt">إخفاء شاشة الترحيب</span>
     </button>
+    <div id="welcomeAutoSwitchDurationGroup" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية"
+         style="display:flex; align-items:center; gap:7px; background:linear-gradient(to right,#e3f2fd 0%,#fff 50%,#e3f2fd 100%); border-radius:8px; padding:6px 12px; box-shadow:0 2px 4px rgba(0,0,0,0.08); font-weight:700; font-size:14px;">
+      <label for="welcomeAutoSwitchDuration" data-ar="⏱️ مدة تنقل الترحيب" data-en="⏱️ Welcome Cycle" style="white-space:nowrap; color:#000; margin:0;">⏱️ مدة تنقل الترحيب</label>
+      <input type="number" id="welcomeAutoSwitchDuration" min="1" max="60"
+             data-ar="الدقائق" data-en="Minutes"
+             placeholder="الدقائق"
+             style="width:70px; padding:5px 7px; font-size:13px; border:2px solid #ddd; border-radius:5px;"
+             onchange="setWelcomeAutoSwitchDuration()">
+    </div>
   </div>
 
 
@@ -22715,7 +22887,7 @@ const mixStations = [
   "ar": "إذاعة نهر النيل Live",
   "en": "Nile Radio Live",
   "mix_sub": "radios",
-  "url": "http://104.7.66.64:8087/;?icy=http"
+  "url": "http://104.7.66.64:8087/stream/1/"
 },
   {
     "category": "mix",
@@ -25332,12 +25504,16 @@ function applyInitialLanguage() {
 
     var favLbl = document.getElementById('favLabel');
     if (favLbl) favLbl.textContent = ' Favorites';
-    var asCbLbl = document.querySelector("label[for='autoSwitchCheckbox']");
+    var asCbLbl = document.querySelector("label[for='autoSwitchTimer']");
     if (asCbLbl) asCbLbl.textContent = asCbLbl.getAttribute('data-en');
-    var slCbLbl = document.querySelector("label[for='sleepCheckbox']");
+    var slCbLbl = document.querySelector("label[for='sleepTimer']");
     if (slCbLbl) slCbLbl.textContent = slCbLbl.getAttribute('data-en');
     document.getElementById('sleepTimer').placeholder      = document.getElementById('sleepTimer').getAttribute('data-en');
     document.getElementById('autoSwitchTimer').placeholder = document.getElementById('autoSwitchTimer').getAttribute('data-en');
+    var wasdInpEn = document.getElementById('welcomeAutoSwitchDuration');
+    if (wasdInpEn) wasdInpEn.placeholder = wasdInpEn.getAttribute('data-en');
+    var wasdLblEn = document.querySelector("label[for='welcomeAutoSwitchDuration']");
+    if (wasdLblEn) wasdLblEn.textContent = wasdLblEn.getAttribute('data-en');
 
     updateFilterLanguage(lang);
 
@@ -25617,25 +25793,85 @@ function switchToNextButton() {
   visibleButtons[newVisibleIndex].click();
 }
 
+// ── عداد تنازلي للتنقل الآلي في الإعدادات ─────────────────────
+var _asSettingsEndTime   = 0;
+var _asSettingsTick      = null;
+var _asSettingsTimeout   = null;
+
+function _asSettingsFormat(sec) {
+  if (sec <= 0) return '';
+  if (sec >= 3600) {
+    var h = Math.floor(sec / 3600);
+    var m = Math.floor((sec % 3600) / 60);
+    var s = sec % 60;
+    return '🔄 ' + h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  }
+  if (sec >= 60) {
+    var m2 = Math.floor(sec / 60);
+    var s2 = sec % 60;
+    return '🔄 ' + m2 + ':' + String(s2).padStart(2,'0');
+  }
+  return '🔄 ' + sec + 's';
+}
+
+function _asSettingsStartCountdown(totalSec) {
+  var span = document.getElementById('autoSwitch-countdown-settings');
+  if (!span) return;
+  _asSettingsEndTime = Date.now() + totalSec * 1000;
+  span.style.display = 'inline-block';
+  span.textContent = _asSettingsFormat(totalSec);
+  clearInterval(_asSettingsTick);
+  _asSettingsTick = setInterval(function() {
+    var remaining = Math.max(0, Math.round((_asSettingsEndTime - Date.now()) / 1000));
+    span.textContent = _asSettingsFormat(remaining);
+    if (remaining <= 0) {
+      clearInterval(_asSettingsTick);
+    }
+  }, 1000);
+}
+
+function _asSettingsStopCountdown() {
+  clearInterval(_asSettingsTick);
+  clearTimeout(_asSettingsTimeout);
+  _asSettingsTick = null;
+  _asSettingsTimeout = null;
+  var span = document.getElementById('autoSwitch-countdown-settings');
+  if (span) { span.style.display = 'none'; span.textContent = ''; }
+}
+
 function activateAutoSwitch() {
   if (document.getElementById('autoSwitchCheckbox').checked) {
     var autoSwitchMinutes = parseInt(document.getElementById('autoSwitchTimer').value);
     if (isNaN(autoSwitchMinutes) || autoSwitchMinutes <= 0) {
-      alert("يرجى إدخال عدد دقائق صحيح.");
+      if (typeof showToast === 'function') showToast('⚠️ يرجى إدخال عدد دقائق صحيح');
       document.getElementById('autoSwitchCheckbox').checked = false;
       return;
     }
 
     autoSwitchInterval = autoSwitchMinutes * 60 * 1000;
-    autoSwitchTimeout = setTimeout(function autoSwitch() {
-      switchToNextButton();
-      autoSwitchTimeout = setTimeout(autoSwitch, autoSwitchInterval);
-    }, autoSwitchInterval);
 
-    alert("تم تفعيل التنقل التلقائي كل " + autoSwitchMinutes + " دقيقة.");
+    // بدء العداد التنازلي في الإعدادات
+    _asSettingsStartCountdown(autoSwitchMinutes * 60);
+
+    function _asSettingsCycle() {
+      switchToNextButton();
+      // إعادة بدء دورة جديدة
+      _asSettingsStartCountdown(autoSwitchMinutes * 60);
+      _asSettingsTimeout = setTimeout(_asSettingsCycle, autoSwitchInterval);
+    }
+
+    clearTimeout(autoSwitchTimeout);
+    clearTimeout(_asSettingsTimeout);
+    autoSwitchTimeout = setTimeout(function() {
+      _asSettingsCycle();
+    }, autoSwitchInterval);
+    _asSettingsTimeout = autoSwitchTimeout;
+
+    if (typeof showToast === 'function') showToast('🔄 التنقل التلقائي كل ' + autoSwitchMinutes + ' دقيقة');
   } else {
     clearTimeout(autoSwitchTimeout);
-    alert("تم إلغاء التنقل التلقائي.");
+    _asSettingsStopCountdown();
+    if (typeof showToast === 'function') showToast('⏹️ تم إيقاف التنقل التلقائي');
   }
 }
 
@@ -25677,6 +25913,10 @@ function activateAutoSwitch() {
     var lbl = ensureSleepLabel();
     lbl.style.display = 'flex';
 
+    // العداد التنازلي في الإعدادات أيضاً
+    var settingsSpan = document.getElementById('sleep-countdown-settings');
+    if (settingsSpan) settingsSpan.style.display = 'inline-block';
+
     _countInterval = setInterval(function() {
       var remaining = Math.max(0, _endTime - Date.now());
       var totalSec  = Math.round(remaining / 1000);
@@ -25687,6 +25927,8 @@ function activateAutoSwitch() {
         ? h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0')
         : m + ':' + String(s).padStart(2,'0');
       lbl.innerHTML = '🌙 ' + txt;
+      // تحديث الإعدادات
+      if (settingsSpan) settingsSpan.textContent = '🌙 ' + txt;
       if (remaining === 0) clearInterval(_countInterval);
     }, 1000);
   }
@@ -25699,6 +25941,8 @@ function activateAutoSwitch() {
     if (cb) cb.checked = false;
     var lbl = document.getElementById('pnb-sleep-label');
     if (lbl) lbl.style.display = 'none';
+    var settingsSpan = document.getElementById('sleep-countdown-settings');
+    if (settingsSpan) { settingsSpan.style.display = 'none'; settingsSpan.textContent = ''; }
     if (typeof showToast === 'function') showToast('❌ تم إلغاء مؤقت النوم');
   }
 
@@ -25738,21 +25982,52 @@ function activateAutoSwitch() {
 
     _sleepTimeout = setTimeout(function() {
       clearInterval(_countInterval);
-      var audio = document.getElementById('currentAudio')
-                  || document.querySelector('audio');
-      if (audio && !audio.paused) {
-        fadeAndStop(audio, function() {
-          if (typeof showToast === 'function') showToast('🌙 تم إيقاف الراديو — تصبح على خير');
-          var lbl = document.getElementById('pnb-sleep-label');
-          if (lbl) lbl.style.display = 'none';
-          cb.checked = false;
-        });
-      } else {
+
+      // ── إيقاف كل شيء بعد انتهاء مؤقت النوم ─────────────────
+
+      // 1) إيقاف التنقل الآلي للشاشة الترحيبية
+      var welcomeCb   = document.getElementById('customAutoSwitch');
+      var welcomeBtn  = document.getElementById('autoSwitchToggleBtn');
+      var welcomeIcon = welcomeBtn ? welcomeBtn.querySelector('.wtb-icon') : null;
+      if (welcomeCb && welcomeCb.checked) {
+        welcomeCb.checked = false;
+        if (typeof _asClearAll === 'function') _asClearAll();
+        if (welcomeBtn)  welcomeBtn.classList.remove('active');
+        if (welcomeIcon) welcomeIcon.textContent = '🔁';
+      }
+
+      // 2) إيقاف التنقل الآلي في الإعدادات
+      var settingsCb = document.getElementById('autoSwitchCheckbox');
+      if (settingsCb && settingsCb.checked) {
+        settingsCb.checked = false;
+        clearTimeout(autoSwitchTimeout);
+        if (typeof _asSettingsStopCountdown === 'function') _asSettingsStopCountdown();
+      }
+
+      // 3) إيقاف راديو الشاشة الترحيبية فوراً
+      var welcomeAudio = document.getElementById('customAudioPlayer');
+      if (welcomeAudio && !welcomeAudio.paused) {
+        welcomeAudio.pause();
+        welcomeAudio.src = '';
+      }
+
+      // 4) إيقاف الراديو الأساسي مع fade ثم تنظيف الـ UI
+      function _afterFade() {
         if (typeof showToast === 'function') showToast('🌙 تم إيقاف الراديو — تصبح على خير');
-        var lbl2 = document.getElementById('pnb-sleep-label');
-        if (lbl2) lbl2.style.display = 'none';
+        var lbl = document.getElementById('pnb-sleep-label');
+        if (lbl) lbl.style.display = 'none';
+        var ss = document.getElementById('sleep-countdown-settings');
+        if (ss) { ss.style.display = 'none'; ss.textContent = ''; }
         cb.checked = false;
       }
+
+      var mainAudioEl = document.getElementById('currentAudio');
+      if (mainAudioEl && !mainAudioEl.paused) {
+        fadeAndStop(mainAudioEl, _afterFade);
+      } else {
+        _afterFade();
+      }
+
     }, mins * 60 * 1000);
 
     startCountdown();
@@ -26262,11 +26537,18 @@ function toggleLanguage() {
   var _favLbl = document.getElementById('favLabel');
   if (_favLbl) _favLbl.textContent = isArabic ? ' المفضلة' : ' Favorites';
 
-  document.querySelector("label[for='autoSwitchCheckbox']").textContent = isArabic ? document.querySelector("label[for='autoSwitchCheckbox']").getAttribute("data-ar") : document.querySelector("label[for='autoSwitchCheckbox']").getAttribute("data-en");
-  document.querySelector("label[for='sleepCheckbox']").textContent = isArabic ? document.querySelector("label[for='sleepCheckbox']").getAttribute("data-ar") : document.querySelector("label[for='sleepCheckbox']").getAttribute("data-en");
+  var _asLbl = document.querySelector("label[for='autoSwitchTimer']");
+  if (_asLbl) _asLbl.textContent = isArabic ? _asLbl.getAttribute("data-ar") : _asLbl.getAttribute("data-en");
+  var _slLbl = document.querySelector("label[for='sleepTimer']");
+  if (_slLbl) _slLbl.textContent = isArabic ? _slLbl.getAttribute("data-ar") : _slLbl.getAttribute("data-en");
 
   document.getElementById("sleepTimer").placeholder = isArabic ? document.getElementById("sleepTimer").getAttribute("data-ar") : document.getElementById("sleepTimer").getAttribute("data-en");
   document.getElementById("autoSwitchTimer").placeholder = isArabic ? document.getElementById("autoSwitchTimer").getAttribute("data-ar") : document.getElementById("autoSwitchTimer").getAttribute("data-en");
+
+  var wasdInpLang = document.getElementById("welcomeAutoSwitchDuration");
+  if (wasdInpLang) wasdInpLang.placeholder = isArabic ? wasdInpLang.getAttribute("data-ar") : wasdInpLang.getAttribute("data-en");
+  var wasdLblLang = document.querySelector("label[for='welcomeAutoSwitchDuration']");
+  if (wasdLblLang) wasdLblLang.textContent = isArabic ? wasdLblLang.getAttribute("data-ar") : wasdLblLang.getAttribute("data-en");
 
   updateFilterLanguage(lang);
 
