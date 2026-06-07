@@ -5380,6 +5380,7 @@ function _asStartCycle() {
     _asTimer = setTimeout(function () {
         var cbNow = document.getElementById('customAutoSwitch');
         if (!cbNow || !cbNow.checked) { _asClearAll(); return; }
+        if (window._userStoppedManually) { _asClearAll(); return; } // مؤقت النوم أوقف — لا انتقال
         if (typeof nextStationFunc === 'function') nextStationFunc();
         _asStartCycle();   // دورة جديدة
     }, AS_DURATION_SEC * 1000);
@@ -5664,6 +5665,7 @@ function playSource(i) {
 function nextSource() {
     if (switchingSource) return;
     if (window._welcomeScreenClosed) return;
+    if (window._userStoppedManually) return; // المستخدم أوقف — لا انتقال لمحطة احتياطية
 
     switchingSource = true;
     welcomeConsecutiveErrors++;
@@ -5689,9 +5691,17 @@ function nextSource() {
 // ── زر التشغيل/الإيقاف في الشاشة الترحيبية ──
 function togglePlayPauseFunc() {
     if (isAudioPlaying) {
+        window._userStoppedManually = true; // إيقاف يدوي
+        clearTimeout(retryTimeout);
+        clearTimeout(_sErrorTimer);   // إلغاء مؤقت المحطة الاحتياطية
+        clearTimeout(_sStalledTimer);
+        clearTimeout(welcomeErrorTimer);   // إلغاء مؤقت الشاشة الترحيبية
+        clearTimeout(welcomeStalledTimer);
+        _sErrorTimer = null; _sStalledTimer = null;
         customAudioPlayer.pause();
         if (currentStatus) currentStatus.textContent = "الراديو متوقف";
     } else {
+        window._userStoppedManually = false; // المستخدم يريد التشغيل
         // لو مفيش src، ابدأ من المصدر الأول
         if (!customAudioPlayer.src || customAudioPlayer.src === window.location.href) {
             index = 0;
@@ -5713,6 +5723,8 @@ function stopRadio()  { if (isAudioPlaying)  togglePlayPauseFunc(); }
 var _stationErrorHandler   = null;
 var _stationStalledHandler = null;
 var _stationPlayingHandler = null;
+var _sErrorTimer           = null;  // مؤقت خطأ المحطة (عام للإلغاء من الخارج)
+var _sStalledTimer         = null;  // مؤقت توقف المحطة (عام للإلغاء من الخارج)
 
 function _clearStationHandlers() {
     if (_stationErrorHandler)   { customAudioPlayer.removeEventListener('error',   _stationErrorHandler);   _stationErrorHandler   = null; }
@@ -5721,6 +5733,7 @@ function _clearStationHandlers() {
 }
 
 function playStation(station) {
+    window._userStoppedManually = false; // تشغيل جديد من المستخدم
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
     _clearStationHandlers();
 
@@ -5735,12 +5748,12 @@ function playStation(station) {
 
     var sIdx         = 0;
     var sSwitching   = false;
-    var sErrorTimer  = null;
-    var sStalledTimer= null;
+    _sErrorTimer  = null;
+    _sStalledTimer= null;
 
     function playSrc(i) {
-        clearTimeout(sErrorTimer);
-        clearTimeout(sStalledTimer);
+        clearTimeout(_sErrorTimer);
+        clearTimeout(_sStalledTimer);
         customAudioPlayer.src = stationSrcs[i];
         customAudioPlayer.load();
         customAudioPlayer.play().catch(function() {});
@@ -5750,6 +5763,7 @@ function playStation(station) {
 
     function nextSrc() {
         if (sSwitching) return;
+        if (window._userStoppedManually) return; // المستخدم أوقف — لا محطة بديلة
         sSwitching = true;
         sIdx++;
         if (sIdx < stationSrcs.length) {
@@ -5761,20 +5775,20 @@ function playStation(station) {
     }
 
     _stationErrorHandler = function() {
-        clearTimeout(sErrorTimer);
-        sErrorTimer = setTimeout(function() {
+        clearTimeout(_sErrorTimer);
+        _sErrorTimer = setTimeout(function() {
             if (customAudioPlayer.error || customAudioPlayer.networkState === 3) nextSrc();
         }, 15000);
     };
     _stationStalledHandler = function() {
-        clearTimeout(sStalledTimer);
-        sStalledTimer = setTimeout(function() {
+        clearTimeout(_sStalledTimer);
+        _sStalledTimer = setTimeout(function() {
             if (customAudioPlayer.paused || customAudioPlayer.readyState < 2) nextSrc();
         }, 20000);
     };
     _stationPlayingHandler = function() {
-        clearTimeout(sErrorTimer);
-        clearTimeout(sStalledTimer);
+        clearTimeout(_sErrorTimer);
+        clearTimeout(_sStalledTimer);
         sSwitching = false;
     };
 
@@ -25362,6 +25376,7 @@ let currentSource = 'https://stream.radiojar.com/8s5u5tpdtwzuv';
 let retryTimeout;
  let activeAudio = null;
 const retryInterval = 5000;
+window._userStoppedManually = false; // true = المستخدم أوقف بيده أو انتهى مؤقت النوم
 
 function initializeRadio() {
     buttons = document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)');
@@ -25401,6 +25416,7 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
     var savedOnEnded = mainAudio.onended;
 
     currentSource = source;
+    window._userStoppedManually = false; // تشغيل جديد — إلغاء منع الـ retry
     window._currentPlayingUrl  = source;
     window._currentPlayingName = stationName;
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
@@ -25451,7 +25467,9 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
             var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
             pnbNameEl2.textContent = isAr ? pnbAr : pnbEn;
         }
+        if (window._userStoppedManually) return; // المستخدم أوقف بيده — لا retry
         retryTimeout = setTimeout(function() {
+            if (window._userStoppedManually) return;
             playNewAudio(currentSource, stationName, stationNameEn);
         }, retryInterval);
     }
@@ -25982,26 +26000,35 @@ function activateAutoSwitch() {
 
     _sleepTimeout = setTimeout(function() {
       clearInterval(_countInterval);
+      window._userStoppedManually = true;
+      clearTimeout(retryTimeout);
+      clearTimeout(_sErrorTimer);
+      clearTimeout(_sStalledTimer);
+      clearTimeout(welcomeErrorTimer);   // إلغاء مؤقت الشاشة الترحيبية
+      clearTimeout(welcomeStalledTimer);
+      _sErrorTimer  = null;
+      _sStalledTimer= null;
 
       // ── إيقاف كل شيء بعد انتهاء مؤقت النوم ─────────────────
 
-      // 1) إيقاف التنقل الآلي للشاشة الترحيبية
+      // 1) إيقاف التنقل الآلي للشاشة الترحيبية (دائماً، بغض النظر عن الـ checkbox)
+      if (typeof _asClearAll === 'function') _asClearAll();
       var welcomeCb   = document.getElementById('customAutoSwitch');
       var welcomeBtn  = document.getElementById('autoSwitchToggleBtn');
       var welcomeIcon = welcomeBtn ? welcomeBtn.querySelector('.wtb-icon') : null;
       if (welcomeCb && welcomeCb.checked) {
         welcomeCb.checked = false;
-        if (typeof _asClearAll === 'function') _asClearAll();
         if (welcomeBtn)  welcomeBtn.classList.remove('active');
         if (welcomeIcon) welcomeIcon.textContent = '🔁';
       }
 
-      // 2) إيقاف التنقل الآلي في الإعدادات
+      // 2) إيقاف التنقل الآلي في الإعدادات (دائماً)
+      clearTimeout(autoSwitchTimeout);
+      clearTimeout(_asSettingsTimeout);
+      if (typeof _asSettingsStopCountdown === 'function') _asSettingsStopCountdown();
       var settingsCb = document.getElementById('autoSwitchCheckbox');
       if (settingsCb && settingsCb.checked) {
         settingsCb.checked = false;
-        clearTimeout(autoSwitchTimeout);
-        if (typeof _asSettingsStopCountdown === 'function') _asSettingsStopCountdown();
       }
 
       // 3) إيقاف راديو الشاشة الترحيبية فوراً
@@ -26013,7 +26040,7 @@ function activateAutoSwitch() {
 
       // 4) إيقاف الراديو الأساسي مع fade ثم تنظيف الـ UI
       function _afterFade() {
-        if (typeof showToast === 'function') showToast('🌙 تم إيقاف الراديو — تصبح على خير');
+        if (typeof showToast === 'function') showToast('🌙 تم إيقاف الراديو');
         var lbl = document.getElementById('pnb-sleep-label');
         if (lbl) lbl.style.display = 'none';
         var ss = document.getElementById('sleep-countdown-settings');
@@ -26355,10 +26382,18 @@ const volumeControl = document.getElementById("volumeControl");
 function togglePlayPause() {
     var icon = document.getElementById('togglePlayPauseIcon');
     if (audioPlayer.paused) {
+        window._userStoppedManually = false; // المستخدم يريد التشغيل
         if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
         audioPlayer.play();
         if (icon) icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
     } else {
+        window._userStoppedManually = true; // إيقاف يدوي — منع الـ retry
+        clearTimeout(retryTimeout);
+        clearTimeout(_sErrorTimer);   // إلغاء مؤقت المحطة الاحتياطية
+        clearTimeout(_sStalledTimer);
+        clearTimeout(welcomeErrorTimer);   // إلغاء مؤقت الشاشة الترحيبية
+        clearTimeout(welcomeStalledTimer);
+        _sErrorTimer = null; _sStalledTimer = null;
         audioPlayer.pause();
         if (icon) icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
     }
