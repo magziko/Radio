@@ -2178,24 +2178,6 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 
 <button class="button palestine" 
         data-category="Radio" 
-        data-station="Almunir 94.9 FM ليبيا" 
-        data-ar="المنير 94.9 FM إذاعة ليبيا" 
-        data-en="Almunir 94.9 FM Libya"
-        data-url="https://live.dofm.ly/proxy/almunir/stream"
-        onclick="if (event.ctrlKey || event.metaKey) { window.open('https://live.dofm.ly/proxy/almunir/stream', '_blank'); } else { toggleRadio(this); }">
-    <span class="flag"></span> 
-    <span class="station-text">المنير 94.9 FM ليبيا</span>
-    <img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer">
-    <span class="favorite-icon" 
-          onclick="toggleFavorite(event, 'Almunir 94.9 FM Libya'); 
-                   event.stopPropagation(); 
-                   return false;">&#x2764;</span>
-</button>
-
-
-
-<button class="button palestine" 
-        data-category="Radio" 
         data-station="زوارة القرآن 103.7 FM ليبيا" 
         data-ar="زوارة القرآن 103.7 FM إذاعة ليبيا" 
         data-en="Zuwara Quran 103.7 FM Libya"
