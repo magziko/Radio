@@ -3327,7 +3327,7 @@ body.dark-mode .custom-tooltip::after {
 
 .toast-container {
   position: fixed;
-  top: 10px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -3348,7 +3348,7 @@ body.dark-mode .custom-tooltip::after {
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   color: #1a3a5c;
   padding: 7px 9px;
-  border-radius: 12px;
+  border-radius: 0 0 12px 12px;
   box-shadow:
     0 2px 12px rgba(42, 108, 196, 0.16),
     0 1px 3px rgba(42, 108, 196, 0.08),
@@ -3481,7 +3481,7 @@ body.dark-mode .custom-tooltip::after {
 /* ===== Tablet (768px – 1023px) ===== */
 @media (min-width: 768px) and (max-width: 1023px) {
   .toast-container {
-    top: 12px;
+    top: 0;
     width: 260px;
     max-width: 260px;
   }
@@ -3509,7 +3509,7 @@ body.dark-mode .custom-tooltip::after {
 /* ===== Desktop (1024px+) ===== */
 @media (min-width: 1024px) {
   .toast-container {
-    top: 22px;
+    top: 0;
     width: calc(100vw - 48px);
     max-width: 460px;
   }
@@ -28699,16 +28699,7 @@ window.addEventListener("load", function() {
   container.className = "toast-container";
   document.body.appendChild(container);
 
-  // ضع الـ toast أسفل الـ player bar مباشرة (ديناميكي بدل قيمة ثابتة)
-  function _updateToastTop() {
-    const player = document.getElementById('sticky-player-wrap') || document.getElementById('player-nav-bar');
-    if (player) {
-      const h = player.getBoundingClientRect().height || player.offsetHeight;
-      container.style.top = (h + 8) + 'px';
-    }
-  }
-  _updateToastTop();
-  window.addEventListener('resize', _updateToastTop, { passive: true });
+  container.style.top = '0';
 
   // ===== لغة الإشعارات — نفس منطق siteLanguage =====
   const _toastLang = (function() {
