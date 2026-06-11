@@ -498,7 +498,12 @@ body {
     padding: 0 6px;
     box-sizing: border-box;
   }
-   @media (max-width: 768px) { .buttons-container { grid-template-columns: 1fr; } }
+   @media (max-width: 480px) { .buttons-container { grid-template-columns: 1fr; } }
+  @media (min-width: 481px) and (max-width: 768px) { .buttons-container { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 481px) and (max-width: 768px) { .buttons-container.three-cols { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 769px) { .buttons-container.three-cols { grid-template-columns: repeat(3, 1fr); } }
+
+  .buttons-container button[data-adhkar-featured], .buttons-container .pl-check-wrap[data-adhkar-featured] { grid-column: 1 / -1; }
  .input-group {
 background: linear-gradient(
     to right,
@@ -26273,11 +26278,8 @@ function filterStations(category) {
   if (category === 'Adhkar') {
     var autoSub  = getAdhkarSubByTime();
     var targetSub = autoSub || 'all';
-    currentAdhkarSub = targetSub;
     _showSubfilter('adhkar-subfilter', 'adhkar-sub-btn', targetSub, function() {
-      document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
-        b.style.display = (targetSub === 'all' || b.hasAttribute('data-adhkar-' + targetSub)) ? 'block' : 'none';
-      });
+      filterAdhkarSub(targetSub, document.querySelector('.adhkar-sub-btn[data-sub="' + targetSub + '"]'));
     });
   } else {
     _hideSubfilter('adhkar-subfilter');
@@ -29819,6 +29821,16 @@ function filterAdhkarSub(subType, btn) {
     if (subType === 'morning') sessionStorage.removeItem('adhkar_done_shown_morning');
     if (subType === 'evening') sessionStorage.removeItem('adhkar_done_shown_evening');
 
+    // 3 أعمدة على الديسك توب لما يكون فلتر الصباح أو المساء
+    var _bc = document.querySelector('.buttons-container');
+    if (_bc) {
+        if (subType === 'morning' || subType === 'evening') {
+            _bc.classList.add('three-cols');
+        } else {
+            _bc.classList.remove('three-cols');
+        }
+    }
+
     document.querySelectorAll('.adhkar-sub-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
@@ -29852,7 +29864,26 @@ function filterAdhkarSub(subType, btn) {
         if (wrap && wrap.classList.contains('pl-check-wrap')) {
             wrap.style.display = show ? 'inline-block' : 'none';
         }
+        // إزالة featured السابق
+        b.removeAttribute('data-adhkar-featured');
+        if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.removeAttribute('data-adhkar-featured');
     });
+
+    // أول زر ظاهر فى morning أو evening يأخد سطر كامل
+    if (subType === 'morning' || subType === 'evening') {
+        var _firstVisible = null;
+        document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
+            if (!_firstVisible && b.style.display !== 'none') _firstVisible = b;
+        });
+        if (_firstVisible) {
+            var _wrap = _firstVisible.parentElement;
+            if (_wrap && _wrap.classList.contains('pl-check-wrap')) {
+                _wrap.setAttribute('data-adhkar-featured', '1');
+            } else {
+                _firstVisible.setAttribute('data-adhkar-featured', '1');
+            }
+        }
+    }
 
     if (typeof updateButtonIndices === 'function') updateButtonIndices();
     _scrollActiveBtnInStrip(btn);
