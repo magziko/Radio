@@ -3437,6 +3437,24 @@ body.dark-mode .custom-tooltip::after {
   border-color: rgba(42,108,196,0.50);
 }
 
+.toast button.toast-loc-btn {
+  background: linear-gradient(135deg, rgba(29,158,117,0.15) 0%, rgba(21,120,90,0.20) 100%);
+  border: 1px solid rgba(29,158,117,0.30);
+  padding: 3px 7px;
+  border-radius: 7px;
+  font-size: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  color: #0d6e50;
+  transition: background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.toast button.toast-loc-btn:hover {
+  background: linear-gradient(135deg, rgba(29,158,117,0.28) 0%, rgba(21,120,90,0.33) 100%);
+  border-color: rgba(29,158,117,0.50);
+}
+
 .toast button.toast-close-btn {
   background: rgba(42,108,196,0.10);
   border: 1px solid rgba(42,108,196,0.18);
@@ -4591,6 +4609,15 @@ body.dark-mode .toast button.toast-play-btn {
 body.dark-mode .toast button.toast-play-btn:hover {
   background: linear-gradient(135deg, rgba(60,120,220,0.35) 0%, rgba(80,150,240,0.42) 100%);
   border-color: rgba(80,140,220,0.55);
+}
+body.dark-mode .toast button.toast-loc-btn {
+  background: linear-gradient(135deg, rgba(29,158,117,0.18) 0%, rgba(21,120,90,0.24) 100%);
+  border-color: rgba(93,202,165,0.35);
+  color: #5DCAA5;
+}
+body.dark-mode .toast button.toast-loc-btn:hover {
+  background: linear-gradient(135deg, rgba(29,158,117,0.32) 0%, rgba(21,120,90,0.40) 100%);
+  border-color: rgba(93,202,165,0.55);
 }
 body.dark-mode .toast button.toast-close-btn {
   background: rgba(80,140,220,0.12);
@@ -28705,7 +28732,7 @@ window.addEventListener("load", function() {
     if (toastRunning || toastQueue.length === 0) return;
     toastRunning = true;
 
-    const { messageEn, messageAr, imgUrl, btnText, onClick } = toastQueue.shift();
+    const { messageEn, messageAr, imgUrl, btnText, onClick, locText, onLocClick } = toastQueue.shift();
 
     const _isAr = _toastLang === 'ar';
 
@@ -28716,6 +28743,10 @@ window.addEventListener("load", function() {
       ? (_isAr ? btnText.ar : btnText.en)
       : btnText;
 
+    const _locLabel = typeof locText === 'object' && locText !== null
+      ? (_isAr ? locText.ar : locText.en)
+      : locText;
+
     const _msg = _isAr ? messageAr : messageEn;
 
     toast.innerHTML = `
@@ -28723,6 +28754,7 @@ window.addEventListener("load", function() {
       <span class="toast-text" style="direction:${_isAr ? 'rtl' : 'ltr'};text-align:${_isAr ? 'right' : 'left'};">${_msg}</span>
       <div class="toast-actions">
         ${_btnLabel ? `<button class="toast-play-btn">${_btnLabel}</button>` : ''}
+        ${_locLabel ? `<button class="toast-loc-btn">${_locLabel}</button>` : ''}
         <button class="toast-close-btn" title="${_isAr ? 'إغلاق' : 'Close'}">×</button>
       </div>
     `;
@@ -28750,6 +28782,14 @@ window.addEventListener("load", function() {
       });
     }
 
+    // زرار الموقع
+    const locBtn = toast.querySelector(".toast-loc-btn");
+    if (locBtn) {
+      locBtn.addEventListener("click", function() {
+        if (onLocClick) onLocClick(locBtn);
+      });
+    }
+
     // زرار الإغلاق
     toast.querySelector(".toast-close-btn").addEventListener("click", dismissToast);
 
@@ -28757,8 +28797,8 @@ window.addEventListener("load", function() {
     setTimeout(dismissToast, TOAST_VISIBLE_MS);
   }
 
-  function queueToast(messageEn, messageAr, imgUrl, btnText, onClick) {
-    toastQueue.push({ messageEn, messageAr, imgUrl, btnText, onClick });
+  function queueToast(messageEn, messageAr, imgUrl, btnText, onClick, locText, onLocClick) {
+    toastQueue.push({ messageEn, messageAr, imgUrl, btnText, onClick, locText, onLocClick });
     // لو الـ Queue كان واقفاً وجاء إشعار جديد (مثلاً بعد رد API) — يبدأ تلقائياً
     if (!toastRunning) setTimeout(_showNextToast, 0);
   }
@@ -28981,14 +29021,42 @@ window.addEventListener("load", function() {
       return { ar: `بعد ${arH}${arM}`, en: `in ${enH}${enM}` };
     }
 
-    function goToAdhkar() {
-      var adhkarBtn = document.querySelector("button.filter-button[data-ar='أذكار']");
-      if (adhkarBtn) adhkarBtn.click();
+    const FULL_ADHAN_URL = "https://ia600703.us.archive.org/21/items/20250512_20250512_1243/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%AF%20%D8%B1%D8%A7%D9%85%D9%89%20%D8%B9%D8%A7%D8%AF%D9%84%20%D8%A7%D9%84%D8%B1%D9%81%D8%A7%D8%B9%D9%89.m4a?cnt=0";
+    var _fullAdhanAudio = null;
+
+    function playFullAdhan() {
+      if (_fullAdhanAudio) { _fullAdhanAudio.pause(); _fullAdhanAudio = null; }
+      _fullAdhanAudio = new Audio(FULL_ADHAN_URL);
+      _fullAdhanAudio.volume = 1.0;
+      _fullAdhanAudio.play().catch(function(){});
     }
+
+    function requestLocation(btn) {
+      if (!('geolocation' in navigator)) return;
+      var isAr = _toastLang === 'ar';
+      if (btn) { btn.textContent = isAr ? '⏳...' : '⏳...'; btn.disabled = true; }
+      try { localStorage.removeItem('adhanGeoCache'); } catch(e) {}
+      navigator.geolocation.getCurrentPosition(
+        function(pos) {
+          try {
+            localStorage.setItem('adhanGeoCache', JSON.stringify({
+              lat: pos.coords.latitude, lon: pos.coords.longitude, ts: Date.now()
+            }));
+          } catch(e) {}
+          if (btn) { btn.textContent = isAr ? '✅ تم' : '✅ Done'; btn.disabled = false; }
+          if (typeof window._reloadAdhanTimings === 'function') window._reloadAdhanTimings();
+        },
+        function() {
+          if (btn) { btn.textContent = isAr ? '❌ مرفوض' : '❌ Denied'; btn.disabled = false; }
+        },
+        { timeout: 12000 }
+      );
+    }
+
+    const _locBtnText = { ar: '📍 موقعي', en: '📍 Location' };
 
     function buildPrayerToast(name, mins) {
       const time = formatMins(mins);
-      // لو الوقت ≤ دقيقتين → الصلاة حانت الآن فعلاً
       const isNow = mins <= 2;
       const ar = isNow
         ? `🕌 حان الآن وقت صلاة <b>${PRAYER_NAMES_AR[name]}</b>`
@@ -28998,10 +29066,11 @@ window.addEventListener("load", function() {
         : `🕌 <b>${PRAYER_NAMES_EN[name]}</b> ${time.en}`;
       queueToast(en, ar,
         "https://cdn-icons-png.flaticon.com/512/3176/3176366.png",
-        { ar: "▶ أذكار", en: "▶ Adhkar" },
-        goToAdhkar
+        { ar: "▶ سماع الأذان", en: "▶ Play Adhan" },
+        playFullAdhan,
+        _locBtnText,
+        requestLocation
       );
-      // لو الصلاة حانت الآن → شغّل الأذان مباشرة
       if (isNow && typeof window._swPlayAdhan === 'function') {
         window._swPlayAdhan(name);
       }
@@ -29012,8 +29081,10 @@ window.addEventListener("load", function() {
         "🕌 Remember Allah — prayer time is near",
         "🕌 لا تنسَ الصلاة",
         "https://cdn-icons-png.flaticon.com/512/3176/3176366.png",
-        null,
-        null
+        { ar: "▶ سماع الأذان", en: "▶ Play Adhan" },
+        playFullAdhan,
+        _locBtnText,
+        requestLocation
       );
     }
 
