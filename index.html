@@ -23809,6 +23809,26 @@ body.dark-mode #sp-auto-btn { background: rgba(29,158,117,0.12); color: #5DCAA5;
 body.dark-mode #sp-auto-btn.active { background: #0F6E56; color: #fff; }
 @keyframes sp-auto-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(29,158,117,0.4); } 50%{ box-shadow:0 0 0 6px rgba(29,158,117,0); } }
 
+.sp-athkar-search-row {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 6px;
+}
+.sp-athkar-search {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 10px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(29,158,117,0.35);
+    background: rgba(255,255,255,0.9);
+    color: #0F6E56;
+    outline: none;
+}
+.sp-athkar-search::placeholder { color: #0F6E56; opacity: 0.6; }
+body.dark-mode .sp-athkar-search { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
+body.dark-mode .sp-athkar-search::placeholder { color: #5DCAA5; opacity: 0.6; }
 .sp-athkar-row {
     display: flex; gap: 6px; align-items: center; justify-content: center;
     margin-bottom: 6px; flex-wrap: wrap;
@@ -23816,6 +23836,21 @@ body.dark-mode #sp-auto-btn.active { background: #0F6E56; color: #fff; }
 }
 .sp-athkar-label { font-size: 12px; color: #555; white-space: nowrap; }
 body.dark-mode .sp-athkar-label { color: #aaa; }
+.sp-athkar-play-btn {
+    font-size: 14px;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(29,158,117,0.35);
+    background: rgba(255,255,255,0.9);
+    color: #0F6E56;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.sp-athkar-play-btn:hover { background: #D4F4EA; }
+.sp-athkar-play-btn.sp-playing { background: #1D9E75; color: #fff; border-color: #1D9E75; }
+body.dark-mode .sp-athkar-play-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
+body.dark-mode .sp-athkar-play-btn.sp-playing { background: #0F6E56; color: #fff; }
 #sp-athkar-sel {
     font-family: 'Cairo', Arial, sans-serif;
     font-size: 12px; padding: 4px 8px;
@@ -24260,8 +24295,18 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 <div id="salah-pip-section">
 
     
+    <div class="sp-athkar-search-row">
+        <input type="text" id="sp-athkar-search" class="sp-athkar-search"
+               data-ar-placeholder="🔍 بحث عن ذكر أو دعاء..." data-en-placeholder="🔍 Search dhikr or dua..."
+               placeholder="🔍 بحث عن ذكر أو دعاء...">
+    </div>
+
     <div class="sp-athkar-row">
         <label class="sp-athkar-label" data-ar="الذكر:" data-en="Dhikr:">الذكر:</label>
+        <button type="button" id="sp-athkar-play-btn" class="sp-athkar-play-btn"
+                data-ar="🔊" data-en="🔊"
+                data-ar-title="تشغيل الذكر المختار" data-en-title="Play selected dhikr"
+                title="تشغيل الذكر المختار" onclick="window.spPlaySelectedDhikr()">🔊</button>
         <select id="sp-athkar-sel">
             
             <option value="4"  data-ar="لا إله إلا الله"                       data-en="La ilaha illallah">لا إله إلا الله</option>
@@ -24470,10 +24515,10 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         <label data-ar="الهدف:" data-en="Target:">الهدف:</label>
         <select id="sp-target-sel">
             <option value="33">٣٣</option>
-            <option value="100" selected>١٠٠</option>
+            <option value="100">١٠٠</option>
             <option value="200">٢٠٠</option>
             <option value="500">٥٠٠</option>
-            <option value="1000">١٠٠٠</option>
+            <option value="1000" selected>١٠٠٠</option>
             <option value="10000">١٠٠٠٠</option>
         </select>
     </div>
@@ -24506,8 +24551,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         <select id="sp-alarm-interval-sel">
             <option value="1"  data-ar="١ دقيقة"  data-en="1 min">١ دقيقة</option>
             <option value="2"  data-ar="٢ دقيقتان" data-en="2 min">٢ دقيقتان</option>
-            <option value="5"  data-ar="٥ دقائق"  data-en="5 min">٥ دقائق</option>
-            <option value="10" data-ar="١٠ دقائق" data-en="10 min" selected>١٠ دقائق</option>
+            <option value="5"  data-ar="٥ دقائق"  data-en="5 min" selected>٥ دقائق</option>
+            <option value="10" data-ar="١٠ دقائق" data-en="10 min">١٠ دقائق</option>
             <option value="15" data-ar="١٥ دقيقة" data-en="15 min">١٥ دقيقة</option>
             <option value="20" data-ar="٢٠ دقيقة" data-en="20 min">٢٠ دقيقة</option>
             <option value="30" data-ar="٣٠ دقيقة" data-en="30 min">٣٠ دقيقة</option>
@@ -24540,7 +24585,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 <script>
 (function(){
     var spCount = 0;
-    var spTarget = 100;
+    var spTarget = 1000;
     var spPipActive = false;
     var spAnimFrame = null;
 
@@ -24684,6 +24729,12 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     };
 
     document.getElementById('sp-athkar-sel').addEventListener('change', function(){
+        if(typeof spPreviewAudio !== 'undefined' && spPreviewAudio){
+            spPreviewAudio.pause();
+            spPreviewAudio.currentTime = 0;
+            var pb = document.getElementById('sp-athkar-play-btn');
+            if(pb) pb.classList.remove('sp-playing');
+        }
         spCount = spLoadCount();
         spUpdateDhikrDisplay();
         spUpdateUI();
@@ -24692,6 +24743,85 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         if(spAutoTimer){ spStopAuto(); spStartAuto(); }
         if(typeof window.alUpdateTodayBar === 'function') window.alUpdateTodayBar();
     });
+
+    /* ---- بحث عن ذكر أو دعاء في القائمة ---- */
+    (function(){
+        var searchInput = document.getElementById('sp-athkar-search');
+        var sel = document.getElementById('sp-athkar-sel');
+        if(!searchInput || !sel) return;
+
+        function normalize(str){
+            return (str || '')
+                .toString()
+                .replace(/[\u064B-\u0652\u0670\u0640]/g, '') // إزالة التشكيل والتطويل
+                .replace(/[إأآا]/g, 'ا')
+                .replace(/ى/g, 'ي')
+                .replace(/ة/g, 'ه')
+                .toLowerCase()
+                .trim();
+        }
+
+        searchInput.addEventListener('input', function(){
+            var term = normalize(this.value);
+            var firstVisibleOpt = null;
+
+            Array.prototype.forEach.call(sel.querySelectorAll('optgroup'), function(group){
+                var groupHasVisible = false;
+                Array.prototype.forEach.call(group.querySelectorAll('option'), function(opt){
+                    var ar = normalize(opt.getAttribute('data-ar'));
+                    var en = normalize(opt.getAttribute('data-en'));
+                    var txt = normalize(opt.textContent);
+                    var match = !term || ar.indexOf(term) !== -1 || en.indexOf(term) !== -1 || txt.indexOf(term) !== -1;
+                    opt.hidden = !match;
+                    if(match){
+                        groupHasVisible = true;
+                        if(!firstVisibleOpt) firstVisibleOpt = opt;
+                    }
+                });
+                group.hidden = !groupHasVisible;
+            });
+
+            // الخيارات خارج أي optgroup
+            Array.prototype.forEach.call(sel.children, function(child){
+                if(child.tagName !== 'OPTION') return;
+                var opt = child;
+                var ar = normalize(opt.getAttribute('data-ar'));
+                var en = normalize(opt.getAttribute('data-en'));
+                var txt = normalize(opt.textContent);
+                var match = !term || ar.indexOf(term) !== -1 || en.indexOf(term) !== -1 || txt.indexOf(term) !== -1;
+                opt.hidden = !match;
+                if(match && !firstVisibleOpt) firstVisibleOpt = opt;
+            });
+
+            if(term && firstVisibleOpt && sel.options[sel.selectedIndex].hidden){
+                firstVisibleOpt.selected = true;
+                spCount = spLoadCount();
+                spUpdateDhikrDisplay();
+                spUpdateUI();
+                spDrawCanvas();
+                spUpdateMediaSession();
+                if(spAutoTimer){ spStopAuto(); spStartAuto(); }
+                if(typeof window.alUpdateTodayBar === 'function') window.alUpdateTodayBar();
+            }
+        });
+
+        searchInput.addEventListener('keydown', function(e){
+            if(e.key === 'Enter'){
+                e.preventDefault();
+                try{
+                    if(typeof sel.showPicker === 'function'){
+                        sel.focus();
+                        sel.showPicker();
+                    } else {
+                        sel.focus();
+                        sel.click();
+                    }
+                }catch(err){
+                    sel.focus();
+                }
+            }
+        });
+    })();
 
     document.getElementById('sp-target-sel').addEventListener('change', function(){
         spTarget = parseInt(this.value);
@@ -24883,7 +25013,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
                 var targetSel = document.getElementById('sp-target-sel');
                 if(targetSel){
                     targetSel.value = savedTarget;
-                    spTarget = parseInt(savedTarget) || 100;
+                    spTarget = parseInt(savedTarget) || 1000;
                 }
             }
         }catch(e){}
@@ -24910,6 +25040,11 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         if(spTitle){ var t2 = ar ? spTitle.getAttribute('data-ar') : spTitle.getAttribute('data-en'); if(t2) spTitle.textContent = t2; }
         var spLbl = document.querySelector('.sp-target-row label');
         if(spLbl){ var t3 = ar ? spLbl.getAttribute('data-ar') : spLbl.getAttribute('data-en'); if(t3) spLbl.textContent = t3; }
+        var spSearch = document.getElementById('sp-athkar-search');
+        if(spSearch){
+            var ph = ar ? spSearch.getAttribute('data-ar-placeholder') : spSearch.getAttribute('data-en-placeholder');
+            if(ph) spSearch.placeholder = ph;
+        }
         var sec = document.getElementById('salah-pip-section');
         if(sec) sec.style.direction = ar ? 'rtl' : 'ltr';
     }
@@ -24920,6 +25055,15 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
         setTimeout(spInit, 0);
     }
+
+    /* بعض المتصفحات تستعيد آخر قيمة محددة في القائمة بعد إعادة التحميل
+       بشكل متأخر (بعد DOMContentLoaded)، فنعيد مزامنة النص المعروض هنا */
+    window.addEventListener('pageshow', function(){
+        spUpdateDhikrDisplay();
+    });
+    window.addEventListener('load', function(){
+        setTimeout(spUpdateDhikrDisplay, 0);
+    });
 })();
 </script>
 
@@ -25093,7 +25237,45 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         }catch(e){}
     }
 
-    /* ---- الإشعار ---- */
+    /* ---- معاينة صوت الذكر المختار عبر زر 🔊 ---- */
+    var spPreviewAudio = null;
+    var spPreviewVal = null;
+    window.spPlaySelectedDhikr = function(){
+        try{
+            var sel = document.getElementById('sp-athkar-sel');
+            var btn = document.getElementById('sp-athkar-play-btn');
+            var val = sel ? sel.value : '0';
+
+            // لو نفس الذكر شغال بالفعل: وقف التشغيل
+            if(spPreviewAudio && spPreviewVal === val && !spPreviewAudio.paused){
+                spPreviewAudio.pause();
+                spPreviewAudio.currentTime = 0;
+                if(btn) btn.classList.remove('sp-playing');
+                return;
+            }
+
+            // وقف أي تشغيل سابق
+            if(spPreviewAudio){
+                spPreviewAudio.pause();
+                spPreviewAudio.currentTime = 0;
+            }
+
+            var entry = ALARM_SOUNDS[val] || ALARM_SOUND_DEFAULT;
+            var url = Array.isArray(entry) ? entry[0] : entry;
+
+            spPreviewAudio = new Audio(url);
+            spPreviewAudio.volume = 0.9;
+            spPreviewVal = val;
+
+            if(btn) btn.classList.add('sp-playing');
+            spPreviewAudio.addEventListener('ended', function(){
+                if(btn) btn.classList.remove('sp-playing');
+            });
+            var p = spPreviewAudio.play();
+            if(p && p.catch) p.catch(function(){ if(btn) btn.classList.remove('sp-playing'); });
+        }catch(e){}
+    };
+
     function alNotify(dhikr){
         var ar = alAr();
 
@@ -25148,7 +25330,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         alSaveToday();
         window.alUpdateTodayBar();
         /* أعد العداد التنازلي */
-        var mins = parseInt(document.getElementById('sp-alarm-interval-sel').value) || 10;
+        var mins = parseInt(document.getElementById('sp-alarm-interval-sel').value) || 5;
         alStartCountdown(mins * 60 * 1000);
     }
 
@@ -25162,7 +25344,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     };
 
     function alStartAlarm(){
-        var mins = parseInt(document.getElementById('sp-alarm-interval-sel').value) || 10;
+        var mins = parseInt(document.getElementById('sp-alarm-interval-sel').value) || 5;
         var ms   = mins * 60 * 1000;
 
         /* طلب إذن الإشعارات */
@@ -25216,7 +25398,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             var intervalSel = document.getElementById('sp-alarm-interval-sel');
             var prefs = {
                 dhikr:    dhikrSel    ? dhikrSel.value    : '0',
-                interval: intervalSel ? intervalSel.value : '10',
+                interval: intervalSel ? intervalSel.value : '5',
                 active:   !!spAlarmTimer
             };
             localStorage.setItem(AL_PREFS_KEY, JSON.stringify(prefs));
@@ -25282,7 +25464,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
                 /* لو المنبه شغّال، أعد ضبطه بالفترة الجديدة فوراً */
                 if(spAlarmTimer){
                     clearInterval(spAlarmTimer);
-                    var mins = parseInt(intervalSel.value) || 10;
+                    var mins = parseInt(intervalSel.value) || 5;
                     var ms   = mins * 60 * 1000;
                     spAlarmTimer = setInterval(alRing, ms);
                     alStartCountdown(ms);
@@ -26719,6 +26901,17 @@ function toggleLanguage() {
   if (wasdLblLang) wasdLblLang.textContent = isArabic ? wasdLblLang.getAttribute("data-ar") : wasdLblLang.getAttribute("data-en");
 
   updateFilterLanguage(lang);
+
+  var spSearchLang = document.getElementById('sp-athkar-search');
+  if (spSearchLang) {
+    var phLang = isArabic ? spSearchLang.getAttribute('data-ar-placeholder') : spSearchLang.getAttribute('data-en-placeholder');
+    if (phLang) spSearchLang.placeholder = phLang;
+  }
+  var spPlayBtnLang = document.getElementById('sp-athkar-play-btn');
+  if (spPlayBtnLang) {
+    var ptLang = isArabic ? spPlayBtnLang.getAttribute('data-ar-title') : spPlayBtnLang.getAttribute('data-en-title');
+    if (ptLang) spPlayBtnLang.title = ptLang;
+  }
 
   var settingsLabel = document.getElementById('settings-toggle-label');
   if (settingsLabel) settingsLabel.textContent = isArabic ? settingsLabel.getAttribute('data-ar') : settingsLabel.getAttribute('data-en');
