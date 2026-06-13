@@ -13705,11 +13705,13 @@ const quranRadioStations = [
   {
     "category": "radio-external",
     "station": "River Nile Radio",
-    "ar": "راديو نهر النيل",
+    "ar": "❤ راديو نهر النيل",
     "en": "River Nile Radio",
     "url": "http://104.7.66.64:8087/stream/1/",
-    "external": true
- },
+    "external": true,
+    "modal": true,
+    "audioStream": true
+  },
 ];
 
 (function renderRadioStations() {
@@ -13740,7 +13742,11 @@ const quranRadioStations = [
       btn.setAttribute('data-foreign', 'true');
     }
 
-    if (s.external && s.modal) {
+    if (s.external && s.modal && s.audioStream) {
+      btn.setAttribute('onclick',
+        "if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('" + s.url + "', '_blank'); } else { openAudioStreamModal('" + s.url + "', '" + s.ar + "'); }"
+      );
+    } else if (s.external && s.modal) {
       btn.setAttribute('onclick',
         "if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('" + s.url + "', '_blank'); } else { openModal('" + s.url + "', '" + s.ar + "'); }"
       );
@@ -14165,6 +14171,7 @@ const quranRadioStationsExtra = [
       "https://archive.org/download/5-1402-by-alijaber.net/%E2%96%B6%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D9%88%D8%A8%D8%A9%20%285%29%201402%D9%87%D9%80%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20by%20alijaber.net.mp3",
       "https://ia600303.us.archive.org/3/items/11-music/11%20%D8%B3%D9%88%D8%B1%D8%A9%20%D9%87%D9%88%D8%AF%20%D9%85%D9%86%D8%B3%D9%88%D8%B1%D8%A9%D9%87%D9%88%D8%AF%D9%88%D9%86%D8%A7%D8%AF%D9%89%D9%86%D9%88%D8%AD%D8%A7%D8%A8%D9%86%D9%87%D8%A8%D8%A3%D8%AF%D8%A7%D8%A1%D8%A8%D8%A7%D9%83%D9%8A%D9%84%D9%84%D8%B4%D9%8A%D8%AE%D9%86%D8%A7%D8%B5%D8%B1%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8AMusic.mp3?cnt=0",
       "https://ia600300.us.archive.org/8/items/14_20250602_20250602_1819/14%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%20%D8%B9%D8%B4%D8%A7%D8%A1.mp3?cnt=0",
+      "https://archive.org/download/20260612_20260612_2217/%D9%88%D9%84%D9%84%D9%87%20%D8%BA%D9%8A%D8%A8%20%D8%A7%D9%84%D8%B3%D9%85%D9%88%D8%A7%D8%AA.mp3",
       "https://ia600303.us.archive.org/4/items/6-1402-by-alijaber.net/%E2%96%B6%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D9%88%D8%A8%D8%A9%20%286%29%201402%D9%87%D9%80%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20by%20alijaber.net.mp3?cnt=0",
       "https://dn721607.ca.archive.org/0/items/15-musi/15%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AD%D8%AC%D8%B1%20%D9%86%D8%A8%D8%A3%D8%B9%D8%A8%D8%A7%D8%AF%D9%8A%D8%A7%D9%86%D9%8A%D8%A7%D9%86%D8%A7%D8%A7%D9%84%D8%BA%D9%81%D9%88%D8%B1%D8%A7%D9%84%D8%B1%D8%AD%D9%8A%D9%85%D9%85%D8%A4%D8%AB%D8%B1%D8%A9%D9%88%D8%AE%D8%A7%D8%B4%D8%B9%D8%A9%D8%A7%D9%84%D9%84%D9%8A%D9%84%D8%A9%D9%A1%D9%A7%D8%B1%D9%85%D8%B6%D8%A7%D9%86%D9%A1%D9%A4%D9%A3%D9%A8%D9%87%D9%80%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%D9%86%D8%A7%D8%B5%D8%B1%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8AMusi.mp3",
       "https://ia600703.us.archive.org/30/items/36-mp-3cut.net/36%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D8%A8%D8%A7%D9%83%D9%8A%D8%A9%20%D9%88%20%D9%85%D8%A4%D8%AB%D8%B1%D8%A9%20%D9%84%D9%85%D8%A7%20%D8%AA%D9%8A%D8%B3%D8%B1%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D9%8A%D8%B3%20%D9%84%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20-%20%D9%A1%D9%A2-%D9%A2-%D9%A1%D9%A4%D9%A4%D9%A2%D9%87%D9%80%20%28mp3cut.net%29.mp3?cnt=0",
@@ -14180,44 +14187,11 @@ const quranRadioStationsExtra = [
     "ar": "آيه 2",
     "en": "Ayah 2",
     "urls": [
-      "https://ia800706.us.archive.org/6/items/78-mp-3cut.net/78%20%D9%81%D8%AC%D8%B1%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D8%A4%D8%AB%D8%B1%D8%A9%20%D9%84%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D9%86%D8%A8%D8%A3%20-%20%D9%A1%D9%A3-%D9%A2-%D9%A1%D9%A4%D9%A4%D9%A2%D9%87%D9%80%20%28mp3cut.net%29.mp3?cnt=0",
-      "https://ia600802.us.archive.org/15/items/20250602_20250602_1834/-%20%D8%A3%D9%84%D9%85%20%D9%8A%D8%A3%D8%AA%D9%83%D9%85%20%D9%86%D8%A8%D8%A3%20%D8%A7%D9%84%D8%B0%D9%8A%D9%86%20%D9%83%D9%81%D8%B1%D9%88%D8%A7.mp3?cnt=0",
-      "https://ia600903.us.archive.org/34/items/76-2_20250602/76%20%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%B3%D8%A7%D9%86%20%D8%A3%D9%81%D9%85%D9%86%20%D9%83%D8%A7%D9%86%20%D9%85%D8%A4%D9%85%D9%86%D8%A7%20%D9%83%D9%85%D9%86%20%D9%83%D8%A7%D9%86%20%D9%81%D8%A7%D8%B3%D9%82%D8%A7%20%D8%AE%D8%A7%D8%A7%D8%B4%D8%B9%D9%87%20%D9%84%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%202.mp3?cnt=0",
-      "https://dn721208.ca.archive.org/0/items/51-music/51%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%B0%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA%20%D8%B9%D8%B4%D8%A7%D8%A6%D9%8A%D8%A9%D9%8A%D9%88%D9%85%D8%B9%D8%A7%D8%B4%D9%88%D8%B1%D8%A7%D8%A1%D9%84%D9%84%D8%B4%D9%8A%D8%AE%D9%86%D8%A7%D8%B5%D8%B1%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%D9%A1%D9%A0%D9%A1%D9%A1%D9%A4%D9%A4%D9%A0Music.mp3",
-      "https://ia600703.us.archive.org/30/items/36-mp-3cut.net/36%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D8%A8%D8%A7%D9%83%D9%8A%D8%A9%20%D9%88%20%D9%85%D8%A4%D8%AB%D8%B1%D8%A9%20%D9%84%D9%85%D8%A7%20%D8%AA%D9%8A%D8%B3%D8%B1%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D9%8A%D8%B3%20%D9%84%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20-%20%D9%A1%D9%A2-%D9%A2-%D9%A1%D9%A4%D9%A4%D9%A2%D9%87%D9%80%20%28mp3cut.net%29.mp3?cnt=0",
-      "https://dn721607.ca.archive.org/0/items/15-musi/15%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AD%D8%AC%D8%B1%20%D9%86%D8%A8%D8%A3%D8%B9%D8%A8%D8%A7%D8%AF%D9%8A%D8%A7%D9%86%D9%8A%D8%A7%D9%86%D8%A7%D8%A7%D9%84%D8%BA%D9%81%D9%88%D8%B1%D8%A7%D9%84%D8%B1%D8%AD%D9%8A%D9%85%D9%85%D8%A4%D8%AB%D8%B1%D8%A9%D9%88%D8%AE%D8%A7%D8%B4%D8%B9%D8%A9%D8%A7%D9%84%D9%84%D9%8A%D9%84%D8%A9%D9%A1%D9%A7%D8%B1%D9%85%D8%B6%D8%A7%D9%86%D9%A1%D9%A4%D9%A3%D9%A8%D9%87%D9%80%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%D9%86%D8%A7%D8%B5%D8%B1%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8AMusi.mp3",
-      "https://ia600303.us.archive.org/4/items/6-1402-by-alijaber.net/%E2%96%B6%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D9%88%D8%A8%D8%A9%20%286%29%201402%D9%87%D9%80%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20by%20alijaber.net.mp3?cnt=0",
-      "https://ia600300.us.archive.org/8/items/14_20250602_20250602_1819/14%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%20%D8%B9%D8%B4%D8%A7%D8%A1.mp3?cnt=0",
-      "https://ia600303.us.archive.org/3/items/11-music/11%20%D8%B3%D9%88%D8%B1%D8%A9%20%D9%87%D9%88%D8%AF%20%D9%85%D9%86%D8%B3%D9%88%D8%B1%D8%A9%D9%87%D9%88%D8%AF%D9%88%D9%86%D8%A7%D8%AF%D9%89%D9%86%D9%88%D8%AD%D8%A7%D8%A8%D9%86%D9%87%D8%A8%D8%A3%D8%AF%D8%A7%D8%A1%D8%A8%D8%A7%D9%83%D9%8A%D9%84%D9%84%D8%B4%D9%8A%D8%AE%D9%86%D8%A7%D8%B5%D8%B1%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8AMusic.mp3?cnt=0",
-      "https://archive.org/download/5-1402-by-alijaber.net/%E2%96%B6%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D9%88%D8%A8%D8%A9%20%285%29%201402%D9%87%D9%80%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20by%20alijaber.net.mp3",
-      "https://ia800904.us.archive.org/31/items/320-kbps_202506/-%20%40%D8%A7%D8%B3%D9%84%D8%A7%D9%85%20%D8%B5%D8%A8%D8%AD%D9%8A%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D8%AE%D9%8A%D8%A7%D9%84%D9%8A%D8%A9%20%D8%AA%D9%81%D9%88%D9%82%20%D8%A7%D9%84%D9%88%D8%B5%D9%81%20%28320%20kbps%29%20.mp3?cnt=0",
-      "https://ia600300.us.archive.org/22/items/4-1402-by-alijaber.net/%E2%96%B6%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D9%88%D8%A8%D8%A9%20%284%29%201402%D9%87%D9%80%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20by%20alijaber.net.mp3?cnt=0",
-      "https://ia800102.us.archive.org/21/items/7-25-3-1442-mp-3cut.net/7%20%D8%AA%D8%B1%D8%AA%D9%8A%D9%84%20%D9%85%D8%A4%D8%AB%D8%B1%20%D8%AC%D8%AF%D8%A7%D9%8B%20%D9%84%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A3%D8%B9%D8%B1%D8%A7%D9%81%20-%20%D9%81%D8%AC%D8%B1%20%D8%A7%D9%84%D8%A3%D8%B1%D8%A8%D8%B9%D8%A7%D8%A1%2025-3-1442%20%28mp3cut.net%29.mp3?cnt=0",
-      "https://ia600703.us.archive.org/19/items/271514625-294754496034600-8413862624372710736-n/271514625_294754496034600_8413862624372710736_n.mp3?cnt=0",
-      "https://archive.org/download/20260506_20260506_1535/%D9%88%D8%A7%D9%84%D9%84%D9%87%20%D8%A7%D8%AE%D8%B1%D8%AC%D9%83%D9%85%20.mp3",
-      "https://archive.org/serve/1-1402-by-alijaber.net/%E2%96%B6%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D9%88%D8%A8%D8%A9%20%281%29%201402%D9%87%D9%80%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20by%20alijaber.net.mp3",
-      "https://archive.org/download/20260506_20260506_1523/%D8%A7%D9%8A%D9%87%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D9%86%D9%88%D8%B1.mp3",
-      "https://archive.org/download/20260506_20260506_1516/%D9%88%D8%AA%D8%B2%D9%88%D8%AF%D9%88%D8%A7%20%D8%A7%D9%84%D8%A8%D9%86%D8%A7.mp3",
-      "https://archive.org/download/20260506_20260506_1526/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D8%B0%D9%8A%20%D8%A3%D8%B3%D8%B1%D9%89%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A.mp3",
-      "https://archive.org/download/20260117_20260117_1330/%28%28..%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D8%B0%D9%8A%20%D8%A3%D8%B3%D8%B1%D9%89%20%D8%A8%D8%B9%D8%A8%D8%AF%D9%87..%29%29%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%D8%B1%D8%AD%D9%85%D9%87%20%D8%A7%D9%84%D9%84%D9%87%20%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A7%D8%B3%D8%B1%D8%A7%D8%A1%27%27.mp3",
-      "https://ia801004.us.archive.org/18/items/20250909_20250909_1942/%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D8%AE%D8%A7%D8%B4%D8%B9%D8%A9%20%D8%AA%D8%A3%D8%AE%D8%B0%D9%83%20%D9%84%D8%B9%D8%A7%D9%84%D9%85%20%D8%A2%D8%AE%D8%B1%20%EF%B4%BF%D9%82%D9%84%20%D9%84%D9%85%D9%86%20%D8%A7%D9%84%D8%A3%D8%B1%D8%B6%20%D9%88%D9%85%D9%86%20%D9%81%D9%8A%D9%87%D8%A7%20%D8%A5%D9%86%20%D9%83%D9%86%D8%AA%D9%85.%20.%20.%EF%B4%BE%20%D9%84%D9%84%D8%B4%D9%8A%D8%AE%20%D9%8A%D8%A7%D8%B3%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D8%B3%D8%B1%D9%8A%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D9%85%D8%A4%D9%85%D9%86%D9%88%D9%86%F0%9F%8E%A7%F0%9F%A4%8D..m4a?cnt=0",
-      "https://ia600704.us.archive.org/30/items/078040_202506/078040%D8%A7%D9%86%D8%A7%20%D8%A7%D9%86%D8%B0%D8%B1%D9%86%D8%A7%D9%83%D9%85%20%D8%B9%D8%B0%D8%A7%D8%A8%D8%A7%20%D9%82%D8%B1%D9%8A%D8%A8%D8%A7%20%D8%A7%D9%84%D8%AD%D8%B5%D8%B1%D9%89.mp3?cnt=0",
-      "https://ia800305.us.archive.org/28/items/video-413009016970397/Video%20413009016970397.mp3?cnt=0",
-      "https://ia601903.us.archive.org/28/items/messenger_202506/Messenger.mp3?cnt=0",
-      "https://archive.org/download/20250823_20250823_0953/%28%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%B4%D8%B9%D8%B1%D8%A7%D8%A1%20%29%20%EF%BD%9C%20%D8%B9%D8%A8%D8%AF%D8%A7%D9%84%D8%B9%D8%B2%D9%8A%D8%B2%20%D8%A2%D9%84%20%D8%AA%D9%88%D9%8A%D9%85.mp3",
-      "https://ia801003.us.archive.org/26/items/y2mate-/y2mate--%D9%85%D9%86-%D8%A7%D9%84%D9%85%D8%A4%D9%85%D9%86%D9%8A%D9%86-%D8%B1%D8%AC%D8%A7%D9%84-%D8%B5%D8%AF%D9%82%D9%88%D8%A7-%D9%85%D8%A7-%D8%B9%D8%A7%D9%87%D8%AF%D9%88%D8%A7-%D8%A7%D9%84%D9%84%D9%87-%D8%AA%D9%84%D8%A7%D9%88%D8%A9-%D9%87%D8%A7%D8%AF%D8%A6%D8%A9-%D9%88%D8%A8%D8%AF%D9%8A%D8%B9%D8%A9.mp3?cnt=0",
-      "https://ia601904.us.archive.org/33/items/raadalkurdy_273685427_1500032550383298_3831424875219627410_n/raadalkurdy_273685427_1500032550383298_3831424875219627410_n.mp3?cnt=0",
-      "https://archive.org/download/6-surah-al-anam/6%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%B9%D8%A7%D9%85%20%20%D8%A7%D9%84%D9%85%D8%B5%D8%AD%D9%81%20%D8%A7%D9%84%D9%85%D8%B1%D8%A6%D9%8A%20%D9%84%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20%D9%85%D9%86%20%D8%B1%D9%85%D8%B6%D8%A7%D9%86%20%D9%A1%D9%A4%D9%A3%D9%A9%D9%87%D9%80%20%20Surah-AlAnam.mp3",
-      "https://ia600905.us.archive.org/30/items/mag_20250602/%D9%81%D9%84%D9%85%D8%A7%20%D8%AF%D8%AE%D9%84%D9%88%20%D8%B9%D9%84%D9%89%20%D9%8A%D9%88%D8%B3%D9%81%20%20%D8%A7%D9%84%D8%AD%D8%B5%D8%B1%D9%89%20mag.mp3?cnt=0",
-      "https://ia800409.us.archive.org/20/items/20250602_20250602_1857/-%20%D9%86%D8%A8%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%B5%D8%AF%D9%8A%D9%82%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A.mp3?cnt=0",
-      "https://ia600306.us.archive.org/0/items/hawkar.h.zangana_283511731_557333572586618_8327610389311421146_n/hawkar.h.zangana_283511731_557333572586618_8327610389311421146_n.mp3?cnt=0",
-      "https://ia600902.us.archive.org/11/items/271352495-226257786334284-3095659203173534142-n/271352495_226257786334284_3095659203173534142_n.mp3?cnt=0",
-      "https://ia600305.us.archive.org/5/items/reel-audio-64670/ReelAudio-64670.mp3?cnt=0",
-      "https://archive.org/serve/2_20250602_20250602_1810/2%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A8%D9%82%D8%B1%D8%A9-%20%D9%85%D8%AD%D8%A7%D9%83%D8%A7%D8%A9%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20%D9%84%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20%D8%B1%D8%AD%D9%85%D9%87%20%D8%A7%D9%84%D9%84%D9%87%20%D8%A8%D8%B1%D9%88%D8%A7%D9%8A%D8%A9%20%D8%B4%D8%B9%D8%A8%D8%A9%20%D8%B9%D9%86%20%D8%B9%D8%A7%D8%B5%D9%85.mp3",
-      "https://ia800306.us.archive.org/34/items/139-141-by-alijaber.net/%E2%96%B6%20%D8%A7%D9%84%D8%A2%D9%8A%D8%A7%D8%AA%20139-141%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A8%D9%82%D8%B1%D8%A9%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20by%20alijaber.net.mp3?cnt=0",
-      "https://dn721703.ca.archive.org/0/items/42-sura-24-5-1442-audio-trimmer.com/42%20%20%20%D8%B3%D9%88%D8%B1%D8%A9%20Sura%20%20%20%D8%A7%D9%84%D8%B4%D9%88%D8%B1%D9%89%20%7B%20%D8%A7%D9%84%D9%84%D9%91%D9%8E%D9%87%D9%8F%20%D9%84%D9%8E%D8%B7%D9%90%D9%8A%D9%81%D9%8C%20%D8%A8%D9%90%D8%B9%D9%90%D8%A8%D9%8E%D8%A7%D8%AF%D9%90%D9%87%D9%90%20%7D%20%D8%AA%D8%B1%D8%AA%D9%8A%D9%84%20%D8%AE%D8%A7%D8%B4%D8%B9%20%D9%8A%D9%84%D8%A7%D9%85%D8%B3%20%D8%A7%D9%84%D9%82%D9%84%D9%88%D8%A8%20%20%D9%84%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20-%2024-5-1442-%5BAudioTrimmer.com%5D.mp3",
-      "https://ia601806.us.archive.org/13/items/vid-20241112-wa-0079-mp-3cut.net/VID-20241112-WA0079%20%28mp3cut.net%29%20%28%D9%88%20%D8%A7%D8%B0%20%D8%A7%D8%AE%D8%B0%D9%86%D8%A7%20%D9%85%D9%8A%D8%AB%D8%A7%D9%82%20%D8%A8%D9%86%D9%89%20%D8%A7%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%20%D8%A7%D8%B3%D9%84%D8%A7%D9%85%20%D8%B5%D8%A8%D8%AD%D9%89%20%29.mp3?cnt=0",
-      "https://ia600904.us.archive.org/11/items/012099_202506/012099%20%D9%81%D9%84%D9%85%D8%A7%20%D8%AF%D8%AE%D9%84%D9%88%20%D8%B9%D9%84%D9%89%20%D9%8A%D9%88%D8%B3%D9%81%20%20%D8%A7%D9%84%D8%AD%D8%B5%D8%B1%D9%89%20.mp3?cnt=0"
+     "https://archive.org/download/20260506_20260506_1523/%D8%A7%D9%8A%D9%87%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D9%86%D9%88%D8%B1.mp3",
+     "https://archive.org/download/20260506_20260506_1516/%D9%88%D8%AA%D8%B2%D9%88%D8%AF%D9%88%D8%A7%20%D8%A7%D9%84%D8%A8%D9%86%D8%A7.mp3",
+     "https://archive.org/download/20260506_20260506_1526/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D8%B0%D9%8A%20%D8%A3%D8%B3%D8%B1%D9%89%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A.mp3",
+     "https://archive.org/serve/2_20250602_20250602_1810/2%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A8%D9%82%D8%B1%D8%A9-%20%D9%85%D8%AD%D8%A7%D9%83%D8%A7%D8%A9%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20%D9%84%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20%D8%B1%D8%AD%D9%85%D9%87%20%D8%A7%D9%84%D9%84%D9%87%20%D8%A8%D8%B1%D9%88%D8%A7%D9%8A%D8%A9%20%D8%B4%D8%B9%D8%A8%D8%A9%20%D8%B9%D9%86%20%D8%B9%D8%A7%D8%B5%D9%85.mp3",
+     "https://archive.org/download/20260612_20260612_2217/%D9%88%D9%84%D9%84%D9%87%20%D8%BA%D9%8A%D8%A8%20%D8%A7%D9%84%D8%B3%D9%85%D9%88%D8%A7%D8%AA.mp3"
     ]
   }
 ];
@@ -28604,6 +28578,90 @@ const SiteModalManager = (function() {
      isYouTube=true  → YTModalManager (floating)
      otherwise       → SiteModalManager (floating)
    ══════════════════════════════════════════════ */
+
+// ── مودال بث صوتي مباشر (Audio Stream Modal) ──
+function openAudioStreamModal(streamUrl, title) {
+  const overlay = document.getElementById('site-modal-overlay');
+  // إيقاف أي صوت سابق في المودال
+  const prevAudio = document.getElementById('audioStreamPlayer');
+  if (prevAudio) { prevAudio.pause(); prevAudio.src = ''; }
+  overlay.innerHTML = '';
+  overlay.style.pointerEvents = 'all';
+
+  const isDark = document.body.classList.contains('dark-mode');
+  const bgColor  = isDark ? '#1a2535' : '#ffffff';
+  const txtColor = isDark ? '#c8d8e8' : '#333333';
+  const subColor = isDark ? '#7a9ab8' : '#888888';
+  const linkColor = '#1D9E75';
+
+  overlay.innerHTML = `
+    <div class="site-modal-window" id="audioStreamModalWin"
+         style="width:360px;max-width:95vw;background:${bgColor};">
+      <div class="site-modal-titlebar">
+        <span class="site-modal-favicon">🎙️</span>
+        <span class="site-modal-title" style="color:${txtColor};">${title}</span>
+        <div class="site-modal-controls">
+          <button class="site-modal-btn" title="إغلاق"
+            onclick="(function(){
+              var a=document.getElementById('audioStreamPlayer');
+              if(a){a.pause();a.src='';}
+              var o=document.getElementById('site-modal-overlay');
+              o.innerHTML=''; o.style.pointerEvents='none';
+            })()">✕</button>
+        </div>
+      </div>
+      <div class="site-modal-body" style="padding:28px 24px;text-align:center;background:${bgColor};">
+        <p style="margin:0 0 6px;font-size:13px;color:#e74c3c;font-weight:700;letter-spacing:.5px;">
+          🔴 بث مباشر
+        </p>
+        <p style="margin:0 0 18px;font-size:12px;color:${subColor};">
+          قد يستغرق التحميل بضع ثوانٍ…
+        </p>
+        <audio id="audioStreamPlayer" controls autoplay
+               style="width:100%;border-radius:10px;outline:none;">
+          <source src="${streamUrl}" type="audio/mpeg">
+          <source src="${streamUrl}">
+          متصفحك لا يدعم تشغيل الصوت.
+        </audio>
+        <p style="margin:14px 0 0;font-size:12px;color:${subColor};">
+          <a href="${streamUrl}" target="_blank"
+             style="color:${linkColor};text-decoration:none;">
+            فتح الرابط المباشر ↗
+          </a>
+        </p>
+      </div>
+    </div>`;
+
+  // جعل المودال قابلاً للسحب
+  const win = document.getElementById('audioStreamModalWin');
+  const bar = win.querySelector('.site-modal-titlebar');
+  let ox = 0, oy = 0, mx = 0, my = 0;
+  bar.addEventListener('mousedown', function(e) {
+    if (e.target.closest('.site-modal-btn')) return;
+    e.preventDefault();
+    const r = win.getBoundingClientRect();
+    ox = r.left; oy = r.top; mx = e.clientX; my = e.clientY;
+    win.style.left = ox + 'px'; win.style.top = oy + 'px';
+    win.style.right = 'auto'; win.style.bottom = 'auto';
+    document.onmousemove = function(e) {
+      win.style.left = (ox + e.clientX - mx) + 'px';
+      win.style.top  = (oy + e.clientY - my) + 'px';
+    };
+    document.onmouseup = function() {
+      document.onmousemove = null; document.onmouseup = null;
+    };
+  });
+
+  // إغلاق بالضغط على الـ overlay خارج المودال
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      var a = document.getElementById('audioStreamPlayer');
+      if (a) { a.pause(); a.src = ''; }
+      overlay.innerHTML = ''; overlay.style.pointerEvents = 'none';
+    }
+  }, { once: true });
+}
+
 function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'rgba(0, 0, 0, 0.8)', iframeSrc = null) {
     if (isYouTube) {
         YTModalManager.open(url, title, iframeSrc);
