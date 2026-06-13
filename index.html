@@ -23452,7 +23452,8 @@ const moreTranslations = [
       data-target="https://livehd77.pro/livve/"
       data-title="بث1"
       data-title-en="Stream 1"
-      onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">
+      data-password="265"
+      onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){checkPwdThenOpen(this.dataset.target);} else { handleTripleClickPwd(this); }">
       📺
 </span>
 
@@ -23461,7 +23462,8 @@ const moreTranslations = [
           data-target="https://yallalive.sx/"
           data-title="بث2"
           data-title-en="Stream 2"
-          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">
+          data-password="265"
+          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){checkPwdThenOpen(this.dataset.target);} else { handleTripleClickPwd(this); }">
           📺
     </span>
 
@@ -23470,7 +23472,8 @@ const moreTranslations = [
           data-target="https://www.hd7.live/"
           data-title="بث3"
           data-title-en="Stream 3"
-          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">
+          data-password="265"
+          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){checkPwdThenOpen(this.dataset.target);} else { handleTripleClickPwd(this); }">
           📺
     </span>
 
@@ -23479,7 +23482,8 @@ const moreTranslations = [
           data-target="https://www.btolat.com/video"
           data-title="بث4"
           data-title-en="Stream 4"
-          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){window.open(this.dataset.target,'_blank');} else { handleTripleClick(this); }">
+          data-password="265"
+          onclick="if(event.shiftKey || event.ctrlKey || event.metaKey){checkPwdThenOpen(this.dataset.target);} else { handleTripleClickPwd(this); }">
           📺
     </span>
 
@@ -23503,29 +23507,32 @@ const moreTranslations = [
 
     <span class="flag"></span>
 
-    <span class="station-text"
+    <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
-          onclick="openModal('https://www.pexels.com/search/videos/nature/', 'فيديوهات الطبيعة', false, true)">🏞️</span>
+          data-password="265"
+          onclick="checkPwdThenModal('https://www.pexels.com/search/videos/nature/','فيديوهات الطبيعة')">🏞️</span>
 
-    <span class="station-text"
+    <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
-          onclick="checkPasswordForLink('https://example.com/old-link', 'A@1')">📡</span>
+          onclick="checkPwdThenOpen('https://magziko.wixsite.com/magziko')">📡</span>
 
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
           data-target="https://papergames.io/en/"
           data-title="ألعاب ذكاء"
-          onclick="handleTripleClick(this)">♟️</span>
+          data-password="265"
+          onclick="handleTripleClickPwd(this)">♟️</span>
 
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
           data-target="https://docs.google.com/document/d/1DuuwsJ4mIs7PGvGRXNOYK9A9B6zAZHdZE2_5vMi8w5k/edit?usp=sharing"
-          data-password="265"
+          data-password="A@1"
           onclick="handleTripleClickWithPassword(this)">📜</span>
 
-    <span class="station-text"
+    <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
-          onclick="window.open('https://character.ai/chat/V2ZqWlc0izqD852WEAE_csN-TffUnJF35VD_ttLIVyQ', '_blank')">💬</span>
+          data-password="265"
+          onclick="checkPwdThenOpen('https://character.ai/chat/V2ZqWlc0izqD852WEAE_csN-TffUnJF35VD_ttLIVyQ')">💬</span>
 
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
@@ -27699,17 +27706,68 @@ function closePasswordModal() {
     document.getElementById('passwordModal').style.display = 'none';
 }
 
+function promptPasswordSecure(message) {
+    return new Promise(function(resolve) {
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:99999;';
+
+        var box = document.createElement('div');
+        box.style.cssText = 'background:#fff;color:#222;padding:20px;border-radius:10px;min-width:280px;max-width:90%;box-shadow:0 4px 20px rgba(0,0,0,0.3);font-family:inherit;direction:rtl;text-align:right;';
+
+        var label = document.createElement('div');
+        label.textContent = message;
+        label.style.cssText = 'margin-bottom:10px;font-size:15px;';
+
+        var input = document.createElement('input');
+        input.type = 'password';
+        input.style.cssText = 'width:100%;padding:8px;font-size:15px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;direction:ltr;';
+
+        var btnRow = document.createElement('div');
+        btnRow.style.cssText = 'margin-top:15px;display:flex;justify-content:flex-end;gap:10px;';
+
+        var okBtn = document.createElement('button');
+        okBtn.textContent = 'OK';
+        okBtn.style.cssText = 'background:#1D9E75;color:#fff;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;font-size:14px;';
+
+        var cancelBtn = document.createElement('button');
+        cancelBtn.textContent = 'Cancel';
+        cancelBtn.style.cssText = 'background:#ddd;color:#333;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;font-size:14px;';
+
+        function finish(value) {
+            document.body.removeChild(overlay);
+            resolve(value);
+        }
+
+        okBtn.onclick = function() { finish(input.value); };
+        cancelBtn.onclick = function() { finish(null); };
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') finish(input.value);
+            if (e.key === 'Escape') finish(null);
+        });
+
+        btnRow.appendChild(cancelBtn);
+        btnRow.appendChild(okBtn);
+        box.appendChild(label);
+        box.appendChild(input);
+        box.appendChild(btnRow);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+        setTimeout(function() { input.focus(); }, 50);
+    });
+}
+
 function checkPasswordForLink() {
 
-    var password = prompt("من فضلك، أدخل كلمة المرور:");
+    promptPasswordSecure("من فضلك، أدخل كلمة المرور:").then(function(password) {
 
-    var correctPassword = "A@1";
+        var correctPassword = "A@1";
 
-    if (password === correctPassword) {
-        window.open("https://magziko.wixsite.com/magziko", "_blank");
-    } else {
-        alert("كلمة المرور غير صحيحة. حاول مرة أخرى.");
-    }
+        if (password === correctPassword) {
+            window.open("https://magziko.wixsite.com/magziko", "_blank");
+        } else if (password !== null) {
+            alert("كلمة المرور غير صحيحة. حاول مرة أخرى.");
+        }
+    });
 }
 
 function showButtonTemporarily() {
@@ -28858,6 +28916,51 @@ let tripleClickTracker = {
     lastElement: null
 };
 
+function handleTripleClickPwd(element) {
+    if (tripleClickTracker.lastElement !== element) {
+        tripleClickTracker.count = 1;
+        tripleClickTracker.lastElement = element;
+        return;
+    }
+
+    tripleClickTracker.count++;
+
+    if (tripleClickTracker.count === 3) {
+        let url = element.getAttribute('data-target');
+        let title = element.getAttribute('data-title');
+        let pwd = element.getAttribute('data-password');
+        promptPasswordSecure("أدخل الباسورد:").then(function(p) {
+            if (p === pwd) {
+                openModal(url, title, false, true);
+            } else if (p !== null) {
+                alert("الباسورد غير صحيح!");
+            }
+        });
+        tripleClickTracker.count = 0;
+        tripleClickTracker.lastElement = null;
+    }
+}
+
+function checkPwdThenOpen(url) {
+    promptPasswordSecure("أدخل الباسورد:").then(function(p) {
+        if (p === "265") {
+            window.open(url, '_blank');
+        } else if (p !== null) {
+            alert("الباسورد غير صحيح!");
+        }
+    });
+}
+
+function checkPwdThenModal(url, title) {
+    promptPasswordSecure("أدخل الباسورد:").then(function(p) {
+        if (p === "265") {
+            openModal(url, title, false, true);
+        } else if (p !== null) {
+            alert("الباسورد غير صحيح!");
+        }
+    });
+}
+
 function handleTripleClick(element) {
     if (tripleClickTracker.lastElement !== element) {
         tripleClickTracker.count = 1;
@@ -28951,12 +29054,13 @@ function handleTripleClickWithPassword(element) {
         const password = element.getAttribute('data-password');
         const url = element.getAttribute('data-target');
 
-        const userPassword = prompt("أدخل الباسورد:");
-        if (userPassword === password) {
-            window.open(url, '_blank');
-        } else {
-            alert("الباسورد غير صحيح!");
-        }
+        promptPasswordSecure("أدخل الباسورد:").then(function(userPassword) {
+            if (userPassword === password) {
+                window.open(url, '_blank');
+            } else if (userPassword !== null) {
+                alert("الباسورد غير صحيح!");
+            }
+        });
         element.clickCount = 0;
     }
 
