@@ -15633,6 +15633,12 @@ hasFlag: false,
     target: 100,
     url: null,
    urls: [
+  "https://archive.org/download/6_20260613/1.mp3",
+  "https://archive.org/download/6_20260613/2.mp3",
+  "https://archive.org/download/6_20260613/3.mp3",
+  "https://archive.org/download/6_20260613/4.mp3",
+  "https://archive.org/download/6_20260613/5.mp3",
+  "https://archive.org/download/6_20260613/6.mp3",
   "https://archive.org/download/91414_202604/1227.mp3",
   "https://archive.org/download/91414_202604/1231.mp3",
   "https://archive.org/download/91414_202604/1239.mp3",
@@ -15697,6 +15703,12 @@ hasFlag: false,
     "https://archive.org/download/20260517_20260517_1245/%D8%A7%D9%86%D9%87%20%D8%B1%D8%B3%D9%88%D9%84%20%D8%A7%D9%84%D9%84%D9%87.mp3",
     "https://archive.org/download/mix_20260524_202605/mix%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84%20%D8%B9%D9%84%D9%89%20%D8%B3%D9%8A%D8%AF%D9%86%D8%A7%20%D9%85%D8%AD%D9%85%D8%AF.mp3",
     "https://archive.org/download/reel-audio-95036/ReelAudio-95036.mp3",
+    "https://archive.org/download/6_20260613/1.mp3",
+    "https://archive.org/download/6_20260613/2.mp3",
+    "https://archive.org/download/6_20260613/3.mp3",
+    "https://archive.org/download/6_20260613/4.mp3",
+    "https://archive.org/download/6_20260613/5.mp3",
+    "https://archive.org/download/6_20260613/6.mp3",
     "https://archive.org/download/f-1_20260217/F0.mp3",
     "https://archive.org/download/91414_202604/1227.mp3",
     "https://archive.org/download/91414_202604/1231.mp3",
@@ -24303,6 +24315,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <option value="0"  data-ar="اللهم صلِّ وسلِّم على نبينا محمد ﷺ"  data-en="O Allah, bless our Prophet Muhammad ﷺ" selected>اللهم صلِّ وسلِّم على نبينا محمد ﷺ</option>
             <option value="300" data-ar="اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ، وَعَلَى آلِ مُحَمَّدٍ، كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ، اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ، وَعَلَى آلِ مُحَمَّدٍ، كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ" data-en="Allahumma salli ala Muhammad wa ala ali Muhammad, kama sallayta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid. Allahumma barik ala Muhammad wa ala ali Muhammad, kama barakta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid">الصلاة الإبراهيمية</option>
             <option value="14" data-ar="اللهم صلِّ على محمد"                   data-en="Allahumma salli ala Muhammad">اللهم صلِّ على محمد</option>
+            <option value="16" data-ar="صلى الله عليه وسلم"                    data-en="Salla Allahu alayhi wa sallam">صلى الله عليه وسلم</option>
+            <option value="17" data-ar="صلِّ على النبي ﷺ"                       data-en="Send blessings upon the Prophet ﷺ">صلِّ على النبي ﷺ</option>
+            <option value="18" data-ar="صلِّ على رسول الله ﷺ"                   data-en="Send blessings upon the Messenger of Allah ﷺ">صلِّ على رسول الله ﷺ</option>
             <option value="15" data-ar="سبحان الله والحمد لله ولا إله إلا الله والله أكبر ولا حول ولا قوة إلا بالله" data-en="SubhanAllah, Alhamdulillah, La ilaha illallah, Allahu Akbar, La hawla wala quwwata illa billah">سبحان الله والحمد لله ولا إله إلا الله والله أكبر...</option>
             
             <option value="5"  data-ar="سبحان الله وبحمده"                     data-en="SubhanAllahi wa bihamdih">سبحان الله وبحمده</option>
@@ -25083,7 +25098,10 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     /* كل قيمة ممكن تكون string واحدة أو array من الروابط — يدور عليهم بالترتيب */
     var ALARM_SOUNDS = {
         /* اللهم صلِّ وسلِّم على نبينا محمد ﷺ */
-        '0':  "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3",
+        '0': [
+            "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3",
+            "https://archive.org/download/6_20260613/3.mp3"
+        ],
         /* الصلاة الإبراهيمية — ثلاثة روابط يتناوبون بالترتيب */
         '300': [
             "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9%20%20%D8%A3%D8%A8%D9%88%20%D8%A5%D8%B3%D8%AD%D8%A7%D9%82.mp3",
@@ -25091,7 +25109,17 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9.mp3"
         ],
         /* اللهم صلِّ على محمد */
-        '14': "https://archive.org/download/mix-saly/mix%20saly.mp3",
+        '14': [
+            "https://archive.org/download/mix-saly/mix%20saly.mp3",
+            "https://archive.org/download/6_20260613/5.mp3",
+            "https://archive.org/download/6_20260613/6.mp3"
+        ],
+        /* صلى الله عليه وسلم */
+        '16': "https://archive.org/download/6_20260613/1.mp3",
+        /* صلِّ على النبي */
+        '17': "https://archive.org/download/6_20260613/2.mp3",
+        /* صلِّ على رسول الله */
+        '18': "https://archive.org/download/6_20260613/4.mp3",
         /* لا إله إلا الله وحده لا شريك له */
         '10': "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3",
         /* أستغفر الله */
