@@ -5223,38 +5223,39 @@ function confirmReload() {
     window._welcomeRadioBgStarted = false;
     window._welcomePlayInitiated  = false;
 
-    // ── دالة التشغيل الوحيدة ──────────────────────────────
+    // ── دالة عامة لتشغيل رابط صوتي على مشغّل الشاشة الترحيبية مع معالجة autoplay ──
     // تُستدعى تلقائياً بعد load — تنجح للزوار العائدين
     // لو فشلت (زيارة أولى)، أي ضغطة بالصفحة تعطي المتصفح إذن autoplay تلقائياً
     // وعندها يكفي أن يضغط المستخدم على أي زر (محطة، إشعار، إلخ) فيشتغل مباشرة
-    function _playWelcomeAudio() {
-        if (window._welcomePlayInitiated || window._welcomeRadioBgStarted) return;
-        window._welcomePlayInitiated = true;
-
+    // onEnded (اختياري) يُستدعى بعد انتهاء التشغيل بنجاح — تُستخدم لتشغيل المحطة المعتادة بعد مقطع الفتح
+    function _playWelcomeSrc(src, onEnded) {
         var _player = document.getElementById('customAudioPlayer');
         if (!_player) { window._welcomePlayInitiated = false; return; }
 
-        var _src = (typeof sources !== 'undefined' && sources[0])
-            ? sources[0]
-            : 'https://backup.qurango.net/radio/tarateel';
-
-        _player.src = _src;
+        _player.src = src;
         _player.load();
-        _player.play().catch(function() {
+        _player.play().then(function() {
+            if (onEnded) {
+                var _handled = false;
+                var _onMediaEnd = function() {
+                    if (_handled) return;
+                    _handled = true;
+                    _player.removeEventListener('ended', _onMediaEnd);
+                    _player.removeEventListener('error', _onMediaEnd);
+                    onEnded();
+                };
+                _player.addEventListener('ended', _onMediaEnd);
+                _player.addEventListener('error', _onMediaEnd);
+            }
+        }).catch(function() {
             // autoplay مرفوض (زيارة أولى) — انتظر أول تفاعل من المستخدم
             window._welcomePlayInitiated = false;
 
             function _onFirstInteraction() {
                 if (window._welcomeScreenClosed) return;
                 if (window._welcomePlayInitiated || window._welcomeRadioBgStarted) return;
-                var p = document.getElementById('customAudioPlayer');
-                if (!p) return;
                 window._welcomePlayInitiated = true;
-                p.src = _src;
-                p.load();
-                p.play().catch(function() {
-                    window._welcomePlayInitiated = false;
-                });
+                _playWelcomeSrc(src, onEnded);
                 document.removeEventListener('click', _onFirstInteraction);
                 document.removeEventListener('touchstart', _onFirstInteraction);
             }
@@ -5262,6 +5263,28 @@ function confirmReload() {
             document.addEventListener('click', _onFirstInteraction, { once: false });
             document.addEventListener('touchstart', _onFirstInteraction, { once: false });
         });
+    }
+
+    function _playWelcomeAudio() {
+        if (window._welcomePlayInitiated || window._welcomeRadioBgStarted) return;
+        window._welcomePlayInitiated = true;
+
+        var _src = (typeof sources !== 'undefined' && sources[0])
+            ? sources[0]
+            : 'https://backup.qurango.net/radio/tarateel';
+
+        // مقطع الفتح: إذا كان مفعَّلاً من الإعدادات، يُشغَّل أولاً ثم تبدأ المحطة المعتادة بعد انتهائه
+        var _introEnabled = localStorage.getItem('introClipEnabled') === 'true';
+        var _introSrc = 'https://archive.org/download/6_20260613/2.mp3';
+
+        if (_introEnabled) {
+            _playWelcomeSrc(_introSrc, function() {
+                if (window._welcomeScreenClosed || window._welcomeRadioBgStarted) return;
+                _playWelcomeSrc(_src);
+            });
+        } else {
+            _playWelcomeSrc(_src);
+        }
     }
 
     if (document.readyState === 'complete') {
@@ -5296,6 +5319,19 @@ function toggleDisableWelcomeScreen() {
         localStorage.setItem("disableWelcomeScreen", "true");
     } else {
         localStorage.setItem("disableWelcomeScreen", "false");
+    }
+}
+
+// ── خيار: تشغيل مقطع صوتي عند فتح الموقع/الشاشة قبل المحطة المعتادة ──
+function toggleIntroClipOption() {
+    var enabled = localStorage.getItem('introClipEnabled') === 'true';
+    enabled = !enabled;
+    localStorage.setItem('introClipEnabled', enabled ? 'true' : 'false');
+    var btn = document.getElementById('introClipToggleBtn');
+    if (btn) {
+        btn.classList.toggle('active', enabled);
+        var icon = btn.querySelector('.wtb-icon');
+        if (icon) icon.textContent = enabled ? '🔔' : '🔕';
     }
 }
 
@@ -13338,6 +13374,13 @@ setTimeout(autoScaleVerseFont, 100);
             class="welcome-toggle-btn">
         <svg class="wtb-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         <span class="wtb-text" id="disableWelcomeTxt">إخفاء شاشة الترحيب</span>
+    </button>
+    <button id="introClipToggleBtn"
+            onclick="toggleIntroClipOption()"
+            title="تشغيل مقطع صوتي عند فتح الموقع/الشاشة، قبل بدء المحطة المعتادة / Play a clip on open, before the regular station starts"
+            class="welcome-toggle-btn">
+        <span class="wtb-icon">🔕</span>
+        <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert">تفعيل التنبيه الصوتي</span>
     </button>
     <div id="welcomeAutoSwitchDurationGroup" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية"
          style="display:flex; align-items:center; gap:7px; background:linear-gradient(to right,#e3f2fd 0%,#fff 50%,#e3f2fd 100%); border-radius:8px; padding:6px 12px; box-shadow:0 2px 4px rgba(0,0,0,0.08); font-weight:700; font-size:14px;">
@@ -25920,6 +25963,9 @@ function applyInitialLanguage() {
       disableWelcomeTxtEl.textContent = (dwCb && dwCb.checked) ? 'Welcome: Hidden' : 'Disable Welcome Screen';
     }
 
+    var introClipToggleTxtEl = document.getElementById('introClipToggleTxt');
+    if (introClipToggleTxtEl) introClipToggleTxtEl.textContent = 'Enable Sound Alert';
+
     var bgSel = document.getElementById('bgColor');
     if (bgSel) Array.from(bgSel.options).forEach(function(o) { var en = o.getAttribute('data-en'); if (en) o.textContent = en; });
     var btnSel = document.getElementById('radioButtonColor');
@@ -27033,6 +27079,9 @@ function toggleLanguage() {
           disableWelcomeTxtEl.textContent = isArabic ? 'إخفاء شاشة الترحيب' : 'Disable Welcome Screen';
       }
   }
+
+  var introClipToggleTxtEl = document.getElementById('introClipToggleTxt');
+  if (introClipToggleTxtEl) introClipToggleTxtEl.textContent = isArabic ? 'تفعيل التنبيه الصوتي' : 'Enable Sound Alert';
 
   var bgSel = document.getElementById('bgColor');
   if (bgSel && bgSel.options[0]) {
@@ -32162,6 +32211,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (dwIcon) dwIcon.innerHTML = SVG_EYE_OFF;
                 if (dwTxt) dwTxt.textContent = isAr2 ? 'الترحيب: مخفي' : 'Welcome: Off';
             }
+        }
+
+        const icBtn = document.getElementById('introClipToggleBtn');
+        if (icBtn && localStorage.getItem('introClipEnabled') === 'true') {
+            icBtn.classList.add('active');
+            const icIcon = icBtn.querySelector('.wtb-icon');
+            if (icIcon) icIcon.textContent = '🔔';
         }
 
     document.querySelectorAll('.filter-button, .adhkar-sub-btn, .sira-sub-btn, .more-sub-btn, .livetv-sub-btn').forEach(function(btn) {
