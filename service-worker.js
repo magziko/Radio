@@ -15,12 +15,12 @@ const ALARM_AUDIO_URLS = [
   "https://archive.org/download/6_20260613/5.mp3",
   "https://archive.org/download/6_20260613/6.mp3",
   "https://archive.org/download/6_20260613/1.mp3",
-  "https://archive.org/download/6_20260613/2.mp3",
+  "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3",
   "https://archive.org/download/6_20260613/4.mp3",
   "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3",
   "https://archive.org/download/20260530_20260530_1151/%D8%A3%D8%B3%D8%AA%D8%BA%D9%81%D8%B1%20%D8%A7%D9%84%D9%84%D9%87.mp3",
   "https://archive.org/download/20260531_20260531_1135/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%20%D8%A7%D9%84%D8%AD%D9%85%D8%AF%D9%84%D9%84%D9%87.mp3",
-  "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9.mp3",
+  "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A9.mp3",
   /* الصلاة الإبراهيمية — الثلاثة روابط (للعمل أوفلاين) */
   "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9%20%20%D8%A3%D8%A8%D9%88%20%D8%A5%D8%B3%D8%AC%D8%A7%D9%82.mp3",
   "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%A7%D9%84%D8%A7%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9.mp3",
@@ -141,12 +141,15 @@ self.addEventListener('message', async event => {
   const data = event.data;
   if (!data) return;
 
-  // ── البحث عن كاش URL ──
+  // ── البحث عن كاش URL (يدور في CACHE_ALARM أولاً ثم CACHE_AUDIO) ──
   if (data.type === 'FIND_CACHED_URL') {
-    const cache = await caches.open(CACHE_AUDIO);
+    const [cacheAlarm, cacheAudio] = await Promise.all([
+      caches.open(CACHE_ALARM),
+      caches.open(CACHE_AUDIO)
+    ]);
     let found = null;
     for (const url of data.urls) {
-      const match = await cache.match(url);
+      const match = (await cacheAlarm.match(url)) || (await cacheAudio.match(url));
       if (match) { found = url; break; }
     }
     event.source.postMessage({ type: 'CACHED_URL_RESULT', url: found });
