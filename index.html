@@ -5275,13 +5275,38 @@ function confirmReload() {
 
         // مقطع الفتح: إذا كان مفعَّلاً من الإعدادات، يُشغَّل أولاً ثم تبدأ المحطة المعتادة بعد انتهائه
         var _introEnabled = localStorage.getItem('introClipEnabled') === 'true';
-        var _introSrc = 'https://archive.org/download/6_20260613/2.mp3';
+        var _introSrc = 'https://archive.org/download/2_20260614_20260614/%D8%B51.mp3';
 
         if (_introEnabled) {
-            _playWelcomeSrc(_introSrc, function() {
-                if (window._welcomeScreenClosed || window._welcomeRadioBgStarted) return;
-                _playWelcomeSrc(_src);
-            });
+            // ── دعم الأوفلاين: لو مفيش نت، ابحث عن الملف في كاش الـ service worker ──
+            var _doPlayIntro = function(srcToPlay) {
+                _playWelcomeSrc(srcToPlay, function() {
+                    if (window._welcomeScreenClosed || window._welcomeRadioBgStarted) return;
+                    _playWelcomeSrc(_src);
+                });
+            };
+
+            if (!navigator.onLine && navigator.serviceWorker && navigator.serviceWorker.controller) {
+                var _swHandler = function(event) {
+                    if (event.data && event.data.type === 'CACHED_URL_RESULT') {
+                        navigator.serviceWorker.removeEventListener('message', _swHandler);
+                        var _cachedSrc = event.data.url || _introSrc;
+                        _doPlayIntro(_cachedSrc);
+                    }
+                };
+                navigator.serviceWorker.addEventListener('message', _swHandler);
+                navigator.serviceWorker.controller.postMessage({
+                    type: 'FIND_CACHED_URL',
+                    urls: [_introSrc]
+                });
+                // fallback لو الـ SW ما ردّش خلال ثانية
+                setTimeout(function() {
+                    navigator.serviceWorker.removeEventListener('message', _swHandler);
+                    _doPlayIntro(_introSrc);
+                }, 1000);
+            } else {
+                _doPlayIntro(_introSrc);
+            }
         } else {
             _playWelcomeSrc(_src);
         }
@@ -13377,7 +13402,7 @@ setTimeout(autoScaleVerseFont, 100);
     </button>
     <button id="introClipToggleBtn"
             onclick="toggleIntroClipOption()"
-            title="تشغيل مقطع صوتي عند فتح الموقع/الشاشة، قبل بدء المحطة المعتادة / Play a clip on open, before the regular station starts"
+            title="تشغيل مقطع صلِّ على النبي ﷺ تلقائياً عند فتح الموقع / Auto-play a Salawat clip when the site opens"
             class="welcome-toggle-btn">
         <span class="wtb-icon">🔕</span>
         <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert">تفعيل التنبيه الصوتي</span>
@@ -25160,7 +25185,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         /* صلى الله عليه وسلم */
         '16': "https://archive.org/download/6_20260613/1.mp3",
         /* صلِّ على النبي */
-        '17': "https://archive.org/download/6_20260613/2.mp3",
+        '17': "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3",
         /* صلِّ على رسول الله */
         '18': "https://archive.org/download/6_20260613/4.mp3",
         /* لا إله إلا الله وحده لا شريك له */
