@@ -3108,6 +3108,51 @@ body.dark-mode .welcome-toggle-btn.active {
     }
 }
 
+/* ===== تنظيم صف أزرار (إخفاء شاشة الترحيب / التنبيه الصوتي / مدة التنقل) في الموبايل ===== */
+@media (max-width: 600px) {
+    #welcomeExtraControlsRow {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    #welcomeExtraControlsRow .welcome-toggle-btn {
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        text-align: center;
+        line-height: 1.3;
+    }
+
+    #welcomeExtraControlsRow .welcome-toggle-btn .wtb-text {
+        white-space: normal;
+    }
+
+    #welcomeAutoSwitchDurationGroup {
+        grid-column: 1 / -1;
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 360px) {
+    #welcomeAutoSwitchDurationGroup {
+        font-size: 12px;
+        gap: 5px;
+        padding: 6px 8px;
+    }
+
+    #welcomeAutoSwitchDurationGroup #welcomeAutoSwitchDuration {
+        width: 55px;
+    }
+}
+
 #welcome-top-bar #welcomeDarkModeBtn {
     position: static !important;
     top: unset !important;
@@ -13365,14 +13410,18 @@ setTimeout(autoScaleVerseFont, 100);
       style="font-size:15px;font-weight:700;color:#1a3a52;white-space:nowrap;">🔔 تذكير الأذكار</span>
 
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-      <label data-ar="🌅 الصباح" data-en="🌅 Morning"
-        style="font-size:13px;color:#2c5f7a;white-space:nowrap;">🌅 الصباح</label>
-      <input type="time" id="notif-morning-time" value="06:00"
-        style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:13px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
-      <label data-ar="🌙 المساء" data-en="🌙 Evening"
-        style="font-size:13px;color:#2c5f7a;white-space:nowrap;">🌙 المساء</label>
-      <input type="time" id="notif-evening-time" value="18:00"
-        style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:13px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <label data-ar="🌅 الصباح" data-en="🌅 Morning"
+          style="font-size:13px;color:#2c5f7a;white-space:nowrap;">🌅 الصباح</label>
+        <input type="time" id="notif-morning-time" value="06:00"
+          style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:13px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <label data-ar="🌙 المساء" data-en="🌙 Evening"
+          style="font-size:13px;color:#2c5f7a;white-space:nowrap;">🌙 المساء</label>
+        <input type="time" id="notif-evening-time" value="18:00"
+          style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:13px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
+      </div>
     </div>
 
     <button id="notif-toggle-btn" onclick="toggleAdhkarNotifications()"
@@ -13392,7 +13441,7 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   
-  <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 8px 0 4px; flex-wrap:wrap;">
+  <div id="welcomeExtraControlsRow" style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 8px 0 4px; flex-wrap:wrap;">
     <button id="disableWelcomeToggleBtn"
             onclick="toggleDisableWelcomeBtn()"
             title="إخفاء شاشة الترحيب / Disable Welcome Screen"
