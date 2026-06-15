@@ -88,6 +88,10 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = event.request.url;
 
+  // تجاهل أي طلبات ليست http/https (مثل إضافات المتصفح chrome-extension://)
+  // الكاش لا يدعم هذه الأنواع من الطلبات وتسبب خطأ "Failed to execute 'put' on 'Cache'"
+  if (!url.startsWith('http')) return;
+
   // أصوات المنبه والأذان: من الكاش أولاً
   if (ALARM_AUDIO_URLS.includes(url) || url === ADHAN_URL) {
     event.respondWith(
