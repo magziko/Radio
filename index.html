@@ -29398,9 +29398,11 @@ window.addEventListener("load", function() {
 
   // ===== إشعار تثبيت التطبيق PWA (يظهر أولاً قبل كل الإشعارات) =====
   (function() {
-    // لا تُظهره إذا سبق تثبيته أو رفضه نهائياً
+    // لا تُظهره إذا سبق تثبيته
     if (localStorage.getItem('pwaInstalled') === '1') return;
-    if (localStorage.getItem('pwaDismissed') === '1') return;
+    // لا تُظهره إذا رفضه المستخدم مؤخراً (snooze 3 أيام فقط)
+    var _pwaNextShow = localStorage.getItem('pwaNextShow');
+    if (_pwaNextShow && Date.now() < parseInt(_pwaNextShow, 10)) return;
 
     // لا تُظهره إذا كان يعمل بالفعل كـ PWA مثبّت (standalone mode)
     if (window.matchMedia('(display-mode: standalone)').matches) {
@@ -29448,7 +29450,8 @@ window.addEventListener("load", function() {
             if (result.outcome === 'accepted') {
               localStorage.setItem('pwaInstalled', '1');
             } else {
-              localStorage.setItem('pwaDismissed', '1');
+              // رُفض التثبيت — أخّر الإشعار 3 أيام فقط (ليس رفضاً نهائياً)
+              localStorage.setItem('pwaNextShow', String(Date.now() + 3 * 24 * 60 * 60 * 1000));
             }
             _pwaPrompt = null;
             _toastInstallBtn = null;
@@ -29470,7 +29473,8 @@ window.addEventListener("load", function() {
                 if (result.outcome === 'accepted') {
                   localStorage.setItem('pwaInstalled', '1');
                 } else {
-                  localStorage.setItem('pwaDismissed', '1');
+                  // رُفض — أخّر 3 أيام فقط
+                  localStorage.setItem('pwaNextShow', String(Date.now() + 3 * 24 * 60 * 60 * 1000));
                 }
                 _pwaPrompt = null;
                 _toastInstallBtn = null;
@@ -29482,7 +29486,8 @@ window.addEventListener("load", function() {
                 ? 'لتثبيت التطبيق: افتح قائمة المتصفح ← اختر "إضافة إلى الشاشة الرئيسية"'
                 : 'To install: open browser menu → "Add to Home Screen"';
               alert(msg);
-              localStorage.setItem('pwaDismissed', '1');
+              // لم يُثبَّت — أخّر 3 أيام فقط (ليس نهائياً)
+              localStorage.setItem('pwaNextShow', String(Date.now() + 3 * 24 * 60 * 60 * 1000));
               _toastInstallBtn = null;
             }
           }, 1000);
