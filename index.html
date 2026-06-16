@@ -29396,6 +29396,111 @@ window.addEventListener("load", function() {
 
   // ===== قائمة الإشعارات — أضف إشعارات جديدة هنا فقط =====
 
+  // ===== إشعار تثبيت التطبيق PWA (يظهر أولاً قبل كل الإشعارات) =====
+  (function() {
+    // لا تُظهره إذا سبق تثبيته أو رفضه نهائياً
+    if (localStorage.getItem('pwaInstalled') === '1') return;
+    if (localStorage.getItem('pwaDismissed') === '1') return;
+
+    // لا تُظهره إذا كان يعمل بالفعل كـ PWA مثبّت (standalone mode)
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      localStorage.setItem('pwaInstalled', '1');
+      return;
+    }
+    // iOS Safari standalone
+    if (window.navigator.standalone === true) {
+      localStorage.setItem('pwaInstalled', '1');
+      return;
+    }
+
+    var _pwaPrompt = null;
+    var _toastInstallBtn = null; // مرجع لزر التثبيت داخل الإشعار
+
+    // احفظ حدث beforeinstallprompt عند إطلاقه
+    // وفعّل زر التثبيت في الإشعار لو كان ظاهراً
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.preventDefault();
+      _pwaPrompt = e;
+      // لو الإشعار ظاهر وكان الزر معطلاً — فعّله الآن
+      if (_toastInstallBtn) {
+        _toastInstallBtn.disabled = false;
+        _toastInstallBtn.style.opacity = '1';
+      }
+    });
+
+    // عند اكتمال التثبيت — سجّل في localStorage
+    window.addEventListener('appinstalled', function() {
+      localStorage.setItem('pwaInstalled', '1');
+      _pwaPrompt = null;
+    });
+
+    // أضف الإشعار في الموضع الرابع من الـ queue (بعد ثلاثة إشعارات)
+    toastQueue.splice(3, 0, {
+      messageEn: '📲 <b>Install Radio Ma</b> — get quick access anytime!',
+      messageAr: '📲 <b>ثبّت راديو قرآن</b> — وصول سريع في أي وقت!',
+      imgUrl: 'https://cdn-icons-png.flaticon.com/512/1041/1041916.png',
+      btnText: { ar: '⬇ تثبيت', en: '⬇ Install' },
+      onClick: function() {
+        if (_pwaPrompt) {
+          // المتصفح يدعم التثبيت المباشر — افتح الحوار الرسمي
+          _pwaPrompt.prompt();
+          _pwaPrompt.userChoice.then(function(result) {
+            if (result.outcome === 'accepted') {
+              localStorage.setItem('pwaInstalled', '1');
+            } else {
+              localStorage.setItem('pwaDismissed', '1');
+            }
+            _pwaPrompt = null;
+            _toastInstallBtn = null;
+          });
+        } else if (_toastInstallBtn) {
+          // الحدث لم يصل بعد — انتظر ثانية واحدة ثم حاول
+          var isAr = _toastLang === 'ar';
+          _toastInstallBtn.textContent = isAr ? '⏳ جاري...' : '⏳ Wait...';
+          _toastInstallBtn.disabled = true;
+          var waitAttempts = 0;
+          var waitInterval = setInterval(function() {
+            waitAttempts++;
+            if (_pwaPrompt) {
+              clearInterval(waitInterval);
+              _toastInstallBtn.disabled = false;
+              _toastInstallBtn.textContent = isAr ? '⬇ تثبيت' : '⬇ Install';
+              _pwaPrompt.prompt();
+              _pwaPrompt.userChoice.then(function(result) {
+                if (result.outcome === 'accepted') {
+                  localStorage.setItem('pwaInstalled', '1');
+                } else {
+                  localStorage.setItem('pwaDismissed', '1');
+                }
+                _pwaPrompt = null;
+                _toastInstallBtn = null;
+              });
+            } else if (waitAttempts >= 5) {
+              // بعد 5 ثوانٍ لم يصل الحدث — المتصفح لا يدعمه (iOS مثلاً)
+              clearInterval(waitInterval);
+              var msg = isAr
+                ? 'لتثبيت التطبيق: افتح قائمة المتصفح ← اختر "إضافة إلى الشاشة الرئيسية"'
+                : 'To install: open browser menu → "Add to Home Screen"';
+              alert(msg);
+              localStorage.setItem('pwaDismissed', '1');
+              _toastInstallBtn = null;
+            }
+          }, 1000);
+        }
+        // احفظ مرجع الزر عند أول نقرة
+        _toastInstallBtn = document.querySelector('.toast .toast-play-btn');
+      },
+      locText: null,
+      onLocClick: null
+    });
+
+    // بعد ظهور الإشعار — احفظ مرجع الزر لتفعيله لاحقاً إذا لزم
+    setTimeout(function() {
+      var btn = document.querySelector('.toast .toast-play-btn');
+      if (btn) _toastInstallBtn = btn;
+    }, TOAST_INITIAL_MS + 200);
+  })();
+
   // ===== إشعار المناسبات الإسلامية (يظهر أولاً) =====
   (function() {
     function toHijri(gy, gm, gd) {
