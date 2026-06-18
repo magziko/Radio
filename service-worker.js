@@ -12,6 +12,7 @@ const ALARM_AUDIO_URLS = [
   /* ✅ ملف الـ intro (صل على النبي) — أولاً لضمان تحميله قبل أي شيء */
   "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3",
   "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3",
+  "https://archive.org/download/20260618_20260618_2021/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%20%D8%B5%D9%84%20.mp3",
   "https://archive.org/download/6_20260613/3.mp3",
   "https://archive.org/download/mix-saly/mix%20saly.mp3",
   "https://archive.org/download/6_20260613/5.mp3",
