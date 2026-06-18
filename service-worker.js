@@ -9,14 +9,15 @@ const CACHE_ALARM  = 'quran-radio-alarm-v2';
 const MAX_AUDIO_FILES = 50;
 
 const ALARM_AUDIO_URLS = [
+  /* ✅ ملف الـ intro (صل على النبي) — أولاً لضمان تحميله قبل أي شيء */
   "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3",
+  "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3",
   "https://archive.org/download/6_20260613/3.mp3",
   "https://archive.org/download/mix-saly/mix%20saly.mp3",
   "https://archive.org/download/6_20260613/5.mp3",
   "https://archive.org/download/6_20260613/6.mp3",
   "https://archive.org/download/6_20260613/1.mp3",
   "https://archive.org/download/6_20260613/4.mp3",
-  "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3",
   "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3",
   "https://archive.org/download/20260530_20260530_1151/%D8%A3%D8%B3%D8%AA%D8%BA%D9%81%D8%B1%20%D8%A7%D9%84%D9%84%D9%87.mp3",
   "https://archive.org/download/20260531_20260531_1135/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%20%D8%A7%D9%84%D8%AD%D9%85%D8%AF%D9%84%D9%84%D9%87.mp3",
