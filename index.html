@@ -27240,7 +27240,7 @@ function filterStations(category) {
     } else if (category === 'More') {
       shouldShow = moreSubCats.includes(cat);
     } else if (category === 'LiveTV') {
-      shouldShow = ltvSubCats.includes(cat);
+      shouldShow = ltvSubCats.includes(cat) && cat !== 'ltv-news';
     } else if (category === 'mix') {
       shouldShow = (cat === 'mix');
     } else if (category === 'Radio') {
@@ -31585,15 +31585,46 @@ function _highlightParentFilter(categoryValue) {
   });
 }
 
+var _ltvNewsClickTracker = { count: 0, lastBtn: null, unlocked: false };
+
 function filterLiveTVSub(subType, btn) {
   _highlightParentFilter('LiveTV');
   document.querySelectorAll('.livetv-sub-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
 
+  // فلتر "📰 أخبار" يتطلب 3 ضغطات متتالية على نفس الزر قبل إظهار قنواته
+  if (subType === 'ltv-news') {
+    if (_ltvNewsClickTracker.lastBtn !== btn) {
+      _ltvNewsClickTracker.count = 1;
+      _ltvNewsClickTracker.lastBtn = btn;
+    } else {
+      _ltvNewsClickTracker.count++;
+    }
+
+    if (_ltvNewsClickTracker.count < 3) {
+      document.querySelectorAll('button[data-category="ltv-news"]').forEach(function(b) {
+        b.style.display = 'none';
+        var wrap = b.parentElement;
+        if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = 'none';
+      });
+      if (typeof updateButtonIndices === 'function') updateButtonIndices();
+      return;
+    }
+
+    _ltvNewsClickTracker.unlocked = true;
+    _ltvNewsClickTracker.count = 0;
+    _ltvNewsClickTracker.lastBtn = null;
+  } else {
+    _ltvNewsClickTracker.unlocked = false;
+    _ltvNewsClickTracker.count = 0;
+    _ltvNewsClickTracker.lastBtn = null;
+  }
+
   var allLiveTVCats = ['ltv-channels', 'ltv-full', 'ltv-best', 'ltv-salawat', 'ltv-lectures', 'ltv-news', 'ltv-learn'];
   allLiveTVCats.forEach(function(cat) {
     document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
       var show = (subType === 'all' || cat === subType);
+      if (cat === 'ltv-news' && subType === 'all') show = false;
       b.style.display = show ? 'block' : 'none';
       var wrap = b.parentElement;
       if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
