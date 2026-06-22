@@ -2625,9 +2625,21 @@ body.dark-mode .button.playing .station-text {
 }
 
 body.dark-mode .button.completed {
-    background: linear-gradient(135deg, #7a5c00, #8b4000) !important;
-    color: #ffe082 !important;
+    background: linear-gradient(135deg, #1a2e4a, #0f1e35) !important;
+    color: #90caf9 !important;
     border-color: #5a7de9 !important;
+    box-shadow: 0 0 10px rgba(90, 125, 233, 0.5) !important;
+}
+
+body.dark-mode .button.completed .tasbih-box {
+    background: linear-gradient(135deg, #2b7de9, #1a5fc4) !important;
+    border-color: #5a7de9 !important;
+    box-shadow: 0 0 8px rgba(90, 125, 233, 0.5) !important;
+}
+
+body.dark-mode .button.completed .tasbih-box .tasbih-count {
+    color: #fff !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 
 body.dark-mode .filter-button {
@@ -3907,6 +3919,18 @@ border: 2px solid #2b7de9;
     position: absolute;
     bottom: 2px;
     left: 10px;
+}
+
+.button.completed .tasbih-box {
+    background: linear-gradient(135deg, #4fa8e8, #2b7de9) !important;
+    border-color: #1a5fc4 !important;
+    box-shadow: 0 0 8px rgba(43, 125, 233, 0.45);
+    transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.button.completed .tasbih-box .tasbih-count {
+    color: #fff !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.25);
 }
 
 #adhkar-progress-wrap {
