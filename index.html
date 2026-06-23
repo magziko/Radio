@@ -2779,6 +2779,11 @@ body.dark-mode .tasbih-box:active {
     background: #333 !important;
 }
 
+body.dark-mode .tasbih-ghost-target {
+    color: #fff;
+    opacity: 0.1;
+}
+
 body.dark-mode #adhkar-subfilter .subfilter-scroll-strip,
 body.dark-mode #sira-subfilter .subfilter-scroll-strip,
 body.dark-mode #quransciences-subfilter .subfilter-scroll-strip,
@@ -3301,10 +3306,26 @@ body.dark-mode .custom-tooltip::after {
     border: 1px solid #ccc;
 
     z-index: 1;
+    overflow: hidden;
 }
 
 .tasbih-box:active {
     background: #f1f1f1;
+}
+
+.tasbih-ghost-target {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 900;
+    color: #000;
+    opacity: 0.08;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: 2px;
 }
 
 .button.has-tasbih {
@@ -14050,7 +14071,10 @@ function renderStationButtons(arr, container, opts) {
 
     if (s.hasTasbih) {
       btn.classList.add('has-tasbih');
+      var targetVal = (s.target != null) ? s.target : '';
+      var ghostSpan = targetVal ? '<span class="tasbih-ghost-target">' + targetVal + '</span>' : '';
       inner += '<div class="tasbih-box" onclick="incrementTasbih(event)">' +
+        ghostSpan +
         '<span class="tasbih-count">0</span>' +
         '<span class="reset-btn" onclick="resetTasbih(event); event.stopPropagation();">↺</span>' +
         '</div>';
@@ -32306,6 +32330,7 @@ function incrementTasbih(event) {
 
   const box = event.currentTarget;
   const button = box.closest("button");
+  if (!button) return;
   const key = "tasbih_" + button.getAttribute("data-station");
 
   const countEl = box.querySelector(".tasbih-count");
@@ -32543,6 +32568,7 @@ function resetTasbih(event) {
 
   const box = event.currentTarget.closest(".tasbih-box");
   const button = box.closest("button");
+  if (!button) return;
   const key = "tasbih_" + button.getAttribute("data-station");
 
   localStorage.setItem(key, 0);
@@ -32563,6 +32589,7 @@ function confirmResetAll(event) {
 
   boxes.forEach(box => {
     const button = box.closest("button");
+    if (!button) return;
     const key = "tasbih_" + button.getAttribute("data-station");
 
     localStorage.setItem(key, 0);
@@ -33720,6 +33747,7 @@ document.addEventListener("keydown", function(e) {
 
 function incrementTasbihKeyboard(box) {
   const button = box.closest("button");
+  if (!button) return;
   const key = "tasbih_" + button.getAttribute("data-station");
 
   let count = localStorage.getItem(key);
@@ -34389,6 +34417,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.querySelectorAll(".tasbih-box").forEach(box => {
     const button = box.closest("button");
+    if (!button) return;
     const key = "tasbih_" + button.getAttribute("data-station");
 
     let count = localStorage.getItem(key);
