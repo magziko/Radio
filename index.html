@@ -24874,7 +24874,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <option value="2"  data-ar="الحمد لله"                             data-en="Alhamdulillah">الحمد لله</option>
             <option value="3"  data-ar="الله أكبر"                             data-en="Allahu Akbar">الله أكبر</option>
             
-            <option value="0"  data-ar="صلِّ على النبي ﷺ"                       data-en="Send blessings upon the Prophet ﷺ" selected>صلِّ على النبي ﷺ</option>
+            <option value="0"  data-ar="اللهم صل على النبى"                       data-en="Send blessings upon the Prophet ﷺ" selected>اللهم صل على النبى</option>
             <option value="300" data-ar="اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ، وَعَلَى آلِ مُحَمَّدٍ، كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ، اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ، وَعَلَى آلِ مُحَمَّدٍ، كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ" data-en="Allahumma salli ala Muhammad wa ala ali Muhammad, kama sallayta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid. Allahumma barik ala Muhammad wa ala ali Muhammad, kama barakta ala Ibrahim wa ala ali Ibrahim, innaka Hamidun Majid">الصلاة الإبراهيمية</option>
             <option value="14" data-ar="اللهم صلِّ على محمد"                   data-en="Allahumma salli ala Muhammad">اللهم صلِّ على محمد</option>
             <option value="16" data-ar="صلى الله عليه وسلم"                    data-en="Salla Allahu alayhi wa sallam">صلى الله عليه وسلم</option>
@@ -25456,7 +25456,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       en: '🎉 Goal reached! May Allah reward you'
     },
     msTitle: {
-      ar: ' — صلِّ على النبي ﷺ',
+      ar: ' — اللهم صل على النبى',
       en: ' — Blessings upon the Prophet ﷺ'
     },
     msArtist: {
@@ -29134,7 +29134,7 @@ function toggleRadio(button, event = null) {
       if (window._repeatModeActive) return;
       var idx = parseInt(button.getAttribute('data-current-index'), 10);
       if (isNaN(idx) || idx >= urls.length) idx = 0;
-      playNewAudio(urls[idx], stationDescription);
+      playNewAudio(urls[idx], stationDescription, stationDescriptionEn, true);
       button.setAttribute('data-current-index', (idx + 1) % urls.length);
       mainAudio.onended = autoNext;
     };
