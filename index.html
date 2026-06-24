@@ -24431,13 +24431,38 @@ body.dark-mode .sp-athkar-play-btn.sp-playing { background: #0F6E56; color: #fff
     width: 0;
     min-width: 0;
     flex: 1;
-    max-width: 100%;
+    max-width: 180px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     box-sizing: border-box;
+    /* منع الـ dropdown من تمديد العنصر */
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%230F6E56'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 8px center;
+    padding-left: 24px;
 }
-body.dark-mode #sp-athkar-sel { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
+body.dark-mode #sp-athkar-sel { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235DCAA5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: left 8px center; }
+.sp-athkar-nav-btn {
+    font-size: 13px;
+    line-height: 1;
+    padding: 4px 9px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(29,158,117,0.35);
+    background: rgba(255,255,255,0.9);
+    color: #0F6E56;
+    cursor: pointer;
+    flex-shrink: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.sp-athkar-nav-btn:hover { background: #D4F4EA; }
+.sp-athkar-nav-btn:active { background: #1D9E75; color: #fff; transform: scale(0.92); }
+body.dark-mode .sp-athkar-nav-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
+body.dark-mode .sp-athkar-nav-btn:active { background: #0F6E56; color: #fff; }
 #sp-athkar-display {
     font-size: 14px; font-weight: 700;
     color: #0F6E56;
@@ -24876,6 +24901,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
                 data-ar="🔊" data-en="🔊"
                 data-ar-title="تشغيل الذكر المختار" data-en-title="Play selected dhikr"
                 title="تشغيل الذكر المختار" onclick="window.spPlaySelectedDhikr()">🔊</button>
+        <button type="button" class="sp-athkar-nav-btn" id="sp-athkar-prev"
+                title="الذكر السابق" onclick="window.spNavDhikr(-1)">&#9664;</button>
         <select id="sp-athkar-sel">
             
             <option value="4"  data-ar="لا إله إلا الله"                       data-en="La ilaha illallah">لا إله إلا الله</option>
@@ -25078,7 +25105,63 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <option value="89" data-ar="اللهم إني أسألك خير المسألة وخير الدعاء وخير النجاح وخير العمل وخير الثواب وخير الحياة وخير الممات وثبتني وثقل موازيني وحقق إيماني وارفع درجاتي وتقبل صلاتي واغفر خطيئتي وأسألك الدرجات العلا من الجنة اللهم إني أسألك فواتح الخير وخواتمه وجوامعه وأوله وظاهره وباطنه والدرجات العلا من الجنة آمين اللهم إني أسألك خير ما آتي وخير ما أفعل وخير ما أعمل وخير ما بطن وخير ما ظهر والدرجات العلا من الجنة آمين" data-en="Allahumma inni as'aluka khayral mas'alah...">اللهم إني أسألك خير المسألة... (الحاكم)</option>
             <option value="96" data-ar="اللهم لك الحمد كله اللهم لا قابض لما بسطت ولا باسط لما قبضت ولا هادي لمن أضللت ولا مضل لمن هديت ولا معطي لما منعت ولا مانع لما أعطيت اللهم ابسط علينا من بركاتك ورحمتك وفضلك ورزقك اللهم إني أسألك النعيم المقيم الذي لا يحول ولا يزول اللهم حبب إلينا الإيمان وزينه في قلوبنا وكره إلينا الكفر والفسوق والعصيان واجعلنا من الراشدين اللهم توفنا مسلمين وأحينا مسلمين وألحقنا بالصالحين غير خزايا ولا مفتونين" data-en="Allahumma lakal hamdu kulluh...">اللهم لك الحمد كله... (النسائي)</option>
             </optgroup>
+            <optgroup label="─── 🌅 أذكار الصباح ───" style="font-size:11px; color:#1D9E75;">
+            <option value="m1" data-ar="اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ" data-en="Allah — there is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and preserving them does not tire Him. And He is the Most High, the Most Great." data-target="1">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ ا...</option>
+            <option value="m2" data-ar="قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ (×3)" data-en="Say, He is Allah - One - Allah, the Eternal Refuge. He neither begets nor is born - Nor is there to Him any equivalent (×3)" data-target="3">قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَ...</option>
+            <option value="m3" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ ٱلنَّفَّاثَاتِ فِي ٱلْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ (×3)" data-en="Say, I seek refuge in the Lord of daybreak - From the evil of that which He created - And from the evil of darkness when it settles - And from the evil of the blowers in knots - And from the evil of an envier when he envies (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ...</option>
+            <option value="m4" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ (×3)" data-en="Say, I seek refuge in the Lord of mankind - The Sovereign of mankind - The God of mankind - From the evil of the retreating whisperer - Who whispers evil into the ***** of mankind - From among the jinn and mankind (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلن...</option>
+            <option value="m5" data-ar="اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ (×4)" data-en="O Allah, I have entered the morning bearing witness to You, and to the bearers of Your Throne, Your angels, and all of Your creation that You are Allah, there is no god but You alone, without partner, and that Muhammad is Your servant and Messenger (×4)" data-target="4">اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَ...</option>
+            <option value="m6" data-ar="أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنَ الشَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر." data-en="I have entered the morning and the dominion belongs to Allah... (Morning remembrance supplication)" data-target="1">أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَال...</option>
+            <option value="m7" data-ar="أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ وَعَلَى كَلِمَةِ الإِخْلاَصِ وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ" data-en="We have entered the morning upon the fitrah of Islam, upon the word of sincerity, upon the religion of our Prophet Muhammad ﷺ, and upon the creed of our father Ibrahim, upright and Muslim, and he was not of the polytheists" data-target="1">أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ وَع...</option>
+            <option value="m8" data-ar="اللّهُـمَّ ما أَصْبَـَحَ بي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لا شَريكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ" data-en="O Allah, whatever blessing I or anyone among Your creation has received in the morning is from You alone; to You belongs all praise and thanks" data-target="1">اللّهُـمَّ ما أَصْبَـَحَ بي مِنْ نِعْمَةٍ ...</option>
+            <option value="m9" data-ar="اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَيْنا وَبِكَ نَحْيا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ" data-en="O Allah, by You we enter the morning and by You we enter the evening, by You we live and by You we die, and to You is the resurrection" data-target="1">اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَي...</option>
+            <option value="m10" data-ar="اللّهـمَّ أَنْتَ رَبِّـي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ" data-en="O Allah, You are my Lord, there is no god but You. You created me and I am Your servant. I uphold Your covenant and promise as best as I can. I seek refuge in You from the evil I have done. I acknowledge Your favor upon me, and I acknowledge my sin, so forgive me, for none forgives sins except You" data-target="1">اللّهـمَّ أَنْتَ رَبِّـي لَا إِلَٰهَ إِلَّ...</option>
+            <option value="m11" data-ar="اللّهُـمَّ إِنِّـي أَسْأَلُكَ العَفْوَ وَالعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللّهُـمَّ إِنِّـي أَسْأَلُكَ العَفْوَ وَالعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللّهُـمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللّهُـمَّ احْفَظْنِي مِن بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِن فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِن تَحْتِي" data-en="O Allah, I ask You for pardon and well-being in this world and the Hereafter, I ask You for pardon and well-being in my religion, my worldly life, my family, and my wealth. O Allah, conceal my faults and set my fears at ease. O Allah, protect me from in front of me, from behind me, on my right, on my left, and from above me. I seek refuge in Your greatness from being destroyed from beneath me" data-target="1">اللّهُـمَّ إِنِّـي أَسْأَلُكَ العَفْوَ وَا...</option>
+            <option value="m12" data-ar="اللّهُـمَّ عالِـمَ الغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَاوَاتِ وَالأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءًا أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ" data-en="O Allah, Knower of the unseen and the seen, Originator of the heavens and the earth, Lord and Sovereign of everything. I bear witness that there is no god but You. I seek refuge in You from the evil of myself, from the evil of Satan and his شرك, and from committing harm against myself or bringing it upon any Muslim" data-target="1">اللّهُـمَّ عالِـمَ الغَيْبِ وَالشَّهَادَةِ...</option>
+            <option value="m13" data-ar="رَضِيتُ بِاللَّهِ رَبًّا وَبِالإِسْلَامِ دِينًا وَبِمُحَمَّدٍ ﷺ نَبِيًّا (×3)" data-en="I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad ﷺ as my Prophet (×3)" data-target="3">رَضِيتُ بِاللَّهِ رَبًّا وَبِالإِسْلَامِ د...</option>
+            <option value="m14" data-ar="بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ (×3)" data-en="In the name of Allah, with whose name nothing on earth or in the heavens can cause harm, and He is the All-Hearing, All-Knowing (×3)" data-target="3">بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اس...</option>
+            <option value="m15" data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ (×3)" data-en="Glory is to Allah and praise be to Him, as much as the number of His creation, as much as pleases Him, as heavy as His Throne, and as vast as His words (×3)" data-target="3">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْ...</option>
+            <option value="m16" data-ar="اللّهُـمَّ عافِـني في بَدَنـي، اللّهُـمَّ عافِـني في سَمْعِي، اللّهُـمَّ عافِـني في بَصَرِي، لا إِلَٰهَ إِلَّا أَنْتَ (×3)" data-en="O Allah, grant me well-being in my body, my hearing, and my sight. There is no god but You (×3)" data-target="3">اللّهُـمَّ عافِـني في بَدَنـي، اللّهُـمَّ ...</option>
+            <option value="m17" data-ar="اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفْرِ، وَالْفَقْرِ، وَأَعـوذُ بِكَ مِنْ عَذَابِ القَـبْرِ، لا إلهَ إلاّ أَنْـتَ. (×3)" data-en="O Allah, I seek refuge in You from disbelief, poverty, and the punishment of the grave. There is no god but You (×3)" data-target="3">اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـ...</option>
+            <option value="m18" data-ar="اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَمِّ وَالْحَزَنِ وَأَعُوذُ بِكَ مِنْ الْعَجْزِ وَالْكَسَلِ وَأَعُوذُ بِكَ مِنْ الْجُبْنِ وَالْبُخْلِ وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ (×3)" data-en="O Allah, I seek refuge in You from worry and grief, from incapacity and laziness, from cowardice and miserliness, and from being overcome by debt and the oppression of men (×3)" data-target="3">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَم...</option>
+            <option value="m19" data-ar="اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ، وَنَسْتَغْفِرُكَ لِمَا لَا نَعْلَمُهُ (×3)" data-en="O Allah, we seek refuge in You from associating anything with You knowingly, and we ask Your forgiveness for what we do not know (×3)" data-target="3">اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ ن...</option>
+            <option value="m20" data-ar="أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ مِنْ شَرِّ مَا خَلَقَ (×3)" data-en="I seek refuge in the perfect words of Allah from the evil of what He has created (×3)" data-target="3">أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ مِ...</option>
+            <option value="m21" data-ar="حَسْبِـيَ اللّهُ لا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ (×7)" data-en="Allah is sufficient for me; there is no god but Him. In Him I have placed my trust, and He is the Lord of the Great Throne (×7)" data-target="7">حَسْبِـيَ اللّهُ لا إِلَهَ إِلَّا هُوَ عَل...</option>
+            <option value="m22" data-ar="اللَّهُمَّ صَلِّ وَسَلِّمْ على نَبِيِّنَا مُحَمَّد" data-en="Allahumma salli wa sallim ala Nabiyyina Muhammad" data-target="10">اللَّهُمَّ صَلِّ وَسَلِّمْ على نَبِيِّنَا ...</option>
+            <option value="m23" data-ar="لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ (×100)" data-en="There is no god but Allah alone, with no partner. To Him belongs the dominion and to Him belongs all praise, and He is over all things capable (×100)" data-target="100">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَر...</option>
+            <option value="m24" data-ar="أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ (×100)" data-en="Astaghfirullaha wa atubu ilayh (×100)" data-target="100">أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ (×...</option>
+            <option value="m25" data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (×100)" data-en="SubhanAllahi wa bihamdihi (×100)" data-target="100">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (×100)</option>
+            </optgroup>
+            <optgroup label="─── 🌙 أذكار المساء ───" style="font-size:11px; color:#1D9E75;">
+            <option value="e1" data-ar="اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ" data-en="Allah — there is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and preserving them does not tire Him. And He is the Most High, the Most Great." data-target="1">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ ا...</option>
+            <option value="e2" data-ar="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِّن رُّسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ ۝ لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ ۗ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ" data-en="The Messenger has believed in what was revealed to him from his Lord, and so have the believers - All of them have believed in Allah and His angels and His books and His messengers - We make no distinction between any of His messengers - And they say, We hear and we obey - Your forgiveness, our Lord, and to You is the final destination. Allah does not charge a soul except with that within its capacity - It will have the consequence of what good it has gained, and it will bear the consequence of what evil it has earned. Our Lord, do not impose blame upon us if we forget or make a mistake - Our Lord, and lay not upon us a burden like that which You laid upon those before us - Our Lord, and burden us not with that which we have no ability to bear - And pardon us, forgive us, and have mercy upon us. You are our protector, so give us victory over the disbelieving people." data-target="1">آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ م...</option>
+            <option value="e3" data-ar="قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ (×3)" data-en="Say, He is Allah - One - Allah, the Eternal Refuge. He neither begets nor is born - Nor is there to Him any equivalent (×3)" data-target="3">قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَ...</option>
+            <option value="e4" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ ٱلنَّفَّاثَاتِ فِي ٱلْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ (×3)" data-en="Say, I seek refuge in the Lord of daybreak - From the evil of that which He created - And from the evil of darkness when it settles - And from the evil of the blowers in knots - And from the evil of an envier when he envies (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ...</option>
+            <option value="e5" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ (×3)" data-en="Say, I seek refuge in the Lord of mankind - The Sovereign of mankind - The God of mankind - From the evil of the retreating whisperer - Who whispers evil into the ***** of mankind - From among the jinn and mankind (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلن...</option>
+            <option value="e6" data-ar="اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ (×4)" data-en="O Allah, I have entered the evening bearing witness to You, and to the bearers of Your Throne, Your angels, and all of Your creation that You are Allah, there is no god but You alone, without partner, and that Muhammad is Your servant and Messenger (×4)" data-target="4">اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَ...</option>
+            <option value="e7" data-ar="أَمْسَيْـنا وَأَمْسـى المـلكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذهِ اللَّـيْلَةِ وَخَـيرَ ما بَعْـدَهـا ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذهِ اللَّـيْلةِ وَشَرِّ ما بَعْدَهـا ، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر." data-en="We have entered the evening and all dominion belongs to Allah, and all praise is for Allah. There is no god but Allah alone, with no partner. To Him belongs the dominion and to Him is all praise, and He is over all things capable. My Lord, I ask You for the good of this night and the good of what follows it, and I seek refuge in You from the evil of this night and the evil of what follows it. My Lord, I seek refuge in You from laziness and the evil of old age. My Lord, I seek refuge in You from the punishment of the Fire and the punishment of the grave." data-target="1">أَمْسَيْـنا وَأَمْسـى المـلكُ لله وَالحَمد...</option>
+            <option value="e8" data-ar="أَمْسَيْنَا عَلَى فِطْرَةِ الإسْلاَمِ وَعَلَى كَلِمَةِ الإِخْلاَصِ وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ" data-en="We have entered the evening upon the fitrah of Islam, upon the word of sincerity, upon the religion of our Prophet Muhammad ﷺ, and upon the creed of our father Ibrahim, upright and Muslim, and he was not of the polytheists" data-target="1">أَمْسَيْنَا عَلَى فِطْرَةِ الإسْلاَمِ وَعَ...</option>
+            <option value="e9" data-ar="اللّهُـمَّ ما أَمسى بي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لا شَريكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ" data-en="O Allah, whatever blessing I or anyone among Your creation has received in the evening is from You alone; to You belongs all praise and thanks" data-target="1">اللّهُـمَّ ما أَمسى بي مِنْ نِعْمَةٍ أَوْ ...</option>
+            <option value="e10" data-ar="اللّهُـمَّ بِكَ أَمْسَـينا وَبِكَ أَصْبَحْنا وَبِكَ نَحْيا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ" data-en="O Allah, by You we enter the evening and by You we enter the morning, by You we live and die, and to You is the final return" data-target="1">اللّهُـمَّ بِكَ أَمْسَـينا وَبِكَ أَصْبَحْ...</option>
+            <option value="e11" data-ar="اللّهـمَّ أَنْتَ رَبِّـي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ" data-en="O Allah, You are my Lord, there is no god but You. You created me and I am Your servant. I uphold Your covenant and promise as best as I can. I seek refuge in You from the evil I have done. I acknowledge Your favor upon me, and I acknowledge my sin, so forgive me, for none forgives sins except You" data-target="1">اللّهـمَّ أَنْتَ رَبِّـي لَا إِلَٰهَ إِلَّ...</option>
+            <option value="e12" data-ar="اللّهُـمَّ إِنِّـي أَسْأَلُكَ العَفْوَ وَالعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللّهُـمَّ إِنِّـي أَسْأَلُكَ العَفْوَ وَالعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللّهُـمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللّهُـمَّ احْفَظْنِي مِن بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِن فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِن تَحْتِي" data-en="O Allah, I ask You for pardon and well-being in this world and the Hereafter, I ask You for pardon and well-being in my religion, my worldly life, my family, and my wealth. O Allah, conceal my faults and set my fears at ease. O Allah, protect me from in front of me, from behind me, on my right, on my left, and from above me. I seek refuge in Your greatness from being destroyed from beneath me" data-target="1">اللّهُـمَّ إِنِّـي أَسْأَلُكَ العَفْوَ وَا...</option>
+            <option value="e13" data-ar="اللّهُـمَّ عالِـمَ الغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَاوَاتِ وَالأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءًا أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ" data-en="O Allah, Knower of the unseen and the seen, Originator of the heavens and the earth, Lord and Sovereign of everything. I bear witness that there is no god but You. I seek refuge in You from the evil of myself, from the evil of Satan and his شرك, and from committing harm against myself or bringing it upon any Muslim" data-target="1">اللّهُـمَّ عالِـمَ الغَيْبِ وَالشَّهَادَةِ...</option>
+            <option value="e14" data-ar="رَضِيتُ بِاللَّهِ رَبًّا وَبِالإِسْلَامِ دِينًا وَبِمُحَمَّدٍ ﷺ نَبِيًّا (×3)" data-en="I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad ﷺ as my Prophet (×3)" data-target="3">رَضِيتُ بِاللَّهِ رَبًّا وَبِالإِسْلَامِ د...</option>
+            <option value="e15" data-ar="بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ (×3)" data-en="In the name of Allah, with whose name nothing on earth or in the heavens can cause harm, and He is the All-Hearing, All-Knowing (×3)" data-target="3">بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اس...</option>
+            <option value="e16" data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ (×3)" data-en="Glory is to Allah and praise be to Him, as much as the number of His creation, as much as pleases Him, as heavy as His Throne, and as vast as His words (×3)" data-target="3">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْ...</option>
+            <option value="e17" data-ar="اللّهُـمَّ عافِـني في بَدَنـي، اللّهُـمَّ عافِـني في سَمْعِي، اللّهُـمَّ عافِـني في بَصَرِي، لا إِلَٰهَ إِلَّا أَنْتَ (×3)" data-en="O Allah, grant me well-being in my body, my hearing, and my sight. There is no god but You (×3)" data-target="3">اللّهُـمَّ عافِـني في بَدَنـي، اللّهُـمَّ ...</option>
+            <option value="e18" data-ar="اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفْرِ، وَالْفَقْرِ، وَأَعـوذُ بِكَ مِنْ عَذَابِ القَـبْرِ، لا إلهَ إلاّ أَنْـتَ. (×3)" data-en="O Allah, I seek refuge in You from disbelief, poverty, and the punishment of the grave. There is no god but You (×3)" data-target="3">اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـ...</option>
+            <option value="e19" data-ar="اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَمِّ وَالْحَزَنِ وَأَعُوذُ بِكَ مِنْ الْعَجْزِ وَالْكَسَلِ وَأَعُوذُ بِكَ مِنْ الْجُبْنِ وَالْبُخْلِ وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ (×3)" data-en="O Allah, I seek refuge in You from worry and grief, from incapacity and laziness, from cowardice and miserliness, and from being overcome by debt and the oppression of men (×3)" data-target="3">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَم...</option>
+            <option value="e20" data-ar="اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ، وَنَسْتَغْفِرُكَ لِمَا لَا نَعْلَمُهُ (×3)" data-en="O Allah, we seek refuge in You from associating anything with You knowingly, and we ask Your forgiveness for what we do not know (×3)" data-target="3">اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ ن...</option>
+            <option value="e21" data-ar="أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ مِنْ شَرِّ مَا خَلَقَ (×3)" data-en="I seek refuge in the perfect words of Allah from the evil of what He has created (×3)" data-target="3">أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ مِ...</option>
+            <option value="e22" data-ar="حَسْبِـيَ اللّهُ لا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ (×7)" data-en="Allah is sufficient for me; there is no god but Him. In Him I have placed my trust, and He is the Lord of the Great Throne (×7)" data-target="7">حَسْبِـيَ اللّهُ لا إِلَهَ إِلَّا هُوَ عَل...</option>
+            <option value="e23" data-ar="اللَّهُمَّ صَلِّ وَسَلِّمْ على نَبِيِّنَا مُحَمَّد" data-en="Allahumma salli wa sallim ala Nabiyyina Muhammad" data-target="10">اللَّهُمَّ صَلِّ وَسَلِّمْ على نَبِيِّنَا ...</option>
+            <option value="e24" data-ar="لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ (×100)" data-en="There is no god but Allah alone, with no partner. To Him belongs the dominion and to Him belongs all praise, and He is over all things capable (×100)" data-target="100">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَر...</option>
+            <option value="e25" data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (×100)" data-en="SubhanAllahi wa bihamdihi (×100)" data-target="100">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (×100)</option>
+            </optgroup>
         </select>
+        <button type="button" class="sp-athkar-nav-btn" id="sp-athkar-next"
+                title="الذكر التالي" onclick="window.spNavDhikr(1)">&#9654;</button>
     </div>
 
     
@@ -25334,6 +25417,19 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       spPreviewAudio.currentTime = 0;
       var pb = document.getElementById('sp-athkar-play-btn');
       if (pb) pb.classList.remove('sp-playing');
+    }
+    /* إذا كان الذكر المختار له data-target، ضبط الهدف تلقائيًا */
+    var selOpt = this.options[this.selectedIndex];
+    var optTarget = selOpt ? selOpt.getAttribute('data-target') : null;
+    if (optTarget && parseInt(optTarget) > 0) {
+      var tgtSel = document.getElementById('sp-target-sel');
+      if (tgtSel) {
+        for (var oi = 0; oi < tgtSel.options.length; oi++) {
+          if (tgtSel.options[oi].value === optTarget) { tgtSel.selectedIndex = oi; break; }
+        }
+      }
+      spTarget = parseInt(optTarget);
+      try { localStorage.setItem('sp_target', optTarget); } catch(e) {}
     }
     spCount = spLoadCount();
     spUpdateDhikrDisplay();
@@ -25970,6 +26066,22 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   /* ---- معاينة صوت الذكر المختار عبر زر 🔊 ---- */
   var spPreviewAudio = null;
   var spPreviewVal = null;
+
+  /* ---- التنقل بين الأذكار بالأسهم (موبايل/تابليت) ---- */
+  window.spNavDhikr = function(dir) {
+    var sel = document.getElementById('sp-athkar-sel');
+    if (!sel) return;
+    var opts = Array.from(sel.options).filter(function(o) { return !o.disabled && o.closest && !o.closest('optgroup[disabled]'); });
+    // نجمع كل الخيارات الفعلية بما فيها داخل optgroup
+    var allOpts = Array.from(sel.querySelectorAll('option'));
+    var cur = sel.selectedIndex;
+    var next = cur + dir;
+    if (next < 0) next = allOpts.length - 1;
+    if (next >= allOpts.length) next = 0;
+    sel.selectedIndex = next;
+    sel.dispatchEvent(new Event('change'));
+  };
+
   window.spPlaySelectedDhikr = function() {
     try {
       var sel = document.getElementById('sp-athkar-sel');
