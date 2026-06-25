@@ -24403,6 +24403,9 @@ body.dark-mode .sp-athkar-search::placeholder { color: #5DCAA5; opacity: 0.6; }
     margin-bottom: 6px; flex-wrap: wrap;
     width: 100%; box-sizing: border-box; overflow: hidden;
 }
+.sp-athkar-row .sp-athkar-label,
+.sp-athkar-row .sp-athkar-play-btn,
+.sp-athkar-row .sp-athkar-nav-btn { flex-shrink: 0; }
 .sp-athkar-label { font-size: 12px; color: #555; white-space: nowrap; }
 body.dark-mode .sp-athkar-label { color: #aaa; }
 .sp-athkar-play-btn {
@@ -24428,10 +24431,10 @@ body.dark-mode .sp-athkar-play-btn.sp-playing { background: #0F6E56; color: #fff
     background: rgba(255,255,255,0.9);
     color: #0F6E56;
     cursor: pointer;
-    width: 0;
+    width: 100%;
     min-width: 0;
-    flex: 1;
-    max-width: 180px;
+    flex: 1 1 100%;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -24463,6 +24466,108 @@ body.dark-mode #sp-athkar-sel { background: #0F3D2E; color: #5DCAA5; border-colo
 .sp-athkar-nav-btn:active { background: #1D9E75; color: #fff; transform: scale(0.92); }
 body.dark-mode .sp-athkar-nav-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
 body.dark-mode .sp-athkar-nav-btn:active { background: #0F6E56; color: #fff; }
+/* ---- Custom Dropdown ---- */
+.sp-custom-dd {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+.sp-custom-dd-btn {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(29,158,117,0.35);
+    background: rgba(255,255,255,0.9);
+    color: #0F6E56;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+.sp-custom-dd-btn:active { background: #D4F4EA; }
+body.dark-mode .sp-custom-dd-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
+#sp-custom-dd-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+    display: block;
+}
+.sp-custom-dd-arrow { flex-shrink: 0; font-size: 10px; opacity: 0.7; }
+.sp-custom-dd-list {
+    position: fixed;
+    z-index: 9999;
+    background: #fff;
+    border: 1.5px solid rgba(29,158,117,0.4);
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+    padding: 6px;
+    box-sizing: border-box;
+    /* العرض والطول يُضبطان بالـ JS */
+    display: flex;
+    flex-direction: column;
+}
+body.dark-mode .sp-custom-dd-list { background: #0F2820; border-color: rgba(29,158,117,0.5); }
+.sp-custom-dd-search {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px 9px;
+    border-radius: 8px;
+    border: 1px solid rgba(29,158,117,0.3);
+    background: rgba(255,255,255,0.9);
+    color: #0F6E56;
+    outline: none;
+    margin-bottom: 4px;
+    direction: rtl;
+}
+body.dark-mode .sp-custom-dd-search { background: #0a2218; color: #5DCAA5; border-color: rgba(29,158,117,0.4); }
+.sp-custom-dd-items {
+    flex: 1;
+    min-height: 80px;
+    overflow-y: auto;
+    direction: rtl;
+}
+.sp-custom-dd-group-label {
+    font-size: 10px;
+    color: #1D9E75;
+    padding: 4px 6px 2px;
+    font-weight: 700;
+    border-top: 1px solid rgba(29,158,117,0.15);
+    margin-top: 2px;
+}
+.sp-custom-dd-group-label:first-child { border-top: none; margin-top: 0; }
+.sp-custom-dd-item {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #0F6E56;
+    direction: rtl;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.sp-custom-dd-item:hover, .sp-custom-dd-item:active { background: #D4F4EA; }
+.sp-custom-dd-item.sp-dd-selected { background: #C2EBD9; font-weight: 700; }
+body.dark-mode .sp-custom-dd-item { color: #5DCAA5; }
+body.dark-mode .sp-custom-dd-item:hover, body.dark-mode .sp-custom-dd-item:active { background: #0a3d26; }
+body.dark-mode .sp-custom-dd-item.sp-dd-selected { background: #0a4a30; }
 #sp-athkar-display {
     font-size: 14px; font-weight: 700;
     color: #0F6E56;
@@ -24895,7 +25000,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
                placeholder="🔍 بحث عن ذكر أو دعاء...">
     </div>
 
-    <div class="sp-athkar-row">
+    <div class="sp-athkar-row" style="position:relative;">
         <label class="sp-athkar-label" data-ar="الذكر:" data-en="Dhikr:">الذكر:</label>
         <button type="button" id="sp-athkar-play-btn" class="sp-athkar-play-btn"
                 data-ar="🔊" data-en="🔊"
@@ -24903,7 +25008,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
                 title="تشغيل الذكر المختار" onclick="window.spPlaySelectedDhikr()">🔊</button>
         <button type="button" class="sp-athkar-nav-btn" id="sp-athkar-prev"
                 title="الذكر السابق" onclick="window.spNavDhikr(-1)">&#9664;</button>
-        <select id="sp-athkar-sel">
+        <select id="sp-athkar-sel" style="display:none;">
             
             <option value="4"  data-ar="لا إله إلا الله"                       data-en="La ilaha illallah">لا إله إلا الله</option>
             
@@ -25159,9 +25264,50 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <option value="e24" data-ar="لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ (×100)" data-en="There is no god but Allah alone, with no partner. To Him belongs the dominion and to Him belongs all praise, and He is over all things capable (×100)" data-target="100">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَر...</option>
             <option value="e25" data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (×100)" data-en="SubhanAllahi wa bihamdihi (×100)" data-target="100">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (×100)</option>
             </optgroup>
+
+            <optgroup label="─── 🕌 أذكار بعد الصلاة المفروضة ───" style="font-size:11px; color:#1D9E75;">
+            <option value="p1" data-ar="أَسْتَغْفِرُ الله (×3) — اللّهُمَّ أَنْتَ السَّلامُ وَمِنْكَ السَّلام تَبارَكْتَ يا ذا الجَلالِ وَالإِكْرام" data-en="Astaghfirullah (×3) — Allahumma anta as-Salam wa minkas-Salam, tabarakta ya dhal-Jalali wal-Ikram">أَسْتَغْفِرُ الله (×3) — اللّهُمَّ أَنْتَ السَّلامُ...</option>
+            <option value="p2" data-ar="لا إلهَ إلاّ اللّهُ وحدَهُ لا شريكَ لهُ، لهُ المُلْكُ ولهُ الحَمْد، وهوَ على كلّ شَيءٍ قَدير، اللّهُمَّ لا مانِعَ لِما أَعْطَيْت، وَلا مُعْطِيَ لِما مَنَعْت، وَلا يَنْفَعُ ذا الجَدِّ مِنْكَ الجَد" data-en="La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamd, wa huwa ala kulli shay'in qadir, Allahumma la mani'a lima a'tayt, wa la mu'tiya lima mana't, wa la yanfa'u dhal-jaddi minkal-jadd">لا إلهَ إلاّ اللّهُ — اللّهُمَّ لا مانِعَ لِما أَعْطَيْت...</option>
+            <option value="p3" data-ar="لا إلهَ إلاّ اللّه وحدَهُ لا شريكَ لهُ، لهُ الملكُ ولهُ الحَمد، لا حَوْلَ وَلا قوَّةَ إلاّ بِاللهِ، لا إلهَ إلاّ اللّه، وَلا نَعْبُدُ إلاّ إيّاه، لَهُ النِّعْمَةُ وَلَهُ الفَضْل وَلَهُ الثَّناءُ الحَسَن، لا إلهَ إلاّ اللّهُ مخْلِصينَ لَهُ الدِّينَ وَلَوْ كَرِهَ الكافِرون" data-en="La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamd, la hawla wa la quwwata illa billah, la ilaha illallah, wa la na'budu illa iyyah, lahun-ni'matu wa lahul-fadl wa lahuth-thana'ul-hasan, la ilaha illallah mukhlisina lahud-dina wa law karihal-kafirun">لا إلهَ إلاّ اللّه — لا حَوْلَ وَلا قوَّةَ — مُخْلِصِينَ لَهُ الدِّين...</option>
+            <option value="p4" data-ar="سُبْحانَ اللهِ وَالحَمْدُ لله وَاللهُ أكْبَر (×33)" data-en="SubhanAllah, Alhamdulillah, Allahu Akbar (×33)" data-target="33">سُبْحانَ اللهِ وَالحَمْدُ لله وَاللهُ أكْبَر (×33)</option>
+            <option value="p5" data-ar="لا إلهَ إلاّ اللّهُ وَحْدَهُ لا شريكَ لهُ، لهُ الملكُ ولهُ الحَمْد، وهُوَ على كُلّ شَيءٍ قَدير — خَتْمُ التَّسْبِيح" data-en="La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamd, wa huwa ala kulli shay'in qadir — seal of the tasbih">لا إلهَ إلاّ اللّهُ وَحْدَهُ — خَتْمُ التَّسْبِيح</option>
+            <option value="p6" data-ar="المُعَوِّذَتَانِ وَسُورَةُ الإِخْلَاصِ — ثلاث مرات بعد الفجر والمغرب، ومرة بعد الصلوات الأخرى" data-en="Surat Al-Ikhlas, Al-Falaq, and An-Nas — 3 times after Fajr and Maghrib, once after other prayers">المُعَوِّذَتَانِ وَسُورَةُ الإِخْلَاصِ (×3 فجر/مغرب، ×1 غيرها)</option>
+            <option value="p7" data-ar="آيَةُ الكُرْسِيِّ — اللّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلاَّ بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ" data-en="Ayat al-Kursi — Allah, there is no deity except Him, the Ever-Living, the Sustainer of existence...">آيَةُ الكُرْسِيِّ (البقرة 255)</option>
+            <option value="p8" data-ar="لا إلهَ إلاّ اللّهُ وحْدَهُ لا شريكَ لهُ، لهُ المُلكُ ولهُ الحَمْد، يُحيي وَيُمِيتُ وهُوَ على كُلّ شيءٍ قدير (×10) — بَعْدَ الْمَغْرِبِ وَالصُّبْح" data-en="La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamd, yuhyi wa yumit wa huwa ala kulli shay'in qadir (×10) — after Maghrib and Fajr" data-target="10">لا إلهَ إلاّ اللّهُ يُحيي وَيُمِيت (×10 مغرب/فجر)</option>
+            <option value="p9" data-ar="اللّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا — بَعْدَ صَلاةِ الفَجْر" data-en="Allahumma inni as'aluka ilman nafi'an wa rizqan tayyiban wa amalan mutaqabbala — after Fajr prayer">اللّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نافِعًا وَرِزْقًا طَيِّبًا... (بَعْدَ الفَجْر)</option>
+            <option value="p10" data-ar="اللَّهُمَّ أَجِرْنِي مِنَ النَّار (×7) — بعد صلاة الفجر والمغرب" data-en="Allahumma ajirni minan-nar (×7) — after Fajr and Maghrib" data-target="7">اللَّهُمَّ أَجِرْنِي مِنَ النَّار (×7 فجر/مغرب)</option>
+            <option value="p11" data-ar="اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ" data-en="Allahumma a'inni ala dhikrika wa shukrika wa husni ibadatik">اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ</option>
+            </optgroup>
+
+            <optgroup label="─── 🌙 أذكار النوم والأحلام ───" style="font-size:11px; color:#6a5acd;">
+            <option value="sl1" data-ar="بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ" data-en="In Your name, my Lord, I lay down my side, and with You I raise it. If You take my soul, have mercy on it; if You release it, guard it with what You guard Your righteous servants" data-target="1">بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي... (عند النوم)</option>
+            <option value="sl2" data-ar="اللّهُـمَّ إِنَّـكَ خَلَـقْتَ نَفْسـي وَأَنْـتَ تَوَفّـاهـا لَكَ مَمَاتُـها وَمَحْـياها، إِنْ أَحْيَيْـتَها فاحْفَظْـها، وَإِنْ أَمَتَّـها فَاغْفِـرْ لَـها. اللّهُـمَّ إِنِّـي أَسْـأَلُـكَ العَـافِـيَة" data-en="O Allah, You created my soul and You take it. To You belongs its death and its life. If You give it life, protect it; if You cause it to die, forgive it. O Allah, I ask You for well-being" data-target="1">اللّهُـمَّ إِنَّـكَ خَلَـقْتَ نَفْسـي...</option>
+            <option value="sl3" data-ar="اللّهُـمَّ قِنِـي عَذَابَـكَ يَـوْمَ تَبْـعَثُ عِبَـادَك (×3)" data-en="O Allah, protect me from Your punishment on the Day You resurrect Your servants (×3)" data-target="3">اللّهُـمَّ قِنِـي عَذَابَـكَ... (×3)</option>
+            <option value="sl4" data-ar="بِاسْـمِكَ اللّهُـمَّ أَمُـوتُ وَأَحْـيا" data-en="In Your name, O Allah, I die and I live" data-target="1">بِاسْـمِكَ اللّهُـمَّ أَمُـوتُ وَأَحْـيا</option>
+            <option value="sl5" data-ar="الـحَمْدُ للهِ الَّذي أَطْـعَمَنا وَسَقـانا، وَكَفـانا، وَآوانا، فَكَـمْ مِمَّـنْ لا كـافِيَ لَـهُ وَلا مُـؤْوي" data-en="All praise is for Allah Who fed us, gave us drink, sufficed us, and sheltered us; for how many have none to suffice them or shelter them" data-target="1">الـحَمْدُ للهِ الَّذي أَطْـعَمَنا وَسَقـانا...</option>
+            <option value="sl6" data-ar="اللّهُـمَّ عالِـمَ الغَـيبِ وَالشَّهادَةِ فَاطِـرَ السَّمَاوَاتِ وَالأَرْضِ، رَبَّ كُـلِّ شَـيءٍ وَمَلِيـكَه، أَشْهَـدُ أَنْ لا إِلَـهَ إِلاّ أَنْتَ، أَعـوذُ بِكَ مِنْ شَـرِّ نَفْسـي، وَمِنْ شَـرِّ الشَّيْـطانِ وَشِـرْكِه، وَأَنْ أَقْتَـرِفَ عَلـى نَفْسـي سُوءاً أَوْ أَجُـرَّهُ إِلـى مُسْـلِم" data-en="O Allah, Knower of the unseen and the seen, Creator of the heavens and the earth, Lord of everything and its Master, I bear witness that there is no god but You. I seek refuge in You from the evil of myself and from the evil of Satan and his shirk, and from committing harm against myself or bringing it upon any Muslim" data-target="1">اللّهُـمَّ عالِـمَ الغَـيبِ... (دعاء قبل النوم)</option>
+            <option value="sl7" data-ar="اللّهُـمَّ أَسْـلَمْتُ نَفْـسي إِلَـيْكَ، وَفَوَّضْـتُ أَمْـري إِلَـيْكَ، وَوَجَّـهْتُ وَجْـهي إِلَـيْكَ، وَأَلْـجَـأْتُ ظَهْـري إِلَـيْكَ، رَغْبَـةً وَرَهْـبَةً إِلَـيْكَ، لا مَلْجَـأَ وَلا مَنْـجَا مِنْـكَ إِلاّ إِلَـيْكَ، آمَنْـتُ بِكِتـابِكَ الَّـذي أَنْزَلْـتَ وَبِنَبِيِّـكَ الَّـذي أَرْسَلْـت" data-en="O Allah, I submit myself to You, entrust my affairs to You, turn my face toward You, and rest my back against You out of hope and fear of You. There is no refuge and no escape from You except to You. I have believed in Your Book which You revealed and in Your Prophet whom You sent" data-target="1">اللّهُـمَّ أَسْـلَمْتُ نَفْـسي إِلَـيْكَ...</option>
+            <option value="sl8" data-ar="سُبْحَانَ اللَّهِ (×33) — الْحَمْدُ لِلَّهِ (×33) — اللَّهُ أَكْبَرُ (×34)" data-en="SubhanAllah (×33) — Alhamdulillah (×33) — Allahu Akbar (×34)" data-target="33">سُبْحَانَ اللَّهِ (×33) — الْحَمْدُ لِلَّهِ (×33) — اللَّهُ أَكْبَرُ (×34)</option>
+            <option value="sl9" data-ar="اللهم رَبَّ السَّمَوَاتِ السَّبْعِ وَمَا أَظَلَّتْ، وَرَبَّ الأَرَضِينَ وَمَا أَقَلَّتْ، وَرَبَّ الشَّيَاطِينِ وَمَا أَضَلَّتْ، كُنْ لِي جَارًا مِنْ شَرِّ خَلْقِكَ كُلِّهِمْ جَمِيعًا، أَنْ يَفْرُطَ عَلَيَّ أَحَدٌ مِنْهُمْ أَوْ أَنْ يَبْغِيَ عَلَيَّ، عَزَّ جَارُكَ، وَجَلَّ ثَنَاؤُكَ، وَلا إِلَهَ إِلَّا أَنْتَ" data-en="O Allah, Lord of the seven heavens and what they shade, Lord of the earths and what they carry, Lord of the devils and those they lead astray — be my protector from the evil of all Your creation, lest any of them harm or transgress against me. Your protection is mighty, Your praise is exalted, and there is no god but You" data-target="1">اللهم رَبَّ السَّمَوَاتِ السَّبْعِ... (للأرق)</option>
+            <option value="sl10" data-ar="أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ غَضَبِهِ وَشَرِّ عِبَادِهِ، وَمِنْ هَمَزَاتِ الشَّيَاطِينِ وَأَنْ يَحْضُرُونِ" data-en="I seek refuge in the perfect words of Allah from His wrath, from the evil of His servants, from the whisperings of the devils, and from their presence" data-target="1">أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ... (من الفزع)</option>
+            </optgroup>
         </select>
         <button type="button" class="sp-athkar-nav-btn" id="sp-athkar-next"
                 title="الذكر التالي" onclick="window.spNavDhikr(1)">&#9654;</button>
+    </div>
+    <!-- Custom dropdown — full width row like search bar -->
+    <div class="sp-athkar-search-row" style="position:relative;">
+        <div id="sp-custom-dd" class="sp-custom-dd">
+            <button type="button" id="sp-custom-dd-btn" class="sp-custom-dd-btn" onclick="window.spToggleCustomDd()">
+                <span id="sp-custom-dd-label">اللهم صلِّ على النبى</span>
+                <span class="sp-custom-dd-arrow">▾</span>
+            </button>
+            <div id="sp-custom-dd-list" class="sp-custom-dd-list" style="display:none;">
+                <input type="text" id="sp-custom-dd-search" class="sp-custom-dd-search"
+                       placeholder="🔍 بحث..." autocomplete="off">
+                <div id="sp-custom-dd-items" class="sp-custom-dd-items"></div>
+            </div>
+        </div>
     </div>
 
     
@@ -25362,11 +25508,11 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var opt = sel.options[sel.selectedIndex];
     var ar = spAr ? spAr() : true;
     var txt = ar ? (opt.getAttribute('data-ar') || '') : (opt.getAttribute('data-en') || '');
-    var len = txt.length;
-    if (len <= 15) return 2000;
-    if (len <= 50) return 3000;
-    if (len <= 120) return 4000;
-    return 5000;
+    // إزالة التشكيل والمسافات والترقيم للحصول على عدد الحروف الفعلية
+    var chars = txt.replace(/[\u064B-\u0652\u0670\u0640\u0020\u060C\u002C\u002E]/g, '').length;
+    // معدل القراءة العربية بصوت عالٍ: ~14 حرف/ثانية + هامش 30%
+    var ms = Math.round((chars / 14) * 1.3 * 1000);
+    return Math.max(2500, Math.min(ms, 20000));
   }
 
   function spStartAuto() {
@@ -25379,19 +25525,25 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     }
     if (typeof window.alRequestWakeLock === 'function') window.alRequestWakeLock();
 
-    function tick() {
-      if (spCount >= spTarget) {
-        spStopAuto();
-        return;
-      }
-      window.spIncrement();
+    // لو العداد وصل الهدف من قبل، ابدأ من الصفر تلقائياً
+    if (spCount >= spTarget) {
+      spCount = 0;
+      spSaveCount();
+      spUpdateUI();
+      spDrawCanvas();
     }
-    spAutoTimer = setInterval(tick, spGetAutoInterval());
+
+    function tick() {
+      if (!spAutoTimer) return;
+      window.spIncrement();
+      spAutoTimer = setTimeout(tick, spGetAutoInterval());
+    }
+    spAutoTimer = setTimeout(tick, spGetAutoInterval());
   }
 
   function spStopAuto() {
     if (spAutoTimer) {
-      clearInterval(spAutoTimer);
+      clearTimeout(spAutoTimer);
       spAutoTimer = null;
     }
     var btn = document.getElementById('sp-auto-btn');
@@ -25418,24 +25570,32 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       var pb = document.getElementById('sp-athkar-play-btn');
       if (pb) pb.classList.remove('sp-playing');
     }
-    /* إذا كان الذكر المختار له data-target، ضبط الهدف تلقائيًا */
-    var selOpt = this.options[this.selectedIndex];
-    var optTarget = selOpt ? selOpt.getAttribute('data-target') : null;
-    if (optTarget && parseInt(optTarget) > 0) {
-      var tgtSel = document.getElementById('sp-target-sel');
-      if (tgtSel) {
-        for (var oi = 0; oi < tgtSel.options.length; oi++) {
-          if (tgtSel.options[oi].value === optTarget) { tgtSel.selectedIndex = oi; break; }
-        }
+    /* الهدف: لو المستخدم حدد هدف لهذا الذكر بيده يُطبَّق، وإلا data-target، وإلا 1000 */
+    var selOpt2 = this.options[this.selectedIndex];
+    var dhikrVal2 = selOpt2 ? selOpt2.value : '0';
+    var userTargetKey2 = 'sp_user_target_v' + dhikrVal2;
+    var userSaved2 = null;
+    try { userSaved2 = localStorage.getItem(userTargetKey2); } catch(e) {}
+    if (userSaved2 && parseInt(userSaved2) > 0) {
+      spTarget = parseInt(userSaved2);
+    } else {
+      var optTarget2 = selOpt2 ? selOpt2.getAttribute('data-target') : null;
+      spTarget = (optTarget2 && parseInt(optTarget2) > 0) ? parseInt(optTarget2) : 1000;
+    }
+    var tgtSel2 = document.getElementById('sp-target-sel');
+    if (tgtSel2) {
+      var found2 = false;
+      for (var oi2 = 0; oi2 < tgtSel2.options.length; oi2++) {
+        if (parseInt(tgtSel2.options[oi2].value) === spTarget) { tgtSel2.selectedIndex = oi2; found2 = true; break; }
       }
-      spTarget = parseInt(optTarget);
-      try { localStorage.setItem('sp_target', optTarget); } catch(e) {}
+      if (!found2) tgtSel2.value = tgtSel2.options[tgtSel2.options.length - 1].value;
     }
     spCount = spLoadCount();
     spUpdateDhikrDisplay();
     spUpdateUI();
     spDrawCanvas();
     spUpdateMediaSession();
+    if (typeof spSyncCustomDd === 'function') spSyncCustomDd();
     if (spAutoTimer) {
       spStopAuto();
       spStartAuto();
@@ -25527,9 +25687,11 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
   document.getElementById('sp-target-sel').addEventListener('change', function() {
     spTarget = parseInt(this.value);
-    /* حفظ الهدف المختار */
+    /* حفظ الهدف المختار لهذا الذكر تحديداً */
     try {
-      localStorage.setItem('sp_target', this.value);
+      var curSel = document.getElementById('sp-athkar-sel');
+      var curVal = curSel ? curSel.options[curSel.selectedIndex].value : '0';
+      localStorage.setItem('sp_user_target_v' + curVal, this.value);
     } catch (e) {}
     spUpdateUI();
     spDrawCanvas();
@@ -25790,15 +25952,28 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
   function spInit() {
 
-    /* ── استرجاع الهدف المحفوظ ── */
+    /* ── استرجاع الهدف الافتراضي للذكر الحالي عند فتح الصفحة ── */
     try {
-      var savedTarget = localStorage.getItem('sp_target');
-      if (savedTarget) {
-        var targetSel = document.getElementById('sp-target-sel');
-        if (targetSel) {
-          targetSel.value = savedTarget;
-          spTarget = parseInt(savedTarget) || 1000;
+      var initSel = document.getElementById('sp-athkar-sel');
+      var initOpt = initSel ? initSel.options[initSel.selectedIndex] : null;
+      var initVal = initOpt ? initOpt.value : '0';
+      var initUserKey = 'sp_user_target_v' + initVal;
+      var initUserSaved = localStorage.getItem(initUserKey);
+      var initDataTarget = initOpt ? initOpt.getAttribute('data-target') : null;
+      if (initUserSaved && parseInt(initUserSaved) > 0) {
+        spTarget = parseInt(initUserSaved);
+      } else if (initDataTarget && parseInt(initDataTarget) > 0) {
+        spTarget = parseInt(initDataTarget);
+      } else {
+        spTarget = 1000;
+      }
+      var targetSel = document.getElementById('sp-target-sel');
+      if (targetSel) {
+        var found = false;
+        for (var oi = 0; oi < targetSel.options.length; oi++) {
+          if (parseInt(targetSel.options[oi].value) === spTarget) { targetSel.selectedIndex = oi; found = true; break; }
         }
+        if (!found) targetSel.value = targetSel.options[targetSel.options.length - 1].value;
       }
     } catch (e) {}
 
@@ -25924,7 +26099,19 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     /* أستغفر الله */
     '8': "https://archive.org/download/20260530_20260530_1151/%D8%A3%D8%B3%D8%AA%D8%BA%D9%81%D8%B1%20%D8%A7%D9%84%D9%84%D9%87.mp3",
     /* سبحان الله والحمد لله ولا إله إلا الله والله أكبر ولا حول ولا قوة إلا بالله */
-    '15': "https://archive.org/download/20260531_20260531_1135/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%20%D8%A7%D9%84%D8%AD%D9%85%D8%AF%D9%84%D9%84%D9%87.mp3"
+    '15': "https://archive.org/download/20260531_20260531_1135/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%20%D8%A7%D9%84%D8%AD%D9%85%D8%AF%D9%84%D9%84%D9%87.mp3",
+    /* أذكار بعد الصلاة المفروضة — p1..p11 */
+    'p1':  "https://archive.org/download/20260530_20260530_1151/%D8%A3%D8%B3%D8%AA%D8%BA%D9%81%D8%B1%20%D8%A7%D9%84%D9%84%D9%87.mp3",
+    'p2':  "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3",
+    'p3':  "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3",
+    'p4':  "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3",
+    'p5':  "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3",
+    'p6':  "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3",
+    'p7':  "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3",
+    'p8':  "https://archive.org/download/20260524_20260524_1326/%D9%84%D8%A7%20%D8%A7%D9%84%D9%87%20%D8%A7%D9%84%D8%A7%20%D8%A7%D9%84%D9%84%D9%87.mp3",
+    'p9':  "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3",
+    'p10': "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3",
+    'p11': "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3"
   };
   /* صوت افتراضي لأي ذكر ليس في الخريطة */
   var ALARM_SOUND_DEFAULT =
@@ -26067,12 +26254,23 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   var spPreviewAudio = null;
   var spPreviewVal = null;
 
-  /* ---- التنقل بين الأذكار بالأسهم (موبايل/تابليت) ---- */
+  /* ---- التنقل بين الأذكار بأسهم الكيبورد ↑ ↓ (فقط لو الفوكس على عناصر المنبه) ---- */
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    var focused = document.activeElement;
+    var pip = document.getElementById('salah-pip-section');
+    if (!pip || !focused) return;
+    /* يشتغل بس لو الفوكس داخل الـ salah-pip-section */
+    if (!pip.contains(focused)) return;
+    /* لا تتدخل لو القائمة المنسدلة مفتوحة */
+    var list = document.getElementById('sp-custom-dd-list');
+    if (list && list.style.display !== 'none') return;
+    e.preventDefault();
+    window.spNavDhikr(e.key === 'ArrowDown' ? 1 : -1);
+  });
   window.spNavDhikr = function(dir) {
     var sel = document.getElementById('sp-athkar-sel');
     if (!sel) return;
-    var opts = Array.from(sel.options).filter(function(o) { return !o.disabled && o.closest && !o.closest('optgroup[disabled]'); });
-    // نجمع كل الخيارات الفعلية بما فيها داخل optgroup
     var allOpts = Array.from(sel.querySelectorAll('option'));
     var cur = sel.selectedIndex;
     var next = cur + dir;
@@ -26080,7 +26278,190 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     if (next >= allOpts.length) next = 0;
     sel.selectedIndex = next;
     sel.dispatchEvent(new Event('change'));
+    spSyncCustomDd();
   };
+
+  /* ---- Custom Dropdown Logic ---- */
+  function spBuildCustomDd() {
+    var sel = document.getElementById('sp-athkar-sel');
+    var items = document.getElementById('sp-custom-dd-items');
+    if (!sel || !items) return;
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    items.innerHTML = '';
+    Array.from(sel.children).forEach(function(child) {
+      if (child.tagName === 'OPTGROUP') {
+        var grp = document.createElement('div');
+        grp.className = 'sp-custom-dd-group-label';
+        grp.textContent = child.getAttribute('label') || '';
+        items.appendChild(grp);
+        Array.from(child.children).forEach(function(opt) {
+          items.appendChild(spMakeDdItem(opt, isAr));
+        });
+      } else if (child.tagName === 'OPTION') {
+        items.appendChild(spMakeDdItem(child, isAr));
+      }
+    });
+    spSyncCustomDd();
+  }
+
+  function spMakeDdItem(opt, isAr) {
+    var div = document.createElement('div');
+    div.className = 'sp-custom-dd-item';
+    div.setAttribute('data-value', opt.value);
+    var label = isAr
+      ? (opt.getAttribute('data-ar') || opt.textContent)
+      : (opt.getAttribute('data-en') || opt.getAttribute('data-ar') || opt.textContent);
+    var clean = label.replace(/^[🌅🌙\s]+/, '').trim();
+    div.textContent = clean.length > 44 ? clean.slice(0, 44) + '...' : clean;
+    div.title = clean;
+    div.addEventListener('click', function() {
+      var sel2 = document.getElementById('sp-athkar-sel');
+      var allOpts2 = Array.from(sel2.querySelectorAll('option'));
+      var idx = allOpts2.findIndex(function(o){ return o.value === div.getAttribute('data-value'); });
+      if (idx >= 0) sel2.selectedIndex = idx;
+      sel2.dispatchEvent(new Event('change'));
+      spSyncCustomDd();
+      spCloseCustomDd();
+    });
+    return div;
+  }
+
+  function spSyncCustomDd() {
+    var sel = document.getElementById('sp-athkar-sel');
+    var lbl = document.getElementById('sp-custom-dd-label');
+    if (!sel || !lbl) return;
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var opt = sel.options[sel.selectedIndex];
+    if (!opt) return;
+    var full = isAr
+      ? (opt.getAttribute('data-ar') || opt.textContent)
+      : (opt.getAttribute('data-en') || opt.getAttribute('data-ar') || opt.textContent);
+    var clean = full.replace(/^[🌅🌙\s]+/, '').trim();
+    lbl.textContent = clean.length > 28 ? clean.slice(0, 28) + '...' : clean;
+    document.querySelectorAll('.sp-custom-dd-item').forEach(function(d){
+      d.classList.toggle('sp-dd-selected', d.getAttribute('data-value') === opt.value);
+    });
+  }
+
+  function spPositionDdList() {
+    var btn     = document.getElementById('sp-custom-dd-btn');
+    var list    = document.getElementById('sp-custom-dd-list');
+    var items   = document.getElementById('sp-custom-dd-items');
+    var section = document.getElementById('salah-pip-section');
+    if (!btn || !list) return;
+
+    var r   = btn.getBoundingClientRect();
+    var top = r.bottom + 4;
+
+    /* الطول المتاح من أسفل الزر حتى حافة الشاشة مع هامش 8px */
+    var availH = Math.max(120, window.innerHeight - top - 8);
+
+    if (section) {
+      /* محاذاة تامة مع حواف الـ section */
+      var sr   = section.getBoundingClientRect();
+      var left = sr.left;
+      var w    = sr.width;
+      list.style.cssText = [
+        'display:block',
+        'width:'   + Math.round(w)      + 'px',
+        'left:'    + Math.round(left)   + 'px',
+        'right:auto',
+        'top:'     + Math.round(top)    + 'px',
+        'bottom:auto',
+        'height:'  + Math.round(availH) + 'px'
+      ].join(';') + ';';
+    } else {
+      /* fallback */
+      var lw = Math.min(300, window.innerWidth * 0.92);
+      var right = window.innerWidth - r.right;
+      if (right < 4) right = 4;
+      list.style.cssText = 'display:block;width:' + lw + 'px;top:' + top + 'px;right:' + right + 'px;left:auto;bottom:auto;height:' + Math.round(availH) + 'px;';
+    }
+
+    /* اجعل sp-custom-dd-items تملأ الارتفاع المتبقي بعد حقل البحث */
+    if (items) {
+      var srch  = document.getElementById('sp-custom-dd-search');
+      var srchH = srch ? (srch.getBoundingClientRect().height || 30) + 8 : 38;
+      var pad   = 12; /* padding الـ list نفسها (6px × 2) */
+      items.style.maxHeight = Math.max(80, Math.round(availH - srchH - pad)) + 'px';
+    }
+  }
+
+  window.spToggleCustomDd = function() {
+    var list = document.getElementById('sp-custom-dd-list');
+    if (!list) return;
+    if (list.style.display === 'none' || !list.style.display) {
+      spBuildCustomDd();
+      spPositionDdList();
+      var srch = document.getElementById('sp-custom-dd-search');
+      if (srch) { srch.value = ''; spFilterDdItems(''); setTimeout(function(){ srch.focus(); }, 50); }
+      setTimeout(function(){
+        var sel2 = document.getElementById('sp-custom-dd-items') && document.getElementById('sp-custom-dd-items').querySelector('.sp-dd-selected');
+        if (sel2) sel2.scrollIntoView({ block: 'nearest' });
+      }, 60);
+    } else {
+      spCloseCustomDd();
+    }
+  };
+
+  function spCloseCustomDd() {
+    var list = document.getElementById('sp-custom-dd-list');
+    if (list) list.style.display = 'none';
+  }
+
+  /* ---- إعادة بناء القائمة عند تغيير اللغة ---- */
+  (function() {
+    var _ddLangInt = setInterval(function() {
+      if (typeof window.toggleLanguage === 'function') {
+        clearInterval(_ddLangInt);
+        var _origTL = window.toggleLanguage;
+        window.toggleLanguage = function() {
+          _origTL.apply(this, arguments);
+          setTimeout(function() {
+            spBuildCustomDd();
+            spSyncCustomDd();
+          }, 60);
+        };
+      }
+    }, 300);
+  })();
+
+  function spFilterDdItems(term) {
+    var norm = term.replace(/[\u064B-\u0652\u0670\u0640]/g, '').replace(/[إأآا]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').toLowerCase().trim();
+    document.querySelectorAll('.sp-custom-dd-item').forEach(function(d) {
+      var txt = (d.textContent + ' ' + (d.title || '')).replace(/[\u064B-\u0652\u0670\u0640]/g, '').replace(/[إأآا]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').toLowerCase();
+      d.style.display = (!norm || txt.indexOf(norm) !== -1) ? '' : 'none';
+    });
+    document.querySelectorAll('.sp-custom-dd-group-label').forEach(function(grp) {
+      var next = grp.nextElementSibling;
+      var hasVisible = false;
+      while (next && !next.classList.contains('sp-custom-dd-group-label')) {
+        if (next.style.display !== 'none') hasVisible = true;
+        next = next.nextElementSibling;
+      }
+      grp.style.display = hasVisible ? '' : 'none';
+    });
+  }
+
+  document.addEventListener('click', function(e) {
+    var list = document.getElementById('sp-custom-dd-list');
+    var btn  = document.getElementById('sp-custom-dd-btn');
+    if (list && list.style.display !== 'none' && !list.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+      spCloseCustomDd();
+    }
+  });
+
+  document.addEventListener('input', function(e) {
+    if (e.target && e.target.id === 'sp-custom-dd-search') spFilterDdItems(e.target.value);
+  });
+
+  // إعادة بناء القائمة عند تغيير اللغة
+  var _origSpSyncLang = window.spSyncCustomDd;
+  setTimeout(function() {
+    spSyncCustomDd();
+    // مراقبة تغيير اللغة
+    document.addEventListener('langChanged', spSyncCustomDd);
+  }, 400);
 
   window.spPlaySelectedDhikr = function() {
     try {
