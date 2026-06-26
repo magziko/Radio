@@ -24510,9 +24510,9 @@ body.dark-mode .sp-athkar-nav-btn:active { background: #0F6E56; color: #fff; }
 .sp-custom-dd-btn:active { background: #D4F4EA; }
 body.dark-mode .sp-custom-dd-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
 #sp-custom-dd-label {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.5;
     flex: 1;
     min-width: 0;
     display: block;
@@ -24565,12 +24565,12 @@ body.dark-mode .sp-custom-dd-search { background: #0a2218; color: #5DCAA5; borde
 .sp-custom-dd-item {
     font-family: 'Cairo', Arial, sans-serif;
     font-size: 12px;
-    padding: 6px 8px;
+    padding: 7px 8px;
     border-radius: 8px;
     cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.5;
     color: #0F6E56;
     direction: rtl;
     touch-action: manipulation;
@@ -26039,7 +26039,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     setTimeout(spInit, 0);
   }
 
-window.addEventListener('pageshow', function() {
+  /* بعض المتصفحات تستعيد آخر قيمة محددة في القائمة بعد إعادة التحميل
+     بشكل متأخر (بعد DOMContentLoaded)، فنعيد مزامنة النص المعروض هنا */
+  window.addEventListener('pageshow', function() {
     spCount = spLoadCount();
     spUpdateDhikrDisplay();
     spUpdateUI();
@@ -26331,7 +26333,7 @@ window.addEventListener('pageshow', function() {
       ? (opt.getAttribute('data-ar') || opt.textContent)
       : (opt.getAttribute('data-en') || opt.getAttribute('data-ar') || opt.textContent);
     var clean = label.replace(/^[🌅🌙\s]+/, '').trim();
-    div.textContent = clean.length > 44 ? clean.slice(0, 44) + '...' : clean;
+    div.textContent = clean;
     div.title = clean;
     div.addEventListener('click', function() {
       var sel2 = document.getElementById('sp-athkar-sel');
@@ -26356,7 +26358,7 @@ window.addEventListener('pageshow', function() {
       ? (opt.getAttribute('data-ar') || opt.textContent)
       : (opt.getAttribute('data-en') || opt.getAttribute('data-ar') || opt.textContent);
     var clean = full.replace(/^[🌅🌙\s]+/, '').trim();
-    lbl.textContent = clean.length > 28 ? clean.slice(0, 28) + '...' : clean;
+    lbl.textContent = clean;
     document.querySelectorAll('.sp-custom-dd-item').forEach(function(d){
       d.classList.toggle('sp-dd-selected', d.getAttribute('data-value') === opt.value);
     });
