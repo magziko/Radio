@@ -26039,13 +26039,17 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     setTimeout(spInit, 0);
   }
 
-  /* بعض المتصفحات تستعيد آخر قيمة محددة في القائمة بعد إعادة التحميل
-     بشكل متأخر (بعد DOMContentLoaded)، فنعيد مزامنة النص المعروض هنا */
-  window.addEventListener('pageshow', function() {
+window.addEventListener('pageshow', function() {
+    spCount = spLoadCount();
     spUpdateDhikrDisplay();
+    spUpdateUI();
   });
   window.addEventListener('load', function() {
-    setTimeout(spUpdateDhikrDisplay, 0);
+    setTimeout(function() {
+      spCount = spLoadCount();
+      spUpdateDhikrDisplay();
+      spUpdateUI();
+    }, 150);
   });
 })();
 </script>
