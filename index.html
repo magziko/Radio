@@ -190,6 +190,9 @@ button[data-basit-type="saudi-muratal"] .flag {
     line-height: 1.6;
 }
 
+#basmalaOpenSiteBtn { transition: color 0.2s, opacity 0.2s; }
+#basmalaOpenSiteBtn:hover { color: #1D9E75 !important; opacity: 0.85; }
+
 #quranVerse {
     text-align: center;
     font-style: italic;
@@ -1223,6 +1226,7 @@ body.filter-favorites .isolated-radio-player {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 14px;
     width: 100%;
     margin-top: 10px;
 }
@@ -1258,6 +1262,21 @@ body.filter-favorites .isolated-radio-player {
 
 .isolated-play-button:hover  { background-color: #e0e0e0; transform: scale(1.08); }
 .isolated-play-button:active { transform: scale(0.95);    background-color: #ccc;  }
+
+.isolated-share-button {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+    margin-top: 35px;
+    opacity: 0.85;
+}
+@media (max-width: 768px) {
+    .isolated-share-button {
+        width: 42px;
+        height: 42px;
+        margin-top: 0;
+    }
+}
 
 .central-volume-wrapper {
     display: flex;
@@ -4476,6 +4495,37 @@ body.dark-mode #scrollToTopBtn:hover {
   background: rgba(102,187,106,0.15) !important;
 }
 
+#pnb-share {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(100,181,246,0.35);
+  background: rgba(255,255,255,0.05);
+  color: #90caf9;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, transform 0.13s, border-color 0.18s, color 0.18s;
+  padding: 0;
+  position: relative;
+  opacity: 0.5;
+  pointer-events: none;
+}
+#pnb-share.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+#pnb-share:hover {
+  background: rgba(30,144,255,0.25);
+  border-color: #64b5f6;
+  color: #fff;
+  transform: scale(1.12);
+}
+#pnb-share:active { transform: scale(0.9); }
+#pnb-share svg { width: 14px; height: 14px; }
+
 #pnb-random {
   border-color: rgba(255,193,7,0.45) !important;
   background: rgba(255,193,7,0.1) !important;
@@ -5218,7 +5268,7 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
 </div>
 
 <p id="siteWelcomeText">
-    <span style="font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#7f8c8d; display:block; margin-bottom:4px;">
+    <span id="basmalaOpenSiteBtn" onclick="window.open('https://radioquran.github.io/M/','_blank')" title="فتح الموقع الرئيسي / Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">
         🕌 بسم الله الرحمن الرحيم
     </span>
     <span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">
@@ -24308,6 +24358,12 @@ const moreTranslations = [{
     <img class="flag-bg-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Palestine.svg/1920px-Flag_of_Palestine.svg.png" alt="علم فلسطين" loading="lazy">
     <div class="isolated-controls">
         <button class="isolated-play-button" id="isolatedPlayPauseButton">&#9658;</button>
+        <button class="isolated-play-button isolated-share-button" id="isolatedShareButton" title="مشاركة المحطة الحالية / Share this station" aria-label="Share station" onclick="event.stopPropagation(); shareCurrentStation();">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+        </button>
     </div>
 
     <div class="central-volume-wrapper">
@@ -27315,7 +27371,7 @@ function applyInitialLanguage() {
 
     var welcomeText = document.getElementById('siteWelcomeText');
     if (welcomeText) welcomeText.innerHTML =
-      '<span style="font-size:13px;font-weight:700;letter-spacing:2px;color:#7f8c8d;display:block;margin-bottom:4px;">\u{1F54C} In the Name of Allah</span>' +
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Open main site" style="font-size:13px;font-weight:700;letter-spacing:2px;color:#7f8c8d;display:block;margin-bottom:4px;cursor:pointer;">\u{1F54C} In the Name of Allah</span>' +
       '<span style="font-size:26px;font-weight:700;display:block;color:#1a237e;line-height:1.2;">Welcome to</span>' +
       '<span style="font-size:20px;font-weight:700;display:block;margin-top:4px;color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">\u{1F4FB} <strong>Radio Ma</strong></a></span>' +
       '<span style="font-size:14px;color:#546e7a;display:block;margin-top:3px;font-style:italic;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</span>';
@@ -28487,13 +28543,13 @@ function toggleLanguage() {
   if (welcomeText) {
     if (isArabic) {
       welcomeText.innerHTML =
-        '<span style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px;">🕌 بسم الله الرحمن الرحيم</span>' +
+        '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="فتح الموقع الرئيسي / Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 بسم الله الرحمن الرحيم</span>' +
         '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">مرحبًا بكم في</span>' +
         '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
         '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية</span>';
     } else {
       welcomeText.innerHTML =
-        '<span style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px;">🕌 In the Name of Allah</span>' +
+        '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 In the Name of Allah</span>' +
         '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Welcome to</span>' +
         '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
         '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</span>';
@@ -29014,6 +29070,8 @@ function getContrastYIQ(hexcolor) {
     }
     currentStation = station;
     lastStationUrl = station.stationUrl;
+    window._isolatedStationUrl = station.stationUrl || '';
+    window._isolatedStationName = station.stationName || '';
 
     if (window.isolatedAudio) {
       window.isolatedAudio.pause();
@@ -29087,6 +29145,8 @@ function getContrastYIQ(hexcolor) {
       stationName: stationName || ''
     };
     lastStationUrl = url;
+    window._isolatedStationUrl = url || '';
+    window._isolatedStationName = stationName || '';
 
     if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('isolated');
     if (window.isolatedAudio) {
@@ -29142,6 +29202,8 @@ function getContrastYIQ(hexcolor) {
       stationUrl: st.url,
       stationName: st.name
     };
+    window._isolatedStationUrl = st.url || '';
+    window._isolatedStationName = st.name || '';
     if (window.isolatedAudio) {
       window.isolatedAudio.pause();
       window.isolatedAudio.src = '';
@@ -34666,10 +34728,47 @@ function shareFacebook() {
   window.open(url, "_blank");
 }
 
-function shareCurrentStation() {
-  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-  var lastRaw = localStorage.getItem('lastStation');
+// ── يحدّد أي راديو يعمل فعليًا الآن من بين الثلاثة: الشاشة الترحيبية / الأساسي / المعزول (الثالث) ──
+function _getActiveStationInfo() {
   var stName = '', stUrl = '';
+
+  // 1) راديو الشاشة الترحيبية (customAudioPlayer)
+  var welcomeAudio = document.getElementById('customAudioPlayer');
+  if (welcomeAudio && !welcomeAudio.paused && (welcomeAudio.src || welcomeAudio.currentSrc)) {
+    stUrl = welcomeAudio.currentSrc || welcomeAudio.src || '';
+    var custStatusEl = document.getElementById('customStatus');
+    if (custStatusEl) {
+      stName = custStatusEl.textContent
+        .replace(/^تشغيل:\s*/, '').replace(/^Playing:\s*/i, '')
+        .replace(' يعمل الآن', '').replace(' Now Playing', '').trim();
+    }
+    if (!stName) stName = window._currentPlayingName || '';
+    return { name: stName, url: stUrl };
+  }
+
+  // 2) الراديو الأساسي (currentAudio)
+  var mainAudioEl = document.getElementById('currentAudio');
+  if (mainAudioEl && !mainAudioEl.paused && (mainAudioEl.src || mainAudioEl.currentSrc)) {
+    stUrl = window._currentPlayingUrl || mainAudioEl.currentSrc || mainAudioEl.src || '';
+    stName = window._currentPlayingName || '';
+    if (!stName) {
+      var mainStatusEl = document.getElementById('status');
+      if (mainStatusEl) {
+        stName = mainStatusEl.textContent.replace(/^تشغيل:\s*/, '').replace(/^Playing:\s*/i, '').trim();
+      }
+    }
+    return { name: stName, url: stUrl };
+  }
+
+  // 3) الراديو الثالث (المعزول — window.isolatedAudio)
+  if (window.isolatedAudio && !window.isolatedAudio.paused && window.isolatedAudio.src) {
+    stUrl = window._isolatedStationUrl || window.isolatedAudio.src || '';
+    stName = window._isolatedStationName || '';
+    return { name: stName, url: stUrl };
+  }
+
+  // 4) لا يوجد شيء يعمل حاليًا — رجوع لآخر محطة محفوظة
+  var lastRaw = localStorage.getItem('lastStation');
   if (lastRaw) {
     try {
       var last = JSON.parse(lastRaw);
@@ -34681,6 +34780,13 @@ function shareCurrentStation() {
     var statusEl = document.getElementById('customStatus');
     if (statusEl) stName = statusEl.textContent.replace(' يعمل الآن','').replace(' Now Playing','').trim();
   }
+  return { name: stName, url: stUrl };
+}
+
+function shareCurrentStation() {
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var info = _getActiveStationInfo();
+  var stName = info.name, stUrl = info.url;
   var shareUrl = 'https://magziko.github.io/Radio/';
   if (stUrl) shareUrl += '?url=' + encodeURIComponent(stUrl) + '&station=' + encodeURIComponent(stName);
 
@@ -35712,6 +35818,13 @@ document.addEventListener('DOMContentLoaded', function() {
       '</svg>',
       '</button>',
 
+      '<button id="pnb-share" title="مشاركة المحطة الحالية" aria-label="مشاركة المحطة الحالية">',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">',
+      '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>',
+      '<line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
+      '</svg>',
+      '</button>',
+
       '<div id="player-vol-wrap">',
       '<span class="vol-ico">🔈</span>',
       '<input type="range" id="player-vol-slider" min="0" max="1" step="0.05" value="1">',
@@ -35829,6 +35942,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     var copyBtn = document.getElementById('pnb-copy');
+    var shareBtn = document.getElementById('pnb-share');
     var _copyUrl = '';
     var _copyName = '';
 
@@ -35846,10 +35960,12 @@ document.addEventListener('DOMContentLoaded', function() {
         _copyUrl = url;
         _copyName = name;
         copyBtn.classList.add('active');
+        if (shareBtn) shareBtn.classList.add('active');
       } else {
         _copyUrl = '';
         _copyName = '';
         copyBtn.classList.remove('active');
+        if (shareBtn) shareBtn.classList.remove('active');
       }
     }
 
@@ -35889,6 +36005,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (typeof showToast === 'function') showToast('✅ تم نسخ رابط المحطة!');
       });
     });
+
+    if (shareBtn) {
+      shareBtn.addEventListener('click', function() {
+        if (typeof shareCurrentStation === 'function') shareCurrentStation();
+      });
+    }
 
   })();
 
