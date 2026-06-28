@@ -27142,8 +27142,11 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
       var MAX_HISTORY = 20;
       var raw = localStorage.getItem('listenHistory');
       var hist = raw ? JSON.parse(raw) : [];
+      if (typeof _statsDedupeHistory === 'function') hist = _statsDedupeHistory(hist);
       // لا تكرر نفس المحطة إذا كانت آخر إدخال
       if (hist.length > 0 && hist[0].url === source) return;
+      // احذف أي ظهور سابق لنفس المحطة (بالرابط أو الاسم) عشان لا تتكرر في القائمة
+      hist = hist.filter(function(h) { return h.url !== source && h.name !== stationName; });
       hist.unshift({
         name: stationName,
         url: source,
@@ -34777,6 +34780,18 @@ function _fmtHistoryTimeEn(ts) {
   return d === 1 ? 'yesterday' : d + 'd ago';
 }
 
+function _statsDedupeHistory(hist) {
+  var seen = {};
+  var out = [];
+  for (var i = 0; i < hist.length; i++) {
+    var key = hist[i].url || hist[i].name;
+    if (seen[key]) continue;
+    seen[key] = true;
+    out.push(hist[i]);
+  }
+  return out;
+}
+
 function _renderHistoryList() {
   var list = document.getElementById('historyList');
   if (!list) return;
@@ -34784,6 +34799,13 @@ function _renderHistoryList() {
   var raw = localStorage.getItem('listenHistory');
   var hist = [];
   try { hist = raw ? JSON.parse(raw) : []; } catch(e) {}
+
+  // إزالة أي تكرارات قديمة محفوظة مسبقًا (محطة واحدة فقط بأحدث وقت استماع لها)
+  var deduped = _statsDedupeHistory(hist);
+  if (deduped.length !== hist.length) {
+    hist = deduped;
+    try { localStorage.setItem('listenHistory', JSON.stringify(hist)); } catch(e) {}
+  }
 
   if (hist.length === 0) {
     list.innerHTML = '<div style="text-align:center;padding:24px 0;opacity:.5;font-size:13px;">' +
