@@ -24710,15 +24710,52 @@ body.dark-mode .sp-custom-dd-search { background: #0a2218; color: #5DCAA5; borde
     overflow-y: auto;
     direction: rtl;
 }
+.sp-custom-dd-group-separator {
+    height: 0;
+    border: none;
+    border-top: 2px solid transparent;
+    margin: 6px 6px 0;
+    border-radius: 2px;
+    opacity: 0.5;
+}
+.sp-custom-dd-group-block {
+    border-radius: 8px;
+    margin: 4px 4px 0;
+    padding: 0 0 4px;
+    overflow: hidden;
+}
+.sp-custom-dd-group-block:first-child { margin-top: 2px; }
 .sp-custom-dd-group-label {
     font-size: 10px;
     color: #1D9E75;
-    padding: 4px 6px 2px;
+    padding: 5px 8px 4px;
     font-weight: 700;
-    border-top: 1px solid rgba(29,158,117,0.15);
-    margin-top: 2px;
+    letter-spacing: 0.3px;
+    border-radius: 6px 6px 0 0;
 }
-.sp-custom-dd-group-label:first-child { border-top: none; margin-top: 0; }
+.sp-custom-dd-item[data-grp-color] {
+    border-inline-end: 3px solid transparent;
+    padding-inline-end: 6px;
+}
+.sp-surah-badge {
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 9px;
+    font-weight: 700;
+    color: #1D9E75;
+    background: rgba(29,158,117,0.10);
+    border: 1px solid rgba(29,158,117,0.25);
+    border-radius: 4px;
+    padding: 1px 5px;
+    white-space: nowrap;
+    direction: rtl;
+    font-family: 'Cairo', Arial, sans-serif;
+}
+body.dark-mode .sp-surah-badge {
+    color: #5DCAA5;
+    background: rgba(29,158,117,0.15);
+    border-color: rgba(29,158,117,0.3);
+}
 .sp-custom-dd-item {
     font-family: 'Cairo', Arial, sans-serif;
     font-size: 12px;
@@ -25228,7 +25265,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <option value="29" data-ar="الله أكبر كبيرًا، والحمد لله كثيرًا، وسبحان الله بكرةً وأصيلًا" data-en="Allahu Akbar kabiran, walhamdu lillahi kathiran, wa subhanallahi bukratan wa asilan">تكبيرات ذي الحجة (الصيغة الثانية)</option>
             <option value="30" data-ar="الله أكبر، الله أكبر، لا إله إلا الله، والله أكبر، الله أكبر، ولله الحمد" data-en="Allahu Akbar, Allahu Akbar, La ilaha illallah, wallahu Akbar, Allahu Akbar, wa Lillahil Hamd">تكبيرات ذي الحجة (الصيغة الثالثة)</option>
 
-            <optgroup label="─── أدعية من القرآن الكريم ───" style="font-size:11px; color:#1D9E75;">
+            <optgroup label="─── أدعية من القرآن الكريم ───" data-color="#1D9E75" style="font-size:11px; color:#1D9E75;">
             <option value="154" data-ar="اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ" data-en="Ihdina as-sirata al-mustaqim, sirata alladhina an'amta alayhim, ghayril-maghdubi alayhim wala ad-dallin">اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ... (الفاتحة 6-7)</option>
             <option value="155" data-ar="رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ" data-en="Rabbana taqabbal minna innaka antas-sami'ul-alim">رَبَّنَا تَقَبَّلْ مِنَّا... (البقرة 127)</option>
             <option value="156" data-ar="وَتُبْ عَلَيْنَا إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ" data-en="Wa tub alayna innaka antat-tawwabur-rahim">وَتُبْ عَلَيْنَا إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ (البقرة 128)</option>
@@ -25282,7 +25319,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <option value="42" data-ar="رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَن دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ" data-en="Rabbi ighfir li wa liwalidayya wa liman dakhala bayti mu'minan wa lil-mu'minina wal-mu'minat">رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ... (نوح 28)</option>
             </optgroup>
 
-            <optgroup label="─── أدعية من السنة النبوية ───" style="font-size:11px; color:#b8860b;">
+            <optgroup label="─── أدعية من السنة النبوية ───" data-color="#b8860b" style="font-size:11px; color:#b8860b;">
             <option value="62" data-ar="اللهم فقهني في الدين" data-en="Allahumma faqqihni fid-din">اللهم فقهني في الدين</option>
             <option value="87" data-ar="اللهم حاسبني حسابا يسيرا" data-en="Allahumma hasibni hisaban yasira">اللهم حاسبني حسابا يسيرا (أحمد)</option>
             <option value="50" data-ar="اللهم جدد الإيمان في قلبي" data-en="Allahumma jaddid al-iman fi qalbi">اللهم جدد الإيمان في قلبي</option>
@@ -25382,7 +25419,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <option value="89" data-ar="اللهم إني أسألك خير المسألة وخير الدعاء وخير النجاح وخير العمل وخير الثواب وخير الحياة وخير الممات وثبتني وثقل موازيني وحقق إيماني وارفع درجاتي وتقبل صلاتي واغفر خطيئتي وأسألك الدرجات العلا من الجنة اللهم إني أسألك فواتح الخير وخواتمه وجوامعه وأوله وظاهره وباطنه والدرجات العلا من الجنة آمين اللهم إني أسألك خير ما آتي وخير ما أفعل وخير ما أعمل وخير ما بطن وخير ما ظهر والدرجات العلا من الجنة آمين" data-en="Allahumma inni as'aluka khayral mas'alah...">اللهم إني أسألك خير المسألة... (الحاكم)</option>
             <option value="96" data-ar="اللهم لك الحمد كله اللهم لا قابض لما بسطت ولا باسط لما قبضت ولا هادي لمن أضللت ولا مضل لمن هديت ولا معطي لما منعت ولا مانع لما أعطيت اللهم ابسط علينا من بركاتك ورحمتك وفضلك ورزقك اللهم إني أسألك النعيم المقيم الذي لا يحول ولا يزول اللهم حبب إلينا الإيمان وزينه في قلوبنا وكره إلينا الكفر والفسوق والعصيان واجعلنا من الراشدين اللهم توفنا مسلمين وأحينا مسلمين وألحقنا بالصالحين غير خزايا ولا مفتونين" data-en="Allahumma lakal hamdu kulluh...">اللهم لك الحمد كله... (النسائي)</option>
             </optgroup>
-            <optgroup label="─── 🌅 أذكار الصباح ───" style="font-size:11px; color:#1D9E75;">
+            <optgroup label="─── 🌅 أذكار الصباح ───" data-color="#e07b00" style="font-size:11px; color:#1D9E75;">
             <option value="m1" data-ar="اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ" data-en="Allah — there is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and preserving them does not tire Him. And He is the Most High, the Most Great." data-target="1">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ ا...</option>
             <option value="m2" data-ar="قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ (×3)" data-en="Say, He is Allah - One - Allah, the Eternal Refuge. He neither begets nor is born - Nor is there to Him any equivalent (×3)" data-target="3">قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَ...</option>
             <option value="m3" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ ٱلنَّفَّاثَاتِ فِي ٱلْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ (×3)" data-en="Say, I seek refuge in the Lord of daybreak - From the evil of that which He created - And from the evil of darkness when it settles - And from the evil of the blowers in knots - And from the evil of an envier when he envies (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ...</option>
@@ -25409,7 +25446,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <option value="m24" data-ar="أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ (×100)" data-en="Astaghfirullaha wa atubu ilayh (×100)" data-target="100">أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ (×...</option>
             <option value="m25" data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (×100)" data-en="SubhanAllahi wa bihamdihi (×100)" data-target="100">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (×100)</option>
             </optgroup>
-            <optgroup label="─── 🌙 أذكار المساء ───" style="font-size:11px; color:#1D9E75;">
+            <optgroup label="─── 🌙 أذكار المساء ───" data-color="#3a6db5" style="font-size:11px; color:#1D9E75;">
             <option value="e1" data-ar="اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ" data-en="Allah — there is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and preserving them does not tire Him. And He is the Most High, the Most Great." data-target="1">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ ا...</option>
             <option value="e2" data-ar="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِّن رُّسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ ۝ لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ ۗ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ" data-en="The Messenger has believed in what was revealed to him from his Lord, and so have the believers - All of them have believed in Allah and His angels and His books and His messengers - We make no distinction between any of His messengers - And they say, We hear and we obey - Your forgiveness, our Lord, and to You is the final destination. Allah does not charge a soul except with that within its capacity - It will have the consequence of what good it has gained, and it will bear the consequence of what evil it has earned. Our Lord, do not impose blame upon us if we forget or make a mistake - Our Lord, and lay not upon us a burden like that which You laid upon those before us - Our Lord, and burden us not with that which we have no ability to bear - And pardon us, forgive us, and have mercy upon us. You are our protector, so give us victory over the disbelieving people." data-target="1">آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ م...</option>
             <option value="e3" data-ar="قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ (×3)" data-en="Say, He is Allah - One - Allah, the Eternal Refuge. He neither begets nor is born - Nor is there to Him any equivalent (×3)" data-target="3">قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَ...</option>
@@ -25437,7 +25474,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <option value="e25" data-ar="سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (×100)" data-en="SubhanAllahi wa bihamdihi (×100)" data-target="100">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (×100)</option>
             </optgroup>
 
-            <optgroup label="─── 🕌 أذكار بعد الصلاة المفروضة ───" style="font-size:11px; color:#1D9E75;">
+            <optgroup label="─── 🕌 أذكار بعد الصلاة المفروضة ───" data-color="#1D9E75" style="font-size:11px; color:#1D9E75;">
             <option value="p1" data-ar="أَسْتَغْفِرُ الله (×3) — اللّهُمَّ أَنْتَ السَّلامُ وَمِنْكَ السَّلام تَبارَكْتَ يا ذا الجَلالِ وَالإِكْرام" data-en="Astaghfirullah (×3) — Allahumma anta as-Salam wa minkas-Salam, tabarakta ya dhal-Jalali wal-Ikram">أَسْتَغْفِرُ الله (×3) — اللّهُمَّ أَنْتَ السَّلامُ...</option>
             <option value="p2" data-ar="لا إلهَ إلاّ اللّهُ وحدَهُ لا شريكَ لهُ، لهُ المُلْكُ ولهُ الحَمْد، وهوَ على كلّ شَيءٍ قَدير، اللّهُمَّ لا مانِعَ لِما أَعْطَيْت، وَلا مُعْطِيَ لِما مَنَعْت، وَلا يَنْفَعُ ذا الجَدِّ مِنْكَ الجَد" data-en="La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamd, wa huwa ala kulli shay'in qadir, Allahumma la mani'a lima a'tayt, wa la mu'tiya lima mana't, wa la yanfa'u dhal-jaddi minkal-jadd">لا إلهَ إلاّ اللّهُ — اللّهُمَّ لا مانِعَ لِما أَعْطَيْت...</option>
             <option value="p3" data-ar="لا إلهَ إلاّ اللّه وحدَهُ لا شريكَ لهُ، لهُ الملكُ ولهُ الحَمد، لا حَوْلَ وَلا قوَّةَ إلاّ بِاللهِ، لا إلهَ إلاّ اللّه، وَلا نَعْبُدُ إلاّ إيّاه، لَهُ النِّعْمَةُ وَلَهُ الفَضْل وَلَهُ الثَّناءُ الحَسَن، لا إلهَ إلاّ اللّهُ مخْلِصينَ لَهُ الدِّينَ وَلَوْ كَرِهَ الكافِرون" data-en="La ilaha illallah wahdahu la sharika lah, lahul mulku wa lahul hamd, la hawla wa la quwwata illa billah, la ilaha illallah, wa la na'budu illa iyyah, lahun-ni'matu wa lahul-fadl wa lahuth-thana'ul-hasan, la ilaha illallah mukhlisina lahud-dina wa law karihal-kafirun">لا إلهَ إلاّ اللّه — لا حَوْلَ وَلا قوَّةَ — مُخْلِصِينَ لَهُ الدِّين...</option>
@@ -25451,7 +25488,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             <option value="p11" data-ar="اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ" data-en="Allahumma a'inni ala dhikrika wa shukrika wa husni ibadatik">اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ</option>
             </optgroup>
 
-            <optgroup label="─── 🌙 أذكار النوم والأحلام ───" style="font-size:11px; color:#6a5acd;">
+            <optgroup label="─── 🌙 أذكار النوم والأحلام ───" data-color="#6a5acd" style="font-size:11px; color:#6a5acd;">
             <option value="sl1" data-ar="بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ" data-en="In Your name, my Lord, I lay down my side, and with You I raise it. If You take my soul, have mercy on it; if You release it, guard it with what You guard Your righteous servants" data-target="1">بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي... (عند النوم)</option>
             <option value="sl2" data-ar="اللّهُـمَّ إِنَّـكَ خَلَـقْتَ نَفْسـي وَأَنْـتَ تَوَفّـاهـا لَكَ مَمَاتُـها وَمَحْـياها، إِنْ أَحْيَيْـتَها فاحْفَظْـها، وَإِنْ أَمَتَّـها فَاغْفِـرْ لَـها. اللّهُـمَّ إِنِّـي أَسْـأَلُـكَ العَـافِـيَة" data-en="O Allah, You created my soul and You take it. To You belongs its death and its life. If You give it life, protect it; if You cause it to die, forgive it. O Allah, I ask You for well-being" data-target="1">اللّهُـمَّ إِنَّـكَ خَلَـقْتَ نَفْسـي...</option>
             <option value="sl3" data-ar="اللّهُـمَّ قِنِـي عَذَابَـكَ يَـوْمَ تَبْـعَثُ عِبَـادَك (×3)" data-en="O Allah, protect me from Your punishment on the Day You resurrect Your servants (×3)" data-target="3">اللّهُـمَّ قِنِـي عَذَابَـكَ... (×3)</option>
@@ -25785,9 +25822,13 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       return (str || '')
         .toString()
         .replace(/[\u064B-\u0652\u0670\u0640]/g, '') // إزالة التشكيل والتطويل
-        .replace(/[إأآا]/g, 'ا')
-        .replace(/ى/g, 'ي')
+        .replace(/\u2500[\s\S]/g, ' ').replace(/[─―]/g, ' ') // خطوط زخرفية
+        .replace(/[\u{1F000}-\u{1FFFF}]/gu, ' ')              // إيموجي
+        .replace(/[إأآاٱ]/g, 'ا')
+        .replace(/[ىئ]/g, 'ي')
         .replace(/ة/g, 'ه')
+        .replace(/[ؤء]/g, 'و')
+        .replace(/\s+/g, ' ')
         .toLowerCase()
         .trim();
     }
@@ -25798,11 +25839,13 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
       Array.prototype.forEach.call(sel.querySelectorAll('optgroup'), function(group) {
         var groupHasVisible = false;
+        var groupLabel = normalize(group.getAttribute('label') || '');
+        var groupMatch = !term || groupLabel.indexOf(term) !== -1;
         Array.prototype.forEach.call(group.querySelectorAll('option'), function(opt) {
           var ar = normalize(opt.getAttribute('data-ar'));
           var en = normalize(opt.getAttribute('data-en'));
           var txt = normalize(opt.textContent);
-          var match = !term || ar.indexOf(term) !== -1 || en.indexOf(term) !== -1 || txt.indexOf(term) !== -1;
+          var match = groupMatch || ar.indexOf(term) !== -1 || en.indexOf(term) !== -1 || txt.indexOf(term) !== -1;
           opt.hidden = !match;
           if (match) {
             groupHasVisible = true;
@@ -26466,15 +26509,44 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     if (!sel || !items) return;
     var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
     items.innerHTML = '';
+    var firstBlock = true;
     Array.from(sel.children).forEach(function(child) {
       if (child.tagName === 'OPTGROUP') {
+        var grpColor = child.getAttribute('data-color') || '#1D9E75';
+
+        // فاصل مرئي بين المجموعات
+        if (!firstBlock) {
+          var sep = document.createElement('div');
+          sep.className = 'sp-custom-dd-group-separator';
+          sep.style.borderTopColor = grpColor;
+          items.appendChild(sep);
+        }
+        firstBlock = false;
+
+        // بلوكة المجموعة بخلفية فاتحة
+        var block = document.createElement('div');
+        block.className = 'sp-custom-dd-group-block';
+        block.setAttribute('data-grp-color', grpColor);
+        block.style.background = grpColor + '0d'; // 5% opacity
+
+        // عنوان المجموعة
         var grp = document.createElement('div');
         grp.className = 'sp-custom-dd-group-label';
         grp.textContent = child.getAttribute('label') || '';
-        items.appendChild(grp);
+        grp.style.color = grpColor;
+        grp.style.background = grpColor + '18'; // 9% opacity
+        grp.setAttribute('data-grp-color', grpColor);
+        block.appendChild(grp);
+
+        // الأذكار داخل البلوكة
         Array.from(child.children).forEach(function(opt) {
-          items.appendChild(spMakeDdItem(opt, isAr));
+          var item = spMakeDdItem(opt, isAr);
+          item.setAttribute('data-grp-color', grpColor);
+          item.style.borderInlineEnd = '3px solid ' + grpColor + '70';
+          block.appendChild(item);
         });
+
+        items.appendChild(block);
       } else if (child.tagName === 'OPTION') {
         items.appendChild(spMakeDdItem(child, isAr));
       }
@@ -26490,8 +26562,38 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       ? (opt.getAttribute('data-ar') || opt.textContent)
       : (opt.getAttribute('data-en') || opt.getAttribute('data-ar') || opt.textContent);
     var clean = label.replace(/^[🌅🌙\s]+/, '').trim();
-    div.textContent = clean;
-    div.title = clean;
+
+    // استخرج اسم السورة من textContent إذا وُجد — مثل (البقرة 201) أو (طه 114)
+    var rawText = opt.textContent || '';
+    var surahMatch = rawText.match(/\(([^\d\(\)]+[\d\-]+)\)\s*$/) ||
+                     rawText.match(/\(([^\(\)]{2,30})\)\s*$/);
+    var surahBadge = surahMatch ? surahMatch[1].trim() : null;
+
+    if (surahBadge) {
+      // صف يحتوي النص + الـ badge
+      div.style.display = 'flex';
+      div.style.alignItems = 'center';
+      div.style.justifyContent = 'space-between';
+      div.style.gap = '6px';
+
+      var textSpan = document.createElement('span');
+      // أزل اسم السورة من نهاية النص المعروض
+      var displayText = clean.replace(/\s*\([^\(\)]{2,30}\)\s*$/, '').trim();
+      textSpan.textContent = displayText;
+      textSpan.style.flex = '1';
+      textSpan.style.minWidth = '0';
+      div.appendChild(textSpan);
+
+      var badge = document.createElement('span');
+      badge.className = 'sp-surah-badge';
+      badge.textContent = surahBadge;
+      div.appendChild(badge);
+      div.title = clean;
+    } else {
+      div.textContent = clean;
+      div.title = clean;
+    }
+
     div.addEventListener('click', function() {
       var sel2 = document.getElementById('sp-athkar-sel');
       var allOpts2 = Array.from(sel2.querySelectorAll('option'));
@@ -26607,19 +26709,44 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   })();
 
   function spFilterDdItems(term) {
-    var norm = term.replace(/[\u064B-\u0652\u0670\u0640]/g, '').replace(/[إأآا]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').toLowerCase().trim();
-    document.querySelectorAll('.sp-custom-dd-item').forEach(function(d) {
-      var txt = (d.textContent + ' ' + (d.title || '')).replace(/[\u064B-\u0652\u0670\u0640]/g, '').replace(/[إأآا]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').toLowerCase();
-      d.style.display = (!norm || txt.indexOf(norm) !== -1) ? '' : 'none';
-    });
-    document.querySelectorAll('.sp-custom-dd-group-label').forEach(function(grp) {
-      var next = grp.nextElementSibling;
+    function _ddNorm(s) {
+      return (s||'')
+        .replace(/[\u064B-\u0652\u0670\u0640]/g,'')
+        .replace(/\u2500[\s\S]/g,' ').replace(/[─―]/g,' ')
+        .replace(/[\u{1F000}-\u{1FFFF}]/gu,' ')
+        .replace(/[إأآاٱ]/g,'ا')
+        .replace(/[ىئ]/g,'ي')
+        .replace(/ة/g,'ه')
+        .replace(/[ؤء]/g,'و')
+        .replace(/\s+/g,' ').toLowerCase().trim();
+    }
+    var norm = _ddNorm(term);
+
+    // لكل block مجموعة: تحقق من العنوان والأذكار
+    document.querySelectorAll('.sp-custom-dd-group-block').forEach(function(block) {
+      var grp = block.querySelector('.sp-custom-dd-group-label');
+      var groupMatches = grp && norm && _ddNorm(grp.textContent).indexOf(norm) !== -1;
+
       var hasVisible = false;
-      while (next && !next.classList.contains('sp-custom-dd-group-label')) {
-        if (next.style.display !== 'none') hasVisible = true;
-        next = next.nextElementSibling;
+      block.querySelectorAll('.sp-custom-dd-item').forEach(function(d) {
+        var txt = _ddNorm(d.textContent + ' ' + (d.title || ''));
+        var show = !norm || groupMatches || txt.indexOf(norm) !== -1;
+        d.style.display = show ? '' : 'none';
+        if (show) hasVisible = true;
+      });
+
+      // أظهر/أخفِ البلوكة كلها والفاصل اللي قبلها
+      block.style.display = (!norm || hasVisible) ? '' : 'none';
+      var sep = block.previousElementSibling;
+      if (sep && sep.classList.contains('sp-custom-dd-group-separator')) {
+        sep.style.display = (!norm || hasVisible) ? '' : 'none';
       }
-      grp.style.display = hasVisible ? '' : 'none';
+    });
+
+    // الأذكار خارج أي block
+    document.querySelectorAll('#sp-custom-dd-items > .sp-custom-dd-item').forEach(function(d) {
+      var txt = _ddNorm(d.textContent + ' ' + (d.title || ''));
+      d.style.display = (!norm || txt.indexOf(norm) !== -1) ? '' : 'none';
     });
   }
 
@@ -28137,10 +28264,19 @@ function filterStations(category) {
 }
 
 document.getElementById('searchInput').addEventListener('input', function() {
-  var query = this.value.toLowerCase();
+  function _normSt(s) {
+    return (s||'').toString()
+      .replace(/[\u064B-\u0652\u0670\u0640]/g,'')
+      .replace(/[إأآاٱ]/g,'ا')
+      .replace(/[ىئ]/g,'ي')
+      .replace(/ة/g,'ه')
+      .replace(/[ؤء]/g,'و')
+      .toLowerCase().trim();
+  }
+  var query = _normSt(this.value);
   buttons.forEach(button => {
-    var text = button.textContent.toLowerCase();
-    var show = text.includes(query);
+    var text = _normSt(button.textContent) + ' ' + _normSt(button.getAttribute('data-ar')||'') + ' ' + _normSt(button.getAttribute('data-en')||'');
+    var show = !query || text.includes(query);
     button.style.display = show ? 'block' : 'none';
     var wrap = button.parentElement;
     if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
