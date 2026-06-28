@@ -5229,6 +5229,9 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
                   <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
                 </svg>
               </button>
+              <button id="historyBtn" onclick="openListenHistory()" title="سجل الاستماع / Listening history" aria-label="Listening history" style="background:none;border:none;cursor:pointer;padding:4px 6px;border-radius:8px;font-size:15px;line-height:1;opacity:0.55;transition:opacity .2s,background .2s;display:flex;align-items:center;flex-shrink:0;" onmouseover="this.style.opacity='1';this.style.background='rgba(29,158,117,0.12)'" onmouseout="this.style.opacity='0.55';this.style.background='none'">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </button>
             </div>
 
             
@@ -5830,16 +5833,25 @@ customAudioPlayer.addEventListener('play', function() {
   isAudioPlaying = true;
   updateWelcomePlayPauseButton(true);
   if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession();
+  window._statsPlayStart = Date.now();
 });
 customAudioPlayer.addEventListener('pause', function() {
   isAudioPlaying = false;
   updateWelcomePlayPauseButton(false);
   if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+  if (window._statsPlayStart) {
+    _statsAddSeconds(Math.floor((Date.now() - window._statsPlayStart) / 1000));
+    window._statsPlayStart = null;
+  }
 });
 customAudioPlayer.addEventListener('ended', function() {
   isAudioPlaying = false;
   updateWelcomePlayPauseButton(false);
   if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none';
+  if (window._statsPlayStart) {
+    _statsAddSeconds(Math.floor((Date.now() - window._statsPlayStart) / 1000));
+    window._statsPlayStart = null;
+  }
 });
 
 // ══════════════════════════════════════════════
@@ -13358,6 +13370,12 @@ setTimeout(autoScaleVerseFont, 100);
         <span id="settingsShortcutsText" data-ar="الاختصارات" data-en="Shortcuts">الاختصارات</span>
       </button>
     </div>
+    <div class="color-setting-item" id="settings-stats-item">
+      <button id="settingsStatsBtn" onclick="openListenStats()" title="إحصائيات الاستماع / Listening Stats">
+        <span id="settingsStatsIcon">📊</span>
+        <span id="settingsStatsText" data-ar="إحصائياتي" data-en="My Stats">إحصائياتي</span>
+      </button>
+    </div>
     <div class="color-setting-item">
       <label data-ar="🖼️ لون الخلفية" data-en="🖼️ Background Color">🖼️ لون الخلفية</label>
       <select id="bgColor" class="responsive-select" onchange="changeBackgroundColor()">
@@ -13626,8 +13644,8 @@ setTimeout(autoScaleVerseFont, 100);
     <div id="ai-assistant-body">
       <div id="ai-chat-messages">
         <div class="ai-msg bot">
-          <span class="ai-bot-label">✦ AI</span>
-          <span id="ai-welcome-msg">أهلاً بك! أنا مساعدك الذكي لموقع إذاعة القرآن الكريم. يمكنني مساعدتك في التنقل بالموقع، الإجابة عن أسئلتك، أو أي شيء آخر 🌟</span>
+          <span class="ai-bot-label">✦ Claude</span>
+          <span id="ai-welcome-msg">أهلاً بك! أنا <strong>Claude</strong> — مساعدك الذكي لموقع إذاعة القرآن الكريم. اسألني عن أي محطة أو ميزة في الموقع أو أي سؤال إسلامي 🌟</span>
         </div>
       </div>
 
@@ -27030,6 +27048,26 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
     name: stationName
   }));
 
+  // ===== تسجيل في سجل الاستماع =====
+  (function() {
+    try {
+      var MAX_HISTORY = 20;
+      var raw = localStorage.getItem('listenHistory');
+      var hist = raw ? JSON.parse(raw) : [];
+      // لا تكرر نفس المحطة إذا كانت آخر إدخال
+      if (hist.length > 0 && hist[0].url === source) return;
+      hist.unshift({
+        name: stationName,
+        url: source,
+        ts: Date.now()
+      });
+      if (hist.length > MAX_HISTORY) hist = hist.slice(0, MAX_HISTORY);
+      localStorage.setItem('listenHistory', JSON.stringify(hist));
+      // تحديث badge لو الـ popup مفتوح
+      if (document.getElementById('listenHistoryPopup')) _renderHistoryList();
+    } catch(e) {}
+  })();
+
   var pnbNameEl = document.getElementById('pnb-name');
   if (pnbNameEl) {
     pnbNameEl.dataset.arName = stationName;
@@ -31660,8 +31698,6 @@ window.addEventListener("load", function() {
         el.textContent = h.d + ' ' + _hijriMonthsEn[h.m - 1] + ' ' + h.y + ' AH';
       }
     }
-    // عرض أول مرة
-    _renderHijriDate((typeof isArabic !== 'undefined') ? isArabic : true);
     wrap.addEventListener('click', toggleAdhan);
 
     // زر التجربة — يشغّل الأذان فوراً بدون تغيير حالة التفعيل
@@ -31733,6 +31769,9 @@ window.addEventListener("load", function() {
       if (sidebar) sidebar.appendChild(wrap);
       else document.body.appendChild(wrap);
     }
+
+    // عرض التاريخ الهجري بعد ما الـ wrap يكون في الـ DOM
+    _renderHijriDate((typeof isArabic !== 'undefined') ? isArabic : true);
 
     // بانر الأذان
     const banner = document.createElement('div');
@@ -34630,6 +34669,322 @@ function _shareViaWhatsApp(encUrl, encName, isAr) {
   var text = (isAr ? '🌿 استمع معي: ' + name + '\n' : '🌿 Listen with me: ' + name + '\n') + url;
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
+
+// ===== سجل الاستماع =====
+function _fmtHistoryTime(ts) {
+  var now = Date.now();
+  var diff = Math.floor((now - ts) / 1000);
+  if (diff < 60) return 'الآن';
+  if (diff < 3600) return Math.floor(diff / 60) + ' د';
+  if (diff < 86400) return Math.floor(diff / 3600) + ' س';
+  var d = Math.floor(diff / 86400);
+  return d === 1 ? 'أمس' : d + ' أيام';
+}
+function _fmtHistoryTimeEn(ts) {
+  var diff = Math.floor((Date.now() - ts) / 1000);
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+  var d = Math.floor(diff / 86400);
+  return d === 1 ? 'yesterday' : d + 'd ago';
+}
+
+function _renderHistoryList() {
+  var list = document.getElementById('historyList');
+  if (!list) return;
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var raw = localStorage.getItem('listenHistory');
+  var hist = [];
+  try { hist = raw ? JSON.parse(raw) : []; } catch(e) {}
+
+  if (hist.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:24px 0;opacity:.5;font-size:13px;">' +
+      (isAr ? '🎵 لم تستمع لأي محطة بعد' : '🎵 No listening history yet') + '</div>';
+    return;
+  }
+
+  list.innerHTML = hist.map(function(item, i) {
+    var isPlaying = window._currentPlayingUrl && window._currentPlayingUrl === item.url;
+    var timeStr = isAr ? _fmtHistoryTime(item.ts) : _fmtHistoryTimeEn(item.ts);
+    var isDark = document.body.classList.contains('dark-mode');
+    var playingStyle = isPlaying ? 'border-right:3px solid #1D9E75;background:rgba(29,158,117,0.07);' : '';
+    return '<div onclick="playFromHistory(\'' + encodeURIComponent(item.url) + '\',\'' + encodeURIComponent(item.name) + '\')" style="' +
+      'display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;border-radius:10px;' +
+      'transition:background .15s;' + playingStyle +
+      '" onmouseover="this.style.background=\'rgba(29,158,117,0.09)\'" onmouseout="this.style.background=\'' + (isPlaying ? 'rgba(29,158,117,0.07)' : 'transparent') + '\'">' +
+      '<div style="width:34px;height:34px;border-radius:50%;background:rgba(29,158,117,' + (isPlaying ? '0.2' : '0.1') + ');display:flex;align-items:center;justify-content:center;flex-shrink:0;">' +
+        (isPlaying ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="#1D9E75"><path d="M8 5v14l11-7z"/></svg>' :
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>') +
+      '</div>' +
+      '<div style="flex:1;min-width:0;">' +
+        '<div style="font-size:13px;font-weight:' + (isPlaying ? '600' : '500') + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:' + (isPlaying ? '#1D9E75' : 'inherit') + ';">' + item.name + '</div>' +
+        '<div style="font-size:11px;opacity:.5;margin-top:1px;">' + timeStr + '</div>' +
+      '</div>' +
+      '<button onclick="event.stopPropagation();shareHistoryItem(\'' + encodeURIComponent(item.url) + '\',\'' + encodeURIComponent(item.name) + '\')" style="background:none;border:none;cursor:pointer;opacity:.4;padding:4px;border-radius:6px;flex-shrink:0;transition:opacity .15s;" onmouseover="this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'.4\'" title="' + (isAr ? 'مشاركة' : 'Share') + '">' +
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
+      '</button>' +
+    '</div>';
+  }).join('');
+}
+
+function openListenHistory() {
+  var old = document.getElementById('listenHistoryPopup');
+  if (old) { old.remove(); return; }
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var isDark = document.body.classList.contains('dark-mode');
+  var bg = isDark ? '#1a2820' : '#fff';
+  var clr = isDark ? '#e0e0e0' : '#222';
+  var borderClr = isDark ? '#2a3f32' : '#e8e8e8';
+  var raw = localStorage.getItem('listenHistory');
+  var count = 0;
+  try { count = raw ? JSON.parse(raw).length : 0; } catch(e) {}
+
+  var popup = document.createElement('div');
+  popup.id = 'listenHistoryPopup';
+  popup.style.cssText = 'position:fixed;inset:0;z-index:99998;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);';
+  popup.innerHTML =
+    '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:80vh;display:flex;flex-direction:column;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';">' +
+        '<div>' +
+          '<div style="font-size:15px;font-weight:700;">🕐 ' + (isAr ? 'سجل الاستماع' : 'Listening History') + '</div>' +
+          '<div style="font-size:11px;opacity:.5;margin-top:2px;">' + (count > 0 ? (isAr ? 'آخر ' + count + ' محطة' : 'Last ' + count + ' stations') : (isAr ? 'فارغ' : 'Empty')) + '</div>' +
+        '</div>' +
+        '<div style="display:flex;gap:8px;align-items:center;">' +
+          (count > 0 ? '<button onclick="clearListenHistory()" style="background:none;border:1px solid rgba(220,53,69,0.3);color:#dc3545;cursor:pointer;font-size:11px;padding:4px 10px;border-radius:8px;font-family:Cairo,sans-serif;" title="' + (isAr ? 'مسح الكل' : 'Clear all') + '">' + (isAr ? 'مسح' : 'Clear') + '</button>' : '') +
+          '<button onclick="document.getElementById(\'listenHistoryPopup\').remove()" style="background:none;border:none;cursor:pointer;font-size:20px;opacity:.5;line-height:1;color:' + clr + ';">✕</button>' +
+        '</div>' +
+      '</div>' +
+      '<div id="historyList" style="overflow-y:auto;padding:8px;flex:1;"></div>' +
+    '</div>';
+
+  popup.addEventListener('click', function(e) { if (e.target === popup) popup.remove(); });
+  document.body.appendChild(popup);
+  _renderHistoryList();
+}
+
+function clearListenHistory() {
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  if (!confirm(isAr ? 'مسح سجل الاستماع كاملاً؟' : 'Clear all listening history?')) return;
+  localStorage.removeItem('listenHistory');
+  _renderHistoryList();
+  var popup = document.getElementById('listenHistoryPopup');
+  if (popup) {
+    var countEl = popup.querySelector('div[style*="opacity:.5"]');
+    if (countEl) countEl.textContent = isAr ? 'فارغ' : 'Empty';
+    var clearBtn = popup.querySelector('button[style*="dc3545"]');
+    if (clearBtn) clearBtn.remove();
+  }
+  showToast(isAr ? '🗑️ تم مسح السجل' : '🗑️ History cleared');
+}
+
+function playFromHistory(encUrl, encName) {
+  var url  = decodeURIComponent(encUrl);
+  var name = decodeURIComponent(encName);
+  var popup = document.getElementById('listenHistoryPopup');
+  if (popup) popup.remove();
+  if (typeof playNewAudio === 'function') playNewAudio(url, name, null, true);
+  else if (typeof window._playStation === 'function') window._playStation(url, name);
+}
+
+function shareHistoryItem(encUrl, encName) {
+  var url  = decodeURIComponent(encUrl);
+  var name = decodeURIComponent(encName);
+  var shareUrl = 'https://magziko.github.io/Radio/?url=' + encodeURIComponent(url) + '&station=' + encodeURIComponent(name);
+  if (navigator.share) {
+    navigator.share({ title: name, url: shareUrl }).catch(function(){});
+    return;
+  }
+  _showSharePopup(shareUrl, name, (typeof isArabic !== 'undefined') ? isArabic : true);
+}
+
+// ===================================================================
+// إحصائيات الاستماع
+// structure: { days: { 'YYYY-MM-DD': seconds }, stations: { name: count } }
+// ===================================================================
+function _statsKey() {
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function _statsLoad() {
+  try { return JSON.parse(localStorage.getItem('listenStats') || '{}'); } catch(e) { return {}; }
+}
+
+function _statsAddSeconds(secs) {
+  if (!secs || secs < 2) return;
+  var data = _statsLoad();
+  var today = _statsKey();
+  if (!data.days) data.days = {};
+  data.days[today] = (data.days[today] || 0) + secs;
+  // احتفظ بآخر 30 يوم فقط
+  var keys = Object.keys(data.days).sort();
+  if (keys.length > 30) {
+    keys.slice(0, keys.length - 30).forEach(function(k) { delete data.days[k]; });
+  }
+  // إحصاء المحطة الحالية
+  var name = window._currentPlayingName || '';
+  if (name && secs >= 10) {
+    if (!data.stations) data.stations = {};
+    data.stations[name] = (data.stations[name] || 0) + 1;
+  }
+  localStorage.setItem('listenStats', JSON.stringify(data));
+}
+
+// تسجيل كل دقيقة لضمان الحفظ حتى لو أُغلق التبويب
+setInterval(function() {
+  if (window._statsPlayStart && !customAudioPlayer.paused) {
+    var elapsed = Math.floor((Date.now() - window._statsPlayStart) / 1000);
+    if (elapsed >= 60) {
+      _statsAddSeconds(elapsed);
+      window._statsPlayStart = Date.now();
+    }
+  }
+}, 60000);
+
+window.addEventListener('beforeunload', function() {
+  if (window._statsPlayStart) {
+    _statsAddSeconds(Math.floor((Date.now() - window._statsPlayStart) / 1000));
+  }
+});
+
+function _statsFmtTime(secs, isAr) {
+  if (!secs) return isAr ? '٠ د' : '0m';
+  var h = Math.floor(secs / 3600);
+  var m = Math.floor((secs % 3600) / 60);
+  if (isAr) return h > 0 ? h + ' س ' + (m > 0 ? m + ' د' : '') : m + ' د';
+  return h > 0 ? h + 'h ' + (m > 0 ? m + 'm' : '') : m + 'm';
+}
+
+function openListenStats() {
+  var old = document.getElementById('listenStatsPopup');
+  if (old) { old.remove(); return; }
+
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var isDark = document.body.classList.contains('dark-mode');
+  var bg = isDark ? '#1a2820' : '#fff';
+  var clr = isDark ? '#e0e0e0' : '#1a1a1a';
+  var cardBg = isDark ? 'rgba(29,158,117,0.1)' : 'rgba(29,158,117,0.06)';
+  var borderClr = isDark ? '#2a3f32' : '#e8ede9';
+  var mutedClr = isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.4)';
+
+  var data = _statsLoad();
+  var days  = data.days     || {};
+  var stations = data.stations || {};
+
+  // حساب اليوم والأسبوع والإجمالي
+  var today = _statsKey();
+  var todaySecs = days[today] || 0;
+  if (window._statsPlayStart && !customAudioPlayer.paused) {
+    todaySecs += Math.floor((Date.now() - window._statsPlayStart) / 1000);
+  }
+
+  var weekSecs = 0, totalSecs = 0;
+  var weekAgo = Date.now() - 7 * 86400000;
+  Object.keys(days).forEach(function(k) {
+    totalSecs += days[k];
+    if (new Date(k).getTime() >= weekAgo) weekSecs += days[k];
+  });
+  weekSecs += (window._statsPlayStart && !customAudioPlayer.paused)
+    ? Math.floor((Date.now() - window._statsPlayStart) / 1000) : 0;
+
+  // أكثر 3 محطات تشغيلاً
+  var topStations = Object.keys(stations)
+    .map(function(n) { return { name: n, count: stations[n] }; })
+    .sort(function(a,b) { return b.count - a.count; })
+    .slice(0, 3);
+
+  // بناء بيانات آخر 7 أيام للرسم
+  var barData = [];
+  for (var i = 6; i >= 0; i--) {
+    var dd = new Date(Date.now() - i * 86400000);
+    var dk = dd.getFullYear() + '-' + String(dd.getMonth()+1).padStart(2,'0') + '-' + String(dd.getDate()).padStart(2,'0');
+    var isToday = (dk === today);
+    var s = (days[dk] || 0) + (isToday && window._statsPlayStart && !customAudioPlayer.paused
+      ? Math.floor((Date.now() - window._statsPlayStart) / 1000) : 0);
+    var dayNames_ar = ['أحد','إثن','ثلا','أرب','خمي','جمع','سبت'];
+    var dayNames_en = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    barData.push({ secs: s, label: isAr ? dayNames_ar[dd.getDay()] : dayNames_en[dd.getDay()], isToday: isToday });
+  }
+  var maxBar = Math.max.apply(null, barData.map(function(b){ return b.secs; })) || 1;
+
+  // بناء الـ HTML
+  function statCard(icon, val, lbl) {
+    return '<div style="flex:1;min-width:0;background:' + cardBg + ';border-radius:12px;padding:12px 10px;text-align:center;">' +
+      '<div style="font-size:18px;margin-bottom:4px;">' + icon + '</div>' +
+      '<div style="font-size:17px;font-weight:700;color:#1D9E75;">' + val + '</div>' +
+      '<div style="font-size:10px;margin-top:2px;color:' + mutedClr + ';">' + lbl + '</div>' +
+    '</div>';
+  }
+
+  var barsHtml = barData.map(function(b) {
+    var pct = Math.round((b.secs / maxBar) * 100);
+    var active = b.isToday ? 'background:#1D9E75;' : ('background:' + (isDark ? 'rgba(29,158,117,0.35)' : 'rgba(29,158,117,0.25)') + ';');
+    var timeLabel = b.secs >= 60 ? _statsFmtTime(b.secs, isAr) : '';
+    return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;">' +
+      (timeLabel ? '<div style="font-size:9px;color:#1D9E75;font-weight:600;">' + timeLabel + '</div>' : '<div style="font-size:9px;"> </div>') +
+      '<div style="height:60px;width:100%;display:flex;align-items:flex-end;justify-content:center;">' +
+        '<div style="width:70%;border-radius:4px 4px 0 0;height:' + (pct || 2) + '%;' + active + 'transition:height .3s;min-height:3px;"></div>' +
+      '</div>' +
+      '<div style="font-size:10px;color:' + mutedClr + ';font-weight:' + (b.isToday ? '700' : '400') + ';color:' + (b.isToday ? '#1D9E75' : mutedClr) + ';">' + b.label + '</div>' +
+    '</div>';
+  }).join('');
+
+  var topHtml = topStations.length === 0
+    ? '<div style="font-size:12px;text-align:center;padding:8px 0;color:' + mutedClr + ';">' + (isAr ? 'لا توجد بيانات بعد' : 'No data yet') + '</div>'
+    : topStations.map(function(s, i) {
+        var medals = ['🥇','🥈','🥉'];
+        return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:.5px solid ' + borderClr + ';">' +
+          '<span style="font-size:16px;flex-shrink:0;">' + medals[i] + '</span>' +
+          '<span style="flex:1;font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + s.name + '</span>' +
+          '<span style="font-size:11px;color:#1D9E75;font-weight:700;flex-shrink:0;">' + s.count + (isAr ? ' مرة' : 'x') + '</span>' +
+        '</div>';
+      }).join('');
+
+  var popup = document.createElement('div');
+  popup.id = 'listenStatsPopup';
+  popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);';
+  popup.innerHTML =
+    '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);">' +
+      // Header
+      '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';position:sticky;top:0;background:' + bg + ';border-radius:18px 18px 0 0;z-index:1;">' +
+        '<div style="font-size:15px;font-weight:700;">📊 ' + (isAr ? 'إحصائيات الاستماع' : 'Listening Stats') + '</div>' +
+        '<div style="display:flex;gap:8px;align-items:center;">' +
+          '<button onclick="_statsConfirmReset()" style="background:none;border:1px solid rgba(220,53,69,0.3);color:#dc3545;cursor:pointer;font-size:11px;padding:4px 10px;border-radius:8px;font-family:Cairo,sans-serif;">' + (isAr ? 'إعادة تعيين' : 'Reset') + '</button>' +
+          '<button onclick="document.getElementById(\'listenStatsPopup\').remove()" style="background:none;border:none;cursor:pointer;font-size:20px;opacity:.5;line-height:1;color:' + clr + ';">✕</button>' +
+        '</div>' +
+      '</div>' +
+      // بطاقات الأرقام
+      '<div style="padding:14px 16px 0;">' +
+        '<div style="display:flex;gap:8px;margin-bottom:16px;">' +
+          statCard('📅', _statsFmtTime(todaySecs, isAr), isAr ? 'اليوم' : 'Today') +
+          statCard('📆', _statsFmtTime(weekSecs, isAr), isAr ? 'هذا الأسبوع' : 'This week') +
+          statCard('🏆', _statsFmtTime(totalSecs, isAr), isAr ? 'الإجمالي' : 'Total') +
+        '</div>' +
+        // رسم بياني آخر 7 أيام
+        '<div style="margin-bottom:16px;">' +
+          '<div style="font-size:12px;font-weight:600;margin-bottom:10px;color:' + mutedClr + ';">' + (isAr ? 'آخر ٧ أيام' : 'Last 7 days') + '</div>' +
+          '<div style="display:flex;gap:4px;align-items:flex-end;height:90px;">' + barsHtml + '</div>' +
+        '</div>' +
+        // أكثر محطات تشغيلاً
+        '<div style="margin-bottom:16px;">' +
+          '<div style="font-size:12px;font-weight:600;margin-bottom:8px;color:' + mutedClr + ';">' + (isAr ? '🎙️ أكثر المحطات تشغيلاً' : '🎙️ Most played stations') + '</div>' +
+          topHtml +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  popup.addEventListener('click', function(e) { if (e.target === popup) popup.remove(); });
+  document.body.appendChild(popup);
+}
+
+function _statsConfirmReset() {
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  if (!confirm(isAr ? 'إعادة تعيين كل إحصائيات الاستماع؟' : 'Reset all listening stats?')) return;
+  localStorage.removeItem('listenStats');
+  window._statsPlayStart = null;
+  document.getElementById('listenStatsPopup').remove();
+  showToast(isAr ? '🗑️ تم إعادة تعيين الإحصائيات' : '🗑️ Stats reset');
+}
 </script>
 <script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
@@ -36934,81 +37289,185 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   // ===== نهاية قاموس الردود =====
 
+  // ===== Claude API Key Management =====
+  var CLAUDE_API_KEY = localStorage.getItem('radioMa_claudeKey') || '';
+
+  window.saveClaudeKey = function() {
+    var inp = document.getElementById('claude-key-input');
+    if (!inp) return;
+    var val = inp.value.trim();
+    if (val && !val.startsWith('sk-ant-')) {
+      var isEn = (typeof isArabic !== 'undefined') ? !isArabic : false;
+      alert(isEn ? 'Invalid API key format. It should start with sk-ant-' : 'صيغة المفتاح غير صحيحة، يجب أن يبدأ بـ sk-ant-');
+      return;
+    }
+    CLAUDE_API_KEY = val;
+    localStorage.setItem('radioMa_claudeKey', val);
+    var isEn = (typeof isArabic !== 'undefined') ? !isArabic : false;
+    var panel = document.getElementById('claude-key-panel');
+    if (panel) panel.style.display = 'none';
+    if (val) showToast(isEn ? '✅ API key saved' : '✅ تم حفظ مفتاح API');
+    else showToast(isEn ? '🗑️ API key removed' : '🗑️ تم حذف مفتاح API');
+  };
+
+  window.toggleClaudeKeyPanel = function() {
+    var panel = document.getElementById('claude-key-panel');
+    if (!panel) return;
+    var isOpen = panel.style.display !== 'none';
+    panel.style.display = isOpen ? 'none' : 'block';
+    if (!isOpen) {
+      var inp = document.getElementById('claude-key-input');
+      if (inp) { inp.value = CLAUDE_API_KEY; setTimeout(function(){ inp.focus(); }, 100); }
+    }
+  };
+
+  // أضف زر 🔑 وpanel المفتاح في header المساعد
+  (function() {
+    var hdr = document.getElementById('ai-assistant-header');
+    if (!hdr) return;
+    var keyBtn = document.createElement('button');
+    keyBtn.id = 'claude-key-toggle-btn';
+    keyBtn.onclick = function(e) { e.stopPropagation(); toggleClaudeKeyPanel(); };
+    keyBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:13px;opacity:' + (CLAUDE_API_KEY ? '1' : '0.45') + ';padding:2px 4px;border-radius:6px;transition:opacity .2s;flex-shrink:0;';
+    keyBtn.innerHTML = '🔑';
+    keyBtn.title = CLAUDE_API_KEY ? 'Claude API متصل ✅' : 'أضف Claude API Key';
+    var toggleIcon = document.getElementById('ai-assistant-toggle-icon');
+    if (toggleIcon) hdr.insertBefore(keyBtn, toggleIcon);
+
+    var panel = document.createElement('div');
+    panel.id = 'claude-key-panel';
+    panel.style.cssText = 'display:none;padding:10px 12px;border-top:1px solid rgba(29,158,117,0.15);direction:rtl;';
+    panel.innerHTML =
+      '<div style="font-size:11px;opacity:.7;margin-bottom:6px;">🔑 Claude API Key — <a href="https://console.anthropic.com/keys" target="_blank" style="color:#1D9E75;">احصل عليه هنا</a></div>' +
+      '<div style="display:flex;gap:6px;">' +
+        '<input id="claude-key-input" type="password" placeholder="sk-ant-api03-..." style="flex:1;padding:6px 8px;border-radius:8px;border:1px solid rgba(29,158,117,0.3);background:rgba(29,158,117,0.06);color:inherit;font-size:11px;font-family:monospace;outline:none;" value="' + CLAUDE_API_KEY + '">' +
+        '<button onclick="saveClaudeKey()" style="padding:6px 10px;background:#1D9E75;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;">حفظ</button>' +
+      '</div>' +
+      '<div style="font-size:10px;opacity:.55;margin-top:5px;">المفتاح محفوظ محلياً في متصفحك فقط ولا يُرسل لأي خادم.</div>';
+
+    var aiBody = document.getElementById('ai-assistant-body');
+    if (aiBody) aiBody.before(panel);
+  })();
+
+  // ===== sendAiMessage مع Claude API =====
   window.sendAiMessage = function() {
-
-    var inp =
-      document.getElementById(
-        'ai-user-input'
-      );
-
-    var text =
-      inp ?
-      inp.value.trim() :
-      '';
-
+    var inp = document.getElementById('ai-user-input');
+    var text = inp ? inp.value.trim() : '';
     if (!text) return;
 
-    var messages =
-      document.getElementById(
-        'ai-chat-messages'
-      );
-
+    var messages = document.getElementById('ai-chat-messages');
     if (!messages) return;
 
     inp.value = '';
     inp.style.height = 'auto';
 
-    // رسالة المستخدم
-    var userDiv =
-      document.createElement('div');
-
+    var userDiv = document.createElement('div');
     userDiv.className = 'ai-msg user';
     userDiv.textContent = text;
     messages.appendChild(userDiv);
 
-    // مؤشر الكتابة
-    var typingDiv =
-      document.createElement('div');
+    aiMessages.push({ role: 'user', content: text });
+    if (aiMessages.length > 10) aiMessages = aiMessages.slice(-10);
 
+    var typingDiv = document.createElement('div');
     typingDiv.className = 'ai-typing';
     typingDiv.id = 'ai-typing-indicator';
     typingDiv.innerHTML = '<span></span><span></span><span></span>';
     messages.appendChild(typingDiv);
     messages.scrollTop = messages.scrollHeight;
 
-    // البحث عن رد مناسب بعد تأخير بسيط يحاكي التفكير
-    setTimeout(function() {
+    // ردود ثابتة للأسئلة البسيطة الشائعة (أسرع وبدون API)
+    var quickReply = getSmartReply(text);
+    if (quickReply) {
+      setTimeout(function() {
+        var typing = document.getElementById('ai-typing-indicator');
+        if (typing) typing.remove();
+        _appendBotMsg(quickReply, messages);
+        aiMessages.push({ role: 'assistant', content: quickReply });
+      }, 500);
+      return;
+    }
 
+    // Claude API
+    if (CLAUDE_API_KEY) {
+      _callClaudeAPI(text, messages);
+    } else {
+      setTimeout(function() {
+        var typing = document.getElementById('ai-typing-indicator');
+        if (typing) typing.remove();
+        var isEn = (typeof isArabic !== 'undefined') ? !isArabic : false;
+        var fallback = isEn
+          ? "I need a Claude API key to answer this fully 🔑\nClick the 🔑 key icon above to add your key from console.anthropic.com — it stays saved locally in your browser."
+          : 'لمساعدتك بشكل أفضل، أضف Claude API Key 🔑\nاضغط على أيقونة 🔑 في الأعلى وأدخل مفتاحك من console.anthropic.com — يُحفظ محلياً في متصفحك فقط.';
+        _appendBotMsg(fallback, messages);
+      }, 600);
+    }
+  };
+
+  function _callClaudeAPI(userText, messagesEl) {
+    var isEn = (typeof isArabic !== 'undefined') ? !isArabic : false;
+    var history = aiMessages.slice(0, -1).map(function(m) {
+      return { role: m.role, content: m.content };
+    });
+    history.push({ role: 'user', content: userText });
+
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': CLAUDE_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-calls': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 600,
+        system: AI_SITE_CONTEXT,
+        messages: history
+      })
+    })
+    .then(function(res) {
+      if (!res.ok) return res.json().then(function(err) { throw err; });
+      return res.json();
+    })
+    .then(function(data) {
       var typing = document.getElementById('ai-typing-indicator');
       if (typing) typing.remove();
-
-      var reply = getSmartReply(text);
-
-      if (!reply) {
-        var isEnFb = (typeof isArabic !== 'undefined') ? !isArabic : false;
-        reply = isEnFb ?
-          "Sorry, I don't have an answer to that question right now 🙏\nYou can reach us via the \"Contact Us\" button at the bottom of the page and we'll help you, insha'Allah." :
-          'عذراً، لا أملك إجابة على هذا السؤال حالياً 🙏\nيمكنك التواصل معنا عبر زر "راسلنا" في أسفل الصفحة وسنساعدك بإذن الله.';
+      var reply = (data.content && data.content[0] && data.content[0].text)
+        ? data.content[0].text.trim()
+        : (isEn ? 'Sorry, I could not get a response.' : 'عذراً، لم أتمكن من الحصول على رد.');
+      _appendBotMsg(reply, messagesEl);
+      aiMessages.push({ role: 'assistant', content: reply });
+      var btn = document.getElementById('claude-key-toggle-btn');
+      if (btn) { btn.style.opacity = '1'; btn.title = 'Claude API متصل ✅'; }
+    })
+    .catch(function(err) {
+      var typing = document.getElementById('ai-typing-indicator');
+      if (typing) typing.remove();
+      var errMsg = '';
+      if (err && err.error && err.error.type === 'authentication_error') {
+        errMsg = isEn ? '❌ Invalid API key. Please check and re-enter your key.' : '❌ مفتاح API غير صحيح. تحقق منه وأعد إدخاله.';
+        var panel = document.getElementById('claude-key-panel');
+        if (panel) panel.style.display = 'block';
+      } else if (err && err.error && err.error.type === 'rate_limit_error') {
+        errMsg = isEn ? '⏳ Rate limit reached. Please wait a moment and try again.' : '⏳ تجاوزت الحد المسموح، انتظر لحظة وأعد المحاولة.';
+      } else {
+        errMsg = isEn ? '⚠️ Connection error. Check your internet and try again.' : '⚠️ خطأ في الاتصال. تحقق من الإنترنت وأعد المحاولة.';
       }
-
-      var botDiv = document.createElement('div');
-      botDiv.className = 'ai-msg bot';
-      botDiv.innerHTML =
-        '<span class="ai-bot-label">✦ AI</span>' +
-        escapeHtml(reply).replace(/\n/g, '<br>');
-
-      messages.appendChild(botDiv);
-      messages.scrollTop = messages.scrollHeight;
-
-    }, 700);
-
-    // dummy push للحفاظ على التوافق
-    aiMessages.push({
-      role: 'user',
-      content: text
+      _appendBotMsg(errMsg, messagesEl);
     });
+  }
 
-  };
+  function _appendBotMsg(text, messagesEl) {
+    var botDiv = document.createElement('div');
+    botDiv.className = 'ai-msg bot';
+    var formatted = escapeHtml(text)
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+    botDiv.innerHTML = '<span class="ai-bot-label">✦ Claude</span>' + formatted;
+    messagesEl.appendChild(botDiv);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
 
   window.clearAiChat =
     function() {
@@ -37043,7 +37502,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'أهلاً بك! أنا مساعدك الذكي لموقع إذاعة القرآن الكريم. يمكنني مساعدتك في التنقل بالموقع أو أي شيء آخر 🌟';
 
       welcomeDiv.innerHTML =
-        '<span class="ai-bot-label">✦ AI</span>' +
+        '<span class="ai-bot-label">✦ Claude</span>' +
         wText;
 
       messages.appendChild(
