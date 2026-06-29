@@ -29208,6 +29208,25 @@ function toggleLanguage() {
     var sp = emailBtn.querySelector('span');
     if (sp) sp.textContent = isArabic ? (emailBtn.getAttribute('data-ar') || 'راسلنا') : (emailBtn.getAttribute('data-en') || 'Email Us');
   }
+
+  // تحديث لغة عناصر التذكير (الليبل، الزر، خيارات المدة)
+  var alarmLbl = document.querySelector('.sp-alarm-label');
+  if (alarmLbl) {
+    var t = isArabic ? alarmLbl.getAttribute('data-ar') : alarmLbl.getAttribute('data-en');
+    if (t) alarmLbl.textContent = t;
+  }
+  var alarmBtn = document.getElementById('sp-alarm-btn');
+  if (alarmBtn) {
+    var t2 = isArabic ? alarmBtn.getAttribute('data-ar') : alarmBtn.getAttribute('data-en');
+    if (t2) alarmBtn.textContent = t2;
+  }
+  var alarmSel = document.getElementById('sp-alarm-interval-sel');
+  if (alarmSel) {
+    Array.from(alarmSel.options).forEach(function(opt) {
+      var txt = isArabic ? opt.getAttribute('data-ar') : opt.getAttribute('data-en');
+      if (txt) opt.textContent = txt;
+    });
+  }
 }
 
 function applyDirection(isAr) {
@@ -35705,7 +35724,7 @@ function openListenStats() {
               '<button id="statsRangeBtn90" onclick="_statsSetRange(90)" style="font-size:10px;font-weight:700;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-family:Cairo,sans-serif;background:' + (isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)') + ';color:' + mutedClr + ';">90' + (isAr?' يوم':'d') + '</button>' +
             '</div>' +
           '</div>' +
-          '<div id="statsBarsContainer" style="display:flex;gap:2px;align-items:flex-end;height:100px;overflow-x:auto;padding-bottom:2px;"></div>' +
+          '<div id="statsBarsContainer" style="display:flex;flex-direction:row-reverse;gap:2px;align-items:flex-end;height:100px;overflow-x:auto;padding-bottom:2px;"></div>' +
         '</div>' +
         // أكثر محطات تشغيلاً
         '<div style="margin-bottom:16px;">' +
@@ -35742,7 +35761,7 @@ function _statsSetRange(rangeDays) {
   if (btn30) btn30.style.cssText += (rangeDays === 30 ? activeStyle : inactiveStyle);
   if (btn90) btn90.style.cssText += (rangeDays === 90 ? activeStyle : inactiveStyle);
 
-  var dayNames_ar = ['أحد','إثن','ثلا','أرب','خمي','جمع','سبت'];
+  var dayNames_ar = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
   var dayNames_en = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   var monthNames_ar = ['يناير','فبراير','مارس','إبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
   var monthNames_en = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -35770,33 +35789,58 @@ function _statsSetRange(rangeDays) {
       barData.push({ secs: weekSecs, label: lbl, isToday: isCurrentWeek });
     }
   } else {
-    for (var i = rangeDays - 1; i >= 0; i--) {
-      var dd = new Date(Date.now() - i * 86400000);
-      var dk = dd.getFullYear() + '-' + String(dd.getMonth()+1).padStart(2,'0') + '-' + String(dd.getDate()).padStart(2,'0');
-      var isToday = (dk === today);
-      var s = liveDays[dk] || 0;
-      var label = rangeDays === 7
-        ? (isAr ? dayNames_ar[dd.getDay()] : dayNames_en[dd.getDay()])
-        : (dd.getDate() % 5 === 0 || isToday ? String(dd.getDate()) : ''); // كل 5 أيام في وضع 30
-      barData.push({ secs: s, label: label, isToday: isToday });
+    if (rangeDays === 7) {
+      // ابدأ من أقرب سبت ماضي (أو اليوم لو السبت) وامشي 7 أيام للأمام
+      var todayDate = new Date();
+      var todayDay = todayDate.getDay(); // 0=أحد ... 6=سبت
+      // كم يوم من آخر سبت؟ السبت = 6
+      var daysSinceSat = (todayDay + 1) % 7; // 0 لو اليوم سبت، 1 لو أحد، إلخ
+      for (var i = 0; i < 7; i++) {
+        var daysAgo = daysSinceSat - i; // سالب = مستقبل (أيام لسه ما جاتش)
+        var dd = new Date(Date.now() - daysAgo * 86400000);
+        var dk = dd.getFullYear() + '-' + String(dd.getMonth()+1).padStart(2,'0') + '-' + String(dd.getDate()).padStart(2,'0');
+        var isToday = (dk === today);
+        var isFuture = daysAgo < 0;
+        var s = isFuture ? 0 : (liveDays[dk] || 0);
+        var label = isAr ? dayNames_ar[dd.getDay()] : dayNames_en[dd.getDay()];
+        barData.push({ secs: s, label: label, isToday: isToday, isFuture: isFuture });
+      }
+    } else {
+      for (var i = rangeDays - 1; i >= 0; i--) {
+        var dd = new Date(Date.now() - i * 86400000);
+        var dk = dd.getFullYear() + '-' + String(dd.getMonth()+1).padStart(2,'0') + '-' + String(dd.getDate()).padStart(2,'0');
+        var isToday = (dk === today);
+        var s = liveDays[dk] || 0;
+        var label = dd.getDate() % 5 === 0 || isToday ? String(dd.getDate()) : '';
+        barData.push({ secs: s, label: label, isToday: isToday, isFuture: false });
+      }
     }
   }
 
   var maxBar = Math.max.apply(null, barData.map(function(b){ return b.secs; })) || 1;
   var barMinWidth = rangeDays === 7 ? '0' : (rangeDays === 30 ? '8px' : '16px');
-  var barHeight = rangeDays === 7 ? '72px' : '60px';
+  var barHeight = rangeDays === 7 ? '80px' : '60px';
 
   container.innerHTML = barData.map(function(b) {
     var pct = Math.round((b.secs / maxBar) * 100);
-    var barColor = b.isToday ? '#1D9E75' : (isDark ? 'rgba(29,158,117,0.4)' : 'rgba(29,158,117,0.28)');
-    var timeLabel = (rangeDays === 7 && b.secs >= 60) ? _statsFmtTime(b.secs, isAr) : '';
+    var barColor = b.isToday ? '#1D9E75' : (b.isFuture ? (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)') : (isDark ? 'rgba(29,158,117,0.4)' : 'rgba(29,158,117,0.28)'));
     var tooltipTxt = (rangeDays === 90 ? (isAr ? 'الأسبوع: ' : 'Week: ') : '') + _statsFmtTime(b.secs, isAr);
-    return '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:' + barMinWidth + ';">' +
-      (rangeDays === 7 ? (timeLabel ? '<div style="font-size:9px;color:#1D9E75;font-weight:700;white-space:nowrap;">' + timeLabel + '</div>' : '<div style="font-size:9px;"> </div>') : '') +
+    // الوقت جوا العمود لو العمود كبير (pct >= 25)
+    var timeInsideBar = (rangeDays === 7 && b.secs >= 60 && pct >= 25)
+      ? '<div style="position:absolute;bottom:3px;left:0;right:0;text-align:center;font-size:8px;color:#fff;font-weight:700;white-space:nowrap;pointer-events:none;">' + _statsFmtTime(b.secs, isAr) + '</div>'
+      : '';
+    // الوقت فوق العمود لو صغير
+    var timeAbove = (rangeDays === 7 && b.secs >= 60 && pct < 25)
+      ? '<div style="font-size:8px;color:#1D9E75;font-weight:700;text-align:center;white-space:nowrap;">' + _statsFmtTime(b.secs, isAr) + '</div>'
+      : '<div style="height:12px;"></div>';
+    return '<div style="display:flex;flex-direction:column;align-items:center;flex:1;min-width:' + barMinWidth + ';">' +
+      (rangeDays === 7 ? timeAbove : '') +
       '<div style="height:' + barHeight + ';width:100%;display:flex;align-items:flex-end;justify-content:center;" title="' + tooltipTxt + '">' +
-        '<div style="width:' + (rangeDays === 90 ? '80%' : '70%') + ';border-radius:3px 3px 0 0;height:' + (pct || 2) + '%;background:' + barColor + ';transition:height .3s;min-height:3px;"></div>' +
+        '<div style="position:relative;width:' + (rangeDays === 90 ? '80%' : '75%') + ';border-radius:3px 3px 0 0;height:' + (pct || 2) + '%;background:' + barColor + ';transition:height .3s;min-height:3px;">' +
+          timeInsideBar +
+        '</div>' +
       '</div>' +
-      '<div style="font-size:9px;font-weight:' + (b.isToday ? '700' : '400') + ';color:' + (b.isToday ? '#1D9E75' : mutedClr) + ';white-space:nowrap;overflow:hidden;max-width:100%;text-overflow:ellipsis;">' + b.label + '</div>' +
+      '<div style="font-size:9px;font-weight:' + (b.isToday ? '700' : '400') + ';color:' + (b.isToday ? '#1D9E75' : mutedClr) + ';white-space:nowrap;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);margin-top:4px;height:52px;display:flex;align-items:center;">' + b.label + '</div>' +
     '</div>';
   }).join('');
 }
