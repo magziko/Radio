@@ -35625,15 +35625,15 @@ function openListenStats() {
     return sum + (stationSecs[k] || 0) + (liveStationSecsMap[k] || 0);
   }, 0);
 
-  // أكثر 5 محطات استماعاً (مرتبة بالثواني الفعلية)
+  // أكثر 15 محطة استماعاً (مرتبة بالثواني المحفوظة فقط — الوقت الحي لا يؤثر على الترتيب)
   var topStations = allStationNames
     .map(function(n) {
       var secs = (stationSecs[n] || 0) + (liveStationSecsMap[n] || 0);
       var count = stations[n] || 0;
-      return { name: n, secs: secs, count: count };
+      return { name: n, secs: secs, count: count, savedSecs: stationSecs[n] || 0 };
     })
-    .filter(function(s) { return s.secs > 0 || s.count > 0; })
-    .sort(function(a,b) { return b.secs - a.secs; })
+    .filter(function(s) { return s.savedSecs > 0 || s.count > 0; })
+    .sort(function(a,b) { return b.savedSecs - a.savedSecs; })
     .slice(0, 15);
 
   window._statsCache = { liveDays: liveDays, today: today, isAr: isAr, isDark: isDark, mutedClr: mutedClr, borderClr: borderClr };
