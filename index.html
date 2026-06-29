@@ -5410,6 +5410,7 @@ var mainAudio = document.getElementById('currentAudio');
   }
   mainAudio = el;
   el.addEventListener('play', function() {
+    window._statsActiveName = window._currentPlayingName || window._statsActiveName || '';
     window._statsPlayStart = Date.now();
   });
   el.addEventListener('pause', function() {
@@ -5419,6 +5420,7 @@ var mainAudio = document.getElementById('currentAudio');
       }
       window._statsPlayStart = null;
     }
+    window._statsActiveName = '';
   });
   el.addEventListener('ended', function() {
     if (window._statsPlayStart) {
@@ -5427,6 +5429,7 @@ var mainAudio = document.getElementById('currentAudio');
       }
       window._statsPlayStart = null;
     }
+    window._statsActiveName = '';
   });
 })();
 
@@ -5528,6 +5531,14 @@ function confirmReload() {
     var _src = (typeof sources !== 'undefined' && sources[0]) ?
       sources[0] :
       'https://backup.qurango.net/radio/tarateel';
+
+    // ── عيّن اسم المحطة الافتراضية قبل التشغيل لضمان تتبع الإحصائيات والسجل ──
+    var _defaultName = (typeof radioStations !== 'undefined' && radioStations[0] && radioStations[0].name)
+      ? radioStations[0].name
+      : 'Ma إذاعة القرآن الكريم';
+    window._welcomeStationName = _defaultName;
+    window._statsActiveName    = _defaultName;
+    if (typeof _saveToListenHistory === 'function') _saveToListenHistory(_defaultName, _src);
 
     // مقطع الفتح: إذا كان مفعَّلاً من الإعدادات، يُشغَّل أولاً ثم تبدأ المحطة المعتادة بعد انتهائه
     var _introEnabled = localStorage.getItem('introClipEnabled') === 'true';
@@ -5966,6 +5977,9 @@ customAudioPlayer.addEventListener('play', function() {
   isAudioPlaying = true;
   updateWelcomePlayPauseButton(true);
   if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession();
+  // احفظ اسم المحطة في متغير خاص بالـ customAudioPlayer لا يتصفّر أثناء الاستماع
+  window._welcomeStationName = window._welcomeStationName || window._currentPlayingName || window._statsActiveName || '';
+  window._statsActiveName = window._welcomeStationName;
   window._statsPlayStart = Date.now();
 });
 customAudioPlayer.addEventListener('pause', function() {
@@ -5973,18 +5987,23 @@ customAudioPlayer.addEventListener('pause', function() {
   updateWelcomePlayPauseButton(false);
   if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
   if (window._statsPlayStart) {
+    window._statsActiveName = window._welcomeStationName || window._statsActiveName || '';
     _statsAddSeconds(Math.floor((Date.now() - window._statsPlayStart) / 1000));
     window._statsPlayStart = null;
   }
+  window._statsActiveName = '';
 });
 customAudioPlayer.addEventListener('ended', function() {
   isAudioPlaying = false;
   updateWelcomePlayPauseButton(false);
   if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none';
   if (window._statsPlayStart) {
+    window._statsActiveName = window._welcomeStationName || window._statsActiveName || '';
     _statsAddSeconds(Math.floor((Date.now() - window._statsPlayStart) / 1000));
     window._statsPlayStart = null;
   }
+  window._statsActiveName = '';
+  window._welcomeStationName = '';
 });
 
 // ══════════════════════════════════════════════
@@ -6166,11 +6185,16 @@ function playStation(station) {
   function playSrc(i) {
     clearTimeout(_sErrorTimer);
     clearTimeout(_sStalledTimer);
+    // ── حفظ اسم المحطة قبل التشغيل لضمان تتبع الإحصائيات ──
+    window._welcomeStationName = station.name;
+    window._statsActiveName = station.name;
     customAudioPlayer.src = stationSrcs[i];
     customAudioPlayer.load();
     customAudioPlayer.play().catch(function() {});
     if (currentStatus) currentStatus.textContent = station.name + " يعمل الآن";
     if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession(station.name);
+    // ===== تسجيل في سجل الاستماع =====
+    if (typeof _saveToListenHistory === 'function') _saveToListenHistory(station.name, stationSrcs[i]);
   }
 
   function nextSrc() {
@@ -6253,10 +6277,15 @@ function playWelcomeScreenStation(stationUrl, stationName) {
   openWelcomeScreen();
   _clearStationHandlers();
   if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
+  // ── حفظ اسم المحطة لضمان تتبع الإحصائيات ──
+  window._welcomeStationName = stationName;
+  window._statsActiveName = stationName;
   customAudioPlayer.src = stationUrl;
   customAudioPlayer.load();
   customAudioPlayer.play().catch(function() {});
   if (currentStatus) currentStatus.textContent = "تشغيل: " + stationName;
+  // ===== تسجيل في سجل الاستماع =====
+  if (typeof _saveToListenHistory === 'function') _saveToListenHistory(stationName, stationUrl);
 }
 
 function adjustVolume() {
@@ -27081,12 +27110,193 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 </script>
 
 <div id="prayerWidgetWrapper" style="display: none; justify-content: center; align-items: center;">
-  <iframe id="iframe" title="prayerWidget" class="widget-m-top"
-      style="height: 358px; width: 100%; max-width: 250px; border: 1px solid #ddd;"
-      scrolling="no"
-      src="https://www.islamicfinder.org/prayer-widget/42618040/shafi/2/0/19.5/17.5">
-  </iframe>
+  <div id="prayerWidgetNative" style="width:100%;max-width:320px;font-family:Cairo,sans-serif;direction:rtl;"></div>
 </div>
+
+<script>
+(function() {
+  var _pwRendered = false;
+  var _pwData = null;
+
+  function _pwFmtTime(t) {
+    if (!t) return '--:--';
+    var parts = t.split(':');
+    var h = parseInt(parts[0]), m = parseInt(parts[1]);
+    var ampm = h >= 12 ? 'م' : 'ص';
+    var h12 = h % 12 || 12;
+    return h12 + ':' + String(m).padStart(2,'0') + ' ' + ampm;
+  }
+
+  function _pwGetNextPrayer(timings) {
+    var ORDER = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+    var NAMES_AR = { Fajr:'الفجر', Sunrise:'الشروق', Dhuhr:'الظهر', Asr:'العصر', Maghrib:'المغرب', Isha:'العشاء' };
+    var now = new Date();
+    var nowMins = now.getHours() * 60 + now.getMinutes();
+    var next = null, nextMins = Infinity;
+    ORDER.forEach(function(n) {
+      if (!timings[n]) return;
+      var p = timings[n].split(' ')[0].split(':');
+      var pm = parseInt(p[0]) * 60 + parseInt(p[1]);
+      if (pm > nowMins && pm < nextMins) { nextMins = pm; next = n; }
+    });
+    if (!next) next = 'Fajr';
+    return { name: next, label: NAMES_AR[next] || next };
+  }
+
+  function _pwRender(timings, hijri, city) {
+    var el = document.getElementById('prayerWidgetNative');
+    if (!el) return;
+    var isDark = document.body.classList.contains('dark-mode');
+    var bg     = isDark ? '#15241c' : '#f0f9f5';
+    var card   = isDark ? '#1d3028' : '#ffffff';
+    var clr    = isDark ? '#d5ede4' : '#1a2e24';
+    var muted  = isDark ? 'rgba(200,240,220,0.5)' : 'rgba(0,70,40,0.45)';
+    var border = isDark ? 'rgba(29,158,117,0.2)' : 'rgba(29,158,117,0.15)';
+    var green  = '#1D9E75';
+
+    var PRAYERS = [
+      { key:'Fajr',    ar:'الفجر' },
+      { key:'Sunrise', ar:'الشروق' },
+      { key:'Dhuhr',   ar:'الظهر' },
+      { key:'Asr',     ar:'العصر' },
+      { key:'Maghrib', ar:'المغرب' },
+      { key:'Isha',    ar:'العشاء' }
+    ];
+    var next = _pwGetNextPrayer(timings);
+    var today = new Date();
+    var weekDay_ar = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    var dateStr = weekDay_ar[today.getDay()] + ' ' + today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
+
+    var rows = PRAYERS.map(function(p) {
+      var isNext = (p.key === next.name);
+      var rowBg  = isNext ? (isDark ? 'rgba(29,158,117,0.18)' : 'rgba(29,158,117,0.09)') : 'transparent';
+      var rowClr = isNext ? green : clr;
+      var wt     = isNext ? '700' : '400';
+      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-radius:8px;background:' + rowBg + ';margin-bottom:2px;">' +
+        '<span style="font-size:13px;font-weight:' + wt + ';color:' + rowClr + ';">' + p.ar + (isNext ? ' ⬅' : '') + '</span>' +
+        '<span style="font-size:13px;font-weight:' + wt + ';color:' + rowClr + ';font-variant-numeric:tabular-nums;">' + _pwFmtTime(timings[p.key]) + '</span>' +
+      '</div>';
+    }).join('');
+
+    el.innerHTML =
+      '<div style="background:' + bg + ';border-radius:16px;overflow:hidden;border:1px solid ' + border + ';">' +
+        '<div style="background:' + green + ';padding:14px 16px 12px;">' +
+          '<div style="font-size:13px;color:rgba(255,255,255,0.85);margin-bottom:2px;">🕌 مواقيت الصلاة</div>' +
+          '<div style="font-size:11px;color:rgba(255,255,255,0.7);">' + dateStr + (hijri ? ' | ' + hijri : '') + '</div>' +
+          (city ? '<div style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;">📍 ' + city + '</div>' : '') +
+        '</div>' +
+        '<div style="padding:10px 6px;">' + rows + '</div>' +
+        '<div style="padding:4px 12px 10px;text-align:center;">' +
+          '<button onclick="window._pwRefreshLocation()" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:10px;padding:4px 12px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 تحديث الموقع</button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function _pwLoad() {
+    var CACHE_KEY = 'adhanGeoCache';
+    var TIMES_KEY = 'pwTimingsCache';
+
+    // تحقق من كاش المواقيت (صالح ليوم واحد)
+    try {
+      var cached = JSON.parse(localStorage.getItem(TIMES_KEY) || '{}');
+      var today  = new Date();
+      var dk = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+      if (cached.date === dk && cached.timings) {
+        _pwData = cached;
+        _pwRender(cached.timings, cached.hijri, cached.city);
+        return;
+      }
+    } catch(e) {}
+
+    function fetchTimes(lat, lon) {
+      var today = new Date();
+      var dateStr = today.getDate() + '-' + (today.getMonth()+1) + '-' + today.getFullYear();
+      fetch('https://api.aladhan.com/v1/timings/' + dateStr + '?latitude=' + lat + '&longitude=' + lon + '&method=4')
+        .then(function(r){ return r.json(); })
+        .then(function(data) {
+          if (!data || !data.data) return;
+          var timings = data.data.timings;
+          var hijri   = data.data.date && data.data.date.hijri
+            ? data.data.date.hijri.day + ' ' + data.data.date.hijri.month.ar + ' ' + data.data.date.hijri.year + ' هـ'
+            : '';
+          // اسم المدينة من Nominatim (لا يؤثر على التحميل)
+          var city = '';
+          fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json&accept-language=ar')
+            .then(function(r){ return r.json(); })
+            .then(function(geo) {
+              city = (geo.address && (geo.address.city || geo.address.town || geo.address.state)) || '';
+              var dk2 = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+              try { localStorage.setItem(TIMES_KEY, JSON.stringify({ date: dk2, timings: timings, hijri: hijri, city: city })); } catch(e) {}
+              _pwData = { timings: timings, hijri: hijri, city: city };
+              _pwRender(timings, hijri, city);
+            })
+            .catch(function() {
+              _pwData = { timings: timings, hijri: hijri, city: '' };
+              _pwRender(timings, hijri, '');
+            });
+        })
+        .catch(function() {
+          document.getElementById('prayerWidgetNative').innerHTML =
+            '<div style="text-align:center;padding:24px;color:#888;font-size:13px;">⚠️ تعذر تحميل المواقيت</div>';
+        });
+    }
+
+    // استخدم كاش الإحداثيات
+    try {
+      var geo = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+      if (geo.lat && geo.lon && (Date.now() - geo.ts) < 30 * 864e5) {
+        fetchTimes(geo.lat, geo.lon);
+        return;
+      }
+    } catch(e) {}
+
+    // اطلب موقع جديد
+    if ('geolocation' in navigator) {
+      document.getElementById('prayerWidgetNative').innerHTML =
+        '<div style="text-align:center;padding:20px;color:#888;font-size:13px;">⏳ جارٍ تحديد موقعك...</div>';
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ lat: pos.coords.latitude, lon: pos.coords.longitude, ts: Date.now() }));
+        } catch(e) {}
+        fetchTimes(pos.coords.latitude, pos.coords.longitude);
+      }, function() {
+        // fallback القاهرة
+        fetchTimes(30.0444, 31.2357);
+      }, { timeout: 10000 });
+    } else {
+      fetchTimes(30.0444, 31.2357);
+    }
+  }
+
+  window._pwRefreshLocation = function() {
+    try { localStorage.removeItem('adhanGeoCache'); localStorage.removeItem('pwTimingsCache'); } catch(e) {}
+    _pwLoad();
+  };
+
+  // راقب ظهور الـ wrapper وحمّل عند الظهور لأول مرة
+  var _pwObs = new MutationObserver(function() {
+    var wrap = document.getElementById('prayerWidgetWrapper');
+    if (wrap && wrap.style.display !== 'none' && !_pwRendered) {
+      _pwRendered = true;
+      _pwLoad();
+    }
+  });
+  document.addEventListener('DOMContentLoaded', function() {
+    var wrap = document.getElementById('prayerWidgetWrapper');
+    if (wrap) _pwObs.observe(wrap, { attributes: true, attributeFilter: ['style'] });
+  });
+
+  // أعد الرسم عند تغيير الوضع الليلي
+  var _origToggleDark = window.toggleDarkModeFloat;
+  window.toggleDarkModeFloat = function() {
+    if (_origToggleDark) _origToggleDark.apply(this, arguments);
+    setTimeout(function() {
+      if (_pwData) _pwRender(_pwData.timings, _pwData.hijri, _pwData.city);
+    }, 100);
+  };
+})();
+</script>
+
 
 <button id="toggleButton" class="toggle-button"
     data-ar="تحميل التطبيق 📻"
@@ -27346,27 +27556,7 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
   }));
 
   // ===== تسجيل في سجل الاستماع =====
-  (function() {
-    try {
-      var MAX_HISTORY = 20;
-      var raw = localStorage.getItem('listenHistory');
-      var hist = raw ? JSON.parse(raw) : [];
-      if (typeof _statsDedupeHistory === 'function') hist = _statsDedupeHistory(hist);
-      // لا تكرر نفس المحطة إذا كانت آخر إدخال
-      if (hist.length > 0 && hist[0].url === source) return;
-      // احذف أي ظهور سابق لنفس المحطة (بالرابط أو الاسم) عشان لا تتكرر في القائمة
-      hist = hist.filter(function(h) { return h.url !== source && h.name !== stationName; });
-      hist.unshift({
-        name: stationName,
-        url: source,
-        ts: Date.now()
-      });
-      if (hist.length > MAX_HISTORY) hist = hist.slice(0, MAX_HISTORY);
-      localStorage.setItem('listenHistory', JSON.stringify(hist));
-      // تحديث badge لو الـ popup مفتوح
-      if (document.getElementById('listenHistoryPopup')) _renderHistoryList();
-    } catch(e) {}
-  })();
+  if (typeof _saveToListenHistory === 'function') _saveToListenHistory(stationName, source);
 
   var pnbNameEl = document.getElementById('pnb-name');
   if (pnbNameEl) {
@@ -27934,19 +28124,39 @@ function activateAutoSwitch() {
   }
 
   function fadeAndStop(audio, callback) {
-    var startVol = audio.volume;
-    var step = startVol / 30;
+    var startVol = audio.volume || 1;
+    var steps = 60; // 60 خطوة × 50ms = 3 ثوانٍ
+    var step = startVol / steps;
     var fadeInt = setInterval(function() {
       var next = audio.volume - step;
       if (next <= 0.01) {
-        audio.volume = startVol;
+        audio.volume = startVol; // أعد الصوت لوضعه الأصلي
         audio.pause();
         clearInterval(fadeInt);
         if (callback) callback();
       } else {
         audio.volume = next;
       }
-    }, 100);
+    }, 50);
+  }
+
+  // تخفيض تدريجي لمشغّل إضافي بدون callback (للشاشة الترحيبية)
+  function fadeAndStopSilent(audio) {
+    if (!audio || audio.paused) return;
+    var startVol = audio.volume || 1;
+    var steps = 60;
+    var step = startVol / steps;
+    var fadeInt = setInterval(function() {
+      var next = audio.volume - step;
+      if (next <= 0.01) {
+        audio.volume = startVol;
+        audio.pause();
+        audio.src = '';
+        clearInterval(fadeInt);
+      } else {
+        audio.volume = next;
+      }
+    }, 50);
   }
 
   window.activateSleepMode = function() {
@@ -28003,12 +28213,9 @@ function activateAutoSwitch() {
         settingsCb.checked = false;
       }
 
-      // 3) إيقاف راديو الشاشة الترحيبية فوراً
+      // 3) إيقاف راديو الشاشة الترحيبية مع fade تدريجي
       var welcomeAudio = document.getElementById('customAudioPlayer');
-      if (welcomeAudio && !welcomeAudio.paused) {
-        welcomeAudio.pause();
-        welcomeAudio.src = '';
-      }
+      fadeAndStopSilent(welcomeAudio);
 
       // 4) إيقاف الراديو الأساسي مع fade ثم تنظيف الـ UI
       function _afterFade() {
@@ -29212,15 +29419,39 @@ function getContrastYIQ(hexcolor) {
     }
     audio.addEventListener('play', function() {
       setPlayingUI(true);
+      // تتبع الإحصائيات للمشغّل المعزول
+      window._statsActiveName = window._isolatedStationName || window._statsActiveName || '';
+      if (!window._statsIsoPlayStart) window._statsIsoPlayStart = Date.now();
     });
     audio.addEventListener('pause', function() {
       setPlayingUI(false);
+      if (window._statsIsoPlayStart) {
+        if (typeof _statsAddSeconds === 'function') {
+          _statsAddSeconds(Math.floor((Date.now() - window._statsIsoPlayStart) / 1000));
+        }
+        window._statsIsoPlayStart = null;
+      }
+      window._statsActiveName = '';
     });
     audio.addEventListener('error', function() {
       setPlayingUI(false);
+      if (window._statsIsoPlayStart) {
+        if (typeof _statsAddSeconds === 'function') {
+          _statsAddSeconds(Math.floor((Date.now() - window._statsIsoPlayStart) / 1000));
+        }
+        window._statsIsoPlayStart = null;
+      }
+      window._statsActiveName = '';
     });
     audio.addEventListener('ended', function() {
       setPlayingUI(false);
+      if (window._statsIsoPlayStart) {
+        if (typeof _statsAddSeconds === 'function') {
+          _statsAddSeconds(Math.floor((Date.now() - window._statsIsoPlayStart) / 1000));
+        }
+        window._statsIsoPlayStart = null;
+      }
+      window._statsActiveName = '';
     });
   }
 
@@ -29232,13 +29463,15 @@ function getContrastYIQ(hexcolor) {
     }
     currentStation = station;
     lastStationUrl = station.stationUrl;
-    window._isolatedStationUrl = station.stationUrl || '';
-    window._isolatedStationName = station.stationName || '';
 
     if (window.isolatedAudio) {
       window.isolatedAudio.pause();
       window.isolatedAudio.src = '';
     }
+    // ── حفظ اسم المحطة قبل التشغيل لضمان تتبع الإحصائيات ──
+    window._isolatedStationName = station.stationName || station.stationUrl;
+    window._isolatedStationUrl = station.stationUrl || '';
+    window._statsActiveName = window._isolatedStationName;
     window.isolatedAudio = new Audio(station.stationUrl);
     attachAudioEvents(window.isolatedAudio);
 
@@ -29249,6 +29482,8 @@ function getContrastYIQ(hexcolor) {
     window.isolatedAudio.play().catch(function() {
       setPlayingUI(false);
     });
+    // ===== تسجيل في سجل الاستماع =====
+    if (typeof _saveToListenHistory === 'function') _saveToListenHistory(station.stationName || station.stationUrl, station.stationUrl);
     return true;
   }
 
@@ -35048,6 +35283,23 @@ function _fmtHistoryTimeEn(ts) {
   return d === 1 ? 'yesterday' : d + 'd ago';
 }
 
+// ===== دالة مشتركة لحفظ أي محطة في سجل الاستماع (تعمل مع الراديوهات الثلاثة) =====
+function _saveToListenHistory(stationName, stationUrl) {
+  if (!stationName || !stationUrl) return;
+  try {
+    var MAX_HISTORY = 20;
+    var raw = localStorage.getItem('listenHistory');
+    var hist = raw ? JSON.parse(raw) : [];
+    if (typeof _statsDedupeHistory === 'function') hist = _statsDedupeHistory(hist);
+    if (hist.length > 0 && hist[0].url === stationUrl) return;
+    hist = hist.filter(function(h) { return h.url !== stationUrl && h.name !== stationName; });
+    hist.unshift({ name: stationName, url: stationUrl, ts: Date.now() });
+    if (hist.length > MAX_HISTORY) hist = hist.slice(0, MAX_HISTORY);
+    localStorage.setItem('listenHistory', JSON.stringify(hist));
+    if (document.getElementById('listenHistoryPopup') && typeof _renderHistoryList === 'function') _renderHistoryList();
+  } catch(e) {}
+}
+
 function _statsDedupeHistory(hist) {
   var seen = {};
   var out = [];
@@ -35100,6 +35352,9 @@ function _renderHistoryList() {
       '</div>' +
       '<button onclick="event.stopPropagation();shareHistoryItem(\'' + encodeURIComponent(item.url) + '\',\'' + encodeURIComponent(item.name) + '\')" style="background:none;border:none;cursor:pointer;opacity:.4;padding:4px;border-radius:6px;flex-shrink:0;transition:opacity .15s;" onmouseover="this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'.4\'" title="' + (isAr ? 'مشاركة' : 'Share') + '">' +
         '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
+      '</button>' +
+      '<button onclick="event.stopPropagation();deleteHistoryItem(\'' + encodeURIComponent(item.url) + '\')" style="background:none;border:none;cursor:pointer;opacity:.4;padding:4px;border-radius:6px;flex-shrink:0;transition:opacity .15s;" onmouseover="this.style.opacity=\'1\';this.style.color=\'#dc3545\'" onmouseout="this.style.opacity=\'.4\';this.style.color=\'inherit\'" title="' + (isAr ? 'حذف من السجل' : 'Remove from history') + '">' +
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>' +
       '</button>' +
     '</div>';
   }).join('');
@@ -35155,6 +35410,32 @@ function clearListenHistory() {
   showToast(isAr ? '🗑️ تم مسح السجل' : '🗑️ History cleared');
 }
 
+function deleteHistoryItem(encUrl) {
+  var url = decodeURIComponent(encUrl);
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var raw = localStorage.getItem('listenHistory');
+  var hist = [];
+  try { hist = raw ? JSON.parse(raw) : []; } catch(e) {}
+  hist = hist.filter(function(h) { return h.url !== url; });
+  try { localStorage.setItem('listenHistory', JSON.stringify(hist)); } catch(e) {}
+  _renderHistoryList();
+  // تحديث العداد في الهيدر
+  var popup = document.getElementById('listenHistoryPopup');
+  if (popup) {
+    var countEl = popup.querySelector('div[style*="opacity:.5"]');
+    if (countEl) {
+      countEl.textContent = hist.length > 0
+        ? (isAr ? 'آخر ' + hist.length + ' محطة' : 'Last ' + hist.length + ' stations')
+        : (isAr ? 'فارغ' : 'Empty');
+    }
+    if (hist.length === 0) {
+      var clearBtn = popup.querySelector('button[style*="dc3545"]');
+      if (clearBtn) clearBtn.remove();
+    }
+  }
+  showToast(isAr ? '🗑️ تم حذف المحطة' : '🗑️ Station removed');
+}
+
 function playFromHistory(encUrl, encName) {
   var url  = decodeURIComponent(encUrl);
   var name = decodeURIComponent(encName);
@@ -35199,29 +35480,63 @@ function _statsAddSeconds(secs) {
   if (keys.length > 60) {
     keys.slice(0, keys.length - 60).forEach(function(k) { delete data.days[k]; });
   }
-  // إحصاء المحطة الحالية
-  var name = window._currentPlayingName || '';
+  // اسم المحطة: تحقق من جميع المصادر بالأولوية
+  var name = window._statsActiveName
+    || window._welcomeStationName
+    || window._currentPlayingName
+    || window._isolatedStationName
+    || '';
   if (name && secs >= 10) {
     if (!data.stations) data.stations = {};
+    // stationSecs: ثواني الاستماع الفعلية لكل محطة
+    if (!data.stationSecs) data.stationSecs = {};
+    data.stationSecs[name] = (data.stationSecs[name] || 0) + secs;
+    // stationCount: عدد مرات التشغيل (للتوافق مع البيانات القديمة)
     data.stations[name] = (data.stations[name] || 0) + 1;
   }
   localStorage.setItem('listenStats', JSON.stringify(data));
 }
 
-// تسجيل كل دقيقة لضمان الحفظ حتى لو أُغلق التبويب
+// تسجيل كل دقيقة لضمان الحفظ حتى لو أُغلق التبويب — يغطي الثلاثة مشغّلات
 setInterval(function() {
+  // 1) الشاشة الترحيبية (customAudioPlayer)
   if (window._statsPlayStart && !customAudioPlayer.paused) {
     var elapsed = Math.floor((Date.now() - window._statsPlayStart) / 1000);
     if (elapsed >= 60) {
+      window._statsActiveName = window._welcomeStationName || window._currentPlayingName || window._statsActiveName || '';
       _statsAddSeconds(elapsed);
       window._statsPlayStart = Date.now();
+    }
+  }
+  // 2) الراديو الرئيسي (currentAudio / mainAudio)
+  var _mainEl = document.getElementById('currentAudio');
+  if (window._statsPlayStart && _mainEl && !_mainEl.paused) {
+    var elapsed2 = Math.floor((Date.now() - window._statsPlayStart) / 1000);
+    if (elapsed2 >= 60) {
+      window._statsActiveName = window._currentPlayingName || window._statsActiveName || '';
+      _statsAddSeconds(elapsed2);
+      window._statsPlayStart = Date.now();
+    }
+  }
+  // 3) المشغّل المعزول (isolatedAudio)
+  if (window._statsIsoPlayStart && window.isolatedAudio && !window.isolatedAudio.paused) {
+    var elapsed3 = Math.floor((Date.now() - window._statsIsoPlayStart) / 1000);
+    if (elapsed3 >= 60) {
+      window._statsActiveName = window._isolatedStationName || window._statsActiveName || '';
+      _statsAddSeconds(elapsed3);
+      window._statsIsoPlayStart = Date.now();
     }
   }
 }, 60000);
 
 window.addEventListener('beforeunload', function() {
   if (window._statsPlayStart) {
+    window._statsActiveName = window._welcomeStationName || window._currentPlayingName || window._statsActiveName || '';
     _statsAddSeconds(Math.floor((Date.now() - window._statsPlayStart) / 1000));
+  }
+  if (window._statsIsoPlayStart && window.isolatedAudio && !window.isolatedAudio.paused) {
+    window._statsActiveName = window._isolatedStationName || '';
+    _statsAddSeconds(Math.floor((Date.now() - window._statsIsoPlayStart) / 1000));
   }
 });
 
@@ -35248,6 +35563,23 @@ function openListenStats() {
   var data = _statsLoad();
   var days  = data.days     || {};
   var stations = data.stations || {};
+  var stationSecs = data.stationSecs || {};
+
+  // إضافة الوقت الحي للمشغّل الرئيسي إلى stationSecs للعرض
+  var liveStationName = window._statsActiveName || window._currentPlayingName || window._isolatedStationName || '';
+  var liveStationSecs = 0;
+  if (liveStationName) {
+    var _mainElLive = document.getElementById('currentAudio');
+    if (window._statsPlayStart && !customAudioPlayer.paused) {
+      liveStationSecs = Math.floor((Date.now() - window._statsPlayStart) / 1000);
+    } else if (window._statsPlayStart && _mainElLive && !_mainElLive.paused) {
+      liveStationSecs = Math.floor((Date.now() - window._statsPlayStart) / 1000);
+    } else if (window._statsIsoPlayStart && window.isolatedAudio && !window.isolatedAudio.paused) {
+      liveStationSecs = Math.floor((Date.now() - window._statsIsoPlayStart) / 1000);
+    }
+  }
+  var liveStationSecsMap = {};
+  if (liveStationName && liveStationSecs > 0) liveStationSecsMap[liveStationName] = liveStationSecs;
 
   // حساب اليوم والأسبوع والإجمالي
   var today = _statsKey();
@@ -35287,14 +35619,22 @@ function openListenStats() {
     else break;
   }
 
-  // إجمالي مرات التشغيل (كل المحطات)
-  var totalPlays = Object.keys(stations).reduce(function(sum, k){ return sum + stations[k]; }, 0);
+  // دمج stationSecs المحفوظة مع الوقت الحي للعرض الفوري
+  var allStationNames = Array.from(new Set(Object.keys(stationSecs).concat(Object.keys(liveStationSecsMap)).concat(Object.keys(stations))));
+  var totalStationSecs = allStationNames.reduce(function(sum, k) {
+    return sum + (stationSecs[k] || 0) + (liveStationSecsMap[k] || 0);
+  }, 0);
 
-  // أكثر 5 محطات تشغيلاً
-  var topStations = Object.keys(stations)
-    .map(function(n) { return { name: n, count: stations[n] }; })
-    .sort(function(a,b) { return b.count - a.count; })
-    .slice(0, 5);
+  // أكثر 5 محطات استماعاً (مرتبة بالثواني الفعلية)
+  var topStations = allStationNames
+    .map(function(n) {
+      var secs = (stationSecs[n] || 0) + (liveStationSecsMap[n] || 0);
+      var count = stations[n] || 0;
+      return { name: n, secs: secs, count: count };
+    })
+    .filter(function(s) { return s.secs > 0 || s.count > 0; })
+    .sort(function(a,b) { return b.secs - a.secs; })
+    .slice(0, 15);
 
   window._statsCache = { liveDays: liveDays, today: today, isAr: isAr, isDark: isDark, mutedClr: mutedClr, borderClr: borderClr };
 
@@ -35317,13 +35657,15 @@ function openListenStats() {
   var topHtml = topStations.length === 0
     ? '<div style="font-size:12px;text-align:center;padding:8px 0;color:' + mutedClr + ';">' + (isAr ? 'لا توجد بيانات بعد' : 'No data yet') + '</div>'
     : topStations.map(function(s, i) {
-        var medals = ['🥇','🥈','🥉','🎙️','🎙️'];
-        var pct = totalPlays ? Math.round((s.count / totalPlays) * 100) : 0;
+        var medals = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟','1️⃣1️⃣','1️⃣2️⃣','1️⃣3️⃣','1️⃣4️⃣','1️⃣5️⃣'];
+        var pct = totalStationSecs ? Math.round((s.secs / totalStationSecs) * 100) : 0;
+        var timeStr = _statsFmtTime(s.secs, isAr);
+        var countStr = s.count > 0 ? (' · ' + s.count + (isAr ? ' مرة' : 'x')) : '';
         return '<div style="padding:6px 0;border-bottom:.5px solid ' + borderClr + ';">' +
           '<div style="display:flex;align-items:center;gap:8px;">' +
             '<span style="font-size:15px;flex-shrink:0;">' + medals[i] + '</span>' +
             '<span style="flex:1;font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + s.name + '</span>' +
-            '<span style="font-size:11px;color:#1D9E75;font-weight:700;flex-shrink:0;">' + s.count + (isAr ? ' مرة' : 'x') + '</span>' +
+            '<span style="font-size:11px;color:#1D9E75;font-weight:700;flex-shrink:0;">' + timeStr + '<span style="opacity:.55;font-weight:400;">' + countStr + '</span></span>' +
           '</div>' +
           '<div style="margin-top:4px;height:4px;border-radius:3px;background:' + (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)') + ';overflow:hidden;">' +
             '<div style="height:100%;width:' + pct + '%;background:#1D9E75;border-radius:3px;"></div>' +
@@ -35360,9 +35702,10 @@ function openListenStats() {
             '<div style="display:flex;gap:4px;">' +
               '<button id="statsRangeBtn7" onclick="_statsSetRange(7)" style="font-size:10px;font-weight:700;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-family:Cairo,sans-serif;background:#1D9E75;color:#fff;">7' + (isAr?' أيام':'d') + '</button>' +
               '<button id="statsRangeBtn30" onclick="_statsSetRange(30)" style="font-size:10px;font-weight:700;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-family:Cairo,sans-serif;background:' + (isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)') + ';color:' + mutedClr + ';">30' + (isAr?' يوم':'d') + '</button>' +
+              '<button id="statsRangeBtn90" onclick="_statsSetRange(90)" style="font-size:10px;font-weight:700;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-family:Cairo,sans-serif;background:' + (isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)') + ';color:' + mutedClr + ';">90' + (isAr?' يوم':'d') + '</button>' +
             '</div>' +
           '</div>' +
-          '<div id="statsBarsContainer" style="display:flex;gap:3px;align-items:flex-end;height:90px;overflow-x:auto;"></div>' +
+          '<div id="statsBarsContainer" style="display:flex;gap:2px;align-items:flex-end;height:100px;overflow-x:auto;padding-bottom:2px;"></div>' +
         '</div>' +
         // أكثر محطات تشغيلاً
         '<div style="margin-bottom:16px;">' +
@@ -35386,39 +35729,74 @@ function _statsSetRange(rangeDays) {
   var isAr = cache.isAr, isDark = cache.isDark, mutedClr = cache.mutedClr;
   var liveDays = cache.liveDays, today = cache.today;
 
-  var btn7 = document.getElementById('statsRangeBtn7');
+  var btn7  = document.getElementById('statsRangeBtn7');
   var btn30 = document.getElementById('statsRangeBtn30');
-  var activeStyle = 'background:#1D9E75;color:#fff;';
+  var btn90 = document.getElementById('statsRangeBtn90');
+  var activeStyle   = 'background:#1D9E75;color:#fff;';
   var inactiveStyle = 'background:' + (isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)') + ';color:' + mutedClr + ';';
-  if (btn7) btn7.style.cssText = btn7.style.cssText.replace(/background:[^;]+;color:[^;]+;/, '') + (rangeDays === 7 ? activeStyle : inactiveStyle);
-  if (btn30) btn30.style.cssText = btn30.style.cssText.replace(/background:[^;]+;color:[^;]+;/, '') + (rangeDays === 30 ? activeStyle : inactiveStyle);
+  [btn7, btn30, btn90].forEach(function(btn) {
+    if (!btn) return;
+    btn.style.cssText = btn.style.cssText.replace(/background:[^;]+;color:[^;]+;/, '');
+  });
+  if (btn7)  btn7.style.cssText  += (rangeDays === 7  ? activeStyle : inactiveStyle);
+  if (btn30) btn30.style.cssText += (rangeDays === 30 ? activeStyle : inactiveStyle);
+  if (btn90) btn90.style.cssText += (rangeDays === 90 ? activeStyle : inactiveStyle);
 
+  var dayNames_ar = ['أحد','إثن','ثلا','أرب','خمي','جمع','سبت'];
+  var dayNames_en = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var monthNames_ar = ['يناير','فبراير','مارس','إبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  var monthNames_en = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  // في وضع 90 يوم: اجمع أسبوعياً لتقليل الضوضاء
   var barData = [];
-  for (var i = rangeDays - 1; i >= 0; i--) {
-    var dd = new Date(Date.now() - i * 86400000);
-    var dk = dd.getFullYear() + '-' + String(dd.getMonth()+1).padStart(2,'0') + '-' + String(dd.getDate()).padStart(2,'0');
-    var isToday = (dk === today);
-    var s = liveDays[dk] || 0;
-    var dayNames_ar = ['أحد','إثن','ثلا','أرب','خمي','جمع','سبت'];
-    var dayNames_en = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    var label = rangeDays === 7
-      ? (isAr ? dayNames_ar[dd.getDay()] : dayNames_en[dd.getDay()])
-      : String(dd.getDate());
-    barData.push({ secs: s, label: label, isToday: isToday });
+  if (rangeDays === 90) {
+    // 13 أسبوع (91 يوم)
+    for (var w = 12; w >= 0; w--) {
+      var weekSecs = 0;
+      var weekStart = null;
+      for (var d = 0; d < 7; d++) {
+        var daysAgo = w * 7 + d;
+        var dd = new Date(Date.now() - daysAgo * 86400000);
+        var dk = dd.getFullYear() + '-' + String(dd.getMonth()+1).padStart(2,'0') + '-' + String(dd.getDate()).padStart(2,'0');
+        weekSecs += (liveDays[dk] || 0);
+        if (d === 6 || daysAgo === 0) weekStart = dd; // آخر يوم في الأسبوع
+      }
+      // تسمية: رقم اليوم + الشهر لأول يوم
+      var startDd = new Date(Date.now() - (w * 7 + 6) * 86400000);
+      var lbl = isAr
+        ? (startDd.getDate() + ' ' + monthNames_ar[startDd.getMonth()].slice(0,3))
+        : (monthNames_en[startDd.getMonth()] + ' ' + startDd.getDate());
+      var isCurrentWeek = (w === 0);
+      barData.push({ secs: weekSecs, label: lbl, isToday: isCurrentWeek });
+    }
+  } else {
+    for (var i = rangeDays - 1; i >= 0; i--) {
+      var dd = new Date(Date.now() - i * 86400000);
+      var dk = dd.getFullYear() + '-' + String(dd.getMonth()+1).padStart(2,'0') + '-' + String(dd.getDate()).padStart(2,'0');
+      var isToday = (dk === today);
+      var s = liveDays[dk] || 0;
+      var label = rangeDays === 7
+        ? (isAr ? dayNames_ar[dd.getDay()] : dayNames_en[dd.getDay()])
+        : (dd.getDate() % 5 === 0 || isToday ? String(dd.getDate()) : ''); // كل 5 أيام في وضع 30
+      barData.push({ secs: s, label: label, isToday: isToday });
+    }
   }
+
   var maxBar = Math.max.apply(null, barData.map(function(b){ return b.secs; })) || 1;
-  var barMinWidth = rangeDays === 7 ? '0' : '14px';
+  var barMinWidth = rangeDays === 7 ? '0' : (rangeDays === 30 ? '8px' : '16px');
+  var barHeight = rangeDays === 7 ? '72px' : '60px';
 
   container.innerHTML = barData.map(function(b) {
     var pct = Math.round((b.secs / maxBar) * 100);
-    var active = b.isToday ? 'background:#1D9E75;' : ('background:' + (isDark ? 'rgba(29,158,117,0.35)' : 'rgba(29,158,117,0.25)') + ';');
+    var barColor = b.isToday ? '#1D9E75' : (isDark ? 'rgba(29,158,117,0.4)' : 'rgba(29,158,117,0.28)');
     var timeLabel = (rangeDays === 7 && b.secs >= 60) ? _statsFmtTime(b.secs, isAr) : '';
-    return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:' + barMinWidth + ';">' +
-      (rangeDays === 7 ? (timeLabel ? '<div style="font-size:9px;color:#1D9E75;font-weight:600;">' + timeLabel + '</div>' : '<div style="font-size:9px;"> </div>') : '') +
-      '<div style="height:60px;width:100%;display:flex;align-items:flex-end;justify-content:center;" title="' + _statsFmtTime(b.secs, isAr) + '">' +
-        '<div style="width:70%;border-radius:4px 4px 0 0;height:' + (pct || 2) + '%;' + active + 'transition:height .3s;min-height:3px;"></div>' +
+    var tooltipTxt = (rangeDays === 90 ? (isAr ? 'الأسبوع: ' : 'Week: ') : '') + _statsFmtTime(b.secs, isAr);
+    return '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:' + barMinWidth + ';">' +
+      (rangeDays === 7 ? (timeLabel ? '<div style="font-size:9px;color:#1D9E75;font-weight:700;white-space:nowrap;">' + timeLabel + '</div>' : '<div style="font-size:9px;"> </div>') : '') +
+      '<div style="height:' + barHeight + ';width:100%;display:flex;align-items:flex-end;justify-content:center;" title="' + tooltipTxt + '">' +
+        '<div style="width:' + (rangeDays === 90 ? '80%' : '70%') + ';border-radius:3px 3px 0 0;height:' + (pct || 2) + '%;background:' + barColor + ';transition:height .3s;min-height:3px;"></div>' +
       '</div>' +
-      '<div style="font-size:9px;color:' + mutedClr + ';font-weight:' + (b.isToday ? '700' : '400') + ';color:' + (b.isToday ? '#1D9E75' : mutedClr) + ';">' + b.label + '</div>' +
+      '<div style="font-size:9px;font-weight:' + (b.isToday ? '700' : '400') + ';color:' + (b.isToday ? '#1D9E75' : mutedClr) + ';white-space:nowrap;overflow:hidden;max-width:100%;text-overflow:ellipsis;">' + b.label + '</div>' +
     '</div>';
   }).join('');
 }
