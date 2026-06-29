@@ -662,7 +662,7 @@ audio {
   justify-content: center;
   padding: 10px 10px 8px;
   margin: 0 auto 6px;
-  max-width: 900px;
+  max-width: 18000px;
   background: #eef4fb;
   border: 1.5px solid rgba(30,144,255,0.18);
   border-radius: 18px;
@@ -4098,7 +4098,7 @@ body.dark-mode #adhkar-progress-label  { color: #b0cfe8; }
     display: none;
     position: relative;
     width: 98%;
-    max-width: 700px;
+    max-width: 100%;
     margin: 6px auto 4px;
     box-sizing: border-box;
 }
@@ -4133,6 +4133,7 @@ body.dark-mode .subfilter-scroll-wrap::after {
 }
 
 .subfilter-scroll-strip {
+  
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -4207,8 +4208,13 @@ body.dark-mode .subfilter-scroll-strip button.active {
 .subfilter-scroll-strip button:nth-child(7) { animation-delay: 0.24s; }
 .subfilter-scroll-strip button:nth-child(8) { animation-delay: 0.28s; }
 
+@media (min-width: 601px) {
+    .subfilter-scroll-strip { padding: 6px 10px; gap: 5px; justify-content: center; }
+    .subfilter-scroll-strip button { height: 32px; padding: 0 10px; font-size: 12px; }
+}
+
 @media (max-width: 600px) {
-    .subfilter-scroll-strip { padding: 6px 10px; gap: 6px; }
+    .subfilter-scroll-strip { padding: 6px 10px; gap: 6px; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; }
     .subfilter-scroll-strip button { font-size: 12px; height: 32px; padding: 0 12px; }
 }
 
