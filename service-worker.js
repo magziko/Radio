@@ -4,13 +4,15 @@
 
 const CACHE_STATIC = 'quran-radio-static-v3';
 const CACHE_AUDIO  = 'quran-radio-audio-v1';
-const CACHE_ALARM  = 'quran-radio-alarm-v2';
+const CACHE_ALARM  = 'quran-radio-alarm-v3';
 
 const MAX_AUDIO_FILES = 50;
 
 const ALARM_AUDIO_URLS = [
   /* ✅ ملف الـ intro (صل على النبي) — أولاً لضمان تحميله قبل أي شيء */
   "https://archive.org/download/2_20260614_20260614/%D8%B51.mp3",
+  /* ✅ مقطع "اعوذ بالله" — يُشغَّل بعد مقطع الصلاة على النبي مباشرة */
+  "https://archive.org/download/20260630_20260630_1419/%D8%A7%D8%B9%D9%88%D8%B0%20%D8%A8%D8%A7%D9%84%D9%84%D9%87%20.mp3",
   "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84.mp3",
   "https://archive.org/download/20260618_20260618_2021/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%20%D8%B5%D9%84%20.mp3",
   "https://archive.org/download/6_20260613/3.mp3",
@@ -160,17 +162,20 @@ self.addEventListener('message', async event => {
   if (!data) return;
 
   // ── البحث عن كاش URL (يدور في CACHE_ALARM أولاً ثم CACHE_AUDIO) ──
+  // بيرجع "url" (أول رابط متوفر — للتوافق مع الكود القديم) و"urls" (خريطة لكل رابط مطلوب نتيجته)
   if (data.type === 'FIND_CACHED_URL') {
     const [cacheAlarm, cacheAudio] = await Promise.all([
       caches.open(CACHE_ALARM),
       caches.open(CACHE_AUDIO)
     ]);
     let found = null;
+    const urlsMap = {};
     for (const url of data.urls) {
       const match = (await cacheAlarm.match(url)) || (await cacheAudio.match(url));
-      if (match) { found = url; break; }
+      urlsMap[url] = match ? url : null;
+      if (match && !found) found = url;
     }
-    event.source.postMessage({ type: 'CACHED_URL_RESULT', url: found });
+    event.source.postMessage({ type: 'CACHED_URL_RESULT', url: found, urls: urlsMap });
   }
 
   // ── الصفحة بعتت الإحداثيات عشان الـ SW يجدول الأذان ──
