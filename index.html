@@ -5568,13 +5568,17 @@ function confirmReload() {
     // مقطع الفتح: إذا كان مفعَّلاً من الإعدادات، يُشغَّل أولاً ثم تبدأ المحطة المعتادة بعد انتهائه
     var _introEnabled = localStorage.getItem('introClipEnabled') === 'true';
     var _introSrc = 'https://archive.org/download/2_20260614_20260614/%D8%B51.mp3';
+    var _introAouzSrc = 'https://archive.org/download/20260630_20260630_1419/%D8%A7%D8%B9%D9%88%D8%B0%20%D8%A8%D8%A7%D9%84%D9%84%D9%87%20.mp3';
 
     if (_introEnabled) {
-      // ── دعم الأوفلاين: لو مفيش نت، ابحث عن الملف في كاش الـ service worker ──
-      var _doPlayIntro = function(srcToPlay) {
+      // ── دعم الأوفلاين: لو مفيش نت، ابحث عن كل ملف في كاش الـ service worker ──
+      var _doPlayIntro = function(srcToPlay, aouzToPlay) {
         _playWelcomeSrc(srcToPlay, function() {
           if (window._welcomeScreenClosed || window._welcomeRadioBgStarted) return;
-          _playWelcomeSrc(_src);
+          _playWelcomeSrc(aouzToPlay, function() {
+            if (window._welcomeScreenClosed || window._welcomeRadioBgStarted) return;
+            _playWelcomeSrc(_src);
+          });
         });
       };
 
@@ -5582,25 +5586,55 @@ function confirmReload() {
         var _swHandler = function(event) {
           if (event.data && event.data.type === 'CACHED_URL_RESULT') {
             navigator.serviceWorker.removeEventListener('message', _swHandler);
-            var _cachedSrc = event.data.url || _introSrc;
-            _doPlayIntro(_cachedSrc);
+            var _results = event.data.urls || {};
+            var _cachedSrc = event.data.url || (_results[_introSrc]) || _introSrc;
+            var _cachedAouz = (_results[_introAouzSrc]) || _introAouzSrc;
+            _doPlayIntro(_cachedSrc, _cachedAouz);
           }
         };
         navigator.serviceWorker.addEventListener('message', _swHandler);
         navigator.serviceWorker.controller.postMessage({
           type: 'FIND_CACHED_URL',
-          urls: [_introSrc]
+          urls: [_introSrc, _introAouzSrc]
         });
         // fallback لو الـ SW ما ردّش خلال ثانية
         setTimeout(function() {
           navigator.serviceWorker.removeEventListener('message', _swHandler);
-          _doPlayIntro(_introSrc);
+          _doPlayIntro(_introSrc, _introAouzSrc);
         }, 1000);
       } else {
-        _doPlayIntro(_introSrc);
+        _doPlayIntro(_introSrc, _introAouzSrc);
       }
     } else {
-      _playWelcomeSrc(_src);
+      // ── مقطع "اعوذ بالله" يُشغَّل دائماً قبل المحطة، بغض النظر عن تفعيل تنبيه "صلِّ على النبي" ──
+      var _doPlayAouzOnly = function(aouzToPlay) {
+        _playWelcomeSrc(aouzToPlay, function() {
+          if (window._welcomeScreenClosed || window._welcomeRadioBgStarted) return;
+          _playWelcomeSrc(_src);
+        });
+      };
+
+      if (!navigator.onLine && navigator.serviceWorker && navigator.serviceWorker.controller) {
+        var _swHandler2 = function(event) {
+          if (event.data && event.data.type === 'CACHED_URL_RESULT') {
+            navigator.serviceWorker.removeEventListener('message', _swHandler2);
+            var _results2 = event.data.urls || {};
+            var _cachedAouz2 = (_results2[_introAouzSrc]) || _introAouzSrc;
+            _doPlayAouzOnly(_cachedAouz2);
+          }
+        };
+        navigator.serviceWorker.addEventListener('message', _swHandler2);
+        navigator.serviceWorker.controller.postMessage({
+          type: 'FIND_CACHED_URL',
+          urls: [_introAouzSrc]
+        });
+        setTimeout(function() {
+          navigator.serviceWorker.removeEventListener('message', _swHandler2);
+          _doPlayAouzOnly(_introAouzSrc);
+        }, 1000);
+      } else {
+        _doPlayAouzOnly(_introAouzSrc);
+      }
     }
   }
 
