@@ -2,7 +2,7 @@
    Service Worker — إذاعة القرآن الكريم
    ============================================ */
 
-const CACHE_STATIC = 'quran-radio-static-v2';
+const CACHE_STATIC = 'quran-radio-static-v3';
 const CACHE_AUDIO  = 'quran-radio-audio-v1';
 const CACHE_ALARM  = 'quran-radio-alarm-v2';
 
@@ -57,7 +57,17 @@ let swLastAliveTs   = 0; // آخر وقت استقبلنا AUDIO_ALIVE
 self.addEventListener('install', event => {
   event.waitUntil(
     Promise.all([
-      caches.open(CACHE_STATIC).then(cache => cache.addAll(STATIC_ASSETS)),
+      // مهم: نجبر الطلبات هنا تتجاهل أي كاش HTTP من المتصفح/GitHub Pages
+      // عشان نضمن إن الملفات اللي بتتخزن في CACHE_STATIC فعلاً أحدث نسخة
+      caches.open(CACHE_STATIC).then(cache =>
+        Promise.all(
+          STATIC_ASSETS.map(url =>
+            fetch(url, { cache: 'reload' })
+              .then(res => cache.put(url, res))
+              .catch(() => {})
+          )
+        )
+      ),
       caches.open(CACHE_ALARM).then(cache =>
         Promise.allSettled(
           ALARM_AUDIO_URLS.map(url => cache.add(url).catch(() => {}))
@@ -124,9 +134,11 @@ self.addEventListener('fetch', event => {
     url.includes('youtube')
   ) { return; }
 
-  // باقي الطلبات: Network First
+  // باقي الطلبات (وأهمها index.html): Network First
+  // نستخدم cache:'no-store' في طلب الشبكة عشان نضمن إن المتصفح/GitHub Pages
+  // مايرجعش نسخة قديمة من كاش HTTP، ودايماً نجيب آخر تحديث فعلي
   event.respondWith(
-    fetch(event.request)
+    fetch(event.request, { cache: 'no-store' })
       .then(response => {
         if (response && response.status === 200 && response.type === 'basic') {
           const clone = response.clone();
