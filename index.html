@@ -5491,6 +5491,9 @@ function confirmReload() {
       return;
     }
 
+    // علّم إن في تشغيل تالٍ متسلسل (مقطع الفتح ثم المحطة المعتادة) — يمنع تصفير اسم الإحصائية عند نهاية هذا المقطع
+    window._welcomeHasChainedNext = !!onEnded;
+
     _player.src = src;
     _player.load();
     _player.play().then(function() {
@@ -6022,6 +6025,12 @@ customAudioPlayer.addEventListener('ended', function() {
   isAudioPlaying = false;
   updateWelcomePlayPauseButton(false);
   if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none';
+  // لو ده مقطع الفتح (التنبيه الصوتي) وهيتبعه تشغيل المحطة المعتادة فوراً —
+  // متوقفش العداد ولا تصفّر الاسم، عشان دقايق المحطة الافتراضية تفضل تتحسب صح
+  if (window._welcomeHasChainedNext) {
+    window._welcomeHasChainedNext = false;
+    return;
+  }
   if (window._statsPlayStart) {
     window._statsActiveName = window._welcomeStationName || window._statsActiveName || '';
     _statsAddSeconds(Math.floor((Date.now() - window._statsPlayStart) / 1000));
@@ -35509,6 +35518,12 @@ function _statsKey() {
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
 
+// مفتاح الساعة الحالية (للرسم البياني اليومي بالساعات) — مثال: '2026-06-30-14'
+function _statsHourKey(offsetHours) {
+  var d = offsetHours ? new Date(Date.now() - offsetHours * 3600000) : new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0') + '-' + String(d.getHours()).padStart(2,'0');
+}
+
 function _statsLoad() {
   try { return JSON.parse(localStorage.getItem('listenStats') || '{}'); } catch(e) { return {}; }
 }
@@ -35524,13 +35539,22 @@ function _statsAddSeconds(secs) {
   if (keys.length > 60) {
     keys.slice(0, keys.length - 60).forEach(function(k) { delete data.days[k]; });
   }
+  // تتبّع بالساعة (لرسم النشاط اليومي بالساعات) — نحتفظ بآخر 48 ساعة فقط
+  if (!data.hours) data.hours = {};
+  var hourKey = _statsHourKey();
+  data.hours[hourKey] = (data.hours[hourKey] || 0) + secs;
+  var hourKeys = Object.keys(data.hours).sort();
+  if (hourKeys.length > 48) {
+    hourKeys.slice(0, hourKeys.length - 48).forEach(function(k) { delete data.hours[k]; });
+  }
   // اسم المحطة: تحقق من جميع المصادر بالأولوية
   var name = window._statsActiveName
     || window._welcomeStationName
     || window._currentPlayingName
     || window._isolatedStationName
     || '';
-  if (name && secs >= 2) {
+  // المحطة تتسجل في القائمة/الترتيب بس لو الاستماع 10 ثواني فأكثر (تفادي تسجيل محطات اتجربت بالغلط لثانية أو اتنين)
+  if (name && secs >= 10) {
     if (!data.stations) data.stations = {};
     // stationSecs: ثواني الاستماع الفعلية لكل محطة
     if (!data.stationSecs) data.stationSecs = {};
@@ -35609,7 +35633,10 @@ window.addEventListener('beforeunload', _statsFlushNow);
 function _statsFmtTime(secs, isAr) {
   if (!secs) return isAr ? '٠ د' : '0m';
   var h = Math.floor(secs / 3600);
-  var m = Math.floor((secs % 3600) / 60);
+  var remSecs = secs % 3600;
+  // قرّب الدقايق لأعلى عشان أي وقت استماع حقيقي (حتى لو أقل من دقيقة) ما يظهرش صفر
+  var m = Math.ceil(remSecs / 60);
+  if (h > 0 && m === 60) { h += 1; m = 0; }
   if (isAr) return h > 0 ? h + ' س ' + (m > 0 ? m + ' د' : '') : m + ' د';
   return h > 0 ? h + 'h ' + (m > 0 ? m + 'm' : '') : m + 'm';
 }
@@ -35702,7 +35729,7 @@ function openListenStats() {
     .sort(function(a,b) { return b.savedSecs - a.savedSecs; })
     .slice(0, 15);
 
-  window._statsCache = { liveDays: liveDays, today: today, isAr: isAr, isDark: isDark, mutedClr: mutedClr, borderClr: borderClr };
+  window._statsCache = { liveDays: liveDays, today: today, isAr: isAr, isDark: isDark, mutedClr: mutedClr, borderClr: borderClr, hours: (data.hours || {}) };
 
   // بناء الـ HTML
   function statCard(icon, val, lbl, extra) {
@@ -35766,6 +35793,7 @@ function openListenStats() {
           '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">' +
             '<div style="font-size:12px;font-weight:600;color:' + mutedClr + ';">' + (isAr ? 'النشاط' : 'Activity') + '</div>' +
             '<div style="display:flex;gap:4px;">' +
+              '<button id="statsRangeBtnDay" onclick="_statsSetRange(\'day\')" style="font-size:10px;font-weight:700;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-family:Cairo,sans-serif;background:' + (isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)') + ';color:' + mutedClr + ';">' + (isAr?'يوم':'Day') + '</button>' +
               '<button id="statsRangeBtn7" onclick="_statsSetRange(7)" style="font-size:10px;font-weight:700;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-family:Cairo,sans-serif;background:#1D9E75;color:#fff;">7' + (isAr?' أيام':'d') + '</button>' +
               '<button id="statsRangeBtn30" onclick="_statsSetRange(30)" style="font-size:10px;font-weight:700;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-family:Cairo,sans-serif;background:' + (isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)') + ';color:' + mutedClr + ';">30' + (isAr?' يوم':'d') + '</button>' +
               '<button id="statsRangeBtn90" onclick="_statsSetRange(90)" style="font-size:10px;font-weight:700;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-family:Cairo,sans-serif;background:' + (isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)') + ';color:' + mutedClr + ';">90' + (isAr?' يوم':'d') + '</button>' +
@@ -35795,15 +35823,17 @@ function _statsSetRange(rangeDays) {
   var isAr = cache.isAr, isDark = cache.isDark, mutedClr = cache.mutedClr;
   var liveDays = cache.liveDays, today = cache.today;
 
+  var btnDay = document.getElementById('statsRangeBtnDay');
   var btn7  = document.getElementById('statsRangeBtn7');
   var btn30 = document.getElementById('statsRangeBtn30');
   var btn90 = document.getElementById('statsRangeBtn90');
   var activeStyle   = 'background:#1D9E75;color:#fff;';
   var inactiveStyle = 'background:' + (isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)') + ';color:' + mutedClr + ';';
-  [btn7, btn30, btn90].forEach(function(btn) {
+  [btnDay, btn7, btn30, btn90].forEach(function(btn) {
     if (!btn) return;
     btn.style.cssText = btn.style.cssText.replace(/background:[^;]+;color:[^;]+;/, '');
   });
+  if (btnDay) btnDay.style.cssText += (rangeDays === 'day' ? activeStyle : inactiveStyle);
   if (btn7)  btn7.style.cssText  += (rangeDays === 7  ? activeStyle : inactiveStyle);
   if (btn30) btn30.style.cssText += (rangeDays === 30 ? activeStyle : inactiveStyle);
   if (btn90) btn90.style.cssText += (rangeDays === 90 ? activeStyle : inactiveStyle);
@@ -35813,8 +35843,28 @@ function _statsSetRange(rangeDays) {
   var monthNames_ar = ['يناير','فبراير','مارس','إبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
   var monthNames_en = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  // في وضع 90 يوم: اجمع أسبوعياً لتقليل الضوضاء
+  // في وضع "يوم": اعرض آخر 24 ساعة بالتفصيل (24 عمود)
   var barData = [];
+  if (rangeDays === 'day') {
+    var hours = cache.hours || {};
+    var liveSecsNow = 0;
+    if (window._statsPlayStart && typeof customAudioPlayer !== 'undefined' && !customAudioPlayer.paused) {
+      liveSecsNow = Math.floor((Date.now() - window._statsPlayStart) / 1000);
+    } else if (window._statsPlayStart) {
+      var _mainElNow = document.getElementById('currentAudio');
+      if (_mainElNow && !_mainElNow.paused) liveSecsNow = Math.floor((Date.now() - window._statsPlayStart) / 1000);
+    }
+    var currentHourKey = _statsHourKey();
+    for (var hh = 23; hh >= 0; hh--) {
+      var hk = _statsHourKey(hh);
+      var isCurrentHour = (hk === currentHourKey);
+      var hs = (hours[hk] || 0) + (isCurrentHour ? liveSecsNow : 0);
+      var hourNum = parseInt(hk.slice(-2), 10);
+      var hLabel = isAr ? (hourNum % 12 === 0 ? 12 : hourNum % 12) + (hourNum < 12 ? 'ص' : 'م') : (hourNum % 12 === 0 ? 12 : hourNum % 12) + (hourNum < 12 ? 'am' : 'pm');
+      barData.push({ secs: hs, label: (hh % 3 === 0 || isCurrentHour) ? hLabel : '', isToday: isCurrentHour, isFuture: false });
+    }
+  } else
+  // في وضع 90 يوم: اجمع أسبوعياً لتقليل الضوضاء
   if (rangeDays === 90) {
     // 13 أسبوع (91 يوم)
     for (var w = 12; w >= 0; w--) {
@@ -35865,23 +35915,23 @@ function _statsSetRange(rangeDays) {
   }
 
   var maxBar = Math.max.apply(null, barData.map(function(b){ return b.secs; })) || 1;
-  var barMinWidth = rangeDays === 7 ? '0' : (rangeDays === 30 ? '8px' : '16px');
-  var barHeight = rangeDays === 7 ? '80px' : '60px';
+  var barMinWidth = (rangeDays === 7 || rangeDays === 'day') ? '0' : (rangeDays === 30 ? '8px' : '16px');
+  var barHeight = (rangeDays === 7 || rangeDays === 'day') ? '80px' : '60px';
 
   container.innerHTML = barData.map(function(b) {
     var pct = Math.round((b.secs / maxBar) * 100);
     var barColor = b.isToday ? '#1D9E75' : (b.isFuture ? (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)') : (isDark ? 'rgba(29,158,117,0.4)' : 'rgba(29,158,117,0.28)'));
     var tooltipTxt = (rangeDays === 90 ? (isAr ? 'الأسبوع: ' : 'Week: ') : '') + _statsFmtTime(b.secs, isAr);
     // الوقت جوا العمود لو العمود كبير (pct >= 25)
-    var timeInsideBar = (rangeDays === 7 && b.secs >= 60 && pct >= 25)
+    var timeInsideBar = ((rangeDays === 7 || rangeDays === 'day') && b.secs >= 60 && pct >= 25)
       ? '<div style="position:absolute;bottom:3px;left:0;right:0;text-align:center;font-size:8px;color:#fff;font-weight:700;white-space:nowrap;pointer-events:none;">' + _statsFmtTime(b.secs, isAr) + '</div>'
       : '';
     // الوقت فوق العمود لو صغير
-    var timeAbove = (rangeDays === 7 && b.secs >= 60 && pct < 25)
+    var timeAbove = ((rangeDays === 7 || rangeDays === 'day') && b.secs >= 60 && pct < 25)
       ? '<div style="font-size:8px;color:#1D9E75;font-weight:700;text-align:center;white-space:nowrap;">' + _statsFmtTime(b.secs, isAr) + '</div>'
       : '<div style="height:12px;"></div>';
     return '<div style="display:flex;flex-direction:column;align-items:center;flex:1;min-width:' + barMinWidth + ';">' +
-      (rangeDays === 7 ? timeAbove : '') +
+      ((rangeDays === 7 || rangeDays === 'day') ? timeAbove : '') +
       '<div style="height:' + barHeight + ';width:100%;display:flex;align-items:flex-end;justify-content:center;" title="' + tooltipTxt + '">' +
         '<div style="position:relative;width:' + (rangeDays === 90 ? '80%' : '75%') + ';border-radius:3px 3px 0 0;height:' + (pct || 2) + '%;background:' + barColor + ';transition:height .3s;min-height:3px;">' +
           timeInsideBar +
