@@ -5410,7 +5410,11 @@ var mainAudio = document.getElementById('currentAudio');
   }
   mainAudio = el;
   el.addEventListener('play', function() {
-    window._statsActiveName = window._currentPlayingName || window._statsActiveName || '';
+    // احتفظ بالاسم الموجود لو _currentPlayingName فاضي (مثلاً التشغيل التلقائي)
+    window._statsActiveName = window._currentPlayingName
+      || window._welcomeStationName
+      || window._statsActiveName
+      || '';
     window._statsPlayStart = Date.now();
   });
   el.addEventListener('pause', function() {
@@ -5538,6 +5542,8 @@ function confirmReload() {
       : 'Ma إذاعة القرآن الكريم';
     window._welcomeStationName = _defaultName;
     window._statsActiveName    = _defaultName;
+    // ابدأ العداد فوراً مع بداية التشغيل التلقائي
+    if (!window._statsPlayStart) window._statsPlayStart = Date.now();
     if (typeof _saveToListenHistory === 'function') _saveToListenHistory(_defaultName, _src);
 
     // مقطع الفتح: إذا كان مفعَّلاً من الإعدادات، يُشغَّل أولاً ثم تبدأ المحطة المعتادة بعد انتهائه
@@ -5866,6 +5872,13 @@ function closeWelcomeScreen() {
 
   window._welcomeScreenClosed = true;
 
+  // احفظ وقت المحطة التلقائية قبل الإيقاف
+  if (window._statsPlayStart && typeof _statsAddSeconds === 'function') {
+    window._statsActiveName = window._welcomeStationName || window._statsActiveName || '';
+    _statsAddSeconds(Math.floor((Date.now() - window._statsPlayStart) / 1000));
+    window._statsPlayStart = null;
+  }
+
   customAudioPlayer.pause();
   customAudioPlayer.currentTime = 0;
   customAudioPlayer.src = '';
@@ -5977,21 +5990,17 @@ customAudioPlayer.addEventListener('play', function() {
   isAudioPlaying = true;
   updateWelcomePlayPauseButton(true);
   if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession();
-  // احفظ اسم المحطة في متغير خاص بالـ customAudioPlayer لا يتصفّر أثناء الاستماع
+  // ضبط الاسم — لو فاضي خد من المصادر المتاحة
   window._welcomeStationName = window._welcomeStationName || window._currentPlayingName || window._statsActiveName || '';
   window._statsActiveName = window._welcomeStationName;
-  window._statsPlayStart = Date.now();
+  // ابدأ العداد لو مش شغّال
+  if (!window._statsPlayStart) window._statsPlayStart = Date.now();
 });
 customAudioPlayer.addEventListener('pause', function() {
   isAudioPlaying = false;
   updateWelcomePlayPauseButton(false);
   if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
-  if (window._statsPlayStart) {
-    window._statsActiveName = window._welcomeStationName || window._statsActiveName || '';
-    _statsAddSeconds(Math.floor((Date.now() - window._statsPlayStart) / 1000));
-    window._statsPlayStart = null;
-  }
-  window._statsActiveName = '';
+  // الحفظ بيتم في closeWelcomeScreen و beforeunload فقط
 });
 customAudioPlayer.addEventListener('ended', function() {
   isAudioPlaying = false;
@@ -35518,20 +35527,33 @@ function _statsAddSeconds(secs) {
 
 // تسجيل كل دقيقة لضمان الحفظ حتى لو أُغلق التبويب — يغطي الثلاثة مشغّلات
 setInterval(function() {
-  // 1) الشاشة الترحيبية (customAudioPlayer)
-  if (window._statsPlayStart && !customAudioPlayer.paused) {
+  // تأكد إن الاسم متضبط دايماً — يحل مشكلة التشغيل التلقائي اللي بيبدأ قبل ضبط الاسم
+  if (!window._statsActiveName) {
+    window._statsActiveName = window._welcomeStationName || window._currentPlayingName || window._isolatedStationName || '';
+  }
+  if (!window._welcomeStationName) {
+    window._welcomeStationName = window._statsActiveName || window._currentPlayingName || '';
+  }
+
+  var _mainEl = document.getElementById('currentAudio');
+  var _welcomePlaying = !customAudioPlayer.paused;
+  var _mainPlaying = _mainEl && !_mainEl.paused;
+
+  // 1) الشاشة الترحيبية (customAudioPlayer) — فقط لو مش mainAudio شغّال في نفس الوقت
+  if (_welcomePlaying && !_mainPlaying) {
+    if (!window._statsPlayStart) window._statsPlayStart = Date.now();
     var elapsed = Math.floor((Date.now() - window._statsPlayStart) / 1000);
-    if (elapsed >= 60) {
+    if (elapsed >= 10) {
       window._statsActiveName = window._welcomeStationName || window._currentPlayingName || window._statsActiveName || '';
       _statsAddSeconds(elapsed);
       window._statsPlayStart = Date.now();
     }
   }
   // 2) الراديو الرئيسي (currentAudio / mainAudio)
-  var _mainEl = document.getElementById('currentAudio');
-  if (window._statsPlayStart && _mainEl && !_mainEl.paused) {
+  if (_mainPlaying) {
+    if (!window._statsPlayStart) window._statsPlayStart = Date.now();
     var elapsed2 = Math.floor((Date.now() - window._statsPlayStart) / 1000);
-    if (elapsed2 >= 60) {
+    if (elapsed2 >= 10) {
       window._statsActiveName = window._currentPlayingName || window._statsActiveName || '';
       _statsAddSeconds(elapsed2);
       window._statsPlayStart = Date.now();
