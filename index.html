@@ -5542,6 +5542,22 @@ function confirmReload() {
       : 'Ma إذاعة القرآن الكريم';
     window._welcomeStationName = _defaultName;
     window._statsActiveName    = _defaultName;
+    // لو radioStations لسه مش جاهزة وقت النداء (تحميل بطيء)، صحّح الاسم بمجرد ما تتوفر
+    if (typeof radioStations === 'undefined' || !radioStations[0]) {
+      var _fixNameTries = 0;
+      var _fixNameTimer = setInterval(function() {
+        _fixNameTries++;
+        if (typeof radioStations !== 'undefined' && radioStations[0] && radioStations[0].name) {
+          var _realName = radioStations[0].name;
+          // صحّح الاسم بس لو لسه نفس القيمة الاحتياطية (يعني المستخدم مبدّلش محطة لسه)
+          if (window._welcomeStationName === _defaultName) window._welcomeStationName = _realName;
+          if (window._statsActiveName === _defaultName) window._statsActiveName = _realName;
+          clearInterval(_fixNameTimer);
+        } else if (_fixNameTries >= 20) {
+          clearInterval(_fixNameTimer); // وقف المحاولة بعد 10 ثواني تقريباً
+        }
+      }, 500);
+    }
     // ملحوظة: لا نبدأ العداد هنا — يبدأ فقط عند نجاح التشغيل الفعلي (حدث 'play')
     // عشان لو المتصفح رفض autoplay وانتظرنا أول تفاعل من المستخدم، ما يتحتسبش وقت ميت كاستماع
     if (typeof _saveToListenHistory === 'function') _saveToListenHistory(_defaultName, _src);
