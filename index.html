@@ -5542,8 +5542,8 @@ function confirmReload() {
       : 'Ma إذاعة القرآن الكريم';
     window._welcomeStationName = _defaultName;
     window._statsActiveName    = _defaultName;
-    // ابدأ العداد فوراً مع بداية التشغيل التلقائي
-    if (!window._statsPlayStart) window._statsPlayStart = Date.now();
+    // ملحوظة: لا نبدأ العداد هنا — يبدأ فقط عند نجاح التشغيل الفعلي (حدث 'play')
+    // عشان لو المتصفح رفض autoplay وانتظرنا أول تفاعل من المستخدم، ما يتحتسبش وقت ميت كاستماع
     if (typeof _saveToListenHistory === 'function') _saveToListenHistory(_defaultName, _src);
 
     // مقطع الفتح: إذا كان مفعَّلاً من الإعدادات، يُشغَّل أولاً ثم تبدأ المحطة المعتادة بعد انتهائه
@@ -35525,7 +35525,7 @@ function _statsAddSeconds(secs) {
   localStorage.setItem('listenStats', JSON.stringify(data));
 }
 
-// تسجيل كل دقيقة لضمان الحفظ حتى لو أُغلق التبويب — يغطي الثلاثة مشغّلات
+// تسجيل كل 15 ثانية لضمان الحفظ حتى لو أُغلق التبويب بسرعة — يغطي الثلاثة مشغّلات
 setInterval(function() {
   // تأكد إن الاسم متضبط دايماً — يحل مشكلة التشغيل التلقائي اللي بيبدأ قبل ضبط الاسم
   if (!window._statsActiveName) {
@@ -35543,7 +35543,7 @@ setInterval(function() {
   if (_welcomePlaying && !_mainPlaying) {
     if (!window._statsPlayStart) window._statsPlayStart = Date.now();
     var elapsed = Math.floor((Date.now() - window._statsPlayStart) / 1000);
-    if (elapsed >= 10) {
+    if (elapsed >= 5) {
       window._statsActiveName = window._welcomeStationName || window._currentPlayingName || window._statsActiveName || '';
       _statsAddSeconds(elapsed);
       window._statsPlayStart = Date.now();
@@ -35553,7 +35553,7 @@ setInterval(function() {
   if (_mainPlaying) {
     if (!window._statsPlayStart) window._statsPlayStart = Date.now();
     var elapsed2 = Math.floor((Date.now() - window._statsPlayStart) / 1000);
-    if (elapsed2 >= 10) {
+    if (elapsed2 >= 5) {
       window._statsActiveName = window._currentPlayingName || window._statsActiveName || '';
       _statsAddSeconds(elapsed2);
       window._statsPlayStart = Date.now();
@@ -35562,24 +35562,33 @@ setInterval(function() {
   // 3) المشغّل المعزول (isolatedAudio)
   if (window._statsIsoPlayStart && window.isolatedAudio && !window.isolatedAudio.paused) {
     var elapsed3 = Math.floor((Date.now() - window._statsIsoPlayStart) / 1000);
-    if (elapsed3 >= 60) {
+    if (elapsed3 >= 15) {
       window._statsActiveName = window._isolatedStationName || window._statsActiveName || '';
       _statsAddSeconds(elapsed3);
       window._statsIsoPlayStart = Date.now();
     }
   }
-}, 60000);
+}, 15000);
 
-window.addEventListener('beforeunload', function() {
+// ── حفظ احتياطي عند إخفاء التبويب/الصفحة — يغطي حالات لا يعمل فيها beforeunload (موبايل، Ctrl+F5، PWA) ──
+function _statsFlushNow() {
   if (window._statsPlayStart) {
     window._statsActiveName = window._welcomeStationName || window._currentPlayingName || window._statsActiveName || '';
     _statsAddSeconds(Math.floor((Date.now() - window._statsPlayStart) / 1000));
+    window._statsPlayStart = Date.now();
   }
   if (window._statsIsoPlayStart && window.isolatedAudio && !window.isolatedAudio.paused) {
     window._statsActiveName = window._isolatedStationName || '';
     _statsAddSeconds(Math.floor((Date.now() - window._statsIsoPlayStart) / 1000));
+    window._statsIsoPlayStart = Date.now();
   }
+}
+
+document.addEventListener('visibilitychange', function() {
+  if (document.visibilityState === 'hidden') _statsFlushNow();
 });
+window.addEventListener('pagehide', _statsFlushNow);
+window.addEventListener('beforeunload', _statsFlushNow);
 
 function _statsFmtTime(secs, isAr) {
   if (!secs) return isAr ? '٠ د' : '0m';
