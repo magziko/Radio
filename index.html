@@ -13825,6 +13825,82 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   
+  <div id="audio-quality-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(29,158,117,0.08),rgba(255,183,77,0.07));
+    border: 1.5px solid rgba(29,158,117,0.20);
+    border-radius: 14px;
+    padding: 10px 16px 12px;
+    box-sizing: border-box;
+    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <span data-ar="🎚️ جودة الصوت (معادل + تضخيم)" data-en="🎚️ Audio Quality (Equalizer + Boost)"
+        style="font-size:15px;font-weight:700;color:#1a3a52;white-space:nowrap;">🎚️ جودة الصوت (معادل + تضخيم)</span>
+      <button id="audioQualityResetBtn" onclick="window.resetAudioQuality && window.resetAudioQuality()"
+        data-ar="↺ إعادة ضبط" data-en="↺ Reset"
+        style="padding:4px 12px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:700;
+               font-family:'Cairo',Arial,sans-serif;background:rgba(0,0,0,0.08);color:#1a3a52;white-space:nowrap;">
+        ↺ إعادة ضبط
+      </button>
+    </div>
+
+    
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <label for="audioBoostSlider" data-ar="🔊 تضخيم الصوت" data-en="🔊 Volume Boost"
+        style="font-size:13px;font-weight:700;color:#2c5f7a;white-space:nowrap;min-width:110px;">🔊 تضخيم الصوت</label>
+      <input type="range" id="audioBoostSlider" min="1" max="5" step="0.25" value="1"
+             oninput="window.setAudioBoost && window.setAudioBoost(this.value)"
+             style="flex:1;min-width:120px;accent-color:#1D9E75;cursor:pointer;">
+      <span id="audioBoostValueLabel" style="font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;min-width:42px;text-align:center;color:#1a3a52;">100%</span>
+    </div>
+
+    
+    <div id="equalizer-row" style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-top:2px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+        <span id="eqBassValue" style="font-size:11px;font-weight:700;color:#1a3a52;font-variant-numeric:tabular-nums;">0dB</span>
+        <input type="range" id="eqBassSlider" min="-12" max="12" step="1" value="0"
+               oninput="window.setEqBand && window.setEqBand('bass', this.value)"
+               style="writing-mode:vertical-lr;direction:rtl;width:22px;height:70px;accent-color:#e57373;cursor:pointer;">
+        <label data-ar="جهير" data-en="Bass" style="font-size:11px;color:#2c5f7a;">جهير</label>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+        <span id="eqMidValue" style="font-size:11px;font-weight:700;color:#1a3a52;font-variant-numeric:tabular-nums;">0dB</span>
+        <input type="range" id="eqMidSlider" min="-12" max="12" step="1" value="0"
+               oninput="window.setEqBand && window.setEqBand('mid', this.value)"
+               style="writing-mode:vertical-lr;direction:rtl;width:22px;height:70px;accent-color:#ffb74d;cursor:pointer;">
+        <label data-ar="متوسط" data-en="Mid" style="font-size:11px;color:#2c5f7a;">متوسط</label>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+        <span id="eqTrebleValue" style="font-size:11px;font-weight:700;color:#1a3a52;font-variant-numeric:tabular-nums;">0dB</span>
+        <input type="range" id="eqTrebleSlider" min="-12" max="12" step="1" value="0"
+               oninput="window.setEqBand && window.setEqBand('treble', this.value)"
+               style="writing-mode:vertical-lr;direction:rtl;width:22px;height:70px;accent-color:#4CC9F0;cursor:pointer;">
+        <label data-ar="حاد" data-en="Treble" style="font-size:11px;color:#2c5f7a;">حاد</label>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:6px;margin-inline-start:6px;">
+        <label for="eqPresetSelect" data-ar="جاهز" data-en="Preset" style="font-size:12px;color:#2c5f7a;white-space:nowrap;">جاهز:</label>
+        <select id="eqPresetSelect" onchange="window.applyEqPreset && window.applyEqPreset(this.value)"
+                style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:12px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
+          <option value="flat" data-ar="مسطّح" data-en="Flat">مسطّح</option>
+          <option value="voice" data-ar="وضوح الصوت / التلاوة" data-en="Voice / Recitation Clarity">وضوح الصوت / التلاوة</option>
+          <option value="bass" data-ar="جهير قوي" data-en="Bass Boost">جهير قوي</option>
+          <option value="bright" data-ar="حدة عالية" data-en="Bright">حدة عالية</option>
+        </select>
+      </div>
+    </div>
+    <span data-ar="ملاحظة: المعادل والتضخيم قد لا يعملان مع بعض المحطات الخارجية بسبب قيود المتصفح (CORS)"
+          data-en="Note: Equalizer and boost may not work on some external stations due to browser (CORS) restrictions"
+          style="font-size:10px;opacity:.65;">ملاحظة: المعادل والتضخيم قد لا يعملان مع بعض المحطات الخارجية بسبب قيود المتصفح (CORS)</span>
+  </div>
+
+  
   <div id="welcomeExtraControlsRow" style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 8px 0 4px; flex-wrap:wrap;">
     <button id="disableWelcomeToggleBtn"
             onclick="toggleDisableWelcomeBtn()"
@@ -27365,6 +27441,522 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 })();
 </script>
 
+<script>
+// ===== بوصلة اتجاه القبلة =====
+(function() {
+  var KAABA_LAT = 21.4225, KAABA_LON = 39.8262;
+  var _qcWatching = false;
+  var _qcOrientHandler = null;
+  var _qcBearing = null;
+
+  function _qcToRad(d) { return d * Math.PI / 180; }
+  function _qcToDeg(r) { return r * 180 / Math.PI; }
+
+  function _qcCalcBearing(lat, lon) {
+    var phi1 = _qcToRad(lat), lam1 = _qcToRad(lon);
+    var phi2 = _qcToRad(KAABA_LAT), lam2 = _qcToRad(KAABA_LON);
+    var dLam = lam2 - lam1;
+    var y = Math.sin(dLam) * Math.cos(phi2);
+    var x = Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(dLam);
+    var theta = Math.atan2(y, x);
+    return (_qcToDeg(theta) + 360) % 360;
+  }
+
+  function _qcCalcDistance(lat, lon) {
+    var R = 6371;
+    var phi1 = _qcToRad(lat), phi2 = _qcToRad(KAABA_LAT);
+    var dPhi = _qcToRad(KAABA_LAT - lat);
+    var dLam = _qcToRad(KAABA_LON - lon);
+    var a = Math.sin(dPhi/2) * Math.sin(dPhi/2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(dLam/2) * Math.sin(dLam/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return Math.round(R * c);
+  }
+
+  function _qcCardinal(deg, isAr) {
+    var names_ar = ['شمال','شمال شرق','شرق','جنوب شرق','جنوب','جنوب غرب','غرب','شمال غرب'];
+    var names_en = ['N','NE','E','SE','S','SW','W','NW'];
+    var idx = Math.round(deg / 45) % 8;
+    return isAr ? names_ar[idx] : names_en[idx];
+  }
+
+  function _qcGetCachedGeo() {
+    try {
+      var geo = JSON.parse(localStorage.getItem('adhanGeoCache') || '{}');
+      if (geo.lat && geo.lon && (Date.now() - geo.ts) < 30 * 864e5) return geo;
+    } catch(e) {}
+    return null;
+  }
+
+  function _qcSaveGeo(lat, lon) {
+    try { localStorage.setItem('adhanGeoCache', JSON.stringify({ lat: lat, lon: lon, ts: Date.now() })); } catch(e) {}
+  }
+
+  function _qcHandleOrientation(event) {
+    var heading;
+    if (typeof event.webkitCompassHeading !== 'undefined' && event.webkitCompassHeading !== null) {
+      heading = event.webkitCompassHeading;
+    } else if (event.alpha !== null && event.alpha !== undefined) {
+      heading = 360 - event.alpha;
+    } else {
+      return;
+    }
+    var arrow = document.getElementById('qcArrow');
+    var needleWrap = document.getElementById('qcNeedleWrap');
+    if (!arrow || _qcBearing === null) return;
+    var rotation = (_qcBearing - heading + 360) % 360;
+    arrow.style.transform = 'rotate(' + rotation + 'deg)';
+    var diff = Math.abs(((rotation + 180) % 360) - 180);
+    var statusEl = document.getElementById('qcAlignStatus');
+    if (statusEl) {
+      if (diff < 8) {
+        statusEl.textContent = window._qcIsAr ? '✅ أنت متجه نحو القبلة الآن' : '✅ You are facing the Qibla';
+        statusEl.style.color = '#1D9E75';
+        if (needleWrap) needleWrap.style.boxShadow = '0 0 0 4px rgba(29,158,117,0.25)';
+      } else {
+        statusEl.textContent = window._qcIsAr ? 'وجّه هاتفك حتى يتطابق السهم مع أعلى الدائرة' : 'Rotate your phone until the arrow points up';
+        statusEl.style.color = '';
+        if (needleWrap) needleWrap.style.boxShadow = '';
+      }
+    }
+  }
+
+  function _qcShowPermissionDenied() {
+    var statusEl = document.getElementById('qcAlignStatus');
+    if (statusEl) {
+      statusEl.textContent = window._qcIsAr ? '⚠️ لم يتم السماح بالوصول لحساس الاتجاه' : '⚠️ Compass permission denied';
+      statusEl.style.color = '#dc3545';
+    }
+  }
+
+  function _qcAttachOrientation() {
+    _qcOrientHandler = _qcHandleOrientation;
+    if ('ondeviceorientationabsolute' in window) {
+      window.addEventListener('deviceorientationabsolute', _qcOrientHandler, true);
+    } else {
+      window.addEventListener('deviceorientation', _qcOrientHandler, true);
+    }
+    _qcWatching = true;
+    var statusEl = document.getElementById('qcAlignStatus');
+    if (statusEl) {
+      statusEl.textContent = window._qcIsAr ? 'وجّه هاتفك حتى يتطابق السهم مع أعلى الدائرة' : 'Rotate your phone until the arrow points up';
+      statusEl.style.color = '';
+    }
+  }
+
+  function _qcStartOrientation() {
+    if (_qcWatching) return;
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceOrientationEvent.requestPermission().then(function(state) {
+        if (state === 'granted') _qcAttachOrientation();
+        else _qcShowPermissionDenied();
+      }).catch(function() { _qcShowPermissionDenied(); });
+    } else if ('DeviceOrientationEvent' in window) {
+      _qcAttachOrientation();
+    } else {
+      var statusEl = document.getElementById('qcAlignStatus');
+      if (statusEl) {
+        statusEl.textContent = window._qcIsAr ? '⚠️ جهازك لا يدعم حساس الاتجاه، استخدم خرائط جوجل' : '⚠️ Compass sensor not supported, use Google Maps instead';
+        statusEl.style.color = '#dc3545';
+      }
+    }
+  }
+
+  function _qcRender(lat, lon) {
+    var isAr = window._qcIsAr;
+    var isDark = document.body.classList.contains('dark-mode');
+    var el = document.getElementById('qiblaCompassBody');
+    if (!el) return;
+
+    _qcBearing = _qcCalcBearing(lat, lon);
+    var dist = _qcCalcDistance(lat, lon);
+    var cardinal = _qcCardinal(_qcBearing, isAr);
+
+    var bg    = isDark ? '#15241c' : '#f0f9f5';
+    var clr   = isDark ? '#d5ede4' : '#1a2e24';
+    var muted = isDark ? 'rgba(200,240,220,0.55)' : 'rgba(0,70,40,0.5)';
+    var ring  = isDark ? 'rgba(29,158,117,0.35)' : 'rgba(29,158,117,0.25)';
+
+    el.innerHTML =
+      '<div style="text-align:center;padding:6px 4px 4px;">' +
+        '<div id="qcNeedleWrap" style="position:relative;width:220px;height:220px;margin:0 auto 14px;border-radius:50%;background:' + bg + ';border:2px solid ' + ring + ';transition:box-shadow .25s;">' +
+          '<div style="position:absolute;inset:10px;border-radius:50%;border:1px dashed ' + ring + ';"></div>' +
+          '<div style="position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;color:' + muted + ';">N</div>' +
+          '<div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;color:' + muted + ';">S</div>' +
+          '<div style="position:absolute;top:50%;left:6px;transform:translateY(-50%);font-size:11px;font-weight:700;color:' + muted + ';">W</div>' +
+          '<div style="position:absolute;top:50%;right:6px;transform:translateY(-50%);font-size:11px;font-weight:700;color:' + muted + ';">E</div>' +
+          '<div id="qcArrow" style="position:absolute;inset:0;transform:rotate(' + _qcBearing + 'deg);transition:transform .15s ease-out;">' +
+            '<div style="position:absolute;top:14px;left:50%;transform:translateX(-50%);font-size:30px;">🕋</div>' +
+            '<div style="position:absolute;top:44px;left:50%;width:3px;height:60px;background:#1D9E75;transform:translateX(-50%);border-radius:3px;"></div>' +
+          '</div>' +
+          '<div style="position:absolute;top:50%;left:50%;width:10px;height:10px;border-radius:50%;background:#1D9E75;transform:translate(-50%,-50%);"></div>' +
+        '</div>' +
+        '<div style="font-size:13px;font-weight:700;color:' + clr + ';margin-bottom:2px;">' + Math.round(_qcBearing) + '° ' + (isAr ? 'من الشمال' : 'from North') + ' (' + cardinal + ')</div>' +
+        '<div style="font-size:12px;color:' + muted + ';margin-bottom:10px;">' + (isAr ? 'المسافة إلى الكعبة: ' : 'Distance to Kaaba: ') + dist.toLocaleString() + ' ' + (isAr ? 'كم' : 'km') + '</div>' +
+        '<div id="qcAlignStatus" style="font-size:12px;font-weight:600;min-height:18px;color:' + muted + ';margin-bottom:10px;">' + (isAr ? 'اضغط "تفعيل البوصلة" ثم أدر هاتفك أفقياً' : 'Tap "Enable Compass" then rotate your phone flat') + '</div>' +
+        '<button onclick="window._qcEnable()" style="background:#1D9E75;color:#fff;border:none;border-radius:10px;padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif;margin-bottom:8px;">🧭 ' + (isAr ? 'تفعيل البوصلة' : 'Enable Compass') + '</button>' +
+        '<div style="display:flex;gap:8px;justify-content:center;margin-top:4px;flex-wrap:wrap;">' +
+          '<button onclick="window._qcRefreshLoc()" style="background:none;border:1px solid ' + ring + ';color:' + muted + ';font-size:11px;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 ' + (isAr ? 'تحديث الموقع' : 'Update Location') + '</button>' +
+          '<a href="https://www.google.com/maps/dir/?api=1&origin=' + lat + ',' + lon + '&destination=21.4225,39.8262" target="_blank" style="text-decoration:none;background:none;border:1px solid ' + ring + ';color:' + muted + ';font-size:11px;padding:6px 12px;border-radius:8px;font-family:Cairo,sans-serif;display:inline-flex;align-items:center;">🗺️ ' + (isAr ? 'خرائط جوجل' : 'Google Maps') + '</a>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function _qcLoad() {
+    var el = document.getElementById('qiblaCompassBody');
+    if (!el) return;
+    var cached = _qcGetCachedGeo();
+    if (cached) { _qcRender(cached.lat, cached.lon); return; }
+    el.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#888;font-size:13px;">⏳ ' + (window._qcIsAr ? 'جارٍ تحديد موقعك...' : 'Locating you...') + '</div>';
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        _qcSaveGeo(pos.coords.latitude, pos.coords.longitude);
+        _qcRender(pos.coords.latitude, pos.coords.longitude);
+      }, function() {
+        el.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#dc3545;font-size:13px;">⚠️ ' + (window._qcIsAr ? 'تعذر الوصول للموقع، يرجى السماح بالوصول للموقع من إعدادات المتصفح' : 'Could not access location, please allow location access') + '</div>';
+      }, { timeout: 10000 });
+    } else {
+      el.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#dc3545;font-size:13px;">⚠️ ' + (window._qcIsAr ? 'المتصفح لا يدعم تحديد الموقع' : 'Geolocation not supported') + '</div>';
+    }
+  }
+
+  window._qcEnable = function() { _qcStartOrientation(); };
+  window._qcRefreshLoc = function() {
+    try { localStorage.removeItem('adhanGeoCache'); } catch(e) {}
+    _qcLoad();
+  };
+
+  window.openQiblaCompass = function() {
+    var old = document.getElementById('qiblaCompassPopup');
+    if (old) { old.remove(); return; }
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    window._qcIsAr = isAr;
+    var isDark = document.body.classList.contains('dark-mode');
+    var bg = isDark ? '#1a2820' : '#fff';
+    var clr = isDark ? '#e0e0e0' : '#1a1a1a';
+    var borderClr = isDark ? '#2a3f32' : '#e8ede9';
+
+    var popup = document.createElement('div');
+    popup.id = 'qiblaCompassPopup';
+    popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:qcFadeIn .18s ease;';
+    popup.innerHTML =
+      '<style>@keyframes qcFadeIn{from{opacity:0}to{opacity:1}}@keyframes qcSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
+      '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:360px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:qcSlideIn .22s ease;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';">' +
+          '<div style="font-size:15px;font-weight:700;">🧭 ' + (isAr ? 'اتجاه القبلة' : 'Qibla Direction') + '</div>' +
+          '<button onclick="document.getElementById(\'qiblaCompassPopup\').remove()" aria-label="close" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
+        '</div>' +
+        '<div id="qiblaCompassBody" style="padding:14px 16px 18px;"></div>' +
+      '</div>';
+    popup.addEventListener('click', function(e) { if (e.target === popup) popup.remove(); });
+    document.body.appendChild(popup);
+    _qcLoad();
+  };
+
+  window.addEventListener('beforeunload', function() {
+    if (_qcOrientHandler) {
+      window.removeEventListener('deviceorientationabsolute', _qcOrientHandler, true);
+      window.removeEventListener('deviceorientation', _qcOrientHandler, true);
+    }
+  });
+})();
+</script>
+
+<script>
+// ===== حاسبة الزكاة =====
+(function() {
+  var GRAMS_PER_OZ = 31.1034768;
+  var NISAB_GOLD_G = 85;
+  var NISAB_SILVER_G = 595;
+  var ZAKAT_RATE = 0.025;
+  var CACHE_KEY = 'zakatPricesCache';
+  var CACHE_MS = 6 * 60 * 60 * 1000; // 6 ساعات
+
+  var CURRENCIES = [
+    { code: 'EGP', ar: 'جنيه مصري',    en: 'Egyptian Pound' },
+    { code: 'SAR', ar: 'ريال سعودي',   en: 'Saudi Riyal' },
+    { code: 'AED', ar: 'درهم إماراتي', en: 'UAE Dirham' },
+    { code: 'KWD', ar: 'دينار كويتي',  en: 'Kuwaiti Dinar' },
+    { code: 'QAR', ar: 'ريال قطري',    en: 'Qatari Riyal' },
+    { code: 'BHD', ar: 'دينار بحريني', en: 'Bahraini Dinar' },
+    { code: 'OMR', ar: 'ريال عماني',   en: 'Omani Rial' },
+    { code: 'JOD', ar: 'دينار أردني',  en: 'Jordanian Dinar' },
+    { code: 'IQD', ar: 'دينار عراقي',  en: 'Iraqi Dinar' },
+    { code: 'LYD', ar: 'دينار ليبي',   en: 'Libyan Dinar' },
+    { code: 'MAD', ar: 'درهم مغربي',   en: 'Moroccan Dirham' },
+    { code: 'DZD', ar: 'دينار جزائري', en: 'Algerian Dinar' },
+    { code: 'TND', ar: 'دينار تونسي',  en: 'Tunisian Dinar' },
+    { code: 'USD', ar: 'دولار أمريكي', en: 'US Dollar' },
+    { code: 'EUR', ar: 'يورو',         en: 'Euro' },
+    { code: 'GBP', ar: 'جنيه إسترليني',en: 'British Pound' },
+    { code: 'TRY', ar: 'ليرة تركية',   en: 'Turkish Lira' },
+    { code: 'PKR', ar: 'روبية باكستانية', en: 'Pakistani Rupee' },
+    { code: 'INR', ar: 'روبية هندية',  en: 'Indian Rupee' },
+    { code: 'MYR', ar: 'رينغيت ماليزي', en: 'Malaysian Ringgit' },
+    { code: 'IDR', ar: 'روبية إندونيسية', en: 'Indonesian Rupiah' }
+  ];
+
+  var _zkCurrency = 'EGP';
+  var _zkPrices = null; // { goldGram, silverGram, ts }
+
+  function _zkFmt(n) {
+    n = Math.round(n * 100) / 100;
+    return n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  }
+
+  function _zkGetCache() {
+    try {
+      var c = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+      if (c.ts && (Date.now() - c.ts) < CACHE_MS && c.goldUsdOz && c.silverUsdOz && c.rates) return c;
+    } catch(e) {}
+    return null;
+  }
+
+  function _zkSaveCache(goldUsdOz, silverUsdOz, rates) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ goldUsdOz: goldUsdOz, silverUsdOz: silverUsdOz, rates: rates, ts: Date.now() })); } catch(e) {}
+  }
+
+  function _zkComputePrices(goldUsdOz, silverUsdOz, rates) {
+    var rate = (rates && rates[_zkCurrency]) || 1;
+    _zkPrices = {
+      goldGram: (goldUsdOz / GRAMS_PER_OZ) * rate,
+      silverGram: (silverUsdOz / GRAMS_PER_OZ) * rate
+    };
+  }
+
+  function _zkFetchPrices(force, cb) {
+    var cached = !force && _zkGetCache();
+    if (cached) {
+      _zkComputePrices(cached.goldUsdOz, cached.silverUsdOz, cached.rates);
+      cb(null);
+      return;
+    }
+    Promise.all([
+      fetch('https://api.gold-api.com/price/XAU').then(function(r){ return r.json(); }),
+      fetch('https://api.gold-api.com/price/XAG').then(function(r){ return r.json(); }),
+      fetch('https://open.er-api.com/v6/latest/USD').then(function(r){ return r.json(); })
+    ]).then(function(res) {
+      var goldUsdOz = res[0] && res[0].price;
+      var silverUsdOz = res[1] && res[1].price;
+      var rates = res[2] && res[2].rates;
+      if (!goldUsdOz || !silverUsdOz || !rates) { cb('bad_data'); return; }
+      _zkSaveCache(goldUsdOz, silverUsdOz, rates);
+      _zkComputePrices(goldUsdOz, silverUsdOz, rates);
+      cb(null);
+    }).catch(function() { cb('fetch_error'); });
+  }
+
+  function _zkCurrencyLabel(isAr) {
+    for (var i = 0; i < CURRENCIES.length; i++) {
+      if (CURRENCIES[i].code === _zkCurrency) return isAr ? CURRENCIES[i].ar : CURRENCIES[i].en;
+    }
+    return _zkCurrency;
+  }
+
+  function _zkRenderPriceBar(isAr, isDark, muted, ring) {
+    var bar = document.getElementById('zkPriceBar');
+    if (!bar) return;
+    if (!_zkPrices) {
+      bar.innerHTML = '<div style="text-align:center;padding:14px;color:' + muted + ';font-size:12px;">⏳ ' + (isAr ? 'جارٍ تحميل الأسعار...' : 'Loading prices...') + '</div>';
+      return;
+    }
+    bar.innerHTML =
+      '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;color:' + muted + ';margin-bottom:4px;">' +
+        '<span>🥇 ' + (isAr ? 'جرام الذهب 24 (نقي):' : 'Gold/g 24k (pure):') + ' <b style="color:#1D9E75;">' + _zkFmt(_zkPrices.goldGram) + '</b></span>' +
+        '<span>🥇 ' + (isAr ? 'عيار 21:' : '21k:') + ' <b style="color:#1D9E75;">' + _zkFmt(_zkPrices.goldGram * 21/24) + '</b></span>' +
+      '</div>' +
+      '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;color:' + muted + ';">' +
+        '<span>🥈 ' + (isAr ? 'جرام الفضة:' : 'Silver/g:') + ' <b style="color:#1D9E75;">' + _zkFmt(_zkPrices.silverGram) + '</b></span>' +
+        '<span style="opacity:.75;">' + (isAr ? 'النصاب دايمًا محسوب بعيار 24' : 'Nisab always in 24k') + '</span>' +
+      '</div>';
+  }
+
+  function _zkBuildForm(isAr, isDark) {
+    var clr   = isDark ? '#e0e0e0' : '#1a1a1a';
+    var muted = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
+    var ring  = isDark ? 'rgba(29,158,117,0.3)'  : 'rgba(29,158,117,0.2)';
+    var inputBg = isDark ? '#1d3028' : '#fff';
+
+    function inputRow(id, label, placeholder) {
+      return '<div style="margin-bottom:10px;">' +
+        '<label style="display:block;font-size:12px;font-weight:600;color:' + clr + ';margin-bottom:4px;">' + label + '</label>' +
+        '<input type="number" min="0" inputmode="decimal" id="' + id + '" placeholder="' + (placeholder || '0') + '" ' +
+        'style="width:100%;padding:9px 10px;border-radius:8px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;box-sizing:border-box;direction:rtl;">' +
+      '</div>';
+    }
+
+    var currencyOptions = CURRENCIES.map(function(c) {
+      return '<option value="' + c.code + '"' + (c.code === _zkCurrency ? ' selected' : '') + '>' + (isAr ? c.ar : c.en) + ' (' + c.code + ')</option>';
+    }).join('');
+
+    return (
+      '<div style="margin-bottom:12px;">' +
+        '<label style="display:block;font-size:12px;font-weight:600;color:' + clr + ';margin-bottom:4px;">' + (isAr ? 'العملة' : 'Currency') + '</label>' +
+        '<select id="zkCurrencySelect" onchange="window._zkChangeCurrency(this.value)" style="width:100%;padding:9px 10px;border-radius:8px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;box-sizing:border-box;direction:rtl;">' +
+          currencyOptions +
+        '</select>' +
+      '</div>' +
+      '<div id="zkPriceBar" style="background:' + (isDark ? 'rgba(29,158,117,0.1)' : 'rgba(29,158,117,0.06)') + ';border-radius:10px;padding:10px 12px;margin-bottom:14px;"></div>' +
+
+      inputRow('zkCash', isAr ? '💵 النقد والمدخرات (بالبنك وفي اليد)' : '💵 Cash & savings') +
+      '<div style="margin-bottom:10px;">' +
+        '<label style="display:block;font-size:12px;font-weight:600;color:' + clr + ';margin-bottom:4px;">' + (isAr ? '🥇 الذهب المملوك' : '🥇 Gold owned') + '</label>' +
+        '<div style="display:flex;gap:6px;">' +
+          '<input type="number" min="0" inputmode="decimal" id="zkGoldGrams" placeholder="' + (isAr ? 'الوزن بالجرام' : 'Weight in grams') + '" ' +
+          'style="flex:2;padding:9px 10px;border-radius:8px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;box-sizing:border-box;direction:rtl;">' +
+          '<select id="zkGoldKarat" style="flex:1;padding:9px 6px;border-radius:8px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;box-sizing:border-box;">' +
+            '<option value="24">24 ' + (isAr ? 'عيار' : 'k') + '</option>' +
+            '<option value="22">22 ' + (isAr ? 'عيار' : 'k') + '</option>' +
+            '<option value="21" selected>21 ' + (isAr ? 'عيار' : 'k') + '</option>' +
+            '<option value="18">18 ' + (isAr ? 'عيار' : 'k') + '</option>' +
+          '</select>' +
+        '</div>' +
+      '</div>' +
+      inputRow('zkSilverGrams', isAr ? '🥈 وزن الفضة المملوكة (جرام)' : '🥈 Silver owned (grams)') +
+      inputRow('zkInvestments', isAr ? '📈 عروض التجارة / الاستثمارات' : '📈 Trade goods / investments') +
+      inputRow('zkReceivables', isAr ? '🤝 ديون مستحقة لك (قابلة للتحصيل)' : '🤝 Money owed to you') +
+      inputRow('zkDebts', isAr ? '📉 ديون عليك (مستحقة الآن)' : '📉 Your debts due now') +
+
+      '<div style="margin-bottom:14px;">' +
+        '<label style="display:block;font-size:12px;font-weight:600;color:' + clr + ';margin-bottom:6px;">' + (isAr ? 'أساس حساب النصاب' : 'Nisab basis') + '</label>' +
+        '<div style="display:flex;gap:10px;font-size:12px;color:' + muted + ';">' +
+          '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="radio" name="zkNisabBasis" value="silver" checked> ' + (isAr ? 'نصاب الفضة (الأحوط)' : 'Silver nisab (safer)') + '</label>' +
+          '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="radio" name="zkNisabBasis" value="gold"> ' + (isAr ? 'نصاب الذهب' : 'Gold nisab') + '</label>' +
+        '</div>' +
+      '</div>' +
+
+      '<button onclick="window._zkCalculate()" style="width:100%;background:#1D9E75;color:#fff;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif;margin-bottom:6px;">🧮 ' + (isAr ? 'احسب الزكاة' : 'Calculate Zakat') + '</button>' +
+      '<button onclick="window._zkRefreshPrices()" style="width:100%;background:none;border:1px solid ' + ring + ';color:' + muted + ';font-size:11px;padding:7px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;margin-bottom:14px;">🔄 ' + (isAr ? 'تحديث الأسعار' : 'Refresh prices') + '</button>' +
+
+      '<div id="zkResult"></div>' +
+
+      '<div style="margin-top:12px;font-size:10.5px;line-height:1.6;color:' + muted + ';border-top:.5px solid ' + ring + ';padding-top:10px;">' +
+        (isAr
+          ? '⚠️ هذه الحاسبة تقديرية لمساعدتك على تقدير زكاة المال (النقد، الذهب، الفضة، عروض التجارة)، وتفترض مرور حول (سنة هجرية كاملة) على امتلاك النصاب. لا تغني عن سؤال أهل العلم في الحالات الخاصة كزكاة الزروع والأنعام والشركات.'
+          : '⚠️ This is an estimate for cash, gold, silver, and trade-goods zakat, assuming one full lunar year (hawl) of ownership. Consult a scholar for special cases like crops, livestock, or business zakat.') +
+      '</div>'
+    );
+  }
+
+  function _zkRenderResult(isAr, isDark) {
+    var resEl = document.getElementById('zkResult');
+    if (!resEl || !_zkPrices) return;
+
+    var num = function(id) {
+      var el = document.getElementById(id);
+      var v = el ? parseFloat(el.value) : 0;
+      return isNaN(v) ? 0 : v;
+    };
+
+    var cash = num('zkCash');
+    var karatEl = document.getElementById('zkGoldKarat');
+    var karat = karatEl ? parseFloat(karatEl.value) : 21;
+    var karatFactor = karat / 24;
+    var goldVal = num('zkGoldGrams') * karatFactor * _zkPrices.goldGram;
+    var silverVal = num('zkSilverGrams') * _zkPrices.silverGram;
+    var investments = num('zkInvestments');
+    var receivables = num('zkReceivables');
+    var debts = num('zkDebts');
+
+    var total = cash + goldVal + silverVal + investments + receivables - debts;
+    if (total < 0) total = 0;
+
+    var basisEl = document.querySelector('input[name="zkNisabBasis"]:checked');
+    var basis = basisEl ? basisEl.value : 'silver';
+    var nisab = basis === 'gold' ? (NISAB_GOLD_G * _zkPrices.goldGram) : (NISAB_SILVER_G * _zkPrices.silverGram);
+
+    var due = total >= nisab ? total * ZAKAT_RATE : 0;
+    var cur = _zkCurrencyLabel(isAr);
+
+    var cardBg = isDark ? 'rgba(29,158,117,0.12)' : 'rgba(29,158,117,0.07)';
+    var clr = isDark ? '#e0e0e0' : '#1a1a1a';
+    var muted = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
+
+    var statusLine = total >= nisab
+      ? (isAr ? '✅ إجمالي مالك بلغ النصاب، وتجب عليك الزكاة (بشرط مرور حول كامل).' : '✅ Your wealth reached the Nisab — Zakat is due (assuming a full lunar year passed).')
+      : (isAr ? 'ℹ️ إجمالي مالك أقل من النصاب، فلا تجب عليك الزكاة حالياً.' : 'ℹ️ Your wealth is below the Nisab — no Zakat is due right now.');
+
+    resEl.innerHTML =
+      '<div style="background:' + cardBg + ';border-radius:12px;padding:14px;">' +
+        '<div style="display:flex;justify-content:space-between;font-size:12.5px;color:' + clr + ';margin-bottom:6px;">' +
+          '<span>' + (isAr ? 'إجمالي المال الزكوي' : 'Total zakatable wealth') + '</span><b>' + _zkFmt(total) + ' ' + cur + '</b>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;font-size:12.5px;color:' + clr + ';margin-bottom:10px;">' +
+          '<span>' + (isAr ? 'النصاب المستخدم' : 'Nisab used') + '</span><b>' + _zkFmt(nisab) + ' ' + cur + '</b>' +
+        '</div>' +
+        '<div style="text-align:center;padding:10px 0;border-top:1px dashed rgba(29,158,117,0.35);border-bottom:1px dashed rgba(29,158,117,0.35);margin-bottom:10px;">' +
+          '<div style="font-size:11px;color:' + muted + ';margin-bottom:2px;">' + (isAr ? 'الزكاة المستحقة (2.5%)' : 'Zakat due (2.5%)') + '</div>' +
+          '<div style="font-size:22px;font-weight:800;color:#1D9E75;">' + _zkFmt(due) + ' ' + cur + '</div>' +
+        '</div>' +
+        '<div style="font-size:11.5px;color:' + muted + ';text-align:center;">' + statusLine + '</div>' +
+      '</div>';
+  }
+
+  window._zkChangeCurrency = function(code) {
+    _zkCurrency = code;
+    var isAr = window._zkIsAr;
+    var isDark = document.body.classList.contains('dark-mode');
+    var cached = _zkGetCache();
+    if (cached) {
+      _zkComputePrices(cached.goldUsdOz, cached.silverUsdOz, cached.rates);
+      _zkRenderPriceBar(isAr, isDark);
+      var resEl = document.getElementById('zkResult');
+      if (resEl && resEl.innerHTML.trim()) _zkRenderResult(isAr, isDark);
+    }
+  };
+
+  window._zkRefreshPrices = function() {
+    var isAr = window._zkIsAr;
+    var isDark = document.body.classList.contains('dark-mode');
+    _zkPrices = null;
+    _zkRenderPriceBar(isAr, isDark);
+    _zkFetchPrices(true, function(err) {
+      _zkRenderPriceBar(isAr, isDark);
+    });
+  };
+
+  window._zkCalculate = function() {
+    var isAr = window._zkIsAr;
+    var isDark = document.body.classList.contains('dark-mode');
+    if (!_zkPrices) {
+      var resEl = document.getElementById('zkResult');
+      if (resEl) resEl.innerHTML = '<div style="text-align:center;padding:10px;color:#dc3545;font-size:12px;">⏳ ' + (isAr ? 'الرجاء الانتظار حتى يتم تحميل الأسعار' : 'Please wait for prices to load') + '</div>';
+      return;
+    }
+    _zkRenderResult(isAr, isDark);
+  };
+
+  window.openZakatCalculator = function() {
+    var old = document.getElementById('zakatCalcPopup');
+    if (old) { old.remove(); return; }
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    window._zkIsAr = isAr;
+    var isDark = document.body.classList.contains('dark-mode');
+    var bg = isDark ? '#1a2820' : '#fff';
+    var clr = isDark ? '#e0e0e0' : '#1a1a1a';
+    var borderClr = isDark ? '#2a3f32' : '#e8ede9';
+
+    var popup = document.createElement('div');
+    popup.id = 'zakatCalcPopup';
+    popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:zkFadeIn .18s ease;';
+    popup.innerHTML =
+      '<style>@keyframes zkFadeIn{from{opacity:0}to{opacity:1}}@keyframes zkSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
+      '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:zkSlideIn .22s ease;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';position:sticky;top:0;background:' + bg + ';border-radius:18px 18px 0 0;z-index:1;">' +
+          '<div style="font-size:15px;font-weight:700;">🧮 ' + (isAr ? 'حاسبة الزكاة' : 'Zakat Calculator') + '</div>' +
+          '<button onclick="document.getElementById(\'zakatCalcPopup\').remove()" aria-label="close" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
+        '</div>' +
+        '<div style="padding:14px 16px 18px;">' + _zkBuildForm(isAr, isDark) + '</div>' +
+      '</div>';
+    popup.addEventListener('click', function(e) { if (e.target === popup) popup.remove(); });
+    document.body.appendChild(popup);
+
+    _zkRenderPriceBar(isAr, isDark);
+    _zkFetchPrices(false, function(err) {
+      _zkRenderPriceBar(isAr, isDark);
+    });
+  };
+})();
+</script>
 
 <button id="toggleButton" class="toggle-button"
     data-ar="تحميل التطبيق 📻"
@@ -27461,6 +28053,12 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         <span id="flagToggle" style="cursor:pointer; user-select:none; font-size:16px; opacity:0.5;" title="اضغط 3 مرات لإظهار إحصائيات الزوار">📊</span>
         <button id="footerListenStatsBtn" class="footer-listen-stats-btn" onclick="openListenStats()" title="إحصائيات الاستماع / Listening Stats" aria-label="Listening Stats">
             <span class="footer-listen-stats-icon">📈</span>
+        </button>
+        <button id="qiblaCompassBtn" class="footer-listen-stats-btn" onclick="openQiblaCompass()" title="اتجاه القبلة / Qibla Direction" aria-label="Qibla Compass">
+            <span class="footer-listen-stats-icon">🧭</span>
+        </button>
+        <button id="zakatCalcBtn" class="footer-listen-stats-btn" onclick="openZakatCalculator()" title="حاسبة الزكاة / Zakat Calculator" aria-label="Zakat Calculator">
+            <span class="footer-listen-stats-icon">🧮</span>
         </button>
         <div class="flag-counter-container" id="flagContainer" style="display:none; margin-top:10px;">
             <a href="http://s01.flagcounter.com/more/Qgi">
@@ -27839,6 +28437,14 @@ function applyInitialLanguage() {
       });
       notifWrap.style.direction = 'ltr';
       if (typeof updateAdhkarNotifUI === 'function') updateAdhkarNotifUI();
+    }
+
+    var audioQualityWrap = document.getElementById('audio-quality-settings');
+    if (audioQualityWrap) {
+      audioQualityWrap.querySelectorAll('[data-ar][data-en]').forEach(function(el) {
+        el.textContent = el.getAttribute('data-en');
+      });
+      audioQualityWrap.style.direction = 'ltr';
     }
 
     var ratingLbl = document.querySelector('.footer-rating-label[data-en]');
@@ -29268,6 +29874,18 @@ function toggleLanguage() {
     if (typeof updateAdhkarNotifUI === 'function') updateAdhkarNotifUI();
   })();
 
+  (function() {
+    var ar = isArabic;
+    var audioQualityWrap = document.getElementById('audio-quality-settings');
+    if (!audioQualityWrap) return;
+
+    audioQualityWrap.querySelectorAll('[data-ar][data-en]').forEach(function(el) {
+      el.textContent = ar ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+    });
+
+    audioQualityWrap.style.direction = ar ? 'rtl' : 'ltr';
+  })();
+
   if (typeof window._updateAdhanLang === 'function') window._updateAdhanLang(isArabic);
 
   // update email/contact button text
@@ -29503,6 +30121,9 @@ function getContrastYIQ(hexcolor) {
     } else {
       const s = document.getElementById('centralVolumeSlider');
       if (s) audio.volume = parseFloat(s.value);
+    }
+    if (typeof window.applyAudioBoost === 'function') {
+      window.applyAudioBoost(audio);
     }
     audio.addEventListener('play', function() {
       setPlayingUI(true);
@@ -31106,6 +31727,286 @@ if (centralVolumeSlider) {
   });
   window.syncAllVolume(centralVolumeSlider.value);
 }
+
+/* ============================================================
+ * 🎚️ جودة الصوت: تضخيم الصوت (حتى 500%) + معادل صوت 3 نطاقات
+ * (جهير / متوسط / حاد) للمستخدمين المهتمين بالجودة.
+ * يستخدم Web Audio API (GainNode + BiquadFilterNode) لتجاوز
+ * الحد الأعلى الطبيعي لعنصر <audio> (100%) وتلوين الصوت.
+ * القيم الافتراضية: تضخيم 100% ومعادل مسطّح 0dB — أي بدون أي
+ * تأثير على الوضع الطبيعي حتى يفعّل المستخدم الميزة يدويًا.
+ *
+ * ملاحظة تقنية مهمة: بعض محطات البث الخارجية لا ترسل صلاحيات
+ * CORS، وهذا قيد أمني من المتصفح نفسه (وليس خطأ في الكود) قد
+ * يمنع المعادل/التضخيم عن بعض المحطات فقط، ويبقي باقي الموقع
+ * يعمل بشكل طبيعي.
+ * ============================================================ */
+window._boostCtx = null;
+window._audioChains = (typeof WeakMap !== 'undefined') ? new WeakMap() : null;
+
+window._audioBoostLevel = (function() {
+  var saved = parseFloat(localStorage.getItem('audioBoostLevel'));
+  return (!isNaN(saved) && saved >= 1 && saved <= 5) ? saved : 1;
+})();
+
+function _clampDb(v) {
+  v = parseFloat(v);
+  if (isNaN(v)) return 0;
+  return Math.max(-12, Math.min(12, v));
+}
+
+window._eqBands = (function() {
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem('audioEqBands')); } catch (e) {}
+  return {
+    bass: _clampDb(saved && saved.bass),
+    mid: _clampDb(saved && saved.mid),
+    treble: _clampDb(saved && saved.treble)
+  };
+})();
+
+window._eqPresets = {
+  flat:   { bass: 0,  mid: 0, treble: 0  },
+  voice:  { bass: -2, mid: 4, treble: 2  }, // لوضوح التلاوة والصوت البشري
+  bass:   { bass: 8,  mid: 0, treble: -2 },
+  bright: { bass: -2, mid: 1, treble: 6  }
+};
+
+function _needsAudioGraph() {
+  return window._audioBoostLevel > 1.001 ||
+    window._eqBands.bass !== 0 || window._eqBands.mid !== 0 || window._eqBands.treble !== 0;
+}
+
+// حالة دعم CORS لكل عنصر: 'pending' أثناء الفحص، 'ok' مدعوم، 'unsupported' غير مدعوم (لا نحاول مجددًا لنفس العنصر)
+window._corsState = (typeof WeakMap !== 'undefined') ? new WeakMap() : null;
+window._boostUnsupportedNotified = false;
+
+function _buildChain(audioEl) {
+  var ctx = window._boostCtx;
+  var source = ctx.createMediaElementSource(audioEl);
+  var bassFilter = ctx.createBiquadFilter();
+  bassFilter.type = 'lowshelf';
+  bassFilter.frequency.value = 200;
+  var midFilter = ctx.createBiquadFilter();
+  midFilter.type = 'peaking';
+  midFilter.frequency.value = 1000;
+  midFilter.Q.value = 1;
+  var trebleFilter = ctx.createBiquadFilter();
+  trebleFilter.type = 'highshelf';
+  trebleFilter.frequency.value = 3000;
+  var gainNode = ctx.createGain();
+
+  source.connect(bassFilter);
+  bassFilter.connect(midFilter);
+  midFilter.connect(trebleFilter);
+  trebleFilter.connect(gainNode);
+  gainNode.connect(ctx.destination);
+
+  var chain = { source: source, bass: bassFilter, mid: midFilter, treble: trebleFilter, gain: gainNode };
+  window._audioChains.set(audioEl, chain);
+  return chain;
+}
+
+/**
+ * يفحص ما إذا كان مصدر الصوت (المحطة) يسمح بالمعالجة عبر Web Audio API
+ * (يتطلب رؤوس CORS من الخادم). إن فشل الفحص، يعيد العنصر فورًا لوضعه
+ * الطبيعي (بدون أي معالجة) حتى لا ينقطع الصوت أبدًا — هذا هو الإصلاح
+ * الأهم: لا يوجد أي احتمال لصمت دائم بعد الآن.
+ */
+function _probeAndBuildChain(audioEl, onDone) {
+  if (!window._corsState) { onDone(false); return; }
+  var state = window._corsState.get(audioEl);
+  if (state === 'ok') { onDone(true); return; }
+  if (state === 'unsupported') { onDone(false); return; }
+  if (state === 'pending') { return; } // فحص جارٍ بالفعل لهذا العنصر
+
+  var src = audioEl.currentSrc || audioEl.src;
+  if (!src) { onDone(false); return; }
+
+  window._corsState.set(audioEl, 'pending');
+  var wasPlaying = !audioEl.paused;
+  var settled = false;
+
+  function finish(ok) {
+    if (settled) return;
+    settled = true;
+    audioEl.removeEventListener('canplay', onOk);
+    audioEl.removeEventListener('loadeddata', onOk);
+    audioEl.removeEventListener('error', onErr);
+    window._corsState.set(audioEl, ok ? 'ok' : 'unsupported');
+
+    if (ok) {
+      try {
+        _buildChain(audioEl);
+      } catch (e) {
+        window._corsState.set(audioEl, 'unsupported');
+        ok = false;
+      }
+    }
+
+    if (!ok) {
+      // تراجع فوري وآمن: نعيد تشغيل المصدر بدون CORS لضمان عدم انقطاع الصوت إطلاقًا
+      try {
+        audioEl.crossOrigin = null;
+        audioEl.src = src;
+        if (wasPlaying) audioEl.play().catch(function() {});
+      } catch (e2) {}
+      if (!window._boostUnsupportedNotified && typeof showToast === 'function') {
+        window._boostUnsupportedNotified = true;
+        showToast('⚠️ هذه المحطة لا تدعم تضخيم الصوت/المعادل (قيد من المتصفح)');
+      }
+    }
+    onDone(ok);
+  }
+  function onOk() { finish(true); }
+  function onErr() { finish(false); }
+
+  audioEl.addEventListener('canplay', onOk, { once: true });
+  audioEl.addEventListener('loadeddata', onOk, { once: true });
+  audioEl.addEventListener('error', onErr, { once: true });
+  // مهلة أمان: إن لم يصل أي حدث خلال 4 ثوانٍ نعتبر الفحص فاشلاً لتفادي أي احتمال صمت
+  setTimeout(function() { finish(false); }, 4000);
+
+  try {
+    audioEl.crossOrigin = 'anonymous';
+    audioEl.src = src;
+    if (wasPlaying) audioEl.play().catch(function() {});
+  } catch (e) {
+    finish(false);
+  }
+}
+
+// تُستدعى لكل عنصر <audio> عند بدء التشغيل أو عند تغيير أي إعداد
+window.applyAudioGraph = function(audioEl) {
+  if (!audioEl || !window._audioChains) return;
+  try {
+    if (!_needsAudioGraph()) {
+      var existing = window._audioChains.get(audioEl);
+      if (existing) {
+        existing.gain.gain.value = 1;
+        existing.bass.gain.value = 0;
+        existing.mid.gain.value = 0;
+        existing.treble.gain.value = 0;
+      }
+      return; // لا داعٍ لأي فحص CORS إن كانت كل القيم طبيعية
+    }
+
+    var state = window._corsState ? window._corsState.get(audioEl) : 'unsupported';
+
+    if (state === 'unsupported') return; // معروف مسبقًا أن هذا المصدر لا يدعم المعالجة — لا نلمس الصوت إطلاقًا
+
+    if (state === 'ok') {
+      if (window._boostCtx && window._boostCtx.state === 'suspended') {
+        window._boostCtx.resume().catch(function() {});
+      }
+      var chain = window._audioChains.get(audioEl);
+      if (!chain) return;
+      chain.gain.gain.value = window._audioBoostLevel;
+      chain.bass.gain.value = window._eqBands.bass;
+      chain.mid.gain.value = window._eqBands.mid;
+      chain.treble.gain.value = window._eqBands.treble;
+      return;
+    }
+
+    // لم يُفحص هذا العنصر بعد — ابدأ الفحص الآمن أولاً
+    if (!window._boostCtx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      window._boostCtx = new AC();
+    }
+    _probeAndBuildChain(audioEl, function(ok) {
+      if (ok) window.applyAudioGraph(audioEl); // طبّق القيم الفعلية بعد نجاح الفحص
+    });
+  } catch (e) {
+    console.warn('تعذّر تطبيق معادل/تضخيم الصوت لهذا المصدر:', e);
+  }
+};
+// اسم قديم لا يزال مستخدَمًا في أماكن أخرى من الكود (توافقية)
+window.applyAudioBoost = window.applyAudioGraph;
+
+function _applyToAllAudios() {
+  ['customAudioPlayer', 'currentAudio', 'audioStreamPlayer'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) window.applyAudioGraph(el);
+  });
+  if (window.isolatedAudio) window.applyAudioGraph(window.isolatedAudio);
+}
+
+window.setAudioBoost = function(level) {
+  var lvl = Math.min(5, Math.max(1, parseFloat(level) || 1));
+  window._audioBoostLevel = lvl;
+  try { localStorage.setItem('audioBoostLevel', lvl); } catch (e) {}
+  _applyToAllAudios();
+
+  var label = document.getElementById('audioBoostValueLabel');
+  if (label) label.textContent = Math.round(lvl * 100) + '%';
+  var slider = document.getElementById('audioBoostSlider');
+  if (slider && parseFloat(slider.value) !== lvl) slider.value = lvl;
+};
+
+window.setEqBand = function(band, value) {
+  var v = _clampDb(value);
+  if (band === 'bass' || band === 'mid' || band === 'treble') {
+    window._eqBands[band] = v;
+  }
+  try { localStorage.setItem('audioEqBands', JSON.stringify(window._eqBands)); } catch (e) {}
+  _applyToAllAudios();
+
+  var labelId = band === 'bass' ? 'eqBassValue' : (band === 'mid' ? 'eqMidValue' : 'eqTrebleValue');
+  var lbl = document.getElementById(labelId);
+  if (lbl) lbl.textContent = (v > 0 ? '+' : '') + v + 'dB';
+};
+
+function _syncEqUI() {
+  var b = document.getElementById('eqBassSlider');   if (b) b.value = window._eqBands.bass;
+  var m = document.getElementById('eqMidSlider');    if (m) m.value = window._eqBands.mid;
+  var t = document.getElementById('eqTrebleSlider'); if (t) t.value = window._eqBands.treble;
+  var bl = document.getElementById('eqBassValue');   if (bl) bl.textContent = (window._eqBands.bass   > 0 ? '+' : '') + window._eqBands.bass   + 'dB';
+  var ml = document.getElementById('eqMidValue');    if (ml) ml.textContent = (window._eqBands.mid    > 0 ? '+' : '') + window._eqBands.mid    + 'dB';
+  var tl = document.getElementById('eqTrebleValue'); if (tl) tl.textContent = (window._eqBands.treble > 0 ? '+' : '') + window._eqBands.treble + 'dB';
+}
+
+window.applyEqPreset = function(name) {
+  var p = window._eqPresets[name] || window._eqPresets.flat;
+  window._eqBands = { bass: p.bass, mid: p.mid, treble: p.treble };
+  try { localStorage.setItem('audioEqBands', JSON.stringify(window._eqBands)); } catch (e) {}
+  _applyToAllAudios();
+  _syncEqUI();
+};
+
+window.resetAudioQuality = function() {
+  window._audioBoostLevel = 1;
+  window._eqBands = { bass: 0, mid: 0, treble: 0 };
+  try {
+    localStorage.setItem('audioBoostLevel', 1);
+    localStorage.setItem('audioEqBands', JSON.stringify(window._eqBands));
+  } catch (e) {}
+  _applyToAllAudios();
+
+  var slider = document.getElementById('audioBoostSlider');
+  if (slider) slider.value = 1;
+  var label = document.getElementById('audioBoostValueLabel');
+  if (label) label.textContent = '100%';
+  var presetSel = document.getElementById('eqPresetSelect');
+  if (presetSel) presetSel.value = 'flat';
+  _syncEqUI();
+};
+
+// يفعّل التضخيم/المعادل تلقائيًا كلما بدأ تشغيل أي عنصر <audio> في الصفحة
+document.addEventListener('play', function(e) {
+  if (e.target && e.target.tagName === 'AUDIO') {
+    window.applyAudioGraph(e.target);
+  }
+}, true);
+
+// استرجاع القيم المحفوظة عند تحميل الصفحة وتحديث الواجهة
+(function initAudioQualityUI() {
+  var slider = document.getElementById('audioBoostSlider');
+  var label = document.getElementById('audioBoostValueLabel');
+  if (slider) slider.value = window._audioBoostLevel;
+  if (label) label.textContent = Math.round(window._audioBoostLevel * 100) + '%';
+  _syncEqUI();
+})();
 
 function handleClickWithCounter(event, btn, videoId, title) {
 
