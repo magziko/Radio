@@ -3951,15 +3951,15 @@ body.dark-mode .footer-listen-stats-btn {
     color: #3fd99c;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1024px) {
     .footer-stats-row {
-        gap: 8px;
+        gap: 12px;
     }
     .footer-listen-stats-btn {
-        width: 27px;
-        height: 27px;
+        width: 44px;
+        height: 44px;
     }
-    .footer-listen-stats-icon { font-size: 14px; }
+    .footer-listen-stats-icon { font-size: 19px; }
 }
 
 body.dark-mode .footer-share {
@@ -27253,8 +27253,19 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 })();
 </script>
 
+<style>
+  #prayerWidgetNative{width:100%;max-width:320px;margin:0 auto;}
+  .pw-rows-container{display:flex;flex-direction:column;padding:10px 6px;}
+  .pw-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-radius:8px;margin-bottom:2px;}
+  .pw-row span{font-size:13px;font-variant-numeric:tabular-nums;}
+  @media (min-width:1025px){
+    #prayerWidgetNative{max-width:900px;}
+    .pw-rows-container{flex-direction:row;flex-wrap:nowrap;gap:8px;padding:6px 10px;}
+    .pw-row{flex:1;flex-direction:column;justify-content:center;gap:4px;padding:12px 6px;margin-bottom:0;}
+  }
+</style>
 <div id="prayerWidgetWrapper" style="display: none; justify-content: center; align-items: center;">
-  <div id="prayerWidgetNative" style="width:100%;max-width:320px;font-family:Cairo,sans-serif;direction:rtl;"></div>
+  <div id="prayerWidgetNative" style="font-family:Cairo,sans-serif;direction:rtl;"></div>
 </div>
 
 <script>
@@ -27316,9 +27327,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       var rowBg  = isNext ? (isDark ? 'rgba(29,158,117,0.18)' : 'rgba(29,158,117,0.09)') : 'transparent';
       var rowClr = isNext ? green : clr;
       var wt     = isNext ? '700' : '400';
-      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-radius:8px;background:' + rowBg + ';margin-bottom:2px;">' +
-        '<span style="font-size:13px;font-weight:' + wt + ';color:' + rowClr + ';">' + p.ar + (isNext ? ' ⬅' : '') + '</span>' +
-        '<span style="font-size:13px;font-weight:' + wt + ';color:' + rowClr + ';font-variant-numeric:tabular-nums;">' + _pwFmtTime(timings[p.key]) + '</span>' +
+      return '<div class="pw-row" style="background:' + rowBg + ';">' +
+        '<span style="font-weight:' + wt + ';color:' + rowClr + ';">' + p.ar + (isNext ? ' ⬅' : '') + '</span>' +
+        '<span style="font-weight:' + wt + ';color:' + rowClr + ';">' + _pwFmtTime(timings[p.key]) + '</span>' +
       '</div>';
     }).join('');
 
@@ -27329,7 +27340,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
           '<div style="font-size:11px;color:rgba(255,255,255,0.7);">' + dateStr + (hijri ? ' | ' + hijri : '') + '</div>' +
           (city ? '<div style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;">📍 ' + city + '</div>' : '') +
         '</div>' +
-        '<div style="padding:10px 6px;">' + rows + '</div>' +
+        '<div class="pw-rows-container">' + rows + '</div>' +
         '<div style="padding:4px 12px 10px;text-align:center;">' +
           '<button onclick="window._pwRefreshLocation()" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:10px;padding:4px 12px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 تحديث الموقع</button>' +
         '</div>' +
@@ -27437,6 +27448,182 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     setTimeout(function() {
       if (_pwData) _pwRender(_pwData.timings, _pwData.hijri, _pwData.city);
     }, 100);
+  };
+})();
+</script>
+
+<script>
+// ===== نافذة مواقيت الصلاة المنبثقة (زر الفوتر) =====
+(function() {
+  function _fpwFmtTime(t) {
+    if (!t) return '--:--';
+    var parts = t.split(':');
+    var h = parseInt(parts[0]), m = parseInt(parts[1]);
+    var ampm = h >= 12 ? 'م' : 'ص';
+    var h12 = h % 12 || 12;
+    return h12 + ':' + String(m).padStart(2,'0') + ' ' + ampm;
+  }
+
+  function _fpwGetNextPrayer(timings) {
+    var ORDER = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+    var now = new Date();
+    var nowMins = now.getHours() * 60 + now.getMinutes();
+    var next = null, nextMins = Infinity;
+    ORDER.forEach(function(n) {
+      if (!timings[n]) return;
+      var p = timings[n].split(' ')[0].split(':');
+      var pm = parseInt(p[0]) * 60 + parseInt(p[1]);
+      if (pm > nowMins && pm < nextMins) { nextMins = pm; next = n; }
+    });
+    if (!next) next = 'Fajr';
+    return next;
+  }
+
+  function _fpwRender(timings, hijri, city) {
+    var el = document.getElementById('prayerTimesPopupBody');
+    if (!el) return;
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var isDark = document.body.classList.contains('dark-mode');
+    var clr    = isDark ? '#d5ede4' : '#1a2e24';
+    var muted  = isDark ? 'rgba(200,240,220,0.5)' : 'rgba(0,70,40,0.45)';
+    var border = isDark ? 'rgba(29,158,117,0.2)' : 'rgba(29,158,117,0.15)';
+    var green  = '#1D9E75';
+
+    var PRAYERS = [
+      { key:'Fajr',    ar:'الفجر',   en:'Fajr' },
+      { key:'Sunrise', ar:'الشروق',  en:'Sunrise' },
+      { key:'Dhuhr',   ar:'الظهر',   en:'Dhuhr' },
+      { key:'Asr',     ar:'العصر',   en:'Asr' },
+      { key:'Maghrib', ar:'المغرب',  en:'Maghrib' },
+      { key:'Isha',    ar:'العشاء',  en:'Isha' }
+    ];
+    var nextKey = _fpwGetNextPrayer(timings);
+    var today = new Date();
+    var weekDay_ar = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    var dateStr = isAr ?
+      (weekDay_ar[today.getDay()] + ' ' + today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear()) :
+      today.toLocaleDateString('en-GB');
+
+    var rows = PRAYERS.map(function(p) {
+      var isNext = (p.key === nextKey);
+      var rowBg  = isNext ? (isDark ? 'rgba(29,158,117,0.18)' : 'rgba(29,158,117,0.09)') : 'transparent';
+      var rowClr = isNext ? green : clr;
+      var wt     = isNext ? '700' : '400';
+      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-radius:8px;background:' + rowBg + ';margin-bottom:3px;">' +
+        '<span style="font-size:13.5px;font-weight:' + wt + ';color:' + rowClr + ';">' + (isAr ? p.ar : p.en) + (isNext ? ' ⬅' : '') + '</span>' +
+        '<span style="font-size:13.5px;font-weight:' + wt + ';color:' + rowClr + ';font-variant-numeric:tabular-nums;">' + _fpwFmtTime(timings[p.key]) + '</span>' +
+      '</div>';
+    }).join('');
+
+    el.innerHTML =
+      '<div style="text-align:center;margin-bottom:10px;">' +
+        '<div style="font-size:12px;color:' + muted + ';">' + dateStr + (hijri ? ' | ' + hijri : '') + '</div>' +
+        (city ? '<div style="font-size:11.5px;color:' + muted + ';margin-top:2px;">📍 ' + city + '</div>' : '') +
+      '</div>' +
+      rows +
+      '<div style="text-align:center;margin-top:10px;">' +
+        '<button onclick="window._fpwRefreshLocation()" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:11px;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 ' + (isAr ? 'تحديث الموقع' : 'Update Location') + '</button>' +
+      '</div>';
+  }
+
+  function _fpwLoad() {
+    var el = document.getElementById('prayerTimesPopupBody');
+    var CACHE_KEY = 'adhanGeoCache';
+    var TIMES_KEY = 'pwTimingsCache';
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+
+    try {
+      var cached = JSON.parse(localStorage.getItem(TIMES_KEY) || '{}');
+      var today  = new Date();
+      var dk = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+      if (cached.date === dk && cached.timings) {
+        _fpwRender(cached.timings, cached.hijri, cached.city);
+        return;
+      }
+    } catch(e) {}
+
+    if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⏳ ' + (isAr ? 'جارٍ تحميل المواقيت...' : 'Loading prayer times...') + '</div>';
+
+    function fetchTimes(lat, lon) {
+      var today = new Date();
+      var dateStr = today.getDate() + '-' + (today.getMonth()+1) + '-' + today.getFullYear();
+      fetch('https://api.aladhan.com/v1/timings/' + dateStr + '?latitude=' + lat + '&longitude=' + lon + '&method=4')
+        .then(function(r){ return r.json(); })
+        .then(function(data) {
+          if (!data || !data.data) return;
+          var timings = data.data.timings;
+          var hijri   = data.data.date && data.data.date.hijri
+            ? data.data.date.hijri.day + ' ' + data.data.date.hijri.month.ar + ' ' + data.data.date.hijri.year + ' هـ'
+            : '';
+          var city = '';
+          fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json&accept-language=ar')
+            .then(function(r){ return r.json(); })
+            .then(function(geo) {
+              city = (geo.address && (geo.address.city || geo.address.town || geo.address.state)) || '';
+              var dk2 = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+              try { localStorage.setItem(TIMES_KEY, JSON.stringify({ date: dk2, timings: timings, hijri: hijri, city: city })); } catch(e) {}
+              _fpwRender(timings, hijri, city);
+            })
+            .catch(function() { _fpwRender(timings, hijri, ''); });
+        })
+        .catch(function() {
+          if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⚠️ ' + (isAr ? 'تعذر تحميل المواقيت' : 'Could not load prayer times') + '</div>';
+        });
+    }
+
+    try {
+      var geo = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+      if (geo.lat && geo.lon && (Date.now() - geo.ts) < 30 * 864e5) {
+        fetchTimes(geo.lat, geo.lon);
+        return;
+      }
+    } catch(e) {}
+
+    if ('geolocation' in navigator) {
+      if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⏳ ' + (isAr ? 'جارٍ تحديد موقعك...' : 'Locating you...') + '</div>';
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify({ lat: pos.coords.latitude, lon: pos.coords.longitude, ts: Date.now() })); } catch(e) {}
+        fetchTimes(pos.coords.latitude, pos.coords.longitude);
+      }, function() {
+        if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#dc3545;font-size:13px;">⚠️ ' + (isAr ? 'تعذر الوصول للموقع، يرجى السماح بالوصول للموقع من إعدادات المتصفح' : 'Could not access location, please allow location access') + '</div>';
+      }, { timeout: 10000 });
+    } else {
+      if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#dc3545;font-size:13px;">⚠️ ' + (isAr ? 'المتصفح لا يدعم تحديد الموقع' : 'Geolocation not supported') + '</div>';
+    }
+  }
+
+  window._fpwRefreshLocation = function() {
+    try {
+      localStorage.removeItem('adhanGeoCache');
+      localStorage.removeItem('pwTimingsCache');
+    } catch(e) {}
+    _fpwLoad();
+  };
+
+  window.openPrayerTimesPopup = function() {
+    var old = document.getElementById('prayerTimesPopup');
+    if (old) { old.remove(); return; }
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var isDark = document.body.classList.contains('dark-mode');
+    var bg = isDark ? '#1a2820' : '#fff';
+    var clr = isDark ? '#e0e0e0' : '#1a1a1a';
+    var borderClr = isDark ? '#2a3f32' : '#e8ede9';
+
+    var popup = document.createElement('div');
+    popup.id = 'prayerTimesPopup';
+    popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:ptFadeIn .18s ease;';
+    popup.innerHTML =
+      '<style>@keyframes ptFadeIn{from{opacity:0}to{opacity:1}}@keyframes ptSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
+      '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:360px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:ptSlideIn .22s ease;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';">' +
+          '<div style="font-size:15px;font-weight:700;">🕌 ' + (isAr ? 'مواقيت الصلاة' : 'Prayer Times') + '</div>' +
+          '<button onclick="document.getElementById(\'prayerTimesPopup\').remove()" aria-label="close" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
+        '</div>' +
+        '<div id="prayerTimesPopupBody" style="padding:14px 16px 18px;"></div>' +
+      '</div>';
+    popup.addEventListener('click', function(e) { if (e.target === popup) popup.remove(); });
+    document.body.appendChild(popup);
+    _fpwLoad();
   };
 })();
 </script>
@@ -28605,6 +28792,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         </button>
         <button id="qiblaCompassBtn" class="footer-listen-stats-btn" onclick="openQiblaCompass()" title="اتجاه القبلة / Qibla Direction" aria-label="Qibla Compass">
             <span class="footer-listen-stats-icon">🧭</span>
+        </button>
+        <button id="prayerTimesBtn" class="footer-listen-stats-btn" onclick="openPrayerTimesPopup()" title="مواقيت الصلاة / Prayer Times" aria-label="Prayer Times">
+            <span class="footer-listen-stats-icon">🕌</span>
         </button>
         <button id="zakatCalcBtn" class="footer-listen-stats-btn" onclick="openZakatCalculator()" title="حاسبة الزكاة / Zakat Calculator" aria-label="Zakat Calculator">
             <span class="footer-listen-stats-icon">🧮</span>
@@ -30984,6 +31174,78 @@ document.addEventListener('touchend', function(e) {
 document.addEventListener('click', function(e) {
   if (!_isInteractive(e.target)) _handleTriple();
 }, false);
+
+// ═══════════════════════════════════════════════════════
+// إيماءة السحب (Swipe) — التنقل بين المحطات باللمس
+// سحب لليسار → المحطة التالية | سحب لليمين → المحطة السابقة
+// ═══════════════════════════════════════════════════════
+(function() {
+  var _swStartX = 0, _swStartY = 0, _swStartTime = 0;
+  var _swActive = false;
+  var SW_MIN_DIST = 60;   // أقل مسافة أفقية بالبكسل لاعتباره سحب فعلي
+  var SW_MAX_TIME = 700;  // أقصى مدة زمنية بالمللي ثانية
+  var SW_MAX_VERT = 70;   // أقصى انحراف رأسي مسموح (لتفادي الخلط مع سكرول الصفحة)
+
+  function _swIgnoreTarget(el) {
+    // تجاهل السحب داخل عناصر إدخال أو مناطق بها سكرول أفقي خاص بها
+    // (مثل أشرطة تصنيفات الفرعية، شريط الصوت، أو أي عنصر قابل للتمرير أفقياً)
+    while (el && el !== document.body && el !== document.documentElement) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') return true;
+      try {
+        var cs = window.getComputedStyle(el);
+        if ((cs.overflowX === 'auto' || cs.overflowX === 'scroll') && el.scrollWidth > el.clientWidth + 2) {
+          return true;
+        }
+      } catch (e) {}
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  document.addEventListener('touchstart', function(e) {
+    if (e.touches.length !== 1 || _swIgnoreTarget(e.target)) {
+      _swActive = false;
+      return;
+    }
+    _swStartX = e.touches[0].clientX;
+    _swStartY = e.touches[0].clientY;
+    _swStartTime = Date.now();
+    _swActive = true;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', function(e) {
+    if (!_swActive) return;
+    if (e.touches.length !== 1) { _swActive = false; return; }
+    // لو الحركة رأسية بشكل واضح، ألغِ اعتبارها سحب أفقي (اسمح بسكرول الصفحة الطبيعي)
+    var dy = Math.abs(e.touches[0].clientY - _swStartY);
+    var dx = Math.abs(e.touches[0].clientX - _swStartX);
+    if (dy > SW_MAX_VERT && dy > dx) _swActive = false;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    if (!_swActive) return;
+    _swActive = false;
+    var touch = e.changedTouches && e.changedTouches[0];
+    if (!touch) return;
+    var dx = touch.clientX - _swStartX;
+    var dy = touch.clientY - _swStartY;
+    var dt = Date.now() - _swStartTime;
+    if (dt > SW_MAX_TIME) return;
+    if (Math.abs(dy) > SW_MAX_VERT) return;
+    if (Math.abs(dx) < SW_MIN_DIST) return;
+
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    if (dx < 0) {
+      // سحب لليسار → المحطة التالية
+      if (typeof nextStationFunc === 'function') nextStationFunc();
+      if (typeof showToast === 'function') showToast(ar ? '👈 المحطة التالية' : '👈 Next Station');
+    } else {
+      // سحب لليمين → المحطة السابقة
+      if (typeof previousStation === 'function') previousStation();
+      if (typeof showToast === 'function') showToast(ar ? '👉 المحطة السابقة' : '👉 Previous Station');
+    }
+  }, { passive: true });
+})();
 
 function openWelcomeScreen() {
 
@@ -33654,8 +33916,12 @@ window.addEventListener("load", function() {
         display: flex; align-items: center; gap: 10px;
         padding: 10px 16px; cursor: pointer; border-radius: 10px;
         transition: background .2s;
+        box-sizing: border-box;
       }
       #adhan-toggle-wrap:hover { background: rgba(29,158,117,.08); }
+      @media (min-width:1025px) {
+        #adhan-toggle-wrap { max-width: 900px; margin: 8px auto 0; }
+      }
       #adhan-toggle-icon { font-size: 20px; }
       #adhan-toggle-label { font-size: 13px; font-weight: 600; color: var(--text-primary, #222); flex:1; }
       body.dark-mode #adhan-toggle-label { color: #ddd; }
@@ -33851,9 +34117,12 @@ window.addEventListener("load", function() {
       });
     }
 
-    // نحاول إضافته في قسم الإعدادات، وإلا نضيف في آخر .sidebar أو .settings-section
+    // نضيفه أسفل ودجت مواقيت الصلاة مباشرة، وإلا في قسم الإعدادات أو آخر الـ sidebar
+    const prayerWidgetAnchor = document.getElementById('prayerWidgetWrapper');
     const settingsSection = document.querySelector('.settings-section, .settings-panel, #settings-section, #pip-section, #salah-pip-section');
-    if (settingsSection) {
+    if (prayerWidgetAnchor) {
+      prayerWidgetAnchor.parentNode.insertBefore(wrap, prayerWidgetAnchor.nextSibling);
+    } else if (settingsSection) {
       settingsSection.parentNode.insertBefore(wrap, settingsSection.nextSibling);
     } else {
       const sidebar = document.querySelector('.sidebar, #sidebar, .side-panel');
@@ -35735,6 +36004,51 @@ document.addEventListener("keydown", function(e) {
     return;
   }
 
+  // I = إحصائيات الاستماع
+  if (e.key === 'i' || e.key === 'I') {
+    e.preventDefault();
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    if (typeof openListenStats === 'function') openListenStats();
+    if (typeof showToast === 'function') showToast(ar ? '📈 إحصائيات الاستماع' : '📈 Listening Stats');
+    return;
+  }
+
+  // Q = اتجاه القبلة
+  if (e.key === 'q' || e.key === 'Q') {
+    e.preventDefault();
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    if (typeof openQiblaCompass === 'function') openQiblaCompass();
+    if (typeof showToast === 'function') showToast(ar ? '🧭 اتجاه القبلة' : '🧭 Qibla Direction');
+    return;
+  }
+
+  // T = نافذة مواقيت الصلاة المنبثقة
+  if (e.key === 't' || e.key === 'T') {
+    e.preventDefault();
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    if (typeof openPrayerTimesPopup === 'function') openPrayerTimesPopup();
+    if (typeof showToast === 'function') showToast(ar ? '🕌 مواقيت الصلاة' : '🕌 Prayer Times');
+    return;
+  }
+
+  // Z = حاسبة الزكاة
+  if (e.key === 'z' || e.key === 'Z') {
+    e.preventDefault();
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    if (typeof openZakatCalculator === 'function') openZakatCalculator();
+    if (typeof showToast === 'function') showToast(ar ? '🧮 حاسبة الزكاة' : '🧮 Zakat Calculator');
+    return;
+  }
+
+  // C = متابعة الختمة
+  if (e.key === 'c' || e.key === 'C') {
+    e.preventDefault();
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    if (typeof openKhatmaTracker === 'function') openKhatmaTracker();
+    if (typeof showToast === 'function') showToast(ar ? '📗 متابعة الختمة' : '📗 Khatma Tracker');
+    return;
+  }
+
 });
 
 // ═══════════════════════════════════════════════════════
@@ -36005,6 +36319,30 @@ document.addEventListener("keydown", function(e) {
       ar: 'الانتقال لمواقيت الصلاة',
       en: 'Go to Prayer Times'
     },
+    sec_tools: {
+      ar: '🧰 أدوات الفوتر',
+      en: '🧰 Footer Tools'
+    },
+    r_stats: {
+      ar: 'إحصائيات الاستماع',
+      en: 'Listening Stats'
+    },
+    r_qibla: {
+      ar: 'اتجاه القبلة',
+      en: 'Qibla Direction'
+    },
+    r_ptimes: {
+      ar: 'نافذة مواقيت الصلاة',
+      en: 'Prayer Times popup'
+    },
+    r_zakat: {
+      ar: 'حاسبة الزكاة',
+      en: 'Zakat Calculator'
+    },
+    r_khatma: {
+      ar: 'متابعة الختمة',
+      en: 'Khatma Tracker'
+    },
     sec6: {
       ar: 'تلميحات إضافية',
       en: 'Additional Tips'
@@ -36199,6 +36537,26 @@ document.addEventListener("keydown", function(e) {
       key: 'w',
       code: 'KeyW'
     },
+    r_stats: {
+      key: 'i',
+      code: 'KeyI'
+    },
+    r_qibla: {
+      key: 'q',
+      code: 'KeyQ'
+    },
+    r_ptimes: {
+      key: 't',
+      code: 'KeyT'
+    },
+    r_zakat: {
+      key: 'z',
+      code: 'KeyZ'
+    },
+    r_khatma: {
+      key: 'c',
+      code: 'KeyC'
+    },
     r_dot: {
       key: '.',
       code: 'Period'
@@ -36339,6 +36697,19 @@ document.addEventListener("keydown", function(e) {
       kbRow('r_t', ['H'], lang),
       kbRow('r_c', ['U'], lang),
       kbRow('r_st', ['W'], lang),
+      '</div>',
+      '</div>',
+
+      '<div class="kb-divider"></div>',
+
+      '<div>',
+      '<p class="kb-section-title">' + T.sec_tools[lang] + '</p>',
+      '<div class="kb-rows">',
+      kbRow('r_stats', ['I'], lang),
+      kbRow('r_qibla', ['Q'], lang),
+      kbRow('r_ptimes', ['T'], lang),
+      kbRow('r_zakat', ['Z'], lang),
+      kbRow('r_khatma', ['C'], lang),
       '</div>',
       '</div>',
 
