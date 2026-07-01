@@ -27958,6 +27958,555 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 })();
 </script>
 
+<!-- ===== متابعة الختمة | Khatma Tracker ===== -->
+<script>
+(function() {
+  var KH_KEY = 'khatmaState';
+  var KH_UNITS = {
+    juz:   { total: 30,  ar: 'جزء',  arThe: 'الجزء',  arPl: 'أجزاء', en: 'Juz',   enThe: 'Juz' },
+    page:  { total: 604, ar: 'صفحة', arThe: 'الصفحة', arPl: 'صفحات', en: 'Page',  enThe: 'Page' },
+    surah: { total: 114, ar: 'سورة', arThe: 'السورة', arPl: 'سور',  en: 'Surah', enThe: 'Surah' }
+  };
+  var KH_SURAHS = [
+    "الفاتحة",
+    "البقرة",
+    "آل عمران",
+    "النساء",
+    "المائدة",
+    "الأنعام",
+    "الأعراف",
+    "الأنفال",
+    "التوبة",
+    "يونس",
+    "هود",
+    "يوسف",
+    "الرعد",
+    "إبراهيم",
+    "الحجر",
+    "النحل",
+    "الإسراء",
+    "الكهف",
+    "مريم",
+    "طه",
+    "الأنبياء",
+    "الحج",
+    "المؤمنون",
+    "النور",
+    "الفرقان",
+    "الشعراء",
+    "النمل",
+    "القصص",
+    "العنكبوت",
+    "الروم",
+    "لقمان",
+    "السجدة",
+    "الأحزاب",
+    "سبأ",
+    "فاطر",
+    "يس",
+    "الصافات",
+    "ص",
+    "الزمر",
+    "غافر",
+    "فصلت",
+    "الشورى",
+    "الزخرف",
+    "الدخان",
+    "الجاثية",
+    "الأحقاف",
+    "محمد",
+    "الفتح",
+    "الحجرات",
+    "ق",
+    "الذاريات",
+    "الطور",
+    "النجم",
+    "القمر",
+    "الرحمن",
+    "الواقعة",
+    "الحديد",
+    "المجادلة",
+    "الحشر",
+    "الممتحنة",
+    "الصف",
+    "الجمعة",
+    "المنافقون",
+    "التغابن",
+    "الطلاق",
+    "التحريم",
+    "الملك",
+    "القلم",
+    "الحاقة",
+    "المعارج",
+    "نوح",
+    "الجن",
+    "المزمل",
+    "المدثر",
+    "القيامة",
+    "الإنسان",
+    "المرسلات",
+    "النبأ",
+    "النازعات",
+    "عبس",
+    "التكوير",
+    "الانفطار",
+    "المطففين",
+    "الانشقاق",
+    "البروج",
+    "الطارق",
+    "الأعلى",
+    "الغاشية",
+    "الفجر",
+    "البلد",
+    "الشمس",
+    "الليل",
+    "الضحى",
+    "الشرح",
+    "التين",
+    "العلق",
+    "القدر",
+    "البينة",
+    "الزلزلة",
+    "العاديات",
+    "القارعة",
+    "التكاثر",
+    "العصر",
+    "الهمزة",
+    "الفيل",
+    "قريش",
+    "الماعون",
+    "الكوثر",
+    "الكافرون",
+    "النصر",
+    "المسد",
+    "الإخلاص",
+    "الفلق",
+    "الناس"
+  ];
+
+  function khToday() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function khParseDate(s) {
+    if (!s) return null;
+    var p = s.split('-');
+    return new Date(parseInt(p[0]), parseInt(p[1]) - 1, parseInt(p[2]));
+  }
+  function khDaysBetween(a, b) {
+    var da = khParseDate(a), db = khParseDate(b);
+    if (!da || !db) return 0;
+    return Math.round((db - da) / 86400000);
+  }
+  function khDefaultState() {
+    return { unit: 'juz', current: 0, startDate: khToday(), targetDate: null, lastReadDate: null, streak: 0, completedCount: 0 };
+  }
+  function khLoad() {
+    try {
+      var raw = localStorage.getItem(KH_KEY);
+      if (!raw) return khDefaultState();
+      var st = JSON.parse(raw);
+      // ترحيل النسخة القديمة (كانت أجزاء فقط)
+      if (!st.unit) {
+        st.unit = 'juz';
+        st.current = (typeof st.currentJuz === 'number') ? st.currentJuz : 0;
+        delete st.currentJuz;
+      }
+      if (!KH_UNITS[st.unit]) st.unit = 'juz';
+      if (typeof st.current !== 'number') st.current = 0;
+      if (typeof st.completedCount !== 'number') st.completedCount = 0;
+      if (typeof st.streak !== 'number') st.streak = 0;
+      if (!st.startDate) st.startDate = khToday();
+      return st;
+    } catch (e) { return khDefaultState(); }
+  }
+  function khSave(st) {
+    try { localStorage.setItem(KH_KEY, JSON.stringify(st)); } catch (e) {}
+  }
+  function khIsAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
+  function khMeta(st) { return KH_UNITS[st.unit]; }
+  function khTotal(st) { return khMeta(st).total; }
+
+  function khUpdateBadge() {
+    var st = khLoad();
+    var badge = document.getElementById('khStreakBadge');
+    if (!badge) return;
+    if (st.streak > 1 && st.current < khTotal(st)) {
+      badge.textContent = '🔥' + st.streak;
+      badge.style.display = 'inline-block';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  // ===== أزرار اختيار وحدة القياس =====
+  function khUnitTabs(st, isAr) {
+    var order = ['juz', 'page', 'surah'];
+    var labels = {
+      juz:   isAr ? 'أجزاء' : 'Juz',
+      page:  isAr ? 'صفحات' : 'Pages',
+      surah: isAr ? 'سور'   : 'Surah'
+    };
+    var html = '<div style="display:flex;gap:6px;margin-bottom:12px;">';
+    order.forEach(function(u) {
+      var active = (st.unit === u);
+      html += '<button onclick="window._khSwitchUnit(\'' + u + '\')" style="flex:1;padding:7px 4px;border-radius:9px;border:1.5px solid ' +
+        (active ? '#1D9E75' : 'rgba(29,158,117,0.3)') + ';background:' + (active ? '#1D9E75' : 'transparent') +
+        ';color:' + (active ? '#fff' : 'inherit') + ';font-size:12.5px;font-weight:700;cursor:pointer;">' + labels[u] + '</button>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  // ===== شبكة الأجزاء/السور =====
+  function khGrid(st) {
+    var total = khTotal(st);
+    var cols = (st.unit === 'surah') ? 8 : 6;
+    var fontSize = (st.unit === 'surah') ? '9.5px' : '11px';
+    var html = '<div style="display:grid;grid-template-columns:repeat(' + cols + ',1fr);gap:5px;margin:10px 0 14px;">';
+    for (var i = 1; i <= total; i++) {
+      var done = i <= st.current;
+      var title = (st.unit === 'surah' && KH_SURAHS[i - 1]) ? (' title="' + i + '. ' + KH_SURAHS[i - 1] + '"') : '';
+      html += '<button onclick="window._khMarkProgress(' + i + ')"' + title + ' style="' +
+        'aspect-ratio:1;border-radius:8px;border:1.5px solid ' + (done ? '#1D9E75' : 'rgba(29,158,117,0.3)') + ';' +
+        'background:' + (done ? '#1D9E75' : 'transparent') + ';color:' + (done ? '#fff' : 'inherit') + ';' +
+        'font-size:' + fontSize + ';font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s;" ' +
+        'onmouseover="this.style.transform=\'scale(1.08)\'" onmouseout="this.style.transform=\'scale(1)\'">' + i + '</button>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  // ===== عدّاد الصفحات (بدل الشبكة، لأن 604 زر كتير) =====
+  function khPageStepper(st) {
+    var total = khTotal(st);
+    var html = '<div style="text-align:center;margin:10px 0 14px;">' +
+      '<div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;">' +
+      '<button onclick="window._khMarkProgress(Math.max(0,' + st.current + '-1))" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(29,158,117,0.35);background:transparent;color:inherit;font-size:16px;cursor:pointer;">−</button>' +
+      '<input type="number" id="khPageInput" value="' + st.current + '" min="0" max="' + total + '" ' +
+      'onchange="window._khMarkProgress(parseInt(this.value)||0)" style="width:70px;text-align:center;font-size:20px;font-weight:800;padding:6px 4px;border-radius:9px;border:1.5px solid rgba(29,158,117,0.35);background:transparent;color:inherit;font-family:Cairo,sans-serif;">' +
+      '<button onclick="window._khMarkProgress(Math.min(' + total + ',' + st.current + '+1))" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(29,158,117,0.35);background:transparent;color:inherit;font-size:16px;cursor:pointer;">+</button>' +
+      '</div>' +
+      '<div style="display:flex;gap:6px;justify-content:center;">' +
+      '<button onclick="window._khQuickAdd(5)" style="background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:6px 12px;font-size:12px;color:#0F6E56;cursor:pointer;">+5</button>' +
+      '<button onclick="window._khQuickAdd(10)" style="background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:6px 12px;font-size:12px;color:#0F6E56;cursor:pointer;">+10</button>' +
+      '</div></div>';
+    return html;
+  }
+
+  function khStatus(st, isAr) {
+    var meta = khMeta(st);
+    var total = khTotal(st);
+    var remaining = total - st.current;
+    var today = khToday();
+    if (remaining <= 0) return '';
+    var unitLabelAr = meta.arPl, unitLabelEn = meta.en.toLowerCase() + 's';
+    if (st.targetDate) {
+      var daysLeft = khDaysBetween(today, st.targetDate);
+      if (daysLeft <= 0) {
+        return '<div style="background:rgba(255,112,67,0.12);color:#e85d2f;border-radius:10px;padding:8px 10px;font-size:12.5px;text-align:center;">' +
+          (isAr ? '⏰ انتهى الموعد المحدد وباقي ' + remaining + ' ' + unitLabelAr : '⏰ Target date passed, ' + remaining + ' ' + unitLabelEn + ' left') + '</div>';
+      }
+      var pace = remaining / daysLeft;
+      var totalDays = khDaysBetween(st.startDate, st.targetDate) || 1;
+      var elapsed = khDaysBetween(st.startDate, today);
+      var idealVal = Math.round((elapsed / totalDays) * total);
+      var onTrack = st.current >= idealVal;
+      var paceLabel = pace <= 1 ? (Math.ceil(pace * 10) / 10) : Math.ceil(pace);
+      return '<div style="background:' + (onTrack ? 'rgba(29,158,117,0.1)' : 'rgba(255,112,67,0.12)') + ';color:' + (onTrack ? '#0F6E56' : '#e85d2f') + ';border-radius:10px;padding:8px 10px;font-size:12.5px;text-align:center;line-height:1.7;">' +
+        (isAr ? '📆 باقي ' + daysLeft + ' يوم • المطلوب تقريبًا ' + paceLabel + ' ' + meta.ar + '/يوم' : '📆 ' + daysLeft + ' days left • need ~' + paceLabel + ' ' + meta.en.toLowerCase() + '/day') +
+        '<br>' + (onTrack ? (isAr ? '✅ أنت في الموعد، استمر!' : '✅ On track, keep going!') : (isAr ? '⚠️ متأخر شوية، حاول تعوّض' : '⚠️ A bit behind, try to catch up')) +
+        '</div>';
+    } else {
+      var elapsed2 = khDaysBetween(st.startDate, today);
+      if (st.current > 0 && elapsed2 > 0) {
+        var avg = st.current / elapsed2;
+        var daysToFinish = Math.ceil(remaining / avg);
+        return '<div style="background:rgba(29,158,117,0.1);color:#0F6E56;border-radius:10px;padding:8px 10px;font-size:12.5px;text-align:center;">' +
+          (isAr ? '📊 بمعدلك الحالي هتخلص الختمة خلال ~' + daysToFinish + ' يوم' : '📊 At your current pace, ~' + daysToFinish + ' days left') + '</div>';
+      }
+      return '<div style="opacity:0.65;font-size:12px;text-align:center;">' + (isAr ? 'سجّل أول ' + meta.ar + ' تقرأه للبدء 👇' : 'Log your first ' + meta.en.toLowerCase() + ' to start 👇') + '</div>';
+    }
+  }
+
+  function khCurrentSurahLine(st, isAr) {
+    if (st.unit !== 'surah' || st.current >= khTotal(st)) return '';
+    var nextName = KH_SURAHS[st.current];
+    if (!nextName) return '';
+    return '<div style="text-align:center;font-size:12.5px;opacity:0.75;margin-bottom:8px;">' +
+      (isAr ? '📍 التالية: سورة ' + nextName : '📍 Next: Surah ' + nextName) + '</div>';
+  }
+
+  function khBuildBody(isAr) {
+    var st = khLoad();
+    var total = khTotal(st);
+    var meta = khMeta(st);
+    var pct = Math.round((st.current / total) * 100);
+
+    var head = khUnitTabs(st, isAr) +
+      '<button onclick="window._khOpenMushaf()" style="width:100%;background:linear-gradient(135deg,#1B6CA8,#1565c0);color:#fff;border:none;border-radius:10px;padding:10px 8px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px;">' +
+      (isAr ? '📖 تابع القراءة في المصحف' : '📖 Continue Reading in the Mushaf') + '</button>';
+
+    if (st.current >= total) {
+      return head + '<div style="text-align:center;padding:10px 4px;">' +
+        '<div style="font-size:40px;margin-bottom:8px;">🎉</div>' +
+        '<div style="font-weight:800;font-size:16px;color:#1D9E75;margin-bottom:6px;">' + (isAr ? 'مبارك ختمتك!' : 'Khatma Complete!') + '</div>' +
+        '<div style="font-size:12.5px;opacity:0.75;margin-bottom:16px;">' + (isAr ? 'عدد الختمات المكتملة: ' + st.completedCount : 'Completed khatmas: ' + st.completedCount) + '</div>' +
+        '<button onclick="window._khStartNew()" style="background:#1D9E75;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13.5px;font-weight:700;cursor:pointer;">' +
+        (isAr ? '🔄 ابدأ ختمة جديدة' : '🔄 Start New Khatma') + '</button></div>';
+    }
+
+    var html = head;
+    html += '<div style="text-align:center;margin-bottom:10px;">' +
+      '<div style="font-size:13px;opacity:0.7;margin-bottom:4px;">' +
+      (isAr ? meta.arThe + ' ' + st.current + ' من ' + total : meta.enThe + ' ' + st.current + ' of ' + total) + '</div>' +
+      '<div style="background:rgba(29,158,117,0.15);border-radius:10px;height:10px;overflow:hidden;">' +
+      '<div style="background:#1D9E75;height:100%;width:' + pct + '%;transition:width .3s;"></div></div></div>';
+
+    html += khCurrentSurahLine(st, isAr);
+
+    html += (st.unit === 'page') ? khPageStepper(st) : khGrid(st);
+
+    if (st.unit !== 'page') {
+      html += '<div style="display:flex;gap:8px;margin-bottom:12px;">' +
+        '<button onclick="window._khMarkProgress(Math.min(' + total + ',' + st.current + '+1))" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:10px;padding:10px 8px;font-size:13px;font-weight:700;cursor:pointer;">' +
+        (isAr ? '✅ قرأت ' + meta.ar + ' اليوم' : '✅ Read a ' + meta.en + ' Today') + '</button>' +
+        '<button onclick="window._khMarkProgress(Math.max(0,' + st.current + '-1))" title="' + (isAr ? 'تراجع' : 'Undo') + '" style="background:rgba(29,158,117,0.1);color:#0F6E56;border:1px solid rgba(29,158,117,0.3);border-radius:10px;padding:10px 12px;font-size:13px;cursor:pointer;">↩️</button>' +
+        '</div>';
+    }
+
+    if (st.streak > 1) {
+      html += '<div style="text-align:center;font-size:12.5px;color:#e85d2f;margin-bottom:10px;">🔥 ' + (isAr ? 'متتالية ' + st.streak + ' يوم' : st.streak + '-day streak') + '</div>';
+    }
+
+    html += khStatus(st, isAr);
+
+    html += '<div style="margin-top:14px;border-top:1px solid rgba(29,158,117,0.15);padding-top:12px;">' +
+      '<label style="font-size:12px;opacity:0.75;display:block;margin-bottom:5px;">' + (isAr ? '🎯 حدد موعدًا لإنهاء الختمة (اختياري)' : '🎯 Set a target date (optional)') + '</label>' +
+      '<div style="display:flex;gap:6px;">' +
+      '<input type="date" id="khTargetInput" value="' + (st.targetDate || '') + '" onchange="window._khSetTarget(this.value)" style="flex:1;padding:7px 8px;border-radius:8px;border:1px solid rgba(29,158,117,0.3);background:transparent;color:inherit;font-family:Cairo,sans-serif;font-size:12px;">' +
+      (st.targetDate ? '<button onclick="window._khSetTarget(\'\')" style="background:none;border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:0 10px;cursor:pointer;color:inherit;font-size:12px;">✕</button>' : '') +
+      '</div></div>';
+
+    if (st.completedCount > 0) {
+      html += '<div style="text-align:center;font-size:11.5px;opacity:0.6;margin-top:10px;">' + (isAr ? '📚 ختمات سابقة: ' + st.completedCount : '📚 Past khatmas: ' + st.completedCount) + '</div>';
+    }
+
+    return html;
+  }
+
+  function khRenderPopup() {
+    var body = document.getElementById('khatmaBody');
+    if (!body) return;
+    body.innerHTML = khBuildBody(khIsAr());
+  }
+
+  window._khSwitchUnit = function(unit) {
+    if (!KH_UNITS[unit]) return;
+    var st = khLoad();
+    if (st.unit === unit) return;
+    if (st.current > 0) {
+      var isAr = khIsAr();
+      var msg = isAr ?
+        'تغيير طريقة العدّ هيصفّر تقدمك الحالي في هذه الختمة، متأكد؟' :
+        'Switching the tracking unit will reset your current progress. Continue?';
+      if (!confirm(msg)) return;
+    }
+    st.unit = unit;
+    st.current = 0;
+    st.startDate = khToday();
+    khSave(st);
+    khRenderPopup();
+    khUpdateBadge();
+  };
+
+  window._khMarkProgress = function(newVal) {
+    var st = khLoad();
+    var total = khTotal(st);
+    newVal = Math.max(0, Math.min(total, newVal));
+    var today = khToday();
+    if (newVal > st.current) {
+      if (st.lastReadDate === today) {
+        // اتسجل تقدم النهاردة بالفعل
+      } else if (st.lastReadDate) {
+        var gap = khDaysBetween(st.lastReadDate, today);
+        st.streak = (gap === 1) ? (st.streak + 1) : 1;
+      } else {
+        st.streak = 1;
+      }
+      st.lastReadDate = today;
+    }
+    st.current = newVal;
+    if (st.current >= total) {
+      st.completedCount = (st.completedCount || 0) + 1;
+      if (typeof showToast === 'function') {
+        showToast(khIsAr() ? '🎉 مبارك، ختمت القرآن الكريم!' : '🎉 Congratulations, Khatma complete!');
+      }
+    }
+    khSave(st);
+    khRenderPopup();
+    khUpdateBadge();
+    khUpdateMushafFab();
+  };
+
+  window._khQuickAdd = function(n) {
+    var st = khLoad();
+    window._khMarkProgress(st.current + (n || 1));
+  };
+
+  window._khSetTarget = function(val) {
+    var st = khLoad();
+    st.targetDate = val || null;
+    khSave(st);
+    khRenderPopup();
+  };
+
+  window._khStartNew = function() {
+    var st = khLoad();
+    var completedCount = st.completedCount || 0;
+    var unit = st.unit;
+    st = khDefaultState();
+    st.unit = unit;
+    st.completedCount = completedCount;
+    khSave(st);
+    khRenderPopup();
+    khUpdateBadge();
+  };
+
+  window.openKhatmaTracker = function() {
+    var old = document.getElementById('khatmaTrackerPopup');
+    if (old) { old.remove(); return; }
+    var isAr = khIsAr();
+    var isDark = document.body.classList.contains('dark-mode');
+    var bg = isDark ? '#1a2820' : '#fff';
+    var clr = isDark ? '#e0e0e0' : '#1a1a1a';
+    var borderClr = isDark ? '#2a3f32' : '#e8ede9';
+
+    var popup = document.createElement('div');
+    popup.id = 'khatmaTrackerPopup';
+    popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:khFadeIn .18s ease;';
+    popup.innerHTML =
+      '<style>@keyframes khFadeIn{from{opacity:0}to{opacity:1}}@keyframes khSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
+      '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:khSlideIn .22s ease;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';position:sticky;top:0;background:' + bg + ';border-radius:18px 18px 0 0;z-index:1;">' +
+          '<div style="font-size:15px;font-weight:700;">📗 ' + (isAr ? 'متابعة الختمة' : 'Khatma Tracker') + '</div>' +
+          '<button onclick="document.getElementById(\'khatmaTrackerPopup\').remove()" aria-label="close" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
+        '</div>' +
+        '<div id="khatmaBody" style="padding:14px 16px 18px;">' + khBuildBody(isAr) + '</div>' +
+      '</div>';
+    popup.addEventListener('click', function(e) { if (e.target === popup) popup.remove(); });
+    document.body.appendChild(popup);
+  };
+
+  // ===== الربط مع المصحف =====
+  window._khOpenMushaf = function() {
+    var popup = document.getElementById('khatmaTrackerPopup');
+    if (popup) popup.remove();
+    if (typeof window.toggleMushaf === 'function') window.toggleMushaf();
+  };
+
+  function khUpdateMushafFab() {
+    var fab = document.getElementById('khMushafFab');
+    if (!fab || fab.style.display === 'none') return;
+    var st = khLoad();
+    var meta = khMeta(st);
+    var isAr = khIsAr();
+    var label = fab.querySelector('.kh-fab-label');
+    if (label) {
+      label.textContent = isAr ?
+        (meta.arThe + ' ' + st.current + '/' + khTotal(st)) :
+        (meta.enThe + ' ' + st.current + '/' + khTotal(st));
+    }
+  }
+
+  function khShowMushafFab() {
+    var fab = document.getElementById('khMushafFab');
+    if (!fab) {
+      fab = document.createElement('div');
+      fab.id = 'khMushafFab';
+      fab.style.cssText = 'position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:100000;' +
+        'background:rgba(29,158,117,0.94);color:#fff;border-radius:26px;padding:8px 8px 8px 16px;' +
+        'display:flex;align-items:center;gap:8px;font-family:Cairo,sans-serif;font-size:12.5px;font-weight:700;' +
+        'box-shadow:0 6px 20px rgba(0,0,0,0.3);direction:rtl;';
+      fab.innerHTML =
+        '<span class="kh-fab-label"></span>' +
+        '<button onclick="window._khQuickAdd(1)" style="background:#fff;color:#1D9E75;border:none;border-radius:50%;width:28px;height:28px;font-size:15px;font-weight:800;cursor:pointer;">+1</button>';
+      document.body.appendChild(fab);
+    }
+    fab.style.display = 'flex';
+    khUpdateMushafFab();
+  }
+
+  function khHideMushafFab() {
+    var fab = document.getElementById('khMushafFab');
+    if (fab) fab.style.display = 'none';
+  }
+
+  function khShowLogPrompt() {
+    var old = document.getElementById('khLogPrompt');
+    if (old) old.remove();
+    var st = khLoad();
+    if (st.current >= khTotal(st)) return;
+    var meta = khMeta(st);
+    var isAr = khIsAr();
+    var card = document.createElement('div');
+    card.id = 'khLogPrompt';
+    card.style.cssText = 'position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:100000;' +
+      'background:#1a2820;color:#fff;border-radius:16px;padding:12px 14px;max-width:88%;' +
+      'display:flex;align-items:center;gap:10px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;' +
+      'box-shadow:0 8px 24px rgba(0,0,0,0.35);direction:rtl;animation:khFadeIn .18s ease;';
+    card.innerHTML =
+      '<span>' + (isAr ? 'سجّلت قراءتك؟' : 'Logged your reading?') + '</span>' +
+      '<button onclick="window._khQuickAdd(1);document.getElementById(\'khLogPrompt\').remove();" style="background:#1D9E75;color:#fff;border:none;border-radius:9px;padding:7px 12px;font-size:12.5px;cursor:pointer;white-space:nowrap;">' +
+      (isAr ? '✅ نعم +1 ' + meta.ar : '✅ Yes +1 ' + meta.en) + '</button>' +
+      '<button onclick="document.getElementById(\'khLogPrompt\').remove();" style="background:transparent;color:#ccc;border:1px solid #444;border-radius:9px;padding:7px 10px;font-size:12.5px;cursor:pointer;">' +
+      (isAr ? 'لأ' : 'No') + '</button>';
+    document.body.appendChild(card);
+    setTimeout(function() {
+      var el = document.getElementById('khLogPrompt');
+      if (el) el.remove();
+    }, 9000);
+  }
+
+  (function khHookMushaf() {
+    if (window._khMushafHooked) return;
+    if (typeof window.toggleMushaf !== 'function' || typeof window.closeMushafFullscreen !== 'function') return;
+    window._khMushafHooked = true;
+
+    var _origToggle = window.toggleMushaf;
+    var _origClose = window.closeMushafFullscreen;
+
+    window.toggleMushaf = function() {
+      _origToggle.apply(this, arguments);
+      var overlay = document.getElementById('mushafFullscreenOverlay');
+      if (overlay && overlay.classList.contains('active')) {
+        window._khMushafOpenAt = Date.now();
+        khShowMushafFab();
+      }
+    };
+
+    window.closeMushafFullscreen = function() {
+      _origClose.apply(this, arguments);
+      khHideMushafFab();
+      var openedAt = window._khMushafOpenAt;
+      window._khMushafOpenAt = null;
+      if (openedAt && (Date.now() - openedAt) > 12000) {
+        khShowLogPrompt();
+      }
+    };
+  })();
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', khUpdateBadge);
+  } else {
+    setTimeout(khUpdateBadge, 0);
+  }
+  document.addEventListener('langchange', khUpdateBadge);
+})();
+
+</script>
+<!-- ===== END Khatma Tracker ===== -->
+
 <button id="toggleButton" class="toggle-button"
     data-ar="تحميل التطبيق 📻"
     data-en="Download App 📻"
@@ -28059,6 +28608,10 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         </button>
         <button id="zakatCalcBtn" class="footer-listen-stats-btn" onclick="openZakatCalculator()" title="حاسبة الزكاة / Zakat Calculator" aria-label="Zakat Calculator">
             <span class="footer-listen-stats-icon">🧮</span>
+        </button>
+        <button id="khatmaTrackerBtn" class="footer-listen-stats-btn" onclick="openKhatmaTracker()" title="متابعة الختمة / Khatma Tracker" aria-label="Khatma Tracker" style="position:relative;">
+            <span class="footer-listen-stats-icon">📗</span>
+            <span id="khStreakBadge" style="display:none;position:absolute;top:-4px;left:-6px;background:#ff7043;color:#fff;font-size:9px;font-weight:800;line-height:1;padding:2px 4px;border-radius:8px;min-width:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></span>
         </button>
         <div class="flag-counter-container" id="flagContainer" style="display:none; margin-top:10px;">
             <a href="http://s01.flagcounter.com/more/Qgi">
