@@ -28021,6 +28021,11 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   var ZAKAT_RATE = 0.025;
   var CACHE_KEY = 'zakatPricesCache';
   var CACHE_MS = 6 * 60 * 60 * 1000; // 6 ساعات
+  var AUTO_CHECK_MS = 10 * 60 * 1000; // كل 10 دقائق نتأكد هل السعر المخزن لسه صالح
+  var DATA_KEY = 'zakatUserData';
+  var PREV_KEY = 'zakatPricesPrevious';
+  var HISTORY_KEY = 'zakatPricesHistory';
+  var HISTORY_MAX = 20; // أقصى عدد أسعار (بتاريخها) نحتفظ بيها
 
   var CURRENCIES = [
     { code: 'EGP', ar: 'جنيه مصري',    en: 'Egyptian Pound' },
@@ -28054,33 +28059,69 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     return n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
   }
 
-  function _zkGetCache() {
+  function _zkGetCache(ignoreAge) {
     try {
       var c = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-      if (c.ts && (Date.now() - c.ts) < CACHE_MS && c.goldUsdOz && c.silverUsdOz && c.rates) return c;
+      if (c.ts && c.goldUsdOz && c.silverUsdOz && c.rates && (ignoreAge || (Date.now() - c.ts) < CACHE_MS)) return c;
     } catch(e) {}
     return null;
   }
 
-  function _zkSaveCache(goldUsdOz, silverUsdOz, rates) {
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ goldUsdOz: goldUsdOz, silverUsdOz: silverUsdOz, rates: rates, ts: Date.now() })); } catch(e) {}
+  function _zkSaveCache(goldUsdOz, silverUsdOz, rates, ts) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ goldUsdOz: goldUsdOz, silverUsdOz: silverUsdOz, rates: rates, ts: ts || Date.now() })); } catch(e) {}
   }
 
-  function _zkComputePrices(goldUsdOz, silverUsdOz, rates) {
+  function _zkGetPrevious() {
+    try {
+      var p = JSON.parse(localStorage.getItem(PREV_KEY) || 'null');
+      if (p && p.goldUsdOz && p.silverUsdOz && p.rates) return p;
+    } catch(e) {}
+    return null;
+  }
+
+  function _zkSavePrevious(snapshot) {
+    try { localStorage.setItem(PREV_KEY, JSON.stringify(snapshot)); } catch(e) {}
+  }
+
+  // ===== سجل الأسعار (أكثر من سعر وتاريخ) =====
+  function _zkGetHistory() {
+    try {
+      var h = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      if (Array.isArray(h)) return h;
+    } catch(e) {}
+    return [];
+  }
+
+  function _zkAddHistory(snapshot) {
+    try {
+      var h = _zkGetHistory();
+      // امنع تكرار نفس الطابع الزمني بالظبط
+      h = h.filter(function(x) { return x.ts !== snapshot.ts; });
+      h.push(snapshot);
+      h.sort(function(a, b) { return b.ts - a.ts; }); // الأحدث أولاً
+      if (h.length > HISTORY_MAX) h = h.slice(0, HISTORY_MAX);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(h));
+    } catch(e) {}
+  }
+
+  function _zkComputePrices(goldUsdOz, silverUsdOz, rates, ts) {
     var rate = (rates && rates[_zkCurrency]) || 1;
     _zkPrices = {
       goldGram: (goldUsdOz / GRAMS_PER_OZ) * rate,
-      silverGram: (silverUsdOz / GRAMS_PER_OZ) * rate
+      silverGram: (silverUsdOz / GRAMS_PER_OZ) * rate,
+      ts: ts || Date.now()
     };
   }
 
   function _zkFetchPrices(force, cb) {
     var cached = !force && _zkGetCache();
     if (cached) {
-      _zkComputePrices(cached.goldUsdOz, cached.silverUsdOz, cached.rates);
+      _zkComputePrices(cached.goldUsdOz, cached.silverUsdOz, cached.rates, cached.ts);
       cb(null);
       return;
     }
+    // احتفظ بأي سعر قديم (حتى لو منتهي الصلاحية) لعرضه كـ"آخر سعر سابق" للمقارنة قبل استبداله
+    var outgoing = _zkGetCache(true);
     Promise.all([
       fetch('https://api.gold-api.com/price/XAU').then(function(r){ return r.json(); }),
       fetch('https://api.gold-api.com/price/XAG').then(function(r){ return r.json(); }),
@@ -28090,10 +28131,24 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       var silverUsdOz = res[1] && res[1].price;
       var rates = res[2] && res[2].rates;
       if (!goldUsdOz || !silverUsdOz || !rates) { cb('bad_data'); return; }
-      _zkSaveCache(goldUsdOz, silverUsdOz, rates);
-      _zkComputePrices(goldUsdOz, silverUsdOz, rates);
+      var now = Date.now();
+      if (outgoing && outgoing.ts !== now) {
+        _zkSavePrevious(outgoing);
+        _zkAddHistory(outgoing); // احتفظ بالسعر القديم في السجل قبل استبداله
+      }
+      _zkSaveCache(goldUsdOz, silverUsdOz, rates, now);
+      _zkAddHistory({ ts: now, goldUsdOz: goldUsdOz, silverUsdOz: silverUsdOz, rates: rates }); // خزّن السعر الجديد بتاريخه
+      _zkComputePrices(goldUsdOz, silverUsdOz, rates, now);
       cb(null);
     }).catch(function() { cb('fetch_error'); });
+  }
+
+  function _zkSaveUserData(data) {
+    try { localStorage.setItem(DATA_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+
+  function _zkLoadUserData() {
+    try { return JSON.parse(localStorage.getItem(DATA_KEY) || 'null') || {}; } catch(e) { return {}; }
   }
 
   function _zkCurrencyLabel(isAr) {
@@ -28103,34 +28158,105 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     return _zkCurrency;
   }
 
-  function _zkRenderPriceBar(isAr, isDark, muted, ring) {
+  function _zkRenderPriceBar(isAr, isDark) {
     var bar = document.getElementById('zkPriceBar');
     if (!bar) return;
+    var muted = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
+    var ring  = isDark ? 'rgba(29,158,117,0.3)'  : 'rgba(29,158,117,0.2)';
     if (!_zkPrices) {
       bar.innerHTML = '<div style="text-align:center;padding:14px;color:' + muted + ';font-size:12px;">⏳ ' + (isAr ? 'جارٍ تحميل الأسعار...' : 'Loading prices...') + '</div>';
       return;
     }
+    var dt = new Date(_zkPrices.ts);
+    var timeStr = dt.toLocaleString(isAr ? 'ar-EG' : 'en-US', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+
+    // بناء صف المقارنة بآخر سعر سابق ظهر للعميل (إن وجد ويختلف عن السعر الحالي)
+    var prevHtml = '';
+    var prev = _zkGetPrevious();
+    if (prev && prev.ts !== _zkPrices.ts) {
+      var prate = (prev.rates && prev.rates[_zkCurrency]) || 1;
+      var prevGoldGram = (prev.goldUsdOz / GRAMS_PER_OZ) * prate;
+      var prevSilverGram = (prev.silverUsdOz / GRAMS_PER_OZ) * prate;
+      var prevDt = new Date(prev.ts);
+      var prevTimeStr = prevDt.toLocaleString(isAr ? 'ar-EG' : 'en-US', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+      var goldDiff = _zkPrices.goldGram - prevGoldGram;
+      var silverDiff = _zkPrices.silverGram - prevSilverGram;
+      var goldArrow = goldDiff > 0.001 ? '▲' : (goldDiff < -0.001 ? '▼' : '—');
+      var silverArrow = silverDiff > 0.001 ? '▲' : (silverDiff < -0.001 ? '▼' : '—');
+      var goldColor = goldDiff > 0.001 ? '#1D9E75' : (goldDiff < -0.001 ? '#dc3545' : muted);
+      var silverColor = silverDiff > 0.001 ? '#1D9E75' : (silverDiff < -0.001 ? '#dc3545' : muted);
+      prevHtml =
+        '<div style="margin-top:6px;padding-top:6px;border-top:1px dashed ' + ring + ';font-size:10.5px;color:' + muted + ';">' +
+          '<div style="margin-bottom:3px;">' + (isAr ? '🕓 آخر سعر سابق ظهر لك (' + prevTimeStr + '):' : '🕓 Previous price shown to you (' + prevTimeStr + '):') + '</div>' +
+          '<div style="display:flex;justify-content:space-between;gap:8px;">' +
+            '<span>🥇 ' + _zkFmt(prevGoldGram) + ' <b style="color:' + goldColor + ';">' + goldArrow + ' ' + _zkFmt(Math.abs(goldDiff)) + '</b></span>' +
+            '<span>🥈 ' + _zkFmt(prevSilverGram) + ' <b style="color:' + silverColor + ';">' + silverArrow + ' ' + _zkFmt(Math.abs(silverDiff)) + '</b></span>' +
+          '</div>' +
+        '</div>';
+    }
+
     bar.innerHTML =
       '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;color:' + muted + ';margin-bottom:4px;">' +
         '<span>🥇 ' + (isAr ? 'جرام الذهب 24 (نقي):' : 'Gold/g 24k (pure):') + ' <b style="color:#1D9E75;">' + _zkFmt(_zkPrices.goldGram) + '</b></span>' +
         '<span>🥇 ' + (isAr ? 'عيار 21:' : '21k:') + ' <b style="color:#1D9E75;">' + _zkFmt(_zkPrices.goldGram * 21/24) + '</b></span>' +
       '</div>' +
-      '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;color:' + muted + ';">' +
+      '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;color:' + muted + ';margin-bottom:4px;">' +
         '<span>🥈 ' + (isAr ? 'جرام الفضة:' : 'Silver/g:') + ' <b style="color:#1D9E75;">' + _zkFmt(_zkPrices.silverGram) + '</b></span>' +
         '<span style="opacity:.75;">' + (isAr ? 'النصاب دايمًا محسوب بعيار 24' : 'Nisab always in 24k') + '</span>' +
-      '</div>';
+      '</div>' +
+      '<div style="font-size:10px;color:' + muted + ';opacity:.75;text-align:' + (isAr ? 'right' : 'left') + ';">' + (isAr ? 'آخر تحديث للأسعار: ' : 'Prices last updated: ') + timeStr + '</div>' +
+      prevHtml +
+      '<div style="margin-top:6px;text-align:center;">' +
+        '<a href="javascript:void(0)" onclick="window._zkToggleHistory()" style="font-size:10px;color:#1D9E75;text-decoration:underline;">🕓 ' + (isAr ? 'سجل الأسعار الكامل' : 'Full price history') + '</a>' +
+      '</div>' +
+      '<div id="zkHistoryList" style="display:none;margin-top:6px;"></div>';
   }
+
+  window._zkToggleHistory = function() {
+    var el = document.getElementById('zkHistoryList');
+    if (!el) return;
+    var isAr = window._zkIsAr;
+    var isDark = document.body.classList.contains('dark-mode');
+    var muted = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
+    var ring  = isDark ? 'rgba(29,158,117,0.3)'  : 'rgba(29,158,117,0.2)';
+    if (el.style.display !== 'none') { el.style.display = 'none'; return; }
+
+    var hist = _zkGetHistory();
+    if (!hist.length) {
+      el.innerHTML = '<div style="font-size:10.5px;color:' + muted + ';text-align:center;padding:4px;">' + (isAr ? 'لا يوجد سجل أسعار بعد' : 'No price history yet') + '</div>';
+      el.style.display = 'block';
+      return;
+    }
+    var rate = 1;
+    var rows = hist.map(function(h) {
+      var r = (h.rates && h.rates[_zkCurrency]) || 1;
+      var g = (h.goldUsdOz / GRAMS_PER_OZ) * r;
+      var s = (h.silverUsdOz / GRAMS_PER_OZ) * r;
+      var d = new Date(h.ts);
+      var t = d.toLocaleString(isAr ? 'ar-EG' : 'en-US', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+      return '<div style="display:flex;justify-content:space-between;gap:6px;font-size:10.5px;color:' + muted + ';padding:3px 0;border-bottom:1px dashed ' + ring + ';">' +
+        '<span>' + t + '</span>' +
+        '<span>🥇 ' + _zkFmt(g) + '</span>' +
+        '<span>🥈 ' + _zkFmt(s) + '</span>' +
+      '</div>';
+    }).join('');
+    el.innerHTML = '<div style="max-height:160px;overflow-y:auto;padding:4px 2px;">' + rows + '</div>';
+    el.style.display = 'block';
+  };
 
   function _zkBuildForm(isAr, isDark) {
     var clr   = isDark ? '#e0e0e0' : '#1a1a1a';
     var muted = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
     var ring  = isDark ? 'rgba(29,158,117,0.3)'  : 'rgba(29,158,117,0.2)';
     var inputBg = isDark ? '#1d3028' : '#fff';
+    var saved = _zkLoadUserData();
+    if (saved.currency) _zkCurrency = saved.currency;
 
-    function inputRow(id, label, placeholder) {
+    function inputRow(id, label, placeholder, value) {
       return '<div style="margin-bottom:10px;">' +
         '<label style="display:block;font-size:12px;font-weight:600;color:' + clr + ';margin-bottom:4px;">' + label + '</label>' +
-        '<input type="number" min="0" inputmode="decimal" id="' + id + '" placeholder="' + (placeholder || '0') + '" ' +
+        '<input type="number" min="0" step="any" inputmode="decimal" id="' + id + '" placeholder="' + (placeholder || '0') + '" ' +
+        (value ? 'value="' + value + '" ' : '') +
         'style="width:100%;padding:9px 10px;border-radius:8px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;box-sizing:border-box;direction:rtl;">' +
       '</div>';
     }
@@ -28148,30 +28274,31 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       '</div>' +
       '<div id="zkPriceBar" style="background:' + (isDark ? 'rgba(29,158,117,0.1)' : 'rgba(29,158,117,0.06)') + ';border-radius:10px;padding:10px 12px;margin-bottom:14px;"></div>' +
 
-      inputRow('zkCash', isAr ? '💵 النقد والمدخرات (بالبنك وفي اليد)' : '💵 Cash & savings') +
+      inputRow('zkCash', isAr ? '💵 النقد والمدخرات (بالبنك وفي اليد)' : '💵 Cash & savings', null, saved.cash) +
       '<div style="margin-bottom:10px;">' +
         '<label style="display:block;font-size:12px;font-weight:600;color:' + clr + ';margin-bottom:4px;">' + (isAr ? '🥇 الذهب المملوك' : '🥇 Gold owned') + '</label>' +
         '<div style="display:flex;gap:6px;">' +
-          '<input type="number" min="0" inputmode="decimal" id="zkGoldGrams" placeholder="' + (isAr ? 'الوزن بالجرام' : 'Weight in grams') + '" ' +
+          '<input type="number" min="0" step="any" inputmode="decimal" id="zkGoldGrams" placeholder="' + (isAr ? 'الوزن بالجرام' : 'Weight in grams') + '" ' +
+          (saved.goldGrams ? 'value="' + saved.goldGrams + '" ' : '') +
           'style="flex:2;padding:9px 10px;border-radius:8px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;box-sizing:border-box;direction:rtl;">' +
           '<select id="zkGoldKarat" style="flex:1;padding:9px 6px;border-radius:8px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;box-sizing:border-box;">' +
-            '<option value="24">24 ' + (isAr ? 'عيار' : 'k') + '</option>' +
-            '<option value="22">22 ' + (isAr ? 'عيار' : 'k') + '</option>' +
-            '<option value="21" selected>21 ' + (isAr ? 'عيار' : 'k') + '</option>' +
-            '<option value="18">18 ' + (isAr ? 'عيار' : 'k') + '</option>' +
+            '<option value="24"' + (!saved.karat || saved.karat == 24 ? ' selected' : '') + '>24 ' + (isAr ? 'عيار' : 'k') + '</option>' +
+            '<option value="22"' + (saved.karat == 22 ? ' selected' : '') + '>22 ' + (isAr ? 'عيار' : 'k') + '</option>' +
+            '<option value="21"' + (saved.karat == 21 ? ' selected' : '') + '>21 ' + (isAr ? 'عيار' : 'k') + '</option>' +
+            '<option value="18"' + (saved.karat == 18 ? ' selected' : '') + '>18 ' + (isAr ? 'عيار' : 'k') + '</option>' +
           '</select>' +
         '</div>' +
       '</div>' +
-      inputRow('zkSilverGrams', isAr ? '🥈 وزن الفضة المملوكة (جرام)' : '🥈 Silver owned (grams)') +
-      inputRow('zkInvestments', isAr ? '📈 عروض التجارة / الاستثمارات' : '📈 Trade goods / investments') +
-      inputRow('zkReceivables', isAr ? '🤝 ديون مستحقة لك (قابلة للتحصيل)' : '🤝 Money owed to you') +
-      inputRow('zkDebts', isAr ? '📉 ديون عليك (مستحقة الآن)' : '📉 Your debts due now') +
+      inputRow('zkSilverGrams', isAr ? '🥈 وزن الفضة المملوكة (جرام)' : '🥈 Silver owned (grams)', null, saved.silverGrams) +
+      inputRow('zkInvestments', isAr ? '📈 عروض التجارة / الاستثمارات' : '📈 Trade goods / investments', null, saved.investments) +
+      inputRow('zkReceivables', isAr ? '🤝 ديون مستحقة لك (قابلة للتحصيل)' : '🤝 Money owed to you', null, saved.receivables) +
+      inputRow('zkDebts', isAr ? '📉 ديون عليك (مستحقة الآن)' : '📉 Your debts due now', null, saved.debts) +
 
       '<div style="margin-bottom:14px;">' +
         '<label style="display:block;font-size:12px;font-weight:600;color:' + clr + ';margin-bottom:6px;">' + (isAr ? 'أساس حساب النصاب' : 'Nisab basis') + '</label>' +
         '<div style="display:flex;gap:10px;font-size:12px;color:' + muted + ';">' +
-          '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="radio" name="zkNisabBasis" value="silver" checked> ' + (isAr ? 'نصاب الفضة (الأحوط)' : 'Silver nisab (safer)') + '</label>' +
-          '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="radio" name="zkNisabBasis" value="gold"> ' + (isAr ? 'نصاب الذهب' : 'Gold nisab') + '</label>' +
+          '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="radio" name="zkNisabBasis" value="silver"' + (saved.basis === 'silver' ? ' checked' : '') + '> ' + (isAr ? 'نصاب الفضة (الأحوط)' : 'Silver nisab (safer)') + '</label>' +
+          '<label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="radio" name="zkNisabBasis" value="gold"' + (saved.basis === 'silver' ? '' : ' checked') + '> ' + (isAr ? 'نصاب الذهب' : 'Gold nisab') + '</label>' +
         '</div>' +
       '</div>' +
 
@@ -28200,10 +28327,12 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
     var cash = num('zkCash');
     var karatEl = document.getElementById('zkGoldKarat');
-    var karat = karatEl ? parseFloat(karatEl.value) : 21;
+    var karat = karatEl ? parseFloat(karatEl.value) : 24;
     var karatFactor = karat / 24;
-    var goldVal = num('zkGoldGrams') * karatFactor * _zkPrices.goldGram;
-    var silverVal = num('zkSilverGrams') * _zkPrices.silverGram;
+    var goldGrams = num('zkGoldGrams');
+    var goldVal = goldGrams * karatFactor * _zkPrices.goldGram;
+    var silverGrams = num('zkSilverGrams');
+    var silverVal = silverGrams * _zkPrices.silverGram;
     var investments = num('zkInvestments');
     var receivables = num('zkReceivables');
     var debts = num('zkDebts');
@@ -28212,8 +28341,14 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     if (total < 0) total = 0;
 
     var basisEl = document.querySelector('input[name="zkNisabBasis"]:checked');
-    var basis = basisEl ? basisEl.value : 'silver';
+    var basis = basisEl ? basisEl.value : 'gold';
     var nisab = basis === 'gold' ? (NISAB_GOLD_G * _zkPrices.goldGram) : (NISAB_SILVER_G * _zkPrices.silverGram);
+
+    _zkSaveUserData({
+      cash: cash, goldGrams: goldGrams, karat: karat, silverGrams: silverGrams,
+      investments: investments, receivables: receivables, debts: debts,
+      basis: basis, currency: _zkCurrency
+    });
 
     var due = total >= nisab ? total * ZAKAT_RATE : 0;
     var cur = _zkCurrencyLabel(isAr);
@@ -28301,11 +28436,53 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     popup.addEventListener('click', function(e) { if (e.target === popup) popup.remove(); });
     document.body.appendChild(popup);
 
+    // اعرض آخر سعر معروف فورًا (حتى لو قديم) بدل شاشة التحميل، ثم حدّثه في الخلفية
+    var instant = _zkGetCache(true);
+    if (instant) {
+      _zkComputePrices(instant.goldUsdOz, instant.silverUsdOz, instant.rates, instant.ts);
+    }
     _zkRenderPriceBar(isAr, isDark);
     _zkFetchPrices(false, function(err) {
       _zkRenderPriceBar(isAr, isDark);
     });
   };
+
+  // ===== تحديث تلقائي مستمر =====
+  // 1) عند فتح الموقع/الصفحة: نجيب سعر جديد في الخلفية فورًا لو الكاش قديم أو مش موجود،
+  //    عشان أول ما المستخدم يفتح الحاسبة يلاقي سعر جاهز ومحدّث بدل ما ينتظر.
+  function _zkBackgroundRefresh() {
+    _zkFetchPrices(false, function(err) {
+      // لو الحاسبة مفتوحة وقت ما الخلفية جابت سعر جديد، حدّث الشاشة على طول
+      var popupOpen = document.getElementById('zakatCalcPopup');
+      if (popupOpen && !err) {
+        var isAr = (typeof window._zkIsAr !== 'undefined') ? window._zkIsAr : true;
+        var isDark = document.body.classList.contains('dark-mode');
+        _zkRenderPriceBar(isAr, isDark);
+      }
+    });
+  }
+
+  try {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      _zkBackgroundRefresh();
+    } else {
+      document.addEventListener('DOMContentLoaded', _zkBackgroundRefresh);
+    }
+  } catch(e) {}
+
+  // 2) طول ما الموقع مفتوح: كل فترة (AUTO_CHECK_MS) نتأكد هل السعر المخزن انتهت صلاحيته،
+  //    ولو كده نجيب سعر جديد تلقائيًا من غير ما المستخدم يضغط أي زرار.
+  try {
+    setInterval(_zkBackgroundRefresh, AUTO_CHECK_MS);
+  } catch(e) {}
+
+  // 3) لما المستخدم يرجع لتاب الموقع (بعد ما كان في تاب/تطبيق تاني) نتأكد من السعر برضه،
+  //    عشان لو السعر اتغير وهو مش فاتح الشاشة يلاقيه محدث.
+  try {
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'visible') _zkBackgroundRefresh();
+    });
+  } catch(e) {}
 })();
 </script>
 
