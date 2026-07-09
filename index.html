@@ -14485,8 +14485,10 @@ function renderStationButtons(arr, container, opts) {
     } else if (s.basitType === 'mojawwad') {
       label += ' <span class="badge-mojawwad">مجود</span>';
     }
+    var _isArNowForTitle = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var _tasbihTitleText = _isArNowForTitle ? s.ar : (s.en || s.ar);
     var stationTitle = s.title ? ' title="' + s.title.replace(/"/g, '&quot;') + '"' :
-      (s.hasTasbih && s.ar ? ' title="' + s.ar.replace(/"/g, '&quot;') + '"' : '');
+      (s.hasTasbih && _tasbihTitleText ? ' title="' + _tasbihTitleText.replace(/"/g, '&quot;') + '"' : '');
     if (s.multiIcon) {
       inner += '<span class="station-text"' + stationTitle + '>' +
         label +
@@ -29278,6 +29280,7 @@ function applyInitialLanguage() {
         } else {
           st.textContent = newText;
         }
+        if (st.hasAttribute('title') && newText) st.setAttribute('title', newText);
       }
     });
 
@@ -30282,6 +30285,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         stEl.textContent = newText;
       }
+      if (stEl.hasAttribute('title')) stEl.setAttribute('title', newText);
     });
   }
 
@@ -30472,6 +30476,7 @@ function toggleLanguage() {
     } else {
       buttonText.textContent = newText;
     }
+    if (buttonText.hasAttribute('title') && newText) buttonText.setAttribute('title', newText);
   });
 
   // تحديث نصوص جميع أزرار المحطات
@@ -30486,6 +30491,7 @@ function toggleLanguage() {
     } else {
       stEl.textContent = newText;
     }
+    if (stEl.hasAttribute('title')) stEl.setAttribute('title', newText);
   });
 
   document.getElementById("searchInput").placeholder = isArabic ? "ابــحــث هـنـا عـن إذاعـة أو إسـم الـقـارئ" : "Search here for a station or reciter's name";
@@ -37305,7 +37311,17 @@ document.addEventListener("click", function(e) {
     return;
   }
 
-  var text = adhkarBtn.getAttribute("title");
+  var _isArForTooltip = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var _arText = adhkarBtn.getAttribute("title");
+  var _enText = adhkarBtn.getAttribute("data-en");
+  var text;
+  if (_isArForTooltip) {
+    text = _arText;
+  } else if (_enText && _arText) {
+    text = _enText + "\n\n" + _arText;
+  } else {
+    text = _enText || _arText;
+  }
   if (!text) {
     var stEl = adhkarBtn.querySelector(".station-text[title]");
     if (stEl) text = stEl.getAttribute("title");
@@ -37354,6 +37370,8 @@ document.addEventListener("click", function(e) {
   var tooltip = document.createElement("div");
   tooltip.className = "custom-tooltip";
   tooltip.innerText = text;
+  tooltip.style.direction = _isArForTooltip ? "rtl" : "auto";
+  tooltip.style.textAlign = _isArForTooltip ? "right" : "start";
   document.body.appendChild(tooltip);
 
   var rect = adhkarBtn.getBoundingClientRect();
