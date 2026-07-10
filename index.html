@@ -1867,6 +1867,55 @@ body.dark-mode .site-modal-title { color: #cdd8e3; }
     border-color: #1565c0 !important;
 }
 
+.welcome-lang-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.16);
+    border: 1px solid rgba(21,101,192,0.15);
+    padding: 5px;
+    min-width: 120px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.welcome-lang-menu .welcome-lang-option {
+    display: block;
+    width: 100%;
+    text-align: right;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #263238;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+.welcome-lang-menu .welcome-lang-option:hover {
+    background: rgba(21,101,192,0.1);
+    color: #1565c0;
+}
+.welcome-lang-menu .welcome-lang-option.active {
+    background: #1565c0;
+    color: #fff;
+}
+body.dark-mode .welcome-lang-menu {
+    background: #23283a;
+    border-color: rgba(255,255,255,0.12);
+}
+body.dark-mode .welcome-lang-menu .welcome-lang-option {
+    color: #dce6f0;
+}
+body.dark-mode .welcome-lang-menu .welcome-lang-option:hover {
+    background: rgba(255,255,255,0.08);
+    color: #90caf9;
+}
+
 #closeButton[style*="display: block"],
 #closeButton[style*="display:block"] {
     display: flex !important;
@@ -5302,7 +5351,24 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
             <span class="wdm-icon">🌙</span>
             <span class="wdm-text" id="welcomeDarkModeTxt">الوضع الليلي</span>
         </button>
-        <button id="welcomeLangToggle" onclick="toggleLanguage()">🌐 EN</button>
+        <div id="welcomeLangWrap" style="position:relative;display:inline-flex;">
+            <button id="welcomeLangToggle" onclick="toggleWelcomeLangMenu(event)">🌐 <span class="wlt-label">EN</span></button>
+            <div id="welcomeLangMenu" class="welcome-lang-menu" style="display:none;">
+                <button type="button" class="welcome-lang-option" data-lang="ar" onclick="selectWelcomeLang('ar')">العربية</button>
+                <button type="button" class="welcome-lang-option" data-lang="en" onclick="selectWelcomeLang('en')">English</button>
+                <button type="button" class="welcome-lang-option" data-lang="fr" onclick="selectWelcomeLang('fr')">Français</button>
+                <button type="button" class="welcome-lang-option" data-lang="es" onclick="selectWelcomeLang('es')">Español</button>
+                <button type="button" class="welcome-lang-option" data-lang="sv" onclick="selectWelcomeLang('sv')">Svenska</button>
+                <button type="button" class="welcome-lang-option" data-lang="nl" onclick="selectWelcomeLang('nl')">Nederlands</button>
+                <button type="button" class="welcome-lang-option" data-lang="ga" onclick="selectWelcomeLang('ga')">Gaeilge</button>
+                <button type="button" class="welcome-lang-option" data-lang="de" onclick="selectWelcomeLang('de')">Deutsch</button>
+                <button type="button" class="welcome-lang-option" data-lang="ru" onclick="selectWelcomeLang('ru')">Русский</button>
+                <button type="button" class="welcome-lang-option" data-lang="tr" onclick="selectWelcomeLang('tr')">Türkçe</button>
+                <button type="button" class="welcome-lang-option" data-lang="pt" onclick="selectWelcomeLang('pt')">Português</button>
+                <button type="button" class="welcome-lang-option" data-lang="zh" onclick="selectWelcomeLang('zh')">中文</button>
+                <button type="button" class="welcome-lang-option" data-lang="ur" onclick="selectWelcomeLang('ur')">اردو</button>
+            </div>
+        </div>
         <button id="welcomeHelpBtn" onclick="toggleShortcutsModal()" title="الإرشادات واختصارات لوحة المفاتيح / Help &amp; Keyboard Shortcuts" aria-label="Help &amp; Keyboard Shortcuts">?</button>
         <button id="reloadButton" onclick="confirmReload()" aria-label="إعادة تحميل" style="display:none;">🔄</button>
     </div>
@@ -29382,8 +29448,18 @@ function applyInitialLanguage() {
     isArabic = false;
     siteLanguage = lang;
 
-    var wlt = document.getElementById('welcomeLangToggle');
-    if (wlt) wlt.innerHTML = '🌐 AR';
+    if (typeof updateLangToggleLabel === 'function') updateLangToggleLabel();
+    if (welcomeDisplayLang === 'fr' && typeof applyFrenchWelcomeOverlay === 'function') applyFrenchWelcomeOverlay();
+    if (welcomeDisplayLang === 'es' && typeof applySpanishWelcomeOverlay === 'function') applySpanishWelcomeOverlay();
+    if (welcomeDisplayLang === 'sv' && typeof applySwedishWelcomeOverlay === 'function') applySwedishWelcomeOverlay();
+    if (welcomeDisplayLang === 'nl' && typeof applyDutchWelcomeOverlay === 'function') applyDutchWelcomeOverlay();
+    if (welcomeDisplayLang === 'ga' && typeof applyIrishWelcomeOverlay === 'function') applyIrishWelcomeOverlay();
+    if (welcomeDisplayLang === 'de' && typeof applyGermanWelcomeOverlay === 'function') applyGermanWelcomeOverlay();
+    if (welcomeDisplayLang === 'ru' && typeof applyRussianWelcomeOverlay === 'function') applyRussianWelcomeOverlay();
+    if (welcomeDisplayLang === 'tr' && typeof applyTurkishWelcomeOverlay === 'function') applyTurkishWelcomeOverlay();
+    if (welcomeDisplayLang === 'pt' && typeof applyPortugueseWelcomeOverlay === 'function') applyPortugueseWelcomeOverlay();
+    if (welcomeDisplayLang === 'zh' && typeof applyChineseWelcomeOverlay === 'function') applyChineseWelcomeOverlay();
+    if (welcomeDisplayLang === 'ur' && typeof applyUrduWelcomeOverlay === 'function') applyUrduWelcomeOverlay();
     var slTxt = document.getElementById('settingsLangText');
     if (slTxt) slTxt.textContent = 'AR';
 
@@ -29599,6 +29675,20 @@ window.addEventListener('load', function() {
   initializeRadio();
 
   applyInitialLanguage();
+
+  // applyInitialLanguage() بترجع نصوص شاشة الترحيب للإنجليزي لو isArabic=false
+  // فلو المستخدم مفروض يشوف فرنسي/إسباني/أردو، نطبقها تاني بعد كده
+  if (welcomeDisplayLang === 'fr' && typeof applyFrenchWelcomeOverlay === 'function') applyFrenchWelcomeOverlay();
+  else if (welcomeDisplayLang === 'es' && typeof applySpanishWelcomeOverlay === 'function') applySpanishWelcomeOverlay();
+  else if (welcomeDisplayLang === 'sv' && typeof applySwedishWelcomeOverlay === 'function') applySwedishWelcomeOverlay();
+  else if (welcomeDisplayLang === 'nl' && typeof applyDutchWelcomeOverlay === 'function') applyDutchWelcomeOverlay();
+  else if (welcomeDisplayLang === 'ga' && typeof applyIrishWelcomeOverlay === 'function') applyIrishWelcomeOverlay();
+  else if (welcomeDisplayLang === 'de' && typeof applyGermanWelcomeOverlay === 'function') applyGermanWelcomeOverlay();
+  else if (welcomeDisplayLang === 'ru' && typeof applyRussianWelcomeOverlay === 'function') applyRussianWelcomeOverlay();
+  else if (welcomeDisplayLang === 'tr' && typeof applyTurkishWelcomeOverlay === 'function') applyTurkishWelcomeOverlay();
+  else if (welcomeDisplayLang === 'pt' && typeof applyPortugueseWelcomeOverlay === 'function') applyPortugueseWelcomeOverlay();
+  else if (welcomeDisplayLang === 'zh' && typeof applyChineseWelcomeOverlay === 'function') applyChineseWelcomeOverlay();
+  else if (welcomeDisplayLang === 'ur' && typeof applyUrduWelcomeOverlay === 'function') applyUrduWelcomeOverlay();
 });
 
 function updateButtonColor() {
@@ -30410,6 +30500,30 @@ let isArabic = (function() {
   return browserLang.startsWith('ar');
 })();
 
+// لغة عرض شاشة الترحيب فقط: ar / en / fr / es / sv / nl / ga / de / ru / tr / pt / zh / ur — الموقع نفسه يفضل يشتغل عربي/إنجليزي فقط (isArabic)
+var welcomeDisplayLang = (function() {
+  var savedWelcome = localStorage.getItem('welcomeDisplayLang');
+  if (savedWelcome === 'ar' || savedWelcome === 'en' || savedWelcome === 'fr' || savedWelcome === 'es' || savedWelcome === 'sv' || savedWelcome === 'nl' || savedWelcome === 'ga' || savedWelcome === 'de' || savedWelcome === 'ru' || savedWelcome === 'tr' || savedWelcome === 'pt' || savedWelcome === 'zh' || savedWelcome === 'ur') return savedWelcome;
+  var savedSite = localStorage.getItem('siteLang');
+  if (savedSite !== null) {
+    return savedSite === 'en' ? 'en' : 'ar';
+  }
+  var browserLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+  if (browserLang.startsWith('fr')) return 'fr';
+  if (browserLang.startsWith('es')) return 'es';
+  if (browserLang.startsWith('sv')) return 'sv';
+  if (browserLang.startsWith('nl')) return 'nl';
+  if (browserLang.startsWith('ga')) return 'ga';
+  if (browserLang.startsWith('de')) return 'de';
+  if (browserLang.startsWith('ru')) return 'ru';
+  if (browserLang.startsWith('tr')) return 'tr';
+  if (browserLang.startsWith('pt')) return 'pt';
+  if (browserLang.startsWith('zh')) return 'zh';
+  if (browserLang.startsWith('ur')) return 'ur';
+  if (browserLang.startsWith('ar')) return 'ar';
+  return 'en';
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof applyDirection === 'function') applyDirection(isArabic);
 
@@ -30421,8 +30535,18 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // تحديث زر تبديل اللغة ليعكس اللغة الحالية
-  var wlt = document.getElementById('welcomeLangToggle');
-  if (wlt) wlt.innerHTML = isArabic ? '🌐 EN' : '🌐 AR';
+  if (typeof updateLangToggleLabel === 'function') updateLangToggleLabel();
+  if (welcomeDisplayLang === 'fr' && typeof applyFrenchWelcomeOverlay === 'function') applyFrenchWelcomeOverlay();
+    if (welcomeDisplayLang === 'es' && typeof applySpanishWelcomeOverlay === 'function') applySpanishWelcomeOverlay();
+    if (welcomeDisplayLang === 'sv' && typeof applySwedishWelcomeOverlay === 'function') applySwedishWelcomeOverlay();
+    if (welcomeDisplayLang === 'nl' && typeof applyDutchWelcomeOverlay === 'function') applyDutchWelcomeOverlay();
+    if (welcomeDisplayLang === 'ga' && typeof applyIrishWelcomeOverlay === 'function') applyIrishWelcomeOverlay();
+    if (welcomeDisplayLang === 'de' && typeof applyGermanWelcomeOverlay === 'function') applyGermanWelcomeOverlay();
+    if (welcomeDisplayLang === 'ru' && typeof applyRussianWelcomeOverlay === 'function') applyRussianWelcomeOverlay();
+    if (welcomeDisplayLang === 'tr' && typeof applyTurkishWelcomeOverlay === 'function') applyTurkishWelcomeOverlay();
+    if (welcomeDisplayLang === 'pt' && typeof applyPortugueseWelcomeOverlay === 'function') applyPortugueseWelcomeOverlay();
+    if (welcomeDisplayLang === 'zh' && typeof applyChineseWelcomeOverlay === 'function') applyChineseWelcomeOverlay();
+    if (welcomeDisplayLang === 'ur' && typeof applyUrduWelcomeOverlay === 'function') applyUrduWelcomeOverlay();
   var slTxt = document.getElementById('settingsLangText');
   if (slTxt) slTxt.textContent = isArabic ? 'EN' : 'AR';
 
@@ -30533,8 +30657,11 @@ function toggleLanguage() {
   siteLanguage = lang;
   localStorage.setItem('siteLang', lang);
 
-  var wlt = document.getElementById('welcomeLangToggle');
-  if (wlt) wlt.innerHTML = isArabic ? '🌐 EN' : '🌐 AR';
+  // مزامنة لغة عرض شاشة الترحيب مع اللغة الثنائية (بيلغي أي عرض فرنسي سابق)
+  welcomeDisplayLang = isArabic ? 'ar' : 'en';
+  localStorage.setItem('welcomeDisplayLang', welcomeDisplayLang);
+  if (typeof resetWelcomeExtrasToDefault === 'function') resetWelcomeExtrasToDefault();
+  if (typeof updateLangToggleLabel === 'function') updateLangToggleLabel();
 
   var slTxt = document.getElementById('settingsLangText');
   if (slTxt) slTxt.textContent = isArabic ? 'EN' : 'AR';
@@ -30675,6 +30802,8 @@ function toggleLanguage() {
 
   var welcomeText = document.getElementById('siteWelcomeText');
   if (welcomeText) {
+    welcomeText.style.direction = '';
+    welcomeText.style.textAlign = '';
     if (isArabic) {
       welcomeText.innerHTML =
         '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="فتح الموقع الرئيسي / Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 بسم الله الرحمن الرحيم</span>' +
@@ -31004,6 +31133,683 @@ function toggleLanguage() {
       if (txt) opt.textContent = txt;
     });
   }
+}
+
+// ── دعم اللغة الفرنسية لشاشة الترحيب فقط (الموقع نفسه يفضل عربي/إنجليزي) ──
+
+function updateLangToggleLabel() {
+  var labelSpan = document.querySelector('#welcomeLangToggle .wlt-label');
+  var txt = welcomeDisplayLang === 'ar' ? 'AR' : (welcomeDisplayLang === 'fr' ? 'FR' : (welcomeDisplayLang === 'es' ? 'ES' : (welcomeDisplayLang === 'sv' ? 'SV' : (welcomeDisplayLang === 'nl' ? 'NL' : (welcomeDisplayLang === 'ga' ? 'GA' : (welcomeDisplayLang === 'de' ? 'DE' : (welcomeDisplayLang === 'ru' ? 'RU' : (welcomeDisplayLang === 'tr' ? 'TR' : (welcomeDisplayLang === 'pt' ? 'PT' : (welcomeDisplayLang === 'zh' ? 'ZH' : (welcomeDisplayLang === 'ur' ? 'UR' : 'EN')))))))))));
+  if (labelSpan) labelSpan.textContent = txt;
+  document.querySelectorAll('.welcome-lang-option').forEach(function(opt) {
+    opt.classList.toggle('active', opt.getAttribute('data-lang') === welcomeDisplayLang);
+  });
+}
+
+function applyEnglishWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 In the Name of Allah</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Welcome to</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'Dark Mode';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Auto Switch';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Random';
+
+  resetWelcomeExtrasToDefault();
+  updateLangToggleLabel();
+}
+
+function toggleWelcomeLangMenu(event) {
+  if (event) event.stopPropagation();
+  var menu = document.getElementById('welcomeLangMenu');
+  if (!menu) return;
+  var isOpen = menu.style.display === 'block';
+  menu.style.display = isOpen ? 'none' : 'block';
+}
+
+function closeWelcomeLangMenu() {
+  var menu = document.getElementById('welcomeLangMenu');
+  if (menu) menu.style.display = 'none';
+}
+
+document.addEventListener('click', function(event) {
+  var wrap = document.getElementById('welcomeLangWrap');
+  if (wrap && !wrap.contains(event.target)) closeWelcomeLangMenu();
+});
+
+function selectWelcomeLang(target) {
+  closeWelcomeLangMenu();
+  if (target === welcomeDisplayLang) return;
+
+  if (target === 'ar') {
+    if (!isArabic) {
+      toggleLanguage(); // en/fr/es → ar: يبدّل الموقع كله للعربي، وبيظبط welcomeDisplayLang تلقائيًا
+    }
+  } else if (target === 'en') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en: يبدّل الموقع كله للإنجليزي
+    } else {
+      // كنا فرنسي/إسباني وبرضه isArabic كانت false، نرجّع شاشة الترحيب بس للإنجليزي بدون ما نلمس باقي الموقع
+      welcomeDisplayLang = 'en';
+      localStorage.setItem('welcomeDisplayLang', 'en');
+      applyEnglishWelcomeOverlay();
+    }
+  } else if (target === 'fr') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'fr';
+    localStorage.setItem('welcomeDisplayLang', 'fr');
+    applyFrenchWelcomeOverlay();
+  } else if (target === 'es') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'es';
+    localStorage.setItem('welcomeDisplayLang', 'es');
+    applySpanishWelcomeOverlay();
+  } else if (target === 'sv') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'sv';
+    localStorage.setItem('welcomeDisplayLang', 'sv');
+    applySwedishWelcomeOverlay();
+  } else if (target === 'nl') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'nl';
+    localStorage.setItem('welcomeDisplayLang', 'nl');
+    applyDutchWelcomeOverlay();
+  } else if (target === 'ga') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'ga';
+    localStorage.setItem('welcomeDisplayLang', 'ga');
+    applyIrishWelcomeOverlay();
+  } else if (target === 'de') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'de';
+    localStorage.setItem('welcomeDisplayLang', 'de');
+    applyGermanWelcomeOverlay();
+  } else if (target === 'ru') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'ru';
+    localStorage.setItem('welcomeDisplayLang', 'ru');
+    applyRussianWelcomeOverlay();
+  } else if (target === 'tr') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'tr';
+    localStorage.setItem('welcomeDisplayLang', 'tr');
+    applyTurkishWelcomeOverlay();
+  } else if (target === 'pt') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'pt';
+    localStorage.setItem('welcomeDisplayLang', 'pt');
+    applyPortugueseWelcomeOverlay();
+  } else if (target === 'zh') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'zh';
+    localStorage.setItem('welcomeDisplayLang', 'zh');
+    applyChineseWelcomeOverlay();
+  } else if (target === 'ur') {
+    if (isArabic) {
+      toggleLanguage(); // ar → en الأول عشان الموقع يبقى إنجليزي
+    }
+    welcomeDisplayLang = 'ur';
+    localStorage.setItem('welcomeDisplayLang', 'ur');
+    applyUrduWelcomeOverlay();
+  }
+}
+
+// عناصر شاشة الترحيب اللي مش تابعة لنظام isArabic الثنائي (ثابتة إنجليزي/ثنائي أصلًا)
+// بيتم إرجاعها لقيمتها الأصلية لما نطلع من وضع الفرنسية
+var _welcomeFrenchDefaults = {
+  welcomeTopHideTxt: 'Hide',
+  welcomeHelpBtnTitle: 'الإرشادات واختصارات لوحة المفاتيح / Help & Keyboard Shortcuts',
+  welcomeTopSearchBtnTitle: 'بحث / Search',
+  welcomeTopAiBtnTitle: 'مساعد الذكاء الاصطناعي / AI Assistant',
+  welcomeTopHideBtnTitle: 'إخفاء الشاشة الترحيبية / Hide Welcome Screen',
+  downArrowTitle: 'انتقل للراديو الرئيسي / Go to main radio',
+  closeButtonAriaLabel: 'اغلاق'
+};
+
+function resetWelcomeExtrasToDefault() {
+  var d = _welcomeFrenchDefaults;
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = d.welcomeTopHideTxt;
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', d.welcomeHelpBtnTitle);
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', d.welcomeTopSearchBtnTitle);
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', d.welcomeTopAiBtnTitle);
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', d.welcomeTopHideBtnTitle);
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', d.downArrowTitle);
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', d.closeButtonAriaLabel);
+}
+
+function applyFrenchWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Ouvrir le site principal" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 Au nom d\'Allah, le Tout Miséricordieux</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Bienvenue sur</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Radio du Saint Coran — Récitations, Adhkar, Hadith et Sunna</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'Mode nuit';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Lecture auto';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Aléatoire';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = 'Masquer';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', 'Aide et raccourcis clavier');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', 'Recherche');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'Assistant IA');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', "Masquer l'écran d'accueil");
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', 'Aller à la radio principale');
+
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', 'Fermer');
+
+  updateLangToggleLabel();
+}
+
+function applySpanishWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Abrir el sitio principal" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 En el nombre de Alá, el Clemente</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Bienvenido a</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Radio del Sagrado Corán — Recitaciones, Adhkar, Hadiz y Sunna</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'Modo nocturno';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Cambio automático';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Aleatorio';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = 'Ocultar';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', 'Ayuda y atajos de teclado');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', 'Buscar');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'Asistente de IA');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', 'Ocultar pantalla de bienvenida');
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', 'Ir a la radio principal');
+
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', 'Cerrar');
+
+  updateLangToggleLabel();
+}
+
+function applySwedishWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Öppna huvudsajten" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 I Allahs namn, den Nåderike</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Välkommen till</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Den Heliga Koranens radio — Reciteringar, Adhkar, Hadith och Sunna</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'Nattläge';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Automatiskt byte';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Slumpmässig';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = 'Dölj';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', 'Hjälp och kortkommandon');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', 'Sök');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'AI-assistent');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', 'Dölj välkomstskärmen');
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', 'Gå till huvudradion');
+
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', 'Stäng');
+
+  updateLangToggleLabel();
+}
+
+function applyDutchWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Open de hoofdsite" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 In naam van Allah, de Barmhartige</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Welkom bij</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Radio van de Heilige Koran — Recitaties, Adhkar, Hadith en Soenna</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'Nachtmodus';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Automatisch wisselen';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Willekeurig';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = 'Verbergen';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', 'Hulp en sneltoetsen');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', 'Zoeken');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'AI-assistent');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', 'Welkomstscherm verbergen');
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', 'Ga naar de hoofdradio');
+
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', 'Sluiten');
+
+  updateLangToggleLabel();
+}
+
+function applyIrishWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Oscail an príomhshuíomh" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 In ainm Allah, an Trócaireach</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Fáilte go</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Raidió an Chóráin Naofa — Aithris, Adhkar, Hadith agus Sunna</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'Modh oíche';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Malartú uathoibríoch';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Randamach';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = 'Folaigh';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', 'Cabhair agus aicearraí méarchláir');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', 'Cuardaigh');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'Cúntóir IA');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', 'Folaigh an scáileán fáilte');
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', 'Téigh go dtí an príomhraidió');
+
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', 'Dún');
+
+  updateLangToggleLabel();
+}
+
+function applyGermanWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Hauptseite öffnen" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 Im Namen Allahs, des Allerbarmers</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Willkommen bei</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Radio des Heiligen Korans — Rezitationen, Adhkar, Hadith und Sunna</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'Nachtmodus';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Automatischer Wechsel';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Zufällig';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = 'Ausblenden';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', 'Hilfe und Tastenkürzel');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', 'Suchen');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'KI-Assistent');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', 'Startbildschirm ausblenden');
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', 'Zum Hauptradio gehen');
+
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', 'Schließen');
+
+  updateLangToggleLabel();
+}
+
+function applyRussianWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Открыть главный сайт" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 Во имя Аллаха, Милостивого</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Добро пожаловать в</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Радио Священного Корана — Чтения, Азкар, Хадисы и Сунна</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'Ночной режим';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Автопереключение';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Случайно';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = 'Скрыть';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', 'Справка и горячие клавиши');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', 'Поиск');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'ИИ-помощник');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', 'Скрыть экран приветствия');
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', 'Перейти к основному радио');
+
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', 'Закрыть');
+
+  updateLangToggleLabel();
+}
+
+function applyTurkishWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Ana siteyi aç" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 Rahman ve Rahim olan Allah\'ın adıyla</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Hoş geldiniz</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Kur\'an-ı Kerim Radyosu — Kıraatler, Zikirler, Hadis ve Sünnet</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'Gece modu';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Otomatik geçiş';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Rastgele';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = 'Gizle';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', 'Yardım ve klavye kısayolları');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', 'Ara');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'Yapay Zeka Asistanı');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', 'Karşılama ekranını gizle');
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', 'Ana radyoya git');
+
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', 'Kapat');
+
+  updateLangToggleLabel();
+}
+
+function applyPortugueseWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Abrir o site principal" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 Em nome de Alá, o Misericordioso</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">Bem-vindo ao</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Rádio do Alcorão Sagrado — Recitações, Adhkar, Hadith e Sunnah</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'Modo noturno';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Troca automática';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Aleatório';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = 'Ocultar';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', 'Ajuda e atalhos de teclado');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', 'Pesquisar');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'Assistente de IA');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', 'Ocultar tela de boas-vindas');
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', 'Ir para o rádio principal');
+
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', 'Fechar');
+
+  updateLangToggleLabel();
+}
+
+function applyChineseWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    welcomeText.style.direction = 'ltr';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="打开主网站" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 奉至仁至慈的安拉之名</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.2;">欢迎来到</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">古兰经电台 — 诵读、祈祷词、圣训与逊奈</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = '夜间模式';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = '自动切换';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = '随机';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = '隐藏';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', '帮助与快捷键');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', '搜索');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'AI助手');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', '隐藏欢迎屏幕');
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', '前往主电台');
+
+  var closeBtn = document.getElementById('closeButton');
+  if (closeBtn) closeBtn.setAttribute('aria-label', '关闭');
+
+  updateLangToggleLabel();
+}
+
+function applyUrduWelcomeOverlay() {
+  var welcomeText = document.getElementById('siteWelcomeText');
+  if (welcomeText) {
+    // اردو رسم الخط عربی جیسا ہے (دائیں سے بائیں)، اس لیے یہ حصہ RTL میں دکھایا جاتا ہے
+    welcomeText.style.direction = 'rtl';
+    welcomeText.style.textAlign = 'center';
+    welcomeText.innerHTML =
+      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="مرکزی سائٹ کھولیں" style="font-size:13px; font-weight:700; letter-spacing:1px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 بسم اللہ الرحمٰن الرحیم</span>' +
+      '<span style="font-size:26px; font-weight:700; display:block; color:#1a237e; line-height:1.4;">خوش آمدید</span>' +
+      '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:#1565c0;"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">ریڈیو قرآن کریم — تلاوتیں، اذکار، حدیث اور سنت</span>';
+  }
+
+  var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
+  if (darkModeTxt) darkModeTxt.textContent = 'نائٹ موڈ';
+
+  var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
+  if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'خودکار تبدیلی';
+
+  var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
+  if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'بے ترتیب';
+
+  var hideTxt = document.getElementById('welcomeTopHideTxt');
+  if (hideTxt) hideTxt.textContent = 'چھپائیں';
+
+  var helpBtn = document.getElementById('welcomeHelpBtn');
+  if (helpBtn) helpBtn.setAttribute('title', 'مدد اور کی بورڈ شارٹ کٹس');
+
+  var searchBtn = document.getElementById('welcomeTopSearchBtn');
+  if (searchBtn) searchBtn.setAttribute('title', 'تلاش کریں');
+
+  var aiBtn = document.getElementById('welcomeTopAiBtn');
+  if (aiBtn) aiBtn.setAttribute('title', 'AI اسسٹنٹ');
+
+  var hideBtn = document.getElementById('welcomeTopHideBtn');
+  if (hideBtn) hideBtn.setAttribute('title', 'خوش آمدید اسکرین چھپائیں');
+
+  var downArrowEl = document.getElementById('downArrow');
+  if (downArrowEl) downArrowEl.setAttribute('title', 'مرکزی ریڈیو پر جائیں');
+
+  var closeBtn2 = document.getElementById('closeButton');
+  if (closeBtn2) closeBtn2.setAttribute('aria-label', 'بند کریں');
+
+  updateLangToggleLabel();
 }
 
 function applyDirection(isAr) {
