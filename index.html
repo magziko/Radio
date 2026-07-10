@@ -25941,8 +25941,18 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     try {
       localStorage.setItem(key, JSON.stringify(data));
       /* نسخة احتياطية دائمة لا تُمسح مع انتهاء الصلاحية، تُستخدم مع زر "استرجاع آخر عدد" */
+      /* لا نستبدل النسخة الاحتياطية إلا إذا كان العدد الحالي أكبر منها أو يساويها،
+         حتى لو حدث تصفير عرضي (بق) وبدأ المستخدم التسبيح من جديد دون أن ينتبه،
+         تبقى النسخة الاحتياطية القديمة (الأعلى) محفوظة ويمكن استرجاعها لاحقاً. */
       if (spCount > 0) {
-        localStorage.setItem(spBackupKey(), JSON.stringify(data));
+        var prevBackupCount = 0;
+        try {
+          var prevRaw = localStorage.getItem(spBackupKey());
+          if (prevRaw) prevBackupCount = JSON.parse(prevRaw).count || 0;
+        } catch (e2) {}
+        if (spCount >= prevBackupCount) {
+          localStorage.setItem(spBackupKey(), JSON.stringify(data));
+        }
       }
     } catch (e) {}
   }
