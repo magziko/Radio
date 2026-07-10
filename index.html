@@ -27633,7 +27633,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
   function _pwLoad() {
     var CACHE_KEY = 'adhanGeoCache';
-    var TIMES_KEY = 'pwTimingsCache';
+    var TIMES_KEY = 'pwTimingsCacheV2';
 
     // تحقق من كاش المواقيت (صالح ليوم واحد)
     try {
@@ -27650,7 +27650,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     function fetchTimes(lat, lon) {
       var today = new Date();
       var dateStr = today.getDate() + '-' + (today.getMonth()+1) + '-' + today.getFullYear();
-      fetch('https://api.aladhan.com/v1/timings/' + dateStr + '?latitude=' + lat + '&longitude=' + lon + '&method=4')
+      fetch('https://api.aladhan.com/v1/timings/' + dateStr + '?latitude=' + lat + '&longitude=' + lon + '&method=5')
         .then(function(r){ return r.json(); })
         .then(function(data) {
           if (!data || !data.data) return;
@@ -27708,7 +27708,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   }
 
   window._pwRefreshLocation = function() {
-    try { localStorage.removeItem('adhanGeoCache'); localStorage.removeItem('pwTimingsCache'); } catch(e) {}
+    try { localStorage.removeItem('adhanGeoCache'); localStorage.removeItem('pwTimingsCacheV2'); } catch(e) {}
     _pwLoad();
   };
 
@@ -27813,7 +27813,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   function _fpwLoad() {
     var el = document.getElementById('prayerTimesPopupBody');
     var CACHE_KEY = 'adhanGeoCache';
-    var TIMES_KEY = 'pwTimingsCache';
+    var TIMES_KEY = 'pwTimingsCacheV2';
     var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
 
     try {
@@ -27831,7 +27831,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     function fetchTimes(lat, lon) {
       var today = new Date();
       var dateStr = today.getDate() + '-' + (today.getMonth()+1) + '-' + today.getFullYear();
-      fetch('https://api.aladhan.com/v1/timings/' + dateStr + '?latitude=' + lat + '&longitude=' + lon + '&method=4')
+      fetch('https://api.aladhan.com/v1/timings/' + dateStr + '?latitude=' + lat + '&longitude=' + lon + '&method=5')
         .then(function(r){ return r.json(); })
         .then(function(data) {
           if (!data || !data.data) return;
@@ -27879,7 +27879,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   window._fpwRefreshLocation = function() {
     try {
       localStorage.removeItem('adhanGeoCache');
-      localStorage.removeItem('pwTimingsCache');
+      localStorage.removeItem('pwTimingsCacheV2');
     } catch(e) {}
     _fpwLoad();
   };
@@ -34960,7 +34960,7 @@ window.addEventListener("load", function() {
     function fetchPrayerTimes(lat, lon) {
       const today = new Date();
       const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
-      fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lon}&method=4`)
+      fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lon}&method=5`)
         .then(r => r.json())
         .then(data => {
           if (data && data.data && data.data.timings) {
@@ -35531,7 +35531,7 @@ window.addEventListener("load", function() {
   function fetchAndSchedule(lat, lon) {
     const today = new Date();
     const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
-    const TIMINGS_KEY = 'adhanTimingsCache'; // { timings, date, lat, lon }
+    const TIMINGS_KEY = 'adhanTimingsCacheV2'; // { timings, date, lat, lon }
 
     // دالة مساعدة لتحميل الكاش واستخدامه كـ fallback
     function _loadCachedTimings() {
@@ -35554,7 +35554,7 @@ window.addEventListener("load", function() {
     const _cached = _loadCachedTimings();
     if (_cached) scheduleAdhan(_cached);
 
-    fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lon}&method=4`)
+    fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lon}&method=5`)
       .then(r => r.json())
       .then(data => {
         if (data && data.data && data.data.timings) {
