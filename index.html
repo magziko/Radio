@@ -25862,11 +25862,14 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     <!-- التقدم -->
     <p id="salah-pip-info">الهدف: ١٠٠ &nbsp;|&nbsp; المتبقي: ١٠٠</p>
 
-    <!-- أزرار التحكم الأساسية: تسبيح تلقائي + تصفير -->
+    <!-- أزرار التحكم الأساسية: تسبيح تلقائي + استرجاع + تصفير -->
     <div class="sp-row sp-main-controls">
         <button class="sp-btn" id="sp-auto-btn"
                 data-ar="⏩ تلقائي" data-en="⏩ Auto"
                 onclick="spToggleAuto()">⏩ تلقائي</button>
+        <button class="sp-btn" id="sp-restore-btn"
+                data-ar="↩ استرجاع آخر عدد" data-en="↩ Restore last count"
+                onclick="window.spRestoreLastCount()">↩ استرجاع آخر عدد</button>
         <button class="sp-btn" id="sp-reset-btn"
                 data-ar="↺ تصفير" data-en="↺ Reset"
                 onclick="spConfirmReset()">↺ تصفير</button>
@@ -25925,6 +25928,10 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     return 'sp_count_v' + val;
   }
 
+  function spBackupKey() {
+    return spCurrentKey() + '_backup';
+  }
+
   function spSaveCount() {
     var key = spCurrentKey();
     var data = {
@@ -25933,6 +25940,10 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     };
     try {
       localStorage.setItem(key, JSON.stringify(data));
+      /* نسخة احتياطية دائمة لا تُمسح مع انتهاء الصلاحية، تُستخدم مع زر "استرجاع آخر عدد" */
+      if (spCount > 0) {
+        localStorage.setItem(spBackupKey(), JSON.stringify(data));
+      }
     } catch (e) {}
   }
 
@@ -25943,7 +25954,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       if (!raw) return 0;
       var data = JSON.parse(raw);
 
-      if (Date.now() - (data.ts || 0) > 86400000) {
+      /* تصفير تلقائي فقط بعد يومين كاملين من عدم التسبيح في هذا الذكر تحديداً */
+      if (Date.now() - (data.ts || 0) > 172800000) {
         localStorage.removeItem(key);
         return 0;
       }
@@ -25952,6 +25964,36 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       return 0;
     }
   }
+
+  window.spGetBackupCount = function() {
+    try {
+      var raw = localStorage.getItem(spBackupKey());
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      return data && data.count > 0 ? data : null;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  window.spRestoreLastCount = function() {
+    var backup = window.spGetBackupCount();
+    var ar = spAr ? spAr() : true;
+    if (!backup || backup.count <= 0) {
+      if (typeof showToast === 'function') {
+        showToast(ar ? 'لا يوجد عدد محفوظ لاسترجاعه لهذا الذكر' : 'No saved count to restore for this dhikr');
+      }
+      return;
+    }
+    spCount = backup.count;
+    spSaveCount();
+    spUpdateUI();
+    spDrawCanvas();
+    spUpdateMediaSession();
+    if (typeof showToast === 'function') {
+      showToast(ar ? ('تم استرجاع العدد: ' + backup.count + ' ✅') : ('Count restored: ' + backup.count + ' ✅'));
+    }
+  };
 
   function spClearAllDhikrCounts() {
     try {
@@ -26623,6 +26665,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       id: 'sp-pip-toggle'
     }, {
       id: 'sp-reset-btn'
+    }, {
+      id: 'sp-restore-btn'
     }, {
       id: 'sp-pip-note'
     }, ];
@@ -29634,6 +29678,9 @@ function applyInitialLanguage() {
       var spResetBtn = document.getElementById('sp-reset-btn');
       if (spResetBtn) spResetBtn.textContent = spResetBtn.getAttribute('data-en');
 
+      var spRestoreBtn = document.getElementById('sp-restore-btn');
+      if (spRestoreBtn) spRestoreBtn.textContent = spRestoreBtn.getAttribute('data-en');
+
       var spAutoBtn = document.getElementById('sp-auto-btn');
       if (spAutoBtn) {
         if (spAutoBtn.classList.contains('active'))
@@ -30990,6 +31037,9 @@ function toggleLanguage() {
 
     var spResetBtn = document.getElementById('sp-reset-btn');
     if (spResetBtn) spResetBtn.textContent = ar ? spResetBtn.getAttribute('data-ar') : spResetBtn.getAttribute('data-en');
+
+    var spRestoreBtn = document.getElementById('sp-restore-btn');
+    if (spRestoreBtn) spRestoreBtn.textContent = ar ? spRestoreBtn.getAttribute('data-ar') : spRestoreBtn.getAttribute('data-en');
 
     var spAutoBtn = document.getElementById('sp-auto-btn');
     if (spAutoBtn) {
