@@ -27579,6 +27579,20 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var v = parseFloat(localStorage.getItem('adhanVolume'));
     return isNaN(v) ? 1 : v;
   };
+  window.getAdhanPreReminderMinutes = function() {
+    var v = parseInt(localStorage.getItem('adhanPreReminderMinutes'), 10);
+    return isNaN(v) ? 10 : v; // 0 = متوقف
+  };
+  window.setAdhanPreReminderMinutes = function(v) {
+    try { localStorage.setItem('adhanPreReminderMinutes', String(v)); } catch (e) {}
+  };
+  window.getAdhanSoundChoice = function() {
+    var v = localStorage.getItem('adhanSoundChoice');
+    return (v === 'full') ? 'full' : 'short'; // القصير هو الافتراضي (مخزّن أوفلاين)
+  };
+  window.setAdhanSoundChoice = function(v) {
+    try { localStorage.setItem('adhanSoundChoice', v === 'full' ? 'full' : 'short'); } catch (e) {}
+  };
   window.setAdhanVolume = function(v) {
     try { localStorage.setItem('adhanVolume', String(v)); } catch (e) {}
     if (typeof window._applyAdhanVolume === 'function') window._applyAdhanVolume(v);
@@ -27620,6 +27634,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var curMethod = window.getPrayerCalcMethod();
     var curMadhab = window.getPrayerMadhab();
     var curVol = window.getAdhanVolume();
+    var curPreReminder = window.getAdhanPreReminderMinutes();
+    var curSoundChoice = window.getAdhanSoundChoice();
 
     var methodOptions = window.PRAYER_CALC_METHODS.map(function(m) {
       var active = String(m.id) === String(curMethod);
@@ -27644,6 +27660,25 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
             '<button id="pcm-madhab-0" data-v="0" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curMadhab === '0' ? green : 'transparent') + ';color:' + (curMadhab === '0' ? '#fff' : clr) + ';">' + (isAr ? 'شافعي / الجمهور' : "Shafi'i (Majority)") + '</button>' +
             '<button id="pcm-madhab-1" data-v="1" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curMadhab === '1' ? green : 'transparent') + ';color:' + (curMadhab === '1' ? '#fff' : clr) + ';">' + (isAr ? 'حنفي' : 'Hanafi') + '</button>' +
           '</div>' +
+        '</div>' +
+
+        '<div style="margin-bottom:16px;">' +
+          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + (isAr ? '🔊 صوت الأذان التلقائي' : '🔊 Automatic Adhan sound') + '</label>' +
+          '<div style="display:flex;gap:8px;">' +
+            '<button id="pcm-sound-short" data-v="short" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curSoundChoice === 'short' ? green : 'transparent') + ';color:' + (curSoundChoice === 'short' ? '#fff' : clr) + ';">' + (isAr ? 'قصير (يعمل أوفلاين)' : 'Short (works offline)') + '</button>' +
+            '<button id="pcm-sound-full" data-v="full" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curSoundChoice === 'full' ? green : 'transparent') + ';color:' + (curSoundChoice === 'full' ? '#fff' : clr) + ';">' + (isAr ? 'كامل' : 'Full') + '</button>' +
+          '</div>' +
+          '<div style="font-size:10.5px;color:' + muted + ';margin-top:6px;">' + (isAr ? 'الأذان الكامل أطول ولازم اتصال إنترنت وقت الصلاة (مش محفوظ للعمل أوفلاين)' : 'The full Adhan is longer and needs an internet connection at prayer time (not cached for offline use)') + '</div>' +
+        '</div>' +
+
+        '<div style="margin-bottom:16px;">' +
+          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + (isAr ? '⏰ تنبيه صامت قبل الأذان' : '⏰ Silent reminder before Adhan') + '</label>' +
+          '<select id="pcm-prereminder" style="width:100%;padding:9px 10px;border-radius:10px;border:1px solid ' + border + ';background:' + (isDark ? '#132018' : '#f7faf8') + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;">' +
+            [0, 5, 10, 15, 20, 30].map(function(v) {
+              var label = v === 0 ? (isAr ? 'متوقف' : 'Off') : (isAr ? ('قبل ' + v + ' دقيقة') : (v + ' min before'));
+              return '<option value="' + v + '"' + (String(v) === String(curPreReminder) ? ' selected' : '') + '>' + label + '</option>';
+            }).join('') +
+          '</select>' +
         '</div>' +
 
         '<div style="margin-bottom:18px;">' +
@@ -27672,6 +27707,18 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     madhab0.addEventListener('click', function() { selectedMadhab = '0'; paintMadhab(); });
     madhab1.addEventListener('click', function() { selectedMadhab = '1'; paintMadhab(); });
 
+    var soundShortBtn = overlay.querySelector('#pcm-sound-short');
+    var soundFullBtn = overlay.querySelector('#pcm-sound-full');
+    var selectedSound = curSoundChoice;
+    function paintSoundChoice() {
+      soundShortBtn.style.background = selectedSound === 'short' ? green : 'transparent';
+      soundShortBtn.style.color = selectedSound === 'short' ? '#fff' : clr;
+      soundFullBtn.style.background = selectedSound === 'full' ? green : 'transparent';
+      soundFullBtn.style.color = selectedSound === 'full' ? '#fff' : clr;
+    }
+    soundShortBtn.addEventListener('click', function() { selectedSound = 'short'; paintSoundChoice(); });
+    soundFullBtn.addEventListener('click', function() { selectedSound = 'full'; paintSoundChoice(); });
+
     var volInput = overlay.querySelector('#pcm-volume');
     var volVal = overlay.querySelector('#pcm-vol-val');
     volInput.addEventListener('input', function() {
@@ -27684,6 +27731,16 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       var method = overlay.querySelector('#pcm-method').value;
       window.savePrayerCalcSettings(method, selectedMadhab);
       window.setAdhanVolume(parseFloat(volInput.value));
+      var preReminder = overlay.querySelector('#pcm-prereminder').value;
+      window.setAdhanPreReminderMinutes(parseInt(preReminder, 10));
+      window.setAdhanSoundChoice(selectedSound);
+      // إعادة جدولة المؤقتات فورًا لتطبيق قيمة التنبيه الجديدة بدون انتظار منتصف الليل
+      try {
+        var geo = JSON.parse(localStorage.getItem('adhanGeoCache') || '{}');
+        if (geo.lat && geo.lon && typeof window._fetchAndScheduleAdhan === 'function') {
+          window._fetchAndScheduleAdhan(geo.lat, geo.lon);
+        }
+      } catch (e) {}
       overlay.remove();
       if (typeof queueToast === 'function') {
         queueToast('✅ Settings saved', '✅ تم حفظ الإعدادات', null, null, null);
@@ -28044,7 +28101,10 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:360px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:ptSlideIn .22s ease;">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';">' +
           '<div style="font-size:15px;font-weight:700;">🕌 ' + (isAr ? 'مواقيت الصلاة' : 'Prayer Times') + '</div>' +
-          '<button onclick="document.getElementById(\'prayerTimesPopup\').remove()" aria-label="close" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
+          '<div style="display:flex;align-items:center;gap:4px;">' +
+            '<button onclick="if(typeof openPrayerCalcModal===\'function\')openPrayerCalcModal()" title="' + (isAr ? 'إعدادات الحساب والأذان' : 'Calculation & Adhan settings') + '" aria-label="Adhan settings" style="background:none;border:none;cursor:pointer;font-size:18px;opacity:.6;line-height:1;color:' + clr + ';padding:4px 6px;">⚙️</button>' +
+            '<button onclick="document.getElementById(\'prayerTimesPopup\').remove()" aria-label="close" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
+          '</div>' +
         '</div>' +
         '<div id="prayerTimesPopupBody" style="padding:14px 16px 18px;"></div>' +
       '</div>';
@@ -28064,6 +28124,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   var _qcBearing = null;
   var _qcSmoothedHeading = null;
   var _qcWasAligned = false;
+  var _qcHeadingHistory = [];
+  var _qcInterfering = false;
 
   function _qcToRad(d) { return d * Math.PI / 180; }
   function _qcToDeg(r) { return r * 180 / Math.PI; }
@@ -28124,6 +28186,33 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     return (a + diff * t + 360) % 360;
   }
 
+  function _qcCircDiff(a, b) {
+    return Math.abs(((b - a + 540) % 360) - 180);
+  }
+
+  // كشف التشويش المغناطيسي: بيتابع تذبذب القراءات الخام خلال آخر ~1.2 ثانية
+  // لو الفرق بين أعلى وأقل قراءة كبير جدًا، يبقى في تشويش (معدن/كهرباء قريبة)
+  function _qcCheckInterference(rawHeading) {
+    var now = Date.now();
+    _qcHeadingHistory.push({ h: rawHeading, t: now });
+    while (_qcHeadingHistory.length && now - _qcHeadingHistory[0].t > 1200) {
+      _qcHeadingHistory.shift();
+    }
+    if (_qcHeadingHistory.length < 8) return _qcInterfering;
+    var maxDiff = 0;
+    for (var i = 0; i < _qcHeadingHistory.length; i++) {
+      var d = _qcCircDiff(_qcHeadingHistory[0].h, _qcHeadingHistory[i].h);
+      if (d > maxDiff) maxDiff = d;
+    }
+    // نستخدم عتبة (hysteresis) مختلفة للدخول والخروج من حالة التشويش لتفادي الوميض
+    if (_qcInterfering) {
+      _qcInterfering = maxDiff > 12;
+    } else {
+      _qcInterfering = maxDiff > 22;
+    }
+    return _qcInterfering;
+  }
+
   function _qcGetScreenAngle() {
     if (screen.orientation && typeof screen.orientation.angle === 'number') return screen.orientation.angle;
     if (typeof window.orientation === 'number') return window.orientation;
@@ -28141,6 +28230,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     } else {
       return;
     }
+
+    var isInterfering = _qcCheckInterference(heading);
 
     // تنعيم القراءة لتقليل الاهتزاز (متوسط دائري)
     _qcSmoothedHeading = (_qcSmoothedHeading === null) ? heading : _qcCircularLerp(_qcSmoothedHeading, heading, 0.15);
@@ -28169,12 +28260,20 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     }
     _qcWasAligned = isAligned;
 
-    // تنبيه معايرة (متاح على iOS فقط عبر webkitCompassAccuracy)
+    // تنبيه: تشويش مغناطيسي (شغال على كل الأجهزة) أو معايرة (iOS فقط عبر webkitCompassAccuracy)
     var accEl = document.getElementById('qcAccuracyHint');
     if (accEl) {
       var acc = event.webkitCompassAccuracy;
-      if (typeof acc === 'number' && acc >= 0 && acc > 25) {
+      var iosNeedsCalibration = (typeof acc === 'number' && acc >= 0 && acc > 25);
+      if (isInterfering) {
         accEl.style.display = 'block';
+        accEl.style.color = '#dc3545';
+        accEl.textContent = window._qcIsAr
+          ? '🧲 تشويش مغناطيسي قوي — ابعد عن المعادن والأجهزة الكهربائية أو غيّر مكانك'
+          : '🧲 Strong magnetic interference — move away from metal/electronics or change location';
+      } else if (iosNeedsCalibration) {
+        accEl.style.display = 'block';
+        accEl.style.color = '#c77700';
         accEl.textContent = window._qcIsAr ? '🧲 حرّك هاتفك على شكل رقم 8 لمعايرة البوصلة' : '🧲 Move your phone in a figure-8 to calibrate the compass';
       } else {
         accEl.style.display = 'none';
@@ -28194,6 +28293,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     _qcOrientHandler = _qcHandleOrientation;
     _qcSmoothedHeading = null;
     _qcWasAligned = false;
+    _qcHeadingHistory = [];
+    _qcInterfering = false;
     if ('ondeviceorientationabsolute' in window) {
       window.addEventListener('deviceorientationabsolute', _qcOrientHandler, true);
     } else {
@@ -28225,11 +28326,26 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     }
   }
 
-  function _qcRender(lat, lon) {
+  function _qcAgeText(ts, isAr) {
+    var ms = Date.now() - ts;
+    var hrs = ms / 3600000;
+    if (hrs < 1) return isAr ? 'أقل من ساعة' : 'less than an hour';
+    if (hrs < 24) {
+      var h = Math.round(hrs);
+      return isAr ? (h + ' ساعة') : (h + (h === 1 ? ' hour' : ' hours'));
+    }
+    var d = Math.round(hrs / 24);
+    return isAr ? (d + ' يوم') : (d + (d === 1 ? ' day' : ' days'));
+  }
+
+  function _qcRender(lat, lon, ts) {
     var isAr = window._qcIsAr;
     var isDark = document.body.classList.contains('dark-mode');
     var el = document.getElementById('qiblaCompassBody');
     if (!el) return;
+
+    ts = ts || Date.now();
+    var isStale = (Date.now() - ts) > (24 * 3600000);
 
     _qcBearing = _qcCalcBearing(lat, lon);
     var dist = _qcCalcDistance(lat, lon);
@@ -28267,6 +28383,16 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
           '<button onclick="window._qcRefreshLoc()" style="background:none;border:1px solid ' + ring + ';color:' + muted + ';font-size:11px;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 ' + (isAr ? 'تحديث الموقع' : 'Update Location') + '</button>' +
           '<a href="https://www.google.com/maps/dir/?api=1&origin=' + lat + ',' + lon + '&destination=21.4225,39.8262" target="_blank" style="text-decoration:none;background:none;border:1px solid ' + ring + ';color:' + muted + ';font-size:11px;padding:6px 12px;border-radius:8px;font-family:Cairo,sans-serif;display:inline-flex;align-items:center;">🗺️ ' + (isAr ? 'خرائط جوجل' : 'Google Maps') + '</a>' +
         '</div>' +
+        '<div id="qcLocationHint" style="font-size:10.5px;line-height:1.5;color:' + (isStale ? '#c77700' : muted) + ';font-weight:' + (isStale ? '700' : '400') + ';margin-top:10px;padding:0 6px;">' +
+          (isStale
+            ? (isAr
+                ? '⏰ آخر تحديث للموقع من ' + _qcAgeText(ts, isAr) + '. لو انتقلت لمكان تاني (خصوصًا مدينة/دولة مختلفة) من ساعتها، اضغط "تحديث الموقع" الآن قبل ما تعتمد على الاتجاه'
+                : '⏰ Location last updated ' + _qcAgeText(ts, isAr) + ' ago. If you have moved since then (especially a new city/country), tap "Update Location" now before relying on the direction')
+            : (isAr
+                ? '📍 لو غيّرت مكانك (سافرت أو انتقلت لمدينة تانية)، لازم تضغط "تحديث الموقع" فوق عشان يتحسب اتجاه القبلة من جديد — الاتجاه بيفضل محفوظ من آخر مرة لحد ما تحدّثه بنفسك'
+                : '📍 If you change location (travel or move to a new city), tap "Update Location" above to recalculate the Qibla direction — it stays saved from last time until you refresh it yourself')
+          ) +
+        '</div>' +
       '</div>';
   }
 
@@ -28274,7 +28400,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var el = document.getElementById('qiblaCompassBody');
     if (!el) return;
     var cached = _qcGetCachedGeo();
-    if (cached) { _qcRender(cached.lat, cached.lon); return; }
+    if (cached) { _qcRender(cached.lat, cached.lon, cached.ts); return; }
     el.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#888;font-size:13px;">⏳ ' + (window._qcIsAr ? 'جارٍ تحديد موقعك...' : 'Locating you...') + '</div>';
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(function(pos) {
@@ -35219,7 +35345,11 @@ window.addEventListener("load", function() {
 
 // ===== نظام الأذان التلقائي =====
 (function() {
-  const ADHAN_URL = "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9.mp3";
+  const ADHAN_URL_SHORT = "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9.mp3";
+  const ADHAN_URL_FULL = "https://ia600703.us.archive.org/21/items/20250512_20250512_1243/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%AF%20%D8%B1%D8%A7%D9%85%D9%89%20%D8%B9%D8%A7%D8%AF%D9%84%20%D8%A7%D9%84%D8%B1%D9%81%D8%A7%D8%B9%D9%89.m4a?cnt=0";
+  function _getScheduledAdhanUrl() {
+    return (window.getAdhanSoundChoice && window.getAdhanSoundChoice() === 'full') ? ADHAN_URL_FULL : ADHAN_URL_SHORT;
+  }
   const PRAYER_ORDER = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
   const PRAYER_NAMES_AR = {
     Fajr: 'الفجر',
@@ -35688,7 +35818,8 @@ window.addEventListener("load", function() {
       _adhanActive = false;
     };
 
-    fetch(ADHAN_URL)
+    var _scheduledUrl = _getScheduledAdhanUrl();
+    fetch(_scheduledUrl)
       .then(function(res) {
         return res.blob();
       })
@@ -35696,7 +35827,7 @@ window.addEventListener("load", function() {
         _startAdhanAudio(URL.createObjectURL(blob));
       })
       .catch(function() {
-        _startAdhanAudio(ADHAN_URL);
+        _startAdhanAudio(_scheduledUrl);
       }); // fallback مباشر
 
     // إظهار البانر
@@ -35710,6 +35841,36 @@ window.addEventListener("load", function() {
     }
     updateCountdownDisplay(); // تحديث فوري لعرض "الآن"
 
+  }
+
+  // ---- تنبيه صامت قبل الأذان بدقائق (بدون صوت) ----
+  const PRE_REMINDER_KEY = 'adhanPreReminderLast';
+  function showPreAdhanReminder(prayerName, minutesLeft) {
+    if (!adhanEnabled) return;
+    // منع تكرار نفس التنبيه في نفس اليوم لنفس الصلاة
+    const todayKey = new Date().toDateString() + '_' + prayerName;
+    if (localStorage.getItem(PRE_REMINDER_KEY) === todayKey) return;
+    localStorage.setItem(PRE_REMINDER_KEY, todayKey);
+
+    const isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    const banner = document.getElementById('adhan-banner');
+    const txt = document.getElementById('adhan-banner-text');
+    if (banner && txt) {
+      const ar = PRAYER_NAMES_AR[prayerName] || '';
+      const en = PRAYER_NAMES_EN[prayerName] || '';
+      txt.textContent = isAr
+        ? `⏰ باقي ${minutesLeft} دقيقة على أذان ${ar}`
+        : `⏰ ${minutesLeft} min until ${en} Adhan`;
+      banner.classList.add('show');
+      clearTimeout(window._preReminderHideTimer);
+      window._preReminderHideTimer = setTimeout(function() {
+        // ما نخبيش البانر لو الأذان الفعلي بقى شغال فعلاً في نفس اللحظة
+        if (!adhanAudio) banner.classList.remove('show');
+      }, 7000);
+    }
+    if ('vibrate' in navigator) {
+      try { navigator.vibrate(30); } catch (e) {}
+    }
   }
 
   function stopAdhan() {
@@ -35738,6 +35899,7 @@ window.addEventListener("load", function() {
     adhanTimings = timings; // حفظ المواقيت
     startCountdownTimer(); // بدء العدّ التنازلي
     const now = new Date();
+    const preMin = (typeof window.getAdhanPreReminderMinutes === 'function') ? window.getAdhanPreReminderMinutes() : 0;
     PRAYER_ORDER.forEach(name => {
       if (!timings[name]) return;
       const timeStr = timings[name].split(' ')[0]; // "HH:MM"
@@ -35747,6 +35909,13 @@ window.addEventListener("load", function() {
       if (diff > 0) {
         const t = setTimeout(() => playAdhan(name), diff);
         adhanTimers.push(t);
+      }
+      if (preMin > 0) {
+        const reminderDiff = diff - preMin * 60000;
+        if (reminderDiff > 0) {
+          const rt = setTimeout(() => showPreAdhanReminder(name, preMin), reminderDiff);
+          adhanTimers.push(rt);
+        }
       }
     });
   }
