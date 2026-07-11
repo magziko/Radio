@@ -13152,73 +13152,73 @@ setTimeout(autoScaleVerseFont, 100);
 
 <div id="filters-container" class="filter-container">
 
-<button id="viewFavoritesButton" data-ar="❤ المفضلة" data-en="Favorites ❤" onclick="toggleFavoritesView()">
+<button id="viewFavoritesButton" data-ar="❤ المفضلة" data-en="Favorites ❤" data-fr="❤ Favoris" data-es="❤ Favoritos" data-sv="❤ Favoriter" data-nl="❤ Favorieten" data-ga="❤ Ceanáin" data-de="❤ Favoriten" data-ru="❤ Избранное" data-tr="❤ Favoriler" data-pt="❤ Favoritos" data-zh="❤ 收藏" data-ur="❤ پسندیدہ" onclick="toggleFavoritesView()">
   <span id="favHeart" onclick="event.stopPropagation(); confirmClearFavorites();" title="حذف كل المفضلة" style="cursor:pointer;padding:0 3px 0 5px;font-size:15px;display:inline-block;vertical-align:middle;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.35)'" onmouseout="this.style.transform='scale(1)'">❤</span><span id="favLabel"> المفضلة</span>
 </button>
-<button class="filter-button" data-ar="القرآن الكريم" data-en="Holy Quran" onclick="filterStations('QuranKarim')">القرآن الكريم</button>
-<button class="filter-button" data-ar="القراء" data-en="Reciters" onclick="filterStations('reciters')">القراء</button>
+<button class="filter-button" data-ar="القرآن الكريم" data-en="Holy Quran" data-fr="Saint Coran" data-es="Sagrado Corán" data-sv="Heliga Koranen" data-nl="Heilige Koran" data-ga="An Corán Naofa" data-de="Heiliger Koran" data-ru="Священный Коран" data-tr="Kur'an-ı Kerim" data-pt="Alcorão Sagrado" data-zh="古兰经" data-ur="قرآن کریم" onclick="filterStations('QuranKarim')">القرآن الكريم</button>
+<button class="filter-button" data-ar="القراء" data-en="Reciters" data-fr="Récitateurs" data-es="Recitadores" data-sv="Reciterare" data-nl="Reciteerders" data-ga="Aithriseoirí" data-de="Rezitatoren" data-ru="Чтецы" data-tr="Kariler" data-pt="Recitadores" data-zh="诵读者" data-ur="قاری حضرات" onclick="filterStations('reciters')">القراء</button>
 
-<button class="filter-button" data-ar="📻 إذاعات قرآنية" data-en="Quran Radios" onclick="filterStations('Radio')">📻 إذاعات قرآنية</button>
+<button class="filter-button" data-ar="📻 إذاعات قرآنية" data-en="Quran Radios" data-fr="📻 Radios coraniques" data-es="📻 Radios coránicas" data-sv="📻 Koranradio" data-nl="📻 Koranradio's" data-ga="📻 Raidiónna Córan" data-de="📻 Koran-Radios" data-ru="📻 Кораническое радио" data-tr="📻 Kur'an Radyoları" data-pt="📻 Rádios Corânicas" data-zh="📻 古兰经电台" data-ur="📻 قرآنی ریڈیوز" onclick="filterStations('Radio')">📻 إذاعات قرآنية</button>
 
-<button class="filter-button" data-ar="السيرة والحديث" data-en="Seerah & Hadith" onclick="filterStations('sira')">السيرة والحديث</button>
+<button class="filter-button" data-ar="السيرة والحديث" data-en="Seerah & Hadith" data-fr="Sira et Hadith" data-es="Sira y Hadiz" data-sv="Sira och Hadith" data-nl="Sira en Hadith" data-ga="Sira agus Hadith" data-de="Sira und Hadith" data-ru="Сира и хадис" data-tr="Siyer ve Hadis" data-pt="Sira e Hadith" data-zh="圣训与传记" data-ur="سیرت اور حدیث" onclick="filterStations('sira')">السيرة والحديث</button>
 
-<button class="filter-button" data-ar="علماء" data-en="Scholars" onclick="filterStations('scholars')">علماء</button>
+<button class="filter-button" data-ar="علماء" data-en="Scholars" data-fr="Savants" data-es="Eruditos" data-sv="Lärda" data-nl="Geleerden" data-ga="Scoláirí" data-de="Gelehrte" data-ru="Учёные" data-tr="Âlimler" data-pt="Eruditos" data-zh="学者" data-ur="علماء" onclick="filterStations('scholars')">علماء</button>
 
-<button class="filter-button" data-ar="أذكار" data-en="Adhkar" onclick="filterStations('Adhkar')">أذكار</button>
-<button class="filter-button" data-ar="علوم القرآن" data-en="Quran Sciences" onclick="filterStations('QuranSciences')">علوم القرآن</button>
-<button class="filter-button" data-ar="محطات إسلامية" data-en="Islamic Mix" onclick="filterStations('mix')">محطات إسلامية</button>
-<button class="filter-button" data-ar="البث المرئي" data-en="Live Video" onclick="filterStations('LiveTV')">البث المرئي</button>
+<button class="filter-button" data-ar="أذكار" data-en="Adhkar" data-fr="Adhkar" data-es="Adhkar" data-sv="Adhkar" data-nl="Adhkar" data-ga="Adhkar" data-de="Adhkar" data-ru="Азкар" data-tr="Ezkâr" data-pt="Adhkar" data-zh="赞念" data-ur="اذکار" onclick="filterStations('Adhkar')">أذكار</button>
+<button class="filter-button" data-ar="علوم القرآن" data-en="Quran Sciences" data-fr="Sciences du Coran" data-es="Ciencias del Corán" data-sv="Koranvetenskap" data-nl="Koranwetenschappen" data-ga="Eolaíocht an Chóráin" data-de="Koranwissenschaften" data-ru="Науки о Коране" data-tr="Kur'an İlimleri" data-pt="Ciências do Alcorão" data-zh="古兰经学" data-ur="علوم القرآن" onclick="filterStations('QuranSciences')">علوم القرآن</button>
+<button class="filter-button" data-ar="محطات إسلامية" data-en="Islamic Mix" data-fr="Mix islamique" data-es="Mezcla islámica" data-sv="Islamisk mix" data-nl="Islamitische mix" data-ga="Meascán Ioslamach" data-de="Islamischer Mix" data-ru="Исламский микс" data-tr="İslami Karışık" data-pt="Mix Islâmico" data-zh="伊斯兰综合" data-ur="اسلامی مکس" onclick="filterStations('mix')">محطات إسلامية</button>
+<button class="filter-button" data-ar="البث المرئي" data-en="Live Video" data-fr="Vidéo en direct" data-es="Video en vivo" data-sv="Livevideo" data-nl="Live video" data-ga="Físeán Beo" data-de="Live-Video" data-ru="Прямой эфир" data-tr="Canlı Yayın" data-pt="Vídeo ao Vivo" data-zh="视频直播" data-ur="لائیو ویڈیو" onclick="filterStations('LiveTV')">البث المرئي</button>
 
-<button class="filter-button" data-ar="المزيد" data-en="More" onclick="filterStations('More')">المزيد</button>
+<button class="filter-button" data-ar="المزيد" data-en="More" data-fr="Plus" data-es="Más" data-sv="Mer" data-nl="Meer" data-ga="Tuilleadh" data-de="Mehr" data-ru="Ещё" data-tr="Daha Fazla" data-pt="Mais" data-zh="更多" data-ur="مزید" onclick="filterStations('More')">المزيد</button>
 
-<button class="filter-button" data-ar="كل الإذاعات" data-en="All Stations" onclick="filterStations('all')">كل الإذاعات</button>
+<button class="filter-button" data-ar="كل الإذاعات" data-en="All Stations" data-fr="Toutes les stations" data-es="Todas las emisoras" data-sv="Alla stationer" data-nl="Alle stations" data-ga="Gach Stáisiún" data-de="Alle Sender" data-ru="Все радиостанции" data-tr="Tüm İstasyonlar" data-pt="Todas as Estações" data-zh="所有电台" data-ur="تمام اسٹیشنز" onclick="filterStations('all')">كل الإذاعات</button>
 
 
 </div>
 
 <div class="subfilter-scroll-wrap" id="more-subfilter">
 <div class="subfilter-scroll-strip">
-<button class="more-sub-btn active" data-sub="all" data-ar="📂 الكل" data-en="All" onclick="filterMoreSub('all',this)">📂 الكل</button>
-<button class="more-sub-btn" data-sub="more-mushaf" data-ar="📖 مصاحف" data-en="Mushafs" onclick="filterMoreSub('more-mushaf',this)">📖 مصاحف</button>
-<button class="more-sub-btn" data-sub="more-azkar" data-ar="🌿 أذكار" data-en="Azkar" onclick="filterMoreSub('more-azkar',this)">🌿 أذكار</button>
-<button class="more-sub-btn" data-sub="more-translations" data-ar="🌍 ترجمات" data-en="Translations" onclick="filterMoreSub('more-translations',this)">🌍 ترجمات</button>
-<button class="more-sub-btn" data-sub="more-hadith" data-ar="📜 أحاديث" data-en="Hadith" onclick="filterMoreSub('more-hadith',this)">📜 أحاديث</button>
-<button class="more-sub-btn" data-sub="more-radio" data-ar="📻 إذاعة" data-en="Radio" onclick="filterMoreSub('more-radio',this)">📻 راديو</button>
-<button class="more-sub-btn" data-sub="more-sites" data-ar="🌐 مواقع" data-en="Sites" onclick="filterMoreSub('more-sites',this)">🌐 مواقع</button>
+<button class="more-sub-btn active" data-sub="all" data-ar="📂 الكل" data-en="All" data-fr="Tout" data-es="Todo" data-sv="Alla" data-nl="Alles" data-ga="Uile" data-de="Alle" data-ru="Все" data-tr="Tümü" data-pt="Tudo" data-zh="全部" data-ur="تمام" onclick="filterMoreSub('all',this)">📂 الكل</button>
+<button class="more-sub-btn" data-sub="more-mushaf" data-ar="📖 مصاحف" data-en="Mushafs" data-fr="Mushafs" data-es="Mushafs" data-sv="Mushafer" data-nl="Mushafs" data-ga="Mushafanna" data-de="Mushafs" data-ru="Мусхафы" data-tr="Mushaflar" data-pt="Mushafs" data-zh="古兰经抄本" data-ur="مصاحف" onclick="filterMoreSub('more-mushaf',this)">📖 مصاحف</button>
+<button class="more-sub-btn" data-sub="more-azkar" data-ar="🌿 أذكار" data-en="Azkar" data-fr="Azkar" data-es="Azkar" data-sv="Azkar" data-nl="Azkar" data-ga="Azkar" data-de="Azkar" data-ru="Азкар" data-tr="Ezkâr" data-pt="Azkar" data-zh="赞念" data-ur="اذکار" onclick="filterMoreSub('more-azkar',this)">🌿 أذكار</button>
+<button class="more-sub-btn" data-sub="more-translations" data-ar="🌍 ترجمات" data-en="Translations" data-fr="Traductions" data-es="Traducciones" data-sv="Översättningar" data-nl="Vertalingen" data-ga="Aistriúcháin" data-de="Übersetzungen" data-ru="Переводы" data-tr="Çeviriler" data-pt="Traduções" data-zh="翻译" data-ur="تراجم" onclick="filterMoreSub('more-translations',this)">🌍 ترجمات</button>
+<button class="more-sub-btn" data-sub="more-hadith" data-ar="📜 أحاديث" data-en="Hadith" data-fr="Hadith" data-es="Hadiz" data-sv="Hadith" data-nl="Hadith" data-ga="Hadith" data-de="Hadith" data-ru="Хадис" data-tr="Hadis" data-pt="Hadith" data-zh="圣训" data-ur="حدیث" onclick="filterMoreSub('more-hadith',this)">📜 أحاديث</button>
+<button class="more-sub-btn" data-sub="more-radio" data-ar="📻 إذاعة" data-en="Radio" data-fr="Radio" data-es="Radio" data-sv="Radio" data-nl="Radio" data-ga="Raidió" data-de="Radio" data-ru="Радио" data-tr="Radyo" data-pt="Rádio" data-zh="广播" data-ur="ریڈیو" onclick="filterMoreSub('more-radio',this)">📻 راديو</button>
+<button class="more-sub-btn" data-sub="more-sites" data-ar="🌐 مواقع" data-en="Sites" data-fr="Sites" data-es="Sitios" data-sv="Webbplatser" data-nl="Sites" data-ga="Suíomhanna" data-de="Webseiten" data-ru="Сайты" data-tr="Siteler" data-pt="Sites" data-zh="网站" data-ur="ویب سائٹس" onclick="filterMoreSub('more-sites',this)">🌐 مواقع</button>
 </div>
 </div>
 
 <div class="subfilter-scroll-wrap" id="livetv-subfilter">
 <div class="subfilter-scroll-strip">
-<button class="livetv-sub-btn active" data-sub="all"           data-ar="📺 الكل"           data-en="All"           onclick="filterLiveTVSub('all',this)">📺 الكل</button>
-<button class="livetv-sub-btn"        data-sub="ltv-channels"  data-ar="📡 قنوات قرآنية"   data-en="Quran Channels" onclick="filterLiveTVSub('ltv-channels',this)">📡 قنوات قرآنية</button>
-<button class="livetv-sub-btn"        data-sub="ltv-full"      data-ar="📖 المصحف كامل"    data-en="Full Quran"     onclick="filterLiveTVSub('ltv-full',this)">📖 المصحف كامل</button>
-<button class="livetv-sub-btn"        data-sub="ltv-best"      data-ar="✨ أروع التلاوات"   data-en="Best Recitations" onclick="filterLiveTVSub('ltv-best',this)">✨ أروع التلاوات</button>
-<button class="livetv-sub-btn"        data-sub="ltv-salawat"   data-ar="🤲 صلوات"          data-en="Salawat"        onclick="filterLiveTVSub('ltv-salawat',this)">🤲 صلوات</button>
-<button class="livetv-sub-btn"        data-sub="ltv-lectures"  data-ar="🎙️ محاضرات"       data-en="Lectures"       onclick="filterLiveTVSub('ltv-lectures',this)">🎙️ محاضرات</button>
-<button class="livetv-sub-btn"        data-sub="ltv-news"      data-ar="📰 أخبار"          data-en="News"           onclick="filterLiveTVSub('ltv-news',this)">📰 أخبار</button>
-<button class="livetv-sub-btn"        data-sub="ltv-learn"     data-ar="🎓 تعلم"           data-en="Learn"          onclick="filterLiveTVSub('ltv-learn',this)">🎓 تعلم</button>
+<button class="livetv-sub-btn active" data-sub="all"           data-ar="📺 الكل"           data-en="All" data-fr="Tout" data-es="Todo" data-sv="Alla" data-nl="Alles" data-ga="Uile" data-de="Alle" data-ru="Все" data-tr="Tümü" data-pt="Tudo" data-zh="全部" data-ur="تمام"           onclick="filterLiveTVSub('all',this)">📺 الكل</button>
+<button class="livetv-sub-btn"        data-sub="ltv-channels"  data-ar="📡 قنوات قرآنية"   data-en="Quran Channels" data-fr="Chaînes coraniques" data-es="Canales coránicos" data-sv="Korankanaler" data-nl="Korankanalen" data-ga="Cainéil Chóráin" data-de="Koran-Kanäle" data-ru="Кораническе каналы" data-tr="Kur'an Kanalları" data-pt="Canais Corânicos" data-zh="古兰经频道" data-ur="قرآنی چینلز" onclick="filterLiveTVSub('ltv-channels',this)">📡 قنوات قرآنية</button>
+<button class="livetv-sub-btn"        data-sub="ltv-full"      data-ar="📖 المصحف كامل"    data-en="Full Quran" data-fr="Coran complet" data-es="Corán completo" data-sv="Hela Koranen" data-nl="Volledige Koran" data-ga="An Corán Iomlán" data-de="Vollständiger Koran" data-ru="Полный Коран" data-tr="Tam Kur'an" data-pt="Alcorão Completo" data-zh="完整古兰经" data-ur="مکمل قرآن"     onclick="filterLiveTVSub('ltv-full',this)">📖 المصحف كامل</button>
+<button class="livetv-sub-btn"        data-sub="ltv-best"      data-ar="✨ أروع التلاوات"   data-en="Best Recitations" data-fr="Meilleures récitations" data-es="Mejores recitaciones" data-sv="Bästa reciteringarna" data-nl="Beste recitaties" data-ga="Na Léachtaí is Fearr" data-de="Beste Rezitationen" data-ru="Лучшие чтения" data-tr="En İyi Tilavetler" data-pt="Melhores Recitações" data-zh="最佳诵读" data-ur="بہترین تلاوتیں" onclick="filterLiveTVSub('ltv-best',this)">✨ أروع التلاوات</button>
+<button class="livetv-sub-btn"        data-sub="ltv-salawat"   data-ar="🤲 صلوات"          data-en="Salawat" data-fr="Salawat" data-es="Salawat" data-sv="Salawat" data-nl="Salawat" data-ga="Salawat" data-de="Salawat" data-ru="Салават" data-tr="Salavat" data-pt="Salawat" data-zh="赞圣词" data-ur="صلوات"        onclick="filterLiveTVSub('ltv-salawat',this)">🤲 صلوات</button>
+<button class="livetv-sub-btn"        data-sub="ltv-lectures"  data-ar="🎙️ محاضرات"       data-en="Lectures" data-fr="Conférences" data-es="Conferencias" data-sv="Föreläsningar" data-nl="Lezingen" data-ga="Léachtaí" data-de="Vorträge" data-ru="Лекции" data-tr="Dersler" data-pt="Palestras" data-zh="讲座" data-ur="لیکچرز"       onclick="filterLiveTVSub('ltv-lectures',this)">🎙️ محاضرات</button>
+<button class="livetv-sub-btn"        data-sub="ltv-news"      data-ar="📰 أخبار"          data-en="News" data-fr="Actualités" data-es="Noticias" data-sv="Nyheter" data-nl="Nieuws" data-ga="Nuacht" data-de="Nachrichten" data-ru="Новости" data-tr="Haberler" data-pt="Notícias" data-zh="新闻" data-ur="خبریں"           onclick="filterLiveTVSub('ltv-news',this)">📰 أخبار</button>
+<button class="livetv-sub-btn"        data-sub="ltv-learn"     data-ar="🎓 تعلم"           data-en="Learn" data-fr="Apprendre" data-es="Aprender" data-sv="Lär dig" data-nl="Leren" data-ga="Foghlaim" data-de="Lernen" data-ru="Обучение" data-tr="Öğren" data-pt="Aprender" data-zh="学习" data-ur="سیکھیں"          onclick="filterLiveTVSub('ltv-learn',this)">🎓 تعلم</button>
 </div>
 </div>
 
 <div class="subfilter-scroll-wrap" id="sira-subfilter">
 <div class="subfilter-scroll-strip">
-<button class="sira-sub-btn active" data-sub="all"     data-ar="📚 الكل"              data-en="All"               onclick="filterSiraSub('all',this)">📚 الكل</button>
-<button class="sira-sub-btn"        data-sub="seerah"  data-ar="🌟 السيرة النبوية"     data-en="Prophet's Seerah"  onclick="filterSiraSub('seerah',this)">🌟 السيرة النبوية</button>
-<button class="sira-sub-btn"        data-sub="hadith"  data-ar="📜 الحديث والسنة"      data-en="Hadith & Sunnah"   onclick="filterSiraSub('hadith',this)">📜 الحديث والسنة</button>
-<button class="sira-sub-btn"        data-sub="anbiya"  data-ar="📖 قصص الأنبياء"       data-en="Prophets Stories"  onclick="filterSiraSub('anbiya',this)">📖 قصص الأنبياء</button>
-<button class="sira-sub-btn"        data-sub="sahabah" data-ar="🌹 سير الصحابة"         data-en="Companions"        onclick="filterSiraSub('sahabah',this)">🌹 سير الصحابة</button>
-<button class="sira-sub-btn"        data-sub="tabi3een" data-ar="🌿 التابعون"           data-en="Tabi'een"          onclick="filterSiraSub('tabi3een',this)">🌿 التابعون</button>
+<button class="sira-sub-btn active" data-sub="all"     data-ar="📚 الكل"              data-en="All" data-fr="Tout" data-es="Todo" data-sv="Alla" data-nl="Alles" data-ga="Uile" data-de="Alle" data-ru="Все" data-tr="Tümü" data-pt="Tudo" data-zh="全部" data-ur="تمام"               onclick="filterSiraSub('all',this)">📚 الكل</button>
+<button class="sira-sub-btn"        data-sub="seerah"  data-ar="🌟 السيرة النبوية"     data-en="Prophet's Seerah" data-fr="Sira du Prophète" data-es="Sira del Profeta" data-sv="Profetens Sira" data-nl="Sira van de Profeet" data-ga="Sira an Fháidh" data-de="Sira des Propheten" data-ru="Сира Пророка" data-tr="Peygamberin Siyeri" data-pt="Sira do Profeta" data-zh="先知传记" data-ur="سیرت النبی"  onclick="filterSiraSub('seerah',this)">🌟 السيرة النبوية</button>
+<button class="sira-sub-btn"        data-sub="hadith"  data-ar="📜 الحديث والسنة"      data-en="Hadith & Sunnah" data-fr="Hadith et Sunna" data-es="Hadiz y Sunna" data-sv="Hadith och Sunna" data-nl="Hadith en Sunnah" data-ga="Hadith agus Sunnah" data-de="Hadith und Sunna" data-ru="Хадис и Сунна" data-tr="Hadis ve Sünnet" data-pt="Hadith e Sunnah" data-zh="圣训与逊奈" data-ur="حدیث و سنت"   onclick="filterSiraSub('hadith',this)">📜 الحديث والسنة</button>
+<button class="sira-sub-btn"        data-sub="anbiya"  data-ar="📖 قصص الأنبياء"       data-en="Prophets Stories" data-fr="Histoires des prophètes" data-es="Historias de los profetas" data-sv="Profeternas berättelser" data-nl="Verhalen van de profeten" data-ga="Scéalta na bhFáithe" data-de="Geschichten der Propheten" data-ru="Истории пророков" data-tr="Peygamberlerin Kıssaları" data-pt="Histórias dos Profetas" data-zh="众先知的故事" data-ur="انبیاء کے قصے"  onclick="filterSiraSub('anbiya',this)">📖 قصص الأنبياء</button>
+<button class="sira-sub-btn"        data-sub="sahabah" data-ar="🌹 سير الصحابة"         data-en="Companions" data-fr="Compagnons" data-es="Compañeros" data-sv="Följeslagare" data-nl="Metgezellen" data-ga="Compánaigh" data-de="Gefährten" data-ru="Сподвижники" data-tr="Sahabeler" data-pt="Companheiros" data-zh="圣门弟子" data-ur="صحابہ"        onclick="filterSiraSub('sahabah',this)">🌹 سير الصحابة</button>
+<button class="sira-sub-btn"        data-sub="tabi3een" data-ar="🌿 التابعون"           data-en="Tabi'een" data-fr="Tabi'in" data-es="Tabiin" data-sv="Tabi'in" data-nl="Tabi'in" data-ga="Tabi'in" data-de="Tabi'in" data-ru="Табиины" data-tr="Tabiîn" data-pt="Tabi'in" data-zh="再传弟子" data-ur="تابعین"          onclick="filterSiraSub('tabi3een',this)">🌿 التابعون</button>
 </div>
 </div>
 
 <div class="subfilter-scroll-wrap" id="adhkar-subfilter">
 <div class="subfilter-scroll-strip">
-<button class="adhkar-sub-btn active" data-sub="all" data-ar="📿 الكل" data-en="All" onclick="filterAdhkarSub('all',this)">📿 الكل</button>
-<button class="adhkar-sub-btn" data-sub="morning" data-ar="🌅 أذكار الصباح" data-en="Morning Adhkar" onclick="filterAdhkarSub('morning',this)">🌅 أذكار الصباح</button>
-<button class="adhkar-sub-btn" data-sub="evening" data-ar="🌙 أذكار المساء" data-en="Evening Adhkar" onclick="filterAdhkarSub('evening',this)">🌙 أذكار المساء</button>
-<button class="adhkar-sub-btn" data-sub="general" data-ar="📖 أذكار عامة" data-en="General Adhkar" onclick="filterAdhkarSub('general',this)">📖 أذكار عامة</button>
-<button class="adhkar-sub-btn" data-sub="ruqya" data-ar="🌿 الرُّقْيَة الشَّرْعِيَّة" data-en="Ruqyah" onclick="filterAdhkarSub('ruqya',this)">🌿 الرُّقْيَة الشَّرْعِيَّة</button>
+<button class="adhkar-sub-btn active" data-sub="all" data-ar="📿 الكل" data-en="All" data-fr="Tout" data-es="Todo" data-sv="Alla" data-nl="Alles" data-ga="Uile" data-de="Alle" data-ru="Все" data-tr="Tümü" data-pt="Tudo" data-zh="全部" data-ur="تمام" onclick="filterAdhkarSub('all',this)">📿 الكل</button>
+<button class="adhkar-sub-btn" data-sub="morning" data-ar="🌅 أذكار الصباح" data-en="Morning Adhkar" data-fr="Adhkar du matin" data-es="Adhkar de la mañana" data-sv="Morgonens Adhkar" data-nl="Ochtend Adhkar" data-ga="Adhkar na Maidine" data-de="Morgen-Adhkar" data-ru="Утренние азкар" data-tr="Sabah Ezkârı" data-pt="Adhkar da Manhã" data-zh="晨间赞念" data-ur="صبح کے اذکار" onclick="filterAdhkarSub('morning',this)">🌅 أذكار الصباح</button>
+<button class="adhkar-sub-btn" data-sub="evening" data-ar="🌙 أذكار المساء" data-en="Evening Adhkar" data-fr="Adhkar du soir" data-es="Adhkar de la tarde" data-sv="Kvällens Adhkar" data-nl="Avond Adhkar" data-ga="Adhkar an Tráthnóna" data-de="Abend-Adhkar" data-ru="Вечерние азкар" data-tr="Akşam Ezkârı" data-pt="Adhkar da Tarde" data-zh="晚间赞念" data-ur="شام کے اذکار" onclick="filterAdhkarSub('evening',this)">🌙 أذكار المساء</button>
+<button class="adhkar-sub-btn" data-sub="general" data-ar="📖 أذكار عامة" data-en="General Adhkar" data-fr="Adhkar généraux" data-es="Adhkar generales" data-sv="Allmän Adhkar" data-nl="Algemene Adhkar" data-ga="Adhkar Ginearálta" data-de="Allgemeine Adhkar" data-ru="Общие азкар" data-tr="Genel Ezkâr" data-pt="Adhkar Geral" data-zh="通用赞念" data-ur="عمومی اذکار" onclick="filterAdhkarSub('general',this)">📖 أذكار عامة</button>
+<button class="adhkar-sub-btn" data-sub="ruqya" data-ar="🌿 الرُّقْيَة الشَّرْعِيَّة" data-en="Ruqyah" data-fr="Ruqya" data-es="Ruqya" data-sv="Ruqya" data-nl="Ruqya" data-ga="Ruqya" data-de="Ruqya" data-ru="Рукья" data-tr="Rukye" data-pt="Ruqya" data-zh="古兰经治疗" data-ur="رقیہ" onclick="filterAdhkarSub('ruqya',this)">🌿 الرُّقْيَة الشَّرْعِيَّة</button>
 </div>
 </div>
 
@@ -13238,29 +13238,29 @@ setTimeout(autoScaleVerseFont, 100);
 
 <div class="subfilter-scroll-wrap" id="quransciences-subfilter">
 <div class="subfilter-scroll-strip">
-<button class="quransciences-sub-btn active" data-sub="Translation" data-ar="🌍 القرآن مترجم" data-en="Translation" onclick="filterQuranSciencesSub('Translation',this)">🌍 القرآن مترجم</button>
-<button class="quransciences-sub-btn" data-sub="tafsir" data-ar="📖 تفسير القرآن" data-en="Tafsir" onclick="filterQuranSciencesSub('tafsir',this)">📖 تفسير القرآن</button>
-<button class="quransciences-sub-btn" data-sub="tajweed" data-ar="🎵 تجويد" data-en="Tajweed" onclick="filterQuranSciencesSub('tajweed',this)">🎵 تجويد</button>
-<button class="quransciences-sub-btn" data-sub="rewaya-warsh"     data-ar="🔵 ورش عن نافع"             data-en="Warsh an Nafi'"       onclick="filterQuranSciencesSub('rewaya-warsh',this)">🔵 ورش عن نافع</button>
-<button class="quransciences-sub-btn" data-sub="rewaya-qalun"     data-ar="🟢 قالون عن نافع"           data-en="Qalun an Nafi'"       onclick="filterQuranSciencesSub('rewaya-qalun',this)">🟢 قالون عن نافع</button>
-<button class="quransciences-sub-btn" data-sub="rewaya-hafs"      data-ar="🟡 حفص عن عاصم"             data-en="Hafs an Asim"         onclick="filterQuranSciencesSub('rewaya-hafs',this)">🟡 حفص عن عاصم</button>
-<button class="quransciences-sub-btn" data-sub="rewaya-duri-amr"  data-ar="🟠 الدوري عن أبي عمرو"      data-en="Al-Duri an Abi Amr"   onclick="filterQuranSciencesSub('rewaya-duri-amr',this)">🟠 الدوري عن أبي عمرو</button>
-<button class="quransciences-sub-btn" data-sub="rewaya-duri-kis"  data-ar="🔴 الدوري عن الكسائي"       data-en="Al-Duri an Al-Kisai"  onclick="filterQuranSciencesSub('rewaya-duri-kis',this)">🔴 الدوري عن الكسائي</button>
-<button class="quransciences-sub-btn" data-sub="rewaya-susi"      data-ar="🟣 السوسي عن أبي عمرو"      data-en="Al-Susi an Abi Amr"   onclick="filterQuranSciencesSub('rewaya-susi',this)">🟣 السوسي عن أبي عمرو</button>
-<button class="quransciences-sub-btn" data-sub="rewaya-khalaf"    data-ar="⚪ خلف عن حمزة"              data-en="Khalaf an Hamza"      onclick="filterQuranSciencesSub('rewaya-khalaf',this)">⚪ خلف عن حمزة</button>
-<button class="quransciences-sub-btn" data-sub="rewaya-bazzi"     data-ar="🔶 البزي وقنبل"              data-en="Al-Bazzi & Qunbul"    onclick="filterQuranSciencesSub('rewaya-bazzi',this)">🔶 البزي وقنبل</button>
-<button class="quransciences-sub-btn" data-sub="rewaya-ibndhakwan" data-ar="🔷 ابن ذكوان"              data-en="Ibn Dhakwan"          onclick="filterQuranSciencesSub('rewaya-ibndhakwan',this)">🔷 ابن ذكوان</button>
-<button class="quransciences-sub-btn" data-sub="rewaya-yaqub"     data-ar="⭐ يعقوب الحضرمي"            data-en="Yaqub Al-Hadrami"     onclick="filterQuranSciencesSub('rewaya-yaqub',this)">⭐ يعقوب الحضرمي</button>
+<button class="quransciences-sub-btn active" data-sub="Translation" data-ar="🌍 القرآن مترجم" data-en="Translation" data-fr="Traduction" data-es="Traducción" data-sv="Översättning" data-nl="Vertaling" data-ga="Aistriúchán" data-de="Übersetzung" data-ru="Перевод" data-tr="Çeviri" data-pt="Tradução" data-zh="翻译" data-ur="ترجمہ" onclick="filterQuranSciencesSub('Translation',this)">🌍 القرآن مترجم</button>
+<button class="quransciences-sub-btn" data-sub="tafsir" data-ar="📖 تفسير القرآن" data-en="Tafsir" data-fr="Tafsir" data-es="Tafsir" data-sv="Tafsir" data-nl="Tafsir" data-ga="Tafsir" data-de="Tafsir" data-ru="Тафсир" data-tr="Tefsir" data-pt="Tafsir" data-zh="古兰经注释" data-ur="تفسیر" onclick="filterQuranSciencesSub('tafsir',this)">📖 تفسير القرآن</button>
+<button class="quransciences-sub-btn" data-sub="tajweed" data-ar="🎵 تجويد" data-en="Tajweed" data-fr="Tajweed" data-es="Tayuid" data-sv="Tajwid" data-nl="Tajweed" data-ga="Tajweed" data-de="Tadschwid" data-ru="Таджвид" data-tr="Tecvid" data-pt="Tajwid" data-zh="塔吉威德" data-ur="تجوید" onclick="filterQuranSciencesSub('tajweed',this)">🎵 تجويد</button>
+<button class="quransciences-sub-btn" data-sub="rewaya-warsh"     data-ar="🔵 ورش عن نافع"             data-en="Warsh an Nafi'" data-fr="Warch selon Nafi'" data-es="Warsh según Nafi'" data-sv="Warsh efter Nafi'" data-nl="Warsh naar Nafi'" data-ga="Warsh ó Nafi'" data-de="Warsch nach Nafi'" data-ru="Уарш от Нафи‘" data-tr="Nâfi'den Verş" data-pt="Warsh segundo Nafi'" data-zh="纳菲传瓦尔什" data-ur="ورش عن نافع"       onclick="filterQuranSciencesSub('rewaya-warsh',this)">🔵 ورش عن نافع</button>
+<button class="quransciences-sub-btn" data-sub="rewaya-qalun"     data-ar="🟢 قالون عن نافع"           data-en="Qalun an Nafi'" data-fr="Qaloun selon Nafi'" data-es="Qalun según Nafi'" data-sv="Qalun efter Nafi'" data-nl="Qalun naar Nafi'" data-ga="Qalun ó Nafi'" data-de="Qalun nach Nafi'" data-ru="Калюн от Нафи‘" data-tr="Nâfi'den Kâlûn" data-pt="Qalun segundo Nafi'" data-zh="纳菲传卡伦" data-ur="قالون عن نافع"       onclick="filterQuranSciencesSub('rewaya-qalun',this)">🟢 قالون عن نافع</button>
+<button class="quransciences-sub-btn" data-sub="rewaya-hafs"      data-ar="🟡 حفص عن عاصم"             data-en="Hafs an Asim" data-fr="Hafs selon Assim" data-es="Hafs según Asim" data-sv="Hafs efter Asim" data-nl="Hafs naar Asim" data-ga="Hafs ó Asim" data-de="Hafs nach Asim" data-ru="Хафс от Асыма" data-tr="Asım'dan Hafs" data-pt="Hafs segundo Asim" data-zh="阿绥木传哈夫斯" data-ur="حفص عن عاصم"         onclick="filterQuranSciencesSub('rewaya-hafs',this)">🟡 حفص عن عاصم</button>
+<button class="quransciences-sub-btn" data-sub="rewaya-duri-amr"  data-ar="🟠 الدوري عن أبي عمرو"      data-en="Al-Duri an Abi Amr" data-fr="Al-Douri selon Abou Amr" data-es="Al-Duri según Abu Amr" data-sv="Al-Duri efter Abu Amr" data-nl="Al-Duri naar Abu Amr" data-ga="Al-Duri ó Abu Amr" data-de="Al-Duri nach Abu Amr" data-ru="Ад-Дури от Абу Амра" data-tr="Ebu Amr'dan Dûrî" data-pt="Al-Duri segundo Abu Amr" data-zh="艾布阿姆尔传杜里" data-ur="الدوری عن ابی عمرو"   onclick="filterQuranSciencesSub('rewaya-duri-amr',this)">🟠 الدوري عن أبي عمرو</button>
+<button class="quransciences-sub-btn" data-sub="rewaya-duri-kis"  data-ar="🔴 الدوري عن الكسائي"       data-en="Al-Duri an Al-Kisai" data-fr="Al-Douri selon Al-Kisaï" data-es="Al-Duri según Al-Kisai" data-sv="Al-Duri efter Al-Kisai" data-nl="Al-Duri naar Al-Kisai" data-ga="Al-Duri ó Al-Kisai" data-de="Al-Duri nach Al-Kisai" data-ru="Ад-Дури от аль-Кисаи" data-tr="Kisâî'den Dûrî" data-pt="Al-Duri segundo Al-Kisai" data-zh="基萨伊传杜里" data-ur="الدوری عن الکسائی"  onclick="filterQuranSciencesSub('rewaya-duri-kis',this)">🔴 الدوري عن الكسائي</button>
+<button class="quransciences-sub-btn" data-sub="rewaya-susi"      data-ar="🟣 السوسي عن أبي عمرو"      data-en="Al-Susi an Abi Amr" data-fr="Al-Sousi selon Abou Amr" data-es="Al-Susi según Abu Amr" data-sv="Al-Susi efter Abu Amr" data-nl="Al-Susi naar Abu Amr" data-ga="Al-Susi ó Abu Amr" data-de="As-Susi nach Abu Amr" data-ru="Ас-Суси от Абу Амра" data-tr="Ebu Amr'dan Sûsî" data-pt="Al-Susi segundo Abu Amr" data-zh="艾布阿姆尔传苏西" data-ur="السوسی عن ابی عمرو"   onclick="filterQuranSciencesSub('rewaya-susi',this)">🟣 السوسي عن أبي عمرو</button>
+<button class="quransciences-sub-btn" data-sub="rewaya-khalaf"    data-ar="⚪ خلف عن حمزة"              data-en="Khalaf an Hamza" data-fr="Khalaf selon Hamza" data-es="Khalaf según Hamza" data-sv="Khalaf efter Hamza" data-nl="Khalaf naar Hamza" data-ga="Khalaf ó Hamza" data-de="Chalaf nach Hamza" data-ru="Халяф от Хамзы" data-tr="Hamza'dan Halef" data-pt="Khalaf segundo Hamza" data-zh="哈姆宰传哈拉夫" data-ur="خلف عن حمزہ"      onclick="filterQuranSciencesSub('rewaya-khalaf',this)">⚪ خلف عن حمزة</button>
+<button class="quransciences-sub-btn" data-sub="rewaya-bazzi"     data-ar="🔶 البزي وقنبل"              data-en="Al-Bazzi & Qunbul" data-fr="Al-Bazzi et Qunbul" data-es="Al-Bazzi y Qunbul" data-sv="Al-Bazzi och Qunbul" data-nl="Al-Bazzi en Qunbul" data-ga="Al-Bazzi agus Qunbul" data-de="Al-Bazzi und Qunbul" data-ru="Аль-Базза и Кунбуль" data-tr="Bezzî ve Kunbul" data-pt="Al-Bazzi e Qunbul" data-zh="巴济与昆布勒" data-ur="البزی و قنبل"    onclick="filterQuranSciencesSub('rewaya-bazzi',this)">🔶 البزي وقنبل</button>
+<button class="quransciences-sub-btn" data-sub="rewaya-ibndhakwan" data-ar="🔷 ابن ذكوان"              data-en="Ibn Dhakwan" data-fr="Ibn Dhakwan" data-es="Ibn Dhakwan" data-sv="Ibn Dhakwan" data-nl="Ibn Dhakwan" data-ga="Ibn Dhakwan" data-de="Ibn Dhakwan" data-ru="Ибн Закван" data-tr="İbn Zekvân" data-pt="Ibn Dhakwan" data-zh="伊本达克万" data-ur="ابن ذکوان"          onclick="filterQuranSciencesSub('rewaya-ibndhakwan',this)">🔷 ابن ذكوان</button>
+<button class="quransciences-sub-btn" data-sub="rewaya-yaqub"     data-ar="⭐ يعقوب الحضرمي"            data-en="Yaqub Al-Hadrami" data-fr="Yaqub Al-Hadrami" data-es="Yaqub Al-Hadrami" data-sv="Yaqub Al-Hadrami" data-nl="Yaqub Al-Hadrami" data-ga="Yaqub Al-Hadrami" data-de="Yaqub Al-Hadrami" data-ru="Якуб аль-Хадрами" data-tr="Yakup El-Hadramî" data-pt="Yaqub Al-Hadrami" data-zh="雅古卜哈德拉米" data-ur="یعقوب الحضرمی"     onclick="filterQuranSciencesSub('rewaya-yaqub',this)">⭐ يعقوب الحضرمي</button>
 </div>
 </div>
 
 <div class="subfilter-scroll-wrap" id="qurankarim-subfilter">
 <div class="subfilter-scroll-strip">
-<button class="qurankarim-sub-btn active" data-sub="Quran" data-ar="📻 تلاوات" data-en="Recitations" onclick="filterQuranKarimSub('Quran',this)">📻 تلاوات</button>
-<button class="qurankarim-sub-btn" data-sub="mojawwad" data-ar="🎙️ مُجَوِّد" data-en="Mujawwad" onclick="filterQuranKarimSub('mojawwad',this)">🎙️ مُجَوِّد</button>
-<button class="qurankarim-sub-btn" data-sub="rewayat" data-ar="📖 قراءات" data-en="Readings" onclick="filterQuranKarimSub('rewayat',this)">📖 قراءات</button>
-<button class="qurankarim-sub-btn" data-sub="surah" data-ar="📂 سور" data-en="Surahs" onclick="filterQuranKarimSub('surah',this)">📂 سور <span class="multi-icon">🔁</span></button>
-<button class="qurankarim-sub-btn" data-sub="teachers" data-ar="🎓 المحفِّظ" data-en="Teacher" onclick="filterQuranKarimSub('teachers',this)">🎓 المحفِّظ</button>
+<button class="qurankarim-sub-btn active" data-sub="Quran" data-ar="📻 تلاوات" data-en="Recitations" data-fr="Récitations" data-es="Recitaciones" data-sv="Reciteringar" data-nl="Recitaties" data-ga="Léachtaí" data-de="Rezitationen" data-ru="Чтения" data-tr="Tilavetler" data-pt="Recitações" data-zh="诵读" data-ur="تلاوتیں" onclick="filterQuranKarimSub('Quran',this)">📻 تلاوات</button>
+<button class="qurankarim-sub-btn" data-sub="mojawwad" data-ar="🎙️ مُجَوِّد" data-en="Mujawwad" data-fr="Moujawwad" data-es="Muyawwad" data-sv="Mujawwad" data-nl="Mujawwad" data-ga="Mujawwad" data-de="Mujawwad" data-ru="Муджаввад" data-tr="Mücevved" data-pt="Mujawwad" data-zh="慢诵调" data-ur="مجود" onclick="filterQuranKarimSub('mojawwad',this)">🎙️ مُجَوِّد</button>
+<button class="qurankarim-sub-btn" data-sub="rewayat" data-ar="📖 قراءات" data-en="Readings" data-fr="Lectures coraniques" data-es="Lecturas" data-sv="Läsarter" data-nl="Lezingen (Qira'at)" data-ga="Léamha" data-de="Lesarten" data-ru="Кираат" data-tr="Kıraatler" data-pt="Leituras" data-zh="读法" data-ur="قراءات" onclick="filterQuranKarimSub('rewayat',this)">📖 قراءات</button>
+<button class="qurankarim-sub-btn" data-sub="surah" data-ar="📂 سور" data-en="Surahs" data-fr="Sourates" data-es="Suras" data-sv="Suror" data-nl="Soera's" data-ga="Sûraí" data-de="Suren" data-ru="Суры" data-tr="Sureler" data-pt="Suratas" data-zh="章节" data-ur="سورتیں" onclick="filterQuranKarimSub('surah',this)">📂 سور <span class="multi-icon">🔁</span></button>
+<button class="qurankarim-sub-btn" data-sub="teachers" data-ar="🎓 المحفِّظ" data-en="Teacher" data-fr="Enseignant" data-es="Maestro" data-sv="Lärare" data-nl="Leraar" data-ga="Múinteoir" data-de="Lehrer" data-ru="Учитель" data-tr="Öğretmen" data-pt="Professor" data-zh="教师" data-ur="استاد" onclick="filterQuranKarimSub('teachers',this)">🎓 المحفِّظ</button>
 </div>
 </div>
 <div id="qurankarim-playlist-slot"></div>
@@ -13328,70 +13328,70 @@ setTimeout(autoScaleVerseFont, 100);
 
 <div class="subfilter-scroll-wrap" id="radio-subfilter">
 <div class="subfilter-scroll-strip">
-<button class="radio-sub-btn active" data-sub="radio-live" data-ar="📻 بث مباشر" data-en="Live Stream" onclick="filterRadioSub('radio-live',this)">📻 بث مباشر</button>
-<button class="radio-sub-btn" data-sub="radio-external" data-ar="🌐 موقع خارجي" data-en="External Site" onclick="filterRadioSub('radio-external',this)">🌐 موقع خارجي</button>
+<button class="radio-sub-btn active" data-sub="radio-live" data-ar="📻 بث مباشر" data-en="Live Stream" data-fr="Diffusion en direct" data-es="Transmisión en vivo" data-sv="Livesändning" data-nl="Live-uitzending" data-ga="Sruthú Beo" data-de="Live-Übertragung" data-ru="Прямой эфир" data-tr="Canlı Yayın" data-pt="Transmissão ao Vivo" data-zh="直播" data-ur="لائیو اسٹریم" onclick="filterRadioSub('radio-live',this)">📻 بث مباشر</button>
+<button class="radio-sub-btn" data-sub="radio-external" data-ar="🌐 موقع خارجي" data-en="External Site" data-fr="Site externe" data-es="Sitio externo" data-sv="Extern webbplats" data-nl="Externe site" data-ga="Suíomh Seachtrach" data-de="Externe Website" data-ru="Внешний сайт" data-tr="Harici Site" data-pt="Site Externo" data-zh="外部网站" data-ur="بیرونی ویب سائٹ" onclick="filterRadioSub('radio-external',this)">🌐 موقع خارجي</button>
 </div>
 </div>
 
 <div class="subfilter-scroll-wrap" id="mix-subfilter">
 <div class="subfilter-scroll-strip">
-<button class="mix-sub-btn active" data-sub="all"      data-ar="🕌 الكل"              data-en="All"              onclick="filterMixSub('all',this)">🕌 الكل</button>
-<button class="mix-sub-btn"        data-sub="foreign"  data-ar="🌍 إذاعات عالمية"     data-en="🌍 International"  onclick="filterMixSub('foreign',this)">🌍 إذاعات عالمية</button>
-<button class="mix-sub-btn"        data-sub="alukah"   data-ar="📡 قنوات الألوكة"     data-en="Alukah Channels"  onclick="filterMixSub('alukah',this)">📡 قنوات الألوكة</button>
-<button class="mix-sub-btn"        data-sub="pillars"  data-ar="🤲 أركان الإسلام"     data-en="Pillars of Islam" onclick="filterMixSub('pillars',this)">🤲 أركان الإسلام</button>
-<button class="mix-sub-btn"        data-sub="occasions" data-ar="🌙 مناسبات إسلامية" data-en="Islamic Occasions" onclick="filterMixSub('occasions',this)">🌙 مناسبات إسلامية</button>
-<button class="mix-sub-btn"        data-sub="fiqh"     data-ar="📜 فتاوى وفقه"        data-en="Fatwas & Fiqh"    onclick="filterMixSub('fiqh',this)">📜 فتاوى وفقه</button>
-<button class="mix-sub-btn"        data-sub="munshideen" data-ar="🎙️ النشيد"          data-en="Nasheed"          onclick="filterMixSub('munshideen',this)">🎙️ النشيد</button>
-<button class="mix-sub-btn"        data-sub="doaa"       data-ar="🎤 خطابات"          data-en="Speeches"         onclick="filterMixSub('doaa',this)">🎤 خطابات</button>
-<button class="mix-sub-btn"        data-sub="radios"   data-ar="📻 إذاعات متنوعة"     data-en="Islamic Radios"   onclick="filterMixSub('radios',this)">📻 إذاعات متنوعة</button>
+<button class="mix-sub-btn active" data-sub="all"      data-ar="🕌 الكل"              data-en="All" data-fr="Tout" data-es="Todo" data-sv="Alla" data-nl="Alles" data-ga="Uile" data-de="Alle" data-ru="Все" data-tr="Tümü" data-pt="Tudo" data-zh="全部" data-ur="تمام"              onclick="filterMixSub('all',this)">🕌 الكل</button>
+<button class="mix-sub-btn"        data-sub="foreign"  data-ar="🌍 إذاعات عالمية"     data-en="🌍 International" data-fr="🌍 International" data-es="🌍 Internacional" data-sv="🌍 Internationellt" data-nl="🌍 Internationaal" data-ga="🌍 Idirnáisiúnta" data-de="🌍 International" data-ru="🌍 Международное" data-tr="🌍 Uluslararası" data-pt="🌍 Internacional" data-zh="🌍 国际" data-ur="🌍 بین الاقوامی"  onclick="filterMixSub('foreign',this)">🌍 إذاعات عالمية</button>
+<button class="mix-sub-btn"        data-sub="alukah"   data-ar="📡 قنوات الألوكة"     data-en="Alukah Channels" data-fr="Chaînes Alukah" data-es="Canales Alukah" data-sv="Alukah-kanaler" data-nl="Alukah-kanalen" data-ga="Cainéil Alukah" data-de="Alukah-Kanäle" data-ru="Каналы Алюка" data-tr="Elukah Kanalları" data-pt="Canais Alukah" data-zh="阿鲁卡频道" data-ur="الوکہ چینلز"  onclick="filterMixSub('alukah',this)">📡 قنوات الألوكة</button>
+<button class="mix-sub-btn"        data-sub="pillars"  data-ar="🤲 أركان الإسلام"     data-en="Pillars of Islam" data-fr="Piliers de l'Islam" data-es="Pilares del Islam" data-sv="Islams pelare" data-nl="Zuilen van de Islam" data-ga="Colúin an Ioslaim" data-de="Säulen des Islam" data-ru="Столпы ислама" data-tr="İslam'ın Şartları" data-pt="Pilares do Islão" data-zh="伊斯兰五功" data-ur="ارکان اسلام" onclick="filterMixSub('pillars',this)">🤲 أركان الإسلام</button>
+<button class="mix-sub-btn"        data-sub="occasions" data-ar="🌙 مناسبات إسلامية" data-en="Islamic Occasions" data-fr="Occasions islamiques" data-es="Ocasiones islámicas" data-sv="Islamiska högtider" data-nl="Islamitische gelegenheden" data-ga="Ócáidí Ioslamacha" data-de="Islamische Anlässe" data-ru="Исламские праздники" data-tr="İslami Vesileler" data-pt="Ocasiões Islâmicas" data-zh="伊斯兰节日" data-ur="اسلامی مواقع" onclick="filterMixSub('occasions',this)">🌙 مناسبات إسلامية</button>
+<button class="mix-sub-btn"        data-sub="fiqh"     data-ar="📜 فتاوى وفقه"        data-en="Fatwas & Fiqh" data-fr="Fatwas et Fiqh" data-es="Fatwas y Fiqh" data-sv="Fatwor och Fiqh" data-nl="Fatwa's en Fiqh" data-ga="Fatwas agus Fiqh" data-de="Fatwas und Fiqh" data-ru="Фетвы и фикх" data-tr="Fetvalar ve Fıkıh" data-pt="Fatwas e Fiqh" data-zh="教法裁决与教法学" data-ur="فتاوی و فقہ"    onclick="filterMixSub('fiqh',this)">📜 فتاوى وفقه</button>
+<button class="mix-sub-btn"        data-sub="munshideen" data-ar="🎙️ النشيد"          data-en="Nasheed" data-fr="Nasheed" data-es="Nasheed" data-sv="Nasheed" data-nl="Nasheed" data-ga="Nasheed" data-de="Nasheed" data-ru="Нашид" data-tr="İlahi" data-pt="Nasheed" data-zh="赞主诗歌" data-ur="نشید"          onclick="filterMixSub('munshideen',this)">🎙️ النشيد</button>
+<button class="mix-sub-btn"        data-sub="doaa"       data-ar="🎤 خطابات"          data-en="Speeches" data-fr="Discours" data-es="Discursos" data-sv="Tal" data-nl="Toespraken" data-ga="Óráidí" data-de="Reden" data-ru="Речи" data-tr="Konuşmalar" data-pt="Discursos" data-zh="演讲" data-ur="خطبات"         onclick="filterMixSub('doaa',this)">🎤 خطابات</button>
+<button class="mix-sub-btn"        data-sub="radios"   data-ar="📻 إذاعات متنوعة"     data-en="Islamic Radios" data-fr="Radios islamiques" data-es="Radios islámicas" data-sv="Islamiska radiostationer" data-nl="Islamitische radio's" data-ga="Raidiónna Ioslamacha" data-de="Islamische Radios" data-ru="Исламские радиостанции" data-tr="İslami Radyolar" data-pt="Rádios Islâmicas" data-zh="伊斯兰电台" data-ur="اسلامی ریڈیوز"   onclick="filterMixSub('radios',this)">📻 إذاعات متنوعة</button>
 </div>
 </div>
 
 <div class="subfilter-scroll-wrap" id="reciters-subfilter">
 <div class="subfilter-scroll-strip">
-<button class="reciters-sub-btn active" data-sub="radio" data-ar="قراء" data-en="Reciters" title="رواية حفص عن عاصم | Hafs 'an 'Asim" onclick="filterRecitersSub('radio',this)">قراء</button>
-<button class="reciters-sub-btn" data-sub="alpha" data-ar="🔤 ترتيب أبجدي" data-en="🔤 A–Z Sort" onclick="filterRecitersSub('alpha',this)">🔤 ترتيب أبجدي</button>
-<button class="reciters-sub-btn" data-sub="mp3" data-ar="🎵 MP3" data-en="🎵 MP3" onclick="filterRecitersSub('mp3',this)">🎵 MP3</button>
-<button class="reciters-sub-btn" data-sub="hussary" data-ar="🌟 الشيخ الحصري" data-en="🌟 Sheikh Al-Hussary" onclick="filterRecitersSub('hussary',this)">🌟 الشيخ الحصري</button>
-<button class="reciters-sub-btn" data-sub="minshawi" data-ar="🎶 الشيخ المنشاوي" data-en="🎶 Sheikh Al-Minshawi" onclick="filterRecitersSub('minshawi',this)">🎶 الشيخ المنشاوي</button>
-<button class="reciters-sub-btn" data-sub="basit" data-ar="🎙️ الشيخ عبد الباسط" data-en="🎙️ Sheikh Abdul Basit" onclick="filterRecitersSub('basit',this)">🎙️ الشيخ عبد الباسط</button>
-<button class="reciters-sub-btn" data-sub="banna" data-ar="🕌 الشيخ البنا" data-en="🕌 Sheikh Al-Banna" onclick="filterRecitersSub('banna',this)">🕌 الشيخ البنا</button>
-<button class="reciters-sub-btn" data-sub="haramain" data-ar="🕋 قراء الحرمين" data-en="🕋 Haramain Reciters" onclick="filterRecitersSub('haramain',this)">🕋 قراء الحرمين</button>
-<button class="reciters-sub-btn" data-sub="rising" data-ar="✨ جديد" data-en="✨ Rising Voices" onclick="filterRecitersSub('rising',this)">✨ جديد</button>
+<button class="reciters-sub-btn active" data-sub="radio" data-ar="قراء" data-en="Reciters" data-fr="Récitateurs" data-es="Recitadores" data-sv="Reciterare" data-nl="Reciteerders" data-ga="Aithriseoirí" data-de="Rezitatoren" data-ru="Чтецы" data-tr="Kariler" data-pt="Recitadores" data-zh="诵读者" data-ur="قاری حضرات" title="رواية حفص عن عاصم | Hafs 'an 'Asim" onclick="filterRecitersSub('radio',this)">قراء</button>
+<button class="reciters-sub-btn" data-sub="alpha" data-ar="🔤 ترتيب أبجدي" data-en="🔤 A–Z Sort" data-fr="🔤 Tri A–Z" data-es="🔤 Orden A–Z" data-sv="🔤 A–Ö-sortering" data-nl="🔤 A–Z sortering" data-ga="🔤 Sórtáil A–Z" data-de="🔤 A–Z Sortierung" data-ru="🔤 Сортировка А–Я" data-tr="🔤 A–Z Sıralama" data-pt="🔤 Ordem A–Z" data-zh="🔤 A–Z 排序" data-ur="🔤 حروف تہجی" onclick="filterRecitersSub('alpha',this)">🔤 ترتيب أبجدي</button>
+<button class="reciters-sub-btn" data-sub="mp3" data-ar="🎵 MP3" data-en="🎵 MP3" data-fr="🎵 MP3" data-es="🎵 MP3" data-sv="🎵 MP3" data-nl="🎵 MP3" data-ga="🎵 MP3" data-de="🎵 MP3" data-ru="🎵 MP3" data-tr="🎵 MP3" data-pt="🎵 MP3" data-zh="🎵 MP3" data-ur="🎵 MP3" onclick="filterRecitersSub('mp3',this)">🎵 MP3</button>
+<button class="reciters-sub-btn" data-sub="hussary" data-ar="🌟 الشيخ الحصري" data-en="🌟 Sheikh Al-Hussary" data-fr="🌟 Cheikh Al-Hussary" data-es="🌟 Jeque Al-Husari" data-sv="🌟 Sheikh Al-Hussary" data-nl="🌟 Sjeik Al-Hussary" data-ga="🌟 Sheikh Al-Hussary" data-de="🌟 Scheich Al-Hussary" data-ru="🌟 Шейх аль-Хусари" data-tr="🌟 Şeyh El-Husarî" data-pt="🌟 Xeque Al-Hussary" data-zh="🌟 侯赛里长老" data-ur="🌟 شیخ حصری" onclick="filterRecitersSub('hussary',this)">🌟 الشيخ الحصري</button>
+<button class="reciters-sub-btn" data-sub="minshawi" data-ar="🎶 الشيخ المنشاوي" data-en="🎶 Sheikh Al-Minshawi" data-fr="🎶 Cheikh Al-Minshawi" data-es="🎶 Jeque Al-Minshawi" data-sv="🎶 Sheikh Al-Minshawi" data-nl="🎶 Sjeik Al-Minshawi" data-ga="🎶 Sheikh Al-Minshawi" data-de="🎶 Scheich Al-Minshawi" data-ru="🎶 Шейх аль-Миншави" data-tr="🎶 Şeyh El-Minşâvî" data-pt="🎶 Xeque Al-Minshawi" data-zh="🎶 敏沙维长老" data-ur="🎶 شیخ منشاوی" onclick="filterRecitersSub('minshawi',this)">🎶 الشيخ المنشاوي</button>
+<button class="reciters-sub-btn" data-sub="basit" data-ar="🎙️ الشيخ عبد الباسط" data-en="🎙️ Sheikh Abdul Basit" data-fr="🎙️ Cheikh Abdel Basset" data-es="🎙️ Jeque Abdul Basit" data-sv="🎙️ Sheikh Abdul Basit" data-nl="🎙️ Sjeik Abdul Basit" data-ga="🎙️ Sheikh Abdul Basit" data-de="🎙️ Scheich Abdul Basit" data-ru="🎙️ Шейх Абдул Басит" data-tr="🎙️ Şeyh Abdulbasit" data-pt="🎙️ Xeque Abdul Basit" data-zh="🎙️ 阿卜杜勒巴西特长老" data-ur="🎙️ شیخ عبدالباسط" onclick="filterRecitersSub('basit',this)">🎙️ الشيخ عبد الباسط</button>
+<button class="reciters-sub-btn" data-sub="banna" data-ar="🕌 الشيخ البنا" data-en="🕌 Sheikh Al-Banna" data-fr="🕌 Cheikh Al-Banna" data-es="🕌 Jeque Al-Banna" data-sv="🕌 Sheikh Al-Banna" data-nl="🕌 Sjeik Al-Banna" data-ga="🕌 Sheikh Al-Banna" data-de="🕌 Scheich Al-Banna" data-ru="🕌 Шейх аль-Банна" data-tr="🕌 Şeyh El-Benna" data-pt="🕌 Xeque Al-Banna" data-zh="🕌 班纳长老" data-ur="🕌 شیخ البنا" onclick="filterRecitersSub('banna',this)">🕌 الشيخ البنا</button>
+<button class="reciters-sub-btn" data-sub="haramain" data-ar="🕋 قراء الحرمين" data-en="🕋 Haramain Reciters" data-fr="🕋 Récitateurs des Deux Lieux Saints" data-es="🕋 Recitadores de los Dos Lugares Sagrados" data-sv="🕋 Reciterare från Haramain" data-nl="🕋 Reciteerders van de Haramain" data-ga="🕋 Aithriseoirí Haramain" data-de="🕋 Rezitatoren der Haramain" data-ru="🕋 Чтецы Харамейн" data-tr="🕋 Haremeyn Karileri" data-pt="🕋 Recitadores dos Dois Lugares Sagrados" data-zh="🕋 两圣寺诵读者" data-ur="🕋 حرمین کے قراء" onclick="filterRecitersSub('haramain',this)">🕋 قراء الحرمين</button>
+<button class="reciters-sub-btn" data-sub="rising" data-ar="✨ جديد" data-en="✨ Rising Voices" data-fr="✨ Nouvelles voix" data-es="✨ Voces emergentes" data-sv="✨ Nya röster" data-nl="✨ Opkomende stemmen" data-ga="✨ Guthanna Nua" data-de="✨ Aufstrebende Stimmen" data-ru="✨ Новые голоса" data-tr="✨ Yükselen Sesler" data-pt="✨ Novas Vozes" data-zh="✨ 新秀诵读者" data-ur="✨ نئی آوازیں" onclick="filterRecitersSub('rising',this)">✨ جديد</button>
 </div>
 </div>
 <!-- Banna sub-sub filter -->
 <div class="subfilter-scroll-wrap" id="banna-subfilter" style="display:none;">
 <div class="subfilter-scroll-strip">
-<button class="banna-sub-btn active" data-banna-sub="radio" data-ar="📻 إذاعة" data-en="📻 Radio" onclick="filterBannaSub('radio',this)">📻 راديو</button>
-<button class="banna-sub-btn" data-banna-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" onclick="filterBannaSub('muratal',this)">🎵 المصحف المرتل</button>
-<button class="banna-sub-btn" data-banna-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" onclick="filterBannaSub('mojawwad',this)">🎙️ المصحف المجود</button>
+<button class="banna-sub-btn active" data-banna-sub="radio" data-ar="📻 إذاعة" data-en="📻 Radio" data-fr="📻 Radio" data-es="📻 Radio" data-sv="📻 Radio" data-nl="📻 Radio" data-ga="📻 Raidió" data-de="📻 Radio" data-ru="📻 Радио" data-tr="📻 Radyo" data-pt="📻 Rádio" data-zh="📻 广播" data-ur="📻 ریڈیو" onclick="filterBannaSub('radio',this)">📻 راديو</button>
+<button class="banna-sub-btn" data-banna-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" data-fr="🎵 Mushaf Muratal" data-es="🎵 Mushaf Muratal" data-sv="🎵 Muratal-mushaf" data-nl="🎵 Muratal Mushaf" data-ga="🎵 Mushaf Muratal" data-de="🎵 Muratal-Mushaf" data-ru="🎵 Муратал Мусхаф" data-tr="🎵 Muratal Mushaf" data-pt="🎵 Mushaf Muratal" data-zh="🎵 平缓诵读古兰经" data-ur="🎵 مصحف مرتل" onclick="filterBannaSub('muratal',this)">🎵 المصحف المرتل</button>
+<button class="banna-sub-btn" data-banna-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" data-fr="🎙️ Mushaf Moujawwad" data-es="🎙️ Mushaf Muyawwad" data-sv="🎙️ Mujawwad-mushaf" data-nl="🎙️ Mujawwad Mushaf" data-ga="🎙️ Mushaf Mujawwad" data-de="🎙️ Mujawwad-Mushaf" data-ru="🎙️ Муджаввад Мусхаф" data-tr="🎙️ Mücevved Mushaf" data-pt="🎙️ Mushaf Mujawwad" data-zh="🎙️ 慢诵调古兰经" data-ur="🎙️ مصحف مجود" onclick="filterBannaSub('mojawwad',this)">🎙️ المصحف المجود</button>
 </div>
 </div>
 <!-- Hussary sub-sub filter -->
 <div class="subfilter-scroll-wrap" id="hussary-subfilter" style="display:none;">
 <div class="subfilter-scroll-strip">
-<button class="hussary-sub-btn active" data-hussary-sub="radio" data-ar="📻 إذاعة" data-en="📻 Radio" onclick="filterHussarySub('radio',this)">📻 راديو</button>
-<button class="hussary-sub-btn" data-hussary-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" onclick="filterHussarySub('muratal',this)">🎵 المصحف المرتل</button>
-<button class="hussary-sub-btn" data-hussary-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" onclick="filterHussarySub('mojawwad',this)">🎙️ المصحف المجود</button>
+<button class="hussary-sub-btn active" data-hussary-sub="radio" data-ar="📻 إذاعة" data-en="📻 Radio" data-fr="📻 Radio" data-es="📻 Radio" data-sv="📻 Radio" data-nl="📻 Radio" data-ga="📻 Raidió" data-de="📻 Radio" data-ru="📻 Радио" data-tr="📻 Radyo" data-pt="📻 Rádio" data-zh="📻 广播" data-ur="📻 ریڈیو" onclick="filterHussarySub('radio',this)">📻 راديو</button>
+<button class="hussary-sub-btn" data-hussary-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" data-fr="🎵 Mushaf Muratal" data-es="🎵 Mushaf Muratal" data-sv="🎵 Muratal-mushaf" data-nl="🎵 Muratal Mushaf" data-ga="🎵 Mushaf Muratal" data-de="🎵 Muratal-Mushaf" data-ru="🎵 Муратал Мусхаф" data-tr="🎵 Muratal Mushaf" data-pt="🎵 Mushaf Muratal" data-zh="🎵 平缓诵读古兰经" data-ur="🎵 مصحف مرتل" onclick="filterHussarySub('muratal',this)">🎵 المصحف المرتل</button>
+<button class="hussary-sub-btn" data-hussary-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" data-fr="🎙️ Mushaf Moujawwad" data-es="🎙️ Mushaf Muyawwad" data-sv="🎙️ Mujawwad-mushaf" data-nl="🎙️ Mujawwad Mushaf" data-ga="🎙️ Mushaf Mujawwad" data-de="🎙️ Mujawwad-Mushaf" data-ru="🎙️ Муджаввад Мусхаф" data-tr="🎙️ Mücevved Mushaf" data-pt="🎙️ Mushaf Mujawwad" data-zh="🎙️ 慢诵调古兰经" data-ur="🎙️ مصحف مجود" onclick="filterHussarySub('mojawwad',this)">🎙️ المصحف المجود</button>
 </div>
 </div>
 <!-- Minshawi sub-sub filter -->
 <div class="subfilter-scroll-wrap" id="minshawi-subfilter" style="display:none;">
 <div class="subfilter-scroll-strip">
-<button class="minshawi-sub-btn active" data-minshawi-sub="radio" data-ar="📻 إذاعة" data-en="📻 Radio" onclick="filterMinshawySub('radio',this)">📻 راديو</button>
-<button class="minshawi-sub-btn" data-minshawi-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" onclick="filterMinshawySub('muratal',this)">🎵 المصحف المرتل</button>
-<button class="minshawi-sub-btn" data-minshawi-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" onclick="filterMinshawySub('mojawwad',this)">🎙️ المصحف المجود</button>
-<button class="minshawi-sub-btn" data-minshawi-sub="haflaaat" data-ar="🎵 منشاويات (حفلات)" data-en="🎵 Monshawiiyat (Concerts)" onclick="filterMinshawySub('haflaaat',this)">🎵 منشاويات (حفلات) <span class="multi-icon">🔁</span></button>
+<button class="minshawi-sub-btn active" data-minshawi-sub="radio" data-ar="📻 إذاعة" data-en="📻 Radio" data-fr="📻 Radio" data-es="📻 Radio" data-sv="📻 Radio" data-nl="📻 Radio" data-ga="📻 Raidió" data-de="📻 Radio" data-ru="📻 Радио" data-tr="📻 Radyo" data-pt="📻 Rádio" data-zh="📻 广播" data-ur="📻 ریڈیو" onclick="filterMinshawySub('radio',this)">📻 راديو</button>
+<button class="minshawi-sub-btn" data-minshawi-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" data-fr="🎵 Mushaf Muratal" data-es="🎵 Mushaf Muratal" data-sv="🎵 Muratal-mushaf" data-nl="🎵 Muratal Mushaf" data-ga="🎵 Mushaf Muratal" data-de="🎵 Muratal-Mushaf" data-ru="🎵 Муратал Мусхаф" data-tr="🎵 Muratal Mushaf" data-pt="🎵 Mushaf Muratal" data-zh="🎵 平缓诵读古兰经" data-ur="🎵 مصحف مرتل" onclick="filterMinshawySub('muratal',this)">🎵 المصحف المرتل</button>
+<button class="minshawi-sub-btn" data-minshawi-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" data-fr="🎙️ Mushaf Moujawwad" data-es="🎙️ Mushaf Muyawwad" data-sv="🎙️ Mujawwad-mushaf" data-nl="🎙️ Mujawwad Mushaf" data-ga="🎙️ Mushaf Mujawwad" data-de="🎙️ Mujawwad-Mushaf" data-ru="🎙️ Муджаввад Мусхаф" data-tr="🎙️ Mücevved Mushaf" data-pt="🎙️ Mushaf Mujawwad" data-zh="🎙️ 慢诵调古兰经" data-ur="🎙️ مصحف مجود" onclick="filterMinshawySub('mojawwad',this)">🎙️ المصحف المجود</button>
+<button class="minshawi-sub-btn" data-minshawi-sub="haflaaat" data-ar="🎵 منشاويات (حفلات)" data-en="🎵 Monshawiiyat (Concerts)" data-fr="🎵 Monshawiyat (Concerts)" data-es="🎵 Monshawiyat (Conciertos)" data-sv="🎵 Monshawiyat (Konserter)" data-nl="🎵 Monshawiyat (Concerten)" data-ga="🎵 Monshawiyat (Ceolchoirmeacha)" data-de="🎵 Monshawiyat (Konzerte)" data-ru="🎵 Меншавият (концерты)" data-tr="🎵 Menşâviyyât (Konserler)" data-pt="🎵 Monshawiyat (Concertos)" data-zh="🎵 敏沙维音乐会" data-ur="🎵 منشاویات (محافل)" onclick="filterMinshawySub('haflaaat',this)">🎵 منشاويات (حفلات) <span class="multi-icon">🔁</span></button>
 </div>
 </div>
 <!-- Basit sub-sub filter -->
 <div class="subfilter-scroll-wrap" id="basit-subfilter" style="display:none;">
 <div class="subfilter-scroll-strip">
-<button class="basit-sub-btn active" data-basit-sub="radio" data-ar="📻 إذاعة" data-en="📻 Radio" onclick="filterBasitSub('radio',this)">📻 راديو</button>
-<button class="basit-sub-btn" data-basit-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" onclick="filterBasitSub('muratal',this)">🎵 المصحف المرتل</button>
-<button class="basit-sub-btn" data-basit-sub="saudi-muratal" data-ar="📻 المصحف المرتل [الإذاعة السعودية]" data-en="📻 Muratal Mushaf [Saudi Radio]" onclick="filterBasitSub('saudi-muratal',this)">📻 المصحف المرتل [الإذاعة السعودية]</button>
-<button class="basit-sub-btn" data-basit-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" onclick="filterBasitSub('mojawwad',this)">🎙️ المصحف المجود</button>
+<button class="basit-sub-btn active" data-basit-sub="radio" data-ar="📻 إذاعة" data-en="📻 Radio" data-fr="📻 Radio" data-es="📻 Radio" data-sv="📻 Radio" data-nl="📻 Radio" data-ga="📻 Raidió" data-de="📻 Radio" data-ru="📻 Радио" data-tr="📻 Radyo" data-pt="📻 Rádio" data-zh="📻 广播" data-ur="📻 ریڈیو" onclick="filterBasitSub('radio',this)">📻 راديو</button>
+<button class="basit-sub-btn" data-basit-sub="muratal" data-ar="🎵 المصحف المرتل" data-en="🎵 Muratal Mushaf" data-fr="🎵 Mushaf Muratal" data-es="🎵 Mushaf Muratal" data-sv="🎵 Muratal-mushaf" data-nl="🎵 Muratal Mushaf" data-ga="🎵 Mushaf Muratal" data-de="🎵 Muratal-Mushaf" data-ru="🎵 Муратал Мусхаф" data-tr="🎵 Muratal Mushaf" data-pt="🎵 Mushaf Muratal" data-zh="🎵 平缓诵读古兰经" data-ur="🎵 مصحف مرتل" onclick="filterBasitSub('muratal',this)">🎵 المصحف المرتل</button>
+<button class="basit-sub-btn" data-basit-sub="saudi-muratal" data-ar="📻 المصحف المرتل [الإذاعة السعودية]" data-en="📻 Muratal Mushaf [Saudi Radio]" data-fr="📻 Mushaf Muratal [Radio saoudienne]" data-es="📻 Mushaf Muratal [Radio Saudí]" data-sv="📻 Muratal-mushaf [Saudisk radio]" data-nl="📻 Muratal Mushaf [Saoedische Radio]" data-ga="📻 Mushaf Muratal [Raidió na hAraibe Sádaí]" data-de="📻 Muratal-Mushaf [Saudi-Radio]" data-ru="📻 Муратал Мусхаф [Саудовское радио]" data-tr="📻 Muratal Mushaf [Suudi Radyosu]" data-pt="📻 Mushaf Muratal [Rádio Saudita]" data-zh="📻 平缓诵读古兰经【沙特电台】" data-ur="📻 مصحف مرتل [سعودی ریڈیو]" onclick="filterBasitSub('saudi-muratal',this)">📻 المصحف المرتل [الإذاعة السعودية]</button>
+<button class="basit-sub-btn" data-basit-sub="mojawwad" data-ar="🎙️ المصحف المجود" data-en="🎙️ Mujawwad Mushaf" data-fr="🎙️ Mushaf Moujawwad" data-es="🎙️ Mushaf Muyawwad" data-sv="🎙️ Mujawwad-mushaf" data-nl="🎙️ Mujawwad Mushaf" data-ga="🎙️ Mushaf Mujawwad" data-de="🎙️ Mujawwad-Mushaf" data-ru="🎙️ Муджаввад Мусхаф" data-tr="🎙️ Mücevved Mushaf" data-pt="🎙️ Mushaf Mujawwad" data-zh="🎙️ 慢诵调古兰经" data-ur="🎙️ مصحف مجود" onclick="filterBasitSub('mojawwad',this)">🎙️ المصحف المجود</button>
 </div>
 </div>
 <div id="reciters-playlist-slot"></div>
@@ -13454,7 +13454,7 @@ setTimeout(autoScaleVerseFont, 100);
       " onclick="document.getElementById('autoSwitchCheckbox').checked=false;document.getElementById('autoSwitchCheckbox').dispatchEvent(new Event('change'));"></span>
     </div>
 
-    <input type="text" id="searchInput" class="search-input" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
+    <input type="text" id="searchInput" class="search-input" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" data-fr="Rechercher une station ou le nom d'un récitateur" data-es="Buscar una emisora o el nombre de un recitador" data-sv="Sök efter en station eller ett recitatörsnamn" data-nl="Zoek een station of de naam van een reciteerder" data-ga="Cuardaigh stáisiún nó ainm aithriseora" data-de="Nach einem Sender oder Rezitatornamen suchen" data-ru="Поиск радиостанции или имени чтеца" data-tr="Bir istasyon veya kari adı ara" data-pt="Pesquisar uma estação ou o nome de um recitador" data-zh="搜索电台或诵读者姓名" data-ur="اسٹیشن یا قاری کا نام تلاش کریں" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
 
     <div class="input-group">
       <label for="sleepTimer" data-ar="مؤقت الإيقاف" data-en="Sleep Mode">مؤقت الإيقاف</label>
@@ -31530,6 +31530,38 @@ function updateLangToggleLabel() {
   });
 }
 
+// ── تحديث نصوص أزرار الفلاتر (الرئيسية والفرعية) ومربع البحث وزر المفضلة حسب لغة عرض شاشة الترحيب (ar/en/fr/es/sv/nl/ga/de/ru/tr/pt/zh/ur) ──
+function applyFilterButtonsLang(lang) {
+  document.querySelectorAll(
+    '#filters-container .filter-button, ' +
+    '.reciters-sub-btn, .qurankarim-sub-btn, .quransciences-sub-btn, .adhkar-sub-btn, .sira-sub-btn, ' +
+    '.more-sub-btn, .livetv-sub-btn, .banna-sub-btn, .hussary-sub-btn, .basit-sub-btn, .minshawi-sub-btn, ' +
+    '.mix-sub-btn, .radio-sub-btn'
+  ).forEach(function(btn) {
+    var text = btn.getAttribute('data-' + lang) || btn.getAttribute('data-en');
+    if (!text) return;
+    var firstChild = btn.firstChild;
+    if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
+      firstChild.textContent = text;
+    } else if (!btn.querySelector('span.multi-icon')) {
+      btn.textContent = text;
+    }
+  });
+
+  var searchInputEl = document.getElementById('searchInput');
+  if (searchInputEl) {
+    var searchTxt = searchInputEl.getAttribute('data-' + lang) || searchInputEl.getAttribute('data-en');
+    if (searchTxt) searchInputEl.placeholder = searchTxt;
+  }
+
+  var favBtn = document.getElementById('viewFavoritesButton');
+  var favLbl = document.getElementById('favLabel');
+  if (favBtn && favLbl) {
+    var favTxt = favBtn.getAttribute('data-' + lang) || favBtn.getAttribute('data-en');
+    if (favTxt) favLbl.textContent = ' ' + favTxt.replace(/❤/g, '').trim();
+  }
+}
+
 function applyEnglishWelcomeOverlay() {
   var welcomeText = document.getElementById('siteWelcomeText');
   if (welcomeText) {
@@ -31552,6 +31584,7 @@ function applyEnglishWelcomeOverlay() {
   if (customRandomBtnTxt) customRandomBtnTxt.textContent = 'Random';
 
   resetWelcomeExtrasToDefault();
+  applyFilterButtonsLang('en');
   updateLangToggleLabel();
 }
 
@@ -31742,6 +31775,7 @@ function applyFrenchWelcomeOverlay() {
   var closeBtn = document.getElementById('closeButton');
   if (closeBtn) closeBtn.setAttribute('aria-label', 'Fermer');
 
+  applyFilterButtonsLang('fr');
   updateLangToggleLabel();
 }
 
@@ -31787,6 +31821,7 @@ function applySpanishWelcomeOverlay() {
   var closeBtn = document.getElementById('closeButton');
   if (closeBtn) closeBtn.setAttribute('aria-label', 'Cerrar');
 
+  applyFilterButtonsLang('es');
   updateLangToggleLabel();
 }
 
@@ -31832,6 +31867,7 @@ function applySwedishWelcomeOverlay() {
   var closeBtn = document.getElementById('closeButton');
   if (closeBtn) closeBtn.setAttribute('aria-label', 'Stäng');
 
+  applyFilterButtonsLang('sv');
   updateLangToggleLabel();
 }
 
@@ -31877,6 +31913,7 @@ function applyDutchWelcomeOverlay() {
   var closeBtn = document.getElementById('closeButton');
   if (closeBtn) closeBtn.setAttribute('aria-label', 'Sluiten');
 
+  applyFilterButtonsLang('nl');
   updateLangToggleLabel();
 }
 
@@ -31922,6 +31959,7 @@ function applyIrishWelcomeOverlay() {
   var closeBtn = document.getElementById('closeButton');
   if (closeBtn) closeBtn.setAttribute('aria-label', 'Dún');
 
+  applyFilterButtonsLang('ga');
   updateLangToggleLabel();
 }
 
@@ -31967,6 +32005,7 @@ function applyGermanWelcomeOverlay() {
   var closeBtn = document.getElementById('closeButton');
   if (closeBtn) closeBtn.setAttribute('aria-label', 'Schließen');
 
+  applyFilterButtonsLang('de');
   updateLangToggleLabel();
 }
 
@@ -32012,6 +32051,7 @@ function applyRussianWelcomeOverlay() {
   var closeBtn = document.getElementById('closeButton');
   if (closeBtn) closeBtn.setAttribute('aria-label', 'Закрыть');
 
+  applyFilterButtonsLang('ru');
   updateLangToggleLabel();
 }
 
@@ -32057,6 +32097,7 @@ function applyTurkishWelcomeOverlay() {
   var closeBtn = document.getElementById('closeButton');
   if (closeBtn) closeBtn.setAttribute('aria-label', 'Kapat');
 
+  applyFilterButtonsLang('tr');
   updateLangToggleLabel();
 }
 
@@ -32102,6 +32143,7 @@ function applyPortugueseWelcomeOverlay() {
   var closeBtn = document.getElementById('closeButton');
   if (closeBtn) closeBtn.setAttribute('aria-label', 'Fechar');
 
+  applyFilterButtonsLang('pt');
   updateLangToggleLabel();
 }
 
@@ -32147,6 +32189,7 @@ function applyChineseWelcomeOverlay() {
   var closeBtn = document.getElementById('closeButton');
   if (closeBtn) closeBtn.setAttribute('aria-label', '关闭');
 
+  applyFilterButtonsLang('zh');
   updateLangToggleLabel();
 }
 
@@ -32193,6 +32236,7 @@ function applyUrduWelcomeOverlay() {
   var closeBtn2 = document.getElementById('closeButton');
   if (closeBtn2) closeBtn2.setAttribute('aria-label', 'بند کریں');
 
+  applyFilterButtonsLang('ur');
   updateLangToggleLabel();
 }
 
