@@ -29071,33 +29071,449 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     return Math.round((db - da) / 86400000);
   }
   function khDefaultState() {
-    return { unit: 'juz', current: 0, startDate: khToday(), targetDate: null, lastReadDate: null, streak: 0, completedCount: 0 };
-  }
-  function khLoad() {
-    try {
-      var raw = localStorage.getItem(KH_KEY);
-      if (!raw) return khDefaultState();
-      var st = JSON.parse(raw);
-      // ترحيل النسخة القديمة (كانت أجزاء فقط)
-      if (!st.unit) {
-        st.unit = 'juz';
-        st.current = (typeof st.currentJuz === 'number') ? st.currentJuz : 0;
-        delete st.currentJuz;
-      }
-      if (!KH_UNITS[st.unit]) st.unit = 'juz';
-      if (typeof st.current !== 'number') st.current = 0;
-      if (typeof st.completedCount !== 'number') st.completedCount = 0;
-      if (typeof st.streak !== 'number') st.streak = 0;
-      if (!st.startDate) st.startDate = khToday();
-      return st;
-    } catch (e) { return khDefaultState(); }
-  }
-  function khSave(st) {
-    try { localStorage.setItem(KH_KEY, JSON.stringify(st)); } catch (e) {}
+    return { unit: 'juz', current: 0, startDate: khToday(), targetDate: null, lastReadDate: null, streak: 0, bestStreak: 0, completedCount: 0, log: {}, badges: [], dailyGoal: null, goalStartDate: null };
   }
   function khIsAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
+  function khDefaultName() { return khIsAr() ? 'ختمتي' : 'My Khatma'; }
+  function khUuid() { return 'kh_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function khEscape(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // يضمن وجود كل الحقول المطلوبة فى أي كائن ختمة (قديم كان أو جديد)
+  function khMigrateSingle(obj) {
+    obj = obj || {};
+    if (!obj.unit) {
+      obj.unit = 'juz';
+      obj.current = (typeof obj.currentJuz === 'number') ? obj.currentJuz : obj.current;
+      delete obj.currentJuz;
+    }
+    if (!KH_UNITS[obj.unit]) obj.unit = 'juz';
+    if (typeof obj.current !== 'number') obj.current = 0;
+    if (typeof obj.completedCount !== 'number') obj.completedCount = 0;
+    if (typeof obj.streak !== 'number') obj.streak = 0;
+    if (typeof obj.bestStreak !== 'number') obj.bestStreak = obj.streak || 0;
+    if (!obj.log || typeof obj.log !== 'object') obj.log = {};
+    if (!Array.isArray(obj.badges)) obj.badges = [];
+    if (typeof obj.dailyGoal === 'undefined') obj.dailyGoal = null;
+    if (typeof obj.goalStartDate === 'undefined') obj.goalStartDate = null;
+    if (!obj.startDate) obj.startDate = khToday();
+    if (!obj.id) obj.id = khUuid();
+    if (!obj.name) obj.name = khDefaultName();
+    return obj;
+  }
+
+  function khNewKhatmaObj(name, unit) {
+    var obj = khDefaultState();
+    obj.id = khUuid();
+    obj.name = name || khDefaultName();
+    if (unit) obj.unit = unit;
+    return obj;
+  }
+
+  function khSaveRoot(root) {
+    try { localStorage.setItem(KH_KEY, JSON.stringify(root)); } catch (e) {}
+  }
+
+  function khLoadRoot() {
+    try {
+      var raw = localStorage.getItem(KH_KEY);
+      if (!raw) {
+        var fresh = khNewKhatmaObj(khDefaultName(), 'juz');
+        var root0 = { khatmas: [fresh], activeId: fresh.id };
+        khSaveRoot(root0);
+        return root0;
+      }
+      var parsed = JSON.parse(raw);
+      if (!parsed.khatmas || !Array.isArray(parsed.khatmas)) {
+        // ترحيل من النسخة القديمة (ختمة واحدة فقط)
+        var migrated = khMigrateSingle(parsed);
+        var root1 = { khatmas: [migrated], activeId: migrated.id };
+        khSaveRoot(root1);
+        return root1;
+      }
+      parsed.khatmas = parsed.khatmas.map(khMigrateSingle);
+      if (!parsed.khatmas.length) {
+        var fb = khNewKhatmaObj(khDefaultName(), 'juz');
+        parsed.khatmas = [fb];
+        parsed.activeId = fb.id;
+      }
+      if (!parsed.activeId || !parsed.khatmas.some(function(k) { return k.id === parsed.activeId; })) {
+        parsed.activeId = parsed.khatmas[0].id;
+      }
+      return parsed;
+    } catch (e) {
+      var fallback = khNewKhatmaObj(khDefaultName(), 'juz');
+      return { khatmas: [fallback], activeId: fallback.id };
+    }
+  }
+
+  function khActive(root) {
+    var k = null;
+    for (var i = 0; i < root.khatmas.length; i++) { if (root.khatmas[i].id === root.activeId) { k = root.khatmas[i]; break; } }
+    if (!k) k = root.khatmas[0];
+    return k;
+  }
+
+  function khLoad() {
+    var root = khLoadRoot();
+    return khActive(root);
+  }
+  function khSave(st) {
+    var root = khLoadRoot();
+    var idx = -1;
+    for (var i = 0; i < root.khatmas.length; i++) { if (root.khatmas[i].id === st.id) { idx = i; break; } }
+    if (idx === -1) { root.khatmas.push(st); root.activeId = st.id; }
+    else root.khatmas[idx] = st;
+    khSaveRoot(root);
+  }
   function khMeta(st) { return KH_UNITS[st.unit]; }
   function khTotal(st) { return khMeta(st).total; }
+
+  // ===== إدارة الختمات المتعددة =====
+  window._khNewKhatma = function() {
+    var isAr = khIsAr();
+    var name = prompt(isAr ? 'اسم الختمة الجديدة (مثلاً: ختمة التدبر):' : 'New khatma name:', '');
+    if (name === null) return;
+    name = name.trim();
+    if (!name) name = khDefaultName();
+    var root = khLoadRoot();
+    var obj = khNewKhatmaObj(name, 'juz');
+    root.khatmas.push(obj);
+    root.activeId = obj.id;
+    khSaveRoot(root);
+    khViewMode = 'main';
+    khRenderPopup();
+    khUpdateBadge();
+  };
+
+  window._khSwitchKhatma = function(id) {
+    var root = khLoadRoot();
+    if (!root.khatmas.some(function(k) { return k.id === id; })) return;
+    root.activeId = id;
+    khSaveRoot(root);
+    khRenderPopup();
+    khUpdateBadge();
+  };
+
+  window._khRenameKhatma = function() {
+    var root = khLoadRoot();
+    var k = khActive(root);
+    var isAr = khIsAr();
+    var name = prompt(isAr ? 'اسم الختمة:' : 'Khatma name:', k.name);
+    if (name === null) return;
+    name = name.trim();
+    if (!name) return;
+    k.name = name;
+    khSave(k);
+    khRenderPopup();
+  };
+
+  window._khDeleteKhatma = function() {
+    var root = khLoadRoot();
+    if (root.khatmas.length <= 1) {
+      if (typeof showToast === 'function') showToast(khIsAr() ? 'لازم تفضل ختمة واحدة على الأقل' : 'You need at least one khatma');
+      return;
+    }
+    var isAr = khIsAr();
+    var k = khActive(root);
+    var msg = isAr ? 'هيتم حذف "' + k.name + '" نهائيًا بكل تقدمها، متأكد؟' : 'This will permanently delete "' + k.name + '" and all its progress. Continue?';
+    if (!confirm(msg)) return;
+    root.khatmas = root.khatmas.filter(function(x) { return x.id !== k.id; });
+    root.activeId = root.khatmas[0].id;
+    khSaveRoot(root);
+    khRenderPopup();
+    khUpdateBadge();
+  };
+
+  function khKhatmaSelector(root, isAr) {
+    var html = '<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px;">';
+    root.khatmas.forEach(function(k) {
+      var active = (k.id === root.activeId);
+      var pct = Math.round((k.current / KH_UNITS[k.unit].total) * 100);
+      html += '<button onclick="window._khSwitchKhatma(\'' + k.id + '\')" style="white-space:nowrap;flex-shrink:0;padding:7px 12px;border-radius:20px;border:1.5px solid ' +
+        (active ? '#1D9E75' : 'rgba(29,158,117,0.25)') + ';background:' + (active ? '#1D9E75' : 'transparent') +
+        ';color:' + (active ? '#fff' : 'inherit') + ';font-size:12px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif;">' +
+        khEscape(k.name) + ' · ' + pct + '%</button>';
+    });
+    html += '<button onclick="window._khNewKhatma()" style="white-space:nowrap;flex-shrink:0;padding:7px 12px;border-radius:20px;border:1.5px dashed rgba(29,158,117,0.45);background:transparent;color:#1D9E75;font-size:13px;font-weight:800;cursor:pointer;">+ ' +
+      (isAr ? 'ختمة جديدة' : 'New') + '</button>';
+    html += '</div>';
+    html += '<div style="display:flex;justify-content:flex-end;gap:14px;margin:-2px 0 10px;">' +
+      '<button onclick="window._khRenameKhatma()" style="background:none;border:none;color:inherit;opacity:0.55;font-size:11.5px;cursor:pointer;">✏️ ' + (isAr ? 'إعادة تسمية' : 'Rename') + '</button>' +
+      (root.khatmas.length > 1 ? '<button onclick="window._khDeleteKhatma()" style="background:none;border:none;color:#e85d2f;opacity:0.7;font-size:11.5px;cursor:pointer;">🗑️ ' + (isAr ? 'حذف' : 'Delete') + '</button>' : '') +
+      '</div>';
+    return html;
+  }
+
+  // ===== نظام الإنجازات =====
+  var KH_BADGE_DEFS = [
+    { id: 'streak3',  icon: '🔥', ar: 'متتالية 3 أيام',   en: '3-Day Streak',   test: function(st) { return (st.streak || 0) >= 3 || (st.bestStreak || 0) >= 3; } },
+    { id: 'streak7',  icon: '🌟', ar: 'أسبوع كامل',        en: 'Full Week Streak', test: function(st) { return (st.streak || 0) >= 7 || (st.bestStreak || 0) >= 7; } },
+    { id: 'streak30', icon: '🏅', ar: '30 يوم متواصل',     en: '30-Day Streak',  test: function(st) { return (st.bestStreak || 0) >= 30; } },
+    { id: 'half',     icon: '🌗', ar: 'نص الختمة',         en: 'Halfway There',  test: function(st) { return st.current >= (khTotal(st) / 2); } },
+    { id: 'first',    icon: '📗', ar: 'أول ختمة كاملة',    en: 'First Khatma',   test: function(st) { return (st.completedCount || 0) >= 1; } },
+    { id: 'three',    icon: '🏆', ar: '3 ختمات مكتملة',    en: '3 Khatmas Done', test: function(st) { return (st.completedCount || 0) >= 3; } }
+  ];
+
+  function khCheckBadges(st) {
+    var newlyEarned = [];
+    KH_BADGE_DEFS.forEach(function(b) {
+      if (st.badges.indexOf(b.id) === -1 && b.test(st)) {
+        st.badges.push(b.id);
+        newlyEarned.push(b);
+      }
+    });
+    if (newlyEarned.length) {
+      khSave(st);
+      if (typeof showToast === 'function') {
+        var isAr = khIsAr();
+        newlyEarned.forEach(function(b) {
+          showToast(b.icon + ' ' + (isAr ? 'إنجاز جديد: ' + b.ar : 'New Achievement: ' + b.en));
+        });
+      }
+    }
+    return newlyEarned;
+  }
+
+  function khBadgesStrip(st, isAr) {
+    var html = '<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:4px 0 12px;">';
+    KH_BADGE_DEFS.forEach(function(b) {
+      var earned = st.badges.indexOf(b.id) !== -1;
+      html += '<div title="' + (isAr ? b.ar : b.en) + '" style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;' +
+        'background:' + (earned ? 'rgba(29,158,117,0.14)' : 'rgba(120,120,120,0.08)') + ';' +
+        'border:1.5px solid ' + (earned ? '#1D9E75' : 'rgba(120,120,120,0.15)') + ';' +
+        'filter:' + (earned ? 'none' : 'grayscale(1) opacity(0.35)') + ';">' + b.icon + '</div>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  // ===== خريطة النشاط (Heatmap) =====
+  function khHeatmapDays(st, daysCount) {
+    var today = new Date();
+    var todayStr = khToday();
+    var days = [];
+    for (var i = daysCount - 1; i >= 0; i--) {
+      var d = new Date(today);
+      d.setDate(d.getDate() - i);
+      var key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      days.push({ key: key, count: (st.log && st.log[key]) || 0, isToday: key === todayStr, weekday: d.getDay() });
+    }
+    return days;
+  }
+
+  function khHeatmap(st, isAr) {
+    var days = khHeatmapDays(st, 70);
+    var padded = [];
+    for (var p = 0; p < days[0].weekday; p++) padded.push(null);
+    padded = padded.concat(days);
+    while (padded.length % 7 !== 0) padded.push(null);
+
+    var activeDays = Object.keys(st.log || {}).length;
+    var html = '<div style="margin:6px 0 14px;">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;opacity:0.65;margin-bottom:6px;">' +
+      '<span>' + (isAr ? '📅 نشاطك في آخر 10 أسابيع' : '📅 Last 10 weeks of activity') + '</span>' +
+      '<span>' + (isAr ? activeDays + ' يوم نشط' : activeDays + ' active days') + '</span>' +
+      '</div>' +
+      '<div style="display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px;overflow-x:auto;padding-bottom:4px;direction:ltr;">';
+    padded.forEach(function(day) {
+      if (!day) { html += '<div style="width:11px;height:11px;"></div>'; return; }
+      var intensity = day.count <= 0 ? 0 : day.count === 1 ? 1 : day.count <= 3 ? 2 : 3;
+      var colors = ['rgba(29,158,117,0.08)', 'rgba(29,158,117,0.35)', 'rgba(29,158,117,0.65)', '#1D9E75'];
+      var ring = day.isToday ? 'box-shadow:0 0 0 1.5px #0F6E56;' : '';
+      html += '<div title="' + day.key + (day.count ? (' • ' + day.count) : '') + '" style="width:11px;height:11px;border-radius:3px;background:' + colors[intensity] + ';' + ring + '"></div>';
+    });
+    html += '</div></div>';
+    return html;
+  }
+
+  // ===== الورد اليومي (هدف يومي ثابت) =====
+  function khGoalStats(st) {
+    if (!st.dailyGoal || st.dailyGoal <= 0) return null;
+    var today = khToday();
+    var todayLogged = (st.log && st.log[today]) || 0;
+    var remainingToday = Math.max(0, st.dailyGoal - todayLogged);
+    var doneToday = todayLogged >= st.dailyGoal;
+
+    var goalStart = st.goalStartDate || st.startDate;
+    var daysSinceGoal = Math.max(0, khDaysBetween(goalStart, today));
+    var missedDays = 0, deficit = 0;
+    var startD = khParseDate(goalStart);
+    for (var i = 0; i < daysSinceGoal; i++) {
+      var d = new Date(startD);
+      d.setDate(d.getDate() + i);
+      var key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      var got = (st.log && st.log[key]) || 0;
+      if (got < st.dailyGoal) { missedDays++; deficit += (st.dailyGoal - got); }
+    }
+    var remainingTotal = Math.max(0, khTotal(st) - st.current);
+    var daysAtGoalPace = st.dailyGoal > 0 ? Math.ceil(remainingTotal / st.dailyGoal) : 0;
+    return { remainingToday: remainingToday, doneToday: doneToday, missedDays: missedDays, deficit: deficit, daysAtGoalPace: daysAtGoalPace };
+  }
+
+  window._khSetDailyGoal = function(val) {
+    var st = khLoad();
+    var num = parseInt(val) || 0;
+    if (num <= 0) {
+      st.dailyGoal = null;
+      st.goalStartDate = null;
+    } else {
+      st.dailyGoal = Math.min(num, khTotal(st));
+      st.goalStartDate = khToday();
+    }
+    khSave(st);
+    khRenderPopup();
+  };
+
+  function khDailyGoalCard(st, isAr) {
+    var meta = khMeta(st);
+    if (!st.dailyGoal) {
+      return '<div style="background:rgba(29,158,117,0.06);border-radius:12px;padding:10px 12px;margin-bottom:12px;">' +
+        '<label style="font-size:12px;opacity:0.75;display:block;margin-bottom:6px;">' + (isAr ? '📌 حدد وردك اليومي (' + meta.arPl + ')' : '📌 Set your daily wird (' + meta.en.toLowerCase() + 's)') + '</label>' +
+        '<div style="display:flex;gap:6px;">' +
+        '<input type="number" id="khGoalInput" min="1" max="' + khTotal(st) + '" placeholder="' + (isAr ? 'مثلاً: 1' : 'e.g. 1') + '" style="flex:1;padding:7px 8px;border-radius:8px;border:1px solid rgba(29,158,117,0.3);background:transparent;color:inherit;font-family:Cairo,sans-serif;font-size:13px;">' +
+        '<button onclick="window._khSetDailyGoal(document.getElementById(\'khGoalInput\').value)" style="background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:0 14px;font-size:12.5px;font-weight:700;cursor:pointer;">' + (isAr ? 'تحديد' : 'Set') + '</button>' +
+        '</div></div>';
+    }
+    var gs = khGoalStats(st);
+    var color = gs.doneToday ? '#0F6E56' : '#e85d2f';
+    var html = '<div style="background:rgba(29,158,117,0.06);border-radius:12px;padding:10px 12px;margin-bottom:12px;">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+      '<span style="font-size:12px;opacity:0.75;">' + (isAr ? '📌 وردك اليومي: ' + st.dailyGoal + ' ' + meta.arPl : '📌 Daily wird: ' + st.dailyGoal + ' ' + meta.en.toLowerCase() + 's') + '</span>' +
+      '<button onclick="window._khSetDailyGoal(0)" title="' + (isAr ? 'إلغاء' : 'Remove') + '" style="background:none;border:none;opacity:0.5;cursor:pointer;font-size:12px;">✕</button>' +
+      '</div>';
+    if (gs.doneToday) {
+      html += '<div style="color:#0F6E56;font-size:12.5px;font-weight:700;">✅ ' + (isAr ? 'خلصت ورد النهاردة' : "Today's wird is done") + '</div>';
+    } else {
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">' +
+        '<span style="font-size:12.5px;color:' + color + ';font-weight:700;">' + (isAr ? 'باقي عليك النهاردة: ' + gs.remainingToday + ' ' + meta.ar : gs.remainingToday + ' ' + meta.en.toLowerCase() + ' left today') + '</span>' +
+        '<button onclick="window._khQuickAdd(' + gs.remainingToday + ')" style="background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">' + (isAr ? '✅ سجّله' : '✅ Log it') + '</button>' +
+        '</div>';
+    }
+    if (gs.missedDays > 0) {
+      html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(29,158,117,0.12);font-size:12px;color:#e85d2f;">' +
+        (isAr ? '⚠️ عندك ' + gs.missedDays + ' يوم متأخر (ناقصك ' + gs.deficit + ' ' + meta.arPl + ' علشان تلحق)' : '⚠️ ' + gs.missedDays + ' day(s) behind (need ' + gs.deficit + ' more ' + meta.en.toLowerCase() + 's to catch up)') +
+        '</div>';
+    }
+    html += '<div style="margin-top:6px;font-size:11.5px;opacity:0.6;">' +
+      (isAr ? 'بمعدل الورد ده هتخلص الختمة خلال ~' + gs.daysAtGoalPace + ' يوم' : 'At this pace, ~' + gs.daysAtGoalPace + ' days to finish') +
+      '</div></div>';
+    return html;
+  }
+  window._khShare = function() {
+    var st = khLoad();
+    var meta = khMeta(st);
+    var total = khTotal(st);
+    var isAr = khIsAr();
+    var pct = Math.round((st.current / total) * 100);
+    var text = isAr ?
+      ('📗 تقدمي في ختم القرآن الكريم: ' + st.current + '/' + total + ' ' + meta.arPl + ' (' + pct + '%)' +
+        (st.streak > 1 ? '\n🔥 متتالية ' + st.streak + ' يوم' : '') +
+        '\n📻 إذاعة القرآن الكريم') :
+      ('📗 My Quran Khatma progress: ' + st.current + '/' + total + ' ' + meta.en.toLowerCase() + 's (' + pct + '%)' +
+        (st.streak > 1 ? '\n🔥 ' + st.streak + '-day streak' : '') +
+        '\n📻 Quran Radio');
+    if (navigator.share) {
+      navigator.share({ text: text }).catch(function() {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function() {
+        if (typeof showToast === 'function') showToast(isAr ? '📋 اتنسخ للحافظة' : '📋 Copied to clipboard');
+      }).catch(function() {});
+    }
+  };
+
+  // ===== نسخ احتياطي / استيراد =====
+  window._khExportData = function() {
+    var isAr = khIsAr();
+    try {
+      var root = khLoadRoot();
+      var dataStr = JSON.stringify(root, null, 2);
+      var blob = new Blob([dataStr], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'khatma-backup-' + khToday() + '.json';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function() { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+      if (typeof showToast === 'function') showToast(isAr ? '📦 اتحمّل ملف النسخة الاحتياطية' : '📦 Backup file downloaded');
+    } catch (e) {
+      if (typeof showToast === 'function') showToast(isAr ? '⚠️ حصل خطأ أثناء التصدير' : '⚠️ Export failed');
+    }
+  };
+
+  window._khImportTrigger = function() {
+    var input = document.getElementById('khImportInput');
+    if (input) input.click();
+  };
+
+  window._khImportFile = function(input) {
+    var isAr = khIsAr();
+    var file = input.files && input.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        var parsed = JSON.parse(e.target.result);
+        if (!parsed || !Array.isArray(parsed.khatmas) || !parsed.khatmas.length) throw new Error('invalid');
+        var msg = isAr ? 'هيتم استبدال كل الختمات الحالية بالبيانات المستوردة، متأكد؟' : 'This will replace all current khatmas with the imported data. Continue?';
+        if (!confirm(msg)) { input.value = ''; return; }
+        parsed.khatmas = parsed.khatmas.map(khMigrateSingle);
+        if (!parsed.activeId || !parsed.khatmas.some(function(k) { return k.id === parsed.activeId; })) {
+          parsed.activeId = parsed.khatmas[0].id;
+        }
+        khSaveRoot(parsed);
+        khViewMode = 'main';
+        khRenderPopup();
+        khUpdateBadge();
+        if (typeof showToast === 'function') showToast(isAr ? '✅ اترجعت البيانات بنجاح' : '✅ Data restored successfully');
+      } catch (err) {
+        if (typeof showToast === 'function') showToast(isAr ? '⚠️ الملف غير صالح' : '⚠️ Invalid file');
+      }
+      input.value = '';
+    };
+    reader.readAsText(file);
+  };
+
+  function khBackupControls(isAr) {
+    return '<div style="display:flex;gap:8px;margin-top:8px;">' +
+      '<button onclick="window._khExportData()" style="flex:1;background:rgba(29,158,117,0.1);color:#0F6E56;border:1.5px solid rgba(29,158,117,0.3);border-radius:10px;padding:9px 6px;font-size:12px;font-weight:700;cursor:pointer;">' +
+      (isAr ? '📦 نسخة احتياطية' : '📦 Backup') + '</button>' +
+      '<button onclick="window._khImportTrigger()" style="flex:1;background:rgba(29,158,117,0.1);color:#0F6E56;border:1.5px solid rgba(29,158,117,0.3);border-radius:10px;padding:9px 6px;font-size:12px;font-weight:700;cursor:pointer;">' +
+      (isAr ? '📥 استيراد' : '📥 Import') + '</button>' +
+      '<input type="file" id="khImportInput" accept="application/json,.json" style="display:none;" onchange="window._khImportFile(this)">' +
+      '</div>';
+  }
+
+  // ===== تذكير بالورد الفائت =====
+  function khCheckMissedReminder() {
+    try {
+      var today = khToday();
+      if (localStorage.getItem('khReminderLastCheck') === today) return;
+      localStorage.setItem('khReminderLastCheck', today);
+      var root = khLoadRoot();
+      var isAr = khIsAr();
+      var y = new Date(); y.setDate(y.getDate() - 1);
+      var yKey = y.getFullYear() + '-' + String(y.getMonth() + 1).padStart(2, '0') + '-' + String(y.getDate()).padStart(2, '0');
+      var missed = [];
+      root.khatmas.forEach(function(k) {
+        if (!k.dailyGoal || k.current >= khTotal(k)) return;
+        var todayLogged = (k.log && k.log[today]) || 0;
+        var yLogged = (k.log && k.log[yKey]) || 0;
+        if (todayLogged < k.dailyGoal && yLogged < k.dailyGoal) missed.push(k);
+      });
+      if (missed.length && typeof showToast === 'function') {
+        if (missed.length === 1) {
+          showToast(isAr ? '⏰ متنساش ورد "' + missed[0].name + '" النهاردة' : '⏰ Don\'t forget your "' + missed[0].name + '" reading today');
+        } else {
+          showToast(isAr ? '⏰ عندك ' + missed.length + ' ختمات مستنياك النهاردة' : '⏰ ' + missed.length + ' khatmas waiting for you today');
+        }
+      }
+    } catch (e) {}
+  }
 
   function khUpdateBadge() {
     var st = khLoad();
@@ -29209,13 +29625,82 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       (isAr ? '📍 التالية: سورة ' + nextName : '📍 Next: Surah ' + nextName) + '</div>';
   }
 
+  var khViewMode = 'main';
+  window._khToggleView = function(mode) {
+    khViewMode = mode;
+    khRenderPopup();
+  };
+
+  function khTopTabs(isAr) {
+    var tabs = [
+      { id: 'main', ar: '📈 التقدم', en: '📈 Progress' },
+      { id: 'stats', ar: '📊 الإحصائيات', en: '📊 Stats' }
+    ];
+    var html = '<div style="display:flex;border-bottom:1.5px solid rgba(29,158,117,0.15);margin-bottom:14px;">';
+    tabs.forEach(function(t) {
+      var active = (khViewMode === t.id);
+      html += '<button onclick="window._khToggleView(\'' + t.id + '\')" style="flex:1;padding:8px 4px;border:none;background:none;cursor:pointer;font-size:13px;font-family:Cairo,sans-serif;' +
+        'font-weight:' + (active ? '800' : '600') + ';color:' + (active ? '#1D9E75' : 'inherit') + ';opacity:' + (active ? '1' : '0.55') + ';' +
+        'border-bottom:2.5px solid ' + (active ? '#1D9E75' : 'transparent') + ';margin-bottom:-1.5px;">' + (isAr ? t.ar : t.en) + '</button>';
+    });
+    html += '</div>';
+    return html;
+  }
+
   function khBuildBody(isAr) {
+    var root = khLoadRoot();
+    var selector = khKhatmaSelector(root, isAr);
+    if (khViewMode === 'stats') return selector + khTopTabs(isAr) + khBuildStatsBody(isAr);
+    return selector + khTopTabs(isAr) + khBuildMainBody(isAr);
+  }
+
+  function khBuildStatsBody(isAr) {
+    var st = khLoad();
+    var total = khTotal(st);
+    var meta = khMeta(st);
+    var activeDays = Object.keys(st.log || {}).length;
+    var totalLogged = 0;
+    Object.keys(st.log || {}).forEach(function(k) { totalLogged += st.log[k]; });
+    var avg = activeDays > 0 ? (totalLogged / activeDays) : 0;
+
+    var cards = [
+      { label: isAr ? 'ختمات مكتملة' : 'Khatmas Completed', value: st.completedCount || 0, icon: '📗' },
+      { label: isAr ? 'أفضل متتالية' : 'Best Streak', value: (st.bestStreak || 0) + (isAr ? ' يوم' : 'd'), icon: '🔥' },
+      { label: isAr ? 'أيام نشطة (الختمة الحالية)' : 'Active Days (Current)', value: activeDays, icon: '📅' },
+      { label: isAr ? 'متوسط ' + meta.ar + '/يوم' : 'Avg ' + meta.en + '/day', value: avg > 0 ? avg.toFixed(1) : '—', icon: '📊' }
+    ];
+
+    var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;">';
+    cards.forEach(function(c) {
+      html += '<div style="background:rgba(29,158,117,0.07);border-radius:12px;padding:10px 8px;text-align:center;">' +
+        '<div style="font-size:18px;margin-bottom:2px;">' + c.icon + '</div>' +
+        '<div style="font-size:16px;font-weight:800;color:#1D9E75;">' + c.value + '</div>' +
+        '<div style="font-size:10.5px;opacity:0.65;margin-top:2px;">' + c.label + '</div>' +
+        '</div>';
+    });
+    html += '</div>';
+
+    html += khHeatmap(st, isAr);
+
+    html += '<div style="font-size:12px;opacity:0.7;margin:4px 0 6px;">' + (isAr ? '🏅 إنجازاتك' : '🏅 Your Achievements') + '</div>';
+    html += khBadgesStrip(st, isAr);
+
+    html += '<button onclick="window._khShare()" style="width:100%;background:rgba(29,158,117,0.1);color:#0F6E56;border:1.5px solid rgba(29,158,117,0.3);border-radius:10px;padding:10px 8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:6px;">' +
+      (isAr ? '📤 شارك تقدمك' : '📤 Share Your Progress') + '</button>';
+
+    html += khBackupControls(isAr);
+
+    return html;
+  }
+
+  function khBuildMainBody(isAr) {
     var st = khLoad();
     var total = khTotal(st);
     var meta = khMeta(st);
     var pct = Math.round((st.current / total) * 100);
 
-    var head = khUnitTabs(st, isAr) +
+    var head = '<div style="text-align:center;font-size:14px;font-weight:800;color:#1D9E75;margin-bottom:10px;">📗 ' + khEscape(st.name) + '</div>' +
+      khUnitTabs(st, isAr) +
       '<button onclick="window._khOpenMushaf()" style="width:100%;background:linear-gradient(135deg,#1B6CA8,#1565c0);color:#fff;border:none;border-radius:10px;padding:10px 8px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px;">' +
       (isAr ? '📖 تابع القراءة في المصحف' : '📖 Continue Reading in the Mushaf') + '</button>';
 
@@ -29224,8 +29709,12 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         '<div style="font-size:40px;margin-bottom:8px;">🎉</div>' +
         '<div style="font-weight:800;font-size:16px;color:#1D9E75;margin-bottom:6px;">' + (isAr ? 'مبارك ختمتك!' : 'Khatma Complete!') + '</div>' +
         '<div style="font-size:12.5px;opacity:0.75;margin-bottom:16px;">' + (isAr ? 'عدد الختمات المكتملة: ' + st.completedCount : 'Completed khatmas: ' + st.completedCount) + '</div>' +
-        '<button onclick="window._khStartNew()" style="background:#1D9E75;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13.5px;font-weight:700;cursor:pointer;">' +
-        (isAr ? '🔄 ابدأ ختمة جديدة' : '🔄 Start New Khatma') + '</button></div>';
+        khBadgesStrip(st, isAr) +
+        '<div style="display:flex;gap:8px;">' +
+        '<button onclick="window._khStartNew()" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13.5px;font-weight:700;cursor:pointer;">' +
+        (isAr ? '🔄 ابدأ ختمة جديدة' : '🔄 Start New Khatma') + '</button>' +
+        '<button onclick="window._khShare()" title="' + (isAr ? 'شارك' : 'Share') + '" style="background:rgba(29,158,117,0.1);color:#0F6E56;border:1.5px solid rgba(29,158,117,0.3);border-radius:10px;padding:10px 14px;font-size:13.5px;cursor:pointer;">📤</button>' +
+        '</div></div>';
     }
 
     var html = head;
@@ -29237,6 +29726,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
     html += khCurrentSurahLine(st, isAr);
 
+    html += khDailyGoalCard(st, isAr);
+
     html += (st.unit === 'page') ? khPageStepper(st) : khGrid(st);
 
     if (st.unit !== 'page') {
@@ -29247,8 +29738,11 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         '</div>';
     }
 
-    if (st.streak > 1) {
-      html += '<div style="text-align:center;font-size:12.5px;color:#e85d2f;margin-bottom:10px;">🔥 ' + (isAr ? 'متتالية ' + st.streak + ' يوم' : st.streak + '-day streak') + '</div>';
+    if (st.streak > 1 || (st.bestStreak || 0) > 1) {
+      html += '<div style="text-align:center;font-size:12.5px;color:#e85d2f;margin-bottom:10px;">';
+      if (st.streak > 1) html += '🔥 ' + (isAr ? 'متتالية ' + st.streak + ' يوم' : st.streak + '-day streak');
+      if ((st.bestStreak || 0) > 1) html += (st.streak > 1 ? '  •  ' : '') + (isAr ? '🏅 أفضل متتالية: ' + st.bestStreak + ' يوم' : '🏅 Best: ' + st.bestStreak + 'd');
+      html += '</div>';
     }
 
     html += khStatus(st, isAr);
@@ -29287,6 +29781,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     st.unit = unit;
     st.current = 0;
     st.startDate = khToday();
+    st.dailyGoal = null;
+    st.goalStartDate = null;
     khSave(st);
     khRenderPopup();
     khUpdateBadge();
@@ -29297,6 +29793,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var total = khTotal(st);
     newVal = Math.max(0, Math.min(total, newVal));
     var today = khToday();
+    var delta = newVal - st.current;
     if (newVal > st.current) {
       if (st.lastReadDate === today) {
         // اتسجل تقدم النهاردة بالفعل
@@ -29307,6 +29804,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         st.streak = 1;
       }
       st.lastReadDate = today;
+      if (!st.log) st.log = {};
+      st.log[today] = (st.log[today] || 0) + delta;
+      st.bestStreak = Math.max(st.bestStreak || 0, st.streak);
     }
     st.current = newVal;
     if (st.current >= total) {
@@ -29316,6 +29816,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       }
     }
     khSave(st);
+    khCheckBadges(st);
     khRenderPopup();
     khUpdateBadge();
     khUpdateMushafFab();
@@ -29335,11 +29836,24 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
   window._khStartNew = function() {
     var st = khLoad();
+    var id = st.id;
+    var name = st.name;
     var completedCount = st.completedCount || 0;
+    var bestStreak = st.bestStreak || 0;
+    var badges = st.badges || [];
+    var dailyGoal = st.dailyGoal || null;
     var unit = st.unit;
     st = khDefaultState();
+    st.id = id;
+    st.name = name;
     st.unit = unit;
     st.completedCount = completedCount;
+    st.bestStreak = bestStreak;
+    st.badges = badges;
+    if (dailyGoal) {
+      st.dailyGoal = dailyGoal;
+      st.goalStartDate = khToday();
+    }
     khSave(st);
     khRenderPopup();
     khUpdateBadge();
@@ -29348,6 +29862,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   window.openKhatmaTracker = function() {
     var old = document.getElementById('khatmaTrackerPopup');
     if (old) { old.remove(); return; }
+    khViewMode = 'main';
     var isAr = khIsAr();
     var isDark = document.body.classList.contains('dark-mode');
     var bg = isDark ? '#1a2820' : '#fff';
@@ -29469,9 +29984,13 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   })();
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', khUpdateBadge);
+    document.addEventListener('DOMContentLoaded', function() {
+      khUpdateBadge();
+      setTimeout(khCheckMissedReminder, 4000);
+    });
   } else {
     setTimeout(khUpdateBadge, 0);
+    setTimeout(khCheckMissedReminder, 4000);
   }
   document.addEventListener('langchange', khUpdateBadge);
 })();
