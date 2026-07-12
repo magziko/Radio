@@ -5948,12 +5948,30 @@ function enableAutoSwitch() {
   }
 }
 
+var DISABLE_WELCOME_LABELS = {
+  ar: { longOn: 'إخفاء الترحيب', longOff: 'الترحيب: مخفي', shortOn: 'إخفاء', shortOff: 'مخفي' },
+  en: { longOn: 'Disable Welcome', longOff: 'Welcome: Off', shortOn: 'Hide', shortOff: 'Hidden' },
+  fr: { longOn: "Désactiver l'accueil", longOff: 'Accueil : désactivé', shortOn: 'Masquer', shortOff: 'Masqué' },
+  es: { longOn: 'Desactivar bienvenida', longOff: 'Bienvenida: desactivada', shortOn: 'Ocultar', shortOff: 'Oculto' },
+  sv: { longOn: 'Inaktivera välkomstskärm', longOff: 'Välkomstskärm: av', shortOn: 'Dölj', shortOff: 'Dold' },
+  nl: { longOn: 'Welkomstscherm uitschakelen', longOff: 'Welkomstscherm: uit', shortOn: 'Verbergen', shortOff: 'Verborgen' },
+  ga: { longOn: 'Díchumasaigh fáilte', longOff: 'Fáilte: as', shortOn: 'Folaigh', shortOff: 'Folaithe' },
+  de: { longOn: 'Begrüßung deaktivieren', longOff: 'Begrüßung: aus', shortOn: 'Ausblenden', shortOff: 'Ausgeblendet' },
+  ru: { longOn: 'Отключить приветствие', longOff: 'Приветствие: выкл', shortOn: 'Скрыть', shortOff: 'Скрыто' },
+  tr: { longOn: 'Karşılamayı kapat', longOff: 'Karşılama: kapalı', shortOn: 'Gizle', shortOff: 'Gizli' },
+  pt: { longOn: 'Desativar boas-vindas', longOff: 'Boas-vindas: desativado', shortOn: 'Ocultar', shortOff: 'Oculto' },
+  zh: { longOn: '关闭欢迎屏幕', longOff: '欢迎屏幕：已关闭', shortOn: '隐藏', shortOff: '已隐藏' },
+  ur: { longOn: 'خوش آمدید غیر فعال کریں', longOff: 'خوش آمدید: بند', shortOn: 'چھپائیں', shortOff: 'چھپا ہوا' }
+};
+
 function toggleDisableWelcomeBtn() {
   const cb = document.getElementById('disableWelcomeScreen');
   const btn = document.getElementById('disableWelcomeToggleBtn');
   const icon = btn ? btn.querySelector('.wtb-icon') : null;
   const txt = document.getElementById('disableWelcomeTxt');
-  const isAr = (typeof isArabic !== 'undefined') ? isArabic : false;
+  var _dwLang = (typeof welcomeDisplayLang !== 'undefined' && DISABLE_WELCOME_LABELS[welcomeDisplayLang]) ?
+    welcomeDisplayLang : ((typeof isArabic !== 'undefined' && isArabic) ? 'ar' : 'en');
+  var _dwLabels = DISABLE_WELCOME_LABELS[_dwLang] || DISABLE_WELCOME_LABELS.en;
   cb.checked = !cb.checked;
   cb.dispatchEvent(new Event('change'));
 
@@ -5967,17 +5985,18 @@ function toggleDisableWelcomeBtn() {
     if (topBtn) topBtn.classList.add('active');
     if (icon) icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
     if (topIcon) topIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
-    if (txt) txt.textContent = isAr ? 'الترحيب: مخفي' : 'Welcome: Off';
-    if (topTxt) topTxt.textContent = isAr ? 'مخفي' : 'Hidden';
+    if (txt) txt.textContent = _dwLabels.longOff;
+    if (topTxt) topTxt.textContent = _dwLabels.shortOff;
   } else {
     if (btn) btn.classList.remove('active');
     if (topBtn) topBtn.classList.remove('active');
     if (icon) icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
     if (topIcon) topIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
-    if (txt) txt.textContent = isAr ? 'إخفاء الترحيب' : 'Disable Welcome';
-    if (topTxt) topTxt.textContent = isAr ? 'إخفاء' : 'Hide';
+    if (txt) txt.textContent = _dwLabels.longOn;
+    if (topTxt) topTxt.textContent = _dwLabels.shortOn;
   }
 }
+
 
 (function initToggleBtns() {})();
 
@@ -13152,7 +13171,7 @@ setTimeout(autoScaleVerseFont, 100);
 
 <div id="filters-container" class="filter-container">
 
-<button id="viewFavoritesButton" data-ar="❤ المفضلة" data-en="Favorites ❤" data-fr="❤ Favoris" data-es="❤ Favoritos" data-sv="❤ Favoriter" data-nl="❤ Favorieten" data-ga="❤ Ceanáin" data-de="❤ Favoriten" data-ru="❤ Избранное" data-tr="❤ Favoriler" data-pt="❤ Favoritos" data-zh="❤ 收藏" data-ur="❤ پسندیدہ" onclick="toggleFavoritesView()">
+<button id="viewFavoritesButton" data-ar="❤ المفضلة" data-en="Favorites ❤" data-fr="❤ Favoris" data-es="❤ Favoritos" data-sv="❤ Favoriter" data-nl="❤ Favorieten" data-ga="❤ Ceanáin" data-de="❤ Favoriten" data-ru="❤ Избранное" data-tr="❤ Favoriler" data-pt="❤ Favoritos" data-zh="❤ 收藏" data-ur="❤ پسندیدہ" data-all-ar="كل المحطات" data-all-en="All Stations" data-all-fr="Toutes les stations" data-all-es="Todas las emisoras" data-all-sv="Alla stationer" data-all-nl="Alle stations" data-all-ga="Gach Stáisiún" data-all-de="Alle Sender" data-all-ru="Все радиостанции" data-all-tr="Tüm İstasyonlar" data-all-pt="Todas as Estações" data-all-zh="所有电台" data-all-ur="تمام اسٹیشنز" onclick="toggleFavoritesView()">
   <span id="favHeart" onclick="event.stopPropagation(); confirmClearFavorites();" title="حذف كل المفضلة" style="cursor:pointer;padding:0 3px 0 5px;font-size:15px;display:inline-block;vertical-align:middle;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.35)'" onmouseout="this.style.transform='scale(1)'">❤</span><span id="favLabel"> المفضلة</span>
 </button>
 <button class="filter-button" data-ar="القرآن الكريم" data-en="Holy Quran" data-fr="Saint Coran" data-es="Sagrado Corán" data-sv="Heliga Koranen" data-nl="Heilige Koran" data-ga="An Corán Naofa" data-de="Heiliger Koran" data-ru="Священный Коран" data-tr="Kur'an-ı Kerim" data-pt="Alcorão Sagrado" data-zh="古兰经" data-ur="قرآن کریم" onclick="filterStations('QuranKarim')">القرآن الكريم</button>
@@ -13419,7 +13438,7 @@ setTimeout(autoScaleVerseFont, 100);
     user-select: none;
     transition: background 0.2s;
   ">
-    <span id="settings-toggle-label" data-ar="⚙️ الإعدادات" data-en="⚙️ Settings">⚙️ الإعدادات</span>
+    <span id="settings-toggle-label" data-ar="⚙️ الإعدادات" data-en="⚙️ Settings" data-fr="⚙️ Paramètres" data-es="⚙️ Ajustes" data-sv="⚙️ Inställningar" data-nl="⚙️ Instellingen" data-ga="⚙️ Socruithe" data-de="⚙️ Einstellungen" data-ru="⚙️ Настройки" data-tr="⚙️ Ayarlar" data-pt="⚙️ Configurações" data-zh="⚙️ 设置" data-ur="⚙️ ترتیبات">⚙️ الإعدادات</span>
     <span id="settings-arrow" style="font-size:12px; transition: transform 0.3s;">▼</span>
   </div>
 
@@ -13432,8 +13451,8 @@ setTimeout(autoScaleVerseFont, 100);
   <div class="controls-row">
 
     <div class="input-group">
-      <label for="autoSwitchTimer" data-ar="التنقل الآلي" data-en="Auto Switch">التنقل الآلي</label>
-      <input type="number" id="autoSwitchTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" placeholder="الدقائق"
+      <label for="autoSwitchTimer" data-ar="التنقل الآلي" data-en="Auto Switch" data-fr="Changement auto" data-es="Cambio automático" data-sv="Automatiskt byte" data-nl="Automatisch wisselen" data-ga="Athrú uathoibríoch" data-de="Automatischer Wechsel" data-ru="Автопереключение" data-tr="Otomatik geçiş" data-pt="Troca automática" data-zh="自动切换" data-ur="خودکار تبدیلی">التنقل الآلي</label>
+      <input type="number" id="autoSwitchTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" data-fr="Minutes" data-es="Minutos" data-sv="Minuter" data-nl="Minuten" data-ga="Nóiméad" data-de="Minuten" data-ru="Минуты" data-tr="Dakika" data-pt="Minutos" data-zh="分钟" data-ur="منٹ" placeholder="الدقائق"
              onchange="(function(){var cb=document.getElementById('autoSwitchCheckbox');var v=parseInt(document.getElementById('autoSwitchTimer').value);if(!isNaN(v)&&v>0){cb.checked=true;}else{cb.checked=false;}cb.dispatchEvent(new Event('change'));})()">
       <input type="checkbox" id="autoSwitchCheckbox" style="display:none">
       <span id="autoSwitch-countdown-settings" style="
@@ -13457,8 +13476,8 @@ setTimeout(autoScaleVerseFont, 100);
     <input type="text" id="searchInput" class="search-input" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" data-fr="Rechercher une station ou le nom d'un récitateur" data-es="Buscar una emisora o el nombre de un recitador" data-sv="Sök efter en station eller ett recitatörsnamn" data-nl="Zoek een station of de naam van een reciteerder" data-ga="Cuardaigh stáisiún nó ainm aithriseora" data-de="Nach einem Sender oder Rezitatornamen suchen" data-ru="Поиск радиостанции или имени чтеца" data-tr="Bir istasyon veya kari adı ara" data-pt="Pesquisar uma estação ou o nome de um recitador" data-zh="搜索电台或诵读者姓名" data-ur="اسٹیشن یا قاری کا نام تلاش کریں" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
 
     <div class="input-group">
-      <label for="sleepTimer" data-ar="مؤقت الإيقاف" data-en="Sleep Mode">مؤقت الإيقاف</label>
-      <input type="number" id="sleepTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" placeholder="الدقائق"
+      <label for="sleepTimer" data-ar="مؤقت الإيقاف" data-en="Sleep Mode" data-fr="Mode veille" data-es="Modo de suspensión" data-sv="Viloläge" data-nl="Slaapstand" data-ga="Mód codlata" data-de="Schlafmodus" data-ru="Режим сна" data-tr="Uyku modu" data-pt="Modo de suspensão" data-zh="睡眠模式" data-ur="نیند موڈ">مؤقت الإيقاف</label>
+      <input type="number" id="sleepTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" data-fr="Minutes" data-es="Minutos" data-sv="Minuter" data-nl="Minuten" data-ga="Nóiméad" data-de="Minuten" data-ru="Минуты" data-tr="Dakika" data-pt="Minutos" data-zh="分钟" data-ur="منٹ" placeholder="الدقائق"
              onchange="(function(){var cb=document.getElementById('sleepCheckbox');var v=parseInt(document.getElementById('sleepTimer').value);if(!isNaN(v)&&v>0){cb.checked=true;}else{cb.checked=false;}cb.dispatchEvent(new Event('change'));})()">
       <input type="checkbox" id="sleepCheckbox" style="display:none">
       <span id="sleep-countdown-settings" style="
@@ -13708,7 +13727,7 @@ setTimeout(autoScaleVerseFont, 100);
     <div class="color-setting-item" id="settings-shortcuts-item">
       <button id="settingsShortcutsBtn" onclick="toggleShortcutsModal()" title="الإرشادات واختصارات لوحة المفاتيح / Help &amp; Keyboard Shortcuts">
         <span id="settingsShortcutsIcon" style="font-weight:700;font-size:16px;">?</span>
-        <span id="settingsShortcutsText" data-ar="الاختصارات" data-en="Shortcuts">الاختصارات</span>
+        <span id="settingsShortcutsText" data-ar="الاختصارات" data-en="Shortcuts" data-fr="Raccourcis" data-es="Atajos" data-sv="Genvägar" data-nl="Sneltoetsen" data-ga="Aicearraí" data-de="Tastenkombinationen" data-ru="Горячие клавиши" data-tr="Kısayollar" data-pt="Atalhos" data-zh="快捷键" data-ur="شارٹ کٹس">الاختصارات</span>
       </button>
     </div>
     <div class="color-setting-item">
@@ -30001,6 +30020,17 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 <button id="toggleButton" class="toggle-button"
     data-ar="تحميل التطبيق 📻"
     data-en="Download App 📻"
+    data-fr="Télécharger l'app 📻"
+    data-es="Descargar la app 📻"
+    data-sv="Ladda ner appen 📻"
+    data-nl="App downloaden 📻"
+    data-ga="Íoslódáil an aip 📻"
+    data-de="App herunterladen 📻"
+    data-ru="Скачать приложение 📻"
+    data-tr="Uygulamayı indir 📻"
+    data-pt="Baixar o app 📻"
+    data-zh="下载应用 📻"
+    data-ur="ایپ ڈاؤن لوڈ کریں 📻"
     onclick="window.open('https://median.co/share/bnakxxn#androidphone', '_blank')">
     تحميل التطبيق 📻
 </button>
@@ -30015,9 +30045,20 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
            id="facebookFollowBtn"
            data-ar="تابعنا على فيسبوك"
            data-en="Follow us on Facebook"
+           data-fr="Suivez-nous sur Facebook"
+           data-es="Síguenos en Facebook"
+           data-sv="Följ oss på Facebook"
+           data-nl="Volg ons op Facebook"
+           data-ga="Lean muid ar Facebook"
+           data-de="Folge uns auf Facebook"
+           data-ru="Подпишитесь на Facebook"
+           data-tr="Facebook'ta takip edin"
+           data-pt="Siga-nos no Facebook"
+           data-zh="在Facebook上关注我们"
+           data-ur="فیس بک پر ہمیں فالو کریں"
            target="_blank">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-            <span data-ar="تابعنا على فيسبوك" data-en="Follow on Facebook">تابعنا على فيسبوك</span>
+            <span data-ar="تابعنا على فيسبوك" data-en="Follow on Facebook" data-fr="Suivez-nous" data-es="Síguenos" data-sv="Följ oss" data-nl="Volg ons" data-ga="Lean muid" data-de="Folge uns" data-ru="Подписаться" data-tr="Takip edin" data-pt="Siga-nos" data-zh="关注我们" data-ur="فالو کریں">تابعنا على فيسبوك</span>
         </a>
 
         <a href="https://web.whatsapp.com/send?phone=201154361888"
@@ -30025,10 +30066,21 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
            id="footerWhatsappBtn"
            data-ar="تواصل واتساب"
            data-en="WhatsApp Us"
+           data-fr="Contactez-nous WhatsApp"
+           data-es="Contáctanos WhatsApp"
+           data-sv="Kontakta oss WhatsApp"
+           data-nl="Contact via WhatsApp"
+           data-ga="Déan teagmháil WhatsApp"
+           data-de="WhatsApp kontaktieren"
+           data-ru="Написать в WhatsApp"
+           data-tr="WhatsApp'tan ulaşın"
+           data-pt="Fale conosco WhatsApp"
+           data-zh="通过WhatsApp联系我们"
+           data-ur="واٹس ایپ پر رابطہ کریں"
            target="_blank"
            title="اضغط على Ctrl + الزر لفتح شاشة واتساب مباشرة">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            <span data-ar="تواصل واتساب" data-en="WhatsApp Us">تواصل واتساب</span>
+            <span data-ar="تواصل واتساب" data-en="WhatsApp Us" data-fr="Contactez-nous" data-es="Contáctanos" data-sv="Kontakta oss" data-nl="Neem contact op" data-ga="Déan teagmháil" data-de="Kontaktiere uns" data-ru="Написать нам" data-tr="Bize ulaşın" data-pt="Fale conosco" data-zh="联系我们" data-ur="ہم سے رابطہ کریں">تواصل واتساب</span>
         </a>
 
         <a href="https://t.me/Magziko"
@@ -30036,19 +30088,41 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
            id="footerTelegramBtn"
            data-ar="تليجرام"
            data-en="Telegram"
+           data-fr="Telegram"
+           data-es="Telegram"
+           data-sv="Telegram"
+           data-nl="Telegram"
+           data-ga="Telegram"
+           data-de="Telegram"
+           data-ru="Телеграм"
+           data-tr="Telegram"
+           data-pt="Telegram"
+           data-zh="电报"
+           data-ur="ٹیلی گرام"
            target="_blank"
            title="اضغط على Ctrl + الزر لفتح شاشة تليجرام مباشرة">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-            <span data-ar="تليجرام" data-en="Telegram">تليجرام</span>
+            <span data-ar="تليجرام" data-en="Telegram" data-fr="Telegram" data-es="Telegram" data-sv="Telegram" data-nl="Telegram" data-ga="Telegram" data-de="Telegram" data-ru="Телеграм" data-tr="Telegram" data-pt="Telegram" data-zh="电报" data-ur="ٹیلی گرام">تليجرام</span>
         </a>
 
         <button onclick="openContactModal()"
            class="footer-social-btn fsb-email"
            id="footerEmailBtn"
            data-ar="راسلنا"
-           data-en="Email Us">
+           data-en="Email Us"
+           data-fr="Nous écrire"
+           data-es="Escríbenos"
+           data-sv="Maila oss"
+           data-nl="Mail ons"
+           data-ga="Cuir ríomhphost"
+           data-de="Schreib uns"
+           data-ru="Написать нам"
+           data-tr="Bize e-posta gönderin"
+           data-pt="Fale conosco"
+           data-zh="给我们发邮件"
+           data-ur="ہمیں ای میل کریں">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            <span data-ar="راسلنا" data-en="Email Us">راسلنا</span>
+            <span data-ar="راسلنا" data-en="Email Us" data-fr="Nous écrire" data-es="Escríbenos" data-sv="Maila oss" data-nl="Mail ons" data-ga="Cuir ríomhphost" data-de="Schreib uns" data-ru="Написать нам" data-tr="E-posta gönderin" data-pt="Fale conosco" data-zh="给我们发邮件" data-ur="ای میل کریں">راسلنا</span>
         </button>
 
     </div>
@@ -30056,19 +30130,19 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     <div class="footer-divider"></div>
 
     
-    <div class="share-title" id="share-title" data-ar="🤍 انشر الخير وشارك الأجر" data-en="🤍 Spread the Good – Share the Reward">🤍 انشر الخير وشارك الأجر</div>
+    <div class="share-title" id="share-title" data-ar="🤍 انشر الخير وشارك الأجر" data-en="🤍 Spread the Good – Share the Reward" data-fr="🤍 Répandez le bien – Partagez la récompense" data-es="🤍 Difunde el bien – Comparte la recompensa" data-sv="🤍 Sprid det goda – Dela belöningen" data-nl="🤍 Verspreid het goede – Deel de beloning" data-ga="🤍 Scaip an mhaith – Roinn an luach saothair" data-de="🤍 Verbreite das Gute – Teile die Belohnung" data-ru="🤍 Твори добро – Поделись наградой" data-tr="🤍 İyiliği yay – Sevabı paylaş" data-pt="🤍 Espalhe o bem – Compartilhe a recompensa" data-zh="🤍 传播善行 – 分享福报" data-ur="🤍 نیکی پھیلائیں – ثواب میں شریک ہوں">🤍 انشر الخير وشارك الأجر</div>
 
     <div class="share-buttons">
 
-        <button onclick="copyLink()" class="share-btn copy" data-ar="📋 نسخ الرابط" data-en="📋 Copy Link">
+        <button onclick="copyLink()" class="share-btn copy" data-ar="📋 نسخ الرابط" data-en="📋 Copy Link" data-fr="📋 Copier le lien" data-es="📋 Copiar enlace" data-sv="📋 Kopiera länk" data-nl="📋 Link kopiëren" data-ga="📋 Cóipeáil nasc" data-de="📋 Link kopieren" data-ru="📋 Копировать ссылку" data-tr="📋 Bağlantıyı kopyala" data-pt="📋 Copiar link" data-zh="📋 复制链接" data-ur="📋 لنک کاپی کریں">
             📋 نسخ الرابط
         </button>
 
-        <button onclick="shareWhatsApp()" class="share-btn whatsapp" data-ar="🟢 واتساب" data-en="🟢 WhatsApp">
+        <button onclick="shareWhatsApp()" class="share-btn whatsapp" data-ar="🟢 واتساب" data-en="🟢 WhatsApp" data-fr="🟢 WhatsApp" data-es="🟢 WhatsApp" data-sv="🟢 WhatsApp" data-nl="🟢 WhatsApp" data-ga="🟢 WhatsApp" data-de="🟢 WhatsApp" data-ru="🟢 WhatsApp" data-tr="🟢 WhatsApp" data-pt="🟢 WhatsApp" data-zh="🟢 WhatsApp" data-ur="🟢 واٹس ایپ">
             🟢 واتساب
         </button>
 
-        <button onclick="shareFacebook()" class="share-btn facebook" data-ar="🔵 فيسبوك" data-en="🔵 Facebook">
+        <button onclick="shareFacebook()" class="share-btn facebook" data-ar="🔵 فيسبوك" data-en="🔵 Facebook" data-fr="🔵 Facebook" data-es="🔵 Facebook" data-sv="🔵 Facebook" data-nl="🔵 Facebook" data-ga="🔵 Facebook" data-de="🔵 Facebook" data-ru="🔵 Facebook" data-tr="🔵 Facebook" data-pt="🔵 Facebook" data-zh="🔵 Facebook" data-ur="🔵 فیس بک">
             🔵 فيسبوك
         </button>
 
@@ -30665,8 +30739,9 @@ function toggleFavoritesView() {
   const viewFavoritesButton = document.getElementById('viewFavoritesButton');
   const favLabel = document.getElementById('favLabel');
   const favHeart = document.getElementById('favHeart');
-  const allStationsText = isArabic ? " كل المحطات" : " All Stations";
-  const favText = isArabic ? " المفضلة" : " Favorites";
+  const _favLang = typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en');
+  const allStationsText = ' ' + (viewFavoritesButton.getAttribute('data-all-' + _favLang) || viewFavoritesButton.getAttribute('data-all-en') || 'All Stations');
+  const favText = ' ' + (viewFavoritesButton.getAttribute('data-' + _favLang) || viewFavoritesButton.getAttribute('data-en') || 'Favorites').replace(/❤/g, '').trim();
   if (favLabel) favLabel.textContent = showingFavorites ? allStationsText : favText;
   if (favHeart) favHeart.style.display = showingFavorites ? 'none' : 'inline-block';
   viewFavoritesButton.classList.toggle('selected', showingFavorites);
@@ -30679,9 +30754,22 @@ function toggleFavoritesView() {
     const msg = document.createElement('div');
     msg.id = 'favoritesEmptyMsg';
     msg.style.cssText = 'text-align:center;padding:30px 10px;font-size:16px;color:#888;font-family:Cairo,sans-serif;';
-    msg.innerHTML = isArabic ?
-      '❤️ لا توجد محطات في المفضلة بعد.<br><span style="font-size:13px;color:#aaa;">اضغط على ❤ بجانب أي محطة لإضافتها</span>' :
-      '❤️ No favorite stations yet.<br><span style="font-size:13px;color:#aaa;">Tap ❤ next to any station to add it</span>';
+    var _favEmptyMsgs = {
+      ar: '❤️ لا توجد محطات في المفضلة بعد.<br><span style="font-size:13px;color:#aaa;">اضغط على ❤ بجانب أي محطة لإضافتها</span>',
+      en: '❤️ No favorite stations yet.<br><span style="font-size:13px;color:#aaa;">Tap ❤ next to any station to add it</span>',
+      fr: '❤️ Aucune station favorite pour le moment.<br><span style="font-size:13px;color:#aaa;">Appuyez sur ❤ à côté d\'une station pour l\'ajouter</span>',
+      es: '❤️ Aún no hay estaciones favoritas.<br><span style="font-size:13px;color:#aaa;">Toca ❤ junto a cualquier estación para añadirla</span>',
+      sv: '❤️ Inga favoritstationer ännu.<br><span style="font-size:13px;color:#aaa;">Tryck på ❤ bredvid en station för att lägga till den</span>',
+      nl: '❤️ Nog geen favoriete stations.<br><span style="font-size:13px;color:#aaa;">Tik op ❤ naast een station om het toe te voegen</span>',
+      ga: '❤️ Níl aon stáisiún ceanáin fós.<br><span style="font-size:13px;color:#aaa;">Tapáil ❤ in aice le stáisiún ar bith chun é a chur leis</span>',
+      de: '❤️ Noch keine Favoriten-Sender.<br><span style="font-size:13px;color:#aaa;">Tippe auf ❤ neben einem Sender, um ihn hinzuzufügen</span>',
+      ru: '❤️ Пока нет избранных радиостанций.<br><span style="font-size:13px;color:#aaa;">Нажмите ❤ рядом со станцией, чтобы добавить её</span>',
+      tr: '❤️ Henüz favori istasyon yok.<br><span style="font-size:13px;color:#aaa;">Eklemek için bir istasyonun yanındaki ❤ simgesine dokunun</span>',
+      pt: '❤️ Ainda não há estações favoritas.<br><span style="font-size:13px;color:#aaa;">Toque em ❤ ao lado de qualquer estação para adicioná-la</span>',
+      zh: '❤️ 还没有收藏的电台。<br><span style="font-size:13px;color:#aaa;">点击电台旁边的 ❤ 即可添加</span>',
+      ur: '❤️ ابھی تک کوئی پسندیدہ اسٹیشن نہیں۔<br><span style="font-size:13px;color:#aaa;">شامل کرنے کے لیے کسی بھی اسٹیشن کے ساتھ ❤ پر ٹیپ کریں</span>'
+    };
+    msg.innerHTML = _favEmptyMsgs[_favLang] || _favEmptyMsgs.en;
     const container = document.querySelector('.buttons-container') || document.getElementById('buttons-container');
     if (container) container.parentNode.insertBefore(msg, container);
     document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(b => {
@@ -31191,16 +31279,16 @@ function filterStations(category) {
 
   if (category === 'Radio') {
     _showSubfilter('radio-subfilter', 'radio-sub-btn', 'radio-live');
-    if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined')
-      updateFilterLanguage(isArabic ? 'ar' : 'en');
+    if (typeof applyFilterButtonsLang === 'function')
+      applyFilterButtonsLang(typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en'));
   } else {
     _hideSubfilter('radio-subfilter');
   }
 
   if (category === 'reciters') {
     _showSubfilter('reciters-subfilter', 'reciters-sub-btn', 'radio');
-    if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined')
-      updateFilterLanguage(isArabic ? 'ar' : 'en');
+    if (typeof applyFilterButtonsLang === 'function')
+      applyFilterButtonsLang(typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en'));
   } else {
     _hideSubfilter('reciters-subfilter');
   }
@@ -31458,20 +31546,25 @@ document.addEventListener('DOMContentLoaded', function() {
   var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
   if (customRandomBtnTxt) customRandomBtnTxt.textContent = isArabic ? 'اختيارك' : 'Random';
 
-  // تطبيق اللغة الأولية على جميع أزرار الفلاتر الفرعية
-  document.querySelectorAll(
-    '.reciters-sub-btn, .qurankarim-sub-btn, .adhkar-sub-btn, .sira-sub-btn, ' +
-    '.more-sub-btn, .livetv-sub-btn, .banna-sub-btn, .hussary-sub-btn'
-  ).forEach(function(btn) {
-    var text = isArabic ? btn.getAttribute('data-ar') : btn.getAttribute('data-en');
-    if (!text) return;
-    var firstChild = btn.firstChild;
-    if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
-      firstChild.textContent = text;
-    } else if (!btn.querySelector('span.multi-icon')) {
-      btn.textContent = text;
-    }
-  });
+  // تطبيق اللغة الأولية على جميع أزرار الفلاتر الفرعية (بنفس منطق اللغات المتعددة للشاشة الترحيبية)
+  if (typeof applyFilterButtonsLang === 'function') {
+    applyFilterButtonsLang(typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en'));
+  } else {
+    document.querySelectorAll(
+      '.reciters-sub-btn, .qurankarim-sub-btn, .quransciences-sub-btn, .adhkar-sub-btn, .sira-sub-btn, ' +
+      '.more-sub-btn, .livetv-sub-btn, .banna-sub-btn, .hussary-sub-btn, .basit-sub-btn, .minshawi-sub-btn, ' +
+      '.mix-sub-btn, .radio-sub-btn'
+    ).forEach(function(btn) {
+      var text = isArabic ? btn.getAttribute('data-ar') : btn.getAttribute('data-en');
+      if (!text) return;
+      var firstChild = btn.firstChild;
+      if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
+        firstChild.textContent = text;
+      } else if (!btn.querySelector('span.multi-icon')) {
+        btn.textContent = text;
+      }
+    });
+  }
 
   // تطبيق اللغة الأولية على جميع أزرار المحطات
   if (!isArabic) {
@@ -32079,6 +32172,59 @@ function applyFilterButtonsLang(lang) {
     var favTxt = favBtn.getAttribute('data-' + lang) || favBtn.getAttribute('data-en');
     if (favTxt) favLbl.textContent = ' ' + favTxt.replace(/❤/g, '').trim();
   }
+
+  // تحديث شريط تحكم المشغل (تشغيل/تالي/سابق/عشوائي) ولوحة الإعدادات بنفس اللغة المختارة
+  document.querySelectorAll('#player-nav-bar .pnb-lbl[data-ar]').forEach(function(lbl) {
+    var t = lbl.getAttribute('data-' + lang) || lbl.getAttribute('data-en');
+    if (t) lbl.textContent = t;
+  });
+
+  ['settings-toggle-label', 'settingsShortcutsText'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
+    if (t) el.textContent = t;
+  });
+
+  document.querySelectorAll("label[for='autoSwitchTimer'][data-ar], label[for='sleepTimer'][data-ar]").forEach(function(lbl) {
+    var t = lbl.getAttribute('data-' + lang) || lbl.getAttribute('data-en');
+    if (t) lbl.textContent = t;
+  });
+
+  ['autoSwitchTimer', 'sleepTimer'].forEach(function(id) {
+    var inp = document.getElementById(id);
+    if (!inp) return;
+    var t = inp.getAttribute('data-' + lang) || inp.getAttribute('data-en');
+    if (t) inp.placeholder = t;
+  });
+
+  // تحديث زر تحميل التطبيق، عنوان المشاركة، أزرار المشاركة، وأزرار الفوتر (فيسبوك/واتساب/تليجرام/راسلنا)
+  var toggleBtn = document.getElementById('toggleButton');
+  if (toggleBtn) {
+    var tbTxt = toggleBtn.getAttribute('data-' + lang) || toggleBtn.getAttribute('data-en');
+    if (tbTxt) toggleBtn.textContent = tbTxt;
+  }
+
+  var shareTitleEl = document.getElementById('share-title');
+  if (shareTitleEl) {
+    var stTxt = shareTitleEl.getAttribute('data-' + lang) || shareTitleEl.getAttribute('data-en');
+    if (stTxt) shareTitleEl.textContent = stTxt;
+  }
+
+  document.querySelectorAll('.share-btn[data-ar]').forEach(function(btn) {
+    var t = btn.getAttribute('data-' + lang) || btn.getAttribute('data-en');
+    if (t) btn.textContent = t;
+  });
+
+  ['facebookFollowBtn', 'footerWhatsappBtn', 'footerTelegramBtn', 'footerEmailBtn'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var span = el.querySelector('span[data-ar]');
+    if (span) {
+      var t = span.getAttribute('data-' + lang) || span.getAttribute('data-en');
+      if (t) span.textContent = t;
+    }
+  });
 }
 
 function applyEnglishWelcomeOverlay() {
@@ -32815,22 +32961,41 @@ function toggleDarkModeFloat() {
   applyDarkMode(!document.body.classList.contains("dark-mode"));
 }
 
+var DARK_LIGHT_MODE_LABELS = {
+  ar: { dark: 'الوضع الليلي', light: 'الوضع النهاري' },
+  en: { dark: 'Dark Mode', light: 'Light Mode' },
+  fr: { dark: 'Mode nuit', light: 'Mode jour' },
+  es: { dark: 'Modo nocturno', light: 'Modo diurno' },
+  sv: { dark: 'Nattläge', light: 'Dagsläge' },
+  nl: { dark: 'Nachtmodus', light: 'Dagmodus' },
+  ga: { dark: 'Modh oíche', light: 'Modh lae' },
+  de: { dark: 'Nachtmodus', light: 'Tagmodus' },
+  ru: { dark: 'Ночной режим', light: 'Дневной режим' },
+  tr: { dark: 'Gece modu', light: 'Gündüz modu' },
+  pt: { dark: 'Modo noturno', light: 'Modo diurno' },
+  zh: { dark: '夜间模式', light: '日间模式' },
+  ur: { dark: 'نائٹ موڈ', light: 'ڈے موڈ' }
+};
+
 function updateDarkModeBtn(isDark) {
+  var _dmLang = (typeof welcomeDisplayLang !== 'undefined' && DARK_LIGHT_MODE_LABELS[welcomeDisplayLang]) ?
+    welcomeDisplayLang : (isArabic ? 'ar' : 'en');
+  var _dmLabels = DARK_LIGHT_MODE_LABELS[_dmLang] || DARK_LIGHT_MODE_LABELS.en;
+  var _dmActiveLabel = isDark ? _dmLabels.light : _dmLabels.dark;
 
   const btn = document.getElementById('darkModeFloatBtn');
   if (btn) {
     btn.textContent = isDark ? '☀️' : '🌙';
-    btn.title = isDark ? 'تفعيل الوضع النهاري / Light Mode' : 'تفعيل الوضع الليلي / Dark Mode';
+    btn.title = _dmActiveLabel;
   }
 
   const wBtn = document.getElementById('welcomeDarkModeBtn');
   const wTxt = document.getElementById('welcomeDarkModeTxt');
   const wIcon = wBtn ? wBtn.querySelector('.wdm-icon') : null;
   if (wIcon) wIcon.textContent = isDark ? '☀️' : '🌙';
-  if (wTxt) wTxt.textContent = isDark ?
-    (isArabic ? 'الوضع النهاري' : 'Light Mode') :
-    (isArabic ? 'الوضع الليلي' : 'Dark Mode');
+  if (wTxt) wTxt.textContent = _dmActiveLabel;
 }
+
 
 function changeRadioButtonColor(color = document.getElementById('radioButtonColor').value, save = true) {
   const radioButtons = document.querySelectorAll('.button.palestine');
@@ -36666,7 +36831,6 @@ function updateFilterLanguage(lang) {
 
   document.querySelectorAll(
     '#filters-container .filter-button, ' +
-    '#viewFavoritesButton, ' +
     '.adhkar-sub-btn, ' +
     '.sira-sub-btn, ' +
     '.more-sub-btn, ' +
@@ -36684,6 +36848,14 @@ function updateFilterLanguage(lang) {
     var val = button.getAttribute('data-' + lang);
     if (val) button.textContent = val;
   });
+
+  // زر المفضلة له بنية داخلية (أيقونة القلب + النص) فبنحدّث الـ span بتاعه فقط بدل استبدال الزر كله
+  var favBtnUFL = document.getElementById('viewFavoritesButton');
+  var favLblUFL = document.getElementById('favLabel');
+  if (favBtnUFL && favLblUFL) {
+    var favTxtUFL = favBtnUFL.getAttribute('data-' + lang) || favBtnUFL.getAttribute('data-en');
+    if (favTxtUFL) favLblUFL.textContent = ' ' + favTxtUFL.replace(/❤/g, '').trim();
+  }
 
   // ===== تحديث لغة منطقة الذكاء الاصطناعي =====
   var isAr = (lang === 'ar');
@@ -37011,8 +37183,8 @@ function filterRadioSub(subType, btn) {
 
   if (typeof updateButtonIndices === 'function') updateButtonIndices();
   if (typeof _scrollActiveBtnInStrip === 'function') _scrollActiveBtnInStrip(btn);
-  if (typeof updateFilterLanguage === 'function' && typeof isArabic !== 'undefined') {
-    updateFilterLanguage(isArabic ? 'ar' : 'en');
+  if (typeof applyFilterButtonsLang === 'function') {
+    applyFilterButtonsLang(typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en'));
   }
 
   if (_userPickedFilter) {
@@ -38485,7 +38657,7 @@ document.addEventListener("keydown", function(e) {
     '#kb-modal-overlay{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}',
     '#kb-modal-overlay.open{display:flex}',
     '#kb-modal{background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;direction:rtl;font-family:"Cairo",Arial,sans-serif;box-shadow:0 8px 40px rgba(0,0,0,0.18)}',
-    '#kb-modal.lang-en{direction:ltr}',
+    '#kb-modal.kb-ltr{direction:ltr}',
     'body.dark-mode #kb-modal{background:#1e1e2e;color:#e0e0e0}',
     '#kb-modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid rgba(0,0,0,0.09)}',
     'body.dark-mode #kb-modal-header{border-color:rgba(255,255,255,0.1)}',
@@ -38514,11 +38686,20 @@ document.addEventListener("keydown", function(e) {
     '#kb-help-btn:hover{opacity:1;background:rgba(0,0,0,0.06);transform:scale(1.08)}',
     'body.dark-mode #kb-help-btn{border-color:rgba(255,255,255,0.25)}',
     'body.dark-mode #kb-help-btn:hover{background:rgba(255,255,255,0.1)}',
-    /* Lang toggle button */
+    /* Lang toggle button (يفتح قائمة اللغات المتعددة، بنفس أسلوب شاشة الترحيب) */
+    '#kb-lang-wrap{position:relative;display:inline-flex}',
     '#kb-lang-toggle{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;border:1.5px solid rgba(0,0,0,0.15);background:none;cursor:pointer;font-size:12px;font-weight:700;opacity:0.7;transition:.2s;color:inherit;font-family:inherit}',
     '#kb-lang-toggle:hover{opacity:1;background:rgba(0,0,0,0.05)}',
     'body.dark-mode #kb-lang-toggle{border-color:rgba(255,255,255,0.2)}',
     'body.dark-mode #kb-lang-toggle:hover{background:rgba(255,255,255,0.08)}',
+    '#kb-lang-menu{position:absolute;top:calc(100% + 6px);inset-inline-end:0;background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.16);border:1px solid rgba(21,101,192,0.15);padding:5px;min-width:130px;max-height:260px;overflow-y:auto;z-index:100001;display:none;flex-direction:column;gap:2px}',
+    '#kb-lang-menu.open{display:flex}',
+    '#kb-lang-menu .kb-lang-option{display:block;width:100%;text-align:start;background:none;border:none;border-radius:8px;padding:8px 10px;font-size:13px;font-weight:600;color:#263238;cursor:pointer;transition:background .15s,color .15s;font-family:"Cairo",Arial,sans-serif}',
+    '#kb-lang-menu .kb-lang-option:hover{background:rgba(21,101,192,0.1);color:#1565c0}',
+    '#kb-lang-menu .kb-lang-option.active{background:#1565c0;color:#fff}',
+    'body.dark-mode #kb-lang-menu{background:#23283a;border-color:rgba(255,255,255,0.12)}',
+    'body.dark-mode #kb-lang-menu .kb-lang-option{color:#dce6f0}',
+    'body.dark-mode #kb-lang-menu .kb-lang-option:hover{background:rgba(255,255,255,0.08);color:#90caf9}',
     /* Touch-button rows */
     '.kb-row{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:background 0.15s,transform 0.1s}',
     '.kb-row:active{background:rgba(29,158,117,0.13)!important;transform:scale(0.98)}',
@@ -38533,267 +38714,967 @@ document.addEventListener("keydown", function(e) {
   ].join('');
   document.head.appendChild(style);
 
-  // بيانات ثنائية اللغة
+  // بيانات متعددة اللغات (تُطابق قائمة لغات شاشة الترحيب)
   var T = {
     title: {
       ar: '⌨️ الإرشادات واختصارات لوحة المفاتيح',
-      en: '⌨️ Help & Keyboard Shortcuts'
+      en: '⌨️ Help & Keyboard Shortcuts',
+      fr: '⌨️ Aide et raccourcis clavier',
+      es: '⌨️ Ayuda y atajos de teclado',
+      sv: '⌨️ Hjälp och kortkommandon',
+      nl: '⌨️ Hulp en sneltoetsen',
+      ga: '⌨️ Cabhair agus aicearraí méarchláir',
+      de: '⌨️ Hilfe & Tastenkürzel',
+      ru: '⌨️ Справка и горячие клавиши',
+      tr: '⌨️ Yardım ve Klavye Kısayolları',
+      pt: '⌨️ Ajuda e Atalhos de Teclado',
+      zh: '⌨️ 帮助与键盘快捷键',
+      ur: '⌨️ مدد اور کی بورڈ شارٹ کٹس'
     },
     close: {
       ar: 'إغلاق',
-      en: 'Close'
+      en: 'Close',
+      fr: 'Fermer',
+      es: 'Cerrar',
+      sv: 'Stäng',
+      nl: 'Sluiten',
+      ga: 'Dún',
+      de: 'Schließen',
+      ru: 'Закрыть',
+      tr: 'Kapat',
+      pt: 'Fechar',
+      zh: '关闭',
+      ur: 'بند کریں'
     },
     sec1: {
       ar: 'التشغيل والتحكم',
-      en: 'Playback & Control'
+      en: 'Playback & Control',
+      fr: 'Lecture et contrôle',
+      es: 'Reproducción y control',
+      sv: 'Uppspelning och kontroll',
+      nl: 'Afspelen en bediening',
+      ga: 'Athsheinm agus Rialú',
+      de: 'Wiedergabe & Steuerung',
+      ru: 'Воспроизведение и управление',
+      tr: 'Oynatma ve Kontrol',
+      pt: 'Reprodução e Controle',
+      zh: '播放与控制',
+      ur: 'پلے بیک اور کنٹرول'
     },
     r_space: {
       ar: 'تشغيل / إيقاف',
-      en: 'Play / Pause'
+      en: 'Play / Pause',
+      fr: 'Lecture / Pause',
+      es: 'Reproducir / Pausar',
+      sv: 'Spela / Pausa',
+      nl: 'Afspelen / Pauzeren',
+      ga: 'Seinn / Sos',
+      de: 'Wiedergabe / Pause',
+      ru: 'Воспроизвести / Пауза',
+      tr: 'Oynat / Duraklat',
+      pt: 'Reproduzir / Pausar',
+      zh: '播放 / 暂停',
+      ur: 'چلائیں / روکیں'
     },
     r_p: {
       ar: 'تشغيل / إيقاف المحطة الرئيسية',
-      en: 'Play / Pause main station'
+      en: 'Play / Pause main station',
+      fr: 'Lecture / Pause de la station principale',
+      es: 'Reproducir / Pausar la emisora principal',
+      sv: 'Spela / Pausa huvudkanalen',
+      nl: 'Hoofdstation afspelen / pauzeren',
+      ga: 'Seinn / Cuir stáisiún príomha ar sos',
+      de: 'Hauptsender wiedergeben / pausieren',
+      ru: 'Воспроизвести / Пауза основной станции',
+      tr: 'Ana istasyonu oynat / duraklat',
+      pt: 'Reproduzir / Pausar estação principal',
+      zh: '播放 / 暂停主频道',
+      ur: 'مرکزی اسٹیشن چلائیں / روکیں'
     },
     r_k: {
       ar: 'تشغيل / إيقاف المحطة الفورية',
-      en: 'Play / Pause instant station'
+      en: 'Play / Pause instant station',
+      fr: 'Lecture / Pause de la station instantanée',
+      es: 'Reproducir / Pausar la emisora instantánea',
+      sv: 'Spela / Pausa direktkanalen',
+      nl: 'Direct station afspelen / pauzeren',
+      ga: 'Seinn / Cuir stáisiún meandarach ar sos',
+      de: 'Sofortsender wiedergeben / pausieren',
+      ru: 'Воспроизвести / Пауза мгновенной станции',
+      tr: 'Anlık istasyonu oynat / duraklat',
+      pt: 'Reproduzir / Pausar estação instantânea',
+      zh: '播放 / 暂停即时频道',
+      ur: 'فوری اسٹیشن چلائیں / روکیں'
     },
     r_plus: {
       ar: 'رفع مستوى الصوت',
-      en: 'Volume up'
+      en: 'Volume up',
+      fr: 'Augmenter le volume',
+      es: 'Subir volumen',
+      sv: 'Höj volymen',
+      nl: 'Volume omhoog',
+      ga: 'Ardaigh an fhuaim',
+      de: 'Lauter',
+      ru: 'Увеличить громкость',
+      tr: 'Sesi yükselt',
+      pt: 'Aumentar volume',
+      zh: '调高音量',
+      ur: 'آواز بڑھائیں'
     },
     r_minus: {
       ar: 'خفض مستوى الصوت',
-      en: 'Volume down'
+      en: 'Volume down',
+      fr: 'Baisser le volume',
+      es: 'Bajar volumen',
+      sv: 'Sänk volymen',
+      nl: 'Volume omlaag',
+      ga: 'Ísligh an fhuaim',
+      de: 'Leiser',
+      ru: 'Уменьшить громкость',
+      tr: 'Sesi kıs',
+      pt: 'Diminuir volume',
+      zh: '调低音量',
+      ur: 'آواز کم کریں'
     },
     sec2: {
       ar: 'التنقل بين المحطات',
-      en: 'Navigate Stations'
+      en: 'Navigate Stations',
+      fr: 'Navigation entre stations',
+      es: 'Navegar entre emisoras',
+      sv: 'Navigera mellan kanaler',
+      nl: 'Navigeren tussen stations',
+      ga: 'Nascleanúint idir Stáisiúin',
+      de: 'Zwischen Sendern navigieren',
+      ru: 'Навигация по станциям',
+      tr: 'İstasyonlar Arasında Gezinme',
+      pt: 'Navegar entre estações',
+      zh: '频道导航',
+      ur: 'اسٹیشنز کے درمیان نیویگیشن'
     },
     r_next: {
       ar: 'المحطة التالية',
-      en: 'Next station'
+      en: 'Next station',
+      fr: 'Station suivante',
+      es: 'Siguiente emisora',
+      sv: 'Nästa kanal',
+      nl: 'Volgend station',
+      ga: 'An chéad stáisiún eile',
+      de: 'Nächster Sender',
+      ru: 'Следующая станция',
+      tr: 'Sonraki istasyon',
+      pt: 'Próxima estação',
+      zh: '下一频道',
+      ur: 'اگلا اسٹیشن'
     },
     r_prev: {
       ar: 'المحطة السابقة',
-      en: 'Previous station'
+      en: 'Previous station',
+      fr: 'Station précédente',
+      es: 'Emisora anterior',
+      sv: 'Föregående kanal',
+      nl: 'Vorig station',
+      ga: 'An stáisiún roimhe seo',
+      de: 'Vorheriger Sender',
+      ru: 'Предыдущая станция',
+      tr: 'Önceki istasyon',
+      pt: 'Estação anterior',
+      zh: '上一频道',
+      ur: 'پچھلا اسٹیشن'
     },
     sec3: {
       ar: 'التنقل بين مقاطع المحطة الواحدة',
-      en: 'Navigate Station Segments'
+      en: 'Navigate Station Segments',
+      fr: 'Navigation entre les segments d\'une station',
+      es: 'Navegar entre segmentos de una emisora',
+      sv: 'Navigera mellan kanalsegment',
+      nl: 'Navigeren tussen stationssegmenten',
+      ga: 'Nascleanúint idir Codanna Stáisiúin',
+      de: 'Zwischen Sendersegmenten navigieren',
+      ru: 'Навигация по сегментам станции',
+      tr: 'İstasyon Segmentleri Arasında Gezinme',
+      pt: 'Navegar entre segmentos da estação',
+      zh: '频道分段导航',
+      ur: 'اسٹیشن سیگمنٹس کے درمیان نیویگیشن'
     },
     r_n: {
       ar: 'المقطع التالي داخل نفس المحطة',
-      en: 'Next segment in current station'
+      en: 'Next segment in current station',
+      fr: 'Segment suivant de la station en cours',
+      es: 'Siguiente segmento de la emisora actual',
+      sv: 'Nästa segment i aktuell kanal',
+      nl: 'Volgend segment binnen huidig station',
+      ga: 'An chéad chuid eile den stáisiún reatha',
+      de: 'Nächstes Segment im aktuellen Sender',
+      ru: 'Следующий сегмент текущей станции',
+      tr: 'Mevcut istasyondaki sonraki bölüm',
+      pt: 'Próximo segmento da estação atual',
+      zh: '当前频道的下一段',
+      ur: 'موجودہ اسٹیشن میں اگلا سیگمنٹ'
     },
     r_b: {
       ar: 'المقطع السابق داخل نفس المحطة',
-      en: 'Previous segment in current station'
+      en: 'Previous segment in current station',
+      fr: 'Segment précédent de la station en cours',
+      es: 'Segmento anterior de la emisora actual',
+      sv: 'Föregående segment i aktuell kanal',
+      nl: 'Vorig segment binnen huidig station',
+      ga: 'An chuid roimhe seo den stáisiún reatha',
+      de: 'Vorheriges Segment im aktuellen Sender',
+      ru: 'Предыдущий сегмент текущей станции',
+      tr: 'Mevcut istasyondaki önceki bölüm',
+      pt: 'Segmento anterior da estação atual',
+      zh: '当前频道的上一段',
+      ur: 'موجودہ اسٹیشن میں پچھلا سیگمنٹ'
     },
     r_r: {
       ar: 'تبديل تكرار المقطع الحالي',
-      en: 'Toggle repeat current segment'
+      en: 'Toggle repeat current segment',
+      fr: 'Activer/désactiver la répétition du segment actuel',
+      es: 'Alternar repetición del segmento actual',
+      sv: 'Växla upprepning av aktuellt segment',
+      nl: 'Herhaling huidig segment in-/uitschakelen',
+      ga: 'Scoránaigh athrá na coda reatha',
+      de: 'Wiederholung des aktuellen Segments umschalten',
+      ru: 'Переключить повтор текущего сегмента',
+      tr: 'Mevcut bölüm tekrarını aç/kapat',
+      pt: 'Alternar repetição do segmento atual',
+      zh: '切换当前分段的重复播放',
+      ur: 'موجودہ سیگمنٹ کی تکرار تبدیل کریں'
     },
     tip_seg: {
       ar: 'المقاطع متاحة فقط في المحطات التي تحتوي على أكثر من رابط (مثل محطات الصلاة على النبي ﷺ وبعض المحطات المركّبة)',
-      en: 'Segments are only available in stations with more than one link (e.g. Salah upon the Prophet ﷺ stations and some compound stations).'
+      en: 'Segments are only available in stations with more than one link (e.g. Salah upon the Prophet ﷺ stations and some compound stations).',
+      fr: 'Les segments ne sont disponibles que pour les stations comportant plusieurs liens (par exemple les stations de Salah sur le Prophète ﷺ et certaines stations composées).',
+      es: 'Los segmentos solo están disponibles en emisoras con más de un enlace (por ejemplo, las emisoras de Salah sobre el Profeta ﷺ y algunas emisoras compuestas).',
+      sv: 'Segment finns endast tillgängliga i kanaler med fler än en länk (t.ex. Salah-kanaler för Profeten ﷺ och vissa sammansatta kanaler).',
+      nl: 'Segmenten zijn alleen beschikbaar bij stations met meer dan één link (bijv. Salah-op-de-Profeet ﷺ-stations en enkele samengestelde stations).',
+      ga: 'Níl codanna ar fáil ach i stáisiúin a bhfuil níos mó ná nasc amháin acu (m.sh. stáisiúin Salah ar an bhFáidh ﷺ agus roinnt stáisiún cumaisc).',
+      de: 'Segmente sind nur bei Sendern mit mehr als einem Link verfügbar (z. B. Salah-auf-den-Propheten-ﷺ-Sender und einige zusammengesetzte Sender).',
+      ru: 'Сегменты доступны только для станций с несколькими ссылками (например, станции салавата Пророку ﷺ и некоторые составные станции).',
+      tr: 'Bölümler yalnızca birden fazla bağlantısı olan istasyonlarda kullanılabilir (ör. Peygamber\'e ﷺ salavat istasyonları ve bazı bileşik istasyonlar).',
+      pt: 'Os segmentos só estão disponíveis em estações com mais de um link (por exemplo, estações de Salah sobre o Profeta ﷺ e algumas estações compostas).',
+      zh: '分段功能仅适用于包含多个链接的频道(例如向先知ﷺ祝福的频道和部分组合频道)。',
+      ur: 'سیگمنٹس صرف ایسے اسٹیشنز میں دستیاب ہیں جن کا ایک سے زیادہ لنک ہو (مثلاً نبی ﷺ پر درود کے اسٹیشنز اور بعض مرکب اسٹیشنز)۔'
     },
     sec4: {
       ar: 'اختصار سريع للمحطات 0–9',
-      en: 'Quick Station Shortcuts 0–9'
+      en: 'Quick Station Shortcuts 0–9',
+      fr: 'Raccourcis rapides des stations 0–9',
+      es: 'Atajos rápidos de emisoras 0–9',
+      sv: 'Snabbgenvägar för kanaler 0–9',
+      nl: 'Snelle stationssnelkoppelingen 0–9',
+      ga: 'Aicearraí Tapa Stáisiún 0–9',
+      de: 'Schnellzugriff auf Sender 0–9',
+      ru: 'Быстрые клавиши станций 0–9',
+      tr: 'Hızlı İstasyon Kısayolları 0–9',
+      pt: 'Atalhos rápidos de estações 0–9',
+      zh: '快速频道快捷键 0–9',
+      ur: 'فوری اسٹیشن شارٹ کٹس 0–9'
     },
     r_1: {
       ar: 'الشيخ محمود خليل الحصري',
-      en: 'Sheikh Mahmoud Khalil Al-Hussary'
+      en: 'Sheikh Mahmoud Khalil Al-Hussary',
+      fr: 'Sheikh Mahmoud Khalil Al-Hussary',
+      es: 'Sheikh Mahmoud Khalil Al-Hussary',
+      sv: 'Sheikh Mahmoud Khalil Al-Hussary',
+      nl: 'Sheikh Mahmoud Khalil Al-Hussary',
+      ga: 'Sheikh Mahmoud Khalil Al-Hussary',
+      de: 'Sheikh Mahmoud Khalil Al-Hussary',
+      ru: 'Шейх Махмуд Халиль аль-Хусари',
+      tr: 'Şeyh Mahmud Halil el-Husari',
+      pt: 'Sheikh Mahmoud Khalil Al-Hussary',
+      zh: '谢赫·马哈茂德·哈利勒·侯赛里',
+      ur: 'شیخ محمود خلیل الحصری'
     },
     r_2: {
       ar: 'الشيخ عبدالباسط عبد الصمد',
-      en: 'Sheikh Abdul Basit Abdul Samad'
+      en: 'Sheikh Abdul Basit Abdul Samad',
+      fr: 'Sheikh Abdul Basit Abdul Samad',
+      es: 'Sheikh Abdul Basit Abdul Samad',
+      sv: 'Sheikh Abdul Basit Abdul Samad',
+      nl: 'Sheikh Abdul Basit Abdul Samad',
+      ga: 'Sheikh Abdul Basit Abdul Samad',
+      de: 'Sheikh Abdul Basit Abdul Samad',
+      ru: 'Шейх Абдул Басит Абдул Самад',
+      tr: 'Şeyh Abdulbasit Abdussamed',
+      pt: 'Sheikh Abdul Basit Abdul Samad',
+      zh: '谢赫·阿卜杜勒·巴西特·阿卜杜勒·萨迈德',
+      ur: 'شیخ عبدالباسط عبدالصمد'
     },
     r_3: {
       ar: 'الشيخ محمود علي البنا (مجود)',
-      en: 'Sheikh Mahmoud Ali Al-Banna (Mujawwad)'
+      en: 'Sheikh Mahmoud Ali Al-Banna (Mujawwad)',
+      fr: 'Sheikh Mahmoud Ali Al-Banna (Mujawwad)',
+      es: 'Sheikh Mahmoud Ali Al-Banna (Mujawwad)',
+      sv: 'Sheikh Mahmoud Ali Al-Banna (Mujawwad)',
+      nl: 'Sheikh Mahmoud Ali Al-Banna (Mujawwad)',
+      ga: 'Sheikh Mahmoud Ali Al-Banna (Mujawwad)',
+      de: 'Sheikh Mahmoud Ali Al-Banna (Mujawwad)',
+      ru: 'Шейх Махмуд Али аль-Банна (муджаввад)',
+      tr: 'Şeyh Mahmud Ali el-Benna (Mücevved)',
+      pt: 'Sheikh Mahmoud Ali Al-Banna (Mujawwad)',
+      zh: '谢赫·马哈茂德·阿里·班纳(慢诵体)',
+      ur: 'شیخ محمود علی البنا (مجود)'
     },
     r_4: {
       ar: 'الشيخ علي عبدالله جابر',
-      en: 'Sheikh Ali Abdullah Jaber'
+      en: 'Sheikh Ali Abdullah Jaber',
+      fr: 'Sheikh Ali Abdullah Jaber',
+      es: 'Sheikh Ali Abdullah Jaber',
+      sv: 'Sheikh Ali Abdullah Jaber',
+      nl: 'Sheikh Ali Abdullah Jaber',
+      ga: 'Sheikh Ali Abdullah Jaber',
+      de: 'Sheikh Ali Abdullah Jaber',
+      ru: 'Шейх Али Абдалла Джабер',
+      tr: 'Şeyh Ali Abdullah Cabir',
+      pt: 'Sheikh Ali Abdullah Jaber',
+      zh: '谢赫·阿里·阿卜杜拉·贾比尔',
+      ur: 'شیخ علی عبداللہ جابر'
     },
     r_5: {
       ar: 'الشيخ محمد صديق المنشاوي (حفلات)',
-      en: 'Sheikh Mohamed Siddiq Al-Minshawi (Live)'
+      en: 'Sheikh Mohamed Siddiq Al-Minshawi (Live)',
+      fr: 'Sheikh Mohamed Siddiq Al-Minshawi (Live)',
+      es: 'Sheikh Mohamed Siddiq Al-Minshawi (Live)',
+      sv: 'Sheikh Mohamed Siddiq Al-Minshawi (Live)',
+      nl: 'Sheikh Mohamed Siddiq Al-Minshawi (Live)',
+      ga: 'Sheikh Mohamed Siddiq Al-Minshawi (Live)',
+      de: 'Sheikh Mohamed Siddiq Al-Minshawi (Live)',
+      ru: 'Шейх Мухаммад Сиддик аль-Миншави (концертные записи)',
+      tr: 'Şeyh Muhammed Sıddîk el-Minşavî (Hafle)',
+      pt: 'Sheikh Mohamed Siddiq Al-Minshawi (Ao vivo)',
+      zh: '谢赫·穆罕默德·西迪克·敏沙维(现场版)',
+      ur: 'شیخ محمد صدیق المنشاوی (محفلی تلاوت)'
     },
     r_6: {
       ar: 'الشيخ ناصر القطامي',
-      en: 'Sheikh Nasser Al-Qatami'
+      en: 'Sheikh Nasser Al-Qatami',
+      fr: 'Sheikh Nasser Al-Qatami',
+      es: 'Sheikh Nasser Al-Qatami',
+      sv: 'Sheikh Nasser Al-Qatami',
+      nl: 'Sheikh Nasser Al-Qatami',
+      ga: 'Sheikh Nasser Al-Qatami',
+      de: 'Sheikh Nasser Al-Qatami',
+      ru: 'Шейх Насер аль-Катами',
+      tr: 'Şeyh Nasır el-Katamî',
+      pt: 'Sheikh Nasser Al-Qatami',
+      zh: '谢赫·纳赛尔·卡塔米',
+      ur: 'شیخ ناصر القطامی'
     },
     r_7: {
       ar: 'الشيخ محمد عبادة',
-      en: 'Sheikh Mohamed Abbada'
+      en: 'Sheikh Mohamed Abbada',
+      fr: 'Sheikh Mohamed Abbada',
+      es: 'Sheikh Mohamed Abbada',
+      sv: 'Sheikh Mohamed Abbada',
+      nl: 'Sheikh Mohamed Abbada',
+      ga: 'Sheikh Mohamed Abbada',
+      de: 'Sheikh Mohamed Abbada',
+      ru: 'Шейх Мухаммад Аббада',
+      tr: 'Şeyh Muhammed Abbâde',
+      pt: 'Sheikh Mohamed Abbada',
+      zh: '谢赫·穆罕默德·阿巴达',
+      ur: 'شیخ محمد عبادہ'
     },
     r_8: {
       ar: 'الشيخ إسلام صبحي',
-      en: 'Sheikh Islam Sobhi'
+      en: 'Sheikh Islam Sobhi',
+      fr: 'Sheikh Islam Sobhi',
+      es: 'Sheikh Islam Sobhi',
+      sv: 'Sheikh Islam Sobhi',
+      nl: 'Sheikh Islam Sobhi',
+      ga: 'Sheikh Islam Sobhi',
+      de: 'Sheikh Islam Sobhi',
+      ru: 'Шейх Ислам Собхи',
+      tr: 'Şeyh İslam Sobhi',
+      pt: 'Sheikh Islam Sobhi',
+      zh: '谢赫·伊斯拉姆·苏卜希',
+      ur: 'شیخ اسلام صبحی'
     },
     r_9: {
       ar: 'إذاعة الصلاة على النبي ﷺ',
-      en: 'Salah upon the Prophet ﷺ Radio'
+      en: 'Salah upon the Prophet ﷺ Radio',
+      fr: 'Radio Salah sur le Prophète ﷺ',
+      es: 'Radio Salah sobre el Profeta ﷺ',
+      sv: 'Salah-radio för Profeten ﷺ',
+      nl: 'Salah-op-de-Profeet ﷺ-radio',
+      ga: 'Raidió Salah ar an bhFáidh ﷺ',
+      de: 'Salah-auf-den-Propheten-ﷺ-Radio',
+      ru: 'Радио салавата Пророку ﷺ',
+      tr: 'Peygamber\'e ﷺ Salavat Radyosu',
+      pt: 'Rádio Salah sobre o Profeta ﷺ',
+      zh: '向先知ﷺ祝福电台',
+      ur: 'نبی ﷺ پر درود ریڈیو'
     },
     r_0: {
       ar: 'آيات',
-      en: 'Ayat'
+      en: 'Ayat',
+      fr: 'Versets',
+      es: 'Aleyas',
+      sv: 'Verser',
+      nl: 'Ayat\'s',
+      ga: 'Véarsaí',
+      de: 'Ayat',
+      ru: 'Аяты',
+      tr: 'Ayetler',
+      pt: 'Versículos',
+      zh: '经文',
+      ur: 'آیات'
     },
     sec5: {
       ar: 'الواجهة والتنقل',
-      en: 'UI & Navigation'
+      en: 'UI & Navigation',
+      fr: 'Interface et navigation',
+      es: 'Interfaz y navegación',
+      sv: 'Gränssnitt och navigering',
+      nl: 'Interface en navigatie',
+      ga: 'Comhéadan agus Nascleanúint',
+      de: 'Oberfläche & Navigation',
+      ru: 'Интерфейс и навигация',
+      tr: 'Arayüz ve Gezinme',
+      pt: 'Interface e navegação',
+      zh: '界面与导航',
+      ur: 'انٹرفیس اور نیویگیشن'
     },
     r_q: {
       ar: 'فتح/إغلاق هذه النافذة',
-      en: 'Open/Close this window'
+      en: 'Open/Close this window',
+      fr: 'Ouvrir/Fermer cette fenêtre',
+      es: 'Abrir/Cerrar esta ventana',
+      sv: 'Öppna/Stäng detta fönster',
+      nl: 'Dit venster openen/sluiten',
+      ga: 'Oscail/Dún an fhuinneog seo',
+      de: 'Dieses Fenster öffnen/schließen',
+      ru: 'Открыть/закрыть это окно',
+      tr: 'Bu pencereyi aç/kapat',
+      pt: 'Abrir/Fechar esta janela',
+      zh: '打开/关闭此窗口',
+      ur: 'یہ ونڈو کھولیں / بند کریں'
     },
     r_sw: {
       ar: 'فتح شاشة الترحيب',
-      en: 'Open welcome screen'
+      en: 'Open welcome screen',
+      fr: 'Ouvrir l\'écran d\'accueil',
+      es: 'Abrir pantalla de bienvenida',
+      sv: 'Öppna välkomstskärmen',
+      nl: 'Welkomstscherm openen',
+      ga: 'Oscail an scáileán fáilte',
+      de: 'Startbildschirm öffnen',
+      ru: 'Открыть приветственный экран',
+      tr: 'Karşılama ekranını aç',
+      pt: 'Abrir tela de boas-vindas',
+      zh: '打开欢迎屏幕',
+      ur: 'خوش آمدید اسکرین کھولیں'
     },
     r_esc: {
       ar: 'إغلاق شاشة الترحيب / هذه النافذة',
-      en: 'Close welcome screen / this window'
+      en: 'Close welcome screen / this window',
+      fr: 'Fermer l\'écran d\'accueil / cette fenêtre',
+      es: 'Cerrar pantalla de bienvenida / esta ventana',
+      sv: 'Stäng välkomstskärmen / detta fönster',
+      nl: 'Welkomstscherm / dit venster sluiten',
+      ga: 'Dún an scáileán fáilte / an fhuinneog seo',
+      de: 'Startbildschirm / dieses Fenster schließen',
+      ru: 'Закрыть приветственный экран / это окно',
+      tr: 'Karşılama ekranını / bu pencereyi kapat',
+      pt: 'Fechar tela de boas-vindas / esta janela',
+      zh: '关闭欢迎屏幕 / 此窗口',
+      ur: 'خوش آمدید اسکرین / یہ ونڈو بند کریں'
     },
     r_e: {
       ar: 'تحويل الموقع للإنجليزية',
-      en: 'Switch site to English'
+      en: 'Switch site to English',
+      fr: 'Passer le site en anglais',
+      es: 'Cambiar el sitio a inglés',
+      sv: 'Byt webbplatsen till engelska',
+      nl: 'Site omschakelen naar Engels',
+      ga: 'Athraigh an suíomh go Béarla',
+      de: 'Website auf Englisch umstellen',
+      ru: 'Переключить сайт на английский',
+      tr: 'Siteyi İngilizceye çevir',
+      pt: 'Mudar o site para inglês',
+      zh: '将网站切换为英文',
+      ur: 'سائٹ کو انگریزی میں تبدیل کریں'
     },
     r_a: {
       ar: 'تحويل الموقع للعربية',
-      en: 'Switch site to Arabic'
+      en: 'Switch site to Arabic',
+      fr: 'Passer le site en arabe',
+      es: 'Cambiar el sitio a árabe',
+      sv: 'Byt webbplatsen till arabiska',
+      nl: 'Site omschakelen naar Arabisch',
+      ga: 'Athraigh an suíomh go hAraibis',
+      de: 'Website auf Arabisch umstellen',
+      ru: 'Переключить сайт на арабский',
+      tr: 'Siteyi Arapçaya çevir',
+      pt: 'Mudar o site para árabe',
+      zh: '将网站切换为阿拉伯文',
+      ur: 'سائٹ کو عربی میں تبدیل کریں'
     },
     sec_tasbih: {
       ar: '📿 عداد التسبيح',
-      en: '📿 Dhikr Counter'
+      en: '📿 Dhikr Counter',
+      fr: '📿 Compteur de dhikr',
+      es: '📿 Contador de dhikr',
+      sv: '📿 Dhikr-räknare',
+      nl: '📿 Dhikr-teller',
+      ga: '📿 Áireamhán Dhikr',
+      de: '📿 Dhikr-Zähler',
+      ru: '📿 Счётчик зикра',
+      tr: '📿 Zikir Sayacı',
+      pt: '📿 Contador de Dhikr',
+      zh: '📿 记数器(赞念)',
+      ur: '📿 ذکر کاؤنٹر'
     },
     r_dot: {
       ar: 'إضافة تسبيحة (في المحطة النشطة)',
-      en: 'Add dhikr count (active station)'
+      en: 'Add dhikr count (active station)',
+      fr: 'Ajouter un dhikr (station active)',
+      es: 'Añadir un dhikr (emisora activa)',
+      sv: 'Lägg till dhikr (aktiv kanal)',
+      nl: 'Dhikr toevoegen (actief station)',
+      ga: 'Cuir dhikr leis (stáisiún gníomhach)',
+      de: 'Dhikr hinzufügen (aktiver Sender)',
+      ru: 'Добавить зикр (активная станция)',
+      tr: 'Zikir ekle (aktif istasyon)',
+      pt: 'Adicionar dhikr (estação ativa)',
+      zh: '增加赞念计数(当前频道)',
+      ur: 'ذکر شمار کریں (فعال اسٹیشن)'
     },
     tip_tasbih: {
       ar: 'يعمل فقط عندما تكون المحطة النشطة تحتوي على عداد تسبيح',
-      en: 'Works only when the active station has a dhikr counter.'
+      en: 'Works only when the active station has a dhikr counter.',
+      fr: 'Fonctionne uniquement lorsque la station active possède un compteur de dhikr.',
+      es: 'Solo funciona cuando la emisora activa tiene un contador de dhikr.',
+      sv: 'Fungerar endast när den aktiva kanalen har en dhikr-räknare.',
+      nl: 'Werkt alleen als het actieve station een dhikr-teller heeft.',
+      ga: 'Ní oibríonn sé ach nuair a bhíonn áireamhán dhikr ag an stáisiún gníomhach.',
+      de: 'Funktioniert nur, wenn der aktive Sender einen Dhikr-Zähler hat.',
+      ru: 'Работает только если у активной станции есть счётчик зикра.',
+      tr: 'Yalnızca aktif istasyonda zikir sayacı varsa çalışır.',
+      pt: 'Funciona apenas quando a estação ativa tem um contador de dhikr.',
+      zh: '仅当当前频道具有赞念计数器时可用。',
+      ur: 'صرف اس وقت کام کرتا ہے جب فعال اسٹیشن میں ذکر کاؤنٹر موجود ہو۔'
     },
     sec_mobile: {
       ar: '📱 إيماءات الموبايل',
-      en: '📱 Mobile Gestures'
+      en: '📱 Mobile Gestures',
+      fr: '📱 Gestes mobiles',
+      es: '📱 Gestos móviles',
+      sv: '📱 Mobilgester',
+      nl: '📱 Mobiele gebaren',
+      ga: '📱 Gothaí Móibíleacha',
+      de: '📱 Mobile Gesten',
+      ru: '📱 Жесты на мобильном',
+      tr: '📱 Mobil Hareketler',
+      pt: '📱 Gestos móveis',
+      zh: '📱 移动手势',
+      ur: '📱 موبائل اشارے'
     },
     m_swipe_l: {
       ar: 'سحب لليسار → المحطة التالية',
-      en: 'Swipe left → Next station'
+      en: 'Swipe left → Next station',
+      fr: 'Glisser à gauche → Station suivante',
+      es: 'Deslizar a la izquierda → Siguiente emisora',
+      sv: 'Svep vänster → Nästa kanal',
+      nl: 'Naar links vegen → Volgend station',
+      ga: 'Sleamhnaigh ar chlé → An chéad stáisiún eile',
+      de: 'Nach links wischen → Nächster Sender',
+      ru: 'Смахнуть влево → следующая станция',
+      tr: 'Sola kaydır → Sonraki istasyon',
+      pt: 'Deslizar à esquerda → Próxima estação',
+      zh: '左滑 → 下一频道',
+      ur: 'بائیں سوائپ کریں → اگلا اسٹیشن'
     },
     m_swipe_r: {
       ar: 'سحب لليمين → المحطة السابقة',
-      en: 'Swipe right → Previous station'
+      en: 'Swipe right → Previous station',
+      fr: 'Glisser à droite → Station précédente',
+      es: 'Deslizar a la derecha → Emisora anterior',
+      sv: 'Svep höger → Föregående kanal',
+      nl: 'Naar rechts vegen → Vorig station',
+      ga: 'Sleamhnaigh ar dheis → An stáisiún roimhe seo',
+      de: 'Nach rechts wischen → Vorheriger Sender',
+      ru: 'Смахнуть вправо → предыдущая станция',
+      tr: 'Sağa kaydır → Önceki istasyon',
+      pt: 'Deslizar à direita → Estação anterior',
+      zh: '右滑 → 上一频道',
+      ur: 'دائیں سوائپ کریں → پچھلا اسٹیشن'
     },
     m_long: {
       ar: 'ضغط مطوّل على محطة → تكرار تلقائي',
-      en: 'Long-press station → Auto-repeat'
+      en: 'Long-press station → Auto-repeat',
+      fr: 'Appui long sur une station → Répétition automatique',
+      es: 'Mantener pulsado en una emisora → Repetición automática',
+      sv: 'Långtryck på kanal → Automatisk upprepning',
+      nl: 'Lang indrukken op station → Automatisch herhalen',
+      ga: 'Brúigh go fada ar stáisiún → Athrá uathoibríoch',
+      de: 'Langes Drücken auf Sender → Automatische Wiederholung',
+      ru: 'Долгое нажатие на станцию → автоповтор',
+      tr: 'İstasyona uzun basma → Otomatik tekrar',
+      pt: 'Pressionar e segurar na estação → Repetição automática',
+      zh: '长按频道 → 自动重复',
+      ur: 'اسٹیشن پر دیر تک دبائیں → خودکار تکرار'
     },
     m_triple: {
       ar: 'ثلاث نقرات على مساحة فارغة → شاشة الترحيب',
-      en: 'Triple-tap empty area → Welcome screen'
+      en: 'Triple-tap empty area → Welcome screen',
+      fr: 'Triple appui sur une zone vide → Écran d\'accueil',
+      es: 'Triple toque en área vacía → Pantalla de bienvenida',
+      sv: 'Trippeltryck på tomt område → Välkomstskärm',
+      nl: 'Drie keer tikken op lege ruimte → Welkomstscherm',
+      ga: 'Triopláil ar limistéar folamh → Scáileán fáilte',
+      de: 'Dreifaches Tippen auf leeren Bereich → Startbildschirm',
+      ru: 'Тройное касание пустой области → приветственный экран',
+      tr: 'Boş alana üç kez dokun → Karşılama ekranı',
+      pt: 'Toque triplo em área vazia → Tela de boas-vindas',
+      zh: '在空白区域连点三下 → 欢迎屏幕',
+      ur: 'خالی جگہ پر تین بار ٹیپ کریں → خوش آمدید اسکرین'
     },
     r_m: {
       ar: 'كتم / رفع الصوت',
-      en: 'Mute / Unmute'
+      en: 'Mute / Unmute',
+      fr: 'Couper / Rétablir le son',
+      es: 'Silenciar / Activar sonido',
+      sv: 'Tysta / Aktivera ljud',
+      nl: 'Dempen / Dempen opheffen',
+      ga: 'Balbhaigh / Díbhalbhaigh',
+      de: 'Stummschalten / Ton aktivieren',
+      ru: 'Выключить / включить звук',
+      tr: 'Sesi kapat / aç',
+      pt: 'Silenciar / Ativar som',
+      zh: '静音 / 取消静音',
+      ur: 'خاموش / آواز بحال کریں'
     },
     r_sp: {
       ar: 'إعادة تشغيل المحطة الحالية',
-      en: 'Restart current stream'
+      en: 'Restart current stream',
+      fr: 'Redémarrer le flux actuel',
+      es: 'Reiniciar la transmisión actual',
+      sv: 'Starta om aktuell ström',
+      nl: 'Huidige stream herstarten',
+      ga: 'Atosaigh an sruth reatha',
+      de: 'Aktuellen Stream neu starten',
+      ru: 'Перезапустить текущий поток',
+      tr: 'Mevcut yayını yeniden başlat',
+      pt: 'Reiniciar o stream atual',
+      zh: '重新开始当前流',
+      ur: 'موجودہ اسٹریم دوبارہ شروع کریں'
     },
     r_d: {
       ar: 'تبديل الوضع الليلي/النهاري',
-      en: 'Toggle Dark / Light mode'
+      en: 'Toggle Dark / Light mode',
+      fr: 'Basculer mode sombre / clair',
+      es: 'Alternar modo oscuro / claro',
+      sv: 'Växla mörkt / ljust läge',
+      nl: 'Donkere / lichte modus wisselen',
+      ga: 'Scoránaigh Mód Dorcha / Solais',
+      de: 'Dunkel-/Hellmodus umschalten',
+      ru: 'Переключить тёмный/светлый режим',
+      tr: 'Koyu / Açık modu değiştir',
+      pt: 'Alternar modo escuro / claro',
+      zh: '切换深色 / 浅色模式',
+      ur: 'ڈارک / لائٹ موڈ تبدیل کریں'
     },
     r_s: {
       ar: 'فتح البحث مباشرةً',
-      en: 'Focus search bar'
+      en: 'Focus search bar',
+      fr: 'Accéder directement à la recherche',
+      es: 'Enfocar la barra de búsqueda',
+      sv: 'Fokusera sökfältet',
+      nl: 'Zoekbalk direct openen',
+      ga: 'Díritigh an barra cuardaigh',
+      de: 'Suchleiste direkt öffnen',
+      ru: 'Перейти в строку поиска',
+      tr: 'Arama çubuğuna odaklan',
+      pt: 'Focar na barra de pesquisa',
+      zh: '直接聚焦搜索框',
+      ur: 'سرچ بار پر فوکس کریں'
     },
     r_f: {
       ar: 'عرض / إخفاء المفضلة',
-      en: 'Toggle Favorites view'
+      en: 'Toggle Favorites view',
+      fr: 'Afficher / masquer les favoris',
+      es: 'Mostrar / ocultar favoritos',
+      sv: 'Visa / dölj favoriter',
+      nl: 'Favorieten weergeven / verbergen',
+      ga: 'Taispeáin / Folaigh Ceanáin',
+      de: 'Favoritenansicht ein-/ausblenden',
+      ru: 'Показать/скрыть избранное',
+      tr: 'Favoriler görünümünü aç/kapat',
+      pt: 'Mostrar / ocultar favoritos',
+      zh: '显示 / 隐藏收藏夹',
+      ur: 'پسندیدہ منظر دکھائیں / چھپائیں'
     },
     r_sf: {
       ar: 'محطة عشوائية من المفضلة',
-      en: 'Random station from Favorites'
+      en: 'Random station from Favorites',
+      fr: 'Station aléatoire parmi les favoris',
+      es: 'Emisora aleatoria de favoritos',
+      sv: 'Slumpmässig kanal från favoriter',
+      nl: 'Willekeurig station uit favorieten',
+      ga: 'Stáisiún randamach ó Cheanáin',
+      de: 'Zufälliger Sender aus Favoriten',
+      ru: 'Случайная станция из избранного',
+      tr: 'Favorilerden rastgele istasyon',
+      pt: 'Estação aleatória dos favoritos',
+      zh: '从收藏夹随机选台',
+      ur: 'پسندیدہ سے بے ترتیب اسٹیشن'
     },
     r_o: {
       ar: 'فتح / إغلاق قائمة الإعدادات',
-      en: 'Open / Close Settings panel'
+      en: 'Open / Close Settings panel',
+      fr: 'Ouvrir / fermer le panneau des paramètres',
+      es: 'Abrir / cerrar el panel de ajustes',
+      sv: 'Öppna / stäng inställningspanelen',
+      nl: 'Instellingenpaneel openen / sluiten',
+      ga: 'Oscail / Dún painéal na Socruithe',
+      de: 'Einstellungsbereich öffnen/schließen',
+      ru: 'Открыть/закрыть панель настроек',
+      tr: 'Ayarlar panelini aç / kapat',
+      pt: 'Abrir / fechar o painel de configurações',
+      zh: '打开 / 关闭设置面板',
+      ur: 'سیٹنگز پینل کھولیں / بند کریں'
     },
     r_g: {
       ar: 'فتح المصحف الشريف',
-      en: 'Open Quran Reader'
+      en: 'Open Quran Reader',
+      fr: 'Ouvrir le lecteur du Coran',
+      es: 'Abrir el lector del Corán',
+      sv: 'Öppna Koranläsaren',
+      nl: 'Koranlezer openen',
+      ga: 'Oscail an Léitheoir Quran',
+      de: 'Koran-Leser öffnen',
+      ru: 'Открыть чтение Корана',
+      tr: 'Kur\'an Okuyucusunu aç',
+      pt: 'Abrir o leitor do Alcorão',
+      zh: '打开古兰经阅读器',
+      ur: 'قرآن ریڈر کھولیں'
     },
     r_t: {
       ar: 'الانتقال للمسبحة',
-      en: 'Go to Dhikr Counter'
+      en: 'Go to Dhikr Counter',
+      fr: 'Aller au compteur de dhikr',
+      es: 'Ir al contador de dhikr',
+      sv: 'Gå till dhikr-räknaren',
+      nl: 'Naar de dhikr-teller gaan',
+      ga: 'Téigh go dtí an tÁireamhán Dhikr',
+      de: 'Zum Dhikr-Zähler wechseln',
+      ru: 'Перейти к счётчику зикра',
+      tr: 'Zikir sayacına git',
+      pt: 'Ir para o contador de dhikr',
+      zh: '前往赞念计数器',
+      ur: 'ذکر کاؤنٹر پر جائیں'
     },
     r_c: {
       ar: 'الانتقال لعلوم القرآن',
-      en: 'Go to Quran Sciences'
+      en: 'Go to Quran Sciences',
+      fr: 'Aller aux sciences du Coran',
+      es: 'Ir a las ciencias del Corán',
+      sv: 'Gå till Koranvetenskaper',
+      nl: 'Naar Koranwetenschappen gaan',
+      ga: 'Téigh go dtí Eolaíochtaí an Quran',
+      de: 'Zu Koranwissenschaften wechseln',
+      ru: 'Перейти к наукам о Коране',
+      tr: 'Kur\'an İlimlerine git',
+      pt: 'Ir para Ciências do Alcorão',
+      zh: '前往古兰经学',
+      ur: 'علوم القرآن پر جائیں'
     },
     r_st: {
       ar: 'الانتقال لمواقيت الصلاة',
-      en: 'Go to Prayer Times'
+      en: 'Go to Prayer Times',
+      fr: 'Aller aux horaires de prière',
+      es: 'Ir a los horarios de oración',
+      sv: 'Gå till bönetider',
+      nl: 'Naar gebedstijden gaan',
+      ga: 'Téigh go dtí Amanna Urnaí',
+      de: 'Zu den Gebetszeiten wechseln',
+      ru: 'Перейти к временам молитв',
+      tr: 'Namaz vakitlerine git',
+      pt: 'Ir para horários de oração',
+      zh: '前往礼拜时间',
+      ur: 'نماز کے اوقات پر جائیں'
     },
     sec_tools: {
       ar: '🧰 أدوات الفوتر',
-      en: '🧰 Footer Tools'
+      en: '🧰 Footer Tools',
+      fr: '🧰 Outils du pied de page',
+      es: '🧰 Herramientas del pie de página',
+      sv: '🧰 Sidfotsverktyg',
+      nl: '🧰 Footer-tools',
+      ga: '🧰 Uirlisí Buntásca',
+      de: '🧰 Footer-Werkzeuge',
+      ru: '🧰 Инструменты в подвале',
+      tr: '🧰 Alt Bilgi Araçları',
+      pt: '🧰 Ferramentas do rodapé',
+      zh: '🧰 页脚工具',
+      ur: '🧰 فوٹر ٹولز'
     },
     r_stats: {
       ar: 'إحصائيات الاستماع',
-      en: 'Listening Stats'
+      en: 'Listening Stats',
+      fr: 'Statistiques d\'écoute',
+      es: 'Estadísticas de escucha',
+      sv: 'Lyssningsstatistik',
+      nl: 'Luisterstatistieken',
+      ga: 'Staitisticí Éisteachta',
+      de: 'Hörstatistik',
+      ru: 'Статистика прослушивания',
+      tr: 'Dinleme İstatistikleri',
+      pt: 'Estatísticas de audição',
+      zh: '收听统计',
+      ur: 'سننے کے اعداد و شمار'
     },
     r_qibla: {
       ar: 'اتجاه القبلة',
-      en: 'Qibla Direction'
+      en: 'Qibla Direction',
+      fr: 'Direction de la Qibla',
+      es: 'Dirección de la Qibla',
+      sv: 'Qibla-riktning',
+      nl: 'Qibla-richting',
+      ga: 'Treo na Qibla',
+      de: 'Qibla-Richtung',
+      ru: 'Направление киблы',
+      tr: 'Kıble Yönü',
+      pt: 'Direção da Qibla',
+      zh: '朝向指南(克尔白方向)',
+      ur: 'قبلہ کی سمت'
     },
     r_ptimes: {
       ar: 'نافذة مواقيت الصلاة',
-      en: 'Prayer Times popup'
+      en: 'Prayer Times popup',
+      fr: 'Fenêtre des horaires de prière',
+      es: 'Ventana de horarios de oración',
+      sv: 'Popup för bönetider',
+      nl: 'Gebedstijden-pop-up',
+      ga: 'Preabfhuinneog Amanna Urnaí',
+      de: 'Gebetszeiten-Fenster',
+      ru: 'Окно времени молитв',
+      tr: 'Namaz vakitleri penceresi',
+      pt: 'Janela de horários de oração',
+      zh: '礼拜时间弹窗',
+      ur: 'نماز کے اوقات پاپ اپ'
     },
     r_zakat: {
       ar: 'حاسبة الزكاة',
-      en: 'Zakat Calculator'
+      en: 'Zakat Calculator',
+      fr: 'Calculateur de Zakat',
+      es: 'Calculadora de Zakat',
+      sv: 'Zakat-kalkylator',
+      nl: 'Zakat-calculator',
+      ga: 'Áireamhán Zakat',
+      de: 'Zakat-Rechner',
+      ru: 'Калькулятор закята',
+      tr: 'Zekât Hesaplayıcı',
+      pt: 'Calculadora de Zakat',
+      zh: '天课(扎卡特)计算器',
+      ur: 'زکوٰۃ کیلکولیٹر'
     },
     r_khatma: {
       ar: 'متابعة الختمة',
-      en: 'Khatma Tracker'
+      en: 'Khatma Tracker',
+      fr: 'Suivi de la Khatma',
+      es: 'Seguimiento de la Khatma',
+      sv: 'Khatma-spårare',
+      nl: 'Khatma-tracker',
+      ga: 'Rianaire Khatma',
+      de: 'Khatma-Tracker',
+      ru: 'Трекер хатмы',
+      tr: 'Hatim Takipçisi',
+      pt: 'Rastreador de Khatma',
+      zh: '古兰经通读进度追踪',
+      ur: 'ختم قرآن ٹریکر'
     },
     sec6: {
       ar: 'تلميحات إضافية',
-      en: 'Additional Tips'
+      en: 'Additional Tips',
+      fr: 'Astuces supplémentaires',
+      es: 'Consejos adicionales',
+      sv: 'Ytterligare tips',
+      nl: 'Extra tips',
+      ga: 'Leideanna Breise',
+      de: 'Weitere Tipps',
+      ru: 'Дополнительные советы',
+      tr: 'Ek İpuçları',
+      pt: 'Dicas adicionais',
+      zh: '更多提示',
+      ur: 'اضافی تجاویز'
     },
     tip_long: {
       ar: 'اضغط <strong>مطولاً</strong> على أي محطة لتفعيل التكرار التلقائي للمقطع الحالي',
-      en: '<strong>Long-press</strong> any station to enable auto-repeat for the current segment.'
+      en: '<strong>Long-press</strong> any station to enable auto-repeat for the current segment.',
+      fr: 'Appuyez <strong>longuement</strong> sur une station pour activer la répétition automatique du segment actuel.',
+      es: 'Mantén pulsada <strong>una emisora</strong> para activar la repetición automática del segmento actual.',
+      sv: '<strong>Långtryck</strong> på en kanal för att aktivera automatisk upprepning av aktuellt segment.',
+      nl: 'Houd <strong>lang</strong> een station ingedrukt om automatische herhaling van het huidige segment in te schakelen.',
+      ga: 'Brúigh <strong>go fada</strong> ar aon stáisiún chun athrá uathoibríoch na coda reatha a chumasú.',
+      de: 'Drücken Sie <strong>lange</strong> auf einen Sender, um die automatische Wiederholung des aktuellen Segments zu aktivieren.',
+      ru: '<strong>Долгое нажатие</strong> на станцию включает автоповтор текущего сегмента.',
+      tr: 'Mevcut bölümün otomatik tekrarını etkinleştirmek için herhangi bir istasyona <strong>uzun basın</strong>.',
+      pt: '<strong>Pressione e segure</strong> em qualquer estação para ativar a repetição automática do segmento atual.',
+      zh: '<strong>长按</strong>任意频道即可启用当前分段的自动重复播放。',
+      ur: 'موجودہ سیگمنٹ کی خودکار تکرار فعال کرنے کے لیے کسی بھی اسٹیشن کو <strong>دیر تک دبائیں</strong>۔'
     },
     tip_ctrl: {
       ar: '<strong>Ctrl + Click</strong> على محطة لفتح بثها مباشرةً في تبويب جديد',
-      en: '<strong>Ctrl + Click</strong> a station to open its stream directly in a new tab.'
+      en: '<strong>Ctrl + Click</strong> a station to open its stream directly in a new tab.',
+      fr: '<strong>Ctrl + Clic</strong> sur une station pour ouvrir son flux directement dans un nouvel onglet.',
+      es: '<strong>Ctrl + Clic</strong> en una emisora para abrir su transmisión directamente en una nueva pestaña.',
+      sv: '<strong>Ctrl + Klick</strong> på en kanal för att öppna dess ström direkt i en ny flik.',
+      nl: '<strong>Ctrl + Klik</strong> op een station om de stream direct in een nieuw tabblad te openen.',
+      ga: '<strong>Ctrl + Cliceáil</strong> ar stáisiún chun a shruth a oscailt go díreach i gcluaisín nua.',
+      de: '<strong>Strg + Klick</strong> auf einen Sender, um dessen Stream direkt in einem neuen Tab zu öffnen.',
+      ru: '<strong>Ctrl + клик</strong> по станции открывает её поток прямо в новой вкладке.',
+      tr: 'Bir istasyonun yayınını doğrudan yeni sekmede açmak için <strong>Ctrl + Tıklama</strong> yapın.',
+      pt: '<strong>Ctrl + Clique</strong> em uma estação para abrir seu stream diretamente em uma nova aba.',
+      zh: '<strong>Ctrl+点击</strong>频道可在新标签页中直接打开其音频流。',
+      ur: 'کسی اسٹیشن کا اسٹریم نئے ٹیب میں براہ راست کھولنے کے لیے <strong>Ctrl + کلک</strong> کریں۔'
     },
     tip_triple: {
       ar: 'اضغط <strong>ثلاث مرات</strong> على مساحة فارغة لفتح شاشة الترحيب',
-      en: 'Tap <strong>three times</strong> on an empty area to open the welcome screen.'
+      en: 'Tap <strong>three times</strong> on an empty area to open the welcome screen.',
+      fr: 'Appuyez <strong>trois fois</strong> sur une zone vide pour ouvrir l\'écran d\'accueil.',
+      es: 'Toca <strong>tres veces</strong> un área vacía para abrir la pantalla de bienvenida.',
+      sv: 'Tryck <strong>tre gånger</strong> på ett tomt område för att öppna välkomstskärmen.',
+      nl: 'Tik <strong>drie keer</strong> op een lege ruimte om het welkomstscherm te openen.',
+      ga: 'Tapáil <strong>trí huaire</strong> ar limistéar folamh chun an scáileán fáilte a oscailt.',
+      de: 'Tippen Sie <strong>dreimal</strong> auf einen leeren Bereich, um den Startbildschirm zu öffnen.',
+      ru: 'Нажмите <strong>три раза</strong> на пустую область, чтобы открыть приветственный экран.',
+      tr: 'Karşılama ekranını açmak için boş bir alana <strong>üç kez</strong> dokunun.',
+      pt: 'Toque <strong>três vezes</strong> em uma área vazia para abrir a tela de boas-vindas.',
+      zh: '在空白区域<strong>连点三下</strong>即可打开欢迎屏幕。',
+      ur: 'خوش آمدید اسکرین کھولنے کے لیے خالی جگہ پر <strong>تین بار</strong> ٹیپ کریں۔'
     },
     footer: {
       ar: '⌨️ الاختصارات تعمل خارج حقول الإدخال فقط',
-      en: '⌨️ Shortcuts work outside input fields only'
+      en: '⌨️ Shortcuts work outside input fields only',
+      fr: '⌨️ Les raccourcis fonctionnent uniquement en dehors des champs de saisie',
+      es: '⌨️ Los atajos solo funcionan fuera de los campos de entrada',
+      sv: '⌨️ Kortkommandon fungerar endast utanför inmatningsfält',
+      nl: '⌨️ Sneltoetsen werken alleen buiten invoervelden',
+      ga: '⌨️ Ní oibríonn na haicearraí ach lasmuigh de réimsí ionchuir',
+      de: '⌨️ Tastenkürzel funktionieren nur außerhalb von Eingabefeldern',
+      ru: '⌨️ Горячие клавиши работают только вне полей ввода',
+      tr: '⌨️ Kısayollar yalnızca giriş alanlarının dışında çalışır',
+      pt: '⌨️ Os atalhos funcionam apenas fora dos campos de entrada',
+      zh: '⌨️ 快捷键仅在输入框之外有效',
+      ur: '⌨️ شارٹ کٹس صرف ان پٹ فیلڈز کے باہر کام کرتے ہیں'
     },
     footer_key: {
       ar: 'لفتح هذه النافذة',
-      en: 'to open this window'
-    },
-    toggle_en: {
-      ar: 'EN',
-      en: 'عربي'
+      en: 'to open this window',
+      fr: 'pour ouvrir cette fenêtre',
+      es: 'para abrir esta ventana',
+      sv: 'för att öppna detta fönster',
+      nl: 'om dit venster te openen',
+      ga: 'chun an fhuinneog seo a oscailt',
+      de: 'um dieses Fenster zu öffnen',
+      ru: 'чтобы открыть это окно',
+      tr: 'bu pencereyi açmak için',
+      pt: 'para abrir esta janela',
+      zh: '打开此窗口',
+      ur: 'یہ ونڈو کھولنے کے لیے'
     }
   };
 
@@ -39022,20 +39903,55 @@ document.addEventListener("keydown", function(e) {
     document.dispatchEvent(ev);
   };
 
+  // لغات RTL المدعومة في نافذة الاختصارات (عربي وأردو)
+  var KB_RTL_LANGS = { ar: true, ur: true };
+  // اسم كل لغة في قائمة الاختيار (بنفس ترتيب قائمة شاشة الترحيب)
+  var KB_LANG_NAMES = {
+    ar: 'العربية', en: 'English', fr: 'Français', es: 'Español', sv: 'Svenska',
+    nl: 'Nederlands', ga: 'Gaeilge', de: 'Deutsch', ru: 'Русский', tr: 'Türkçe',
+    pt: 'Português', zh: '中文', ur: 'اردو'
+  };
+  var KB_TAP_HINT = {
+    ar: 'اضغط للتنفيذ', en: 'Tap to trigger', fr: 'Toucher pour activer', es: 'Toca para activar',
+    sv: 'Tryck för att utlösa', nl: 'Tik om te activeren', ga: 'Tapáil chun gníomhachtú',
+    de: 'Tippen zum Auslösen', ru: 'Нажмите для запуска', tr: 'Tetiklemek için dokun',
+    pt: 'Toque para ativar', zh: '点按以执行', ur: 'چلانے کے لیے ٹیپ کریں'
+  };
+  var KB_MOBILE_NOTE = {
+    ar: 'اضغط على أي اختصار لتنفيذه مباشرةً من الموبايل',
+    en: 'Tap any shortcut row to trigger it on mobile',
+    fr: 'Touchez une ligne de raccourci pour l\'activer sur mobile',
+    es: 'Toca cualquier atajo para activarlo desde el móvil',
+    sv: 'Tryck på valfri genvägsrad för att utlösa den på mobilen',
+    nl: 'Tik op een sneltoetsrij om deze op mobiel te activeren',
+    ga: 'Tapáil aon líne aicearra chun í a ghníomhachtú ar an bhfón',
+    de: 'Tippen Sie auf eine Kürzelzeile, um sie mobil auszulösen',
+    ru: 'Нажмите на строку с сочетанием клавиш, чтобы выполнить его на мобильном',
+    tr: 'Mobilde tetiklemek için herhangi bir kısayol satırına dokunun',
+    pt: 'Toque em qualquer linha de atalho para ativá-lo no celular',
+    zh: '在移动设备上点按任意快捷键行即可执行',
+    ur: 'موبائل پر چلانے کے لیے کسی بھی شارٹ کٹ لائن کو ٹیپ کریں'
+  };
+
   function kbRow(id, keys, lang) {
     var hasAction = !!actionMap[id];
     var actionAttr = hasAction ? ' data-action="' + id + '" role="button" tabindex="0" onclick="window._kbFireAction(\'' + id + '\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'' + id + '\')"' : '';
-    var tapHint = hasAction ? '<span class="kb-row-tap-hint">' + (lang === 'ar' ? 'اضغط للتنفيذ' : 'Tap to trigger') + '</span>' : '';
+    var tapHint = hasAction ? '<span class="kb-row-tap-hint">' + (KB_TAP_HINT[lang] || KB_TAP_HINT.en) + '</span>' : '';
     return '<div class="kb-row"' + actionAttr + '><span class="kb-row-desc">' + T[id][lang] + tapHint + '</span><div class="kb-keys">' + kbKey(keys) + '</div></div>';
   }
 
   function buildModal(lang) {
     return [
-      '<div id="kb-modal"' + (lang === 'en' ? ' class="lang-en"' : '') + '>',
+      '<div id="kb-modal"' + (KB_RTL_LANGS[lang] ? '' : ' class="kb-ltr"') + '>',
       '<div id="kb-modal-header">',
       '<h2>' + T.title[lang] + '</h2>',
       '<div style="display:flex;align-items:center;gap:8px">',
-      '<button id="kb-lang-toggle" title="' + (lang === 'ar' ? 'Switch to English' : 'التبديل للعربية') + '">' + T.toggle_en[lang] + '</button>',
+      '<div id="kb-lang-wrap">',
+      '<button id="kb-lang-toggle" title="' + (KB_RTL_LANGS[lang] ? 'Change language' : 'تغيير اللغة') + '">🌐 ' + lang.toUpperCase() + '</button>',
+      '<div id="kb-lang-menu">' + Object.keys(KB_LANG_NAMES).map(function(code) {
+        return '<button type="button" class="kb-lang-option' + (code === lang ? ' active' : '') + '" data-lang="' + code + '">' + KB_LANG_NAMES[code] + '</button>';
+      }).join('') + '</div>',
+      '</div>',
       '<button id="kb-modal-close" aria-label="' + T.close[lang] + '">✕</button>',
       '</div>',
       '</div>',
@@ -39043,7 +39959,7 @@ document.addEventListener("keydown", function(e) {
 
       '<div id="kb-mobile-note" style="background:rgba(29,158,117,0.10);border-radius:10px;padding:9px 13px;font-size:12px;gap:8px;align-items:center;line-height:1.5;margin-bottom:2px">',
       '<span style="font-size:16px;flex-shrink:0">👆</span>',
-      '<span>' + (lang === 'ar' ? 'اضغط على أي اختصار لتنفيذه مباشرةً من الموبايل' : 'Tap any shortcut row to trigger it on mobile') + '</span>',
+      '<span>' + (KB_MOBILE_NOTE[lang] || KB_MOBILE_NOTE.en) + '</span>',
       '</div>',
 
       '<div>',
@@ -39055,7 +39971,7 @@ document.addEventListener("keydown", function(e) {
       kbRow('r_plus', ['+'], lang),
       kbRow('r_minus', ['-'], lang),
       kbRow('r_m', ['M'], lang),
-      '<div class="kb-row" data-action="r_sp" role="button" tabindex="0" onclick="window._kbFireAction(\'r_sp\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_sp\')"><span class="kb-row-desc">' + T.r_sp[lang] + '<span class="kb-row-tap-hint">' + (lang === 'ar' ? 'اضغط للتنفيذ' : 'Tap to trigger') + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">P</span></div></div>',
+      '<div class="kb-row" data-action="r_sp" role="button" tabindex="0" onclick="window._kbFireAction(\'r_sp\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_sp\')"><span class="kb-row-desc">' + T.r_sp[lang] + '<span class="kb-row-tap-hint">' + (KB_TAP_HINT[lang] || KB_TAP_HINT.en) + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">P</span></div></div>',
       '</div>',
       '</div>',
 
@@ -39114,9 +40030,9 @@ document.addEventListener("keydown", function(e) {
       kbRow('r_a', ['A'], lang),
       kbRow('r_d', ['D'], lang),
       kbRow('r_s', ['S'], lang),
-      '<div class="kb-row" data-action="r_o" role="button" tabindex="0" onclick="window._kbFireAction(\'r_o\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_o\')"><span class="kb-row-desc">' + T.r_o[lang] + '<span class="kb-row-tap-hint">' + (lang === 'ar' ? 'اضغط للتنفيذ' : 'Tap to trigger') + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">3</span><span class="kb-sep">(</span><span class="kb-key">#</span><span class="kb-sep">)</span></div></div>',
+      '<div class="kb-row" data-action="r_o" role="button" tabindex="0" onclick="window._kbFireAction(\'r_o\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_o\')"><span class="kb-row-desc">' + T.r_o[lang] + '<span class="kb-row-tap-hint">' + (KB_TAP_HINT[lang] || KB_TAP_HINT.en) + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">3</span><span class="kb-sep">(</span><span class="kb-key">#</span><span class="kb-sep">)</span></div></div>',
       kbRow('r_f', ['F'], lang),
-      '<div class="kb-row" data-action="r_sf" role="button" tabindex="0" onclick="window._kbFireAction(\'r_sf\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_sf\')"><span class="kb-row-desc">' + T.r_sf[lang] + '<span class="kb-row-tap-hint">' + (lang === 'ar' ? 'اضغط للتنفيذ' : 'Tap to trigger') + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">F</span></div></div>',
+      '<div class="kb-row" data-action="r_sf" role="button" tabindex="0" onclick="window._kbFireAction(\'r_sf\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_sf\')"><span class="kb-row-desc">' + T.r_sf[lang] + '<span class="kb-row-tap-hint">' + (KB_TAP_HINT[lang] || KB_TAP_HINT.en) + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">F</span></div></div>',
       kbRow('r_g', ['L'], lang),
       kbRow('r_t', ['H'], lang),
       kbRow('r_c', ['U'], lang),
@@ -39183,14 +40099,17 @@ document.addEventListener("keydown", function(e) {
       '</div>',
       '<div id="kb-modal-footer">',
       '<span class="kb-footer-note">' + T.footer[lang] + '</span>',
-      '<div class="kb-keys"><span class="kb-key">?</span><span style="font-size:11.5px;opacity:0.4;margin-' + (lang === 'ar' ? 'right' : 'left') + ':4px">' + T.footer_key[lang] + '</span></div>',
+      '<div class="kb-keys"><span class="kb-key">?</span><span style="font-size:11.5px;opacity:0.4;margin-' + (KB_RTL_LANGS[lang] ? 'right' : 'left') + ':4px">' + T.footer_key[lang] + '</span></div>',
       '</div>',
       '</div>'
     ].join('');
   }
 
-  // تحديد اللغة الافتراضية من إعداد الموقع
+  // تحديد اللغة الافتراضية: نفس لغة شاشة الترحيب (welcomeDisplayLang) إن وُجدت، وإلا عربي/إنجليزي حسب الموقع
   function getSiteLang() {
+    if (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang && KB_LANG_NAMES[welcomeDisplayLang]) {
+      return welcomeDisplayLang;
+    }
     return (typeof isArabic !== 'undefined' && !isArabic) ? 'en' : 'ar';
   }
 
@@ -39199,6 +40118,26 @@ document.addEventListener("keydown", function(e) {
   overlay.innerHTML = buildModal(kbCurrentLang);
   document.body.appendChild(overlay);
 
+  // اختيار لغة جديدة لنافذة الاختصارات: نستدعي نفس دالة شاشة الترحيب (selectWelcomeLang)
+  // فتتطابق النافذتان تمامًا في المنطق والتخزين (localStorage: welcomeDisplayLang)
+  function selectKbLang(target) {
+    if (target === kbCurrentLang) return;
+    kbCurrentLang = target;
+    if (typeof selectWelcomeLang === 'function') {
+      selectWelcomeLang(target); // يحدّث welcomeDisplayLang + يبدّل شاشة الترحيب لو كانت مفتوحة
+    } else if (typeof welcomeDisplayLang !== 'undefined') {
+      welcomeDisplayLang = target;
+      try { localStorage.setItem('welcomeDisplayLang', target); } catch (e) {}
+    }
+    overlay.innerHTML = buildModal(kbCurrentLang);
+    attachListeners();
+  }
+
+  function closeKbLangMenu() {
+    var menu = document.getElementById('kb-lang-menu');
+    if (menu) menu.classList.remove('open');
+  }
+
   function attachListeners() {
     var closeBtn = document.getElementById('kb-modal-close');
     if (closeBtn) closeBtn.addEventListener('click', function() {
@@ -39206,14 +40145,24 @@ document.addEventListener("keydown", function(e) {
     });
 
     var langBtn = document.getElementById('kb-lang-toggle');
-    if (langBtn) langBtn.addEventListener('click', function() {
-      kbCurrentLang = (kbCurrentLang === 'ar') ? 'en' : 'ar';
-      overlay.innerHTML = buildModal(kbCurrentLang);
-      attachListeners();
-    });
+    var langMenu = document.getElementById('kb-lang-menu');
+    if (langBtn && langMenu) {
+      langBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        langMenu.classList.toggle('open');
+      });
+      langMenu.querySelectorAll('.kb-lang-option').forEach(function(opt) {
+        opt.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closeKbLangMenu();
+          selectKbLang(opt.getAttribute('data-lang'));
+        });
+      });
+    }
 
     overlay.addEventListener('click', function(e) {
       if (e.target === overlay) toggleShortcutsModal(false);
+      closeKbLangMenu();
     });
   }
 
@@ -40306,7 +41255,12 @@ document.addEventListener('DOMContentLoaded', function() {
       dwBtn.classList.add('active');
       const dwIcon = dwBtn.querySelector('.wtb-icon');
       if (dwIcon) dwIcon.innerHTML = SVG_EYE_OFF;
-      if (dwTxt) dwTxt.textContent = isAr2 ? 'الترحيب: مخفي' : 'Welcome: Off';
+      if (dwTxt) {
+        var _dwLoadLang = (typeof welcomeDisplayLang !== 'undefined' && typeof DISABLE_WELCOME_LABELS !== 'undefined' && DISABLE_WELCOME_LABELS[welcomeDisplayLang]) ?
+          welcomeDisplayLang : (isAr2 ? 'ar' : 'en');
+        var _dwLoadLabels = (typeof DISABLE_WELCOME_LABELS !== 'undefined' && DISABLE_WELCOME_LABELS[_dwLoadLang]) || { longOff: (isAr2 ? 'الترحيب: مخفي' : 'Welcome: Off') };
+        dwTxt.textContent = _dwLoadLabels.longOff;
+      }
     }
   }
 
@@ -40640,7 +41594,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var viewFavoritesButton = document.getElementById('viewFavoritesButton');
         var _fl = document.getElementById('favLabel');
         var _fh = document.getElementById('favHeart');
-        if (_fl) _fl.textContent = isArabic ? ' المفضلة' : ' Favorites';
+        if (_fl) {
+          var _flLang = typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en');
+          var _flTxt = viewFavoritesButton.getAttribute('data-' + _flLang) || viewFavoritesButton.getAttribute('data-en');
+          _fl.textContent = ' ' + (_flTxt || 'Favorites').replace(/❤/g, '').trim();
+        }
         if (_fh) _fh.style.display = 'inline-block';
         viewFavoritesButton.classList.remove('selected');
         if (typeof filterStations === 'function' && window._lastActiveCategory) {
@@ -40693,7 +41651,11 @@ document.addEventListener('DOMContentLoaded', function() {
       var viewFavoritesButton2 = document.getElementById('viewFavoritesButton');
       var _fl2 = document.getElementById('favLabel');
       var _fh2 = document.getElementById('favHeart');
-      if (_fl2) _fl2.textContent = ar ? ' المفضلة' : ' Favorites';
+      if (_fl2) {
+        var _fl2Lang = typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en');
+        var _fl2Txt = viewFavoritesButton2.getAttribute('data-' + _fl2Lang) || viewFavoritesButton2.getAttribute('data-en');
+        _fl2.textContent = ' ' + (_fl2Txt || 'Favorites').replace(/❤/g, '').trim();
+      }
       if (_fh2) _fh2.style.display = 'inline-block';
       viewFavoritesButton2.classList.remove('selected');
       if (typeof filterStations === 'function' && window._lastActiveCategory) {
@@ -40750,7 +41712,7 @@ document.addEventListener('DOMContentLoaded', function() {
       '<button class="pnb-btn" id="pnb-prev" title="المحطة السابقة">',
       '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>',
       '</button>',
-      '<span class="pnb-lbl">السابقة</span>',
+      '<span class="pnb-lbl" data-ar="السابقة" data-en="Prev" data-fr="Précédent" data-es="Anterior" data-sv="Föregående" data-nl="Vorige" data-ga="Roimhe seo" data-de="Zurück" data-ru="Предыдущая" data-tr="Önceki" data-pt="Anterior" data-zh="上一个" data-ur="پچھلا">السابقة</span>',
       '</div>',
 
       '<div class="pnb-divider"></div>',
@@ -40759,7 +41721,7 @@ document.addEventListener('DOMContentLoaded', function() {
       '<button class="pnb-btn" id="pnb-play" title="تشغيل / إيقاف">',
       '<svg id="pnb-play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>',
       '</button>',
-      '<span class="pnb-lbl" style="color:rgba(144,202,249,.9);">تشغيل</span>',
+      '<span class="pnb-lbl" style="color:rgba(144,202,249,.9);" data-ar="تشغيل" data-en="Play" data-fr="Lecture" data-es="Reproducir" data-sv="Spela" data-nl="Afspelen" data-ga="Seinn" data-de="Abspielen" data-ru="Играть" data-tr="Oynat" data-pt="Reproduzir" data-zh="播放" data-ur="چلائیں">تشغيل</span>',
       '</div>',
 
       '<div class="pnb-divider"></div>',
@@ -40768,7 +41730,7 @@ document.addEventListener('DOMContentLoaded', function() {
       '<button class="pnb-btn" id="pnb-next" title="المحطة التالية">',
       '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>',
       '</button>',
-      '<span class="pnb-lbl">التالية</span>',
+      '<span class="pnb-lbl" data-ar="التالية" data-en="Next" data-fr="Suivant" data-es="Siguiente" data-sv="Nästa" data-nl="Volgende" data-ga="Ar aghaidh" data-de="Weiter" data-ru="Следующая" data-tr="Sonraki" data-pt="Próxima" data-zh="下一个" data-ur="اگلا">التالية</span>',
       '</div>',
 
       '<div class="pnb-divider"></div>',
@@ -40777,7 +41739,7 @@ document.addEventListener('DOMContentLoaded', function() {
       '<button class="pnb-btn" id="pnb-random" title="اخترنا لك – عشوائي">',
       '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>',
       '</button>',
-      '<span class="pnb-lbl" style="color:rgba(255,213,79,.8);">عشوائي</span>',
+      '<span class="pnb-lbl" style="color:rgba(255,213,79,.8);" data-ar="عشوائي" data-en="Random" data-fr="Aléatoire" data-es="Aleatorio" data-sv="Slumpmässig" data-nl="Willekeurig" data-ga="Randamach" data-de="Zufällig" data-ru="Случайная" data-tr="Rastgele" data-pt="Aleatório" data-zh="随机" data-ur="بے ترتیب">عشوائي</span>',
       '</div>',
 
       '<div class="pnb-divider"></div>',
@@ -42847,51 +43809,36 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   function applyContactLang() {
-    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var lang = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ||
+      ((typeof isArabic !== 'undefined' && isArabic) ? 'ar' : 'en');
     var strings = {
-      title: {
-        ar: 'راسلنا',
-        en: 'Contact Us'
-      },
-      labelName: {
-        ar: 'الاسم (اختياري)',
-        en: 'Name (optional)'
-      },
-      labelEmail: {
-        ar: 'بريدك الإلكتروني (اختياري)',
-        en: 'Your Email (optional)'
-      },
-      labelSubj: {
-        ar: 'الموضوع',
-        en: 'Subject'
-      },
-      labelMsg: {
-        ar: 'رسالتك',
-        en: 'Your Message'
-      },
-      cancel: {
-        ar: 'إلغاء',
-        en: 'Cancel'
-      },
-      send: {
-        ar: '✉️ إرسال',
-        en: '✉️ Send'
-      },
-      namePh: {
-        ar: 'اسمك',
-        en: 'Your name'
-      },
-      msgPh: {
-        ar: 'اكتب رسالتك هنا...',
-        en: 'Write your message here...'
-      },
+      title: { ar: 'راسلنا', en: 'Contact Us', fr: 'Contactez-nous', es: 'Contáctanos', sv: 'Kontakta oss', nl: 'Neem contact op', ga: 'Déan teagmháil linn', de: 'Kontaktiere uns', ru: 'Связаться с нами', tr: 'Bize Ulaşın', pt: 'Fale Conosco', zh: '联系我们', ur: 'ہم سے رابطہ کریں' },
+      labelName: { ar: 'الاسم (اختياري)', en: 'Name (optional)', fr: 'Nom (facultatif)', es: 'Nombre (opcional)', sv: 'Namn (valfritt)', nl: 'Naam (optioneel)', ga: 'Ainm (roghnach)', de: 'Name (optional)', ru: 'Имя (необязательно)', tr: 'Ad (isteğe bağlı)', pt: 'Nome (opcional)', zh: '姓名(选填)', ur: 'نام (اختیاری)' },
+      labelEmail: { ar: 'بريدك الإلكتروني (اختياري)', en: 'Your Email (optional)', fr: 'Votre e-mail (facultatif)', es: 'Tu correo (opcional)', sv: 'Din e-post (valfritt)', nl: 'Je e-mail (optioneel)', ga: 'Do ríomhphost (roghnach)', de: 'Deine E-Mail (optional)', ru: 'Ваш email (необязательно)', tr: 'E-postanız (isteğe bağlı)', pt: 'Seu e-mail (opcional)', zh: '您的邮箱(选填)', ur: 'آپ کا ای میل (اختیاری)' },
+      labelSubj: { ar: 'الموضوع', en: 'Subject', fr: 'Sujet', es: 'Asunto', sv: 'Ämne', nl: 'Onderwerp', ga: 'Ábhar', de: 'Betreff', ru: 'Тема', tr: 'Konu', pt: 'Assunto', zh: '主题', ur: 'موضوع' },
+      labelMsg: { ar: 'رسالتك', en: 'Your Message', fr: 'Votre message', es: 'Tu mensaje', sv: 'Ditt meddelande', nl: 'Je bericht', ga: 'Do theachtaireacht', de: 'Deine Nachricht', ru: 'Ваше сообщение', tr: 'Mesajınız', pt: 'Sua mensagem', zh: '您的留言', ur: 'آپ کا پیغام' },
+      cancel: { ar: 'إلغاء', en: 'Cancel', fr: 'Annuler', es: 'Cancelar', sv: 'Avbryt', nl: 'Annuleren', ga: 'Cealaigh', de: 'Abbrechen', ru: 'Отмена', tr: 'İptal', pt: 'Cancelar', zh: '取消', ur: 'منسوخ کریں' },
+      send: { ar: '✉️ إرسال', en: '✉️ Send', fr: '✉️ Envoyer', es: '✉️ Enviar', sv: '✉️ Skicka', nl: '✉️ Verzenden', ga: '✉️ Seol', de: '✉️ Senden', ru: '✉️ Отправить', tr: '✉️ Gönder', pt: '✉️ Enviar', zh: '✉️ 发送', ur: '✉️ بھیجیں' },
+      namePh: { ar: 'اسمك', en: 'Your name', fr: 'Votre nom', es: 'Tu nombre', sv: 'Ditt namn', nl: 'Je naam', ga: "D'ainm", de: 'Dein Name', ru: 'Ваше имя', tr: 'Adınız', pt: 'Seu nome', zh: '您的姓名', ur: 'آپ کا نام' },
+      msgPh: { ar: 'اكتب رسالتك هنا...', en: 'Write your message here...', fr: 'Écrivez votre message ici...', es: 'Escribe tu mensaje aquí...', sv: 'Skriv ditt meddelande här...', nl: 'Schrijf hier je bericht...', ga: 'Scríobh do theachtaireacht anseo...', de: 'Schreibe hier deine Nachricht...', ru: 'Напишите сообщение здесь...', tr: 'Mesajınızı buraya yazın...', pt: 'Escreva sua mensagem aqui...', zh: '在此输入您的留言...', ur: 'اپنا پیغام یہاں لکھیں...' },
       subjects: {
         ar: ['💡 اقتراح', '🔧 مشكلة تقنية', '➕ إضافة محتوى', '📩 أخرى'],
-        en: ['💡 Suggestion', '🔧 Technical Issue', '➕ Add Content', '📩 Other']
+        en: ['💡 Suggestion', '🔧 Technical Issue', '➕ Add Content', '📩 Other'],
+        fr: ['💡 Suggestion', '🔧 Problème technique', '➕ Ajouter du contenu', '📩 Autre'],
+        es: ['💡 Sugerencia', '🔧 Problema técnico', '➕ Agregar contenido', '📩 Otro'],
+        sv: ['💡 Förslag', '🔧 Tekniskt problem', '➕ Lägg till innehåll', '📩 Annat'],
+        nl: ['💡 Suggestie', '🔧 Technisch probleem', '➕ Inhoud toevoegen', '📩 Anders'],
+        ga: ['💡 Moladh', '🔧 Fadhb theicniúil', '➕ Cur le hábhar', '📩 Eile'],
+        de: ['💡 Vorschlag', '🔧 Technisches Problem', '➕ Inhalt hinzufügen', '📩 Sonstiges'],
+        ru: ['💡 Предложение', '🔧 Техническая проблема', '➕ Добавить контент', '📩 Другое'],
+        tr: ['💡 Öneri', '🔧 Teknik sorun', '➕ İçerik ekle', '📩 Diğer'],
+        pt: ['💡 Sugestão', '🔧 Problema técnico', '➕ Adicionar conteúdo', '📩 Outro'],
+        zh: ['💡 建议', '🔧 技术问题', '➕ 添加内容', '📩 其他'],
+        ur: ['💡 تجویز', '🔧 تکنیکی مسئلہ', '➕ مواد شامل کریں', '📩 دیگر']
       }
     };
     var get = function(k) {
-      return ar ? strings[k].ar : strings[k].en;
+      return (strings[k][lang] !== undefined) ? strings[k][lang] : strings[k].en;
     };
 
     var titleEl = document.getElementById('contactModalTitleText');
@@ -42914,7 +43861,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (sendBtn) sendBtn.textContent = get('send');
     var sel = document.getElementById('contactSubject');
     if (sel) {
-      var opts = strings.subjects[ar ? 'ar' : 'en'];
+      var opts = strings.subjects[lang] || strings.subjects.en;
       for (var i = 0; i < sel.options.length; i++) {
         if (opts[i]) sel.options[i].text = opts[i];
       }
@@ -42927,28 +43874,42 @@ document.addEventListener('DOMContentLoaded', function() {
     var from = (document.getElementById('contactEmail').value || '').trim();
     var subj = document.getElementById('contactSubject').value || '';
     var statusEl = document.getElementById('contactStatus');
-    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var lang = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ||
+      ((typeof isArabic !== 'undefined' && isArabic) ? 'ar' : 'en');
+
+    var T = {
+      warn: { ar: '⚠️ يرجى كتابة رسالتك أولاً', en: '⚠️ Please write your message first', fr: "⚠️ Veuillez d'abord écrire votre message", es: '⚠️ Por favor escribe tu mensaje primero', sv: '⚠️ Skriv ditt meddelande först', nl: '⚠️ Schrijf eerst je bericht', ga: '⚠️ Scríobh do theachtaireacht ar dtús', de: '⚠️ Bitte schreibe zuerst deine Nachricht', ru: '⚠️ Пожалуйста, сначала напишите сообщение', tr: '⚠️ Lütfen önce mesajınızı yazın', pt: '⚠️ Por favor, escreva sua mensagem primeiro', zh: '⚠️ 请先输入您的留言', ur: '⚠️ پہلے اپنا پیغام لکھیں' },
+      name: { ar: 'الاسم: ', en: 'Name: ', fr: 'Nom : ', es: 'Nombre: ', sv: 'Namn: ', nl: 'Naam: ', ga: 'Ainm: ', de: 'Name: ', ru: 'Имя: ', tr: 'Ad: ', pt: 'Nome: ', zh: '姓名：', ur: 'نام: ' },
+      email: { ar: 'البريد: ', en: 'Email: ', fr: 'E-mail : ', es: 'Correo: ', sv: 'E-post: ', nl: 'E-mail: ', ga: 'Ríomhphost: ', de: 'E-Mail: ', ru: 'Email: ', tr: 'E-posta: ', pt: 'E-mail: ', zh: '邮箱：', ur: 'ای میل: ' },
+      subject: { ar: 'الموضوع: ', en: 'Subject: ', fr: 'Sujet : ', es: 'Asunto: ', sv: 'Ämne: ', nl: 'Onderwerp: ', ga: 'Ábhar: ', de: 'Betreff: ', ru: 'Тема: ', tr: 'Konu: ', pt: 'Assunto: ', zh: '主题：', ur: 'موضوع: ' },
+      message: { ar: 'الرسالة:\n', en: 'Message:\n', fr: 'Message :\n', es: 'Mensaje:\n', sv: 'Meddelande:\n', nl: 'Bericht:\n', ga: 'Teachtaireacht:\n', de: 'Nachricht:\n', ru: 'Сообщение:\n', tr: 'Mesaj:\n', pt: 'Mensagem:\n', zh: '留言：\n', ur: 'پیغام:\n' },
+      subjPrefix: { ar: 'رسالة من الموقع - ', en: 'Message from site - ', fr: 'Message du site - ', es: 'Mensaje del sitio - ', sv: 'Meddelande från webbplatsen - ', nl: 'Bericht van de site - ', ga: 'Teachtaireacht ón suíomh - ', de: 'Nachricht von der Website - ', ru: 'Сообщение с сайта - ', tr: 'Siteden mesaj - ', pt: 'Mensagem do site - ', zh: '来自网站的留言 - ', ur: 'سائٹ سے پیغام - ' },
+      success: { ar: '✅ سيتم فتح تطبيق البريد لإرسال رسالتك', en: '✅ Your mail app will open to send the message', fr: "✅ Votre application mail va s'ouvrir pour envoyer le message", es: '✅ Se abrirá tu aplicación de correo para enviar el mensaje', sv: '✅ Din e-postapp öppnas för att skicka meddelandet', nl: '✅ Je mail-app wordt geopend om het bericht te verzenden', ga: "✅ Osclófar d'aip ríomhphoist chun do theachtaireacht a sheoladh", de: '✅ Deine Mail-App wird geöffnet, um die Nachricht zu senden', ru: '✅ Откроется почтовое приложение для отправки сообщения', tr: '✅ Mesajınızı göndermek için posta uygulamanız açılacak', pt: '✅ Seu aplicativo de e-mail será aberto para enviar a mensagem', zh: '✅ 您的邮件应用将打开以发送留言', ur: '✅ پیغام بھیجنے کے لیے آپ کی میل ایپ کھل جائے گی' }
+    };
+    var t = function(k) {
+      return (T[k][lang] !== undefined) ? T[k][lang] : T[k].en;
+    };
 
     if (!msg) {
       statusEl.style.color = '#e53935';
-      statusEl.textContent = ar ? '⚠️ يرجى كتابة رسالتك أولاً' : '⚠️ Please write your message first';
+      statusEl.textContent = t('warn');
       return;
     }
 
     var body = '';
-    if (name) body += (ar ? 'الاسم: ' : 'Name: ') + name + '\n';
-    if (from) body += (ar ? 'البريد: ' : 'Email: ') + from + '\n';
-    body += (ar ? 'الموضوع: ' : 'Subject: ') + subj + '\n\n';
-    body += (ar ? 'الرسالة:\n' : 'Message:\n') + msg;
+    if (name) body += t('name') + name + '\n';
+    if (from) body += t('email') + from + '\n';
+    body += t('subject') + subj + '\n\n';
+    body += t('message') + msg;
 
     var mailtoLink = 'mailto:magziko@gmail.com' +
-      '?subject=' + encodeURIComponent((ar ? 'رسالة من الموقع - ' : 'Message from site - ') + subj) +
+      '?subject=' + encodeURIComponent(t('subjPrefix') + subj) +
       '&body=' + encodeURIComponent(body);
 
     window.location.href = mailtoLink;
 
     statusEl.style.color = '#1D9E75';
-    statusEl.textContent = ar ? '✅ سيتم فتح تطبيق البريد لإرسال رسالتك' : '✅ Your mail app will open to send the message';
+    statusEl.textContent = t('success');
 
     setTimeout(function() {
       closeContactModal();
