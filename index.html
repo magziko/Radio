@@ -1678,10 +1678,8 @@ body.dark-mode .site-modal-title { color: #cdd8e3; }
     flex-wrap: wrap;
     gap: 6px;
     padding: 6px 10px;
-    background: rgba(15,15,30,0.95);
-    backdrop-filter: blur(8px);
-    border-top: 1px solid rgba(100,130,180,0.3);
-    pointer-events: all;
+    background: transparent;
+    pointer-events: none;
     max-height: 60px;
     overflow-x: auto;
     scrollbar-width: thin;
@@ -1691,11 +1689,18 @@ body.dark-mode .site-modal-title { color: #cdd8e3; }
     display: none;
 }
 
+.yt-taskbar-item,
+.sm-taskbar-item,
+.mshf-taskbar-item {
+    pointer-events: all;
+    backdrop-filter: blur(8px);
+}
+
 .yt-taskbar-item {
     display: flex;
     align-items: center;
     gap: 6px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(15,15,30,0.92);
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 8px;
     padding: 4px 10px 4px 8px;
@@ -1718,7 +1723,7 @@ body.dark-mode .site-modal-title { color: #cdd8e3; }
     display: flex;
     align-items: center;
     gap: 6px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(15,15,30,0.92);
     border: 1px solid rgba(100,160,255,0.3);
     border-radius: 8px;
     padding: 4px 10px 4px 8px;
@@ -1744,14 +1749,42 @@ body.dark-mode .site-modal-title { color: #cdd8e3; }
 }
 
 .yt-taskbar-close,
-.sm-taskbar-close {
+.sm-taskbar-close,
+.mshf-taskbar-close {
     font-size: 14px;
     opacity: 0.7;
     margin-right: -4px;
     padding: 0 2px;
 }
 .yt-taskbar-close:hover,
-.sm-taskbar-close:hover { opacity: 1; color: #f87171; }
+.sm-taskbar-close:hover,
+.mshf-taskbar-close:hover { opacity: 1; color: #f87171; }
+
+.mshf-taskbar-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(15,15,30,0.92);
+    border: 1px solid rgba(27,108,168,0.55);
+    border-radius: 8px;
+    padding: 4px 10px 4px 8px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    max-width: 200px;
+    transition: background 0.15s;
+    user-select: none;
+}
+.mshf-taskbar-item:hover {
+    background: rgba(27,108,168,0.4);
+    border-color: rgba(27,108,168,0.85);
+}
+.mshf-taskbar-item span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 #welcome-top-bar {
     display: flex;
@@ -6311,6 +6344,140 @@ var NOW_PLAYING_TEXT = {
   sv: "Spelar nu", nl: "Speelt nu", ga: "Ag Seinm Anois", de: "Spielt jetzt",
   ru: "Сейчас играет", tr: "Şimdi çalıyor", pt: "Tocando agora", zh: "正在播放", ur: "ابھی چل رہا ہے"
 };
+// نص "اختر محطة..." الافتراضي في شريط المشغل السفلي بكل اللغات المدعومة في شاشة الترحيب
+var PNB_PLACEHOLDER_TEXT = {
+  ar: "اختر محطة...", en: "Choose a station...", fr: "Choisissez une station...", es: "Elige una emisora...",
+  sv: "Välj en station...", nl: "Kies een station...", ga: "Roghnaigh stáisiún...", de: "Wähle einen Sender...",
+  ru: "Выберите станцию...", tr: "Bir istasyon seçin...", pt: "Escolha uma estação...", zh: "选择一个电台...", ur: "ایک اسٹیشن منتخب کریں..."
+};
+function _pnbPlaceholderText() {
+  return PNB_PLACEHOLDER_TEXT[_curWelcomeLang()] || PNB_PLACEHOLDER_TEXT.ar;
+}
+
+// ── كل رسائل حالة المشغل (انقطاع النت، بطء الاتصال، تعذر الرابط، استعادة الاتصال...) بكل اللغات المدعومة ──
+var PLAYER_STATUS_MSG = {
+  offline: {
+    ar: "❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...", en: "❌ No internet connection, retrying...",
+    fr: "❌ Pas de connexion Internet, nouvelle tentative...", es: "❌ Sin conexión a Internet, reintentando...",
+    sv: "❌ Ingen internetanslutning, försöker igen...", nl: "❌ Geen internetverbinding, opnieuw proberen...",
+    ga: "❌ Níl aon cheangal Idirlín, ag triail arís...", de: "❌ Keine Internetverbindung, erneuter Versuch...",
+    ru: "❌ Нет подключения к интернету, повтор попытки...", tr: "❌ İnternet bağlantısı yok, yeniden deneniyor...",
+    pt: "❌ Sem conexão à internet, tentando novamente...", zh: "❌ 没有网络连接，正在重试…", ur: "❌ انٹرنیٹ کنکشن نہیں ہے، دوبارہ کوشش کی جا رہی ہے..."
+  },
+  slow: {
+    ar: "⏳ الاتصال بطيء، جارٍ الانتظار...", en: "⏳ Slow connection, please wait...",
+    fr: "⏳ Connexion lente, veuillez patienter...", es: "⏳ Conexión lenta, por favor espere...",
+    sv: "⏳ Långsam anslutning, vänligen vänta...", nl: "⏳ Langzame verbinding, even geduld...",
+    ga: "⏳ Ceangal mall, fan le do thoil...", de: "⏳ Langsame Verbindung, bitte warten...",
+    ru: "⏳ Медленное соединение, пожалуйста, подождите...", tr: "⏳ Yavaş bağlantı, lütfen bekleyin...",
+    pt: "⏳ Conexão lenta, aguarde...", zh: "⏳ 网络连接缓慢，请稍候…", ur: "⏳ کنکشن سست ہے، براہ کرم انتظار کریں..."
+  },
+  unavailableRetry: {
+    ar: "⚠️ الرابط غير متاح، جارٍ إعادة المحاولة...", en: "⚠️ Stream unavailable, retrying...",
+    fr: "⚠️ Flux indisponible, nouvelle tentative...", es: "⚠️ Transmisión no disponible, reintentando...",
+    sv: "⚠️ Strömmen är otillgänglig, försöker igen...", nl: "⚠️ Stream niet beschikbaar, opnieuw proberen...",
+    ga: "⚠️ Níl an sruth ar fáil, ag triail arís...", de: "⚠️ Stream nicht verfügbar, erneuter Versuch...",
+    ru: "⚠️ Поток недоступен, повтор попытки...", tr: "⚠️ Yayın kullanılamıyor, yeniden deneniyor...",
+    pt: "⚠️ Transmissão indisponível, tentando novamente...", zh: "⚠️ 无法访问该链接，正在重试…", ur: "⚠️ اسٹریم دستیاب نہیں، دوبارہ کوشش کی جا رہی ہے..."
+  },
+  unavailableNext: {
+    ar: "⚠️ الرابط غير متاح، جارٍ تجربة رابط آخر...", en: "⚠️ Link unavailable, trying next...",
+    fr: "⚠️ Lien indisponible, essai du suivant...", es: "⚠️ Enlace no disponible, probando el siguiente...",
+    sv: "⚠️ Länken är otillgänglig, provar nästa...", nl: "⚠️ Link niet beschikbaar, volgende proberen...",
+    ga: "⚠️ Níl an nasc ar fáil, ag triail an chéad cheann eile...", de: "⚠️ Link nicht verfügbar, versuche nächsten...",
+    ru: "⚠️ Ссылка недоступна, пробуем следующую...", tr: "⚠️ Bağlantı kullanılamıyor, sıradaki deneniyor...",
+    pt: "⚠️ Link indisponível, tentando o próximo...", zh: "⚠️ 链接不可用，正在尝试下一个…", ur: "⚠️ لنک دستیاب نہیں، اگلا آزمایا جا رہا ہے..."
+  },
+  connectionRestored: {
+    ar: "✅ عاد الاتصال، جارٍ إعادة التشغيل...", en: "✅ Connection restored, resuming...",
+    fr: "✅ Connexion rétablie, reprise en cours...", es: "✅ Conexión restablecida, reanudando...",
+    sv: "✅ Anslutningen återställd, återupptar...", nl: "✅ Verbinding hersteld, hervatten...",
+    ga: "✅ Ceangal athbhunaithe, ag leanúint ar aghaidh...", de: "✅ Verbindung wiederhergestellt, wird fortgesetzt...",
+    ru: "✅ Соединение восстановлено, возобновление...", tr: "✅ Bağlantı yeniden kuruldu, devam ediliyor...",
+    pt: "✅ Conexão restaurada, retomando...", zh: "✅ 网络已恢复，正在继续播放…", ur: "✅ کنکشن بحال ہو گیا، دوبارہ شروع کیا جا رہا ہے..."
+  },
+  cachedSearching: {
+    ar: "📦 لا يوجد إنترنت، جارٍ البحث في الملفات المحفوظة...", en: "📦 No internet, searching cached files...",
+    fr: "📦 Pas d'Internet, recherche de fichiers en cache...", es: "📦 Sin Internet, buscando archivos en caché...",
+    sv: "📦 Inget internet, söker i cachade filer...", nl: "📦 Geen internet, cachebestanden zoeken...",
+    ga: "📦 Níl aon Idirlíon, ag cuardach comhad taisce...", de: "📦 Kein Internet, suche zwischengespeicherte Dateien...",
+    ru: "📦 Нет интернета, поиск сохранённых файлов...", tr: "📦 İnternet yok, önbelleğe alınan dosyalar aranıyor...",
+    pt: "📦 Sem internet, procurando arquivos em cache...", zh: "📦 没有网络，正在搜索缓存文件…", ur: "📦 انٹرنیٹ نہیں، محفوظ شدہ فائلیں تلاش کی جا رہی ہیں..."
+  },
+  cachedPlaying: {
+    ar: "✅ يتم التشغيل من الملفات المحفوظة (بدون إنترنت)", en: "✅ Playing from cached files (offline)",
+    fr: "✅ Lecture depuis les fichiers en cache (hors ligne)", es: "✅ Reproduciendo desde archivos en caché (sin conexión)",
+    sv: "✅ Spelar från cachade filer (offline)", nl: "✅ Afspelen vanuit cache (offline)",
+    ga: "✅ Ag seinm ó chomhaid taisce (as líne)", de: "✅ Wiedergabe aus zwischengespeicherten Dateien (offline)",
+    ru: "✅ Воспроизведение из сохранённых файлов (офлайн)", tr: "✅ Önbelleğe alınan dosyalardan çalınıyor (çevrimdışı)",
+    pt: "✅ Reproduzindo de arquivos em cache (offline)", zh: "✅ 正在播放缓存文件（离线）", ur: "✅ محفوظ شدہ فائلوں سے چلایا جا رہا ہے (آف لائن)"
+  },
+  playingPrefix: {
+    ar: "تشغيل:", en: "Playing:", fr: "Lecture :", es: "Reproduciendo:", sv: "Spelar:", nl: "Afspelen:",
+    ga: "Ag seinm:", de: "Wiedergabe:", ru: "Воспроизведение:", tr: "Çalıyor:", pt: "Tocando:", zh: "正在播放：", ur: "چل رہا ہے:"
+  }
+};
+// نسخ مختصرة لعرضها داخل شريط المشغل السفلي (مساحة أضيق)
+var PNB_STATUS_MSG = {
+  offline: {
+    ar: "❌ لا إنترنت...", en: "❌ No internet...", fr: "❌ Pas d'Internet...", es: "❌ Sin Internet...",
+    sv: "❌ Inget internet...", nl: "❌ Geen internet...", ga: "❌ Gan Idirlíon...", de: "❌ Kein Internet...",
+    ru: "❌ Нет интернета...", tr: "❌ İnternet yok...", pt: "❌ Sem internet...", zh: "❌ 无网络…", ur: "❌ انٹرنیٹ نہیں..."
+  },
+  slow: {
+    ar: "⏳ اتصال بطيء...", en: "⏳ Slow connection...", fr: "⏳ Connexion lente...", es: "⏳ Conexión lenta...",
+    sv: "⏳ Långsam anslutning...", nl: "⏳ Langzame verbinding...", ga: "⏳ Ceangal mall...", de: "⏳ Langsame Verbindung...",
+    ru: "⏳ Медленное соединение...", tr: "⏳ Yavaş bağlantı...", pt: "⏳ Conexão lenta...", zh: "⏳ 网络缓慢…", ur: "⏳ سست کنکشن..."
+  },
+  connecting: {
+    ar: "⚠️ جارٍ الاتصال...", en: "⚠️ Connecting...", fr: "⚠️ Connexion...", es: "⚠️ Conectando...",
+    sv: "⚠️ Ansluter...", nl: "⚠️ Verbinden...", ga: "⚠️ Ag ceangal...", de: "⚠️ Verbinde...",
+    ru: "⚠️ Подключение...", tr: "⚠️ Bağlanıyor...", pt: "⚠️ Conectando...", zh: "⚠️ 连接中…", ur: "⚠️ رابطہ ہو رہا ہے..."
+  }
+};
+function _playerMsg(key) {
+  var d = PLAYER_STATUS_MSG[key];
+  if (!d) return '';
+  return d[_curWelcomeLang()] || d.ar;
+}
+function _refreshPlayingStatusText(lang) {
+  var pnbNameEl = document.getElementById('pnb-name');
+  var statusElRef = (typeof statusDiv !== 'undefined' && statusDiv) ? statusDiv : document.getElementById('status');
+  if (!pnbNameEl || !statusElRef) return false;
+  var arN = pnbNameEl.dataset.arName;
+  var enN = pnbNameEl.dataset.enName;
+  if (!arN) return false;
+  var prefix = PLAYER_STATUS_MSG.playingPrefix[lang] || PLAYER_STATUS_MSG.playingPrefix.ar;
+  var nm = (lang === 'ar') ? arN : (enN || arN);
+  statusElRef.textContent = prefix + ' ' + nm;
+  return true;
+}
+// بيتأكد إن النص المعروض في #status هو نص "لسه مفيش محطة شغالة" (بأي لغة من الـ12 لغة)
+// عشان مايتفهمش غلط على إنه اسم محطة شغالة فعليًا
+var _PLACEHOLDER_LANGS = ['ar', 'en', 'fr', 'es', 'sv', 'nl', 'ga', 'de', 'ru', 'tr', 'pt', 'zh', 'ur'];
+function _isPlaceholderStatusText(txt) {
+  if (!txt) return true;
+  txt = txt.trim();
+  var i, lg;
+  for (i = 0; i < _PLACEHOLDER_LANGS.length; i++) {
+    lg = _PLACEHOLDER_LANGS[i];
+    if (PNB_PLACEHOLDER_TEXT[lg] === txt) return true;
+  }
+  var statusElChk = document.getElementById('status');
+  if (statusElChk) {
+    for (i = 0; i < _PLACEHOLDER_LANGS.length; i++) {
+      lg = _PLACEHOLDER_LANGS[i];
+      var v = statusElChk.getAttribute('data-' + lg);
+      if (v && v.trim() === txt) return true;
+    }
+  }
+  return false;
+}
+function _pnbMsg(key) {
+  var d = PNB_STATUS_MSG[key];
+  if (!d) return '';
+  return d[_curWelcomeLang()] || d.ar;
+}
 function _curWelcomeLang() {
   return (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : 'ar';
 }
@@ -14055,7 +14222,7 @@ setTimeout(autoScaleVerseFont, 100);
           <option value="flat" data-ar="مسطّح" data-en="Flat" data-fr="Plat" data-es="Plano" data-sv="Platt" data-nl="Vlak" data-ga="Cothrom" data-de="Neutral" data-ru="Плоский" data-tr="Düz" data-pt="Plano" data-zh="平坦" data-ur="فلیٹ">مسطّح</option>
           <option value="voice" data-ar="وضوح الصوت / التلاوة" data-en="Voice / Recitation Clarity" data-fr="Clarté vocale / récitation" data-es="Claridad de voz / recitación" data-sv="Röst-/reciteringsklarhet" data-nl="Stem-/recitatieduidelijkheid" data-ga="Soiléireacht Gutha / Aithrise" data-de="Sprach-/Rezitationsklarheit" data-ru="Чёткость голоса/чтения" data-tr="Ses/Tilavet Netliği" data-pt="Clareza de voz / recitação" data-zh="人声/诵读清晰" data-ur="آواز کی وضاحت / تلاوت">وضوح الصوت / التلاوة</option>
           <option value="bass" data-ar="جهير قوي" data-en="Bass Boost" data-fr="Renforcement des graves" data-es="Refuerzo de graves" data-sv="Basförstärkning" data-nl="Basversterking" data-ga="Treisiú Doimhne" data-de="Bassverstärkung" data-ru="Усиление баса" data-tr="Bas Güçlendirme" data-pt="Reforço de graves" data-zh="低音增强" data-ur="بیس بوسٹ">جهير قوي</option>
-          <option value="bright" data-ar="حدة عالية" data-en="Bright" data-fr="Éclatant" data-es="Brillante" data-sv="Ljus" data-nl="Helder" data-ga="Geal" data-de="Hell" data-ru="Яркий" data-tr="Parlak" data-pt="Brilhante" data-zh="明亮" data-ur="برائٹ">حدة عالية</option>
+          <option value="bright" data-ar="حدة عالية" data-en="Bright" data-fr="Éclatant" data-es="Brillante" data-sv="Ljus" data-nl="Helder" data-ga="Geal" data-de="*****" data-ru="Яркий" data-tr="Parlak" data-pt="Brilhante" data-zh="明亮" data-ur="برائٹ">حدة عالية</option>
         </select>
       </div>
     </div>
@@ -23996,453 +24163,1633 @@ const ltvStations = [
 const moreMushafs = [{
   ar: 'المصحف المحفظ',
   en: 'Al-Mushaf Al-Muhafidh',
+  fr: 'Al-Mushaf Al-Muhafidh',
+  es: 'Al-Mushaf Al-Muhafidh',
+  sv: 'Al-Mushaf Al-Muhafidh',
+  nl: 'Al-Mushaf Al-Muhafidh',
+  ga: 'Al-Mushaf Al-Muhafidh',
+  de: 'Al-Mushaf Al-Muhafidh',
+  ru: 'Al-Mushaf Al-Muhafidh',
+  tr: 'Al-Mushaf Al-Muhafidh',
+  pt: 'Al-Mushaf Al-Muhafidh',
+  zh: 'Al-Mushaf Al-Muhafidh',
+  ur: 'Al-Mushaf Al-Muhafidh',
   url: 'https://muhaffidh.app/'
 }, {
   ar: 'قرآن فلاش',
   en: 'QuranFlash',
+  fr: 'QuranFlash',
+  es: 'QuranFlash',
+  sv: 'QuranFlash',
+  nl: 'QuranFlash',
+  ga: 'QuranFlash',
+  de: 'QuranFlash',
+  ru: 'QuranFlash',
+  tr: 'QuranFlash',
+  pt: 'QuranFlash',
+  zh: 'QuranFlash',
+  ur: 'QuranFlash',
   url: 'https://app.quranflash.com/'
 }, {
   ar: 'مصحف المدينة',
   en: 'Medina Mushaf',
+  fr: 'Medina Mushaf',
+  es: 'Medina Mushaf',
+  sv: 'Medina Mushaf',
+  nl: 'Medina Mushaf',
+  ga: 'Medina Mushaf',
+  de: 'Medina Mushaf',
+  ru: 'Medina Мусхаф',
+  tr: 'Medina Mushaf',
+  pt: 'Medina Mushaf',
+  zh: 'Medina 古兰经抄本',
+  ur: 'Medina مصحف',
   url: 'https://app.quranflash.com/book/Medina1?ar#/reader'
 }, {
   ar: 'مصحف المدينة القديم',
   en: 'Old Medina Mushaf',
+  fr: 'Ancien Medina Mushaf',
+  es: 'Antiguo Medina Mushaf',
+  sv: 'Gammal Medina Mushaf',
+  nl: 'Oud Medina Mushaf',
+  ga: 'Sean Medina Mushaf',
+  de: 'Alt Medina Mushaf',
+  ru: 'Старый Medina Мусхаф',
+  tr: 'Eski Medina Mushaf',
+  pt: 'Antigo Medina Mushaf',
+  zh: '旧版 Medina 古兰经抄本',
+  ur: 'پرانا Medina مصحف',
   url: 'https://app.quranflash.com/book/MedinaOld?ar#/reader'
 }, {
   ar: 'المصحف الجوامعى',
   en: 'Al-Jawami Mushaf',
+  fr: 'Al-Jawami Mushaf',
+  es: 'Al-Jawami Mushaf',
+  sv: 'Al-Jawami Mushaf',
+  nl: 'Al-Jawami Mushaf',
+  ga: 'Al-Jawami Mushaf',
+  de: 'Al-Jawami Mushaf',
+  ru: 'Al-Jawami Мусхаф',
+  tr: 'Al-Jawami Mushaf',
+  pt: 'Al-Jawami Mushaf',
+  zh: 'Al-Jawami 古兰经抄本',
+  ur: 'Al-Jawami مصحف',
   url: 'https://app.quranflash.com/book/Medina3?ar#/reader'
 }, {
   ar: 'المصحف الوسط - رواية حفص عن عاصم',
   en: 'Medium Mushaf - Hafs',
+  fr: 'Moyen Mushaf - Hafs',
+  es: 'Medio Mushaf - Hafs',
+  sv: 'Mellan Mushaf - Hafs',
+  nl: 'Middel Mushaf - Hafs',
+  ga: 'Meánach Mushaf - Hafs',
+  de: 'Mittel Mushaf - Hafs',
+  ru: 'Средний Мусхаф - Hafs',
+  tr: 'Orta Mushaf - Hafs',
+  pt: 'Médio Mushaf - Hafs',
+  zh: '中等 古兰经抄本 - Hafs',
+  ur: 'درمیانہ مصحف - Hafs',
   url: 'https://app.quranflash.com/book/Medina2?ar#/reader'
 }, {
   ar: 'مصحف التجويد',
   en: 'Tajweed',
+  fr: 'Tajweed',
+  es: 'Tajweed',
+  sv: 'Tajweed',
+  nl: 'Tajweed',
+  ga: 'Tajweed',
+  de: 'Tajweed',
+  ru: 'Tajweed',
+  tr: 'Tajweed',
+  pt: 'Tajweed',
+  zh: 'Tajweed',
+  ur: 'Tajweed',
   url: 'https://app.quranflash.com/book/Tajweed?ar#/reader'
 }, {
   ar: 'مصحف التجويد والتحفيظ',
   en: 'Tajweed & Memorization Mushaf',
+  fr: 'Tajweed & Mémorisation Mushaf',
+  es: 'Tajweed & Memorización Mushaf',
+  sv: 'Tajweed & Memorering Mushaf',
+  nl: 'Tajweed & Memorisatie Mushaf',
+  ga: 'Tajweed & Meabhrú Mushaf',
+  de: 'Tajweed & Auswendiglernen Mushaf',
+  ru: 'Tajweed & Заучивание Мусхаф',
+  tr: 'Tajweed & Ezberleme Mushaf',
+  pt: 'Tajweed & Memorização Mushaf',
+  zh: 'Tajweed & 背诵 古兰经抄本',
+  ur: 'Tajweed & حفظ مصحف',
   url: 'https://archive.org/details/Quran26/mode/1up?view=theater'
 }, {
   ar: 'المصحف بخط النسخ والتعليق',
   en: 'Naskh Taleek Mushaf',
+  fr: 'Naskh Taleek Mushaf',
+  es: 'Naskh Taleek Mushaf',
+  sv: 'Naskh Taleek Mushaf',
+  nl: 'Naskh Taleek Mushaf',
+  ga: 'Naskh Taleek Mushaf',
+  de: 'Naskh Taleek Mushaf',
+  ru: 'Naskh Taleek Мусхаф',
+  tr: 'Naskh Taleek Mushaf',
+  pt: 'Naskh Taleek Mushaf',
+  zh: 'Naskh Taleek 古兰经抄本',
+  ur: 'Naskh Taleek مصحف',
   url: 'https://app.quranflash.com/book/NaskhTaleek?ar#/reader/chapter/0'
 }, {
   ar: 'المصحف 12 سطر',
   en: '12 Line Mushaf',
+  fr: '12 lignes Mushaf',
+  es: '12 líneas Mushaf',
+  sv: '12 rader Mushaf',
+  nl: '12 regels Mushaf',
+  ga: '12 línte Mushaf',
+  de: '12 Zeilen Mushaf',
+  ru: '12 строк Мусхаф',
+  tr: '12 satır Mushaf',
+  pt: '12 linhas Mushaf',
+  zh: '12 行 古兰经抄本',
+  ur: '12 سطری مصحف',
   url: 'https://app.quranflash.com/book/12line?ar#/reader'
 }, {
   ar: 'مصحف التهجد',
   en: 'Tahajjud Mushaf',
+  fr: 'Tahajjud Mushaf',
+  es: 'Tahajjud Mushaf',
+  sv: 'Tahajjud Mushaf',
+  nl: 'Tahajjud Mushaf',
+  ga: 'Tahajjud Mushaf',
+  de: 'Tahajjud Mushaf',
+  ru: 'Tahajjud Мусхаф',
+  tr: 'Tahajjud Mushaf',
+  pt: 'Tahajjud Mushaf',
+  zh: 'Tahajjud 古兰经抄本',
+  ur: 'Tahajjud مصحف',
   url: 'https://app.quranflash.com/book/Tahajod?ar#/reader'
 }, {
   ar: 'مصحف ورش',
   en: 'Warsh Mushaf',
+  fr: 'Warsh Mushaf',
+  es: 'Warsh Mushaf',
+  sv: 'Warsh Mushaf',
+  nl: 'Warsh Mushaf',
+  ga: 'Warsh Mushaf',
+  de: 'Warsh Mushaf',
+  ru: 'Warsh Мусхаф',
+  tr: 'Warsh Mushaf',
+  pt: 'Warsh Mushaf',
+  zh: 'Warsh 古兰经抄本',
+  ur: 'Warsh مصحف',
   url: 'https://app.quranflash.com/book/Warsh1?ar#/reader'
 }, {
   ar: 'مصحف ورش 2',
   en: 'Warsh Mushaf 2',
+  fr: 'Warsh Mushaf 2',
+  es: 'Warsh Mushaf 2',
+  sv: 'Warsh Mushaf 2',
+  nl: 'Warsh Mushaf 2',
+  ga: 'Warsh Mushaf 2',
+  de: 'Warsh Mushaf 2',
+  ru: 'Warsh Мусхаф 2',
+  tr: 'Warsh Mushaf 2',
+  pt: 'Warsh Mushaf 2',
+  zh: 'Warsh 古兰经抄本 2',
+  ur: 'Warsh مصحف 2',
   url: 'https://app.quranflash.com/book/Warsh2?ar#/reader'
 }, {
   ar: 'مصحف شعبة',
   en: 'Shubah Mushaf',
+  fr: 'Shubah Mushaf',
+  es: 'Shubah Mushaf',
+  sv: 'Shubah Mushaf',
+  nl: 'Shubah Mushaf',
+  ga: 'Shubah Mushaf',
+  de: 'Shubah Mushaf',
+  ru: 'Shubah Мусхаф',
+  tr: 'Shubah Mushaf',
+  pt: 'Shubah Mushaf',
+  zh: 'Shubah 古兰经抄本',
+  ur: 'Shubah مصحف',
   url: 'https://app.quranflash.com/book/Shubah?ar#/reader'
 }, {
   ar: 'مصحف قالون',
   en: 'Qaloon Mushaf',
+  fr: 'Qaloon Mushaf',
+  es: 'Qaloon Mushaf',
+  sv: 'Qaloon Mushaf',
+  nl: 'Qaloon Mushaf',
+  ga: 'Qaloon Mushaf',
+  de: 'Qaloon Mushaf',
+  ru: 'Qaloon Мусхаф',
+  tr: 'Qaloon Mushaf',
+  pt: 'Qaloon Mushaf',
+  zh: 'Qaloon 古兰经抄本',
+  ur: 'Qaloon مصحف',
   url: 'https://app.quranflash.com/book/Qaloon?ar#/reader'
 }, {
   ar: 'مصحف الدوري',
   en: 'Douri Mushaf',
+  fr: 'Douri Mushaf',
+  es: 'Douri Mushaf',
+  sv: 'Douri Mushaf',
+  nl: 'Douri Mushaf',
+  ga: 'Douri Mushaf',
+  de: 'Douri Mushaf',
+  ru: 'Douri Мусхаф',
+  tr: 'Douri Mushaf',
+  pt: 'Douri Mushaf',
+  zh: 'Douri 古兰经抄本',
+  ur: 'Douri مصحف',
   url: 'https://app.quranflash.com/book/Douri?ar#/reader'
 }, {
   ar: 'مصحف الشمرلي',
   en: 'Shamarly Mushaf',
+  fr: 'Shamarly Mushaf',
+  es: 'Shamarly Mushaf',
+  sv: 'Shamarly Mushaf',
+  nl: 'Shamarly Mushaf',
+  ga: 'Shamarly Mushaf',
+  de: 'Shamarly Mushaf',
+  ru: 'Shamarly Мусхаф',
+  tr: 'Shamarly Mushaf',
+  pt: 'Shamarly Mushaf',
+  zh: 'Shamarly 古兰经抄本',
+  ur: 'Shamarly مصحف',
   url: 'https://app.quranflash.com/book/Shamarly?ar#/reader'
 }, {
   ar: 'مصحف الأوردو 12',
   en: 'Urdu 12 Mushaf',
+  fr: 'Urdu 12 Mushaf',
+  es: 'Urdu 12 Mushaf',
+  sv: 'Urdu 12 Mushaf',
+  nl: 'Urdu 12 Mushaf',
+  ga: 'Urdu 12 Mushaf',
+  de: 'Urdu 12 Mushaf',
+  ru: 'Urdu 12 Мусхаф',
+  tr: 'Urdu 12 Mushaf',
+  pt: 'Urdu 12 Mushaf',
+  zh: 'Urdu 12 古兰经抄本',
+  ur: 'Urdu 12 مصحف',
   url: 'https://app.quranflash.com/book/Urdu12?ar#/reader'
 }, {
   ar: 'مصحف الأوردو 13',
   en: 'Urdu 13 Mushaf',
+  fr: 'Urdu 13 Mushaf',
+  es: 'Urdu 13 Mushaf',
+  sv: 'Urdu 13 Mushaf',
+  nl: 'Urdu 13 Mushaf',
+  ga: 'Urdu 13 Mushaf',
+  de: 'Urdu 13 Mushaf',
+  ru: 'Urdu 13 Мусхаф',
+  tr: 'Urdu 13 Mushaf',
+  pt: 'Urdu 13 Mushaf',
+  zh: 'Urdu 13 古兰经抄本',
+  ur: 'Urdu 13 مصحف',
   url: 'https://app.quranflash.com/book/Urdu13?ar#/reader'
 }, {
   ar: 'مصحف الأوردو 15',
   en: 'Urdu 15 Mushaf',
+  fr: 'Urdu 15 Mushaf',
+  es: 'Urdu 15 Mushaf',
+  sv: 'Urdu 15 Mushaf',
+  nl: 'Urdu 15 Mushaf',
+  ga: 'Urdu 15 Mushaf',
+  de: 'Urdu 15 Mushaf',
+  ru: 'Urdu 15 Мусхаф',
+  tr: 'Urdu 15 Mushaf',
+  pt: 'Urdu 15 Mushaf',
+  zh: 'Urdu 15 古兰经抄本',
+  ur: 'Urdu 15 مصحف',
   url: 'https://app.quranflash.com/book/Urdu15?ar#/reader'
 }, {
   ar: 'مصحف آيات',
   en: 'Ayat Quran',
+  fr: 'Verset Coran',
+  es: 'Versículo Corán',
+  sv: 'Vers Koranen',
+  nl: 'Vers Koran',
+  ga: 'Véarsa Corán',
+  de: 'Vers Koran',
+  ru: 'Аят Коран',
+  tr: 'Ayet Kur\'an',
+  pt: 'Versículo Alcorão',
+  zh: '经文 古兰经',
+  ur: 'آیت قرآن',
   url: 'https://quran.ksu.edu.sa/index.php#aya=1_1&m=hafs&qaree=husary&trans=ar_mu'
 }, {
   ar: 'كتاب القرآن',
   en: 'eQuran Book',
+  fr: 'eQuran Livre',
+  es: 'eQuran Libro',
+  sv: 'eQuran Bok',
+  nl: 'eQuran Boek',
+  ga: 'eQuran Leabhar',
+  de: 'eQuran Buch',
+  ru: 'eQuran Книга',
+  tr: 'eQuran Kitap',
+  pt: 'eQuran Livro',
+  zh: 'eQuran 书籍',
+  ur: 'eQuran کتاب',
   url: 'https://equran.me/mybook.html',
   newTab: true
 }, ];
-
 const moreSites = [{
   ar: 'أكاديمية القرآن',
   en: 'Quran Academy',
+  fr: 'Académie Coran',
+  es: 'Academia Corán',
+  sv: 'Akademi Koranen',
+  nl: 'Academie Koran',
+  ga: 'Acadamh Corán',
+  de: 'Akademie Koran',
+  ru: 'Академия Коран',
+  tr: 'Akademi Kur\'an',
+  pt: 'Academia Alcorão',
+  zh: '学院 古兰经',
+  ur: 'اکیڈمی قرآن',
   url: 'https://ar.quranacademy.org/quran/1?page=1'
 }, {
   ar: 'موقع قرآن',
   en: 'Quran.com',
+  fr: 'Quran.com',
+  es: 'Quran.com',
+  sv: 'Quran.com',
+  nl: 'Quran.com',
+  ga: 'Quran.com',
+  de: 'Quran.com',
+  ru: 'Quran.com',
+  tr: 'Quran.com',
+  pt: 'Quran.com',
+  zh: 'Quran.com',
+  ur: 'Quran.com',
   url: 'https://quran.com/ar'
 }, {
   ar: 'مقرئ لتحفيظ القرآن',
   en: 'Muqri for Quran Memorization',
+  fr: 'Muqri pour Mémorisation Coran',
+  es: 'Muqri para Memorización Corán',
+  sv: 'Muqri för Memorering Koranen',
+  nl: 'Muqri voor Memorisatie Koran',
+  ga: 'Muqri do Meabhrú Corán',
+  de: 'Muqri für Auswendiglernen Koran',
+  ru: 'Muqri для Заучивание Коран',
+  tr: 'Muqri için Ezberleme Kur\'an',
+  pt: 'Muqri para Memorização Alcorão',
+  zh: 'Muqri 为 背诵 古兰经',
+  ur: 'Muqri کے لیے حفظ قرآن',
   url: 'https://en.muqri.com/'
 }, {
   ar: 'المحفظ للقرآن',
   en: 'Muhafidh for Quran',
+  fr: 'Muhafidh pour Coran',
+  es: 'Muhafidh para Corán',
+  sv: 'Muhafidh för Koranen',
+  nl: 'Muhafidh voor Koran',
+  ga: 'Muhafidh do Corán',
+  de: 'Muhafidh für Koran',
+  ru: 'Muhafidh для Коран',
+  tr: 'Muhafidh için Kur\'an',
+  pt: 'Muhafidh para Alcorão',
+  zh: 'Muhafidh 为 古兰经',
+  ur: 'Muhafidh کے لیے قرآن',
   url: 'https://www.houseofquran.com/quransys/qsys-ar.html'
 }, {
   ar: 'تفسير موضوعي للقرآن',
   en: 'Quran Thematic Tafseer',
+  fr: 'Tafsir Thématique Coran',
+  es: 'Tafsir Temático Corán',
+  sv: 'Tafsir Tematisk Koranen',
+  nl: 'Tafsir Thematisch Koran',
+  ga: 'Tafsir Téamúil Corán',
+  de: 'Tafsir Thematisch Koran',
+  ru: 'Тафсир Тематический Коран',
+  tr: 'Tefsir Tematik Kur\'an',
+  pt: 'Tafsir Temático Alcorão',
+  zh: '古兰经注释 主题 古兰经',
+  ur: 'تفسیر موضوعاتی قرآن',
   url: 'https://archive.org/details/quran-tafseel-mawdo_202506'
 }, {
   ar: 'منصة وحي',
   en: 'Wahy',
+  fr: 'Wahy',
+  es: 'Wahy',
+  sv: 'Wahy',
+  nl: 'Wahy',
+  ga: 'Wahy',
+  de: 'Wahy',
+  ru: 'Wahy',
+  tr: 'Wahy',
+  pt: 'Wahy',
+  zh: 'Wahy',
+  ur: 'Wahy',
   url: 'https://web.wahy.net/ar'
 }, {
   ar: 'موقع PDFQuran',
   en: 'PDF Quran Website',
+  fr: 'PDF Coran',
+  es: 'PDF Corán',
+  sv: 'PDF Koranen',
+  nl: 'PDF Koran',
+  ga: 'PDF Corán',
+  de: 'PDF Koran',
+  ru: 'PDF Коран',
+  tr: 'PDF Kur\'an',
+  pt: 'PDF Alcorão',
+  zh: 'PDF 古兰经',
+  ur: 'PDF قرآن',
   url: 'https://www.pdfquran.com/en/index.php'
 }, {
   ar: 'شبكة الكعبة',
   en: 'Alkabbah Network',
+  fr: 'Alkabbah Réseau',
+  es: 'Alkabbah Red',
+  sv: 'Alkabbah Nätverk',
+  nl: 'Alkabbah Netwerk',
+  ga: 'Alkabbah Líonra',
+  de: 'Alkabbah Netzwerk',
+  ru: 'Alkabbah Сеть',
+  tr: 'Alkabbah Ağ',
+  pt: 'Alkabbah Rede',
+  zh: 'Alkabbah 网络',
+  ur: 'Alkabbah نیٹ ورک',
   url: 'https://alkabbah.com/'
 }, {
   ar: 'تلاوات شبكة الكعبة',
   en: 'Alkabbah Recitations',
+  fr: 'Alkabbah Récitations',
+  es: 'Alkabbah Recitaciones',
+  sv: 'Alkabbah Reciteringar',
+  nl: 'Alkabbah Recitaties',
+  ga: 'Alkabbah Aithriseacha',
+  de: 'Alkabbah Rezitationen',
+  ru: 'Alkabbah Чтения',
+  tr: 'Alkabbah Tilavetler',
+  pt: 'Alkabbah Recitações',
+  zh: 'Alkabbah 诵读',
+  ur: 'Alkabbah تلاوتیں',
   url: 'https://alkabbah.com/recitations'
 }, {
   ar: 'جامع التلاوات',
   en: 'Jami Al-Tilawat',
+  fr: 'Récitations Recueil',
+  es: 'Recitaciones Recopilación',
+  sv: 'Reciteringar Samling',
+  nl: 'Recitaties Verzameling',
+  ga: 'Aithriseacha Cnuasach',
+  de: 'Rezitationen Sammlung',
+  ru: 'Чтения Сборник',
+  tr: 'Tilavetler Derleme',
+  pt: 'Recitações Coletânea',
+  zh: '诵读 汇编',
+  ur: 'تلاوتیں مجموعہ',
   url: 'https://zekr.online/'
 }, {
   ar: 'القرآن الإلكتروني',
   en: 'eQuran',
+  fr: 'eQuran',
+  es: 'eQuran',
+  sv: 'eQuran',
+  nl: 'eQuran',
+  ga: 'eQuran',
+  de: 'eQuran',
+  ru: 'eQuran',
+  tr: 'eQuran',
+  pt: 'eQuran',
+  zh: 'eQuran',
+  ur: 'eQuran',
   url: 'https://equran.me/'
 }, {
   ar: 'إسلام ويب قرآن كريم',
   en: 'IslamWeb Quran Kareem',
+  fr: 'IslamWeb Coran',
+  es: 'IslamWeb Corán',
+  sv: 'IslamWeb Koranen',
+  nl: 'IslamWeb Koran',
+  ga: 'IslamWeb Corán',
+  de: 'IslamWeb Koran',
+  ru: 'IslamWeb Коран',
+  tr: 'IslamWeb Kur\'an',
+  pt: 'IslamWeb Alcorão',
+  zh: 'IslamWeb 古兰经',
+  ur: 'IslamWeb قرآن',
   url: 'https://audio.islamweb.net/audio/index.php?page=surahlist'
 }, {
   ar: 'إسلام ويب قراء',
   en: 'IslamWeb Qari',
+  fr: 'IslamWeb Qari',
+  es: 'IslamWeb Qari',
+  sv: 'IslamWeb Qari',
+  nl: 'IslamWeb Qari',
+  ga: 'IslamWeb Qari',
+  de: 'IslamWeb Qari',
+  ru: 'IslamWeb Qari',
+  tr: 'IslamWeb Qari',
+  pt: 'IslamWeb Qari',
+  zh: 'IslamWeb Qari',
+  ur: 'IslamWeb Qari',
   url: 'https://audio.islamweb.net/audio/index.php?page=qareename'
 }, {
   ar: 'الجامع لعلوم القرآن',
   en: 'quran-uni',
+  fr: 'quran-uni',
+  es: 'quran-uni',
+  sv: 'quran-uni',
+  nl: 'quran-uni',
+  ga: 'quran-uni',
+  de: 'quran-uni',
+  ru: 'quran-uni',
+  tr: 'quran-uni',
+  pt: 'quran-uni',
+  zh: 'quran-uni',
+  ur: 'quran-uni',
   url: 'https://quran-uni.com/'
 }, {
   ar: 'التفسير التفاعلي',
   en: 'Interactive Tafsir',
+  fr: 'Interactif Tafsir',
+  es: 'Interactivo Tafsir',
+  sv: 'Interaktiv Tafsir',
+  nl: 'Interactief Tafsir',
+  ga: 'Idirghníomhach Tafsir',
+  de: 'Interaktiv Tafsir',
+  ru: 'Интерактивный Тафсир',
+  tr: 'İnteraktif Tefsir',
+  pt: 'Interativo Tafsir',
+  zh: '互动 古兰经注释',
+  ur: 'انٹرایکٹو تفسیر',
   url: 'https://read.tafsir.one/'
 }, {
   ar: 'القارئ',
   en: 'al-qari',
+  fr: 'al-qari',
+  es: 'al-qari',
+  sv: 'al-qari',
+  nl: 'al-qari',
+  ga: 'al-qari',
+  de: 'al-qari',
+  ru: 'al-qari',
+  tr: 'al-qari',
+  pt: 'al-qari',
+  zh: 'al-qari',
+  ur: 'al-qari',
   url: 'https://qari.app/'
 }, {
   ar: 'بيت الإسلام',
   en: 'IslamHouse',
+  fr: 'IslamHouse',
+  es: 'IslamHouse',
+  sv: 'IslamHouse',
+  nl: 'IslamHouse',
+  ga: 'IslamHouse',
+  de: 'IslamHouse',
+  ru: 'IslamHouse',
+  tr: 'IslamHouse',
+  pt: 'IslamHouse',
+  zh: 'IslamHouse',
+  ur: 'IslamHouse',
   url: 'https://islamhouse.com/landing-en/'
 }, {
   ar: 'The Noble Quran Encyclopedia',
   en: 'The Noble Quran Encyclopedia',
+  fr: 'Encyclopédie Coran',
+  es: 'Enciclopedia Corán',
+  sv: 'Encyklopedi Koranen',
+  nl: 'Encyclopedie Koran',
+  ga: 'Ciclipéid Corán',
+  de: 'Enzyklopädie Koran',
+  ru: 'Энциклопедия Коран',
+  tr: 'Ansiklopedi Kur\'an',
+  pt: 'Enciclopédia Alcorão',
+  zh: '百科全书 古兰经',
+  ur: 'انسائیکلوپیڈیا قرآن',
   url: 'https://quranenc.com/en/home'
 }, {
   ar: 'الباحث القرآني',
   en: 'Quranic Researcher',
+  fr: 'Chercheur coraniques',
+  es: 'Investigador coránicas',
+  sv: 'Forskare koraniska',
+  nl: 'Onderzoeker koranische',
+  ga: 'Taighdeoir Córánacha',
+  de: 'Forscher koranische',
+  ru: 'Исследователь кораническ',
+  tr: 'Araştırmacı Kuranî',
+  pt: 'Pesquisador corânicas',
+  zh: '研究者 古兰经',
+  ur: 'محقق قرآنی',
   url: 'https://tafsir.app/'
 }, {
   ar: 'الباحث القرآني - البحث في القرآن',
   en: 'Quranic Researcher Search',
+  fr: 'Recherche - Chercheur coraniques',
+  es: 'Búsqueda - Investigador coránicas',
+  sv: 'Sökning - Forskare koraniska',
+  nl: 'Zoeken - Onderzoeker koranische',
+  ga: 'Cuardach - Taighdeoir Córánacha',
+  de: 'Suche - Forscher koranische',
+  ru: 'Поиск - Исследователь кораническ',
+  tr: 'Arama - Araştırmacı Kuranî',
+  pt: 'Pesquisa - Pesquisador corânicas',
+  zh: '搜索 - 研究者 古兰经',
+  ur: 'تلاش - محقق قرآنی',
   url: 'https://surahquran.com/quran-search/'
 }, {
   ar: 'مواضيع القران الكريم',
   en: 'Quran Topics',
+  fr: 'Sujets Coran',
+  es: 'Temas Corán',
+  sv: 'Ämnen Koranen',
+  nl: 'Onderwerpen Koran',
+  ga: 'Topaicí Corán',
+  de: 'Themen Koran',
+  ru: 'Темы Коран',
+  tr: 'Konular Kur\'an',
+  pt: 'Tópicos Alcorão',
+  zh: '主题 古兰经',
+  ur: 'موضوعات قرآن',
   url: 'https://surahquran.com/quran-search/quran_topic.html'
 }, {
   ar: 'درايف إسلامي',
   en: 'Mag Drive',
+  fr: 'Mag Drive',
+  es: 'Mag Drive',
+  sv: 'Mag Drive',
+  nl: 'Mag Drive',
+  ga: 'Mag Drive',
+  de: 'Mag Drive',
+  ru: 'Mag Диск',
+  tr: 'Mag Drive',
+  pt: 'Mag Drive',
+  zh: 'Mag 云端硬盘',
+  ur: 'Mag ڈرائیو',
   url: 'https://drive.google.com/drive/folders/1fDPvKyds3vdMuO3A4p8VqWkOpktOnyWa?usp=sharing',
   newTab: true
 }, {
   ar: 'اتجاه القبلة',
   en: 'Qibla Direction',
+  fr: 'Direction de la Qibla',
+  es: 'Dirección de la Qibla',
+  sv: 'Qibla-riktning',
+  nl: 'Qibla-richting',
+  ga: 'Treo Qibla',
+  de: 'Qibla-Richtung',
+  ru: 'Направление Киблы',
+  tr: 'Kıble Yönü',
+  pt: 'Direção da Qibla',
+  zh: '朝拜方向',
+  ur: 'قبلہ کی سمت',
   url: 'https://qiblafinder.withgoogle.com/intl/ar/finder/ar'
 }, ];
-
 const moreAzkar = [{
-    ar: 'أذكار اليوم',
-    en: 'Al Azkar Today',
-    url: 'https://alazkar.today/'
-  }, {
-    ar: 'أذكار الصباح والمساء',
-    en: 'Morning & Evening Azkar',
-    url: 'https://www.islambook.com/azkar'
-  }, {
-    ar: 'المسبحة اونلاين',
-    en: 'Masbahah Online',
-    url: 'https://masba7a.com/'
-  }, {
-    ar: 'أذكار المسلم',
-    en: 'Azkar Muslim',
-    url: 'https://msbaha.com/'
-  },
-
-  {
-    ar: 'أدعية من القرآن',
-    en: 'Quranic Supplications',
-    url: 'https://kalemtayeb.com/adeiah/section/16'
-  }, {
-    ar: 'أدعية من السنة',
-    en: 'Prophetic Supplications',
-    url: 'https://kalemtayeb.com/adeiah/section/17'
-  }, {
-    ar: 'أدعية وأذكار',
-    en: 'Duas & Azkar',
-    url: 'https://nuqayah.com/f/dua-abbad.html'
-  }, {
-    ar: 'الأدعية القرآنية',
-    en: 'Quranic Duas',
-    url: 'https://www.islambook.com/azkar/15/%D8%A7%D9%84%D8%A3%D8%AF%D8%B9%D9%8A%D8%A9-%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86%D9%8A%D8%A9'
-  }, {
-    ar: 'أدعية النبي ﷺ',
-    en: 'Prophet’s Duas',
-    url: 'https://www.islambook.com/azkar/21/%D8%A3%D8%AF%D8%B9%D9%8A%D8%A9-%D8%A7%D9%84%D9%86%D8%A8%D9%8A-%D8%B5%D9%84%D9%89-%D8%A7%D9%84%D9%84%D9%87-%D8%B9%D9%84%D9%8A%D9%87-%D9%88%D8%B3%D9%84%D9%85'
-  },
-];
-
+  ar: 'أذكار اليوم',
+  en: 'Al Azkar Today',
+  fr: 'Al Azkar Aujourd\'hui',
+  es: 'Al Azkar Hoy',
+  sv: 'Al Azkar Idag',
+  nl: 'Al Azkar Vandaag',
+  ga: 'Al Azkar Inniu',
+  de: 'Al Azkar Heute',
+  ru: 'Al Азкар Сегодня',
+  tr: 'Al Ezkâr Bugün',
+  pt: 'Al Azkar Hoje',
+  zh: 'Al 赞念 今日',
+  ur: 'Al اذکار آج',
+  url: 'https://alazkar.today/'
+}, {
+  ar: 'أذكار الصباح والمساء',
+  en: 'Morning & Evening Azkar',
+  fr: 'Matin & Soir Azkar',
+  es: 'Mañana & Tarde Azkar',
+  sv: 'Morgon & Kväll Azkar',
+  nl: 'Ochtend & Avond Azkar',
+  ga: 'Maidin & Tráthnóna Azkar',
+  de: 'Morgen & Abend Azkar',
+  ru: 'Утро & Вечер Азкар',
+  tr: 'Sabah & Akşam Ezkâr',
+  pt: 'Manhã & Tarde Azkar',
+  zh: '晨间 & 晚间 赞念',
+  ur: 'صبح & شام اذکار',
+  url: 'https://www.islambook.com/azkar'
+}, {
+  ar: 'المسبحة اونلاين',
+  en: 'Masbahah Online',
+  fr: 'Masbahah en ligne',
+  es: 'Masbahah en línea',
+  sv: 'Masbahah online',
+  nl: 'Masbahah online',
+  ga: 'Masbahah ar líne',
+  de: 'Masbahah online',
+  ru: 'Masbahah онлайн',
+  tr: 'Masbahah çevrimiçi',
+  pt: 'Masbahah online',
+  zh: 'Masbahah 在线',
+  ur: 'Masbahah آن لائن',
+  url: 'https://masba7a.com/'
+}, {
+  ar: 'أذكار المسلم',
+  en: 'Azkar Muslim',
+  fr: 'Azkar Musulman',
+  es: 'Azkar Musulmán',
+  sv: 'Azkar Muslimsk',
+  nl: 'Azkar Moslim',
+  ga: 'Azkar Moslamach',
+  de: 'Azkar Muslimisch',
+  ru: 'Азкар Мусульманин',
+  tr: 'Ezkâr Müslüman',
+  pt: 'Azkar Muçulmano',
+  zh: '赞念 穆斯林',
+  ur: 'اذکار مسلم',
+  url: 'https://msbaha.com/'
+}, {
+  ar: 'أدعية من القرآن',
+  en: 'Quranic Supplications',
+  fr: 'Invocations coraniques',
+  es: 'Súplicas coránicas',
+  sv: 'Böner koraniska',
+  nl: 'Smeekbeden koranische',
+  ga: 'Impí Córánacha',
+  de: 'Bittgebete koranische',
+  ru: 'Мольбы кораническ',
+  tr: 'Dualar Kuranî',
+  pt: 'Súplicas corânicas',
+  zh: '祈祷词 古兰经',
+  ur: 'دعائیں قرآنی',
+  url: 'https://kalemtayeb.com/adeiah/section/16'
+}, {
+  ar: 'أدعية من السنة',
+  en: 'Prophetic Supplications',
+  fr: 'Invocations prophétiques',
+  es: 'Súplicas proféticas',
+  sv: 'Böner profetiska',
+  nl: 'Smeekbeden profetische',
+  ga: 'Impí fáidhiúla',
+  de: 'Bittgebete prophetische',
+  ru: 'Мольбы пророческие',
+  tr: 'Dualar peygamberî',
+  pt: 'Súplicas proféticas',
+  zh: '祈祷词 先知的',
+  ur: 'دعائیں نبوی',
+  url: 'https://kalemtayeb.com/adeiah/section/17'
+}, {
+  ar: 'أدعية وأذكار',
+  en: 'Duas & Azkar',
+  fr: 'Invocations & Azkar',
+  es: 'Súplicas & Azkar',
+  sv: 'Böner & Azkar',
+  nl: 'Smeekbeden & Azkar',
+  ga: 'Impí & Azkar',
+  de: 'Bittgebete & Azkar',
+  ru: 'Мольбы & Азкар',
+  tr: 'Dualar & Ezkâr',
+  pt: 'Súplicas & Azkar',
+  zh: '祈祷词 & 赞念',
+  ur: 'دعائیں & اذکار',
+  url: 'https://nuqayah.com/f/dua-abbad.html'
+}, {
+  ar: 'الأدعية القرآنية',
+  en: 'Quranic Duas',
+  fr: 'Invocations coraniques',
+  es: 'Súplicas coránicas',
+  sv: 'Böner koraniska',
+  nl: 'Smeekbeden koranische',
+  ga: 'Impí Córánacha',
+  de: 'Bittgebete koranische',
+  ru: 'Мольбы кораническ',
+  tr: 'Dualar Kuranî',
+  pt: 'Súplicas corânicas',
+  zh: '祈祷词 古兰经',
+  ur: 'دعائیں قرآنی',
+  url: 'https://www.islambook.com/azkar/15/%D8%A7%D9%84%D8%A3%D8%AF%D8%B9%D9%8A%D8%A9-%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86%D9%8A%D8%A9'
+}, {
+  ar: 'أدعية النبي ﷺ',
+  en: 'Prophet’s Duas',
+  fr: 'Invocations du Prophète',
+  es: 'Súplicas del Profeta',
+  sv: 'Böner Profetens',
+  nl: 'Smeekbeden van de Profeet',
+  ga: 'Impí an Fháidh',
+  de: 'Bittgebete des Propheten',
+  ru: 'Мольбы Пророка',
+  tr: 'Dualar Peygamber',
+  pt: 'Súplicas do Profeta',
+  zh: '祈祷词 先知的',
+  ur: 'دعائیں نبی کی',
+  url: 'https://www.islambook.com/azkar/21/%D8%A3%D8%AF%D8%B9%D9%8A%D8%A9-%D8%A7%D9%84%D9%86%D8%A8%D9%8A-%D8%B5%D9%84%D9%89-%D8%A7%D9%84%D9%84%D9%87-%D8%B9%D9%84%D9%8A%D9%87-%D9%88%D8%B3%D9%84%D9%85'
+}, ];
 const moreHadith = [{
   ar: 'أحاديث النبي محمد',
   en: 'The Hadith of the Prophet',
+  fr: 'Hadith du Prophète',
+  es: 'Hadiz del Profeta',
+  sv: 'Hadith Profetens',
+  nl: 'Hadith van de Profeet',
+  ga: 'Hadith an Fháidh',
+  de: 'Hadith des Propheten',
+  ru: 'Хадис Пророка',
+  tr: 'Hadis Peygamber',
+  pt: 'Hadith do Profeta',
+  zh: '圣训 先知的',
+  ur: 'حدیث نبی کی',
   url: 'https://sunnah.com/'
 }, {
   ar: 'الباحث الحديثي',
   en: 'Hadith Researcher',
+  fr: 'Chercheur Hadith',
+  es: 'Investigador Hadiz',
+  sv: 'Forskare Hadith',
+  nl: 'Onderzoeker Hadith',
+  ga: 'Taighdeoir Hadith',
+  de: 'Forscher Hadith',
+  ru: 'Исследователь Хадис',
+  tr: 'Araştırmacı Hadis',
+  pt: 'Pesquisador Hadith',
+  zh: '研究者 圣训',
+  ur: 'محقق حدیث',
   url: 'https://sunnah.one/'
 }, {
   ar: 'الباحث الحديثي - تحقق من صحة الحديث',
   en: 'Hadith Verifier',
+  fr: 'Vérificateur Hadith',
+  es: 'Verificador Hadiz',
+  sv: 'Verifierare Hadith',
+  nl: 'Verificatie Hadith',
+  ga: 'Fíoraitheoir Hadith',
+  de: 'Prüfer Hadith',
+  ru: 'Проверка Хадис',
+  tr: 'Doğrulayıcı Hadis',
+  pt: 'Verificador Hadith',
+  zh: '验证 圣训',
+  ur: 'تصدیق کنندہ حدیث',
   url: 'https://surahquran.com/quran-search/hadeeth_search.html'
 }, {
   ar: 'الموسوعة الحديثية الدرر السنية',
   en: 'Al-Dorar Al-Sunniyah Encyclopedia',
+  fr: 'Encyclopédie Al-Dorar Al-Sunniyah',
+  es: 'Enciclopedia Al-Dorar Al-Sunniyah',
+  sv: 'Encyklopedi Al-Dorar Al-Sunniyah',
+  nl: 'Encyclopedie Al-Dorar Al-Sunniyah',
+  ga: 'Ciclipéid Al-Dorar Al-Sunniyah',
+  de: 'Enzyklopädie Al-Dorar Al-Sunniyah',
+  ru: 'Энциклопедия Al-Dorar Al-Sunniyah',
+  tr: 'Ansiklopedi Al-Dorar Al-Sunniyah',
+  pt: 'Enciclopédia Al-Dorar Al-Sunniyah',
+  zh: '百科全书 Al-Dorar Al-Sunniyah',
+  ur: 'انسائیکلوپیڈیا Al-Dorar Al-Sunniyah',
   url: 'https://dorar.net/hadith'
 }, {
   ar: 'الدرر السنية',
   en: 'Al-Dorar Al-Sunniyah',
+  fr: 'Al-Dorar Al-Sunniyah',
+  es: 'Al-Dorar Al-Sunniyah',
+  sv: 'Al-Dorar Al-Sunniyah',
+  nl: 'Al-Dorar Al-Sunniyah',
+  ga: 'Al-Dorar Al-Sunniyah',
+  de: 'Al-Dorar Al-Sunniyah',
+  ru: 'Al-Dorar Al-Sunniyah',
+  tr: 'Al-Dorar Al-Sunniyah',
+  pt: 'Al-Dorar Al-Sunniyah',
+  zh: 'Al-Dorar Al-Sunniyah',
+  ur: 'Al-Dorar Al-Sunniyah',
   url: 'https://dorar.net/'
 }, {
   ar: 'حديث',
   en: 'Hadith',
+  fr: 'Hadith',
+  es: 'Hadiz',
+  sv: 'Hadith',
+  nl: 'Hadith',
+  ga: 'Hadith',
+  de: 'Hadith',
+  ru: 'Хадис',
+  tr: 'Hadis',
+  pt: 'Hadith',
+  zh: '圣训',
+  ur: 'حدیث',
   url: 'https://hdith.com/'
 }, ];
-
 const moreRadio = [{
   ar: 'تى فى قرآن',
   en: 'Tv Quran',
+  fr: 'Tv Coran',
+  es: 'Tv Corán',
+  sv: 'Tv Koranen',
+  nl: 'Tv Koran',
+  ga: 'Tv Corán',
+  de: 'Tv Koran',
+  ru: 'Tv Коран',
+  tr: 'Tv Kur\'an',
+  pt: 'Tv Alcorão',
+  zh: 'Tv 古兰经',
+  ur: 'Tv قرآن',
   url: 'https://www.tvquran.com/'
 }, {
   ar: 'قرآن Mp3 إذاعة',
   en: 'Quran Mp3 Radio',
+  fr: 'Coran Mp3 Radio',
+  es: 'Corán Mp3 Radio',
+  sv: 'Koranen Mp3 Radio',
+  nl: 'Koran Mp3 Radio',
+  ga: 'Corán Mp3 Raidió',
+  de: 'Koran Mp3 Radio',
+  ru: 'Коран Mp3 Радио',
+  tr: 'Kur\'an Mp3 Radyo',
+  pt: 'Alcorão Mp3 Rádio',
+  zh: '古兰经 Mp3 广播',
+  ur: 'قرآن Mp3 ریڈیو',
   url: 'https://www.mp3quran.net/eng/radios'
 }, {
   ar: 'إذاعة الأثير',
   en: 'Atheer Radio',
+  fr: 'Atheer Radio',
+  es: 'Atheer Radio',
+  sv: 'Atheer Radio',
+  nl: 'Atheer Radio',
+  ga: 'Atheer Raidió',
+  de: 'Atheer Radio',
+  ru: 'Atheer Радио',
+  tr: 'Atheer Radyo',
+  pt: 'Atheer Rádio',
+  zh: 'Atheer 广播',
+  ur: 'Atheer ریڈیو',
   url: 'https://www.atheer-radio.com/category/11'
 }, {
   ar: 'إذاعة القرآن',
   en: 'Quran Station',
+  fr: 'Coran Station',
+  es: 'Corán Emisora',
+  sv: 'Koranen Station',
+  nl: 'Koran Station',
+  ga: 'Corán Stáisiún',
+  de: 'Koran Sender',
+  ru: 'Коран Радиостанция',
+  tr: 'Kur\'an İstasyon',
+  pt: 'Alcorão Estação',
+  zh: '古兰经 电台',
+  ur: 'قرآن اسٹیشن',
   url: 'https://quran-station.com/en'
 }, {
   ar: 'إذاعة القرآن | MA',
   en: 'Quran Radio | MA',
+  fr: 'Coran Radio | MA',
+  es: 'Corán Radio | MA',
+  sv: 'Koranen Radio | MA',
+  nl: 'Koran Radio | MA',
+  ga: 'Corán Raidió | MA',
+  de: 'Koran Radio | MA',
+  ru: 'Коран Радио | MA',
+  tr: 'Kur\'an Radyo | MA',
+  pt: 'Alcorão Rádio | MA',
+  zh: '古兰经 广播 | MA',
+  ur: 'قرآن ریڈیو | MA',
   url: 'https://magziko.github.io/ma/#gsc.tab=0'
 }, {
   ar: 'إذاعة القرآن | Radiom',
   en: 'Quran Radio | Radiom',
+  fr: 'Coran Radio | Radiom',
+  es: 'Corán Radio | Radiom',
+  sv: 'Koranen Radio | Radiom',
+  nl: 'Koran Radio | Radiom',
+  ga: 'Corán Raidió | Radiom',
+  de: 'Koran Radio | Radiom',
+  ru: 'Коран Радио | Radiom',
+  tr: 'Kur\'an Radyo | Radiom',
+  pt: 'Alcorão Rádio | Radiom',
+  zh: '古兰经 广播 | Radiom',
+  ur: 'قرآن ریڈیو | Radiom',
   url: 'https://magziko.github.io/Radiom/#gsc.tab=0'
 }, {
   ar: 'إذاعة القرآن - GitHub',
   en: 'Quran Radio - GitHub',
+  fr: 'Coran Radio - GitHub',
+  es: 'Corán Radio - GitHub',
+  sv: 'Koranen Radio - GitHub',
+  nl: 'Koran Radio - GitHub',
+  ga: 'Corán Raidió - GitHub',
+  de: 'Koran Radio - GitHub',
+  ru: 'Коран Радио - GitHub',
+  tr: 'Kur\'an Radyo - GitHub',
+  pt: 'Alcorão Rádio - GitHub',
+  zh: '古兰经 广播 - GitHub',
+  ur: 'قرآن ریڈیو - GitHub',
   url: 'https://magziko.github.io/Radio/#gsc.tab=0'
 }, {
   ar: 'إذاعة القرآن - Netlify',
   en: 'Quran Radio - Netlify',
+  fr: 'Coran Radio - Netlify',
+  es: 'Corán Radio - Netlify',
+  sv: 'Koranen Radio - Netlify',
+  nl: 'Koran Radio - Netlify',
+  ga: 'Corán Raidió - Netlify',
+  de: 'Koran Radio - Netlify',
+  ru: 'Коран Радио - Netlify',
+  tr: 'Kur\'an Radyo - Netlify',
+  pt: 'Alcorão Rádio - Netlify',
+  zh: '古兰经 广播 - Netlify',
+  ur: 'قرآن ریڈیو - Netlify',
   url: 'https://magziko.netlify.app/#gsc.tab=0'
 }, {
   ar: 'إذاعة القرآن | ويبلي',
   en: 'Quran Station | Weebly',
+  fr: 'Coran Station | Weebly',
+  es: 'Corán Emisora | Weebly',
+  sv: 'Koranen Station | Weebly',
+  nl: 'Koran Station | Weebly',
+  ga: 'Corán Stáisiún | Weebly',
+  de: 'Koran Sender | Weebly',
+  ru: 'Коран Радиостанция | Weebly',
+  tr: 'Kur\'an İstasyon | Weebly',
+  pt: 'Alcorão Estação | Weebly',
+  zh: '古兰经 电台 | Weebly',
+  ur: 'قرآن اسٹیشن | Weebly',
   url: 'https://magziki.weebly.com/radio-ma1.html#gsc.tab=0'
 }, {
   ar: 'إذاعة القرآن | تيينى',
   en: 'Quran Station | Tiiny',
+  fr: 'Coran Station | Tiiny',
+  es: 'Corán Emisora | Tiiny',
+  sv: 'Koranen Station | Tiiny',
+  nl: 'Koran Station | Tiiny',
+  ga: 'Corán Stáisiún | Tiiny',
+  de: 'Koran Sender | Tiiny',
+  ru: 'Коран Радиостанция | Tiiny',
+  tr: 'Kur\'an İstasyon | Tiiny',
+  pt: 'Alcorão Estação | Tiiny',
+  zh: '古兰经 电台 | Tiiny',
+  ur: 'قرآن اسٹیشن | Tiiny',
   url: 'https://radio-m.tiiny.site/'
 }, {
   ar: 'إذاعة مغازي',
   en: 'Magziko Radio',
+  fr: 'Magziko Radio',
+  es: 'Magziko Radio',
+  sv: 'Magziko Radio',
+  nl: 'Magziko Radio',
+  ga: 'Magziko Raidió',
+  de: 'Magziko Radio',
+  ru: 'Magziko Радио',
+  tr: 'Magziko Radyo',
+  pt: 'Magziko Rádio',
+  zh: 'Magziko 广播',
+  ur: 'Magziko ریڈیو',
   url: 'https://magziko.wixsite.com/magziko/r'
 }, {
   ar: '🎬 صفحة الإنترو',
   en: '🎬 Intro Page',
+  fr: '🎬 Intro',
+  es: '🎬 Intro',
+  sv: '🎬 Intro',
+  nl: '🎬 Intro',
+  ga: '🎬 Intro',
+  de: '🎬 Intro',
+  ru: '🎬 Intro',
+  tr: '🎬 Intro',
+  pt: '🎬 Intro',
+  zh: '🎬 Intro',
+  ur: '🎬 Intro',
   url: 'https://radioquran.github.io/M/'
 }, {
   ar: 'إذاعة القرآن | MA',
   en: 'Radio Quran GitHub MA',
+  fr: 'Radio Coran GitHub MA',
+  es: 'Radio Corán GitHub MA',
+  sv: 'Radio Koranen GitHub MA',
+  nl: 'Radio Koran GitHub MA',
+  ga: 'Raidió Corán GitHub MA',
+  de: 'Radio Koran GitHub MA',
+  ru: 'Радио Коран GitHub MA',
+  tr: 'Radyo Kur\'an GitHub MA',
+  pt: 'Rádio Alcorão GitHub MA',
+  zh: '广播 古兰经 GitHub MA',
+  ur: 'ریڈیو قرآن GitHub MA',
   url: 'https://radioquran.github.io/MA/#gsc.tab=0'
 }, {
   ar: 'إذاعة القرآن | i',
   en: 'Radio Quran GitHub i',
+  fr: 'Radio Coran GitHub i',
+  es: 'Radio Corán GitHub i',
+  sv: 'Radio Koranen GitHub i',
+  nl: 'Radio Koran GitHub i',
+  ga: 'Raidió Corán GitHub i',
+  de: 'Radio Koran GitHub i',
+  ru: 'Радио Коран GitHub i',
+  tr: 'Radyo Kur\'an GitHub i',
+  pt: 'Rádio Alcorão GitHub i',
+  zh: '广播 古兰经 GitHub i',
+  ur: 'ریڈیو قرآن GitHub i',
   url: 'https://radioquran.github.io/i/#gsc.tab=0'
 }, ];
-
 const moreTranslations = [{
   ar: 'ترجمة معاني القرآن - إنجليزي',
   en: 'Quran Translation - English',
+  fr: 'Traduction Coran - Anglais',
+  es: 'Traducción Corán - Inglés',
+  sv: 'Översättning Koranen - Engelska',
+  nl: 'Vertaling Koran - Engels',
+  ga: 'Aistriúchán Corán - Béarla',
+  de: 'Übersetzung Koran - Englisch',
+  ru: 'Перевод Коран - Английский',
+  tr: 'Çeviri Kur\'an - İngilizce',
+  pt: 'Tradução Alcorão - Inglês',
+  zh: '翻译 古兰经 - 英语',
+  ur: 'ترجمہ قرآن - انگریزی',
   url: 'https://surahquran.com/Surah-translation/Translating-meanings-Quran-en.html'
 }, {
   ar: 'ترجمات معاني القرآن الكريم',
   en: 'Quran Translations',
+  fr: 'Traductions Coran',
+  es: 'Traducciones Corán',
+  sv: 'Översättningar Koranen',
+  nl: 'Vertalingen Koran',
+  ga: 'Aistriúcháin Corán',
+  de: 'Übersetzungen Koran',
+  ru: 'Переводы Коран',
+  tr: 'Çeviriler Kur\'an',
+  pt: 'Traduções Alcorão',
+  zh: '翻译 古兰经',
+  ur: 'تراجم قرآن',
   url: 'https://quran-uni.com/mos-haf/translations'
 }, {
   ar: 'ترجمات القرآن (إنجليزي)',
   en: 'Quran Translations (English)',
+  fr: 'Traductions du Coran (Anglais)',
+  es: 'Traducciones del Corán (Inglés)',
+  sv: 'Koranöversättningar (Engelska)',
+  nl: 'Koranvertalingen (Engels)',
+  ga: 'Aistriúcháin an Chóráin (Béarla)',
+  de: 'Koranübersetzungen (Englisch)',
+  ru: 'Переводы Корана (Английский)',
+  tr: 'Kur\'an Çevirileri (İngilizce)',
+  pt: 'Traduções do Alcorão (Inglês)',
+  zh: '古兰经翻译（英语）',
+  ur: 'قرآن کے تراجم (انگریزی)',
   url: 'https://quran-uni.com/mos-haf/translations/en'
 }, {
   ar: 'ترجمات القرآن (فرنسي)',
   en: 'Quran Translations (French)',
+  fr: 'Traductions du Coran (Français)',
+  es: 'Traducciones del Corán (Francés)',
+  sv: 'Koranöversättningar (Franska)',
+  nl: 'Koranvertalingen (Frans)',
+  ga: 'Aistriúcháin an Chóráin (Fraincis)',
+  de: 'Koranübersetzungen (Französisch)',
+  ru: 'Переводы Корана (Французский)',
+  tr: 'Kur\'an Çevirileri (Fransızca)',
+  pt: 'Traduções do Alcorão (Francês)',
+  zh: '古兰经翻译（法语）',
+  ur: 'قرآن کے تراجم (فرانسیسی)',
   url: 'https://quran-uni.com/mos-haf/translations/fr'
 }, {
   ar: 'ترجمات القرآن (إسباني)',
   en: 'Quran Translations (Spanish)',
+  fr: 'Traductions du Coran (Espagnol)',
+  es: 'Traducciones del Corán (Español)',
+  sv: 'Koranöversättningar (Spanska)',
+  nl: 'Koranvertalingen (Spaans)',
+  ga: 'Aistriúcháin an Chóráin (Spáinnis)',
+  de: 'Koranübersetzungen (Spanisch)',
+  ru: 'Переводы Корана (Испанский)',
+  tr: 'Kur\'an Çevirileri (İspanyolca)',
+  pt: 'Traduções do Alcorão (Espanhol)',
+  zh: '古兰经翻译（西班牙语）',
+  ur: 'قرآن کے تراجم (ہسپانوی)',
   url: 'https://quran-uni.com/mos-haf/translations/es'
 }, {
   ar: 'ترجمات القرآن (برتغالي)',
   en: 'Quran Translations (Portuguese)',
+  fr: 'Traductions du Coran (Portugais)',
+  es: 'Traducciones del Corán (Portugués)',
+  sv: 'Koranöversättningar (Portugisiska)',
+  nl: 'Koranvertalingen (Portugees)',
+  ga: 'Aistriúcháin an Chóráin (Portaingéilis)',
+  de: 'Koranübersetzungen (Portugiesisch)',
+  ru: 'Переводы Корана (Португальский)',
+  tr: 'Kur\'an Çevirileri (Portekizce)',
+  pt: 'Traduções do Alcorão (Português)',
+  zh: '古兰经翻译（葡萄牙语）',
+  ur: 'قرآن کے تراجم (پرتگالی)',
   url: 'https://quran-uni.com/mos-haf/translations/pt'
 }, {
   ar: 'ترجمات القرآن (إيطالي)',
   en: 'Quran Translations (Italian)',
+  fr: 'Traductions du Coran (Italien)',
+  es: 'Traducciones del Corán (Italiano)',
+  sv: 'Koranöversättningar (Italienska)',
+  nl: 'Koranvertalingen (Italiaans)',
+  ga: 'Aistriúcháin an Chóráin (Iodáilis)',
+  de: 'Koranübersetzungen (Italienisch)',
+  ru: 'Переводы Корана (Итальянский)',
+  tr: 'Kur\'an Çevirileri (İtalyanca)',
+  pt: 'Traduções do Alcorão (Italiano)',
+  zh: '古兰经翻译（意大利语）',
+  ur: 'قرآن کے تراجم (اطالوی)',
   url: 'https://quran-uni.com/mos-haf/translations/it'
 }, {
   ar: 'ترجمات القرآن (هولندي)',
   en: 'Quran Translations (Dutch)',
+  fr: 'Traductions du Coran (Néerlandais)',
+  es: 'Traducciones del Corán (Neerlandés)',
+  sv: 'Koranöversättningar (Nederländska)',
+  nl: 'Koranvertalingen (Nederlands)',
+  ga: 'Aistriúcháin an Chóráin (Ollainnis)',
+  de: 'Koranübersetzungen (Niederländisch)',
+  ru: 'Переводы Корана (Голландский)',
+  tr: 'Kur\'an Çevirileri (Flemenkçe)',
+  pt: 'Traduções do Alcorão (Holandês)',
+  zh: '古兰经翻译（荷兰语）',
+  ur: 'قرآن کے تراجم (ڈچ)',
   url: 'https://quran-uni.com/mos-haf/translations/nl'
 }, {
   ar: 'ترجمات القرآن (ألماني)',
   en: 'Quran Translations (German)',
+  fr: 'Traductions du Coran (Allemand)',
+  es: 'Traducciones del Corán (Alemán)',
+  sv: 'Koranöversättningar (Tyska)',
+  nl: 'Koranvertalingen (Duits)',
+  ga: 'Aistriúcháin an Chóráin (Gearmáinis)',
+  de: 'Koranübersetzungen (Deutsch)',
+  ru: 'Переводы Корана (Немецкий)',
+  tr: 'Kur\'an Çevirileri (Almanca)',
+  pt: 'Traduções do Alcorão (Alemão)',
+  zh: '古兰经翻译（德语）',
+  ur: 'قرآن کے تراجم (جرمن)',
   url: 'https://quran-uni.com/mos-haf/translations/de'
 }, {
   ar: 'ترجمات القرآن (روسي)',
   en: 'Quran Translations (Russian)',
+  fr: 'Traductions du Coran (Russe)',
+  es: 'Traducciones del Corán (Ruso)',
+  sv: 'Koranöversättningar (Ryska)',
+  nl: 'Koranvertalingen (Russisch)',
+  ga: 'Aistriúcháin an Chóráin (Rúisis)',
+  de: 'Koranübersetzungen (Russisch)',
+  ru: 'Переводы Корана (Русский)',
+  tr: 'Kur\'an Çevirileri (Rusça)',
+  pt: 'Traduções do Alcorão (Russo)',
+  zh: '古兰经翻译（俄语）',
+  ur: 'قرآن کے تراجم (روسی)',
   url: 'https://quran-uni.com/mos-haf/translations/ru'
 }, {
   ar: 'ترجمات القرآن (ياباني)',
   en: 'Quran Translations (Japanese)',
+  fr: 'Traductions du Coran (Japonais)',
+  es: 'Traducciones del Corán (Japonés)',
+  sv: 'Koranöversättningar (Japanska)',
+  nl: 'Koranvertalingen (Japans)',
+  ga: 'Aistriúcháin an Chóráin (Seapáinis)',
+  de: 'Koranübersetzungen (Japanisch)',
+  ru: 'Переводы Корана (Японский)',
+  tr: 'Kur\'an Çevirileri (Japonca)',
+  pt: 'Traduções do Alcorão (Japonês)',
+  zh: '古兰经翻译（日语）',
+  ur: 'قرآن کے تراجم (جاپانی)',
   url: 'https://quran-uni.com/mos-haf/translations/jp'
 }, {
   ar: 'ترجمات القرآن (كوري)',
   en: 'Quran Translations (Korean)',
+  fr: 'Traductions du Coran (Coréen)',
+  es: 'Traducciones del Corán (Coreano)',
+  sv: 'Koranöversättningar (Koreanska)',
+  nl: 'Koranvertalingen (Koreaans)',
+  ga: 'Aistriúcháin an Chóráin (Cóiréis)',
+  de: 'Koranübersetzungen (Koreanisch)',
+  ru: 'Переводы Корана (Корейский)',
+  tr: 'Kur\'an Çevirileri (Korece)',
+  pt: 'Traduções do Alcorão (Coreano)',
+  zh: '古兰经翻译（韩语）',
+  ur: 'قرآن کے تراجم (کوریائی)',
   url: 'https://quran-uni.com/mos-haf/translations/ko'
 }, {
   ar: 'ترجمات القرآن (صيني)',
   en: 'Quran Translations (Chinese)',
+  fr: 'Traductions du Coran (Chinois)',
+  es: 'Traducciones del Corán (Chino)',
+  sv: 'Koranöversättningar (Kinesiska)',
+  nl: 'Koranvertalingen (Chinees)',
+  ga: 'Aistriúcháin an Chóráin (Sínis)',
+  de: 'Koranübersetzungen (Chinesisch)',
+  ru: 'Переводы Корана (Китайский)',
+  tr: 'Kur\'an Çevirileri (Çince)',
+  pt: 'Traduções do Alcorão (Chinês)',
+  zh: '古兰经翻译（中文）',
+  ur: 'قرآن کے تراجم (چینی)',
   url: 'https://quran-uni.com/mos-haf/translations/zh'
 }, {
   ar: 'ترجمات القرآن (أردو)',
   en: 'Quran Translations (Urdu)',
+  fr: 'Traductions du Coran (Ourdou)',
+  es: 'Traducciones del Corán (Urdu)',
+  sv: 'Koranöversättningar (Urdu)',
+  nl: 'Koranvertalingen (Urdu)',
+  ga: 'Aistriúcháin an Chóráin (Urdais)',
+  de: 'Koranübersetzungen (Urdu)',
+  ru: 'Переводы Корана (Урду)',
+  tr: 'Kur\'an Çevirileri (Urduca)',
+  pt: 'Traduções do Alcorão (Urdu)',
+  zh: '古兰经翻译（乌尔都语）',
+  ur: 'قرآن کے تراجم (اردو)',
   url: 'https://quran-uni.com/mos-haf/translations/ur'
 }, {
   ar: 'ترجمات القرآن (فارسي)',
   en: 'Quran Translations (Persian)',
+  fr: 'Traductions du Coran (Persan)',
+  es: 'Traducciones del Corán (Persa)',
+  sv: 'Koranöversättningar (Persiska)',
+  nl: 'Koranvertalingen (Perzisch)',
+  ga: 'Aistriúcháin an Chóráin (Peirsis)',
+  de: 'Koranübersetzungen (Persisch)',
+  ru: 'Переводы Корана (Персидский)',
+  tr: 'Kur\'an Çevirileri (Farsça)',
+  pt: 'Traduções do Alcorão (Persa)',
+  zh: '古兰经翻译（波斯语）',
+  ur: 'قرآن کے تراجم (فارسی)',
   url: 'https://quran-uni.com/mos-haf/translations/fa'
 }, {
   ar: 'ترجمات القرآن (سندي)',
   en: 'Quran Translations (Sindhi)',
+  fr: 'Traductions du Coran (Sindhi)',
+  es: 'Traducciones del Corán (Sindhi)',
+  sv: 'Koranöversättningar (Sindhi)',
+  nl: 'Koranvertalingen (Sindhi)',
+  ga: 'Aistriúcháin an Chóráin (Sindhis)',
+  de: 'Koranübersetzungen (Sindhi)',
+  ru: 'Переводы Корана (Синдхи)',
+  tr: 'Kur\'an Çevirileri (Sindçe)',
+  pt: 'Traduções do Alcorão (Sindi)',
+  zh: '古兰经翻译（信德语）',
+  ur: 'قرآن کے تراجم (سندھی)',
   url: 'https://quran-uni.com/mos-haf/translations/sd'
 }, {
   ar: 'ترجمات القرآن (هندي)',
   en: 'Quran Translations (Hindi)',
+  fr: 'Traductions du Coran (Hindi)',
+  es: 'Traducciones del Corán (Hindi)',
+  sv: 'Koranöversättningar (Hindi)',
+  nl: 'Koranvertalingen (Hindi)',
+  ga: 'Aistriúcháin an Chóráin (Hiondúis)',
+  de: 'Koranübersetzungen (Hindi)',
+  ru: 'Переводы Корана (Хинди)',
+  tr: 'Kur\'an Çevirileri (Hintçe)',
+  pt: 'Traduções do Alcorão (Hindi)',
+  zh: '古兰经翻译（印地语）',
+  ur: 'قرآن کے تراجم (ہندی)',
   url: 'https://quran-uni.com/mos-haf/translations/hi'
 }, {
   ar: 'ترجمات القرآن (عبري)',
   en: 'Quran Translations (Hebrew)',
+  fr: 'Traductions du Coran (Hébreu)',
+  es: 'Traducciones del Corán (Hebreo)',
+  sv: 'Koranöversättningar (Hebreiska)',
+  nl: 'Koranvertalingen (Hebreeuws)',
+  ga: 'Aistriúcháin an Chóráin (Eabhrais)',
+  de: 'Koranübersetzungen (Hebräisch)',
+  ru: 'Переводы Корана (Иврит)',
+  tr: 'Kur\'an Çevirileri (İbranice)',
+  pt: 'Traduções do Alcorão (Hebraico)',
+  zh: '古兰经翻译（希伯来语）',
+  ur: 'قرآن کے تراجم (عبرانی)',
   url: 'https://quran-uni.com/mos-haf/translations/he'
 }, {
   ar: 'القرآن باللغة العبرية',
   en: 'Quran in Hebrew',
+  fr: 'Coran - Hébreu',
+  es: 'Corán - Hebreo',
+  sv: 'Koranen - Hebreiska',
+  nl: 'Koran - Hebreeuws',
+  ga: 'Corán - Eabhrais',
+  de: 'Koran - Hebräisch',
+  ru: 'Коран - Иврит',
+  tr: 'Kur\'an - İbranice',
+  pt: 'Alcorão - Hebraico',
+  zh: '古兰经 - 希伯来语',
+  ur: 'قرآن - عبرانی',
   url: 'https://archive.org/details/20200413_20200413_2230/page/n1/mode/1up?view=theater'
 }, {
   ar: 'ترجمات القرآن (أمازيغي)',
   en: 'Quran Translations (Amazigh)',
+  fr: 'Traductions du Coran (Amazigh)',
+  es: 'Traducciones del Corán (Amazigh)',
+  sv: 'Koranöversättningar (Amazigh)',
+  nl: 'Koranvertalingen (Amazigh)',
+  ga: 'Aistriúcháin an Chóráin (Amaisigh)',
+  de: 'Koranübersetzungen (Amazigh)',
+  ru: 'Переводы Корана (Амазигский)',
+  tr: 'Kur\'an Çevirileri (Amazigce)',
+  pt: 'Traduções do Alcorão (Amazigue)',
+  zh: '古兰经翻译（阿马齐格语）',
+  ur: 'قرآن کے تراجم (تماشیغ)',
   url: 'https://quran-uni.com/mos-haf/translations/ber'
 }, {
   ar: 'ترجمات القرآن (بنغالي)',
   en: 'Quran Translations (Bengali)',
+  fr: 'Traductions du Coran (Bengali)',
+  es: 'Traducciones del Corán (Bengalí)',
+  sv: 'Koranöversättningar (Bengali)',
+  nl: 'Koranvertalingen (Bengaals)',
+  ga: 'Aistriúcháin an Chóráin (Beangáilis)',
+  de: 'Koranübersetzungen (Bengalisch)',
+  ru: 'Переводы Корана (Бенгальский)',
+  tr: 'Kur\'an Çevirileri (Bengalce)',
+  pt: 'Traduções do Alcorão (Bengali)',
+  zh: '古兰经翻译（孟加拉语）',
+  ur: 'قرآن کے تراجم (بنگالی)',
   url: 'https://quran-uni.com/mos-haf/translations/bn'
 }, {
   ar: 'ترجمات القرآن (ألباني)',
   en: 'Quran Translations (Albanian)',
+  fr: 'Traductions du Coran (Albanais)',
+  es: 'Traducciones del Corán (Albanés)',
+  sv: 'Koranöversättningar (Albanska)',
+  nl: 'Koranvertalingen (Albanees)',
+  ga: 'Aistriúcháin an Chóráin (Albáinis)',
+  de: 'Koranübersetzungen (Albanisch)',
+  ru: 'Переводы Корана (Албанский)',
+  tr: 'Kur\'an Çevirileri (Arnavutça)',
+  pt: 'Traduções do Alcorão (Albanês)',
+  zh: '古兰经翻译（阿尔巴尼亚语）',
+  ur: 'قرآن کے تراجم (البانوی)',
   url: 'https://quran-uni.com/mos-haf/translations/sq'
 }, {
   ar: 'ترجمات القرآن (بوسني)',
   en: 'Quran Translations (Bosnian)',
+  fr: 'Traductions du Coran (Bosniaque)',
+  es: 'Traducciones del Corán (Bosnio)',
+  sv: 'Koranöversättningar (Bosniska)',
+  nl: 'Koranvertalingen (Bosnisch)',
+  ga: 'Aistriúcháin an Chóráin (Boisnis)',
+  de: 'Koranübersetzungen (Bosnisch)',
+  ru: 'Переводы Корана (Боснийский)',
+  tr: 'Kur\'an Çevirileri (Boşnakça)',
+  pt: 'Traduções do Alcorão (Bósnio)',
+  zh: '古兰经翻译（波斯尼亚语）',
+  ur: 'قرآن کے تراجم (بوسنیائی)',
   url: 'https://quran-uni.com/mos-haf/translations/bs'
 }, {
   ar: 'ترجمات القرآن (إندونيسي)',
   en: 'Quran Translations (Indonesian)',
+  fr: 'Traductions du Coran (Indonésien)',
+  es: 'Traducciones del Corán (Indonesio)',
+  sv: 'Koranöversättningar (Indonesiska)',
+  nl: 'Koranvertalingen (Indonesisch)',
+  ga: 'Aistriúcháin an Chóráin (Indinéisis)',
+  de: 'Koranübersetzungen (Indonesisch)',
+  ru: 'Переводы Корана (Индонезийский)',
+  tr: 'Kur\'an Çevirileri (Endonezce)',
+  pt: 'Traduções do Alcorão (Indonésio)',
+  zh: '古兰经翻译（印度尼西亚语）',
+  ur: 'قرآن کے تراجم (انڈونیشیائی)',
   url: 'https://quran-uni.com/mos-haf/translations/id'
 }, {
   ar: 'ترجمات القرآن (ملايو)',
   en: 'Quran Translations (Malay)',
+  fr: 'Traductions du Coran (Malais)',
+  es: 'Traducciones del Corán (Malayo)',
+  sv: 'Koranöversättningar (Malajiska)',
+  nl: 'Koranvertalingen (Maleis)',
+  ga: 'Aistriúcháin an Chóráin (Malaeis)',
+  de: 'Koranübersetzungen (Malaiisch)',
+  ru: 'Переводы Корана (Малайский)',
+  tr: 'Kur\'an Çevirileri (Malayca)',
+  pt: 'Traduções do Alcorão (Malaio)',
+  zh: '古兰经翻译（马来语）',
+  ur: 'قرآن کے تراجم (ملائی)',
   url: 'https://quran-uni.com/mos-haf/translations/my'
 }, {
   ar: 'ترجمات القرآن (صومالي)',
   en: 'Quran Translations (Somali)',
+  fr: 'Traductions du Coran (Somali)',
+  es: 'Traducciones del Corán (Somalí)',
+  sv: 'Koranöversättningar (Somaliska)',
+  nl: 'Koranvertalingen (Somalisch)',
+  ga: 'Aistriúcháin an Chóráin (Somáilis)',
+  de: 'Koranübersetzungen (Somali)',
+  ru: 'Переводы Корана (Сомалийский)',
+  tr: 'Kur\'an Çevirileri (Somalice)',
+  pt: 'Traduções do Alcorão (Somali)',
+  zh: '古兰经翻译（索马里语）',
+  ur: 'قرآن کے تراجم (صومالی)',
   url: 'https://quran-uni.com/mos-haf/translations/so'
 }, {
   ar: 'ترجمات القرآن (سواحيلي)',
   en: 'Quran Translations (Swahili)',
+  fr: 'Traductions du Coran (Swahili)',
+  es: 'Traducciones del Corán (Suajili)',
+  sv: 'Koranöversättningar (Swahili)',
+  nl: 'Koranvertalingen (Swahili)',
+  ga: 'Aistriúcháin an Chóráin (Svahaílis)',
+  de: 'Koranübersetzungen (Suaheli)',
+  ru: 'Переводы Корана (Суахили)',
+  tr: 'Kur\'an Çevirileri (Svahili)',
+  pt: 'Traduções do Alcorão (Suaíli)',
+  zh: '古兰经翻译（斯瓦希里语）',
+  ur: 'قرآن کے تراجم (سواحلی)',
   url: 'https://quran-uni.com/mos-haf/translations/sw'
 }, {
   ar: 'ترجمات القرآن (تتاري)',
   en: 'Quran Translations (Tatar)',
+  fr: 'Traductions du Coran (Tatar)',
+  es: 'Traducciones del Corán (Tártaro)',
+  sv: 'Koranöversättningar (Tatariska)',
+  nl: 'Koranvertalingen (Tataars)',
+  ga: 'Aistriúcháin an Chóráin (Tatairis)',
+  de: 'Koranübersetzungen (Tatarisch)',
+  ru: 'Переводы Корана (Татарский)',
+  tr: 'Kur\'an Çevirileri (Tatarca)',
+  pt: 'Traduções do Alcorão (Tártaro)',
+  zh: '古兰经翻译（鞑靼语）',
+  ur: 'قرآن کے تراجم (تاتاری)',
   url: 'https://quran-uni.com/mos-haf/translations/tt'
 }, {
   ar: 'ترجمات القرآن (تايلاندي)',
   en: 'Quran Translations (Thai)',
+  fr: 'Traductions du Coran (Thaï)',
+  es: 'Traducciones del Corán (Tailandés)',
+  sv: 'Koranöversättningar (Thailändska)',
+  nl: 'Koranvertalingen (Thai)',
+  ga: 'Aistriúcháin an Chóráin (Téalainnis)',
+  de: 'Koranübersetzungen (Thailändisch)',
+  ru: 'Переводы Корана (Тайский)',
+  tr: 'Kur\'an Çevirileri (Tayca)',
+  pt: 'Traduções do Alcorão (Tailandês)',
+  zh: '古兰经翻译（泰语）',
+  ur: 'قرآن کے تراجم (تھائی)',
   url: 'https://quran-uni.com/mos-haf/translations/th'
 }, {
   ar: 'جامع التفاسير والترجمات',
   en: 'Tafsir & Translations Hub',
+  fr: 'Tafsir & Traductions',
+  es: 'Tafsir & Traducciones',
+  sv: 'Tafsir & Översättningar',
+  nl: 'Tafsir & Vertalingen',
+  ga: 'Tafsir & Aistriúcháin',
+  de: 'Tafsir & Übersetzungen',
+  ru: 'Тафсир & Переводы',
+  tr: 'Tefsir & Çeviriler',
+  pt: 'Tafsir & Traduções',
+  zh: '古兰经注释 & 翻译',
+  ur: 'تفسیر & تراجم',
   url: 'https://alquranweb.com/?sura=1&aya=1&books=201&books=102',
   newTab: true
 }, {
   ar: 'Translation of Quran Meanings',
   en: 'Translation of Quran to All Languages',
+  fr: 'Traduction Coran - toutes les langues',
+  es: 'Traducción Corán - todos los idiomas',
+  sv: 'Översättning Koranen - alla språk',
+  nl: 'Vertaling Koran - alle talen',
+  ga: 'Aistriúchán Corán - gach teanga',
+  de: 'Übersetzung Koran - alle Sprachen',
+  ru: 'Перевод Коран - все языки',
+  tr: 'Çeviri Kur\'an - tüm diller',
+  pt: 'Tradução Alcorão - todos os idiomas',
+  zh: '翻译 古兰经 - 所有语言',
+  ur: 'ترجمہ قرآن - تمام زبانیں',
   url: 'https://legacy.quran.com/',
   newTab: true
 }, {
   ar: 'ترجمة معاني القرآن PDF',
   en: 'Quran Meaning Translation PDF',
+  fr: 'Traduction Sens Coran PDF',
+  es: 'Traducción Significado Corán PDF',
+  sv: 'Översättning Betydelse Koranen PDF',
+  nl: 'Vertaling Betekenis Koran PDF',
+  ga: 'Aistriúchán Ciall Corán PDF',
+  de: 'Übersetzung Bedeutung Koran PDF',
+  ru: 'Перевод Смысл Коран PDF',
+  tr: 'Çeviri Anlam Kur\'an PDF',
+  pt: 'Tradução Significado Alcorão PDF',
+  zh: '翻译 含义 古兰经 PDF',
+  ur: 'ترجمہ معانی قرآن PDF',
   url: 'https://docs.google.com/viewer?url=https://muslim-library.com/books/2021/01/en_explanation_of_the_meanings_of_quran.pdf',
   newTab: true
 }, {
   ar: 'ترجمات معاني القرآن - مكتبة',
   en: 'Quran Translations - Library',
+  fr: 'Traductions Coran - Bibliothèque',
+  es: 'Traducciones Corán - Biblioteca',
+  sv: 'Översättningar Koranen - Bibliotek',
+  nl: 'Vertalingen Koran - Bibliotheek',
+  ga: 'Aistriúcháin Corán - Leabharlann',
+  de: 'Übersetzungen Koran - Bibliothek',
+  ru: 'Переводы Коран - Библиотека',
+  tr: 'Çeviriler Kur\'an - Kütüphane',
+  pt: 'Traduções Alcorão - Biblioteca',
+  zh: '翻译 古兰经 - 图书馆',
+  ur: 'تراجم قرآن - لائبریری',
   url: 'https://www.muslim-library.com/category/english/translations-of-the-quran/?lang=English',
   newTab: true
 }, {
   ar: 'ترجمات - مجمع الملك فهد',
   en: 'Translations - KFGQPC',
+  fr: 'Traductions - KFGQPC',
+  es: 'Traducciones - KFGQPC',
+  sv: 'Översättningar - KFGQPC',
+  nl: 'Vertalingen - KFGQPC',
+  ga: 'Aistriúcháin - KFGQPC',
+  de: 'Übersetzungen - KFGQPC',
+  ru: 'Переводы - KFGQPC',
+  tr: 'Çeviriler - KFGQPC',
+  pt: 'Traduções - KFGQPC',
+  zh: '翻译 - KFGQPC',
+  ur: 'تراجم - KFGQPC',
   url: 'https://qurancomplex.gov.sa/en/isdarat-translations/',
   newTab: true
 }, ];
@@ -24480,6 +25827,9 @@ const moreTranslations = [{
       btn.setAttribute('data-station', s.ar);
       btn.setAttribute('data-ar', s.ar);
       btn.setAttribute('data-en', s.en);
+      ['fr','es','sv','nl','ga','de','ru','tr','pt','zh','ur'].forEach(function(lg) {
+        if (s[lg]) btn.setAttribute('data-' + lg, s[lg]);
+      });
       btn.setAttribute('data-url', s.url);
       btn.style.float = 'right';
 
@@ -24515,6 +25865,7 @@ const moreTranslations = [{
     data-station="درايف القطامي"
     data-ar="درايف القطامي"
     data-en="Al-Qatami Drive"
+    data-fr="Al-Qatami Drive" data-es="Al-Qatami Drive" data-sv="Al-Qatami Drive" data-nl="Al-Qatami Drive" data-ga="Al-Qatami Drive" data-de="Al-Qatami Drive" data-ru="Al-Qatami Диск" data-tr="Al-Qatami Drive" data-pt="Al-Qatami Drive" data-zh="Al-Qatami 云端硬盘" data-ur="Al-Qatami ڈرائیو"
     style="float: right; text-align: center;">
     <span class="flag"></span>
     <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
@@ -24661,6 +26012,7 @@ const moreTranslations = [{
     data-station="تحميل تطبيق الأندرويد (قديم)"
     data-ar="تحميل تطبيق الأندرويد (قديم)"
     data-en="Download Android App (Old)"
+    data-fr="Télécharger Application Android (Ancien)" data-es="Descargar Aplicación Android (Antiguo)" data-sv="Ladda ner App Android (Gammal)" data-nl="Downloaden App Android (Oud)" data-ga="Íoslódáil Aip Android (Sean)" data-de="Herunterladen App Android (Alt)" data-ru="Скачать Приложение Android (Старый)" data-tr="İndir Uygulama Android (Eski)" data-pt="Baixar Aplicativo Android (Antigo)" data-zh="下载 应用 Android (旧版)" data-ur="ڈاؤن لوڈ ایپ Android (پرانا)"
     style="opacity: 0.7; border: 1px dashed #999; position: relative;"
     onclick="window.open('https://median.co/share/xxaowo', '_blank');">
 
@@ -24693,6 +26045,7 @@ const moreTranslations = [{
     data-station="تحميل تطبيق الأندرويد (جديد)"
     data-ar="تحميل تطبيق الأندرويد (جديد)"
     data-en="Download Android App (New)"
+    data-fr="Télécharger Application Android (Nouveau)" data-es="Descargar Aplicación Android (Nuevo)" data-sv="Ladda ner App Android (Ny)" data-nl="Downloaden App Android (Nieuw)" data-ga="Íoslódáil Aip Android (Nua)" data-de="Herunterladen App Android (Neu)" data-ru="Скачать Приложение Android (Новый)" data-tr="İndir Uygulama Android (Yeni)" data-pt="Baixar Aplicativo Android (Novo)" data-zh="下载 应用 Android (新版)" data-ur="ڈاؤن لوڈ ایپ Android (نیا)"
     style="border: 2px solid #28a745; background: #eafaf1; position: relative;"
     onclick="window.open('https://median.co/share/bnakxxn#androidphone', '_blank');">
 
@@ -25415,7 +26768,15 @@ body.dark-mode #mushafFullscreenOverlay {
 }
 #mushafFullscreenHeader a.mshf-new-tab:hover { background: rgba(255,255,255,0.28); }
 
-#mushafCloseFullscreenBtn {
+#mushafFullscreenHeader .mshf-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+#mushafCloseFullscreenBtn,
+#mushafMinimizeBtn {
   background: rgba(255,255,255,0.18);
   border: 1.5px solid rgba(255,255,255,0.40);
   border-radius: 50%;
@@ -25432,7 +26793,8 @@ body.dark-mode #mushafFullscreenOverlay {
   line-height: 1;
   font-weight: 700;
 }
-#mushafCloseFullscreenBtn:hover {
+#mushafCloseFullscreenBtn:hover,
+#mushafMinimizeBtn:hover {
   background: rgba(255,255,255,0.32);
   transform: scale(1.1);
 }
@@ -25472,7 +26834,10 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 <!-- ===== نافذة المصحف كاملة الشاشة ===== -->
 <div id="mushafFullscreenOverlay">
   <div id="mushafFullscreenHeader">
-    <button id="mushafCloseFullscreenBtn" onclick="closeMushafFullscreen()" title="إغلاق المصحف">✕</button>
+    <div class="mshf-header-controls">
+      <button id="mushafMinimizeBtn" onclick="minimizeMushafFullscreen()" title="تصغير">−</button>
+      <button id="mushafCloseFullscreenBtn" onclick="closeMushafFullscreen()" title="إغلاق المصحف">✕</button>
+    </div>
     <span class="mshf-header-title" id="mushafHeaderTitle">📖 المصحف الشريف | Holy Quran</span>
     <a class="mshf-new-tab" id="mushafNewTabLink" href="https://app.quranflash.com/book/Medina3?ar#/reader" target="_blank">🔗 فتح في تبويب | Open in Tab</a>
   </div>
@@ -25502,6 +26867,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 (function() {
   var MUSHAF_URL = 'https://app.quranflash.com/book/Medina3?ar#/reader';
   var loaded = false;
+  var mshfTaskbarItem = null;
 
   function getMushafLabel(isOpen) {
     var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
@@ -25526,6 +26892,13 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     if (label) label.textContent = getMushafLabel(isOpen);
   }
 
+  function removeMshfTaskbarItem() {
+    if (mshfTaskbarItem && mshfTaskbarItem.parentNode) {
+      mshfTaskbarItem.parentNode.removeChild(mshfTaskbarItem);
+    }
+    mshfTaskbarItem = null;
+  }
+
   // Hook into toggleLanguage to update button label when language switches
   var _mshfLangInterval = setInterval(function() {
     if (typeof window.toggleLanguage === 'function') {
@@ -25535,11 +26908,22 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         _origToggleLang.apply(this, arguments);
         setTimeout(updateMushafBtnLabel, 50);
         setTimeout(updateMushafHeaderLang, 50);
+        var mshfLbl = mshfTaskbarItem ? mshfTaskbarItem.querySelector('span:nth-child(2)') : null;
+        if (mshfLbl) {
+          var arNow = (typeof isArabic !== 'undefined') ? isArabic : true;
+          mshfLbl.textContent = arNow ? 'المصحف الشريف' : 'Holy Quran';
+        }
       };
     }
   }, 200);
 
   window.toggleMushaf = function() {
+    // لو النافذة مصغّرة في التاسكبار، رجّعها بدل ما نفتح واحدة جديدة
+    if (mshfTaskbarItem) {
+      window.restoreMushafFromTaskbar();
+      return;
+    }
+
     var overlay = document.getElementById('mushafFullscreenOverlay');
     var btn = document.getElementById('mushafToggleBtn');
 
@@ -25573,10 +26957,68 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     }
   };
 
+  // تصغير النافذة إلى شريط المهام أسفل الشاشة، مع إبقاء المصحف محمّلاً
+  // عشان المستخدم يقدر يرجع يكمل من نفس المكان اللي وقف فيه
+  window.minimizeMushafFullscreen = function() {
+    var overlay = document.getElementById('mushafFullscreenOverlay');
+    var btn = document.getElementById('mushafToggleBtn');
+    if (!overlay || !overlay.classList.contains('active')) return;
+
+    overlay.classList.remove('active');
+    if (btn) {
+      btn.classList.remove('open');
+      var lbl = btn.querySelector('.mshf-label');
+      if (lbl) lbl.textContent = getMushafLabel(false);
+    }
+    // إعادة التمرير للصفحة عشان يقدر يكمل القراءة تحت
+    document.body.style.overflow = '';
+
+    var taskbar = document.getElementById('yt-taskbar');
+    if (taskbar && !mshfTaskbarItem) {
+      var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+      mshfTaskbarItem = document.createElement('div');
+      mshfTaskbarItem.className = 'mshf-taskbar-item';
+      mshfTaskbarItem.title = ar ? 'استعادة المصحف' : 'Restore Quran';
+      mshfTaskbarItem.innerHTML =
+        '<span style="font-size:14px;flex-shrink:0;">📖</span>' +
+        '<span>' + (ar ? 'المصحف الشريف' : 'Holy Quran') + '</span>' +
+        '<span class="mshf-taskbar-close" title="إغلاق">✕</span>';
+
+      mshfTaskbarItem.addEventListener('click', function(e) {
+        if (e.target.classList.contains('mshf-taskbar-close')) {
+          e.stopPropagation();
+          removeMshfTaskbarItem();
+          window.closeMushafFullscreen();
+          return;
+        }
+        window.restoreMushafFromTaskbar();
+      });
+
+      taskbar.appendChild(mshfTaskbarItem);
+    }
+  };
+
+  // استعادة النافذة من شريط المهام لنفس المكان اللي وقف فيه القارئ
+  window.restoreMushafFromTaskbar = function() {
+    var overlay = document.getElementById('mushafFullscreenOverlay');
+    var btn = document.getElementById('mushafToggleBtn');
+    if (!overlay) return;
+
+    removeMshfTaskbarItem();
+    overlay.classList.add('active');
+    if (btn) {
+      btn.classList.add('open');
+      var lbl = btn.querySelector('.mshf-label');
+      if (lbl) lbl.textContent = getMushafLabel(true);
+    }
+    document.body.style.overflow = 'hidden';
+  };
+
   window.closeMushafFullscreen = function() {
     var overlay = document.getElementById('mushafFullscreenOverlay');
     var btn = document.getElementById('mushafToggleBtn');
 
+    removeMshfTaskbarItem();
     overlay.classList.remove('active');
     btn.classList.remove('open');
     btn.querySelector('.mshf-label').textContent = getMushafLabel(false);
@@ -25584,7 +27026,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     document.body.style.overflow = '';
   };
 
-  // إغلاق بالضغط على Escape
+  // إغلاق بالضغط على Escape (بيصغّر بدل ما يقفل خالص لو محتاج - هنا هنسيبها تقفل زي ما كانت)
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       var overlay = document.getElementById('mushafFullscreenOverlay');
@@ -27632,6 +29074,73 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 </div>
 
 <script>
+// ===== ترجمة مواقيت الصلاة والأذان لكل لغات الموقع (نفس منطق الشاشة الترحيبية) =====
+var PT_RTL_LANGS = { ar: true, ur: true };
+var PT_LOCALE_MAP = {
+  ar: 'ar-EG', en: 'en-GB', fr: 'fr-FR', es: 'es-ES', sv: 'sv-SE', nl: 'nl-NL',
+  ga: 'ga-IE', de: 'de-DE', ru: 'ru-RU', tr: 'tr-TR', pt: 'pt-PT', zh: 'zh-CN', ur: 'ur-PK'
+};
+function _ptLang() {
+  return (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ?
+    welcomeDisplayLang : ((typeof isArabic !== 'undefined' && isArabic) ? 'ar' : 'en');
+}
+function _ptDir(lang) {
+  return PT_RTL_LANGS[lang || _ptLang()] ? 'rtl' : 'ltr';
+}
+var PRAYER_I18N = {
+  fajr:    { ar: 'الفجر', en: 'Fajr', fr: 'Fajr', es: 'Fajr', sv: 'Fajr', nl: 'Fajr', ga: 'Fajr', de: 'Fajr', ru: 'Фаджр', tr: 'İmsak', pt: 'Fajr', zh: '晨礼', ur: 'فجر' },
+  sunrise: { ar: 'الشروق', en: 'Sunrise', fr: 'Lever du soleil', es: 'Salida del sol', sv: 'Soluppgång', nl: 'Zonsopgang', ga: 'Éirí na gréine', de: 'Sonnenaufgang', ru: 'Восход', tr: 'Güneş', pt: 'Nascer do sol', zh: '日出', ur: 'طلوع آفتاب' },
+  dhuhr:   { ar: 'الظهر', en: 'Dhuhr', fr: 'Dhuhr', es: 'Dhuhr', sv: 'Dhuhr', nl: 'Dhuhr', ga: 'Dhuhr', de: 'Dhuhr', ru: 'Зухр', tr: 'Öğle', pt: 'Dhuhr', zh: '晌礼', ur: 'ظہر' },
+  asr:     { ar: 'العصر', en: 'Asr', fr: 'Asr', es: 'Asr', sv: 'Asr', nl: 'Asr', ga: 'Asr', de: 'Asr', ru: 'Аср', tr: 'İkindi', pt: 'Asr', zh: '晡礼', ur: 'عصر' },
+  maghrib: { ar: 'المغرب', en: 'Maghrib', fr: 'Maghrib', es: 'Magrib', sv: 'Maghrib', nl: 'Maghrib', ga: 'Maghrib', de: 'Maghrib', ru: 'Магриб', tr: 'Akşam', pt: 'Magrebe', zh: '昏礼', ur: 'مغرب' },
+  isha:    { ar: 'العشاء', en: 'Isha', fr: 'Isha', es: 'Isha', sv: 'Isha', nl: 'Isha', ga: 'Isha', de: 'Isha', ru: 'Иша', tr: 'Yatsı', pt: 'Isha', zh: '宵礼', ur: 'عشاء' },
+
+  popupTitle:    { ar: 'مواقيت الصلاة', en: 'Prayer Times', fr: 'Heures de prière', es: 'Horarios de oración', sv: 'Bönetider', nl: 'Gebedstijden', ga: 'Amanna Urnaí', de: 'Gebetszeiten', ru: 'Время намаза', tr: 'Namaz Vakitleri', pt: 'Horários de Oração', zh: '礼拜时间', ur: 'اوقاتِ نماز' },
+  calcSettingsTip: { ar: 'إعدادات الحساب والأذان', en: 'Calculation & Adhan settings', fr: 'Paramètres de calcul et Adhan', es: 'Ajustes de cálculo y Adhan', sv: 'Beräknings- och böneutropsinställningar', nl: 'Berekenings- en Adhan-instellingen', ga: 'Socruithe ríofa agus Adhan', de: 'Berechnungs- und Adhan-Einstellungen', ru: 'Настройки расчёта и азана', tr: 'Hesaplama ve Ezan ayarları', pt: 'Configurações de cálculo e Adhan', zh: '计算与宣礼设置', ur: 'حساب اور اذان کی ترتیبات' },
+  loading:       { ar: 'جارٍ تحميل المواقيت...', en: 'Loading prayer times...', fr: 'Chargement des horaires...', es: 'Cargando horarios...', sv: 'Laddar bönetider...', nl: 'Gebedstijden laden...', ga: 'Ag lódáil amanna urnaí...', de: 'Gebetszeiten werden geladen...', ru: 'Загрузка времени намаза...', tr: 'Namaz vakitleri yükleniyor...', pt: 'Carregando horários...', zh: '正在加载礼拜时间…', ur: 'اوقاتِ نماز لوڈ ہو رہے ہیں...' },
+  locating:      { ar: 'جارٍ تحديد موقعك...', en: 'Locating you...', fr: 'Localisation en cours...', es: 'Localizándote...', sv: 'Fastställer din plats...', nl: 'Locatie bepalen...', ga: 'Ag aimsiú do shuímh...', de: 'Standort wird ermittelt...', ru: 'Определение местоположения...', tr: 'Konumunuz belirleniyor...', pt: 'Localizando você...', zh: '正在定位…', ur: 'آپ کا مقام تلاش کیا جا رہا ہے...' },
+  couldNotLoad:  { ar: 'تعذر تحميل المواقيت', en: 'Could not load prayer times', fr: 'Impossible de charger les horaires', es: 'No se pudieron cargar los horarios', sv: 'Kunde inte ladda bönetider', nl: 'Kon gebedstijden niet laden', ga: 'Níorbh fhéidir amanna urnaí a lódáil', de: 'Gebetszeiten konnten nicht geladen werden', ru: 'Не удалось загрузить время намаза', tr: 'Namaz vakitleri yüklenemedi', pt: 'Não foi possível carregar os horários', zh: '无法加载礼拜时间', ur: 'اوقاتِ نماز لوڈ نہیں ہو سکے' },
+  locationDenied:{ ar: 'تعذر الوصول للموقع، يرجى السماح بالوصول للموقع من إعدادات المتصفح', en: 'Could not access location, please allow location access', fr: "Impossible d'accéder à la position, veuillez autoriser l'accès à la position", es: 'No se pudo acceder a la ubicación, permita el acceso a la ubicación', sv: 'Kunde inte komma åt platsen, tillåt platsåtkomst', nl: 'Kon geen toegang krijgen tot locatie, sta locatietoegang toe', ga: "Níorbh fhéidir rochtain a fháil ar an suíomh, ceadaigh rochtain suímh", de: 'Standortzugriff nicht möglich, bitte Standortzugriff erlauben', ru: 'Не удалось получить доступ к местоположению, разрешите доступ', tr: 'Konuma erişilemedi, lütfen konum erişimine izin verin', pt: 'Não foi possível acessar a localização, permita o acesso', zh: '无法访问位置信息，请允许定位权限', ur: 'مقام تک رسائی نہیں ہو سکی، براہ کرم مقام تک رسائی کی اجازت دیں' },
+  geoNotSupported:{ ar: 'المتصفح لا يدعم تحديد الموقع', en: 'Geolocation not supported', fr: "La géolocalisation n'est pas prise en charge", es: 'La geolocalización no es compatible', sv: 'Geolokalisering stöds inte', nl: 'Geolocatie wordt niet ondersteund', ga: 'Ní thacaítear le geoshuíomh', de: 'Geolokalisierung wird nicht unterstützt', ru: 'Геолокация не поддерживается', tr: 'Konum belirleme desteklenmiyor', pt: 'Geolocalização não suportada', zh: '不支持地理定位', ur: 'جیو لوکیشن سپورٹ نہیں ہے' },
+  updateLocation:{ ar: 'تحديث الموقع', en: 'Update Location', fr: 'Mettre à jour la position', es: 'Actualizar ubicación', sv: 'Uppdatera plats', nl: 'Locatie bijwerken', ga: 'Nuashonraigh suíomh', de: 'Standort aktualisieren', ru: 'Обновить местоположение', tr: 'Konumu güncelle', pt: 'Atualizar localização', zh: '更新位置', ur: 'مقام اپ ڈیٹ کریں' },
+
+  modalTitle:    { ar: 'إعدادات مواقيت الصلاة والأذان', en: 'Prayer Times & Adhan Settings', fr: 'Paramètres des horaires de prière et Adhan', es: 'Ajustes de horarios de oración y Adhan', sv: 'Inställningar för bönetider och böneutrop', nl: 'Instellingen gebedstijden en Adhan', ga: 'Socruithe amanna urnaí agus Adhan', de: 'Einstellungen für Gebetszeiten und Adhan', ru: 'Настройки времени намаза и азана', tr: 'Namaz Vakitleri ve Ezan Ayarları', pt: 'Configurações de Horários de Oração e Adhan', zh: '礼拜时间与宣礼设置', ur: 'اوقاتِ نماز اور اذان کی ترتیبات' },
+  calcMethodLabel:{ ar: 'طريقة حساب المواقيت', en: 'Calculation Method', fr: 'Méthode de calcul', es: 'Método de cálculo', sv: 'Beräkningsmetod', nl: 'Berekeningsmethode', ga: 'Modh ríofa', de: 'Berechnungsmethode', ru: 'Метод расчёта', tr: 'Hesaplama Yöntemi', pt: 'Método de Cálculo', zh: '计算方法', ur: 'حساب کا طریقہ' },
+  madhabLabel:   { ar: 'المذهب (يؤثر على وقت العصر)', en: 'Madhab (affects Asr time)', fr: "École juridique (affecte l'heure d'Asr)", es: 'Escuela jurídica (afecta la hora del Asr)', sv: 'Rättsskola (påverkar Asr-tid)', nl: 'Rechtsschool (beïnvloedt Asr-tijd)', ga: 'Scoil dlí (difear do am Asr)', de: 'Rechtsschule (beeinflusst Asr-Zeit)', ru: 'Мазхаб (влияет на время Аср)', tr: 'Mezhep (İkindi vaktini etkiler)', pt: 'Escola jurídica (afeta o horário do Asr)', zh: '教法学派（影响晡礼时间）', ur: 'مذہب (عصر کے وقت پر اثر انداز)' },
+  shafii:        { ar: 'شافعي / الجمهور', en: "Shafi'i (Majority)", fr: 'Chaféite (Majorité)', es: 'Chafi (Mayoría)', sv: 'Shafi (Majoritet)', nl: 'Shafi (Meerderheid)', ga: "Shafi'i (Tromlach)", de: 'Schafiitisch (Mehrheit)', ru: 'Шафиитский (большинство)', tr: 'Şafii (Çoğunluk)', pt: 'Xafiita (Maioria)', zh: '沙斐仪派（多数）', ur: 'شافعی (اکثریت)' },
+  hanafi:        { ar: 'حنفي', en: 'Hanafi', fr: 'Hanéfite', es: 'Hanafí', sv: 'Hanafi', nl: 'Hanafi', ga: 'Hanafi', de: 'Hanafitisch', ru: 'Ханафитский', tr: 'Hanefi', pt: 'Hanafita', zh: '哈乃斐派', ur: 'حنفی' },
+  adhanSoundLabel:{ ar: '🔊 صوت الأذان التلقائي', en: '🔊 Automatic Adhan sound', fr: '🔊 Son automatique de l\'Adhan', es: '🔊 Sonido automático del Adhan', sv: '🔊 Automatiskt böneutropsljud', nl: '🔊 Automatisch Adhan-geluid', ga: '🔊 Fuaim uathoibríoch Adhan', de: '🔊 Automatischer Adhan-Klang', ru: '🔊 Автоматический звук азана', tr: '🔊 Otomatik Ezan sesi', pt: '🔊 Som automático do Adhan', zh: '🔊 自动宣礼声音', ur: '🔊 خودکار اذان کی آواز' },
+  soundShort:    { ar: 'قصير (يعمل أوفلاين)', en: 'Short (works offline)', fr: 'Court (fonctionne hors ligne)', es: 'Corto (funciona sin conexión)', sv: 'Kort (fungerar offline)', nl: 'Kort (werkt offline)', ga: 'Gearr (oibríonn as líne)', de: 'Kurz (funktioniert offline)', ru: 'Короткий (работает офлайн)', tr: 'Kısa (çevrimdışı çalışır)', pt: 'Curto (funciona offline)', zh: '短版（可离线播放）', ur: 'مختصر (آف لائن کام کرتا ہے)' },
+  soundFull:     { ar: 'كامل', en: 'Full', fr: 'Complet', es: 'Completo', sv: 'Fullständig', nl: 'Volledig', ga: 'Iomlán', de: 'Vollständig', ru: 'Полный', tr: 'Tam', pt: 'Completo', zh: '完整版', ur: 'مکمل' },
+  soundNote:     { ar: 'الأذان الكامل أطول ولازم اتصال إنترنت وقت الصلاة (مش محفوظ للعمل أوفلاين)', en: 'The full Adhan is longer and needs an internet connection at prayer time (not cached for offline use)', fr: "L'Adhan complet est plus long et nécessite une connexion Internet à l'heure de la prière (non mis en cache hors ligne)", es: 'El Adhan completo es más largo y necesita conexión a Internet en el momento de la oración (no disponible sin conexión)', sv: 'Det fullständiga böneutropet är längre och kräver internetanslutning vid bönetid (sparas inte för offline)', nl: 'De volledige Adhan is langer en vereist een internetverbinding op gebedstijd (niet offline beschikbaar)', ga: 'Tá an Adhan iomlán níos faide agus teastaíonn ceangal Idirlín ag am urnaí (níl sé ar fáil as líne)', de: 'Der vollständige Adhan ist länger und benötigt zur Gebetszeit eine Internetverbindung (nicht offline verfügbar)', ru: 'Полный азан длиннее и требует интернет-соединения во время намаза (не сохраняется офлайн)', tr: 'Tam Ezan daha uzundur ve namaz vaktinde internet bağlantısı gerektirir (çevrimdışı için kaydedilmez)', pt: 'O Adhan completo é mais longo e precisa de conexão à internet no horário da oração (não fica salvo offline)', zh: '完整版宣礼较长，需要在礼拜时间联网播放（不支持离线缓存）', ur: 'مکمل اذان لمبی ہے اور نماز کے وقت انٹرنیٹ کنکشن درکار ہے (آف لائن محفوظ نہیں)' },
+  preReminderLabel:{ ar: '⏰ تنبيه صامت قبل الأذان', en: '⏰ Silent reminder before Adhan', fr: "⏰ Rappel silencieux avant l'Adhan", es: '⏰ Recordatorio silencioso antes del Adhan', sv: '⏰ Tyst påminnelse före böneutropet', nl: '⏰ Stille herinnering vóór Adhan', ga: '⏰ Meabhrúchán ciúin roimh Adhan', de: '⏰ Stille Erinnerung vor dem Adhan', ru: '⏰ Беззвучное напоминание перед азаном', tr: '⏰ Ezandan önce sessiz hatırlatma', pt: '⏰ Lembrete silencioso antes do Adhan', zh: '⏰ 宣礼前静音提醒', ur: '⏰ اذان سے پہلے خاموش یاد دہانی' },
+  off:           { ar: 'متوقف', en: 'Off', fr: 'Désactivé', es: 'Desactivado', sv: 'Av', nl: 'Uit', ga: 'As', de: 'Aus', ru: 'Выкл.', tr: 'Kapalı', pt: 'Desativado', zh: '关闭', ur: 'بند' },
+  minBefore:     { ar: 'قبل {v} دقيقة', en: '{v} min before', fr: '{v} min avant', es: '{v} min antes', sv: '{v} min innan', nl: '{v} min ervoor', ga: '{v} nóiméad roimhe', de: '{v} Min. davor', ru: 'за {v} мин', tr: '{v} dk önce', pt: '{v} min antes', zh: '提前{v}分钟', ur: '{v} منٹ پہلے' },
+  volumeLabel:   { ar: '🔊 مستوى صوت الأذان', en: '🔊 Adhan Volume', fr: "🔊 Volume de l'Adhan", es: '🔊 Volumen del Adhan', sv: '🔊 Böneutropets volym', nl: '🔊 Adhan-volume', ga: '🔊 Airde fuaime Adhan', de: '🔊 Adhan-Lautstärke', ru: '🔊 Громкость азана', tr: '🔊 Ezan Sesi Seviyesi', pt: '🔊 Volume do Adhan', zh: '🔊 宣礼音量', ur: '🔊 اذان کی آواز کی سطح' },
+  cancel:        { ar: 'إلغاء', en: 'Cancel', fr: 'Annuler', es: 'Cancelar', sv: 'Avbryt', nl: 'Annuleren', ga: 'Cealaigh', de: 'Abbrechen', ru: 'Отмена', tr: 'İptal', pt: 'Cancelar', zh: '取消', ur: 'منسوخ کریں' },
+  save:          { ar: 'حفظ', en: 'Save', fr: 'Enregistrer', es: 'Guardar', sv: 'Spara', nl: 'Opslaan', ga: 'Sábháil', de: 'Speichern', ru: 'Сохранить', tr: 'Kaydet', pt: 'Salvar', zh: '保存', ur: 'محفوظ کریں' },
+  settingsSaved: { ar: '✅ تم حفظ الإعدادات', en: '✅ Settings saved', fr: '✅ Paramètres enregistrés', es: '✅ Ajustes guardados', sv: '✅ Inställningar sparade', nl: '✅ Instellingen opgeslagen', ga: '✅ Socruithe sábháilte', de: '✅ Einstellungen gespeichert', ru: '✅ Настройки сохранены', tr: '✅ Ayarlar kaydedildi', pt: '✅ Configurações salvas', zh: '✅ 设置已保存', ur: '✅ ترتیبات محفوظ ہو گئیں' }
+};
+function _ptT(key, lang) {
+  var d = PRAYER_I18N[key];
+  if (!d) return '';
+  lang = lang || _ptLang();
+  return d[lang] || d.en;
+}
+function _ptMin(v, lang) {
+  return _ptT('minBefore', lang).replace('{v}', v);
+}
+function _ptDateStr(lang) {
+  lang = lang || _ptLang();
+  var locale = PT_LOCALE_MAP[lang] || 'en-GB';
+  var today = new Date();
+  var weekday = '';
+  try { weekday = today.toLocaleDateString(locale, { weekday: 'long' }); } catch (e) {}
+  return (weekday ? weekday + ' ' : '') + today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+}
+</script>
+
+<script>
 // ===== إعدادات حساب مواقيت الصلاة: طريقة الحساب + المذهب + مستوى صوت الأذان =====
 (function() {
   window.PRAYER_CALC_METHODS = [
@@ -27703,7 +29212,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   window.openPrayerCalcModal = function() {
     var old = document.getElementById('prayerCalcModal');
     if (old) { old.remove(); return; }
-    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var lang = _ptLang();
+    var isAr = (lang === 'ar');
+    var dir = _ptDir(lang);
     var isDark = document.body.classList.contains('dark-mode');
     var bg = isDark ? '#1a2820' : '#fff';
     var clr = isDark ? '#e0e0e0' : '#1a1a1a';
@@ -27725,49 +29236,49 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     overlay.id = 'prayerCalcModal';
     overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);animation:ptFadeIn .18s ease;';
     overlay.innerHTML =
-      '<div style="background:' + bg + ';color:' + clr + ';width:min(92vw,380px);max-height:85vh;overflow:auto;border-radius:18px;padding:20px;font-family:Cairo,sans-serif;direction:' + (isAr ? 'rtl' : 'ltr') + ';box-shadow:0 12px 40px rgba(0,0,0,0.3);animation:ptSlideIn .22s ease;">' +
-        '<div style="font-size:16px;font-weight:700;margin-bottom:14px;color:' + green + ';">🕌 ' + (isAr ? 'إعدادات مواقيت الصلاة والأذان' : 'Prayer Times & Adhan Settings') + '</div>' +
+      '<div style="background:' + bg + ';color:' + clr + ';width:min(92vw,380px);max-height:85vh;overflow:auto;border-radius:18px;padding:20px;font-family:Cairo,sans-serif;direction:' + dir + ';box-shadow:0 12px 40px rgba(0,0,0,0.3);animation:ptSlideIn .22s ease;">' +
+        '<div style="font-size:16px;font-weight:700;margin-bottom:14px;color:' + green + ';">🕌 ' + _ptT('modalTitle', lang) + '</div>' +
 
         '<div style="margin-bottom:16px;">' +
-          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + (isAr ? 'طريقة حساب المواقيت' : 'Calculation Method') + '</label>' +
+          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + _ptT('calcMethodLabel', lang) + '</label>' +
           '<select id="pcm-method" style="width:100%;padding:9px 10px;border-radius:10px;border:1px solid ' + border + ';background:' + (isDark ? '#132018' : '#f7faf8') + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;">' + methodOptions + '</select>' +
         '</div>' +
 
         '<div style="margin-bottom:16px;">' +
-          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + (isAr ? 'المذهب (يؤثر على وقت العصر)' : 'Madhab (affects Asr time)') + '</label>' +
+          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + _ptT('madhabLabel', lang) + '</label>' +
           '<div style="display:flex;gap:8px;">' +
-            '<button id="pcm-madhab-0" data-v="0" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curMadhab === '0' ? green : 'transparent') + ';color:' + (curMadhab === '0' ? '#fff' : clr) + ';">' + (isAr ? 'شافعي / الجمهور' : "Shafi'i (Majority)") + '</button>' +
-            '<button id="pcm-madhab-1" data-v="1" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curMadhab === '1' ? green : 'transparent') + ';color:' + (curMadhab === '1' ? '#fff' : clr) + ';">' + (isAr ? 'حنفي' : 'Hanafi') + '</button>' +
+            '<button id="pcm-madhab-0" data-v="0" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curMadhab === '0' ? green : 'transparent') + ';color:' + (curMadhab === '0' ? '#fff' : clr) + ';">' + _ptT('shafii', lang) + '</button>' +
+            '<button id="pcm-madhab-1" data-v="1" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curMadhab === '1' ? green : 'transparent') + ';color:' + (curMadhab === '1' ? '#fff' : clr) + ';">' + _ptT('hanafi', lang) + '</button>' +
           '</div>' +
         '</div>' +
 
         '<div style="margin-bottom:16px;">' +
-          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + (isAr ? '🔊 صوت الأذان التلقائي' : '🔊 Automatic Adhan sound') + '</label>' +
+          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + _ptT('adhanSoundLabel', lang) + '</label>' +
           '<div style="display:flex;gap:8px;">' +
-            '<button id="pcm-sound-short" data-v="short" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curSoundChoice === 'short' ? green : 'transparent') + ';color:' + (curSoundChoice === 'short' ? '#fff' : clr) + ';">' + (isAr ? 'قصير (يعمل أوفلاين)' : 'Short (works offline)') + '</button>' +
-            '<button id="pcm-sound-full" data-v="full" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curSoundChoice === 'full' ? green : 'transparent') + ';color:' + (curSoundChoice === 'full' ? '#fff' : clr) + ';">' + (isAr ? 'كامل' : 'Full') + '</button>' +
+            '<button id="pcm-sound-short" data-v="short" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curSoundChoice === 'short' ? green : 'transparent') + ';color:' + (curSoundChoice === 'short' ? '#fff' : clr) + ';">' + _ptT('soundShort', lang) + '</button>' +
+            '<button id="pcm-sound-full" data-v="full" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curSoundChoice === 'full' ? green : 'transparent') + ';color:' + (curSoundChoice === 'full' ? '#fff' : clr) + ';">' + _ptT('soundFull', lang) + '</button>' +
           '</div>' +
-          '<div style="font-size:10.5px;color:' + muted + ';margin-top:6px;">' + (isAr ? 'الأذان الكامل أطول ولازم اتصال إنترنت وقت الصلاة (مش محفوظ للعمل أوفلاين)' : 'The full Adhan is longer and needs an internet connection at prayer time (not cached for offline use)') + '</div>' +
+          '<div style="font-size:10.5px;color:' + muted + ';margin-top:6px;">' + _ptT('soundNote', lang) + '</div>' +
         '</div>' +
 
         '<div style="margin-bottom:16px;">' +
-          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + (isAr ? '⏰ تنبيه صامت قبل الأذان' : '⏰ Silent reminder before Adhan') + '</label>' +
+          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + _ptT('preReminderLabel', lang) + '</label>' +
           '<select id="pcm-prereminder" style="width:100%;padding:9px 10px;border-radius:10px;border:1px solid ' + border + ';background:' + (isDark ? '#132018' : '#f7faf8') + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;">' +
             [0, 5, 10, 15, 20, 30].map(function(v) {
-              var label = v === 0 ? (isAr ? 'متوقف' : 'Off') : (isAr ? ('قبل ' + v + ' دقيقة') : (v + ' min before'));
+              var label = v === 0 ? _ptT('off', lang) : _ptMin(v, lang);
               return '<option value="' + v + '"' + (String(v) === String(curPreReminder) ? ' selected' : '') + '>' + label + '</option>';
             }).join('') +
           '</select>' +
         '</div>' +
 
         '<div style="margin-bottom:18px;">' +
-          '<label style="display:flex;justify-content:space-between;font-size:12.5px;color:' + muted + ';margin-bottom:6px;"><span>🔊 ' + (isAr ? 'مستوى صوت الأذان' : 'Adhan Volume') + '</span><span id="pcm-vol-val">' + Math.round(curVol * 100) + '%</span></label>' +
+          '<label style="display:flex;justify-content:space-between;font-size:12.5px;color:' + muted + ';margin-bottom:6px;"><span>' + _ptT('volumeLabel', lang) + '</span><span id="pcm-vol-val">' + Math.round(curVol * 100) + '%</span></label>' +
           '<input id="pcm-volume" type="range" min="0" max="1" step="0.05" value="' + curVol + '" style="width:100%;accent-color:' + green + ';">' +
         '</div>' +
 
         '<div style="display:flex;gap:10px;">' +
-          '<button id="pcm-cancel" style="flex:1;padding:10px;border-radius:10px;border:1px solid ' + border + ';background:transparent;color:' + muted + ';font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;">' + (isAr ? 'إلغاء' : 'Cancel') + '</button>' +
-          '<button id="pcm-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:' + green + ';color:#fff;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">' + (isAr ? 'حفظ' : 'Save') + '</button>' +
+          '<button id="pcm-cancel" style="flex:1;padding:10px;border-radius:10px;border:1px solid ' + border + ';background:transparent;color:' + muted + ';font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;">' + _ptT('cancel', lang) + '</button>' +
+          '<button id="pcm-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:' + green + ';color:#fff;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">' + _ptT('save', lang) + '</button>' +
         '</div>' +
       '</div>';
 
@@ -27822,7 +29333,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       } catch (e) {}
       overlay.remove();
       if (typeof queueToast === 'function') {
-        queueToast('✅ Settings saved', '✅ تم حفظ الإعدادات', null, null, null);
+        queueToast(_ptT('settingsSaved', 'en'), _ptT('settingsSaved', 'ar'), null, null, null);
       }
     });
   };
@@ -27834,18 +29345,23 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   var _pwRendered = false;
   var _pwData = null;
 
-  function _pwFmtTime(t) {
+  var PW_AMPM = { ar: ['ص','م'], ur: ['ص','م'] };
+  window._PW_AMPM = PW_AMPM;
+  function _pwFmtTime(t, lang) {
     if (!t) return '--:--';
     var parts = t.split(':');
     var h = parseInt(parts[0]), m = parseInt(parts[1]);
-    var ampm = h >= 12 ? 'م' : 'ص';
+    var pair = PW_AMPM[lang] || ['AM','PM'];
+    var ampm = h >= 12 ? pair[1] : pair[0];
     var h12 = h % 12 || 12;
     return h12 + ':' + String(m).padStart(2,'0') + ' ' + ampm;
   }
+  window._pwFmtTime = _pwFmtTime;
+
+  var PW_KEY_MAP = { Fajr:'fajr', Sunrise:'sunrise', Dhuhr:'dhuhr', Asr:'asr', Maghrib:'maghrib', Isha:'isha' };
 
   function _pwGetNextPrayer(timings) {
     var ORDER = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
-    var NAMES_AR = { Fajr:'الفجر', Sunrise:'الشروق', Dhuhr:'الظهر', Asr:'العصر', Maghrib:'المغرب', Isha:'العشاء' };
     var now = new Date();
     var nowMins = now.getHours() * 60 + now.getMinutes();
     var next = null, nextMins = Infinity;
@@ -27856,12 +29372,24 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       if (pm > nowMins && pm < nextMins) { nextMins = pm; next = n; }
     });
     if (!next) next = 'Fajr';
-    return { name: next, label: NAMES_AR[next] || next };
+    return { name: next };
   }
+
+  function _pwHijriStr(hijri, lang) {
+    if (!hijri) return '';
+    var monthName = (lang === 'ar' || lang === 'ur') ? (hijri.monthAr || hijri.monthEn) : (hijri.monthEn || hijri.monthAr);
+    var suffix = (lang === 'ar' || lang === 'ur') ? ' هـ' : ' AH';
+    return hijri.day + ' ' + monthName + ' ' + hijri.year + suffix;
+  }
+  window._pwHijriStr = _pwHijriStr;
 
   function _pwRender(timings, hijri, city) {
     var el = document.getElementById('prayerWidgetNative');
     if (!el) return;
+    var lang = _ptLang();
+    var dir  = _ptDir(lang);
+    el.setAttribute('dir', dir);
+    el.style.direction = dir;
     var isDark = document.body.classList.contains('dark-mode');
     var bg     = isDark ? '#15241c' : '#f0f9f5';
     var card   = isDark ? '#1d3028' : '#ffffff';
@@ -27870,40 +29398,34 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var border = isDark ? 'rgba(29,158,117,0.2)' : 'rgba(29,158,117,0.15)';
     var green  = '#1D9E75';
 
-    var PRAYERS = [
-      { key:'Fajr',    ar:'الفجر' },
-      { key:'Sunrise', ar:'الشروق' },
-      { key:'Dhuhr',   ar:'الظهر' },
-      { key:'Asr',     ar:'العصر' },
-      { key:'Maghrib', ar:'المغرب' },
-      { key:'Isha',    ar:'العشاء' }
-    ];
+    var PRAYERS = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
     var next = _pwGetNextPrayer(timings);
-    var today = new Date();
-    var weekDay_ar = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-    var dateStr = weekDay_ar[today.getDay()] + ' ' + today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear();
+    var dateStr = _ptDateStr(lang);
+    var hijriStr = _pwHijriStr(hijri, lang);
 
-    var rows = PRAYERS.map(function(p) {
-      var isNext = (p.key === next.name);
+    var rows = PRAYERS.map(function(key) {
+      var isNext = (key === next.name);
       var rowBg  = isNext ? (isDark ? 'rgba(29,158,117,0.18)' : 'rgba(29,158,117,0.09)') : 'transparent';
       var rowClr = isNext ? green : clr;
       var wt     = isNext ? '700' : '400';
+      var label  = _ptT(PW_KEY_MAP[key], lang);
+      var arrow  = isNext ? (dir === 'rtl' ? ' ⬅' : ' ⬆') : '';
       return '<div class="pw-row" style="background:' + rowBg + ';">' +
-        '<span style="font-weight:' + wt + ';color:' + rowClr + ';">' + p.ar + (isNext ? ' ⬅' : '') + '</span>' +
-        '<span style="font-weight:' + wt + ';color:' + rowClr + ';">' + _pwFmtTime(timings[p.key]) + '</span>' +
+        '<span style="font-weight:' + wt + ';color:' + rowClr + ';">' + label + arrow + '</span>' +
+        '<span style="font-weight:' + wt + ';color:' + rowClr + ';">' + _pwFmtTime(timings[key], lang) + '</span>' +
       '</div>';
     }).join('');
 
     el.innerHTML =
       '<div style="background:' + bg + ';border-radius:16px;overflow:hidden;border:1px solid ' + border + ';">' +
         '<div style="background:' + green + ';padding:14px 16px 12px;">' +
-          '<div style="font-size:13px;color:rgba(255,255,255,0.85);margin-bottom:2px;">🕌 مواقيت الصلاة</div>' +
-          '<div style="font-size:11px;color:rgba(255,255,255,0.7);">' + dateStr + (hijri ? ' | ' + hijri : '') + '</div>' +
+          '<div style="font-size:13px;color:rgba(255,255,255,0.85);margin-bottom:2px;">🕌 ' + _ptT('popupTitle', lang) + '</div>' +
+          '<div style="font-size:11px;color:rgba(255,255,255,0.7);">' + dateStr + (hijriStr ? ' | ' + hijriStr : '') + '</div>' +
           (city ? '<div style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;">📍 ' + city + '</div>' : '') +
         '</div>' +
         '<div class="pw-rows-container">' + rows + '</div>' +
         '<div style="padding:4px 12px 10px;text-align:center;">' +
-          '<button onclick="window._pwRefreshLocation()" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:10px;padding:4px 12px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 تحديث الموقع</button>' +
+          '<button onclick="window._pwRefreshLocation()" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:10px;padding:4px 12px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 ' + _ptT('updateLocation', lang) + '</button>' +
         '</div>' +
       '</div>';
   }
@@ -27920,11 +29442,13 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       if (cached.date === dk && cached.timings) {
         _pwData = cached;
         _pwRender(cached.timings, cached.hijri, cached.city);
+        refreshCityIfLangChanged();
         return;
       }
     } catch(e) {}
 
     function fetchTimes(lat, lon) {
+      var lang = _ptLang();
       var today = new Date();
       var dateStr = today.getDate() + '-' + (today.getMonth()+1) + '-' + today.getFullYear();
       fetch('https://api.aladhan.com/v1/timings/' + dateStr + '?latitude=' + lat + '&longitude=' + lon + '&method=' + window.getPrayerCalcMethod() + '&school=' + window.getPrayerMadhab())
@@ -27932,30 +29456,54 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         .then(function(data) {
           if (!data || !data.data) return;
           var timings = data.data.timings;
-          var hijri   = data.data.date && data.data.date.hijri
-            ? data.data.date.hijri.day + ' ' + data.data.date.hijri.month.ar + ' ' + data.data.date.hijri.year + ' هـ'
-            : '';
+          var h = data.data.date && data.data.date.hijri;
+          var hijri = h ? { day: h.day, monthAr: h.month.ar, monthEn: h.month.en, year: h.year } : null;
           // اسم المدينة من Nominatim (لا يؤثر على التحميل)
           var city = '';
-          fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json&accept-language=ar')
+          fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json&accept-language=' + lang)
             .then(function(r){ return r.json(); })
             .then(function(geo) {
               city = (geo.address && (geo.address.city || geo.address.town || geo.address.state)) || '';
               var dk2 = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
-              try { localStorage.setItem(TIMES_KEY, JSON.stringify({ date: dk2, timings: timings, hijri: hijri, city: city })); } catch(e) {}
-              _pwData = { timings: timings, hijri: hijri, city: city };
+              try { localStorage.setItem(TIMES_KEY, JSON.stringify({ date: dk2, timings: timings, hijri: hijri, city: city, cityLang: lang })); } catch(e) {}
+              _pwData = { timings: timings, hijri: hijri, city: city, cityLang: lang };
               _pwRender(timings, hijri, city);
             })
             .catch(function() {
-              _pwData = { timings: timings, hijri: hijri, city: '' };
+              _pwData = { timings: timings, hijri: hijri, city: '', cityLang: lang };
               _pwRender(timings, hijri, '');
             });
         })
         .catch(function() {
           document.getElementById('prayerWidgetNative').innerHTML =
-            '<div style="text-align:center;padding:24px;color:#888;font-size:13px;">⚠️ تعذر تحميل المواقيت</div>';
+            '<div style="text-align:center;padding:24px;color:#888;font-size:13px;">⚠️ ' + _ptT('couldNotLoad', lang) + '</div>';
         });
     }
+
+    // حدّث اسم المدينة فقط لو تغيّرت اللغة الحالية عن لغة آخر تحميل للمدينة
+    function refreshCityIfLangChanged() {
+      var lang = _ptLang();
+      if (!_pwData || _pwData.cityLang === lang) return;
+      try {
+        var geo = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+        if (!geo.lat || !geo.lon) return;
+        fetch('https://nominatim.openstreetmap.org/reverse?lat=' + geo.lat + '&lon=' + geo.lon + '&format=json&accept-language=' + lang)
+          .then(function(r){ return r.json(); })
+          .then(function(geoData) {
+            var city = (geoData.address && (geoData.address.city || geoData.address.town || geoData.address.state)) || '';
+            _pwData.city = city;
+            _pwData.cityLang = lang;
+            try {
+              var cached = JSON.parse(localStorage.getItem(TIMES_KEY) || '{}');
+              cached.city = city; cached.cityLang = lang;
+              localStorage.setItem(TIMES_KEY, JSON.stringify(cached));
+            } catch(e) {}
+            _pwRender(_pwData.timings, _pwData.hijri, city);
+          })
+          .catch(function() {});
+      } catch(e) {}
+    }
+    window._pwRefreshCityIfLangChanged = refreshCityIfLangChanged;
 
     // استخدم كاش الإحداثيات
     try {
@@ -27969,7 +29517,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     // اطلب موقع جديد
     if ('geolocation' in navigator) {
       document.getElementById('prayerWidgetNative').innerHTML =
-        '<div style="text-align:center;padding:20px;color:#888;font-size:13px;">⏳ جارٍ تحديد موقعك...</div>';
+        '<div style="text-align:center;padding:20px;color:#888;font-size:13px;">⏳ ' + _ptT('locating') + '</div>';
       navigator.geolocation.getCurrentPosition(function(pos) {
         try {
           localStorage.setItem(CACHE_KEY, JSON.stringify({ lat: pos.coords.latitude, lon: pos.coords.longitude, ts: Date.now() }));
@@ -28011,17 +29559,50 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       if (_pwData) _pwRender(_pwData.timings, _pwData.hijri, _pwData.city);
     }, 100);
   };
+
+  // أعد الرسم وحدّث اسم المدينة عند تغيير لغة العرض
+  function _pwOnLangChange() {
+    setTimeout(function() {
+      if (_pwData) {
+        _pwRender(_pwData.timings, _pwData.hijri, _pwData.city);
+        if (typeof window._pwRefreshCityIfLangChanged === 'function') window._pwRefreshCityIfLangChanged();
+      }
+    }, 100);
+  }
+  function _pwHookLangFns() {
+    if (typeof window.toggleLanguage === 'function' && !window.toggleLanguage._pwHooked) {
+      var _origToggleLanguagePW = window.toggleLanguage;
+      window.toggleLanguage = function() {
+        _origToggleLanguagePW.apply(this, arguments);
+        _pwOnLangChange();
+      };
+      window.toggleLanguage._pwHooked = true;
+    }
+    if (typeof window.selectWelcomeLang === 'function' && !window.selectWelcomeLang._pwHooked) {
+      var _origSelectWelcomeLangPW = window.selectWelcomeLang;
+      window.selectWelcomeLang = function() {
+        _origSelectWelcomeLangPW.apply(this, arguments);
+        _pwOnLangChange();
+      };
+      window.selectWelcomeLang._pwHooked = true;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', _pwHookLangFns);
+  // احتياطًا لو الـ DOMContentLoaded فات بالفعل
+  if (document.readyState === 'interactive' || document.readyState === 'complete') _pwHookLangFns();
 })();
 </script>
 
 <script>
 // ===== نافذة مواقيت الصلاة المنبثقة (زر الفوتر) =====
 (function() {
-  function _fpwFmtTime(t) {
+  function _fpwFmtTime(t, lang) {
+    lang = lang || _ptLang();
+    if (typeof window._pwFmtTime === 'function') return window._pwFmtTime(t, lang);
     if (!t) return '--:--';
     var parts = t.split(':');
     var h = parseInt(parts[0]), m = parseInt(parts[1]);
-    var ampm = h >= 12 ? 'م' : 'ص';
+    var ampm = h >= 12 ? (lang === 'ar' ? 'م' : 'PM') : (lang === 'ar' ? 'ص' : 'AM');
     var h12 = h % 12 || 12;
     return h12 + ':' + String(m).padStart(2,'0') + ' ' + ampm;
   }
@@ -28044,47 +29625,41 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   function _fpwRender(timings, hijri, city) {
     var el = document.getElementById('prayerTimesPopupBody');
     if (!el) return;
-    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var lang = _ptLang();
     var isDark = document.body.classList.contains('dark-mode');
     var clr    = isDark ? '#d5ede4' : '#1a2e24';
     var muted  = isDark ? 'rgba(200,240,220,0.5)' : 'rgba(0,70,40,0.45)';
     var border = isDark ? 'rgba(29,158,117,0.2)' : 'rgba(29,158,117,0.15)';
     var green  = '#1D9E75';
 
-    var PRAYERS = [
-      { key:'Fajr',    ar:'الفجر',   en:'Fajr' },
-      { key:'Sunrise', ar:'الشروق',  en:'Sunrise' },
-      { key:'Dhuhr',   ar:'الظهر',   en:'Dhuhr' },
-      { key:'Asr',     ar:'العصر',   en:'Asr' },
-      { key:'Maghrib', ar:'المغرب',  en:'Maghrib' },
-      { key:'Isha',    ar:'العشاء',  en:'Isha' }
-    ];
+    var PRAYERS = ['fajr','sunrise','dhuhr','asr','maghrib','isha'];
+    var PRAYER_KEYS = { fajr:'Fajr', sunrise:'Sunrise', dhuhr:'Dhuhr', asr:'Asr', maghrib:'Maghrib', isha:'Isha' };
     var nextKey = _fpwGetNextPrayer(timings);
-    var today = new Date();
-    var weekDay_ar = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-    var dateStr = isAr ?
-      (weekDay_ar[today.getDay()] + ' ' + today.getDate() + '/' + (today.getMonth()+1) + '/' + today.getFullYear()) :
-      today.toLocaleDateString('en-GB');
+    var dateStr = _ptDateStr(lang);
 
-    var rows = PRAYERS.map(function(p) {
-      var isNext = (p.key === nextKey);
+    var hijriStr = typeof window._pwHijriStr === 'function' ? window._pwHijriStr(hijri, lang) : '';
+
+    var rows = PRAYERS.map(function(pKey) {
+      var apiKey = PRAYER_KEYS[pKey];
+      var isNext = (apiKey === nextKey);
       var rowBg  = isNext ? (isDark ? 'rgba(29,158,117,0.18)' : 'rgba(29,158,117,0.09)') : 'transparent';
       var rowClr = isNext ? green : clr;
       var wt     = isNext ? '700' : '400';
+      var arrow  = isNext ? (_ptDir(lang) === 'rtl' ? ' ⬅' : ' ➡') : '';
       return '<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-radius:8px;background:' + rowBg + ';margin-bottom:3px;">' +
-        '<span style="font-size:13.5px;font-weight:' + wt + ';color:' + rowClr + ';">' + (isAr ? p.ar : p.en) + (isNext ? ' ⬅' : '') + '</span>' +
-        '<span style="font-size:13.5px;font-weight:' + wt + ';color:' + rowClr + ';font-variant-numeric:tabular-nums;">' + _fpwFmtTime(timings[p.key]) + '</span>' +
+        '<span style="font-size:13.5px;font-weight:' + wt + ';color:' + rowClr + ';">' + _ptT(pKey, lang) + arrow + '</span>' +
+        '<span style="font-size:13.5px;font-weight:' + wt + ';color:' + rowClr + ';font-variant-numeric:tabular-nums;">' + _fpwFmtTime(timings[apiKey], lang) + '</span>' +
       '</div>';
     }).join('');
 
     el.innerHTML =
       '<div style="text-align:center;margin-bottom:10px;">' +
-        '<div style="font-size:12px;color:' + muted + ';">' + dateStr + (hijri ? ' | ' + hijri : '') + '</div>' +
+        '<div style="font-size:12px;color:' + muted + ';">' + dateStr + (hijriStr ? ' | ' + hijriStr : '') + '</div>' +
         (city ? '<div style="font-size:11.5px;color:' + muted + ';margin-top:2px;">📍 ' + city + '</div>' : '') +
       '</div>' +
       rows +
       '<div style="text-align:center;margin-top:10px;">' +
-        '<button onclick="window._fpwRefreshLocation()" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:11px;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 ' + (isAr ? 'تحديث الموقع' : 'Update Location') + '</button>' +
+        '<button onclick="window._fpwRefreshLocation()" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:11px;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 ' + _ptT('updateLocation', lang) + '</button>' +
       '</div>';
   }
 
@@ -28092,7 +29667,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var el = document.getElementById('prayerTimesPopupBody');
     var CACHE_KEY = 'adhanGeoCache';
     var TIMES_KEY = 'pwTimingsCacheV2';
-    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var lang = _ptLang();
 
     try {
       var cached = JSON.parse(localStorage.getItem(TIMES_KEY) || '{}');
@@ -28104,7 +29679,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       }
     } catch(e) {}
 
-    if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⏳ ' + (isAr ? 'جارٍ تحميل المواقيت...' : 'Loading prayer times...') + '</div>';
+    if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⏳ ' + _ptT('loading', lang) + '</div>';
 
     function fetchTimes(lat, lon) {
       var today = new Date();
@@ -28114,22 +29689,21 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         .then(function(data) {
           if (!data || !data.data) return;
           var timings = data.data.timings;
-          var hijri   = data.data.date && data.data.date.hijri
-            ? data.data.date.hijri.day + ' ' + data.data.date.hijri.month.ar + ' ' + data.data.date.hijri.year + ' هـ'
-            : '';
+          var h = data.data.date && data.data.date.hijri;
+          var hijri = h ? { day: h.day, monthAr: h.month.ar, monthEn: h.month.en, year: h.year } : null;
           var city = '';
-          fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json&accept-language=ar')
+          fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json&accept-language=' + lang)
             .then(function(r){ return r.json(); })
             .then(function(geo) {
               city = (geo.address && (geo.address.city || geo.address.town || geo.address.state)) || '';
               var dk2 = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
-              try { localStorage.setItem(TIMES_KEY, JSON.stringify({ date: dk2, timings: timings, hijri: hijri, city: city })); } catch(e) {}
+              try { localStorage.setItem(TIMES_KEY, JSON.stringify({ date: dk2, timings: timings, hijri: hijri, city: city, cityLang: lang })); } catch(e) {}
               _fpwRender(timings, hijri, city);
             })
             .catch(function() { _fpwRender(timings, hijri, ''); });
         })
         .catch(function() {
-          if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⚠️ ' + (isAr ? 'تعذر تحميل المواقيت' : 'Could not load prayer times') + '</div>';
+          if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⚠️ ' + _ptT('couldNotLoad', lang) + '</div>';
         });
     }
 
@@ -28142,15 +29716,15 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     } catch(e) {}
 
     if ('geolocation' in navigator) {
-      if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⏳ ' + (isAr ? 'جارٍ تحديد موقعك...' : 'Locating you...') + '</div>';
+      if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⏳ ' + _ptT('locating', lang) + '</div>';
       navigator.geolocation.getCurrentPosition(function(pos) {
         try { localStorage.setItem(CACHE_KEY, JSON.stringify({ lat: pos.coords.latitude, lon: pos.coords.longitude, ts: Date.now() })); } catch(e) {}
         fetchTimes(pos.coords.latitude, pos.coords.longitude);
       }, function() {
-        if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#dc3545;font-size:13px;">⚠️ ' + (isAr ? 'تعذر الوصول للموقع، يرجى السماح بالوصول للموقع من إعدادات المتصفح' : 'Could not access location, please allow location access') + '</div>';
+        if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#dc3545;font-size:13px;">⚠️ ' + _ptT('locationDenied', lang) + '</div>';
       }, { timeout: 10000 });
     } else {
-      if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#dc3545;font-size:13px;">⚠️ ' + (isAr ? 'المتصفح لا يدعم تحديد الموقع' : 'Geolocation not supported') + '</div>';
+      if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#dc3545;font-size:13px;">⚠️ ' + _ptT('geoNotSupported', lang) + '</div>';
     }
   }
 
@@ -28163,10 +29737,32 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   };
   window._fpwLoadPublic = function() { _fpwLoad(); };
 
+  function _fpwOnLangChange() {
+    setTimeout(function() {
+      var el = document.getElementById('prayerTimesPopupBody');
+      if (el) _fpwLoad();
+    }, 100);
+  }
+  function _fpwHookLangFns() {
+    if (typeof window.toggleLanguage === 'function' && !window.toggleLanguage._fpwHooked) {
+      var _orig = window.toggleLanguage;
+      window.toggleLanguage = function() { _orig.apply(this, arguments); _fpwOnLangChange(); };
+      window.toggleLanguage._fpwHooked = true;
+    }
+    if (typeof window.selectWelcomeLang === 'function' && !window.selectWelcomeLang._fpwHooked) {
+      var _orig2 = window.selectWelcomeLang;
+      window.selectWelcomeLang = function() { _orig2.apply(this, arguments); _fpwOnLangChange(); };
+      window.selectWelcomeLang._fpwHooked = true;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', _fpwHookLangFns);
+  if (document.readyState === 'interactive' || document.readyState === 'complete') _fpwHookLangFns();
+
   window.openPrayerTimesPopup = function() {
     var old = document.getElementById('prayerTimesPopup');
     if (old) { old.remove(); return; }
-    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var lang = _ptLang();
+    var dir = _ptDir(lang);
     var isDark = document.body.classList.contains('dark-mode');
     var bg = isDark ? '#1a2820' : '#fff';
     var clr = isDark ? '#e0e0e0' : '#1a1a1a';
@@ -28177,11 +29773,11 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:ptFadeIn .18s ease;';
     popup.innerHTML =
       '<style>@keyframes ptFadeIn{from{opacity:0}to{opacity:1}}@keyframes ptSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
-      '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:360px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:ptSlideIn .22s ease;">' +
+      '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:360px;max-height:88vh;overflow-y:auto;direction:' + dir + ';font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:ptSlideIn .22s ease;">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';">' +
-          '<div style="font-size:15px;font-weight:700;">🕌 ' + (isAr ? 'مواقيت الصلاة' : 'Prayer Times') + '</div>' +
+          '<div style="font-size:15px;font-weight:700;">🕌 ' + _ptT('popupTitle', lang) + '</div>' +
           '<div style="display:flex;align-items:center;gap:4px;">' +
-            '<button onclick="if(typeof openPrayerCalcModal===\'function\')openPrayerCalcModal()" title="' + (isAr ? 'إعدادات الحساب والأذان' : 'Calculation & Adhan settings') + '" aria-label="Adhan settings" style="background:none;border:none;cursor:pointer;font-size:18px;opacity:.6;line-height:1;color:' + clr + ';padding:4px 6px;">⚙️</button>' +
+            '<button onclick="if(typeof openPrayerCalcModal===\'function\')openPrayerCalcModal()" title="' + _ptT('calcSettingsTip', lang) + '" aria-label="Adhan settings" style="background:none;border:none;cursor:pointer;font-size:18px;opacity:.6;line-height:1;color:' + clr + ';padding:4px 6px;">⚙️</button>' +
             '<button onclick="document.getElementById(\'prayerTimesPopup\').remove()" aria-label="close" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
           '</div>' +
         '</div>' +
@@ -29395,7 +30991,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   "goalMissedDays": {
     "ar": "⚠️ عندك {n} يوم متأخر (ناقصك {n2} {unitPl} علشان تلحق)",
     "en": "⚠️ {n} day(s) behind (need {n2} more {unitPl} to catch up)",
-    "fr": "⚠️ Tu as {n} jour(s) de retard (il te faut {n2} {unitPl} de plus pour rattraper)",
+    "fr": "⚠️ Tu as {n} jour(s) de ***** (il te faut {n2} {unitPl} de plus pour rattraper)",
     "es": "⚠️ Vas {n} día(s) atrasado (necesitas {n2} {unitPl} más para ponerte al día)",
     "sv": "⚠️ Du ligger {n} dag(ar) efter (behöver {n2} {unitPl} till för att komma ikapp)",
     "nl": "⚠️ Je loopt {n} dag(en) achter (nog {n2} {unitPl} nodig om bij te trekken)",
@@ -30085,7 +31681,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   "behindTrack": {
     "ar": "⚠️ متأخر شوية، حاول تعوّض",
     "en": "⚠️ A bit behind, try to catch up",
-    "fr": "⚠️ Un peu en retard, essaie de rattraper",
+    "fr": "⚠️ Un peu en *****, essaie de rattraper",
     "es": "⚠️ Un poco atrasado, intenta ponerte al día",
     "sv": "⚠️ Lite efter, försök komma ikapp",
     "nl": "⚠️ Iets achter, probeer bij te trekken",
@@ -31511,6 +33107,12 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
 
   var stationNameEn = (typeof arguments[2] !== 'undefined') ? arguments[2] : '';
   updateStatus("تشغيل: " + stationName, "Playing: " + (stationNameEn || stationName));
+  (function() {
+    var _lang = _curWelcomeLang();
+    var _prefix = (PLAYER_STATUS_MSG.playingPrefix[_lang] || PLAYER_STATUS_MSG.playingPrefix.ar);
+    var _nm = (_lang === 'ar') ? stationName : (stationNameEn || stationName);
+    statusDiv.textContent = _prefix + ' ' + _nm;
+  })();
   localStorage.setItem('lastStation', JSON.stringify({
     url: source,
     name: stationName
@@ -31527,31 +33129,36 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
 
   function onMainAudioError() {
     var reason = getAudioFailReason(mainAudio);
-    var arMsg, enMsg, pnbAr, pnbEn;
+    var arMsg, enMsg, pnbAr, pnbEn, msgKey, pnbKey;
 
     if (reason === 'offline') {
       arMsg = '❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...';
       enMsg = '❌ No internet connection, retrying...';
       pnbAr = '❌ لا إنترنت...';
       pnbEn = '❌ No internet...';
+      msgKey = 'offline';
+      pnbKey = 'offline';
     } else if (reason === 'slow') {
       arMsg = '⏳ الاتصال بطيء، جارٍ الانتظار...';
       enMsg = '⏳ Slow connection, please wait...';
       pnbAr = '⏳ اتصال بطيء...';
       pnbEn = '⏳ Slow connection...';
+      msgKey = 'slow';
+      pnbKey = 'slow';
     } else {
       arMsg = '⚠️ الرابط غير متاح، جارٍ إعادة المحاولة...';
       enMsg = '⚠️ Stream unavailable, retrying...';
       pnbAr = '⚠️ جارٍ الاتصال...';
       pnbEn = '⚠️ Connecting...';
+      msgKey = 'unavailableRetry';
+      pnbKey = 'connecting';
     }
 
-    updateStatus(arMsg, enMsg);
+    updateStatus(arMsg, enMsg, msgKey);
 
     var pnbNameEl2 = document.getElementById('pnb-name');
     if (pnbNameEl2) {
-      var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-      pnbNameEl2.textContent = isAr ? pnbAr : pnbEn;
+      pnbNameEl2.textContent = _pnbMsg(pnbKey);
     }
     if (window._userStoppedManually) return; // المستخدم أوقف بيده — لا retry
     retryTimeout = setTimeout(function() {
@@ -31567,8 +33174,9 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
   updateButtonColor();
 }
 
-function updateStatus(message, enMessage) {
-  statusDiv.textContent = message;
+function updateStatus(message, enMessage, key) {
+  var displayMsg = (key && PLAYER_STATUS_MSG[key]) ? _playerMsg(key) : message;
+  statusDiv.textContent = displayMsg;
 
   statusDiv.setAttribute('data-ar', message);
   if (enMessage) {
@@ -31576,6 +33184,13 @@ function updateStatus(message, enMessage) {
   } else {
 
     statusDiv.setAttribute('data-en', message);
+  }
+  // لو الرسالة معرّفة كمفتاح مترجم، نخزّن كل اللغات المدعومة كـ data attributes زي باقي عناصر الموقع
+  if (key && PLAYER_STATUS_MSG[key]) {
+    var _dict = PLAYER_STATUS_MSG[key];
+    Object.keys(_dict).forEach(function(lg) {
+      statusDiv.setAttribute('data-' + lg, _dict[lg]);
+    });
   }
 
   var isError = /⚠️|❌|⏳|غير متاح|لا يوجد اتصال|بطيء|unavailable|no internet|slow/i.test(message + (enMessage || ''));
@@ -33030,18 +34645,19 @@ function toggleLanguage() {
   if (nameEl) {
     var arN = nameEl.dataset.arName;
     var enN = nameEl.dataset.enName;
+    var _wasPlaceholder = _isPlaceholderStatusText(nameEl.textContent);
     if (isArabic) {
 
       if (arN) nameEl.textContent = arN;
-      else if (nameEl.textContent === 'Choose a station...') nameEl.textContent = 'اختر محطة...';
+      else if (_wasPlaceholder) nameEl.textContent = 'اختر محطة...';
     } else {
 
-      if (!arN && nameEl.textContent !== 'اختر محطة...') {
+      if (!arN && !_wasPlaceholder) {
 
         nameEl.dataset.arName = nameEl.textContent;
       }
       if (enN) nameEl.textContent = enN;
-      else if (nameEl.textContent === 'اختر محطة...') nameEl.textContent = 'Choose a station...';
+      else if (_wasPlaceholder) nameEl.textContent = 'Choose a station...';
 
     }
   }
@@ -33049,8 +34665,8 @@ function toggleLanguage() {
   var nameElCheck = document.getElementById('pnb-name');
   if (nameElCheck) {
     var txt = nameElCheck.textContent.trim();
-    if (txt === 'اختر محطة...' && !isArabic) nameElCheck.textContent = 'Choose a station...';
-    if (txt === 'Choose a station...' && isArabic) nameElCheck.textContent = 'اختر محطة...';
+    if (_isPlaceholderStatusText(txt) && !isArabic) nameElCheck.textContent = 'Choose a station...';
+    if (_isPlaceholderStatusText(txt) && isArabic) nameElCheck.textContent = 'اختر محطة...';
   }
 
   var btnSel = document.getElementById('radioButtonColor');
@@ -33334,6 +34950,23 @@ function applyFilterButtonsLang(lang) {
     }
   });
 
+  // تحديث نصوص أزرار محطات فلتر "المزيد" بنفس اللغات المتعددة للشاشة الترحيبية
+  // (مصاحف / مواقع / أذكار / أحاديث / إذاعة / ترجمات)
+  document.querySelectorAll('button[data-category^="more-"]').forEach(function(btn) {
+    if (btn.hasAttribute('data-hidden-sub')) return;
+    var newText = btn.getAttribute('data-' + lang) || btn.getAttribute('data-en');
+    if (!newText) return;
+    var stEl = btn.querySelector('.station-text');
+    if (!stEl) return;
+    var resetAll = stEl.querySelector('.reset-all');
+    if (resetAll) {
+      stEl.firstChild.textContent = newText;
+    } else {
+      stEl.textContent = newText;
+    }
+    if (stEl.hasAttribute('title') && newText) stEl.setAttribute('title', newText);
+  });
+
   var searchInputEl = document.getElementById('searchInput');
   if (searchInputEl) {
     var searchTxt = searchInputEl.getAttribute('data-' + lang) || searchInputEl.getAttribute('data-en');
@@ -33526,6 +35159,21 @@ function applyFilterButtonsLang(lang) {
     } else if (Object.values(RADIO_STOPPED_TEXT).indexOf(_welcomeStatusEl.textContent.trim()) !== -1) {
       _welcomeStatusEl.textContent = RADIO_STOPPED_TEXT[lang] || RADIO_STOPPED_TEXT.ar;
     }
+  }
+
+  // نص "الرجاء اختيار محطة راديو" الافتراضي + أي رسالة حالة ديناميكية معروضة حاليًا (بطء، انقطاع، إلخ)
+  var _statusEl = document.getElementById('status');
+  if (_statusEl && !_refreshPlayingStatusText(lang)) {
+    var _statusVal = _statusEl.getAttribute('data-' + lang) || _statusEl.getAttribute('data-en');
+    if (_statusVal) _statusEl.textContent = _statusVal;
+  }
+
+  // نص "اختر محطة..." في شريط المشغل السفلي - يترجم لنفس اللغات المدعومة في شاشة الترحيب
+  // بس لو لسه مفيش محطة شغالة (يعني لسه في وضع الـ placeholder)
+  var _pnbNameEl = document.getElementById('pnb-name');
+  if (_pnbNameEl && !_pnbNameEl.dataset.arName && !_pnbNameEl.dataset.enName) {
+    var _pnbTxt = PNB_PLACEHOLDER_TEXT[lang] || PNB_PLACEHOLDER_TEXT.en;
+    if (_pnbTxt) _pnbNameEl.textContent = _pnbTxt;
   }
 }
 
@@ -35231,7 +36879,8 @@ function toggleRadio(button, event = null) {
         if (archiveUrls.length > 0 && navigator.serviceWorker && navigator.serviceWorker.controller) {
           updateStatus(
             '📦 لا يوجد إنترنت، جارٍ البحث في الملفات المحفوظة...',
-            '📦 No internet, searching cached files...'
+            '📦 No internet, searching cached files...',
+            'cachedSearching'
           );
 
           var swMessageHandler = function(event) {
@@ -35242,7 +36891,8 @@ function toggleRadio(button, event = null) {
                 // وجدنا رابط محفوظ — شغّله
                 updateStatus(
                   '✅ يتم التشغيل من الملفات المحفوظة (بدون إنترنت)',
-                  '✅ Playing from cached files (offline)'
+                  '✅ Playing from cached files (offline)',
+                  'cachedPlaying'
                 );
                 mainAudio.src = event.data.url;
                 mainAudio.load();
@@ -35250,7 +36900,7 @@ function toggleRadio(button, event = null) {
 
                 // لما النت يرجع — ارجع للتشغيل العشوائي الطبيعي
                 window.addEventListener('online', function onBackOnline() {
-                  updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...');
+                  updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...', 'connectionRestored');
                   button.removeAttribute('data-random-played');
                   setTimeout(function() {
                     var randomIdx = Math.floor(Math.random() * urls.length);
@@ -35264,7 +36914,8 @@ function toggleRadio(button, event = null) {
                 // مفيش في الكاش — انتظر النت
                 updateStatus(
                   '❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...',
-                  '❌ No internet connection, retrying...'
+                  '❌ No internet connection, retrying...',
+                  'offline'
                 );
                 var offlineRetry = setTimeout(function() {
                   mainAudio.src = mainAudio.src;
@@ -35273,7 +36924,7 @@ function toggleRadio(button, event = null) {
                 }, 8000);
                 window.addEventListener('online', function onBackOnline() {
                   clearTimeout(offlineRetry);
-                  updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...');
+                  updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...', 'connectionRestored');
                   setTimeout(function() {
                     mainAudio.src = mainAudio.src;
                     mainAudio.load();
@@ -35295,7 +36946,8 @@ function toggleRadio(button, event = null) {
           // مش archive.org أو مفيش service worker — السلوك القديم
           updateStatus(
             '❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...',
-            '❌ No internet connection, retrying...'
+            '❌ No internet connection, retrying...',
+            'offline'
           );
           var offlineRetry = setTimeout(function() {
             mainAudio.src = mainAudio.src;
@@ -35304,7 +36956,7 @@ function toggleRadio(button, event = null) {
           }, 8000);
           window.addEventListener('online', function onBackOnline() {
             clearTimeout(offlineRetry);
-            updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...');
+            updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...', 'connectionRestored');
             setTimeout(function() {
               mainAudio.src = mainAudio.src;
               mainAudio.load();
@@ -35318,7 +36970,8 @@ function toggleRadio(button, event = null) {
 
         updateStatus(
           '⏳ الاتصال بطيء، جارٍ الانتظار...',
-          '⏳ Slow connection, please wait...'
+          '⏳ Slow connection, please wait...',
+          'slow'
         );
         setTimeout(function() {
           mainAudio.src = mainAudio.src;
@@ -35332,13 +36985,12 @@ function toggleRadio(button, event = null) {
         if (isNaN(idx) || idx >= urls.length) idx = 0;
         var nextUrl = urls[idx];
         if (typeof showToast === 'function') {
-          showToast(isAr ?
-            '⚠️ الرابط غير متاح، جارٍ تجربة رابط آخر...' :
-            '⚠️ Link unavailable, trying next...');
+          showToast(_playerMsg('unavailableNext'));
         }
         updateStatus(
           '⚠️ الرابط غير متاح، جارٍ تجربة رابط آخر...',
-          '⚠️ Link unavailable, trying next...'
+          '⚠️ Link unavailable, trying next...',
+          'unavailableNext'
         );
         button.setAttribute('data-current-index', (idx + 1) % urls.length);
         setTimeout(function() {
@@ -38206,6 +39858,19 @@ function updateFilterLanguage(lang) {
   // تحديث زر مساعد الذكاء الاصطناعي في الشاشة الترحيبية
   var welcomeAiTxt = document.getElementById('welcomeAiTxt');
   if (welcomeAiTxt) welcomeAiTxt.textContent = isAr ? 'مساعد ذكي' : 'AI Help';
+
+  // نص "اختر محطة..." في شريط المشغل السفلي (لو لسه مفيش محطة شغالة)
+  var _pnbNameElUFL = document.getElementById('pnb-name');
+  if (_pnbNameElUFL && !_pnbNameElUFL.dataset.arName && !_pnbNameElUFL.dataset.enName) {
+    _pnbNameElUFL.textContent = PNB_PLACEHOLDER_TEXT[lang] || PNB_PLACEHOLDER_TEXT.en;
+  }
+
+  // نص حالة المشغل (تشغيل: اسم المحطة / الرجاء اختيار محطة / رسائل الخطأ)
+  var _statusElUFL = document.getElementById('status');
+  if (_statusElUFL && !_refreshPlayingStatusText(lang)) {
+    var _statusValUFL = _statusElUFL.getAttribute('data-' + lang) || _statusElUFL.getAttribute('data-en');
+    if (_statusValUFL) _statusElUFL.textContent = _statusValUFL;
+  }
 }
 
 function startAutoToggle() {
@@ -43126,8 +44791,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function syncStationName() {
       var txt = (statusEl.textContent || '').trim();
-      var isPlaying = txt && txt !== 'الرجاء اختيار محطة راديو.' && txt !== 'Please select a radio station.' &&
-        txt !== 'اختر محطة...' && txt !== 'Choose a station...';
+      var isPlaying = txt && !_isPlaceholderStatusText(txt);
 
       if (isPlaying) {
 
@@ -43155,8 +44819,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         nameEl.dataset.arName = '';
         nameEl.dataset.enName = '';
-        var isAr2 = (typeof isArabic !== 'undefined') ? isArabic : true;
-        nameEl.textContent = isAr2 ? 'اختر محطة...' : 'Choose a station...';
+        nameEl.textContent = _pnbPlaceholderText();
         dot.style.display = 'none';
       }
     }
