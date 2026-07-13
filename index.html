@@ -6300,6 +6300,35 @@ function nextSource() {
   }
 }
 
+// ── نصوص "الراديو متوقف" و"يعمل الآن" بكل اللغات المدعومة في شاشة الترحيب ──
+var RADIO_STOPPED_TEXT = {
+  ar: "الراديو متوقف", en: "Radio Stopped", fr: "Radio arrêtée", es: "Radio detenida",
+  sv: "Radion är stoppad", nl: "Radio gestopt", ga: "Stoptha an raidió", de: "Radio gestoppt",
+  ru: "Радио остановлено", tr: "Radyo durduruldu", pt: "Rádio parada", zh: "电台已停止", ur: "ریڈیو بند ہے"
+};
+var NOW_PLAYING_TEXT = {
+  ar: "يعمل الآن", en: "Now Playing", fr: "En cours de lecture", es: "Reproduciendo ahora",
+  sv: "Spelar nu", nl: "Speelt nu", ga: "Ag Seinm Anois", de: "Spielt jetzt",
+  ru: "Сейчас играет", tr: "Şimdi çalıyor", pt: "Tocando agora", zh: "正在播放", ur: "ابھی چل رہا ہے"
+};
+function _curWelcomeLang() {
+  return (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : 'ar';
+}
+function _radioStoppedText() {
+  return RADIO_STOPPED_TEXT[_curWelcomeLang()] || RADIO_STOPPED_TEXT.ar;
+}
+function _nowPlayingSuffix() {
+  return NOW_PLAYING_TEXT[_curWelcomeLang()] || NOW_PLAYING_TEXT.ar;
+}
+function _stripNowPlayingSuffix(txt) {
+  if (!txt) return txt;
+  var out = txt;
+  Object.keys(NOW_PLAYING_TEXT).forEach(function(k) {
+    out = out.split(' ' + NOW_PLAYING_TEXT[k]).join('');
+  });
+  return out.trim();
+}
+
 // ── زر التشغيل/الإيقاف في الشاشة الترحيبية ──
 function togglePlayPauseFunc() {
   if (isAudioPlaying) {
@@ -6312,7 +6341,7 @@ function togglePlayPauseFunc() {
     _sErrorTimer = null;
     _sStalledTimer = null;
     customAudioPlayer.pause();
-    if (currentStatus) currentStatus.textContent = "الراديو متوقف";
+    if (currentStatus) currentStatus.textContent = _radioStoppedText();
   } else {
     window._userStoppedManually = false; // المستخدم يريد التشغيل
     // لو مفيش src، ابدأ من المصدر الأول
@@ -6323,7 +6352,7 @@ function togglePlayPauseFunc() {
       customAudioPlayer.play().catch(function() {});
     }
     if (currentStatus && radioStations[stationIndex])
-      currentStatus.textContent = radioStations[stationIndex].name + " يعمل الآن";
+      currentStatus.textContent = radioStations[stationIndex].name + " " + _nowPlayingSuffix();
   }
 }
 
@@ -6389,7 +6418,7 @@ function playStation(station) {
     customAudioPlayer.src = stationSrcs[i];
     customAudioPlayer.load();
     customAudioPlayer.play().catch(function() {});
-    if (currentStatus) currentStatus.textContent = station.name + " يعمل الآن";
+    if (currentStatus) currentStatus.textContent = station.name + " " + _nowPlayingSuffix();
     if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession(station.name);
     // ===== تسجيل في سجل الاستماع =====
     if (typeof _saveToListenHistory === 'function') _saveToListenHistory(station.name, stationSrcs[i]);
@@ -13150,7 +13179,7 @@ setTimeout(autoScaleVerseFont, 100);
 
   <div id="stationDisplay"></div>
 
-<div id="status" data-ar="الرجاء اختيار محطة إذاعة." data-en="Please select a radio station.">الرجاء اختيار محطة راديو.</div>
+<div id="status" data-ar="الرجاء اختيار محطة إذاعة." data-en="Please select a radio station." data-fr="Veuillez choisir une station de radio." data-es="Por favor, seleccione una emisora de radio." data-sv="Vänligen välj en radiostation." data-nl="Selecteer alstublieft een radiostation." data-ga="Roghnaigh stáisiún raidió le do thoil." data-de="Bitte wählen Sie einen Radiosender." data-ru="Пожалуйста, выберите радиостанцию." data-tr="Lütfen bir radyo istasyonu seçin." data-pt="Por favor, selecione uma estação de rádio." data-zh="请选择一个广播电台。" data-ur="براہ کرم ایک ریڈیو اسٹیشن منتخب کریں۔">الرجاء اختيار محطة راديو.</div>
 
 <audio controls id="currentAudio" style="position: sticky; top: 80px; z-index: 1000; border: 2px solid; width: 98%;">
     الجهاز لا يدعم تشغيل الصوت.
@@ -13160,13 +13189,16 @@ setTimeout(autoScaleVerseFont, 100);
 
   <button class="button" id="prevButton"
       data-ar="⏮️ المحطة السابقة"
-      data-en="⏮️ Previous Station">⏮️ المحطة السابقة</button>
+      data-en="⏮️ Previous Station"
+      data-fr="⏮️ Station précédente" data-es="⏮️ Emisora anterior" data-sv="⏮️ Föregående station" data-nl="⏮️ Vorig station" data-ga="⏮️ Stáisiún roimhe seo" data-de="⏮️ Vorheriger Sender" data-ru="⏮️ Предыдущая станция" data-tr="⏮️ Önceki İstasyon" data-pt="⏮️ Estação anterior" data-zh="⏮️ 上一电台" data-ur="⏮️ پچھلا اسٹیشن">⏮️ المحطة السابقة</button>
   <button class="button" id="randomButton"
       data-ar="🎲 إخترنا لك"
-      data-en="🎲 Random Pick">🎲 إخترنا لك</button>
+      data-en="🎲 Random Pick"
+      data-fr="🎲 Choix aléatoire" data-es="🎲 Selección aleatoria" data-sv="🎲 Slumpmässigt val" data-nl="🎲 Willekeurige keuze" data-ga="🎲 Rogha randamach" data-de="🎲 Zufallsauswahl" data-ru="🎲 Случайный выбор" data-tr="🎲 Rastgele Seçim" data-pt="🎲 Escolha aleatória" data-zh="🎲 随机选择" data-ur="🎲 بے ترتیب انتخاب">🎲 إخترنا لك</button>
   <button class="button" id="nextButton"
       data-ar="المحطة التالية ⏭️"
-      data-en="Next Station ⏭️">المحطة التالية ⏭️</button>
+      data-en="Next Station ⏭️"
+      data-fr="Station suivante ⏭️" data-es="Emisora siguiente ⏭️" data-sv="Nästa station ⏭️" data-nl="Volgend station ⏭️" data-ga="An chéad stáisiún eile ⏭️" data-de="Nächster Sender ⏭️" data-ru="Следующая станция ⏭️" data-tr="Sonraki İstasyon ⏭️" data-pt="Próxima estação ⏭️" data-zh="下一电台 ⏭️" data-ur="اگلا اسٹیشن ⏭️">المحطة التالية ⏭️</button>
 </div>
 
 <div id="filters-container" class="filter-container">
@@ -13244,13 +13276,13 @@ setTimeout(autoScaleVerseFont, 100);
 
 <div id="unified-playlist-panel" class="pl-panel pl-panel--blue" style="display:none;">
   <div class="pl-toolbar pl-toolbar--blue">
-    <span class="pl-label pl-label--blue" id="upl-label" data-ar="📋 قائمة تشغيل:" data-en="📋 Playlist:">📋 قائمة تشغيل:</span>
-    <button onclick="uplStart()" class="pl-btn pl-btn--play" id="upl-start-btn" data-ar="▶ تشغيل المختارة" data-en="▶ Play Selected">▶ تشغيل المختارة</button>
-    <button id="upl-prev-btn" onclick="uplPrev()" class="pl-btn pl-btn--nav" disabled data-ar="السابق ⏮" data-en="⏮ Prev" title="السابق">⏮</button>
-    <button id="upl-next-btn" onclick="uplNext()" class="pl-btn pl-btn--nav" disabled data-ar="التالي ⏭" data-en="⏭ Next" title="التالي">⏭</button>
-    <button onclick="uplSelectAll()" class="pl-btn pl-btn--select pl-btn--blue-border" id="upl-selectall-btn" data-ar="✔ تحديد الكل" data-en="✔ Select All">✔ تحديد الكل</button>
-    <button onclick="uplClear()" class="pl-btn pl-btn--clear" id="upl-clear-btn" data-ar="✖ إلغاء التحديد" data-en="✖ Clear">✖ إلغاء التحديد</button>
-    <span id="upl-count" class="pl-count pl-count--blue">0 مختار</span>
+    <span class="pl-label pl-label--blue" id="upl-label" data-ar="📋 قائمة تشغيل:" data-en="📋 Playlist:" data-fr="📋 Liste de lecture :" data-es="📋 Lista de reproducción:" data-sv="📋 Spellista:" data-nl="📋 Afspeellijst:" data-ga="📋 Liosta Seinm:" data-de="📋 Wiedergabeliste:" data-ru="📋 Плейлист:" data-tr="📋 Oynatma Listesi:" data-pt="📋 Lista de reprodução:" data-zh="📋 播放列表：" data-ur="📋 پلے لسٹ:">📋 قائمة تشغيل:</span>
+    <button onclick="uplStart()" class="pl-btn pl-btn--play" id="upl-start-btn" data-ar="▶ تشغيل المختارة" data-en="▶ Play Selected" data-fr="▶ Lire la sélection" data-es="▶ Reproducir selección" data-sv="▶ Spela markerade" data-nl="▶ Selectie afspelen" data-ga="▶ Seinn na Roghnaithe" data-de="▶ Auswahl abspielen" data-ru="▶ Воспроизвести выбранное" data-tr="▶ Seçilenleri Oynat" data-pt="▶ Reproduzir selecionados" data-zh="▶ 播放所选" data-ur="▶ منتخب چلائیں">▶ تشغيل المختارة</button>
+    <button id="upl-prev-btn" onclick="uplPrev()" class="pl-btn pl-btn--nav" disabled data-ar="السابق ⏮" data-en="⏮ Prev" data-title-ar="السابق" data-title-en="Previous" data-title-fr="Précédent" data-title-es="Anterior" data-title-sv="Föregående" data-title-nl="Vorige" data-title-ga="Roimhe seo" data-title-de="Zurück" data-title-ru="Предыдущая" data-title-tr="Önceki" data-title-pt="Anterior" data-title-zh="上一个" data-title-ur="پچھلا" title="السابق">⏮</button>
+    <button id="upl-next-btn" onclick="uplNext()" class="pl-btn pl-btn--nav" disabled data-ar="التالي ⏭" data-en="⏭ Next" data-title-ar="التالي" data-title-en="Next" data-title-fr="Suivant" data-title-es="Siguiente" data-title-sv="Nästa" data-title-nl="Volgende" data-title-ga="Ar aghaidh" data-title-de="Weiter" data-title-ru="Следующая" data-title-tr="Sonraki" data-title-pt="Próxima" data-title-zh="下一个" data-title-ur="اگلا" title="التالي">⏭</button>
+    <button onclick="uplSelectAll()" class="pl-btn pl-btn--select pl-btn--blue-border" id="upl-selectall-btn" data-ar="✔ تحديد الكل" data-en="✔ Select All" data-fr="✔ Tout sélectionner" data-es="✔ Seleccionar todo" data-sv="✔ Markera alla" data-nl="✔ Alles selecteren" data-ga="✔ Roghnaigh Uile" data-de="✔ Alle auswählen" data-ru="✔ Выбрать всё" data-tr="✔ Tümünü Seç" data-pt="✔ Selecionar tudo" data-zh="✔ 全选" data-ur="✔ سب منتخب کریں">✔ تحديد الكل</button>
+    <button onclick="uplClear()" class="pl-btn pl-btn--clear" id="upl-clear-btn" data-ar="✖ إلغاء التحديد" data-en="✖ Clear" data-fr="✖ Effacer" data-es="✖ Borrar" data-sv="✖ Rensa" data-nl="✖ Wissen" data-ga="✖ Glan" data-de="✖ Löschen" data-ru="✖ Очистить" data-tr="✖ Temizle" data-pt="✖ Limpar" data-zh="✖ 清除" data-ur="✖ صاف کریں">✖ إلغاء التحديد</button>
+    <span id="upl-count" class="pl-count pl-count--blue" data-word-ar="مختار" data-word-en="selected" data-word-fr="sélectionné(s)" data-word-es="seleccionado(s)" data-word-sv="markerade" data-word-nl="geselecteerd" data-word-ga="roghnaithe" data-word-de="ausgewählt" data-word-ru="выбрано" data-word-tr="seçili" data-word-pt="selecionado(s)" data-word-zh="已选" data-word-ur="منتخب">0 مختار</span>
   </div>
   <div id="upl-now" class="pl-now pl-now--blue" style="display:none;"></div>
 </div>
@@ -13501,7 +13533,7 @@ setTimeout(autoScaleVerseFont, 100);
 
   <div class="color-settings-row">
     <div class="color-setting-item">
-      <label data-ar="🎨 لون الأزرار" data-en="🎨 Button Color">🎨 لون الأزرار</label>
+      <label data-ar="🎨 لون الأزرار" data-en="🎨 Button Color" data-fr="🎨 Couleur des boutons" data-es="🎨 Color de los botones" data-sv="🎨 Knappfärg" data-nl="🎨 Knopkleur" data-ga="🎨 Dath na gCnaipí" data-de="🎨 Schaltflächenfarbe" data-ru="🎨 Цвет кнопок" data-tr="🎨 Buton Rengi" data-pt="🎨 Cor dos botões" data-zh="🎨 按钮颜色" data-ur="🎨 بٹن کا رنگ">🎨 لون الأزرار</label>
       <select id="radioButtonColor" class="responsive-select" onchange="changeRadioButtonColor()">
     <option data-ar="اختر لونًا" data-en="Choose a color" value="">اختر لونًا</option>
     <option data-ar="لون علم فلسطين" data-en="(Palestine Flag) Color" value="default" style="background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%);">لون علم فلسطين</option>
@@ -13731,7 +13763,7 @@ setTimeout(autoScaleVerseFont, 100);
       </button>
     </div>
     <div class="color-setting-item">
-      <label data-ar="🖼️ لون الخلفية" data-en="🖼️ Background Color">🖼️ لون الخلفية</label>
+      <label data-ar="🖼️ لون الخلفية" data-en="🖼️ Background Color" data-fr="🖼️ Couleur d'arrière-plan" data-es="🖼️ Color de fondo" data-sv="🖼️ Bakgrundsfärg" data-nl="🖼️ Achtergrondkleur" data-ga="🖼️ Dath an Chúlra" data-de="🖼️ Hintergrundfarbe" data-ru="🖼️ Цвет фона" data-tr="🖼️ Arkaplan Rengi" data-pt="🖼️ Cor de fundo" data-zh="🖼️ 背景颜色" data-ur="🖼️ پس منظر کا رنگ">🖼️ لون الخلفية</label>
       <select id="bgColor" class="responsive-select" onchange="changeBackgroundColor()">
         <option data-ar="اختر لونًا" data-en="Choose a color" value="">اختر لونًا</option>
 <option data-ar="🌙 Dark Mode" data-en="🌙 Dark Mode" value="dark">🌙 Dark Mode</option>
@@ -13920,18 +13952,18 @@ setTimeout(autoScaleVerseFont, 100);
     gap: 10px;
     font-family: 'Cairo', Arial, sans-serif;
   ">
-    <span data-ar="🔔 تذكير الأذكار" data-en="🔔 Adhkar Reminder"
+    <span data-ar="🔔 تذكير الأذكار" data-en="🔔 Adhkar Reminder" data-fr="🔔 Rappel des Adhkar" data-es="🔔 Recordatorio de Adhkar" data-sv="🔔 Adhkar-påminnelse" data-nl="🔔 Adhkar-herinnering" data-ga="🔔 Meabhrúchán Adhkar" data-de="🔔 Adhkar-Erinnerung" data-ru="🔔 Напоминание об азкар" data-tr="🔔 Ezkâr Hatırlatıcısı" data-pt="🔔 Lembrete de Adhkar" data-zh="🔔 赞念提醒" data-ur="🔔 اذکار کی یاد دہانی"
       style="font-size:15px;font-weight:700;color:#1a3a52;white-space:nowrap;">🔔 تذكير الأذكار</span>
 
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:6px;">
-        <label data-ar="🌅 الصباح" data-en="🌅 Morning"
+        <label data-ar="🌅 الصباح" data-en="🌅 Morning" data-fr="🌅 Matin" data-es="🌅 Mañana" data-sv="🌅 Morgon" data-nl="🌅 Ochtend" data-ga="🌅 Maidin" data-de="🌅 Morgen" data-ru="🌅 Утро" data-tr="🌅 Sabah" data-pt="🌅 Manhã" data-zh="🌅 早晨" data-ur="🌅 صبح"
           style="font-size:13px;color:#2c5f7a;white-space:nowrap;">🌅 الصباح</label>
         <input type="time" id="notif-morning-time" value="06:00"
           style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:13px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
       </div>
       <div style="display:flex;align-items:center;gap:6px;">
-        <label data-ar="🌙 المساء" data-en="🌙 Evening"
+        <label data-ar="🌙 المساء" data-en="🌙 Evening" data-fr="🌙 Soir" data-es="🌙 Tarde" data-sv="🌙 Kväll" data-nl="🌙 Avond" data-ga="🌙 Tráthnóna" data-de="🌙 Abend" data-ru="🌙 Вечер" data-tr="🌙 Akşam" data-pt="🌙 Tarde" data-zh="🌙 晚上" data-ur="🌙 شام"
           style="font-size:13px;color:#2c5f7a;white-space:nowrap;">🌙 المساء</label>
         <input type="time" id="notif-evening-time" value="18:00"
           style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:13px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
@@ -13939,7 +13971,9 @@ setTimeout(autoScaleVerseFont, 100);
     </div>
 
     <button id="notif-toggle-btn" onclick="toggleAdhkarNotifications()"
-      data-ar="تفعيل التذكير" data-en="Enable Reminder"
+      data-ar="تفعيل التذكير" data-en="Enable Reminder" data-fr="Activer le rappel" data-es="Activar recordatorio" data-sv="Aktivera påminnelse" data-nl="Herinnering inschakelen" data-ga="Cumasaigh Meabhrúchán" data-de="Erinnerung aktivieren" data-ru="Включить напоминание" data-tr="Hatırlatıcıyı Etkinleştir" data-pt="Ativar lembrete" data-zh="启用提醒" data-ur="یاد دہانی فعال کریں"
+      data-off-ar="تفعيل التذكير" data-off-en="Enable Reminder" data-off-fr="Activer le rappel" data-off-es="Activar recordatorio" data-off-sv="Aktivera påminnelse" data-off-nl="Herinnering inschakelen" data-off-ga="Cumasaigh Meabhrúchán" data-off-de="Erinnerung aktivieren" data-off-ru="Включить напоминание" data-off-tr="Hatırlatıcıyı Etkinleştir" data-off-pt="Ativar lembrete" data-off-zh="启用提醒" data-off-ur="یاد دہانی فعال کریں"
+      data-on-ar="إيقاف التذكير" data-on-en="Disable Reminder" data-on-fr="Désactiver le rappel" data-on-es="Desactivar recordatorio" data-on-sv="Inaktivera påminnelse" data-on-nl="Herinnering uitschakelen" data-on-ga="Díchumasaigh Meabhrúchán" data-on-de="Erinnerung deaktivieren" data-on-ru="Отключить напоминание" data-on-tr="Hatırlatıcıyı Kapat" data-on-pt="Desativar lembrete" data-on-zh="关闭提醒" data-on-ur="یاد دہانی بند کریں"
       style="
         padding:6px 18px;border-radius:10px;border:none;cursor:pointer;
         font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;
@@ -13970,10 +14004,10 @@ setTimeout(autoScaleVerseFont, 100);
     font-family: 'Cairo', Arial, sans-serif;
   ">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-      <span data-ar="🎚️ جودة الصوت (معادل + تضخيم)" data-en="🎚️ Audio Quality (Equalizer + Boost)"
+      <span data-ar="🎚️ جودة الصوت (معادل + تضخيم)" data-en="🎚️ Audio Quality (Equalizer + Boost)" data-fr="🎚️ Qualité audio (égaliseur + amplification)" data-es="🎚️ Calidad de audio (ecualizador + amplificación)" data-sv="🎚️ Ljudkvalitet (equalizer + förstärkning)" data-nl="🎚️ Audiokwaliteit (equalizer + versterking)" data-ga="🎚️ Cáilíocht Fuaime (Cothromóir + Treisiú)" data-de="🎚️ Audioqualität (Equalizer + Verstärkung)" data-ru="🎚️ Качество звука (эквалайзер + усиление)" data-tr="🎚️ Ses Kalitesi (Ekolayzer + Güçlendirme)" data-pt="🎚️ Qualidade de áudio (equalizador + amplificação)" data-zh="🎚️ 音质（均衡器+增强）" data-ur="🎚️ آواز کا معیار (ایکولائزر + بوسٹ)"
         style="font-size:15px;font-weight:700;color:#1a3a52;white-space:nowrap;">🎚️ جودة الصوت (معادل + تضخيم)</span>
       <button id="audioQualityResetBtn" onclick="window.resetAudioQuality && window.resetAudioQuality()"
-        data-ar="↺ إعادة ضبط" data-en="↺ Reset"
+        data-ar="↺ إعادة ضبط" data-en="↺ Reset" data-fr="↺ Réinitialiser" data-es="↺ Restablecer" data-sv="↺ Återställ" data-nl="↺ Resetten" data-ga="↺ Athshocraigh" data-de="↺ Zurücksetzen" data-ru="↺ Сбросить" data-tr="↺ Sıfırla" data-pt="↺ Redefinir" data-zh="↺ 重置" data-ur="↺ ری سیٹ"
         style="padding:4px 12px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:700;
                font-family:'Cairo',Arial,sans-serif;background:rgba(0,0,0,0.08);color:#1a3a52;white-space:nowrap;">
         ↺ إعادة ضبط
@@ -13982,7 +14016,7 @@ setTimeout(autoScaleVerseFont, 100);
 
     
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <label for="audioBoostSlider" data-ar="🔊 تضخيم الصوت" data-en="🔊 Volume Boost"
+      <label for="audioBoostSlider" data-ar="🔊 تضخيم الصوت" data-en="🔊 Volume Boost" data-fr="🔊 Amplification du volume" data-es="🔊 Amplificación de volumen" data-sv="🔊 Volymförstärkning" data-nl="🔊 Volumeversterking" data-ga="🔊 Treisiú Airde" data-de="🔊 Lautstärkeverstärkung" data-ru="🔊 Усиление громкости" data-tr="🔊 Ses Güçlendirme" data-pt="🔊 Amplificação de volume" data-zh="🔊 音量增强" data-ur="🔊 آواز کی بلندی"
         style="font-size:13px;font-weight:700;color:#2c5f7a;white-space:nowrap;min-width:110px;">🔊 تضخيم الصوت</label>
       <input type="range" id="audioBoostSlider" min="1" max="5" step="0.25" value="1"
              oninput="window.setAudioBoost && window.setAudioBoost(this.value)"
@@ -13997,36 +14031,47 @@ setTimeout(autoScaleVerseFont, 100);
         <input type="range" id="eqBassSlider" min="-12" max="12" step="1" value="0"
                oninput="window.setEqBand && window.setEqBand('bass', this.value)"
                style="writing-mode:vertical-lr;direction:rtl;width:22px;height:70px;accent-color:#e57373;cursor:pointer;">
-        <label data-ar="جهير" data-en="Bass" style="font-size:11px;color:#2c5f7a;">جهير</label>
+        <label data-ar="جهير" data-en="Bass" data-fr="Graves" data-es="Graves" data-sv="Bas" data-nl="Bas" data-ga="Dord" data-de="Bass" data-ru="Бас" data-tr="Bas" data-pt="Graves" data-zh="低音" data-ur="بیس" style="font-size:11px;color:#2c5f7a;">جهير</label>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
         <span id="eqMidValue" style="font-size:11px;font-weight:700;color:#1a3a52;font-variant-numeric:tabular-nums;">0dB</span>
         <input type="range" id="eqMidSlider" min="-12" max="12" step="1" value="0"
                oninput="window.setEqBand && window.setEqBand('mid', this.value)"
                style="writing-mode:vertical-lr;direction:rtl;width:22px;height:70px;accent-color:#ffb74d;cursor:pointer;">
-        <label data-ar="متوسط" data-en="Mid" style="font-size:11px;color:#2c5f7a;">متوسط</label>
+        <label data-ar="متوسط" data-en="Mid" data-fr="Médiums" data-es="Medios" data-sv="Mellanregister" data-nl="Middentonen" data-ga="Meánmhinicíocht" data-de="Mitten" data-ru="Средние" data-tr="Orta" data-pt="Médios" data-zh="中音" data-ur="درمیانی" style="font-size:11px;color:#2c5f7a;">متوسط</label>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
         <span id="eqTrebleValue" style="font-size:11px;font-weight:700;color:#1a3a52;font-variant-numeric:tabular-nums;">0dB</span>
         <input type="range" id="eqTrebleSlider" min="-12" max="12" step="1" value="0"
                oninput="window.setEqBand && window.setEqBand('treble', this.value)"
                style="writing-mode:vertical-lr;direction:rtl;width:22px;height:70px;accent-color:#4CC9F0;cursor:pointer;">
-        <label data-ar="حاد" data-en="Treble" style="font-size:11px;color:#2c5f7a;">حاد</label>
+        <label data-ar="حاد" data-en="Treble" data-fr="Aigus" data-es="Agudos" data-sv="Diskant" data-nl="Hoge tonen" data-ga="Ard-mhinicíocht" data-de="Höhen" data-ru="Высокие" data-tr="Tiz" data-pt="Agudos" data-zh="高音" data-ur="ٹریبل" style="font-size:11px;color:#2c5f7a;">حاد</label>
       </div>
 
       <div style="display:flex;align-items:center;gap:6px;margin-inline-start:6px;">
-        <label for="eqPresetSelect" data-ar="جاهز" data-en="Preset" style="font-size:12px;color:#2c5f7a;white-space:nowrap;">جاهز:</label>
+        <label for="eqPresetSelect" data-ar="جاهز" data-en="Preset" data-fr="Prédéfini" data-es="Preajuste" data-sv="Förinställning" data-nl="Voorinstelling" data-ga="Réamhshocrú" data-de="Voreinstellung" data-ru="Пресет" data-tr="Hazır Ayar" data-pt="Predefinição" data-zh="预设" data-ur="پہلے سے طے شدہ" style="font-size:12px;color:#2c5f7a;white-space:nowrap;">جاهز:</label>
         <select id="eqPresetSelect" onchange="window.applyEqPreset && window.applyEqPreset(this.value)"
                 style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:12px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
-          <option value="flat" data-ar="مسطّح" data-en="Flat">مسطّح</option>
-          <option value="voice" data-ar="وضوح الصوت / التلاوة" data-en="Voice / Recitation Clarity">وضوح الصوت / التلاوة</option>
-          <option value="bass" data-ar="جهير قوي" data-en="Bass Boost">جهير قوي</option>
-          <option value="bright" data-ar="حدة عالية" data-en="Bright">حدة عالية</option>
+          <option value="flat" data-ar="مسطّح" data-en="Flat" data-fr="Plat" data-es="Plano" data-sv="Platt" data-nl="Vlak" data-ga="Cothrom" data-de="Neutral" data-ru="Плоский" data-tr="Düz" data-pt="Plano" data-zh="平坦" data-ur="فلیٹ">مسطّح</option>
+          <option value="voice" data-ar="وضوح الصوت / التلاوة" data-en="Voice / Recitation Clarity" data-fr="Clarté vocale / récitation" data-es="Claridad de voz / recitación" data-sv="Röst-/reciteringsklarhet" data-nl="Stem-/recitatieduidelijkheid" data-ga="Soiléireacht Gutha / Aithrise" data-de="Sprach-/Rezitationsklarheit" data-ru="Чёткость голоса/чтения" data-tr="Ses/Tilavet Netliği" data-pt="Clareza de voz / recitação" data-zh="人声/诵读清晰" data-ur="آواز کی وضاحت / تلاوت">وضوح الصوت / التلاوة</option>
+          <option value="bass" data-ar="جهير قوي" data-en="Bass Boost" data-fr="Renforcement des graves" data-es="Refuerzo de graves" data-sv="Basförstärkning" data-nl="Basversterking" data-ga="Treisiú Doimhne" data-de="Bassverstärkung" data-ru="Усиление баса" data-tr="Bas Güçlendirme" data-pt="Reforço de graves" data-zh="低音增强" data-ur="بیس بوسٹ">جهير قوي</option>
+          <option value="bright" data-ar="حدة عالية" data-en="Bright" data-fr="Éclatant" data-es="Brillante" data-sv="Ljus" data-nl="Helder" data-ga="Geal" data-de="Hell" data-ru="Яркий" data-tr="Parlak" data-pt="Brilhante" data-zh="明亮" data-ur="برائٹ">حدة عالية</option>
         </select>
       </div>
     </div>
     <span data-ar="ملاحظة: المعادل والتضخيم قد لا يعملان مع بعض المحطات الخارجية بسبب قيود المتصفح (CORS)"
           data-en="Note: Equalizer and boost may not work on some external stations due to browser (CORS) restrictions"
+          data-fr="Remarque : l'égaliseur et l'amplification peuvent ne pas fonctionner sur certaines stations externes en raison des restrictions du navigateur (CORS)"
+          data-es="Nota: el ecualizador y la amplificación pueden no funcionar en algunas emisoras externas debido a restricciones del navegador (CORS)"
+          data-sv="Obs: equalizern och förstärkningen kanske inte fungerar på vissa externa stationer på grund av webbläsarbegränsningar (CORS)"
+          data-nl="Let op: de equalizer en versterking werken mogelijk niet bij sommige externe stations vanwege browserbeperkingen (CORS)"
+          data-ga="Nóta: seans nach n-oibreoidh an cothromóir agus an treisiú ar roinnt stáisiún seachtracha mar gheall ar shrianta an bhrabhsálaí (CORS)"
+          data-de="Hinweis: Equalizer und Verstärkung funktionieren bei manchen externen Sendern aufgrund von Browserbeschränkungen (CORS) möglicherweise nicht"
+          data-ru="Примечание: эквалайзер и усиление могут не работать на некоторых внешних станциях из-за ограничений браузера (CORS)"
+          data-tr="Not: Ekolayzer ve güçlendirme, tarayıcı (CORS) kısıtlamaları nedeniyle bazı harici istasyonlarda çalışmayabilir"
+          data-pt="Nota: o equalizador e a amplificação podem não funcionar em algumas estações externas devido a restrições do navegador (CORS)"
+          data-zh="注意：由于浏览器（CORS）限制，均衡器和增强功能在某些外部电台可能无法使用"
+          data-ur="نوٹ: بعض بیرونی اسٹیشنز پر براؤزر (CORS) کی پابندیوں کی وجہ سے ایکولائزر اور بوسٹ کام نہیں کر سکتے"
           style="font-size:10px;opacity:.65;">ملاحظة: المعادل والتضخيم قد لا يعملان مع بعض المحطات الخارجية بسبب قيود المتصفح (CORS)</span>
   </div>
 
@@ -14037,20 +14082,22 @@ setTimeout(autoScaleVerseFont, 100);
             title="إخفاء شاشة الترحيب / Disable Welcome Screen"
             class="welcome-toggle-btn">
         <svg class="wtb-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span class="wtb-text" id="disableWelcomeTxt">إخفاء شاشة الترحيب</span>
+        <span class="wtb-text" id="disableWelcomeTxt"
+              data-off-ar="إخفاء شاشة الترحيب" data-off-en="Disable Welcome Screen" data-off-fr="Désactiver l'écran d'accueil" data-off-es="Desactivar pantalla de bienvenida" data-off-sv="Inaktivera välkomstskärm" data-off-nl="Welkomstscherm uitschakelen" data-off-ga="Díchumasaigh Scáileán Fáilte" data-off-de="Begrüßungsbildschirm deaktivieren" data-off-ru="Отключить экран приветствия" data-off-tr="Karşılama Ekranını Devre Dışı Bırak" data-off-pt="Desativar tela de boas-vindas" data-off-zh="禁用欢迎屏幕" data-off-ur="خوش آمدید اسکرین غیر فعال کریں"
+              data-on-ar="شاشة الترحيب: مخفية" data-on-en="Welcome: Hidden" data-on-fr="Accueil : masqué" data-on-es="Bienvenida: oculta" data-on-sv="Välkomst: dold" data-on-nl="Welkom: verborgen" data-on-ga="Fáilte: folaithe" data-on-de="Begrüßung: ausgeblendet" data-on-ru="Приветствие: скрыто" data-on-tr="Karşılama: gizli" data-on-pt="Boas-vindas: oculta" data-on-zh="欢迎屏幕：已隐藏" data-on-ur="خوش آمدید: مخفی">إخفاء شاشة الترحيب</span>
     </button>
     <button id="introClipToggleBtn"
             onclick="toggleIntroClipOption()"
             title="تشغيل مقطع صلِّ على النبي ﷺ تلقائياً عند فتح الموقع / Auto-play a Salawat clip when the site opens"
             class="welcome-toggle-btn">
         <span class="wtb-icon">🔕</span>
-        <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert">تفعيل التنبيه الصوتي</span>
+        <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert" data-fr="Activer l'alerte sonore" data-es="Activar alerta sonora" data-sv="Aktivera ljudlarm" data-nl="Geluidsmelding inschakelen" data-ga="Cumasaigh Rabhadh Fuaime" data-de="Tonalarm aktivieren" data-ru="Включить звуковое оповещение" data-tr="Sesli Uyarıyı Etkinleştir" data-pt="Ativar alerta sonoro" data-zh="启用声音提醒" data-ur="صوتی الرٹ فعال کریں">تفعيل التنبيه الصوتي</span>
     </button>
     <div id="welcomeAutoSwitchDurationGroup" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية"
          style="display:flex; align-items:center; gap:7px; background:linear-gradient(to right,#e3f2fd 0%,#fff 50%,#e3f2fd 100%); border-radius:8px; padding:6px 12px; box-shadow:0 2px 4px rgba(0,0,0,0.08); font-weight:700; font-size:14px;">
-      <label for="welcomeAutoSwitchDuration" data-ar="⏱️ مدة تنقل الترحيب" data-en="⏱️ Welcome Cycle" style="white-space:nowrap; color:#000; margin:0;">⏱️ مدة تنقل الترحيب</label>
+      <label for="welcomeAutoSwitchDuration" data-ar="⏱️ مدة تنقل الترحيب" data-en="⏱️ Welcome Cycle" data-fr="⏱️ Cycle d'accueil" data-es="⏱️ Ciclo de bienvenida" data-sv="⏱️ Välkomstcykel" data-nl="⏱️ Welkomstcyclus" data-ga="⏱️ Timthriall Fáilte" data-de="⏱️ Begrüßungszyklus" data-ru="⏱️ Цикл приветствия" data-tr="⏱️ Karşılama Döngüsü" data-pt="⏱️ Ciclo de boas-vindas" data-zh="⏱️ 欢迎轮播周期" data-ur="⏱️ خوش آمدید سائیکل" style="white-space:nowrap; color:#000; margin:0;">⏱️ مدة تنقل الترحيب</label>
       <input type="number" id="welcomeAutoSwitchDuration" min="1" max="60"
-             data-ar="الدقائق" data-en="Minutes"
+             data-ar="الدقائق" data-en="Minutes" data-fr="Minutes" data-es="Minutos" data-sv="Minuter" data-nl="Minuten" data-ga="Nóiméad" data-de="Minuten" data-ru="Минуты" data-tr="Dakika" data-pt="Minutos" data-zh="分钟" data-ur="منٹ"
              placeholder="الدقائق"
              style="width:70px; padding:5px 7px; font-size:13px; border:2px solid #ddd; border-radius:5px;"
              onchange="setWelcomeAutoSwitchDuration()">
@@ -14075,22 +14122,35 @@ setTimeout(autoScaleVerseFont, 100);
       <div id="ai-chat-messages">
         <div class="ai-msg bot">
           <span class="ai-bot-label">✦ Claude</span>
-          <span id="ai-welcome-msg">أهلاً بك! أنا <strong>Claude</strong> — مساعدك الذكي لموقع إذاعة القرآن الكريم. اسألني عن أي محطة أو ميزة في الموقع أو أي سؤال إسلامي 🌟</span>
+          <span id="ai-welcome-msg"
+                data-ar="أهلاً بك! أنا مساعدك الذكي لموقع إذاعة القرآن الكريم. يمكنني مساعدتك في التنقل بالموقع، الإجابة عن أسئلتك، أو أي شيء آخر 🌟"
+                data-en="Hello! I'm your AI assistant for Quran Radio. I can help you navigate the site, answer your questions, or anything else 🌟"
+                data-fr="Bonjour ! Je suis votre assistant IA pour Radio Coran. Je peux vous aider à naviguer sur le site, répondre à vos questions, ou toute autre chose 🌟"
+                data-es="¡Hola! Soy tu asistente de IA para Radio Corán. Puedo ayudarte a navegar por el sitio, responder tus preguntas o cualquier otra cosa 🌟"
+                data-sv="Hej! Jag är din AI-assistent för Koranradion. Jag kan hjälpa dig att navigera på webbplatsen, svara på dina frågor, eller vad som helst annat 🌟"
+                data-nl="Hallo! Ik ben je AI-assistent voor Koran Radio. Ik kan je helpen navigeren op de site, je vragen beantwoorden, of iets anders 🌟"
+                data-ga="Dia dhuit! Is mise do chúntóir IS do Raidió an Choráin. Is féidir liom cabhrú leat an suíomh a nascleanúint, do cheisteanna a fhreagairt, nó rud ar bith eile 🌟"
+                data-de="Hallo! Ich bin dein KI-Assistent für Radio Koran. Ich kann dir helfen, die Seite zu navigieren, deine Fragen zu beantworten oder alles andere 🌟"
+                data-ru="Здравствуйте! Я ваш ИИ-помощник для Радио Коран. Я могу помочь вам ориентироваться на сайте, ответить на ваши вопросы или что угодно ещё 🌟"
+                data-tr="Merhaba! Ben Kur'an Radyosu için yapay zeka asistanınızım. Sitede gezinmenize, sorularınızı yanıtlamama veya başka her konuda yardımcı olabilirim 🌟"
+                data-pt="Olá! Sou seu assistente de IA para a Rádio Alcorão. Posso ajudá-lo a navegar no site, responder suas perguntas ou qualquer outra coisa 🌟"
+                data-zh="你好！我是古兰经电台的人工智能助手。我可以帮您浏览网站、回答您的问题，或提供其他任何帮助 🌟"
+                data-ur="السلام علیکم! میں قرآن ریڈیو کے لیے آپ کا اے آئی اسسٹنٹ ہوں۔ میں آپ کو سائٹ نیویگیٹ کرنے، آپ کے سوالات کے جوابات دینے، یا کسی بھی اور چیز میں مدد کر سکتا ہوں 🌟">أهلاً بك! أنا <strong>Claude</strong> — مساعدك الذكي لموقع إذاعة القرآن الكريم. اسألني عن أي محطة أو ميزة في الموقع أو أي سؤال إسلامي 🌟</span>
         </div>
       </div>
 
       <div id="ai-quick-btns">
-        <button class="ai-quick-btn" data-ar="ما هي المحطات المتاحة؟" data-en="What stations are available?" onclick="aiQuickAsk(this)">ما هي المحطات المتاحة؟</button>
-        <button class="ai-quick-btn" data-ar="كيف أضيف محطة للمفضلة؟" data-en="How to add to favorites?" onclick="aiQuickAsk(this)">كيف أضيف للمفضلة؟</button>
-        <button class="ai-quick-btn" data-ar="كيف أستخدم عداد التسبيح؟" data-en="How to use the dhikr counter?" onclick="aiQuickAsk(this)">عداد التسبيح</button>
-        <button class="ai-quick-btn" data-ar="شرح ميزة التشغيل التلقائي" data-en="Explain auto-play feature" onclick="aiQuickAsk(this)">التشغيل التلقائي</button>
-        <button class="ai-quick-btn" data-ar="اختصارات لوحة المفاتيح" data-en="Keyboard shortcuts" onclick="aiQuickAsk(this)">⌨️ اختصارات الكيبورد</button>
-        <button class="ai-quick-btn" data-ar="شرح نافذة الاختصارات" data-en="Explain shortcuts window" onclick="aiQuickAsk(this)">نافذة الاختصارات ❓</button>
-        <button class="ai-quick-btn" data-ar="كيف يعمل مؤقت الإيقاف؟" data-en="How does sleep timer work?" onclick="aiQuickAsk(this)">مؤقت الإيقاف 😴</button>
-        <button class="ai-quick-btn" data-ar="كيف أفعّل تذكير الأذكار؟" data-en="How to enable adhkar reminder?" onclick="aiQuickAsk(this)">تذكير الأذكار 🔔</button>
-        <button class="ai-quick-btn" data-ar="كيف أفتح المصحف؟" data-en="How to open the Mushaf?" onclick="aiQuickAsk(this)">المصحف الشريف 📖</button>
-        <button class="ai-quick-btn" data-ar="كيف أستخدم الموقع؟" data-en="How to use the site?" onclick="aiQuickAsk(this)">دليل الاستخدام 📋</button>
-        <button class="ai-quick-btn" data-ar="ما يميز الموقع؟" data-en="What makes this site special?" onclick="aiQuickAsk(this)">مميزات الموقع ✨</button>
+        <button class="ai-quick-btn" data-ar="ما هي المحطات المتاحة؟" data-en="What stations are available?" data-fr="Quelles stations sont disponibles ?" data-es="¿Qué emisoras están disponibles?" data-sv="Vilka stationer finns tillgängliga?" data-nl="Welke zenders zijn beschikbaar?" data-ga="Cad iad na stáisiúin atá ar fáil?" data-de="Welche Sender sind verfügbar?" data-ru="Какие радиостанции доступны?" data-tr="Hangi istasyonlar mevcut?" data-pt="Quais estações estão disponíveis?" data-zh="有哪些电台可用？" data-ur="کون سے اسٹیشنز دستیاب ہیں؟" onclick="aiQuickAsk(this)">ما هي المحطات المتاحة؟</button>
+        <button class="ai-quick-btn" data-ar="كيف أضيف محطة للمفضلة؟" data-en="How to add to favorites?" data-fr="Comment ajouter aux favoris ?" data-es="¿Cómo agregar a favoritos?" data-sv="Hur lägger jag till favoriter?" data-nl="Hoe voeg ik toe aan favorieten?" data-ga="Conas cur le ceanáin?" data-de="Wie füge ich zu Favoriten hinzu?" data-ru="Как добавить в избранное?" data-tr="Favorilere nasıl eklenir?" data-pt="Como adicionar aos favoritos?" data-zh="如何添加到收藏？" data-ur="پسندیدہ میں کیسے شامل کریں؟" onclick="aiQuickAsk(this)">كيف أضيف للمفضلة؟</button>
+        <button class="ai-quick-btn" data-ar="كيف أستخدم عداد التسبيح؟" data-en="How to use the dhikr counter?" data-fr="Comment utiliser le compteur de dhikr ?" data-es="¿Cómo usar el contador de dhikr?" data-sv="Hur använder jag dhikr-räknaren?" data-nl="Hoe gebruik ik de dhikr-teller?" data-ga="Conas an t-áiritheoir dhikr a úsáid?" data-de="Wie benutze ich den Dhikr-Zähler?" data-ru="Как использовать счётчик зикра?" data-tr="Zikir sayacı nasıl kullanılır?" data-pt="Como usar o contador de dhikr?" data-zh="如何使用赞念计数器？" data-ur="ذکر کاؤنٹر کیسے استعمال کریں؟" onclick="aiQuickAsk(this)">عداد التسبيح</button>
+        <button class="ai-quick-btn" data-ar="شرح ميزة التشغيل التلقائي" data-en="Explain auto-play feature" data-fr="Expliquer la fonction de lecture automatique" data-es="Explicar la función de reproducción automática" data-sv="Förklara funktionen för automatisk uppspelning" data-nl="Leg de automatische afspeelfunctie uit" data-ga="Mínigh an ghné uath-sheinm" data-de="Automatische Wiedergabefunktion erklären" data-ru="Объяснить функцию автовоспроизведения" data-tr="Otomatik oynatma özelliğini açıkla" data-pt="Explicar o recurso de reprodução automática" data-zh="解释自动播放功能" data-ur="خودکار پلے بیک فیچر کی وضاحت کریں" onclick="aiQuickAsk(this)">التشغيل التلقائي</button>
+        <button class="ai-quick-btn" data-ar="اختصارات لوحة المفاتيح" data-en="Keyboard shortcuts" data-fr="Raccourcis clavier" data-es="Atajos de teclado" data-sv="Tangentbordsgenvägar" data-nl="Toetsenbordsnelkoppelingen" data-ga="Aicearraí méarchláir" data-de="Tastenkombinationen" data-ru="Горячие клавиши" data-tr="Klavye kısayolları" data-pt="Atalhos de teclado" data-zh="键盘快捷键" data-ur="کی بورڈ شارٹ کٹس" onclick="aiQuickAsk(this)">⌨️ اختصارات الكيبورد</button>
+        <button class="ai-quick-btn" data-ar="شرح نافذة الاختصارات" data-en="Explain shortcuts window" data-fr="Expliquer la fenêtre des raccourcis" data-es="Explicar la ventana de atajos" data-sv="Förklara genvägsfönstret" data-nl="Leg het snelkoppelingenvenster uit" data-ga="Mínigh fuinneog na n-aicearraí" data-de="Tastenkombinationsfenster erklären" data-ru="Объяснить окно горячих клавиш" data-tr="Kısayollar penceresini açıkla" data-pt="Explicar a janela de atalhos" data-zh="解释快捷键窗口" data-ur="شارٹ کٹس ونڈو کی وضاحت کریں" onclick="aiQuickAsk(this)">نافذة الاختصارات ❓</button>
+        <button class="ai-quick-btn" data-ar="كيف يعمل مؤقت الإيقاف؟" data-en="How does sleep timer work?" data-fr="Comment fonctionne la minuterie de sommeil ?" data-es="¿Cómo funciona el temporizador de apagado?" data-sv="Hur fungerar insomningstimern?" data-nl="Hoe werkt de slaaptimer?" data-ga="Conas a oibríonn an t-amadóir codlata?" data-de="Wie funktioniert der Schlaftimer?" data-ru="Как работает таймер сна?" data-tr="Uyku zamanlayıcısı nasıl çalışır?" data-pt="Como funciona o temporizador de suspensão?" data-zh="睡眠定时器如何工作？" data-ur="سلیپ ٹائمر کیسے کام کرتا ہے؟" onclick="aiQuickAsk(this)">مؤقت الإيقاف 😴</button>
+        <button class="ai-quick-btn" data-ar="كيف أفعّل تذكير الأذكار؟" data-en="How to enable adhkar reminder?" data-fr="Comment activer le rappel d'adhkar ?" data-es="¿Cómo activar el recordatorio de adhkar?" data-sv="Hur aktiverar jag adhkar-påminnelsen?" data-nl="Hoe activeer ik de adhkar-herinnering?" data-ga="Conas an meabhrúchán adhkar a chumasú?" data-de="Wie aktiviere ich die Adhkar-Erinnerung?" data-ru="Как включить напоминание об азкарах?" data-tr="Ezkar hatırlatıcısı nasıl etkinleştirilir?" data-pt="Como ativar o lembrete de adhkar?" data-zh="如何启用赞念提醒？" data-ur="اذکار یاد دہانی کیسے فعال کریں؟" onclick="aiQuickAsk(this)">تذكير الأذكار 🔔</button>
+        <button class="ai-quick-btn" data-ar="كيف أفتح المصحف؟" data-en="How to open the Mushaf?" data-fr="Comment ouvrir le Mushaf ?" data-es="¿Cómo abrir el Mushaf?" data-sv="Hur öppnar jag Mushaf?" data-nl="Hoe open ik de Mushaf?" data-ga="Conas an Mushaf a oscailt?" data-de="Wie öffne ich den Mushaf?" data-ru="Как открыть Мусхаф?" data-tr="Mushaf nasıl açılır?" data-pt="Como abrir o Mushaf?" data-zh="如何打开古兰经经本？" data-ur="مصحف کیسے کھولیں؟" onclick="aiQuickAsk(this)">المصحف الشريف 📖</button>
+        <button class="ai-quick-btn" data-ar="كيف أستخدم الموقع؟" data-en="How to use the site?" data-fr="Comment utiliser le site ?" data-es="¿Cómo usar el sitio?" data-sv="Hur använder jag webbplatsen?" data-nl="Hoe gebruik ik de site?" data-ga="Conas an suíomh a úsáid?" data-de="Wie benutze ich die Seite?" data-ru="Как пользоваться сайтом?" data-tr="Site nasıl kullanılır?" data-pt="Como usar o site?" data-zh="如何使用本网站？" data-ur="سائٹ کیسے استعمال کریں؟" onclick="aiQuickAsk(this)">دليل الاستخدام 📋</button>
+        <button class="ai-quick-btn" data-ar="ما يميز الموقع؟" data-en="What makes this site special?" data-fr="Qu'est-ce qui rend ce site spécial ?" data-es="¿Qué hace especial a este sitio?" data-sv="Vad gör den här webbplatsen speciell?" data-nl="Wat maakt deze site bijzonder?" data-ga="Cad a fhágann an suíomh seo speisialta?" data-de="Was macht diese Seite besonders?" data-ru="Что делает этот сайт особенным?" data-tr="Bu siteyi özel yapan nedir?" data-pt="O que torna este site especial?" data-zh="这个网站有什么特别之处？" data-ur="اس سائٹ کو کیا چیز خاص بناتی ہے؟" onclick="aiQuickAsk(this)">مميزات الموقع ✨</button>
       </div>
 
       <div id="ai-input-row">
@@ -14137,7 +14197,7 @@ setTimeout(autoScaleVerseFont, 100);
     user-select: none;
     transition: background 0.2s;
   ">
-    <span data-ar="⚙️ إغلاق الإعدادات" data-en="⚙️ Close Settings">⚙️ إغلاق الإعدادات</span>
+    <span id="settings-toggle-bar-bottom-label" data-ar="⚙️ إغلاق الإعدادات" data-en="⚙️ Close Settings" data-fr="⚙️ Fermer les paramètres" data-es="⚙️ Cerrar configuración" data-sv="⚙️ Stäng inställningar" data-nl="⚙️ Instellingen sluiten" data-ga="⚙️ Dún na Socruithe" data-de="⚙️ Einstellungen schließen" data-ru="⚙️ Закрыть настройки" data-tr="⚙️ Ayarları Kapat" data-pt="⚙️ Fechar configurações" data-zh="⚙️ 关闭设置" data-ur="⚙️ ترتیبات بند کریں">⚙️ إغلاق الإعدادات</span>
     <span style="font-size:12px;">▲</span>
   </div>
 
@@ -24615,7 +24675,7 @@ const moreTranslations = [{
        style="margin-right: 6px; font-size: 22px;">📦</a>
   </span>
 
-  <span id="oldBadge" data-ar="قديم" data-en="OLD" style="position:absolute; top:5px; left:5px; background:#999; color:#fff; padding:2px 6px; border-radius:5px; font-size:12px;">
+  <span id="oldBadge" data-ar="قديم" data-en="OLD" data-fr="ANCIEN" data-es="ANTIGUO" data-sv="GAMMAL" data-nl="OUD" data-ga="SEAN" data-de="ALT" data-ru="СТАРОЕ" data-tr="ESKİ" data-pt="ANTIGO" data-zh="旧版" data-ur="پرانا" style="position:absolute; top:5px; left:5px; background:#999; color:#fff; padding:2px 6px; border-radius:5px; font-size:12px;">
     قديم
   </span>
 
@@ -24647,7 +24707,7 @@ const moreTranslations = [{
        style="margin-right: 6px; font-size: 24px;">🚀</a>
   </span>
 
-  <span id="newBadge" data-ar="جديد" data-en="NEW" style="position:absolute; top:5px; left:5px; background:#28a745; color:#fff; padding:2px 6px; border-radius:5px; font-size:12px;">
+  <span id="newBadge" data-ar="جديد" data-en="NEW" data-fr="NOUVEAU" data-es="NUEVO" data-sv="NY" data-nl="NIEUW" data-ga="NUA" data-de="NEU" data-ru="НОВОЕ" data-tr="YENİ" data-pt="NOVO" data-zh="新版" data-ur="نیا" style="position:absolute; top:5px; left:5px; background:#28a745; color:#fff; padding:2px 6px; border-radius:5px; font-size:12px;">
     جديد
   </span>
 
@@ -24701,7 +24761,7 @@ const moreTranslations = [{
         <span class="vol-icon">🔊</span>
     </div>
 
-    <span class="free-palestine-text" id="freePalestineText" data-ar="فلسطين حرة" data-en="Free Palestine">فلسطين حرة</span>
+    <span class="free-palestine-text" id="freePalestineText" data-ar="فلسطين حرة" data-en="Free Palestine" data-fr="Palestine Libre" data-es="Palestina Libre" data-sv="Fritt Palestina" data-nl="Vrij Palestina" data-ga="Palaistín Shaor" data-de="Freies Palästina" data-ru="Свободная Палестина" data-tr="Özgür Filistin" data-pt="Palestina Livre" data-zh="自由巴勒斯坦" data-ur="آزاد فلسطین">فلسطين حرة</span>
 </div>
 
 
@@ -28953,126 +29013,1260 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 <script>
 (function() {
   var KH_KEY = 'khatmaState';
+
+  // ===== نظام الترجمة المتعدد اللغات (12 لغة) =====
+  var KH_LANGS = ['ar','en','fr','es','sv','nl','ga','de','ru','tr','pt','zh','ur'];
+  var KH_T = {
+  "defaultKhatmaName": {
+    "ar": "ختمتي",
+    "en": "My Khatma",
+    "fr": "Ma Khatma",
+    "es": "Mi Khatma",
+    "sv": "Min Khatma",
+    "nl": "Mijn Khatma",
+    "ga": "Mo Khatma",
+    "de": "Meine Khatma",
+    "ru": "Моя Хатма",
+    "tr": "Hatmemim",
+    "pt": "Minha Khatma",
+    "zh": "我的封印(Khatma)",
+    "ur": "میری ختمہ"
+  },
+  "promptNewKhatma": {
+    "ar": "اسم الختمة الجديدة (مثلاً: ختمة التدبر):",
+    "en": "New khatma name:",
+    "fr": "Nom de la nouvelle Khatma :",
+    "es": "Nombre de la nueva Khatma:",
+    "sv": "Nytt Khatma-namn:",
+    "nl": "Nieuwe Khatma-naam:",
+    "ga": "Ainm na Khatma nua:",
+    "de": "Name der neuen Khatma:",
+    "ru": "Название новой Хатмы:",
+    "tr": "Yeni hatme adı:",
+    "pt": "Nome da nova Khatma:",
+    "zh": "新封印名称：",
+    "ur": "نئی ختمہ کا نام:"
+  },
+  "promptRename": {
+    "ar": "اسم الختمة:",
+    "en": "Khatma name:",
+    "fr": "Nom de la Khatma :",
+    "es": "Nombre de la Khatma:",
+    "sv": "Khatma-namn:",
+    "nl": "Khatma-naam:",
+    "ga": "Ainm na Khatma:",
+    "de": "Name der Khatma:",
+    "ru": "Название Хатмы:",
+    "tr": "Hatme adı:",
+    "pt": "Nome da Khatma:",
+    "zh": "封印名称：",
+    "ur": "ختمہ کا نام:"
+  },
+  "needAtLeastOne": {
+    "ar": "لازم تفضل ختمة واحدة على الأقل",
+    "en": "You need at least one khatma",
+    "fr": "Il faut garder au moins une Khatma",
+    "es": "Debes conservar al menos una Khatma",
+    "sv": "Du måste ha minst en Khatma",
+    "nl": "Je hebt minstens één Khatma nodig",
+    "ga": "Ní mór duit Khatma amháin ar a laghad a choinneáil",
+    "de": "Du brauchst mindestens eine Khatma",
+    "ru": "Нужна как минимум одна Хатма",
+    "tr": "En az bir hatme kalmalı",
+    "pt": "Precisa manter pelo menos uma Khatma",
+    "zh": "至少需要保留一个封印",
+    "ur": "کم از کم ایک ختمہ باقی رہنی چاہیے"
+  },
+  "confirmDelete": {
+    "ar": "هيتم حذف \"{name}\" نهائيًا بكل تقدمها، متأكد؟",
+    "en": "This will permanently delete \"{name}\" and all its progress. Continue?",
+    "fr": "Cela supprimera définitivement « {name} » et toute sa progression. Continuer ?",
+    "es": "Esto eliminará permanentemente \"{name}\" y todo su progreso. ¿Continuar?",
+    "sv": "Detta raderar \"{name}\" och all dess framgång permanent. Fortsätta?",
+    "nl": "Hiermee wordt \"{name}\" en alle voortgang permanent verwijderd. Doorgaan?",
+    "ga": "Scriosfaidh sé seo \"{name}\" go buan mar aon lena dhul chun cinn ar fad. Lean ar aghaidh?",
+    "de": "„{name}\" wird dauerhaft gelöscht, inklusive des gesamten Fortschritts. Fortfahren?",
+    "ru": "Хатма «{name}» будет удалена навсегда вместе со всем прогрессом. Продолжить?",
+    "tr": "\"{name}\" ve tüm ilerlemesi kalıcı olarak silinecek. Devam edilsin mi?",
+    "pt": "Isso excluirá permanentemente \"{name}\" e todo o seu progresso. Continuar?",
+    "zh": "这将永久删除\"{name}\"及其所有进度，确定吗？",
+    "ur": "\"{name}\" اور اس کی تمام پیش رفت مستقل طور پر حذف ہو جائے گی، جاری رکھیں؟"
+  },
+  "btnNewKhatma": {
+    "ar": "ختمة جديدة",
+    "en": "New",
+    "fr": "Nouvelle",
+    "es": "Nueva",
+    "sv": "Ny",
+    "nl": "Nieuw",
+    "ga": "Nua",
+    "de": "Neu",
+    "ru": "Новая",
+    "tr": "Yeni",
+    "pt": "Nova",
+    "zh": "新建",
+    "ur": "نئی"
+  },
+  "btnRename": {
+    "ar": "إعادة تسمية",
+    "en": "Rename",
+    "fr": "Renommer",
+    "es": "Renombrar",
+    "sv": "Byt namn",
+    "nl": "Naam wijzigen",
+    "ga": "Athainmnigh",
+    "de": "Umbenennen",
+    "ru": "Переименовать",
+    "tr": "Yeniden adlandır",
+    "pt": "Renomear",
+    "zh": "重命名",
+    "ur": "نام تبدیل کریں"
+  },
+  "btnDelete": {
+    "ar": "حذف",
+    "en": "Delete",
+    "fr": "Supprimer",
+    "es": "Eliminar",
+    "sv": "Ta bort",
+    "nl": "Verwijderen",
+    "ga": "Scrios",
+    "de": "Löschen",
+    "ru": "Удалить",
+    "tr": "Sil",
+    "pt": "Excluir",
+    "zh": "删除",
+    "ur": "حذف کریں"
+  },
+  "badge_streak3": {
+    "ar": "متتالية 3 أيام",
+    "en": "3-Day Streak",
+    "fr": "Série de 3 jours",
+    "es": "Racha de 3 días",
+    "sv": "3-dagars svit",
+    "nl": "3-daagse reeks",
+    "ga": "Sraith 3 Lá",
+    "de": "3-Tage-Serie",
+    "ru": "3 дня подряд",
+    "tr": "3 Günlük Seri",
+    "pt": "Sequência de 3 Dias",
+    "zh": "连续3天",
+    "ur": "3 دن کا تسلسل"
+  },
+  "badge_streak7": {
+    "ar": "أسبوع كامل",
+    "en": "Full Week Streak",
+    "fr": "Série d'une semaine complète",
+    "es": "Racha de una semana completa",
+    "sv": "Hel veckas svit",
+    "nl": "Volledige week-reeks",
+    "ga": "Sraith Seachtaine Iomláine",
+    "de": "Ganze Wochen-Serie",
+    "ru": "Целая неделя подряд",
+    "tr": "Tam Hafta Serisi",
+    "pt": "Sequência de Semana Completa",
+    "zh": "连续一周",
+    "ur": "مکمل ہفتے کا تسلسل"
+  },
+  "badge_streak30": {
+    "ar": "30 يوم متواصل",
+    "en": "30-Day Streak",
+    "fr": "Série de 30 jours",
+    "es": "Racha de 30 días",
+    "sv": "30-dagars svit",
+    "nl": "30-daagse reeks",
+    "ga": "Sraith 30 Lá",
+    "de": "30-Tage-Serie",
+    "ru": "30 дней подряд",
+    "tr": "30 Günlük Seri",
+    "pt": "Sequência de 30 Dias",
+    "zh": "连续30天",
+    "ur": "30 دن کا تسلسل"
+  },
+  "badge_half": {
+    "ar": "نص الختمة",
+    "en": "Halfway There",
+    "fr": "À mi-chemin",
+    "es": "A mitad de camino",
+    "sv": "Halvvägs",
+    "nl": "Halverwege",
+    "ga": "Leath Bealaigh",
+    "de": "Auf halbem Weg",
+    "ru": "На полпути",
+    "tr": "Yarı Yolda",
+    "pt": "No Meio do Caminho",
+    "zh": "已过半程",
+    "ur": "آدھا سفر"
+  },
+  "badge_first": {
+    "ar": "أول ختمة كاملة",
+    "en": "First Khatma",
+    "fr": "Première Khatma",
+    "es": "Primera Khatma",
+    "sv": "Första Khatma",
+    "nl": "Eerste Khatma",
+    "ga": "An Chéad Khatma",
+    "de": "Erste Khatma",
+    "ru": "Первая Хатма",
+    "tr": "İlk Hatme",
+    "pt": "Primeira Khatma",
+    "zh": "首次完整封印",
+    "ur": "پہلی مکمل ختمہ"
+  },
+  "badge_three": {
+    "ar": "3 ختمات مكتملة",
+    "en": "3 Khatmas Done",
+    "fr": "3 Khatmas terminées",
+    "es": "3 Khatmas completadas",
+    "sv": "3 Khatmor klara",
+    "nl": "3 Khatma's voltooid",
+    "ga": "3 Khatma críochnaithe",
+    "de": "3 Khatmas abgeschlossen",
+    "ru": "3 Хатмы завершены",
+    "tr": "3 Hatme Tamamlandı",
+    "pt": "3 Khatmas Concluídas",
+    "zh": "已完成3次封印",
+    "ur": "3 ختمیں مکمل"
+  },
+  "newAchievementPrefix": {
+    "ar": "إنجاز جديد: ",
+    "en": "New Achievement: ",
+    "fr": "Nouveau succès : ",
+    "es": "Nuevo logro: ",
+    "sv": "Ny prestation: ",
+    "nl": "Nieuwe prestatie: ",
+    "ga": "Éacht nua: ",
+    "de": "Neue Errungenschaft: ",
+    "ru": "Новое достижение: ",
+    "tr": "Yeni Başarı: ",
+    "pt": "Nova Conquista: ",
+    "zh": "新成就：",
+    "ur": "نیا اعزاز: "
+  },
+  "heatmapTitle": {
+    "ar": "📅 نشاطك في آخر 10 أسابيع",
+    "en": "📅 Last 10 weeks of activity",
+    "fr": "📅 Activité des 10 dernières semaines",
+    "es": "📅 Actividad de las últimas 10 semanas",
+    "sv": "📅 Aktivitet senaste 10 veckorna",
+    "nl": "📅 Activiteit van de laatste 10 weken",
+    "ga": "📅 Gníomhaíocht le 10 seachtaine anuas",
+    "de": "📅 Aktivität der letzten 10 Wochen",
+    "ru": "📅 Активность за последние 10 недель",
+    "tr": "📅 Son 10 haftalık etkinlik",
+    "pt": "📅 Atividade das últimas 10 semanas",
+    "zh": "📅 最近10周的活动",
+    "ur": "📅 پچھلے 10 ہفتوں کی سرگرمی"
+  },
+  "heatmapActiveDays": {
+    "ar": "{n} يوم نشط",
+    "en": "{n} active days",
+    "fr": "{n} jours actifs",
+    "es": "{n} días activos",
+    "sv": "{n} aktiva dagar",
+    "nl": "{n} actieve dagen",
+    "ga": "{n} lá gníomhach",
+    "de": "{n} aktive Tage",
+    "ru": "{n} активных дней",
+    "tr": "{n} aktif gün",
+    "pt": "{n} dias ativos",
+    "zh": "{n} 个活跃天",
+    "ur": "{n} فعال دن"
+  },
+  "setDailyGoalLabel": {
+    "ar": "📌 حدد وردك اليومي ({unitPl})",
+    "en": "📌 Set your daily wird ({unitPl})",
+    "fr": "📌 Définis ton wird quotidien ({unitPl})",
+    "es": "📌 Establece tu wird diario ({unitPl})",
+    "sv": "📌 Ställ in din dagliga wird ({unitPl})",
+    "nl": "📌 Stel je dagelijkse wird in ({unitPl})",
+    "ga": "📌 Socraigh do wird laethúil ({unitPl})",
+    "de": "📌 Lege dein tägliches Wird fest ({unitPl})",
+    "ru": "📌 Установи свой ежедневный вирд ({unitPl})",
+    "tr": "📌 Günlük virdini belirle ({unitPl})",
+    "pt": "📌 Defina seu wird diário ({unitPl})",
+    "zh": "📌 设定每日诵读量（{unitPl}）",
+    "ur": "📌 اپنا روزانہ ورد مقرر کریں ({unitPl})"
+  },
+  "placeholderEg1": {
+    "ar": "مثلاً: 1",
+    "en": "e.g. 1",
+    "fr": "ex. 1",
+    "es": "p. ej. 1",
+    "sv": "t.ex. 1",
+    "nl": "bijv. 1",
+    "ga": "m.sh. 1",
+    "de": "z.B. 1",
+    "ru": "напр. 1",
+    "tr": "örn. 1",
+    "pt": "ex. 1",
+    "zh": "例如：1",
+    "ur": "مثلاً: 1"
+  },
+  "btnSet": {
+    "ar": "تحديد",
+    "en": "Set",
+    "fr": "Définir",
+    "es": "Fijar",
+    "sv": "Ange",
+    "nl": "Instellen",
+    "ga": "Socraigh",
+    "de": "Festlegen",
+    "ru": "Задать",
+    "tr": "Ayarla",
+    "pt": "Definir",
+    "zh": "设定",
+    "ur": "مقرر کریں"
+  },
+  "dailyGoalLabel": {
+    "ar": "📌 وردك اليومي: {n} {unitPl}",
+    "en": "📌 Daily wird: {n} {unitPl}",
+    "fr": "📌 Wird quotidien : {n} {unitPl}",
+    "es": "📌 Wird diario: {n} {unitPl}",
+    "sv": "📌 Daglig wird: {n} {unitPl}",
+    "nl": "📌 Dagelijkse wird: {n} {unitPl}",
+    "ga": "📌 Wird laethúil: {n} {unitPl}",
+    "de": "📌 Tägliches Wird: {n} {unitPl}",
+    "ru": "📌 Дневной вирд: {n} {unitPl}",
+    "tr": "📌 Günlük vird: {n} {unitPl}",
+    "pt": "📌 Wird diário: {n} {unitPl}",
+    "zh": "📌 每日目标：{n} {unitPl}",
+    "ur": "📌 روزانہ ورد: {n} {unitPl}"
+  },
+  "btnRemove": {
+    "ar": "إلغاء",
+    "en": "Remove",
+    "fr": "Retirer",
+    "es": "Quitar",
+    "sv": "Ta bort",
+    "nl": "Verwijderen",
+    "ga": "Bain",
+    "de": "Entfernen",
+    "ru": "Убрать",
+    "tr": "Kaldır",
+    "pt": "Remover",
+    "zh": "移除",
+    "ur": "ہٹائیں"
+  },
+  "goalDoneToday": {
+    "ar": "خلصت ورد النهاردة",
+    "en": "Today's wird is done",
+    "fr": "Le wird d'aujourd'hui est terminé",
+    "es": "El wird de hoy está completo",
+    "sv": "Dagens wird är klar",
+    "nl": "De wird van vandaag is klaar",
+    "ga": "Tá wird an lae inniu déanta",
+    "de": "Das heutige Wird ist erledigt",
+    "ru": "Сегодняшний вирд выполнен",
+    "tr": "Bugünkü vird tamamlandı",
+    "pt": "O wird de hoje está concluído",
+    "zh": "今日目标已完成",
+    "ur": "آج کا ورد مکمل ہو گیا"
+  },
+  "goalRemainingToday": {
+    "ar": "باقي عليك النهاردة: {n} {unit}",
+    "en": "{n} {unit} left today",
+    "fr": "Il te reste {n} {unit} aujourd'hui",
+    "es": "Te quedan {n} {unit} hoy",
+    "sv": "{n} {unit} kvar idag",
+    "nl": "Nog {n} {unit} te gaan vandaag",
+    "ga": "{n} {unit} fágtha inniu",
+    "de": "Noch {n} {unit} heute übrig",
+    "ru": "Осталось {n} {unit} на сегодня",
+    "tr": "Bugün için {n} {unit} kaldı",
+    "pt": "Faltam {n} {unit} hoje",
+    "zh": "今天还剩 {n} {unit}",
+    "ur": "آج {n} {unit} باقی ہیں"
+  },
+  "btnLogIt": {
+    "ar": "✅ سجّله",
+    "en": "✅ Log it",
+    "fr": "✅ Enregistrer",
+    "es": "✅ Registrar",
+    "sv": "✅ Logga",
+    "nl": "✅ Loggen",
+    "ga": "✅ Logáil é",
+    "de": "✅ Eintragen",
+    "ru": "✅ Записать",
+    "tr": "✅ Kaydet",
+    "pt": "✅ Registrar",
+    "zh": "✅ 记录",
+    "ur": "✅ درج کریں"
+  },
+  "goalMissedDays": {
+    "ar": "⚠️ عندك {n} يوم متأخر (ناقصك {n2} {unitPl} علشان تلحق)",
+    "en": "⚠️ {n} day(s) behind (need {n2} more {unitPl} to catch up)",
+    "fr": "⚠️ Tu as {n} jour(s) de retard (il te faut {n2} {unitPl} de plus pour rattraper)",
+    "es": "⚠️ Vas {n} día(s) atrasado (necesitas {n2} {unitPl} más para ponerte al día)",
+    "sv": "⚠️ Du ligger {n} dag(ar) efter (behöver {n2} {unitPl} till för att komma ikapp)",
+    "nl": "⚠️ Je loopt {n} dag(en) achter (nog {n2} {unitPl} nodig om bij te trekken)",
+    "ga": "⚠️ Tá tú {n} lá chun deiridh (teastaíonn {n2} {unitPl} eile uait chun breith suas)",
+    "de": "⚠️ Du hinkst {n} Tag(e) hinterher (brauchst {n2} weitere {unitPl}, um aufzuholen)",
+    "ru": "⚠️ Ты отстаёшь на {n} дн. (нужно ещё {n2} {unitPl}, чтобы наверстать)",
+    "tr": "⚠️ {n} gün gerideysin (yetişmek için {n2} {unitPl} daha gerekiyor)",
+    "pt": "⚠️ Você está {n} dia(s) atrasado (precisa de mais {n2} {unitPl} para recuperar)",
+    "zh": "⚠️ 已落后 {n} 天（需再完成 {n2} {unitPl} 才能赶上）",
+    "ur": "⚠️ آپ {n} دن پیچھے ہیں (آگے بڑھنے کے لیے مزید {n2} {unitPl} درکار ہیں)"
+  },
+  "goalPace": {
+    "ar": "بمعدل الورد ده هتخلص الختمة خلال ~{n} يوم",
+    "en": "At this pace, ~{n} days to finish",
+    "fr": "À ce rythme, ~{n} jours pour terminer",
+    "es": "A este ritmo, ~{n} días para terminar",
+    "sv": "I den här takten, ~{n} dagar kvar",
+    "nl": "In dit tempo, nog ~{n} dagen te gaan",
+    "ga": "Ag an luas seo, ~{n} lá le críochnú",
+    "de": "In diesem Tempo noch ~{n} Tage bis zum Abschluss",
+    "ru": "В таком темпе — ещё ~{n} дн. до завершения",
+    "tr": "Bu hızla bitirmek için ~{n} gün kaldı",
+    "pt": "Nesse ritmo, ~{n} dias para terminar",
+    "zh": "按此速度，约还需 {n} 天完成",
+    "ur": "اس رفتار سے، تکمیل میں ~{n} دن باقی"
+  },
+  "shareTextMain": {
+    "ar": "📗 تقدمي في ختم القرآن الكريم: {current}/{total} {unitPl} ({pct}%)",
+    "en": "📗 My Quran Khatma progress: {current}/{total} {unitPl} ({pct}%)",
+    "fr": "📗 Ma progression dans la Khatma du Coran : {current}/{total} {unitPl} ({pct}%)",
+    "es": "📗 Mi progreso en la Khatma del Corán: {current}/{total} {unitPl} ({pct}%)",
+    "sv": "📗 Mina framsteg i min Koran-Khatma: {current}/{total} {unitPl} ({pct}%)",
+    "nl": "📗 Mijn voortgang in mijn Koran-Khatma: {current}/{total} {unitPl} ({pct}%)",
+    "ga": "📗 Mo dhul chun cinn i mo Khatma Qurain: {current}/{total} {unitPl} ({pct}%)",
+    "de": "📗 Mein Fortschritt bei meiner Quran-Khatma: {current}/{total} {unitPl} ({pct}%)",
+    "ru": "📗 Мой прогресс в Хатме Корана: {current}/{total} {unitPl} ({pct}%)",
+    "tr": "📗 Kuran Hatme ilerlemem: {current}/{total} {unitPl} (%{pct})",
+    "pt": "📗 Meu progresso na Khatma do Alcorão: {current}/{total} {unitPl} ({pct}%)",
+    "zh": "📗 我的古兰经封印进度：{current}/{total} {unitPl}（{pct}%）",
+    "ur": "📗 میری قرآن ختمہ کی پیش رفت: {current}/{total} {unitPl} ({pct}%)"
+  },
+  "shareStreak": {
+    "ar": "🔥 متتالية {n} يوم",
+    "en": "🔥 {n}-day streak",
+    "fr": "🔥 Série de {n} jours",
+    "es": "🔥 Racha de {n} días",
+    "sv": "🔥 {n}-dagars svit",
+    "nl": "🔥 {n}-daagse reeks",
+    "ga": "🔥 Sraith {n} lá",
+    "de": "🔥 {n}-Tage-Serie",
+    "ru": "🔥 Серия {n} дн.",
+    "tr": "🔥 {n} günlük seri",
+    "pt": "🔥 Sequência de {n} dias",
+    "zh": "🔥 连续 {n} 天",
+    "ur": "🔥 {n} دن کا تسلسل"
+  },
+  "shareFooter": {
+    "ar": "📻 إذاعة القرآن الكريم",
+    "en": "📻 Quran Radio",
+    "fr": "📻 Radio du Saint Coran",
+    "es": "📻 Radio del Sagrado Corán",
+    "sv": "📻 Koranradio",
+    "nl": "📻 Koranradio",
+    "ga": "📻 Raidió an Chóráin Naofa",
+    "de": "📻 Koran-Radio",
+    "ru": "📻 Радио Коран",
+    "tr": "📻 Kur'an Radyosu",
+    "pt": "📻 Rádio do Alcorão",
+    "zh": "📻 古兰经电台",
+    "ur": "📻 قرآن ریڈیو"
+  },
+  "copiedClipboard": {
+    "ar": "📋 اتنسخ للحافظة",
+    "en": "📋 Copied to clipboard",
+    "fr": "📋 Copié dans le presse-papiers",
+    "es": "📋 Copiado al portapapeles",
+    "sv": "📋 Kopierat till urklipp",
+    "nl": "📋 Gekopieerd naar klembord",
+    "ga": "📋 Cóipeáilte go dtí an ghearrthaisce",
+    "de": "📋 In die Zwischenablage kopiert",
+    "ru": "📋 Скопировано в буфер обмена",
+    "tr": "📋 Panoya kopyalandı",
+    "pt": "📋 Copiado para a área de transferência",
+    "zh": "📋 已复制到剪贴板",
+    "ur": "📋 کلپ بورڈ پر کاپی ہو گیا"
+  },
+  "backupDownloaded": {
+    "ar": "📦 اتحمّل ملف النسخة الاحتياطية",
+    "en": "📦 Backup file downloaded",
+    "fr": "📦 Fichier de sauvegarde téléchargé",
+    "es": "📦 Archivo de copia de seguridad descargado",
+    "sv": "📦 Säkerhetskopia nedladdad",
+    "nl": "📦 Back-upbestand gedownload",
+    "ga": "📦 Comhad cúltaca íoslódáilte",
+    "de": "📦 Sicherungsdatei heruntergeladen",
+    "ru": "📦 Файл резервной копии загружен",
+    "tr": "📦 Yedek dosyası indirildi",
+    "pt": "📦 Arquivo de backup baixado",
+    "zh": "📦 备份文件已下载",
+    "ur": "📦 بیک اپ فائل ڈاؤن لوڈ ہو گئی"
+  },
+  "exportFailed": {
+    "ar": "⚠️ حصل خطأ أثناء التصدير",
+    "en": "⚠️ Export failed",
+    "fr": "⚠️ Échec de l'exportation",
+    "es": "⚠️ Error al exportar",
+    "sv": "⚠️ Export misslyckades",
+    "nl": "⚠️ Exporteren mislukt",
+    "ga": "⚠️ Theip ar an easpórtáil",
+    "de": "⚠️ Export fehlgeschlagen",
+    "ru": "⚠️ Ошибка экспорта",
+    "tr": "⚠️ Dışa aktarma başarısız",
+    "pt": "⚠️ Falha na exportação",
+    "zh": "⚠️ 导出失败",
+    "ur": "⚠️ ایکسپورٹ ناکام ہو گئی"
+  },
+  "confirmImport": {
+    "ar": "هيتم استبدال كل الختمات الحالية بالبيانات المستوردة، متأكد؟",
+    "en": "This will replace all current khatmas with the imported data. Continue?",
+    "fr": "Cela remplacera toutes les Khatmas actuelles par les données importées. Continuer ?",
+    "es": "Esto reemplazará todas las Khatmas actuales con los datos importados. ¿Continuar?",
+    "sv": "Detta ersätter alla nuvarande Khatmor med den importerade datan. Fortsätta?",
+    "nl": "Hiermee worden alle huidige Khatma's vervangen door de geïmporteerde gegevens. Doorgaan?",
+    "ga": "Cuirfidh sé seo na sonraí iompórtáilte in ionad gach Khatma reatha. Lean ar aghaidh?",
+    "de": "Dadurch werden alle aktuellen Khatmas durch die importierten Daten ersetzt. Fortfahren?",
+    "ru": "Это заменит все текущие Хатмы импортированными данными. Продолжить?",
+    "tr": "Bu, mevcut tüm hatmeleri içe aktarılan verilerle değiştirecek. Devam edilsin mi?",
+    "pt": "Isso substituirá todas as Khatmas atuais pelos dados importados. Continuar?",
+    "zh": "这将用导入的数据替换所有当前封印记录，确定吗？",
+    "ur": "اس سے تمام موجودہ ختمیں درآمد شدہ ڈیٹا سے بدل جائیں گی، جاری رکھیں؟"
+  },
+  "dataRestored": {
+    "ar": "✅ اترجعت البيانات بنجاح",
+    "en": "✅ Data restored successfully",
+    "fr": "✅ Données restaurées avec succès",
+    "es": "✅ Datos restaurados con éxito",
+    "sv": "✅ Data återställd",
+    "nl": "✅ Gegevens hersteld",
+    "ga": "✅ Sonraí athchóirithe go rathúil",
+    "de": "✅ Daten erfolgreich wiederhergestellt",
+    "ru": "✅ Данные успешно восстановлены",
+    "tr": "✅ Veriler başarıyla geri yüklendi",
+    "pt": "✅ Dados restaurados com sucesso",
+    "zh": "✅ 数据已成功恢复",
+    "ur": "✅ ڈیٹا کامیابی سے بحال ہو گیا"
+  },
+  "invalidFile": {
+    "ar": "⚠️ الملف غير صالح",
+    "en": "⚠️ Invalid file",
+    "fr": "⚠️ Fichier invalide",
+    "es": "⚠️ Archivo no válido",
+    "sv": "⚠️ Ogiltig fil",
+    "nl": "⚠️ Ongeldig bestand",
+    "ga": "⚠️ Comhad neamhbhailí",
+    "de": "⚠️ Ungültige Datei",
+    "ru": "⚠️ Недопустимый файл",
+    "tr": "⚠️ Geçersiz dosya",
+    "pt": "⚠️ Arquivo inválido",
+    "zh": "⚠️ 文件无效",
+    "ur": "⚠️ فائل غلط ہے"
+  },
+  "btnBackup": {
+    "ar": "📦 نسخة احتياطية",
+    "en": "📦 Backup",
+    "fr": "📦 Sauvegarder",
+    "es": "📦 Copia de seguridad",
+    "sv": "📦 Säkerhetskopia",
+    "nl": "📦 Back-up",
+    "ga": "📦 Cúltaca",
+    "de": "📦 Sicherung",
+    "ru": "📦 Резервная копия",
+    "tr": "📦 Yedekle",
+    "pt": "📦 Backup",
+    "zh": "📦 备份",
+    "ur": "📦 بیک اپ"
+  },
+  "btnImport": {
+    "ar": "📥 استيراد",
+    "en": "📥 Import",
+    "fr": "📥 Importer",
+    "es": "📥 Importar",
+    "sv": "📥 Importera",
+    "nl": "📥 Importeren",
+    "ga": "📥 Iompórtáil",
+    "de": "📥 Importieren",
+    "ru": "📥 Импорт",
+    "tr": "📥 İçe Aktar",
+    "pt": "📥 Importar",
+    "zh": "📥 导入",
+    "ur": "📥 درآمد"
+  },
+  "reminderSingle": {
+    "ar": "⏰ متنساش ورد \"{name}\" النهاردة",
+    "en": "⏰ Don't forget your \"{name}\" reading today",
+    "fr": "⏰ N'oublie pas ta lecture « {name} » aujourd'hui",
+    "es": "⏰ No olvides tu lectura \"{name}\" de hoy",
+    "sv": "⏰ Glöm inte din läsning \"{name}\" idag",
+    "nl": "⏰ Vergeet je \"{name}\"-lezing van vandaag niet",
+    "ga": "⏰ Ná déan dearmad ar do léamh \"{name}\" inniu",
+    "de": "⏰ Vergiss dein \"{name}\"-Lesen heute nicht",
+    "ru": "⏰ Не забудь про чтение «{name}» сегодня",
+    "tr": "⏰ Bugünkü \"{name}\" okumanı unutma",
+    "pt": "⏰ Não esqueça sua leitura \"{name}\" hoje",
+    "zh": "⏰ 别忘了今天的\"{name}\"诵读",
+    "ur": "⏰ آج اپنی \"{name}\" کی تلاوت مت بھولیں"
+  },
+  "reminderMulti": {
+    "ar": "⏰ عندك {n} ختمات مستنياك النهاردة",
+    "en": "⏰ {n} khatmas waiting for you today",
+    "fr": "⏰ {n} Khatmas t'attendent aujourd'hui",
+    "es": "⏰ {n} Khatmas te esperan hoy",
+    "sv": "⏰ {n} Khatmor väntar på dig idag",
+    "nl": "⏰ {n} Khatma's wachten vandaag op je",
+    "ga": "⏰ Tá {n} Khatma ag fanacht leat inniu",
+    "de": "⏰ {n} Khatmas warten heute auf dich",
+    "ru": "⏰ {n} Хатм ждут тебя сегодня",
+    "tr": "⏰ Bugün {n} hatme seni bekliyor",
+    "pt": "⏰ {n} Khatmas esperando por você hoje",
+    "zh": "⏰ 今天有 {n} 个封印记录等着你",
+    "ur": "⏰ آج {n} ختمیں آپ کا انتظار کر رہی ہیں"
+  },
+  "tabProgress": {
+    "ar": "📈 التقدم",
+    "en": "📈 Progress",
+    "fr": "📈 Progression",
+    "es": "📈 Progreso",
+    "sv": "📈 Framsteg",
+    "nl": "📈 Voortgang",
+    "ga": "📈 Dul Chun Cinn",
+    "de": "📈 Fortschritt",
+    "ru": "📈 Прогресс",
+    "tr": "📈 İlerleme",
+    "pt": "📈 Progresso",
+    "zh": "📈 进度",
+    "ur": "📈 پیش رفت"
+  },
+  "tabStats": {
+    "ar": "📊 الإحصائيات",
+    "en": "📊 Stats",
+    "fr": "📊 Statistiques",
+    "es": "📊 Estadísticas",
+    "sv": "📊 Statistik",
+    "nl": "📊 Statistieken",
+    "ga": "📊 Staitisticí",
+    "de": "📊 Statistiken",
+    "ru": "📊 Статистика",
+    "tr": "📊 İstatistikler",
+    "pt": "📊 Estatísticas",
+    "zh": "📊 统计",
+    "ur": "📊 اعداد و شمار"
+  },
+  "statKhatmasCompleted": {
+    "ar": "ختمات مكتملة",
+    "en": "Khatmas Completed",
+    "fr": "Khatmas terminées",
+    "es": "Khatmas completadas",
+    "sv": "Khatmor klara",
+    "nl": "Khatma's voltooid",
+    "ga": "Khatma críochnaithe",
+    "de": "Khatmas abgeschlossen",
+    "ru": "Хатм завершено",
+    "tr": "Tamamlanan Hatmeler",
+    "pt": "Khatmas Concluídas",
+    "zh": "已完成封印数",
+    "ur": "مکمل شدہ ختمیں"
+  },
+  "statBestStreak": {
+    "ar": "أفضل متتالية",
+    "en": "Best Streak",
+    "fr": "Meilleure série",
+    "es": "Mejor racha",
+    "sv": "Bästa svit",
+    "nl": "Beste reeks",
+    "ga": "An tSraith is Fearr",
+    "de": "Beste Serie",
+    "ru": "Лучшая серия",
+    "tr": "En İyi Seri",
+    "pt": "Melhor Sequência",
+    "zh": "最佳连续记录",
+    "ur": "بہترین تسلسل"
+  },
+  "dayShortSuffix": {
+    "ar": " يوم",
+    "en": "d",
+    "fr": "j",
+    "es": "d",
+    "sv": "d",
+    "nl": "d",
+    "ga": "l",
+    "de": "T",
+    "ru": "д",
+    "tr": "g",
+    "pt": "d",
+    "zh": "天",
+    "ur": "دن"
+  },
+  "statActiveDays": {
+    "ar": "أيام نشطة (الختمة الحالية)",
+    "en": "Active Days (Current)",
+    "fr": "Jours actifs (actuelle)",
+    "es": "Días activos (actual)",
+    "sv": "Aktiva dagar (nuvarande)",
+    "nl": "Actieve dagen (huidig)",
+    "ga": "Laethanta gníomhacha (reatha)",
+    "de": "Aktive Tage (aktuell)",
+    "ru": "Активные дни (текущая)",
+    "tr": "Aktif Günler (Mevcut)",
+    "pt": "Dias Ativos (Atual)",
+    "zh": "活跃天数（当前）",
+    "ur": "فعال دن (موجودہ)"
+  },
+  "statAvgPerDay": {
+    "ar": "متوسط {unit}/يوم",
+    "en": "Avg {unit}/day",
+    "fr": "Moy. {unit}/jour",
+    "es": "Prom. {unit}/día",
+    "sv": "Snitt {unit}/dag",
+    "nl": "Gem. {unit}/dag",
+    "ga": "Meán {unit}/lá",
+    "de": "Ø {unit}/Tag",
+    "ru": "Сред. {unit}/день",
+    "tr": "Ort. {unit}/gün",
+    "pt": "Média {unit}/dia",
+    "zh": "平均 {unit}/天",
+    "ur": "اوسط {unit}/دن"
+  },
+  "achievementsTitle": {
+    "ar": "🏅 إنجازاتك",
+    "en": "🏅 Your Achievements",
+    "fr": "🏅 Tes succès",
+    "es": "🏅 Tus logros",
+    "sv": "🏅 Dina prestationer",
+    "nl": "🏅 Jouw prestaties",
+    "ga": "🏅 Do Éachtaí",
+    "de": "🏅 Deine Errungenschaften",
+    "ru": "🏅 Твои достижения",
+    "tr": "🏅 Başarıların",
+    "pt": "🏅 Suas Conquistas",
+    "zh": "🏅 你的成就",
+    "ur": "🏅 آپ کے اعزازات"
+  },
+  "btnShareProgress": {
+    "ar": "📤 شارك تقدمك",
+    "en": "📤 Share Your Progress",
+    "fr": "📤 Partager ta progression",
+    "es": "📤 Compartir tu progreso",
+    "sv": "📤 Dela dina framsteg",
+    "nl": "📤 Deel je voortgang",
+    "ga": "📤 Roinn do Dhul Chun Cinn",
+    "de": "📤 Fortschritt teilen",
+    "ru": "📤 Поделиться прогрессом",
+    "tr": "📤 İlerlemeni Paylaş",
+    "pt": "📤 Compartilhe seu Progresso",
+    "zh": "📤 分享你的进度",
+    "ur": "📤 اپنی پیش رفت شیئر کریں"
+  },
+  "btnContinueMushaf": {
+    "ar": "📖 تابع القراءة في المصحف",
+    "en": "📖 Continue Reading in the Mushaf",
+    "fr": "📖 Continuer la lecture dans le Mushaf",
+    "es": "📖 Continuar la lectura en el Mushaf",
+    "sv": "📖 Fortsätt läsa i Mushaf",
+    "nl": "📖 Ga verder met lezen in de Mushaf",
+    "ga": "📖 Lean ort ag léamh sa Mushaf",
+    "de": "📖 Weiterlesen im Mushaf",
+    "ru": "📖 Продолжить чтение в Мусхафе",
+    "tr": "📖 Mushaf'ta Okumaya Devam Et",
+    "pt": "📖 Continuar Lendo no Mushaf",
+    "zh": "📖 在经文中继续阅读",
+    "ur": "📖 مصحف میں تلاوت جاری رکھیں"
+  },
+  "khatmaCompleteTitle": {
+    "ar": "مبارك ختمتك!",
+    "en": "Khatma Complete!",
+    "fr": "Khatma terminée !",
+    "es": "¡Khatma completada!",
+    "sv": "Khatma klar!",
+    "nl": "Khatma voltooid!",
+    "ga": "Khatma Críochnaithe!",
+    "de": "Khatma abgeschlossen!",
+    "ru": "Хатма завершена!",
+    "tr": "Hatme Tamamlandı!",
+    "pt": "Khatma Concluída!",
+    "zh": "封印完成！",
+    "ur": "ختمہ مکمل ہوئی!"
+  },
+  "completedCountLine": {
+    "ar": "عدد الختمات المكتملة: {n}",
+    "en": "Completed khatmas: {n}",
+    "fr": "Khatmas terminées : {n}",
+    "es": "Khatmas completadas: {n}",
+    "sv": "Avslutade Khatmor: {n}",
+    "nl": "Voltooide Khatma's: {n}",
+    "ga": "Khatma críochnaithe: {n}",
+    "de": "Abgeschlossene Khatmas: {n}",
+    "ru": "Завершённых Хатм: {n}",
+    "tr": "Tamamlanan hatmeler: {n}",
+    "pt": "Khatmas concluídas: {n}",
+    "zh": "已完成封印次数：{n}",
+    "ur": "مکمل شدہ ختمیں: {n}"
+  },
+  "btnStartNew": {
+    "ar": "🔄 ابدأ ختمة جديدة",
+    "en": "🔄 Start New Khatma",
+    "fr": "🔄 Commencer une nouvelle Khatma",
+    "es": "🔄 Comenzar nueva Khatma",
+    "sv": "🔄 Starta ny Khatma",
+    "nl": "🔄 Nieuwe Khatma starten",
+    "ga": "🔄 Tosaigh Khatma Nua",
+    "de": "🔄 Neue Khatma starten",
+    "ru": "🔄 Начать новую Хатму",
+    "tr": "🔄 Yeni Hatme Başlat",
+    "pt": "🔄 Iniciar Nova Khatma",
+    "zh": "🔄 开始新的封印",
+    "ur": "🔄 نئی ختمہ شروع کریں"
+  },
+  "btnShare": {
+    "ar": "شارك",
+    "en": "Share",
+    "fr": "Partager",
+    "es": "Compartir",
+    "sv": "Dela",
+    "nl": "Delen",
+    "ga": "Roinn",
+    "de": "Teilen",
+    "ru": "Поделиться",
+    "tr": "Paylaş",
+    "pt": "Compartilhar",
+    "zh": "分享",
+    "ur": "شیئر کریں"
+  },
+  "progressLine": {
+    "ar": "{unitThe} {current} من {total}",
+    "en": "{unitThe} {current} of {total}",
+    "fr": "{unitThe} {current} sur {total}",
+    "es": "{unitThe} {current} de {total}",
+    "sv": "{unitThe} {current} av {total}",
+    "nl": "{unitThe} {current} van {total}",
+    "ga": "{unitThe} {current} as {total}",
+    "de": "{unitThe} {current} von {total}",
+    "ru": "{unitThe} {current} из {total}",
+    "tr": "{unitThe} {current}/{total}",
+    "pt": "{unitThe} {current} de {total}",
+    "zh": "{unitThe} {current} / {total}",
+    "ur": "{unitThe} {current} از {total}"
+  },
+  "nextSurah": {
+    "ar": "📍 التالية: سورة {name}",
+    "en": "📍 Next: Surah {name}",
+    "fr": "📍 Suivant : Sourate {name}",
+    "es": "📍 Siguiente: Sura {name}",
+    "sv": "📍 Nästa: Sura {name}",
+    "nl": "📍 Volgende: Soera {name}",
+    "ga": "📍 An Chéad Sura Eile: {name}",
+    "de": "📍 Nächste: Sure {name}",
+    "ru": "📍 Далее: Сура {name}",
+    "tr": "📍 Sıradaki: Sûre {name}",
+    "pt": "📍 Próxima: Surata {name}",
+    "zh": "📍 下一章：{name}",
+    "ur": "📍 اگلی: سورت {name}"
+  },
+  "btnReadToday": {
+    "ar": "✅ قرأت {unit} اليوم",
+    "en": "✅ Read a {unit} Today",
+    "fr": "✅ J'ai lu un {unit} aujourd'hui",
+    "es": "✅ Leí un {unit} hoy",
+    "sv": "✅ Läste en {unit} idag",
+    "nl": "✅ Vandaag een {unit} gelezen",
+    "ga": "✅ Léigh mé {unit} inniu",
+    "de": "✅ Heute ein(e) {unit} gelesen",
+    "ru": "✅ Прочитал(а) {unit} сегодня",
+    "tr": "✅ Bugün bir {unit} okudum",
+    "pt": "✅ Li um {unit} hoje",
+    "zh": "✅ 今天读了一 {unit}",
+    "ur": "✅ آج {unit} پڑھی"
+  },
+  "btnUndo": {
+    "ar": "تراجع",
+    "en": "Undo",
+    "fr": "Annuler",
+    "es": "Deshacer",
+    "sv": "Ångra",
+    "nl": "Ongedaan maken",
+    "ga": "Cealaigh",
+    "de": "Rückgängig",
+    "ru": "Отменить",
+    "tr": "Geri Al",
+    "pt": "Desfazer",
+    "zh": "撤销",
+    "ur": "کالعدم کریں"
+  },
+  "streakLine": {
+    "ar": "متتالية {n} يوم",
+    "en": "{n}-day streak",
+    "fr": "Série de {n} jours",
+    "es": "Racha de {n} días",
+    "sv": "{n}-dagars svit",
+    "nl": "{n}-daagse reeks",
+    "ga": "Sraith {n} lá",
+    "de": "{n}-Tage-Serie",
+    "ru": "Серия {n} дн.",
+    "tr": "{n} günlük seri",
+    "pt": "Sequência de {n} dias",
+    "zh": "连续 {n} 天",
+    "ur": "{n} دن کا تسلسل"
+  },
+  "bestStreakLine": {
+    "ar": "🏅 أفضل متتالية: {n} يوم",
+    "en": "🏅 Best: {n}d",
+    "fr": "🏅 Meilleure : {n} j",
+    "es": "🏅 Mejor: {n} d",
+    "sv": "🏅 Bäst: {n} d",
+    "nl": "🏅 Beste: {n} d",
+    "ga": "🏅 Is Fearr: {n} l",
+    "de": "🏅 Beste: {n} T",
+    "ru": "🏅 Лучшая: {n} дн.",
+    "tr": "🏅 En iyi: {n} g",
+    "pt": "🏅 Melhor: {n} d",
+    "zh": "🏅 最佳：{n} 天",
+    "ur": "🏅 بہترین: {n} دن"
+  },
+  "targetDateLabel": {
+    "ar": "🎯 حدد موعدًا لإنهاء الختمة (اختياري)",
+    "en": "🎯 Set a target date (optional)",
+    "fr": "🎯 Définir une date cible (facultatif)",
+    "es": "🎯 Establece una fecha objetivo (opcional)",
+    "sv": "🎯 Ange ett måldatum (valfritt)",
+    "nl": "🎯 Stel een streefdatum in (optioneel)",
+    "ga": "🎯 Socraigh spriocdháta (roghnach)",
+    "de": "🎯 Zieldatum festlegen (optional)",
+    "ru": "🎯 Установи целевую дату (необязательно)",
+    "tr": "🎯 Bir hedef tarih belirle (isteğe bağlı)",
+    "pt": "🎯 Defina uma data-alvo (opcional)",
+    "zh": "🎯 设定目标日期（可选）",
+    "ur": "🎯 ہدف کی تاریخ مقرر کریں (اختیاری)"
+  },
+  "pastKhatmasLine": {
+    "ar": "📚 ختمات سابقة: {n}",
+    "en": "📚 Past khatmas: {n}",
+    "fr": "📚 Khatmas passées : {n}",
+    "es": "📚 Khatmas anteriores: {n}",
+    "sv": "📚 Tidigare Khatmor: {n}",
+    "nl": "📚 Eerdere Khatma's: {n}",
+    "ga": "📚 Khatma roimhe seo: {n}",
+    "de": "📚 Frühere Khatmas: {n}",
+    "ru": "📚 Прошлые Хатмы: {n}",
+    "tr": "📚 Önceki hatmeler: {n}",
+    "pt": "📚 Khatmas anteriores: {n}",
+    "zh": "📚 历史封印次数：{n}",
+    "ur": "📚 پچھلی ختمیں: {n}"
+  },
+  "trackerTitle": {
+    "ar": "متابعة الختمة",
+    "en": "Khatma Tracker",
+    "fr": "Suivi de la Khatma",
+    "es": "Seguimiento de la Khatma",
+    "sv": "Khatma-spårare",
+    "nl": "Khatma-tracker",
+    "ga": "Rianaire Khatma",
+    "de": "Khatma-Tracker",
+    "ru": "Трекер Хатмы",
+    "tr": "Hatme Takipçisi",
+    "pt": "Rastreador de Khatma",
+    "zh": "封印进度追踪",
+    "ur": "ختمہ ٹریکر"
+  },
+  "confirmSwitchUnit": {
+    "ar": "تغيير طريقة العدّ هيصفّر تقدمك الحالي في هذه الختمة، متأكد؟",
+    "en": "Switching the tracking unit will reset your current progress. Continue?",
+    "fr": "Changer l'unité de suivi réinitialisera ta progression actuelle. Continuer ?",
+    "es": "Cambiar la unidad de seguimiento reiniciará tu progreso actual. ¿Continuar?",
+    "sv": "Att byta spårningsenhet återställer dina nuvarande framsteg. Fortsätta?",
+    "nl": "Het wijzigen van de trackingeenheid zal je huidige voortgang resetten. Doorgaan?",
+    "ga": "Trí aonad an rianaithe a athrú, athshocrófar do dhul chun cinn reatha. Lean ar aghaidh?",
+    "de": "Das Ändern der Zähleinheit setzt deinen aktuellen Fortschritt zurück. Fortfahren?",
+    "ru": "Смена единицы отслеживания сбросит твой текущий прогресс. Продолжить?",
+    "tr": "Takip birimini değiştirmek mevcut ilerlemeni sıfırlayacak. Devam edilsin mi?",
+    "pt": "Alterar a unidade de rastreamento reiniciará seu progresso atual. Continuar?",
+    "zh": "更改追踪单位将重置当前进度，确定吗？",
+    "ur": "ٹریکنگ یونٹ تبدیل کرنے سے آپ کی موجودہ پیش رفت صفر ہو جائے گی، جاری رکھیں؟"
+  },
+  "completeToast": {
+    "ar": "🎉 مبارك، ختمت القرآن الكريم!",
+    "en": "🎉 Congratulations, Khatma complete!",
+    "fr": "🎉 Félicitations, Khatma terminée !",
+    "es": "🎉 ¡Felicidades, Khatma completada!",
+    "sv": "🎉 Grattis, Khatma klar!",
+    "nl": "🎉 Gefeliciteerd, Khatma voltooid!",
+    "ga": "🎉 Comhghairdeas, Khatma críochnaithe!",
+    "de": "🎉 Glückwunsch, Khatma abgeschlossen!",
+    "ru": "🎉 Поздравляем, Хатма завершена!",
+    "tr": "🎉 Tebrikler, Hatme tamamlandı!",
+    "pt": "🎉 Parabéns, Khatma concluída!",
+    "zh": "🎉 恭喜，封印完成！",
+    "ur": "🎉 مبارک ہو، ختمہ مکمل ہو گئی!"
+  },
+  "logPromptQuestion": {
+    "ar": "سجّلت قراءتك؟",
+    "en": "Logged your reading?",
+    "fr": "As-tu enregistré ta lecture ?",
+    "es": "¿Registraste tu lectura?",
+    "sv": "Loggade du din läsning?",
+    "nl": "Heb je je lezing gelogd?",
+    "ga": "Ar logáil tú do léamh?",
+    "de": "Hast du dein Lesen eingetragen?",
+    "ru": "Записал(а) своё чтение?",
+    "tr": "Okumanı kaydettin mi?",
+    "pt": "Registrou sua leitura?",
+    "zh": "记录你的诵读了吗？",
+    "ur": "کیا آپ نے اپنی تلاوت درج کی؟"
+  },
+  "logPromptYes": {
+    "ar": "✅ نعم +1 {unit}",
+    "en": "✅ Yes +1 {unit}",
+    "fr": "✅ Oui +1 {unit}",
+    "es": "✅ Sí +1 {unit}",
+    "sv": "✅ Ja +1 {unit}",
+    "nl": "✅ Ja +1 {unit}",
+    "ga": "✅ Tá +1 {unit}",
+    "de": "✅ Ja +1 {unit}",
+    "ru": "✅ Да +1 {unit}",
+    "tr": "✅ Evet +1 {unit}",
+    "pt": "✅ Sim +1 {unit}",
+    "zh": "✅ 是 +1 {unit}",
+    "ur": "✅ ہاں +1 {unit}"
+  },
+  "logPromptNo": {
+    "ar": "لأ",
+    "en": "No",
+    "fr": "Non",
+    "es": "No",
+    "sv": "Nej",
+    "nl": "Nee",
+    "ga": "Níl",
+    "de": "Nein",
+    "ru": "Нет",
+    "tr": "Hayır",
+    "pt": "Não",
+    "zh": "否",
+    "ur": "نہیں"
+  },
+  "targetPassed": {
+    "ar": "⏰ انتهى الموعد المحدد وباقي {n} {unitPl}",
+    "en": "⏰ Target date passed, {n} {unitPl} left",
+    "fr": "⏰ Date cible dépassée, {n} {unitPl} restants",
+    "es": "⏰ Fecha objetivo pasada, quedan {n} {unitPl}",
+    "sv": "⏰ Måldatum passerat, {n} {unitPl} kvar",
+    "nl": "⏰ Streefdatum verstreken, nog {n} {unitPl}",
+    "ga": "⏰ Chuaigh an spriocdháta thart, {n} {unitPl} fágtha",
+    "de": "⏰ Zieldatum überschritten, noch {n} {unitPl}",
+    "ru": "⏰ Целевая дата прошла, осталось {n} {unitPl}",
+    "tr": "⏰ Hedef tarih geçti, {n} {unitPl} kaldı",
+    "pt": "⏰ Data-alvo passou, restam {n} {unitPl}",
+    "zh": "⏰ 目标日期已过，还剩 {n} {unitPl}",
+    "ur": "⏰ ہدف کی تاریخ گزر گئی، {n} {unitPl} باقی ہیں"
+  },
+  "paceLine": {
+    "ar": "📆 باقي {n} يوم • المطلوب تقريبًا {pace} {unit}/يوم",
+    "en": "📆 {n} days left • need ~{pace} {unit}/day",
+    "fr": "📆 {n} jours restants • besoin de ~{pace} {unit}/jour",
+    "es": "📆 Quedan {n} días • necesitas ~{pace} {unit}/día",
+    "sv": "📆 {n} dagar kvar • behöver ~{pace} {unit}/dag",
+    "nl": "📆 Nog {n} dagen • ~{pace} {unit}/dag nodig",
+    "ga": "📆 {n} lá fágtha • teastaíonn ~{pace} {unit}/lá",
+    "de": "📆 Noch {n} Tage • benötigt ~{pace} {unit}/Tag",
+    "ru": "📆 Осталось {n} дн. • нужно ~{pace} {unit}/день",
+    "tr": "📆 {n} gün kaldı • günde ~{pace} {unit} gerekiyor",
+    "pt": "📆 Restam {n} dias • precisa de ~{pace} {unit}/dia",
+    "zh": "📆 还剩 {n} 天 • 每天需约 {pace} {unit}",
+    "ur": "📆 {n} دن باقی • روزانہ تقریباً {pace} {unit} درکار"
+  },
+  "onTrack": {
+    "ar": "✅ أنت في الموعد، استمر!",
+    "en": "✅ On track, keep going!",
+    "fr": "✅ Tu es dans les temps, continue !",
+    "es": "✅ Vas por buen camino, ¡sigue así!",
+    "sv": "✅ Du ligger rätt till, fortsätt!",
+    "nl": "✅ Je ligt op schema, ga zo door!",
+    "ga": "✅ Tá tú ar an mbóthar ceart, lean ort!",
+    "de": "✅ Du liegst im Plan, weiter so!",
+    "ru": "✅ Ты в графике, продолжай!",
+    "tr": "✅ Yolundasın, devam et!",
+    "pt": "✅ Você está no caminho certo, continue!",
+    "zh": "✅ 进度良好，继续加油！",
+    "ur": "✅ آپ ٹریک پر ہیں، جاری رکھیں!"
+  },
+  "behindTrack": {
+    "ar": "⚠️ متأخر شوية، حاول تعوّض",
+    "en": "⚠️ A bit behind, try to catch up",
+    "fr": "⚠️ Un peu en retard, essaie de rattraper",
+    "es": "⚠️ Un poco atrasado, intenta ponerte al día",
+    "sv": "⚠️ Lite efter, försök komma ikapp",
+    "nl": "⚠️ Iets achter, probeer bij te trekken",
+    "ga": "⚠️ Beagán chun deiridh, déan iarracht breith suas",
+    "de": "⚠️ Etwas im Rückstand, versuche aufzuholen",
+    "ru": "⚠️ Небольшое отставание, постарайся наверстать",
+    "tr": "⚠️ Biraz geridesin, yetişmeye çalış",
+    "pt": "⚠️ Um pouco atrasado, tente recuperar",
+    "zh": "⚠️ 稍有落后，尽量追赶",
+    "ur": "⚠️ تھوڑا پیچھے ہیں، آگے بڑھنے کی کوشش کریں"
+  },
+  "currentPace": {
+    "ar": "📊 بمعدلك الحالي هتخلص الختمة خلال ~{n} يوم",
+    "en": "📊 At your current pace, ~{n} days left",
+    "fr": "📊 À ton rythme actuel, ~{n} jours restants",
+    "es": "📊 A tu ritmo actual, quedan ~{n} días",
+    "sv": "📊 I din nuvarande takt, ~{n} dagar kvar",
+    "nl": "📊 In je huidige tempo, nog ~{n} dagen",
+    "ga": "📊 Ag do luas reatha, ~{n} lá fágtha",
+    "de": "📊 In deinem aktuellen Tempo noch ~{n} Tage",
+    "ru": "📊 В твоём текущем темпе осталось ~{n} дн.",
+    "tr": "📊 Mevcut hızınla ~{n} gün kaldı",
+    "pt": "📊 No seu ritmo atual, restam ~{n} dias",
+    "zh": "📊 按当前速度，约还剩 {n} 天",
+    "ur": "📊 موجودہ رفتار سے، ~{n} دن باقی"
+  },
+  "logFirstUnit": {
+    "ar": "سجّل أول {unit} تقرأه للبدء 👇",
+    "en": "Log your first {unit} to start 👇",
+    "fr": "Enregistre ton premier {unit} pour commencer 👇",
+    "es": "Registra tu primer {unit} para empezar 👇",
+    "sv": "Logga din första {unit} för att börja 👇",
+    "nl": "Log je eerste {unit} om te beginnen 👇",
+    "ga": "Logáil do chéad {unit} chun tosú 👇",
+    "de": "Trage dein erstes {unit} ein, um zu starten 👇",
+    "ru": "Запиши свой первый {unit}, чтобы начать 👇",
+    "tr": "Başlamak için ilk {unit} okumanı kaydet 👇",
+    "pt": "Registre seu primeiro {unit} para começar 👇",
+    "zh": "记录你读的第一 {unit} 以开始 👇",
+    "ur": "شروع کرنے کے لیے اپنی پہلی {unit} درج کریں 👇"
+  }
+};
   var KH_UNITS = {
-    juz:   { total: 30,  ar: 'جزء',  arThe: 'الجزء',  arPl: 'أجزاء', en: 'Juz',   enThe: 'Juz' },
-    page:  { total: 604, ar: 'صفحة', arThe: 'الصفحة', arPl: 'صفحات', en: 'Page',  enThe: 'Page' },
-    surah: { total: 114, ar: 'سورة', arThe: 'السورة', arPl: 'سور',  en: 'Surah', enThe: 'Surah' }
-  };
+  "juz": {
+    "total": 30,
+    "ar": "جزء",
+    "arThe": "الجزء",
+    "arPl": "أجزاء",
+    "en": "Juz",
+    "enPl": "Juz",
+    "fr": "Juz'",
+    "frPl": "Ajza'",
+    "es": "Yuz",
+    "esPl": "Ayzas",
+    "sv": "Juz",
+    "svPl": "Juz",
+    "nl": "Djoez",
+    "nlPl": "Adjza",
+    "ga": "Juz",
+    "gaPl": "Juz",
+    "de": "Dschuz",
+    "dePl": "Adschza",
+    "ru": "Джуз",
+    "ruPl": "Джузов",
+    "tr": "Cüz",
+    "trPl": "Cüz",
+    "pt": "Juz",
+    "ptPl": "Ajza",
+    "zh": "卷",
+    "zhPl": "卷",
+    "ur": "پارہ",
+    "urPl": "پارے"
+  },
+  "page": {
+    "total": 604,
+    "ar": "صفحة",
+    "arThe": "الصفحة",
+    "arPl": "صفحات",
+    "en": "Page",
+    "enPl": "Pages",
+    "fr": "Page",
+    "frPl": "Pages",
+    "es": "Página",
+    "esPl": "Páginas",
+    "sv": "Sida",
+    "svPl": "Sidor",
+    "nl": "Pagina",
+    "nlPl": "Pagina's",
+    "ga": "Leathanach",
+    "gaPl": "Leathanaigh",
+    "de": "Seite",
+    "dePl": "Seiten",
+    "ru": "Страница",
+    "ruPl": "Страниц",
+    "tr": "Sayfa",
+    "trPl": "Sayfa",
+    "pt": "Página",
+    "ptPl": "Páginas",
+    "zh": "页",
+    "zhPl": "页",
+    "ur": "صفحہ",
+    "urPl": "صفحات"
+  },
+  "surah": {
+    "total": 114,
+    "ar": "سورة",
+    "arThe": "السورة",
+    "arPl": "سور",
+    "en": "Surah",
+    "enPl": "Surahs",
+    "fr": "Sourate",
+    "frPl": "Sourates",
+    "es": "Sura",
+    "esPl": "Suras",
+    "sv": "Sura",
+    "svPl": "Suror",
+    "nl": "Soera",
+    "nlPl": "Soera's",
+    "ga": "Sura",
+    "gaPl": "Surái",
+    "de": "Sure",
+    "dePl": "Suren",
+    "ru": "Сура",
+    "ruPl": "Сур",
+    "tr": "Sûre",
+    "trPl": "Sûre",
+    "pt": "Surata",
+    "ptPl": "Suratas",
+    "zh": "章",
+    "zhPl": "章",
+    "ur": "سورت",
+    "urPl": "سورتیں"
+  }
+};
+
+  function khLang() {
+    if (typeof welcomeDisplayLang !== 'undefined' && KH_LANGS.indexOf(welcomeDisplayLang) !== -1) return welcomeDisplayLang;
+    return (typeof isArabic !== 'undefined' && isArabic) ? 'ar' : 'en';
+  }
+  // يُبقى للتوافق مع أجزاء العرض (الاتجاه RTL وخط Cairo) فقط
+  function khIsAr() { return khLang() === 'ar'; }
+
+  function kt(key, vars) {
+    var lang = khLang();
+    var entry = KH_T[key];
+    var str = (entry && (entry[lang] || entry.en || entry.ar)) || '';
+    if (vars) {
+      str = str.replace(/\{(\w+)\}/g, function(_, k) {
+        return (vars[k] !== undefined && vars[k] !== null) ? vars[k] : '';
+      });
+    }
+    return str;
+  }
+
+  // form: 'singular' | 'plural' | 'the'
+  function khUnitLabel(unit, form) {
+    var lang = khLang();
+    var u = KH_UNITS[unit];
+    if (!u) return '';
+    if (lang === 'ar') {
+      if (form === 'the') return u.arThe;
+      if (form === 'plural') return u.arPl;
+      return u.ar;
+    }
+    if (form === 'plural') return u[lang + 'Pl'] || u.enPl || u.en;
+    return u[lang] || u.en;
+  }
+
   var KH_SURAHS = [
-    "الفاتحة",
-    "البقرة",
-    "آل عمران",
-    "النساء",
-    "المائدة",
-    "الأنعام",
-    "الأعراف",
-    "الأنفال",
-    "التوبة",
-    "يونس",
-    "هود",
-    "يوسف",
-    "الرعد",
-    "إبراهيم",
-    "الحجر",
-    "النحل",
-    "الإسراء",
-    "الكهف",
-    "مريم",
-    "طه",
-    "الأنبياء",
-    "الحج",
-    "المؤمنون",
-    "النور",
-    "الفرقان",
-    "الشعراء",
-    "النمل",
-    "القصص",
-    "العنكبوت",
-    "الروم",
-    "لقمان",
-    "السجدة",
-    "الأحزاب",
-    "سبأ",
-    "فاطر",
-    "يس",
-    "الصافات",
-    "ص",
-    "الزمر",
-    "غافر",
-    "فصلت",
-    "الشورى",
-    "الزخرف",
-    "الدخان",
-    "الجاثية",
-    "الأحقاف",
-    "محمد",
-    "الفتح",
-    "الحجرات",
-    "ق",
-    "الذاريات",
-    "الطور",
-    "النجم",
-    "القمر",
-    "الرحمن",
-    "الواقعة",
-    "الحديد",
-    "المجادلة",
-    "الحشر",
-    "الممتحنة",
-    "الصف",
-    "الجمعة",
-    "المنافقون",
-    "التغابن",
-    "الطلاق",
-    "التحريم",
-    "الملك",
-    "القلم",
-    "الحاقة",
-    "المعارج",
-    "نوح",
-    "الجن",
-    "المزمل",
-    "المدثر",
-    "القيامة",
-    "الإنسان",
-    "المرسلات",
-    "النبأ",
-    "النازعات",
-    "عبس",
-    "التكوير",
-    "الانفطار",
-    "المطففين",
-    "الانشقاق",
-    "البروج",
-    "الطارق",
-    "الأعلى",
-    "الغاشية",
-    "الفجر",
-    "البلد",
-    "الشمس",
-    "الليل",
-    "الضحى",
-    "الشرح",
-    "التين",
-    "العلق",
-    "القدر",
-    "البينة",
-    "الزلزلة",
-    "العاديات",
-    "القارعة",
-    "التكاثر",
-    "العصر",
-    "الهمزة",
-    "الفيل",
-    "قريش",
-    "الماعون",
-    "الكوثر",
-    "الكافرون",
-    "النصر",
-    "المسد",
-    "الإخلاص",
-    "الفلق",
-    "الناس"
+    "الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس",
+    "هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه",
+    "الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم",
+    "لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر",
+    "فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق",
+    "الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة",
+    "الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج",
+    "نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس",
+    "التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد",
+    "الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات",
+    "القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر",
+    "المسد","الإخلاص","الفلق","الناس"
   ];
 
   function khToday() {
@@ -29092,8 +30286,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   function khDefaultState() {
     return { unit: 'juz', current: 0, startDate: khToday(), targetDate: null, lastReadDate: null, streak: 0, bestStreak: 0, completedCount: 0, log: {}, badges: [], dailyGoal: null, goalStartDate: null };
   }
-  function khIsAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
-  function khDefaultName() { return khIsAr() ? 'ختمتي' : 'My Khatma'; }
+  function khDefaultName() { return kt('defaultKhatmaName'); }
   function khUuid() { return 'kh_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
   function khEscape(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
@@ -29193,8 +30386,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
   // ===== إدارة الختمات المتعددة =====
   window._khNewKhatma = function() {
-    var isAr = khIsAr();
-    var name = prompt(isAr ? 'اسم الختمة الجديدة (مثلاً: ختمة التدبر):' : 'New khatma name:', '');
+    var name = prompt(kt('promptNewKhatma'), '');
     if (name === null) return;
     name = name.trim();
     if (!name) name = khDefaultName();
@@ -29220,8 +30412,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   window._khRenameKhatma = function() {
     var root = khLoadRoot();
     var k = khActive(root);
-    var isAr = khIsAr();
-    var name = prompt(isAr ? 'اسم الختمة:' : 'Khatma name:', k.name);
+    var name = prompt(kt('promptRename'), k.name);
     if (name === null) return;
     name = name.trim();
     if (!name) return;
@@ -29233,12 +30424,11 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   window._khDeleteKhatma = function() {
     var root = khLoadRoot();
     if (root.khatmas.length <= 1) {
-      if (typeof showToast === 'function') showToast(khIsAr() ? 'لازم تفضل ختمة واحدة على الأقل' : 'You need at least one khatma');
+      if (typeof showToast === 'function') showToast(kt('needAtLeastOne'));
       return;
     }
-    var isAr = khIsAr();
     var k = khActive(root);
-    var msg = isAr ? 'هيتم حذف "' + k.name + '" نهائيًا بكل تقدمها، متأكد؟' : 'This will permanently delete "' + k.name + '" and all its progress. Continue?';
+    var msg = kt('confirmDelete', { name: k.name });
     if (!confirm(msg)) return;
     root.khatmas = root.khatmas.filter(function(x) { return x.id !== k.id; });
     root.activeId = root.khatmas[0].id;
@@ -29247,7 +30437,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     khUpdateBadge();
   };
 
-  function khKhatmaSelector(root, isAr) {
+  function khKhatmaSelector(root) {
     var html = '<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px;">';
     root.khatmas.forEach(function(k) {
       var active = (k.id === root.activeId);
@@ -29258,23 +30448,23 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         khEscape(k.name) + ' · ' + pct + '%</button>';
     });
     html += '<button onclick="window._khNewKhatma()" style="white-space:nowrap;flex-shrink:0;padding:7px 12px;border-radius:20px;border:1.5px dashed rgba(29,158,117,0.45);background:transparent;color:#1D9E75;font-size:13px;font-weight:800;cursor:pointer;">+ ' +
-      (isAr ? 'ختمة جديدة' : 'New') + '</button>';
+      kt('btnNewKhatma') + '</button>';
     html += '</div>';
     html += '<div style="display:flex;justify-content:flex-end;gap:14px;margin:-2px 0 10px;">' +
-      '<button onclick="window._khRenameKhatma()" style="background:none;border:none;color:inherit;opacity:0.55;font-size:11.5px;cursor:pointer;">✏️ ' + (isAr ? 'إعادة تسمية' : 'Rename') + '</button>' +
-      (root.khatmas.length > 1 ? '<button onclick="window._khDeleteKhatma()" style="background:none;border:none;color:#e85d2f;opacity:0.7;font-size:11.5px;cursor:pointer;">🗑️ ' + (isAr ? 'حذف' : 'Delete') + '</button>' : '') +
+      '<button onclick="window._khRenameKhatma()" style="background:none;border:none;color:inherit;opacity:0.55;font-size:11.5px;cursor:pointer;">\u270f\ufe0f ' + kt('btnRename') + '</button>' +
+      (root.khatmas.length > 1 ? '<button onclick="window._khDeleteKhatma()" style="background:none;border:none;color:#e85d2f;opacity:0.7;font-size:11.5px;cursor:pointer;">\ud83d\uddd1\ufe0f ' + kt('btnDelete') + '</button>' : '') +
       '</div>';
     return html;
   }
 
   // ===== نظام الإنجازات =====
   var KH_BADGE_DEFS = [
-    { id: 'streak3',  icon: '🔥', ar: 'متتالية 3 أيام',   en: '3-Day Streak',   test: function(st) { return (st.streak || 0) >= 3 || (st.bestStreak || 0) >= 3; } },
-    { id: 'streak7',  icon: '🌟', ar: 'أسبوع كامل',        en: 'Full Week Streak', test: function(st) { return (st.streak || 0) >= 7 || (st.bestStreak || 0) >= 7; } },
-    { id: 'streak30', icon: '🏅', ar: '30 يوم متواصل',     en: '30-Day Streak',  test: function(st) { return (st.bestStreak || 0) >= 30; } },
-    { id: 'half',     icon: '🌗', ar: 'نص الختمة',         en: 'Halfway There',  test: function(st) { return st.current >= (khTotal(st) / 2); } },
-    { id: 'first',    icon: '📗', ar: 'أول ختمة كاملة',    en: 'First Khatma',   test: function(st) { return (st.completedCount || 0) >= 1; } },
-    { id: 'three',    icon: '🏆', ar: '3 ختمات مكتملة',    en: '3 Khatmas Done', test: function(st) { return (st.completedCount || 0) >= 3; } }
+    { id: 'streak3',  icon: '🔥', key: 'badge_streak3',  test: function(st) { return (st.streak || 0) >= 3 || (st.bestStreak || 0) >= 3; } },
+    { id: 'streak7',  icon: '🌟', key: 'badge_streak7',  test: function(st) { return (st.streak || 0) >= 7 || (st.bestStreak || 0) >= 7; } },
+    { id: 'streak30', icon: '🏅', key: 'badge_streak30', test: function(st) { return (st.bestStreak || 0) >= 30; } },
+    { id: 'half',     icon: '🌗', key: 'badge_half',     test: function(st) { return st.current >= (khTotal(st) / 2); } },
+    { id: 'first',    icon: '📗', key: 'badge_first',    test: function(st) { return (st.completedCount || 0) >= 1; } },
+    { id: 'three',    icon: '🏆', key: 'badge_three',    test: function(st) { return (st.completedCount || 0) >= 3; } }
   ];
 
   function khCheckBadges(st) {
@@ -29288,20 +30478,19 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     if (newlyEarned.length) {
       khSave(st);
       if (typeof showToast === 'function') {
-        var isAr = khIsAr();
         newlyEarned.forEach(function(b) {
-          showToast(b.icon + ' ' + (isAr ? 'إنجاز جديد: ' + b.ar : 'New Achievement: ' + b.en));
+          showToast(b.icon + ' ' + kt('newAchievementPrefix') + kt(b.key));
         });
       }
     }
     return newlyEarned;
   }
 
-  function khBadgesStrip(st, isAr) {
+  function khBadgesStrip(st) {
     var html = '<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:4px 0 12px;">';
     KH_BADGE_DEFS.forEach(function(b) {
       var earned = st.badges.indexOf(b.id) !== -1;
-      html += '<div title="' + (isAr ? b.ar : b.en) + '" style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;' +
+      html += '<div title="' + kt(b.key) + '" style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;' +
         'background:' + (earned ? 'rgba(29,158,117,0.14)' : 'rgba(120,120,120,0.08)') + ';' +
         'border:1.5px solid ' + (earned ? '#1D9E75' : 'rgba(120,120,120,0.15)') + ';' +
         'filter:' + (earned ? 'none' : 'grayscale(1) opacity(0.35)') + ';">' + b.icon + '</div>';
@@ -29324,7 +30513,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     return days;
   }
 
-  function khHeatmap(st, isAr) {
+  function khHeatmap(st) {
     var days = khHeatmapDays(st, 70);
     var padded = [];
     for (var p = 0; p < days[0].weekday; p++) padded.push(null);
@@ -29334,8 +30523,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var activeDays = Object.keys(st.log || {}).length;
     var html = '<div style="margin:6px 0 14px;">' +
       '<div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;opacity:0.65;margin-bottom:6px;">' +
-      '<span>' + (isAr ? '📅 نشاطك في آخر 10 أسابيع' : '📅 Last 10 weeks of activity') + '</span>' +
-      '<span>' + (isAr ? activeDays + ' يوم نشط' : activeDays + ' active days') + '</span>' +
+      '<span>' + kt('heatmapTitle') + '</span>' +
+      '<span>' + kt('heatmapActiveDays', { n: activeDays }) + '</span>' +
       '</div>' +
       '<div style="display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px;overflow-x:auto;padding-bottom:4px;direction:ltr;">';
     padded.forEach(function(day) {
@@ -29387,66 +30576,62 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     khRenderPopup();
   };
 
-  function khDailyGoalCard(st, isAr) {
+  function khDailyGoalCard(st) {
     var meta = khMeta(st);
+    var unitPl = khUnitLabel(st.unit, 'plural');
+    var unitSg = khUnitLabel(st.unit, 'singular');
     if (!st.dailyGoal) {
       return '<div style="background:rgba(29,158,117,0.06);border-radius:12px;padding:10px 12px;margin-bottom:12px;">' +
-        '<label style="font-size:12px;opacity:0.75;display:block;margin-bottom:6px;">' + (isAr ? '📌 حدد وردك اليومي (' + meta.arPl + ')' : '📌 Set your daily wird (' + meta.en.toLowerCase() + 's)') + '</label>' +
+        '<label style="font-size:12px;opacity:0.75;display:block;margin-bottom:6px;">' + kt('setDailyGoalLabel', { unitPl: unitPl }) + '</label>' +
         '<div style="display:flex;gap:6px;">' +
-        '<input type="number" id="khGoalInput" min="1" max="' + khTotal(st) + '" placeholder="' + (isAr ? 'مثلاً: 1' : 'e.g. 1') + '" style="flex:1;padding:7px 8px;border-radius:8px;border:1px solid rgba(29,158,117,0.3);background:transparent;color:inherit;font-family:Cairo,sans-serif;font-size:13px;">' +
-        '<button onclick="window._khSetDailyGoal(document.getElementById(\'khGoalInput\').value)" style="background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:0 14px;font-size:12.5px;font-weight:700;cursor:pointer;">' + (isAr ? 'تحديد' : 'Set') + '</button>' +
+        '<input type="number" id="khGoalInput" min="1" max="' + khTotal(st) + '" placeholder="' + kt('placeholderEg1') + '" style="flex:1;padding:7px 8px;border-radius:8px;border:1px solid rgba(29,158,117,0.3);background:transparent;color:inherit;font-family:Cairo,sans-serif;font-size:13px;">' +
+        '<button onclick="window._khSetDailyGoal(document.getElementById(\'khGoalInput\').value)" style="background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:0 14px;font-size:12.5px;font-weight:700;cursor:pointer;">' + kt('btnSet') + '</button>' +
         '</div></div>';
     }
     var gs = khGoalStats(st);
     var color = gs.doneToday ? '#0F6E56' : '#e85d2f';
     var html = '<div style="background:rgba(29,158,117,0.06);border-radius:12px;padding:10px 12px;margin-bottom:12px;">' +
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
-      '<span style="font-size:12px;opacity:0.75;">' + (isAr ? '📌 وردك اليومي: ' + st.dailyGoal + ' ' + meta.arPl : '📌 Daily wird: ' + st.dailyGoal + ' ' + meta.en.toLowerCase() + 's') + '</span>' +
-      '<button onclick="window._khSetDailyGoal(0)" title="' + (isAr ? 'إلغاء' : 'Remove') + '" style="background:none;border:none;opacity:0.5;cursor:pointer;font-size:12px;">✕</button>' +
+      '<span style="font-size:12px;opacity:0.75;">' + kt('dailyGoalLabel', { n: st.dailyGoal, unitPl: unitPl }) + '</span>' +
+      '<button onclick="window._khSetDailyGoal(0)" title="' + kt('btnRemove') + '" style="background:none;border:none;opacity:0.5;cursor:pointer;font-size:12px;">✕</button>' +
       '</div>';
     if (gs.doneToday) {
-      html += '<div style="color:#0F6E56;font-size:12.5px;font-weight:700;">✅ ' + (isAr ? 'خلصت ورد النهاردة' : "Today's wird is done") + '</div>';
+      html += '<div style="color:#0F6E56;font-size:12.5px;font-weight:700;">✅ ' + kt('goalDoneToday') + '</div>';
     } else {
       html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">' +
-        '<span style="font-size:12.5px;color:' + color + ';font-weight:700;">' + (isAr ? 'باقي عليك النهاردة: ' + gs.remainingToday + ' ' + meta.ar : gs.remainingToday + ' ' + meta.en.toLowerCase() + ' left today') + '</span>' +
-        '<button onclick="window._khQuickAdd(' + gs.remainingToday + ')" style="background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">' + (isAr ? '✅ سجّله' : '✅ Log it') + '</button>' +
+        '<span style="font-size:12.5px;color:' + color + ';font-weight:700;">' + kt('goalRemainingToday', { n: gs.remainingToday, unit: unitSg }) + '</span>' +
+        '<button onclick="window._khQuickAdd(' + gs.remainingToday + ')" style="background:#1D9E75;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">' + kt('btnLogIt') + '</button>' +
         '</div>';
     }
     if (gs.missedDays > 0) {
       html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(29,158,117,0.12);font-size:12px;color:#e85d2f;">' +
-        (isAr ? '⚠️ عندك ' + gs.missedDays + ' يوم متأخر (ناقصك ' + gs.deficit + ' ' + meta.arPl + ' علشان تلحق)' : '⚠️ ' + gs.missedDays + ' day(s) behind (need ' + gs.deficit + ' more ' + meta.en.toLowerCase() + 's to catch up)') +
+        kt('goalMissedDays', { n: gs.missedDays, n2: gs.deficit, unitPl: unitPl }) +
         '</div>';
     }
     html += '<div style="margin-top:6px;font-size:11.5px;opacity:0.6;">' +
-      (isAr ? 'بمعدل الورد ده هتخلص الختمة خلال ~' + gs.daysAtGoalPace + ' يوم' : 'At this pace, ~' + gs.daysAtGoalPace + ' days to finish') +
+      kt('goalPace', { n: gs.daysAtGoalPace }) +
       '</div></div>';
     return html;
   }
   window._khShare = function() {
     var st = khLoad();
-    var meta = khMeta(st);
     var total = khTotal(st);
-    var isAr = khIsAr();
     var pct = Math.round((st.current / total) * 100);
-    var text = isAr ?
-      ('📗 تقدمي في ختم القرآن الكريم: ' + st.current + '/' + total + ' ' + meta.arPl + ' (' + pct + '%)' +
-        (st.streak > 1 ? '\n🔥 متتالية ' + st.streak + ' يوم' : '') +
-        '\n📻 إذاعة القرآن الكريم') :
-      ('📗 My Quran Khatma progress: ' + st.current + '/' + total + ' ' + meta.en.toLowerCase() + 's (' + pct + '%)' +
-        (st.streak > 1 ? '\n🔥 ' + st.streak + '-day streak' : '') +
-        '\n📻 Quran Radio');
+    var unitPl = khUnitLabel(st.unit, 'plural');
+    var text = kt('shareTextMain', { current: st.current, total: total, unitPl: unitPl, pct: pct }) +
+      (st.streak > 1 ? '\n' + kt('shareStreak', { n: st.streak }) : '') +
+      '\n' + kt('shareFooter');
     if (navigator.share) {
       navigator.share({ text: text }).catch(function() {});
     } else if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(function() {
-        if (typeof showToast === 'function') showToast(isAr ? '📋 اتنسخ للحافظة' : '📋 Copied to clipboard');
+        if (typeof showToast === 'function') showToast(kt('copiedClipboard'));
       }).catch(function() {});
     }
   };
 
   // ===== نسخ احتياطي / استيراد =====
   window._khExportData = function() {
-    var isAr = khIsAr();
     try {
       var root = khLoadRoot();
       var dataStr = JSON.stringify(root, null, 2);
@@ -29458,9 +30643,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       document.body.appendChild(a);
       a.click();
       setTimeout(function() { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
-      if (typeof showToast === 'function') showToast(isAr ? '📦 اتحمّل ملف النسخة الاحتياطية' : '📦 Backup file downloaded');
+      if (typeof showToast === 'function') showToast(kt('backupDownloaded'));
     } catch (e) {
-      if (typeof showToast === 'function') showToast(isAr ? '⚠️ حصل خطأ أثناء التصدير' : '⚠️ Export failed');
+      if (typeof showToast === 'function') showToast(kt('exportFailed'));
     }
   };
 
@@ -29470,7 +30655,6 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   };
 
   window._khImportFile = function(input) {
-    var isAr = khIsAr();
     var file = input.files && input.files[0];
     if (!file) return;
     var reader = new FileReader();
@@ -29478,7 +30662,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       try {
         var parsed = JSON.parse(e.target.result);
         if (!parsed || !Array.isArray(parsed.khatmas) || !parsed.khatmas.length) throw new Error('invalid');
-        var msg = isAr ? 'هيتم استبدال كل الختمات الحالية بالبيانات المستوردة، متأكد؟' : 'This will replace all current khatmas with the imported data. Continue?';
+        var msg = kt('confirmImport');
         if (!confirm(msg)) { input.value = ''; return; }
         parsed.khatmas = parsed.khatmas.map(khMigrateSingle);
         if (!parsed.activeId || !parsed.khatmas.some(function(k) { return k.id === parsed.activeId; })) {
@@ -29488,21 +30672,21 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         khViewMode = 'main';
         khRenderPopup();
         khUpdateBadge();
-        if (typeof showToast === 'function') showToast(isAr ? '✅ اترجعت البيانات بنجاح' : '✅ Data restored successfully');
+        if (typeof showToast === 'function') showToast(kt('dataRestored'));
       } catch (err) {
-        if (typeof showToast === 'function') showToast(isAr ? '⚠️ الملف غير صالح' : '⚠️ Invalid file');
+        if (typeof showToast === 'function') showToast(kt('invalidFile'));
       }
       input.value = '';
     };
     reader.readAsText(file);
   };
 
-  function khBackupControls(isAr) {
+  function khBackupControls() {
     return '<div style="display:flex;gap:8px;margin-top:8px;">' +
       '<button onclick="window._khExportData()" style="flex:1;background:rgba(29,158,117,0.1);color:#0F6E56;border:1.5px solid rgba(29,158,117,0.3);border-radius:10px;padding:9px 6px;font-size:12px;font-weight:700;cursor:pointer;">' +
-      (isAr ? '📦 نسخة احتياطية' : '📦 Backup') + '</button>' +
+      kt('btnBackup') + '</button>' +
       '<button onclick="window._khImportTrigger()" style="flex:1;background:rgba(29,158,117,0.1);color:#0F6E56;border:1.5px solid rgba(29,158,117,0.3);border-radius:10px;padding:9px 6px;font-size:12px;font-weight:700;cursor:pointer;">' +
-      (isAr ? '📥 استيراد' : '📥 Import') + '</button>' +
+      kt('btnImport') + '</button>' +
       '<input type="file" id="khImportInput" accept="application/json,.json" style="display:none;" onchange="window._khImportFile(this)">' +
       '</div>';
   }
@@ -29514,7 +30698,6 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       if (localStorage.getItem('khReminderLastCheck') === today) return;
       localStorage.setItem('khReminderLastCheck', today);
       var root = khLoadRoot();
-      var isAr = khIsAr();
       var y = new Date(); y.setDate(y.getDate() - 1);
       var yKey = y.getFullYear() + '-' + String(y.getMonth() + 1).padStart(2, '0') + '-' + String(y.getDate()).padStart(2, '0');
       var missed = [];
@@ -29526,9 +30709,9 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       });
       if (missed.length && typeof showToast === 'function') {
         if (missed.length === 1) {
-          showToast(isAr ? '⏰ متنساش ورد "' + missed[0].name + '" النهاردة' : '⏰ Don\'t forget your "' + missed[0].name + '" reading today');
+          showToast(kt('reminderSingle', { name: missed[0].name }));
         } else {
-          showToast(isAr ? '⏰ عندك ' + missed.length + ' ختمات مستنياك النهاردة' : '⏰ ' + missed.length + ' khatmas waiting for you today');
+          showToast(kt('reminderMulti', { n: missed.length }));
         }
       }
     } catch (e) {}
@@ -29547,19 +30730,14 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   }
 
   // ===== أزرار اختيار وحدة القياس =====
-  function khUnitTabs(st, isAr) {
+  function khUnitTabs(st) {
     var order = ['juz', 'page', 'surah'];
-    var labels = {
-      juz:   isAr ? 'أجزاء' : 'Juz',
-      page:  isAr ? 'صفحات' : 'Pages',
-      surah: isAr ? 'سور'   : 'Surah'
-    };
     var html = '<div style="display:flex;gap:6px;margin-bottom:12px;">';
     order.forEach(function(u) {
       var active = (st.unit === u);
       html += '<button onclick="window._khSwitchUnit(\'' + u + '\')" style="flex:1;padding:7px 4px;border-radius:9px;border:1.5px solid ' +
         (active ? '#1D9E75' : 'rgba(29,158,117,0.3)') + ';background:' + (active ? '#1D9E75' : 'transparent') +
-        ';color:' + (active ? '#fff' : 'inherit') + ';font-size:12.5px;font-weight:700;cursor:pointer;">' + labels[u] + '</button>';
+        ';color:' + (active ? '#fff' : 'inherit') + ';font-size:12.5px;font-weight:700;cursor:pointer;">' + khUnitLabel(u, 'plural') + '</button>';
     });
     html += '</div>';
     return html;
@@ -29601,18 +30779,19 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     return html;
   }
 
-  function khStatus(st, isAr) {
+  function khStatus(st) {
     var meta = khMeta(st);
     var total = khTotal(st);
     var remaining = total - st.current;
     var today = khToday();
     if (remaining <= 0) return '';
-    var unitLabelAr = meta.arPl, unitLabelEn = meta.en.toLowerCase() + 's';
+    var unitPl = khUnitLabel(st.unit, 'plural');
+    var unitSg = khUnitLabel(st.unit, 'singular');
     if (st.targetDate) {
       var daysLeft = khDaysBetween(today, st.targetDate);
       if (daysLeft <= 0) {
         return '<div style="background:rgba(255,112,67,0.12);color:#e85d2f;border-radius:10px;padding:8px 10px;font-size:12.5px;text-align:center;">' +
-          (isAr ? '⏰ انتهى الموعد المحدد وباقي ' + remaining + ' ' + unitLabelAr : '⏰ Target date passed, ' + remaining + ' ' + unitLabelEn + ' left') + '</div>';
+          kt('targetPassed', { n: remaining, unitPl: unitPl }) + '</div>';
       }
       var pace = remaining / daysLeft;
       var totalDays = khDaysBetween(st.startDate, st.targetDate) || 1;
@@ -29621,8 +30800,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       var onTrack = st.current >= idealVal;
       var paceLabel = pace <= 1 ? (Math.ceil(pace * 10) / 10) : Math.ceil(pace);
       return '<div style="background:' + (onTrack ? 'rgba(29,158,117,0.1)' : 'rgba(255,112,67,0.12)') + ';color:' + (onTrack ? '#0F6E56' : '#e85d2f') + ';border-radius:10px;padding:8px 10px;font-size:12.5px;text-align:center;line-height:1.7;">' +
-        (isAr ? '📆 باقي ' + daysLeft + ' يوم • المطلوب تقريبًا ' + paceLabel + ' ' + meta.ar + '/يوم' : '📆 ' + daysLeft + ' days left • need ~' + paceLabel + ' ' + meta.en.toLowerCase() + '/day') +
-        '<br>' + (onTrack ? (isAr ? '✅ أنت في الموعد، استمر!' : '✅ On track, keep going!') : (isAr ? '⚠️ متأخر شوية، حاول تعوّض' : '⚠️ A bit behind, try to catch up')) +
+        kt('paceLine', { n: daysLeft, pace: paceLabel, unit: unitSg }) +
+        '<br>' + (onTrack ? kt('onTrack') : kt('behindTrack')) +
         '</div>';
     } else {
       var elapsed2 = khDaysBetween(st.startDate, today);
@@ -29630,18 +30809,18 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         var avg = st.current / elapsed2;
         var daysToFinish = Math.ceil(remaining / avg);
         return '<div style="background:rgba(29,158,117,0.1);color:#0F6E56;border-radius:10px;padding:8px 10px;font-size:12.5px;text-align:center;">' +
-          (isAr ? '📊 بمعدلك الحالي هتخلص الختمة خلال ~' + daysToFinish + ' يوم' : '📊 At your current pace, ~' + daysToFinish + ' days left') + '</div>';
+          kt('currentPace', { n: daysToFinish }) + '</div>';
       }
-      return '<div style="opacity:0.65;font-size:12px;text-align:center;">' + (isAr ? 'سجّل أول ' + meta.ar + ' تقرأه للبدء 👇' : 'Log your first ' + meta.en.toLowerCase() + ' to start 👇') + '</div>';
+      return '<div style="opacity:0.65;font-size:12px;text-align:center;">' + kt('logFirstUnit', { unit: unitSg }) + '</div>';
     }
   }
 
-  function khCurrentSurahLine(st, isAr) {
+  function khCurrentSurahLine(st) {
     if (st.unit !== 'surah' || st.current >= khTotal(st)) return '';
     var nextName = KH_SURAHS[st.current];
     if (!nextName) return '';
     return '<div style="text-align:center;font-size:12.5px;opacity:0.75;margin-bottom:8px;">' +
-      (isAr ? '📍 التالية: سورة ' + nextName : '📍 Next: Surah ' + nextName) + '</div>';
+      kt('nextSurah', { name: nextName }) + '</div>';
   }
 
   var khViewMode = 'main';
@@ -29650,43 +30829,43 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     khRenderPopup();
   };
 
-  function khTopTabs(isAr) {
+  function khTopTabs() {
     var tabs = [
-      { id: 'main', ar: '📈 التقدم', en: '📈 Progress' },
-      { id: 'stats', ar: '📊 الإحصائيات', en: '📊 Stats' }
+      { id: 'main', key: 'tabProgress' },
+      { id: 'stats', key: 'tabStats' }
     ];
     var html = '<div style="display:flex;border-bottom:1.5px solid rgba(29,158,117,0.15);margin-bottom:14px;">';
     tabs.forEach(function(t) {
       var active = (khViewMode === t.id);
       html += '<button onclick="window._khToggleView(\'' + t.id + '\')" style="flex:1;padding:8px 4px;border:none;background:none;cursor:pointer;font-size:13px;font-family:Cairo,sans-serif;' +
         'font-weight:' + (active ? '800' : '600') + ';color:' + (active ? '#1D9E75' : 'inherit') + ';opacity:' + (active ? '1' : '0.55') + ';' +
-        'border-bottom:2.5px solid ' + (active ? '#1D9E75' : 'transparent') + ';margin-bottom:-1.5px;">' + (isAr ? t.ar : t.en) + '</button>';
+        'border-bottom:2.5px solid ' + (active ? '#1D9E75' : 'transparent') + ';margin-bottom:-1.5px;">' + kt(t.key) + '</button>';
     });
     html += '</div>';
     return html;
   }
 
-  function khBuildBody(isAr) {
+  function khBuildBody() {
     var root = khLoadRoot();
-    var selector = khKhatmaSelector(root, isAr);
-    if (khViewMode === 'stats') return selector + khTopTabs(isAr) + khBuildStatsBody(isAr);
-    return selector + khTopTabs(isAr) + khBuildMainBody(isAr);
+    var selector = khKhatmaSelector(root);
+    if (khViewMode === 'stats') return selector + khTopTabs() + khBuildStatsBody();
+    return selector + khTopTabs() + khBuildMainBody();
   }
 
-  function khBuildStatsBody(isAr) {
+  function khBuildStatsBody() {
     var st = khLoad();
-    var total = khTotal(st);
     var meta = khMeta(st);
     var activeDays = Object.keys(st.log || {}).length;
     var totalLogged = 0;
     Object.keys(st.log || {}).forEach(function(k) { totalLogged += st.log[k]; });
     var avg = activeDays > 0 ? (totalLogged / activeDays) : 0;
+    var unitSg = khUnitLabel(st.unit, 'singular');
 
     var cards = [
-      { label: isAr ? 'ختمات مكتملة' : 'Khatmas Completed', value: st.completedCount || 0, icon: '📗' },
-      { label: isAr ? 'أفضل متتالية' : 'Best Streak', value: (st.bestStreak || 0) + (isAr ? ' يوم' : 'd'), icon: '🔥' },
-      { label: isAr ? 'أيام نشطة (الختمة الحالية)' : 'Active Days (Current)', value: activeDays, icon: '📅' },
-      { label: isAr ? 'متوسط ' + meta.ar + '/يوم' : 'Avg ' + meta.en + '/day', value: avg > 0 ? avg.toFixed(1) : '—', icon: '📊' }
+      { label: kt('statKhatmasCompleted'), value: st.completedCount || 0, icon: '📗' },
+      { label: kt('statBestStreak'), value: (st.bestStreak || 0) + kt('dayShortSuffix'), icon: '🔥' },
+      { label: kt('statActiveDays'), value: activeDays, icon: '📅' },
+      { label: kt('statAvgPerDay', { unit: unitSg }), value: avg > 0 ? avg.toFixed(1) : '—', icon: '📊' }
     ];
 
     var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;">';
@@ -29699,82 +30878,84 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     });
     html += '</div>';
 
-    html += khHeatmap(st, isAr);
+    html += khHeatmap(st);
 
-    html += '<div style="font-size:12px;opacity:0.7;margin:4px 0 6px;">' + (isAr ? '🏅 إنجازاتك' : '🏅 Your Achievements') + '</div>';
-    html += khBadgesStrip(st, isAr);
+    html += '<div style="font-size:12px;opacity:0.7;margin:4px 0 6px;">' + kt('achievementsTitle') + '</div>';
+    html += khBadgesStrip(st);
 
     html += '<button onclick="window._khShare()" style="width:100%;background:rgba(29,158,117,0.1);color:#0F6E56;border:1.5px solid rgba(29,158,117,0.3);border-radius:10px;padding:10px 8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:6px;">' +
-      (isAr ? '📤 شارك تقدمك' : '📤 Share Your Progress') + '</button>';
+      kt('btnShareProgress') + '</button>';
 
-    html += khBackupControls(isAr);
+    html += khBackupControls();
 
     return html;
   }
 
-  function khBuildMainBody(isAr) {
+  function khBuildMainBody() {
     var st = khLoad();
     var total = khTotal(st);
     var meta = khMeta(st);
     var pct = Math.round((st.current / total) * 100);
+    var unitSg = khUnitLabel(st.unit, 'singular');
+    var unitThe = khUnitLabel(st.unit, 'the');
 
     var head = '<div style="text-align:center;font-size:14px;font-weight:800;color:#1D9E75;margin-bottom:10px;">📗 ' + khEscape(st.name) + '</div>' +
-      khUnitTabs(st, isAr) +
+      khUnitTabs(st) +
       '<button onclick="window._khOpenMushaf()" style="width:100%;background:linear-gradient(135deg,#1B6CA8,#1565c0);color:#fff;border:none;border-radius:10px;padding:10px 8px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px;">' +
-      (isAr ? '📖 تابع القراءة في المصحف' : '📖 Continue Reading in the Mushaf') + '</button>';
+      kt('btnContinueMushaf') + '</button>';
 
     if (st.current >= total) {
       return head + '<div style="text-align:center;padding:10px 4px;">' +
         '<div style="font-size:40px;margin-bottom:8px;">🎉</div>' +
-        '<div style="font-weight:800;font-size:16px;color:#1D9E75;margin-bottom:6px;">' + (isAr ? 'مبارك ختمتك!' : 'Khatma Complete!') + '</div>' +
-        '<div style="font-size:12.5px;opacity:0.75;margin-bottom:16px;">' + (isAr ? 'عدد الختمات المكتملة: ' + st.completedCount : 'Completed khatmas: ' + st.completedCount) + '</div>' +
-        khBadgesStrip(st, isAr) +
+        '<div style="font-weight:800;font-size:16px;color:#1D9E75;margin-bottom:6px;">' + kt('khatmaCompleteTitle') + '</div>' +
+        '<div style="font-size:12.5px;opacity:0.75;margin-bottom:16px;">' + kt('completedCountLine', { n: st.completedCount }) + '</div>' +
+        khBadgesStrip(st) +
         '<div style="display:flex;gap:8px;">' +
         '<button onclick="window._khStartNew()" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13.5px;font-weight:700;cursor:pointer;">' +
-        (isAr ? '🔄 ابدأ ختمة جديدة' : '🔄 Start New Khatma') + '</button>' +
-        '<button onclick="window._khShare()" title="' + (isAr ? 'شارك' : 'Share') + '" style="background:rgba(29,158,117,0.1);color:#0F6E56;border:1.5px solid rgba(29,158,117,0.3);border-radius:10px;padding:10px 14px;font-size:13.5px;cursor:pointer;">📤</button>' +
+        kt('btnStartNew') + '</button>' +
+        '<button onclick="window._khShare()" title="' + kt('btnShare') + '" style="background:rgba(29,158,117,0.1);color:#0F6E56;border:1.5px solid rgba(29,158,117,0.3);border-radius:10px;padding:10px 14px;font-size:13.5px;cursor:pointer;">📤</button>' +
         '</div></div>';
     }
 
     var html = head;
     html += '<div style="text-align:center;margin-bottom:10px;">' +
       '<div style="font-size:13px;opacity:0.7;margin-bottom:4px;">' +
-      (isAr ? meta.arThe + ' ' + st.current + ' من ' + total : meta.enThe + ' ' + st.current + ' of ' + total) + '</div>' +
+      kt('progressLine', { unitThe: unitThe, current: st.current, total: total }) + '</div>' +
       '<div style="background:rgba(29,158,117,0.15);border-radius:10px;height:10px;overflow:hidden;">' +
       '<div style="background:#1D9E75;height:100%;width:' + pct + '%;transition:width .3s;"></div></div></div>';
 
-    html += khCurrentSurahLine(st, isAr);
+    html += khCurrentSurahLine(st);
 
-    html += khDailyGoalCard(st, isAr);
+    html += khDailyGoalCard(st);
 
     html += (st.unit === 'page') ? khPageStepper(st) : khGrid(st);
 
     if (st.unit !== 'page') {
       html += '<div style="display:flex;gap:8px;margin-bottom:12px;">' +
         '<button onclick="window._khMarkProgress(Math.min(' + total + ',' + st.current + '+1))" style="flex:1;background:#1D9E75;color:#fff;border:none;border-radius:10px;padding:10px 8px;font-size:13px;font-weight:700;cursor:pointer;">' +
-        (isAr ? '✅ قرأت ' + meta.ar + ' اليوم' : '✅ Read a ' + meta.en + ' Today') + '</button>' +
-        '<button onclick="window._khMarkProgress(Math.max(0,' + st.current + '-1))" title="' + (isAr ? 'تراجع' : 'Undo') + '" style="background:rgba(29,158,117,0.1);color:#0F6E56;border:1px solid rgba(29,158,117,0.3);border-radius:10px;padding:10px 12px;font-size:13px;cursor:pointer;">↩️</button>' +
+        kt('btnReadToday', { unit: unitSg }) + '</button>' +
+        '<button onclick="window._khMarkProgress(Math.max(0,' + st.current + '-1))" title="' + kt('btnUndo') + '" style="background:rgba(29,158,117,0.1);color:#0F6E56;border:1px solid rgba(29,158,117,0.3);border-radius:10px;padding:10px 12px;font-size:13px;cursor:pointer;">↩️</button>' +
         '</div>';
     }
 
     if (st.streak > 1 || (st.bestStreak || 0) > 1) {
       html += '<div style="text-align:center;font-size:12.5px;color:#e85d2f;margin-bottom:10px;">';
-      if (st.streak > 1) html += '🔥 ' + (isAr ? 'متتالية ' + st.streak + ' يوم' : st.streak + '-day streak');
-      if ((st.bestStreak || 0) > 1) html += (st.streak > 1 ? '  •  ' : '') + (isAr ? '🏅 أفضل متتالية: ' + st.bestStreak + ' يوم' : '🏅 Best: ' + st.bestStreak + 'd');
+      if (st.streak > 1) html += '🔥 ' + kt('streakLine', { n: st.streak });
+      if ((st.bestStreak || 0) > 1) html += (st.streak > 1 ? '  •  ' : '') + kt('bestStreakLine', { n: st.bestStreak });
       html += '</div>';
     }
 
-    html += khStatus(st, isAr);
+    html += khStatus(st);
 
     html += '<div style="margin-top:14px;border-top:1px solid rgba(29,158,117,0.15);padding-top:12px;">' +
-      '<label style="font-size:12px;opacity:0.75;display:block;margin-bottom:5px;">' + (isAr ? '🎯 حدد موعدًا لإنهاء الختمة (اختياري)' : '🎯 Set a target date (optional)') + '</label>' +
+      '<label style="font-size:12px;opacity:0.75;display:block;margin-bottom:5px;">' + kt('targetDateLabel') + '</label>' +
       '<div style="display:flex;gap:6px;">' +
       '<input type="date" id="khTargetInput" value="' + (st.targetDate || '') + '" onchange="window._khSetTarget(this.value)" style="flex:1;padding:7px 8px;border-radius:8px;border:1px solid rgba(29,158,117,0.3);background:transparent;color:inherit;font-family:Cairo,sans-serif;font-size:12px;">' +
       (st.targetDate ? '<button onclick="window._khSetTarget(\'\')" style="background:none;border:1px solid rgba(29,158,117,0.3);border-radius:8px;padding:0 10px;cursor:pointer;color:inherit;font-size:12px;">✕</button>' : '') +
       '</div></div>';
 
     if (st.completedCount > 0) {
-      html += '<div style="text-align:center;font-size:11.5px;opacity:0.6;margin-top:10px;">' + (isAr ? '📚 ختمات سابقة: ' + st.completedCount : '📚 Past khatmas: ' + st.completedCount) + '</div>';
+      html += '<div style="text-align:center;font-size:11.5px;opacity:0.6;margin-top:10px;">' + kt('pastKhatmasLine', { n: st.completedCount }) + '</div>';
     }
 
     return html;
@@ -29783,7 +30964,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   function khRenderPopup() {
     var body = document.getElementById('khatmaBody');
     if (!body) return;
-    body.innerHTML = khBuildBody(khIsAr());
+    body.innerHTML = khBuildBody();
   }
 
   window._khSwitchUnit = function(unit) {
@@ -29791,10 +30972,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var st = khLoad();
     if (st.unit === unit) return;
     if (st.current > 0) {
-      var isAr = khIsAr();
-      var msg = isAr ?
-        'تغيير طريقة العدّ هيصفّر تقدمك الحالي في هذه الختمة، متأكد؟' :
-        'Switching the tracking unit will reset your current progress. Continue?';
+      var msg = kt('confirmSwitchUnit');
       if (!confirm(msg)) return;
     }
     st.unit = unit;
@@ -29831,7 +31009,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     if (st.current >= total) {
       st.completedCount = (st.completedCount || 0) + 1;
       if (typeof showToast === 'function') {
-        showToast(khIsAr() ? '🎉 مبارك، ختمت القرآن الكريم!' : '🎉 Congratulations, Khatma complete!');
+        showToast(kt('completeToast'));
       }
     }
     khSave(st);
@@ -29882,23 +31060,23 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var old = document.getElementById('khatmaTrackerPopup');
     if (old) { old.remove(); return; }
     khViewMode = 'main';
-    var isAr = khIsAr();
     var isDark = document.body.classList.contains('dark-mode');
     var bg = isDark ? '#1a2820' : '#fff';
     var clr = isDark ? '#e0e0e0' : '#1a1a1a';
     var borderClr = isDark ? '#2a3f32' : '#e8ede9';
+    var dir = khIsAr() ? 'rtl' : 'ltr';
 
     var popup = document.createElement('div');
     popup.id = 'khatmaTrackerPopup';
     popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:khFadeIn .18s ease;';
     popup.innerHTML =
       '<style>@keyframes khFadeIn{from{opacity:0}to{opacity:1}}@keyframes khSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
-      '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:khSlideIn .22s ease;">' +
+      '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:88vh;overflow-y:auto;direction:' + dir + ';font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:khSlideIn .22s ease;">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';position:sticky;top:0;background:' + bg + ';border-radius:18px 18px 0 0;z-index:1;">' +
-          '<div style="font-size:15px;font-weight:700;">📗 ' + (isAr ? 'متابعة الختمة' : 'Khatma Tracker') + '</div>' +
+          '<div style="font-size:15px;font-weight:700;">📗 ' + kt('trackerTitle') + '</div>' +
           '<button onclick="document.getElementById(\'khatmaTrackerPopup\').remove()" aria-label="close" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
         '</div>' +
-        '<div id="khatmaBody" style="padding:14px 16px 18px;">' + khBuildBody(isAr) + '</div>' +
+        '<div id="khatmaBody" style="padding:14px 16px 18px;">' + khBuildBody() + '</div>' +
       '</div>';
     popup.addEventListener('click', function(e) { if (e.target === popup) popup.remove(); });
     document.body.appendChild(popup);
@@ -29915,13 +31093,10 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var fab = document.getElementById('khMushafFab');
     if (!fab || fab.style.display === 'none') return;
     var st = khLoad();
-    var meta = khMeta(st);
-    var isAr = khIsAr();
+    var unitThe = khUnitLabel(st.unit, 'the');
     var label = fab.querySelector('.kh-fab-label');
     if (label) {
-      label.textContent = isAr ?
-        (meta.arThe + ' ' + st.current + '/' + khTotal(st)) :
-        (meta.enThe + ' ' + st.current + '/' + khTotal(st));
+      label.textContent = unitThe + ' ' + st.current + '/' + khTotal(st);
     }
   }
 
@@ -29933,7 +31108,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       fab.style.cssText = 'position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:100000;' +
         'background:rgba(29,158,117,0.94);color:#fff;border-radius:26px;padding:8px 8px 8px 16px;' +
         'display:flex;align-items:center;gap:8px;font-family:Cairo,sans-serif;font-size:12.5px;font-weight:700;' +
-        'box-shadow:0 6px 20px rgba(0,0,0,0.3);direction:rtl;';
+        'box-shadow:0 6px 20px rgba(0,0,0,0.3);direction:' + (khIsAr() ? 'rtl' : 'ltr') + ';';
       fab.innerHTML =
         '<span class="kh-fab-label"></span>' +
         '<button onclick="window._khQuickAdd(1)" style="background:#fff;color:#1D9E75;border:none;border-radius:50%;width:28px;height:28px;font-size:15px;font-weight:800;cursor:pointer;">+1</button>';
@@ -29953,20 +31128,19 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     if (old) old.remove();
     var st = khLoad();
     if (st.current >= khTotal(st)) return;
-    var meta = khMeta(st);
-    var isAr = khIsAr();
+    var unitSg = khUnitLabel(st.unit, 'singular');
     var card = document.createElement('div');
     card.id = 'khLogPrompt';
     card.style.cssText = 'position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:100000;' +
       'background:#1a2820;color:#fff;border-radius:16px;padding:12px 14px;max-width:88%;' +
       'display:flex;align-items:center;gap:10px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;' +
-      'box-shadow:0 8px 24px rgba(0,0,0,0.35);direction:rtl;animation:khFadeIn .18s ease;';
+      'box-shadow:0 8px 24px rgba(0,0,0,0.35);direction:' + (khIsAr() ? 'rtl' : 'ltr') + ';animation:khFadeIn .18s ease;';
     card.innerHTML =
-      '<span>' + (isAr ? 'سجّلت قراءتك؟' : 'Logged your reading?') + '</span>' +
+      '<span>' + kt('logPromptQuestion') + '</span>' +
       '<button onclick="window._khQuickAdd(1);document.getElementById(\'khLogPrompt\').remove();" style="background:#1D9E75;color:#fff;border:none;border-radius:9px;padding:7px 12px;font-size:12.5px;cursor:pointer;white-space:nowrap;">' +
-      (isAr ? '✅ نعم +1 ' + meta.ar : '✅ Yes +1 ' + meta.en) + '</button>' +
+      kt('logPromptYes', { unit: unitSg }) + '</button>' +
       '<button onclick="document.getElementById(\'khLogPrompt\').remove();" style="background:transparent;color:#ccc;border:1px solid #444;border-radius:9px;padding:7px 10px;font-size:12.5px;cursor:pointer;">' +
-      (isAr ? 'لأ' : 'No') + '</button>';
+      kt('logPromptNo') + '</button>';
     document.body.appendChild(card);
     setTimeout(function() {
       var el = document.getElementById('khLogPrompt');
@@ -30152,7 +31326,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 
     
     <div class="footer-rating-row">
-        <div class="footer-rating-label" data-ar="قيّم تجربتك:" data-en="Rate your experience:">قيّم تجربتك:</div>
+        <div class="footer-rating-label" data-ar="قيّم تجربتك:" data-en="Rate your experience:" data-fr="Évaluez votre expérience :" data-es="Califica tu experiencia:" data-sv="Betygsätt din upplevelse:" data-nl="Beoordeel je ervaring:" data-ga="Rátáil d'eispéireas:" data-de="Bewerte deine Erfahrung:" data-ru="Оцените свой опыт:" data-tr="Deneyiminizi değerlendirin:" data-pt="Avalie sua experiência:" data-zh="评价您的体验：" data-ur="اپنے تجربے کی درجہ بندی کریں:">قيّم تجربتك:</div>
         <div id="stars" class="stars">
             <span class="star" data-value="1">★</span>
             <span class="star" data-value="2">★</span>
@@ -32191,6 +33365,77 @@ function applyFilterButtonsLang(lang) {
     if (t) lbl.textContent = t;
   });
 
+  // رسالة الحالة وأزرار المشغل الرئيسي (سابق/عشوائي/تالي)
+  ['status', 'prevButton', 'randomButton', 'nextButton'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
+    if (t) el.textContent = t;
+  });
+
+  // قائمة التشغيل المخصصة (تشغيل المختارة، تحديد الكل، إلغاء التحديد...)
+  ['upl-label', 'upl-start-btn', 'upl-selectall-btn', 'upl-clear-btn'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
+    if (t) el.textContent = t;
+  });
+  ['upl-prev-btn', 'upl-next-btn'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var t = el.getAttribute('data-title-' + lang) || el.getAttribute('data-title-en');
+    if (t) el.title = t;
+  });
+  var uplCountEl = document.getElementById('upl-count');
+  if (uplCountEl) {
+    var uplNum = parseInt(uplCountEl.textContent) || 0;
+    var uplWord = uplCountEl.getAttribute('data-word-' + lang) || uplCountEl.getAttribute('data-word-en');
+    if (uplWord) uplCountEl.textContent = uplNum + ' ' + uplWord;
+  }
+
+  // تذكير الأذكار (العنوان، الصباح، المساء، زر التفعيل/الإيقاف)
+  var notifWrap = document.getElementById('adhkar-notif-settings');
+  if (notifWrap) {
+    notifWrap.querySelectorAll('span[data-ar], label[data-ar]').forEach(function(el) {
+      if (el.id === 'notif-status-text') return;
+      var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
+      if (t) el.textContent = t;
+    });
+    var notifBtn = document.getElementById('notif-toggle-btn');
+    if (notifBtn) {
+      var isOn = notifBtn.getAttribute('data-state') === 'on';
+      var prefix = isOn ? 'data-on-' : 'data-off-';
+      var t = notifBtn.getAttribute(prefix + lang) || notifBtn.getAttribute(prefix + 'en');
+      if (t) notifBtn.textContent = t;
+    }
+    if (typeof window.updateAdhkarNotifUI === 'function') window.updateAdhkarNotifUI();
+  }
+
+  // إعدادات جودة الصوت (المعادل، التضخيم، الجهير/المتوسط/الحاد، الإعدادات الجاهزة)
+  var audioQualityWrap = document.getElementById('audio-quality-settings');
+  if (audioQualityWrap) {
+    audioQualityWrap.querySelectorAll('span[data-ar], label[data-ar], button[data-ar]').forEach(function(el) {
+      var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
+      if (t) el.textContent = t;
+    });
+    audioQualityWrap.querySelectorAll('option[data-ar]').forEach(function(opt) {
+      var t = opt.getAttribute('data-' + lang) || opt.getAttribute('data-en');
+      if (t) opt.textContent = t;
+    });
+  }
+
+  // مدة دورة الترحيب التلقائي
+  var welcomeCycleLbl = document.querySelector("label[for='welcomeAutoSwitchDuration'][data-ar]");
+  if (welcomeCycleLbl) {
+    var t = welcomeCycleLbl.getAttribute('data-' + lang) || welcomeCycleLbl.getAttribute('data-en');
+    if (t) welcomeCycleLbl.textContent = t;
+  }
+  var welcomeCycleInput = document.getElementById('welcomeAutoSwitchDuration');
+  if (welcomeCycleInput) {
+    var t2 = welcomeCycleInput.getAttribute('data-' + lang) || welcomeCycleInput.getAttribute('data-en');
+    if (t2) welcomeCycleInput.placeholder = t2;
+  }
+
   ['autoSwitchTimer', 'sleepTimer'].forEach(function(id) {
     var inp = document.getElementById(id);
     if (!inp) return;
@@ -32225,6 +33470,63 @@ function applyFilterButtonsLang(lang) {
       if (t) span.textContent = t;
     }
   });
+
+  // عناصر متفرقة: التنبيه الصوتي، شارتي قديم/جديد، أذان تلقائي، قيّم تجربتك، فلسطين حرة
+  ['introClipToggleTxt', 'oldBadge', 'newBadge', 'adhan-toggle-label', 'freePalestineText'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
+    if (t) el.textContent = t;
+  });
+
+  document.querySelectorAll('.footer-rating-label[data-ar]').forEach(function(el) {
+    var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
+    if (t) el.textContent = t;
+  });
+
+  // زر إخفاء شاشة الترحيب (له حالتان: مفعّل/غير مفعّل)
+  var disableWelcomeTxtEl = document.getElementById('disableWelcomeTxt');
+  if (disableWelcomeTxtEl) {
+    var dwCb = document.getElementById('disableWelcomeScreen');
+    var dwPrefix = (dwCb && dwCb.checked) ? 'data-on-' : 'data-off-';
+    var dwT = disableWelcomeTxtEl.getAttribute(dwPrefix + lang) || disableWelcomeTxtEl.getAttribute(dwPrefix + 'en');
+    if (dwT) disableWelcomeTxtEl.textContent = dwT;
+  }
+
+  // رسالة ترحيب المساعد الذكي وأزرار الأسئلة السريعة
+  var aiWelcomeMsgEl = document.getElementById('ai-welcome-msg');
+  if (aiWelcomeMsgEl) {
+    var awT = aiWelcomeMsgEl.getAttribute('data-' + lang) || aiWelcomeMsgEl.getAttribute('data-en');
+    if (awT) aiWelcomeMsgEl.textContent = awT;
+  }
+  document.querySelectorAll('.ai-quick-btn[data-ar]').forEach(function(btn) {
+    var t = btn.getAttribute('data-' + lang) || btn.getAttribute('data-en');
+    if (t) btn.textContent = t;
+  });
+
+  // تسميات لون الخلفية ولون الأزرار (الاسم فقط، بدون ترجمة أسماء الألوان داخل القائمة)
+  document.querySelectorAll('.color-setting-item label[data-ar][data-en]').forEach(function(lbl) {
+    var t = lbl.getAttribute('data-' + lang) || lbl.getAttribute('data-en');
+    if (t) lbl.textContent = t;
+  });
+
+  // زر إغلاق الإعدادات بالأسفل
+  var closeSettingsBtn = document.getElementById('settings-toggle-bar-bottom-label');
+  if (closeSettingsBtn) {
+    var csT = closeSettingsBtn.getAttribute('data-' + lang) || closeSettingsBtn.getAttribute('data-en');
+    if (csT) closeSettingsBtn.textContent = csT;
+  }
+
+  // تحديث نص "الراديو متوقف / يعمل الآن" بلغة العرض الحالية
+  var _welcomeStatusEl = document.getElementById('customStatus');
+  if (_welcomeStatusEl && typeof isAudioPlaying !== 'undefined') {
+    if (isAudioPlaying) {
+      var _curName = _stripNowPlayingSuffix(_welcomeStatusEl.textContent);
+      if (_curName) _welcomeStatusEl.textContent = _curName + " " + (NOW_PLAYING_TEXT[lang] || NOW_PLAYING_TEXT.ar);
+    } else if (Object.values(RADIO_STOPPED_TEXT).indexOf(_welcomeStatusEl.textContent.trim()) !== -1) {
+      _welcomeStatusEl.textContent = RADIO_STOPPED_TEXT[lang] || RADIO_STOPPED_TEXT.ar;
+    }
+  }
 }
 
 function applyEnglishWelcomeOverlay() {
@@ -36284,7 +37586,7 @@ window.addEventListener("load", function() {
     wrap.innerHTML = `
       <span id="adhan-toggle-icon">🕌</span>
       <span id="adhan-toggle-label-wrap">
-        <span id="adhan-toggle-label" data-ar="أذان تلقائي" data-en="Auto Adhan">${_initAr ? 'أذان تلقائي' : 'Auto Adhan'}</span>
+        <span id="adhan-toggle-label" data-ar="أذان تلقائي" data-en="Auto Adhan" data-fr="Adhan automatique" data-es="Adhan automático" data-sv="Automatisk Adhan" data-nl="Automatische Adhan" data-ga="Adhan Uathoibríoch" data-de="Automatischer Adhan" data-ru="Автоматический азан" data-tr="Otomatik Ezan" data-pt="Adhan automático" data-zh="自动宣礼" data-ur="خودکار اذان">${_initAr ? 'أذان تلقائي' : 'Auto Adhan'}</span>
         <span id="adhan-next-info">${_initAr ? 'جارٍ تحميل المواقيت...' : 'Loading prayer times...'}</span>
         <span id="hijri-date-display" style="font-size:10.5px;opacity:0.72;font-weight:400;letter-spacing:0.01em;"></span>
       </span>
@@ -40432,9 +41734,8 @@ function _getActiveStationInfo() {
     stUrl = welcomeAudio.currentSrc || welcomeAudio.src || '';
     var custStatusEl = document.getElementById('customStatus');
     if (custStatusEl) {
-      stName = custStatusEl.textContent
-        .replace(/^تشغيل:\s*/, '').replace(/^Playing:\s*/i, '')
-        .replace(' يعمل الآن', '').replace(' Now Playing', '').trim();
+      stName = _stripNowPlayingSuffix(custStatusEl.textContent
+        .replace(/^تشغيل:\s*/, '').replace(/^Playing:\s*/i, ''));
     }
     if (!stName) stName = window._currentPlayingName || '';
     return { name: stName, url: stUrl };
@@ -40472,7 +41773,7 @@ function _getActiveStationInfo() {
   }
   if (!stName) {
     var statusEl = document.getElementById('customStatus');
-    if (statusEl) stName = statusEl.textContent.replace(' يعمل الآن','').replace(' Now Playing','').trim();
+    if (statusEl) stName = _stripNowPlayingSuffix(statusEl.textContent);
   }
   return { name: stName, url: stUrl };
 }
@@ -40561,6 +41862,26 @@ function _shareViaWhatsApp(encUrl, encName, isAr) {
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
 
+// ── قاموس ترجمة نافذة "سجل الاستماع" لكل اللغات المدعومة في شاشة الترحيب ──
+var LISTEN_HISTORY_TEXT = {
+  title:      { ar:'سجل الاستماع', en:'Listening History', fr:"Historique d'écoute", es:'Historial de escucha', sv:'Lyssningshistorik', nl:'Luistergeschiedenis', ga:'Stair Éisteachta', de:'Hörverlauf', ru:'История прослушивания', tr:'Dinleme Geçmişi', pt:'Histórico de audição', zh:'收听记录', ur:'سننے کی تاریخ' },
+  lastStations:{ ar:'محطة', en:'stations', fr:'stations', es:'estaciones', sv:'stationer', nl:'stations', ga:'stáisiún', de:'Sender', ru:'станций', tr:'istasyon', pt:'estações', zh:'个电台', ur:'اسٹیشنز' },
+  lastPrefix: { ar:'آخر ', en:'Last ', fr:'Dernières ', es:'Últimas ', sv:'Senaste ', nl:'Laatste ', ga:'Le déanaí ', de:'Letzte ', ru:'Последние ', tr:'Son ', pt:'Últimas ', zh:'最近 ', ur:'آخری ' },
+  empty:      { ar:'فارغ', en:'Empty', fr:'Vide', es:'Vacío', sv:'Tomt', nl:'Leeg', ga:'Folamh', de:'Leer', ru:'Пусто', tr:'Boş', pt:'Vazio', zh:'空', ur:'خالی' },
+  noHistory:  { ar:'🎵 لم تستمع لأي محطة بعد', en:'🎵 No listening history yet', fr:"🎵 Aucun historique d'écoute pour l'instant", es:'🎵 Aún no hay historial de escucha', sv:'🎵 Ingen lyssningshistorik ännu', nl:'🎵 Nog geen luistergeschiedenis', ga:'🎵 Níl aon stair éisteachta fós', de:'🎵 Noch kein Hörverlauf', ru:'🎵 Пока нет истории прослушивания', tr:'🎵 Henüz dinleme geçmişi yok', pt:'🎵 Ainda não há histórico de audição', zh:'🎵 暂无收听记录', ur:'🎵 ابھی تک کوئی سننے کی تاریخ نہیں' },
+  share:      { ar:'مشاركة', en:'Share', fr:'Partager', es:'Compartir', sv:'Dela', nl:'Delen', ga:'Comhroinn', de:'Teilen', ru:'Поделиться', tr:'Paylaş', pt:'Compartilhar', zh:'分享', ur:'شیئر کریں' },
+  remove:     { ar:'حذف من السجل', en:'Remove from history', fr:"Supprimer de l'historique", es:'Eliminar del historial', sv:'Ta bort från historik', nl:'Verwijderen uit geschiedenis', ga:'Bain den stair', de:'Aus dem Verlauf entfernen', ru:'Удалить из истории', tr:'Geçmişten kaldır', pt:'Remover do histórico', zh:'从记录中删除', ur:'تاریخ سے ہٹائیں' },
+  clearAll:   { ar:'مسح الكل', en:'Clear all', fr:'Tout effacer', es:'Borrar todo', sv:'Rensa allt', nl:'Alles wissen', ga:'Glan gach rud', de:'Alles löschen', ru:'Очистить всё', tr:'Tümünü temizle', pt:'Limpar tudo', zh:'全部清除', ur:'سب صاف کریں' },
+  clear:      { ar:'مسح', en:'Clear', fr:'Effacer', es:'Borrar', sv:'Rensa', nl:'Wissen', ga:'Glan', de:'Löschen', ru:'Очистить', tr:'Temizle', pt:'Limpar', zh:'清除', ur:'صاف کریں' },
+  confirmClear:{ ar:'مسح سجل الاستماع كاملاً؟', en:'Clear all listening history?', fr:"Effacer tout l'historique d'écoute ?", es:'¿Borrar todo el historial de escucha?', sv:'Rensa hela lyssningshistoriken?', nl:'Hele luistergeschiedenis wissen?', ga:'Glan an stair éisteachta ar fad?', de:'Gesamten Hörverlauf löschen?', ru:'Очистить всю историю прослушивания?', tr:'Tüm dinleme geçmişi silinsin mi?', pt:'Limpar todo o histórico de audição?', zh:'清除全部收听记录？', ur:'تمام سننے کی تاریخ صاف کریں؟' },
+  cleared:    { ar:'🗑️ تم مسح السجل', en:'🗑️ History cleared', fr:"🗑️ Historique effacé", es:'🗑️ Historial borrado', sv:'🗑️ Historik rensad', nl:'🗑️ Geschiedenis gewist', ga:'🗑️ Stair glanta', de:'🗑️ Verlauf gelöscht', ru:'🗑️ История очищена', tr:'🗑️ Geçmiş temizlendi', pt:'🗑️ Histórico limpo', zh:'🗑️ 记录已清除', ur:'🗑️ تاریخ صاف کر دی گئی' }
+};
+function _lh(key) {
+  var entry = LISTEN_HISTORY_TEXT[key];
+  if (!entry) return '';
+  return entry[_curWelcomeLang()] || entry.ar;
+}
+
 // ===== سجل الاستماع =====
 function _fmtHistoryTime(ts) {
   var now = Date.now();
@@ -40626,7 +41947,7 @@ function _renderHistoryList() {
 
   if (hist.length === 0) {
     list.innerHTML = '<div style="text-align:center;padding:24px 0;opacity:.5;font-size:13px;">' +
-      (isAr ? '🎵 لم تستمع لأي محطة بعد' : '🎵 No listening history yet') + '</div>';
+      _lh('noHistory') + '</div>';
     return;
   }
 
@@ -40647,10 +41968,10 @@ function _renderHistoryList() {
         '<div style="font-size:13px;font-weight:' + (isPlaying ? '600' : '500') + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:' + (isPlaying ? '#1D9E75' : 'inherit') + ';">' + item.name + '</div>' +
         '<div style="font-size:11px;opacity:.5;margin-top:1px;">' + timeStr + '</div>' +
       '</div>' +
-      '<button onclick="event.stopPropagation();shareHistoryItem(\'' + encodeURIComponent(item.url) + '\',\'' + encodeURIComponent(item.name) + '\')" style="background:none;border:none;cursor:pointer;opacity:.4;padding:4px;border-radius:6px;flex-shrink:0;transition:opacity .15s;" onmouseover="this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'.4\'" title="' + (isAr ? 'مشاركة' : 'Share') + '">' +
+      '<button onclick="event.stopPropagation();shareHistoryItem(\'' + encodeURIComponent(item.url) + '\',\'' + encodeURIComponent(item.name) + '\')" style="background:none;border:none;cursor:pointer;opacity:.4;padding:4px;border-radius:6px;flex-shrink:0;transition:opacity .15s;" onmouseover="this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'.4\'" title="' + _lh('share') + '">' +
         '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
       '</button>' +
-      '<button onclick="event.stopPropagation();deleteHistoryItem(\'' + encodeURIComponent(item.url) + '\')" style="background:none;border:none;cursor:pointer;opacity:.4;padding:4px;border-radius:6px;flex-shrink:0;transition:opacity .15s;" onmouseover="this.style.opacity=\'1\';this.style.color=\'#dc3545\'" onmouseout="this.style.opacity=\'.4\';this.style.color=\'inherit\'" title="' + (isAr ? 'حذف من السجل' : 'Remove from history') + '">' +
+      '<button onclick="event.stopPropagation();deleteHistoryItem(\'' + encodeURIComponent(item.url) + '\')" style="background:none;border:none;cursor:pointer;opacity:.4;padding:4px;border-radius:6px;flex-shrink:0;transition:opacity .15s;" onmouseover="this.style.opacity=\'1\';this.style.color=\'#dc3545\'" onmouseout="this.style.opacity=\'.4\';this.style.color=\'inherit\'" title="' + _lh('remove') + '">' +
         '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>' +
       '</button>' +
     '</div>';
@@ -40669,18 +41990,19 @@ function openListenHistory() {
   var count = 0;
   try { count = raw ? JSON.parse(raw).length : 0; } catch(e) {}
 
+  var _lhDir = (typeof KB_RTL_LANGS !== 'undefined' && KB_RTL_LANGS[_curWelcomeLang()]) ? 'rtl' : 'ltr';
   var popup = document.createElement('div');
   popup.id = 'listenHistoryPopup';
   popup.style.cssText = 'position:fixed;inset:0;z-index:99998;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);';
   popup.innerHTML =
-    '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:80vh;display:flex;flex-direction:column;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);">' +
+    '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:80vh;display:flex;flex-direction:column;direction:' + _lhDir + ';font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);">' +
       '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';">' +
         '<div>' +
-          '<div style="font-size:15px;font-weight:700;">🕐 ' + (isAr ? 'سجل الاستماع' : 'Listening History') + '</div>' +
-          '<div style="font-size:11px;opacity:.5;margin-top:2px;">' + (count > 0 ? (isAr ? 'آخر ' + count + ' محطة' : 'Last ' + count + ' stations') : (isAr ? 'فارغ' : 'Empty')) + '</div>' +
+          '<div style="font-size:15px;font-weight:700;">🕐 ' + _lh('title') + '</div>' +
+          '<div style="font-size:11px;opacity:.5;margin-top:2px;">' + (count > 0 ? (_lh('lastPrefix') + count + ' ' + _lh('lastStations')) : _lh('empty')) + '</div>' +
         '</div>' +
         '<div style="display:flex;gap:8px;align-items:center;">' +
-          (count > 0 ? '<button onclick="clearListenHistory()" style="background:none;border:1px solid rgba(220,53,69,0.3);color:#dc3545;cursor:pointer;font-size:11px;padding:4px 10px;border-radius:8px;font-family:Cairo,sans-serif;" title="' + (isAr ? 'مسح الكل' : 'Clear all') + '">' + (isAr ? 'مسح' : 'Clear') + '</button>' : '') +
+          (count > 0 ? '<button onclick="clearListenHistory()" style="background:none;border:1px solid rgba(220,53,69,0.3);color:#dc3545;cursor:pointer;font-size:11px;padding:4px 10px;border-radius:8px;font-family:Cairo,sans-serif;" title="' + _lh('clearAll') + '">' + _lh('clear') + '</button>' : '') +
           '<button onclick="document.getElementById(\'listenHistoryPopup\').remove()" style="background:none;border:none;cursor:pointer;font-size:20px;opacity:.5;line-height:1;color:' + clr + ';">✕</button>' +
         '</div>' +
       '</div>' +
@@ -40693,18 +42015,17 @@ function openListenHistory() {
 }
 
 function clearListenHistory() {
-  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-  if (!confirm(isAr ? 'مسح سجل الاستماع كاملاً؟' : 'Clear all listening history?')) return;
+  if (!confirm(_lh('confirmClear'))) return;
   localStorage.removeItem('listenHistory');
   _renderHistoryList();
   var popup = document.getElementById('listenHistoryPopup');
   if (popup) {
     var countEl = popup.querySelector('div[style*="opacity:.5"]');
-    if (countEl) countEl.textContent = isAr ? 'فارغ' : 'Empty';
+    if (countEl) countEl.textContent = _lh('empty');
     var clearBtn = popup.querySelector('button[style*="dc3545"]');
     if (clearBtn) clearBtn.remove();
   }
-  showToast(isAr ? '🗑️ تم مسح السجل' : '🗑️ History cleared');
+  showToast(_lh('cleared'));
 }
 
 function deleteHistoryItem(encUrl) {
@@ -42065,8 +43386,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCount() {
       var count = document.querySelectorAll('.upl-cb:checked').length;
       var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
-      var countTxt = ar ? (count + ' مختار') : (count + ' selected');
       var el = document.getElementById('upl-count');
+      var uplWord = el ? (el.getAttribute('data-word-' + ((typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : (ar ? 'ar' : 'en'))) || el.getAttribute('data-word-en')) : null;
+      var countTxt = count + ' ' + (uplWord || (ar ? 'مختار' : 'selected'));
       if (el) el.textContent = countTxt;
 
       var el2 = document.getElementById('surah-pl-count');
@@ -42835,30 +44157,48 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (e) {}
     }
 
+    var ADHKAR_NOTIF_I18N = {
+      ar: { on: '✅ التذكير مفعّل — {m} صباحاً  •  {e} مساءً', off: '🔕 التذكير متوقف' },
+      en: { on: '✅ Reminders ON — {m} morning  •  {e} evening', off: '🔕 Reminders off' },
+      fr: { on: '✅ Rappels activés — {m} matin  •  {e} soir', off: '🔕 Rappels désactivés' },
+      es: { on: '✅ Recordatorios activados — {m} mañana  •  {e} tarde', off: '🔕 Recordatorios desactivados' },
+      sv: { on: '✅ Påminnelser PÅ — {m} morgon  •  {e} kväll', off: '🔕 Påminnelser av' },
+      nl: { on: '✅ Herinneringen AAN — {m} ochtend  •  {e} avond', off: '🔕 Herinneringen uit' },
+      ga: { on: '✅ Meabhrúcháin AR SIÚL — {m} maidin  •  {e} tráthnóna', off: '🔕 Meabhrúcháin múchta' },
+      de: { on: '✅ Erinnerungen AN — {m} morgens  •  {e} abends', off: '🔕 Erinnerungen aus' },
+      ru: { on: '✅ Напоминания включены — {m} утром  •  {e} вечером', off: '🔕 Напоминания выключены' },
+      tr: { on: '✅ Hatırlatıcılar AÇIK — {m} sabah  •  {e} akşam', off: '🔕 Hatırlatıcılar kapalı' },
+      pt: { on: '✅ Lembretes ativados — {m} manhã  •  {e} tarde', off: '🔕 Lembretes desativados' },
+      zh: { on: '✅ 提醒已开启 — 早晨{m}  •  晚上{e}', off: '🔕 提醒已关闭' },
+      ur: { on: '✅ یاد دہانی فعال — {m} صبح  •  {e} شام', off: '🔕 یاد دہانی بند ہے' }
+    };
+
     function updateUI(settings) {
       var btn = document.getElementById('notif-toggle-btn');
       var status = document.getElementById('notif-status-text');
       var mInput = document.getElementById('notif-morning-time');
       var eInput = document.getElementById('notif-evening-time');
       var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+      var lang = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : (isAr ? 'ar' : 'en');
+      var i18n = ADHKAR_NOTIF_I18N[lang] || ADHKAR_NOTIF_I18N.en;
 
       if (mInput) mInput.value = settings.morning || '06:00';
       if (eInput) eInput.value = settings.evening || '18:00';
 
       if (settings.enabled) {
         if (btn) {
-          btn.textContent = isAr ? 'إيقاف التذكير' : 'Disable Reminder';
+          btn.setAttribute('data-state', 'on');
+          btn.textContent = btn.getAttribute('data-on-' + lang) || btn.getAttribute('data-on-en') || 'Disable Reminder';
           btn.style.background = 'linear-gradient(135deg,#e74c3c,#c0392b)';
         }
-        if (status) status.textContent = isAr ?
-          '✅ التذكير مفعّل — ' + settings.morning + ' صباحاً  •  ' + settings.evening + ' مساءً' :
-          '✅ Reminders ON — ' + settings.morning + ' morning  •  ' + settings.evening + ' evening';
+        if (status) status.textContent = i18n.on.replace('{m}', settings.morning).replace('{e}', settings.evening);
       } else {
         if (btn) {
-          btn.textContent = isAr ? 'تفعيل التذكير' : 'Enable Reminder';
+          btn.setAttribute('data-state', 'off');
+          btn.textContent = btn.getAttribute('data-off-' + lang) || btn.getAttribute('data-off-en') || 'Enable Reminder';
           btn.style.background = 'linear-gradient(135deg,#1e90ff,#00c9a7)';
         }
-        if (status) status.textContent = isAr ? '🔕 التذكير متوقف' : '🔕 Reminders off';
+        if (status) status.textContent = i18n.off;
       }
     }
 
@@ -42908,6 +44248,22 @@ document.addEventListener('DOMContentLoaded', function() {
       _eveningTimer = scheduleOne('evening', settings.evening);
     }
 
+    var ADHKAR_TOAST_I18N = {
+      ar: { off: '🔕 تم إيقاف التذكير', on: '✅ تم تفعيل التذكير!', perm: '🔔 إشعارات المتصفح مفعّلة أيضاً!' },
+      en: { off: '🔕 Reminders disabled', on: '✅ Reminders enabled!', perm: '🔔 Browser notifications enabled too!' },
+      fr: { off: '🔕 Rappels désactivés', on: '✅ Rappels activés !', perm: '🔔 Notifications du navigateur également activées !' },
+      es: { off: '🔕 Recordatorios desactivados', on: '✅ ¡Recordatorios activados!', perm: '🔔 ¡Notificaciones del navegador también activadas!' },
+      sv: { off: '🔕 Påminnelser inaktiverade', on: '✅ Påminnelser aktiverade!', perm: '🔔 Webbläsarnotiser också aktiverade!' },
+      nl: { off: '🔕 Herinneringen uitgeschakeld', on: '✅ Herinneringen ingeschakeld!', perm: '🔔 Browsermeldingen ook ingeschakeld!' },
+      ga: { off: '🔕 Meabhrúcháin díchumasaithe', on: '✅ Meabhrúcháin cumasaithe!', perm: '🔔 Fógraí an bhrabhsálaí cumasaithe freisin!' },
+      de: { off: '🔕 Erinnerungen deaktiviert', on: '✅ Erinnerungen aktiviert!', perm: '🔔 Browser-Benachrichtigungen ebenfalls aktiviert!' },
+      ru: { off: '🔕 Напоминания отключены', on: '✅ Напоминания включены!', perm: '🔔 Уведомления браузера тоже включены!' },
+      tr: { off: '🔕 Hatırlatıcılar kapatıldı', on: '✅ Hatırlatıcılar etkinleştirildi!', perm: '🔔 Tarayıcı bildirimleri de etkinleştirildi!' },
+      pt: { off: '🔕 Lembretes desativados', on: '✅ Lembretes ativados!', perm: '🔔 Notificações do navegador também ativadas!' },
+      zh: { off: '🔕 提醒已关闭', on: '✅ 提醒已启用！', perm: '🔔 浏览器通知也已启用！' },
+      ur: { off: '🔕 یاد دہانی بند کر دی گئی', on: '✅ یاد دہانی فعال ہو گئی!', perm: '🔔 براؤزر اطلاعات بھی فعال ہو گئیں!' }
+    };
+
     window.toggleAdhkarNotifications = function() {
       var settings = loadSettings();
       var mInput = document.getElementById('notif-morning-time');
@@ -42915,13 +44271,15 @@ document.addEventListener('DOMContentLoaded', function() {
       if (mInput) settings.morning = mInput.value || '06:00';
       if (eInput) settings.evening = eInput.value || '18:00';
       var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+      var lang = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : (isAr ? 'ar' : 'en');
+      var toastI18n = ADHKAR_TOAST_I18N[lang] || ADHKAR_TOAST_I18N.en;
 
       if (settings.enabled) {
         settings.enabled = false;
         saveSettings(settings);
         scheduleReminders(settings);
         updateUI(settings);
-        showToast(isAr ? '🔕 تم إيقاف التذكير' : '🔕 Reminders disabled');
+        showToast(toastI18n.off);
         return;
       }
 
@@ -42929,12 +44287,12 @@ document.addEventListener('DOMContentLoaded', function() {
       saveSettings(settings);
       scheduleReminders(settings);
       updateUI(settings);
-      showToast(isAr ? '✅ تم تفعيل التذكير!' : '✅ Reminders enabled!');
+      showToast(toastI18n.on);
 
       if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
         Notification.requestPermission().then(function(perm) {
           if (perm === 'granted') {
-            showToast(isAr ? '🔔 إشعارات المتصفح مفعّلة أيضاً!' : '🔔 Browser notifications enabled too!');
+            showToast(toastI18n.perm);
           }
         });
       }
