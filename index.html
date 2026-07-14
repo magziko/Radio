@@ -14156,77 +14156,156 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   
-  <div id="audio-quality-settings" style="
-    margin: 8px auto 4px;
-    width: 97%; max-width: 860px;
-    background: linear-gradient(135deg,rgba(29,158,117,0.08),rgba(255,183,77,0.07));
-    border: 1.5px solid rgba(29,158,117,0.20);
-    border-radius: 14px;
-    padding: 10px 16px 12px;
-    box-sizing: border-box;
-    direction: rtl;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-family: 'Cairo', Arial, sans-serif;
-  ">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-      <span data-ar="🎚️ جودة الصوت (معادل + تضخيم)" data-en="🎚️ Audio Quality (Equalizer + Boost)" data-fr="🎚️ Qualité audio (égaliseur + amplification)" data-es="🎚️ Calidad de audio (ecualizador + amplificación)" data-sv="🎚️ Ljudkvalitet (equalizer + förstärkning)" data-nl="🎚️ Audiokwaliteit (equalizer + versterking)" data-ga="🎚️ Cáilíocht Fuaime (Cothromóir + Treisiú)" data-de="🎚️ Audioqualität (Equalizer + Verstärkung)" data-ru="🎚️ Качество звука (эквалайзер + усиление)" data-tr="🎚️ Ses Kalitesi (Ekolayzer + Güçlendirme)" data-pt="🎚️ Qualidade de áudio (equalizador + amplificação)" data-zh="🎚️ 音质（均衡器+增强）" data-ur="🎚️ آواز کا معیار (ایکولائزر + بوسٹ)"
-        style="font-size:15px;font-weight:700;color:#1a3a52;white-space:nowrap;">🎚️ جودة الصوت (معادل + تضخيم)</span>
-      <button id="audioQualityResetBtn" onclick="window.resetAudioQuality && window.resetAudioQuality()"
-        data-ar="↺ إعادة ضبط" data-en="↺ Reset" data-fr="↺ Réinitialiser" data-es="↺ Restablecer" data-sv="↺ Återställ" data-nl="↺ Resetten" data-ga="↺ Athshocraigh" data-de="↺ Zurücksetzen" data-ru="↺ Сбросить" data-tr="↺ Sıfırla" data-pt="↺ Redefinir" data-zh="↺ 重置" data-ur="↺ ری سیٹ"
-        style="padding:4px 12px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:700;
-               font-family:'Cairo',Arial,sans-serif;background:rgba(0,0,0,0.08);color:#1a3a52;white-space:nowrap;">
-        ↺ إعادة ضبط
-      </button>
+  <style id="aqx-style">
+    #audio-quality-settings.aqx-panel{
+      --aqx-green:#1D9E75; --aqx-green-light:#34c294; --aqx-gold:#FFB74D;
+      --aqx-navy:#1a3a52; --aqx-blue:#2c5f7a; --aqx-bass:#e57373; --aqx-mid:#ffb74d; --aqx-treble:#4CC9F0;
+      margin:8px auto 4px; width:97%; max-width:860px; box-sizing:border-box;
+      position:relative; overflow:hidden;
+      padding:12px 18px 14px; border-radius:18px;
+      display:flex; flex-direction:column; gap:8px;
+      font-family:'Cairo',Arial,sans-serif; color:var(--aqx-navy);
+      background:linear-gradient(155deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72)),linear-gradient(135deg,rgba(29,158,117,0.16),rgba(255,183,77,0.14));
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      border:1px solid rgba(29,158,117,0.25);
+      box-shadow:0 8px 28px rgba(14,42,61,0.10), inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    #audio-quality-settings.aqx-panel::after{
+      content:"";position:absolute;top:-40%;left:-10%;width:60%;height:180%;
+      background:radial-gradient(circle,rgba(255,183,77,0.20),transparent 70%);pointer-events:none;
+    }
+    #audio-quality-settings .aqx-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
+    #audio-quality-settings .aqx-title-group{display:flex;align-items:center;gap:10px;}
+    #audio-quality-settings .aqx-mini-viz{display:flex;align-items:flex-end;gap:2px;height:18px;padding:2px 4px;border-radius:6px;background:rgba(29,158,117,0.08);}
+    #audio-quality-settings .aqx-mini-viz span{width:3px;border-radius:2px;height:40%;transition:height .25s ease;}
+    #aqxVizBass{background:var(--aqx-bass);} #aqxVizMid{background:var(--aqx-mid);} #aqxVizTreble{background:var(--aqx-treble);}
+    #audioQualityResetBtn{padding:5px 14px;border-radius:10px;border:1px solid rgba(14,42,61,0.12);cursor:pointer;font-size:12px;font-weight:700;font-family:'Cairo',Arial,sans-serif;background:rgba(255,255,255,0.7);color:var(--aqx-navy);white-space:nowrap;transition:transform .15s ease,background .15s ease,box-shadow .15s ease;}
+    #audioQualityResetBtn:hover{background:#fff;box-shadow:0 3px 10px rgba(14,42,61,0.12);}
+    #audioQualityResetBtn:active{transform:scale(0.94) rotate(-8deg);}
+    #audio-quality-settings .aqx-boost-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative;z-index:1;}
+    #audio-quality-settings .aqx-boost-row label{font-size:13px;font-weight:700;color:var(--aqx-blue);white-space:nowrap;min-width:110px;}
+    #audioBoostSlider{-webkit-appearance:none;appearance:none;flex:1;min-width:120px;height:8px;border-radius:6px;cursor:pointer;background:linear-gradient(to right,var(--aqx-green) 0%,rgba(29,158,117,0.15) 0%);outline:none;}
+    #audioBoostSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-green);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;transition:transform .12s ease;margin-top:-6px;}
+    #audioBoostSlider::-webkit-slider-thumb:hover{transform:scale(1.15);}
+    #audioBoostSlider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-green);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;}
+    #audioBoostSlider::-moz-range-track{height:8px;border-radius:6px;background:rgba(29,158,117,0.15);}
+    #audioBoostValueLabel{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;min-width:48px;text-align:center;color:#fff;background:var(--aqx-green);border-radius:8px;padding:3px 8px;transition:background .2s ease;}
+    #equalizer-row.aqx-eq-row{padding-top:14px;margin-top:6px;position:relative;z-index:1;border-top:1px dashed rgba(14,42,61,0.12);display:flex;justify-content:center;width:100%;}
+    #audio-quality-settings .aqx-eq-inner{display:flex;align-items:flex-end;justify-content:center;gap:34px;flex-wrap:wrap;max-width:620px;width:100%;}
+    #audio-quality-settings .aqx-faders-group{display:flex;align-items:flex-end;gap:20px;}
+    #audio-quality-settings .aqx-divider{align-self:stretch;width:1px;margin:0 4px;background:linear-gradient(to bottom,transparent,rgba(14,42,61,0.15),transparent);}
+    #audio-quality-settings .aqx-fader-col{display:flex;flex-direction:column;align-items:center;gap:4px;}
+    #audio-quality-settings .aqx-fader-col span{font-size:11px;font-weight:800;color:var(--aqx-navy);font-variant-numeric:tabular-nums;background:rgba(14,42,61,0.06);border-radius:6px;padding:1px 6px;min-width:34px;text-align:center;}
+    #audio-quality-settings .aqx-fader-track{position:relative;width:28px;height:78px;border-radius:8px;background:rgba(14,42,61,0.06);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    #audio-quality-settings .aqx-fader-center{position:absolute;left:4px;right:4px;top:50%;height:1px;background:rgba(14,42,61,0.18);transform:translateY(-50%);pointer-events:none;}
+    #audio-quality-settings .aqx-fader-fill{position:absolute;left:50%;bottom:50%;width:6px;height:0;border-radius:4px;transform:translateX(-50%);transition:height .15s ease;pointer-events:none;}
+    #aqxFillBass{background:var(--aqx-bass);} #aqxFillMid{background:var(--aqx-mid);} #aqxFillTreble{background:var(--aqx-treble);}
+    #audio-quality-settings .aqx-fader-track input[type=range]{-webkit-appearance:none;appearance:none;position:relative;z-index:2;background:transparent;margin:0;cursor:pointer;}
+    #audio-quality-settings .aqx-fader-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:10px;border-radius:4px;background:#fff;border:2px solid var(--aqx-navy);box-shadow:0 1px 4px rgba(0,0,0,0.25);cursor:pointer;}
+    #audio-quality-settings .aqx-fader-track input[type=range]::-moz-range-thumb{width:24px;height:10px;border-radius:4px;background:#fff;border:2px solid var(--aqx-navy);cursor:pointer;}
+    #audio-quality-settings .aqx-fader-track input[type=range]::-moz-range-track{background:transparent;}
+    #audio-quality-settings .aqx-fader-col label{font-size:11px;font-weight:700;color:var(--aqx-blue);}
+    #audio-quality-settings .aqx-preset-group{display:flex;flex-direction:column;gap:6px;}
+    #audio-quality-settings .aqx-preset-group>span{font-size:11px;font-weight:700;color:var(--aqx-blue);}
+    #aqxPresetChips{display:flex;flex-wrap:wrap;gap:6px;max-width:320px;}
+    #audio-quality-settings .aqx-chip{font-family:'Cairo',Arial,sans-serif;font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:999px;border:1.5px solid rgba(29,158,117,0.3);background:#fff;color:var(--aqx-navy);cursor:pointer;white-space:nowrap;transition:all .15s ease;}
+    #audio-quality-settings .aqx-chip:hover{border-color:var(--aqx-green);transform:translateY(-1px);}
+    #audio-quality-settings .aqx-chip.active{background:linear-gradient(135deg,var(--aqx-green),var(--aqx-green-light));color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(29,158,117,0.35);}
+    #audio-quality-settings .aqx-note{display:block;font-size:10px;opacity:.65;margin-top:8px;position:relative;z-index:1;}
+    @media (min-width:700px){ #audio-quality-settings .aqx-eq-inner{gap:46px;} }
+    @media (max-width:560px){
+      #equalizer-row.aqx-eq-row{padding-top:12px;}
+      #audio-quality-settings .aqx-eq-inner{flex-direction:column;align-items:center;gap:14px;}
+      #audio-quality-settings .aqx-faders-group{justify-content:center;}
+      #audio-quality-settings .aqx-divider{width:60%;height:1px;align-self:center;background:linear-gradient(to right,transparent,rgba(14,42,61,0.15),transparent);}
+      #audio-quality-settings .aqx-preset-group{width:100%;align-items:center;}
+      #aqxPresetChips{max-width:none;justify-content:center;}
+    }
+  </style>
+
+  <div id="audio-quality-settings" class="aqx-panel" style="direction: rtl;">
+    <div class="aqx-header">
+      <div class="aqx-title-group">
+        <div class="aqx-mini-viz" aria-hidden="true">
+          <span id="aqxVizBass"></span><span id="aqxVizMid"></span><span id="aqxVizTreble"></span>
+        </div>
+        <span data-ar="🎚️ جودة الصوت (معادل + تضخيم)" data-en="🎚️ Audio Quality (Equalizer + Boost)" data-fr="🎚️ Qualité audio (égaliseur + amplification)" data-es="🎚️ Calidad de audio (ecualizador + amplificación)" data-sv="🎚️ Ljudkvalitet (equalizer + förstärkning)" data-nl="🎚️ Audiokwaliteit (equalizer + versterking)" data-ga="🎚️ Cáilíocht Fuaime (Cothromóir + Treisiú)" data-de="🎚️ Audioqualität (Equalizer + Verstärkung)" data-ru="🎚️ Качество звука (эквалайзер + усиление)" data-tr="🎚️ Ses Kalitesi (Ekolayzer + Güçlendirme)" data-pt="🎚️ Qualidade de áudio (equalizador + amplificação)" data-zh="🎚️ 音质（均衡器+增强）" data-ur="🎚️ آواز کا معیار (ایکولائزر + بوسٹ)"
+          style="font-size:15px;font-weight:800;white-space:nowrap;">🎚️ جودة الصوت (معادل + تضخيم)</span>
+      </div>
+      <button id="audioQualityResetBtn" onclick="window.resetAudioQuality && window.resetAudioQuality(); window._aqxSyncAll && window._aqxSyncAll();"
+        data-ar="↺ إعادة ضبط" data-en="↺ Reset" data-fr="↺ Réinitialiser" data-es="↺ Restablecer" data-sv="↺ Återställ" data-nl="↺ Resetten" data-ga="↺ Athshocraigh" data-de="↺ Zurücksetzen" data-ru="↺ Сбросить" data-tr="↺ Sıfırla" data-pt="↺ Redefinir" data-zh="↺ 重置" data-ur="↺ ری سیٹ">↺ إعادة ضبط</button>
     </div>
 
-    
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <label for="audioBoostSlider" data-ar="🔊 تضخيم الصوت" data-en="🔊 Volume Boost" data-fr="🔊 Amplification du volume" data-es="🔊 Amplificación de volumen" data-sv="🔊 Volymförstärkning" data-nl="🔊 Volumeversterking" data-ga="🔊 Treisiú Airde" data-de="🔊 Lautstärkeverstärkung" data-ru="🔊 Усиление громкости" data-tr="🔊 Ses Güçlendirme" data-pt="🔊 Amplificação de volume" data-zh="🔊 音量增强" data-ur="🔊 آواز کی بلندی"
-        style="font-size:13px;font-weight:700;color:#2c5f7a;white-space:nowrap;min-width:110px;">🔊 تضخيم الصوت</label>
+    <div class="aqx-boost-row">
+      <label for="audioBoostSlider" data-ar="🔊 تضخيم الصوت" data-en="🔊 Volume Boost" data-fr="🔊 Amplification du volume" data-es="🔊 Amplificación de volumen" data-sv="🔊 Volymförstärkning" data-nl="🔊 Volumeversterking" data-ga="🔊 Treisiú Airde" data-de="🔊 Lautstärkeverstärkung" data-ru="🔊 Усиление громкости" data-tr="🔊 Ses Güçlendirme" data-pt="🔊 Amplificação de volume" data-zh="🔊 音量增强" data-ur="🔊 آواز کی بلندی">🔊 تضخيم الصوت</label>
       <input type="range" id="audioBoostSlider" min="1" max="5" step="0.25" value="1"
-             oninput="window.setAudioBoost && window.setAudioBoost(this.value)"
-             style="flex:1;min-width:120px;accent-color:#1D9E75;cursor:pointer;">
-      <span id="audioBoostValueLabel" style="font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;min-width:42px;text-align:center;color:#1a3a52;">100%</span>
+             oninput="window.setAudioBoost && window.setAudioBoost(this.value)">
+      <span id="audioBoostValueLabel">100%</span>
     </div>
 
-    
-    <div id="equalizer-row" style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-top:2px;">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
-        <span id="eqBassValue" style="font-size:11px;font-weight:700;color:#1a3a52;font-variant-numeric:tabular-nums;">0dB</span>
-        <input type="range" id="eqBassSlider" min="-12" max="12" step="1" value="0"
-               oninput="window.setEqBand && window.setEqBand('bass', this.value)"
-               style="writing-mode:vertical-lr;direction:rtl;width:22px;height:70px;accent-color:#e57373;cursor:pointer;">
-        <label data-ar="جهير" data-en="Bass" data-fr="Graves" data-es="Graves" data-sv="Bas" data-nl="Bas" data-ga="Dord" data-de="Bass" data-ru="Бас" data-tr="Bas" data-pt="Graves" data-zh="低音" data-ur="بیس" style="font-size:11px;color:#2c5f7a;">جهير</label>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
-        <span id="eqMidValue" style="font-size:11px;font-weight:700;color:#1a3a52;font-variant-numeric:tabular-nums;">0dB</span>
-        <input type="range" id="eqMidSlider" min="-12" max="12" step="1" value="0"
-               oninput="window.setEqBand && window.setEqBand('mid', this.value)"
-               style="writing-mode:vertical-lr;direction:rtl;width:22px;height:70px;accent-color:#ffb74d;cursor:pointer;">
-        <label data-ar="متوسط" data-en="Mid" data-fr="Médiums" data-es="Medios" data-sv="Mellanregister" data-nl="Middentonen" data-ga="Meánmhinicíocht" data-de="Mitten" data-ru="Средние" data-tr="Orta" data-pt="Médios" data-zh="中音" data-ur="درمیانی" style="font-size:11px;color:#2c5f7a;">متوسط</label>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
-        <span id="eqTrebleValue" style="font-size:11px;font-weight:700;color:#1a3a52;font-variant-numeric:tabular-nums;">0dB</span>
-        <input type="range" id="eqTrebleSlider" min="-12" max="12" step="1" value="0"
-               oninput="window.setEqBand && window.setEqBand('treble', this.value)"
-               style="writing-mode:vertical-lr;direction:rtl;width:22px;height:70px;accent-color:#4CC9F0;cursor:pointer;">
-        <label data-ar="حاد" data-en="Treble" data-fr="Aigus" data-es="Agudos" data-sv="Diskant" data-nl="Hoge tonen" data-ga="Ard-mhinicíocht" data-de="Höhen" data-ru="Высокие" data-tr="Tiz" data-pt="Agudos" data-zh="高音" data-ur="ٹریبل" style="font-size:11px;color:#2c5f7a;">حاد</label>
-      </div>
+    <div id="equalizer-row" class="aqx-eq-row">
+      <div class="aqx-eq-inner">
 
-      <div style="display:flex;align-items:center;gap:6px;margin-inline-start:6px;">
-        <label for="eqPresetSelect" data-ar="جاهز" data-en="Preset" data-fr="Prédéfini" data-es="Preajuste" data-sv="Förinställning" data-nl="Voorinstelling" data-ga="Réamhshocrú" data-de="Voreinstellung" data-ru="Пресет" data-tr="Hazır Ayar" data-pt="Predefinição" data-zh="预设" data-ur="پہلے سے طے شدہ" style="font-size:12px;color:#2c5f7a;white-space:nowrap;">جاهز:</label>
-        <select id="eqPresetSelect" onchange="window.applyEqPreset && window.applyEqPreset(this.value)"
-                style="padding:4px 8px;border-radius:8px;border:1.5px solid #b0cfe8;font-size:12px;font-family:'Cairo',Arial,sans-serif;background:#fff;color:#1a3a52;">
-          <option value="flat" data-ar="مسطّح" data-en="Flat" data-fr="Plat" data-es="Plano" data-sv="Platt" data-nl="Vlak" data-ga="Cothrom" data-de="Neutral" data-ru="Плоский" data-tr="Düz" data-pt="Plano" data-zh="平坦" data-ur="فلیٹ">مسطّح</option>
-          <option value="voice" data-ar="وضوح الصوت / التلاوة" data-en="Voice / Recitation Clarity" data-fr="Clarté vocale / récitation" data-es="Claridad de voz / recitación" data-sv="Röst-/reciteringsklarhet" data-nl="Stem-/recitatieduidelijkheid" data-ga="Soiléireacht Gutha / Aithrise" data-de="Sprach-/Rezitationsklarheit" data-ru="Чёткость голоса/чтения" data-tr="Ses/Tilavet Netliği" data-pt="Clareza de voz / recitação" data-zh="人声/诵读清晰" data-ur="آواز کی وضاحت / تلاوت">وضوح الصوت / التلاوة</option>
-          <option value="bass" data-ar="جهير قوي" data-en="Bass Boost" data-fr="Renforcement des graves" data-es="Refuerzo de graves" data-sv="Basförstärkning" data-nl="Basversterking" data-ga="Treisiú Doimhne" data-de="Bassverstärkung" data-ru="Усиление баса" data-tr="Bas Güçlendirme" data-pt="Reforço de graves" data-zh="低音增强" data-ur="بیس بوسٹ">جهير قوي</option>
-          <option value="bright" data-ar="حدة عالية" data-en="Bright" data-fr="Éclatant" data-es="Brillante" data-sv="Ljus" data-nl="Helder" data-ga="Geal" data-de="*****" data-ru="Яркий" data-tr="Parlak" data-pt="Brilhante" data-zh="明亮" data-ur="برائٹ">حدة عالية</option>
-        </select>
+        <div class="aqx-faders-group">
+          <div class="aqx-fader-col">
+            <span id="eqBassValue">0dB</span>
+            <div class="aqx-fader-track">
+              <div class="aqx-fader-fill" id="aqxFillBass"></div>
+              <div class="aqx-fader-center"></div>
+              <input type="range" id="eqBassSlider" min="-12" max="12" step="1" value="0"
+                     oninput="window.setEqBand && window.setEqBand('bass', this.value)"
+                     style="writing-mode:vertical-lr;direction:rtl;width:28px;height:78px;">
+            </div>
+            <label data-ar="جهير" data-en="Bass" data-fr="Graves" data-es="Graves" data-sv="Bas" data-nl="Bas" data-ga="Dord" data-de="Bass" data-ru="Бас" data-tr="Bas" data-pt="Graves" data-zh="低音" data-ur="بیس">جهير</label>
+          </div>
+          <div class="aqx-fader-col">
+            <span id="eqMidValue">0dB</span>
+            <div class="aqx-fader-track">
+              <div class="aqx-fader-fill" id="aqxFillMid"></div>
+              <div class="aqx-fader-center"></div>
+              <input type="range" id="eqMidSlider" min="-12" max="12" step="1" value="0"
+                     oninput="window.setEqBand && window.setEqBand('mid', this.value)"
+                     style="writing-mode:vertical-lr;direction:rtl;width:28px;height:78px;">
+            </div>
+            <label data-ar="متوسط" data-en="Mid" data-fr="Médiums" data-es="Medios" data-sv="Mellanregister" data-nl="Middentonen" data-ga="Meánmhinicíocht" data-de="Mitten" data-ru="Средние" data-tr="Orta" data-pt="Médios" data-zh="中音" data-ur="درمیانی">متوسط</label>
+          </div>
+          <div class="aqx-fader-col">
+            <span id="eqTrebleValue">0dB</span>
+            <div class="aqx-fader-track">
+              <div class="aqx-fader-fill" id="aqxFillTreble"></div>
+              <div class="aqx-fader-center"></div>
+              <input type="range" id="eqTrebleSlider" min="-12" max="12" step="1" value="0"
+                     oninput="window.setEqBand && window.setEqBand('treble', this.value)"
+                     style="writing-mode:vertical-lr;direction:rtl;width:28px;height:78px;">
+            </div>
+            <label data-ar="حاد" data-en="Treble" data-fr="Aigus" data-es="Agudos" data-sv="Diskant" data-nl="Hoge tonen" data-ga="Ard-mhinicíocht" data-de="Höhen" data-ru="Высокие" data-tr="Tiz" data-pt="Agudos" data-zh="高音" data-ur="ٹریبل">حاد</label>
+          </div>
+        </div>
+
+        <div class="aqx-divider" aria-hidden="true"></div>
+
+        <div class="aqx-preset-group">
+          <span data-ar="جاهز" data-en="Preset" data-fr="Prédéfini" data-es="Preajuste" data-sv="Förinställning" data-nl="Voorinstelling" data-ga="Réamhshocrú" data-de="Voreinstellung" data-ru="Пресет" data-tr="Hazır Ayar" data-pt="Predefinição" data-zh="预设" data-ur="پہلے سے طے شدہ">جاهز</span>
+          <div id="aqxPresetChips">
+            <button type="button" class="aqx-chip active" data-preset="flat" onclick="window._aqxSelectPreset('flat')"
+              data-ar="➖ مسطّح" data-en="➖ Flat" data-fr="➖ Plat" data-es="➖ Plano" data-sv="➖ Platt" data-nl="➖ Vlak" data-ga="➖ Cothrom" data-de="➖ Neutral" data-ru="➖ Плоский" data-tr="➖ Düz" data-pt="➖ Plano" data-zh="➖ 平坦" data-ur="➖ فلیٹ">➖ مسطّح</button>
+            <button type="button" class="aqx-chip" data-preset="voice" onclick="window._aqxSelectPreset('voice')"
+              data-ar="🎙️ وضوح الصوت / التلاوة" data-en="🎙️ Voice / Recitation Clarity" data-fr="🎙️ Clarté vocale / récitation" data-es="🎙️ Claridad de voz / recitación" data-sv="🎙️ Röst-/reciteringsklarhet" data-nl="🎙️ Stem-/recitatieduidelijkheid" data-ga="🎙️ Soiléireacht Gutha / Aithrise" data-de="🎙️ Sprach-/Rezitationsklarheit" data-ru="🎙️ Чёткость голоса/чтения" data-tr="🎙️ Ses/Tilavet Netliği" data-pt="🎙️ Clareza de voz / recitação" data-zh="🎙️ 人声/诵读清晰" data-ur="🎙️ آواز کی وضاحت / تلاوت">🎙️ وضوح الصوت / التلاوة</button>
+            <button type="button" class="aqx-chip" data-preset="bass" onclick="window._aqxSelectPreset('bass')"
+              data-ar="🔉 جهير قوي" data-en="🔉 Bass Boost" data-fr="🔉 Renforcement des graves" data-es="🔉 Refuerzo de graves" data-sv="🔉 Basförstärkning" data-nl="🔉 Basversterking" data-ga="🔉 Treisiú Doimhne" data-de="🔉 Bassverstärkung" data-ru="🔉 Усиление баса" data-tr="🔉 Bas Güçlendirme" data-pt="🔉 Reforço de graves" data-zh="🔉 低音增强" data-ur="🔉 بیس بوسٹ">🔉 جهير قوي</button>
+            <button type="button" class="aqx-chip" data-preset="bright" onclick="window._aqxSelectPreset('bright')"
+              data-ar="✨ حدة عالية" data-en="✨ Bright" data-fr="✨ Éclatant" data-es="✨ Brillante" data-sv="✨ Ljus" data-nl="✨ Helder" data-ga="✨ Geal" data-de="✨ Hell" data-ru="✨ Яркий" data-tr="✨ Parlak" data-pt="✨ Brilhante" data-zh="✨ 明亮" data-ur="✨ برائٹ">✨ حدة عالية</button>
+          </div>
+          <select id="eqPresetSelect" onchange="window.applyEqPreset && window.applyEqPreset(this.value)" style="display:none;">
+            <option value="flat" data-ar="مسطّح" data-en="Flat" data-fr="Plat" data-es="Plano" data-sv="Platt" data-nl="Vlak" data-ga="Cothrom" data-de="Neutral" data-ru="Плоский" data-tr="Düz" data-pt="Plano" data-zh="平坦" data-ur="فلیٹ">مسطّح</option>
+            <option value="voice" data-ar="وضوح الصوت / التلاوة" data-en="Voice / Recitation Clarity" data-fr="Clarté vocale / récitation" data-es="Claridad de voz / recitación" data-sv="Röst-/reciteringsklarhet" data-nl="Stem-/recitatieduidelijkheid" data-ga="Soiléireacht Gutha / Aithrise" data-de="Sprach-/Rezitationsklarheit" data-ru="Чёткость голоса/чтения" data-tr="Ses/Tilavet Netliği" data-pt="Clareza de voz / recitação" data-zh="人声/诵读清晰" data-ur="آواز کی وضاحت / تلاوت">وضوح الصوت / التلاوة</option>
+            <option value="bass" data-ar="جهير قوي" data-en="Bass Boost" data-fr="Renforcement des graves" data-es="Refuerzo de graves" data-sv="Basförstärkning" data-nl="Basversterking" data-ga="Treisiú Doimhne" data-de="Bassverstärkung" data-ru="Усиление баса" data-tr="Bas Güçlendirme" data-pt="Reforço de graves" data-zh="低音增强" data-ur="بیس بوسٹ">جهير قوي</option>
+            <option value="bright" data-ar="حدة عالية" data-en="Bright" data-fr="Éclatant" data-es="Brillante" data-sv="Ljus" data-nl="Helder" data-ga="Geal" data-de="*****" data-ru="Яркий" data-tr="Parlak" data-pt="Brilhante" data-zh="明亮" data-ur="برائٹ">حدة عالية</option>
+          </select>
+        </div>
       </div>
     </div>
-    <span data-ar="ملاحظة: المعادل والتضخيم قد لا يعملان مع بعض المحطات الخارجية بسبب قيود المتصفح (CORS)"
+    <span class="aqx-note" data-ar="ملاحظة: المعادل والتضخيم قد لا يعملان مع بعض المحطات الخارجية بسبب قيود المتصفح (CORS)"
           data-en="Note: Equalizer and boost may not work on some external stations due to browser (CORS) restrictions"
           data-fr="Remarque : l'égaliseur et l'amplification peuvent ne pas fonctionner sur certaines stations externes en raison des restrictions du navigateur (CORS)"
           data-es="Nota: el ecualizador y la amplificación pueden no funcionar en algunas emisoras externas debido a restricciones del navegador (CORS)"
@@ -14238,9 +14317,69 @@ setTimeout(autoScaleVerseFont, 100);
           data-tr="Not: Ekolayzer ve güçlendirme, tarayıcı (CORS) kısıtlamaları nedeniyle bazı harici istasyonlarda çalışmayabilir"
           data-pt="Nota: o equalizador e a amplificação podem não funcionar em algumas estações externas devido a restrições do navegador (CORS)"
           data-zh="注意：由于浏览器（CORS）限制，均衡器和增强功能在某些外部电台可能无法使用"
-          data-ur="نوٹ: بعض بیرونی اسٹیشنز پر براؤزر (CORS) کی پابندیوں کی وجہ سے ایکولائزر اور بوسٹ کام نہیں کر سکتے"
-          style="font-size:10px;opacity:.65;">ملاحظة: المعادل والتضخيم قد لا يعملان مع بعض المحطات الخارجية بسبب قيود المتصفح (CORS)</span>
+          data-ur="نوٹ: بعض بیرونی اسٹیشنز پر براؤزر (CORS) کی پابندیوں کی وجہ سے ایکولائزر اور بوسٹ کام نہیں کر سکتے">ملاحظة: المعادل والتضخيم قد لا يعملان مع بعض المحطات الخارجية بسبب قيود المتصفح (CORS)</span>
   </div>
+
+  <script>
+  (function(){
+    function capBand(b){ return b.charAt(0).toUpperCase()+b.slice(1); }
+    function updateFaderVisual(band, val){
+      val = parseFloat(val) || 0;
+      var fill = document.getElementById('aqxFill'+capBand(band));
+      if(!fill) return;
+      var track = fill.parentElement;
+      var half = (track.clientHeight - 8) / 2;
+      var h = Math.abs(val)/12*half;
+      fill.style.height = h+'px';
+      if(val>=0){ fill.style.bottom='50%'; fill.style.top='auto'; }
+      else { fill.style.top='50%'; fill.style.bottom='auto'; }
+      var viz = document.getElementById('aqxViz'+capBand(band));
+      if(viz){ viz.style.height = (30 + (val+12)/24*70) + '%'; }
+    }
+    function updateBoostVisual(val){
+      val = parseFloat(val) || 1;
+      var slider = document.getElementById('audioBoostSlider');
+      if(!slider) return;
+      var min = parseFloat(slider.min), max = parseFloat(slider.max);
+      var frac = (val-min)/(max-min)*100;
+      slider.style.background = 'linear-gradient(to right, var(--aqx-green) '+frac+'%, rgba(29,158,117,0.15) '+frac+'%)';
+      var badge = document.getElementById('audioBoostValueLabel');
+      if(badge){
+        if(val<=1.25) badge.style.background = 'var(--aqx-green)';
+        else if(val<=3) badge.style.background = 'var(--aqx-gold)';
+        else badge.style.background = '#e57373';
+      }
+    }
+    function setActiveChip(name){
+      document.querySelectorAll('#aqxPresetChips .aqx-chip').forEach(function(c){
+        c.classList.toggle('active', c.getAttribute('data-preset') === name);
+      });
+    }
+    window._aqxSelectPreset = function(name){
+      var sel = document.getElementById('eqPresetSelect');
+      if(sel) sel.value = name;
+      window.applyEqPreset && window.applyEqPreset(name);
+      setActiveChip(name);
+      window._aqxSyncAll();
+    };
+    window._aqxSyncAll = function(){
+      ['bass','mid','treble'].forEach(function(band){
+        var s = document.getElementById('eq'+capBand(band)+'Slider');
+        if(s) updateFaderVisual(band, s.value);
+      });
+      var b = document.getElementById('audioBoostSlider');
+      if(b) updateBoostVisual(b.value);
+    };
+    ['bass','mid','treble'].forEach(function(band){
+      var s = document.getElementById('eq'+capBand(band)+'Slider');
+      if(s) s.addEventListener('input', function(){ updateFaderVisual(band, this.value); setActiveChip(null); });
+    });
+    var boostS = document.getElementById('audioBoostSlider');
+    if(boostS) boostS.addEventListener('input', function(){ updateBoostVisual(this.value); });
+
+    requestAnimationFrame(function(){ window._aqxSyncAll(); });
+  })();
+  </script>
 
   
   <div id="welcomeExtraControlsRow" style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 8px 0 4px; flex-wrap:wrap;">
@@ -27721,8 +27860,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var btn = document.getElementById('sp-auto-btn');
     if (btn) {
       btn.classList.add('active');
-      var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
-      btn.textContent = ar ? '⏸ إيقاف التلقائي' : '⏸ Stop Auto';
+      btn.textContent = t('autoActive');
     }
     if (typeof window.alRequestWakeLock === 'function') window.alRequestWakeLock();
 
@@ -27750,8 +27888,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var btn = document.getElementById('sp-auto-btn');
     if (btn) {
       btn.classList.remove('active');
-      var ar = spAr ? spAr() : true;
-      btn.textContent = ar ? '⏩ تسبيح تلقائي' : '⏩ Auto Dhikr';
+      btn.textContent = t('autoBtn');
     }
     if (typeof window.alReleaseWakeLock === 'function') window.alReleaseWakeLock();
   }
@@ -27955,20 +28092,36 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       en: '⏭ Press NEXT to count'
     },
     pipOpen: {
-      ar: '📺 فتح PiP',
-      en: '📺 Open PiP'
+      ar: '📺 وضع النافذة العائمة PiP', en: '📺 Open PiP Window',
+      fr: '📺 Ouvrir la fenêtre PiP', es: '📺 Abrir ventana PiP', sv: '📺 Öppna PiP-fönster',
+      nl: '📺 PiP-venster openen', ga: '📺 Oscail Fuinneog PiP', de: '📺 PiP-Fenster öffnen',
+      ru: '📺 Открыть окно PiP', tr: '📺 PiP Penceresini Aç', pt: '📺 Abrir janela PiP',
+      zh: '📺 打开画中画窗口', ur: '📺 PiP ونڈو کھولیں'
     },
     pipClose: {
-      ar: '✖ إغلاق PiP',
-      en: '✖ Close PiP'
+      ar: '✖ إغلاق PiP', en: '✖ Close PiP',
+      fr: '✖ Fermer PiP', es: '✖ Cerrar PiP', sv: '✖ Stäng PiP',
+      nl: '✖ PiP sluiten', ga: '✖ Dún PiP', de: '✖ PiP schließen',
+      ru: '✖ Закрыть PiP', tr: "✖ PiP'yi Kapat", pt: '✖ Fechar PiP',
+      zh: '✖ 关闭画中画', ur: '✖ PiP بند کریں'
     },
     pipActive: {
       ar: '✅ اضغط زر ⏭ في نافذة PiP للتسبيح من أي تاب!',
       en: '✅ Press ⏭ in the PiP window to count from any tab!'
     },
     pipNote: {
-      ar: 'افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب',
-      en: 'Open PiP then press ⏭ to count from any tab'
+      ar: 'افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب', en: 'Open PiP then press ⏭ to count from any tab',
+      fr: "Ouvrez PiP puis appuyez sur ⏭ pour compter depuis n'importe quel onglet",
+      es: 'Abra PiP y luego presione ⏭ para contar desde cualquier pestaña',
+      sv: 'Öppna PiP och tryck sedan på ⏭ för att räkna från vilken flik som helst',
+      nl: 'Open PiP en druk dan op ⏭ om vanuit elk tabblad te tellen',
+      ga: 'Oscail PiP agus ansin brúigh ⏭ chun comhaireamh a dhéanamh ó chluaisín ar bith',
+      de: 'PiP öffnen und dann ⏭ drücken, um von jedem Tab aus zu zählen',
+      ru: 'Откройте PiP, затем нажмите ⏭, чтобы считать с любой вкладки',
+      tr: "PiP'yi açın, ardından herhangi bir sekmeden saymak için ⏭ tuşuna basın",
+      pt: 'Abra o PiP e pressione ⏭ para contar de qualquer aba',
+      zh: '打开画中画，然后点击⏭即可在任意标签页计数',
+      ur: 'PiP کھولیں پھر کسی بھی ٹیب سے شمار کے لیے ⏭ دبائیں'
     },
     pipLeave: {
       ar: 'افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب',
@@ -27982,12 +28135,212 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
       ar: '⚠️ تعذّر فتح PiP: ',
       en: '⚠️ Could not open PiP: '
     },
+
+    /* ── تسميات وأزرار قسم salah-pip-section — متعددة اللغات كالشاشة الترحيبية ── */
+    dhikrLabel: {
+      ar: 'الذكر:', en: 'Dhikr:', fr: 'Dhikr :', es: 'Dhikr:', sv: 'Dhikr:', nl: 'Dhikr:',
+      ga: 'Dhikr:', de: 'Dhikr:', ru: 'Зикр:', tr: 'Zikir:', pt: 'Dhikr:', zh: '赞念：', ur: 'ذکر:'
+    },
+    searchPlaceholder: {
+      ar: '🔍 بحث عن ذكر أو دعاء...', en: '🔍 Search dhikr or dua...',
+      fr: '🔍 Rechercher un dhikr ou une invocation...', es: '🔍 Buscar un dhikr o súplica...',
+      sv: '🔍 Sök dhikr eller bön...', nl: '🔍 Zoek dhikr of smeekbede...',
+      ga: '🔍 Cuardaigh dhikr nó guí...', de: '🔍 Dhikr oder Bittgebet suchen...',
+      ru: '🔍 Поиск зикра или дуа...', tr: '🔍 Zikir veya dua ara...',
+      pt: '🔍 Pesquisar dhikr ou súplica...', zh: '🔍 搜索赞词或祈祷词...', ur: '🔍 ذکر یا دعا تلاش کریں...'
+    },
+    playDhikrTitle: {
+      ar: 'تشغيل الذكر المختار', en: 'Play selected dhikr',
+      fr: 'Lire le dhikr sélectionné', es: 'Reproducir el dhikr seleccionado',
+      sv: 'Spela vald dhikr', nl: 'Geselecteerde dhikr afspelen',
+      ga: 'Seinn an dhikr roghnaithe', de: 'Ausgewählten Dhikr abspielen',
+      ru: 'Воспроизвести выбранный зикр', tr: 'Seçili zikri oynat',
+      pt: 'Reproduzir dhikr selecionado', zh: '播放所选赞词', ur: 'منتخب ذکر چلائیں'
+    },
+    prevDhikrTitle: {
+      ar: 'الذكر السابق', en: 'Previous dhikr',
+      fr: 'Dhikr précédent', es: 'Dhikr anterior', sv: 'Föregående dhikr',
+      nl: 'Vorige dhikr', ga: 'An dhikr roimhe seo', de: 'Vorheriger Dhikr',
+      ru: 'Предыдущий зикр', tr: 'Önceki zikir', pt: 'Dhikr anterior',
+      zh: '上一条赞词', ur: 'پچھلا ذکر'
+    },
+    nextDhikrTitle: {
+      ar: 'الذكر التالي', en: 'Next dhikr',
+      fr: 'Dhikr suivant', es: 'Dhikr siguiente', sv: 'Nästa dhikr',
+      nl: 'Volgende dhikr', ga: 'An chéad dhikr eile', de: 'Nächster Dhikr',
+      ru: 'Следующий зикр', tr: 'Sonraki zikir', pt: 'Próximo dhikr',
+      zh: '下一条赞词', ur: 'اگلا ذکر'
+    },
+    hint: {
+      ar: 'اضغط للتسبيح', en: 'Tap to count',
+      fr: 'Appuyez pour compter', es: 'Toca para contar', sv: 'Tryck för att räkna',
+      nl: 'Tik om te tellen', ga: 'Tapáil chun comhaireamh', de: 'Tippen zum Zählen',
+      ru: 'Нажмите, чтобы считать', tr: 'Saymak için dokun', pt: 'Toque para contar',
+      zh: '点击计数', ur: 'شمار کے لیے دبائیں'
+    },
+    targetLabel: {
+      ar: 'الهدف:', en: 'Target:', fr: 'Objectif :', es: 'Meta:', sv: 'Mål:',
+      nl: 'Doel:', ga: 'Sprioc:', de: 'Ziel:', ru: 'Цель:', tr: 'Hedef:',
+      pt: 'Meta:', zh: '目标：', ur: 'ہدف:'
+    },
+    remainingLabel: {
+      ar: 'المتبقي:', en: 'Remaining:', fr: 'Restant :', es: 'Restante:', sv: 'Kvar:',
+      nl: 'Resterend:', ga: 'Fágtha:', de: 'Verbleibend:', ru: 'Осталось:', tr: 'Kalan:',
+      pt: 'Restante:', zh: '剩余：', ur: 'باقی:'
+    },
+    autoBtn: {
+      ar: '⏩ تلقائي', en: '⏩ Auto', fr: '⏩ Auto', es: '⏩ Auto', sv: '⏩ Auto',
+      nl: '⏩ Auto', ga: '⏩ Uathoibríoch', de: '⏩ Automatisch', ru: '⏩ Авто',
+      tr: '⏩ Otomatik', pt: '⏩ Automático', zh: '⏩ 自动', ur: '⏩ خودکار'
+    },
+    autoActive: {
+      ar: '⏸ إيقاف التلقائي', en: '⏸ Stop Auto',
+      fr: "⏸ Arrêter l'auto", es: '⏸ Detener auto', sv: '⏸ Stoppa auto',
+      nl: '⏸ Auto stoppen', ga: '⏸ Stop Uathoibríoch', de: '⏸ Automatisch stoppen',
+      ru: '⏸ Остановить авто', tr: '⏸ Otomatiği durdur', pt: '⏸ Parar automático',
+      zh: '⏸ 停止自动', ur: '⏸ خودکار روکیں'
+    },
+    restoreBtn: {
+      ar: '↩ استرجاع آخر عدد', en: '↩ Restore last count',
+      fr: '↩ Restaurer le dernier compte', es: '↩ Restaurar último conteo',
+      sv: '↩ Återställ senaste antal', nl: '↩ Laatste telling herstellen',
+      ga: '↩ Athchóirigh an comhaireamh deiridh', de: '↩ Letzten Zählerstand wiederherstellen',
+      ru: '↩ Восстановить последний счёт', tr: '↩ Son sayımı geri yükle',
+      pt: '↩ Restaurar última contagem', zh: '↩ 恢复上次计数', ur: '↩ آخری شمار بحال کریں'
+    },
+    resetBtn: {
+      ar: '↺ تصفير', en: '↺ Reset', fr: '↺ Réinitialiser', es: '↺ Reiniciar',
+      sv: '↺ Återställ', nl: '↺ Reset', ga: '↺ Athshocraigh', de: '↺ Zurücksetzen',
+      ru: '↺ Сброс', tr: '↺ Sıfırla', pt: '↺ Reiniciar', zh: '↺ 重置', ur: '↺ صفر کریں'
+    },
+    alarmLabel: {
+      ar: '🔔 تذكير كل:', en: '🔔 Remind every:',
+      fr: '🔔 Rappel toutes les :', es: '🔔 Recordar cada:', sv: '🔔 Påminn var:',
+      nl: '🔔 Herinner elke:', ga: '🔔 Meabhraigh gach:', de: '🔔 Erinnern alle:',
+      ru: '🔔 Напоминать каждые:', tr: '🔔 Şu sıklıkta hatırlat:', pt: '🔔 Lembrar a cada:',
+      zh: '🔔 每隔提醒：', ur: '🔔 ہر بار یاد دلائیں:'
+    },
+    alarmBtnOff: {
+      ar: '🔔 تفعيل المنبه', en: '🔔 Enable Alarm',
+      fr: "🔔 Activer l'alarme", es: '🔔 Activar alarma', sv: '🔔 Aktivera larm',
+      nl: '🔔 Alarm inschakelen', ga: '🔔 Cumasaigh an t-aláram', de: '🔔 Alarm aktivieren',
+      ru: '🔔 Включить напоминание', tr: '🔔 Alarmı etkinleştir', pt: '🔔 Ativar alarme',
+      zh: '🔔 启用提醒', ur: '🔔 الارم فعال کریں'
+    },
+    alarmBtnOn: {
+      ar: '🔕 إيقاف المنبه', en: '🔕 Stop Alarm',
+      fr: "🔕 Arrêter l'alarme", es: '🔕 Detener alarma', sv: '🔕 Stoppa larm',
+      nl: '🔕 Alarm stoppen', ga: '🔕 Stop an t-aláram', de: '🔕 Alarm stoppen',
+      ru: '🔕 Остановить напоминание', tr: '🔕 Alarmı durdur', pt: '🔕 Parar alarme',
+      zh: '🔕 停止提醒', ur: '🔕 الارم بند کریں'
+    },
+    alarmInt1: { ar: '١ دقيقة', en: '1 min', fr: '1 min', es: '1 min', sv: '1 min', nl: '1 min', ga: '1 nóim', de: '1 Min', ru: '1 мин', tr: '1 dk', pt: '1 min', zh: '1 分钟', ur: '1 منٹ' },
+    alarmInt2: { ar: '٢ دقيقتان', en: '2 min', fr: '2 min', es: '2 min', sv: '2 min', nl: '2 min', ga: '2 nóim', de: '2 Min', ru: '2 мин', tr: '2 dk', pt: '2 min', zh: '2 分钟', ur: '2 منٹ' },
+    alarmInt5: { ar: '٥ دقائق', en: '5 min', fr: '5 min', es: '5 min', sv: '5 min', nl: '5 min', ga: '5 nóim', de: '5 Min', ru: '5 мин', tr: '5 dk', pt: '5 min', zh: '5 分钟', ur: '5 منٹ' },
+    alarmInt10: { ar: '١٠ دقائق', en: '10 min', fr: '10 min', es: '10 min', sv: '10 min', nl: '10 min', ga: '10 nóim', de: '10 Min', ru: '10 мин', tr: '10 dk', pt: '10 min', zh: '10 分钟', ur: '10 منٹ' },
+    alarmInt15: { ar: '١٥ دقيقة', en: '15 min', fr: '15 min', es: '15 min', sv: '15 min', nl: '15 min', ga: '15 nóim', de: '15 Min', ru: '15 мин', tr: '15 dk', pt: '15 min', zh: '15 分钟', ur: '15 منٹ' },
+    alarmInt20: { ar: '٢٠ دقيقة', en: '20 min', fr: '20 min', es: '20 min', sv: '20 min', nl: '20 min', ga: '20 nóim', de: '20 Min', ru: '20 мин', tr: '20 dk', pt: '20 min', zh: '20 分钟', ur: '20 منٹ' },
+    alarmInt30: { ar: '٣٠ دقيقة', en: '30 min', fr: '30 min', es: '30 min', sv: '30 min', nl: '30 min', ga: '30 nóim', de: '30 Min', ru: '30 мин', tr: '30 dk', pt: '30 min', zh: '30 分钟', ur: '30 منٹ' },
+    alarmInt60: { ar: 'ساعة', en: '1 hour', fr: '1 heure', es: '1 hora', sv: '1 timme', nl: '1 uur', ga: 'uair an chloig', de: '1 Stunde', ru: '1 час', tr: '1 saat', pt: '1 hora', zh: '1 小时', ur: '1 گھنٹہ' },
   };
 
   function t(key) {
-    var ar = spAr();
-    return spT[key] ? (ar ? spT[key].ar : spT[key].en) : key;
+    var lang = (typeof _curWelcomeLang === 'function') ? _curWelcomeLang() : (spAr() ? 'ar' : 'en');
+    var entry = spT[key];
+    if (!entry) return key;
+    return entry[lang] || entry.en || entry.ar || key;
   }
+
+  function spFormatNumber(n, lang) {
+    if (lang === 'ar') {
+      return n.toString().replace(/\d/g, function(d) { return '٠١٢٣٤٥٦٧٨٩'[d]; });
+    }
+    return n.toString();
+  }
+
+  /* تحديث كل تسميات وأزرار salah-pip-section بلغة العرض المختارة (نفس لغات الشاشة الترحيبية) */
+  function spApplyWelcomeLang(lang) {
+    lang = lang || ((typeof _curWelcomeLang === 'function') ? _curWelcomeLang() : (spAr() ? 'ar' : 'en'));
+    var sec = document.getElementById('salah-pip-section');
+    if (!sec) return;
+
+    var dhikrLbl = sec.querySelector('.sp-athkar-label');
+    if (dhikrLbl) dhikrLbl.textContent = t('dhikrLabel');
+
+    var searchInp = document.getElementById('sp-athkar-search');
+    if (searchInp) searchInp.placeholder = t('searchPlaceholder');
+
+    var playBtn = document.getElementById('sp-athkar-play-btn');
+    if (playBtn) playBtn.title = t('playDhikrTitle');
+
+    var prevBtn = document.getElementById('sp-athkar-prev');
+    if (prevBtn) prevBtn.title = t('prevDhikrTitle');
+
+    var nextBtn = document.getElementById('sp-athkar-next');
+    if (nextBtn) nextBtn.title = t('nextDhikrTitle');
+
+    var hintEl = document.getElementById('salah-pip-hint');
+    if (hintEl) hintEl.textContent = t('hint');
+
+    var targetLbl = sec.querySelector('.sp-target-row label');
+    if (targetLbl) targetLbl.textContent = t('targetLabel');
+
+    var targetSel = document.getElementById('sp-target-sel');
+    if (targetSel) {
+      Array.prototype.forEach.call(targetSel.options, function(opt) {
+        var num = parseInt(opt.value, 10);
+        if (!isNaN(num)) opt.textContent = spFormatNumber(num, lang);
+      });
+    }
+
+    var info = document.getElementById('salah-pip-info');
+    if (info) {
+      var count = parseInt(info.getAttribute('data-count') || '0', 10);
+      var target = parseInt(info.getAttribute('data-target') || '100', 10);
+      var rem = Math.max(0, target - count);
+      info.innerHTML = t('targetLabel') + ' ' + spFormatNumber(target, lang) +
+        ' &nbsp;|&nbsp; ' + t('remainingLabel') + ' ' + spFormatNumber(rem, lang);
+    }
+    var numEl = document.getElementById('salah-pip-num');
+    if (numEl) {
+      var c = info ? parseInt(info.getAttribute('data-count') || '0', 10) : 0;
+      numEl.textContent = spFormatNumber(c, lang);
+    }
+
+    var autoBtnEl = document.getElementById('sp-auto-btn');
+    if (autoBtnEl) autoBtnEl.textContent = autoBtnEl.classList.contains('active') ? t('autoActive') : t('autoBtn');
+
+    var restoreBtnEl = document.getElementById('sp-restore-btn');
+    if (restoreBtnEl) restoreBtnEl.textContent = t('restoreBtn');
+
+    var resetBtnEl = document.getElementById('sp-reset-btn');
+    if (resetBtnEl) resetBtnEl.textContent = t('resetBtn');
+
+    var alarmLbl = sec.querySelector('.sp-alarm-label');
+    if (alarmLbl) alarmLbl.textContent = t('alarmLabel');
+
+    var alarmSel = document.getElementById('sp-alarm-interval-sel');
+    if (alarmSel) {
+      var alarmIntKeys = { '1': 'alarmInt1', '2': 'alarmInt2', '5': 'alarmInt5', '10': 'alarmInt10', '15': 'alarmInt15', '20': 'alarmInt20', '30': 'alarmInt30', '60': 'alarmInt60' };
+      Array.prototype.forEach.call(alarmSel.options, function(opt) {
+        var key = alarmIntKeys[opt.value];
+        if (key) opt.textContent = t(key);
+      });
+    }
+
+    var alarmBtnEl = document.getElementById('sp-alarm-btn');
+    if (alarmBtnEl) alarmBtnEl.textContent = alarmBtnEl.classList.contains('active') ? t('alarmBtnOn') : t('alarmBtnOff');
+
+    var pipBtnEl = document.getElementById('sp-pip-toggle');
+    var pipActive = pipBtnEl && pipBtnEl.classList.contains('active');
+    if (pipBtnEl) pipBtnEl.textContent = pipActive ? t('pipClose') : t('pipOpen');
+
+    var pipNoteEl = document.getElementById('sp-pip-note');
+    if (pipNoteEl && !pipActive) pipNoteEl.textContent = t('pipNote');
+
+    sec.style.direction = (lang === 'ar') ? 'rtl' : 'ltr';
+  }
+  window.spApplyWelcomeLang = spApplyWelcomeLang;
 
   function spDrawCanvas() {
     var ar = spAr();
@@ -28909,8 +29262,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var btn = document.getElementById('sp-alarm-btn');
     if (btn) {
       btn.classList.add('active');
-      var ar = alAr();
-      btn.textContent = ar ? '🔕 إيقاف المنبه' : '🔕 Stop Alarm';
+      btn.textContent = (typeof t === 'function') ? t('alarmBtnOn') : (alAr() ? '🔕 إيقاف المنبه' : '🔕 Stop Alarm');
     }
     alStartCountdown(ms);
   }
@@ -28926,8 +29278,7 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var btn = document.getElementById('sp-alarm-btn');
     if (btn) {
       btn.classList.remove('active');
-      var ar = alAr();
-      btn.textContent = ar ? '🔔 تفعيل المنبه' : '🔔 Enable Alarm';
+      btn.textContent = (typeof t === 'function') ? t('alarmBtnOff') : (alAr() ? '🔔 تفعيل المنبه' : '🔔 Enable Alarm');
     }
     var st = document.getElementById('sp-alarm-status');
     if (st) st.textContent = '';
@@ -33245,6 +33596,7 @@ function applyInitialLanguage() {
     if (wasdLblEn) wasdLblEn.textContent = wasdLblEn.getAttribute('data-en');
 
     updateFilterLanguage(lang);
+    if (typeof window.spApplyWelcomeLang === 'function') window.spApplyWelcomeLang('en');
 
     var settingsLabel = document.getElementById('settings-toggle-label');
     if (settingsLabel) settingsLabel.textContent = settingsLabel.getAttribute('data-en');
@@ -34919,6 +35271,9 @@ function toggleLanguage() {
       if (txt) opt.textContent = txt;
     });
   }
+
+  // قسم عداد التسبيح salah-pip-section — تحديث شامل (يشمل أرقام الهدف/التذكير بصيغتها الصحيحة)
+  if (typeof window.spApplyWelcomeLang === 'function') window.spApplyWelcomeLang(lang);
 }
 
 // ── دعم اللغة الفرنسية لشاشة الترحيب فقط (الموقع نفسه يفضل عربي/إنجليزي) ──
@@ -35175,6 +35530,9 @@ function applyFilterButtonsLang(lang) {
     var _pnbTxt = PNB_PLACEHOLDER_TEXT[lang] || PNB_PLACEHOLDER_TEXT.en;
     if (_pnbTxt) _pnbNameEl.textContent = _pnbTxt;
   }
+
+  // قسم عداد التسبيح salah-pip-section — نفس اللغات المتعددة للشاشة الترحيبية
+  if (typeof window.spApplyWelcomeLang === 'function') window.spApplyWelcomeLang(lang);
 }
 
 function applyEnglishWelcomeOverlay() {
@@ -39880,6 +40238,7 @@ function startAutoToggle() {
     if (siteLanguage !== "auto") return;
 
     updateFilterLanguage(lang);
+    if (typeof window.spApplyWelcomeLang === 'function') window.spApplyWelcomeLang(lang);
 
     let nextLang = lang === "ar" ? "en" : "ar";
     let delay = lang === "ar" ? 5000 : 15000;
@@ -39897,6 +40256,7 @@ function setSiteLanguage(lang) {
   if (lang === 'en') isArabic = false;
   clearTimeout(toggleTimeout);
   updateFilterLanguage(lang);
+  if (typeof window.spApplyWelcomeLang === 'function') window.spApplyWelcomeLang(lang);
 }
 
 var currentAdhkarSub = 'all';
