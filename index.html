@@ -6455,21 +6455,31 @@ function _refreshPlayingStatusText(lang) {
 // بيتأكد إن النص المعروض في #status هو نص "لسه مفيش محطة شغالة" (بأي لغة من الـ12 لغة)
 // عشان مايتفهمش غلط على إنه اسم محطة شغالة فعليًا
 var _PLACEHOLDER_LANGS = ['ar', 'en', 'fr', 'es', 'sv', 'nl', 'ga', 'de', 'ru', 'tr', 'pt', 'zh', 'ur'];
+// نسخة ثابتة من نص #status الافتراضي الأصلي (زي ما هو مكتوب فى الـ HTML بالظبط).
+// لازم تفضل ثابتة كده وميتقراش من عنصر #status نفسه لحظيًا، لأن updateStatus() بيغيّر
+// data-attributes الفعلية لعنصر #status مع كل رسالة (تشغيل/خطأ)، فلو قرينا منها مباشرة
+// هنبقى بنقارن أي رسالة شغالة بنفسها، وده كان بيخلي الدالة ترجع "placeholder" دايمًا
+// ويفضل اسم المحطة فى شريط المشغل السفلي واقف على "اختر محطة..." حتى بعد اختيار محطة فعليًا.
+var STATUS_DEFAULT_TEXT = {
+  ar: "الرجاء اختيار محطة إذاعة.", en: "Please select a radio station.",
+  fr: "Veuillez choisir une station de radio.", es: "Por favor, seleccione una emisora de radio.",
+  sv: "Vänligen välj en radiostation.", nl: "Selecteer alstublieft een radiostation.",
+  ga: "Roghnaigh stáisiún raidió le do thoil.", de: "Bitte wählen Sie einen Radiosender.",
+  ru: "Пожалуйста, выберите радиостанцию.", tr: "Lütfen bir radyo istasyonu seçin.",
+  pt: "Por favor, selecione uma estação de rádio.", zh: "请选择一个广播电台。",
+  ur: "براہ کرم ایک ریڈیو اسٹیشن منتخب کریں۔"
+};
+// نص الـ innerText الفعلي لعنصر #status مختلف شوية عن data-ar (راديو بدل إذاعة) فبنضيفه كمان
+var STATUS_DEFAULT_TEXT_EXTRA_AR = "الرجاء اختيار محطة راديو.";
 function _isPlaceholderStatusText(txt) {
   if (!txt) return true;
   txt = txt.trim();
+  if (txt === STATUS_DEFAULT_TEXT_EXTRA_AR) return true;
   var i, lg;
   for (i = 0; i < _PLACEHOLDER_LANGS.length; i++) {
     lg = _PLACEHOLDER_LANGS[i];
     if (PNB_PLACEHOLDER_TEXT[lg] === txt) return true;
-  }
-  var statusElChk = document.getElementById('status');
-  if (statusElChk) {
-    for (i = 0; i < _PLACEHOLDER_LANGS.length; i++) {
-      lg = _PLACEHOLDER_LANGS[i];
-      var v = statusElChk.getAttribute('data-' + lg);
-      if (v && v.trim() === txt) return true;
-    }
+    if (STATUS_DEFAULT_TEXT[lg] === txt) return true;
   }
   return false;
 }
@@ -14294,7 +14304,7 @@ setTimeout(autoScaleVerseFont, 100);
             <button type="button" class="aqx-chip" data-preset="bass" onclick="window._aqxSelectPreset('bass')"
               data-ar="🔉 جهير قوي" data-en="🔉 Bass Boost" data-fr="🔉 Renforcement des graves" data-es="🔉 Refuerzo de graves" data-sv="🔉 Basförstärkning" data-nl="🔉 Basversterking" data-ga="🔉 Treisiú Doimhne" data-de="🔉 Bassverstärkung" data-ru="🔉 Усиление баса" data-tr="🔉 Bas Güçlendirme" data-pt="🔉 Reforço de graves" data-zh="🔉 低音增强" data-ur="🔉 بیس بوسٹ">🔉 جهير قوي</button>
             <button type="button" class="aqx-chip" data-preset="bright" onclick="window._aqxSelectPreset('bright')"
-              data-ar="✨ حدة عالية" data-en="✨ Bright" data-fr="✨ Éclatant" data-es="✨ Brillante" data-sv="✨ Ljus" data-nl="✨ Helder" data-ga="✨ Geal" data-de="✨ Hell" data-ru="✨ Яркий" data-tr="✨ Parlak" data-pt="✨ Brilhante" data-zh="✨ 明亮" data-ur="✨ برائٹ">✨ حدة عالية</button>
+              data-ar="✨ حدة عالية" data-en="✨ Bright" data-fr="✨ Éclatant" data-es="✨ Brillante" data-sv="✨ Ljus" data-nl="✨ Helder" data-ga="✨ Geal" data-de="✨ *****" data-ru="✨ Яркий" data-tr="✨ Parlak" data-pt="✨ Brilhante" data-zh="✨ 明亮" data-ur="✨ برائٹ">✨ حدة عالية</button>
           </div>
           <select id="eqPresetSelect" onchange="window.applyEqPreset && window.applyEqPreset(this.value)" style="display:none;">
             <option value="flat" data-ar="مسطّح" data-en="Flat" data-fr="Plat" data-es="Plano" data-sv="Platt" data-nl="Vlak" data-ga="Cothrom" data-de="Neutral" data-ru="Плоский" data-tr="Düz" data-pt="Plano" data-zh="平坦" data-ur="فلیٹ">مسطّح</option>
