@@ -5727,9 +5727,13 @@ function confirmReload() {
       };
 
       if (!navigator.onLine && navigator.serviceWorker && navigator.serviceWorker.controller) {
+        var _introSwDone = false;
         var _swHandler = function(event) {
           if (event.data && event.data.type === 'CACHED_URL_RESULT') {
+            if (_introSwDone) return;
+            _introSwDone = true;
             navigator.serviceWorker.removeEventListener('message', _swHandler);
+            clearTimeout(_introSwFallback);
             var _results = event.data.urls || {};
             var _cachedSrc = event.data.url || (_results[_introSrc]) || _introSrc;
             var _cachedAouz = (_results[_introAouzSrc]) || _introAouzSrc;
@@ -5742,7 +5746,9 @@ function confirmReload() {
           urls: [_introSrc, _introAouzSrc]
         });
         // fallback لو الـ SW ما ردّش خلال ثانية
-        setTimeout(function() {
+        var _introSwFallback = setTimeout(function() {
+          if (_introSwDone) return;
+          _introSwDone = true;
           navigator.serviceWorker.removeEventListener('message', _swHandler);
           _doPlayIntro(_introSrc, _introAouzSrc);
         }, 1000);
@@ -5759,9 +5765,13 @@ function confirmReload() {
       };
 
       if (!navigator.onLine && navigator.serviceWorker && navigator.serviceWorker.controller) {
+        var _aouzSwDone = false;
         var _swHandler2 = function(event) {
           if (event.data && event.data.type === 'CACHED_URL_RESULT') {
+            if (_aouzSwDone) return;
+            _aouzSwDone = true;
             navigator.serviceWorker.removeEventListener('message', _swHandler2);
+            clearTimeout(_aouzSwFallback);
             var _results2 = event.data.urls || {};
             var _cachedAouz2 = (_results2[_introAouzSrc]) || _introAouzSrc;
             _doPlayAouzOnly(_cachedAouz2);
@@ -5772,7 +5782,9 @@ function confirmReload() {
           type: 'FIND_CACHED_URL',
           urls: [_introAouzSrc]
         });
-        setTimeout(function() {
+        var _aouzSwFallback = setTimeout(function() {
+          if (_aouzSwDone) return;
+          _aouzSwDone = true;
           navigator.serviceWorker.removeEventListener('message', _swHandler2);
           _doPlayAouzOnly(_introAouzSrc);
         }, 1000);
