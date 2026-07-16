@@ -27003,7 +27003,27 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 @media (max-width: 600px) {
   #mushafToggleBtn { font-size: 15px; padding: 11px 14px; }
   #mushafToggleBtn .mshf-label { font-size: 15px; }
-  #mushafFullscreenHeader { font-size: 13px; padding: 8px 12px; }
+  #mushafFullscreenHeader {
+    font-size: 12px;
+    padding: 6px 8px;
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  #mushafFullscreenHeader a.mshf-new-tab {
+    display: none;
+  }
+  #mushafFullscreenHeader .mshf-header-title {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #mushafCloseFullscreenBtn,
+  #mushafMinimizeBtn {
+    width: 30px;
+    height: 30px;
+    font-size: 17px;
+  }
 }
 </style>
 
@@ -27058,7 +27078,16 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
     var link = document.getElementById('mushafNewTabLink');
     if (link) link.textContent = ar ? '🔗 فتح في تبويب | Open in Tab' : '🔗 Open in Tab | فتح في تبويب';
+    var titleEl = document.getElementById('mushafHeaderTitle');
+    if (titleEl) {
+      var isMobile = window.innerWidth <= 600;
+      titleEl.textContent = isMobile ?
+        (ar ? '📖 المصحف الشريف' : '📖 Holy Quran') :
+        (ar ? '📖 المصحف الشريف | Holy Quran' : '📖 Holy Quran | المصحف الشريف');
+    }
   }
+  updateMushafHeaderLang();
+  window.addEventListener('resize', updateMushafHeaderLang);
 
   function updateMushafBtnLabel() {
     var btn = document.getElementById('mushafToggleBtn');
@@ -31121,6 +31150,18 @@ function _ptDateStr(lang) {
     "zh": "删除",
     "ur": "حذف کریں"
   },
+  "btnResetProgress": {
+    "ar": "تصفير التقدم",
+    "en": "Reset progress"
+  },
+  "confirmResetProgress": {
+    "ar": "هيتصفّر تقدم \"{name}\" بالكامل (العداد وسجل القراءة والمتتالية) وترجع للبداية، الاسم والإنجازات هيفضلوا زي ما هما. متأكد؟",
+    "en": "This will reset all progress for \"{name}\" (count, reading log, and streak) back to zero. The name and achievements will stay. Continue?"
+  },
+  "progressResetToast": {
+    "ar": "تم تصفير التقدم ✅",
+    "en": "Progress reset ✅"
+  },
   "badge_streak3": {
     "ar": "متتالية 3 أيام",
     "en": "3-Day Streak",
@@ -31377,8 +31418,8 @@ function _ptDateStr(lang) {
     "ur": "✅ درج کریں"
   },
   "goalMissedDays": {
-    "ar": "⚠️ عندك {n} يوم متأخر (ناقصك {n2} {unitPl} علشان تلحق)",
-    "en": "⚠️ {n} day(s) behind (need {n2} more {unitPl} to catch up)",
+    "ar": "⚠️ متأخر بمقدار {n} يوم ({n2} {unitPl} إضافية للحاق بالخطة)",
+    "en": "⚠️ {n} day(s) behind schedule ({n2} extra {unitPl} needed to catch up)",
     "fr": "⚠️ Tu as {n} jour(s) de ***** (il te faut {n2} {unitPl} de plus pour rattraper)",
     "es": "⚠️ Vas {n} día(s) atrasado (necesitas {n2} {unitPl} más para ponerte al día)",
     "sv": "⚠️ Du ligger {n} dag(ar) efter (behöver {n2} {unitPl} till för att komma ikapp)",
@@ -31390,6 +31431,10 @@ function _ptDateStr(lang) {
     "pt": "⚠️ Você está {n} dia(s) atrasado (precisa de mais {n2} {unitPl} para recuperar)",
     "zh": "⚠️ 已落后 {n} 天（需再完成 {n2} {unitPl} 才能赶上）",
     "ur": "⚠️ آپ {n} دن پیچھے ہیں (آگے بڑھنے کے لیے مزید {n2} {unitPl} درکار ہیں)"
+  },
+  "goalAheadDays": {
+    "ar": "🎉 متقدّم بمقدار {n2} {unitPl} عن الخطة",
+    "en": "🎉 {n2} {unitPl} ahead of schedule"
   },
   "goalPace": {
     "ar": "بمعدل الورد ده هتخلص الختمة خلال ~{n} يوم",
@@ -32436,6 +32481,7 @@ function _ptDateStr(lang) {
     html += '</div>';
     html += '<div style="display:flex;justify-content:flex-end;gap:14px;margin:-2px 0 10px;">' +
       '<button onclick="window._khRenameKhatma()" style="background:none;border:none;color:inherit;opacity:0.55;font-size:11.5px;cursor:pointer;">\u270f\ufe0f ' + kt('btnRename') + '</button>' +
+      '<button onclick="window._khResetProgress()" style="background:none;border:none;color:inherit;opacity:0.55;font-size:11.5px;cursor:pointer;">\u21ba ' + kt('btnResetProgress') + '</button>' +
       (root.khatmas.length > 1 ? '<button onclick="window._khDeleteKhatma()" style="background:none;border:none;color:#e85d2f;opacity:0.7;font-size:11.5px;cursor:pointer;">\ud83d\uddd1\ufe0f ' + kt('btnDelete') + '</button>' : '') +
       '</div>';
     return html;
@@ -32534,16 +32580,28 @@ function _ptDateStr(lang) {
     var daysSinceGoal = Math.max(0, khDaysBetween(goalStart, today));
     var missedDays = 0, deficit = 0;
     var startD = khParseDate(goalStart);
+    // نجمع كل اللي اتقرأ من بداية الهدف لحد أمبارح (من غير النهاردة)
+    // والزيادة اللي فوق ورد النهاردة بتتحسب "فايض" بيسدد المتأخر
+    // ولو فضل منه حاجة، بيفضل محفوظ كرصيد بيقلل مطلوب الأيام الجاية تلقائيًا
+    // (لأن كل يوم بنعيد جمع التاريخ كله من أول الهدف، فأي فايض هيفضل ظاهر في المجموع لحد ما يتصرف)
+    var pastActual = 0;
     for (var i = 0; i < daysSinceGoal; i++) {
       var d = new Date(startD);
       d.setDate(d.getDate() + i);
       var key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-      var got = (st.log && st.log[key]) || 0;
-      if (got < st.dailyGoal) { missedDays++; deficit += (st.dailyGoal - got); }
+      pastActual += (st.log && st.log[key]) || 0;
     }
+    var todayExtra = Math.max(0, todayLogged - st.dailyGoal); // اللي فاض عن ورد النهاردة نفسه
+    var pastRequired = st.dailyGoal * daysSinceGoal;
+    var effectivePastActual = pastActual + todayExtra;
+    deficit = Math.max(0, pastRequired - effectivePastActual);
+    missedDays = st.dailyGoal > 0 ? Math.ceil(deficit / st.dailyGoal) : 0;
+    // الفايض اللي هيتوفر تلقائيًا للأيام الجاية بعد ما يتسدد المتأخر كله
+    var aheadCredit = Math.max(0, effectivePastActual - pastRequired);
+    var aheadDays = st.dailyGoal > 0 ? Math.floor(aheadCredit / st.dailyGoal) : 0;
     var remainingTotal = Math.max(0, khTotal(st) - st.current);
     var daysAtGoalPace = st.dailyGoal > 0 ? Math.ceil(remainingTotal / st.dailyGoal) : 0;
-    return { remainingToday: remainingToday, doneToday: doneToday, missedDays: missedDays, deficit: deficit, daysAtGoalPace: daysAtGoalPace };
+    return { remainingToday: remainingToday, doneToday: doneToday, missedDays: missedDays, deficit: deficit, aheadDays: aheadDays, aheadCredit: aheadCredit, daysAtGoalPace: daysAtGoalPace };
   }
 
   window._khSetDailyGoal = function(val) {
@@ -32590,6 +32648,10 @@ function _ptDateStr(lang) {
     if (gs.missedDays > 0) {
       html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(29,158,117,0.12);font-size:12px;color:#e85d2f;">' +
         kt('goalMissedDays', { n: gs.missedDays, n2: gs.deficit, unitPl: unitPl }) +
+        '</div>';
+    } else if (gs.aheadCredit > 0) {
+      html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(29,158,117,0.12);font-size:12px;color:#0F6E56;">' +
+        kt('goalAheadDays', { n2: gs.aheadCredit, unitPl: unitPl }) +
         '</div>';
     }
     html += '<div style="margin-top:6px;font-size:11.5px;opacity:0.6;">' +
@@ -33015,6 +33077,34 @@ function _ptDateStr(lang) {
     khRenderPopup();
   };
 
+  window._khResetProgress = function() {
+    var st = khLoad();
+    var msg = kt('confirmResetProgress', { name: st.name });
+    if (!confirm(msg)) return;
+    var id = st.id;
+    var name = st.name;
+    var completedCount = st.completedCount || 0;
+    var bestStreak = st.bestStreak || 0;
+    var badges = st.badges || [];
+    var dailyGoal = st.dailyGoal || null;
+    var unit = st.unit;
+    st = khDefaultState();
+    st.id = id;
+    st.name = name;
+    st.unit = unit;
+    st.completedCount = completedCount;
+    st.bestStreak = bestStreak;
+    st.badges = badges;
+    if (dailyGoal) {
+      st.dailyGoal = dailyGoal;
+      st.goalStartDate = khToday();
+    }
+    khSave(st);
+    khRenderPopup();
+    khUpdateBadge();
+    if (typeof showToast === 'function') showToast(kt('progressResetToast'));
+  };
+
   window._khStartNew = function() {
     var st = khLoad();
     var id = st.id;
@@ -33080,8 +33170,9 @@ function _ptDateStr(lang) {
     var unitThe = khUnitLabel(st.unit, 'the');
     var label = fab.querySelector('.kh-fab-label');
     if (label) {
-      label.textContent = unitThe + ' ' + st.current + '/' + khTotal(st);
+      label.textContent = st.current;
     }
+    fab.title = unitThe + ' ' + st.current + '/' + khTotal(st);
   }
 
   function khShowMushafFab() {
@@ -33089,13 +33180,14 @@ function _ptDateStr(lang) {
     if (!fab) {
       fab = document.createElement('div');
       fab.id = 'khMushafFab';
-      fab.style.cssText = 'position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:100000;' +
-        'background:rgba(29,158,117,0.94);color:#fff;border-radius:26px;padding:8px 8px 8px 16px;' +
-        'display:flex;align-items:center;gap:8px;font-family:Cairo,sans-serif;font-size:12.5px;font-weight:700;' +
-        'box-shadow:0 6px 20px rgba(0,0,0,0.3);direction:' + (khIsAr() ? 'rtl' : 'ltr') + ';';
-      fab.innerHTML =
-        '<span class="kh-fab-label"></span>' +
-        '<button onclick="window._khQuickAdd(1)" style="background:#fff;color:#1D9E75;border:none;border-radius:50%;width:28px;height:28px;font-size:15px;font-weight:800;cursor:pointer;">+1</button>';
+      var isMobileFab = window.innerWidth <= 600;
+      var bottomOffset = isMobileFab ? 'env(safe-area-inset-bottom, 0px)' : '18px';
+      fab.style.cssText = 'position:fixed;bottom:' + bottomOffset + ';left:50%;transform:translateX(-50%);z-index:100000;' +
+        'width:40px;height:40px;border-radius:50%;background:rgba(29,158,117,0.94);color:#fff;' +
+        'display:flex;align-items:center;justify-content:center;font-family:Cairo,sans-serif;font-size:14px;font-weight:800;' +
+        'box-shadow:0 4px 14px rgba(0,0,0,0.3);cursor:pointer;';
+      fab.setAttribute('onclick', 'window._khQuickAdd(1)');
+      fab.innerHTML = '<span class="kh-fab-label"></span>';
       document.body.appendChild(fab);
     }
     fab.style.display = 'flex';
