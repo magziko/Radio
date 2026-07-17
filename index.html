@@ -33791,12 +33791,8 @@ function applyInitialLanguage() {
       lbl.textContent = lbl.getAttribute('data-en');
     });
 
-    var translateBtn = document.getElementById('translateBarBtn');
-    if (translateBtn) translateBtn.textContent = '\u{1F310} Translate';
     var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
     if (darkModeTxt) darkModeTxt.textContent = 'Dark Mode';
-    var autoSwitchLbl = document.getElementById('customAutoSwitchLabel');
-    if (autoSwitchLbl) autoSwitchLbl.textContent = 'Auto Switch';
     var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
     if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = 'Auto Switch';
     var disableWelcomeTxtEl = document.getElementById('disableWelcomeTxt');
@@ -34701,7 +34697,6 @@ buttons.forEach((button, index) => {
 
 const audioPlayer = document.getElementById("currentAudio");
 const toggleButton = document.getElementById("togglePlayPause");
-const volumeControl = document.getElementById("volumeControl");
 
 function togglePlayPause() {
   var icon = document.getElementById('togglePlayPauseIcon');
@@ -35086,17 +35081,8 @@ function toggleLanguage() {
     lbl.textContent = isArabic ? lbl.getAttribute('data-ar') : lbl.getAttribute('data-en');
   });
 
-  var translateBtn = document.getElementById('translateBarBtn');
-  if (translateBtn) translateBtn.textContent = isArabic ? '🌐 ترجمة' : '🌐 Translate';
-
   var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
   if (darkModeTxt) darkModeTxt.textContent = isArabic ? 'الوضع الليلي' : 'Dark Mode';
-
-  var autoSwitchLbl = document.getElementById('customAutoSwitchLabel');
-  if (autoSwitchLbl) autoSwitchLbl.textContent = isArabic ? 'تنقل تلقائي' : 'Auto Switch';
-
-  var disableWelcomeLbl = document.getElementById('disableWelcomeLabel');
-  if (disableWelcomeLbl) disableWelcomeLbl.textContent = isArabic ? 'إخفاء شاشة الترحيب' : 'Disable Welcome Screen';
 
   var autoSwitchToggleTxt = document.getElementById('autoSwitchToggleTxt');
   if (autoSwitchToggleTxt) autoSwitchToggleTxt.textContent = isArabic ? 'تنقل تلقائي' : 'Auto Switch';
@@ -36420,12 +36406,6 @@ function updateDarkModeBtn(isDark) {
   var _dmLabels = DARK_LIGHT_MODE_LABELS[_dmLang] || DARK_LIGHT_MODE_LABELS.en;
   var _dmActiveLabel = isDark ? _dmLabels.light : _dmLabels.dark;
 
-  const btn = document.getElementById('darkModeFloatBtn');
-  if (btn) {
-    btn.textContent = isDark ? '☀️' : '🌙';
-    btn.title = _dmActiveLabel;
-  }
-
   const wBtn = document.getElementById('welcomeDarkModeBtn');
   const wTxt = document.getElementById('welcomeDarkModeTxt');
   const wIcon = wBtn ? wBtn.querySelector('.wdm-icon') : null;
@@ -36967,14 +36947,6 @@ function openWelcomeScreen() {
   clearTimeout(welcomeStalledTimer);
   playSource(index);
   // isAudioPlaying و updateWelcomePlayPauseButton يتضبطان تلقائياً في play event
-}
-
-function openPasswordModal() {
-  document.getElementById('passwordModal').style.display = 'flex';
-}
-
-function closePasswordModal() {
-  document.getElementById('passwordModal').style.display = 'none';
 }
 
 function promptPasswordSecure(message) {
@@ -40341,10 +40313,6 @@ function updateFilterLanguage(lang) {
 
   // تحديث زر المصحف أيضاً
   if (typeof updateMushafBtnLabel === 'function') updateMushafBtnLabel();
-
-  // تحديث زر مساعد الذكاء الاصطناعي في الشاشة الترحيبية
-  var welcomeAiTxt = document.getElementById('welcomeAiTxt');
-  if (welcomeAiTxt) welcomeAiTxt.textContent = isAr ? 'مساعد ذكي' : 'AI Help';
 
   // نص "اختر محطة..." في شريط المشغل السفلي (لو لسه مفيش محطة شغالة)
   var _pnbNameElUFL = document.getElementById('pnb-name');
@@ -45270,8 +45238,6 @@ document.addEventListener('DOMContentLoaded', function() {
       volSlider.value = audioEl.volume;
       volSlider.addEventListener('input', function() {
         audioEl.volume = this.value;
-        var oldVol = document.getElementById('volumeControl');
-        if (oldVol) oldVol.value = this.value;
       });
       audioEl.addEventListener('volumechange', function() {
         if (volSlider) volSlider.value = audioEl.volume;
@@ -45542,11 +45508,6 @@ document.addEventListener('DOMContentLoaded', function() {
       var uplWord = el ? (el.getAttribute('data-word-' + ((typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : (ar ? 'ar' : 'en'))) || el.getAttribute('data-word-en')) : null;
       var countTxt = count + ' ' + (uplWord || (ar ? 'مختار' : 'selected'));
       if (el) el.textContent = countTxt;
-
-      var el2 = document.getElementById('surah-pl-count');
-      if (el2) el2.textContent = countTxt;
-      var el3 = document.getElementById('adhkar-pl-count');
-      if (el3) el3.textContent = countTxt;
     }
 
     window.uplSelectAll = function() {
