@@ -27930,14 +27930,6 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     }
     if (typeof window.alRequestWakeLock === 'function') window.alRequestWakeLock();
 
-    // لو العداد وصل الهدف من قبل، ابدأ من الصفر تلقائياً
-    if (spCount >= spTarget) {
-      spCount = 0;
-      spSaveCount();
-      spUpdateUI();
-      spDrawCanvas();
-    }
-
     function tick() {
       if (!spAutoTimer) return;
       window.spIncrement();
