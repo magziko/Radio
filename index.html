@@ -37747,6 +37747,14 @@ const SiteModalManager = (function() {
   }
 
   function open(url, title, fullSize = false) {
+    /* لو فيه نافذة مفتوحة بالفعل (مصغّرة أو ظاهرة) لنفس الرابط، استرجعها بدل فتح نسخة جديدة
+       ده يمنع فقدان موضع القراءة/التمرير عند إعادة فتح نفس الموقع بعد التصغير */
+    const existingId = Object.keys(openModals).find(k => openModals[k].url === url);
+    if (existingId) {
+      restore(+existingId);
+      return +existingId;
+    }
+
     const id = ++counter;
     const isMobile = window.innerWidth <= 768;
     const W = isMobile ? Math.min(window.innerWidth - 10, 380) : Math.min(window.innerWidth - 40, 1100);
@@ -37830,9 +37838,22 @@ const SiteModalManager = (function() {
     return id;
   }
 
+  /* الرابط اللي محتاج "تصغير ناعم" (إعادة تحميل عند الاسترجاع) بدل الإخفاء العادي —
+     مطبّق على مودال القرآن الكريم equran بس، وباقي المودالات في الموقع بتفضل
+     بتشتغل بالسلوك الأصلي (إخفاء/إظهار من غير أي إعادة تحميل) */
+  const RELOAD_ON_MINIMIZE_URLS = ['https://magziko.github.io/equran/'];
+
   function minimize(id) {
     const m = openModals[id];
     if (!m) return;
+    if (RELOAD_ON_MINIMIZE_URLS.includes(m.url)) {
+      /* "تصغير ناعم": بنفرّغ الـ iframe فعليًا (زي ما بيحصل بالظبط مع الإغلاق) عشان
+         لما نرجّعه، يتحمّل من جديد ويسترجع آخر آية تلقائيًا بنفس الطريقة المضمونة
+         اللي بتشتغل مع الإغلاق/إعادة الفتح — بدل ما نعتمد على إخفاء الـ iframe بس
+         (اللي بيفقد موضع القراءة في المتصفح) */
+      const iframe = m.win.querySelector('iframe');
+      if (iframe) iframe.src = 'about:blank';
+    }
     m.win.classList.add('minimized');
     taskbar().appendChild(m.taskbarItem);
   }
@@ -37843,6 +37864,13 @@ const SiteModalManager = (function() {
     m.win.classList.remove('minimized');
     if (m.taskbarItem.parentNode) m.taskbarItem.parentNode.removeChild(m.taskbarItem);
     bringToFront(id);
+    if (RELOAD_ON_MINIMIZE_URLS.includes(m.url)) {
+      /* نعيد تحميل نفس الرابط من جديد — بنفس آلية الإغلاق/إعادة الفتح المضمونة */
+      const iframe = m.win.querySelector('iframe');
+      if (iframe && iframe.src === 'about:blank') {
+        iframe.src = m.url;
+      }
+    }
   }
 
   function toggleMaximize(id) {
