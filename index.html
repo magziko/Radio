@@ -24337,20 +24337,20 @@ const ltvStations = [
 
 <script>
 const moreMushafs = [{
-  ar: 'المصحف المحفظ',
-  en: 'Al-Mushaf Al-Muhafidh',
-  fr: 'Al-Mushaf Al-Muhafidh',
-  es: 'Al-Mushaf Al-Muhafidh',
-  sv: 'Al-Mushaf Al-Muhafidh',
-  nl: 'Al-Mushaf Al-Muhafidh',
-  ga: 'Al-Mushaf Al-Muhafidh',
-  de: 'Al-Mushaf Al-Muhafidh',
-  ru: 'Al-Mushaf Al-Muhafidh',
-  tr: 'Al-Mushaf Al-Muhafidh',
-  pt: 'Al-Mushaf Al-Muhafidh',
-  zh: 'Al-Mushaf Al-Muhafidh',
-  ur: 'Al-Mushaf Al-Muhafidh',
-  url: 'https://muhaffidh.app/'
+  ar: 'القرآن الكريم - equran',
+  en: 'Holy Quran - equran',
+  fr: 'Coran Saint - equran',
+  es: 'Sagrado Corán - equran',
+  sv: 'Heliga Koranen - equran',
+  nl: 'Heilige Koran - equran',
+  ga: 'An Corán Naofa - equran',
+  de: 'Heiliger Koran - equran',
+  ru: 'Священный Коран - equran',
+  tr: 'Kur\'an-ı Kerim - equran',
+  pt: 'Alcorão Sagrado - equran',
+  zh: '古兰经 - equran',
+  ur: 'قرآن کریم - equran',
+  url: 'https://magziko.github.io/equran/'
 }, {
   ar: 'قرآن فلاش',
   en: 'QuranFlash',
@@ -24699,6 +24699,22 @@ const moreSites = [{
   ur: 'Quran.com',
   url: 'https://quran.com/ar'
 }, {
+  ar: 'المصحف المحفظ',
+  en: 'Al-Mushaf Al-Muhafidh',
+  fr: 'Al-Mushaf Al-Muhafidh',
+  es: 'Al-Mushaf Al-Muhafidh',
+  sv: 'Al-Mushaf Al-Muhafidh',
+  nl: 'Al-Mushaf Al-Muhafidh',
+  ga: 'Al-Mushaf Al-Muhafidh',
+  de: 'Al-Mushaf Al-Muhafidh',
+  ru: 'Al-Mushaf Al-Muhafidh',
+  tr: 'Al-Mushaf Al-Muhafidh',
+  pt: 'Al-Mushaf Al-Muhafidh',
+  zh: 'Al-Mushaf Al-Muhafidh',
+  ur: 'Al-Mushaf Al-Muhafidh',
+  url: 'https://muhaffidh.app/',
+  newTab: true
+}, {
   ar: 'مقرئ لتحفيظ القرآن',
   en: 'Muqri for Quran Memorization',
   fr: 'Muqri pour Mémorisation Coran',
@@ -24712,7 +24728,8 @@ const moreSites = [{
   pt: 'Muqri para Memorização Alcorão',
   zh: 'Muqri 为 背诵 古兰经',
   ur: 'Muqri کے لیے حفظ قرآن',
-  url: 'https://en.muqri.com/'
+  url: 'https://en.muqri.com/',
+  newTab: true
 }, {
   ar: 'المحفظ للقرآن',
   en: 'Muhafidh for Quran',
@@ -26026,6 +26043,7 @@ const moreTranslations = [{
       btn.innerHTML =
         '<span class="flag"></span>' +
         '<span class="station-text">' + s.ar + '</span>' +
+        (s.newTab ? '<span class="newtab-marker" title="يفتح في تبويب جديد | Opens in new tab">↗</span>' : '') +
         '<img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">' +
         '<span class="favorite-icon" onclick="toggleFavorite(event,\'' + s.ar.replace(/'/g, "\\'") + '\'); event.stopPropagation(); return false;">&#x2764;</span>';
 
@@ -26034,6 +26052,31 @@ const moreTranslations = [{
   });
 })();
 </script>
+
+<style>
+.newtab-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  color: #1B6CA8;
+  background: rgba(27,108,168,0.12);
+  border: 1px solid rgba(27,108,168,0.35);
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  line-height: 1;
+  margin-inline-start: 5px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+body.dark-mode .newtab-marker {
+  color: #90caf9;
+  background: rgba(100,181,246,0.14);
+  border-color: rgba(100,181,246,0.4);
+}
+</style>
 
 
 <button class="button palestine"
@@ -26788,22 +26831,24 @@ body.dark-mode #sp-alarm-today-bar { color: #5DCAA5; background: rgba(29,158,117
   width: 100%;
   padding: 0;
   box-sizing: border-box;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: stretch;
   pointer-events: none;
+  gap: 2px;
 }
 
 #mushaf-toggle-wrap > * {
   pointer-events: auto;
 }
 
-#mushafToggleBtn {
+#mushafToggleBtn,
+#equranToggleBtn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   width: 100%;
-  max-width: 900px;
+  max-width: 450px;
   /* Mobile-friendly tap target: min 56px tall */
   padding: 16px 28px;
   min-height: 56px;
@@ -26832,7 +26877,8 @@ body.dark-mode #sp-alarm-today-bar { color: #5DCAA5; background: rgba(29,158,117
   box-shadow: 0 -5px 20px rgba(27,108,168,0.22);
 }
 
-#mushafToggleBtn:active {
+#mushafToggleBtn:active,
+#equranToggleBtn:active {
   transform: scale(0.98);
 }
 
@@ -26843,18 +26889,21 @@ body.dark-mode #sp-alarm-today-bar { color: #5DCAA5; background: rgba(29,158,117
   box-shadow: 0 -5px 20px rgba(27,108,168,0.35);
 }
 
-#mushafToggleBtn .mshf-icon {
+#mushafToggleBtn .mshf-icon,
+#equranToggleBtn .mshf-icon {
   font-size: 22px;
   line-height: 1;
   flex-shrink: 0;
 }
 
-#mushafToggleBtn .mshf-label {
+#mushafToggleBtn .mshf-label,
+#equranToggleBtn .mshf-label {
   font-size: 16px;
   font-weight: 700;
 }
 
-#mushafToggleBtn .mshf-arrow {
+#mushafToggleBtn .mshf-arrow,
+#equranToggleBtn .mshf-arrow {
   font-size: 18px;
   transition: transform 0.35s cubic-bezier(.4,0,.2,1);
   display: inline-block;
@@ -26862,7 +26911,8 @@ body.dark-mode #sp-alarm-today-bar { color: #5DCAA5; background: rgba(29,158,117
   opacity: 0.7;
 }
 
-#mushafToggleBtn.open .mshf-arrow {
+#mushafToggleBtn.open .mshf-arrow,
+#equranToggleBtn.open .mshf-arrow {
   transform: rotate(180deg);
 }
 
@@ -26876,16 +26926,50 @@ body.dark-mode #mushafToggleBtn.open {
   color: #fff;
 }
 
+/* equran button - distinct teal/green scheme so the two options read as separate choices */
+#equranToggleBtn {
+  color: #0F6E56;
+  background: linear-gradient(135deg, rgba(225,245,238,0.98) 0%, rgba(255,255,255,0.98) 100%);
+  border: 2px solid rgba(15,110,86,0.35);
+  border-top: 2.5px solid rgba(15,110,86,0.45);
+  border-radius: 14px 14px 0 0;
+}
+#equranToggleBtn:hover,
+#equranToggleBtn:focus-visible {
+  background: linear-gradient(135deg, rgba(15,110,86,0.10) 0%, rgba(225,245,238,1) 100%);
+  border-color: #0F6E56;
+  box-shadow: 0 -5px 20px rgba(15,110,86,0.22);
+}
+#equranToggleBtn.open {
+  background: linear-gradient(135deg, #0F6E56 0%, #1D9E75 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 -5px 20px rgba(15,110,86,0.35);
+}
+body.dark-mode #equranToggleBtn {
+  background: linear-gradient(135deg, rgba(15,110,86,0.18) 0%, rgba(26,26,46,0.95) 100%);
+  color: #5DCAA5;
+  border-color: rgba(93,202,165,0.35);
+}
+body.dark-mode #equranToggleBtn.open {
+  background: linear-gradient(135deg, #0F6E56 0%, #0a4a3a 100%);
+  color: #fff;
+}
+
 /* Mobile */
 @media (max-width: 600px) {
-  #mushafToggleBtn {
-    font-size: 15px;
-    padding: 15px 18px;
+  #mushafToggleBtn,
+  #equranToggleBtn {
+    font-size: 13px;
+    padding: 12px 8px;
     min-height: 54px;
     border-radius: 10px 10px 0 0;
+    gap: 4px;
   }
-  #mushafToggleBtn .mshf-icon { font-size: 20px; }
-  #mushafToggleBtn .mshf-label { font-size: 15px; }
+  #mushafToggleBtn .mshf-icon,
+  #equranToggleBtn .mshf-icon { font-size: 18px; }
+  #mushafToggleBtn .mshf-label,
+  #equranToggleBtn .mshf-label { font-size: 12.5px; }
 }
 
 /* ===== نافذة المصحف كاملة الشاشة ===== */
@@ -27052,49 +27136,82 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 <!-- زر فتح المصحف في الشريط السفلي -->
 <div id="mushaf-toggle-wrap" style="display:none;">
   <div id="mushafPanel"></div>
-  <button id="mushafToggleBtn" onclick="toggleMushaf()">
+  <button id="mushafToggleBtn" onclick="toggleMushaf('flash')">
     <span class="mshf-icon">📖</span>
-    <span class="mshf-label">📖 المصحف الشريف | Holy Quran</span>
+    <span class="mshf-label">📖 المصحف الشريف</span>
+    <span class="mshf-arrow">&#8964;</span>
+  </button>
+  <button id="equranToggleBtn" onclick="toggleMushaf('equran')">
+    <span class="mshf-icon">📗</span>
+    <span class="mshf-label">📗 القرآن الكريم equran</span>
     <span class="mshf-arrow">&#8964;</span>
   </button>
 </div>
 
 <script>
 (function() {
-  var MUSHAF_URL = 'https://app.quranflash.com/book/Medina3?ar#/reader';
-  var loaded = false;
+  // مصدرا القراءة المتاحان - كل واحد بيشارك نفس النافذة/الـ iframe/شريط المهام
+  var SOURCES = {
+    flash: {
+      url: 'https://app.quranflash.com/book/Medina3?ar#/reader',
+      btnId: 'mushafToggleBtn',
+      icon: '📖',
+      nameAr: 'المصحف الشريف',
+      nameEn: 'Holy Quran',
+      taskbarAr: 'المصحف الشريف',
+      taskbarEn: 'Holy Quran'
+    },
+    equran: {
+      url: 'https://magziko.github.io/equran/',
+      btnId: 'equranToggleBtn',
+      icon: '📗',
+      nameAr: 'القرآن الكريم equran',
+      nameEn: 'equran Reader',
+      taskbarAr: 'قراءة القرآن equran',
+      taskbarEn: 'equran Reader'
+    }
+  };
+  var DEFAULT_SOURCE = 'flash';
+  var currentSource = null; // آخر مصدر اتفتح فعليًا في الـ iframe
   var mshfTaskbarItem = null;
 
-  function getMushafLabel(isOpen) {
+  function getMushafLabel(source, isOpen) {
     var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var s = SOURCES[source];
     if (isOpen) {
-      return ar ? '📖 أغلق المصحف | Close' : '📖 Close | أغلق المصحف';
+      return ar ? (s.icon + ' أغلق') : (s.icon + ' Close');
     } else {
-      return ar ? '📖 المصحف الشريف | Holy Quran' : '📖 Holy Quran | المصحف الشريف';
+      return ar ? (s.icon + ' ' + s.nameAr) : (s.icon + ' ' + s.nameEn);
     }
   }
 
   function updateMushafHeaderLang() {
     var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var s = SOURCES[currentSource || DEFAULT_SOURCE];
     var link = document.getElementById('mushafNewTabLink');
-    if (link) link.textContent = ar ? '🔗 فتح في تبويب | Open in Tab' : '🔗 Open in Tab | فتح في تبويب';
+    if (link) {
+      link.textContent = ar ? '🔗 فتح في تبويب | Open in Tab' : '🔗 Open in Tab | فتح في تبويب';
+      link.href = s.url;
+    }
     var titleEl = document.getElementById('mushafHeaderTitle');
     if (titleEl) {
       var isMobile = window.innerWidth <= 600;
       titleEl.textContent = isMobile ?
-        (ar ? '📖 المصحف الشريف' : '📖 Holy Quran') :
-        (ar ? '📖 المصحف الشريف | Holy Quran' : '📖 Holy Quran | المصحف الشريف');
+        (ar ? (s.icon + ' ' + s.nameAr) : (s.icon + ' ' + s.nameEn)) :
+        (ar ? (s.icon + ' ' + s.nameAr + ' | ' + s.nameEn) : (s.icon + ' ' + s.nameEn + ' | ' + s.nameAr));
     }
   }
   updateMushafHeaderLang();
   window.addEventListener('resize', updateMushafHeaderLang);
 
   function updateMushafBtnLabel() {
-    var btn = document.getElementById('mushafToggleBtn');
-    if (!btn) return;
-    var isOpen = btn.classList.contains('open');
-    var label = btn.querySelector('.mshf-label');
-    if (label) label.textContent = getMushafLabel(isOpen);
+    Object.keys(SOURCES).forEach(function(key) {
+      var btn = document.getElementById(SOURCES[key].btnId);
+      if (!btn) return;
+      var isOpen = btn.classList.contains('open');
+      var label = btn.querySelector('.mshf-label');
+      if (label) label.textContent = getMushafLabel(key, isOpen);
+    });
   }
 
   function removeMshfTaskbarItem() {
@@ -27114,15 +27231,19 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         setTimeout(updateMushafBtnLabel, 50);
         setTimeout(updateMushafHeaderLang, 50);
         var mshfLbl = mshfTaskbarItem ? mshfTaskbarItem.querySelector('span:nth-child(2)') : null;
-        if (mshfLbl) {
+        if (mshfLbl && currentSource) {
           var arNow = (typeof isArabic !== 'undefined') ? isArabic : true;
-          mshfLbl.textContent = arNow ? 'المصحف الشريف' : 'Holy Quran';
+          var s = SOURCES[currentSource];
+          mshfLbl.textContent = arNow ? s.taskbarAr : s.taskbarEn;
         }
       };
     }
   }, 200);
 
-  window.toggleMushaf = function() {
+  // source: 'flash' (المصحف الحالي) أو 'equran' - الافتراضي 'flash' لو مفيش حاجة اتحددت
+  window.toggleMushaf = function(source) {
+    source = SOURCES[source] ? source : DEFAULT_SOURCE;
+
     // لو النافذة مصغّرة في التاسكبار، رجّعها بدل ما نفتح واحدة جديدة
     if (mshfTaskbarItem) {
       window.restoreMushafFromTaskbar();
@@ -27130,21 +27251,39 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     }
 
     var overlay = document.getElementById('mushafFullscreenOverlay');
-    var btn = document.getElementById('mushafToggleBtn');
+    var iframe = document.getElementById('mushafFullscreenIframe');
+    var loading = document.getElementById('mushafFullscreenLoading');
+
+    // لو فيه زرار تاني كان مفتوح، رجّعه لحالته العادية
+    if (currentSource && currentSource !== source) {
+      var prevBtn = document.getElementById(SOURCES[currentSource].btnId);
+      if (prevBtn) {
+        prevBtn.classList.remove('open');
+        var prevLbl = prevBtn.querySelector('.mshf-label');
+        if (prevLbl) prevLbl.textContent = getMushafLabel(currentSource, false);
+      }
+    }
+
+    var switchedSource = (currentSource !== source);
+    currentSource = source;
+    var s = SOURCES[source];
+    var btn = document.getElementById(s.btnId);
 
     overlay.classList.add('active');
-    btn.classList.add('open');
-    btn.querySelector('.mshf-label').textContent = getMushafLabel(true);
+    if (btn) {
+      btn.classList.add('open');
+      var lbl = btn.querySelector('.mshf-label');
+      if (lbl) lbl.textContent = getMushafLabel(source, true);
+    }
 
     // منع التمرير خلف النافذة
     document.body.style.overflow = 'hidden';
 
-    // تحميل الـ iframe عند أول فتح
-    if (!loaded) {
-      loaded = true;
-      var iframe = document.getElementById('mushafFullscreenIframe');
-      var loading = document.getElementById('mushafFullscreenLoading');
+    updateMushafHeaderLang();
 
+    // تحميل الـ iframe عند أول فتح لهذا المصدر أو عند تبديل المصدر
+    if (switchedSource || iframe.getAttribute('data-loaded-src') !== s.url) {
+      iframe.setAttribute('data-loaded-src', s.url);
       iframe.style.display = 'none';
       loading.style.display = 'flex';
 
@@ -27158,22 +27297,23 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
         loading.style.display = 'none';
         iframe.style.display = 'block';
       };
-      iframe.src = MUSHAF_URL;
+      iframe.src = s.url;
     }
   };
 
-  // تصغير النافذة إلى شريط المهام أسفل الشاشة، مع إبقاء المصحف محمّلاً
+  // تصغير النافذة إلى شريط المهام أسفل الشاشة، مع إبقاء القراءة محمّلة
   // عشان المستخدم يقدر يرجع يكمل من نفس المكان اللي وقف فيه
   window.minimizeMushafFullscreen = function() {
     var overlay = document.getElementById('mushafFullscreenOverlay');
-    var btn = document.getElementById('mushafToggleBtn');
+    var source = currentSource || DEFAULT_SOURCE;
+    var btn = document.getElementById(SOURCES[source].btnId);
     if (!overlay || !overlay.classList.contains('active')) return;
 
     overlay.classList.remove('active');
     if (btn) {
       btn.classList.remove('open');
       var lbl = btn.querySelector('.mshf-label');
-      if (lbl) lbl.textContent = getMushafLabel(false);
+      if (lbl) lbl.textContent = getMushafLabel(source, false);
     }
     // إعادة التمرير للصفحة عشان يقدر يكمل القراءة تحت
     document.body.style.overflow = '';
@@ -27181,12 +27321,13 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var taskbar = document.getElementById('yt-taskbar');
     if (taskbar && !mshfTaskbarItem) {
       var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+      var s = SOURCES[source];
       mshfTaskbarItem = document.createElement('div');
       mshfTaskbarItem.className = 'mshf-taskbar-item';
-      mshfTaskbarItem.title = ar ? 'استعادة المصحف' : 'Restore Quran';
+      mshfTaskbarItem.title = ar ? 'استعادة القراءة' : 'Restore reading';
       mshfTaskbarItem.innerHTML =
-        '<span style="font-size:14px;flex-shrink:0;">📖</span>' +
-        '<span>' + (ar ? 'المصحف الشريف' : 'Holy Quran') + '</span>' +
+        '<span style="font-size:14px;flex-shrink:0;">' + s.icon + '</span>' +
+        '<span>' + (ar ? s.taskbarAr : s.taskbarEn) + '</span>' +
         '<span class="mshf-taskbar-close" title="إغلاق">✕</span>';
 
       mshfTaskbarItem.addEventListener('click', function(e) {
@@ -27206,7 +27347,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   // استعادة النافذة من شريط المهام لنفس المكان اللي وقف فيه القارئ
   window.restoreMushafFromTaskbar = function() {
     var overlay = document.getElementById('mushafFullscreenOverlay');
-    var btn = document.getElementById('mushafToggleBtn');
+    var source = currentSource || DEFAULT_SOURCE;
+    var btn = document.getElementById(SOURCES[source].btnId);
     if (!overlay) return;
 
     removeMshfTaskbarItem();
@@ -27214,19 +27356,23 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     if (btn) {
       btn.classList.add('open');
       var lbl = btn.querySelector('.mshf-label');
-      if (lbl) lbl.textContent = getMushafLabel(true);
+      if (lbl) lbl.textContent = getMushafLabel(source, true);
     }
     document.body.style.overflow = 'hidden';
   };
 
   window.closeMushafFullscreen = function() {
     var overlay = document.getElementById('mushafFullscreenOverlay');
-    var btn = document.getElementById('mushafToggleBtn');
+    var source = currentSource || DEFAULT_SOURCE;
+    var btn = document.getElementById(SOURCES[source].btnId);
 
     removeMshfTaskbarItem();
     overlay.classList.remove('active');
-    btn.classList.remove('open');
-    btn.querySelector('.mshf-label').textContent = getMushafLabel(false);
+    if (btn) {
+      btn.classList.remove('open');
+      var lbl = btn.querySelector('.mshf-label');
+      if (lbl) lbl.textContent = getMushafLabel(source, false);
+    }
     // إعادة التمرير
     document.body.style.overflow = '';
   };
@@ -31782,6 +31928,21 @@ function _ptDateStr(lang) {
     "zh": "📖 在经文中继续阅读",
     "ur": "📖 مصحف میں تلاوت جاری رکھیں"
   },
+  "btnContinueEquran": {
+    "ar": "📗 equran",
+    "en": "📗 equran",
+    "fr": "📗 equran",
+    "es": "📗 equran",
+    "sv": "📗 equran",
+    "nl": "📗 equran",
+    "ga": "📗 equran",
+    "de": "📗 equran",
+    "ru": "📗 equran",
+    "tr": "📗 equran",
+    "pt": "📗 equran",
+    "zh": "📗 equran",
+    "ur": "📗 equran"
+  },
   "khatmaCompleteTitle": {
     "ar": "مبارك ختمتك!",
     "en": "Khatma Complete!",
@@ -32933,8 +33094,12 @@ function _ptDateStr(lang) {
 
     var head = '<div style="text-align:center;font-size:14px;font-weight:800;color:#1D9E75;margin-bottom:10px;">📗 ' + khEscape(st.name) + '</div>' +
       khUnitTabs(st) +
-      '<button onclick="window._khOpenMushaf()" style="width:100%;background:linear-gradient(135deg,#1B6CA8,#1565c0);color:#fff;border:none;border-radius:10px;padding:10px 8px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px;">' +
-      kt('btnContinueMushaf') + '</button>';
+      '<div style="display:flex;gap:6px;margin-bottom:14px;">' +
+      '<button onclick="window._khOpenMushaf(\'flash\')" title="' + kt('btnContinueMushaf') + '" style="flex:1;background:linear-gradient(135deg,#1B6CA8,#1565c0);color:#fff;border:none;border-radius:10px;padding:10px 6px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' +
+      kt('btnContinueMushaf') + '</button>' +
+      '<button onclick="window._khOpenMushaf(\'equran\')" title="' + kt('btnContinueEquran') + '" style="flex:1;background:linear-gradient(135deg,#0F6E56,#1D9E75);color:#fff;border:none;border-radius:10px;padding:10px 6px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' +
+      kt('btnContinueEquran') + '</button>' +
+      '</div>';
 
     if (st.current >= total) {
       return head + '<div style="text-align:center;padding:10px 4px;">' +
@@ -33143,10 +33308,10 @@ function _ptDateStr(lang) {
   };
 
   // ===== الربط مع المصحف =====
-  window._khOpenMushaf = function() {
+  window._khOpenMushaf = function(source) {
     var popup = document.getElementById('khatmaTrackerPopup');
     if (popup) popup.remove();
-    if (typeof window.toggleMushaf === 'function') window.toggleMushaf();
+    if (typeof window.toggleMushaf === 'function') window.toggleMushaf(source);
   };
 
   function khUpdateMushafFab() {
