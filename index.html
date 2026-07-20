@@ -29639,6 +29639,7 @@ function _ptDir(lang) {
 var PRAYER_I18N = {
   fajr:    { ar: 'الفجر', en: 'Fajr', fr: 'Fajr', es: 'Fajr', sv: 'Fajr', nl: 'Fajr', ga: 'Fajr', de: 'Fajr', ru: 'Фаджр', tr: 'İmsak', pt: 'Fajr', zh: '晨礼', ur: 'فجر' },
   sunrise: { ar: 'الشروق', en: 'Sunrise', fr: 'Lever du soleil', es: 'Salida del sol', sv: 'Soluppgång', nl: 'Zonsopgang', ga: 'Éirí na gréine', de: 'Sonnenaufgang', ru: 'Восход', tr: 'Güneş', pt: 'Nascer do sol', zh: '日出', ur: 'طلوع آفتاب' },
+  duha:    { ar: 'الضحى', en: 'Duha', fr: 'Duha', es: 'Duha', sv: 'Duha', nl: 'Duha', ga: 'Duha', de: 'Duha', ru: 'Духа', tr: 'Duha', pt: 'Duha', zh: '杜哈', ur: 'چاشت' },
   dhuhr:   { ar: 'الظهر', en: 'Dhuhr', fr: 'Dhuhr', es: 'Dhuhr', sv: 'Dhuhr', nl: 'Dhuhr', ga: 'Dhuhr', de: 'Dhuhr', ru: 'Зухр', tr: 'Öğle', pt: 'Dhuhr', zh: '晌礼', ur: 'ظہر' },
   asr:     { ar: 'العصر', en: 'Asr', fr: 'Asr', es: 'Asr', sv: 'Asr', nl: 'Asr', ga: 'Asr', de: 'Asr', ru: 'Аср', tr: 'İkindi', pt: 'Asr', zh: '晡礼', ur: 'عصر' },
   maghrib: { ar: 'المغرب', en: 'Maghrib', fr: 'Maghrib', es: 'Magrib', sv: 'Maghrib', nl: 'Maghrib', ga: 'Maghrib', de: 'Maghrib', ru: 'Магриб', tr: 'Akşam', pt: 'Magrebe', zh: '昏礼', ur: 'مغرب' },
@@ -29687,6 +29688,21 @@ function _ptDateStr(lang) {
   try { weekday = today.toLocaleDateString(locale, { weekday: 'long' }); } catch (e) {}
   return (weekday ? weekday + ' ' : '') + today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
 }
+
+// وقت الضحى غير متوفر من الـ API، فنحسبه محلياً: الشروق + 15 دقيقة تقريباً
+// (المدة التي يرتفع فيها قرص الشمس قيد رمح، وهي بداية وقت صلاة الضحى الشرعي)
+function _ptComputeDuha(sunriseStr, offsetMin) {
+  if (!sunriseStr) return null;
+  offsetMin = (typeof offsetMin === 'number') ? offsetMin : 15;
+  var timePart = sunriseStr.split(' ')[0];
+  var parts = timePart.split(':');
+  var h = parseInt(parts[0], 10), m = parseInt(parts[1], 10);
+  if (isNaN(h) || isNaN(m)) return null;
+  var total = ((h * 60 + m + offsetMin) % 1440 + 1440) % 1440;
+  var hh = Math.floor(total / 60), mm = total % 60;
+  return String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0');
+}
+window._ptComputeDuha = _ptComputeDuha;
 </script>
 
 <script>
@@ -29907,10 +29923,10 @@ function _ptDateStr(lang) {
   }
   window._pwFmtTime = _pwFmtTime;
 
-  var PW_KEY_MAP = { Fajr:'fajr', Sunrise:'sunrise', Dhuhr:'dhuhr', Asr:'asr', Maghrib:'maghrib', Isha:'isha' };
+  var PW_KEY_MAP = { Fajr:'fajr', Sunrise:'sunrise', Duha:'duha', Dhuhr:'dhuhr', Asr:'asr', Maghrib:'maghrib', Isha:'isha' };
 
   function _pwGetNextPrayer(timings) {
-    var ORDER = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+    var ORDER = ['Fajr','Sunrise','Duha','Dhuhr','Asr','Maghrib','Isha'];
     var now = new Date();
     var nowMins = now.getHours() * 60 + now.getMinutes();
     var next = null, nextMins = Infinity;
@@ -29947,7 +29963,8 @@ function _ptDateStr(lang) {
     var border = isDark ? 'rgba(29,158,117,0.2)' : 'rgba(29,158,117,0.15)';
     var green  = '#1D9E75';
 
-    var PRAYERS = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+    if (timings && timings.Sunrise && !timings.Duha) timings.Duha = _ptComputeDuha(timings.Sunrise);
+    var PRAYERS = ['Fajr','Sunrise','Duha','Dhuhr','Asr','Maghrib','Isha'];
     var next = _pwGetNextPrayer(timings);
     var dateStr = _ptDateStr(lang);
     var hijriStr = _pwHijriStr(hijri, lang);
@@ -30157,7 +30174,7 @@ function _ptDateStr(lang) {
   }
 
   function _fpwGetNextPrayer(timings) {
-    var ORDER = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+    var ORDER = ['Fajr','Sunrise','Duha','Dhuhr','Asr','Maghrib','Isha'];
     var now = new Date();
     var nowMins = now.getHours() * 60 + now.getMinutes();
     var next = null, nextMins = Infinity;
@@ -30181,8 +30198,9 @@ function _ptDateStr(lang) {
     var border = isDark ? 'rgba(29,158,117,0.2)' : 'rgba(29,158,117,0.15)';
     var green  = '#1D9E75';
 
-    var PRAYERS = ['fajr','sunrise','dhuhr','asr','maghrib','isha'];
-    var PRAYER_KEYS = { fajr:'Fajr', sunrise:'Sunrise', dhuhr:'Dhuhr', asr:'Asr', maghrib:'Maghrib', isha:'Isha' };
+    if (timings && timings.Sunrise && !timings.Duha) timings.Duha = _ptComputeDuha(timings.Sunrise);
+    var PRAYERS = ['fajr','sunrise','duha','dhuhr','asr','maghrib','isha'];
+    var PRAYER_KEYS = { fajr:'Fajr', sunrise:'Sunrise', duha:'Duha', dhuhr:'Dhuhr', asr:'Asr', maghrib:'Maghrib', isha:'Isha' };
     var nextKey = _fpwGetNextPrayer(timings);
     var dateStr = _ptDateStr(lang);
 
