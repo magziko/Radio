@@ -2,9 +2,9 @@
    Service Worker — إذاعة القرآن الكريم
    ============================================ */
 
-const CACHE_STATIC = 'quran-radio-static-v3';
-const CACHE_AUDIO  = 'quran-radio-audio-v1';
-const CACHE_ALARM  = 'quran-radio-alarm-v3';
+const CACHE_STATIC = 'quran-radio-static-v4';
+const CACHE_AUDIO  = 'quran-radio-audio-v2';
+const CACHE_ALARM  = 'quran-radio-alarm-v4';
 
 const MAX_AUDIO_FILES = 50;
 
@@ -70,9 +70,18 @@ self.addEventListener('install', event => {
           )
         )
       ),
+      // ملاحظة مهمة: روابط archive.org (حتى بصيغة /download/ الدائمة) بترد أحياناً
+      // من عقدة CDN لا ترسل رأس Access-Control-Allow-Origin، وده بيخلي
+      // cache.add()/fetch() في وضعهم الافتراضي (cors) يفشلوا بصمت.
+      // الحل: نجيب الملف بوضع 'no-cors' (استجابة opaque) ونخزّنه يدوياً بـ cache.put،
+      // فيشتغل بغض النظر عن رأس CORS.
       caches.open(CACHE_ALARM).then(cache =>
         Promise.allSettled(
-          ALARM_AUDIO_URLS.map(url => cache.add(url).catch(() => {}))
+          ALARM_AUDIO_URLS.map(url =>
+            fetch(url, { mode: 'no-cors', cache: 'reload' })
+              .then(res => cache.put(url, res))
+              .catch(() => {})
+          )
         )
       )
     ])
@@ -112,8 +121,11 @@ self.addEventListener('fetch', event => {
       caches.open(CACHE_ALARM).then(cache =>
         cache.match(event.request).then(cached => {
           if (cached) return cached;
-          return fetch(event.request).then(res => {
-            if (res && res.status === 200) cache.put(event.request, res.clone());
+          // نستخدم no-cors هنا كمان — استجابات archive.org لغير-CORS بتكون opaque
+          // (status دايماً 0)، فمينفعش نتأكد من status === 200؛ لو الفetch نجح
+          // من غير استثناء يبقى نخزّنها ونرجّعها
+          return fetch(event.request.url, { mode: 'no-cors' }).then(res => {
+            if (res) cache.put(event.request, res.clone());
             return res;
           });
         })
@@ -122,8 +134,8 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // ملفات archive.org الصوتية: Cache on Play
-  if (url.includes('archive.org') && (url.includes('.mp3') || url.includes('.ogg'))) {
+  // ملفات archive.org الصوتية (كل الامتدادات): Cache on Play
+  if (url.includes('archive.org/download/')) {
     event.respondWith(handleAudio(event.request));
     return;
   }
@@ -278,7 +290,10 @@ async function handleAudio(request) {
   if (cached) return cached;
   try {
     const response = await fetch(request);
-    if (response && response.status === 200) {
+    // ملاحظة: بعض عُقد CDN بتاعة archive.org ما بترجعش رأس CORS، فالاستجابة
+    // بتبقى opaque (status = 0 دايماً) حتى لو الملف اتحمّل صح فعلاً.
+    // فمينفعش نشرط status === 200 بس؛ لازم نقبل النوعين (basic/cors سليم، أو opaque).
+    if (response && (response.status === 200 || response.type === 'opaque')) {
       cache.put(request, response.clone());
       trimAudioCache(cache);
     }
