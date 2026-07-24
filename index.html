@@ -5709,7 +5709,7 @@ function confirmReload() {
     }
     // ملحوظة: لا نبدأ العداد هنا — يبدأ فقط عند نجاح التشغيل الفعلي (حدث 'play')
     // عشان لو المتصفح رفض autoplay وانتظرنا أول تفاعل من المستخدم، ما يتحتسبش وقت ميت كاستماع
-    if (typeof _saveToListenHistory === 'function') _saveToListenHistory(_defaultName, _src);
+    if (typeof _saveToListenHistory === 'function') _saveToListenHistory(_defaultName, _src, customAudioPlayer);
 
     // مقطع الفتح: إذا كان مفعَّلاً من الإعدادات، يُشغَّل أولاً ثم تبدأ المحطة المعتادة بعد انتهائه
     var _introEnabled = localStorage.getItem('introClipEnabled') === 'true';
@@ -6612,7 +6612,7 @@ function playStation(station) {
     if (currentStatus) currentStatus.textContent = station.name + " " + _nowPlayingSuffix();
     if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession(station.name);
     // ===== تسجيل في سجل الاستماع =====
-    if (typeof _saveToListenHistory === 'function') _saveToListenHistory(station.name, stationSrcs[i]);
+    if (typeof _saveToListenHistory === 'function') _saveToListenHistory(station.name, stationSrcs[i], customAudioPlayer);
   }
 
   function nextSrc() {
@@ -6703,7 +6703,7 @@ function playWelcomeScreenStation(stationUrl, stationName) {
   customAudioPlayer.play().catch(function() {});
   if (currentStatus) currentStatus.textContent = "تشغيل: " + stationName;
   // ===== تسجيل في سجل الاستماع =====
-  if (typeof _saveToListenHistory === 'function') _saveToListenHistory(stationName, stationUrl);
+  if (typeof _saveToListenHistory === 'function') _saveToListenHistory(stationName, stationUrl, customAudioPlayer);
 }
 
 function adjustVolume() {
@@ -33771,7 +33771,7 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
   }));
 
   // ===== تسجيل في سجل الاستماع =====
-  if (typeof _saveToListenHistory === 'function') _saveToListenHistory(stationName, source);
+  if (typeof _saveToListenHistory === 'function') _saveToListenHistory(stationName, source, mainAudio);
 
   var pnbNameEl = document.getElementById('pnb-name');
   if (pnbNameEl) {
@@ -36554,7 +36554,7 @@ function getContrastYIQ(hexcolor) {
       setPlayingUI(false);
     });
     // ===== تسجيل في سجل الاستماع =====
-    if (typeof _saveToListenHistory === 'function') _saveToListenHistory(station.stationName || station.stationUrl, station.stationUrl);
+    if (typeof _saveToListenHistory === 'function') _saveToListenHistory(station.stationName || station.stationUrl, station.stationUrl, window.isolatedAudio);
     return true;
   }
 
@@ -43906,21 +43906,47 @@ function _fmtHistoryTime(ts, isAr) {
   return d === 1 ? 'yesterday' : d + 'd ago';
 }
 
-// ===== دالة مشتركة لحفظ أي محطة في سجل الاستماع (تعمل مع الراديوهات الثلاثة) =====
-function _saveToListenHistory(stationName, stationUrl) {
+// ===== الكتابة الفعلية في سجل الاستماع (بعد التأكد إن التشغيل فعلي واستمر) =====
+function _commitListenHistory(stationName, stationUrl) {
   if (!stationName || !stationUrl) return;
   try {
     var MAX_HISTORY = 20;
     var raw = localStorage.getItem('listenHistory');
     var hist = raw ? JSON.parse(raw) : [];
     if (typeof _statsDedupeHistory === 'function') hist = _statsDedupeHistory(hist);
-    if (hist.length > 0 && hist[0].url === stationUrl) return;
+    // ملحوظة: قبل كده كان فيه return مبكر لو المحطة أصلاً أول عنصر في السجل، وده كان بيمنع تحديث
+    // الـ ts لو شغّلت نفس آخر محطة تاني — فتفضل الأيام بتاعتها واقفة على أول مرة سمعتها بس.
+    // دلوقتي بنشيل النسخة القديمة ونضيفها من جديد بتوقيت حالي، عشان أي تشغيل فعلي يحدّث "آخر مرة سمعتها" فعلاً.
     hist = hist.filter(function(h) { return h.url !== stationUrl && h.name !== stationName; });
     hist.unshift({ name: stationName, url: stationUrl, ts: Date.now() });
     if (hist.length > MAX_HISTORY) hist = hist.slice(0, MAX_HISTORY);
     localStorage.setItem('listenHistory', JSON.stringify(hist));
     if (document.getElementById('listenHistoryPopup') && typeof _renderHistoryList === 'function') _renderHistoryList();
   } catch(e) {}
+}
+
+// ===== دالة مشتركة لحفظ أي محطة في سجل الاستماع (تعمل مع الراديوهات الثلاثة) =====
+// بتتأجّل الكتابة الفعلية لحد ما تتأكد إن التشغيل فعلي واستمر بدون توقف/خطأ/تبديل —
+// عشان محطة اتفتحت بالغلط، أو فشلت تشتغل، أو اتفتحت بس عشان يظهر التيتل، ما تتسجّلش في السجل خالص.
+var _historyPendingTimer = null;
+var _historyPendingKey = null;
+function _saveToListenHistory(stationName, stationUrl, audioEl) {
+  if (!stationName || !stationUrl) return;
+  var HISTORY_MIN_LISTEN_MS = 15000; // لازم 15 ثانية تشغيل فعلي متواصل قبل ما تتسجل المحطة في السجل
+
+  if (_historyPendingTimer) { clearTimeout(_historyPendingTimer); _historyPendingTimer = null; }
+  _historyPendingKey = stationUrl;
+
+  var _thisKey = stationUrl;
+  _historyPendingTimer = setTimeout(function() {
+    _historyPendingTimer = null;
+    // لو اتبدّلت محطة تانية قبل ما نوصل هنا، يبقى ده تشغيل قديم اتلغى — متسجّلش
+    if (_historyPendingKey !== _thisKey) return;
+    // تأكد إن التشغيل لسه شغّال فعليًا وبدون خطأ (مش متوقف، مش انتهى، مفيش error)
+    var stillPlaying = !audioEl || (!audioEl.paused && !audioEl.ended && !audioEl.error);
+    if (!stillPlaying) return;
+    _commitListenHistory(stationName, stationUrl);
+  }, HISTORY_MIN_LISTEN_MS);
 }
 
 function _statsDedupeHistory(hist) {
@@ -44123,14 +44149,34 @@ function _statsAddSeconds(secs) {
     || window._currentPlayingName
     || window._isolatedStationName
     || '';
-  // المحطة تتسجل في القائمة/الترتيب بس لو الاستماع 10 ثواني فأكثر (تفادي تسجيل محطات اتجربت بالغلط لثانية أو اتنين)
-  if (name && secs >= 10) {
-    if (!data.stations) data.stations = {};
-    // stationSecs: ثواني الاستماع الفعلية لكل محطة
-    if (!data.stationSecs) data.stationSecs = {};
-    data.stationSecs[name] = (data.stationSecs[name] || 0) + secs;
-    // stationCount: عدد مرات التشغيل (للتوافق مع البيانات القديمة)
-    data.stations[name] = (data.stations[name] || 0) + 1;
+
+  // ── تتبّع "جلسة" الاستماع الحالية ──
+  // الهدف: "مرة تشغيل" وحدة واحدة لكل مرة تفتح فيها محطة فعليًا، مش لكل تِك دوري كل 15 ثانية.
+  // لما الاسم يتغيّر (محطة جديدة، أو وقف التشغيل فرجع الاسم فاضي ثم بدأ تشغيل تاني)، تعتبر دي جلسة جديدة.
+  if (name !== window._statsSessionName) {
+    window._statsSessionName = name;
+    window._statsSessionAccum = 0;
+    window._statsSessionCounted = false;
+  }
+
+  if (name) {
+    window._statsSessionAccum = (window._statsSessionAccum || 0) + secs;
+    // ما نسجّلش وقت ولا "مرة" للمحطة إلا لو مجموع وقت الجلسة وصل 50 ثانية فأكثر
+    // (يحمي من فتح محطة بالغلط والتبديل بسرعة قبل ما توصل 50 ثانية)
+    if (window._statsSessionAccum >= 50) {
+      if (!data.stations) data.stations = {};
+      // stationSecs: ثواني الاستماع الفعلية لكل محطة
+      if (!data.stationSecs) data.stationSecs = {};
+      if (!window._statsSessionCounted) {
+        // أول مرة الجلسة دي تعدي الـ 50 ثانية: سجّل كل وقت الجلسة المتراكم دفعة واحدة + "مرة" تشغيل واحدة فقط
+        data.stationSecs[name] = (data.stationSecs[name] || 0) + window._statsSessionAccum;
+        data.stations[name] = (data.stations[name] || 0) + 1;
+        window._statsSessionCounted = true;
+      } else {
+        // الجلسة دي سُجّلت "مرة" لها بالفعل، دلوقتي بس بنكمل نضيف الثواني الجديدة بدون ما نزوّد العداد
+        data.stationSecs[name] = (data.stationSecs[name] || 0) + secs;
+      }
+    }
   }
   localStorage.setItem('listenStats', JSON.stringify(data));
 }
