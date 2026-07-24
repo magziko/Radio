@@ -5796,12 +5796,15 @@ function confirmReload() {
     }
   }
 
-  if (document.readyState === 'complete') {
-    _playWelcomeAudio();
-  } else {
-    window.addEventListener('load', _playWelcomeAudio, {
-      once: true
-    });
+  // يحترم إعداد "التشغيل التلقائي للراديو" من قائمة الإعدادات
+  if (typeof isRadioAutoplayEnabled !== 'function' || isRadioAutoplayEnabled()) {
+    if (document.readyState === 'complete') {
+      _playWelcomeAudio();
+    } else {
+      window.addEventListener('load', _playWelcomeAudio, {
+        once: true
+      });
+    }
   }
 
   // إظهار زرَّي الإغلاق وإعادة التحميل بعد 3 ثواني
@@ -5843,6 +5846,34 @@ function toggleIntroClipOption() {
     btn.classList.toggle('active', enabled);
     var icon = btn.querySelector('.wtb-icon');
     if (icon) icon.textContent = enabled ? '🔔' : '🔕';
+  }
+}
+
+// ── خيار: تفعيل/تعطيل التشغيل التلقائي للراديو عند فتح الموقع ──
+function isRadioAutoplayEnabled() {
+  var v = localStorage.getItem('radioAutoplayEnabled');
+  return v === null || v === 'true'; // مفعّل افتراضياً (يحافظ على السلوك الحالي)
+}
+
+function _radioAutoplayLabel(enabled) {
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : (document.documentElement.lang === 'ar');
+  if (enabled) return isAr ? 'تشغيل تلقائي: مفعّل' : 'Autoplay: On';
+  return isAr ? 'تشغيل تلقائي: متوقف' : 'Autoplay: Off';
+}
+
+function toggleRadioAutoplayOption() {
+  var enabled = !isRadioAutoplayEnabled();
+  localStorage.setItem('radioAutoplayEnabled', enabled ? 'true' : 'false');
+  var btn = document.getElementById('radioAutoplayToggleBtn');
+  if (btn) {
+    btn.classList.toggle('active', enabled);
+    var icon = document.getElementById('radioAutoplayToggleIcon');
+    if (icon) icon.textContent = enabled ? '▶️' : '⏸️';
+    var txt = document.getElementById('radioAutoplayToggleTxt');
+    if (txt) txt.textContent = _radioAutoplayLabel(enabled);
+  }
+  if (typeof showToast === 'function') {
+    showToast(enabled ? '▶️ تم تفعيل التشغيل التلقائي للراديو' : '⏸️ تم تعطيل التشغيل التلقائي للراديو');
   }
 }
 
@@ -14460,6 +14491,13 @@ setTimeout(autoScaleVerseFont, 100);
             class="welcome-toggle-btn">
         <span class="wtb-icon">🔕</span>
         <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert" data-fr="Activer l'alerte sonore" data-es="Activar alerta sonora" data-sv="Aktivera ljudlarm" data-nl="Geluidsmelding inschakelen" data-ga="Cumasaigh Rabhadh Fuaime" data-de="Tonalarm aktivieren" data-ru="Включить звуковое оповещение" data-tr="Sesli Uyarıyı Etkinleştir" data-pt="Ativar alerta sonoro" data-zh="启用声音提醒" data-ur="صوتی الرٹ فعال کریں">تفعيل التنبيه الصوتي</span>
+    </button>
+    <button id="radioAutoplayToggleBtn"
+            onclick="toggleRadioAutoplayOption()"
+            title="تفعيل/تعطيل التشغيل التلقائي للراديو عند فتح الموقع / Enable or disable radio autoplay on site open"
+            class="welcome-toggle-btn">
+        <span class="wtb-icon" id="radioAutoplayToggleIcon">▶️</span>
+        <span class="wtb-text" id="radioAutoplayToggleTxt" data-ar="تشغيل تلقائي: مفعّل" data-en="Autoplay: On" data-fr="Lecture auto : activée" data-es="Reproducción automática: activada" data-sv="Autospelning: På" data-nl="Automatisch afspelen: Aan" data-ga="Uath-sheinm: Ar" data-de="Autoplay: An" data-ru="Автовоспроизведение: вкл" data-tr="Otomatik oynatma: Açık" data-pt="Reprodução automática: Ativada" data-zh="自动播放：开" data-ur="خودکار پلے: آن">تشغيل تلقائي: مفعّل</span>
     </button>
     <div id="welcomeAutoSwitchDurationGroup" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية"
          style="display:flex; align-items:center; gap:7px; background:linear-gradient(to right,#e3f2fd 0%,#fff 50%,#e3f2fd 100%); border-radius:8px; padding:6px 12px; box-shadow:0 2px 4px rgba(0,0,0,0.08); font-weight:700; font-size:14px;">
@@ -44998,6 +45036,16 @@ document.addEventListener('DOMContentLoaded', function() {
     icBtn.classList.add('active');
     const icIcon = icBtn.querySelector('.wtb-icon');
     if (icIcon) icIcon.textContent = '🔔';
+  }
+
+  const raBtn = document.getElementById('radioAutoplayToggleBtn');
+  if (raBtn && typeof isRadioAutoplayEnabled === 'function') {
+    const raEnabled = isRadioAutoplayEnabled();
+    raBtn.classList.toggle('active', raEnabled);
+    const raIcon = document.getElementById('radioAutoplayToggleIcon');
+    if (raIcon) raIcon.textContent = raEnabled ? '▶️' : '⏸️';
+    const raTxt = document.getElementById('radioAutoplayToggleTxt');
+    if (raTxt && typeof _radioAutoplayLabel === 'function') raTxt.textContent = _radioAutoplayLabel(raEnabled);
   }
 
   document.querySelectorAll('.filter-button, .adhkar-sub-btn, .sira-sub-btn, .more-sub-btn, .livetv-sub-btn').forEach(function(btn) {
