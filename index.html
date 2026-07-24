@@ -14179,6 +14179,44 @@ setTimeout(autoScaleVerseFont, 100);
     <span id="notif-status-text" style="font-size:12px;color:#888;"></span>
   </div>
 
+  <div id="startup-notif-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(255,152,0,0.08),rgba(255,87,34,0.06));
+    border: 1.5px solid rgba(255,152,0,0.22);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <span data-ar="🔔 تنبيهات فتح الموقع" data-en="🔔 Site-Open Notifications" data-fr="🔔 Notifications à l'ouverture" data-es="🔔 Notificaciones al abrir" data-sv="🔔 Aviseringar vid öppning" data-nl="🔔 Meldingen bij openen" data-ga="🔔 Fógraí ag oscailt" data-de="🔔 Benachrichtigungen beim Öffnen" data-ru="🔔 Уведомления при открытии" data-tr="🔔 Açılış Bildirimleri" data-pt="🔔 Notificações ao abrir" data-zh="🔔 打开网站时的通知" data-ur="🔔 سائٹ کھولنے پر اطلاعات"
+      style="font-size:15px;font-weight:700;color:#7a3b1a;white-space:nowrap;">🔔 تنبيهات فتح الموقع</span>
+
+    <span data-ar="محطة جديدة، مناسبة، استئناف آخر محطة، تثبيت التطبيق وغيرها" data-en="New station, occasion, resume last station, install app, etc." data-fr="Nouvelle station, occasion, reprise, installation, etc." data-es="Nueva emisora, ocasión, reanudar, instalar, etc." data-sv="Ny station, högtid, återuppta, installera, etc." data-nl="Nieuw station, gelegenheid, hervatten, installeren, enz." data-ga="Stáisiún nua, ócáid, atosú, suiteáil, srl." data-de="Neuer Sender, Anlass, fortsetzen, installieren usw." data-ru="Новая станция, событие, продолжить, установить и т.д." data-tr="Yeni istasyon, özel gün, devam et, yükle vb." data-pt="Nova estação, ocasião, retomar, instalar, etc." data-zh="新电台、节日、继续播放、安装应用等" data-ur="نیا اسٹیشن، موقع، دوبارہ شروع، انسٹال وغیرہ"
+      style="font-size:12px;color:#8a6a4a;">محطة جديدة، مناسبة، استئناف آخر محطة، تثبيت التطبيق وغيرها</span>
+
+    <button id="startup-notif-toggle-btn" data-state="on" onclick="toggleStartupNotifications()"
+      data-on-ar="🔕 إيقاف هذه التنبيهات" data-on-en="🔕 Turn Off" data-on-fr="🔕 Désactiver" data-on-es="🔕 Desactivar" data-on-sv="🔕 Stäng av" data-on-nl="🔕 Uitschakelen" data-on-ga="🔕 Múch" data-on-de="🔕 Ausschalten" data-on-ru="🔕 Отключить" data-on-tr="🔕 Kapat" data-on-pt="🔕 Desativar" data-on-zh="🔕 关闭" data-on-ur="🔕 بند کریں"
+      data-off-ar="🔔 تفعيل هذه التنبيهات" data-off-en="🔔 Turn On" data-off-fr="🔔 Activer" data-off-es="🔔 Activar" data-off-sv="🔔 Aktivera" data-off-nl="🔔 Inschakelen" data-off-ga="🔔 Cumasaigh" data-off-de="🔔 Einschalten" data-off-ru="🔔 Включить" data-off-tr="🔔 Aç" data-off-pt="🔔 Ativar" data-off-zh="🔔 开启" data-off-ur="🔔 فعال کریں"
+      style="
+        padding:6px 18px;border-radius:10px;border:none;cursor:pointer;
+        font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;
+        background:linear-gradient(135deg,#ff9800,#ff5722);color:#fff;
+        box-shadow:0 2px 8px rgba(255,152,0,0.25);transition:transform 0.15s;
+        white-space:nowrap;
+      "
+      onmouseover="this.style.transform='scale(1.05)'"
+      onmouseout="this.style.transform='scale(1)'">
+      🔕 إيقاف هذه التنبيهات
+    </button>
+    <span id="startup-notif-status-text" style="font-size:12px;color:#888;"></span>
+  </div>
+
   
   <style id="aqx-style">
     #audio-quality-settings.aqx-panel{
@@ -29626,6 +29664,195 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 </div>
 
 <script>
+// ===== نظام إذن الموقع الموحّد (يُستخدم من كل الميزات: مواقيت الصلاة، القبلة، الأذان التلقائي...) =====
+// بدل ما كل ميزة تطلب GPS لوحدها، بيتم عرض سؤال واحد واضح أول مرة بس،
+// والقرار بيتخزن ويُطبّق على كل الطلبات الجاية، مع إمكانية الرجوع فيه من الإعدادات.
+(function() {
+  var GEO_CONSENT_KEY = 'geoConsentChoice'; // 'granted' | 'denied' | غير موجود = لسه ما اتسألش
+  var _pendingGeoRequests = [];
+  var _geoBannerShown = false;
+
+  function _geoIsAr() {
+    return (typeof isArabic !== 'undefined') ? !!isArabic : true;
+  }
+
+  window._getGeoConsent = function() {
+    try { return localStorage.getItem(GEO_CONSENT_KEY); } catch (e) { return null; }
+  };
+
+  window._setGeoConsent = function(val) {
+    try {
+      if (val === null) localStorage.removeItem(GEO_CONSENT_KEY);
+      else localStorage.setItem(GEO_CONSENT_KEY, val);
+    } catch (e) {}
+  };
+
+  function _runGeoRequest(req) {
+    navigator.geolocation.getCurrentPosition(req.success, function(err) {
+      if (req.fail) req.fail(err);
+    }, req.options || { timeout: 10000 });
+  }
+
+  function _resolvePendingGeoRequests(allowed) {
+    var queue = _pendingGeoRequests;
+    _pendingGeoRequests = [];
+    queue.forEach(function(req) {
+      if (allowed) _runGeoRequest(req);
+      else if (req.fail) req.fail();
+    });
+  }
+
+  function _showGeoConsentBanner() {
+    if (_geoBannerShown || document.getElementById('geoConsentBanner')) return;
+    _geoBannerShown = true;
+    var isAr = _geoIsAr();
+    var isDark = document.body.classList.contains('dark-mode');
+    var bg = isDark ? '#1a2820' : '#fff';
+    var clr = isDark ? '#e0e0e0' : '#1a1a1a';
+    var muted = isDark ? 'rgba(200,240,220,0.7)' : 'rgba(0,70,40,0.65)';
+    var border = isDark ? 'rgba(29,158,117,0.3)' : 'rgba(29,158,117,0.2)';
+    var green = '#1D9E75';
+
+    var banner = document.createElement('div');
+    banner.id = 'geoConsentBanner';
+    banner.style.cssText = 'position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483000;width:min(92vw,380px);background:' + bg + ';color:' + clr + ';border:1px solid ' + border + ';border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,0.25);font-family:Cairo,sans-serif;direction:' + (isAr ? 'rtl' : 'ltr') + ';';
+    banner.innerHTML =
+      '<style>@keyframes geoConsentSlideIn{from{transform:translate(-50%,24px);opacity:0}to{transform:translate(-50%,0);opacity:1}}#geoConsentBanner{animation:geoConsentSlideIn .22s ease}</style>' +
+      '<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;">' +
+        '<div style="font-size:22px;line-height:1;">📍</div>' +
+        '<div>' +
+          '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">' + (isAr ? 'استخدام موقعك؟' : 'Use your location?') + '</div>' +
+          '<div style="font-size:12.5px;color:' + muted + ';line-height:1.6;">' + (isAr
+            ? 'محتاجين نفتح GPS عشان نحسب مواقيت الصلاة واتجاه القبلة بدقة حسب مكانك. تقدر تغيّر رأيك في أي وقت من إعدادات مواقيت الصلاة.'
+            : 'We need to open GPS to accurately calculate prayer times and the Qibla direction for your location. You can change this anytime from Prayer Times settings.') + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:8px;">' +
+        '<button id="geoConsentDeny" style="flex:1;padding:9px;border-radius:10px;border:1px solid ' + border + ';background:transparent;color:' + muted + ';font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;">' + (isAr ? 'مش دلوقتي' : 'Not now') + '</button>' +
+        '<button id="geoConsentAllow" style="flex:1;padding:9px;border-radius:10px;border:none;background:' + green + ';color:#fff;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">' + (isAr ? '✅ سماح' : '✅ Allow') + '</button>' +
+      '</div>';
+
+    document.body.appendChild(banner);
+
+    banner.querySelector('#geoConsentAllow').addEventListener('click', function() {
+      window._setGeoConsent('granted');
+      banner.remove();
+      _geoBannerShown = false;
+      _resolvePendingGeoRequests(true);
+    });
+    banner.querySelector('#geoConsentDeny').addEventListener('click', function() {
+      window._setGeoConsent('denied');
+      banner.remove();
+      _geoBannerShown = false;
+      _resolvePendingGeoRequests(false);
+    });
+  }
+
+  // نقطة الدخول الموحّدة لأي طلب GPS في الموقع كله.
+  // successCb(pos) و failCb() بنفس شكل getCurrentPosition، وoptions اختيارية.
+  window._requestGeoPermission = function(successCb, failCb, options) {
+    if (!('geolocation' in navigator)) { if (failCb) failCb(); return; }
+    var consent = window._getGeoConsent();
+    var req = { success: successCb, fail: failCb, options: options };
+    if (consent === 'granted') {
+      _runGeoRequest(req);
+    } else if (consent === 'denied') {
+      if (failCb) failCb();
+    } else {
+      _pendingGeoRequests.push(req);
+      _showGeoConsentBanner();
+    }
+  };
+
+  // احفظ مدينة مُختارة يدويًا (بديل GPS) وحدّث كل الميزات اللي بتستخدم الموقع فورًا
+  window._geoSaveManualLocation = function(lat, lon, cityName) {
+    try {
+      localStorage.setItem('adhanGeoCache', JSON.stringify({ lat: lat, lon: lon, ts: Date.now(), manual: true, cityName: cityName || '' }));
+    } catch (e) {}
+    try { localStorage.removeItem('pwTimingsCacheV2'); } catch (e) {}
+    window._setGeoConsent('denied'); // مدينة يدوية = مفيش داعي نسأل عن GPS تاني
+    if (typeof window._pwLoadPublic === 'function') window._pwLoadPublic();
+    if (typeof window._fpwLoadPublic === 'function') window._fpwLoadPublic();
+    if (typeof window._fetchAndScheduleAdhan === 'function') window._fetchAndScheduleAdhan(lat, lon);
+  };
+
+  // نافذة اختيار المدينة يدويًا: بحث عن اسم المدينة عبر Nominatim واختيار نتيجة
+  window.openCityPicker = function() {
+    var old = document.getElementById('cityPickerModal');
+    if (old) { old.remove(); return; }
+    var lang = (typeof _ptLang === 'function') ? _ptLang() : (_geoIsAr() ? 'ar' : 'en');
+    var isAr = (lang === 'ar');
+    var dir = isAr ? 'rtl' : 'ltr';
+    var isDark = document.body.classList.contains('dark-mode');
+    var bg = isDark ? '#1a2820' : '#fff';
+    var clr = isDark ? '#e0e0e0' : '#1a1a1a';
+    var muted = isDark ? 'rgba(200,240,220,0.6)' : 'rgba(0,70,40,0.55)';
+    var border = isDark ? 'rgba(29,158,117,0.25)' : 'rgba(29,158,117,0.18)';
+    var green = '#1D9E75';
+    var T = (typeof _ptT === 'function') ? _ptT : function(k) { return k; };
+
+    var overlay = document.createElement('div');
+    overlay.id = 'cityPickerModal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);';
+    overlay.innerHTML =
+      '<style>@keyframes cpFadeIn{from{opacity:0}to{opacity:1}}@keyframes cpSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}#cityPickerModal{animation:cpFadeIn .18s ease}#cityPickerModal>div{animation:cpSlideIn .22s ease}</style>' +
+      '<div style="background:' + bg + ';color:' + clr + ';width:min(92vw,380px);max-height:80vh;overflow:auto;border-radius:18px;padding:20px;font-family:Cairo,sans-serif;direction:' + dir + ';box-shadow:0 12px 40px rgba(0,0,0,0.3);">' +
+        '<div style="font-size:16px;font-weight:700;margin-bottom:14px;color:' + green + ';">🏙️ ' + T('cityPickerTitle', lang) + '</div>' +
+        '<input id="cp-input" type="text" placeholder="' + T('cityPickerPlaceholder', lang) + '" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid ' + border + ';background:' + (isDark ? '#132018' : '#f7faf8') + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;margin-bottom:12px;box-sizing:border-box;" autocomplete="off">' +
+        '<div id="cp-results" style="min-height:40px;"></div>' +
+        '<button id="cp-close" style="width:100%;margin-top:12px;padding:10px;border-radius:10px;border:1px solid ' + border + ';background:transparent;color:' + muted + ';font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;">' + T('cancel', lang) + '</button>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+    overlay.querySelector('#cp-close').addEventListener('click', function() { overlay.remove(); });
+
+    var input = overlay.querySelector('#cp-input');
+    var resultsEl = overlay.querySelector('#cp-results');
+    input.focus();
+
+    function _cpSearch(q) {
+      fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&accept-language=' + lang + '&q=' + encodeURIComponent(q))
+        .then(function(r) { return r.json(); })
+        .then(function(list) {
+          if (!list || !list.length) {
+            resultsEl.innerHTML = '<div style="text-align:center;padding:14px;color:' + muted + ';font-size:12.5px;">' + T('cityPickerNoResults', lang) + '</div>';
+            return;
+          }
+          resultsEl.innerHTML = list.map(function(item, i) {
+            return '<div class="cp-item" data-i="' + i + '" style="padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13px;border-bottom:1px solid ' + border + ';">' + (item.display_name || '') + '</div>';
+          }).join('');
+          Array.prototype.forEach.call(resultsEl.querySelectorAll('.cp-item'), function(el) {
+            el.addEventListener('click', function() {
+              var item = list[parseInt(el.getAttribute('data-i'), 10)];
+              var shortName = (item.display_name || '').split(',')[0];
+              window._geoSaveManualLocation(parseFloat(item.lat), parseFloat(item.lon), shortName);
+              overlay.remove();
+              if (typeof queueToast === 'function') {
+                queueToast(T('citySelected', 'en') + ' ' + shortName, T('citySelected', 'ar') + ' ' + shortName, null, null, null);
+              }
+              if (typeof window._pcmRepaintGeoSection === 'function') window._pcmRepaintGeoSection();
+            });
+          });
+        })
+        .catch(function() {
+          resultsEl.innerHTML = '<div style="text-align:center;padding:14px;color:#dc3545;font-size:12.5px;">' + T('cityPickerError', lang) + '</div>';
+        });
+    }
+
+    var debounceTimer = null;
+    input.addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      var q = input.value.trim();
+      if (q.length < 2) { resultsEl.innerHTML = ''; return; }
+      resultsEl.innerHTML = '<div style="text-align:center;padding:14px;color:' + muted + ';font-size:12.5px;">⏳ ' + T('cityPickerSearching', lang) + '</div>';
+      debounceTimer = setTimeout(function() { _cpSearch(q); }, 450);
+    });
+  };
+})();
+</script>
+
+<script>
 // ===== ترجمة مواقيت الصلاة والأذان لكل لغات الموقع (نفس منطق الشاشة الترحيبية) =====
 var PT_RTL_LANGS = { ar: true, ur: true };
 var PT_LOCALE_MAP = {
@@ -29656,6 +29883,21 @@ var PRAYER_I18N = {
   locationDenied:{ ar: 'تعذر الوصول للموقع، يرجى السماح بالوصول للموقع من إعدادات المتصفح', en: 'Could not access location, please allow location access', fr: "Impossible d'accéder à la position, veuillez autoriser l'accès à la position", es: 'No se pudo acceder a la ubicación, permita el acceso a la ubicación', sv: 'Kunde inte komma åt platsen, tillåt platsåtkomst', nl: 'Kon geen toegang krijgen tot locatie, sta locatietoegang toe', ga: "Níorbh fhéidir rochtain a fháil ar an suíomh, ceadaigh rochtain suímh", de: 'Standortzugriff nicht möglich, bitte Standortzugriff erlauben', ru: 'Не удалось получить доступ к местоположению, разрешите доступ', tr: 'Konuma erişilemedi, lütfen konum erişimine izin verin', pt: 'Não foi possível acessar a localização, permita o acesso', zh: '无法访问位置信息，请允许定位权限', ur: 'مقام تک رسائی نہیں ہو سکی، براہ کرم مقام تک رسائی کی اجازت دیں' },
   geoNotSupported:{ ar: 'المتصفح لا يدعم تحديد الموقع', en: 'Geolocation not supported', fr: "La géolocalisation n'est pas prise en charge", es: 'La geolocalización no es compatible', sv: 'Geolokalisering stöds inte', nl: 'Geolocatie wordt niet ondersteund', ga: 'Ní thacaítear le geoshuíomh', de: 'Geolokalisierung wird nicht unterstützt', ru: 'Геолокация не поддерживается', tr: 'Konum belirleme desteklenmiyor', pt: 'Geolocalização não suportada', zh: '不支持地理定位', ur: 'جیو لوکیشن سپورٹ نہیں ہے' },
   updateLocation:{ ar: 'تحديث الموقع', en: 'Update Location', fr: 'Mettre à jour la position', es: 'Actualizar ubicación', sv: 'Uppdatera plats', nl: 'Locatie bijwerken', ga: 'Nuashonraigh suíomh', de: 'Standort aktualisieren', ru: 'Обновить местоположение', tr: 'Konumu güncelle', pt: 'Atualizar localização', zh: '更新位置', ur: 'مقام اپ ڈیٹ کریں' },
+  geoAutoLabel:  { ar: '📍 استخدام الموقع تلقائيًا', en: '📍 Auto-use my location' },
+  geoAutoDesc:   { ar: 'يُستخدم لحساب مواقيت الصلاة واتجاه القبلة بدقة حسب مكانك.', en: 'Used to accurately calculate prayer times and the Qibla direction for your location.' },
+  geoStatusOn:   { ar: 'مفعّل', en: 'Enabled' },
+  geoStatusOff:  { ar: 'متوقف', en: 'Disabled' },
+  geoStatusPending: { ar: 'لم يُطلب بعد', en: 'Not asked yet' },
+  geoResetBtn:   { ar: '🔄 اسأل مرة تانية', en: '🔄 Ask again' },
+  geoManualBtn:  { ar: '🏙️ اختيار المدينة يدويًا', en: '🏙️ Choose city manually' },
+  geoManualLabel:{ ar: 'مدينة مختارة يدويًا:', en: 'Manually selected city:' },
+  geoUseGpsBtn:  { ar: '📍 الرجوع لاستخدام GPS', en: '📍 Switch back to GPS' },
+  cityPickerTitle: { ar: 'اختر مدينتك', en: 'Choose your city' },
+  cityPickerPlaceholder: { ar: 'اكتب اسم مدينتك...', en: 'Type your city name...' },
+  cityPickerSearching: { ar: 'جارٍ البحث...', en: 'Searching...' },
+  cityPickerNoResults: { ar: 'لا توجد نتائج، جرّب اسم مختلف', en: 'No results, try a different name' },
+  cityPickerError: { ar: 'تعذر البحث، تحقق من الاتصال بالإنترنت', en: 'Search failed, check your internet connection' },
+  citySelected:  { ar: '✅ تم ضبط المدينة', en: '✅ City set' },
 
   modalTitle:    { ar: 'إعدادات مواقيت الصلاة والأذان', en: 'Prayer Times & Adhan Settings', fr: 'Paramètres des horaires de prière et Adhan', es: 'Ajustes de horarios de oración y Adhan', sv: 'Inställningar för bönetider och böneutrop', nl: 'Instellingen gebedstijden en Adhan', ga: 'Socruithe amanna urnaí agus Adhan', de: 'Einstellungen für Gebetszeiten und Adhan', ru: 'Настройки времени намаза и азана', tr: 'Namaz Vakitleri ve Ezan Ayarları', pt: 'Configurações de Horários de Oração e Adhan', zh: '礼拜时间与宣礼设置', ur: 'اوقاتِ نماز اور اذان کی ترتیبات' },
   calcMethodLabel:{ ar: 'طريقة حساب المواقيت', en: 'Calculation Method', fr: 'Méthode de calcul', es: 'Método de cálculo', sv: 'Beräkningsmetod', nl: 'Berekeningsmethode', ga: 'Modh ríofa', de: 'Berechnungsmethode', ru: 'Метод расчёта', tr: 'Hesaplama Yöntemi', pt: 'Método de Cálculo', zh: '计算方法', ur: 'حساب کا طریقہ' },
@@ -29844,6 +30086,23 @@ window._ptComputeDuha = _ptComputeDuha;
           '<input id="pcm-volume" type="range" min="0" max="1" step="0.05" value="' + curVol + '" style="width:100%;accent-color:' + green + ';">' +
         '</div>' +
 
+        '<div style="margin-bottom:18px;padding:12px;border:1px solid ' + border + ';border-radius:12px;">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">' +
+            '<label for="pcm-geo-toggle" style="font-size:12.5px;font-weight:600;cursor:pointer;">' + _ptT('geoAutoLabel', lang) + '</label>' +
+            '<label style="position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0;">' +
+              '<input id="pcm-geo-toggle" type="checkbox" style="opacity:0;width:0;height:0;">' +
+              '<span id="pcm-geo-track" style="position:absolute;inset:0;border-radius:24px;cursor:pointer;transition:.2s;"></span>' +
+              '<span id="pcm-geo-knob" style="position:absolute;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></span>' +
+            '</label>' +
+          '</div>' +
+          '<div style="font-size:10.5px;color:' + muted + ';margin-top:6px;line-height:1.5;">' + _ptT('geoAutoDesc', lang) + '</div>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">' +
+            '<span id="pcm-geo-status" style="font-size:11px;color:' + muted + ';font-weight:600;"></span>' +
+            '<button id="pcm-geo-reset" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:10.5px;padding:5px 10px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">' + _ptT('geoResetBtn', lang) + '</button>' +
+          '</div>' +
+          '<div id="pcm-geo-city-row" style="margin-top:10px;padding-top:10px;border-top:1px solid ' + border + ';"></div>' +
+        '</div>' +
+
         '<div style="display:flex;gap:10px;">' +
           '<button id="pcm-cancel" style="flex:1;padding:10px;border-radius:10px;border:1px solid ' + border + ';background:transparent;color:' + muted + ';font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;">' + _ptT('cancel', lang) + '</button>' +
           '<button id="pcm-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:' + green + ';color:#fff;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">' + _ptT('save', lang) + '</button>' +
@@ -29882,6 +30141,82 @@ window._ptComputeDuha = _ptComputeDuha;
     volInput.addEventListener('input', function() {
       volVal.textContent = Math.round(parseFloat(volInput.value) * 100) + '%';
       window.setAdhanVolume(parseFloat(volInput.value));
+    });
+
+    // --- تبديل إذن الموقع (يعتمد على نظام window._requestGeoPermission الموحّد) ---
+    var geoToggle = overlay.querySelector('#pcm-geo-toggle');
+    var geoTrack = overlay.querySelector('#pcm-geo-track');
+    var geoKnob = overlay.querySelector('#pcm-geo-knob');
+    var geoStatusEl = overlay.querySelector('#pcm-geo-status');
+    var geoResetBtn = overlay.querySelector('#pcm-geo-reset');
+    var geoCityRow = overlay.querySelector('#pcm-geo-city-row');
+
+    function _pcmActivateGps() {
+      window._requestGeoPermission(function(pos) {
+        try {
+          localStorage.setItem('adhanGeoCache', JSON.stringify({ lat: pos.coords.latitude, lon: pos.coords.longitude, ts: Date.now() }));
+        } catch (e) {}
+        if (typeof window._fetchAndScheduleAdhan === 'function') window._fetchAndScheduleAdhan(pos.coords.latitude, pos.coords.longitude);
+        if (typeof window._pwLoadPublic === 'function') window._pwLoadPublic();
+        if (typeof window._fpwLoadPublic === 'function') window._fpwLoadPublic();
+        _paintGeoToggle();
+      }, function() { _paintGeoToggle(); }, { timeout: 10000 });
+      // لو لسه القرار معلّق (البانر ظهر)، حدّث الشكل لحد ما المستخدم يرد
+      setTimeout(_paintGeoToggle, 50);
+    }
+
+    function _paintGeoToggle() {
+      var consent = (typeof window._getGeoConsent === 'function') ? window._getGeoConsent() : null;
+      var cacheGeo = null;
+      try { cacheGeo = JSON.parse(localStorage.getItem('adhanGeoCache') || 'null'); } catch (e) {}
+      var isManual = !!(cacheGeo && cacheGeo.manual);
+      var isOn = consent === 'granted' && !isManual;
+
+      geoToggle.checked = isOn;
+      geoTrack.style.background = isOn ? green : (isDark ? '#3a4a40' : '#d5dbd7');
+      geoKnob.style.transform = isOn ? (isAr ? 'translateX(-21px)' : 'translateX(21px)') : 'translateX(3px)';
+      geoStatusEl.textContent = isManual ? ''
+        : consent === 'granted' ? _ptT('geoStatusOn', lang)
+        : consent === 'denied' ? _ptT('geoStatusOff', lang)
+        : _ptT('geoStatusPending', lang);
+      geoResetBtn.style.display = (consent && !isManual) ? 'inline-block' : 'none';
+
+      if (isManual) {
+        geoCityRow.innerHTML =
+          '<div style="font-size:11.5px;font-weight:600;margin-bottom:8px;">🏙️ ' + _ptT('geoManualLabel', lang) + ' ' + (cacheGeo.cityName || '') + '</div>' +
+          '<button id="pcm-geo-use-gps" style="width:100%;padding:8px;border-radius:9px;border:1px solid ' + border + ';background:transparent;color:' + clr + ';font-family:Cairo,sans-serif;font-size:12px;cursor:pointer;">' + _ptT('geoUseGpsBtn', lang) + '</button>';
+        geoCityRow.querySelector('#pcm-geo-use-gps').addEventListener('click', function() {
+          try { localStorage.removeItem('adhanGeoCache'); } catch (e) {}
+          _pcmActivateGps();
+        });
+      } else {
+        geoCityRow.innerHTML =
+          '<button id="pcm-geo-manual-btn" style="width:100%;padding:8px;border-radius:9px;border:1px solid ' + border + ';background:transparent;color:' + clr + ';font-family:Cairo,sans-serif;font-size:12px;cursor:pointer;">' + _ptT('geoManualBtn', lang) + '</button>';
+        geoCityRow.querySelector('#pcm-geo-manual-btn').addEventListener('click', function() {
+          if (typeof window.openCityPicker === 'function') window.openCityPicker();
+        });
+      }
+    }
+    _paintGeoToggle();
+    window._pcmRepaintGeoSection = _paintGeoToggle;
+
+    geoToggle.addEventListener('change', function() {
+      if (geoToggle.checked) {
+        _pcmActivateGps();
+      } else {
+        window._setGeoConsent('denied');
+        try { localStorage.removeItem('adhanGeoCache'); } catch (e) {}
+        _paintGeoToggle();
+      }
+    });
+
+    geoResetBtn.addEventListener('click', function() {
+      // امسح القرار المحفوظ عشان يظهر السؤال تاني في أول طلب موقع جاي
+      window._setGeoConsent(null);
+      _paintGeoToggle();
+      if (typeof queueToast === 'function') {
+        queueToast(_ptT('geoStatusPending', 'en'), _ptT('geoStatusPending', 'ar'), null, null, null);
+      }
     });
 
     overlay.querySelector('#pcm-cancel').addEventListener('click', function() { overlay.remove(); });
@@ -30077,28 +30412,24 @@ window._ptComputeDuha = _ptComputeDuha;
     // استخدم كاش الإحداثيات
     try {
       var geo = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-      if (geo.lat && geo.lon && (Date.now() - geo.ts) < 30 * 864e5) {
+      if (geo.lat && geo.lon && (geo.manual || (Date.now() - geo.ts) < 30 * 864e5)) {
         fetchTimes(geo.lat, geo.lon);
         return;
       }
     } catch(e) {}
 
-    // اطلب موقع جديد
-    if ('geolocation' in navigator) {
-      document.getElementById('prayerWidgetNative').innerHTML =
-        '<div style="text-align:center;padding:20px;color:#888;font-size:13px;">⏳ ' + _ptT('locating') + '</div>';
-      navigator.geolocation.getCurrentPosition(function(pos) {
-        try {
-          localStorage.setItem(CACHE_KEY, JSON.stringify({ lat: pos.coords.latitude, lon: pos.coords.longitude, ts: Date.now() }));
-        } catch(e) {}
-        fetchTimes(pos.coords.latitude, pos.coords.longitude);
-      }, function() {
-        // fallback القاهرة
-        fetchTimes(30.0444, 31.2357);
-      }, { timeout: 10000 });
-    } else {
+    // اطلب موقع جديد (عبر نظام إذن الموقع الموحّد)
+    document.getElementById('prayerWidgetNative').innerHTML =
+      '<div style="text-align:center;padding:20px;color:#888;font-size:13px;">⏳ ' + _ptT('locating') + '</div>';
+    window._requestGeoPermission(function(pos) {
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ lat: pos.coords.latitude, lon: pos.coords.longitude, ts: Date.now() }));
+      } catch(e) {}
+      fetchTimes(pos.coords.latitude, pos.coords.longitude);
+    }, function() {
+      // fallback القاهرة
       fetchTimes(30.0444, 31.2357);
-    }
+    }, { timeout: 10000 });
   }
 
   window._pwRefreshLocation = function() {
@@ -30279,23 +30610,19 @@ window._ptComputeDuha = _ptComputeDuha;
 
     try {
       var geo = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-      if (geo.lat && geo.lon && (Date.now() - geo.ts) < 30 * 864e5) {
+      if (geo.lat && geo.lon && (geo.manual || (Date.now() - geo.ts) < 30 * 864e5)) {
         fetchTimes(geo.lat, geo.lon);
         return;
       }
     } catch(e) {}
 
-    if ('geolocation' in navigator) {
-      if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⏳ ' + _ptT('locating', lang) + '</div>';
-      navigator.geolocation.getCurrentPosition(function(pos) {
-        try { localStorage.setItem(CACHE_KEY, JSON.stringify({ lat: pos.coords.latitude, lon: pos.coords.longitude, ts: Date.now() })); } catch(e) {}
-        fetchTimes(pos.coords.latitude, pos.coords.longitude);
-      }, function() {
-        if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#dc3545;font-size:13px;">⚠️ ' + _ptT('locationDenied', lang) + '</div>';
-      }, { timeout: 10000 });
-    } else {
-      if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#dc3545;font-size:13px;">⚠️ ' + _ptT('geoNotSupported', lang) + '</div>';
-    }
+    if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⏳ ' + _ptT('locating', lang) + '</div>';
+    window._requestGeoPermission(function(pos) {
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify({ lat: pos.coords.latitude, lon: pos.coords.longitude, ts: Date.now() })); } catch(e) {}
+      fetchTimes(pos.coords.latitude, pos.coords.longitude);
+    }, function() {
+      if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#dc3545;font-size:13px;">⚠️ ' + _ptT('locationDenied', lang) + '</div>';
+    }, { timeout: 10000 });
   }
 
   window._fpwRefreshLocation = function() {
@@ -30417,7 +30744,7 @@ window._ptComputeDuha = _ptComputeDuha;
   function _qcGetCachedGeo() {
     try {
       var geo = JSON.parse(localStorage.getItem('adhanGeoCache') || '{}');
-      if (geo.lat && geo.lon && (Date.now() - geo.ts) < 30 * 864e5) return geo;
+      if (geo.lat && geo.lon && (geo.manual || (Date.now() - geo.ts) < 30 * 864e5)) return geo;
     } catch(e) {}
     return null;
   }
@@ -30647,16 +30974,12 @@ window._ptComputeDuha = _ptComputeDuha;
     var cached = _qcGetCachedGeo();
     if (cached) { _qcRender(cached.lat, cached.lon, cached.ts); return; }
     el.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#888;font-size:13px;">⏳ ' + (window._qcIsAr ? 'جارٍ تحديد موقعك...' : 'Locating you...') + '</div>';
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(function(pos) {
-        _qcSaveGeo(pos.coords.latitude, pos.coords.longitude);
-        _qcRender(pos.coords.latitude, pos.coords.longitude);
-      }, function() {
-        el.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#dc3545;font-size:13px;">⚠️ ' + (window._qcIsAr ? 'تعذر الوصول للموقع، يرجى السماح بالوصول للموقع من إعدادات المتصفح' : 'Could not access location, please allow location access') + '</div>';
-      }, { timeout: 10000 });
-    } else {
-      el.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#dc3545;font-size:13px;">⚠️ ' + (window._qcIsAr ? 'المتصفح لا يدعم تحديد الموقع' : 'Geolocation not supported') + '</div>';
-    }
+    window._requestGeoPermission(function(pos) {
+      _qcSaveGeo(pos.coords.latitude, pos.coords.longitude);
+      _qcRender(pos.coords.latitude, pos.coords.longitude);
+    }, function() {
+      el.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#dc3545;font-size:13px;">⚠️ ' + (window._qcIsAr ? 'تعذر الوصول للموقع، يرجى السماح بالوصول للموقع من إعدادات المتصفح' : 'Could not access location, please allow location access') + '</div>';
+    }, { timeout: 10000 });
   }
 
   window._qcEnable = function() { _qcStartOrientation(); };
@@ -34009,6 +34332,15 @@ function applyInitialLanguage() {
       if (typeof updateAdhkarNotifUI === 'function') updateAdhkarNotifUI();
     }
 
+    var startupNotifWrap = document.getElementById('startup-notif-settings');
+    if (startupNotifWrap) {
+      startupNotifWrap.querySelectorAll('span[data-ar][data-en]').forEach(function(el) {
+        el.textContent = el.getAttribute('data-en');
+      });
+      startupNotifWrap.style.direction = 'ltr';
+      if (typeof updateStartupNotifUI === 'function') updateStartupNotifUI();
+    }
+
     var audioQualityWrap = document.getElementById('audio-quality-settings');
     if (audioQualityWrap) {
       audioQualityWrap.querySelectorAll('[data-ar][data-en]').forEach(function(el) {
@@ -35521,6 +35853,19 @@ function toggleLanguage() {
 
   (function() {
     var ar = isArabic;
+
+    var startupNotifWrap = document.getElementById('startup-notif-settings');
+    if (startupNotifWrap) {
+      startupNotifWrap.querySelectorAll('span[data-ar][data-en]').forEach(function(el) {
+        el.textContent = ar ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+      });
+      startupNotifWrap.style.direction = ar ? 'rtl' : 'ltr';
+      if (typeof updateStartupNotifUI === 'function') updateStartupNotifUI();
+    }
+  })();
+
+  (function() {
+    var ar = isArabic;
     var audioQualityWrap = document.getElementById('audio-quality-settings');
     if (!audioQualityWrap) return;
 
@@ -35684,6 +36029,23 @@ function applyFilterButtonsLang(lang) {
       if (t) notifBtn.textContent = t;
     }
     if (typeof window.updateAdhkarNotifUI === 'function') window.updateAdhkarNotifUI();
+  }
+
+  // تنبيهات فتح الموقع (العنوان، الوصف، زر التفعيل/الإيقاف)
+  var startupNotifWrap = document.getElementById('startup-notif-settings');
+  if (startupNotifWrap) {
+    startupNotifWrap.querySelectorAll('span[data-ar]').forEach(function(el) {
+      if (el.id === 'startup-notif-status-text') return;
+      var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
+      if (t) el.textContent = t;
+    });
+    var startupBtn = document.getElementById('startup-notif-toggle-btn');
+    if (startupBtn) {
+      var startupIsOn = startupBtn.getAttribute('data-state') === 'on';
+      var startupPrefix = startupIsOn ? 'data-on-' : 'data-off-';
+      var st = startupBtn.getAttribute(startupPrefix + lang) || startupBtn.getAttribute(startupPrefix + 'en');
+      if (st) startupBtn.textContent = st;
+    }
   }
 
   // إعدادات جودة الصوت (المعادل، التضخيم، الجهير/المتوسط/الحاد، الإعدادات الجاهزة)
@@ -38860,6 +39222,7 @@ window.addEventListener("load", function() {
   }
 
   function queueToast(messageEn, messageAr, imgUrl, btnText, onClick, locText, onLocClick) {
+    if (localStorage.getItem('disableStartupToasts') === 'true') return;
     toastQueue.push({
       messageEn,
       messageAr,
@@ -39071,6 +39434,7 @@ window.addEventListener("load", function() {
 
   // ===== إشعار تثبيت التطبيق PWA (يظهر رابعاً) =====
   (function() {
+    if (localStorage.getItem('disableStartupToasts') === 'true') return;
     // لا تُظهره إذا سبق تثبيته
     if (localStorage.getItem('pwaInstalled') === '1') return;
     // لا تُظهره إذا رفضه المستخدم مؤخراً (snooze 3 أيام فقط)
@@ -39311,7 +39675,6 @@ window.addEventListener("load", function() {
     }
 
     function requestLocation(btn) {
-      if (!('geolocation' in navigator)) return;
       var isAr = _toastLang === 'ar';
       if (btn) {
         btn.textContent = isAr ? '⏳...' : '⏳...';
@@ -39320,7 +39683,7 @@ window.addEventListener("load", function() {
       try {
         localStorage.removeItem('adhanGeoCache');
       } catch (e) {}
-      navigator.geolocation.getCurrentPosition(
+      window._requestGeoPermission(
         function(pos) {
           try {
             localStorage.setItem('adhanGeoCache', JSON.stringify({
@@ -39415,11 +39778,12 @@ window.addEventListener("load", function() {
         const {
           lat,
           lon,
-          ts
+          ts,
+          manual
         } = JSON.parse(raw);
         if (!lat || !lon) return null;
-        // مقبول حتى 30 يوم
-        if (Date.now() - ts > 30 * 24 * 60 * 60 * 1000) return null;
+        // مقبول حتى 30 يوم (إلا لو مدينة مختارة يدويًا فما تنتهيش)
+        if (!manual && Date.now() - ts > 30 * 24 * 60 * 60 * 1000) return null;
         return {
           lat,
           lon
@@ -39433,15 +39797,13 @@ window.addEventListener("load", function() {
     if (_toastGeo) {
       // كاش موجود → ابدأ فوراً بدون طلب GPS
       fetchPrayerTimes(_toastGeo.lat, _toastGeo.lon);
-    } else if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
+    } else {
+      window._requestGeoPermission(
         pos => fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude),
         () => buildFallbackToast(), {
           timeout: 8000
         }
       );
-    } else {
-      buildFallbackToast();
     }
   })();
 
@@ -39746,18 +40108,12 @@ window.addEventListener("load", function() {
     if (gpsBtn) {
       gpsBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        const useAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-        const infoEl = document.getElementById('adhan-next-info');
-        if (!('geolocation' in navigator)) {
-          if (infoEl) infoEl.textContent = useAr ? '⚠️ المتصفح لا يدعم GPS' : '⚠️ GPS not supported';
-          return;
-        }
         // مسح الكاش القديم لإجبار طلب جديد
         localStorage.removeItem('adhanGeoCache');
         gpsBtn.textContent = '⏳';
         gpsBtn.style.pointerEvents = 'none';
         if (infoEl) infoEl.textContent = useAr ? 'جارٍ تحديد موقعك...' : 'Locating...';
-        navigator.geolocation.getCurrentPosition(
+        window._requestGeoPermission(
           function(pos) {
             const {
               latitude: lat,
@@ -40116,10 +40472,11 @@ window.addEventListener("load", function() {
       const {
         lat,
         lon,
-        ts
+        ts,
+        manual
       } = JSON.parse(raw);
       if (!lat || !lon || !ts) return null;
-      if (Date.now() - ts > GEO_MAX_AGE_MS) return null; // منتهي
+      if (!manual && Date.now() - ts > GEO_MAX_AGE_MS) return null; // منتهي (إلا لو مدينة مختارة يدويًا)
       return {
         lat,
         lon
@@ -40154,7 +40511,7 @@ window.addEventListener("load", function() {
   const _cached = _getCachedGeo();
   if (_cached) {
     _startWithCoords(_cached.lat, _cached.lon);
-    // جدّد الكاش في الخلفية كل 7 أيام بصمت (بدون popup للمستخدم)
+    // جدّد الكاش في الخلفية كل 7 أيام بصمت (بدون سؤال المستخدم من جديد — بس لو الإذن ممنوح فعلاً)
     const _cacheAge = Date.now() - (function() {
       try {
         return JSON.parse(localStorage.getItem(GEO_CACHE_KEY)).ts;
@@ -40162,8 +40519,8 @@ window.addEventListener("load", function() {
         return 0;
       }
     })();
-    if (_cacheAge > 7 * 24 * 60 * 60 * 1000 && 'geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
+    if (_cacheAge > 7 * 24 * 60 * 60 * 1000 && window._getGeoConsent() === 'granted') {
+      window._requestGeoPermission(
         pos => _saveCachedGeo(pos.coords.latitude, pos.coords.longitude),
         () => {}, {
           timeout: 10000,
@@ -40171,9 +40528,9 @@ window.addEventListener("load", function() {
         }
       );
     }
-  } else if ('geolocation' in navigator) {
-    // أول مرة: اطلب GPS واحفظه
-    navigator.geolocation.getCurrentPosition(
+  } else {
+    // أول مرة: اطلب الإذن عبر النظام الموحّد (هيسأل المستخدم لو أول مرة تماماً)
+    window._requestGeoPermission(
       pos => {
         _saveCachedGeo(pos.coords.latitude, pos.coords.longitude);
         _startWithCoords(pos.coords.latitude, pos.coords.longitude);
@@ -46247,6 +46604,32 @@ document.addEventListener('DOMContentLoaded', function() {
     window.updateAdhkarNotifUI = function() {
       updateUI(loadSettings());
     };
+
+    // ===== تفعيل/إيقاف تنبيهات فتح الموقع (محطة جديدة، مناسبة، استئناف، تثبيت التطبيق...) =====
+    window.updateStartupNotifUI = function() {
+      var disabled = localStorage.getItem('disableStartupToasts') === 'true';
+      var btn = document.getElementById('startup-notif-toggle-btn');
+      if (!btn) return;
+      btn.setAttribute('data-state', disabled ? 'off' : 'on');
+      var lang = localStorage.getItem('siteLang') || ((navigator.language || 'ar').toLowerCase().startsWith('ar') ? 'ar' : 'en');
+      var prefix = disabled ? 'data-off-' : 'data-on-';
+      var t = btn.getAttribute(prefix + lang) || btn.getAttribute(prefix + 'en');
+      if (t) btn.textContent = t;
+      var statusEl = document.getElementById('startup-notif-status-text');
+      if (statusEl) {
+        statusEl.textContent = disabled ? (lang === 'ar' ? '✅ متوقفة الآن' : '✅ Currently off') : '';
+      }
+    };
+
+    window.toggleStartupNotifications = function() {
+      var current = localStorage.getItem('disableStartupToasts') === 'true';
+      localStorage.setItem('disableStartupToasts', current ? 'false' : 'true');
+      window.updateStartupNotifUI();
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof window.updateStartupNotifUI === 'function') window.updateStartupNotifUI();
+    });
 
     function msUntilTime(hhmm) {
       var parts = hhmm.split(':');
