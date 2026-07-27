@@ -30166,7 +30166,7 @@ window._ptComputeDuha = _ptComputeDuha;
             '<label style="position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0;">' +
               '<input id="pcm-geo-toggle" type="checkbox" style="opacity:0;width:0;height:0;">' +
               '<span id="pcm-geo-track" style="position:absolute;inset:0;border-radius:24px;cursor:pointer;transition:.2s;"></span>' +
-              '<span id="pcm-geo-*****" style="position:absolute;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></span>' +
+              '<span id="pcm-geo-knob" style="position:absolute;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></span>' +
             '</label>' +
           '</div>' +
           '<div style="font-size:10.5px;color:' + muted + ';margin-top:6px;line-height:1.5;">' + _ptT('geoAutoDesc', lang) + '</div>' +
@@ -30220,7 +30220,7 @@ window._ptComputeDuha = _ptComputeDuha;
     // --- تبديل إذن الموقع (يعتمد على نظام window._requestGeoPermission الموحّد) ---
     var geoToggle = overlay.querySelector('#pcm-geo-toggle');
     var geoTrack = overlay.querySelector('#pcm-geo-track');
-    var geoKnob = overlay.querySelector('#pcm-geo-*****');
+    var geoKnob = overlay.querySelector('#pcm-geo-knob');
     var geoStatusEl = overlay.querySelector('#pcm-geo-status');
     var geoResetBtn = overlay.querySelector('#pcm-geo-reset');
     var geoCityRow = overlay.querySelector('#pcm-geo-city-row');
