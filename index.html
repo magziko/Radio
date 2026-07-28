@@ -30184,7 +30184,7 @@ window._ptComputeDuha = _ptComputeDuha;
             '<label style="position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0;">' +
               '<input id="pcm-geo-toggle" type="checkbox" style="opacity:0;width:0;height:0;">' +
               '<span id="pcm-geo-track" style="position:absolute;inset:0;border-radius:24px;cursor:pointer;transition:.2s;"></span>' +
-              '<span id="pcm-geo-*****" style="position:absolute;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></span>' +
+              '<span id="pcm-geo-knob" style="position:absolute;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></span>' +
             '</label>' +
           '</div>' +
           '<div style="font-size:10.5px;color:' + muted + ';margin-top:6px;line-height:1.5;">' + _ptT('geoAutoDesc', lang) + '</div>' +
@@ -30238,7 +30238,7 @@ window._ptComputeDuha = _ptComputeDuha;
     // --- تبديل إذن الموقع (يعتمد على نظام window._requestGeoPermission الموحّد) ---
     var geoToggle = overlay.querySelector('#pcm-geo-toggle');
     var geoTrack = overlay.querySelector('#pcm-geo-track');
-    var geoKnob = overlay.querySelector('#pcm-geo-*****');
+    var geoKnob = overlay.querySelector('#pcm-geo-knob');
     var geoStatusEl = overlay.querySelector('#pcm-geo-status');
     var geoResetBtn = overlay.querySelector('#pcm-geo-reset');
     var geoCityRow = overlay.querySelector('#pcm-geo-city-row');
@@ -39908,13 +39908,17 @@ window.addEventListener("load", function() {
     if (_toastGeo) {
       // كاش موجود → ابدأ فوراً بدون طلب GPS
       fetchPrayerTimes(_toastGeo.lat, _toastGeo.lon);
-    } else {
+    } else if (window._getGeoConsent() === 'granted') {
+      // اتوافق قبل كده بس مفيش كاش دلوقتي → اطلب بصمت من غير بانر
       window._requestGeoPermission(
         pos => fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude),
         () => buildFallbackToast(), {
           timeout: 8000
         }
       );
+    } else {
+      // أول زيارة أو تم الرفض قبل كده → متعرضش بانر الموقع تلقائيًا، اعرض الرسالة التشجيعية بس
+      buildFallbackToast();
     }
   })();
 
@@ -40639,8 +40643,9 @@ window.addEventListener("load", function() {
         }
       );
     }
-  } else {
-    // أول مرة: اطلب الإذن عبر النظام الموحّد (هيسأل المستخدم لو أول مرة تماماً)
+  } else if (window._getGeoConsent() === 'granted') {
+    // المستخدم سبق ووافق على الموقع من قبل بس مفيش كاش دلوقتي (مثلاً أول مرة على جهاز/متصفح جديد
+    // بعد موافقة سابقة) — نطلب الموقع بصمت من غير ما نعرض بانر تاني
     window._requestGeoPermission(
       pos => {
         _saveCachedGeo(pos.coords.latitude, pos.coords.longitude);
@@ -40651,6 +40656,9 @@ window.addEventListener("load", function() {
       }
     );
   }
+  // لو أول زيارة تماماً (لسه محدش اتسأل): متعرضش بانر "استخدام موقعك؟" تلقائيًا عند فتح الموقع.
+  // المستخدم يقدر يختار مدينته يدويًا من الإعدادات، أو يفعّل الموقع بنفسه لما يستخدم
+  // البوصلة أو يفعّل الأذان — وقتها هيظهر السؤال بشكل طبيعي مرتبط بالإجراء اللي عمله.
 
   // Keep-Alive: أرسل رسالة للـ SW كل 20 ثانية عشان يعرف إن الصوت شغال
   setInterval(function() {
