@@ -29904,20 +29904,33 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     input.focus();
 
     function _cpSearch(q) {
-      fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&accept-language=' + lang + '&q=' + encodeURIComponent(q))
+      fetch('https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=6&accept-language=' + lang + '&q=' + encodeURIComponent(q))
         .then(function(r) { return r.json(); })
         .then(function(list) {
           if (!list || !list.length) {
             resultsEl.innerHTML = '<div style="text-align:center;padding:14px;color:' + muted + ';font-size:12.5px;">' + T('cityPickerNoResults', lang) + '</div>';
             return;
           }
+          function _cpParts(item) {
+            var addr = item.address || {};
+            var cityPart = addr.city || addr.town || addr.village || addr.municipality || addr.county || (item.display_name || '').split(',')[0].trim();
+            var govPart = addr.state || addr.governorate || addr.region || '';
+            var countryPart = addr.country || '';
+            var subLine = [govPart, countryPart].filter(Boolean).join('، ');
+            return { city: cityPart, sub: subLine };
+          }
           resultsEl.innerHTML = list.map(function(item, i) {
-            return '<div class="cp-item" data-i="' + i + '" style="padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13px;border-bottom:1px solid ' + border + ';">' + (item.display_name || '') + '</div>';
+            var p = _cpParts(item);
+            return '<div class="cp-item" data-i="' + i + '" style="padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13px;border-bottom:1px solid ' + border + ';">' +
+              '<div style="font-weight:700;">' + p.city + '</div>' +
+              (p.sub ? '<div style="font-size:11.5px;opacity:0.65;margin-top:2px;">' + p.sub + '</div>' : '') +
+              '</div>';
           }).join('');
           Array.prototype.forEach.call(resultsEl.querySelectorAll('.cp-item'), function(el) {
             el.addEventListener('click', function() {
               var item = list[parseInt(el.getAttribute('data-i'), 10)];
-              var shortName = (item.display_name || '').split(',')[0];
+              var p = _cpParts(item);
+              var shortName = p.sub ? (p.city + '، ' + p.sub) : p.city;
               window._geoSaveManualLocation(parseFloat(item.lat), parseFloat(item.lon), shortName);
               overlay.remove();
               if (typeof queueToast === 'function') {
@@ -29984,6 +29997,7 @@ var PRAYER_I18N = {
   geoManualBtn:  { ar: '🏙️ اختيار المدينة يدويًا', en: '🏙️ Choose city manually' },
   geoManualLabel:{ ar: 'مدينة مختارة يدويًا:', en: 'Manually selected city:' },
   geoUseGpsBtn:  { ar: '📍 الرجوع لاستخدام GPS', en: '📍 Switch back to GPS' },
+  geoChangeCityBtn: { ar: '🔍 تغيير المدينة', en: '🔍 Change city' },
   cityPickerTitle: { ar: 'اختر مدينتك', en: 'Choose your city' },
   cityPickerPlaceholder: { ar: 'اكتب اسم مدينتك...', en: 'Type your city name...' },
   cityPickerSearching: { ar: 'جارٍ البحث...', en: 'Searching...' },
@@ -30276,7 +30290,13 @@ window._ptComputeDuha = _ptComputeDuha;
       if (isManual) {
         geoCityRow.innerHTML =
           '<div style="font-size:11.5px;font-weight:600;margin-bottom:8px;">🏙️ ' + _ptT('geoManualLabel', lang) + ' ' + (cacheGeo.cityName || '') + '</div>' +
-          '<button id="pcm-geo-use-gps" style="width:100%;padding:8px;border-radius:9px;border:1px solid ' + border + ';background:transparent;color:' + clr + ';font-family:Cairo,sans-serif;font-size:12px;cursor:pointer;">' + _ptT('geoUseGpsBtn', lang) + '</button>';
+          '<div style="display:flex;gap:8px;">' +
+            '<button id="pcm-geo-change-city" style="flex:1;padding:8px;border-radius:9px;border:1px solid ' + border + ';background:transparent;color:' + clr + ';font-family:Cairo,sans-serif;font-size:12px;cursor:pointer;">' + _ptT('geoChangeCityBtn', lang) + '</button>' +
+            '<button id="pcm-geo-use-gps" style="flex:1;padding:8px;border-radius:9px;border:1px solid ' + border + ';background:transparent;color:' + clr + ';font-family:Cairo,sans-serif;font-size:12px;cursor:pointer;">' + _ptT('geoUseGpsBtn', lang) + '</button>' +
+          '</div>';
+        geoCityRow.querySelector('#pcm-geo-change-city').addEventListener('click', function() {
+          if (typeof window.openCityPicker === 'function') window.openCityPicker();
+        });
         geoCityRow.querySelector('#pcm-geo-use-gps').addEventListener('click', function() {
           try { localStorage.removeItem('adhanGeoCache'); } catch (e) {}
           _pcmActivateGps();
