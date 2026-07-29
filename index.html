@@ -40352,39 +40352,87 @@ window.addEventListener("load", function() {
         localStorage.removeItem('adhanGeoCache');
         gpsBtn.textContent = '⏳';
         gpsBtn.style.pointerEvents = 'none';
+        
         // ✅ تعريف infoEl هنا بدلاً من الاعتماد على متغير محلي قديم
-        const infoEl = document.getElementById('salah-pip-info');
-        if (infoEl) infoEl.textContent = useAr ? 'جارٍ تحديد موقعك...' : 'Locating...';
-        window._requestGeoPermission(
-          function(pos) {
-            const {
-              latitude: lat,
-              longitude: lon
-            } = pos.coords;
-            // احفظ الكاش الجديد
-            try {
-              localStorage.setItem('adhanGeoCache', JSON.stringify({
-                lat,
-                lon,
-                ts: Date.now()
-              }));
-            } catch (e) {}
-            // أعد جدولة الأذان بالموقع الجديد
-            fetchAndSchedule(lat, lon);
-            gpsBtn.textContent = '📍';
-            gpsBtn.style.pointerEvents = '';
-            if (infoEl) infoEl.textContent = useAr ? '✅ تم تحديث الموقع' : '✅ Location updated';
-            setTimeout(updateCountdownDisplay, 2000);
-          },
-          function() {
-            gpsBtn.textContent = '📍';
-            gpsBtn.style.pointerEvents = '';
-            if (infoEl) infoEl.textContent = useAr ? '❌ تم رفض إذن الموقع' : '❌ Location denied';
-            setTimeout(updateCountdownDisplay, 3000);
-          }, {
-            timeout: 10000
-          }
-        );
+        const infoEl = document.getElementById('adhan-next-info');
+        const isAr = (typeof isArabic !== 'undefined') ? !!isArabic : true;
+        if (infoEl) infoEl.textContent = isAr ? 'جارٍ تحديد موقعك...' : 'Locating...';
+
+        // ✅ حماية إضافية: لو المتصفح ملبّاش (لا نجاح ولا فشل) خلال 12 ثانية
+        // — زي ما بيحصل مثلاً لما الصفحة مفتوحة عن طريق file:// بدل https —
+        // نرجّع الزرار لحالته الطبيعية بالقوة عشان متفضلش عالقة على ⏳ للأبد.
+        let _gpsSettled = false;
+        const _gpsFallbackTimer = setTimeout(function() {
+          if (_gpsSettled) return;
+          _gpsSettled = true;
+          gpsBtn.textContent = '📍';
+          gpsBtn.style.pointerEvents = '';
+          if (infoEl) infoEl.textContent = isAr ?
+            '❌ لم يستجب المتصفح. جرّب من رابط https وليس ملف محلي.' :
+            '❌ Browser did not respond. Try over https, not a local file.';
+        }, 12000);
+
+        // ✅ استدعاء navigator.geolocation مباشرة لعرض native browser permission prompt
+        if ('geolocation' in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            function(pos) {
+              if (_gpsSettled) return;
+              _gpsSettled = true;
+              clearTimeout(_gpsFallbackTimer);
+              const {
+                latitude: lat,
+                longitude: lon
+              } = pos.coords;
+              // احفظ الكاش الجديد
+              try {
+                localStorage.setItem('adhanGeoCache', JSON.stringify({
+                  lat,
+                  lon,
+                  ts: Date.now()
+                }));
+              } catch (e) {}
+              // أعد جدولة الأذان بالموقع الجديد
+              fetchAndSchedule(lat, lon);
+              gpsBtn.textContent = '📍';
+              gpsBtn.style.pointerEvents = '';
+              if (infoEl) infoEl.textContent = isAr ? '✅ تم تحديث الموقع' : '✅ Location updated';
+              setTimeout(updateCountdownDisplay, 2000);
+            },
+            function(error) {
+              if (_gpsSettled) return;
+              _gpsSettled = true;
+              clearTimeout(_gpsFallbackTimer);
+              // معالجة الأخطاء
+              gpsBtn.textContent = '📍';
+              gpsBtn.style.pointerEvents = '';
+              
+              var errMsg = '';
+              if (error.code === error.PERMISSION_DENIED) {
+                errMsg = isAr ? '❌ تم رفض إذن الموقع. فعّل GPS من إعدادات الهاتف.' : '❌ Location permission denied. Enable GPS in settings.';
+              } else if (error.code === error.POSITION_UNAVAILABLE) {
+                errMsg = isAr ? '❌ إشارة GPS غير متاحة الآن.' : '❌ GPS signal not available.';
+              } else if (error.code === error.TIMEOUT) {
+                errMsg = isAr ? '❌ انتهت مهلة الطلب. حاول مرة أخرى.' : '❌ GPS request timed out.';
+              } else {
+                errMsg = isAr ? '❌ لم أتمكن من الحصول على الموقع.' : '❌ Could not get location.';
+              }
+              
+              if (infoEl) infoEl.textContent = errMsg;
+              setTimeout(updateCountdownDisplay, 3000);
+            },
+            { 
+              timeout: 10000,
+              enableHighAccuracy: false,
+              maximumAge: 0
+            }
+          );
+        } else {
+          _gpsSettled = true;
+          clearTimeout(_gpsFallbackTimer);
+          gpsBtn.textContent = '📍';
+          gpsBtn.style.pointerEvents = '';
+          if (infoEl) infoEl.textContent = isAr ? '❌ GPS غير مدعوم.' : '❌ Geolocation not supported.';
+        }
       });
     }
 
