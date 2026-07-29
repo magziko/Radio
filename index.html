@@ -30293,9 +30293,19 @@ window._ptComputeDuha = _ptComputeDuha;
     _paintGeoToggle();
     window._pcmRepaintGeoSection = _paintGeoToggle;
 
-    // GPS button
+    // GPS button - استدعاء الدالة المحسّنة
     geoGpsBtn.addEventListener('click', function() {
-      _pcmActivateGps();
+      // مسح الإذن القديم لفرض طلب جديد من المتصفح
+      window._setGeoConsent(null);
+      localStorage.removeItem('adhanGeoCache');
+      
+      // استدعاء الدالة المحسّنة التي تعرض native GPS permission prompt
+      if (typeof window._fpwRefreshLocation === 'function') {
+        window._fpwRefreshLocation();
+      }
+      
+      // تحديث الواجهة بعد ثانية
+      setTimeout(_paintGeoToggle, 1500);
     });
 
     // City button
@@ -30517,8 +30527,71 @@ window._ptComputeDuha = _ptComputeDuha;
   }
 
   window._pwRefreshLocation = function() {
-    try { localStorage.removeItem('adhanGeoCache'); localStorage.removeItem('pwTimingsCacheV2'); } catch(e) {}
-    _pwLoad();
+    try { 
+      localStorage.removeItem('adhanGeoCache'); 
+      localStorage.removeItem('pwTimingsCacheV2'); 
+    } catch(e) {}
+    
+    // ✅ عرض native browser GPS permission prompt
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          // نجح! احفظ الموقع وحدّث
+          try {
+            localStorage.setItem('adhanGeoCache', JSON.stringify({
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+              ts: Date.now()
+            }));
+          } catch(e) {}
+          
+          // حدّث الـ prayer widget فوراً
+          _pwLoad();
+          if (typeof window._fpwLoadPublic === 'function') window._fpwLoadPublic();
+          if (typeof window._fetchAndScheduleAdhan === 'function') {
+            window._fetchAndScheduleAdhan(position.coords.latitude, position.coords.longitude);
+          }
+          
+          // رسالة نجاح
+          if (typeof queueToast === 'function') {
+            queueToast('✅ Location updated', '✅ تم تحديث الموقع', null, null, null);
+          }
+        },
+        function(error) {
+          // خطأ - عرض رسالة مناسبة
+          var errMsg = '';
+          var errMsgAr = '';
+          
+          if (error.code === error.PERMISSION_DENIED) {
+            errMsg = '❌ Location permission denied. Enable GPS in settings.';
+            errMsgAr = '❌ تم رفض إذن الموقع. فعّل GPS من الإعدادات.';
+          } else if (error.code === error.POSITION_UNAVAILABLE) {
+            errMsg = '❌ GPS signal not available right now.';
+            errMsgAr = '❌ إشارة GPS غير متاحة الآن.';
+          } else if (error.code === error.TIMEOUT) {
+            errMsg = '❌ GPS request timed out. Try again.';
+            errMsgAr = '❌ انتهت مهلة الطلب. حاول مرة أخرى.';
+          } else {
+            errMsg = '❌ Could not get location.';
+            errMsgAr = '❌ لم أتمكن من الحصول على الموقع.';
+          }
+          
+          if (typeof queueToast === 'function') {
+            queueToast(errMsg, errMsgAr, null, null, null);
+          }
+        },
+        { 
+          timeout: 10000,
+          enableHighAccuracy: false,
+          maximumAge: 0
+        }
+      );
+    } else {
+      // Geolocation غير مدعومة
+      if (typeof queueToast === 'function') {
+        queueToast('GPS not supported on this device', 'GPS غير مدعوم على هذا الجهاز', null, null, null);
+      }
+    }
   };
   window._pwLoadPublic = function() { _pwLoad(); };
 
@@ -30714,7 +30787,67 @@ window._ptComputeDuha = _ptComputeDuha;
       localStorage.removeItem('adhanGeoCache');
       localStorage.removeItem('pwTimingsCacheV2');
     } catch(e) {}
-    _fpwLoad();
+    
+    // ✅ عرض native browser GPS permission prompt
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          // نجح! احفظ الموقع وحدّث
+          try {
+            localStorage.setItem('adhanGeoCache', JSON.stringify({
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+              ts: Date.now()
+            }));
+          } catch(e) {}
+          
+          // حدّث جميع الميزات فوراً
+          if (typeof window._fetchAndScheduleAdhan === 'function') {
+            window._fetchAndScheduleAdhan(position.coords.latitude, position.coords.longitude);
+          }
+          if (typeof window._pwLoadPublic === 'function') window._pwLoadPublic();
+          if (typeof window._fpwLoadPublic === 'function') window._fpwLoadPublic();
+          
+          // رسالة نجاح
+          if (typeof queueToast === 'function') {
+            queueToast('✅ Location updated', '✅ تم تحديث الموقع', null, null, null);
+          }
+        },
+        function(error) {
+          // خطأ - عرض رسالة مناسبة
+          var errMsg = '';
+          var errMsgAr = '';
+          
+          if (error.code === error.PERMISSION_DENIED) {
+            errMsg = '❌ Location permission denied. Enable GPS in settings.';
+            errMsgAr = '❌ تم رفض إذن الموقع. فعّل GPS من الإعدادات.';
+          } else if (error.code === error.POSITION_UNAVAILABLE) {
+            errMsg = '❌ GPS signal not available right now.';
+            errMsgAr = '❌ إشارة GPS غير متاحة الآن.';
+          } else if (error.code === error.TIMEOUT) {
+            errMsg = '❌ GPS request timed out. Try again.';
+            errMsgAr = '❌ انتهت مهلة الطلب. حاول مرة أخرى.';
+          } else {
+            errMsg = '❌ Could not get location.';
+            errMsgAr = '❌ لم أتمكن من الحصول على الموقع.';
+          }
+          
+          if (typeof queueToast === 'function') {
+            queueToast(errMsg, errMsgAr, null, null, null);
+          }
+        },
+        { 
+          timeout: 10000,
+          enableHighAccuracy: false,
+          maximumAge: 0
+        }
+      );
+    } else {
+      // Geolocation غير مدعومة
+      if (typeof queueToast === 'function') {
+        queueToast('GPS not supported on this device', 'GPS غير مدعوم على هذا الجهاز', null, null, null);
+      }
+    }
   };
   window._fpwLoadPublic = function() { _fpwLoad(); };
 
