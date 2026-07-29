@@ -40247,6 +40247,8 @@ window.addEventListener("load", function() {
         localStorage.removeItem('adhanGeoCache');
         gpsBtn.textContent = '⏳';
         gpsBtn.style.pointerEvents = 'none';
+        // ✅ تعريف infoEl هنا بدلاً من الاعتماد على متغير محلي قديم
+        const infoEl = document.getElementById('salah-pip-info');
         if (infoEl) infoEl.textContent = useAr ? 'جارٍ تحديد موقعك...' : 'Locating...';
         window._requestGeoPermission(
           function(pos) {
