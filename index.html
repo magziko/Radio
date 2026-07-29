@@ -40161,6 +40161,8 @@ window.addEventListener("load", function() {
 
   // ---- واجهة زر تفعيل/إيقاف الأذان ----
   function injectAdhanToggle() {
+    // ✅ منع الإنشاء المكرر لو الدالة اتنادت أكتر من مرة
+    if (document.getElementById('adhan-toggle-wrap')) return;
     // ابحث عن منطقة الإعدادات أو الـ sidebar وأضف الزر
     const style = document.createElement('style');
     style.textContent = `
@@ -40391,6 +40393,9 @@ window.addEventListener("load", function() {
                   ts: Date.now()
                 }));
               } catch (e) {}
+              // ✅ زامن حالة الموافقة العامة عشان باقي الميزات (تجديد الكاش صامتًا، تنبيه الصلاة..)
+              // تعرف إن المستخدم سمح بالموقع من هنا برضه
+              if (typeof window._setGeoConsent === 'function') window._setGeoConsent('granted');
               // أعد جدولة الأذان بالموقع الجديد
               fetchAndSchedule(lat, lon);
               gpsBtn.textContent = '📍';
@@ -40409,6 +40414,8 @@ window.addEventListener("load", function() {
               var errMsg = '';
               if (error.code === error.PERMISSION_DENIED) {
                 errMsg = isAr ? '❌ تم رفض إذن الموقع. فعّل GPS من إعدادات الهاتف.' : '❌ Location permission denied. Enable GPS in settings.';
+                // ✅ زامن حالة الموافقة: المستخدم رفض الإذن فعليًا من نافذة المتصفح
+                if (typeof window._setGeoConsent === 'function') window._setGeoConsent('denied');
               } else if (error.code === error.POSITION_UNAVAILABLE) {
                 errMsg = isAr ? '❌ إشارة GPS غير متاحة الآن.' : '❌ GPS signal not available.';
               } else if (error.code === error.TIMEOUT) {
