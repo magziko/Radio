@@ -29988,16 +29988,16 @@ var PRAYER_I18N = {
   locationDenied:{ ar: 'تعذر الوصول للموقع، يرجى السماح بالوصول للموقع من إعدادات المتصفح', en: 'Could not access location, please allow location access', fr: "Impossible d'accéder à la position, veuillez autoriser l'accès à la position", es: 'No se pudo acceder a la ubicación, permita el acceso a la ubicación', sv: 'Kunde inte komma åt platsen, tillåt platsåtkomst', nl: 'Kon geen toegang krijgen tot locatie, sta locatietoegang toe', ga: "Níorbh fhéidir rochtain a fháil ar an suíomh, ceadaigh rochtain suímh", de: 'Standortzugriff nicht möglich, bitte Standortzugriff erlauben', ru: 'Не удалось получить доступ к местоположению, разрешите доступ', tr: 'Konuma erişilemedi, lütfen konum erişimine izin verin', pt: 'Não foi possível acessar a localização, permita o acesso', zh: '无法访问位置信息，请允许定位权限', ur: 'مقام تک رسائی نہیں ہو سکی، براہ کرم مقام تک رسائی کی اجازت دیں' },
   geoNotSupported:{ ar: 'المتصفح لا يدعم تحديد الموقع', en: 'Geolocation not supported', fr: "La géolocalisation n'est pas prise en charge", es: 'La geolocalización no es compatible', sv: 'Geolokalisering stöds inte', nl: 'Geolocatie wordt niet ondersteund', ga: 'Ní thacaítear le geoshuíomh', de: 'Geolokalisierung wird nicht unterstützt', ru: 'Геолокация не поддерживается', tr: 'Konum belirleme desteklenmiyor', pt: 'Geolocalização não suportada', zh: '不支持地理定位', ur: 'جیو لوکیشن سپورٹ نہیں ہے' },
   updateLocation:{ ar: 'تحديث الموقع', en: 'Update Location', fr: 'Mettre à jour la position', es: 'Actualizar ubicación', sv: 'Uppdatera plats', nl: 'Locatie bijwerken', ga: 'Nuashonraigh suíomh', de: 'Standort aktualisieren', ru: 'Обновить местоположение', tr: 'Konumu güncelle', pt: 'Atualizar localização', zh: '更新位置', ur: 'مقام اپ ڈیٹ کریں' },
-  geoAutoLabel:  { ar: '📍 استخدام الموقع تلقائيًا', en: '📍 Auto-use my location' },
-  geoAutoDesc:   { ar: 'يُستخدم لحساب مواقيت الصلاة واتجاه القبلة بدقة حسب مكانك.', en: 'Used to accurately calculate prayer times and the Qibla direction for your location.' },
-  geoStatusOn:   { ar: 'مفعّل', en: 'Enabled' },
-  geoStatusOff:  { ar: 'متوقف', en: 'Disabled' },
-  geoStatusPending: { ar: 'لم يُطلب بعد', en: 'Not asked yet' },
-  geoResetBtn:   { ar: '🔄 اسأل مرة تانية', en: '🔄 Ask again' },
-  geoManualBtn:  { ar: '🏙️ اختيار المدينة يدويًا', en: '🏙️ Choose city manually' },
-  geoManualLabel:{ ar: 'مدينة مختارة يدويًا:', en: 'Manually selected city:' },
-  geoUseGpsBtn:  { ar: '📍 الرجوع لاستخدام GPS', en: '📍 Switch back to GPS' },
-  geoChangeCityBtn: { ar: '🔍 تغيير المدينة', en: '🔍 Change city' },
+  geoAutoLabel:  { ar: 'حدد موقعك', en: 'Your Location' },
+  geoAutoDesc:   { ar: 'لحساب مواقيت الصلاة بدقة', en: 'For accurate prayer times' },
+  geoStatusOn:   { ar: '✅ GPS مفعل', en: '✅ GPS enabled' },
+  geoStatusOff:  { ar: '📍 اختر مدينة', en: '📍 Select city' },
+  geoStatusPending: { ar: 'قيد الانتظار...', en: 'Waiting...' },
+  geoResetBtn:   { ar: '🔄 تحديث', en: '🔄 Refresh' },
+  geoManualBtn:  { ar: 'اختر مدينتك', en: 'Choose your city' },
+  geoManualLabel:{ ar: 'المدينة المختارة:', en: 'Selected city:' },
+  geoUseGpsBtn:  { ar: 'استخدم GPS', en: 'Use GPS' },
+  geoChangeCityBtn: { ar: 'غيّر المدينة', en: 'Change city' },
   cityPickerTitle: { ar: 'اختر مدينتك', en: 'Choose your city' },
   cityPickerPlaceholder: { ar: 'اكتب اسم مدينتك...', en: 'Type your city name...' },
   cityPickerSearching: { ar: 'جارٍ البحث...', en: 'Searching...' },
@@ -30192,19 +30192,12 @@ window._ptComputeDuha = _ptComputeDuha;
           '<input id="pcm-volume" type="range" min="0" max="1" step="0.05" value="' + curVol + '" style="width:100%;accent-color:' + green + ';">' +
         '</div>' +
 
-        '<div style="margin-bottom:18px;padding:12px;border:1px solid ' + border + ';border-radius:12px;">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">' +
-            '<label for="pcm-geo-toggle" style="font-size:12.5px;font-weight:600;cursor:pointer;">' + _ptT('geoAutoLabel', lang) + '</label>' +
-            '<label style="position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0;">' +
-              '<input id="pcm-geo-toggle" type="checkbox" style="opacity:0;width:0;height:0;">' +
-              '<span id="pcm-geo-track" style="position:absolute;inset:0;border-radius:24px;cursor:pointer;transition:.2s;"></span>' +
-              '<span id="pcm-geo-knob" style="position:absolute;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></span>' +
-            '</label>' +
-          '</div>' +
-          '<div style="font-size:10.5px;color:' + muted + ';margin-top:6px;line-height:1.5;">' + _ptT('geoAutoDesc', lang) + '</div>' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">' +
-            '<span id="pcm-geo-status" style="font-size:11px;color:' + muted + ';font-weight:600;"></span>' +
-            '<button id="pcm-geo-reset" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:10.5px;padding:5px 10px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">' + _ptT('geoResetBtn', lang) + '</button>' +
+        '<div style="margin-bottom:18px;padding:14px;border:1px solid ' + border + ';border-radius:12px;background:' + (isDark ? 'rgba(93,202,165,0.08)' : 'rgba(29,158,117,0.05)') + '">' +
+          '<div style="font-size:13px;font-weight:700;margin-bottom:2px;color:' + clr + ';">' + _ptT('geoAutoLabel', lang) + '</div>' +
+          '<div style="font-size:11px;color:' + muted + ';margin-bottom:12px;">' + _ptT('geoAutoDesc', lang) + '</div>' +
+          '<div style="display:flex;gap:9px;">' +
+            '<button id="pcm-geo-gps-btn" style="flex:1;padding:10px;border-radius:9px;border:1.5px solid ' + green + ';background:' + green + ';color:#fff;font-family:Cairo,sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;">📍 GPS</button>' +
+            '<button id="pcm-geo-city-btn" style="flex:1;padding:10px;border-radius:9px;border:1.5px solid ' + border + ';background:transparent;color:' + clr + ';font-family:Cairo,sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;">🏙️ ' + _ptT('geoManualBtn', lang) + '</button>' +
           '</div>' +
           '<div id="pcm-geo-city-row" style="margin-top:10px;padding-top:10px;border-top:1px solid ' + border + ';"></div>' +
         '</div>' +
@@ -30249,12 +30242,9 @@ window._ptComputeDuha = _ptComputeDuha;
       window.setAdhanVolume(parseFloat(volInput.value));
     });
 
-    // --- تبديل إذن الموقع (يعتمد على نظام window._requestGeoPermission الموحّد) ---
-    var geoToggle = overlay.querySelector('#pcm-geo-toggle');
-    var geoTrack = overlay.querySelector('#pcm-geo-track');
-    var geoKnob = overlay.querySelector('#pcm-geo-knob');
-    var geoStatusEl = overlay.querySelector('#pcm-geo-status');
-    var geoResetBtn = overlay.querySelector('#pcm-geo-reset');
+    // --- حيّدات الموقع (GPS أو اختيار المدينة) ---
+    var geoGpsBtn = overlay.querySelector('#pcm-geo-gps-btn');
+    var geoCityBtn = overlay.querySelector('#pcm-geo-city-btn');
     var geoCityRow = overlay.querySelector('#pcm-geo-city-row');
 
     function _pcmActivateGps() {
@@ -30272,63 +30262,45 @@ window._ptComputeDuha = _ptComputeDuha;
     }
 
     function _paintGeoToggle() {
-      var consent = (typeof window._getGeoConsent === 'function') ? window._getGeoConsent() : null;
       var cacheGeo = null;
       try { cacheGeo = JSON.parse(localStorage.getItem('adhanGeoCache') || 'null'); } catch (e) {}
       var isManual = !!(cacheGeo && cacheGeo.manual);
-      var isOn = consent === 'granted' && !isManual;
 
-      geoToggle.checked = isOn;
-      geoTrack.style.background = isOn ? green : (isDark ? '#3a4a40' : '#d5dbd7');
-      geoKnob.style.transform = isOn ? (isAr ? 'translateX(-21px)' : 'translateX(21px)') : 'translateX(3px)';
-      geoStatusEl.textContent = isManual ? ''
-        : consent === 'granted' ? _ptT('geoStatusOn', lang)
-        : consent === 'denied' ? _ptT('geoStatusOff', lang)
-        : _ptT('geoStatusPending', lang);
-      geoResetBtn.style.display = (consent && !isManual) ? 'inline-block' : 'none';
-
+      // تحديث لون الأزرار: الزر النشط يكون أخضر والآخر شفاف
       if (isManual) {
+        geoGpsBtn.style.background = 'transparent';
+        geoGpsBtn.style.borderColor = border;
+        geoGpsBtn.style.color = clr;
+        geoCityBtn.style.background = green;
+        geoCityBtn.style.borderColor = green;
+        geoCityBtn.style.color = '#fff';
         geoCityRow.innerHTML =
-          '<div style="font-size:11.5px;font-weight:600;margin-bottom:8px;">🏙️ ' + _ptT('geoManualLabel', lang) + ' ' + (cacheGeo.cityName || '') + '</div>' +
-          '<div style="display:flex;gap:8px;">' +
-            '<button id="pcm-geo-change-city" style="flex:1;padding:8px;border-radius:9px;border:1px solid ' + border + ';background:transparent;color:' + clr + ';font-family:Cairo,sans-serif;font-size:12px;cursor:pointer;">' + _ptT('geoChangeCityBtn', lang) + '</button>' +
-            '<button id="pcm-geo-use-gps" style="flex:1;padding:8px;border-radius:9px;border:1px solid ' + border + ';background:transparent;color:' + clr + ';font-family:Cairo,sans-serif;font-size:12px;cursor:pointer;">' + _ptT('geoUseGpsBtn', lang) + '</button>' +
-          '</div>';
+          '<div style="font-size:11px;color:' + green + ';font-weight:600;margin-bottom:8px;">✅ ' + _ptT('geoManualLabel', lang) + ' <strong>' + (cacheGeo.cityName || '') + '</strong></div>' +
+          '<button id="pcm-geo-change-city" style="width:100%;padding:8px;border-radius:9px;border:1px solid ' + border + ';background:transparent;color:' + clr + ';font-family:Cairo,sans-serif;font-size:11px;cursor:pointer;">' + _ptT('geoChangeCityBtn', lang) + '</button>';
         geoCityRow.querySelector('#pcm-geo-change-city').addEventListener('click', function() {
           if (typeof window.openCityPicker === 'function') window.openCityPicker();
         });
-        geoCityRow.querySelector('#pcm-geo-use-gps').addEventListener('click', function() {
-          try { localStorage.removeItem('adhanGeoCache'); } catch (e) {}
-          _pcmActivateGps();
-        });
       } else {
-        geoCityRow.innerHTML =
-          '<button id="pcm-geo-manual-btn" style="width:100%;padding:8px;border-radius:9px;border:1px solid ' + border + ';background:transparent;color:' + clr + ';font-family:Cairo,sans-serif;font-size:12px;cursor:pointer;">' + _ptT('geoManualBtn', lang) + '</button>';
-        geoCityRow.querySelector('#pcm-geo-manual-btn').addEventListener('click', function() {
-          if (typeof window.openCityPicker === 'function') window.openCityPicker();
-        });
+        geoGpsBtn.style.background = green;
+        geoGpsBtn.style.borderColor = green;
+        geoGpsBtn.style.color = '#fff';
+        geoCityBtn.style.background = 'transparent';
+        geoCityBtn.style.borderColor = border;
+        geoCityBtn.style.color = clr;
+        geoCityRow.innerHTML = '';
       }
     }
     _paintGeoToggle();
     window._pcmRepaintGeoSection = _paintGeoToggle;
 
-    geoToggle.addEventListener('change', function() {
-      if (geoToggle.checked) {
-        _pcmActivateGps();
-      } else {
-        window._setGeoConsent('denied');
-        try { localStorage.removeItem('adhanGeoCache'); } catch (e) {}
-        _paintGeoToggle();
-      }
+    // GPS button
+    geoGpsBtn.addEventListener('click', function() {
+      _pcmActivateGps();
     });
 
-    geoResetBtn.addEventListener('click', function() {
-      // امسح القرار المحفوظ عشان يظهر السؤال تاني في أول طلب موقع جاي
-      window._setGeoConsent(null);
-      _paintGeoToggle();
-      if (typeof queueToast === 'function') {
-        queueToast(_ptT('geoStatusPending', 'en'), _ptT('geoStatusPending', 'ar'), null, null, null);
-      }
+    // City button
+    geoCityBtn.addEventListener('click', function() {
+      if (typeof window.openCityPicker === 'function') window.openCityPicker();
     });
 
     overlay.querySelector('#pcm-cancel').addEventListener('click', function() { overlay.remove(); });
