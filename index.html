@@ -39897,6 +39897,7 @@ window.addEventListener("load", function() {
     }
 
     const FULL_ADHAN_URL = "https://archive.org/download/20250512_20250512_1243/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%AF%20%D8%B1%D8%A7%D9%85%D9%89%20%D8%B9%D8%A7%D8%AF%D9%84%20%D8%A7%D9%84%D8%B1%D9%81%D8%A7%D8%B9%D9%89.m4a";
+    const FULL_ADHAN_URL_MIRROR = "https://ia800703.us.archive.org/21/items/20250512_20250512_1243/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%AF%20%D8%B1%D8%A7%D9%85%D9%89%20%D8%B9%D8%A7%D8%AF%D9%84%20%D8%A7%D9%84%D8%B1%D9%81%D8%A7%D8%B9%D9%89.m4a";
     var _fullAdhanAudio = null;
     window._applyFullAdhanVolume = function(v) { if (_fullAdhanAudio) _fullAdhanAudio.volume = v; };
 
@@ -39905,9 +39906,19 @@ window.addEventListener("load", function() {
         _fullAdhanAudio.pause();
         _fullAdhanAudio = null;
       }
-      _fullAdhanAudio = new Audio(FULL_ADHAN_URL);
+      _playFullAdhanSrc(FULL_ADHAN_URL_MIRROR, false);
+    }
+
+    function _playFullAdhanSrc(url, isFallback) {
+      _fullAdhanAudio = new Audio(url);
       _fullAdhanAudio.volume = (typeof window.getAdhanVolume === 'function') ? window.getAdhanVolume() : 1.0;
-      _fullAdhanAudio.play().catch(function() {});
+      _fullAdhanAudio.addEventListener('error', function() {
+        if (!isFallback) _playFullAdhanSrc(FULL_ADHAN_URL, true);
+      });
+      _fullAdhanAudio.play().catch(function(err) {
+        console.warn('preview full adhan play() failed:', err && err.name, err && err.message);
+        if (!isFallback) _playFullAdhanSrc(FULL_ADHAN_URL, true);
+      });
     }
 
     function requestLocation(btn) {
@@ -40055,6 +40066,9 @@ window.addEventListener("load", function() {
 (function() {
   const ADHAN_URL_SHORT = "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9.mp3";
   const ADHAN_URL_FULL = "https://archive.org/download/20250512_20250512_1243/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%AF%20%D8%B1%D8%A7%D9%85%D9%89%20%D8%B9%D8%A7%D8%AF%D9%84%20%D8%A7%D9%84%D8%B1%D9%81%D8%A7%D8%B9%D9%89.m4a";
+  // نفس الملف على السيرفر المباشر بتاع archive.org — بنجربه الأول لأن رابط
+  // /download/ العام بيعمل redirect لسيرفر معيّن وبيرجع أحيانًا 503 لو مزحوم
+  const ADHAN_URL_FULL_MIRROR = "https://ia800703.us.archive.org/21/items/20250512_20250512_1243/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%AF%20%D8%B1%D8%A7%D9%85%D9%89%20%D8%B9%D8%A7%D8%AF%D9%84%20%D8%A7%D9%84%D8%B1%D9%81%D8%A7%D8%B9%D9%89.m4a";
   function _getScheduledAdhanUrl() {
     return (window.getAdhanSoundChoice && window.getAdhanSoundChoice() === 'full') ? ADHAN_URL_FULL : ADHAN_URL_SHORT;
   }
@@ -40515,8 +40529,9 @@ window.addEventListener("load", function() {
     // علامة نشاط الأذان — لو المستخدم وقّف أثناء الـ fetch نتجاهل النتيجة
     var _adhanActive = true;
 
-    // تشغيل الأذان من كاش الـ SW أولاً (يشتغل أوفلاين وشاشة مقفلة)
-    function _startAdhanAudio(src) {
+    // تشغيل الأذان — بيجرّب مصادر بالترتيب لحد ما وحدة تشتغل فعلاً
+    function _startAdhanAudio(sources, idx) {
+      idx = idx || 0;
       // لو المستخدم وقّف الأذان أثناء تحميل الملف → نوقف هنا
       if (!_adhanActive) {
         _adhanResume.forEach(function(item) {
@@ -40524,8 +40539,24 @@ window.addEventListener("load", function() {
         });
         return;
       }
+      if (idx >= sources.length) return; // كل المصادر فشلت — استسلم بهدوء
+
+      var src = sources[idx];
+      var _triedNext = false;
+      function _tryNext() {
+        if (_triedNext) return; // امنع تكرار الانتقال من كذا event مع بعض
+        _triedNext = true;
+        _startAdhanAudio(sources, idx + 1);
+      }
+
       adhanAudio = new Audio(src);
       adhanAudio.volume = (typeof window.getAdhanVolume === 'function') ? window.getAdhanVolume() : 1.0;
+
+      // لو المصدر ده فشل (شبكة/سيرفر 503/رابط متقطع) → جرّب اللي بعده في القائمة
+      adhanAudio.addEventListener('error', function() {
+        if (!_adhanActive) return;
+        _tryNext();
+      });
 
       // Media Session بعد ما الصوت بدأ فعلاً
       adhanAudio.addEventListener('playing', function() {
@@ -40562,7 +40593,10 @@ window.addEventListener("load", function() {
         once: true
       });
 
-      adhanAudio.play().catch(() => {});
+      adhanAudio.play().catch((err) => {
+        console.warn('adhan play() failed for source ' + idx + ':', err && err.name, err && err.message);
+        if (_adhanActive) _tryNext();
+      });
       adhanAudio.onended = () => {
         stopAdhan();
         // استئناف كل راديو كان شغال قبل الأذان
@@ -40578,16 +40612,24 @@ window.addEventListener("load", function() {
     };
 
     var _scheduledUrl = _getScheduledAdhanUrl();
-    fetch(_scheduledUrl)
-      .then(function(res) {
-        return res.blob();
-      })
-      .then(function(blob) {
-        _startAdhanAudio(URL.createObjectURL(blob));
-      })
-      .catch(function() {
-        _startAdhanAudio(_scheduledUrl);
-      }); // fallback مباشر
+    if (_scheduledUrl === ADHAN_URL_FULL) {
+      // الأذان الكامل ملف كبير وطويل — نشغّله بالـ streaming مباشرة بدل ما ننتظر
+      // تحميله بالكامل كـ blob (ده كان بياخد وقت طويل أو يفشل تمامًا على نت بطيء
+      // ويفضل صامت من غير أي خطأ ظاهر). نجرب المرآة المباشرة الأول، بعدين
+      // رابط /download/ العام، وآخر حاجة الأذان القصير المضمون كـ fallback
+      _startAdhanAudio([ADHAN_URL_FULL_MIRROR, ADHAN_URL_FULL, ADHAN_URL_SHORT]);
+    } else {
+      fetch(_scheduledUrl)
+        .then(function(res) {
+          return res.blob();
+        })
+        .then(function(blob) {
+          _startAdhanAudio([URL.createObjectURL(blob)]);
+        })
+        .catch(function() {
+          _startAdhanAudio([_scheduledUrl]);
+        }); // fallback مباشر
+    }
 
     // إظهار البانر
     const banner = document.getElementById('adhan-banner');
