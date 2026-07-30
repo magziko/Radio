@@ -5,7 +5,6 @@
 const CACHE_STATIC = 'quran-radio-static-v4';
 const CACHE_AUDIO  = 'quran-radio-audio-v2';
 const CACHE_ALARM  = 'quran-radio-alarm-v4';
-
 const MAX_AUDIO_FILES = 50;
 
 const ALARM_AUDIO_URLS = [
@@ -31,7 +30,7 @@ const ALARM_AUDIO_URLS = [
   "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9.mp3"
 ];
 
-const ADHAN_URL = "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9.mp3";
+const ADHAN_URL = "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A9.mp3";
 
 const STATIC_ASSETS = [
   '/Radio/',
@@ -44,18 +43,23 @@ const STATIC_ASSETS = [
 
 const PRAYER_NAMES_AR = { Fajr:'الفجر', Dhuhr:'الظهر', Asr:'العصر', Maghrib:'المغرب', Isha:'العشاء' };
 const PRAYER_NAMES_EN = { Fajr:'Fajr', Dhuhr:'Dhuhr', Asr:'Asr', Maghrib:'Maghrib', Isha:'Isha' };
-const PRAYER_ORDER    = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+const PRAYER_ORDER = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+
+// اسم الكاش اللي بنخزن فيه آخر مواقيت صلاة معروفة، عشان لو الـ SW اتقفل واتفتح
+// من تاني (Service Workers بتتقفل تلقائيًا لما تفضل خاملة) يقدر يرجعلها كـ fallback
+// من غير ما يحتاج اتصال إنترنت في اللحظة دي
+const ADHAN_TIMINGS_CACHE_KEY = 'sw-adhan-timings-v1';
 
 // ── حالة الأذان في الـ SW ──
-let swAdhanTimers   = [];
-let swAdhanTimings  = null;
-let swAdhanLat      = null;
-let swAdhanLon      = null;
-let swLastAliveTs   = 0; // آخر وقت استقبلنا AUDIO_ALIVE
+let swAdhanTimers = [];
+let swAdhanTimings = null;
+let swAdhanLat = null;
+let swAdhanLon = null;
+let swLastAliveTs = 0; // آخر وقت استقبلنا AUDIO_ALIVE
 
 /* ══════════════════════════════════════
    التثبيت
-══════════════════════════════════════ */
+   ══════════════════════════════════════ */
 self.addEventListener('install', event => {
   event.waitUntil(
     Promise.all([
@@ -91,7 +95,7 @@ self.addEventListener('install', event => {
 
 /* ══════════════════════════════════════
    التفعيل
-══════════════════════════════════════ */
+   ══════════════════════════════════════ */
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -107,7 +111,7 @@ self.addEventListener('activate', event => {
 
 /* ══════════════════════════════════════
    الطلبات
-══════════════════════════════════════ */
+   ══════════════════════════════════════ */
 self.addEventListener('fetch', event => {
   const url = event.request.url;
 
@@ -168,7 +172,7 @@ self.addEventListener('fetch', event => {
 
 /* ══════════════════════════════════════
    الرسائل من الصفحة
-══════════════════════════════════════ */
+   ══════════════════════════════════════ */
 self.addEventListener('message', async event => {
   const data = event.data;
   if (!data) return;
@@ -191,10 +195,13 @@ self.addEventListener('message', async event => {
   }
 
   // ── الصفحة بعتت الإحداثيات عشان الـ SW يجدول الأذان ──
+  // ممكن كمان تبعت "timings" (آخر مواقيت محفوظة عند الصفحة نفسها لنفس اليوم) عشان
+  // نجدول عليها فورًا كـ fallback لو النت مقطوع؛ لو نجحنا نجيب نسخة جديدة من النت
+  // بعدين هنستبدلها بالأحدث تلقائيًا.
   if (data.type === 'ADHAN_SCHEDULE') {
     swAdhanLat = data.lat;
     swAdhanLon = data.lon;
-    await swFetchAndScheduleAdhan(data.lat, data.lon);
+    await swFetchAndScheduleAdhan(data.lat, data.lon, data.timings || null);
   }
 
   // ── keep-alive من الصفحة: الصوت لسه شغال ──
@@ -216,19 +223,67 @@ self.addEventListener('message', async event => {
 /* ══════════════════════════════════════
    جدولة الأذان من الـ SW
    (يشتغل حتى لو الصفحة مجمدة أو الشاشة مقفولة)
-══════════════════════════════════════ */
-async function swFetchAndScheduleAdhan(lat, lon) {
+   ══════════════════════════════════════ */
+
+// خزّن آخر مواقيت معروفة في IndexedDB (عبر Cache Storage كتخزين بسيط) عشان تفضل
+// موجودة حتى لو الـ SW اتقفل وأعيد تشغيله (المتغيرات العادية بتتصفر وقتها)
+async function _saveTimingsToStorage(timings) {
   try {
-    const today   = new Date();
+    const cache = await caches.open(CACHE_STATIC);
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
+    const body = JSON.stringify({ date: dateStr, timings });
+    await cache.put(
+      new Request('https://internal/' + ADHAN_TIMINGS_CACHE_KEY),
+      new Response(body, { headers: { 'Content-Type': 'application/json' } })
+    );
+  } catch (e) {}
+}
+
+async function _loadTimingsFromStorage() {
+  try {
+    const cache = await caches.open(CACHE_STATIC);
+    const res = await cache.match(new Request('https://internal/' + ADHAN_TIMINGS_CACHE_KEY));
+    if (!res) return null;
+    const json = await res.json();
+    return (json && json.timings) ? json.timings : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function swFetchAndScheduleAdhan(lat, lon, fallbackTimings) {
+  // 1) لو عندنا مواقيت احتياطية جاية من الصفحة (أو محفوظة من مرة سابقة) — جدول عليها
+  //    فورًا، عشان الأذان يفضل شغال حتى لو النت مقطوع تمامًا وقت النداء ده
+  let usedFallback = false;
+  if (fallbackTimings) {
+    swScheduleAdhanTimers(fallbackTimings);
+    usedFallback = true;
+  } else {
+    const stored = await _loadTimingsFromStorage();
+    if (stored) {
+      swScheduleAdhanTimers(stored);
+      usedFallback = true;
+    }
+  }
+
+  // 2) بعدين حاول تجيب نسخة أحدث من النت — لو نجحت هتستبدل الجدولة القديمة بالأدق،
+  //    ولو فشلت (أوفلاين) وكنا جدولنا fallback فوق، يبقى الأذان لسه هيشتغل من غيرها
+  try {
+    const today = new Date();
     const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
-    const res     = await fetch(
+    const res = await fetch(
       `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lon}&method=4`
     );
     const json = await res.json();
     if (json && json.data && json.data.timings) {
       swScheduleAdhanTimers(json.data.timings);
+      await _saveTimingsToStorage(json.data.timings);
     }
-  } catch(e) {}
+  } catch (e) {
+    // النت مقطوع — لو ما كنش عندنا أي fallback خالص من فوق، مفيش حاجة نعملها
+    // غير إننا نسيب الجدولة القديمة (لو موجودة من قبل) شغالة زي ما هي
+  }
 }
 
 function swClearAdhanTimers() {
@@ -245,7 +300,7 @@ function swScheduleAdhanTimers(timings) {
     if (!timings[name]) return;
     const [h, m] = timings[name].split(' ')[0].split(':').map(Number);
     const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
-    const diff   = target - now;
+    const diff = target - now;
     if (diff > 0) {
       const t = setTimeout(() => swTriggerAdhan(name), diff);
       swAdhanTimers.push(t);
@@ -258,7 +313,7 @@ function swScheduleAdhanTimers(timings) {
   tomorrow.setHours(0, 1, 0, 0);
   const msToMidnight = tomorrow - new Date();
   setTimeout(async () => {
-    if (swAdhanLat !== null) await swFetchAndScheduleAdhan(swAdhanLat, swAdhanLon);
+    if (swAdhanLat !== null) await swFetchAndScheduleAdhan(swAdhanLat, swAdhanLon, null);
   }, msToMidnight);
 }
 
@@ -278,13 +333,13 @@ async function swTriggerAdhan(prayerName) {
     const enName = PRAYER_NAMES_EN[prayerName] || prayerName;
     if (self.registration.showNotification) {
       await self.registration.showNotification(`🕌 أذان ${arName} — ${enName} Adhan`, {
-        body:    'حان وقت الصلاة — Prayer time',
-        icon:    '/Radio/icon-192.png',
-        badge:   '/Radio/favicon.png',
-        tag:     'adhan-' + prayerName,
+        body: 'حان وقت الصلاة — Prayer time',
+        icon: '/Radio/icon-192.png',
+        badge: '/Radio/favicon.png',
+        tag: 'adhan-' + prayerName,
         renotify: true,
         requireInteraction: true,
-        silent:  false,
+        silent: false,
         vibrate: [300, 100, 300, 100, 500]
       });
     }
@@ -293,11 +348,12 @@ async function swTriggerAdhan(prayerName) {
 
 /* ══════════════════════════════════════
    Cache on Play — ملفات archive.org
-══════════════════════════════════════ */
+   ══════════════════════════════════════ */
 async function handleAudio(request) {
-  const cache  = await caches.open(CACHE_AUDIO);
+  const cache = await caches.open(CACHE_AUDIO);
   const cached = await cache.match(request);
   if (cached) return cached;
+
   try {
     const response = await fetch(request);
     // ملاحظة: بعض عُقد CDN بتاعة archive.org ما بترجعش رأس CORS، فالاستجابة
@@ -323,7 +379,7 @@ async function trimAudioCache(cache) {
 
 /* ══════════════════════════════════════
    استقبال Notification Click
-══════════════════════════════════════ */
+   ══════════════════════════════════════ */
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   event.waitUntil(
