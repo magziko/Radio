@@ -31,7 +31,7 @@ const ALARM_AUDIO_URLS = [
   "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9.mp3"
 ];
 
-const ADHAN_URL = "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A9.mp3";
+const ADHAN_URL = "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9.mp3";
 
 const STATIC_ASSETS = [
   '/Radio/',
@@ -201,11 +201,21 @@ self.addEventListener('message', async event => {
   if (data.type === 'AUDIO_ALIVE') {
     swLastAliveTs = Date.now();
   }
+
+  // ── اختبار حقيقي: نفس مسار الأذان الحقيقي (swTriggerAdhan) بعد تأخير بسيط ──
+  // بيتبعت من زرار "تجربة الأذان" في الصفحة عشان تقدر تقفل الشاشة
+  // أثناء العدّ التنازلي وتتأكد إن الإشعار هيوصل فعلاً لو التطبيق مقفول
+  if (data.type === 'TEST_ADHAN') {
+    const delay = (typeof data.delayMs === 'number' && data.delayMs > 0) ? data.delayMs : 8000;
+    setTimeout(() => {
+      swTriggerAdhan('Dhuhr');
+    }, delay);
+  }
 });
 
 /* ══════════════════════════════════════
    جدولة الأذان من الـ SW
-   (يشتغل حتى لو الصفحة مجمدة أو الشاشة مقفلة)
+   (يشتغل حتى لو الصفحة مجمدة أو الشاشة مقفولة)
 ══════════════════════════════════════ */
 async function swFetchAndScheduleAdhan(lat, lon) {
   try {
