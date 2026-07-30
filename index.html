@@ -30104,8 +30104,11 @@ window._ptComputeDuha = _ptComputeDuha;
   };
   window._clearPrayerTimingsCaches = function() {
     try {
+      // بنمسح كاش الودجت المرئي بس (آمن، بيتجدد فورًا من fetchAndSchedule/الـ API).
+      // adhanTimingsCacheV2 محدش يمسحه هنا: لو المستخدم أوفلاين وقت الحفظ (شائع مع اختيار
+      // مدينة يدوي) وجلب المواقيت الجديد فشل، لازم يفضل الكاش القديم موجود عشان الأذان
+      // (حتى القصير أوفلاين) يقدر يتجدول عليه بدل ما يفضل من غير أي مواقيت خالص.
       localStorage.removeItem('pwTimingsCacheV2');
-      localStorage.removeItem('adhanTimingsCacheV2');
     } catch (e) {}
   };
   window.savePrayerCalcSettings = function(method, madhab) {
@@ -30115,6 +30118,8 @@ window._ptComputeDuha = _ptComputeDuha;
     } catch (e) {}
     window._clearPrayerTimingsCaches();
     // أعد تحميل الودجت الظاهرة والجدولة بدون طلب GPS جديد
+    // (fetchAndSchedule بيحاول يجيب مواقيت جديدة، ولو النت مقطوع بيسيب الكاش القديم
+    // شغال زي ما هو بدل ما يتمسح مقدمًا)
     try {
       var geo = JSON.parse(localStorage.getItem('adhanGeoCache') || '{}');
       if (geo.lat && geo.lon) {
@@ -40871,10 +40876,21 @@ window.addEventListener("load", function() {
   function _startWithCoords(lat, lon) {
     fetchAndSchedule(lat, lon);
     if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+      // نبعت آخر مواقيت محفوظة عندنا (لو موجودة لليوم ده) مع الرسالة، عشان لو الـ SW
+      // حاول يجيب نسخة جديدة من النت وفشل (أوفلاين) يكون عنده على الأقل جدول يشتغل
+      // عليه بدل ما يفضل من غير أي جدولة خالص
+      var _fallbackTimings = null;
+      try {
+        var _raw = JSON.parse(localStorage.getItem('adhanTimingsCacheV2') || 'null');
+        var _today = new Date();
+        var _dateStr = `${_today.getDate()}-${_today.getMonth()+1}-${_today.getFullYear()}`;
+        if (_raw && _raw.date === _dateStr && _raw.timings) _fallbackTimings = _raw.timings;
+      } catch (e) {}
       navigator.serviceWorker.controller.postMessage({
         type: 'ADHAN_SCHEDULE',
         lat,
-        lon
+        lon,
+        timings: _fallbackTimings
       });
     }
   }
