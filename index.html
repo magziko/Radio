@@ -40344,9 +40344,42 @@ window.addEventListener("load", function() {
     if (testBtn) {
       testBtn.addEventListener('click', function(e) {
         e.stopPropagation();
+        if (testBtn.dataset.testing === '1') return; // امنع الضغط المتكرر أثناء العدّ
+
+        const TEST_DELAY_SEC = 8;
+        const isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+        const originalTitle = testBtn.title;
+
+        testBtn.dataset.testing = '1';
+        testBtn.title = isAr ? 'جاري الاختبار...' : 'Testing...';
         localStorage.removeItem(STORAGE_KEY);
-        playAdhan('Dhuhr');
-        setTimeout(() => localStorage.removeItem(STORAGE_KEY), 1000);
+
+        // ابعت نفس نوع الرسالة اللي بيحصل وقت الأذان الحقيقي للـ SW —
+        // كده تقدر تقفل شاشة الموبايل أثناء العدّ التنازلي وتتأكد إن
+        // إشعار "الأذان" هيوصل فعلاً حتى لو التطبيق مقفول
+        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({
+            type: 'TEST_ADHAN',
+            delayMs: TEST_DELAY_SEC * 1000
+          });
+        }
+
+        let remaining = TEST_DELAY_SEC;
+        testBtn.textContent = remaining;
+        const iv = setInterval(function() {
+          remaining--;
+          if (remaining > 0) {
+            testBtn.textContent = remaining;
+          } else {
+            clearInterval(iv);
+            testBtn.textContent = '▶';
+            testBtn.title = originalTitle;
+            testBtn.dataset.testing = '0';
+            // نفس الاستدعاء اللي بيحصل من جوه scheduleAdhan وقت الموعد الحقيقي
+            playAdhan('Dhuhr');
+            setTimeout(() => localStorage.removeItem(STORAGE_KEY), 1000);
+          }
+        }, 1000);
       });
     }
 
