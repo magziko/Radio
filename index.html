@@ -14299,6 +14299,12 @@ setTimeout(autoScaleVerseFont, 100);
     #audioBoostSlider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-green);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;}
     #audioBoostSlider::-moz-range-track{height:8px;border-radius:6px;background:rgba(29,158,117,0.15);}
     #audioBoostValueLabel{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;min-width:48px;text-align:center;color:#fff;background:var(--aqx-green);border-radius:8px;padding:3px 8px;transition:background .2s ease;}
+    #playbackSpeedSlider{-webkit-appearance:none;appearance:none;flex:1;min-width:120px;height:8px;border-radius:6px;cursor:pointer;background:linear-gradient(to right,var(--aqx-blue) 0%,rgba(14,42,61,0.12) 0%);outline:none;}
+    #playbackSpeedSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-blue);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;transition:transform .12s ease;margin-top:-6px;}
+    #playbackSpeedSlider::-webkit-slider-thumb:hover{transform:scale(1.15);}
+    #playbackSpeedSlider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-blue);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;}
+    #playbackSpeedSlider::-moz-range-track{height:8px;border-radius:6px;background:rgba(14,42,61,0.12);}
+    #playbackSpeedValueLabel{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;min-width:48px;text-align:center;color:#fff;background:var(--aqx-blue);border-radius:8px;padding:3px 8px;transition:background .2s ease;}
     #equalizer-row.aqx-eq-row{padding-top:14px;margin-top:6px;position:relative;z-index:1;border-top:1px dashed rgba(14,42,61,0.12);display:flex;justify-content:center;width:100%;}
     #audio-quality-settings .aqx-eq-inner{display:flex;align-items:flex-end;justify-content:center;gap:34px;flex-wrap:wrap;max-width:620px;width:100%;}
     #audio-quality-settings .aqx-faders-group{display:flex;align-items:flex-end;gap:20px;}
@@ -14350,6 +14356,13 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="range" id="audioBoostSlider" min="1" max="5" step="0.25" value="1"
              oninput="window.setAudioBoost && window.setAudioBoost(this.value)">
       <span id="audioBoostValueLabel">100%</span>
+    </div>
+
+    <div class="aqx-boost-row">
+      <label for="playbackSpeedSlider" data-ar="⏱️ سرعة التشغيل" data-en="⏱️ Playback Speed" data-fr="⏱️ Vitesse de lecture" data-es="⏱️ Velocidad de reproducción" data-sv="⏱️ Uppspelningshastighet" data-nl="⏱️ Afspeelsnelheid" data-ga="⏱️ Luas Athsheanma" data-de="⏱️ Wiedergabegeschwindigkeit" data-ru="⏱️ Скорость воспроизведения" data-tr="⏱️ Oynatma Hızı" data-pt="⏱️ Velocidade de reprodução" data-zh="⏱️ 播放速度" data-ur="⏱️ چلانے کی رفتار">⏱️ سرعة التشغيل</label>
+      <input type="range" id="playbackSpeedSlider" min="0.5" max="2" step="0.25" value="1"
+             oninput="window.setPlaybackRate && window.setPlaybackRate(this.value)">
+      <span id="playbackSpeedValueLabel">1×</span>
     </div>
 
     <div id="equalizer-row" class="aqx-eq-row">
@@ -14459,6 +14472,16 @@ setTimeout(autoScaleVerseFont, 100);
         else badge.style.background = '#e57373';
       }
     }
+    function updatePlaybackSpeedVisual(val){
+      val = parseFloat(val) || 1;
+      var slider = document.getElementById('playbackSpeedSlider');
+      if(!slider) return;
+      var min = parseFloat(slider.min), max = parseFloat(slider.max);
+      var frac = (val-min)/(max-min)*100;
+      slider.style.background = 'linear-gradient(to right, var(--aqx-blue) '+frac+'%, rgba(14,42,61,0.12) '+frac+'%)';
+      var badge = document.getElementById('playbackSpeedValueLabel');
+      if(badge) badge.textContent = val+'×';
+    }
     function setActiveChip(name){
       document.querySelectorAll('#aqxPresetChips .aqx-chip').forEach(function(c){
         c.classList.toggle('active', c.getAttribute('data-preset') === name);
@@ -14478,6 +14501,8 @@ setTimeout(autoScaleVerseFont, 100);
       });
       var b = document.getElementById('audioBoostSlider');
       if(b) updateBoostVisual(b.value);
+      var sp = document.getElementById('playbackSpeedSlider');
+      if(sp) updatePlaybackSpeedVisual(sp.value);
     };
     ['bass','mid','treble'].forEach(function(band){
       var s = document.getElementById('eq'+capBand(band)+'Slider');
@@ -14485,6 +14510,8 @@ setTimeout(autoScaleVerseFont, 100);
     });
     var boostS = document.getElementById('audioBoostSlider');
     if(boostS) boostS.addEventListener('input', function(){ updateBoostVisual(this.value); });
+    var speedS = document.getElementById('playbackSpeedSlider');
+    if(speedS) speedS.addEventListener('input', function(){ updatePlaybackSpeedVisual(this.value); });
 
     requestAnimationFrame(function(){ window._aqxSyncAll(); });
   })();
@@ -38811,6 +38838,11 @@ window._audioBoostLevel = (function() {
   return (!isNaN(saved) && saved >= 1 && saved <= 5) ? saved : 1;
 })();
 
+window._playbackSpeed = (function() {
+  var saved = parseFloat(localStorage.getItem('playbackSpeed'));
+  return (!isNaN(saved) && saved >= 0.5 && saved <= 2) ? saved : 1;
+})();
+
 function _clampDb(v) {
   v = parseFloat(v);
   if (isNaN(v)) return 0;
@@ -38989,9 +39021,9 @@ window.applyAudioBoost = window.applyAudioGraph;
 function _applyToAllAudios() {
   ['customAudioPlayer', 'currentAudio', 'audioStreamPlayer'].forEach(function(id) {
     var el = document.getElementById(id);
-    if (el) window.applyAudioGraph(el);
+    if (el) { window.applyAudioGraph(el); el.playbackRate = window._playbackSpeed; }
   });
-  if (window.isolatedAudio) window.applyAudioGraph(window.isolatedAudio);
+  if (window.isolatedAudio) { window.applyAudioGraph(window.isolatedAudio); window.isolatedAudio.playbackRate = window._playbackSpeed; }
 }
 
 window.setAudioBoost = function(level) {
@@ -39004,6 +39036,18 @@ window.setAudioBoost = function(level) {
   if (label) label.textContent = Math.round(lvl * 100) + '%';
   var slider = document.getElementById('audioBoostSlider');
   if (slider && parseFloat(slider.value) !== lvl) slider.value = lvl;
+};
+
+window.setPlaybackRate = function(rate) {
+  var r = Math.min(2, Math.max(0.5, parseFloat(rate) || 1));
+  window._playbackSpeed = r;
+  try { localStorage.setItem('playbackSpeed', r); } catch (e) {}
+  _applyToAllAudios();
+
+  var label = document.getElementById('playbackSpeedValueLabel');
+  if (label) label.textContent = r + '×';
+  var slider = document.getElementById('playbackSpeedSlider');
+  if (slider && parseFloat(slider.value) !== r) slider.value = r;
 };
 
 window.setEqBand = function(band, value) {
@@ -39055,9 +39099,14 @@ window.resetAudioQuality = function() {
 };
 
 // يفعّل التضخيم/المعادل تلقائيًا كلما بدأ تشغيل أي عنصر <audio> في الصفحة
+var _speedControlledIds = ['customAudioPlayer', 'currentAudio', 'audioStreamPlayer'];
 document.addEventListener('play', function(e) {
   if (e.target && e.target.tagName === 'AUDIO') {
     window.applyAudioGraph(e.target);
+    // نطبّق سرعة التشغيل فقط على مشغلات الراديو الرئيسية، دون أصوات التنبيه/الأذان/المعاينة
+    if ((e.target.id && _speedControlledIds.indexOf(e.target.id) !== -1) || e.target === window.isolatedAudio) {
+      e.target.playbackRate = window._playbackSpeed;
+    }
   }
 }, true);
 
@@ -39067,6 +39116,10 @@ document.addEventListener('play', function(e) {
   var label = document.getElementById('audioBoostValueLabel');
   if (slider) slider.value = window._audioBoostLevel;
   if (label) label.textContent = Math.round(window._audioBoostLevel * 100) + '%';
+  var speedSlider = document.getElementById('playbackSpeedSlider');
+  var speedLabel = document.getElementById('playbackSpeedValueLabel');
+  if (speedSlider) speedSlider.value = window._playbackSpeed;
+  if (speedLabel) speedLabel.textContent = window._playbackSpeed + '×';
   _syncEqUI();
 })();
 
