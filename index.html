@@ -6632,10 +6632,12 @@ function playStation(station) {
   _clearStationHandlers();
 
   var stationSrcs = [];
+  var isMultiUrlStation = false;
   if (station.urls && Array.isArray(station.urls)) {
     stationSrcs = [...station.urls].sort(function() {
       return Math.random() - 0.5;
     });
+    isMultiUrlStation = station.urls.length > 1;
   } else if (station.url) {
     stationSrcs = [station.url];
     if (Array.isArray(station.fallbacks)) stationSrcs = stationSrcs.concat(station.fallbacks);
@@ -6655,7 +6657,27 @@ function playStation(station) {
     window._statsActiveName = station.name;
     customAudioPlayer.src = stationSrcs[i];
     customAudioPlayer.load();
-    customAudioPlayer.play().catch(function() {});
+
+    // ── إذا كان هذا هو الرابط العشوائي الأول لمحطة بها روابط متعددة: نبدأ من نقطة عشوائية
+    // بعد تخطي أول ١٠٪ من مدة الملف، لإعطاء انطباع إذاعة حقيقية بدل تشغيل ملف mp3 من بدايته ──
+    if (i === 0 && isMultiUrlStation) {
+      var _randSeekHandler = function() {
+        customAudioPlayer.removeEventListener('loadedmetadata', _randSeekHandler);
+        var dur = customAudioPlayer.duration;
+        if (dur && isFinite(dur) && dur > 0) {
+          var minStart = dur * 0.10; // تخطي أول ١٠٪ من المدة
+          var maxStart = dur * 0.90; // تفادي الاقتراب جدًا من نهاية الملف
+          if (maxStart > minStart) {
+            customAudioPlayer.currentTime = minStart + Math.random() * (maxStart - minStart);
+          }
+        }
+        customAudioPlayer.play().catch(function() {});
+      };
+      customAudioPlayer.addEventListener('loadedmetadata', _randSeekHandler);
+    } else {
+      customAudioPlayer.play().catch(function() {});
+    }
+
     if (currentStatus) currentStatus.textContent = station.name + " " + _nowPlayingSuffix();
     if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession(station.name);
     // ===== تسجيل في سجل الاستماع =====
@@ -14542,6 +14564,11 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="wtb-icon" id="radioAutoplayToggleIcon">▶️</span>
         <span class="wtb-text" id="radioAutoplayToggleTxt" data-ar="تشغيل تلقائي: مفعّل" data-en="Autoplay: On" data-fr="Lecture auto : activée" data-es="Reproducción automática: activada" data-sv="Autospelning: På" data-nl="Automatisch afspelen: Aan" data-ga="Uath-sheinm: Ar" data-de="Autoplay: An" data-ru="Автовоспроизведение: вкл" data-tr="Otomatik oynatma: Açık" data-pt="Reprodução automática: Ativada" data-zh="自动播放：开" data-ur="خودکار پلے: آن">تشغيل تلقائي: مفعّل</span>
     </button>
+    <div id="settings-randomseek-item" class="welcome-toggle-btn" style="gap:7px;">
+      <label for="randomSeekToggle" data-ar="بداية الملف الأول" data-en="Start of first file" data-fr="Début du premier fichier" data-es="Inicio del primer archivo" data-sv="Start av första filen" data-nl="Start van eerste bestand" data-ga="Tosú an chéad chomhaid" data-de="Beginn der ersten Datei" data-ru="Начало первого файла" data-tr="İlk dosyanın başlangıcı" data-pt="Início do primeiro arquivo" data-zh="第一个文件的起点" data-ur="پہلی فائل کا آغاز" style="cursor:pointer; margin:0;">بداية الملف الأول</label>
+      <input type="checkbox" id="randomSeekToggle" onchange="toggleRandomSeekSetting()" style="width:18px;height:18px;cursor:pointer; margin:0;">
+    </div>
+    <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
     <div id="welcomeAutoSwitchDurationGroup" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية"
          style="display:flex; align-items:center; gap:7px; background:linear-gradient(to right,#e3f2fd 0%,#fff 50%,#e3f2fd 100%); border-radius:8px; padding:6px 12px; box-shadow:0 2px 4px rgba(0,0,0,0.08); font-weight:700; font-size:14px;">
       <label for="welcomeAutoSwitchDuration" data-ar="⏱️ مدة تنقل الترحيب" data-en="⏱️ Welcome Cycle" data-fr="⏱️ Cycle d'accueil" data-es="⏱️ Ciclo de bienvenida" data-sv="⏱️ Välkomstcykel" data-nl="⏱️ Welkomstcyclus" data-ga="⏱️ Timthriall Fáilte" data-de="⏱️ Begrüßungszyklus" data-ru="⏱️ Цикл приветствия" data-tr="⏱️ Karşılama Döngüsü" data-pt="⏱️ Ciclo de boas-vindas" data-zh="⏱️ 欢迎轮播周期" data-ur="⏱️ خوش آمدید سائیکل" style="white-space:nowrap; color:#000; margin:0;">⏱️ مدة تنقل الترحيب</label>
@@ -34333,6 +34360,28 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
   if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
   window._mainPlayAllowed = true;
   mainAudio.src = source;
+
+  // ── لو ده أول رابط عشوائي لمحطة بها روابط متعددة: نبدأ من نقطة عشوائية
+  // بعد تخطي أول ١٠٪ من مدة الملف (وتفادي آخر ١٠٪)، حسب مدة كل رابط على حدة،
+  // بحيث يعطي انطباع أنه راديو حقيقي وليس ملف mp3 يبدأ من صفره ──
+  if (window._pendingRandomSeek) {
+    window._pendingRandomSeek = false;
+    (function() {
+      var _randSeekHandler = function() {
+        mainAudio.removeEventListener('loadedmetadata', _randSeekHandler);
+        var dur = mainAudio.duration;
+        if (dur && isFinite(dur) && dur > 0) {
+          var minStart = dur * 0.10; // تخطي أول ١٠٪ من المدة
+          var maxStart = dur * 0.90; // تفادي الاقتراب جدًا من نهاية الملف
+          if (maxStart > minStart) {
+            mainAudio.currentTime = minStart + Math.random() * (maxStart - minStart);
+          }
+        }
+      };
+      mainAudio.addEventListener('loadedmetadata', _randSeekHandler);
+    })();
+  }
+
   mainAudio.play().catch(function(err) {
     console.warn('mainAudio play failed:', err && err.message);
     if (typeof nextSource === 'function' && !window._userStoppedManually) {
@@ -35643,6 +35692,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (countEl) countEl.textContent = '0 selected';
   }
 });
+
+function isRandomSeekEnabled() {
+  return localStorage.getItem('randomSeekEnabled') !== 'false'; // مفعّلة افتراضيًا
+}
+
+function toggleRandomSeekSetting() {
+  var cb = document.getElementById('randomSeekToggle');
+  var enabled = cb ? cb.checked : true;
+  localStorage.setItem('randomSeekEnabled', enabled ? 'true' : 'false');
+}
 
 function toggleSettingsPanel() {
   var panel = document.getElementById('settings-panel');
@@ -37861,6 +37920,9 @@ function toggleRadio(button, event = null) {
     if (button.getAttribute('data-random') === 'true' && !button.hasAttribute('data-random-played')) {
       currentIndex = Math.floor(Math.random() * urls.length);
       button.setAttribute('data-random-played', 'true');
+      // أول رابط عشوائي لمحطة متعددة الروابط: نطلب من playNewAudio تخطي أول 10٪ من الملف
+      // بدل تشغيله من ثانية 0، لإعطاء انطباع أنه راديو حقيقي وليس ملف mp3
+      if (urls.length > 1 && isRandomSeekEnabled()) window._pendingRandomSeek = true;
     }
 
     if (evt && evt.shiftKey) {
