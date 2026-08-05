@@ -35520,6 +35520,7 @@ function togglePlayPause() {
   var icon = document.getElementById('togglePlayPauseIcon');
   if (audioPlayer.paused) {
     window._userStoppedManually = false; // المستخدم يريد التشغيل
+    window._mainPlayAllowed = true; // اسمح بالتشغيل صراحةً حتى لا يوقفه الحارس فورًا
     if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
     audioPlayer.play().catch(function(err) { console.warn('audioPlayer play failed:', err && err.message); });
     if (icon) icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
@@ -46108,10 +46109,23 @@ document.addEventListener('DOMContentLoaded', function() {
     playBtn.addEventListener('click', function() {
       if (!audioEl.src && !audioEl.currentSrc) return;
       if (audioEl.paused) {
+        // تشغيل يدوي — نفس منطق togglePlayPause: إلغاء منع الـ retry
+        window._userStoppedManually = false;
+        // لازم نسمح بالتشغيل صراحةً، وإلا مستمع 'play' بيوقف الصوت فورًا
+        // لو الشاشة الترحيبية لسه "مفتوحة" فنيًا في الخلفية (وده كان سبب
+        // إن الزر يحاول يشتغل ويقفل في نفس اللحظة)
+        window._mainPlayAllowed = true;
+        if (window.stopAllOtherAudios) window.stopAllOtherAudios('main');
         audioEl.play().catch(function() {});
         playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
         playBtn.classList.add('is-playing');
       } else {
+        // إيقاف يدوي — لازم نمنع نظام إعادة الاتصال التلقائي من تشغيل الراديو
+        // تاني من تحت رجلينا (وده كان سبب عدم استجابة زر التشغيل بعد الإيقاف)
+        window._userStoppedManually = true;
+        if (typeof retryTimeout !== 'undefined') clearTimeout(retryTimeout);
+        if (typeof _sErrorTimer !== 'undefined') clearTimeout(_sErrorTimer);
+        if (typeof _sStalledTimer !== 'undefined') clearTimeout(_sStalledTimer);
         audioEl.pause();
         playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
         playBtn.classList.remove('is-playing');
