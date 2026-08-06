@@ -40696,6 +40696,17 @@ window.addEventListener("load", function() {
     // إيقاف جميع الراديوهات
     if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('adhan');
 
+    // استئناف راديو كان شغال: لازم .load() قبل .play() لأنها بثوث مباشرة (live stream)
+    // ومجرد play() بعد وقفة طويلة (مدة الأذان) بيفشل بصمت لأن الاتصال بالسيرفر يكون قطع
+    function _resumeAdhanAudio(item) {
+      if (!item || !item.el || !item.src) return;
+      try {
+        item.el.src = item.src;
+        item.el.load();
+      } catch (e) {}
+      item.el.play().catch(() => {});
+    }
+
     // علامة نشاط الأذان — لو المستخدم وقّف أثناء الـ fetch نتجاهل النتيجة
     var _adhanActive = true;
 
@@ -40704,9 +40715,7 @@ window.addEventListener("load", function() {
       idx = idx || 0;
       // لو المستخدم وقّف الأذان أثناء تحميل الملف → نوقف هنا
       if (!_adhanActive) {
-        _adhanResume.forEach(function(item) {
-          if (item.el && item.src) item.el.play().catch(() => {});
-        });
+        _adhanResume.forEach(_resumeAdhanAudio);
         return;
       }
       if (idx >= sources.length) return; // كل المصادر فشلت — استسلم بهدوء
@@ -40770,9 +40779,7 @@ window.addEventListener("load", function() {
       adhanAudio.onended = () => {
         stopAdhan();
         // استئناف كل راديو كان شغال قبل الأذان
-        _adhanResume.forEach(function(item) {
-          if (item.el && item.src) item.el.play().catch(() => {});
-        });
+        _adhanResume.forEach(_resumeAdhanAudio);
       };
     }
 
