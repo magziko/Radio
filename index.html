@@ -62,11 +62,65 @@
 
 <link rel="preload" href="favicon.png" as="image">
   <link rel="icon" type="image/png" href="favicon.png">
+<style id="site-theme-vars">
+/* ===== Site theme system =====
+   These variables drive every accent color across the site (borders, buttons,
+   hovers, glows, badges...). "default" keeps the site's original two-tone
+   blue/green identity; every other theme recolors everything with one
+   coherent palette, the same way dark mode recolors everything to dark. */
+:root {
+  --theme-c1: #1e90ff;      --theme-c1-rgb: 30,144,255;
+  --theme-c2: #1565c0;      --theme-c2-rgb: 21,101,192;
+  --theme-c3: #2E86C1;      --theme-c3-rgb: 46,134,193;
+  --theme-c4: #1A5276;      --theme-c4-rgb: 26,82,118;
+  --theme-g1: #1D9E75;      --theme-g1-rgb: 29,158,117;
+  --theme-g2: #0F6E56;      --theme-g2-rgb: 15,110,86;
+}
+body.theme-sky {
+  --theme-c1: #6B8CAE; --theme-c1-rgb: 107,140,174;
+  --theme-c2: #3B5A76; --theme-c2-rgb: 59,90,118;
+  --theme-c3: #527996; --theme-c3-rgb: 82,121,150;
+  --theme-c4: #2A4155; --theme-c4-rgb: 42,65,85;
+  --theme-g1: #6B8CAE; --theme-g1-rgb: 107,140,174;
+  --theme-g2: #2A4155; --theme-g2-rgb: 42,65,85;
+  --theme-bg: #DCE6EF;
+}
+body.theme-emerald {
+  --theme-c1: #7A9E8E; --theme-c1-rgb: 122,158,142;
+  --theme-c2: #3F5C4E; --theme-c2-rgb: 63,92,78;
+  --theme-c3: #5C8170; --theme-c3-rgb: 92,129,112;
+  --theme-c4: #2C4A3A; --theme-c4-rgb: 44,74,58;
+  --theme-g1: #7A9E8E; --theme-g1-rgb: 122,158,142;
+  --theme-g2: #2C4A3A; --theme-g2-rgb: 44,74,58;
+  --theme-bg: #DCE8E1;
+}
+body.theme-amber {
+  --theme-c1: #C2A05A; --theme-c1-rgb: 194,160,90;
+  --theme-c2: #8A6A2F; --theme-c2-rgb: 138,106,47;
+  --theme-c3: #A6853F; --theme-c3-rgb: 166,133,63;
+  --theme-c4: #6B4F1F; --theme-c4-rgb: 107,79,31;
+  --theme-g1: #C2A05A; --theme-g1-rgb: 194,160,90;
+  --theme-g2: #6B4F1F; --theme-g2-rgb: 107,79,31;
+  --theme-bg: #F2E4C7;
+}
+body.theme-slate {
+  --theme-c1: #8792A2; --theme-c1-rgb: 135,146,162;
+  --theme-c2: #4A5568; --theme-c2-rgb: 74,85,104;
+  --theme-c3: #606B7D; --theme-c3-rgb: 96,107,125;
+  --theme-c4: #333B49; --theme-c4-rgb: 51,59,73;
+  --theme-g1: #8792A2; --theme-g1-rgb: 135,146,162;
+  --theme-g2: #333B49; --theme-g2-rgb: 51,59,73;
+  --theme-bg: #E4E6EA;
+}
+body.theme-sky, body.theme-emerald, body.theme-amber, body.theme-slate {
+  background-color: var(--theme-bg) !important;
+}
+</style>
 <style id="critical-css">
 #welcomeScreen{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#fff}
 body.dark-mode #welcomeScreen{background:#1a1a2e}
 #welcomeContent{text-align:center;padding:20px;max-width:420px;width:90%}
-#welcomeSpinner{width:48px;height:48px;border:4px solid #eee;border-top-color:#1D9E75;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+#welcomeSpinner{width:48px;height:48px;border:4px solid #eee;border-top-color:var(--theme-g1);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 .badge-muratal, .badge-mojawwad {
@@ -83,7 +137,7 @@ body.dark-mode #welcomeScreen{background:#1a1a2e}
 .badge-muratal {
     margin-left: 5px;
     background: rgba(33, 150, 243, 0.13);
-    color: #1565c0;
+    color: var(--theme-c2);
     border: 1px solid rgba(33, 150, 243, 0.35);
 }
 .badge-mojawwad {
@@ -193,7 +247,7 @@ button[data-basit-type="saudi-muratal"] .flag {
 }
 
 #basmalaOpenSiteBtn { transition: color 0.2s, opacity 0.2s; }
-#basmalaOpenSiteBtn:hover { color: #1D9E75 !important; opacity: 0.85; }
+#basmalaOpenSiteBtn:hover { color: var(--theme-g1) !important; opacity: 0.85; }
 
 #quranVerse {
     text-align: center;
@@ -206,9 +260,9 @@ button[data-basit-type="saudi-muratal"] .flag {
     align-items: center;
     overflow: hidden;
     box-sizing: border-box;
-    background: linear-gradient(160deg, rgba(46,134,193,0.04) 0%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(160deg, rgba(var(--theme-c3-rgb),0.04) 0%, rgba(255,255,255,0) 100%);
     border-radius: 16px;
-    border: 1px solid rgba(46,134,193,0.10);
+    border: 1px solid rgba(var(--theme-c3-rgb),0.10);
     position: relative;
     flex-shrink: 0;
 }
@@ -269,7 +323,7 @@ button[data-basit-type="saudi-muratal"] .flag {
     display: block;
     width: 40%;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(46,134,193,0.25), transparent);
+    background: linear-gradient(to right, transparent, rgba(var(--theme-c3-rgb),0.25), transparent);
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -291,7 +345,7 @@ button[data-basit-type="saudi-muratal"] .flag {
     color: #1a3a52 !important;
     line-height: 2 !important;
     letter-spacing: 0.02em;
-    text-shadow: 0 1px 2px rgba(46,134,193,0.08);
+    text-shadow: 0 1px 2px rgba(var(--theme-c3-rgb),0.08);
     font-style: normal !important;
 }
 
@@ -306,7 +360,7 @@ button[data-basit-type="saudi-muratal"] .flag {
 
 #verseNumber {
     font-size: 11.5px !important;
-    color: #2E86C1 !important;
+    color: var(--theme-c3) !important;
     letter-spacing: 0.04em;
     opacity: 0.7;
     font-style: normal !important;
@@ -316,7 +370,7 @@ button[data-basit-type="saudi-muratal"] .flag {
 .basmala-line {
     font-family: 'Cairo', serif;
     font-size: 16px !important;
-    color: #1A5276 !important;
+    color: var(--theme-c4) !important;
     font-weight: 600 !important;
     font-style: normal !important;
     opacity: 0.75;
@@ -332,7 +386,7 @@ button[data-basit-type="saudi-muratal"] .flag {
 
 .customBtnControl {
     background: #ffffff;
-    border: 1.5px solid rgba(30,144,255,0.22);
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.22);
     padding: 0;
     border-radius: 14px;
     cursor: pointer;
@@ -342,27 +396,27 @@ button[data-basit-type="saudi-muratal"] .flag {
     align-items: center;
     justify-content: center;
     transition: background 0.22s cubic-bezier(.4,0,.2,1), border-color 0.22s, box-shadow 0.22s, transform 0.18s;
-    box-shadow: 0 2px 8px rgba(30,144,255,0.08);
+    box-shadow: 0 2px 8px rgba(var(--theme-c1-rgb),0.08);
 }
 
 .customBtnControl:hover {
     background: #f0f7ff;
-    border-color: #1e90ff;
-    box-shadow: 0 4px 16px rgba(30,144,255,0.18);
+    border-color: var(--theme-c1);
+    box-shadow: 0 4px 16px rgba(var(--theme-c1-rgb),0.18);
     transform: translateY(-3px) scale(1.06);
 }
 
 @keyframes waveRipple {
-    0%   { box-shadow: 0 0 0 0 rgba(30,144,255,0.55), 0 0 0 0 rgba(30,144,255,0.30); }
-    50%  { box-shadow: 0 0 0 10px rgba(30,144,255,0.18), 0 0 0 20px rgba(30,144,255,0.06); }
-    100% { box-shadow: 0 0 0 0 rgba(30,144,255,0), 0 0 0 0 rgba(30,144,255,0); }
+    0%   { box-shadow: 0 0 0 0 rgba(var(--theme-c1-rgb),0.55), 0 0 0 0 rgba(var(--theme-c1-rgb),0.30); }
+    50%  { box-shadow: 0 0 0 10px rgba(var(--theme-c1-rgb),0.18), 0 0 0 20px rgba(var(--theme-c1-rgb),0.06); }
+    100% { box-shadow: 0 0 0 0 rgba(var(--theme-c1-rgb),0), 0 0 0 0 rgba(var(--theme-c1-rgb),0); }
 }
 
 #customPlayToggleButton.playing {
     animation: waveRipple 1.4s ease-out infinite;
-    border-color: #1D9E75;
+    border-color: var(--theme-g1);
     background: linear-gradient(135deg, #f0fdf8 0%, #e8f7f2 100%);
-    box-shadow: 0 4px 18px rgba(29,158,117,0.22);
+    box-shadow: 0 4px 18px rgba(var(--theme-g1-rgb),0.22);
 }
 
 body.dark-mode #customPlayToggleButton.playing {
@@ -374,19 +428,19 @@ body.dark-mode #customPlayToggleButton.playing {
 .customBtnControl svg {
     width: 26px;
     height: 26px;
-    fill: #1565c0;
+    fill: var(--theme-c2);
 }
 
 #customRandomBtn svg {
     width: 22px;
     height: 22px;
     fill: none;
-    stroke: #1D9E75;
+    stroke: var(--theme-g1);
 }
 
 #customRandomBtn:hover {
     background: #e8f8f3 !important;
-    border-color: #1D9E75 !important;
+    border-color: var(--theme-g1) !important;
 }
 
 body.dark-mode #customRandomBtn svg {
@@ -436,12 +490,12 @@ body {
     font-weight: 700;
     margin: 4px 0;
     cursor: pointer;
-    border: 1.5px solid rgba(30,144,255,0.18);
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
     border-radius: 12px;
     width: 97%;
     color: #2c3e50;
     background-color: #ffffff;
-    box-shadow: 0 1px 6px rgba(30,144,255,0.07), inset 0 1px 0 rgba(255,255,255,0.9);
+    box-shadow: 0 1px 6px rgba(var(--theme-c1-rgb),0.07), inset 0 1px 0 rgba(255,255,255,0.9);
     transition: background 0.22s cubic-bezier(.4,0,.2,1), border-color 0.22s, box-shadow 0.22s, transform 0.18s;
     text-shadow: none;
     font-family: 'Cairo', Arial, sans-serif;
@@ -480,16 +534,16 @@ body {
   }
   .button:hover {
     background-color: #f0f7ff;
-    border-color: rgba(30,144,255,0.45);
-    box-shadow: 0 4px 16px rgba(30,144,255,0.14);
+    border-color: rgba(var(--theme-c1-rgb),0.45);
+    box-shadow: 0 4px 16px rgba(var(--theme-c1-rgb),0.14);
     transform: translateY(-2px) scale(1.01);
   }
 
   .button.playing {
     background: linear-gradient(135deg, #f0fdf8 0%, #e8f7f2 100%) !important;
-    border-color: #1D9E75 !important;
-    color: #0F6E56 !important;
-    box-shadow: 0 4px 18px rgba(29,158,117,0.18) !important;
+    border-color: var(--theme-g1) !important;
+    color: var(--theme-g2) !important;
+    box-shadow: 0 4px 18px rgba(var(--theme-g1-rgb),0.18) !important;
     text-shadow: none !important;
   }
 
@@ -666,12 +720,12 @@ audio {
   margin: 0 auto 6px;
   max-width: 18000px;
   background: #eef4fb;
-  border: 1.5px solid rgba(30,144,255,0.18);
+  border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
   border-radius: 18px;
-  box-shadow: 0 2px 12px rgba(30,144,255,0.07), inset 0 1px 0 rgba(255,255,255,0.55);
+  box-shadow: 0 2px 12px rgba(var(--theme-c1-rgb),0.07), inset 0 1px 0 rgba(255,255,255,0.55);
   position: relative;
   box-sizing: border-box;
-  background-image: radial-gradient(ellipse 60% 40% at 50% -10%, rgba(30,144,255,0.10) 0%, transparent 70%);
+  background-image: radial-gradient(ellipse 60% 40% at 50% -10%, rgba(var(--theme-c1-rgb),0.10) 0%, transparent 70%);
 }
 
 #filters-container::before {
@@ -680,7 +734,7 @@ audio {
   top: 0; left: 15%; right: 15%;
   height: 2.5px;
   border-radius: 0 0 4px 4px;
-  background: linear-gradient(90deg, transparent 0%, #1e90ff 30%, #42d4f4 50%, #1e90ff 70%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--theme-c1) 30%, var(--theme-c1) 50%, var(--theme-c1) 70%, transparent 100%);
   opacity: 0.6;
 }
 
@@ -697,15 +751,15 @@ audio {
   padding: 0 16px;
   white-space: nowrap;
   border-radius: 999px;
-  border: 1.5px solid rgba(30,144,255,0.28);
+  border: 1.5px solid rgba(var(--theme-c1-rgb),0.28);
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
   background: rgba(255,255,255,0.82);
-  color: #1565c0;
-  box-shadow: 0 1px 4px rgba(30,144,255,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+  color: var(--theme-c2);
+  box-shadow: 0 1px 4px rgba(var(--theme-c1-rgb),0.08), inset 0 1px 0 rgba(255,255,255,0.9);
   transition: background 0.22s cubic-bezier(.4,0,.2,1), color 0.22s cubic-bezier(.4,0,.2,1), border-color 0.22s cubic-bezier(.4,0,.2,1), box-shadow 0.22s cubic-bezier(.4,0,.2,1), transform 0.22s cubic-bezier(.4,0,.2,1);
   animation: filterAppear 0.35s ease both;
 }
@@ -745,24 +799,24 @@ audio {
 }
 
 .filter-button:hover {
-  background: rgba(30,144,255,0.10);
-  color: #1565c0;
-  border-color: #1e90ff;
-  box-shadow: 0 3px 12px rgba(30,144,255,0.18), inset 0 1px 0 rgba(255,255,255,0.6);
+  background: rgba(var(--theme-c1-rgb),0.10);
+  color: var(--theme-c2);
+  border-color: var(--theme-c1);
+  box-shadow: 0 3px 12px rgba(var(--theme-c1-rgb),0.18), inset 0 1px 0 rgba(255,255,255,0.6);
   transform: translateY(-2px) scale(1.03);
 }
 
 @keyframes selectedPing {
-  0%   { box-shadow: 0 0 0 0 rgba(30,144,255,0.50), 0 4px 16px rgba(30,144,255,0.22); }
-  60%  { box-shadow: 0 0 0 7px rgba(30,144,255,0),  0 4px 16px rgba(30,144,255,0.22); }
-  100% { box-shadow: 0 0 0 0 rgba(30,144,255,0),    0 4px 16px rgba(30,144,255,0.22); }
+  0%   { box-shadow: 0 0 0 0 rgba(var(--theme-c1-rgb),0.50), 0 4px 16px rgba(var(--theme-c1-rgb),0.22); }
+  60%  { box-shadow: 0 0 0 7px rgba(var(--theme-c1-rgb),0),  0 4px 16px rgba(var(--theme-c1-rgb),0.22); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--theme-c1-rgb),0),    0 4px 16px rgba(var(--theme-c1-rgb),0.22); }
 }
 
 .filter-button.selected {
-  background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%) !important;
+  background: linear-gradient(135deg, var(--theme-c1) 0%, var(--theme-c2) 100%) !important;
   color: #fff !important;
   border-color: transparent !important;
-  box-shadow: 0 4px 16px rgba(30,144,255,0.30) !important;
+  box-shadow: 0 4px 16px rgba(var(--theme-c1-rgb),0.30) !important;
   transform: translateY(-1px) scale(1.02) !important;
   font-weight: 700 !important;
   animation: selectedPing 1.8s ease-out infinite !important;
@@ -942,19 +996,19 @@ audio {
   font-weight: 700 !important;
   padding: 6px 12px !important;
   border-radius: 20px !important;
-  border: 1.5px solid rgba(21,101,192,0.30) !important;
+  border: 1.5px solid rgba(var(--theme-c2-rgb),0.30) !important;
   background: rgba(255,255,255,0.85) !important;
-  color: #1565c0 !important;
+  color: var(--theme-c2) !important;
   cursor: pointer !important;
   outline: none !important;
-  box-shadow: 0 1px 5px rgba(21,101,192,0.10) !important;
+  box-shadow: 0 1px 5px rgba(var(--theme-c2-rgb),0.10) !important;
   direction: ltr !important;
   min-width: 160px !important;
 }
 
 #google_translate_element select.goog-te-combo:focus {
-  border-color: #1e90ff !important;
-  box-shadow: 0 0 0 3px rgba(30,144,255,0.15) !important;
+  border-color: var(--theme-c1) !important;
+  box-shadow: 0 0 0 3px rgba(var(--theme-c1-rgb),0.15) !important;
 }
 
 body.dark-mode #google_translate_element select.goog-te-combo {
@@ -979,21 +1033,21 @@ body.dark-mode #google_translate_element select.goog-te-combo {
   font-weight: 700;
   font-family: 'Cairo', Arial, sans-serif;
   border-radius: 20px;
-  border: 1.5px solid rgba(21,101,192,0.30);
+  border: 1.5px solid rgba(var(--theme-c2-rgb),0.30);
   background: linear-gradient(to right, #e3f2fd 0%, #fff 50%, #e3f2fd 100%);
-  color: #1565c0;
+  color: var(--theme-c2);
   cursor: pointer;
-  box-shadow: 0 1px 5px rgba(21,101,192,0.10);
+  box-shadow: 0 1px 5px rgba(var(--theme-c2-rgb),0.10);
   transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
   white-space: nowrap;
   width: 100%;
 }
 
 #settingsLangToggle:hover {
-  background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%);
+  background: linear-gradient(135deg, var(--theme-c1) 0%, var(--theme-c2) 100%);
   color: #fff;
   border-color: transparent;
-  box-shadow: 0 3px 10px rgba(21,101,192,0.25);
+  box-shadow: 0 3px 10px rgba(var(--theme-c2-rgb),0.25);
   transform: translateY(-1px);
 }
 
@@ -1030,20 +1084,20 @@ body.dark-mode #settingsLangToggle:hover {
   font-weight: 700;
   font-family: 'Cairo', Arial, sans-serif;
   border-radius: 20px;
-  border: 1.5px solid rgba(21,101,192,0.30);
+  border: 1.5px solid rgba(var(--theme-c2-rgb),0.30);
   background: linear-gradient(to right, #e3f2fd 0%, #fff 50%, #e3f2fd 100%);
-  color: #1565c0;
+  color: var(--theme-c2);
   cursor: pointer;
-  box-shadow: 0 1px 5px rgba(21,101,192,0.10);
+  box-shadow: 0 1px 5px rgba(var(--theme-c2-rgb),0.10);
   transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
   white-space: nowrap;
   width: 100%;
 }
 #settingsShortcutsBtn:hover {
-  background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%);
+  background: linear-gradient(135deg, var(--theme-c1) 0%, var(--theme-c2) 100%);
   color: #fff;
   border-color: transparent;
-  box-shadow: 0 3px 10px rgba(21,101,192,0.25);
+  box-shadow: 0 3px 10px rgba(var(--theme-c2-rgb),0.25);
   transform: translateY(-1px);
 }
 #settingsShortcutsBtn #settingsShortcutsIcon {
@@ -1085,7 +1139,7 @@ body.dark-mode #settingsShortcutsBtn:hover {
 .color-setting-item label {
   font-size: 12px;
   font-weight: bold;
-  color: #1565c0;
+  color: var(--theme-c2);
   white-space: nowrap;
 }
 .color-setting-item .responsive-select {
@@ -1889,17 +1943,17 @@ body.dark-mode .site-modal-title { color: #cdd8e3; }
     font-size: 12px;
     font-weight: 700;
     background: rgba(255,255,255,0.85);
-    color: #1565c0;
-    border: 1.5px solid rgba(21,101,192,0.25);
-    box-shadow: 0 1px 6px rgba(21,101,192,0.08);
+    color: var(--theme-c2);
+    border: 1.5px solid rgba(var(--theme-c2-rgb),0.25);
+    box-shadow: 0 1px 6px rgba(var(--theme-c2-rgb),0.08);
     cursor: pointer;
     transition: background 0.22s, color 0.22s;
 }
 
 #welcome-top-bar #welcomeLangToggle:hover {
-    background: #1565c0 !important;
+    background: var(--theme-c2) !important;
     color: #fff !important;
-    border-color: #1565c0 !important;
+    border-color: var(--theme-c2) !important;
 }
 
 .welcome-lang-menu {
@@ -1909,7 +1963,7 @@ body.dark-mode .site-modal-title { color: #cdd8e3; }
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.16);
-    border: 1px solid rgba(21,101,192,0.15);
+    border: 1px solid rgba(var(--theme-c2-rgb),0.15);
     padding: 5px;
     min-width: 120px;
     z-index: 20;
@@ -1932,11 +1986,11 @@ body.dark-mode .site-modal-title { color: #cdd8e3; }
     transition: background 0.15s, color 0.15s;
 }
 .welcome-lang-menu .welcome-lang-option:hover {
-    background: rgba(21,101,192,0.1);
-    color: #1565c0;
+    background: rgba(var(--theme-c2-rgb),0.1);
+    color: var(--theme-c2);
 }
 .welcome-lang-menu .welcome-lang-option.active {
-    background: #1565c0;
+    background: var(--theme-c2);
     color: #fff;
 }
 body.dark-mode .welcome-lang-menu {
@@ -2014,17 +2068,17 @@ body.dark-mode #welcome-top-bar #welcomeLangToggle {
     font-weight: 700;
     font-family: Georgia, serif;
     background: rgba(255,255,255,0.85);
-    color: #1565c0;
-    border: 1.5px solid rgba(21,101,192,0.25);
-    box-shadow: 0 1px 6px rgba(21,101,192,0.08);
+    color: var(--theme-c2);
+    border: 1.5px solid rgba(var(--theme-c2-rgb),0.25);
+    box-shadow: 0 1px 6px rgba(var(--theme-c2-rgb),0.08);
     cursor: pointer;
     transition: background 0.22s, color 0.22s, transform 0.18s;
     line-height: 1;
 }
 #welcome-top-bar #welcomeHelpBtn:hover {
-    background: #1565c0 !important;
+    background: var(--theme-c2) !important;
     color: #fff !important;
-    border-color: #1565c0 !important;
+    border-color: var(--theme-c2) !important;
     transform: scale(1.1);
 }
 body.dark-mode #welcome-top-bar #welcomeHelpBtn {
@@ -2048,18 +2102,18 @@ body.dark-mode #welcome-top-bar #welcomeHelpBtn:hover {
     justify-content: center;
     font-size: 16px;
     background: rgba(255,255,255,0.85);
-    color: #1D9E75;
-    border: 1.5px solid rgba(29,158,117,0.30);
-    box-shadow: 0 1px 6px rgba(29,158,117,0.10);
+    color: var(--theme-g1);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.30);
+    box-shadow: 0 1px 6px rgba(var(--theme-g1-rgb),0.10);
     cursor: pointer;
     transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.15s;
 }
 
 #welcome-top-bar #welcomeTopAiBtn:hover {
-    background: #1D9E75 !important;
+    background: var(--theme-g1) !important;
     color: #fff !important;
-    border-color: #1D9E75 !important;
-    box-shadow: 0 3px 12px rgba(29,158,117,0.28) !important;
+    border-color: var(--theme-g1) !important;
+    box-shadow: 0 3px 12px rgba(var(--theme-g1-rgb),0.28) !important;
     transform: scale(1.08);
 }
 
@@ -2085,17 +2139,17 @@ body.dark-mode #welcome-top-bar #welcomeTopAiBtn:hover {
     align-items: center;
     justify-content: center;
     background: rgba(255,255,255,0.85);
-    color: #2E86C1;
-    border: 1.5px solid rgba(46,134,193,0.30);
-    box-shadow: 0 1px 6px rgba(46,134,193,0.10);
+    color: var(--theme-c3);
+    border: 1.5px solid rgba(var(--theme-c3-rgb),0.30);
+    box-shadow: 0 1px 6px rgba(var(--theme-c3-rgb),0.10);
     cursor: pointer;
     transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.15s;
 }
 #welcome-top-bar #welcomeTopSearchBtn:hover {
-    background: #2E86C1 !important;
+    background: var(--theme-c3) !important;
     color: #fff !important;
-    border-color: #2E86C1 !important;
-    box-shadow: 0 3px 12px rgba(46,134,193,0.28) !important;
+    border-color: var(--theme-c3) !important;
+    box-shadow: 0 3px 12px rgba(var(--theme-c3-rgb),0.28) !important;
     transform: scale(1.08);
 }
 body.dark-mode #welcome-top-bar #welcomeTopSearchBtn {
@@ -2482,8 +2536,8 @@ body.dark-mode #favManagerCancel { border-color: #555; color: #aaa; }
     font-size: 18px;
 
     background: rgba(255,255,255,0.92);
-    color: #1e90ff;
-    border: 1.5px solid rgba(30,144,255,0.55);
+    color: var(--theme-c1);
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.55);
     cursor: pointer;
 
     box-shadow: 0 3px 10px rgba(0,0,0,0.18);
@@ -2531,10 +2585,10 @@ body.dark-mode #togglePlayPause:hover {
 }
 
 #togglePlayPause:hover {
-    background: #1e90ff;
+    background: var(--theme-c1);
     color: #fff;
     transform: scale(1.12);
-    box-shadow: 0 5px 16px rgba(30,144,255,0.35);
+    box-shadow: 0 5px 16px rgba(var(--theme-c1-rgb),0.35);
     opacity: 1;
 }
 
@@ -2565,17 +2619,17 @@ body.dark-mode #togglePlayPause:hover {
     font-weight: 700;
     border-radius: 20px;
     cursor: pointer;
-    border: 1.5px solid rgba(21,101,192,0.3);
+    border: 1.5px solid rgba(var(--theme-c2-rgb),0.3);
     background: rgba(255,255,255,0.8);
-    color: #1565c0;
+    color: var(--theme-c2);
     transition: background 0.2s, color 0.2s;
-    box-shadow: 0 1px 6px rgba(21,101,192,0.08);
+    box-shadow: 0 1px 6px rgba(var(--theme-c2-rgb),0.08);
 }
 
 #mag_translate_toggle button:hover {
-    background: #1565c0 !important;
+    background: var(--theme-c2) !important;
     color: #fff !important;
-    border-color: #1565c0 !important;
+    border-color: var(--theme-c2) !important;
 }
 
 body.dark-mode #mag_translate_toggle button {
@@ -2737,7 +2791,7 @@ body.dark-mode .button.playing {
 
 .button.playing .station-text,
 .button[style*="color: rgb(30, 144, 255)"] .station-text {
-    color: #1e90ff !important;
+    color: var(--theme-c1) !important;
 }
 body.dark-mode .button.playing .station-text {
     color: #64b5f6 !important;
@@ -2993,7 +3047,7 @@ body.dark-mode .btn {
 #customVolumeRange {
     flex: 1;
     height: 4px;
-    accent-color: #1e90ff;
+    accent-color: var(--theme-c1);
     cursor: pointer;
 }
 
@@ -3059,16 +3113,16 @@ body.dark-mode .btn {
 }
 
 :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn):hover {
-    background: rgba(30,144,255,0.1);
-    border-color: #1e90ff;
-    box-shadow: 0 3px 12px rgba(30,144,255,0.18);
+    background: rgba(var(--theme-c1-rgb),0.1);
+    border-color: var(--theme-c1);
+    box-shadow: 0 3px 12px rgba(var(--theme-c1-rgb),0.18);
 }
 
 .welcome-toggle-btn.active {
-    background: linear-gradient(135deg, #1e90ff 0%, #0d6ecc 100%);
+    background: linear-gradient(135deg, var(--theme-c1) 0%, #0d6ecc 100%);
     border-color: #0d6ecc;
     color: #ffffff;
-    box-shadow: 0 0 0 2px rgba(30,144,255,0.25), 0 4px 14px rgba(30,144,255,0.45);
+    box-shadow: 0 0 0 2px rgba(var(--theme-c1-rgb),0.25), 0 4px 14px rgba(var(--theme-c1-rgb),0.45);
 }
 
 .welcome-toggle-btn.active .wtb-icon {
@@ -3113,15 +3167,15 @@ body.dark-mode :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn):h
 /* ===== زر مساعد الذكاء الاصطناعي في الشاشة الترحيبية ===== */
 #welcomeAiShortcutBtn {
     position: relative;
-    background: linear-gradient(135deg, rgba(29,158,117,0.12) 0%, rgba(255,255,255,0.80) 100%) !important;
-    border-color: rgba(29,158,117,0.5) !important;
+    background: linear-gradient(135deg, rgba(var(--theme-g1-rgb),0.12) 0%, rgba(255,255,255,0.80) 100%) !important;
+    border-color: rgba(var(--theme-g1-rgb),0.5) !important;
     color: #0d7a5a !important;
 }
 
 #welcomeAiShortcutBtn:hover {
-    background: linear-gradient(135deg, rgba(29,158,117,0.22) 0%, rgba(232,255,246,1) 100%) !important;
-    border-color: #1D9E75 !important;
-    box-shadow: 0 3px 14px rgba(29,158,117,0.30) !important;
+    background: linear-gradient(135deg, rgba(var(--theme-g1-rgb),0.22) 0%, rgba(232,255,246,1) 100%) !important;
+    border-color: var(--theme-g1) !important;
+    box-shadow: 0 3px 14px rgba(var(--theme-g1-rgb),0.30) !important;
     transform: translateY(-1px);
 }
 
@@ -3138,9 +3192,9 @@ body.dark-mode #welcomeAiShortcutBtn:hover {
 
 /* نبضة التنبيه */
 @keyframes aiPulseRing {
-    0%   { box-shadow: 0 0 0 0 rgba(29,158,117,0.55), 0 2px 8px rgba(0,0,0,0.07); }
-    60%  { box-shadow: 0 0 0 8px rgba(29,158,117,0.0), 0 2px 8px rgba(0,0,0,0.07); }
-    100% { box-shadow: 0 0 0 0 rgba(29,158,117,0.0), 0 2px 8px rgba(0,0,0,0.07); }
+    0%   { box-shadow: 0 0 0 0 rgba(var(--theme-g1-rgb),0.55), 0 2px 8px rgba(0,0,0,0.07); }
+    60%  { box-shadow: 0 0 0 8px rgba(var(--theme-g1-rgb),0.0), 0 2px 8px rgba(0,0,0,0.07); }
+    100% { box-shadow: 0 0 0 0 rgba(var(--theme-g1-rgb),0.0), 0 2px 8px rgba(0,0,0,0.07); }
 }
 
 #welcomeAiShortcutBtn {
@@ -3159,7 +3213,7 @@ body.dark-mode #welcomeAiShortcutBtn:hover {
     left: 6px;
     width: 7px;
     height: 7px;
-    background: #1D9E75;
+    background: var(--theme-g1);
     border-radius: 50%;
     border: 1.5px solid #fff;
     animation: aiDotPulse 2.2s ease-in-out infinite;
@@ -3307,9 +3361,9 @@ body.dark-mode .welcome-toggle-btn.active {
     justify-content: center;
     font-size: 16px;
     background: rgba(255,255,255,0.85);
-    color: #1565c0;
-    border: 1.5px solid rgba(21,101,192,0.25);
-    box-shadow: 0 1px 6px rgba(21,101,192,0.08);
+    color: var(--theme-c2);
+    border: 1.5px solid rgba(var(--theme-c2-rgb),0.25);
+    box-shadow: 0 1px 6px rgba(var(--theme-c2-rgb),0.08);
     cursor: pointer;
     transition: background 0.22s, color 0.22s;
     flex-direction: row;
@@ -3326,10 +3380,10 @@ body.dark-mode .welcome-toggle-btn.active {
 }
 
 #welcome-top-bar #welcomeDarkModeBtn:hover {
-    background: #1565c0 !important;
+    background: var(--theme-c2) !important;
     color: #fff !important;
-    border-color: #1565c0 !important;
-    box-shadow: 0 1px 6px rgba(21,101,192,0.25) !important;
+    border-color: var(--theme-c2) !important;
+    box-shadow: 0 1px 6px rgba(var(--theme-c2-rgb),0.25) !important;
 }
 
 body.dark-mode #welcome-top-bar #welcomeDarkModeBtn {
@@ -3345,9 +3399,9 @@ body.dark-mode #welcome-top-bar #welcomeDarkModeBtn:hover {
 }
 
 #welcomeDarkModeBtn:hover {
-    background: rgba(30,144,255,0.1);
-    border-color: #1e90ff;
-    box-shadow: 0 4px 14px rgba(30,144,255,0.2);
+    background: rgba(var(--theme-c1-rgb),0.1);
+    border-color: var(--theme-c1);
+    box-shadow: 0 4px 14px rgba(var(--theme-c1-rgb),0.2);
 }
 
 #welcomeDarkModeBtn .wdm-icon {
@@ -3669,8 +3723,8 @@ body.dark-mode .custom-tooltip::after {
 }
 
 .toast button.toast-loc-btn {
-  background: linear-gradient(135deg, rgba(29,158,117,0.15) 0%, rgba(21,120,90,0.20) 100%);
-  border: 1px solid rgba(29,158,117,0.30);
+  background: linear-gradient(135deg, rgba(var(--theme-g1-rgb),0.15) 0%, rgba(21,120,90,0.20) 100%);
+  border: 1px solid rgba(var(--theme-g1-rgb),0.30);
   padding: 3px 7px;
   border-radius: 7px;
   font-size: 10px;
@@ -3682,8 +3736,8 @@ body.dark-mode .custom-tooltip::after {
   font-family: inherit;
 }
 .toast button.toast-loc-btn:hover {
-  background: linear-gradient(135deg, rgba(29,158,117,0.28) 0%, rgba(21,120,90,0.33) 100%);
-  border-color: rgba(29,158,117,0.50);
+  background: linear-gradient(135deg, rgba(var(--theme-g1-rgb),0.28) 0%, rgba(21,120,90,0.33) 100%);
+  border-color: rgba(var(--theme-g1-rgb),0.50);
 }
 
 .toast button.toast-close-btn {
@@ -3781,8 +3835,8 @@ body.dark-mode .custom-tooltip::after {
     position: fixed;
     background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 55%, #eaf3fb 100%);
     color: #1a3a52;
-    border: 1.5px solid rgba(30,144,255,0.25);
-    box-shadow: 0 8px 32px rgba(30,144,255,0.14), 0 2px 8px rgba(0,0,0,0.10);
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.25);
+    box-shadow: 0 8px 32px rgba(var(--theme-c1-rgb),0.14), 0 2px 8px rgba(0,0,0,0.10);
     padding: 14px 16px 12px;
     border-radius: 16px;
     font-family: 'Cairo', 'Amiri', serif;
@@ -3809,7 +3863,7 @@ body.dark-mode .custom-tooltip::after {
     top: 0; left: 18%; right: 18%;
     height: 2.5px;
     border-radius: 0 0 4px 4px;
-    background: linear-gradient(90deg, transparent, #1e90ff 35%, #42d4f4 50%, #1e90ff 65%, transparent);
+    background: linear-gradient(90deg, transparent, var(--theme-c1) 35%, var(--theme-c1) 50%, var(--theme-c1) 65%, transparent);
     opacity: 0.55;
 }
 
@@ -3821,7 +3875,7 @@ body.dark-mode .custom-tooltip::after {
     transform: translateX(-50%);
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid rgba(30,144,255,0.22);
+    border-bottom: 8px solid rgba(var(--theme-c1-rgb),0.22);
 }
 
 @media (min-width: 600px) and (max-width: 991px) {
@@ -3957,7 +4011,7 @@ body.dark-mode .custom-tooltip::after {
 }
 @keyframes contactSlideIn { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
 body.dark-mode #contactModalBox { background:#1a2535; color:#c8d8e8; }
-#contactModalBox h3 { margin:0 0 18px; font-size:18px; color:#1D9E75; display:flex; align-items:center; gap:8px; }
+#contactModalBox h3 { margin:0 0 18px; font-size:18px; color:var(--theme-g1); display:flex; align-items:center; gap:8px; }
 #contactModalBox label { display:block; font-size:13px; margin-bottom:4px; opacity:.75; }
 #contactModalBox input, #contactModalBox textarea, #contactModalBox select {
   width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #dde;
@@ -3967,15 +4021,15 @@ body.dark-mode #contactModalBox { background:#1a2535; color:#c8d8e8; }
 body.dark-mode #contactModalBox input,
 body.dark-mode #contactModalBox textarea,
 body.dark-mode #contactModalBox select { background:#111c2a; border-color:#2a3a55; color:#c8d8e8; }
-#contactModalBox input:focus, #contactModalBox textarea:focus { outline:none; border-color:#1D9E75; }
+#contactModalBox input:focus, #contactModalBox textarea:focus { outline:none; border-color:var(--theme-g1); }
 #contactModalBox textarea { resize:vertical; min-height:110px; }
 #contactModalBtns { display:flex; gap:10px; justify-content:flex-end; margin-top:4px; }
 #contactSendBtn {
-  background:linear-gradient(135deg,#1D9E75,#16816e); color:#fff;
+  background:linear-gradient(135deg,var(--theme-g1),#16816e); color:#fff;
   border:none; border-radius:9px; padding:10px 22px; font-size:14px;
   font-family:inherit; cursor:pointer; font-weight:700; transition:transform .15s,box-shadow .15s;
 }
-#contactSendBtn:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(29,158,117,.35); }
+#contactSendBtn:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(var(--theme-g1-rgb),.35); }
 #contactCancelBtn {
   background:transparent; border:1.5px solid #ccd; border-radius:9px;
   padding:10px 18px; font-size:14px; font-family:inherit; cursor:pointer; color:inherit;
@@ -4057,16 +4111,16 @@ body.dark-mode #contactCancelBtn { border-color:#2a3a55; }
     height: 30px;
     padding: 0;
     border-radius: 50%;
-    border: 1px solid rgba(29,158,117,0.35);
-    background: linear-gradient(135deg, rgba(29,158,117,0.12), rgba(29,158,117,0.05));
-    color: #1D9E75;
+    border: 1px solid rgba(var(--theme-g1-rgb),0.35);
+    background: linear-gradient(135deg, rgba(var(--theme-g1-rgb),0.12), rgba(var(--theme-g1-rgb),0.05));
+    color: var(--theme-g1);
     cursor: pointer;
     transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 .footer-listen-stats-icon { font-size: 15px; line-height: 1; }
 .footer-listen-stats-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(29,158,117,0.25);
+    box-shadow: 0 6px 16px rgba(var(--theme-g1-rgb),0.25);
     filter: brightness(1.05);
 }
 .footer-listen-stats-btn:active { transform: scale(0.92); }
@@ -4161,8 +4215,8 @@ border: 2px solid #2b7de9;
     padding: 8px 14px 10px;
     background: rgba(255,255,255,0.7);
     border-radius: 14px;
-    box-shadow: 0 2px 10px rgba(30,144,255,0.10);
-    border: 1px solid rgba(30,144,255,0.13);
+    box-shadow: 0 2px 10px rgba(var(--theme-c1-rgb),0.10);
+    border: 1px solid rgba(var(--theme-c1-rgb),0.13);
     box-sizing: border-box;
     direction: rtl;
 }
@@ -4178,7 +4232,7 @@ border: 2px solid #2b7de9;
     height: 100%;
     width: 0%;
     border-radius: 8px;
-    background: linear-gradient(90deg, #1e90ff, #00c9a7);
+    background: linear-gradient(90deg, var(--theme-c1), #00c9a7);
     transition: width 0.5s cubic-bezier(.34,1.2,.64,1);
 }
 #adhkar-progress-label {
@@ -4230,9 +4284,9 @@ body.dark-mode #adhkar-progress-label  { color: #b0cfe8; }
     to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes subFilterPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(30,144,255,0.45); }
-    60%  { box-shadow: 0 0 0 8px rgba(30,144,255,0); }
-    100% { box-shadow: 0 0 0 0 rgba(30,144,255,0); }
+    0%   { box-shadow: 0 0 0 0 rgba(var(--theme-c1-rgb),0.45); }
+    60%  { box-shadow: 0 0 0 8px rgba(var(--theme-c1-rgb),0); }
+    100% { box-shadow: 0 0 0 0 rgba(var(--theme-c1-rgb),0); }
 }
 @keyframes subFilterSlideIn {
     from { opacity: 0; transform: translateX(20px); }
@@ -4286,8 +4340,8 @@ body.dark-mode .subfilter-scroll-wrap::after {
     gap: 8px;
     padding: 8px 14px;
     border-radius: 12px;
-    background: rgba(30, 144, 255, 0.05);
-    border: 1.5px solid rgba(30,144,255,0.25);
+    background: rgba(var(--theme-c1-rgb), 0.05);
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.25);
     box-sizing: border-box;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
@@ -4309,8 +4363,8 @@ body.dark-mode .subfilter-scroll-strip {
     font-weight: 700;
     font-family: Arial, Tahoma, "Segoe UI", sans-serif;
     background: #fff;
-    color: #1e90ff;
-    border: 2px solid #1e90ff;
+    color: var(--theme-c1);
+    border: 2px solid var(--theme-c1);
     border-radius: 20px;
     cursor: pointer;
     white-space: nowrap;
@@ -4321,13 +4375,13 @@ body.dark-mode .subfilter-scroll-strip {
 .subfilter-scroll-strip button:hover {
     background: #e8f4ff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(30,144,255,0.18);
+    box-shadow: 0 4px 10px rgba(var(--theme-c1-rgb),0.18);
 }
 .subfilter-scroll-strip button.active {
-    background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%);
+    background: linear-gradient(135deg, var(--theme-c1) 0%, var(--theme-c2) 100%);
     color: #fff;
     border-color: transparent;
-    box-shadow: 0 3px 10px rgba(30,144,255,0.38);
+    box-shadow: 0 3px 10px rgba(var(--theme-c1-rgb),0.38);
     transform: translateY(-1px);
 }
 body.dark-mode .subfilter-scroll-strip button {
@@ -4388,8 +4442,8 @@ body.dark-mode #radio-subfilter .subfilter-scroll-strip {
 
 .radio-sub-btn {
   background: #fff;
-  color: #1e90ff;
-  border: 2px solid #1e90ff;
+  color: var(--theme-c1);
+  border: 2px solid var(--theme-c1);
 }
 
 body.dark-mode .radio-sub-btn {
@@ -4399,7 +4453,7 @@ body.dark-mode .radio-sub-btn {
 }
 
 .radio-sub-btn:hover {
-  background: #1e90ff !important;
+  background: var(--theme-c1) !important;
   color: #fff !important;
 }
 
@@ -4409,9 +4463,9 @@ body.dark-mode .radio-sub-btn:hover {
 }
 
 .radio-sub-btn.active {
-  background: #1e90ff !important;
+  background: var(--theme-c1) !important;
   color: #fff !important;
-  border-color: #1565c0 !important;
+  border-color: var(--theme-c2) !important;
   font-weight: 700;
 }
 
@@ -4438,9 +4492,9 @@ body.dark-mode .radio-sub-btn.active {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1.5px solid rgba(30,144,255,0.55);
+  border: 1.5px solid rgba(var(--theme-c1-rgb),0.55);
   background: rgba(255,255,255,0.92);
-  color: #1e90ff;
+  color: var(--theme-c1);
   cursor: pointer;
   display: none;
   align-items: center;
@@ -4477,10 +4531,10 @@ body.dark-mode .radio-sub-btn.active {
 }
 
 #scrollToTopBtn:hover {
-  background: #1e90ff;
+  background: var(--theme-c1);
   color: #fff;
   transform: scale(1.12);
-  box-shadow: 0 5px 16px rgba(30,144,255,0.35);
+  box-shadow: 0 5px 16px rgba(var(--theme-c1-rgb),0.35);
 }
 #scrollToTopBtn:active { transform: scale(0.93); }
 
@@ -4562,7 +4616,7 @@ body.dark-mode #scrollToTopBtn:hover {
   position: relative;
 }
 .pnb-btn:hover {
-  background: rgba(30,144,255,0.28);
+  background: rgba(var(--theme-c1-rgb),0.28);
   border-color: #64b5f6;
   color: #fff;
   transform: scale(1.12);
@@ -4591,18 +4645,18 @@ body.dark-mode #scrollToTopBtn:hover {
   height: 46px;
   border-radius: 50%;
   border: 2px solid rgba(100,181,246,0.65);
-  background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%);
+  background: linear-gradient(135deg, var(--theme-c1) 0%, var(--theme-c2) 100%);
   color: #fff;
   flex-shrink: 0;
-  box-shadow: 0 0 0 0 rgba(30,144,255,0.35);
+  box-shadow: 0 0 0 0 rgba(var(--theme-c1-rgb),0.35);
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 #pnb-play.is-playing {
   animation: play-pulse 2.2s infinite;
 }
 @keyframes play-pulse {
-  0%,100%{box-shadow:0 0 0 0 rgba(30,144,255,0.35);}
-  50%{box-shadow:0 0 0 10px rgba(30,144,255,0);}
+  0%,100%{box-shadow:0 0 0 0 rgba(var(--theme-c1-rgb),0.35);}
+  50%{box-shadow:0 0 0 10px rgba(var(--theme-c1-rgb),0);}
 }
 #pnb-play:hover {
   background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
@@ -4633,7 +4687,7 @@ body.dark-mode #scrollToTopBtn:hover {
   pointer-events: auto;
 }
 #pnb-copy:hover {
-  background: rgba(30,144,255,0.25);
+  background: rgba(var(--theme-c1-rgb),0.25);
   border-color: #64b5f6;
   color: #fff;
   transform: scale(1.12);
@@ -4669,7 +4723,7 @@ body.dark-mode #scrollToTopBtn:hover {
   pointer-events: auto;
 }
 #pnb-share:hover {
-  background: rgba(30,144,255,0.25);
+  background: rgba(var(--theme-c1-rgb),0.25);
   border-color: #64b5f6;
   color: #fff;
   transform: scale(1.12);
@@ -4736,7 +4790,7 @@ body.dark-mode #scrollToTopBtn:hover {
   width: 14px; height: 14px;
   border-radius: 50%;
   background: #90caf9;
-  border: 2px solid #1e90ff;
+  border: 2px solid var(--theme-c1);
   cursor: pointer;
   transition: transform 0.12s;
 }
@@ -4745,7 +4799,7 @@ body.dark-mode #scrollToTopBtn:hover {
   width: 14px; height: 14px;
   border-radius: 50%;
   background: #90caf9;
-  border: 2px solid #1e90ff;
+  border: 2px solid var(--theme-c1);
   cursor: pointer;
 }
 
@@ -4766,7 +4820,7 @@ body.dark-mode #scrollToTopBtn:hover {
   z-index: auto;
   font-size: 13px;
   font-family: 'Cairo', Arial, Tahoma, sans-serif;
-  border-bottom: 0.5px solid rgba(30,144,255,0.25);
+  border-bottom: 0.5px solid rgba(var(--theme-c1-rgb),0.25);
   box-sizing: border-box;
   overflow: hidden;
   white-space: nowrap;
@@ -4814,36 +4868,36 @@ body.dark-mode #scrollToTopBtn:hover {
 
 body:not(.dark-mode) #player-nav-bar {
   background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #e3f2fd 100%);
-  border-bottom: 1px solid rgba(30,144,255,0.2);
+  border-bottom: 1px solid rgba(var(--theme-c1-rgb),0.2);
 }
-body:not(.dark-mode) #player-station-label { color: #1565c0; }
+body:not(.dark-mode) #player-station-label { color: var(--theme-c2); }
 body:not(.dark-mode) .live-dot-player { background: #2e7d32; }
 body:not(.dark-mode) .pnb-btn {
-  background: rgba(30,144,255,0.08);
-  border-color: rgba(30,144,255,0.38);
-  color: #1565c0;
+  background: rgba(var(--theme-c1-rgb),0.08);
+  border-color: rgba(var(--theme-c1-rgb),0.38);
+  color: var(--theme-c2);
 }
 body:not(.dark-mode) .pnb-btn:hover {
-  background: rgba(30,144,255,0.22);
+  background: rgba(var(--theme-c1-rgb),0.22);
   color: #0d47a1;
 }
 body:not(.dark-mode) #pnb-play {
-  background: linear-gradient(135deg, #1e90ff 0%, #1565c0 100%);
+  background: linear-gradient(135deg, var(--theme-c1) 0%, var(--theme-c2) 100%);
   color: #fff;
-  border-color: rgba(30,144,255,0.65);
+  border-color: rgba(var(--theme-c1-rgb),0.65);
 }
 body:not(.dark-mode) #pnb-random {
   background: rgba(255,193,7,0.12) !important;
   border-color: rgba(230,162,0,0.5) !important;
   color: #b76e00 !important;
 }
-body:not(.dark-mode) .pnb-group .pnb-lbl { color: rgba(21,101,192,0.75); }
-body:not(.dark-mode) #player-vol-slider { background: rgba(30,144,255,0.18); }
+body:not(.dark-mode) .pnb-group .pnb-lbl { color: rgba(var(--theme-c2-rgb),0.75); }
+body:not(.dark-mode) #player-vol-slider { background: rgba(var(--theme-c1-rgb),0.18); }
 body:not(.dark-mode) #player-vol-slider::-webkit-slider-thumb {
-  background: #1e90ff;
-  border-color: #1565c0;
+  background: var(--theme-c1);
+  border-color: var(--theme-c2);
 }
-body:not(.dark-mode) .pnb-divider { background: rgba(30,144,255,0.18); }
+body:not(.dark-mode) .pnb-divider { background: rgba(var(--theme-c1-rgb),0.18); }
 
 @media (max-width: 420px) {
   #player-vol-slider { display: none; }
@@ -5035,11 +5089,11 @@ body.dark-mode #sp-pip-toggle:hover  { background: rgba(29,158,117,0.30); }
 
 .pl-toolbar--blue {
     background: linear-gradient(135deg,#eaf3fb,#f0f7ff);
-    border: 1.5px solid rgba(30,144,255,0.22);
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.22);
 }
 .pl-label--blue  { color: #1a3a52; }
-.pl-count--blue  { color: #1565c0; background: rgba(30,144,255,0.1); }
-.pl-btn--blue-border { border-color: rgba(30,144,255,0.3) !important; color: #1565c0 !important; }
+.pl-count--blue  { color: var(--theme-c2); background: rgba(var(--theme-c1-rgb),0.1); }
+.pl-btn--blue-border { border-color: rgba(var(--theme-c1-rgb),0.3) !important; color: var(--theme-c2) !important; }
 
 .pl-toolbar--green {
     background: linear-gradient(135deg,#f0faf0,#e8f5e9);
@@ -5083,13 +5137,13 @@ body.dark-mode #sp-pip-toggle:hover  { background: rgba(29,158,117,0.30); }
 .pl-btn--clear:hover { background: rgba(229,57,53,0.08); }
 .pl-btn--nav {
     background: rgba(255,255,255,0.9);
-    border: 1.5px solid rgba(30,144,255,0.3);
-    color: #1565c0;
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.3);
+    color: var(--theme-c2);
     padding: 5px 13px;
     font-size: 15px;
     line-height: 1;
 }
-.pl-btn--nav:hover { background: rgba(30,144,255,0.1); }
+.pl-btn--nav:hover { background: rgba(var(--theme-c1-rgb),0.1); }
 .pl-btn--nav:disabled { opacity: 0.35; cursor: default; }
 body.dark-mode .pl-btn--nav { background: rgba(255,255,255,0.06); border-color: rgba(30,144,255,0.45); color: #64b5f6; }
 body.dark-mode .pl-btn--nav:hover { background: rgba(30,144,255,0.15); }
@@ -5109,7 +5163,7 @@ body.dark-mode .pl-btn--nav:hover { background: rgba(30,144,255,0.15); }
     font-size: 13px;
     font-weight: 700;
 }
-.pl-now--blue  { background: rgba(30,144,255,0.08); border: 1.5px solid rgba(30,144,255,0.2); color: #1a3a52; }
+.pl-now--blue  { background: rgba(var(--theme-c1-rgb),0.08); border: 1.5px solid rgba(var(--theme-c1-rgb),0.2); color: #1a3a52; }
 .pl-now--green { background: rgba(40,167,69,0.08);  border: 1.5px solid rgba(40,167,69,0.2);  color: #1a3a2a; }
 
 body.dark-mode .pl-toolbar--blue {
@@ -5137,15 +5191,15 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
     width: 97%; max-width: 860px;
     background: linear-gradient(135deg, #0f1923 0%, #1a2d3d 60%, #0d2137 100%);
     border-radius: 16px;
-    border: 1px solid rgba(29,158,117,0.35);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.35);
     overflow: hidden;
     box-shadow: 0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
     direction: rtl;
   }
   body:not(.dark-mode) #ai-assistant-box {
     background: linear-gradient(135deg, #eaf7f3 0%, #f0faf7 60%, #e6f5f0 100%);
-    border: 1px solid rgba(29,158,117,0.3);
-    box-shadow: 0 2px 16px rgba(29,158,117,0.1);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.3);
+    box-shadow: 0 2px 16px rgba(var(--theme-g1-rgb),0.1);
   }
   #ai-assistant-header {
     display: flex;
@@ -5162,12 +5216,12 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
   }
   #ai-assistant-icon {
     width: 30px; height: 30px;
-    background: linear-gradient(135deg, #1D9E75, #0d7a5a);
+    background: linear-gradient(135deg, var(--theme-g1), #0d7a5a);
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     font-size: 16px;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(29,158,117,0.4);
+    box-shadow: 0 2px 8px rgba(var(--theme-g1-rgb),0.4);
   }
   #ai-assistant-title {
     font-size: 13px; font-weight: 700;
@@ -5201,7 +5255,7 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
     gap: 8px;
     padding: 6px 2px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(29,158,117,0.4) transparent;
+    scrollbar-color: rgba(var(--theme-g1-rgb),0.4) transparent;
   }
   .ai-msg {
     max-width: 88%;
@@ -5218,15 +5272,15 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
   }
   .ai-msg.user {
     align-self: flex-start;
-    background: rgba(29,158,117,0.2);
+    background: rgba(var(--theme-g1-rgb),0.2);
     color: #a8f0d8;
     border-bottom-right-radius: 4px;
-    border: 1px solid rgba(29,158,117,0.25);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.25);
   }
   body:not(.dark-mode) .ai-msg.user {
-    background: rgba(29,158,117,0.12);
+    background: rgba(var(--theme-g1-rgb),0.12);
     color: #0d4d38;
-    border: 1px solid rgba(29,158,117,0.2);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.2);
   }
   .ai-msg.bot {
     align-self: flex-end;
@@ -5238,11 +5292,11 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
   body:not(.dark-mode) .ai-msg.bot {
     background: #fff;
     color: #1a3a2e;
-    border: 1px solid rgba(29,158,117,0.15);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.15);
   }
   .ai-msg.bot .ai-bot-label {
     font-size: 10px; font-weight: 700;
-    color: #1D9E75;
+    color: var(--theme-g1);
     display: block;
     margin-bottom: 4px;
     letter-spacing: 0.5px;
@@ -5258,11 +5312,11 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
   }
   body:not(.dark-mode) .ai-typing {
     background: #fff;
-    border: 1px solid rgba(29,158,117,0.15);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.15);
   }
   .ai-typing span {
     width: 6px; height: 6px;
-    background: #1D9E75;
+    background: var(--theme-g1);
     border-radius: 50%;
     animation: aiDot 1.2s infinite;
   }
@@ -5280,7 +5334,7 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
   #ai-user-input {
     flex: 1;
     background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(29,158,117,0.3);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.3);
     border-radius: 10px;
     padding: 9px 12px;
     color: #d0eae3;
@@ -5295,20 +5349,20 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
   body:not(.dark-mode) #ai-user-input {
     background: #fff;
     color: #1a3a2e;
-    border-color: rgba(29,158,117,0.3);
+    border-color: rgba(var(--theme-g1-rgb),0.3);
   }
-  #ai-user-input:focus { border-color: rgba(29,158,117,0.7); }
+  #ai-user-input:focus { border-color: rgba(var(--theme-g1-rgb),0.7); }
   #ai-user-input::placeholder { color: rgba(168,240,216,0.4); }
   body:not(.dark-mode) #ai-user-input::placeholder { color: rgba(13,122,90,0.4); }
   #ai-send-btn {
     width: 38px; height: 38px;
-    background: linear-gradient(135deg, #1D9E75, #0d7a5a);
+    background: linear-gradient(135deg, var(--theme-g1), #0d7a5a);
     border: none; border-radius: 10px;
     color: #fff; font-size: 17px;
     cursor: pointer; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
     transition: opacity 0.2s, transform 0.15s;
-    box-shadow: 0 2px 8px rgba(29,158,117,0.35);
+    box-shadow: 0 2px 8px rgba(var(--theme-g1-rgb),0.35);
   }
   #ai-send-btn:hover { opacity: 0.85; transform: scale(1.05); }
   #ai-send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
@@ -5316,8 +5370,8 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
     display: flex; gap: 6px; flex-wrap: wrap;
   }
   .ai-quick-btn {
-    background: rgba(29,158,117,0.15);
-    border: 1px solid rgba(29,158,117,0.3);
+    background: rgba(var(--theme-g1-rgb),0.15);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.3);
     border-radius: 20px;
     padding: 4px 11px;
     font-size: 11px; color: #a8f0d8;
@@ -5326,10 +5380,10 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
     font-family: inherit;
   }
   body:not(.dark-mode) .ai-quick-btn {
-    background: rgba(29,158,117,0.1);
+    background: rgba(var(--theme-g1-rgb),0.1);
     color: #0d7a5a;
   }
-  .ai-quick-btn:hover { background: rgba(29,158,117,0.3); }
+  .ai-quick-btn:hover { background: rgba(var(--theme-g1-rgb),0.3); }
   #ai-clear-btn {
     background: none; border: none;
     font-size: 11px; color: rgba(168,240,216,0.45);
@@ -13596,7 +13650,7 @@ setTimeout(autoScaleVerseFont, 100);
   width: 17px;
   height: 17px;
   cursor: pointer;
-  accent-color: #1e90ff;
+  accent-color: var(--theme-c1);
   flex-shrink: 0;
   position: relative;
   z-index: 10;
@@ -13632,8 +13686,8 @@ setTimeout(autoScaleVerseFont, 100);
 }
 
 .pl-check-wrap.pl-selected .button {
-  outline: 2.5px solid #1e90ff;
-  background: linear-gradient(135deg, rgba(30,144,255,0.13), rgba(30,144,255,0.04)) !important;
+  outline: 2.5px solid var(--theme-c1);
+  background: linear-gradient(135deg, rgba(var(--theme-c1-rgb),0.13), rgba(var(--theme-c1-rgb),0.04)) !important;
 }
 </style>
 
@@ -13793,222 +13847,17 @@ setTimeout(autoScaleVerseFont, 100);
 
   <div class="color-settings-row">
     <div class="color-setting-item">
-      <label data-ar="🎨 لون الأزرار" data-en="🎨 Button Color" data-fr="🎨 Couleur des boutons" data-es="🎨 Color de los botones" data-sv="🎨 Knappfärg" data-nl="🎨 Knopkleur" data-ga="🎨 Dath na gCnaipí" data-de="🎨 Schaltflächenfarbe" data-ru="🎨 Цвет кнопок" data-tr="🎨 Buton Rengi" data-pt="🎨 Cor dos botões" data-zh="🎨 按钮颜色" data-ur="🎨 بٹن کا رنگ">🎨 لون الأزرار</label>
-      <select id="radioButtonColor" class="responsive-select" onchange="changeRadioButtonColor()">
-    <option data-ar="اختر لونًا" data-en="Choose a color" value="">اختر لونًا</option>
-    <option data-ar="لون علم فلسطين" data-en="(Palestine Flag) Color" value="default" style="background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%);">لون علم فلسطين</option>
-
-    <option data-ar="أسود" data-en="Black" value="#000000" style="background-color:#000000; color: white;">أسود</option>
-    <option data-ar="أسود فاحم" data-en="Jet Black" value="#222222" style="background-color:#222222; color: white;">أسود فاحم</option>
-    <option data-ar="رمادي داكن" data-en="Dark Gray" value="#2f2f2f" style="background-color:#2f2f2f; color: white;">رمادي داكن</option>
-    <option data-ar="رمادي فحمي" data-en="Charcoal Gray" value="#444444" style="background-color:#444444; color: white;">رمادي فحمي</option>
-    <option data-ar="رمادي متوسط" data-en="Medium Gray" value="#808080" style="background-color:#808080; color: white;">رمادي متوسط</option>
-    <option data-ar="رمادي فاتح جداً" data-en="Very Light Gray" value="#d3d3d3" style="background-color:#d3d3d3; color: black;">رمادي فاتح جداً</option>
-    <option data-ar="رمادي فاتح" data-en="Light Gray" value="#f0f0f0" style="background-color:#f0f0f0; color: black;">رمادي فاتح</option>
-    <option data-ar="أبيض" data-en="White" value="#ffffff" style="background-color:#ffffff; color: black;">أبيض</option>
-    <option data-ar="أبيض ثلجي" data-en="Snow White" value="#f8f9fa" style="background-color:#f8f9fa; color: black;">أبيض ثلجي</option>
-    <option data-ar="أبيض رمادي فاتح" data-en="Light Grayish White" value="#eaeaea" style="background-color:#eaeaea; color: black;">أبيض رمادي فاتح</option>
-
-    <option data-ar="أحمر ساطع" data-en="Bright Red" value="#ff0000" style="background-color:#ff0000; color: white;">أحمر ساطع</option>
-    <option data-ar="أحمر باستيل" data-en="Pastel Red" value="#e57373" style="background-color:#e57373; color: black;">أحمر باستيل</option>
-    <option data-ar="أحمر خمري" data-en="Wine Red" value="#b71c1c" style="background-color:#b71c1c; color: white;">أحمر خمري</option>
-    <option data-ar="أحمر طماطم" data-en="Tomato Red" value="#ff6347" style="background-color:#ff6347; color: black;">أحمر طماطم</option>
-    <option data-ar="أحمر فاتح" data-en="Light Red" value="#ff7f7f" style="background-color:#ff7f7f; color: black;">أحمر فاتح</option>
-    <option data-ar="أحمر داكن" data-en="Dark Red" value="#8b0000" style="background-color:#8b0000; color: white;">أحمر داكن</option>
-    <option data-ar="قرمزي" data-en="Crimson" value="#dc143c" style="background-color:#dc143c; color: white;">قرمزي</option>
-    <option data-ar="قرمزي داكن" data-en="Dark Crimson" value="#b22222" style="background-color:#b22222; color: white;">قرمزي داكن</option>
-
-    <option data-ar="أخضر داكن" data-en="Dark Green" value="#008000" style="background-color:#008000; color: white;">أخضر داكن</option>
-    <option data-ar="أخضر متوسط" data-en="Medium Green" value="#43a047" style="background-color:#43a047; color: white;">أخضر متوسط</option>
-    <option data-ar="أخضر فاتح" data-en="Light Green" value="#90ee90" style="background-color:#90ee90; color: black;">أخضر فاتح</option>
-    <option data-ar="أخضر ربيعي" data-en="Spring Green" value="#00ff7f" style="background-color:#00ff7f; color: black;">أخضر ربيعي</option>
-    <option data-ar="أخضر مائي" data-en="Aquamarine" value="#7fffd4" style="background-color:#7fffd4; color: black;">أخضر مائي</option>
-    <option data-ar="أخضر مصفر" data-en="Yellowish Green" value="#adff2f" style="background-color:#adff2f; color: black;">أخضر مصفر</option>
-    <option data-ar="أخضر بحري" data-en="Sea Green" value="#2e8b57" style="background-color:#2e8b57; color: white;">أخضر بحري</option>
-    <option data-ar="أخضر زيتوني داكن" data-en="Dark Olive Green" value="#556b2f" style="background-color:#556b2f; color: white;">أخضر زيتوني داكن</option>
-    <option data-ar="أخضر مائي متوسط" data-en="Medium Aquamarine" value="#20b2aa" style="background-color:#20b2aa; color: white;">أخضر مائي متوسط</option>
-
-    <option data-ar="أزرق" data-en="Blue" value="#0000ff" style="background-color:#0000ff; color: white;">أزرق</option>
-    <option data-ar="أزرق سماوي" data-en="Dodger Blue" value="#1e90ff" style="background-color:#1e90ff; color: white;">أزرق سماوي</option>
-    <option data-ar="أزرق فاتح" data-en="Light Blue" value="#87ceeb" style="background-color:#87ceeb; color: black;">أزرق فاتح</option>
-    <option data-ar="أزرق ملكي داكن" data-en="Dark Royal Blue" value="#1565c0" style="background-color:#1565c0; color: white;">أزرق ملكي داكن</option>
-    <option data-ar="أزرق كحلي" data-en="Navy Blue" value="#000080" style="background-color:#000080; color: white;">أزرق كحلي</option>
-    <option data-ar="أزرق فولاذي" data-en="Steel Blue" value="#4682b4" style="background-color:#4682b4; color: white;">أزرق فولاذي</option>
-    <option data-ar="أزرق أردوازي" data-en="Slate Blue" value="#6a5acd" style="background-color:#6a5acd; color: white;">أزرق أردوازي</option>
-    <option data-ar="أزرق أردوازي داكن" data-en="Dark Slate Blue" value="#483d8b" style="background-color:#483d8b; color: white;">أزرق أردوازي داكن</option>
-    <option data-ar="أزرق كادت" data-en="Cadet Blue" value="#5f9ea0" style="background-color:#5f9ea0; color: white;">أزرق كادت</option>
-    <option data-ar="أزرق فاتح جداً" data-en="Very Light Blue" value="#add8e6" style="background-color:#add8e6; color: black;">أزرق فاتح جداً</option>
-    <option data-ar="أزرق ذرة" data-en="Cornflower Blue" value="#6495ed" style="background-color:#6495ed; color: white;">أزرق ذرة</option>
-    <option data-ar="أزرق داكن" data-en="Dark Blue" value="#2f67d6" style="background-color:#2f67d6; color: white;">أزرق داكن</option>
-
-    <option data-ar="أصفر" data-en="Yellow" value="#ffff00" style="background-color:#ffff00; color: black;">أصفر</option>
-    <option data-ar="أصفر فاتح جداً" data-en="Very Light Yellow" value="#fffacd" style="background-color:#fffacd; color: black;">أصفر فاتح جداً</option>
-    <option data-ar="ذهبي" data-en="Gold" value="#ffd700" style="background-color:#ffd700; color: black;">ذهبي</option>
-    <option data-ar="أصفر أخضر" data-en="Yellow Green" value="#9acd32" style="background-color:#9acd32; color: black;">أصفر أخضر</option>
-
-    <option data-ar="برتقالي" data-en="Orange" value="#ffa500" style="background-color:#ffa500; color: black;">برتقالي</option>
-    <option data-ar="برتقالي عصري" data-en="Modern Orange" value="#ff9800" style="background-color:#ff9800; color: black;">برتقالي عصري</option>
-    <option data-ar="برتقالي داكن" data-en="Dark Orange" value="#ff8c00" style="background-color:#ff8c00; color: black;">برتقالي داكن</option>
-    <option data-ar="برتقالي أحمر" data-en="Orange Red" value="#ff4500" style="background-color:#ff4500; color: white;">برتقالي أحمر</option>
-    <option data-ar="برتقالي فاتح" data-en="Light Orange" value="#ffefd5" style="background-color:#ffefd5; color: black;">برتقالي فاتح</option>
-
-    <option data-ar="بنفسجي داكن" data-en="Dark Purple" value="#800080" style="background-color:#800080; color: white;">بنفسجي داكن</option>
-    <option data-ar="بنفسجي موضة" data-en="Fashion Purple" value="#8e24aa" style="background-color:#8e24aa; color: white;">بنفسجي موضة</option>
-    <option data-ar="بنفسجي باستيل" data-en="Pastel Purple" value="#ce93d8" style="background-color:#ce93d8; color: black;">بنفسجي باستيل</option>
-    <option data-ar="برقوقي" data-en="Plum" value="#dda0dd" style="background-color:#dda0dd; color: black;">برقوقي</option>
-    <option data-ar="بنفسجي مزرق" data-en="Blue Violet" value="#8a2be2" style="background-color:#8a2be2; color: white;">بنفسجي مزرق</option>
-    <option data-ar="أوركيد فاتح" data-en="Light Orchid" value="#da70d6" style="background-color:#da70d6; color: black;">أوركيد فاتح</option>
-    <option data-ar="بنفسجي" data-en="Violet" value="#ee82ee" style="background-color:#ee82ee; color: black;">بنفسجي</option>
-    <option data-ar="بنفسجي متوسط" data-en="Medium Purple" value="#7b68ee" style="background-color:#7b68ee; color: white;">بنفسجي متوسط</option>
-    <option data-ar="ماجنتا داكن" data-en="Dark Magenta" value="#8b008b" style="background-color:#8b008b; color: white;">ماجنتا داكن</option>
-
-    <option data-ar="بني" data-en="Brown" value="#a52a2a" style="background-color:#a52a2a; color: white;">بني</option>
-    <option data-ar="بني فاتح" data-en="Light Brown" value="#deb887" style="background-color:#deb887; color: black;">بني فاتح</option>
-    <option data-ar="بيج بني متوسط" data-en="Medium Nude Brown" value="#bcaaa4" style="background-color:#bcaaa4; color: black;">بيج بني متوسط</option>
-    <option data-ar="بني سروج" data-en="Saddle Brown" value="#8b4513" style="background-color:#8b4513; color: white;">بني سروج</option>
-    <option data-ar="شيكولاتي" data-en="Chocolate" value="#d2691e" style="background-color:#d2691e; color: white;">شيكولاتي</option>
-    <option data-ar="سيينا" data-en="Sienna" value="#a0522d" style="background-color:#a0522d; color: white;">سيينا</option>
-    <option data-ar="بني وردي" data-en="Rosy Brown" value="#bc8f8f" style="background-color:#bc8f8f; color: black;">بني وردي</option>
-
-    <option data-ar="وردي ساطع" data-en="Hot Pink" value="#ff69b4" style="background-color:#ff69b4; color: black;">وردي ساطع</option>
-    <option data-ar="وردي باستيل" data-en="Pastel Pink" value="#ffc1cc" style="background-color:#ffc1cc; color: black;">وردي باستيل</option>
-    <option data-ar="وردي فاتح" data-en="Light Pink" value="#ffb6c1" style="background-color:#ffb6c1; color: black;">وردي فاتح</option>
-    <option data-ar="وردي عميق" data-en="Deep Pink" value="#ff1493" style="background-color:#ff1493; color: white;">وردي عميق</option>
-    <option data-ar="مرجاني فاتح" data-en="Light Coral" value="#f08080" style="background-color:#f08080; color: black;">مرجاني فاتح</option>
-    <option data-ar="وردة ضبابية" data-en="Misty Rose" value="#ffe4e1" style="background-color:#ffe4e1; color: black;">وردة ضبابية</option>
-
-    <option data-ar="أسود - أبيض" data-en="Black - White" value="linear-gradient(to right, #000000, #ffffff)">أسود - أبيض</option>
-    <option data-ar="أحمر - أحمر طماطم" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
-    <option data-ar="أخضر - أخضر مائي" data-en="Green - Aquamarine" value="linear-gradient(to right, #008000, #7fffd4)">أخضر - أخضر مائي</option>
-    <option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
-    <option data-ar="برتقالي - برتقالي أحمر" data-en="Orange - Orange Red" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي أحمر</option>
-    <option data-ar="علم مصر: أحمر - أبيض - أسود" data-en="Egypt Flag: Red - White - Black" value="linear-gradient(to right, #ff0000, #ffffff, #000000)">علم مصر: أحمر - أبيض - أسود</option>
-    <option data-ar="علم فلسطين: أسود - أبيض - أخضر - أحمر" data-en="Palestine Flag: Black - White - Green - Red" value="linear-gradient(to right, #000000, #ffffff, #007a3d, #ff0000)">علم فلسطين: أسود - أبيض - أخضر - أحمر</option>
-
-    <option data-ar="وردي - بنفسجي - أزرق فاتح" data-en="Pink - Purple - Light Blue" value="linear-gradient(90deg, #ffb6c1, #ba68c8, #81d4fa)">وردي - بنفسجي - أزرق فاتح</option>
-
-    <option data-ar="أخضر نعناعي - تركواز - أزرق سماوي" data-en="Mint Green - Turquoise - Sky Blue" value="linear-gradient(90deg, #00ffb3, #40e0d0, #1e90ff)">أخضر نعناعي - تركواز - أزرق سماوي</option>
-
-    <option data-ar="أصفر - برتقالي - أحمر" data-en="Yellow - Orange - Red" value="linear-gradient(90deg, #fff700, #ffc300, #ff5733)">أصفر - برتقالي - أحمر</option>
-
-    <option data-ar="بنفسجي داكن - بنفسجي فاتح - وردي" data-en="Dark Purple - Light Purple - Pink" value="linear-gradient(90deg, #6a1b9a, #9c27b0, #ffb6c1)">بنفسجي داكن - بنفسجي فاتح - وردي</option>
-
-    <option data-ar="نيود رملي - بيج - أبيض" data-en="Sandy Nude - Beige - White" value="linear-gradient(90deg, #e0c097, #ffe0b2, #ffffff)">نيود رملي - بيج - أبيض</option>
-
-    <option data-ar="أزرق داكن - أزرق سماوي - أخضر فاتح" data-en="Dark Blue - Sky Blue - Light Green" value="linear-gradient(90deg, #1565c0, #1e90ff, #7fffd4)">أزرق داكن - أزرق سماوي - أخضر فاتح</option>
-
-    <option data-ar="رمادي فاتح - أبيض - ذهبي" data-en="Light Gray - White - Gold" value="linear-gradient(90deg, #f0f0f0, #ffffff, #ffd700)">رمادي فاتح - أبيض - ذهبي</option>
-
-    <option data-ar="أخضر زيتوني - أخضر ربيعي - أصفر ليموني" data-en="Olive Green - Spring Green - Lemon Yellow" value="linear-gradient(90deg, #556b2f, #adff2f, #ffea00)">أخضر زيتوني - أخضر ربيعي - أصفر ليموني</option>
-
-    <option data-ar="بني - بيج - وردي فاتح" data-en="Brown - Beige - Light Pink" value="linear-gradient(90deg, #8d5524, #c68642, #ffe4ec)">بني - بيج - وردي فاتح</option>
-
-    <option data-ar="بنفسجي - أزرق - تركواز - أخضر" data-en="Purple - Blue - Turquoise - Green" value="linear-gradient(90deg, #800080, #0000ff, #40e0d0, #00ff7f)">بنفسجي - أزرق - تركواز - أخضر</option>
-
-    <option data-ar="أحمر - أحمر طماطم" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
-
-    <option data-ar="أخضر - أخضر مائي" data-en="Green - Aquamarine" value="linear-gradient(to right, #008000, #7fffd4)">أخضر - أخضر مائي</option>
-
-    <option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
-
-    <option data-ar="برتقالي - برتقالي أحمر" data-en="Orange - Orange Red" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي أحمر</option>
-
-    <option data-ar="بنفسجي - برقوقي" data-en="Purple - Plum" value="linear-gradient(to right, #800080, #dda0dd)">بنفسجي - برقوقي</option>
-
-    <option data-ar="بني - أرجواني" data-en="Brown - Purple" value="linear-gradient(to right, #a52a2a, #8a2be2)">بني - أرجواني</option>
-
-    <option data-ar="رمادي فاتح - بنفسجي فاتح" data-en="Light Gray - Light Purple" value="linear-gradient(to right, #f0f0f0, #ee82ee)">رمادي فاتح - بنفسجي فاتح</option>
-
-    <option data-ar="تركواز - أخضر ربيعي" data-en="Turquoise - Spring Green" value="linear-gradient(to right, #40e0d0, #00ff7f)">تركواز - أخضر ربيعي</option>
-
-    <option data-ar="أحمر - قرمزي" data-en="Red - Crimson" value="linear-gradient(to right, #ff0000, #dc143c)">أحمر - قرمزي</option>
-
-    <option data-ar="أحمر - أحمر طماطم" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
-
-    <option data-ar="قرمزي - وردي فاتح" data-en="Crimson - Light Pink" value="linear-gradient(to right, #e63946, #ffb6c1)">قرمزي - وردي فاتح</option>
-
-    <option data-ar="برتقالي - برتقالي أحمر" data-en="Orange - Orange Red" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي أحمر</option>
-
-    <option data-ar="برتقالي - ذهبي" data-en="Orange - Gold" value="linear-gradient(to right, #ffa500, #ffd700)">برتقالي - ذهبي</option>
-
-    <option data-ar="برتقالي فاتح - بيج" data-en="Light Orange - Beige" value="linear-gradient(to right, #f4a460, #ffe4b5)">برتقالي فاتح - بيج</option>
-
-    <option data-ar="أصفر - ذهبي" data-en="Yellow - Gold" value="linear-gradient(to right, #ffff00, #ffd700)">أصفر - ذهبي</option>
-
-    <option data-ar="أخضر ربيعي - أصفر ليموني" data-en="Spring Green - Lemon Yellow" value="linear-gradient(to right, #adff2f, #ffea00)">أخضر ربيعي - أصفر ليموني</option>
-
-    <option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
-
-    <option data-ar="أزرق سماوي - أزرق فاتح" data-en="Sky Blue - Light Blue" value="linear-gradient(to right, #1e90ff, #87ceeb)">أزرق سماوي - أزرق فاتح</option>
-
-    <option data-ar="أزرق بحري - تركواز" data-en="Navy Blue - Turquoise" value="linear-gradient(to right, #0077b6, #00b4d8)">أزرق بحري - تركواز</option>
-
-    <option data-ar="أزرق داكن - أزرق سماوي" data-en="Dark Blue - Sky Blue" value="linear-gradient(to right, #1565c0, #1e90ff)">أزرق داكن - أزرق سماوي</option>
-
-    <option data-ar="بنفسجي - برقوقي" data-en="Purple - Plum" value="linear-gradient(to right, #800080, #dda0dd)">بنفسجي - برقوقي</option>
-
-    <option data-ar="بنفسجي داكن - بنفسجي فاتح" data-en="Dark Purple - Light Purple" value="linear-gradient(to right, #6a1b9a, #9c27b0)">بنفسجي داكن - بنفسجي فاتح</option>
-
-    <option data-ar="أرجواني - بنفسجي فاتح" data-en="Purple - Light Violet" value="linear-gradient(to right, #8a2be2, #d8bfd8)">أرجواني - بنفسجي فاتح</option>
-
-    <option data-ar="رمادي فاتح - بنفسجي فاتح" data-en="Light Gray - Light Purple" value="linear-gradient(to right, #f0f0f0, #ee82ee)">رمادي فاتح - بنفسجي فاتح</option>
-
-    <option data-ar="رمادي متوسط - فضي" data-en="Medium Gray - Silver" value="linear-gradient(to right, #a9a9a9, #d3d3d3)">رمادي متوسط - فضي</option>
-
-    <option data-ar="رمادي داكن - رمادي فاتح" data-en="Dark Gray - Light Gray" value="linear-gradient(to right, #696969, #f0f0f0)">رمادي داكن - رمادي فاتح</option>
-
-    <option data-ar="بني - أرجواني" data-en="Brown - Purple" value="linear-gradient(to right, #a52a2a, #8a2be2)">بني - أرجواني</option>
-
-    <option data-ar="بني - بيج" data-en="Brown - Beige" value="linear-gradient(to right, #8d5524, #c68642)">بني - بيج</option>
-
-    <option data-ar="بني شوكولاتة - برونزي" data-en="Chocolate Brown - Bronze" value="linear-gradient(to right, #5e3023, #d2691e)">بني شوكولاتة - برونزي</option>
-
-    <option data-ar="بيج - بيج ذهبي" data-en="Beige - Golden Beige" value="linear-gradient(to right, #f5f5dc, #ffe4b5)">بيج - بيج ذهبي</option>
-
-    <option data-ar="ذهبي - أصفر فاتح" data-en="Gold - Light Yellow" value="linear-gradient(to right, #ffd700, #fffacd)">ذهبي - أصفر فاتح</option>
-
-    <option data-ar="رمادي فاتح - أبيض" data-en="Light Gray - White" value="linear-gradient(to right, #f0f0f0, #ffffff)">رمادي فاتح - أبيض</option>
-
-    <option data-ar="وردي فاتح - أزرق سماوي" data-en="Light Pink - Sky Blue" value="linear-gradient(to right, #ff6b6b, #a0e7ff)">وردي فاتح - أزرق سماوي</option>
-
-    <option data-ar="أخضر فاتح - برتقالي فاتح" data-en="Light Green - Light Orange" value="linear-gradient(to right, #a8e6cf, #ffd3b6)">أخضر فاتح - برتقالي فاتح</option>
-
-    <option data-ar="بنفسجي فاتح - أصفر ذهبي" data-en="Light Purple - Golden Yellow" value="linear-gradient(to right, #d4a5ff, #ffd6a5)">بنفسجي فاتح - أصفر ذهبي</option>
-
-    <option data-ar="وردي محروق - وردي فاتح" data-en="Burnt Pink - Light Pink" value="linear-gradient(to right, #ff9a8b, #fecfef)">وردي محروق - وردي فاتح</option>
-
-    <option data-ar="تركواز فاتح - وردي فاتح" data-en="Light Turquoise - Light Pink" value="linear-gradient(to right, #a8edea, #fed6e3)">تركواز فاتح - وردي فاتح</option>
-
-    <option data-ar="وردي فاتح - أصفر ذهبي - أخضر مائي" data-en="Light Pink - Golden Yellow - Aquamarine" value="linear-gradient(to right, #FF6B6B, #FFD166, #06D6A0)">وردي فاتح - أصفر ذهبي - أخضر مائي</option>
-
-    <option data-ar="أزرق سماوي - بنفسجي - وردي قاني" data-en="Sky Blue - Purple - Deep Pink" value="linear-gradient(to right, #4CC9F0, #7209B7, #F72585)">أزرق سماوي - بنفسجي - وردي قاني</option>
-
-    <option data-ar="أزرق داكن - أزرق متوسط - أزرق فاتح" data-en="Dark Blue - Medium Blue - Light Blue" value="linear-gradient(to right, #112D4E, #3F72AF, #DBE2EF)">أزرق داكن - أزرق متوسط - أزرق فاتح</option>
-
-    <option data-ar="بيج - قرمزي - أحمر داكن" data-en="Beige - Crimson - Dark Red" value="linear-gradient(to right, #F9F7F7, #DB4C40, #A30000)">بيج - قرمزي - أحمر داكن</option>
-
-    <option data-ar="أخضر فاتح - برتقالي فاتح - وردي فاتح" data-en="Light Green - Light Orange - Light Pink" value="linear-gradient(to right, #A8E6CF, #FFD3B6, #FFAAA5)">أخضر فاتح - برتقالي فاتح - وردي فاتح</option>
-
-    <option data-ar="أحمر - برتقالي - ذهبي - أصفر" data-en="Red - Orange - Gold - Yellow" value="linear-gradient(to right, #FF0000, #FF8C00, #FFD700, #FFFF00)">أحمر - برتقالي - ذهبي - أصفر</option>
-
-    <option data-ar="تركواز - أزرق فاتح - أزرق سماوي - أبيض" data-en="Turquoise - Light Blue - Sky Blue - White" value="linear-gradient(to right, #00B4D8, #90E0EF, #CAF0F8, #FFFFFF)">تركواز - أزرق فاتح - أزرق سماوي - أبيض</option>
-
-    <option data-ar="بورجوندي - قرمزي - وردي قاني - وردي فاتح" data-en="Burgundy - Crimson - Deep Pink - Light Pink" value="linear-gradient(to right, #8B0000, #DC143C, #FF69B4, #FFB6C1)">بورجوندي - قرمزي - وردي قاني - وردي فاتح</option>
-
-    <option data-ar="بنفسجي داكن - أرجواني - بنفسجي متوسط - برقوقي" data-en="Dark Purple - Purple - Medium Purple - Plum" value="linear-gradient(to right, #4B0082, #8A2BE2, #9370DB, #DDA0DD)">بنفسجي داكن - أرجواني - بنفسجي متوسط - برقوقي</option>
-
-    <option data-ar="رمادي داكن - رمادي متوسط - رمادي فاتح - فضي" data-en="Dark Gray - Medium Gray - Light Gray - Silver" value="linear-gradient(to right, #2F4F4F, #696969, #A9A9A9, #D3D3D3)">رمادي داكن - رمادي متوسط - رمادي فاتح - فضي</option>
-
-    <option data-ar="برتقالي أحمر - ذهبي - أصفر فاتح - أخضر مائي" data-en="Orange Red - Gold - Light Yellow - Aquamarine" value="linear-gradient(to right, #FF6B35, #F7931E, #FFD166, #06D6A0)">برتقالي أحمر - ذهبي - أصفر فاتح - أخضر مائي</option>
-
-    <option data-ar="أزرق بحري - تركواز - أزرق فاتح - أزرق سماوي" data-en="Navy Blue - Turquoise - Light Blue - Sky Blue" value="linear-gradient(to right, #0077B6, #00B4D8, #90E0EF, #CAF0F8)">أزرق بحري - تركواز - أزرق فاتح - أزرق سماوي</option>
-
-    <option data-ar="قرمزي - برتقالي فاتح - أصفر - أخضر فاتح" data-en="Crimson - Light Orange - Yellow - Light Green" value="linear-gradient(to right, #E63946, #F1C27B, #FFE66D, #BCE784)">قرمزي - برتقالي فاتح - أصفر - أخضر فاتح</option>
-
-    <option data-ar="بني شوكولاتة - برونزي - برتقالي فاتح - بيج" data-en="Chocolate Brown - Bronze - Light Orange - Beige" value="linear-gradient(to right, #5E3023, #D2691E, #F4A460, #FFDAB9)">بني شوكولاتة - برونزي - برتقالي فاتح - بيج</option>
-
-    <option data-ar="أزرق ليلي - أزرق داكن - أزرق سماوي - وردي قاني" data-en="Midnight Blue - Dark Blue - Sky Blue - Deep Pink" value="linear-gradient(to right, #1A1A2E, #16213E, #4CC9F0, #F72585)">أزرق ليلي - أزرق داكن - أزرق سماوي - وردي قاني</option>
-</select>
+      <label data-ar="🎨 المظهر" data-en="🎨 Theme" data-fr="🎨 Thème" data-es="🎨 Tema" data-sv="🎨 Tema" data-nl="🎨 Thema" data-ga="🎨 Téama" data-de="🎨 Design" data-ru="🎨 Тема" data-tr="🎨 Tema" data-pt="🎨 Tema" data-zh="🎨 主题" data-ur="🎨 تھیم">🎨 المظهر</label>
+      <select id="siteTheme" class="responsive-select" onchange="changeSiteTheme()">
+    <option data-ar="اختر مظهرًا" data-en="Choose a theme" value="">اختر مظهرًا</option>
+    <option data-ar="🌿 الافتراضي" data-en="🌿 Default" value="default" style="background-color:#ffffff; color:#2c3e50;">🌿 الافتراضي</option>
+    <option data-ar="🇵🇸 علم فلسطين" data-en="🇵🇸 Palestine Flag" value="palestine" style="background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%); color:#fff;">🇵🇸 علم فلسطين</option>
+    <option data-ar="🌙 الوضع الليلي" data-en="🌙 Dark Mode" value="dark" style="background-color:#1e1e2e; color:#fff;">🌙 الوضع الليلي</option>
+    <option data-ar="💧 أزرق هادئ" data-en="💧 Calm Blue" value="sky" style="background-color:#6B8CAE; color:#fff;">💧 أزرق هادئ</option>
+    <option data-ar="💚 أخضر سلفي" data-en="💚 Sage Green" value="emerald" style="background-color:#7A9E8E; color:#fff;">💚 أخضر سلفي</option>
+    <option data-ar="🌟 عسلي دافئ" data-en="🌟 Honey Gold" value="amber" style="background-color:#C2A05A; color:#fff;">🌟 عسلي دافئ</option>
+    <option data-ar="⚫ رمادي أنيق" data-en="⚫ Elegant Slate" value="slate" style="background-color:#8792A2; color:#fff;">⚫ رمادي أنيق</option>
+      </select>
     </div>
     <div class="color-setting-item" id="settings-lang-item">
       <button id="settingsLangToggle" onclick="toggleLanguage()">
@@ -14021,178 +13870,6 @@ setTimeout(autoScaleVerseFont, 100);
         <span id="settingsShortcutsIcon" style="font-weight:700;font-size:16px;">?</span>
         <span id="settingsShortcutsText" data-ar="الاختصارات" data-en="Shortcuts" data-fr="Raccourcis" data-es="Atajos" data-sv="Genvägar" data-nl="Sneltoetsen" data-ga="Aicearraí" data-de="Tastenkombinationen" data-ru="Горячие клавиши" data-tr="Kısayollar" data-pt="Atalhos" data-zh="快捷键" data-ur="شارٹ کٹس">الاختصارات</span>
       </button>
-    </div>
-    <div class="color-setting-item">
-      <label data-ar="🖼️ لون الخلفية" data-en="🖼️ Background Color" data-fr="🖼️ Couleur d'arrière-plan" data-es="🖼️ Color de fondo" data-sv="🖼️ Bakgrundsfärg" data-nl="🖼️ Achtergrondkleur" data-ga="🖼️ Dath an Chúlra" data-de="🖼️ Hintergrundfarbe" data-ru="🖼️ Цвет фона" data-tr="🖼️ Arkaplan Rengi" data-pt="🖼️ Cor de fundo" data-zh="🖼️ 背景颜色" data-ur="🖼️ پس منظر کا رنگ">🖼️ لون الخلفية</label>
-      <select id="bgColor" class="responsive-select" onchange="changeBackgroundColor()">
-        <option data-ar="اختر لونًا" data-en="Choose a color" value="">اختر لونًا</option>
-<option data-ar="🌙 Dark Mode" data-en="🌙 Dark Mode" value="dark">🌙 Dark Mode</option>
-
-        <option data-ar="أبيض" data-en="White" value="#ffffff" style="background-color: #ffffff; color: black;">أبيض</option>
-        <option data-ar="أبيض ثلجي" data-en="Snow White" value="#f8f9fa" style="background-color: #f8f9fa; color: black;">أبيض ثلجي</option>
-        <option data-ar="أبيض رمادي فاتح" data-en="Light Grayish White" value="#eaeaea" style="background-color: #eaeaea; color: black;">أبيض رمادي فاتح</option>
-
-        <option data-ar="رمادي فاتح جداً" data-en="Very Light Gray" value="#f0f0f0" style="background-color: #f0f0f0; color: black;">رمادي فاتح جداً</option>
-        <option data-ar="رمادي فاتح" data-en="Light Gray" value="#dcdcdc" style="background-color: #dcdcdc; color: black;">رمادي فاتح</option>
-        <option data-ar="رمادي متوسط" data-en="Medium Gray" value="#c0c0c0" style="background-color: #c0c0c0; color: black;">رمادي متوسط</option>
-        <option data-ar="رمادي" data-en="Gray" value="#808080" style="background-color: #808080; color: white;">رمادي</option>
-        <option data-ar="رمادي غامق" data-en="Dark Gray" value="#555555" style="background-color: #555555; color: white;">رمادي غامق</option>
-
-        <option data-ar="أسود" data-en="Black" value="#000000" style="background-color: #000000; color: white;">أسود</option>
-        <option data-ar="أسود فاحم" data-en="Jet Black" value="#222222" style="background-color: #222222; color: white;">أسود فاحم</option>
-
-        <option data-ar="أزرق" data-en="Blue" value="#0000ff" style="background-color: #0000ff; color: white;">أزرق</option>
-        <option data-ar="أزرق سماوي" data-en="Sky Blue" value="#1e90ff" style="background-color: #1e90ff; color: white;">أزرق سماوي</option>
-        <option data-ar="أزرق فاتح" data-en="Light Blue" value="#87ceeb" style="background-color: #87ceeb; color: black;">أزرق فاتح</option>
-        <option data-ar="أزرق فاتح جداً" data-en="Very Light Blue" value="#add8e6" style="background-color: #add8e6; color: black;">أزرق فاتح جداً</option>
-        <option data-ar="أزرق ملكي" data-en="Royal Blue" value="#6495ed" style="background-color: #6495ed; color: white;">أزرق ملكي</option>
-
-        <option data-ar="أخضر" data-en="Green" value="#008000" style="background-color: #008000; color: white;">أخضر</option>
-        <option data-ar="أخضر فاتح" data-en="Light Green" value="#90ee90" style="background-color: #90ee90; color: black;">أخضر فاتح</option>
-        <option data-ar="أخضر فاتح جداً" data-en="Very Light Green" value="#98fb98" style="background-color: #98fb98; color: black;">أخضر فاتح جداً</option>
-        <option data-ar="أخضر معتدل" data-en="Medium Green" value="#20b2aa" style="background-color: #20b2aa; color: white;">أخضر معتدل</option>
-
-        <option data-ar="أحمر" data-en="Red" value="#ff0000" style="background-color: #ff0000; color: white;">أحمر</option>
-        <option data-ar="أحمر فاتح" data-en="Light Red" value="#ff7f7f" style="background-color: #ff7f7f; color: black;">أحمر فاتح</option>
-        <option data-ar="أحمر باستيل" data-en="Pastel Red" value="#e57373" style="background-color: #e57373; color: black;">أحمر باستيل</option>
-        <option data-ar="أحمر خمري" data-en="Wine Red" value="#b71c1c" style="background-color: #b71c1c; color: white;">أحمر خمري</option>
-
-        <option data-ar="برتقالي" data-en="Orange" value="#ffa500" style="background-color: #ffa500; color: black;">برتقالي</option>
-        <option data-ar="برتقالي عصري" data-en="Modern Orange" value="#ff9800" style="background-color: #ff9800; color: black;">برتقالي عصري</option>
-        <option data-ar="برتقالي مُحمر (طماطم)" data-en="Tomato Orange" value="#ff6347" style="background-color: #ff6347; color: black;">برتقالي مُحمر (طماطم)</option>
-
-        <option data-ar="أصفر" data-en="Yellow" value="#ffff00" style="background-color: #ffff00; color: black;">أصفر</option>
-        <option data-ar="أصفر فاتح جداً" data-en="Very Light Yellow" value="#fffacd" style="background-color: #fffacd; color: black;">أصفر فاتح جداً</option>
-        <option data-ar="ذهبي" data-en="Gold" value="#ffd700" style="background-color: #ffd700; color: black;">ذهبي</option>
-
-        <option data-ar="بنفسجي" data-en="Purple" value="#800080" style="background-color: #800080; color: white;">بنفسجي</option>
-        <option data-ar="أرجواني" data-en="Violet" value="#8a2be2" style="background-color: #8a2be2; color: white;">أرجواني</option>
-        <option data-ar="برقوقي فاتح" data-en="Light Plum" value="#dda0dd" style="background-color: #dda0dd; color: black;">برقوقي فاتح</option>
-
-        <option data-ar="وردي فاتح عصري" data-en="Modern Light Pink" value="#ff69b4" style="background-color: #ff69b4; color: black;">وردي فاتح عصري</option>
-        <option data-ar="زهري فاتح" data-en="Light Rose" value="#ffb6c1" style="background-color: #ffb6c1; color: black;">زهري فاتح</option>
-
-        <option data-ar="نيود فاتح" data-en="Light Nude" value="#fbe9e7" style="background-color: #fbe9e7; color: black;">نيود فاتح</option>
-        <option data-ar="بيج فاتح عصري" data-en="Modern Light Beige" value="#ffe0b2" style="background-color: #ffe0b2; color: black;">بيج فاتح عصري</option>
-        <option data-ar="بيج" data-en="Beige" value="#f5f5dc" style="background-color: #f5f5dc; color: black;">بيج</option>
-
-        <option data-ar="أسود - أبيض" data-en="Black - White" value="linear-gradient(to right, #000000, #ffffff)">أسود - أبيض</option>
-        <option data-ar="أحمر - أحمر طما" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طما</option>
-        <option data-ar="أخضر - أخضر مائي" data-en="Green - Aquamarine" value="linear-gradient(to right, #008000, #7fffd4)">أخضر - أخضر مائي</option>
-        <option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
-        <option data-ar="برتقالي - برتقالي محروق" data-en="Orange - Burnt Orange" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي محروق</option>
-
-        <option data-ar="بني" data-en="Brown" value="#a52a2a" style="background-color: #a52a2a; color: white;">بني</option>
-
-        <option data-ar="لون خفيف" data-en="Light Tone" value="#f5f2e6" style="background-color: #f5f2e6; color: black;">لون خفيف</option>
-        <option data-ar="قمح" data-en="Wheat" value="#f5deb3" style="background-color: #f5deb3; color: black;">قمح</option>
-        <option data-ar="وردي معتدل" data-en="Moderate Pink" value="#f08080" style="background-color: #f08080; color: black;">وردي معتدل</option>
-        <option data-ar="رمادي فاتح جداً" data-en="Very Light Gray" value="#d3d3d3" style="background-color: #d3d3d3; color: black;">رمادي فاتح جداً</option>
-        <option data-ar="خوخي" data-en="Peach" value="#ffdab9" style="background-color: #ffdab9; color: black;">خوخي</option>
-        <option data-ar="لافندر" data-en="Lavender" value="#e6e6fa" style="background-color: #e6e6fa; color: black;">لافندر</option>
-        <option data-ar="أنتيك وايت" data-en="Antique White" value="#faebd7" style="background-color: #faebd7; color: black;">أنتيك وايت</option>
-        <option data-ar="بني فاتح" data-en="Light Brown" value="#deb887" style="background-color: #deb887; color: black;">بني فاتح</option>
-        <option data-ar="برتقالي فاتح" data-en="Light Orange" value="#ffefd5" style="background-color: #ffefd5; color: black;">برتقالي فاتح</option>
-        <option data-ar="ذهبي" data-en="Gold" value="#ffd700" style="background-color: #ffd700; color: black;">ذهبي</option>
-        <option data-ar="فيروز" data-en="Turquoise" value="#00ced1" style="background-color: #00ced1; color: black;">فيروز</option>
-        <option data-ar="قرمزي" data-en="Crimson" value="#dc143c" style="background-color: #dc143c; color: white;">قرمزي</option>
-        <option data-ar="شيكولاتي" data-en="Chocolate" value="#d2691e" style="background-color: #d2691e; color: white;">شيكولاتي</option>
-        <option data-ar="قرمزي داكن" data-en="Dark Crimson" value="#b22222" style="background-color: #b22222; color: white;">قرمزي داكن</option>
-        <option data-ar="خشب الساج الفاتح" data-en="Light Teak Wood" value="#ffdead" style="background-color: #ffdead; color: black;">خشب الساج الفاتح</option>
-        <option data-ar="أزرق فولاذي" data-en="Steel Blue" value="#4682b4" style="background-color: #4682b4; color: white;">أزرق فولاذي</option>
-        <option data-ar="أرجواني فاتح" data-en="Light Violet" value="#da70d6" style="background-color: #da70d6; color: black;">أرجواني فاتح</option>
-        <option data-ar="أزرق أردوازي متوسط" data-en="Medium Slate Blue" value="#7b68ee" style="background-color: #7b68ee; color: white;">أزرق أردوازي متوسط</option>
-        <option data-ar="أزرق أردوازي" data-en="Slate Blue" value="#6a5acd" style="background-color: #6a5acd; color: white;">أزرق أردوازي</option>
-        <option data-ar="بني سروج" data-en="Saddle Brown" value="#8b4513" style="background-color: #8b4513; color: white;">بني سروج</option>
-        <option data-ar="ماجنتا" data-en="Magenta" value="#ff00ff" style="background-color: #ff00ff; color: black;">ماجنتا</option>
-        <option data-ar="أرجواني" data-en="Violet" value="#8a2be2" style="background-color: #8a2be2; color: white;">أرجواني</option>
-        <option data-ar="برتقالي محروق" data-en="Burnt Orange" value="#ff4500" style="background-color: #ff4500; color: white;">برتقالي محروق</option>
-        <option data-ar="أخضر ربيعي" data-en="Spring Green" value="#00ff7f" style="background-color: #00ff7f; color: black;">أخضر ربيعي</option>
-        <option data-ar="زهري عميق" data-en="Deep Pink" value="#ff1493" style="background-color: #ff1493; color: white;">زهري عميق</option>
-        <option data-ar="أزرق سماوي" data-en="Sky Blue" value="#1e90ff" style="background-color: #1e90ff; color: white;">أزرق سماوي</option>
-        <option data-ar="فيروزي داكن" data-en="Dark Turquoise" value="#00ced1" style="background-color: #00ced1; color: black;">فيروزي داكن</option>
-        <option data-ar="أزرق كحلي" data-en="Navy Blue" value="#000080" style="background-color: #000080; color: white;">أزرق كحلي</option>
-        <option data-ar="برتقالي داكن" data-en="Dark Orange" value="#ff8c00" style="background-color: #ff8c00; color: black;">برتقالي داكن</option>
-        <option data-ar="أخضر مصفر" data-en="Yellowish Green" value="#adff2f" style="background-color: #adff2f; color: black;">أخضر مصفر</option>
-
-<option data-ar="علم مصر: أحمر - أبيض - أسود" data-en="Egypt Flag: Red - White - Black" value="linear-gradient(to right, #ff0000, #ffffff, #000000)">علم مصر: أحمر - أبيض - أسود</option>
-<option data-ar="علم فلسطين: أسود - أبيض - أخضر - أحمر" data-en="Palestine Flag: Black - White - Green - Red" value="linear-gradient(to right, #000000, #ffffff, #007a3d, #ff0000)">علم فلسطين: أسود - أبيض - أخضر - أحمر</option>
-
-<option data-ar="وردي - بنفسجي - أزرق فاتح" data-en="Pink - Purple - Light Blue" value="linear-gradient(90deg, #ffb6c1, #ba68c8, #81d4fa)">وردي - بنفسجي - أزرق فاتح</option>
-
-<option data-ar="أخضر نعناعي - تركواز - أزرق سماوي" data-en="Mint Green - Turquoise - Sky Blue" value="linear-gradient(90deg, #00ffb3, #40e0d0, #1e90ff)">أخضر نعناعي - تركواز - أزرق سماوي</option>
-
-<option data-ar="أصفر - برتقالي - أحمر" data-en="Yellow - Orange - Red" value="linear-gradient(90deg, #fff700, #ffc300, #ff5733)">أصفر - برتقالي - أحمر</option>
-
-<option data-ar="بنفسجي غامق - بنفسجي فاتح - وردي" data-en="Dark Purple - Light Purple - Pink" value="linear-gradient(90deg, #6a1b9a, #9c27b0, #ffb6c1)">بنفسجي غامق - بنفسجي فاتح - وردي</option>
-
-<option data-ar="نيود رملي - بيج - أبيض" data-en="Sandy Nude - Beige - White" value="linear-gradient(90deg, #e0c097, #ffe0b2, #ffffff)">نيود رملي - بيج - أبيض</option>
-
-<option data-ar="أزرق داكن - أزرق سماوي - أخضر فاتح" data-en="Dark Blue - Sky Blue - Light Green" value="linear-gradient(90deg, #1565c0, #1e90ff, #7fffd4)">أزرق داكن - أزرق سماوي - أخضر فاتح</option>
-
-<option data-ar="رمادي فاتح - أبيض - ذهبي" data-en="Light Gray - White - Gold" value="linear-gradient(90deg, #f0f0f0, #ffffff, #ffd700)">رمادي فاتح - أبيض - ذهبي</option>
-
-<option data-ar="أخضر زيتوني - أخضر ربيعي - أصفر ليموني" data-en="Olive Green - Spring Green - Lemon Yellow" value="linear-gradient(90deg, #556b2f, #adff2f, #ffea00)">أخضر زيتوني - أخضر ربيعي - أصفر ليموني</option>
-
-<option data-ar="بني - بيج - وردي فاتح" data-en="Brown - Beige - Light Pink" value="linear-gradient(90deg, #8d5524, #c68642, #ffe4ec)">بني - بيج - وردي فاتح</option>
-
-<option data-ar="بنفسجي - أزرق - تركواز - أخضر" data-en="Purple - Blue - Turquoise - Green" value="linear-gradient(90deg, #800080, #0000ff, #40e0d0, #00ff7f)">بنفسجي - أزرق - تركواز - أخضر</option>
-
-<option data-ar="أحمر - أحمر طماطم" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
-<option data-ar="أخضر - أخضر مائي" data-en="Green - Aquamarine" value="linear-gradient(to right, #008000, #7fffd4)">أخضر - أخضر مائي</option>
-<option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
-<option data-ar="برتقالي - برتقالي محروق" data-en="Orange - Burnt Orange" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي محروق</option>
-<option data-ar="بنفسجي - برقوقي فاتح" data-en="Purple - Light Plum" value="linear-gradient(to right, #800080, #dda0dd)">بنفسجي - برقوقي فاتح</option>
-<option data-ar="بني - أرجواني" data-en="Brown - Violet" value="linear-gradient(to right, #a52a2a, #8a2be2)">بني - أرجواني</option>
-<option data-ar="رمادي فاتح - بنفسجي فاتح" data-en="Light Gray - Light Purple" value="linear-gradient(to right, #f0f0f0, #ee82ee)">رمادي فاتح - بنفسجي فاتح</option>
-<option data-ar="تركواز - أخضر ربيعي" data-en="Turquoise - Spring Green" value="linear-gradient(to right, #40e0d0, #00ff7f)">تركواز - أخضر ربيعي</option>
-<option data-ar="أحمر - أحمر قاني" data-en="Red - Crimson" value="linear-gradient(to right, #ff0000, #dc143c)">أحمر - أحمر قاني</option>
-<option data-ar="أحمر - أحمر طماطم" data-en="Red - Tomato Red" value="linear-gradient(to right, #ff0000, #ff6347)">أحمر - أحمر طماطم</option>
-<option data-ar="أحمر قاني - وردي فاتح" data-en="Crimson - Light Pink" value="linear-gradient(to right, #e63946, #ffb6c1)">أحمر قاني - وردي فاتح</option>
-<option data-ar="برتقالي - برتقالي محروق" data-en="Orange - Burnt Orange" value="linear-gradient(to right, #ffa500, #ff4500)">برتقالي - برتقالي محروق</option>
-<option data-ar="برتقالي - ذهبي" data-en="Orange - Gold" value="linear-gradient(to right, #ffa500, #ffd700)">برتقالي - ذهبي</option>
-<option data-ar="برتقالي فاتح - بيج" data-en="Light Orange - Beige" value="linear-gradient(to right, #f4a460, #ffe4b5)">برتقالي فاتح - بيج</option>
-<option data-ar="أصفر - ذهبي" data-en="Yellow - Gold" value="linear-gradient(to right, #ffff00, #ffd700)">أصفر - ذهبي</option>
-<option data-ar="أخضر ربيعي - أصفر ليموني" data-en="Spring Green - Lemon Yellow" value="linear-gradient(to right, #adff2f, #ffea00)">أخضر ربيعي - أصفر ليموني</option>
-<option data-ar="أزرق - تركواز" data-en="Blue - Turquoise" value="linear-gradient(to right, #0000ff, #40e0d0)">أزرق - تركواز</option>
-<option data-ar="أزرق سماوي - أزرق فاتح" data-en="Sky Blue - Light Blue" value="linear-gradient(to right, #1e90ff, #87ceeb)">أزرق سماوي - أزرق فاتح</option>
-<option data-ar="أزرق بحري - تركواز" data-en="Navy Blue - Turquoise" value="linear-gradient(to right, #0077b6, #00b4d8)">أزرق بحري - تركواز</option>
-<option data-ar="أزرق داكن - أزرق سماوي" data-en="Dark Blue - Sky Blue" value="linear-gradient(to right, #1565c0, #1e90ff)">أزرق داكن - أزرق سماوي</option>
-<option data-ar="بنفسجي - برقوقي فاتح" data-en="Purple - Light Plum" value="linear-gradient(to right, #800080, #dda0dd)">بنفسجي - برقوقي فاتح</option>
-<option data-ar="بنفسجي غامق - بنفسجي فاتح" data-en="Dark Purple - Light Purple" value="linear-gradient(to right, #6a1b9a, #9c27b0)">بنفسجي غامق - بنفسجي فاتح</option>
-<option data-ar="أرجواني - بنفسجي فاتح" data-en="Violet - Light Purple" value="linear-gradient(to right, #8a2be2, #d8bfd8)">أرجواني - بنفسجي فاتح</option>
-<option data-ar="رمادي فاتح - بنفسجي فاتح" data-en="Light Gray - Light Purple" value="linear-gradient(to right, #f0f0f0, #ee82ee)">رمادي فاتح - بنفسجي فاتح</option>
-<option data-ar="رمادي متوسط - فضي" data-en="Medium Gray - Silver" value="linear-gradient(to right, #a9a9a9, #d3d3d3)">رمادي متوسط - فضي</option>
-<option data-ar="رمادي داكن - رمادي فاتح" data-en="Dark Gray - Light Gray" value="linear-gradient(to right, #696969, #f0f0f0)">رمادي داكن - رمادي فاتح</option>
-<option data-ar="بني - أرجواني" data-en="Brown - Violet" value="linear-gradient(to right, #a52a2a, #8a2be2)">بني - أرجواني</option>
-<option data-ar="بني - بيج" data-en="Brown - Beige" value="linear-gradient(to right, #8d5524, #c68642)">بني - بيج</option>
-<option data-ar="بني شوكولاتة - برونزي" data-en="Chocolate Brown - Bronze" value="linear-gradient(to right, #5e3023, #d2691e)">بني شوكولاتة - برونزي</option>
-<option data-ar="بيج - بيج ذهبي" data-en="Beige - Golden Beige" value="linear-gradient(to right, #f5f5dc, #ffe4b5)">بيج - بيج ذهبي</option>
-<option data-ar="ذهبي - أصفر فاتح" data-en="Gold - Light Yellow" value="linear-gradient(to right, #ffd700, #fffacd)">ذهبي - أصفر فاتح</option>
-<option data-ar="رمادي فاتح - أبيض" data-en="Light Gray - White" value="linear-gradient(to right, #f0f0f0, #ffffff)">رمادي فاتح - أبيض</option>
-<option data-ar="وردي فاتح - أزرق سماوي" data-en="Light Pink - Sky Blue" value="linear-gradient(to right, #ff6b6b, #a0e7ff)">وردي فاتح - أزرق سماوي</option>
-<option data-ar="أخضر فاتح - برتقالي فاتح" data-en="Light Green - Light Orange" value="linear-gradient(to right, #a8e6cf, #ffd3b6)">أخضر فاتح - برتقالي فاتح</option>
-<option data-ar="بنفسجي فاتح - أصفر ذهبي" data-en="Light Purple - Golden Yellow" value="linear-gradient(to right, #d4a5ff, #ffd6a5)">بنفسجي فاتح - أصفر ذهبي</option>
-<option data-ar="وردي محروق - وردي فاتح" data-en="Burnt Pink - Light Pink" value="linear-gradient(to right, #ff9a8b, #fecfef)">وردي محروق - وردي فاتح</option>
-<option data-ar="تركواز فاتح - وردي فاتح" data-en="Light Turquoise - Light Pink" value="linear-gradient(to right, #a8edea, #fed6e3)">تركواز فاتح - وردي فاتح</option>
-
-<option data-ar="وردي فاتح - أصفر ذهبي - أخضر مائي" data-en="Light Pink - Golden Yellow - Aquamarine" value="linear-gradient(to right, #FF6B6B, #FFD166, #06D6A0)">وردي فاتح - أصفر ذهبي - أخضر مائي</option>
-<option data-ar="أزرق سماوي - بنفسجي - وردي قاني" data-en="Sky Blue - Purple - Deep Pink" value="linear-gradient(to right, #4CC9F0, #7209B7, #F72585)">أزرق سماوي - بنفسجي - وردي قاني</option>
-<option data-ar="أزرق داكن - أزرق متوسط - أزرق فاتح" data-en="Dark Blue - Medium Blue - Light Blue" value="linear-gradient(to right, #112D4E, #3F72AF, #DBE2EF)">أزرق داكن - أزرق متوسط - أزرق فاتح</option>
-<option data-ar="بيج - أحمر قاني - أحمر داكن" data-en="Beige - Crimson - Dark Red" value="linear-gradient(to right, #F9F7F7, #DB4C40, #A30000)">بيج - أحمر قاني - أحمر داكن</option>
-<option data-ar="أخضر فاتح - برتقالي فاتح - وردي فاتح" data-en="Light Green - Light Orange - Light Pink" value="linear-gradient(to right, #A8E6CF, #FFD3B6, #FFAAA5)">أخضر فاتح - برتقالي فاتح - وردي فاتح</option>
-<option data-ar="أحمر - برتقالي - ذهبي - أصفر" data-en="Red - Orange - Gold - Yellow" value="linear-gradient(to right, #FF0000, #FF8C00, #FFD700, #FFFF00)">أحمر - برتقالي - ذهبي - أصفر</option>
-<option data-ar="تركواز - أزرق فاتح - أزرق سماوي - أبيض" data-en="Turquoise - Light Blue - Sky Blue - White" value="linear-gradient(to right, #00B4D8, #90E0EF, #CAF0F8, #FFFFFF)">تركواز - أزرق فاتح - أزرق سماوي - أبيض</option>
-<option data-ar="بورجوندي - أحمر قاني - وردي قاني - وردي فاتح" data-en="Burgundy - Crimson - Deep Pink - Light Pink" value="linear-gradient(to right, #8B0000, #DC143C, #FF69B4, #FFB6C1)">بورجوندي - أحمر قاني - وردي قاني - وردي فاتح</option>
-<option data-ar="بنفسجي داكن - أرجواني - بنفسجي متوسط - برقوقي" data-en="Dark Purple - Violet - Medium Purple - Plum" value="linear-gradient(to right, #4B0082, #8A2BE2, #9370DB, #DDA0DD)">بنفسجي داكن - أرجواني - بنفسجي متوسط - برقوقي</option>
-<option data-ar="رمادي داكن - رمادي متوسط - رمادي فاتح - فضي" data-en="Dark Gray - Medium Gray - Light Gray - Silver" value="linear-gradient(to right, #2F4F4F, #696969, #A9A9A9, #D3D3D3)">رمادي داكن - رمادي متوسط - رمادي فاتح - فضي</option>
-<option data-ar="برتقالي محروق - ذهبي - أصفر فاتح - أخضر مائي" data-en="Burnt Orange - Gold - Light Yellow - Aquamarine" value="linear-gradient(to right, #FF6B35, #F7931E, #FFD166, #06D6A0)">برتقالي محروق - ذهبي - أصفر فاتح - أخضر مائي</option>
-<option data-ar="أزرق بحري - تركواز - أزرق فاتح - أزرق سماوي" data-en="Navy Blue - Turquoise - Light Blue - Sky Blue" value="linear-gradient(to right, #0077B6, #00B4D8, #90E0EF, #CAF0F8)">أزرق بحري - تركواز - أزرق فاتح - أزرق سماوي</option>
-<option data-ar="أحمر قاني - برتقالي فاتح - أصفر - أخضر فاتح" data-en="Crimson - Light Orange - Yellow - Light Green" value="linear-gradient(to right, #E63946, #F1C27B, #FFE66D, #BCE784)">أحمر قاني - برتقالي فاتح - أصفر - أخضر فاتح</option>
-<option data-ar="بني شوكولاتة - برونزي - برتقالي فاتح - بيج" data-en="Chocolate Brown - Bronze - Light Orange - Beige" value="linear-gradient(to right, #5E3023, #D2691E, #F4A460, #FFDAB9)">بني شوكولاتة - برونزي - برتقالي فاتح - بيج</option>
-<option data-ar="أزرق ليلي - أزرق داكن - أزرق سماوي - وردي قاني" data-en="Midnight Blue - Dark Blue - Sky Blue - Deep Pink" value="linear-gradient(to right, #1A1A2E, #16213E, #4CC9F0, #F72585)">أزرق ليلي - أزرق داكن - أزرق سماوي - وردي قاني</option>
-
-    </select>
     </div>
   </div>
 
@@ -14289,16 +13966,16 @@ setTimeout(autoScaleVerseFont, 100);
   
   <style id="aqx-style">
     #audio-quality-settings.aqx-panel{
-      --aqx-green:#1D9E75; --aqx-green-light:#34c294; --aqx-gold:#FFB74D;
+      --aqx-green:var(--theme-g1); --aqx-green-light:#34c294; --aqx-gold:#FFB74D;
       --aqx-navy:#1a3a52; --aqx-blue:#2c5f7a; --aqx-bass:#e57373; --aqx-mid:#ffb74d; --aqx-treble:#4CC9F0;
       margin:8px auto 4px; width:97%; max-width:860px; box-sizing:border-box;
       position:relative; overflow:hidden;
       padding:12px 18px 14px; border-radius:18px;
       display:flex; flex-direction:column; gap:8px;
       font-family:'Cairo',Arial,sans-serif; color:var(--aqx-navy);
-      background:linear-gradient(155deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72)),linear-gradient(135deg,rgba(29,158,117,0.16),rgba(255,183,77,0.14));
+      background:linear-gradient(155deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72)),linear-gradient(135deg,rgba(var(--theme-g1-rgb),0.16),rgba(255,183,77,0.14));
       backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-      border:1px solid rgba(29,158,117,0.25);
+      border:1px solid rgba(var(--theme-g1-rgb),0.25);
       box-shadow:0 8px 28px rgba(14,42,61,0.10), inset 0 1px 0 rgba(255,255,255,0.6);
     }
     #audio-quality-settings.aqx-panel::after{
@@ -14307,7 +13984,7 @@ setTimeout(autoScaleVerseFont, 100);
     }
     #audio-quality-settings .aqx-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
     #audio-quality-settings .aqx-title-group{display:flex;align-items:center;gap:10px;}
-    #audio-quality-settings .aqx-mini-viz{display:flex;align-items:flex-end;gap:2px;height:18px;padding:2px 4px;border-radius:6px;background:rgba(29,158,117,0.08);}
+    #audio-quality-settings .aqx-mini-viz{display:flex;align-items:flex-end;gap:2px;height:18px;padding:2px 4px;border-radius:6px;background:rgba(var(--theme-g1-rgb),0.08);}
     #audio-quality-settings .aqx-mini-viz span{width:3px;border-radius:2px;height:40%;transition:height .25s ease;}
     #aqxVizBass{background:var(--aqx-bass);} #aqxVizMid{background:var(--aqx-mid);} #aqxVizTreble{background:var(--aqx-treble);}
     #audioQualityResetBtn{padding:5px 14px;border-radius:10px;border:1px solid rgba(14,42,61,0.12);cursor:pointer;font-size:12px;font-weight:700;font-family:'Cairo',Arial,sans-serif;background:rgba(255,255,255,0.7);color:var(--aqx-navy);white-space:nowrap;transition:transform .15s ease,background .15s ease,box-shadow .15s ease;}
@@ -14315,11 +13992,11 @@ setTimeout(autoScaleVerseFont, 100);
     #audioQualityResetBtn:active{transform:scale(0.94) rotate(-8deg);}
     #audio-quality-settings .aqx-boost-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative;z-index:1;}
     #audio-quality-settings .aqx-boost-row label{font-size:13px;font-weight:700;color:var(--aqx-blue);white-space:nowrap;min-width:110px;}
-    #audioBoostSlider{-webkit-appearance:none;appearance:none;flex:1;min-width:120px;height:8px;border-radius:6px;cursor:pointer;background:linear-gradient(to right,var(--aqx-green) 0%,rgba(29,158,117,0.15) 0%);outline:none;}
+    #audioBoostSlider{-webkit-appearance:none;appearance:none;flex:1;min-width:120px;height:8px;border-radius:6px;cursor:pointer;background:linear-gradient(to right,var(--aqx-green) 0%,rgba(var(--theme-g1-rgb),0.15) 0%);outline:none;}
     #audioBoostSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-green);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;transition:transform .12s ease;margin-top:-6px;}
     #audioBoostSlider::-webkit-slider-thumb:hover{transform:scale(1.15);}
     #audioBoostSlider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-green);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;}
-    #audioBoostSlider::-moz-range-track{height:8px;border-radius:6px;background:rgba(29,158,117,0.15);}
+    #audioBoostSlider::-moz-range-track{height:8px;border-radius:6px;background:rgba(var(--theme-g1-rgb),0.15);}
     #audioBoostValueLabel{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;min-width:48px;text-align:center;color:#fff;background:var(--aqx-green);border-radius:8px;padding:3px 8px;transition:background .2s ease;}
     #playbackSpeedSlider{-webkit-appearance:none;appearance:none;flex:1;min-width:120px;height:8px;border-radius:6px;cursor:pointer;background:linear-gradient(to right,var(--aqx-blue) 0%,rgba(14,42,61,0.12) 0%);outline:none;}
     #playbackSpeedSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-blue);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;transition:transform .12s ease;margin-top:-6px;}
@@ -14345,9 +14022,9 @@ setTimeout(autoScaleVerseFont, 100);
     #audio-quality-settings .aqx-preset-group{display:flex;flex-direction:column;gap:6px;}
     #audio-quality-settings .aqx-preset-group>span{font-size:11px;font-weight:700;color:var(--aqx-blue);}
     #aqxPresetChips{display:flex;flex-wrap:wrap;gap:6px;max-width:320px;}
-    #audio-quality-settings .aqx-chip{font-family:'Cairo',Arial,sans-serif;font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:999px;border:1.5px solid rgba(29,158,117,0.3);background:#fff;color:var(--aqx-navy);cursor:pointer;white-space:nowrap;transition:all .15s ease;}
+    #audio-quality-settings .aqx-chip{font-family:'Cairo',Arial,sans-serif;font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:999px;border:1.5px solid rgba(var(--theme-g1-rgb),0.3);background:#fff;color:var(--aqx-navy);cursor:pointer;white-space:nowrap;transition:all .15s ease;}
     #audio-quality-settings .aqx-chip:hover{border-color:var(--aqx-green);transform:translateY(-1px);}
-    #audio-quality-settings .aqx-chip.active{background:linear-gradient(135deg,var(--aqx-green),var(--aqx-green-light));color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(29,158,117,0.35);}
+    #audio-quality-settings .aqx-chip.active{background:linear-gradient(135deg,var(--aqx-green),var(--aqx-green-light));color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(var(--theme-g1-rgb),0.35);}
     #audio-quality-settings .aqx-note{display:block;font-size:10px;opacity:.65;margin-top:8px;position:relative;z-index:1;}
     @media (min-width:700px){ #audio-quality-settings .aqx-eq-inner{gap:46px;} }
     @media (max-width:560px){
@@ -26548,7 +26225,7 @@ body.dark-mode .newtab-marker {
     max-width: 340px;
     width: 95%;
     background: rgba(255,255,255,0.72);
-    border: 1.5px solid rgba(29,158,117,0.25);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.25);
     border-radius: 18px;
     padding: 14px 12px 12px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
@@ -26562,7 +26239,7 @@ body.dark-mode #salah-pip-section {
 #salah-pip-section .sp-title {
     font-size: 15px;
     font-weight: 700;
-    color: #0F6E56;
+    color: var(--theme-g2);
     margin: 0 0 10px;
     line-height: 1.5;
 }
@@ -26570,7 +26247,7 @@ body.dark-mode #salah-pip-section .sp-title { color: #5DCAA5; }
 #salah-pip-btn {
     width: 160px; height: 160px;
     border-radius: 50%;
-    border: 3px solid #1D9E75;
+    border: 3px solid var(--theme-g1);
     background: #E1F5EE;
     cursor: pointer;
     display: flex; flex-direction: column;
@@ -26579,10 +26256,10 @@ body.dark-mode #salah-pip-section .sp-title { color: #5DCAA5; }
     transition: transform 0.1s, background 0.15s;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-    color: #0F6E56;
+    color: var(--theme-g2);
 }
 #salah-pip-btn:active { transform: scale(0.92); background: #9FE1CB; }
-#salah-pip-btn.sp-done { border-color: #1D9E75; background: #C2EBD9; color: #0F6E56; }
+#salah-pip-btn.sp-done { border-color: var(--theme-g1); background: #C2EBD9; color: var(--theme-g2); }
 body.dark-mode #salah-pip-btn { background: #0F3D2E; border-color: #1D9E75; color: #5DCAA5; }
 body.dark-mode #salah-pip-btn.sp-done { background: #0a4a30; border-color: #1D9E75; color: #5DCAA5; }
 #salah-pip-num { font-size: 46px; font-weight: 700; line-height: 1; }
@@ -26636,12 +26313,12 @@ body.dark-mode #salah-pip-info { color: #aaa; }
     width: 80%;
     margin: 10px auto;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(29,158,117,0.2), transparent);
+    background: linear-gradient(to right, transparent, rgba(var(--theme-g1-rgb),0.2), transparent);
 }
 .sp-btn {
-    border: 1.5px solid rgba(29,158,117,0.35);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
     background: rgba(255,255,255,0.9);
-    color: #0F6E56;
+    color: var(--theme-g2);
     border-radius: 20px;
     padding: 5px 14px;
     font-family: 'Cairo', Arial, sans-serif;
@@ -26668,11 +26345,11 @@ body.dark-mode #salah-pip-info { color: #aaa; }
 body.dark-mode .sp-btn { background: rgba(29,158,117,0.12); color: #5DCAA5; border-color: rgba(29,158,117,0.4); }
 #sp-pip-toggle {
     background: #E1F5EE;
-    color: #0F6E56;
-    border-color: rgba(29,158,117,0.35);
+    color: var(--theme-g2);
+    border-color: rgba(var(--theme-g1-rgb),0.35);
 }
 #sp-pip-toggle:hover { background: #C2EBD9; }
-#sp-pip-toggle.active { background: #1D9E75; color: #fff; border-color: #1D9E75; }
+#sp-pip-toggle.active { background: var(--theme-g1); color: #fff; border-color: var(--theme-g1); }
 body.dark-mode #sp-pip-toggle { background: rgba(29,158,117,0.18); color: #5DCAA5; border-color: rgba(29,158,117,0.4); }
 body.dark-mode #sp-pip-toggle.active { background: #0F6E56; color: #fff; border-color: #1D9E75; }
 .sp-target-row { display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 8px; }
@@ -26682,20 +26359,20 @@ body.dark-mode .sp-target-row label { color: #aaa; }
     font-family: 'Cairo', Arial, sans-serif;
     font-size: 12px; padding: 3px 7px;
     border-radius: 12px;
-    border: 1.5px solid rgba(29,158,117,0.3);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.3);
     background: rgba(255,255,255,0.9);
-    color: #0F6E56;
+    color: var(--theme-g2);
     cursor: pointer;
 }
 body.dark-mode .sp-target-row select { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
 #sp-pip-note { font-size: 11px; color: #888; margin-top: 4px; min-height: 16px; }
 body.dark-mode #sp-pip-note { color: #6b8f7d; }
-#sp-auto-btn { background: #F0FBF7; color: #0F6E56; border-color: rgba(29,158,117,0.35); }
+#sp-auto-btn { background: #F0FBF7; color: var(--theme-g2); border-color: rgba(var(--theme-g1-rgb),0.35); }
 #sp-auto-btn:hover { background: #D4F4EA; }
-#sp-auto-btn.active { background: #1D9E75; color: #fff; border-color: #1D9E75; animation: sp-auto-pulse 2s infinite; }
+#sp-auto-btn.active { background: var(--theme-g1); color: #fff; border-color: var(--theme-g1); animation: sp-auto-pulse 2s infinite; }
 body.dark-mode #sp-auto-btn { background: rgba(29,158,117,0.12); color: #5DCAA5; }
 body.dark-mode #sp-auto-btn.active { background: #0F6E56; color: #fff; }
-@keyframes sp-auto-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(29,158,117,0.4); } 50%{ box-shadow:0 0 0 6px rgba(29,158,117,0); } }
+@keyframes sp-auto-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(var(--theme-g1-rgb),0.4); } 50%{ box-shadow:0 0 0 6px rgba(var(--theme-g1-rgb),0); } }
 
 .sp-athkar-search-row {
     width: 100%;
@@ -26709,12 +26386,12 @@ body.dark-mode #sp-auto-btn.active { background: #0F6E56; color: #fff; }
     box-sizing: border-box;
     padding: 6px 10px;
     border-radius: 12px;
-    border: 1.5px solid rgba(29,158,117,0.35);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
     background: rgba(255,255,255,0.9);
-    color: #0F6E56;
+    color: var(--theme-g2);
     outline: none;
 }
-.sp-athkar-search::placeholder { color: #0F6E56; opacity: 0.6; }
+.sp-athkar-search::placeholder { color: var(--theme-g2); opacity: 0.6; }
 body.dark-mode .sp-athkar-search { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
 body.dark-mode .sp-athkar-search::placeholder { color: #5DCAA5; opacity: 0.6; }
 .sp-athkar-row {
@@ -26734,9 +26411,9 @@ body.dark-mode .sp-athkar-label { color: #aaa; }
     min-height: 44px;
     padding: 0 12px;
     border-radius: 14px;
-    border: 1.5px solid rgba(29,158,117,0.35);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
     background: rgba(255,255,255,0.9);
-    color: #0F6E56;
+    color: var(--theme-g2);
     cursor: pointer;
     flex-shrink: 0;
     display: inline-flex;
@@ -26748,16 +26425,16 @@ body.dark-mode .sp-athkar-label { color: #aaa; }
 }
 .sp-athkar-play-btn:hover { background: #D4F4EA; }
 .sp-athkar-play-btn:active { transform: scale(0.92); }
-.sp-athkar-play-btn.sp-playing { background: #1D9E75; color: #fff; border-color: #1D9E75; }
+.sp-athkar-play-btn.sp-playing { background: var(--theme-g1); color: #fff; border-color: var(--theme-g1); }
 body.dark-mode .sp-athkar-play-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
 body.dark-mode .sp-athkar-play-btn.sp-playing { background: #0F6E56; color: #fff; }
 #sp-athkar-sel {
     font-family: 'Cairo', Arial, sans-serif;
     font-size: 12px; padding: 4px 8px;
     border-radius: 12px;
-    border: 1.5px solid rgba(29,158,117,0.35);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
     background: rgba(255,255,255,0.9);
-    color: #0F6E56;
+    color: var(--theme-g2);
     cursor: pointer;
     width: 100%;
     min-width: 0;
@@ -26783,9 +26460,9 @@ body.dark-mode #sp-athkar-sel { background: #0F3D2E; color: #5DCAA5; border-colo
     min-height: 44px;
     padding: 0;
     border-radius: 50%;
-    border: 1.5px solid rgba(29,158,117,0.35);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
     background: rgba(255,255,255,0.9);
-    color: #0F6E56;
+    color: var(--theme-g2);
     cursor: pointer;
     flex-shrink: 0;
     display: inline-flex;
@@ -26796,7 +26473,7 @@ body.dark-mode #sp-athkar-sel { background: #0F3D2E; color: #5DCAA5; border-colo
     user-select: none;
 }
 .sp-athkar-nav-btn:hover { background: #D4F4EA; }
-.sp-athkar-nav-btn:active { background: #1D9E75; color: #fff; transform: scale(0.92); }
+.sp-athkar-nav-btn:active { background: var(--theme-g1); color: #fff; transform: scale(0.92); }
 body.dark-mode .sp-athkar-nav-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
 body.dark-mode .sp-athkar-nav-btn:active { background: #0F6E56; color: #fff; }
 /* ---- Custom Dropdown ---- */
@@ -26810,9 +26487,9 @@ body.dark-mode .sp-athkar-nav-btn:active { background: #0F6E56; color: #fff; }
     font-size: 12px;
     padding: 6px 10px;
     border-radius: 12px;
-    border: 1.5px solid rgba(29,158,117,0.35);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
     background: rgba(255,255,255,0.9);
-    color: #0F6E56;
+    color: var(--theme-g2);
     cursor: pointer;
     width: 100%;
     display: flex;
@@ -26841,7 +26518,7 @@ body.dark-mode .sp-custom-dd-btn { background: #0F3D2E; color: #5DCAA5; border-c
     position: fixed;
     z-index: 9999;
     background: #fff;
-    border: 1.5px solid rgba(29,158,117,0.4);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.4);
     border-radius: 12px;
     box-shadow: 0 6px 24px rgba(0,0,0,0.18);
     padding: 6px;
@@ -26858,9 +26535,9 @@ body.dark-mode .sp-custom-dd-list { background: #0F2820; border-color: rgba(29,1
     box-sizing: border-box;
     padding: 5px 9px;
     border-radius: 8px;
-    border: 1px solid rgba(29,158,117,0.3);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.3);
     background: rgba(255,255,255,0.9);
-    color: #0F6E56;
+    color: var(--theme-g2);
     outline: none;
     margin-bottom: 4px;
     direction: rtl;
@@ -26889,7 +26566,7 @@ body.dark-mode .sp-custom-dd-search { background: #0a2218; color: #5DCAA5; borde
 .sp-custom-dd-group-block:first-child { margin-top: 2px; }
 .sp-custom-dd-group-label {
     font-size: 10px;
-    color: #1D9E75;
+    color: var(--theme-g1);
     padding: 5px 8px 4px;
     font-weight: 700;
     letter-spacing: 0.3px;
@@ -26904,9 +26581,9 @@ body.dark-mode .sp-custom-dd-search { background: #0a2218; color: #5DCAA5; borde
     flex-shrink: 0;
     font-size: 9px;
     font-weight: 700;
-    color: #1D9E75;
-    background: rgba(29,158,117,0.10);
-    border: 1px solid rgba(29,158,117,0.25);
+    color: var(--theme-g1);
+    background: rgba(var(--theme-g1-rgb),0.10);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.25);
     border-radius: 4px;
     padding: 1px 5px;
     white-space: nowrap;
@@ -26937,7 +26614,7 @@ body.dark-mode .sp-hadith-badge {
     white-space: normal;
     word-break: break-word;
     line-height: 1.5;
-    color: #0F6E56;
+    color: var(--theme-g2);
     direction: rtl;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
@@ -26950,13 +26627,13 @@ body.dark-mode .sp-custom-dd-item:hover, body.dark-mode .sp-custom-dd-item:activ
 body.dark-mode .sp-custom-dd-item.sp-dd-selected { background: #0a4a30; }
 #sp-athkar-display {
     font-size: 14px; font-weight: 700;
-    color: #0F6E56;
+    color: var(--theme-g2);
     margin: 0 0 8px;
     line-height: 1.6;
     padding: 6px 10px;
-    background: rgba(29,158,117,0.07);
+    background: rgba(var(--theme-g1-rgb),0.07);
     border-radius: 10px;
-    border: 1px solid rgba(29,158,117,0.15);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.15);
     min-height: 36px;
     word-break: break-word;
 }
@@ -26980,27 +26657,27 @@ body.dark-mode .sp-alarm-label { color: #aaa; }
     font-family: 'Cairo', Arial, sans-serif;
     font-size: 12px; padding: 3px 7px;
     border-radius: 12px;
-    border: 1.5px solid rgba(29,158,117,0.3);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.3);
     background: rgba(255,255,255,0.9);
-    color: #0F6E56;
+    color: var(--theme-g2);
     cursor: pointer;
 }
 body.dark-mode #sp-alarm-interval-sel { background: #0F3D2E; color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
 #sp-alarm-btn {
     background: #E1F5EE;
-    color: #0F6E56;
-    border-color: rgba(29,158,117,0.35);
+    color: var(--theme-g2);
+    border-color: rgba(var(--theme-g1-rgb),0.35);
 }
 #sp-alarm-btn:hover { background: #C2EBD9; }
 #sp-alarm-btn.active {
-    background: #1D9E75;
+    background: var(--theme-g1);
     color: #fff;
-    border-color: #1D9E75;
+    border-color: var(--theme-g1);
     animation: sp-alarm-pulse 2s infinite;
 }
 body.dark-mode #sp-alarm-btn { background: rgba(29,158,117,0.12); color: #5DCAA5; border-color: rgba(29,158,117,0.4); }
 body.dark-mode #sp-alarm-btn.active { background: #0F6E56; color: #fff; }
-@keyframes sp-alarm-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(29,158,117,0.4); } 50%{ box-shadow:0 0 0 7px rgba(29,158,117,0); } }
+@keyframes sp-alarm-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(var(--theme-g1-rgb),0.4); } 50%{ box-shadow:0 0 0 7px rgba(var(--theme-g1-rgb),0); } }
 #sp-alarm-status {
     font-size: 11px;
     color: #888;
@@ -27011,8 +26688,8 @@ body.dark-mode #sp-alarm-btn.active { background: #0F6E56; color: #fff; }
 body.dark-mode #sp-alarm-status { color: #6b8f7d; }
 #sp-alarm-today-bar {
     font-size: 11px;
-    color: #0F6E56;
-    background: rgba(29,158,117,0.08);
+    color: var(--theme-g2);
+    background: rgba(var(--theme-g1-rgb),0.08);
     border-radius: 8px;
     padding: 3px 10px;
     margin: 0 0 6px;
@@ -27085,7 +26762,7 @@ body.dark-mode #sp-alarm-today-bar { color: #5DCAA5; background: rgba(29,158,117
 }
 
 #mushafToggleBtn.open {
-  background: linear-gradient(135deg, #1B6CA8 0%, #1565c0 100%);
+  background: linear-gradient(135deg, #1B6CA8 0%, var(--theme-c2) 100%);
   color: #fff;
   border-color: transparent;
   box-shadow: 0 -5px 20px rgba(27,108,168,0.35);
@@ -27130,23 +26807,23 @@ body.dark-mode #mushafToggleBtn.open {
 
 /* equran button - distinct teal/green scheme so the two options read as separate choices */
 #equranToggleBtn {
-  color: #0F6E56;
+  color: var(--theme-g2);
   background: linear-gradient(135deg, rgba(225,245,238,0.98) 0%, rgba(255,255,255,0.98) 100%);
-  border: 2px solid rgba(15,110,86,0.35);
-  border-top: 2.5px solid rgba(15,110,86,0.45);
+  border: 2px solid rgba(var(--theme-g2-rgb),0.35);
+  border-top: 2.5px solid rgba(var(--theme-g2-rgb),0.45);
   border-radius: 14px 14px 0 0;
 }
 #equranToggleBtn:hover,
 #equranToggleBtn:focus-visible {
-  background: linear-gradient(135deg, rgba(15,110,86,0.10) 0%, rgba(225,245,238,1) 100%);
-  border-color: #0F6E56;
-  box-shadow: 0 -5px 20px rgba(15,110,86,0.22);
+  background: linear-gradient(135deg, rgba(var(--theme-g2-rgb),0.10) 0%, rgba(225,245,238,1) 100%);
+  border-color: var(--theme-g2);
+  box-shadow: 0 -5px 20px rgba(var(--theme-g2-rgb),0.22);
 }
 #equranToggleBtn.open {
-  background: linear-gradient(135deg, #0F6E56 0%, #1D9E75 100%);
+  background: linear-gradient(135deg, var(--theme-g2) 0%, var(--theme-g1) 100%);
   color: #fff;
   border-color: transparent;
-  box-shadow: 0 -5px 20px rgba(15,110,86,0.35);
+  box-shadow: 0 -5px 20px rgba(var(--theme-g2-rgb),0.35);
 }
 body.dark-mode #equranToggleBtn {
   background: linear-gradient(135deg, rgba(15,110,86,0.18) 0%, rgba(26,26,46,0.95) 100%);
@@ -27203,7 +26880,7 @@ body.dark-mode #mushafFullscreenOverlay {
   align-items: center;
   justify-content: space-between;
   padding: 10px 18px;
-  background: linear-gradient(135deg, #1B6CA8 0%, #1565c0 100%);
+  background: linear-gradient(135deg, #1B6CA8 0%, var(--theme-c2) 100%);
   color: #fff;
   font-family: 'Cairo', Arial, sans-serif;
   font-size: 15px;
@@ -34613,13 +34290,8 @@ function applyInitialLanguage() {
     var introClipToggleTxtEl = document.getElementById('introClipToggleTxt');
     if (introClipToggleTxtEl) introClipToggleTxtEl.textContent = 'Enable Sound Alert';
 
-    var bgSel = document.getElementById('bgColor');
-    if (bgSel) Array.from(bgSel.options).forEach(function(o) {
-      var en = o.getAttribute('data-en');
-      if (en) o.textContent = en;
-    });
-    var btnSel = document.getElementById('radioButtonColor');
-    if (btnSel) Array.from(btnSel.options).forEach(function(o) {
+    var themeSel = document.getElementById('siteTheme');
+    if (themeSel) Array.from(themeSel.options).forEach(function(o) {
       var en = o.getAttribute('data-en');
       if (en) o.textContent = en;
     });
@@ -35932,11 +35604,6 @@ function toggleLanguage() {
   var introClipToggleTxtEl = document.getElementById('introClipToggleTxt');
   if (introClipToggleTxtEl) introClipToggleTxtEl.textContent = isArabic ? 'تفعيل التنبيه الصوتي' : 'Enable Sound Alert';
 
-  var bgSel = document.getElementById('bgColor');
-  if (bgSel && bgSel.options[0]) {
-    bgSel.options[0].textContent = isArabic ? 'اختر لونًا' : 'Choose color';
-  }
-
   var nameEl = document.getElementById('pnb-name');
   if (nameEl) {
     var arN = nameEl.dataset.arName;
@@ -35965,20 +35632,9 @@ function toggleLanguage() {
     if (_isPlaceholderStatusText(txt) && isArabic) nameElCheck.textContent = 'اختر محطة...';
   }
 
-  var btnSel = document.getElementById('radioButtonColor');
-  if (btnSel) {
-    Array.from(btnSel.options).forEach(function(opt) {
-      var ar = opt.getAttribute('data-ar');
-      var en = opt.getAttribute('data-en');
-      if (ar && en) opt.textContent = isArabic ? ar : en;
-    });
-
-    if (btnSel.options[0]) btnSel.options[0].textContent = isArabic ? 'اختر لونًا' : 'Choose a color';
-  }
-
-  var bgSel2 = document.getElementById('bgColor');
-  if (bgSel2) {
-    Array.from(bgSel2.options).forEach(function(opt) {
+  var themeSel = document.getElementById('siteTheme');
+  if (themeSel) {
+    Array.from(themeSel.options).forEach(function(opt) {
       var ar = opt.getAttribute('data-ar');
       var en = opt.getAttribute('data-en');
       if (ar && en) opt.textContent = isArabic ? ar : en;
@@ -36980,32 +36636,63 @@ function applyDirection(isAr) {
   document.documentElement.setAttribute('lang', isAr ? 'ar' : 'en');
 }
 
-function applyDarkMode(enable, customBg) {
+function applyDarkMode(enable) {
   if (enable) {
     document.body.classList.add("dark-mode");
-    document.body.style.background = "";
     localStorage.setItem('theme', 'dark');
-    localStorage.removeItem('bgColor');
-    const sel = document.getElementById('bgColor');
-    if (sel) sel.value = "dark";
   } else {
     document.body.classList.remove("dark-mode");
-    document.body.style.background = customBg || "";
-    if (customBg) localStorage.setItem('bgColor', customBg);
     localStorage.setItem('theme', 'light');
-    const sel = document.getElementById('bgColor');
-    if (sel && !customBg) sel.value = "";
   }
   updateDarkModeBtn(enable);
 }
 
-function changeBackgroundColor() {
-  var color = document.getElementById("bgColor").value;
-  applyDarkMode(color === "dark", color !== "dark" ? color : null);
+function toggleDarkModeFloat() {
+  var next = !document.body.classList.contains("dark-mode");
+  applySiteTheme(next ? 'dark' : 'default');
 }
 
-function toggleDarkModeFloat() {
-  applyDarkMode(!document.body.classList.contains("dark-mode"));
+// Coordinated theme presets. "btn" feeds the existing button-color mechanism;
+// "cls" is a body class that recolors the background AND every other
+// accent-colored element on the site (borders, hovers, glows, badges...) via
+// CSS variables, exactly the same way "dark-mode" recolors everything for
+// dark mode. Background and buttons are driven by the same palette, so they
+// never end up mismatched.
+var SITE_THEMES = {
+  default:  { btn: '', cls: null },
+  palestine:{ btn: 'default', cls: null },
+  sky:      { btn: '#6B8CAE', cls: 'theme-sky' },
+  emerald:  { btn: '#7A9E8E', cls: 'theme-emerald' },
+  amber:    { btn: '#C2A05A', cls: 'theme-amber' },
+  slate:    { btn: '#8792A2', cls: 'theme-slate' }
+};
+var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate'];
+
+function applySiteTheme(theme, save) {
+  if (save === undefined) save = true;
+  if (!theme) return;
+
+  document.body.classList.remove.apply(document.body.classList, SITE_THEME_CLASSES);
+
+  if (theme === 'dark') {
+    applyDarkMode(true);
+    changeRadioButtonColor('', false);
+  } else {
+    var preset = SITE_THEMES[theme] || SITE_THEMES.default;
+    applyDarkMode(false);
+    changeRadioButtonColor(preset.btn, false);
+    if (preset.cls) document.body.classList.add(preset.cls);
+  }
+
+  if (save) localStorage.setItem('siteTheme', theme);
+
+  var sel = document.getElementById('siteTheme');
+  if (sel) sel.value = theme;
+}
+
+function changeSiteTheme() {
+  var theme = document.getElementById('siteTheme').value;
+  applySiteTheme(theme);
 }
 
 var DARK_LIGHT_MODE_LABELS = {
@@ -37038,7 +36725,9 @@ function updateDarkModeBtn(isDark) {
 }
 
 
-function changeRadioButtonColor(color = document.getElementById('radioButtonColor').value, save = true) {
+function changeRadioButtonColor(color, save) {
+  if (color === undefined) color = '';
+  if (save === undefined) save = true;
   const radioButtons = document.querySelectorAll('.button.palestine');
 
   if (color === "default") {
@@ -37065,9 +36754,6 @@ function changeRadioButtonColor(color = document.getElementById('radioButtonColo
     if (autoSwitchCheckbox) autoSwitchCheckbox.parentElement.style.background = color;
   }
 
-  if (save) {
-    localStorage.setItem('radioButtonColor', color);
-  }
 }
 
 function getContrastYIQ(hexcolor) {
@@ -45568,18 +45254,15 @@ document.addEventListener('DOMContentLoaded', function() {
     stars.forEach(star => star.classList.remove('hover'));
   }
 
-  const savedTheme = localStorage.getItem('theme');
-  const savedBgColor = localStorage.getItem('bgColor');
-
-  if (savedTheme === 'dark') {
-    applyDarkMode(true);
-  } else if (savedBgColor) {
-    applyDarkMode(false, savedBgColor);
+  let savedSiteTheme = localStorage.getItem('siteTheme');
+  if (!savedSiteTheme) {
+    // Migrate users coming from the old free-color pickers to the closest theme
+    const oldTheme = localStorage.getItem('theme');
+    savedSiteTheme = (oldTheme === 'dark') ? 'dark' : 'default';
+    localStorage.removeItem('bgColor');
+    localStorage.removeItem('radioButtonColor');
   }
-
-  const savedColor = localStorage.getItem('radioButtonColor') || '#f8f9fa';
-  changeRadioButtonColor(savedColor, false);
-  document.getElementById('radioButtonColor').value = savedColor;
+  applySiteTheme(savedSiteTheme, false);
 
   const whatsappButton = document.querySelector('.whatsapp-button');
   const telegramButton = document.querySelector('.telegram-button');
