@@ -4218,11 +4218,11 @@ button[data-category="Adhkar" data-adhkar-type="general"] .station-text {
 }
 
 .button.completed {
-    background: linear-gradient(135deg, #ffcc00, #ff8800);
-    color: #000;
+    background: linear-gradient(135deg, #ffffff, rgba(var(--theme-c1-rgb),0.14));
+    color: var(--theme-c4);
 transform: scale(1.02);
-box-shadow: 0 0 10px rgba(43, 125, 233, 0.8);
-border: 2px solid #2b7de9;
+box-shadow: 0 0 10px rgba(var(--theme-c1-rgb),0.8);
+border: 2px solid var(--theme-c1);
     transition: all 0.3s ease;
 }
 
@@ -4231,12 +4231,14 @@ border: 2px solid #2b7de9;
     position: absolute;
     bottom: 2px;
     left: 10px;
+    color: var(--theme-c2);
+    font-weight: bold;
 }
 
 .button.completed .tasbih-box {
-    background: linear-gradient(135deg, #4fa8e8, #2b7de9) !important;
-    border-color: #1a5fc4 !important;
-    box-shadow: 0 0 8px rgba(43, 125, 233, 0.45);
+    background: linear-gradient(135deg, var(--theme-c1), var(--theme-c2)) !important;
+    border-color: var(--theme-c2) !important;
+    box-shadow: 0 0 8px rgba(var(--theme-c1-rgb),0.45);
     transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
