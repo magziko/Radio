@@ -112,7 +112,44 @@ body.theme-slate {
   --theme-g2: #333B49; --theme-g2-rgb: 51,59,73;
   --theme-bg: #E4E6EA;
 }
-body.theme-sky, body.theme-emerald, body.theme-amber, body.theme-slate {
+body.theme-lavender {
+  --theme-c1: #9B8AA8; --theme-c1-rgb: 155,138,168;
+  --theme-c2: #5C4A6B; --theme-c2-rgb: 92,74,107;
+  --theme-c3: #7A6690; --theme-c3-rgb: 122,102,144;
+  --theme-c4: #3D2E48; --theme-c4-rgb: 61,46,72;
+  --theme-g1: #9B8AA8; --theme-g1-rgb: 155,138,168;
+  --theme-g2: #3D2E48; --theme-g2-rgb: 61,46,72;
+  --theme-bg: #E8E1EC;
+}
+body.theme-teal {
+  --theme-c1: #6FA8A0; --theme-c1-rgb: 111,168,160;
+  --theme-c2: #3B6560; --theme-c2-rgb: 59,101,96;
+  --theme-c3: #4F8880; --theme-c3-rgb: 79,136,128;
+  --theme-c4: #294341; --theme-c4-rgb: 41,67,65;
+  --theme-g1: #6FA8A0; --theme-g1-rgb: 111,168,160;
+  --theme-g2: #294341; --theme-g2-rgb: 41,67,65;
+  --theme-bg: #DCEAE7;
+}
+body.theme-rose {
+  --theme-c1: #B98A8F; --theme-c1-rgb: 185,138,143;
+  --theme-c2: #7A4A50; --theme-c2-rgb: 122,74,80;
+  --theme-c3: #9C6A70; --theme-c3-rgb: 156,106,112;
+  --theme-c4: #4F2A2E; --theme-c4-rgb: 79,42,46;
+  --theme-g1: #B98A8F; --theme-g1-rgb: 185,138,143;
+  --theme-g2: #4F2A2E; --theme-g2-rgb: 79,42,46;
+  --theme-bg: #F0E0E1;
+}
+body.theme-terracotta {
+  --theme-c1: #BD7B5A; --theme-c1-rgb: 189,123,90;
+  --theme-c2: #7A4B31; --theme-c2-rgb: 122,75,49;
+  --theme-c3: #9C6242; --theme-c3-rgb: 156,98,66;
+  --theme-c4: #4F2F1D; --theme-c4-rgb: 79,47,29;
+  --theme-g1: #BD7B5A; --theme-g1-rgb: 189,123,90;
+  --theme-g2: #4F2F1D; --theme-g2-rgb: 79,47,29;
+  --theme-bg: #F2E2D5;
+}
+body.theme-sky, body.theme-emerald, body.theme-amber, body.theme-slate,
+body.theme-lavender, body.theme-teal, body.theme-rose, body.theme-terracotta {
   background-color: var(--theme-bg) !important;
 }
 </style>
@@ -13857,6 +13894,10 @@ setTimeout(autoScaleVerseFont, 100);
     <option data-ar="💚 أخضر سلفي" data-en="💚 Sage Green" value="emerald" style="background-color:#7A9E8E; color:#fff;">💚 أخضر سلفي</option>
     <option data-ar="🌟 عسلي دافئ" data-en="🌟 Honey Gold" value="amber" style="background-color:#C2A05A; color:#fff;">🌟 عسلي دافئ</option>
     <option data-ar="⚫ رمادي أنيق" data-en="⚫ Elegant Slate" value="slate" style="background-color:#8792A2; color:#fff;">⚫ رمادي أنيق</option>
+    <option data-ar="💜 بنفسجي هادئ" data-en="💜 Soft Lavender" value="lavender" style="background-color:#9B8AA8; color:#fff;">💜 بنفسجي هادئ</option>
+    <option data-ar="🌊 تركواز هادئ" data-en="🌊 Soft Teal" value="teal" style="background-color:#6FA8A0; color:#fff;">🌊 تركواز هادئ</option>
+    <option data-ar="🌸 وردي ترابي" data-en="🌸 Dusty Rose" value="rose" style="background-color:#B98A8F; color:#fff;">🌸 وردي ترابي</option>
+    <option data-ar="🧡 تراكوتا دافئ" data-en="🧡 Warm Terracotta" value="terracotta" style="background-color:#BD7B5A; color:#fff;">🧡 تراكوتا دافئ</option>
       </select>
     </div>
     <div class="color-setting-item" id="settings-lang-item">
@@ -36664,9 +36705,13 @@ var SITE_THEMES = {
   sky:      { btn: '#6B8CAE', cls: 'theme-sky' },
   emerald:  { btn: '#7A9E8E', cls: 'theme-emerald' },
   amber:    { btn: '#C2A05A', cls: 'theme-amber' },
-  slate:    { btn: '#8792A2', cls: 'theme-slate' }
+  slate:    { btn: '#8792A2', cls: 'theme-slate' },
+  lavender: { btn: '#9B8AA8', cls: 'theme-lavender' },
+  teal:     { btn: '#6FA8A0', cls: 'theme-teal' },
+  rose:     { btn: '#B98A8F', cls: 'theme-rose' },
+  terracotta:{ btn: '#BD7B5A', cls: 'theme-terracotta' }
 };
-var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate'];
+var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate', 'theme-lavender', 'theme-teal', 'theme-rose', 'theme-terracotta'];
 
 function applySiteTheme(theme, save) {
   if (save === undefined) save = true;
