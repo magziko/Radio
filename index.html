@@ -65,16 +65,16 @@
 <style id="site-theme-vars">
 /* ===== Site theme system =====
    These variables drive every accent color across the site (borders, buttons,
-   hovers, glows, badges...). "default" keeps the site's original two-tone
-   blue/green identity; every other theme recolors everything with one
-   coherent palette, the same way dark mode recolors everything to dark. */
+   hovers, glows, badges...). "default" now uses one coherent blue palette,
+   the same way every other theme recolors everything with a single hue
+   (and the same way dark mode recolors everything to dark). */
 :root {
   --theme-c1: #1e90ff;      --theme-c1-rgb: 30,144,255;
   --theme-c2: #1565c0;      --theme-c2-rgb: 21,101,192;
   --theme-c3: #2E86C1;      --theme-c3-rgb: 46,134,193;
   --theme-c4: #1A5276;      --theme-c4-rgb: 26,82,118;
-  --theme-g1: #1D9E75;      --theme-g1-rgb: 29,158,117;
-  --theme-g2: #0F6E56;      --theme-g2-rgb: 15,110,86;
+  --theme-g1: #1e90ff;      --theme-g1-rgb: 30,144,255;
+  --theme-g2: #1A5276;      --theme-g2-rgb: 26,82,118;
 }
 body.theme-sky {
   --theme-c1: #6B8CAE; --theme-c1-rgb: 107,140,174;
@@ -403,6 +403,211 @@ body.theme-soft-pink {
   --theme-g2: #7A2E4F; --theme-g2-rgb: 122,46,79;
   --theme-bg: #FBE3ED;
 }
+body.theme-glacier-cyan {
+  --theme-c1: #4FB8C4; --theme-c1-rgb: 79,184,196;
+  --theme-c2: #2A7A85; --theme-c2-rgb: 42,122,133;
+  --theme-c3: #3B98A3; --theme-c3-rgb: 59,152,163;
+  --theme-c4: #164852; --theme-c4-rgb: 22,72,82;
+  --theme-g1: #4FB8C4; --theme-g1-rgb: 79,184,196;
+  --theme-g2: #164852; --theme-g2-rgb: 22,72,82;
+  --theme-bg: #DBF0F2;
+}
+body.theme-coffee-brown {
+  --theme-c1: #8B5E3C; --theme-c1-rgb: 139,94,60;
+  --theme-c2: #5C3B22; --theme-c2-rgb: 92,59,34;
+  --theme-c3: #6E4A2E; --theme-c3-rgb: 110,74,46;
+  --theme-c4: #382312; --theme-c4-rgb: 56,35,18;
+  --theme-g1: #8B5E3C; --theme-g1-rgb: 139,94,60;
+  --theme-g2: #382312; --theme-g2-rgb: 56,35,18;
+  --theme-bg: #EDE0D2;
+}
+body.theme-warm-sand {
+  --theme-c1: #C9A876; --theme-c1-rgb: 201,168,118;
+  --theme-c2: #8F7248; --theme-c2-rgb: 143,114,72;
+  --theme-c3: #AB8C5C; --theme-c3-rgb: 171,140,92;
+  --theme-c4: #5C4A2E; --theme-c4-rgb: 92,74,46;
+  --theme-g1: #C9A876; --theme-g1-rgb: 201,168,118;
+  --theme-g2: #5C4A2E; --theme-g2-rgb: 92,74,46;
+  --theme-bg: #F3E9D6;
+}
+body.theme-aubergine {
+  --theme-c1: #6B3F5C; --theme-c1-rgb: 107,63,92;
+  --theme-c2: #40233A; --theme-c2-rgb: 64,35,58;
+  --theme-c3: #562F4C; --theme-c3-rgb: 86,47,76;
+  --theme-c4: #241019; --theme-c4-rgb: 36,16,25;
+  --theme-g1: #6B3F5C; --theme-g1-rgb: 107,63,92;
+  --theme-g2: #241019; --theme-g2-rgb: 36,16,25;
+  --theme-bg: #E6D6E2;
+}
+body.theme-jade {
+  --theme-c1: #2FA88A; --theme-c1-rgb: 47,168,138;
+  --theme-c2: #1B6B57; --theme-c2-rgb: 27,107,87;
+  --theme-c3: #23896F; --theme-c3-rgb: 35,137,111;
+  --theme-c4: #0E3F33; --theme-c4-rgb: 14,63,51;
+  --theme-g1: #2FA88A; --theme-g1-rgb: 47,168,138;
+  --theme-g2: #0E3F33; --theme-g2-rgb: 14,63,51;
+  --theme-bg: #D3F0E7;
+}
+body.theme-crimson {
+  --theme-c1: #C0392B; --theme-c1-rgb: 192,57,43;
+  --theme-c2: #7B1F16; --theme-c2-rgb: 123,31,22;
+  --theme-c3: #9C2D1F; --theme-c3-rgb: 156,45,31;
+  --theme-c4: #4A0F0A; --theme-c4-rgb: 74,15,10;
+  --theme-g1: #C0392B; --theme-g1-rgb: 192,57,43;
+  --theme-g2: #4A0F0A; --theme-g2-rgb: 74,15,10;
+  --theme-bg: #F5DAD6;
+}
+body.theme-deep-cerulean {
+  --theme-c1: #0F52BA; --theme-c1-rgb: 15,82,186;
+  --theme-c2: #0A3578; --theme-c2-rgb: 10,53,120;
+  --theme-c3: #0C4296; --theme-c3-rgb: 12,66,150;
+  --theme-c4: #051C40; --theme-c4-rgb: 5,28,64;
+  --theme-g1: #0F52BA; --theme-g1-rgb: 15,82,186;
+  --theme-g2: #051C40; --theme-g2-rgb: 5,28,64;
+  --theme-bg: #D6E4F5;
+}
+body.theme-autumn-maple {
+  --theme-c1: #D2601A; --theme-c1-rgb: 210,96,26;
+  --theme-c2: #8A3D0F; --theme-c2-rgb: 138,61,15;
+  --theme-c3: #AB4E14; --theme-c3-rgb: 171,78,20;
+  --theme-c4: #5C2708; --theme-c4-rgb: 92,39,8;
+  --theme-g1: #D2601A; --theme-g1-rgb: 210,96,26;
+  --theme-g2: #5C2708; --theme-g2-rgb: 92,39,8;
+  --theme-bg: #F6DCC0;
+}
+body.theme-onyx-black {
+  --theme-c1: #2B2E33; --theme-c1-rgb: 43,46,51;
+  --theme-c2: #16181B; --theme-c2-rgb: 22,24,27;
+  --theme-c3: #1F2124; --theme-c3-rgb: 31,33,36;
+  --theme-c4: #0A0B0C; --theme-c4-rgb: 10,11,12;
+  --theme-g1: #2B2E33; --theme-g1-rgb: 43,46,51;
+  --theme-g2: #0A0B0C; --theme-g2-rgb: 10,11,12;
+  --theme-bg: #D8D9DB;
+}
+body.theme-citrus-lime {
+  --theme-c1: #A4C639; --theme-c1-rgb: 164,198,57;
+  --theme-c2: #6B8620; --theme-c2-rgb: 107,134,32;
+  --theme-c3: #8AA92C; --theme-c3-rgb: 138,169,44;
+  --theme-c4: #3F4D12; --theme-c4-rgb: 63,77,18;
+  --theme-g1: #A4C639; --theme-g1-rgb: 164,198,57;
+  --theme-g2: #3F4D12; --theme-g2-rgb: 63,77,18;
+  --theme-bg: #EAF3C8;
+}
+body.theme-classic-beige {
+  --theme-c1: #CFC3AC; --theme-c1-rgb: 207,195,172;
+  --theme-c2: #9C8F73; --theme-c2-rgb: 156,143,115;
+  --theme-c3: #B6A88D; --theme-c3-rgb: 182,168,141;
+  --theme-c4: #6B6048; --theme-c4-rgb: 107,96,72;
+  --theme-g1: #CFC3AC; --theme-g1-rgb: 207,195,172;
+  --theme-g2: #6B6048; --theme-g2-rgb: 107,96,72;
+  --theme-bg: #F2EDE1;
+}
+/* ===== Gradient themes =====
+   Same mechanism as the solid themes above (c1-c4 still drive buttons,
+   borders, hovers via the existing gradient CSS at var(--theme-c1)->
+   var(--theme-c2)), but the body background itself is a two-tone
+   diagonal gradient instead of one flat color. --theme-bg stays as a
+   plain fallback for any spot that can't paint a gradient. */
+body.theme-aurora {
+  --theme-c1: #2DD4BF; --theme-c1-rgb: 45,212,191;
+  --theme-c2: #0F9488; --theme-c2-rgb: 15,148,136;
+  --theme-c3: #1FBFA8; --theme-c3-rgb: 31,191,168;
+  --theme-c4: #6D28D9; --theme-c4-rgb: 109,40,217;
+  --theme-g1: #2DD4BF; --theme-g1-rgb: 45,212,191;
+  --theme-g2: #6D28D9; --theme-g2-rgb: 109,40,217;
+  --theme-bg: #CFF4EE;
+  background-image: linear-gradient(135deg, #2DD4BF 0%, #6D28D9 100%) !important;
+}
+body.theme-ocean-sunset {
+  --theme-c1: #2E86DE; --theme-c1-rgb: 46,134,222;
+  --theme-c2: #1B4F91; --theme-c2-rgb: 27,79,145;
+  --theme-c3: #3E76C4; --theme-c3-rgb: 62,118,196;
+  --theme-c4: #E8730F; --theme-c4-rgb: 232,115,15;
+  --theme-g1: #2E86DE; --theme-g1-rgb: 46,134,222;
+  --theme-g2: #E8730F; --theme-g2-rgb: 232,115,15;
+  --theme-bg: #DCEAF7;
+  background-image: linear-gradient(135deg, #2E86DE 0%, #E8730F 100%) !important;
+}
+body.theme-berry-bliss {
+  --theme-c1: #E754A0; --theme-c1-rgb: 231,84,160;
+  --theme-c2: #9A2E63; --theme-c2-rgb: 154,46,99;
+  --theme-c3: #C33F84; --theme-c3-rgb: 195,63,132;
+  --theme-c4: #2E2A6E; --theme-c4-rgb: 46,42,110;
+  --theme-g1: #E754A0; --theme-g1-rgb: 231,84,160;
+  --theme-g2: #2E2A6E; --theme-g2-rgb: 46,42,110;
+  --theme-bg: #F7DCEC;
+  background-image: linear-gradient(135deg, #E754A0 0%, #2E2A6E 100%) !important;
+}
+body.theme-golden-dusk {
+  --theme-c1: #F0B429; --theme-c1-rgb: 240,180,41;
+  --theme-c2: #C9971E; --theme-c2-rgb: 201,151,30;
+  --theme-c3: #D9A227; --theme-c3-rgb: 217,162,39;
+  --theme-c4: #7A1F2B; --theme-c4-rgb: 122,31,43;
+  --theme-g1: #F0B429; --theme-g1-rgb: 240,180,41;
+  --theme-g2: #7A1F2B; --theme-g2-rgb: 122,31,43;
+  --theme-bg: #FBF0D0;
+  background-image: linear-gradient(135deg, #F0B429 0%, #7A1F2B 100%) !important;
+}
+body.theme-northern-pine {
+  --theme-c1: #3FAE5C; --theme-c1-rgb: 63,174,92;
+  --theme-c2: #1E7A3D; --theme-c2-rgb: 30,122,61;
+  --theme-c3: #2E9650; --theme-c3-rgb: 46,150,80;
+  --theme-c4: #154C7A; --theme-c4-rgb: 21,76,122;
+  --theme-g1: #3FAE5C; --theme-g1-rgb: 63,174,92;
+  --theme-g2: #154C7A; --theme-g2-rgb: 21,76,122;
+  --theme-bg: #DDF0E2;
+  background-image: linear-gradient(135deg, #3FAE5C 0%, #154C7A 100%) !important;
+}
+body.theme-makkah-dawn {
+  --theme-c1: #8A8578; --theme-c1-rgb: 138,133,120;
+  --theme-c2: #5C574A; --theme-c2-rgb: 92,87,74;
+  --theme-c3: #726D5E; --theme-c3-rgb: 114,109,94;
+  --theme-c4: #D4AF6A; --theme-c4-rgb: 212,175,106;
+  --theme-g1: #8A8578; --theme-g1-rgb: 138,133,120;
+  --theme-g2: #D4AF6A; --theme-g2-rgb: 212,175,106;
+  --theme-bg: #EDE6D4;
+  background-image: linear-gradient(135deg, #8A8578 0%, #D4AF6A 100%) !important;
+}
+body.theme-madinah-night {
+  --theme-c1: #2F4A3E; --theme-c1-rgb: 47,74,62;
+  --theme-c2: #17281F; --theme-c2-rgb: 23,40,31;
+  --theme-c3: #23392E; --theme-c3-rgb: 35,57,46;
+  --theme-c4: #B0BFB9; --theme-c4-rgb: 176,191,185;
+  --theme-g1: #2F4A3E; --theme-g1-rgb: 47,74,62;
+  --theme-g2: #B0BFB9; --theme-g2-rgb: 176,191,185;
+  --theme-bg: #DDE6E2;
+  background-image: linear-gradient(135deg, #2F4A3E 0%, #B0BFB9 100%) !important;
+}
+body.theme-peach-blush {
+  --theme-c1: #F7B98F; --theme-c1-rgb: 247,185,143;
+  --theme-c2: #C97C4E; --theme-c2-rgb: 201,124,78;
+  --theme-c3: #E39B6C; --theme-c3-rgb: 227,155,108;
+  --theme-c4: #F49AC1; --theme-c4-rgb: 244,154,193;
+  --theme-g1: #F7B98F; --theme-g1-rgb: 247,185,143;
+  --theme-g2: #F49AC1; --theme-g2-rgb: 244,154,193;
+  --theme-bg: #FBEAE0;
+  background-image: linear-gradient(135deg, #F7B98F 0%, #F49AC1 100%) !important;
+}
+body.theme-neon-cyber {
+  --theme-c1: #00E5FF; --theme-c1-rgb: 0,229,255;
+  --theme-c2: #00A8B8; --theme-c2-rgb: 0,168,184;
+  --theme-c3: #00C4D6; --theme-c3-rgb: 0,196,214;
+  --theme-c4: #D400FF; --theme-c4-rgb: 212,0,255;
+  --theme-g1: #00E5FF; --theme-g1-rgb: 0,229,255;
+  --theme-g2: #D400FF; --theme-g2-rgb: 212,0,255;
+  --theme-bg: #E0F7FF;
+  background-image: linear-gradient(135deg, #00E5FF 0%, #D400FF 100%) !important;
+}
+body.theme-frost-peak {
+  --theme-c1: #9FC9E8; --theme-c1-rgb: 159,201,232;
+  --theme-c2: #5E93B8; --theme-c2-rgb: 94,147,184;
+  --theme-c3: #7BAED0; --theme-c3-rgb: 123,174,208;
+  --theme-c4: #1B2A4A; --theme-c4-rgb: 27,42,74;
+  --theme-g1: #9FC9E8; --theme-g1-rgb: 159,201,232;
+  --theme-g2: #1B2A4A; --theme-g2-rgb: 27,42,74;
+  --theme-bg: #EAF4FB;
+  background-image: linear-gradient(135deg, #9FC9E8 0%, #1B2A4A 100%) !important;
+}
 body.theme-sky, body.theme-emerald, body.theme-amber, body.theme-slate,
 body.theme-lavender, body.theme-teal, body.theme-rose, body.theme-terracotta,
 body.theme-ruby, body.theme-indigo, body.theme-olive, body.theme-coral,
@@ -413,7 +618,15 @@ body.theme-ramadan-nights, body.theme-copper-bronze, body.theme-deep-forest,
 body.theme-rose-gold,
 body.theme-mint, body.theme-navy, body.theme-plum, body.theme-sunny,
 body.theme-silver, body.theme-vivid-orange, body.theme-royal-emerald,
-body.theme-soft-pink {
+body.theme-soft-pink,
+body.theme-glacier-cyan, body.theme-coffee-brown, body.theme-warm-sand,
+body.theme-aubergine, body.theme-jade, body.theme-crimson,
+body.theme-deep-cerulean, body.theme-autumn-maple, body.theme-onyx-black,
+body.theme-citrus-lime, body.theme-classic-beige,
+body.theme-aurora, body.theme-ocean-sunset, body.theme-berry-bliss,
+body.theme-golden-dusk, body.theme-northern-pine,
+body.theme-makkah-dawn, body.theme-madinah-night, body.theme-peach-blush,
+body.theme-neon-cyber, body.theme-frost-peak {
   background-color: var(--theme-bg) !important;
 }
 </style>
@@ -474,7 +687,7 @@ button[data-basit-type="saudi-muratal"] .flag {
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1D9E75">
+  <meta name="theme-color" content="#1e90ff">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="قرآن إذاعة">
@@ -3268,14 +3481,14 @@ body.dark-mode .modal-header {
 }
 
 body.dark-mode .tasbih-box {
-    background: #252535 !important;
+    background: linear-gradient(135deg, #252535, rgba(var(--theme-c1-rgb),0.28)) !important;
     color: #e0e0e0 !important;
-    border: 1px solid #555 !important;
+    border: 1px solid rgba(var(--theme-c1-rgb),0.5) !important;
     border-bottom: none !important;
 }
 
 body.dark-mode .tasbih-box:active {
-    background: #333 !important;
+    background: linear-gradient(135deg, #333, rgba(var(--theme-c1-rgb),0.38)) !important;
 }
 
 body.dark-mode .tasbih-ghost-target {
@@ -3798,22 +4011,22 @@ body.dark-mode .custom-tooltip::after {
     width: 70px;
     height: 45px;
 
-    background: #ffffff;
-    color: #000000;
+    background: linear-gradient(135deg, #ffffff, rgba(var(--theme-c1-rgb),0.22));
+    color: var(--theme-c4);
 
     border-radius: 8px 8px 0 0;
     padding: 0 6px 0 4px;
     font-weight: bold;
     font-size: 14px;
 
-    border: 1px solid #ccc;
+    border: 1px solid rgba(var(--theme-c1-rgb),0.55);
 
     z-index: 1;
     overflow: hidden;
 }
 
 .tasbih-box:active {
-    background: #f1f1f1;
+    background: linear-gradient(135deg, #f1f1f1, rgba(var(--theme-c1-rgb),0.32));
 }
 
 .tasbih-ghost-target {
@@ -4531,23 +4744,32 @@ button[data-category="Adhkar" data-adhkar-type="general"] .station-text {
     color: var(--theme-c4);
 transform: scale(1.02);
 box-shadow: 0 0 10px rgba(var(--theme-c1-rgb),0.8);
-border: 2px solid var(--theme-c1);
+border: 2px solid var(--theme-c2);
     transition: all 0.3s ease;
 }
 
 .button.completed::after {
     content: "✔";
     position: absolute;
-    bottom: 2px;
+    bottom: 3px;
     left: 10px;
-    color: var(--theme-c2);
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--theme-c2);
+    color: #fff;
+    font-size: 11px;
     font-weight: bold;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.85), 0 1px 4px rgba(0,0,0,0.35);
 }
 
 .button.completed .tasbih-box {
-    background: linear-gradient(135deg, var(--theme-c1), var(--theme-c2)) !important;
-    border-color: var(--theme-c2) !important;
-    box-shadow: 0 0 8px rgba(var(--theme-c1-rgb),0.45);
+    background: linear-gradient(135deg, var(--theme-c2), var(--theme-c4)) !important;
+    border: 2px solid rgba(255,255,255,0.85) !important;
+    box-shadow: 0 0 8px rgba(var(--theme-c4-rgb),0.55), 0 1px 4px rgba(0,0,0,0.25);
     transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -4721,7 +4943,9 @@ body.dark-mode .subfilter-scroll-strip {
     animation: subFilterSlideIn 0.25s ease both;
 }
 .subfilter-scroll-strip button:hover {
-    background: #e8f4ff;
+    background: rgba(var(--theme-c1-rgb),0.12);
+    border-color: var(--theme-c1);
+    color: var(--theme-c2);
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(var(--theme-c1-rgb),0.18);
 }
@@ -14218,11 +14442,14 @@ setTimeout(autoScaleVerseFont, 100);
       <label data-ar="🎨 المظهر" data-en="🎨 Theme" data-fr="🎨 Thème" data-es="🎨 Tema" data-sv="🎨 Tema" data-nl="🎨 Thema" data-ga="🎨 Téama" data-de="🎨 Design" data-ru="🎨 Тема" data-tr="🎨 Tema" data-pt="🎨 Tema" data-zh="🎨 主题" data-ur="🎨 تھیم">🎨 المظهر</label>
       <select id="siteTheme" class="responsive-select" onchange="changeSiteTheme()">
     <option data-ar="اختر مظهرًا" data-en="Choose a theme" value="">اختر مظهرًا</option>
+    <optgroup label="الأساسي والأعلام والوضع الليلي" data-ar="الأساسي والأعلام والوضع الليلي" data-en="Basic, Flags & Dark Mode">
     <option data-ar="🌿 الافتراضي" data-en="🌿 Default" value="default" style="background-color:#ffffff; color:#2c3e50;">🌿 الافتراضي</option>
     <option data-ar="🇵🇸 علم فلسطين" data-en="🇵🇸 Palestine Flag" value="palestine" style="background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%); color:#fff;">🇵🇸 علم فلسطين</option>
     <option data-ar="🇪🇬 علم مصر" data-en="🇪🇬 Egypt Flag" value="egypt" style="background: linear-gradient(to bottom, #B33A3A 33%, #ffffff 33%, #ffffff 66%, #1a1a1a 66%); color:#8C2F2F;">🇪🇬 علم مصر</option>
     <option data-ar="🇸🇦 علم السعودية" data-en="🇸🇦 Saudi Flag" value="saudi" style="background-color:#128040; color:#fff;">🇸🇦 علم السعودية</option>
     <option data-ar="🌙 الوضع الليلي" data-en="🌙 Dark Mode" value="dark" style="background-color:#1e1e2e; color:#fff;">🌙 الوضع الليلي</option>
+    </optgroup>
+    <optgroup label="ألوان ثابتة" data-ar="ألوان ثابتة" data-en="Solid Colors">
     <option data-ar="💧 أزرق هادئ" data-en="💧 Calm Blue" value="sky" style="background-color:#6B8CAE; color:#fff;">💧 أزرق هادئ</option>
     <option data-ar="💚 أخضر سلفي" data-en="💚 Sage Green" value="emerald" style="background-color:#7A9E8E; color:#fff;">💚 أخضر سلفي</option>
     <option data-ar="🌟 عسلي دافئ" data-en="🌟 Honey Gold" value="amber" style="background-color:#C2A05A; color:#fff;">🌟 عسلي دافئ</option>
@@ -14239,13 +14466,9 @@ setTimeout(autoScaleVerseFont, 100);
     <option data-ar="🍷 نبيذي" data-en="🍷 Burgundy" value="burgundy" style="background-color:#8B3A42; color:#fff;">🍷 نبيذي</option>
     <option data-ar="🌾 خردلي" data-en="🌾 Mustard" value="mustard" style="background-color:#BF9736; color:#fff;">🌾 خردلي</option>
     <option data-ar="⬛ فحمي" data-en="⬛ Charcoal" value="charcoal" style="background-color:#5C6570; color:#fff;">⬛ فحمي</option>
-    <option data-ar="🌅 غروب صحراوي" data-en="🌅 Sunset Desert" value="sunset-desert" style="background: linear-gradient(to bottom right, #E08B45, #3D2145); color:#fff;">🌅 غروب صحراوي</option>
     <option data-ar="🌊 محيط عميق" data-en="🌊 Deep Ocean" value="deep-ocean" style="background-color:#1B4A73; color:#fff;">🌊 محيط عميق</option>
-    <option data-ar="🕌 عثماني ذهبي" data-en="🕌 Ottoman Gold" value="ottoman-gold" style="background: linear-gradient(to bottom right, #3E8E86, #B8860B); color:#fff;">🕌 عثماني ذهبي</option>
-    <option data-ar="🌙 ليالي رمضان" data-en="🌙 Ramadan Nights" value="ramadan-nights" style="background: linear-gradient(to bottom right, #2E2148, #B8860B); color:#fff;">🌙 ليالي رمضان</option>
     <option data-ar="🍯 نحاسي دافئ" data-en="🍯 Copper Bronze" value="copper-bronze" style="background-color:#B87333; color:#fff;">🍯 نحاسي دافئ</option>
     <option data-ar="🌿 غابة عميقة" data-en="🌿 Deep Forest" value="deep-forest" style="background-color:#1B4020; color:#fff;">🌿 غابة عميقة</option>
-    <option data-ar="🌸 وردي ذهبي" data-en="🌸 Rose Gold" value="rose-gold" style="background: linear-gradient(to bottom right, #D9A6A0, #B8860B); color:#fff;">🌸 وردي ذهبي</option>
     <option data-ar="🍃 نعناعي منعش" data-en="🍃 Fresh Mint" value="mint" style="background-color:#4CBB8A; color:#fff;">🍃 نعناعي منعش</option>
     <option data-ar="🌌 كحلي ملكي" data-en="🌌 Royal Navy" value="navy" style="background-color:#3D5A80; color:#fff;">🌌 كحلي ملكي</option>
     <option data-ar="🍇 عنابي بنفسجي" data-en="🍇 Royal Plum" value="plum" style="background-color:#9B5DE5; color:#fff;">🍇 عنابي بنفسجي</option>
@@ -14254,6 +14477,34 @@ setTimeout(autoScaleVerseFont, 100);
     <option data-ar="🍊 برتقالي حيوي" data-en="🍊 Vivid Orange" value="vivid-orange" style="background-color:#F0803C; color:#fff;">🍊 برتقالي حيوي</option>
     <option data-ar="💎 زمردي ملكي" data-en="💎 Royal Emerald" value="royal-emerald" style="background-color:#1FA37A; color:#fff;">💎 زمردي ملكي</option>
     <option data-ar="🌷 وردي فاتح" data-en="🌷 Soft Pink" value="soft-pink" style="background-color:#F0A6C4; color:#fff;">🌷 وردي فاتح</option>
+    <option data-ar="🧊 تركواز جليدي" data-en="🧊 Glacier Cyan" value="glacier-cyan" style="background-color:#4FB8C4; color:#fff;">🧊 تركواز جليدي</option>
+    <option data-ar="☕ بني قهوة" data-en="☕ Coffee Brown" value="coffee-brown" style="background-color:#8B5E3C; color:#fff;">☕ بني قهوة</option>
+    <option data-ar="🏜️ رملي دافئ" data-en="🏜️ Warm Sand" value="warm-sand" style="background-color:#C9A876; color:#fff;">🏜️ رملي دافئ</option>
+    <option data-ar="🍆 عنابي بنفسجي غامق" data-en="🍆 Aubergine" value="aubergine" style="background-color:#6B3F5C; color:#fff;">🍆 عنابي بنفسجي غامق</option>
+    <option data-ar="💚 يشمي أخضر" data-en="💚 Jade" value="jade" style="background-color:#2FA88A; color:#fff;">💚 يشمي أخضر</option>
+    <option data-ar="🔴 أحمر قرمزي" data-en="🔴 Crimson" value="crimson" style="background-color:#C0392B; color:#fff;">🔴 أحمر قرمزي</option>
+    <option data-ar="🌊 أزرق فيروزي عميق" data-en="🌊 Deep Cerulean" value="deep-cerulean" style="background-color:#0F52BA; color:#fff;">🌊 أزرق فيروزي عميق</option>
+    <option data-ar="🍁 قرمزي خريفي" data-en="🍁 Autumn Maple" value="autumn-maple" style="background-color:#D2601A; color:#fff;">🍁 قرمزي خريفي</option>
+    <option data-ar="🖤 أسود أنيق" data-en="🖤 Onyx Black" value="onyx-black" style="background-color:#2B2E33; color:#fff;">🖤 أسود أنيق</option>
+    <option data-ar="💛 ليموني منعش" data-en="💛 Citrus Lime" value="citrus-lime" style="background-color:#A4C639; color:#fff;">💛 ليموني منعش</option>
+    <option data-ar="🩶 بيج كلاسيكي" data-en="🩶 Classic Beige" value="classic-beige" style="background-color:#CFC3AC; color:#fff;">🩶 بيج كلاسيكي</option>
+    </optgroup>
+    <optgroup label="ثيمات متدرجة" data-ar="ثيمات متدرجة" data-en="Gradient Themes">
+    <option data-ar="🌅 غروب صحراوي" data-en="🌅 Sunset Desert" value="sunset-desert" style="background: linear-gradient(to bottom right, #E08B45, #3D2145); color:#fff;">🌅 غروب صحراوي</option>
+    <option data-ar="🕌 عثماني ذهبي" data-en="🕌 Ottoman Gold" value="ottoman-gold" style="background: linear-gradient(to bottom right, #3E8E86, #B8860B); color:#fff;">🕌 عثماني ذهبي</option>
+    <option data-ar="🌙 ليالي رمضان" data-en="🌙 Ramadan Nights" value="ramadan-nights" style="background: linear-gradient(to bottom right, #2E2148, #B8860B); color:#fff;">🌙 ليالي رمضان</option>
+    <option data-ar="🌸 وردي ذهبي" data-en="🌸 Rose Gold" value="rose-gold" style="background: linear-gradient(to bottom right, #D9A6A0, #B8860B); color:#fff;">🌸 وردي ذهبي</option>
+    <option data-ar="🌌 شفق قطبي" data-en="🌌 Aurora" value="aurora" style="background: linear-gradient(135deg, #2DD4BF 0%, #6D28D9 100%); color:#fff;">🌌 شفق قطبي</option>
+    <option data-ar="🌇 غروب المحيط" data-en="🌇 Ocean Sunset" value="ocean-sunset" style="background: linear-gradient(135deg, #2E86DE 0%, #E8730F 100%); color:#fff;">🌇 غروب المحيط</option>
+    <option data-ar="🍇 توت وردي" data-en="🍇 Berry Bliss" value="berry-bliss" style="background: linear-gradient(135deg, #E754A0 0%, #2E2A6E 100%); color:#fff;">🍇 توت وردي</option>
+    <option data-ar="🌆 شفق ذهبي" data-en="🌆 Golden Dusk" value="golden-dusk" style="background: linear-gradient(135deg, #F0B429 0%, #7A1F2B 100%); color:#fff;">🌆 شفق ذهبي</option>
+    <option data-ar="🌲 غابة شمالية" data-en="🌲 Northern Pine" value="northern-pine" style="background: linear-gradient(135deg, #3FAE5C 0%, #154C7A 100%); color:#fff;">🌲 غابة شمالية</option>
+    <option data-ar="🕋 فجر مكة" data-en="🕋 Makkah Dawn" value="makkah-dawn" style="background: linear-gradient(135deg, #8A8578 0%, #D4AF6A 100%); color:#fff;">🕋 فجر مكة</option>
+    <option data-ar="🌃 ليل المدينة" data-en="🌃 Madinah Night" value="madinah-night" style="background: linear-gradient(135deg, #2F4A3E 0%, #B0BFB9 100%); color:#fff;">🌃 ليل المدينة</option>
+    <option data-ar="🍑 خوخي ووردي" data-en="🍑 Peach Blush" value="peach-blush" style="background: linear-gradient(135deg, #F7B98F 0%, #F49AC1 100%); color:#fff;">🍑 خوخي ووردي</option>
+    <option data-ar="⚡ نيون سايبر" data-en="⚡ Neon Cyber" value="neon-cyber" style="background: linear-gradient(135deg, #00E5FF 0%, #D400FF 100%); color:#fff;">⚡ نيون سايبر</option>
+    <option data-ar="🏔️ جبل ثلجي" data-en="🏔️ Frost Peak" value="frost-peak" style="background: linear-gradient(135deg, #9FC9E8 0%, #1B2A4A 100%); color:#fff;">🏔️ جبل ثلجي</option>
+    </optgroup>
       </select>
     </div>
     <div class="color-setting-item" id="settings-lang-item">
@@ -28836,8 +29087,8 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     var done = spCount >= spTarget;
     var rem = Math.max(0, spTarget - spCount);
     var dhikr = spGetDhikr();
-    var themeG1 = spThemeColor('--theme-g1', '#1D9E75');
-    var themeG2 = spThemeColor('--theme-g2', '#0F6E56');
+    var themeG1 = spThemeColor('--theme-g1', '#1e90ff');
+    var themeG2 = spThemeColor('--theme-g2', '#1A5276');
 
     spCtx.clearRect(0, 0, w, h);
     spCtx.fillStyle = done ? '#E8F8F2' : '#E8F8F2';
@@ -34700,6 +34951,10 @@ function applyInitialLanguage() {
       var en = o.getAttribute('data-en');
       if (en) o.textContent = en;
     });
+    if (themeSel) Array.from(themeSel.getElementsByTagName('optgroup')).forEach(function(g) {
+      var en = g.getAttribute('data-en');
+      if (en) g.label = en;
+    });
 
     var tgEl = document.querySelector('a.telegram-button[data-en]');
     if (tgEl) tgEl.textContent = tgEl.getAttribute('data-en');
@@ -36044,6 +36299,11 @@ function toggleLanguage() {
       var en = opt.getAttribute('data-en');
       if (ar && en) opt.textContent = isArabic ? ar : en;
     });
+    Array.from(themeSel.getElementsByTagName('optgroup')).forEach(function(g) {
+      var ar = g.getAttribute('data-ar');
+      var en = g.getAttribute('data-en');
+      if (ar && en) g.label = isArabic ? ar : en;
+    });
   }
 
   var letsChatEl = document.querySelector('a.telegram-button[data-ar]');
@@ -37098,9 +37358,30 @@ var SITE_THEMES = {
   'silver':         { btn: '#A0AAB8', cls: 'theme-silver' },
   'vivid-orange':   { btn: '#F0803C', cls: 'theme-vivid-orange' },
   'royal-emerald':  { btn: '#1FA37A', cls: 'theme-royal-emerald' },
-  'soft-pink':      { btn: '#F0A6C4', cls: 'theme-soft-pink' }
+  'soft-pink':      { btn: '#F0A6C4', cls: 'theme-soft-pink' },
+  'glacier-cyan':   { btn: '#4FB8C4', cls: 'theme-glacier-cyan' },
+  'coffee-brown':   { btn: '#8B5E3C', cls: 'theme-coffee-brown' },
+  'warm-sand':      { btn: '#C9A876', cls: 'theme-warm-sand' },
+  'aubergine':      { btn: '#6B3F5C', cls: 'theme-aubergine' },
+  'jade':           { btn: '#2FA88A', cls: 'theme-jade' },
+  'crimson':        { btn: '#C0392B', cls: 'theme-crimson' },
+  'deep-cerulean':  { btn: '#0F52BA', cls: 'theme-deep-cerulean' },
+  'autumn-maple':   { btn: '#D2601A', cls: 'theme-autumn-maple' },
+  'onyx-black':     { btn: '#2B2E33', cls: 'theme-onyx-black' },
+  'citrus-lime':    { btn: '#A4C639', cls: 'theme-citrus-lime' },
+  'classic-beige':  { btn: '#CFC3AC', cls: 'theme-classic-beige' },
+  'aurora':         { btn: '#2DD4BF', cls: 'theme-aurora' },
+  'ocean-sunset':   { btn: '#2E86DE', cls: 'theme-ocean-sunset' },
+  'berry-bliss':    { btn: '#E754A0', cls: 'theme-berry-bliss' },
+  'golden-dusk':    { btn: '#F0B429', cls: 'theme-golden-dusk' },
+  'northern-pine':  { btn: '#3FAE5C', cls: 'theme-northern-pine' },
+  'makkah-dawn':    { btn: '#8A8578', cls: 'theme-makkah-dawn' },
+  'madinah-night':  { btn: '#2F4A3E', cls: 'theme-madinah-night' },
+  'peach-blush':    { btn: '#F7B98F', cls: 'theme-peach-blush' },
+  'neon-cyber':     { btn: '#00E5FF', cls: 'theme-neon-cyber' },
+  'frost-peak':     { btn: '#9FC9E8', cls: 'theme-frost-peak' }
 };
-var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate', 'theme-lavender', 'theme-teal', 'theme-rose', 'theme-terracotta', 'theme-ruby', 'theme-indigo', 'theme-olive', 'theme-coral', 'theme-turquoise', 'theme-burgundy', 'theme-mustard', 'theme-charcoal', 'theme-palestine', 'theme-egypt', 'theme-saudi', 'theme-sunset-desert', 'theme-deep-ocean', 'theme-ottoman-gold', 'theme-ramadan-nights', 'theme-copper-bronze', 'theme-deep-forest', 'theme-rose-gold', 'theme-mint', 'theme-navy', 'theme-plum', 'theme-sunny', 'theme-silver', 'theme-vivid-orange', 'theme-royal-emerald', 'theme-soft-pink'];
+var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate', 'theme-lavender', 'theme-teal', 'theme-rose', 'theme-terracotta', 'theme-ruby', 'theme-indigo', 'theme-olive', 'theme-coral', 'theme-turquoise', 'theme-burgundy', 'theme-mustard', 'theme-charcoal', 'theme-palestine', 'theme-egypt', 'theme-saudi', 'theme-sunset-desert', 'theme-deep-ocean', 'theme-ottoman-gold', 'theme-ramadan-nights', 'theme-copper-bronze', 'theme-deep-forest', 'theme-rose-gold', 'theme-mint', 'theme-navy', 'theme-plum', 'theme-sunny', 'theme-silver', 'theme-vivid-orange', 'theme-royal-emerald', 'theme-soft-pink', 'theme-glacier-cyan', 'theme-coffee-brown', 'theme-warm-sand', 'theme-aubergine', 'theme-jade', 'theme-crimson', 'theme-deep-cerulean', 'theme-autumn-maple', 'theme-onyx-black', 'theme-citrus-lime', 'theme-classic-beige', 'theme-aurora', 'theme-ocean-sunset', 'theme-berry-bliss', 'theme-golden-dusk', 'theme-northern-pine', 'theme-makkah-dawn', 'theme-madinah-night', 'theme-peach-blush', 'theme-neon-cyber', 'theme-frost-peak'];
 
 function applySiteTheme(theme, save) {
   if (save === undefined) save = true;
@@ -37129,7 +37410,7 @@ function applySiteTheme(theme, save) {
   try {
     var themeColorMeta = document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
-      themeColorMeta.setAttribute('content', getComputedStyle(document.body).getPropertyValue('--theme-g1').trim() || '#1D9E75');
+      themeColorMeta.setAttribute('content', getComputedStyle(document.body).getPropertyValue('--theme-g1').trim() || '#1e90ff');
     }
   } catch (e) {}
   try {
