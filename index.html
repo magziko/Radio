@@ -502,6 +502,33 @@ body.theme-classic-beige {
   --theme-g2: #6B6048; --theme-g2-rgb: 107,96,72;
   --theme-bg: #F2EDE1;
 }
+body.theme-cobalt {
+  --theme-c1: #4C6FE0; --theme-c1-rgb: 76,111,224;
+  --theme-c2: #24389F; --theme-c2-rgb: 36,56,159;
+  --theme-c3: #3350C0; --theme-c3-rgb: 51,80,192;
+  --theme-c4: #121C55; --theme-c4-rgb: 18,28,85;
+  --theme-g1: #4C6FE0; --theme-g1-rgb: 76,111,224;
+  --theme-g2: #121C55; --theme-g2-rgb: 18,28,85;
+  --theme-bg: #E2E6FB;
+}
+body.theme-soft-gold {
+  --theme-c1: #E8C97A; --theme-c1-rgb: 232,201,122;
+  --theme-c2: #A9822E; --theme-c2-rgb: 169,130,46;
+  --theme-c3: #CBAA52; --theme-c3-rgb: 203,170,82;
+  --theme-c4: #6B4F14; --theme-c4-rgb: 107,79,20;
+  --theme-g1: #E8C97A; --theme-g1-rgb: 232,201,122;
+  --theme-g2: #6B4F14; --theme-g2-rgb: 107,79,20;
+  --theme-bg: #FBF3DC;
+}
+body.theme-moss {
+  --theme-c1: #8A9A5B; --theme-c1-rgb: 138,154,91;
+  --theme-c2: #4E5B2E; --theme-c2-rgb: 78,91,46;
+  --theme-c3: #6C7B41; --theme-c3-rgb: 108,123,65;
+  --theme-c4: #2A331A; --theme-c4-rgb: 42,51,26;
+  --theme-g1: #8A9A5B; --theme-g1-rgb: 138,154,91;
+  --theme-g2: #2A331A; --theme-g2-rgb: 42,51,26;
+  --theme-bg: #E8ECD9;
+}
 /* ===== Gradient themes =====
    Same mechanism as the solid themes above (c1-c4 still drive buttons,
    borders, hovers via the existing gradient CSS at var(--theme-c1)->
@@ -608,6 +635,36 @@ body.theme-frost-peak {
   --theme-bg: #EAF4FB;
   background-image: linear-gradient(135deg, #9FC9E8 0%, #1B2A4A 100%) !important;
 }
+body.theme-sapphire-dusk {
+  --theme-c1: #3E6FD9; --theme-c1-rgb: 62,111,217;
+  --theme-c2: #1B2C6B; --theme-c2-rgb: 27,44,107;
+  --theme-c3: #2C4AA0; --theme-c3-rgb: 44,74,160;
+  --theme-c4: #4A1E7A; --theme-c4-rgb: 74,30,122;
+  --theme-g1: #3E6FD9; --theme-g1-rgb: 62,111,217;
+  --theme-g2: #4A1E7A; --theme-g2-rgb: 74,30,122;
+  --theme-bg: #E4E7F7;
+  background-image: linear-gradient(135deg, #3E6FD9 0%, #4A1E7A 100%) !important;
+}
+body.theme-rosewood-ember {
+  --theme-c1: #D97878; --theme-c1-rgb: 217,120,120;
+  --theme-c2: #7A2E2E; --theme-c2-rgb: 122,46,46;
+  --theme-c3: #B85252; --theme-c3-rgb: 184,82,82;
+  --theme-c4: #F0A93E; --theme-c4-rgb: 240,169,62;
+  --theme-g1: #D97878; --theme-g1-rgb: 217,120,120;
+  --theme-g2: #F0A93E; --theme-g2-rgb: 240,169,62;
+  --theme-bg: #FBE4E0;
+  background-image: linear-gradient(135deg, #D97878 0%, #F0A93E 100%) !important;
+}
+body.theme-emerald-horizon {
+  --theme-c1: #3FC1A0; --theme-c1-rgb: 63,193,160;
+  --theme-c2: #0F4A3E; --theme-c2-rgb: 15,74,62;
+  --theme-c3: #1F8670; --theme-c3-rgb: 31,134,112;
+  --theme-c4: #123258; --theme-c4-rgb: 18,50,88;
+  --theme-g1: #3FC1A0; --theme-g1-rgb: 63,193,160;
+  --theme-g2: #123258; --theme-g2-rgb: 18,50,88;
+  --theme-bg: #DFF3EC;
+  background-image: linear-gradient(135deg, #3FC1A0 0%, #123258 100%) !important;
+}
 body.theme-sky, body.theme-emerald, body.theme-amber, body.theme-slate,
 body.theme-lavender, body.theme-teal, body.theme-rose, body.theme-terracotta,
 body.theme-ruby, body.theme-indigo, body.theme-olive, body.theme-coral,
@@ -623,10 +680,12 @@ body.theme-glacier-cyan, body.theme-coffee-brown, body.theme-warm-sand,
 body.theme-aubergine, body.theme-jade, body.theme-crimson,
 body.theme-deep-cerulean, body.theme-autumn-maple, body.theme-onyx-black,
 body.theme-citrus-lime, body.theme-classic-beige,
+body.theme-cobalt, body.theme-soft-gold, body.theme-moss,
 body.theme-aurora, body.theme-ocean-sunset, body.theme-berry-bliss,
 body.theme-golden-dusk, body.theme-northern-pine,
 body.theme-makkah-dawn, body.theme-madinah-night, body.theme-peach-blush,
-body.theme-neon-cyber, body.theme-frost-peak {
+body.theme-neon-cyber, body.theme-frost-peak,
+body.theme-sapphire-dusk, body.theme-rosewood-ember, body.theme-emerald-horizon {
   background-color: var(--theme-bg) !important;
 }
 </style>
@@ -14444,8 +14503,8 @@ setTimeout(autoScaleVerseFont, 100);
     <option data-ar="اختر مظهرًا" data-en="Choose a theme" value="">اختر مظهرًا</option>
     <optgroup label="الأساسي والأعلام والوضع الليلي" data-ar="الأساسي والأعلام والوضع الليلي" data-en="Basic, Flags & Dark Mode">
     <option data-ar="🌿 الافتراضي" data-en="🌿 Default" value="default" style="background-color:#ffffff; color:#2c3e50;">🌿 الافتراضي</option>
-    <option data-ar="🇵🇸 علم فلسطين" data-en="🇵🇸 Palestine Flag" value="palestine" style="background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%); color:#fff;">🇵🇸 علم فلسطين</option>
-    <option data-ar="🇪🇬 علم مصر" data-en="🇪🇬 Egypt Flag" value="egypt" style="background: linear-gradient(to bottom, #B33A3A 33%, #ffffff 33%, #ffffff 66%, #1a1a1a 66%); color:#8C2F2F;">🇪🇬 علم مصر</option>
+    <option data-ar="🇵🇸 علم فلسطين" data-en="🇵🇸 Palestine Flag" value="palestine" style="background-color:#007a3d; color:#fff;">🇵🇸 علم فلسطين</option>
+    <option data-ar="🇪🇬 علم مصر" data-en="🇪🇬 Egypt Flag" value="egypt" style="background-color:#8C2F2F; color:#fff;">🇪🇬 علم مصر</option>
     <option data-ar="🇸🇦 علم السعودية" data-en="🇸🇦 Saudi Flag" value="saudi" style="background-color:#128040; color:#fff;">🇸🇦 علم السعودية</option>
     <option data-ar="🌙 الوضع الليلي" data-en="🌙 Dark Mode" value="dark" style="background-color:#1e1e2e; color:#fff;">🌙 الوضع الليلي</option>
     </optgroup>
@@ -14458,12 +14517,12 @@ setTimeout(autoScaleVerseFont, 100);
     <option data-ar="🌊 تركواز هادئ" data-en="🌊 Soft Teal" value="teal" style="background-color:#6FA8A0; color:#fff;">🌊 تركواز هادئ</option>
     <option data-ar="🌸 وردي ترابي" data-en="🌸 Dusty Rose" value="rose" style="background-color:#B98A8F; color:#fff;">🌸 وردي ترابي</option>
     <option data-ar="🧡 تراكوتا دافئ" data-en="🧡 Warm Terracotta" value="terracotta" style="background-color:#BD7B5A; color:#fff;">🧡 تراكوتا دافئ</option>
-    <option data-ar="❤️ عنابي ياقوتي" data-en="❤️ Ruby Wine" value="ruby" style="background-color:#B8626A; color:#fff;">❤️ عنابي ياقوتي</option>
+    <option data-ar="❤️ عنابي ياقوتي" data-en="❤️ Ruby Red" value="ruby" style="background-color:#B8626A; color:#fff;">❤️ عنابي ياقوتي</option>
     <option data-ar="🔷 نيلي غامق" data-en="🔷 Deep Indigo" value="indigo" style="background-color:#7B85C4; color:#fff;">🔷 نيلي غامق</option>
     <option data-ar="🫒 زيتوني" data-en="🫒 Olive" value="olive" style="background-color:#A8AC5E; color:#fff;">🫒 زيتوني</option>
     <option data-ar="🪸 مرجاني" data-en="🪸 Coral" value="coral" style="background-color:#D98868; color:#fff;">🪸 مرجاني</option>
     <option data-ar="🩵 تركواز سماوي" data-en="🩵 Turquoise" value="turquoise" style="background-color:#45AEB8; color:#fff;">🩵 تركواز سماوي</option>
-    <option data-ar="🍷 نبيذي" data-en="🍷 Burgundy" value="burgundy" style="background-color:#8B3A42; color:#fff;">🍷 نبيذي</option>
+    <option data-ar="🍂 عنابي غامق" data-en="🍂 Deep Maroon" value="burgundy" style="background-color:#8B3A42; color:#fff;">🍂 عنابي غامق</option>
     <option data-ar="🌾 خردلي" data-en="🌾 Mustard" value="mustard" style="background-color:#BF9736; color:#fff;">🌾 خردلي</option>
     <option data-ar="⬛ فحمي" data-en="⬛ Charcoal" value="charcoal" style="background-color:#5C6570; color:#fff;">⬛ فحمي</option>
     <option data-ar="🌊 محيط عميق" data-en="🌊 Deep Ocean" value="deep-ocean" style="background-color:#1B4A73; color:#fff;">🌊 محيط عميق</option>
@@ -14488,22 +14547,28 @@ setTimeout(autoScaleVerseFont, 100);
     <option data-ar="🖤 أسود أنيق" data-en="🖤 Onyx Black" value="onyx-black" style="background-color:#2B2E33; color:#fff;">🖤 أسود أنيق</option>
     <option data-ar="💛 ليموني منعش" data-en="💛 Citrus Lime" value="citrus-lime" style="background-color:#A4C639; color:#fff;">💛 ليموني منعش</option>
     <option data-ar="🩶 بيج كلاسيكي" data-en="🩶 Classic Beige" value="classic-beige" style="background-color:#CFC3AC; color:#fff;">🩶 بيج كلاسيكي</option>
+    <option data-ar="🔵 كوبالت نابض" data-en="🔵 Vivid Cobalt" value="cobalt" style="background-color:#4C6FE0; color:#fff;">🔵 كوبالت نابض</option>
+    <option data-ar="🌟 ذهبي ناعم" data-en="🌟 Soft Gold" value="soft-gold" style="background-color:#E8C97A; color:#fff;">🌟 ذهبي ناعم</option>
+    <option data-ar="🌱 أخضر طحلبي" data-en="🌱 Moss Green" value="moss" style="background-color:#8A9A5B; color:#fff;">🌱 أخضر طحلبي</option>
     </optgroup>
     <optgroup label="ثيمات متدرجة" data-ar="ثيمات متدرجة" data-en="Gradient Themes">
-    <option data-ar="🌅 غروب صحراوي" data-en="🌅 Sunset Desert" value="sunset-desert" style="background: linear-gradient(to bottom right, #E08B45, #3D2145); color:#fff;">🌅 غروب صحراوي</option>
-    <option data-ar="🕌 عثماني ذهبي" data-en="🕌 Ottoman Gold" value="ottoman-gold" style="background: linear-gradient(to bottom right, #3E8E86, #B8860B); color:#fff;">🕌 عثماني ذهبي</option>
-    <option data-ar="🌙 ليالي رمضان" data-en="🌙 Ramadan Nights" value="ramadan-nights" style="background: linear-gradient(to bottom right, #2E2148, #B8860B); color:#fff;">🌙 ليالي رمضان</option>
-    <option data-ar="🌸 وردي ذهبي" data-en="🌸 Rose Gold" value="rose-gold" style="background: linear-gradient(to bottom right, #D9A6A0, #B8860B); color:#fff;">🌸 وردي ذهبي</option>
-    <option data-ar="🌌 شفق قطبي" data-en="🌌 Aurora" value="aurora" style="background: linear-gradient(135deg, #2DD4BF 0%, #6D28D9 100%); color:#fff;">🌌 شفق قطبي</option>
-    <option data-ar="🌇 غروب المحيط" data-en="🌇 Ocean Sunset" value="ocean-sunset" style="background: linear-gradient(135deg, #2E86DE 0%, #E8730F 100%); color:#fff;">🌇 غروب المحيط</option>
-    <option data-ar="🍇 توت وردي" data-en="🍇 Berry Bliss" value="berry-bliss" style="background: linear-gradient(135deg, #E754A0 0%, #2E2A6E 100%); color:#fff;">🍇 توت وردي</option>
-    <option data-ar="🌆 شفق ذهبي" data-en="🌆 Golden Dusk" value="golden-dusk" style="background: linear-gradient(135deg, #F0B429 0%, #7A1F2B 100%); color:#fff;">🌆 شفق ذهبي</option>
-    <option data-ar="🌲 غابة شمالية" data-en="🌲 Northern Pine" value="northern-pine" style="background: linear-gradient(135deg, #3FAE5C 0%, #154C7A 100%); color:#fff;">🌲 غابة شمالية</option>
-    <option data-ar="🕋 فجر مكة" data-en="🕋 Makkah Dawn" value="makkah-dawn" style="background: linear-gradient(135deg, #8A8578 0%, #D4AF6A 100%); color:#fff;">🕋 فجر مكة</option>
-    <option data-ar="🌃 ليل المدينة" data-en="🌃 Madinah Night" value="madinah-night" style="background: linear-gradient(135deg, #2F4A3E 0%, #B0BFB9 100%); color:#fff;">🌃 ليل المدينة</option>
-    <option data-ar="🍑 خوخي ووردي" data-en="🍑 Peach Blush" value="peach-blush" style="background: linear-gradient(135deg, #F7B98F 0%, #F49AC1 100%); color:#fff;">🍑 خوخي ووردي</option>
-    <option data-ar="⚡ نيون سايبر" data-en="⚡ Neon Cyber" value="neon-cyber" style="background: linear-gradient(135deg, #00E5FF 0%, #D400FF 100%); color:#fff;">⚡ نيون سايبر</option>
-    <option data-ar="🏔️ جبل ثلجي" data-en="🏔️ Frost Peak" value="frost-peak" style="background: linear-gradient(135deg, #9FC9E8 0%, #1B2A4A 100%); color:#fff;">🏔️ جبل ثلجي</option>
+    <option data-ar="🌅 غروب صحراوي" data-en="🌅 Sunset Desert" value="sunset-desert" style="background-color:#3D2145; color:#fff;">🌅 غروب صحراوي</option>
+    <option data-ar="🕌 عثماني ذهبي" data-en="🕌 Ottoman Gold" value="ottoman-gold" style="background-color:#235550; color:#fff;">🕌 عثماني ذهبي</option>
+    <option data-ar="🌙 ليالي رمضان" data-en="🌙 Ramadan Nights" value="ramadan-nights" style="background-color:#2E2148; color:#fff;">🌙 ليالي رمضان</option>
+    <option data-ar="🌸 وردي ذهبي" data-en="🌸 Rose Gold" value="rose-gold" style="background-color:#6B4A42; color:#fff;">🌸 وردي ذهبي</option>
+    <option data-ar="🌌 شفق قطبي" data-en="🌌 Aurora" value="aurora" style="background-color:#6D28D9; color:#fff;">🌌 شفق قطبي</option>
+    <option data-ar="🌇 غروب المحيط" data-en="🌇 Ocean Sunset" value="ocean-sunset" style="background-color:#1B4F91; color:#fff;">🌇 غروب المحيط</option>
+    <option data-ar="🍇 توت وردي" data-en="🍇 Berry Bliss" value="berry-bliss" style="background-color:#9A2E63; color:#fff;">🍇 توت وردي</option>
+    <option data-ar="🌆 شفق ذهبي" data-en="🌆 Golden Dusk" value="golden-dusk" style="background-color:#7A1F2B; color:#fff;">🌆 شفق ذهبي</option>
+    <option data-ar="🌲 غابة شمالية" data-en="🌲 Northern Pine" value="northern-pine" style="background-color:#154C7A; color:#fff;">🌲 غابة شمالية</option>
+    <option data-ar="🕋 فجر مكة" data-en="🕋 Makkah Dawn" value="makkah-dawn" style="background-color:#5C574A; color:#fff;">🕋 فجر مكة</option>
+    <option data-ar="🌃 ليل المدينة" data-en="🌃 Madinah Night" value="madinah-night" style="background-color:#17281F; color:#fff;">🌃 ليل المدينة</option>
+    <option data-ar="🍑 خوخي ووردي" data-en="🍑 Peach Blush" value="peach-blush" style="background-color:#8A4A5E; color:#fff;">🍑 خوخي ووردي</option>
+    <option data-ar="⚡ نيون سايبر" data-en="⚡ Neon Cyber" value="neon-cyber" style="background-color:#8E00A8; color:#fff;">⚡ نيون سايبر</option>
+    <option data-ar="🏔️ جبل ثلجي" data-en="🏔️ Frost Peak" value="frost-peak" style="background-color:#1B2A4A; color:#fff;">🏔️ جبل ثلجي</option>
+    <option data-ar="💠 شفق ياقوتي" data-en="💠 Sapphire Dusk" value="sapphire-dusk" style="background-color:#1B2C6B; color:#fff;">💠 شفق ياقوتي</option>
+    <option data-ar="🔥 خشب الورد الجمري" data-en="🔥 Rosewood Ember" value="rosewood-ember" style="background-color:#7A2E2E; color:#fff;">🔥 خشب الورد الجمري</option>
+    <option data-ar="🌲 أفق زمردي" data-en="🌲 Emerald Horizon" value="emerald-horizon" style="background-color:#123258; color:#fff;">🌲 أفق زمردي</option>
     </optgroup>
       </select>
     </div>
@@ -37379,9 +37444,15 @@ var SITE_THEMES = {
   'madinah-night':  { btn: '#2F4A3E', cls: 'theme-madinah-night' },
   'peach-blush':    { btn: '#F7B98F', cls: 'theme-peach-blush' },
   'neon-cyber':     { btn: '#00E5FF', cls: 'theme-neon-cyber' },
-  'frost-peak':     { btn: '#9FC9E8', cls: 'theme-frost-peak' }
+  'frost-peak':     { btn: '#9FC9E8', cls: 'theme-frost-peak' },
+  'cobalt':         { btn: '#4C6FE0', cls: 'theme-cobalt' },
+  'soft-gold':      { btn: '#E8C97A', cls: 'theme-soft-gold' },
+  'moss':           { btn: '#8A9A5B', cls: 'theme-moss' },
+  'sapphire-dusk':    { btn: '#3E6FD9', cls: 'theme-sapphire-dusk' },
+  'rosewood-ember':   { btn: '#D97878', cls: 'theme-rosewood-ember' },
+  'emerald-horizon':  { btn: '#3FC1A0', cls: 'theme-emerald-horizon' }
 };
-var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate', 'theme-lavender', 'theme-teal', 'theme-rose', 'theme-terracotta', 'theme-ruby', 'theme-indigo', 'theme-olive', 'theme-coral', 'theme-turquoise', 'theme-burgundy', 'theme-mustard', 'theme-charcoal', 'theme-palestine', 'theme-egypt', 'theme-saudi', 'theme-sunset-desert', 'theme-deep-ocean', 'theme-ottoman-gold', 'theme-ramadan-nights', 'theme-copper-bronze', 'theme-deep-forest', 'theme-rose-gold', 'theme-mint', 'theme-navy', 'theme-plum', 'theme-sunny', 'theme-silver', 'theme-vivid-orange', 'theme-royal-emerald', 'theme-soft-pink', 'theme-glacier-cyan', 'theme-coffee-brown', 'theme-warm-sand', 'theme-aubergine', 'theme-jade', 'theme-crimson', 'theme-deep-cerulean', 'theme-autumn-maple', 'theme-onyx-black', 'theme-citrus-lime', 'theme-classic-beige', 'theme-aurora', 'theme-ocean-sunset', 'theme-berry-bliss', 'theme-golden-dusk', 'theme-northern-pine', 'theme-makkah-dawn', 'theme-madinah-night', 'theme-peach-blush', 'theme-neon-cyber', 'theme-frost-peak'];
+var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate', 'theme-lavender', 'theme-teal', 'theme-rose', 'theme-terracotta', 'theme-ruby', 'theme-indigo', 'theme-olive', 'theme-coral', 'theme-turquoise', 'theme-burgundy', 'theme-mustard', 'theme-charcoal', 'theme-palestine', 'theme-egypt', 'theme-saudi', 'theme-sunset-desert', 'theme-deep-ocean', 'theme-ottoman-gold', 'theme-ramadan-nights', 'theme-copper-bronze', 'theme-deep-forest', 'theme-rose-gold', 'theme-mint', 'theme-navy', 'theme-plum', 'theme-sunny', 'theme-silver', 'theme-vivid-orange', 'theme-royal-emerald', 'theme-soft-pink', 'theme-glacier-cyan', 'theme-coffee-brown', 'theme-warm-sand', 'theme-aubergine', 'theme-jade', 'theme-crimson', 'theme-deep-cerulean', 'theme-autumn-maple', 'theme-onyx-black', 'theme-citrus-lime', 'theme-classic-beige', 'theme-cobalt', 'theme-soft-gold', 'theme-moss', 'theme-aurora', 'theme-ocean-sunset', 'theme-berry-bliss', 'theme-golden-dusk', 'theme-northern-pine', 'theme-makkah-dawn', 'theme-madinah-night', 'theme-peach-blush', 'theme-neon-cyber', 'theme-frost-peak', 'theme-sapphire-dusk', 'theme-rosewood-ember', 'theme-emerald-horizon'];
 
 function applySiteTheme(theme, save) {
   if (save === undefined) save = true;
