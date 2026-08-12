@@ -1133,6 +1133,126 @@ body.theme-milky-way-night {
   background-repeat: no-repeat !important;
 }
 
+/* ===== ثيمات الفيديو المتحرك (خلفية فيديو بدل صورة ثابتة) ===== */
+#bgThemeVideo {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  display: none;
+  pointer-events: none;
+}
+#bgThemeVideoOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,0.35);
+  z-index: -1;
+  display: none;
+  pointer-events: none;
+}
+body.theme-video-1 {
+  --theme-c1: #C9A227; --theme-c1-rgb: 201,162,39;
+  --theme-c2: #4A3B12; --theme-c2-rgb: 74,59,18;
+  --theme-c3: #A8862E; --theme-c3-rgb: 168,134,46;
+  --theme-c4: #2A2008; --theme-c4-rgb: 42,32,8;
+  --theme-g1: #C9A227; --theme-g1-rgb: 201,162,39;
+  --theme-g2: #2A2008; --theme-g2-rgb: 42,32,8;
+  --theme-bg: #EDE3C2;
+  background: transparent !important;
+}
+body.theme-video-2 {
+  --theme-c1: #2E8CA8; --theme-c1-rgb: 46,140,168;
+  --theme-c2: #123240; --theme-c2-rgb: 18,50,64;
+  --theme-c3: #1F6B84; --theme-c3-rgb: 31,107,132;
+  --theme-c4: #0A1E26; --theme-c4-rgb: 10,30,38;
+  --theme-g1: #2E8CA8; --theme-g1-rgb: 46,140,168;
+  --theme-g2: #0A1E26; --theme-g2-rgb: 10,30,38;
+  --theme-bg: #D7ECF2;
+  background: transparent !important;
+}
+body.theme-video-3 {
+  --theme-c1: #3E8C4A; --theme-c1-rgb: 62,140,74;
+  --theme-c2: #163A1C; --theme-c2-rgb: 22,58,28;
+  --theme-c3: #2E6B38; --theme-c3-rgb: 46,107,56;
+  --theme-c4: #0C220F; --theme-c4-rgb: 12,34,15;
+  --theme-g1: #3E8C4A; --theme-g1-rgb: 62,140,74;
+  --theme-g2: #0C220F; --theme-g2-rgb: 12,34,15;
+  --theme-bg: #DCEEDD;
+  background: transparent !important;
+}
+body.theme-video-4 {
+  --theme-c1: #7B5CA8; --theme-c1-rgb: 123,92,168;
+  --theme-c2: #2E1F42; --theme-c2-rgb: 46,31,66;
+  --theme-c3: #5C4084; --theme-c3-rgb: 92,64,132;
+  --theme-c4: #1A1226; --theme-c4-rgb: 26,18,38;
+  --theme-g1: #7B5CA8; --theme-g1-rgb: 123,92,168;
+  --theme-g2: #1A1226; --theme-g2-rgb: 26,18,38;
+  --theme-bg: #E5DDF0;
+  background: transparent !important;
+}
+body.theme-video-5 {
+  --theme-c1: #C4573E; --theme-c1-rgb: 196,87,62;
+  --theme-c2: #421F14; --theme-c2-rgb: 66,31,20;
+  --theme-c3: #8C4030; --theme-c3-rgb: 140,64,48;
+  --theme-c4: #26120C; --theme-c4-rgb: 38,18,12;
+  --theme-g1: #C4573E; --theme-g1-rgb: 196,87,62;
+  --theme-g2: #26120C; --theme-g2-rgb: 38,18,12;
+  --theme-bg: #F0DAD2;
+  background: transparent !important;
+}
+body.theme-video-6 {
+  --theme-c1: #3E7AC4; --theme-c1-rgb: 62,122,196;
+  --theme-c2: #14264A; --theme-c2-rgb: 20,38,74;
+  --theme-c3: #2E5A94; --theme-c3-rgb: 46,90,148;
+  --theme-c4: #0C1526; --theme-c4-rgb: 12,21,38;
+  --theme-g1: #3E7AC4; --theme-g1-rgb: 62,122,196;
+  --theme-g2: #0C1526; --theme-g2-rgb: 12,21,38;
+  --theme-bg: #D6E4F5;
+  background: transparent !important;
+}
+body.theme-video-7 {
+  --theme-c1: #C48A2E; --theme-c1-rgb: 196,138,46;
+  --theme-c2: #3E2A0C; --theme-c2-rgb: 62,42,12;
+  --theme-c3: #94631F; --theme-c3-rgb: 148,99,31;
+  --theme-c4: #241A08; --theme-c4-rgb: 36,26,8;
+  --theme-g1: #C48A2E; --theme-g1-rgb: 196,138,46;
+  --theme-g2: #241A08; --theme-g2-rgb: 36,26,8;
+  --theme-bg: #F0E3C9;
+  background: transparent !important;
+}
+body.theme-video-8 {
+  --theme-c1: #2EA894; --theme-c1-rgb: 46,168,148;
+  --theme-c2: #103A32; --theme-c2-rgb: 16,58,50;
+  --theme-c3: #1F7A6A; --theme-c3-rgb: 31,122,106;
+  --theme-c4: #08201B; --theme-c4-rgb: 8,32,27;
+  --theme-g1: #2EA894; --theme-g1-rgb: 46,168,148;
+  --theme-g2: #08201B; --theme-g2-rgb: 8,32,27;
+  --theme-bg: #D2EEE8;
+  background: transparent !important;
+}
+body.theme-video-9 {
+  --theme-c1: #A83E6B; --theme-c1-rgb: 168,62,107;
+  --theme-c2: #3A1226; --theme-c2-rgb: 58,18,38;
+  --theme-c3: #7A2E4E; --theme-c3-rgb: 122,46,78;
+  --theme-c4: #200A16; --theme-c4-rgb: 32,10,22;
+  --theme-g1: #A83E6B; --theme-g1-rgb: 168,62,107;
+  --theme-g2: #200A16; --theme-g2-rgb: 32,10,22;
+  --theme-bg: #F0D9E4;
+  background: transparent !important;
+}
+body.theme-video-10 {
+  --theme-c1: #5C6B7B; --theme-c1-rgb: 92,107,123;
+  --theme-c2: #1C242E; --theme-c2-rgb: 28,36,46;
+  --theme-c3: #40505E; --theme-c3-rgb: 64,80,94;
+  --theme-c4: #10161C; --theme-c4-rgb: 16,22,28;
+  --theme-g1: #5C6B7B; --theme-g1-rgb: 92,107,123;
+  --theme-g2: #10161C; --theme-g2-rgb: 16,22,28;
+  --theme-bg: #DDE2E7;
+  background: transparent !important;
+}
+
 
 body.theme-rose {
   --theme-c1: #B98A8F; --theme-c1-rgb: 185,138,143;
@@ -7184,6 +7304,9 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
 </style>
 
 <body class="main-content">
+
+<video id="bgThemeVideo" muted loop autoplay playsinline></video>
+<div id="bgThemeVideoOverlay"></div>
 
 <script>
 /* ⚡ يُشغَّل فوراً قبل أي شيء – يخفي الشاشة الترحيبية فقط إذا كانت معطَّلة */
@@ -15710,6 +15833,18 @@ setTimeout(autoScaleVerseFont, 100);
     <option data-ar="🌊 منظر ساحلي أزرق" data-en="🌊 Coastal Blue View" value="coastal-blue-view" style="background-color:#1E3C54; color:#fff;">🌊 منظر ساحلي أزرق</option>
     <option data-ar="🌇 غيوم المحيط عند الغروب" data-en="🌇 Sunset Ocean Clouds" value="sunset-ocean-clouds" style="background-color:#4A241E; color:#fff;">🌇 غيوم المحيط عند الغروب</option>
     <option data-ar="✨ درب التبانة" data-en="✨ Milky Way Night" value="milky-way-night" style="background-color:#181430; color:#fff;">✨ درب التبانة</option>
+    </optgroup>
+    <optgroup label="خلفيات فيديو 🎬" data-ar="خلفيات فيديو 🎬" data-en="Video Backgrounds">
+    <option data-ar="🎬 فيديو متحرك 1" data-en="🎬 Motion Video 1" value="video-1" style="background-color:#4A3B12; color:#fff;">🎬 فيديو متحرك 1</option>
+    <option data-ar="🎬 فيديو متحرك 2" data-en="🎬 Motion Video 2" value="video-2" style="background-color:#123240; color:#fff;">🎬 فيديو متحرك 2</option>
+    <option data-ar="🎬 فيديو متحرك 3" data-en="🎬 Motion Video 3" value="video-3" style="background-color:#163A1C; color:#fff;">🎬 فيديو متحرك 3</option>
+    <option data-ar="🎬 فيديو متحرك 4" data-en="🎬 Motion Video 4" value="video-4" style="background-color:#2E1F42; color:#fff;">🎬 فيديو متحرك 4</option>
+    <option data-ar="🎬 فيديو متحرك 5" data-en="🎬 Motion Video 5" value="video-5" style="background-color:#421F14; color:#fff;">🎬 فيديو متحرك 5</option>
+    <option data-ar="🎬 فيديو متحرك 6" data-en="🎬 Motion Video 6" value="video-6" style="background-color:#14264A; color:#fff;">🎬 فيديو متحرك 6</option>
+    <option data-ar="🎬 فيديو متحرك 7" data-en="🎬 Motion Video 7" value="video-7" style="background-color:#3E2A0C; color:#fff;">🎬 فيديو متحرك 7</option>
+    <option data-ar="🎬 فيديو متحرك 8" data-en="🎬 Motion Video 8" value="video-8" style="background-color:#103A32; color:#fff;">🎬 فيديو متحرك 8</option>
+    <option data-ar="🎬 فيديو متحرك 9" data-en="🎬 Motion Video 9" value="video-9" style="background-color:#3A1226; color:#fff;">🎬 فيديو متحرك 9</option>
+    <option data-ar="🎬 فيديو متحرك 10" data-en="🎬 Motion Video 10" value="video-10" style="background-color:#1C242E; color:#fff;">🎬 فيديو متحرك 10</option>
     </optgroup>
     <optgroup label="ألوان ثابتة" data-ar="ألوان ثابتة" data-en="Solid Colors">
     <option data-ar="💧 أزرق هادئ" data-en="💧 Calm Blue" value="sky" style="background-color:#6B8CAE; color:#fff;">💧 أزرق هادئ</option>
@@ -38752,8 +38887,18 @@ var SITE_THEMES = {
   'coastal-blue-view': { btn: '#5C9AC4', cls: 'theme-coastal-blue-view' },
   'sunset-ocean-clouds': { btn: '#C97A6B', cls: 'theme-sunset-ocean-clouds' },
   'milky-way-night': { btn: '#6B5C9A', cls: 'theme-milky-way-night' },
+  'video-1': { btn: '#C9A227', cls: 'theme-video-1', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio@main/vid/1.mp4' },
+  'video-2': { btn: '#2E8CA8', cls: 'theme-video-2', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio@main/vid/2.mp4' },
+  'video-3': { btn: '#3E8C4A', cls: 'theme-video-3', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio@main/vid/3.mp4' },
+  'video-4': { btn: '#7B5CA8', cls: 'theme-video-4', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio@main/vid/4.mp4' },
+  'video-5': { btn: '#C4573E', cls: 'theme-video-5', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio@main/vid/5.mp4' },
+  'video-6': { btn: '#3E7AC4', cls: 'theme-video-6', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio@main/vid/6.mp4' },
+  'video-7': { btn: '#C48A2E', cls: 'theme-video-7', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio@main/vid/7.mp4' },
+  'video-8': { btn: '#2EA894', cls: 'theme-video-8', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio@main/vid/8.mp4' },
+  'video-9': { btn: '#A83E6B', cls: 'theme-video-9', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio@main/vid/9.mp4' },
+  'video-10': { btn: '#5C6B7B', cls: 'theme-video-10', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio@main/vid/10.mp4' },
 };
-var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate', 'theme-lavender', 'theme-teal', 'theme-rose', 'theme-terracotta', 'theme-ruby', 'theme-indigo', 'theme-olive', 'theme-coral', 'theme-turquoise', 'theme-burgundy', 'theme-mustard', 'theme-charcoal', 'theme-palestine', 'theme-egypt', 'theme-saudi', 'theme-sunset-desert', 'theme-deep-ocean', 'theme-ottoman-gold', 'theme-ramadan-nights', 'theme-copper-bronze', 'theme-deep-forest', 'theme-rose-gold', 'theme-mint', 'theme-navy', 'theme-plum', 'theme-sunny', 'theme-silver', 'theme-vivid-orange', 'theme-royal-emerald', 'theme-soft-pink', 'theme-glacier-cyan', 'theme-coffee-brown', 'theme-warm-sand', 'theme-aubergine', 'theme-jade', 'theme-crimson', 'theme-deep-cerulean', 'theme-autumn-maple', 'theme-onyx-black', 'theme-citrus-lime', 'theme-classic-beige', 'theme-cobalt', 'theme-soft-gold', 'theme-moss', 'theme-snow-white', 'theme-aurora', 'theme-ocean-sunset', 'theme-berry-bliss', 'theme-golden-dusk', 'theme-northern-pine', 'theme-makkah-dawn', 'theme-madinah-night', 'theme-peach-blush', 'theme-neon-cyber', 'theme-frost-peak', 'theme-sapphire-dusk', 'theme-rosewood-ember', 'theme-emerald-horizon', 'theme-midnight-violet', 'theme-coral-reef', 'theme-volcanic-ash', 'theme-lagoon-breeze', 'theme-cherry-blossom', 'theme-desert-mirage', 'theme-cosmic-nebula', 'theme-twilight-mint', 'theme-tropical-beach', 'theme-clear-shore', 'theme-beach-sunset', 'theme-tropical-island', 'theme-coral-reef-world', 'theme-heart-of-nature', 'theme-forest-waterfall', 'theme-rocky-shore', 'theme-sunny-meadow', 'theme-kyoto-night', 'theme-golden-sunset-field', 'theme-masjid-al-haram', 'theme-nabawi-dusk', 'theme-dome-of-rock', 'theme-kaaba', 'theme-nabawi-day', 'theme-al-quds', 'theme-nabawi-courtyard', 'theme-golden-quds', 'theme-islamic-mosaic', 'theme-prophetic-calligraphy', 'theme-nabawi-umbrellas', 'theme-night-quran', 'theme-emerald-cover', 'theme-green-dome', 'theme-mosque-arches', 'theme-blue-dome-ceiling', 'theme-verses-of-light', 'theme-madinah-nights', 'theme-minaret-sunset', 'theme-mosque-tranquility', 'theme-dome-and-roses', 'theme-dome-ornament', 'theme-cairo-minarets', 'theme-golden-mosque-hall', 'theme-istanbul-sunset', 'theme-quran-light', 'theme-misty-lake-dawn', 'theme-amber-lake-sunset', 'theme-sea-of-clouds', 'theme-misty-mountain-lake', 'theme-layered-mountains', 'theme-golden-ridge-sunrise', 'theme-dusty-mountain-dusk', 'theme-amber-mountain-lake', 'theme-lavender-lake-sunset', 'theme-palm-beach-sunset', 'theme-wildflower-highlands', 'theme-coastal-palm-sunset', 'theme-crashing-waves', 'theme-northern-lights', 'theme-poppy-field-sunset', 'theme-blossom-garden', 'theme-canyon-waterfall', 'theme-meadow-sunset-clouds', 'theme-clouds-and-sky', 'theme-limestone-lagoon', 'theme-rocky-cove-mist', 'theme-lone-tree-twilight', 'theme-sunlit-forest-path', 'theme-autumn-forest', 'theme-sunrays-forest', 'theme-forest-light-trail', 'theme-moonlit-sky', 'theme-coastal-blue-view', 'theme-sunset-ocean-clouds', 'theme-milky-way-night'];
+var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate', 'theme-lavender', 'theme-teal', 'theme-rose', 'theme-terracotta', 'theme-ruby', 'theme-indigo', 'theme-olive', 'theme-coral', 'theme-turquoise', 'theme-burgundy', 'theme-mustard', 'theme-charcoal', 'theme-palestine', 'theme-egypt', 'theme-saudi', 'theme-sunset-desert', 'theme-deep-ocean', 'theme-ottoman-gold', 'theme-ramadan-nights', 'theme-copper-bronze', 'theme-deep-forest', 'theme-rose-gold', 'theme-mint', 'theme-navy', 'theme-plum', 'theme-sunny', 'theme-silver', 'theme-vivid-orange', 'theme-royal-emerald', 'theme-soft-pink', 'theme-glacier-cyan', 'theme-coffee-brown', 'theme-warm-sand', 'theme-aubergine', 'theme-jade', 'theme-crimson', 'theme-deep-cerulean', 'theme-autumn-maple', 'theme-onyx-black', 'theme-citrus-lime', 'theme-classic-beige', 'theme-cobalt', 'theme-soft-gold', 'theme-moss', 'theme-snow-white', 'theme-aurora', 'theme-ocean-sunset', 'theme-berry-bliss', 'theme-golden-dusk', 'theme-northern-pine', 'theme-makkah-dawn', 'theme-madinah-night', 'theme-peach-blush', 'theme-neon-cyber', 'theme-frost-peak', 'theme-sapphire-dusk', 'theme-rosewood-ember', 'theme-emerald-horizon', 'theme-midnight-violet', 'theme-coral-reef', 'theme-volcanic-ash', 'theme-lagoon-breeze', 'theme-cherry-blossom', 'theme-desert-mirage', 'theme-cosmic-nebula', 'theme-twilight-mint', 'theme-tropical-beach', 'theme-clear-shore', 'theme-beach-sunset', 'theme-tropical-island', 'theme-coral-reef-world', 'theme-heart-of-nature', 'theme-forest-waterfall', 'theme-rocky-shore', 'theme-sunny-meadow', 'theme-kyoto-night', 'theme-golden-sunset-field', 'theme-masjid-al-haram', 'theme-nabawi-dusk', 'theme-dome-of-rock', 'theme-kaaba', 'theme-nabawi-day', 'theme-al-quds', 'theme-nabawi-courtyard', 'theme-golden-quds', 'theme-islamic-mosaic', 'theme-prophetic-calligraphy', 'theme-nabawi-umbrellas', 'theme-night-quran', 'theme-emerald-cover', 'theme-green-dome', 'theme-mosque-arches', 'theme-blue-dome-ceiling', 'theme-verses-of-light', 'theme-madinah-nights', 'theme-minaret-sunset', 'theme-mosque-tranquility', 'theme-dome-and-roses', 'theme-dome-ornament', 'theme-cairo-minarets', 'theme-golden-mosque-hall', 'theme-istanbul-sunset', 'theme-quran-light', 'theme-misty-lake-dawn', 'theme-amber-lake-sunset', 'theme-sea-of-clouds', 'theme-misty-mountain-lake', 'theme-layered-mountains', 'theme-golden-ridge-sunrise', 'theme-dusty-mountain-dusk', 'theme-amber-mountain-lake', 'theme-lavender-lake-sunset', 'theme-palm-beach-sunset', 'theme-wildflower-highlands', 'theme-coastal-palm-sunset', 'theme-crashing-waves', 'theme-northern-lights', 'theme-poppy-field-sunset', 'theme-blossom-garden', 'theme-canyon-waterfall', 'theme-meadow-sunset-clouds', 'theme-clouds-and-sky', 'theme-limestone-lagoon', 'theme-rocky-cove-mist', 'theme-lone-tree-twilight', 'theme-sunlit-forest-path', 'theme-autumn-forest', 'theme-sunrays-forest', 'theme-forest-light-trail', 'theme-moonlit-sky', 'theme-coastal-blue-view', 'theme-sunset-ocean-clouds', 'theme-milky-way-night', 'theme-video-1', 'theme-video-2', 'theme-video-3', 'theme-video-4', 'theme-video-5', 'theme-video-6', 'theme-video-7', 'theme-video-8', 'theme-video-9', 'theme-video-10'];
 
 function applySiteTheme(theme, save) {
   if (save === undefined) save = true;
@@ -38761,15 +38906,39 @@ function applySiteTheme(theme, save) {
 
   document.body.classList.remove.apply(document.body.classList, SITE_THEME_CLASSES);
 
+  var activePreset = null;
   if (theme === 'dark') {
     applyDarkMode(true);
     changeRadioButtonColor('', false);
   } else {
     var preset = SITE_THEMES[theme] || SITE_THEMES.default;
+    activePreset = preset;
     applyDarkMode(false);
     changeRadioButtonColor(preset.btn, false);
     if (preset.cls) document.body.classList.add(preset.cls);
   }
+
+  // ثيمات الفيديو المتحرك: أظهر/أخفِ فيديو الخلفية الثابت حسب الثيم المختار
+  try {
+    var bgVideo = document.getElementById('bgThemeVideo');
+    var bgVideoOverlay = document.getElementById('bgThemeVideoOverlay');
+    if (bgVideo && bgVideoOverlay) {
+      if (activePreset && activePreset.video) {
+        if (bgVideo.getAttribute('data-current-src') !== activePreset.video) {
+          bgVideo.setAttribute('data-current-src', activePreset.video);
+          bgVideo.src = activePreset.video;
+        }
+        bgVideo.style.display = 'block';
+        bgVideoOverlay.style.display = 'block';
+        var playPromise = bgVideo.play();
+        if (playPromise && playPromise.catch) playPromise.catch(function(){});
+      } else {
+        bgVideo.style.display = 'none';
+        bgVideoOverlay.style.display = 'none';
+        bgVideo.pause();
+      }
+    }
+  } catch (e) {}
 
   if (save) localStorage.setItem('siteTheme', theme);
 
