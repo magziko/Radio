@@ -4845,6 +4845,38 @@ body.dark-mode .btn {
     display: block;
 }
 
+.welcome-toggle-inline-input,
+.welcome-toggle-inline-select {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    color: inherit;
+    background: rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 6px;
+    padding: 3px 6px;
+    margin: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.welcome-toggle-inline-input {
+    width: 46px;
+    text-align: center;
+    cursor: text;
+}
+
+.welcome-toggle-inline-select {
+    max-width: 150px;
+}
+
+body.dark-mode .welcome-toggle-inline-input,
+body.dark-mode .welcome-toggle-inline-select {
+    background: rgba(0,0,0,0.35);
+    border-color: rgba(100,181,246,0.35);
+    color: #90caf9;
+}
+
 body.dark-mode :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) {
     background: rgba(26,26,46,0.85) !important;
     color: #90caf9 !important;
@@ -5021,7 +5053,8 @@ body.dark-mode .welcome-toggle-btn.active {
         white-space: normal;
     }
 
-    #welcomeAutoSwitchDurationGroup {
+    #welcomeAutoSwitchDurationGroup,
+    #themeAutoRotateGroup {
         grid-column: 1 / -1;
         width: 100%;
         box-sizing: border-box;
@@ -5030,14 +5063,19 @@ body.dark-mode .welcome-toggle-btn.active {
 }
 
 @media (max-width: 360px) {
-    #welcomeAutoSwitchDurationGroup {
-        font-size: 12px;
+    #welcomeAutoSwitchDurationGroup,
+    #themeAutoRotateGroup {
+        font-size: 11px;
         gap: 5px;
-        padding: 6px 8px;
+        padding: 5px 10px;
     }
 
-    #welcomeAutoSwitchDurationGroup #welcomeAutoSwitchDuration {
-        width: 55px;
+    #welcomeAutoSwitchDurationGroup .welcome-toggle-inline-input {
+        width: 40px;
+    }
+
+    #themeAutoRotateGroup .welcome-toggle-inline-select {
+        max-width: 130px;
     }
 }
 
@@ -16133,14 +16171,27 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="randomSeekToggle" onchange="toggleRandomSeekSetting()" style="width:18px;height:18px;cursor:pointer; margin:0;">
     </div>
     <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
-    <div id="welcomeAutoSwitchDurationGroup" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية"
-         style="display:flex; align-items:center; gap:7px; background:linear-gradient(to right,#e3f2fd 0%,#fff 50%,#e3f2fd 100%); border-radius:8px; padding:6px 12px; box-shadow:0 2px 4px rgba(0,0,0,0.08); font-weight:700; font-size:14px;">
-      <label for="welcomeAutoSwitchDuration" data-ar="⏱️ مدة تنقل الترحيب" data-en="⏱️ Welcome Cycle" data-fr="⏱️ Cycle d'accueil" data-es="⏱️ Ciclo de bienvenida" data-sv="⏱️ Välkomstcykel" data-nl="⏱️ Welkomstcyclus" data-ga="⏱️ Timthriall Fáilte" data-de="⏱️ Begrüßungszyklus" data-ru="⏱️ Цикл приветствия" data-tr="⏱️ Karşılama Döngüsü" data-pt="⏱️ Ciclo de boas-vindas" data-zh="⏱️ 欢迎轮播周期" data-ur="⏱️ خوش آمدید سائیکل" style="white-space:nowrap; color:#000; margin:0;">⏱️ مدة تنقل الترحيب</label>
+    <div id="welcomeAutoSwitchDurationGroup" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" style="gap:7px;">
+      <span class="wtb-icon">⏱️</span>
+      <label for="welcomeAutoSwitchDuration" data-ar="مدة تنقل الترحيب" data-en="Welcome Cycle" data-fr="Cycle d'accueil" data-es="Ciclo de bienvenida" data-sv="Välkomstcykel" data-nl="Welkomstcyclus" data-ga="Timthriall Fáilte" data-de="Begrüßungszyklus" data-ru="Цикл приветствия" data-tr="Karşılama Döngüsü" data-pt="Ciclo de boas-vindas" data-zh="欢迎轮播周期" data-ur="خوش آمدید سائیکل" class="wtb-text" style="cursor:default; margin:0;">مدة تنقل الترحيب</label>
       <input type="number" id="welcomeAutoSwitchDuration" min="1" max="60"
              data-ar="الدقائق" data-en="Minutes" data-fr="Minutes" data-es="Minutos" data-sv="Minuter" data-nl="Minuten" data-ga="Nóiméad" data-de="Minuten" data-ru="Минуты" data-tr="Dakika" data-pt="Minutos" data-zh="分钟" data-ur="منٹ"
              placeholder="الدقائق"
-             style="width:70px; padding:5px 7px; font-size:13px; border:2px solid #ddd; border-radius:5px;"
+             class="welcome-toggle-inline-input"
              onchange="setWelcomeAutoSwitchDuration()">
+    </div>
+    <div id="themeAutoRotateGroup" class="welcome-toggle-btn" title="تغيير المظهر تلقائيًا كل فترة" style="gap:7px;">
+      <span class="wtb-icon">🔄</span>
+      <label for="themeAutoRotateInterval" data-ar="تغيير المظهر تلقائيًا" data-en="Auto-Change Theme" data-fr="Changement auto. du thème" data-es="Cambio automático de tema" data-sv="Automatiskt temabyte" data-nl="Automatisch thema wisselen" data-ga="Athrú téama uathoibríoch" data-de="Design automatisch wechseln" data-ru="Автосмена темы" data-tr="Otomatik Tema Değiştir" data-pt="Alternar tema automaticamente" data-zh="自动切换主题" data-ur="خودکار تھیم تبدیلی" class="wtb-text" style="cursor:default; margin:0;">تغيير المظهر تلقائيًا</label>
+      <select id="themeAutoRotateInterval" class="welcome-toggle-inline-select" onchange="changeThemeAutoRotate()">
+        <option value="0" data-ar="⛔ إيقاف" data-en="⛔ Off" data-fr="⛔ Désactivé" data-es="⛔ Desactivado" data-sv="⛔ Av" data-nl="⛔ Uit" data-ga="⛔ As" data-de="⛔ Aus" data-ru="⛔ Выкл" data-tr="⛔ Kapalı" data-pt="⛔ Desativado" data-zh="⛔ 关闭" data-ur="⛔ بند">⛔ إيقاف</option>
+        <option value="60000" data-ar="⏱️ كل دقيقة" data-en="⏱️ Every minute" data-fr="⏱️ Chaque minute" data-es="⏱️ Cada minuto" data-sv="⏱️ Varje minut" data-nl="⏱️ Elke minuut" data-ga="⏱️ Gach nóiméad" data-de="⏱️ Jede Minute" data-ru="⏱️ Каждую минуту" data-tr="⏱️ Her dakika" data-pt="⏱️ A cada minuto" data-zh="⏱️ 每分钟" data-ur="⏱️ ہر منٹ">⏱️ كل دقيقة</option>
+        <option value="300000" data-ar="⏱️ كل 5 دقائق" data-en="⏱️ Every 5 minutes" data-fr="⏱️ Toutes les 5 minutes" data-es="⏱️ Cada 5 minutos" data-sv="⏱️ Var 5:e minut" data-nl="⏱️ Elke 5 minuten" data-ga="⏱️ Gach 5 nóiméad" data-de="⏱️ Alle 5 Minuten" data-ru="⏱️ Каждые 5 минут" data-tr="⏱️ Her 5 dakikada" data-pt="⏱️ A cada 5 minutos" data-zh="⏱️ 每5分钟" data-ur="⏱️ ہر 5 منٹ">⏱️ كل 5 دقائق</option>
+        <option value="600000" data-ar="⏱️ كل 10 دقائق" data-en="⏱️ Every 10 minutes" data-fr="⏱️ Toutes les 10 minutes" data-es="⏱️ Cada 10 minutos" data-sv="⏱️ Var 10:e minut" data-nl="⏱️ Elke 10 minuten" data-ga="⏱️ Gach 10 nóiméad" data-de="⏱️ Alle 10 Minuten" data-ru="⏱️ Каждые 10 минут" data-tr="⏱️ Her 10 dakikada" data-pt="⏱️ A cada 10 minutos" data-zh="⏱️ 每10分钟" data-ur="⏱️ ہر 10 منٹ">⏱️ كل 10 دقائق</option>
+        <option value="1800000" data-ar="⏱️ كل 30 دقيقة" data-en="⏱️ Every 30 minutes" data-fr="⏱️ Toutes les 30 minutes" data-es="⏱️ Cada 30 minutos" data-sv="⏱️ Var 30:e minut" data-nl="⏱️ Elke 30 minuten" data-ga="⏱️ Gach 30 nóiméad" data-de="⏱️ Alle 30 Minuten" data-ru="⏱️ Каждые 30 минут" data-tr="⏱️ Her 30 dakikada" data-pt="⏱️ A cada 30 minutos" data-zh="⏱️ 每30分钟" data-ur="⏱️ ہر 30 منٹ">⏱️ كل 30 دقيقة</option>
+        <option value="3600000" data-ar="⏱️ كل ساعة" data-en="⏱️ Every hour" data-fr="⏱️ Toutes les heures" data-es="⏱️ Cada hora" data-sv="⏱️ Varje timme" data-nl="⏱️ Elk uur" data-ga="⏱️ Gach uair" data-de="⏱️ Jede Stunde" data-ru="⏱️ Каждый час" data-tr="⏱️ Her saat" data-pt="⏱️ A cada hora" data-zh="⏱️ 每小时" data-ur="⏱️ ہر گھنٹے">⏱️ كل ساعة</option>
+        <option value="10800000" data-ar="⏱️ كل 3 ساعات" data-en="⏱️ Every 3 hours" data-fr="⏱️ Toutes les 3 heures" data-es="⏱️ Cada 3 horas" data-sv="⏱️ Var 3:e timme" data-nl="⏱️ Elke 3 uur" data-ga="⏱️ Gach 3 huaire" data-de="⏱️ Alle 3 Stunden" data-ru="⏱️ Каждые 3 часа" data-tr="⏱️ Her 3 saatte" data-pt="⏱️ A cada 3 horas" data-zh="⏱️ 每3小时" data-ur="⏱️ ہر 3 گھنٹے">⏱️ كل 3 ساعات</option>
+      </select>
     </div>
   </div>
 
@@ -38744,6 +38795,39 @@ function changeSiteTheme() {
   applySiteTheme(theme);
 }
 
+var themeAutoRotateTimer = null;
+
+function rotateSiteThemeRandom() {
+  var keys = Object.keys(SITE_THEMES);
+  if (!keys.length) return;
+  var current = localStorage.getItem('siteTheme') || 'default';
+  var next = current;
+  var attempts = 0;
+  while (next === current && attempts < 10) {
+    next = keys[Math.floor(Math.random() * keys.length)];
+    attempts++;
+  }
+  applySiteTheme(next);
+}
+
+function setupThemeAutoRotate(ms) {
+  if (themeAutoRotateTimer) {
+    clearInterval(themeAutoRotateTimer);
+    themeAutoRotateTimer = null;
+  }
+  ms = parseInt(ms, 10);
+  if (!ms || ms <= 0) return;
+  themeAutoRotateTimer = setInterval(rotateSiteThemeRandom, ms);
+}
+
+function changeThemeAutoRotate() {
+  var sel = document.getElementById('themeAutoRotateInterval');
+  if (!sel) return;
+  var ms = sel.value;
+  localStorage.setItem('themeAutoRotateInterval', ms);
+  setupThemeAutoRotate(ms);
+}
+
 var DARK_LIGHT_MODE_LABELS = {
   ar: { dark: 'الوضع الليلي', light: 'الوضع النهاري' },
   en: { dark: 'Dark Mode', light: 'Light Mode' },
@@ -47456,6 +47540,13 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.removeItem('radioButtonColor');
   }
   applySiteTheme(savedSiteTheme, false);
+
+  var savedThemeAutoRotate = localStorage.getItem('themeAutoRotateInterval');
+  if (savedThemeAutoRotate) {
+    var autoRotateSel = document.getElementById('themeAutoRotateInterval');
+    if (autoRotateSel) autoRotateSel.value = savedThemeAutoRotate;
+    setupThemeAutoRotate(savedThemeAutoRotate);
+  }
 
   const whatsappButton = document.querySelector('.whatsapp-button');
   const telegramButton = document.querySelector('.telegram-button');
