@@ -42138,6 +42138,144 @@ function filterAdhkarSub(subType, btn) {
   }
 
   requestAnimationFrame(updateAdhkarProgress);
+
+  // تنبيه بوجود تسبيح سابق عند اختيار فلتر الصباح أو المساء
+  if (subType === 'morning' || subType === 'evening') {
+    if (_adhkarGroupHasProgress(subType)) {
+      showAdhkarContinuePrompt(subType);
+    }
+  }
+}
+
+// ===== تسبيح سابق: تنبيه الإكمال أو التصفير (خاص بمجموعة الصباح/المساء فقط) =====
+
+function _getAdhkarGroupButtons(type) {
+  return Array.from(
+    document.querySelectorAll('button[data-category="Adhkar"][data-adhkar-' + type + ']')
+  ).filter(function(b) {
+    return (parseInt(b.dataset.target) || 0) > 0;
+  });
+}
+
+function _adhkarGroupHasProgress(type) {
+  var btns = _getAdhkarGroupButtons(type);
+  return btns.some(function(b) {
+    var key = 'tasbih_' + b.getAttribute('data-station');
+    var count = parseInt(localStorage.getItem(key)) || 0;
+    return count > 0;
+  });
+}
+
+function resetAdhkarGroupCounters(type) {
+  var btns = _getAdhkarGroupButtons(type);
+  btns.forEach(function(b) {
+    var key = 'tasbih_' + b.getAttribute('data-station');
+    localStorage.setItem(key, 0);
+    var countEl = b.querySelector('.tasbih-count');
+    if (countEl) countEl.innerText = 0;
+    b.classList.remove('completed');
+  });
+  sessionStorage.removeItem('adhkar_done_shown_' + type);
+  updateAdhkarProgress();
+}
+
+function showAdhkarContinuePrompt(type) {
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var isMorning = type === 'morning';
+
+  if (!document.getElementById('adhkar-done-style')) {
+    var _style = document.createElement('style');
+    _style.id = 'adhkar-done-style';
+    _style.textContent = [
+      '@keyframes adhkarFadeIn{from{opacity:0}to{opacity:1}}',
+      '@keyframes adhkarFadeOut{from{opacity:1}to{opacity:0}}',
+      '@keyframes adhkarSlideUp{from{transform:translateY(40px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}'
+    ].join('');
+    document.head.appendChild(_style);
+  }
+
+  var old = document.getElementById('adhkar-continue-modal');
+  if (old) old.remove();
+
+  var overlay = document.createElement('div');
+  overlay.id = 'adhkar-continue-modal';
+  overlay.style.cssText = [
+    'position:fixed', 'top:0', 'left:0', 'width:100%', 'height:100%',
+    'background:rgba(0,0,0,0.52)', 'z-index:99999',
+    'display:flex', 'align-items:center', 'justify-content:center',
+    'animation:adhkarFadeIn 0.35s ease'
+  ].join(';');
+
+  var box = document.createElement('div');
+  box.style.cssText = [
+    'background:linear-gradient(145deg,#ffffff,#eaf6ff)',
+    'border-radius:24px', 'padding:32px 26px 24px', 'max-width:360px', 'width:88%',
+    'text-align:center', 'box-shadow:0 12px 48px rgba(var(--theme-c1-rgb),0.25)',
+    'direction:rtl', 'font-family:Cairo, Arial, sans-serif',
+    'animation:adhkarSlideUp 0.4s cubic-bezier(.34,1.56,.64,1)'
+  ].join(';');
+
+  var icon = document.createElement('div');
+  icon.style.cssText = 'font-size:48px;margin-bottom:10px;line-height:1;';
+  icon.textContent = isMorning ? '🌅' : '🌙';
+
+  var title = document.createElement('h3');
+  title.style.cssText = 'margin:0 0 8px;font-size:18px;color:#1a3a52;font-weight:700;';
+  title.textContent = isAr ? 'لديك تسبيح سابق لم يكتمل' : 'You have unfinished progress';
+
+  var body = document.createElement('p');
+  body.style.cssText = 'margin:0 0 22px;font-size:14px;color:#2c5f7a;line-height:1.7;';
+  body.textContent = isAr ?
+    (isMorning ?
+      'وجدنا تقدماً سابقاً في عدادات أذكار الصباح. هل تريد إكمال ما بدأته أم البدء من جديد؟' :
+      'وجدنا تقدماً سابقاً في عدادات أذكار المساء. هل تريد إكمال ما بدأته أم البدء من جديد؟') :
+    (isMorning ?
+      'You have previous progress in the Morning Adhkar counters. Continue where you left off, or start fresh?' :
+      'You have previous progress in the Evening Adhkar counters. Continue where you left off, or start fresh?');
+
+  var btnContinue = document.createElement('button');
+  btnContinue.textContent = isAr ? '▶️ إكمال من حيث توقفت' : '▶️ Continue where I left off';
+  btnContinue.style.cssText = [
+    'display:block', 'width:100%', 'margin:0 0 10px', 'border:none', 'border-radius:12px',
+    'padding:12px', 'font-size:15px', 'font-weight:700', 'cursor:pointer',
+    'font-family:Cairo, Arial, sans-serif', 'color:#fff',
+    'background:linear-gradient(135deg,var(--theme-c1),var(--theme-c2))',
+    'box-shadow:0 4px 16px rgba(var(--theme-c1-rgb),0.35)',
+    'transition:transform 0.15s'
+  ].join(';');
+  btnContinue.onmouseover = function() { this.style.transform = 'scale(1.03)'; };
+  btnContinue.onmouseout = function() { this.style.transform = 'scale(1)'; };
+  btnContinue.onclick = function() {
+    overlay.style.animation = 'adhkarFadeOut 0.25s ease forwards';
+    setTimeout(function() { overlay.remove(); }, 250);
+  };
+
+  var btnReset = document.createElement('button');
+  btnReset.textContent = isAr ? '↺ تصفير والبدء من جديد' : '↺ Reset and start over';
+  btnReset.style.cssText = [
+    'display:block', 'width:100%', 'border:none', 'border-radius:12px',
+    'padding:11px', 'font-size:14px', 'font-weight:600', 'cursor:pointer',
+    'font-family:Cairo, Arial, sans-serif', 'color:#c0392b', 'background:#fdecea',
+    'transition:transform 0.15s'
+  ].join(';');
+  btnReset.onmouseover = function() { this.style.transform = 'scale(1.02)'; };
+  btnReset.onmouseout = function() { this.style.transform = 'scale(1)'; };
+  btnReset.onclick = function() {
+    resetAdhkarGroupCounters(type);
+    overlay.style.animation = 'adhkarFadeOut 0.25s ease forwards';
+    setTimeout(function() { overlay.remove(); }, 250);
+  };
+
+  box.appendChild(icon);
+  box.appendChild(title);
+  box.appendChild(body);
+  box.appendChild(btnContinue);
+  box.appendChild(btnReset);
+  overlay.appendChild(box);
+
+  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+
+  document.body.appendChild(overlay);
 }
 
 function filterRadioSub(subType, btn) {
