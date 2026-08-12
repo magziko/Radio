@@ -36564,6 +36564,16 @@ function applyInitialLanguage() {
     var introClipToggleTxtEl = document.getElementById('introClipToggleTxt');
     if (introClipToggleTxtEl) introClipToggleTxtEl.textContent = 'Enable Sound Alert';
 
+    var randomSeekLblInit = document.querySelector('label[for="randomSeekToggle"]');
+    if (randomSeekLblInit) randomSeekLblInit.textContent = randomSeekLblInit.getAttribute('data-en');
+
+    var themeAutoRotateLblInit = document.querySelector('#themeAutoRotateGroup label.wtb-text');
+    if (themeAutoRotateLblInit) themeAutoRotateLblInit.textContent = themeAutoRotateLblInit.getAttribute('data-en');
+    document.querySelectorAll('#themeAutoRotateInterval option').forEach(function(opt) {
+      var en = opt.getAttribute('data-en');
+      if (en) opt.textContent = en;
+    });
+
     var themeSel = document.getElementById('siteTheme');
     if (themeSel) Array.from(themeSel.options).forEach(function(o) {
       var en = o.getAttribute('data-en');
@@ -37882,6 +37892,16 @@ function toggleLanguage() {
   var introClipToggleTxtEl = document.getElementById('introClipToggleTxt');
   if (introClipToggleTxtEl) introClipToggleTxtEl.textContent = isArabic ? 'تفعيل التنبيه الصوتي' : 'Enable Sound Alert';
 
+  var randomSeekLbl = document.querySelector('label[for="randomSeekToggle"]');
+  if (randomSeekLbl) randomSeekLbl.textContent = isArabic ? randomSeekLbl.getAttribute('data-ar') : randomSeekLbl.getAttribute('data-en');
+
+  var themeAutoRotateLblTL = document.querySelector('#themeAutoRotateGroup label.wtb-text');
+  if (themeAutoRotateLblTL) themeAutoRotateLblTL.textContent = isArabic ? themeAutoRotateLblTL.getAttribute('data-ar') : themeAutoRotateLblTL.getAttribute('data-en');
+  document.querySelectorAll('#themeAutoRotateInterval option').forEach(function(opt) {
+    var optTxt = isArabic ? opt.getAttribute('data-ar') : opt.getAttribute('data-en');
+    if (optTxt) opt.textContent = optTxt;
+  });
+
   var nameEl = document.getElementById('pnb-name');
   if (nameEl) {
     var arN = nameEl.dataset.arName;
@@ -38702,6 +38722,16 @@ function applyWelcomeOverlayLang(lang) {
 
   var customRandomBtnTxt = document.querySelector('#customRandomBtn .wtb-text');
   if (customRandomBtnTxt) customRandomBtnTxt.textContent = d.customRandomBtnTxt;
+
+  var themeAutoRotateLbl = document.querySelector('#themeAutoRotateGroup label.wtb-text');
+  if (themeAutoRotateLbl) {
+    var themeAutoRotateTxt = themeAutoRotateLbl.getAttribute('data-' + lang) || themeAutoRotateLbl.getAttribute('data-en');
+    if (themeAutoRotateTxt) themeAutoRotateLbl.textContent = themeAutoRotateTxt;
+  }
+  document.querySelectorAll('#themeAutoRotateInterval option').forEach(function(opt) {
+    var optTxt = opt.getAttribute('data-' + lang) || opt.getAttribute('data-en');
+    if (optTxt) opt.textContent = optTxt;
+  });
 
   if (d.useDefaults) {
     resetWelcomeExtrasToDefault();
