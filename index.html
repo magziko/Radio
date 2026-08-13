@@ -47951,9 +47951,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (raTxt && typeof _radioAutoplayLabel === 'function') raTxt.textContent = _radioAutoplayLabel(raEnabled);
   }
 
-  document.querySelectorAll('.filter-button, .adhkar-sub-btn, .sira-sub-btn, .more-sub-btn, .livetv-sub-btn').forEach(function(btn) {
+  document.querySelectorAll('.filter-button, #viewFavoritesButton, .adhkar-sub-btn, .sira-sub-btn, .more-sub-btn, .livetv-sub-btn, .qurankarim-sub-btn, .quransciences-sub-btn, .radio-sub-btn, .reciters-sub-btn, .mix-sub-btn, .banna-sub-btn, .hussary-sub-btn, .minshawi-sub-btn, .basit-sub-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       _userPickedFilter = true;
+
+      // إغلاق قائمة الإعدادات تلقائيًا عند اختيار أي فلتر، حتى تظهر نتيجة الاختيار
+      // ويلاحظ المستخدم زر الفلتر المحدد بدل ما يفضل الفوكس على الإعدادات المفتوحة
+      var _settingsPanel = document.getElementById('settings-panel');
+      if (_settingsPanel && _settingsPanel.style.display !== 'none' && typeof toggleSettingsPanel === 'function') {
+        toggleSettingsPanel();
+      }
+
+      // بعد الإغلاق، سكرول لطيف للزر المختار عشان يبان واضح للمستخدم
+      var _clickedBtn = btn;
+      setTimeout(function() {
+        if (_clickedBtn && _clickedBtn.scrollIntoView) {
+          _clickedBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      }, 250);
     });
   });
 
