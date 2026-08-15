@@ -2478,6 +2478,40 @@ body {
     }
 }
 
+/* ===== زجاجي شفاف للأزرار عند اختيار ثيم صورة/فيديو خلفية ===== */
+body.media-theme-glass .button,
+body.media-theme-glass .palestine,
+body.media-theme-glass #prevButton,
+body.media-theme-glass #nextButton,
+body.media-theme-glass #randomButton,
+body.media-theme-glass #sleepCheckbox + label,
+body.media-theme-glass #autoSwitchCheckbox + label,
+body.media-theme-glass .sp-athkar-nav-btn {
+    background: rgba(255,255,255,0.16) !important;
+    color: #ffffff !important;
+    border: 1.5px solid rgba(255,255,255,0.38) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.55) !important;
+}
+body.media-theme-glass .button:hover,
+body.media-theme-glass .palestine:hover,
+body.media-theme-glass #prevButton:hover,
+body.media-theme-glass #nextButton:hover,
+body.media-theme-glass #randomButton:hover {
+    background: rgba(255,255,255,0.30) !important;
+}
+body.media-theme-glass .button.playing {
+    background: rgba(255,255,255,0.36) !important;
+    border-color: rgba(255,255,255,0.65) !important;
+}
+body.media-theme-glass .button.playing .station-text,
+body.media-theme-glass .button[style*="color: rgb(30, 144, 255)"] .station-text {
+    color: #ffffff !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.55) !important;
+}
+
         .palestine-default {
             padding: 8px 16px 8px 36px;
             font-size: 16px;
@@ -39149,6 +39183,7 @@ function applySiteTheme(theme, save) {
   document.body.classList.remove.apply(document.body.classList, SITE_THEME_CLASSES);
 
   var activePreset = null;
+  var isMediaTheme = false;
   if (theme === 'dark') {
     applyDarkMode(true);
     changeRadioButtonColor('', false);
@@ -39156,9 +39191,16 @@ function applySiteTheme(theme, save) {
     var preset = SITE_THEMES[theme] || SITE_THEMES.default;
     activePreset = preset;
     applyDarkMode(false);
-    changeRadioButtonColor(preset.btn, false);
+    // ثيمات الصور والفيديو: اجعل الأزرار زجاجية شفافة فوق الخلفية بدل اللون الصلب
+    isMediaTheme = !!(preset && preset.video) || PHOTO_SHOWCASE_THEMES.indexOf(theme) !== -1;
+    if (isMediaTheme) {
+      changeRadioButtonColor('', false);
+    } else {
+      changeRadioButtonColor(preset.btn, false);
+    }
     if (preset.cls) document.body.classList.add(preset.cls);
   }
+  document.body.classList.toggle('media-theme-glass', isMediaTheme);
 
   // ثيمات الفيديو المتحرك: أظهر/أخفِ فيديو الخلفية الثابت حسب الثيم المختار
   try {
