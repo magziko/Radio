@@ -16253,6 +16253,140 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   
+  <div id="welcomeExtraControlsRow" style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 8px 0 4px; flex-wrap:wrap;">
+    <button id="disableWelcomeToggleBtn"
+            onclick="toggleDisableWelcomeBtn()"
+            title="إخفاء شاشة الترحيب / Disable Welcome Screen"
+            class="welcome-toggle-btn">
+        <svg class="wtb-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span class="wtb-text" id="disableWelcomeTxt"
+              data-off-ar="إخفاء شاشة الترحيب" data-off-en="Disable Welcome Screen" data-off-fr="Désactiver l'écran d'accueil" data-off-es="Desactivar pantalla de bienvenida" data-off-sv="Inaktivera välkomstskärm" data-off-nl="Welkomstscherm uitschakelen" data-off-ga="Díchumasaigh Scáileán Fáilte" data-off-de="Begrüßungsbildschirm deaktivieren" data-off-ru="Отключить экран приветствия" data-off-tr="Karşılama Ekranını Devre Dışı Bırak" data-off-pt="Desativar tela de boas-vindas" data-off-zh="禁用欢迎屏幕" data-off-ur="خوش آمدید اسکرین غیر فعال کریں"
+              data-on-ar="شاشة الترحيب: مخفية" data-on-en="Welcome: Hidden" data-on-fr="Accueil : masqué" data-on-es="Bienvenida: oculta" data-on-sv="Välkomst: dold" data-on-nl="Welkom: verborgen" data-on-ga="Fáilte: folaithe" data-on-de="Begrüßung: ausgeblendet" data-on-ru="Приветствие: скрыто" data-on-tr="Karşılama: gizli" data-on-pt="Boas-vindas: oculta" data-on-zh="欢迎屏幕：已隐藏" data-on-ur="خوش آمدید: مخفی">إخفاء شاشة الترحيب</span>
+    </button>
+    <button id="introClipToggleBtn"
+            onclick="toggleIntroClipOption()"
+            title="تشغيل مقطع صلِّ على النبي ﷺ تلقائياً عند فتح الموقع / Auto-play a Salawat clip when the site opens"
+            class="welcome-toggle-btn">
+        <span class="wtb-icon">🔕</span>
+        <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert" data-fr="Activer l'alerte sonore" data-es="Activar alerta sonora" data-sv="Aktivera ljudlarm" data-nl="Geluidsmelding inschakelen" data-ga="Cumasaigh Rabhadh Fuaime" data-de="Tonalarm aktivieren" data-ru="Включить звуковое оповещение" data-tr="Sesli Uyarıyı Etkinleştir" data-pt="Ativar alerta sonoro" data-zh="启用声音提醒" data-ur="صوتی الرٹ فعال کریں">تفعيل التنبيه الصوتي</span>
+    </button>
+    <button id="radioAutoplayToggleBtn"
+            onclick="toggleRadioAutoplayOption()"
+            title="تفعيل/تعطيل التشغيل التلقائي للراديو عند فتح الموقع / Enable or disable radio autoplay on site open"
+            class="welcome-toggle-btn">
+        <span class="wtb-icon" id="radioAutoplayToggleIcon">▶️</span>
+        <span class="wtb-text" id="radioAutoplayToggleTxt" data-ar="تشغيل تلقائي: مفعّل" data-en="Autoplay: On" data-fr="Lecture auto : activée" data-es="Reproducción automática: activada" data-sv="Autospelning: På" data-nl="Automatisch afspelen: Aan" data-ga="Uath-sheinm: Ar" data-de="Autoplay: An" data-ru="Автовоспроизведение: вкл" data-tr="Otomatik oynatma: Açık" data-pt="Reprodução automática: Ativada" data-zh="自动播放：开" data-ur="خودکار پلے: آن">تشغيل تلقائي: مفعّل</span>
+    </button>
+    <div id="settings-randomseek-item" class="welcome-toggle-btn" style="gap:7px;">
+      <label for="randomSeekToggle" data-ar="بداية الملف الأول" data-en="Start of first file" data-fr="Début du premier fichier" data-es="Inicio del primer archivo" data-sv="Start av första filen" data-nl="Start van eerste bestand" data-ga="Tosú an chéad chomhaid" data-de="Beginn der ersten Datei" data-ru="Начало первого файла" data-tr="İlk dosyanın başlangıcı" data-pt="Início do primeiro arquivo" data-zh="第一个文件的起点" data-ur="پہلی فائل کا آغاز" style="cursor:pointer; margin:0;">بداية الملف الأول</label>
+      <input type="checkbox" id="randomSeekToggle" onchange="toggleRandomSeekSetting()" style="width:18px;height:18px;cursor:pointer; margin:0;">
+    </div>
+    <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
+    <div id="settings-flag-item" class="welcome-toggle-btn" style="gap:7px;">
+      <label for="buttonsFlagToggle" data-ar="🇵🇸 علم فلسطين بالأزرار" data-en="🇵🇸 Palestine Flag on Buttons" data-fr="🇵🇸 Drapeau palestinien sur les boutons" data-es="🇵🇸 Bandera de Palestina en los botones" data-sv="🇵🇸 Palestinsk flagga på knapparna" data-nl="🇵🇸 Palestijnse vlag op knoppen" data-ga="🇵🇸 Bratach na Palaistíne ar na cnaipí" data-de="🇵🇸 Palästina-Flagge auf den Buttons" data-ru="🇵🇸 Флаг Палестины на кнопках" data-tr="🇵🇸 Butonlarda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina nos botões" data-zh="🇵🇸 按钮上的巴勒斯坦国旗" data-ur="🇵🇸 بٹنوں پر فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بالأزرار</label>
+      <input type="checkbox" id="buttonsFlagToggle" onchange="toggleButtonsFlagSetting()" style="width:18px;height:18px;cursor:pointer; margin:0;">
+    </div>
+    <script>(function(){var _cb=document.getElementById('buttonsFlagToggle');if(_cb){_cb.checked=(localStorage.getItem('buttonsFlagHidden')!=='true');}})();</script>
+    <div id="welcomeAutoSwitchDurationGroup" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" style="gap:7px;">
+      <span class="wtb-icon">⏱️</span>
+      <label for="welcomeAutoSwitchDuration" data-ar="مدة تنقل الترحيب" data-en="Welcome Cycle" data-fr="Cycle d'accueil" data-es="Ciclo de bienvenida" data-sv="Välkomstcykel" data-nl="Welkomstcyclus" data-ga="Timthriall Fáilte" data-de="Begrüßungszyklus" data-ru="Цикл приветствия" data-tr="Karşılama Döngüsü" data-pt="Ciclo de boas-vindas" data-zh="欢迎轮播周期" data-ur="خوش آمدید سائیکل" class="wtb-text" style="cursor:default; margin:0;">مدة تنقل الترحيب</label>
+      <input type="number" id="welcomeAutoSwitchDuration" min="1" max="60"
+             data-ar="الدقائق" data-en="Minutes" data-fr="Minutes" data-es="Minutos" data-sv="Minuter" data-nl="Minuten" data-ga="Nóiméad" data-de="Minuten" data-ru="Минуты" data-tr="Dakika" data-pt="Minutos" data-zh="分钟" data-ur="منٹ"
+             placeholder="الدقائق"
+             class="welcome-toggle-inline-input"
+             onchange="setWelcomeAutoSwitchDuration()">
+    </div>
+    <div id="themeAutoRotateGroup" class="welcome-toggle-btn" title="تغيير المظهر تلقائيًا كل فترة" style="gap:7px;">
+      <span class="wtb-icon">🔄</span>
+      <label for="themeAutoRotateInterval" data-ar="تغيير المظهر تلقائيًا" data-en="Auto-Change Theme" data-fr="Changement auto. du thème" data-es="Cambio automático de tema" data-sv="Automatiskt temabyte" data-nl="Automatisch thema wisselen" data-ga="Athrú téama uathoibríoch" data-de="Design automatisch wechseln" data-ru="Автосмена темы" data-tr="Otomatik Tema Değiştir" data-pt="Alternar tema automaticamente" data-zh="自动切换主题" data-ur="خودکار تھیم تبدیلی" class="wtb-text" style="cursor:default; margin:0;">تغيير المظهر تلقائيًا</label>
+      <select id="themeAutoRotateInterval" class="welcome-toggle-inline-select" onchange="changeThemeAutoRotate()">
+        <option value="0" data-ar="⛔ إيقاف" data-en="⛔ Off" data-fr="⛔ Désactivé" data-es="⛔ Desactivado" data-sv="⛔ Av" data-nl="⛔ Uit" data-ga="⛔ As" data-de="⛔ Aus" data-ru="⛔ Выкл" data-tr="⛔ Kapalı" data-pt="⛔ Desativado" data-zh="⛔ 关闭" data-ur="⛔ بند">⛔ إيقاف</option>
+        <option value="60000" data-ar="⏱️ كل دقيقة" data-en="⏱️ Every minute" data-fr="⏱️ Chaque minute" data-es="⏱️ Cada minuto" data-sv="⏱️ Varje minut" data-nl="⏱️ Elke minuut" data-ga="⏱️ Gach nóiméad" data-de="⏱️ Jede Minute" data-ru="⏱️ Каждую минуту" data-tr="⏱️ Her dakika" data-pt="⏱️ A cada minuto" data-zh="⏱️ 每分钟" data-ur="⏱️ ہر منٹ">⏱️ كل دقيقة</option>
+        <option value="300000" data-ar="⏱️ كل 5 دقائق" data-en="⏱️ Every 5 minutes" data-fr="⏱️ Toutes les 5 minutes" data-es="⏱️ Cada 5 minutos" data-sv="⏱️ Var 5:e minut" data-nl="⏱️ Elke 5 minuten" data-ga="⏱️ Gach 5 nóiméad" data-de="⏱️ Alle 5 Minuten" data-ru="⏱️ Каждые 5 минут" data-tr="⏱️ Her 5 dakikada" data-pt="⏱️ A cada 5 minutos" data-zh="⏱️ 每5分钟" data-ur="⏱️ ہر 5 منٹ">⏱️ كل 5 دقائق</option>
+        <option value="600000" data-ar="⏱️ كل 10 دقائق" data-en="⏱️ Every 10 minutes" data-fr="⏱️ Toutes les 10 minutes" data-es="⏱️ Cada 10 minutos" data-sv="⏱️ Var 10:e minut" data-nl="⏱️ Elke 10 minuten" data-ga="⏱️ Gach 10 nóiméad" data-de="⏱️ Alle 10 Minuten" data-ru="⏱️ Каждые 10 минут" data-tr="⏱️ Her 10 dakikada" data-pt="⏱️ A cada 10 minutos" data-zh="⏱️ 每10分钟" data-ur="⏱️ ہر 10 منٹ">⏱️ كل 10 دقائق</option>
+        <option value="1800000" data-ar="⏱️ كل 30 دقيقة" data-en="⏱️ Every 30 minutes" data-fr="⏱️ Toutes les 30 minutes" data-es="⏱️ Cada 30 minutos" data-sv="⏱️ Var 30:e minut" data-nl="⏱️ Elke 30 minuten" data-ga="⏱️ Gach 30 nóiméad" data-de="⏱️ Alle 30 Minuten" data-ru="⏱️ Каждые 30 минут" data-tr="⏱️ Her 30 dakikada" data-pt="⏱️ A cada 30 minutos" data-zh="⏱️ 每30分钟" data-ur="⏱️ ہر 30 منٹ">⏱️ كل 30 دقيقة</option>
+        <option value="3600000" data-ar="⏱️ كل ساعة" data-en="⏱️ Every hour" data-fr="⏱️ Toutes les heures" data-es="⏱️ Cada hora" data-sv="⏱️ Varje timme" data-nl="⏱️ Elk uur" data-ga="⏱️ Gach uair" data-de="⏱️ Jede Stunde" data-ru="⏱️ Каждый час" data-tr="⏱️ Her saat" data-pt="⏱️ A cada hora" data-zh="⏱️ 每小时" data-ur="⏱️ ہر گھنٹے">⏱️ كل ساعة</option>
+        <option value="10800000" data-ar="⏱️ كل 3 ساعات" data-en="⏱️ Every 3 hours" data-fr="⏱️ Toutes les 3 heures" data-es="⏱️ Cada 3 horas" data-sv="⏱️ Var 3:e timme" data-nl="⏱️ Elke 3 uur" data-ga="⏱️ Gach 3 huaire" data-de="⏱️ Alle 3 Stunden" data-ru="⏱️ Каждые 3 часа" data-tr="⏱️ Her 3 saatte" data-pt="⏱️ A cada 3 horas" data-zh="⏱️ 每3小时" data-ur="⏱️ ہر 3 گھنٹے">⏱️ كل 3 ساعات</option>
+      </select>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    function capBand(b){ return b.charAt(0).toUpperCase()+b.slice(1); }
+    function updateFaderVisual(band, val){
+      val = parseFloat(val) || 0;
+      var fill = document.getElementById('aqxFill'+capBand(band));
+      if(!fill) return;
+      var track = fill.parentElement;
+      var half = (track.clientHeight - 8) / 2;
+      var h = Math.abs(val)/12*half;
+      fill.style.height = h+'px';
+      if(val>=0){ fill.style.bottom='50%'; fill.style.top='auto'; }
+      else { fill.style.top='50%'; fill.style.bottom='auto'; }
+      var viz = document.getElementById('aqxViz'+capBand(band));
+      if(viz){ viz.style.height = (30 + (val+12)/24*70) + '%'; }
+    }
+    function updateBoostVisual(val){
+      val = parseFloat(val) || 1;
+      var slider = document.getElementById('audioBoostSlider');
+      if(!slider) return;
+      var min = parseFloat(slider.min), max = parseFloat(slider.max);
+      var frac = (val-min)/(max-min)*100;
+      slider.style.background = 'linear-gradient(to right, var(--aqx-green) '+frac+'%, rgba(var(--theme-g1-rgb),0.15) '+frac+'%)';
+      var badge = document.getElementById('audioBoostValueLabel');
+      if(badge){
+        if(val<=1.25) badge.style.background = 'var(--aqx-green)';
+        else if(val<=3) badge.style.background = 'var(--aqx-gold)';
+        else badge.style.background = '#e57373';
+      }
+    }
+    function updatePlaybackSpeedVisual(val){
+      val = parseFloat(val) || 1;
+      var slider = document.getElementById('playbackSpeedSlider');
+      if(!slider) return;
+      var min = parseFloat(slider.min), max = parseFloat(slider.max);
+      var frac = (val-min)/(max-min)*100;
+      slider.style.background = 'linear-gradient(to right, var(--aqx-blue) '+frac+'%, rgba(14,42,61,0.12) '+frac+'%)';
+      var badge = document.getElementById('playbackSpeedValueLabel');
+      if(badge) badge.textContent = val+'×';
+    }
+    function setActiveChip(name){
+      document.querySelectorAll('#aqxPresetChips .aqx-chip').forEach(function(c){
+        c.classList.toggle('active', c.getAttribute('data-preset') === name);
+      });
+    }
+    window._aqxSelectPreset = function(name){
+      var sel = document.getElementById('eqPresetSelect');
+      if(sel) sel.value = name;
+      window.applyEqPreset && window.applyEqPreset(name);
+      setActiveChip(name);
+      window._aqxSyncAll();
+    };
+    window._aqxSyncAll = function(){
+      ['bass','mid','treble'].forEach(function(band){
+        var s = document.getElementById('eq'+capBand(band)+'Slider');
+        if(s) updateFaderVisual(band, s.value);
+      });
+      var b = document.getElementById('audioBoostSlider');
+      if(b) updateBoostVisual(b.value);
+      var sp = document.getElementById('playbackSpeedSlider');
+      if(sp) updatePlaybackSpeedVisual(sp.value);
+    };
+    ['bass','mid','treble'].forEach(function(band){
+      var s = document.getElementById('eq'+capBand(band)+'Slider');
+      if(s) s.addEventListener('input', function(){ updateFaderVisual(band, this.value); setActiveChip(null); });
+    });
+    var boostS = document.getElementById('audioBoostSlider');
+    if(boostS) boostS.addEventListener('input', function(){ updateBoostVisual(this.value); });
+    var speedS = document.getElementById('playbackSpeedSlider');
+    if(speedS) speedS.addEventListener('input', function(){ updatePlaybackSpeedVisual(this.value); });
+
+    requestAnimationFrame(function(){ window._aqxSyncAll(); });
+  })();
+  </script>
+
+  
   <div id="adhkar-notif-settings" style="
     margin: 8px auto 4px;
     width: 97%; max-width: 860px;
@@ -16405,6 +16539,11 @@ setTimeout(autoScaleVerseFont, 100);
     #audio-quality-settings .aqx-chip:hover{border-color:var(--aqx-green);transform:translateY(-1px);}
     #audio-quality-settings .aqx-chip.active{background:linear-gradient(135deg,var(--aqx-green),var(--aqx-green-light));color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(var(--theme-g1-rgb),0.35);}
     #audio-quality-settings .aqx-note{display:block;font-size:10px;opacity:.65;margin-top:8px;position:relative;z-index:1;}
+    #audio-quality-settings .aqx-header{cursor:pointer;user-select:none;}
+    #audio-quality-settings .aqx-toggle-icon{font-size:14px;color:var(--aqx-blue);transition:transform .3s ease;flex-shrink:0;}
+    #audio-quality-settings .aqx-toggle-icon.open{transform:rotate(180deg);}
+    #audio-quality-settings .aqx-body{display:none;flex-direction:column;gap:8px;}
+    #audio-quality-settings .aqx-body.open{display:flex;}
     @media (min-width:700px){ #audio-quality-settings .aqx-eq-inner{gap:46px;} }
     @media (max-width:560px){
       #equalizer-row.aqx-eq-row{padding-top:12px;}
@@ -16417,7 +16556,7 @@ setTimeout(autoScaleVerseFont, 100);
   </style>
 
   <div id="audio-quality-settings" class="aqx-panel" style="direction: rtl;">
-    <div class="aqx-header">
+    <div class="aqx-header" onclick="toggleAudioQualityBox()">
       <div class="aqx-title-group">
         <div class="aqx-mini-viz" aria-hidden="true">
           <span id="aqxVizBass"></span><span id="aqxVizMid"></span><span id="aqxVizTreble"></span>
@@ -16425,10 +16564,14 @@ setTimeout(autoScaleVerseFont, 100);
         <span data-ar="🎚️ جودة الصوت (معادل + تضخيم)" data-en="🎚️ Audio Quality (Equalizer + Boost)" data-fr="🎚️ Qualité audio (égaliseur + amplification)" data-es="🎚️ Calidad de audio (ecualizador + amplificación)" data-sv="🎚️ Ljudkvalitet (equalizer + förstärkning)" data-nl="🎚️ Audiokwaliteit (equalizer + versterking)" data-ga="🎚️ Cáilíocht Fuaime (Cothromóir + Treisiú)" data-de="🎚️ Audioqualität (Equalizer + Verstärkung)" data-ru="🎚️ Качество звука (эквалайзер + усиление)" data-tr="🎚️ Ses Kalitesi (Ekolayzer + Güçlendirme)" data-pt="🎚️ Qualidade de áudio (equalizador + amplificação)" data-zh="🎚️ 音质（均衡器+增强）" data-ur="🎚️ آواز کا معیار (ایکولائزر + بوسٹ)"
           style="font-size:15px;font-weight:800;white-space:nowrap;">🎚️ جودة الصوت (معادل + تضخيم)</span>
       </div>
-      <button id="audioQualityResetBtn" onclick="window.resetAudioQuality && window.resetAudioQuality(); window._aqxSyncAll && window._aqxSyncAll();"
-        data-ar="↺ إعادة ضبط" data-en="↺ Reset" data-fr="↺ Réinitialiser" data-es="↺ Restablecer" data-sv="↺ Återställ" data-nl="↺ Resetten" data-ga="↺ Athshocraigh" data-de="↺ Zurücksetzen" data-ru="↺ Сбросить" data-tr="↺ Sıfırla" data-pt="↺ Redefinir" data-zh="↺ 重置" data-ur="↺ ری سیٹ">↺ إعادة ضبط</button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button id="audioQualityResetBtn" onclick="event.stopPropagation(); window.resetAudioQuality && window.resetAudioQuality(); window._aqxSyncAll && window._aqxSyncAll();"
+          data-ar="↺ إعادة ضبط" data-en="↺ Reset" data-fr="↺ Réinitialiser" data-es="↺ Restablecer" data-sv="↺ Återställ" data-nl="↺ Resetten" data-ga="↺ Athshocraigh" data-de="↺ Zurücksetzen" data-ru="↺ Сбросить" data-tr="↺ Sıfırla" data-pt="↺ Redefinir" data-zh="↺ 重置" data-ur="↺ ری سیٹ">↺ إعادة ضبط</button>
+        <span id="audioQualityToggleIcon" class="aqx-toggle-icon">▾</span>
+      </div>
     </div>
 
+    <div id="audio-quality-body" class="aqx-body">
     <div class="aqx-boost-row">
       <label for="audioBoostSlider" data-ar="🔊 تضخيم الصوت" data-en="🔊 Volume Boost" data-fr="🔊 Amplification du volume" data-es="🔊 Amplificación de volumen" data-sv="🔊 Volymförstärkning" data-nl="🔊 Volumeversterking" data-ga="🔊 Treisiú Airde" data-de="🔊 Lautstärkeverstärkung" data-ru="🔊 Усиление громкости" data-tr="🔊 Ses Güçlendirme" data-pt="🔊 Amplificação de volume" data-zh="🔊 音量增强" data-ur="🔊 آواز کی بلندی">🔊 تضخيم الصوت</label>
       <input type="range" id="audioBoostSlider" min="1" max="5" step="0.25" value="1"
@@ -16518,139 +16661,6 @@ setTimeout(autoScaleVerseFont, 100);
           data-pt="Nota: o equalizador e a amplificação podem não funcionar em algumas estações externas devido a restrições do navegador (CORS)"
           data-zh="注意：由于浏览器（CORS）限制，均衡器和增强功能在某些外部电台可能无法使用"
           data-ur="نوٹ: بعض بیرونی اسٹیشنز پر براؤزر (CORS) کی پابندیوں کی وجہ سے ایکولائزر اور بوسٹ کام نہیں کر سکتے">ملاحظة: المعادل والتضخيم قد لا يعملان مع بعض المحطات الخارجية بسبب قيود المتصفح (CORS)</span>
-  </div>
-
-  <script>
-  (function(){
-    function capBand(b){ return b.charAt(0).toUpperCase()+b.slice(1); }
-    function updateFaderVisual(band, val){
-      val = parseFloat(val) || 0;
-      var fill = document.getElementById('aqxFill'+capBand(band));
-      if(!fill) return;
-      var track = fill.parentElement;
-      var half = (track.clientHeight - 8) / 2;
-      var h = Math.abs(val)/12*half;
-      fill.style.height = h+'px';
-      if(val>=0){ fill.style.bottom='50%'; fill.style.top='auto'; }
-      else { fill.style.top='50%'; fill.style.bottom='auto'; }
-      var viz = document.getElementById('aqxViz'+capBand(band));
-      if(viz){ viz.style.height = (30 + (val+12)/24*70) + '%'; }
-    }
-    function updateBoostVisual(val){
-      val = parseFloat(val) || 1;
-      var slider = document.getElementById('audioBoostSlider');
-      if(!slider) return;
-      var min = parseFloat(slider.min), max = parseFloat(slider.max);
-      var frac = (val-min)/(max-min)*100;
-      slider.style.background = 'linear-gradient(to right, var(--aqx-green) '+frac+'%, rgba(var(--theme-g1-rgb),0.15) '+frac+'%)';
-      var badge = document.getElementById('audioBoostValueLabel');
-      if(badge){
-        if(val<=1.25) badge.style.background = 'var(--aqx-green)';
-        else if(val<=3) badge.style.background = 'var(--aqx-gold)';
-        else badge.style.background = '#e57373';
-      }
-    }
-    function updatePlaybackSpeedVisual(val){
-      val = parseFloat(val) || 1;
-      var slider = document.getElementById('playbackSpeedSlider');
-      if(!slider) return;
-      var min = parseFloat(slider.min), max = parseFloat(slider.max);
-      var frac = (val-min)/(max-min)*100;
-      slider.style.background = 'linear-gradient(to right, var(--aqx-blue) '+frac+'%, rgba(14,42,61,0.12) '+frac+'%)';
-      var badge = document.getElementById('playbackSpeedValueLabel');
-      if(badge) badge.textContent = val+'×';
-    }
-    function setActiveChip(name){
-      document.querySelectorAll('#aqxPresetChips .aqx-chip').forEach(function(c){
-        c.classList.toggle('active', c.getAttribute('data-preset') === name);
-      });
-    }
-    window._aqxSelectPreset = function(name){
-      var sel = document.getElementById('eqPresetSelect');
-      if(sel) sel.value = name;
-      window.applyEqPreset && window.applyEqPreset(name);
-      setActiveChip(name);
-      window._aqxSyncAll();
-    };
-    window._aqxSyncAll = function(){
-      ['bass','mid','treble'].forEach(function(band){
-        var s = document.getElementById('eq'+capBand(band)+'Slider');
-        if(s) updateFaderVisual(band, s.value);
-      });
-      var b = document.getElementById('audioBoostSlider');
-      if(b) updateBoostVisual(b.value);
-      var sp = document.getElementById('playbackSpeedSlider');
-      if(sp) updatePlaybackSpeedVisual(sp.value);
-    };
-    ['bass','mid','treble'].forEach(function(band){
-      var s = document.getElementById('eq'+capBand(band)+'Slider');
-      if(s) s.addEventListener('input', function(){ updateFaderVisual(band, this.value); setActiveChip(null); });
-    });
-    var boostS = document.getElementById('audioBoostSlider');
-    if(boostS) boostS.addEventListener('input', function(){ updateBoostVisual(this.value); });
-    var speedS = document.getElementById('playbackSpeedSlider');
-    if(speedS) speedS.addEventListener('input', function(){ updatePlaybackSpeedVisual(this.value); });
-
-    requestAnimationFrame(function(){ window._aqxSyncAll(); });
-  })();
-  </script>
-
-  
-  <div id="welcomeExtraControlsRow" style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 8px 0 4px; flex-wrap:wrap;">
-    <button id="disableWelcomeToggleBtn"
-            onclick="toggleDisableWelcomeBtn()"
-            title="إخفاء شاشة الترحيب / Disable Welcome Screen"
-            class="welcome-toggle-btn">
-        <svg class="wtb-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span class="wtb-text" id="disableWelcomeTxt"
-              data-off-ar="إخفاء شاشة الترحيب" data-off-en="Disable Welcome Screen" data-off-fr="Désactiver l'écran d'accueil" data-off-es="Desactivar pantalla de bienvenida" data-off-sv="Inaktivera välkomstskärm" data-off-nl="Welkomstscherm uitschakelen" data-off-ga="Díchumasaigh Scáileán Fáilte" data-off-de="Begrüßungsbildschirm deaktivieren" data-off-ru="Отключить экран приветствия" data-off-tr="Karşılama Ekranını Devre Dışı Bırak" data-off-pt="Desativar tela de boas-vindas" data-off-zh="禁用欢迎屏幕" data-off-ur="خوش آمدید اسکرین غیر فعال کریں"
-              data-on-ar="شاشة الترحيب: مخفية" data-on-en="Welcome: Hidden" data-on-fr="Accueil : masqué" data-on-es="Bienvenida: oculta" data-on-sv="Välkomst: dold" data-on-nl="Welkom: verborgen" data-on-ga="Fáilte: folaithe" data-on-de="Begrüßung: ausgeblendet" data-on-ru="Приветствие: скрыто" data-on-tr="Karşılama: gizli" data-on-pt="Boas-vindas: oculta" data-on-zh="欢迎屏幕：已隐藏" data-on-ur="خوش آمدید: مخفی">إخفاء شاشة الترحيب</span>
-    </button>
-    <button id="introClipToggleBtn"
-            onclick="toggleIntroClipOption()"
-            title="تشغيل مقطع صلِّ على النبي ﷺ تلقائياً عند فتح الموقع / Auto-play a Salawat clip when the site opens"
-            class="welcome-toggle-btn">
-        <span class="wtb-icon">🔕</span>
-        <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert" data-fr="Activer l'alerte sonore" data-es="Activar alerta sonora" data-sv="Aktivera ljudlarm" data-nl="Geluidsmelding inschakelen" data-ga="Cumasaigh Rabhadh Fuaime" data-de="Tonalarm aktivieren" data-ru="Включить звуковое оповещение" data-tr="Sesli Uyarıyı Etkinleştir" data-pt="Ativar alerta sonoro" data-zh="启用声音提醒" data-ur="صوتی الرٹ فعال کریں">تفعيل التنبيه الصوتي</span>
-    </button>
-    <button id="radioAutoplayToggleBtn"
-            onclick="toggleRadioAutoplayOption()"
-            title="تفعيل/تعطيل التشغيل التلقائي للراديو عند فتح الموقع / Enable or disable radio autoplay on site open"
-            class="welcome-toggle-btn">
-        <span class="wtb-icon" id="radioAutoplayToggleIcon">▶️</span>
-        <span class="wtb-text" id="radioAutoplayToggleTxt" data-ar="تشغيل تلقائي: مفعّل" data-en="Autoplay: On" data-fr="Lecture auto : activée" data-es="Reproducción automática: activada" data-sv="Autospelning: På" data-nl="Automatisch afspelen: Aan" data-ga="Uath-sheinm: Ar" data-de="Autoplay: An" data-ru="Автовоспроизведение: вкл" data-tr="Otomatik oynatma: Açık" data-pt="Reprodução automática: Ativada" data-zh="自动播放：开" data-ur="خودکار پلے: آن">تشغيل تلقائي: مفعّل</span>
-    </button>
-    <div id="settings-randomseek-item" class="welcome-toggle-btn" style="gap:7px;">
-      <label for="randomSeekToggle" data-ar="بداية الملف الأول" data-en="Start of first file" data-fr="Début du premier fichier" data-es="Inicio del primer archivo" data-sv="Start av första filen" data-nl="Start van eerste bestand" data-ga="Tosú an chéad chomhaid" data-de="Beginn der ersten Datei" data-ru="Начало первого файла" data-tr="İlk dosyanın başlangıcı" data-pt="Início do primeiro arquivo" data-zh="第一个文件的起点" data-ur="پہلی فائل کا آغاز" style="cursor:pointer; margin:0;">بداية الملف الأول</label>
-      <input type="checkbox" id="randomSeekToggle" onchange="toggleRandomSeekSetting()" style="width:18px;height:18px;cursor:pointer; margin:0;">
-    </div>
-    <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
-    <div id="settings-flag-item" class="welcome-toggle-btn" style="gap:7px;">
-      <label for="buttonsFlagToggle" data-ar="🇵🇸 علم فلسطين بالأزرار" data-en="🇵🇸 Palestine Flag on Buttons" data-fr="🇵🇸 Drapeau palestinien sur les boutons" data-es="🇵🇸 Bandera de Palestina en los botones" data-sv="🇵🇸 Palestinsk flagga på knapparna" data-nl="🇵🇸 Palestijnse vlag op knoppen" data-ga="🇵🇸 Bratach na Palaistíne ar na cnaipí" data-de="🇵🇸 Palästina-Flagge auf den Buttons" data-ru="🇵🇸 Флаг Палестины на кнопках" data-tr="🇵🇸 Butonlarda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina nos botões" data-zh="🇵🇸 按钮上的巴勒斯坦国旗" data-ur="🇵🇸 بٹنوں پر فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بالأزرار</label>
-      <input type="checkbox" id="buttonsFlagToggle" onchange="toggleButtonsFlagSetting()" style="width:18px;height:18px;cursor:pointer; margin:0;">
-    </div>
-    <script>(function(){var _cb=document.getElementById('buttonsFlagToggle');if(_cb){_cb.checked=(localStorage.getItem('buttonsFlagHidden')!=='true');}})();</script>
-    <div id="welcomeAutoSwitchDurationGroup" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" style="gap:7px;">
-      <span class="wtb-icon">⏱️</span>
-      <label for="welcomeAutoSwitchDuration" data-ar="مدة تنقل الترحيب" data-en="Welcome Cycle" data-fr="Cycle d'accueil" data-es="Ciclo de bienvenida" data-sv="Välkomstcykel" data-nl="Welkomstcyclus" data-ga="Timthriall Fáilte" data-de="Begrüßungszyklus" data-ru="Цикл приветствия" data-tr="Karşılama Döngüsü" data-pt="Ciclo de boas-vindas" data-zh="欢迎轮播周期" data-ur="خوش آمدید سائیکل" class="wtb-text" style="cursor:default; margin:0;">مدة تنقل الترحيب</label>
-      <input type="number" id="welcomeAutoSwitchDuration" min="1" max="60"
-             data-ar="الدقائق" data-en="Minutes" data-fr="Minutes" data-es="Minutos" data-sv="Minuter" data-nl="Minuten" data-ga="Nóiméad" data-de="Minuten" data-ru="Минуты" data-tr="Dakika" data-pt="Minutos" data-zh="分钟" data-ur="منٹ"
-             placeholder="الدقائق"
-             class="welcome-toggle-inline-input"
-             onchange="setWelcomeAutoSwitchDuration()">
-    </div>
-    <div id="themeAutoRotateGroup" class="welcome-toggle-btn" title="تغيير المظهر تلقائيًا كل فترة" style="gap:7px;">
-      <span class="wtb-icon">🔄</span>
-      <label for="themeAutoRotateInterval" data-ar="تغيير المظهر تلقائيًا" data-en="Auto-Change Theme" data-fr="Changement auto. du thème" data-es="Cambio automático de tema" data-sv="Automatiskt temabyte" data-nl="Automatisch thema wisselen" data-ga="Athrú téama uathoibríoch" data-de="Design automatisch wechseln" data-ru="Автосмена темы" data-tr="Otomatik Tema Değiştir" data-pt="Alternar tema automaticamente" data-zh="自动切换主题" data-ur="خودکار تھیم تبدیلی" class="wtb-text" style="cursor:default; margin:0;">تغيير المظهر تلقائيًا</label>
-      <select id="themeAutoRotateInterval" class="welcome-toggle-inline-select" onchange="changeThemeAutoRotate()">
-        <option value="0" data-ar="⛔ إيقاف" data-en="⛔ Off" data-fr="⛔ Désactivé" data-es="⛔ Desactivado" data-sv="⛔ Av" data-nl="⛔ Uit" data-ga="⛔ As" data-de="⛔ Aus" data-ru="⛔ Выкл" data-tr="⛔ Kapalı" data-pt="⛔ Desativado" data-zh="⛔ 关闭" data-ur="⛔ بند">⛔ إيقاف</option>
-        <option value="60000" data-ar="⏱️ كل دقيقة" data-en="⏱️ Every minute" data-fr="⏱️ Chaque minute" data-es="⏱️ Cada minuto" data-sv="⏱️ Varje minut" data-nl="⏱️ Elke minuut" data-ga="⏱️ Gach nóiméad" data-de="⏱️ Jede Minute" data-ru="⏱️ Каждую минуту" data-tr="⏱️ Her dakika" data-pt="⏱️ A cada minuto" data-zh="⏱️ 每分钟" data-ur="⏱️ ہر منٹ">⏱️ كل دقيقة</option>
-        <option value="300000" data-ar="⏱️ كل 5 دقائق" data-en="⏱️ Every 5 minutes" data-fr="⏱️ Toutes les 5 minutes" data-es="⏱️ Cada 5 minutos" data-sv="⏱️ Var 5:e minut" data-nl="⏱️ Elke 5 minuten" data-ga="⏱️ Gach 5 nóiméad" data-de="⏱️ Alle 5 Minuten" data-ru="⏱️ Каждые 5 минут" data-tr="⏱️ Her 5 dakikada" data-pt="⏱️ A cada 5 minutos" data-zh="⏱️ 每5分钟" data-ur="⏱️ ہر 5 منٹ">⏱️ كل 5 دقائق</option>
-        <option value="600000" data-ar="⏱️ كل 10 دقائق" data-en="⏱️ Every 10 minutes" data-fr="⏱️ Toutes les 10 minutes" data-es="⏱️ Cada 10 minutos" data-sv="⏱️ Var 10:e minut" data-nl="⏱️ Elke 10 minuten" data-ga="⏱️ Gach 10 nóiméad" data-de="⏱️ Alle 10 Minuten" data-ru="⏱️ Каждые 10 минут" data-tr="⏱️ Her 10 dakikada" data-pt="⏱️ A cada 10 minutos" data-zh="⏱️ 每10分钟" data-ur="⏱️ ہر 10 منٹ">⏱️ كل 10 دقائق</option>
-        <option value="1800000" data-ar="⏱️ كل 30 دقيقة" data-en="⏱️ Every 30 minutes" data-fr="⏱️ Toutes les 30 minutes" data-es="⏱️ Cada 30 minutos" data-sv="⏱️ Var 30:e minut" data-nl="⏱️ Elke 30 minuten" data-ga="⏱️ Gach 30 nóiméad" data-de="⏱️ Alle 30 Minuten" data-ru="⏱️ Каждые 30 минут" data-tr="⏱️ Her 30 dakikada" data-pt="⏱️ A cada 30 minutos" data-zh="⏱️ 每30分钟" data-ur="⏱️ ہر 30 منٹ">⏱️ كل 30 دقيقة</option>
-        <option value="3600000" data-ar="⏱️ كل ساعة" data-en="⏱️ Every hour" data-fr="⏱️ Toutes les heures" data-es="⏱️ Cada hora" data-sv="⏱️ Varje timme" data-nl="⏱️ Elk uur" data-ga="⏱️ Gach uair" data-de="⏱️ Jede Stunde" data-ru="⏱️ Каждый час" data-tr="⏱️ Her saat" data-pt="⏱️ A cada hora" data-zh="⏱️ 每小时" data-ur="⏱️ ہر گھنٹے">⏱️ كل ساعة</option>
-        <option value="10800000" data-ar="⏱️ كل 3 ساعات" data-en="⏱️ Every 3 hours" data-fr="⏱️ Toutes les 3 heures" data-es="⏱️ Cada 3 horas" data-sv="⏱️ Var 3:e timme" data-nl="⏱️ Elke 3 uur" data-ga="⏱️ Gach 3 huaire" data-de="⏱️ Alle 3 Stunden" data-ru="⏱️ Каждые 3 часа" data-tr="⏱️ Her 3 saatte" data-pt="⏱️ A cada 3 horas" data-zh="⏱️ 每3小时" data-ur="⏱️ ہر 3 گھنٹے">⏱️ كل 3 ساعات</option>
-      </select>
     </div>
   </div>
 
@@ -50204,6 +50214,15 @@ document.addEventListener('DOMContentLoaded', function() {
 - إذا لم تعرف إجابة سؤال محدد، قل ذلك بصراحة واقترح البديل`;
 
   var aiMessages = [];
+
+  window.toggleAudioQualityBox = function() {
+    var body = document.getElementById('audio-quality-body');
+    var icon = document.getElementById('audioQualityToggleIcon');
+    if (!body) return;
+    var isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    if (icon) icon.classList.toggle('open', !isOpen);
+  };
 
   window.toggleAiBox = function() {
 
