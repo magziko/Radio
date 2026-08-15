@@ -2478,6 +2478,35 @@ body {
     }
 }
 
+/* ===== إبقاء تذكير أذكار الصباح والمساء بجانب بعض على شاشات الموبايل والشاشات الصغيرة ===== */
+@media (max-width: 600px) {
+    #adhkar-notif-times-row {
+        gap: 4px;
+    }
+    #adhkar-notif-times-row > div {
+        gap: 3px;
+    }
+    #adhkar-notif-times-row label {
+        font-size: 11px !important;
+    }
+    #notif-morning-time,
+    #notif-evening-time {
+        padding: 3px 4px !important;
+        font-size: 11px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    #adhkar-notif-times-row label {
+        font-size: 10px !important;
+    }
+    #notif-morning-time,
+    #notif-evening-time {
+        padding: 3px 2px !important;
+        font-size: 10px !important;
+    }
+}
+
 /* ===== زجاجي شفاف للأزرار عند اختيار ثيم صورة/فيديو خلفية ===== */
 body.media-theme-glass .button,
 body.media-theme-glass .palestine,
@@ -2611,12 +2640,7 @@ body.media-theme-glass .reset-btn {
 
   .buttons-container button[data-adhkar-featured], .buttons-container .pl-check-wrap[data-adhkar-featured] { grid-column: 1 / -1; }
  .input-group {
-background: linear-gradient(
-    to right,
-    #e3f2fd 0%,
-    #fff 50%,
-    #e3f2fd 100%
-  );
+background: linear-gradient(to right, rgba(var(--theme-c1-rgb),0.12) 0%, #fff 50%, rgba(var(--theme-c1-rgb),0.12) 100%);
   color: #000 ;
   font-weight: 700;
   border-radius: 8px;
@@ -2678,7 +2702,7 @@ width: 98%;
 .input-group label {
   flex: 1;
   font-size: 16px;
-  color: #000;
+  color: var(--theme-c2);
   font-weight: bold;
   white-space: nowrap;
 }
@@ -4850,13 +4874,13 @@ body.dark-mode #status.status-error {
 }
 
 body.dark-mode .input-group {
-    background: linear-gradient(to right, #1a2a3a, #1e1e2e, #1a2a3a) !important;
+    background: linear-gradient(to right, #1a2a3a 0%, #1e2d3e 50%, #1a2a3a 100%) !important;
     color: #e0e0e0 !important;
     border: 1px solid #333 !important;
 }
 
 body.dark-mode .input-group label {
-    color: #c8d6e5 !important;
+    color: #90caf9 !important;
 }
 
 body.dark-mode .input-group input[type="number"] {
@@ -5213,6 +5237,19 @@ body.dark-mode .btn {
     box-shadow: 0 3px 12px rgba(var(--theme-c1-rgb),0.18);
 }
 
+#themeAutoRotateGroup {
+    flex-wrap: wrap;
+    row-gap: 4px;
+    height: auto;
+}
+
+#themeAutoRotateGroup .welcome-toggle-inline-select {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    order: 3;
+}
+
 .welcome-toggle-btn.active {
     background: linear-gradient(135deg, var(--theme-c1) 0%, #0d6ecc 100%);
     border-color: #0d6ecc;
@@ -5252,13 +5289,22 @@ body.dark-mode .btn {
     font-size: 12px;
     font-weight: 700;
     color: inherit;
-    background: rgba(0,0,0,0.05);
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 6px;
-    padding: 3px 6px;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    padding: 3px 8px;
     margin: 0;
     cursor: pointer;
     box-sizing: border-box;
+    transition: all .2s ease;
+}
+
+.welcome-toggle-inline-input:hover,
+.welcome-toggle-inline-select:hover,
+.welcome-toggle-inline-input:focus,
+.welcome-toggle-inline-select:focus {
+    border-color: var(--theme-c1);
+    background: rgba(255,255,255,0.85);
 }
 
 .welcome-toggle-inline-input {
@@ -5276,6 +5322,67 @@ body.dark-mode .welcome-toggle-inline-select {
     background: rgba(0,0,0,0.35);
     border-color: rgba(100,181,246,0.35);
     color: #90caf9;
+}
+
+body.dark-mode .welcome-toggle-inline-input:hover,
+body.dark-mode .welcome-toggle-inline-select:hover,
+body.dark-mode .welcome-toggle-inline-input:focus,
+body.dark-mode .welcome-toggle-inline-select:focus {
+    border-color: #64b5f6;
+    background: rgba(0,0,0,0.5);
+}
+
+/* ==== Unified switch style for the checkbox-based settings (Start of first file / Palestine Flag) ==== */
+.wtb-switch {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 34px !important;
+    height: 18px !important;
+    min-width: 34px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.15);
+    border: 1.5px solid rgba(0,0,0,0.15);
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: background .25s ease, border-color .25s ease;
+    flex-shrink: 0;
+    margin: 0 !important;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wtb-switch::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform .25s ease;
+}
+
+.wtb-switch:checked {
+    background: linear-gradient(135deg, var(--theme-c1) 0%, #0d6ecc 100%);
+    border-color: #0d6ecc;
+}
+
+.wtb-switch:checked::before {
+    transform: translateX(16px);
+}
+
+body.dark-mode .wtb-switch {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(100,181,246,0.30);
+}
+
+body.dark-mode .wtb-switch:checked {
+    background: linear-gradient(135deg, var(--theme-c2) 0%, #0d47a1 100%);
+    border-color: #64b5f6;
 }
 
 body.dark-mode :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn) {
@@ -5453,6 +5560,92 @@ body.dark-mode .welcome-toggle-btn.active {
     #welcomeExtraControlsRow .welcome-toggle-btn .wtb-text {
         white-space: normal;
     }
+}
+
+/* ==== Unify the on/off signal across ALL toggles in this row: state is shown only by the switch, never by recoloring the whole pill ==== */
+#disableWelcomeToggleBtn.active,
+#introClipToggleBtn.active,
+#radioAutoplayToggleBtn.active {
+    background: rgba(255,255,255,0.72) !important;
+    border-color: #b0c4de !important;
+    color: #2c3e50 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07) !important;
+}
+
+body.dark-mode #disableWelcomeToggleBtn.active,
+body.dark-mode #introClipToggleBtn.active,
+body.dark-mode #radioAutoplayToggleBtn.active {
+    background: rgba(26,26,46,0.85) !important;
+    border-color: rgba(100,181,246,0.30) !important;
+    color: #90caf9 !important;
+    box-shadow: none !important;
+}
+
+#disableWelcomeToggleBtn.active .wtb-icon,
+#introClipToggleBtn.active .wtb-icon,
+#radioAutoplayToggleBtn.active .wtb-icon {
+    animation: none !important;
+}
+
+#disableWelcomeToggleBtn .wtb-switch-visual,
+#introClipToggleBtn .wtb-switch-visual,
+#radioAutoplayToggleBtn .wtb-switch-visual {
+    width: 30px;
+    height: 16px;
+    min-width: 30px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.15);
+    border: 1.5px solid rgba(0,0,0,0.15);
+    position: relative;
+    flex-shrink: 0;
+    transition: background .25s ease, border-color .25s ease;
+    margin-inline-start: 2px;
+    box-sizing: border-box;
+}
+
+#disableWelcomeToggleBtn .wtb-switch-visual::before,
+#introClipToggleBtn .wtb-switch-visual::before,
+#radioAutoplayToggleBtn .wtb-switch-visual::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    transition: transform .25s ease;
+}
+
+#disableWelcomeToggleBtn.active .wtb-switch-visual,
+#introClipToggleBtn.active .wtb-switch-visual,
+#radioAutoplayToggleBtn.active .wtb-switch-visual {
+    background: linear-gradient(135deg, var(--theme-c1) 0%, #0d6ecc 100%);
+    border-color: #0d6ecc;
+}
+
+#disableWelcomeToggleBtn.active .wtb-switch-visual::before,
+#introClipToggleBtn.active .wtb-switch-visual::before,
+#radioAutoplayToggleBtn.active .wtb-switch-visual::before {
+    transform: translateX(14px);
+}
+
+body.dark-mode #disableWelcomeToggleBtn .wtb-switch-visual,
+body.dark-mode #introClipToggleBtn .wtb-switch-visual,
+body.dark-mode #radioAutoplayToggleBtn .wtb-switch-visual {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(100,181,246,0.30);
+}
+
+body.dark-mode #disableWelcomeToggleBtn.active .wtb-switch-visual,
+body.dark-mode #introClipToggleBtn.active .wtb-switch-visual,
+body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
+    background: linear-gradient(135deg, var(--theme-c2) 0%, #0d47a1 100%);
+    border-color: #64b5f6;
+}
+
+@media (max-width: 600px) {
 
     #welcomeAutoSwitchDurationGroup,
     #themeAutoRotateGroup {
@@ -5476,7 +5669,78 @@ body.dark-mode .welcome-toggle-btn.active {
     }
 
     #themeAutoRotateGroup .welcome-toggle-inline-select {
-        max-width: 130px;
+        max-width: 100%;
+    }
+}
+
+/* ==== Unified mobile layout: pair Language with Auto Switch, Shortcuts with Sleep Mode,
+   Theme list with Auto-Change Theme — everything else keeps its natural order ==== */
+@media (max-width: 991px) {
+    #settingsQuickGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "autoswitch  lang"
+            "sleep       shortcuts"
+            "search      search"
+            "theme       autotheme"
+            "autoplay    soundalert"
+            "flag        startfile"
+            "disablewelcome welcomecycle";
+        gap: 8px;
+        align-items: stretch;
+        width: 98%;
+        margin: 0 auto;
+    }
+
+    .controls-row,
+    .color-settings-row,
+    #welcomeExtraControlsRow {
+        display: contents !important;
+    }
+
+    #autoSwitchGroup       { grid-area: autoswitch; }
+    #settings-lang-item    { grid-area: lang; }
+    #sleepModeGroup        { grid-area: sleep; }
+    #settings-shortcuts-item { grid-area: shortcuts; }
+    #searchInput           { grid-area: search; }
+    #settings-theme-item   { grid-area: theme; }
+    #themeAutoRotateGroup  { grid-area: autotheme; }
+    #disableWelcomeToggleBtn { grid-area: disablewelcome; }
+    #introClipToggleBtn    { grid-area: soundalert; }
+    #radioAutoplayToggleBtn { grid-area: autoplay; }
+    #settings-randomseek-item { grid-area: startfile; }
+    #settings-flag-item    { grid-area: flag; }
+    #welcomeAutoSwitchDurationGroup { grid-area: welcomecycle; }
+
+    /* every paired item fills its grid cell instead of the old auto/centered width */
+    #autoSwitchGroup,
+    #sleepModeGroup,
+    #settings-lang-item,
+    #settings-shortcuts-item,
+    #settings-theme-item,
+    #themeAutoRotateGroup,
+    #disableWelcomeToggleBtn,
+    #introClipToggleBtn,
+    #radioAutoplayToggleBtn,
+    #settings-randomseek-item,
+    #settings-flag-item,
+    #welcomeAutoSwitchDurationGroup {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+        justify-content: center;
+    }
+
+    #searchInput {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    #welcomeAutoSwitchDurationGroup,
+    #themeAutoRotateGroup {
+        grid-column: auto !important;
     }
 }
 
@@ -7642,8 +7906,11 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
     </div>
     <div class="wtb-center"></div>
     <div class="wtb-right">
-        <button id="welcomeTopAiBtn" onclick="openAiAssistantFromWelcome()" title="مساعد الذكاء الاصطناعي / AI Assistant" aria-label="AI Assistant">
-            <span class="wtai-icon">🤖</span>
+        <button id="welcomeTopAiBtn" onclick="openSettingsFromWelcome()" title="الإعدادات / Settings" aria-label="Settings">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
         </button>
         <button id="welcomeTopSearchBtn" onclick="(function(){
             var panel=document.getElementById('settings-panel');
@@ -9111,6 +9378,39 @@ function openAiAssistantFromWelcome() {
       var inp = document.getElementById('ai-user-input');
       if (inp) inp.focus();
     }, 600);
+  }, 380);
+}
+
+// ===== فتح الإعدادات مباشرة (كمودال) من الشاشة الترحيبية =====
+function openSettingsFromWelcome() {
+  // 1. أغلق الشاشة الترحيبية
+  closeWelcomeScreen();
+
+  // 2. بعد الإغلاق افتح لوحة الإعدادات مباشرة
+  setTimeout(function() {
+    var panel = document.getElementById('settings-panel');
+    var arrow = document.getElementById('settings-arrow');
+    if (panel && panel.style.display === 'none') {
+      panel.style.display = 'block';
+      if (arrow) arrow.style.transform = 'rotate(180deg)';
+      var sw = panel.querySelector('.search-wrapper');
+      if (sw) sw.style.display = 'flex';
+    }
+
+    // انتقل ناعماً للوحة الإعدادات
+    if (panel) {
+      panel.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+      // تأثير تمييز (highlight) للفت الانتباه
+      panel.style.transition = 'box-shadow 0.4s ease, transform 0.4s ease';
+      panel.style.boxShadow = '0 0 0 3px var(--theme-g1), 0 8px 32px rgba(var(--theme-g1-rgb),0.45)';
+      setTimeout(function() {
+        panel.style.boxShadow = '';
+      }, 1600);
+    }
   }, 380);
 }
 
@@ -16003,9 +16303,10 @@ setTimeout(autoScaleVerseFont, 100);
     overflow: hidden;
     transition: all 0.3s ease;
   ">
+  <div id="settingsQuickGrid">
   <div class="controls-row">
 
-    <div class="input-group">
+    <div class="input-group" id="autoSwitchGroup">
       <label for="autoSwitchTimer" data-ar="التنقل الآلي" data-en="Auto Switch" data-fr="Changement auto" data-es="Cambio automático" data-sv="Automatiskt byte" data-nl="Automatisch wisselen" data-ga="Athrú uathoibríoch" data-de="Automatischer Wechsel" data-ru="Автопереключение" data-tr="Otomatik geçiş" data-pt="Troca automática" data-zh="自动切换" data-ur="خودکار تبدیلی">التنقل الآلي</label>
       <input type="number" id="autoSwitchTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" data-fr="Minutes" data-es="Minutos" data-sv="Minuter" data-nl="Minuten" data-ga="Nóiméad" data-de="Minuten" data-ru="Минуты" data-tr="Dakika" data-pt="Minutos" data-zh="分钟" data-ur="منٹ" placeholder="الدقائق"
              onchange="(function(){var cb=document.getElementById('autoSwitchCheckbox');var v=parseInt(document.getElementById('autoSwitchTimer').value);if(!isNaN(v)&&v>0){cb.checked=true;}else{cb.checked=false;}cb.dispatchEvent(new Event('change'));})()">
@@ -16030,7 +16331,7 @@ setTimeout(autoScaleVerseFont, 100);
 
     <input type="text" id="searchInput" class="search-input" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" data-fr="Rechercher une station ou le nom d'un récitateur" data-es="Buscar una emisora o el nombre de un recitador" data-sv="Sök efter en station eller ett recitatörsnamn" data-nl="Zoek een station of de naam van een reciteerder" data-ga="Cuardaigh stáisiún nó ainm aithriseora" data-de="Nach einem Sender oder Rezitatornamen suchen" data-ru="Поиск радиостанции или имени чтеца" data-tr="Bir istasyon veya kari adı ara" data-pt="Pesquisar uma estação ou o nome de um recitador" data-zh="搜索电台或诵读者姓名" data-ur="اسٹیشن یا قاری کا نام تلاش کریں" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
 
-    <div class="input-group">
+    <div class="input-group" id="sleepModeGroup">
       <label for="sleepTimer" data-ar="مؤقت الإيقاف" data-en="Sleep Mode" data-fr="Mode veille" data-es="Modo de suspensión" data-sv="Viloläge" data-nl="Slaapstand" data-ga="Mód codlata" data-de="Schlafmodus" data-ru="Режим сна" data-tr="Uyku modu" data-pt="Modo de suspensão" data-zh="睡眠模式" data-ur="نیند موڈ">مؤقت الإيقاف</label>
       <input type="number" id="sleepTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" data-fr="Minutes" data-es="Minutos" data-sv="Minuter" data-nl="Minuten" data-ga="Nóiméad" data-de="Minuten" data-ru="Минуты" data-tr="Dakika" data-pt="Minutos" data-zh="分钟" data-ur="منٹ" placeholder="الدقائق"
              onchange="(function(){var cb=document.getElementById('sleepCheckbox');var v=parseInt(document.getElementById('sleepTimer').value);if(!isNaN(v)&&v>0){cb.checked=true;}else{cb.checked=false;}cb.dispatchEvent(new Event('change'));})()">
@@ -16055,7 +16356,7 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   <div class="color-settings-row">
-    <div class="color-setting-item">
+    <div class="color-setting-item" id="settings-theme-item">
       <label data-ar="🎨 المظهر" data-en="🎨 Theme" data-fr="🎨 Thème" data-es="🎨 Tema" data-sv="🎨 Tema" data-nl="🎨 Thema" data-ga="🎨 Téama" data-de="🎨 Design" data-ru="🎨 Тема" data-tr="🎨 Tema" data-pt="🎨 Tema" data-zh="🎨 主题" data-ur="🎨 تھیم">🎨 المظهر</label>
       <select id="siteTheme" class="responsive-select" onchange="changeSiteTheme()">
     <option data-ar="اختر مظهرًا" data-en="Choose a theme" value="">اختر مظهرًا</option>
@@ -16254,6 +16555,32 @@ setTimeout(autoScaleVerseFont, 100);
 
   
   <div id="welcomeExtraControlsRow" style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 8px 0 4px; flex-wrap:wrap;">
+    <button id="introClipToggleBtn"
+            onclick="toggleIntroClipOption()"
+            title="تشغيل مقطع صلِّ على النبي ﷺ تلقائياً عند فتح الموقع / Auto-play a Salawat clip when the site opens"
+            class="welcome-toggle-btn">
+        <span class="wtb-icon">🔕</span>
+        <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert" data-fr="Activer l'alerte sonore" data-es="Activar alerta sonora" data-sv="Aktivera ljudlarm" data-nl="Geluidsmelding inschakelen" data-ga="Cumasaigh Rabhadh Fuaime" data-de="Tonalarm aktivieren" data-ru="Включить звуковое оповещение" data-tr="Sesli Uyarıyı Etkinleştir" data-pt="Ativar alerta sonoro" data-zh="启用声音提醒" data-ur="صوتی الرٹ فعال کریں">تفعيل التنبيه الصوتي</span>
+        <span class="wtb-switch-visual" aria-hidden="true"></span>
+    </button>
+    <button id="radioAutoplayToggleBtn"
+            onclick="toggleRadioAutoplayOption()"
+            title="تفعيل/تعطيل التشغيل التلقائي للراديو عند فتح الموقع / Enable or disable radio autoplay on site open"
+            class="welcome-toggle-btn">
+        <span class="wtb-icon" id="radioAutoplayToggleIcon">▶️</span>
+        <span class="wtb-text" id="radioAutoplayToggleTxt" data-ar="تشغيل تلقائي: مفعّل" data-en="Autoplay: On" data-fr="Lecture auto : activée" data-es="Reproducción automática: activada" data-sv="Autospelning: På" data-nl="Automatisch afspelen: Aan" data-ga="Uath-sheinm: Ar" data-de="Autoplay: An" data-ru="Автовоспроизведение: вкл" data-tr="Otomatik oynatma: Açık" data-pt="Reprodução automática: Ativada" data-zh="自动播放：开" data-ur="خودکار پلے: آن">تشغيل تلقائي: مفعّل</span>
+        <span class="wtb-switch-visual" aria-hidden="true"></span>
+    </button>
+    <div id="settings-randomseek-item" class="welcome-toggle-btn" style="gap:7px;">
+      <label for="randomSeekToggle" class="wtb-text" data-ar="بداية الملف الأول" data-en="Start of first file" data-fr="Début du premier fichier" data-es="Inicio del primer archivo" data-sv="Start av första filen" data-nl="Start van eerste bestand" data-ga="Tosú an chéad chomhaid" data-de="Beginn der ersten Datei" data-ru="Начало первого файла" data-tr="İlk dosyanın başlangıcı" data-pt="Início do primeiro arquivo" data-zh="第一个文件的起点" data-ur="پہلی فائل کا آغاز" style="cursor:pointer; margin:0;">بداية الملف الأول</label>
+      <input type="checkbox" id="randomSeekToggle" class="wtb-switch" onchange="toggleRandomSeekSetting()">
+    </div>
+    <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
+    <div id="settings-flag-item" class="welcome-toggle-btn" style="gap:7px;">
+      <label for="buttonsFlagToggle" class="wtb-text" data-ar="🇵🇸 علم فلسطين بالأزرار" data-en="🇵🇸 Palestine Flag on Buttons" data-fr="🇵🇸 Drapeau palestinien sur les boutons" data-es="🇵🇸 Bandera de Palestina en los botones" data-sv="🇵🇸 Palestinsk flagga på knapparna" data-nl="🇵🇸 Palestijnse vlag op knoppen" data-ga="🇵🇸 Bratach na Palaistíne ar na cnaipí" data-de="🇵🇸 Palästina-Flagge auf den Buttons" data-ru="🇵🇸 Флаг Палестины на кнопках" data-tr="🇵🇸 Butonlarda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina nos botões" data-zh="🇵🇸 按钮上的巴勒斯坦国旗" data-ur="🇵🇸 بٹنوں پر فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بالأزرار</label>
+      <input type="checkbox" id="buttonsFlagToggle" class="wtb-switch" onchange="toggleButtonsFlagSetting()">
+    </div>
+    <script>(function(){var _cb=document.getElementById('buttonsFlagToggle');if(_cb){_cb.checked=(localStorage.getItem('buttonsFlagHidden')!=='true');}})();</script>
     <button id="disableWelcomeToggleBtn"
             onclick="toggleDisableWelcomeBtn()"
             title="إخفاء شاشة الترحيب / Disable Welcome Screen"
@@ -16262,31 +16589,8 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="wtb-text" id="disableWelcomeTxt"
               data-off-ar="إخفاء شاشة الترحيب" data-off-en="Disable Welcome Screen" data-off-fr="Désactiver l'écran d'accueil" data-off-es="Desactivar pantalla de bienvenida" data-off-sv="Inaktivera välkomstskärm" data-off-nl="Welkomstscherm uitschakelen" data-off-ga="Díchumasaigh Scáileán Fáilte" data-off-de="Begrüßungsbildschirm deaktivieren" data-off-ru="Отключить экран приветствия" data-off-tr="Karşılama Ekranını Devre Dışı Bırak" data-off-pt="Desativar tela de boas-vindas" data-off-zh="禁用欢迎屏幕" data-off-ur="خوش آمدید اسکرین غیر فعال کریں"
               data-on-ar="شاشة الترحيب: مخفية" data-on-en="Welcome: Hidden" data-on-fr="Accueil : masqué" data-on-es="Bienvenida: oculta" data-on-sv="Välkomst: dold" data-on-nl="Welkom: verborgen" data-on-ga="Fáilte: folaithe" data-on-de="Begrüßung: ausgeblendet" data-on-ru="Приветствие: скрыто" data-on-tr="Karşılama: gizli" data-on-pt="Boas-vindas: oculta" data-on-zh="欢迎屏幕：已隐藏" data-on-ur="خوش آمدید: مخفی">إخفاء شاشة الترحيب</span>
+        <span class="wtb-switch-visual" aria-hidden="true"></span>
     </button>
-    <button id="introClipToggleBtn"
-            onclick="toggleIntroClipOption()"
-            title="تشغيل مقطع صلِّ على النبي ﷺ تلقائياً عند فتح الموقع / Auto-play a Salawat clip when the site opens"
-            class="welcome-toggle-btn">
-        <span class="wtb-icon">🔕</span>
-        <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert" data-fr="Activer l'alerte sonore" data-es="Activar alerta sonora" data-sv="Aktivera ljudlarm" data-nl="Geluidsmelding inschakelen" data-ga="Cumasaigh Rabhadh Fuaime" data-de="Tonalarm aktivieren" data-ru="Включить звуковое оповещение" data-tr="Sesli Uyarıyı Etkinleştir" data-pt="Ativar alerta sonoro" data-zh="启用声音提醒" data-ur="صوتی الرٹ فعال کریں">تفعيل التنبيه الصوتي</span>
-    </button>
-    <button id="radioAutoplayToggleBtn"
-            onclick="toggleRadioAutoplayOption()"
-            title="تفعيل/تعطيل التشغيل التلقائي للراديو عند فتح الموقع / Enable or disable radio autoplay on site open"
-            class="welcome-toggle-btn">
-        <span class="wtb-icon" id="radioAutoplayToggleIcon">▶️</span>
-        <span class="wtb-text" id="radioAutoplayToggleTxt" data-ar="تشغيل تلقائي: مفعّل" data-en="Autoplay: On" data-fr="Lecture auto : activée" data-es="Reproducción automática: activada" data-sv="Autospelning: På" data-nl="Automatisch afspelen: Aan" data-ga="Uath-sheinm: Ar" data-de="Autoplay: An" data-ru="Автовоспроизведение: вкл" data-tr="Otomatik oynatma: Açık" data-pt="Reprodução automática: Ativada" data-zh="自动播放：开" data-ur="خودکار پلے: آن">تشغيل تلقائي: مفعّل</span>
-    </button>
-    <div id="settings-randomseek-item" class="welcome-toggle-btn" style="gap:7px;">
-      <label for="randomSeekToggle" data-ar="بداية الملف الأول" data-en="Start of first file" data-fr="Début du premier fichier" data-es="Inicio del primer archivo" data-sv="Start av första filen" data-nl="Start van eerste bestand" data-ga="Tosú an chéad chomhaid" data-de="Beginn der ersten Datei" data-ru="Начало первого файла" data-tr="İlk dosyanın başlangıcı" data-pt="Início do primeiro arquivo" data-zh="第一个文件的起点" data-ur="پہلی فائل کا آغاز" style="cursor:pointer; margin:0;">بداية الملف الأول</label>
-      <input type="checkbox" id="randomSeekToggle" onchange="toggleRandomSeekSetting()" style="width:18px;height:18px;cursor:pointer; margin:0;">
-    </div>
-    <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
-    <div id="settings-flag-item" class="welcome-toggle-btn" style="gap:7px;">
-      <label for="buttonsFlagToggle" data-ar="🇵🇸 علم فلسطين بالأزرار" data-en="🇵🇸 Palestine Flag on Buttons" data-fr="🇵🇸 Drapeau palestinien sur les boutons" data-es="🇵🇸 Bandera de Palestina en los botones" data-sv="🇵🇸 Palestinsk flagga på knapparna" data-nl="🇵🇸 Palestijnse vlag op knoppen" data-ga="🇵🇸 Bratach na Palaistíne ar na cnaipí" data-de="🇵🇸 Palästina-Flagge auf den Buttons" data-ru="🇵🇸 Флаг Палестины на кнопках" data-tr="🇵🇸 Butonlarda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina nos botões" data-zh="🇵🇸 按钮上的巴勒斯坦国旗" data-ur="🇵🇸 بٹنوں پر فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بالأزرار</label>
-      <input type="checkbox" id="buttonsFlagToggle" onchange="toggleButtonsFlagSetting()" style="width:18px;height:18px;cursor:pointer; margin:0;">
-    </div>
-    <script>(function(){var _cb=document.getElementById('buttonsFlagToggle');if(_cb){_cb.checked=(localStorage.getItem('buttonsFlagHidden')!=='true');}})();</script>
     <div id="welcomeAutoSwitchDurationGroup" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" style="gap:7px;">
       <span class="wtb-icon">⏱️</span>
       <label for="welcomeAutoSwitchDuration" data-ar="مدة تنقل الترحيب" data-en="Welcome Cycle" data-fr="Cycle d'accueil" data-es="Ciclo de bienvenida" data-sv="Välkomstcykel" data-nl="Welkomstcyclus" data-ga="Timthriall Fáilte" data-de="Begrüßungszyklus" data-ru="Цикл приветствия" data-tr="Karşılama Döngüsü" data-pt="Ciclo de boas-vindas" data-zh="欢迎轮播周期" data-ur="خوش آمدید سائیکل" class="wtb-text" style="cursor:default; margin:0;">مدة تنقل الترحيب</label>
@@ -16309,6 +16613,7 @@ setTimeout(autoScaleVerseFont, 100);
         <option value="10800000" data-ar="⏱️ كل 3 ساعات" data-en="⏱️ Every 3 hours" data-fr="⏱️ Toutes les 3 heures" data-es="⏱️ Cada 3 horas" data-sv="⏱️ Var 3:e timme" data-nl="⏱️ Elke 3 uur" data-ga="⏱️ Gach 3 huaire" data-de="⏱️ Alle 3 Stunden" data-ru="⏱️ Каждые 3 часа" data-tr="⏱️ Her 3 saatte" data-pt="⏱️ A cada 3 horas" data-zh="⏱️ 每3小时" data-ur="⏱️ ہر 3 گھنٹے">⏱️ كل 3 ساعات</option>
       </select>
     </div>
+  </div>
   </div>
 
   <script>
@@ -16405,7 +16710,7 @@ setTimeout(autoScaleVerseFont, 100);
     <span data-ar="🔔 تذكير الأذكار" data-en="🔔 Adhkar Reminder" data-fr="🔔 Rappel des Adhkar" data-es="🔔 Recordatorio de Adhkar" data-sv="🔔 Adhkar-påminnelse" data-nl="🔔 Adhkar-herinnering" data-ga="🔔 Meabhrúchán Adhkar" data-de="🔔 Adhkar-Erinnerung" data-ru="🔔 Напоминание об азкар" data-tr="🔔 Ezkâr Hatırlatıcısı" data-pt="🔔 Lembrete de Adhkar" data-zh="🔔 赞念提醒" data-ur="🔔 اذکار کی یاد دہانی"
       style="font-size:15px;font-weight:700;color:#1a3a52;white-space:nowrap;">🔔 تذكير الأذكار</span>
 
-    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+    <div id="adhkar-notif-times-row" style="display:flex;align-items:center;gap:6px;flex-wrap:nowrap;">
       <div style="display:flex;align-items:center;gap:6px;">
         <label data-ar="🌅 الصباح" data-en="🌅 Morning" data-fr="🌅 Matin" data-es="🌅 Mañana" data-sv="🌅 Morgon" data-nl="🌅 Ochtend" data-ga="🌅 Maidin" data-de="🌅 Morgen" data-ru="🌅 Утро" data-tr="🌅 Sabah" data-pt="🌅 Manhã" data-zh="🌅 早晨" data-ur="🌅 صبح"
           style="font-size:13px;color:#2c5f7a;white-space:nowrap;">🌅 الصباح</label>
@@ -16438,8 +16743,7 @@ setTimeout(autoScaleVerseFont, 100);
     <span id="notif-status-text" style="font-size:12px;color:#888;"></span>
   </div>
 
-  <div id="startup-notif-settings" style="
-    margin: 8px auto 4px;
+  <div id="startup-notif-settings" style="    margin: 8px auto 4px;
     width: 97%; max-width: 860px;
     background: linear-gradient(135deg,rgba(255,152,0,0.08),rgba(255,87,34,0.06));
     border: 1.5px solid rgba(255,152,0,0.22);
@@ -38767,7 +39071,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: 'Masquer',
     helpBtnTitle: 'Aide et raccourcis clavier',
     searchBtnTitle: 'Recherche',
-    aiBtnTitle: 'Assistant IA',
+    aiBtnTitle: 'Paramètres',
     hideBtnTitle: "Masquer l'écran d'accueil",
     downArrowTitle: 'Aller à la radio principale',
     closeButtonAriaLabel: 'Fermer'
@@ -38784,7 +39088,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: 'Ocultar',
     helpBtnTitle: 'Ayuda y atajos de teclado',
     searchBtnTitle: 'Buscar',
-    aiBtnTitle: 'Asistente de IA',
+    aiBtnTitle: 'Configuración',
     hideBtnTitle: 'Ocultar pantalla de bienvenida',
     downArrowTitle: 'Ir a la radio principal',
     closeButtonAriaLabel: 'Cerrar'
@@ -38801,7 +39105,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: 'Dölj',
     helpBtnTitle: 'Hjälp och kortkommandon',
     searchBtnTitle: 'Sök',
-    aiBtnTitle: 'AI-assistent',
+    aiBtnTitle: 'Inställningar',
     hideBtnTitle: 'Dölj välkomstskärmen',
     downArrowTitle: 'Gå till huvudradion',
     closeButtonAriaLabel: 'Stäng'
@@ -38818,7 +39122,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: 'Verbergen',
     helpBtnTitle: 'Hulp en sneltoetsen',
     searchBtnTitle: 'Zoeken',
-    aiBtnTitle: 'AI-assistent',
+    aiBtnTitle: 'Instellingen',
     hideBtnTitle: 'Welkomstscherm verbergen',
     downArrowTitle: 'Ga naar de hoofdradio',
     closeButtonAriaLabel: 'Sluiten'
@@ -38835,7 +39139,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: 'Folaigh',
     helpBtnTitle: 'Cabhair agus aicearraí méarchláir',
     searchBtnTitle: 'Cuardaigh',
-    aiBtnTitle: 'Cúntóir IA',
+    aiBtnTitle: 'Socruithe',
     hideBtnTitle: 'Folaigh an scáileán fáilte',
     downArrowTitle: 'Téigh go dtí an príomhraidió',
     closeButtonAriaLabel: 'Dún'
@@ -38852,7 +39156,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: 'Ausblenden',
     helpBtnTitle: 'Hilfe und Tastenkürzel',
     searchBtnTitle: 'Suchen',
-    aiBtnTitle: 'KI-Assistent',
+    aiBtnTitle: 'Einstellungen',
     hideBtnTitle: 'Startbildschirm ausblenden',
     downArrowTitle: 'Zum Hauptradio gehen',
     closeButtonAriaLabel: 'Schließen'
@@ -38869,7 +39173,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: 'Скрыть',
     helpBtnTitle: 'Справка и горячие клавиши',
     searchBtnTitle: 'Поиск',
-    aiBtnTitle: 'ИИ-помощник',
+    aiBtnTitle: 'Настройки',
     hideBtnTitle: 'Скрыть экран приветствия',
     downArrowTitle: 'Перейти к основному радио',
     closeButtonAriaLabel: 'Закрыть'
@@ -38886,7 +39190,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: 'Gizle',
     helpBtnTitle: 'Yardım ve klavye kısayolları',
     searchBtnTitle: 'Ara',
-    aiBtnTitle: 'Yapay Zeka Asistanı',
+    aiBtnTitle: 'Ayarlar',
     hideBtnTitle: 'Karşılama ekranını gizle',
     downArrowTitle: 'Ana radyoya git',
     closeButtonAriaLabel: 'Kapat'
@@ -38903,7 +39207,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: 'Ocultar',
     helpBtnTitle: 'Ajuda e atalhos de teclado',
     searchBtnTitle: 'Pesquisar',
-    aiBtnTitle: 'Assistente de IA',
+    aiBtnTitle: 'Configurações',
     hideBtnTitle: 'Ocultar tela de boas-vindas',
     downArrowTitle: 'Ir para o rádio principal',
     closeButtonAriaLabel: 'Fechar'
@@ -38920,7 +39224,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: '隐藏',
     helpBtnTitle: '帮助与快捷键',
     searchBtnTitle: '搜索',
-    aiBtnTitle: 'AI助手',
+    aiBtnTitle: '设置',
     hideBtnTitle: '隐藏欢迎屏幕',
     downArrowTitle: '前往主电台',
     closeButtonAriaLabel: '关闭'
@@ -38937,7 +39241,7 @@ var WELCOME_OVERLAY_I18N = {
     hideTxt: 'چھپائیں',
     helpBtnTitle: 'مدد اور کی بورڈ شارٹ کٹس',
     searchBtnTitle: 'تلاش کریں',
-    aiBtnTitle: 'AI اسسٹنٹ',
+    aiBtnTitle: 'ترتیبات',
     hideBtnTitle: 'خوش آمدید اسکرین چھپائیں',
     downArrowTitle: 'مرکزی ریڈیو پر جائیں',
     closeButtonAriaLabel: 'بند کریں'
@@ -39130,7 +39434,7 @@ var _welcomeFrenchDefaults = {
   welcomeTopHideTxt: 'Hide',
   welcomeHelpBtnTitle: 'الإرشادات واختصارات لوحة المفاتيح / Help & Keyboard Shortcuts',
   welcomeTopSearchBtnTitle: 'بحث / Search',
-  welcomeTopAiBtnTitle: 'مساعد الذكاء الاصطناعي / AI Assistant',
+  welcomeTopAiBtnTitle: 'الإعدادات / Settings',
   welcomeTopHideBtnTitle: 'إخفاء الشاشة الترحيبية / Hide Welcome Screen',
   downArrowTitle: 'انتقل للراديو الرئيسي / Go to main radio',
   closeButtonAriaLabel: 'اغلاق'
