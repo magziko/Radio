@@ -2493,7 +2493,13 @@ body.media-theme-glass .sp-athkar-nav-btn {
     backdrop-filter: blur(14px) saturate(180%);
     -webkit-backdrop-filter: blur(14px) saturate(180%);
     box-shadow: 0 4px 18px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.25) !important;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.55) !important;
+    /* إطار أسود مضيء حول الخط الأبيض لضمان وضوح القراءة فوق الخلفيات الفاتحة/المضيئة جدًا */
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+         0 0 6px rgba(0,0,0,0.85) !important;
 }
 body.media-theme-glass .button:hover,
 body.media-theme-glass .palestine:hover,
@@ -2509,7 +2515,22 @@ body.media-theme-glass .button.playing {
 body.media-theme-glass .button.playing .station-text,
 body.media-theme-glass .button[style*="color: rgb(30, 144, 255)"] .station-text {
     color: #ffffff !important;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.55) !important;
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+         0 0 6px rgba(0,0,0,0.85) !important;
+}
+
+/* مربع التسبيح له خلفية فاتحة خاصة به دايمًا (حتى في الثيم الزجاجي)، فالنص الغامق
+   جواه ميحتاجش إطار أسود قوي فوقه — نلغي الظل الموروث من الزر عشان الأرقام تفضل واضحة
+   (بدون المساس بلون النص، عشان حالة "مكتمل" تفضل بيضاء واضحة زي ما هي) */
+body.media-theme-glass .tasbih-box,
+body.media-theme-glass .tasbih-count,
+body.media-theme-glass .tasbih-ghost-target,
+body.media-theme-glass .reset-btn {
+    text-shadow: none !important;
 }
 
         .palestine-default {
@@ -2539,6 +2560,24 @@ body.media-theme-glass .button[style*="color: rgb(30, 144, 255)"] .station-text 
     top: auto;
     transform: none;
     border-radius: 4px;
+    animation: flagRareBlink 30s steps(1) infinite;
+  }
+  /* العلم يظهر لمدة ثانية واحدة فقط كل 30 ثانية عند تفعيل الخيار */
+  @keyframes flagRareBlink {
+    0%, 96.66% { opacity: 0; }
+    96.67%, 99.99% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flag {
+      animation: none;
+      opacity: 1;
+    }
+  }
+  /* إخفاء علم فلسطين من الأزرار عند تعطيل الخيار من الإعدادات */
+  body.hide-buttons-flag .flag {
+    display: none !important;
+    animation: none !important;
   }
   .button:hover {
     background-color: #f0f7ff;
@@ -4705,6 +4744,39 @@ body.dark-mode #siteWelcomeText span:nth-child(2) { color: #90caf9 !important; }
 body.dark-mode #siteWelcomeText span:nth-child(3) { color: #64b5f6 !important; }
 body.dark-mode #siteWelcomeText span:nth-child(4) { color: #78909c !important; }
 
+/* ===== شاشة الترحيب الزجاجية عند اختيار ثيم صورة/فيديو خلفية ===== */
+body.media-theme-glass #welcomeScreen {
+    background: transparent !important;
+}
+body.media-theme-glass #welcomeContent {
+    background: rgba(255,255,255,0.16) !important;
+    border: 1.5px solid rgba(255,255,255,0.38) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+}
+body.media-theme-glass #quranVerse {
+    background: rgba(255,255,255,0.08) !important;
+    border-color: rgba(255,255,255,0.25) !important;
+}
+/* إطار أسود مضيء حول النص الأبيض داخل شاشة الترحيب الزجاجية لضمان وضوح القراءة */
+body.media-theme-glass .customHeading,
+body.media-theme-glass #siteWelcomeText,
+body.media-theme-glass #siteWelcomeText strong,
+body.media-theme-glass #siteWelcomeText span,
+body.media-theme-glass #arabicVerse,
+body.media-theme-glass #englishVerse,
+body.media-theme-glass #verseNumber,
+body.media-theme-glass .basmala-line {
+    color: #ffffff !important;
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+         0 0 6px rgba(0,0,0,0.85) !important;
+}
+
 body.dark-mode #quranVerse {
     background: linear-gradient(160deg, rgba(100,181,246,0.05) 0%, rgba(0,0,0,0) 100%) !important;
     border-color: rgba(100,181,246,0.12) !important;
@@ -5545,6 +5617,26 @@ body.dark-mode .custom-tooltip::after {
 
     z-index: 1;
     overflow: hidden;
+}
+
+/* وميض تلقائي لجذب انتباه المستخدم لمكان التسبيح حتى يبدأ بالضغط عليه */
+@keyframes tasbihAttentionBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.22; }
+}
+.button.has-tasbih .tasbih-box {
+    animation: tasbihAttentionBlink 1.6s ease-in-out infinite;
+}
+/* بمجرد أن يضغط المستخدم ويبدأ التسبيح، يثبت المربع الخاص بهذا الزر ولا يختفي بعدها */
+.button.has-tasbih .tasbih-box.tasbih-started {
+    animation: none;
+    opacity: 1;
+    box-shadow: none;
+}
+@media (prefers-reduced-motion: reduce) {
+    .button.has-tasbih .tasbih-box {
+        animation: none;
+    }
 }
 
 .tasbih-box:active {
@@ -16533,6 +16625,11 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="randomSeekToggle" onchange="toggleRandomSeekSetting()" style="width:18px;height:18px;cursor:pointer; margin:0;">
     </div>
     <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
+    <div id="settings-flag-item" class="welcome-toggle-btn" style="gap:7px;">
+      <label for="buttonsFlagToggle" data-ar="🇵🇸 علم فلسطين بالأزرار" data-en="🇵🇸 Palestine Flag on Buttons" data-fr="🇵🇸 Drapeau palestinien sur les boutons" data-es="🇵🇸 Bandera de Palestina en los botones" data-sv="🇵🇸 Palestinsk flagga på knapparna" data-nl="🇵🇸 Palestijnse vlag op knoppen" data-ga="🇵🇸 Bratach na Palaistíne ar na cnaipí" data-de="🇵🇸 Palästina-Flagge auf den Buttons" data-ru="🇵🇸 Флаг Палестины на кнопках" data-tr="🇵🇸 Butonlarda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina nos botões" data-zh="🇵🇸 按钮上的巴勒斯坦国旗" data-ur="🇵🇸 بٹنوں پر فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بالأزرار</label>
+      <input type="checkbox" id="buttonsFlagToggle" onchange="toggleButtonsFlagSetting()" style="width:18px;height:18px;cursor:pointer; margin:0;">
+    </div>
+    <script>(function(){var _cb=document.getElementById('buttonsFlagToggle');if(_cb){_cb.checked=(localStorage.getItem('buttonsFlagHidden')!=='true');}})();</script>
     <div id="welcomeAutoSwitchDurationGroup" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" style="gap:7px;">
       <span class="wtb-icon">⏱️</span>
       <label for="welcomeAutoSwitchDuration" data-ar="مدة تنقل الترحيب" data-en="Welcome Cycle" data-fr="Cycle d'accueil" data-es="Ciclo de bienvenida" data-sv="Välkomstcykel" data-nl="Welkomstcyclus" data-ga="Timthriall Fáilte" data-de="Begrüßungszyklus" data-ru="Цикл приветствия" data-tr="Karşılama Döngüsü" data-pt="Ciclo de boas-vindas" data-zh="欢迎轮播周期" data-ur="خوش آمدید سائیکل" class="wtb-text" style="cursor:default; margin:0;">مدة تنقل الترحيب</label>
@@ -17053,9 +17150,14 @@ function renderStationButtons(arr, container, opts) {
       btn.classList.add('has-tasbih');
       var targetVal = (s.target != null) ? s.target : '';
       var ghostSpan = targetVal ? '<span class="tasbih-ghost-target">' + targetVal + '</span>' : '';
-      inner += '<div class="tasbih-box" onclick="incrementTasbih(event)">' +
+      var _tasbihSavedCount = parseInt(localStorage.getItem('tasbih_' + s.station)) || 0;
+      var _tasbihStartedCls = _tasbihSavedCount > 0 ? ' tasbih-started' : '';
+      if (_tasbihSavedCount > 0 && targetVal && _tasbihSavedCount >= parseInt(targetVal)) {
+        btn.classList.add('completed');
+      }
+      inner += '<div class="tasbih-box' + _tasbihStartedCls + '" onclick="incrementTasbih(event)">' +
         ghostSpan +
-        '<span class="tasbih-count">0</span>' +
+        '<span class="tasbih-count">' + _tasbihSavedCount + '</span>' +
         '<span class="reset-btn" onclick="resetTasbih(event); event.stopPropagation();">↺</span>' +
         '</div>';
     }
@@ -28998,6 +29100,86 @@ body.dark-mode #sp-alarm-status { color: #6b8f7d; }
 }
 body.dark-mode #sp-alarm-today-bar { color: #5DCAA5; background: rgba(var(--theme-g1-rgb),0.14); }
 
+/* ===== زجاجية قسم التسبيح/الأذكار (salah-pip-section) عند اختيار ثيم صورة/فيديو خلفية ===== */
+body.media-theme-glass #salah-pip-section {
+    background: rgba(255,255,255,0.16) !important;
+    border: 1.5px solid rgba(255,255,255,0.38) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+}
+body.media-theme-glass #salah-pip-btn {
+    background: rgba(255,255,255,0.16) !important;
+    border-color: rgba(255,255,255,0.5) !important;
+}
+body.media-theme-glass #salah-pip-btn.sp-done {
+    background: rgba(255,255,255,0.30) !important;
+}
+body.media-theme-glass .sp-athkar-search,
+body.media-theme-glass .sp-athkar-play-btn,
+body.media-theme-glass .sp-custom-dd-btn,
+body.media-theme-glass .sp-custom-dd-search,
+body.media-theme-glass .sp-target-row select,
+body.media-theme-glass #sp-athkar-sel,
+body.media-theme-glass .sp-btn,
+body.media-theme-glass #sp-alarm-interval-sel,
+body.media-theme-glass #sp-athkar-display {
+    background: rgba(255,255,255,0.16) !important;
+    border-color: rgba(255,255,255,0.38) !important;
+}
+body.media-theme-glass .sp-athkar-search::placeholder,
+body.media-theme-glass .sp-custom-dd-search::placeholder {
+    color: rgba(255,255,255,0.75) !important;
+}
+/* قائمة الأذكار المنسدلة تفضل خلفيتها شبه معتمة أكتر عشان سهولة قراءة عدد كبير من الأذكار داخلها */
+body.media-theme-glass .sp-custom-dd-list {
+    background: rgba(20,20,20,0.55) !important;
+    border-color: rgba(255,255,255,0.35) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+body.media-theme-glass .sp-custom-dd-item:hover,
+body.media-theme-glass .sp-custom-dd-item:active {
+    background: rgba(255,255,255,0.18) !important;
+}
+body.media-theme-glass .sp-custom-dd-item.sp-dd-selected {
+    background: rgba(255,255,255,0.28) !important;
+}
+/* إطار أسود مضيء حول كل النصوص البيضاء داخل قسم التسبيح الزجاجي لضمان وضوح القراءة */
+body.media-theme-glass #salah-pip-section .sp-title,
+body.media-theme-glass #salah-pip-num,
+body.media-theme-glass #salah-pip-hint,
+body.media-theme-glass #salah-pip-info,
+body.media-theme-glass .sp-athkar-label,
+body.media-theme-glass .sp-athkar-play-btn,
+body.media-theme-glass .sp-athkar-nav-btn,
+body.media-theme-glass .sp-custom-dd-btn,
+body.media-theme-glass #sp-custom-dd-label,
+body.media-theme-glass .sp-custom-dd-arrow,
+body.media-theme-glass .sp-custom-dd-item,
+body.media-theme-glass .sp-custom-dd-group-label,
+body.media-theme-glass #sp-athkar-display,
+body.media-theme-glass .sp-target-row label,
+body.media-theme-glass .sp-target-row select,
+body.media-theme-glass #sp-athkar-sel,
+body.media-theme-glass .sp-btn,
+body.media-theme-glass #salah-pip-btn,
+body.media-theme-glass .sp-alarm-label,
+body.media-theme-glass #sp-alarm-interval-sel,
+body.media-theme-glass #sp-alarm-status,
+body.media-theme-glass #sp-alarm-today-bar,
+body.media-theme-glass #sp-pip-note,
+body.media-theme-glass .sp-athkar-search,
+body.media-theme-glass .sp-custom-dd-search {
+    color: #ffffff !important;
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+         0 0 6px rgba(0,0,0,0.85) !important;
+}
+
 /* ===== زر فتح المصحف في الشريط السفلي ===== */
 #mushaf-toggle-wrap {
   display: flex;
@@ -36601,6 +36783,9 @@ function applyInitialLanguage() {
     var randomSeekLblInit = document.querySelector('label[for="randomSeekToggle"]');
     if (randomSeekLblInit) randomSeekLblInit.textContent = randomSeekLblInit.getAttribute('data-en');
 
+    var buttonsFlagLblInit = document.querySelector('label[for="buttonsFlagToggle"]');
+    if (buttonsFlagLblInit) buttonsFlagLblInit.textContent = buttonsFlagLblInit.getAttribute('data-en');
+
     var themeAutoRotateLblInit = document.querySelector('#themeAutoRotateGroup label.wtb-text');
     if (themeAutoRotateLblInit) themeAutoRotateLblInit.textContent = themeAutoRotateLblInit.getAttribute('data-en');
     document.querySelectorAll('#themeAutoRotateInterval option').forEach(function(opt) {
@@ -37698,6 +37883,19 @@ function toggleRandomSeekSetting() {
   localStorage.setItem('randomSeekEnabled', enabled ? 'true' : 'false');
 }
 
+function applyButtonsFlagSetting() {
+  var hidden = localStorage.getItem('buttonsFlagHidden') === 'true';
+  document.body.classList.toggle('hide-buttons-flag', hidden);
+}
+
+function toggleButtonsFlagSetting() {
+  var cb = document.getElementById('buttonsFlagToggle');
+  var shown = cb ? cb.checked : true; // checked = العلم ظاهر
+  localStorage.setItem('buttonsFlagHidden', shown ? 'false' : 'true');
+  applyButtonsFlagSetting();
+}
+applyButtonsFlagSetting();
+
 function toggleSettingsPanel() {
   var panel = document.getElementById('settings-panel');
   var arrow = document.getElementById('settings-arrow');
@@ -37928,6 +38126,9 @@ function toggleLanguage() {
 
   var randomSeekLbl = document.querySelector('label[for="randomSeekToggle"]');
   if (randomSeekLbl) randomSeekLbl.textContent = isArabic ? randomSeekLbl.getAttribute('data-ar') : randomSeekLbl.getAttribute('data-en');
+
+  var buttonsFlagLbl = document.querySelector('label[for="buttonsFlagToggle"]');
+  if (buttonsFlagLbl) buttonsFlagLbl.textContent = isArabic ? buttonsFlagLbl.getAttribute('data-ar') : buttonsFlagLbl.getAttribute('data-en');
 
   var themeAutoRotateLblTL = document.querySelector('#themeAutoRotateGroup label.wtb-text');
   if (themeAutoRotateLblTL) themeAutoRotateLblTL.textContent = isArabic ? themeAutoRotateLblTL.getAttribute('data-ar') : themeAutoRotateLblTL.getAttribute('data-en');
@@ -44314,6 +44515,9 @@ function incrementTasbih(event) {
   localStorage.setItem(key, count);
   countEl.innerText = count;
 
+  // بمجرد أول ضغطة يثبت مربع هذا الزر ولا يعود يومض/يختفي
+  box.classList.add('tasbih-started');
+
   const target = parseInt(button.dataset.target) || 0;
 
   if (target && count === target) {
@@ -46861,6 +47065,7 @@ function incrementTasbihKeyboard(box) {
 
   localStorage.setItem(key, count);
   box.querySelector(".tasbih-count").innerText = count;
+  box.classList.add('tasbih-started');
 
   const target = parseInt(button.dataset.target) || 0;
   if (target && count === target) {
@@ -48429,6 +48634,10 @@ document.addEventListener('DOMContentLoaded', function() {
     count = count ? parseInt(count) : 0;
 
     box.querySelector(".tasbih-count").innerText = count;
+
+    if (count > 0) {
+      box.classList.add("tasbih-started");
+    }
 
     const target = parseInt(button.dataset.target) || 0;
 
