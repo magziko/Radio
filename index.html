@@ -46130,6 +46130,63 @@ document.addEventListener("keydown", function(e) {
 });
 
 // ═══════════════════════════════════════════════════════
+// اختصارات التنقل بين ثيمات الموقع (مقسّمة حسب النوع)
+// G = التنقل بين الثيمات السادة (الألوان)   | Shift+G = للخلف
+// X = التنقل بين ثيمات الصور                | Shift+X = للخلف
+// V = التنقل بين ثيمات الفيديو              | Shift+V = للخلف
+// ═══════════════════════════════════════════════════════
+var SOLID_THEME_KEYS = Object.keys(SITE_THEMES).filter(function(k) {
+  return PHOTO_SHOWCASE_THEMES.indexOf(k) === -1 && !(SITE_THEMES[k] && SITE_THEMES[k].video);
+});
+var IMAGE_THEME_KEYS = PHOTO_SHOWCASE_THEMES.slice();
+var VIDEO_THEME_KEYS = Object.keys(SITE_THEMES).filter(function(k) {
+  return !!(SITE_THEMES[k] && SITE_THEMES[k].video);
+});
+
+function cycleSiteThemeGroup(keysArr, dir, labelAr, labelEn) {
+  if (!keysArr || !keysArr.length) return;
+  if (typeof cancelThemeShowcase === 'function') cancelThemeShowcase();
+  var current = localStorage.getItem('siteTheme') || 'default';
+  var idx = keysArr.indexOf(current);
+  var nextIdx = (idx === -1) ? (dir > 0 ? 0 : keysArr.length - 1) : (idx + dir + keysArr.length) % keysArr.length;
+  var nextTheme = keysArr[nextIdx];
+  applySiteTheme(nextTheme);
+  var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var niceName = nextTheme.replace(/-/g, ' ');
+  if (typeof showToast === 'function') {
+    showToast((ar ? labelAr : labelEn) + ' — ' + niceName + ' (' + (nextIdx + 1) + '/' + keysArr.length + ')');
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  var tag = document.activeElement && document.activeElement.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+  if (document.activeElement && document.activeElement.isContentEditable) return;
+  if (e.repeat) return;
+
+  // G = التنقل بين الثيمات السادة
+  if (e.key === 'g' || e.key === 'G') {
+    e.preventDefault();
+    cycleSiteThemeGroup(SOLID_THEME_KEYS, e.shiftKey ? -1 : 1, '🎨 ثيم سادة', '🎨 Solid Theme');
+    return;
+  }
+
+  // X = التنقل بين ثيمات الصور
+  if (e.key === 'x' || e.key === 'X') {
+    e.preventDefault();
+    cycleSiteThemeGroup(IMAGE_THEME_KEYS, e.shiftKey ? -1 : 1, '🖼️ ثيم صورة', '🖼️ Photo Theme');
+    return;
+  }
+
+  // V = التنقل بين ثيمات الفيديو
+  if (e.key === 'v' || e.key === 'V') {
+    e.preventDefault();
+    cycleSiteThemeGroup(VIDEO_THEME_KEYS, e.shiftKey ? -1 : 1, '🎬 ثيم فيديو', '🎬 Video Theme');
+    return;
+  }
+});
+
+// ═══════════════════════════════════════════════════════
 // نافذة الإرشادات واختصارات لوحة المفاتيح — ثنائية اللغة
 // ═══════════════════════════════════════════════════════
 (function() {
@@ -47068,6 +47125,51 @@ document.addEventListener("keydown", function(e) {
       zh: '古兰经通读进度追踪',
       ur: 'ختم قرآن ٹریکر'
     },
+    r_theme_solid: {
+      ar: 'التنقل بين الثيمات السادة',
+      en: 'Cycle solid themes',
+      fr: 'Parcourir les thèmes unis',
+      es: 'Recorrer temas sólidos',
+      sv: 'Bläddra bland enfärgade teman',
+      nl: 'Door effen thema\'s bladeren',
+      ga: 'Téigh trí théamaí soladacha',
+      de: 'Durch einfarbige Themen wechseln',
+      ru: 'Переключение однотонных тем',
+      tr: 'Düz temalar arasında geçiş',
+      pt: 'Percorrer temas sólidos',
+      zh: '切换纯色主题',
+      ur: 'سادہ تھیمز کے درمیان تبدیلی'
+    },
+    r_theme_image: {
+      ar: 'التنقل بين ثيمات الصور',
+      en: 'Cycle photo themes',
+      fr: 'Parcourir les thèmes photo',
+      es: 'Recorrer temas de fotos',
+      sv: 'Bläddra bland fototeman',
+      nl: 'Door fotothema\'s bladeren',
+      ga: 'Téigh trí théamaí grianghraf',
+      de: 'Durch Fotothemen wechseln',
+      ru: 'Переключение фото-тем',
+      tr: 'Fotoğraf temaları arasında geçiş',
+      pt: 'Percorrer temas de fotos',
+      zh: '切换图片主题',
+      ur: 'تصویری تھیمز کے درمیان تبدیلی'
+    },
+    r_theme_video: {
+      ar: 'التنقل بين ثيمات الفيديو',
+      en: 'Cycle video themes',
+      fr: 'Parcourir les thèmes vidéo',
+      es: 'Recorrer temas de video',
+      sv: 'Bläddra bland videoteman',
+      nl: 'Door videothema\'s bladeren',
+      ga: 'Téigh trí théamaí físeáin',
+      de: 'Durch Video-Themen wechseln',
+      ru: 'Переключение видео-тем',
+      tr: 'Video temaları arasında geçiş',
+      pt: 'Percorrer temas de vídeo',
+      zh: '切换视频主题',
+      ur: 'ویڈیو تھیمز کے درمیان تبدیلی'
+    },
     sec6: {
       ar: 'تلميحات إضافية',
       en: 'Additional Tips',
@@ -47344,6 +47446,18 @@ document.addEventListener("keydown", function(e) {
       key: 'c',
       code: 'KeyC'
     },
+    r_theme_solid: {
+      key: 'g',
+      code: 'KeyG'
+    },
+    r_theme_image: {
+      key: 'x',
+      code: 'KeyX'
+    },
+    r_theme_video: {
+      key: 'v',
+      code: 'KeyV'
+    },
     r_dot: {
       key: '.',
       code: 'Period'
@@ -47532,6 +47646,9 @@ document.addEventListener("keydown", function(e) {
       kbRow('r_ptimes', ['T'], lang),
       kbRow('r_zakat', ['Z'], lang),
       kbRow('r_khatma', ['C'], lang),
+      kbRow('r_theme_solid', ['G'], lang),
+      kbRow('r_theme_image', ['X'], lang),
+      kbRow('r_theme_video', ['V'], lang),
       '</div>',
       '</div>',
 
@@ -51635,4 +51752,4 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 </script>
 
 </body>
-</html>
+</html>ل
