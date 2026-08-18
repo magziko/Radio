@@ -6295,6 +6295,54 @@ body.dark-mode .custom-tooltip::after {
         max-height: calc(1.4em * 2);
         line-height: 1.35;
     }
+
+    /* ===== وضع التركيز على التسبيح (موبايل): يكبّر الزر والذكر ومربع العدّ أثناء التسبيح الفعلي ===== */
+    .button.has-tasbih.tasbih-focus {
+        grid-column: 1 / -1;
+        position: relative;
+        z-index: 3;
+        padding-top: 18px;
+        padding-bottom: 100px;
+        min-height: 150px;
+        border-width: 2px;
+        border-color: rgba(var(--theme-c1-rgb),0.75);
+        box-shadow: 0 8px 26px rgba(var(--theme-c1-rgb),0.30);
+        transition: box-shadow .25s ease, border-color .25s ease, padding .25s ease;
+    }
+
+    .button.has-tasbih.tasbih-focus .station-text {
+        -webkit-line-clamp: unset;
+        max-height: none;
+        overflow: visible;
+        font-size: 17px;
+        line-height: 1.6;
+        font-weight: 700;
+    }
+
+    .button.has-tasbih.tasbih-focus .tasbih-box {
+        width: 128px;
+        height: 78px;
+        right: 50%;
+        transform: translateX(50%);
+        bottom: 8px;
+        border-radius: 16px;
+        font-size: 15px;
+        padding: 0 10px;
+        animation: none;
+        box-shadow: 0 4px 16px rgba(var(--theme-c1-rgb),0.40);
+    }
+
+    .button.has-tasbih.tasbih-focus .tasbih-count {
+        font-size: 26px;
+    }
+
+    .button.has-tasbih.tasbih-focus .tasbih-ghost-target {
+        font-size: 34px;
+    }
+
+    .button.has-tasbih.tasbih-focus .reset-btn {
+        font-size: 18px;
+    }
 }
 .toggle-button {
     display: none;
@@ -38052,6 +38100,13 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
 function filterStations(category) {
   window._lastActiveCategory = category;
 
+  // إلغاء وضع التركيز الموسّع لأى ذكر عند مغادرة قسم الأذكار
+  if (category !== 'Adhkar') {
+    document.querySelectorAll('.button.has-tasbih.tasbih-focus').forEach(function(b) {
+      b.classList.remove('tasbih-focus');
+    });
+  }
+
   // ── 1. ترجمة الفلاتر المركّبة إلى category حقيقي للأزرار ──────────────
   var realCat = category;
   if (category === 'QuranSciences') realCat = 'Translation';
@@ -44414,6 +44469,11 @@ function filterAdhkarSub(subType, btn) {
   _highlightParentFilter('Adhkar');
   currentAdhkarSub = subType;
 
+  // إلغاء وضع التركيز الموسّع لأى ذكر عند تغيير الفلتر
+  document.querySelectorAll('.button.has-tasbih.tasbih-focus').forEach(function(b) {
+    b.classList.remove('tasbih-focus');
+  });
+
   if (subType === 'morning') sessionStorage.removeItem('adhkar_done_shown_morning');
   if (subType === 'evening') sessionStorage.removeItem('adhkar_done_shown_evening');
 
@@ -45126,6 +45186,67 @@ function googleTranslateElementInit() {
 
 let activeTasbih = null;
 
+// ===== وضع التركيز على التسبيح (موبايل - الشاشات الصغيرة) =====
+// أثناء التسبيح الفعلي فى ذكر ما، يتم تكبير الزر والذكر ومربع العدّ ليناسب اللمس،
+// وعند إتمام العدد المستهدف ينتقل تلقائيًا للذكر التالى فى نفس المجموعة (صباح/مساء).
+
+function isMobileSmallScreen() {
+  return window.matchMedia('(max-width: 600px)').matches;
+}
+
+function setTasbihFocus(button) {
+  if (!button) return;
+  document.querySelectorAll('.button.has-tasbih.tasbih-focus').forEach(function(b) {
+    if (b !== button) b.classList.remove('tasbih-focus');
+  });
+  button.classList.add('tasbih-focus');
+}
+
+function clearTasbihFocus(button) {
+  if (button) button.classList.remove('tasbih-focus');
+}
+
+function _getTasbihSequence() {
+  // لو الفلتر الحالى صباح أو مساء، رتب التسلسل حسب نفس المجموعة
+  if (typeof currentAdhkarSub !== 'undefined' && (currentAdhkarSub === 'morning' || currentAdhkarSub === 'evening') &&
+    typeof _getAdhkarGroupButtons === 'function') {
+    return _getAdhkarGroupButtons(currentAdhkarSub);
+  }
+  // غير كده: كل أزرار التسبيح الظاهرة حاليًا وليها هدف، بترتيب ظهورها فى الصفحة
+  return Array.from(document.querySelectorAll('button.has-tasbih[data-target]')).filter(function(b) {
+    return (parseInt(b.dataset.target) || 0) > 0 && b.style.display !== 'none';
+  });
+}
+
+function advanceTasbihFocus(currentButton) {
+  var seq = _getTasbihSequence();
+  var idx = seq.indexOf(currentButton);
+
+  clearTasbihFocus(currentButton);
+
+  if (idx === -1) return;
+
+  var next = null;
+  for (var i = idx + 1; i < seq.length; i++) {
+    if (!seq[i].classList.contains('completed')) {
+      next = seq[i];
+      break;
+    }
+  }
+
+  if (next) {
+    setTasbihFocus(next);
+    if (typeof smartScrollToStations === 'function') {
+      smartScrollToStations(next, 80);
+    } else if (typeof next.scrollIntoView === 'function') {
+      next.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+  }
+}
+
 function incrementTasbih(event) {
   event.stopPropagation();
 
@@ -45147,6 +45268,11 @@ function incrementTasbih(event) {
   // بمجرد أول ضغطة يثبت مربع هذا الزر ولا يعود يومض/يختفي
   box.classList.add('tasbih-started');
 
+  // على الشاشات الصغيرة: يكبّر هذا الزر وذكره ومربع العدّ طول ما التسبيح فيه شغال
+  if (isMobileSmallScreen()) {
+    setTasbihFocus(button);
+  }
+
   const target = parseInt(button.dataset.target) || 0;
 
   if (target && count === target) {
@@ -45161,6 +45287,13 @@ function incrementTasbih(event) {
     button.classList.add("completed");
 
     checkAdhkarGroupCompletion(button);
+
+    // انتقال تلقائى للذكر التالى بعد لحظة قصيرة يشوف فيها المستخدم إتمام الذكر
+    if (isMobileSmallScreen()) {
+      setTimeout(function() {
+        advanceTasbihFocus(button);
+      }, 550);
+    }
   }
 
   updateAdhkarProgress();
