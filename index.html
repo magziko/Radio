@@ -6249,6 +6249,83 @@ body.dark-mode .custom-tooltip::after {
     opacity: 1;
 }
 
+/* ===== زر "التالي الآن" داخل مربع التسبيح: يظهر بعد اكتمال الذكر أثناء انتظار المهلة التلقائية ===== */
+@keyframes tasbihNextHintPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+}
+.tasbih-next-hint {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--theme-c1), var(--theme-c2));
+    color: #fff;
+    border-radius: 50%;
+    font-size: 13px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.28);
+    cursor: pointer;
+    animation: tasbihNextHintPulse 1.1s ease-in-out infinite;
+    z-index: 2;
+}
+.tasbih-next-hint:active {
+    animation: none;
+    transform: scale(0.92);
+}
+
+/* ===== وضع التركيز على التسبيح (كل الشاشات، بما فيها الكمبيوتر): يكبّر الزر والذكر ومربع العدّ أثناء التسبيح الفعلي ===== */
+.button.has-tasbih.tasbih-focus {
+    grid-column: 1 / -1;
+    position: relative;
+    z-index: 3;
+    padding-top: 24px;
+    padding-bottom: 96px;
+    min-height: 150px;
+    border-width: 2px;
+    border-color: rgba(var(--theme-c1-rgb),0.75);
+    box-shadow: 0 10px 30px rgba(var(--theme-c1-rgb),0.28);
+    transition: box-shadow .25s ease, border-color .25s ease, padding .25s ease;
+}
+
+.button.has-tasbih.tasbih-focus .station-text {
+    -webkit-line-clamp: unset;
+    max-height: none;
+    overflow: visible;
+    font-size: 19px;
+    line-height: 1.65;
+    font-weight: 700;
+}
+
+.button.has-tasbih.tasbih-focus .tasbih-box {
+    width: 150px;
+    height: 86px;
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 10px;
+    border-radius: 18px;
+    font-size: 15px;
+    padding: 0 12px;
+    animation: none;
+    box-shadow: 0 4px 18px rgba(var(--theme-c1-rgb),0.42);
+    cursor: pointer;
+}
+
+.button.has-tasbih.tasbih-focus .tasbih-count {
+    font-size: 28px;
+}
+
+.button.has-tasbih.tasbih-focus .tasbih-ghost-target {
+    font-size: 36px;
+}
+
+.button.has-tasbih.tasbih-focus .reset-btn {
+    font-size: 19px;
+}
+
 /* ===== وضع التركيز على التسبيح لأحجام الشاشات بين الموبايل الكبير والتابلت (601-767px) ===== */
 @media (min-width: 601px) and (max-width: 767px) {
     .button.has-tasbih.tasbih-focus {
@@ -18410,8 +18487,8 @@ const adhkarStations = [
     subCategory: ["morning", "evening"],
     station: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ",
     stationText: "آية الكرسي – الله لا إله إلا هو...",
-ar: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ",
-en: "Allah — there is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and preserving them does not tire Him. And He is the Most High, the Most Great.",
+ar: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ<br><br>اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+en: "I seek refuge in Allah from Satan, the accursed.<br><br>Allah — there is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and preserving them does not tire Him. And He is the Most High, the Most Great.",
 target: 1,
     url: null,
     urls: [
@@ -38200,8 +38277,12 @@ function filterStations(category) {
 
   // إلغاء وضع التركيز الموسّع لأى ذكر عند مغادرة قسم الأذكار
   if (category !== 'Adhkar') {
+    if (typeof _clearTasbihAdvanceTimer === 'function') _clearTasbihAdvanceTimer();
     document.querySelectorAll('.button.has-tasbih.tasbih-focus').forEach(function(b) {
       b.classList.remove('tasbih-focus');
+    });
+    document.querySelectorAll('.tasbih-next-hint').forEach(function(h) {
+      h.remove();
     });
   }
 
@@ -44568,8 +44649,12 @@ function filterAdhkarSub(subType, btn) {
   currentAdhkarSub = subType;
 
   // إلغاء وضع التركيز الموسّع لأى ذكر عند تغيير الفلتر
+  if (typeof _clearTasbihAdvanceTimer === 'function') _clearTasbihAdvanceTimer();
   document.querySelectorAll('.button.has-tasbih.tasbih-focus').forEach(function(b) {
     b.classList.remove('tasbih-focus');
+  });
+  document.querySelectorAll('.tasbih-next-hint').forEach(function(h) {
+    h.remove();
   });
 
   if (subType === 'morning') sessionStorage.removeItem('adhkar_done_shown_morning');
@@ -45289,7 +45374,8 @@ let activeTasbih = null;
 // وعند إتمام العدد المستهدف ينتقل تلقائيًا للذكر التالى فى نفس المجموعة (صباح/مساء).
 
 function isMobileSmallScreen() {
-  return window.matchMedia('(max-width: 1024px)').matches;
+  // فُعِّل وضع التركيز على كل أحجام الشاشات (موبايل / تابلت / كمبيوتر)
+  return true;
 }
 
 function setTasbihFocus(button) {
@@ -45320,6 +45406,7 @@ function advanceTasbihFocus(currentButton) {
   var seq = _getTasbihSequence();
   var idx = seq.indexOf(currentButton);
 
+  _clearTasbihNextHint(currentButton);
   clearTasbihFocus(currentButton);
 
   if (idx === -1) return;
@@ -45334,6 +45421,11 @@ function advanceTasbihFocus(currentButton) {
 
   if (next) {
     setTasbihFocus(next);
+
+    // تحديث الهدف النشط لزر لوحة المفاتيح "." عشان يكمّل على الذكر التالى تلقائيًا
+    var nextBox = next.querySelector('.tasbih-box');
+    if (nextBox) activeTasbih = nextBox;
+
     if (typeof smartScrollToStations === 'function') {
       smartScrollToStations(next, 80);
     } else if (typeof next.scrollIntoView === 'function') {
@@ -45342,6 +45434,79 @@ function advanceTasbihFocus(currentButton) {
         block: 'center'
       });
     }
+  }
+}
+
+// ===== مهلة قراءة قبل الانتقال التلقائى =====
+// بعض الأذكار هدفها 1 (زي آية الكرسي) فبيكتمل الهدف من أول ضغطة، فلو انتقلنا فورًا
+// اللي مش حافظها مش هيلحق يقراءها. الحل: نحسب مهلة قراءة تقريبية حسب عدد كلمات
+// نص الذكر، مع زر "التالي الآن ⏭️" يظهر فى مربع التسبيح يقدر يستخدمه لو خلص قبل الوقت.
+
+var _tasbihAdvanceTimer = null;
+
+function _clearTasbihAdvanceTimer() {
+  if (_tasbihAdvanceTimer) {
+    clearTimeout(_tasbihAdvanceTimer);
+    _tasbihAdvanceTimer = null;
+  }
+}
+
+function _estimateTasbihReadingDelay(button) {
+  var text = button.getAttribute('data-ar') || button.getAttribute('data-en') || '';
+  text = text.replace(/<[^>]*>/g, ' '); // إزالة وسوم HTML زي <br> قبل حساب عدد الكلمات
+  var words = text.trim().split(/\s+/).filter(Boolean).length;
+  // ~350ms لكل كلمة (سرعة قراءة مريحة)، بحد أدنى 900ms وحد أقصى 15 ثانية
+  var delay = words * 350;
+  if (delay < 900) delay = 900;
+  if (delay > 15000) delay = 15000;
+  return delay;
+}
+
+function _showTasbihNextHint(button) {
+  var box = button.querySelector('.tasbih-box');
+  if (!box) return;
+  _clearTasbihNextHint(button);
+
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var hint = document.createElement('span');
+  hint.className = 'tasbih-next-hint';
+  hint.title = isAr ? 'التالي الآن' : 'Next now';
+  hint.setAttribute('aria-label', hint.title);
+  hint.textContent = '⏭️';
+  hint.onclick = function(e) {
+    e.stopPropagation();
+    _clearTasbihAdvanceTimer();
+    advanceTasbihFocus(button);
+  };
+  box.appendChild(hint);
+}
+
+function _clearTasbihNextHint(button) {
+  if (!button) return;
+  var box = button.querySelector('.tasbih-box');
+  var hint = box && box.querySelector('.tasbih-next-hint');
+  if (hint) hint.remove();
+}
+
+function scheduleTasbihAdvance(button) {
+  _clearTasbihAdvanceTimer();
+
+  // مهلة القراءة والزر "التالي الآن" خاصة بأول ذكر فى التسلسل فقط (زي آية الكرسي هدفها 1)
+  var seq = _getTasbihSequence();
+  var isFirstInSequence = seq.indexOf(button) === 0;
+
+  if (isFirstInSequence) {
+    var delay = _estimateTasbihReadingDelay(button);
+    _showTasbihNextHint(button);
+    _tasbihAdvanceTimer = setTimeout(function() {
+      _tasbihAdvanceTimer = null;
+      advanceTasbihFocus(button);
+    }, delay);
+  } else {
+    _tasbihAdvanceTimer = setTimeout(function() {
+      _tasbihAdvanceTimer = null;
+      advanceTasbihFocus(button);
+    }, 550);
   }
 }
 
@@ -45386,11 +45551,9 @@ function incrementTasbih(event) {
 
     checkAdhkarGroupCompletion(button);
 
-    // انتقال تلقائى للذكر التالى بعد لحظة قصيرة يشوف فيها المستخدم إتمام الذكر
+    // انتقال تلقائى للذكر التالى بعد مهلة قراءة تقريبية (تفادي القطع المفاجئ فى أذكار هدفها 1)
     if (isMobileSmallScreen()) {
-      setTimeout(function() {
-        advanceTasbihFocus(button);
-      }, 550);
+      scheduleTasbihAdvance(button);
     }
   }
 
@@ -45618,6 +45781,10 @@ function resetTasbih(event) {
   localStorage.setItem(key, 0);
   box.querySelector(".tasbih-count").innerText = 0;
   button.classList.remove("completed");
+
+  // إلغاء أى انتقال تلقائى مجدول لنفس هذا الذكر بعد تصفيره
+  if (typeof _clearTasbihAdvanceTimer === 'function') _clearTasbihAdvanceTimer();
+  if (typeof _clearTasbihNextHint === 'function') _clearTasbihNextHint(button);
 
   updateAdhkarProgress();
   activeTasbih = box;
@@ -48044,10 +48211,16 @@ function incrementTasbihKeyboard(box) {
   box.querySelector(".tasbih-count").innerText = count;
   box.classList.add('tasbih-started');
 
+  // يكبّر هذا الزر وذكره ومربع العدّ طول ما التسبيح فيه شغال (بالزر كمان زي الماوس)
+  setTasbihFocus(button);
+
   const target = parseInt(button.dataset.target) || 0;
   if (target && count === target) {
     button.classList.add("completed");
     checkAdhkarGroupCompletion(button);
+
+    // انتقال تلقائى للذكر التالى بعد مهلة قراءة تقريبية، ويصبح هو المستهدف بزر النقطة "."
+    scheduleTasbihAdvance(button);
   }
   updateAdhkarProgress();
 }
