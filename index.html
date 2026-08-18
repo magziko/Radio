@@ -6249,6 +6249,56 @@ body.dark-mode .custom-tooltip::after {
     opacity: 1;
 }
 
+/* ===== وضع التركيز على التسبيح لأحجام الشاشات بين الموبايل الكبير والتابلت (601-767px) ===== */
+@media (min-width: 601px) and (max-width: 767px) {
+    .button.has-tasbih.tasbih-focus {
+        grid-column: 1 / -1;
+        position: relative;
+        z-index: 3;
+        padding-top: 20px;
+        padding-bottom: 90px;
+        min-height: 140px;
+        border-width: 2px;
+        border-color: rgba(var(--theme-c1-rgb),0.75);
+        box-shadow: 0 8px 26px rgba(var(--theme-c1-rgb),0.30);
+        transition: box-shadow .25s ease, border-color .25s ease, padding .25s ease;
+    }
+
+    .button.has-tasbih.tasbih-focus .station-text {
+        -webkit-line-clamp: unset;
+        max-height: none;
+        overflow: visible;
+        font-size: 18px;
+        line-height: 1.6;
+        font-weight: 700;
+    }
+
+    .button.has-tasbih.tasbih-focus .tasbih-box {
+        width: 130px;
+        height: 76px;
+        right: 50%;
+        transform: translateX(50%);
+        bottom: 8px;
+        border-radius: 16px;
+        font-size: 15px;
+        padding: 0 10px;
+        animation: none;
+        box-shadow: 0 4px 16px rgba(var(--theme-c1-rgb),0.40);
+    }
+
+    .button.has-tasbih.tasbih-focus .tasbih-count {
+        font-size: 26px;
+    }
+
+    .button.has-tasbih.tasbih-focus .tasbih-ghost-target {
+        font-size: 34px;
+    }
+
+    .button.has-tasbih.tasbih-focus .reset-btn {
+        font-size: 18px;
+    }
+}
+
 @media (min-width: 768px) and (max-width: 1024px) {
     .tasbih-box {
     width: 70px;
@@ -6267,6 +6317,54 @@ body.dark-mode .custom-tooltip::after {
     .button.has-tasbih .station-text {
         -webkit-line-clamp: 3;
         max-height: calc(1.4em * 3);
+    }
+
+    /* ===== وضع التركيز على التسبيح (تابلت): يكبّر الزر والذكر ومربع العدّ أثناء التسبيح الفعلي ===== */
+    .button.has-tasbih.tasbih-focus {
+        grid-column: 1 / -1;
+        position: relative;
+        z-index: 3;
+        padding-top: 20px;
+        padding-bottom: 90px;
+        min-height: 140px;
+        border-width: 2px;
+        border-color: rgba(var(--theme-c1-rgb),0.75);
+        box-shadow: 0 8px 26px rgba(var(--theme-c1-rgb),0.30);
+        transition: box-shadow .25s ease, border-color .25s ease, padding .25s ease;
+    }
+
+    .button.has-tasbih.tasbih-focus .station-text {
+        -webkit-line-clamp: unset;
+        max-height: none;
+        overflow: visible;
+        font-size: 18px;
+        line-height: 1.6;
+        font-weight: 700;
+    }
+
+    .button.has-tasbih.tasbih-focus .tasbih-box {
+        width: 130px;
+        height: 76px;
+        right: 50%;
+        transform: translateX(50%);
+        bottom: 8px;
+        border-radius: 16px;
+        font-size: 15px;
+        padding: 0 10px;
+        animation: none;
+        box-shadow: 0 4px 16px rgba(var(--theme-c1-rgb),0.40);
+    }
+
+    .button.has-tasbih.tasbih-focus .tasbih-count {
+        font-size: 26px;
+    }
+
+    .button.has-tasbih.tasbih-focus .tasbih-ghost-target {
+        font-size: 34px;
+    }
+
+    .button.has-tasbih.tasbih-focus .reset-btn {
+        font-size: 18px;
     }
 }
 
@@ -45191,7 +45289,7 @@ let activeTasbih = null;
 // وعند إتمام العدد المستهدف ينتقل تلقائيًا للذكر التالى فى نفس المجموعة (صباح/مساء).
 
 function isMobileSmallScreen() {
-  return window.matchMedia('(max-width: 600px)').matches;
+  return window.matchMedia('(max-width: 1024px)').matches;
 }
 
 function setTasbihFocus(button) {
