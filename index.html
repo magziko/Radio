@@ -5980,6 +5980,7 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
             "theme       autotheme"
             "autoplay    soundalert"
             "flag        startfile"
+            "fullrandom  fullrandom"
             "disablewelcome welcomecycle";
         gap: 8px;
         align-items: stretch;
@@ -6004,6 +6005,7 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
     #introClipToggleBtn    { grid-area: soundalert; }
     #radioAutoplayToggleBtn { grid-area: autoplay; }
     #settings-randomseek-item { grid-area: startfile; }
+    #settings-fullrandom-item { grid-area: fullrandom; }
     #settings-flag-item    { grid-area: flag; }
     #welcomeAutoSwitchDurationGroup { grid-area: welcomecycle; }
 
@@ -6018,6 +6020,7 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
     #introClipToggleBtn,
     #radioAutoplayToggleBtn,
     #settings-randomseek-item,
+    #settings-fullrandom-item,
     #settings-flag-item,
     #welcomeAutoSwitchDurationGroup {
         width: 100% !important;
@@ -9745,7 +9748,16 @@ function playStation(station) {
     if (sSwitching) return;
     if (window._userStoppedManually) return; // المستخدم أوقف — لا محطة بديلة
     sSwitching = true;
-    sIdx++;
+    if (isMultiUrlStation && typeof isFullRandomUrlEnabled === 'function' && isFullRandomUrlEnabled() && stationSrcs.length > 1) {
+      // ── وضع "روابط ديناميكية": اختر رابطًا عشوائيًا مختلفًا عن الحالي بدل السير بالترتيب ──
+      var _newIdx;
+      do {
+        _newIdx = Math.floor(Math.random() * stationSrcs.length);
+      } while (_newIdx === sIdx);
+      sIdx = _newIdx;
+    } else {
+      sIdx++;
+    }
     if (sIdx < stationSrcs.length) {
       showToast("📢 تم التحويل للرابط الاحتياطي");
       setTimeout(function() {
@@ -17115,6 +17127,11 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="randomSeekToggle" class="wtb-switch" onchange="toggleRandomSeekSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
+    <div id="settings-fullrandom-item" class="welcome-toggle-btn" style="gap:7px;">
+      <label for="fullRandomUrlToggle" class="wtb-text" data-ar="روابط ديناميكية" data-en="Dynamic Links" data-fr="Liens dynamiques" data-es="Enlaces dinámicos" data-sv="Dynamiska länkar" data-nl="Dynamische links" data-ga="Naisc Dhinimiciúla" data-de="Dynamische Links" data-ru="Динамические ссылки" data-tr="Dinamik Bağlantılar" data-pt="Links dinâmicos" data-zh="动态链接" data-ur="متحرک لنکس" style="cursor:pointer; margin:0;">روابط ديناميكية</label>
+      <input type="checkbox" id="fullRandomUrlToggle" class="wtb-switch" onchange="toggleFullRandomUrlSetting()">
+    </div>
+    <script>(function(){var _cb=document.getElementById('fullRandomUrlToggle');if(_cb){_cb.checked=(localStorage.getItem('fullRandomUrlEnabled')==='true');}})();</script>
     <div id="settings-flag-item" class="welcome-toggle-btn" style="gap:7px;">
       <label for="buttonsFlagToggle" class="wtb-text" data-ar="🇵🇸 علم فلسطين بالأزرار" data-en="🇵🇸 Palestine Flag on Buttons" data-fr="🇵🇸 Drapeau palestinien sur les boutons" data-es="🇵🇸 Bandera de Palestina en los botones" data-sv="🇵🇸 Palestinsk flagga på knapparna" data-nl="🇵🇸 Palestijnse vlag op knoppen" data-ga="🇵🇸 Bratach na Palaistíne ar na cnaipí" data-de="🇵🇸 Palästina-Flagge auf den Buttons" data-ru="🇵🇸 Флаг Палестины на кнопках" data-tr="🇵🇸 Butonlarda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina nos botões" data-zh="🇵🇸 按钮上的巴勒斯坦国旗" data-ur="🇵🇸 بٹنوں پر فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بالأزرار</label>
       <input type="checkbox" id="buttonsFlagToggle" class="wtb-switch" onchange="toggleButtonsFlagSetting()">
@@ -18585,7 +18602,7 @@ url: null,
 
     hasFlag: false,
     hasTasbih: true,
-    hasResetAll: true,
+    hasResetAll: false,
     multiIcon: false,
     readUrl: null,
     readTitle: null
@@ -19331,7 +19348,7 @@ title: `اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِي
 رواه مسلم`,
 hasFlag: false,
     hasTasbih: true,
-    hasResetAll: true,
+  hasResetAll: false,
     multiIcon: false,
     readUrl: null,
     readTitle: null
@@ -19448,7 +19465,7 @@ hasFlag: false,
 
   hasFlag: true,
   hasTasbih: true,
-  hasResetAll: true,
+  hasResetAll: false,
   multiIcon: false,
   readUrl: null,
   readTitle: null
@@ -19809,18 +19826,18 @@ hasFlag: false,
   "https://archive.org/download/s1_20260725/s7.mp3",
   "https://archive.org/download/s1_20260725/s8.mp3",
   "https://archive.org/download/s1_20260725/s9.mp3",
-  "https://archive.org/download/91414_202604/216988.mp3",
-  "https://archive.org/download/91414_202604/21762.mp3",
-  "https://archive.org/download/91414_202604/237.mp3",
-  "https://archive.org/download/91414_202604/3553.mp3",
-  "https://archive.org/download/91414_202604/7875.mp3",
-  "https://archive.org/download/91414_202604/8440.mp3",
-  "https://archive.org/download/91414_202604/866.mp3",
-  "https://archive.org/download/91414_202604/8672.mp3",
-  "https://archive.org/download/91414_202604/9116.mp3",
-  "https://archive.org/download/91414_202604/91414.mp3",
-  "https://archive.org/download/91414_202604/9169.mp3",
-  "https://archive.org/download/91414_202604/9350.mp3",
+  "https://archive.org/download/a12_20260820/a1.mp3",
+  "https://archive.org/download/a12_20260820/a2.mp3",
+  "https://archive.org/download/a12_20260820/a3.mp3",
+  "https://archive.org/download/a12_20260820/a4.mp3",
+  "https://archive.org/download/a12_20260820/a5.mp3",
+  "https://archive.org/download/a12_20260820/a6.mp3",
+  "https://archive.org/download/a12_20260820/a7.mp3",
+  "https://archive.org/download/a12_20260820/a8.mp3",
+  "https://archive.org/download/a12_20260820/a9.mp3",
+  "https://archive.org/download/a12_20260820/a10.mp3",
+  "https://archive.org/download/a12_20260820/a11.mp3",
+  "https://archive.org/download/a12_20260820/a12.mp3",
   "https://archive.org/download/91414_202604/9353.mp3",
   "https://archive.org/download/91414_202604/93639.mp3",
   "https://archive.org/download/91414_202604/94039.mp3",
@@ -19927,7 +19944,19 @@ hasFlag: false,
     "https://archive.org/download/s3_20260715/s10.mp3",
     "https://archive.org/download/s3_20260715/s11.mp3",
     "https://archive.org/download/s3_20260715/s12.mp3",
-   "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84%20%D9%88%D8%B3%D9%84%D9%85%20%D8%B9%D9%84%D9%89%20%D9%86%D8%A8%D9%8A%D9%86%D8%A7%20%D9%85%D8%AD%D9%85%D8%AF.mp3",
+    "https://archive.org/download/a12_20260820/a1.mp3",
+    "https://archive.org/download/a12_20260820/a2.mp3",
+    "https://archive.org/download/a12_20260820/a3.mp3",
+    "https://archive.org/download/a12_20260820/a4.mp3",
+    "https://archive.org/download/a12_20260820/a5.mp3",
+    "https://archive.org/download/a12_20260820/a6.mp3",
+    "https://archive.org/download/a12_20260820/a7.mp3",
+    "https://archive.org/download/a12_20260820/a8.mp3",
+    "https://archive.org/download/a12_20260820/a9.mp3",
+    "https://archive.org/download/a12_20260820/a10.mp3",
+    "https://archive.org/download/a12_20260820/a11.mp3",
+    "https://archive.org/download/a12_20260820/a12.mp3",
+    "https://archive.org/download/20260524_20260524_1140/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84%20%D9%88%D8%B3%D9%84%D9%85%20%D8%B9%D9%84%D9%89%20%D9%86%D8%A8%D9%8A%D9%86%D8%A7%20%D9%85%D8%AD%D9%85%D8%AF.mp3",
     "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20-%20%D9%85%D9%83%D8%B1%D8%B1%D8%A9%20100%20%D9%85%D8%B1%D8%A9%20.%20Salawat%20-%20repeated%20100%20times.mp3",
     "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20%D9%85%D8%AD%D9%85%D8%AF%20%D9%84%D9%84%D8%B1%D8%B3%D8%A7%D8%A6%D9%84.mp3",
     "https://archive.org/download/100-.-salawat-repeated-100-times-1/%D8%A7%D9%84%D9%84%D9%87%D9%85%20%D8%B5%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D9%86%D8%A8%D9%8A%20%20%D9%85%D9%86%D8%B5%D9%88%D8%B1%20%D8%A7%D9%84%D8%B3%D8%A7%D9%84%D9%85%D9%8A%20..mp3",
@@ -20136,7 +20165,8 @@ hasFlag: false,
     random: true,
     title: null,
     hasFlag: true,
-    hasTasbih: false,
+  hasTasbih: true,
+  target: 1000,
     hasResetAll: false,
     multiIcon: false,
     readUrl: null,
@@ -20150,6 +20180,8 @@ hasFlag: false,
     ar: "منبه الصلاة على النبى",
     en: "Prayer Upon the Prophet Reminder",
     target: 1000,
+     hasTasbih: true,
+
     url: null,
     urls: [
         "https://archive.org/download/mix-saly/mix%20saly.mp3",
@@ -20172,8 +20204,8 @@ hasFlag: false,
     random: true,
     title: null,
     hasFlag: true,
-    hasTasbih: false,
-    hasResetAll: false,
+ hasTasbih: true,
+      hasResetAll: false,
     multiIcon: false,
     readUrl: null,
     readTitle: null
@@ -37658,6 +37690,9 @@ function applyInitialLanguage() {
     var randomSeekLblInit = document.querySelector('label[for="randomSeekToggle"]');
     if (randomSeekLblInit) randomSeekLblInit.textContent = randomSeekLblInit.getAttribute('data-en');
 
+    var fullRandomLblInit = document.querySelector('label[for="fullRandomUrlToggle"]');
+    if (fullRandomLblInit) fullRandomLblInit.textContent = fullRandomLblInit.getAttribute('data-en');
+
     var buttonsFlagLblInit = document.querySelector('label[for="buttonsFlagToggle"]');
     if (buttonsFlagLblInit) buttonsFlagLblInit.textContent = buttonsFlagLblInit.getAttribute('data-en');
 
@@ -38757,6 +38792,16 @@ function isRandomSeekEnabled() {
   return localStorage.getItem('randomSeekEnabled') !== 'false'; // مفعّلة افتراضيًا
 }
 
+function isFullRandomUrlEnabled() {
+  return localStorage.getItem('fullRandomUrlEnabled') === 'true'; // معطّلة افتراضيًا (السلوك القديم: بالترتيب)
+}
+
+function toggleFullRandomUrlSetting() {
+  var cb = document.getElementById('fullRandomUrlToggle');
+  var enabled = cb ? cb.checked : false;
+  localStorage.setItem('fullRandomUrlEnabled', enabled ? 'true' : 'false');
+}
+
 function toggleRandomSeekSetting() {
   var cb = document.getElementById('randomSeekToggle');
   var enabled = cb ? cb.checked : true;
@@ -39023,6 +39068,9 @@ function toggleLanguage() {
 
   var randomSeekLbl = document.querySelector('label[for="randomSeekToggle"]');
   if (randomSeekLbl) randomSeekLbl.textContent = isArabic ? randomSeekLbl.getAttribute('data-ar') : randomSeekLbl.getAttribute('data-en');
+
+  var fullRandomLbl = document.querySelector('label[for="fullRandomUrlToggle"]');
+  if (fullRandomLbl) fullRandomLbl.textContent = isArabic ? fullRandomLbl.getAttribute('data-ar') : fullRandomLbl.getAttribute('data-en');
 
   var buttonsFlagLbl = document.querySelector('label[for="buttonsFlagToggle"]');
   if (buttonsFlagLbl) buttonsFlagLbl.textContent = isArabic ? buttonsFlagLbl.getAttribute('data-ar') : buttonsFlagLbl.getAttribute('data-en');
@@ -41163,6 +41211,20 @@ function openRandomUrl(btn, evt) {
   if (single) window.open(single, '_blank');
 }
 
+// ── يحسب فهرس الرابط التالي لمحطة متعددة الروابط: عشوائي (مختلف عن الحالي) لو إعداد
+// "روابط ديناميكية" مفعّل، وإلا بالترتيب الافتراضي كما كان ──
+function _nextMultiUrlIndex(idx, len) {
+  if (len <= 1) return 0;
+  if (typeof isFullRandomUrlEnabled === 'function' && isFullRandomUrlEnabled()) {
+    var r;
+    do {
+      r = Math.floor(Math.random() * len);
+    } while (r === idx);
+    return r;
+  }
+  return (idx + 1) % len;
+}
+
 function toggleRadio(button, event = null) {
 
   var isPlaying = button.classList.contains('playing');
@@ -41183,6 +41245,7 @@ function toggleRadio(button, event = null) {
       window._lastAutoNext = null;
     }
     button.classList.remove('playing');
+    button.style.color = '';
     var eq1 = button.querySelector('.equalizer');
     if (eq1) eq1.style.display = 'none';
     return;
@@ -41190,6 +41253,7 @@ function toggleRadio(button, event = null) {
 
   allButtons.forEach(function(btn) {
     btn.classList.remove('playing');
+    btn.style.color = '';
     var equalizer = btn.querySelector('.equalizer');
     if (equalizer) {
       equalizer.style.display = 'none';
@@ -41345,7 +41409,7 @@ function toggleRadio(button, event = null) {
     stationUrl = urls[currentIndex];
 
     if (!(evt && evt.shiftKey)) {
-      currentIndex = (currentIndex + 1) % urls.length;
+      currentIndex = _nextMultiUrlIndex(currentIndex, urls.length);
     }
 
     button.setAttribute('data-current-index', currentIndex);
@@ -41490,7 +41554,7 @@ function toggleRadio(button, event = null) {
           '⚠️ Link unavailable, trying next...',
           'unavailableNext'
         );
-        button.setAttribute('data-current-index', (idx + 1) % urls.length);
+        button.setAttribute('data-current-index', _nextMultiUrlIndex(idx, urls.length));
         setTimeout(function() {
           playNewAudio(nextUrl, stationDescription, stationDescriptionEn, true);
         }, 800);
@@ -41506,7 +41570,7 @@ function toggleRadio(button, event = null) {
       var idx = parseInt(button.getAttribute('data-current-index'), 10);
       if (isNaN(idx) || idx >= urls.length) idx = 0;
       playNewAudio(urls[idx], stationDescription, stationDescriptionEn, true);
-      button.setAttribute('data-current-index', (idx + 1) % urls.length);
+      button.setAttribute('data-current-index', _nextMultiUrlIndex(idx, urls.length));
       mainAudio.onended = autoNext;
     };
     mainAudio.onended = autoNext;
