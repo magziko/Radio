@@ -41316,8 +41316,7 @@ function toggleRadio(button, event = null) {
         showRepeatToast('🔁 تكرار نفس التلاوة. اضغط الزر مرة للإلغاء.', '🔁 Repeating this recitation. Tap the button once to cancel.');
       } else {
 
-        mainAudio.onended = null;
-        window._lastAutoNext = null;
+        mainAudio.onended = (typeof window._lastAutoNext === 'function') ? window._lastAutoNext : null;
         window._repeatModeActive = false;
         window._repeatModeButton = null;
         showRepeatToast('▶️ تم إلغاء التكرار. سيعود التنقل التلقائي.', '▶️ Repeat cancelled. Auto-navigation resumed.');
