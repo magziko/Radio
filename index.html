@@ -46623,6 +46623,23 @@ document.addEventListener("keydown", function(e) {
     return;
   }
 
+  // O أو خ = تبديل نمط اختيار الروابط لمحطات "متعددة الروابط": بالترتيب ⇄ ديناميكي/عشوائي
+  if (e.key === 'o' || e.key === 'O' || e.key === 'خ') {
+    e.preventDefault();
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var currentlyRandom = (typeof isFullRandomUrlEnabled === 'function') ? isFullRandomUrlEnabled() : false;
+    var newState = !currentlyRandom;
+    localStorage.setItem('fullRandomUrlEnabled', newState ? 'true' : 'false');
+    var fullRandomCb = document.getElementById('fullRandomUrlToggle');
+    if (fullRandomCb) fullRandomCb.checked = newState;
+    if (typeof showToast === 'function') {
+      showToast(newState ?
+        (ar ? '🔀 ترتيب الروابط: ديناميكي (عشوائي)' : '🔀 Link Order: Dynamic (Random)') :
+        (ar ? '➡️ ترتيب الروابط: بالترتيب' : '➡️ Link Order: Sequential'));
+    }
+    return;
+  }
+
 });
 
 // ═══════════════════════════════════════════════════════
@@ -46975,6 +46992,21 @@ document.addEventListener('keydown', function(e) {
       pt: 'Alternar repetição do segmento atual',
       zh: '切换当前分段的重复播放',
       ur: 'موجودہ سیگمنٹ کی تکرار تبدیل کریں'
+    },
+    r_order: {
+      ar: 'تبديل ترتيب الروابط (متعددة الروابط): بالترتيب ⇄ ديناميكي (عشوائي)',
+      en: 'Toggle link order (multi-link stations): sequential ⇄ dynamic (random)',
+      fr: "Basculer l'ordre des liens (stations multi-liens) : séquentiel ⇄ dynamique (aléatoire)",
+      es: 'Alternar el orden de enlaces (emisoras con varios enlaces): secuencial ⇄ dinámico (aleatorio)',
+      sv: 'Växla länkordning (kanaler med flera länkar): sekventiell ⇄ dynamisk (slumpmässig)',
+      nl: 'Wissel linkvolgorde (stations met meerdere links): opeenvolgend ⇄ dynamisch (willekeurig)',
+      ga: 'Scoránaigh ord na nasc (stáisiúin ilnasc): seicheamhach ⇄ dinimiciúil (randamach)',
+      de: 'Linkreihenfolge umschalten (Mehrlink-Sender): sequenziell ⇄ dynamisch (zufällig)',
+      ru: 'Переключить порядок ссылок (станции с несколькими ссылками): по порядку ⇄ динамически (случайно)',
+      tr: 'Bağlantı sırasını değiştir (çoklu bağlantılı istasyonlar): sıralı ⇄ dinamik (rastgele)',
+      pt: 'Alternar a ordem dos links (estações com vários links): sequencial ⇄ dinâmico (aleatório)',
+      zh: '切换链接顺序(多链接频道):按顺序 ⇄ 动态(随机)',
+      ur: 'لنک آرڈر تبدیل کریں (ملٹی لنک اسٹیشنز): ترتیب وار ⇄ ڈائنامک (رینڈم)'
     },
     tip_seg: {
       ar: 'المقاطع متاحة فقط في المحطات التي تحتوي على أكثر من رابط (مثل محطات الصلاة على النبي ﷺ وبعض المحطات المركّبة)',
@@ -47822,6 +47854,10 @@ document.addEventListener('keydown', function(e) {
       key: 'r',
       code: 'KeyR'
     },
+    r_order: {
+      key: 'o',
+      code: 'KeyO'
+    },
     r_1: {
       key: '1',
       code: 'Digit1'
@@ -48085,6 +48121,7 @@ document.addEventListener('keydown', function(e) {
       kbRow('r_n', ['N'], lang),
       kbRow('r_b', ['B'], lang),
       kbRow('r_r', ['R'], lang),
+      kbRow('r_order', ['O'], lang),
       '</div>',
       '<div class="kb-tip" style="margin-top:8px">',
       '<span style="font-size:15px;flex-shrink:0">💡</span>',
@@ -51711,9 +51748,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // اختصارات لوحة المفاتيح / Keyboard shortcuts
     {
       keys: ['اختصارات لوحة المفاتيح', 'اختصارات الكيبورد', 'اختصارات', 'كيبورد', 'keyboard shortcuts', 'مفاتيح الاختصار', 'ما هي الاختصارات', 'الاختصارات المتاحة'],
-      reply: '⌨️ اختصارات لوحة المفاتيح:\n\n▶️ التشغيل والتحكم:\n• Space — تشغيل / إيقاف\n• P — تشغيل / إيقاف المحطة الرئيسية\n• K — تشغيل / إيقاف المحطة الفورية\n• M — كتم / رفع الصوت\n• + / - — رفع أو خفض مستوى الصوت\n\n⏭️ التنقل بين المحطات:\n• ← السهم الأيسر — المحطة السابقة\n• → السهم الأيمن — المحطة التالية\n• N — المقطع التالي داخل نفس المحطة\n• B — المقطع السابق\n• R — تبديل تكرار المقطع الحالي\n\n🔢 اختصارات سريعة للقراء (0–9):\n• 1 = الحصري | 2 = عبدالباسط | 3 = البنا\n• 4 = علي جابر | 5 = المنشاوي | 6 = القطامي\n• 7 = عبادة | 8 = إسلام صبحي | 9 = الصلاة على النبي ﷺ | 0 = آيات\n\n🖥️ الواجهة والتنقل:\n• ? — فتح/إغلاق نافذة الاختصارات\n• S — فتح البحث مباشرةً\n• Shift+3 (#) — فتح/إغلاق الإعدادات\n• F — عرض/إخفاء المفضلة\n• Shift+F — محطة عشوائية من المفضلة\n• D — تبديل الوضع الليلي/النهاري\n• G — فتح المصحف الشريف\n• T — الانتقال لعداد التسبيح\n• E — تحويل للإنجليزية | A — تحويل للعربية\n• Esc — إغلاق الشاشة الحالية\n\n📿 عداد التسبيح:\n• . (نقطة) — إضافة تسبيحة\n\n💡 اضغط ? في أي وقت لفتح نافذة الاختصارات الكاملة 🌿',
+      reply: '⌨️ اختصارات لوحة المفاتيح:\n\n▶️ التشغيل والتحكم:\n• Space — تشغيل / إيقاف\n• P — تشغيل / إيقاف المحطة الرئيسية\n• K — تشغيل / إيقاف المحطة الفورية\n• M — كتم / رفع الصوت\n• + / - — رفع أو خفض مستوى الصوت\n\n⏭️ التنقل بين المحطات:\n• ← السهم الأيسر — المحطة السابقة\n• → السهم الأيمن — المحطة التالية\n• N — المقطع التالي داخل نفس المحطة\n• B — المقطع السابق\n• R — تبديل تكرار المقطع الحالي (اضغط مرة تانية لإلغائه والعودة للتنقل)\n• O — تبديل ترتيب الروابط للمحطات متعددة الروابط: بالترتيب ⇄ ديناميكي (عشوائي)\n\n🔢 اختصارات سريعة للقراء (0–9):\n• 1 = الحصري | 2 = عبدالباسط | 3 = البنا\n• 4 = علي جابر | 5 = المنشاوي | 6 = القطامي\n• 7 = عبادة | 8 = إسلام صبحي | 9 = الصلاة على النبي ﷺ | 0 = آيات\n\n🖥️ الواجهة والتنقل:\n• ? — فتح/إغلاق نافذة الاختصارات\n• S — فتح البحث مباشرةً\n• Shift+3 (#) — فتح/إغلاق الإعدادات\n• F — عرض/إخفاء المفضلة\n• Shift+F — محطة عشوائية من المفضلة\n• D — تبديل الوضع الليلي/النهاري\n• G — فتح المصحف الشريف\n• T — الانتقال لعداد التسبيح\n• E — تحويل للإنجليزية | A — تحويل للعربية\n• Esc — إغلاق الشاشة الحالية\n\n📿 عداد التسبيح:\n• . (نقطة) — إضافة تسبيحة\n\n💡 اضغط ? في أي وقت لفتح نافذة الاختصارات الكاملة 🌿',
       keys_en: ['keyboard shortcuts', 'shortcuts', 'keyboard', 'hotkeys', 'what are the shortcuts'],
-      reply_en: '⌨️ Keyboard Shortcuts:\n\n▶️ Playback Controls:\n• Space — play / pause\n• P — play / pause main station\n• K — play / pause instant station\n• M — mute / unmute\n• + / - — raise or lower volume\n\n⏭️ Station Navigation:\n• ← left arrow — previous station\n• → right arrow — next station\n• N — next track within same station\n• B — previous track\n• R — toggle repeat for current track\n\n🔢 Quick Reciter Shortcuts (0–9):\n• 1 = Hussary | 2 = Abdul Basit | 3 = Al-Banna\n• 4 = Ali Jaber | 5 = Minshawi | 6 = Al-Qatami\n• 7 = Ibadah | 8 = Islam Sobhi | 9 = Salawat | 0 = Ayat\n\n🖥️ Interface & Navigation:\n• ? — open/close shortcuts window\n• S — open search directly\n• Shift+3 (#) — open/close Settings panel\n• F — show/hide favorites\n• Shift+F — random station from favorites\n• D — toggle dark/light mode\n• G — open the Holy Mushaf\n• T — go to tasbih counter\n• E — switch to English | A — switch to Arabic\n• Esc — close current screen\n\n📿 Tasbih Counter:\n• . (period) — add a tasbih\n\n💡 Press ? anytime for the full shortcuts window 🌿'
+      reply_en: '⌨️ Keyboard Shortcuts:\n\n▶️ Playback Controls:\n• Space — play / pause\n• P — play / pause main station\n• K — play / pause instant station\n• M — mute / unmute\n• + / - — raise or lower volume\n\n⏭️ Station Navigation:\n• ← left arrow — previous station\n• → right arrow — next station\n• N — next track within same station\n• B — previous track\n• R — toggle repeat for current track (press again to cancel and resume navigation)\n• O — toggle link order for multi-link stations: sequential ⇄ dynamic (random)\n\n🔢 Quick Reciter Shortcuts (0–9):\n• 1 = Hussary | 2 = Abdul Basit | 3 = Al-Banna\n• 4 = Ali Jaber | 5 = Minshawi | 6 = Al-Qatami\n• 7 = Ibadah | 8 = Islam Sobhi | 9 = Salawat | 0 = Ayat\n\n🖥️ Interface & Navigation:\n• ? — open/close shortcuts window\n• S — open search directly\n• Shift+3 (#) — open/close Settings panel\n• F — show/hide favorites\n• Shift+F — random station from favorites\n• D — toggle dark/light mode\n• G — open the Holy Mushaf\n• T — go to tasbih counter\n• E — switch to English | A — switch to Arabic\n• Esc — close current screen\n\n📿 Tasbih Counter:\n• . (period) — add a tasbih\n\n💡 Press ? anytime for the full shortcuts window 🌿'
     }, {
       keys: ['زر الاختصارات', 'نافذة الاختصارات', 'فتح الاختصارات', 'أين الاختصارات', 'شرح نافذة الاختصارات'],
       reply: '⌨️ نافذة الاختصارات الكاملة:\n\nالموقع يحتوي على نافذة متكاملة لجميع الاختصارات!\n\nطرق فتحها:\n• اضغط زر ❓ في شاشة الترحيب\n• أو اضغط "الاختصارات" من داخل ⚙️ الإعدادات\n• أو اضغط مفتاح ? مباشرةً من لوحة المفاتيح\n\nتحتوي النافذة على:\n✅ اختصارات التشغيل والتحكم بالصوت\n✅ اختصارات التنقل بين المحطات\n✅ اختصارات سريعة للقراء (0–9)\n✅ اختصارات الواجهة والتنقل\n✅ اختصارات عداد التسبيح\n✅ إيماءات الموبايل (السحب والضغط المطوّل)\n✅ تلميحات وحيل مخفية\n\n🌐 النافذة ثنائية اللغة عربي/إنجليزي 🌿',
