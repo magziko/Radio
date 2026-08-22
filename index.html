@@ -9229,6 +9229,7 @@ function closeWelcomeScreen() {
         url: url,
         name: name || 'محطة مخصصة'
       }));
+      window._mainPlayAllowed = true;
       playNewAudio(url, name || 'محطة مخصصة', null, true);
       return;
     }
@@ -9239,7 +9240,30 @@ function closeWelcomeScreen() {
         url: lastUrl,
         name: lastName
       } = JSON.parse(last);
-      playNewAudio(lastUrl, lastName, null, true);
+
+      // نبحث عن الزر الأصلي بتاع المحطة عشان نمر بـ toggleRadio()
+      // ده اللي بيربط منطق تعدد الروابط (autoNext / error handler)
+      // نداء playNewAudio مباشرة بيتخطى كل ده فيوقف الصوت عند نهاية أول رابط
+      var _matchedBtn = null;
+      document.querySelectorAll('.button').forEach(function(btn) {
+        if (_matchedBtn) return;
+        if (
+          btn.getAttribute('data-url') === lastUrl ||
+          (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').includes(lastUrl)) ||
+          btn.getAttribute('data-ar') === lastName
+        ) {
+          _matchedBtn = btn;
+        }
+      });
+
+      if (_matchedBtn) {
+        window._mainPlayAllowed = true;
+        toggleRadio(_matchedBtn);
+      } else {
+        // مفيش زر مطابق (محطة مخصصة عبر رابط مثلاً) — تشغيل مباشر برابط واحد فقط
+        window._mainPlayAllowed = true;
+        playNewAudio(lastUrl, lastName, null, true);
+      }
     } else {
       playNewAudio(currentSource, "إذاعة القرآن الكريم ❤️  القاهرة FM 98.2", null, true);
     }
@@ -9390,15 +9414,27 @@ customAudioPlayer.addEventListener('ended', function() {
     navigator.mediaSession.playbackState = 'playing';
   };
 
+  // يحدد أي مشغل صوت هو الفعّال حاليًا (الراديو الأساسي أو معاينة الشاشة
+  // الترحيبية)، عشان أزرار شاشة القفل/السماعة اللاسلكية تتحكم في الصوت
+  // الصح فعلاً وليس دايمًا في مشغل الشاشة الترحيبية
+  function _msActiveTarget() {
+    if (typeof activeAudio !== 'undefined' && activeAudio) return activeAudio;
+    if (window._welcomeScreenClosed && typeof mainAudio !== 'undefined' && mainAudio) return mainAudio;
+    return customAudioPlayer;
+  }
+
   navigator.mediaSession.setActionHandler('play', function() {
-    customAudioPlayer.play().catch(function() {});
+    var target = _msActiveTarget();
+    if (target === mainAudio) window._mainPlayAllowed = true;
+    target.play().catch(function() {});
   });
   navigator.mediaSession.setActionHandler('pause', function() {
-    customAudioPlayer.pause();
+    _msActiveTarget().pause();
   });
   navigator.mediaSession.setActionHandler('stop', function() {
-    customAudioPlayer.pause();
-    customAudioPlayer.src = '';
+    var target = _msActiveTarget();
+    target.pause();
+    if (target !== mainAudio) target.src = '';
   });
   navigator.mediaSession.setActionHandler('nexttrack', function() {
     if (typeof nextStationFunc === 'function') nextStationFunc();
@@ -41457,6 +41493,7 @@ function toggleRadio(button, event = null) {
                 );
                 mainAudio.src = event.data.url;
                 mainAudio.load();
+                window._mainPlayAllowed = true;
                 mainAudio.play().catch(function() {});
 
                 // لما النت يرجع — ارجع للتشغيل العشوائي الطبيعي
@@ -41481,6 +41518,7 @@ function toggleRadio(button, event = null) {
                 var offlineRetry = setTimeout(function() {
                   mainAudio.src = mainAudio.src;
                   mainAudio.load();
+                  window._mainPlayAllowed = true;
                   mainAudio.play().catch(function() {});
                 }, 8000);
                 window.addEventListener('online', function onBackOnline() {
@@ -41489,6 +41527,7 @@ function toggleRadio(button, event = null) {
                   setTimeout(function() {
                     mainAudio.src = mainAudio.src;
                     mainAudio.load();
+                    window._mainPlayAllowed = true;
                     mainAudio.play().catch(function() {});
                   }, 1500);
                   window.removeEventListener('online', onBackOnline);
@@ -41513,6 +41552,7 @@ function toggleRadio(button, event = null) {
           var offlineRetry = setTimeout(function() {
             mainAudio.src = mainAudio.src;
             mainAudio.load();
+            window._mainPlayAllowed = true;
             mainAudio.play().catch(function() {});
           }, 8000);
           window.addEventListener('online', function onBackOnline() {
@@ -41521,6 +41561,7 @@ function toggleRadio(button, event = null) {
             setTimeout(function() {
               mainAudio.src = mainAudio.src;
               mainAudio.load();
+              window._mainPlayAllowed = true;
               mainAudio.play().catch(function() {});
             }, 1500);
             window.removeEventListener('online', onBackOnline);
@@ -41537,6 +41578,7 @@ function toggleRadio(button, event = null) {
         setTimeout(function() {
           mainAudio.src = mainAudio.src;
           mainAudio.load();
+          window._mainPlayAllowed = true;
           mainAudio.play().catch(function() {});
         }, 10000);
 
@@ -42579,6 +42621,47 @@ function _applyToAllAudios() {
   });
   if (window.isolatedAudio) { window.applyAudioGraph(window.isolatedAudio); window.isolatedAudio.playbackRate = window._playbackSpeed; }
 }
+
+// ═══════════════════════════════════════════════════════
+// الاستمرار في الخلفية (Background Play)
+// ═══════════════════════════════════════════════════════
+// المتصفحات (خاصة على الموبايل) بتوقف AudioContext تلقائيًا (suspended)
+// لما التطبيق يروح للخلفية (قفل الشاشة / تبديل تطبيقات) لتوفير الطاقة.
+// المشكلة: عنصر <audio> نفسه بيفضل "شغال" (paused=false) لكن بما إن
+// خرجه بيمر عبر AudioContext (لو المعادل أو تضخيم الصوت مفعّل)، الصوت
+// بيبقى صامت تمامًا من غير ما يظهر أي خطأ — والمستخدم يحس إن الصوت "وقف".
+// الحل: نراقب رجوع التطبيق للواجهة (visibilitychange/focus/pageshow)
+// ونعيد تنشيط AudioContext فورًا لو كان متوقفًا، ونتأكد إن العناصر
+// الصوتية النشطة فعلاً بترجع تشتغل.
+function _resumeBackgroundAudio() {
+  try {
+    if (window._boostCtx && window._boostCtx.state === 'suspended') {
+      window._boostCtx.resume().catch(function() {});
+    }
+  } catch (e) {}
+
+  // لو أي مشغل صوت كان المفروض شغال (مش متوقف يدويًا من المستخدم) لكن
+  // فعليًا واقف (paused) بسبب تعليق الصفحة في الخلفية، نحاول نكمّله
+  try {
+    if (mainAudio && mainAudio.paused && window._currentPlayingUrl &&
+        !window._userStoppedManually && mainAudio.src) {
+      mainAudio.play().catch(function() {});
+    }
+  } catch (e) {}
+
+  try {
+    if (window.isolatedAudio && window.isolatedAudio.src &&
+        window._statsIsoPlayStart && window.isolatedAudio.paused) {
+      window.isolatedAudio.play().catch(function() {});
+    }
+  } catch (e) {}
+}
+
+document.addEventListener('visibilitychange', function() {
+  if (document.visibilityState === 'visible') _resumeBackgroundAudio();
+});
+window.addEventListener('focus', _resumeBackgroundAudio);
+window.addEventListener('pageshow', _resumeBackgroundAudio);
 
 window.setAudioBoost = function(level) {
   var lvl = Math.min(5, Math.max(1, parseFloat(level) || 1));
@@ -44548,9 +44631,15 @@ window.addEventListener("load", function() {
   // البوصلة أو يفعّل الأذان — وقتها هيظهر السؤال بشكل طبيعي مرتبط بالإجراء اللي عمله.
 
   // Keep-Alive: أرسل رسالة للـ SW كل 20 ثانية عشان يعرف إن الصوت شغال
+  // (لازم يشمل الراديو الأساسي والصوت المعزول كمان، مش بس معاينة الشاشة
+  // الترحيبية والأذان — وإلا الـ SW هيفتكر الصفحة "مش صاحية" وقت الأذان
+  // وهو المستخدم فعليًا سامع الراديو الأساسي، فيبعت إشعار Push زيادة
+  // فوق تشغيل الأذان من الصفحة نفسها = أذان مزدوج)
   setInterval(function() {
     var isPlaying = (typeof customAudioPlayer !== 'undefined' && !customAudioPlayer.paused) ||
-      (typeof adhanAudio !== 'undefined' && adhanAudio && !adhanAudio.paused);
+      (typeof adhanAudio !== 'undefined' && adhanAudio && !adhanAudio.paused) ||
+      (typeof mainAudio !== 'undefined' && mainAudio && !mainAudio.paused) ||
+      (typeof window.isolatedAudio !== 'undefined' && window.isolatedAudio && !window.isolatedAudio.paused);
     if (navigator.serviceWorker && navigator.serviceWorker.controller && isPlaying) {
       navigator.serviceWorker.controller.postMessage({
         type: 'AUDIO_ALIVE'
