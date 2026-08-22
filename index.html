@@ -52378,5 +52378,85 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 }
 </script>
 
+<!-- تأكيد إجباري قبل إغلاق الصفحة أثناء تشغيل الصوت -->
+<script>
+(function(){
+  function _isAnyAudioPlaying() {
+    var ids = ['currentAudio', 'customAudioPlayer', 'audioStreamPlayer'];
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      if (el && !el.paused && !el.ended) return true;
+    }
+    return false;
+  }
+
+  window.addEventListener('beforeunload', function(e) {
+    if (_isAnyAudioPlaying()) {
+      e.preventDefault();
+      e.returnValue = ''; // مطلوب من بعض المتصفحات عشان يظهر التنبيه الافتراضي
+      return '';
+    }
+  });
+
+  // ── History Trap: التقاط زرار الرجوع بالموبايل (Android back) بنمط "اضغط رجوع مرة تانية للخروج" ──
+  var _toastId = 'exitDoubleBackToast';
+  var _trapArmed = false;
+  var _awaitingSecondBack = false;
+  var _secondBackTimer = null;
+
+  function _armHistoryTrap() {
+    if (_trapArmed) return;
+    history.pushState({ _radioExitTrap: true }, '');
+    _trapArmed = true;
+  }
+
+  function _showToast() {
+    var old = document.getElementById(_toastId);
+    if (old) old.remove();
+    var el = document.createElement('div');
+    el.id = _toastId;
+    el.setAttribute('dir', 'rtl');
+    el.textContent = 'الإذاعة لا تزال تعمل — اضغط رجوع مرة أخرى للخروج';
+    el.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);' +
+      'background:rgba(30,30,30,0.92);color:#fff;padding:11px 18px;border-radius:24px;' +
+      'font-family:Cairo,Arial,sans-serif;font-size:13.5px;font-weight:700;z-index:99999;' +
+      'box-shadow:0 6px 18px rgba(0,0,0,0.3);max-width:88%;text-align:center;' +
+      'opacity:0;transition:opacity 0.25s ease;';
+    document.body.appendChild(el);
+    requestAnimationFrame(function(){ el.style.opacity = '1'; });
+    setTimeout(function() {
+      el.style.opacity = '0';
+      setTimeout(function(){ el.remove(); }, 300);
+    }, 2300);
+  }
+
+  window.addEventListener('popstate', function() {
+    _trapArmed = false; // الفخ الحالي اتستهلك فعلاً بمجرد الرجوع
+
+    if (!_isAnyAudioPlaying()) return; // مفيش صوت شغال، سيب الخروج يحصل عادي
+
+    if (_awaitingSecondBack) {
+      // دي ضغطة الرجوع التانية خلال المهلة — نسيبها تخرج فعلياً، من غير إعادة نصب الفخ
+      clearTimeout(_secondBackTimer);
+      _awaitingSecondBack = false;
+      return;
+    }
+
+    // أول ضغطة رجوع: أظهر التنبيه، وأعد نصب الفخ عشان نمسك الضغطة الجاية (اللي هتخرج فعلياً)
+    _showToast();
+    _awaitingSecondBack = true;
+    _armHistoryTrap();
+    _secondBackTimer = setTimeout(function() {
+      _awaitingSecondBack = false; // انتهت المهلة، لو حاول يرجع تاني هتتعامل كأول ضغطة من جديد
+    }, 2300);
+  });
+
+  // نصب الفخ أول مرة بعد أي تفاعل فعلي من المستخدم (زي ما بيحصل مع تشغيل الصوت أصلاً)
+  document.addEventListener('click', function _armOnce() {
+    if (_isAnyAudioPlaying()) _armHistoryTrap();
+  });
+})();
+</script>
+
 </body>
 </html>ل
