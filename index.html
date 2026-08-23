@@ -12,8 +12,8 @@
   <link rel="dns-prefetch" href="https://translate.google.com">
   <link rel="dns-prefetch" href="https://audio.islamweb.net">
   <link rel="dns-prefetch" href="https://backup.qurango.net">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;700;900&family=Almarai:wght@400;700;800&family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;700;900&family=Almarai:wght@400;700;800&family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet"></noscript>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -3625,6 +3625,17 @@ body.dark-mode .color-setting-item label {
 body.dark-mode .fontsize-value-label {
   color: #90caf9;
 }
+.mini-toggle-switch {
+  width: 38px; height: 22px; background: #ccc; border-radius: 11px;
+  position: relative; transition: background .3s; flex-shrink: 0; cursor: pointer;
+}
+.mini-toggle-switch.on { background: var(--theme-c1); }
+.mini-toggle-switch::after {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 16px; height: 16px; border-radius: 50%; background: #fff;
+  transition: transform .3s; box-shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+.mini-toggle-switch.on::after { transform: translateX(16px); }
 body.dark-mode .color-setting-item .responsive-select {
   background: #1e2d3e;
   color: #e0e0e0;
@@ -17289,13 +17300,27 @@ setTimeout(autoScaleVerseFont, 100);
     </optgroup>
       </select>
     </div>
-    <div class="color-setting-item" id="settings-fontsize-item" style="flex-basis:100%;">
+    <div class="color-setting-item" id="settings-fontsize-item" style="min-width:150px;">
       <label for="fontSizeSlider" data-ar="🔠 حجم الخط" data-en="🔠 Font Size" data-fr="🔠 Taille de police" data-es="🔠 Tamaño de fuente" data-sv="🔠 Textstorlek" data-nl="🔠 Lettergrootte" data-ga="🔠 Méid an Chló" data-de="🔠 Schriftgröße" data-ru="🔠 Размер шрифта" data-tr="🔠 Yazı Boyutu" data-pt="🔠 Tamanho da fonte" data-zh="🔠 字体大小" data-ur="🔠 فونٹ سائز">🔠 حجم الخط</label>
       <div style="display:flex; align-items:center; gap:8px;">
         <input type="range" id="fontSizeSlider" min="80" max="150" step="5" value="100"
                oninput="changeFontSize(this.value)" style="flex:1; accent-color: var(--theme-c1); cursor:pointer;">
         <span id="fontSizeValueLabel" class="fontsize-value-label" style="font-size:12px; font-weight:700; min-width:40px; text-align:center;">100%</span>
       </div>
+      <div id="settings-fontbold-item" style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:6px; padding-top:6px; border-top:1px solid rgba(var(--theme-c1-rgb),0.2);">
+        <label for="fontBoldToggle" data-ar="🔤 خط عريض" data-en="🔤 Bold Font" data-fr="🔤 Gras" data-es="🔤 Negrita" data-sv="🔤 Fetstil" data-nl="🔤 Vetgedrukt" data-ga="🔤 Trom" data-de="🔤 Fett" data-ru="🔤 Жирный" data-tr="🔤 Kalın" data-pt="🔤 Negrito" data-zh="🔤 粗体" data-ur="🔤 بولڈ">🔤 خط عريض</label>
+        <div id="fontBoldToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0" onclick="toggleFontBold()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFontBold();}"></div>
+      </div>
+    </div>
+    <div class="color-setting-item" id="settings-fontfamily-item" style="display:flex; align-items:center; justify-content:space-between; gap:8px; min-width:150px;">
+      <label for="fontFamilySelect" data-ar="🖋️ نوع الخط" data-en="🖋️ Font Type" data-fr="🖋️ Type de police" data-es="🖋️ Tipo de fuente" data-sv="🖋️ Typsnitt" data-nl="🖋️ Lettertype" data-ga="🖋️ Cineál Cló" data-de="🖋️ Schriftart" data-ru="🖋️ Тип шрифта" data-tr="🖋️ Yazı Tipi" data-pt="🖋️ Tipo de fonte" data-zh="🖋️ 字体类型" data-ur="🖋️ فونٹ کی قسم" style="white-space:nowrap;">🖋️ نوع الخط</label>
+      <select id="fontFamilySelect" onchange="changeFontFamily(this.value)" style="flex:1 1 auto; min-width:0; max-width:60%; margin-top:0;">
+        <option value="" data-ar="الخط الافتراضي (Cairo)" data-en="Default (Cairo)">الخط الافتراضي (Cairo)</option>
+        <option value="'Tajawal', Arial, sans-serif" data-ar="Tajawal" data-en="Tajawal">Tajawal</option>
+        <option value="'Almarai', Arial, sans-serif" data-ar="Almarai" data-en="Almarai">Almarai</option>
+        <option value="'Amiri', serif" data-ar="Amiri (كلاسيكي)" data-en="Amiri (Classic)">Amiri (كلاسيكي)</option>
+        <option value="'Reem Kufi', sans-serif" data-ar="Reem Kufi (كوفي)" data-en="Reem Kufi">Reem Kufi (كوفي)</option>
+      </select>
     </div>
     <div class="color-setting-item" id="settings-lang-item">
       <button id="settingsLangToggle" onclick="toggleLanguage()">
@@ -39118,6 +39143,66 @@ function changeFontSize(val) {
   _fontSizeTargets().forEach(function(el) { el.style.zoom = val / 100; });
 })();
 
+// ===== خط عريض + نوع الخط — عبر شيت CSS ديناميكي بأولوية أعلى من أنماط الأزرار الأصلية =====
+// (تطبيق inline style على الحاوية الأب كان بيتجاهله المتصفح لأن عناصر زي .button/.filter-button
+//  عندها قواعد font-weight/font-family خاصة بيها بنفس القوة أو أعلى، فمكنش بيظهر أي تغيير)
+// ملاحظة: معظم الأزرار أصلاً font-weight:700 بشكل افتراضي، فلو الخط العريض يطبّق 700 مش هيظهر
+// فرق مرئي — لذلك بنستخدم 900 (أثقل وزن) عشان يبان الفرق فعليًا حتى على النصوص العريضة أصلاً.
+var _userFontBoldOn = false;
+var _userFontFamilyVal = '';
+var _FONT_OVERRIDE_SELECTOR = [
+  '#stationDisplay', '#stationDisplay *',
+  '#status',
+  '#filters-container', '#filters-container *',
+  '#mainStationSearchBar', '#mainStationSearchBar *',
+  '.buttons-container', '.buttons-container *',
+  '.subfilter-scroll-wrap', '.subfilter-scroll-wrap *',
+  '#salah-pip-section', '#salah-pip-section *'
+].join(', ');
+function _updateFontOverrideStyle() {
+  var styleEl = document.getElementById('userFontOverrideStyle');
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = 'userFontOverrideStyle';
+    document.head.appendChild(styleEl);
+  }
+  var decls = '';
+  if (_userFontBoldOn) decls += 'font-weight: 900 !important;';
+  if (_userFontFamilyVal) decls += 'font-family: ' + _userFontFamilyVal + ' !important;';
+  styleEl.textContent = decls ? (_FONT_OVERRIDE_SELECTOR + ' { ' + decls + ' }') : '';
+}
+
+function toggleFontBold() {
+  _applyFontBold(!_userFontBoldOn);
+  localStorage.setItem('userFontBold', _userFontBoldOn ? '1' : '0');
+}
+function _applyFontBold(on) {
+  _userFontBoldOn = !!on;
+  var toggle = document.getElementById('fontBoldToggle');
+  if (toggle) {
+    toggle.classList.toggle('on', _userFontBoldOn);
+    toggle.setAttribute('aria-checked', _userFontBoldOn ? 'true' : 'false');
+  }
+  _updateFontOverrideStyle();
+}
+(function initFontBoldSetting() {
+  var saved = localStorage.getItem('userFontBold') === '1';
+  _applyFontBold(saved);
+})();
+
+function changeFontFamily(val) {
+  _userFontFamilyVal = val || '';
+  _updateFontOverrideStyle();
+  localStorage.setItem('userFontFamily', _userFontFamilyVal);
+}
+(function initFontFamilySetting() {
+  var saved = localStorage.getItem('userFontFamily') || '';
+  var sel = document.getElementById('fontFamilySelect');
+  if (sel) sel.value = saved;
+  _userFontFamilyVal = saved;
+  _updateFontOverrideStyle();
+})();
+
 function toggleSettingsPanel() {
   var panel = document.getElementById('settings-panel');
   var arrow = document.getElementById('settings-arrow');
@@ -39223,6 +39308,19 @@ function toggleLanguage() {
   if (_asLbl) _asLbl.textContent = isArabic ? _asLbl.getAttribute("data-ar") : _asLbl.getAttribute("data-en");
   var _slLbl = document.querySelector("label[for='sleepTimer']");
   if (_slLbl) _slLbl.textContent = isArabic ? _slLbl.getAttribute("data-ar") : _slLbl.getAttribute("data-en");
+
+  var _fsLbl = document.querySelector("label[for='fontSizeSlider']");
+  if (_fsLbl) _fsLbl.textContent = isArabic ? _fsLbl.getAttribute("data-ar") : _fsLbl.getAttribute("data-en");
+  var _fbLbl = document.querySelector("label[for='fontBoldToggle']");
+  if (_fbLbl) _fbLbl.textContent = isArabic ? _fbLbl.getAttribute("data-ar") : _fbLbl.getAttribute("data-en");
+  var _ffLbl = document.querySelector("label[for='fontFamilySelect']");
+  if (_ffLbl) _ffLbl.textContent = isArabic ? _ffLbl.getAttribute("data-ar") : _ffLbl.getAttribute("data-en");
+  var _ffSel = document.getElementById('fontFamilySelect');
+  if (_ffSel) {
+    Array.prototype.forEach.call(_ffSel.options, function(opt) {
+      opt.textContent = isArabic ? opt.getAttribute('data-ar') : opt.getAttribute('data-en');
+    });
+  }
 
   document.getElementById("sleepTimer").placeholder = isArabic ? document.getElementById("sleepTimer").getAttribute("data-ar") : document.getElementById("sleepTimer").getAttribute("data-en");
   document.getElementById("autoSwitchTimer").placeholder = isArabic ? document.getElementById("autoSwitchTimer").getAttribute("data-ar") : document.getElementById("autoSwitchTimer").getAttribute("data-en");
