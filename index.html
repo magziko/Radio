@@ -5976,7 +5976,6 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
         grid-template-areas:
             "autoswitch  lang"
             "sleep       shortcuts"
-            "search      search"
             "theme       autotheme"
             "autoplay    soundalert"
             "flag        startfile"
@@ -5998,7 +5997,6 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
     #settings-lang-item    { grid-area: lang; }
     #sleepModeGroup        { grid-area: sleep; }
     #settings-shortcuts-item { grid-area: shortcuts; }
-    #searchInput           { grid-area: search; }
     #settings-theme-item   { grid-area: theme; }
     #themeAutoRotateGroup  { grid-area: autotheme; }
     #disableWelcomeToggleBtn { grid-area: disablewelcome; }
@@ -6028,11 +6026,6 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
         margin: 0 !important;
         box-sizing: border-box !important;
         justify-content: center;
-    }
-
-    #searchInput {
-        width: 100% !important;
-        margin: 0 !important;
     }
 
     #welcomeAutoSwitchDurationGroup,
@@ -6141,6 +6134,67 @@ body.dark-mode .custom-tooltip::after {
 }
 .search-wrapper .gcse-search {
     display: inline-block;
+}
+
+/* ===== نافذة الإعدادات كمودال منبثق (بدل ظهورها كبانل بمنتصف الصفحة) ===== */
+#settings-modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,14,20,0.55);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    z-index: 9998;
+    animation: settingsBackdropFade .2s ease;
+}
+@keyframes settingsBackdropFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+.settings-modal-panel {
+    position: fixed !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(94vw, 480px);
+    max-width: 480px;
+    max-height: 86vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.40);
+    z-index: 9999;
+    padding: 44px 14px 18px;
+    -webkit-overflow-scrolling: touch;
+}
+body.dark-mode .settings-modal-panel {
+    background: #1a2535;
+    color: #c8d8e8;
+}
+#settings-modal-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.06);
+    color: inherit;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+#settings-modal-close-btn:hover { background: rgba(0,0,0,0.12); }
+body.dark-mode #settings-modal-close-btn { background: rgba(255,255,255,0.10); }
+body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.18); }
+@media (max-width: 480px) {
+    .settings-modal-panel { width: 96vw; max-height: 90vh; padding-top: 46px; }
 }
 
 #settings-panel[style*="display: none"] .search-wrapper,
@@ -8443,15 +8497,13 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
             </svg>
         </button>
         <button id="welcomeTopSearchBtn" onclick="(function(){
-            var panel=document.getElementById('settings-panel');
-            var el=document.getElementById('searchInput');
-            if(!el) return;
-            var wasClosed = panel && panel.style.display==='none';
-            if(wasClosed && typeof toggleSettingsPanel==='function') toggleSettingsPanel();
+            if (typeof closeWelcomeScreen === 'function') closeWelcomeScreen();
             setTimeout(function(){
+                var el=document.getElementById('searchInput');
+                if(!el) return;
                 el.scrollIntoView({behavior:'smooth',block:'center'});
                 el.focus(); el.select();
-            }, wasClosed ? 320 : 0);
+            }, 380);
         })()" title="بحث / Search" aria-label="Search">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="7"/>
@@ -9961,30 +10013,11 @@ function openSettingsFromWelcome() {
   // 1. أغلق الشاشة الترحيبية
   closeWelcomeScreen();
 
-  // 2. بعد الإغلاق افتح لوحة الإعدادات مباشرة
+  // 2. بعد الإغلاق افتح مودال الإعدادات مباشرة (يظهر في منتصف الشاشة تلقائيًا فوق الجميع)
   setTimeout(function() {
     var panel = document.getElementById('settings-panel');
-    var arrow = document.getElementById('settings-arrow');
-    if (panel && panel.style.display === 'none') {
-      panel.style.display = 'block';
-      if (arrow) arrow.style.transform = 'rotate(180deg)';
-      var sw = panel.querySelector('.search-wrapper');
-      if (sw) sw.style.display = 'flex';
-    }
-
-    // انتقل ناعماً للوحة الإعدادات
-    if (panel) {
-      panel.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-
-      // تأثير تمييز (highlight) للفت الانتباه
-      panel.style.transition = 'box-shadow 0.4s ease, transform 0.4s ease';
-      panel.style.boxShadow = '0 0 0 3px var(--theme-g1), 0 8px 32px rgba(var(--theme-g1-rgb),0.45)';
-      setTimeout(function() {
-        panel.style.boxShadow = '';
-      }, 1600);
+    if (panel && panel.style.display === 'none' && typeof toggleSettingsPanel === 'function') {
+      toggleSettingsPanel();
     }
   }, 380);
 }
@@ -16873,11 +16906,12 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   
-  <div id="settings-panel" style="
+  <div id="settings-modal-backdrop" onclick="toggleSettingsPanel()"></div>
+  <div id="settings-panel" class="settings-modal-panel" style="
     display: none;
-    overflow: hidden;
-    transition: all 0.3s ease;
+    transition: opacity 0.2s ease;
   ">
+  <button id="settings-modal-close-btn" type="button" onclick="toggleSettingsPanel()" aria-label="Close settings" title="إغلاق / Close">✕</button>
   <div id="settingsQuickGrid">
   <div class="controls-row">
 
@@ -16903,8 +16937,6 @@ setTimeout(autoScaleVerseFont, 100);
         title='اضغط لإيقاف التنقل';
       " onclick="document.getElementById('autoSwitchCheckbox').checked=false;document.getElementById('autoSwitchCheckbox').dispatchEvent(new Event('change'));"></span>
     </div>
-
-    <input type="text" id="searchInput" class="search-input" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" data-fr="Rechercher une station ou le nom d'un récitateur" data-es="Buscar una emisora o el nombre de un recitador" data-sv="Sök efter en station eller ett recitatörsnamn" data-nl="Zoek een station of de naam van een reciteerder" data-ga="Cuardaigh stáisiún nó ainm aithriseora" data-de="Nach einem Sender oder Rezitatornamen suchen" data-ru="Поиск радиостанции или имени чтеца" data-tr="Bir istasyon veya kari adı ara" data-pt="Pesquisar uma estação ou o nome de um recitador" data-zh="搜索电台或诵读者姓名" data-ur="اسٹیشن یا قاری کا نام تلاش کریں" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
 
     <div class="input-group" id="sleepModeGroup">
       <label for="sleepTimer" data-ar="مؤقت الإيقاف" data-en="Sleep Mode" data-fr="Mode veille" data-es="Modo de suspensión" data-sv="Viloläge" data-nl="Slaapstand" data-ga="Mód codlata" data-de="Schlafmodus" data-ru="Режим сна" data-tr="Uyku modu" data-pt="Modo de suspensão" data-zh="睡眠模式" data-ur="نیند موڈ">مؤقت الإيقاف</label>
@@ -17689,6 +17721,12 @@ setTimeout(autoScaleVerseFont, 100);
 <div id="yt-taskbar"></div>
 
 </div>
+
+    <div id="mainStationSearchBar" style="width:96%; max-width:460px; margin:10px auto 12px; position:relative;">
+      <span aria-hidden="true" style="position:absolute; top:50%; right:16px; transform:translateY(-50%); font-size:16px; opacity:.55; pointer-events:none;">🔍</span>
+      <input type="text" id="searchInput" class="search-input" style="width:100%; max-width:100%; margin:0; padding-right:40px; padding-left:40px; box-sizing:border-box;" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" data-fr="Rechercher une station ou le nom d'un récitateur" data-es="Buscar una emisora o el nombre de un recitador" data-sv="Sök efter en station eller ett recitatörsnamn" data-nl="Zoek een station of de naam van een reciteerder" data-ga="Cuardaigh stáisiún nó ainm aithriseora" data-de="Nach einem Sender oder Rezitatornamen suchen" data-ru="Поиск радиостанции или имени чтеца" data-tr="Bir istasyon veya kari adı ara" data-pt="Pesquisar uma estação ou o nome de um recitador" data-zh="搜索电台或诵读者姓名" data-ur="اسٹیشن یا قاری کا نام تلاش کریں" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
+      <button type="button" id="searchInputClearBtn" onclick="(function(){var s=document.getElementById('searchInput');s.value='';s.dispatchEvent(new Event('input'));s.focus();})()" aria-label="مسح البحث" title="مسح البحث" style="display:none; position:absolute; top:50%; left:10px; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; opacity:.55; line-height:1; padding:4px;">✕</button>
+    </div>
 
     <div class="buttons-container">
 
@@ -38554,6 +38592,8 @@ function filterStations(category) {
 }
 
 document.getElementById('searchInput').addEventListener('input', function() {
+  var _clearBtn = document.getElementById('searchInputClearBtn');
+  if (_clearBtn) _clearBtn.style.display = this.value ? 'block' : 'none';
   function _normSt(s) {
     return (s||'').toString()
       .replace(/[\u064B-\u0652\u0670\u0640]/g,'')
@@ -38861,25 +38901,25 @@ function toggleSettingsPanel() {
   var panel = document.getElementById('settings-panel');
   var arrow = document.getElementById('settings-arrow');
   var bottomBar = document.getElementById('settings-toggle-bar-bottom');
+  var backdrop = document.getElementById('settings-modal-backdrop');
   var isOpen = panel.style.display !== 'none';
 
   if (isOpen) {
     panel.style.display = 'none';
+    if (backdrop) backdrop.style.display = 'none';
+    document.body.style.overflow = '';
     arrow.style.transform = 'rotate(0deg)';
 
     var sw = panel.querySelector('.search-wrapper');
     if (sw) sw.style.display = 'none';
   } else {
     panel.style.display = 'block';
+    if (backdrop) backdrop.style.display = 'block';
+    document.body.style.overflow = 'hidden';
     arrow.style.transform = 'rotate(180deg)';
 
     var sw = panel.querySelector('.search-wrapper');
     if (sw) sw.style.display = 'flex';
-
-    setTimeout(function() {
-      var s = document.getElementById('searchInput');
-      if (s) s.focus();
-    }, 200);
   }
 
   // تحديث نص زر الأسفل حسب اللغة
@@ -38889,6 +38929,15 @@ function toggleSettingsPanel() {
     if (lbl) lbl.textContent = ar ? lbl.getAttribute('data-ar') : lbl.getAttribute('data-en');
   }
 }
+
+// إغلاق مودال الإعدادات بزر Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Escape') return;
+  var panel = document.getElementById('settings-panel');
+  if (panel && panel.style.display !== 'none' && typeof toggleSettingsPanel === 'function') {
+    toggleSettingsPanel();
+  }
+});
 
 // مساعد عام: تحديث نص "station-text" عند تبديل اللغة مع الحفاظ على أسطر <br> وفصل جملة الاستعاذة
 function _applyStationTextLang(stEl, newText) {
@@ -46535,23 +46584,17 @@ document.addEventListener("keydown", function(e) {
   }
 
   // S = فتح البحث مباشرةً
-  // S = فتح البحث مباشرةً
   if (e.key === 's' || e.key === 'S' || e.key === 'س') {
     e.preventDefault();
     var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
-    var panel = document.getElementById('settings-panel');
     var searchEl = document.getElementById('searchInput');
     if (!searchEl) return;
-    var wasClosed = panel && panel.style.display === 'none';
-    if (wasClosed && typeof toggleSettingsPanel === 'function') toggleSettingsPanel();
-    setTimeout(function() {
-      searchEl.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
-      searchEl.focus();
-      searchEl.select();
-    }, wasClosed ? 320 : 0);
+    searchEl.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+    searchEl.focus();
+    searchEl.select();
     if (typeof showToast === 'function') showToast(ar ? '🔍 بحث' : '🔍 Search');
     return;
   }
