@@ -2642,6 +2642,65 @@ body.media-theme-glass .ai-msg.user {
     border: 1px solid rgba(255,255,255,0.4) !important;
     color: #ffffff !important;
 }
+/* بطاقتا "جودة الصوت" و"مساعد الذكاء الاصطناعي" دايمًا جوه مودال الإعدادات (خلفية بيضاء ثابتة)،
+   فلازم يفضلوا بألوان الثيم الثابت مش الزجاجي الأبيض، حتى مع ثيمات الصور/الفيديو */
+body.media-theme-glass #settings-panel #audio-quality-settings.aqx-panel,
+body.media-theme-glass #settings-panel #ai-assistant-box {
+    background: linear-gradient(155deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72)),linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.14),rgba(var(--theme-c2-rgb),0.12)) !important;
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    box-shadow: 0 8px 28px rgba(var(--theme-c4-rgb),0.10), inset 0 1px 0 rgba(255,255,255,0.6) !important;
+}
+body.media-theme-glass #settings-panel #audio-quality-settings .aqx-title-group span,
+body.media-theme-glass #settings-panel #audio-quality-settings .aqx-boost-row label,
+body.media-theme-glass #settings-panel #audio-quality-settings .aqx-fader-col label,
+body.media-theme-glass #settings-panel #audio-quality-settings .aqx-preset-group > span,
+body.media-theme-glass #settings-panel #audio-quality-settings .aqx-note,
+body.media-theme-glass #settings-panel #audio-quality-settings .aqx-toggle-icon,
+body.media-theme-glass #settings-panel #ai-assistant-title,
+body.media-theme-glass #settings-panel #ai-assistant-subtitle,
+body.media-theme-glass #settings-panel #ai-assistant-toggle-icon {
+    color: var(--theme-c4) !important;
+    text-shadow: none !important;
+}
+body.media-theme-glass #settings-panel #audioQualityResetBtn,
+body.media-theme-glass #settings-panel #audio-quality-settings .aqx-chip,
+body.media-theme-glass #settings-panel .ai-quick-btn {
+    background: rgba(255,255,255,0.7) !important;
+    color: var(--theme-c4) !important;
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.3) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    text-shadow: none !important;
+}
+body.media-theme-glass #settings-panel #audio-quality-settings .aqx-fader-track {
+    background: rgba(14,42,61,0.06) !important;
+}
+body.media-theme-glass #settings-panel #audio-quality-settings .aqx-fader-col span {
+    background: rgba(14,42,61,0.06) !important;
+    color: var(--theme-c4) !important;
+    text-shadow: none !important;
+}
+body.media-theme-glass #settings-panel #ai-user-input {
+    background: #fff !important;
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.3) !important;
+    color: #2c3e50 !important;
+}
+body.media-theme-glass #settings-panel #ai-user-input::placeholder {
+    color: #90a4b8 !important;
+}
+body.media-theme-glass #settings-panel .ai-msg.bot,
+body.media-theme-glass #settings-panel .ai-typing {
+    background: #f2f6fa !important;
+    border: 1px solid rgba(var(--theme-c1-rgb),0.15) !important;
+    color: #2c3e50 !important;
+}
+body.media-theme-glass #settings-panel .ai-msg.user {
+    background: rgba(var(--theme-c1-rgb),0.12) !important;
+    border: 1px solid rgba(var(--theme-c1-rgb),0.25) !important;
+    color: #2c3e50 !important;
+}
 
 /* ===== زجاجي شفاف: العناصر الإضافية (الإعدادات، قائمة التشغيل، مواقيت الصلاة،
    زر المصحف، صندوق الترحيب، المفضلة، تواصل معنا، إحصائيات الاستماع) ===== */
@@ -2764,6 +2823,28 @@ body.media-theme-glass #welcome-top-bar #welcomeHelpBtn {
 body.media-theme-glass :is(#welcomeDarkModeBtn, #translateBarBtn, .welcome-toggle-btn):hover,
 body.media-theme-glass #welcome-top-bar #welcomeHelpBtn:hover {
     background: rgba(255,255,255,0.30) !important;
+}
+/* داخل مودال الإعدادات الخلفية دايمًا بيضاء ثابتة، فمفاتيح التبديل (توجل) هنا
+   لازم تفضل بنفس ألوان الثيم الثابت (خلفية فاتحة + نص غامق) حتى لو ثيم الموقع صورة/فيديو،
+   عشان النص متبقاش أبيض على أبيض ومتقراش */
+body.media-theme-glass #settings-panel .welcome-toggle-btn {
+    background: rgba(255,255,255,0.72) !important;
+    border-color: #b0c4de !important;
+    color: #2c3e50 !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07) !important;
+    text-shadow: none !important;
+}
+body.media-theme-glass #settings-panel .welcome-toggle-btn:hover {
+    background: rgba(var(--theme-c1-rgb),0.1) !important;
+    border-color: var(--theme-c1) !important;
+    box-shadow: 0 3px 12px rgba(var(--theme-c1-rgb),0.18) !important;
+}
+body.media-theme-glass #settings-panel .welcome-toggle-btn.active {
+    background: linear-gradient(135deg, var(--theme-c1) 0%, #0d6ecc 100%) !important;
+    border-color: #0d6ecc !important;
+    color: #ffffff !important;
 }
 body.media-theme-glass #customStatus,
 body.media-theme-glass #customStatusRow {
@@ -2992,7 +3073,7 @@ width: 98%;
 .input-group label {
   flex: 1;
   font-size: 16px;
-  color: var(--theme-c2);
+  color: #1a3a52;
   font-weight: bold;
   white-space: nowrap;
 }
@@ -3500,7 +3581,7 @@ body.dark-mode #settingsShortcutsBtn:hover {
 .color-setting-item label {
   font-size: 12px;
   font-weight: bold;
-  color: var(--theme-c2);
+  color: #1a3a52;
   white-space: nowrap;
 }
 .color-setting-item .responsive-select {
@@ -3536,6 +3617,12 @@ body.dark-mode .color-setting-item {
   background: linear-gradient(to right, #1a2a3a 0%, #1e2d3e 50%, #1a2a3a 100%);
 }
 body.dark-mode .color-setting-item label {
+  color: #90caf9;
+}
+.fontsize-value-label {
+  color: #1a3a52;
+}
+body.dark-mode .fontsize-value-label {
   color: #90caf9;
 }
 body.dark-mode .color-setting-item .responsive-select {
@@ -6205,6 +6292,10 @@ body.dark-mode .custom-tooltip::after {
     z-index: 9999;
     padding: 44px 14px 18px;
     -webkit-overflow-scrolling: touch;
+    zoom: 1 !important;
+}
+#settings-modal-backdrop {
+    zoom: 1 !important;
 }
 body.dark-mode .settings-modal-panel {
     background: #1a2535;
@@ -17203,7 +17294,7 @@ setTimeout(autoScaleVerseFont, 100);
       <div style="display:flex; align-items:center; gap:8px;">
         <input type="range" id="fontSizeSlider" min="80" max="150" step="5" value="100"
                oninput="changeFontSize(this.value)" style="flex:1; accent-color: var(--theme-c1); cursor:pointer;">
-        <span id="fontSizeValueLabel" style="font-size:12px; font-weight:700; min-width:40px; text-align:center; color:var(--theme-c2);">100%</span>
+        <span id="fontSizeValueLabel" class="fontsize-value-label" style="font-size:12px; font-weight:700; min-width:40px; text-align:center;">100%</span>
       </div>
     </div>
     <div class="color-setting-item" id="settings-lang-item">
@@ -30225,6 +30316,32 @@ body.media-theme-glass #startup-notif-settings label {
          1px  1px 0 #000,
          0 0 6px rgba(0,0,0,0.85) !important;
 }
+/* بلوكات "تذكير الأذكار" و"تنبيهات فتح الموقع" دايمًا جوه مودال الإعدادات (خلفية بيضاء ثابتة)،
+   فلازم يفضلوا بألوان الثيم الثابت مش الزجاجي الأبيض، حتى مع ثيمات الصور/الفيديو */
+body.media-theme-glass #settings-panel #adhkar-notif-settings,
+body.media-theme-glass #settings-panel #startup-notif-settings {
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07)) !important;
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+body.media-theme-glass #settings-panel #adhkar-notif-settings span,
+body.media-theme-glass #settings-panel #adhkar-notif-settings label,
+body.media-theme-glass #settings-panel #startup-notif-settings span,
+body.media-theme-glass #settings-panel #startup-notif-settings label {
+    color: var(--theme-c4) !important;
+    text-shadow: none !important;
+}
+body.media-theme-glass #settings-panel #adhkar-notif-settings label[style*="color:var(--theme-c3)"],
+body.media-theme-glass #settings-panel #startup-notif-settings span[style*="color:var(--theme-c3)"] {
+    color: var(--theme-c3) !important;
+}
+body.media-theme-glass #settings-panel #notif-status-text,
+body.media-theme-glass #settings-panel #startup-notif-status-text {
+    color: #888 !important;
+    text-shadow: none !important;
+}
 
 /* ===== زر فتح المصحف في الشريط السفلي ===== */
 #mushaf-toggle-wrap {
@@ -38968,12 +39085,17 @@ applyButtonsFlagSetting();
 // ===== حجم الخط (Font Size Slider) — يكبر/يصغر نصوص أزرار الفلاتر والمحطات فقط =====
 function _fontSizeTargets() {
   var els = [];
+  var st = document.getElementById('stationDisplay');
+  if (st) els.push(st);
+  var stat = document.getElementById('status');
+  if (stat) els.push(stat);
   var f = document.getElementById('filters-container');
   if (f) els.push(f);
   var s = document.getElementById('mainStationSearchBar');
   if (s) els.push(s);
   var b = document.querySelector('.buttons-container');
   if (b) els.push(b);
+  document.querySelectorAll('.subfilter-scroll-wrap').forEach(function(w) { els.push(w); });
   return els;
 }
 function changeFontSize(val) {
