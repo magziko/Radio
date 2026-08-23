@@ -39096,6 +39096,8 @@ function _fontSizeTargets() {
   var b = document.querySelector('.buttons-container');
   if (b) els.push(b);
   document.querySelectorAll('.subfilter-scroll-wrap').forEach(function(w) { els.push(w); });
+  var sp = document.getElementById('salah-pip-section');
+  if (sp) els.push(sp);
   return els;
 }
 function changeFontSize(val) {
