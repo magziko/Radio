@@ -5531,6 +5531,42 @@ body.dark-mode .btn {
     box-shadow: 0 3px 12px rgba(var(--theme-c1-rgb),0.18);
 }
 
+/* نثبّت مفتاح التبديل (Switch) في نفس العمود لكل الأوبشن اللي تحته مفتاح،
+   بغض النظر عن طول اسم الأوبشن أو حجم الشاشة — كل أوبشن ياخد الصف كامل،
+   النص ياخد المساحة المتاحة، والمفتاح يتثبت دايمًا في نهاية الصف. */
+#disableWelcomeToggleBtn,
+#introClipToggleBtn,
+#radioAutoplayToggleBtn,
+#settings-randomseek-item,
+#settings-fullrandom-item,
+#settings-autodark-item,
+#settings-flag-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: flex-start !important;
+}
+#disableWelcomeToggleBtn .wtb-switch-visual,
+#introClipToggleBtn .wtb-switch-visual,
+#radioAutoplayToggleBtn .wtb-switch-visual,
+#settings-randomseek-item .wtb-switch,
+#settings-fullrandom-item .wtb-switch,
+#settings-autodark-item .wtb-switch,
+#settings-flag-item .wtb-switch {
+    margin-inline-start: auto !important;
+    flex-shrink: 0;
+}
+#disableWelcomeToggleBtn .wtb-text,
+#introClipToggleBtn .wtb-text,
+#radioAutoplayToggleBtn .wtb-text,
+#settings-randomseek-item .wtb-text,
+#settings-fullrandom-item .wtb-text,
+#settings-autodark-item .wtb-text,
+#settings-flag-item .wtb-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 #themeAutoRotateGroup {
     flex-wrap: wrap;
     row-gap: 4px;
@@ -5967,9 +6003,10 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
     }
 }
 
-/* ==== Unified mobile layout: pair Language with Auto Switch, Shortcuts with Sleep Mode,
-   Theme list with Auto-Change Theme — everything else keeps its natural order ==== */
-@media (max-width: 991px) {
+/* ==== Unified layout on all screen sizes: pair Language with Auto Switch, Shortcuts with Sleep Mode,
+   Theme list with Auto-Change Theme — everything else keeps its natural order.
+   The settings modal itself is always narrow (max ~480px) regardless of screen size,
+   so this grid layout is applied unconditionally instead of only below 991px. ==== */
     #settingsQuickGrid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -5979,7 +6016,7 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
             "theme       autotheme"
             "autoplay    soundalert"
             "flag        startfile"
-            "fullrandom  fullrandom"
+            "fullrandom  autodark"
             "disablewelcome welcomecycle";
         gap: 8px;
         align-items: stretch;
@@ -6004,6 +6041,7 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
     #radioAutoplayToggleBtn { grid-area: autoplay; }
     #settings-randomseek-item { grid-area: startfile; }
     #settings-fullrandom-item { grid-area: fullrandom; }
+    #settings-autodark-item { grid-area: autodark; }
     #settings-flag-item    { grid-area: flag; }
     #welcomeAutoSwitchDurationGroup { grid-area: welcomecycle; }
 
@@ -6019,6 +6057,7 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
     #radioAutoplayToggleBtn,
     #settings-randomseek-item,
     #settings-fullrandom-item,
+    #settings-autodark-item,
     #settings-flag-item,
     #welcomeAutoSwitchDurationGroup {
         width: 100% !important;
@@ -6032,7 +6071,6 @@ body.dark-mode #radioAutoplayToggleBtn.active .wtb-switch-visual {
     #themeAutoRotateGroup {
         grid-column: auto !important;
     }
-}
 
 #welcome-top-bar #welcomeDarkModeBtn {
     position: static !important;
@@ -6195,6 +6233,20 @@ body.dark-mode #settings-modal-close-btn { background: rgba(255,255,255,0.10); }
 body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.18); }
 @media (max-width: 480px) {
     .settings-modal-panel { width: 96vw; max-height: 90vh; padding-top: 46px; }
+}
+/* على الشاشات الأوسع نخلي عرض المودال يتناسب مع مساحة الشاشة المتاحة
+   بدل ما يفضل ثابت على 480px، مع سقف معقول عشان ميبقاش عريض جدًا. */
+@media (min-width: 600px) {
+    .settings-modal-panel { width: min(70vw, 560px); max-width: 560px; }
+}
+@media (min-width: 900px) {
+    .settings-modal-panel { width: min(45vw, 620px); max-width: 620px; }
+}
+@media (min-width: 1200px) {
+    .settings-modal-panel { width: min(32vw, 680px); max-width: 680px; }
+}
+@media (min-width: 1600px) {
+    .settings-modal-panel { width: min(26vw, 720px); max-width: 720px; }
 }
 
 #settings-panel[style*="display: none"] .search-wrapper,
@@ -17146,6 +17198,14 @@ setTimeout(autoScaleVerseFont, 100);
     </optgroup>
       </select>
     </div>
+    <div class="color-setting-item" id="settings-fontsize-item" style="flex-basis:100%;">
+      <label for="fontSizeSlider" data-ar="🔠 حجم الخط" data-en="🔠 Font Size" data-fr="🔠 Taille de police" data-es="🔠 Tamaño de fuente" data-sv="🔠 Textstorlek" data-nl="🔠 Lettergrootte" data-ga="🔠 Méid an Chló" data-de="🔠 Schriftgröße" data-ru="🔠 Размер шрифта" data-tr="🔠 Yazı Boyutu" data-pt="🔠 Tamanho da fonte" data-zh="🔠 字体大小" data-ur="🔠 فونٹ سائز">🔠 حجم الخط</label>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <input type="range" id="fontSizeSlider" min="80" max="150" step="5" value="100"
+               oninput="changeFontSize(this.value)" style="flex:1; accent-color: var(--theme-c1); cursor:pointer;">
+        <span id="fontSizeValueLabel" style="font-size:12px; font-weight:700; min-width:40px; text-align:center; color:var(--theme-c2);">100%</span>
+      </div>
+    </div>
     <div class="color-setting-item" id="settings-lang-item">
       <button id="settingsLangToggle" onclick="toggleLanguage()">
         <span id="settingsLangIcon">🌐</span>
@@ -17200,6 +17260,11 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="fullRandomUrlToggle" class="wtb-switch" onchange="toggleFullRandomUrlSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('fullRandomUrlToggle');if(_cb){_cb.checked=(localStorage.getItem('fullRandomUrlEnabled')==='true');}})();</script>
+    <div id="settings-autodark-item" class="welcome-toggle-btn" style="gap:7px;">
+      <label for="autoDarkModeToggle" class="wtb-text" data-ar="🌙 الوضع الداكن التلقائي (حسب الوقت)" data-en="🌙 Auto Dark Mode (by time)" data-fr="🌙 Mode sombre automatique (selon l'heure)" data-es="🌙 Modo oscuro automático (según la hora)" data-sv="🌙 Automatiskt mörkt läge (efter tid)" data-nl="🌙 Automatische donkere modus (op tijd)" data-ga="🌙 Modh Dorcha Uathoibríoch (de réir ama)" data-de="🌙 Automatischer Dunkelmodus (nach Uhrzeit)" data-ru="🌙 Автотёмный режим (по времени)" data-tr="🌙 Otomatik Karanlık Mod (saate göre)" data-pt="🌙 Modo escuro automático (por hora)" data-zh="🌙 自动深色模式（按时间）" data-ur="🌙 خودکار ڈارک موڈ (وقت کے مطابق)" style="cursor:pointer; margin:0;">🌙 الوضع الداكن التلقائي (حسب الوقت)</label>
+      <input type="checkbox" id="autoDarkModeToggle" class="wtb-switch" onchange="toggleAutoDarkModeSetting()">
+    </div>
+    <script>(function(){var _cb=document.getElementById('autoDarkModeToggle');if(_cb){_cb.checked=(localStorage.getItem('autoDarkModeEnabled')==='true');}})();</script>
     <div id="settings-flag-item" class="welcome-toggle-btn" style="gap:7px;">
       <label for="buttonsFlagToggle" class="wtb-text" data-ar="🇵🇸 علم فلسطين بالأزرار" data-en="🇵🇸 Palestine Flag on Buttons" data-fr="🇵🇸 Drapeau palestinien sur les boutons" data-es="🇵🇸 Bandera de Palestina en los botones" data-sv="🇵🇸 Palestinsk flagga på knapparna" data-nl="🇵🇸 Palestijnse vlag op knoppen" data-ga="🇵🇸 Bratach na Palaistíne ar na cnaipí" data-de="🇵🇸 Palästina-Flagge auf den Buttons" data-ru="🇵🇸 Флаг Палестины на кнопках" data-tr="🇵🇸 Butonlarda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina nos botões" data-zh="🇵🇸 按钮上的巴勒斯坦国旗" data-ur="🇵🇸 بٹنوں پر فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بالأزرار</label>
       <input type="checkbox" id="buttonsFlagToggle" class="wtb-switch" onchange="toggleButtonsFlagSetting()">
@@ -37770,6 +37835,9 @@ function applyInitialLanguage() {
     var buttonsFlagLblInit = document.querySelector('label[for="buttonsFlagToggle"]');
     if (buttonsFlagLblInit) buttonsFlagLblInit.textContent = buttonsFlagLblInit.getAttribute('data-en');
 
+    var autoDarkModeLblInit = document.querySelector('label[for="autoDarkModeToggle"]');
+    if (autoDarkModeLblInit) autoDarkModeLblInit.textContent = autoDarkModeLblInit.getAttribute('data-en');
+
     var themeAutoRotateLblInit = document.querySelector('#themeAutoRotateGroup label.wtb-text');
     if (themeAutoRotateLblInit) themeAutoRotateLblInit.textContent = themeAutoRotateLblInit.getAttribute('data-en');
     document.querySelectorAll('#themeAutoRotateInterval option').forEach(function(opt) {
@@ -38897,6 +38965,35 @@ function toggleButtonsFlagSetting() {
 }
 applyButtonsFlagSetting();
 
+// ===== حجم الخط (Font Size Slider) — يكبر/يصغر نصوص أزرار الفلاتر والمحطات فقط =====
+function _fontSizeTargets() {
+  var els = [];
+  var f = document.getElementById('filters-container');
+  if (f) els.push(f);
+  var s = document.getElementById('mainStationSearchBar');
+  if (s) els.push(s);
+  var b = document.querySelector('.buttons-container');
+  if (b) els.push(b);
+  return els;
+}
+function changeFontSize(val) {
+  var scale = parseInt(val, 10) / 100;
+  _fontSizeTargets().forEach(function(el) { el.style.zoom = scale; });
+  var lbl = document.getElementById('fontSizeValueLabel');
+  if (lbl) lbl.textContent = val + '%';
+  localStorage.setItem('userFontScale', val);
+}
+(function initFontSizeSetting() {
+  var saved = localStorage.getItem('userFontScale');
+  var val = saved ? parseInt(saved, 10) : 100;
+  if (isNaN(val) || val < 80 || val > 150) val = 100;
+  var slider = document.getElementById('fontSizeSlider');
+  if (slider) slider.value = val;
+  var lbl = document.getElementById('fontSizeValueLabel');
+  if (lbl) lbl.textContent = val + '%';
+  _fontSizeTargets().forEach(function(el) { el.style.zoom = val / 100; });
+})();
+
 function toggleSettingsPanel() {
   var panel = document.getElementById('settings-panel');
   var arrow = document.getElementById('settings-arrow');
@@ -39159,6 +39256,14 @@ function toggleLanguage() {
 
   var buttonsFlagLbl = document.querySelector('label[for="buttonsFlagToggle"]');
   if (buttonsFlagLbl) buttonsFlagLbl.textContent = isArabic ? buttonsFlagLbl.getAttribute('data-ar') : buttonsFlagLbl.getAttribute('data-en');
+
+  var autoDarkModeLbl = document.querySelector('label[for="autoDarkModeToggle"]');
+  if (autoDarkModeLbl) autoDarkModeLbl.textContent = isArabic ? autoDarkModeLbl.getAttribute('data-ar') : autoDarkModeLbl.getAttribute('data-en');
+
+  var raTxtLang = document.getElementById('radioAutoplayToggleTxt');
+  if (raTxtLang && typeof _radioAutoplayLabel === 'function' && typeof isRadioAutoplayEnabled === 'function') {
+    raTxtLang.textContent = _radioAutoplayLabel(isRadioAutoplayEnabled());
+  }
 
   var themeAutoRotateLblTL = document.querySelector('#themeAutoRotateGroup label.wtb-text');
   if (themeAutoRotateLblTL) themeAutoRotateLblTL.textContent = isArabic ? themeAutoRotateLblTL.getAttribute('data-ar') : themeAutoRotateLblTL.getAttribute('data-en');
@@ -40228,6 +40333,52 @@ function applyDarkMode(enable) {
 function toggleDarkModeFloat() {
   var next = !document.body.classList.contains("dark-mode");
   applySiteTheme(next ? 'dark' : 'default');
+  // لو المستخدم بدّل يدويًا، نوقف الوضع التلقائي حتى لا يلغي اختياره فورًا
+  if (localStorage.getItem('autoDarkModeEnabled') === 'true') {
+    localStorage.setItem('autoDarkModeEnabled', 'false');
+    stopAutoDarkModeWatcher();
+    var _adCb = document.getElementById('autoDarkModeToggle');
+    if (_adCb) _adCb.checked = false;
+  }
+}
+
+// ===== Auto Dark Mode (حسب وقت اليوم: ليل = داكن، نهار = فاتح) =====
+var _autoDarkModeIntervalId = null;
+
+function isNightTimeNow() {
+  var h = new Date().getHours();
+  return (h >= 18 || h < 6); // 6 مساءً حتى 6 صباحًا = ليل
+}
+
+function applyAutoDarkModeNow() {
+  var wantDark = isNightTimeNow();
+  var isDarkNow = document.body.classList.contains('dark-mode');
+  if (wantDark === isDarkNow) return;
+  applySiteTheme(wantDark ? 'dark' : (localStorage.getItem('siteTheme') && localStorage.getItem('siteTheme') !== 'dark' ? localStorage.getItem('siteTheme') : 'default'), false);
+}
+
+function startAutoDarkModeWatcher() {
+  applyAutoDarkModeNow();
+  if (_autoDarkModeIntervalId) clearInterval(_autoDarkModeIntervalId);
+  _autoDarkModeIntervalId = setInterval(applyAutoDarkModeNow, 60 * 1000);
+}
+
+function stopAutoDarkModeWatcher() {
+  if (_autoDarkModeIntervalId) {
+    clearInterval(_autoDarkModeIntervalId);
+    _autoDarkModeIntervalId = null;
+  }
+}
+
+function toggleAutoDarkModeSetting() {
+  var cb = document.getElementById('autoDarkModeToggle');
+  var enabled = !!(cb && cb.checked);
+  localStorage.setItem('autoDarkModeEnabled', enabled ? 'true' : 'false');
+  if (enabled) {
+    startAutoDarkModeWatcher();
+  } else {
+    stopAutoDarkModeWatcher();
+  }
 }
 
 // Coordinated theme presets. "btn" feeds the existing button-color mechanism;
@@ -49671,7 +49822,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // من لم يختر ثيمًا بنفسه ولم يفعّل التنقل التلقائي بين الثيمات، نعرّفه بالثيمات الجديدة
   // (صور وفيديوهات) عبر عرض تعريفي قصير عند فتح الموقع، ثم نعود لثيمه الافتراضي.
-  if (isNewThemeVisitor && !savedThemeAutoRotate) {
+  if (localStorage.getItem('autoDarkModeEnabled') === 'true') {
+    startAutoDarkModeWatcher();
+  } else if (isNewThemeVisitor && !savedThemeAutoRotate) {
     runThemeShowcase(savedSiteTheme);
   } else {
     applySiteTheme(savedSiteTheme, false);
