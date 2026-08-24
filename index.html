@@ -8968,6 +8968,41 @@ body.dark-mode #sp-auto-btn.active { background: var(--theme-g2); color: #fff; }
     box-sizing: border-box;
     margin-bottom: 6px;
 }
+.sp-athkar-search-row-flex {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.sp-athkar-search-row-flex .sp-athkar-search { flex: 1; margin-bottom: 0; }
+.sp-athkar-mic-btn {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
+    background: rgba(255,255,255,0.9);
+    color: var(--theme-g2);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: .75;
+    padding: 0;
+}
+.sp-athkar-mic-btn:hover { opacity: 1; }
+body.dark-mode .sp-athkar-mic-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
+.sp-athkar-mic-btn.mic-listening {
+    animation: spAthkarMicPulse 1s ease-in-out infinite;
+    opacity: 1 !important;
+    color: #e53935;
+    border-color: #e53935;
+}
+@keyframes spAthkarMicPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
 .sp-athkar-search {
     font-family: 'Cairo', Arial, sans-serif;
     font-size: 12px;
@@ -9982,10 +10017,67 @@ function confirmReload() {
     mainAudio.pause();
   }
 
-  if (confirm("هل تريد إعادة تحميل الصفحة؟")) {
-    location.reload(true);
-  }
+  var _isAr = (typeof isArabic === 'undefined') ? true : isArabic;
+  var _msg = _isAr
+    ? 'هل تريد تحديث ملفات التطبيق لآخر إصدار؟ سيتم إعادة تحميل الصفحة (الأذان والصوتيات المحفوظة أوفلاين لن تتأثر).'
+    : 'Update the app files to the latest version? The page will reload (offline-saved adhan and audio files will not be affected).';
+
+  if (!confirm(_msg)) return;
+
+  _forceUpdateAppFiles();
 }
+
+// ============================================================
+// تحديث إجباري لملفات التطبيق: يمسح الـ Service Worker القديم
+// ويسجّل نسخة جديدة، ويمسح كاش الملفات الثابتة بس (HTML/CSS/JS) —
+// من غير ما يمس كاش الصوتيات المحفوظة أوفلاين (CACHE_AUDIO/CACHE_ALARM)
+// ============================================================
+function _forceUpdateAppFiles() {
+  var reloadBtn = document.getElementById('reloadButton');
+  if (reloadBtn) {
+    reloadBtn.style.pointerEvents = 'none';
+    reloadBtn.style.opacity = '0.5';
+    reloadBtn.textContent = '⏳';
+  }
+
+  var _reloaded = false;
+  function _doReload() {
+    if (_reloaded) return;
+    _reloaded = true;
+    // إعادة تحميل من الشبكة مباشرة، متجاهلة أي نسخة HTTP-cache قديمة من الصفحة
+    location.reload();
+  }
+  // شبكة الأمان: لو أي خطوة اتعلقت أو فشلت، متسبناش المستخدم واقف على الزرار معطّل
+  var _safetyTimer = setTimeout(_doReload, 6000);
+
+  var _unregisterStep = ('serviceWorker' in navigator)
+    ? navigator.serviceWorker.getRegistrations()
+        .then(function(regs) {
+          return Promise.all(regs.map(function(r) { return r.unregister().catch(function(){}); }));
+        })
+        .catch(function(e) { console.warn('[force update] unregister failed:', e); })
+    : Promise.resolve();
+
+  _unregisterStep
+    .then(function() {
+      if (!('caches' in window)) return;
+      return caches.keys().then(function(keys) {
+        // نمسح كاش الملفات الثابتة بس (اللي بادئ بـ quran-radio-static) —
+        // كاش الصوتيات (quran-radio-audio) وكاش الأذان (quran-radio-alarm) بنسيبهم زي ما هم
+        var staticKeys = keys.filter(function(k) { return k.indexOf('quran-radio-static') === 0; });
+        return Promise.all(staticKeys.map(function(k) { return caches.delete(k).catch(function(){}); }));
+      }).catch(function(e) { console.warn('[force update] cache clear failed:', e); });
+    })
+    .then(function() {
+      clearTimeout(_safetyTimer);
+      _doReload();
+    })
+    .catch(function() {
+      clearTimeout(_safetyTimer);
+      _doReload();
+    });
+}
+
 
 // ============================================================
 // تهيئة الشاشة الترحيبية
@@ -31060,10 +31152,13 @@ const moreTranslations = [{
 <div id="salah-pip-section">
 
     
-    <div class="sp-athkar-search-row">
+    <div class="sp-athkar-search-row sp-athkar-search-row-flex">
         <input type="text" id="sp-athkar-search" class="sp-athkar-search"
                data-ar-placeholder="🔍 بحث عن ذكر أو دعاء..." data-en-placeholder="🔍 Search dhikr or dua..."
                placeholder="🔍 بحث عن ذكر أو دعاء...">
+        <button type="button" id="sp-athkar-mic-btn" class="sp-athkar-mic-btn" onclick="window.startSpAthkarVoiceSearch()"
+                data-ar-title="بحث صوتي عن ذكر أو دعاء" data-en-title="Voice search for dhikr or dua"
+                aria-label="بحث صوتي" title="بحث صوتي" style="display:none;">🎤</button>
     </div>
 
     <div class="sp-athkar-row" style="position:relative;">
@@ -39099,6 +39194,111 @@ function startVoiceSearch() {
   }
 }
 
+// ===== البحث الصوتي في خانة البحث عن ذكر/دعاء (تسبيح - PiP) =====
+(function initSpAthkarVoiceSearch() {
+  var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var micBtn = document.getElementById('sp-athkar-mic-btn');
+  if (micBtn) micBtn.style.display = SpeechRecognitionCtor ? 'inline-flex' : 'none';
+})();
+
+var _spAthkarVoiceRecognition = null;
+var _spAthkarVoiceActive = false;
+
+window.startSpAthkarVoiceSearch = function() {
+  var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var micBtn = document.getElementById('sp-athkar-mic-btn');
+  var input = document.getElementById('sp-athkar-search');
+  var _isAr = (typeof isArabic === 'undefined') ? true : isArabic;
+
+  if (!SpeechRecognitionCtor || !input) {
+    if (typeof showToast === 'function') {
+      showToast(_isAr ? 'المتصفح لا يدعم البحث الصوتي' : 'This browser does not support voice search');
+    }
+    return;
+  }
+
+  // المتصفحات بترفض الوصول للميكروفون على أي origin غير آمن (http أو file://)
+  if (window.isSecureContext === false) {
+    if (typeof showToast === 'function') {
+      showToast(_isAr ? 'البحث الصوتي يحتاج فتح الموقع عبر HTTPS' : 'Voice search requires an HTTPS connection');
+    }
+    console.warn('[sp athkar voice search] insecure context — mic access blocked by the browser.');
+    return;
+  }
+
+  if (_spAthkarVoiceActive && _spAthkarVoiceRecognition) {
+    _spAthkarVoiceRecognition.stop();
+    return;
+  }
+
+  var recognition = new SpeechRecognitionCtor();
+  _spAthkarVoiceRecognition = recognition;
+  recognition.lang = _isAr ? 'ar-SA' : 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  _spAthkarVoiceActive = true;
+  if (micBtn) {
+    micBtn.classList.add('mic-listening');
+    micBtn.textContent = '🔴';
+    micBtn.title = _isAr ? 'جارِ الاستماع... قول اسم ذكر أو دعاء' : 'Listening... say a dhikr or dua name';
+  }
+
+  recognition.onresult = function(event) {
+    var transcript = event.results && event.results[0] && event.results[0][0]
+      ? event.results[0][0].transcript : '';
+    if (!transcript) return;
+    input.value = transcript;
+    input.dispatchEvent(new Event('input'));
+  };
+
+  recognition.onerror = function(event) {
+    console.warn('[sp athkar voice search] error:', event && event.error);
+    var msg;
+    switch (event && event.error) {
+      case 'not-allowed':
+      case 'service-not-allowed':
+        msg = _isAr ? 'تم رفض إذن الميكروفون — فعّله من إعدادات المتصفح' : 'Microphone permission denied — enable it in browser settings';
+        break;
+      case 'no-speech':
+        msg = _isAr ? 'لم يتم سماع أي صوت، حاول مرة أخرى' : 'No speech detected, try again';
+        break;
+      case 'audio-capture':
+        msg = _isAr ? 'لا يوجد ميكروفون متاح على هذا الجهاز' : 'No microphone was found on this device';
+        break;
+      case 'network':
+        msg = _isAr ? 'مشكلة في الاتصال بخدمة التعرف الصوتي' : 'Network error reaching the speech service';
+        break;
+      default:
+        msg = _isAr ? 'تعذّر تشغيل البحث الصوتي' : 'Voice search could not start';
+    }
+    if (typeof showToast === 'function') showToast(msg);
+  };
+
+  recognition.onend = function() {
+    _spAthkarVoiceActive = false;
+    if (micBtn) {
+      micBtn.classList.remove('mic-listening');
+      micBtn.textContent = '🎤';
+      micBtn.title = _isAr ? 'بحث صوتي عن ذكر أو دعاء' : 'Voice search for dhikr or dua';
+    }
+  };
+
+  try {
+    recognition.start();
+  } catch (e) {
+    console.warn('[sp athkar voice search] start() threw:', e);
+    _spAthkarVoiceActive = false;
+    if (micBtn) {
+      micBtn.classList.remove('mic-listening');
+      micBtn.textContent = '🎤';
+    }
+    if (typeof showToast === 'function') {
+      showToast(_isAr ? 'تعذّر تشغيل البحث الصوتي' : 'Voice search could not start');
+    }
+  }
+};
+
 document.getElementById('randomButton').addEventListener('click', function() {
 
   const _now = new Date();
@@ -39644,6 +39844,11 @@ function toggleLanguage() {
   if (spPlayBtnLang) {
     var ptLang = isArabic ? spPlayBtnLang.getAttribute('data-ar-title') : spPlayBtnLang.getAttribute('data-en-title');
     if (ptLang) spPlayBtnLang.title = ptLang;
+  }
+  var spMicBtnLang = document.getElementById('sp-athkar-mic-btn');
+  if (spMicBtnLang && !spMicBtnLang.classList.contains('mic-listening')) {
+    var micLang = isArabic ? spMicBtnLang.getAttribute('data-ar-title') : spMicBtnLang.getAttribute('data-en-title');
+    if (micLang) { spMicBtnLang.title = micLang; spMicBtnLang.setAttribute('aria-label', micLang); }
   }
 
   var settingsLabel = document.getElementById('settings-toggle-label');
@@ -53185,9 +53390,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/Radio/service-worker.js')
+    // updateViaCache:'none' يضمن إن المتصفح دايمًا يجيب service-worker.js نفسه
+    // من الشبكة (مش من HTTP cache) في كل تسجيل/تحديث عادي
+    navigator.serviceWorker.register('/Radio/service-worker.js', { updateViaCache: 'none' })
       .then(function(reg) {
         console.log('SW registered');
+        window._radioSwRegistration = reg;
       })
       .catch(function(err) {
         console.log('SW failed:', err);
