@@ -62,7 +62,9 @@
 
 <link rel="preload" href="favicon.png" as="image">
   <link rel="icon" type="image/png" href="favicon.png">
-<style id="site-theme-vars">
+<style id="all-styles">
+
+/* ===================== قسم 1 — متغيرات الثيم (Theme Variables) (part1-theme-vars.css) ===================== */
 /* ===== Site theme system =====
    These variables drive every accent color across the site (borders, buttons,
    hovers, glows, badges...). "default" now uses one coherent blue palette,
@@ -2079,8 +2081,8 @@ body.theme-lagoon-breeze, body.theme-cherry-blossom, body.theme-desert-mirage,
 body.theme-cosmic-nebula, body.theme-twilight-mint {
   background-color: var(--theme-bg) !important;
 }
-</style>
-<style id="critical-css">
+
+/* ===================== قسم 2 — CSS الحرج (Critical CSS) (part2-critical.css) ===================== */
 #welcomeScreen{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#fff}
 body.dark-mode #welcomeScreen{background:#1a1a2e}
 #welcomeContent{text-align:center;padding:20px;max-width:420px;width:90%}
@@ -2133,17 +2135,8 @@ button[data-basit-type="muratal"] .flag,
 button[data-basit-type="saudi-muratal"] .flag {
     display: none !important;
 }
-</style>
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1e90ff">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="قرآن إذاعة">
-</head>
-
-<style>
+/* ===================== قسم 3 — الاستايل الرئيسي (Main Styles) (part3-main.css) ===================== */
 #customLogo {
     text-align: center;
     margin-top: -20px;
@@ -4490,15 +4483,6 @@ body.dark-mode .welcome-lang-menu .welcome-lang-option:hover {
 #reloadButton[style*="display: block"],
 #reloadButton[style*="display:block"] {
     display: flex !important;
-}
-
-#welcome-bottom-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    width: 100%;
 }
 
 #welcome-bottom-row #welcomeDarkModeBtn {
@@ -7399,11 +7383,8 @@ body.dark-mode .footer-share .star.checked,
 body.dark-mode .footer-share .star.hover  { color: #f6c90e; }
 
 body.dark-mode .copy {
-    background: rgba(255,255,255,0.08);
-    color: #c8dae8;
     border-color: rgba(255,255,255,0.15);
 }
-body.dark-mode .copy:hover { background: rgba(255,255,255,0.14); }
 
 body.dark-mode .footer-social-btn:hover {
     box-shadow: 0 6px 16px rgba(0,0,0,0.5);
@@ -7615,7 +7596,6 @@ body.dark-mode .subfilter-scroll-wrap::after {
 .subfilter-scroll-strip::-webkit-scrollbar { display: none; }
 
 body.dark-mode .subfilter-scroll-strip {
-    background: rgba(100,181,246,0.07);
     border-color: rgba(100,181,246,0.28);
 }
 
@@ -7650,17 +7630,7 @@ body.dark-mode .subfilter-scroll-strip {
     box-shadow: 0 3px 10px rgba(var(--theme-c1-rgb),0.38);
     transform: translateY(-1px);
 }
-body.dark-mode .subfilter-scroll-strip button {
-    background: #1a2a3a;
-    color: #64b5f6;
-    border-color: #64b5f6;
-}
-body.dark-mode .subfilter-scroll-strip button:hover {
-    background: #1e3a55;
-}
 body.dark-mode .subfilter-scroll-strip button.active {
-    background: linear-gradient(135deg, var(--theme-c1) 0%, var(--theme-c2) 100%);
-    color: #fff;
     border-color: transparent;
 }
 
@@ -8220,7 +8190,6 @@ body:not(.dark-mode) #status {
 }
 
 body.dark-mode #siteWelcomeText { color: #a0b4c8; }
-body.dark-mode .customHeading    { color: #cdd9e5; }
 
 body.dark-mode #arabicVerse  { color: #c8d8e8 !important; text-shadow: none !important; }
 body.dark-mode #englishVerse { color: #8aa0b4 !important; }
@@ -8259,13 +8228,6 @@ body.dark-mode .isolated-play-button  { background: #1e2d3e; color: #90caf9; bor
 body.dark-mode .isolated-play-button:hover  { background: #253d55; }
 body.dark-mode .isolated-play-button:active { background: #1a2a3a; }
 
-body.dark-mode .custom-tooltip {
-    background: linear-gradient(135deg, #1a2535 0%, #1e2d3e 100%);
-    color: #c8d8e8;
-    border-color: rgba(100,181,246,0.2);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-}
-body.dark-mode .custom-tooltip::after { border-top-color: #1a2535; }
 
 body.dark-mode .star         { color: #4a5568; }
 body.dark-mode .star.checked,
@@ -8682,7 +8644,1086 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
   body:not(.dark-mode) #ai-clear-btn { color: rgba(var(--theme-g2-rgb),0.45); }
   #ai-clear-btn:hover { color: #e57373; }
 
+
+/* ===================== قسم 4 (part4.css) ===================== */
+.pl-check-wrap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.pl-check-wrap:has(> button[style*="display: none"]),
+.pl-check-wrap:has(> button.hidden) {
+  display: none !important;
+}
+
+.pl-check-wrap .pl-cb {
+  float: right;
+  margin-right: 2px;
+  margin-top: 2px;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  accent-color: var(--theme-c1);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+  vertical-align: middle;
+}
+
+.pl-check-wrap .pl-cb-tooltip {
+  display: none;
+  position: absolute;
+  top: -36px;
+  right: 0;
+  background: rgba(0,0,0,0.82);
+  color: #fff;
+  font-size: 11px;
+  font-family: 'Cairo', Arial, sans-serif;
+  white-space: nowrap;
+  padding: 4px 9px;
+  border-radius: 7px;
+  z-index: 9999;
+  pointer-events: none;
+  line-height: 1.4;
+}
+.pl-check-wrap .pl-cb-wrapper:hover .pl-cb-tooltip {
+  display: block;
+}
+
+.pl-check-wrap .pl-cb-wrapper {
+  float: right;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 2px;
+}
+
+.pl-check-wrap.pl-selected .button {
+  outline: 2.5px solid var(--theme-c1);
+  background: linear-gradient(135deg, rgba(var(--theme-c1-rgb),0.13), rgba(var(--theme-c1-rgb),0.04)) !important;
+}
+
+/* ===================== قسم 5 — AQX (part5-aqx.css) ===================== */
+    #audio-quality-settings.aqx-panel{
+      --aqx-green:var(--theme-g1); --aqx-green-light:#34c294; --aqx-gold:#FFB74D;
+      --aqx-navy:var(--theme-c4); --aqx-blue:var(--theme-c3); --aqx-bass:#e57373; --aqx-mid:#ffb74d; --aqx-treble:#4CC9F0;
+      margin:8px auto 4px; width:97%; max-width:860px; box-sizing:border-box;
+      position:relative; overflow:hidden;
+      padding:12px 18px 14px; border-radius:18px;
+      display:flex; flex-direction:column; gap:8px;
+      font-family:'Cairo',Arial,sans-serif; color:var(--aqx-navy);
+      background:linear-gradient(155deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72)),linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.14),rgba(var(--theme-c2-rgb),0.12));
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      border:1.5px solid rgba(var(--theme-c1-rgb),0.18);
+      box-shadow:0 8px 28px rgba(var(--theme-c4-rgb),0.10), inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    #audio-quality-settings.aqx-panel::after{
+      content:"";position:absolute;top:-40%;left:-10%;width:60%;height:180%;
+      background:radial-gradient(circle,rgba(255,183,77,0.20),transparent 70%);pointer-events:none;
+    }
+    #audio-quality-settings .aqx-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
+    #audio-quality-settings .aqx-title-group{display:flex;align-items:center;gap:10px;}
+    #audio-quality-settings .aqx-mini-viz{display:flex;align-items:flex-end;gap:2px;height:18px;padding:2px 4px;border-radius:6px;background:rgba(var(--theme-g1-rgb),0.08);}
+    #audio-quality-settings .aqx-mini-viz span{width:3px;border-radius:2px;height:40%;transition:height .25s ease;}
+    #aqxVizBass{background:var(--aqx-bass);} #aqxVizMid{background:var(--aqx-mid);} #aqxVizTreble{background:var(--aqx-treble);}
+    #audioQualityResetBtn{padding:5px 14px;border-radius:10px;border:1px solid rgba(14,42,61,0.12);cursor:pointer;font-size:12px;font-weight:700;font-family:'Cairo',Arial,sans-serif;background:rgba(255,255,255,0.7);color:var(--aqx-navy);white-space:nowrap;transition:transform .15s ease,background .15s ease,box-shadow .15s ease;}
+    #audioQualityResetBtn:hover{background:#fff;box-shadow:0 3px 10px rgba(14,42,61,0.12);}
+    #audioQualityResetBtn:active{transform:scale(0.94) rotate(-8deg);}
+    #audio-quality-settings .aqx-boost-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative;z-index:1;}
+    #audio-quality-settings .aqx-boost-row label{font-size:13px;font-weight:700;color:var(--aqx-blue);white-space:nowrap;min-width:110px;}
+    #audioBoostSlider{-webkit-appearance:none;appearance:none;flex:1;min-width:120px;height:8px;border-radius:6px;cursor:pointer;background:linear-gradient(to right,var(--aqx-green) 0%,rgba(var(--theme-g1-rgb),0.15) 0%);outline:none;}
+    #audioBoostSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-green);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;transition:transform .12s ease;margin-top:-6px;}
+    #audioBoostSlider::-webkit-slider-thumb:hover{transform:scale(1.15);}
+    #audioBoostSlider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-green);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;}
+    #audioBoostSlider::-moz-range-track{height:8px;border-radius:6px;background:rgba(var(--theme-g1-rgb),0.15);}
+    #audioBoostValueLabel{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;min-width:48px;text-align:center;color:#fff;background:var(--aqx-green);border-radius:8px;padding:3px 8px;transition:background .2s ease;}
+    #playbackSpeedSlider{-webkit-appearance:none;appearance:none;flex:1;min-width:120px;height:8px;border-radius:6px;cursor:pointer;background:linear-gradient(to right,var(--aqx-blue) 0%,rgba(14,42,61,0.12) 0%);outline:none;}
+    #playbackSpeedSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-blue);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;transition:transform .12s ease;margin-top:-6px;}
+    #playbackSpeedSlider::-webkit-slider-thumb:hover{transform:scale(1.15);}
+    #playbackSpeedSlider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-blue);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;}
+    #playbackSpeedSlider::-moz-range-track{height:8px;border-radius:6px;background:rgba(14,42,61,0.12);}
+    #playbackSpeedValueLabel{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;min-width:48px;text-align:center;color:#fff;background:var(--aqx-blue);border-radius:8px;padding:3px 8px;transition:background .2s ease;}
+    #equalizer-row.aqx-eq-row{padding-top:14px;margin-top:6px;position:relative;z-index:1;border-top:1px dashed rgba(14,42,61,0.12);display:flex;justify-content:center;width:100%;}
+    #audio-quality-settings .aqx-eq-inner{display:flex;align-items:flex-end;justify-content:center;gap:34px;flex-wrap:wrap;max-width:620px;width:100%;}
+    #audio-quality-settings .aqx-faders-group{display:flex;align-items:flex-end;gap:20px;}
+    #audio-quality-settings .aqx-divider{align-self:stretch;width:1px;margin:0 4px;background:linear-gradient(to bottom,transparent,rgba(14,42,61,0.15),transparent);}
+    #audio-quality-settings .aqx-fader-col{display:flex;flex-direction:column;align-items:center;gap:4px;}
+    #audio-quality-settings .aqx-fader-col span{font-size:11px;font-weight:800;color:var(--aqx-navy);font-variant-numeric:tabular-nums;background:rgba(14,42,61,0.06);border-radius:6px;padding:1px 6px;min-width:34px;text-align:center;}
+    #audio-quality-settings .aqx-fader-track{position:relative;width:28px;height:78px;border-radius:8px;background:rgba(14,42,61,0.06);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    #audio-quality-settings .aqx-fader-center{position:absolute;left:4px;right:4px;top:50%;height:1px;background:rgba(14,42,61,0.18);transform:translateY(-50%);pointer-events:none;}
+    #audio-quality-settings .aqx-fader-fill{position:absolute;left:50%;bottom:50%;width:6px;height:0;border-radius:4px;transform:translateX(-50%);transition:height .15s ease;pointer-events:none;}
+    #aqxFillBass{background:var(--aqx-bass);} #aqxFillMid{background:var(--aqx-mid);} #aqxFillTreble{background:var(--aqx-treble);}
+    #audio-quality-settings .aqx-fader-track input[type=range]{-webkit-appearance:none;appearance:none;position:relative;z-index:2;background:transparent;margin:0;cursor:pointer;}
+    #audio-quality-settings .aqx-fader-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:10px;border-radius:4px;background:#fff;border:2px solid var(--aqx-navy);box-shadow:0 1px 4px rgba(0,0,0,0.25);cursor:pointer;}
+    #audio-quality-settings .aqx-fader-track input[type=range]::-moz-range-thumb{width:24px;height:10px;border-radius:4px;background:#fff;border:2px solid var(--aqx-navy);cursor:pointer;}
+    #audio-quality-settings .aqx-fader-track input[type=range]::-moz-range-track{background:transparent;}
+    #audio-quality-settings .aqx-fader-col label{font-size:11px;font-weight:700;color:var(--aqx-blue);}
+    #audio-quality-settings .aqx-preset-group{display:flex;flex-direction:column;gap:6px;}
+    #audio-quality-settings .aqx-preset-group>span{font-size:11px;font-weight:700;color:var(--aqx-blue);}
+    #aqxPresetChips{display:flex;flex-wrap:wrap;gap:6px;max-width:320px;}
+    #audio-quality-settings .aqx-chip{font-family:'Cairo',Arial,sans-serif;font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:999px;border:1.5px solid rgba(var(--theme-g1-rgb),0.3);background:#fff;color:var(--aqx-navy);cursor:pointer;white-space:nowrap;transition:all .15s ease;}
+    #audio-quality-settings .aqx-chip:hover{border-color:var(--aqx-green);transform:translateY(-1px);}
+    #audio-quality-settings .aqx-chip.active{background:linear-gradient(135deg,var(--theme-c1),var(--theme-c2));color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(var(--theme-c1-rgb),0.35);}
+    #audio-quality-settings .aqx-note{display:block;font-size:10px;opacity:.65;margin-top:8px;position:relative;z-index:1;}
+    #audio-quality-settings .aqx-header{cursor:pointer;user-select:none;}
+    #audio-quality-settings .aqx-toggle-icon{font-size:14px;color:var(--aqx-blue);transition:transform .3s ease;flex-shrink:0;}
+    #audio-quality-settings .aqx-toggle-icon.open{transform:rotate(180deg);}
+    #audio-quality-settings .aqx-body{display:none;flex-direction:column;gap:8px;}
+    #audio-quality-settings .aqx-body.open{display:flex;}
+    @media (min-width:700px){ #audio-quality-settings .aqx-eq-inner{gap:46px;} }
+    @media (max-width:560px){
+      #equalizer-row.aqx-eq-row{padding-top:12px;}
+      #audio-quality-settings .aqx-eq-inner{flex-direction:column;align-items:center;gap:14px;}
+      #audio-quality-settings .aqx-faders-group{justify-content:center;}
+      #audio-quality-settings .aqx-divider{width:60%;height:1px;align-self:center;background:linear-gradient(to right,transparent,rgba(14,42,61,0.15),transparent);}
+      #audio-quality-settings .aqx-preset-group{width:100%;align-items:center;}
+      #aqxPresetChips{max-width:none;justify-content:center;}
+    }
+
+/* ===================== قسم 6 (part6.css) ===================== */
+.newtab-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  color: #1B6CA8;
+  background: rgba(27,108,168,0.12);
+  border: 1px solid rgba(27,108,168,0.35);
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  line-height: 1;
+  margin-inline-start: 5px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+body.dark-mode .newtab-marker {
+  color: #90caf9;
+  background: rgba(100,181,246,0.14);
+  border-color: rgba(100,181,246,0.4);
+}
+
+/* ===================== قسم 7 (part7.css) ===================== */
+#salah-pip-section {
+    direction: rtl;
+    font-family: 'Cairo', Arial, sans-serif;
+    text-align: center;
+    margin: 14px auto 10px auto;
+    max-width: 340px;
+    width: 95%;
+    background: rgba(255,255,255,0.72);
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.25);
+    border-radius: 18px;
+    padding: 14px 12px 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    backdrop-filter: blur(6px);
+    box-sizing: border-box;
+}
+body.dark-mode #salah-pip-section {
+    background: rgba(30,40,35,0.82);
+    border-color: rgba(var(--theme-g1-rgb),0.35);
+}
+#salah-pip-section .sp-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--theme-g2);
+    margin: 0 0 10px;
+    line-height: 1.5;
+}
+body.dark-mode #salah-pip-section .sp-title { color: #5DCAA5; }
+#salah-pip-btn {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 3px solid var(--theme-g1);
+    background: #E1F5EE;
+    cursor: pointer;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    margin: 0 auto 10px;
+    transition: transform 0.1s, background 0.15s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    color: var(--theme-g2);
+}
+#salah-pip-btn:active { transform: scale(0.92); background: #9FE1CB; }
+#salah-pip-btn.sp-done { border-color: var(--theme-g1); background: #C2EBD9; color: var(--theme-g2); }
+body.dark-mode #salah-pip-btn { background: #0F3D2E; border-color: var(--theme-g1); color: #5DCAA5; }
+body.dark-mode #salah-pip-btn.sp-done { background: #0a4a30; border-color: var(--theme-g1); color: #5DCAA5; }
+#salah-pip-num { font-size: 46px; font-weight: 700; line-height: 1; }
+#salah-pip-hint { font-size: 11px; margin-top: 3px; opacity: 0.75; }
+#salah-pip-info { font-size: 12px; color: #555; margin-bottom: 8px; }
+
+/* تكبير salah-pip-section على التابليت والكمبيوتر */
+@media (min-width: 768px) {
+    #salah-pip-section {
+        max-width: 560px;
+        width: 90%;
+        padding: 24px 28px 20px;
+        border-radius: 24px;
+    }
+    #salah-pip-section .sp-title {
+        font-size: 19px;
+        margin: 0 0 16px;
+    }
+    #salah-pip-btn {
+        width: 220px;
+        height: 220px;
+        border-width: 4px;
+        margin: 0 auto 16px;
+    }
+    #salah-pip-num { font-size: 64px; }
+    #salah-pip-hint { font-size: 14px; margin-top: 6px; }
+    #salah-pip-info { font-size: 15px; margin-bottom: 12px; }
+}
+@media (min-width: 992px) {
+    #salah-pip-section {
+        max-width: 680px;
+        width: 80%;
+        padding: 30px 36px 26px;
+    }
+    #salah-pip-section .sp-title {
+        font-size: 22px;
+        margin: 0 0 20px;
+    }
+    #salah-pip-btn {
+        width: 260px;
+        height: 260px;
+    }
+    #salah-pip-num { font-size: 76px; }
+    #salah-pip-hint { font-size: 16px; }
+    #salah-pip-info { font-size: 17px; margin-bottom: 16px; }
+}
+body.dark-mode #salah-pip-info { color: #aaa; }
+.sp-row { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; margin-bottom: 7px; }
+.sp-main-controls { margin-bottom: 10px; }
+.sp-divider {
+    width: 80%;
+    margin: 10px auto;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(var(--theme-g1-rgb),0.2), transparent);
+}
+.sp-btn {
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
+    background: rgba(255,255,255,0.9);
+    color: var(--theme-g2);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+@media (min-width: 768px) {
+    .sp-row { gap: 10px; margin-bottom: 10px; }
+    .sp-btn { font-size: 14px; padding: 7px 18px; border-radius: 22px; }
+    .sp-target-row label { font-size: 14px; }
+    .sp-target-row select { font-size: 14px; padding: 5px 10px; }
+    #sp-pip-note { font-size: 13px; }
+}
+@media (min-width: 992px) {
+    .sp-row { gap: 12px; margin-bottom: 12px; }
+    .sp-btn { font-size: 15px; padding: 8px 22px; }
+    .sp-target-row label { font-size: 15px; }
+    .sp-target-row select { font-size: 15px; }
+    #sp-pip-note { font-size: 14px; }
+}
+.sp-btn:hover { background: #E1F5EE; }
+body.dark-mode .sp-btn { background: rgba(var(--theme-g1-rgb),0.12); color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.4); }
+#sp-pip-toggle {
+    background: #E1F5EE;
+    color: var(--theme-g2);
+    border-color: rgba(var(--theme-g1-rgb),0.35);
+}
+#sp-pip-toggle:hover { background: #C2EBD9; }
+#sp-pip-toggle.active { background: var(--theme-g1); color: #fff; border-color: var(--theme-g1); }
+body.dark-mode #sp-pip-toggle { background: rgba(var(--theme-g1-rgb),0.18); color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.4); }
+body.dark-mode #sp-pip-toggle.active { background: var(--theme-g2); color: #fff; border-color: var(--theme-g1); }
+.sp-target-row { display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 8px; }
+.sp-target-row label { font-size: 12px; color: #555; }
+body.dark-mode .sp-target-row label { color: #aaa; }
+.sp-target-row select {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px; padding: 3px 7px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.3);
+    background: rgba(255,255,255,0.9);
+    color: var(--theme-g2);
+    cursor: pointer;
+}
+body.dark-mode .sp-target-row select { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
+#sp-pip-note { font-size: 11px; color: #888; margin-top: 4px; min-height: 16px; }
+body.dark-mode #sp-pip-note { color: #6b8f7d; }
+#sp-auto-btn { background: #F0FBF7; color: var(--theme-g2); border-color: rgba(var(--theme-g1-rgb),0.35); }
+#sp-auto-btn:hover { background: #D4F4EA; }
+#sp-auto-btn.active { background: var(--theme-g1); color: #fff; border-color: var(--theme-g1); animation: sp-auto-pulse 2s infinite; }
+body.dark-mode #sp-auto-btn { background: rgba(var(--theme-g1-rgb),0.12); color: #5DCAA5; }
+body.dark-mode #sp-auto-btn.active { background: var(--theme-g2); color: #fff; }
+@keyframes sp-auto-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(var(--theme-g1-rgb),0.4); } 50%{ box-shadow:0 0 0 6px rgba(var(--theme-g1-rgb),0); } }
+
+.sp-athkar-search-row {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 6px;
+}
+.sp-athkar-search {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 10px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
+    background: rgba(255,255,255,0.9);
+    color: var(--theme-g2);
+    outline: none;
+}
+.sp-athkar-search::placeholder { color: var(--theme-g2); opacity: 0.6; }
+body.dark-mode .sp-athkar-search { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
+body.dark-mode .sp-athkar-search::placeholder { color: #5DCAA5; opacity: 0.6; }
+.sp-athkar-row {
+    display: flex; gap: 6px; align-items: center; justify-content: center;
+    margin-bottom: 6px; flex-wrap: wrap;
+    width: 100%; box-sizing: border-box; overflow: hidden;
+}
+.sp-athkar-row .sp-athkar-label,
+.sp-athkar-row .sp-athkar-play-btn,
+.sp-athkar-row .sp-athkar-nav-btn { flex-shrink: 0; }
+.sp-athkar-label { font-size: 12px; color: #555; white-space: nowrap; }
+body.dark-mode .sp-athkar-label { color: #aaa; }
+.sp-athkar-play-btn {
+    font-size: 16px;
+    line-height: 1;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
+    background: rgba(255,255,255,0.9);
+    color: var(--theme-g2);
+    cursor: pointer;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.sp-athkar-play-btn:hover { background: #D4F4EA; }
+.sp-athkar-play-btn:active { transform: scale(0.92); }
+.sp-athkar-play-btn.sp-playing { background: var(--theme-g1); color: #fff; border-color: var(--theme-g1); }
+body.dark-mode .sp-athkar-play-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
+body.dark-mode .sp-athkar-play-btn.sp-playing { background: var(--theme-g2); color: #fff; }
+#sp-athkar-sel {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px; padding: 4px 8px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
+    background: rgba(255,255,255,0.9);
+    color: var(--theme-g2);
+    cursor: pointer;
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 100%;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
+    /* منع الـ dropdown من تمديد العنصر */
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%230F6E56'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 8px center;
+    padding-left: 24px;
+}
+body.dark-mode #sp-athkar-sel { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235DCAA5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: left 8px center; }
+.sp-athkar-nav-btn {
+    font-size: 20px;
+    line-height: 1;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
+    background: rgba(255,255,255,0.9);
+    color: var(--theme-g2);
+    cursor: pointer;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.sp-athkar-nav-btn:hover { background: #D4F4EA; }
+.sp-athkar-nav-btn:active { background: var(--theme-g1); color: #fff; transform: scale(0.92); }
+body.dark-mode .sp-athkar-nav-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
+body.dark-mode .sp-athkar-nav-btn:active { background: var(--theme-g2); color: #fff; }
+/* ---- Custom Dropdown ---- */
+.sp-custom-dd {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+.sp-custom-dd-btn {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
+    background: rgba(255,255,255,0.9);
+    color: var(--theme-g2);
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+.sp-custom-dd-btn:active { background: #D4F4EA; }
+body.dark-mode .sp-custom-dd-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
+#sp-custom-dd-label {
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.5;
+    flex: 1;
+    min-width: 0;
+    display: block;
+}
+.sp-custom-dd-arrow { flex-shrink: 0; font-size: 10px; opacity: 0.7; }
+.sp-custom-dd-list {
+    position: fixed;
+    z-index: 9999;
+    background: #fff;
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.4);
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+    padding: 6px;
+    box-sizing: border-box;
+    /* العرض والطول يُضبطان بالـ JS */
+    display: flex;
+    flex-direction: column;
+}
+body.dark-mode .sp-custom-dd-list { background: #0F2820; border-color: rgba(var(--theme-g1-rgb),0.5); }
+.sp-custom-dd-search {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px 9px;
+    border-radius: 8px;
+    border: 1px solid rgba(var(--theme-g1-rgb),0.3);
+    background: rgba(255,255,255,0.9);
+    color: var(--theme-g2);
+    outline: none;
+    margin-bottom: 4px;
+    direction: rtl;
+}
+body.dark-mode .sp-custom-dd-search { background: #0a2218; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.4); }
+.sp-custom-dd-items {
+    flex: 1;
+    min-height: 80px;
+    overflow-y: auto;
+    direction: rtl;
+}
+.sp-custom-dd-group-separator {
+    height: 0;
+    border: none;
+    border-top: 2px solid transparent;
+    margin: 6px 6px 0;
+    border-radius: 2px;
+    opacity: 0.5;
+}
+.sp-custom-dd-group-block {
+    border-radius: 8px;
+    margin: 4px 4px 0;
+    padding: 0 0 4px;
+    overflow: hidden;
+}
+.sp-custom-dd-group-block:first-child { margin-top: 2px; }
+.sp-custom-dd-group-label {
+    font-size: 10px;
+    color: var(--theme-g1);
+    padding: 5px 8px 4px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    border-radius: 6px 6px 0 0;
+}
+.sp-custom-dd-item[data-grp-color] {
+    border-inline-end: 3px solid transparent;
+    padding-inline-end: 6px;
+}
+.sp-surah-badge {
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--theme-g1);
+    background: rgba(var(--theme-g1-rgb),0.10);
+    border: 1px solid rgba(var(--theme-g1-rgb),0.25);
+    border-radius: 4px;
+    padding: 1px 5px;
+    white-space: nowrap;
+    direction: rtl;
+    font-family: 'Cairo', Arial, sans-serif;
+}
+body.dark-mode .sp-surah-badge {
+    color: #5DCAA5;
+    background: rgba(var(--theme-g1-rgb),0.15);
+    border-color: rgba(var(--theme-g1-rgb),0.3);
+}
+.sp-hadith-badge {
+    color: #8a6200 !important;
+    background: rgba(184,134,11,0.10) !important;
+    border-color: rgba(184,134,11,0.30) !important;
+}
+body.dark-mode .sp-hadith-badge {
+    color: #d4a843 !important;
+    background: rgba(184,134,11,0.15) !important;
+    border-color: rgba(184,134,11,0.35) !important;
+}
+.sp-custom-dd-item {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px;
+    padding: 7px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.5;
+    color: var(--theme-g2);
+    direction: rtl;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.sp-custom-dd-item:hover, .sp-custom-dd-item:active { background: #D4F4EA; }
+.sp-custom-dd-item.sp-dd-selected { background: #C2EBD9; font-weight: 700; }
+body.dark-mode .sp-custom-dd-item { color: #5DCAA5; }
+body.dark-mode .sp-custom-dd-item:hover, body.dark-mode .sp-custom-dd-item:active { background: #0a3d26; }
+body.dark-mode .sp-custom-dd-item.sp-dd-selected { background: #0a4a30; }
+#sp-athkar-display {
+    font-size: 14px; font-weight: 700;
+    color: var(--theme-g2);
+    margin: 0 0 8px;
+    line-height: 1.6;
+    padding: 6px 10px;
+    background: rgba(var(--theme-g1-rgb),0.07);
+    border-radius: 10px;
+    border: 1px solid rgba(var(--theme-g1-rgb),0.15);
+    min-height: 36px;
+    word-break: break-word;
+}
+body.dark-mode #sp-athkar-display {
+    color: #5DCAA5;
+    background: rgba(var(--theme-g1-rgb),0.1);
+    border-color: rgba(var(--theme-g1-rgb),0.25);
+}
+
+/* ===================== قسم 8 (part8.css) ===================== */
+/* ===== منبه الصلاة على النبى ===== */
+.sp-alarm-row {
+    display: flex; gap: 6px; align-items: center; justify-content: center;
+    margin-bottom: 7px; flex-wrap: wrap;
+}
+.sp-alarm-label { font-size: 12px; color: #555; white-space: nowrap; }
+body.dark-mode .sp-alarm-label { color: #aaa; }
+#sp-alarm-interval-sel {
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12px; padding: 3px 7px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(var(--theme-g1-rgb),0.3);
+    background: rgba(255,255,255,0.9);
+    color: var(--theme-g2);
+    cursor: pointer;
+}
+body.dark-mode #sp-alarm-interval-sel { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
+#sp-alarm-btn {
+    background: #E1F5EE;
+    color: var(--theme-g2);
+    border-color: rgba(var(--theme-g1-rgb),0.35);
+}
+#sp-alarm-btn:hover { background: #C2EBD9; }
+#sp-alarm-btn.active {
+    background: var(--theme-g1);
+    color: #fff;
+    border-color: var(--theme-g1);
+    animation: sp-alarm-pulse 2s infinite;
+}
+body.dark-mode #sp-alarm-btn { background: rgba(var(--theme-g1-rgb),0.12); color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.4); }
+body.dark-mode #sp-alarm-btn.active { background: var(--theme-g2); color: #fff; }
+@keyframes sp-alarm-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(var(--theme-g1-rgb),0.4); } 50%{ box-shadow:0 0 0 7px rgba(var(--theme-g1-rgb),0); } }
+#sp-alarm-status {
+    font-size: 11px;
+    color: #888;
+    margin: 0 0 5px;
+    min-height: 16px;
+    text-align: center;
+}
+body.dark-mode #sp-alarm-status { color: #6b8f7d; }
+#sp-alarm-today-bar {
+    font-size: 11px;
+    color: var(--theme-g2);
+    background: rgba(var(--theme-g1-rgb),0.08);
+    border-radius: 8px;
+    padding: 3px 10px;
+    margin: 0 0 6px;
+    text-align: center;
+    display: none;
+}
+body.dark-mode #sp-alarm-today-bar { color: #5DCAA5; background: rgba(var(--theme-g1-rgb),0.14); }
+
+/* ===== زجاجية قسم التسبيح/الأذكار (salah-pip-section) عند اختيار ثيم صورة/فيديو خلفية ===== */
+body.media-theme-glass #salah-pip-section {
+    background: rgba(255,255,255,0.16) !important;
+    border: 1.5px solid rgba(255,255,255,0.38) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+}
+body.media-theme-glass #salah-pip-btn {
+    background: rgba(255,255,255,0.16) !important;
+    border-color: rgba(255,255,255,0.5) !important;
+}
+body.media-theme-glass #salah-pip-btn.sp-done {
+    background: rgba(255,255,255,0.30) !important;
+}
+body.media-theme-glass .sp-athkar-search,
+body.media-theme-glass .sp-athkar-play-btn,
+body.media-theme-glass .sp-custom-dd-btn,
+body.media-theme-glass .sp-custom-dd-search,
+body.media-theme-glass .sp-target-row select,
+body.media-theme-glass #sp-athkar-sel,
+body.media-theme-glass .sp-btn,
+body.media-theme-glass #sp-alarm-interval-sel,
+body.media-theme-glass #sp-athkar-display {
+    background: rgba(255,255,255,0.16) !important;
+    border-color: rgba(255,255,255,0.38) !important;
+}
+body.media-theme-glass .sp-athkar-search::placeholder,
+body.media-theme-glass .sp-custom-dd-search::placeholder {
+    color: rgba(255,255,255,0.75) !important;
+}
+/* قائمة الأذكار المنسدلة تفضل خلفيتها شبه معتمة أكتر عشان سهولة قراءة عدد كبير من الأذكار داخلها */
+body.media-theme-glass .sp-custom-dd-list {
+    background: rgba(20,20,20,0.55) !important;
+    border-color: rgba(255,255,255,0.35) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+body.media-theme-glass .sp-custom-dd-item:hover,
+body.media-theme-glass .sp-custom-dd-item:active {
+    background: rgba(255,255,255,0.18) !important;
+}
+body.media-theme-glass .sp-custom-dd-item.sp-dd-selected {
+    background: rgba(255,255,255,0.28) !important;
+}
+/* إطار أسود مضيء حول كل النصوص البيضاء داخل قسم التسبيح الزجاجي لضمان وضوح القراءة */
+body.media-theme-glass #salah-pip-section .sp-title,
+body.media-theme-glass #salah-pip-num,
+body.media-theme-glass #salah-pip-hint,
+body.media-theme-glass #salah-pip-info,
+body.media-theme-glass .sp-athkar-label,
+body.media-theme-glass .sp-athkar-play-btn,
+body.media-theme-glass .sp-athkar-nav-btn,
+body.media-theme-glass .sp-custom-dd-btn,
+body.media-theme-glass #sp-custom-dd-label,
+body.media-theme-glass .sp-custom-dd-arrow,
+body.media-theme-glass .sp-custom-dd-item,
+body.media-theme-glass .sp-custom-dd-group-label,
+body.media-theme-glass #sp-athkar-display,
+body.media-theme-glass .sp-target-row label,
+body.media-theme-glass .sp-target-row select,
+body.media-theme-glass #sp-athkar-sel,
+body.media-theme-glass .sp-btn,
+body.media-theme-glass #salah-pip-btn,
+body.media-theme-glass .sp-alarm-label,
+body.media-theme-glass #sp-alarm-interval-sel,
+body.media-theme-glass #sp-alarm-status,
+body.media-theme-glass #sp-alarm-today-bar,
+body.media-theme-glass #sp-pip-note,
+body.media-theme-glass .sp-athkar-search,
+body.media-theme-glass .sp-custom-dd-search {
+    color: #ffffff !important;
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+         0 0 6px rgba(0,0,0,0.85) !important;
+}
+
+/* ===== زجاجية بلوكات تذكير الأذكار وتنبيهات فتح الموقع عند اختيار ثيم صورة/فيديو خلفية ===== */
+body.media-theme-glass #adhkar-notif-settings,
+body.media-theme-glass #startup-notif-settings {
+    background: rgba(255,255,255,0.16) !important;
+    border: 1.5px solid rgba(255,255,255,0.38) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+}
+body.media-theme-glass #adhkar-notif-settings span,
+body.media-theme-glass #adhkar-notif-settings label,
+body.media-theme-glass #startup-notif-settings span,
+body.media-theme-glass #startup-notif-settings label {
+    color: #ffffff !important;
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+         0 0 6px rgba(0,0,0,0.85) !important;
+}
+/* بلوكات "تذكير الأذكار" و"تنبيهات فتح الموقع" دايمًا جوه مودال الإعدادات (خلفية بيضاء ثابتة)،
+   فلازم يفضلوا بألوان الثيم الثابت مش الزجاجي الأبيض، حتى مع ثيمات الصور/الفيديو */
+body.media-theme-glass #settings-panel #adhkar-notif-settings,
+body.media-theme-glass #settings-panel #startup-notif-settings {
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07)) !important;
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+body.media-theme-glass #settings-panel #adhkar-notif-settings span,
+body.media-theme-glass #settings-panel #adhkar-notif-settings label,
+body.media-theme-glass #settings-panel #startup-notif-settings span,
+body.media-theme-glass #settings-panel #startup-notif-settings label {
+    color: var(--theme-c4) !important;
+    text-shadow: none !important;
+}
+body.media-theme-glass #settings-panel #adhkar-notif-settings label[style*="color:var(--theme-c3)"],
+body.media-theme-glass #settings-panel #startup-notif-settings span[style*="color:var(--theme-c3)"] {
+    color: var(--theme-c3) !important;
+}
+body.media-theme-glass #settings-panel #notif-status-text,
+body.media-theme-glass #settings-panel #startup-notif-status-text {
+    color: #888 !important;
+    text-shadow: none !important;
+}
+
+/* ===== زر فتح المصحف في الشريط السفلي ===== */
+#mushaf-toggle-wrap {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9000;
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  flex-direction: row;
+  align-items: stretch;
+  pointer-events: none;
+  gap: 2px;
+}
+
+#mushaf-toggle-wrap > * {
+  pointer-events: auto;
+}
+
+#mushafToggleBtn,
+#equranToggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 450px;
+  /* Mobile-friendly tap target: min 56px tall */
+  padding: 16px 28px;
+  min-height: 56px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #1B6CA8;
+  background: linear-gradient(135deg, rgba(232,244,253,0.98) 0%, rgba(255,255,255,0.98) 100%);
+  border: 2px solid rgba(27,108,168,0.35);
+  border-top: 2.5px solid rgba(27,108,168,0.45);
+  border-radius: 14px 14px 0 0;
+  cursor: pointer;
+  box-shadow: 0 -3px 14px rgba(27,108,168,0.18);
+  transition: background 0.25s, color 0.25s, border-color 0.25s, box-shadow 0.25s;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+#mushafToggleBtn:hover,
+#mushafToggleBtn:focus-visible {
+  background: linear-gradient(135deg, rgba(27,108,168,0.10) 0%, rgba(232,244,253,1) 100%);
+  border-color: #1B6CA8;
+  box-shadow: 0 -5px 20px rgba(27,108,168,0.22);
+}
+
+#mushafToggleBtn:active,
+#equranToggleBtn:active {
+  transform: scale(0.98);
+}
+
+#mushafToggleBtn.open {
+  background: linear-gradient(135deg, #1B6CA8 0%, var(--theme-c2) 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 -5px 20px rgba(27,108,168,0.35);
+}
+
+#mushafToggleBtn .mshf-icon,
+#equranToggleBtn .mshf-icon {
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+#mushafToggleBtn .mshf-label,
+#equranToggleBtn .mshf-label {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+#mushafToggleBtn .mshf-arrow,
+#equranToggleBtn .mshf-arrow {
+  font-size: 18px;
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+  display: inline-block;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+#mushafToggleBtn.open .mshf-arrow,
+#equranToggleBtn.open .mshf-arrow {
+  transform: rotate(180deg);
+}
+
+body.dark-mode #mushafToggleBtn {
+  background: linear-gradient(135deg, rgba(27,108,168,0.18) 0%, rgba(26,26,46,0.95) 100%);
+  color: #90caf9;
+  border-color: rgba(100,181,246,0.35);
+}
+body.dark-mode #mushafToggleBtn.open {
+  background: linear-gradient(135deg, var(--theme-c2) 0%, #0d47a1 100%);
+  color: #fff;
+}
+
+/* equran button - distinct teal/green scheme so the two options read as separate choices */
+#equranToggleBtn {
+  color: var(--theme-g2);
+  background: linear-gradient(135deg, rgba(225,245,238,0.98) 0%, rgba(255,255,255,0.98) 100%);
+  border: 2px solid rgba(var(--theme-g2-rgb),0.35);
+  border-top: 2.5px solid rgba(var(--theme-g2-rgb),0.45);
+  border-radius: 14px 14px 0 0;
+}
+#equranToggleBtn:hover,
+#equranToggleBtn:focus-visible {
+  background: linear-gradient(135deg, rgba(var(--theme-g2-rgb),0.10) 0%, rgba(225,245,238,1) 100%);
+  border-color: var(--theme-g2);
+  box-shadow: 0 -5px 20px rgba(var(--theme-g2-rgb),0.22);
+}
+#equranToggleBtn.open {
+  background: linear-gradient(135deg, var(--theme-g2) 0%, var(--theme-g1) 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 -5px 20px rgba(var(--theme-g2-rgb),0.35);
+}
+body.dark-mode #equranToggleBtn {
+  background: linear-gradient(135deg, rgba(var(--theme-g2-rgb),0.18) 0%, rgba(26,26,46,0.95) 100%);
+  color: #5DCAA5;
+  border-color: rgba(93,202,165,0.35);
+}
+body.dark-mode #equranToggleBtn.open {
+  background: linear-gradient(135deg, var(--theme-g2) 0%, #0a4a3a 100%);
+  color: #fff;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  #mushafToggleBtn,
+  #equranToggleBtn {
+    font-size: 13px;
+    padding: 12px 8px;
+    min-height: 54px;
+    border-radius: 10px 10px 0 0;
+    gap: 4px;
+  }
+  #mushafToggleBtn .mshf-icon,
+  #equranToggleBtn .mshf-icon { font-size: 18px; }
+  #mushafToggleBtn .mshf-label,
+  #equranToggleBtn .mshf-label { font-size: 12.5px; }
+}
+
+/* ===== نافذة المصحف كاملة الشاشة ===== */
+#mushafFullscreenOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #fff;
+  flex-direction: column;
+  animation: mushafFadeIn 0.3s ease;
+}
+
+#mushafFullscreenOverlay.active {
+  display: flex;
+}
+
+body.dark-mode #mushafFullscreenOverlay {
+  background: #0f1928;
+}
+
+@keyframes mushafFadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+#mushafFullscreenHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #1B6CA8 0%, var(--theme-c2) 100%);
+  color: #fff;
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+#mushafFullscreenHeader .mshf-header-title {
+  flex: 1;
+  text-align: center;
+}
+
+#mushafFullscreenHeader a.mshf-new-tab {
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  font-size: 13px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 20px;
+  padding: 5px 14px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+#mushafFullscreenHeader a.mshf-new-tab:hover { background: rgba(255,255,255,0.28); }
+
+#mushafFullscreenHeader .mshf-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+#mushafCloseFullscreenBtn,
+#mushafMinimizeBtn {
+  background: rgba(255,255,255,0.18);
+  border: 1.5px solid rgba(255,255,255,0.40);
+  border-radius: 50%;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+  font-weight: 700;
+}
+#mushafCloseFullscreenBtn:hover,
+#mushafMinimizeBtn:hover {
+  background: rgba(255,255,255,0.32);
+  transform: scale(1.1);
+}
+
+#mushafFullscreenLoading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 14px;
+  font-family: 'Cairo', Arial, sans-serif;
+  background: #f5f8fc;
+}
+body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
+
+#mushafFullscreenIframe {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: none;
+}
+
+@keyframes mushafSpin { to { transform: rotate(360deg); } }
+
+/* الباقي - إخفاء اللوحة القديمة الصغيرة */
+#mushafPanel { display: none !important; }
+
+@media (max-width: 600px) {
+  #mushafToggleBtn { font-size: 15px; padding: 11px 14px; }
+  #mushafToggleBtn .mshf-label { font-size: 15px; }
+  #mushafFullscreenHeader {
+    font-size: 12px;
+    padding: 6px 8px;
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  #mushafFullscreenHeader a.mshf-new-tab {
+    display: none;
+  }
+  #mushafFullscreenHeader .mshf-header-title {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #mushafCloseFullscreenBtn,
+  #mushafMinimizeBtn {
+    width: 30px;
+    height: 30px;
+    font-size: 17px;
+  }
+}
+
+/* ===================== قسم 9 (part9.css) ===================== */
+  #prayerWidgetNative{width:100%;max-width:320px;margin:0 auto;}
+  .pw-rows-container{display:flex;flex-direction:column;padding:10px 6px;}
+  .pw-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-radius:8px;margin-bottom:2px;}
+  .pw-row span{font-size:13px;font-variant-numeric:tabular-nums;}
+  @media (min-width:1025px){
+    #prayerWidgetNative{max-width:900px;}
+    .pw-rows-container{flex-direction:row;flex-wrap:nowrap;gap:8px;padding:6px 10px;}
+    .pw-row{flex:1;flex-direction:column;justify-content:center;gap:4px;padding:12px 6px;margin-bottom:0;}
+  }
 </style>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e90ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="قرآن إذاعة">
+</head>
+
 
 <body class="main-content">
 
@@ -17023,65 +18064,6 @@ setTimeout(autoScaleVerseFont, 100);
 <div id="qurankarim-playlist-slot"></div>
 
 
-<style>
-.pl-check-wrap {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-
-.pl-check-wrap:has(> button[style*="display: none"]),
-.pl-check-wrap:has(> button.hidden) {
-  display: none !important;
-}
-
-.pl-check-wrap .pl-cb {
-  float: right;
-  margin-right: 2px;
-  margin-top: 2px;
-  width: 17px;
-  height: 17px;
-  cursor: pointer;
-  accent-color: var(--theme-c1);
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
-  vertical-align: middle;
-}
-
-.pl-check-wrap .pl-cb-tooltip {
-  display: none;
-  position: absolute;
-  top: -36px;
-  right: 0;
-  background: rgba(0,0,0,0.82);
-  color: #fff;
-  font-size: 11px;
-  font-family: 'Cairo', Arial, sans-serif;
-  white-space: nowrap;
-  padding: 4px 9px;
-  border-radius: 7px;
-  z-index: 9999;
-  pointer-events: none;
-  line-height: 1.4;
-}
-.pl-check-wrap .pl-cb-wrapper:hover .pl-cb-tooltip {
-  display: block;
-}
-
-.pl-check-wrap .pl-cb-wrapper {
-  float: right;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  margin-right: 2px;
-}
-
-.pl-check-wrap.pl-selected .button {
-  outline: 2.5px solid var(--theme-c1);
-  background: linear-gradient(135deg, rgba(var(--theme-c1-rgb),0.13), rgba(var(--theme-c1-rgb),0.04)) !important;
-}
-</style>
 
 <div class="subfilter-scroll-wrap" id="radio-subfilter">
 <div class="subfilter-scroll-strip">
@@ -17703,83 +18685,6 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   
-  <style id="aqx-style">
-    #audio-quality-settings.aqx-panel{
-      --aqx-green:var(--theme-g1); --aqx-green-light:#34c294; --aqx-gold:#FFB74D;
-      --aqx-navy:var(--theme-c4); --aqx-blue:var(--theme-c3); --aqx-bass:#e57373; --aqx-mid:#ffb74d; --aqx-treble:#4CC9F0;
-      margin:8px auto 4px; width:97%; max-width:860px; box-sizing:border-box;
-      position:relative; overflow:hidden;
-      padding:12px 18px 14px; border-radius:18px;
-      display:flex; flex-direction:column; gap:8px;
-      font-family:'Cairo',Arial,sans-serif; color:var(--aqx-navy);
-      background:linear-gradient(155deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72)),linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.14),rgba(var(--theme-c2-rgb),0.12));
-      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-      border:1.5px solid rgba(var(--theme-c1-rgb),0.18);
-      box-shadow:0 8px 28px rgba(var(--theme-c4-rgb),0.10), inset 0 1px 0 rgba(255,255,255,0.6);
-    }
-    #audio-quality-settings.aqx-panel::after{
-      content:"";position:absolute;top:-40%;left:-10%;width:60%;height:180%;
-      background:radial-gradient(circle,rgba(255,183,77,0.20),transparent 70%);pointer-events:none;
-    }
-    #audio-quality-settings .aqx-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:relative;z-index:1;}
-    #audio-quality-settings .aqx-title-group{display:flex;align-items:center;gap:10px;}
-    #audio-quality-settings .aqx-mini-viz{display:flex;align-items:flex-end;gap:2px;height:18px;padding:2px 4px;border-radius:6px;background:rgba(var(--theme-g1-rgb),0.08);}
-    #audio-quality-settings .aqx-mini-viz span{width:3px;border-radius:2px;height:40%;transition:height .25s ease;}
-    #aqxVizBass{background:var(--aqx-bass);} #aqxVizMid{background:var(--aqx-mid);} #aqxVizTreble{background:var(--aqx-treble);}
-    #audioQualityResetBtn{padding:5px 14px;border-radius:10px;border:1px solid rgba(14,42,61,0.12);cursor:pointer;font-size:12px;font-weight:700;font-family:'Cairo',Arial,sans-serif;background:rgba(255,255,255,0.7);color:var(--aqx-navy);white-space:nowrap;transition:transform .15s ease,background .15s ease,box-shadow .15s ease;}
-    #audioQualityResetBtn:hover{background:#fff;box-shadow:0 3px 10px rgba(14,42,61,0.12);}
-    #audioQualityResetBtn:active{transform:scale(0.94) rotate(-8deg);}
-    #audio-quality-settings .aqx-boost-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative;z-index:1;}
-    #audio-quality-settings .aqx-boost-row label{font-size:13px;font-weight:700;color:var(--aqx-blue);white-space:nowrap;min-width:110px;}
-    #audioBoostSlider{-webkit-appearance:none;appearance:none;flex:1;min-width:120px;height:8px;border-radius:6px;cursor:pointer;background:linear-gradient(to right,var(--aqx-green) 0%,rgba(var(--theme-g1-rgb),0.15) 0%);outline:none;}
-    #audioBoostSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-green);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;transition:transform .12s ease;margin-top:-6px;}
-    #audioBoostSlider::-webkit-slider-thumb:hover{transform:scale(1.15);}
-    #audioBoostSlider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-green);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;}
-    #audioBoostSlider::-moz-range-track{height:8px;border-radius:6px;background:rgba(var(--theme-g1-rgb),0.15);}
-    #audioBoostValueLabel{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;min-width:48px;text-align:center;color:#fff;background:var(--aqx-green);border-radius:8px;padding:3px 8px;transition:background .2s ease;}
-    #playbackSpeedSlider{-webkit-appearance:none;appearance:none;flex:1;min-width:120px;height:8px;border-radius:6px;cursor:pointer;background:linear-gradient(to right,var(--aqx-blue) 0%,rgba(14,42,61,0.12) 0%);outline:none;}
-    #playbackSpeedSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-blue);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;transition:transform .12s ease;margin-top:-6px;}
-    #playbackSpeedSlider::-webkit-slider-thumb:hover{transform:scale(1.15);}
-    #playbackSpeedSlider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--aqx-blue);box-shadow:0 2px 6px rgba(14,42,61,0.25);cursor:pointer;}
-    #playbackSpeedSlider::-moz-range-track{height:8px;border-radius:6px;background:rgba(14,42,61,0.12);}
-    #playbackSpeedValueLabel{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;min-width:48px;text-align:center;color:#fff;background:var(--aqx-blue);border-radius:8px;padding:3px 8px;transition:background .2s ease;}
-    #equalizer-row.aqx-eq-row{padding-top:14px;margin-top:6px;position:relative;z-index:1;border-top:1px dashed rgba(14,42,61,0.12);display:flex;justify-content:center;width:100%;}
-    #audio-quality-settings .aqx-eq-inner{display:flex;align-items:flex-end;justify-content:center;gap:34px;flex-wrap:wrap;max-width:620px;width:100%;}
-    #audio-quality-settings .aqx-faders-group{display:flex;align-items:flex-end;gap:20px;}
-    #audio-quality-settings .aqx-divider{align-self:stretch;width:1px;margin:0 4px;background:linear-gradient(to bottom,transparent,rgba(14,42,61,0.15),transparent);}
-    #audio-quality-settings .aqx-fader-col{display:flex;flex-direction:column;align-items:center;gap:4px;}
-    #audio-quality-settings .aqx-fader-col span{font-size:11px;font-weight:800;color:var(--aqx-navy);font-variant-numeric:tabular-nums;background:rgba(14,42,61,0.06);border-radius:6px;padding:1px 6px;min-width:34px;text-align:center;}
-    #audio-quality-settings .aqx-fader-track{position:relative;width:28px;height:78px;border-radius:8px;background:rgba(14,42,61,0.06);display:flex;align-items:center;justify-content:center;overflow:hidden;}
-    #audio-quality-settings .aqx-fader-center{position:absolute;left:4px;right:4px;top:50%;height:1px;background:rgba(14,42,61,0.18);transform:translateY(-50%);pointer-events:none;}
-    #audio-quality-settings .aqx-fader-fill{position:absolute;left:50%;bottom:50%;width:6px;height:0;border-radius:4px;transform:translateX(-50%);transition:height .15s ease;pointer-events:none;}
-    #aqxFillBass{background:var(--aqx-bass);} #aqxFillMid{background:var(--aqx-mid);} #aqxFillTreble{background:var(--aqx-treble);}
-    #audio-quality-settings .aqx-fader-track input[type=range]{-webkit-appearance:none;appearance:none;position:relative;z-index:2;background:transparent;margin:0;cursor:pointer;}
-    #audio-quality-settings .aqx-fader-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:10px;border-radius:4px;background:#fff;border:2px solid var(--aqx-navy);box-shadow:0 1px 4px rgba(0,0,0,0.25);cursor:pointer;}
-    #audio-quality-settings .aqx-fader-track input[type=range]::-moz-range-thumb{width:24px;height:10px;border-radius:4px;background:#fff;border:2px solid var(--aqx-navy);cursor:pointer;}
-    #audio-quality-settings .aqx-fader-track input[type=range]::-moz-range-track{background:transparent;}
-    #audio-quality-settings .aqx-fader-col label{font-size:11px;font-weight:700;color:var(--aqx-blue);}
-    #audio-quality-settings .aqx-preset-group{display:flex;flex-direction:column;gap:6px;}
-    #audio-quality-settings .aqx-preset-group>span{font-size:11px;font-weight:700;color:var(--aqx-blue);}
-    #aqxPresetChips{display:flex;flex-wrap:wrap;gap:6px;max-width:320px;}
-    #audio-quality-settings .aqx-chip{font-family:'Cairo',Arial,sans-serif;font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:999px;border:1.5px solid rgba(var(--theme-g1-rgb),0.3);background:#fff;color:var(--aqx-navy);cursor:pointer;white-space:nowrap;transition:all .15s ease;}
-    #audio-quality-settings .aqx-chip:hover{border-color:var(--aqx-green);transform:translateY(-1px);}
-    #audio-quality-settings .aqx-chip.active{background:linear-gradient(135deg,var(--theme-c1),var(--theme-c2));color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(var(--theme-c1-rgb),0.35);}
-    #audio-quality-settings .aqx-note{display:block;font-size:10px;opacity:.65;margin-top:8px;position:relative;z-index:1;}
-    #audio-quality-settings .aqx-header{cursor:pointer;user-select:none;}
-    #audio-quality-settings .aqx-toggle-icon{font-size:14px;color:var(--aqx-blue);transition:transform .3s ease;flex-shrink:0;}
-    #audio-quality-settings .aqx-toggle-icon.open{transform:rotate(180deg);}
-    #audio-quality-settings .aqx-body{display:none;flex-direction:column;gap:8px;}
-    #audio-quality-settings .aqx-body.open{display:flex;}
-    @media (min-width:700px){ #audio-quality-settings .aqx-eq-inner{gap:46px;} }
-    @media (max-width:560px){
-      #equalizer-row.aqx-eq-row{padding-top:12px;}
-      #audio-quality-settings .aqx-eq-inner{flex-direction:column;align-items:center;gap:14px;}
-      #audio-quality-settings .aqx-faders-group{justify-content:center;}
-      #audio-quality-settings .aqx-divider{width:60%;height:1px;align-self:center;background:linear-gradient(to right,transparent,rgba(14,42,61,0.15),transparent);}
-      #audio-quality-settings .aqx-preset-group{width:100%;align-items:center;}
-      #aqxPresetChips{max-width:none;justify-content:center;}
-    }
-  </style>
 
   <div id="audio-quality-settings" class="aqx-panel" style="direction: rtl;">
     <div class="aqx-header" onclick="toggleAudioQualityBox()">
@@ -29610,30 +30515,6 @@ const moreTranslations = [{
 })();
 </script>
 
-<style>
-.newtab-marker {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 900;
-  color: #1B6CA8;
-  background: rgba(27,108,168,0.12);
-  border: 1px solid rgba(27,108,168,0.35);
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  line-height: 1;
-  margin-inline-start: 5px;
-  flex-shrink: 0;
-  vertical-align: middle;
-}
-body.dark-mode .newtab-marker {
-  color: #90caf9;
-  background: rgba(100,181,246,0.14);
-  border-color: rgba(100,181,246,0.4);
-}
-</style>
 
 
 <button class="button palestine"
@@ -29894,907 +30775,8 @@ body.dark-mode .newtab-marker {
 </div>
 
 
-<style>
-#salah-pip-section {
-    direction: rtl;
-    font-family: 'Cairo', Arial, sans-serif;
-    text-align: center;
-    margin: 14px auto 10px auto;
-    max-width: 340px;
-    width: 95%;
-    background: rgba(255,255,255,0.72);
-    border: 1.5px solid rgba(var(--theme-g1-rgb),0.25);
-    border-radius: 18px;
-    padding: 14px 12px 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    backdrop-filter: blur(6px);
-    box-sizing: border-box;
-}
-body.dark-mode #salah-pip-section {
-    background: rgba(30,40,35,0.82);
-    border-color: rgba(var(--theme-g1-rgb),0.35);
-}
-#salah-pip-section .sp-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--theme-g2);
-    margin: 0 0 10px;
-    line-height: 1.5;
-}
-body.dark-mode #salah-pip-section .sp-title { color: #5DCAA5; }
-#salah-pip-btn {
-    width: 160px; height: 160px;
-    border-radius: 50%;
-    border: 3px solid var(--theme-g1);
-    background: #E1F5EE;
-    cursor: pointer;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    margin: 0 auto 10px;
-    transition: transform 0.1s, background 0.15s;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    color: var(--theme-g2);
-}
-#salah-pip-btn:active { transform: scale(0.92); background: #9FE1CB; }
-#salah-pip-btn.sp-done { border-color: var(--theme-g1); background: #C2EBD9; color: var(--theme-g2); }
-body.dark-mode #salah-pip-btn { background: #0F3D2E; border-color: var(--theme-g1); color: #5DCAA5; }
-body.dark-mode #salah-pip-btn.sp-done { background: #0a4a30; border-color: var(--theme-g1); color: #5DCAA5; }
-#salah-pip-num { font-size: 46px; font-weight: 700; line-height: 1; }
-#salah-pip-hint { font-size: 11px; margin-top: 3px; opacity: 0.75; }
-#salah-pip-info { font-size: 12px; color: #555; margin-bottom: 8px; }
-
-/* تكبير salah-pip-section على التابليت والكمبيوتر */
-@media (min-width: 768px) {
-    #salah-pip-section {
-        max-width: 560px;
-        width: 90%;
-        padding: 24px 28px 20px;
-        border-radius: 24px;
-    }
-    #salah-pip-section .sp-title {
-        font-size: 19px;
-        margin: 0 0 16px;
-    }
-    #salah-pip-btn {
-        width: 220px;
-        height: 220px;
-        border-width: 4px;
-        margin: 0 auto 16px;
-    }
-    #salah-pip-num { font-size: 64px; }
-    #salah-pip-hint { font-size: 14px; margin-top: 6px; }
-    #salah-pip-info { font-size: 15px; margin-bottom: 12px; }
-}
-@media (min-width: 992px) {
-    #salah-pip-section {
-        max-width: 680px;
-        width: 80%;
-        padding: 30px 36px 26px;
-    }
-    #salah-pip-section .sp-title {
-        font-size: 22px;
-        margin: 0 0 20px;
-    }
-    #salah-pip-btn {
-        width: 260px;
-        height: 260px;
-    }
-    #salah-pip-num { font-size: 76px; }
-    #salah-pip-hint { font-size: 16px; }
-    #salah-pip-info { font-size: 17px; margin-bottom: 16px; }
-}
-body.dark-mode #salah-pip-info { color: #aaa; }
-.sp-row { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; margin-bottom: 7px; }
-.sp-main-controls { margin-bottom: 10px; }
-.sp-divider {
-    width: 80%;
-    margin: 10px auto;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(var(--theme-g1-rgb),0.2), transparent);
-}
-.sp-btn {
-    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
-    background: rgba(255,255,255,0.9);
-    color: var(--theme-g2);
-    border-radius: 20px;
-    padding: 5px 14px;
-    font-family: 'Cairo', Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.15s;
-}
-@media (min-width: 768px) {
-    .sp-row { gap: 10px; margin-bottom: 10px; }
-    .sp-btn { font-size: 14px; padding: 7px 18px; border-radius: 22px; }
-    .sp-target-row label { font-size: 14px; }
-    .sp-target-row select { font-size: 14px; padding: 5px 10px; }
-    #sp-pip-note { font-size: 13px; }
-}
-@media (min-width: 992px) {
-    .sp-row { gap: 12px; margin-bottom: 12px; }
-    .sp-btn { font-size: 15px; padding: 8px 22px; }
-    .sp-target-row label { font-size: 15px; }
-    .sp-target-row select { font-size: 15px; }
-    #sp-pip-note { font-size: 14px; }
-}
-.sp-btn:hover { background: #E1F5EE; }
-body.dark-mode .sp-btn { background: rgba(var(--theme-g1-rgb),0.12); color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.4); }
-#sp-pip-toggle {
-    background: #E1F5EE;
-    color: var(--theme-g2);
-    border-color: rgba(var(--theme-g1-rgb),0.35);
-}
-#sp-pip-toggle:hover { background: #C2EBD9; }
-#sp-pip-toggle.active { background: var(--theme-g1); color: #fff; border-color: var(--theme-g1); }
-body.dark-mode #sp-pip-toggle { background: rgba(var(--theme-g1-rgb),0.18); color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.4); }
-body.dark-mode #sp-pip-toggle.active { background: var(--theme-g2); color: #fff; border-color: var(--theme-g1); }
-.sp-target-row { display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 8px; }
-.sp-target-row label { font-size: 12px; color: #555; }
-body.dark-mode .sp-target-row label { color: #aaa; }
-.sp-target-row select {
-    font-family: 'Cairo', Arial, sans-serif;
-    font-size: 12px; padding: 3px 7px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(var(--theme-g1-rgb),0.3);
-    background: rgba(255,255,255,0.9);
-    color: var(--theme-g2);
-    cursor: pointer;
-}
-body.dark-mode .sp-target-row select { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
-#sp-pip-note { font-size: 11px; color: #888; margin-top: 4px; min-height: 16px; }
-body.dark-mode #sp-pip-note { color: #6b8f7d; }
-#sp-auto-btn { background: #F0FBF7; color: var(--theme-g2); border-color: rgba(var(--theme-g1-rgb),0.35); }
-#sp-auto-btn:hover { background: #D4F4EA; }
-#sp-auto-btn.active { background: var(--theme-g1); color: #fff; border-color: var(--theme-g1); animation: sp-auto-pulse 2s infinite; }
-body.dark-mode #sp-auto-btn { background: rgba(var(--theme-g1-rgb),0.12); color: #5DCAA5; }
-body.dark-mode #sp-auto-btn.active { background: var(--theme-g2); color: #fff; }
-@keyframes sp-auto-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(var(--theme-g1-rgb),0.4); } 50%{ box-shadow:0 0 0 6px rgba(var(--theme-g1-rgb),0); } }
-
-.sp-athkar-search-row {
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 6px;
-}
-.sp-athkar-search {
-    font-family: 'Cairo', Arial, sans-serif;
-    font-size: 12px;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 6px 10px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
-    background: rgba(255,255,255,0.9);
-    color: var(--theme-g2);
-    outline: none;
-}
-.sp-athkar-search::placeholder { color: var(--theme-g2); opacity: 0.6; }
-body.dark-mode .sp-athkar-search { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
-body.dark-mode .sp-athkar-search::placeholder { color: #5DCAA5; opacity: 0.6; }
-.sp-athkar-row {
-    display: flex; gap: 6px; align-items: center; justify-content: center;
-    margin-bottom: 6px; flex-wrap: wrap;
-    width: 100%; box-sizing: border-box; overflow: hidden;
-}
-.sp-athkar-row .sp-athkar-label,
-.sp-athkar-row .sp-athkar-play-btn,
-.sp-athkar-row .sp-athkar-nav-btn { flex-shrink: 0; }
-.sp-athkar-label { font-size: 12px; color: #555; white-space: nowrap; }
-body.dark-mode .sp-athkar-label { color: #aaa; }
-.sp-athkar-play-btn {
-    font-size: 16px;
-    line-height: 1;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0 12px;
-    border-radius: 14px;
-    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
-    background: rgba(255,255,255,0.9);
-    color: var(--theme-g2);
-    cursor: pointer;
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-}
-.sp-athkar-play-btn:hover { background: #D4F4EA; }
-.sp-athkar-play-btn:active { transform: scale(0.92); }
-.sp-athkar-play-btn.sp-playing { background: var(--theme-g1); color: #fff; border-color: var(--theme-g1); }
-body.dark-mode .sp-athkar-play-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
-body.dark-mode .sp-athkar-play-btn.sp-playing { background: var(--theme-g2); color: #fff; }
-#sp-athkar-sel {
-    font-family: 'Cairo', Arial, sans-serif;
-    font-size: 12px; padding: 4px 8px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
-    background: rgba(255,255,255,0.9);
-    color: var(--theme-g2);
-    cursor: pointer;
-    width: 100%;
-    min-width: 0;
-    flex: 1 1 100%;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    box-sizing: border-box;
-    /* منع الـ dropdown من تمديد العنصر */
-    -webkit-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%230F6E56'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: left 8px center;
-    padding-left: 24px;
-}
-body.dark-mode #sp-athkar-sel { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235DCAA5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: left 8px center; }
-.sp-athkar-nav-btn {
-    font-size: 20px;
-    line-height: 1;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0;
-    border-radius: 50%;
-    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
-    background: rgba(255,255,255,0.9);
-    color: var(--theme-g2);
-    cursor: pointer;
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-}
-.sp-athkar-nav-btn:hover { background: #D4F4EA; }
-.sp-athkar-nav-btn:active { background: var(--theme-g1); color: #fff; transform: scale(0.92); }
-body.dark-mode .sp-athkar-nav-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
-body.dark-mode .sp-athkar-nav-btn:active { background: var(--theme-g2); color: #fff; }
-/* ---- Custom Dropdown ---- */
-.sp-custom-dd {
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
-}
-.sp-custom-dd-btn {
-    font-family: 'Cairo', Arial, sans-serif;
-    font-size: 12px;
-    padding: 6px 10px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(var(--theme-g1-rgb),0.35);
-    background: rgba(255,255,255,0.9);
-    color: var(--theme-g2);
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 4px;
-    text-align: right;
-    white-space: nowrap;
-    overflow: hidden;
-    box-sizing: border-box;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-}
-.sp-custom-dd-btn:active { background: #D4F4EA; }
-body.dark-mode .sp-custom-dd-btn { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
-#sp-custom-dd-label {
-    white-space: normal;
-    word-break: break-word;
-    line-height: 1.5;
-    flex: 1;
-    min-width: 0;
-    display: block;
-}
-.sp-custom-dd-arrow { flex-shrink: 0; font-size: 10px; opacity: 0.7; }
-.sp-custom-dd-list {
-    position: fixed;
-    z-index: 9999;
-    background: #fff;
-    border: 1.5px solid rgba(var(--theme-g1-rgb),0.4);
-    border-radius: 12px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
-    padding: 6px;
-    box-sizing: border-box;
-    /* العرض والطول يُضبطان بالـ JS */
-    display: flex;
-    flex-direction: column;
-}
-body.dark-mode .sp-custom-dd-list { background: #0F2820; border-color: rgba(var(--theme-g1-rgb),0.5); }
-.sp-custom-dd-search {
-    font-family: 'Cairo', Arial, sans-serif;
-    font-size: 12px;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 5px 9px;
-    border-radius: 8px;
-    border: 1px solid rgba(var(--theme-g1-rgb),0.3);
-    background: rgba(255,255,255,0.9);
-    color: var(--theme-g2);
-    outline: none;
-    margin-bottom: 4px;
-    direction: rtl;
-}
-body.dark-mode .sp-custom-dd-search { background: #0a2218; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.4); }
-.sp-custom-dd-items {
-    flex: 1;
-    min-height: 80px;
-    overflow-y: auto;
-    direction: rtl;
-}
-.sp-custom-dd-group-separator {
-    height: 0;
-    border: none;
-    border-top: 2px solid transparent;
-    margin: 6px 6px 0;
-    border-radius: 2px;
-    opacity: 0.5;
-}
-.sp-custom-dd-group-block {
-    border-radius: 8px;
-    margin: 4px 4px 0;
-    padding: 0 0 4px;
-    overflow: hidden;
-}
-.sp-custom-dd-group-block:first-child { margin-top: 2px; }
-.sp-custom-dd-group-label {
-    font-size: 10px;
-    color: var(--theme-g1);
-    padding: 5px 8px 4px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    border-radius: 6px 6px 0 0;
-}
-.sp-custom-dd-item[data-grp-color] {
-    border-inline-end: 3px solid transparent;
-    padding-inline-end: 6px;
-}
-.sp-surah-badge {
-    display: inline-block;
-    flex-shrink: 0;
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--theme-g1);
-    background: rgba(var(--theme-g1-rgb),0.10);
-    border: 1px solid rgba(var(--theme-g1-rgb),0.25);
-    border-radius: 4px;
-    padding: 1px 5px;
-    white-space: nowrap;
-    direction: rtl;
-    font-family: 'Cairo', Arial, sans-serif;
-}
-body.dark-mode .sp-surah-badge {
-    color: #5DCAA5;
-    background: rgba(var(--theme-g1-rgb),0.15);
-    border-color: rgba(var(--theme-g1-rgb),0.3);
-}
-.sp-hadith-badge {
-    color: #8a6200 !important;
-    background: rgba(184,134,11,0.10) !important;
-    border-color: rgba(184,134,11,0.30) !important;
-}
-body.dark-mode .sp-hadith-badge {
-    color: #d4a843 !important;
-    background: rgba(184,134,11,0.15) !important;
-    border-color: rgba(184,134,11,0.35) !important;
-}
-.sp-custom-dd-item {
-    font-family: 'Cairo', Arial, sans-serif;
-    font-size: 12px;
-    padding: 7px 8px;
-    border-radius: 8px;
-    cursor: pointer;
-    white-space: normal;
-    word-break: break-word;
-    line-height: 1.5;
-    color: var(--theme-g2);
-    direction: rtl;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-}
-.sp-custom-dd-item:hover, .sp-custom-dd-item:active { background: #D4F4EA; }
-.sp-custom-dd-item.sp-dd-selected { background: #C2EBD9; font-weight: 700; }
-body.dark-mode .sp-custom-dd-item { color: #5DCAA5; }
-body.dark-mode .sp-custom-dd-item:hover, body.dark-mode .sp-custom-dd-item:active { background: #0a3d26; }
-body.dark-mode .sp-custom-dd-item.sp-dd-selected { background: #0a4a30; }
-#sp-athkar-display {
-    font-size: 14px; font-weight: 700;
-    color: var(--theme-g2);
-    margin: 0 0 8px;
-    line-height: 1.6;
-    padding: 6px 10px;
-    background: rgba(var(--theme-g1-rgb),0.07);
-    border-radius: 10px;
-    border: 1px solid rgba(var(--theme-g1-rgb),0.15);
-    min-height: 36px;
-    word-break: break-word;
-}
-body.dark-mode #sp-athkar-display {
-    color: #5DCAA5;
-    background: rgba(var(--theme-g1-rgb),0.1);
-    border-color: rgba(var(--theme-g1-rgb),0.25);
-}
-</style>
 
 <!-- ===== MUSHAF SECTION ===== -->
-<style>
-/* ===== منبه الصلاة على النبى ===== */
-.sp-alarm-row {
-    display: flex; gap: 6px; align-items: center; justify-content: center;
-    margin-bottom: 7px; flex-wrap: wrap;
-}
-.sp-alarm-label { font-size: 12px; color: #555; white-space: nowrap; }
-body.dark-mode .sp-alarm-label { color: #aaa; }
-#sp-alarm-interval-sel {
-    font-family: 'Cairo', Arial, sans-serif;
-    font-size: 12px; padding: 3px 7px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(var(--theme-g1-rgb),0.3);
-    background: rgba(255,255,255,0.9);
-    color: var(--theme-g2);
-    cursor: pointer;
-}
-body.dark-mode #sp-alarm-interval-sel { background: #0F3D2E; color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.5); }
-#sp-alarm-btn {
-    background: #E1F5EE;
-    color: var(--theme-g2);
-    border-color: rgba(var(--theme-g1-rgb),0.35);
-}
-#sp-alarm-btn:hover { background: #C2EBD9; }
-#sp-alarm-btn.active {
-    background: var(--theme-g1);
-    color: #fff;
-    border-color: var(--theme-g1);
-    animation: sp-alarm-pulse 2s infinite;
-}
-body.dark-mode #sp-alarm-btn { background: rgba(var(--theme-g1-rgb),0.12); color: #5DCAA5; border-color: rgba(var(--theme-g1-rgb),0.4); }
-body.dark-mode #sp-alarm-btn.active { background: var(--theme-g2); color: #fff; }
-@keyframes sp-alarm-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(var(--theme-g1-rgb),0.4); } 50%{ box-shadow:0 0 0 7px rgba(var(--theme-g1-rgb),0); } }
-#sp-alarm-status {
-    font-size: 11px;
-    color: #888;
-    margin: 0 0 5px;
-    min-height: 16px;
-    text-align: center;
-}
-body.dark-mode #sp-alarm-status { color: #6b8f7d; }
-#sp-alarm-today-bar {
-    font-size: 11px;
-    color: var(--theme-g2);
-    background: rgba(var(--theme-g1-rgb),0.08);
-    border-radius: 8px;
-    padding: 3px 10px;
-    margin: 0 0 6px;
-    text-align: center;
-    display: none;
-}
-body.dark-mode #sp-alarm-today-bar { color: #5DCAA5; background: rgba(var(--theme-g1-rgb),0.14); }
-
-/* ===== زجاجية قسم التسبيح/الأذكار (salah-pip-section) عند اختيار ثيم صورة/فيديو خلفية ===== */
-body.media-theme-glass #salah-pip-section {
-    background: rgba(255,255,255,0.16) !important;
-    border: 1.5px solid rgba(255,255,255,0.38) !important;
-    backdrop-filter: blur(14px) saturate(180%);
-    -webkit-backdrop-filter: blur(14px) saturate(180%);
-    box-shadow: 0 4px 18px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.25) !important;
-}
-body.media-theme-glass #salah-pip-btn {
-    background: rgba(255,255,255,0.16) !important;
-    border-color: rgba(255,255,255,0.5) !important;
-}
-body.media-theme-glass #salah-pip-btn.sp-done {
-    background: rgba(255,255,255,0.30) !important;
-}
-body.media-theme-glass .sp-athkar-search,
-body.media-theme-glass .sp-athkar-play-btn,
-body.media-theme-glass .sp-custom-dd-btn,
-body.media-theme-glass .sp-custom-dd-search,
-body.media-theme-glass .sp-target-row select,
-body.media-theme-glass #sp-athkar-sel,
-body.media-theme-glass .sp-btn,
-body.media-theme-glass #sp-alarm-interval-sel,
-body.media-theme-glass #sp-athkar-display {
-    background: rgba(255,255,255,0.16) !important;
-    border-color: rgba(255,255,255,0.38) !important;
-}
-body.media-theme-glass .sp-athkar-search::placeholder,
-body.media-theme-glass .sp-custom-dd-search::placeholder {
-    color: rgba(255,255,255,0.75) !important;
-}
-/* قائمة الأذكار المنسدلة تفضل خلفيتها شبه معتمة أكتر عشان سهولة قراءة عدد كبير من الأذكار داخلها */
-body.media-theme-glass .sp-custom-dd-list {
-    background: rgba(20,20,20,0.55) !important;
-    border-color: rgba(255,255,255,0.35) !important;
-    backdrop-filter: blur(14px) saturate(180%);
-    -webkit-backdrop-filter: blur(14px) saturate(180%);
-}
-body.media-theme-glass .sp-custom-dd-item:hover,
-body.media-theme-glass .sp-custom-dd-item:active {
-    background: rgba(255,255,255,0.18) !important;
-}
-body.media-theme-glass .sp-custom-dd-item.sp-dd-selected {
-    background: rgba(255,255,255,0.28) !important;
-}
-/* إطار أسود مضيء حول كل النصوص البيضاء داخل قسم التسبيح الزجاجي لضمان وضوح القراءة */
-body.media-theme-glass #salah-pip-section .sp-title,
-body.media-theme-glass #salah-pip-num,
-body.media-theme-glass #salah-pip-hint,
-body.media-theme-glass #salah-pip-info,
-body.media-theme-glass .sp-athkar-label,
-body.media-theme-glass .sp-athkar-play-btn,
-body.media-theme-glass .sp-athkar-nav-btn,
-body.media-theme-glass .sp-custom-dd-btn,
-body.media-theme-glass #sp-custom-dd-label,
-body.media-theme-glass .sp-custom-dd-arrow,
-body.media-theme-glass .sp-custom-dd-item,
-body.media-theme-glass .sp-custom-dd-group-label,
-body.media-theme-glass #sp-athkar-display,
-body.media-theme-glass .sp-target-row label,
-body.media-theme-glass .sp-target-row select,
-body.media-theme-glass #sp-athkar-sel,
-body.media-theme-glass .sp-btn,
-body.media-theme-glass #salah-pip-btn,
-body.media-theme-glass .sp-alarm-label,
-body.media-theme-glass #sp-alarm-interval-sel,
-body.media-theme-glass #sp-alarm-status,
-body.media-theme-glass #sp-alarm-today-bar,
-body.media-theme-glass #sp-pip-note,
-body.media-theme-glass .sp-athkar-search,
-body.media-theme-glass .sp-custom-dd-search {
-    color: #ffffff !important;
-    text-shadow:
-        -1px -1px 0 #000,
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000,
-         0 0 6px rgba(0,0,0,0.85) !important;
-}
-
-/* ===== زجاجية بلوكات تذكير الأذكار وتنبيهات فتح الموقع عند اختيار ثيم صورة/فيديو خلفية ===== */
-body.media-theme-glass #adhkar-notif-settings,
-body.media-theme-glass #startup-notif-settings {
-    background: rgba(255,255,255,0.16) !important;
-    border: 1.5px solid rgba(255,255,255,0.38) !important;
-    backdrop-filter: blur(14px) saturate(180%);
-    -webkit-backdrop-filter: blur(14px) saturate(180%);
-    box-shadow: 0 4px 18px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.25) !important;
-}
-body.media-theme-glass #adhkar-notif-settings span,
-body.media-theme-glass #adhkar-notif-settings label,
-body.media-theme-glass #startup-notif-settings span,
-body.media-theme-glass #startup-notif-settings label {
-    color: #ffffff !important;
-    text-shadow:
-        -1px -1px 0 #000,
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000,
-         0 0 6px rgba(0,0,0,0.85) !important;
-}
-/* بلوكات "تذكير الأذكار" و"تنبيهات فتح الموقع" دايمًا جوه مودال الإعدادات (خلفية بيضاء ثابتة)،
-   فلازم يفضلوا بألوان الثيم الثابت مش الزجاجي الأبيض، حتى مع ثيمات الصور/الفيديو */
-body.media-theme-glass #settings-panel #adhkar-notif-settings,
-body.media-theme-glass #settings-panel #startup-notif-settings {
-    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07)) !important;
-    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    box-shadow: none !important;
-}
-body.media-theme-glass #settings-panel #adhkar-notif-settings span,
-body.media-theme-glass #settings-panel #adhkar-notif-settings label,
-body.media-theme-glass #settings-panel #startup-notif-settings span,
-body.media-theme-glass #settings-panel #startup-notif-settings label {
-    color: var(--theme-c4) !important;
-    text-shadow: none !important;
-}
-body.media-theme-glass #settings-panel #adhkar-notif-settings label[style*="color:var(--theme-c3)"],
-body.media-theme-glass #settings-panel #startup-notif-settings span[style*="color:var(--theme-c3)"] {
-    color: var(--theme-c3) !important;
-}
-body.media-theme-glass #settings-panel #notif-status-text,
-body.media-theme-glass #settings-panel #startup-notif-status-text {
-    color: #888 !important;
-    text-shadow: none !important;
-}
-
-/* ===== زر فتح المصحف في الشريط السفلي ===== */
-#mushaf-toggle-wrap {
-  display: flex;
-  justify-content: center;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 9000;
-  width: 100%;
-  padding: 0;
-  box-sizing: border-box;
-  flex-direction: row;
-  align-items: stretch;
-  pointer-events: none;
-  gap: 2px;
-}
-
-#mushaf-toggle-wrap > * {
-  pointer-events: auto;
-}
-
-#mushafToggleBtn,
-#equranToggleBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  max-width: 450px;
-  /* Mobile-friendly tap target: min 56px tall */
-  padding: 16px 28px;
-  min-height: 56px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  color: #1B6CA8;
-  background: linear-gradient(135deg, rgba(232,244,253,0.98) 0%, rgba(255,255,255,0.98) 100%);
-  border: 2px solid rgba(27,108,168,0.35);
-  border-top: 2.5px solid rgba(27,108,168,0.45);
-  border-radius: 14px 14px 0 0;
-  cursor: pointer;
-  box-shadow: 0 -3px 14px rgba(27,108,168,0.18);
-  transition: background 0.25s, color 0.25s, border-color 0.25s, box-shadow 0.25s;
-  outline: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  user-select: none;
-}
-
-#mushafToggleBtn:hover,
-#mushafToggleBtn:focus-visible {
-  background: linear-gradient(135deg, rgba(27,108,168,0.10) 0%, rgba(232,244,253,1) 100%);
-  border-color: #1B6CA8;
-  box-shadow: 0 -5px 20px rgba(27,108,168,0.22);
-}
-
-#mushafToggleBtn:active,
-#equranToggleBtn:active {
-  transform: scale(0.98);
-}
-
-#mushafToggleBtn.open {
-  background: linear-gradient(135deg, #1B6CA8 0%, var(--theme-c2) 100%);
-  color: #fff;
-  border-color: transparent;
-  box-shadow: 0 -5px 20px rgba(27,108,168,0.35);
-}
-
-#mushafToggleBtn .mshf-icon,
-#equranToggleBtn .mshf-icon {
-  font-size: 22px;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-#mushafToggleBtn .mshf-label,
-#equranToggleBtn .mshf-label {
-  font-size: 16px;
-  font-weight: 700;
-}
-
-#mushafToggleBtn .mshf-arrow,
-#equranToggleBtn .mshf-arrow {
-  font-size: 18px;
-  transition: transform 0.35s cubic-bezier(.4,0,.2,1);
-  display: inline-block;
-  line-height: 1;
-  opacity: 0.7;
-}
-
-#mushafToggleBtn.open .mshf-arrow,
-#equranToggleBtn.open .mshf-arrow {
-  transform: rotate(180deg);
-}
-
-body.dark-mode #mushafToggleBtn {
-  background: linear-gradient(135deg, rgba(27,108,168,0.18) 0%, rgba(26,26,46,0.95) 100%);
-  color: #90caf9;
-  border-color: rgba(100,181,246,0.35);
-}
-body.dark-mode #mushafToggleBtn.open {
-  background: linear-gradient(135deg, var(--theme-c2) 0%, #0d47a1 100%);
-  color: #fff;
-}
-
-/* equran button - distinct teal/green scheme so the two options read as separate choices */
-#equranToggleBtn {
-  color: var(--theme-g2);
-  background: linear-gradient(135deg, rgba(225,245,238,0.98) 0%, rgba(255,255,255,0.98) 100%);
-  border: 2px solid rgba(var(--theme-g2-rgb),0.35);
-  border-top: 2.5px solid rgba(var(--theme-g2-rgb),0.45);
-  border-radius: 14px 14px 0 0;
-}
-#equranToggleBtn:hover,
-#equranToggleBtn:focus-visible {
-  background: linear-gradient(135deg, rgba(var(--theme-g2-rgb),0.10) 0%, rgba(225,245,238,1) 100%);
-  border-color: var(--theme-g2);
-  box-shadow: 0 -5px 20px rgba(var(--theme-g2-rgb),0.22);
-}
-#equranToggleBtn.open {
-  background: linear-gradient(135deg, var(--theme-g2) 0%, var(--theme-g1) 100%);
-  color: #fff;
-  border-color: transparent;
-  box-shadow: 0 -5px 20px rgba(var(--theme-g2-rgb),0.35);
-}
-body.dark-mode #equranToggleBtn {
-  background: linear-gradient(135deg, rgba(var(--theme-g2-rgb),0.18) 0%, rgba(26,26,46,0.95) 100%);
-  color: #5DCAA5;
-  border-color: rgba(93,202,165,0.35);
-}
-body.dark-mode #equranToggleBtn.open {
-  background: linear-gradient(135deg, var(--theme-g2) 0%, #0a4a3a 100%);
-  color: #fff;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  #mushafToggleBtn,
-  #equranToggleBtn {
-    font-size: 13px;
-    padding: 12px 8px;
-    min-height: 54px;
-    border-radius: 10px 10px 0 0;
-    gap: 4px;
-  }
-  #mushafToggleBtn .mshf-icon,
-  #equranToggleBtn .mshf-icon { font-size: 18px; }
-  #mushafToggleBtn .mshf-label,
-  #equranToggleBtn .mshf-label { font-size: 12.5px; }
-}
-
-/* ===== نافذة المصحف كاملة الشاشة ===== */
-#mushafFullscreenOverlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  background: #fff;
-  flex-direction: column;
-  animation: mushafFadeIn 0.3s ease;
-}
-
-#mushafFullscreenOverlay.active {
-  display: flex;
-}
-
-body.dark-mode #mushafFullscreenOverlay {
-  background: #0f1928;
-}
-
-@keyframes mushafFadeIn {
-  from { opacity: 0; transform: scale(0.97); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-#mushafFullscreenHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 18px;
-  background: linear-gradient(135deg, #1B6CA8 0%, var(--theme-c2) 100%);
-  color: #fff;
-  font-family: 'Cairo', Arial, sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  flex-shrink: 0;
-  gap: 10px;
-}
-
-#mushafFullscreenHeader .mshf-header-title {
-  flex: 1;
-  text-align: center;
-}
-
-#mushafFullscreenHeader a.mshf-new-tab {
-  color: rgba(255,255,255,0.9);
-  text-decoration: none;
-  font-size: 13px;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.35);
-  border-radius: 20px;
-  padding: 5px 14px;
-  transition: background 0.2s;
-  white-space: nowrap;
-}
-#mushafFullscreenHeader a.mshf-new-tab:hover { background: rgba(255,255,255,0.28); }
-
-#mushafFullscreenHeader .mshf-header-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-#mushafCloseFullscreenBtn,
-#mushafMinimizeBtn {
-  background: rgba(255,255,255,0.18);
-  border: 1.5px solid rgba(255,255,255,0.40);
-  border-radius: 50%;
-  color: #fff;
-  width: 38px;
-  height: 38px;
-  font-size: 22px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s, transform 0.15s;
-  flex-shrink: 0;
-  line-height: 1;
-  font-weight: 700;
-}
-#mushafCloseFullscreenBtn:hover,
-#mushafMinimizeBtn:hover {
-  background: rgba(255,255,255,0.32);
-  transform: scale(1.1);
-}
-
-#mushafFullscreenLoading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  gap: 14px;
-  font-family: 'Cairo', Arial, sans-serif;
-  background: #f5f8fc;
-}
-body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
-
-#mushafFullscreenIframe {
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: none;
-}
-
-@keyframes mushafSpin { to { transform: rotate(360deg); } }
-
-/* الباقي - إخفاء اللوحة القديمة الصغيرة */
-#mushafPanel { display: none !important; }
-
-@media (max-width: 600px) {
-  #mushafToggleBtn { font-size: 15px; padding: 11px 14px; }
-  #mushafToggleBtn .mshf-label { font-size: 15px; }
-  #mushafFullscreenHeader {
-    font-size: 12px;
-    padding: 6px 8px;
-    flex-wrap: nowrap;
-    gap: 6px;
-  }
-  #mushafFullscreenHeader a.mshf-new-tab {
-    display: none;
-  }
-  #mushafFullscreenHeader .mshf-header-title {
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  #mushafCloseFullscreenBtn,
-  #mushafMinimizeBtn {
-    width: 30px;
-    height: 30px;
-    font-size: 17px;
-  }
-}
-</style>
 
 <!-- ===== نافذة المصحف كاملة الشاشة ===== -->
 <div id="mushafFullscreenOverlay">
@@ -33301,17 +33283,6 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
 })();
 </script>
 
-<style>
-  #prayerWidgetNative{width:100%;max-width:320px;margin:0 auto;}
-  .pw-rows-container{display:flex;flex-direction:column;padding:10px 6px;}
-  .pw-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-radius:8px;margin-bottom:2px;}
-  .pw-row span{font-size:13px;font-variant-numeric:tabular-nums;}
-  @media (min-width:1025px){
-    #prayerWidgetNative{max-width:900px;}
-    .pw-rows-container{flex-direction:row;flex-wrap:nowrap;gap:8px;padding:6px 10px;}
-    .pw-row{flex:1;flex-direction:column;justify-content:center;gap:4px;padding:12px 6px;margin-bottom:0;}
-  }
-</style>
 <div id="prayerWidgetWrapper" style="display: none; justify-content: center; align-items: center;">
   <div id="prayerWidgetNative" style="font-family:Cairo,sans-serif;direction:rtl;"></div>
 </div>
