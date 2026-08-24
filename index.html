@@ -6323,6 +6323,69 @@ body.dark-mode .custom-tooltip::after {
 #settings-modal-backdrop {
     zoom: 1 !important;
 }
+/* مودال البحث فوق الشاشة الترحيبية (بدون إغلاقها) — نفس أسلوب مودال الإعدادات */
+#search-overlay-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,14,20,0.55);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    z-index: 9998;
+    animation: settingsBackdropFade .2s ease;
+}
+#searchOverlayPanel {
+    display: none;
+    position: fixed !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(94vw, 480px);
+    max-width: 480px;
+    max-height: 86vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.40);
+    z-index: 9999;
+    padding: 44px 14px 18px;
+    -webkit-overflow-scrolling: touch;
+}
+body.dark-mode #searchOverlayPanel {
+    background: #1a2535;
+    color: #c8d8e8;
+}
+#searchOverlayCloseBtn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.06);
+    color: inherit;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+#searchOverlayCloseBtn:hover { background: rgba(0,0,0,0.12); }
+body.dark-mode #searchOverlayCloseBtn { background: rgba(255,255,255,0.10); }
+body.dark-mode #searchOverlayCloseBtn:hover { background: rgba(255,255,255,0.18); }
+@media (max-width: 480px) {
+    #searchOverlayPanel { width: 96vw; max-height: 90vh; padding-top: 46px; }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+    #searchOverlayPanel { width: min(88vw, 640px); max-width: 640px; }
+}
+@media (min-width: 769px) {
+    #searchOverlayPanel { width: min(80vw, 900px); max-width: 900px; }
+}
 body.dark-mode .settings-modal-panel {
     background: #1a2535;
     color: #c8d8e8;
@@ -8665,15 +8728,7 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
             </svg>
         </button>
-        <button id="welcomeTopSearchBtn" onclick="(function(){
-            if (typeof closeWelcomeScreen === 'function') closeWelcomeScreen();
-            setTimeout(function(){
-                var el=document.getElementById('searchInput');
-                if(!el) return;
-                el.scrollIntoView({behavior:'smooth',block:'center'});
-                el.focus(); el.select();
-            }, 380);
-        })()" title="بحث / Search" aria-label="Search">
+        <button id="welcomeTopSearchBtn" onclick="openMainSearchFromWelcome()" title="بحث / Search" aria-label="Search">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="7"/>
                 <line x1="16.5" y1="16.5" x2="22" y2="22"/>
@@ -10177,18 +10232,69 @@ function openAiAssistantFromWelcome() {
   }, 380);
 }
 
-// ===== فتح الإعدادات مباشرة (كمودال) من الشاشة الترحيبية =====
-function openSettingsFromWelcome() {
-  // 1. أغلق الشاشة الترحيبية
-  closeWelcomeScreen();
+// ===== الانتقال لمربع البحث الحقيقي (station search) في مودال فوق الشاشة الترحيبية =====
+// بننقل عنصر البحث وقائمة المحطات الحقيقيين (بكل الأحداث المرتبطة بيهم) لمودال عائم،
+// فبيبقوا قابلين للاستخدام والاختيار منهم فعليًا، من غير ما نقفل الشاشة الترحيبية خالص
+// ولا نستدعي closeWelcomeScreen() (يعني الصوت مش بيتوقف ولا حالة آخر محطة بتتغير)
+var _searchOverlayAnchor = null;
+function openMainSearchFromWelcome() {
+  var searchBar = document.getElementById('mainStationSearchBar');
+  var btnContainer = document.querySelector('.buttons-container');
+  var slot = document.getElementById('searchOverlaySlot');
+  var panel = document.getElementById('searchOverlayPanel');
+  var backdrop = document.getElementById('search-overlay-backdrop');
+  if (!searchBar || !slot || !panel) return;
 
-  // 2. بعد الإغلاق افتح مودال الإعدادات مباشرة (يظهر في منتصف الشاشة تلقائيًا فوق الجميع)
+  // احفظ مكانهم الأصلي في الصفحة أول مرة بس، عشان نرجعهم بالظبط لمكانهم بعدين
+  if (!_searchOverlayAnchor) {
+    _searchOverlayAnchor = document.createElement('span');
+    _searchOverlayAnchor.id = 'searchBarOriginalAnchor';
+    _searchOverlayAnchor.style.display = 'none';
+    searchBar.parentNode.insertBefore(_searchOverlayAnchor, searchBar);
+  }
+
+  slot.appendChild(searchBar);
+  if (btnContainer) slot.appendChild(btnContainer);
+
+  panel.style.display = 'block';
+  if (backdrop) backdrop.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+
   setTimeout(function() {
-    var panel = document.getElementById('settings-panel');
-    if (panel && panel.style.display === 'none' && typeof toggleSettingsPanel === 'function') {
-      toggleSettingsPanel();
-    }
-  }, 380);
+    var el = document.getElementById('searchInput');
+    if (el) { el.focus(); el.select(); }
+  }, 80);
+}
+
+function closeMainSearchOverlay() {
+  var searchBar = document.getElementById('mainStationSearchBar');
+  var btnContainer = document.querySelector('.buttons-container');
+  var panel = document.getElementById('searchOverlayPanel');
+  var backdrop = document.getElementById('search-overlay-backdrop');
+
+  if (_searchOverlayAnchor && _searchOverlayAnchor.parentNode && searchBar) {
+    _searchOverlayAnchor.parentNode.insertBefore(searchBar, _searchOverlayAnchor.nextSibling);
+    if (btnContainer) _searchOverlayAnchor.parentNode.insertBefore(btnContainer, searchBar.nextSibling);
+  }
+
+  if (panel) panel.style.display = 'none';
+  if (backdrop) backdrop.style.display = 'none';
+
+  // أعد الـ overflow فقط لو مودال الإعدادات مش مفتوح كمان
+  var settingsPanel = document.getElementById('settings-panel');
+  if (!settingsPanel || settingsPanel.style.display === 'none') {
+    document.body.style.overflow = '';
+  }
+}
+
+// ===== فتح الإعدادات مباشرة (كمودال) من الشاشة الترحيبية، بدون إغلاق الشاشة الترحيبية =====
+function openSettingsFromWelcome() {
+  // افتح مودال الإعدادات مباشرة فوق الشاشة الترحيبية (يظهر في منتصف الشاشة تلقائيًا فوق الجميع)
+  // دون إغلاق الشاشة الترحيبية نفسها
+  var panel = document.getElementById('settings-panel');
+  if (panel && panel.style.display === 'none' && typeof toggleSettingsPanel === 'function') {
+    toggleSettingsPanel();
+  }
 }
 
 customAudioPlayer.addEventListener('play', function() {
@@ -17927,6 +18033,11 @@ setTimeout(autoScaleVerseFont, 100);
 
 </div>
 
+    <div id="search-overlay-backdrop" onclick="closeMainSearchOverlay()"></div>
+    <div id="searchOverlayPanel">
+      <button id="searchOverlayCloseBtn" type="button" onclick="closeMainSearchOverlay()" aria-label="إغلاق البحث" title="إغلاق / Close">✕</button>
+      <div id="searchOverlaySlot"></div>
+    </div>
     <div id="mainStationSearchBar" style="width:96%; max-width:460px; margin:10px auto 12px; position:relative;">
       <span aria-hidden="true" style="position:absolute; top:50%; right:16px; transform:translateY(-50%); font-size:16px; opacity:.55; pointer-events:none;">🔍</span>
       <input type="text" id="searchInput" class="search-input" style="width:100%; max-width:100%; margin:0; padding-right:40px; padding-left:64px; box-sizing:border-box;" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" data-fr="Rechercher une station ou le nom d'un récitateur" data-es="Buscar una emisora o el nombre de un recitador" data-sv="Sök efter en station eller ett recitatörsnamn" data-nl="Zoek een station of de naam van een reciteerder" data-ga="Cuardaigh stáisiún nó ainm aithriseora" data-de="Nach einem Sender oder Rezitatornamen suchen" data-ru="Поиск радиостанции или имени чтеца" data-tr="Bir istasyon veya kari adı ara" data-pt="Pesquisar uma estação ou o nome de um recitador" data-zh="搜索电台或诵读者姓名" data-ur="اسٹیشن یا قاری کا نام تلاش کریں" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
@@ -39329,6 +39440,22 @@ function changeFontSize(val) {
   if (lbl) lbl.textContent = val + '%';
   localStorage.setItem('userFontScale', val);
 }
+function increaseFontSize() {
+  var slider = document.getElementById('fontSizeSlider');
+  var cur = slider ? parseInt(slider.value, 10) : (parseInt(localStorage.getItem('userFontScale'), 10) || 100);
+  var next = Math.min(150, cur + 5);
+  if (slider) slider.value = next;
+  changeFontSize(next);
+  return next;
+}
+function decreaseFontSize() {
+  var slider = document.getElementById('fontSizeSlider');
+  var cur = slider ? parseInt(slider.value, 10) : (parseInt(localStorage.getItem('userFontScale'), 10) || 100);
+  var next = Math.max(80, cur - 5);
+  if (slider) slider.value = next;
+  changeFontSize(next);
+  return next;
+}
 (function initFontSizeSetting() {
   var saved = localStorage.getItem('userFontScale');
   var val = saved ? parseInt(saved, 10) : 100;
@@ -39437,9 +39564,14 @@ function toggleSettingsPanel() {
   }
 }
 
-// إغلاق مودال الإعدادات بزر Escape
+// إغلاق مودال الإعدادات، أو مودال البحث، بزر Escape
 document.addEventListener('keydown', function(e) {
   if (e.key !== 'Escape') return;
+  var searchPanel = document.getElementById('searchOverlayPanel');
+  if (searchPanel && searchPanel.style.display !== 'none') {
+    closeMainSearchOverlay();
+    return;
+  }
   var panel = document.getElementById('settings-panel');
   if (panel && panel.style.display !== 'none' && typeof toggleSettingsPanel === 'function') {
     toggleSettingsPanel();
@@ -47163,19 +47295,43 @@ document.addEventListener("keydown", function(e) {
     return;
   }
 
-  // S = فتح البحث مباشرةً
+  // S = فتح نافذة البحث (المودال)
   if (e.key === 's' || e.key === 'S' || e.key === 'س') {
     e.preventDefault();
     var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
-    var searchEl = document.getElementById('searchInput');
-    if (!searchEl) return;
-    searchEl.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
-    searchEl.focus();
-    searchEl.select();
+    if (typeof openMainSearchFromWelcome === 'function') openMainSearchFromWelcome();
     if (typeof showToast === 'function') showToast(ar ? '🔍 بحث' : '🔍 Search');
+    return;
+  }
+
+  // ] = تكبير حجم الخط
+  if (e.key === ']') {
+    e.preventDefault();
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    if (typeof increaseFontSize === 'function') {
+      var newSize = increaseFontSize();
+      if (typeof showToast === 'function') showToast((ar ? '🔠 حجم الخط: ' : '🔠 Font size: ') + newSize + '%');
+    }
+    return;
+  }
+
+  // [ = تصغير حجم الخط
+  if (e.key === '[') {
+    e.preventDefault();
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    if (typeof decreaseFontSize === 'function') {
+      var newSize = decreaseFontSize();
+      if (typeof showToast === 'function') showToast((ar ? '🔠 حجم الخط: ' : '🔠 Font size: ') + newSize + '%');
+    }
+    return;
+  }
+
+  // Y = بحث صوتي
+  if (e.key === 'y' || e.key === 'Y') {
+    e.preventDefault();
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    if (typeof startVoiceSearch === 'function') startVoiceSearch();
+    if (typeof showToast === 'function') showToast(ar ? '🎤 بحث صوتي' : '🎤 Voice search');
     return;
   }
 
@@ -48274,6 +48430,51 @@ document.addEventListener('keydown', function(e) {
       zh: '前往礼拜时间',
       ur: 'نماز کے اوقات پر جائیں'
     },
+    r_fontup: {
+      ar: 'تكبير حجم الخط',
+      en: 'Increase font size',
+      fr: 'Augmenter la taille de police',
+      es: 'Aumentar tamaño de fuente',
+      sv: 'Öka textstorlek',
+      nl: 'Lettergrootte vergroten',
+      ga: 'Méadaigh méid an chló',
+      de: 'Schriftgröße vergrößern',
+      ru: 'Увеличить размер шрифта',
+      tr: 'Yazı boyutunu büyüt',
+      pt: 'Aumentar tamanho da fonte',
+      zh: '增大字体',
+      ur: 'فونٹ سائز بڑھائیں'
+    },
+    r_fontdown: {
+      ar: 'تصغير حجم الخط',
+      en: 'Decrease font size',
+      fr: 'Réduire la taille de police',
+      es: 'Reducir tamaño de fuente',
+      sv: 'Minska textstorlek',
+      nl: 'Lettergrootte verkleinen',
+      ga: 'Laghdaigh méid an chló',
+      de: 'Schriftgröße verkleinern',
+      ru: 'Уменьшить размер шрифта',
+      tr: 'Yazı boyutunu küçült',
+      pt: 'Diminuir tamanho da fonte',
+      zh: '减小字体',
+      ur: 'فونٹ سائز کم کریں'
+    },
+    r_voice: {
+      ar: 'بحث صوتي',
+      en: 'Voice search',
+      fr: 'Recherche vocale',
+      es: 'Búsqueda por voz',
+      sv: 'Röstsökning',
+      nl: 'Spraakzoeken',
+      ga: 'Cuardach gutha',
+      de: 'Sprachsuche',
+      ru: 'Голосовой поиск',
+      tr: 'Sesli arama',
+      pt: 'Pesquisa por voz',
+      zh: '语音搜索',
+      ur: 'صوتی تلاش'
+    },
     sec_tools: {
       ar: '🧰 أدوات الفوتر',
       en: '🧰 Footer Tools',
@@ -48669,6 +48870,18 @@ document.addEventListener('keydown', function(e) {
       key: 'w',
       code: 'KeyW'
     },
+    r_fontup: {
+      key: ']',
+      code: 'BracketRight'
+    },
+    r_fontdown: {
+      key: '[',
+      code: 'BracketLeft'
+    },
+    r_voice: {
+      key: 'y',
+      code: 'KeyY'
+    },
     r_stats: {
       key: 'i',
       code: 'KeyI'
@@ -48870,6 +49083,9 @@ document.addEventListener('keydown', function(e) {
       kbRow('r_a', ['A'], lang),
       kbRow('r_d', ['D'], lang),
       kbRow('r_s', ['S'], lang),
+      kbRow('r_fontup', [']'], lang),
+      kbRow('r_fontdown', ['['], lang),
+      kbRow('r_voice', ['Y'], lang),
       '<div class="kb-row" data-action="r_o" role="button" tabindex="0" onclick="window._kbFireAction(\'r_o\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_o\')"><span class="kb-row-desc">' + T.r_o[lang] + '<span class="kb-row-tap-hint">' + (KB_TAP_HINT[lang] || KB_TAP_HINT.en) + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">3</span><span class="kb-sep">(</span><span class="kb-key">#</span><span class="kb-sep">)</span></div></div>',
       kbRow('r_f', ['F'], lang),
       '<div class="kb-row" data-action="r_sf" role="button" tabindex="0" onclick="window._kbFireAction(\'r_sf\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_sf\')"><span class="kb-row-desc">' + T.r_sf[lang] + '<span class="kb-row-tap-hint">' + (KB_TAP_HINT[lang] || KB_TAP_HINT.en) + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">F</span></div></div>',
