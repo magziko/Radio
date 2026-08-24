@@ -53609,10 +53609,7 @@ function _showAppUpdateToast() {
   requestAnimationFrame(function(){ el.style.opacity = '1'; });
 
   function _applyUpdate() {
-    // لو فيه SW جديد مستني، نطلب منه ياخد السيطرة فورًا (لو الـ service-worker.js بيدعم SKIP_WAITING)
-    if (window._radioSwRegistration && window._radioSwRegistration.waiting) {
-      window._radioSwRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
-    }
+    window._radioUpdateReloading = true;
     window.location.reload();
   }
   el.addEventListener('click', function(e) {
@@ -53626,6 +53623,21 @@ function _showAppUpdateToast() {
 }
 
 if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
+  // خزّن هل الصفحة كانت متحكم فيها بالفعل من SW عند أول تحميل (يعني مش أول تثبيت للتطبيق)
+  var _hadControllerAtLoad = !!navigator.serviceWorker.controller;
+
+  // service-worker.js بينادي self.skipWaiting() + self.clients.claim() تلقائيًا،
+  // فالإشارة الموثوقة للتحديث مش "installed"/"waiting" (بيعدوا بسرعة) لكن حدث
+  // controllerchange نفسه: بيبقى معناه إن SW جديد بقى هو المتحكم في الصفحة دلوقتي
+  navigator.serviceWorker.addEventListener('controllerchange', function() {
+    if (window._radioUpdateReloading) return; // إحنا اللي عملنا reload بأنفسنا بعد ضغط "تحديث الآن"
+    if (_hadControllerAtLoad) {
+      // الصفحة كان بيتحكم فيها SW قديم وبقى فيه واحد جديد بدله = تحديث حقيقي، مش أول تثبيت
+      _showAppUpdateToast();
+    }
+    _hadControllerAtLoad = true;
+  });
+
   window.addEventListener('load', function() {
     // updateViaCache:'none' يضمن إن المتصفح دايمًا يجيب service-worker.js نفسه
     // من الشبكة (مش من HTTP cache) في كل تسجيل/تحديث عادي
@@ -53633,22 +53645,6 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       .then(function(reg) {
         console.log('SW registered');
         window._radioSwRegistration = reg;
-
-        // لو فيه نسخة جديدة مثبتة ومستنية بالفعل وقت التسجيل، بلّغ المستخدم فورًا
-        if (reg.waiting && navigator.serviceWorker.controller) {
-          _showAppUpdateToast();
-        }
-
-        // اكتشاف تحديث جديد يحصل بعد التسجيل (مش أول تثبيت — لازم يكون فيه controller حالي)
-        reg.addEventListener('updatefound', function() {
-          var newWorker = reg.installing;
-          if (!newWorker) return;
-          newWorker.addEventListener('statechange', function() {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              _showAppUpdateToast();
-            }
-          });
-        });
 
         // تحقّق دوري (كل 30 دقيقة) عشان لو المستخدم سايب الصفحة مفتوحة فترة طويلة
         setInterval(function() { reg.update(); }, 30 * 60 * 1000);
