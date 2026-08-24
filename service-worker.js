@@ -4,7 +4,7 @@
 
 const CACHE_STATIC = 'quran-radio-static-v4';
 const CACHE_AUDIO  = 'quran-radio-audio-v2';
-const CACHE_ALARM  = 'quran-radio-alarm-v4';
+const CACHE_ALARM  = 'quran-radio-alarm-v5';
 const MAX_AUDIO_FILES = 50;
 
 const ALARM_AUDIO_URLS = [
@@ -27,7 +27,13 @@ const ALARM_AUDIO_URLS = [
   /* الصلاة الإبراهيمية — الثلاثة روابط (للعمل أوفلاين) */
   "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9%20%20%D8%A3%D8%A8%D9%88%20%D8%A5%D8%B3%D8%AD%D8%A7%D9%82.mp3",
   "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%20%D8%A7%D9%84%D8%A7%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9.mp3",
-  "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9.mp3"
+  "https://archive.org/download/20260407_20260407_2008/%D8%A7%D9%84%D8%B5%D9%84%D8%A7%D8%A9%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A%D8%A9.mp3",
+  /* ✅ أصوات الأذان الإضافية (قائمة اختيار الأذان في الإعدادات) */
+  "https://archive.org/download/20260824_20260824_2006/%D8%A7%D9%84%D8%B3%D8%B1%D9%8A%D8%AD%D9%8A%20%20.mp3",
+  "https://archive.org/download/20260824_20260824_2006/%D9%86%D8%A7%D8%B5%D8%B1%20.mp3",
+  "https://archive.org/download/20260824_20260824_2006/%D9%86%D8%A7%D8%B5%D8%B1%20%20%282%29.mp3",
+  "https://archive.org/download/20260824_20260824_2006/%D8%A7%D9%84%D9%86%D9%81%D9%8A%D8%B3%20.mp3",
+  "https://archive.org/download/20260824_20260824_2006/%D8%A7%D9%84%D9%86%D9%81%D9%8A%D8%B3%20%20%282%29.mp3"
 ];
 
 const ADHAN_URL = "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A9.mp3";
