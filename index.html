@@ -33624,10 +33624,10 @@ window._ptComputeDuha = _ptComputeDuha;
   };
   window.getAdhanSoundChoice = function() {
     var v = localStorage.getItem('adhanSoundChoice');
-    return (v === 'full') ? 'full' : 'short'; // القصير هو الافتراضي (مخزّن أوفلاين)
+    return v || 'short'; // القصير هو الافتراضي (مخزّن أوفلاين)
   };
   window.setAdhanSoundChoice = function(v) {
-    try { localStorage.setItem('adhanSoundChoice', v === 'full' ? 'full' : 'short'); } catch (e) {}
+    try { localStorage.setItem('adhanSoundChoice', v || 'short'); } catch (e) {}
   };
   window.setAdhanVolume = function(v) {
     try { localStorage.setItem('adhanVolume', String(v)); } catch (e) {}
@@ -33685,6 +33685,15 @@ window._ptComputeDuha = _ptComputeDuha;
       return '<option value="' + m.id + '"' + (active ? ' selected' : '') + '>' + (isAr ? m.ar : m.en) + '</option>';
     }).join('');
 
+    var soundOptionsList = window.ADHAN_SOUND_OPTIONS || [
+      { id: 'short', ar: 'قصير (يعمل أوفلاين)', en: 'Short (works offline)' },
+      { id: 'full',  ar: 'كامل', en: 'Full' }
+    ];
+    var soundOptions = soundOptionsList.map(function(o) {
+      var active = String(o.id) === String(curSoundChoice);
+      return '<option value="' + o.id + '"' + (active ? ' selected' : '') + '>' + (isAr ? o.ar : o.en) + '</option>';
+    }).join('');
+
     var overlay = document.createElement('div');
     overlay.id = 'prayerCalcModal';
     overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);animation:ptFadeIn .18s ease;';
@@ -33707,10 +33716,7 @@ window._ptComputeDuha = _ptComputeDuha;
 
         '<div style="margin-bottom:16px;">' +
           '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + _ptT('adhanSoundLabel', lang) + '</label>' +
-          '<div style="display:flex;gap:8px;">' +
-            '<button id="pcm-sound-short" data-v="short" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curSoundChoice === 'short' ? green : 'transparent') + ';color:' + (curSoundChoice === 'short' ? '#fff' : clr) + ';">' + _ptT('soundShort', lang) + '</button>' +
-            '<button id="pcm-sound-full" data-v="full" style="flex:1;padding:9px 6px;border-radius:10px;border:1px solid ' + border + ';cursor:pointer;font-family:Cairo,sans-serif;font-size:13px;background:' + (curSoundChoice === 'full' ? green : 'transparent') + ';color:' + (curSoundChoice === 'full' ? '#fff' : clr) + ';">' + _ptT('soundFull', lang) + '</button>' +
-          '</div>' +
+          '<select id="pcm-sound-select" style="width:100%;padding:9px 10px;border-radius:10px;border:1px solid ' + border + ';background:' + (isDark ? '#132018' : '#f7faf8') + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;">' + soundOptions + '</select>' +
           '<div style="font-size:10.5px;color:' + muted + ';margin-top:6px;">' + _ptT('soundNote', lang) + '</div>' +
         '</div>' +
 
@@ -33760,17 +33766,7 @@ window._ptComputeDuha = _ptComputeDuha;
     madhab0.addEventListener('click', function() { selectedMadhab = '0'; paintMadhab(); });
     madhab1.addEventListener('click', function() { selectedMadhab = '1'; paintMadhab(); });
 
-    var soundShortBtn = overlay.querySelector('#pcm-sound-short');
-    var soundFullBtn = overlay.querySelector('#pcm-sound-full');
-    var selectedSound = curSoundChoice;
-    function paintSoundChoice() {
-      soundShortBtn.style.background = selectedSound === 'short' ? green : 'transparent';
-      soundShortBtn.style.color = selectedSound === 'short' ? '#fff' : clr;
-      soundFullBtn.style.background = selectedSound === 'full' ? green : 'transparent';
-      soundFullBtn.style.color = selectedSound === 'full' ? '#fff' : clr;
-    }
-    soundShortBtn.addEventListener('click', function() { selectedSound = 'short'; paintSoundChoice(); });
-    soundFullBtn.addEventListener('click', function() { selectedSound = 'full'; paintSoundChoice(); });
+    var soundSelect = overlay.querySelector('#pcm-sound-select');
 
     var volInput = overlay.querySelector('#pcm-volume');
     var volVal = overlay.querySelector('#pcm-vol-val');
@@ -33857,7 +33853,7 @@ window._ptComputeDuha = _ptComputeDuha;
       window.setAdhanVolume(parseFloat(volInput.value));
       var preReminder = overlay.querySelector('#pcm-prereminder').value;
       window.setAdhanPreReminderMinutes(parseInt(preReminder, 10));
-      window.setAdhanSoundChoice(selectedSound);
+      window.setAdhanSoundChoice(soundSelect.value);
       // إعادة جدولة المؤقتات فورًا لتطبيق قيمة التنبيه الجديدة بدون انتظار منتصف الليل
       try {
         var geo = JSON.parse(localStorage.getItem('adhanGeoCache') || '{}');
@@ -44496,8 +44492,31 @@ window.addEventListener("load", function() {
   // نفس الملف على السيرفر المباشر بتاع archive.org — بنجربه الأول لأن رابط
   // /download/ العام بيعمل redirect لسيرفر معيّن وبيرجع أحيانًا 503 لو مزحوم
   const ADHAN_URL_FULL_MIRROR = "https://ia800703.us.archive.org/21/items/20250512_20250512_1243/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%AF%20%D8%B1%D8%A7%D9%85%D9%89%20%D8%B9%D8%A7%D8%AF%D9%84%20%D8%A7%D9%84%D8%B1%D9%81%D8%A7%D8%B9%D9%89.m4a";
+
+  // قائمة كل أصوات الأذان المتاحة للاختيار في إعدادات المستخدم (تظهر كـ <select> بدل
+  // زرارين "قصير/كامل" القدام). كل عنصر له id ثابت بيتخزن في localStorage عبر
+  // setAdhanSoundChoice، فلو حبيت تضيف صوت جديد تاني يكفي تضيف عنصر هنا بس.
+  const ADHAN_SOUND_OPTIONS = [
+    { id: 'short',   ar: 'قصير (يعمل أوفلاين)',      en: 'Short (works offline)',        url: ADHAN_URL_SHORT },
+    { id: 'full',    ar: 'كامل',                     en: 'Full',                          url: ADHAN_URL_FULL, mirror: ADHAN_URL_FULL_MIRROR },
+    { id: 'suraihi', ar: 'الشيخ السريحي',            en: 'Sheikh Al-Suraihi',             url: "https://archive.org/download/20260824_20260824_2006/%D8%A7%D9%84%D8%B3%D8%B1%D9%8A%D8%AD%D9%8A%20%20.mp3" },
+    { id: 'nasser1', ar: 'الشيخ ناصر القطامي (1)',   en: 'Sheikh Nasser Al-Qatami (1)',   url: "https://archive.org/download/20260824_20260824_2006/%D9%86%D8%A7%D8%B5%D8%B1%20.mp3" },
+    { id: 'nasser2', ar: 'الشيخ ناصر القطامي (2)',   en: 'Sheikh Nasser Al-Qatami (2)',   url: "https://archive.org/download/20260824_20260824_2006/%D9%86%D8%A7%D8%B5%D8%B1%20%20%282%29.mp3" },
+    { id: 'nafees1', ar: 'الشيخ النفيس (1)',         en: 'Sheikh Al-Nafees (1)',          url: "https://archive.org/download/20260824_20260824_2006/%D8%A7%D9%84%D9%86%D9%81%D9%8A%D8%B3%20.mp3" },
+    { id: 'nafees2', ar: 'الشيخ النفيس (2)',         en: 'Sheikh Al-Nafees (2)',          url: "https://archive.org/download/20260824_20260824_2006/%D8%A7%D9%84%D9%86%D9%81%D9%8A%D8%B3%20%20%282%29.mp3" }
+  ];
+  window.ADHAN_SOUND_OPTIONS = ADHAN_SOUND_OPTIONS;
+
+  function _getAdhanSoundOption() {
+    var choice = (window.getAdhanSoundChoice && window.getAdhanSoundChoice()) || 'short';
+    for (var i = 0; i < ADHAN_SOUND_OPTIONS.length; i++) {
+      if (ADHAN_SOUND_OPTIONS[i].id === choice) return ADHAN_SOUND_OPTIONS[i];
+    }
+    return ADHAN_SOUND_OPTIONS[0]; // fallback: القصير
+  }
+
   function _getScheduledAdhanUrl() {
-    return (window.getAdhanSoundChoice && window.getAdhanSoundChoice() === 'full') ? ADHAN_URL_FULL : ADHAN_URL_SHORT;
+    return _getAdhanSoundOption().url;
   }
   const PRAYER_ORDER = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
   const PRAYER_NAMES_AR = {
