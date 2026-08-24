@@ -19038,7 +19038,7 @@ setTimeout(autoScaleVerseFont, 100);
     <div id="mainStationSearchBar" style="width:96%; max-width:460px; margin:10px auto 12px; position:relative;">
       <span aria-hidden="true" style="position:absolute; top:50%; right:16px; transform:translateY(-50%); font-size:16px; opacity:.55; pointer-events:none;">🔍</span>
       <input type="text" id="searchInput" class="search-input" style="width:100%; max-width:100%; margin:0; padding-right:40px; padding-left:64px; box-sizing:border-box;" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" data-fr="Rechercher une station ou le nom d'un récitateur" data-es="Buscar una emisora o el nombre de un recitador" data-sv="Sök efter en station eller ett recitatörsnamn" data-nl="Zoek een station of de naam van een reciteerder" data-ga="Cuardaigh stáisiún nó ainm aithriseora" data-de="Nach einem Sender oder Rezitatornamen suchen" data-ru="Поиск радиостанции или имени чтеца" data-tr="Bir istasyon veya kari adı ara" data-pt="Pesquisar uma estação ou o nome de um recitador" data-zh="搜索电台或诵读者姓名" data-ur="اسٹیشن یا قاری کا نام تلاش کریں" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
-      <button type="button" id="micSearchBtn" onclick="startVoiceSearch()" aria-label="بحث أو أمر صوتي" title="بحث صوتي، أو قول: شغّل / وقف / التالي / السابق / ارفع الصوت / اخفض الصوت" style="display:none; position:absolute; top:50%; left:10px; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; opacity:.65; line-height:1; padding:4px;">🎤</button>
+      <button type="button" id="micSearchBtn" onclick="startVoiceSearch()" aria-label="بحث أو أمر صوتي" title="بحث صوتي، أو قول: شغّل / وقف / التالي / السابق / ارفع الصوت / اخفض الصوت / اكتم الصوت / بطل كتم / شغل قناة كذا" style="display:none; position:absolute; top:50%; left:10px; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; opacity:.65; line-height:1; padding:4px;">🎤</button>
       <button type="button" id="searchInputClearBtn" onclick="(function(){var s=document.getElementById('searchInput');s.value='';s.dispatchEvent(new Event('input'));s.focus();})()" aria-label="مسح البحث" title="مسح البحث" style="display:none; position:absolute; top:50%; left:38px; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; opacity:.55; line-height:1; padding:4px;">✕</button>
     </div>
 
@@ -33724,6 +33724,13 @@ window._ptComputeDuha = _ptComputeDuha;
   window.setAdhanSoundChoice = function(v) {
     try { localStorage.setItem('adhanSoundChoice', v || 'short'); } catch (e) {}
   };
+  // "أذان عشوائي": لما يبقى مفعّل، هيتم اختيار صوت مختلف عشوائيًا مع كل أذان بدل الصوت الثابت المحفوظ
+  window.getAdhanRandomMode = function() {
+    return localStorage.getItem('adhanRandomMode') === '1';
+  };
+  window.setAdhanRandomMode = function(v) {
+    try { localStorage.setItem('adhanRandomMode', v ? '1' : '0'); } catch (e) {}
+  };
   window.setAdhanVolume = function(v) {
     try { localStorage.setItem('adhanVolume', String(v)); } catch (e) {}
     if (typeof window._applyAdhanVolume === 'function') window._applyAdhanVolume(v);
@@ -33774,6 +33781,7 @@ window._ptComputeDuha = _ptComputeDuha;
     var curVol = window.getAdhanVolume();
     var curPreReminder = window.getAdhanPreReminderMinutes();
     var curSoundChoice = window.getAdhanSoundChoice();
+    var curRandomMode = window.getAdhanRandomMode ? window.getAdhanRandomMode() : false;
 
     var methodOptions = window.PRAYER_CALC_METHODS.map(function(m) {
       var active = String(m.id) === String(curMethod);
@@ -33784,9 +33792,20 @@ window._ptComputeDuha = _ptComputeDuha;
       { id: 'short', ar: 'قصير (يعمل أوفلاين)', en: 'Short (works offline)' },
       { id: 'full',  ar: 'كامل', en: 'Full' }
     ];
-    var soundOptions = soundOptionsList.map(function(o) {
+    // صف لكل صوت أذان: دائرة اختيار + الاسم + زرار "استمع" لمعاينة الصوت قبل اختياره
+    var soundListRows = soundOptionsList.map(function(o, idx) {
       var active = String(o.id) === String(curSoundChoice);
-      return '<option value="' + o.id + '"' + (active ? ' selected' : '') + '>' + (isAr ? o.ar : o.en) + '</option>';
+      return '<div class="pcm-sound-row" data-id="' + o.id + '" style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 10px;cursor:pointer;' +
+          (idx > 0 ? 'border-top:1px solid ' + border + ';' : '') +
+          (active ? 'background:' + (isDark ? 'rgba(93,202,165,0.12)' : 'rgba(var(--theme-g1-rgb),0.08)') + ';' : '') + '">' +
+        '<span style="display:flex;align-items:center;gap:8px;font-size:13px;color:' + clr + ';">' +
+          '<span class="pcm-sound-radio" style="width:16px;height:16px;border-radius:50%;border:2px solid ' + (active ? green : border) + ';display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">' +
+            (active ? '<span style="width:8px;height:8px;border-radius:50%;background:' + green + ';"></span>' : '') +
+          '</span>' +
+          '<span>' + (isAr ? o.ar : o.en) + '</span>' +
+        '</span>' +
+        '<button type="button" class="pcm-sound-preview" data-url="' + (o.url || '') + '" style="background:none;border:1px solid ' + border + ';color:' + clr + ';border-radius:14px;padding:4px 10px;font-size:11px;cursor:pointer;flex-shrink:0;">🔊 ' + (isAr ? 'استمع' : 'Listen') + '</button>' +
+      '</div>';
     }).join('');
 
     var overlay = document.createElement('div');
@@ -33810,8 +33829,14 @@ window._ptComputeDuha = _ptComputeDuha;
         '</div>' +
 
         '<div style="margin-bottom:16px;">' +
-          '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + _ptT('adhanSoundLabel', lang) + '</label>' +
-          '<select id="pcm-sound-select" style="width:100%;padding:9px 10px;border-radius:10px;border:1px solid ' + border + ';background:' + (isDark ? '#132018' : '#f7faf8') + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;">' + soundOptions + '</select>' +
+          '<label style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:' + muted + ';margin-bottom:8px;">' +
+            '<span>' + _ptT('adhanSoundLabel', lang) + '</span>' +
+            '<span style="display:flex;align-items:center;gap:6px;cursor:pointer;" id="pcm-sound-random-wrap">' +
+              '<span>' + (isAr ? '🔀 عشوائي' : '🔀 Random') + '</span>' +
+              '<input type="checkbox" id="pcm-sound-random" ' + (curRandomMode ? 'checked' : '') + ' style="width:16px;height:16px;accent-color:' + green + ';cursor:pointer;">' +
+            '</span>' +
+          '</label>' +
+          '<div id="pcm-sound-list" style="max-height:180px;overflow-y:auto;border:1px solid ' + border + ';border-radius:10px;' + (curRandomMode ? 'opacity:.55;pointer-events:none;' : '') + '">' + soundListRows + '</div>' +
           '<div style="font-size:10.5px;color:' + muted + ';margin-top:6px;">' + _ptT('soundNote', lang) + '</div>' +
         '</div>' +
 
@@ -33847,7 +33872,7 @@ window._ptComputeDuha = _ptComputeDuha;
       '</div>';
 
     document.body.appendChild(overlay);
-    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) { _stopSoundPreview(); overlay.remove(); } });
 
     var madhab0 = overlay.querySelector('#pcm-madhab-0');
     var madhab1 = overlay.querySelector('#pcm-madhab-1');
@@ -33861,7 +33886,70 @@ window._ptComputeDuha = _ptComputeDuha;
     madhab0.addEventListener('click', function() { selectedMadhab = '0'; paintMadhab(); });
     madhab1.addEventListener('click', function() { selectedMadhab = '1'; paintMadhab(); });
 
-    var soundSelect = overlay.querySelector('#pcm-sound-select');
+    var soundListEl = overlay.querySelector('#pcm-sound-list');
+    var randomCheckbox = overlay.querySelector('#pcm-sound-random');
+    var randomWrap = overlay.querySelector('#pcm-sound-random-wrap');
+    var selectedSoundId = curSoundChoice;
+
+    function _paintSoundList() {
+      var rows = soundListEl.querySelectorAll('.pcm-sound-row');
+      rows.forEach(function(row) {
+        var active = row.getAttribute('data-id') === selectedSoundId;
+        var radio = row.querySelector('.pcm-sound-radio');
+        row.style.background = active ? (isDark ? 'rgba(93,202,165,0.12)' : 'rgba(var(--theme-g1-rgb),0.08)') : 'transparent';
+        radio.style.borderColor = active ? green : border;
+        radio.innerHTML = active ? '<span style="width:8px;height:8px;border-radius:50%;background:' + green + ';"></span>' : '';
+      });
+      // لما يكون الوضع العشوائي مفعّل، الاختيار اليدوي بيتعطّل بصريًا (المعاينة تفضل شغالة)
+      soundListEl.style.opacity = randomCheckbox.checked ? '.55' : '1';
+    }
+    _paintSoundList();
+
+    // ── معاينة صوت الأذان قبل الاختيار ──
+    var _previewAudio = null;
+    var _previewActiveBtn = null;
+    function _stopSoundPreview() {
+      if (_previewAudio) { try { _previewAudio.pause(); } catch (e) {} _previewAudio.src = ''; _previewAudio = null; }
+      if (_previewActiveBtn) { _previewActiveBtn.textContent = '🔊 ' + (isAr ? 'استمع' : 'Listen'); _previewActiveBtn = null; }
+    }
+    function _toggleSoundPreview(btn) {
+      var url = btn.getAttribute('data-url');
+      if (!url) return;
+      if (_previewActiveBtn === btn) { _stopSoundPreview(); return; }
+      _stopSoundPreview();
+      _previewAudio = new Audio(url);
+      _previewActiveBtn = btn;
+      btn.textContent = '⏸ ' + (isAr ? 'إيقاف' : 'Stop');
+      _previewAudio.play().catch(function() {
+        if (typeof showToast === 'function') showToast(isAr ? '⚠️ تعذّر تشغيل المعاينة' : '⚠️ Could not play preview');
+        _stopSoundPreview();
+      });
+      _previewAudio.addEventListener('ended', _stopSoundPreview);
+    }
+
+    soundListEl.addEventListener('click', function(e) {
+      var previewBtn = e.target.closest ? e.target.closest('.pcm-sound-preview') : null;
+      if (previewBtn) {
+        e.stopPropagation();
+        _toggleSoundPreview(previewBtn);
+        return;
+      }
+      if (randomCheckbox.checked) return; // الاختيار اليدوي متوقف طول ما الوضع العشوائي شغال
+      var row = e.target.closest ? e.target.closest('.pcm-sound-row') : null;
+      if (row) {
+        selectedSoundId = row.getAttribute('data-id');
+        _paintSoundList();
+      }
+    });
+
+    randomCheckbox.addEventListener('change', _paintSoundList);
+    randomWrap.addEventListener('click', function(e) {
+      // اضغط في أي حتة في صف "عشوائي" بيقلب حالة الـ checkbox (مش بس الجسم الصغير بتاعه)
+      if (e.target !== randomCheckbox) {
+        randomCheckbox.checked = !randomCheckbox.checked;
+        _paintSoundList();
+      }
+    });
 
     var volInput = overlay.querySelector('#pcm-volume');
     var volVal = overlay.querySelector('#pcm-vol-val');
@@ -33941,14 +34029,16 @@ window._ptComputeDuha = _ptComputeDuha;
       if (typeof window.openCityPicker === 'function') window.openCityPicker();
     });
 
-    overlay.querySelector('#pcm-cancel').addEventListener('click', function() { overlay.remove(); });
+    overlay.querySelector('#pcm-cancel').addEventListener('click', function() { _stopSoundPreview(); overlay.remove(); });
     overlay.querySelector('#pcm-save').addEventListener('click', function() {
+      _stopSoundPreview();
       var method = overlay.querySelector('#pcm-method').value;
       window.savePrayerCalcSettings(method, selectedMadhab);
       window.setAdhanVolume(parseFloat(volInput.value));
       var preReminder = overlay.querySelector('#pcm-prereminder').value;
       window.setAdhanPreReminderMinutes(parseInt(preReminder, 10));
-      window.setAdhanSoundChoice(soundSelect.value);
+      window.setAdhanSoundChoice(selectedSoundId);
+      if (window.setAdhanRandomMode) window.setAdhanRandomMode(randomCheckbox.checked);
       // إعادة جدولة المؤقتات فورًا لتطبيق قيمة التنبيه الجديدة بدون انتظار منتصف الليل
       try {
         var geo = JSON.parse(localStorage.getItem('adhanGeoCache') || '{}');
@@ -39037,6 +39127,72 @@ function _handleVoiceCommand(rawText) {
     return list.some(function(w) {
       return w.indexOf(' ') !== -1 ? t.indexOf(w) !== -1 : words.indexOf(w) !== -1;
     });
+  }
+
+  // تطبيع نص لمطابقة أسماء المحطات (نفس منطق خانة البحث النصي)
+  function _normVoiceStation(s) {
+    return (s || '').toString()
+      .replace(/[\u064B-\u0652\u0670\u0640]/g, '')
+      .replace(/[إأآاٱ]/g, 'ا')
+      .replace(/[ىئ]/g, 'ي')
+      .replace(/ة/g, 'ه')
+      .replace(/[ؤء]/g, 'و')
+      .toLowerCase().trim();
+  }
+
+  function _findStationButtonByVoiceName(name) {
+    var q = _normVoiceStation(name);
+    if (!q) return null;
+    var allBtns = document.querySelectorAll('button[data-station]');
+    for (var i = 0; i < allBtns.length; i++) {
+      var b = allBtns[i];
+      var text = _normVoiceStation(b.textContent) + ' ' +
+        _normVoiceStation(b.getAttribute('data-ar') || '') + ' ' +
+        _normVoiceStation(b.getAttribute('data-en') || '') + ' ' +
+        _normVoiceStation(b.getAttribute('data-station') || '');
+      if (text.indexOf(q) !== -1) return b;
+    }
+    return null;
+  }
+
+  // طلب محطة/سورة بالاسم مباشرة: "شغل قناة كذا" / "افتح سورة البقرة" / "play station ..."
+  var _stationReqMatch =
+    t.match(/^(?:شغل|شغلي|شغّل|افتح|إفتح|ابدأ|إبدأ|ابدا)\s+(?:قناة|إذاعة|اذاعة|محطة|راديو|سورة|قارئ|الشيخ|شيخ)\s+(.+)$/) ||
+    t.match(/^(?:play|open|start)\s+(?:station|channel|radio|surah|sura|reciter)\s+(.+)$/i);
+  if (_stationReqMatch && _stationReqMatch[1]) {
+    var _reqName = _stationReqMatch[1].trim();
+    var _foundBtn = _findStationButtonByVoiceName(_reqName);
+    if (_foundBtn) {
+      playFromNotification(_foundBtn);
+      if (typeof showToast === 'function') {
+        showToast((_isAr ? '▶️ جارِ تشغيل: ' : '▶️ Playing: ') + (_foundBtn.getAttribute('data-ar') || _foundBtn.getAttribute('data-station') || _reqName));
+      }
+    } else {
+      if (typeof showToast === 'function') showToast(_isAr ? '❓ لم يتم العثور على: ' + _reqName : '❓ Not found: ' + _reqName);
+    }
+    return true;
+  }
+
+  // كتم الصوت
+  if (matches([
+    'اكتم الصوت', 'اكتم', 'كتم الصوت', 'كتم', 'بلا صوت', 'وقف الصوت',
+    'mute', 'mute it', 'mute the sound', 'silence'
+  ])) {
+    var apMute = document.getElementById('currentAudio');
+    if (apMute) apMute.muted = true;
+    if (typeof showToast === 'function') showToast(_isAr ? '🔇 تم كتم الصوت' : '🔇 Muted');
+    return true;
+  }
+
+  // إلغاء الكتم
+  if (matches([
+    'الغاء الكتم', 'إلغاء الكتم', 'بطل كتم', 'فك الكتم', 'رجع الصوت', 'شغل الصوت',
+    'unmute', 'unmute it', 'turn sound back on'
+  ])) {
+    var apUnmute = document.getElementById('currentAudio');
+    if (apUnmute) apUnmute.muted = false;
+    if (typeof showToast === 'function') showToast(_isAr ? '🔊 تم إلغاء الكتم' : '🔊 Unmuted');
+    return true;
   }
 
   // إيقاف مؤقت
@@ -44749,6 +44905,11 @@ window.addEventListener("load", function() {
   window.ADHAN_SOUND_OPTIONS = ADHAN_SOUND_OPTIONS;
 
   function _getAdhanSoundOption() {
+    // أذان عشوائي: اختر صوت مختلف عشوائيًا مع كل أذان بدل الصوت الثابت المحفوظ
+    if (window.getAdhanRandomMode && window.getAdhanRandomMode()) {
+      var _idx = Math.floor(Math.random() * ADHAN_SOUND_OPTIONS.length);
+      return ADHAN_SOUND_OPTIONS[_idx];
+    }
     var choice = (window.getAdhanSoundChoice && window.getAdhanSoundChoice()) || 'short';
     for (var i = 0; i < ADHAN_SOUND_OPTIONS.length; i++) {
       if (ADHAN_SOUND_OPTIONS[i].id === choice) return ADHAN_SOUND_OPTIONS[i];
@@ -53424,6 +53585,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- PWA Service Worker -->
 <script>
+// ===== توست بسيط لما يبقى فيه تحديث جديد متاح للتطبيق =====
+function _showAppUpdateToast() {
+  if (document.getElementById('appUpdateToast')) return; // متعرضش نسخة تانية لو ظاهر بالفعل
+  var _isAr = (typeof isArabic === 'undefined') ? true : isArabic;
+  var isDark = document.body.classList.contains('dark-mode');
+  var el = document.createElement('div');
+  el.id = 'appUpdateToast';
+  el.setAttribute('dir', _isAr ? 'rtl' : 'ltr');
+  el.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);' +
+    'display:flex;align-items:center;gap:10px;' +
+    'background:' + (isDark ? '#132018' : '#1e1e1e') + ';color:#fff;padding:11px 14px 11px 18px;border-radius:24px;' +
+    'font-family:Cairo,Arial,sans-serif;font-size:13.5px;font-weight:700;z-index:99999;' +
+    'box-shadow:0 6px 18px rgba(0,0,0,0.35);max-width:92%;text-align:' + (_isAr ? 'right' : 'left') + ';' +
+    'opacity:0;transition:opacity 0.25s ease;cursor:pointer;';
+  el.innerHTML =
+    '<span>🔄 ' + (_isAr ? 'يوجد تحديث جديد للتطبيق' : 'A new app update is available') + '</span>' +
+    '<button type="button" style="background:var(--theme-g1,#2ecc71);color:#fff;border:none;border-radius:16px;padding:6px 12px;font-family:Cairo,Arial,sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;">' +
+      (_isAr ? 'تحديث الآن' : 'Update now') +
+    '</button>' +
+    '<span id="appUpdateToastClose" style="opacity:.6;font-size:15px;padding:2px 4px;line-height:1;">✕</span>';
+  document.body.appendChild(el);
+  requestAnimationFrame(function(){ el.style.opacity = '1'; });
+
+  function _applyUpdate() {
+    // لو فيه SW جديد مستني، نطلب منه ياخد السيطرة فورًا (لو الـ service-worker.js بيدعم SKIP_WAITING)
+    if (window._radioSwRegistration && window._radioSwRegistration.waiting) {
+      window._radioSwRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+    }
+    window.location.reload();
+  }
+  el.addEventListener('click', function(e) {
+    if (e.target && e.target.id === 'appUpdateToastClose') {
+      el.style.opacity = '0';
+      setTimeout(function(){ el.remove(); }, 250);
+      return;
+    }
+    _applyUpdate();
+  });
+}
+
 if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   window.addEventListener('load', function() {
     // updateViaCache:'none' يضمن إن المتصفح دايمًا يجيب service-worker.js نفسه
@@ -53432,6 +53633,25 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       .then(function(reg) {
         console.log('SW registered');
         window._radioSwRegistration = reg;
+
+        // لو فيه نسخة جديدة مثبتة ومستنية بالفعل وقت التسجيل، بلّغ المستخدم فورًا
+        if (reg.waiting && navigator.serviceWorker.controller) {
+          _showAppUpdateToast();
+        }
+
+        // اكتشاف تحديث جديد يحصل بعد التسجيل (مش أول تثبيت — لازم يكون فيه controller حالي)
+        reg.addEventListener('updatefound', function() {
+          var newWorker = reg.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', function() {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              _showAppUpdateToast();
+            }
+          });
+        });
+
+        // تحقّق دوري (كل 30 دقيقة) عشان لو المستخدم سايب الصفحة مفتوحة فترة طويلة
+        setInterval(function() { reg.update(); }, 30 * 60 * 1000);
       })
       .catch(function(err) {
         console.log('SW failed:', err);
@@ -53452,6 +53672,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   });
 }
 </script>
+
 
 <!-- تأكيد إجباري قبل إغلاق الصفحة أثناء تشغيل الصوت -->
 <script>
