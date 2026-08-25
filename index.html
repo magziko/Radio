@@ -4812,6 +4812,27 @@ body.dark-mode #welcome-top-bar #welcomeTopHideBtn.active {
     color: red;
   }
 
+  .fav-drag-handle {
+    display: none;
+    cursor: grab;
+    touch-action: none;
+    font-size: 15px;
+    color: #999;
+    padding: 0 8px 0 2px;
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  body.filter-favorites .button .fav-drag-handle {
+    display: inline-block;
+  }
+  .button.fav-dragging {
+    opacity: 0.45;
+  }
+  body.dark-mode .fav-drag-handle {
+    color: #888;
+  }
+
   .station-shortcut-icon {
     font-size: 14px;
     font-weight: 900;
@@ -5119,6 +5140,16 @@ body.dark-mode h1, body.dark-mode h2, body.dark-mode h3,
 body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
 body.dark-mode li, body.dark-mode td, body.dark-mode th {
     color: #e0e0e0 !important;
+}
+
+/* أيقونة ❤ المفضلة لازم تفضل بلونها (رمادي/أحمر) حتى في الوضع الليلي،
+   عشان نقدر نميّز المحطة المفضّلة من غيرها — القاعدة اللي فوق دي بتطبّق
+   على كل <span> عمومًا وبتلغي لون القلب سواء كان مضاف للمفضلة أو لأ */
+body.dark-mode .favorite-icon {
+    color: #8a8a8a !important;
+}
+body.dark-mode .favorite-icon.favorited {
+    color: #ff4d4d !important;
 }
 
 body.dark-mode #welcomeScreen {
@@ -38455,6 +38486,88 @@ function getButtonStationKey(button) {
   return m ? m[1] : null;
 }
 
+// ══════════ ترتيب المفضلة بالسحب والإفلات ══════════
+let favoritesOrder = JSON.parse(localStorage.getItem('favoritesOrder')) || [];
+let _favDragState = null;
+
+function _syncFavoritesOrder() {
+  favoritesOrder = favoritesOrder.filter(function(key) { return favorites.indexOf(key) !== -1; });
+  favorites.forEach(function(key) {
+    if (favoritesOrder.indexOf(key) === -1) favoritesOrder.push(key);
+  });
+  localStorage.setItem('favoritesOrder', JSON.stringify(favoritesOrder));
+}
+
+function applyFavoritesOrder() {
+  _syncFavoritesOrder();
+  document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(button) {
+    var key = getButtonStationKey(button);
+    if (showingFavorites && key && favorites.indexOf(key) !== -1) {
+      var idx = favoritesOrder.indexOf(key);
+      button.style.order = idx === -1 ? '' : idx;
+    } else {
+      button.style.order = '';
+    }
+  });
+}
+
+function ensureFavDragHandles() {
+  document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(button) {
+    if (button.querySelector('.fav-drag-handle')) return;
+    if (!button.querySelector('.favorite-icon')) return; // بدون مفضلة، لا داعي للمقبض
+    var handle = document.createElement('span');
+    handle.className = 'fav-drag-handle';
+    handle.innerHTML = '⠿';
+    handle.title = 'اسحب لإعادة الترتيب';
+    handle.addEventListener('click', function(e) { e.stopPropagation(); e.preventDefault(); });
+    handle.addEventListener('pointerdown', _favDragStart);
+    button.insertBefore(handle, button.firstChild);
+  });
+}
+
+function _favDragStart(e) {
+  if (!showingFavorites) return;
+  e.preventDefault();
+  e.stopPropagation();
+  var button = e.currentTarget.closest('.button');
+  if (!button) return;
+  var key = getButtonStationKey(button);
+  if (!key || favorites.indexOf(key) === -1) return;
+  _favDragState = { key: key, button: button };
+  button.classList.add('fav-dragging');
+  try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+  document.addEventListener('pointermove', _favDragMove);
+  document.addEventListener('pointerup', _favDragEnd);
+  document.addEventListener('pointercancel', _favDragEnd);
+}
+
+function _favDragMove(e) {
+  if (!_favDragState) return;
+  e.preventDefault();
+  var el = document.elementFromPoint(e.clientX, e.clientY);
+  var targetButton = el ? el.closest('.button:not(#prevButton):not(#nextButton):not(#randomButton)') : null;
+  if (!targetButton || targetButton === _favDragState.button) return;
+  var targetKey = getButtonStationKey(targetButton);
+  if (!targetKey || favorites.indexOf(targetKey) === -1) return;
+  var fromIdx = favoritesOrder.indexOf(_favDragState.key);
+  var toIdx = favoritesOrder.indexOf(targetKey);
+  if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx) return;
+  favoritesOrder.splice(fromIdx, 1);
+  favoritesOrder.splice(toIdx, 0, _favDragState.key);
+  applyFavoritesOrder();
+}
+
+function _favDragEnd(e) {
+  if (!_favDragState) return;
+  _favDragState.button.classList.remove('fav-dragging');
+  localStorage.setItem('favoritesOrder', JSON.stringify(favoritesOrder));
+  _favDragState = null;
+  document.removeEventListener('pointermove', _favDragMove);
+  document.removeEventListener('pointerup', _favDragEnd);
+  document.removeEventListener('pointercancel', _favDragEnd);
+}
+// ══════════ نهاية كود ترتيب المفضلة ══════════
+
 function updateFavoritesIcons() {
   document.querySelectorAll('.palestine').forEach(button => {
     const station = button.getAttribute('data-station');
@@ -38484,32 +38597,15 @@ function toggleFavorite(event, station) {
   localStorage.setItem('favorites', JSON.stringify(favorites));
 
   if (showingFavorites) {
-    toggleFavoritesView();
+    // كنا شايفين قائمة المفضلة فعلاً — بنحدّث نفس القائمة فقط (نخفي المحطة اللي اتشالت
+    // من المفضلة مثلاً) من غير ما "نخرج" من فلتر المفضلة زي ما كان بيحصل بغلط قبل كده
+    refreshFavoritesListDisplay();
   }
 }
 
-function toggleFavoritesView() {
-  showingFavorites = !showingFavorites;
-
-  document.body.classList.toggle('filter-favorites', showingFavorites);
-  if (showingFavorites) document.body.classList.remove('filter-scholars');
-
-  var prayerWidgetFav = document.getElementById('prayerWidgetWrapper');
-  if (prayerWidgetFav) prayerWidgetFav.style.display = 'none';
-
-  var salahPipFav = document.getElementById('salah-pip-section');
-  if (salahPipFav) salahPipFav.style.display = showingFavorites ? 'none' : '';
-
-  const viewFavoritesButton = document.getElementById('viewFavoritesButton');
-  const favLabel = document.getElementById('favLabel');
-  const favHeart = document.getElementById('favHeart');
-  const _favLang = typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en');
-  const allStationsText = ' ' + (viewFavoritesButton.getAttribute('data-all-' + _favLang) || viewFavoritesButton.getAttribute('data-all-en') || 'All Stations');
-  const favText = ' ' + (viewFavoritesButton.getAttribute('data-' + _favLang) || viewFavoritesButton.getAttribute('data-en') || 'Favorites').replace(/❤/g, '').trim();
-  if (favLabel) favLabel.textContent = showingFavorites ? allStationsText : favText;
-  if (favHeart) favHeart.style.display = showingFavorites ? 'none' : 'inline-block';
-  viewFavoritesButton.classList.toggle('selected', showingFavorites);
-
+// ── يعيد رسم/إخفاء أزرار المحطات حسب حالة فلتر المفضلة الحالية (showingFavorites)
+// من غير ما يغيّر قيمة showingFavorites نفسها — يُستخدم للتحديث فقط ──
+function refreshFavoritesListDisplay() {
   var oldMsg = document.getElementById('favoritesEmptyMsg');
   if (oldMsg) oldMsg.remove();
 
@@ -38533,7 +38629,7 @@ function toggleFavoritesView() {
       zh: '❤️ 还没有收藏的电台。<br><span style="font-size:13px;color:#aaa;">点击电台旁边的 ❤ 即可添加</span>',
       ur: '❤️ ابھی تک کوئی پسندیدہ اسٹیشن نہیں۔<br><span style="font-size:13px;color:#aaa;">شامل کرنے کے لیے کسی بھی اسٹیشن کے ساتھ ❤ پر ٹیپ کریں</span>'
     };
-    msg.innerHTML = _favEmptyMsgs[_favLang] || _favEmptyMsgs.en;
+    msg.innerHTML = _favEmptyMsgs[_favLang_get()] || _favEmptyMsgs.en;
     const container = document.querySelector('.buttons-container') || document.getElementById('buttons-container');
     if (container) container.parentNode.insertBefore(msg, container);
     document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(b => {
@@ -38551,7 +38647,38 @@ function toggleFavoritesView() {
     });
   }
 
+  ensureFavDragHandles();
+  applyFavoritesOrder();
   updateButtonIndices();
+}
+
+function _favLang_get() {
+  return typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en');
+}
+
+function toggleFavoritesView() {
+  showingFavorites = !showingFavorites;
+
+  document.body.classList.toggle('filter-favorites', showingFavorites);
+  if (showingFavorites) document.body.classList.remove('filter-scholars');
+
+  var prayerWidgetFav = document.getElementById('prayerWidgetWrapper');
+  if (prayerWidgetFav) prayerWidgetFav.style.display = 'none';
+
+  var salahPipFav = document.getElementById('salah-pip-section');
+  if (salahPipFav) salahPipFav.style.display = showingFavorites ? 'none' : '';
+
+  const viewFavoritesButton = document.getElementById('viewFavoritesButton');
+  const favLabel = document.getElementById('favLabel');
+  const favHeart = document.getElementById('favHeart');
+  const _favLang = _favLang_get();
+  const allStationsText = ' ' + (viewFavoritesButton.getAttribute('data-all-' + _favLang) || viewFavoritesButton.getAttribute('data-all-en') || 'All Stations');
+  const favText = ' ' + (viewFavoritesButton.getAttribute('data-' + _favLang) || viewFavoritesButton.getAttribute('data-en') || 'Favorites').replace(/❤/g, '').trim();
+  if (favLabel) favLabel.textContent = showingFavorites ? allStationsText : favText;
+  if (favHeart) favHeart.style.display = showingFavorites ? 'none' : 'inline-block';
+  viewFavoritesButton.classList.toggle('selected', showingFavorites);
+
+  refreshFavoritesListDisplay();
 }
 
 function switchToNextButton() {
@@ -38943,6 +39070,23 @@ function filterStations(category) {
   // ── 2. body classes ───────────────────────────────────────────────────
   document.body.classList.remove('filter-scholars', 'filter-favorites');
   if (category === 'scholars') document.body.classList.add('filter-scholars');
+
+  // ── 2ب. لو كنا شايفين فلتر المفضلة وبعدين ضغطنا على أي فلتر تاني، لازم
+  // نطفي متغيّر showingFavorites نفسه (مش بس كلاس الـ body) وإلا toggleFavorite
+  // هيفضل يعتقد إننا لسه في المفضلة وهيقفل الشاشة على المفضلة تلقائي أول ما نضيف محطة ──
+  if (showingFavorites) {
+    showingFavorites = false;
+    var _fsViewFavBtn = document.getElementById('viewFavoritesButton');
+    if (_fsViewFavBtn) {
+      _fsViewFavBtn.classList.remove('selected');
+      var _fsFavLabel = document.getElementById('favLabel');
+      var _fsFavHeart = document.getElementById('favHeart');
+      var _fsLang = _favLang_get();
+      var _fsFavText = ' ' + (_fsViewFavBtn.getAttribute('data-' + _fsLang) || _fsViewFavBtn.getAttribute('data-en') || 'Favorites').replace(/❤/g, '').trim();
+      if (_fsFavLabel) _fsFavLabel.textContent = _fsFavText;
+      if (_fsFavHeart) _fsFavHeart.style.display = 'inline-block';
+    }
+  }
 
   // ── 3. عناصر UI مشروطة ───────────────────────────────────────────────
   var prayerWidget = document.getElementById('prayerWidgetWrapper');
@@ -39710,6 +39854,14 @@ document.getElementById('randomButton').addEventListener('click', function() {
 
 function updateButtonIndices() {
   buttons = document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)');
+  if (showingFavorites) {
+    // بترتيب المفضلة المرئي (CSS order) عشان أزرار التالي/السابق تتبع نفس ترتيب السحب
+    buttons = Array.prototype.slice.call(buttons).sort(function(a, b) {
+      var oa = a.style.order === '' ? 0 : parseInt(a.style.order, 10) || 0;
+      var ob = b.style.order === '' ? 0 : parseInt(b.style.order, 10) || 0;
+      return oa - ob;
+    });
+  }
   buttons.forEach((button, index) => {
     button.setAttribute('data-index', index);
   });
