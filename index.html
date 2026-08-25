@@ -3704,16 +3704,17 @@ body.dark-mode .color-setting-item .responsive-select {
     background-image: none;
     background-color: transparent;
     position: relative;
-    border-radius: 0;
+    border-radius: 20px;
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.14);
     color: white;
     padding: 10px;
     margin: 0 auto;
     overflow: hidden;
+    isolation: isolate;
     animation: waveFlag 3s infinite ease-in-out;
 }
 
@@ -3726,11 +3727,21 @@ body.dark-mode .color-setting-item .responsive-select {
     object-position: center;
     z-index: 0;
     pointer-events: none;
+    filter: saturate(0.82) brightness(0.9) contrast(1.02);
+}
+
+.isolated-radio-player::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.12) 65%, rgba(0,0,0,0.5) 100%);
 }
 
 .isolated-radio-player > *:not(.flag-bg-img) {
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 body.filter-scholars .isolated-radio-player,
