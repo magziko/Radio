@@ -3704,17 +3704,16 @@ body.dark-mode .color-setting-item .responsive-select {
     background-image: none;
     background-color: transparent;
     position: relative;
-    border-radius: 20px;
+    border-radius: 0;
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.14);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     color: white;
     padding: 10px;
     margin: 0 auto;
     overflow: hidden;
-    isolation: isolate;
     animation: waveFlag 3s infinite ease-in-out;
 }
 
@@ -3727,21 +3726,11 @@ body.dark-mode .color-setting-item .responsive-select {
     object-position: center;
     z-index: 0;
     pointer-events: none;
-    filter: saturate(0.82) brightness(0.9) contrast(1.02);
-}
-
-.isolated-radio-player::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.12) 65%, rgba(0,0,0,0.5) 100%);
 }
 
 .isolated-radio-player > *:not(.flag-bg-img) {
     position: relative;
-    z-index: 2;
+    z-index: 1;
 }
 
 body.filter-scholars .isolated-radio-player,
@@ -4842,6 +4831,25 @@ body.dark-mode #welcome-top-bar #welcomeTopHideBtn.active {
   }
   body.dark-mode .fav-drag-handle {
     color: #888;
+  }
+
+  #favCountBadge {
+    display: none;
+    background: rgba(255, 255, 255, 0.35);
+    color: inherit;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 999px;
+    margin-inline-start: 5px;
+    vertical-align: middle;
+  }
+  #favCountBadge.show {
+    display: inline-block;
+  }
+  body.dark-mode #favCountBadge {
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .station-shortcut-icon {
@@ -18097,7 +18105,7 @@ setTimeout(autoScaleVerseFont, 100);
 <div id="filters-container" class="filter-container">
 
 <button id="viewFavoritesButton" data-ar="❤ المفضلة" data-en="Favorites ❤" data-fr="❤ Favoris" data-es="❤ Favoritos" data-sv="❤ Favoriter" data-nl="❤ Favorieten" data-ga="❤ Ceanáin" data-de="❤ Favoriten" data-ru="❤ Избранное" data-tr="❤ Favoriler" data-pt="❤ Favoritos" data-zh="❤ 收藏" data-ur="❤ پسندیدہ" data-all-ar="كل المحطات" data-all-en="All Stations" data-all-fr="Toutes les stations" data-all-es="Todas las emisoras" data-all-sv="Alla stationer" data-all-nl="Alle stations" data-all-ga="Gach Stáisiún" data-all-de="Alle Sender" data-all-ru="Все радиостанции" data-all-tr="Tüm İstasyonlar" data-all-pt="Todas as Estações" data-all-zh="所有电台" data-all-ur="تمام اسٹیشنز" onclick="toggleFavoritesView()">
-  <span id="favHeart" onclick="event.stopPropagation(); confirmClearFavorites();" title="حذف كل المفضلة" style="cursor:pointer;padding:0 3px 0 5px;font-size:15px;display:inline-block;vertical-align:middle;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.35)'" onmouseout="this.style.transform='scale(1)'">❤</span><span id="favLabel"> المفضلة</span>
+  <span id="favHeart" onclick="event.stopPropagation(); confirmClearFavorites();" title="حذف كل المفضلة" style="cursor:pointer;padding:0 3px 0 5px;font-size:15px;display:inline-block;vertical-align:middle;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.35)'" onmouseout="this.style.transform='scale(1)'">❤</span><span id="favLabel"> المفضلة</span><span id="favCountBadge"></span>
 </button>
 <button class="filter-button" data-ar="القرآن الكريم" data-en="Holy Quran" data-fr="Saint Coran" data-es="Sagrado Corán" data-sv="Heliga Koranen" data-nl="Heilige Koran" data-ga="An Corán Naofa" data-de="Heiliger Koran" data-ru="Священный Коран" data-tr="Kur'an-ı Kerim" data-pt="Alcorão Sagrado" data-zh="古兰经" data-ur="قرآن کریم" onclick="filterStations('QuranKarim')">القرآن الكريم</button>
 <button class="filter-button" data-ar="القراء" data-en="Reciters" data-fr="Récitateurs" data-es="Recitadores" data-sv="Reciterare" data-nl="Reciteerders" data-ga="Aithriseoirí" data-de="Rezitatoren" data-ru="Чтецы" data-tr="Kariler" data-pt="Recitadores" data-zh="诵读者" data-ur="قاری حضرات" onclick="filterStations('reciters')">القراء</button>
@@ -38579,6 +38587,14 @@ function _favDragEnd(e) {
 }
 // ══════════ نهاية كود ترتيب المفضلة ══════════
 
+function updateFavCountBadge() {
+  var badge = document.getElementById('favCountBadge');
+  if (!badge) return;
+  var n = favorites.length;
+  badge.textContent = n;
+  badge.classList.toggle('show', n > 0);
+}
+
 function updateFavoritesIcons() {
   document.querySelectorAll('.palestine').forEach(button => {
     const station = button.getAttribute('data-station');
@@ -38591,6 +38607,7 @@ function updateFavoritesIcons() {
       icon.style.color = 'gray';
     }
   });
+  updateFavCountBadge();
 }
 
 function toggleFavorite(event, station) {
@@ -38606,6 +38623,7 @@ function toggleFavorite(event, station) {
     icon.style.color = 'red';
   }
   localStorage.setItem('favorites', JSON.stringify(favorites));
+  updateFavCountBadge();
 
   if (showingFavorites) {
     // كنا شايفين قائمة المفضلة فعلاً — بنحدّث نفس القائمة فقط (نخفي المحطة اللي اتشالت
