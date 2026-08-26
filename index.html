@@ -30671,7 +30671,7 @@ const moreTranslations = [{
 
 
 
-<button class="button palestine"
+<button class="button palestine no-auto-play"
     data-category="more-sites"
     data-station="درايف القطامي"
     data-ar="درايف القطامي"
@@ -30695,7 +30695,7 @@ const moreTranslations = [{
                  return false;">&#x2764;</span>
 </button>
 
-<button class="button palestine triple-click"
+<button class="button palestine triple-click no-auto-play"
     data-category="more-sites"
     data-hidden-sub="true"
     data-station="بث مشترك"
@@ -30772,7 +30772,7 @@ const moreTranslations = [{
                    return false;">&#x2764;</span>
 </button>
 
-<button class="button palestine triple-click"
+<button class="button palestine triple-click no-auto-play"
     data-category="more-sites"
     data-hidden-sub="true"
     data-station="🏞️ / 📡 / ♟️ / 📜 / 💬"
@@ -30818,7 +30818,7 @@ const moreTranslations = [{
                    return false;">❤️</span>
 </button>
 
-<button class="button palestine"
+<button class="button palestine no-auto-play"
     data-category="more-sites"
     data-station="تحميل تطبيق الأندرويد (قديم)"
     data-ar="تحميل تطبيق الأندرويد (قديم)"
@@ -30851,7 +30851,7 @@ const moreTranslations = [{
                  return false;">&#x2764;</span>
 </button>
 
-<button class="button palestine"
+<button class="button palestine no-auto-play"
     data-category="more-sites"
     data-station="تحميل تطبيق الأندرويد (جديد)"
     data-ar="تحميل تطبيق الأندرويد (جديد)"
@@ -37979,7 +37979,19 @@ function playRandomFavorite() {
     showToast(ar ? '❤ المفضلة فارغة' : '❤ No favorites yet');
     return;
   }
-  var pick = favorites[Math.floor(Math.random() * favorites.length)];
+  // ── استبعاد الأزرار غير القابلة للتشغيل (تحميل التطبيق / درايف القطامي / الروابط المتعددة) من الاختيار العشوائي ──
+  var _nonPlayableStations = Array.from(document.querySelectorAll('.no-auto-play[data-station]')).map(function(b) {
+    return b.getAttribute('data-station');
+  });
+  var playableFavorites = favorites.filter(function(f) {
+    return _nonPlayableStations.indexOf(f) === -1;
+  });
+  if (playableFavorites.length === 0) {
+    var ar2 = (typeof isArabic !== 'undefined') ? isArabic : true;
+    showToast(ar2 ? '❤ لا توجد محطات قابلة للتشغيل في المفضلة' : '❤ No playable stations in favorites');
+    return;
+  }
+  var pick = playableFavorites[Math.floor(Math.random() * playableFavorites.length)];
   var allBtns = document.querySelectorAll('button[data-station]');
   var found = false;
   for (var i = 0; i < allBtns.length; i++) {
@@ -38711,7 +38723,7 @@ function toggleFavoritesView() {
 }
 
 function switchToNextButton() {
-  let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none');
+  let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none' && !button.classList.contains('no-auto-play'));
   if (!visibleButtons.length) return;
 
   let playingBtn = document.querySelector('.button.playing:not(#prevButton):not(#nextButton):not(#randomButton)');
@@ -39011,7 +39023,7 @@ document.getElementById('autoSwitchCheckbox').addEventListener('change', activat
 document.getElementById('sleepCheckbox').addEventListener('change', activateSleepMode);
 
 document.getElementById('prevButton').addEventListener('click', function() {
-  let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none');
+  let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none' && !button.classList.contains('no-auto-play'));
   if (!visibleButtons.length) return;
   let playingBtn = document.querySelector('.button.playing:not(#prevButton):not(#nextButton):not(#randomButton)');
   let visibleIndex = playingBtn ? visibleButtons.indexOf(playingBtn) : 0;
@@ -39022,7 +39034,7 @@ document.getElementById('prevButton').addEventListener('click', function() {
 });
 
 document.getElementById('nextButton').addEventListener('click', function() {
-  let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none');
+  let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none' && !button.classList.contains('no-auto-play'));
   if (!visibleButtons.length) return;
   let playingBtn = document.querySelector('.button.playing:not(#prevButton):not(#nextButton):not(#randomButton)');
   let visibleIndex = playingBtn ? visibleButtons.indexOf(playingBtn) : -1;
@@ -39849,7 +39861,7 @@ document.getElementById('randomButton').addEventListener('click', function() {
     'reciters', 'Quran', 'mojawwad', 'tafsir'
   ];
 
-  const allButtons = Array.from(document.querySelectorAll('.button.palestine'));
+  const allButtons = Array.from(document.querySelectorAll('.button.palestine:not(.no-auto-play)'));
 
   let visibleButtons = allButtons.filter(button => button.style.display !== 'none');
 
@@ -51472,6 +51484,42 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflow = '';
   }
 
+  function renderFavManagerEmptyState() {
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var list = document.getElementById('favManagerList');
+    if (list) {
+      list.innerHTML = '<div id="favManagerEmpty">' +
+        (ar ? '❤️ المفضلة فارغة<br><span style="font-size:12px;color:#bbb;">اضغط ❤ بجانب أي محطة لإضافتها</span>' :
+          '❤️ No favorites yet<br><span style="font-size:12px;color:#bbb;">Tap ❤ next to any station to add it</span>') +
+        '</div>';
+    }
+    var footer = document.getElementById('favManagerFooter');
+    if (footer) footer.style.display = 'none';
+  }
+
+  function exitFavoritesViewIfEmpty() {
+    if (!showingFavorites || favorites.length !== 0) return;
+    showingFavorites = false;
+    var viewFavoritesButton = document.getElementById('viewFavoritesButton');
+    var favLbl = document.getElementById('favLabel');
+    var favHeart = document.getElementById('favHeart');
+    if (favLbl && viewFavoritesButton) {
+      var lang = typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en');
+      var txt = viewFavoritesButton.getAttribute('data-' + lang) || viewFavoritesButton.getAttribute('data-en');
+      favLbl.textContent = ' ' + (txt || 'Favorites').replace(/❤/g, '').trim();
+    }
+    if (favHeart) favHeart.style.display = 'inline-block';
+    if (viewFavoritesButton) viewFavoritesButton.classList.remove('selected');
+    if (typeof filterStations === 'function' && window._lastActiveCategory) {
+      filterStations(window._lastActiveCategory);
+    } else {
+      document.querySelectorAll('.button[data-station]').forEach(function(b) {
+        b.style.display = 'block';
+      });
+      updateButtonIndices();
+    }
+  }
+
   function removeFavItem(station, itemEl) {
     favorites = favorites.filter(function(f) {
       return f !== station;
@@ -51484,18 +51532,7 @@ document.addEventListener('DOMContentLoaded', function() {
     itemEl.style.transform = 'translateX(30px)';
     setTimeout(function() {
       itemEl.remove();
-
-      var list = document.getElementById('favManagerList');
-      if (!list) return;
-      if (favorites.length === 0) {
-        var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
-        list.innerHTML = '<div id="favManagerEmpty">' +
-          (ar ? '❤️ المفضلة فارغة<br><span style="font-size:12px;color:#bbb;">اضغط ❤ بجانب أي محطة لإضافتها</span>' :
-            '❤️ No favorites yet<br><span style="font-size:12px;color:#bbb;">Tap ❤ next to any station to add it</span>') +
-          '</div>';
-        var footer = document.getElementById('favManagerFooter');
-        if (footer) footer.style.display = 'none';
-      }
+      if (favorites.length === 0) renderFavManagerEmptyState();
     }, 260);
 
     if (showingFavorites) {
@@ -51504,27 +51541,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.style.display = !favorites.includes(st) ? 'none' : 'block';
       });
       updateButtonIndices();
-      if (favorites.length === 0) {
-        showingFavorites = false;
-        var viewFavoritesButton = document.getElementById('viewFavoritesButton');
-        var _fl = document.getElementById('favLabel');
-        var _fh = document.getElementById('favHeart');
-        if (_fl) {
-          var _flLang = typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en');
-          var _flTxt = viewFavoritesButton.getAttribute('data-' + _flLang) || viewFavoritesButton.getAttribute('data-en');
-          _fl.textContent = ' ' + (_flTxt || 'Favorites').replace(/❤/g, '').trim();
-        }
-        if (_fh) _fh.style.display = 'inline-block';
-        viewFavoritesButton.classList.remove('selected');
-        if (typeof filterStations === 'function' && window._lastActiveCategory) {
-          filterStations(window._lastActiveCategory);
-        } else {
-          document.querySelectorAll('.button[data-station]').forEach(function(b) {
-            b.style.display = 'block';
-          });
-          updateButtonIndices();
-        }
-      }
+      exitFavoritesViewIfEmpty();
     }
   }
 
@@ -51550,38 +51567,8 @@ document.addEventListener('DOMContentLoaded', function() {
     favorites = [];
     localStorage.setItem('favorites', JSON.stringify(favorites));
     updateFavoritesIcons();
-
-    var list = document.getElementById('favManagerList');
-    if (list) {
-      list.innerHTML = '<div id="favManagerEmpty">' +
-        (ar ? '❤️ المفضلة فارغة<br><span style="font-size:12px;color:#bbb;">اضغط ❤ بجانب أي محطة لإضافتها</span>' :
-          '❤️ No favorites yet<br><span style="font-size:12px;color:#bbb;">Tap ❤ next to any station to add it</span>') +
-        '</div>';
-    }
-    var footer = document.getElementById('favManagerFooter');
-    if (footer) footer.style.display = 'none';
-
-    if (showingFavorites) {
-      showingFavorites = false;
-      var viewFavoritesButton2 = document.getElementById('viewFavoritesButton');
-      var _fl2 = document.getElementById('favLabel');
-      var _fh2 = document.getElementById('favHeart');
-      if (_fl2) {
-        var _fl2Lang = typeof welcomeDisplayLang !== 'undefined' ? welcomeDisplayLang : (isArabic ? 'ar' : 'en');
-        var _fl2Txt = viewFavoritesButton2.getAttribute('data-' + _fl2Lang) || viewFavoritesButton2.getAttribute('data-en');
-        _fl2.textContent = ' ' + (_fl2Txt || 'Favorites').replace(/❤/g, '').trim();
-      }
-      if (_fh2) _fh2.style.display = 'inline-block';
-      viewFavoritesButton2.classList.remove('selected');
-      if (typeof filterStations === 'function' && window._lastActiveCategory) {
-        filterStations(window._lastActiveCategory);
-      } else {
-        document.querySelectorAll('.button[data-station]').forEach(function(b) {
-          b.style.display = 'block';
-        });
-        updateButtonIndices();
-      }
-    }
+    renderFavManagerEmptyState();
+    exitFavoritesViewIfEmpty();
   }
 
   document.querySelectorAll(".tasbih-box").forEach(box => {
