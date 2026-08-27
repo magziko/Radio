@@ -8017,6 +8017,43 @@ body.dark-mode #scrollToTopBtn:hover {
 #pnb-share:active { transform: scale(0.9); }
 #pnb-share svg { width: 14px; height: 14px; }
 
+#pnb-download {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(100,181,246,0.35);
+  background: rgba(255,255,255,0.05);
+  color: #90caf9;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, transform 0.13s, border-color 0.18s, color 0.18s;
+  padding: 0;
+  position: relative;
+  display: none;
+}
+#pnb-download.show {
+  display: flex;
+}
+#pnb-download:hover {
+  background: rgba(var(--theme-c1-rgb),0.25);
+  border-color: #64b5f6;
+  color: #fff;
+  transform: scale(1.12);
+}
+#pnb-download:active { transform: scale(0.9); }
+#pnb-download svg { width: 14px; height: 14px; }
+#pnb-download.downloading {
+  opacity: 0.55;
+  pointer-events: none;
+}
+#pnb-download.done {
+  border-color: #66bb6a !important;
+  color: #66bb6a !important;
+  background: rgba(102,187,106,0.15) !important;
+}
+
 #pnb-random {
   border-color: rgba(255,193,7,0.45) !important;
   background: rgba(255,193,7,0.1) !important;
@@ -8179,7 +8216,8 @@ body:not(.dark-mode) #pnb-play:hover {
   filter: brightness(1.1);
 }
 body:not(.dark-mode) #pnb-copy:hover,
-body:not(.dark-mode) #pnb-share:hover {
+body:not(.dark-mode) #pnb-share:hover,
+body:not(.dark-mode) #pnb-download:hover {
   border-color: var(--theme-c1);
 }
 body:not(.dark-mode) #pnb-random {
@@ -19753,7 +19791,9 @@ const quranRadioStationsExtra = [{
     "https://archive.org/download/20251207_20251207_1216/%D9%88%D9%8E%D8%A3%D9%8E%D9%86%D8%B0%D9%90%D8%B1%D9%90%20%D8%A7%D9%84%D9%86%D9%91%D8%A7%D8%B3%D9%8E.mp3",
     "https://archive.org/download/20250602_20250602_1914/%28%D8%A7%D9%84%D9%84%D9%91%D9%8E%D9%87%D9%8F%20%D8%A7%D9%84%D9%91%D9%8E%D8%B0%D9%90%D9%8A%20%D9%8A%D9%8F%D8%B1%D9%92%D8%B3%D9%90%D9%84%D9%8F%20%D8%A7%D9%84%D8%B1%D9%91%D9%90%D9%8A%D9%8E%D8%A7%D8%AD%D9%8E%20%D9%81%D9%8E%D8%AA%D9%8F%D8%AB%D9%90%D9%8A%D8%B1%D9%8F%20%D8%B3%D9%8E%D8%AD%D9%8E%D8%A7%D8%A8%D9%8B%D8%A7...%20%23%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A.mp3",
     "https://archive.org/download/69-1428-2/69%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AD%D8%A7%D9%82%D9%87%20%D9%84%D9%8A%D8%A7%D9%84%D9%8A%20%D9%85%D9%85%D9%84%D9%83%D8%A9%20%D8%A7%D9%84%D8%A8%D8%AD%D8%B1%D9%8A%D9%86%201428%20%28%D9%85%D8%B3%D8%AC%D8%AF%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%D8%A9%20%D8%AD%D8%B5%D8%A9%29_2_%D8%A7%D9%84%D8%AA%D8%AD%D9%88%D9%8A%D9%84%20%D9%85%D8%AE%D8%B5%D8%B5%D8%A9_%D8%A5%D8%AE%D8%B1%D8%A7%D8%AC%20%D8%A7%D9%84%D8%B5%D9%88%D8%AA%20%D9%81%D9%82%D8%B7.MP3",
-    "https://archive.org/download/mahmoud-moujahid-007-al-a-raf-34222-5811/mahmoud-moujahid-007-al-a-raf-34222-5811.mp3"
+    "https://archive.org/download/mahmoud-moujahid-007-al-a-raf-34222-5811/mahmoud-moujahid-007-al-a-raf-34222-5811.mp3",
+    "https://archive.org/download/20260827_20260827_1227/%D8%A2%D9%8A%D8%A7%D8%AA%20.mp3",
+    "https://archive.org/download/20260827_20260827_1227/%D8%A7%D9%84%D9%85%20%D8%AA%D8%B1.mp3"
   ]
 }, {
   "category": "Quran",
@@ -19799,7 +19839,27 @@ const quranRadioStationsExtra = [{
     "https://archive.org/download/51-music/51%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%B0%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA%20%D8%B9%D8%B4%D8%A7%D8%A6%D9%8A%D8%A9%D9%8A%D9%88%D9%85%D8%B9%D8%A7%D8%B4%D9%88%D8%B1%D8%A7%D8%A1%D9%84%D9%84%D8%B4%D9%8A%D8%AE%D9%86%D8%A7%D8%B5%D8%B1%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%D9%A1%D9%A0%D9%A1%D9%A1%D9%A4%D9%A4%D9%A0Music.mp3",
     "https://archive.org/download/76-2_20250602/76%20%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A7%D9%86%D8%B3%D8%A7%D9%86%20%D8%A3%D9%81%D9%85%D9%86%20%D9%83%D8%A7%D9%86%20%D9%85%D8%A4%D9%85%D9%86%D8%A7%20%D9%83%D9%85%D9%86%20%D9%83%D8%A7%D9%86%20%D9%81%D8%A7%D8%B3%D9%82%D8%A7%20%D8%AE%D8%A7%D8%A7%D8%B4%D8%B9%D9%87%20%D9%84%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%202.mp3",
     "https://archive.org/download/20250602_20250602_1834/-%20%D8%A3%D9%84%D9%85%20%D9%8A%D8%A3%D8%AA%D9%83%D9%85%20%D9%86%D8%A8%D8%A3%20%D8%A7%D9%84%D8%B0%D9%8A%D9%86%20%D9%83%D9%81%D8%B1%D9%88%D8%A7.mp3",
-    "https://archive.org/download/78-mp-3cut.net/78%20%D9%81%D8%AC%D8%B1%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D8%A4%D8%AB%D8%B1%D8%A9%20%D9%84%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D9%86%D8%A8%D8%A3%20-%20%D9%A1%D9%A3-%D9%A2-%D9%A1%D9%A4%D9%A4%D9%A2%D9%87%D9%80%20%28mp3cut.net%29.mp3"
+    "https://archive.org/download/78-mp-3cut.net/78%20%D9%81%D8%AC%D8%B1%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D8%A4%D8%AB%D8%B1%D8%A9%20%D9%84%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D9%86%D8%A8%D8%A3%20-%20%D9%A1%D9%A3-%D9%A2-%D9%A1%D9%A4%D9%A4%D9%A2%D9%87%D9%80%20%28mp3cut.net%29.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/01.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/02.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/03.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/04.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/05.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/06.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/07.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/08.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/09.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/10.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/11.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/1.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/2.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/3.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/4.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/5.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/6.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/7.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/8.mp3",
+    "https://archive.org/download/1_20260827_20260827_1216/9.mp3"
   ]
 }, {
   "category": "Quran",
@@ -51669,6 +51729,14 @@ document.addEventListener('DOMContentLoaded', function() {
       '</svg>',
       '</button>',
 
+      '<button id="pnb-download" title="تحميل المقطع الحالي للاستماع بدون إنترنت" aria-label="تحميل المقطع الحالي">',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">',
+      '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>',
+      '<polyline points="7 10 12 15 17 10"></polyline>',
+      '<line x1="12" y1="15" x2="12" y2="3"></line>',
+      '</svg>',
+      '</button>',
+
       '<div id="player-vol-wrap">',
       '<span class="vol-ico">🔈</span>',
       '<input type="range" id="player-vol-slider" min="0" max="1" step="0.05" value="1">',
@@ -51796,8 +51864,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var copyBtn = document.getElementById('pnb-copy');
     var shareBtn = document.getElementById('pnb-share');
+    var downloadBtn = document.getElementById('pnb-download');
     var _copyUrl = '';
     var _copyName = '';
+    var _downloadUrl = '';
+    var _downloadName = '';
+
+    // أزرار التحميل مسموحة فقط للمحطات اللي بتشتغل من ملفات (data-urls)
+    // زي محطات "آيات" وأذكار الصباح/المساء، مش للراديوهات الحيّة (streams)
+    var _downloadIconDefault = downloadBtn ? downloadBtn.innerHTML : '';
+
+    function updateDownloadBtn() {
+      if (!downloadBtn) return;
+      var playingBtn = document.querySelector('.button.playing[data-urls]');
+      var url = window._currentPlayingUrl || '';
+
+      if (playingBtn && url && /^https?:\/\//i.test(url)) {
+        _downloadUrl = url;
+        _downloadName = window._currentPlayingName ||
+          playingBtn.getAttribute('data-station') || 'مقطع صوتي';
+        downloadBtn.classList.add('show');
+      } else {
+        _downloadUrl = '';
+        _downloadName = '';
+        downloadBtn.classList.remove('show');
+      }
+    }
 
     function updateCopyBtn() {
       var url = window._currentPlayingUrl ||
@@ -51820,6 +51912,7 @@ document.addEventListener('DOMContentLoaded', function() {
         copyBtn.classList.remove('active');
         if (shareBtn) shareBtn.classList.remove('active');
       }
+      updateDownloadBtn();
     }
 
     new MutationObserver(updateCopyBtn).observe(statusEl, {
@@ -51862,6 +51955,78 @@ document.addEventListener('DOMContentLoaded', function() {
     if (shareBtn) {
       shareBtn.addEventListener('click', function() {
         if (typeof shareCurrentStation === 'function') shareCurrentStation();
+      });
+    }
+
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', function() {
+        if (!_downloadUrl || downloadBtn.classList.contains('downloading')) return;
+
+        downloadBtn.classList.add('downloading');
+
+        var extMatch = _downloadUrl.split('?')[0].match(/\.([a-zA-Z0-9]{2,4})$/);
+        var ext = extMatch ? extMatch[1] : 'mp3';
+        var safeName = (_downloadName || 'مقطع صوتي')
+          .replace(/[\\/:*?"<>|]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, 120) || 'مقطع صوتي';
+
+        // اسم الكاش لازم يطابق CACHE_AUDIO في service-worker.js عشان الملف
+        // يبقى متاح للتشغيل أوفلاين لاحقًا بنفس آلية "Cache on Play"
+        var SW_CACHE_AUDIO = 'quran-radio-audio-v2';
+
+        // نخزّن نسخة في Cache Storage (أوفلاين) من غير ما نعطّل تنزيل الجهاز
+        // لو فشل الحفظ في الكاش لأي سبب (مثلاً المتصفح مش بيدعمه)
+        function _saveToOfflineCache(response) {
+          if (!('caches' in window)) return Promise.resolve();
+          return caches.open(SW_CACHE_AUDIO)
+            .then(function(cache) { return cache.put(_downloadUrl, response); })
+            .catch(function() {});
+        }
+
+        fetch(_downloadUrl)
+          .then(function(res) {
+            if (!res.ok) throw new Error('network');
+            // نستنسخ الاستجابة: نسخة تتخزن في Cache Storage للأوفلاين،
+            // ونسخة تتحوّل لـ blob وتُنزَّل على الجهاز
+            var cacheCopy = res.clone();
+            _saveToOfflineCache(cacheCopy);
+            return res.blob();
+          })
+          .then(function(blob) {
+            var blobUrl = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = safeName + '.' + ext;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 4000);
+
+            downloadBtn.classList.add('done');
+            downloadBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            if (typeof showToast === 'function') showToast('⬇️ تم حفظ المقطع للاستماع أوفلاين + تنزيله على الجهاز');
+            setTimeout(function() {
+              downloadBtn.classList.remove('done');
+              downloadBtn.innerHTML = _downloadIconDefault;
+            }, 2500);
+          })
+          .catch(function() {
+            // فشل التحميل المباشر (مثلاً بسبب CORS) — نحاول نحفظه في كاش
+            // الأوفلاين على الأقل (وضع no-cors بيقبل استجابات opaque)، ثم
+            // نفتح الرابط في تبويب جديد ليقدر المستخدم يحفظه يدويًا على الجهاز
+            fetch(_downloadUrl, { mode: 'no-cors' })
+              .then(function(res) { return _saveToOfflineCache(res); })
+              .catch(function() {});
+            window.open(_downloadUrl, '_blank');
+            if (typeof showToast === 'function') showToast('⚠️ تعذر التحميل المباشر على الجهاز، تم حفظه أوفلاين وفتح الرابط في تبويب جديد');
+          })
+          .then(function() {
+            downloadBtn.classList.remove('downloading');
+          }, function() {
+            downloadBtn.classList.remove('downloading');
+          });
       });
     }
 
