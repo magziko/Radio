@@ -38238,7 +38238,18 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
     }, retryInterval);
   }
 
-  mainAudio.removeEventListener('error', mainAudio._onErrorHandler || function() {});
+  // مهم جداً: mainAudio لازم يكون له مستمع "error" واحد بس في نفس اللحظة.
+  // لو سبنا القديم (سواء onMainAudioError نفسه أو onMultiUrlError بتاع toggleRadio)
+  // شغال بجانب الجديد، الاتنين هيشتغلوا مع بعض على نفس حدث الخطأ ويحصل "شد حبل":
+  // واحد بيلاقي نسخة محفوظة ويشغلها بنجاح، والتاني (اللي معاه منطق retry مستقل بتوقيته
+  // الخاص) بيرجع يبدّل mainAudio.src للرابط الأصلي (الأوفلاين) تاني، فيحصل error جديد،
+  // وهكذا تفلاش لانهائي بين "بيشغل من المحفوظات" و"لا يوجد إنترنت". الحل: نستخدم خاصية
+  // واحدة مشتركة (_activeErrorHandler) ونشيل أي مستمع سابق مسجل فيها -أياً كان مصدره- قبل
+  // ما نضيف مستمعنا الجديد، عشان يفضل مستمع واحد فعّال بس في كل وقت.
+  if (mainAudio._activeErrorHandler) {
+    mainAudio.removeEventListener('error', mainAudio._activeErrorHandler);
+  }
+  mainAudio._activeErrorHandler = onMainAudioError;
   mainAudio._onErrorHandler = onMainAudioError;
   mainAudio.addEventListener('error', onMainAudioError);
 
@@ -43152,7 +43163,14 @@ function toggleRadio(button, event = null) {
       }
     }
 
-    mainAudio.removeEventListener('error', mainAudio._onMultiUrlErrorHandler || function() {});
+    // نفس المبدأ هنا: امسح أي مستمع "error" سابق (سواء كان onMainAudioError اللي
+    // playNewAudio ضافه لتوّه، أو onMultiUrlError من محطة سابقة) عن طريق الخاصية
+    // المشتركة _activeErrorHandler قبل ما نضيف onMultiUrlError، عشان يفضل مستمع
+    // واحد بس هو المسؤول عن التعامل مع الأخطاء في كل لحظة.
+    if (mainAudio._activeErrorHandler) {
+      mainAudio.removeEventListener('error', mainAudio._activeErrorHandler);
+    }
+    mainAudio._activeErrorHandler = onMultiUrlError;
     mainAudio._onMultiUrlErrorHandler = onMultiUrlError;
     mainAudio.addEventListener('error', onMultiUrlError);
 
