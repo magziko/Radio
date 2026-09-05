@@ -4833,6 +4833,36 @@ body.dark-mode #welcome-top-bar #welcomeTopHideBtn.active {
     color: #888;
   }
 
+  /* ══════════ سحب وترتيب الفلاتر الرئيسية والفرعية ══════════ */
+  .filter-drag-handle {
+    display: none;
+    cursor: grab;
+    touch-action: none;
+    font-size: 14px;
+    color: #999;
+    padding: 0 6px 0 2px;
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  body.filters-reorder-mode .filter-drag-handle {
+    display: inline-block;
+  }
+  body.dark-mode .filter-drag-handle {
+    color: #aaa;
+  }
+  .filter-btn-dragging {
+    opacity: 0.45;
+  }
+  body.filters-reorder-mode #filters-container > button,
+  body.filters-reorder-mode .subfilter-scroll-strip button {
+    outline: 2px dashed rgba(var(--theme-g1-rgb), 0.55);
+    outline-offset: 2px;
+  }
+  #filtersReorderToggleBtn.active {
+    box-shadow: 0 0 0 2px rgba(var(--theme-g1-rgb), 0.45) inset;
+  }
+
   #favCountBadge {
     display: none;
     background: rgba(255, 255, 255, 0.35);
@@ -18709,6 +18739,23 @@ setTimeout(autoScaleVerseFont, 100);
              class="welcome-toggle-inline-input"
              onchange="setWelcomeAutoSwitchDuration()">
     </div>
+    <button id="filtersReorderToggleBtn"
+            onclick="toggleFiltersReorderMode()"
+            title="فعّل وضع السحب لإعادة ترتيب الفلاتر الرئيسية والفرعية / Enable drag mode to reorder main and sub filters"
+            class="welcome-toggle-btn">
+        <span class="wtb-icon" id="filtersReorderToggleIcon">↕️</span>
+        <span class="wtb-text" id="filtersReorderToggleTxt"
+              data-off-ar="ترتيب الفلاتر" data-off-en="Reorder Filters" data-off-fr="Réorganiser les filtres" data-off-es="Reordenar filtros" data-off-sv="Ordna om filter" data-off-nl="Filters herschikken" data-off-ga="Athord na scagairí" data-off-de="Filter neu anordnen" data-off-ru="Изменить порядок фильтров" data-off-tr="Filtreleri Sırala" data-off-pt="Reordenar filtros" data-off-zh="重新排序筛选器" data-off-ur="فلٹرز ترتیب دیں"
+              data-on-ar="جارِ الترتيب… اضغط للإنهاء" data-on-en="Reordering… Tap to finish" data-on-fr="Réorganisation… Appuyez pour terminer" data-on-es="Reordenando… Toca para terminar" data-on-sv="Ordnar om… Tryck för att avsluta" data-on-nl="Herschikken… Tik om te stoppen" data-on-ga="Ag athordú… Tapáil chun críochnú" data-on-de="Neu anordnen… Zum Beenden tippen" data-on-ru="Изменение порядка… Нажмите для завершения" data-on-tr="Sıralanıyor… Bitirmek için dokunun" data-on-pt="Reordenando… Toque para terminar" data-on-zh="正在排序…点击完成" data-on-ur="ترتیب دیا جا رہا ہے… ختم کرنے کے لیے دبائیں">ترتيب الفلاتر</span>
+        <span class="wtb-switch-visual" aria-hidden="true"></span>
+    </button>
+    <button id="filtersResetOrderBtn"
+            onclick="resetFilterOrderToDefault()"
+            title="استعادة الترتيب الافتراضي للفلاتر الرئيسية والفرعية / Restore default order for main and sub filters"
+            class="welcome-toggle-btn">
+        <span class="wtb-icon">♻️</span>
+        <span class="wtb-text" id="filtersResetOrderTxt" data-ar="استعادة الترتيب الافتراضي" data-en="Restore Default Order" data-fr="Restaurer l'ordre par défaut" data-es="Restaurar orden predeterminado" data-sv="Återställ standardordning" data-nl="Standaardvolgorde herstellen" data-ga="Athchóirigh an t-ord réamhshocraithe" data-de="Standardreihenfolge wiederherstellen" data-ru="Восстановить порядок по умолчанию" data-tr="Varsayılan Sıraya Dön" data-pt="Restaurar ordem padrão" data-zh="恢复默认顺序" data-ur="ڈیفالٹ ترتیب بحال کریں">استعادة الترتيب الافتراضي</span>
+    </button>
   </div>
   </div>
 
@@ -38672,6 +38719,179 @@ function _favDragEnd(e) {
 }
 // ══════════ نهاية كود ترتيب المفضلة ══════════
 
+// ══════════ ترتيب الفلاتر الرئيسية والفرعية بالسحب والإفلات ══════════
+var FILTER_ORDER_STORAGE_KEY = 'filterButtonsOrderV1';
+var filterButtonsOrder = {};
+try { filterButtonsOrder = JSON.parse(localStorage.getItem(FILTER_ORDER_STORAGE_KEY)) || {}; } catch (e) { filterButtonsOrder = {}; }
+
+var _filterReorderGroups = null;
+var _filterDragState = null;
+var filtersReorderModeActive = false;
+
+function _filterBtnId(btn) {
+  if (btn.dataset && btn.dataset.sub) return 'sub:' + btn.dataset.sub;
+  if (btn.id) return 'id:' + btn.id;
+  var oc = btn.getAttribute('onclick') || '';
+  var m = oc.match(/\(\s*['"]([^'"]+)['"]/);
+  if (m) return 'oc:' + m[1];
+  return 'txt:' + (btn.textContent || '').trim();
+}
+
+function _initFilterReorderGroups() {
+  var groups = [];
+  var mainContainer = document.getElementById('filters-container');
+  if (mainContainer) groups.push({ id: 'filters-container', el: mainContainer });
+  document.querySelectorAll('.subfilter-scroll-wrap').forEach(function (wrap) {
+    var strip = wrap.querySelector('.subfilter-scroll-strip');
+    if (strip && wrap.id) groups.push({ id: wrap.id, el: strip });
+  });
+  groups.forEach(function (g) {
+    g._defaultOrder = Array.prototype.map.call(g.el.children, function (btn) { return _filterBtnId(btn); });
+  });
+  _filterReorderGroups = groups;
+}
+
+function _applyOrderToGroup(g) {
+  var saved = filterButtonsOrder[g.id];
+  var order = (saved && saved.length) ? saved : g._defaultOrder;
+  if (!order) return;
+  var children = Array.prototype.slice.call(g.el.children);
+  var map = {};
+  children.forEach(function (btn) { map[_filterBtnId(btn)] = btn; });
+  var frag = document.createDocumentFragment();
+  var used = {};
+  order.forEach(function (id) {
+    var btn = map[id];
+    if (btn && !used[id]) { frag.appendChild(btn); used[id] = true; }
+  });
+  children.forEach(function (btn) {
+    var id = _filterBtnId(btn);
+    if (!used[id]) { frag.appendChild(btn); used[id] = true; }
+  });
+  g.el.appendChild(frag);
+}
+
+function applyAllFilterOrders() {
+  if (!_filterReorderGroups) _initFilterReorderGroups();
+  _filterReorderGroups.forEach(_applyOrderToGroup);
+}
+
+function _saveGroupOrder(g) {
+  var order = Array.prototype.map.call(g.el.children, function (btn) { return _filterBtnId(btn); });
+  filterButtonsOrder[g.id] = order;
+  localStorage.setItem(FILTER_ORDER_STORAGE_KEY, JSON.stringify(filterButtonsOrder));
+}
+
+function resetFilterOrderToDefault() {
+  if (!_filterReorderGroups) _initFilterReorderGroups();
+  filterButtonsOrder = {};
+  try { localStorage.removeItem(FILTER_ORDER_STORAGE_KEY); } catch (e) {}
+  applyAllFilterOrders();
+  if (filtersReorderModeActive) _ensureFilterDragHandles();
+  var msg = (typeof isArabic !== 'undefined' && !isArabic) ? 'Default filters order restored' : 'تمت استعادة الترتيب الافتراضي للفلاتر';
+  if (typeof showToast === 'function') { showToast(msg); }
+  else if (typeof showAppToast === 'function') { showAppToast(msg); }
+}
+
+function _ensureFilterDragHandles() {
+  if (!_filterReorderGroups) _initFilterReorderGroups();
+  _filterReorderGroups.forEach(function (g) {
+    Array.prototype.forEach.call(g.el.children, function (btn) {
+      if (btn.querySelector('.filter-drag-handle')) return;
+      var handle = document.createElement('span');
+      handle.className = 'filter-drag-handle';
+      handle.innerHTML = '⠿';
+      handle.title = 'اسحب لإعادة الترتيب';
+      handle.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); });
+      handle.addEventListener('pointerdown', _filterDragStart);
+      btn.insertBefore(handle, btn.firstChild);
+    });
+  });
+}
+
+function _removeFilterDragHandles() {
+  document.querySelectorAll('.filter-drag-handle').forEach(function (h) { h.remove(); });
+}
+
+function _filterDragStart(e) {
+  if (!filtersReorderModeActive) return;
+  e.preventDefault();
+  e.stopPropagation();
+  var btn = e.currentTarget.closest('button');
+  if (!btn || !btn.parentElement) return;
+  var group = null;
+  for (var i = 0; i < _filterReorderGroups.length; i++) {
+    if (_filterReorderGroups[i].el === btn.parentElement) { group = _filterReorderGroups[i]; break; }
+  }
+  if (!group) return;
+  _filterDragState = { btn: btn, group: group };
+  btn.classList.add('filter-btn-dragging');
+  try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+  document.addEventListener('pointermove', _filterDragMove);
+  document.addEventListener('pointerup', _filterDragEnd);
+  document.addEventListener('pointercancel', _filterDragEnd);
+}
+
+function _filterDragMove(e) {
+  if (!_filterDragState) return;
+  e.preventDefault();
+  var el = document.elementFromPoint(e.clientX, e.clientY);
+  var targetBtn = el ? el.closest('button') : null;
+  var group = _filterDragState.group;
+  if (!targetBtn || targetBtn === _filterDragState.btn || targetBtn.parentElement !== group.el) return;
+  var rect = targetBtn.getBoundingClientRect();
+  var before = (e.clientX < rect.left + rect.width / 2);
+  if (before) {
+    group.el.insertBefore(_filterDragState.btn, targetBtn);
+  } else {
+    group.el.insertBefore(_filterDragState.btn, targetBtn.nextSibling);
+  }
+}
+
+function _filterDragEnd(e) {
+  if (!_filterDragState) return;
+  _filterDragState.btn.classList.remove('filter-btn-dragging');
+  _saveGroupOrder(_filterDragState.group);
+  _filterDragState = null;
+  document.removeEventListener('pointermove', _filterDragMove);
+  document.removeEventListener('pointerup', _filterDragEnd);
+  document.removeEventListener('pointercancel', _filterDragEnd);
+}
+
+function _updateFiltersReorderToggleText() {
+  var txt = document.getElementById('filtersReorderToggleTxt');
+  if (!txt) return;
+  var lang = (typeof isArabic !== 'undefined' && !isArabic) ? 'en' : 'ar';
+  var prefix = filtersReorderModeActive ? 'data-on-' : 'data-off-';
+  var val = txt.getAttribute(prefix + lang) || txt.getAttribute(prefix + 'ar');
+  if (val) txt.textContent = val;
+}
+
+function toggleFiltersReorderMode() {
+  filtersReorderModeActive = !filtersReorderModeActive;
+  document.body.classList.toggle('filters-reorder-mode', filtersReorderModeActive);
+  var btn = document.getElementById('filtersReorderToggleBtn');
+  if (filtersReorderModeActive) {
+    if (!_filterReorderGroups) _initFilterReorderGroups();
+    _ensureFilterDragHandles();
+    if (btn) btn.classList.add('active');
+  } else {
+    _removeFilterDragHandles();
+    if (btn) btn.classList.remove('active');
+  }
+  _updateFiltersReorderToggleText();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  _initFilterReorderGroups();
+  applyAllFilterOrders();
+});
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  _initFilterReorderGroups();
+  applyAllFilterOrders();
+}
+// ══════════ نهاية كود ترتيب الفلاتر ══════════
+
 function updateFavCountBadge() {
   var badge = document.getElementById('favCountBadge');
   if (!badge) return;
@@ -40622,6 +40842,10 @@ function toggleLanguage() {
 
   var autoDarkModeLbl = document.querySelector('label[for="autoDarkModeToggle"]');
   if (autoDarkModeLbl) autoDarkModeLbl.textContent = isArabic ? autoDarkModeLbl.getAttribute('data-ar') : autoDarkModeLbl.getAttribute('data-en');
+
+  if (typeof _updateFiltersReorderToggleText === 'function') _updateFiltersReorderToggleText();
+  var filtersResetOrderTxtLbl = document.getElementById('filtersResetOrderTxt');
+  if (filtersResetOrderTxtLbl) filtersResetOrderTxtLbl.textContent = isArabic ? filtersResetOrderTxtLbl.getAttribute('data-ar') : filtersResetOrderTxtLbl.getAttribute('data-en');
 
   var raTxtLang = document.getElementById('radioAutoplayToggleTxt');
   if (raTxtLang && typeof _radioAutoplayLabel === 'function' && typeof isRadioAutoplayEnabled === 'function') {
