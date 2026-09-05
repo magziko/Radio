@@ -4862,6 +4862,24 @@ body.dark-mode #welcome-top-bar #welcomeTopHideBtn.active {
   #filtersReorderToggleBtn.active {
     box-shadow: 0 0 0 2px rgba(var(--theme-g1-rgb), 0.45) inset;
   }
+  .filter-edit-handle {
+    display: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    font-size: 13px;
+    color: #999;
+    padding: 0 4px 0 6px;
+    vertical-align: middle;
+    user-select: none;
+    -webkit-user-select: none;
+    opacity: 0.9;
+  }
+  body.filters-reorder-mode .filter-edit-handle {
+    display: inline-block;
+  }
+  body.dark-mode .filter-edit-handle {
+    color: #ccc;
+  }
 
   #favCountBadge {
     display: none;
@@ -18741,22 +18759,23 @@ setTimeout(autoScaleVerseFont, 100);
     </div>
     <button id="filtersReorderToggleBtn"
             onclick="toggleFiltersReorderMode()"
-            title="فعّل وضع السحب لإعادة ترتيب الفلاتر الرئيسية والفرعية / Enable drag mode to reorder main and sub filters"
+            title="فعّل وضع تخصيص الفلاتر: سحب لإعادة الترتيب، وضغط على ✏️ لتغيير الاسم / Enable filter customization mode: drag to reorder, tap ✏️ to rename"
             class="welcome-toggle-btn">
         <span class="wtb-icon" id="filtersReorderToggleIcon">↕️</span>
         <span class="wtb-text" id="filtersReorderToggleTxt"
-              data-off-ar="ترتيب الفلاتر" data-off-en="Reorder Filters" data-off-fr="Réorganiser les filtres" data-off-es="Reordenar filtros" data-off-sv="Ordna om filter" data-off-nl="Filters herschikken" data-off-ga="Athord na scagairí" data-off-de="Filter neu anordnen" data-off-ru="Изменить порядок фильтров" data-off-tr="Filtreleri Sırala" data-off-pt="Reordenar filtros" data-off-zh="重新排序筛选器" data-off-ur="فلٹرز ترتیب دیں"
-              data-on-ar="جارِ الترتيب… اضغط للإنهاء" data-on-en="Reordering… Tap to finish" data-on-fr="Réorganisation… Appuyez pour terminer" data-on-es="Reordenando… Toca para terminar" data-on-sv="Ordnar om… Tryck för att avsluta" data-on-nl="Herschikken… Tik om te stoppen" data-on-ga="Ag athordú… Tapáil chun críochnú" data-on-de="Neu anordnen… Zum Beenden tippen" data-on-ru="Изменение порядка… Нажмите для завершения" data-on-tr="Sıralanıyor… Bitirmek için dokunun" data-on-pt="Reordenando… Toque para terminar" data-on-zh="正在排序…点击完成" data-on-ur="ترتیب دیا جا رہا ہے… ختم کرنے کے لیے دبائیں">ترتيب الفلاتر</span>
+              data-off-ar="ترتيب وتسمية الفلاتر" data-off-en="Reorder & Rename Filters" data-off-fr="Réorganiser et renommer les filtres" data-off-es="Reordenar y renombrar filtros" data-off-sv="Ordna om och byt namn på filter" data-off-nl="Filters herschikken en hernoemen" data-off-ga="Athord agus athainmnigh na scagairí" data-off-de="Filter neu anordnen und umbenennen" data-off-ru="Изменить порядок и переименовать фильтры" data-off-tr="Filtreleri Sırala ve Yeniden Adlandır" data-off-pt="Reordenar e renomear filtros" data-off-zh="重新排序并重命名筛选器" data-off-ur="فلٹرز ترتیب دیں اور نام بدلیں"
+              data-on-ar="وضع التعديل… اسحب ⠿ أو اضغط ✏️" data-on-en="Editing… drag ⠿ or tap ✏️" data-on-fr="Édition… glissez ⠿ ou touchez ✏️" data-on-es="Editando… arrastra ⠿ o toca ✏️" data-on-sv="Redigerar… dra ⠿ eller tryck ✏️" data-on-nl="Bewerken… sleep ⠿ of tik ✏️" data-on-ga="Ag eagrú… tarraing ⠿ nó tapáil ✏️" data-on-de="Bearbeiten… ziehen ⠿ oder ✏️ tippen" data-on-ru="Редактирование… перетащите ⠿ или нажмите ✏️" data-on-tr="Düzenleniyor… ⠿ sürükleyin veya ✏️ dokunun" data-on-pt="Editando… arraste ⠿ ou toque em ✏️" data-on-zh="编辑中…拖动⠿或点击✏️" data-on-ur="ترمیم… ⠿ گھسیٹیں یا ✏️ دبائیں">ترتيب وتسمية الفلاتر</span>
         <span class="wtb-switch-visual" aria-hidden="true"></span>
     </button>
     <button id="filtersResetOrderBtn"
             onclick="resetFilterOrderToDefault()"
-            title="استعادة الترتيب الافتراضي للفلاتر الرئيسية والفرعية / Restore default order for main and sub filters"
+            title="استعادة الترتيب والأسماء الافتراضية للفلاتر الرئيسية والفرعية / Restore default order and names for main and sub filters"
             class="welcome-toggle-btn">
         <span class="wtb-icon">♻️</span>
-        <span class="wtb-text" id="filtersResetOrderTxt" data-ar="استعادة الترتيب الافتراضي" data-en="Restore Default Order" data-fr="Restaurer l'ordre par défaut" data-es="Restaurar orden predeterminado" data-sv="Återställ standardordning" data-nl="Standaardvolgorde herstellen" data-ga="Athchóirigh an t-ord réamhshocraithe" data-de="Standardreihenfolge wiederherstellen" data-ru="Восстановить порядок по умолчанию" data-tr="Varsayılan Sıraya Dön" data-pt="Restaurar ordem padrão" data-zh="恢复默认顺序" data-ur="ڈیفالٹ ترتیب بحال کریں">استعادة الترتيب الافتراضي</span>
+        <span class="wtb-text" id="filtersResetOrderTxt" data-ar="استعادة الترتيب والأسماء الافتراضية" data-en="Restore Default Order &amp; Names" data-fr="Restaurer l'ordre et les noms par défaut" data-es="Restaurar orden y nombres predeterminados" data-sv="Återställ standardordning och namn" data-nl="Standaardvolgorde en namen herstellen" data-ga="Athchóirigh an t-ord agus na hainmneacha réamhshocraithe" data-de="Standardreihenfolge und -namen wiederherstellen" data-ru="Восстановить порядок и названия по умолчанию" data-tr="Varsayılan Sıra ve Adlara Dön" data-pt="Restaurar ordem e nomes padrão" data-zh="恢复默认顺序和名称" data-ur="ڈیفالٹ ترتیب اور نام بحال کریں">استعادة الترتيب والأسماء الافتراضية</span>
     </button>
   </div>
+
   </div>
 
   <script>
@@ -38724,6 +38743,10 @@ var FILTER_ORDER_STORAGE_KEY = 'filterButtonsOrderV1';
 var filterButtonsOrder = {};
 try { filterButtonsOrder = JSON.parse(localStorage.getItem(FILTER_ORDER_STORAGE_KEY)) || {}; } catch (e) { filterButtonsOrder = {}; }
 
+var FILTER_NAMES_STORAGE_KEY = 'filterButtonsCustomNamesV1';
+var filterButtonsCustomNames = {};
+try { filterButtonsCustomNames = JSON.parse(localStorage.getItem(FILTER_NAMES_STORAGE_KEY)) || {}; } catch (e) { filterButtonsCustomNames = {}; }
+
 var _filterReorderGroups = null;
 var _filterDragState = null;
 var filtersReorderModeActive = false;
@@ -38746,9 +38769,67 @@ function _initFilterReorderGroups() {
     if (strip && wrap.id) groups.push({ id: wrap.id, el: strip });
   });
   groups.forEach(function (g) {
+    Array.prototype.forEach.call(g.el.children, function (btn) { _ensureLabelWrapper(btn); });
     g._defaultOrder = Array.prototype.map.call(g.el.children, function (btn) { return _filterBtnId(btn); });
   });
   _filterReorderGroups = groups;
+}
+
+// يلف نص وأيقونات الزر داخل عنصر مستقل عشان نقدر نغيّر الاسم بدون ما نأثر
+// على أي عناصر تانية جوه الزر (زي أيقونة القلب أو أيقونة السورة المتكررة)
+function _ensureLabelWrapper(btn) {
+  if (btn.id === 'viewFavoritesButton') {
+    var favLbl = document.getElementById('favLabel');
+    if (favLbl && favLbl.dataset.filterDefaultLabel === undefined) {
+      favLbl.dataset.filterDefaultLabel = favLbl.innerHTML;
+    }
+    return favLbl;
+  }
+  for (var i = 0; i < btn.children.length; i++) {
+    if (btn.children[i].classList && btn.children[i].classList.contains('filter-label-text')) {
+      return btn.children[i];
+    }
+  }
+  var wrapper = document.createElement('span');
+  wrapper.className = 'filter-label-text';
+  while (btn.firstChild) { wrapper.appendChild(btn.firstChild); }
+  btn.appendChild(wrapper);
+  wrapper.dataset.filterDefaultLabel = wrapper.innerHTML;
+  return wrapper;
+}
+
+function _applyCustomNamesToGroup(g) {
+  Array.prototype.forEach.call(g.el.children, function (btn) {
+    var wrapper = _ensureLabelWrapper(btn);
+    if (!wrapper) return;
+    var id = _filterBtnId(btn);
+    var custom = filterButtonsCustomNames[id];
+    if (custom) {
+      wrapper.textContent = custom;
+    } else if (wrapper.dataset.filterDefaultLabel !== undefined) {
+      wrapper.innerHTML = wrapper.dataset.filterDefaultLabel;
+    }
+  });
+}
+
+function applyAllFilterCustomNames() {
+  if (!_filterReorderGroups) _initFilterReorderGroups();
+  _filterReorderGroups.forEach(_applyCustomNamesToGroup);
+}
+
+// دالة مشتركة تستخدمها أكواد تبديل اللغة الموجودة بالموقع لتحديث نص زر الفلتر
+// مع احترام الاسم المخصص اللي غيّره المستخدم (منمنعش تحديث اللغة يمسح اسمه المخصص)
+function _setFilterButtonLangText(btn, text) {
+  var id = _filterBtnId(btn);
+  if (filterButtonsCustomNames[id]) return; // فيه اسم مخصص، منغيروش حسب اللغة
+  var wrapper = _ensureLabelWrapper(btn);
+  if (!wrapper) return;
+  var firstChild = wrapper.firstChild;
+  if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
+    firstChild.textContent = text;
+  } else if (!wrapper.querySelector('span.multi-icon, span.ar, span.en')) {
+    wrapper.textContent = text;
+  }
 }
 
 function _applyOrderToGroup(g) {
@@ -38785,10 +38866,13 @@ function _saveGroupOrder(g) {
 function resetFilterOrderToDefault() {
   if (!_filterReorderGroups) _initFilterReorderGroups();
   filterButtonsOrder = {};
+  filterButtonsCustomNames = {};
   try { localStorage.removeItem(FILTER_ORDER_STORAGE_KEY); } catch (e) {}
+  try { localStorage.removeItem(FILTER_NAMES_STORAGE_KEY); } catch (e) {}
   applyAllFilterOrders();
-  if (filtersReorderModeActive) _ensureFilterDragHandles();
-  var msg = (typeof isArabic !== 'undefined' && !isArabic) ? 'Default filters order restored' : 'تمت استعادة الترتيب الافتراضي للفلاتر';
+  applyAllFilterCustomNames();
+  if (filtersReorderModeActive) { _ensureFilterDragHandles(); _ensureFilterEditHandles(); }
+  var msg = (typeof isArabic !== 'undefined' && !isArabic) ? 'Default filters order and names restored' : 'تمت استعادة الترتيب والأسماء الافتراضية للفلاتر';
   if (typeof showToast === 'function') { showToast(msg); }
   else if (typeof showAppToast === 'function') { showAppToast(msg); }
 }
@@ -38811,6 +38895,53 @@ function _ensureFilterDragHandles() {
 
 function _removeFilterDragHandles() {
   document.querySelectorAll('.filter-drag-handle').forEach(function (h) { h.remove(); });
+}
+
+function _ensureFilterEditHandles() {
+  if (!_filterReorderGroups) _initFilterReorderGroups();
+  _filterReorderGroups.forEach(function (g) {
+    Array.prototype.forEach.call(g.el.children, function (btn) {
+      if (btn.id === 'viewFavoritesButton') return; // زر المفضلة له منطق نصوص خاص، بيتسحب لكن مش بيتسمى
+      if (btn.querySelector('.filter-edit-handle')) return;
+      var editBtn = document.createElement('span');
+      editBtn.className = 'filter-edit-handle';
+      editBtn.innerHTML = '✏️';
+      editBtn.title = 'تغيير اسم الفلتر / Rename this filter';
+      editBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        _promptRenameFilter(btn);
+      });
+      editBtn.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+      btn.appendChild(editBtn);
+    });
+  });
+}
+
+function _removeFilterEditHandles() {
+  document.querySelectorAll('.filter-edit-handle').forEach(function (h) { h.remove(); });
+}
+
+function _promptRenameFilter(btn) {
+  var wrapper = _ensureLabelWrapper(btn);
+  if (!wrapper) return;
+  var id = _filterBtnId(btn);
+  var arMode = !(typeof isArabic !== 'undefined' && !isArabic);
+  var current = filterButtonsCustomNames[id] || wrapper.textContent.trim();
+  var msg = arMode
+    ? 'اكتب الاسم الجديد لهذا الفلتر (اتركه فارغًا للاستعادة الافتراضية):'
+    : 'Enter a new name for this filter (leave empty to restore the default):';
+  var result = window.prompt(msg, current);
+  if (result === null) return; // المستخدم ألغى العملية
+  result = result.trim();
+  if (result === '') {
+    delete filterButtonsCustomNames[id];
+    if (wrapper.dataset.filterDefaultLabel !== undefined) wrapper.innerHTML = wrapper.dataset.filterDefaultLabel;
+  } else {
+    filterButtonsCustomNames[id] = result;
+    wrapper.textContent = result;
+  }
+  try { localStorage.setItem(FILTER_NAMES_STORAGE_KEY, JSON.stringify(filterButtonsCustomNames)); } catch (e) {}
 }
 
 function _filterDragStart(e) {
@@ -38874,9 +39005,11 @@ function toggleFiltersReorderMode() {
   if (filtersReorderModeActive) {
     if (!_filterReorderGroups) _initFilterReorderGroups();
     _ensureFilterDragHandles();
+    _ensureFilterEditHandles();
     if (btn) btn.classList.add('active');
   } else {
     _removeFilterDragHandles();
+    _removeFilterEditHandles();
     if (btn) btn.classList.remove('active');
   }
   _updateFiltersReorderToggleText();
@@ -38885,10 +39018,12 @@ function toggleFiltersReorderMode() {
 document.addEventListener('DOMContentLoaded', function () {
   _initFilterReorderGroups();
   applyAllFilterOrders();
+  applyAllFilterCustomNames();
 });
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
   _initFilterReorderGroups();
   applyAllFilterOrders();
+  applyAllFilterCustomNames();
 }
 // ══════════ نهاية كود ترتيب الفلاتر ══════════
 
@@ -40347,6 +40482,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ).forEach(function(btn) {
       var text = isArabic ? btn.getAttribute('data-ar') : btn.getAttribute('data-en');
       if (!text) return;
+      if (typeof _setFilterButtonLangText === 'function') { _setFilterButtonLangText(btn, text); return; }
       var firstChild = btn.firstChild;
       if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
         firstChild.textContent = text;
@@ -40921,6 +41057,7 @@ function toggleLanguage() {
   ).forEach(function(btn) {
     var text = isArabic ? btn.getAttribute('data-ar') : btn.getAttribute('data-en');
     if (!text) return;
+    if (typeof _setFilterButtonLangText === 'function') { _setFilterButtonLangText(btn, text); return; }
     // لو الزر فيه span داخلي (مثل multi-icon)، نحدث النص الأول فقط
     var firstChild = btn.firstChild;
     if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
@@ -41170,6 +41307,7 @@ function applyFilterButtonsLang(lang) {
   ).forEach(function(btn) {
     var text = btn.getAttribute('data-' + lang) || btn.getAttribute('data-en');
     if (!text) return;
+    if (typeof _setFilterButtonLangText === 'function') { _setFilterButtonLangText(btn, text); return; }
     var firstChild = btn.firstChild;
     if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
       firstChild.textContent = text;
