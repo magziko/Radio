@@ -47675,13 +47675,16 @@ function _clearTasbihNextHint(button) {
   if (hint) hint.remove();
 }
 
-function scheduleTasbihAdvance(button) {
+function scheduleTasbihAdvance(button, wasAlreadyFocusedBeforeTap) {
   _clearTasbihAdvanceTimer();
 
   // مهلة القراءة والزر "التالي الآن" لأى ذكر هدفه 1 (زي آية الكرسي)، لأن الهدف
-  // بيكتمل من أول ضغطة فمحتاجين نمهّل المستخدم يقرأ الذكر قبل ما ننتقل تلقائيًا
+  // بيكتمل من أول ضغطة فمحتاجين نمهّل المستخدم يقرأ الذكر قبل ما ننتقل تلقائيًا.
+  // لكن ده بس لو المستخدم اختار الزر ده مباشرة وهو لسه صغير (مش مركّز). أما لو
+  // الزر كان مكبّر بالفعل (يعنى وصلنا له عن طريق الانتقال التلقائى من قبله)،
+  // ينتقل فورًا من غير مهلة زي ما كان الوضع الأصلى.
   var target = parseInt(button.dataset.target) || 0;
-  var isSingleTarget = target === 1;
+  var isSingleTarget = target === 1 && !wasAlreadyFocusedBeforeTap;
 
   if (isSingleTarget) {
     var delay = _estimateTasbihReadingDelay(button);
@@ -47723,6 +47726,11 @@ function incrementTasbih(event) {
   // بمجرد أول ضغطة يثبت مربع هذا الزر ولا يعود يومض/يختفي
   box.classList.add('tasbih-started');
 
+  // هل الزر كان مكبّر (مُركَّز) بالفعل قبل الضغطة دى؟ لو آه، يبقى وصلنا له عن طريق
+  // الانتقال التلقائى من الذكر اللى قبله. لو لأ (كان لسه صغير)، يبقى المستخدم
+  // اختاره مباشرة بنفسه من غير ما يمر بالتسلسل. الفرق ده بيتحكم فى مهلة القراءة تحت.
+  var wasAlreadyFocusedBeforeTap = button.classList.contains('tasbih-focus');
+
   // على الشاشات الصغيرة: يكبّر هذا الزر وذكره ومربع العدّ طول ما التسبيح فيه شغال
   if (isMobileSmallScreen()) {
     setTasbihFocus(button);
@@ -47743,9 +47751,11 @@ function incrementTasbih(event) {
 
     checkAdhkarGroupCompletion(button);
 
-    // انتقال تلقائى للذكر التالى بعد مهلة قراءة تقريبية (تفادي القطع المفاجئ فى أذكار هدفها 1)
+    // انتقال تلقائى للذكر التالى. مهلة القراءة (لأذكار الهدف=1) بتتحسب بس لو
+    // المستخدم اختار الزر ده مباشرة وهو لسه صغير؛ أما لو وصلنا له عن طريق
+    // الانتقال التلقائى (كان مكبّر بالفعل)، ينتقل فورًا زي ما كان قبل كده.
     if (isMobileSmallScreen()) {
-      scheduleTasbihAdvance(button);
+      scheduleTasbihAdvance(button, wasAlreadyFocusedBeforeTap);
     }
   }
 
