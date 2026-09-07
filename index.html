@@ -6572,6 +6572,12 @@ body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.
     background: linear-gradient(135deg, #f1f1f1, rgba(var(--theme-c1-rgb),0.32));
 }
 
+/* لما زر "التالي الآن" ظاهر، لازم overflow يبقى مرئى وإلا الشارة (اللي جزء منها
+   بره حدود المربع عمدًا) بتتقص وتبان بلكعة غير مفهومة بدل دائرة واضحة */
+.tasbih-box.tasbih-hint-visible {
+    overflow: visible;
+}
+
 .tasbih-ghost-target {
     font-size: 22px;
     font-weight: 900;
@@ -6627,17 +6633,17 @@ body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.
 }
 .tasbih-next-hint {
     position: absolute;
-    top: -12px;
-    left: -12px;
-    width: 30px;
-    height: 30px;
+    top: 3px;
+    left: 3px;
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, var(--theme-c1), var(--theme-c2));
     color: #fff;
     border-radius: 50%;
-    font-size: 13px;
+    font-size: 12px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.28);
     cursor: pointer;
     animation: tasbihNextHintPulse 1.1s ease-in-out infinite;
@@ -6646,6 +6652,37 @@ body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.
 .tasbih-next-hint:active {
     animation: none;
     transform: scale(0.92);
+}
+
+/* دائرة العدّ التنازلى حوالين زر "التالي الآن": بتفضل تفرغ تدريجيًا طول مهلة القراءة */
+.tasbih-next-hint .tasbih-countdown-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    pointer-events: none;
+}
+.tasbih-next-hint .tasbih-countdown-ring .ring-bg {
+    fill: none;
+    stroke: rgba(255,255,255,0.28);
+    stroke-width: 2.5;
+}
+.tasbih-next-hint .tasbih-countdown-ring .ring-progress {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: stroke-dashoffset linear;
+}
+.tasbih-next-hint .tasbih-hint-icon {
+    position: relative;
+    z-index: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+    .tasbih-next-hint .tasbih-countdown-ring .ring-progress {
+        transition: none;
+    }
 }
 
 /* ===== وضع التركيز على التسبيح (كل الشاشات، بما فيها الكمبيوتر): يكبّر الزر والذكر ومربع العدّ أثناء التسبيح الفعلي ===== */
@@ -18903,6 +18940,33 @@ setTimeout(autoScaleVerseFont, 100);
       تفعيل التذكير
     </button>
     <span id="notif-status-text" style="font-size:12px;color:#888;"></span>
+  </div>
+
+  <div id="adhkar-autoadvance-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <span data-ar="⏭️ الانتقال التلقائى بين الأذكار" data-en="⏭️ Auto-Advance Between Adhkar" data-fr="⏭️ Passage automatique entre les Adhkar" data-es="⏭️ Avance automático entre Adhkar" data-sv="⏭️ Automatiskt byte mellan Adhkar" data-nl="⏭️ Automatisch doorgaan tussen Adhkar" data-ga="⏭️ Dul ar aghaidh go huathoibríoch idir Adhkar" data-de="⏭️ Automatischer Wechsel zwischen Adhkar" data-ru="⏭️ Автопереход между азкар" data-tr="⏭️ Ezkâr Arasında Otomatik Geçiş" data-pt="⏭️ Avanço automático entre Adhkar" data-zh="⏭️ 赞念间自动前进" data-ur="⏭️ اذکار کے درمیان خودکار پیش رفت"
+      style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">⏭️ الانتقال التلقائى بين الأذكار</span>
+
+    <span data-ar="عند إتمام العدد المستهدف لذكر، ينتقل تلقائيًا للذكر التالى" data-en="When a dhikr's target count is reached, move automatically to the next one" data-fr="Une fois le nombre atteint, passer automatiquement au suivant" data-es="Al alcanzar el conteo, pasar automáticamente al siguiente" data-sv="När målantalet nås, gå automatiskt till nästa" data-nl="Bij het bereiken van het doel, automatisch naar de volgende gaan" data-ga="Nuair a shroichtear an sprioc, bog go huathoibríoch go dtí an chéad cheann eile" data-de="Bei Erreichen der Zielanzahl automatisch zum nächsten wechseln" data-ru="По достижении цели — автопереход к следующему" data-tr="Hedef sayıya ulaşınca otomatik olarak sonrakine geç" data-pt="Ao atingir a contagem-alvo, avançar automaticamente para o próximo" data-zh="达到目标次数后自动前进到下一个" data-ur="ہدف پورا ہونے پر خودکار طور پر اگلے ذکر پر جائیں"
+      style="font-size:12px;color:var(--theme-c3);">عند إتمام العدد المستهدف لذكر، ينتقل تلقائيًا للذكر التالى</span>
+
+    <div id="adhkarAutoAdvanceToggle" class="mini-toggle-switch" role="switch" aria-checked="true" tabindex="0"
+      onclick="toggleAdhkarAutoAdvance()"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAdhkarAutoAdvance();}"
+      style="margin-inline-start:auto;"></div>
   </div>
 
   <div id="startup-notif-settings" style="    margin: 8px auto 4px;
@@ -40662,6 +40726,31 @@ function _applyFontBold(on) {
   _applyFontBold(saved);
 })();
 
+// ===== إيقاف/تشغيل الانتقال التلقائى بين الأذكار (إعداد عام) =====
+var _adhkarAutoAdvanceOn = true;
+function toggleAdhkarAutoAdvance() {
+  _applyAdhkarAutoAdvance(!_adhkarAutoAdvanceOn);
+  localStorage.setItem('adhkarAutoAdvance', _adhkarAutoAdvanceOn ? '1' : '0');
+}
+function _applyAdhkarAutoAdvance(on) {
+  _adhkarAutoAdvanceOn = !!on;
+  var toggle = document.getElementById('adhkarAutoAdvanceToggle');
+  if (toggle) {
+    toggle.classList.toggle('on', _adhkarAutoAdvanceOn);
+    toggle.setAttribute('aria-checked', _adhkarAutoAdvanceOn ? 'true' : 'false');
+  }
+  // لو اتقفل والاول فيه مؤقّت شغال، نلغيه ونشيل زر "التالي الآن" عشان محدش يستنى انتقال مش هيحصل
+  if (!_adhkarAutoAdvanceOn) {
+    _clearTasbihAdvanceTimer();
+    document.querySelectorAll('.tasbih-next-hint').forEach(function(h) { h.remove(); });
+  }
+}
+(function initAdhkarAutoAdvanceSetting() {
+  var saved = localStorage.getItem('adhkarAutoAdvance');
+  // افتراضيًا مفعّل (لو مفيش قيمة محفوظة قبل كده)
+  _applyAdhkarAutoAdvance(saved === null ? true : saved === '1');
+})();
+
 function changeFontFamily(val) {
   _userFontFamilyVal = val || '';
   _updateFontOverrideStyle();
@@ -47643,17 +47732,47 @@ function _estimateTasbihReadingDelay(button) {
   return delay;
 }
 
-function _showTasbihNextHint(button) {
+function _showTasbihNextHint(button, delay) {
   var box = button.querySelector('.tasbih-box');
   if (!box) return;
   _clearTasbihNextHint(button);
+  box.classList.add('tasbih-hint-visible');
 
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
   var hint = document.createElement('span');
   hint.className = 'tasbih-next-hint';
   hint.title = isAr ? 'التالي الآن' : 'Next now';
   hint.setAttribute('aria-label', hint.title);
-  hint.textContent = '⏭️';
+
+  // دائرة العدّ التنازلى: تبدأ ممتلئة وتفرغ تدريجيًا على مدار مهلة القراءة،
+  // عشان المستخدم يتفرّج بعينه على الوقت المتبقى قبل الانتقال التلقائى
+  var r = 11;
+  var circumference = 2 * Math.PI * r;
+  var ringSvgNS = 'http://www.w3.org/2000/svg';
+  var svg = document.createElementNS(ringSvgNS, 'svg');
+  svg.setAttribute('class', 'tasbih-countdown-ring');
+  svg.setAttribute('viewBox', '0 0 26 26');
+  var ringBg = document.createElementNS(ringSvgNS, 'circle');
+  ringBg.setAttribute('class', 'ring-bg');
+  ringBg.setAttribute('cx', '13');
+  ringBg.setAttribute('cy', '13');
+  ringBg.setAttribute('r', String(r));
+  var ringProgress = document.createElementNS(ringSvgNS, 'circle');
+  ringProgress.setAttribute('class', 'ring-progress');
+  ringProgress.setAttribute('cx', '13');
+  ringProgress.setAttribute('cy', '13');
+  ringProgress.setAttribute('r', String(r));
+  ringProgress.style.strokeDasharray = circumference.toFixed(2);
+  ringProgress.style.strokeDashoffset = '0'; // مليانة الأول = كل الوقت لسه متبقى
+  svg.appendChild(ringBg);
+  svg.appendChild(ringProgress);
+
+  var icon = document.createElement('span');
+  icon.className = 'tasbih-hint-icon';
+  icon.textContent = '⏭️';
+
+  hint.appendChild(svg);
+  hint.appendChild(icon);
   hint.onclick = function(e) {
     e.stopPropagation();
     // نتعلم إن المستخدم قرأ أسرع من المهلة المجدولة، عشان نقصّرها فى المرات الجايه
@@ -47666,11 +47785,23 @@ function _showTasbihNextHint(button) {
     advanceTasbihFocus(button);
   };
   box.appendChild(hint);
+
+  // نبدأ تفريغ الدائرة بعد إطارين (rAF مزدوج) عشان نضمن المتصفح رسم الحالة
+  // الابتدائية (مليانة) الأول قبل ما نشغّل الـ transition، وإلا مش هيبان أي حركة
+  if (typeof delay === 'number' && delay > 0) {
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        ringProgress.style.transitionDuration = delay + 'ms';
+        ringProgress.style.strokeDashoffset = circumference.toFixed(2);
+      });
+    });
+  }
 }
 
 function _clearTasbihNextHint(button) {
   if (!button) return;
   var box = button.querySelector('.tasbih-box');
+  if (box) box.classList.remove('tasbih-hint-visible');
   var hint = box && box.querySelector('.tasbih-next-hint');
   if (hint) hint.remove();
 }
@@ -47688,7 +47819,7 @@ function scheduleTasbihAdvance(button, wasAlreadyFocusedBeforeTap) {
 
   if (isSingleTarget) {
     var delay = _estimateTasbihReadingDelay(button);
-    _showTasbihNextHint(button);
+    _showTasbihNextHint(button, delay);
     _tasbihAdvanceStartTime = Date.now();
     _tasbihAdvanceScheduledDelay = delay;
     _tasbihAdvanceTimer = setTimeout(function() {
@@ -47751,10 +47882,11 @@ function incrementTasbih(event) {
 
     checkAdhkarGroupCompletion(button);
 
-    // انتقال تلقائى للذكر التالى. مهلة القراءة (لأذكار الهدف=1) بتتحسب بس لو
-    // المستخدم اختار الزر ده مباشرة وهو لسه صغير؛ أما لو وصلنا له عن طريق
-    // الانتقال التلقائى (كان مكبّر بالفعل)، ينتقل فورًا زي ما كان قبل كده.
-    if (isMobileSmallScreen()) {
+    // انتقال تلقائى للذكر التالى (لو الإعداد العام مفعّل من قائمة الإعدادات).
+    // مهلة القراءة (لأذكار الهدف=1) بتتحسب بس لو المستخدم اختار الزر ده مباشرة
+    // وهو لسه صغير؛ أما لو وصلنا له عن طريق الانتقال التلقائى (كان مكبّر بالفعل)،
+    // ينتقل فورًا زي ما كان قبل كده.
+    if (isMobileSmallScreen() && _adhkarAutoAdvanceOn) {
       scheduleTasbihAdvance(button, wasAlreadyFocusedBeforeTap);
     }
   }
