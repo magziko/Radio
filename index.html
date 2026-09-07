@@ -47587,23 +47587,58 @@ function advanceTasbihFocus(currentButton) {
 // بعض الأذكار هدفها 1 (زي آية الكرسي) فبيكتمل الهدف من أول ضغطة، فلو انتقلنا فورًا
 // اللي مش حافظها مش هيلحق يقراءها. الحل: نحسب مهلة قراءة تقريبية حسب عدد كلمات
 // نص الذكر، مع زر "التالي الآن ⏭️" يظهر فى مربع التسبيح يقدر يستخدمه لو خلص قبل الوقت.
+//
+// المهلة مش ثابتة: بتتعلم من سلوك المستخدم. لو بيضغط "التالي الآن" قبل ما
+// المهلة تخلص (يعني بيقرأ بسرعة أو حافظ الذكر)، بنقصّر المهلة تدريجيًا فى
+// المرات الجايه. ولو بيسيب المهلة تخلص من غير ما يضغط، بنسيبها زي ما هي.
+// معامل السرعة ده بيتخزن فى localStorage وبيفضل معاه فى كل مرة يفتح فيها الصفحة.
 
 var _tasbihAdvanceTimer = null;
+var _tasbihAdvanceStartTime = null;
+var _tasbihAdvanceScheduledDelay = null;
+
+var TASBIH_PACE_KEY = 'tasbihReadPaceFactor';
+var TASBIH_PACE_MIN = 0.35; // أسرع حالة ممكنة (حافظ الذكر تمامًا)
+var TASBIH_PACE_MAX = 1.3;  // أبطأ حالة ممكنة (لسه بيتعلم الذكر)
+
+function _getTasbihPaceFactor() {
+  var v = parseFloat(localStorage.getItem(TASBIH_PACE_KEY));
+  if (isNaN(v) || v <= 0) return 1;
+  if (v < TASBIH_PACE_MIN) return TASBIH_PACE_MIN;
+  if (v > TASBIH_PACE_MAX) return TASBIH_PACE_MAX;
+  return v;
+}
+
+// بيتنادى لما المستخدم يضغط "التالي الآن" قبل خلاص المهلة، عشان نتعلم إنه بيقرأ بسرعة
+function _learnTasbihFastRead(elapsedRatio) {
+  // elapsedRatio: نسبة الوقت اللي استخدمه المستخدم فعليًا من المهلة المجدولة (0 - 1)
+  if (isNaN(elapsedRatio)) return;
+  var current = _getTasbihPaceFactor();
+  // كل ما ضغط بدري، بننزل المعامل تدريجيًا (بميل نحو نسبة استخدامه الفعلية) بدل قفزة مفاجئة
+  var target = Math.max(elapsedRatio, TASBIH_PACE_MIN);
+  var updated = current - (current - target) * 0.5;
+  if (updated < TASBIH_PACE_MIN) updated = TASBIH_PACE_MIN;
+  if (updated > TASBIH_PACE_MAX) updated = TASBIH_PACE_MAX;
+  localStorage.setItem(TASBIH_PACE_KEY, updated.toFixed(3));
+}
 
 function _clearTasbihAdvanceTimer() {
   if (_tasbihAdvanceTimer) {
     clearTimeout(_tasbihAdvanceTimer);
     _tasbihAdvanceTimer = null;
   }
+  _tasbihAdvanceStartTime = null;
+  _tasbihAdvanceScheduledDelay = null;
 }
 
 function _estimateTasbihReadingDelay(button) {
   var text = button.getAttribute('data-ar') || button.getAttribute('data-en') || '';
   text = text.replace(/<[^>]*>/g, ' '); // إزالة وسوم HTML زي <br> قبل حساب عدد الكلمات
   var words = text.trim().split(/\s+/).filter(Boolean).length;
-  // ~350ms لكل كلمة (سرعة قراءة مريحة)، بحد أدنى 900ms وحد أقصى 15 ثانية
-  var delay = words * 350;
-  if (delay < 900) delay = 900;
+  // ~350ms لكل كلمة (سرعة قراءة مريحة)، معدّلة بمعامل سرعة المستخدم المتعلّم
+  var delay = words * 350 * _getTasbihPaceFactor();
+  // حد أدنى 500ms (حتى لو بيقرأ بسرعة كبيرة) وحد أقصى 15 ثانية
+  if (delay < 500) delay = 500;
   if (delay > 15000) delay = 15000;
   return delay;
 }
@@ -47621,6 +47656,12 @@ function _showTasbihNextHint(button) {
   hint.textContent = '⏭️';
   hint.onclick = function(e) {
     e.stopPropagation();
+    // نتعلم إن المستخدم قرأ أسرع من المهلة المجدولة، عشان نقصّرها فى المرات الجايه
+    if (_tasbihAdvanceStartTime && _tasbihAdvanceScheduledDelay) {
+      var elapsed = Date.now() - _tasbihAdvanceStartTime;
+      var ratio = elapsed / _tasbihAdvanceScheduledDelay;
+      _learnTasbihFastRead(ratio);
+    }
     _clearTasbihAdvanceTimer();
     advanceTasbihFocus(button);
   };
@@ -47637,15 +47678,20 @@ function _clearTasbihNextHint(button) {
 function scheduleTasbihAdvance(button) {
   _clearTasbihAdvanceTimer();
 
-  // مهلة القراءة والزر "التالي الآن" خاصة بأول ذكر فى التسلسل فقط (زي آية الكرسي هدفها 1)
-  var seq = _getTasbihSequence();
-  var isFirstInSequence = seq.indexOf(button) === 0;
+  // مهلة القراءة والزر "التالي الآن" لأى ذكر هدفه 1 (زي آية الكرسي)، لأن الهدف
+  // بيكتمل من أول ضغطة فمحتاجين نمهّل المستخدم يقرأ الذكر قبل ما ننتقل تلقائيًا
+  var target = parseInt(button.dataset.target) || 0;
+  var isSingleTarget = target === 1;
 
-  if (isFirstInSequence) {
+  if (isSingleTarget) {
     var delay = _estimateTasbihReadingDelay(button);
     _showTasbihNextHint(button);
+    _tasbihAdvanceStartTime = Date.now();
+    _tasbihAdvanceScheduledDelay = delay;
     _tasbihAdvanceTimer = setTimeout(function() {
       _tasbihAdvanceTimer = null;
+      _tasbihAdvanceStartTime = null;
+      _tasbihAdvanceScheduledDelay = null;
       advanceTasbihFocus(button);
     }, delay);
   } else {
