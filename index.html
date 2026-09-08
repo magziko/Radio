@@ -2638,6 +2638,7 @@ body.media-theme-glass .ai-msg.user {
 /* بطاقتا "جودة الصوت" و"مساعد الذكاء الاصطناعي" دايمًا جوه مودال الإعدادات (خلفية بيضاء ثابتة)،
    فلازم يفضلوا بألوان الثيم الثابت مش الزجاجي الأبيض، حتى مع ثيمات الصور/الفيديو */
 body.media-theme-glass #settings-panel #audio-quality-settings.aqx-panel,
+body.media-theme-glass #settings-panel #prayer-adhan-settings.paset-panel,
 body.media-theme-glass #settings-panel #ai-assistant-box {
     background: linear-gradient(155deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72)),linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.14),rgba(var(--theme-c2-rgb),0.12)) !important;
     border: 1.5px solid rgba(var(--theme-c1-rgb),0.18) !important;
@@ -2651,6 +2652,8 @@ body.media-theme-glass #settings-panel #audio-quality-settings .aqx-fader-col la
 body.media-theme-glass #settings-panel #audio-quality-settings .aqx-preset-group > span,
 body.media-theme-glass #settings-panel #audio-quality-settings .aqx-note,
 body.media-theme-glass #settings-panel #audio-quality-settings .aqx-toggle-icon,
+body.media-theme-glass #settings-panel #prayer-adhan-settings .paset-title-group span,
+body.media-theme-glass #settings-panel #prayer-adhan-settings .paset-toggle-icon,
 body.media-theme-glass #settings-panel #ai-assistant-title,
 body.media-theme-glass #settings-panel #ai-assistant-subtitle,
 body.media-theme-glass #settings-panel #ai-assistant-toggle-icon {
@@ -8944,6 +8947,30 @@ body.dark-mode .pl-now--green { background: rgba(40,167,69,0.1);  border-color: 
     #audio-quality-settings .aqx-toggle-icon.open{transform:rotate(180deg);}
     #audio-quality-settings .aqx-body{display:none;flex-direction:column;gap:8px;}
     #audio-quality-settings .aqx-body.open{display:flex;}
+
+    /* ===== 🕌 إعدادات مواقيت الصلاة والأذان (تبويبة داخل مودال الإعدادات) ===== */
+    #prayer-adhan-settings.paset-panel{
+      margin:8px auto 4px; width:97%; max-width:860px; box-sizing:border-box;
+      position:relative; overflow:hidden;
+      padding:12px 18px 14px; border-radius:18px;
+      display:flex; flex-direction:column; gap:8px;
+      font-family:'Cairo',Arial,sans-serif; color:var(--theme-c4);
+      background:linear-gradient(155deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72)),linear-gradient(135deg,rgba(var(--theme-g1-rgb),0.14),rgba(var(--theme-c2-rgb),0.10));
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      border:1.5px solid rgba(var(--theme-g1-rgb),0.20);
+      box-shadow:0 8px 28px rgba(var(--theme-c4-rgb),0.10), inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    body.dark-mode #prayer-adhan-settings.paset-panel{
+      background:linear-gradient(155deg,rgba(30,45,38,0.85),rgba(20,32,26,0.75)),linear-gradient(135deg,rgba(var(--theme-g1-rgb),0.14),rgba(var(--theme-c2-rgb),0.10));
+      color:#e0e0e0;
+    }
+    #prayer-adhan-settings .paset-header{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;user-select:none;}
+    #prayer-adhan-settings .paset-title-group{display:flex;align-items:center;gap:10px;}
+    #prayer-adhan-settings .paset-toggle-icon{font-size:14px;color:var(--theme-g1);transition:transform .3s ease;flex-shrink:0;}
+    #prayer-adhan-settings .paset-toggle-icon.open{transform:rotate(180deg);}
+    #prayer-adhan-settings .paset-body{display:none;flex-direction:column;gap:8px;margin-top:6px;}
+    #prayer-adhan-settings .paset-body.open{display:flex;}
+    #prayer-adhan-settings .pcm-embed-box{width:100%;}
     @media (min-width:700px){ #audio-quality-settings .aqx-eq-inner{gap:46px;} }
     @media (max-width:560px){
       #equalizer-row.aqx-eq-row{padding-top:12px;}
@@ -19114,6 +19141,20 @@ setTimeout(autoScaleVerseFont, 100);
           data-pt="Nota: o equalizador e a amplificação podem não funcionar em algumas estações externas devido a restrições do navegador (CORS)"
           data-zh="注意：由于浏览器（CORS）限制，均衡器和增强功能在某些外部电台可能无法使用"
           data-ur="نوٹ: بعض بیرونی اسٹیشنز پر براؤزر (CORS) کی پابندیوں کی وجہ سے ایکولائزر اور بوسٹ کام نہیں کر سکتے">ملاحظة: المعادل والتضخيم قد لا يعملان مع بعض المحطات الخارجية بسبب قيود المتصفح (CORS)</span>
+    </div>
+  </div>
+
+
+  <div id="prayer-adhan-settings" class="paset-panel" style="direction: rtl;">
+    <div class="paset-header" onclick="togglePrayerAdhanBox()">
+      <div class="paset-title-group">
+        <span data-ar="🕌 إعدادات مواقيت الصلاة والأذان" data-en="🕌 Prayer Times &amp; Adhan Settings" data-fr="🕌 Paramètres des horaires de prière et Adhan" data-es="🕌 Ajustes de horarios de oración y Adhan" data-sv="🕌 Inställningar för bönetider och böneutrop" data-nl="🕌 Instellingen gebedstijden en Adhan" data-ga="🕌 Socruithe amanna urnaí agus Adhan" data-de="🕌 Einstellungen für Gebetszeiten und Adhan" data-ru="🕌 Настройки времени намаза и азана" data-tr="🕌 Namaz Vakitleri ve Ezan Ayarları" data-pt="🕌 Configurações de Horários de Oração e Adhan" data-zh="🕌 礼拜时间与宣礼设置" data-ur="🕌 اوقاتِ نماز اور اذان کی ترتیبات"
+          style="font-size:15px;font-weight:800;white-space:nowrap;">🕌 إعدادات مواقيت الصلاة والأذان</span>
+      </div>
+      <span id="prayerAdhanToggleIcon" class="paset-toggle-icon">▾</span>
+    </div>
+    <div id="prayer-adhan-settings-body" class="paset-body">
+      <div id="prayerAdhanInlineContent"></div>
     </div>
   </div>
 
@@ -34023,9 +34064,12 @@ window._ptComputeDuha = _ptComputeDuha;
     if (typeof window._fpwLoadPublic === 'function') window._fpwLoadPublic();
   };
 
-  window.openPrayerCalcModal = function() {
-    var old = document.getElementById('prayerCalcModal');
-    if (old) { old.remove(); return; }
+  window._pcmRender = function(mode, targetContainer) {
+    var isInline = (mode === 'inline');
+    if (!isInline) {
+      var old = document.getElementById('prayerCalcModal');
+      if (old) { old.remove(); return; }
+    }
     var lang = _ptLang();
     var isAr = (lang === 'ar');
     var dir = _ptDir(lang);
@@ -34067,12 +34111,25 @@ window._ptComputeDuha = _ptComputeDuha;
       '</div>';
     }).join('');
 
-    var overlay = document.createElement('div');
-    overlay.id = 'prayerCalcModal';
-    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);animation:ptFadeIn .18s ease;';
-    overlay.innerHTML =
-      '<div style="background:' + bg + ';color:' + clr + ';width:min(92vw,380px);max-height:85vh;overflow:auto;border-radius:18px;padding:20px;font-family:Cairo,sans-serif;direction:' + dir + ';box-shadow:0 12px 40px rgba(0,0,0,0.3);animation:ptSlideIn .22s ease;">' +
-        '<div style="font-size:16px;font-weight:700;margin-bottom:14px;color:' + green + ';">🕌 ' + _ptT('modalTitle', lang) + '</div>' +
+    var boxStyle = isInline
+      ? ('background:transparent;color:' + clr + ';width:100%;padding:0;font-family:Cairo,sans-serif;direction:' + dir + ';')
+      : ('background:' + bg + ';color:' + clr + ';width:min(92vw,380px);max-height:85vh;overflow:auto;border-radius:18px;padding:20px;font-family:Cairo,sans-serif;direction:' + dir + ';box-shadow:0 12px 40px rgba(0,0,0,0.3);animation:ptSlideIn .22s ease;');
+
+    var titleHTML = isInline ? '' :
+      ('<div style="font-size:16px;font-weight:700;margin-bottom:14px;color:' + green + ';">🕌 ' + _ptT('modalTitle', lang) + '</div>');
+
+    var buttonsHTML = isInline
+      ? ('<div style="display:flex;gap:10px;">' +
+          '<button id="pcm-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:' + green + ';color:#fff;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">' + _ptT('save', lang) + '</button>' +
+        '</div>')
+      : ('<div style="display:flex;gap:10px;">' +
+          '<button id="pcm-cancel" style="flex:1;padding:10px;border-radius:10px;border:1px solid ' + border + ';background:transparent;color:' + muted + ';font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;">' + _ptT('cancel', lang) + '</button>' +
+          '<button id="pcm-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:' + green + ';color:#fff;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">' + _ptT('save', lang) + '</button>' +
+        '</div>');
+
+    var boxHTML =
+      '<div style="' + boxStyle + '">' +
+        titleHTML +
 
         '<div style="margin-bottom:16px;">' +
           '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + _ptT('calcMethodLabel', lang) + '</label>' +
@@ -34124,14 +34181,25 @@ window._ptComputeDuha = _ptComputeDuha;
           '<div id="pcm-geo-city-row" style="margin-top:10px;padding-top:10px;border-top:1px solid ' + border + ';"></div>' +
         '</div>' +
 
-        '<div style="display:flex;gap:10px;">' +
-          '<button id="pcm-cancel" style="flex:1;padding:10px;border-radius:10px;border:1px solid ' + border + ';background:transparent;color:' + muted + ';font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;">' + _ptT('cancel', lang) + '</button>' +
-          '<button id="pcm-save" style="flex:1;padding:10px;border-radius:10px;border:none;background:' + green + ';color:#fff;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">' + _ptT('save', lang) + '</button>' +
-        '</div>' +
+        buttonsHTML +
       '</div>';
 
-    document.body.appendChild(overlay);
-    overlay.addEventListener('click', function(e) { if (e.target === overlay) { _stopSoundPreview(); overlay.remove(); } });
+    var overlay;
+    if (isInline) {
+      if (!targetContainer) return;
+      targetContainer.innerHTML = '';
+      overlay = document.createElement('div');
+      overlay.className = 'pcm-embed-box';
+      overlay.innerHTML = boxHTML;
+      targetContainer.appendChild(overlay);
+    } else {
+      overlay = document.createElement('div');
+      overlay.id = 'prayerCalcModal';
+      overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);animation:ptFadeIn .18s ease;';
+      overlay.innerHTML = boxHTML;
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', function(e) { if (e.target === overlay) { _stopSoundPreview(); overlay.remove(); } });
+    }
 
     var madhab0 = overlay.querySelector('#pcm-madhab-0');
     var madhab1 = overlay.querySelector('#pcm-madhab-1');
@@ -34288,7 +34356,8 @@ window._ptComputeDuha = _ptComputeDuha;
       if (typeof window.openCityPicker === 'function') window.openCityPicker();
     });
 
-    overlay.querySelector('#pcm-cancel').addEventListener('click', function() { _stopSoundPreview(); overlay.remove(); });
+    var cancelBtn = overlay.querySelector('#pcm-cancel');
+    if (cancelBtn) cancelBtn.addEventListener('click', function() { _stopSoundPreview(); overlay.remove(); });
     overlay.querySelector('#pcm-save').addEventListener('click', function() {
       _stopSoundPreview();
       var method = overlay.querySelector('#pcm-method').value;
@@ -34305,11 +34374,19 @@ window._ptComputeDuha = _ptComputeDuha;
           window._fetchAndScheduleAdhan(geo.lat, geo.lon);
         }
       } catch (e) {}
-      overlay.remove();
+      if (!isInline) overlay.remove();
       if (typeof queueToast === 'function') {
         queueToast(_ptT('settingsSaved', 'en'), _ptT('settingsSaved', 'ar'), null, null, null);
       }
     });
+  };
+
+  window.openPrayerCalcModal = function() {
+    window._pcmRender('modal', null);
+  };
+
+  window.renderPrayerAdhanInlineSettings = function(container) {
+    window._pcmRender('inline', container);
   };
 })();
 </script>
@@ -53893,6 +53970,24 @@ document.addEventListener('DOMContentLoaded', function() {
     var isOpen = body.classList.contains('open');
     body.classList.toggle('open', !isOpen);
     if (icon) icon.classList.toggle('open', !isOpen);
+  };
+
+  // ===== تبويبة "🕌 إعدادات مواقيت الصلاة والأذان" داخل مودال الإعدادات =====
+  window.togglePrayerAdhanBox = function() {
+    var body = document.getElementById('prayer-adhan-settings-body');
+    var icon = document.getElementById('prayerAdhanToggleIcon');
+    if (!body) return;
+    var isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    if (icon) icon.classList.toggle('open', !isOpen);
+    // نبني/نجدد محتوى الإعدادات في كل مرة تُفتح فيها التبويبة، عشان تفضل متزامنة
+    // مع أي تغيير حصل من مكانها الأساسي (زرار ⚙️ جنب الأذان التلقائي)
+    if (!isOpen) {
+      var container = document.getElementById('prayerAdhanInlineContent');
+      if (container && typeof window.renderPrayerAdhanInlineSettings === 'function') {
+        window.renderPrayerAdhanInlineSettings(container);
+      }
+    }
   };
 
   window.toggleAiBox = function() {
