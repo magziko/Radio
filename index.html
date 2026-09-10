@@ -48259,12 +48259,65 @@ function markAllTasbihBoxesStarted() {
   });
 }
 
+// هل الذكر ده من أذكار الصباح أو المساء تحديدًا (مش عام ولا رقية)؟
+// الميزة دي خاصة بأذكار الصباح/المساء بس زي ما طلب المستخدم
+function _isMorningEveningAdhkar(button) {
+  return !!button && (button.hasAttribute('data-adhkar-morning') || button.hasAttribute('data-adhkar-evening'));
+}
+
+// هل الذكر ده هو أول ذكر بيتفاعل معه المستخدم فى مجموعة الصباح/المساء
+// (يعني مفيش ذكر تانى فى نفس المجموعة عنده عدّ أكتر من صفر ولا مكتمل)؟
+// ده بيغطي حالة إن المستخدم يبدأ من نص القائمة مش بالضرورة أول ذكر فيها فعليًا
+function _isFirstAdhkarInGroup(button) {
+  var hasMorning = button.hasAttribute('data-adhkar-morning');
+  var hasEvening = button.hasAttribute('data-adhkar-evening');
+  if (!hasMorning && !hasEvening) return false;
+
+  var type;
+  if (hasMorning && hasEvening) {
+    if (typeof currentAdhkarSub !== 'undefined' && (currentAdhkarSub === 'morning' || currentAdhkarSub === 'evening')) {
+      type = currentAdhkarSub;
+    } else {
+      type = hasMorning ? 'morning' : 'evening';
+    }
+  } else {
+    type = hasMorning ? 'morning' : 'evening';
+  }
+
+  var attr = 'data-adhkar-' + type;
+  var groupBtns = document.querySelectorAll('button[data-category="Adhkar"][' + attr + ']');
+  for (var i = 0; i < groupBtns.length; i++) {
+    var b = groupBtns[i];
+    if (b === button) continue;
+    var c = parseInt(localStorage.getItem('tasbih_' + b.getAttribute('data-station'))) || 0;
+    if (c > 0 || b.classList.contains('completed')) return false;
+  }
+  return true;
+}
+
 function incrementTasbih(event) {
   event.stopPropagation();
 
   const box = event.currentTarget;
   const button = box.closest("button");
   if (!button) return;
+
+  // ===== أذكار الصباح/المساء، فى وضع التسبيح اليدوى (المانيول) بس، مش
+  // الاوتوماتيك: لو الذكر ده تارجته ١ واكتمل بالفعل من ضغطة سابقة (يعني ده
+  // كان أول ذكر اتفاعلنا معاه وقاعد مستنى)، الضغطة الجديدة دي (ماوس/تاتش/
+  // كيبورد) معناها "خلصت قراءته، انتقل للذكر التالى" — من غير ما تزوّد
+  // العدّاد تانى (يفضل ثابت عند ١)
+  if (button.classList.contains("completed") &&
+    (parseInt(button.dataset.target) || 0) === 1 &&
+    _isMorningEveningAdhkar(button) &&
+    !_adhkarAutoAdvanceActive()) {
+    if (_tasbihAdvancePendingButton === button) {
+      _clearTasbihAdvanceTimer();
+    }
+    _clearTasbihNextHint(button);
+    advanceTasbihFocus(button);
+    return;
+  }
 
   // لو فيه لفة أو انتقال تلقائى مجدول على نفس الذكر ده (شغال دلوقتى)، نلغيه
   // عشان الضغطة اليدوية دي منتحسبش مرتين (مرة من المستخدم ومرة من العدّ التلقائى)
@@ -48324,15 +48377,28 @@ function incrementTasbih(event) {
     checkAdhkarGroupCompletion(button);
 
     // اكتمل الهدف بضغطة يدوية:
-    // - لو الذكر تارجته أكتر من ١ (يعنى المستخدم ضغط عليه أكتر من مرة)،
-    //   يبقى قرأه أثناء الضغطات المتكرّرة فعلًا، فننتقل فورًا للذكر التالى
-    //   من غير مهلة.
-    // - لو تارجته ١ بس (ضغطة واحدة كملت الهدف على طول)، يبقى لسه محتاج وقت
-    //   يقرأ الذكر ده أول مرة، فنستخدم نفس مهلة القراءة التلقائية (بمهلة
-    //   حسب عدد كلمات الذكر) قبل ما ننتقل، عشان مايتنقلش من تحت إيده وهو
-    //   لسه بيقرأ.
+    // - لو الذكر تارجته أكتر من ١، أو تارجته ١ بس مش أول ذكر بيتفاعل معاه
+    //   المستخدم فى مجموعة الصباح/المساء (يعني وصله وهو شغال بالفعل فى
+    //   التسبيح اليدوى)، ننتقل فورًا للذكر التالى من غير مهلة — ضغطة واحدة
+    //   كفاية.
+    // - استثناء: لو تارجته ١ وهو أول ذكر يبدأ بيه المستخدم فى المجموعة (فى
+    //   وضع التسبيح اليدوى بأذكار الصباح/المساء بس، مش الاوتوماتيك)، منسيبوش
+    //   ينتقل تلقائى؛ نسيبه واقف مكتمل عشان المستخدم يلحق يقراءه كامل، وهو
+    //   اللى يقرر الانتقال بضغطة تانية على نفس المربع (الشرط فى أول الدالة)
+    //   من غير ما تزوّد العدّاد.
+    // - غير كده (أذكار عامة/رقية، أو وضع التسبيح الاوتوماتيك): زي ما كان
+    //   بالظبط، بمهلة القراءة التلقائية.
     if (target === 1) {
-      scheduleTasbihAdvance(button);
+      if (_isMorningEveningAdhkar(button) && !_adhkarAutoAdvanceActive()) {
+        if (_isFirstAdhkarInGroup(button)) {
+          // منسيبش الانتقال ده تلقائى؛ هيتم بضغطة تانية من المستخدم (الشرط
+          // فى أول incrementTasbih/incrementTasbihKeyboard)
+        } else {
+          advanceTasbihFocus(button);
+        }
+      } else {
+        scheduleTasbihAdvance(button);
+      }
     } else {
       advanceTasbihFocus(button);
     }
@@ -51103,6 +51169,21 @@ function incrementTasbihKeyboard(box) {
   const button = box.closest("button");
   if (!button) return;
 
+  // نفس شرط الماوس/التاتش: أذكار الصباح/المساء فقط، فى وضع التسبيح اليدوى
+  // (مش الاوتوماتيك)، لو الذكر تارجته ١ واكتمل بالفعل، ضغطة الكيبورد
+  // الجديدة تنقل للذكر التالى على طول من غير ما تزوّد العدّاد
+  if (button.classList.contains("completed") &&
+    (parseInt(button.dataset.target) || 0) === 1 &&
+    _isMorningEveningAdhkar(button) &&
+    !_adhkarAutoAdvanceActive()) {
+    if (_tasbihAdvancePendingButton === button) {
+      _clearTasbihAdvanceTimer();
+    }
+    _clearTasbihNextHint(button);
+    advanceTasbihFocus(button);
+    return;
+  }
+
   // نفس منطق الضغطة اليدوية بالماوس: نلغى أى لفة/انتقال مجدول على نفس الذكر
   // ده عشان منعدش مرتين
   if (_tasbihAdvancePendingButton === button) {
@@ -51139,10 +51220,20 @@ function incrementTasbihKeyboard(box) {
     button.classList.add("completed");
     checkAdhkarGroupCompletion(button);
 
-    // نفس منطق الماوس: لو تارجته ١ بس، لازم مهلة قراءة قبل الانتقال (لسه
-    // ماقراش الذكر)، ولو تارجته أكتر من ١ ننتقل فورًا (قراه أثناء الضغطات)
+    // نفس منطق الماوس: تارجت أكتر من ١، أو تارجت ١ ومش أول ذكر فى مجموعة
+    // الصباح/المساء (وضع يدوى)، ينتقل فورًا بضغطة واحدة. استثناء: أول ذكر
+    // يبدأ بيه المستخدم فى المجموعة (وضع يدوى بس) بيستنى ضغطة تانية (الشرط
+    // فى أول الدالة). غير كده (أذكار عامة/رقية، أو وضع اوتوماتيك) زي ما كان.
     if (target === 1) {
-      scheduleTasbihAdvance(button);
+      if (_isMorningEveningAdhkar(button) && !_adhkarAutoAdvanceActive()) {
+        if (_isFirstAdhkarInGroup(button)) {
+          // هيتنقل بضغطة تانية من المستخدم بس
+        } else {
+          advanceTasbihFocus(button);
+        }
+      } else {
+        scheduleTasbihAdvance(button);
+      }
     } else {
       advanceTasbihFocus(button);
     }
