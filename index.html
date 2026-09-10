@@ -48274,11 +48274,28 @@ function incrementTasbih(event) {
   _clearTasbihNextHint(button);
 
   const key = "tasbih_" + button.getAttribute("data-station");
-
   const countEl = box.querySelector(".tasbih-count");
+  const target = parseInt(button.dataset.target) || 0;
 
   let count = localStorage.getItem(key);
   count = count ? parseInt(count) : 0;
+
+  // ===== أول ضغطة على ذكر تارجته أكتر من ١ ولسه ماتلمسش خالص (عدّه صفر) =====
+  // من غير ما نزوّد العدّاد فورًا، منبدأش نفس سلسلة اللفّات التلقائية اللي
+  // بتحصل بالظبط لو وصلنا للذكر ده عن طريق الانتقال التلقائى من الذكر اللي
+  // قبله (0 → 1 → 2 → ... → التارجت، كل رقم عن طريق لفة حقيقية). كده عدد
+  // اللفّات الظاهرة = التارجت بالظبط سواء اخترت الذكر مباشرة أو وصلتله
+  // بالتسلسل، من غير ما "تاكل" ضغطتك مكان لفة زي ما كان بيحصل قبل كده
+  if (target > 1 && count === 0 && _adhkarAutoAdvanceActive()) {
+    markAllTasbihBoxesStarted();
+    if (isMobileSmallScreen()) {
+      setTasbihFocus(button);
+    }
+    activeTasbih = box;
+    updateAdhkarProgress();
+    scheduleTasbihAutoLap(button);
+    return;
+  }
 
   count++;
 
@@ -48292,8 +48309,6 @@ function incrementTasbih(event) {
   if (isMobileSmallScreen()) {
     setTasbihFocus(button);
   }
-
-  const target = parseInt(button.dataset.target) || 0;
 
   if (target && count === target) {
 
@@ -48322,7 +48337,8 @@ function incrementTasbih(event) {
       advanceTasbihFocus(button);
     }
   } else if (target && _adhkarAutoAdvanceActive()) {
-    // لسه ماوصلش للتارجت: نكمّل الباقى تلقائيًا (لفة بلفة) من غير ما يحتاج يضغط تانى
+    // لسه ماوصلش للتارجت (ضغطة يدوية إضافية أثناء عدّ شغال بالفعل، أو الميزة
+    // مبدوءة بضغطة سابقة): نكمّل الباقى تلقائيًا (لفة بلفة) من غير ما يحتاج يضغط تانى
     scheduleTasbihAutoLap(button);
   }
 
@@ -51095,9 +51111,20 @@ function incrementTasbihKeyboard(box) {
   _clearTasbihNextHint(button);
 
   const key = "tasbih_" + button.getAttribute("data-station");
+  const target = parseInt(button.dataset.target) || 0;
 
   let count = localStorage.getItem(key);
   count = count ? parseInt(count) : 0;
+
+  // نفس منطق الماوس: أول ضغطة على ذكر تارجته أكتر من ١ ولسه صفر تبدأ سلسلة
+  // اللفّات التلقائية كاملة (0 → التارجت) بدل ما "تاكل" مكان لفة
+  if (target > 1 && count === 0 && _adhkarAutoAdvanceActive()) {
+    markAllTasbihBoxesStarted();
+    setTasbihFocus(button);
+    updateAdhkarProgress();
+    scheduleTasbihAutoLap(button);
+    return;
+  }
 
   count++;
 
@@ -51108,7 +51135,6 @@ function incrementTasbihKeyboard(box) {
   // يكبّر هذا الزر وذكره ومربع العدّ طول ما التسبيح فيه شغال (بالزر كمان زي الماوس)
   setTasbihFocus(button);
 
-  const target = parseInt(button.dataset.target) || 0;
   if (target && count === target) {
     button.classList.add("completed");
     checkAdhkarGroupCompletion(button);
@@ -51121,7 +51147,7 @@ function incrementTasbihKeyboard(box) {
       advanceTasbihFocus(button);
     }
   } else if (target && _adhkarAutoAdvanceActive()) {
-    // لسه ماوصلش للتارجت: نكمّل الباقى تلقائيًا (لفة بلفة)
+    // لسه ماوصلش للتارجت (ضغطة إضافية أثناء عدّ شغال بالفعل): نكمّل الباقى تلقائيًا (لفة بلفة)
     scheduleTasbihAutoLap(button);
   }
   updateAdhkarProgress();
