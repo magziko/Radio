@@ -20069,7 +20069,6 @@ const quranRadioStationsExtra = [{
     "https://archive.org/download/20260117_20260117_1330/%28%28..%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D8%B0%D9%8A%20%D8%A3%D8%B3%D8%B1%D9%89%20%D8%A8%D8%B9%D8%A8%D8%AF%D9%87..%29%29%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%D8%B1%D8%AD%D9%85%D9%87%20%D8%A7%D9%84%D9%84%D9%87%20%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A7%D8%B3%D8%B1%D8%A7%D8%A1%27%27.mp3",
     "https://archive.org/download/raadalkurdy_273685427_1500032550383298_3831424875219627410_n/raadalkurdy_273685427_1500032550383298_3831424875219627410_n.mp3",
     "https://archive.org/download/messenger_202506/Messenger.mp3",
-    "https://archive.org/download/0_20260910/0.mp3",
     "https://archive.org/download/video-413009016970397/Video%20413009016970397.mp3",
     "https://archive.org/download/078040_202506/078040%D8%A7%D9%86%D8%A7%20%D8%A7%D9%86%D8%B0%D8%B1%D9%86%D8%A7%D9%83%D9%85%20%D8%B9%D8%B0%D8%A7%D8%A8%D8%A7%20%D9%82%D8%B1%D9%8A%D8%A8%D8%A7%20%D8%A7%D9%84%D8%AD%D8%B5%D8%B1%D9%89.mp3",
     "https://archive.org/download/1-1402-by-alijaber.net/%E2%96%B6%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D9%88%D8%A8%D8%A9%20%281%29%201402%D9%87%D9%80%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20by%20alijaber.net.mp3",
@@ -20118,7 +20117,6 @@ const quranRadioStationsExtra = [{
   "en": "Ayah 2",
   "urls": [
     "https://archive.org/download/20260827_20260827_1435/%D9%82%D8%A7%D9%84%D9%88%D8%A7.mp3",
-    "https://archive.org/download/0_20260910/0.mp3",
     "https://archive.org/download/20260827_20260827_1442/%D9%88%D8%A7%D9%84%D9%89%20%D9%85%D8%AF%D9%8A%D9%86.mp3",
     "https://archive.org/download/20260506_20260506_1526/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D8%B0%D9%8A%20%D8%A3%D8%B3%D8%B1%D9%89%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A.mp3",
     "https://archive.org/download/2_20250602_20250602_1810/2%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A8%D9%82%D8%B1%D8%A9-%20%D9%85%D8%AD%D8%A7%D9%83%D8%A7%D8%A9%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20%D9%84%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20%D8%B1%D8%AD%D9%85%D9%87%20%D8%A7%D9%84%D9%84%D9%87%20%D8%A8%D8%B1%D9%88%D8%A7%D9%8A%D8%A9%20%D8%B4%D8%B9%D8%A8%D8%A9%20%D8%B9%D9%86%20%D8%B9%D8%A7%D8%B5%D9%85.mp3",
@@ -48230,8 +48228,11 @@ function _performTasbihAutoLap(button) {
     button.classList.add('completed');
     if (typeof checkAdhkarGroupCompletion === 'function') checkAdhkarGroupCompletion(button);
 
-    // اكتمل الهدف: دلوقتى ننتقل (بعد مهلة قراءة قصيرة) للذكر اللى بعده
-    scheduleTasbihAdvance(button);
+    // اكتمل الهدف: ننتقل للذكر اللى بعده على طول — كل لفة من اللفّات اللى
+    // فاتت كان فيها أصلًا مهلة قراءة كاملة قبل ما تزيد العدّاد، فمفيش داعى
+    // لمهلة/لفة تنازلية زيادة هنا؛ دي بالذات كانت سبب ظهور "لفة زيادة" على
+    // الدائرة من غير ما تزيد العدّاد فعليًا (مثلًا تارجت ٣ كانت تلف ٤ مرات)
+    advanceTasbihFocus(button);
   } else {
     // لسه محتاج لفّات، نكمّل نفس الذكر
     scheduleTasbihAutoLap(button);
