@@ -47898,6 +47898,10 @@ function _getTasbihSequence() {
   });
 }
 
+// بترجع true لو فعلاً لقت ذكر تالى ونقلت التركيز (activeTasbih) عليه، أو
+// false لو معرفتش تنقل (آخر ذكر فى التسلسل، أو الزر مش موجود فى التسلسل
+// الحالى). المستدعيين بيستخدموا القيمة دي عشان يعرفوا هل يسيبوا activeTasbih
+// زي ما هو (لأنه اتحدث فعلاً) ولا يرجّعوه هما بنفسهم للزر الحالى
 function advanceTasbihFocus(currentButton) {
   var seq = _getTasbihSequence();
   var idx = seq.indexOf(currentButton);
@@ -47905,7 +47909,7 @@ function advanceTasbihFocus(currentButton) {
   _clearTasbihNextHint(currentButton);
   clearTasbihFocus(currentButton);
 
-  if (idx === -1) return;
+  if (idx === -1) return false;
 
   var next = null;
   for (var i = idx + 1; i < seq.length; i++) {
@@ -47937,7 +47941,9 @@ function advanceTasbihFocus(currentButton) {
     if (typeof _adhkarAutoAdvanceActive === 'function' && _adhkarAutoAdvanceActive()) {
       scheduleTasbihAutoLap(next);
     }
+    return true;
   }
+  return false;
 }
 
 // ===== مهلة قراءة قبل الانتقال التلقائى =====
@@ -48319,9 +48325,26 @@ function incrementTasbih(event) {
     return;
   }
 
+  // ===== ذكر تارجته ١، اكتمل بالفعل، وفى وضع الاوتوماتيك (لسه فى مهلة
+  // القراءة قبل الانتقال للذكر اللى بعده — دايرة العدّ التنازلى شغالة) =====
+  // لو المستخدم خلّص قراءته قبل ما المهلة تخلص وضغط تانى (ماوس/تاتش/كيبورد)،
+  // قصده "انتقل دلوقتى، خلاص قريت" — مش زيادة العدّاد ولا إعادة جدولة نفس
+  // الانتظار. من غير الشرط ده، الضغطة كانت بتزوّد العدّاد لرقم غلط (زي ٢
+  // على تارجت ١) وتعيد نفس مهلة الانتظار من الأول بدل ما تنقل فورًا
+  if (button.classList.contains("completed") &&
+    _tasbihAdvancePendingButton === button) {
+    _clearTasbihAdvanceTimer();
+    _clearTasbihNextHint(button);
+    advanceTasbihFocus(button);
+    return;
+  }
+
   // لو فيه لفة أو انتقال تلقائى مجدول على نفس الذكر ده (شغال دلوقتى)، نلغيه
   // عشان الضغطة اليدوية دي منتحسبش مرتين (مرة من المستخدم ومرة من العدّ التلقائى)
-  if (_tasbihAdvancePendingButton === button) {
+  // بنحفظ إنه كان شغال قبل ما نلغيه، عشان نفرّق تحت بين "أول ضغطة حقيقية
+  // بتبدأ السلسلة" و"ضغطة يدوية جت أثناء أول لفة شغالة بالفعل"
+  var _wasTasbihAdvancePendingForThisButton = (_tasbihAdvancePendingButton === button);
+  if (_wasTasbihAdvancePendingForThisButton) {
     _clearTasbihAdvanceTimer();
   }
   _clearTasbihNextHint(button);
@@ -48329,6 +48352,9 @@ function incrementTasbih(event) {
   const key = "tasbih_" + button.getAttribute("data-station");
   const countEl = box.querySelector(".tasbih-count");
   const target = parseInt(button.dataset.target) || 0;
+  // بيبقى true لو advanceTasbihFocus اتنفذ خلال الدالة دي ونقل التركيز
+  // (activeTasbih) لذكر جديد، عشان منرجعش نلغي التحديث ده فى الآخر
+  let _tasbihMovedFocusAway = false;
 
   let count = localStorage.getItem(key);
   count = count ? parseInt(count) : 0;
@@ -48338,8 +48364,16 @@ function incrementTasbih(event) {
   // بتحصل بالظبط لو وصلنا للذكر ده عن طريق الانتقال التلقائى من الذكر اللي
   // قبله (0 → 1 → 2 → ... → التارجت، كل رقم عن طريق لفة حقيقية). كده عدد
   // اللفّات الظاهرة = التارجت بالظبط سواء اخترت الذكر مباشرة أو وصلتله
-  // بالتسلسل، من غير ما "تاكل" ضغطتك مكان لفة زي ما كان بيحصل قبل كده
+  // بالتسلسل، من غير ما "تاكل" ضغطتك مكان لفة زي ما كان بيحصل قبل كده.
+  // ده بس لو دي أول ضغطة فعلاً (مفيش لفة شغالة أصلاً على الذكر ده). لو
+  // السلسلة كانت بدأت بالفعل (لفة أولى شغالة/دائرة عدّ ظاهرة) والمستخدم قرأ
+  // بسرعة وضغط تانى قبل ما تخلص، يبقى قصده "سجّل اللفة دي دلوقتى واستمر" —
+  // فبننفّذ اللفة فورًا بدل ما نعيد تشغيل نفس المؤقّت من الأول من غير ما نعدّ حاجة
   if (target > 1 && count === 0 && _adhkarAutoAdvanceActive()) {
+    if (_wasTasbihAdvancePendingForThisButton) {
+      _performTasbihAutoLap(button);
+      return;
+    }
     markAllTasbihBoxesStarted();
     if (isMobileSmallScreen()) {
       setTasbihFocus(button);
@@ -48394,13 +48428,13 @@ function incrementTasbih(event) {
           // منسيبش الانتقال ده تلقائى؛ هيتم بضغطة تانية من المستخدم (الشرط
           // فى أول incrementTasbih/incrementTasbihKeyboard)
         } else {
-          advanceTasbihFocus(button);
+          _tasbihMovedFocusAway = advanceTasbihFocus(button);
         }
       } else {
         scheduleTasbihAdvance(button);
       }
     } else {
-      advanceTasbihFocus(button);
+      _tasbihMovedFocusAway = advanceTasbihFocus(button);
     }
   } else if (target && _adhkarAutoAdvanceActive()) {
     // لسه ماوصلش للتارجت (ضغطة يدوية إضافية أثناء عدّ شغال بالفعل، أو الميزة
@@ -48410,7 +48444,15 @@ function incrementTasbih(event) {
 
   updateAdhkarProgress();
 
-  activeTasbih = box;
+  // ===== مهم: منسيبش السطر ده يدوس على التركيز الجديد =====
+  // لو advanceTasbihFocus اتنفذ فوق (تارجت اكتمل وانتقلنا للذكر التالى)،
+  // يبقى هو أصلاً حدّث activeTasbih للذكر الجديد. لو منسّاويناش السطر ده
+  // شرطي، كان هيرجع يفرض الذكر القديم (اللي خلص) تاني، وبعدين لو المستخدم
+  // كمّل بزرار الكيبورد "."، هيرجع يعدّ على الذكر السابق بدل الجديد — ده
+  // بالظبط كان سبب المشكلة.
+  if (!_tasbihMovedFocusAway) {
+    activeTasbih = box;
+  }
 }
 
 function updateAdhkarProgress() {
@@ -51184,9 +51226,22 @@ function incrementTasbihKeyboard(box) {
     return;
   }
 
+  // ===== نفس منطق الماوس: ذكر تارجته ١ اكتمل بالفعل ولسه فى مهلة القراءة
+  // (دائرة العدّ التنازلى شغالة) قبل الانتقال التلقائى للذكر اللى بعده =====
+  // ضغطة كيبورد "." إضافية هنا معناها "خلصت قراءته، انتقل دلوقتى" مش زيادة
+  // العدّاد لرقم غلط ولا إعادة جدولة نفس مهلة الانتظار من الأول
+  if (button.classList.contains("completed") &&
+    _tasbihAdvancePendingButton === button) {
+    _clearTasbihAdvanceTimer();
+    _clearTasbihNextHint(button);
+    advanceTasbihFocus(button);
+    return;
+  }
+
   // نفس منطق الضغطة اليدوية بالماوس: نلغى أى لفة/انتقال مجدول على نفس الذكر
-  // ده عشان منعدش مرتين
-  if (_tasbihAdvancePendingButton === button) {
+  // ده عشان منعدش مرتين، مع حفظ إنه كان شغال قبل الإلغاء زي الماوس بالظبط
+  var _wasTasbihAdvancePendingForThisButton = (_tasbihAdvancePendingButton === button);
+  if (_wasTasbihAdvancePendingForThisButton) {
     _clearTasbihAdvanceTimer();
   }
   _clearTasbihNextHint(button);
@@ -51197,9 +51252,15 @@ function incrementTasbihKeyboard(box) {
   let count = localStorage.getItem(key);
   count = count ? parseInt(count) : 0;
 
-  // نفس منطق الماوس: أول ضغطة على ذكر تارجته أكتر من ١ ولسه صفر تبدأ سلسلة
-  // اللفّات التلقائية كاملة (0 → التارجت) بدل ما "تاكل" مكان لفة
+  // نفس منطق الماوس: أول ضغطة حقيقية (مفيش لفة شغالة أصلاً) على ذكر تارجته
+  // أكتر من ١ ولسه صفر تبدأ سلسلة اللفّات التلقائية كاملة (0 → التارجت) بدل
+  // ما "تاكل" مكان لفة. لكن لو لفة أولى شغالة بالفعل وقرأ بسرعة وضغط بالكيبورد
+  // قبل ما تخلص، ننفّذ اللفة دي فورًا (فاست فورورد) بدل ما نعيد المؤقّت من الأول
   if (target > 1 && count === 0 && _adhkarAutoAdvanceActive()) {
+    if (_wasTasbihAdvancePendingForThisButton) {
+      _performTasbihAutoLap(button);
+      return;
+    }
     markAllTasbihBoxesStarted();
     setTasbihFocus(button);
     updateAdhkarProgress();
@@ -52792,9 +52853,14 @@ document.addEventListener('DOMContentLoaded', function() {
       button.classList.add("completed");
     }
 
-    box.addEventListener("click", () => {
-      activeTasbih = box;
-    });
+    // ملحوظة: كان هنا listener تانى بيعمل "activeTasbih = box" مباشرة عند
+    // أى ضغطة ماوس. المشكلة إنه بيتنفّذ بعد incrementTasbih (اللى بيضبط
+    // activeTasbih بنفسه بشكل صح، وينقله للذكر الجديد لو حصل انتقال تلقائى
+    // بعد اكتمال الهدف). فكان بيمسح تحديث incrementTasbih ويرجّع
+    // activeTasbih تانى للذكر القديم اللى اتضغط عليه فعلاً — فلو كملت بعدها
+    // بزرار الكيبورد "."، كان بيعدّ على الذكر السابق بدل الذكر الجديد.
+    // اتشال عشان incrementTasbih/advanceTasbihFocus هما بس اللى يتحكموا فى
+    // activeTasbih.
   });
 
   (function() {
