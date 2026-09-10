@@ -6629,36 +6629,52 @@ body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.
     opacity: 1;
 }
 
-/* ===== زر "التالي الآن" داخل مربع التسبيح: يظهر بعد اكتمال الذكر أثناء انتظار المهلة التلقائية ===== */
+/* ===== زر إيقاف/استئناف العدّ التلقائى: ثابت الظهور دايمًا فى مربع التسبيح
+   (مكان شارة "التالي الآن" ⏭️ اللى كانت بتظهر وتختفي)، عشان المستخدم يقدر
+   يوقف الانتقال التلقائى بين الأذكار فى أى وقت ويفضل ظاهر على الشاشة
+   عشان يكمّل تانى لما يحب من غير ما يدوّر على الإعدادات ===== */
 @keyframes tasbihNextHintPulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.12); }
 }
-.tasbih-next-hint {
+.tasbih-auto-toggle {
     position: absolute;
     top: 3px;
-    left: 3px;
-    width: 26px;
-    height: 26px;
+    right: 3px;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--theme-c1), var(--theme-c2));
+    background: rgba(60,60,60,0.55);
     color: #fff;
     border-radius: 50%;
-    font-size: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.28);
+    font-size: 11px;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     cursor: pointer;
-    animation: tasbihNextHintPulse 1.1s ease-in-out infinite;
     z-index: 2;
 }
-.tasbih-next-hint:active {
-    animation: none;
-    transform: scale(0.92);
+.tasbih-auto-toggle:active {
+    transform: scale(0.9);
+    background: rgba(40,40,40,0.7);
+}
+/* الحالة الموقوفة: نفرقها بلون الثيم (زى ما كانت شارة "التالي الآن") عشان تبان واضحة إنها محتاجة ضغطة استئناف */
+.tasbih-auto-toggle.is-paused {
+    background: linear-gradient(135deg, var(--theme-c1), var(--theme-c2));
+}
+/* وميض بسيط طول ما فيه عدّ تنازلى شغال قبل الانتقال التلقائى، عشان يلفت الانتباه */
+.tasbih-box.tasbih-hint-visible .tasbih-auto-toggle {
+    animation: tasbihNextHintPulse 1.1s ease-in-out infinite;
+}
+.tasbih-auto-toggle-icon {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
 }
 
-/* دائرة العدّ التنازلى حوالين زر "التالي الآن": بتفضل تفرغ تدريجيًا طول مهلة القراءة */
-.tasbih-next-hint .tasbih-countdown-ring {
+/* دائرة العدّ التنازلى حوالين زر الإيقاف/الاستئناف: بتفضل تفرغ تدريجيًا طول مهلة القراءة قبل الانتقال التلقائى */
+.tasbih-auto-toggle .tasbih-countdown-ring {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -6666,25 +6682,24 @@ body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.
     transform: rotate(-90deg);
     pointer-events: none;
 }
-.tasbih-next-hint .tasbih-countdown-ring .ring-bg {
+.tasbih-auto-toggle .tasbih-countdown-ring .ring-bg {
     fill: none;
     stroke: rgba(255,255,255,0.28);
     stroke-width: 2.5;
 }
-.tasbih-next-hint .tasbih-countdown-ring .ring-progress {
+.tasbih-auto-toggle .tasbih-countdown-ring .ring-progress {
     fill: none;
     stroke: #fff;
     stroke-width: 2.5;
     stroke-linecap: round;
     transition: stroke-dashoffset linear;
 }
-.tasbih-next-hint .tasbih-hint-icon {
-    position: relative;
-    z-index: 1;
-}
 @media (prefers-reduced-motion: reduce) {
-    .tasbih-next-hint .tasbih-countdown-ring .ring-progress {
+    .tasbih-auto-toggle .tasbih-countdown-ring .ring-progress {
         transition: none;
+    }
+    .tasbih-box.tasbih-hint-visible .tasbih-auto-toggle {
+        animation: none;
     }
 }
 
@@ -18996,6 +19011,53 @@ setTimeout(autoScaleVerseFont, 100);
       style="margin-inline-start:auto;"></div>
   </div>
 
+  <div id="adhkar-speed-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <span data-ar="⏱️ سرعة العدّ التلقائى" data-en="⏱️ Auto-Count Speed" data-fr="⏱️ Vitesse du comptage automatique" data-es="⏱️ Velocidad del conteo automático" data-sv="⏱️ Automatisk räknehastighet" data-nl="⏱️ Automatische telsnelheid" data-ga="⏱️ Luas an Chomhairimh Uathoibríoch" data-de="⏱️ Geschwindigkeit der automatischen Zählung" data-ru="⏱️ Скорость автосчёта" data-tr="⏱️ Otomatik Sayım Hızı" data-pt="⏱️ Velocidade da contagem automática" data-zh="⏱️ 自动计数速度" data-ur="⏱️ خودکار شمار کی رفتار"
+      style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">⏱️ سرعة العدّ التلقائى</span>
+
+    <span data-ar="تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار" data-en="Control how fast auto-laps and auto-advance move between adhkar" data-fr="Contrôlez la vitesse des tours et du passage automatique entre les Adhkar" data-es="Controla la velocidad de las vueltas y el avance automático entre Adhkar" data-sv="Styr hastigheten på varvet och det automatiska bytet mellan Adhkar" data-nl="Bepaal de snelheid van de automatische rondes en overgang tussen Adhkar" data-ga="Rialaigh luas na lapaí agus an dul ar aghaidh uathoibríoch idir Adhkar" data-de="Steuere die Geschwindigkeit der automatischen Runden und des Wechsels zwischen Adhkar" data-ru="Настройте скорость автоповтора и автоперехода между азкар" data-tr="Ezkâr arasındaki otomatik tur ve geçiş hızını kontrol edin" data-pt="Controle a velocidade das voltas e do avanço automático entre Adhkar" data-zh="控制赞念之间自动圈数和自动前进的速度" data-ur="اذکار کے درمیان خودکار چکر اور پیش رفت کی رفتار کو کنٹرول کریں"
+      style="font-size:12px;color:var(--theme-c3);">تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار</span>
+
+    <div style="display:flex;align-items:center;gap:8px;margin-inline-start:auto;">
+      <button type="button" onclick="adjustTasbihSpeed(1)"
+        title="أبطأ" aria-label="أبطأ"
+        data-ar-title="أبطأ" data-en-title="Slower"
+        style="width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;
+               background:linear-gradient(135deg,var(--theme-c2),var(--theme-g2));color:#fff;
+               font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">🐢</button>
+
+      <span id="tasbihSpeedLabel" style="font-size:12.5px;font-weight:700;color:var(--theme-c4);min-width:60px;text-align:center;white-space:nowrap;">عادية</span>
+
+      <button type="button" onclick="adjustTasbihSpeed(-1)"
+        title="أسرع" aria-label="أسرع"
+        data-ar-title="أسرع" data-en-title="Faster"
+        style="width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;
+               background:linear-gradient(135deg,var(--theme-c1),var(--theme-c2));color:#fff;
+               font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">🐇</button>
+
+      <button type="button" onclick="resetTasbihSpeed()"
+        title="إعادة الضبط" aria-label="إعادة الضبط"
+        data-ar-title="إعادة الضبط" data-en-title="Reset"
+        style="width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(var(--theme-c1-rgb),0.35);
+               background:transparent;color:var(--theme-c3);cursor:pointer;font-size:14px;
+               display:flex;align-items:center;justify-content:center;flex-shrink:0;">↺</button>
+    </div>
+  </div>
+
   <div id="startup-notif-settings" style="    margin: 8px auto 4px;
     width: 97%; max-width: 860px;
     background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
@@ -19667,12 +19729,26 @@ function renderStationButtons(arr, container, opts) {
       var targetVal = (s.target != null) ? s.target : '';
       var ghostSpan = targetVal ? '<span class="tasbih-ghost-target">' + targetVal + '</span>' : '';
       var _tasbihSavedCount = parseInt(localStorage.getItem('tasbih_' + s.station)) || 0;
-      var _tasbihStartedCls = _tasbihSavedCount > 0 ? ' tasbih-started' : '';
+      var _tasbihStartedCls = (typeof anyTasbihStarted === 'function' && anyTasbihStarted()) ? ' tasbih-started' : '';
       if (_tasbihSavedCount > 0 && targetVal && _tasbihSavedCount >= parseInt(targetVal)) {
         btn.classList.add('completed');
       }
+      // زر إيقاف/استئناف العدّ التلقائى: بيبان بس لو ميزة "الانتقال التلقائى
+      // بين الأذكار" مفعّلة من الإعدادات، وبيفضل ظاهر (مش بيختفي) طول ما
+      // الميزة مفعّلة، عشان المستخدم يقدر يوقفه فى أى وقت ويرجع يشغّله تانى
+      var _autoAdvOnNow = (typeof _adhkarAutoAdvanceOn === 'undefined') ? true : _adhkarAutoAdvanceOn;
+      var _autoAdvPausedNow = (typeof _adhkarAutoAdvancePaused === 'undefined') ? false : _adhkarAutoAdvancePaused;
+      var _autoToggleIsAr = (typeof isArabic === 'undefined') ? true : isArabic;
+      var _autoToggleHtml = '';
+      if (_autoAdvOnNow) {
+        var _autoToggleTitle = _autoAdvPausedNow ?
+          (_autoToggleIsAr ? 'استئناف العدّ التلقائى' : 'Resume auto-count') :
+          (_autoToggleIsAr ? 'إيقاف العدّ التلقائى' : 'Stop auto-count');
+        _autoToggleHtml = '<span class="tasbih-auto-toggle' + (_autoAdvPausedNow ? ' is-paused' : '') + '" title="' + _autoToggleTitle + '" aria-label="' + _autoToggleTitle + '" onclick="toggleTasbihAutoFromBox(event)"><span class="tasbih-auto-toggle-icon">' + (_autoAdvPausedNow ? '▶️' : '⏸') + '</span></span>';
+      }
       inner += '<div class="tasbih-box' + _tasbihStartedCls + '" onclick="incrementTasbih(event)">' +
         ghostSpan +
+        _autoToggleHtml +
         '<span class="tasbih-count">' + _tasbihSavedCount + '</span>' +
         '<span class="reset-btn" onclick="resetTasbih(event); event.stopPropagation();">↺</span>' +
         '</div>';
@@ -19993,6 +20069,7 @@ const quranRadioStationsExtra = [{
     "https://archive.org/download/20260117_20260117_1330/%28%28..%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D8%B0%D9%8A%20%D8%A3%D8%B3%D8%B1%D9%89%20%D8%A8%D8%B9%D8%A8%D8%AF%D9%87..%29%29%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A%20%D8%B1%D8%AD%D9%85%D9%87%20%D8%A7%D9%84%D9%84%D9%87%20%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A7%D8%B3%D8%B1%D8%A7%D8%A1%27%27.mp3",
     "https://archive.org/download/raadalkurdy_273685427_1500032550383298_3831424875219627410_n/raadalkurdy_273685427_1500032550383298_3831424875219627410_n.mp3",
     "https://archive.org/download/messenger_202506/Messenger.mp3",
+    "https://archive.org/download/0_20260910/0.mp3",
     "https://archive.org/download/video-413009016970397/Video%20413009016970397.mp3",
     "https://archive.org/download/078040_202506/078040%D8%A7%D9%86%D8%A7%20%D8%A7%D9%86%D8%B0%D8%B1%D9%86%D8%A7%D9%83%D9%85%20%D8%B9%D8%B0%D8%A7%D8%A8%D8%A7%20%D9%82%D8%B1%D9%8A%D8%A8%D8%A7%20%D8%A7%D9%84%D8%AD%D8%B5%D8%B1%D9%89.mp3",
     "https://archive.org/download/1-1402-by-alijaber.net/%E2%96%B6%20%D8%AA%D9%84%D8%A7%D9%88%D8%A9%20%D9%85%D9%86%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D9%88%D8%A8%D8%A9%20%281%29%201402%D9%87%D9%80%20-%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20by%20alijaber.net.mp3",
@@ -20041,6 +20118,7 @@ const quranRadioStationsExtra = [{
   "en": "Ayah 2",
   "urls": [
     "https://archive.org/download/20260827_20260827_1435/%D9%82%D8%A7%D9%84%D9%88%D8%A7.mp3",
+    "https://archive.org/download/0_20260910/0.mp3",
     "https://archive.org/download/20260827_20260827_1442/%D9%88%D8%A7%D9%84%D9%89%20%D9%85%D8%AF%D9%8A%D9%86.mp3",
     "https://archive.org/download/20260506_20260506_1526/%D8%B3%D8%A8%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D8%B0%D9%8A%20%D8%A3%D8%B3%D8%B1%D9%89%20%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A7%D9%88%D9%8A.mp3",
     "https://archive.org/download/2_20250602_20250602_1810/2%20%D8%B3%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A8%D9%82%D8%B1%D8%A9-%20%D9%85%D8%AD%D8%A7%D9%83%D8%A7%D8%A9%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20%D9%86%D8%A7%D8%B5%D8%B1%20%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D9%85%D9%8A%20%D9%84%D8%B9%D9%84%D9%8A%20%D8%AC%D8%A7%D8%A8%D8%B1%20%D8%B1%D8%AD%D9%85%D9%87%20%D8%A7%D9%84%D9%84%D9%87%20%D8%A8%D8%B1%D9%88%D8%A7%D9%8A%D8%A9%20%D8%B4%D8%B9%D8%A8%D8%A9%20%D8%B9%D9%86%20%D8%B9%D8%A7%D8%B5%D9%85.mp3",
@@ -40803,23 +40881,129 @@ function _applyFontBold(on) {
   _applyFontBold(saved);
 })();
 
-// ===== إيقاف/تشغيل الانتقال التلقائى بين الأذكار (إعداد عام) =====
+// ===== إيقاف/تشغيل الانتقال التلقائى بين الأذكار (إعداد عام من قائمة الإعدادات) =====
 var _adhkarAutoAdvanceOn = true;
+// إيقاف مؤقّت محلى (من زر مربع التسبيح نفسه) بيوقف العدّ التلقائى الآن من
+// غير ما يغيّر إعداد "الانتقال التلقائى" العام المحفوظ فى الإعدادات
+var _adhkarAutoAdvancePaused = false;
+
+// الميزة تعتبر شغالة فعليًا لو مفعّلة من الإعدادات ومش متوقفة مؤقتًا من زر المربع
+function _adhkarAutoAdvanceActive() {
+  return _adhkarAutoAdvanceOn && !_adhkarAutoAdvancePaused;
+}
+
 function toggleAdhkarAutoAdvance() {
   _applyAdhkarAutoAdvance(!_adhkarAutoAdvanceOn);
   localStorage.setItem('adhkarAutoAdvance', _adhkarAutoAdvanceOn ? '1' : '0');
 }
 function _applyAdhkarAutoAdvance(on) {
+  var _wasActiveBefore = _adhkarAutoAdvanceActive();
   _adhkarAutoAdvanceOn = !!on;
   var toggle = document.getElementById('adhkarAutoAdvanceToggle');
   if (toggle) {
     toggle.classList.toggle('on', _adhkarAutoAdvanceOn);
     toggle.setAttribute('aria-checked', _adhkarAutoAdvanceOn ? 'true' : 'false');
   }
-  // لو اتقفل والاول فيه مؤقّت شغال، نلغيه ونشيل زر "التالي الآن" عشان محدش يستنى انتقال مش هيحصل
+  // الميزة كلها اتقفلت من الإعدادات: نلغى أى مؤقّت شغال ونصفّر الإيقاف
+  // المؤقّت المحلى، ونشيل زر الإيقاف/الاستئناف تمامًا من كل صناديق التسبيح
+  // لأنه بقى مالوش لازمة طالما الميزة نفسها مقفولة
   if (!_adhkarAutoAdvanceOn) {
     _clearTasbihAdvanceTimer();
-    document.querySelectorAll('.tasbih-next-hint').forEach(function(h) { h.remove(); });
+    _adhkarAutoAdvancePaused = false;
+    document.querySelectorAll('.tasbih-box.tasbih-hint-visible').forEach(function(b) {
+      b.classList.remove('tasbih-hint-visible');
+    });
+  }
+  _refreshTasbihAutoToggleButtons();
+
+  // اتفعّلت الميزة دلوقتى (وكانت مقفولة قبل كده): لو فيه ذكر شغال عليه
+  // التسبيح حاليًا ولسه ماخلصش تارجته، يبدأ يعدّ لوحده فورًا من غير ما
+  // يحتاج المستخدم يضغط عليه تانى بالماوس
+  if (_adhkarAutoAdvanceActive() && !_wasActiveBefore) {
+    _resumeTasbihAutoLapIfNeeded();
+  }
+}
+
+// بتدوّر على الذكر اللى التسبيح شغال عليه حاليًا (لو فيه)، ولو لسه ماخلصش
+// تارجته وميزة العدّ التلقائى بقت شغالة، تبدأ تعدّ فيه تلقائيًا على طول —
+// من غير ما تنتظر ضغطة يدوية جديدة من المستخدم
+function _resumeTasbihAutoLapIfNeeded() {
+  if (!_adhkarAutoAdvanceActive()) return;
+
+  var btn = document.querySelector('.button.has-tasbih.tasbih-focus');
+  if (!btn && typeof activeTasbih !== 'undefined' && activeTasbih) {
+    btn = activeTasbih.closest('button');
+  }
+  if (!btn || !btn.classList.contains('has-tasbih')) return;
+
+  var target = parseInt(btn.dataset.target) || 0;
+  if (!target || btn.classList.contains('completed')) return;
+
+  // فيه مؤقّت شغال بالفعل على نفس الذكر ده (مثلًا لسه فى مهلة القراءة)، سيبه يكمل
+  if (typeof _tasbihAdvancePendingButton !== 'undefined' && _tasbihAdvancePendingButton === btn) return;
+
+  if (typeof scheduleTasbihAutoLap === 'function') {
+    scheduleTasbihAutoLap(btn);
+  }
+}
+
+// بتظبط ظهور زر الإيقاف/الاستئناف فى كل صناديق التسبيح: بيبان بس لو ميزة
+// "الانتقال التلقائى بين الأذكار" مفعّلة من الإعدادات، وبيتشال تمامًا لو
+// الميزة مقفولة (مفيش لازمة له وقتها)، وبيحدّث الأيقونة حسب حالة الإيقاف المحلى
+function _refreshTasbihAutoToggleButtons() {
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var title = _adhkarAutoAdvancePaused ?
+    (isAr ? 'استئناف العدّ التلقائى' : 'Resume auto-count') :
+    (isAr ? 'إيقاف العدّ التلقائى' : 'Stop auto-count');
+
+  document.querySelectorAll('.tasbih-box').forEach(function(box) {
+    var existing = box.querySelector('.tasbih-auto-toggle');
+    if (!_adhkarAutoAdvanceOn) {
+      if (existing) existing.remove();
+      return;
+    }
+    if (!existing) {
+      existing = document.createElement('span');
+      existing.className = 'tasbih-auto-toggle';
+      existing.onclick = toggleTasbihAutoFromBox;
+      var iconSpan = document.createElement('span');
+      iconSpan.className = 'tasbih-auto-toggle-icon';
+      existing.appendChild(iconSpan);
+      box.appendChild(existing);
+    }
+    var icon = existing.querySelector('.tasbih-auto-toggle-icon');
+    if (icon) icon.textContent = _adhkarAutoAdvancePaused ? '▶️' : '⏸';
+    existing.classList.toggle('is-paused', _adhkarAutoAdvancePaused);
+    existing.title = title;
+    existing.setAttribute('aria-label', title);
+  });
+}
+
+// زر الإيقاف/الاستئناف الثابت جوّا مربع التسبيح: بيوقف الذكر التلقائى بضغطة
+// واحدة (من غير ما يقفل إعداد الانتقال التلقائى نفسه من الإعدادات)، وبيفضل
+// ظاهر بمكانه فى الشاشة (مش بيختفي) عشان لو المستخدم توقف عن التسبيح لأى
+// سبب يقدر يضغطه تانى ويرجع للعدّ التلقائى من غير ما يدوّر على الإعدادات
+function toggleTasbihAutoFromBox(event) {
+  if (event) event.stopPropagation();
+  _adhkarAutoAdvancePaused = !_adhkarAutoAdvancePaused;
+
+  if (_adhkarAutoAdvancePaused) {
+    _clearTasbihAdvanceTimer();
+    document.querySelectorAll('.tasbih-box.tasbih-hint-visible').forEach(function(b) {
+      b.classList.remove('tasbih-hint-visible');
+    });
+  } else {
+    // رجع يشتغل تانى (استئناف): يبدأ يعدّ لوحده فورًا على الذكر الحالى لو
+    // لسه ماخلصش تارجته، من غير ما يحتاج المستخدم يضغط عليه تانى بالماوس
+    _resumeTasbihAutoLapIfNeeded();
+  }
+  _refreshTasbihAutoToggleButtons();
+
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  if (typeof showToast === 'function') {
+    showToast(_adhkarAutoAdvancePaused ?
+      (isAr ? '⏸ تم إيقاف العدّ التلقائى (اضغط تانى للاستئناف)' : '⏸ Auto-count stopped (tap again to resume)') :
+      (isAr ? '▶️ تم استئناف العدّ التلقائى' : '▶️ Auto-count resumed'));
   }
 }
 (function initAdhkarAutoAdvanceSetting() {
@@ -40962,6 +41146,8 @@ function toggleLanguage() {
   if (_fbLbl) _fbLbl.textContent = isArabic ? _fbLbl.getAttribute("data-ar") : _fbLbl.getAttribute("data-en");
   var _ffLbl = document.querySelector("label[for='fontFamilySelect']");
   if (_ffLbl) _ffLbl.textContent = isArabic ? _ffLbl.getAttribute("data-ar") : _ffLbl.getAttribute("data-en");
+  if (typeof _refreshTasbihAutoToggleButtons === 'function') _refreshTasbihAutoToggleButtons();
+  if (typeof _updateTasbihSpeedLabel === 'function') _updateTasbihSpeedLabel();
   var _ffSel = document.getElementById('fontFamilySelect');
   if (_ffSel) {
     Array.prototype.forEach.call(_ffSel.options, function(opt) {
@@ -47746,6 +47932,13 @@ function advanceTasbihFocus(currentButton) {
         block: 'center'
       });
     }
+
+    // لو خيار الانتقال التلقائى مفعّل، الذكر الجديد يبدأ يعدّ لوحده تلقائيًا
+    // (الدائرة تلف على قد عدد مرات التارجت، وكل لفة تزود العداد ١) من غير
+    // ما يحتاج المستخدم يضغط، لحد ما يكمّل ويتنقل بعدها للذكر اللى بعده
+    if (typeof _adhkarAutoAdvanceActive === 'function' && _adhkarAutoAdvanceActive()) {
+      scheduleTasbihAutoLap(next);
+    }
   }
 }
 
@@ -47762,6 +47955,12 @@ function advanceTasbihFocus(currentButton) {
 var _tasbihAdvanceTimer = null;
 var _tasbihAdvanceStartTime = null;
 var _tasbihAdvanceScheduledDelay = null;
+// اللى هيتنفذ لما المهلة تخلص أو المستخدم يضغط زر "التالي الآن" — ممكن يكون
+// "انتقل للذكر التالى" أو "زود لفة واحدة فى نفس الذكر" حسب الحالة
+var _tasbihAdvanceCallback = null;
+// الزر اللى المؤقّت/الدائرة الحالية شغالة عليه، عشان نعرف نلغيه بس لو
+// المستخدم ضغط على نفس الذكر ده يدويًا (من غير ما نأثر على ذكر تانى)
+var _tasbihAdvancePendingButton = null;
 
 var TASBIH_PACE_KEY = 'tasbihReadPaceFactor';
 var TASBIH_PACE_MIN = 0.35; // أسرع حالة ممكنة (حافظ الذكر تمامًا)
@@ -47774,6 +47973,71 @@ function _getTasbihPaceFactor() {
   if (v > TASBIH_PACE_MAX) return TASBIH_PACE_MAX;
   return v;
 }
+
+// ===== تحكّم يدوى فى سرعة العدّ/الانتقال التلقائى (من قائمة الإعدادات) =====
+// زرار "أبطأ 🐢" و"أسرع 🐇" بيغيّروا نفس معامل السرعة (TASBIH_PACE_KEY) اللى
+// بيتعلم تلقائيًا من سلوك المستخدم أصلًا، فالتغيير اليدوى هنا بيحترم نفس
+// الحدود (MIN/MAX) وبيفضل شغال مع باقى الميزة، من غير ما يلغيها
+var TASBIH_SPEED_STEP = 0.15;
+
+// direction: 1 = أبطأ (يزوّد المعامل فيكبر التأخير)، -1 = أسرع (ينزّل المعامل فيقصّر التأخير)
+function adjustTasbihSpeed(direction) {
+  var current = _getTasbihPaceFactor();
+  var updated = current + (direction * TASBIH_SPEED_STEP);
+  if (updated < TASBIH_PACE_MIN) updated = TASBIH_PACE_MIN;
+  if (updated > TASBIH_PACE_MAX) updated = TASBIH_PACE_MAX;
+  localStorage.setItem(TASBIH_PACE_KEY, updated.toFixed(3));
+  _updateTasbihSpeedLabel();
+
+  var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
+  if (typeof showToast === 'function') {
+    var atMin = updated <= TASBIH_PACE_MIN + 0.001;
+    var atMax = updated >= TASBIH_PACE_MAX - 0.001;
+    var msg;
+    if (direction > 0 && atMax) {
+      msg = isAr ? '🐢 وصلت لأبطأ سرعة ممكنة' : '🐢 Reached the slowest speed';
+    } else if (direction < 0 && atMin) {
+      msg = isAr ? '🐇 وصلت لأسرع سرعة ممكنة' : '🐇 Reached the fastest speed';
+    } else {
+      msg = direction > 0 ?
+        (isAr ? '🐢 تم تبطيء العدّ التلقائى' : '🐢 Auto-count slowed down') :
+        (isAr ? '🐇 تم تسريع العدّ التلقائى' : '🐇 Auto-count sped up');
+    }
+    showToast(msg);
+  }
+}
+
+function resetTasbihSpeed() {
+  localStorage.removeItem(TASBIH_PACE_KEY);
+  _updateTasbihSpeedLabel();
+  var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
+  if (typeof showToast === 'function') {
+    showToast(isAr ? '↺ تم ضبط السرعة على الوضع الطبيعى' : '↺ Speed reset to normal');
+  }
+}
+
+function _updateTasbihSpeedLabel() {
+  var el = document.getElementById('tasbihSpeedLabel');
+  if (!el) return;
+  var factor = _getTasbihPaceFactor();
+  var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
+  var label;
+  if (factor <= TASBIH_PACE_MIN + 0.05) {
+    label = isAr ? 'سريعة جدًا' : 'Fastest';
+  } else if (factor < 0.85) {
+    label = isAr ? 'سريعة' : 'Fast';
+  } else if (factor <= 1.15) {
+    label = isAr ? 'عادية' : 'Normal';
+  } else if (factor < TASBIH_PACE_MAX - 0.05) {
+    label = isAr ? 'بطيئة' : 'Slow';
+  } else {
+    label = isAr ? 'بطيئة جدًا' : 'Slowest';
+  }
+  el.textContent = label;
+}
+(function initTasbihSpeedLabel() {
+  _updateTasbihSpeedLabel();
+})();
 
 // بيتنادى لما المستخدم يضغط "التالي الآن" قبل خلاص المهلة، عشان نتعلم إنه بيقرأ بسرعة
 function _learnTasbihFastRead(elapsedRatio) {
@@ -47795,6 +48059,8 @@ function _clearTasbihAdvanceTimer() {
   }
   _tasbihAdvanceStartTime = null;
   _tasbihAdvanceScheduledDelay = null;
+  _tasbihAdvanceCallback = null;
+  _tasbihAdvancePendingButton = null;
 }
 
 function _estimateTasbihReadingDelay(button) {
@@ -47813,65 +48079,47 @@ function _showTasbihNextHint(button, delay) {
   var box = button.querySelector('.tasbih-box');
   if (!box) return;
   _clearTasbihNextHint(button);
+
+  // زر الإيقاف/الاستئناف ثابت وموجود بالفعل جوّا المربع (لو الميزة مفعّلة من
+  // الإعدادات)، فبس بنلف حواليه دائرة عدّ تنازلى (تبدأ ممتلئة وتفرغ تدريجيًا
+  // على مدار مهلة القراءة) عشان المستخدم يتفرّج بعينه على الوقت المتبقى قبل
+  // الانتقال التلقائى. لو الزر مش موجود (الميزة مقفولة من الإعدادات)، منعملش حاجة
+  var toggleBtn = box.querySelector('.tasbih-auto-toggle');
+  if (!toggleBtn) return;
+
   box.classList.add('tasbih-hint-visible');
 
-  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-  var hint = document.createElement('span');
-  hint.className = 'tasbih-next-hint';
-  hint.title = isAr ? 'التالي الآن' : 'Next now';
-  hint.setAttribute('aria-label', hint.title);
-
-  // دائرة العدّ التنازلى: تبدأ ممتلئة وتفرغ تدريجيًا على مدار مهلة القراءة،
-  // عشان المستخدم يتفرّج بعينه على الوقت المتبقى قبل الانتقال التلقائى
-  var r = 11;
+  var r = 9;
   var circumference = 2 * Math.PI * r;
   var ringSvgNS = 'http://www.w3.org/2000/svg';
   var svg = document.createElementNS(ringSvgNS, 'svg');
-  svg.setAttribute('class', 'tasbih-countdown-ring');
-  svg.setAttribute('viewBox', '0 0 26 26');
+  svg.setAttribute('class', 'tasbih-next-hint tasbih-countdown-ring');
+  svg.setAttribute('viewBox', '0 0 22 22');
   var ringBg = document.createElementNS(ringSvgNS, 'circle');
   ringBg.setAttribute('class', 'ring-bg');
-  ringBg.setAttribute('cx', '13');
-  ringBg.setAttribute('cy', '13');
+  ringBg.setAttribute('cx', '11');
+  ringBg.setAttribute('cy', '11');
   ringBg.setAttribute('r', String(r));
   var ringProgress = document.createElementNS(ringSvgNS, 'circle');
   ringProgress.setAttribute('class', 'ring-progress');
-  ringProgress.setAttribute('cx', '13');
-  ringProgress.setAttribute('cy', '13');
+  ringProgress.setAttribute('cx', '11');
+  ringProgress.setAttribute('cy', '11');
   ringProgress.setAttribute('r', String(r));
   ringProgress.style.strokeDasharray = circumference.toFixed(2);
   ringProgress.style.strokeDashoffset = '0'; // مليانة الأول = كل الوقت لسه متبقى
   svg.appendChild(ringBg);
   svg.appendChild(ringProgress);
+  toggleBtn.appendChild(svg);
 
-  var icon = document.createElement('span');
-  icon.className = 'tasbih-hint-icon';
-  icon.textContent = '⏭️';
-
-  hint.appendChild(svg);
-  hint.appendChild(icon);
-  hint.onclick = function(e) {
-    e.stopPropagation();
-    // نتعلم إن المستخدم قرأ أسرع من المهلة المجدولة، عشان نقصّرها فى المرات الجايه
-    if (_tasbihAdvanceStartTime && _tasbihAdvanceScheduledDelay) {
-      var elapsed = Date.now() - _tasbihAdvanceStartTime;
-      var ratio = elapsed / _tasbihAdvanceScheduledDelay;
-      _learnTasbihFastRead(ratio);
-    }
-    _clearTasbihAdvanceTimer();
-    advanceTasbihFocus(button);
-  };
-  box.appendChild(hint);
-
-  // نبدأ تفريغ الدائرة بعد إطارين (rAF مزدوج) عشان نضمن المتصفح رسم الحالة
-  // الابتدائية (مليانة) الأول قبل ما نشغّل الـ transition، وإلا مش هيبان أي حركة
+  // نبدأ تفريغ الدائرة فورًا: نجبر المتصفح يرسم الحالة الابتدائية (مليانة)
+  // فى نفس اللحظة عن طريق قراءة خاصية بتفرض إعادة تخطيط (reflow) قبل ما
+  // نغيّر القيمة، بدل الانتظار لإطارين (rAF مزدوج) اللى ممكن يتأخروا لو فيه
+  // شغل تمرير/تكبير شغال فى نفس الوقت (زى التمرير التلقائى أو تكبير وضع
+  // التركيز)، وده اللى كان بيخلّي الدائرة تفضل ثابتة لثوانى قبل ما تبدأ تتحرك
   if (typeof delay === 'number' && delay > 0) {
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        ringProgress.style.transitionDuration = delay + 'ms';
-        ringProgress.style.strokeDashoffset = circumference.toFixed(2);
-      });
-    });
+    void ringProgress.getBoundingClientRect();
+    ringProgress.style.transitionDuration = delay + 'ms';
+    ringProgress.style.strokeDashoffset = circumference.toFixed(2);
   }
 }
 
@@ -47879,22 +48127,26 @@ function _clearTasbihNextHint(button) {
   if (!button) return;
   var box = button.querySelector('.tasbih-box');
   if (box) box.classList.remove('tasbih-hint-visible');
-  var hint = box && box.querySelector('.tasbih-next-hint');
-  if (hint) hint.remove();
+  // دائرة العدّ التنازلى بس هى اللى بتتشال؛ زر الإيقاف/الاستئناف نفسه بيفضل ظاهر فى مكانه
+  var ring = box && box.querySelector('.tasbih-next-hint');
+  if (ring) ring.remove();
 }
 
 function scheduleTasbihAdvance(button, wasAlreadyFocusedBeforeTap) {
   _clearTasbihAdvanceTimer();
 
-  // مهلة القراءة والزر "التالي الآن" لأى ذكر هدفه 1 (زي آية الكرسي)، لأن الهدف
-  // بيكتمل من أول ضغطة فمحتاجين نمهّل المستخدم يقرأ الذكر قبل ما ننتقل تلقائيًا.
-  // لكن ده بس لو المستخدم اختار الزر ده مباشرة وهو لسه صغير (مش مركّز). أما لو
-  // الزر كان مكبّر بالفعل (يعنى وصلنا له عن طريق الانتقال التلقائى من قبله)،
-  // ينتقل فورًا من غير مهلة زي ما كان الوضع الأصلى.
+  // مهلة القراءة والزر "التالي الآن" لازم يظهروا لأى ذكر عنده تارجت (سواء
+  // هدفه 1 زي آية الكرسي أو أكتر)، سواء وصلنا للزر ده عن طريق الانتقال
+  // التلقائى من الذكر اللى قبله أو المستخدم اختاره مباشرة بنفسه.
   var target = parseInt(button.dataset.target) || 0;
-  var isSingleTarget = target === 1 && !wasAlreadyFocusedBeforeTap;
+  var hasTargetToShowHint = target > 0;
 
-  if (isSingleTarget) {
+  _tasbihAdvanceCallback = function() {
+    advanceTasbihFocus(button);
+  };
+  _tasbihAdvancePendingButton = button;
+
+  if (hasTargetToShowHint) {
     var delay = _estimateTasbihReadingDelay(button);
     _showTasbihNextHint(button, delay);
     _tasbihAdvanceStartTime = Date.now();
@@ -47913,12 +48165,113 @@ function scheduleTasbihAdvance(button, wasAlreadyFocusedBeforeTap) {
   }
 }
 
+// ===== عدّ تلقائى (لفة بلفة) للذكر اللى فيه تارجت أكتر من ضغطة واحدة =====
+// لما نوصل لذكر جديد عن طريق الانتقال التلقائى، بدل ما ننتظر المستخدم يضغط
+// كل مرة، الدائرة نفسها بتلف على قد عدد المرات المطلوبة (التارجت)، وكل ما
+// لفة تخلص بتزود العدّاد ١ لوحدها، لحد ما يكتمل الهدف، وبعدين تتحول
+// تلقائيًا لمرحلة الانتقال للذكر اللى بعده (scheduleTasbihAdvance).
+function scheduleTasbihAutoLap(button) {
+  if (!button) return;
+  _clearTasbihAdvanceTimer();
+
+  var target = parseInt(button.dataset.target) || 0;
+  if (!target) return;
+
+  var key = 'tasbih_' + button.getAttribute('data-station');
+  var count = parseInt(localStorage.getItem(key)) || 0;
+
+  // لو الذكر مكتمل بالفعل، منعديش عليه تانى، ننتقل مباشرة للى بعده
+  if (count >= target) {
+    scheduleTasbihAdvance(button);
+    return;
+  }
+
+  var delay = _estimateTasbihReadingDelay(button);
+  _tasbihAdvanceCallback = function() {
+    _performTasbihAutoLap(button);
+  };
+  _tasbihAdvancePendingButton = button;
+  _showTasbihNextHint(button, delay);
+  _tasbihAdvanceStartTime = Date.now();
+  _tasbihAdvanceScheduledDelay = delay;
+  _tasbihAdvanceTimer = setTimeout(function() {
+    _tasbihAdvanceTimer = null;
+    _tasbihAdvanceStartTime = null;
+    _tasbihAdvanceScheduledDelay = null;
+    _performTasbihAutoLap(button);
+  }, delay);
+}
+
+// بتنفّذ "ضغطة" تلقائية واحدة (لفة) على الذكر الحالى، وبعدين إما تكمّل لفة
+// تانية لو لسه ماوصلش للتارجت، أو تعتبره كامل وتنتقل للذكر اللى بعده
+function _performTasbihAutoLap(button) {
+  if (!button) return;
+  _clearTasbihNextHint(button);
+
+  var key = 'tasbih_' + button.getAttribute('data-station');
+  var count = parseInt(localStorage.getItem(key)) || 0;
+  count++;
+  localStorage.setItem(key, count);
+
+  var box = button.querySelector('.tasbih-box');
+  if (box) {
+    var countEl = box.querySelector('.tasbih-count');
+    if (countEl) countEl.innerText = count;
+  }
+  markAllTasbihBoxesStarted();
+  if (typeof updateAdhkarProgress === 'function') updateAdhkarProgress();
+
+  var target = parseInt(button.dataset.target) || 0;
+  if (target && count >= target) {
+    var audio = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
+    audio.play().catch(function() {});
+    if (navigator.vibrate) navigator.vibrate(200);
+
+    button.classList.add('completed');
+    if (typeof checkAdhkarGroupCompletion === 'function') checkAdhkarGroupCompletion(button);
+
+    // اكتمل الهدف: دلوقتى ننتقل (بعد مهلة قراءة قصيرة) للذكر اللى بعده
+    scheduleTasbihAdvance(button);
+  } else {
+    // لسه محتاج لفّات، نكمّل نفس الذكر
+    scheduleTasbihAutoLap(button);
+  }
+}
+
+// هل فيه أي ذكر (تارجت) اتبدأ فيه التسبيح؟ لو آه، لازم كل صناديق التسبيح
+// في كل الأذكار تثبت وتوقف الوميض، مش بس الذكر اللي اتضغط عليه
+function anyTasbihStarted() {
+  for (var i = 0; i < localStorage.length; i++) {
+    var k = localStorage.key(i);
+    if (k && k.indexOf('tasbih_') === 0) {
+      var v = parseInt(localStorage.getItem(k)) || 0;
+      if (v > 0) return true;
+    }
+  }
+  return false;
+}
+
+// يطبّق كلاس tasbih-started على كل صناديق التسبيح الظاهرة حاليًا في الصفحة
+function markAllTasbihBoxesStarted() {
+  document.querySelectorAll('.tasbih-box').forEach(function(b) {
+    b.classList.add('tasbih-started');
+  });
+}
+
 function incrementTasbih(event) {
   event.stopPropagation();
 
   const box = event.currentTarget;
   const button = box.closest("button");
   if (!button) return;
+
+  // لو فيه لفة أو انتقال تلقائى مجدول على نفس الذكر ده (شغال دلوقتى)، نلغيه
+  // عشان الضغطة اليدوية دي منتحسبش مرتين (مرة من المستخدم ومرة من العدّ التلقائى)
+  if (_tasbihAdvancePendingButton === button) {
+    _clearTasbihAdvanceTimer();
+  }
+  _clearTasbihNextHint(button);
+
   const key = "tasbih_" + button.getAttribute("data-station");
 
   const countEl = box.querySelector(".tasbih-count");
@@ -47931,13 +48284,8 @@ function incrementTasbih(event) {
   localStorage.setItem(key, count);
   countEl.innerText = count;
 
-  // بمجرد أول ضغطة يثبت مربع هذا الزر ولا يعود يومض/يختفي
-  box.classList.add('tasbih-started');
-
-  // هل الزر كان مكبّر (مُركَّز) بالفعل قبل الضغطة دى؟ لو آه، يبقى وصلنا له عن طريق
-  // الانتقال التلقائى من الذكر اللى قبله. لو لأ (كان لسه صغير)، يبقى المستخدم
-  // اختاره مباشرة بنفسه من غير ما يمر بالتسلسل. الفرق ده بيتحكم فى مهلة القراءة تحت.
-  var wasAlreadyFocusedBeforeTap = button.classList.contains('tasbih-focus');
+  // بمجرد أول ضغطة تثبت كل صناديق التسبيح في كل الأذكار ولا تعود تومض/تختفي
+  markAllTasbihBoxesStarted();
 
   // على الشاشات الصغيرة: يكبّر هذا الزر وذكره ومربع العدّ طول ما التسبيح فيه شغال
   if (isMobileSmallScreen()) {
@@ -47959,13 +48307,22 @@ function incrementTasbih(event) {
 
     checkAdhkarGroupCompletion(button);
 
-    // انتقال تلقائى للذكر التالى (لو الإعداد العام مفعّل من قائمة الإعدادات).
-    // مهلة القراءة (لأذكار الهدف=1) بتتحسب بس لو المستخدم اختار الزر ده مباشرة
-    // وهو لسه صغير؛ أما لو وصلنا له عن طريق الانتقال التلقائى (كان مكبّر بالفعل)،
-    // ينتقل فورًا زي ما كان قبل كده.
-    if (isMobileSmallScreen() && _adhkarAutoAdvanceOn) {
-      scheduleTasbihAdvance(button, wasAlreadyFocusedBeforeTap);
+    // اكتمل الهدف بضغطة يدوية:
+    // - لو الذكر تارجته أكتر من ١ (يعنى المستخدم ضغط عليه أكتر من مرة)،
+    //   يبقى قرأه أثناء الضغطات المتكرّرة فعلًا، فننتقل فورًا للذكر التالى
+    //   من غير مهلة.
+    // - لو تارجته ١ بس (ضغطة واحدة كملت الهدف على طول)، يبقى لسه محتاج وقت
+    //   يقرأ الذكر ده أول مرة، فنستخدم نفس مهلة القراءة التلقائية (بمهلة
+    //   حسب عدد كلمات الذكر) قبل ما ننتقل، عشان مايتنقلش من تحت إيده وهو
+    //   لسه بيقرأ.
+    if (target === 1) {
+      scheduleTasbihAdvance(button);
+    } else {
+      advanceTasbihFocus(button);
     }
+  } else if (target && _adhkarAutoAdvanceActive()) {
+    // لسه ماوصلش للتارجت: نكمّل الباقى تلقائيًا (لفة بلفة) من غير ما يحتاج يضغط تانى
+    scheduleTasbihAutoLap(button);
   }
 
   updateAdhkarProgress();
@@ -48193,8 +48550,10 @@ function resetTasbih(event) {
   box.querySelector(".tasbih-count").innerText = 0;
   button.classList.remove("completed");
 
-  // إلغاء أى انتقال تلقائى مجدول لنفس هذا الذكر بعد تصفيره
-  if (typeof _clearTasbihAdvanceTimer === 'function') _clearTasbihAdvanceTimer();
+  // إلغاء أى انتقال تلقائى/لفة مجدولة لنفس هذا الذكر بعد تصفيره
+  if (_tasbihAdvancePendingButton === button && typeof _clearTasbihAdvanceTimer === 'function') {
+    _clearTasbihAdvanceTimer();
+  }
   if (typeof _clearTasbihNextHint === 'function') _clearTasbihNextHint(button);
 
   updateAdhkarProgress();
@@ -50726,6 +51085,14 @@ document.addEventListener('keydown', function(e) {
 function incrementTasbihKeyboard(box) {
   const button = box.closest("button");
   if (!button) return;
+
+  // نفس منطق الضغطة اليدوية بالماوس: نلغى أى لفة/انتقال مجدول على نفس الذكر
+  // ده عشان منعدش مرتين
+  if (_tasbihAdvancePendingButton === button) {
+    _clearTasbihAdvanceTimer();
+  }
+  _clearTasbihNextHint(button);
+
   const key = "tasbih_" + button.getAttribute("data-station");
 
   let count = localStorage.getItem(key);
@@ -50735,7 +51102,7 @@ function incrementTasbihKeyboard(box) {
 
   localStorage.setItem(key, count);
   box.querySelector(".tasbih-count").innerText = count;
-  box.classList.add('tasbih-started');
+  markAllTasbihBoxesStarted();
 
   // يكبّر هذا الزر وذكره ومربع العدّ طول ما التسبيح فيه شغال (بالزر كمان زي الماوس)
   setTasbihFocus(button);
@@ -50745,8 +51112,16 @@ function incrementTasbihKeyboard(box) {
     button.classList.add("completed");
     checkAdhkarGroupCompletion(button);
 
-    // انتقال تلقائى للذكر التالى بعد مهلة قراءة تقريبية، ويصبح هو المستهدف بزر النقطة "."
-    scheduleTasbihAdvance(button);
+    // نفس منطق الماوس: لو تارجته ١ بس، لازم مهلة قراءة قبل الانتقال (لسه
+    // ماقراش الذكر)، ولو تارجته أكتر من ١ ننتقل فورًا (قراه أثناء الضغطات)
+    if (target === 1) {
+      scheduleTasbihAdvance(button);
+    } else {
+      advanceTasbihFocus(button);
+    }
+  } else if (target && _adhkarAutoAdvanceActive()) {
+    // لسه ماوصلش للتارجت: نكمّل الباقى تلقائيًا (لفة بلفة)
+    scheduleTasbihAutoLap(button);
   }
   updateAdhkarProgress();
 }
@@ -52278,6 +52653,7 @@ document.addEventListener('DOMContentLoaded', function() {
     exitFavoritesViewIfEmpty();
   }
 
+  const _anyTasbihStartedOnLoad = anyTasbihStarted();
   document.querySelectorAll(".tasbih-box").forEach(box => {
     const button = box.closest("button");
     if (!button) return;
@@ -52288,7 +52664,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     box.querySelector(".tasbih-count").innerText = count;
 
-    if (count > 0) {
+    if (_anyTasbihStartedOnLoad) {
       box.classList.add("tasbih-started");
     }
 
