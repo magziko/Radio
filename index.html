@@ -9074,11 +9074,69 @@ body.dark-mode #salah-pip-section .sp-title { color: #5DCAA5; }
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     color: var(--theme-g2);
+    position: relative;
 }
 #salah-pip-btn:active { transform: scale(0.92); background: #9FE1CB; }
 #salah-pip-btn.sp-done { border-color: var(--theme-g1); background: #C2EBD9; color: var(--theme-g2); }
 body.dark-mode #salah-pip-btn { background: #0F3D2E; border-color: var(--theme-g1); color: #5DCAA5; }
 body.dark-mode #salah-pip-btn.sp-done { background: #0a4a30; border-color: var(--theme-g1); color: #5DCAA5; }
+
+/* دائرة العدّ التنازلى حوالين زر التسبيح الرئيسي: بتفضل تفرغ تدريجيًا طول
+   مهلة الذكر المختار أثناء التسبيح التلقائى، بنفس فكرة دائرة أذكار الصباح والمساء */
+#salah-pip-btn .sp-countdown-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    pointer-events: none;
+}
+#salah-pip-btn .sp-countdown-ring .ring-bg {
+    fill: none;
+    stroke: rgba(var(--theme-g1-rgb),0.2);
+    stroke-width: 3;
+}
+#salah-pip-btn .sp-countdown-ring .ring-progress {
+    fill: none;
+    stroke: var(--theme-g1);
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset linear;
+}
+body.dark-mode #salah-pip-btn .sp-countdown-ring .ring-bg { stroke: rgba(93,202,165,0.2); }
+body.dark-mode #salah-pip-btn .sp-countdown-ring .ring-progress { stroke: #5DCAA5; }
+@media (prefers-reduced-motion: reduce) {
+    #salah-pip-btn .sp-countdown-ring .ring-progress { transition: none; }
+}
+
+/* أزرار التحكم فى سرعة التسبيح التلقائى (🐢/🐇/↺) */
+.sp-speed-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 7px; }
+.sp-speed-row .sp-speed-label { font-size: 12px; color: #555; white-space: nowrap; }
+body.dark-mode .sp-speed-row .sp-speed-label { color: #bcd; }
+.sp-speed-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid var(--theme-g1);
+    background: #E1F5EE;
+    color: var(--theme-g2);
+    cursor: pointer;
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+}
+.sp-speed-btn:hover { background: #C2EBD9; }
+.sp-speed-btn:active { transform: scale(0.9); }
+.sp-speed-reset-btn {
+    border-color: rgba(var(--theme-g1-rgb),0.5);
+    background: transparent;
+    font-size: 13px;
+}
+body.dark-mode .sp-speed-btn { background: #0F3D2E; border-color: var(--theme-g1); color: #5DCAA5; }
+body.dark-mode .sp-speed-btn:hover { background: #0a4a30; }
+body.dark-mode .sp-speed-reset-btn { background: transparent; }
+#sp-speed-value { font-size: 12.5px; font-weight: 700; color: var(--theme-g2); min-width: 56px; text-align: center; white-space: nowrap; }
+body.dark-mode #sp-speed-value { color: #5DCAA5; }
 #salah-pip-num { font-size: 46px; font-weight: 700; line-height: 1; }
 #salah-pip-hint { font-size: 11px; margin-top: 3px; opacity: 0.75; }
 #salah-pip-info { font-size: 12px; color: #555; margin-bottom: 8px; }
@@ -19024,6 +19082,35 @@ setTimeout(autoScaleVerseFont, 100);
       style="margin-inline-start:auto;"></div>
   </div>
 
+  <div id="adhkar-share-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <span data-ar="📤 مشاركة الذكر" data-en="📤 Share Dhikr"
+      style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">📤 مشاركة الذكر</span>
+
+    <span data-ar="حوّل الذكر اللى بتقرأه دلوقتى لصورة تقدر تشاركها كستوري أو بوست فيسبوك/إنستجرام" data-en="Turn the dhikr you're reading now into an image you can share as a story or Facebook/Instagram post"
+      style="font-size:12px;color:var(--theme-c3);">حوّل الذكر اللى بتقرأه دلوقتى لصورة تقدر تشاركها كستوري أو بوست فيسبوك/إنستجرام</span>
+
+    <button onclick="shareDhikrAsCard()" data-ar="📤 مشاركة كصورة" data-en="📤 Share as Image" style="
+      margin-inline-start:auto; padding:8px 18px; border:none; border-radius:10px;
+      background:linear-gradient(135deg,var(--theme-c2),var(--theme-g2)); color:#fff;
+      font-weight:700; font-size:13px; font-family:'Cairo',Arial,sans-serif; cursor:pointer; white-space:nowrap;
+    ">📤 مشاركة كصورة</button>
+  </div>
+
+
   <div id="adhkar-speed-settings" style="
     margin: 8px auto 4px;
     width: 97%; max-width: 860px;
@@ -19042,8 +19129,8 @@ setTimeout(autoScaleVerseFont, 100);
     <span data-ar="⏱️ سرعة العدّ التلقائى" data-en="⏱️ Auto-Count Speed" data-fr="⏱️ Vitesse du comptage automatique" data-es="⏱️ Velocidad del conteo automático" data-sv="⏱️ Automatisk räknehastighet" data-nl="⏱️ Automatische telsnelheid" data-ga="⏱️ Luas an Chomhairimh Uathoibríoch" data-de="⏱️ Geschwindigkeit der automatischen Zählung" data-ru="⏱️ Скорость автосчёта" data-tr="⏱️ Otomatik Sayım Hızı" data-pt="⏱️ Velocidade da contagem automática" data-zh="⏱️ 自动计数速度" data-ur="⏱️ خودکار شمار کی رفتار"
       style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">⏱️ سرعة العدّ التلقائى</span>
 
-    <span data-ar="تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار" data-en="Control how fast auto-laps and auto-advance move between adhkar" data-fr="Contrôlez la vitesse des tours et du passage automatique entre les Adhkar" data-es="Controla la velocidad de las vueltas y el avance automático entre Adhkar" data-sv="Styr hastigheten på varvet och det automatiska bytet mellan Adhkar" data-nl="Bepaal de snelheid van de automatische rondes en overgang tussen Adhkar" data-ga="Rialaigh luas na lapaí agus an dul ar aghaidh uathoibríoch idir Adhkar" data-de="Steuere die Geschwindigkeit der automatischen Runden und des Wechsels zwischen Adhkar" data-ru="Настройте скорость автоповтора и автоперехода между азкар" data-tr="Ezkâr arasındaki otomatik tur ve geçiş hızını kontrol edin" data-pt="Controle a velocidade das voltas e do avanço automático entre Adhkar" data-zh="控制赞念之间自动圈数和自动前进的速度" data-ur="اذکار کے درمیان خودکار چکر اور پیش رفت کی رفتار کو کنٹرول کریں"
-      style="font-size:12px;color:var(--theme-c3);">تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار</span>
+    <span data-ar="تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار (وبتتحكّم كمان فى سرعة عدّاد التسبيح العائم فى باقى الصفحة)" data-en="Control how fast auto-laps and auto-advance move between adhkar (also controls the speed of the floating tasbih counter elsewhere on the page)" data-fr="Contrôlez la vitesse des tours et du passage automatique entre les Adhkar (contrôle aussi le compteur de tasbih flottant)" data-es="Controla la velocidad de las vueltas y el avance automático entre Adhkar (también controla el contador de tasbih flotante)" data-sv="Styr hastigheten på varvet och det automatiska bytet mellan Adhkar (styr även den flytande tasbih-räknaren)" data-nl="Bepaal de snelheid van de automatische rondes en overgang tussen Adhkar (bepaalt ook de zwevende tasbih-teller)" data-ga="Rialaigh luas na lapaí agus an dul ar aghaidh uathoibríoch idir Adhkar (rialaíonn sé freisin an cuntóir tasbih ar snámh)" data-de="Steuere die Geschwindigkeit der automatischen Runden und des Wechsels zwischen Adhkar (steuert auch den schwebenden Tasbih-Zähler)" data-ru="Настройте скорость автоповтора и автоперехода между азкар (также управляет плавающим счётчиком тасбих)" data-tr="Ezkâr arasındaki otomatik tur ve geçiş hızını kontrol edin (yüzen tesbih sayacını da kontrol eder)" data-pt="Controle a velocidade das voltas e do avanço automático entre Adhkar (também controla o contador de tasbih flutuante)" data-zh="控制赞念之间自动圈数和自动前进的速度（也控制悬浮赞念计数器的速度）" data-ur="اذکار کے درمیان خودکار چکر اور پیش رفت کی رفتار کو کنٹرول کریں (فلوٹنگ تسبیح کاؤنٹر کی رفتار بھی کنٹرول کرتا ہے)"
+      style="font-size:12px;color:var(--theme-c3);">تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار (وبتتحكّم كمان فى سرعة عدّاد التسبيح العائم فى باقى الصفحة)</span>
 
     <div style="display:flex;align-items:center;gap:8px;margin-inline-start:auto;">
       <button type="button" onclick="adjustTasbihSpeed(1)"
@@ -31898,6 +31985,23 @@ const moreTranslations = [{
                 onclick="spConfirmReset()">↺ تصفير</button>
     </div>
 
+    <!-- تحكّم فى سرعة اللفّات التلقائية (نفس معامل السرعة الموحّد المستخدم فى
+         إعدادات أذكار الصباح/المساء؛ التعديل هنا بيأثر على كل أماكن العدّ
+         التلقائى فى التطبيق، بما فيها مدة دائرة التقدّم حوالين هذا الزرار) -->
+    <div class="sp-speed-row">
+        <span class="sp-speed-label" id="sp-speed-label" data-ar="⏱️ السرعة:" data-en="⏱️ Speed:">⏱️ السرعة:</span>
+        <button type="button" class="sp-speed-btn" id="sp-speed-slower-btn"
+                title="أبطأ" data-ar-title="أبطأ" data-en-title="Slower"
+                onclick="adjustTasbihSpeed(1)">🐢</button>
+        <span id="sp-speed-value">عادية</span>
+        <button type="button" class="sp-speed-btn" id="sp-speed-faster-btn"
+                title="أسرع" data-ar-title="أسرع" data-en-title="Faster"
+                onclick="adjustTasbihSpeed(-1)">🐇</button>
+        <button type="button" class="sp-speed-btn sp-speed-reset-btn" id="sp-speed-reset-btn"
+                title="إعادة الضبط" data-ar-title="إعادة الضبط" data-en-title="Reset"
+                onclick="resetTasbihSpeed()">↺</button>
+    </div>
+
     <!-- فاصل -->
     <div class="sp-divider"></div>
 
@@ -31933,6 +32037,13 @@ const moreTranslations = [{
     <p id="sp-pip-note"
        data-ar="افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب"
        data-en="Open PiP then press ⏭ to count from any tab">افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب</p>
+
+    <!-- مشاركة الذكر والتقدّم الحالى كصورة -->
+    <div class="sp-row">
+        <button class="sp-btn" id="sp-share-btn"
+                data-ar="📤 مشاركة كصورة" data-en="📤 Share as Image"
+                onclick="shareSpDhikrAsCard(event)">📤 مشاركة كصورة</button>
+    </div>
 </div>
 
 <canvas id="spCanvas" width="400" height="280" style="display:none;"></canvas>
@@ -32058,6 +32169,12 @@ const moreTranslations = [{
     return ar ? (opt.getAttribute('data-ar') || opt.textContent) :
       (opt.getAttribute('data-en') || opt.textContent);
   }
+  window.spGetDhikr = spGetDhikr;
+
+  // بيرجّع تقدّم العداد الحالى (المتحقّق والهدف) عشان تُستخدم فى كارت المشاركة
+  window.spGetProgress = function() {
+    return { count: spCount, target: spTarget };
+  };
 
   function spUpdateDhikrDisplay() {
     var disp = document.getElementById('sp-athkar-display');
@@ -32216,7 +32333,65 @@ const moreTranslations = [{
     var chars = txt.replace(/[\u064B-\u0652\u0670\u0640\u0020\u060C\u002C\u002E]/g, '').length;
     // معدل القراءة العربية بصوت عالٍ: ~14 حرف/ثانية + هامش 30%
     var ms = Math.round((chars / 14) * 1.3 * 1000);
-    return Math.max(2500, Math.min(ms, 20000));
+    // نفس معامل سرعة العدّ التلقائى المستخدم فى تسبيح الأذكار (زرار 🐢/🐇 فى
+    // شاشة إعدادات الأذكار)، عشان يبقى فيه إعداد سرعة واحد موحّد لكل أماكن
+    // العدّ التلقائى فى التطبيق بدل ما يتكرر نفس الإعداد فى أكتر من مكان
+    var paceFactor = (typeof _getTasbihPaceFactor === 'function') ? _getTasbihPaceFactor() : 1;
+    ms = Math.round(ms * paceFactor);
+    // مهم: الحد الأدنى والأقصى لازم يتغيّروا هما كمان مع معامل السرعة، مش يفضلوا
+    // أرقام ثابتة (2500-20000) بمعزل عنه. الأذكار القصيرة (زى "سبحان الله") كانت
+    // دايمًا بتوصل للحد الأدنى الثابت 2500ms عند أي سرعة مختارة (لأن حساب وقت
+    // القراءة الخام لها أقل من 2500ms أصلًا حتى فى أبطأ سرعة)، فكانت السرعة
+    // بتاعتها مش بتفرق خالص وهي أكتر الأذكار استخدامًا. تحجيم الحدين بنفس
+    // المعامل بيخلّي الفرق بين السرعات واضح مهما كان طول الذكر.
+    var minMs = Math.round(2500 * paceFactor);
+    var maxMs = Math.round(20000 * paceFactor);
+    return Math.max(minMs, Math.min(ms, maxMs));
+  }
+
+  // دائرة العدّ التنازلى حوالين زر التسبيح الرئيسي أثناء التسبيح التلقائى: بتفضل
+  // تفرغ تدريجيًا على مدار مهلة الذكر المختار (نفس فكرة دائرة أذكار الصباح والمساء)،
+  // وبتحترم معامل السرعة الموحّد (🐢/🐇) زى الأذكار بالظبط
+  function _spShowCountdownRing(duration) {
+    var btn = document.getElementById('salah-pip-btn');
+    if (!btn) return;
+    _spClearCountdownRing();
+
+    var r = 46;
+    var circumference = 2 * Math.PI * r;
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('class', 'sp-countdown-ring');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    var ringBg = document.createElementNS(svgNS, 'circle');
+    ringBg.setAttribute('class', 'ring-bg');
+    ringBg.setAttribute('cx', '50');
+    ringBg.setAttribute('cy', '50');
+    ringBg.setAttribute('r', String(r));
+    var ringProgress = document.createElementNS(svgNS, 'circle');
+    ringProgress.setAttribute('class', 'ring-progress');
+    ringProgress.setAttribute('cx', '50');
+    ringProgress.setAttribute('cy', '50');
+    ringProgress.setAttribute('r', String(r));
+    ringProgress.style.strokeDasharray = circumference.toFixed(2);
+    ringProgress.style.strokeDashoffset = '0'; // مليانة الأول = كل الوقت لسه متبقى
+    svg.appendChild(ringBg);
+    svg.appendChild(ringProgress);
+    btn.appendChild(svg);
+
+    // نجبر إعادة تخطيط قبل ما نغيّر القيمة عشان الدائرة تبدأ تتفرغ فورًا
+    // بدل ما تفضل ثابتة لثوانى قبل ما تبدأ تتحرك
+    if (typeof duration === 'number' && duration > 0) {
+      void ringProgress.getBoundingClientRect();
+      ringProgress.style.transitionDuration = duration + 'ms';
+      ringProgress.style.strokeDashoffset = circumference.toFixed(2);
+    }
+  }
+
+  function _spClearCountdownRing() {
+    var btn = document.getElementById('salah-pip-btn');
+    var ring = btn && btn.querySelector('.sp-countdown-ring');
+    if (ring) ring.remove();
   }
 
   function spStartAuto() {
@@ -32231,9 +32406,13 @@ const moreTranslations = [{
     function tick() {
       if (!spAutoTimer) return;
       window.spIncrement();
-      spAutoTimer = setTimeout(tick, spGetAutoInterval());
+      var interval = spGetAutoInterval();
+      _spShowCountdownRing(interval);
+      spAutoTimer = setTimeout(tick, interval);
     }
-    spAutoTimer = setTimeout(tick, spGetAutoInterval());
+    var firstInterval = spGetAutoInterval();
+    _spShowCountdownRing(firstInterval);
+    spAutoTimer = setTimeout(tick, firstInterval);
   }
 
   function spStopAuto() {
@@ -32247,6 +32426,7 @@ const moreTranslations = [{
       btn.textContent = t('autoBtn');
     }
     if (typeof window.alReleaseWakeLock === 'function') window.alReleaseWakeLock();
+    _spClearCountdownRing();
   }
 
   window.spToggleAuto = function() {
@@ -32491,6 +32671,13 @@ const moreTranslations = [{
       ar: '⚠️ تعذّر فتح PiP: ',
       en: '⚠️ Could not open PiP: '
     },
+    shareBtn: {
+      ar: '📤 مشاركة كصورة', en: '📤 Share as Image',
+      fr: '📤 Partager en image', es: '📤 Compartir como imagen', sv: '📤 Dela som bild',
+      nl: '📤 Delen als afbeelding', ga: '📤 Comhroinn mar íomhá', de: '📤 Als Bild teilen',
+      ru: '📤 Поделиться как изображением', tr: '📤 Görsel Olarak Paylaş', pt: '📤 Partilhar como imagem',
+      zh: '📤 分享为图片', ur: '📤 تصویر کے طور پر شیئر کریں'
+    },
 
     /* ── تسميات وأزرار قسم salah-pip-section — متعددة اللغات كالشاشة الترحيبية ── */
     dhikrLabel: {
@@ -32568,6 +32755,28 @@ const moreTranslations = [{
       ar: '↺ تصفير', en: '↺ Reset', fr: '↺ Réinitialiser', es: '↺ Reiniciar',
       sv: '↺ Återställ', nl: '↺ Reset', ga: '↺ Athshocraigh', de: '↺ Zurücksetzen',
       ru: '↺ Сброс', tr: '↺ Sıfırla', pt: '↺ Reiniciar', zh: '↺ 重置', ur: '↺ صفر کریں'
+    },
+    speedLabel: {
+      ar: '⏱️ السرعة:', en: '⏱️ Speed:',
+      fr: '⏱️ Vitesse :', es: '⏱️ Velocidad:', sv: '⏱️ Hastighet:',
+      nl: '⏱️ Snelheid:', ga: '⏱️ Luas:', de: '⏱️ Geschwindigkeit:',
+      ru: '⏱️ Скорость:', tr: '⏱️ Hız:', pt: '⏱️ Velocidade:',
+      zh: '⏱️ 速度：', ur: '⏱️ رفتار:'
+    },
+    speedSlowerTitle: {
+      ar: 'أبطأ', en: 'Slower', fr: 'Plus lent', es: 'Más lento',
+      sv: 'Långsammare', nl: 'Langzamer', ga: 'Níos moille', de: 'Langsamer',
+      ru: 'Медленнее', tr: 'Daha yavaş', pt: 'Mais lento', zh: '更慢', ur: 'آہستہ'
+    },
+    speedFasterTitle: {
+      ar: 'أسرع', en: 'Faster', fr: 'Plus rapide', es: 'Más rápido',
+      sv: 'Snabbare', nl: 'Sneller', ga: 'Níos tapa', de: 'Schneller',
+      ru: 'Быстрее', tr: 'Daha hızlı', pt: 'Mais rápido', zh: '更快', ur: 'تیز'
+    },
+    speedResetTitle: {
+      ar: 'إعادة الضبط', en: 'Reset', fr: 'Réinitialiser', es: 'Restablecer',
+      sv: 'Återställ', nl: 'Resetten', ga: 'Athshocraigh', de: 'Zurücksetzen',
+      ru: 'Сброс', tr: 'Sıfırla', pt: 'Repor', zh: '重置', ur: 'ری سیٹ'
     },
     alarmLabel: {
       ar: '🔔 تذكير كل:', en: '🔔 Remind every:',
@@ -32672,6 +32881,18 @@ const moreTranslations = [{
     var resetBtnEl = document.getElementById('sp-reset-btn');
     if (resetBtnEl) resetBtnEl.textContent = t('resetBtn');
 
+    var speedLblEl = document.getElementById('sp-speed-label');
+    if (speedLblEl) speedLblEl.textContent = t('speedLabel');
+
+    var speedSlowerBtn = document.getElementById('sp-speed-slower-btn');
+    if (speedSlowerBtn) speedSlowerBtn.title = t('speedSlowerTitle');
+
+    var speedFasterBtn = document.getElementById('sp-speed-faster-btn');
+    if (speedFasterBtn) speedFasterBtn.title = t('speedFasterTitle');
+
+    var speedResetBtnEl = document.getElementById('sp-speed-reset-btn');
+    if (speedResetBtnEl) speedResetBtnEl.title = t('speedResetTitle');
+
     var alarmLbl = sec.querySelector('.sp-alarm-label');
     if (alarmLbl) alarmLbl.textContent = t('alarmLabel');
 
@@ -32693,6 +32914,9 @@ const moreTranslations = [{
 
     var pipNoteEl = document.getElementById('sp-pip-note');
     if (pipNoteEl && !pipActive) pipNoteEl.textContent = t('pipNote');
+
+    var shareBtnEl = document.getElementById('sp-share-btn');
+    if (shareBtnEl) shareBtnEl.textContent = t('shareBtn');
 
     sec.style.direction = (lang === 'ar') ? 'rtl' : 'ltr';
   }
@@ -48085,8 +48309,11 @@ function resetTasbihSpeed() {
 }
 
 function _updateTasbihSpeedLabel() {
+  // بيحدّث كل عناصر عرض حالة السرعة فى التطبيق (شاشة إعدادات الأذكار وزرار
+  // التسبيح الرئيسي) لأنهم بيشاركوا نفس معامل السرعة الموحّد (TASBIH_PACE_KEY)
   var el = document.getElementById('tasbihSpeedLabel');
-  if (!el) return;
+  var spEl = document.getElementById('sp-speed-value');
+  if (!el && !spEl) return;
   var factor = _getTasbihPaceFactor();
   var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
   var label;
@@ -48101,7 +48328,8 @@ function _updateTasbihSpeedLabel() {
   } else {
     label = isAr ? 'بطيئة جدًا' : 'Slowest';
   }
-  el.textContent = label;
+  if (el) el.textContent = label;
+  if (spEl) spEl.textContent = label;
 }
 (function initTasbihSpeedLabel() {
   _updateTasbihSpeedLabel();
@@ -48136,10 +48364,16 @@ function _estimateTasbihReadingDelay(button) {
   text = text.replace(/<[^>]*>/g, ' '); // إزالة وسوم HTML زي <br> قبل حساب عدد الكلمات
   var words = text.trim().split(/\s+/).filter(Boolean).length;
   // ~350ms لكل كلمة (سرعة قراءة مريحة)، معدّلة بمعامل سرعة المستخدم المتعلّم
-  var delay = words * 350 * _getTasbihPaceFactor();
-  // حد أدنى 500ms (حتى لو بيقرأ بسرعة كبيرة) وحد أقصى 15 ثانية
-  if (delay < 500) delay = 500;
-  if (delay > 15000) delay = 15000;
+  var factor = _getTasbihPaceFactor();
+  var delay = words * 350 * factor;
+  // الحدين (500ms - 15 ثانية) لازم يتحجّموا هما كمان بمعامل السرعة، مش يفضلوا
+  // ثابتين بمعزل عنه؛ لأن الأذكار القصيرة (كلمة أو كلمتين) كانت دايمًا بتوصل
+  // للحد الأدنى الثابت 500ms مهما كانت السرعة المختارة، فيبقى تغيير السرعة
+  // مالوش تأثير ملحوظ عليها فى الغالب
+  var minDelay = 500 * factor;
+  var maxDelay = 15000 * factor;
+  if (delay < minDelay) delay = minDelay;
+  if (delay > maxDelay) delay = maxDelay;
   return delay;
 }
 
@@ -48635,6 +48869,39 @@ function checkAdhkarGroupCompletion(completedBtn) {
   showAdhkarDoneModal(type);
 }
 
+// نغمة لطيفة هادئة (أربع نغمات صاعدة دو-مي-صول-دو، بإحساس جرس ناعم) بتتشغّل
+// لما المستخدم يخلّص كل أذكار المجموعة (صباح أو مساء) بالكامل، سواء بالانتقال
+// التلقائى أو يدويًا. باستخدام Web Audio API مباشرة (من غير ملف صوت خارجى)
+// عشان تشتغل فورًا وبدون اعتماد على اتصال إنترنت وقت اللحظة الاحتفالية دي
+var _adhkarChimeCtx = null;
+function _playAdhkarCompletionChime() {
+  try {
+    if (!_adhkarChimeCtx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      _adhkarChimeCtx = new AC();
+    }
+    var ctx = _adhkarChimeCtx;
+    if (ctx.state === 'suspended' && ctx.resume) ctx.resume();
+    var now = ctx.currentTime;
+    var notes = [523.25, 659.25, 783.99, 1046.50]; // دو٥ - مي٥ - صول٥ - دو٦
+    notes.forEach(function(freq, i) {
+      var t = now + i * 0.14;
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.22, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
+      osc.start(t);
+      osc.stop(t + 1.15);
+    });
+  } catch (e) {}
+}
+
 function showAdhkarDoneModal(type) {
 
   var old = document.getElementById('adhkar-done-modal');
@@ -48732,6 +48999,7 @@ function showAdhkarDoneModal(type) {
 
   document.body.appendChild(modal);
 
+  _playAdhkarCompletionChime();
   if (navigator.vibrate) navigator.vibrate([100, 60, 100, 60, 200]);
 }
 
@@ -48765,6 +49033,368 @@ function resetTasbih(event) {
   updateAdhkarProgress();
   activeTasbih = box;
 }
+
+// ===== تحويل الذكر لكارت صورة قابل للمشاركة (ستوري / بوست فيسبوك وغيره) =====
+// بتشارك الذكر اللى المستخدم بيقرأه/يسبّح عليه دلوقتى (الذكر اللى فى وضع
+// التركيز tasbih-focus)، ولو مفيش ذكر متبدأ فيه لسه، بتاخد أول ذكر ظاهر
+// فى الفلتر الحالى (صباح/مساء/عامة/رقية)، وبتنبّه المستخدم لو مفيش أي ذكر
+// ظاهر أصلًا (يعنى مش فاتح قسم الأذكار دلوقتى)
+function shareDhikrAsCard(event) {
+  if (event) {
+    event.stopPropagation();
+    if (event.preventDefault) event.preventDefault();
+  }
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+
+  var button = document.querySelector('.button.has-tasbih.tasbih-focus');
+  if (!button && typeof _getTasbihSequence === 'function') {
+    var seq = _getTasbihSequence();
+    if (seq && seq.length) button = seq[0];
+  }
+  if (!button) {
+    button = document.querySelector('button.has-tasbih[data-category="Adhkar"]');
+  }
+
+  if (!button) {
+    alert(isAr ?
+      'افتح أذكار الصباح أو المساء أو العامة الأول عشان تقدر تشارك ذكر' :
+      'Open Morning, Evening or General Adhkar first to share a dhikr');
+    return;
+  }
+
+  var textEl = button.querySelector('.station-text');
+  if (!textEl) return;
+
+  var dhikrText = (textEl.innerText || textEl.textContent || '').trim();
+  if (!dhikrText) return;
+
+  _buildDhikrShareCard(dhikrText);
+}
+
+// ===== نفس فكرة الكارت السابق، لكن لعدّاد التسبيح العائم (salah-pip-section)
+// بدل أذكار الصباح/المساء — بتاخد الذكر المختار حاليًا فى العدّاد، وبتضيف
+// كمان شارة بالتقدّم الحالى (العدد المتحقّق من الهدف) على الكارت =====
+function shareSpDhikrAsCard(event) {
+  if (event) {
+    event.stopPropagation();
+    if (event.preventDefault) event.preventDefault();
+  }
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+
+  var dhikrText = (typeof window.spGetDhikr === 'function') ? window.spGetDhikr() : '';
+  if (!dhikrText) {
+    alert(isAr ? 'مفيش ذكر متاح للمشاركة دلوقتى' : 'No dhikr available to share right now');
+    return;
+  }
+
+  var progress = (typeof window.spGetProgress === 'function') ? window.spGetProgress() : null;
+  _buildDhikrShareCard(dhikrText, progress);
+}
+
+// بيلف نص الذكر على أسطر تتناسب مع عرض الكارت (بيراعى الأسطر الأصلية
+// (\n) الموجودة فى النص، وبيلف كل سطر لوحده لو أطول من العرض المتاح)
+function _wrapDhikrText(ctx, text, maxWidth) {
+  var paragraphs = text.split('\n');
+  var allLines = [];
+  paragraphs.forEach(function(para) {
+    para = para.trim();
+    if (!para) return;
+    var words = para.split(/\s+/);
+    var current = '';
+    words.forEach(function(word) {
+      var test = current ? current + ' ' + word : word;
+      if (current && ctx.measureText(test).width > maxWidth) {
+        allLines.push(current);
+        current = word;
+      } else {
+        current = test;
+      }
+    });
+    if (current) allLines.push(current);
+  });
+  return allLines;
+}
+
+// بيرسم كارت الذكر على canvas بمقاس مناسب لقصص/منشورات إنستجرام وفيسبوك
+// (9:16)، بلون ثيم التطبيق الحالى، وبعدين يسلّمه لدالة المشاركة/التحميل
+function _buildDhikrShareCard(dhikrText, progress) {
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var W = 1080, H = 1920;
+  var canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  var ctx = canvas.getContext('2d');
+
+  var rootStyles = getComputedStyle(document.documentElement);
+  var c1 = (rootStyles.getPropertyValue('--theme-c1') || '').trim() || '#0d5c46';
+  var c2 = (rootStyles.getPropertyValue('--theme-c2') || '').trim() || '#08301f';
+  var gold = '#E7C275'; // لون ذهبى دافئ للتفاصيل الزخرفية، بيدّي طابع إسلامى أرقى من الأبيض المسطّح
+
+  // زخرفة ركن بسيطة (معينة صغيرة + خطين) بأى اتجاه/زاوية محدّدة، بتتكرر فى الأركان الأربعة
+  function drawCornerOrnament(x, y, flipX, flipY) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(flipX, flipY);
+    ctx.strokeStyle = 'rgba(231,194,117,0.75)';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(0, 64);
+    ctx.lineTo(0, 0);
+    ctx.lineTo(64, 0);
+    ctx.stroke();
+    ctx.fillStyle = gold;
+    ctx.beginPath();
+    ctx.moveTo(26, 0);
+    ctx.lineTo(34, 8);
+    ctx.lineTo(26, 16);
+    ctx.lineTo(18, 8);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function draw(logoImg) {
+    // الخلفية: تدرج قطرى بلون ثيم التطبيق الحالى مع توقّف لونى وسطى لإحساس أعمق
+    var grad = ctx.createLinearGradient(0, 0, W, H);
+    grad.addColorStop(0, c1);
+    grad.addColorStop(0.55, c2);
+    grad.addColorStop(1, c2);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // توهج خفيف خلف منطقة النص
+    var glow = ctx.createRadialGradient(W / 2, H * 0.44, 40, W / 2, H * 0.44, W * 0.8);
+    glow.addColorStop(0, 'rgba(255,255,255,0.13)');
+    glow.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
+
+    // تظليل خفيف فى الأركان (vignette) عشان النص فى النص يبان أوضح
+    var vignette = ctx.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 0.75);
+    vignette.addColorStop(0, 'rgba(0,0,0,0)');
+    vignette.addColorStop(1, 'rgba(0,0,0,0.22)');
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, W, H);
+
+    // إطار ذهبى رفيع + زخارف الأركان الأربعة
+    ctx.strokeStyle = 'rgba(231,194,117,0.55)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(54, 54, W - 108, H - 108);
+    drawCornerOrnament(54, 54, 1, 1);
+    drawCornerOrnament(W - 54, 54, -1, 1);
+    drawCornerOrnament(54, H - 54, 1, -1);
+    drawCornerOrnament(W - 54, H - 54, -1, -1);
+
+    // رمز هلال ذهبى أعلى الكارت، مع خط زخرفى قصير تحته
+    ctx.textAlign = 'center';
+    ctx.fillStyle = gold;
+    ctx.font = '80px sans-serif';
+    ctx.fillText('☪', W / 2, 228);
+    ctx.strokeStyle = 'rgba(231,194,117,0.6)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(W / 2 - 70, 264);
+    ctx.lineTo(W / 2 + 70, 264);
+    ctx.stroke();
+
+    // نص الذكر نفسه، بمحاذاة الاتجاه العربى وتلقائى تصغير الخط للنصوص الطويلة
+    ctx.direction = 'rtl';
+    ctx.textAlign = 'center';
+    ctx.shadowColor = 'rgba(0,0,0,0.35)';
+    ctx.shadowBlur = 18;
+    ctx.fillStyle = '#ffffff';
+    var maxWidth = W - 220;
+    var fontSize = 62;
+    var lines, lineHeight, totalHeight;
+    // لو الكارت هيعرض شارة تقدّم كمان (عدّاد اللهم صل على النبي العائم)، بنسيب مساحة أقل
+    // لنص الذكر عشان الشارة متتلخبطش مع اللوجو تحت
+    var maxTextHeight = H * (progress ? 0.5 : 0.6);
+    do {
+      ctx.font = '700 ' + fontSize + 'px Amiri, "Traditional Arabic", serif';
+      lines = _wrapDhikrText(ctx, dhikrText, maxWidth);
+      lineHeight = fontSize * 1.62;
+      totalHeight = lines.length * lineHeight;
+      if (totalHeight <= maxTextHeight || fontSize <= 30) break;
+      fontSize -= 4;
+    } while (true);
+
+    var startY = H / 2 - totalHeight / 2 + fontSize * 0.62;
+    lines.forEach(function(line, i) {
+      ctx.fillText(line, W / 2, startY + i * lineHeight);
+    });
+    ctx.shadowBlur = 0;
+
+    // شارة التقدّم (لو اتبعتت مع الكارت — بتظهر بس لعدّاد التسبيح العائم اللى بيبعتها،
+    // مش لأذكار الصباح/المساء اللى مالهاش هدف عدّ زى كده)
+    if (progress && progress.target > 0) {
+      var toArLocal = (typeof window.toAr === 'function') ? window.toAr : function(n) { return n; };
+      var doneAll = progress.count >= progress.target;
+      var badgeText = doneAll ?
+        (isAr ? '✅ تم إنجاز الهدف: ' + toArLocal(progress.target) : '✅ Goal completed: ' + progress.target) :
+        (isAr ? 'التقدّم: ' + toArLocal(progress.count) + ' / ' + toArLocal(progress.target) :
+          'Progress: ' + progress.count + ' / ' + progress.target);
+
+      ctx.font = '700 34px Cairo, sans-serif';
+      var badgePaddingX = 46;
+      var textW = ctx.measureText(badgeText).width;
+      var badgeW = textW + badgePaddingX * 2;
+      var badgeH = 76;
+      var lastLineBottom = startY + (lines.length - 1) * lineHeight + fontSize * 0.5;
+      var badgeY = Math.min(lastLineBottom + 40, H * 0.8);
+      var badgeX = W / 2 - badgeW / 2;
+      var r = badgeH / 2;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(badgeX + r, badgeY);
+      ctx.arcTo(badgeX + badgeW, badgeY, badgeX + badgeW, badgeY + badgeH, r);
+      ctx.arcTo(badgeX + badgeW, badgeY + badgeH, badgeX, badgeY + badgeH, r);
+      ctx.arcTo(badgeX, badgeY + badgeH, badgeX, badgeY, r);
+      ctx.arcTo(badgeX, badgeY, badgeX + badgeW, badgeY, r);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(255,255,255,0.12)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(231,194,117,0.8)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = gold;
+      ctx.textAlign = 'center';
+      ctx.direction = isAr ? 'rtl' : 'ltr';
+      ctx.fillText(badgeText, W / 2, badgeY + badgeH / 2 + 12);
+      ctx.restore();
+    }
+
+    // شعار التطبيق بدل توقيع نصّى: لوجو التطبيق فى النص + رابط الموقع تحته بخط صغير
+    var logoBottom;
+    if (logoImg) {
+      var logoSize = 120;
+      var logoY = H - 230;
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.35)';
+      ctx.shadowBlur = 14;
+      ctx.beginPath();
+      ctx.arc(W / 2, logoY + logoSize / 2, logoSize / 2 + 10, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.10)';
+      ctx.fill();
+      ctx.restore();
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(W / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.drawImage(logoImg, W / 2 - logoSize / 2, logoY, logoSize, logoSize);
+      ctx.restore();
+      ctx.strokeStyle = 'rgba(231,194,117,0.7)';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(W / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2);
+      ctx.stroke();
+      logoBottom = logoY + logoSize + 44;
+    } else {
+      // لو اللوجو مش متاح (مثلًا لا يوجد اتصال)، رجوع بسيط لتوقيع نصّى بدله
+      ctx.direction = 'rtl';
+      ctx.font = '700 32px Cairo, sans-serif';
+      ctx.fillStyle = 'rgba(255,255,255,0.88)';
+      ctx.fillText(isAr ? '📿 إذاعة القرآن الكريم وأذكار' : '📿 Quran Radio & Adhkar', W / 2, H - 148);
+      logoBottom = H - 102;
+    }
+
+    ctx.font = '400 24px Cairo, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.62)';
+    ctx.direction = 'ltr';
+    ctx.textAlign = 'center';
+    ctx.fillText('magziko.github.io/Radio', W / 2, logoBottom);
+
+    canvas.toBlob(function(blob) {
+      _deliverDhikrShareCard(blob);
+    }, 'image/png', 0.95);
+  }
+
+  // تحميل لوجو التطبيق (نفس أيقونة الموقع) عشان نرسمه فى الكارت بدل التوقيع النصّى؛
+  // لو فشل التحميل (مثلًا لا يوجد اتصال بالإنترنت)، draw() بترجع للتوقيع النصّى تلقائيًا
+  function loadLogoImage() {
+    return new Promise(function(resolve) {
+      var img = new Image();
+      img.onload = function() { resolve(img); };
+      img.onerror = function() { resolve(null); };
+      img.src = 'favicon.png';
+    });
+  }
+
+  var fontsPromise = (document.fonts && document.fonts.load) ?
+    Promise.all([
+      document.fonts.load('700 62px Amiri'),
+      document.fonts.load('700 32px Cairo'),
+      document.fonts.load('400 24px Cairo')
+    ]).catch(function() {}) : Promise.resolve();
+
+  Promise.all([fontsPromise, loadLogoImage()]).then(function(results) {
+    draw(results[1]);
+  });
+}
+
+// بيحاول يشارك الكارت مباشرة عبر واجهة المشاركة الأصلية للجهاز (ستوري
+// إنستجرام/فيسبوك، واتساب، إلخ)، ولو مش مدعومة (كمبيوتر مثلًا) بيعرض
+// نافذة معاينة فيها زرار تحميل بدلًا منها
+function _deliverDhikrShareCard(blob) {
+  if (!blob) return;
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var fileName = 'dhikr-card-' + Date.now() + '.png';
+  var file = null;
+  try {
+    file = new File([blob], fileName, { type: 'image/png' });
+  } catch (e) {
+    file = null;
+  }
+
+  if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+    navigator.share({
+      files: [file],
+      title: isAr ? 'ذِكر' : 'Dhikr',
+      text: isAr ? '📿' : '📿'
+    }).catch(function() {});
+    return;
+  }
+
+  _showDhikrCardPopup(blob, fileName, isAr);
+}
+
+// نافذة معاينة الكارت + زرار تحميل، للأجهزة اللى مش بتدعم واجهة المشاركة
+// المباشرة (فى الغالب أجهزة الكمبيوتر)
+function _showDhikrCardPopup(blob, fileName, isAr) {
+  var old = document.getElementById('dhikrCardPopup');
+  if (old) old.remove();
+
+  var imgUrl = URL.createObjectURL(blob);
+
+  var overlay = document.createElement('div');
+  overlay.id = 'dhikrCardPopup';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);padding:20px;box-sizing:border-box;';
+
+  var isDark = document.body.classList.contains('dark-mode');
+  var bg = isDark ? '#1e2d27' : '#fff';
+  var clr = isDark ? '#e0e0e0' : '#222';
+
+  overlay.innerHTML =
+    '<div style="background:' + bg + ';color:' + clr + ';border-radius:16px;padding:18px;width:100%;max-width:340px;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.35);text-align:center;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">' +
+        '<span style="font-size:15px;font-weight:700;">' + (isAr ? '📤 مشاركة الذكر' : '📤 Share Dhikr') + '</span>' +
+        '<button onclick="document.getElementById(\'dhikrCardPopup\').remove()" style="background:none;border:none;cursor:pointer;font-size:18px;color:' + clr + ';opacity:.6;line-height:1;">✕</button>' +
+      '</div>' +
+      '<img src="' + imgUrl + '" style="width:100%;border-radius:10px;margin-bottom:14px;display:block;" />' +
+      '<div style="font-size:12px;opacity:.65;margin-bottom:12px;">' +
+        (isAr ? 'حمّل الصورة وشاركها كستوري أو بوست على فيسبوك أو إنستجرام' : 'Download the image and share it as a story or post on Facebook or Instagram') +
+      '</div>' +
+      '<a download="' + fileName + '" href="' + imgUrl + '" style="display:block;padding:10px;background:var(--theme-g1);color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;text-decoration:none;">' +
+        (isAr ? '⬇️ تحميل الصورة' : '⬇️ Download Image') +
+      '</a>' +
+    '</div>';
+
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) overlay.remove();
+  });
+  document.body.appendChild(overlay);
+}
+
 
 function confirmResetAll(event) {
   if (event) event.stopPropagation();
