@@ -6623,6 +6623,8 @@ body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.
     cursor: pointer;
     opacity: 0.6;
     flex-shrink: 0;
+    align-self: flex-end;
+    margin-bottom: 2px;
 }
 
 .reset-btn:hover {
@@ -6640,7 +6642,7 @@ body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.
 .tasbih-auto-toggle {
     position: absolute;
     top: 3px;
-    right: 3px;
+    left: 3px;
     width: 22px;
     height: 22px;
     display: flex;
@@ -6654,6 +6656,13 @@ body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.
     box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     cursor: pointer;
     z-index: 2;
+}
+/* فى اللغات غير العربية (LTR) بيتقلب اتجاه صندوق التسبيح تلقائيًا، فزر
+   التصفير بيبقى فى أقصى اليمين بدل اليسار؛ فبنعكس مكان دائرة التسبيح
+   التلقائى معاه عشان تفضل دايمًا فوقه بالظبط أيًّا كانت اللغة */
+html[dir="ltr"] .tasbih-auto-toggle {
+    left: auto;
+    right: 3px;
 }
 .tasbih-auto-toggle:active {
     transform: scale(0.9);
@@ -9061,11 +9070,40 @@ body.dark-mode #salah-pip-section .sp-title { color: #5DCAA5; }
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     color: var(--theme-g2);
+    position: relative;
 }
 #salah-pip-btn:active { transform: scale(0.92); background: #9FE1CB; }
 #salah-pip-btn.sp-done { border-color: var(--theme-g1); background: #C2EBD9; color: var(--theme-g2); }
 body.dark-mode #salah-pip-btn { background: #0F3D2E; border-color: var(--theme-g1); color: #5DCAA5; }
 body.dark-mode #salah-pip-btn.sp-done { background: #0a4a30; border-color: var(--theme-g1); color: #5DCAA5; }
+
+/* دائرة العدّ التنازلى حوالين زر التسبيح الرئيسي: بتفضل تفرغ تدريجيًا طول
+   مهلة الذكر المختار أثناء التسبيح التلقائى، بنفس فكرة دائرة أذكار الصباح والمساء */
+#salah-pip-btn .sp-countdown-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    pointer-events: none;
+}
+#salah-pip-btn .sp-countdown-ring .ring-bg {
+    fill: none;
+    stroke: rgba(var(--theme-g1-rgb),0.2);
+    stroke-width: 3;
+}
+#salah-pip-btn .sp-countdown-ring .ring-progress {
+    fill: none;
+    stroke: var(--theme-g1);
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset linear;
+}
+body.dark-mode #salah-pip-btn .sp-countdown-ring .ring-bg { stroke: rgba(93,202,165,0.2); }
+body.dark-mode #salah-pip-btn .sp-countdown-ring .ring-progress { stroke: #5DCAA5; }
+@media (prefers-reduced-motion: reduce) {
+    #salah-pip-btn .sp-countdown-ring .ring-progress { transition: none; }
+}
 #salah-pip-num { font-size: 46px; font-weight: 700; line-height: 1; }
 #salah-pip-hint { font-size: 11px; margin-top: 3px; opacity: 0.75; }
 #salah-pip-info { font-size: 12px; color: #555; margin-bottom: 8px; }
@@ -32206,6 +32244,50 @@ const moreTranslations = [{
     return Math.max(2500, Math.min(ms, 20000));
   }
 
+  // دائرة العدّ التنازلى حوالين زر التسبيح الرئيسي أثناء التسبيح التلقائى: بتفضل
+  // تفرغ تدريجيًا على مدار مهلة الذكر المختار (نفس فكرة دائرة أذكار الصباح والمساء)
+  function _spShowCountdownRing(duration) {
+    var btn = document.getElementById('salah-pip-btn');
+    if (!btn) return;
+    _spClearCountdownRing();
+
+    var r = 46;
+    var circumference = 2 * Math.PI * r;
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('class', 'sp-countdown-ring');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    var ringBg = document.createElementNS(svgNS, 'circle');
+    ringBg.setAttribute('class', 'ring-bg');
+    ringBg.setAttribute('cx', '50');
+    ringBg.setAttribute('cy', '50');
+    ringBg.setAttribute('r', String(r));
+    var ringProgress = document.createElementNS(svgNS, 'circle');
+    ringProgress.setAttribute('class', 'ring-progress');
+    ringProgress.setAttribute('cx', '50');
+    ringProgress.setAttribute('cy', '50');
+    ringProgress.setAttribute('r', String(r));
+    ringProgress.style.strokeDasharray = circumference.toFixed(2);
+    ringProgress.style.strokeDashoffset = '0'; // مليانة الأول = كل الوقت لسه متبقى
+    svg.appendChild(ringBg);
+    svg.appendChild(ringProgress);
+    btn.appendChild(svg);
+
+    // نجبر إعادة تخطيط قبل ما نغيّر القيمة عشان الدائرة تبدأ تتفرغ فورًا
+    // بدل ما تفضل ثابتة لثوانى قبل ما تبدأ تتحرك
+    if (typeof duration === 'number' && duration > 0) {
+      void ringProgress.getBoundingClientRect();
+      ringProgress.style.transitionDuration = duration + 'ms';
+      ringProgress.style.strokeDashoffset = circumference.toFixed(2);
+    }
+  }
+
+  function _spClearCountdownRing() {
+    var btn = document.getElementById('salah-pip-btn');
+    var ring = btn && btn.querySelector('.sp-countdown-ring');
+    if (ring) ring.remove();
+  }
+
   function spStartAuto() {
     if (spAutoTimer) clearInterval(spAutoTimer);
     var btn = document.getElementById('sp-auto-btn');
@@ -32218,9 +32300,13 @@ const moreTranslations = [{
     function tick() {
       if (!spAutoTimer) return;
       window.spIncrement();
-      spAutoTimer = setTimeout(tick, spGetAutoInterval());
+      var interval = spGetAutoInterval();
+      _spShowCountdownRing(interval);
+      spAutoTimer = setTimeout(tick, interval);
     }
-    spAutoTimer = setTimeout(tick, spGetAutoInterval());
+    var firstInterval = spGetAutoInterval();
+    _spShowCountdownRing(firstInterval);
+    spAutoTimer = setTimeout(tick, firstInterval);
   }
 
   function spStopAuto() {
@@ -32234,6 +32320,7 @@ const moreTranslations = [{
       btn.textContent = t('autoBtn');
     }
     if (typeof window.alReleaseWakeLock === 'function') window.alReleaseWakeLock();
+    _spClearCountdownRing();
   }
 
   window.spToggleAuto = function() {
@@ -48308,14 +48395,31 @@ function incrementTasbih(event) {
   const button = box.closest("button");
   if (!button) return;
 
+  // ===== ذكر مكتمل الهدف بالفعل من قبل (وماكانش أول ذكر صباح/مساء
+  // بتارجت ١ ولا فيه لفة تلقائية شغالة عليه دلوقتى — الحالتين دول
+  // بيتعالجوا فى الشروط اللى تحت دول بالانتقال للذكر التالى): يبقى
+  // المستخدم بيفتحه تانى عشان يقرأه من جديد بس، مش عشان يزوّد العدّاد.
+  // نفتحله وضع التركيز (تكبير) عشان يقدر يقرأ الذكر كامل من غير ما
+  // نلمس العدّاد أو أى حاجة تانية
+  if (button.classList.contains("completed") &&
+    !((parseInt(button.dataset.target) || 0) === 1 &&
+      _isMorningEveningAdhkar(button) &&
+      _isFirstAdhkarInGroup(button) &&
+      !_adhkarAutoAdvanceActive()) &&
+    _tasbihAdvancePendingButton !== button) {
+    setTasbihFocus(button);
+    return;
+  }
+
   // ===== أذكار الصباح/المساء، فى وضع التسبيح اليدوى (المانيول) بس، مش
-  // الاوتوماتيك: لو الذكر ده تارجته ١ واكتمل بالفعل من ضغطة سابقة (يعني ده
-  // كان أول ذكر اتفاعلنا معاه وقاعد مستنى)، الضغطة الجديدة دي (ماوس/تاتش/
-  // كيبورد) معناها "خلصت قراءته، انتقل للذكر التالى" — من غير ما تزوّد
-  // العدّاد تانى (يفضل ثابت عند ١)
+  // الاوتوماتيك: لو الذكر ده تارجته ١ واكتمل بالفعل من ضغطة سابقة وهو أول
+  // ذكر اتفاعلنا معاه وقاعد مستنى (نفس حالة عدم الانتقال التلقائى بعد
+  // الاكتمال)، الضغطة الجديدة دي (ماوس/تاتش/كيبورد) معناها "خلصت قراءته،
+  // انتقل للذكر التالى" — من غير ما تزوّد العدّاد تانى (يفضل ثابت عند ١)
   if (button.classList.contains("completed") &&
     (parseInt(button.dataset.target) || 0) === 1 &&
     _isMorningEveningAdhkar(button) &&
+    _isFirstAdhkarInGroup(button) &&
     !_adhkarAutoAdvanceActive()) {
     if (_tasbihAdvancePendingButton === button) {
       _clearTasbihAdvanceTimer();
