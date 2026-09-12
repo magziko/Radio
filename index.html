@@ -2,6 +2,21 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
+  <script>
+  /* isArabic must exist before ANY other script on the page references it.
+     Originally this was declared with `let isArabic = ...` far down the file
+     (inside a later <script> block), so code in earlier <script> blocks that
+     ran first threw: "Uncaught ReferenceError: isArabic is not defined".
+     Declaring it here, first, fixes that for good. */
+  var isArabic = (function() {
+    var saved = localStorage.getItem('siteLang');
+    if (saved !== null) {
+      return saved !== 'en';
+    }
+    var browserLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+    return browserLang.startsWith('ar');
+  })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://archive.org">
@@ -41030,7 +41045,9 @@ function loadRating() {
   }
 }
 
-let isArabic = (function() {
+/* isArabic is now declared once at the very top of <head> — this just refreshes
+   its value at this point in the page (re-reads localStorage/browser lang). */
+isArabic = (function() {
   var saved = localStorage.getItem('siteLang');
   if (saved !== null) {
     return saved !== 'en';
