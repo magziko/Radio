@@ -16,6 +16,16 @@
     var browserLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
     return browserLang.startsWith('ar');
   })();
+
+  /* Same class of bug: the welcome screen's play/pause button and its close
+     button use inline onclick="..." handlers, and both elements render very
+     early in the HTML — long before the huge script block (tens of thousands
+     of lines later) that declares `currentSource` and `retryTimeout`. If a
+     user clicks play/close while the rest of the page is still loading,
+     those handlers throw "X is not defined" too. Pre-declaring them here
+     with the same default values used later prevents that. */
+  var currentSource = 'https://stream.radiojar.com/8s5u5tpdtwzuv';
+  var retryTimeout;
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38791,8 +38801,10 @@ let buttons = [];
 let sleepTimeout;
 let autoSwitchTimeout;
 let autoSwitchInterval;
-let currentSource = 'https://stream.radiojar.com/8s5u5tpdtwzuv';
-let retryTimeout;
+/* currentSource / retryTimeout now declared once at the very top of <head>
+   (see comment there) — these just reset them at this point in the page. */
+currentSource = 'https://stream.radiojar.com/8s5u5tpdtwzuv';
+retryTimeout = undefined;
 let activeAudio = null;
 const retryInterval = 5000;
 window._userStoppedManually = false; // true = المستخدم أوقف بيده أو انتهى مؤقت النوم
