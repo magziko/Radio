@@ -18278,6 +18278,11 @@ function scheduleNextTranslation() {
   if (verseTimer) clearTimeout(verseTimer);
 
   verseTimer = setTimeout(() => {
+    if (window._quranLiveSyncActive) {
+      // في وضع عرض السورة الجارية حسب المحطة/القارئ المختار: نوقف الدورة العشوائية مؤقتًا
+      scheduleNextTranslation();
+      return;
+    }
     const v = verses[current];
 
     if (currentTransIndex + 1 < v.translations.length) {
@@ -18309,6 +18314,172 @@ showVerseWithTranslation(current, 0);
 scheduleNextTranslation();
 
 setTimeout(autoScaleVerseFont, 100);
+
+// ===================================================================
+// عرض تقريبي للآيات حسب السورة/القارئ الذي يتم تشغيله حاليًا
+// ملاحظة مهمة: هذا عرض تقريبي مبني على تقسيم مدة الملف الصوتي بالتساوي
+// على عدد آيات السورة، وليس مزامنة حرفية لحظة بلحظة مع الصوت الفعلي،
+// لأن محطات البث المباشر وملفات mp3 المستخدمة هنا لا تحتوي على أي
+// بيانات توقيت (timestamps) لكل آية.
+// ===================================================================
+(function() {
+  var QURAN_SYNC_AUDIO_IDS = ['currentAudio', 'customAudioPlayer', 'audioStreamPlayer'];
+  var _syncCache = {}; // رقم السورة -> {name, ayahs}
+
+  var _sync = {
+    active: false,
+    surahNumber: null,
+    audioEl: null,
+    ayahs: null,
+    weights: null,
+    name: '',
+    lastIdx: -1,
+    fetching: false
+  };
+
+  // بيحسب "الوزن الزمني" التقريبي لكل آية بناءً على عدد حروفها (بدون المسافات)،
+  // فالآيات الطويلة تاخد وقت عرض أطول والآيات القصيرة وقت أقصر، بدل ما كل
+  // الآيات تاخد نفس المدة بالتساوي (اللي كان بيسبب فرق واضح/تأخير عن التلاوة
+  // الفعلية خصوصًا في السور اللي فيها تفاوت كبير في طول الآيات).
+  function computeAyahWeights(ayahs) {
+    var lens = ayahs.map(function(a) {
+      return Math.max(1, String(a || '').replace(/\s+/g, '').length);
+    });
+    var total = lens.reduce(function(s, w) { return s + w; }, 0) || 1;
+    var cum = [];
+    var acc = 0;
+    for (var i = 0; i < lens.length; i++) {
+      acc += lens[i];
+      cum.push(acc / total); // نسبة تراكمية من إجمالي مدة السورة عند نهاية هذه الآية
+    }
+    return cum;
+  }
+
+  function findActiveSurahAudio() {
+    for (var i = 0; i < QURAN_SYNC_AUDIO_IDS.length; i++) {
+      var el = document.getElementById(QURAN_SYNC_AUDIO_IDS[i]);
+      if (el && !el.paused && !el.ended && el.src) return el;
+    }
+    if (window.isolatedAudio && !window.isolatedAudio.paused && !window.isolatedAudio.ended && window.isolatedAudio.src) {
+      return window.isolatedAudio;
+    }
+    return null;
+  }
+
+  function extractSurahNumber(src) {
+    if (!src) return null;
+    var m = src.match(/(\d{3})\.mp3(?:[?#]|$)/i);
+    if (!m) return null;
+    var n = parseInt(m[1], 10);
+    return (n >= 1 && n <= 114) ? n : null;
+  }
+
+  function setSyncWidget(arabicHTML, numberLabel, showApproxNote) {
+    var arabicEl = document.getElementById('arabicVerse');
+    var numEl = document.getElementById('verseNumber');
+    var transEl = document.getElementById('englishVerse');
+    if (arabicEl) arabicEl.innerHTML = arabicHTML;
+    if (numEl) numEl.innerText = numberLabel;
+    if (transEl && showApproxNote) {
+      transEl.innerHTML = '<span style="display:inline-block;font-size:11px;background:rgba(46,134,193,0.12);color:var(--theme-c3);border-radius:20px;padding:2px 10px;font-style:normal;letter-spacing:0.5px;">' +
+        '⚠️ عرض تقريبي حسب موضع التشغيل — وليس مزامنة حرفية مع الصوت / Approximate display, not an exact live sync' +
+        '</span>';
+    }
+    setTimeout(autoScaleVerseFont, 30);
+  }
+
+  function loadSurah(n) {
+    if (_syncCache[n]) return Promise.resolve(_syncCache[n]);
+    return fetch('https://api.alquran.cloud/v1/surah/' + n + '/quran-uthmani')
+      .then(function(r) { return r.json(); })
+      .then(function(j) {
+        if (!j || j.code !== 200 || !j.data || !j.data.ayahs || !j.data.ayahs.length) {
+          throw new Error('bad response');
+        }
+        var result = {
+          name: j.data.name || ('سورة رقم ' + n),
+          ayahs: j.data.ayahs.map(function(a) { return a.text; })
+        };
+        _syncCache[n] = result;
+        return result;
+      });
+  }
+
+  function exitSyncMode() {
+    if (!_sync.active) return;
+    _sync.active = false;
+    window._quranLiveSyncActive = false;
+    _sync.surahNumber = null;
+    _sync.audioEl = null;
+    _sync.ayahs = null;
+    _sync.lastIdx = -1;
+    _sync.fetching = false;
+    if (typeof scheduleNextTranslation === 'function') {
+      try { scheduleNextTranslation(); } catch (e) {}
+    }
+  }
+
+  function tick() {
+    var audioEl = findActiveSurahAudio();
+    if (!audioEl) { exitSyncMode(); return; }
+
+    var n = extractSurahNumber(audioEl.src);
+    if (!n) { exitSyncMode(); return; }
+
+    if (_sync.surahNumber !== n || _sync.audioEl !== audioEl) {
+      _sync.surahNumber = n;
+      _sync.audioEl = audioEl;
+      _sync.ayahs = null;
+      _sync.weights = null;
+      _sync.lastIdx = -1;
+      _sync.active = true;
+      window._quranLiveSyncActive = true;
+
+      setSyncWidget('جاري تحميل نص السورة… / Loading surah text…', 'سورة رقم ' + n, false);
+
+      _sync.fetching = true;
+      loadSurah(n).then(function(data) {
+        _sync.fetching = false;
+        if (_sync.surahNumber !== n) return; // تغيّرت المحطة أثناء التحميل
+        _sync.name = data.name;
+        _sync.ayahs = data.ayahs;
+        _sync.weights = computeAyahWeights(data.ayahs);
+      }).catch(function() {
+        _sync.fetching = false;
+        if (_sync.surahNumber === n) {
+          setSyncWidget('تعذّر تحميل نص السورة حاليًا. / Could not load surah text.', 'سورة رقم ' + n, false);
+        }
+      });
+      return;
+    }
+
+    if (!_sync.ayahs || _sync.fetching) return;
+
+    var duration = audioEl.duration;
+    var count = _sync.ayahs.length;
+    var idx = 0;
+    if (duration && isFinite(duration) && duration > 0 && _sync.weights) {
+      var frac = (audioEl.currentTime || 0) / duration;
+      idx = count - 1;
+      for (var i = 0; i < _sync.weights.length; i++) {
+        if (frac < _sync.weights[i]) { idx = i; break; }
+      }
+      if (idx < 0) idx = 0;
+      if (idx > count - 1) idx = count - 1;
+    }
+
+    if (idx !== _sync.lastIdx) {
+      _sync.lastIdx = idx;
+      setSyncWidget(
+        _sync.ayahs[idx],
+        _sync.name + ' — الآية ' + (idx + 1) + ' من ' + count + ' (تقريبي)',
+        true
+      );
+    }
+  }
+
+  setInterval(tick, 1000);
+})();
 </script>
 <body>
 
