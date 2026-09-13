@@ -39687,6 +39687,34 @@ function updateFavCountBadge() {
   badge.classList.toggle('show', n > 0);
 }
 
+// ── يصلح مشكلة عدم تطابق العدد الظاهر في شارة المفضلة (favCountBadge) مع عدد
+// المحطات المعروضة فعليًا عند فتح المفضلة: بيشيل من مصفوفة favorites أي مفتاح
+// محطة "شبح" (قديم/محذوف/اتغير اسمه) مالوش زرار موجود فعليًا في الصفحة، عشان
+// العداد يفضل مطابق دايمًا لعدد الكروت اللي بتتعرض ──
+function pruneStaleFavorites() {
+  if (!favorites || favorites.length === 0) return;
+  var validKeys = new Set();
+  document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(button) {
+    var key = getButtonStationKey(button);
+    if (key) validKeys.add(key);
+  });
+  var seen = new Set();
+  var cleaned = favorites.filter(function(f) {
+    if (!validKeys.has(f) || seen.has(f)) return false;
+    seen.add(f);
+    return true;
+  });
+  if (cleaned.length !== favorites.length) {
+    favorites = cleaned;
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    updateFavoritesIcons();
+  }
+}
+document.addEventListener('DOMContentLoaded', pruneStaleFavorites);
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  pruneStaleFavorites();
+}
+
 function updateFavoritesIcons() {
   document.querySelectorAll('.palestine').forEach(button => {
     const station = button.getAttribute('data-station');
@@ -40423,6 +40451,27 @@ function _findStationButtonByVoiceName(name) {
   return null;
 }
 
+// أقرب محطة "تقريبًا" لما مفيش تطابق مباشر (مثلاً التعرف الصوتي سمع الاسم غلط شوية) —
+// بتحسب لكل زرار عدد كلمات الطلب اللي موجودة فيه، وبترجع الأعلى تطابقًا لو نص الكلمات
+// على الأقل اتطابقت، بدل ما نرجّع "مفيش نتيجة" على طول
+function _fuzzyBestStationMatch(name) {
+  var q = _normVoiceStation(name);
+  if (!q) return null;
+  var qWords = q.split(/\s+/).filter(function(w) { return w.length >= 2; });
+  if (!qWords.length) return null;
+  var best = null, bestScore = 0;
+  document.querySelectorAll('button[data-station]').forEach(function(b) {
+    var text = _normVoiceStation(b.textContent) + ' ' +
+      _normVoiceStation(b.getAttribute('data-ar') || '') + ' ' +
+      _normVoiceStation(b.getAttribute('data-en') || '') + ' ' +
+      _normVoiceStation(b.getAttribute('data-station') || '');
+    var score = 0;
+    qWords.forEach(function(w) { if (text.indexOf(w) !== -1) score++; });
+    if (score > bestScore) { bestScore = score; best = b; }
+  });
+  return (best && bestScore >= Math.max(1, Math.ceil(qWords.length / 2))) ? best : null;
+}
+
 // ===== تفسير الأوامر الصوتية: تشغيل / إيقاف / التالي / السابق / عشوائي =====
 // بترجع true لو النص كان أمر تم تنفيذه (فمنمنعش البحث)، وbترجع false لو مفيش أمر متطابق فيتابع كبحث عادي
 function _handleVoiceCommand(rawText) {
@@ -40451,7 +40500,15 @@ function _handleVoiceCommand(rawText) {
         showToast((_isAr ? '▶️ جارِ تشغيل: ' : '▶️ Playing: ') + (_foundBtn.getAttribute('data-ar') || _foundBtn.getAttribute('data-station') || _reqName));
       }
     } else {
-      if (typeof showToast === 'function') showToast(_isAr ? '❓ لم يتم العثور على: ' + _reqName : '❓ Not found: ' + _reqName);
+      var _fuzzyReqBtn = _fuzzyBestStationMatch(_reqName);
+      if (_fuzzyReqBtn) {
+        var _fuzzyReqName = _fuzzyReqBtn.getAttribute('data-ar') || _fuzzyReqBtn.getAttribute('data-station') || '';
+        if (typeof showToast === 'function') {
+          showToast((_isAr ? '❓ لم يتم العثور على "' + _reqName + '" — تقصد: ' : '❓ "' + _reqName + '" not found — did you mean: ') + _fuzzyReqName + '؟');
+        }
+      } else {
+        if (typeof showToast === 'function') showToast(_isAr ? '❓ لم يتم العثور على: ' + _reqName : '❓ Not found: ' + _reqName);
+      }
     }
     return true;
   }
@@ -40582,347 +40639,228 @@ function _handleVoiceCommand(rawText) {
   return false;
 }
 
-// ===== البحث الصوتي + الأوامر الصوتية في خانة البحث عن الإذاعات (Web Speech API) =====
-(function initVoiceSearchSupport() {
-  var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var micBtn = document.getElementById('micSearchBtn');
-  if (micBtn) micBtn.style.display = SpeechRecognitionCtor ? 'block' : 'none';
-})();
+// ===== البحث/الأوامر الصوتية (Web Speech API) — دالة عامة واحدة تستخدمها الثلاث خانات =====
+// كانت الخانات التلاتة (بحث الإذاعات، بحث الأذكار والدعاء، بحث القائمة المنسدلة) عندها نفس
+// كود الاستماع/الأخطاء/الحالة مكرر بالكامل 3 مرات؛ اتوحدوا هنا في دالة واحدة
+// (_createVoiceSearchController) وكل خانة بتديها إعداداتها الخاصة بس (id المدخل/الزرار،
+// نصوص الحالة، وإيه اللي يحصل لما يوصل نص نهائي). أي تحسين مستقبلي (زي المعاينة الحية
+// تحت) بقى بيتطبق في مكان واحد بدل تلاتة.
+function _createVoiceSearchController(config) {
+  var state = { recognition: null, active: false };
 
-var _voiceSearchRecognition = null;
-var _voiceSearchActive = false;
+  (function initMicVisibility() {
+    var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var micBtn = document.getElementById(config.micBtnId);
+    if (micBtn) micBtn.style.display = SpeechRecognitionCtor ? (config.displayStyle || 'inline-flex') : 'none';
+  })();
 
-function startVoiceSearch() {
-  var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var micBtn = document.getElementById('micSearchBtn');
-  var input = document.getElementById('searchInput');
-  var _isAr = (typeof isArabic === 'undefined') ? true : isArabic;
+  return function start() {
+    var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var micBtn = document.getElementById(config.micBtnId);
+    var input = document.getElementById(config.inputId);
+    var _isAr = (typeof isArabic === 'undefined') ? true : isArabic;
 
-  if (!SpeechRecognitionCtor || !input) {
-    if (typeof showToast === 'function') {
-      showToast(_isAr ? 'المتصفح لا يدعم البحث الصوتي' : 'This browser does not support voice search');
+    if (!SpeechRecognitionCtor || !input) {
+      if (typeof showToast === 'function') {
+        showToast(_isAr ? 'المتصفح لا يدعم البحث الصوتي' : 'This browser does not support voice search');
+      }
+      return;
     }
-    return;
-  }
 
-  // المتصفحات بترفض الوصول للميكروفون على أي origin غير آمن (http أو file://)
-  if (window.isSecureContext === false) {
-    if (typeof showToast === 'function') {
-      showToast(_isAr ? 'البحث الصوتي يحتاج فتح الموقع عبر HTTPS' : 'Voice search requires an HTTPS connection');
+    // المتصفحات بترفض الوصول للميكروفون على أي origin غير آمن (http أو file://)
+    if (window.isSecureContext === false) {
+      if (typeof showToast === 'function') {
+        showToast(_isAr ? 'البحث الصوتي يحتاج فتح الموقع عبر HTTPS' : 'Voice search requires an HTTPS connection');
+      }
+      console.warn('[' + config.id + '] insecure context — mic access blocked by the browser.');
+      return;
     }
-    console.warn('[voice search] insecure context — mic access blocked by the browser.');
-    return;
-  }
 
-  if (_voiceSearchActive && _voiceSearchRecognition) {
-    _voiceSearchRecognition.stop();
-    return;
-  }
+    if (state.active && state.recognition) {
+      state.recognition.stop();
+      return;
+    }
 
-  var recognition = new SpeechRecognitionCtor();
-  _voiceSearchRecognition = recognition;
-  recognition.lang = _isAr ? 'ar-SA' : 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
+    var recognition = new SpeechRecognitionCtor();
+    state.recognition = recognition;
+    recognition.lang = _isAr ? 'ar-SA' : 'en-US';
+    // معاينة حية للكلام وهو بيتقال (مش بس بعد ما يوقف) — النص بيتحدث في الخانة أول بأول،
+    // لكن أي فعل (تشغيل محطة/تنفيذ أمر...) بيستنى النتيجة النهائية فقط (event.results[i].isFinal)
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
 
-  // لو في صوت شغال في الموقع نفسه (زي تلاوة الشاشة الترحيبية) هيتلخبط مع صوت المستخدم
-  // ومش هيوصله كلام مفهوم، فلازم نوقف أي صوت شغال قبل ما نبدأ نسمع
-  if (typeof window.stopAllOtherAudios === 'function') {
-    window.stopAllOtherAudios('voiceSearch');
-  }
+    // لو في صوت شغال في الموقع نفسه (زي تلاوة الشاشة الترحيبية) هيتلخبط مع صوت المستخدم
+    // ومش هيوصله كلام مفهوم، فلازم نوقف أي صوت شغال قبل ما نبدأ نسمع
+    if (typeof window.stopAllOtherAudios === 'function') {
+      window.stopAllOtherAudios('voiceSearch');
+    }
 
-  _voiceSearchActive = true;
-  if (micBtn) {
-    micBtn.classList.add('mic-listening');
-    micBtn.textContent = '🔴';
-    micBtn.title = _isAr ? 'جارِ الاستماع... قول اسم محطة أو "شغّل/وقف/التالي"' : 'Listening... say a station name or "play/stop/next"';
-  }
+    state.active = true;
+    if (micBtn) {
+      micBtn.classList.add('mic-listening');
+      micBtn.textContent = '🔴';
+      micBtn.title = _isAr ? config.listeningTitle.ar : config.listeningTitle.en;
+    }
 
-  recognition.onresult = function(event) {
-    var transcript = event.results && event.results[0] && event.results[0][0]
-      ? event.results[0][0].transcript : '';
-    if (!transcript) return;
+    recognition.onresult = function(event) {
+      var res = event.results && event.results[event.results.length - 1];
+      var transcript = res && res[0] ? res[0].transcript : '';
+      if (!transcript) return;
+
+      // عرض حي للنص أول بأول (interim أو نهائي) في خانة البحث نفسها
+      input.value = transcript;
+      input.dispatchEvent(new Event('input'));
+
+      if (!res.isFinal) return; // لسه بيتكلم — منفّذش أي فعل إلا بعد ما يخلص
+      if (typeof config.onFinalTranscript === 'function') {
+        config.onFinalTranscript(transcript, input, _isAr);
+      }
+    };
+
+    recognition.onerror = function(event) {
+      console.warn('[' + config.id + '] error:', event && event.error);
+      var msg;
+      switch (event && event.error) {
+        case 'not-allowed':
+        case 'service-not-allowed':
+          msg = _isAr ? 'تم رفض إذن الميكروفون — فعّله من إعدادات المتصفح' : 'Microphone permission denied — enable it in browser settings';
+          break;
+        case 'no-speech':
+          msg = _isAr ? 'لم يتم سماع أي صوت، حاول مرة أخرى' : 'No speech detected, try again';
+          break;
+        case 'audio-capture':
+          msg = _isAr ? 'لا يوجد ميكروفون متاح على هذا الجهاز' : 'No microphone was found on this device';
+          break;
+        case 'network':
+          msg = _isAr ? 'مشكلة في الاتصال بخدمة التعرف الصوتي' : 'Network error reaching the speech service';
+          break;
+        default:
+          msg = _isAr ? 'تعذّر تشغيل البحث الصوتي' : 'Voice search could not start';
+      }
+      if (typeof showToast === 'function') showToast(msg);
+    };
+
+    recognition.onend = function() {
+      state.active = false;
+      if (micBtn) {
+        micBtn.classList.remove('mic-listening');
+        micBtn.textContent = '🎤';
+        micBtn.title = _isAr ? config.idleTitle.ar : config.idleTitle.en;
+      }
+    };
+
+    try {
+      recognition.start();
+    } catch (e) {
+      console.warn('[' + config.id + '] start() threw:', e);
+      state.active = false;
+      if (micBtn) {
+        micBtn.classList.remove('mic-listening');
+        micBtn.textContent = '🎤';
+      }
+      if (typeof showToast === 'function') {
+        showToast(_isAr ? 'تعذّر تشغيل البحث الصوتي' : 'Voice search could not start');
+      }
+    }
+  };
+}
+
+// عدد الأزرار الظاهرة حاليًا في شاشة الإذاعات (بعد أي فلترة) — بيستخدم عشان نعرف لو
+// البحث الصوتي رجّع صفر نتائج فنقترح أقرب محطة بدل ما نسيب المستخدم من غير رد
+function _countVisibleStationButtons() {
+  var n = 0;
+  document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(b) {
+    if (b.style.display !== 'none') n++;
+  });
+  return n;
+}
+
+// ── 1) بحث/أوامر صوتية لخانة البحث عن الإذاعات ──
+window.startVoiceSearch = _createVoiceSearchController({
+  id: 'radio search',
+  inputId: 'searchInput',
+  micBtnId: 'micSearchBtn',
+  displayStyle: 'block',
+  listeningTitle: {
+    ar: 'جارِ الاستماع... قول اسم محطة أو "شغّل/وقف/التالي"',
+    en: 'Listening... say a station name or "play/stop/next"'
+  },
+  idleTitle: {
+    ar: 'بحث صوتي، أو قول: شغّل / وقف / التالي / السابق / ارفع الصوت / اخفض الصوت / اكتم الصوت / بطل كتم / شغل قناة كذا',
+    en: 'Voice search, or say: play / stop / next / previous / volume up / volume down / mute / unmute / play channel X'
+  },
+  onFinalTranscript: function(transcript, input, _isAr) {
     if (_handleVoiceCommand(transcript)) return; // كان أمر صوتي (تشغيل/إيقاف/التالي...) وتم تنفيذه
 
     // مفيش أمر صوتي معروف، بس ممكن يكون قال اسم محطة مباشرة (من غير "شغل")
     // فنجرب نلاقي محطة مطابقة ونشغلها على طول بدل ما نكتفي بالفلترة بس
-    input.value = transcript;
-    input.dispatchEvent(new Event('input'));
-    if (typeof _findStationButtonByVoiceName === 'function') {
-      var _directBtn = _findStationButtonByVoiceName(transcript);
-      if (_directBtn) {
-        playFromNotification(_directBtn);
-        if (typeof showToast === 'function') {
-          showToast((_isAr ? '▶️ جارِ تشغيل: ' : '▶️ Playing: ') + (_directBtn.getAttribute('data-ar') || _directBtn.getAttribute('data-station') || transcript));
-        }
+    if (typeof _findStationButtonByVoiceName !== 'function') return;
+    var _directBtn = _findStationButtonByVoiceName(transcript);
+    if (_directBtn) {
+      playFromNotification(_directBtn);
+      if (typeof showToast === 'function') {
+        showToast((_isAr ? '▶️ جارِ تشغيل: ' : '▶️ Playing: ') + (_directBtn.getAttribute('data-ar') || _directBtn.getAttribute('data-station') || transcript));
+      }
+      return;
+    }
+
+    // مفيش تطابق مباشر ولا حتى الفلترة النصية لقت حاجة — نقترح أقرب محطة بدل ما نسكت
+    if (_countVisibleStationButtons() === 0 && typeof _fuzzyBestStationMatch === 'function') {
+      var _fuzzyBtn = _fuzzyBestStationMatch(transcript);
+      if (_fuzzyBtn && typeof showToast === 'function') {
+        var _fuzzyName = _fuzzyBtn.getAttribute('data-ar') || _fuzzyBtn.getAttribute('data-station') || '';
+        showToast((_isAr ? 'مفيش نتيجة مطابقة — تقصد: ' : 'No exact match — did you mean: ') + _fuzzyName + '؟');
       }
     }
-  };
-
-  recognition.onerror = function(event) {
-    console.warn('[voice search] error:', event && event.error);
-    var msg;
-    switch (event && event.error) {
-      case 'not-allowed':
-      case 'service-not-allowed':
-        msg = _isAr ? 'تم رفض إذن الميكروفون — فعّله من إعدادات المتصفح' : 'Microphone permission denied — enable it in browser settings';
-        break;
-      case 'no-speech':
-        msg = _isAr ? 'لم يتم سماع أي صوت، حاول مرة أخرى' : 'No speech detected, try again';
-        break;
-      case 'audio-capture':
-        msg = _isAr ? 'لا يوجد ميكروفون متاح على هذا الجهاز' : 'No microphone was found on this device';
-        break;
-      case 'network':
-        msg = _isAr ? 'مشكلة في الاتصال بخدمة التعرف الصوتي' : 'Network error reaching the speech service';
-        break;
-      default:
-        msg = _isAr ? 'تعذّر تشغيل البحث الصوتي' : 'Voice search could not start';
-    }
-    if (typeof showToast === 'function') showToast(msg);
-  };
-
-  recognition.onend = function() {
-    _voiceSearchActive = false;
-    if (micBtn) {
-      micBtn.classList.remove('mic-listening');
-      micBtn.textContent = '🎤';
-      micBtn.title = _isAr ? 'بحث صوتي' : 'Voice search';
-    }
-  };
-
-  try {
-    recognition.start();
-  } catch (e) {
-    console.warn('[voice search] start() threw:', e);
-    _voiceSearchActive = false;
-    if (micBtn) {
-      micBtn.classList.remove('mic-listening');
-      micBtn.textContent = '🎤';
-    }
-    if (typeof showToast === 'function') {
-      showToast(_isAr ? 'تعذّر تشغيل البحث الصوتي' : 'Voice search could not start');
-    }
   }
-}
+});
 
-// ===== البحث الصوتي في خانة البحث عن ذكر/دعاء (تسبيح - PiP) =====
-(function initSpAthkarVoiceSearch() {
-  var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var micBtn = document.getElementById('sp-athkar-mic-btn');
-  if (micBtn) micBtn.style.display = SpeechRecognitionCtor ? 'inline-flex' : 'none';
-})();
-
-var _spAthkarVoiceRecognition = null;
-var _spAthkarVoiceActive = false;
-
-window.startSpAthkarVoiceSearch = function() {
-  var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var micBtn = document.getElementById('sp-athkar-mic-btn');
-  var input = document.getElementById('sp-athkar-search');
-  var _isAr = (typeof isArabic === 'undefined') ? true : isArabic;
-
-  if (!SpeechRecognitionCtor || !input) {
-    if (typeof showToast === 'function') {
-      showToast(_isAr ? 'المتصفح لا يدعم البحث الصوتي' : 'This browser does not support voice search');
-    }
-    return;
+// ── 2) بحث صوتي لخانة البحث عن ذكر/دعاء (تسبيح - PiP) ──
+// اختيار أقرب ذكر بيحصل أوتوماتيك من كود الفلترة الموجود أصلاً على sp-athkar-search
+// (بيختار أول عنصر ظاهر كل ما نص البحث يتغيّر)، فمحتاجين بس نوصّل له النص
+window.startSpAthkarVoiceSearch = _createVoiceSearchController({
+  id: 'athkar search',
+  inputId: 'sp-athkar-search',
+  micBtnId: 'sp-athkar-mic-btn',
+  displayStyle: 'inline-flex',
+  listeningTitle: {
+    ar: 'جارِ الاستماع... قول اسم ذكر أو دعاء',
+    en: 'Listening... say a dhikr or dua name'
+  },
+  idleTitle: {
+    ar: 'بحث صوتي عن ذكر أو دعاء',
+    en: 'Voice search for dhikr or dua'
   }
+});
 
-  // المتصفحات بترفض الوصول للميكروفون على أي origin غير آمن (http أو file://)
-  if (window.isSecureContext === false) {
-    if (typeof showToast === 'function') {
-      showToast(_isAr ? 'البحث الصوتي يحتاج فتح الموقع عبر HTTPS' : 'Voice search requires an HTTPS connection');
-    }
-    console.warn('[sp athkar voice search] insecure context — mic access blocked by the browser.');
-    return;
+// ── 3) بحث صوتي لقائمة اختيار الذكر المنسدلة (sp-custom-dd) ──
+window.startSpCustomDdVoiceSearch = _createVoiceSearchController({
+  id: 'custom dd search',
+  inputId: 'sp-custom-dd-search',
+  micBtnId: 'sp-custom-dd-mic-btn',
+  displayStyle: 'inline-flex',
+  listeningTitle: {
+    ar: 'جارِ الاستماع...',
+    en: 'Listening...'
+  },
+  idleTitle: {
+    ar: 'بحث صوتي',
+    en: 'Voice search'
+  },
+  onFinalTranscript: function() {
+    // لو النص اللي اتقال ضيّق القايمة على عنصر واحد بالظبط، اخترناه على طول
+    // (بدل ما المستخدم يضطر يدوس عليه بإيده بعد ما قاله بصوته)
+    var visibleItems = Array.prototype.filter.call(
+      document.querySelectorAll('#sp-custom-dd-items .sp-custom-dd-item'),
+      function(item) {
+        if (item.style.display === 'none') return false;
+        var block = item.closest('.sp-custom-dd-group-block');
+        return !(block && block.style.display === 'none');
+      }
+    );
+    if (visibleItems.length === 1) visibleItems[0].click();
   }
-
-  if (_spAthkarVoiceActive && _spAthkarVoiceRecognition) {
-    _spAthkarVoiceRecognition.stop();
-    return;
-  }
-
-  var recognition = new SpeechRecognitionCtor();
-  _spAthkarVoiceRecognition = recognition;
-  recognition.lang = _isAr ? 'ar-SA' : 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-
-  if (typeof window.stopAllOtherAudios === 'function') {
-    window.stopAllOtherAudios('voiceSearch');
-  }
-
-  _spAthkarVoiceActive = true;
-  if (micBtn) {
-    micBtn.classList.add('mic-listening');
-    micBtn.textContent = '🔴';
-    micBtn.title = _isAr ? 'جارِ الاستماع... قول اسم ذكر أو دعاء' : 'Listening... say a dhikr or dua name';
-  }
-
-  recognition.onresult = function(event) {
-    var transcript = event.results && event.results[0] && event.results[0][0]
-      ? event.results[0][0].transcript : '';
-    if (!transcript) return;
-    input.value = transcript;
-    input.dispatchEvent(new Event('input'));
-  };
-
-  recognition.onerror = function(event) {
-    console.warn('[sp athkar voice search] error:', event && event.error);
-    var msg;
-    switch (event && event.error) {
-      case 'not-allowed':
-      case 'service-not-allowed':
-        msg = _isAr ? 'تم رفض إذن الميكروفون — فعّله من إعدادات المتصفح' : 'Microphone permission denied — enable it in browser settings';
-        break;
-      case 'no-speech':
-        msg = _isAr ? 'لم يتم سماع أي صوت، حاول مرة أخرى' : 'No speech detected, try again';
-        break;
-      case 'audio-capture':
-        msg = _isAr ? 'لا يوجد ميكروفون متاح على هذا الجهاز' : 'No microphone was found on this device';
-        break;
-      case 'network':
-        msg = _isAr ? 'مشكلة في الاتصال بخدمة التعرف الصوتي' : 'Network error reaching the speech service';
-        break;
-      default:
-        msg = _isAr ? 'تعذّر تشغيل البحث الصوتي' : 'Voice search could not start';
-    }
-    if (typeof showToast === 'function') showToast(msg);
-  };
-
-  recognition.onend = function() {
-    _spAthkarVoiceActive = false;
-    if (micBtn) {
-      micBtn.classList.remove('mic-listening');
-      micBtn.textContent = '🎤';
-      micBtn.title = _isAr ? 'بحث صوتي عن ذكر أو دعاء' : 'Voice search for dhikr or dua';
-    }
-  };
-
-  try {
-    recognition.start();
-  } catch (e) {
-    console.warn('[sp athkar voice search] start() threw:', e);
-    _spAthkarVoiceActive = false;
-    if (micBtn) {
-      micBtn.classList.remove('mic-listening');
-      micBtn.textContent = '🎤';
-    }
-    if (typeof showToast === 'function') {
-      showToast(_isAr ? 'تعذّر تشغيل البحث الصوتي' : 'Voice search could not start');
-    }
-  }
-};
-
-// ===== البحث الصوتي في قائمة اختيار الذكر المنسدلة (sp-custom-dd) =====
-(function initSpCustomDdVoiceSearch() {
-  var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var micBtn = document.getElementById('sp-custom-dd-mic-btn');
-  if (micBtn) micBtn.style.display = SpeechRecognitionCtor ? 'inline-flex' : 'none';
-})();
-
-var _spCustomDdVoiceRecognition = null;
-var _spCustomDdVoiceActive = false;
-
-window.startSpCustomDdVoiceSearch = function() {
-  var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var micBtn = document.getElementById('sp-custom-dd-mic-btn');
-  var input = document.getElementById('sp-custom-dd-search');
-  var _isAr = (typeof isArabic === 'undefined') ? true : isArabic;
-
-  if (!SpeechRecognitionCtor || !input) {
-    if (typeof showToast === 'function') {
-      showToast(_isAr ? 'المتصفح لا يدعم البحث الصوتي' : 'This browser does not support voice search');
-    }
-    return;
-  }
-
-  // المتصفحات بترفض الوصول للميكروفون على أي origin غير آمن (http أو file://)
-  if (window.isSecureContext === false) {
-    if (typeof showToast === 'function') {
-      showToast(_isAr ? 'البحث الصوتي يحتاج فتح الموقع عبر HTTPS' : 'Voice search requires an HTTPS connection');
-    }
-    console.warn('[sp custom dd voice search] insecure context — mic access blocked by the browser.');
-    return;
-  }
-
-  if (_spCustomDdVoiceActive && _spCustomDdVoiceRecognition) {
-    _spCustomDdVoiceRecognition.stop();
-    return;
-  }
-
-  var recognition = new SpeechRecognitionCtor();
-  _spCustomDdVoiceRecognition = recognition;
-  recognition.lang = _isAr ? 'ar-SA' : 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-
-  if (typeof window.stopAllOtherAudios === 'function') {
-    window.stopAllOtherAudios('voiceSearch');
-  }
-
-  _spCustomDdVoiceActive = true;
-  if (micBtn) {
-    micBtn.classList.add('mic-listening');
-    micBtn.textContent = '🔴';
-    micBtn.title = _isAr ? 'جارِ الاستماع...' : 'Listening...';
-  }
-
-  recognition.onresult = function(event) {
-    var transcript = event.results && event.results[0] && event.results[0][0]
-      ? event.results[0][0].transcript : '';
-    if (!transcript) return;
-    input.value = transcript;
-    input.dispatchEvent(new Event('input'));
-  };
-
-  recognition.onerror = function(event) {
-    console.warn('[sp custom dd voice search] error:', event && event.error);
-    var msg;
-    switch (event && event.error) {
-      case 'not-allowed':
-      case 'service-not-allowed':
-        msg = _isAr ? 'تم رفض إذن الميكروفون — فعّله من إعدادات المتصفح' : 'Microphone permission denied — enable it in browser settings';
-        break;
-      case 'no-speech':
-        msg = _isAr ? 'لم يتم سماع أي صوت، حاول مرة أخرى' : 'No speech detected, try again';
-        break;
-      case 'audio-capture':
-        msg = _isAr ? 'لا يوجد ميكروفون متاح على هذا الجهاز' : 'No microphone was found on this device';
-        break;
-      case 'network':
-        msg = _isAr ? 'مشكلة في الاتصال بخدمة التعرف الصوتي' : 'Network error reaching the speech service';
-        break;
-      default:
-        msg = _isAr ? 'تعذّر تشغيل البحث الصوتي' : 'Voice search could not start';
-    }
-    if (typeof showToast === 'function') showToast(msg);
-  };
-
-  recognition.onend = function() {
-    _spCustomDdVoiceActive = false;
-    if (micBtn) {
-      micBtn.classList.remove('mic-listening');
-      micBtn.textContent = '🎤';
-      micBtn.title = _isAr ? 'بحث صوتي' : 'Voice search';
-    }
-  };
-
-  try {
-    recognition.start();
-  } catch (e) {
-    console.warn('[sp custom dd voice search] start() threw:', e);
-    _spCustomDdVoiceActive = false;
-    if (micBtn) {
-      micBtn.classList.remove('mic-listening');
-      micBtn.textContent = '🎤';
-    }
-    if (typeof showToast === 'function') {
-      showToast(_isAr ? 'تعذّر تشغيل البحث الصوتي' : 'Voice search could not start');
-    }
-  }
-};
+});
 
 document.getElementById('randomButton').addEventListener('click', function() {
 
@@ -53708,9 +53646,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 260);
 
     if (showingFavorites) {
-      document.querySelectorAll('.button[data-station]').forEach(function(button) {
-        var st = button.getAttribute('data-station');
-        button.style.display = !favorites.includes(st) ? 'none' : 'block';
+      document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)').forEach(function(button) {
+        var st = getButtonStationKey(button);
+        var wrap = button.parentElement;
+        var show = !!st && favorites.includes(st);
+        button.style.display = show ? 'block' : 'none';
+        if (wrap && wrap.classList.contains('pl-check-wrap')) wrap.style.display = show ? 'inline-block' : 'none';
       });
       updateButtonIndices();
       exitFavoritesViewIfEmpty();
