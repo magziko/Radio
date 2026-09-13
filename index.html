@@ -32132,13 +32132,7 @@ const moreTranslations = [{
                 <span class="sp-custom-dd-arrow">▾</span>
             </button>
             <div id="sp-custom-dd-list" class="sp-custom-dd-list" style="display:none;">
-                <div class="sp-custom-dd-search-row">
-                    <input type="text" id="sp-custom-dd-search" class="sp-custom-dd-search"
-                           placeholder="🔍 بحث..." autocomplete="off">
-                    <button type="button" id="sp-custom-dd-mic-btn" class="sp-athkar-mic-btn" onclick="window.startSpCustomDdVoiceSearch()"
-                            data-ar-title="بحث صوتي" data-en-title="Voice search"
-                            aria-label="بحث صوتي" title="بحث صوتي" style="display:none;">🎤</button>
-                </div>
+                <!-- بحث واحد فقط للأذكار: خانة #sp-athkar-search اللي فوق هي اللي بتفلتر القايمة دي كمان (بدل خانة بحث تانية مكررة هنا) -->
                 <div id="sp-custom-dd-items" class="sp-custom-dd-items"></div>
             </div>
         </div>
@@ -33793,12 +33787,11 @@ const moreTranslations = [{
       list.style.cssText = 'display:block;width:' + lw + 'px;top:' + top + 'px;right:' + right + 'px;left:auto;bottom:auto;height:' + Math.round(availH) + 'px;';
     }
 
-    /* اجعل sp-custom-dd-items تملأ الارتفاع المتبقي بعد حقل البحث */
+    /* اجعل sp-custom-dd-items تملأ الارتفاع المتاح (مفيش حقل بحث داخلي دلوقتي، خانة البحث
+       الوحيدة بقت #sp-athkar-search اللي فوق، فمفيش ارتفاع نطرحه غير الـ padding بس) */
     if (items) {
-      var srch  = document.getElementById('sp-custom-dd-search');
-      var srchH = srch ? (srch.getBoundingClientRect().height || 30) + 8 : 38;
-      var pad   = 12; /* padding الـ list نفسها (6px × 2) */
-      items.style.maxHeight = Math.max(80, Math.round(availH - srchH - pad)) + 'px';
+      var pad = 12; /* padding الـ list نفسها (6px × 2) */
+      items.style.maxHeight = Math.max(80, Math.round(availH - pad)) + 'px';
     }
   }
 
@@ -33810,8 +33803,11 @@ const moreTranslations = [{
       if (list.parentElement !== document.body) document.body.appendChild(list);
       spBuildCustomDd();
       spPositionDdList();
-      var srch = document.getElementById('sp-custom-dd-search');
-      if (srch) { srch.value = ''; spFilterDdItems(''); setTimeout(function(){ srch.focus(); }, 50); }
+      // نفلتر القايمة على نفس النص الموجود حاليًا في خانة البحث الوحيدة (#sp-athkar-search)
+      // بدل ما نمسحها، عشان لو المستخدم كان بيدور على حاجة يلاقيها على طول من غير ما يكرر الكتابة
+      var mainSearch = document.getElementById('sp-athkar-search');
+      spFilterDdItems(mainSearch ? mainSearch.value : '');
+      if (mainSearch) setTimeout(function(){ mainSearch.focus(); }, 50);
       setTimeout(function(){
         var sel2 = document.getElementById('sp-custom-dd-items') && document.getElementById('sp-custom-dd-items').querySelector('.sp-dd-selected');
         if (sel2) sel2.scrollIntoView({ block: 'nearest' });
@@ -33893,8 +33889,34 @@ const moreTranslations = [{
     }
   });
 
+  // ── جسر لخانة البحث الموحّدة (#sp-athkar-search): بيفتح/يبني القايمة المنسّقة لو
+  // مقفولة، ويفلترها على نفس النص. مستخدم هنا (كتابة عادية) ومن كنترولر البحث الصوتي
+  // (window.startSpAthkarVoiceSearch) عشان مبقاش فيه خانة بحث تانية مكررة جوه القايمة ──
+  function _spSyncDdFromSearch(term, autoSelectIfSingle) {
+    var list = document.getElementById('sp-custom-dd-list');
+    if (!list) return;
+    if (list.style.display === 'none' || !list.style.display) {
+      if (list.parentElement !== document.body) document.body.appendChild(list);
+      spBuildCustomDd();
+      spPositionDdList();
+    }
+    spFilterDdItems(term);
+    if (autoSelectIfSingle) {
+      var visibleItems = Array.prototype.filter.call(
+        document.querySelectorAll('#sp-custom-dd-items .sp-custom-dd-item'),
+        function(item) {
+          if (item.style.display === 'none') return false;
+          var block = item.closest('.sp-custom-dd-group-block');
+          return !(block && block.style.display === 'none');
+        }
+      );
+      if (visibleItems.length === 1) visibleItems[0].click();
+    }
+  }
+  window._spSyncDdFromSearch = _spSyncDdFromSearch;
+
   document.addEventListener('input', function(e) {
-    if (e.target && e.target.id === 'sp-custom-dd-search') spFilterDdItems(e.target.value);
+    if (e.target && e.target.id === 'sp-athkar-search') _spSyncDdFromSearch(e.target.value, false);
   });
 
   // إعادة بناء القائمة عند تغيير اللغة
@@ -40816,8 +40838,9 @@ window.startVoiceSearch = _createVoiceSearchController({
 });
 
 // ── 2) بحث صوتي لخانة البحث عن ذكر/دعاء (تسبيح - PiP) ──
-// اختيار أقرب ذكر بيحصل أوتوماتيك من كود الفلترة الموجود أصلاً على sp-athkar-search
-// (بيختار أول عنصر ظاهر كل ما نص البحث يتغيّر)، فمحتاجين بس نوصّل له النص
+// خانة بحث واحدة بس دلوقتي (#sp-athkar-search) بتخدم الاثنين: بتفلتر/تختار في القايمة
+// المخفية الأصلية زي ما كانت، وكمان بتفتح/تفلتر القايمة المنسّقة الجميلة (اللي كانت
+// عندها خانة بحث تانية مكررة جواها واتشالت) عن طريق _spSyncDdFromSearch
 window.startSpAthkarVoiceSearch = _createVoiceSearchController({
   id: 'athkar search',
   inputId: 'sp-athkar-search',
@@ -40830,35 +40853,13 @@ window.startSpAthkarVoiceSearch = _createVoiceSearchController({
   idleTitle: {
     ar: 'بحث صوتي عن ذكر أو دعاء',
     en: 'Voice search for dhikr or dua'
-  }
-});
-
-// ── 3) بحث صوتي لقائمة اختيار الذكر المنسدلة (sp-custom-dd) ──
-window.startSpCustomDdVoiceSearch = _createVoiceSearchController({
-  id: 'custom dd search',
-  inputId: 'sp-custom-dd-search',
-  micBtnId: 'sp-custom-dd-mic-btn',
-  displayStyle: 'inline-flex',
-  listeningTitle: {
-    ar: 'جارِ الاستماع...',
-    en: 'Listening...'
   },
-  idleTitle: {
-    ar: 'بحث صوتي',
-    en: 'Voice search'
-  },
-  onFinalTranscript: function() {
-    // لو النص اللي اتقال ضيّق القايمة على عنصر واحد بالظبط، اخترناه على طول
+  onFinalTranscript: function(transcript) {
+    // لو النص اللي اتقال ضيّق القايمة المنسّقة على عنصر واحد بالظبط، اخترناه على طول
     // (بدل ما المستخدم يضطر يدوس عليه بإيده بعد ما قاله بصوته)
-    var visibleItems = Array.prototype.filter.call(
-      document.querySelectorAll('#sp-custom-dd-items .sp-custom-dd-item'),
-      function(item) {
-        if (item.style.display === 'none') return false;
-        var block = item.closest('.sp-custom-dd-group-block');
-        return !(block && block.style.display === 'none');
-      }
-    );
-    if (visibleItems.length === 1) visibleItems[0].click();
+    if (typeof window._spSyncDdFromSearch === 'function') {
+      window._spSyncDdFromSearch(transcript, true);
+    }
   }
 });
 
@@ -41557,12 +41558,6 @@ function toggleLanguage() {
     var micLang = isArabic ? spMicBtnLang.getAttribute('data-ar-title') : spMicBtnLang.getAttribute('data-en-title');
     if (micLang) { spMicBtnLang.title = micLang; spMicBtnLang.setAttribute('aria-label', micLang); }
   }
-  var spDdMicBtnLang = document.getElementById('sp-custom-dd-mic-btn');
-  if (spDdMicBtnLang && !spDdMicBtnLang.classList.contains('mic-listening')) {
-    var ddMicLang = isArabic ? spDdMicBtnLang.getAttribute('data-ar-title') : spDdMicBtnLang.getAttribute('data-en-title');
-    if (ddMicLang) { spDdMicBtnLang.title = ddMicLang; spDdMicBtnLang.setAttribute('aria-label', ddMicLang); }
-  }
-
   var settingsLabel = document.getElementById('settings-toggle-label');
   if (settingsLabel) settingsLabel.textContent = isArabic ? settingsLabel.getAttribute('data-ar') : settingsLabel.getAttribute('data-en');
 
