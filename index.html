@@ -26,6 +26,18 @@
      with the same default values used later prevents that. */
   var currentSource = 'https://stream.radiojar.com/8s5u5tpdtwzuv';
   var retryTimeout;
+
+  /* Same class of bug again: the theme system (SITE_THEMES etc.) and the
+     tasbih auto-advance timer are only truly defined tens of thousands of
+     lines later, but the theme selector and adhkar toggle render early.
+     A click during load hit "SITE_THEMES is undefined" / "Cannot read
+     properties of undefined (reading '<theme>')" / "_clearTasbihAdvanceTimer
+     is not defined". Stubs here are safely overwritten once the real
+     definitions run further down the page. */
+  var _clearTasbihAdvanceTimer = function() {};
+  var SITE_THEMES = {};
+  var SITE_THEME_CLASSES = [];
+  var PHOTO_SHOWCASE_THEMES = [];
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32243,6 +32255,9 @@ const moreTranslations = [{
 (function() {
   var spCount = 0;
   var spTarget = 1000;
+  /* بيبقى true بس لو الهدف ده حقيقى (متحدد فى data-target أو المستخدم اختاره بنفسه)،
+     مش رقم افتراضى اتحط تلقائى (1000) لذكر/دعاء ملوش تارجت أصلاً */
+  var spTargetHasGoal = false;
   var spPipActive = false;
   var spAnimFrame = null;
 
@@ -32363,7 +32378,7 @@ const moreTranslations = [{
 
   // بيرجّع تقدّم العداد الحالى (المتحقّق والهدف) عشان تُستخدم فى كارت المشاركة
   window.spGetProgress = function() {
-    return { count: spCount, target: spTarget };
+    return { count: spCount, target: spTarget, hasGoal: spTargetHasGoal };
   };
 
   function spUpdateDhikrDisplay() {
@@ -32642,9 +32657,16 @@ const moreTranslations = [{
     try { userSaved2 = localStorage.getItem(userTargetKey2); } catch(e) {}
     if (userSaved2 && parseInt(userSaved2) > 0) {
       spTarget = parseInt(userSaved2);
+      spTargetHasGoal = true;
     } else {
       var optTarget2 = selOpt2 ? selOpt2.getAttribute('data-target') : null;
-      spTarget = (optTarget2 && parseInt(optTarget2) > 0) ? parseInt(optTarget2) : 1000;
+      if (optTarget2 && parseInt(optTarget2) > 0) {
+        spTarget = parseInt(optTarget2);
+        spTargetHasGoal = true;
+      } else {
+        spTarget = 1000;
+        spTargetHasGoal = false;
+      }
     }
     var tgtSel2 = document.getElementById('sp-target-sel');
     if (tgtSel2) {
@@ -32757,6 +32779,7 @@ const moreTranslations = [{
 
   document.getElementById('sp-target-sel').addEventListener('change', function() {
     spTarget = parseInt(this.value);
+    spTargetHasGoal = true;
     /* حفظ الهدف المختار لهذا الذكر تحديداً */
     try {
       var curSel = document.getElementById('sp-athkar-sel');
@@ -33300,10 +33323,13 @@ const moreTranslations = [{
       var initDataTarget = initOpt ? initOpt.getAttribute('data-target') : null;
       if (initUserSaved && parseInt(initUserSaved) > 0) {
         spTarget = parseInt(initUserSaved);
+        spTargetHasGoal = true;
       } else if (initDataTarget && parseInt(initDataTarget) > 0) {
         spTarget = parseInt(initDataTarget);
+        spTargetHasGoal = true;
       } else {
         spTarget = 1000;
+        spTargetHasGoal = false;
       }
       var targetSel = document.getElementById('sp-target-sel');
       if (targetSel) {
@@ -43016,7 +43042,7 @@ function applySiteTheme(theme, save) {
     applyDarkMode(true);
     changeRadioButtonColor('', false);
   } else {
-    var preset = SITE_THEMES[theme] || SITE_THEMES.default;
+    var preset = SITE_THEMES[theme] || SITE_THEMES.default || {};
     activePreset = preset;
     applyDarkMode(false);
     // ثيمات الصور والفيديو: اجعل الأزرار زجاجية شفافة فوق الخلفية بدل اللون الصلب
@@ -47672,6 +47698,34 @@ function _getAdhkarGroupButtons(type) {
   });
 }
 
+// بتوديك (تركيز + سكرول) لأول ذكر لسه ملموش فى مجموعة صباح/مساء — سواء
+// عشان تكمل من حيث وقفت (أول ذكر غير مكتمل) أو بعد التصفير (يبقى كله غير
+// مكتمل فترجع أول ذكر فى المجموعة أصلاً)
+function _goToFirstUnfinishedAdhkar(type) {
+  var btns = _getAdhkarGroupButtons(type);
+  if (!btns.length) return;
+
+  var target = null;
+  for (var i = 0; i < btns.length; i++) {
+    if (!btns[i].classList.contains('completed')) {
+      target = btns[i];
+      break;
+    }
+  }
+  if (!target) target = btns[0];
+
+  if (typeof setTasbihFocus === 'function') setTasbihFocus(target);
+
+  var box = target.querySelector('.tasbih-box');
+  if (box && typeof activeTasbih !== 'undefined') activeTasbih = box;
+
+  if (typeof smartScrollToStations === 'function') {
+    smartScrollToStations(target, 80);
+  } else if (typeof target.scrollIntoView === 'function') {
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
 function _adhkarGroupHasProgress(type) {
   var btns = _getAdhkarGroupButtons(type);
   return btns.some(function(b) {
@@ -47761,6 +47815,7 @@ function showAdhkarContinuePrompt(type) {
   btnContinue.onmouseover = function() { this.style.transform = 'scale(1.03)'; };
   btnContinue.onmouseout = function() { this.style.transform = 'scale(1)'; };
   btnContinue.onclick = function() {
+    _goToFirstUnfinishedAdhkar(type);
     overlay.style.animation = 'adhkarFadeOut 0.25s ease forwards';
     setTimeout(function() { overlay.remove(); }, 250);
   };
@@ -47777,6 +47832,7 @@ function showAdhkarContinuePrompt(type) {
   btnReset.onmouseout = function() { this.style.transform = 'scale(1)'; };
   btnReset.onclick = function() {
     resetAdhkarGroupCounters(type);
+    _goToFirstUnfinishedAdhkar(type);
     overlay.style.animation = 'adhkarFadeOut 0.25s ease forwards';
     setTimeout(function() { overlay.remove(); }, 250);
   };
@@ -49330,7 +49386,8 @@ function _buildDhikrShareCard(dhikrText, progress) {
     ctx.lineTo(W / 2 + 70, 264);
     ctx.stroke();
 
-    // نص الذكر نفسه، بمحاذاة الاتجاه العربى وتلقائى تصغير الخط للنصوص الطويلة
+    // نص الذكر نفسه، بمحاذاة الاتجاه العربى وتكبير/تصغير تلقائى للخط حسب طول النص
+    // (نص قصير بياخد خط أكبر بدل ما يفضل بحجمه الافتراضى وسط الكارت الفاضى حوليه)
     ctx.direction = 'rtl';
     ctx.textAlign = 'center';
     ctx.shadowColor = 'rgba(0,0,0,0.35)';
@@ -49338,18 +49395,39 @@ function _buildDhikrShareCard(dhikrText, progress) {
     ctx.fillStyle = '#ffffff';
     var maxWidth = W - 220;
     var fontSize = 62;
+    var MIN_FONT_SIZE = 30, MAX_FONT_SIZE = 108, FONT_STEP = 4;
     var lines, lineHeight, totalHeight;
     // لو الكارت هيعرض شارة تقدّم كمان (عدّاد اللهم صل على النبي العائم)، بنسيب مساحة أقل
     // لنص الذكر عشان الشارة متتلخبطش مع اللوجو تحت
     var maxTextHeight = H * (progress ? 0.5 : 0.6);
-    do {
-      ctx.font = '700 ' + fontSize + 'px Amiri, "Traditional Arabic", serif';
-      lines = _wrapDhikrText(ctx, dhikrText, maxWidth);
-      lineHeight = fontSize * 1.62;
-      totalHeight = lines.length * lineHeight;
-      if (totalHeight <= maxTextHeight || fontSize <= 30) break;
-      fontSize -= 4;
-    } while (true);
+
+    function _measureDhikrAt(size) {
+      ctx.font = '700 ' + size + 'px Amiri, "Traditional Arabic", serif';
+      var ls = _wrapDhikrText(ctx, dhikrText, maxWidth);
+      var lh = size * 1.62;
+      return { lines: ls, lineHeight: lh, totalHeight: ls.length * lh };
+    }
+
+    var m = _measureDhikrAt(fontSize);
+    if (m.totalHeight > maxTextHeight) {
+      // النص طويل: صغّر الخط تدريجيًا لحد ما يظبط فى المساحة المتاحة
+      while (fontSize > MIN_FONT_SIZE && m.totalHeight > maxTextHeight) {
+        fontSize -= FONT_STEP;
+        m = _measureDhikrAt(fontSize);
+      }
+    } else {
+      // النص قصير وفاضله مساحة: كبّر الخط تدريجيًا طالما لسه داخل فى المساحة المتاحة
+      while (fontSize < MAX_FONT_SIZE) {
+        var bigger = _measureDhikrAt(fontSize + FONT_STEP);
+        if (bigger.totalHeight > maxTextHeight) break;
+        fontSize += FONT_STEP;
+        m = bigger;
+      }
+    }
+    lines = m.lines;
+    lineHeight = m.lineHeight;
+    totalHeight = m.totalHeight;
+    ctx.font = '700 ' + fontSize + 'px Amiri, "Traditional Arabic", serif';
 
     var startY = H / 2 - totalHeight / 2 + fontSize * 0.62;
     lines.forEach(function(line, i) {
@@ -49359,7 +49437,7 @@ function _buildDhikrShareCard(dhikrText, progress) {
 
     // شارة التقدّم (لو اتبعتت مع الكارت — بتظهر بس لعدّاد التسبيح العائم اللى بيبعتها،
     // مش لأذكار الصباح/المساء اللى مالهاش هدف عدّ زى كده)
-    if (progress && progress.target > 0) {
+    if (progress && progress.hasGoal && progress.target > 0) {
       var toArLocal = (typeof window.toAr === 'function') ? window.toAr : function(n) { return n; };
       var doneAll = progress.count >= progress.target;
       var badgeText = doneAll ?
