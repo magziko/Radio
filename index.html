@@ -12515,7 +12515,7 @@ const verses = [{
         `Это из знамений Аллаха, чтобы они помнили.`
       ],
       [
-        `O Kinder Adams! Wir haben euch Kleidung gegeben, um eure Scham zu bedecken und als *****,`,
+        `O Kinder Adams! Wir haben euch Kleidung gegeben, um eure Scham zu bedecken und als Schmuck,`,
         `doch die Kleidung der Gottesfurcht ist besser.`,
         `Dies gehört zu den Zeichen Allahs, damit sie sich erinnern.`
       ],
@@ -12737,7 +12737,7 @@ const verses = [{
         `Воистину, Он не любит расточительных.`
       ],
       [
-        `O Kinder Adams! Nehmt euren ***** bei jeder Moschee,`,
+        `O Kinder Adams! Nehmt euren Schmuck bei jeder Moschee,`,
         `esst und trinkt, aber verschwendet nicht.`,
         `Wahrlich, Er liebt die Maßlosen nicht.`
       ],
@@ -12874,7 +12874,7 @@ const verses = [{
       ],
       [
         `Wahai anak cucu Adam! Jika datang kepada kalian rasul-rasul dari kalangan kalian yang membacakan ayat-ayat-Ku,`,
-        `maka orang yang bertakwa dan berbuat baik tidak akan merasa takut dan tidak ***** bersedih hati.`,
+        `maka orang yang bertakwa dan berbuat baik tidak akan merasa takut dan tidak akan bersedih hati.`,
         ``
       ],
       [
@@ -13985,7 +13985,7 @@ const verses = [{
       ],
       [
         `Sesungguhnya Kami-lah yang menurunkan Al-Dzikr (Al-Qur'an),`,
-        `dan sesungguhnya Kami ***** yang menjaganya.`,
+        `dan sesungguhnya Kami-lah yang menjaganya.`,
         ``
       ],
       [
@@ -14751,7 +14751,7 @@ const verses = [{
         ``
       ],
       [
-        `En het is een Koran die Wij hebben verdeeld, zodat jij hem geleidelijk aan de mensen ***** voordragen.`,
+        `En het is een Koran die Wij hebben verdeeld, zodat jij hem geleidelijk aan de mensen kunt voordragen.`,
         ``,
         ``
       ],
@@ -15205,7 +15205,7 @@ const verses = [{
         `پھر اللہ شیطان کی ڈالی ہوئی چیز کو مٹا دیتا ہے اور اپنی آیات کو مضبوط کر دیتا ہے، اور اللہ خوب جاننے والا، حکمت والا ہے۔`
       ],
       [
-        `Dan Kami tidak mengutus sebelum engkau seorang rasul dan tidak ***** seorang nabi`,
+        `Dan Kami tidak mengutus sebelum engkau seorang rasul dan tidak pula seorang nabi`,
         `melainkan apabila dia membaca, setan menyusupkan sesuatu dalam bacaannya`,
         `maka Allah menghapus apa yang disusupkan setan itu, kemudian Allah menguatkan ayat-ayat-Nya. Dan Allah Maha Mengetahui lagi Maha Bijaksana.`
       ],
@@ -15540,7 +15540,7 @@ const verses = [{
       [
         `Wahai manusia! Bertakwalah kepada Tuhan kalian dan takutlah pada suatu hari`,
         `ketika seorang ayah tidak dapat menolong anaknya dan anak tidak dapat menolong ayahnya`,
-        `Sesungguhnya janji Allah itu benar, maka janganlah kehidupan dunia memperdaya kalian dan jangan ***** penipu memperdaya kalian tentang Allah.`
+        `Sesungguhnya janji Allah itu benar, maka janganlah kehidupan dunia memperdaya kalian dan jangan pula penipu memperdaya kalian tentang Allah.`
       ],
       [
         `Ey insanlar! Rabbinizden sakının ve bir günden korkun`,
@@ -15873,7 +15873,7 @@ const verses = [{
       [
         `Wahai manusia! Sesungguhnya janji Allah itu benar,`,
         `maka janganlah kehidupan dunia menipu kalian,`,
-        `dan jangan ***** penipu menipu kalian tentang Allah.`
+        `dan jangan pula penipu menipu kalian tentang Allah.`
       ],
       [
         `Ey insanlar! Allah’ın vaadi gerçektir.`,
@@ -17244,7 +17244,7 @@ const verses = [{
         ``
       ],
       [
-        `Wisset, dass das diesseitige Leben nur Spiel, Vergnügen, *****, gegenseitiges Prahlen und Wettstreit in Besitz und Kindern ist. Es ist wie Regen, dessen Pflanzenwuchs die Bauern erfreut, dann verdorrt er und du siehst ihn gelb werden, dann wird er zu Bruchstücken. Und im Jenseits gibt es strenge Strafe, Vergebung von Allah und Sein Wohlgefallen. Und das diesseitige Leben ist nur trügerischer Genuss.`,
+        `Wisset, dass das diesseitige Leben nur Spiel, Vergnügen, Schmuck, gegenseitiges Prahlen und Wettstreit in Besitz und Kindern ist. Es ist wie Regen, dessen Pflanzenwuchs die Bauern erfreut, dann verdorrt er und du siehst ihn gelb werden, dann wird er zu Bruchstücken. Und im Jenseits gibt es strenge Strafe, Vergebung von Allah und Sein Wohlgefallen. Und das diesseitige Leben ist nur trügerischer Genuss.`,
         ``,
         ``
       ],
@@ -18383,13 +18383,13 @@ setTimeout(autoScaleVerseFont, 100);
       return Math.max(1, String(a || '').replace(/\s+/g, '').length);
     });
     var total = lens.reduce(function(s, w) { return s + w; }, 0) || 1;
-    var ***** = [];
+    var cumWeights = [];
     var acc = 0;
     for (var i = 0; i < lens.length; i++) {
       acc += lens[i];
-      *****.push(acc / total); // نسبة تراكمية من إجمالي مدة السورة عند نهاية هذه الآية
+      cumWeights.push(acc / total); // نسبة تراكمية من إجمالي مدة السورة عند نهاية هذه الآية
     }
-    return *****;
+    return cumWeights;
   }
 
   function findActiveSurahAudio() {
@@ -19337,7 +19337,7 @@ setTimeout(autoScaleVerseFont, 100);
     <span data-ar="⏱️ سرعة العدّ التلقائى" data-en="⏱️ Auto-Count Speed" data-fr="⏱️ Vitesse du comptage automatique" data-es="⏱️ Velocidad del conteo automático" data-sv="⏱️ Automatisk räknehastighet" data-nl="⏱️ Automatische telsnelheid" data-ga="⏱️ Luas an Chomhairimh Uathoibríoch" data-de="⏱️ Geschwindigkeit der automatischen Zählung" data-ru="⏱️ Скорость автосчёта" data-tr="⏱️ Otomatik Sayım Hızı" data-pt="⏱️ Velocidade da contagem automática" data-zh="⏱️ 自动计数速度" data-ur="⏱️ خودکار شمار کی رفتار"
       style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">⏱️ سرعة العدّ التلقائى</span>
 
-    <span data-ar="تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار (وبتتحكّم كمان فى سرعة عدّاد التسبيح العائم فى باقى الصفحة)" data-en="Control how fast auto-laps and auto-advance move between adhkar (also controls the speed of the floating tasbih counter elsewhere on the page)" data-fr="Contrôlez la vitesse des tours et du passage automatique entre les Adhkar (contrôle aussi le compteur de tasbih flottant)" data-es="Controla la velocidad de las vueltas y el avance automático entre Adhkar (también controla el contador de tasbih flotante)" data-sv="Styr hastigheten på varvet och det automatiska bytet mellan Adhkar (styr även den flytande tasbih-räknaren)" data-nl="Bepaal de snelheid van de automatische rondes en overgang tussen Adhkar (bepaalt ook de zwevende tasbih-teller)" data-ga="Rialaigh luas na lapaí agus an dul ar aghaidh uathoibríoch idir Adhkar (rialaíonn sé freisin an *****óir tasbih ar snámh)" data-de="Steuere die Geschwindigkeit der automatischen Runden und des Wechsels zwischen Adhkar (steuert auch den schwebenden Tasbih-Zähler)" data-ru="Настройте скорость автоповтора и автоперехода между азкар (также управляет плавающим счётчиком тасбих)" data-tr="Ezkâr arasındaki otomatik tur ve geçiş hızını kontrol edin (yüzen tesbih sayacını da kontrol eder)" data-pt="Controle a velocidade das voltas e do avanço automático entre Adhkar (também controla o contador de tasbih flutuante)" data-zh="控制赞念之间自动圈数和自动前进的速度（也控制悬浮赞念计数器的速度）" data-ur="اذکار کے درمیان خودکار چکر اور پیش رفت کی رفتار کو کنٹرول کریں (فلوٹنگ تسبیح کاؤنٹر کی رفتار بھی کنٹرول کرتا ہے)"
+    <span data-ar="تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار (وبتتحكّم كمان فى سرعة عدّاد التسبيح العائم فى باقى الصفحة)" data-en="Control how fast auto-laps and auto-advance move between adhkar (also controls the speed of the floating tasbih counter elsewhere on the page)" data-fr="Contrôlez la vitesse des tours et du passage automatique entre les Adhkar (contrôle aussi le compteur de tasbih flottant)" data-es="Controla la velocidad de las vueltas y el avance automático entre Adhkar (también controla el contador de tasbih flotante)" data-sv="Styr hastigheten på varvet och det automatiska bytet mellan Adhkar (styr även den flytande tasbih-räknaren)" data-nl="Bepaal de snelheid van de automatische rondes en overgang tussen Adhkar (bepaalt ook de zwevende tasbih-teller)" data-ga="Rialaigh luas na lapaí agus an dul ar aghaidh uathoibríoch idir Adhkar (rialaíonn sé freisin an áireamhóir tasbih ar snámh)" data-de="Steuere die Geschwindigkeit der automatischen Runden und des Wechsels zwischen Adhkar (steuert auch den schwebenden Tasbih-Zähler)" data-ru="Настройте скорость автоповтора и автоперехода между азкар (также управляет плавающим счётчиком тасбих)" data-tr="Ezkâr arasındaki otomatik tur ve geçiş hızını kontrol edin (yüzen tesbih sayacını da kontrol eder)" data-pt="Controle a velocidade das voltas e do avanço automático entre Adhkar (também controla o contador de tasbih flutuante)" data-zh="控制赞念之间自动圈数和自动前进的速度（也控制悬浮赞念计数器的速度）" data-ur="اذکار کے درمیان خودکار چکر اور پیش رفت کی رفتار کو کنٹرول کریں (فلوٹنگ تسبیح کاؤنٹر کی رفتار بھی کنٹرول کرتا ہے)"
       style="font-size:12px;color:var(--theme-c3);">تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار (وبتتحكّم كمان فى سرعة عدّاد التسبيح العائم فى باقى الصفحة)</span>
 
     <div style="display:flex;align-items:center;gap:8px;margin-inline-start:auto;">
@@ -19487,13 +19487,13 @@ setTimeout(autoScaleVerseFont, 100);
             <button type="button" class="aqx-chip" data-preset="bass" onclick="window._aqxSelectPreset('bass')"
               data-ar="🔉 جهير قوي" data-en="🔉 Bass Boost" data-fr="🔉 Renforcement des graves" data-es="🔉 Refuerzo de graves" data-sv="🔉 Basförstärkning" data-nl="🔉 Basversterking" data-ga="🔉 Treisiú Doimhne" data-de="🔉 Bassverstärkung" data-ru="🔉 Усиление баса" data-tr="🔉 Bas Güçlendirme" data-pt="🔉 Reforço de graves" data-zh="🔉 低音增强" data-ur="🔉 بیس بوسٹ">🔉 جهير قوي</button>
             <button type="button" class="aqx-chip" data-preset="bright" onclick="window._aqxSelectPreset('bright')"
-              data-ar="✨ حدة عالية" data-en="✨ Bright" data-fr="✨ Éclatant" data-es="✨ Brillante" data-sv="✨ Ljus" data-nl="✨ Helder" data-ga="✨ Geal" data-de="✨ *****" data-ru="✨ Яркий" data-tr="✨ Parlak" data-pt="✨ Brilhante" data-zh="✨ 明亮" data-ur="✨ برائٹ">✨ حدة عالية</button>
+              data-ar="✨ حدة عالية" data-en="✨ Bright" data-fr="✨ Éclatant" data-es="✨ Brillante" data-sv="✨ Ljus" data-nl="✨ Helder" data-ga="✨ Geal" data-de="✨ Hell" data-ru="✨ Яркий" data-tr="✨ Parlak" data-pt="✨ Brilhante" data-zh="✨ 明亮" data-ur="✨ برائٹ">✨ حدة عالية</button>
           </div>
           <select id="eqPresetSelect" onchange="window.applyEqPreset && window.applyEqPreset(this.value)" style="display:none;">
             <option value="flat" data-ar="مسطّح" data-en="Flat" data-fr="Plat" data-es="Plano" data-sv="Platt" data-nl="Vlak" data-ga="Cothrom" data-de="Neutral" data-ru="Плоский" data-tr="Düz" data-pt="Plano" data-zh="平坦" data-ur="فلیٹ">مسطّح</option>
             <option value="voice" data-ar="وضوح الصوت / التلاوة" data-en="Voice / Recitation Clarity" data-fr="Clarté vocale / récitation" data-es="Claridad de voz / recitación" data-sv="Röst-/reciteringsklarhet" data-nl="Stem-/recitatieduidelijkheid" data-ga="Soiléireacht Gutha / Aithrise" data-de="Sprach-/Rezitationsklarheit" data-ru="Чёткость голоса/чтения" data-tr="Ses/Tilavet Netliği" data-pt="Clareza de voz / recitação" data-zh="人声/诵读清晰" data-ur="آواز کی وضاحت / تلاوت">وضوح الصوت / التلاوة</option>
             <option value="bass" data-ar="جهير قوي" data-en="Bass Boost" data-fr="Renforcement des graves" data-es="Refuerzo de graves" data-sv="Basförstärkning" data-nl="Basversterking" data-ga="Treisiú Doimhne" data-de="Bassverstärkung" data-ru="Усиление баса" data-tr="Bas Güçlendirme" data-pt="Reforço de graves" data-zh="低音增强" data-ur="بیس بوسٹ">جهير قوي</option>
-            <option value="bright" data-ar="حدة عالية" data-en="Bright" data-fr="Éclatant" data-es="Brillante" data-sv="Ljus" data-nl="Helder" data-ga="Geal" data-de="*****" data-ru="Яркий" data-tr="Parlak" data-pt="Brilhante" data-zh="明亮" data-ur="برائٹ">حدة عالية</option>
+            <option value="bright" data-ar="حدة عالية" data-en="Bright" data-fr="Éclatant" data-es="Brillante" data-sv="Ljus" data-nl="Helder" data-ga="Geal" data-de="Hell" data-ru="Яркий" data-tr="Parlak" data-pt="Brilhante" data-zh="明亮" data-ur="برائٹ">حدة عالية</option>
           </select>
         </div>
       </div>
@@ -20720,7 +20720,7 @@ url: null,
     stationText: "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ... (×3)",
 
 ar: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ<br><br>قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ (×3)",
-en: "I seek refuge in Allah from Satan, the accursed.<br><br>Say, I seek refuge in the Lord of mankind - The Sovereign of mankind - The God of mankind - From the evil of the retreating whisperer - Who whispers evil into the ***** of mankind - From among the jinn and mankind (×3)",
+en: "I seek refuge in Allah from Satan, the accursed.<br><br>Say, I seek refuge in the Lord of mankind - The Sovereign of mankind - The God of mankind - From the evil of the retreating whisperer - Who whispers evil into the breasts of mankind - From among the jinn and mankind (×3)",
 target: 3,
     url: null,
     urls: [
@@ -22501,7 +22501,7 @@ const recitersStations = [
   {"category": "reciters", "station": "سورة الإنسان (مجود) - عبد الباسط", "ar": "سورة الإنسان - عبد الباسط (مجود)", "en": "Surah Al-Insan (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/076.mp3"},
   {"category": "reciters", "station": "سورة المرسلات (مجود) - عبد الباسط", "ar": "سورة المرسلات - عبد الباسط (مجود)", "en": "Surah Al-Mursalat (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/077.mp3"},
   {"category": "reciters", "station": "سورة النبأ (مجود) - عبد الباسط", "ar": "سورة النبأ - عبد الباسط (مجود)", "en": "Surah An-Naba (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/078.mp3"},
-  {"category": "reciters", "station": "سورة النازعات (مجود) - عبد الباسط", "ar": "سورة النازعات - عبد الباسط (مجود)", "en": "Surah An-*****'at (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/079.mp3"},
+  {"category": "reciters", "station": "سورة النازعات (مجود) - عبد الباسط", "ar": "سورة النازعات - عبد الباسط (مجود)", "en": "Surah An-Nazi'at (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/079.mp3"},
   {"category": "reciters", "station": "سورة عبس (مجود) - عبد الباسط", "ar": "سورة عبس - عبد الباسط (مجود)", "en": "Surah Abasa (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/080.mp3"},
   {"category": "reciters", "station": "سورة التكوير (مجود) - عبد الباسط", "ar": "سورة التكوير - عبد الباسط (مجود)", "en": "Surah At-Takwir (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/081.mp3"},
   {"category": "reciters", "station": "سورة الانفطار (مجود) - عبد الباسط", "ar": "سورة الانفطار - عبد الباسط (مجود)", "en": "Surah Al-Infitar (Mujawwad) - Abdul Basit", "basit": true, "basitType": "mojawwad", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/082.mp3"},
@@ -22615,7 +22615,7 @@ const recitersStations = [
   {"category": "reciters", "station": "سورة الإنسان (مرتل) - عبد الباسط", "ar": "سورة الإنسان - عبد الباسط (مرتل)", "en": "Surah Al-Insan (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/076.mp3"},
   {"category": "reciters", "station": "سورة المرسلات (مرتل) - عبد الباسط", "ar": "سورة المرسلات - عبد الباسط (مرتل)", "en": "Surah Al-Mursalat (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/077.mp3"},
   {"category": "reciters", "station": "سورة النبأ (مرتل) - عبد الباسط", "ar": "سورة النبأ - عبد الباسط (مرتل)", "en": "Surah An-Naba (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/078.mp3"},
-  {"category": "reciters", "station": "سورة النازعات (مرتل) - عبد الباسط", "ar": "سورة النازعات - عبد الباسط (مرتل)", "en": "Surah An-*****'at (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/079.mp3"},
+  {"category": "reciters", "station": "سورة النازعات (مرتل) - عبد الباسط", "ar": "سورة النازعات - عبد الباسط (مرتل)", "en": "Surah An-Nazi'at (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/079.mp3"},
   {"category": "reciters", "station": "سورة عبس (مرتل) - عبد الباسط", "ar": "سورة عبس - عبد الباسط (مرتل)", "en": "Surah Abasa (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/080.mp3"},
   {"category": "reciters", "station": "سورة التكوير (مرتل) - عبد الباسط", "ar": "سورة التكوير - عبد الباسط (مرتل)", "en": "Surah At-Takwir (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/081.mp3"},
   {"category": "reciters", "station": "سورة الانفطار (مرتل) - عبد الباسط", "ar": "سورة الانفطار - عبد الباسط (مرتل)", "en": "Surah Al-Infitar (Muratal) - Abdul Basit", "basit": true, "basitType": "muratal", "reciterType": "mp3", "url": "https://server7.mp3quran.net/basit/082.mp3"},
@@ -22729,7 +22729,7 @@ const recitersStations = [
   {"category": "reciters", "station": "سورة الإنسان - عبد الباسط [الإذاعة السعودية]", "ar": "سورة الإنسان - عبد الباسط [سعودي]", "en": "Surah Al-Insan - Abdul Basit [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/076.mp3"},
   {"category": "reciters", "station": "سورة المرسلات - عبد الباسط [الإذاعة السعودية]", "ar": "سورة المرسلات - عبد الباسط [سعودي]", "en": "Surah Al-Mursalat - Abdul Basit [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/077.mp3"},
   {"category": "reciters", "station": "سورة النبأ - عبد الباسط [الإذاعة السعودية]", "ar": "سورة النبأ - عبد الباسط [سعودي]", "en": "Surah An-Naba - Abdul Basit [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/078.mp3"},
-  {"category": "reciters", "station": "سورة النازعات - عبد الباسط [الإذاعة السعودية]", "ar": "سورة النازعات - عبد الباسط [سعودي]", "en": "Surah An-*****'at - Abdul Basit [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/079.mp3"},
+  {"category": "reciters", "station": "سورة النازعات - عبد الباسط [الإذاعة السعودية]", "ar": "سورة النازعات - عبد الباسط [سعودي]", "en": "Surah An-Nazi'at - Abdul Basit [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/079.mp3"},
   {"category": "reciters", "station": "سورة عبس - عبد الباسط [الإذاعة السعودية]", "ar": "سورة عبس - عبد الباسط [سعودي]", "en": "Surah Abasa - Abdul Basit [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/080.mp3"},
   {"category": "reciters", "station": "سورة التكوير - عبد الباسط [الإذاعة السعودية]", "ar": "سورة التكوير - عبد الباسط [سعودي]", "en": "Surah At-Takwir - Abdul Basit [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/081.mp3"},
   {"category": "reciters", "station": "سورة الانفطار - عبد الباسط [الإذاعة السعودية]", "ar": "سورة الانفطار - عبد الباسط [سعودي]", "en": "Surah Al-Infitar - Abdul Basit [Saudi Radio]", "basit": true, "basitType": "saudi-muratal", "reciterType": "mp3", "url": "https://quran.islamway.net/quran3/956/16659/128/082.mp3"},
@@ -22844,7 +22844,7 @@ const recitersStations = [
   {"category": "reciters", "station": "سورة الإنسان - المنشاوي (مرتل)", "ar": "سورة الإنسان - المنشاوي (مرتل)", "en": "Surah Al-Insan - Al-Minshawi (Muratal)", "minshawi": true, "minshawiType": "muratal", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/076.mp3"},
   {"category": "reciters", "station": "سورة المرسلات - المنشاوي (مرتل)", "ar": "سورة المرسلات - المنشاوي (مرتل)", "en": "Surah Al-Mursalat - Al-Minshawi (Muratal)", "minshawi": true, "minshawiType": "muratal", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/077.mp3"},
   {"category": "reciters", "station": "سورة النبأ - المنشاوي (مرتل)", "ar": "سورة النبأ - المنشاوي (مرتل)", "en": "Surah An-Naba - Al-Minshawi (Muratal)", "minshawi": true, "minshawiType": "muratal", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/078.mp3"},
-  {"category": "reciters", "station": "سورة النازعات - المنشاوي (مرتل)", "ar": "سورة النازعات - المنشاوي (مرتل)", "en": "Surah An-*****'at - Al-Minshawi (Muratal)", "minshawi": true, "minshawiType": "muratal", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/079.mp3"},
+  {"category": "reciters", "station": "سورة النازعات - المنشاوي (مرتل)", "ar": "سورة النازعات - المنشاوي (مرتل)", "en": "Surah An-Nazi'at - Al-Minshawi (Muratal)", "minshawi": true, "minshawiType": "muratal", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/079.mp3"},
   {"category": "reciters", "station": "سورة عبس - المنشاوي (مرتل)", "ar": "سورة عبس - المنشاوي (مرتل)", "en": "Surah Abasa - Al-Minshawi (Muratal)", "minshawi": true, "minshawiType": "muratal", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/080.mp3"},
   {"category": "reciters", "station": "سورة التكوير - المنشاوي (مرتل)", "ar": "سورة التكوير - المنشاوي (مرتل)", "en": "Surah At-Takwir - Al-Minshawi (Muratal)", "minshawi": true, "minshawiType": "muratal", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/081.mp3"},
   {"category": "reciters", "station": "سورة الانفطار - المنشاوي (مرتل)", "ar": "سورة الانفطار - المنشاوي (مرتل)", "en": "Surah Al-Infitar - Al-Minshawi (Muratal)", "minshawi": true, "minshawiType": "muratal", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/082.mp3"},
@@ -22958,7 +22958,7 @@ const recitersStations = [
   {"category": "reciters", "station": "سورة الإنسان - المنشاوي (مجود)", "ar": "سورة الإنسان - المنشاوي (مجود)", "en": "Surah Al-Insan - Al-Minshawi (Mujawwad)", "minshawi": true, "minshawiType": "mojawwad", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/076.mp3"},
   {"category": "reciters", "station": "سورة المرسلات - المنشاوي (مجود)", "ar": "سورة المرسلات - المنشاوي (مجود)", "en": "Surah Al-Mursalat - Al-Minshawi (Mujawwad)", "minshawi": true, "minshawiType": "mojawwad", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/077.mp3"},
   {"category": "reciters", "station": "سورة النبأ - المنشاوي (مجود)", "ar": "سورة النبأ - المنشاوي (مجود)", "en": "Surah An-Naba - Al-Minshawi (Mujawwad)", "minshawi": true, "minshawiType": "mojawwad", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/078.mp3"},
-  {"category": "reciters", "station": "سورة النازعات - المنشاوي (مجود)", "ar": "سورة النازعات - المنشاوي (مجود)", "en": "Surah An-*****'at - Al-Minshawi (Mujawwad)", "minshawi": true, "minshawiType": "mojawwad", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/079.mp3"},
+  {"category": "reciters", "station": "سورة النازعات - المنشاوي (مجود)", "ar": "سورة النازعات - المنشاوي (مجود)", "en": "Surah An-Nazi'at - Al-Minshawi (Mujawwad)", "minshawi": true, "minshawiType": "mojawwad", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/079.mp3"},
   {"category": "reciters", "station": "سورة عبس - المنشاوي (مجود)", "ar": "سورة عبس - المنشاوي (مجود)", "en": "Surah Abasa - Al-Minshawi (Mujawwad)", "minshawi": true, "minshawiType": "mojawwad", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/080.mp3"},
   {"category": "reciters", "station": "سورة التكوير - المنشاوي (مجود)", "ar": "سورة التكوير - المنشاوي (مجود)", "en": "Surah At-Takwir - Al-Minshawi (Mujawwad)", "minshawi": true, "minshawiType": "mojawwad", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/081.mp3"},
   {"category": "reciters", "station": "سورة الانفطار - المنشاوي (مجود)", "ar": "سورة الانفطار - المنشاوي (مجود)", "en": "Surah Al-Infitar - Al-Minshawi (Mujawwad)", "minshawi": true, "minshawiType": "mojawwad", "reciterType": "mp3", "url": "https://server10.mp3quran.net/minsh/Almusshaf-Al-Mojawwad/082.mp3"},
@@ -23080,7 +23080,7 @@ const recitersStations = [
   {"category": "reciters", "station": "سورة الإنسان - الحصري (مرتل)", "ar": "سورة الإنسان - الحصري (مرتل)", "en": "Surah Al-Insan - Al-Hussary (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/076.mp3"},
   {"category": "reciters", "station": "سورة المرسلات - الحصري (مرتل)", "ar": "سورة المرسلات - الحصري (مرتل)", "en": "Surah Al-Mursalat - Al-Hussary (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/077.mp3"},
   {"category": "reciters", "station": "سورة النبأ - الحصري (مرتل)", "ar": "سورة النبأ - الحصري (مرتل)", "en": "Surah An-Naba - Al-Hussary (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/078.mp3"},
-  {"category": "reciters", "station": "سورة النازعات - الحصري (مرتل)", "ar": "سورة النازعات - الحصري (مرتل)", "en": "Surah An-*****'at - Al-Hussary (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/079.mp3"},
+  {"category": "reciters", "station": "سورة النازعات - الحصري (مرتل)", "ar": "سورة النازعات - الحصري (مرتل)", "en": "Surah An-Nazi'at - Al-Hussary (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/079.mp3"},
   {"category": "reciters", "station": "سورة عبس - الحصري (مرتل)", "ar": "سورة عبس - الحصري (مرتل)", "en": "Surah Abasa - Al-Hussary (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/080.mp3"},
   {"category": "reciters", "station": "سورة التكوير - الحصري (مرتل)", "ar": "سورة التكوير - الحصري (مرتل)", "en": "Surah At-Takwir - Al-Hussary (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/081.mp3"},
   {"category": "reciters", "station": "سورة الانفطار - الحصري (مرتل)", "ar": "سورة الانفطار - الحصري (مرتل)", "en": "Surah Al-Infitar - Al-Hussary (Muratal)", "hussary": true, "hussaryType": "muratal", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/082.mp3"},
@@ -23195,7 +23195,7 @@ const recitersStations = [
   {"category": "reciters", "station": "سورة الإنسان - الحصري (مجود)", "ar": "سورة الإنسان - الحصري (مجود)", "en": "Surah Al-Insan - Al-Hussary (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/076.mp3"},
   {"category": "reciters", "station": "سورة المرسلات - الحصري (مجود)", "ar": "سورة المرسلات - الحصري (مجود)", "en": "Surah Al-Mursalat - Al-Hussary (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/077.mp3"},
   {"category": "reciters", "station": "سورة النبأ - الحصري (مجود)", "ar": "سورة النبأ - الحصري (مجود)", "en": "Surah An-Naba - Al-Hussary (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/078.mp3"},
-  {"category": "reciters", "station": "سورة النازعات - الحصري (مجود)", "ar": "سورة النازعات - الحصري (مجود)", "en": "Surah An-*****'at - Al-Hussary (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/079.mp3"},
+  {"category": "reciters", "station": "سورة النازعات - الحصري (مجود)", "ar": "سورة النازعات - الحصري (مجود)", "en": "Surah An-Nazi'at - Al-Hussary (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/079.mp3"},
   {"category": "reciters", "station": "سورة عبس - الحصري (مجود)", "ar": "سورة عبس - الحصري (مجود)", "en": "Surah Abasa - Al-Hussary (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/080.mp3"},
   {"category": "reciters", "station": "سورة التكوير - الحصري (مجود)", "ar": "سورة التكوير - الحصري (مجود)", "en": "Surah At-Takwir - Al-Hussary (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/081.mp3"},
   {"category": "reciters", "station": "سورة الانفطار - الحصري (مجود)", "ar": "سورة الانفطار - الحصري (مجود)", "en": "Surah Al-Infitar - Al-Hussary (Mujawwad)", "hussary": true, "hussaryType": "mojawwad", "reciterType": "mp3", "url": "https://server13.mp3quran.net/husr/Almusshaf-Al-Mojawwad/082.mp3"},
@@ -23317,7 +23317,7 @@ const recitersStations = [
   {"category": "reciters", "station": "سورة الإنسان - البنا (مرتل)", "ar": "سورة الإنسان - البنا (مرتل)", "en": "Surah Al-Insan - Al-Banna (Muratal)", "banna": true, "reciterType": "mp3", "bannaType": "muratal", "url": "https://archive.org/download/golmami2005_yahoo_002_20180411_2112/076.mp3"},
   {"category": "reciters", "station": "سورة المرسلات - البنا (مرتل)", "ar": "سورة المرسلات - البنا (مرتل)", "en": "Surah Al-Mursalat - Al-Banna (Muratal)", "banna": true, "reciterType": "mp3", "bannaType": "muratal", "url": "https://archive.org/download/golmami2005_yahoo_002_20180411_2112/077.mp3"},
   {"category": "reciters", "station": "سورة النبأ - البنا (مرتل)", "ar": "سورة النبأ - البنا (مرتل)", "en": "Surah An-Naba - Al-Banna (Muratal)", "banna": true, "reciterType": "mp3", "bannaType": "muratal", "url": "https://archive.org/download/golmami2005_yahoo_002_20180411_2112/078.mp3"},
-  {"category": "reciters", "station": "سورة النازعات - البنا (مرتل)", "ar": "سورة النازعات - البنا (مرتل)", "en": "Surah An-*****'at - Al-Banna (Muratal)", "banna": true, "reciterType": "mp3", "bannaType": "muratal", "url": "https://archive.org/download/golmami2005_yahoo_002_20180411_2112/079.mp3"},
+  {"category": "reciters", "station": "سورة النازعات - البنا (مرتل)", "ar": "سورة النازعات - البنا (مرتل)", "en": "Surah An-Nazi'at - Al-Banna (Muratal)", "banna": true, "reciterType": "mp3", "bannaType": "muratal", "url": "https://archive.org/download/golmami2005_yahoo_002_20180411_2112/079.mp3"},
   {"category": "reciters", "station": "سورة عبس - البنا (مرتل)", "ar": "سورة عبس - البنا (مرتل)", "en": "Surah Abasa - Al-Banna (Muratal)", "banna": true, "reciterType": "mp3", "bannaType": "muratal", "url": "https://archive.org/download/golmami2005_yahoo_002_20180411_2112/080.mp3"},
   {"category": "reciters", "station": "سورة التكوير - البنا (مرتل)", "ar": "سورة التكوير - البنا (مرتل)", "en": "Surah At-Takwir - Al-Banna (Muratal)", "banna": true, "reciterType": "mp3", "bannaType": "muratal", "url": "https://archive.org/download/golmami2005_yahoo_002_20180411_2112/081.mp3"},
   {"category": "reciters", "station": "سورة الانفطار - البنا (مرتل)", "ar": "سورة الانفطار - البنا (مرتل)", "en": "Surah Al-Infitar - Al-Banna (Muratal)", "banna": true, "reciterType": "mp3", "bannaType": "muratal", "url": "https://archive.org/download/golmami2005_yahoo_002_20180411_2112/082.mp3"},
@@ -23431,7 +23431,7 @@ const recitersStations = [
   {"category": "reciters", "station": "سورة الإنسان - البنا (مجود)", "ar": "سورة الإنسان - البنا (مجود)", "en": "Surah Al-Insan - Al-Banna (Mujawwad)", "banna": true, "reciterType": "mp3", "bannaType": "mojawwad", "url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/076.mp3"},
   {"category": "reciters", "station": "سورة المرسلات - البنا (مجود)", "ar": "سورة المرسلات - البنا (مجود)", "en": "Surah Al-Mursalat - Al-Banna (Mujawwad)", "banna": true, "reciterType": "mp3", "bannaType": "mojawwad", "url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/077.mp3"},
   {"category": "reciters", "station": "سورة النبأ - البنا (مجود)", "ar": "سورة النبأ - البنا (مجود)", "en": "Surah An-Naba - Al-Banna (Mujawwad)", "banna": true, "reciterType": "mp3", "bannaType": "mojawwad", "url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/078.mp3"},
-  {"category": "reciters", "station": "سورة النازعات - البنا (مجود)", "ar": "سورة النازعات - البنا (مجود)", "en": "Surah An-*****'at - Al-Banna (Mujawwad)", "banna": true, "reciterType": "mp3", "bannaType": "mojawwad", "url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/079.mp3"},
+  {"category": "reciters", "station": "سورة النازعات - البنا (مجود)", "ar": "سورة النازعات - البنا (مجود)", "en": "Surah An-Nazi'at - Al-Banna (Mujawwad)", "banna": true, "reciterType": "mp3", "bannaType": "mojawwad", "url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/079.mp3"},
   {"category": "reciters", "station": "سورة عبس - البنا (مجود)", "ar": "سورة عبس - البنا (مجود)", "en": "Surah Abasa - Al-Banna (Mujawwad)", "banna": true, "reciterType": "mp3", "bannaType": "mojawwad", "url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/080.mp3"},
   {"category": "reciters", "station": "سورة التكوير - البنا (مجود)", "ar": "سورة التكوير - البنا (مجود)", "en": "Surah At-Takwir - Al-Banna (Mujawwad)", "banna": true, "reciterType": "mp3", "bannaType": "mojawwad", "url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/081.mp3"},
   {"category": "reciters", "station": "سورة الانفطار - البنا (مجود)", "ar": "سورة الانفطار - البنا (مجود)", "en": "Surah Al-Infitar - Al-Banna (Mujawwad)", "banna": true, "reciterType": "mp3", "bannaType": "mojawwad", "url": "https://server8.mp3quran.net/bna/Almusshaf-Al-Mojawwad/082.mp3"},
@@ -26486,7 +26486,7 @@ const surahStations = [
     "category": "surah", "hasFlag": false,
     "station": "سورة النازعات",
     "ar": "سورة النازعات",
-    "en": "Surah An-*****'at",
+    "en": "Surah An-Nazi'at",
     "urls": [
       "https://server14.mp3quran.net/islam/Rewayat-Hafs-A-n-Assem/079.mp3",
       "https://server10.mp3quran.net/a_majed/079.mp3",
@@ -32061,7 +32061,7 @@ const moreTranslations = [{
             <option value="m1" data-ar="اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ" data-en="Allah — there is no deity except Him, the Ever-Living, the Sustainer of all existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and preserving them does not tire Him. And He is the Most High, the Most Great." data-target="1">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ ا...</option>
             <option value="m2" data-ar="قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ (×3)" data-en="Say, He is Allah - One - Allah, the Eternal Refuge. He neither begets nor is born - Nor is there to Him any equivalent (×3)" data-target="3">قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَ...</option>
             <option value="m3" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ ٱلنَّفَّاثَاتِ فِي ٱلْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ (×3)" data-en="Say, I seek refuge in the Lord of daybreak - From the evil of that which He created - And from the evil of darkness when it settles - And from the evil of the blowers in knots - And from the evil of an envier when he envies (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ...</option>
-            <option value="m4" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ (×3)" data-en="Say, I seek refuge in the Lord of mankind - The Sovereign of mankind - The God of mankind - From the evil of the retreating whisperer - Who whispers evil into the ***** of mankind - From among the jinn and mankind (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلن...</option>
+            <option value="m4" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ (×3)" data-en="Say, I seek refuge in the Lord of mankind - The Sovereign of mankind - The God of mankind - From the evil of the retreating whisperer - Who whispers evil into the breasts of mankind - From among the jinn and mankind (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلن...</option>
             <option value="m5" data-ar="اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ (×4)" data-en="O Allah, I have entered the morning bearing witness to You, and to the bearers of Your Throne, Your angels, and all of Your creation that You are Allah, there is no god but You alone, without partner, and that Muhammad is Your servant and Messenger (×4)" data-target="4">اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَ...</option>
             <option value="m6" data-ar="أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنَ الشَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر." data-en="I have entered the morning and the dominion belongs to Allah... (Morning remembrance supplication)" data-target="1">أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَال...</option>
             <option value="m7" data-ar="أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ وَعَلَى كَلِمَةِ الإِخْلاَصِ وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ" data-en="We have entered the morning upon the fitrah of Islam, upon the word of sincerity, upon the religion of our Prophet Muhammad ﷺ, and upon the creed of our father Ibrahim, upright and Muslim, and he was not of the polytheists" data-target="1">أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ وَع...</option>
@@ -32089,7 +32089,7 @@ const moreTranslations = [{
             <option value="e2" data-ar="آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِّن رُّسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ ۝ لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ ۗ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ" data-en="The Messenger has believed in what was revealed to him from his Lord, and so have the believers - All of them have believed in Allah and His angels and His books and His messengers - We make no distinction between any of His messengers - And they say, We hear and we obey - Your forgiveness, our Lord, and to You is the final destination. Allah does not charge a soul except with that within its capacity - It will have the consequence of what good it has gained, and it will bear the consequence of what evil it has earned. Our Lord, do not impose blame upon us if we forget or make a mistake - Our Lord, and lay not upon us a burden like that which You laid upon those before us - Our Lord, and burden us not with that which we have no ability to bear - And pardon us, forgive us, and have mercy upon us. You are our protector, so give us victory over the disbelieving people." data-target="1">آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ م...</option>
             <option value="e3" data-ar="قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌ (×3)" data-en="Say, He is Allah - One - Allah, the Eternal Refuge. He neither begets nor is born - Nor is there to Him any equivalent (×3)" data-target="3">قُلْ هُوَ ٱللَّهُ أَحَدٌ ۝ ٱللَّهُ ٱلصَّمَ...</option>
             <option value="e4" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ ٱلنَّفَّاثَاتِ فِي ٱلْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ (×3)" data-en="Say, I seek refuge in the Lord of daybreak - From the evil of that which He created - And from the evil of darkness when it settles - And from the evil of the blowers in knots - And from the evil of an envier when he envies (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ۝ مِن شَرِّ...</option>
-            <option value="e5" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ (×3)" data-en="Say, I seek refuge in the Lord of mankind - The Sovereign of mankind - The God of mankind - From the evil of the retreating whisperer - Who whispers evil into the ***** of mankind - From among the jinn and mankind (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلن...</option>
+            <option value="e5" data-ar="قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلنَّاسِ ۝ إِلَٰهِ ٱلنَّاسِ ۝ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ۝ ٱلَّذِي يُوَسْوِسُ فِي صُدُورِ ٱلنَّاسِ ۝ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ (×3)" data-en="Say, I seek refuge in the Lord of mankind - The Sovereign of mankind - The God of mankind - From the evil of the retreating whisperer - Who whispers evil into the breasts of mankind - From among the jinn and mankind (×3)" data-target="3">قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ۝ مَلِكِ ٱلن...</option>
             <option value="e6" data-ar="اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ (×4)" data-en="O Allah, I have entered the evening bearing witness to You, and to the bearers of Your Throne, Your angels, and all of Your creation that You are Allah, there is no god but You alone, without partner, and that Muhammad is Your servant and Messenger (×4)" data-target="4">اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَ...</option>
             <option value="e7" data-ar="أَمْسَيْـنا وَأَمْسـى المـلكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذهِ اللَّـيْلَةِ وَخَـيرَ ما بَعْـدَهـا ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذهِ اللَّـيْلةِ وَشَرِّ ما بَعْدَهـا ، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر." data-en="We have entered the evening and all dominion belongs to Allah, and all praise is for Allah. There is no god but Allah alone, with no partner. To Him belongs the dominion and to Him is all praise, and He is over all things capable. My Lord, I ask You for the good of this night and the good of what follows it, and I seek refuge in You from the evil of this night and the evil of what follows it. My Lord, I seek refuge in You from laziness and the evil of old age. My Lord, I seek refuge in You from the punishment of the Fire and the punishment of the grave." data-target="1">أَمْسَيْـنا وَأَمْسـى المـلكُ لله وَالحَمد...</option>
             <option value="e8" data-ar="أَمْسَيْنَا عَلَى فِطْرَةِ الإسْلاَمِ وَعَلَى كَلِمَةِ الإِخْلاَصِ وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ" data-en="We have entered the evening upon the fitrah of Islam, upon the word of sincerity, upon the religion of our Prophet Muhammad ﷺ, and upon the creed of our father Ibrahim, upright and Muslim, and he was not of the polytheists" data-target="1">أَمْسَيْنَا عَلَى فِطْرَةِ الإسْلاَمِ وَعَ...</option>
@@ -36730,7 +36730,7 @@ window._ptComputeDuha = _ptComputeDuha;
   "goalMissedDays": {
     "ar": "⚠️ متأخر بمقدار {n} يوم ({n2} {unitPl} إضافية للحاق بالخطة)",
     "en": "⚠️ {n} day(s) behind schedule ({n2} extra {unitPl} needed to catch up)",
-    "fr": "⚠️ Tu as {n} jour(s) de ***** (il te faut {n2} {unitPl} de plus pour rattraper)",
+    "fr": "⚠️ Tu as {n} jour(s) de retard (il te faut {n2} {unitPl} de plus pour rattraper)",
     "es": "⚠️ Vas {n} día(s) atrasado (necesitas {n2} {unitPl} más para ponerte al día)",
     "sv": "⚠️ Du ligger {n} dag(ar) efter (behöver {n2} {unitPl} till för att komma ikapp)",
     "nl": "⚠️ Je loopt {n} dag(en) achter (nog {n2} {unitPl} nodig om bij te trekken)",
@@ -37439,7 +37439,7 @@ window._ptComputeDuha = _ptComputeDuha;
   "behindTrack": {
     "ar": "⚠️ متأخر شوية، حاول تعوّض",
     "en": "⚠️ A bit behind, try to catch up",
-    "fr": "⚠️ Un peu en *****, essaie de rattraper",
+    "fr": "⚠️ Un peu en retard, essaie de rattraper",
     "es": "⚠️ Un poco atrasado, intenta ponerte al día",
     "sv": "⚠️ Lite efter, försök komma ikapp",
     "nl": "⚠️ Iets achter, probeer bij te trekken",
