@@ -5109,6 +5109,147 @@ body.dark-mode #favManagerCancel { border-color: #555; color: #aaa; }
   font-size: 15px;
 }
 
+/* ══════════ فاحص روابط الصوت (Link Checker Modal) ══════════ */
+#linkCheckerOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+#linkCheckerOverlay.open {
+  display: flex;
+}
+#linkCheckerBox {
+  background: #fff;
+  border-radius: 18px;
+  width: 92%;
+  max-width: 560px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+  overflow: hidden;
+  animation: slideDown 0.25s ease;
+  font-family: 'Cairo', Arial, sans-serif;
+}
+body.dark-mode #linkCheckerBox {
+  background: #1e1e2e;
+  color: #e0e0e0;
+}
+#linkCheckerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  gap: 8px;
+}
+body.dark-mode #linkCheckerHeader {
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+#linkCheckerTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--theme-c1);
+  flex: 1;
+  text-align: center;
+}
+#linkCheckerClose {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #999;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+#linkCheckerClose:hover { color: var(--theme-c1); }
+body.dark-mode #linkCheckerClose { color: #6b8a9e; }
+body.dark-mode #linkCheckerClose:hover { color: #90caf9; }
+#linkCheckerBody {
+  overflow-y: auto;
+  flex: 1;
+  padding: 14px 16px 18px;
+}
+
+/* أنماط عناصر الفاحص الداخلية */
+.lc-tabs{display:flex;gap:0;margin-bottom:16px;border:0.5px solid rgba(0,0,0,0.15);border-radius:10px;overflow:hidden;}
+.lc-tab{flex:1;padding:8px;font-size:13px;font-weight:500;border:none;background:rgba(0,0,0,0.04);color:#555;cursor:pointer;border-left:0.5px solid rgba(0,0,0,0.08);font-family:'Cairo',Arial,sans-serif;}
+.lc-tab:first-child{border-left:none;}
+.lc-tab.lc-active{background:#fff;color:var(--theme-c1);}
+.lc-tab:hover:not(.lc-active){background:rgba(0,0,0,0.06);}
+body.dark-mode .lc-tab{background:rgba(255,255,255,0.06);color:#bbb;}
+body.dark-mode .lc-tab.lc-active{background:#1e1e2e;color:#90caf9;}
+.lc-panel{display:none;}.lc-panel.lc-active{display:block;}
+
+.lc-sub{font-size:13px;color:#666;margin-bottom:10px;}
+body.dark-mode .lc-sub{color:#aaa;}
+.lc-textarea{width:100%;min-height:110px;font-size:12px;font-family:monospace;resize:vertical;padding:10px;border:0.5px solid rgba(0,0,0,0.15);border-radius:10px;background:#fff;color:#2c3e50;direction:ltr;}
+.lc-textarea:focus{outline:none;border-color:var(--theme-c1);}
+body.dark-mode .lc-textarea{background:#15151f;color:#e0e0e0;border-color:rgba(255,255,255,0.15);}
+.lc-editor-area .lc-textarea{min-height:160px;}
+.lc-parsed-preview{font-size:12px;color:#888;margin:5px 0 10px;}
+.lc-parsed-preview span{color:var(--theme-c1);font-weight:500;}
+.lc-btn-row{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap;}
+.lc-btn-prim{padding:7px 16px;font-size:13px;font-weight:500;border:0.5px solid rgba(0,0,0,0.15);border-radius:10px;background:#fff;color:#2c3e50;cursor:pointer;font-family:'Cairo',Arial,sans-serif;}
+.lc-btn-prim:hover{background:rgba(0,0,0,0.05);}
+.lc-btn-prim:active{transform:scale(0.98);}
+.lc-btn-ghost{padding:7px 14px;font-size:13px;background:transparent;color:#666;border:0.5px solid rgba(0,0,0,0.12);border-radius:10px;cursor:pointer;font-family:'Cairo',Arial,sans-serif;}
+.lc-btn-ghost:hover{background:rgba(0,0,0,0.05);}
+body.dark-mode .lc-btn-prim, body.dark-mode .lc-btn-ghost{background:rgba(255,255,255,0.06);color:#e0e0e0;border-color:rgba(255,255,255,0.15);}
+body.dark-mode .lc-btn-prim:hover, body.dark-mode .lc-btn-ghost:hover{background:rgba(255,255,255,0.12);}
+.lc-results{display:flex;flex-direction:column;gap:6px;}
+.lc-row{display:flex;align-items:flex-start;gap:8px;padding:9px 11px;border:0.5px solid rgba(0,0,0,0.1);border-radius:10px;background:#fff;}
+body.dark-mode .lc-row{background:#15151f;border-color:rgba(255,255,255,0.1);}
+.lc-row.lc-ok-row{border-color:#97C459;}.lc-row.lc-fail-row{border-color:#F09595;}
+.lc-badge{flex-shrink:0;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;min-width:76px;text-align:center;margin-top:1px;}
+.lc-badge.lc-checking{background:#E6F1FB;color:#0C447C;}
+.lc-badge.lc-ok{background:#EAF3DE;color:#27500A;}
+.lc-badge.lc-fail{background:#FCEBEB;color:#791F1F;}
+.lc-badge.lc-timeout{background:#FAEEDA;color:#633806;}
+.lc-info{flex:1;min-width:0;}
+.lc-fname{font-size:12px;font-weight:500;color:#2c3e50;margin-bottom:2px;word-break:break-all;}
+body.dark-mode .lc-fname{color:#e0e0e0;}
+.lc-type-tag{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:20px;margin-inline-start:5px;vertical-align:1px;}
+.lc-type-tag.lc-type-archive{background:#EAF0FB;color:#1B4A8C;}
+.lc-type-tag.lc-type-stream{background:#F3EAFB;color:#5B2C8C;}
+body.dark-mode .lc-type-tag.lc-type-archive{background:rgba(59,130,246,0.18);color:#8FB8F5;}
+body.dark-mode .lc-type-tag.lc-type-stream{background:rgba(168,85,247,0.18);color:#D3A8F5;}
+.lc-page-link{display:none;margin-top:5px;align-items:center;gap:5px;}
+.lc-page-link.lc-show{display:flex;}
+.lc-page-link .lc-lbl{font-size:11px;color:#888;white-space:nowrap;}
+.lc-page-link a{font-size:12px;color:var(--theme-c1);text-decoration:none;word-break:break-all;}
+.lc-page-link a:hover{text-decoration:underline;}
+.lc-rawurl{font-size:11px;font-family:monospace;color:#888;word-break:break-all;margin-top:4px;display:none;}
+.lc-rawurl.lc-show{display:block;}
+.lc-replace-row{display:none;margin-top:7px;gap:5px;align-items:center;}
+.lc-replace-row.lc-show{display:flex;}
+.lc-replace-row input{flex:1;font-size:11px;font-family:monospace;padding:5px 8px;border:0.5px solid rgba(0,0,0,0.15);border-radius:8px;background:#fff;color:#2c3e50;}
+body.dark-mode .lc-replace-row input{background:#15151f;color:#e0e0e0;border-color:rgba(255,255,255,0.15);}
+.lc-replace-row input:focus{outline:none;border-color:var(--theme-c1);}
+.lc-replace-row button{white-space:nowrap;font-size:11px;padding:5px 10px;border:0.5px solid rgba(0,0,0,0.15);border-radius:8px;background:rgba(0,0,0,0.04);color:#2c3e50;cursor:pointer;font-family:'Cairo',Arial,sans-serif;}
+.lc-replace-row button:hover{background:rgba(0,0,0,0.08);}
+.lc-replace-row button.lc-test-btn{background:#E6F1FB;border-color:#B5D4F4;color:#0C447C;}
+.lc-replace-row button.lc-test-btn:hover{background:#B5D4F4;}
+.lc-replace-row button.lc-confirm-btn{background:#EAF3DE;border-color:#97C459;color:#27500A;}
+.lc-replace-row button.lc-confirm-btn:hover{background:#C0DD97;}
+.lc-actions{display:flex;flex-direction:column;gap:4px;flex-shrink:0;}
+.lc-act-btn{width:30px;height:27px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.1);background:rgba(0,0,0,0.04);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.lc-act-btn:hover{background:rgba(0,0,0,0.08);}
+body.dark-mode .lc-act-btn{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.12);}
+.lc-summary{font-size:13px;color:#666;margin-top:8px;padding:8px 12px;background:rgba(0,0,0,0.04);border-radius:10px;}
+body.dark-mode .lc-summary{color:#ccc;background:rgba(255,255,255,0.06);}
+.lc-fix-list{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+.lc-code-out{width:100%;min-height:120px;font-size:11px;font-family:monospace;padding:10px;border:0.5px solid rgba(0,0,0,0.15);border-radius:10px;background:rgba(0,0,0,0.03);color:#2c3e50;direction:ltr;resize:vertical;}
+body.dark-mode .lc-code-out{background:rgba(255,255,255,0.05);color:#e0e0e0;border-color:rgba(255,255,255,0.15);}
+.lc-log-box{font-size:12px;color:#666;background:rgba(0,0,0,0.04);padding:8px 12px;border-radius:10px;min-height:32px;white-space:pre-line;}
+body.dark-mode .lc-log-box{color:#ccc;background:rgba(255,255,255,0.06);}
+
 #togglePlayPause {
     position: fixed;
     bottom: 14px;
@@ -19600,7 +19741,30 @@ setTimeout(autoScaleVerseFont, 100);
     <div class="gcse-search"></div>
   </div>
 
-  <!-- زر إغلاق الإعدادات في الأسفل -->
+    <div id="link-checker-open-btn" onclick="openLinkCheckerModal()" style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    width: 90%;
+    max-width: 400px;
+    margin: 10px auto 6px auto;
+    padding: 7px 14px;
+    border-radius: 10px;
+    background: linear-gradient(to right, rgba(var(--theme-c1-rgb),0.12) 0%, #fff 50%, rgba(var(--theme-c1-rgb),0.12) 100%);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    border: 1px solid rgba(var(--theme-c1-rgb),0.28);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--theme-c1);
+    user-select: none;
+    transition: background 0.2s;
+  ">
+    <span data-ar="🔗 فحص الروابط" data-en="🔗 Check Links" data-fr="🔗 Vérifier les liens" data-es="🔗 Comprobar enlaces" data-sv="🔗 Kontrollera länkar" data-nl="🔗 Links controleren" data-ga="🔗 Seiceáil naisc" data-de="🔗 Links prüfen" data-ru="🔗 Проверить ссылки" data-tr="🔗 Bağlantıları kontrol et" data-pt="🔗 Verificar links" data-zh="🔗 检查链接" data-ur="🔗 لنکس چیک کریں">🔗 فحص روابط الاستماع</span>
+  </div>
+
+<!-- زر إغلاق الإعدادات في الأسفل -->
   <div id="settings-toggle-bar-bottom" onclick="toggleSettingsPanel()" style="
     display: flex;
     align-items: center;
@@ -19644,6 +19808,388 @@ setTimeout(autoScaleVerseFont, 100);
 
 <div id="restoreButton" title="Restore">➕</div>
 
+
+<div id="linkCheckerOverlay" onclick="if(event.target===this) closeLinkCheckerModal()">
+  <div id="linkCheckerBox">
+    <div id="linkCheckerHeader">
+      <button id="linkCheckerClose" onclick="closeLinkCheckerModal()" title="إغلاق">✕</button>
+      <span id="linkCheckerTitle">🔗 فحص روابط الاستماع</span>
+      <span style="width:28px;"></span>
+    </div>
+    <div id="linkCheckerBody">
+
+      <div class="lc-tabs">
+        <button class="lc-tab lc-active" onclick="lcSwitchTab('checker',this)">فاحص الروابط</button>
+        <button class="lc-tab" onclick="lcSwitchTab('editor',this)">محرر الكود</button>
+      </div>
+
+      <!-- تاب 1: الفاحص -->
+      <div id="lc-panel-checker" class="lc-panel lc-active">
+        <p class="lc-sub">الصق الروابط بأي شكل — مع أو بدون <code>"</code> و <code>,</code> و <code>[</code> و <code>]</code></p>
+        <textarea id="lcUrlInput" class="lc-textarea" dir="ltr" spellcheck="false" placeholder='&quot;https://archive.org/download/.../audio1.mp3&quot;,&#10;&quot;https://archive.org/download/.../audio2.mp3&quot;'></textarea>
+        <div class="lc-parsed-preview" id="lcPreview">اكتب أو الصق روابط لتبدأ...</div>
+        <div class="lc-btn-row">
+          <button class="lc-btn-prim" onclick="lcStartCheck()">فحص الروابط</button>
+          <button class="lc-btn-ghost" onclick="lcScanSiteLinks()">🌐 فحص روابط الموقع</button>
+          <button class="lc-btn-ghost" onclick="lcPasteExample()">مثال تجريبي</button>
+          <button class="lc-btn-ghost" onclick="lcClearChecker()">مسح</button>
+        </div>
+        <div class="lc-results" id="lcResults"></div>
+      </div>
+
+      <!-- تاب 2: المحرر -->
+      <div id="lc-panel-editor" class="lc-panel lc-editor-area">
+        <p class="lc-sub">الصق كود HTML الخاص بالزر أو data-urls هنا، ثم استبدل الروابط المعطلة برابط جديد واحصل على الكود المحدَّث</p>
+        <textarea id="lcCodeInput" class="lc-textarea" dir="ltr" spellcheck="false" placeholder="الصق كود الزر أو قائمة data-urls هنا..."></textarea>
+        <div class="lc-btn-row">
+          <input id="lcOldUrl" type="text" dir="ltr" class="lc-textarea" style="flex:1;min-height:auto;padding:7px 10px;font-size:12px;" placeholder="الرابط القديم (المعطل)">
+          <input id="lcNewUrl" type="text" dir="ltr" class="lc-textarea" style="flex:1;min-height:auto;padding:7px 10px;font-size:12px;" placeholder="الرابط الجديد (البديل)">
+        </div>
+        <div class="lc-btn-row">
+          <button class="lc-btn-prim" onclick="lcDoReplace()">استبدل في الكود</button>
+          <button class="lc-btn-ghost" onclick="lcTestNewUrl()">اختبر الرابط الجديد ▶</button>
+          <button class="lc-btn-ghost" onclick="lcCopyCode()">نسخ الكود المحدَّث</button>
+          <button class="lc-btn-ghost" onclick="lcClearEditor()">مسح</button>
+        </div>
+        <div class="lc-log-box" id="lcEditorLog">سيظهر هنا ملخص التغييرات...</div>
+        <textarea id="lcCodeOutput" class="lc-textarea lc-code-out" dir="ltr" spellcheck="false" placeholder="الكود المحدَّث سيظهر هنا..." readonly></textarea>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════ فاحص روابط الصوت — منطق مستقل (namespace: lc) ══════════ */
+(function(){
+  var lcCurrentAudio = null, lcPlayingBtn = null;
+  var lcNameMap = {}, lcGroupMap = {};
+
+  /* يجمع كل مصفوفات محطات/روابط الموقع المعروفة (يتم الوصول لها بالاسم مباشرة
+     لأنها معرّفة بـ const/var في وسوم <script> أخرى بنفس الصفحة) */
+  function lcGetAllStationArrays(){
+    var groups = [];
+    function add(name, arr){ try{ if (typeof arr !== 'undefined' && Array.isArray(arr)) groups.push([name, arr]); }catch(e){} }
+    try{ add('sources', sources); }catch(e){}
+    try{ add('radioStations', radioStations); }catch(e){}
+    try{ add('quranRadioStations', quranRadioStations); }catch(e){}
+    try{ add('foreignStations', foreignStations); }catch(e){}
+    try{ add('quranRadioStationsExtra', quranRadioStationsExtra); }catch(e){}
+    try{ add('adhkarStations', adhkarStations); }catch(e){}
+    try{ add('recitersStations', recitersStations); }catch(e){}
+    try{ add('rewayatStations', rewayatStations); }catch(e){}
+    try{ add('translationStations', translationStations); }catch(e){}
+    try{ add('surahStations', surahStations); }catch(e){}
+    try{ add('monshawiiyatStations', monshawiiyatStations); }catch(e){}
+    try{ add('scholarsStations', scholarsStations); }catch(e){}
+    try{ add('tafsirStations', tafsirStations); }catch(e){}
+    try{ add('siraStations', siraStations); }catch(e){}
+    try{ add('mixStations', mixStations); }catch(e){}
+    try{ add('tajweedStations', tajweedStations); }catch(e){}
+    try{ add('ltvStations', ltvStations); }catch(e){}
+    return groups;
+  }
+
+  function lcCollectSiteLinks(){
+    var seen = {}, list = [];
+    function addUrl(u, name, groupName){
+      if (!u || typeof u !== 'string') return;
+      u = u.trim();
+      if (!/^https?:\/\//i.test(u)) return;
+      if (seen[u]) return;
+      seen[u] = true;
+      list.push({ url: u, name: name || u, group: groupName });
+    }
+    lcGetAllStationArrays().forEach(function(grp){
+      var groupName = grp[0], arr = grp[1];
+      arr.forEach(function(item){
+        if (typeof item === 'string') { addUrl(item, item, groupName); return; }
+        if (!item || typeof item !== 'object') return;
+        var name = item.station || item.ar || item.name || item.en || '';
+        if (item.url) addUrl(item.url, name, groupName);
+        if (Array.isArray(item.urls)) item.urls.forEach(function(u){ addUrl(u, name, groupName); });
+      });
+    });
+    return list;
+  }
+
+  window.lcScanSiteLinks = function(){
+    var links = lcCollectSiteLinks();
+    if (!links.length) { alert('لم يتم العثور على أي روابط بيانات محطات في الموقع'); return; }
+    if (!confirm('تم العثور على ' + links.length + ' رابط من روابط الموقع.\nهل تريد فحصها الآن؟ (قد يستغرق الأمر بعض الوقت)')) return;
+    lcNameMap = {}; lcGroupMap = {};
+    links.forEach(function(l){ lcNameMap[l.url] = l.name; lcGroupMap[l.url] = l.group; });
+    document.getElementById('lcUrlInput').value = links.map(function(l){ return '"' + l.url + '"'; }).join(',\n');
+    document.getElementById('lcUrlInput').dispatchEvent(new Event('input'));
+    lcStartCheck();
+  };
+
+  window.openLinkCheckerModal = function(){
+    document.getElementById('linkCheckerOverlay').classList.add('open');
+  };
+  window.closeLinkCheckerModal = function(){
+    document.getElementById('linkCheckerOverlay').classList.remove('open');
+    if (lcCurrentAudio) { try { lcCurrentAudio.pause(); } catch(e){} lcCurrentAudio = null; }
+    if (lcPlayingBtn) { lcPlayingBtn.textContent = '▶'; lcPlayingBtn = null; }
+  };
+
+  window.lcSwitchTab = function(name, btn){
+    document.querySelectorAll('#linkCheckerBody .lc-panel').forEach(function(p){ p.classList.remove('lc-active'); });
+    document.querySelectorAll('#linkCheckerBody .lc-tab').forEach(function(t){ t.classList.remove('lc-active'); });
+    document.getElementById('lc-panel-' + name).classList.add('lc-active');
+    btn.classList.add('lc-active');
+  };
+
+  function lcParseUrls(raw){
+    var urls = [], re = /https?:\/\/[^\s"'\],\n]+/g, m;
+    while ((m = re.exec(raw)) !== null) {
+      var u = m[0].replace(/[,\s"'\[\]]+$/, '');
+      if (u.length > 10) urls.push(u);
+    }
+    return urls;
+  }
+  function lcDecodeName(url){
+    try { return decodeURIComponent(url.split('/').pop()); } catch(e){ return url.split('/').pop(); }
+  }
+  function lcGetPageUrl(url){
+    var m = url.match(/archive\.org\/download\/([^\/]+)\//);
+    if (m) return 'https://archive.org/details/' + m[1];
+    try { var u = new URL(url); return u.origin + u.pathname.split('/').slice(0, -1).join('/'); } catch(e){ return null; }
+  }
+  function lcEscQ(s){ return s.replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+  /* أرشيف archive.org = ملف ثابت يُغلق اتصاله بسرعة بعد الفحص.
+     أي نطاق آخر (قنوات بث مباشر مثل qurango وغيرها) يبقي الاتصال مفتوحًا
+     طوال مدة البث، لذا يحتاج فحصًا بمنطق مختلف (مهلة أطول + تزامن محدود). */
+  function lcIsStreamUrl(url){
+    try { return !/(^|\.)archive\.org$/i.test(new URL(url).hostname); } catch(e){ return true; }
+  }
+
+  var lcUrlInputEl = document.getElementById('lcUrlInput');
+  if (lcUrlInputEl) {
+    lcUrlInputEl.addEventListener('input', function(){
+      var urls = lcParseUrls(this.value);
+      var el = document.getElementById('lcPreview');
+      el.innerHTML = urls.length ? 'تم رصد <span>' + urls.length + '</span> رابط' : 'اكتب أو الصق روابط لتبدأ...';
+    });
+  }
+
+  window.lcPasteExample = function(){
+    document.getElementById('lcUrlInput').value =
+      '"https://archive.org/download/20260407_20260407_2008/audio1.mp3",\n' +
+      '"https://archive.org/download/20260407_20260407_2008/audio2.mp3",\n' +
+      '"https://archive.org/download/20260407_20260407_2008/audio3.mp3"';
+    document.getElementById('lcUrlInput').dispatchEvent(new Event('input'));
+  };
+  window.lcClearChecker = function(){
+    document.getElementById('lcUrlInput').value = '';
+    document.getElementById('lcResults').innerHTML = '';
+    document.getElementById('lcPreview').innerHTML = 'اكتب أو الصق روابط لتبدأ...';
+    lcNameMap = {}; lcGroupMap = {};
+  };
+
+  window.lcStartCheck = function(){
+    var raw = document.getElementById('lcUrlInput').value;
+    var urls = lcParseUrls(raw);
+    if (!urls.length) { alert('لم يتم رصد أي روابط صالحة'); return; }
+    var container = document.getElementById('lcResults');
+    container.innerHTML = '';
+    var okCount = 0, failCount = 0, done = 0;
+    var items = [];
+
+    urls.forEach(function(url, i){
+      var pageUrl = lcGetPageUrl(url);
+      var row = document.createElement('div');
+      row.className = 'lc-row';
+      var name = lcNameMap[url] || lcDecodeName(url);
+      var groupName = lcGroupMap[url];
+      var safeUrl = lcEscQ(url);
+      var isStream = lcIsStreamUrl(url);
+      var typeTag = isStream
+        ? '<span class="lc-type-tag lc-type-stream">بث مباشر</span>'
+        : '<span class="lc-type-tag lc-type-archive">أرشيف</span>';
+      var pageHtml = pageUrl ? '<div class="lc-page-link" id="lcpl' + i + '"><span class="lc-lbl">صفحة الملف:</span><a href="' + pageUrl + '" target="_blank">' + pageUrl + '</a></div>' : '';
+      var groupHtml = groupName ? '<div class="lc-page-link" id="lcgr' + i + '"><span class="lc-lbl">المصدر:</span> ' + groupName + '</div>' : '';
+
+      row.innerHTML =
+        '<span class="lc-badge lc-checking" id="lcb' + i + '">جارٍ الفحص</span>' +
+        '<div class="lc-info">' +
+          '<div class="lc-fname">' + name + typeTag + '</div>' +
+          groupHtml +
+          pageHtml +
+          '<div class="lc-replace-row" id="lcrr' + i + '">' +
+            '<input type="text" id="lcni' + i + '" dir="ltr" placeholder="الصق الرابط البديل هنا...">' +
+            '<button class="lc-test-btn" onclick="lcTestReplace(' + i + ')">اختبر ▶</button>' +
+            '<button class="lc-confirm-btn" onclick="lcSendToEditor(' + i + ',\'' + safeUrl + '\')">أرسل للمحرر</button>' +
+          '</div>' +
+          '<div class="lc-rawurl" id="lcraw' + i + '">' + url + '</div>' +
+        '</div>' +
+        '<div class="lc-actions">' +
+          '<button class="lc-act-btn" id="lcplay' + i + '" title="استمع للرابط الأصلي" onclick="lcTogglePlay(\'' + safeUrl + '\',this)">▶</button>' +
+          '<button class="lc-act-btn" title="نسخ الرابط" onclick="lcCopyUrl(\'' + safeUrl + '\',this)">⎘</button>' +
+          '<button class="lc-act-btn" title="إظهار الرابط الكامل" onclick="lcToggleRaw(\'lcraw' + i + '\')">…</button>' +
+        '</div>';
+      container.appendChild(row);
+
+      var badge = document.getElementById('lcb' + i);
+      function markFail(reason){
+        badge.textContent = reason;
+        badge.className = 'lc-badge ' + (reason === 'انتهت المهلة' ? 'lc-timeout' : 'lc-fail');
+        row.className = 'lc-row lc-fail-row';
+        var pl = document.getElementById('lcpl' + i);
+        if (pl) pl.classList.add('lc-show');
+        var gr = document.getElementById('lcgr' + i);
+        if (gr) gr.classList.add('lc-show');
+        var rr = document.getElementById('lcrr' + i);
+        if (rr) rr.classList.add('lc-show');
+        failCount++; done++;
+        lcUpdateSummary(done, urls.length, okCount, failCount);
+      }
+      function markOk(){
+        badge.textContent = 'يعمل ✓';
+        badge.className = 'lc-badge lc-ok';
+        row.className = 'lc-row lc-ok-row';
+        okCount++; done++;
+        lcUpdateSummary(done, urls.length, okCount, failCount);
+      }
+      items.push({ url: url, isStream: isStream, markOk: markOk, markFail: markFail });
+    });
+
+    /* فحص رابط واحد. يحرر الاتصال فورًا بعد معرفة النتيجة (سواء نجاح أو فشل)
+       حتى لا يبقى مشغولاً لواحد من الاتصالات المحدودة التي يسمح بها
+       المتصفح لكل نطاق — وهذا هو سبب معظم النتائج الخاطئة لروابط البث
+       المباشر التي تبقى مفتوحة (لا تُغلق تلقائيًا كملفات الأرشيف). */
+    function runCheck(item, timeoutMs){
+      return new Promise(function(resolve){
+        var audio = new Audio(), settled = false;
+        function release(){
+          try { audio.oncanplay = null; audio.onerror = null; audio.src = ''; audio.removeAttribute('src'); audio.load(); } catch(e){}
+        }
+        var timer = setTimeout(function(){
+          if (settled) return; settled = true;
+          release(); item.markFail('انتهت المهلة'); resolve();
+        }, timeoutMs);
+        audio.oncanplay = function(){
+          if (settled) return; settled = true;
+          clearTimeout(timer); release(); item.markOk(); resolve();
+        };
+        audio.onerror = function(){
+          if (settled) return; settled = true;
+          clearTimeout(timer); release(); item.markFail('لا يعمل'); resolve();
+        };
+        try { audio.src = item.url; audio.load(); }
+        catch(e){ if (!settled){ settled = true; clearTimeout(timer); item.markFail('لا يعمل'); resolve(); } }
+      });
+    }
+
+    /* روابط الأرشيف (archive.org): ملفات ثابتة، تُحمَّل وتُغلَق بسرعة —
+       تُفحص كلها بالتوازي كما كانت سابقًا. */
+    items.filter(function(it){ return !it.isStream; })
+         .forEach(function(item){ runCheck(item, 12000); });
+
+    /* بقية الروابط (بث مباشر إلخ): تبقي اتصالها مفتوحًا طوال مدة الفحص،
+       فتُفحص بتزامن محدود (3 روابط في آنٍ واحد) ومهلة أطول (20 ثانية)
+       بدل تشغيلها كلها دفعة واحدة، لتفادي مزاحمتها على عدد الاتصالات
+       القليل الذي يسمح به المتصفح لنفس النطاق. */
+    var streamItems = items.filter(function(it){ return it.isStream; });
+    var CONCURRENCY = 3, idx = 0;
+    function next(){
+      if (idx >= streamItems.length) return;
+      var item = streamItems[idx++];
+      runCheck(item, 20000).then(next);
+    }
+    for (var c = 0; c < Math.min(CONCURRENCY, streamItems.length); c++) next();
+  };
+
+  window.lcUpdateSummary = function(done, total, ok, fail){
+    var el = document.getElementById('lcSummary');
+    if (!el) { el = document.createElement('div'); el.className = 'lc-summary'; el.id = 'lcSummary'; document.getElementById('lcResults').appendChild(el); }
+    el.textContent = 'فُحص ' + done + ' من ' + total + ' | يعمل: ' + ok + ' | لا يعمل: ' + fail + (done < total ? ' — جارٍ الفحص...' : '');
+  };
+
+  window.lcTestReplace = function(i){
+    var inp = document.getElementById('lcni' + i);
+    if (!inp || !inp.value.trim()) return;
+    var url = inp.value.trim();
+    if (lcCurrentAudio) { lcCurrentAudio.pause(); }
+    var a = new Audio(url);
+    a.play().catch(function(){ inp.style.borderColor = '#F09595'; });
+    lcCurrentAudio = a;
+    inp.style.borderColor = '#97C459';
+  };
+
+  window.lcSendToEditor = function(i, oldUrl){
+    var inp = document.getElementById('lcni' + i);
+    if (!inp || !inp.value.trim()) { alert('أدخل الرابط البديل أولاً'); return; }
+    document.getElementById('lcOldUrl').value = oldUrl;
+    document.getElementById('lcNewUrl').value = inp.value.trim();
+    document.querySelectorAll('#linkCheckerBody .lc-tab')[1].click();
+  };
+
+  /* ══ تاب 2: المحرر ══ */
+  window.lcDoReplace = function(){
+    var code = document.getElementById('lcCodeInput').value;
+    var oldU = document.getElementById('lcOldUrl').value.trim();
+    var newU = document.getElementById('lcNewUrl').value.trim();
+    var log = document.getElementById('lcEditorLog');
+    var out = document.getElementById('lcCodeOutput');
+    if (!code) { log.textContent = 'الرجاء إدراج الكود أولاً.'; return; }
+    if (!oldU || !newU) { log.textContent = 'الرجاء إدخال الرابط القديم والجديد.'; return; }
+    var count = 0;
+    var updated = code.replace(new RegExp(oldU.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), function(){ count++; return newU; });
+    out.value = updated;
+    log.textContent = count > 0 ? 'تم استبدال ' + count + ' تكرار بنجاح.' : 'لم يتم العثور على الرابط القديم في الكود.';
+  };
+
+  window.lcTestNewUrl = function(){
+    var url = document.getElementById('lcNewUrl').value.trim();
+    if (!url) { alert('أدخل الرابط الجديد أولاً'); return; }
+    if (lcCurrentAudio) lcCurrentAudio.pause();
+    var a = new Audio(url);
+    a.play().catch(function(){ alert('الرابط لا يعمل أو محجوب'); });
+    lcCurrentAudio = a;
+    document.getElementById('lcEditorLog').textContent = 'جارٍ اختبار الرابط الجديد...';
+    a.oncanplay = function(){ document.getElementById('lcEditorLog').textContent = 'الرابط الجديد يعمل ✓ — يمكنك الآن الاستبدال.'; };
+    a.onerror = function(){ document.getElementById('lcEditorLog').textContent = 'الرابط الجديد لا يعمل ✗'; };
+  };
+
+  window.lcCopyCode = function(){
+    var val = document.getElementById('lcCodeOutput').value;
+    if (!val) { alert('لا يوجد كود محدَّث بعد'); return; }
+    navigator.clipboard.writeText(val).then(function(){
+      document.getElementById('lcEditorLog').textContent = 'تم نسخ الكود المحدَّث.';
+    });
+  };
+
+  window.lcClearEditor = function(){
+    document.getElementById('lcCodeInput').value = '';
+    document.getElementById('lcCodeOutput').value = '';
+    document.getElementById('lcOldUrl').value = '';
+    document.getElementById('lcNewUrl').value = '';
+    document.getElementById('lcEditorLog').textContent = 'سيظهر هنا ملخص التغييرات...';
+  };
+
+  /* ══ مشتركة ══ */
+  window.lcTogglePlay = function(url, btn){
+    if (lcCurrentAudio) {
+      lcCurrentAudio.pause();
+      if (lcPlayingBtn) lcPlayingBtn.textContent = '▶';
+      if (lcPlayingBtn === btn) { lcCurrentAudio = null; lcPlayingBtn = null; return; }
+    }
+    var a = new Audio(url);
+    a.play().catch(function(){ if (btn) btn.textContent = '✕'; });
+    lcCurrentAudio = a; lcPlayingBtn = btn;
+    if (btn) btn.textContent = '⏸';
+    a.onended = function(){ if (btn) btn.textContent = '▶'; lcPlayingBtn = null; };
+    a.onerror = function(){ if (btn) btn.textContent = '✕'; };
+  };
+  window.lcCopyUrl = function(url, btn){
+    navigator.clipboard.writeText(url).then(function(){
+      var old = btn.textContent; btn.textContent = '✓'; setTimeout(function(){ btn.textContent = old; }, 1500);
+    });
+  };
+  window.lcToggleRaw = function(id){ var el = document.getElementById(id); if (el) el.classList.toggle('lc-show'); };
+})();
+</script>
 
 <div id="favManagerOverlay" onclick="if(event.target===this) closeFavManager()">
   <div id="favManagerBox">
