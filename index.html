@@ -5201,6 +5201,15 @@ body.dark-mode .lc-textarea{background:#15151f;color:#e0e0e0;border-color:rgba(2
 .lc-btn-prim:active{transform:scale(0.98);}
 .lc-btn-ghost{padding:7px 14px;font-size:13px;background:transparent;color:#666;border:0.5px solid rgba(0,0,0,0.12);border-radius:10px;cursor:pointer;font-family:'Cairo',Arial,sans-serif;}
 .lc-btn-ghost:hover{background:rgba(0,0,0,0.05);}
+.lc-btn-ghost.lc-armed{background:#F09595;color:#fff;border-color:#F09595;animation:lcArmedPulse 0.6s ease-in-out infinite alternate;}
+@keyframes lcArmedPulse{from{opacity:1;}to{opacity:0.65;}}
+body.dark-mode .lc-btn-ghost.lc-armed{background:#c94b4b;color:#fff;border-color:#c94b4b;}
+.lc-small-btn{font-size:12px;padding:5px 10px;}
+.lc-results-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0;padding:8px 10px;background:rgba(0,0,0,0.03);border-radius:10px;}
+body.dark-mode .lc-results-toolbar{background:rgba(255,255,255,0.05);}
+.lc-filter-toggle{display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer;user-select:none;}
+.lc-cached-banner{display:none;align-items:center;flex-wrap:wrap;gap:6px;margin-top:8px;padding:8px 10px;background:rgba(var(--theme-c1-rgb),0.08);border:1px solid rgba(var(--theme-c1-rgb),0.25);border-radius:10px;font-size:12.5px;}
+#lcAutoAlertBadge{display:none;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#e0453f;color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;margin-inline-start:4px;}
 body.dark-mode .lc-btn-prim, body.dark-mode .lc-btn-ghost{background:rgba(255,255,255,0.06);color:#e0e0e0;border-color:rgba(255,255,255,0.15);}
 body.dark-mode .lc-btn-prim:hover, body.dark-mode .lc-btn-ghost:hover{background:rgba(255,255,255,0.12);}
 .lc-results{display:flex;flex-direction:column;gap:6px;}
@@ -19762,6 +19771,7 @@ setTimeout(autoScaleVerseFont, 100);
     transition: background 0.2s;
   ">
     <span data-ar="🔗 فحص الروابط" data-en="🔗 Check Links" data-fr="🔗 Vérifier les liens" data-es="🔗 Comprobar enlaces" data-sv="🔗 Kontrollera länkar" data-nl="🔗 Links controleren" data-ga="🔗 Seiceáil naisc" data-de="🔗 Links prüfen" data-ru="🔗 Проверить ссылки" data-tr="🔗 Bağlantıları kontrol et" data-pt="🔗 Verificar links" data-zh="🔗 检查链接" data-ur="🔗 لنکس چیک کریں">🔗 فحص روابط الاستماع</span>
+    <span id="lcAutoAlertBadge" style="display:none;"></span>
   </div>
 
 <!-- زر إغلاق الإعدادات في الأسفل -->
@@ -19831,8 +19841,18 @@ setTimeout(autoScaleVerseFont, 100);
         <div class="lc-btn-row">
           <button class="lc-btn-prim" onclick="lcStartCheck()">فحص الروابط</button>
           <button class="lc-btn-ghost" onclick="lcScanSiteLinks()">🌐 فحص روابط الموقع</button>
+          <button class="lc-btn-ghost" id="lcOtherLinksBtn" onclick="lcScanOtherSiteLinksGuarded(this)">فحص الروابط 2</button>
           <button class="lc-btn-ghost" onclick="lcPasteExample()">مثال تجريبي</button>
           <button class="lc-btn-ghost" onclick="lcClearChecker()">مسح</button>
+        </div>
+        <div class="lc-cached-banner" id="lcCachedBanner" style="display:none;"></div>
+        <div class="lc-results-toolbar" id="lcResultsToolbar" style="display:none;">
+          <label class="lc-filter-toggle">
+            <input type="checkbox" id="lcShowFailedOnly" onchange="lcApplyFilter()"> إظهار المعطل فقط
+          </label>
+          <button class="lc-btn-ghost lc-small-btn" onclick="lcCopyAllFailed()">⎘ نسخ الروابط المعطلة</button>
+          <button class="lc-btn-ghost lc-small-btn" onclick="lcRecheckFailed()">🔁 إعادة فحص المعطل فقط</button>
+          <button class="lc-btn-ghost lc-small-btn" onclick="lcExportReport()">📄 تصدير التقرير</button>
         </div>
         <div class="lc-results" id="lcResults"></div>
       </div>
@@ -19846,8 +19866,9 @@ setTimeout(autoScaleVerseFont, 100);
           <input id="lcNewUrl" type="text" dir="ltr" class="lc-textarea" style="flex:1;min-height:auto;padding:7px 10px;font-size:12px;" placeholder="الرابط الجديد (البديل)">
         </div>
         <div class="lc-btn-row">
-          <button class="lc-btn-prim" onclick="lcDoReplace()">استبدل في الكود</button>
+          <button class="lc-btn-prim" onclick="lcDoReplaceGuarded()">استبدل في الكود</button>
           <button class="lc-btn-ghost" onclick="lcTestNewUrl()">اختبر الرابط الجديد ▶</button>
+          <button class="lc-btn-ghost" id="lcUndoReplaceBtn" onclick="lcUndoLastReplace()" style="display:none;">↩️ تراجع عن آخر استبدال</button>
           <button class="lc-btn-ghost" onclick="lcCopyCode()">نسخ الكود المحدَّث</button>
           <button class="lc-btn-ghost" onclick="lcClearEditor()">مسح</button>
         </div>
@@ -19864,6 +19885,10 @@ setTimeout(autoScaleVerseFont, 100);
 (function(){
   var lcCurrentAudio = null, lcPlayingBtn = null;
   var lcNameMap = {}, lcGroupMap = {};
+  var lcLastItems = []; // نتائج آخر جلسة فحص (لكل عنصر: url, name, group, isStream, index, rowEl, badgeEl, status)
+  var lcCounts = { ok: 0, fail: 0, done: 0, total: 0 };
+  var LC_STORAGE_KEY = 'lcLastScanResult_v1';
+  var LC_AUTO_KEY = 'lcAutoCheckMeta_v1';
 
   /* يجمع كل مصفوفات محطات/روابط الموقع المعروفة (يتم الوصول لها بالاسم مباشرة
      لأنها معرّفة بـ const/var في وسوم <script> أخرى بنفس الصفحة) */
@@ -19890,12 +19915,16 @@ setTimeout(autoScaleVerseFont, 100);
     return groups;
   }
 
-  function lcCollectSiteLinks(){
+  var LC_ARCHIVE_RE = /^https?:\/\/([^\/]*\.)?archive\.org\//i;
+
+  /* جامع عام لروابط الموقع، مع دالة تصفية (predicate) تحدد ما الذي يُقبل */
+  function lcCollectFilteredSiteLinks(predicate){
     var seen = {}, list = [];
     function addUrl(u, name, groupName){
       if (!u || typeof u !== 'string') return;
       u = u.trim();
       if (!/^https?:\/\//i.test(u)) return;
+      if (!predicate(u)) return;
       if (seen[u]) return;
       seen[u] = true;
       list.push({ url: u, name: name || u, group: groupName });
@@ -19913,19 +19942,64 @@ setTimeout(autoScaleVerseFont, 100);
     return list;
   }
 
-  window.lcScanSiteLinks = function(){
-    var links = lcCollectSiteLinks();
-    if (!links.length) { alert('لم يتم العثور على أي روابط بيانات محطات في الموقع'); return; }
-    if (!confirm('تم العثور على ' + links.length + ' رابط من روابط الموقع.\nهل تريد فحصها الآن؟ (قد يستغرق الأمر بعض الوقت)')) return;
+  function lcCollectSiteLinks(){
+    return lcCollectFilteredSiteLinks(function(u){ return LC_ARCHIVE_RE.test(u); }); // فقط روابط أرشيف archive.org
+  }
+  function lcCollectOtherSiteLinks(){
+    return lcCollectFilteredSiteLinks(function(u){ return !LC_ARCHIVE_RE.test(u); }); // كل ما عدا أرشيف archive.org
+  }
+
+  function lcRunSiteScan(links, emptyMsg, confirmMsgFn){
+    if (!links.length) { alert(emptyMsg); return; }
+    if (!confirm(confirmMsgFn(links.length))) return;
     lcNameMap = {}; lcGroupMap = {};
     links.forEach(function(l){ lcNameMap[l.url] = l.name; lcGroupMap[l.url] = l.group; });
     document.getElementById('lcUrlInput').value = links.map(function(l){ return '"' + l.url + '"'; }).join(',\n');
     document.getElementById('lcUrlInput').dispatchEvent(new Event('input'));
     lcStartCheck();
+  }
+
+  window.lcScanSiteLinks = function(){
+    lcRunSiteScan(
+      lcCollectSiteLinks(),
+      'لم يتم العثور على أي روابط أرشيف (archive.org) في الموقع',
+      function(n){ return 'تم العثور على ' + n + ' رابط أرشيف (archive.org).\nهل تريد فحصها الآن؟ (قد يستغرق الأمر بعض الوقت)'; }
+    );
   };
+
+  /* حارس ضغطات متتالية عام: يشتغل الفعل المطلوب فقط بعد عدد ضغطات محدد
+     خلال مهلة زمنية معينة، ولو استُنّي أكتر من المهلة العداد يتصفّر. */
+  function lcMakeClickGuard(requiredClicks, windowMs){
+    var count = 0, timer = null;
+    return function(callback){
+      count++;
+      clearTimeout(timer);
+      if (count >= requiredClicks) { count = 0; callback(); return; }
+      timer = setTimeout(function(){ count = 0; }, windowMs);
+    };
+  }
+
+  /* فحص باقي روابط الموقع (غير أرشيف): زر حسّاس يحتاج 3 ضغطات متتالية سريعة
+     قبل ما يشتغل فعليًا، تجنبًا لتشغيله بالغلط (لأنها روابط بث مباشر
+     يستهلك فحصها اتصالات مفتوحة لفترة أطول). */
+  var lcOtherLinksGuard = lcMakeClickGuard(3, 1500);
+  window.lcScanOtherSiteLinksGuarded = function(){
+    lcOtherLinksGuard(lcScanOtherSiteLinks);
+  };
+
+  function lcScanOtherSiteLinks(){
+    lcRunSiteScan(
+      lcCollectOtherSiteLinks(),
+      'لم يتم العثور على أي روابط أخرى (غير أرشيف) في الموقع',
+      function(n){ return 'تم العثور على ' + n + ' رابط غير أرشيف (بث مباشر/مصادر أخرى).\nهذه الروابط قد يستغرق فحصها وقتًا أطول. هل تريد فحصها الآن؟'; }
+    );
+  }
 
   window.openLinkCheckerModal = function(){
     document.getElementById('linkCheckerOverlay').classList.add('open');
+    lcMaybeShowCachedBanner();
+    var badge = document.getElementById('lcAutoAlertBadge');
+    if (badge) badge.style.display = 'none';
   };
   window.closeLinkCheckerModal = function(){
     document.getElementById('linkCheckerOverlay').classList.remove('open');
@@ -19985,7 +20059,150 @@ setTimeout(autoScaleVerseFont, 100);
     document.getElementById('lcResults').innerHTML = '';
     document.getElementById('lcPreview').innerHTML = 'اكتب أو الصق روابط لتبدأ...';
     lcNameMap = {}; lcGroupMap = {};
+    lcLastItems = [];
+    lcCounts = { ok: 0, fail: 0, done: 0, total: 0 };
+    var fo = document.getElementById('lcShowFailedOnly'); if (fo) fo.checked = false;
+    lcShowToolbar(false);
+    var banner = document.getElementById('lcCachedBanner'); if (banner) banner.style.display = 'none';
   };
+
+  /* يبني صف نتيجة واحد في DOM لعنصر (item) ويربط عناصره (rowEl/badgeEl) بالعنصر نفسه */
+  function lcBuildRow(item, container){
+    var i = item.index;
+    var pageUrl = lcGetPageUrl(item.url);
+    var row = document.createElement('div');
+    row.className = 'lc-row';
+    var safeUrl = lcEscQ(item.url);
+    var typeTag = item.isStream
+      ? '<span class="lc-type-tag lc-type-stream">بث مباشر</span>'
+      : '<span class="lc-type-tag lc-type-archive">أرشيف</span>';
+    var pageHtml = pageUrl ? '<div class="lc-page-link" id="lcpl' + i + '"><span class="lc-lbl">صفحة الملف:</span><a href="' + pageUrl + '" target="_blank">' + pageUrl + '</a></div>' : '';
+    var groupHtml = item.group ? '<div class="lc-page-link" id="lcgr' + i + '"><span class="lc-lbl">المصدر:</span> ' + item.group + '</div>' : '';
+
+    row.innerHTML =
+      '<span class="lc-badge lc-checking" id="lcb' + i + '">جارٍ الفحص</span>' +
+      '<div class="lc-info">' +
+        '<div class="lc-fname">' + item.name + typeTag + '</div>' +
+        groupHtml +
+        pageHtml +
+        '<div class="lc-replace-row" id="lcrr' + i + '">' +
+          '<input type="text" id="lcni' + i + '" dir="ltr" placeholder="الصق الرابط البديل هنا...">' +
+          '<button class="lc-test-btn" onclick="lcTestReplace(' + i + ')">اختبر ▶</button>' +
+          '<button class="lc-confirm-btn" onclick="lcSendToEditor(' + i + ',\'' + safeUrl + '\')">أرسل للمحرر</button>' +
+        '</div>' +
+        '<div class="lc-rawurl" id="lcraw' + i + '">' + item.url + '</div>' +
+      '</div>' +
+      '<div class="lc-actions">' +
+        '<button class="lc-act-btn" id="lcplay' + i + '" title="استمع للرابط الأصلي" onclick="lcTogglePlay(\'' + safeUrl + '\',this)">▶</button>' +
+        '<button class="lc-act-btn" title="نسخ الرابط" onclick="lcCopyUrl(\'' + safeUrl + '\',this)">⎘</button>' +
+        '<button class="lc-act-btn" title="إظهار الرابط الكامل" onclick="lcToggleRaw(\'lcraw' + i + '\')">…</button>' +
+      '</div>';
+    container.appendChild(row);
+    item.rowEl = row;
+    item.badgeEl = document.getElementById('lcb' + i);
+  }
+
+  function lcHideExtras(item, show){
+    var pl = document.getElementById('lcpl' + item.index); if (pl) pl.classList.toggle('lc-show', show);
+    var gr = document.getElementById('lcgr' + item.index); if (gr) gr.classList.toggle('lc-show', show);
+    var rr = document.getElementById('lcrr' + item.index); if (rr) rr.classList.toggle('lc-show', show);
+  }
+
+  /* يحدّث شكل الصف (badge/لون) حسب الحالة الجديدة */
+  function lcRenderRowStatus(item, status, reason){
+    if (!item.badgeEl || !item.rowEl) return;
+    if (status === 'checking'){
+      item.badgeEl.textContent = 'جارٍ الفحص';
+      item.badgeEl.className = 'lc-badge lc-checking';
+      item.rowEl.className = 'lc-row';
+      lcHideExtras(item, false);
+    } else if (status === 'ok'){
+      item.badgeEl.textContent = 'يعمل ✓';
+      item.badgeEl.className = 'lc-badge lc-ok';
+      item.rowEl.className = 'lc-row lc-ok-row';
+      lcHideExtras(item, false);
+    } else {
+      item.badgeEl.textContent = reason || (status === 'timeout' ? 'انتهت المهلة' : 'لا يعمل');
+      item.badgeEl.className = 'lc-badge ' + (status === 'timeout' ? 'lc-timeout' : 'lc-fail');
+      item.rowEl.className = 'lc-row lc-fail-row';
+      lcHideExtras(item, true);
+    }
+    lcApplyFilterToRow(item);
+  }
+
+  /* يضبط حالة عنصر مع تحديث العدادات الإجمالية بشكل صحيح (يدعم إعادة الفحص:
+     لو العنصر كان "معطل" وبقى "يعمل"، بيصحح عداد المعطل/الشغال مش بس يزودهم) */
+  function lcSetStatus(item, status, reason){
+    if (item.status === 'ok') lcCounts.ok--;
+    else if (item.status === 'fail' || item.status === 'timeout') lcCounts.fail--;
+    if (item.status === 'ok' || item.status === 'fail' || item.status === 'timeout') lcCounts.done--;
+
+    item.status = status;
+
+    if (status === 'ok') { lcCounts.ok++; lcCounts.done++; }
+    else if (status === 'fail' || status === 'timeout') { lcCounts.fail++; lcCounts.done++; }
+
+    lcRenderRowStatus(item, status, reason);
+    lcUpdateSummary(lcCounts.done, lcCounts.total, lcCounts.ok, lcCounts.fail);
+  }
+
+  /* فحص رابط واحد فقط (بدون لمس الـ DOM) — يحرر الاتصال فورًا بعد معرفة
+     النتيجة حتى لا يبقى مشغولاً لواحد من الاتصالات المحدودة التي يسمح
+     بها المتصفح لكل نطاق. يرجّع Promise تنتهي بـ 'ok' أو 'fail' أو 'timeout'. */
+  function lcCheckOne(url, timeoutMs){
+    return new Promise(function(resolve){
+      var audio = new Audio(), settled = false;
+      function release(){
+        try { audio.oncanplay = null; audio.onerror = null; audio.src = ''; audio.removeAttribute('src'); audio.load(); } catch(e){}
+      }
+      var timer = setTimeout(function(){
+        if (settled) return; settled = true;
+        release(); resolve('timeout');
+      }, timeoutMs);
+      audio.oncanplay = function(){
+        if (settled) return; settled = true;
+        clearTimeout(timer); release(); resolve('ok');
+      };
+      audio.onerror = function(){
+        if (settled) return; settled = true;
+        clearTimeout(timer); release(); resolve('fail');
+      };
+      try { audio.src = url; audio.load(); }
+      catch(e){ if (!settled){ settled = true; clearTimeout(timer); resolve('fail'); } }
+    });
+  }
+
+  /* يفحص مجموعة عناصر: أرشيف بالتوازي الكامل، وبث مباشر بتزامن محدود
+     (3 في آن واحد) ومهلة أطول، لتفادي مزاحمتها على عدد الاتصالات القليل
+     الذي يسمح به المتصفح لنفس النطاق. يرجّع Promise تنتهي عند اكتمال الكل. */
+  function lcRunItemsCheck(items){
+    return new Promise(function(resolveAll){
+      if (!items.length) { resolveAll(); return; }
+      var remaining = items.length;
+      function oneDone(){ remaining--; if (remaining <= 0) resolveAll(); }
+
+      items.forEach(function(item){ lcSetStatus(item, 'checking'); });
+
+      items.filter(function(it){ return !it.isStream; })
+           .forEach(function(item){
+             lcCheckOne(item.url, 12000).then(function(status){ lcSetStatus(item, status); oneDone(); });
+           });
+
+      var streamItems = items.filter(function(it){ return it.isStream; });
+      var CONCURRENCY = 3, idx = 0;
+      function next(){
+        if (idx >= streamItems.length) return;
+        var item = streamItems[idx++];
+        lcCheckOne(item.url, 20000).then(function(status){ lcSetStatus(item, status); oneDone(); next(); });
+      }
+      for (var c = 0; c < Math.min(CONCURRENCY, streamItems.length); c++) next();
+    });
+  }
+
+  function lcShowToolbar(show){
+    var el = document.getElementById('lcResultsToolbar');
+    if (el) el.style.display = show ? 'flex' : 'none';
+  }
 
   window.lcStartCheck = function(){
     var raw = document.getElementById('lcUrlInput').value;
@@ -19993,111 +20210,141 @@ setTimeout(autoScaleVerseFont, 100);
     if (!urls.length) { alert('لم يتم رصد أي روابط صالحة'); return; }
     var container = document.getElementById('lcResults');
     container.innerHTML = '';
-    var okCount = 0, failCount = 0, done = 0;
-    var items = [];
+    var banner = document.getElementById('lcCachedBanner'); if (banner) banner.style.display = 'none';
+
+    lcLastItems = [];
+    lcCounts = { ok: 0, fail: 0, done: 0, total: urls.length };
 
     urls.forEach(function(url, i){
-      var pageUrl = lcGetPageUrl(url);
-      var row = document.createElement('div');
-      row.className = 'lc-row';
-      var name = lcNameMap[url] || lcDecodeName(url);
-      var groupName = lcGroupMap[url];
-      var safeUrl = lcEscQ(url);
-      var isStream = lcIsStreamUrl(url);
-      var typeTag = isStream
-        ? '<span class="lc-type-tag lc-type-stream">بث مباشر</span>'
-        : '<span class="lc-type-tag lc-type-archive">أرشيف</span>';
-      var pageHtml = pageUrl ? '<div class="lc-page-link" id="lcpl' + i + '"><span class="lc-lbl">صفحة الملف:</span><a href="' + pageUrl + '" target="_blank">' + pageUrl + '</a></div>' : '';
-      var groupHtml = groupName ? '<div class="lc-page-link" id="lcgr' + i + '"><span class="lc-lbl">المصدر:</span> ' + groupName + '</div>' : '';
-
-      row.innerHTML =
-        '<span class="lc-badge lc-checking" id="lcb' + i + '">جارٍ الفحص</span>' +
-        '<div class="lc-info">' +
-          '<div class="lc-fname">' + name + typeTag + '</div>' +
-          groupHtml +
-          pageHtml +
-          '<div class="lc-replace-row" id="lcrr' + i + '">' +
-            '<input type="text" id="lcni' + i + '" dir="ltr" placeholder="الصق الرابط البديل هنا...">' +
-            '<button class="lc-test-btn" onclick="lcTestReplace(' + i + ')">اختبر ▶</button>' +
-            '<button class="lc-confirm-btn" onclick="lcSendToEditor(' + i + ',\'' + safeUrl + '\')">أرسل للمحرر</button>' +
-          '</div>' +
-          '<div class="lc-rawurl" id="lcraw' + i + '">' + url + '</div>' +
-        '</div>' +
-        '<div class="lc-actions">' +
-          '<button class="lc-act-btn" id="lcplay' + i + '" title="استمع للرابط الأصلي" onclick="lcTogglePlay(\'' + safeUrl + '\',this)">▶</button>' +
-          '<button class="lc-act-btn" title="نسخ الرابط" onclick="lcCopyUrl(\'' + safeUrl + '\',this)">⎘</button>' +
-          '<button class="lc-act-btn" title="إظهار الرابط الكامل" onclick="lcToggleRaw(\'lcraw' + i + '\')">…</button>' +
-        '</div>';
-      container.appendChild(row);
-
-      var badge = document.getElementById('lcb' + i);
-      function markFail(reason){
-        badge.textContent = reason;
-        badge.className = 'lc-badge ' + (reason === 'انتهت المهلة' ? 'lc-timeout' : 'lc-fail');
-        row.className = 'lc-row lc-fail-row';
-        var pl = document.getElementById('lcpl' + i);
-        if (pl) pl.classList.add('lc-show');
-        var gr = document.getElementById('lcgr' + i);
-        if (gr) gr.classList.add('lc-show');
-        var rr = document.getElementById('lcrr' + i);
-        if (rr) rr.classList.add('lc-show');
-        failCount++; done++;
-        lcUpdateSummary(done, urls.length, okCount, failCount);
-      }
-      function markOk(){
-        badge.textContent = 'يعمل ✓';
-        badge.className = 'lc-badge lc-ok';
-        row.className = 'lc-row lc-ok-row';
-        okCount++; done++;
-        lcUpdateSummary(done, urls.length, okCount, failCount);
-      }
-      items.push({ url: url, isStream: isStream, markOk: markOk, markFail: markFail });
+      var item = {
+        url: url, index: i,
+        name: lcNameMap[url] || lcDecodeName(url),
+        group: lcGroupMap[url],
+        isStream: lcIsStreamUrl(url),
+        status: 'pending'
+      };
+      lcBuildRow(item, container);
+      lcLastItems.push(item);
     });
 
-    /* فحص رابط واحد. يحرر الاتصال فورًا بعد معرفة النتيجة (سواء نجاح أو فشل)
-       حتى لا يبقى مشغولاً لواحد من الاتصالات المحدودة التي يسمح بها
-       المتصفح لكل نطاق — وهذا هو سبب معظم النتائج الخاطئة لروابط البث
-       المباشر التي تبقى مفتوحة (لا تُغلق تلقائيًا كملفات الأرشيف). */
-    function runCheck(item, timeoutMs){
-      return new Promise(function(resolve){
-        var audio = new Audio(), settled = false;
-        function release(){
-          try { audio.oncanplay = null; audio.onerror = null; audio.src = ''; audio.removeAttribute('src'); audio.load(); } catch(e){}
-        }
-        var timer = setTimeout(function(){
-          if (settled) return; settled = true;
-          release(); item.markFail('انتهت المهلة'); resolve();
-        }, timeoutMs);
-        audio.oncanplay = function(){
-          if (settled) return; settled = true;
-          clearTimeout(timer); release(); item.markOk(); resolve();
-        };
-        audio.onerror = function(){
-          if (settled) return; settled = true;
-          clearTimeout(timer); release(); item.markFail('لا يعمل'); resolve();
-        };
-        try { audio.src = item.url; audio.load(); }
-        catch(e){ if (!settled){ settled = true; clearTimeout(timer); item.markFail('لا يعمل'); resolve(); } }
-      });
-    }
+    lcShowToolbar(true);
+    lcUpdateSummary(0, lcCounts.total, 0, 0);
 
-    /* روابط الأرشيف (archive.org): ملفات ثابتة، تُحمَّل وتُغلَق بسرعة —
-       تُفحص كلها بالتوازي كما كانت سابقًا. */
-    items.filter(function(it){ return !it.isStream; })
-         .forEach(function(item){ runCheck(item, 12000); });
+    lcRunItemsCheck(lcLastItems).then(function(){ lcSaveLastResults(); });
+  };
 
-    /* بقية الروابط (بث مباشر إلخ): تبقي اتصالها مفتوحًا طوال مدة الفحص،
-       فتُفحص بتزامن محدود (3 روابط في آنٍ واحد) ومهلة أطول (20 ثانية)
-       بدل تشغيلها كلها دفعة واحدة، لتفادي مزاحمتها على عدد الاتصالات
-       القليل الذي يسمح به المتصفح لنفس النطاق. */
-    var streamItems = items.filter(function(it){ return it.isStream; });
-    var CONCURRENCY = 3, idx = 0;
-    function next(){
-      if (idx >= streamItems.length) return;
-      var item = streamItems[idx++];
-      runCheck(item, 20000).then(next);
-    }
-    for (var c = 0; c < Math.min(CONCURRENCY, streamItems.length); c++) next();
+  /* إعادة فحص الروابط المعطلة فقط من نتيجة آخر فحص، بدل إعادة كل القائمة */
+  window.lcRecheckFailed = function(){
+    var failedItems = lcLastItems.filter(function(it){ return it.status === 'fail' || it.status === 'timeout'; });
+    if (!failedItems.length) { alert('لا توجد روابط معطلة لإعادة فحصها'); return; }
+    lcRunItemsCheck(failedItems).then(function(){ lcSaveLastResults(); });
+  };
+
+  /* نسخ كل الروابط المعطلة دفعة واحدة */
+  window.lcCopyAllFailed = function(){
+    var failedUrls = lcLastItems.filter(function(it){ return it.status === 'fail' || it.status === 'timeout'; })
+                                 .map(function(it){ return it.url; });
+    if (!failedUrls.length) { alert('لا توجد روابط معطلة لنسخها'); return; }
+    var text = failedUrls.join('\n');
+    navigator.clipboard.writeText(text).then(function(){
+      alert('تم نسخ ' + failedUrls.length + ' رابط معطل.');
+    }).catch(function(){
+      alert('تعذّر النسخ التلقائي، هذه الروابط المعطلة:\n\n' + text);
+    });
+  };
+
+  /* فلتر إظهار المعطل فقط */
+  function lcApplyFilterToRow(item){
+    var checkbox = document.getElementById('lcShowFailedOnly');
+    var failedOnly = checkbox && checkbox.checked;
+    if (!item.rowEl) return;
+    item.rowEl.style.display = (failedOnly && item.status === 'ok') ? 'none' : '';
+  }
+  window.lcApplyFilter = function(){
+    lcLastItems.forEach(lcApplyFilterToRow);
+  };
+
+  /* تصدير تقرير الفحص كملف نصي قابل للتحميل */
+  window.lcExportReport = function(){
+    if (!lcLastItems.length) { alert('لا توجد نتائج فحص لتصديرها بعد'); return; }
+    var lines = [];
+    lines.push('تقرير فحص روابط الاستماع — ' + new Date().toLocaleString('ar-EG'));
+    lines.push('الإجمالي: ' + lcLastItems.length + ' | يعمل: ' + lcCounts.ok + ' | لا يعمل: ' + lcCounts.fail);
+    lines.push('');
+    lcLastItems.forEach(function(it){
+      var statusLbl = it.status === 'ok' ? 'يعمل'
+        : it.status === 'timeout' ? 'انتهت المهلة'
+        : it.status === 'fail' ? 'لا يعمل'
+        : 'لم يُفحص';
+      lines.push('[' + statusLbl + '] ' + it.name + (it.group ? ' (' + it.group + ')' : ''));
+      lines.push(it.url);
+      lines.push('');
+    });
+    var blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'تقرير-فحص-الروابط-' + new Date().toISOString().slice(0, 10) + '.txt';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+  };
+
+  /* ══ حفظ آخر نتيجة فحص + عرضها عند إعادة فتح الأداة ══ */
+  function lcSaveLastResults(){
+    try {
+      var data = {
+        timestamp: Date.now(),
+        items: lcLastItems.map(function(it){ return { url: it.url, name: it.name, group: it.group, status: it.status }; })
+      };
+      localStorage.setItem(LC_STORAGE_KEY, JSON.stringify(data));
+    } catch(e){}
+  }
+  function lcLoadSavedResults(){
+    try { var raw = localStorage.getItem(LC_STORAGE_KEY); return raw ? JSON.parse(raw) : null; } catch(e){ return null; }
+  }
+  function lcFormatAgo(ts){
+    var diffMin = Math.round((Date.now() - ts) / 60000);
+    if (diffMin < 1) return 'الآن';
+    if (diffMin < 60) return 'منذ ' + diffMin + ' دقيقة';
+    var diffH = Math.round(diffMin / 60);
+    if (diffH < 24) return 'منذ ' + diffH + ' ساعة';
+    var diffD = Math.round(diffH / 24);
+    return 'منذ ' + diffD + ' يوم';
+  }
+  function lcMaybeShowCachedBanner(){
+    var banner = document.getElementById('lcCachedBanner');
+    if (!banner) return;
+    if (lcLastItems.length) { banner.style.display = 'none'; return; }
+    var data = lcLoadSavedResults();
+    if (!data || !data.items || !data.items.length) { banner.style.display = 'none'; return; }
+    var failCount = data.items.filter(function(it){ return it.status === 'fail' || it.status === 'timeout'; }).length;
+    banner.innerHTML =
+      '<span>📦 آخر فحص محفوظ ' + lcFormatAgo(data.timestamp) + ' — ' + data.items.length + ' رابط ' +
+      '(يعمل: ' + (data.items.length - failCount) + '، معطل: ' + failCount + ')</span>' +
+      '<button class="lc-btn-ghost lc-small-btn" onclick="lcShowCachedResults()">عرض</button>';
+    banner.style.display = 'flex';
+  }
+  window.lcShowCachedResults = function(){
+    var data = lcLoadSavedResults();
+    if (!data || !data.items) return;
+    var container = document.getElementById('lcResults');
+    container.innerHTML = '';
+    lcLastItems = [];
+    lcCounts = { ok: 0, fail: 0, done: 0, total: data.items.length };
+    data.items.forEach(function(saved, i){
+      var item = {
+        url: saved.url, index: i, name: saved.name, group: saved.group,
+        isStream: lcIsStreamUrl(saved.url), status: 'pending'
+      };
+      lcBuildRow(item, container);
+      lcLastItems.push(item);
+      lcSetStatus(item, saved.status);
+    });
+    document.getElementById('lcCachedBanner').style.display = 'none';
+    lcShowToolbar(true);
+    var note = document.createElement('div');
+    note.className = 'lc-summary';
+    note.textContent = 'هذه نتائج محفوظة من ' + lcFormatAgo(data.timestamp) + ' — اضغط "فحص الروابط" أعلاه لإعادة الفحص الآن.';
+    document.getElementById('lcResults').appendChild(note);
   };
 
   window.lcUpdateSummary = function(done, total, ok, fail){
@@ -20126,31 +20373,99 @@ setTimeout(autoScaleVerseFont, 100);
   };
 
   /* ══ تاب 2: المحرر ══ */
-  window.lcDoReplace = function(){
+  var lcNewUrlTested = false, lcNewUrlTestedValue = '';
+  var lcReplaceBackup = null;
+
+  function lcDoReplace(){
     var code = document.getElementById('lcCodeInput').value;
     var oldU = document.getElementById('lcOldUrl').value.trim();
     var newU = document.getElementById('lcNewUrl').value.trim();
     var log = document.getElementById('lcEditorLog');
     var out = document.getElementById('lcCodeOutput');
+
     if (!code) { log.textContent = 'الرجاء إدراج الكود أولاً.'; return; }
     if (!oldU || !newU) { log.textContent = 'الرجاء إدخال الرابط القديم والجديد.'; return; }
-    var count = 0;
-    var updated = code.replace(new RegExp(oldU.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), function(){ count++; return newU; });
+
+    /* لا يسمح بالاستبدال إلا لو الرابط الجديد اتعمله "اختبر ▶" ونجح فعلاً،
+       ولسه نفس القيمة (لو غيّرها بعد الاختبار، لازم يعيد الاختبار). */
+    if (!lcNewUrlTested || newU !== lcNewUrlTestedValue) {
+      log.textContent = '⚠️ لازم تضغط "اختبر الرابط الجديد ▶" أولًا ويشتغل بنجاح قبل الاستبدال.';
+      return;
+    }
+
+    var escapedOld = oldU.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    var matchCount = (code.match(new RegExp(escapedOld, 'g')) || []).length;
+
+    /* منع تنفيذ العملية بالكامل لو الرابط القديم مش موجود أصلاً في الكود،
+       بدل تنفيذها ظاهريًا من غير أي تأثير فعلي. */
+    if (matchCount === 0) {
+      log.textContent = '⚠️ الرابط القديم غير موجود في الكود المدخل — لم يتم تنفيذ أي استبدال.';
+      return;
+    }
+
+    /* تأكيد نهائي بملخص العملية قبل التنفيذ الفعلي (طبقة تحقق إضافية غير عدد الضغطات) */
+    var confirmMsg = 'هيتم استبدال ' + matchCount + ' تكرار من:\n' + oldU + '\n\nبـ:\n' + newU + '\n\nهل تريد المتابعة؟';
+    if (!confirm(confirmMsg)) { log.textContent = 'تم إلغاء العملية.'; return; }
+
+    /* حفظ نسخة قبل التنفيذ لإتاحة التراجع لاحقًا */
+    lcReplaceBackup = { input: code, output: out.value, oldU: oldU, newU: newU };
+
+    var updated = code.replace(new RegExp(escapedOld, 'g'), newU);
     out.value = updated;
-    log.textContent = count > 0 ? 'تم استبدال ' + count + ' تكرار بنجاح.' : 'لم يتم العثور على الرابط القديم في الكود.';
+    log.textContent = 'تم استبدال ' + matchCount + ' تكرار بنجاح.';
+    var undoBtn = document.getElementById('lcUndoReplaceBtn');
+    if (undoBtn) undoBtn.style.display = 'inline-block';
+  }
+
+  /* زرار "استبدل في الكود" بيغيّر كود فعلي، فمحمي بحارس 3 ضغطات (بمهلة
+     مشدّدة أقل من زر فحص الروابط الأخرى، لأنه تعديل فعلي وليس مجرد فحص). */
+  var lcReplaceGuard = lcMakeClickGuard(3, 900);
+  window.lcDoReplaceGuarded = function(){
+    lcReplaceGuard(lcDoReplace);
+  };
+
+  /* تراجع بعد التنفيذ: يرجّع الكود والحقول لحالتها قبل آخر استبدال فعلي.
+     أهم حماية لأنها تغطي حتى القرار الواعي الخاطئ، مش بس الضغط بالغلط. */
+  window.lcUndoLastReplace = function(){
+    if (!lcReplaceBackup) { alert('لا يوجد استبدال سابق للتراجع عنه'); return; }
+    document.getElementById('lcCodeInput').value = lcReplaceBackup.input;
+    document.getElementById('lcCodeOutput').value = lcReplaceBackup.output;
+    document.getElementById('lcOldUrl').value = lcReplaceBackup.oldU;
+    document.getElementById('lcNewUrl').value = lcReplaceBackup.newU;
+    document.getElementById('lcEditorLog').textContent = 'تم التراجع — رجع الكود لحالته قبل آخر استبدال.';
+    lcReplaceBackup = null;
+    var undoBtn = document.getElementById('lcUndoReplaceBtn');
+    if (undoBtn) undoBtn.style.display = 'none';
   };
 
   window.lcTestNewUrl = function(){
     var url = document.getElementById('lcNewUrl').value.trim();
     if (!url) { alert('أدخل الرابط الجديد أولاً'); return; }
+    lcNewUrlTested = false;
     if (lcCurrentAudio) lcCurrentAudio.pause();
     var a = new Audio(url);
     a.play().catch(function(){ alert('الرابط لا يعمل أو محجوب'); });
     lcCurrentAudio = a;
     document.getElementById('lcEditorLog').textContent = 'جارٍ اختبار الرابط الجديد...';
-    a.oncanplay = function(){ document.getElementById('lcEditorLog').textContent = 'الرابط الجديد يعمل ✓ — يمكنك الآن الاستبدال.'; };
-    a.onerror = function(){ document.getElementById('lcEditorLog').textContent = 'الرابط الجديد لا يعمل ✗'; };
+    a.oncanplay = function(){
+      lcNewUrlTested = true;
+      lcNewUrlTestedValue = url;
+      document.getElementById('lcEditorLog').textContent = 'الرابط الجديد يعمل ✓ — يمكنك الآن الاستبدال.';
+    };
+    a.onerror = function(){
+      lcNewUrlTested = false;
+      document.getElementById('lcEditorLog').textContent = 'الرابط الجديد لا يعمل ✗';
+    };
   };
+
+  /* لو المستخدم غيّر الرابط الجديد يدويًا بعد اختباره، يلغى اعتماد الاختبار
+     السابق ويحتاج اختبار الرابط الجديد من جديد قبل السماح بالاستبدال. */
+  var lcNewUrlInputEl = document.getElementById('lcNewUrl');
+  if (lcNewUrlInputEl) {
+    lcNewUrlInputEl.addEventListener('input', function(){
+      if (this.value.trim() !== lcNewUrlTestedValue) lcNewUrlTested = false;
+    });
+  }
 
   window.lcCopyCode = function(){
     var val = document.getElementById('lcCodeOutput').value;
@@ -20166,6 +20481,10 @@ setTimeout(autoScaleVerseFont, 100);
     document.getElementById('lcOldUrl').value = '';
     document.getElementById('lcNewUrl').value = '';
     document.getElementById('lcEditorLog').textContent = 'سيظهر هنا ملخص التغييرات...';
+    lcNewUrlTested = false; lcNewUrlTestedValue = '';
+    lcReplaceBackup = null;
+    var undoBtn = document.getElementById('lcUndoReplaceBtn');
+    if (undoBtn) undoBtn.style.display = 'none';
   };
 
   /* ══ مشتركة ══ */
@@ -20188,6 +20507,57 @@ setTimeout(autoScaleVerseFont, 100);
     });
   };
   window.lcToggleRaw = function(id){ var el = document.getElementById(id); if (el) el.classList.toggle('lc-show'); };
+
+  /* ══ فحص تلقائي مجدول (مرة كل أسبوع) في الخلفية — روابط الأرشيف فقط
+     تخفيفًا للحمل، ويظهر عدد الروابط المعطلة كنقطة تنبيه صغيرة على زر
+     فتح الأداة في الفوتر من غير ما يحتاج المستخدم يفتحها يدويًا. ══ */
+  var LC_AUTO_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000; // أسبوع
+
+  function lcUpdateAutoAlertBadge(meta){
+    var badge = document.getElementById('lcAutoAlertBadge');
+    if (!badge) return;
+    if (meta && meta.failCount > 0) {
+      badge.textContent = meta.failCount;
+      badge.style.display = 'inline-flex';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  function lcMaybeRunScheduledCheck(){
+    var meta = null;
+    try { meta = JSON.parse(localStorage.getItem(LC_AUTO_KEY) || 'null'); } catch(e){}
+    if (meta && (Date.now() - meta.lastRun) < LC_AUTO_INTERVAL_MS) {
+      lcUpdateAutoAlertBadge(meta);
+      return;
+    }
+    var links = lcCollectSiteLinks(); // روابط أرشيف فقط، أخف على الفحص التلقائي الصامت
+    if (!links.length) return;
+
+    var pending = links.length, failCount = 0, results = [];
+    var CONCURRENCY = 4, idx = 0;
+    function next(){
+      if (idx >= links.length) return;
+      var link = links[idx++];
+      lcCheckOne(link.url, 12000).then(function(status){
+        if (status !== 'ok') failCount++;
+        results.push({ url: link.url, name: link.name, group: link.group, status: status });
+        pending--;
+        if (pending <= 0) finish(); else next();
+      });
+    }
+    function finish(){
+      try {
+        localStorage.setItem(LC_STORAGE_KEY, JSON.stringify({ timestamp: Date.now(), items: results }));
+        localStorage.setItem(LC_AUTO_KEY, JSON.stringify({ lastRun: Date.now(), failCount: failCount }));
+      } catch(e){}
+      lcUpdateAutoAlertBadge({ lastRun: Date.now(), failCount: failCount });
+    }
+    for (var c = 0; c < Math.min(CONCURRENCY, links.length); c++) next();
+  }
+
+  /* تأجيل بسيط حتى لا يزاحم الفحص التلقائي تحميل الصفحة الأساسي */
+  setTimeout(lcMaybeRunScheduledCheck, 8000);
 })();
 </script>
 
