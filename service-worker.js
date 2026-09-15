@@ -39,8 +39,9 @@ const ALARM_AUDIO_URLS = [
 const ADHAN_URL = "https://archive.org/download/20260602_20260602_0726/%D8%AD%D9%89%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D9%84%D8%A9.mp3";
 
 const STATIC_ASSETS = [
-  '/Radio/',
+   '/Radio/',
   '/Radio/index.html',
+  '/Radio/style.css',
   '/Radio/favicon.png',
   '/Radio/manifest.json',
   '/Radio/icon-192.png',
