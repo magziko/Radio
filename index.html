@@ -2464,6 +2464,12 @@ body.dark-mode #customRandomBtn:hover {
   transition: background 1s ease-in-out, color 1s ease-in-out, text-shadow 1s ease-in-out;
 }
 
+html, body {
+  /* يمنع "الأنكور" التلقائي للتمرير (Scroll Anchoring) اللي بيخلي المتصفح
+     يقفز بالصفحة لأعلى/لأسفل لوحده لما عناصر فوق أو جوار مكان النظر بتتغيّر
+     مقاساتها (زي وقت تغيير الثيم تلقائيًا). */
+  overflow-anchor: none;
+}
 body {
   background-color: #eaf3fb;
   font-family: Arial, sans-serif;
@@ -43956,6 +43962,12 @@ function applySiteTheme(theme, save) {
   if (save === undefined) save = true;
   if (!theme) return;
 
+  // ثبّت موضع السكرول الحالي: التغييرات اللي جاية (كلاسات جسم الصفحة،
+  // إظهار/إخفاء فيديو الخلفية...) ممكن تغيّر ارتفاع عناصر فوق أو حوالين
+  // مكان نظر المستخدم، فيقفز المتصفح بالتمرير لوحده. بنرجّعه لنفس المكان
+  // بعد ما كل التغييرات تخلص.
+  var _scrollYBeforeTheme = window.scrollY;
+
   document.body.classList.remove.apply(document.body.classList, SITE_THEME_CLASSES);
 
   var activePreset = null;
@@ -44017,6 +44029,14 @@ function applySiteTheme(theme, save) {
   try {
     if (typeof spDrawCanvas === 'function') spDrawCanvas();
   } catch (e) {}
+
+  // رجّع نفس موضع التمرير اللي كان عليه المستخدم قبل التغيير — مرتين
+  // (فورًا وبعد الـ frame الجاي) عشان نضمن إننا نتغلّب على أي قفزة بيسببها
+  // المتصفح نفسه بعد ما الـ reflow يخلص فعليًا.
+  window.scrollTo(0, _scrollYBeforeTheme);
+  requestAnimationFrame(function() {
+    window.scrollTo(0, _scrollYBeforeTheme);
+  });
 }
 
 function changeSiteTheme() {
@@ -49364,6 +49384,13 @@ var _tasbihAdvanceCallback = null;
 // الزر اللى المؤقّت/الدائرة الحالية شغالة عليه، عشان نعرف نلغيه بس لو
 // المستخدم ضغط على نفس الذكر ده يدويًا (من غير ما نأثر على ذكر تانى)
 var _tasbihAdvancePendingButton = null;
+// الزر اللى فتحنا له وضع التركيز (تكبير) بس لأنه مكتمل بالفعل ومحتاج
+// المستخدم يقراه تانى (أول ضغطة على ذكر مكتمل مش فى حالة أذكار الصباح/
+// المساء الخاصة). لو المستخدم ضغط تانى على نفس الزر ده تحديدًا، يبقى
+// خلص قراءته وقصده الانتقال للذكر التالى/اللى عليه الدور — من غير ما
+// نزوّد العدّاد. لو ضغط على زر مكتمل تانى غير ده، يبقى برضه أول ضغطة
+// عليه فنفتحله تركيز بس (نفس السلوك الأصلى) ونخزّنه هو دلوقتى
+var _tasbihCompletedFocusOpenedButton = null;
 
 var TASBIH_PACE_KEY = 'tasbihReadPaceFactor';
 var TASBIH_PACE_MIN = 0.35; // أسرع حالة ممكنة (حافظ الذكر تمامًا)
@@ -49457,6 +49484,21 @@ function _learnTasbihFastRead(elapsedRatio) {
   if (updated < TASBIH_PACE_MIN) updated = TASBIH_PACE_MIN;
   if (updated > TASBIH_PACE_MAX) updated = TASBIH_PACE_MAX;
   localStorage.setItem(TASBIH_PACE_KEY, updated.toFixed(3));
+  if (typeof _updateTasbihSpeedLabel === 'function') _updateTasbihSpeedLabel();
+}
+
+// لو فيه مؤقّت/دائرة عدّ تنازلى شغالة فعلاً على الذكر الحالى (يعني المستخدم
+// كان لسه فى مهلة القراءة) وضغط يدويًا قبل ما تخلص، ده "تعلّم" حقيقى إنه
+// بيقرأ أسرع من المتوقع — بنحسب نسبة الوقت اللى استخدمها فعلاً وننادي
+// _learnTasbihFastRead بيها. لازم تتنادى قبل _clearTasbihAdvanceTimer()
+// على طول، لأن الدالة دي بتصفّر _tasbihAdvanceStartTime/_tasbihAdvanceScheduledDelay.
+// شغالة بنفس الشكل مهما كان عدد لفّات الذكر (١، ٣، ٤، ٧، ١٠، ١٠٠...) لأنها
+// بتتنادى قبل كل لفة على حدة، مش مرة واحدة للذكر كله.
+function _learnFromPendingTasbihTap() {
+  if (_tasbihAdvanceStartTime != null && _tasbihAdvanceScheduledDelay) {
+    var elapsedRatio = (Date.now() - _tasbihAdvanceStartTime) / _tasbihAdvanceScheduledDelay;
+    _learnTasbihFastRead(elapsedRatio);
+  }
 }
 
 function _clearTasbihAdvanceTimer() {
@@ -49473,6 +49515,11 @@ function _clearTasbihAdvanceTimer() {
 function _estimateTasbihReadingDelay(button) {
   var text = button.getAttribute('data-ar') || button.getAttribute('data-en') || '';
   text = text.replace(/<[^>]*>/g, ' '); // إزالة وسوم HTML زي <br> قبل حساب عدد الكلمات
+  // رمز ﷺ (الصلاة والسلام) بيتنطق فعليًا "صلى الله عليه وسلم" = 4 كلمات،
+  // لكنه بيتحسب ككلمة واحدة بس لو سبناه زي ما هو فى النص، فبنستبدله بعدد
+  // كلمات يعادل نطقه فعليًا عشان مهلة القراءة تحسب وقته صح (زي ذكر
+  // "رضيت بالله ربًا..." اللي بينطق فيه المستخدم الصلاة والسلام كاملة).
+  text = text.replace(/ﷺ/g, 'صلى الله عليه وسلم');
   var words = text.trim().split(/\s+/).filter(Boolean).length;
   // ~350ms لكل كلمة (سرعة قراءة مريحة)، معدّلة بمعامل سرعة المستخدم المتعلّم
   var factor = _getTasbihPaceFactor();
@@ -49482,7 +49529,12 @@ function _estimateTasbihReadingDelay(button) {
   // للحد الأدنى الثابت 500ms مهما كانت السرعة المختارة، فيبقى تغيير السرعة
   // مالوش تأثير ملحوظ عليها فى الغالب
   var minDelay = 500 * factor;
-  var maxDelay = 15000 * factor;
+  // الحد الأقصى كان 15 ثانية، وده كان بيقطع أذكار طويلة قبل ما المستخدم يخلص
+  // قراءتها فعليًا — زي آخر آيتين من سورة البقرة (91 كلمة ≈ 32 ثانية) وآية
+  // الكرسي (63 كلمة ≈ 22 ثانية)، اللي كانتا بتتقطعا عند 15 ثانية بس. رفعناه
+  // لـ 45 ثانية عشان يستوعب أطول ذكر موجود حاليًا (آخر آيتين من البقرة) مع
+  // هامش إضافي كافٍ.
+  var maxDelay = 45000 * factor;
   if (delay < minDelay) delay = minDelay;
   if (delay > maxDelay) delay = maxDelay;
   return delay;
@@ -49717,6 +49769,16 @@ function incrementTasbih(event) {
   const button = box.closest("button");
   if (!button) return;
 
+  // لو فيه مؤقّت/لفة تلقائية شغالة على ذكر تانى غير اللى اتضغط عليه دلوقتى
+  // (المستخدم سايب الذكر القديم وانتقل يدويًا لذكر جديد قبل ما مهلته تخلص)،
+  // لازم نلغيه هنا فورًا. من غير الإلغاء ده، مؤقّت الذكر القديم كان هيفضل
+  // شغال فى الخلفية ويطلع بعد شوية (زيادة عدّاده أو نقل التركيز/السكرول)
+  // من غير أي علاقة بمكان المستخدم دلوقتى، وده كان بيسبب قفزة مفاجئة مربكة
+  if (_tasbihAdvancePendingButton && _tasbihAdvancePendingButton !== button) {
+    _clearTasbihNextHint(_tasbihAdvancePendingButton);
+    _clearTasbihAdvanceTimer();
+  }
+
   // ===== ذكر مكتمل الهدف بالفعل من قبل (وماكانش أول ذكر صباح/مساء
   // بتارجت ١ ولا فيه لفة تلقائية شغالة عليه دلوقتى — الحالتين دول
   // بيتعالجوا فى الشروط اللى تحت دول بالانتقال للذكر التالى): يبقى
@@ -49729,6 +49791,15 @@ function incrementTasbih(event) {
       _isFirstAdhkarInGroup(button) &&
       !_adhkarAutoAdvanceActive()) &&
     _tasbihAdvancePendingButton !== button) {
+    // لو دي مش أول ضغطة على الذكر المكتمل ده (يعنى كان أصلاً فاتح فى وضع
+    // التركيز من ضغطة سابقة)، يبقى المستخدم خلص قراءته وضغط تانى قصده
+    // الانتقال للذكر التالى/اللى عليه الدور — من غير ما نزوّد العدّاد
+    if (_tasbihCompletedFocusOpenedButton === button) {
+      _tasbihCompletedFocusOpenedButton = null;
+      advanceTasbihFocus(button);
+      return;
+    }
+    _tasbihCompletedFocusOpenedButton = button;
     setTasbihFocus(button);
     return;
   }
@@ -49744,6 +49815,7 @@ function incrementTasbih(event) {
     _isFirstAdhkarInGroup(button) &&
     !_adhkarAutoAdvanceActive()) {
     if (_tasbihAdvancePendingButton === button) {
+      _learnFromPendingTasbihTap();
       _clearTasbihAdvanceTimer();
     }
     _clearTasbihNextHint(button);
@@ -49759,6 +49831,7 @@ function incrementTasbih(event) {
   // على تارجت ١) وتعيد نفس مهلة الانتظار من الأول بدل ما تنقل فورًا
   if (button.classList.contains("completed") &&
     _tasbihAdvancePendingButton === button) {
+    _learnFromPendingTasbihTap();
     _clearTasbihAdvanceTimer();
     _clearTasbihNextHint(button);
     advanceTasbihFocus(button);
@@ -49771,6 +49844,7 @@ function incrementTasbih(event) {
   // بتبدأ السلسلة" و"ضغطة يدوية جت أثناء أول لفة شغالة بالفعل"
   var _wasTasbihAdvancePendingForThisButton = (_tasbihAdvancePendingButton === button);
   if (_wasTasbihAdvancePendingForThisButton) {
+    _learnFromPendingTasbihTap();
     _clearTasbihAdvanceTimer();
   }
   _clearTasbihNextHint(button);
@@ -50140,6 +50214,9 @@ function resetTasbih(event) {
     _clearTasbihAdvanceTimer();
   }
   if (typeof _clearTasbihNextHint === 'function') _clearTasbihNextHint(button);
+  if (_tasbihCompletedFocusOpenedButton === button) {
+    _tasbihCompletedFocusOpenedButton = null;
+  }
 
   updateAdhkarProgress();
   activeTasbih = box;
@@ -53055,6 +53132,14 @@ function incrementTasbihKeyboard(box) {
   const button = box.closest("button");
   if (!button) return;
 
+  // نفس منطق الماوس: لو فيه مؤقّت شغال على ذكر تانى غير اللى اتفعّل بالكيبورد
+  // دلوقتى، نلغيه عشان منسيبوش يطلع فى الخلفية بعد كده من غير علاقة بمكان
+  // المستخدم الحالى
+  if (_tasbihAdvancePendingButton && _tasbihAdvancePendingButton !== button) {
+    _clearTasbihNextHint(_tasbihAdvancePendingButton);
+    _clearTasbihAdvanceTimer();
+  }
+
   // نفس شرط الماوس/التاتش: أذكار الصباح/المساء فقط، فى وضع التسبيح اليدوى
   // (مش الاوتوماتيك)، لو الذكر تارجته ١ واكتمل بالفعل، ضغطة الكيبورد
   // الجديدة تنقل للذكر التالى على طول من غير ما تزوّد العدّاد
@@ -53063,6 +53148,7 @@ function incrementTasbihKeyboard(box) {
     _isMorningEveningAdhkar(button) &&
     !_adhkarAutoAdvanceActive()) {
     if (_tasbihAdvancePendingButton === button) {
+      _learnFromPendingTasbihTap();
       _clearTasbihAdvanceTimer();
     }
     _clearTasbihNextHint(button);
@@ -53076,6 +53162,7 @@ function incrementTasbihKeyboard(box) {
   // العدّاد لرقم غلط ولا إعادة جدولة نفس مهلة الانتظار من الأول
   if (button.classList.contains("completed") &&
     _tasbihAdvancePendingButton === button) {
+    _learnFromPendingTasbihTap();
     _clearTasbihAdvanceTimer();
     _clearTasbihNextHint(button);
     advanceTasbihFocus(button);
@@ -53086,6 +53173,7 @@ function incrementTasbihKeyboard(box) {
   // ده عشان منعدش مرتين، مع حفظ إنه كان شغال قبل الإلغاء زي الماوس بالظبط
   var _wasTasbihAdvancePendingForThisButton = (_tasbihAdvancePendingButton === button);
   if (_wasTasbihAdvancePendingForThisButton) {
+    _learnFromPendingTasbihTap();
     _clearTasbihAdvanceTimer();
   }
   _clearTasbihNextHint(button);
