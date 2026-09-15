@@ -32248,6 +32248,182 @@ function toggleTasbihAutoFromBox(event) {
   _applyAdhkarAutoAdvance(saved === null ? true : saved === '1');
 })();
 
+/* ══════════════════════════════════════════════════════════════════════════
+   إيقاف العدّ/الانتقال التلقائى للأذكار تلقائيًا عند مغادرة الصفحة
+   ──────────────────────────────────────────────────────────────────────────
+   الفكرة: لما المستخدم يبدّل التاب، أو يعمل مينيمايز، أو يقفل الشاشة، أو
+   يخرج من المتصفح على الموبايل/التابلت — العدّ التلقائى يقف فورًا عند آخر
+   تسبيحة، فيفضل مكانه فى الذكر محفوظ من غير ما يحتاج يضغط زر الإيقاف ⏸.
+   ولما يرجع للصفحة تانى، بيظهر عدّ تنازلى 3 ثوانى قبل استئناف العدّ
+   (وممكن يضغط على العدّاد عشان يلغى الاستئناف ويفضل واقف).
+
+   مهم: الكود ده مابيغيّرش أى شرط أو سلوك موجود فى التطبيق. هو بس بيستدعى
+   نفس مسار الإيقاف المؤقّت المحلى اللى زر ⏸ جوّا مربع التسبيح بيستخدمه
+   (_adhkarAutoAdvancePaused)، من غير ما يلمس إعداد "الانتقال التلقائى"
+   العام المحفوظ فى الإعدادات (_adhkarAutoAdvanceOn / localStorage).
+
+   مكان اللصق: فى آخر الصفحة قبل </body> مباشرةً، جوّا <script> ... </script>
+   ══════════════════════════════════════════════════════════════════════════ */
+(function initAdhkarAutoPauseOnHidden() {
+
+  var RESUME_DELAY_MS = 3000;   // مهلة العدّ التنازلى قبل الاستئناف
+
+  var _pausedByUs   = false;    // إحنا اللى وقّفناه (مش المستخدم بزر ⏸)
+  var _countdownInt = null;
+  var _chipEl       = null;
+
+  function _isAr() {
+    return (typeof isArabic !== 'undefined') ? isArabic : true;
+  }
+
+  /* الميزة شغالة فعليًا دلوقتى؟ (مفعّلة من الإعدادات ومش موقوفة يدويًا) */
+  function _featureActive() {
+    return (typeof _adhkarAutoAdvanceActive === 'function') && _adhkarAutoAdvanceActive();
+  }
+
+  /* فيه تسبيح شغّال فعلاً دلوقتى؟ عشان ما نوقّفش حاجة أصلاً مش شغّالة
+     (مثلاً المستخدم فى قسم الراديو أو الصلاة ومش بيسبّح خالص) */
+  function _hasRunningTasbih() {
+    if (window._tasbihAdvanceTimer) return true;
+
+    var btn = document.querySelector('.button.has-tasbih.tasbih-focus');
+    if (!btn && typeof activeTasbih !== 'undefined' && activeTasbih) {
+      btn = activeTasbih.closest('button');
+    }
+    if (!btn || !btn.classList.contains('has-tasbih')) return false;
+    if (btn.classList.contains('completed')) return false;
+    return (parseInt(btn.dataset.target) || 0) > 0;
+  }
+
+  /* ── الإيقاف: نفس اللى بيحصل بالظبط لما المستخدم يضغط ⏸ ── */
+  function _pauseNow() {
+    if (!_featureActive()) return;      // مقفولة من الإعدادات، أو المستخدم واقفها يدويًا أصلاً
+    if (!_hasRunningTasbih()) return;   // مفيش تسبيح شغّال، مافيش داعى
+
+    window._adhkarAutoAdvancePaused = true;
+
+    if (typeof _clearTasbihAdvanceTimer === 'function') _clearTasbihAdvanceTimer();
+
+    document.querySelectorAll('.tasbih-box.tasbih-hint-visible').forEach(function(b) {
+      b.classList.remove('tasbih-hint-visible');
+    });
+
+    if (typeof _refreshTasbihAutoToggleButtons === 'function') _refreshTasbihAutoToggleButtons();
+
+    _pausedByUs = true;
+  }
+
+  /* ── الاستئناف: نفس مسار زر ▶️ ── */
+  function _resumeNow() {
+    _pausedByUs = false;
+    if (!window._adhkarAutoAdvanceOn) return;     // المستخدم قفل الميزة من الإعدادات وإحنا بره
+    if (!window._adhkarAutoAdvancePaused) return; // اتستأنف بالفعل بطريقة تانية
+
+    window._adhkarAutoAdvancePaused = false;
+    if (typeof _refreshTasbihAutoToggleButtons === 'function') _refreshTasbihAutoToggleButtons();
+    if (typeof _resumeTasbihAutoLapIfNeeded === 'function') _resumeTasbihAutoLapIfNeeded();
+
+    if (typeof showToast === 'function') {
+      showToast(_isAr() ? '▶️ تم استئناف العدّ التلقائى' : '▶️ Auto-count resumed');
+    }
+  }
+
+  /* ── شارة العدّ التنازلى (اضغط عليها = إلغاء الاستئناف) ── */
+  function _showChip(sec) {
+    if (!_chipEl) {
+      _chipEl = document.createElement('div');
+      _chipEl.id = 'adhkarResumeChip';
+      _chipEl.style.cssText =
+        'position:fixed;left:50%;transform:translateX(-50%);bottom:90px;z-index:2147483000;' +
+        'background:rgba(20,20,20,.92);color:#fff;padding:10px 16px;border-radius:30px;' +
+        'font-family:Cairo,Arial,sans-serif;font-size:14px;font-weight:700;cursor:pointer;' +
+        'box-shadow:0 6px 22px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);' +
+        'user-select:none;-webkit-user-select:none;white-space:nowrap;';
+      _chipEl.addEventListener('click', function() {
+        _stopCountdown();
+        _pausedByUs = false;   // المستخدم قرر يسيبه واقف — يبقى بقى إيقافه هو
+        if (typeof showToast === 'function') {
+          showToast(_isAr() ? '⏸ العدّ التلقائى واقف (اضغط ▶️ للاستئناف)'
+                            : '⏸ Auto-count kept paused (tap ▶️ to resume)');
+        }
+      });
+      document.body.appendChild(_chipEl);
+    }
+    _updateChip(sec);
+    _chipEl.style.display = 'block';
+  }
+
+  function _updateChip(sec) {
+    if (!_chipEl) return;
+    _chipEl.textContent = _isAr()
+      ? ('▶️ استئناف العدّ خلال ' + sec + ' — اضغط للإلغاء')
+      : ('▶️ Resuming in ' + sec + ' — tap to cancel');
+  }
+
+  function _hideChip() {
+    if (_chipEl) _chipEl.style.display = 'none';
+  }
+
+  /* بيوقف العدّ التنازلى من غير ما يلغى إن إحنا اللى واقفين الميزة */
+  function _stopCountdown() {
+    if (_countdownInt) { clearInterval(_countdownInt); _countdownInt = null; }
+    _hideChip();
+  }
+
+  function _startCountdown() {
+    if (!_pausedByUs) return;                      // إحنا مش اللى وقّفناه → مانستأنفش
+    if (!window._adhkarAutoAdvanceOn) { _pausedByUs = false; return; }
+    if (!window._adhkarAutoAdvancePaused) { _pausedByUs = false; return; }
+
+    _stopCountdown();
+    var left = Math.round(RESUME_DELAY_MS / 1000);
+    _showChip(left);
+
+    _countdownInt = setInterval(function() {
+      left--;
+      if (left > 0) { _updateChip(left); return; }
+      _stopCountdown();
+      _resumeNow();
+    }, 1000);
+  }
+
+  /* ── الرابط الوحيد بالنظام: حالة ظهور/اختفاء الصفحة ──
+     بتغطى: تبديل التاب، المينيمايز، قفل الشاشة، الخروج لتطبيق تانى
+     أو للشاشة الرئيسية على الموبايل/التابلت */
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      _stopCountdown();   // لو كان فيه عدّ تنازلى شغّال، يتلغى (لسه واقف)
+      _pauseNow();
+    } else {
+      _startCountdown();
+    }
+  });
+
+  /* لو المستخدم ضغط زر ⏸/▶️ بنفسه فى أى وقت، بنسيب القرار له تمامًا
+     ومابنستأنفش من ورا ظهره (غلاف حوالين الدالة الأصلية، من غير أى
+     تعديل على منطقها الداخلى) */
+  function _wrapManualToggle() {
+    var orig = window.toggleTasbihAutoFromBox;
+    if (typeof orig !== 'function' || orig._wrappedForVisibility) return;
+
+    var wrapped = function() {
+      _stopCountdown();
+      _pausedByUs = false;
+      return orig.apply(this, arguments);
+    };
+    wrapped._wrappedForVisibility = true;
+    window.toggleTasbihAutoFromBox = wrapped;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _wrapManualToggle);
+  } else {
+    _wrapManualToggle();
+  }
+
+})();
+
+
 function changeFontFamily(val) {
   _userFontFamilyVal = val || '';
   _updateFontOverrideStyle();
