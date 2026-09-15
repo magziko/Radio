@@ -32422,6 +32422,229 @@ function toggleTasbihAutoFromBox(event) {
 
 })();
 
+/* ══════════════════════════════════════════════════════════════════════════
+   إيقاف العدّ التلقائى للسبحة (⏩ تلقائي) تلقائيًا عند مغادرة الصفحة
+   ──────────────────────────────────────────────────────────────────────────
+   نفس فكرة إيقاف الأذكار، لكن هنا مطبّقة على عدّاد السبحة (salah-pip /
+   spAutoTimer). بما إن spAutoTimer وspStartAuto/spStopAuto داخل الكلوجر
+   الخاص بالسبحة ومش متاحين من برّه، بنستخدم بالظبط نفس المسار اللى زرار
+   "⏩ تلقائي" نفسه بيستخدمه (window.spToggleAuto)، وبنقرأ حالته من كلاس
+   "active" اللى الزرار بيتحط عليه — بالظبط زي ما يحصل لو المستخدم ضغط
+   الزرار بإيده. مفيش أى لمس لمنطق السبحة الداخلى.
+   ══════════════════════════════════════════════════════════════════════════ */
+(function initSebhaAutoPauseOnHidden() {
+
+  var RESUME_DELAY_MS = 3000;
+
+  var _pausedByUs   = false;
+  var _countdownInt = null;
+  var _chipEl       = null;
+
+  function _isAr() {
+    return (typeof isArabic !== 'undefined') ? isArabic : true;
+  }
+
+  function _sebhaAutoActive() {
+    var btn = document.getElementById('sp-auto-btn');
+    return !!(btn && btn.classList.contains('active'));
+  }
+
+  function _pauseNow() {
+    if (!_sebhaAutoActive()) return;
+    if (typeof window.spToggleAuto === 'function') window.spToggleAuto();
+    _pausedByUs = true;
+  }
+
+  function _resumeNow() {
+    _pausedByUs = false;
+    if (_sebhaAutoActive()) return;
+    if (typeof window.spToggleAuto === 'function') window.spToggleAuto();
+  }
+
+  function _showChip(sec) {
+    if (!_chipEl) {
+      _chipEl = document.createElement('div');
+      _chipEl.id = 'sebhaResumeChip';
+      _chipEl.style.cssText =
+        'position:fixed;left:50%;transform:translateX(-50%);bottom:150px;z-index:2147483000;' +
+        'background:rgba(20,20,20,.92);color:#fff;padding:10px 16px;border-radius:30px;' +
+        'font-family:Cairo,Arial,sans-serif;font-size:14px;font-weight:700;cursor:pointer;' +
+        'box-shadow:0 6px 22px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);' +
+        'user-select:none;-webkit-user-select:none;white-space:nowrap;';
+      _chipEl.addEventListener('click', function() {
+        _stopCountdown();
+        _pausedByUs = false;
+        if (typeof showToast === 'function') {
+          showToast(_isAr() ? '⏸ السبحة التلقائية واقفة (اضغط ⏩ تلقائي للاستئناف)'
+                            : '⏸ Auto tasbih kept paused (tap Auto to resume)');
+        }
+      });
+      document.body.appendChild(_chipEl);
+    }
+    _updateChip(sec);
+    _chipEl.style.display = 'block';
+  }
+
+  function _updateChip(sec) {
+    if (!_chipEl) return;
+    _chipEl.textContent = _isAr()
+      ? ('⏩ استئناف السبحة خلال ' + sec + ' — اضغط للإلغاء')
+      : ('⏩ Resuming tasbih in ' + sec + ' — tap to cancel');
+  }
+
+  function _hideChip() {
+    if (_chipEl) _chipEl.style.display = 'none';
+  }
+
+  function _stopCountdown() {
+    if (_countdownInt) { clearInterval(_countdownInt); _countdownInt = null; }
+    _hideChip();
+  }
+
+  function _startCountdown() {
+    if (!_pausedByUs) return;
+    if (_sebhaAutoActive()) { _pausedByUs = false; return; }
+
+    _stopCountdown();
+    var left = Math.round(RESUME_DELAY_MS / 1000);
+    _showChip(left);
+
+    _countdownInt = setInterval(function() {
+      left--;
+      if (left > 0) { _updateChip(left); return; }
+      _stopCountdown();
+      _resumeNow();
+    }, 1000);
+  }
+
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      _stopCountdown();
+      _pauseNow();
+    } else {
+      _startCountdown();
+    }
+  });
+
+})();
+
+/* ══════════════════════════════════════════════════════════════════════════
+   الرجوع تلقائيًا لآخر ذكر كان المستخدم واقف عنده — حتى بعد قفل المتصفح
+   بالكامل وإعادة فتح الموقع (مش بس تبديل تاب)
+   ──────────────────────────────────────────────────────────────────────────
+   ملحوظة: عدّ كل ذكر على حدة (tasbih_<station>) وكذلك اختيار ذكر السبحة
+   وعدّها (sp_count_v.. / alLoadPrefs) بالفعل بيتحفظوا فى localStorage من
+   غير أى تعديل هنا. اللى كان ناقص هو إن الصفحة، بعد إعادة الفتح، كانت
+   بترجع لأول الشاشة من غير ما تاخدك لنفس الذكر اللى كنت فيه فى قسم
+   الأذكار (قائمة أذكار الصباح/المساء/العامة/الرقية). الكود ده بيسدّ
+   الفجوة دي بس، من غير أى تعديل على منطق العدّ أو الانتقال نفسه.
+   ══════════════════════════════════════════════════════════════════════════ */
+(function initAdhkarSessionResume() {
+
+  var STORAGE_KEY = 'adhkarLastPosition';
+  // نفس مهلة صلاحية عدّ الأذكار (يومين) عشان الاسترجاع يتوافق مع نفس
+  // منطق انتهاء الصلاحية المستخدم أصلاً فى تصفير عدّ الذكر بعد يومين
+  var EXPIRY_MS = 172800000;
+
+  function _isAr() {
+    return (typeof isArabic !== 'undefined') ? isArabic : true;
+  }
+
+  function _saveCurrentPosition(button) {
+    if (!button) return;
+    var station = button.getAttribute('data-station');
+    if (!station) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        station: station,
+        sub: (typeof currentAdhkarSub !== 'undefined') ? currentAdhkarSub : 'all',
+        ts: Date.now()
+      }));
+    } catch (e) {}
+  }
+
+  /* بنراقب كلاس "tasbih-focus" على كل أزرار التسبيح بدل ما نلزق حفظ فى كل
+     نقطة بالكود الأصلى بيتغيّر فيها الذكر النشط (ضغطة يدوية، انتقال
+     تلقائى، كيبورد...) — كده بنغطّيهم كلهم من غير أى تعديل على أى منهم */
+  var _focusObserver = new MutationObserver(function(mutations) {
+    mutations.forEach(function(m) {
+      var el = m.target;
+      if (el.classList && el.classList.contains('tasbih-focus')) {
+        _saveCurrentPosition(el);
+      }
+    });
+  });
+
+  function _observeAllTasbihButtons() {
+    document.querySelectorAll('button.has-tasbih').forEach(function(b) {
+      _focusObserver.observe(b, { attributes: true, attributeFilter: ['class'] });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _observeAllTasbihButtons);
+  } else {
+    _observeAllTasbihButtons();
+  }
+
+  function _restorePosition() {
+    var raw;
+    try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
+    if (!raw) return;
+
+    var data;
+    try { data = JSON.parse(raw); } catch (e) { return; }
+    if (!data || !data.station) return;
+
+    if (Date.now() - (data.ts || 0) > EXPIRY_MS) {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      return;
+    }
+
+    if (typeof filterStations === 'function') filterStations('Adhkar');
+
+    if (data.sub && typeof filterAdhkarSub === 'function') {
+      var subBtn = document.querySelector('.adhkar-sub-btn[data-sub="' + data.sub + '"]');
+      filterAdhkarSub(data.sub, subBtn);
+    }
+
+    setTimeout(function() {
+      var target = null;
+      document.querySelectorAll('button.has-tasbih[data-station]').forEach(function(b) {
+        if (!target && b.getAttribute('data-station') === data.station) target = b;
+      });
+      if (!target || target.style.display === 'none') return;
+      if (target.classList.contains('completed')) return;
+
+      if (typeof setTasbihFocus === 'function') setTasbihFocus(target);
+      var box = target.querySelector('.tasbih-box');
+      if (box && typeof activeTasbih !== 'undefined') activeTasbih = box;
+
+      if (typeof smartScrollToStations === 'function') {
+        smartScrollToStations(target, 80);
+      } else if (typeof target.scrollIntoView === 'function') {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      if (typeof showToast === 'function') {
+        showToast(_isAr() ? '🔖 رجعناك لآخر ذكر كنت فيه' : '🔖 Back to your last dhikr');
+      }
+    }, 400);
+  }
+
+  /* لازم نستنى الصفحة تخلص تحميل تمامًا (كل الأزرار متولّدة) قبل ما نحاول
+     نفلتر ونركّز على الذكر، مش عند DOMContentLoaded المبكّرة */
+  if (document.readyState === 'complete') {
+    setTimeout(_restorePosition, 600);
+  } else {
+    window.addEventListener('load', function() {
+      setTimeout(_restorePosition, 600);
+    });
+  }
+
+})();
+
+
 
 function changeFontFamily(val) {
   _userFontFamilyVal = val || '';
