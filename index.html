@@ -38,6 +38,39 @@
   var SITE_THEMES = {};
   var SITE_THEME_CLASSES = [];
   var PHOTO_SHOWCASE_THEMES = [];
+
+  /* ===== كشف الموبايلات/الأندرويد القديمة والضعيفة عشان نقفل تأثير
+     الزجاج الشفاف (backdrop-filter) اللى بيبقى تقيل جدًا على المعالجات
+     الرسومية القديمة (بيتسبّب فى تهنيج واضح فى السكرول والانيميشن).
+     الكشف بيحصل هنا فوق فى أول السكريبت (قبل أى CSS يتطبّق) عشان
+     الكلاس يكون موجود على <html> من الأول من غير أى "فلاش" للتأثير قبل
+     ما يتشال. الشرط ده متعمّد يكون متحفظ (يفضّل السلامة): لو مش قادر
+     يتأكد إن الجهاز ضعيف فعلاً، بيسيبه زي ما هو من غير أى تغيير */
+  (function() {
+    try {
+      var ua = navigator.userAgent || '';
+      var isAndroid = /Android/i.test(ua);
+      var weak = false;
+
+      if (isAndroid) {
+        // نسخة أندرويد القديمة (٨ وأقل) — معروفة بضعف تسريع الـ GPU
+        // لتأثيرات الزجاج/البلور
+        var av = ua.match(/Android\s([0-9]+)/i);
+        if (av && parseInt(av[1], 10) > 0 && parseInt(av[1], 10) <= 8) weak = true;
+
+        // متصفح/ويب-فيو قديم على أندرويد (بيجي غالبًا مع أجهزة قديمة
+        // حتى لو رقم أندرويد نفسه مش ظاهر فى الـ user agent)
+        var cv = ua.match(/Chrome\/([0-9]+)/i);
+        if (cv && parseInt(cv[1], 10) > 0 && parseInt(cv[1], 10) < 90) weak = true;
+
+        // ذاكرة أو نواة معالج قليلة (متاحة بس فى بعض متصفحات الأندرويد)
+        if (typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 2) weak = true;
+        if (typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4) weak = true;
+      }
+
+      if (weak) document.documentElement.classList.add('low-power-device');
+    } catch (e) {}
+  })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10248,6 +10281,21 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="قرآن إذاعة">
+
+  <!-- ===== وضع الأداء المنخفض: بيتفعّل تلقائيًا وبس على الموبايلات/
+       الأندرويد القديمة أو الضعيفة (حسب الكشف اللى فوق فى أول سكريبت
+       فى <head>). الهدف إلغاء تأثير الزجاج الشفاف (backdrop-filter) لأنه
+       أثقل تأثير CSS على معالجات الرسوميات القديمة وبيسبب تهنيج واضح فى
+       السكرول. على الأجهزة العادية/الحديثة كلاس low-power-device مش
+       بيتضاف خالص، فكل حاجة تفضل زي ما هى من غير أى تأثير أو تغيير.
+       الاستايل ده متعمّد يكون آخر حاجة فى <head> عشان يضمن إنه يغلب أى
+       قاعدة تانية بنفس القوة (!important) حتى لو الترتيب اختلف بعدين -->
+  <style>
+    html.low-power-device, html.low-power-device * {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+  </style>
 </head>
 
 
