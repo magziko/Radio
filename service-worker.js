@@ -69,36 +69,44 @@ let swLastAliveTs = 0; // آخر وقت استقبلنا AUDIO_ALIVE
    ══════════════════════════════════════ */
 self.addEventListener('install', event => {
   event.waitUntil(
-    Promise.all([
-      // مهم: نجبر الطلبات هنا تتجاهل أي كاش HTTP من المتصفح/GitHub Pages
-      // عشان نضمن إن الملفات اللي بتتخزن في CACHE_STATIC فعلاً أحدث نسخة
-      caches.open(CACHE_STATIC).then(cache =>
-        Promise.all(
-          STATIC_ASSETS.map(url =>
-            fetch(url, { cache: 'reload' })
-              .then(res => cache.put(url, res))
-              .catch(() => {})
-          )
-        )
-      ),
-      // ملاحظة مهمة: روابط archive.org (حتى بصيغة /download/ الدائمة) بترد أحياناً
-      // من عقدة CDN لا ترسل رأس Access-Control-Allow-Origin، وده بيخلي
-      // cache.add()/fetch() في وضعهم الافتراضي (cors) يفشلوا بصمت.
-      // الحل: نجيب الملف بوضع 'no-cors' (استجابة opaque) ونخزّنه يدوياً بـ cache.put،
-      // فيشتغل بغض النظر عن رأس CORS.
-      caches.open(CACHE_ALARM).then(cache =>
-        Promise.allSettled(
-          ALARM_AUDIO_URLS.map(url =>
-            fetch(url, { mode: 'no-cors', cache: 'reload' })
-              .then(res => cache.put(url, res))
-              .catch(() => {})
-          )
+    // مهم: نجبر الطلبات هنا تتجاهل أي كاش HTTP من المتصفح/GitHub Pages
+    // عشان نضمن إن الملفات اللي بتتخزن في CACHE_STATIC فعلاً أحدث نسخة
+    caches.open(CACHE_STATIC).then(cache =>
+      Promise.all(
+        STATIC_ASSETS.map(url =>
+          fetch(url, { cache: 'reload' })
+            .then(res => cache.put(url, res))
+            .catch(() => {})
         )
       )
-    ])
+    )
   );
   self.skipWaiting();
 });
+
+// ── تحميل أصوات الأذان/التنبيه في الخلفية ──
+// كان بيحصل جوه install مع أصول الصفحة الأساسية، يعني 23 ملف صوتي (عشرات الميجابايت)
+// كانوا بيتحمّلوا فورًا لحظة تسجيل الـ SW، بالظبط وقت ما الصفحة نفسها لسه بتحمّل
+// خطوطها وصورها، فكانوا بياخدوا باندويث تنافسي معاها.
+// الوظيفة اتنقلت هنا زي ما هي تمامًا (نفس الروابط، نفس no-cors، نفس التخزين)،
+// وبقت بتتأخر شوية (بعد ما install يخلص) عشان الصفحة تاخد فرصتها الأولى في الشبكة.
+function precacheAlarmAudio() {
+  caches.open(CACHE_ALARM).then(cache =>
+    // ملاحظة مهمة: روابط archive.org (حتى بصيغة /download/ الدائمة) بترد أحياناً
+    // من عقدة CDN لا ترسل رأس Access-Control-Allow-Origin، وده بيخلي
+    // cache.add()/fetch() في وضعهم الافتراضي (cors) يفشلوا بصمت.
+    // الحل: نجيب الملف بوضع 'no-cors' (استجابة opaque) ونخزّنه يدوياً بـ cache.put،
+    // فيشتغل بغض النظر عن رأس CORS.
+    Promise.allSettled(
+      ALARM_AUDIO_URLS.map(url =>
+        fetch(url, { mode: 'no-cors', cache: 'reload' })
+          .then(res => cache.put(url, res))
+          .catch(() => {})
+      )
+    )
+  );
+}
+
 
 /* ══════════════════════════════════════
    التفعيل
@@ -114,6 +122,10 @@ self.addEventListener('activate', event => {
     )
   );
   self.clients.claim();
+
+  // نأجّل تحميل أصوات الأذان 10 ثواني بعد التفعيل، عشان الصفحة تاخد فرصتها
+  // في تحميل الخطوط/الصور الأساسية الأول من غير مزاحمة على الشبكة
+  setTimeout(precacheAlarmAudio, 10000);
 });
 
 /* ══════════════════════════════════════
