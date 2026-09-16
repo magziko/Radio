@@ -32639,12 +32639,39 @@ function toggleTasbihAutoFromBox(event) {
     }, 400);
   }
 
-  // تنبيه بسيط بزرار "أكمل" — بدل النقل التلقائي المفاجئ لفلتر الأذكار.
+  // نصوص تنبيه "أكمل آخر ذكر" بصياغة احترافية، بكل لغات الموقع الـ13
+  // (نفس آلية welcomeDisplayLang المستخدمة في باقي الموقع: لغة المتصفح
+  // عند أول زيارة، أو اللغة اللي المستخدم اختارها بنفسه بعد كده)
+  var ADHKAR_RESUME_I18N = {
+    ar: { msg: 'لم تُكمل أذكارك من الجلسة السابقة', btn: 'متابعة', rtl: true },
+    en: { msg: 'You have unfinished adhkar from last time', btn: 'Resume', rtl: false },
+    fr: { msg: 'Vous avez des Adhkar inachevés depuis la dernière fois', btn: 'Reprendre', rtl: false },
+    es: { msg: 'Tienes Adhkar sin terminar desde la última vez', btn: 'Continuar', rtl: false },
+    sv: { msg: 'Du har oavslutade Adhkar sedan förra gången', btn: 'Fortsätt', rtl: false },
+    nl: { msg: 'Je hebt onafgemaakte Adhkar van de vorige keer', btn: 'Doorgaan', rtl: false },
+    ga: { msg: 'Tá Adhkar neamhchríochnaithe agat ón am seo caite', btn: 'Lean ar aghaidh', rtl: false },
+    de: { msg: 'Du hast unvollendete Adhkar vom letzten Mal', btn: 'Fortsetzen', rtl: false },
+    ru: { msg: 'У вас остались незавершённые Азкар с прошлого раза', btn: 'Продолжить', rtl: false },
+    tr: { msg: 'Bir önceki oturumdan tamamlanmamış Ezkârınız var', btn: 'Devam Et', rtl: false },
+    pt: { msg: 'Você tem Adhkar não concluído desde a última vez', btn: 'Continuar', rtl: false },
+    zh: { msg: '您上次的赞念尚未完成', btn: '继续', rtl: false },
+    ur: { msg: 'پچھلی بار کے اذکار ابھی مکمل نہیں ہوئے', btn: 'جاری رکھیں', rtl: true }
+  };
+
+  function _adhkarResumeLang() {
+    if (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang && ADHKAR_RESUME_I18N[welcomeDisplayLang]) {
+      return welcomeDisplayLang;
+    }
+    return _isAr() ? 'ar' : 'en';
+  }
+
+  // تنبيه بسيط بزرار "متابعة" — بدل النقل التلقائي المفاجئ لفلتر الأذكار.
   // المستخدم هو اللي بيقرر يكمل ولا يسيب الفلتر اللي فاتح عليه الموقع
   // أصلاً (زي فلتر آخر محطة).
   function _showAdhkarResumeToast(data) {
     if (document.getElementById('adhkarResumeToast')) return;
-    var ar = _isAr();
+    var t = ADHKAR_RESUME_I18N[_adhkarResumeLang()];
+    var ar = t.rtl;
     var isDark = document.body.classList.contains('dark-mode');
     var el = document.createElement('div');
     el.id = 'adhkarResumeToast';
@@ -32656,13 +32683,14 @@ function toggleTasbihAutoFromBox(event) {
       'box-shadow:0 6px 18px rgba(0,0,0,0.35);max-width:92%;text-align:' + (ar ? 'right' : 'left') + ';' +
       'opacity:0;transition:opacity 0.25s ease;';
     el.innerHTML =
-      '<span>🔖 ' + (ar ? 'لسه فاضل أذكار من آخر مرة' : 'You left some adhkar unfinished') + '</span>' +
+      '<span>🔖 ' + t.msg + '</span>' +
       '<button type="button" id="adhkarResumeToastBtn" style="background:var(--theme-g1,#2ecc71);color:#fff;border:none;border-radius:16px;padding:6px 12px;font-family:Cairo,Arial,sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;">' +
-        (ar ? 'أكمل' : 'Resume') +
+        t.btn +
       '</button>' +
       '<span id="adhkarResumeToastClose" style="opacity:.6;font-size:15px;padding:2px 4px;line-height:1;cursor:pointer;">✕</span>';
     document.body.appendChild(el);
     requestAnimationFrame(function() { el.style.opacity = '1'; });
+
 
     function _dismiss() {
       el.style.opacity = '0';
