@@ -1730,6 +1730,7 @@ function openAiAssistantFromWelcome() {
       if (arrow) arrow.style.transform = 'rotate(180deg)';
       var sw = panel.querySelector('.search-wrapper');
       if (sw) sw.style.display = 'flex';
+      if (typeof window._loadCseSearchOnce === 'function') window._loadCseSearchOnce();
     }
 
     // افتح الـ AI box إذا كان مغلقاً
@@ -9662,9 +9663,22 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   <div class="search-wrapper" style="margin-top: 10px; display: none;">
-    <script defer src="https://cse.google.com/cse.js?cx=e3e1833506ae646ca"></script>
     <div class="gcse-search"></div>
   </div>
+  <script>
+  // ── تحميل مؤجَّل لسكريبت بحث Google (CSE) ──
+  // كان متحمّل تلقائيًا مع الصفحة (defer) حتى لو صندوق البحث نفسه مخفي (display:none)،
+  // وده بيجيب معاه سلسلة إعلانات/تتبع كاملة (ads/sodar/runner) من أول لحظة تحميل.
+  // دلوقتي بيتحمّل فقط أول مرة يتفتح فيها صندوق البحث فعليًا (نفس لحظة ظهوره للمستخدم).
+  var _cseLoaded = false;
+  window._loadCseSearchOnce = function() {
+    if (_cseLoaded) return;
+    _cseLoaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://cse.google.com/cse.js?cx=e3e1833506ae646ca';
+    document.body.appendChild(s);
+  };
+  </script>
 
     <div id="link-checker-open-btn" onclick="openLinkCheckerModal()" style="
     display: flex;
@@ -32738,6 +32752,7 @@ function toggleSettingsPanel() {
 
     var sw = panel.querySelector('.search-wrapper');
     if (sw) sw.style.display = 'flex';
+    if (typeof window._loadCseSearchOnce === 'function') window._loadCseSearchOnce();
   }
 
   // تحديث نص زر الأسفل حسب اللغة
@@ -44631,7 +44646,18 @@ function _statsConfirmReset() {
   showToast(isAr ? '🗑️ تم إعادة تعيين الإحصائيات' : '🗑️ Stats reset');
 }
 </script>
-<script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+// ── تحميل مؤجَّل لسكريبت ترجمة Google ──
+// كان بيتحمّل فورًا مع باقي الصفحة (defer) رغم إنه مش لازم يكون جاهز في أول جزء من الثانية.
+// دلوقتي بيتحمّل بعد ما الصفحة تخلص تحميل بثانيتين، عشان ميزاحمش المحتوى الأساسي على الشبكة.
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var s = document.createElement('script');
+    s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    document.body.appendChild(s);
+  }, 2000);
+});
+</script>
 
 <button id="scrollToTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="العودة للأعلى" aria-label="Scroll to top">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
