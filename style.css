@@ -1,4 +1,3 @@
-
 /* ===================== قسم 1 — متغيرات الثيم (Theme Variables) (part1-theme-vars.css) ===================== */
 /* ===== Site theme system =====
    These variables drive every accent color across the site (borders, buttons,
@@ -2377,6 +2376,20 @@ body {
   padding: 0;
   transition: background 0.4s ease, color 0.4s ease;
 }
+  /* ===== إخفاء كل أزرار المحطات افتراضيًا من أول لحظة إنشاء =====
+     كل أزرار المحطات (الثابتة فى الـ HTML أو المُولَّدة بالجافاسكريبت عبر
+     renderRadioStations / renderRecitersStations / renderRewayatStations /
+     renderTranslationStations / renderTafsirStations / renderTajweedStations /
+     renderLtvStations / renderMoreStations) تحمل كلاس "button palestine" دايمًا.
+     من غير القاعدة دى، كل زر بيظهر لحظة إنشائه، فيبان "فلاش" لكل المحطات
+     قبل ما filterStations() تشتغل وتظبط الفلتر الصح. القاعدة دى بتخفي كل زر
+     من الأول، وبعدين filterStations() بتظهر الأزرار المطلوبة بس عن طريق
+     inline style="display:block" اللي بيغلب القاعدة دى تلقائيًا (كلاسين
+     .button.palestine أقوى من .button أو .palestine لوحدهم). */
+  .button.palestine {
+    display: none;
+  }
+
   .button, .palestine {
     flex: 1 1 calc(50% - 10px);
     box-sizing: border-box;
