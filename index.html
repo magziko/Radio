@@ -11254,7 +11254,9 @@ const quranRadioStationsExtra = [{
     "https://archive.org/download/a3_20260913/a2.mp3",
     "https://archive.org/download/a3_20260913/a3.mp3",
     "https://archive.org/download/a3_20260913/a4.mp3",
-    "https://archive.org/download/a3_20260913/a5.mp3"
+    "https://archive.org/download/a3_20260913/a5.mp3",
+    "https://archive.org/download/b2_20260916/b1.mp3",
+    "https://archive.org/download/b2_20260916/b2.mp3"
   ]
 }, {
   "category": "Quran",
@@ -32545,9 +32547,11 @@ function toggleTasbihAutoFromBox(event) {
 (function initAdhkarSessionResume() {
 
   var STORAGE_KEY = 'adhkarLastPosition';
-  // نفس مهلة صلاحية عدّ الأذكار (يومين) عشان الاسترجاع يتوافق مع نفس
-  // منطق انتهاء الصلاحية المستخدم أصلاً فى تصفير عدّ الذكر بعد يومين
-  var EXPIRY_MS = 172800000;
+  // مهلة عرض تنبيه "أكمل آخر ذكر": بنعرضها بس لو كان فيه تقدّم حقيقي
+  // وقريب (خلال ساعتين كحد أقصى)، مش أي وقت قديم زي منطق تصفير عدّ
+  // الذكر التاني (اللي بيفضل يومين). لو عدّى على آخر ذكر ساعتين من غير
+  // ما نكمله، بنعتبره خلاص مش "جلسة شغالة" ومنعرضش التنبيه.
+  var EXPIRY_MS = 2 * 60 * 60 * 1000; // ساعتين
 
   function _isAr() {
     return (typeof isArabic !== 'undefined') ? isArabic : true;
@@ -32590,20 +32594,10 @@ function toggleTasbihAutoFromBox(event) {
     _observeAllTasbihButtons();
   }
 
-  function _restorePosition() {
-    var raw;
-    try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
-    if (!raw) return;
-
-    var data;
-    try { data = JSON.parse(raw); } catch (e) { return; }
-    if (!data || !data.station) return;
-
-    if (Date.now() - (data.ts || 0) > EXPIRY_MS) {
-      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-      return;
-    }
-
+  // بتنفّذ فعليًا الانتقال لفلتر الأذكار والذكر المحفوظ — دي كانت
+  // بتتنفّذ تلقائيًا من الأول، ودلوقتى بقت بس بتشتغل لما المستخدم
+  // بنفسه يضغط زرار "أكمل" فى تنبيه _showAdhkarResumeToast تحت
+  function _applyRestore(data) {
     if (typeof filterStations === 'function') filterStations('Adhkar');
 
     if (data.sub && typeof filterAdhkarSub === 'function') {
@@ -32628,11 +32622,66 @@ function toggleTasbihAutoFromBox(event) {
       } else if (typeof target.scrollIntoView === 'function') {
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-
-      if (typeof showToast === 'function') {
-        showToast(_isAr() ? '🔖 رجعناك لآخر ذكر كنت فيه' : '🔖 Back to your last dhikr');
-      }
     }, 400);
+  }
+
+  // تنبيه بسيط بزرار "أكمل" — بدل النقل التلقائي المفاجئ لفلتر الأذكار.
+  // المستخدم هو اللي بيقرر يكمل ولا يسيب الفلتر اللي فاتح عليه الموقع
+  // أصلاً (زي فلتر آخر محطة).
+  function _showAdhkarResumeToast(data) {
+    if (document.getElementById('adhkarResumeToast')) return;
+    var ar = _isAr();
+    var isDark = document.body.classList.contains('dark-mode');
+    var el = document.createElement('div');
+    el.id = 'adhkarResumeToast';
+    el.setAttribute('dir', ar ? 'rtl' : 'ltr');
+    el.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);' +
+      'display:flex;align-items:center;gap:10px;' +
+      'background:' + (isDark ? '#132018' : '#1e1e1e') + ';color:#fff;padding:11px 14px 11px 18px;border-radius:24px;' +
+      'font-family:Cairo,Arial,sans-serif;font-size:13.5px;font-weight:700;z-index:99999;' +
+      'box-shadow:0 6px 18px rgba(0,0,0,0.35);max-width:92%;text-align:' + (ar ? 'right' : 'left') + ';' +
+      'opacity:0;transition:opacity 0.25s ease;';
+    el.innerHTML =
+      '<span>🔖 ' + (ar ? 'لسه فاضل أذكار من آخر مرة' : 'You left some adhkar unfinished') + '</span>' +
+      '<button type="button" id="adhkarResumeToastBtn" style="background:var(--theme-g1,#2ecc71);color:#fff;border:none;border-radius:16px;padding:6px 12px;font-family:Cairo,Arial,sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;">' +
+        (ar ? 'أكمل' : 'Resume') +
+      '</button>' +
+      '<span id="adhkarResumeToastClose" style="opacity:.6;font-size:15px;padding:2px 4px;line-height:1;cursor:pointer;">✕</span>';
+    document.body.appendChild(el);
+    requestAnimationFrame(function() { el.style.opacity = '1'; });
+
+    function _dismiss() {
+      el.style.opacity = '0';
+      setTimeout(function() { el.remove(); }, 250);
+    }
+
+    document.getElementById('adhkarResumeToastBtn').addEventListener('click', function() {
+      _dismiss();
+      _applyRestore(data);
+    });
+    document.getElementById('adhkarResumeToastClose').addEventListener('click', _dismiss);
+
+    // اختفاء تلقائي لو المستخدم متفاعلش خالص، عشان ميفضلش عالق فوق الشاشة
+    setTimeout(function() {
+      if (document.getElementById('adhkarResumeToast')) _dismiss();
+    }, 10000);
+  }
+
+  function _restorePosition() {
+    var raw;
+    try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { return; }
+    if (!raw) return;
+
+    var data;
+    try { data = JSON.parse(raw); } catch (e) { return; }
+    if (!data || !data.station) return;
+
+    if (Date.now() - (data.ts || 0) > EXPIRY_MS) {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      return;
+    }
+
+    _showAdhkarResumeToast(data);
   }
 
   /* لازم نستنى الصفحة تخلص تحميل تمامًا (كل الأزرار متولّدة) قبل ما نحاول
