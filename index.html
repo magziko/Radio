@@ -32929,11 +32929,27 @@ function toggleTasbihAutoFromBox(event) {
   if (event) event.stopPropagation();
   _adhkarAutoAdvancePaused = !_adhkarAutoAdvancePaused;
 
+  var _slowedDownNow = false;
+
   if (_adhkarAutoAdvancePaused) {
+    // إشارة ذكية: لو المستخدم ضغط زرار الإيقاف وهو لسه جوّا مهلة قراءة ذكر
+    // شغالة فعلاً (يعني وقف العدّ قبل ما المهلة تخلص لوحدها)، ده معناه إن
+    // السرعة الحالية أسرع من سرعة قراءته الفعلية لهذا الذكر. بنبطّئ درجة
+    // واحدة بنفس آلية وخطوة زرار "أبطأ 🐢" اليدوى (وبنفس الحد الأقصى)،
+    // عشان المرات الجايه العدّ يدّيله وقت أكتر من غير ما يحتاج يوقف تانى.
+    // لو ضغط الإيقاف من غير ما يكون فيه مهلة شغالة أصلاً (مثلًا وقف قبل ما
+    // يبدأ)، منتعلمش حاجة، لأن مفيش دليل إن السرعة كانت السبب.
+    var _wasCountingDown = (_tasbihAdvanceStartTime != null && _tasbihAdvanceScheduledDelay);
     _clearTasbihAdvanceTimer();
     document.querySelectorAll('.tasbih-box.tasbih-hint-visible').forEach(function(b) {
       b.classList.remove('tasbih-hint-visible');
     });
+    if (_wasCountingDown && _getTasbihPaceFactor() < TASBIH_PACE_MAX - 0.001) {
+      var _updatedPace = Math.min(TASBIH_PACE_MAX, _getTasbihPaceFactor() + TASBIH_SPEED_STEP);
+      localStorage.setItem(TASBIH_PACE_KEY, _updatedPace.toFixed(3));
+      if (typeof _updateTasbihSpeedLabel === 'function') _updateTasbihSpeedLabel();
+      _slowedDownNow = true;
+    }
   } else {
     // رجع يشتغل تانى (استئناف): يبدأ يعدّ لوحده فورًا على الذكر الحالى لو
     // لسه ماخلصش تارجته، من غير ما يحتاج المستخدم يضغط عليه تانى بالماوس
@@ -32943,9 +32959,13 @@ function toggleTasbihAutoFromBox(event) {
 
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
   if (typeof showToast === 'function') {
-    showToast(_adhkarAutoAdvancePaused ?
-      (isAr ? '⏸ تم إيقاف العدّ التلقائى (اضغط تانى للاستئناف)' : '⏸ Auto-count stopped (tap again to resume)') :
-      (isAr ? '▶️ تم استئناف العدّ التلقائى' : '▶️ Auto-count resumed'));
+    if (_slowedDownNow) {
+      showToast(isAr ? '⏸ تم الإيقاف، وتبطيء سرعة العدّ التلقائى تلقائيًا 🐢' : '⏸ Stopped — auto-count speed slowed down automatically 🐢');
+    } else {
+      showToast(_adhkarAutoAdvancePaused ?
+        (isAr ? '⏸ تم إيقاف العدّ التلقائى (اضغط تانى للاستئناف)' : '⏸ Auto-count stopped (tap again to resume)') :
+        (isAr ? '▶️ تم استئناف العدّ التلقائى' : '▶️ Auto-count resumed'));
+    }
   }
 }
 (function initAdhkarAutoAdvanceSetting() {
