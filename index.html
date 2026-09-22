@@ -29451,6 +29451,433 @@ window._ptComputeDuha = _ptComputeDuha;
 
 </script>
 <!-- ===== END Khatma Tracker ===== -->
+<!-- ===== ملاحظاتي | My Notes ===== -->
+<script>
+(function() {
+  var NT_KEY = 'userNotesV1';
+  var NT_MAX_LEN = 5000;
+  var NT_LANGS = ['ar','en','fr','es','sv','nl','ga','de','ru','tr','pt','zh','ur'];
+  var NT_RTL = { ar: true, ur: true };
+  var NT_LOCALE = { ar:'ar-EG', en:'en-GB', fr:'fr-FR', es:'es-ES', sv:'sv-SE', nl:'nl-NL', ga:'ga-IE', de:'de-DE', ru:'ru-RU', tr:'tr-TR', pt:'pt-PT', zh:'zh-CN', ur:'ur-PK' };
+
+  // القاموس: كل مفتاح = مصفوفة بنفس ترتيب NT_LANGS (الإنجليزية هي الاحتياطي عند نقص أي ترجمة)
+  //           ar, en, fr, es, sv, nl, ga, de, ru, tr, pt, zh, ur
+  var NT_T = {
+    title:        ['ملاحظاتي','My Notes','Mes notes','Mis notas','Mina anteckningar','Mijn notities','Mo Nótaí','Meine Notizen','Мои заметки','Notlarım','Minhas notas','我的笔记','میرے نوٹس'],
+    placeholder:  ['اكتب ملاحظتك هنا...','Write a note...','Écrivez une note...','Escribe una nota...','Skriv en anteckning...','Schrijf een notitie...','Scríobh nóta...','Notiz schreiben...','Напишите заметку...','Bir not yazın...','Escreva uma nota...','写下笔记…','نوٹ لکھیں...'],
+    save:         ['حفظ الملاحظة','Save note','Enregistrer','Guardar nota','Spara anteckning','Notitie opslaan','Sábháil nóta','Notiz speichern','Сохранить','Notu kaydet','Salvar nota','保存笔记','نوٹ محفوظ کریں'],
+    saveEdit:     ['حفظ التعديل','Save changes','Enregistrer les modifications','Guardar cambios','Spara ändringar','Wijzigingen opslaan','Sábháil na hathruithe','Änderungen speichern','Сохранить изменения','Değişiklikleri kaydet','Salvar alterações','保存修改','تبدیلیاں محفوظ کریں'],
+    cancel:       ['إلغاء','Cancel','Annuler','Cancelar','Avbryt','Annuleren','Cealaigh','Abbrechen','Отмена','İptal','Cancelar','取消','منسوخ کریں'],
+    attach:       ['ربط بالمحطة الحالية','Attach current station','Lier à la station en cours','Vincular a la emisora actual','Koppla till aktuell station','Koppelen aan huidig station','Ceangail leis an stáisiún reatha','Mit aktuellem Sender verknüpfen','Привязать к текущей станции','Mevcut istasyona bağla','Vincular à estação atual','关联当前电台','موجودہ اسٹیشن سے منسلک کریں'],
+    empty:        ['لا توجد ملاحظات بعد.','No notes yet.','Aucune note pour le moment.','Aún no hay notas.','Inga anteckningar ännu.','Nog geen notities.','Níl aon nótaí fós.','Noch keine Notizen.','Пока нет заметок.','Henüz not yok.','Ainda não há notas.','还没有笔记。','ابھی تک کوئی نوٹ نہیں۔'],
+    noResults:    ['لا توجد نتائج مطابقة.','No matching notes.','Aucun résultat.','Sin resultados.','Inga träffar.','Geen resultaten.','Gan torthaí.','Keine Treffer.','Ничего не найдено.','Sonuç bulunamadı.','Nenhum resultado.','没有匹配的笔记。','کوئی نتیجہ نہیں ملا۔'],
+    search:       ['ابحث في الملاحظات...','Search notes...','Rechercher...','Buscar notas...','Sök anteckningar...','Notities zoeken...','Cuardaigh nótaí...','Notizen durchsuchen...','Поиск заметок...','Notlarda ara...','Pesquisar notas...','搜索笔记…','نوٹس تلاش کریں...'],
+    edit:         ['تعديل','Edit','Modifier','Editar','Redigera','Bewerken','Cuir in eagar','Bearbeiten','Изменить','Düzenle','Editar','编辑','ترمیم'],
+    del:          ['حذف','Delete','Supprimer','Eliminar','Ta bort','Verwijderen','Scrios','Löschen','Удалить','Sil','Excluir','删除','حذف کریں'],
+    close:        ['إغلاق','Close','Fermer','Cerrar','Stäng','Sluiten','Dún','Schließen','Закрыть','Kapat','Fechar','关闭','بند کریں'],
+    confirmDelete:['حذف هذه الملاحظة نهائياً؟','Delete this note permanently?','Supprimer cette note définitivement ?','¿Eliminar esta nota definitivamente?','Radera anteckningen permanent?','Deze notitie definitief verwijderen?','An scriosfaidh tú an nóta seo go buan?','Diese Notiz endgültig löschen?','Удалить эту заметку навсегда?','Bu not kalıcı olarak silinsin mi?','Excluir esta nota permanentemente?','永久删除这条笔记吗？','کیا یہ نوٹ مستقل طور پر حذف کریں؟'],
+    saved:        ['✅ تم حفظ الملاحظة','✅ Note saved','✅ Note enregistrée','✅ Nota guardada','✅ Anteckning sparad','✅ Notitie opgeslagen','✅ Nóta sábháilte','✅ Notiz gespeichert','✅ Заметка сохранена','✅ Not kaydedildi','✅ Nota salva','✅ 笔记已保存','✅ نوٹ محفوظ ہو گیا'],
+    emptyWarn:    ['⚠️ اكتب شيئاً أولاً','⚠️ Write something first','⚠️ Écrivez quelque chose d\'abord','⚠️ Escribe algo primero','⚠️ Skriv något först','⚠️ Schrijf eerst iets','⚠️ Scríobh rud éigin ar dtús','⚠️ Schreibe zuerst etwas','⚠️ Сначала напишите что-нибудь','⚠️ Önce bir şey yazın','⚠️ Escreva algo primeiro','⚠️ 请先输入内容','⚠️ پہلے کچھ لکھیں'],
+    backup:       ['📦 نسخة احتياطية','📦 Backup','📦 Sauvegarder','📦 Copia de seguridad','📦 Säkerhetskopia','📦 Back-up','📦 Cúltaca','📦 Sicherung','📦 Резервная копия','📦 Yedekle','📦 Backup','📦 备份','📦 بیک اپ'],
+    imp:          ['📥 استيراد','📥 Import','📥 Importer','📥 Importar','📥 Importera','📥 Importeren','📥 Iompórtáil','📥 Importieren','📥 Импорт','📥 İçe Aktar','📥 Importar','📥 导入','📥 درآمد'],
+    imported:     ['✅ تم استيراد {n} ملاحظة','✅ {n} notes imported','✅ {n} notes importées','✅ {n} notas importadas','✅ {n} anteckningar importerade','✅ {n} notities geïmporteerd','✅ {n} nóta iompórtáilte','✅ {n} Notizen importiert','✅ Импортировано заметок: {n}','✅ {n} not içe aktarıldı','✅ {n} notas importadas','✅ 已导入 {n} 条笔记','✅ {n} نوٹس درآمد ہو گئے'],
+    backupDone:   ['📦 تم تنزيل ملف النسخة الاحتياطية','📦 Backup file downloaded','📦 Fichier de sauvegarde téléchargé','📦 Archivo de copia de seguridad descargado','📦 Säkerhetskopia nedladdad','📦 Back-upbestand gedownload','📦 Comhad cúltaca íoslódáilte','📦 Sicherungsdatei heruntergeladen','📦 Файл резервной копии загружен','📦 Yedek dosyası indirildi','📦 Arquivo de backup baixado','📦 备份文件已下载','📦 بیک اپ فائل ڈاؤن لوڈ ہو گئی'],
+    invalidFile:  ['⚠️ الملف غير صالح','⚠️ Invalid file','⚠️ Fichier invalide','⚠️ Archivo no válido','⚠️ Ogiltig fil','⚠️ Ongeldig bestand','⚠️ Comhad neamhbhailí','⚠️ Ungültige Datei','⚠️ Недопустимый файл','⚠️ Geçersiz dosya','⚠️ Arquivo inválido','⚠️ 文件无效','⚠️ فائل غلط ہے'],
+    failed:       ['⚠️ حدث خطأ، حاول مرة أخرى','⚠️ Something went wrong, please try again','⚠️ Une erreur s\'est produite, réessayez','⚠️ Algo salió mal, inténtalo de nuevo','⚠️ Något gick fel, försök igen','⚠️ Er ging iets mis, probeer het opnieuw','⚠️ Chuaigh rud éigin cearr, bain triail eile as','⚠️ Etwas ist schiefgelaufen, bitte erneut versuchen','⚠️ Что-то пошло не так, попробуйте ещё раз','⚠️ Bir sorun oluştu, tekrar deneyin','⚠️ Algo deu errado, tente novamente','⚠️ 出错了，请重试','⚠️ کچھ غلط ہو گیا، دوبارہ کوشش کریں']
+  };
+
+  function ntLang() {
+    if (typeof welcomeDisplayLang !== 'undefined' && NT_LANGS.indexOf(welcomeDisplayLang) !== -1) return welcomeDisplayLang;
+    return (typeof isArabic !== 'undefined' && isArabic) ? 'ar' : 'en';
+  }
+  function nt(key, vars) {
+    var arr = NT_T[key];
+    var i = NT_LANGS.indexOf(ntLang());
+    var str = (arr && (arr[i] || arr[1])) || '';
+    if (vars) {
+      str = str.replace(/\{(\w+)\}/g, function(_, k) { return (vars[k] !== undefined && vars[k] !== null) ? vars[k] : ''; });
+    }
+    return str;
+  }
+  function ntEsc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function g(id) { return document.getElementById(id); }
+  function ntToast(msg) { if (typeof showToast === 'function') showToast(msg); }
+  function ntId() { return 'n_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+  function ntFmtDate(ts) {
+    try {
+      return new Date(ts).toLocaleString(NT_LOCALE[ntLang()] || 'en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    } catch (e) { return new Date(ts).toLocaleString(); }
+  }
+  function ntFmtPos(sec) {
+    var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+    function p(n) { return (n < 10 ? '0' : '') + n; }
+    return (h ? h + ':' + p(m) : m) + ':' + p(s);
+  }
+
+  // ===== التخزين (localStorage على نفس نمط باقي الموقع) =====
+  function ntLoad() {
+    try {
+      var raw = localStorage.getItem(NT_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(arr)) return [];
+      return arr.filter(function(n) { return n && typeof n.text === 'string' && n.id; });
+    } catch (e) { return []; }
+  }
+  function ntSave(arr) {
+    try { localStorage.setItem(NT_KEY, JSON.stringify(arr)); return true; } catch (e) { return false; }
+  }
+
+  // ===== الحالة (تبقى طول ما الصفحة مفتوحة، حتى لو اتقفلت النافذة) =====
+  var editingId = null;   // معرّف الملاحظة قيد التعديل (أو null)
+  var filterText = '';    // نص البحث
+  var draft = '';         // مسودة الملاحظة الجديدة اللي لسه ما اتحفظتش
+  var hasStation = false; // هل فيه محطة شغّالة/مختارة وقت فتح النافذة
+
+  // Esc على مستوى المستند (في مرحلة الالتقاط) طول ما النافذة مفتوحة: بيشتغل حتى لو التركيز مش جوّاها
+  // (مثلاً بعد فتحها باللمس أو بعد حذف ملاحظة)، وبيمنع وصول Esc لمعالجات الموقع التانية (إغلاق الترحيب/الإعدادات...)
+  function ntKeyCapture(e) {
+    if (e.key === 'Escape' && g('notesPopup')) { e.stopPropagation(); ntClose(); }
+  }
+
+  function ntClose() {
+    document.removeEventListener('keydown', ntKeyCapture, true);
+    var p = g('notesPopup');
+    if (p) p.remove();
+    editingId = null;
+    filterText = '';
+  }
+
+  function ntSyncCompose() {
+    var saveBtn = g('ntSaveBtn'), cancelBtn = g('ntCancelBtn'), attachRow = g('ntAttachRow');
+    if (saveBtn) saveBtn.textContent = editingId ? nt('saveEdit') : nt('save');
+    if (cancelBtn) cancelBtn.style.display = editingId ? '' : 'none';
+    if (attachRow) attachRow.style.display = (editingId || !hasStation) ? 'none' : 'flex';
+  }
+
+  function ntRenderList() {
+    var listEl = g('ntList');
+    if (!listEl) return;
+    var notes = ntLoad().sort(function(a, b) { return (b.ts || 0) - (a.ts || 0); });
+    var searchEl = g('ntSearch');
+    if (searchEl) searchEl.style.display = notes.length >= 5 ? 'block' : 'none';
+
+    if (!notes.length) {
+      listEl.innerHTML = '<div class="nt-empty">' + ntEsc(nt('empty')) + '</div>';
+      ntKeepFocusInside();
+      return;
+    }
+    var q = filterText.trim().toLowerCase();
+    var shown = q ? notes.filter(function(n) {
+      return (n.text + ' ' + (n.station || '')).toLowerCase().indexOf(q) !== -1;
+    }) : notes;
+    if (!shown.length) {
+      listEl.innerHTML = '<div class="nt-empty">' + ntEsc(nt('noResults')) + '</div>';
+      ntKeepFocusInside();
+      return;
+    }
+    listEl.innerHTML = shown.map(function(n) {
+      var tag = '';
+      if (n.station) {
+        tag = '<span class="nt-tag">📻 ' + ntEsc(n.station) + (typeof n.pos === 'number' ? ' · ⏱ ' + ntFmtPos(n.pos) : '') + '</span>';
+      }
+      return '<div class="nt-note' + (n.id === editingId ? ' nt-editing' : '') + '" data-id="' + ntEsc(n.id) + '">' +
+        '<div class="nt-text" dir="auto">' + ntEsc(n.text) + '</div>' +
+        '<div class="nt-foot">' +
+          '<div class="nt-meta"><span>' + ntEsc(ntFmtDate(n.upd || n.ts)) + '</span>' + tag + '</div>' +
+          '<div class="nt-actions">' +
+            '<button type="button" class="nt-icon" data-act="edit" title="' + ntEsc(nt('edit')) + '" aria-label="' + ntEsc(nt('edit')) + '">✏️</button>' +
+            '<button type="button" class="nt-icon" data-act="del" title="' + ntEsc(nt('del')) + '" aria-label="' + ntEsc(nt('del')) + '">🗑️</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    ntKeepFocusInside();
+  }
+
+  function ntKeepFocusInside() {
+    var pop = g('notesPopup'), card = g('ntCard');
+    if (pop && card && !pop.contains(document.activeElement)) { try { card.focus({ preventScroll: true }); } catch (e) {} }
+  }
+
+  function ntSubmit() {
+    var ta = g('ntInput');
+    if (!ta) return;
+    var text = ta.value.trim();
+    if (!text) {
+      ta.style.borderColor = '#dc3545';
+      setTimeout(function() { ta.style.borderColor = ''; }, 1200);
+      ta.focus();
+      ntToast(nt('emptyWarn'));
+      return;
+    }
+    text = text.slice(0, NT_MAX_LEN);
+    var notes = ntLoad();
+    var now = Date.now();
+
+    if (editingId) {
+      var found = false;
+      notes.forEach(function(n) { if (n.id === editingId) { n.text = text; n.upd = now; found = true; } });
+      if (!found) notes.push({ id: ntId(), text: text, ts: now });
+    } else {
+      var note = { id: ntId(), text: text, ts: now };
+      var att = g('ntAttach');
+      if (att && att.checked && window._currentPlayingName) {
+        note.station = String(window._currentPlayingName).slice(0, 200);
+        var a = g('currentAudio');
+        // الوقت الحالي منطقي بس للمحتوى المسجّل (مدته معروفة)، مش للبث المباشر
+        if (a && isFinite(a.duration) && a.duration > 0 && isFinite(a.currentTime)) note.pos = Math.floor(a.currentTime);
+      }
+      notes.push(note);
+    }
+    if (!ntSave(notes)) { ntToast(nt('failed')); return; }
+
+    if (editingId) {
+      editingId = null;
+      ta.value = draft;
+    } else {
+      draft = '';
+      ta.value = '';
+    }
+    ntSyncCompose();
+    ntRenderList();
+    ntToast(nt('saved'));
+  }
+
+  function ntStartEdit(id) {
+    var note = null;
+    ntLoad().forEach(function(n) { if (n.id === id) note = n; });
+    if (!note) { ntRenderList(); return; }
+    var ta = g('ntInput');
+    if (!ta) return;
+    if (!editingId) draft = ta.value;
+    editingId = id;
+    ta.value = note.text;
+    ntSyncCompose();
+    ntRenderList();
+    try { ta.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
+    ta.focus();
+  }
+
+  function ntCancelEdit() {
+    var ta = g('ntInput');
+    editingId = null;
+    if (ta) ta.value = draft;
+    ntSyncCompose();
+    ntRenderList();
+  }
+
+  function ntDelete(id) {
+    if (!window.confirm(nt('confirmDelete'))) return;
+    var notes = ntLoad().filter(function(n) { return n.id !== id; });
+    if (!ntSave(notes)) { ntToast(nt('failed')); return; }
+    if (editingId === id) ntCancelEdit();
+    ntRenderList();
+  }
+
+  // ===== نسخة احتياطية / استيراد (نفس فكرة الختمة) =====
+  function ntExport() {
+    try {
+      var d = new Date();
+      function p(n) { return (n < 10 ? '0' : '') + n; }
+      var stamp = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+      var data = { type: 'radio-notes', version: 1, exportedAt: d.getTime(), notes: ntLoad() };
+      var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'notes-backup-' + stamp + '.json';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function() { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+      ntToast(nt('backupDone'));
+    } catch (e) { ntToast(nt('failed')); }
+  }
+
+  function ntImportFile(input) {
+    var file = input.files && input.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        var parsed = JSON.parse(e.target.result);
+        var incoming = Array.isArray(parsed) ? parsed : (parsed && parsed.notes);
+        if (!Array.isArray(incoming)) throw new Error('invalid');
+        var cur = ntLoad();
+        var seen = {};
+        cur.forEach(function(n) { seen[n.id] = true; });
+        var added = 0;
+        incoming.forEach(function(n) {
+          if (!n || typeof n.text !== 'string' || !n.text.trim()) return;
+          var id = (typeof n.id === 'string' && /^[A-Za-z0-9_\-]{1,40}$/.test(n.id)) ? n.id : ntId();
+          if (seen[id]) return; // الملاحظات الموجودة أصلاً لا تتكرر — الاستيراد يضيف فقط ولا يستبدل
+          var note = { id: id, text: n.text.slice(0, NT_MAX_LEN), ts: (typeof n.ts === 'number' && isFinite(n.ts)) ? n.ts : Date.now() };
+          if (typeof n.upd === 'number' && isFinite(n.upd)) note.upd = n.upd;
+          if (typeof n.station === 'string' && n.station) note.station = n.station.slice(0, 200);
+          if (typeof n.pos === 'number' && isFinite(n.pos) && n.pos >= 0) note.pos = Math.floor(n.pos);
+          seen[id] = true;
+          cur.push(note);
+          added++;
+        });
+        if (!ntSave(cur)) throw new Error('save');
+        ntRenderList();
+        ntToast(nt('imported', { n: added }));
+      } catch (err) {
+        ntToast(nt('invalidFile'));
+      }
+      input.value = '';
+    };
+    reader.readAsText(file);
+  }
+
+  // ===== النافذة =====
+  window.openNotes = function() {
+    var old = g('notesPopup');
+    if (old) { ntClose(); return; }
+
+    var lang = ntLang();
+    var dir = NT_RTL[lang] ? 'rtl' : 'ltr';
+    var isDark = document.body.classList.contains('dark-mode');
+    var bg = isDark ? '#1a2820' : '#fff';
+    var clr = isDark ? '#e0e0e0' : '#1a1a1a';
+    var borderClr = isDark ? '#2a3f32' : '#e8ede9';
+    var muted = isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.5)';
+    var ring = 'rgba(var(--theme-g1-rgb),' + (isDark ? '0.4' : '0.3') + ')';
+    var inputBg = isDark ? '#132018' : '#f7faf8';
+    var stationName = window._currentPlayingName ? String(window._currentPlayingName) : '';
+    hasStation = !!stationName;
+    var audioEl = g('currentAudio');
+    var attachChecked = hasStation && audioEl && !audioEl.paused;
+
+    var css =
+      '@keyframes ntFadeIn{from{opacity:0}to{opacity:1}}' +
+      '@keyframes ntSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}' +
+      '#notesPopup *{box-sizing:border-box;}' +
+      '#notesPopup .nt-ta{display:block;width:100%;min-height:96px;resize:vertical;padding:10px 12px;border-radius:12px;border:1.5px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:16px;line-height:1.7;outline:none;transition:border-color .15s;}' +
+      '#notesPopup .nt-search{display:none;width:100%;margin-top:16px;padding:8px 12px;border-radius:10px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:16px;outline:none;}' +
+      '#notesPopup .nt-ta:focus,#notesPopup .nt-search:focus{border-color:var(--theme-g1);}' +
+      '#notesPopup .nt-row{display:flex;gap:8px;margin-top:10px;}' +
+      '#notesPopup .nt-primary{flex:1;background:var(--theme-g1);color:#fff;border:none;border-radius:10px;padding:10px 12px;font-family:Cairo,sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;}' +
+      '#notesPopup .nt-ghost{background:transparent;color:' + clr + ';border:1px solid ' + ring + ';border-radius:10px;padding:10px 14px;font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;}' +
+      '#notesPopup .nt-soft{flex:1;background:rgba(var(--theme-g1-rgb),0.1);color:' + clr + ';border:1.5px solid ' + ring + ';border-radius:10px;padding:9px 6px;font-family:Cairo,sans-serif;font-size:12px;font-weight:700;cursor:pointer;}' +
+      '#notesPopup .nt-attach{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12.5px;color:' + muted + ';cursor:pointer;min-width:0;}' +
+      '#notesPopup .nt-attach input{width:16px;height:16px;flex-shrink:0;accent-color:var(--theme-g1);}' +
+      '#notesPopup .nt-attach b{color:' + clr + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}' +
+      '#notesPopup .nt-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;}' +
+      '#notesPopup .nt-note{background:rgba(var(--theme-g1-rgb),0.07);border:1px solid ' + borderClr + ';border-radius:12px;padding:10px 12px;}' +
+      '#notesPopup .nt-note.nt-editing{border-color:var(--theme-g1);}' +
+      '#notesPopup .nt-text{font-size:14px;line-height:1.75;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;user-select:text;-webkit-user-select:text;}' +
+      '#notesPopup .nt-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;}' +
+      '#notesPopup .nt-meta{font-size:11px;color:' + muted + ';display:flex;flex-wrap:wrap;gap:2px 10px;min-width:0;}' +
+      '#notesPopup .nt-tag{color:var(--theme-g1);font-weight:700;overflow-wrap:anywhere;}' +
+      '#notesPopup .nt-actions{display:flex;gap:2px;flex-shrink:0;}' +
+      '#notesPopup .nt-icon{background:none;border:none;cursor:pointer;font-size:15px;line-height:1;padding:6px 7px;border-radius:8px;opacity:.75;}' +
+      '#notesPopup .nt-icon:hover{opacity:1;background:rgba(var(--theme-g1-rgb),0.12);}' +
+      '#notesPopup .nt-empty{text-align:center;padding:22px 8px;font-size:13px;color:' + muted + ';}';
+
+    var popup = document.createElement('div');
+    popup.id = 'notesPopup';
+    popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:ntFadeIn .18s ease;';
+    popup.innerHTML =
+      '<style>' + css + '</style>' +
+      '<div id="ntCard" role="dialog" aria-modal="true" tabindex="-1" aria-label="' + ntEsc(nt('title')) + '" style="outline:none;background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:420px;max-height:88vh;overflow-y:auto;direction:' + dir + ';font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:ntSlideIn .22s ease;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';position:sticky;top:0;background:' + bg + ';border-radius:18px 18px 0 0;z-index:1;">' +
+          '<div style="font-size:15px;font-weight:700;">📝 ' + ntEsc(nt('title')) + '</div>' +
+          '<button id="ntClose" type="button" aria-label="' + ntEsc(nt('close')) + '" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
+        '</div>' +
+        '<div style="padding:14px 16px 18px;">' +
+          '<textarea id="ntInput" class="nt-ta" dir="auto" maxlength="' + NT_MAX_LEN + '" rows="4" placeholder="' + ntEsc(nt('placeholder')) + '"></textarea>' +
+          '<label id="ntAttachRow" class="nt-attach" style="display:none;"><input type="checkbox" id="ntAttach"' + (attachChecked ? ' checked' : '') + '><span style="flex-shrink:0;">' + ntEsc(nt('attach')) + ':</span><b>' + ntEsc(stationName) + '</b></label>' +
+          '<div class="nt-row">' +
+            '<button id="ntSaveBtn" type="button" class="nt-primary"></button>' +
+            '<button id="ntCancelBtn" type="button" class="nt-ghost" style="display:none;">' + ntEsc(nt('cancel')) + '</button>' +
+          '</div>' +
+          '<input id="ntSearch" type="search" class="nt-search" dir="auto" placeholder="' + ntEsc(nt('search')) + '">' +
+          '<div id="ntList" class="nt-list"></div>' +
+          '<div class="nt-row" style="margin-top:14px;">' +
+            '<button id="ntBackupBtn" type="button" class="nt-soft">' + ntEsc(nt('backup')) + '</button>' +
+            '<button id="ntImportBtn" type="button" class="nt-soft">' + ntEsc(nt('imp')) + '</button>' +
+            '<input type="file" id="ntImportInput" accept="application/json,.json" style="display:none;">' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(popup);
+
+    // الموقع فيه إيماءة سحب عامة (تبديل المحطة) وعدّ لـ3 نقرات (فتح الترحيب) على مستوى الصفحة كلها.
+    // بنمنع وصول اللمس/النقر من جوّه النافذة لهذه المعالجات، حتى لا تتغيّر المحطة أو تنفتح شاشة الترحيب
+    // بالغلط أثناء تمرير القائمة أو تحديد نص ملاحظة بثلاث نقرات.
+    ['touchstart', 'touchend', 'click'].forEach(function(ev) {
+      popup.addEventListener(ev, function(e) { e.stopPropagation(); }, { passive: true });
+    });
+    popup.addEventListener('click', function(e) { if (e.target === popup) ntClose(); });
+    // اختصارات لوحة المفاتيح الخاصة بالموقع (تشغيل/إيقاف/تالي...) لا يجب أن تعمل أثناء الكتابة هنا
+    popup.addEventListener('keydown', function(e) { e.stopPropagation(); });
+    document.addEventListener('keydown', ntKeyCapture, true);
+
+    var ta = g('ntInput');
+    ta.value = draft;
+    ta.addEventListener('input', function() { if (!editingId) draft = ta.value; });
+    ta.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); ntSubmit(); }
+    });
+    g('ntSaveBtn').addEventListener('click', ntSubmit);
+    g('ntCancelBtn').addEventListener('click', ntCancelEdit);
+    g('ntClose').addEventListener('click', ntClose);
+    g('ntSearch').addEventListener('input', function() { filterText = this.value; ntRenderList(); });
+    g('ntBackupBtn').addEventListener('click', ntExport);
+    g('ntImportBtn').addEventListener('click', function() { g('ntImportInput').click(); });
+    g('ntImportInput').addEventListener('change', function() { ntImportFile(this); });
+    g('ntList').addEventListener('click', function(e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (!btn) return;
+      var card = btn.closest('.nt-note');
+      var id = card && card.getAttribute('data-id');
+      if (!id) return;
+      if (btn.getAttribute('data-act') === 'del') ntDelete(id); else ntStartEdit(id);
+    });
+
+    ntSyncCompose();
+    ntRenderList();
+    // على الأجهزة اللمسية ما نفتحش الكيبورد تلقائيًا
+    try { if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) ta.focus(); } catch (e) {}
+  };
+
+  // ===== شريط أيقونات الفوتر القابل للسحب (موبايل/شاشات صغيرة) =====
+  // الـ CSS يحوّل الصف لسكرول أفقي عند max-width:1024px؛ هنا بس بنضيف "تلاشي" على الحافة اللي فيها أزرار مخفية
+  function ntInitFooterScroll() {
+    var el = g('footerIconsScroll');
+    if (!el || el._fisInit) return;
+    el._fisInit = true;
+    function update() {
+      var max = el.scrollWidth - el.clientWidth;
+      var sl = el.scrollLeft;
+      var rtl = false;
+      try { rtl = window.getComputedStyle(el).direction === 'rtl'; } catch (e) {}
+      var left = false, right = false;
+      if (max > 2) {
+        if (rtl) { left = (max + sl) > 2; right = (-sl) > 2; }   // في RTL قيمة scrollLeft سالبة
+        else { left = sl > 2; right = (max - sl) > 2; }
+      }
+      el.classList.toggle('fis-fade-left', left);
+      el.classList.toggle('fis-fade-right', right);
+    }
+    el.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    window.addEventListener('orientationchange', function() { setTimeout(update, 200); });
+    if (window.ResizeObserver) { try { new ResizeObserver(update).observe(el); } catch (e) {} }
+    update();
+    setTimeout(update, 400);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ntInitFooterScroll);
+  else ntInitFooterScroll();
+  window.addEventListener('load', ntInitFooterScroll);
+})();
+</script>
+<!-- ===== END My Notes ===== -->
 
 <button id="toggleButton" class="toggle-button"
     data-ar="تحميل التطبيق 📻"
@@ -29599,6 +30026,7 @@ window._ptComputeDuha = _ptComputeDuha;
 
     
     <div class="footer-stats-row">
+<div class="footer-icons-scroll" id="footerIconsScroll">
         <span id="flagToggle" style="cursor:pointer; user-select:none; font-size:16px; opacity:0.5;" title="اضغط 3 مرات لإظهار إحصائيات الزوار">📊</span>
         <button id="footerListenStatsBtn" class="footer-listen-stats-btn" onclick="openListenStats()" title="إحصائيات الاستماع / Listening Stats" aria-label="Listening Stats">
             <span class="footer-listen-stats-icon">📈</span>
@@ -29616,6 +30044,10 @@ window._ptComputeDuha = _ptComputeDuha;
             <span class="footer-listen-stats-icon">📗</span>
             <span id="khStreakBadge" style="display:none;position:absolute;top:-4px;left:-6px;background:#ff7043;color:#fff;font-size:9px;font-weight:800;line-height:1;padding:2px 4px;border-radius:8px;min-width:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></span>
         </button>
+        <button id="notesBtn" class="footer-listen-stats-btn" onclick="openNotes()" title="ملاحظاتي / My Notes" aria-label="My Notes">
+<span class="footer-listen-stats-icon">📝</span>
+</button>
+</div>
         <div class="flag-counter-container" id="flagContainer" style="display:none; margin-top:10px;">
             <a href="http://s01.flagcounter.com/more/Qgi">
                 <img src="https://s01.flagcounter.com/count2/Qgi/bg_FFFFFF/txt_000000/border_CCCCCC/columns_9/maxflags_100/viewers_Visitors/labels_1/pageviews_1/flags_0/percent_0/"
