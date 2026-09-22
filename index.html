@@ -29455,7 +29455,8 @@ window._ptComputeDuha = _ptComputeDuha;
 <script>
 (function() {
   var NT_KEY = 'userNotesV1';
-  var NT_MAX_LEN = 5000;
+  // ملحوظة: مفيش حد أقصى لطول الملاحظة ولا مدة التسجيل الصوتي بقرار متعمّد —
+  // القيد الوحيد المتبقي هو سعة تخزين المتصفح نفسها (localStorage)، مش أي حد مصطنع من الكود
   var NT_LANGS = ['ar','en','fr','es','sv','nl','ga','de','ru','tr','pt','zh','ur'];
   var NT_RTL = { ar: true, ur: true };
   var NT_LOCALE = { ar:'ar-EG', en:'en-GB', fr:'fr-FR', es:'es-ES', sv:'sv-SE', nl:'nl-NL', ga:'ga-IE', de:'de-DE', ru:'ru-RU', tr:'tr-TR', pt:'pt-PT', zh:'zh-CN', ur:'ur-PK' };
@@ -29492,7 +29493,6 @@ window._ptComputeDuha = _ptComputeDuha;
     micDenied:    ['🎙️ تم رفض إذن الميكروفون','🎙️ Microphone permission denied','🎙️ Autorisation du micro refusée','🎙️ Permiso de micrófono denegado','🎙️ Mikrofonbehörighet nekad','🎙️ Microfoontoegang geweigerd','🎙️ Diúltaíodh cead an mhicreafóin','🎙️ Mikrofonzugriff verweigert','🎙️ Доступ к микрофону запрещён','🎙️ Mikrofon izni reddedildi','🎙️ Permissão do microfone negada','🎙️ 麦克风权限被拒绝','🎙️ مائیکروفون کی اجازت مسترد'],
     micNoDevice:  ['🎙️ لم يتم العثور على ميكروفون','🎙️ No microphone found','🎙️ Aucun micro détecté','🎙️ No se encontró micrófono','🎙️ Ingen mikrofon hittades','🎙️ Geen microfoon gevonden','🎙️ Níor aimsíodh micreafón','🎙️ Kein Mikrofon gefunden','🎙️ Микрофон не найден','🎙️ Mikrofon bulunamadı','🎙️ Nenhum microfone encontrado','🎙️ 未找到麦克风','🎙️ مائیکروفون نہیں ملا'],
     micError:     ['⚠️ تعذّر تشغيل الميكروفون','⚠️ Couldn\'t access the microphone','⚠️ Impossible d\'accéder au micro','⚠️ No se pudo acceder al micrófono','⚠️ Kunde inte komma åt mikrofonen','⚠️ Kan niet bij de microfoon komen','⚠️ Níorbh fhéidir teacht ar an micreafón','⚠️ Zugriff auf Mikrofon fehlgeschlagen','⚠️ Не удалось получить доступ к микрофону','⚠️ Mikrofona erişilemedi','⚠️ Não foi possível acessar o microfone','⚠️ 无法访问麦克风','⚠️ مائیکروفون تک رسائی ناکام'],
-    micMaxLen:    ['⏱️ الحد الأقصى للتسجيل دقيقتان','⏱️ Max recording length is 2 minutes','⏱️ Durée max de l\'enregistrement : 2 min','⏱️ Duración máxima: 2 minutos','⏱️ Max inspelningstid är 2 minuter','⏱️ Maximale opnameduur is 2 minuten','⏱️ Uasfhad an taifeadta: 2 nóiméad','⏱️ Maximale Aufnahmedauer: 2 Minuten','⏱️ Максимальная длительность записи — 2 минуты','⏱️ En fazla kayıt süresi 2 dakikadır','⏱️ Duração máxima da gravação: 2 minutos','⏱️ 最长录音时间为2分钟','⏱️ زیادہ سے زیادہ ریکارڈنگ کا وقت 2 منٹ ہے'],
     voiceNoteLabel:['🎙️ ملاحظة صوتية','🎙️ Voice note','🎙️ Note vocale','🎙️ Nota de voz','🎙️ Röstanteckning','🎙️ Spraaknotitie','🎙️ Nóta gutha','🎙️ Sprachnotiz','🎙️ Голосовая заметка','🎙️ Sesli not','🎙️ Nota de voz','🎙️ 语音笔记','🎙️ صوتی نوٹ'],
     audioPlayError:['⚠️ تعذّر تشغيل الصوت','⚠️ Couldn\'t play the audio','⚠️ Impossible de lire l\'audio','⚠️ No se pudo reproducir el audio','⚠️ Kunde inte spela ljudet','⚠️ Kan de audio niet afspelen','⚠️ Níorbh fhéidir an fuaim a sheinm','⚠️ Audio konnte nicht abgespielt werden','⚠️ Не удалось воспроизвести аудио','⚠️ Ses oynatılamadı','⚠️ Não foi possível reproduzir o áudio','⚠️ 无法播放音频','⚠️ آڈیو نہیں چل سکا'],
     dictate:        ['إملاء الملاحظة بالصوت','Dictate note by voice','Dicter la note à la voix','Dictar la nota por voz','Diktera anteckning med rösten','Notitie inspreken','Deachtaigh nóta le do ghuth','Notiz per Sprache diktieren','Надиктовать заметку голосом','Notu sesle dikte et','Ditar nota por voz','语音输入笔记','آواز سے نوٹ لکھیں'],
@@ -29556,7 +29556,6 @@ window._ptComputeDuha = _ptComputeDuha;
   var pendingAudio = null; // تسجيل صوتي جاهز للحفظ (أو مرفق بالملاحظة الجاري تعديلها): {dataUrl, dur} أو null
   var draftAudio = null;   // نسخة احتياطية من pendingAudio وقت الدخول في تعديل ملاحظة (ترجع عند الإلغاء)
   var nowPlayingId = null; // معرّف الملاحظة (أو 'pending') المُشغَّلة صوتها حالياً، أو null
-  var NT_MAX_AUDIO_SEC = 120; // أقصى مدة تسجيل (دقيقتان) — تسجيلات أطول تكبّر حجم التخزين المحلي بسرعة
   var ntRec = { recorder: null, stream: null, chunks: [], startTs: 0, timerInt: null, discard: false };
   // حالة الإملاء الصوتي (تحويل الكلام لنص داخل خانة الملاحظة) — منفصلة تمامًا عن
   // ntRec اللي بتسجّل مقطع صوتي كمرفق؛ دي بس بتكتب نص في #ntInput وأنت بتتكلم
@@ -29712,7 +29711,6 @@ window._ptComputeDuha = _ptComputeDuha;
       ntToast(nt('emptyWarn'));
       return;
     }
-    text = text.slice(0, NT_MAX_LEN);
     var notes = ntLoad();
     var now = Date.now();
 
@@ -29835,7 +29833,7 @@ window._ptComputeDuha = _ptComputeDuha;
           if (!n.text.trim() && !hasAudio) return;
           var id = (typeof n.id === 'string' && /^[A-Za-z0-9_\-]{1,40}$/.test(n.id)) ? n.id : ntId();
           if (seen[id]) return; // الملاحظات الموجودة أصلاً لا تتكرر — الاستيراد يضيف فقط ولا يستبدل
-          var note = { id: id, text: n.text.slice(0, NT_MAX_LEN), ts: (typeof n.ts === 'number' && isFinite(n.ts)) ? n.ts : Date.now() };
+          var note = { id: id, text: n.text, ts: (typeof n.ts === 'number' && isFinite(n.ts)) ? n.ts : Date.now() };
           if (typeof n.upd === 'number' && isFinite(n.upd)) note.upd = n.upd;
           if (typeof n.station === 'string' && n.station) note.station = n.station.slice(0, 200);
           if (typeof n.pos === 'number' && isFinite(n.pos) && n.pos >= 0) note.pos = Math.floor(n.pos);
@@ -29878,7 +29876,6 @@ window._ptComputeDuha = _ptComputeDuha;
     var el = g('ntRecTime');
     var ms = Date.now() - ntRec.startTs;
     if (el) el.textContent = ntFmtPos(Math.floor(ms / 1000));
-    if (ms >= NT_MAX_AUDIO_SEC * 1000) { ntToast(nt('micMaxLen')); ntStopRecording(false); }
   }
   function ntStartRecording() {
     if (ntRec.recorder && ntRec.recorder.state === 'recording') return;
@@ -30000,7 +29997,7 @@ window._ptComputeDuha = _ptComputeDuha;
       if (interimChunk.trim()) {
         combined += (ntDict.finalText ? ' ' : '') + interimChunk.trim();
       }
-      ta.value = combined.slice(0, NT_MAX_LEN);
+      ta.value = combined;
       if (!editingId) draft = ta.value;
       ta.dispatchEvent(new Event('input'));
     };
@@ -30121,7 +30118,7 @@ window._ptComputeDuha = _ptComputeDuha;
           '<button id="ntClose" type="button" aria-label="' + ntEsc(nt('close')) + '" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
         '</div>' +
         '<div style="padding:14px 16px 18px;">' +
-          '<textarea id="ntInput" class="nt-ta" dir="auto" maxlength="' + NT_MAX_LEN + '" rows="4" placeholder="' + ntEsc(nt('placeholder')) + '"></textarea>' +
+          '<textarea id="ntInput" class="nt-ta" dir="auto" rows="4" placeholder="' + ntEsc(nt('placeholder')) + '"></textarea>' +
           '<div class="nt-mic-row">' +
             '<button id="ntDictateBtn" type="button" class="nt-mic-btn nt-dictate-btn" title="' + ntEsc(nt('dictate')) + '" aria-label="' + ntEsc(nt('dictate')) + '">🎤</button>' +
             '<button id="ntMicBtn" type="button" class="nt-mic-btn" title="' + ntEsc(nt('micRecord')) + '" aria-label="' + ntEsc(nt('micRecord')) + '">🎙️</button>' +
