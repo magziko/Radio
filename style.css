@@ -10151,3 +10151,72 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     .pw-rows-container{flex-direction:row;flex-wrap:nowrap;gap:8px;padding:6px 10px;}
     .pw-row{flex:1;flex-direction:column;justify-content:center;gap:4px;padding:12px 6px;margin-bottom:0;}
   }
+
+/* ===================== قسم إضافي — شريط أيقونات الفوتر القابل للسحب (footer-icons-scroll) ===================== */
+/* الأزرار الدائرية في الفوتر (إحصائيات/قبلة/مواقيت/زكاة/ختمة/ملاحظات) داخل حاوية واحدة.
+   على الشاشات الكبيرة: نفس التخطيط القديم بالظبط (وسط + التفاف).
+   على الموبايل والشاشات الصغيرة (<=1024px): صف واحد يُسحب يمينًا ويسارًا، ولو الأزرار تكفي الشاشة تفضل في المنتصف. */
+.footer-icons-scroll {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 100%;
+}
+
+@media (max-width: 1024px) {
+    .footer-icons-scroll {
+        gap: 12px;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        overflow-y: hidden;
+        box-sizing: border-box;
+        /* مساحة صغيرة حوالين الأزرار عشان ما يتقصّش الظل/الشارة (overflow بيقص اللي بره الصندوق)،
+           والهامش السالب بيعوّضها فارتفاع الفوتر ما يتغيّرش */
+        padding: 6px 10px;
+        margin: -6px 0;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        scrollbar-width: thin;
+    }
+    .footer-icons-scroll > * {
+        flex: 0 0 auto;
+    }
+    /* الهوامش التلقائية = توسيط لما الأزرار تكفي، وبتتحول لصفر (سحب من البداية) لما تزيد عن الشاشة */
+    .footer-icons-scroll > :first-child { margin-inline-start: auto; }
+    .footer-icons-scroll > :last-child  { margin-inline-end: auto; }
+
+    /* تلاشي على الحافة اللي فيها أزرار مخفية (الـ JS بيضيف الكلاسات حسب مكان السكرول) */
+    .footer-icons-scroll.fis-fade-left {
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 26px);
+                mask-image: linear-gradient(to right, transparent 0, #000 26px);
+    }
+    .footer-icons-scroll.fis-fade-right {
+        -webkit-mask-image: linear-gradient(to left, transparent 0, #000 26px);
+                mask-image: linear-gradient(to left, transparent 0, #000 26px);
+    }
+    .footer-icons-scroll.fis-fade-left.fis-fade-right {
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 26px, #000 calc(100% - 26px), transparent 100%);
+                mask-image: linear-gradient(to right, transparent 0, #000 26px, #000 calc(100% - 26px), transparent 100%);
+    }
+}
+
+/* الموبايل (<=768px): زرّا ▶ (تشغيل/إيقاف) و ⬆ (للأعلى) عائمان فوق طرفَي الفوتر (على بُعد 20px من الحافة وبعرض 34-36px)
+   وكانا يغطّيان أزرار الأطراف. فنترك مسافة جانبية ثابتة ≈ 64px من كل طرف، فأول زر وآخر زر يقفان دايمًا
+   بعيد عنهم عند نهايتَي السحب. (عناصر ::before/::after بدل padding لأن سلوك padding-end في سكرول flex متفاوت بين المتصفحات) */
+@media (max-width: 768px) {
+    .footer-icons-scroll::before,
+    .footer-icons-scroll::after {
+        content: '';
+        flex: 0 0 42px;
+        height: 1px;
+    }
+}
+
+/* على شاشات اللمس نخفي شريط السكرول (السحب بالإصبع كفاية)؛ مع الماوس يفضل ظاهر رفيع */
+@media (max-width: 1024px) and (pointer: coarse) {
+    .footer-icons-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+    .footer-icons-scroll::-webkit-scrollbar { display: none; }
+}
