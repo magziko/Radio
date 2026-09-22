@@ -40599,7 +40599,7 @@ function _clearTasbihAdvanceTimer() {
   _tasbihAdvancePendingButton = null;
 }
 
-function _estimateTasbihReadingDelay(button) {
+function _estimateTasbihReadingDelay(button, isRepeatLap) {
   var text = button.getAttribute('data-ar') || button.getAttribute('data-en') || '';
   text = text.replace(/<[^>]*>/g, ' '); // إزالة وسوم HTML زي <br> قبل حساب عدد الكلمات
   // رمز ﷺ (الصلاة والسلام) بيتنطق فعليًا "صلى الله عليه وسلم" = 4 كلمات،
@@ -40607,6 +40607,20 @@ function _estimateTasbihReadingDelay(button) {
   // كلمات يعادل نطقه فعليًا عشان مهلة القراءة تحسب وقته صح (زي ذكر
   // "رضيت بالله ربًا..." اللي بينطق فيه المستخدم الصلاة والسلام كاملة).
   text = text.replace(/ﷺ/g, 'صلى الله عليه وسلم');
+  // "(×3)" / "(×100)" ... إلخ هي إشارة لعدد مرات التكرار وموجودة فى نص الذكر
+  // نفسه للعرض بس — مش بتتقال، فمكانش لازم تتحسب كـ"كلمة" وتزوّد المهلة
+  // فى كل لفة من لفات التكرار (كانت بتزوّد ٣٥٠ مللي ثانية زيادة فى كل
+  // لفة من غير داعي، وده بيتراكم بشكل واضح فى الأذكار اللى بتتكرر كتير
+  // زي التهليل/الاستغفار/التسبيح المية مرة)
+  text = text.replace(/\(×\s*\d+\s*\)/g, ' ');
+  // الاستعاذة "أعوذ بالله من الشيطان الرجيم" بتتقال مرة واحدة بس قبل أول
+  // تكرار (زي سور الإخلاص/الفلق/الناس اللي بتتكرر ×3) مش قبل كل لفة، فلو
+  // إحنا فى لفة تكرار غير الأولى لنفس الذكر (isRepeatLap) بنشيلها من
+  // الحساب عشان اللفة متاخدش وقت زيادة من غير داعي
+  var _istiadhaPrefix = 'أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ';
+  if (isRepeatLap && text.trim().indexOf(_istiadhaPrefix) === 0) {
+    text = text.trim().slice(_istiadhaPrefix.length);
+  }
   var words = text.trim().split(/\s+/).filter(Boolean).length;
   // ~350ms لكل كلمة (سرعة قراءة مريحة)، معدّلة بمعامل سرعة المستخدم المتعلّم
   var factor = _getTasbihPaceFactor();
@@ -40738,7 +40752,9 @@ function scheduleTasbihAutoLap(button) {
     return;
   }
 
-  var delay = _estimateTasbihReadingDelay(button);
+  // count > 0 معناها إحنا فى لفة تكرار مش أول لفة للذكر ده (زي اللفة التانية
+  // والتالتة من سور الإخلاص/الفلق/الناس)، فمنحسبش الاستعاذة تانى فيها
+  var delay = _estimateTasbihReadingDelay(button, count > 0);
   _tasbihAdvanceCallback = function() {
     _performTasbihAutoLap(button);
   };
