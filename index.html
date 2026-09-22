@@ -29559,7 +29559,7 @@ window._ptComputeDuha = _ptComputeDuha;
   var ntRec = { recorder: null, stream: null, chunks: [], startTs: 0, timerInt: null, discard: false };
   // حالة الإملاء الصوتي (تحويل الكلام لنص داخل خانة الملاحظة) — منفصلة تمامًا عن
   // ntRec اللي بتسجّل مقطع صوتي كمرفق؛ دي بس بتكتب نص في #ntInput وأنت بتتكلم
-  var ntDict = { recognition: null, active: false, finalText: '', baseText: '' };
+  var ntDict = { recognition: null, active: false, finalText: '', baseText: '', userStopped: false, fatalError: false };
 
   // مشغّل صوت واحد مشترك لكل معاينات/ملاحظات الصوت (يوقف أي تشغيل سابق قبل تشغيل جديد)
   var ntPlayer = (typeof Audio !== 'undefined') ? new Audio() : null;
@@ -29944,7 +29944,6 @@ window._ptComputeDuha = _ptComputeDuha;
   }
   function ntStartDictation() {
     var SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-    var btn = g('ntDictateBtn');
     var ta = g('ntInput');
     var lang = ntLang();
     var rtl = !!NT_RTL[lang];
@@ -29952,8 +29951,10 @@ window._ptComputeDuha = _ptComputeDuha;
     if (!SpeechRecognitionCtor || !ta) { ntToast(nt('dictateNotSupported')); return; }
     if (window.isSecureContext === false) { ntToast(nt('dictateSecure')); return; }
 
-    // لو شغالة بالفعل، الضغطة دي معناها "وقف" (toggle)
+    // لو شغالة بالفعل، الضغطة دي معناها "وقف" (toggle) — وده الحالة الوحيدة
+    // اللي فعلاً بتوقف الإملاء نهائيًا، لأننا بنعلّم إنه إيقاف مقصود من المستخدم
     if (ntDict.active && ntDict.recognition) {
+      ntDict.userStopped = true;
       ntDict.recognition.stop();
       return;
     }
@@ -29963,17 +29964,33 @@ window._ptComputeDuha = _ptComputeDuha;
     ntStopPlayback();
     if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('noteDictation');
 
-    var recognition = new SpeechRecognitionCtor();
-    ntDict.recognition = recognition;
     ntDict.finalText = '';
     // النص الموجود بالفعل في الخانة قبل ما نبدأ — هنضيف عليه، مش هنمسحه
     ntDict.baseText = ta.value || '';
-    recognition.lang = NT_LOCALE[lang] || (rtl ? 'ar-SA' : 'en-US');
+    ntDict.userStopped = false;
+    ntDict.fatalError = false;
+    ntDict.active = true;
+    _ntRunDictationSession(SpeechRecognitionCtor, NT_LOCALE[lang] || (rtl ? 'ar-SA' : 'en-US'));
+  }
+
+  // بتبدأ (أو تعيد بدء) جلسة استماع واحدة. بعض المتصفحات (خصوصًا كروم) بتقفل
+  // جلسة التعرف الصوتي لوحدها من غير ما المستخدم يعمل حاجة — مثلًا بعد فترة
+  // صمت بسيطة وانت بتفكر في اللي هتقوله بعد كده — حتى لو continuous=true. ده
+  // كان سبب إن المايك يبان شغال بس التسجيل يوقف فجأة. عشان كده، لو الجلسة
+  // اتقفلت من غير ما المستخدم يضغط إيقاف وبدون خطأ حقيقي (زي رفض الصلاحية)،
+  // بنعيد فتح جلسة جديدة تلقائيًا على طول من غير ما يحس المستخدم بحاجة
+  function _ntRunDictationSession(SpeechRecognitionCtor, recogLang) {
+    var btn = g('ntDictateBtn');
+    var ta = g('ntInput');
+    if (!ta || !document.body.contains(ta)) { ntDict.active = false; return; }
+
+    var recognition = new SpeechRecognitionCtor();
+    ntDict.recognition = recognition;
+    recognition.lang = recogLang;
     recognition.interimResults = true;
     recognition.continuous = true;
     recognition.maxAlternatives = 1;
 
-    ntDict.active = true;
     if (btn) {
       btn.classList.add('mic-listening');
       btn.textContent = '🔴';
@@ -30011,15 +30028,39 @@ window._ptComputeDuha = _ptComputeDuha;
 
     recognition.onerror = function(event) {
       var err = event && event.error;
-      if (err === 'not-allowed' || err === 'service-not-allowed') ntToast(nt('micDenied'));
-      else if (err === 'audio-capture') ntToast(nt('micNoDevice'));
-      else if (err === 'no-speech') ntToast(nt('dictateNoSpeech'));
-      else ntToast(nt('micError'));
+      // "no-speech" و"aborted" مش أخطاء حقيقية — بيحصلوا بشكل طبيعي مع فترة
+      // صمت أو وقف مقصود، فمنعرضش تنبيه عليهم ونسيب onend يقرر يعيد المحاولة
+      // ولا لأ. الأخطاء الحقيقية بس (رفض الصلاحية / مفيش ميكروفون) بتوقف
+      // الإملاء نهائيًا ومنعادش نحاول تاني لوحدنا
+      if (err === 'not-allowed' || err === 'service-not-allowed') {
+        ntDict.fatalError = true;
+        ntToast(nt('micDenied'));
+      } else if (err === 'audio-capture') {
+        ntDict.fatalError = true;
+        ntToast(nt('micNoDevice'));
+      } else if (err === 'no-speech' || err === 'aborted') {
+        // طبيعي، من غير تنبيه
+      } else {
+        ntToast(nt('micError'));
+      }
     };
 
     recognition.onend = function() {
-      ntDict.active = false;
       ntDict.recognition = null;
+      var shouldRestart = !ntDict.userStopped && !ntDict.fatalError && ta && document.body.contains(ta);
+      if (shouldRestart) {
+        // نكمّل من مكان ما وقفنا: أي نص اتكتب لحد دلوقتي يبقى جزء من الأساس
+        // اللي هنضيف عليه في الجلسة الجديدة
+        ntDict.baseText = ta.value || '';
+        ntDict.finalText = '';
+        setTimeout(function() {
+          if (ntDict.active && !ntDict.userStopped && !ntDict.fatalError) {
+            _ntRunDictationSession(SpeechRecognitionCtor, recogLang);
+          }
+        }, 250);
+        return;
+      }
+      ntDict.active = false;
       if (btn) {
         btn.classList.remove('mic-listening');
         btn.textContent = '🎤';
@@ -30033,11 +30074,13 @@ window._ptComputeDuha = _ptComputeDuha;
       recognition.start();
     } catch (e) {
       ntDict.active = false;
+      ntDict.recognition = null;
       if (btn) { btn.classList.remove('mic-listening'); btn.textContent = '🎤'; }
       ntToast(nt('micError'));
     }
   }
   function ntStopDictation() {
+    ntDict.userStopped = true;
     if (ntDict.recognition) { try { ntDict.recognition.stop(); } catch (e) {} }
   }
   function ntRemovePendingAudio() {
