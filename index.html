@@ -29460,6 +29460,13 @@ window._ptComputeDuha = _ptComputeDuha;
   var NT_LANGS = ['ar','en','fr','es','sv','nl','ga','de','ru','tr','pt','zh','ur'];
   var NT_RTL = { ar: true, ur: true };
   var NT_LOCALE = { ar:'ar-EG', en:'en-GB', fr:'fr-FR', es:'es-ES', sv:'sv-SE', nl:'nl-NL', ga:'ga-IE', de:'de-DE', ru:'ru-RU', tr:'tr-TR', pt:'pt-PT', zh:'zh-CN', ur:'ur-PK' };
+  // فئات ثابتة تصنيف بيها الملاحظة (بدل وسوم حرة عشان تفضل بسيطة وسريعة الاستخدام)
+  var NT_TAGS = [
+    { id: 'dua',      emoji: '🤲', key: 'tagDua' },
+    { id: 'tadabbur', emoji: '📖', key: 'tagTadabbur' },
+    { id: 'reminder', emoji: '🔔', key: 'tagReminder' },
+    { id: 'general',  emoji: '📝', key: 'tagGeneral' }
+  ];
 
   // القاموس: كل مفتاح = مصفوفة بنفس ترتيب NT_LANGS (الإنجليزية هي الاحتياطي عند نقص أي ترجمة)
   //           ar, en, fr, es, sv, nl, ga, de, ru, tr, pt, zh, ur
@@ -29499,7 +29506,18 @@ window._ptComputeDuha = _ptComputeDuha;
     dictateListening:['جارِ الاستماع... اضغط تاني للإيقاف','Listening... tap again to stop','Écoute en cours... appuyez à nouveau pour arrêter','Escuchando... toca de nuevo para detener','Lyssnar... tryck igen för att stoppa','Luisteren... tik nogmaals om te stoppen','Ag éisteacht... brúigh arís chun stopadh','Höre zu... erneut tippen zum Stoppen','Слушаю... нажмите ещё раз, чтобы остановить','Dinleniyor... durdurmak için tekrar dokunun','Ouvindo... toque novamente para parar','正在聆听…再次点击以停止','سن رہا ہے... روکنے کے لیے دوبارہ دبائیں'],
     dictateNotSupported:['المتصفح لا يدعم الإملاء الصوتي','This browser does not support voice dictation','Ce navigateur ne prend pas en charge la dictée vocale','Este navegador no admite el dictado por voz','Den här webbläsaren stöder inte röstdiktering','Deze browser ondersteunt geen spraakinvoer','Ní thacaíonn an brabhsálaí seo le deachtú gutha','Dieser Browser unterstützt keine Sprachdiktierfunktion','Этот браузер не поддерживает голосовой ввод','Bu tarayıcı sesli yazdırmayı desteklemiyor','Este navegador não suporta ditado por voz','此浏览器不支持语音输入','یہ براؤزر صوتی املا کو سپورٹ نہیں کرتا'],
     dictateSecure:  ['الإملاء الصوتي يحتاج فتح الموقع عبر HTTPS','Voice dictation requires an HTTPS connection','La dictée vocale nécessite une connexion HTTPS','El dictado por voz requiere una conexión HTTPS','Röstdiktering kräver en HTTPS-anslutning','Spraakinvoer vereist een HTTPS-verbinding','Teastaíonn nasc HTTPS le haghaidh deachtú gutha','Für die Sprachdiktierfunktion ist eine HTTPS-Verbindung erforderlich','Для голосового ввода требуется соединение HTTPS','Sesli yazdırma için HTTPS bağlantısı gereklidir','O ditado por voz requer uma conexão HTTPS','语音输入需要 HTTPS 连接','صوتی املا کے لیے HTTPS کنکشن ضروری ہے'],
-    dictateNoSpeech:['لم يتم سماع أي صوت، حاول مرة أخرى','No speech detected, try again','Aucune voix détectée, réessayez','No se detectó voz, inténtalo de nuevo','Inget tal upptäcktes, försök igen','Geen spraak gedetecteerd, probeer opnieuw','Níor aimsíodh aon chaint, bain triail eile as','Keine Sprache erkannt, bitte erneut versuchen','Речь не обнаружена, попробуйте ещё раз','Konuşma algılanamadı, tekrar deneyin','Nenhuma fala detectada, tente novamente','未检测到语音，请重试','کوئی آواز نہیں ملی، دوبارہ کوشش کریں']
+    dictateOffline: ['الإملاء الصوتي يحتاج اتصال بالإنترنت — تقدر تكتب أو تسجّل صوت عادي بدون نت','Voice dictation needs an internet connection — you can still type or record a voice note offline','La dictée vocale nécessite une connexion Internet — vous pouvez toujours taper ou enregistrer une note vocale hors ligne','El dictado por voz necesita conexión a Internet — aún puedes escribir o grabar una nota de voz sin conexión','Röstdiktering kräver internetanslutning — du kan fortfarande skriva eller spela in en röstanteckning offline','Spraakinvoer vereist een internetverbinding — je kunt nog steeds typen of een spraaknotitie offline opnemen','Teastaíonn ceangal Idirlín le haghaidh deachtú gutha — is féidir leat fós clóscríobh nó nóta gutha a thaifeadadh as líne','Für die Sprachdiktierfunktion ist eine Internetverbindung erforderlich — du kannst weiterhin offline tippen oder eine Sprachnotiz aufnehmen','Для голосового ввода нужен интернет — вы всё ещё можете печатать текст или записать голосовую заметку офлайн','Sesli yazdırma internet bağlantısı gerektirir — çevrimdışı yine de yazabilir veya sesli not kaydedebilirsiniz','O ditado por voz precisa de conexão à internet — você ainda pode digitar ou gravar uma nota de voz offline','语音输入需要联网 — 你仍然可以离线打字或录制语音笔记','صوتی املا کے لیے انٹرنیٹ کنکشن ضروری ہے — آپ اب بھی آف لائن ٹائپ کر سکتے ہیں یا صوتی نوٹ ریکارڈ کر سکتے ہیں'],
+    dictateNoSpeech:['لم يتم سماع أي صوت، حاول مرة أخرى','No speech detected, try again','Aucune voix détectée, réessayez','No se detectó voz, inténtalo de nuevo','Inget tal upptäcktes, försök igen','Geen spraak gedetecteerd, probeer opnieuw','Níor aimsíodh aon chaint, bain triail eile as','Keine Sprache erkannt, bitte erneut versuchen','Речь не обнаружена, попробуйте ещё раз','Konuşma algılanamadı, tekrar deneyin','Nenhuma fala detectada, tente novamente','未检测到语音，请重试','کوئی آواز نہیں ملی، دوبارہ کوشش کریں'],
+    pin:          ['تثبيت','Pin','Épingler','Fijar','Fäst','Vastmaken','Pinnáil','Anheften','Закрепить','Sabitle','Fixar','置顶','پن کریں'],
+    unpin:        ['إلغاء التثبيت','Unpin','Détacher','Desfijar','Lossa','Losmaken','Díphinnáil','Loslösen','Открепить','Sabitlemeyi kaldır','Desafixar','取消置顶','پن ہٹائیں'],
+    share:        ['مشاركة','Share','Partager','Compartir','Dela','Delen','Comhroinn','Teilen','Поделиться','Paylaş','Compartilhar','分享','شیئر کریں'],
+    copied:       ['📋 تم نسخ الملاحظة','📋 Note copied','📋 Note copiée','📋 Nota copiada','📋 Anteckning kopierad','📋 Notitie gekopieerd','📋 Nóta cóipeáilte','📋 Notiz kopiert','📋 Заметка скопирована','📋 Not kopyalandı','📋 Nota copiada','📋 笔记已复制','📋 نوٹ کاپی ہو گیا'],
+    shareFailed:  ['⚠️ تعذّرت المشاركة','⚠️ Couldn\'t share','⚠️ Impossible de partager','⚠️ No se pudo compartir','⚠️ Kunde inte dela','⚠️ Delen mislukt','⚠️ Níorbh fhéidir comhroinnt','⚠️ Teilen fehlgeschlagen','⚠️ Не удалось поделиться','⚠️ Paylaşılamadı','⚠️ Não foi possível compartilhar','⚠️ 无法分享','⚠️ شیئر نہیں ہو سکا'],
+    tagDua:       ['دعاء','Dua','Invocation','Súplica','Åkallan','Smeekbede','Dua','Bittgebet','Дуа','Dua','Súplica','祈祷词','دعا'],
+    tagTadabbur:  ['تدبر','Reflection','Méditation','Reflexión','Reflektion','Overpeinzing','Machnamh','Betrachtung','Размышление','Tefekkür','Reflexão','沉思','تدبر'],
+    tagReminder:  ['تذكير','Reminder','Rappel','Recordatorio','Påminnelse','Herinnering','Meabhrúchán','Erinnerung','Напоминание','Hatırlatma','Lembrete','提醒','یاد دہانی'],
+    tagGeneral:   ['عام','General','Général','General','Allmänt','Algemeen','Ginearálta','Allgemein','Общее','Genel','Geral','常规','عام'],
+    tagAll:       ['الكل','All','Tout','Todo','Alla','Alle','Gach ceann','Alle','Все','Tümü','Todos','全部','تمام']
   };
 
   function ntLang() {
@@ -29529,6 +29547,11 @@ window._ptComputeDuha = _ptComputeDuha;
       return new Date(ts).toLocaleString(NT_LOCALE[ntLang()] || 'en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     } catch (e) { return new Date(ts).toLocaleString(); }
   }
+  function ntTagInfo(id) {
+    var found = null;
+    NT_TAGS.forEach(function(t) { if (t.id === id) found = t; });
+    return found ? { emoji: found.emoji, label: nt(found.key) } : null;
+  }
   function ntFmtPos(sec) {
     var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
     function p(n) { return (n < 10 ? '0' : '') + n; }
@@ -29551,7 +29574,10 @@ window._ptComputeDuha = _ptComputeDuha;
   // ===== الحالة (تبقى طول ما الصفحة مفتوحة، حتى لو اتقفلت النافذة) =====
   var editingId = null;   // معرّف الملاحظة قيد التعديل (أو null)
   var filterText = '';    // نص البحث
+  var activeTagFilter = ''; // فلتر الفئة النشط في القائمة ('' = كل الفئات)
+  var composeTag = '';    // الفئة المختارة للملاحظة اللي بتتكتب دلوقتي (أو المُعدَّلة)
   var draft = '';         // مسودة الملاحظة الجديدة اللي لسه ما اتحفظتش
+  var draftTag = '';      // نسخة احتياطية من composeTag وقت الدخول في تعديل ملاحظة (ترجع عند الإلغاء)
   var hasStation = false; // هل فيه محطة شغّالة/مختارة وقت فتح النافذة
   var pendingAudio = null; // تسجيل صوتي جاهز للحفظ (أو مرفق بالملاحظة الجاري تعديلها): {dataUrl, dur} أو null
   var draftAudio = null;   // نسخة احتياطية من pendingAudio وقت الدخول في تعديل ملاحظة (ترجع عند الإلغاء)
@@ -29559,7 +29585,7 @@ window._ptComputeDuha = _ptComputeDuha;
   var ntRec = { recorder: null, stream: null, chunks: [], startTs: 0, timerInt: null, discard: false };
   // حالة الإملاء الصوتي (تحويل الكلام لنص داخل خانة الملاحظة) — منفصلة تمامًا عن
   // ntRec اللي بتسجّل مقطع صوتي كمرفق؛ دي بس بتكتب نص في #ntInput وأنت بتتكلم
-  var ntDict = { recognition: null, active: false, finalText: '', baseText: '', userStopped: false, fatalError: false };
+  var ntDict = { recognition: null, active: false, userStopped: false, fatalError: false, startTs: 0, timerInt: null };
 
   // مشغّل صوت واحد مشترك لكل معاينات/ملاحظات الصوت (يوقف أي تشغيل سابق قبل تشغيل جديد)
   var ntPlayer = (typeof Audio !== 'undefined') ? new Audio() : null;
@@ -29589,6 +29615,7 @@ window._ptComputeDuha = _ptComputeDuha;
     if (p) p.remove();
     editingId = null;
     filterText = '';
+    activeTagFilter = '';
   }
 
   function ntSyncCompose() {
@@ -29609,9 +29636,31 @@ window._ptComputeDuha = _ptComputeDuha;
   function ntRenderList() {
     var listEl = g('ntList');
     if (!listEl) return;
-    var notes = ntLoad().sort(function(a, b) { return (b.ts || 0) - (a.ts || 0); });
+    var notes = ntLoad().sort(function(a, b) {
+      var pa = a.pinned ? 1 : 0, pb = b.pinned ? 1 : 0;
+      if (pa !== pb) return pb - pa; // المثبّتة فوق
+      return (b.ts || 0) - (a.ts || 0);
+    });
     var searchEl = g('ntSearch');
     if (searchEl) searchEl.style.display = notes.length >= 5 ? 'block' : 'none';
+
+    // صف فلترة الفئات: بيظهر بس لو فيه ملاحظة واحدة على الأقل مصنّفة بفئة،
+    // عشان ميضيفش زحمة لمين مستخدمش الميزة دي
+    var filterRow = g('ntFilterRow');
+    var anyTagged = notes.some(function(n) { return !!n.tag; });
+    if (filterRow) {
+      if (anyTagged) {
+        filterRow.style.display = 'flex';
+        filterRow.innerHTML = '<button type="button" class="nt-filterchip' + (!activeTagFilter ? ' active' : '') + '" data-tagfilter="">' + ntEsc(nt('tagAll')) + '</button>' +
+          NT_TAGS.map(function(t) {
+            return '<button type="button" class="nt-filterchip' + (activeTagFilter === t.id ? ' active' : '') + '" data-tagfilter="' + t.id + '">' + t.emoji + ' ' + ntEsc(nt(t.key)) + '</button>';
+          }).join('');
+      } else {
+        filterRow.style.display = 'none';
+        filterRow.innerHTML = '';
+        activeTagFilter = ''; // لو مفيش تصنيفات خالص، الفلتر ميفضلش عالق على فئة اختفت
+      }
+    }
 
     if (!notes.length) {
       listEl.innerHTML = '<div class="nt-empty">' + ntEsc(nt('empty')) + '</div>';
@@ -29619,18 +29668,22 @@ window._ptComputeDuha = _ptComputeDuha;
       return;
     }
     var q = filterText.trim().toLowerCase();
-    var shown = q ? notes.filter(function(n) {
-      return (n.text + ' ' + (n.station || '')).toLowerCase().indexOf(q) !== -1;
-    }) : notes;
+    var shown = notes.filter(function(n) {
+      if (activeTagFilter && n.tag !== activeTagFilter) return false;
+      if (q && (n.text + ' ' + (n.station || '')).toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
     if (!shown.length) {
       listEl.innerHTML = '<div class="nt-empty">' + ntEsc(nt('noResults')) + '</div>';
       ntKeepFocusInside();
       return;
     }
     listEl.innerHTML = shown.map(function(n) {
-      var tag = '';
+      var metaTags = '';
+      var tagInfo = n.tag ? ntTagInfo(n.tag) : null;
+      if (tagInfo) metaTags += '<span class="nt-tag">' + tagInfo.emoji + ' ' + ntEsc(tagInfo.label) + '</span>';
       if (n.station) {
-        tag = '<span class="nt-tag">📻 ' + ntEsc(n.station) + (typeof n.pos === 'number' ? ' · ⏱ ' + ntFmtPos(n.pos) : '') + '</span>';
+        metaTags += '<span class="nt-tag">📻 ' + ntEsc(n.station) + (typeof n.pos === 'number' ? ' · ⏱ ' + ntFmtPos(n.pos) : '') + '</span>';
       }
       var hasText = !!(n.text && n.text.trim());
       var textHtml = hasText ? ('<div class="nt-text" dir="auto">' + ntEsc(n.text) + '</div>')
@@ -29641,11 +29694,14 @@ window._ptComputeDuha = _ptComputeDuha;
           '<span class="nt-audio-time">0:00 / ' + ntFmtPos(parseInt(n.audioDur, 10) || 0) + '</span>' +
         '</div>'
       ) : '';
-      return '<div class="nt-note' + (n.id === editingId ? ' nt-editing' : '') + '" data-id="' + ntEsc(n.id) + '">' +
+      var pinTitle = n.pinned ? nt('unpin') : nt('pin');
+      return '<div class="nt-note' + (n.id === editingId ? ' nt-editing' : '') + (n.pinned ? ' nt-pinned' : '') + '" data-id="' + ntEsc(n.id) + '">' +
         textHtml + audioHtml +
         '<div class="nt-foot">' +
-          '<div class="nt-meta"><span>' + ntEsc(ntFmtDate(n.upd || n.ts)) + '</span>' + tag + '</div>' +
+          '<div class="nt-meta"><span>' + ntEsc(ntFmtDate(n.upd || n.ts)) + '</span>' + metaTags + '</div>' +
           '<div class="nt-actions">' +
+            '<button type="button" class="nt-icon' + (n.pinned ? ' nt-pin-active' : '') + '" data-act="pin" title="' + ntEsc(pinTitle) + '" aria-label="' + ntEsc(pinTitle) + '">📌</button>' +
+            '<button type="button" class="nt-icon" data-act="share" title="' + ntEsc(nt('share')) + '" aria-label="' + ntEsc(nt('share')) + '">📤</button>' +
             '<button type="button" class="nt-icon" data-act="edit" title="' + ntEsc(nt('edit')) + '" aria-label="' + ntEsc(nt('edit')) + '">✏️</button>' +
             '<button type="button" class="nt-icon" data-act="del" title="' + ntEsc(nt('del')) + '" aria-label="' + ntEsc(nt('del')) + '">🗑️</button>' +
           '</div>' +
@@ -29700,6 +29756,14 @@ window._ptComputeDuha = _ptComputeDuha;
     if (pop && card && !pop.contains(document.activeElement)) { try { card.focus({ preventScroll: true }); } catch (e) {} }
   }
 
+  function _ntSyncTagPicker() {
+    var picker = g('ntTagPicker');
+    if (!picker) return;
+    picker.querySelectorAll('.nt-tagpill').forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-tag') === composeTag);
+    });
+  }
+
   function ntSubmit() {
     var ta = g('ntInput');
     if (!ta) return;
@@ -29721,16 +29785,19 @@ window._ptComputeDuha = _ptComputeDuha;
           n.text = text; n.upd = now; found = true;
           if (pendingAudio) { n.audio = pendingAudio.dataUrl; n.audioDur = pendingAudio.dur; }
           else { delete n.audio; delete n.audioDur; }
+          if (composeTag) n.tag = composeTag; else delete n.tag;
         }
       });
       if (!found) {
         var rebuilt = { id: ntId(), text: text, ts: now };
         if (pendingAudio) { rebuilt.audio = pendingAudio.dataUrl; rebuilt.audioDur = pendingAudio.dur; }
+        if (composeTag) rebuilt.tag = composeTag;
         notes.push(rebuilt);
       }
     } else {
       var note = { id: ntId(), text: text, ts: now };
       if (pendingAudio) { note.audio = pendingAudio.dataUrl; note.audioDur = pendingAudio.dur; }
+      if (composeTag) note.tag = composeTag;
       var att = g('ntAttach');
       if (att && att.checked && window._currentPlayingName) {
         note.station = String(window._currentPlayingName).slice(0, 200);
@@ -29746,11 +29813,14 @@ window._ptComputeDuha = _ptComputeDuha;
       editingId = null;
       ta.value = draft;
       pendingAudio = draftAudio; draftAudio = null;
+      composeTag = draftTag; draftTag = '';
     } else {
       draft = '';
       ta.value = '';
       pendingAudio = null;
+      composeTag = '';
     }
+    _ntSyncTagPicker();
     ntSyncCompose();
     ntRenderPendingAudio();
     ntRenderList();
@@ -29765,10 +29835,12 @@ window._ptComputeDuha = _ptComputeDuha;
     if (!ta) return;
     if (ntRec.recorder && ntRec.recorder.state === 'recording') ntStopRecording(true);
     ntStopDictation();
-    if (!editingId) { draft = ta.value; draftAudio = pendingAudio; }
+    if (!editingId) { draft = ta.value; draftAudio = pendingAudio; draftTag = composeTag; }
     editingId = id;
     ta.value = note.text;
     pendingAudio = note.audio ? { dataUrl: note.audio, dur: parseInt(note.audioDur, 10) || 0 } : null;
+    composeTag = note.tag || '';
+    _ntSyncTagPicker();
     ntSyncCompose();
     ntRenderPendingAudio();
     ntRenderList();
@@ -29781,6 +29853,8 @@ window._ptComputeDuha = _ptComputeDuha;
     editingId = null;
     if (ta) ta.value = draft;
     pendingAudio = draftAudio; draftAudio = null;
+    composeTag = draftTag; draftTag = '';
+    _ntSyncTagPicker();
     ntSyncCompose();
     ntRenderPendingAudio();
     ntRenderList();
@@ -29793,6 +29867,66 @@ window._ptComputeDuha = _ptComputeDuha;
     if (!ntSave(notes)) { ntToast(nt('failed')); return; }
     if (editingId === id) ntCancelEdit();
     ntRenderList();
+  }
+
+  function ntTogglePin(id) {
+    var notes = ntLoad();
+    var found = null;
+    notes.forEach(function(n) { if (n.id === id) found = n; });
+    if (!found) return;
+    if (found.pinned) delete found.pinned; else found.pinned = true;
+    if (!ntSave(notes)) { ntToast(nt('failed')); return; }
+    ntRenderList();
+  }
+
+  // بنبني نص جاهز للمشاركة أو النسخ: نص الملاحظة + الفئة (لو فيه) + المحطة
+  // المرتبطة بيها (لو فيه) — الصوت المرفق (لو فيه) ميتضمنش، لأن روابط
+  // data: الطويلة مالهاش معنى تتبعت زي كده لحد تاني
+  function _ntShareText(note) {
+    var parts = [];
+    if (note.text && note.text.trim()) parts.push(note.text.trim());
+    var tagInfo = note.tag ? ntTagInfo(note.tag) : null;
+    var metaLine = [];
+    if (tagInfo) metaLine.push(tagInfo.emoji + ' ' + tagInfo.label);
+    if (note.station) metaLine.push('📻 ' + note.station);
+    if (metaLine.length) parts.push(metaLine.join(' · '));
+    return parts.join('\n\n');
+  }
+  function ntShareNote(id) {
+    var note = null;
+    ntLoad().forEach(function(n) { if (n.id === id) note = n; });
+    if (!note) return;
+    var text = _ntShareText(note);
+    if (!text) { ntToast(nt('emptyWarn')); return; }
+    if (navigator.share) {
+      navigator.share({ text: text }).catch(function(e) {
+        // المستخدم لغى المشاركة من الشيت نفسه — ده مش خطأ فمنعملش حاجة
+        if (e && e.name === 'AbortError') return;
+        _ntCopyToClipboard(text);
+      });
+    } else {
+      _ntCopyToClipboard(text);
+    }
+  }
+  function _ntCopyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        ntToast(nt('copied'));
+      }).catch(function() { ntToast(nt('shareFailed')); });
+    } else {
+      // احتياطي لمتصفحات قديمة مالهاش Clipboard API
+      try {
+        var ta2 = document.createElement('textarea');
+        ta2.value = text;
+        ta2.style.position = 'fixed';
+        ta2.style.opacity = '0';
+        document.body.appendChild(ta2);
+        ta2.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta2);
+        ntToast(nt('copied'));
+      } catch (e) { ntToast(nt('shareFailed')); }
+    }
   }
 
   // ===== نسخة احتياطية / استيراد (نفس فكرة الختمة) =====
@@ -29837,6 +29971,8 @@ window._ptComputeDuha = _ptComputeDuha;
           if (typeof n.upd === 'number' && isFinite(n.upd)) note.upd = n.upd;
           if (typeof n.station === 'string' && n.station) note.station = n.station.slice(0, 200);
           if (typeof n.pos === 'number' && isFinite(n.pos) && n.pos >= 0) note.pos = Math.floor(n.pos);
+          if (typeof n.tag === 'string' && NT_TAGS.some(function(t) { return t.id === n.tag; })) note.tag = n.tag;
+          if (n.pinned === true) note.pinned = true;
           // نقبل صوت الاستيراد فقط لو data URI صالح لملف صوتي وبحجم معقول؛ غير ذلك نتجاهل الصوت ونستورد النص فقط
           if (typeof n.audio === 'string' && n.audio.length <= 8 * 1024 * 1024 && /^data:audio\/[a-z0-9.+-]+;base64,[A-Za-z0-9+/=]+$/i.test(n.audio)) {
             note.audio = n.audio;
@@ -29882,7 +30018,14 @@ window._ptComputeDuha = _ptComputeDuha;
     if (!ntMicIsSupported()) { ntToast(nt('micError')); return; }
     ntStopPlayback();
     var mime = ntMicMime();
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+    navigator.mediaDevices.getUserMedia({
+      // بنقفل إلغاء الصدى وتقليل الضوضاء والتحكم التلقائي في المستوى، لأنها
+      // مفعّلة افتراضيًا وبتعتبر أي صوت خارج من سماعات الجهاز نفسه "صدى"
+      // فبتشيله من التسجيل مهما كان عاليًا — وده سبب إن الصوت المباشر من
+      // شخص بيتسجل عادي، لكن الصوت الصادر من السماعات (موسيقى، تلاوة، مكالمة
+      // على سبيكر...) كان بيتم تجاهله تلقائيًا
+      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+    }).then(function(stream) {
       ntRec.stream = stream;
       ntRec.chunks = [];
       ntRec.discard = false;
@@ -29950,6 +30093,9 @@ window._ptComputeDuha = _ptComputeDuha;
 
     if (!SpeechRecognitionCtor || !ta) { ntToast(nt('dictateNotSupported')); return; }
     if (window.isSecureContext === false) { ntToast(nt('dictateSecure')); return; }
+    // الإملاء الصوتي (عكس الكتابة العادية والتسجيل الصوتي 🎙️) بيبعت الصوت
+    // لخدمة تعرّف صوتي على الإنترنت عشان يحوّله لنص، فمحتاج اتصال فعلاً
+    if (!navigator.onLine) { ntToast(nt('dictateOffline')); return; }
 
     // لو شغالة بالفعل، الضغطة دي معناها "وقف" (toggle) — وده الحالة الوحيدة
     // اللي فعلاً بتوقف الإملاء نهائيًا، لأننا بنعلّم إنه إيقاف مقصود من المستخدم
@@ -29964,31 +30110,43 @@ window._ptComputeDuha = _ptComputeDuha;
     ntStopPlayback();
     if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('noteDictation');
 
-    ntDict.finalText = '';
-    // النص الموجود بالفعل في الخانة قبل ما نبدأ — هنضيف عليه، مش هنمسحه
-    ntDict.baseText = ta.value || '';
     ntDict.userStopped = false;
     ntDict.fatalError = false;
     ntDict.active = true;
+    ntDict.startTs = Date.now();
+    _ntUpdateDictateTimer();
+    clearInterval(ntDict.timerInt);
+    ntDict.timerInt = setInterval(_ntUpdateDictateTimer, 1000);
+    var timeEl0 = g('ntDictateTime');
+    if (timeEl0) timeEl0.style.display = '';
     _ntRunDictationSession(SpeechRecognitionCtor, NT_LOCALE[lang] || (rtl ? 'ar-SA' : 'en-US'));
   }
+  function _ntUpdateDictateTimer() {
+    var el = g('ntDictateTime');
+    if (el) el.textContent = ntFmtPos(Math.floor((Date.now() - ntDict.startTs) / 1000));
+  }
+  function _ntStopDictateTimer() {
+    clearInterval(ntDict.timerInt);
+    ntDict.timerInt = null;
+    var el = g('ntDictateTime');
+    if (el) { el.style.display = 'none'; el.textContent = '0:00'; }
+  }
 
-  // بتبدأ (أو تعيد بدء) جلسة استماع واحدة. بعض المتصفحات (خصوصًا كروم) بتقفل
-  // جلسة التعرف الصوتي لوحدها من غير ما المستخدم يعمل حاجة — مثلًا بعد فترة
-  // صمت بسيطة وانت بتفكر في اللي هتقوله بعد كده — حتى لو continuous=true. ده
-  // كان سبب إن المايك يبان شغال بس التسجيل يوقف فجأة. عشان كده، لو الجلسة
-  // اتقفلت من غير ما المستخدم يضغط إيقاف وبدون خطأ حقيقي (زي رفض الصلاحية)،
-  // بنعيد فتح جلسة جديدة تلقائيًا على طول من غير ما يحس المستخدم بحاجة
+  // بتبدأ جلسة استماع قصيرة لجملة واحدة (continuous:false)، وبمجرد ما تخلص
+  // (المتصفح بيوقفها لوحده تلقائيًا بعد ما تسكت) بنضيف الجملة للملاحظة ونفتح
+  // جلسة جديدة على طول لجملة تانية — بدل جلسة واحدة طويلة "مستمرة" كانت بتدّي
+  // نتايج بتتراكم وأحيانًا بتتكرر بشكل غير متوقع بين المتصفحات. الطريقة دي
+  // أبسط وأوثق: كل جلسة بترجّع جملة نهائية واحدة بس، فمفيش مجال للتكرار
   function _ntRunDictationSession(SpeechRecognitionCtor, recogLang) {
     var btn = g('ntDictateBtn');
     var ta = g('ntInput');
-    if (!ta || !document.body.contains(ta)) { ntDict.active = false; return; }
+    if (!ta || !document.body.contains(ta)) { ntDict.active = false; _ntStopDictateTimer(); return; }
 
     var recognition = new SpeechRecognitionCtor();
     ntDict.recognition = recognition;
     recognition.lang = recogLang;
     recognition.interimResults = true;
-    recognition.continuous = true;
+    recognition.continuous = false;
     recognition.maxAlternatives = 1;
 
     if (btn) {
@@ -29998,24 +30156,19 @@ window._ptComputeDuha = _ptComputeDuha;
     }
 
     recognition.onresult = function(event) {
-      // بنفصل بين النص "النهائي" (اللي محرك التعرف الصوتي متأكد منه) والنص
-      // "المؤقت" (تخمين لسه ممكن يتغيّر أو يتلغي وانت لسه بتتكلم). النص
-      // المؤقت ده هو سبب اللي كنت شايفه بيتكتب وبعدين يتمسح: كنا بنكتبه على
-      // طول جوّا الملاحظة، فلما المحرك يراجع تخمينه (حاجة عادية وبتحصل مع
-      // أي ضوضاء خلفية أو وقفة بسيطة أثناء الكلام) كان بيمسح جزء اتكتب
-      // بالفعل. دلوقتي النص المؤقت بيتعرض في سطر منفصل تحت الخانة بس (شكل
-      // باهت) وميتكتبش في الملاحظة نفسها إلا لما يتأكد منه المحرك فعلاً
-      var finalChunk = '', interimChunk = '';
-      for (var i = event.resultIndex; i < event.results.length; i++) {
+      // مع continuous:false الجلسة بترجّع جملة نهائية واحدة بس قبل ما تقفل،
+      // فبنضيفها على طول للملاحظة؛ واللي لسه مش نهائي بيتعرض كمعاينة باهتة
+      // تحت الخانة بس (مش بيتكتب في الملاحظة) عشان تشوفه وهو بيتظبط من غير
+      // ما يأثر على اللي اتكتب فعلاً
+      var finalText = '', interimChunk = '';
+      for (var i = 0; i < event.results.length; i++) {
         var res = event.results[i];
         var t = res && res[0] ? res[0].transcript : '';
-        if (res.isFinal) finalChunk += t; else interimChunk += t;
+        if (res.isFinal) finalText += t; else interimChunk += t;
       }
-      if (finalChunk.trim()) {
-        var sep1 = (ntDict.finalText && !/\s$/.test(ntDict.finalText)) ? ' ' : '';
-        ntDict.finalText += sep1 + finalChunk.trim();
-        var sep2 = (ntDict.baseText && !/\s$/.test(ntDict.baseText)) ? ' ' : '';
-        ta.value = ntDict.baseText + (ntDict.baseText ? sep2 : '') + ntDict.finalText;
+      if (finalText.trim()) {
+        var sep = (ta.value && !/\s$/.test(ta.value)) ? ' ' : '';
+        ta.value = ta.value + (ta.value ? sep : '') + finalText.trim();
         if (!editingId) draft = ta.value;
         ta.dispatchEvent(new Event('input'));
       }
@@ -30038,6 +30191,11 @@ window._ptComputeDuha = _ptComputeDuha;
       } else if (err === 'audio-capture') {
         ntDict.fatalError = true;
         ntToast(nt('micNoDevice'));
+      } else if (err === 'network') {
+        // قطع النت أثناء الإملاء — منعادش نحاول تاني لوحدنا لحد ما يرجع النت،
+        // عشان منضايقش المستخدم بمحاولات فاشلة متكررة من غير فايدة
+        ntDict.fatalError = true;
+        ntToast(nt('dictateOffline'));
       } else if (err === 'no-speech' || err === 'aborted') {
         // طبيعي، من غير تنبيه
       } else {
@@ -30049,18 +30207,11 @@ window._ptComputeDuha = _ptComputeDuha;
       ntDict.recognition = null;
       var shouldRestart = !ntDict.userStopped && !ntDict.fatalError && ta && document.body.contains(ta);
       if (shouldRestart) {
-        // نكمّل من مكان ما وقفنا: أي نص اتكتب لحد دلوقتي يبقى جزء من الأساس
-        // اللي هنضيف عليه في الجلسة الجديدة
-        ntDict.baseText = ta.value || '';
-        ntDict.finalText = '';
-        setTimeout(function() {
-          if (ntDict.active && !ntDict.userStopped && !ntDict.fatalError) {
-            _ntRunDictationSession(SpeechRecognitionCtor, recogLang);
-          }
-        }, 250);
+        _ntRunDictationSession(SpeechRecognitionCtor, recogLang);
         return;
       }
       ntDict.active = false;
+      _ntStopDictateTimer();
       if (btn) {
         btn.classList.remove('mic-listening');
         btn.textContent = '🎤';
@@ -30075,13 +30226,25 @@ window._ptComputeDuha = _ptComputeDuha;
     } catch (e) {
       ntDict.active = false;
       ntDict.recognition = null;
+      _ntStopDictateTimer();
       if (btn) { btn.classList.remove('mic-listening'); btn.textContent = '🎤'; }
       ntToast(nt('micError'));
     }
   }
   function ntStopDictation() {
     ntDict.userStopped = true;
-    if (ntDict.recognition) { try { ntDict.recognition.stop(); } catch (e) {} }
+    if (ntDict.recognition) {
+      try { ntDict.recognition.stop(); } catch (e) {}
+    } else if (ntDict.active) {
+      // مفيش جلسة شغالة دلوقتي بالظبط (بين جملة وجملة) فمفيش onend هيتنده
+      // يوقف التايمر لوحده — نوقفه إحنا مباشرة
+      ntDict.active = false;
+      _ntStopDictateTimer();
+      var btn = g('ntDictateBtn');
+      if (btn) { btn.classList.remove('mic-listening'); btn.textContent = '🎤'; btn.title = nt('dictate'); }
+      var preview = g('ntDictatePreview');
+      if (preview) { preview.textContent = ''; preview.style.display = 'none'; }
+    }
   }
   function ntRemovePendingAudio() {
     pendingAudio = null;
@@ -30132,6 +30295,15 @@ window._ptComputeDuha = _ptComputeDuha;
       '#notesPopup .nt-attach{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12.5px;color:' + muted + ';cursor:pointer;min-width:0;}' +
       '#notesPopup .nt-attach input{width:16px;height:16px;flex-shrink:0;accent-color:var(--theme-g1);}' +
       '#notesPopup .nt-attach b{color:' + clr + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}' +
+      '#notesPopup .nt-tagpicker{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}' +
+      '#notesPopup .nt-tagpill{background:rgba(var(--theme-g1-rgb),0.08);color:' + clr + ';border:1.5px solid ' + ring + ';border-radius:20px;padding:5px 12px;font-family:Cairo,sans-serif;font-size:12px;font-weight:700;cursor:pointer;opacity:.75;}' +
+      '#notesPopup .nt-tagpill:hover{opacity:1;}' +
+      '#notesPopup .nt-tagpill.active{background:var(--theme-g1);color:#fff;border-color:var(--theme-g1);opacity:1;}' +
+      '#notesPopup .nt-filterrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}' +
+      '#notesPopup .nt-filterchip{background:rgba(var(--theme-g1-rgb),0.08);color:' + clr + ';border:1px solid ' + ring + ';border-radius:20px;padding:4px 11px;font-family:Cairo,sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;opacity:.7;}' +
+      '#notesPopup .nt-filterchip.active{background:var(--theme-g1);color:#fff;border-color:var(--theme-g1);opacity:1;}' +
+      '#notesPopup .nt-note.nt-pinned{border-color:var(--theme-g1);background:rgba(var(--theme-g1-rgb),0.1);}' +
+      '#notesPopup .nt-icon.nt-pin-active{opacity:1;color:var(--theme-g1);}' +
       '#notesPopup .nt-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;}' +
       '#notesPopup .nt-note{background:rgba(var(--theme-g1-rgb),0.07);border:1px solid ' + borderClr + ';border-radius:12px;padding:10px 12px;}' +
       '#notesPopup .nt-note.nt-editing{border-color:var(--theme-g1);}' +
@@ -30149,6 +30321,7 @@ window._ptComputeDuha = _ptComputeDuha;
       '#notesPopup .nt-mic-btn:hover{background:rgba(var(--theme-g1-rgb),0.18);}' +
       '#notesPopup .nt-mic-btn.mic-listening{background:rgba(220,53,69,0.12);border-color:rgba(220,53,69,0.5);animation:ntPulse 1s infinite;}' +
       '#notesPopup .nt-dictate-preview{font-size:12.5px;opacity:.55;font-style:italic;margin-top:4px;min-height:16px;line-height:1.4;overflow-wrap:break-word;}' +
+      '#notesPopup .nt-dictate-time{font-size:12.5px;color:#dc3545;font-variant-numeric:tabular-nums;animation:ntPulse 1s infinite;margin-inline-start:2px;}' +
       '#notesPopup .nt-rec-indicator{display:none;align-items:center;gap:8px;background:rgba(220,53,69,0.1);border:1.5px solid rgba(220,53,69,0.4);border-radius:10px;padding:6px 10px;width:100%;}' +
       '#notesPopup .nt-rec-dot{width:9px;height:9px;border-radius:50%;background:#dc3545;flex-shrink:0;animation:ntPulse 1s infinite;}' +
       '#notesPopup .nt-rec-indicator span{font-size:12.5px;font-weight:700;color:' + clr + ';font-variant-numeric:tabular-nums;}' +
@@ -30175,6 +30348,7 @@ window._ptComputeDuha = _ptComputeDuha;
           '<div id="ntDictatePreview" class="nt-dictate-preview" style="display:none;"></div>' +
           '<div class="nt-mic-row">' +
             '<button id="ntDictateBtn" type="button" class="nt-mic-btn nt-dictate-btn" title="' + ntEsc(nt('dictate')) + '" aria-label="' + ntEsc(nt('dictate')) + '">🎤</button>' +
+            '<span id="ntDictateTime" class="nt-dictate-time" style="display:none;">0:00</span>' +
             '<button id="ntMicBtn" type="button" class="nt-mic-btn" title="' + ntEsc(nt('micRecord')) + '" aria-label="' + ntEsc(nt('micRecord')) + '">🎙️</button>' +
             '<div id="ntRecIndicator" class="nt-rec-indicator">' +
               '<span class="nt-rec-dot"></span><span id="ntRecTime">0:00</span>' +
@@ -30188,11 +30362,15 @@ window._ptComputeDuha = _ptComputeDuha;
             '</div>' +
           '</div>' +
           '<label id="ntAttachRow" class="nt-attach" style="display:none;"><input type="checkbox" id="ntAttach"' + (attachChecked ? ' checked' : '') + '><span style="flex-shrink:0;">' + ntEsc(nt('attach')) + ':</span><b>' + ntEsc(stationName) + '</b></label>' +
+          '<div id="ntTagPicker" class="nt-tagpicker">' + NT_TAGS.map(function(t) {
+            return '<button type="button" class="nt-tagpill' + (composeTag === t.id ? ' active' : '') + '" data-tag="' + t.id + '">' + t.emoji + ' ' + ntEsc(nt(t.key)) + '</button>';
+          }).join('') + '</div>' +
           '<div class="nt-row">' +
             '<button id="ntSaveBtn" type="button" class="nt-primary"></button>' +
             '<button id="ntCancelBtn" type="button" class="nt-ghost" style="display:none;">' + ntEsc(nt('cancel')) + '</button>' +
           '</div>' +
           '<input id="ntSearch" type="search" class="nt-search" dir="auto" placeholder="' + ntEsc(nt('search')) + '">' +
+          '<div id="ntFilterRow" class="nt-filterrow" style="display:none;"></div>' +
           '<div id="ntList" class="nt-list"></div>' +
           '<div class="nt-row" style="margin-top:14px;">' +
             '<button id="ntBackupBtn" type="button" class="nt-soft">' + ntEsc(nt('backup')) + '</button>' +
@@ -30236,8 +30414,29 @@ window._ptComputeDuha = _ptComputeDuha;
       var act = btn.getAttribute('data-act');
       if (act === 'del') ntDelete(id);
       else if (act === 'playaudio') ntTogglePlay(id);
+      else if (act === 'pin') ntTogglePin(id);
+      else if (act === 'share') ntShareNote(id);
       else ntStartEdit(id);
     });
+    var tagPicker = g('ntTagPicker');
+    if (tagPicker) {
+      tagPicker.addEventListener('click', function(e) {
+        var btn = e.target.closest ? e.target.closest('.nt-tagpill') : null;
+        if (!btn) return;
+        var tagId = btn.getAttribute('data-tag');
+        composeTag = (composeTag === tagId) ? '' : tagId; // ضغطة تانية على نفس الفئة تلغيها
+        _ntSyncTagPicker();
+      });
+    }
+    var filterRow = g('ntFilterRow');
+    if (filterRow) {
+      filterRow.addEventListener('click', function(e) {
+        var btn = e.target.closest ? e.target.closest('.nt-filterchip') : null;
+        if (!btn) return;
+        activeTagFilter = btn.getAttribute('data-tagfilter') || '';
+        ntRenderList();
+      });
+    }
     var micBtn = g('ntMicBtn');
     micBtn._supported = ntMicIsSupported();
     micBtn.addEventListener('click', ntStartRecording);
