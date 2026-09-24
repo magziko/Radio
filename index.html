@@ -29525,6 +29525,7 @@ window._ptComputeDuha = _ptComputeDuha;
     deviceRecUnsupported:['المتصفح لا يدعم تسجيل صوت الجهاز مباشرة','Your browser doesn\'t support recording device audio directly','Votre navigateur ne prend pas en charge l\'enregistrement direct du son de l\'appareil','Tu navegador no admite grabar el audio del dispositivo directamente','Din webbläsare stöder inte direkt inspelning av enhetsljud','Je browser ondersteunt het rechtstreeks opnemen van apparaatgeluid niet','Ní thacaíonn do bhrabhsálaí le fuaim an ghléis a thaifeadadh go díreach','Dein Browser unterstützt die direkte Aufnahme von Geräteton nicht','Ваш браузер не поддерживает прямую запись звука устройства','Tarayıcın cihaz sesini doğrudan kaydetmeyi desteklemiyor','Seu navegador não suporta gravar o áudio do dispositivo diretamente','你的浏览器不支持直接录制设备音频','آپ کا براؤزر ڈیوائس آڈیو کی براہ راست ریکارڈنگ کو سپورٹ نہیں کرتا'],
     deviceRecNothingPlaying:['شغّل محطة الأول عشان تقدر تسجّل صوتها','Play a station first so you can record its audio','Lancez une station d\'abord pour pouvoir enregistrer son son','Reproduce una emisora primero para poder grabar su audio','Spela en station först för att kunna spela in dess ljud','Speel eerst een station af om het geluid ervan op te nemen','Seinn stáisiún ar dtús chun a fhuaim a thaifeadadh','Spiele zuerst einen Sender ab, um dessen Ton aufzunehmen','Сначала включите станцию, чтобы записать её звук','Sesini kaydedebilmek için önce bir istasyon çal','Reproduza uma estação primeiro para poder gravar o áudio dela','请先播放电台才能录制其声音','آڈیو ریکارڈ کرنے کے لیے پہلے اسٹیشن چلائیں'],
     deviceRecSilent:['⚠️ التسجيل طلع صامت — المحطة دي غالبًا بتمنع التسجيل المباشر من متصفحك','⚠️ The recording came out silent — this station likely blocks direct browser recording','⚠️ L\'enregistrement est silencieux — cette station bloque probablement l\'enregistrement direct depuis le navigateur','⚠️ La grabación salió en silencio — esta emisora probablemente bloquea la grabación directa desde el navegador','⚠️ Inspelningen blev tyst — den här stationen blockerar troligen direkt inspelning från webbläsaren','⚠️ De opname is stil — dit station blokkeert waarschijnlijk directe opname vanuit de browser','⚠️ Bhí an taifeadadh ciúin — is dócha go gcuireann an stáisiún seo bac ar thaifeadadh díreach ón mbrabhsálaí','⚠️ Die Aufnahme ist stumm — dieser Sender blockiert wahrscheinlich die direkte Aufnahme über den Browser','⚠️ Запись получилась без звука — эта станция, вероятно, блокирует прямую запись из браузера','⚠️ Kayıt sessiz çıktı — bu istasyon muhtemelen tarayıcıdan doğrudan kaydı engelliyor','⚠️ A gravação ficou muda — esta estação provavelmente bloqueia a gravação direta pelo navegador','⚠️ 录音是静音的 — 该电台可能阻止了浏览器直接录制','⚠️ ریکارڈنگ خاموش نکلی — یہ اسٹیشن غالباً براؤزر سے براہ راست ریکارڈنگ روکتا ہے'],
+    deviceRecPreparing:['⏳ جاري تجهيز التسجيل...','⏳ Preparing recording...','⏳ Préparation de l\'enregistrement...','⏳ Preparando la grabación...','⏳ Förbereder inspelning...','⏳ Opname voorbereiden...','⏳ Ag ullmhú an taifeadta...','⏳ Aufnahme wird vorbereitet...','⏳ Подготовка записи...','⏳ Kayıt hazırlanıyor...','⏳ Preparando a gravação...','⏳ 正在准备录音…','⏳ ریکارڈنگ تیار کی جا رہی ہے...'],
     download:     ['تحميل','Download','Télécharger','Descargar','Ladda ner','Downloaden','Íoslódáil','Herunterladen','Скачать','İndir','Baixar','下载','ڈاؤن لوڈ']
   };
 
@@ -29590,7 +29591,7 @@ window._ptComputeDuha = _ptComputeDuha;
   var pendingAudio = null; // تسجيل صوتي جاهز للحفظ (أو مرفق بالملاحظة الجاري تعديلها): {dataUrl, dur} أو null
   var draftAudio = null;   // نسخة احتياطية من pendingAudio وقت الدخول في تعديل ملاحظة (ترجع عند الإلغاء)
   var nowPlayingId = null; // معرّف الملاحظة (أو 'pending') المُشغَّلة صوتها حالياً، أو null
-  var ntRec = { recorder: null, stream: null, chunks: [], startTs: 0, timerInt: null, discard: false, source: 'mic' };
+  var ntRec = { recorder: null, stream: null, chunks: [], startTs: 0, timerInt: null, discard: false, source: 'mic', deviceCleanup: null };
   // حالة الإملاء الصوتي (تحويل الكلام لنص داخل خانة الملاحظة) — منفصلة تمامًا عن
   // ntRec اللي بتسجّل مقطع صوتي كمرفق؛ دي بس بتكتب نص في #ntInput وأنت بتتكلم
   var ntDict = { recognition: null, active: false, userStopped: false, fatalError: false, startTs: 0, timerInt: null };
@@ -30088,6 +30089,7 @@ window._ptComputeDuha = _ptComputeDuha;
   }
   function ntStopStream() {
     if (ntRec.stream) { try { ntRec.stream.getTracks().forEach(function(t) { t.stop(); }); } catch (e) {} ntRec.stream = null; }
+    if (ntRec.deviceCleanup) { try { ntRec.deviceCleanup(); } catch (e) {} ntRec.deviceCleanup = null; }
   }
   function ntTickTimer() {
     var el = g('ntRecTime');
@@ -30121,7 +30123,51 @@ window._ptComputeDuha = _ptComputeDuha;
   // على مكبرات الصوت أو الميكروفون أصلاً — يعني تسجيل نضيف تمامًا للمحطة
   function ntDeviceRecIsSupported() {
     var a = g('currentAudio');
-    return !!(a && (typeof a.captureStream === 'function' || typeof a.mozCaptureStream === 'function') && typeof MediaRecorder !== 'undefined');
+    return !!(a && typeof MediaRecorder !== 'undefined');
+  }
+  function _ntTryNativeCaptureStream(a) {
+    // المسار المباشر والأسرع (من غير أي إعادة تحميل أو قطع فى الصوت) —
+    // بس بعض المتصفحات (خصوصًا كروم/إيدج على ويندوز) فيها بج معروف بيخلي
+    // captureStream() ترجّع استريم من غير أي قناة صوت خالص لعناصر <audio>
+    // فى حالات معينة، فبنتأكد إن فيه قناة صوت فعلية قبل ما نعتبرها نجحت
+    try {
+      var stream = typeof a.captureStream === 'function' ? a.captureStream()
+        : (typeof a.mozCaptureStream === 'function' ? a.mozCaptureStream() : null);
+      if (stream && stream.getAudioTracks().length) return stream;
+    } catch (e) {}
+    return null;
+  }
+  // بنستخدم نفس ممر Web Audio اللي الموقع أصلاً بيستخدمه لميزة تضخيم
+  // الصوت/المعادل (window._audioChains / _probeAndBuildChain)، بدل ما ننشئ
+  // ممر منفصل بتاعنا — لأن عنصر <audio> ينفع يتوصّل بـ MediaElementSourceNode
+  // واحد بس طول عمره؛ لو عملنا واحد خاص بينا هنكسر ميزة تضخيم الصوت لو
+  // المستخدم حاول يفعّلها بعد كده (أو العكس لو هي شغالة بالفعل). دخولنا من
+  // نفس البوابة كمان بيدّينا فحص CORS الجاهز والمجرّب أصلاً فى الموقع
+  function _ntStartDeviceRecordingFromChain(a) {
+    var chain = window._audioChains && window._audioChains.get(a);
+    if (!chain || !window._boostCtx) { ntToast(nt('deviceRecUnsupported')); return; }
+    try {
+      var dest = window._boostCtx.createMediaStreamDestination();
+      chain.gain.connect(dest); // بعد المعادل (لو مفعّل) — يعني بيسجّل نفس اللي بتسمعه بالظبط
+      if (!dest.stream.getAudioTracks().length) { ntToast(nt('deviceRecUnsupported')); return; }
+      var cleanup = function() { try { chain.gain.disconnect(dest); } catch (e) {} };
+      _ntFinishStartRecording(dest.stream, cleanup);
+    } catch (e) {
+      ntToast(nt('deviceRecUnsupported'));
+    }
+  }
+  function _ntFinishStartRecording(stream, cleanup) {
+    try {
+      _ntBeginRecording(stream, 'device');
+      ntRec.deviceCleanup = cleanup;
+      // بعض المحطات بتيجي من سيرفرات مش سامحة بسياسة CORS، وساعتها المتصفح
+      // بيمنع قراءة الصوت فعليًا ويسجّل صمت تام من غير أي رسالة خطأ واضحة —
+      // بنراقب مستوى الصوت أول ٣ ثواني ولو فعلاً صامت بنبلّغ المستخدم بالسبب
+      _ntWatchForSilentDeviceRec(stream);
+    } catch (e) {
+      if (cleanup) try { cleanup(); } catch (e2) {}
+      ntToast(nt('deviceRecUnsupported'));
+    }
   }
   function ntStartDeviceRecording() {
     if (ntRec.recorder && ntRec.recorder.state === 'recording') return;
@@ -30129,17 +30175,31 @@ window._ptComputeDuha = _ptComputeDuha;
     if (!ntDeviceRecIsSupported()) { ntToast(nt('deviceRecUnsupported')); return; }
     if (!a || a.paused || !a.src) { ntToast(nt('deviceRecNothingPlaying')); return; }
     ntStopDictation();
-    try {
-      var stream = typeof a.captureStream === 'function' ? a.captureStream() : a.mozCaptureStream();
-      if (!stream || !stream.getAudioTracks().length) { ntToast(nt('deviceRecUnsupported')); return; }
-      _ntBeginRecording(stream, 'device');
-      // بعض المحطات بتيجي من سيرفرات مش سامحة بسياسة CORS، وساعتها المتصفح
-      // بيمنع قراءة الصوت فعليًا ويسجّل صمت تام من غير أي رسالة خطأ واضحة —
-      // بنراقب مستوى الصوت أول ٣ ثواني ولو فعلاً صامت بنبلّغ المستخدم بالسبب
-      _ntWatchForSilentDeviceRec(stream);
-    } catch (e) {
-      ntToast(nt('deviceRecUnsupported'));
+
+    var corsState = window._corsState ? window._corsState.get(a) : undefined;
+    if (corsState === 'unsupported') {
+      // معروف مسبقًا (من فحص ميزة تضخيم الصوت) إن المحطة دي مش بتسمح بمعالجة
+      // صوتها عبر المتصفح بسبب قيود CORS من سيرفرها — نفس القيد هيمنع
+      // التسجيل المباشر برضو، فمفيش داعي نحاول ونفشل بصمت من غير تفسير
+      ntToast(nt('deviceRecSilent'));
+      return;
     }
+    if (corsState === 'ok') { _ntStartDeviceRecordingFromChain(a); return; }
+
+    var quick = _ntTryNativeCaptureStream(a);
+    if (quick) { _ntFinishStartRecording(quick, null); return; }
+
+    if (typeof _probeAndBuildChain !== 'function' || !window._audioChains) {
+      ntToast(nt('deviceRecUnsupported'));
+      return;
+    }
+    // الحالة لسه مش معروفة: هنجرب نفحص وننشئ الممر الصوتي — ده أول مرة بس
+    // ممكن ياخد ثانية أو اتنين وممكن يعمل إعادة اتصال بسيطة بالمحطة
+    ntToast(nt('deviceRecPreparing'));
+    _probeAndBuildChain(a, function(ok) {
+      if (!ok) { ntToast(nt('deviceRecSilent')); return; }
+      _ntStartDeviceRecordingFromChain(a);
+    });
   }
   function _ntWatchForSilentDeviceRec(stream) {
     try {
