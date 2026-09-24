@@ -29835,7 +29835,7 @@ window._ptComputeDuha = _ptComputeDuha;
       var att = g('ntAttach');
       if (att && att.checked && window._currentPlayingName) {
         note.station = String(window._currentPlayingName).slice(0, 200);
-        var a = g('currentAudio');
+        var a = _ntGetActivePlayerEl();
         // الوقت الحالي منطقي بس للمحتوى المسجّل (مدته معروفة)، مش للبث المباشر
         if (a && isFinite(a.duration) && a.duration > 0 && isFinite(a.currentTime)) note.pos = Math.floor(a.currentTime);
       }
@@ -30119,11 +30119,19 @@ window._ptComputeDuha = _ptComputeDuha;
   }
 
   // ===== تسجيل صوت الجهاز نفسه (المحطة الشغّالة حاليًا) بدل الميكروفون =====
-  // بيلتقط الصوت مباشرة من عنصر التشغيل نفسه (#currentAudio)، من غير ما يمر
-  // على مكبرات الصوت أو الميكروفون أصلاً — يعني تسجيل نضيف تمامًا للمحطة
+  // الموقع فيه 3 مشغّلات صوت مختلفة حسب السياق (الراديو الأساسي، التشغيل
+  // العشوائي/السريع، وتشغيل رابط بث مباشر) — بنلاقي أيّهم فعلاً شغال دلوقتي
+  // ونسجّل منه، مش هنفترض واحد بعينه ثابت
+  var NT_AUDIO_EL_IDS = ['currentAudio', 'customAudioPlayer', 'audioStreamPlayer'];
+  function _ntGetActivePlayerEl() {
+    for (var i = 0; i < NT_AUDIO_EL_IDS.length; i++) {
+      var el = g(NT_AUDIO_EL_IDS[i]);
+      if (el && !el.paused && !el.ended && el.src) return el;
+    }
+    return null;
+  }
   function ntDeviceRecIsSupported() {
-    var a = g('currentAudio');
-    return !!(a && typeof MediaRecorder !== 'undefined');
+    return !!(typeof MediaRecorder !== 'undefined' && NT_AUDIO_EL_IDS.some(function(id) { return !!g(id); }));
   }
   function _ntTryNativeCaptureStream(a) {
     // المسار المباشر والأسرع (من غير أي إعادة تحميل أو قطع فى الصوت) —
@@ -30171,35 +30179,24 @@ window._ptComputeDuha = _ptComputeDuha;
   }
   function ntStartDeviceRecording() {
     if (ntRec.recorder && ntRec.recorder.state === 'recording') return;
-    var a = g('currentAudio');
     if (!ntDeviceRecIsSupported()) { ntToast(nt('deviceRecUnsupported')); return; }
-    if (!a || a.paused || !a.src) { ntToast(nt('deviceRecNothingPlaying')); return; }
+    var a = _ntGetActivePlayerEl();
+    if (!a) { ntToast(nt('deviceRecNothingPlaying')); return; }
     ntStopDictation();
-
-    var corsState = window._corsState ? window._corsState.get(a) : undefined;
-    if (corsState === 'unsupported') {
-      // معروف مسبقًا (من فحص ميزة تضخيم الصوت) إن المحطة دي مش بتسمح بمعالجة
-      // صوتها عبر المتصفح بسبب قيود CORS من سيرفرها — نفس القيد هيمنع
-      // التسجيل المباشر برضو، فمفيش داعي نحاول ونفشل بصمت من غير تفسير
-      ntToast(nt('deviceRecSilent'));
-      return;
-    }
-    if (corsState === 'ok') { _ntStartDeviceRecordingFromChain(a); return; }
 
     var quick = _ntTryNativeCaptureStream(a);
     if (quick) { _ntFinishStartRecording(quick, null); return; }
 
-    if (typeof _probeAndBuildChain !== 'function' || !window._audioChains) {
-      ntToast(nt('deviceRecUnsupported'));
-      return;
-    }
-    // الحالة لسه مش معروفة: هنجرب نفحص وننشئ الممر الصوتي — ده أول مرة بس
-    // ممكن ياخد ثانية أو اتنين وممكن يعمل إعادة اتصال بسيطة بالمحطة
-    ntToast(nt('deviceRecPreparing'));
-    _probeAndBuildChain(a, function(ok) {
-      if (!ok) { ntToast(nt('deviceRecSilent')); return; }
-      _ntStartDeviceRecordingFromChain(a);
-    });
+    // ملحوظة مهمة: عمدًا مش بنجرب ننشئ ممر Web Audio جديد من هنا (كان ده
+    // بيعمل إعادة تحميل لمصدر المحطة عشان يفحص دعم CORS، وده كان أحيانًا
+    // بيوقف تشغيل المحطة نهائيًا من غير ما ترجع تشتغل تاني لو السيرفر مش
+    // بيدعم CORS). فبنستخدم بس ممر جاهز ومتأكد إنه شغال بالفعل (لو ميزة
+    // تضخيم الصوت/المعادل شغالة عندك بالفعل على المحطة دي)، وإلا مفيش
+    // تسجيل صوت جهاز متاح للمحطة دي فى المتصفح ده
+    var corsState = window._corsState ? window._corsState.get(a) : undefined;
+    if (corsState === 'ok') { _ntStartDeviceRecordingFromChain(a); return; }
+
+    ntToast(nt('deviceRecUnsupported'));
   }
   function _ntWatchForSilentDeviceRec(stream) {
     try {
@@ -30480,8 +30477,7 @@ window._ptComputeDuha = _ptComputeDuha;
     var inputBg = isDark ? '#132018' : '#f7faf8';
     var stationName = window._currentPlayingName ? String(window._currentPlayingName) : '';
     hasStation = !!stationName;
-    var audioEl = g('currentAudio');
-    var attachChecked = hasStation && audioEl && !audioEl.paused;
+    var attachChecked = hasStation && !!_ntGetActivePlayerEl();
 
     var css =
       '@keyframes ntFadeIn{from{opacity:0}to{opacity:1}}' +
