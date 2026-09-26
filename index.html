@@ -29601,6 +29601,7 @@ window._ptComputeDuha = _ptComputeDuha;
   // حالة الإملاء الصوتي (تحويل الكلام لنص داخل خانة الملاحظة) — منفصلة تمامًا عن
   // ntRec اللي بتسجّل مقطع صوتي كمرفق؛ دي بس بتكتب نص في #ntInput وأنت بتتكلم
   var ntDict = { recognition: null, active: false, userStopped: false, fatalError: false, startTs: 0, timerInt: null };
+  var ntWakeLock = null; // يمنع قفل شاشة الجهاز طول ما نافذة الملاحظات مفتوحة (كتابة أو تسجيل بأي طريقة)
 
   // مشغّل صوت واحد مشترك لكل معاينات/ملاحظات الصوت (يوقف أي تشغيل سابق قبل تشغيل جديد)
   var ntPlayer = (typeof Audio !== 'undefined') ? new Audio() : null;
@@ -29626,6 +29627,8 @@ window._ptComputeDuha = _ptComputeDuha;
     if (ntRec.recorder && ntRec.recorder.state === 'recording') ntStopRecording(true);
     ntStopDictation();
     ntStopPlayback();
+    ntReleaseWakeLock();
+    document.removeEventListener('visibilitychange', _ntWakeLockVisibilityHandler);
     if (ntLastDeleted && ntLastDeleted.timer) clearTimeout(ntLastDeleted.timer);
     ntLastDeleted = null;
     var p = g('notesPopup');
@@ -29633,6 +29636,32 @@ window._ptComputeDuha = _ptComputeDuha;
     editingId = null;
     filterText = '';
     activeTagFilter = '';
+  }
+
+  // ===== منع قفل الشاشة طول ما نافذة الملاحظات مفتوحة =====
+  // بيغطي كل طرق تسجيل الملاحظة (كتابة، تسجيل صوتي 🎙️، صوت الجهاز 🎵،
+  // الإملاء 🎤) لأن الأربعة بيحصلوا بس والنافذة مفتوحة، فربطنا القفل بفتح/
+  // قفل النافذة نفسها بدل ما نتتبّع كل طريقة لوحدها
+  function ntAcquireWakeLock() {
+    if (!('wakeLock' in navigator)) return;
+    try {
+      navigator.wakeLock.request('screen').then(function(sentinel) {
+        ntWakeLock = sentinel;
+        sentinel.addEventListener('release', function() {
+          if (ntWakeLock === sentinel) ntWakeLock = null;
+        });
+      }).catch(function() {}); // فشل صامت (مش كل الأجهزة/المتصفحات بتدعمها) — تحسين إضافي مش أساسي
+    } catch (e) {}
+  }
+  function ntReleaseWakeLock() {
+    if (ntWakeLock) { try { ntWakeLock.release(); } catch (e) {} ntWakeLock = null; }
+  }
+  // المتصفح بيسيب قفل الشاشة تلقائيًا لو التبويبة اتخبّت (تبديل تطبيق مثلاً)
+  // حتى لو النافذة لسه مفتوحة — فلما ترجع تبويبة الموقع، بنطلبه تاني لوحدنا
+  function _ntWakeLockVisibilityHandler() {
+    if (document.visibilityState === 'visible' && g('notesPopup') && !ntWakeLock) {
+      ntAcquireWakeLock();
+    }
   }
 
   function ntSyncCompose() {
@@ -30806,6 +30835,8 @@ window._ptComputeDuha = _ptComputeDuha;
     ntRenderPendingAudio();
     ntRenderList();
     _ntMaybeWarnStorage() || _ntMaybeRemindBackup();
+    ntAcquireWakeLock();
+    document.addEventListener('visibilitychange', _ntWakeLockVisibilityHandler);
     // على الأجهزة اللمسية ما نفتحش الكيبورد تلقائيًا
     try { if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) ta.focus(); } catch (e) {}
   };
