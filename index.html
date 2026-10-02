@@ -8826,6 +8826,28 @@ setTimeout(autoScaleVerseFont, 100);
       " onclick="document.getElementById('sleepCheckbox').checked=false;document.getElementById('sleepCheckbox').dispatchEvent(new Event('change'));" title="اضغط لإلغاء مؤقت النوم"></span>
     </div>
 
+    <div class="input-group" id="maxVolGroup">
+      <label for="maxVolTimer" data-ar="رفع الصوت للأقصى بعد (ساعات)" data-en="Max Volume After (hours)" data-fr="Volume max après (heures)" data-es="Volumen máx. tras (horas)" data-sv="Maxvolym efter (timmar)" data-nl="Maxvolume na (uren)" data-ga="Uasmhéid tar éis (uaireanta)" data-de="Maximale Lautstärke nach (Std.)" data-ru="Макс. громкость через (ч)" data-tr="Maks. ses (saat sonra)" data-pt="Volume máx. após (horas)" data-zh="若干小时后音量调到最大" data-ur="اتنے گھنٹوں بعد آواز زیادہ سے زیادہ">رفع الصوت للأقصى بعد (ساعات)</label>
+      <input type="number" id="maxVolTimer" min="0.1" max="48" step="0.5" data-ar="عدد الساعات" data-en="Hours" data-fr="Heures" data-es="Horas" data-sv="Timmar" data-nl="Uren" data-ga="Uaireanta" data-de="Stunden" data-ru="Часы" data-tr="Saat" data-pt="Horas" data-zh="小时" data-ur="گھنٹے" placeholder="عدد الساعات"
+             onchange="(function(){var cb=document.getElementById('maxVolCheckbox');var v=parseFloat(document.getElementById('maxVolTimer').value);cb.checked=(!isNaN(v)&&v>0);cb.dispatchEvent(new Event('change'));})()">
+      <input type="checkbox" id="maxVolCheckbox" style="display:none">
+      <span id="maxVol-countdown" style="
+        display:none;
+        font-size:12px;
+        font-weight:700;
+        font-family:'Cairo',Arial,sans-serif;
+        font-variant-numeric:tabular-nums;
+        color:#66bb6a;
+        background:rgba(102,187,106,0.12);
+        border:1px solid rgba(102,187,106,0.30);
+        border-radius:8px;
+        padding:2px 7px;
+        white-space:nowrap;
+        letter-spacing:0.03em;
+        cursor:pointer;
+      " onclick="document.getElementById('maxVolCheckbox').checked=false;document.getElementById('maxVolCheckbox').dispatchEvent(new Event('change'));" title="اضغط للإلغاء"></span>
+    </div>
+
   </div>
 
   <div class="color-settings-row">
@@ -23097,6 +23119,93 @@ function activateSleepMode() {
 document.getElementById('autoSwitchCheckbox').addEventListener('change', activateAutoSwitch);
 document.getElementById('sleepCheckbox').addEventListener('change', activateSleepMode);
 
+// ── رفع الصوت لأقصى درجة بعد عدد ساعات محدد ─────────────────────────────
+(function() {
+  var KEY_END = 'maxVolEndTime', KEY_H = 'maxVolHours';
+  var _iv = null;
+
+  function els() {
+    return {
+      cb: document.getElementById('maxVolCheckbox'),
+      input: document.getElementById('maxVolTimer'),
+      cd: document.getElementById('maxVol-countdown')
+    };
+  }
+  function fmt(ms) {
+    var t = Math.max(0, Math.ceil(ms / 1000));
+    var h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), sec = t % 60;
+    var pad = function(n) { return (n < 10 ? '0' : '') + n; };
+    return h > 0 ? (h + ':' + pad(m) + ':' + pad(sec)) : (m + ':' + pad(sec));
+  }
+  function getEnd() {
+    try { return parseInt(localStorage.getItem(KEY_END)) || 0; } catch (e) { return 0; }
+  }
+  function clearState() {
+    try { localStorage.removeItem(KEY_END); } catch (e) {}
+    if (_iv) { clearInterval(_iv); _iv = null; }
+    var e = els();
+    if (e.cd) { e.cd.style.display = 'none'; e.cd.textContent = ''; }
+  }
+  function fire() {
+    clearState();
+    var e = els();
+    if (e.cb) e.cb.checked = false;
+    if (window.syncAllVolume) window.syncAllVolume(1);
+    else {
+      var a = document.getElementById('currentAudio'); if (a) a.volume = 1;
+      var w = document.getElementById('customAudioPlayer'); if (w) w.volume = 1;
+    }
+    if (typeof showToast === 'function') showToast('🔊 تم رفع الصوت للأقصى');
+  }
+  function tick() {
+    var end = getEnd(), e = els();
+    if (!end) { clearState(); return; }
+    var left = end - Date.now();
+    if (left <= 0) { fire(); return; }
+    if (e.cd) { e.cd.style.display = 'inline-block'; e.cd.textContent = '🔊 ' + fmt(left); }
+  }
+  function startTicking() {
+    if (_iv) clearInterval(_iv);
+    tick();
+    _iv = setInterval(tick, 1000);
+  }
+  function activate() {
+    var e = els();
+    if (!e.cb || !e.cb.checked) { clearState(); try { localStorage.removeItem(KEY_H); } catch (x) {} return; }
+    var hours = parseFloat(e.input.value);
+    if (isNaN(hours) || hours <= 0 || hours > 48) {
+      if (typeof showToast === 'function') showToast('⚠️ أدخل عدد ساعات صحيح (حتى 48)');
+      e.cb.checked = false;
+      return;
+    }
+    try {
+      localStorage.setItem(KEY_END, String(Date.now() + hours * 3600 * 1000));
+      localStorage.setItem(KEY_H, String(hours));
+    } catch (x) {}
+    startTicking();
+    if (typeof showToast === 'function') showToast('🔊 سيُرفع الصوت للأقصى بعد ' + hours + ' ساعة');
+  }
+
+  window.activateMaxVolTimer = activate;
+  var cb0 = document.getElementById('maxVolCheckbox');
+  if (cb0) cb0.addEventListener('change', activate);
+
+  // رجوع الصفحة للواجهة بعد خمول التبويب: نفحص فورًا
+  document.addEventListener('visibilitychange', function() { if (!document.hidden && getEnd()) tick(); });
+
+  // استعادة الحالة بعد إعادة تحميل الصفحة
+  (function restore() {
+    var e = els();
+    var end = getEnd(), hrs = null;
+    try { hrs = localStorage.getItem(KEY_H); } catch (x) {}
+    if (hrs && e.input) e.input.value = hrs;
+    if (!end) return;
+    if (end <= Date.now()) { clearState(); if (e.cb) e.cb.checked = false; return; } // انتهى والصفحة مقفولة: لا نرفع الصوت فجأة عند الفتح
+    if (e.cb) e.cb.checked = true;
+    startTicking();
+  })();
+})();
+
 document.getElementById('prevButton').addEventListener('click', function() {
   let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none' && !button.classList.contains('no-auto-play'));
   if (!visibleButtons.length) return;
@@ -25521,7 +25630,7 @@ function applyFilterButtonsLang(lang) {
     if (t) el.textContent = t;
   });
 
-  document.querySelectorAll("label[for='autoSwitchTimer'][data-ar], label[for='sleepTimer'][data-ar]").forEach(function(lbl) {
+  document.querySelectorAll("label[for='autoSwitchTimer'][data-ar], label[for='sleepTimer'][data-ar], label[for='maxVolTimer'][data-ar]").forEach(function(lbl) {
     var t = lbl.getAttribute('data-' + lang) || lbl.getAttribute('data-en');
     if (t) lbl.textContent = t;
   });
@@ -25614,7 +25723,7 @@ function applyFilterButtonsLang(lang) {
     if (t2) welcomeCycleInput.placeholder = t2;
   }
 
-  ['autoSwitchTimer', 'sleepTimer'].forEach(function(id) {
+  ['autoSwitchTimer', 'sleepTimer', 'maxVolTimer'].forEach(function(id) {
     var inp = document.getElementById(id);
     if (!inp) return;
     var t = inp.getAttribute('data-' + lang) || inp.getAttribute('data-en');
@@ -26985,7 +27094,7 @@ document.addEventListener('keydown', function(event) {
 
   var activeEl = document.activeElement;
   var tag = activeEl ? activeEl.tagName : '';
-  var excludedIds = ['sleepTimer', 'autoSwitchTimer', 'searchInput'];
+  var excludedIds = ['sleepTimer', 'autoSwitchTimer', 'maxVolTimer', 'searchInput'];
   if (
     tag === 'INPUT' || tag === 'TEXTAREA' ||
     tag === 'SELECT' || (activeEl && activeEl.isContentEditable) ||
@@ -29169,7 +29278,7 @@ document.addEventListener("keydown", function(e) {
 
   const active = document.activeElement;
 
-  const excludedInputs = ["sleepTimer", "autoSwitchTimer", "searchInput"];
+  const excludedInputs = ["sleepTimer", "autoSwitchTimer", "maxVolTimer", "searchInput"];
 
   if (
     active &&
