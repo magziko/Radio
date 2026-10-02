@@ -316,7 +316,7 @@
             <div id="customVolumeAutoRow">
                 <div id="customVolumeControl">
                     <span class="vol-label-icon">🔈</span>
-                    <input type="range" id="customVolumeRange" min="0" max="1" step="0.1" value="0.5" onchange="adjustVolume()">
+                    <input type="range" id="customVolumeRange" min="0" max="1" step="0.05" value="0.5" oninput="adjustVolume()">
                     <span class="vol-label-icon">🔊</span>
                 </div>
             </div>
@@ -1691,7 +1691,9 @@ function playWelcomeScreenStation(stationUrl, stationName) {
 }
 
 function adjustVolume() {
-  if (volumeRange) customAudioPlayer.volume = volumeRange.value;
+  if (!volumeRange) return;
+  if (window.syncAllVolume) window.syncAllVolume(volumeRange.value);
+  else customAudioPlayer.volume = volumeRange.value;
 }
 
 // ── تشغيل محطة من الإشعارات حتى لو الشاشة الترحيبية مفتوحة ──
@@ -23553,6 +23555,7 @@ function _handleVoiceCommand(rawText) {
     var apVolUp = document.getElementById('currentAudio');
     if (apVolUp) {
       apVolUp.volume = Math.min(1, Math.round((apVolUp.volume + 0.1) * 10) / 10);
+      if (window.syncAllVolume) window.syncAllVolume(apVolUp.volume);
       if (typeof showToast === 'function') showToast((_isAr ? '🔊 الصوت: ' : '🔊 Volume: ') + Math.round(apVolUp.volume * 100) + '%');
     }
     return true;
@@ -23567,6 +23570,7 @@ function _handleVoiceCommand(rawText) {
     var apVolDown = document.getElementById('currentAudio');
     if (apVolDown) {
       apVolDown.volume = Math.max(0, Math.round((apVolDown.volume - 0.1) * 10) / 10);
+      if (window.syncAllVolume) window.syncAllVolume(apVolDown.volume);
       if (typeof showToast === 'function') showToast((_isAr ? '🔉 الصوت: ' : '🔉 Volume: ') + Math.round(apVolDown.volume * 100) + '%');
     }
     return true;
@@ -28441,7 +28445,7 @@ if (customAudioPlayerEl) {
     }
     stopAllOtherAudios('welcome');
     activeAudio = customAudioPlayerEl;
-    customAudioPlayerEl.volume = 1;
+    if (window.applyCurrentVolume) window.applyCurrentVolume(customAudioPlayerEl);
   });
 }
 
@@ -28460,7 +28464,7 @@ if (currentAudioEl) {
     window._mainPlayAllowed = false;
     stopAllOtherAudios('main');
     activeAudio = currentAudioEl;
-    currentAudioEl.volume = 1;
+    if (window.applyCurrentVolume) window.applyCurrentVolume(currentAudioEl);
   });
 }
 
@@ -37452,7 +37456,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (audioEl && volSlider) {
       volSlider.value = audioEl.volume;
       volSlider.addEventListener('input', function() {
-        audioEl.volume = this.value;
+        if (window._syncingVol) return;
+        window._syncingVol = true;
+        try {
+          if (window.syncAllVolume) window.syncAllVolume(this.value);
+          else audioEl.volume = this.value;
+        } finally { window._syncingVol = false; }
       });
       audioEl.addEventListener('volumechange', function() {
         if (volSlider) volSlider.value = audioEl.volume;
