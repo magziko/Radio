@@ -10220,3 +10220,14 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
     .footer-icons-scroll { scrollbar-width: none; -ms-overflow-style: none; }
     .footer-icons-scroll::-webkit-scrollbar { display: none; }
 }
+
+/* ===== جودة الصوت: منع نزول قيمة السرعة/التضخيم لسطر تاني على الشاشات الصغيرة ===== */
+@media (max-width: 480px) {
+  #audio-quality-settings .aqx-boost-row { gap: 8px; flex-wrap: nowrap; }
+  #audio-quality-settings .aqx-boost-row input[type="range"] { min-width: 70px; }
+  #audio-quality-settings .aqx-boost-row label { min-width: 0; }
+  #audio-quality-settings #audioBoostValueLabel,
+  #audio-quality-settings #playbackSpeedValueLabel { min-width: 44px; padding: 3px 6px; }
+  #audio-quality-settings #maxVolGroup,
+  #audio-quality-settings #audioNormalizeToggle { flex-wrap: wrap; }
+}
