@@ -20112,6 +20112,7 @@ window._ptComputeDuha = _ptComputeDuha;
     dictateNoSpeech:['لم يتم سماع أي صوت، حاول مرة أخرى','No speech detected, try again','Aucune voix détectée, réessayez','No se detectó voz, inténtalo de nuevo','Inget tal upptäcktes, försök igen','Geen spraak gedetecteerd, probeer opnieuw','Níor aimsíodh aon chaint, bain triail eile as','Keine Sprache erkannt, bitte erneut versuchen','Речь не обнаружена, попробуйте ещё раз','Konuşma algılanamadı, tekrar deneyin','Nenhuma fala detectada, tente novamente','未检测到语音，请重试','کوئی آواز نہیں ملی، دوبارہ کوشش کریں'],
     pin:          ['تثبيت','Pin','Épingler','Fijar','Fäst','Vastmaken','Pinnáil','Anheften','Закрепить','Sabitle','Fixar','置顶','پن کریں'],
     unpin:        ['إلغاء التثبيت','Unpin','Détacher','Desfijar','Lossa','Losmaken','Díphinnáil','Loslösen','Открепить','Sabitlemeyi kaldır','Desafixar','取消置顶','پن ہٹائیں'],
+    copy:         ['نسخ','Copy','Copier','Copiar','Kopiera','Kopiëren','Cóipeáil','Kopieren','Копировать','Kopyala','Copiar','复制','کاپی کریں'],
     share:        ['مشاركة','Share','Partager','Compartir','Dela','Delen','Comhroinn','Teilen','Поделиться','Paylaş','Compartilhar','分享','شیئر کریں'],
     copied:       ['📋 تم نسخ الملاحظة','📋 Note copied','📋 Note copiée','📋 Nota copiada','📋 Anteckning kopierad','📋 Notitie gekopieerd','📋 Nóta cóipeáilte','📋 Notiz kopiert','📋 Заметка скопирована','📋 Not kopyalandı','📋 Nota copiada','📋 笔记已复制','📋 نوٹ کاپی ہو گیا'],
     shareFailed:  ['⚠️ تعذّرت المشاركة','⚠️ Couldn\'t share','⚠️ Impossible de partager','⚠️ No se pudo compartir','⚠️ Kunde inte dela','⚠️ Delen mislukt','⚠️ Níorbh fhéidir comhroinnt','⚠️ Teilen fehlgeschlagen','⚠️ Не удалось поделиться','⚠️ Paylaşılamadı','⚠️ Não foi possível compartilhar','⚠️ 无法分享','⚠️ شیئر نہیں ہو سکا'],
@@ -20371,6 +20372,7 @@ window._ptComputeDuha = _ptComputeDuha;
           '<div class="nt-meta"><span>' + ntEsc(ntFmtDate(n.upd || n.ts)) + '</span>' + metaTags + '</div>' +
           '<div class="nt-actions">' +
             '<button type="button" class="nt-icon' + (n.pinned ? ' nt-pin-active' : '') + '" data-act="pin" title="' + ntEsc(pinTitle) + '" aria-label="' + ntEsc(pinTitle) + '">📌</button>' +
+            '<button type="button" class="nt-icon" data-act="copy" title="' + ntEsc(nt('copy')) + '" aria-label="' + ntEsc(nt('copy')) + '">📋</button>' +
             '<button type="button" class="nt-icon" data-act="share" title="' + ntEsc(nt('share')) + '" aria-label="' + ntEsc(nt('share')) + '">📤</button>' +
             '<button type="button" class="nt-icon" data-act="edit" title="' + ntEsc(nt('edit')) + '" aria-label="' + ntEsc(nt('edit')) + '">✏️</button>' +
             '<button type="button" class="nt-icon" data-act="del" title="' + ntEsc(nt('del')) + '" aria-label="' + ntEsc(nt('del')) + '">🗑️</button>' +
@@ -20646,6 +20648,14 @@ window._ptComputeDuha = _ptComputeDuha;
     } else {
       _ntCopyToClipboard(text);
     }
+  }
+  function ntCopyNote(id) {
+    var note = null;
+    ntLoad().forEach(function(n) { if (n.id === id) note = n; });
+    if (!note) return;
+    var text = _ntShareText(note);
+    if (!text) { ntToast(nt('emptyWarn')); return; }
+    _ntCopyToClipboard(text);
   }
   function _ntCopyToClipboard(text) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -21441,6 +21451,7 @@ window._ptComputeDuha = _ptComputeDuha;
       else if (act === 'playaudio') ntTogglePlay(id);
       else if (act === 'pin') ntTogglePin(id);
       else if (act === 'share') ntShareNote(id);
+      else if (act === 'copy') ntCopyNote(id);
       else if (act === 'download') ntDownloadAudio(id);
       else ntStartEdit(id);
     });
@@ -21827,7 +21838,36 @@ function getAudioFailReason(audioEl) {
   return 'dead';
 }
 
+// ── Fade-out قصير للمحطة الحالية قبل التبديل لمحطة/رابط جديد ──
+// (الـ fade-in بيتم تلقائيًا في حدث play) — بيتخطى الـ fade لو المشغّل واقف أو البث مش شغّال فعليًا
+window._pnaPending = null;
 function playNewAudio(source, stationName, stationNameEn, _fromUser) {
+  var args = Array.prototype.slice.call(arguments);
+  var ws = document.getElementById('welcomeScreen');
+  var welcomeOpen = ws && ws.style.display !== 'none' && ws.style.display !== '';
+  var audio = (typeof mainAudio !== 'undefined') ? mainAudio : null;
+  var noFade = !audio || (welcomeOpen && !_fromUser) || audio.paused || audio.readyState < 3 || !(audio.volume > 0);
+
+  // فيه fade-out شغّال بالفعل: آخر طلب هو اللي يتنفذ
+  if (audio && audio._fadeOutTimer) { window._pnaPending = args; return; }
+  if (noFade) { return _playNewAudioCore.apply(null, args); }
+
+  window._pnaPending = args;
+  if (window._cancelVolumeFades) window._cancelVolumeFades();
+  if (audio._fadeTimer) { clearInterval(audio._fadeTimer); audio._fadeTimer = null; }
+  var start = audio.volume, stepMs = 30, steps = 15, i = 0;
+  audio._fadeOutTimer = setInterval(function() {
+    i++;
+    if (i < steps) { audio.volume = Math.max(0, start * (1 - i / steps)); return; }
+    clearInterval(audio._fadeOutTimer); audio._fadeOutTimer = null;
+    var a = window._pnaPending; window._pnaPending = null;
+    if (a) _playNewAudioCore.apply(null, a);
+    // رجّع المستوى الحقيقي فورًا (لو التشغيل فشل ما يفضلش الصوت على صفر) — الـ fade-in بيتولاه حدث play
+    if (window.applyCurrentVolume) window.applyCurrentVolume(audio);
+  }, stepMs);
+}
+
+function _playNewAudioCore(source, stationName, stationNameEn, _fromUser) {
   const _ws = document.getElementById('welcomeScreen');
   const welcomeOpen = _ws && _ws.style.display !== 'none' && _ws.style.display !== '';
 
@@ -37656,7 +37696,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } finally { window._syncingVol = false; }
       });
       audioEl.addEventListener('volumechange', function() {
-        if (volSlider && !audioEl._fadeTimer) volSlider.value = audioEl.volume;
+        if (volSlider && !audioEl._fadeTimer && !audioEl._fadeOutTimer) volSlider.value = audioEl.volume;
       });
     }
 
