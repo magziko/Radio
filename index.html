@@ -29347,8 +29347,8 @@ document.addEventListener("keydown", function(e) {
     "Digit3": "الشيخ محمود علي البنا (مجود)",
     "Numpad3": "الشيخ محمود علي البنا (مجود)",
 
-    "Digit4": "إذاعة الشيخ علي عبدالله جابر",
-    "Numpad4": "إذاعة الشيخ علي عبدالله جابر",
+    "Digit4": "الشيخ علي عبد الله جابر 1",
+    "Numpad4": "الشيخ علي عبد الله جابر 1",
 
     "Digit5": "(حفلات) الشيخ محمد صديق المنشاوي",
     "Numpad5": "(حفلات) الشيخ محمد صديق المنشاوي",
@@ -31732,7 +31732,9 @@ function filterMinshawySub(subType, btn) {
 
   if (subType === 'radio') {
     document.querySelectorAll('button[data-minshawi="true"]').forEach(function(b) {
-      _sd(b, b.getAttribute('data-minshawi-type') === 'radio');
+      var mt = b.getAttribute('data-minshawi-type');
+      // محطتا الإذاعة (بدون نوع) تظهران في القراء/الأبجدي مثل الحصري والبنا، وتظهران هنا أيضًا
+      _sd(b, mt === 'radio' || (!mt && b.getAttribute('data-reciter-type') === 'radio'));
     });
   } else if (subType === 'muratal') {
     document.querySelectorAll('button[data-minshawi-type="muratal"]').forEach(function(b) {
@@ -31877,7 +31879,7 @@ function filterRecitersSub(subType, btn) {
       _sd2(b, false);
     });
     document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
-      if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type') || b.hasAttribute('data-minshawi-type') || b.hasAttribute('data-basit-type') || b.getAttribute('data-basit') === 'true') return;
+      if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type') || b.hasAttribute('data-minshawi-type') || b.hasAttribute('data-basit-type')) return;
       _sd2(b, b.getAttribute('data-reciter-type') === 'radio');
     });
   } else if (subType === 'mp3') {
@@ -31885,7 +31887,7 @@ function filterRecitersSub(subType, btn) {
       _sd2(b, false);
     });
     document.querySelectorAll('button[data-category="reciters"]').forEach(function(b) {
-      if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type') || b.hasAttribute('data-minshawi-type') || b.hasAttribute('data-basit-type') || b.getAttribute('data-basit') === 'true') return;
+      if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type') || b.hasAttribute('data-minshawi-type') || b.hasAttribute('data-basit-type')) return;
       _sd2(b, b.getAttribute('data-reciter-type') === 'mp3');
     });
   } else if (subType === 'basit') {
@@ -31919,7 +31921,7 @@ function filterRecitersSub(subType, btn) {
       _sd2(b, false);
     });
     var _alphaBtns = Array.from(document.querySelectorAll('button[data-category="reciters"]')).filter(function(b) {
-      return !b.hasAttribute('data-banna-type') && !b.hasAttribute('data-hussary-type') && !b.hasAttribute('data-minshawi-type') && !b.hasAttribute('data-basit-type') && b.getAttribute('data-basit') !== 'true';
+      return !b.hasAttribute('data-banna-type') && !b.hasAttribute('data-hussary-type') && !b.hasAttribute('data-minshawi-type') && !b.hasAttribute('data-basit-type');
     });
     _alphaBtns.forEach(function(b) {
       _sd2(b, true);
@@ -31930,13 +31932,16 @@ function filterRecitersSub(subType, btn) {
       name = name.replace(/^إذاعة\s+(الشيخ|القارئ)\s+/u, '');
       name = name.replace(/^\([^)]+\)\s+(الشيخ|القارئ)\s+/u, '');
       name = name.replace(/^(الشيخ|القارئ)\s+/u, '');
+      // توحيد الإملاء لترتيب أدق: "عبد الباسط" = "عبدالباسط"، والياء/الألف المقصورة، وإزالة التشكيل
+      name = name.replace(/[\u064B-\u0652\u0640]/g, '').replace(/ى/g, 'ي');
+      name = name.replace(/(^|\s)عبد\s+(?=\S)/g, '$1عبد');
       return name.trim();
     }
 
     var _container = _alphaBtns[0] && (_alphaBtns[0].parentElement.classList.contains('pl-check-wrap') ? _alphaBtns[0].parentElement.parentNode : _alphaBtns[0].parentNode);
     if (_container) {
       _alphaBtns.sort(function(a, b) {
-        return _getSortName(a).localeCompare(_getSortName(b), 'ar');
+        return _getSortName(a).localeCompare(_getSortName(b), 'ar', { numeric: true });
       });
       _alphaBtns.forEach(function(b) {
         var node = b.parentElement.classList.contains('pl-check-wrap') ? b.parentElement : b;
