@@ -15596,6 +15596,7 @@ function _playNewAudioCore(source, stationName, stationNameEn, _fromUser) {
   }
 
   function onMainAudioError() {
+    if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
     var reason = getAudioFailReason(mainAudio);
     var arMsg, enMsg, pnbAr, pnbEn, msgKey, pnbKey;
 
@@ -15631,6 +15632,7 @@ function _playNewAudioCore(source, stationName, stationNameEn, _fromUser) {
     if (window._userStoppedManually) return; // المستخدم أوقف بيده — لا retry
     retryTimeout = setTimeout(function() {
       if (window._userStoppedManually) return;
+      if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
       playNewAudio(currentSource, stationName, stationNameEn);
     }, retryInterval);
   }
@@ -21362,6 +21364,7 @@ function toggleRadio(button, event = null) {
   if (urls && Array.isArray(urls) && urls.length > 1) {
 
     function onMultiUrlError() {
+      if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
       var reason = getAudioFailReason(mainAudio);
       var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
 
@@ -21415,6 +21418,7 @@ function toggleRadio(button, event = null) {
                   'offline'
                 );
                 var offlineRetry = setTimeout(function() {
+                  if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
                   mainAudio.src = mainAudio.src;
                   mainAudio.load();
                   window._mainPlayAllowed = true;
@@ -21424,6 +21428,7 @@ function toggleRadio(button, event = null) {
                   clearTimeout(offlineRetry);
                   updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...', 'connectionRestored');
                   setTimeout(function() {
+                    if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
                     mainAudio.src = mainAudio.src;
                     mainAudio.load();
                     window._mainPlayAllowed = true;
@@ -21449,6 +21454,7 @@ function toggleRadio(button, event = null) {
             'offline'
           );
           var offlineRetry = setTimeout(function() {
+            if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
             mainAudio.src = mainAudio.src;
             mainAudio.load();
             window._mainPlayAllowed = true;
@@ -21458,6 +21464,7 @@ function toggleRadio(button, event = null) {
             clearTimeout(offlineRetry);
             updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...', 'connectionRestored');
             setTimeout(function() {
+              if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
               mainAudio.src = mainAudio.src;
               mainAudio.load();
               window._mainPlayAllowed = true;
@@ -21475,6 +21482,7 @@ function toggleRadio(button, event = null) {
           'slow'
         );
         setTimeout(function() {
+          if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
           mainAudio.src = mainAudio.src;
           mainAudio.load();
           window._mainPlayAllowed = true;
@@ -34064,7 +34072,17 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     a.addEventListener('ended', function() {
       if (liveSeen && !st.active && !userStopped()) tryEnter();
     });
-    a.addEventListener('error', function() { if (st.active) { exitLoop(); restoreStatus(); } });
+    a.addEventListener('error', function() {
+      if (st.active) {
+        // خطأ شبكة أثناء التكرار: لو لسه فيه مخزّن نكمّل التكرار، وإلا نخرج
+        var r = lastRange();
+        if (r && (r.e - r.s) >= MIN_BUFFER) { setTimeout(function() { if (st.active) jump(); }, 300); }
+        else { exitLoop(); restoreStatus(); }
+        return;
+      }
+      // الخطأ جه قبل ما ندخل التكرار (انقطاع البث) → ادخل التكرار بدل الصمت
+      if (liveSeen && !userStopped()) tryEnter();
+    });
     a.addEventListener('pause', function() { if (st.active && userStopped()) { exitLoop(); restoreStatus(); } });
 
     window.addEventListener('offline', function() {
@@ -34078,6 +34096,10 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     return { state: st, enter: tryEnter, exit: function() { exitLoop(); restoreStatus(); } };
   }
 
+  window._isOfflineLooping = function() {
+    var m = window._offlineLoop && window._offlineLoop.main;
+    return !!(m && m.state && m.state.active);
+  };
   window._offlineLoop = {
     main: makeController((typeof mainAudio !== 'undefined') ? mainAudio : document.getElementById('currentAudio'), true),
     welcome: makeController(document.getElementById('customAudioPlayer'), false)
