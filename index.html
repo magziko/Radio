@@ -15596,7 +15596,8 @@ function _playNewAudioCore(source, stationName, stationNameEn, _fromUser) {
   }
 
   function onMainAudioError() {
-    if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
+    // التكرار الأوفلاين شغّال (أو بينتظر رجوع الإنترنت): هو اللي بيدير إعادة الاتصال
+    if (window._offlineLoop && window._offlineLoop.main && (window._offlineLoop.main.state.active || window._offlineLoop.main.state.watch)) return;
     var reason = getAudioFailReason(mainAudio);
     var arMsg, enMsg, pnbAr, pnbEn, msgKey, pnbKey;
 
@@ -15630,11 +15631,23 @@ function _playNewAudioCore(source, stationName, stationNameEn, _fromUser) {
       pnbNameEl2.textContent = _pnbMsg(pnbKey);
     }
     if (window._userStoppedManually) return; // المستخدم أوقف بيده — لا retry
-    retryTimeout = setTimeout(function() {
+    var _doRetry = function() {
       if (window._userStoppedManually) return;
-      if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
       playNewAudio(currentSource, stationName, stationNameEn);
-    }, retryInterval);
+    };
+    if (navigator.onLine === false) {
+      // أوفلاين: ما نحاولش نشغّل المحطة — نستنى رجوع الإنترنت (مرة واحدة)
+      if (!window._pendingOnlineRetry) {
+        window._pendingOnlineRetry = true;
+        window.addEventListener('online', function _onBackRetry() {
+          window.removeEventListener('online', _onBackRetry);
+          window._pendingOnlineRetry = false;
+          setTimeout(_doRetry, 1500);
+        });
+      }
+    } else {
+      retryTimeout = setTimeout(_doRetry, retryInterval);
+    }
   }
 
   // مهم جداً: mainAudio لازم يكون له مستمع "error" واحد بس في نفس اللحظة.
@@ -21364,7 +21377,6 @@ function toggleRadio(button, event = null) {
   if (urls && Array.isArray(urls) && urls.length > 1) {
 
     function onMultiUrlError() {
-      if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
       var reason = getAudioFailReason(mainAudio);
       var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
 
@@ -21418,7 +21430,7 @@ function toggleRadio(button, event = null) {
                   'offline'
                 );
                 var offlineRetry = setTimeout(function() {
-                  if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
+                  if (navigator.onLine === false) return;   // أوفلاين: نستنى حدث online
                   mainAudio.src = mainAudio.src;
                   mainAudio.load();
                   window._mainPlayAllowed = true;
@@ -21428,7 +21440,6 @@ function toggleRadio(button, event = null) {
                   clearTimeout(offlineRetry);
                   updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...', 'connectionRestored');
                   setTimeout(function() {
-                    if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
                     mainAudio.src = mainAudio.src;
                     mainAudio.load();
                     window._mainPlayAllowed = true;
@@ -21454,7 +21465,7 @@ function toggleRadio(button, event = null) {
             'offline'
           );
           var offlineRetry = setTimeout(function() {
-            if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
+            if (navigator.onLine === false) return;   // أوفلاين: نستنى حدث online
             mainAudio.src = mainAudio.src;
             mainAudio.load();
             window._mainPlayAllowed = true;
@@ -21464,7 +21475,6 @@ function toggleRadio(button, event = null) {
             clearTimeout(offlineRetry);
             updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...', 'connectionRestored');
             setTimeout(function() {
-              if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
               mainAudio.src = mainAudio.src;
               mainAudio.load();
               window._mainPlayAllowed = true;
@@ -21482,7 +21492,6 @@ function toggleRadio(button, event = null) {
           'slow'
         );
         setTimeout(function() {
-          if (window._isOfflineLooping && window._isOfflineLooping()) return; // التكرار شغال: ما نعيد تحميل المصدر
           mainAudio.src = mainAudio.src;
           mainAudio.load();
           window._mainPlayAllowed = true;
@@ -33890,14 +33899,15 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   var MIN_BUFFER = 2;           // أقل مخزّن نقبله عشان نكرر (ثواني)
   var STALL_OFFLINE_MS = 1200;  // توقف البث والإنترنت مقطوع → ندخل التكرار بسرعة
   var STALL_ONLINE_MS = 6000;   // توقف البث والمتصفح فاكر إنه أونلاين (بث ميت) → نستنى أكتر
-  var PROBE_EVERY_MS = 8000;    // محاولة إعادة الاتصال كل كام ثانية
-  var PROBE_TIMEOUT_MS = 10000;
+  var PING_EVERY_MS = 6000;     // فحص الإنترنت (بطلب صغير) لما المتصفح فاكر إنه أونلاين والبث ميت
+  var PING_TIMEOUT_MS = 4000;
+  var PROBE_TIMEOUT_MS = 10000; // مهلة محاولة تشغيل المحطة بعد ما الإنترنت يرجع
 
   function makeController(a, ui) {
     if (!a) return null;
     var st = { active: false, start: 0, end: 0, tick: null, stallTimer: null,
                probeTimer: null, probe: null, probeTimeout: null, savedOnEnded: null, url: '', snap: null,
-               len: 0, verify: null };
+               len: 0, verify: null, watch: false, dead: 0 };
     var liveSeen = false, learnedCap = 0;
 
     function lastRange() {
@@ -33961,7 +33971,8 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       showLooping();
       jump();
       st.tick = setInterval(tick, 150);
-      scheduleProbe(navigator.onLine === false ? PROBE_EVERY_MS : 2000);
+      st.dead = 0;
+      startWatch();
       return true;
     }
 
@@ -33982,8 +33993,9 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       var mark = st.start, myLen = st.len;
       st.verify = setTimeout(function() {
         st.verify = null;
-        if (!st.active || myLen !== st.len || myLen <= 4) return;
+        if (!st.active || myLen !== st.len) return;
         if (a.currentTime < mark + 0.6 && (a.readyState < 3 || a.paused)) {
+          if (myLen <= 4) { if (++st.dead >= 2) { exitLoop(); if (ui && typeof updateStatus === 'function') updateStatus('❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...', '❌ No internet connection, retrying...', 'offline'); } else jump(); return; }
           var r = lastRange(); if (!r) return;
           st.len = Math.max(3, myLen / 2); learnedCap = st.len;
           st.start = Math.max(r.s, st.end - st.len);
@@ -33994,12 +34006,12 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 
     function tick() {
       if (!st.active) return;
-      if (userStopped()) { exitLoop(); return; }
+      if (userStopped()) { exitLoop(); stopWatch(); restoreStatus(); return; }
       var r = lastRange();
       // الاتصال رجع من نفسه (المتصفح بدأ ينزّل بيانات جديدة) → نكمّل من آخر اللي كان محفوظ
       if (r && r.e > st.end + 1.5 && a.readyState >= 3) {
         try { a.currentTime = Math.max(r.s, st.end - 0.05); } catch (e) {}
-        exitLoop(); restoreStatus();
+        exitLoop(); stopWatch(); restoreStatus();
         return;
       }
       if (a.ended || a.paused || a.currentTime >= st.end - 0.2 || a.currentTime < st.start - 0.5) jump();
@@ -34009,34 +34021,73 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       if (!st.active) return;
       st.active = false;
       clearInterval(st.tick); st.tick = null;
-      cancelProbe(true);
       a.onended = st.savedOnEnded; st.savedOnEnded = null;
       if (st.verify) { clearTimeout(st.verify); st.verify = null; }
       restoreVolume();
     }
 
-    // ── إعادة الاتصال في الخلفية (probe صامت) ──
-    function cancelProbe(alsoTimer) {
+    // ── انتظار رجوع الإنترنت ثم إعادة الاتصال ──
+    // القاعدة: ما بنحاولش نشغّل المحطة غير لما الإنترنت يرجع.
+    //  • المتصفح بيقول "أوفلاين" (navigator.onLine === false): مفيش أي مؤقّت ولا طلب شبكة، بنستنى حدث 'online' بس.
+    //  • المتصفح فاكر إنه أونلاين لكن البث ميت: بنفحص الإنترنت كل ثواني بطلب صغير جدًا لموقع اتصال (مش المحطة)،
+    //    ولما الفحص ينجح بس بنحاول نشغّل المحطة.
+    function pingUrls() {
+      if (window._offlineLoopPingUrl) return [window._offlineLoopPingUrl];   // للاختبار فقط
+      var u = ['https://www.gstatic.com/generate_204'];
+      if (/^https?:/.test(location.protocol)) u.push(location.origin + location.pathname);
+      return u;
+    }
+    function pingOne(url) {
+      return new Promise(function(resolve) {
+        var done = false, ctl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+        var t = setTimeout(function() { if (!done) { done = true; try { ctl && ctl.abort(); } catch (e) {} resolve(false); } }, PING_TIMEOUT_MS);
+        var sep = url.indexOf('?') < 0 ? '?' : '&';
+        fetch(url + sep + '_lp=' + Date.now(), { method: 'GET', mode: 'no-cors', cache: 'no-store', signal: ctl ? ctl.signal : undefined })
+          .then(function() { if (!done) { done = true; clearTimeout(t); resolve(true); } },
+                function() { if (!done) { done = true; clearTimeout(t); resolve(false); } });
+      });
+    }
+    function pingInternet() {
+      return Promise.all(pingUrls().map(pingOne)).then(function(r) { return r.some(Boolean); });
+    }
+    function cancelProbe() {
       if (st.probeTimeout) { clearTimeout(st.probeTimeout); st.probeTimeout = null; }
-      if (alsoTimer && st.probeTimer) { clearTimeout(st.probeTimer); st.probeTimer = null; }
       if (st.probe) {
         try { st.probe.pause(); st.probe.removeAttribute('src'); st.probe.load(); } catch (e) {}
         st.probe = null;
       }
     }
-    function scheduleProbe(ms) {
-      if (st.probeTimer) clearTimeout(st.probeTimer);
-      st.probeTimer = setTimeout(probeNow, ms);
+    function stopWatch() {
+      st.watch = false;
+      if (st.probeTimer) { clearTimeout(st.probeTimer); st.probeTimer = null; }
+      cancelProbe();
     }
-    function probeNow() {
+    function waitForReturn() {
+      if (!st.watch) return;
+      if (st.probeTimer) { clearTimeout(st.probeTimer); st.probeTimer = null; }
+      if (navigator.onLine === false) return;                       // نستنى حدث online بدون أي نشاط شبكة
+      st.probeTimer = setTimeout(checkReturn, PING_EVERY_MS);
+    }
+    function checkReturn() {
       st.probeTimer = null;
-      if (!st.active) return;
-      if (navigator.onLine === false || !st.url) { scheduleProbe(PROBE_EVERY_MS); return; }
-      cancelProbe(false);
+      if (!st.watch) return;
+      if (navigator.onLine === false) return;
+      pingInternet().then(function(ok) {
+        if (!st.watch) return;
+        if (ok) tryStation(); else waitForReturn();
+      });
+    }
+    function startWatch() {
+      st.watch = true;
+      waitForReturn();
+    }
+    function tryStation() {
+      if (!st.watch || !st.url) return;
+      cancelProbe();
       var p = new Audio(), done = false;
       st.probe = p; p.preload = 'auto'; p.muted = true; p.volume = 0;
       var ok = function() { if (done) return; done = true; reconnect(); };
-      var fail = function() { if (done) return; done = true; cancelProbe(false); if (st.active) scheduleProbe(PROBE_EVERY_MS); };
+      var fail = function() { if (done) return; done = true; cancelProbe(); waitForReturn(); };
       p.addEventListener('playing', ok);
       p.addEventListener('error', fail);
       st.probeTimeout = setTimeout(fail, PROBE_TIMEOUT_MS);
@@ -34045,7 +34096,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     }
     function reconnect() {
       var url = st.url;
-      exitLoop();
+      exitLoop(); stopWatch();
       if (ui && typeof updateStatus === 'function') {
         updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...', 'connectionRestored');
       }
@@ -34059,7 +34110,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     // ── ربط الأحداث ──
     a.addEventListener('loadstart', function() {
       liveSeen = false; learnedCap = 0; clearStall();
-      if (st.active) { exitLoop(); restoreStatus(); }   // حد غيّر المصدر (محطة جديدة)
+      if (st.active || st.watch) { exitLoop(); stopWatch(); restoreStatus(); }   // حد غيّر المصدر (محطة جديدة)
     });
     ['durationchange', 'timeupdate', 'playing'].forEach(function(ev) {
       a.addEventListener(ev, function() {
@@ -34072,34 +34123,22 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     a.addEventListener('ended', function() {
       if (liveSeen && !st.active && !userStopped()) tryEnter();
     });
-    a.addEventListener('error', function() {
-      if (st.active) {
-        // خطأ شبكة أثناء التكرار: لو لسه فيه مخزّن نكمّل التكرار، وإلا نخرج
-        var r = lastRange();
-        if (r && (r.e - r.s) >= MIN_BUFFER) { setTimeout(function() { if (st.active) jump(); }, 300); }
-        else { exitLoop(); restoreStatus(); }
-        return;
-      }
-      // الخطأ جه قبل ما ندخل التكرار (انقطاع البث) → ادخل التكرار بدل الصمت
-      if (liveSeen && !userStopped()) tryEnter();
-    });
-    a.addEventListener('pause', function() { if (st.active && userStopped()) { exitLoop(); restoreStatus(); } });
+    // خطأ أثناء التكرار: نحاول نكمّل التكرار، ولو العنصر مات فعلًا (verify) نكمّل ننتظر رجوع الإنترنت من غير تكرار
+    a.addEventListener('error', function() { if (st.active) jump(); });
+    a.addEventListener('pause', function() { if ((st.active || st.watch) && userStopped()) { exitLoop(); stopWatch(); restoreStatus(); } });
 
     window.addEventListener('offline', function() {
+      if (st.watch && st.probeTimer) { clearTimeout(st.probeTimer); st.probeTimer = null; }   // أوفلاين: وقف أي فحص شبكة
       if (st.stallTimer) { clearStall(); armStall(); }                       // نقصّر الانتظار
       else if (!st.active && liveSeen && !a.paused && a.readyState < 3) armStall();
     });
     window.addEventListener('online', function() {
-      if (st.active) setTimeout(probeNow, 500);
+      if (st.watch) { if (st.probeTimer) { clearTimeout(st.probeTimer); } st.probeTimer = setTimeout(checkReturn, 800); }
     });
 
-    return { state: st, enter: tryEnter, exit: function() { exitLoop(); restoreStatus(); } };
+    return { state: st, enter: tryEnter, exit: function() { exitLoop(); stopWatch(); restoreStatus(); } };
   }
 
-  window._isOfflineLooping = function() {
-    var m = window._offlineLoop && window._offlineLoop.main;
-    return !!(m && m.state && m.state.active);
-  };
   window._offlineLoop = {
     main: makeController((typeof mainAudio !== 'undefined') ? mainAudio : document.getElementById('currentAudio'), true),
     welcome: makeController(document.getElementById('customAudioPlayer'), false)
