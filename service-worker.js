@@ -148,7 +148,7 @@ self.addEventListener('fetch', event => {
           // (status دايماً 0)، فمينفعش نتأكد من status === 200؛ لو الفetch نجح
           // من غير استثناء يبقى نخزّنها ونرجّعها
           return fetch(event.request.url, { mode: 'no-cors' }).then(res => {
-            if (res) cache.put(event.request, res.clone());
+            if (res) cache.put(event.request, res.clone()).catch(() => {});
             return res;
           });
         })
@@ -171,6 +171,11 @@ self.addEventListener('fetch', event => {
     url.includes('youtube')
   ) { return; }
 
+  // أي طلب خارج موقعنا (محطات البث المباشر وغيرها): مباشرة من الشبكة بدون تدخل الـ SW.
+  // السبب: لو الـ SW مرّر البث عن طريقه، وقت انقطاع الإنترنت الرد بيتقطع للمشغّل بخطأ فوري
+  // فيقفل المشغّل ويضيع المخزّن، وده بيوقف ميزة تكرار آخر مقطع. وكمان ما كانش فيه أي كاش لهذه الطلبات أصلاً.
+  if (new URL(url).origin !== self.location.origin) return;
+
   // باقي الطلبات (وأهمها index.html): Network First
   // نستخدم cache:'no-store' في طلب الشبكة عشان نضمن إن المتصفح/GitHub Pages
   // مايرجعش نسخة قديمة من كاش HTTP، ودايماً نجيب آخر تحديث فعلي
@@ -179,7 +184,7 @@ self.addEventListener('fetch', event => {
       .then(response => {
         if (response && response.status === 200 && response.type === 'basic') {
           const clone = response.clone();
-          caches.open(CACHE_STATIC).then(cache => cache.put(event.request, clone));
+          caches.open(CACHE_STATIC).then(cache => cache.put(event.request, clone)).catch(() => {});
         }
         return response;
       })
@@ -379,8 +384,8 @@ async function handleAudio(request) {
     // بتبقى opaque (status = 0 دايماً) حتى لو الملف اتحمّل صح فعلاً.
     // فمينفعش نشرط status === 200 بس؛ لازم نقبل النوعين (basic/cors سليم، أو opaque).
     if (response && (response.status === 200 || response.type === 'opaque')) {
-      cache.put(request, response.clone());
-      trimAudioCache(cache);
+      cache.put(request, response.clone()).catch(() => {});
+      trimAudioCache(cache).catch(() => {});
     }
     return response;
   } catch {
