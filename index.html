@@ -3115,9 +3115,10 @@ setTimeout(autoScaleVerseFont, 100);
     <div class="aqx-boost-row" id="offlineLoopGroup">
       <label for="offlineLoopSeconds" data-ar="🔁 مدة تكرار المقطع عند الانقطاع (ثواني)" data-en="🔁 Offline Replay Length (seconds)" data-fr="🔁 Durée de répétition hors ligne (s)" data-es="🔁 Duración de repetición sin conexión (s)" data-sv="🔁 Uppspelningslängd offline (sek)" data-nl="🔁 Herhaalduur offline (sec)" data-ga="🔁 Fad athsheinm as líne (soic)" data-de="🔁 Wiederholdauer offline (Sek.)" data-ru="🔁 Длительность повтора без сети (сек)" data-tr="🔁 Çevrimdışı tekrar süresi (sn)" data-pt="🔁 Duração da repetição offline (s)" data-zh="🔁 断网重播时长（秒）" data-ur="🔁 آف لائن دہرانے کا دورانیہ (سیکنڈ)">🔁 مدة تكرار المقطع عند الانقطاع (ثواني)</label>
       <select id="offlineLoopSeconds" onchange="window.setOfflineLoopSeconds && window.setOfflineLoopSeconds(this.value)" style="width:84px;max-width:32%;text-align:center;padding:4px 6px;font-size:14px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;outline:none;box-sizing:border-box;">
-        <option value="10">10</option>
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
         <option value="20">20</option>
-        <option value="30" selected>30</option>
+        <option value="30">30</option>
         <option value="40">40</option>
       </select>
     </div>
@@ -33878,20 +33879,21 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 // حجم المقطع المتكرر بيعتمد على اللي المتصفح خزّنه فعلًا.
 // ===================================================================
 (function() {
-  // أقصى طول للمقطع المتكرر: من إعدادات جودة الصوت (10/20/30/40 ثانية)، الافتراضي 30.
+  // أقصى طول للمقطع المتكرر: من إعدادات جودة الصوت (5/10/20/30/40 ثانية)، الافتراضي 10.
+  // المقطع الأقصر = بيانات أحدث = احتمال أقل إن المتصفح يكون مسحها، فبيكرر أكتر وأثبت على المحطات الضعيفة.
   // الحد الأقصى 40 ثانية عن قصد: المتصفح بيحتفظ بكمية محدودة من البيانات القديمة (بالبايت)، ولو رجعنا لنقطة
   // أبعد من اللي محتفظ بيه (جربنا 60 ثانية) الرجوع بيفشل والمشغّل ممكن يوقع في خطأ ويضيع المخزّن كله.
   // الطول الفعلي = الأقل بين اللي اخترته واللي المتصفح محتفظ به، ولو الرجوع علّق من غير خطأ بيتقلّص تلقائيًا.
   var LOOP_MAX = 40;
   function loopSeconds() {
-    var v = 30;
+    var v = 10;
     try { v = parseInt(localStorage.getItem('offlineLoopSeconds'), 10); } catch (e) {}
-    if (!(v >= 5)) v = 30;
+    if (!(v >= 3)) v = 10;
     return Math.min(v, LOOP_MAX);
   }
   window.setOfflineLoopSeconds = function(v) {
     v = parseInt(v, 10);
-    if (!(v >= 5 && v <= LOOP_MAX)) return;
+    if (!(v >= 3 && v <= LOOP_MAX)) return;
     try { localStorage.setItem('offlineLoopSeconds', String(v)); } catch (e) {}
     var sel = document.getElementById('offlineLoopSeconds'); if (sel) sel.value = String(v);
   };
@@ -33907,7 +33909,17 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (!a) return null;
     var st = { active: false, start: 0, end: 0, tick: null, stallTimer: null,
                probeTimer: null, probe: null, probeTimeout: null, savedOnEnded: null, url: '', snap: null,
-               len: 0, verify: null, watch: false, dead: 0, loops: 0, lastT: 0, lastMove: 0, lastJump: 0 };
+               len: 0, verify: null, watch: false, dead: 0, loops: 0, lastT: 0, lastMove: 0, lastJump: 0, log: [], exitReason: '' };
+    var t0 = Date.now();
+    // سجل تشخيصي (آخر 120 حدث): بيتعرض بالأمر offlineLoopDiag() في الكونسول
+    function L(msg) {
+      try {
+        var b = a.buffered, r = (b && b.length) ? [+b.start(b.length - 1).toFixed(1), +b.end(b.length - 1).toFixed(1)] : null;
+        st.log.push(((Date.now() - t0) / 1000).toFixed(1) + 's ' + msg + ' | ct=' + a.currentTime.toFixed(1) + ' rs=' + a.readyState + ' ns=' + a.networkState +
+          (a.error ? ' err=' + a.error.code : '') + (a.paused ? ' paused' : '') + (a.ended ? ' ended' : '') + ' buf=' + JSON.stringify(r) + ' dur=' + a.duration + ' online=' + navigator.onLine);
+        if (st.log.length > 120) st.log.shift();
+      } catch (e) {}
+    }
     var liveSeen = false, learnedCap = 0;
 
     function lastRange() {
@@ -33954,7 +33966,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       var ms = (navigator.onLine === false) ? STALL_OFFLINE_MS : STALL_ONLINE_MS;
       st.stallTimer = setTimeout(function() {
         st.stallTimer = null;
-        if (!st.active && !a.paused && a.readyState < 3) tryEnter();
+        if (!st.active && !a.paused && a.readyState < 3) { if (!tryEnter()) L('stall detected but cannot loop: live=' + isLive() + ' buffered<' + MIN_BUFFER + 's or user-stopped=' + userStopped()); }
       }, ms);
     }
 
@@ -33972,6 +33984,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       jump();
       st.tick = setInterval(tick, 150);
       st.dead = 0;
+      L('ENTER loop start=' + st.start.toFixed(1) + ' end=' + st.end.toFixed(1) + ' len=' + st.len.toFixed(1) + ' src=' + String(st.url).slice(0, 70));
       startWatch();
       return true;
     }
@@ -33982,6 +33995,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       var nowJ = Date.now();
       if (nowJ - st.lastJump < 350 && !a.ended) return;      // ما نعملش seek ورا seek
       st.lastJump = nowJ; st.lastMove = nowJ; st.loops++;
+      L('jump#' + st.loops + ' -> ' + st.start.toFixed(1));
       try { a.volume = 0; } catch (e) {}
       var setT = function() { if (st.active) { try { a.currentTime = st.start; } catch (e) {} } };
       if (a.ended || a.paused) {
@@ -33998,9 +34012,10 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
         st.verify = null;
         if (!st.active || myLen !== st.len) return;
         if (a.currentTime < mark + 0.6 && (a.readyState < 3 || a.paused)) {
-          if (myLen <= 4) { if (++st.dead >= 4) { exitLoop(); if (ui && typeof updateStatus === 'function') updateStatus('❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...', '❌ No internet connection, retrying...', 'offline'); } else jump(); return; }
+          if (myLen <= 4) { if (++st.dead >= 4) { exitLoop('element-dead'); if (ui && typeof updateStatus === 'function') updateStatus('❌ لا يوجد اتصال بالإنترنت، جارٍ إعادة المحاولة...', '❌ No internet connection, retrying...', 'offline'); } else jump(); return; }
           var r = lastRange(); if (!r) return;
           st.len = Math.max(3, myLen / 2); learnedCap = st.len;
+          L('VERIFY failed (seek did not play) -> len=' + st.len.toFixed(1));
           st.start = Math.max(r.s, st.end - st.len);
           jump();
         }
@@ -34009,12 +34024,12 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 
     function tick() {
       if (!st.active) return;
-      if (userStopped()) { exitLoop(); stopWatch(); restoreStatus(); return; }
+      if (userStopped()) { exitLoop('user-stopped'); stopWatch(); restoreStatus(); return; }
       var r = lastRange();
       // الاتصال رجع من نفسه (المتصفح بدأ ينزّل بيانات جديدة) → نكمّل من آخر اللي كان محفوظ
       if (r && r.e > st.end + 1.5 && a.readyState >= 3) {
         try { a.currentTime = Math.max(r.s, st.end - 0.05); } catch (e) {}
-        exitLoop(); stopWatch(); restoreStatus();
+        exitLoop('data-resumed-by-browser'); stopWatch(); restoreStatus();
         return;
       }
       // علامات إن المشغّل وصل لآخر المقطع (أو علّق قبل آخر المخزّن بشوية) → نرجع لأوله
@@ -34023,14 +34038,16 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       var stuck = !a.paused && !a.ended && (now - st.lastMove) > 1200 && (now - st.lastJump) > 1200;
       if (stuck && ct > st.start + 1) {                         // علّق قبل نهاية المخزّن المُعلن → نعتبر هنا هو النهاية الفعلية
         st.end = ct + 0.1; st.start = Math.max(0, Math.min(st.start, st.end - 3));
+        L('STUCK before declared end -> end=' + st.end.toFixed(1));
       }
       var nearEnd = ct >= st.end - 0.5;
       var starving = a.readyState < 3 && ct > st.end - 1.5 && ct > st.start + 1;
       if (a.ended || a.paused || stuck || nearEnd || starving || ct < st.start - 0.5) jump();
     }
 
-    function exitLoop() {
+    function exitLoop(reason) {
       if (!st.active) return;
+      st.exitReason = reason || 'unknown'; L('EXIT loop reason=' + st.exitReason);
       st.active = false;
       clearInterval(st.tick); st.tick = null;
       a.onended = st.savedOnEnded; st.savedOnEnded = null;
@@ -34085,6 +34102,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       if (!st.watch) return;
       if (navigator.onLine === false) return;
       pingInternet().then(function(ok) {
+        L('ping ' + (ok ? 'OK -> trying station' : 'failed'));
         if (!st.watch) return;
         if (ok) tryStation(); else waitForReturn();
       });
@@ -34099,7 +34117,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       var p = new Audio(), done = false;
       st.probe = p; p.preload = 'auto'; p.muted = true; p.volume = 0;
       var ok = function() { if (done) return; done = true; reconnect(); };
-      var fail = function() { if (done) return; done = true; cancelProbe(); waitForReturn(); };
+      var fail = function() { if (done) return; done = true; L('station probe failed'); cancelProbe(); waitForReturn(); };
       p.addEventListener('playing', ok);
       p.addEventListener('error', fail);
       st.probeTimeout = setTimeout(fail, PROBE_TIMEOUT_MS);
@@ -34108,7 +34126,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     }
     function reconnect() {
       var url = st.url;
-      exitLoop(); stopWatch();
+      exitLoop('reconnect'); stopWatch();
       if (ui && typeof updateStatus === 'function') {
         updateStatus('✅ عاد الاتصال، جارٍ إعادة التشغيل...', '✅ Connection restored, resuming...', 'connectionRestored');
       }
@@ -34122,7 +34140,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     // ── ربط الأحداث ──
     a.addEventListener('loadstart', function() {
       liveSeen = false; learnedCap = 0; clearStall();
-      if (st.active || st.watch) { exitLoop(); stopWatch(); restoreStatus(); }   // حد غيّر المصدر (محطة جديدة)
+      if (st.active || st.watch) { exitLoop('loadstart-source-changed'); stopWatch(); restoreStatus(); }   // حد غيّر المصدر (محطة جديدة)
     });
     ['durationchange', 'timeupdate', 'playing'].forEach(function(ev) {
       a.addEventListener(ev, function() {
@@ -34130,7 +34148,10 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
         if (!st.active && ev !== 'durationchange' && a.readyState >= 3) clearStall();
       });
     });
-    a.addEventListener('waiting', function() { if (st.active) setTimeout(tick, 60); else armStall(); });
+    ['stalled', 'error', 'ended', 'emptied', 'abort', 'pause', 'suspend'].forEach(function(ev) {
+      a.addEventListener(ev, function() { if (st.active || st.watch) L('event:' + ev); });
+    });
+    a.addEventListener('waiting', function() { if (st.active) { L('event:waiting'); setTimeout(tick, 60); } else armStall(); });
     a.addEventListener('stalled', armStall);
     a.addEventListener('ended', function() {
       if (st.active) { setTimeout(tick, 30); return; }
@@ -34138,7 +34159,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     });
     // خطأ أثناء التكرار: نحاول نكمّل التكرار، ولو العنصر مات فعلًا (verify) نكمّل ننتظر رجوع الإنترنت من غير تكرار
     a.addEventListener('error', function() { if (st.active) jump(); });
-    a.addEventListener('pause', function() { if ((st.active || st.watch) && userStopped()) { exitLoop(); stopWatch(); restoreStatus(); } });
+    a.addEventListener('pause', function() { if ((st.active || st.watch) && userStopped()) { exitLoop('user-paused'); stopWatch(); restoreStatus(); } });
 
     window.addEventListener('offline', function() {
       if (st.watch && st.probeTimer) { clearTimeout(st.probeTimer); st.probeTimer = null; }   // أوفلاين: وقف أي فحص شبكة
@@ -34149,8 +34170,20 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       if (st.watch) { if (st.probeTimer) { clearTimeout(st.probeTimer); } st.probeTimer = setTimeout(checkReturn, 800); }
     });
 
-    return { state: st, enter: tryEnter, exit: function() { exitLoop(); stopWatch(); restoreStatus(); } };
+    return { state: st, enter: tryEnter, exit: function() { exitLoop('api-exit'); stopWatch(); restoreStatus(); } };
   }
+
+  window.offlineLoopDiag = function(which) {
+    var c = window._offlineLoop && window._offlineLoop[which || 'main'];
+    if (!c) return 'no controller';
+    var s = c.state;
+    var text = ['=== offlineLoop diag ===',
+      'active=' + s.active + ' watch=' + s.watch + ' loops=' + s.loops + ' len=' + s.len + ' start=' + s.start + ' end=' + s.end + ' dead=' + s.dead + ' exitReason=' + s.exitReason,
+      'url=' + s.url, 'ua=' + navigator.userAgent.slice(0, 90), '--- log ---'].concat(s.log).join('\n');
+    console.log(text);
+    try { if (typeof copy === 'function') copy(text); } catch (e) {}
+    return 'تم عرض السجل في الكونسول (ونُسخ للحافظة لو المتصفح سمح)';
+  };
 
   window._offlineLoop = {
     main: makeController((typeof mainAudio !== 'undefined') ? mainAudio : document.getElementById('currentAudio'), true),
