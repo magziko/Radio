@@ -116,7 +116,7 @@ self.addEventListener('activate', event => {
     caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(k => k !== CACHE_STATIC && k !== CACHE_AUDIO && k !== CACHE_ALARM)
+          .filter(k => k.startsWith('quran-radio-') && k !== CACHE_STATIC && k !== CACHE_AUDIO && k !== CACHE_ALARM)
           .map(k => caches.delete(k))
       )
     )
