@@ -8421,7 +8421,9 @@ body:not(.dark-mode) #player-vol-slider::-moz-range-thumb {
 }
 body:not(.dark-mode) .pnb-divider { background: rgba(255,255,255,0.3); }
 body:not(.dark-mode) #status {
-  background: rgba(var(--theme-c1-rgb),0.14) !important;
+  /* كان rgba شفاف 14% فكان المحتوى اللي بيعدّي تحت الشريط (فلاتر/محطات) بيبان من ورا النص — لون معتم بنفس الدرجة */
+  background: #e6f1fb !important;
+  background: color-mix(in srgb, rgb(var(--theme-c1-rgb)) 14%, #ffffff) !important;
   color: var(--theme-c2) !important;
   border-bottom: 0.5px solid rgba(var(--theme-c1-rgb),0.3);
 }
@@ -10183,4 +10185,60 @@ body.dark-mode #mushafFullscreenLoading { background: #0f1928; }
   #audio-quality-settings #playbackSpeedValueLabel { min-width: 44px; padding: 3px 6px; }
   #audio-quality-settings #maxVolGroup,
   #audio-quality-settings #audioNormalizeToggle { flex-wrap: wrap; }
+}
+
+/* ===== الإشعارات (toast) على الشاشات الصغيرة فقط: تظهر تحت شريط المشغّل/الأيقونات بدل ما تغطي أزرار الإعدادات والبحث ===== */
+@media (max-width: 768px) {
+  .toast-container {
+    top: 76px !important;
+  }
+  .toast {
+    border-radius: 12px !important;
+  }
+}
+
+/* ===== قائمة ⋮ في الشريط العلوي للشاشة الترحيبية — شاشات صغيرة فقط ===== */
+/* شكل الزر = نفس شكل زر البحث بالظبط (نسخ لكل قواعده: عادي/ليلي/ثيم زجاجي) */
+#welcome-top-bar #welcomeMoreBtn {
+    position: static !important;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.85);
+    color: var(--theme-c3);
+    border: 1.5px solid rgba(var(--theme-c3-rgb),0.30);
+    box-shadow: 0 1px 6px rgba(var(--theme-c3-rgb),0.10);
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.15s;
+}
+#welcome-top-bar #welcomeMoreBtn:hover {
+    background: var(--theme-c3) !important;
+    color: #fff !important;
+    border-color: var(--theme-c3) !important;
+    box-shadow: 0 3px 12px rgba(var(--theme-c3-rgb),0.28) !important;
+    transform: scale(1.08);
+}
+body.dark-mode #welcome-top-bar #welcomeMoreBtn {
+    background: rgba(15,30,50,0.85) !important;
+    color: #64b5f6 !important;
+    border-color: rgba(100,181,246,0.30) !important;
+}
+body.dark-mode #welcome-top-bar #welcomeMoreBtn:hover {
+    background: var(--theme-c3) !important;
+    color: #fff !important;
+    border-color: var(--theme-c3) !important;
+}
+#welcomeMoreWrap { display: none; position: relative; }
+#welcomeMoreMenu { min-width: 200px; max-width: calc(100vw - 16px); z-index: 1200; }
+#welcomeMoreMenu .welcome-lang-option { text-align: inherit; white-space: nowrap; }
+@media (max-width: 768px) {
+  #welcome-top-bar #welcomeTopHideBtn,
+  #welcome-top-bar #welcomeLangWrap,
+  #welcome-top-bar #welcomeHelpBtn,
+  #welcome-top-bar #reloadButton { display: none !important; }
+  #welcomeMoreWrap { display: inline-flex; }
 }
