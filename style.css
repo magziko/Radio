@@ -10232,7 +10232,7 @@ body.dark-mode #welcome-top-bar #welcomeMoreBtn:hover {
     color: #fff !important;
     border-color: var(--theme-c3) !important;
 }
-#welcomeMoreWrap { display: none; position: relative; }
+#welcomeMoreWrap { display: inline-flex; position: relative; }
 #welcomeMoreMenu { min-width: 200px; max-width: calc(100vw - 16px); max-height: calc(100vh - 90px); overflow-y: auto; z-index: 1200; }
 #welcomeMoreMenu .welcome-lang-option { text-align: inherit; white-space: nowrap; }
 @media (max-width: 768px) {
