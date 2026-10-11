@@ -34223,6 +34223,20 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   };
   var RTL = { ar: 1, ur: 1 };
 
+  // اختصارات الشاشات (نفس أزرار الأيقونات اللي في التذييل): [أيقونة, الدالة, الزر الأصلي, تسمية بـ 13 لغة]
+  var SCREENS = [
+    ['📈', 'openListenStats', 'footerListenStatsBtn', { ar: 'إحصائيات الاستماع', en: 'Listening stats', fr: "Statistiques d'écoute", es: 'Estadísticas de escucha', sv: 'Lyssningsstatistik', nl: 'Luisterstatistieken', ga: 'Staitisticí éisteachta', de: 'Hörstatistik', ru: 'Статистика прослушивания', tr: 'Dinleme istatistikleri', pt: 'Estatísticas de audição', zh: '收听统计', ur: 'سننے کے اعدادوشمار' }],
+    ['🧭', 'openQiblaCompass', 'qiblaCompassBtn', { ar: 'اتجاه القبلة', en: 'Qibla direction', fr: 'Direction de la Qibla', es: 'Dirección de la Qibla', sv: 'Qibla-riktning', nl: 'Qibla-richting', ga: 'Treo na Qibla', de: 'Qibla-Richtung', ru: 'Направление киблы', tr: 'Kıble yönü', pt: 'Direção da Qibla', zh: '朝向（Qibla）', ur: 'قبلہ کی سمت' }],
+    ['🕌', 'openPrayerTimesPopup', 'prayerTimesBtn', { ar: 'مواقيت الصلاة', en: 'Prayer times', fr: 'Horaires de prière', es: 'Horarios de oración', sv: 'Bönetider', nl: 'Gebedstijden', ga: 'Amanna urnaí', de: 'Gebetszeiten', ru: 'Время намаза', tr: 'Namaz vakitleri', pt: 'Horários de oração', zh: '礼拜时间', ur: 'نماز کے اوقات' }],
+    ['🧮', 'openZakatCalculator', 'zakatCalcBtn', { ar: 'حاسبة الزكاة', en: 'Zakat calculator', fr: 'Calculateur de zakat', es: 'Calculadora de zakat', sv: 'Zakatkalkylator', nl: 'Zakat-calculator', ga: 'Áireamhán zakat', de: 'Zakat-Rechner', ru: 'Калькулятор закята', tr: 'Zekat hesaplayıcı', pt: 'Calculadora de zakat', zh: '天课计算器', ur: 'زکوٰۃ کیلکولیٹر' }],
+    ['📗', 'openKhatmaTracker', 'khatmaTrackerBtn', { ar: 'متابعة الختمة', en: 'Khatma tracker', fr: 'Suivi de la Khatma', es: 'Seguimiento de la Jatma', sv: 'Khatma-spårare', nl: 'Khatma-tracker', ga: 'Rianaitheoir Khatma', de: 'Khatma-Tracker', ru: 'Трекер хатма', tr: 'Hatim takibi', pt: 'Acompanhamento da Khatma', zh: '诵读进度（Khatma）', ur: 'ختمہ ٹریکر' }],
+    ['📝', 'openNotes', 'notesBtn', { ar: 'ملاحظاتي', en: 'My notes', fr: 'Mes notes', es: 'Mis notas', sv: 'Mina anteckningar', nl: 'Mijn notities', ga: 'Mo nótaí', de: 'Meine Notizen', ru: 'Мои заметки', tr: 'Notlarım', pt: 'Minhas notas', zh: '我的笔记', ur: 'میرے نوٹس' }]
+  ];
+  function openScreen(fn, btnId) {
+    if (typeof window[fn] === 'function') { window[fn](); return; }
+    var b = document.getElementById(btnId); if (b) b.click();
+  }
+
   function curLang() {
     var l = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : ((typeof isArabic !== 'undefined' && isArabic) ? 'ar' : 'en');
     return T[l] ? l : 'en';
@@ -34245,6 +34259,14 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     menu.innerHTML = '';
     menu.setAttribute('dir', RTL[l] ? 'rtl' : 'ltr');
     menu.style.textAlign = RTL[l] ? 'right' : 'left';
+
+    // اختصارات الشاشات
+    SCREENS.forEach(function(sc) {
+      menu.appendChild(row(sc[0], sc[3][l] || sc[3].en, function() { close(); openScreen(sc[1], sc[2]); }));
+    });
+    var sep = document.createElement('div');
+    sep.style.cssText = 'height:1px;margin:4px 6px;background:rgba(0,0,0,0.12);';
+    menu.appendChild(sep);
 
     // اللغة (قائمة فرعية قابلة للطي)
     var activeOpt = document.querySelector('#welcomeLangMenu .welcome-lang-option.active');
