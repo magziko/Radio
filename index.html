@@ -13768,6 +13768,11 @@ window._ptComputeDuha = _ptComputeDuha;
     pin:          ['تثبيت','Pin','Épingler','Fijar','Fäst','Vastmaken','Pinnáil','Anheften','Закрепить','Sabitle','Fixar','置顶','پن کریں'],
     unpin:        ['إلغاء التثبيت','Unpin','Détacher','Desfijar','Lossa','Losmaken','Díphinnáil','Loslösen','Открепить','Sabitlemeyi kaldır','Desafixar','取消置顶','پن ہٹائیں'],
     copy:         ['نسخ','Copy','Copier','Copiar','Kopiera','Kopiëren','Cóipeáil','Kopieren','Копировать','Kopyala','Copiar','复制','کاپی کریں'],
+    more:         ['المزيد','More','Plus','Más','Mer','Meer','Tuilleadh','Mehr','Ещё','Daha fazla','Mais','更多','مزید'],
+    less:         ['أقل','Less','Moins','Menos','Mindre','Minder','Níos lú','Weniger','Меньше','Daha az','Menos','收起','کم'],
+    expandAll:    ['فتح الكل','Expand all','Tout ouvrir','Abrir todo','Expandera alla','Alles uitklappen','Oscail gach ceann','Alle öffnen','Развернуть все','Tümünü aç','Abrir tudo','全部展开','سب کھولیں'],
+    collapseAll:  ['طي الكل','Collapse all','Tout replier','Cerrar todo','Komprimera alla','Alles inklappen','Laghdaigh gach ceann','Alle einklappen','Свернуть все','Tümünü kapat','Recolher tudo','全部收起','سب سمیٹیں'],
+    notesCount:   ['الملاحظات: {n}','{n} notes','{n} notes','{n} notas','{n} anteckningar','{n} notities','{n} nóta','{n} Notizen','Заметок: {n}','{n} not','{n} notas','{n} 条笔记','{n} نوٹس'],
     share:        ['مشاركة','Share','Partager','Compartir','Dela','Delen','Comhroinn','Teilen','Поделиться','Paylaş','Compartilhar','分享','شیئر کریں'],
     copied:       ['📋 تم نسخ الملاحظة','📋 Note copied','📋 Note copiée','📋 Nota copiada','📋 Anteckning kopierad','📋 Notitie gekopieerd','📋 Nóta cóipeáilte','📋 Notiz kopiert','📋 Заметка скопирована','📋 Not kopyalandı','📋 Nota copiada','📋 笔记已复制','📋 نوٹ کاپی ہو گیا'],
     shareFailed:  ['⚠️ تعذّرت المشاركة','⚠️ Couldn\'t share','⚠️ Impossible de partager','⚠️ No se pudo compartir','⚠️ Kunde inte dela','⚠️ Delen mislukt','⚠️ Níorbh fhéidir comhroinnt','⚠️ Teilen fehlgeschlagen','⚠️ Не удалось поделиться','⚠️ Paylaşılamadı','⚠️ Não foi possível compartilhar','⚠️ 无法分享','⚠️ شیئر نہیں ہو سکا'],
@@ -13859,7 +13864,8 @@ window._ptComputeDuha = _ptComputeDuha;
   var editingId = null;   // معرّف الملاحظة قيد التعديل (أو null)
   var filterText = '';    // نص البحث
   var activeTagFilter = ''; // فلتر الفئة النشط في القائمة ('' = كل الفئات)
-  var composeTag = '';    // الفئة المختارة للملاحظة اللي بتتكتب دلوقتي (أو المُعدَّلة)
+  var ntExpanded = {};    // الملاحظات المفتوحة بالكامل (id → true)؛ الباقي بيتعرض مختصر
+var composeTag = '';    // الفئة المختارة للملاحظة اللي بتتكتب دلوقتي (أو المُعدَّلة)
   var draft = '';         // مسودة الملاحظة الجديدة اللي لسه ما اتحفظتش
   var draftTag = '';      // نسخة احتياطية من composeTag وقت الدخول في تعديل ملاحظة (ترجع عند الإلغاء)
   var hasStation = false; // هل فيه محطة شغّالة/مختارة وقت فتح النافذة
@@ -13981,6 +13987,7 @@ window._ptComputeDuha = _ptComputeDuha;
 
     if (!notes.length) {
       listEl.innerHTML = '<div class="nt-empty">' + ntEsc(nt('empty')) + '</div>';
+      ntRefreshClamps(0);
       ntKeepFocusInside();
       return;
     }
@@ -13992,6 +13999,7 @@ window._ptComputeDuha = _ptComputeDuha;
     });
     if (!shown.length) {
       listEl.innerHTML = '<div class="nt-empty">' + ntEsc(nt('noResults')) + '</div>';
+      ntRefreshClamps(0);
       ntKeepFocusInside();
       return;
     }
@@ -14011,7 +14019,9 @@ window._ptComputeDuha = _ptComputeDuha;
         metaTags += '<span class="nt-tag">📻 ' + ntEsc(n.station) + (typeof n.pos === 'number' ? ' · ⏱ ' + ntFmtPos(n.pos) : '') + '</span>';
       }
       var hasText = !!(n.text && n.text.trim());
-      var textHtml = hasText ? ('<div class="nt-text" dir="auto">' + ntEsc(n.text) + '</div>')
+      var isOpen = !!ntExpanded[n.id];
+      var textHtml = hasText ? ('<div class="nt-text' + (isOpen ? '' : ' nt-clamp') + '" dir="auto">' + ntEsc(n.text) + '</div>' +
+          '<button type="button" class="nt-more" data-act="toggle" hidden>' + ntEsc(nt(isOpen ? 'less' : 'more')) + (isOpen ? ' ▴' : ' ▾') + '</button>')
         : (n.audio ? ('<div class="nt-text nt-voice-label" dir="auto">' + ntEsc(nt('voiceNoteLabel')) + '</div>') : '');
       var audioHtml = n.audio ? (
         '<div class="nt-audio" data-dur="' + (parseInt(n.audioDur, 10) || 0) + '">' +
@@ -14036,7 +14046,33 @@ window._ptComputeDuha = _ptComputeDuha;
       '</div>';
     });
     listEl.innerHTML = html;
+    ntRefreshClamps(shown.length);
     ntKeepFocusInside();
+  }
+  // يحدد أنهي ملاحظات طويلة فعلًا (أكتر من 3 سطور) ويظهر لها زر "المزيد"، ويحدّث شريط (العدد + فتح/طي الكل)
+  var _ntShownCount = 0;
+  function ntRefreshClamps(shownCount) {
+    if (typeof shownCount === 'number') _ntShownCount = shownCount;
+    var list = g('ntList'); if (!list) return;
+    var anyLong = false, anyCollapsed = false;
+    var cards = list.querySelectorAll('.nt-note');
+    for (var i = 0; i < cards.length; i++) {
+      var t = cards[i].querySelector('.nt-text'), m = cards[i].querySelector('.nt-more');
+      if (!t || !m) continue;
+      var lh = parseFloat(getComputedStyle(t).lineHeight) || 24;
+      var isLong = t.scrollHeight > lh * 3 + 6;
+      m.hidden = !isLong;
+      if (isLong) { anyLong = true; if (!ntExpanded[cards[i].getAttribute('data-id')]) anyCollapsed = true; }
+    }
+    var bar = g('ntToolbar'), cnt = g('ntCount'), btn = g('ntExpandAll');
+    if (!bar) return;
+    bar.style.display = (_ntShownCount >= 3 || anyLong) ? 'flex' : 'none';
+    if (cnt) cnt.textContent = _ntShownCount ? nt('notesCount', { n: _ntShownCount }) : '';
+    if (btn) {
+      btn.hidden = !anyLong;
+      btn.textContent = nt(anyCollapsed ? 'expandAll' : 'collapseAll') + (anyCollapsed ? ' ▾' : ' ▴');
+      btn.setAttribute('data-mode', anyCollapsed ? 'expand' : 'collapse');
+    }
   }
   // مفتاح يوم تقويمي محلي (مش الطابع الزمني الخام) عشان نجمّع بيه الملاحظات
   function _ntDateKey(ts) {
@@ -14990,6 +15026,11 @@ window._ptComputeDuha = _ptComputeDuha;
       '#notesPopup .nt-note{background:rgba(var(--theme-g1-rgb),0.07);border:1px solid ' + borderClr + ';border-radius:12px;padding:10px 12px;}' +
       '#notesPopup .nt-note.nt-editing{border-color:var(--theme-g1);}' +
       '#notesPopup .nt-text{font-size:14px;line-height:1.75;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;user-select:text;-webkit-user-select:text;}' +
+      '#notesPopup .nt-clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden;}' +
+      '#notesPopup .nt-more{display:inline-block;background:none;border:none;cursor:pointer;padding:3px 0 0;font-family:Cairo,sans-serif;font-size:12.5px;font-weight:800;color:var(--theme-g1);}' +
+      '#notesPopup .nt-more[hidden]{display:none;}' +
+      '#notesPopup .nt-toolbar{display:none;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;font-size:12px;color:' + muted + ';}' +
+      '#notesPopup .nt-toolbar .nt-more{padding:2px 4px;}' +
       '#notesPopup .nt-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;}' +
       '#notesPopup .nt-meta{font-size:11px;color:' + muted + ';display:flex;flex-wrap:wrap;gap:2px 10px;min-width:0;}' +
       '#notesPopup .nt-tag{color:var(--theme-g1);font-weight:700;overflow-wrap:anywhere;}' +
@@ -15058,6 +15099,7 @@ window._ptComputeDuha = _ptComputeDuha;
           '</div>' +
           '<input id="ntSearch" type="search" class="nt-search" dir="auto" placeholder="' + ntEsc(nt('search')) + '">' +
           '<div id="ntFilterRow" class="nt-filterrow" style="display:none;"></div>' +
+          '<div id="ntToolbar" class="nt-toolbar" style="display:none;"><span id="ntCount"></span><button type="button" id="ntExpandAll" class="nt-more" hidden></button></div>' +
           '<div id="ntList" class="nt-list"></div>' +
           '<div id="ntUndoBar" class="nt-undo-bar" style="display:none;"><span>' + ntEsc(nt('deletedUndo')) + '</span><button type="button" id="ntUndoBtn" class="nt-undo-btn">' + ntEsc(nt('undo')) + '</button></div>' +
           '<div class="nt-row" style="margin-top:14px;">' +
@@ -15095,6 +15137,13 @@ window._ptComputeDuha = _ptComputeDuha;
     g('ntUndoBtn').addEventListener('click', ntUndoDelete);
     g('ntImportBtn').addEventListener('click', function() { g('ntImportInput').click(); });
     g('ntImportInput').addEventListener('change', function() { ntImportFile(this); });
+    g('ntExpandAll').addEventListener('click', function() {
+      var expand = this.getAttribute('data-mode') === 'expand';
+      var cs = g('ntList').querySelectorAll('.nt-note');
+      for (var k = 0; k < cs.length; k++) { var cid = cs[k].getAttribute('data-id'); if (expand) ntExpanded[cid] = true; else delete ntExpanded[cid]; }
+      ntRenderList();
+    });
+    if (typeof ResizeObserver !== 'undefined') { try { new ResizeObserver(function() { ntRefreshClamps(); }).observe(g('ntList')); } catch (e) {} }
     g('ntList').addEventListener('click', function(e) {
       var btn = e.target.closest ? e.target.closest('[data-act]') : null;
       if (!btn) return;
@@ -15102,6 +15151,14 @@ window._ptComputeDuha = _ptComputeDuha;
       var id = card && card.getAttribute('data-id');
       if (!id) return;
       var act = btn.getAttribute('data-act');
+      if (act === 'toggle') {
+        var tx = card.querySelector('.nt-text'), open = !ntExpanded[id];
+        ntExpanded[id] = open;
+        if (tx) tx.classList.toggle('nt-clamp', !open);
+        btn.textContent = nt(open ? 'less' : 'more') + (open ? ' ▴' : ' ▾');
+        ntRefreshClamps();
+        return;
+      }
       if (act === 'del') ntDelete(id);
       else if (act === 'playaudio') ntTogglePlay(id);
       else if (act === 'pin') ntTogglePin(id);
