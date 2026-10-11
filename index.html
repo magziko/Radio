@@ -215,6 +215,12 @@
             <span class="wdm-icon">🌙</span>
             <span class="wdm-text" id="welcomeDarkModeTxt">الوضع الليلي</span>
         </button>
+        <div id="welcomeMoreWrap">
+            <button id="welcomeMoreBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="More">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="12" cy="19" r="2.2"/></svg>
+            </button>
+            <div id="welcomeMoreMenu" class="welcome-lang-menu" style="display:none;"></div>
+        </div>
         <div id="welcomeLangWrap" style="position:relative;display:inline-flex;">
             <button id="welcomeLangToggle" onclick="toggleWelcomeLangMenu(event)">🌐 <span class="wlt-label">EN</span></button>
             <div id="welcomeLangMenu" class="welcome-lang-menu" style="display:none;">
@@ -23056,7 +23062,7 @@ window.addEventListener("load", function() {
   container.className = "toast-container";
   document.body.appendChild(container);
 
-  container.style.top = '76px';   // تحت شريط الأيقونات/المشغّل (مش فوقهم)
+  container.style.top = '0';
 
   // ===== لغة الإشعارات — نفس منطق siteLanguage =====
   const _toastLang = (function() {
@@ -34189,6 +34195,113 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     main: makeController((typeof mainAudio !== 'undefined') ? mainAudio : document.getElementById('currentAudio'), true),
     welcome: makeController(document.getElementById('customAudioPlayer'), false)
   };
+})();
+// ===================================================================
+// قائمة ⋮ في الشريط العلوي للشاشة الترحيبية — للشاشات الصغيرة فقط (≤768px)
+// بتجمّع: اللغة، المساعدة، إعادة التحميل، إخفاء الشاشة الترحيبية. نفس الدوال الأصلية بالظبط، من غير تكرار منطق.
+// ===================================================================
+(function() {
+  var wrap = document.getElementById('welcomeMoreWrap');
+  var btn = document.getElementById('welcomeMoreBtn');
+  var menu = document.getElementById('welcomeMoreMenu');
+  if (!wrap || !btn || !menu) return;
+
+  var T = {
+    ar: ['المزيد', 'اللغة', 'المساعدة والاختصارات', 'إعادة تحميل'],
+    en: ['More', 'Language', 'Help & shortcuts', 'Reload'],
+    fr: ['Plus', 'Langue', 'Aide et raccourcis', 'Recharger'],
+    es: ['Más', 'Idioma', 'Ayuda y atajos', 'Recargar'],
+    sv: ['Mer', 'Språk', 'Hjälp och genvägar', 'Ladda om'],
+    nl: ['Meer', 'Taal', 'Help en sneltoetsen', 'Herladen'],
+    ga: ['Tuilleadh', 'Teanga', 'Cabhair agus aicearraí', 'Athlódáil'],
+    de: ['Mehr', 'Sprache', 'Hilfe & Tastenkürzel', 'Neu laden'],
+    ru: ['Ещё', 'Язык', 'Справка и горячие клавиши', 'Обновить'],
+    tr: ['Daha fazla', 'Dil', 'Yardım ve kısayollar', 'Yenile'],
+    pt: ['Mais', 'Idioma', 'Ajuda e atalhos', 'Recarregar'],
+    zh: ['更多', '语言', '帮助和快捷键', '重新加载'],
+    ur: ['مزید', 'زبان', 'مدد اور شارٹ کٹس', 'دوبارہ لوڈ کریں']
+  };
+  var RTL = { ar: 1, ur: 1 };
+
+  function curLang() {
+    var l = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : ((typeof isArabic !== 'undefined' && isArabic) ? 'ar' : 'en');
+    return T[l] ? l : 'en';
+  }
+  function isOpen() { return menu.style.display === 'block'; }
+  function close() {
+    menu.style.display = 'none';
+    btn.setAttribute('aria-expanded', 'false');
+  }
+  function row(icon, label, onClick, extraClass) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'welcome-lang-option' + (extraClass ? ' ' + extraClass : '');
+    b.textContent = icon + '  ' + label;
+    b.addEventListener('click', function(e) { e.stopPropagation(); onClick(b); });
+    return b;
+  }
+  function build() {
+    var l = curLang(), t = T[l];
+    menu.innerHTML = '';
+    menu.setAttribute('dir', RTL[l] ? 'rtl' : 'ltr');
+    menu.style.textAlign = RTL[l] ? 'right' : 'left';
+
+    // اللغة (قائمة فرعية قابلة للطي)
+    var activeOpt = document.querySelector('#welcomeLangMenu .welcome-lang-option.active');
+    var curName = activeOpt ? activeOpt.textContent.trim() : '';
+    var sub = document.createElement('div');
+    sub.style.cssText = 'display:none;max-height:190px;overflow-y:auto;margin:2px 0 4px;padding:2px;border-radius:8px;background:rgba(0,0,0,0.04);';
+    var opts = document.querySelectorAll('#welcomeLangMenu .welcome-lang-option');
+    for (var i = 0; i < opts.length; i++) {
+      (function(o) {
+        var code = o.getAttribute('data-lang');
+        var r = document.createElement('button');
+        r.type = 'button';
+        r.className = 'welcome-lang-option' + (o.classList.contains('active') ? ' active' : '');
+        r.textContent = o.textContent.trim();
+        r.addEventListener('click', function(e) { e.stopPropagation(); close(); if (typeof selectWelcomeLang === 'function') selectWelcomeLang(code); });
+        sub.appendChild(r);
+      })(opts[i]);
+    }
+    menu.appendChild(row('🌐', t[1] + (curName ? ': ' + curName : '') + '  ▾', function() {
+      sub.style.display = sub.style.display === 'none' ? 'block' : 'none';
+    }));
+    menu.appendChild(sub);
+
+    menu.appendChild(row('❓', t[2], function() { close(); if (typeof toggleShortcutsModal === 'function') toggleShortcutsModal(); }));
+
+    var rb = document.getElementById('reloadButton');
+    if (rb && rb.style.display !== 'none') {
+      menu.appendChild(row('🔄', t[3], function() { close(); if (typeof confirmReload === 'function') confirmReload(); }));
+    }
+
+    var hideTxt = document.getElementById('welcomeTopHideTxt');
+    menu.appendChild(row('👁', hideTxt ? hideTxt.textContent.trim() : 'Hide', function() { close(); if (typeof toggleDisableWelcomeBtn === 'function') toggleDisableWelcomeBtn(); }));
+    btn.setAttribute('aria-label', t[0]);
+  }
+  // يفتح القائمة جوّه حدود الشاشة (يمين/شمال حسب المساحة)
+  function place() {
+    menu.style.left = 'auto'; menu.style.right = '0';
+    var r = menu.getBoundingClientRect();
+    if (r.left < 6) { menu.style.right = 'auto'; menu.style.left = '0'; r = menu.getBoundingClientRect(); }
+    if (r.right > window.innerWidth - 6) {
+      menu.style.left = 'auto'; menu.style.right = '0';
+      var shift = r.right - (window.innerWidth - 6);
+      menu.style.transform = 'translateX(' + (-shift) + 'px)';
+    } else { menu.style.transform = ''; }
+  }
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (isOpen()) { close(); return; }
+    if (typeof closeWelcomeLangMenu === 'function') closeWelcomeLangMenu();
+    build();
+    menu.style.display = 'block';
+    btn.setAttribute('aria-expanded', 'true');
+    place();
+  });
+  document.addEventListener('click', function(e) { if (isOpen() && !wrap.contains(e.target)) close(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && isOpen()) close(); });
+  window.addEventListener('resize', function() { if (isOpen()) place(); });
 })();
 </script>
 
