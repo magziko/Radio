@@ -34311,8 +34311,11 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     b.addEventListener('click', function(e) { e.stopPropagation(); onClick(b); });
     return b;
   }
+  var SMALL_MQ = window.matchMedia ? window.matchMedia('(max-width: 768px)') : { matches: true };
+  var builtSmall = SMALL_MQ.matches;
   function build() {
     var l = curLang(), t = T[l];
+    builtSmall = SMALL_MQ.matches;
     menu.innerHTML = '';
     menu.setAttribute('dir', RTL[l] ? 'rtl' : 'ltr');
     menu.style.textAlign = RTL[l] ? 'right' : 'left';
@@ -34324,6 +34327,13 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var sep = document.createElement('div');
     sep.style.cssText = 'height:1px;margin:4px 6px;background:rgba(0,0,0,0.12);';
     menu.appendChild(sep);
+
+    // الشاشات الكبيرة: الست شاشات + المساعدة فقط (اللغة وإعادة التحميل والإخفاء بيفضلوا أزرار ظاهرة في الشريط)
+    if (!builtSmall) {
+      menu.appendChild(row('❓', t[2], function() { close(); if (typeof toggleShortcutsModal === 'function') toggleShortcutsModal(); }));
+      btn.setAttribute('aria-label', t[0]);
+      return;
+    }
 
     // اللغة (قائمة فرعية قابلة للطي)
     var activeOpt = document.querySelector('#welcomeLangMenu .welcome-lang-option.active');
@@ -34380,7 +34390,10 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   });
   document.addEventListener('click', function(e) { if (isOpen() && !wrap.contains(e.target)) close(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && isOpen()) close(); });
-  window.addEventListener('resize', function() { if (isOpen()) place(); });
+  window.addEventListener('resize', function() {
+    if (!isOpen()) return;
+    if (SMALL_MQ.matches !== builtSmall) close(); else place();
+  });
 })();
 </script>
 
