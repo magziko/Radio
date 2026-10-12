@@ -34395,6 +34395,89 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (SMALL_MQ.matches !== builtSmall) close(); else place();
   });
 })();
+// ===================================================================
+// الأذكار أثناء التسبيح: ملء الصفوف الناقصة حوالين بطاقة الذكر الحالي (الـ tasbih-focus)
+// -------------------------------------------------------------------
+// الذكر الحالي بياخد الصف كله، فالبطاقات اللي قبله وبعده كانت بتفضل في صفوف ناقصة (بطاقة لوحدها وجنبها فراغ).
+// هنا بنعيد توزيع كل صف ناقص على الأعمدة: بطاقة وحدها = الصف كله، بطاقتين = نصف ونصف، وهكذا.
+// (بنستخدم شبكة بعدد أعمدة = المضاعف المشترك الأصغر، فكل التقسيمات متساوية). الموبايل (عمود واحد) مش بيتغير.
+// ===================================================================
+(function() {
+  var SPAN_ATTR = 'data-fit-span';
+  var applying = false, scheduled = false, lastContainer = null, mo = null;
+
+  function gcd(a, b) { return b ? gcd(b, a % b) : a; }
+  function lcm(a, b) { return a * b / gcd(a, b); }
+
+  function clearFit(container) {
+    if (!container) return;
+    var kids = container.querySelectorAll(':scope > [' + SPAN_ATTR + ']');
+    for (var i = 0; i < kids.length; i++) { kids[i].style.gridColumn = ''; kids[i].removeAttribute(SPAN_ATTR); }
+    if (container.getAttribute('data-fit-cols')) { container.style.gridTemplateColumns = ''; container.removeAttribute('data-fit-cols'); }
+  }
+
+  function fit() {
+    scheduled = false;
+    applying = true;
+    try {
+      var focus = document.querySelector('.button.has-tasbih.tasbih-focus');
+      var container = focus ? focus.closest('.buttons-container') : null;
+      if (lastContainer && lastContainer !== container) clearFit(lastContainer);
+      if (!container) { lastContainer = null; return; }
+      lastContainer = container;
+      clearFit(container);                                   // نبدأ من الشكل الأصلي عشان نحسب الأعمدة الحقيقية
+
+      var tracks = getComputedStyle(container).gridTemplateColumns.split(' ').filter(Boolean).length;
+      if (tracks < 2) return;                                // عمود واحد (موبايل): مفيش حاجة تتعدّل
+
+      var focusItem = focus;
+      while (focusItem && focusItem.parentElement !== container) focusItem = focusItem.parentElement;
+      var kids = [].filter.call(container.children, function(el) { return getComputedStyle(el).display !== 'none'; });
+
+      var rows = [], cur = [];
+      kids.forEach(function(el) {
+        if (el === focusItem) { if (cur.length) { rows.push(cur); cur = []; } rows.push([el]); return; }
+        cur.push(el);
+        if (cur.length === tracks) { rows.push(cur); cur = []; }
+      });
+      if (cur.length) rows.push(cur);
+
+      var L = 1; for (var n = 2; n <= tracks; n++) L = lcm(L, n);
+      container.style.gridTemplateColumns = 'repeat(' + L + ', minmax(0, 1fr))';
+      container.setAttribute('data-fit-cols', String(L));
+      rows.forEach(function(row) {
+        var span = L / (row.length <= tracks ? row.length : tracks);
+        row.forEach(function(el) { el.style.gridColumn = 'span ' + span; el.setAttribute(SPAN_ATTR, '1'); });
+      });
+    } finally {
+      applying = false;
+      if (mo) mo.takeRecords();                              // نتجاهل تغييراتنا إحنا (style) عشان ما ندخلش في لفّة لا نهائية
+    }
+  }
+
+  function schedule() {
+    if (applying || scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(fit);
+  }
+
+  // أي تغيير في class للبطاقات (انتقال الدور = إضافة/إزالة tasbih-focus) أو في ظهور/إخفاء البطاقات
+  if (typeof MutationObserver !== 'undefined') {
+    mo = new MutationObserver(function(recs) {
+      if (applying) return;
+      for (var i = 0; i < recs.length; i++) {
+        var r = recs[i], t = r.target;
+        if (r.type === 'childList') { schedule(); return; }
+        if (r.attributeName === 'class' && ((r.oldValue || '').indexOf('tasbih-focus') >= 0 || (t.classList && t.classList.contains('tasbih-focus')))) { schedule(); return; }
+        if (r.attributeName === 'style' && t.getAttribute && t.getAttribute('data-category') === 'Adhkar') { schedule(); return; }
+      }
+    });
+    mo.observe(document.body, { subtree: true, childList: true, attributes: true, attributeOldValue: true, attributeFilter: ['class', 'style'] });
+  }
+  var rt = null;
+  window.addEventListener('resize', function() { clearTimeout(rt); rt = setTimeout(schedule, 150); });
+  window._adhkarFitRows = fit;
+})();
 </script>
 
 </body>
