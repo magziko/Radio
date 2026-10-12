@@ -34328,9 +34328,15 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     sep.style.cssText = 'height:1px;margin:4px 6px;background:rgba(0,0,0,0.12);';
     menu.appendChild(sep);
 
-    // الشاشات الكبيرة: الست شاشات + المساعدة فقط (اللغة وإعادة التحميل والإخفاء بيفضلوا أزرار ظاهرة في الشريط)
+    // الشاشات الكبيرة: الست شاشات + المساعدة + إعادة التحميل + إخفاء الشاشة الترحيبية (اللغة بتفضل زر ظاهر في الشريط)
     if (!builtSmall) {
       menu.appendChild(row('❓', t[2], function() { close(); if (typeof toggleShortcutsModal === 'function') toggleShortcutsModal(); }));
+      var rbL = document.getElementById('reloadButton');
+      if (rbL && rbL.style.display !== 'none') {
+        menu.appendChild(row('🔄', t[3], function() { close(); if (typeof confirmReload === 'function') confirmReload(); }));
+      }
+      var hideTxtL = document.getElementById('welcomeTopHideTxt');
+      menu.appendChild(row('👁', hideTxtL ? hideTxtL.textContent.trim() : 'Hide', function() { close(); if (typeof toggleDisableWelcomeBtn === 'function') toggleDisableWelcomeBtn(); }));
       btn.setAttribute('aria-label', t[0]);
       return;
     }
