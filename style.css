@@ -10248,3 +10248,28 @@ body.dark-mode #welcome-top-bar #welcomeMoreBtn:hover {
   #welcome-top-bar #reloadButton { display: none !important; }
   #welcomeMoreWrap { display: inline-flex; }
 }
+
+/* ===== فلاتر الأقسام على الموبايل: صف واحد قابل للتمرير بدل شبكة 3 أعمدة × 4 صفوف (بيوفر حوالي 110px قبل أول محطة) ===== */
+@media (max-width: 767px) {
+  #filters-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 6px;
+    padding: 8px 8px 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #filters-container::-webkit-scrollbar { display: none; }
+  #filters-container::before { display: none; }
+  /* كل عناصر الصف (ومنهم زر ❤ المفضلة اللي مش .filter-button) ما تتضغطش: */
+  #filters-container > * {
+    flex: 0 0 auto;
+    width: auto;
+    white-space: nowrap;
+  }
+  /* وضع إعادة ترتيب الفلاتر محتاج الشبكة المتعددة الصفوف */
+  body.filters-reorder-mode #filters-container { flex-wrap: wrap; overflow: visible; }
+}
