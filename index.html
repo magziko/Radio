@@ -13768,6 +13768,7 @@ window._ptComputeDuha = _ptComputeDuha;
     pin:          ['تثبيت','Pin','Épingler','Fijar','Fäst','Vastmaken','Pinnáil','Anheften','Закрепить','Sabitle','Fixar','置顶','پن کریں'],
     unpin:        ['إلغاء التثبيت','Unpin','Détacher','Desfijar','Lossa','Losmaken','Díphinnáil','Loslösen','Открепить','Sabitlemeyi kaldır','Desafixar','取消置顶','پن ہٹائیں'],
     copy:         ['نسخ','Copy','Copier','Copiar','Kopiera','Kopiëren','Cóipeáil','Kopieren','Копировать','Kopyala','Copiar','复制','کاپی کریں'],
+    newNote:      ['ملاحظة جديدة','New note','Nouvelle note','Nueva nota','Ny anteckning','Nieuwe notitie','Nóta nua','Neue Notiz','Новая заметка','Yeni not','Nova nota','新建笔记','نیا نوٹ'],
     more:         ['المزيد','More','Plus','Más','Mer','Meer','Tuilleadh','Mehr','Ещё','Daha fazla','Mais','更多','مزید'],
     less:         ['أقل','Less','Moins','Menos','Mindre','Minder','Níos lú','Weniger','Меньше','Daha az','Menos','收起','کم'],
     expandAll:    ['فتح الكل','Expand all','Tout ouvrir','Abrir todo','Expandera alla','Alles uitklappen','Oscail gach ceann','Alle öffnen','Развернуть все','Tümünü aç','Abrir tudo','全部展开','سب کھولیں'],
@@ -13864,7 +13865,8 @@ window._ptComputeDuha = _ptComputeDuha;
   var editingId = null;   // معرّف الملاحظة قيد التعديل (أو null)
   var filterText = '';    // نص البحث
   var activeTagFilter = ''; // فلتر الفئة النشط في القائمة ('' = كل الفئات)
-  var ntExpanded = {};    // الملاحظات المفتوحة بالكامل (id → true)؛ الباقي بيتعرض مختصر
+  var ntForceOpen = false;   // المستخدم ضغط "ملاحظة جديدة" → مربع الكتابة يفضل مفتوح لحد الحفظ
+var ntExpanded = {};    // الملاحظات المفتوحة بالكامل (id → true)؛ الباقي بيتعرض مختصر
 var composeTag = '';    // الفئة المختارة للملاحظة اللي بتتكتب دلوقتي (أو المُعدَّلة)
   var draft = '';         // مسودة الملاحظة الجديدة اللي لسه ما اتحفظتش
   var draftTag = '';      // نسخة احتياطية من composeTag وقت الدخول في تعديل ملاحظة (ترجع عند الإلغاء)
@@ -13954,6 +13956,17 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     if (dictateBtn) dictateBtn.style.display = (!recording && ntDictateIsSupported()) ? '' : 'none';
     if (deviceRecBtn) deviceRecBtn.style.display = (!recording && ntDeviceRecIsSupported()) ? '' : 'none';
     if (pendRow) pendRow.style.display = (!recording && pendingAudio) ? 'flex' : 'none';
+    ntApplyComposerVisibility();
+  }
+  // مربع الكتابة بيتطوي لما فيه ملاحظات محفوظة ومفيش شغل جاري عليه، عشان القائمة تظهر أول (بدل ما تنزّل شاشة كاملة تحته)
+  function ntApplyComposerVisibility() {
+    var comp = g('ntComposer'), bar = g('ntNewBar'), ta = g('ntInput');
+    if (!comp || !bar) return;
+    var hasNotes = ntLoad().length > 0;
+    var recording = ntRec.recorder && ntRec.recorder.state === 'recording';
+    var busy = !hasNotes || ntForceOpen || !!editingId || recording || ntDict.active || !!(ta && ta.value.trim()) || !!pendingAudio;
+    comp.style.display = busy ? '' : 'none';
+    bar.style.display = busy ? 'none' : 'block';
   }
 
   function ntRenderList() {
@@ -14207,6 +14220,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     }
     if (!ntSave(notes)) { ntToast(nt('failed')); return; }
 
+    ntForceOpen = false;
     if (editingId) {
       editingId = null;
       ta.value = draft;
@@ -15026,6 +15040,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       '#notesPopup .nt-note{background:rgba(var(--theme-g1-rgb),0.07);border:1px solid ' + borderClr + ';border-radius:12px;padding:10px 12px;}' +
       '#notesPopup .nt-note.nt-editing{border-color:var(--theme-g1);}' +
       '#notesPopup .nt-text{font-size:14px;line-height:1.75;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;user-select:text;-webkit-user-select:text;}' +
+      '#notesPopup .nt-newbar{display:block;width:100%;padding:11px 14px;font-size:14px;font-weight:800;text-align:center;border-style:dashed;}' +
       '#notesPopup .nt-clamp{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden;}' +
       '#notesPopup .nt-more{display:inline-block;background:none;border:none;cursor:pointer;padding:3px 0 0;font-family:Cairo,sans-serif;font-size:12.5px;font-weight:800;color:var(--theme-g1);}' +
       '#notesPopup .nt-more[hidden]{display:none;}' +
@@ -15071,6 +15086,8 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
           '<button id="ntClose" type="button" aria-label="' + ntEsc(nt('close')) + '" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
         '</div>' +
         '<div style="padding:14px 16px 18px;">' +
+          '<button id="ntNewBar" type="button" class="nt-soft nt-newbar" style="display:none;">＋ ' + ntEsc(nt('newNote')) + '</button>' +
+          '<div id="ntComposer">' +
           '<textarea id="ntInput" class="nt-ta" dir="auto" rows="6" placeholder="' + ntEsc(nt('placeholder')) + '"></textarea>' +
           '<div id="ntDictatePreview" class="nt-dictate-preview" style="display:none;"></div>' +
           '<div class="nt-mic-row">' +
@@ -15096,6 +15113,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
           '<div class="nt-row">' +
             '<button id="ntSaveBtn" type="button" class="nt-primary"></button>' +
             '<button id="ntCancelBtn" type="button" class="nt-ghost" style="display:none;">' + ntEsc(nt('cancel')) + '</button>' +
+          '</div>' +
           '</div>' +
           '<input id="ntSearch" type="search" class="nt-search" dir="auto" placeholder="' + ntEsc(nt('search')) + '">' +
           '<div id="ntFilterRow" class="nt-filterrow" style="display:none;"></div>' +
@@ -15137,6 +15155,11 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     g('ntUndoBtn').addEventListener('click', ntUndoDelete);
     g('ntImportBtn').addEventListener('click', function() { g('ntImportInput').click(); });
     g('ntImportInput').addEventListener('change', function() { ntImportFile(this); });
+    g('ntNewBar').addEventListener('click', function() {
+      ntForceOpen = true;
+      ntApplyComposerVisibility();
+      var t0 = g('ntInput'); if (t0) { try { t0.focus(); } catch (e) {} }
+    });
     g('ntExpandAll').addEventListener('click', function() {
       var expand = this.getAttribute('data-mode') === 'expand';
       var cs = g('ntList').querySelectorAll('.nt-note');
