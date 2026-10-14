@@ -6947,7 +6947,10 @@ const moreTranslations = [{
 </script>
 <!-- ===== END MUSHAF SECTION ===== -->
 
-<div id="salah-pip-section">
+<div id="salah-pip-section" class="sp-collapsed">
+    <button type="button" id="sp-collapse-head" class="sp-collapse-head" aria-expanded="false" aria-controls="salah-pip-section">
+        <span class="sp-collapse-title">📿 المسبحة · Tasbih</span><span class="sp-collapse-arrow" aria-hidden="true">▾</span>
+    </button>
 
     
     <div class="sp-athkar-search-row sp-athkar-search-row-flex">
@@ -34302,6 +34305,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     ur: ['مزید', 'زبان', 'مدد اور شارٹ کٹس', 'دوبارہ لوڈ کریں']
   };
   var RTL = { ar: 1, ur: 1 };
+  var ADHAN_T = { ar: 'أذان تلقائي', en: 'Auto Adhan', fr: 'Adhan automatique', es: 'Adhan automático', sv: 'Automatisk adhan', nl: 'Automatische adhan', ga: 'Adhan uathoibríoch', de: 'Automatischer Adhan', ru: 'Автоматический азан', tr: 'Otomatik ezan', pt: 'Adhan automático', zh: '自动宣礼', ur: 'خودکار اذان' };
 
   // اختصارات الشاشات (نفس أزرار الأيقونات اللي في التذييل): [أيقونة, الدالة, الزر الأصلي, تسمية بـ 13 لغة]
   var SCREENS = [
@@ -34310,7 +34314,8 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     ['🕌', 'openPrayerTimesPopup', 'prayerTimesBtn', { ar: 'مواقيت الصلاة', en: 'Prayer times', fr: 'Horaires de prière', es: 'Horarios de oración', sv: 'Bönetider', nl: 'Gebedstijden', ga: 'Amanna urnaí', de: 'Gebetszeiten', ru: 'Время намаза', tr: 'Namaz vakitleri', pt: 'Horários de oração', zh: '礼拜时间', ur: 'نماز کے اوقات' }],
     ['🧮', 'openZakatCalculator', 'zakatCalcBtn', { ar: 'حاسبة الزكاة', en: 'Zakat calculator', fr: 'Calculateur de zakat', es: 'Calculadora de zakat', sv: 'Zakatkalkylator', nl: 'Zakat-calculator', ga: 'Áireamhán zakat', de: 'Zakat-Rechner', ru: 'Калькулятор закята', tr: 'Zekat hesaplayıcı', pt: 'Calculadora de zakat', zh: '天课计算器', ur: 'زکوٰۃ کیلکولیٹر' }],
     ['📗', 'openKhatmaTracker', 'khatmaTrackerBtn', { ar: 'متابعة الختمة', en: 'Khatma tracker', fr: 'Suivi de la Khatma', es: 'Seguimiento de la Jatma', sv: 'Khatma-spårare', nl: 'Khatma-tracker', ga: 'Rianaitheoir Khatma', de: 'Khatma-Tracker', ru: 'Трекер хатма', tr: 'Hatim takibi', pt: 'Acompanhamento da Khatma', zh: '诵读进度（Khatma）', ur: 'ختمہ ٹریکر' }],
-    ['📝', 'openNotes', 'notesBtn', { ar: 'ملاحظاتي', en: 'My notes', fr: 'Mes notes', es: 'Mis notas', sv: 'Mina anteckningar', nl: 'Mijn notities', ga: 'Mo nótaí', de: 'Meine Notizen', ru: 'Мои заметки', tr: 'Notlarım', pt: 'Minhas notas', zh: '我的笔记', ur: 'میرے نوٹس' }]
+    ['📝', 'openNotes', 'notesBtn', { ar: 'ملاحظاتي', en: 'My notes', fr: 'Mes notes', es: 'Mis notas', sv: 'Mina anteckningar', nl: 'Mijn notities', ga: 'Mo nótaí', de: 'Meine Notizen', ru: 'Мои заметки', tr: 'Notlarım', pt: 'Minhas notas', zh: '我的笔记', ur: 'میرے نوٹس' }],
+    ['📿', 'openTasbihSection', 'sp-collapse-head', { ar: 'المسبحة', en: 'Tasbih', fr: 'Chapelet (tasbih)', es: 'Tasbih', sv: 'Tasbih', nl: 'Tasbih', ga: 'Tasbih', de: 'Tasbih', ru: 'Тасбих', tr: 'Tesbih', pt: 'Tasbih', zh: '念珠（Tasbih）', ur: 'تسبیح' }]
   ];
   function openScreen(fn, btnId) {
     if (typeof window[fn] === 'function') { window[fn](); return; }
@@ -34321,6 +34326,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var l = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : ((typeof isArabic !== 'undefined' && isArabic) ? 'ar' : 'en');
     return T[l] ? l : 'en';
   }
+  var _selfClick = false;   // النقر البرمجي على شريط الأذان ما يتحسبش "ضغطة برا القائمة"
   function isOpen() { return menu.style.display === 'block'; }
   function close() {
     menu.style.display = 'none';
@@ -34347,6 +34353,31 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     SCREENS.forEach(function(sc) {
       menu.appendChild(row(sc[0], sc[3][l] || sc[3].en, function() { close(); openScreen(sc[1], sc[2]); }));
     });
+    // أذان تلقائي: صف بمفتاح تشغيل/إيقاف (نفس شريط "أذان تلقائي" اللي تحت قوائم المحطات)
+    var adWrap = document.getElementById('adhan-toggle-wrap'), adSw = document.getElementById('adhan-toggle-switch');
+    if (adWrap && adSw) {
+      var rowA = document.createElement('button');
+      rowA.type = 'button';
+      rowA.className = 'welcome-lang-option';
+      rowA.setAttribute('role', 'switch');
+      rowA.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:14px;';
+      var lblA = document.createElement('span');
+      lblA.textContent = '🕌  ' + (ADHAN_T[l] || ADHAN_T.en);
+      var trackA = document.createElement('span'), knobA = document.createElement('span');
+      trackA.appendChild(knobA);
+      var rtlA = !!RTL[l];
+      var paintA = function() {
+        var on = adSw.classList.contains('on');
+        trackA.style.cssText = 'position:relative;flex:0 0 auto;width:38px;height:20px;border-radius:20px;transition:background .2s;background:' + (on ? 'var(--theme-g1, #2e9d84)' : 'rgba(120,120,120,0.45)') + ';';
+        knobA.style.cssText = 'position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.35);transition:all .2s;' + (rtlA ? ('right:' + (on ? '20px' : '2px')) : ('left:' + (on ? '20px' : '2px'))) + ';';
+        rowA.setAttribute('aria-checked', on ? 'true' : 'false');
+      };
+      rowA.appendChild(lblA); rowA.appendChild(trackA);
+      rowA.addEventListener('click', function(e) { e.stopPropagation(); _selfClick = true; try { adWrap.click(); } finally { _selfClick = false; } paintA(); });
+      paintA();
+      menu.appendChild(rowA);
+    }
+
     var sep = document.createElement('div');
     sep.style.cssText = 'height:1px;margin:4px 6px;background:rgba(0,0,0,0.12);';
     menu.appendChild(sep);
@@ -34417,7 +34448,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     btn.setAttribute('aria-expanded', 'true');
     place();
   });
-  document.addEventListener('click', function(e) { if (isOpen() && !wrap.contains(e.target)) close(); });
+  document.addEventListener('click', function(e) { if (_selfClick) return; if (isOpen() && !wrap.contains(e.target)) close(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && isOpen()) close(); });
   window.addEventListener('resize', function() {
     if (!isOpen()) return;
@@ -34506,6 +34537,27 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   var rt = null;
   window.addEventListener('resize', function() { clearTimeout(rt); rt = setTimeout(schedule, 150); });
   window._adhkarFitRows = fit;
+})();
+// ===================================================================
+// المسبحة: قسم قابل للطي في مكانه القديم (مقفول افتراضيًا، والحالة بتتحفظ) + دالة تفتحه وتنزل له من قائمة ⋮
+// ===================================================================
+(function() {
+  var sec = document.getElementById('salah-pip-section');
+  var head = document.getElementById('sp-collapse-head');
+  if (!sec || !head) return;
+  var KEY = 'spSectionOpen';
+  function setOpen(open, persist) {
+    sec.classList.toggle('sp-collapsed', !open);
+    head.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (persist !== false) { try { localStorage.setItem(KEY, open ? '1' : '0'); } catch (e) {} }
+  }
+  var saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setOpen(saved === '1', false);
+  head.addEventListener('click', function() { setOpen(sec.classList.contains('sp-collapsed')); });
+  window.openTasbihSection = function() {
+    setOpen(true);
+    setTimeout(function() { try { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { sec.scrollIntoView(); } }, 60);
+  };
 })();
 </script>
 
