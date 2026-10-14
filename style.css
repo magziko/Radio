@@ -10273,3 +10273,29 @@ body.dark-mode #welcome-top-bar #welcomeMoreBtn:hover {
   /* وضع إعادة ترتيب الفلاتر محتاج الشبكة المتعددة الصفوف */
   body.filters-reorder-mode #filters-container { flex-wrap: wrap; overflow: visible; }
 }
+
+/* ===== المسبحة: قسم قابل للطي (📿 المسبحة ▾) في مكانه القديم ===== */
+#salah-pip-section { scroll-margin-top: 112px; }
+.sp-collapse-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+  font-family: 'Cairo', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--theme-g2);
+}
+body.dark-mode .sp-collapse-head { color: #5DCAA5; }
+.sp-collapse-arrow { transition: transform 0.2s ease; }
+#salah-pip-section:not(.sp-collapsed) .sp-collapse-arrow { transform: rotate(180deg); }
+#salah-pip-section:not(.sp-collapsed) .sp-collapse-head { margin-bottom: 10px; }
+#salah-pip-section.sp-collapsed > :not(.sp-collapse-head) { display: none !important; }
+#salah-pip-section.sp-collapsed { padding-top: 10px; padding-bottom: 10px; }
+@media (min-width: 768px) {
+  .sp-collapse-head { font-size: 18px; }
+}
