@@ -15440,7 +15440,10 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
             <span class="footer-listen-stats-icon">📗</span>
             <span id="khStreakBadge" style="display:none;position:absolute;top:-4px;left:-6px;background:#ff7043;color:#fff;font-size:9px;font-weight:800;line-height:1;padding:2px 4px;border-radius:8px;min-width:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></span>
         </button>
-        <button id="notesBtn" class="footer-listen-stats-btn" onclick="openNotes()" title="ملاحظاتي / My Notes" aria-label="My Notes">
+        <button id="tasbihShortcutBtn" class="footer-listen-stats-btn" onclick="openTasbihSection()" title="المسبحة / Tasbih" aria-label="Tasbih">
+<span class="footer-listen-stats-icon">📿</span>
+</button>
+<button id="notesBtn" class="footer-listen-stats-btn" onclick="openNotes()" title="ملاحظاتي / My Notes" aria-label="My Notes">
 <span class="footer-listen-stats-icon">📝</span>
 </button>
 </div>
@@ -34555,6 +34558,8 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   setOpen(saved === '1', false);
   head.addEventListener('click', function() { setOpen(sec.classList.contains('sp-collapsed')); });
   window.openTasbihSection = function() {
+    // بعض الفلاتر بتخفي القسم (display:none) — لو الاختصار اتضغط نظهره بالقوة (أول تغيير فلتر بعد كده بيرجّع سلوكه الطبيعي)
+    if (getComputedStyle(sec).display === 'none') sec.style.display = 'block';
     setOpen(true);
     setTimeout(function() { try { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { sec.scrollIntoView(); } }, 60);
   };
