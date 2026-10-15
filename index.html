@@ -16653,6 +16653,16 @@ function toggleFavoritesView() {
   viewFavoritesButton.classList.toggle('selected', showingFavorites);
 
   refreshFavoritesListDisplay();
+
+  // نفس سلوك باقي الفلاتر: سكرول لأول زر ظاهر بعد تبديل عرض المفضلة
+  if (_userPickedFilter && typeof smartScrollToStations === 'function') {
+    setTimeout(function() {
+      var _favFirst = Array.from(
+        document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)')
+      ).find(function(b) { return b.style.display !== 'none' && b.offsetParent !== null; });
+      smartScrollToStations(_favFirst, 0);
+    }, 60);
+  }
 }
 
 function switchToNextButton() {
@@ -17065,6 +17075,14 @@ document.getElementById('nextButton').addEventListener('click', function() {
 });
 
 let _userPickedFilter = false;
+// الفلاتر بتشتغل بـ onclick داخل الـ HTML، وده بيتنفذ قبل أي addEventListener عادي — فكان العلم ده بيفضل false
+// في أول ضغطة. هنا بنعلّمه في مرحلة الـ capture (بتسبق الـ onclick) عشان السكرول يشتغل من أول ضغطة
+document.addEventListener('click', function(e) {
+  var t = e.target;
+  if (t && t.closest && t.closest('.filter-button, #viewFavoritesButton, .adhkar-sub-btn, .sira-sub-btn, .more-sub-btn, .livetv-sub-btn, .qurankarim-sub-btn, .quransciences-sub-btn, .radio-sub-btn, .reciters-sub-btn, .mix-sub-btn, .banna-sub-btn, .hussary-sub-btn, .minshawi-sub-btn, .basit-sub-btn')) {
+    _userPickedFilter = true;
+  }
+}, true);
 
 function smartScrollToStations(firstVisibleBtn, extraDelay) {
   if (!firstVisibleBtn) return;
@@ -17087,14 +17105,10 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
 
     if (filtersEl) stickyH += filtersEl.offsetHeight;
 
-    if (adhkarSub && adhkarSub.classList.contains('visible')) stickyH += adhkarSub.offsetHeight;
-    if (moreSub && moreSub.classList.contains('visible')) stickyH += moreSub.offsetHeight;
-    var siraSub2 = document.getElementById('sira-subfilter');
-    if (siraSub2 && siraSub2.classList.contains('visible')) stickyH += siraSub2.offsetHeight;
-    var mixSub2 = document.getElementById('mix-subfilter');
-    if (mixSub2 && mixSub2.classList.contains('visible')) stickyH += mixSub2.offsetHeight;
-    var recitersSub2 = document.getElementById('reciters-subfilter');
-    if (recitersSub2 && recitersSub2.classList.contains('visible')) stickyH += recitersSub2.offsetHeight;
+    // كل شرائط الفلاتر الفرعية الظاهرة (أذكار/المزيد/سيرة/محطات إسلامية/قراء/بث مرئي/قرآن كريم/علوم/إذاعات)
+    document.querySelectorAll('.subfilter-scroll-wrap.visible').forEach(function(el) {
+      stickyH += el.offsetHeight;
+    });
 
     var w = window.innerWidth;
     var gap = w <= 600 ? 10 : w <= 1024 ? 14 : 18;
@@ -17304,7 +17318,9 @@ function filterStations(category) {
   // للفلاتر بدون subfilter: _showSubfilter مش بتتنادى فنحدّث الـ indices هنا
   if (!_hasSubFilter) updateButtonIndices();
 
-  if (_userPickedFilter && !_hasSubFilter) {
+  // الفلاتر اللي ليها فلتر فرعي (القراء/إذاعات/سيرة/...) مكانتش بتسكرول لأن _showSubfilter بتتنادى من غير callback
+  // (على عكس الأذكار اللي بتسكرول من filterAdhkarSub) — فبنسكرول هنا لكل الفلاتر ما عدا الأذكار
+  if (_userPickedFilter && category !== 'Adhkar') {
     var _firstVisible = Array.from(
       document.querySelectorAll('.button:not(#prevButton):not(#nextButton):not(#randomButton)')
     ).find(function(b) {
