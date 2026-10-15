@@ -1109,12 +1109,27 @@ var autoInterval = null;
 
 var _lastToastTime = 0;
 
-function showToast(message) {
+function showToast(message, opts) {
   var now = Date.now();
   if (now - _lastToastTime < 3500) return;
   _lastToastTime = now;
   var toast = document.createElement("div");
   toast.textContent = message;
+  // opts (اختيارى): { actionLabel, onAction, duration } — زر إجراء داخل الإشعار (مثل "تراجع")
+  var _duration = 3000;
+  if (opts && opts.actionLabel && typeof opts.onAction === 'function') {
+    _duration = opts.duration || 6000;
+    var _actBtn = document.createElement('button');
+    _actBtn.textContent = opts.actionLabel;
+    _actBtn.style.cssText = 'margin-inline-start:12px;padding:4px 12px;border:none;border-radius:14px;' +
+      'background:#fff;color:#111;font-weight:700;font-size:13px;font-family:inherit;cursor:pointer;';
+    _actBtn.onclick = function(ev) {
+      ev.stopPropagation();
+      toast.remove();
+      try { opts.onAction(); } catch (e) {}
+    };
+    toast.appendChild(_actBtn);
+  }
   toast.style.cssText = [
     'position:fixed', 'bottom:20px', 'left:50%',
     'transform:translateX(-50%)',
@@ -1122,12 +1137,12 @@ function showToast(message) {
     'padding:10px 20px', 'border-radius:22px',
     'font-size:14px', 'z-index:9999',
     'box-shadow:0 5px 15px rgba(0,0,0,0.3)',
-    'animation:fadeInOut 3s forwards'
+    'animation:fadeInOut ' + (_duration / 1000) + 's forwards'
   ].join(';');
   document.body.appendChild(toast);
   setTimeout(function() {
     toast.remove();
-  }, 3000);
+  }, _duration);
 }
 
 // متغيرات حماية الـ error handlers
@@ -2942,6 +2957,33 @@ setTimeout(autoScaleVerseFont, 100);
     <div id="adhkarAutoAdvanceToggle" class="mini-toggle-switch" role="switch" aria-checked="true" tabindex="0"
       onclick="toggleAdhkarAutoAdvance()"
       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAdhkarAutoAdvance();}"
+      style="margin-inline-start:auto;"></div>
+  </div>
+
+  <div id="adhkar-vibrate-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <span data-ar="📳 اهتزاز عند الانتقال للذكر التالى" data-en="📳 Vibrate on moving to next dhikr"
+      style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">📳 اهتزاز عند الانتقال للذكر التالى</span>
+
+    <span data-ar="اهتزاز خفيف على الموبايل عند الانتقال للذكر التالى (لا يعمل على بعض الأجهزة مثل آيفون)" data-en="A light vibration on mobile when moving to the next dhikr (not supported on some devices such as iPhone)"
+      style="font-size:12px;color:var(--theme-c3);">اهتزاز خفيف على الموبايل عند الانتقال للذكر التالى (لا يعمل على بعض الأجهزة مثل آيفون)</span>
+
+    <div id="adhkarVibrateToggle" class="mini-toggle-switch on" role="switch" aria-checked="true" tabindex="0"
+      onclick="toggleAdhkarVibrate()"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAdhkarVibrate();}"
       style="margin-inline-start:auto;"></div>
   </div>
 
@@ -18280,6 +18322,7 @@ function toggleTasbihAutoFromBox(event) {
   _adhkarAutoAdvancePaused = !_adhkarAutoAdvancePaused;
 
   var _slowedDownNow = false;
+  var _paceBeforeSlow = null;
 
   if (_adhkarAutoAdvancePaused) {
     // إشارة ذكية: لو المستخدم ضغط زرار الإيقاف وهو لسه جوّا مهلة قراءة ذكر
@@ -18295,6 +18338,7 @@ function toggleTasbihAutoFromBox(event) {
       b.classList.remove('tasbih-hint-visible');
     });
     if (_wasCountingDown && _getTasbihPaceFactor() < TASBIH_PACE_MAX - 0.001) {
+      _paceBeforeSlow = _getTasbihPaceFactor();
       var _updatedPace = Math.min(TASBIH_PACE_MAX, _getTasbihPaceFactor() + TASBIH_SPEED_STEP);
       localStorage.setItem(TASBIH_PACE_KEY, _updatedPace.toFixed(3));
       if (typeof _updateTasbihSpeedLabel === 'function') _updateTasbihSpeedLabel();
@@ -18315,7 +18359,8 @@ function toggleTasbihAutoFromBox(event) {
     var _speedNow = _getTasbihSpeedLabelText();
     showToast(isAr ?
       ('🐢 تم تبطيء سرعة العدّ التلقائى — السرعة الحالية: ' + _speedNow) :
-      ('🐢 Auto-count slowed down — current speed: ' + _speedNow));
+      ('🐢 Auto-count slowed down — current speed: ' + _speedNow),
+      { actionLabel: isAr ? '↩ تراجع' : '↩ Undo', onAction: function() { _undoTasbihPaceChange(_paceBeforeSlow); } });
   }
 }
 (function initAdhkarAutoAdvanceSetting() {
@@ -25863,6 +25908,29 @@ function _getTasbihSequence() {
 // false لو معرفتش تنقل (آخر ذكر فى التسلسل، أو الزر مش موجود فى التسلسل
 // الحالى). المستدعيين بيستخدموا القيمة دي عشان يعرفوا هل يسيبوا activeTasbih
 // زي ما هو (لأنه اتحدث فعلاً) ولا يرجّعوه هما بنفسهم للزر الحالى
+function _adhkarVibrateEnabled() {
+  try { return localStorage.getItem('adhkarVibrateOnAdvance') !== '0'; } catch (e) { return true; }
+}
+function _vibrateOnAdhkarAdvance() {
+  if (!_adhkarVibrateEnabled()) return;
+  try { if (navigator.vibrate) navigator.vibrate(40); } catch (e) {}
+}
+function _applyAdhkarVibrateToggle() {
+  var t = document.getElementById('adhkarVibrateToggle');
+  if (!t) return;
+  var on = _adhkarVibrateEnabled();
+  t.classList.toggle('on', on);
+  t.setAttribute('aria-checked', on ? 'true' : 'false');
+}
+function toggleAdhkarVibrate() {
+  var on = !_adhkarVibrateEnabled();
+  try { localStorage.setItem('adhkarVibrateOnAdvance', on ? '1' : '0'); } catch (e) {}
+  _applyAdhkarVibrateToggle();
+  if (on) { try { if (navigator.vibrate) navigator.vibrate(40); } catch (e) {} }
+}
+document.addEventListener('DOMContentLoaded', _applyAdhkarVibrateToggle);
+_applyAdhkarVibrateToggle();
+
 function advanceTasbihFocus(currentButton) {
   var seq = _getTasbihSequence();
   var idx = seq.indexOf(currentButton);
@@ -25882,6 +25950,9 @@ function advanceTasbihFocus(currentButton) {
 
   if (next) {
     setTasbihFocus(next);
+
+    // اهتزاز خفيف عند الانتقال للذكر التالى (لو مفعّل من الإعدادات)
+    _vibrateOnAdhkarAdvance();
 
     // تحديث الهدف النشط لزر لوحة المفاتيح "." عشان يكمّل على الذكر التالى تلقائيًا
     var nextBox = next.querySelector('.tasbih-box');
@@ -25989,6 +26060,17 @@ function resetTasbihSpeed() {
 }
 
 // اسم السرعة الحالية للعدّ التلقائى (سريعة جدًا / سريعة / عادية / بطيئة / بطيئة جدًا)
+// بترجّع معامل السرعة لقيمته السابقة (زر "تراجع" فى إشعارات تغيير السرعة التلقائى)
+function _undoTasbihPaceChange(previousPace) {
+  localStorage.setItem(TASBIH_PACE_KEY, Number(previousPace).toFixed(3));
+  if (typeof _updateTasbihSpeedLabel === 'function') _updateTasbihSpeedLabel();
+  var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
+  if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0;
+  showToast(isAr ?
+    ('↩ تم الرجوع للسرعة السابقة — ' + _getTasbihSpeedLabelText()) :
+    ('↩ Speed restored — ' + _getTasbihSpeedLabelText()));
+}
+
 function _getTasbihSpeedLabelText() {
   var factor = _getTasbihPaceFactor();
   var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
@@ -26044,6 +26126,7 @@ function _learnTasbihFastRead(elapsedRatio) {
   if (updated < TASBIH_PACE_MIN) updated = TASBIH_PACE_MIN;
   if (updated > TASBIH_PACE_MAX) updated = TASBIH_PACE_MAX;
   var _labelBefore = _getTasbihSpeedLabelText();
+  var _paceBefore = current;
   localStorage.setItem(TASBIH_PACE_KEY, updated.toFixed(3));
   if (typeof _updateTasbihSpeedLabel === 'function') _updateTasbihSpeedLabel();
   // إشعار بس لما درجة السرعة (الاسم) تزيد فعلاً — مش مع كل تسبيحة
@@ -26053,7 +26136,8 @@ function _learnTasbihFastRead(elapsedRatio) {
     if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0;
     showToast(_isArL ?
       ('🐇 تم تسريع العدّ التلقائى — السرعة الحالية: ' + _labelAfter) :
-      ('🐇 Auto-count sped up — current speed: ' + _labelAfter));
+      ('🐇 Auto-count sped up — current speed: ' + _labelAfter),
+      { actionLabel: _isArL ? '↩ تراجع' : '↩ Undo', onAction: function() { _undoTasbihPaceChange(_paceBefore); } });
   }
 }
 
