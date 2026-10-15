@@ -18307,12 +18307,18 @@ function toggleTasbihAutoFromBox(event) {
 
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
   if (typeof showToast === 'function') {
+    // إشعار الإيقاف/الاستئناف لازم يظهر دايمًا، حتى لو إشعار سرعة التسبيح
+    // اليدوى لسه ظاهر قبله بثوانى (showToast بيتجاهل أى إشعار قبل 3.5 ثانية)
+    if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0;
+    var _speedNow = _getTasbihSpeedLabelText();
     if (_slowedDownNow) {
-      showToast(isAr ? '⏸ تم الإيقاف، وتبطيء سرعة العدّ التلقائى تلقائيًا 🐢' : '⏸ Stopped — auto-count speed slowed down automatically 🐢');
+      showToast(isAr ?
+        ('⏸ تم الإيقاف، وتبطيء سرعة العدّ التلقائى 🐢 — السرعة الحالية: ' + _speedNow) :
+        ('⏸ Stopped — auto-count slowed down 🐢 — current speed: ' + _speedNow));
     } else {
       showToast(_adhkarAutoAdvancePaused ?
-        (isAr ? '⏸ تم إيقاف العدّ التلقائى (اضغط تانى للاستئناف)' : '⏸ Auto-count stopped (tap again to resume)') :
-        (isAr ? '▶️ تم استئناف العدّ التلقائى' : '▶️ Auto-count resumed'));
+        (isAr ? ('⏸ تم إيقاف العدّ التلقائى (اضغط تانى للاستئناف) — السرعة الحالية: ' + _speedNow) : ('⏸ Auto-count stopped (tap again to resume) — current speed: ' + _speedNow)) :
+        (isAr ? ('▶️ تم استئناف العدّ التلقائى — السرعة الحالية: ' + _speedNow) : ('▶️ Auto-count resumed — current speed: ' + _speedNow)));
     }
   }
 }
@@ -25986,26 +25992,41 @@ function resetTasbihSpeed() {
   }
 }
 
+// اسم السرعة الحالية للعدّ التلقائى (سريعة جدًا / سريعة / عادية / بطيئة / بطيئة جدًا)
+function _getTasbihSpeedLabelText() {
+  var factor = _getTasbihPaceFactor();
+  var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
+  if (factor <= TASBIH_PACE_MIN + 0.05) {
+    return isAr ? 'سريعة جدًا' : 'Fastest';
+  } else if (factor < 0.85) {
+    return isAr ? 'سريعة' : 'Fast';
+  } else if (factor <= 1.15) {
+    return isAr ? 'عادية' : 'Normal';
+  } else if (factor < TASBIH_PACE_MAX - 0.05) {
+    return isAr ? 'بطيئة' : 'Slow';
+  }
+  return isAr ? 'بطيئة جدًا' : 'Slowest';
+}
+
+// إشعار بالسرعة الحالية للتسبيح التلقائى عند الضغط اليدوى على التسبيح
+function _showTasbihSpeedOnManualTap() {
+  if (!_adhkarAutoAdvanceOn) return; // الانتقال التلقائى مقفول من الإعدادات
+  if (typeof showToast !== 'function') return;
+  var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
+  var speed = _getTasbihSpeedLabelText();
+  var paused = !!_adhkarAutoAdvancePaused;
+  showToast(isAr ?
+    ('⚡ سرعة التسبيح التلقائى الحالية: ' + speed + (paused ? ' (متوقف الآن)' : '')) :
+    ('⚡ Current auto-count speed: ' + speed + (paused ? ' (paused)' : '')));
+}
+
 function _updateTasbihSpeedLabel() {
   // بيحدّث كل عناصر عرض حالة السرعة فى التطبيق (شاشة إعدادات الأذكار وزرار
   // التسبيح الرئيسي) لأنهم بيشاركوا نفس معامل السرعة الموحّد (TASBIH_PACE_KEY)
   var el = document.getElementById('tasbihSpeedLabel');
   var spEl = document.getElementById('sp-speed-value');
   if (!el && !spEl) return;
-  var factor = _getTasbihPaceFactor();
-  var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
-  var label;
-  if (factor <= TASBIH_PACE_MIN + 0.05) {
-    label = isAr ? 'سريعة جدًا' : 'Fastest';
-  } else if (factor < 0.85) {
-    label = isAr ? 'سريعة' : 'Fast';
-  } else if (factor <= 1.15) {
-    label = isAr ? 'عادية' : 'Normal';
-  } else if (factor < TASBIH_PACE_MAX - 0.05) {
-    label = isAr ? 'بطيئة' : 'Slow';
-  } else {
-    label = isAr ? 'بطيئة جدًا' : 'Slowest';
-  }
+  var label = _getTasbihSpeedLabelText();
   if (el) el.textContent = label;
   if (spEl) spEl.textContent = label;
 }
@@ -26412,6 +26433,7 @@ function incrementTasbih(event) {
     _clearTasbihAdvanceTimer();
   }
   _clearTasbihNextHint(button);
+  _showTasbihSpeedOnManualTap();
 
   const key = "tasbih_" + button.getAttribute("data-station");
   const countEl = box.querySelector(".tasbih-count");
@@ -29770,6 +29792,7 @@ function incrementTasbihKeyboard(box) {
     _clearTasbihAdvanceTimer();
   }
   _clearTasbihNextHint(button);
+  _showTasbihSpeedOnManualTap();
 
   const key = "tasbih_" + button.getAttribute("data-station");
   const target = parseInt(button.dataset.target) || 0;
