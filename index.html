@@ -17084,7 +17084,9 @@ document.addEventListener('click', function(e) {
   }
 }, true);
 
-function smartScrollToStations(firstVisibleBtn, extraDelay) {
+// forceToButton = true: التنقل بين الأذكار (الذكر التالى / أول ذكر لسه / استكمال الجلسة) —
+// السكرول لازم يروح للذكر نفسه (السلوك القديم) مش لأعلى الفلاتر الفرعية
+function smartScrollToStations(firstVisibleBtn, extraDelay, forceToButton) {
   var delay = extraDelay || 60;
 
   setTimeout(function() {
@@ -17109,7 +17111,7 @@ function smartScrollToStations(firstVisibleBtn, extraDelay) {
       document.querySelectorAll('.subfilter-scroll-wrap.visible'),
       function(el) { return el.offsetParent !== null; }
     );
-    if (visibleSubs.length) {
+    if (visibleSubs.length && !(forceToButton && firstVisibleBtn)) {
       var subTop = visibleSubs[0].getBoundingClientRect().top + scrollY;
       var subY = subTop - stickyTopH - 6;
       if (subY < 0) subY = 0;
@@ -18305,21 +18307,15 @@ function toggleTasbihAutoFromBox(event) {
   }
   _refreshTasbihAutoToggleButtons();
 
-  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-  if (typeof showToast === 'function') {
-    // إشعار الإيقاف/الاستئناف لازم يظهر دايمًا، حتى لو إشعار سرعة التسبيح
-    // اليدوى لسه ظاهر قبله بثوانى (showToast بيتجاهل أى إشعار قبل 3.5 ثانية)
+  // الإشعار بيظهر بس لما السرعة تتغيّر (التبطيء التلقائى عند الإيقاف قبل انتهاء مهلة القراءة)،
+  // أما الإيقاف/الاستئناف العادى فبدون إشعار
+  if (_slowedDownNow && typeof showToast === 'function') {
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
     if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0;
     var _speedNow = _getTasbihSpeedLabelText();
-    if (_slowedDownNow) {
-      showToast(isAr ?
-        ('⏸ تم الإيقاف، وتبطيء سرعة العدّ التلقائى 🐢 — السرعة الحالية: ' + _speedNow) :
-        ('⏸ Stopped — auto-count slowed down 🐢 — current speed: ' + _speedNow));
-    } else {
-      showToast(_adhkarAutoAdvancePaused ?
-        (isAr ? ('⏸ تم إيقاف العدّ التلقائى (اضغط تانى للاستئناف) — السرعة الحالية: ' + _speedNow) : ('⏸ Auto-count stopped (tap again to resume) — current speed: ' + _speedNow)) :
-        (isAr ? ('▶️ تم استئناف العدّ التلقائى — السرعة الحالية: ' + _speedNow) : ('▶️ Auto-count resumed — current speed: ' + _speedNow)));
-    }
+    showToast(isAr ?
+      ('🐢 تم تبطيء سرعة العدّ التلقائى — السرعة الحالية: ' + _speedNow) :
+      ('🐢 Auto-count slowed down — current speed: ' + _speedNow));
   }
 }
 (function initAdhkarAutoAdvanceSetting() {
@@ -18693,7 +18689,7 @@ function toggleTasbihAutoFromBox(event) {
       if (box && typeof activeTasbih !== 'undefined') activeTasbih = box;
 
       if (typeof smartScrollToStations === 'function') {
-        smartScrollToStations(target, 80);
+        smartScrollToStations(target, 80, true);
       } else if (typeof target.scrollIntoView === 'function') {
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
@@ -25203,7 +25199,7 @@ function _goToFirstUnfinishedAdhkar(type) {
   if (box && typeof activeTasbih !== 'undefined') activeTasbih = box;
 
   if (typeof smartScrollToStations === 'function') {
-    smartScrollToStations(target, 80);
+    smartScrollToStations(target, 80, true);
   } else if (typeof target.scrollIntoView === 'function') {
     target.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
@@ -25892,7 +25888,7 @@ function advanceTasbihFocus(currentButton) {
     if (nextBox) activeTasbih = nextBox;
 
     if (typeof smartScrollToStations === 'function') {
-      smartScrollToStations(next, 80);
+      smartScrollToStations(next, 80, true);
     } else if (typeof next.scrollIntoView === 'function') {
       next.scrollIntoView({
         behavior: 'smooth',
@@ -26010,6 +26006,9 @@ function _getTasbihSpeedLabelText() {
 
 // إشعار بالسرعة الحالية للتسبيح التلقائى عند الضغط اليدوى على التسبيح
 function _showTasbihSpeedOnManualTap() {
+  // إشعار السرعة بقى بيظهر بس لما السرعة تتغيّر فعلاً (أزرار 🐢/🐇، أو التبطيء التلقائى
+  // عند الإيقاف) — مش مع كل ضغطة/تنقل
+  return;
   if (!_adhkarAutoAdvanceOn) return; // الانتقال التلقائى مقفول من الإعدادات
   if (typeof showToast !== 'function') return;
   var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
