@@ -14843,11 +14843,9 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
 
     var recognition = new SpeechRecognitionCtor();
     ntDict.recognition = recognition;
-    var sessionFinalSoFar = ''; // كل النص النهائي اللي وصلنا في الجلسة (نسخة الاستماع) الحالية بس
-    var lastInterim = ''; // آخر تخمين مؤقت شفناه (لسه ما اتأكدش كـ"نهائي") — لو الجلسة اتقفلت من غير
-                           // ما يتأكد منه المتصفح، ده كان بيضيع رغم إنه كان مكتوب واضح في المعاينة
-    // معرّف فريد للجلسة دي: لو جه حدث متأخر من جلسة سابقة اتقفلت بالفعل (وقت
-    // إعادة الفتح التلقائي) بنتجاهله بدل ما يكرر النص أو يلخبط الحساب
+    var baseText = ta.value;   // نص الملاحظة قبل بداية الجلسة دي (بنبني عليه، مش بنزوّد عليه حتة حتة)
+    var lastInterim = '';      // آخر تخمين مؤقت (لسه مش نهائي)
+    var lastFinalText = '';    // آخر نص نهائي مكتوب في الملاحظة من الجلسة دي
     var mySessionId = ++ntDict.sessionCounter;
     ntDict.currentSessionId = mySessionId;
     recognition.lang = recogLang;
@@ -14861,36 +14859,41 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       btn.title = nt('dictateListening');
     }
 
-    // بتضيف نص جديد للملاحظة نفسها (مش المعاينة) — نص واحد يتكرر استخدامه من
-    // أكتر من مكان (لما يتأكد المتصفح من الكلام، ولما نضطر نستخدم آخر تخمين
-    // مؤقت عند إغلاق الجلسة)
-    function _commitDictatedText(text) {
-      if (!text) return;
-      var sep = (ta.value && !/\s$/.test(ta.value)) ? ' ' : '';
-      ta.value = ta.value + (ta.value ? sep : '') + text;
+    // كتابة النص في الملاحظة = النص الأساسي + اللي اتسمع في الجلسة (بنستبدل، مش بنضيف)
+    function _writeTranscript(txt) {
+      var sep = (baseText && txt && !/\s$/.test(baseText)) ? ' ' : '';
+      ta.value = baseText + sep + txt;
       if (!editingId) draft = ta.value;
       ta.dispatchEvent(new Event('input'));
     }
 
-    recognition.onresult = function(event) {
-      if (mySessionId !== ntDict.currentSessionId) return; // حدث متأخر من جلسة سابقة اتقفلت بالفعل
-      // بنجمّع كل النص النهائي في الجلسة من أول نتيجة لحد آخر واحدة في كل
-      // مرة، ونقارنه باللي كان عندنا قبل كده — ونضيف بس الفرق الحقيقي لو
-      // كان امتداد جديد فعلاً، عشان لو المتصفح رجّعلنا نفس النص القديم أو
-      // أقصر منه (بگ معروف بيحصل أحيانًا) نتجاهله من غير ما نكرره
-      var fullFinal = '', interimChunk = '';
+    // أندرويد/كروم بيبعت كل نتيجة كنص "تراكمي" (السلام / السلام عليكم / السلام عليكم ورحمة الله...)
+    // وأحيانًا كلهم isFinal=true، فلو اتجمعوا ورا بعض النص بيتكرر. هنا بنشيل التراكم:
+    // لو النتيجة الجديدة بتبدأ بالنتيجة اللي قبلها بنستبدلها، ولو أقصر/نفسها بنتجاهلها
+    function _collapse(event) {
+      var items = [];
       for (var i = 0; i < event.results.length; i++) {
         var res = event.results[i];
-        var t = res && res[0] ? res[0].transcript : '';
-        if (res.isFinal) fullFinal += (fullFinal && !/\s$/.test(fullFinal) ? ' ' : '') + t.trim();
-        else interimChunk += t;
+        var t = (res && res[0] ? res[0].transcript : '').trim();
+        if (!t) continue;
+        var last = items[items.length - 1];
+        if (last && t.indexOf(last.t) === 0) { last.t = t; last.f = res.isFinal; }
+        else if (last && last.t.indexOf(t) === 0) { if (res.isFinal) last.f = true; }
+        else items.push({ t: t, f: res.isFinal });
       }
-      if (fullFinal && fullFinal.length > sessionFinalSoFar.length && fullFinal.indexOf(sessionFinalSoFar) === 0) {
-        var delta = fullFinal.slice(sessionFinalSoFar.length).trim();
-        sessionFinalSoFar = fullFinal;
-        if (delta) _commitDictatedText(delta);
+      var fin = [], intr = [];
+      items.forEach(function(it) { (it.f ? fin : intr).push(it.t); });
+      return { finalText: fin.join(' '), interimText: intr.join(' ') };
+    }
+
+    recognition.onresult = function(event) {
+      if (mySessionId !== ntDict.currentSessionId) return; // حدث متأخر من جلسة سابقة اتقفلت بالفعل
+      var r = _collapse(event);
+      if (r.finalText !== lastFinalText) {
+        lastFinalText = r.finalText;
+        _writeTranscript(lastFinalText);
       }
-      lastInterim = interimChunk.trim();
+      lastInterim = r.interimText;
       var preview = g('ntDictatePreview');
       if (preview) {
         if (lastInterim) { preview.textContent = lastInterim; preview.style.display = ''; }
@@ -14930,7 +14933,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       // الجلسة اتقفلت (سواء هتتفتح تاني أو لأ)، بنضيفه للملاحظة بدل ما
       // نسيبه يضيع، لأنه كان واضح وصحيح في المعاينة قبل ما يختفي
       if (lastInterim) {
-        _commitDictatedText(lastInterim);
+        _writeTranscript((lastFinalText ? lastFinalText + ' ' : '') + lastInterim);
         lastInterim = '';
         var preview0 = g('ntDictatePreview');
         if (preview0) { preview0.textContent = ''; preview0.style.display = 'none'; }
