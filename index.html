@@ -14877,8 +14877,11 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
         var t = (res && res[0] ? res[0].transcript : '').trim();
         if (!t) continue;
         var last = items[items.length - 1];
-        if (last && t.indexOf(last.t) === 0) { last.t = t; last.f = res.isFinal; }
-        else if (last && last.t.indexOf(t) === 0) { if (res.isFinal) last.f = true; }
+        // نص أطول بيبدأ بالنص اللي قبله = نفس الجملة بتكبر (تراكمي) → نستبدل
+        if (last && t.length > last.t.length && t.indexOf(last.t) === 0) { last.t = t; last.f = res.isFinal; }
+        // نص أقصر وهو بداية النص اللي قبله = نسخة قديمة من نفس الجملة → نتجاهله
+        else if (last && t.length < last.t.length && last.t.indexOf(t) === 0) { if (res.isFinal) last.f = true; }
+        // غير كده (حتى لو نفس الكلام اتقال تاني) = جملة جديدة فعلاً
         else items.push({ t: t, f: res.isFinal });
       }
       var fin = [], intr = [];
@@ -14886,19 +14889,17 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       return { finalText: fin.join(' '), interimText: intr.join(' ') };
     }
 
+    // بنكتب النهائي + المؤقت في الملاحظة مباشرة (عشان الكلام يظهر طول ما بتتكلم
+    // ومايبانش إنه وقف)، وكل مرة بنستبدل النص بدل ما نضيف عليه فمفيش تكرار
     recognition.onresult = function(event) {
       if (mySessionId !== ntDict.currentSessionId) return; // حدث متأخر من جلسة سابقة اتقفلت بالفعل
       var r = _collapse(event);
-      if (r.finalText !== lastFinalText) {
-        lastFinalText = r.finalText;
-        _writeTranscript(lastFinalText);
-      }
+      lastFinalText = r.finalText;
       lastInterim = r.interimText;
+      var full = (r.finalText && r.interimText) ? (r.finalText + ' ' + r.interimText) : (r.finalText || r.interimText);
+      _writeTranscript(full);
       var preview = g('ntDictatePreview');
-      if (preview) {
-        if (lastInterim) { preview.textContent = lastInterim; preview.style.display = ''; }
-        else { preview.textContent = ''; preview.style.display = 'none'; }
-      }
+      if (preview) { preview.textContent = ''; preview.style.display = 'none'; }
     };
 
     recognition.onerror = function(event) {
@@ -14933,7 +14934,6 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       // الجلسة اتقفلت (سواء هتتفتح تاني أو لأ)، بنضيفه للملاحظة بدل ما
       // نسيبه يضيع، لأنه كان واضح وصحيح في المعاينة قبل ما يختفي
       if (lastInterim) {
-        _writeTranscript((lastFinalText ? lastFinalText + ' ' : '') + lastInterim);
         lastInterim = '';
         var preview0 = g('ntDictatePreview');
         if (preview0) { preview0.textContent = ''; preview0.style.display = 'none'; }
