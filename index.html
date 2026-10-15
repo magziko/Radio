@@ -17085,41 +17085,48 @@ document.addEventListener('click', function(e) {
 }, true);
 
 function smartScrollToStations(firstVisibleBtn, extraDelay) {
-  if (!firstVisibleBtn) return;
   var delay = extraDelay || 60;
 
   setTimeout(function() {
-
-    var rect = firstVisibleBtn.getBoundingClientRect();
     var scrollY = window.scrollY || window.pageYOffset;
-
-    var stickyH = 0;
-    var navBar = document.getElementById('player-nav-bar') || document.getElementById('sticky-player-wrap');
-    var statusEl = document.getElementById('status');
-    var filtersEl = document.getElementById('filters-container');
-    var adhkarSub = document.getElementById('adhkar-subfilter');
-    var moreSub = document.getElementById('more-subfilter');
-
-    if (navBar) stickyH += navBar.offsetHeight;
-    if (statusEl) stickyH += statusEl.offsetHeight;
-
-    if (filtersEl) stickyH += filtersEl.offsetHeight;
-
-    // كل شرائط الفلاتر الفرعية الظاهرة (أذكار/المزيد/سيرة/محطات إسلامية/قراء/بث مرئي/قرآن كريم/علوم/إذاعات)
-    document.querySelectorAll('.subfilter-scroll-wrap.visible').forEach(function(el) {
-      stickyH += el.offsetHeight;
-    });
-
     var w = window.innerWidth;
     var gap = w <= 600 ? 10 : w <= 1024 ? 14 : 18;
 
+    // ارتفاع الشريط الثابت فوق (المشغّل + الحالة)
+    var stickyTopH = 0;
+    var stickyWrap = document.getElementById('sticky-player-wrap');
+    if (stickyWrap) {
+      stickyTopH = stickyWrap.offsetHeight;
+    } else {
+      var _nav = document.getElementById('player-nav-bar');
+      var _st = document.getElementById('status');
+      if (_nav) stickyTopH += _nav.offsetHeight;
+      if (_st) stickyTopH += _st.offsetHeight;
+    }
+
+    // لو الفلتر الرئيسي له فلاتر فرعية: نبدأ من الفلاتر الفرعية نفسها (تبان للمستخدم تحت الشريط الثابت)
+    var visibleSubs = Array.prototype.filter.call(
+      document.querySelectorAll('.subfilter-scroll-wrap.visible'),
+      function(el) { return el.offsetParent !== null; }
+    );
+    if (visibleSubs.length) {
+      var subTop = visibleSubs[0].getBoundingClientRect().top + scrollY;
+      var subY = subTop - stickyTopH - 6;
+      if (subY < 0) subY = 0;
+      window.scrollTo({ top: subY, behavior: 'smooth' });
+      return;
+    }
+
+    // بدون فلاتر فرعية: نبدأ من أول محطة ظاهرة (السلوك القديم)
+    if (!firstVisibleBtn) return;
+    var rect = firstVisibleBtn.getBoundingClientRect();
+    var stickyH = stickyTopH;
+    var filtersEl = document.getElementById('filters-container');
+    if (filtersEl) stickyH += filtersEl.offsetHeight;
+
     var targetY = rect.top + scrollY - stickyH - gap;
     if (targetY < 0) targetY = 0;
-
-    window.scrollTo({
-      top: targetY,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
   }, delay);
 }
 
