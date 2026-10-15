@@ -9743,6 +9743,36 @@ window._ptComputeDuha = _ptComputeDuha;
     if (typeof window._fpwLoadPublic === 'function') window._fpwLoadPublic();
   };
 
+  // ===== أذان تلقائي: مفتاح التشغيل/الإيقاف جوّه إعدادات مواقيت الصلاة والأذان =====
+  var _PCM_ADHAN_T = { ar: 'أذان تلقائي', en: 'Auto Adhan', fr: 'Adhan automatique', es: 'Adhan automático', sv: 'Automatisk adhan', nl: 'Automatische adhan', ga: 'Adhan uathoibríoch', de: 'Automatischer Adhan', ru: 'Автоматический азан', tr: 'Otomatik ezan', pt: 'Adhan automático', zh: '自动宣礼', ur: 'خودکار اذان' };
+  function _pcmAdhanOn() {
+    var sw = document.getElementById('adhan-toggle-switch');
+    if (sw) return sw.classList.contains('on');
+    return localStorage.getItem('adhanEnabled') !== 'false';
+  }
+  window._pcmWireAdhanToggle = function(root, isRtl, green) {
+    var row = root.querySelector('#pcm-adhan-auto-row');
+    var track = root.querySelector('#pcm-adhan-auto-track');
+    var knob = root.querySelector('#pcm-adhan-auto-knob');
+    if (!row || !track || !knob) return;
+    function paint() {
+      var on = _pcmAdhanOn();
+      track.style.background = on ? green : 'rgba(120,120,120,0.45)';
+      knob.style[isRtl ? 'right' : 'left'] = on ? '22px' : '2px';
+      knob.style[isRtl ? 'left' : 'right'] = 'auto';
+      row.setAttribute('aria-checked', on ? 'true' : 'false');
+    }
+    function flip() {
+      var wrapEl = document.getElementById('adhan-toggle-wrap');
+      if (wrapEl) { wrapEl.click(); }   // نفس دالة التفعيل الأصلية (toggleAdhan) — بتحفظ الحالة وبتوقف الأذان لو اتقفل
+      else { localStorage.setItem('adhanEnabled', _pcmAdhanOn() ? 'false' : 'true'); }
+      paint();
+    }
+    row.addEventListener('click', flip);
+    row.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+    paint();
+  };
+
   window._pcmRender = function(mode, targetContainer) {
     var isInline = (mode === 'inline');
     if (!isInline) {
@@ -9809,6 +9839,11 @@ window._ptComputeDuha = _ptComputeDuha;
     var boxHTML =
       '<div style="' + boxStyle + '">' +
         titleHTML +
+
+        '<div id="pcm-adhan-auto-row" role="switch" tabindex="0" aria-checked="' + (_pcmAdhanOn() ? 'true' : 'false') + '" style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;padding:12px 14px;border:1px solid ' + border + ';border-radius:12px;background:' + (isDark ? 'rgba(93,202,165,0.08)' : 'rgba(var(--theme-g1-rgb),0.05)') + ';cursor:pointer;">' +
+          '<span style="font-size:13.5px;font-weight:700;color:' + clr + ';">🕌 ' + (_PCM_ADHAN_T[lang] || _PCM_ADHAN_T.en) + '</span>' +
+          '<span id="pcm-adhan-auto-track" style="position:relative;flex:0 0 auto;width:42px;height:22px;border-radius:22px;transition:background .2s;"><span id="pcm-adhan-auto-knob" style="position:absolute;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.35);transition:all .2s;"></span></span>' +
+        '</div>' +
 
         '<div style="margin-bottom:16px;">' +
           '<label style="display:block;font-size:12.5px;color:' + muted + ';margin-bottom:6px;">' + _ptT('calcMethodLabel', lang) + '</label>' +
@@ -9879,6 +9914,8 @@ window._ptComputeDuha = _ptComputeDuha;
       document.body.appendChild(overlay);
       overlay.addEventListener('click', function(e) { if (e.target === overlay) { _stopSoundPreview(); overlay.remove(); } });
     }
+
+    window._pcmWireAdhanToggle(overlay, dir === 'rtl', green);
 
     var madhab0 = overlay.querySelector('#pcm-madhab-0');
     var madhab1 = overlay.querySelector('#pcm-madhab-1');
@@ -34359,31 +34396,6 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     SCREENS.forEach(function(sc) {
       menu.appendChild(row(sc[0], sc[3][l] || sc[3].en, function() { close(); openScreen(sc[1], sc[2]); }));
     });
-    // أذان تلقائي: صف بمفتاح تشغيل/إيقاف (نفس شريط "أذان تلقائي" اللي تحت قوائم المحطات)
-    var adWrap = document.getElementById('adhan-toggle-wrap'), adSw = document.getElementById('adhan-toggle-switch');
-    if (adWrap && adSw) {
-      var rowA = document.createElement('button');
-      rowA.type = 'button';
-      rowA.className = 'welcome-lang-option';
-      rowA.setAttribute('role', 'switch');
-      rowA.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:14px;';
-      var lblA = document.createElement('span');
-      lblA.textContent = '🕌  ' + (ADHAN_T[l] || ADHAN_T.en);
-      var trackA = document.createElement('span'), knobA = document.createElement('span');
-      trackA.appendChild(knobA);
-      var rtlA = !!RTL[l];
-      var paintA = function() {
-        var on = adSw.classList.contains('on');
-        trackA.style.cssText = 'position:relative;flex:0 0 auto;width:38px;height:20px;border-radius:20px;transition:background .2s;background:' + (on ? 'var(--theme-g1, #2e9d84)' : 'rgba(120,120,120,0.45)') + ';';
-        knobA.style.cssText = 'position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.35);transition:all .2s;' + (rtlA ? ('right:' + (on ? '20px' : '2px')) : ('left:' + (on ? '20px' : '2px'))) + ';';
-        rowA.setAttribute('aria-checked', on ? 'true' : 'false');
-      };
-      rowA.appendChild(lblA); rowA.appendChild(trackA);
-      rowA.addEventListener('click', function(e) { e.stopPropagation(); _selfClick = true; try { adWrap.click(); } finally { _selfClick = false; } paintA(); });
-      paintA();
-      menu.appendChild(rowA);
-    }
-
     var sep = document.createElement('div');
     sep.style.cssText = 'height:1px;margin:4px 6px;background:rgba(0,0,0,0.12);';
     menu.appendChild(sep);
