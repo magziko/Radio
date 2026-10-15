@@ -25992,15 +25992,15 @@ function resetTasbihSpeed() {
 function _getTasbihSpeedLabelText() {
   var factor = _getTasbihPaceFactor();
   var isAr = (typeof isArabic === 'undefined') ? true : isArabic;
-  if (factor <= TASBIH_PACE_MIN + 0.05) {
-    return isAr ? 'سريعة جدًا' : 'Fastest';
-  } else if (factor < 0.85) {
-    return isAr ? 'سريعة' : 'Fast';
-  } else if (factor <= 1.15) {
-    return isAr ? 'عادية' : 'Normal';
-  } else if (factor < TASBIH_PACE_MAX - 0.05) {
-    return isAr ? 'بطيئة' : 'Slow';
-  }
+  // كل درجة سرعة ليها اسم مميّز (الدرجات الفعلية: 1.30 / 1.15 / 1.00 / 0.85 / 0.70 / 0.55 / 0.40 / 0.35)
+  // والحدود وسط الدرجات عشان القيم اللى بيتعلّمها التطبيق تلقائيًا تتصنّف على أقرب درجة
+  if (factor <= 0.375) return isAr ? 'سريعة جدًا 2' : 'Fastest 2';
+  if (factor <= 0.475) return isAr ? 'سريعة جدًا'   : 'Fastest';
+  if (factor <= 0.625) return isAr ? 'سريعة 2'      : 'Fast 2';
+  if (factor <= 0.775) return isAr ? 'سريعة'        : 'Fast';
+  if (factor <= 0.925) return isAr ? 'عادية 2'      : 'Normal 2';
+  if (factor <= 1.075) return isAr ? 'عادية'        : 'Normal';
+  if (factor <= 1.225) return isAr ? 'بطيئة'        : 'Slow';
   return isAr ? 'بطيئة جدًا' : 'Slowest';
 }
 
@@ -26043,8 +26043,18 @@ function _learnTasbihFastRead(elapsedRatio) {
   var updated = current - (current - target) * 0.5;
   if (updated < TASBIH_PACE_MIN) updated = TASBIH_PACE_MIN;
   if (updated > TASBIH_PACE_MAX) updated = TASBIH_PACE_MAX;
+  var _labelBefore = _getTasbihSpeedLabelText();
   localStorage.setItem(TASBIH_PACE_KEY, updated.toFixed(3));
   if (typeof _updateTasbihSpeedLabel === 'function') _updateTasbihSpeedLabel();
+  // إشعار بس لما درجة السرعة (الاسم) تزيد فعلاً — مش مع كل تسبيحة
+  var _labelAfter = _getTasbihSpeedLabelText();
+  if (_labelAfter !== _labelBefore && typeof showToast === 'function') {
+    var _isArL = (typeof isArabic === 'undefined') ? true : isArabic;
+    if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0;
+    showToast(_isArL ?
+      ('🐇 تم تسريع العدّ التلقائى — السرعة الحالية: ' + _labelAfter) :
+      ('🐇 Auto-count sped up — current speed: ' + _labelAfter));
+  }
 }
 
 // لو فيه مؤقّت/دائرة عدّ تنازلى شغالة فعلاً على الذكر الحالى (يعني المستخدم
