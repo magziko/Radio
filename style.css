@@ -10299,3 +10299,82 @@ body.dark-mode .sp-collapse-head { color: #5DCAA5; }
 @media (min-width: 768px) {
   .sp-collapse-head { font-size: 18px; }
 }
+
+/* ===== الدارك مود: بطاقة "جودة الصوت (معادل + تضخيم)" وزر "فحص الروابط" ===== */
+body.dark-mode:not(.media-theme-glass) #audio-quality-settings.aqx-panel,
+body.dark-mode.media-theme-glass #settings-panel #audio-quality-settings.aqx-panel {
+  --aqx-navy: #e6edf3;
+  --aqx-blue: #9fc5e8;
+  background: linear-gradient(155deg, rgba(26,40,58,0.92), rgba(16,27,41,0.88)),
+              linear-gradient(135deg, rgba(var(--theme-c1-rgb),0.14), rgba(var(--theme-c2-rgb),0.10)) !important;
+  border: 1.5px solid rgba(var(--theme-c1-rgb),0.30) !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+  color: #e0e0e0 !important;
+}
+body.dark-mode #audio-quality-settings.aqx-panel::after { opacity: .35; }
+
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings :is(.aqx-title-group span, .aqx-boost-row label, .aqx-fader-col label, .aqx-preset-group > span, .aqx-toggle-icon) {
+  color: #cfe3f5 !important;
+  text-shadow: none !important;
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings .aqx-note {
+  color: #9fb3c4 !important;
+  text-shadow: none !important;
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings .aqx-fader-col span {
+  background: rgba(255,255,255,0.10) !important;
+  color: #e6edf3 !important;
+  text-shadow: none !important;
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings .aqx-fader-track {
+  background: rgba(255,255,255,0.08) !important;
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings .aqx-fader-center {
+  background: rgba(255,255,255,0.25);
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings .aqx-eq-row,
+body.dark-mode #audio-quality-settings #equalizer-row.aqx-eq-row {
+  border-top-color: rgba(255,255,255,0.14);
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings .aqx-divider {
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.22), transparent);
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings .aqx-mini-viz {
+  background: rgba(255,255,255,0.08);
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings :is(#audioBoostSlider, #playbackSpeedSlider) {
+  background-color: rgba(255,255,255,0.12);
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings input[type=range]::-webkit-slider-thumb {
+  background: #fff;
+}
+/* الأزرار: إعادة ضبط + الشرائح (مسطّح / وضوح الصوت / جهير قوي ...) */
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audioQualityResetBtn,
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings .aqx-chip {
+  background: rgba(255,255,255,0.08) !important;
+  color: #e6edf3 !important;
+  border: 1.5px solid rgba(255,255,255,0.20) !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audioQualityResetBtn:hover,
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings .aqx-chip:hover {
+  background: rgba(255,255,255,0.16) !important;
+}
+:is(body.dark-mode:not(.media-theme-glass), body.dark-mode.media-theme-glass #settings-panel) #audio-quality-settings .aqx-chip.active {
+  background: linear-gradient(135deg, var(--theme-c1), var(--theme-c2)) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* زر "فحص روابط الاستماع" (ستايله inline فلازم !important) */
+body.dark-mode #link-checker-open-btn {
+  background: linear-gradient(to right, rgba(var(--theme-c1-rgb),0.18) 0%, rgba(30,45,62,0.95) 50%, rgba(var(--theme-c1-rgb),0.18) 100%) !important;
+  color: #cfe3f5 !important;
+  border-color: rgba(var(--theme-c1-rgb),0.40) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35) !important;
+}
+body.dark-mode #link-checker-open-btn:hover {
+  background: linear-gradient(to right, rgba(var(--theme-c1-rgb),0.28) 0%, rgba(40,58,80,0.98) 50%, rgba(var(--theme-c1-rgb),0.28) 100%) !important;
+}
