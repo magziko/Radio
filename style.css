@@ -10378,3 +10378,68 @@ body.dark-mode #link-checker-open-btn {
 body.dark-mode #link-checker-open-btn:hover {
   background: linear-gradient(to right, rgba(var(--theme-c1-rgb),0.28) 0%, rgba(40,58,80,0.98) 50%, rgba(var(--theme-c1-rgb),0.28) 100%) !important;
 }
+
+/* ===================== تابات لوحة الإعدادات ===================== */
+#settings-tabs {
+    display: flex;
+    gap: 6px;
+    margin: 0 auto 10px;
+    width: 98%;
+    overflow-x: auto;
+    padding: 2px 0 6px;
+    scrollbar-width: none;
+    direction: rtl;
+}
+#settings-tabs::-webkit-scrollbar { display: none; }
+.settings-tab-btn {
+    flex: 1 1 auto;
+    padding: 8px 6px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.25);
+    background: rgba(var(--theme-c1-rgb),0.06);
+    color: var(--theme-c4);
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+}
+.settings-tab-btn:hover { background: rgba(var(--theme-c1-rgb),0.14); }
+.settings-tab-btn.active {
+    background: linear-gradient(135deg,var(--theme-c1),var(--theme-c2));
+    border-color: transparent;
+    color: #fff;
+}
+body.dark-mode .settings-tab-btn { background: rgba(var(--theme-c1-rgb),0.12); }
+body.dark-mode .settings-tab-btn.active { color: #fff; }
+
+/* إخفاء كل عناصر التابات غير النشطة */
+#settings-panel[data-active-tab="general"] [data-stab]:not([data-stab="general"]),
+#settings-panel[data-active-tab="look"]    [data-stab]:not([data-stab="look"]),
+#settings-panel[data-active-tab="adhkar"]  [data-stab]:not([data-stab="adhkar"]),
+#settings-panel[data-active-tab="audio"]   [data-stab]:not([data-stab="audio"]),
+#settings-panel[data-active-tab="prayer"]  [data-stab]:not([data-stab="prayer"]) {
+    display: none !important;
+}
+
+/* ترتيب شبكة الإعدادات لكل تاب (عشان ما تتساب خانات فاضية) */
+#settings-panel[data-active-tab="general"] #settingsQuickGrid {
+    grid-template-areas:
+        "autoswitch  sleep"
+        "autoplay    soundalert"
+        "startfile   fullrandom"
+        "flag        disablewelcome"
+        "welcomecycle .";
+}
+#settings-panel[data-active-tab="look"] #settingsQuickGrid {
+    grid-template-areas:
+        "theme autotheme"
+        "lang  shortcuts"
+        "autodark .";
+}
+#settings-panel[data-active-tab="adhkar"] #settingsQuickGrid,
+#settings-panel[data-active-tab="audio"] #settingsQuickGrid,
+#settings-panel[data-active-tab="prayer"] #settingsQuickGrid {
+    display: none;
+}
