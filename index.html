@@ -2432,15 +2432,22 @@ setTimeout(autoScaleVerseFont, 100);
 
   
   <div id="settings-modal-backdrop" onclick="toggleSettingsPanel()"></div>
-  <div id="settings-panel" class="settings-modal-panel" style="
+  <div id="settings-panel" class="settings-modal-panel" data-active-tab="general" style="
     display: none;
     transition: opacity 0.2s ease;
   ">
   <button id="settings-modal-close-btn" type="button" onclick="toggleSettingsPanel()" aria-label="Close settings" title="إغلاق / Close">✕</button>
+  <div id="settings-tabs" role="tablist">
+    <button type="button" role="tab" class="settings-tab-btn active" data-tab="general" data-ar="🎛️ عام" data-en="🎛️ General" aria-selected="true" onclick="setSettingsTab('general')">🎛️ عام</button>
+    <button type="button" role="tab" class="settings-tab-btn" data-tab="look" data-ar="🎨 المظهر" data-en="🎨 Look" aria-selected="false" onclick="setSettingsTab('look')">🎨 المظهر</button>
+    <button type="button" role="tab" class="settings-tab-btn" data-tab="adhkar" data-ar="📿 الأذكار" data-en="📿 Adhkar" aria-selected="false" onclick="setSettingsTab('adhkar')">📿 الأذكار</button>
+    <button type="button" role="tab" class="settings-tab-btn" data-tab="audio" data-ar="🔊 الصوت" data-en="🔊 Audio" aria-selected="false" onclick="setSettingsTab('audio')">🔊 الصوت</button>
+    <button type="button" role="tab" class="settings-tab-btn" data-tab="prayer" data-ar="🕌 الصلاة" data-en="🕌 Prayer" aria-selected="false" onclick="setSettingsTab('prayer')">🕌 الصلاة</button>
+  </div>
   <div id="settingsQuickGrid">
   <div class="controls-row">
 
-    <div class="input-group" id="autoSwitchGroup">
+    <div class="input-group" id="autoSwitchGroup" data-stab="general">
       <label for="autoSwitchTimer" data-ar="التنقل الآلي" data-en="Auto Switch" data-fr="Changement auto" data-es="Cambio automático" data-sv="Automatiskt byte" data-nl="Automatisch wisselen" data-ga="Athrú uathoibríoch" data-de="Automatischer Wechsel" data-ru="Автопереключение" data-tr="Otomatik geçiş" data-pt="Troca automática" data-zh="自动切换" data-ur="خودکار تبدیلی">التنقل الآلي</label>
       <input type="number" id="autoSwitchTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" data-fr="Minutes" data-es="Minutos" data-sv="Minuter" data-nl="Minuten" data-ga="Nóiméad" data-de="Minuten" data-ru="Минуты" data-tr="Dakika" data-pt="Minutos" data-zh="分钟" data-ur="منٹ" placeholder="الدقائق"
              onchange="(function(){var cb=document.getElementById('autoSwitchCheckbox');var v=parseInt(document.getElementById('autoSwitchTimer').value);if(!isNaN(v)&&v>0){cb.checked=true;}else{cb.checked=false;}cb.dispatchEvent(new Event('change'));})()">
@@ -2463,7 +2470,7 @@ setTimeout(autoScaleVerseFont, 100);
       " onclick="document.getElementById('autoSwitchCheckbox').checked=false;document.getElementById('autoSwitchCheckbox').dispatchEvent(new Event('change'));"></span>
     </div>
 
-    <div class="input-group" id="sleepModeGroup">
+    <div class="input-group" id="sleepModeGroup" data-stab="general">
       <label for="sleepTimer" data-ar="مؤقت الإيقاف" data-en="Sleep Mode" data-fr="Mode veille" data-es="Modo de suspensión" data-sv="Viloläge" data-nl="Slaapstand" data-ga="Mód codlata" data-de="Schlafmodus" data-ru="Режим сна" data-tr="Uyku modu" data-pt="Modo de suspensão" data-zh="睡眠模式" data-ur="نیند موڈ">مؤقت الإيقاف</label>
       <input type="number" id="sleepTimer" min="1" data-ar="أدخل الدقائق" data-en="Minutes" data-fr="Minutes" data-es="Minutos" data-sv="Minuter" data-nl="Minuten" data-ga="Nóiméad" data-de="Minuten" data-ru="Минуты" data-tr="Dakika" data-pt="Minutos" data-zh="分钟" data-ur="منٹ" placeholder="الدقائق"
              onchange="(function(){var cb=document.getElementById('sleepCheckbox');var v=parseInt(document.getElementById('sleepTimer').value);if(!isNaN(v)&&v>0){cb.checked=true;}else{cb.checked=false;}cb.dispatchEvent(new Event('change'));})()">
@@ -2488,7 +2495,7 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   <div class="color-settings-row">
-    <div class="color-setting-item" id="settings-theme-item">
+    <div class="color-setting-item" id="settings-theme-item" data-stab="look">
       <label data-ar="🎨 المظهر" data-en="🎨 Theme" data-fr="🎨 Thème" data-es="🎨 Tema" data-sv="🎨 Tema" data-nl="🎨 Thema" data-ga="🎨 Téama" data-de="🎨 Design" data-ru="🎨 Тема" data-tr="🎨 Tema" data-pt="🎨 Tema" data-zh="🎨 主题" data-ur="🎨 تھیم">🎨 المظهر</label>
       <select id="siteTheme" class="responsive-select" onchange="changeSiteTheme()">
     <option data-ar="اختر مظهرًا" data-en="Choose a theme" value="">اختر مظهرًا</option>
@@ -2671,7 +2678,7 @@ setTimeout(autoScaleVerseFont, 100);
     </optgroup>
       </select>
     </div>
-    <div class="color-setting-item" id="settings-fontsize-item" style="min-width:150px;">
+    <div class="color-setting-item" id="settings-fontsize-item" data-stab="look" style="min-width:150px;">
       <label for="fontSizeSlider" data-ar="🔠 حجم الخط" data-en="🔠 Font Size" data-fr="🔠 Taille de police" data-es="🔠 Tamaño de fuente" data-sv="🔠 Textstorlek" data-nl="🔠 Lettergrootte" data-ga="🔠 Méid an Chló" data-de="🔠 Schriftgröße" data-ru="🔠 Размер шрифта" data-tr="🔠 Yazı Boyutu" data-pt="🔠 Tamanho da fonte" data-zh="🔠 字体大小" data-ur="🔠 فونٹ سائز">🔠 حجم الخط</label>
       <div style="display:flex; align-items:center; gap:8px;">
         <input type="range" id="fontSizeSlider" min="80" max="150" step="5" value="100"
@@ -2683,7 +2690,7 @@ setTimeout(autoScaleVerseFont, 100);
         <div id="fontBoldToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0" onclick="toggleFontBold()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFontBold();}"></div>
       </div>
     </div>
-    <div class="color-setting-item" id="settings-fontfamily-item" style="min-width:150px;">
+    <div class="color-setting-item" id="settings-fontfamily-item" data-stab="look" style="min-width:150px;">
       <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
         <label for="fontFamilySelect" data-ar="🖋️ نوع الخط" data-en="🖋️ Font Type" data-fr="🖋️ Type de police" data-es="🖋️ Tipo de fuente" data-sv="🖋️ Typsnitt" data-nl="🖋️ Lettertype" data-ga="🖋️ Cineál Cló" data-de="🖋️ Schriftart" data-ru="🖋️ Тип шрифта" data-tr="🖋️ Yazı Tipi" data-pt="🖋️ Tipo de fonte" data-zh="🖋️ 字体类型" data-ur="🖋️ فونٹ کی قسم" style="white-space:nowrap;">🖋️ نوع الخط</label>
         <select id="fontFamilySelect" onchange="changeFontFamily(this.value)" style="flex:1 1 auto; min-width:0; max-width:60%; margin-top:0;">
@@ -2702,19 +2709,19 @@ setTimeout(autoScaleVerseFont, 100);
       </div>
       <div id="fontFamilyPreview" dir="rtl" style="margin-top:6px; padding-top:6px; border-top:1px solid rgba(var(--theme-c1-rgb),0.2); font-size:14px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" data-ar="بسم الله الرحمن الرحيم" data-en="In the name of Allah">بسم الله الرحمن الرحيم</div>
     </div>
-    <div class="color-setting-item" id="settings-lang-item">
+    <div class="color-setting-item" id="settings-lang-item" data-stab="look">
       <button id="settingsLangToggle" onclick="toggleLanguage()">
         <span id="settingsLangIcon">🌐</span>
         <span id="settingsLangText">EN</span>
       </button>
     </div>
-    <div class="color-setting-item" id="settings-shortcuts-item">
+    <div class="color-setting-item" id="settings-shortcuts-item" data-stab="look">
       <button id="settingsShortcutsBtn" onclick="toggleShortcutsModal()" title="الإرشادات واختصارات لوحة المفاتيح / Help &amp; Keyboard Shortcuts">
         <span id="settingsShortcutsIcon" style="font-weight:700;font-size:16px;">?</span>
         <span id="settingsShortcutsText" data-ar="الاختصارات" data-en="Shortcuts" data-fr="Raccourcis" data-es="Atajos" data-sv="Genvägar" data-nl="Sneltoetsen" data-ga="Aicearraí" data-de="Tastenkombinationen" data-ru="Горячие клавиши" data-tr="Kısayollar" data-pt="Atalhos" data-zh="快捷键" data-ur="شارٹ کٹس">الاختصارات</span>
       </button>
     </div>
-    <div class="color-setting-item" id="themeAutoRotateGroup" title="تغيير المظهر تلقائيًا كل فترة">
+    <div class="color-setting-item" id="themeAutoRotateGroup" data-stab="look" title="تغيير المظهر تلقائيًا كل فترة">
       <label for="themeAutoRotateInterval" data-ar="🔄 تغيير المظهر تلقائيًا" data-en="🔄 Auto-Change Theme" data-fr="🔄 Changement auto. du thème" data-es="🔄 Cambio automático de tema" data-sv="🔄 Automatiskt temabyte" data-nl="🔄 Automatisch thema wisselen" data-ga="🔄 Athrú téama uathoibríoch" data-de="🔄 Design automatisch wechseln" data-ru="🔄 Автосмена темы" data-tr="🔄 Otomatik Tema Değiştir" data-pt="🔄 Alternar tema automaticamente" data-zh="🔄 自动切换主题" data-ur="🔄 خودکار تھیم تبدیلی" class="wtb-text">🔄 تغيير المظهر تلقائيًا</label>
       <select id="themeAutoRotateInterval" class="responsive-select" onchange="changeThemeAutoRotate()">
         <option value="0" data-ar="⛔ إيقاف" data-en="⛔ Off" data-fr="⛔ Désactivé" data-es="⛔ Desactivado" data-sv="⛔ Av" data-nl="⛔ Uit" data-ga="⛔ As" data-de="⛔ Aus" data-ru="⛔ Выкл" data-tr="⛔ Kapalı" data-pt="⛔ Desativado" data-zh="⛔ 关闭" data-ur="⛔ بند">⛔ إيقاف</option>
@@ -2730,7 +2737,7 @@ setTimeout(autoScaleVerseFont, 100);
 
   
   <div id="welcomeExtraControlsRow" style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 8px 0 4px; flex-wrap:wrap;">
-    <button id="introClipToggleBtn"
+    <button id="introClipToggleBtn" data-stab="general"
             onclick="toggleIntroClipOption()"
             title="تشغيل مقطع صلِّ على النبي ﷺ تلقائياً عند فتح الموقع / Auto-play a Salawat clip when the site opens"
             class="welcome-toggle-btn">
@@ -2738,7 +2745,7 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert" data-fr="Activer l'alerte sonore" data-es="Activar alerta sonora" data-sv="Aktivera ljudlarm" data-nl="Geluidsmelding inschakelen" data-ga="Cumasaigh Rabhadh Fuaime" data-de="Tonalarm aktivieren" data-ru="Включить звуковое оповещение" data-tr="Sesli Uyarıyı Etkinleştir" data-pt="Ativar alerta sonoro" data-zh="启用声音提醒" data-ur="صوتی الرٹ فعال کریں">تفعيل التنبيه الصوتي</span>
         <span class="wtb-switch-visual" aria-hidden="true"></span>
     </button>
-    <button id="radioAutoplayToggleBtn"
+    <button id="radioAutoplayToggleBtn" data-stab="general"
             onclick="toggleRadioAutoplayOption()"
             title="تفعيل/تعطيل التشغيل التلقائي للراديو عند فتح الموقع / Enable or disable radio autoplay on site open"
             class="welcome-toggle-btn">
@@ -2746,27 +2753,27 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="wtb-text" id="radioAutoplayToggleTxt" data-ar="تشغيل تلقائي: مفعّل" data-en="Autoplay: On" data-fr="Lecture auto : activée" data-es="Reproducción automática: activada" data-sv="Autospelning: På" data-nl="Automatisch afspelen: Aan" data-ga="Uath-sheinm: Ar" data-de="Autoplay: An" data-ru="Автовоспроизведение: вкл" data-tr="Otomatik oynatma: Açık" data-pt="Reprodução automática: Ativada" data-zh="自动播放：开" data-ur="خودکار پلے: آن">تشغيل تلقائي: مفعّل</span>
         <span class="wtb-switch-visual" aria-hidden="true"></span>
     </button>
-    <div id="settings-randomseek-item" class="welcome-toggle-btn" style="gap:7px;">
+    <div id="settings-randomseek-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
       <label for="randomSeekToggle" class="wtb-text" data-ar="بداية الملف الأول" data-en="Start of first file" data-fr="Début du premier fichier" data-es="Inicio del primer archivo" data-sv="Start av första filen" data-nl="Start van eerste bestand" data-ga="Tosú an chéad chomhaid" data-de="Beginn der ersten Datei" data-ru="Начало первого файла" data-tr="İlk dosyanın başlangıcı" data-pt="Início do primeiro arquivo" data-zh="第一个文件的起点" data-ur="پہلی فائل کا آغاز" style="cursor:pointer; margin:0;">بداية الملف الأول</label>
       <input type="checkbox" id="randomSeekToggle" class="wtb-switch" onchange="toggleRandomSeekSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
-    <div id="settings-fullrandom-item" class="welcome-toggle-btn" style="gap:7px;">
+    <div id="settings-fullrandom-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
       <label for="fullRandomUrlToggle" class="wtb-text" data-ar="روابط ديناميكية" data-en="Dynamic Links" data-fr="Liens dynamiques" data-es="Enlaces dinámicos" data-sv="Dynamiska länkar" data-nl="Dynamische links" data-ga="Naisc Dhinimiciúla" data-de="Dynamische Links" data-ru="Динамические ссылки" data-tr="Dinamik Bağlantılar" data-pt="Links dinâmicos" data-zh="动态链接" data-ur="متحرک لنکس" style="cursor:pointer; margin:0;">روابط ديناميكية</label>
       <input type="checkbox" id="fullRandomUrlToggle" class="wtb-switch" onchange="toggleFullRandomUrlSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('fullRandomUrlToggle');if(_cb){_cb.checked=(localStorage.getItem('fullRandomUrlEnabled')==='true');}})();</script>
-    <div id="settings-autodark-item" class="welcome-toggle-btn" style="gap:7px;">
+    <div id="settings-autodark-item" data-stab="look" class="welcome-toggle-btn" style="gap:7px;">
       <label for="autoDarkModeToggle" class="wtb-text" data-ar="🌙 الوضع الداكن التلقائي (حسب الوقت)" data-en="🌙 Auto Dark Mode (by time)" data-fr="🌙 Mode sombre automatique (selon l'heure)" data-es="🌙 Modo oscuro automático (según la hora)" data-sv="🌙 Automatiskt mörkt läge (efter tid)" data-nl="🌙 Automatische donkere modus (op tijd)" data-ga="🌙 Modh Dorcha Uathoibríoch (de réir ama)" data-de="🌙 Automatischer Dunkelmodus (nach Uhrzeit)" data-ru="🌙 Автотёмный режим (по времени)" data-tr="🌙 Otomatik Karanlık Mod (saate göre)" data-pt="🌙 Modo escuro automático (por hora)" data-zh="🌙 自动深色模式（按时间）" data-ur="🌙 خودکار ڈارک موڈ (وقت کے مطابق)" style="cursor:pointer; margin:0;">🌙 الوضع الداكن التلقائي (حسب الوقت)</label>
       <input type="checkbox" id="autoDarkModeToggle" class="wtb-switch" onchange="toggleAutoDarkModeSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('autoDarkModeToggle');if(_cb){_cb.checked=(localStorage.getItem('autoDarkModeEnabled')==='true');}})();</script>
-    <div id="settings-flag-item" class="welcome-toggle-btn" style="gap:7px;">
+    <div id="settings-flag-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
       <label for="buttonsFlagToggle" class="wtb-text" data-ar="🇵🇸 علم فلسطين بالأزرار" data-en="🇵🇸 Palestine Flag on Buttons" data-fr="🇵🇸 Drapeau palestinien sur les boutons" data-es="🇵🇸 Bandera de Palestina en los botones" data-sv="🇵🇸 Palestinsk flagga på knapparna" data-nl="🇵🇸 Palestijnse vlag op knoppen" data-ga="🇵🇸 Bratach na Palaistíne ar na cnaipí" data-de="🇵🇸 Palästina-Flagge auf den Buttons" data-ru="🇵🇸 Флаг Палестины на кнопках" data-tr="🇵🇸 Butonlarda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina nos botões" data-zh="🇵🇸 按钮上的巴勒斯坦国旗" data-ur="🇵🇸 بٹنوں پر فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بالأزرار</label>
       <input type="checkbox" id="buttonsFlagToggle" class="wtb-switch" onchange="toggleButtonsFlagSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('buttonsFlagToggle');if(_cb){_cb.checked=(localStorage.getItem('buttonsFlagHidden')!=='true');}})();</script>
-    <button id="disableWelcomeToggleBtn"
+    <button id="disableWelcomeToggleBtn" data-stab="general"
             onclick="toggleDisableWelcomeBtn()"
             title="إخفاء شاشة الترحيب / Disable Welcome Screen"
             class="welcome-toggle-btn">
@@ -2776,7 +2783,7 @@ setTimeout(autoScaleVerseFont, 100);
               data-on-ar="شاشة الترحيب: مخفية" data-on-en="Welcome: Hidden" data-on-fr="Accueil : masqué" data-on-es="Bienvenida: oculta" data-on-sv="Välkomst: dold" data-on-nl="Welkom: verborgen" data-on-ga="Fáilte: folaithe" data-on-de="Begrüßung: ausgeblendet" data-on-ru="Приветствие: скрыто" data-on-tr="Karşılama: gizli" data-on-pt="Boas-vindas: oculta" data-on-zh="欢迎屏幕：已隐藏" data-on-ur="خوش آمدید: مخفی">إخفاء شاشة الترحيب</span>
         <span class="wtb-switch-visual" aria-hidden="true"></span>
     </button>
-    <div id="welcomeAutoSwitchDurationGroup" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" style="gap:7px;">
+    <div id="welcomeAutoSwitchDurationGroup" data-stab="general" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" style="gap:7px;">
       <span class="wtb-icon">⏱️</span>
       <label for="welcomeAutoSwitchDuration" data-ar="مدة تنقل الترحيب" data-en="Welcome Cycle" data-fr="Cycle d'accueil" data-es="Ciclo de bienvenida" data-sv="Välkomstcykel" data-nl="Welkomstcyclus" data-ga="Timthriall Fáilte" data-de="Begrüßungszyklus" data-ru="Цикл приветствия" data-tr="Karşılama Döngüsü" data-pt="Ciclo de boas-vindas" data-zh="欢迎轮播周期" data-ur="خوش آمدید سائیکل" class="wtb-text" style="cursor:default; margin:0;">مدة تنقل الترحيب</label>
       <input type="number" id="welcomeAutoSwitchDuration" min="1" max="60"
@@ -2785,7 +2792,7 @@ setTimeout(autoScaleVerseFont, 100);
              class="welcome-toggle-inline-input"
              onchange="setWelcomeAutoSwitchDuration()">
     </div>
-    <button id="filtersReorderToggleBtn"
+    <button id="filtersReorderToggleBtn" data-stab="general"
             onclick="toggleFiltersReorderMode()"
             title="فعّل وضع تخصيص الفلاتر: سحب لإعادة الترتيب، وضغط على ✏️ لتغيير الاسم / Enable filter customization mode: drag to reorder, tap ✏️ to rename"
             class="welcome-toggle-btn">
@@ -2795,7 +2802,7 @@ setTimeout(autoScaleVerseFont, 100);
               data-on-ar="وضع التعديل… اسحب ⠿ أو اضغط ✏️" data-on-en="Editing… drag ⠿ or tap ✏️" data-on-fr="Édition… glissez ⠿ ou touchez ✏️" data-on-es="Editando… arrastra ⠿ o toca ✏️" data-on-sv="Redigerar… dra ⠿ eller tryck ✏️" data-on-nl="Bewerken… sleep ⠿ of tik ✏️" data-on-ga="Ag eagrú… tarraing ⠿ nó tapáil ✏️" data-on-de="Bearbeiten… ziehen ⠿ oder ✏️ tippen" data-on-ru="Редактирование… перетащите ⠿ или нажмите ✏️" data-on-tr="Düzenleniyor… ⠿ sürükleyin veya ✏️ dokunun" data-on-pt="Editando… arraste ⠿ ou toque em ✏️" data-on-zh="编辑中…拖动⠿或点击✏️" data-on-ur="ترمیم… ⠿ گھسیٹیں یا ✏️ دبائیں">ترتيب وتسمية الفلاتر</span>
         <span class="wtb-switch-visual" aria-hidden="true"></span>
     </button>
-    <button id="filtersResetOrderBtn"
+    <button id="filtersResetOrderBtn" data-stab="general"
             onclick="resetFilterOrderToDefault()"
             title="استعادة الترتيب والأسماء الافتراضية للفلاتر الرئيسية والفرعية / Restore default order and names for main and sub filters"
             class="welcome-toggle-btn">
@@ -2882,19 +2889,7 @@ setTimeout(autoScaleVerseFont, 100);
   </script>
 
   
-  <details id="adhkar-settings-drawer" style="
-    margin: 8px auto 4px;
-    width: 97%; max-width: 860px;
-    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
-    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
-    border-radius: 14px;
-    padding: 2px 6px 6px;
-    box-sizing: border-box;
-    direction: rtl;
-    font-family: 'Cairo', Arial, sans-serif;
-  ">
-    <summary data-ar="⚙️ إعدادات الأذكار (التذكير • الانتقال • الاهتزاز • السرعة • المشاركة)" data-en="⚙️ Adhkar settings (reminder • auto-advance • vibration • speed • share)"
-      style="cursor:pointer;padding:10px 10px;font-size:15px;font-weight:700;color:var(--theme-c4);">⚙️ إعدادات الأذكار (التذكير • الانتقال • الاهتزاز • السرعة • المشاركة)</summary>
+  <div id="adhkar-settings-drawer" data-stab="adhkar">
   <div id="adhkar-notif-settings" style="
     margin: 8px auto 4px;
     width: 97%; max-width: 860px;
@@ -3083,9 +3078,9 @@ setTimeout(autoScaleVerseFont, 100);
     </div>
   </div>
 
-  </details>
+  </div>
 
-  <div id="startup-notif-settings" style="    margin: 8px auto 4px;
+  <div id="startup-notif-settings" data-stab="general" style="    margin: 8px auto 4px;
     width: 97%; max-width: 860px;
     background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
     border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
@@ -3124,7 +3119,7 @@ setTimeout(autoScaleVerseFont, 100);
 
   
 
-  <div id="audio-quality-settings" class="aqx-panel" style="direction: rtl;">
+  <div id="audio-quality-settings" data-stab="audio" class="aqx-panel" style="direction: rtl;">
     <div class="aqx-header" onclick="toggleAudioQualityBox()">
       <div class="aqx-title-group">
         <div class="aqx-mini-viz" aria-hidden="true">
@@ -3272,7 +3267,7 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
 
-  <div id="prayer-adhan-settings" class="paset-panel" style="direction: rtl;">
+  <div id="prayer-adhan-settings" data-stab="prayer" class="paset-panel" style="direction: rtl;">
     <div class="paset-header" onclick="togglePrayerAdhanBox()">
       <div class="paset-title-group">
         <span data-ar="🕌 إعدادات مواقيت الصلاة والأذان" data-en="🕌 Prayer Times &amp; Adhan Settings" data-fr="🕌 Paramètres des horaires de prière et Adhan" data-es="🕌 Ajustes de horarios de oración y Adhan" data-sv="🕌 Inställningar för bönetider och böneutrop" data-nl="🕌 Instellingen gebedstijden en Adhan" data-ga="🕌 Socruithe amanna urnaí agus Adhan" data-de="🕌 Einstellungen für Gebetszeiten und Adhan" data-ru="🕌 Настройки времени намаза и азана" data-tr="🕌 Namaz Vakitleri ve Ezan Ayarları" data-pt="🕌 Configurações de Horários de Oração e Adhan" data-zh="🕌 礼拜时间与宣礼设置" data-ur="🕌 اوقاتِ نماز اور اذان کی ترتیبات"
@@ -18883,6 +18878,42 @@ function changeFontFamily(val) {
   if (preview) preview.style.fontFamily = saved || "'Cairo', Arial, sans-serif";
 })();
 
+// ===== تابات لوحة الإعدادات =====
+function _refreshSettingsTabLabels() {
+  var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+  document.querySelectorAll('#settings-tabs .settings-tab-btn').forEach(function(b) {
+    b.textContent = ar ? b.getAttribute('data-ar') : b.getAttribute('data-en');
+  });
+}
+function setSettingsTab(tab) {
+  var panel = document.getElementById('settings-panel');
+  if (!panel) return;
+  panel.setAttribute('data-active-tab', tab);
+  document.querySelectorAll('#settings-tabs .settings-tab-btn').forEach(function(b) {
+    var on = b.getAttribute('data-tab') === tab;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+  try { localStorage.setItem('settingsActiveTab', tab); } catch (e) {}
+  panel.scrollTop = 0;
+}
+(function initSettingsTabs() {
+  var saved = null;
+  try { saved = localStorage.getItem('settingsActiveTab'); } catch (e) {}
+  var valid = ['general', 'look', 'adhkar', 'audio', 'prayer'];
+  function init() {
+    _refreshSettingsTabLabels();
+    if (saved && valid.indexOf(saved) !== -1) setSettingsTab(saved);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  // تحديث أسماء التابات بعد تبديل اللغة من داخل الإعدادات
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.closest && e.target.closest('#settingsLangToggle')) {
+      setTimeout(_refreshSettingsTabLabels, 60);
+    }
+  });
+})();
+
 function toggleSettingsPanel() {
   var panel = document.getElementById('settings-panel');
   var arrow = document.getElementById('settings-arrow');
@@ -18900,6 +18931,7 @@ function toggleSettingsPanel() {
     if (sw) sw.style.display = 'none';
   } else {
     panel.style.display = 'block';
+    if (typeof _refreshSettingsTabLabels === 'function') _refreshSettingsTabLabels();
     if (backdrop) backdrop.style.display = 'block';
     document.body.style.overflow = 'hidden';
     arrow.style.transform = 'rotate(180deg)';
