@@ -3131,11 +3131,11 @@ setTimeout(autoScaleVerseFont, 100);
       <div style="display:flex;align-items:center;gap:8px;">
         <button id="audioQualityResetBtn" onclick="event.stopPropagation(); window.resetAudioQuality && window.resetAudioQuality(); window._aqxSyncAll && window._aqxSyncAll();"
           data-ar="↺ إعادة ضبط" data-en="↺ Reset" data-fr="↺ Réinitialiser" data-es="↺ Restablecer" data-sv="↺ Återställ" data-nl="↺ Resetten" data-ga="↺ Athshocraigh" data-de="↺ Zurücksetzen" data-ru="↺ Сбросить" data-tr="↺ Sıfırla" data-pt="↺ Redefinir" data-zh="↺ 重置" data-ur="↺ ری سیٹ">↺ إعادة ضبط</button>
-        <span id="audioQualityToggleIcon" class="aqx-toggle-icon">▾</span>
+        <span id="audioQualityToggleIcon" class="aqx-toggle-icon open">▾</span>
       </div>
     </div>
 
-    <div id="audio-quality-body" class="aqx-body">
+    <div id="audio-quality-body" class="aqx-body open">
     <div class="aqx-boost-row">
       <label for="audioBoostSlider" data-ar="🔊 تضخيم الصوت" data-en="🔊 Volume Boost" data-fr="🔊 Amplification du volume" data-es="🔊 Amplificación de volumen" data-sv="🔊 Volymförstärkning" data-nl="🔊 Volumeversterking" data-ga="🔊 Treisiú Airde" data-de="🔊 Lautstärkeverstärkung" data-ru="🔊 Усиление громкости" data-tr="🔊 Ses Güçlendirme" data-pt="🔊 Amplificação de volume" data-zh="🔊 音量增强" data-ur="🔊 آواز کی بلندی">🔊 تضخيم الصوت</label>
       <input type="range" id="audioBoostSlider" min="1" max="5" step="0.25" value="1"
@@ -3273,9 +3273,9 @@ setTimeout(autoScaleVerseFont, 100);
         <span data-ar="🕌 إعدادات مواقيت الصلاة والأذان" data-en="🕌 Prayer Times &amp; Adhan Settings" data-fr="🕌 Paramètres des horaires de prière et Adhan" data-es="🕌 Ajustes de horarios de oración y Adhan" data-sv="🕌 Inställningar för bönetider och böneutrop" data-nl="🕌 Instellingen gebedstijden en Adhan" data-ga="🕌 Socruithe amanna urnaí agus Adhan" data-de="🕌 Einstellungen für Gebetszeiten und Adhan" data-ru="🕌 Настройки времени намаза и азана" data-tr="🕌 Namaz Vakitleri ve Ezan Ayarları" data-pt="🕌 Configurações de Horários de Oração e Adhan" data-zh="🕌 礼拜时间与宣礼设置" data-ur="🕌 اوقاتِ نماز اور اذان کی ترتیبات"
           style="font-size:15px;font-weight:800;white-space:nowrap;">🕌 إعدادات مواقيت الصلاة والأذان</span>
       </div>
-      <span id="prayerAdhanToggleIcon" class="paset-toggle-icon">▾</span>
+      <span id="prayerAdhanToggleIcon" class="paset-toggle-icon open">▾</span>
     </div>
-    <div id="prayer-adhan-settings-body" class="paset-body">
+    <div id="prayer-adhan-settings-body" class="paset-body open">
       <div id="prayerAdhanInlineContent"></div>
     </div>
   </div>
@@ -18896,6 +18896,17 @@ function setSettingsTab(tab) {
   });
   try { localStorage.setItem('settingsActiveTab', tab); } catch (e) {}
   panel.scrollTop = 0;
+  _renderPrayerTabIfNeeded();
+}
+// درج الصلاة مفتوح افتراضيًا: نبني محتواه أول ما التاب يظهر (بدل الانتظار لضغطة على العنوان)
+function _renderPrayerTabIfNeeded() {
+  var panel = document.getElementById('settings-panel');
+  if (!panel || panel.getAttribute('data-active-tab') !== 'prayer') return;
+  var body = document.getElementById('prayer-adhan-settings-body');
+  var container = document.getElementById('prayerAdhanInlineContent');
+  if (body && body.classList.contains('open') && container && typeof window.renderPrayerAdhanInlineSettings === 'function') {
+    window.renderPrayerAdhanInlineSettings(container);
+  }
 }
 (function initSettingsTabs() {
   var saved = null;
@@ -18932,6 +18943,7 @@ function toggleSettingsPanel() {
   } else {
     panel.style.display = 'block';
     if (typeof _refreshSettingsTabLabels === 'function') _refreshSettingsTabLabels();
+    if (typeof _renderPrayerTabIfNeeded === 'function') _renderPrayerTabIfNeeded();
     if (backdrop) backdrop.style.display = 'block';
     document.body.style.overflow = 'hidden';
     arrow.style.transform = 'rotate(180deg)';
