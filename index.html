@@ -2960,86 +2960,41 @@ setTimeout(autoScaleVerseFont, 100);
       style="margin-inline-start:auto;"></div>
   </div>
 
-  <div id="adhkar-vibrate-settings" style="
+  <details id="adhkar-advanced-settings" style="
     margin: 8px auto 4px;
     width: 97%; max-width: 860px;
     background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
     border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
     border-radius: 14px;
-    padding: 10px 16px;
+    padding: 4px 16px;
     box-sizing: border-box;
     direction: rtl;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
     font-family: 'Cairo', Arial, sans-serif;
   ">
-    <span data-ar="📳 اهتزاز عند الانتقال للذكر التالى" data-en="📳 Vibrate on moving to next dhikr"
-      style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">📳 اهتزاز عند الانتقال للذكر التالى</span>
-
-    <span data-ar="اهتزاز خفيف على الموبايل عند الانتقال للذكر التالى (لا يعمل على بعض الأجهزة مثل آيفون)" data-en="A light vibration on mobile when moving to the next dhikr (not supported on some devices such as iPhone)"
-      style="font-size:12px;color:var(--theme-c3);">اهتزاز خفيف على الموبايل عند الانتقال للذكر التالى (لا يعمل على بعض الأجهزة مثل آيفون)</span>
-
-    <div id="adhkarVibrateToggle" class="mini-toggle-switch on" role="switch" aria-checked="true" tabindex="0"
-      onclick="toggleAdhkarVibrate()"
-      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAdhkarVibrate();}"
-      style="margin-inline-start:auto;"></div>
-  </div>
-
-  <div id="adhkarPerDhikrPaceToggle-row" style="
-    margin: 8px auto 4px;
-    width: 97%; max-width: 860px;
-    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
-    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
-    border-radius: 14px;
-    padding: 10px 16px;
-    box-sizing: border-box;
-    direction: rtl;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Cairo', Arial, sans-serif;
-  ">
-    <span data-ar="🎚️ سرعة منفصلة لكل ذكر" data-en="🎚️ Separate speed per dhikr"
-      style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">🎚️ سرعة منفصلة لكل ذكر</span>
-
-    <span data-ar="كل ذكر يحفظ سرعته الخاصة (آية الكرسي بطيئة والتسبيحات القصيرة أسرع). لو مقفول تُستخدم سرعة واحدة لكل الأذكار" data-en="Each dhikr remembers its own speed. When off, one speed is used for all adhkar"
-      style="font-size:12px;color:var(--theme-c3);">كل ذكر يحفظ سرعته الخاصة (آية الكرسي بطيئة والتسبيحات القصيرة أسرع). لو مقفول تُستخدم سرعة واحدة لكل الأذكار</span>
-
-    <div id="adhkarPerDhikrPaceToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0"
-      onclick="toggleTasbihPaceOpt('adhkarPerDhikrPace')"
-      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTasbihPaceOpt('adhkarPerDhikrPace');}"
-      style="margin-inline-start:auto;"></div>
-  </div>
-
-  <div id="adhkarPaceLockToggle-row" style="
-    margin: 8px auto 4px;
-    width: 97%; max-width: 860px;
-    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
-    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
-    border-radius: 14px;
-    padding: 10px 16px;
-    box-sizing: border-box;
-    direction: rtl;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Cairo', Arial, sans-serif;
-  ">
-    <span data-ar="🔒 تثبيت السرعة" data-en="🔒 Lock speed"
-      style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">🔒 تثبيت السرعة</span>
-
-    <span data-ar="يوقف التعلّم التلقائى فتبقى السرعة اللى اخترتها ثابتة (التغيير اليدوى بأزرار 🐢/🐇 يفضل شغال)" data-en="Stops automatic learning so your chosen speed stays fixed (the 🐢/🐇 buttons still work)"
-      style="font-size:12px;color:var(--theme-c3);">يوقف التعلّم التلقائى فتبقى السرعة اللى اخترتها ثابتة (التغيير اليدوى بأزرار 🐢/🐇 يفضل شغال)</span>
-
-    <div id="adhkarPaceLockToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0"
-      onclick="toggleTasbihPaceOpt('adhkarPaceLock')"
-      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTasbihPaceOpt('adhkarPaceLock');}"
-      style="margin-inline-start:auto;"></div>
-  </div>
+    <summary data-ar="⚙️ خيارات متقدمة للتسبيح (اهتزاز • سرعة لكل ذكر • تثبيت السرعة)" data-en="⚙️ Advanced tasbih options (vibration • per-dhikr speed • lock speed)"
+      style="cursor:pointer;padding:8px 0;font-size:14px;font-weight:700;color:var(--theme-c4);">⚙️ خيارات متقدمة للتسبيح (اهتزاز • سرعة لكل ذكر • تثبيت السرعة)</summary>
+    <div style="padding:8px 0;border-bottom:1px dashed rgba(var(--theme-c1-rgb),0.2);">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span data-ar="📳 اهتزاز عند الانتقال للذكر التالى" data-en="📳 Vibrate on next dhikr" style="font-size:14px;font-weight:700;color:var(--theme-c4);">📳 اهتزاز عند الانتقال للذكر التالى</span>
+        <div id="adhkarVibrateToggle" class="mini-toggle-switch on" role="switch" aria-checked="true" tabindex="0" onclick="toggleAdhkarVibrate()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAdhkarVibrate();}" style="margin-inline-start:auto;flex-shrink:0;"></div>
+      </div>
+      <div data-ar="اهتزاز خفيف على الموبايل (لا يعمل على بعض الأجهزة مثل آيفون)" data-en="Light vibration on mobile (not supported on some devices such as iPhone)" style="font-size:11.5px;color:var(--theme-c3);margin-top:3px;line-height:1.5;">اهتزاز خفيف على الموبايل (لا يعمل على بعض الأجهزة مثل آيفون)</div>
+    </div>
+    <div style="padding:8px 0;border-bottom:1px dashed rgba(var(--theme-c1-rgb),0.2);">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span data-ar="🎚️ سرعة منفصلة لكل ذكر" data-en="🎚️ Separate speed per dhikr" style="font-size:14px;font-weight:700;color:var(--theme-c4);">🎚️ سرعة منفصلة لكل ذكر</span>
+        <div id="adhkarPerDhikrPaceToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0" onclick="toggleTasbihPaceOpt('adhkarPerDhikrPace')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTasbihPaceOpt('adhkarPerDhikrPace');}" style="margin-inline-start:auto;flex-shrink:0;"></div>
+      </div>
+      <div data-ar="كل ذكر يحفظ سرعته الخاصة، ولو مقفول تُستخدم سرعة واحدة لكل الأذكار" data-en="Each dhikr remembers its own speed; when off, one speed is used for all" style="font-size:11.5px;color:var(--theme-c3);margin-top:3px;line-height:1.5;">كل ذكر يحفظ سرعته الخاصة، ولو مقفول تُستخدم سرعة واحدة لكل الأذكار</div>
+    </div>
+    <div style="padding:8px 0;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span data-ar="🔒 تثبيت السرعة" data-en="🔒 Lock speed" style="font-size:14px;font-weight:700;color:var(--theme-c4);">🔒 تثبيت السرعة</span>
+        <div id="adhkarPaceLockToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0" onclick="toggleTasbihPaceOpt('adhkarPaceLock')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTasbihPaceOpt('adhkarPaceLock');}" style="margin-inline-start:auto;flex-shrink:0;"></div>
+      </div>
+      <div data-ar="يوقف التعلّم التلقائى، والتغيير اليدوى بأزرار 🐢/🐇 يفضل شغال" data-en="Stops automatic learning; the 🐢/🐇 buttons still work" style="font-size:11.5px;color:var(--theme-c3);margin-top:3px;line-height:1.5;">يوقف التعلّم التلقائى، والتغيير اليدوى بأزرار 🐢/🐇 يفضل شغال</div>
+    </div>
+  </details>
 
   <div id="adhkar-share-settings" style="
     margin: 8px auto 4px;
