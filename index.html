@@ -19112,6 +19112,23 @@ function settingsFindGo(el, tab) {
   }, 80);
 }
 
+// ===== زر الرجوع (أندرويد/المتصفح) يقفل الإعدادات بدل الخروج من الموقع =====
+var _settingsEntryPushed = false;
+var _settingsIgnorePop = false;
+window.addEventListener('popstate', function() {
+  if (_settingsIgnorePop) { // رجوع أحدثناه إحنا لما قفلنا اللوحة بزر/خلفية
+    _settingsIgnorePop = false;
+    window._settingsPopHandled = true;
+    return;
+  }
+  var panel = document.getElementById('settings-panel');
+  if (_settingsEntryPushed && panel && panel.style.display !== 'none') {
+    _settingsEntryPushed = false; // الخطوة اتستهلكت بالرجوع نفسه
+    window._settingsPopHandled = true; // فخ الخروج يتجاهل الضغطة دى
+    toggleSettingsPanel();
+  }
+});
+
 function toggleSettingsPanel() {
   var panel = document.getElementById('settings-panel');
   var arrow = document.getElementById('settings-arrow');
@@ -19127,8 +19144,20 @@ function toggleSettingsPanel() {
 
     var sw = panel.querySelector('.search-wrapper');
     if (sw) sw.style.display = 'none';
+
+    // اتقفلت بزر/خلفية/Escape: نشيل الخطوة اللى ضفناها فى سجل المتصفح
+    if (_settingsEntryPushed) {
+      _settingsEntryPushed = false;
+      _settingsIgnorePop = true;
+      try { history.back(); } catch (e) { _settingsIgnorePop = false; }
+    }
   } else {
     panel.style.display = 'block';
+    try {
+      if (typeof window._armExitTrapIfPlaying === 'function') window._armExitTrapIfPlaying();
+      history.pushState({ _settingsOpen: true }, '');
+      _settingsEntryPushed = true;
+    } catch (e) {}
     if (typeof _refreshSettingsTabLabels === 'function') _refreshSettingsTabLabels();
     if (typeof _renderPrayerTabIfNeeded === 'function') _renderPrayerTabIfNeeded();
     if (backdrop) backdrop.style.display = 'block';
@@ -34416,7 +34445,10 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     }, 2300);
   }
 
+  window._armExitTrapIfPlaying = function() { if (_isAnyAudioPlaying()) _armHistoryTrap(); };
+
   window.addEventListener('popstate', function() {
+    if (window._settingsPopHandled) { window._settingsPopHandled = false; return; } // الرجوع ده قفل الإعدادات بس
     _trapArmed = false; // الفخ الحالي اتستهلك فعلاً بمجرد الرجوع
 
     if (!_isAnyAudioPlaying()) return; // مفيش صوت شغال، سيب الخروج يحصل عادي
