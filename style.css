@@ -10497,3 +10497,15 @@ body.dark-mode #settings-find-results { background: #1c1f24; }
     background: linear-gradient(135deg,var(--theme-c2),var(--theme-g2));
 }
 .sdt-btn.sdt-danger { background: linear-gradient(135deg,#c0392b,#e74c3c); }
+
+
+/* مقبض السحب لقفل الإعدادات */
+#settings-grabber {
+    display: flex; justify-content: center; padding: 2px 0 8px;
+    touch-action: none; cursor: grab;
+}
+#settings-grabber span {
+    width: 44px; height: 5px; border-radius: 3px;
+    background: rgba(var(--theme-c1-rgb),0.35);
+}
+#settings-tabs { touch-action: none; }
