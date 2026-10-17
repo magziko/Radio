@@ -2437,6 +2437,13 @@ setTimeout(autoScaleVerseFont, 100);
     transition: opacity 0.2s ease;
   ">
   <button id="settings-modal-close-btn" type="button" onclick="toggleSettingsPanel()" aria-label="Close settings" title="إغلاق / Close">✕</button>
+  <div id="settings-find-wrap">
+    <input id="settings-find-input" type="search" autocomplete="off" dir="auto"
+      data-ph-ar="🔎 ابحث في الإعدادات..." data-ph-en="🔎 Search settings..."
+      placeholder="🔎 ابحث في الإعدادات..." oninput="settingsFindRun(this.value)"
+      onkeydown="if(event.key==='Escape'){this.value='';settingsFindRun('');event.stopPropagation();}">
+    <div id="settings-find-results" role="listbox" style="display:none;"></div>
+  </div>
   <div id="settings-tabs" role="tablist">
     <button type="button" role="tab" class="settings-tab-btn active" data-tab="general" data-ar="🎛️ عام" data-en="🎛️ General" aria-selected="true" onclick="setSettingsTab('general')">🎛️ عام</button>
     <button type="button" role="tab" class="settings-tab-btn" data-tab="look" data-ar="🎨 المظهر" data-en="🎨 Look" aria-selected="false" onclick="setSettingsTab('look')">🎨 المظهر</button>
@@ -3118,6 +3125,17 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
 
   
+
+  <div id="settings-data-tools" data-stab="general">
+    <div class="stab-i18n sdt-title" data-ar="💾 النسخ الاحتياطي والتصفير" data-en="💾 Backup &amp; Reset">💾 النسخ الاحتياطي والتصفير</div>
+    <div class="stab-i18n sdt-desc" data-ar="صدّر إعداداتك ومفضلتك كملف وارجع استوردها وقت ما تحب، أو رجّع كل الإعدادات للوضع الافتراضي" data-en="Export your settings and favorites to a file and import them any time, or reset all settings to default">صدّر إعداداتك ومفضلتك كملف وارجع استوردها وقت ما تحب، أو رجّع كل الإعدادات للوضع الافتراضي</div>
+    <div class="sdt-btns">
+      <button type="button" class="sdt-btn stab-i18n" data-ar="⬇️ تصدير" data-en="⬇️ Export" onclick="exportSettingsBackup()">⬇️ تصدير</button>
+      <button type="button" class="sdt-btn stab-i18n" data-ar="⬆️ استيراد" data-en="⬆️ Import" onclick="document.getElementById('settings-import-file').click()">⬆️ استيراد</button>
+      <button type="button" class="sdt-btn sdt-danger stab-i18n" data-ar="♻️ تصفير الإعدادات" data-en="♻️ Reset all" onclick="resetAllSettings()">♻️ تصفير الإعدادات</button>
+    </div>
+    <input type="file" id="settings-import-file" accept="application/json,.json" style="display:none;" onchange="importSettingsBackup(this.files && this.files[0]); this.value='';">
+  </div>
 
   <div id="audio-quality-settings" data-stab="audio" class="aqx-panel" style="direction: rtl;">
     <div class="aqx-header" onclick="toggleAudioQualityBox()">
@@ -18884,6 +18902,11 @@ function _refreshSettingsTabLabels() {
   document.querySelectorAll('#settings-tabs .settings-tab-btn').forEach(function(b) {
     b.textContent = ar ? b.getAttribute('data-ar') : b.getAttribute('data-en');
   });
+  document.querySelectorAll('#settings-panel .stab-i18n').forEach(function(el) {
+    el.textContent = ar ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+  });
+  var fi = document.getElementById('settings-find-input');
+  if (fi) fi.placeholder = ar ? fi.getAttribute('data-ph-ar') : fi.getAttribute('data-ph-en');
 }
 function setSettingsTab(tab) {
   var panel = document.getElementById('settings-panel');
@@ -18924,6 +18947,170 @@ function _renderPrayerTabIfNeeded() {
     }
   });
 })();
+
+// ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
+var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
+var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
+
+function _settingsKeys() {
+  var out = [];
+  try {
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k || _SETTINGS_EXCLUDE.test(k)) continue;
+      out.push(k);
+    }
+  } catch (e) {}
+  return out;
+}
+function _settingsIsAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
+function _settingsToast(msg) {
+  if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0;
+  if (typeof showToast === 'function') showToast(msg);
+}
+
+function exportSettingsBackup() {
+  var data = {};
+  _settingsKeys().forEach(function(k) {
+    var v = localStorage.getItem(k);
+    if (v !== null && v.length < 500000) data[k] = v;
+  });
+  var payload = { app: 'radio-ma-settings', version: 1, exportedAt: new Date().toISOString(), data: data };
+  var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'radio-settings-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function() { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  _settingsToast(_settingsIsAr() ? '⬇️ تم تصدير إعداداتك' : '⬇️ Settings exported');
+}
+
+function importSettingsBackup(file) {
+  if (!file) return;
+  var ar = _settingsIsAr();
+  var reader = new FileReader();
+  reader.onload = function() {
+    var obj = null;
+    try { obj = JSON.parse(reader.result); } catch (e) {}
+    if (!obj || obj.app !== 'radio-ma-settings' || !obj.data || typeof obj.data !== 'object') {
+      _settingsToast(ar ? '⚠️ الملف ده مش نسخة إعدادات صالحة' : '⚠️ Not a valid settings backup file');
+      return;
+    }
+    var keys = Object.keys(obj.data).filter(function(k) {
+      return !_SETTINGS_EXCLUDE.test(k) && typeof obj.data[k] === 'string';
+    });
+    if (!keys.length) {
+      _settingsToast(ar ? '⚠️ الملف فاضي' : '⚠️ The file is empty');
+      return;
+    }
+    if (!confirm(ar ? ('استيراد ' + keys.length + ' إعداد؟ هيتم استبدال إعداداتك الحالية وإعادة تحميل الصفحة.')
+                    : ('Import ' + keys.length + ' settings? Your current settings will be replaced and the page will reload.'))) return;
+    try {
+      keys.forEach(function(k) { localStorage.setItem(k, obj.data[k]); });
+    } catch (e) {
+      _settingsToast(ar ? '⚠️ تعذّر حفظ الإعدادات' : '⚠️ Could not save settings');
+      return;
+    }
+    location.reload();
+  };
+  reader.readAsText(file);
+}
+
+function resetAllSettings() {
+  var ar = _settingsIsAr();
+  if (!confirm(ar ? 'تصفير كل الإعدادات للوضع الافتراضي؟ (المفضلة وتقدم التسبيح مش هيتمسحوا) هيتم إعادة تحميل الصفحة.'
+                  : 'Reset all settings to default? (Favorites and tasbih progress are kept.) The page will reload.')) return;
+  // التصفير بقائمة صريحة بمفاتيح الإعدادات بس، عشان ما نمسحش أى بيانات للمستخدم (مفضلة / ختمة / تقدّم / عدّادات)
+  var toRemove = [];
+  try {
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (k && _SETTINGS_RESET.test(k)) toRemove.push(k);
+    }
+  } catch (e) {}
+  toRemove.forEach(function(k) { try { localStorage.removeItem(k); } catch (e) {} });
+  location.reload();
+}
+
+// ----- بحث داخل الإعدادات -----
+function _sNorm(t) {
+  return (t || '').toLowerCase()
+    .replace(/[\u064B-\u0652\u0670\u0640]/g, '')
+    .replace(/[أإآٱ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي')
+    .replace(/\s+/g, ' ').trim()
+    .split(' ').map(function(w) { return (w.length > 3 && w.indexOf('ال') === 0) ? w.slice(2) : w; }).join(' ');
+}
+function _settingsFindCandidates() {
+  return Array.prototype.slice.call(document.querySelectorAll(
+    '#settings-panel [data-stab], #adhkar-settings-drawer > div, #adhkar-advanced-settings > div, #audio-quality-settings .aqx-boost-row'));
+}
+function _settingsFindInfo(el) {
+  var ar = _settingsIsAr();
+  var blob = el.textContent || '';
+  var nodes = el.querySelectorAll('[data-ar],[data-en]');
+  for (var i = 0; i < nodes.length; i++) {
+    blob += ' ' + (nodes[i].getAttribute('data-ar') || '') + ' ' + (nodes[i].getAttribute('data-en') || '');
+  }
+  var titleNode = el.querySelector('[data-ar]') || el;
+  var title = (ar ? titleNode.getAttribute('data-ar') : titleNode.getAttribute('data-en')) || titleNode.textContent || '';
+  title = title.replace(/\s+/g, ' ').trim();
+  if (title.length > 60) title = title.slice(0, 57) + '…';
+  return { blob: _sNorm(blob), title: title };
+}
+var _SETTINGS_TAB_NAMES = {
+  general: ['🎛️ عام', '🎛️ General'], look: ['🎨 المظهر', '🎨 Look'], adhkar: ['📿 الأذكار', '📿 Adhkar'],
+  audio: ['🔊 الصوت', '🔊 Audio'], prayer: ['🕌 الصلاة', '🕌 Prayer']
+};
+function settingsFindRun(q) {
+  var box = document.getElementById('settings-find-results');
+  if (!box) return;
+  var nq = _sNorm(q);
+  if (nq.length < 2) { box.style.display = 'none'; box.innerHTML = ''; return; }
+  var ar = _settingsIsAr();
+  var hits = [];
+  _settingsFindCandidates().forEach(function(el) {
+    var host = el.hasAttribute('data-stab') ? el : el.closest('[data-stab]');
+    if (!host) return;
+    var info = _settingsFindInfo(el);
+    if (!info.title || info.blob.indexOf(nq) === -1) return;
+    hits.push({ el: el, tab: host.getAttribute('data-stab'), title: info.title });
+  });
+  // لو الحاوية وأولادها كلهم طابقوا، نعرض الأولاد بس
+  hits = hits.filter(function(h) {
+    return !hits.some(function(o) { return o !== h && h.el.contains(o.el); });
+  }).slice(0, 8);
+  box.innerHTML = '';
+  if (!hits.length) {
+    var none = document.createElement('div');
+    none.className = 'sfr-none';
+    none.textContent = ar ? 'مفيش نتائج' : 'No results';
+    box.appendChild(none);
+  }
+  hits.forEach(function(h) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'sfr-item';
+    var tn = _SETTINGS_TAB_NAMES[h.tab] || [h.tab, h.tab];
+    b.textContent = (ar ? tn[0] : tn[1]) + '  ›  ' + h.title;
+    b.onclick = function() { settingsFindGo(h.el, h.tab); };
+    box.appendChild(b);
+  });
+  box.style.display = 'block';
+}
+function settingsFindGo(el, tab) {
+  setSettingsTab(tab);
+  var inp = document.getElementById('settings-find-input');
+  if (inp) inp.value = '';
+  settingsFindRun('');
+  var body = el.closest('.aqx-body, .paset-body');
+  if (body && !body.classList.contains('open')) body.classList.add('open');
+  setTimeout(function() {
+    try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { el.scrollIntoView(); }
+    el.classList.add('settings-hit');
+    setTimeout(function() { el.classList.remove('settings-hit'); }, 2400);
+  }, 80);
+}
 
 function toggleSettingsPanel() {
   var panel = document.getElementById('settings-panel');
