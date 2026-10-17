@@ -2437,6 +2437,7 @@ setTimeout(autoScaleVerseFont, 100);
     transition: opacity 0.2s ease;
   ">
   <button id="settings-modal-close-btn" type="button" onclick="toggleSettingsPanel()" aria-label="Close settings" title="إغلاق / Close">✕</button>
+  <div id="settings-grabber" aria-hidden="true"><span></span></div>
   <div id="settings-find-wrap">
     <input id="settings-find-input" type="search" autocomplete="off" dir="auto"
       data-ph-ar="🔎 ابحث في الإعدادات..." data-ph-en="🔎 Search settings..."
@@ -19112,22 +19113,143 @@ function settingsFindGo(el, tab) {
   }, 80);
 }
 
-// ===== زر الرجوع (أندرويد/المتصفح) يقفل الإعدادات بدل الخروج من الموقع =====
-var _settingsEntryPushed = false;
-var _settingsIgnorePop = false;
+// ===== زر الرجوع (أندرويد/المتصفح) يقفل أى نافذة مفتوحة بدل الخروج من الموقع =====
+// آلية واحدة: بنراقب ظهور/اختفاء كل نافذة مسجّلة، ولما تفتح بنضيف خطوة فى سجل المتصفح،
+// فالرجوع يقفل آخر نافذة فتحت. ولما تتقفل بزر/خلفية بنشيل الخطوة بتاعتها.
+var _ovRegistry = [
+  { id: 'settings', el: function() { return document.getElementById('settings-panel'); },
+    isOpen: function(e) { return !!e && e.style.display === 'block'; },
+    close: function() { toggleSettingsPanel(); } },
+  { id: 'search', el: function() { return document.getElementById('searchOverlayPanel'); },
+    isOpen: function(e) { return !!e && e.style.display === 'block'; },
+    close: function() { if (typeof closeMainSearchOverlay === 'function') closeMainSearchOverlay(); } },
+  { id: 'shortcuts', el: function() { return document.getElementById('kb-modal-overlay'); },
+    isOpen: function(e) { return !!e && e.classList.contains('open'); },
+    close: function() { if (typeof toggleShortcutsModal === 'function') toggleShortcutsModal(false); } },
+  { id: 'linkchecker', el: function() { return document.getElementById('linkCheckerOverlay'); },
+    isOpen: function(e) { return !!e && e.classList.contains('open'); },
+    close: function() { if (typeof closeLinkCheckerModal === 'function') closeLinkCheckerModal(); } },
+  { id: 'mushaf', el: function() { return document.getElementById('mushafFullscreenOverlay'); },
+    isOpen: function(e) { return !!e && e.classList.contains('active'); },
+    close: function() { if (typeof closeMushafFullscreen === 'function') closeMushafFullscreen(); } },
+  { id: 'khatma', el: function() { return document.getElementById('khatmaTrackerPopup'); },
+    isOpen: function(e) { return !!e; },
+    close: function() { var e = document.getElementById('khatmaTrackerPopup'); if (e) e.remove(); } }
+];
+var _ovStack = [];
+var _ovIgnore = 0;
+var _ovObserved = {};
+var _ovObserver = null;
+
+function _ovAttach() {
+  if (!_ovObserver) _ovObserver = new MutationObserver(function() { _ovSync(); });
+  _ovRegistry.forEach(function(o) {
+    var e = o.el();
+    if (e && !_ovObserved[o.id] && o.id !== 'khatma') {
+      _ovObserved[o.id] = true;
+      _ovObserver.observe(e, { attributes: true, attributeFilter: ['style', 'class'] });
+    }
+  });
+}
+function _ovSync() {
+  _ovAttach();
+  _ovRegistry.forEach(function(o) {
+    var now = false;
+    try { now = !!o.isOpen(o.el()); } catch (e) {}
+    if (now && !o.open) { o.open = true; _ovOpened(o); }
+    else if (!now && o.open) { o.open = false; _ovClosedByUI(o); }
+  });
+}
+function _ovOpened(o) {
+  try {
+    if (typeof window._armExitTrapIfPlaying === 'function') window._armExitTrapIfPlaying();
+    history.pushState({ _ov: o.id }, '');
+    _ovStack.push(o);
+  } catch (e) {}
+}
+function _ovClosedByUI(o) {
+  var i = _ovStack.lastIndexOf(o);
+  if (i === -1) return; // اتقفلت بالرجوع نفسه
+  if (i === _ovStack.length - 1) {
+    _ovStack.pop();
+    _ovIgnore++;
+    try { history.back(); } catch (e) { _ovIgnore--; }
+  } else {
+    _ovStack[i] = { dead: true }; // نافذة تحت غيرها اتقفلت: خطوتها بتتبلع عند أول رجوع
+  }
+}
 window.addEventListener('popstate', function() {
-  if (_settingsIgnorePop) { // رجوع أحدثناه إحنا لما قفلنا اللوحة بزر/خلفية
-    _settingsIgnorePop = false;
+  if (_ovIgnore > 0) { // رجوع أحدثناه إحنا لما قفلنا نافذة بزر/خلفية
+    _ovIgnore--;
     window._settingsPopHandled = true;
     return;
   }
-  var panel = document.getElementById('settings-panel');
-  if (_settingsEntryPushed && panel && panel.style.display !== 'none') {
-    _settingsEntryPushed = false; // الخطوة اتستهلكت بالرجوع نفسه
+  if (_ovStack.length) {
+    var o = _ovStack.pop();
     window._settingsPopHandled = true; // فخ الخروج يتجاهل الضغطة دى
-    toggleSettingsPanel();
+    if (!o.dead) {
+      o.open = false;
+      try { o.close(); } catch (e) {}
+    }
   }
 });
+(function() {
+  function start() {
+    _ovAttach();
+    _ovSync();
+    // نوافذ بتتضاف ديناميكيًا (زى متتبع الختمة ومودال الاختصارات)
+    new MutationObserver(function() { _ovSync(); }).observe(document.body, { childList: true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+  window.addEventListener('load', function() { _ovAttach(); _ovSync(); });
+})();
+
+// ===== السحب لأسفل لقفل الإعدادات (من الشريط العلوى: المقبض/البحث/التابات) =====
+(function initSettingsSwipeClose() {
+  var panel, startY = 0, dy = 0, dragging = false, moved = false, t0 = 0;
+  // المنطقة بالإحداثيات (مش بالعنصر) لأن المتصفح بيعدّل هدف اللمس لأقرب عنصر قابل للضغط (زى حقل البحث)
+  function inZone(y) {
+    var g = document.getElementById('settings-grabber');
+    var t = document.getElementById('settings-tabs');
+    if (!g || !t) return false;
+    return y >= g.getBoundingClientRect().top - 6 && y <= t.getBoundingClientRect().bottom + 4;
+  }
+  function reset(animate) {
+    if (!panel) return;
+    panel.style.transition = animate ? 'transform .2s ease, opacity .2s ease' : '';
+    panel.style.transform = '';
+    panel.style.opacity = '';
+    if (animate) setTimeout(function() { if (panel) panel.style.transition = ''; }, 220);
+  }
+  document.addEventListener('touchstart', function(e) {
+    panel = document.getElementById('settings-panel');
+    if (!panel || panel.style.display !== 'block' || e.touches.length !== 1) return;
+    if (!panel.contains(e.target) || panel.scrollTop > 0 || !inZone(e.touches[0].clientY)) return;
+    dragging = true; moved = false; dy = 0; startY = e.touches[0].clientY; t0 = Date.now();
+  }, { passive: true });
+  document.addEventListener('touchmove', function(e) {
+    if (!dragging) return;
+    dy = e.touches[0].clientY - startY;
+    if (dy < 0) dy = 0;
+    if (!moved) { if (dy < 8) return; moved = true; panel.style.transition = 'none'; } // تجاهل اللمسة العادية
+    panel.style.transform = 'translate(-50%, calc(-50% + ' + dy + 'px))';
+    panel.style.opacity = String(Math.max(0.4, 1 - dy / 500));
+  }, { passive: true });
+  function end() {
+    if (!dragging) return;
+    dragging = false;
+    if (!moved) return;
+    var fast = dy > 40 && (Date.now() - t0) < 250;
+    if (dy > 90 || fast) {
+      reset(false);
+      toggleSettingsPanel();
+    } else {
+      reset(true);
+    }
+  }
+  document.addEventListener('touchend', end, { passive: true });
+  document.addEventListener('touchcancel', function() { dragging = false; reset(true); }, { passive: true });
+})();
 
 function toggleSettingsPanel() {
   var panel = document.getElementById('settings-panel');
@@ -19144,20 +19266,8 @@ function toggleSettingsPanel() {
 
     var sw = panel.querySelector('.search-wrapper');
     if (sw) sw.style.display = 'none';
-
-    // اتقفلت بزر/خلفية/Escape: نشيل الخطوة اللى ضفناها فى سجل المتصفح
-    if (_settingsEntryPushed) {
-      _settingsEntryPushed = false;
-      _settingsIgnorePop = true;
-      try { history.back(); } catch (e) { _settingsIgnorePop = false; }
-    }
   } else {
     panel.style.display = 'block';
-    try {
-      if (typeof window._armExitTrapIfPlaying === 'function') window._armExitTrapIfPlaying();
-      history.pushState({ _settingsOpen: true }, '');
-      _settingsEntryPushed = true;
-    } catch (e) {}
     if (typeof _refreshSettingsTabLabels === 'function') _refreshSettingsTabLabels();
     if (typeof _renderPrayerTabIfNeeded === 'function') _renderPrayerTabIfNeeded();
     if (backdrop) backdrop.style.display = 'block';
