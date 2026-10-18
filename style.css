@@ -10509,3 +10509,71 @@ body.dark-mode #settings-find-results { background: #1c1f24; }
     background: rgba(var(--theme-c1-rgb),0.35);
 }
 #settings-tabs { touch-action: none; }
+
+/* ══════════════════════════════════════════════════════════════
+   مجموعة الأزرار الموحّدة (سابق / تشغيل / تالي / عشوائي)
+   بتتنقل بين الشاشة الترحيبية والشريط الرئيسي
+   ══════════════════════════════════════════════════════════════ */
+#unifiedControls { display: contents; }
+
+#customControlButtons.unified-hidden,
+#customRandomBtn.unified-hidden { display: none !important; }
+
+/* داخل الشاشة الترحيبية — الوضع الداكن (الأساس) */
+#unifiedControls.in-welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  direction: rtl;
+  margin: 15px auto;
+  padding: 8px 14px;
+  width: max-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #0a1628 0%, #0f2744 50%, #0a1628 100%);
+  border: 1px solid rgba(100,181,246,0.25);
+  border-radius: 40px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+}
+#unifiedControls.in-welcome .pnb-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* داخل الشاشة الترحيبية — الوضع الفاتح: ألوان فاتحة تتبع السيمث */
+body:not(.dark-mode) #unifiedControls.in-welcome {
+  background: linear-gradient(135deg, #ffffff 0%, rgba(var(--theme-c1-rgb),0.10) 100%);
+  border: 1.5px solid rgba(var(--theme-c1-rgb),0.28);
+  box-shadow: 0 2px 10px rgba(var(--theme-c1-rgb),0.12);
+}
+body:not(.dark-mode) #unifiedControls.in-welcome .pnb-btn {
+  background: #ffffff;
+  border-color: rgba(var(--theme-c1-rgb),0.30);
+  color: var(--theme-c2);
+  box-shadow: 0 2px 8px rgba(var(--theme-c1-rgb),0.08);
+}
+body:not(.dark-mode) #unifiedControls.in-welcome .pnb-btn:hover {
+  background: rgba(var(--theme-c1-rgb),0.12);
+  border-color: var(--theme-c1);
+  color: var(--theme-c2);
+}
+body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play {
+  background: linear-gradient(135deg, var(--theme-c1) 0%, var(--theme-c2) 100%);
+  border-color: rgba(var(--theme-c1-rgb),0.65);
+  color: #fff;
+}
+body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play:hover {
+  background: linear-gradient(135deg, var(--theme-c1) 0%, var(--theme-c2) 100%);
+  filter: brightness(1.1);
+  color: #fff;
+}
+body:not(.dark-mode) #unifiedControls.in-welcome .pnb-group .pnb-lbl,
+body:not(.dark-mode) #unifiedControls.in-welcome .pnb-group:has(#pnb-play) .pnb-lbl {
+  color: var(--theme-c2);
+}
+#unifiedControls.in-welcome .pnb-lbl[aria-hidden] { display: none; }
+body:not(.dark-mode) #unifiedControls.in-welcome .pnb-divider {
+  background: rgba(var(--theme-c1-rgb),0.25);
+}
