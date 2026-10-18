@@ -24718,7 +24718,7 @@ window.addEventListener("load", function() {
             testBtn.title = originalTitle;
             testBtn.dataset.testing = '0';
             // نفس الاستدعاء اللي بيحصل من جوه scheduleAdhan وقت الموعد الحقيقي
-            playAdhan('Dhuhr');
+            playAdhan('Dhuhr', true);
             setTimeout(() => localStorage.removeItem(STORAGE_KEY), 1000);
           }
         }, 1000);
@@ -24871,8 +24871,9 @@ window.addEventListener("load", function() {
   };
 
   // ---- تشغيل / إيقاف الأذان ----
-  function playAdhan(prayerName) {
-    if (!adhanEnabled) return;
+  function playAdhan(prayerName, force) {
+    // force=true (زر التجربة) يشغّل الأذان ويوقف الراديو حتى لو "الأذان التلقائي" مقفول
+    if (!adhanEnabled && !force) return;
 
     // لا يشغّل نفس الصلاة مرتين في نفس اليوم
     const todayKey = new Date().toDateString() + '_' + prayerName;
