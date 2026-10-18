@@ -14020,6 +14020,43 @@ window._ptComputeDuha = _ptComputeDuha;
     });
     return out;
   }
+  // ===== التنقل بين نتائج البحث (كل كلمة مظلّلة = نتيجة؛ الشريط ثابت في رأس النافذة) =====
+  var _ntMatchIdx = -1, _ntLastQ = '';
+  function ntMarkCurrent(marks) {
+    for (var i = 0; i < marks.length; i++) marks[i].classList.toggle('nt-cur', i === _ntMatchIdx);
+    var c = g('ntMatchCount');
+    if (c) c.textContent = (_ntMatchIdx + 1) + ' / ' + marks.length;
+  }
+  function ntMatchRefresh(active) {
+    var nav = g('ntMatchNav'), list = g('ntList');
+    if (!nav || !list) return;
+    var marks = active ? list.querySelectorAll('mark.nt-hl') : [];
+    if (!marks.length) { nav.style.display = 'none'; _ntMatchIdx = -1; return; }
+    var q = filterText.trim();
+    if (q !== _ntLastQ || _ntMatchIdx < 0 || _ntMatchIdx >= marks.length) _ntMatchIdx = 0;
+    _ntLastQ = q;
+    nav.style.display = 'flex';
+    ntMarkCurrent(marks);   // بنظلّل النتيجة الحالية بس، من غير سكرول (عشان مربع البحث ما يختفيش وأنت بتكتب)
+  }
+  function ntGoMatch(dir) {
+    var list = g('ntList'); if (!list) return;
+    var marks = list.querySelectorAll('mark.nt-hl');
+    if (!marks.length) return;
+    _ntMatchIdx = (_ntMatchIdx + dir + marks.length) % marks.length;
+    var mk = marks[_ntMatchIdx];
+    // لو الملاحظة مطوية (المستخدم طواها بنفسه) نفتحها عشان النتيجة تبان
+    var txt = mk.closest ? mk.closest('.nt-text') : null;
+    if (txt && txt.classList.contains('nt-clamp')) {
+      var card = txt.closest('.nt-note'), cid = card && card.getAttribute('data-id');
+      if (cid) ntExpanded[cid] = true;
+      txt.classList.remove('nt-clamp');
+      var mb = card && card.querySelector('.nt-more');
+      if (mb) mb.textContent = nt('less') + ' \u25B4';
+      ntRefreshClamps();
+    }
+    ntMarkCurrent(marks);
+    try { mk.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { mk.scrollIntoView(); }
+  }
   // اسم التصنيف بلغة الواجهة + العربي + الإنجليزي (عشان "دعاء" و"dua" يلاقوا نفس الملاحظات مهما كانت اللغة)
   function ntTagWords(id) {
     var words = [];
@@ -14238,6 +14275,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
 
     if (!notes.length) {
       listEl.innerHTML = '<div class="nt-empty">' + ntEsc(nt('empty')) + '</div>';
+      ntMatchRefresh(false);
       ntRefreshClamps(0);
       ntKeepFocusInside();
       return;
@@ -14254,6 +14292,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     });
     if (!shown.length) {
       listEl.innerHTML = '<div class="nt-empty">' + ntEsc(nt('noResults')) + '</div>';
+      ntMatchRefresh(false);
       ntRefreshClamps(0);
       ntKeepFocusInside();
       return;
@@ -14302,6 +14341,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     });
     listEl.innerHTML = html;
     ntRefreshClamps(shown.length);
+    ntMatchRefresh(qTokens.length > 0);
     ntKeepFocusInside();
   }
   // يحدد أنهي ملاحظات طويلة فعلًا (أكتر من 3 سطور) ويظهر لها زر "المزيد"، ويحدّث شريط (العدد + فتح/طي الكل)
@@ -15264,6 +15304,10 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       '#notesPopup .nt-search{display:none;width:100%;margin-top:16px;padding:8px 12px;border-radius:10px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:16px;outline:none;}' +
       '#notesPopup .nt-ta:focus,#notesPopup .nt-search:focus{border-color:var(--theme-g1);}' +
       '#notesPopup mark.nt-hl{background:rgba(255,213,79,0.6);color:inherit;border-radius:3px;padding:0 1px;}' +
+      '#notesPopup mark.nt-hl.nt-cur{background:#ff9800;color:#000;box-shadow:0 0 0 2px #ff9800;}' +
+      '#notesPopup .nt-matchnav{align-items:center;gap:6px;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;}' +
+      '#notesPopup .nt-matchnav button{width:30px;height:28px;border-radius:8px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-size:11px;cursor:pointer;line-height:1;padding:0;}' +
+      '#notesPopup .nt-matchnav button:active{background:var(--theme-g1);color:#fff;}' +
       '#notesPopup .nt-row{display:flex;gap:8px;margin-top:10px;}' +
       '#notesPopup .nt-primary{flex:1;background:var(--theme-g1);color:#fff;border:none;border-radius:10px;padding:10px 12px;font-family:Cairo,sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;}' +
       '#notesPopup .nt-ghost{background:transparent;color:' + clr + ';border:1px solid ' + ring + ';border-radius:10px;padding:10px 14px;font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;}' +
@@ -15329,6 +15373,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       '<div id="ntCard" role="dialog" aria-modal="true" tabindex="-1" aria-label="' + ntEsc(nt('title')) + '" style="outline:none;background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:420px;max-height:88vh;overflow-y:auto;direction:' + dir + ';font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:ntSlideIn .22s ease;">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';position:sticky;top:0;background:' + bg + ';border-radius:18px 18px 0 0;z-index:1;">' +
           '<div style="font-size:15px;font-weight:700;">📝 ' + ntEsc(nt('title')) + '</div>' +
+          '<div id="ntMatchNav" class="nt-matchnav" dir="ltr" style="display:none;"><button type="button" id="ntMatchPrev" aria-label="Previous match" title="Shift+Enter">&#9650;</button><span id="ntMatchCount"></span><button type="button" id="ntMatchNext" aria-label="Next match" title="Enter">&#9660;</button></div>' +
           '<button id="ntClose" type="button" aria-label="' + ntEsc(nt('close')) + '" style="background:none;border:none;cursor:pointer;font-size:22px;opacity:.5;line-height:1;color:' + clr + ';padding:4px 6px;">✕</button>' +
         '</div>' +
         '<div style="padding:14px 16px 18px;">' +
@@ -15397,6 +15442,12 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     g('ntCancelBtn').addEventListener('click', ntCancelEdit);
     g('ntClose').addEventListener('click', ntClose);
     g('ntSearch').addEventListener('input', function() { filterText = this.value; ntRenderList(); });
+    // Enter = النتيجة التالية ، Shift+Enter = السابقة
+    g('ntSearch').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); ntGoMatch(e.shiftKey ? -1 : 1); }
+    });
+    g('ntMatchNext').addEventListener('click', function() { ntGoMatch(1); });
+    g('ntMatchPrev').addEventListener('click', function() { ntGoMatch(-1); });
     g('ntBackupBtn').addEventListener('click', ntExport);
     g('ntUndoBtn').addEventListener('click', ntUndoDelete);
     g('ntImportBtn').addEventListener('click', function() { g('ntImportInput').click(); });
