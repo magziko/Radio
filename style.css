@@ -10428,7 +10428,7 @@ body.dark-mode .settings-tab-btn.active { color: #fff; }
         "sleep         soundalert"
         "startfile     fullrandom"
         "flag          disablewelcome"
-        "welcomecycle  collapsewelcome";
+        "welcomecycle  .";
 }
 #settings-panel[data-active-tab="look"] #settingsQuickGrid {
     grid-template-areas:
@@ -10509,9 +10509,3 @@ body.dark-mode #settings-find-results { background: #1c1f24; }
     background: rgba(var(--theme-c1-rgb),0.35);
 }
 #settings-tabs { touch-action: none; }
-
-#settings-welcomecollapse-item { grid-area: collapsewelcome; }
-#settings-welcomecollapse-item {
-    width: 100% !important; max-width: 100% !important; margin: 0 !important;
-    box-sizing: border-box !important; justify-content: center;
-}
