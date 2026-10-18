@@ -10577,3 +10577,25 @@ body:not(.dark-mode) #unifiedControls.in-welcome .pnb-group:has(#pnb-play) .pnb-
 body:not(.dark-mode) #unifiedControls.in-welcome .pnb-divider {
   background: rgba(var(--theme-c1-rgb),0.25);
 }
+
+/* ══════════════════════════════════════════════════════════════
+   الشاشة الترحيبية: منع المساحة الفاضية أسفل البطاقة
+   (الأصل: margin-top ثابت + margin-bottom:auto كان بيرمي كل المساحة الزيادة تحت السهم)
+   ══════════════════════════════════════════════════════════════ */
+/* موبايل/تابلت: البطاقة تملا الشاشة، وصندوق الآية هو اللي بياخد المساحة الزيادة */
+@media (max-width: 991px) {
+  #welcomeContent {
+    min-height: calc(100vh - 2vh);
+    min-height: calc(100dvh - 2vh);
+  }
+}
+@media (max-width: 767px) {
+  #quranVerse { height: auto; flex: 1 0 400px; }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  #quranVerse { height: auto; flex: 1 0 370px; }
+}
+/* شاشات كبيرة: البطاقة في منتصف الشاشة بدل ما تلزق فوق وتسيب فراغ تحت */
+@media (min-width: 992px) {
+  #welcomeContent { margin: auto; }
+}
