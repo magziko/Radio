@@ -281,19 +281,21 @@
        <audio id="customAudioPlayer" autoplay></audio>
 
             <div id="customControlButtons">
-                <button class="customBtnControl" onclick="previousStation()" title="المحطة السابقة" aria-label="المحطة السابقة">
+                <button class="customBtnControl" onclick="previousStation()" title="المحطة السابقة">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
+                        <path d="M15 5v14l-7-7z"/>
+                        <path d="M19 5v14l-7-7z"/>
                     </svg>
                 </button>
-                <button id="customPlayToggleButton" class="customBtnControl" onclick="togglePlayPauseFunc()" title="تشغيل / إيقاف" aria-label="تشغيل / إيقاف">
+                <button id="customPlayToggleButton" class="customBtnControl" onclick="togglePlayPauseFunc()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path id="customPlayPauseSymbol" d="M8 5v14l11-7z"/>
                     </svg>
                 </button>
-                <button class="customBtnControl" onclick="nextStationFunc()" title="المحطة التالية" aria-label="المحطة التالية">
+                <button class="customBtnControl" onclick="nextStationFunc()" title="المحطة التالية">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/>
+                        <path d="M8 5v14l7-7z"/>
+                        <path d="M4 5v14l7-7z"/>
                     </svg>
                 </button>
 
@@ -1030,11 +1032,6 @@ function closeWelcomeScreen() {
     window._statsPlayStart = null;
   }
 
-  // استمرارية التشغيل: لو المستخدم اختار محطة في الشاشة الترحيبية (تالي/سابق/عشوائي/تنقل تلقائي)
-  // وكانت شغّالة وقت الإغلاق، الراديو الرئيسي يكمّل نفس المحطة بدل ما يرجع لآخر محطة محفوظة
-  var _continueStation = (window._welcomePickedStation && !customAudioPlayer.paused && customAudioPlayer.src)
-    ? window._welcomePickedStation : null;
-
   customAudioPlayer.pause();
   customAudioPlayer.currentTime = 0;
   customAudioPlayer.src = '';
@@ -1043,27 +1040,6 @@ function closeWelcomeScreen() {
     const params = new URLSearchParams(window.location.search);
     const url = params.get('url');
     const name = params.get('station');
-
-    if (!url && _continueStation) {
-      var _cUrl = _continueStation.url;
-      var _cName = _continueStation.name;
-      localStorage.setItem('lastStation', JSON.stringify({ url: _cUrl, name: _cName }));
-      var _cBtn = null;
-      document.querySelectorAll('.button').forEach(function(btn) {
-        if (_cBtn) return;
-        var du = btn.getAttribute('data-urls');
-        if (btn.getAttribute('data-url') === _cUrl ||
-            (du && du.includes(_cUrl)) ||
-            btn.getAttribute('data-ar') === _cName) {
-          _cBtn = btn;
-        }
-      });
-      window._mainPlayAllowed = true;
-      if (_cBtn) toggleRadio(_cBtn);
-      else playNewAudio(_cUrl, _cName, null, true);
-      return;
-    }
-
     if (url) {
       localStorage.setItem('lastStation', JSON.stringify({
         url: url,
@@ -1620,7 +1596,6 @@ function playStation(station) {
     // ── حفظ اسم المحطة قبل التشغيل لضمان تتبع الإحصائيات ──
     window._welcomeStationName = station.name;
     window._statsActiveName = station.name;
-    window._welcomePickedStation = { name: station.name, url: stationSrcs[0], urls: station.urls || null };
     customAudioPlayer.src = stationSrcs[i];
     customAudioPlayer.load();
 
@@ -1742,7 +1717,6 @@ function playWelcomeScreenStation(stationUrl, stationName) {
   // ── حفظ اسم المحطة لضمان تتبع الإحصائيات ──
   window._welcomeStationName = stationName;
   window._statsActiveName = stationName;
-  window._welcomePickedStation = { name: stationName, url: stationUrl, urls: null };
   customAudioPlayer.src = stationUrl;
   customAudioPlayer.load();
   customAudioPlayer.play().catch(function() {});
