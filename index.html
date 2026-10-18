@@ -32257,9 +32257,48 @@ document.addEventListener('DOMContentLoaded', function() {
         window[fn]();
       }, true);
 
+      // ── لغة الأزرار: لغة الشاشة الترحيبية وهي ظاهرة، ولغة الموقع (عربي/إنجليزي) بعد كده ──
+      var _titles = {
+        'pnb-prev':   { ar: 'المحطة السابقة', en: 'Previous station' },
+        'pnb-next':   { ar: 'المحطة التالية', en: 'Next station' },
+        'pnb-play':   { ar: 'تشغيل / إيقاف',  en: 'Play / Pause' },
+        'pnb-random': { ar: 'اخترنا لك',       en: 'Pick for me' }
+      };
+      function currentLang() {
+        var siteLang = (typeof isArabic !== 'undefined' && !isArabic) ? 'en' : 'ar';
+        if (welcomeOpen() && typeof welcomeDisplayLang === 'string' && welcomeDisplayLang) return welcomeDisplayLang;
+        return siteLang;
+      }
+      function applyLabels() {
+        var lang = currentLang();
+        uc.querySelectorAll('.pnb-lbl[data-ar]').forEach(function(lbl) {
+          var t = lbl.getAttribute('data-' + lang) || lbl.getAttribute('data-en');
+          if (t) lbl.textContent = t;
+        });
+        Object.keys(_titles).forEach(function(id) {
+          var b = document.getElementById(id);
+          if (!b) return;
+          var t = _titles[id][lang === 'ar' ? 'ar' : 'en'];
+          b.title = t;
+          b.setAttribute('aria-label', t);
+        });
+      }
+      ['toggleLanguage', 'selectWelcomeLang'].forEach(function(fn) {
+        var orig = window[fn];
+        if (typeof orig !== 'function') return;
+        window[fn] = function() {
+          var r = orig.apply(this, arguments);
+          setTimeout(applyLabels, 0);
+          return r;
+        };
+      });
+      var _placeOrig = place;
+      place = function() { _placeOrig(); applyLabels(); };
+
       if (ws) {
         new MutationObserver(place).observe(ws, { attributes: true, attributeFilter: ['style', 'class'] });
       }
+      _where = '';
       place();
     })();
 
