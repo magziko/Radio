@@ -1037,24 +1037,6 @@ function closeWelcomeScreen() {
   customAudioPlayer.src = '';
 
   setTimeout(function() {
-    // طى الكارت بعد أول تشغيل: نكمّل نفس المحطة اللى كان بيشغّلها الكارت فى المشغّل الثابت
-    if (window._welcomeHandoff) {
-      var _ho = window._welcomeHandoff;
-      window._welcomeHandoff = null;
-      var _hoBtn = null;
-      document.querySelectorAll('.button').forEach(function(btn) {
-        if (_hoBtn) return;
-        if (btn.getAttribute('data-url') === _ho.url ||
-            (btn.getAttribute('data-urls') && btn.getAttribute('data-urls').indexOf(_ho.url) !== -1) ||
-            btn.getAttribute('data-ar') === _ho.name) {
-          _hoBtn = btn;
-        }
-      });
-      window._mainPlayAllowed = true;
-      if (_hoBtn && typeof toggleRadio === 'function') toggleRadio(_hoBtn);
-      else playNewAudio(_ho.url, _ho.name || 'إذاعة القرآن الكريم', null, true);
-      return;
-    }
     const params = new URLSearchParams(window.location.search);
     const url = params.get('url');
     const name = params.get('station');
@@ -1552,67 +1534,6 @@ function togglePlayPauseFunc() {
       currentStatus.textContent = radioStations[stationIndex].name + " " + _nowPlayingSuffix();
   }
 }
-
-// ===== مشغّل واحد: الكارت الترحيبى يطوى بعد أول تشغيل يدوى =====
-function _welcomeCollapseEnabled() {
-  try { return localStorage.getItem('welcomeAutoCollapse') !== '0'; } catch (e) { return true; }
-}
-function toggleWelcomeCollapseSetting() {
-  var cb = document.getElementById('welcomeCollapseToggle');
-  try { localStorage.setItem('welcomeAutoCollapse', (cb && cb.checked) ? '1' : '0'); } catch (e) {}
-}
-var _welcomeFoldTimer = null;
-// مقاطع الفتح (الاستعاذة/المقدمة) بتشتغل على نفس المشغّل قبل المحطة: ما نطويش الكارت وهى شغّالة
-function _welcomeIsIntroClipPlaying() {
-  var src = customAudioPlayer.currentSrc || customAudioPlayer.src || '';
-  return /2_20260614_20260614|20260630_20260630_1419/.test(src);
-}
-function collapseWelcomeIntoMainPlayer() {
-  var ws = document.getElementById('welcomeScreen');
-  if (!ws || ws.style.display === 'none' || window._welcomeScreenClosed) return;
-  if (!isAudioPlaying || customAudioPlayer.paused) return;
-  if (_welcomeIsIntroClipPlaying()) return; // الحدث 'playing' الجاى (المحطة نفسها) هيعيد الجدولة
-  var st = (typeof radioStations !== 'undefined' && radioStations[stationIndex]) ? radioStations[stationIndex] : null;
-  window._welcomeHandoff = {
-    url: customAudioPlayer.currentSrc || customAudioPlayer.src,
-    name: (st && st.name) || window._welcomeStationName || ''
-  };
-  window._welcomeUserPlay = false;
-  var h = ws.offsetHeight;
-  var mostlyOffscreen = (window.scrollY || window.pageYOffset || 0) > h * 0.6;
-  function finish() {
-    ws.style.transition = ''; ws.style.height = ''; ws.style.minHeight = ''; ws.style.opacity = '';
-    ws.style.overflow = ''; ws.style.paddingTop = ''; ws.style.paddingBottom = '';
-    closeWelcomeScreen();
-    if (mostlyOffscreen) window.scrollTo(0, Math.max(0, (window.scrollY || 0) - h));
-  }
-  if (mostlyOffscreen) { finish(); return; }
-  ws.style.overflow = 'hidden';
-  ws.style.minHeight = '0';
-  ws.style.height = h + 'px';
-  ws.style.transition = 'height .45s ease, opacity .4s ease, padding .45s ease';
-  requestAnimationFrame(function() {
-    ws.style.height = '0px';
-    ws.style.paddingTop = '0px';
-    ws.style.paddingBottom = '0px';
-    ws.style.opacity = '0';
-  });
-  setTimeout(finish, 480);
-}
-(function initWelcomeFold() {
-  // ضغطة المستخدم على أزرار الكارت (تشغيل / السابق / التالى) = "تشغيل يدوى"
-  document.addEventListener('click', function(e) {
-    var t = e.target;
-    if (t && t.closest && t.closest('#customControlButtons .customBtnControl')) window._welcomeUserPlay = true;
-  }, true);
-  customAudioPlayer.addEventListener('playing', function() {
-    if (!window._welcomeUserPlay || !_welcomeCollapseEnabled() || window._welcomeScreenClosed) return;
-    clearTimeout(_welcomeFoldTimer);
-    if (_welcomeIsIntroClipPlaying()) return;
-    _welcomeFoldTimer = setTimeout(collapseWelcomeIntoMainPlayer, 1800);
-  });
-  customAudioPlayer.addEventListener('pause', function() { clearTimeout(_welcomeFoldTimer); });
-})();
 
 // للتوافق مع الكود القديم
 function startRadio() {
@@ -2860,11 +2781,6 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="buttonsFlagToggle" class="wtb-switch" onchange="toggleButtonsFlagSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('buttonsFlagToggle');if(_cb){_cb.checked=(localStorage.getItem('buttonsFlagHidden')!=='true');}})();</script>
-    <div id="settings-welcomecollapse-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
-      <label for="welcomeCollapseToggle" class="wtb-text stab-i18n" data-ar="🗜️ طى الترحيب بعد التشغيل" data-en="🗜️ Fold welcome after play">🗜️ طى الترحيب بعد التشغيل</label>
-      <input type="checkbox" id="welcomeCollapseToggle" class="wtb-switch" onchange="toggleWelcomeCollapseSetting()">
-    </div>
-    <script>(function(){var _cb=document.getElementById('welcomeCollapseToggle');if(_cb){_cb.checked=(localStorage.getItem('welcomeAutoCollapse')!=='0');}})();</script>
     <button id="disableWelcomeToggleBtn" data-stab="general"
             onclick="toggleDisableWelcomeBtn()"
             title="إخفاء شاشة الترحيب / Disable Welcome Screen"
@@ -19035,7 +18951,7 @@ function _renderPrayerTabIfNeeded() {
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
-var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|welcomeAutoCollapse|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
+var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
 
 function _settingsKeys() {
   var out = [];
@@ -21650,7 +21566,6 @@ function openWelcomeScreen() {
   window._welcomeScreenClosed = false;
   window._welcomeRadioBgStarted = false;
   window._welcomePlayInitiated = false;
-  window._welcomeUserPlay = false;
 
   document.getElementById('welcomeScreen').style.display = 'flex';
 
