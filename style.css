@@ -10595,7 +10595,12 @@ body:not(.dark-mode) #unifiedControls.in-welcome .pnb-divider {
 @media (min-width: 768px) and (max-width: 991px) {
   #quranVerse { height: auto; flex: 1 0 370px; }
 }
-/* شاشات كبيرة: البطاقة في منتصف الشاشة بدل ما تلزق فوق وتسيب فراغ تحت */
+/* شاشات الكمبيوتر: نفس الفكرة — البطاقة تملا ارتفاع الشاشة وصندوق الآية ياخد المساحة الزيادة */
 @media (min-width: 992px) {
-  #welcomeContent { margin: auto; }
+  #welcomeContent {
+    margin: 1vh auto 0;
+    min-height: calc(100vh - 2vh);
+    min-height: calc(100dvh - 2vh);
+  }
+  #quranVerse { height: auto; flex: 1 0 320px; }
 }
