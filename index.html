@@ -353,7 +353,7 @@
 
                 <button id="customRandomBtn"
                         onclick="randomStationFunc()"
-                        title="محطة عشوائية / Random Station"
+                        title="اخترنا لك / Pick for me"
                         class="welcome-toggle-btn">
                     <span class="wtb-icon">🔀</span>
                     <span class="wtb-text" data-ar="اختيارك" data-en="Random">اختيارك</span>
@@ -1732,7 +1732,7 @@ function randomStationFunc() {
       }, 400);
     }
   }
-  showToast('🔀 محطة عشوائية');
+  showToast('🔀 اخترنا لك');
 }
 
 // ── تشغيل محطة بـ URL مباشر (من روابط خارجية أو إشعارات) ──
@@ -16007,7 +16007,6 @@ function applyInitialLanguage() {
     var pnbMap = {
       'pnb-prev': 'Prev',
       'pnb-next': 'Next',
-      'pnb-random': 'Random',
       'pnb-play': 'Play'
     };
     document.querySelectorAll('#player-nav-bar .pnb-group').forEach(function(group) {
@@ -19470,10 +19469,6 @@ function toggleLanguage() {
     'pnb-next': {
       ar: 'التالية',
       en: 'Next'
-    },
-    'pnb-random': {
-      ar: 'عشوائي',
-      en: 'Random'
     },
     'pnb-play': {
       ar: 'تشغيل',
@@ -32034,10 +32029,10 @@ document.addEventListener('DOMContentLoaded', function() {
       '<div class="pnb-divider"></div>',
 
       '<div class="pnb-group">',
-      '<button class="pnb-btn" id="pnb-random" title="اخترنا لك – عشوائي">',
+      '<button class="pnb-btn" id="pnb-random" title="اخترنا لك">',
       '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>',
       '</button>',
-      '<span class="pnb-lbl" style="color:rgba(255,213,79,.8);" data-ar="عشوائي" data-en="Random" data-fr="Aléatoire" data-es="Aleatorio" data-sv="Slumpmässig" data-nl="Willekeurig" data-ga="Randamach" data-de="Zufällig" data-ru="Случайная" data-tr="Rastgele" data-pt="Aleatório" data-zh="随机" data-ur="بے ترتیب">عشوائي</span>',
+      '<span class="pnb-lbl" aria-hidden="true">&nbsp;</span>',
       '</div>',
 
       '<div class="pnb-divider"></div>',
