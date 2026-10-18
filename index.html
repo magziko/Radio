@@ -13973,6 +13973,99 @@ window._ptComputeDuha = _ptComputeDuha;
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
+
+  // ===== بحث ذكي: توحيد الحروف قبل المقارنة =====
+  // همزات الألف (أ إ آ ٱ) → ا ، ى/ی/ئ → ي ، ؤ → و ، ة → ه ، حذف التشكيل والتطويل وعلامات المصحف،
+  // الأرقام الهندية/الفارسية → 0-9 ، وللّاتيني: حروف صغيرة + حذف علامات التشكيل (é → e)
+  var NT_CH_MAP = {
+    '\u0623':'\u0627', '\u0625':'\u0627', '\u0622':'\u0627', '\u0671':'\u0627',
+    '\u0649':'\u064A', '\u06CC':'\u064A', '\u06D0':'\u064A', '\u0626':'\u064A',
+    '\u0624':'\u0648', '\u0629':'\u0647', '\u06C1':'\u0647', '\u06BE':'\u0647', '\u06C0':'\u0647',
+    '\u06A9':'\u0643', '\u06AF':'\u0643', '\u0131':'i'
+  };
+  function ntNormChar(ch) {
+    var d = ch;
+    try { d = ch.normalize('NFD'); } catch (e) {}
+    var out = '';
+    for (var i = 0; i < d.length; i++) {
+      var c = d.charAt(i), code = d.charCodeAt(i);
+      if (code === 0x0640 || (code >= 0x064B && code <= 0x065F) || code === 0x0670 ||
+          (code >= 0x06D6 && code <= 0x06ED) || (code >= 0x0300 && code <= 0x036F)) continue; // تشكيل/تطويل/علامات
+      if (code >= 0x0660 && code <= 0x0669) { out += String(code - 0x0660); continue; }  // ٠-٩
+      if (code >= 0x06F0 && code <= 0x06F9) { out += String(code - 0x06F0); continue; }  // ۰-۹
+      if (/\s/.test(c)) { out += ' '; continue; }
+      out += (NT_CH_MAP[c] || c).toLowerCase();
+    }
+    return out;
+  }
+  // بترجّع النص الموحّد + خريطة (موضع كل حرف موحّد → موضعه في النص الأصلي) عشان نظلّل الكلمة في النص الأصلي
+  function ntNormMap(str) {
+    str = String(str == null ? '' : str);
+    var n = '', m = [];
+    for (var i = 0; i < str.length; i++) {
+      var o = ntNormChar(str.charAt(i));
+      for (var j = 0; j < o.length; j++) { n += o.charAt(j); m.push(i); }
+    }
+    return { n: n, m: m };
+  }
+  function ntNorm(str) { return ntNormMap(str).n; }
+  // كلمات البحث (كلها لازم تتوفر في الملاحظة)؛ ولو الكلمة بتبدأ بـ "ال" بنقبل كمان شكلها من غيرها (الصلاة ≈ صلاة)
+  function ntSearchTokens(q) {
+    var out = [];
+    ntNorm(q).split(' ').forEach(function(w) {
+      if (!w) return;
+      var alts = [w];
+      if (w.length >= 4 && w.indexOf('\u0627\u0644') === 0) alts.push(w.slice(2));
+      out.push(alts);
+    });
+    return out;
+  }
+  // اسم التصنيف بلغة الواجهة + العربي + الإنجليزي (عشان "دعاء" و"dua" يلاقوا نفس الملاحظات مهما كانت اللغة)
+  function ntTagWords(id) {
+    var words = [];
+    NT_TAGS.forEach(function(t) {
+      if (t.id !== id) return;
+      words.push(nt(t.key));
+      var row = NT_T[t.key];
+      if (row) { words.push(row[0]); words.push(row[1]); }
+    });
+    return words.join(' ');
+  }
+  function ntTokenHit(hay, alts) {
+    for (var i = 0; i < alts.length; i++) if (hay.indexOf(alts[i]) !== -1) return true;
+    return false;
+  }
+  function ntHighlight(text, tokens) {
+    text = String(text == null ? '' : text);
+    var nm = ntNormMap(text), ranges = [];
+    tokens.forEach(function(alts) {
+      alts.forEach(function(w) {
+        if (!w) return;
+        var p = nm.n.indexOf(w);
+        while (p !== -1) {
+          var a = nm.m[p];
+          var b = (p + w.length < nm.m.length) ? nm.m[p + w.length] : text.length;
+          ranges.push([a, b]);
+          p = nm.n.indexOf(w, p + 1);
+        }
+      });
+    });
+    if (!ranges.length) return ntEsc(text);
+    ranges.sort(function(x, y) { return x[0] - y[0] || y[1] - x[1]; });
+    var merged = [ranges[0].slice()];
+    for (var i = 1; i < ranges.length; i++) {
+      var last = merged[merged.length - 1];
+      if (ranges[i][0] <= last[1]) { if (ranges[i][1] > last[1]) last[1] = ranges[i][1]; }
+      else merged.push(ranges[i].slice());
+    }
+    var html = '', pos = 0;
+    merged.forEach(function(r) {
+      html += ntEsc(text.slice(pos, r[0])) + '<mark class="nt-hl">' + ntEsc(text.slice(r[0], r[1])) + '</mark>';
+      pos = r[1];
+    });
+    return html + ntEsc(text.slice(pos));
+  }
+
   function g(id) { return document.getElementById(id); }
   function ntToast(msg) { if (typeof showToast === 'function') showToast(msg); }
   function ntId() { return 'n_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
@@ -14123,7 +14216,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       return (b.ts || 0) - (a.ts || 0);
     });
     var searchEl = g('ntSearch');
-    if (searchEl) searchEl.style.display = notes.length >= 5 ? 'block' : 'none';
+    if (searchEl) searchEl.style.display = notes.length >= 1 ? 'block' : 'none';
 
     // صف فلترة الفئات: بيظهر بس لو فيه ملاحظة واحدة على الأقل مصنّفة بفئة،
     // عشان ميضيفش زحمة لمين مستخدمش الميزة دي
@@ -14149,10 +14242,14 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       ntKeepFocusInside();
       return;
     }
-    var q = filterText.trim().toLowerCase();
+    var q = filterText.trim();
+    var qTokens = q ? ntSearchTokens(q) : [];
     var shown = notes.filter(function(n) {
       if (activeTagFilter && n.tag !== activeTagFilter) return false;
-      if (q && (n.text + ' ' + (n.station || '')).toLowerCase().indexOf(q) === -1) return false;
+      if (qTokens.length) {
+        var hay = ntNorm((n.text || '') + ' ' + (n.station || '') + ' ' + (n.tag ? ntTagWords(n.tag) : ''));
+        for (var k = 0; k < qTokens.length; k++) { if (!ntTokenHit(hay, qTokens[k])) return false; }
+      }
       return true;
     });
     if (!shown.length) {
@@ -14177,8 +14274,8 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
         metaTags += '<span class="nt-tag">📻 ' + ntEsc(n.station) + (typeof n.pos === 'number' ? ' · ⏱ ' + ntFmtPos(n.pos) : '') + '</span>';
       }
       var hasText = !!(n.text && n.text.trim());
-      var isOpen = !!ntExpanded[n.id];
-      var textHtml = hasText ? ('<div class="nt-text' + (isOpen ? '' : ' nt-clamp') + '" dir="auto">' + ntEsc(n.text) + '</div>' +
+      var isOpen = (ntExpanded[n.id] !== undefined) ? !!ntExpanded[n.id] : (qTokens.length > 0);
+      var textHtml = hasText ? ('<div class="nt-text' + (isOpen ? '' : ' nt-clamp') + '" dir="auto">' + (qTokens.length ? ntHighlight(n.text, qTokens) : ntEsc(n.text)) + '</div>' +
           '<button type="button" class="nt-more" data-act="toggle" hidden>' + ntEsc(nt(isOpen ? 'less' : 'more')) + (isOpen ? ' ▴' : ' ▾') + '</button>')
         : (n.audio ? ('<div class="nt-text nt-voice-label" dir="auto">' + ntEsc(nt('voiceNoteLabel')) + '</div>') : '');
       var audioHtml = n.audio ? (
@@ -14220,7 +14317,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       var lh = parseFloat(getComputedStyle(t).lineHeight) || 24;
       var isLong = t.scrollHeight > lh * 3 + 6;
       m.hidden = !isLong;
-      if (isLong) { anyLong = true; if (!ntExpanded[cards[i].getAttribute('data-id')]) anyCollapsed = true; }
+      if (isLong) { anyLong = true; if (t.classList.contains('nt-clamp')) anyCollapsed = true; }
     }
     var bar = g('ntToolbar'), cnt = g('ntCount'), btn = g('ntExpandAll');
     if (!bar) return;
@@ -15166,6 +15263,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       '#notesPopup .nt-ta{display:block;width:100%;min-height:140px;resize:vertical;padding:10px 12px;border-radius:12px;border:1.5px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:16px;line-height:1.7;outline:none;transition:border-color .15s;}' +
       '#notesPopup .nt-search{display:none;width:100%;margin-top:16px;padding:8px 12px;border-radius:10px;border:1px solid ' + ring + ';background:' + inputBg + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:16px;outline:none;}' +
       '#notesPopup .nt-ta:focus,#notesPopup .nt-search:focus{border-color:var(--theme-g1);}' +
+      '#notesPopup mark.nt-hl{background:rgba(255,213,79,0.6);color:inherit;border-radius:3px;padding:0 1px;}' +
       '#notesPopup .nt-row{display:flex;gap:8px;margin-top:10px;}' +
       '#notesPopup .nt-primary{flex:1;background:var(--theme-g1);color:#fff;border:none;border-radius:10px;padding:10px 12px;font-family:Cairo,sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;}' +
       '#notesPopup .nt-ghost{background:transparent;color:' + clr + ';border:1px solid ' + ring + ';border-radius:10px;padding:10px 14px;font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;}' +
@@ -15311,7 +15409,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     g('ntExpandAll').addEventListener('click', function() {
       var expand = this.getAttribute('data-mode') === 'expand';
       var cs = g('ntList').querySelectorAll('.nt-note');
-      for (var k = 0; k < cs.length; k++) { var cid = cs[k].getAttribute('data-id'); if (expand) ntExpanded[cid] = true; else delete ntExpanded[cid]; }
+      for (var k = 0; k < cs.length; k++) { var cid = cs[k].getAttribute('data-id'); ntExpanded[cid] = !!expand; }
       ntRenderList();
     });
     if (typeof ResizeObserver !== 'undefined') { try { new ResizeObserver(function() { ntRefreshClamps(); }).observe(g('ntList')); } catch (e) {} }
@@ -15323,7 +15421,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       if (!id) return;
       var act = btn.getAttribute('data-act');
       if (act === 'toggle') {
-        var tx = card.querySelector('.nt-text'), open = !ntExpanded[id];
+        var tx = card.querySelector('.nt-text'), open = tx ? tx.classList.contains('nt-clamp') : !ntExpanded[id]; // الحالة الفعلية من الشاشة (البحث بيفتح الملاحظات تلقائياً)
         ntExpanded[id] = open;
         if (tx) tx.classList.toggle('nt-clamp', !open);
         btn.textContent = nt(open ? 'less' : 'more') + (open ? ' ▴' : ' ▾');
