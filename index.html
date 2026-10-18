@@ -32221,43 +32221,17 @@ document.addEventListener('DOMContentLoaded', function() {
           : '<path d="M8 5v14l11-7z"/>';
         playBtn.classList.toggle('is-playing', !!isPlaying);
       }
+      // مكان الأزرار يتبع المشغل الشغّال:
+      //  • الترحيبي شغّال (أو لسه ما اتشغلش حاجة) والشاشة الترحيبية ظاهرة → الأزرار في الترحيبية
+      //  • المستخدم اختار محطة من الراديو الرئيسي والترحيبية لسه مفتوحة، أو الترحيبية اتقفلت → الأزرار في الشريط الرئيسي
+      var _where = '';
+      var _mainActive = false;   // الراديو الرئيسي اشتغل والشاشة الترحيبية لسه ظاهرة
+      var _wasOpen = welcomeOpen();
+
       window._unifiedSyncPlay = function(isPlaying) {
-        if (welcomeOpen()) setPlayIcon(isPlaying);
+        if (_where === 'welcome') setPlayIcon(isPlaying);
       };
 
-      var _where = '';
-      function place() {
-        var inWelcome = welcomeOpen() && oldSet && oldSet.parentNode;
-        var want = inWelcome ? 'welcome' : 'main';
-        if (want === _where) return;
-        _where = want;
-        if (inWelcome) {
-          oldSet.parentNode.insertBefore(uc, oldSet);
-          uc.classList.add('in-welcome');
-          oldSet.classList.add('unified-hidden');
-          if (oldRandom) oldRandom.classList.add('unified-hidden');
-          setPlayIcon(!customAudioPlayer.paused && !!customAudioPlayer.src);
-        } else {
-          navBar.insertBefore(uc, navBar.firstChild);
-          uc.classList.remove('in-welcome');
-          setPlayIcon(!audioEl.paused);
-        }
-      }
-
-      // أثناء ظهور الشاشة الترحيبية: الضغطات تروح للمشغل الترحيبي
-      uc.addEventListener('click', function(e) {
-        if (!welcomeOpen()) return;
-        var b = e.target.closest ? e.target.closest('button') : null;
-        if (!b) return;
-        var fn = { 'pnb-prev': 'previousStation', 'pnb-next': 'nextStationFunc',
-                   'pnb-play': 'togglePlayPauseFunc', 'pnb-random': 'randomStationFunc' }[b.id];
-        if (!fn || typeof window[fn] !== 'function') return;
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        window[fn]();
-      }, true);
-
-      // ── لغة الأزرار: لغة الشاشة الترحيبية وهي ظاهرة، ولغة الموقع (عربي/إنجليزي) بعد كده ──
       var _titles = {
         'pnb-prev':   { ar: 'المحطة السابقة', en: 'Previous station' },
         'pnb-next':   { ar: 'المحطة التالية', en: 'Next station' },
@@ -32266,7 +32240,7 @@ document.addEventListener('DOMContentLoaded', function() {
       };
       function currentLang() {
         var siteLang = (typeof isArabic !== 'undefined' && !isArabic) ? 'en' : 'ar';
-        if (welcomeOpen() && typeof welcomeDisplayLang === 'string' && welcomeDisplayLang) return welcomeDisplayLang;
+        if (_where === 'welcome' && typeof welcomeDisplayLang === 'string' && welcomeDisplayLang) return welcomeDisplayLang;
         return siteLang;
       }
       function applyLabels() {
@@ -32283,6 +32257,49 @@ document.addEventListener('DOMContentLoaded', function() {
           b.setAttribute('aria-label', t);
         });
       }
+
+      function place() {
+        var inWelcome = welcomeOpen() && !_mainActive && oldSet && oldSet.parentNode;
+        var want = inWelcome ? 'welcome' : 'main';
+        if (want !== _where) {
+          _where = want;
+          if (inWelcome) {
+            oldSet.parentNode.insertBefore(uc, oldSet);
+            uc.classList.add('in-welcome');
+            oldSet.classList.add('unified-hidden');
+            if (oldRandom) oldRandom.classList.add('unified-hidden');
+            setPlayIcon(!customAudioPlayer.paused && !!customAudioPlayer.src);
+          } else {
+            navBar.insertBefore(uc, navBar.firstChild);
+            uc.classList.remove('in-welcome');
+            setPlayIcon(!audioEl.paused);
+          }
+        }
+        applyLabels();
+      }
+
+      // لما تكون الأزرار في الترحيبية: الضغطات تروح للمشغل الترحيبي
+      uc.addEventListener('click', function(e) {
+        if (_where !== 'welcome') return;
+        var b = e.target.closest ? e.target.closest('button') : null;
+        if (!b) return;
+        var fn = { 'pnb-prev': 'previousStation', 'pnb-next': 'nextStationFunc',
+                   'pnb-play': 'togglePlayPauseFunc', 'pnb-random': 'randomStationFunc' }[b.id];
+        if (!fn || typeof window[fn] !== 'function') return;
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        window[fn]();
+      }, true);
+
+      // المستخدم شغّل محطة من الراديو الرئيسي والترحيبية لسه مفتوحة → الأزرار تنتقل للمكان الأساسي
+      audioEl.addEventListener('play', function() {
+        if (welcomeOpen()) { _mainActive = true; place(); }
+      });
+      // المشغل الترحيبي رجع اشتغل (مثلاً التنقل التلقائي) → الأزرار ترجع للترحيبية
+      customAudioPlayer.addEventListener('play', function() {
+        if (welcomeOpen() && _mainActive) { _mainActive = false; place(); }
+      });
+
       ['toggleLanguage', 'selectWelcomeLang'].forEach(function(fn) {
         var orig = window[fn];
         if (typeof orig !== 'function') return;
@@ -32292,13 +32309,15 @@ document.addEventListener('DOMContentLoaded', function() {
           return r;
         };
       });
-      var _placeOrig = place;
-      place = function() { _placeOrig(); applyLabels(); };
 
       if (ws) {
-        new MutationObserver(place).observe(ws, { attributes: true, attributeFilter: ['style', 'class'] });
+        new MutationObserver(function() {
+          var o = welcomeOpen();
+          if (o && !_wasOpen) _mainActive = false;   // الترحيبية اتفتحت من جديد
+          _wasOpen = o;
+          place();
+        }).observe(ws, { attributes: true, attributeFilter: ['style', 'class'] });
       }
-      _where = '';
       place();
     })();
 
