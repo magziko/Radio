@@ -32212,16 +32212,6 @@ document.addEventListener('DOMContentLoaded', function() {
       kids.forEach(function(k) { uc.appendChild(k); });
       navBar.insertBefore(uc, navBar.firstChild);
 
-      var st = document.createElement('style');
-      st.textContent =
-        '#unifiedControls{display:contents;}' +
-        '#unifiedControls.in-welcome{display:flex;align-items:center;justify-content:center;gap:6px;' +
-          'direction:rtl;margin:15px auto;padding:8px 14px;width:max-content;max-width:100%;box-sizing:border-box;' +
-          'background:linear-gradient(135deg,#0a1628 0%,#0f2744 50%,#0a1628 100%);' +
-          'border:1px solid rgba(100,181,246,0.25);border-radius:40px;box-shadow:0 4px 18px rgba(0,0,0,0.18);}' +
-        '#unifiedControls.in-welcome .pnb-group{display:flex;align-items:center;gap:4px;}' +
-        '#customControlButtons.unified-hidden,#customRandomBtn.unified-hidden{display:none !important;}';
-      document.head.appendChild(st);
 
       var ws = document.getElementById('welcomeScreen');
       var oldSet = document.getElementById('customControlButtons');
