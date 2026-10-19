@@ -1180,7 +1180,7 @@ const WELCOME_STALLED_DELAY = 20000;
 
 // ── handler الأخطاء العامة (يشتغل للمحطة الافتراضية فقط) ──
 audio.addEventListener("error", function() {
-  if (window._welcomeScreenClosed) return;
+  if (window._welcomeScreenClosed || !isWelcomeAutoFallbackEnabled()) return;
   clearTimeout(welcomeErrorTimer);
   welcomeErrorTimer = setTimeout(function() {
     if (audio.error || audio.networkState === 3) nextSource();
@@ -1188,7 +1188,7 @@ audio.addEventListener("error", function() {
 });
 
 audio.addEventListener("stalled", function() {
-  if (window._welcomeScreenClosed) return;
+  if (window._welcomeScreenClosed || !isWelcomeAutoFallbackEnabled()) return;
   clearTimeout(welcomeStalledTimer);
   welcomeStalledTimer = setTimeout(function() {
     if (audio.paused || audio.readyState < 2) nextSource();
@@ -1319,11 +1319,37 @@ function playSource(i) {
     });
 }
 
+// ── خيار الإعدادات: التحويل التلقائي للرابط/المحطة الاحتياطية في الشاشة الترحيبية (مفعّل افتراضياً) ──
+function isWelcomeAutoFallbackEnabled() {
+  return localStorage.getItem('welcomeAutoFallback') !== 'false';
+}
+// مسموح للترحيبية تحوّل لرابط احتياطي (وتظهر إشعار) بس لو: الخيار مفعّل + الشاشة الترحيبية ظاهرة +
+// المستخدم ما أوقفش الراديو + الراديو الرئيسي مش شغّال (عشان ما تتداخلش معاه)
+function _welcomeFallbackAllowed() {
+  if (!isWelcomeAutoFallbackEnabled()) return false;
+  if (window._welcomeScreenClosed) return false;
+  if (window._userStoppedManually) return false;
+  var ws = document.getElementById('welcomeScreen');
+  if (ws && getComputedStyle(ws).display === 'none') return false;
+  var m = document.getElementById('currentAudio');
+  if (m && !m.paused) return false;
+  return true;
+}
+function toggleWelcomeFallbackSetting() {
+  var cb = document.getElementById('welcomeFallbackToggle');
+  var enabled = cb ? cb.checked : true;
+  localStorage.setItem('welcomeAutoFallback', enabled ? 'true' : 'false');
+  if (!enabled) { // وقّف أي مؤقتات شغّالة في الخلفية
+    clearTimeout(welcomeErrorTimer); clearTimeout(welcomeStalledTimer);
+    clearTimeout(_sErrorTimer); clearTimeout(_sStalledTimer);
+    _sErrorTimer = null; _sStalledTimer = null;
+  }
+}
+
 // ── الانتقال للمصدر الاحتياطي عند الخطأ ──
 function nextSource() {
   if (switchingSource) return;
-  if (window._welcomeScreenClosed) return;
-  if (window._userStoppedManually) return; // المستخدم أوقف — لا انتقال لمحطة احتياطية
+  if (!_welcomeFallbackAllowed()) return;
 
   switchingSource = true;
   welcomeConsecutiveErrors++;
@@ -1653,7 +1679,7 @@ function playStation(station) {
 
   function nextSrc() {
     if (sSwitching) return;
-    if (window._userStoppedManually) return; // المستخدم أوقف — لا محطة بديلة
+    if (!_welcomeFallbackAllowed()) return;
     sSwitching = true;
     if (isMultiUrlStation && typeof isFullRandomUrlEnabled === 'function' && isFullRandomUrlEnabled() && stationSrcs.length > 1) {
       // ── وضع "روابط ديناميكية": اختر رابطًا عشوائيًا مختلفًا عن الحالي بدل السير بالترتيب ──
@@ -1677,12 +1703,14 @@ function playStation(station) {
   }
 
   _stationErrorHandler = function() {
+    if (window._welcomeScreenClosed || !isWelcomeAutoFallbackEnabled()) return;
     clearTimeout(_sErrorTimer);
     _sErrorTimer = setTimeout(function() {
       if (customAudioPlayer.error || customAudioPlayer.networkState === 3) nextSrc();
     }, 15000);
   };
   _stationStalledHandler = function() {
+    if (window._welcomeScreenClosed || !isWelcomeAutoFallbackEnabled()) return;
     clearTimeout(_sStalledTimer);
     _sStalledTimer = setTimeout(function() {
       if (customAudioPlayer.paused || customAudioPlayer.readyState < 2) nextSrc();
@@ -2798,6 +2826,11 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="fullRandomUrlToggle" class="wtb-switch" onchange="toggleFullRandomUrlSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('fullRandomUrlToggle');if(_cb){_cb.checked=(localStorage.getItem('fullRandomUrlEnabled')==='true');}})();</script>
+    <div id="settings-welcomefallback-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;" title="تحويل تلقائي لرابط/محطة احتياطية في الشاشة الترحيبية عند تعطّل البث (مع إشعار). التعطيل يوقف الإشعار ومؤقتات المراقبة في الخلفية / Auto-switch to a backup link on the welcome screen when the stream fails (with a notice). Turning it off removes the notice and the background watchdog timers.">
+      <label for="welcomeFallbackToggle" class="wtb-text" data-ar="تحويل تلقائي للرابط الاحتياطي" data-en="Auto backup-link switch" data-fr="Bascule auto vers le lien de secours" data-es="Cambio automático al enlace de respaldo" data-sv="Automatiskt byte till reservlänk" data-nl="Automatisch naar back-uplink" data-ga="Athrú uathoibríoch go nasc cúltaca" data-de="Automatischer Wechsel zum Ersatzlink" data-ru="Автопереключение на резервную ссылку" data-tr="Yedek bağlantıya otomatik geçiş" data-pt="Troca automática para link de reserva" data-zh="自动切换备用链接" data-ur="بیک اپ لنک پر خودکار تبدیلی" style="cursor:pointer; margin:0;">تحويل تلقائي للرابط الاحتياطي</label>
+      <input type="checkbox" id="welcomeFallbackToggle" class="wtb-switch" onchange="toggleWelcomeFallbackSetting()">
+    </div>
+    <script>(function(){var _cb=document.getElementById('welcomeFallbackToggle');if(_cb){_cb.checked=(localStorage.getItem('welcomeAutoFallback')!=='false');}})();</script>
     <div id="settings-autodark-item" data-stab="look" class="welcome-toggle-btn" style="gap:7px;">
       <label for="autoDarkModeToggle" class="wtb-text" data-ar="🌙 الوضع الداكن التلقائي (حسب الوقت)" data-en="🌙 Auto Dark Mode (by time)" data-fr="🌙 Mode sombre automatique (selon l'heure)" data-es="🌙 Modo oscuro automático (según la hora)" data-sv="🌙 Automatiskt mörkt läge (efter tid)" data-nl="🌙 Automatische donkere modus (op tijd)" data-ga="🌙 Modh Dorcha Uathoibríoch (de réir ama)" data-de="🌙 Automatischer Dunkelmodus (nach Uhrzeit)" data-ru="🌙 Автотёмный режим (по времени)" data-tr="🌙 Otomatik Karanlık Mod (saate göre)" data-pt="🌙 Modo escuro automático (por hora)" data-zh="🌙 自动深色模式（按时间）" data-ur="🌙 خودکار ڈارک موڈ (وقت کے مطابق)" style="cursor:pointer; margin:0;">🌙 الوضع الداكن التلقائي (حسب الوقت)</label>
       <input type="checkbox" id="autoDarkModeToggle" class="wtb-switch" onchange="toggleAutoDarkModeSetting()">
@@ -16212,6 +16245,9 @@ function applyInitialLanguage() {
     var fullRandomLblInit = document.querySelector('label[for="fullRandomUrlToggle"]');
     if (fullRandomLblInit) fullRandomLblInit.textContent = fullRandomLblInit.getAttribute('data-en');
 
+    var wFallbackLblInit = document.querySelector('label[for="welcomeFallbackToggle"]');
+    if (wFallbackLblInit) wFallbackLblInit.textContent = wFallbackLblInit.getAttribute('data-en');
+
     var buttonsFlagLblInit = document.querySelector('label[for="buttonsFlagToggle"]');
     if (buttonsFlagLblInit) buttonsFlagLblInit.textContent = buttonsFlagLblInit.getAttribute('data-en');
 
@@ -19126,7 +19162,7 @@ function _renderPrayerTabIfNeeded() {
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
-var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
+var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
 
 function _settingsKeys() {
   var out = [];
@@ -19715,6 +19751,9 @@ function toggleLanguage() {
   var fullRandomLbl = document.querySelector('label[for="fullRandomUrlToggle"]');
   if (fullRandomLbl) fullRandomLbl.textContent = isArabic ? fullRandomLbl.getAttribute('data-ar') : fullRandomLbl.getAttribute('data-en');
 
+  var wFallbackLbl = document.querySelector('label[for="welcomeFallbackToggle"]');
+  if (wFallbackLbl) wFallbackLbl.textContent = isArabic ? wFallbackLbl.getAttribute('data-ar') : wFallbackLbl.getAttribute('data-en');
+
   var buttonsFlagLbl = document.querySelector('label[for="buttonsFlagToggle"]');
   if (buttonsFlagLbl) buttonsFlagLbl.textContent = isArabic ? buttonsFlagLbl.getAttribute('data-ar') : buttonsFlagLbl.getAttribute('data-en');
 
@@ -20101,7 +20140,7 @@ function applyFilterButtonsLang(lang) {
     if (t) el.textContent = t;
   });
 
-  document.querySelectorAll("label[for='autoSwitchTimer'][data-ar], label[for='sleepTimer'][data-ar], label[for='maxVolTimer'][data-ar], label[for='offlineLoopSeconds'][data-ar]").forEach(function(lbl) {
+  document.querySelectorAll("label[for='autoSwitchTimer'][data-ar], label[for='sleepTimer'][data-ar], label[for='maxVolTimer'][data-ar], label[for='offlineLoopSeconds'][data-ar], label[for='welcomeFallbackToggle'][data-ar]").forEach(function(lbl) {
     var t = lbl.getAttribute('data-' + lang) || lbl.getAttribute('data-en');
     if (t) lbl.textContent = t;
   });
