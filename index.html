@@ -32396,6 +32396,15 @@ document.addEventListener('DOMContentLoaded', function() {
       var uc = document.createElement('div');
       uc.id = 'unifiedControls';
       kids.forEach(function(k) { uc.appendChild(k); });
+      // اختصار "التنقل التلقائي" (أيقونة فقط) بجانب أزرار السابق/تشغيل/التالي
+      var _asDiv = document.createElement('div'); _asDiv.className = 'pnb-divider';
+      var _asGrp = document.createElement('div'); _asGrp.className = 'pnb-group';
+      _asGrp.innerHTML =
+        '<button class="pnb-btn" id="pnb-autosw" type="button" aria-pressed="false" title="تنقل تلقائي">' +
+        '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/></svg>' +
+        '</button><span class="pnb-lbl" aria-hidden="true">&nbsp;</span>';
+      uc.appendChild(_asDiv); uc.appendChild(_asGrp);
+      var asBtn = _asGrp.querySelector('#pnb-autosw');
       navBar.insertBefore(uc, navBar.firstChild);
 
 
@@ -32427,7 +32436,8 @@ document.addEventListener('DOMContentLoaded', function() {
         'pnb-prev':   { ar: 'المحطة السابقة', en: 'Previous station' },
         'pnb-next':   { ar: 'المحطة التالية', en: 'Next station' },
         'pnb-play':   { ar: 'تشغيل / إيقاف',  en: 'Play / Pause' },
-        'pnb-random': { ar: 'اخترنا لك',       en: 'Pick for me' }
+        'pnb-random': { ar: 'اخترنا لك',       en: 'Pick for me' },
+        'pnb-autosw': { ar: 'تنقل تلقائي',     en: 'Auto switch' }
       };
       function currentLang() {
         var siteLang = (typeof isArabic !== 'undefined' && !isArabic) ? 'en' : 'ar';
@@ -32449,6 +32459,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
 
+      // حالة الاختصار: في الترحيبية = تنقل الترحيبية ، في الرئيسي = التنقل الآلي بتاع الإعدادات
+      function asState() {
+        var cbEl = document.getElementById(_where === 'welcome' ? 'customAutoSwitch' : 'autoSwitchCheckbox');
+        return !!(cbEl && cbEl.checked);
+      }
+      function asSync() {
+        var on = asState();
+        asBtn.classList.toggle('is-on', on);
+        asBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+      asBtn.addEventListener('click', function() {
+        if (_where === 'welcome') return;          // الترحيبية بتتعامل معاها قاعدة التوجيه تحت
+        var cbEl = document.getElementById('autoSwitchCheckbox'), inp = document.getElementById('autoSwitchTimer');
+        if (!cbEl) return;
+        if (!cbEl.checked && inp) {                // لو مفيش دقائق متحددة نبدأ بـ 5 دقائق بدل رسالة الخطأ
+          var v = parseInt(inp.value);
+          if (isNaN(v) || v <= 0) inp.value = 5;
+        }
+        cbEl.checked = !cbEl.checked;
+        cbEl.dispatchEvent(new Event('change'));
+        asSync();
+      });
+
       function place() {
         var inWelcome = welcomeOpen() && !_mainActive && oldSet && oldSet.parentNode;
         var want = inWelcome ? 'welcome' : 'main';
@@ -32467,6 +32500,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }
         applyLabels();
+        asSync();
       }
 
       // لما تكون الأزرار في الترحيبية: الضغطات تروح للمشغل الترحيبي
@@ -32475,7 +32509,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var b = e.target.closest ? e.target.closest('button') : null;
         if (!b) return;
         var fn = { 'pnb-prev': 'previousStation', 'pnb-next': 'nextStationFunc',
-                   'pnb-play': 'togglePlayPauseFunc', 'pnb-random': 'randomStationFunc' }[b.id];
+                   'pnb-play': 'togglePlayPauseFunc', 'pnb-random': 'randomStationFunc',
+                   'pnb-autosw': 'toggleAutoSwitchBtn' }[b.id];
         if (!fn || typeof window[fn] !== 'function') return;
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -32499,6 +32534,15 @@ document.addEventListener('DOMContentLoaded', function() {
           setTimeout(applyLabels, 0);
           return r;
         };
+      });
+
+      var _wAsBtn = document.getElementById('autoSwitchToggleBtn');
+      if (_wAsBtn) new MutationObserver(asSync).observe(_wAsBtn, { attributes: true, attributeFilter: ['class'] });
+      var _sAsCd = document.getElementById('autoSwitch-countdown-settings');
+      if (_sAsCd) new MutationObserver(asSync).observe(_sAsCd, { attributes: true, attributeFilter: ['style'] });
+      ['customAutoSwitch', 'autoSwitchCheckbox'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('change', function() { setTimeout(asSync, 0); });
       });
 
       if (ws) {
