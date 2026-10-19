@@ -10624,3 +10624,6 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-autosw.is-on {
   color: #2e7d32 !important;
   box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
 }
+
+/* الشاشة الترحيبية: زر "تنقل تلقائي" القديم وزر "اختيارك" اتشالوا — الاختصارات بقت في مجموعة الأزرار الموحّدة */
+#welcome-bottom-row { display: none !important; }
