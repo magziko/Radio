@@ -10634,3 +10634,31 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-autosw.is-on {
 #unifiedControls:not(.in-welcome) > :nth-child(5) { order: -3; }  /* التالية */
 #unifiedControls:not(.in-welcome) > :nth-child(6) { order: -2; }  /* فاصل */
 #unifiedControls:not(.in-welcome) > :nth-child(7) { order: -1; }  /* عشوائي */
+
+/* ══════════════════════════════════════════════════════════════
+   مؤشر التحميل على زر التشغيل (#pnb-play)
+   بيظهر لما المحطة بتتحمّل أو بتتقطع (يتحكم فيه السكربت بكلاس is-loading)
+   ══════════════════════════════════════════════════════════════ */
+#pnb-play.is-loading::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(144,202,249,0.25);
+  border-top-color: #90caf9;
+  animation: pnb-spin 0.9s linear infinite;
+  pointer-events: none;
+}
+@keyframes pnb-spin { to { transform: rotate(360deg); } }
+body:not(.dark-mode) #player-nav-bar #pnb-play.is-loading::before {
+  border-color: rgba(255,255,255,0.3);
+  border-top-color: #fff;
+}
+body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
+  border-color: rgba(var(--theme-c1-rgb),0.2);
+  border-top-color: var(--theme-c2);
+}
+#pnb-play.is-loading.is-playing { animation: none; }   /* نوقف نبض التشغيل أثناء التحميل */
+@media (prefers-reduced-motion: reduce) {
+  #pnb-play.is-loading::before { animation-duration: 2.4s; }
+}
