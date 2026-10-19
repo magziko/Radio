@@ -2268,70 +2268,10 @@ button[data-basit-type="saudi-muratal"] .flag {
     letter-spacing: 0.05em;
     margin-bottom: 8px !important;
 }
-#customControlButtons {
-    display: flex;
-    justify-content: center;
-    gap: 18px;
-    margin: 15px 0;
-}
-
-.customBtnControl {
-    background: #ffffff;
-    border: 1.5px solid rgba(var(--theme-c1-rgb),0.22);
-    padding: 0;
-    border-radius: 14px;
-    cursor: pointer;
-    width: 52px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.22s cubic-bezier(.4,0,.2,1), border-color 0.22s, box-shadow 0.22s, transform 0.18s;
-    box-shadow: 0 2px 8px rgba(var(--theme-c1-rgb),0.08);
-}
-
-.customBtnControl:hover {
-    background: #f0f7ff;
-    border-color: var(--theme-c1);
-    box-shadow: 0 4px 16px rgba(var(--theme-c1-rgb),0.18);
-    transform: translateY(-3px) scale(1.06);
-}
-
 @keyframes waveRipple {
     0%   { box-shadow: 0 0 0 0 rgba(var(--theme-c1-rgb),0.55), 0 0 0 0 rgba(var(--theme-c1-rgb),0.30); }
     50%  { box-shadow: 0 0 0 10px rgba(var(--theme-c1-rgb),0.18), 0 0 0 20px rgba(var(--theme-c1-rgb),0.06); }
     100% { box-shadow: 0 0 0 0 rgba(var(--theme-c1-rgb),0), 0 0 0 0 rgba(var(--theme-c1-rgb),0); }
-}
-
-#customPlayToggleButton.playing {
-    animation: waveRipple 1.4s ease-out infinite;
-    border-color: var(--theme-g1);
-    background: linear-gradient(135deg, #f0fdf8 0%, #e8f7f2 100%);
-    box-shadow: 0 4px 18px rgba(var(--theme-g1-rgb),0.22);
-}
-
-body.dark-mode #customPlayToggleButton.playing {
-    animation: waveRipple 1.4s ease-out infinite;
-    border-color: #64b5f6;
-    background: #1a2a3a;
-}
-
-.customBtnControl svg {
-    width: 26px;
-    height: 26px;
-    fill: var(--theme-c2);
-}
-
-#customRandomBtn svg {
-    width: 22px;
-    height: 22px;
-    fill: none;
-    stroke: var(--theme-g1);
-}
-
-#customRandomBtn:hover {
-    background: #e8f8f3 !important;
-    border-color: var(--theme-g1) !important;
 }
 
 body.dark-mode #customRandomBtn svg {
@@ -5377,21 +5317,6 @@ body.dark-mode #englishVerse {
 
 body.dark-mode #customStatus {
     color: #e0e0e0 !important;
-}
-
-body.dark-mode .customBtnControl {
-    background: #1e1e2e !important;
-    border: 2px solid #444 !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
-}
-
-body.dark-mode .customBtnControl:hover {
-    background: #2a2a3e !important;
-    border-color: #666 !important;
-}
-
-body.dark-mode .customBtnControl svg {
-    fill: #90caf9 !important;
 }
 
 body.dark-mode select,
@@ -8450,13 +8375,6 @@ body:not(.dark-mode) #status {
   .pnb-divider { height: 24px; }
 }
 
-#customPlayToggleButton.playing {
-    will-change: box-shadow;
-}
-.customBtnControl {
-    will-change: transform;
-}
-
 .button-grid, .tasbih-box {
     content-visibility: auto;
     contain-intrinsic-size: 0 50px;
@@ -10658,4 +10576,30 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-autosw.is-on {
     box-shadow: 0 1px 3px rgba(0,0,0,0.35);
     pointer-events: none;
   }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   الشاشة الترحيبية: محاذاة موحّدة لأزرار التحكم
+   كل مجموعة = صف للزر (بارتفاع زر التشغيل) + صف للاسم، فكل الأزرار على نفس الخط
+   حتى لو اسم الزر مخفي (زر العشوائي) أو مكتوب فيه عدّاد (التنقل التلقائي)
+   ══════════════════════════════════════════════════════════════ */
+/* حجز مساحة الأزرار قبل ما السكربت يبنيها — بدون قفزة في التخطيط */
+#customControlButtons:not(.unified-hidden) { min-height: 79px; margin: 15px 0; }
+
+#unifiedControls.in-welcome { align-items: flex-start; }
+#unifiedControls.in-welcome .pnb-group {
+  display: grid;
+  grid-template-rows: 46px 12px;
+  row-gap: 3px;
+  justify-items: center;
+  align-items: center;
+}
+#unifiedControls.in-welcome .pnb-divider { align-self: flex-start; margin-top: 8px; }
+
+/* موبايل: أسماء الأزرار مخفية، فنوسّط الكل على خط واحد */
+@media (max-width: 600px) {
+  #customControlButtons:not(.unified-hidden) { min-height: 62px; }
+  #unifiedControls.in-welcome { align-items: center; }
+  #unifiedControls.in-welcome .pnb-group { grid-template-rows: auto; row-gap: 0; }
+  #unifiedControls.in-welcome .pnb-divider { align-self: center; margin-top: 0; }
 }
