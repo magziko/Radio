@@ -280,24 +280,7 @@
 
        <audio id="customAudioPlayer" autoplay></audio>
 
-            <div id="customControlButtons">
-                <button class="customBtnControl" onclick="previousStation()" title="المحطة السابقة" aria-label="المحطة السابقة">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
-                    </svg>
-                </button>
-                <button id="customPlayToggleButton" class="customBtnControl" onclick="togglePlayPauseFunc()" title="تشغيل / إيقاف" aria-label="تشغيل / إيقاف">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path id="customPlayPauseSymbol" d="M8 5v14l11-7z"/>
-                    </svg>
-                </button>
-                <button class="customBtnControl" onclick="nextStationFunc()" title="المحطة التالية" aria-label="المحطة التالية">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/>
-                    </svg>
-                </button>
-
-            </div>
+            <div id="customControlButtons" aria-hidden="true"></div>
 
             <div id="customStatusRow" style="display:flex;align-items:center;justify-content:center;gap:8px;">
               <div id="customStatus"> Radio Quran Karim إذاعة القرآن الكريم</div>
@@ -351,13 +334,6 @@
                     "></span>
                 </button>
 
-                <button id="customRandomBtn"
-                        onclick="randomStationFunc()"
-                        title="اخترنا لك / Pick for me"
-                        class="welcome-toggle-btn">
-                    <span class="wtb-icon">🔀</span>
-                    <span class="wtb-text" data-ar="اختيارك" data-en="Random">اختيارك</span>
-                </button>
 
             </div>
 
