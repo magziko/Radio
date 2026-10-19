@@ -8523,6 +8523,8 @@ const moreTranslations = [{
         btn.classList.remove('active');
         spStopLoop();
         note.textContent = t('pipLeave');
+        // المسبحة كانت واخدة زرّي سابق/تالي في شاشة القفل — رجّعهم للمحطات
+        if (typeof window._radioRestoreMediaSession === 'function') window._radioRestoreMediaSession();
       }, {
         once: true
       });
@@ -25236,6 +25238,8 @@ window.addEventListener("load", function() {
     }
     const banner = document.getElementById('adhan-banner');
     if (banner) banner.classList.remove('show');
+    // رجّع أزرار شاشة القفل (تشغيل/إيقاف/سابق/تالي) والعنوان للراديو بعد انتهاء الأذان
+    if (typeof window._radioRestoreMediaSession === 'function') window._radioRestoreMediaSession();
   }
 
   // ---- جدولة المؤقتات ----
@@ -35534,6 +35538,146 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     setOpen(true);
     setTimeout(function() { try { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { sec.scrollIntoView(); } }, 60);
   };
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   1) Media Session: مزامنة حالة التشغيل + استعادة الأزرار بعد الأذان/المسبحة
+   2) مؤشر تحميل على زر التشغيل (#pnb-play) + رسالة لو الاتصال بطيء
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  var HAS_MS = 'mediaSession' in navigator;
+  var ADHAN_ALBUM = '\u0623\u0630\u0627\u0646 \u062a\u0644\u0642\u0627\u0626\u064a'; // نفس album اللي بيحطه كود الأذان
+  var PLAYER_IDS = ['customAudioPlayer', 'currentAudio'];
+
+  function players() {
+    var out = [];
+    PLAYER_IDS.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) out.push(el);
+    });
+    return out;
+  }
+  function isOurPlayer(el) {
+    return !!el && el.tagName === 'AUDIO' && PLAYER_IDS.indexOf(el.id) !== -1;
+  }
+
+  /* ───────────── Media Session ───────────── */
+  function activeTarget() {
+    try { if (typeof activeAudio !== 'undefined' && activeAudio) return activeAudio; } catch (e) {}
+    var main = document.getElementById('currentAudio');
+    if (window._welcomeScreenClosed && main) return main;
+    return document.getElementById('customAudioPlayer');
+  }
+  function setHandler(action, fn) {
+    try { navigator.mediaSession.setActionHandler(action, fn); } catch (e) { /* إجراء غير مدعوم */ }
+  }
+  function bindHandlers() {
+    if (!HAS_MS) return;
+    var main = function () { return document.getElementById('currentAudio'); };
+    setHandler('play', function () {
+      var t = activeTarget(); if (!t) return;
+      if (t === main()) window._mainPlayAllowed = true;
+      t.play().catch(function () {});
+    });
+    setHandler('pause', function () { var t = activeTarget(); if (t) t.pause(); });
+    setHandler('stop', function () {
+      var t = activeTarget(); if (!t) return;
+      t.pause();
+      if (t !== main()) t.src = '';
+    });
+    setHandler('nexttrack', function () { if (typeof nextStationFunc === 'function') nextStationFunc(); });
+    setHandler('previoustrack', function () { if (typeof previousStation === 'function') previousStation(); });
+  }
+
+  function syncPlaybackState() {
+    if (!HAS_MS) return;
+    // أثناء الأذان الحالة بيديرها كود الأذان نفسه
+    var md = navigator.mediaSession.metadata;
+    if (md && md.album === ADHAN_ALBUM) return;
+    var playing = players().some(function (a) {
+      return !a.paused && !a.ended && !!(a.currentSrc || a.getAttribute('src'));
+    });
+    navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+  }
+
+  window._radioRestoreMediaSession = function () {
+    if (!HAS_MS) return;
+    bindHandlers();
+    if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession();
+    setTimeout(syncPlaybackState, 0);
+  };
+
+  /* ───────────── مؤشر التحميل ───────────── */
+  var SLOW_MS = 6000;     // بعد كده نظهر رسالة "جارٍ الاتصال"
+  var MAX_MS = 45000;     // أمان: نشيل المؤشر لو فضل أكتر من كده
+  var slowTimer = null;
+
+  function anyLoading() {
+    return players().some(function (a) { return a.__pnbLoading; });
+  }
+  function refreshButton() {
+    var btn = document.getElementById('pnb-play');
+    var on = anyLoading();
+    if (btn) {
+      btn.classList.toggle('is-loading', on);
+      if (on) btn.setAttribute('aria-busy', 'true'); else btn.removeAttribute('aria-busy');
+    }
+    if (on) {
+      if (!slowTimer) {
+        slowTimer = setTimeout(function () {
+          slowTimer = null;
+          if (!anyLoading() || typeof showToast !== 'function') return;
+          var en = (typeof isArabic !== 'undefined') && !isArabic;
+          showToast(en ? '\u23F3 Connecting to the station\u2026' : '\u23F3 \u062c\u0627\u0631\u064d \u0627\u0644\u0627\u062a\u0635\u0627\u0644 \u0628\u0627\u0644\u0645\u062d\u0637\u0629\u2026');
+        }, SLOW_MS);
+      }
+    } else if (slowTimer) {
+      clearTimeout(slowTimer);
+      slowTimer = null;
+    }
+  }
+  function setLoading(el, on) {
+    clearTimeout(el.__pnbT);
+    el.__pnbLoading = !!on;
+    if (on) el.__pnbT = setTimeout(function () { setLoading(el, false); }, MAX_MS);
+    refreshButton();
+  }
+
+  function onMedia(e) {
+    var el = e.target;
+    if (!isOurPlayer(el)) return;
+    var hasSrc = !!(el.currentSrc || el.getAttribute('src'));
+    switch (e.type) {
+      case 'loadstart':
+      case 'play':
+        if (hasSrc) setLoading(el, true);
+        break;
+      case 'waiting':
+        if (hasSrc && !el.paused) setLoading(el, true);
+        break;
+      case 'canplay':
+      case 'loadeddata':
+        if (el.paused) setLoading(el, false);   // اتحمّل بس مش شغّال (مثلاً التشغيل التلقائي اتمنع)
+        break;
+      default:                                   // playing / pause / ended / error / emptied / abort
+        setLoading(el, false);
+    }
+    if (e.type === 'play' || e.type === 'playing' || e.type === 'pause' || e.type === 'ended' || e.type === 'emptied') {
+      setTimeout(syncPlaybackState, 0);
+    }
+  }
+
+  ['loadstart', 'waiting', 'play', 'playing', 'canplay', 'loadeddata',
+   'pause', 'ended', 'error', 'emptied', 'abort'].forEach(function (ev) {
+    document.addEventListener(ev, onMedia, true);   // أحداث الميديا مش بتعمل bubble → نستخدم capture
+  });
+
+  bindHandlers();
+  syncPlaybackState();
 })();
 </script>
 
