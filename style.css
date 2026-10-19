@@ -10627,3 +10627,35 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-autosw.is-on {
 
 /* الشاشة الترحيبية: زر "تنقل تلقائي" القديم وزر "اختيارك" اتشالوا — الاختصارات بقت في مجموعة الأزرار الموحّدة */
 #welcome-bottom-row { display: none !important; }
+
+/* المدة المتبقية للتنقل التلقائي تحت زر الاختصار */
+#pnb-autosw-time {
+  min-width: 36px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+#pnb-autosw.is-on + #pnb-autosw-time { font-weight: 700; }
+
+/* موبايل (أسماء الأزرار مخفية): المدة المتبقية كشارة صغيرة على أسفل زر الاختصار بدون ما تزحزح الأزرار */
+@media (max-width: 600px) {
+  .pnb-group:has(#pnb-autosw) { position: relative; }
+  #pnb-autosw:not(.is-on) + #pnb-autosw-time { display: none !important; }
+  #pnb-autosw.is-on + #pnb-autosw-time {
+    display: block !important;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 0;
+    padding: 0 5px;
+    border-radius: 7px;
+    font-size: 9px;
+    line-height: 13px;
+    font-weight: 700;
+    background: #2e7d32;
+    color: #fff !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+    pointer-events: none;
+  }
+}
