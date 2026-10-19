@@ -10604,3 +10604,23 @@ body:not(.dark-mode) #unifiedControls.in-welcome .pnb-divider {
   }
   #quranVerse { height: auto; flex: 1 0 320px; }
 }
+
+/* اختصار التنقل التلقائي بجانب أزرار التحكم (#pnb-autosw) */
+#pnb-autosw.is-on {
+  background: rgba(76,175,80,0.24) !important;
+  border-color: rgba(129,199,132,0.75) !important;
+  color: #a5d6a7 !important;
+  box-shadow: 0 0 0 2px rgba(129,199,132,0.25);
+}
+body:not(.dark-mode) #player-nav-bar #pnb-autosw.is-on {
+  background: rgba(255,255,255,0.92) !important;
+  border-color: #fff !important;
+  color: #2e7d32 !important;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.45);
+}
+body:not(.dark-mode) #unifiedControls.in-welcome #pnb-autosw.is-on {
+  background: rgba(76,175,80,0.16) !important;
+  border-color: rgba(46,125,50,0.65) !important;
+  color: #2e7d32 !important;
+  box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
+}
