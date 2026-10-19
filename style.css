@@ -10603,3 +10603,18 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-autosw.is-on {
   #unifiedControls.in-welcome .pnb-group { grid-template-rows: auto; row-gap: 0; }
   #unifiedControls.in-welcome .pnb-divider { align-self: center; margin-top: 0; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   الشاشة الترحيبية: ترتيب الأزرار بحيث يكون زر التشغيل في المنتصف
+   (من اليمين لليسار): التنقل التلقائي | السابقة | تشغيل | التالية | العشوائي
+   ترتيب العناصر في #unifiedControls: 1 سابقة، 2 فاصل، 3 تشغيل، 4 فاصل، 5 تالية، 6 فاصل، 7 عشوائي، 8 فاصل، 9 تنقل تلقائي
+   ══════════════════════════════════════════════════════════════ */
+#unifiedControls.in-welcome > :nth-child(9) { order: 1; }  /* تنقل تلقائي */
+#unifiedControls.in-welcome > :nth-child(8) { order: 2; }  /* فاصل */
+#unifiedControls.in-welcome > :nth-child(1) { order: 3; }  /* السابقة */
+#unifiedControls.in-welcome > :nth-child(2) { order: 4; }  /* فاصل */
+#unifiedControls.in-welcome > :nth-child(3) { order: 5; }  /* تشغيل */
+#unifiedControls.in-welcome > :nth-child(4) { order: 6; }  /* فاصل */
+#unifiedControls.in-welcome > :nth-child(5) { order: 7; }  /* التالية */
+#unifiedControls.in-welcome > :nth-child(6) { order: 8; }  /* فاصل */
+#unifiedControls.in-welcome > :nth-child(7) { order: 9; }  /* عشوائي */
