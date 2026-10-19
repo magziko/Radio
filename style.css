@@ -10618,3 +10618,19 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-autosw.is-on {
 #unifiedControls.in-welcome > :nth-child(5) { order: 7; }  /* التالية */
 #unifiedControls.in-welcome > :nth-child(6) { order: 8; }  /* فاصل */
 #unifiedControls.in-welcome > :nth-child(7) { order: 9; }  /* عشوائي */
+
+/* ══════════════════════════════════════════════════════════════
+   الراديو الرئيسي (الشريط): نفس الترتيب — زر التشغيل في المنتصف
+   (من اليمين لليسار): التنقل التلقائي | السابقة | تشغيل | التالية | العشوائي
+   #unifiedControls هنا display:contents فأبناؤه عناصر مباشرة في #player-nav-bar؛
+   نستخدم order سالب عشان تفضل قبل اسم المحطة والأزرار الباقية (order: 0)
+   ══════════════════════════════════════════════════════════════ */
+#unifiedControls:not(.in-welcome) > :nth-child(9) { order: -9; }  /* تنقل تلقائي */
+#unifiedControls:not(.in-welcome) > :nth-child(8) { order: -8; }  /* فاصل */
+#unifiedControls:not(.in-welcome) > :nth-child(1) { order: -7; }  /* السابقة */
+#unifiedControls:not(.in-welcome) > :nth-child(2) { order: -6; }  /* فاصل */
+#unifiedControls:not(.in-welcome) > :nth-child(3) { order: -5; }  /* تشغيل */
+#unifiedControls:not(.in-welcome) > :nth-child(4) { order: -4; }  /* فاصل */
+#unifiedControls:not(.in-welcome) > :nth-child(5) { order: -3; }  /* التالية */
+#unifiedControls:not(.in-welcome) > :nth-child(6) { order: -2; }  /* فاصل */
+#unifiedControls:not(.in-welcome) > :nth-child(7) { order: -1; }  /* عشوائي */
