@@ -3703,7 +3703,7 @@ setTimeout(autoScaleVerseFont, 100);
     if (_cseLoaded) return;
     _cseLoaded = true;
     var s = document.createElement('script');
-    s.src = 'https://cse.google.com/cse.js?cx=e3e1833506ae646ca';
+    s.src = 'https://cse.google.com/cse.js?cx=e3e1833506ae646ca' + (isArabic ? '' : '&hl=en');
     document.body.appendChild(s);
   };
   </script>
@@ -16390,6 +16390,37 @@ function updateStatus(message, enMessage, key) {
   }
 }
 
+/* ===== ترجمة عناصر لوحة الإعدادات التي لم تكن مغطاة (تبويب الأذكار، عنوان الصلاة، فحص الروابط، قائمة الخط، أزرار الفلاتر) ===== */
+function applySettingsStaticLang(lang) {
+  lang = lang || (isArabic ? 'ar' : 'en');
+  var roots = [
+    '#adhkar-settings-drawer',
+    '#adhkar-advanced-settings',
+    '#prayer-adhan-settings .paset-title-group',
+    '#link-checker-open-btn'
+  ];
+  // مجموعات لها معالج خاص بها، فلا نلمسها
+  var skip = '#adhkar-notif-settings, #startup-notif-settings, #audio-quality-settings';
+  roots.forEach(function (sel) {
+    document.querySelectorAll(sel + ' span[data-ar], ' + sel + ' label[data-ar], ' + sel + ' div[data-ar]').forEach(function (el) {
+      if (el.children.length || el.id) return;
+      if (el.closest && el.closest(skip)) return;
+      var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
+      if (t) el.textContent = t;
+    });
+  });
+
+  var ffSel = document.getElementById('fontFamilySelect');
+  if (ffSel) Array.prototype.forEach.call(ffSel.options, function (o) {
+    var t = o.getAttribute('data-' + lang) || o.getAttribute('data-en');
+    if (t) o.textContent = t;
+  });
+
+  if (typeof _updateFiltersReorderToggleText === 'function') _updateFiltersReorderToggleText();
+  var rst = document.getElementById('filtersResetOrderTxt');
+  if (rst) rst.textContent = rst.getAttribute('data-' + lang) || rst.getAttribute('data-en') || rst.textContent;
+}
+
 function applyInitialLanguage() {
   if (!isArabic) {
 
@@ -16655,6 +16686,7 @@ window.addEventListener('load', function() {
   initializeRadio();
 
   applyInitialLanguage();
+  applySettingsStaticLang(isArabic ? 'ar' : 'en');
 
   // applyInitialLanguage() بترجع نصوص شاشة الترحيب للإنجليزي لو isArabic=false
   // فلو المستخدم مفروض يشوف فرنسي/إسباني/أردو، نطبقها تاني بعد كده
@@ -20386,6 +20418,8 @@ function toggleLanguage() {
 
   // قسم عداد التسبيح salah-pip-section — تحديث شامل (يشمل أرقام الهدف/التذكير بصيغتها الصحيحة)
   if (typeof window.spApplyWelcomeLang === 'function') window.spApplyWelcomeLang(lang);
+
+  applySettingsStaticLang(isArabic ? 'ar' : 'en');
 }
 
 // ── دعم اللغة الفرنسية لشاشة الترحيب فقط (الموقع نفسه يفضل عربي/إنجليزي) ──
