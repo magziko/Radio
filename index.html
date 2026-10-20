@@ -850,7 +850,25 @@ function _asClearAll() {
 }
 
 // يُستدعى من: Worker + مؤقت احتياطي + timeupdate للمشغّل + visibilitychange + pageshow
+// بعد الانتقال التلقائي: لو المشغّل لسه واقف (play() اترفض في الخلفية) نعيد المحاولة — بيتفحص من نفس مصادر الفحص
+window._asPlayWatch = null;
+function _asPlayWatchTick() {
+  var w = window._asPlayWatch;
+  if (!w) return;
+  var now = Date.now();
+  if (now > w.until || window._userStoppedManually) { window._asPlayWatch = null; return; }
+  if (now - w.start < 2500) return; // مهلة لبدء المحطة الجديدة
+  var el = document.getElementById(w.kind === 'main' ? 'currentAudio' : 'customAudioPlayer');
+  if (!el) { window._asPlayWatch = null; return; }
+  if (!el.paused && el.readyState >= 2) { window._asPlayWatch = null; return; } // شغّال تمام
+  if (now - w.last < 3000) return;
+  w.last = now;
+  if (w.kind === 'main') window._mainPlayAllowed = true;
+  el.play().catch(function() {});
+}
+
 function _asCheck() {
+  _asPlayWatchTick();
   if (!_asDeadline) return;
   var cb = document.getElementById('customAutoSwitch');
   if (!cb || !cb.checked || window._userStoppedManually) { _asClearAll(); return; }
@@ -860,6 +878,7 @@ function _asCheck() {
   if (_asSecondsLeft <= 0) {
     _asDeadline = 0; // يمنع التنفيذ المزدوج
     if (typeof nextStationFunc === 'function') nextStationFunc();
+    window._asPlayWatch = { kind: 'welcome', start: Date.now(), until: Date.now() + 20000, last: 0 };
     _asStartCycle(); // دورة جديدة
     return;
   }
@@ -1646,14 +1665,25 @@ function playStation(station) {
     window._welcomeStationName = station.name;
     window._statsActiveName = station.name;
     window._welcomePickedStation = { name: station.name, url: stationSrcs[0], urls: station.urls || null };
+    // إزالة أي مستمع seek معلّق من محطة سابقة (كان بيفضل متسجّل وبيتنفّذ على المحطة اللي بعدها)
+    if (window._welcomeSeekHandler) {
+      customAudioPlayer.removeEventListener('loadedmetadata', window._welcomeSeekHandler);
+      window._welcomeSeekHandler = null;
+    }
+    clearTimeout(window._welcomeSeekFallback);
     customAudioPlayer.src = stationSrcs[i];
     customAudioPlayer.load();
 
     // ── إذا كان هذا هو الرابط العشوائي الأول لمحطة بها روابط متعددة: نبدأ من نقطة عشوائية
     // بعد تخطي أول ١٠٪ من مدة الملف، لإعطاء انطباع إذاعة حقيقية بدل تشغيل ملف mp3 من بدايته ──
     if (i === 0 && isMultiUrlStation) {
+      // كان play() بيتأجّل لحدث loadedmetadata فقط. لو الصفحة في الخلفية/الشاشة مقفولة أو البث المباشر ما
+      // أطلقش الحدث، المحطة كانت بتفضل واقفة (الاسم يتغيّر بس مفيش صوت). المحطات أحادية الرابط ما كانتش متأثرة.
+      var _bgNow = document.hidden;
       var _randSeekHandler = function() {
         customAudioPlayer.removeEventListener('loadedmetadata', _randSeekHandler);
+        if (window._welcomeSeekHandler === _randSeekHandler) window._welcomeSeekHandler = null;
+        clearTimeout(window._welcomeSeekFallback);
         var dur = customAudioPlayer.duration;
         if (dur && isFinite(dur) && dur > 0) {
           var minStart = dur * 0.10; // تخطي أول ١٠٪ من المدة
@@ -1662,9 +1692,22 @@ function playStation(station) {
             customAudioPlayer.currentTime = minStart + Math.random() * (maxStart - minStart);
           }
         }
-        customAudioPlayer.play().catch(function() {});
+        if (!_bgNow) customAudioPlayer.play().catch(function() {});
       };
+      window._welcomeSeekHandler = _randSeekHandler;
       customAudioPlayer.addEventListener('loadedmetadata', _randSeekHandler);
+      if (_bgNow) {
+        customAudioPlayer.play().catch(function() {});   // في الخلفية: شغّل فوراً والـ seek بعدين لو وصل الحدث
+      } else {
+        // أمان: لو loadedmetadata ما وصلش (بعض البثوث المباشرة) شغّل بعد 4 ثواني بدل ما يفضل واقف
+        window._welcomeSeekFallback = setTimeout(function() {
+          if (window._welcomeSeekHandler === _randSeekHandler) {
+            customAudioPlayer.removeEventListener('loadedmetadata', _randSeekHandler);
+            window._welcomeSeekHandler = null;
+          }
+          if (customAudioPlayer.paused && !window._userStoppedManually) customAudioPlayer.play().catch(function() {});
+        }, 4000);
+      }
     } else {
       customAudioPlayer.play().catch(function() {});
     }
@@ -15940,7 +15983,11 @@ function playNewAudio(source, stationName, stationNameEn, _fromUser) {
   var ws = document.getElementById('welcomeScreen');
   var welcomeOpen = ws && ws.style.display !== 'none' && ws.style.display !== '';
   var audio = (typeof mainAudio !== 'undefined') ? mainAudio : null;
-  var noFade = !audio || (welcomeOpen && !_fromUser) || audio.paused || audio.readyState < 3 || !(audio.volume > 0);
+  // الصفحة في الخلفية/الشاشة مقفولة: مؤقتات الـ fade بتتجمّد → التبديل ما كانش بيحصل غير لما الشاشة تنور
+  if (document.hidden && audio && audio._fadeOutTimer) {
+    clearInterval(audio._fadeOutTimer); audio._fadeOutTimer = null; window._pnaPending = null;
+  }
+  var noFade = document.hidden || !audio || (welcomeOpen && !_fromUser) || audio.paused || audio.readyState < 3 || !(audio.volume > 0);
 
   // فيه fade-out شغّال بالفعل: آخر طلب هو اللي يتنفذ
   if (audio && audio._fadeOutTimer) { window._pnaPending = args; return; }
@@ -16995,6 +17042,52 @@ function switchToNextButton() {
 var _asSettingsEndTime = 0;
 var _asSettingsTick = null;
 var _asSettingsTimeout = null;
+var _asSettingsDeadline = 0;      // وقت الانتقال القادم (ms) — بدل الاعتماد على setTimeout
+var _asSettingsMinutes = 0;
+var _asSettingsWorker = null;
+var _asSettingsFallback = null;
+
+function _asSettingsWorkerCtl(cmd) {
+  try {
+    if (!_asSettingsWorker) {
+      if (cmd !== 'start') return;
+      var src = 'var t=null;onmessage=function(e){clearInterval(t);' +
+        'if(e.data==="start")t=setInterval(function(){postMessage(1)},1000);}';
+      _asSettingsWorker = new Worker(URL.createObjectURL(new Blob([src], { type: 'application/javascript' })));
+      _asSettingsWorker.onmessage = function() { _asSettingsCheck(); };
+    }
+    _asSettingsWorker.postMessage(cmd);
+  } catch (e) {}
+}
+
+function _asSettingsArm() {
+  _asSettingsStartCountdown(_asSettingsMinutes * 60);
+  _asSettingsDeadline = Date.now() + _asSettingsMinutes * 60 * 1000;
+  _asSettingsWorkerCtl('start');
+  clearInterval(_asSettingsFallback);
+  _asSettingsFallback = setInterval(_asSettingsCheck, 1000);
+}
+
+// يُستدعى من: Worker + مؤقت احتياطي + timeupdate للمشغّل + visibilitychange + pageshow
+function _asSettingsCheck() {
+  if (typeof _asPlayWatchTick === 'function') _asPlayWatchTick();
+  if (!_asSettingsDeadline) return;
+  var cbS = document.getElementById('autoSwitchCheckbox');
+  if (!cbS || !cbS.checked) { _asSettingsStopCountdown(); return; }
+  if (Date.now() < _asSettingsDeadline) return;
+  _asSettingsDeadline = 0; // يمنع التنفيذ المزدوج
+  switchToNextButton();
+  window._asPlayWatch = { kind: 'main', start: Date.now(), until: Date.now() + 20000, last: 0 };
+  _asSettingsArm(); // دورة جديدة
+}
+
+document.addEventListener('visibilitychange', function() { _asSettingsCheck(); });
+window.addEventListener('pageshow', function() { _asSettingsCheck(); });
+(function _asSettingsHookAudio() {
+  var p = document.getElementById('currentAudio');
+  if (p) { p.addEventListener('timeupdate', _asSettingsCheck); return; }
+  document.addEventListener('DOMContentLoaded', _asSettingsHookAudio, { once: true });
+})();
 
 function _asSettingsFormat(sec) {
   if (sec <= 0) return '';
@@ -17029,6 +17122,10 @@ function _asSettingsStartCountdown(totalSec) {
 }
 
 function _asSettingsStopCountdown() {
+  _asSettingsDeadline = 0;
+  clearInterval(_asSettingsFallback);
+  _asSettingsFallback = null;
+  _asSettingsWorkerCtl('stop');
   clearInterval(_asSettingsTick);
   clearTimeout(_asSettingsTimeout);
   _asSettingsTick = null;
@@ -17051,22 +17148,11 @@ function activateAutoSwitch() {
 
     autoSwitchInterval = autoSwitchMinutes * 60 * 1000;
 
-    // بدء العداد التنازلي في الإعدادات
-    _asSettingsStartCountdown(autoSwitchMinutes * 60);
-
-    function _asSettingsCycle() {
-      switchToNextButton();
-      // إعادة بدء دورة جديدة
-      _asSettingsStartCountdown(autoSwitchMinutes * 60);
-      _asSettingsTimeout = setTimeout(_asSettingsCycle, autoSwitchInterval);
-    }
-
+    // بدء الدورة (موعد ثابت + عداد تنازلي) — تعمل حتى مع قفل الشاشة
     clearTimeout(autoSwitchTimeout);
     clearTimeout(_asSettingsTimeout);
-    autoSwitchTimeout = setTimeout(function() {
-      _asSettingsCycle();
-    }, autoSwitchInterval);
-    _asSettingsTimeout = autoSwitchTimeout;
+    _asSettingsMinutes = autoSwitchMinutes;
+    _asSettingsArm();
 
     if (typeof showToast === 'function') showToast('🔄 التنقل التلقائي كل ' + autoSwitchMinutes + ' دقيقة');
   } else {
@@ -23145,6 +23231,7 @@ window.fadeInVolume = function(audio, ms) {
   if (!audio || !slider) return;
   if (audio._fadeTimer) { clearInterval(audio._fadeTimer); audio._fadeTimer = null; }
   if ((parseFloat(slider.value) || 0) <= 0) { audio.volume = 0; return; }
+  if (document.hidden) { audio.volume = parseFloat(slider.value) || 0; return; }
   var stepMs = 40, steps = Math.max(1, Math.round((ms || 900) / stepMs)), i = 0;
   audio.volume = 0;
   window._fadingAudios.add(audio);
@@ -23160,6 +23247,27 @@ window.fadeInVolume = function(audio, ms) {
     audio.volume = target * (i / steps);
   }, stepMs);
 };
+
+// لو الشاشة اتقفلت أثناء fade شغّال: أنهِه فوراً (المؤقت هيتجمّد والصوت يفضل على 0 أو التبديل يتعلّق)
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden) return;
+  var sl = document.getElementById('centralVolumeSlider');
+  var target = sl ? (parseFloat(sl.value) || 0) : 1;
+  ['currentAudio', 'customAudioPlayer'].forEach(function(id) {
+    var a = document.getElementById(id);
+    if (!a) return;
+    if (a._fadeOutTimer) {
+      clearInterval(a._fadeOutTimer); a._fadeOutTimer = null;
+      var p = window._pnaPending; window._pnaPending = null;
+      if (p && typeof _playNewAudioCore === 'function') _playNewAudioCore.apply(null, p);
+    }
+    if (a._fadeTimer) {
+      clearInterval(a._fadeTimer); a._fadeTimer = null;
+      if (window._fadingAudios) window._fadingAudios.delete(a);
+      a.volume = target;
+    }
+  });
+});
 
 const centralVolumeSlider = document.getElementById('centralVolumeSlider');
 
