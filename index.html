@@ -1914,10 +1914,11 @@ customAudioPlayer.addEventListener('ended', function() {
 });
 </script>
 <script src="stations.js"></script>
-<script src="verses.js"></script>
 <script>
 
-let current = Math.floor(Math.random() * verses.length);
+// verses.js (≈290KB) بيتحمّل بعد ظهور الشاشة الترحيبية (آخر السكربت ده) بدل ما يعطّل الصفحة؛
+// لحد ما يوصل بتفضل الآية الافتتاحية الثابتة اللي في الـ HTML ظاهرة
+let current = 0;
 let currentTransIndex = 0;
 let verseTimer = null;
 
@@ -2016,6 +2017,10 @@ function scheduleNextTranslation() {
   if (verseTimer) clearTimeout(verseTimer);
 
   verseTimer = setTimeout(() => {
+    if (typeof verses === 'undefined') {   // verses.js لسه بيتحمّل
+      scheduleNextTranslation();
+      return;
+    }
     if (window._quranLiveSyncActive) {
       // في وضع عرض السورة الجارية حسب المحطة/القارئ المختار: نوقف الدورة العشوائية مؤقتًا
       scheduleNextTranslation();
@@ -2048,8 +2053,29 @@ function scheduleNextTranslation() {
   }, 12000);
 }
 
-showVerseWithTranslation(current, 0);
-scheduleNextTranslation();
+function _startVerseRotation() {
+  if (typeof verses === 'undefined' || !verses.length) return;
+  if (window._quranLiveSyncActive) { scheduleNextTranslation(); return; }
+  current = Math.floor(Math.random() * verses.length);
+  currentTransIndex = 0;
+  var arabicEl = document.getElementById('arabicVerse');
+  var numEl = document.getElementById('verseNumber');
+  if (!arabicEl || !numEl) return;
+  // أول آية عشوائية بتظهر بتلاشي ناعم بدل ما تقفز مكان الآية الافتتاحية
+  fadeElement(arabicEl, verses[current].arabic.join("<br>"), function() {
+    numEl.innerText = verses[current].number;
+    showVerseWithTranslation(current, 0);
+    scheduleNextTranslation();
+  });
+}
+(function _loadVersesFile() {
+  var s = document.createElement('script');
+  s.src = 'verses.js';
+  s.async = true;
+  s.onload = _startVerseRotation;
+  s.onerror = function() { /* لو فشل التحميل نفضل على الآية الافتتاحية الثابتة */ };
+  document.head.appendChild(s);
+})();
 
 setTimeout(autoScaleVerseFont, 100);
 
