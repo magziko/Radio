@@ -1090,6 +1090,7 @@ function updateWelcomePlayPauseButton(isPlaying) {
 function closeWelcomeScreen() {
 
   document.getElementById('welcomeScreen').style.display = 'none';
+  if (window.updateScrollTopBtn) window.updateScrollTopBtn();
 
   window._welcomeScreenClosed = true;
 
@@ -3084,6 +3085,11 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="fullRandomUrlToggle" class="wtb-switch" onchange="toggleFullRandomUrlSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('fullRandomUrlToggle');if(_cb){_cb.checked=(localStorage.getItem('fullRandomUrlEnabled')==='true');}})();</script>
+    <div id="settings-floatplay-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
+      <label for="floatPlayBtnToggle" class="wtb-text" data-ar="زر التشغيل/الإيقاف العائم عند النزول" data-en="Floating play/pause button (on scroll)" data-fr="Bouton lecture/pause flottant (au défilement)" data-es="Botón flotante de reproducir/pausa (al desplazar)" data-sv="Flytande spela/pausa-knapp (vid scroll)" data-nl="Zwevende afspeel/pauze-knop (bij scrollen)" data-ga="Cnaipe snámh súil/sos (agus tú ag scrollú)" data-de="Schwebende Wiedergabe/Pause-Taste (beim Scrollen)" data-ru="Плавающая кнопка воспроизведения/паузы (при прокрутке)" data-tr="Kaydırınca yüzen oynat/duraklat düğmesi" data-pt="Botão flutuante de reproduzir/pausar (ao rolar)" data-zh="向下滚动时显示悬浮播放/暂停按钮" data-ur="نیچے اسکرول پر تیرتا پلے/پاز بٹن">زر التشغيل/الإيقاف العائم عند النزول</label>
+      <input type="checkbox" id="floatPlayBtnToggle" class="wtb-switch" onchange="toggleFloatPlayBtnSetting()">
+    </div>
+    <script>(function(){var _cb=document.getElementById('floatPlayBtnToggle');if(_cb){_cb.checked=(localStorage.getItem('showTogglePlayBtn')==='true');}})();</script>
     <div id="settings-welcomefallback-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;" title="تحويل تلقائي لرابط/محطة احتياطية في الشاشة الترحيبية عند تعطّل البث (مع إشعار). التعطيل يوقف الإشعار ومؤقتات المراقبة في الخلفية / Auto-switch to a backup link on the welcome screen when the stream fails (with a notice). Turning it off removes the notice and the background watchdog timers.">
       <label for="welcomeFallbackToggle" class="wtb-text" data-ar="تحويل تلقائي للرابط الاحتياطي" data-en="Auto backup-link switch" data-fr="Bascule auto vers le lien de secours" data-es="Cambio automático al enlace de respaldo" data-sv="Automatiskt byte till reservlänk" data-nl="Automatisch naar back-uplink" data-ga="Athrú uathoibríoch go nasc cúltaca" data-de="Automatischer Wechsel zum Ersatzlink" data-ru="Автопереключение на резервную ссылку" data-tr="Yedek bağlantıya otomatik geçiş" data-pt="Troca automática para link de reserva" data-zh="自动切换备用链接" data-ur="بیک اپ لنک پر خودکار تبدیلی" style="cursor:pointer; margin:0;">تحويل تلقائي للرابط الاحتياطي</label>
       <input type="checkbox" id="welcomeFallbackToggle" class="wtb-switch" onchange="toggleWelcomeFallbackSetting()">
@@ -18647,6 +18653,12 @@ function isFullRandomUrlEnabled() {
   return localStorage.getItem('fullRandomUrlEnabled') === 'true'; // معطّلة افتراضيًا (السلوك القديم: بالترتيب)
 }
 
+function toggleFloatPlayBtnSetting() {
+  var cb = document.getElementById('floatPlayBtnToggle');
+  localStorage.setItem('showTogglePlayBtn', (cb && cb.checked) ? 'true' : 'false');
+  if (window.updateTogglePlayBtnVisibility) window.updateTogglePlayBtnVisibility();
+}
+
 function toggleFullRandomUrlSetting() {
   var cb = document.getElementById('fullRandomUrlToggle');
   var enabled = cb ? cb.checked : false;
@@ -20449,7 +20461,7 @@ function applyFilterButtonsLang(lang) {
     if (t) el.textContent = t;
   });
 
-  document.querySelectorAll("label[for='autoSwitchTimer'][data-ar], label[for='sleepTimer'][data-ar], label[for='maxVolTimer'][data-ar], label[for='offlineLoopSeconds'][data-ar], label[for='welcomeFallbackToggle'][data-ar]").forEach(function(lbl) {
+  document.querySelectorAll("label[for='autoSwitchTimer'][data-ar], label[for='sleepTimer'][data-ar], label[for='maxVolTimer'][data-ar], label[for='offlineLoopSeconds'][data-ar], label[for='welcomeFallbackToggle'][data-ar], label[for='floatPlayBtnToggle'][data-ar]").forEach(function(lbl) {
     var t = lbl.getAttribute('data-' + lang) || lbl.getAttribute('data-en');
     if (t) lbl.textContent = t;
   });
@@ -22089,6 +22101,7 @@ function openWelcomeScreen() {
   window._welcomePlayInitiated = false;
 
   document.getElementById('welcomeScreen').style.display = 'flex';
+  if (window.updateScrollTopBtn) window.updateScrollTopBtn();
 
   if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
 
@@ -32029,7 +32042,8 @@ window.addEventListener('load', function() {
     if (!playBtn || !mainAudioForBtn) return;
     var scrolled = window.scrollY > 300;
     var playing = !mainAudioForBtn.paused && !!mainAudioForBtn.src && mainAudioForBtn.src !== window.location.href;
-    playBtn.style.display = (scrolled || playing) ? 'flex' : 'none';
+    var floatOn = localStorage.getItem('showTogglePlayBtn') === 'true';   // الافتراضي: مغلق
+    playBtn.style.display = (floatOn && scrolled) ? 'flex' : 'none';
 
     var icon = document.getElementById('togglePlayPauseIcon');
     if (icon) {
@@ -32039,8 +32053,17 @@ window.addEventListener('load', function() {
     }
   }
 
+  // الزر يظهر فقط لو المستخدم عمل سكرول لأسفل
+  window.updateScrollTopBtn = function() {
+    if (!topBtn) return;
+    topBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+  };
+  window.updateScrollTopBtn();
+  window.addEventListener('load', function() { window.updateScrollTopBtn(); window.updateTogglePlayBtnVisibility(); });
+  document.addEventListener('DOMContentLoaded', function() { window.updateTogglePlayBtnVisibility(); });
+
   window.addEventListener('scroll', function() {
-    if (topBtn) topBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+    window.updateScrollTopBtn();
     window.updateTogglePlayBtnVisibility();
   }, {
     passive: true
