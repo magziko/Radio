@@ -850,21 +850,72 @@ function _asClearAll() {
 }
 
 // يُستدعى من: Worker + مؤقت احتياطي + timeupdate للمشغّل + visibilitychange + pageshow
-// بعد الانتقال التلقائي: لو المشغّل لسه واقف (play() اترفض في الخلفية) نعيد المحاولة — بيتفحص من نفس مصادر الفحص
+// بعد الانتقال التلقائي: (1) لو المشغّل لسه واقف (play() اتحجب في الخلفية) نعيد المحاولة،
+// (2) ولو المحطة ميتة فعلاً (مفيش صوت ولا بيانات بتوصل) ننتقل للتالية بدل الصمت لحد نهاية الدورة.
+// بيتفحص من نفس مصادر الفحص (Worker / timeupdate / visibilitychange) فيشتغل مع قفل الشاشة.
 window._asPlayWatch = null;
+window._asSkipCount = 0;
+var AS_SKIP_MAX = 5; // أقصى عدد تخطّيات متتالية قبل ما نوقف (عشان ما نلفّش على محطات كلها واقفة)
+
+function _asMsg(ar, en) { return ((typeof isArabic !== 'undefined') ? isArabic : true) ? ar : en; }
+
+function _asNewWatch(kind) {
+  var now = Date.now();
+  window._asPlayWatch = { kind: kind, start: now, until: now + 70000, last: 0, mark: 0, lastData: 0 };
+}
+
+function _asSkipDeadStation(kind, el) {
+  window._asSkipCount = (window._asSkipCount || 0) + 1;
+  if (window._asSkipCount > AS_SKIP_MAX) {
+    window._asPlayWatch = null;
+    if (typeof showToast === 'function') showToast(_asMsg('⚠️ تعذّر إيجاد محطة تعمل حالياً', '⚠️ No working station found right now'));
+    return;
+  }
+  var note = _asMsg('⏭️ تخطّينا محطة لا تعمل', '⏭️ Skipped a station that is not playing');
+  if (typeof showToast === 'function') showToast(note);
+  try {
+    window._badUrls = window._badUrls || {};
+    var cur = el.currentSrc || el.src;
+    if (cur) window._badUrls[cur] = Date.now();
+  } catch (e) {}
+  if (kind === 'main') { if (typeof switchToNextButton === 'function') switchToNextButton(); }
+  else if (typeof nextStationFunc === 'function') nextStationFunc();
+  _asNewWatch(kind);
+  // السبب يظهر في سطر الحالة (الإشعار وحده ممكن يتتجاهل لو جاء بعد إشعار تاني)
+  try {
+    var st = (kind === 'main') ? (typeof statusDiv !== 'undefined' ? statusDiv : null)
+                                : (typeof currentStatus !== 'undefined' ? currentStatus : null);
+    if (st && st.textContent) st.textContent = note + ' — ' + st.textContent;
+  } catch (e) {}
+}
+
 function _asPlayWatchTick() {
   var w = window._asPlayWatch;
   if (!w) return;
   var now = Date.now();
   if (now > w.until || window._userStoppedManually) { window._asPlayWatch = null; return; }
-  if (now - w.start < 2500) return; // مهلة لبدء المحطة الجديدة
+  var cbEl = document.getElementById(w.kind === 'main' ? 'autoSwitchCheckbox' : 'customAutoSwitch');
+  if (!cbEl || !cbEl.checked) { window._asPlayWatch = null; return; } // التنقل التلقائي اتقفل
   var el = document.getElementById(w.kind === 'main' ? 'currentAudio' : 'customAudioPlayer');
   if (!el) { window._asPlayWatch = null; return; }
-  if (!el.paused && el.readyState >= 2) { window._asPlayWatch = null; return; } // شغّال تمام
-  if (now - w.last < 3000) return;
-  w.last = now;
-  if (w.kind === 'main') window._mainPlayAllowed = true;
-  el.play().catch(function() {});
+  if (!el.paused && el.readyState >= 2) { window._asPlayWatch = null; window._asSkipCount = 0; return; } // شغّال تمام
+  if (now - w.start < 2500) return; // مهلة لبدء المحطة الجديدة
+
+  // 1) إعادة محاولة play() كل 3 ثوانٍ
+  if (now - w.last >= 3000) {
+    w.last = now;
+    if (w.kind === 'main') window._mainPlayAllowed = true;
+    el.play().catch(function() {});
+  }
+
+  // 2) تخطّي المحطة الميتة — بس لو فيه إنترنت، ومفيش بيانات بتوصل (محطة بطيئة ≠ ميتة)
+  if (navigator.onLine === false) return;
+  var end = (typeof _stationBufEnd === 'function') ? _stationBufEnd(el) : 0;
+  if (end > w.mark) { w.mark = end; w.lastData = now; }
+  var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  var slow = !!(conn && (conn.saveData || ['slow-2g', '2g'].indexOf(conn.effectiveType) !== -1));
+  var grace = slow ? 45000 : 25000; // أطول من مهلة التحويل للرابط البديل عشان يجرّب بدائله الأول
+  if (now - Math.max(w.start, w.lastData) >= grace) _asSkipDeadStation(w.kind, el);
 }
 
 function _asCheck() {
@@ -878,7 +929,8 @@ function _asCheck() {
   if (_asSecondsLeft <= 0) {
     _asDeadline = 0; // يمنع التنفيذ المزدوج
     if (typeof nextStationFunc === 'function') nextStationFunc();
-    window._asPlayWatch = { kind: 'welcome', start: Date.now(), until: Date.now() + 20000, last: 0 };
+    window._asSkipCount = 0;
+    _asNewWatch('welcome');
     _asStartCycle(); // دورة جديدة
     return;
   }
@@ -1658,6 +1710,12 @@ function _stationBufEnd(a) {
   try { var b = a.buffered; return b && b.length ? b.end(b.length - 1) : 0; } catch (e) { return 0; }
 }
 
+// يكتب حالة التحويل في سطر حالة الشاشة الترحيبية (ثابتة، بعكس showToast اللي بيتجاهل أي إشعار خلال 3.5 ث من اللي قبله)
+function _stationStatus(ar, en) {
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  if (typeof currentStatus !== 'undefined' && currentStatus) currentStatus.textContent = isAr ? ar : (en || ar);
+}
+
 function playStation(station) {
   window._userStoppedManually = false; // تشغيل جديد من المستخدم
   if (window.stopAllOtherAudios) window.stopAllOtherAudios('welcome');
@@ -1770,6 +1828,7 @@ function playStation(station) {
     }
     if (sIdx < stationSrcs.length) {
       showToast("📢 تم التحويل للرابط الاحتياطي");
+      _stationStatus("📢 جارٍ التحويل للرابط الاحتياطي...", "📢 Switching to backup link...");
       setTimeout(function() {
         if (window._stationRun !== myRun) return;
         playSrc(sIdx);
@@ -1779,6 +1838,7 @@ function playStation(station) {
       // جرّبنا كل الروابط: لفّة تانية بعد مهلة قصيرة بدل ما نقف صامتين
       sRounds++;
       showToast("📢 جارٍ إعادة المحاولة...");
+      _stationStatus("📢 جارٍ إعادة المحاولة...", "📢 Retrying...");
       setTimeout(function() {
         if (window._stationRun !== myRun) return;
         sIdx = 0;
@@ -1788,6 +1848,7 @@ function playStation(station) {
     } else {
       sSwitching = false;
       showToast("⚠️ تعذّر تشغيل المحطة حالياً، جرّب محطة أخرى");
+      _stationStatus("⚠️ تعذّر تشغيل المحطة حالياً — جرّب محطة أخرى", "⚠️ Couldn't play this station — try another");
     }
   }
 
@@ -1798,6 +1859,7 @@ function playStation(station) {
     if (navigator.onLine === false) {
       if (waitingOnline) return;
       waitingOnline = true;
+      _stationStatus("📡 لا يوجد اتصال — سيُعاد التشغيل عند رجوعه", "📡 No connection — will resume when back online");
       window.addEventListener('online', function _back() {
         window.removeEventListener('online', _back);
         waitingOnline = false;
@@ -17160,7 +17222,8 @@ function _asSettingsCheck() {
   if (Date.now() < _asSettingsDeadline) return;
   _asSettingsDeadline = 0; // يمنع التنفيذ المزدوج
   switchToNextButton();
-  window._asPlayWatch = { kind: 'main', start: Date.now(), until: Date.now() + 20000, last: 0 };
+  window._asSkipCount = 0;
+  _asNewWatch('main');
   _asSettingsArm(); // دورة جديدة
 }
 
