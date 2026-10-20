@@ -1195,9 +1195,18 @@ var welcomeConsecutiveErrors = 0;
 const WELCOME_ERROR_DELAY = 15000;
 const WELCOME_STALLED_DELAY = 20000;
 
+// محطة اختارها المستخدم (playStation / playWelcomeScreenStation) لها منظومة التحويل الخاصة بها؛
+// المستمعان العامان أدناه للمحطة الافتراضية فقط — وإلا كانا بيسحبوا المشغّل لـ tarateel وهو يعرض اسم محطة تانية
+function _welcomeOwnedByPickedStation() {
+  if (!window._welcomePickedStation) return false;
+  var cur = customAudioPlayer.currentSrc || customAudioPlayer.src || '';
+  return sources.indexOf(cur) === -1;
+}
+
 // ── handler الأخطاء العامة (يشتغل للمحطة الافتراضية فقط) ──
 audio.addEventListener("error", function() {
   if (window._welcomeScreenClosed || !isWelcomeAutoFallbackEnabled()) return;
+  if (_welcomeOwnedByPickedStation()) return;
   clearTimeout(welcomeErrorTimer);
   welcomeErrorTimer = setTimeout(function() {
     if (audio.error || audio.networkState === 3) nextSource();
@@ -1206,6 +1215,7 @@ audio.addEventListener("error", function() {
 
 audio.addEventListener("stalled", function() {
   if (window._welcomeScreenClosed || !isWelcomeAutoFallbackEnabled()) return;
+  if (_welcomeOwnedByPickedStation()) return;
   clearTimeout(welcomeStalledTimer);
   welcomeStalledTimer = setTimeout(function() {
     if (audio.paused || audio.readyState < 2) nextSource();
@@ -1621,6 +1631,14 @@ var _sErrorTimer = null; // مؤقت خطأ المحطة (عام للإلغاء 
 var _sStalledTimer = null; // مؤقت توقف المحطة (عام للإلغاء من الخارج)
 
 function _clearStationHandlers() {
+  window._stationRun = (window._stationRun || 0) + 1; // يُبطل أي تحويل/إعادة محاولة معلّقة من المحطة السابقة
+  clearTimeout(_sErrorTimer);
+  clearTimeout(_sStalledTimer);
+  clearTimeout(window._welcomeSeekFallback);
+  if (window._welcomeSeekHandler) {
+    customAudioPlayer.removeEventListener('loadedmetadata', window._welcomeSeekHandler);
+    window._welcomeSeekHandler = null;
+  }
   if (_stationErrorHandler) {
     customAudioPlayer.removeEventListener('error', _stationErrorHandler);
     _stationErrorHandler = null;
@@ -1633,6 +1651,11 @@ function _clearStationHandlers() {
     customAudioPlayer.removeEventListener('playing', _stationPlayingHandler);
     _stationPlayingHandler = null;
   }
+}
+
+// نهاية آخر جزء اتحمّل من الملف/البث (بالثواني) — لاكتشاف إن البيانات لسه بتوصل
+function _stationBufEnd(a) {
+  try { var b = a.buffered; return b && b.length ? b.end(b.length - 1) : 0; } catch (e) { return 0; }
 }
 
 function playStation(station) {
@@ -1653,6 +1676,17 @@ function playStation(station) {
   }
   if (!stationSrcs.length) return;
 
+  // روابط فشلت مؤخراً (آخر 10 دقائق) تروح لآخر الترتيب بدل ما نضيّع وقت المستمع عليها
+  window._badUrls = window._badUrls || {};
+  (function() {
+    var now = Date.now(), ok = [], bad = [];
+    stationSrcs.forEach(function(u) { ((now - (window._badUrls[u] || 0) < 600000) ? bad : ok).push(u); });
+    if (ok.length && bad.length) stationSrcs = ok.concat(bad);
+  })();
+
+  var myRun = window._stationRun; // هوية هذا التشغيل — أي مؤقت متأخر من تشغيل أقدم يتجاهل نفسه
+  var sRounds = 0;
+  var waitingOnline = false;
   var sIdx = 0;
   var sSwitching = false;
   _sErrorTimer = null;
@@ -1719,9 +1753,11 @@ function playStation(station) {
   }
 
   function nextSrc() {
+    if (window._stationRun !== myRun) return;
     if (sSwitching) return;
     if (!_welcomeFallbackAllowed()) return;
     sSwitching = true;
+    window._badUrls[stationSrcs[sIdx]] = Date.now();
     if (isMultiUrlStation && typeof isFullRandomUrlEnabled === 'function' && isFullRandomUrlEnabled() && stationSrcs.length > 1) {
       // ── وضع "روابط ديناميكية": اختر رابطًا عشوائيًا مختلفًا عن الحالي بدل السير بالترتيب ──
       var _newIdx;
@@ -1735,32 +1771,75 @@ function playStation(station) {
     if (sIdx < stationSrcs.length) {
       showToast("📢 تم التحويل للرابط الاحتياطي");
       setTimeout(function() {
+        if (window._stationRun !== myRun) return;
         playSrc(sIdx);
         sSwitching = false;
       }, 800);
+    } else if (sRounds < 2) {
+      // جرّبنا كل الروابط: لفّة تانية بعد مهلة قصيرة بدل ما نقف صامتين
+      sRounds++;
+      showToast("📢 جارٍ إعادة المحاولة...");
+      setTimeout(function() {
+        if (window._stationRun !== myRun) return;
+        sIdx = 0;
+        playSrc(sIdx);
+        sSwitching = false;
+      }, 5000);
     } else {
       sSwitching = false;
+      showToast("⚠️ تعذّر تشغيل المحطة حالياً، جرّب محطة أخرى");
     }
   }
 
+  // error = فشل فعلي في الرابط → تحويل سريع (4 ثوانٍ). لو مفيش إنترنت أصلاً الرابط البديل مش هيفيد:
+  // نستنى رجوع الاتصال ونعيد نفس الرابط.
   _stationErrorHandler = function() {
     if (window._welcomeScreenClosed || !isWelcomeAutoFallbackEnabled()) return;
+    if (navigator.onLine === false) {
+      if (waitingOnline) return;
+      waitingOnline = true;
+      window.addEventListener('online', function _back() {
+        window.removeEventListener('online', _back);
+        waitingOnline = false;
+        if (window._stationRun === myRun && !window._userStoppedManually) playSrc(sIdx);
+      });
+      return;
+    }
     clearTimeout(_sErrorTimer);
     _sErrorTimer = setTimeout(function() {
+      if (window._stationRun !== myRun) return;
       if (customAudioPlayer.error || customAudioPlayer.networkState === 3) nextSrc();
-    }, 15000);
+    }, 4000);
   };
+  // stalled = ممكن يكون تهنيج لحظي أو محطة بطيئة في التحميل، مش بالضرورة رابط ميت.
+  // فبعد المهلة نتأكد: لو البيانات لسه بتوصل (buffered بيزيد) نستنى أكتر بدل ما نحوّل؛ نحوّل بس لو واقف فعلاً.
   _stationStalledHandler = function() {
     if (window._welcomeScreenClosed || !isWelcomeAutoFallbackEnabled()) return;
+    if (navigator.onLine === false) return;
     clearTimeout(_sStalledTimer);
-    _sStalledTimer = setTimeout(function() {
-      if (customAudioPlayer.paused || customAudioPlayer.readyState < 2) nextSrc();
-    }, 20000);
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var slowNet = !!(conn && (conn.saveData || ['slow-2g', '2g'].indexOf(conn.effectiveType) !== -1));
+    var firstStallAt = Date.now();
+    var mark = _stationBufEnd(customAudioPlayer);
+    (function arm(waitMs) {
+      _sStalledTimer = setTimeout(function() {
+        if (window._stationRun !== myRun) return;
+        if (!(customAudioPlayer.paused || customAudioPlayer.readyState < 2)) return;   // اشتغلت خلاص
+        var nowEnd = _stationBufEnd(customAudioPlayer);
+        if (nowEnd > mark && Date.now() - firstStallAt < 60000) {                      // بطيئة لكن بتتحمّل
+          mark = nowEnd;
+          arm(8000);
+          return;
+        }
+        nextSrc();                                                                      // واقفة فعلاً
+      }, waitMs);
+    })(slowNet ? 25000 : 12000);
   };
   _stationPlayingHandler = function() {
     clearTimeout(_sErrorTimer);
     clearTimeout(_sStalledTimer);
     sSwitching = false;
+    sRounds = 0;
   };
 
   customAudioPlayer.addEventListener('error', _stationErrorHandler);
@@ -16154,9 +16233,13 @@ function _playNewAudioCore(source, stationName, stationNameEn, _fromUser) {
   if (mainAudio._activeErrorHandler) {
     mainAudio.removeEventListener('error', mainAudio._activeErrorHandler);
   }
-  mainAudio._activeErrorHandler = onMainAudioError;
+  // لو الرابط ده تابع لمحطة متعددة الروابط (toggleRadio سجّلها) نخلّي معالجها هو المسؤول — كان playNewAudio
+  // بيستبدله بـ onMainAudioError اللي بيعيد نفس الرابط الميت كل 5 ثوانٍ ومبيجرّبش الرابط التاني تاني
+  var _multiOwner = window._stationMultiHandler;
+  var _errH = (_multiOwner && _multiOwner.urls && _multiOwner.urls.indexOf(source) !== -1) ? _multiOwner.fn : onMainAudioError;
+  mainAudio._activeErrorHandler = _errH;
   mainAudio._onErrorHandler = onMainAudioError;
-  mainAudio.addEventListener('error', onMainAudioError);
+  mainAudio.addEventListener('error', _errH);
 
   updateButtonColor();
 }
@@ -22108,6 +22191,7 @@ function toggleRadio(button, event = null) {
   if (isPlaying) {
 
     var audioElement = document.getElementById('currentAudio');
+    window._stationMultiHandler = null; // المستخدم أوقف: أي تحويل لرابط بديل معلّق يتلغي
     if (audioElement) {
       audioElement.pause();
       audioElement.onended = null;
@@ -22304,6 +22388,8 @@ function toggleRadio(button, event = null) {
   if (urls && Array.isArray(urls) && urls.length > 1) {
 
     function onMultiUrlError() {
+      // لو المستخدم أوقف/غيّر المحطة فمعالج هذه المحطة لم يعد المالك → لا تحويل
+      if (!window._stationMultiHandler || window._stationMultiHandler.fn !== onMultiUrlError || window._userStoppedManually) return;
       var reason = getAudioFailReason(mainAudio);
       var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
 
@@ -22439,9 +22525,16 @@ function toggleRadio(button, event = null) {
           'unavailableNext'
         );
         button.setAttribute('data-current-index', _nextMultiUrlIndex(idx, urls.length));
+        // أول لفّة على كل الروابط سريعة (0.8 ث)؛ لو كلها فشلت نهدّي المحاولات تدريجياً بدل الطرق المتواصل
+        window._multiFailCount = (window._multiFailCount || 0) + 1;
+        var _fb = window._multiFailCount;
+        var _delay = _fb <= urls.length ? 800 : Math.min(30000, 4000 * (_fb - urls.length));
         setTimeout(function() {
+          var _o = window._stationMultiHandler;
+          if (!_o || _o.fn !== onMultiUrlError || window._userStoppedManually) return;   // المستخدم غيّر/أوقف خلال المهلة
+          if (urls.indexOf(currentSource) === -1) return;                                 // تشغيل محطة أخرى تم في الأثناء
           playNewAudio(nextUrl, stationDescription, stationDescriptionEn, true);
-        }, 800);
+        }, _delay);
       }
     }
 
@@ -22455,6 +22548,12 @@ function toggleRadio(button, event = null) {
     mainAudio._activeErrorHandler = onMultiUrlError;
     mainAudio._onMultiUrlErrorHandler = onMultiUrlError;
     mainAudio.addEventListener('error', onMultiUrlError);
+    window._stationMultiHandler = { urls: urls, fn: onMultiUrlError };
+    window._multiFailCount = 0;
+    if (!mainAudio._multiFailResetBound) {
+      mainAudio._multiFailResetBound = true;
+      mainAudio.addEventListener('playing', function() { window._multiFailCount = 0; });
+    }
 
     var autoNext = function() {
       if (window._repeatModeActive) return;
@@ -22468,6 +22567,7 @@ function toggleRadio(button, event = null) {
     window._lastAutoNext = autoNext;
   } else {
 
+    window._stationMultiHandler = null;   // محطة برابط واحد: لا معالج متعدد الروابط
     var autoRepeat = function() {
       if (window._repeatModeActive) return;
       window._mainPlayAllowed = true;   // نفس السبب: الشاشة الترحيبية مفتوحة
