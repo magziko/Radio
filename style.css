@@ -10662,3 +10662,41 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
 @media (prefers-reduced-motion: reduce) {
   #pnb-play.is-loading::before { animation-duration: 2.4s; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   مناطق لمس أكبر على الموبايل/الشاشات اللمس (≈44px) — من غير ما الشكل يتغيّر
+   بنزوّد مساحة ضغط شفافة (::before) حوالين الأزرار الصغيرة؛ الأزرار نفسها بنفس أحجامها
+   (على الديسكتوب بالماوس ما فيش أي تغيير)
+   ══════════════════════════════════════════════════════════════ */
+@media (pointer: coarse), (max-width: 600px) {
+  /* أزرار كانت static: لازم تبقى positioned عشان المنطقة الشفافة تتمركز عليها (من غير أي إزاحة) */
+  #shareStationBtn, #historyBtn, .favorite-icon { position: relative; }
+  /* أزرار شريط الشاشة الترحيبية العلوي: القواعد الأصلية عليها position:static !important،
+     فنكافئها بنفس الخصوصية (وبتيجي بعدها في الملف). الإزاحات auto فمفيش أي تحرّك في الشكل */
+  #welcome-top-bar #welcomeTopAiBtn,
+  #welcome-top-bar #welcomeTopSearchBtn,
+  #welcome-top-bar #welcomeDarkModeBtn,
+  #welcome-top-bar #welcomeMoreBtn { position: relative !important; }
+
+  .pnb-btn:not(#pnb-play)::before,
+  #pnb-copy::before, #pnb-share::before, #pnb-download::before,
+  #welcomeTopAiBtn::before, #welcomeTopSearchBtn::before,
+  #welcomeDarkModeBtn::before, #welcomeMoreBtn::before,
+  #shareStationBtn::before, #historyBtn::before, #micSearchBtn::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 44px; height: 44px;
+    transform: translate(-50%, -50%);
+  }
+  /* قلب المفضلة جوّه زر المحطة: ضغطة جنبه كانت بتشغّل المحطة بالغلط */
+  .favorite-icon::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 40px; height: 44px;
+    transform: translate(-50%, -50%);
+  }
+  /* زر التشغيل: 42px على الموبايل → 44px (ما بينقصش على الشاشات الأكبر) */
+  #unifiedControls #pnb-play { min-width: 44px; min-height: 44px; }
+}
