@@ -1648,7 +1648,7 @@ function _stationNameKey(name) {
   return null;
 }
 // يقبل كائن محطة أو نصًا؛ يفضّل أي اسم مترجم موجود في بيانات المحطة نفسها، وإلا يستخدم الجدول، وإلا يرجع الاسم الأصلي
-function _localizeStationName(st) {
+function _localizeStationName(st, enFallback) {
   var lang = _curWelcomeLang();
   var name = (st && typeof st === 'object') ? st.name : st;
   if (!name || lang === 'ar') return name || '';
@@ -1657,11 +1657,26 @@ function _localizeStationName(st) {
     if (own) return own;
   }
   var key = _stationNameKey(name);
-  return (key && STATION_NAME_I18N[key] && STATION_NAME_I18N[key][lang]) || name;
+  var hit = key && STATION_NAME_I18N[key] && STATION_NAME_I18N[key][lang];
+  if (hit) return hit;
+  // لغة غير العربية ومفيش ترجمة جاهزة: الاسم الإنجليزي أوضح للمستخدم من العربي
+  var en = (st && typeof st === 'object' && (st.en || st.nameEn || st.name_en)) || enFallback;
+  return (en && en !== name) ? en : name;
 }
+// النص الافتراضي الثابت عند فتح الموقع (قبل تشغيل أي محطة) بلغة الموقع/المتصفح
+function _applyDefaultStatusLang() {
+  var el = document.getElementById('customStatus');
+  if (!el || el.dataset.stationName) return;
+  if (el.dataset.defaultStatus !== '1' && el.textContent.indexOf('Radio Quran Karim') === -1) return;
+  var lang = _curWelcomeLang();
+  el.textContent = (lang === 'ar') ? 'إذاعة القرآن الكريم' : (STATION_NAME_I18N.radio[lang] || STATION_NAME_I18N.radio.en);
+  el.dataset.defaultStatus = '1';
+}
+document.addEventListener('DOMContentLoaded', _applyDefaultStatusLang);
+window.addEventListener('load', _applyDefaultStatusLang);
 function _welcomeNowPlayingText(st) {
   var name = (st && typeof st === 'object') ? st.name : st;
-  if (currentStatus) currentStatus.dataset.stationName = name || '';
+  if (currentStatus) { currentStatus.dataset.stationName = name || ''; currentStatus.dataset.defaultStatus = ''; }
   return _localizeStationName(st) + " " + _nowPlayingSuffix();
 }
 function _stripNowPlayingSuffix(txt) {
@@ -1992,7 +2007,7 @@ function playWelcomeScreenStation(stationUrl, stationName) {
   customAudioPlayer.src = stationUrl;
   customAudioPlayer.load();
   customAudioPlayer.play().catch(function() {});
-  if (currentStatus) { var _pp = (typeof PLAYER_STATUS_MSG !== 'undefined' && PLAYER_STATUS_MSG.playingPrefix) ? (PLAYER_STATUS_MSG.playingPrefix[_curWelcomeLang()] || PLAYER_STATUS_MSG.playingPrefix.ar) : "تشغيل:"; currentStatus.dataset.stationName = stationName; currentStatus.textContent = _pp + " " + _localizeStationName(stationName); }
+  if (currentStatus) { var _pp = (typeof PLAYER_STATUS_MSG !== 'undefined' && PLAYER_STATUS_MSG.playingPrefix) ? (PLAYER_STATUS_MSG.playingPrefix[_curWelcomeLang()] || PLAYER_STATUS_MSG.playingPrefix.ar) : "تشغيل:"; currentStatus.dataset.stationName = stationName; currentStatus.dataset.defaultStatus = ''; currentStatus.textContent = _pp + " " + _localizeStationName(stationName); }
   // ===== تسجيل في سجل الاستماع =====
   if (typeof _saveToListenHistory === 'function') _saveToListenHistory(stationName, stationUrl, customAudioPlayer);
 }
@@ -16243,6 +16258,7 @@ function _playNewAudioCore(source, stationName, stationNameEn, _fromUser) {
   }
 
   var stationNameEn = (typeof arguments[2] !== 'undefined') ? arguments[2] : '';
+  stationNameEn = _localizeStationName(stationName, stationNameEn);
   updateStatus("تشغيل: " + stationName, "Playing: " + (stationNameEn || stationName));
   (function() {
     var _lang = _curWelcomeLang();
@@ -20636,6 +20652,7 @@ function applyFilterButtonsLang(lang) {
 
   // تحديث نص "الراديو متوقف / يعمل الآن" بلغة العرض الحالية
   var _welcomeStatusEl = document.getElementById('customStatus');
+  if (typeof _applyDefaultStatusLang === 'function') _applyDefaultStatusLang();
   if (_welcomeStatusEl && typeof isAudioPlaying !== 'undefined') {
     if (isAudioPlaying) {
       var _origName = _welcomeStatusEl.dataset.stationName;
