@@ -761,9 +761,10 @@ function toggleAutoSwitchBtn() {
 // ─────────────────────────────────────────────────────────────
 // التنقل التلقائي بين محطات الشاشة الترحيبية - كل 5 دقائق
 // ─────────────────────────────────────────────────────────────
-var _asTimer = null; // setTimeout للتنقل
-var _asTick = null; // setInterval للعداد
+var _asDeadline = 0; // وقت الانتقال القادم (ms) — يعتمد على Date.now() بدل المؤقتات
 var _asSecondsLeft = 0;
+var _asWorker = null; // Web Worker للمؤقت (أقل تأثراً بإبطاء الخلفية)
+var _asFallbackTick = null; // مؤقت احتياطي
 var AS_DURATION_SEC = 300; // 5 دقائق = 300 ثانية (قابل للتغيير من الإعدادات)
 
 // ─── تحميل القيمة المحفوظة من localStorage ───────────────────
@@ -828,13 +829,44 @@ function _asFormatCountdown(sec) {
   return sec + 's';
 }
 
+function _asEnsureWorker() {
+  if (_asWorker) return _asWorker;
+  try {
+    var src = 'var t=null;onmessage=function(e){clearInterval(t);' +
+      'if(e.data==="start")t=setInterval(function(){postMessage(1)},1000);}';
+    _asWorker = new Worker(URL.createObjectURL(new Blob([src], { type: 'application/javascript' })));
+    _asWorker.onmessage = function() { _asCheck(); };
+  } catch (e) { _asWorker = null; }
+  return _asWorker;
+}
+
 function _asClearAll() {
-  clearTimeout(_asTimer);
-  clearInterval(_asTick);
-  _asTimer = null;
-  _asTick = null;
+  _asDeadline = 0;
+  clearInterval(_asFallbackTick);
+  _asFallbackTick = null;
+  if (_asWorker) _asWorker.postMessage('stop');
   var cdSpan = document.getElementById('autoSwitchCountdown');
   if (cdSpan) cdSpan.textContent = '';
+}
+
+// يُستدعى من: Worker + مؤقت احتياطي + timeupdate للمشغّل + visibilitychange + pageshow
+function _asCheck() {
+  if (!_asDeadline) return;
+  var cb = document.getElementById('customAutoSwitch');
+  if (!cb || !cb.checked || window._userStoppedManually) { _asClearAll(); return; }
+
+  _asSecondsLeft = Math.ceil((_asDeadline - Date.now()) / 1000);
+
+  if (_asSecondsLeft <= 0) {
+    _asDeadline = 0; // يمنع التنفيذ المزدوج
+    if (typeof nextStationFunc === 'function') nextStationFunc();
+    _asStartCycle(); // دورة جديدة
+    return;
+  }
+  if (document.visibilityState === 'visible') {
+    var cdSpan = document.getElementById('autoSwitchCountdown');
+    if (cdSpan) cdSpan.textContent = _asFormatCountdown(_asSecondsLeft);
+  }
 }
 
 function _asStartCycle() {
@@ -844,35 +876,25 @@ function _asStartCycle() {
     return;
   }
 
+  _asDeadline = Date.now() + AS_DURATION_SEC * 1000;
   _asSecondsLeft = AS_DURATION_SEC;
-
-  // تحديث العداد كل ثانية
   var cdSpan = document.getElementById('autoSwitchCountdown');
-  clearInterval(_asTick);
   if (cdSpan) cdSpan.textContent = _asFormatCountdown(_asSecondsLeft);
 
-  _asTick = setInterval(function() {
-    _asSecondsLeft--;
-    if (cdSpan) cdSpan.textContent = _asFormatCountdown(_asSecondsLeft);
-    if (_asSecondsLeft <= 0) clearInterval(_asTick);
-  }, 1000);
-
-  // عند انتهاء المؤقت → انتقل للمحطة التالية وابدأ دورة جديدة
-  clearTimeout(_asTimer);
-  _asTimer = setTimeout(function() {
-    var cbNow = document.getElementById('customAutoSwitch');
-    if (!cbNow || !cbNow.checked) {
-      _asClearAll();
-      return;
-    }
-    if (window._userStoppedManually) {
-      _asClearAll();
-      return;
-    } // مؤقت النوم أوقف — لا انتقال
-    if (typeof nextStationFunc === 'function') nextStationFunc();
-    _asStartCycle(); // دورة جديدة
-  }, AS_DURATION_SEC * 1000);
+  var w = _asEnsureWorker();
+  if (w) w.postMessage('start');
+  clearInterval(_asFallbackTick);
+  _asFallbackTick = setInterval(_asCheck, 1000);
 }
+
+// مصادر فحص لا يوقفها قفل الشاشة
+document.addEventListener('visibilitychange', _asCheck);
+window.addEventListener('pageshow', _asCheck);
+(function _asHookAudio() {
+  var p = document.getElementById('customAudioPlayer');
+  if (p) { p.addEventListener('timeupdate', _asCheck); return; }
+  document.addEventListener('DOMContentLoaded', _asHookAudio, { once: true });
+})();
 
 function enableAutoSwitch() {
   var cb = document.getElementById('customAutoSwitch');
