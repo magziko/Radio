@@ -22070,6 +22070,9 @@ function toggleRadio(button, event = null) {
         if (!repeatUrl) repeatUrl = mainAudio.src;
 
         mainAudio.onended = function repeatOne() {
+          // الشاشة الترحيبية مفتوحة: مستمع play على currentAudio بيوقّف أي تشغيل مش مسموح بيه،
+          // والإذن بيتصفّر بعد أول تشغيل → من غير السطر ده التكرار كان بيشتغل مرة واحدة ويقف
+          window._mainPlayAllowed = true;
           mainAudio.currentTime = 0;
           mainAudio.play().catch(function(err) { console.warn('repeat play failed:', err && err.message); });
           mainAudio.onended = repeatOne;
@@ -22085,6 +22088,8 @@ function toggleRadio(button, event = null) {
     };
 
     document.querySelectorAll('.button[data-urls]').forEach(function(btn) {
+      if (btn._repeatLongPressBound) return;   // كان بيتكرر الربط مع كل ضغطة → إشعارات ومعالجات مضاعفة
+      btn._repeatLongPressBound = true;
       var timer = null;
       var longPress = false;
 
@@ -22134,7 +22139,9 @@ function toggleRadio(button, event = null) {
       });
     });
 
-    var origToggleRadio = window.toggleRadio;
+    if (!window._repeatToggleWrapped) {   // نغلّف مرة واحدة بس (قبل كده كل ضغطة كانت بتضيف طبقة جديدة)
+      window._repeatToggleWrapped = true;
+      var origToggleRadio = window.toggleRadio;
     window.toggleRadio = function(btn, event) {
       if (window._repeatModeActive) {
         // إلغاء التكرار وتنظيف onended تماماً قبل تشغيل الزر الجديد
@@ -22146,6 +22153,7 @@ function toggleRadio(button, event = null) {
       }
       origToggleRadio(btn, event);
     };
+    }
   })();
   var stationDescription = button.getAttribute('data-ar') || "محطة إذاعية";
   var stationDescriptionEn = button.getAttribute('data-en') || stationDescription;
@@ -22354,6 +22362,7 @@ function toggleRadio(button, event = null) {
 
     var autoRepeat = function() {
       if (window._repeatModeActive) return;
+      window._mainPlayAllowed = true;   // نفس السبب: الشاشة الترحيبية مفتوحة
       mainAudio.currentTime = 0;
       mainAudio.play().catch(function(err) { console.warn('auto-repeat play failed:', err && err.message); });
       mainAudio.onended = autoRepeat;
@@ -35117,6 +35126,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       try { a.volume = 0; } catch (e) {}
       var setT = function() { if (st.active) { try { a.currentTime = st.start; } catch (e) {} } };
       if (a.ended || a.paused) {
+        if (ui) window._mainPlayAllowed = true;   // الشاشة الترحيبية مفتوحة: من غير ده مستمع play بيوقّف التشغيل بعد كل قفزة
         var p = a.play();
         if (p && p.then) p.then(setT, setT); else setT();
       } else {
