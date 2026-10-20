@@ -1629,6 +1629,41 @@ function _radioStoppedText() {
 function _nowPlayingSuffix() {
   return NOW_PLAYING_TEXT[_curWelcomeLang()] || NOW_PLAYING_TEXT.ar;
 }
+
+// ── ترجمة أسماء المحطات في الشاشة الترحيبية حسب لغة الموقع/المتصفح (welcomeDisplayLang) ──
+var STATION_NAME_I18N = {"seerah": {"en": "Prophetic Biography (Seerah)", "fr": "Biographie du Prophète (Sira)", "es": "Biografía del Profeta (Sira)", "sv": "Profetens biografi (Sira)", "nl": "Biografie van de Profeet (Sira)", "ga": "Beathaisnéis an Fháidh (Sira)", "de": "Biografie des Propheten (Sira)", "ru": "Жизнеописание Пророка (Сира)", "tr": "Peygamberin Hayatı (Siyer)", "pt": "Biografia do Profeta (Sira)", "zh": "先知传记（西拉）", "ur": "سیرتِ نبوی ﷺ"}, "anbiya": {"en": "Stories of the Prophets & Companions", "fr": "Histoires des prophètes et des compagnons", "es": "Historias de los profetas y compañeros", "sv": "Profeternas och följeslagarnas berättelser", "nl": "Verhalen van profeten en metgezellen", "ga": "Scéalta na bhFáithe agus na gCompánach", "de": "Geschichten der Propheten und Gefährten", "ru": "Истории пророков и сподвижников", "tr": "Peygamberler ve Sahabe Kıssaları", "pt": "Histórias dos Profetas e Companheiros", "zh": "众先知与圣门弟子的故事", "ur": "انبیاء و صحابہ کے قصے"}, "hadith": {"en": "Prophetic Hadith", "fr": "Hadith prophétique", "es": "Hadiz profético", "sv": "Profetens hadith", "nl": "Profetische Hadith", "ga": "Hadith an Fháidh", "de": "Prophetische Hadithe", "ru": "Хадисы Пророка", "tr": "Hadis-i Şerif", "pt": "Hadith Profético", "zh": "圣训", "ur": "حدیثِ نبوی ﷺ"}, "variety": {"en": "Quran Radio – Variety", "fr": "Radio Coran – Variété", "es": "Radio Corán – Variada", "sv": "Koranradion – Blandat", "nl": "Koranradio – Divers", "ga": "Raidió an Chóráin – Measctha", "de": "Koran-Radio – Vielfalt", "ru": "Радио Корана – Разное", "tr": "Kur'an Radyosu – Karma", "pt": "Rádio Alcorão – Variado", "zh": "古兰经电台 – 综合", "ur": "ریڈیو قرآن – متفرق"}, "radio": {"en": "Holy Quran Radio", "fr": "Radio du Saint Coran", "es": "Radio del Sagrado Corán", "sv": "Heliga Koranens radio", "nl": "Radio van de Heilige Koran", "ga": "Raidió an Chóráin Naofa", "de": "Radio des Heiligen Korans", "ru": "Радио Священного Корана", "tr": "Kur'an-ı Kerim Radyosu", "pt": "Rádio do Sagrado Alcorão", "zh": "古兰经电台", "ur": "ریڈیو قرآن کریم"}, "quran": {"en": "Holy Quran", "fr": "Le Saint Coran", "es": "El Sagrado Corán", "sv": "Den heliga Koranen", "nl": "De Heilige Koran", "ga": "An Chorán Naofa", "de": "Der Heilige Koran", "ru": "Священный Коран", "tr": "Kur'an-ı Kerim", "pt": "O Sagrado Alcorão", "zh": "古兰经", "ur": "قرآن کریم"}, "sheikh": {"en": "Sheikh Radio", "fr": "Radio du Cheikh", "es": "Radio del Sheij", "sv": "Sheikhens radio", "nl": "Radio van de Sjeik", "ga": "Raidió an Sheikh", "de": "Radio des Scheichs", "ru": "Радио шейха", "tr": "Şeyh Radyosu", "pt": "Rádio do Xeique", "zh": "谢赫电台", "ur": "ریڈیو شیخ"}};
+function _normStationAr(s) {
+  return String(s || '').replace(/[\u064B-\u0652\u0670\u0640]/g, '').replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
+    .replace(/[^\u0600-\u06FF\s]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+function _stationNameKey(name) {
+  var n = _normStationAr(name);
+  if (!n) return null;
+  if (n.indexOf('السيره النبويه') !== -1) return 'seerah';
+  if (n.indexOf('الانبياء') !== -1) return 'anbiya';
+  if (n.indexOf('الحديث') !== -1) return 'hadith';
+  if (n.indexOf('اذاعه القران') !== -1) return n.indexOf('متنوع') !== -1 ? 'variety' : 'radio';
+  if (n === 'القران الكريم') return 'quran';
+  if (n === 'اذاعه الشيخ') return 'sheikh';
+  return null;
+}
+// يقبل كائن محطة أو نصًا؛ يفضّل أي اسم مترجم موجود في بيانات المحطة نفسها، وإلا يستخدم الجدول، وإلا يرجع الاسم الأصلي
+function _localizeStationName(st) {
+  var lang = _curWelcomeLang();
+  var name = (st && typeof st === 'object') ? st.name : st;
+  if (!name || lang === 'ar') return name || '';
+  if (st && typeof st === 'object') {
+    var own = (st.names && st.names[lang]) || st['name_' + lang] || (lang === 'en' && (st.nameEn || st.name_en));
+    if (own) return own;
+  }
+  var key = _stationNameKey(name);
+  return (key && STATION_NAME_I18N[key] && STATION_NAME_I18N[key][lang]) || name;
+}
+function _welcomeNowPlayingText(st) {
+  var name = (st && typeof st === 'object') ? st.name : st;
+  if (currentStatus) currentStatus.dataset.stationName = name || '';
+  return _localizeStationName(st) + " " + _nowPlayingSuffix();
+}
 function _stripNowPlayingSuffix(txt) {
   if (!txt) return txt;
   var out = txt;
@@ -1661,7 +1696,7 @@ function togglePlayPauseFunc() {
       customAudioPlayer.play().catch(function() {});
     }
     if (currentStatus && radioStations[stationIndex])
-      currentStatus.textContent = radioStations[stationIndex].name + " " + _nowPlayingSuffix();
+      currentStatus.textContent = _welcomeNowPlayingText(radioStations[stationIndex]);
   }
 }
 
@@ -1804,7 +1839,7 @@ function playStation(station) {
       customAudioPlayer.play().catch(function() {});
     }
 
-    if (currentStatus) currentStatus.textContent = station.name + " " + _nowPlayingSuffix();
+    if (currentStatus) currentStatus.textContent = _welcomeNowPlayingText(station);
     if (typeof window._radioUpdateMediaSession === 'function') window._radioUpdateMediaSession(station.name);
     // ===== تسجيل في سجل الاستماع =====
     if (typeof _saveToListenHistory === 'function') _saveToListenHistory(station.name, stationSrcs[i], customAudioPlayer);
@@ -1957,7 +1992,7 @@ function playWelcomeScreenStation(stationUrl, stationName) {
   customAudioPlayer.src = stationUrl;
   customAudioPlayer.load();
   customAudioPlayer.play().catch(function() {});
-  if (currentStatus) currentStatus.textContent = "تشغيل: " + stationName;
+  if (currentStatus) { var _pp = (typeof PLAYER_STATUS_MSG !== 'undefined' && PLAYER_STATUS_MSG.playingPrefix) ? (PLAYER_STATUS_MSG.playingPrefix[_curWelcomeLang()] || PLAYER_STATUS_MSG.playingPrefix.ar) : "تشغيل:"; currentStatus.dataset.stationName = stationName; currentStatus.textContent = _pp + " " + _localizeStationName(stationName); }
   // ===== تسجيل في سجل الاستماع =====
   if (typeof _saveToListenHistory === 'function') _saveToListenHistory(stationName, stationUrl, customAudioPlayer);
 }
@@ -20603,7 +20638,8 @@ function applyFilterButtonsLang(lang) {
   var _welcomeStatusEl = document.getElementById('customStatus');
   if (_welcomeStatusEl && typeof isAudioPlaying !== 'undefined') {
     if (isAudioPlaying) {
-      var _curName = _stripNowPlayingSuffix(_welcomeStatusEl.textContent);
+      var _origName = _welcomeStatusEl.dataset.stationName;
+      var _curName = _origName ? _localizeStationName(_origName) : _stripNowPlayingSuffix(_welcomeStatusEl.textContent);
       if (_curName) _welcomeStatusEl.textContent = _curName + " " + (NOW_PLAYING_TEXT[lang] || NOW_PLAYING_TEXT.ar);
     } else if (Object.values(RADIO_STOPPED_TEXT).indexOf(_welcomeStatusEl.textContent.trim()) !== -1) {
       _welcomeStatusEl.textContent = RADIO_STOPPED_TEXT[lang] || RADIO_STOPPED_TEXT.ar;
@@ -31121,7 +31157,7 @@ function _getActiveStationInfo() {
     stUrl = welcomeAudio.currentSrc || welcomeAudio.src || '';
     var custStatusEl = document.getElementById('customStatus');
     if (custStatusEl) {
-      stName = _stripNowPlayingSuffix(custStatusEl.textContent
+      stName = custStatusEl.dataset.stationName || _stripNowPlayingSuffix(custStatusEl.textContent
         .replace(/^تشغيل:\s*/, '').replace(/^Playing:\s*/i, ''));
     }
     if (!stName) stName = window._currentPlayingName || '';
@@ -31160,7 +31196,7 @@ function _getActiveStationInfo() {
   }
   if (!stName) {
     var statusEl = document.getElementById('customStatus');
-    if (statusEl) stName = _stripNowPlayingSuffix(statusEl.textContent);
+    if (statusEl) stName = statusEl.dataset.stationName || _stripNowPlayingSuffix(statusEl.textContent);
   }
   return { name: stName, url: stUrl };
 }
