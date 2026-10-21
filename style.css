@@ -10700,3 +10700,229 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
   /* زر التشغيل: 42px على الموبايل → 44px (ما بينقصش على الشاشات الأكبر) */
   #unifiedControls #pnb-play { min-width: 44px; min-height: 44px; }
 }
+
+
+/* ==========================================================================
+   تعديلات التجاوب وتبويب "عام" (بدل الـ <style> المضمّن في index.html)
+   مهم: تبقى في آخر الملف عشان تتغلّب على القواعد الأقدم بنفس الأولوية
+   ========================================================================== */
+
+/* =====================================================================
+   تبويب "عام": أقسام بعناوين + ترتيب منطقي + بطاقات موحدة الشكل والارتفاع
+   (العناصر داخل شبكة #settingsQuickGrid عبر grid-template-areas)
+   ===================================================================== */
+#settings-panel[data-active-tab="general"] #settingsQuickGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "h-timers   h-timers"
+    "autoswitch sleep"
+    "h-play     h-play"
+    "autoplay   soundalert"
+    "startfile  fullrandom"
+    "fallback   fallback"
+    "h-ui       h-ui"
+    "disablewelcome welcomecycle"
+    "flag       floatplay"
+    "h-filters  h-filters"
+    "freorder   freset";
+  gap: 8px 10px;
+}
+#gset-h-timers  { grid-area: h-timers; }
+#gset-h-play    { grid-area: h-play; }
+#gset-h-ui      { grid-area: h-ui; }
+#gset-h-filters { grid-area: h-filters; }
+#settings-floatplay-item       { grid-area: floatplay; }
+#settings-welcomefallback-item { grid-area: fallback; }
+#filtersReorderToggleBtn       { grid-area: freorder; }
+#filtersResetOrderBtn          { grid-area: freset; }
+
+#settings-floatplay-item, #settings-welcomefallback-item,
+#filtersReorderToggleBtn, #filtersResetOrderBtn {
+  width: 100% !important; max-width: 100% !important; margin: 0 !important; box-sizing: border-box !important;
+}
+
+/* عناوين الأقسام (تظهر في تبويب عام فقط) */
+#settings-panel:not([data-active-tab="general"]) .gset-head { display: none !important; }
+#settingsQuickGrid .gset-head {
+  display: flex; align-items: center; gap: 8px;
+  margin: 10px 2px 0; padding: 0;
+  font-family: 'Cairo', Arial, sans-serif; font-size: 13px; font-weight: 800;
+  color: var(--theme-c4); white-space: nowrap;
+}
+#settingsQuickGrid .gset-head::after {
+  content: ""; flex: 1; height: 1.5px; border-radius: 2px;
+  background: rgba(var(--theme-c1-rgb), 0.22);
+}
+body.dark-mode #settingsQuickGrid .gset-head { color: #cfe3f5; }
+#settingsQuickGrid #gset-h-timers { margin-top: 2px; }
+
+/* بطاقات موحدة: نفس الارتفاع والحواف والمحاذاة (النص في البداية والمفتاح في النهاية) */
+#settings-panel[data-active-tab="general"] #settingsQuickGrid :is(
+  #autoSwitchGroup, #sleepModeGroup, #introClipToggleBtn, #radioAutoplayToggleBtn,
+  #settings-randomseek-item, #settings-fullrandom-item, #settings-welcomefallback-item,
+  #disableWelcomeToggleBtn, #welcomeAutoSwitchDurationGroup, #settings-flag-item,
+  #settings-floatplay-item, #filtersReorderToggleBtn, #filtersResetOrderBtn) {
+  display: flex; align-items: center; justify-content: flex-start; gap: 8px;
+  min-height: 46px; padding: 8px 12px; border-radius: 14px;
+  border: 1.5px solid rgba(var(--theme-c1-rgb), 0.22);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  font-size: 13px; line-height: 1.35; text-align: start;
+}
+body:not(.dark-mode) #settings-panel[data-active-tab="general"] #settingsQuickGrid :is(
+  #autoSwitchGroup, #sleepModeGroup, #introClipToggleBtn, #radioAutoplayToggleBtn,
+  #settings-randomseek-item, #settings-fullrandom-item, #settings-welcomefallback-item,
+  #disableWelcomeToggleBtn, #welcomeAutoSwitchDurationGroup, #settings-flag-item,
+  #settings-floatplay-item, #filtersReorderToggleBtn, #filtersResetOrderBtn) {
+  background: rgba(var(--theme-c1-rgb), 0.06);
+}
+/* النص يأخذ المساحة المتاحة، والمفتاح/الحقل في آخر البطاقة */
+#settings-panel[data-active-tab="general"] #settingsQuickGrid :is(.welcome-toggle-btn) .wtb-text {
+  flex: 1 1 auto; min-width: 0; margin: 0; text-align: start;
+}
+#settings-panel[data-active-tab="general"] #settingsQuickGrid :is(.welcome-toggle-btn) .wtb-switch,
+#settings-panel[data-active-tab="general"] #settingsQuickGrid :is(.welcome-toggle-btn) .wtb-switch-visual {
+  margin-inline-start: auto !important; flex-shrink: 0;
+}
+#settings-panel[data-active-tab="general"] #settingsQuickGrid .input-group label {
+  flex: 1 1 auto; min-width: 0; font-size: 13px; white-space: normal;
+}
+#settings-panel[data-active-tab="general"] #settingsQuickGrid .input-group input[type="number"] {
+  flex: 0 0 auto; width: 48%; max-width: 96px; padding: 6px 8px; border-radius: 10px;
+}
+#settings-panel[data-active-tab="general"] #settingsQuickGrid #welcomeAutoSwitchDurationGroup .welcome-toggle-inline-input {
+  flex: 0 0 auto; width: 52px;
+}
+/* عدّادات التنقل/النوم تظهر تحت الحقل بدل ما تكسر الصف */
+#settingsQuickGrid .input-group { flex-wrap: wrap; }
+
+/* =====================================================================
+   طبقة التجاوب للنوافذ كثيرة البيانات (إعدادات، حاسبة الزكاة، مواقيت الصلاة،
+   الختمة، الملاحظات، الإحصائيات، فاحص الروابط، المفضلة، التواصل، الاختصارات...)
+   موبايل: حتى 599px | تابلت: 600–1023px | كمبيوتر: 1024px فأكثر
+   ملاحظة: النوافذ المبنية بالجافاسكربت لها أبعاد inline، فنتجاوزها بـ !important
+   ===================================================================== */
+
+/* ---- 1) الحاويات: هوامش آمنة (النوتش/الشريط السفلي) ---- */
+#zakatCalcPopup, #prayerTimesPopup, #listenStatsPopup, #listenHistoryPopup,
+#khatmaTrackerPopup, #qiblaCompassPopup, #notesPopup, #prayerCalcModal,
+#cityPickerModal, #shareStationPopup, #contactModal, #linkCheckerOverlay,
+#favManagerOverlay {
+  box-sizing: border-box !important;
+  padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+           max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)) !important;
+}
+
+/* ---- 2) الصناديق الداخلية: عرض 100% من مساحة الحاوية + سقف حسب الجهاز ---- */
+#zakatCalcPopup > div, #prayerTimesPopup > div, #listenStatsPopup > div,
+#listenHistoryPopup > div, #khatmaTrackerPopup > div, #qiblaCompassPopup > div,
+#notesPopup > div, #prayerCalcModal > div, #cityPickerModal > div,
+#shareStationPopup > div, #contactModalBox, #linkCheckerBox, #favManagerBox {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-height: 92vh !important;
+  max-height: calc(100dvh - 16px) !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+/* صناديق بدون تمرير داخلي أصلاً: نضيف تمريرًا بدل القص */
+#contactModalBox, #shareStationPopup > div, #cityPickerModal > div { overflow-y: auto !important; }
+#linkCheckerBody { overflow-x: auto; }
+
+/* موبايل (افتراضي) */
+#prayerTimesPopup > div, #qiblaCompassPopup > div, #shareStationPopup > div,
+#cityPickerModal > div, #prayerCalcModal > div            { max-width: 440px !important; }
+#zakatCalcPopup > div, #listenStatsPopup > div, #listenHistoryPopup > div,
+#khatmaTrackerPopup > div, #notesPopup > div, #contactModalBox,
+#favManagerBox                                              { max-width: 520px !important; }
+#linkCheckerBox                                             { max-width: 560px !important; }
+
+/* ---- 3) تابلت 600–1023px ---- */
+@media (min-width: 600px) {
+  #prayerTimesPopup > div, #qiblaCompassPopup > div, #shareStationPopup > div,
+  #cityPickerModal > div, #prayerCalcModal > div            { max-width: 460px !important; }
+  #zakatCalcPopup > div                                     { max-width: 640px !important; }
+  #listenStatsPopup > div, #listenHistoryPopup > div,
+  #khatmaTrackerPopup > div, #notesPopup > div,
+  #contactModalBox, #favManagerBox                          { max-width: 560px !important; }
+  #linkCheckerBox                                           { max-width: 680px !important; }
+  #zakatCalcPopup > div, #listenStatsPopup > div, #khatmaTrackerPopup > div,
+  #notesPopup > div, #prayerTimesPopup > div                { max-height: 90vh !important; max-height: 90dvh !important; }
+
+  /* حاسبة الزكاة: حقلان في الصف بدل عمود طويل */
+  #zakatCalcPopup > div > div:last-child {
+    display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; align-items: start;
+  }
+  #zakatCalcPopup > div > div:last-child > :nth-child(1),
+  #zakatCalcPopup > div > div:last-child > :nth-child(2),
+  #zakatCalcPopup > div > div:last-child > :nth-child(n+9) { grid-column: 1 / -1; }
+}
+
+/* ---- 4) كمبيوتر 1024px فأكثر ---- */
+@media (min-width: 1024px) {
+  #prayerTimesPopup > div, #qiblaCompassPopup > div, #shareStationPopup > div,
+  #cityPickerModal > div, #prayerCalcModal > div            { max-width: 500px !important; }
+  #zakatCalcPopup > div                                     { max-width: 720px !important; }
+  #listenStatsPopup > div, #listenHistoryPopup > div,
+  #khatmaTrackerPopup > div, #notesPopup > div              { max-width: 620px !important; }
+  #contactModalBox, #favManagerBox                          { max-width: 560px !important; }
+  #linkCheckerBox                                           { max-width: 820px !important; }
+  #zakatCalcPopup > div, #listenStatsPopup > div, #khatmaTrackerPopup > div,
+  #notesPopup > div, #prayerTimesPopup > div                { max-height: 88vh !important; max-height: 88dvh !important; }
+}
+
+/* ---- 5) شاشة الإعدادات (class + id لضمان الأولوية على style.css) ---- */
+#settings-panel.settings-modal-panel {
+  box-sizing: border-box;
+  width: calc(100vw - 16px); max-width: 560px;
+  max-height: 92vh; max-height: calc(100dvh - 16px);
+  padding: 46px 12px max(16px, env(safe-area-inset-bottom));
+  overscroll-behavior: contain;
+}
+@media (min-width: 600px) {          /* تابلت */
+  #settings-panel.settings-modal-panel {
+    width: min(90vw, 700px); max-width: 700px;
+    max-height: 90vh; max-height: 90dvh; padding: 46px 16px 18px;
+  }
+}
+@media (min-width: 1024px) {         /* كمبيوتر */
+  #settings-panel.settings-modal-panel {
+    width: clamp(660px, 48vw, 840px); max-width: 840px;
+    max-height: 88vh; max-height: 88dvh; padding: 48px 20px 20px;
+  }
+}
+
+/* ---- 6) مودال البحث: ارتفاع آمن فقط (عرضه مضبوط في style.css) ---- */
+#searchOverlayPanel { max-height: 90vh; max-height: calc(100dvh - 16px); }
+
+/* ---- 7) نافذة الاختصارات (تُحقن بالجافاسكربت لاحقًا، لذلك نرفع الخصوصية) ---- */
+#kb-modal-overlay #kb-modal { max-height: 92vh; max-height: calc(100dvh - 24px); }
+@media (min-width: 1024px) { #kb-modal-overlay #kb-modal { max-width: 720px; } }
+
+/* ---- 8) الشاشات القصيرة (موبايل أفقي / نوافذ صغيرة الارتفاع) ---- */
+@media (max-height: 520px) {
+  #zakatCalcPopup > div, #prayerTimesPopup > div, #listenStatsPopup > div,
+  #listenHistoryPopup > div, #khatmaTrackerPopup > div, #qiblaCompassPopup > div,
+  #notesPopup > div, #prayerCalcModal > div, #cityPickerModal > div,
+  #shareStationPopup > div, #contactModalBox, #linkCheckerBox, #favManagerBox {
+    max-height: 98vh !important; max-height: calc(100dvh - 8px) !important;
+  }
+  #settings-panel.settings-modal-panel { max-height: 98vh; max-height: calc(100dvh - 8px); padding-top: 40px; }
+  #kb-modal-overlay #kb-modal { max-height: 98vh; max-height: calc(100dvh - 8px); }
+}
+
+/* ---- 9) اللمس: تمنع تكبير iOS عند التركيز على حقل + أهداف ضغط مريحة ---- */
+@media (pointer: coarse) {
+  #zakatCalcPopup input, #zakatCalcPopup select, #notesPopup textarea, #notesPopup input,
+  #khatmaTrackerPopup input, #khatmaTrackerPopup select, #contactModalBox input,
+  #contactModalBox textarea, #prayerCalcModal select, #prayerCalcModal input,
+  #cityPickerModal input, #cityPickerModal select, #settings-panel input[type="search"],
+  #settings-panel input[type="number"], #settings-panel select {
+    font-size: 16px !important;
+  }
+  #zakatCalcPopup input:not([type="radio"]):not([type="checkbox"]), #zakatCalcPopup select,
+  #contactModalBox input, #contactModalBox textarea { min-height: 44px; }
+  #zakatCalcPopup button, #khatmaTrackerPopup button, #listenStatsPopup button,
+  #listenHistoryPopup button, #notesPopup button, #prayerTimesPopup button,
+  #qiblaCompassPopup button { min-height: 40px; min-width: 40px; }
+  #settings-modal-close-btn, #searchOverlayCloseBtn { width: 40px; height: 40px; }
+}
