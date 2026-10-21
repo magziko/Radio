@@ -34210,7 +34210,7 @@ document.addEventListener('DOMContentLoaded', function() {
       ur: { on: '✅ یاد دہانی فعال — {m} صبح  •  {e} شام', off: '🔕 یاد دہانی بند ہے' }
     };
 
-    function updateUI(settings) {
+    function updateUI(settings, keepInputs) {
       var btn = document.getElementById('notif-toggle-btn');
       var status = document.getElementById('notif-status-text');
       var mInput = document.getElementById('notif-morning-time');
@@ -34219,8 +34219,10 @@ document.addEventListener('DOMContentLoaded', function() {
       var lang = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : (isAr ? 'ar' : 'en');
       var i18n = ADHKAR_NOTIF_I18N[lang] || ADHKAR_NOTIF_I18N.en;
 
-      if (mInput) mInput.value = settings.morning || '06:00';
-      if (eInput) eInput.value = settings.evening || '18:00';
+      if (!keepInputs) {
+        if (mInput) mInput.value = settings.morning || '06:00';
+        if (eInput) eInput.value = settings.evening || '18:00';
+      }
 
       if (settings.enabled) {
         if (btn) {
@@ -34237,10 +34239,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (status) status.textContent = i18n.off;
       }
+
+      // لو التذكير مفعّل والمستخدم عدّل الموعد ولم يحفظ: الزر يصير "حفظ المواعيد"
+      if (btn && settings.enabled && _timesChanged(settings)) {
+        btn.setAttribute('data-state', 'dirty');
+        btn.textContent = ADHKAR_SAVE_BTN_I18N[lang] || ADHKAR_SAVE_BTN_I18N.en;
+        btn.style.background = 'linear-gradient(135deg,#f59e0b,#d97706)';
+      }
+    }
+
+    var ADHKAR_SAVE_BTN_I18N = {
+      ar: '💾 حفظ المواعيد', en: '💾 Save Times', fr: '💾 Enregistrer les horaires', es: '💾 Guardar horarios',
+      sv: '💾 Spara tider', nl: '💾 Tijden opslaan', ga: '💾 Sábháil Amanna', de: '💾 Zeiten speichern',
+      ru: '💾 Сохранить время', tr: '💾 Saatleri Kaydet', pt: '💾 Salvar horários', zh: '💾 保存时间', ur: '💾 اوقات محفوظ کریں'
+    };
+    var ADHKAR_SAVED_TOAST_I18N = {
+      ar: '✅ تم حفظ المواعيد الجديدة', en: '✅ New times saved', fr: '✅ Nouveaux horaires enregistrés', es: '✅ Nuevos horarios guardados',
+      sv: '✅ Nya tider sparade', nl: '✅ Nieuwe tijden opgeslagen', ga: '✅ Amanna nua sábháilte', de: '✅ Neue Zeiten gespeichert',
+      ru: '✅ Новое время сохранено', tr: '✅ Yeni saatler kaydedildi', pt: '✅ Novos horários salvos', zh: '✅ 新时间已保存', ur: '✅ نئے اوقات محفوظ ہو گئے'
+    };
+
+    // هل المواعيد في الحقلين مختلفة عن المحفوظة؟
+    function _timesChanged(settings) {
+      var m = document.getElementById('notif-morning-time');
+      var e = document.getElementById('notif-evening-time');
+      var curM = (m && m.value) || '06:00';
+      var curE = (e && e.value) || '18:00';
+      return curM !== (settings.morning || '06:00') || curE !== (settings.evening || '18:00');
     }
 
     window.updateAdhkarNotifUI = function() {
-      updateUI(loadSettings());
+      updateUI(loadSettings(), true); // نحافظ على التعديل غير المحفوظ عند تبديل اللغة
     };
 
     // ===== تفعيل/إيقاف تنبيهات فتح الموقع (محطة جديدة، مناسبة، استئناف، تثبيت التطبيق...) =====
@@ -34329,6 +34358,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.toggleAdhkarNotifications = function() {
       var settings = loadSettings();
+      var savedM = settings.morning || '06:00';
+      var savedE = settings.evening || '18:00';
       var mInput = document.getElementById('notif-morning-time');
       var eInput = document.getElementById('notif-evening-time');
       if (mInput) settings.morning = mInput.value || '06:00';
@@ -34336,6 +34367,15 @@ document.addEventListener('DOMContentLoaded', function() {
       var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
       var lang = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : (isAr ? 'ar' : 'en');
       var toastI18n = ADHKAR_TOAST_I18N[lang] || ADHKAR_TOAST_I18N.en;
+
+      if (settings.enabled && (settings.morning !== savedM || settings.evening !== savedE)) {
+        // التذكير مفعّل والمواعيد اتغيّرت: نحفظها ونعيد الجدولة بدون إيقاف التذكير
+        saveSettings(settings);
+        scheduleReminders(settings);
+        updateUI(settings);
+        showToast(ADHKAR_SAVED_TOAST_I18N[lang] || ADHKAR_SAVED_TOAST_I18N.en);
+        return;
+      }
 
       if (settings.enabled) {
         settings.enabled = false;
@@ -34363,6 +34403,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var settings = loadSettings();
     updateUI(settings);
+    ['notif-morning-time', 'notif-evening-time'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', function() { updateUI(loadSettings(), true); });
+      el.addEventListener('change', function() { updateUI(loadSettings(), true); });
+    });
     if (settings.enabled) {
       scheduleReminders(settings);
 
