@@ -6374,16 +6374,12 @@ body.dark-mode .custom-tooltip::after {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(94vw, 480px);
-    max-width: 480px;
-    max-height: 86vh;
     overflow-y: auto;
     overflow-x: hidden;
     background: #ffffff;
     border-radius: 18px;
     box-shadow: 0 24px 70px rgba(0,0,0,0.40);
     z-index: 9999;
-    padding: 44px 14px 18px;
     -webkit-overflow-scrolling: touch;
     zoom: 1 !important;
 }
@@ -6478,23 +6474,6 @@ body.dark-mode .settings-modal-panel {
 #settings-modal-close-btn:hover { background: rgba(0,0,0,0.12); }
 body.dark-mode #settings-modal-close-btn { background: rgba(255,255,255,0.10); }
 body.dark-mode #settings-modal-close-btn:hover { background: rgba(255,255,255,0.18); }
-@media (max-width: 480px) {
-    .settings-modal-panel { width: 96vw; max-height: 90vh; padding-top: 46px; }
-}
-/* على الشاشات الأوسع نخلي عرض المودال يتناسب مع مساحة الشاشة المتاحة
-   بدل ما يفضل ثابت على 480px، مع سقف معقول عشان ميبقاش عريض جدًا. */
-@media (min-width: 600px) {
-    .settings-modal-panel { width: min(70vw, 560px); max-width: 560px; }
-}
-@media (min-width: 900px) {
-    .settings-modal-panel { width: min(45vw, 620px); max-width: 620px; }
-}
-@media (min-width: 1200px) {
-    .settings-modal-panel { width: min(32vw, 680px); max-width: 680px; }
-}
-@media (min-width: 1600px) {
-    .settings-modal-panel { width: min(26vw, 720px); max-width: 720px; }
-}
 
 #settings-panel[style*="display: none"] .search-wrapper,
 #settings-panel[style*="display: none"] iframe,
@@ -10340,14 +10319,6 @@ body.dark-mode .settings-tab-btn.active { color: #fff; }
 }
 
 /* ترتيب شبكة الإعدادات لكل تاب (عشان ما تتساب خانات فاضية) */
-#settings-panel[data-active-tab="general"] #settingsQuickGrid {
-    grid-template-areas:
-        "autoswitch    autoplay"
-        "sleep         soundalert"
-        "startfile     fullrandom"
-        "flag          disablewelcome"
-        "welcomecycle  .";
-}
 #settings-panel[data-active-tab="look"] #settingsQuickGrid {
     grid-template-areas:
         "theme autotheme"
