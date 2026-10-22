@@ -82,8 +82,31 @@
   <link rel="dns-prefetch" href="https://translate.google.com">
   <link rel="dns-prefetch" href="https://audio.islamweb.net">
   <link rel="dns-prefetch" href="https://backup.qurango.net">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;700;900&family=Almarai:wght@400;700;800&family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&family=El+Messiri:wght@400;700&family=Rakkas&family=Changa:wght@400;700&family=Lalezar&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;700;900&family=Almarai:wght@400;700;800&family=Amiri:wght@400;700&family=Reem+Kufi:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&family=El+Messiri:wght@400;700&family=Rakkas&family=Changa:wght@400;700&family=Lalezar&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <script>
+  /* الخطوط الاختيارية (غير Cairo/Amiri) تُحمَّل عند الحاجة فقط: الخط المحفوظ فورًا، والباقي عند فتح إعدادات المظهر */
+  var _OPT_FONTS = {
+    'Tajawal': 'Tajawal:wght@400;700;900', 'Almarai': 'Almarai:wght@400;700;800', 'Reem Kufi': 'Reem+Kufi:wght@400;700',
+    'Noto Kufi Arabic': 'Noto+Kufi+Arabic:wght@400;700', 'IBM Plex Sans Arabic': 'IBM+Plex+Sans+Arabic:wght@400;700',
+    'El Messiri': 'El+Messiri:wght@400;700', 'Rakkas': 'Rakkas', 'Changa': 'Changa:wght@400;700', 'Lalezar': 'Lalezar'
+  };
+  var _optFontLoaded = {};
+  function _loadOptFont(name) {
+    if (!name || _optFontLoaded[name] || !_OPT_FONTS[name]) return;
+    _optFontLoaded[name] = 1;
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=' + _OPT_FONTS[name] + '&display=swap';
+    document.head.appendChild(l);
+  }
+  function _loadFontForValue(val) {
+    var m = /^\s*['"]([^'"]+)['"]/.exec(val || '');
+    if (m) _loadOptFont(m[1]);
+  }
+  function _loadAllOptFonts() { Object.keys(_OPT_FONTS).forEach(_loadOptFont); }
+  try { _loadFontForValue(localStorage.getItem('userFontFamily')); } catch (e) {}
+  </script>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet"></noscript>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -131,6 +154,7 @@
 </script>
 
 <link rel="preload" href="favicon.png" as="image">
+  <link rel="preload" href="stations.js" as="script">
   <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 
@@ -19458,6 +19482,7 @@ function toggleTasbihAutoFromBox(event) {
 
 
 function changeFontFamily(val) {
+  if (typeof _loadFontForValue === 'function') _loadFontForValue(val);
   _userFontFamilyVal = val || '';
   _updateFontOverrideStyle();
   localStorage.setItem('userFontFamily', _userFontFamilyVal);
@@ -19467,7 +19492,13 @@ function changeFontFamily(val) {
 (function initFontFamilySetting() {
   var saved = localStorage.getItem('userFontFamily') || '';
   var sel = document.getElementById('fontFamilySelect');
-  if (sel) sel.value = saved;
+  if (sel) {
+    sel.value = saved;
+    ['pointerdown', 'focus', 'mouseenter'].forEach(function(ev) {
+      sel.addEventListener(ev, function() { if (typeof _loadAllOptFonts === 'function') _loadAllOptFonts(); }, { once: true });
+    });
+  }
+  if (typeof _loadFontForValue === 'function') _loadFontForValue(saved);
   _userFontFamilyVal = saved;
   _updateFontOverrideStyle();
   var preview = document.getElementById('fontFamilyPreview');
@@ -19487,6 +19518,7 @@ function _refreshSettingsTabLabels() {
   if (fi) fi.placeholder = ar ? fi.getAttribute('data-ph-ar') : fi.getAttribute('data-ph-en');
 }
 function setSettingsTab(tab) {
+  if (tab === 'look' && typeof _loadAllOptFonts === 'function') _loadAllOptFonts();
   var panel = document.getElementById('settings-panel');
   if (!panel) return;
   panel.setAttribute('data-active-tab', tab);
