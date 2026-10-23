@@ -10932,3 +10932,115 @@ body.dark-mode.media-theme-glass #sp-alarm-interval-sel option {
     background-color: #1e2a38 !important;
     color: #f1f5f9 !important;
 }
+
+
+/* ===== حلقة تقدّم السبحة نحو الهدف (خارج الزرار؛ مستقلة عن دائرة العدّ التلقائى الداخلية) ===== */
+#salah-pip-btn::after {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    background: conic-gradient(var(--theme-g1) var(--sp-prog, 0%), rgba(var(--theme-g1-rgb), 0.16) 0);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+    pointer-events: none;
+}
+body.media-theme-glass #salah-pip-btn::after {
+    background: conic-gradient(#ffffff var(--sp-prog, 0%), rgba(255, 255, 255, 0.22) 0);
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.6));
+}
+
+/* ===== حركة الاحتفال عند الوصول للهدف ===== */
+@keyframes spCelebrate {
+    0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(var(--theme-g1-rgb), 0.55); }
+    35%  { transform: scale(1.07); box-shadow: 0 0 0 18px rgba(var(--theme-g1-rgb), 0); }
+    100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(var(--theme-g1-rgb), 0); }
+}
+#salah-pip-btn.sp-celebrate { animation: spCelebrate 0.9s ease-out 2; }
+@media (prefers-reduced-motion: reduce) {
+    #salah-pip-btn.sp-celebrate { animation: none; }
+}
+
+/* ===== زرار تفعيل/إيقاف اهتزاز الضغط ===== */
+#sp-vibrate-btn.sp-off { opacity: 0.45; filter: grayscale(1); }
+
+
+/* ===== أزرار الهدف السريعة + الهدف المخصص للسبحة ===== */
+.sp-target-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 10px;
+}
+.sp-chip {
+    min-width: 34px;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 14px;
+    border: 1.5px solid var(--theme-g1);
+    background: #E1F5EE;
+    color: var(--theme-g2);
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+.sp-chip:hover { background: #C2EBD9; }
+.sp-chip:active { transform: scale(0.93); }
+.sp-chip.sp-chip-active { background: var(--theme-g1); color: #ffffff; }
+.sp-custom-target-box { display: inline-flex; gap: 6px; align-items: center; }
+.sp-custom-target-box[hidden] { display: none; }
+#sp-custom-target-input {
+    width: 90px;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(var(--theme-g1-rgb), 0.5);
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--theme-g2);
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 13px;
+    text-align: center;
+}
+#sp-custom-target-input.sp-invalid { border-color: #e53935; }
+body.dark-mode .sp-chip { background: #0F3D2E; color: #5DCAA5; }
+body.dark-mode .sp-chip:hover { background: #0a4a30; }
+body.dark-mode .sp-chip.sp-chip-active { background: var(--theme-g1); color: #ffffff; }
+body.dark-mode #sp-custom-target-input { background: #0F3D2E; color: #5DCAA5; }
+body.media-theme-glass .sp-chip,
+body.media-theme-glass #sp-custom-target-input {
+    background: rgba(255, 255, 255, 0.16) !important;
+    border-color: rgba(255, 255, 255, 0.38) !important;
+    color: #ffffff !important;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+body.media-theme-glass .sp-chip.sp-chip-active { background: rgba(255, 255, 255, 0.40) !important; }
+
+
+/* ===== المفضلة + آخر المستخدم فى قايمة الأذكار ===== */
+.sp-custom-dd-item.sp-has-star { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.sp-dd-star {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    padding: 0 2px;
+    margin: 0;
+    font-size: 17px;
+    line-height: 1;
+    color: #b0b8b4;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.sp-dd-star.sp-fav { color: #f5b301; }
+.sp-dd-star:active { transform: scale(0.85); }
+.sp-dd-quick { border-radius: 8px; margin: 4px 4px 6px; padding: 0 0 4px; overflow: hidden; }
+body.media-theme-glass .sp-dd-star { color: rgba(255, 255, 255, 0.85); text-shadow: 0 0 2px rgba(0, 0, 0, 0.9); }
+body.media-theme-glass .sp-dd-star.sp-fav { color: #ffd54a; }
+body.dark-mode .sp-dd-star { color: #7f908a; }
+body.dark-mode .sp-dd-star.sp-fav { color: #f5b301; }
