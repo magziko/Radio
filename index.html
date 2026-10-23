@@ -7710,8 +7710,25 @@ const moreTranslations = [{
             <option value="200">٢٠٠</option>
             <option value="500">٥٠٠</option>
             <option value="1000" selected>١٠٠٠</option>
+            <option value="5000">٥٠٠٠</option>
             <option value="10000">١٠٠٠٠</option>
         </select>
+    </div>
+
+    <!-- أزرار هدف سريعة + هدف مخصص (بتمرّ على نفس القايمة وحدث change الموجود) -->
+    <div class="sp-target-chips" id="sp-target-chips">
+        <button type="button" class="sp-chip" data-t="33" onclick="spPickTarget(33)">٣٣</button>
+        <button type="button" class="sp-chip" data-t="100" onclick="spPickTarget(100)">١٠٠</button>
+        <button type="button" class="sp-chip" data-t="500" onclick="spPickTarget(500)">٥٠٠</button>
+        <button type="button" class="sp-chip" data-t="1000" onclick="spPickTarget(1000)">١٠٠٠</button>
+        <button type="button" class="sp-chip" id="sp-chip-custom"
+                title="هدف مخصص" data-ar-title="هدف مخصص" data-en-title="Custom target"
+                onclick="spToggleCustomTarget()">✎</button>
+        <span class="sp-custom-target-box" id="sp-custom-target-box" hidden>
+            <input type="text" id="sp-custom-target-input" inputmode="numeric" maxlength="7" autocomplete="off"
+                   aria-label="هدف مخصص" data-ar-aria="هدف مخصص" data-en-aria="Custom target">
+            <button type="button" class="sp-chip" onclick="spApplyCustomTarget()" aria-label="تأكيد">✓</button>
+        </span>
     </div>
 
     <!-- زرار التسبيح الرئيسي -->
@@ -7751,6 +7768,9 @@ const moreTranslations = [{
         <button type="button" class="sp-speed-btn sp-speed-reset-btn" id="sp-speed-reset-btn"
                 title="إعادة الضبط" data-ar-title="إعادة الضبط" data-en-title="Reset"
                 onclick="resetTasbihSpeed()">↺</button>
+        <button type="button" class="sp-speed-btn" id="sp-vibrate-btn"
+                title="اهتزاز عند الضغط" data-ar-title="اهتزاز عند الضغط" data-en-title="Vibrate on tap"
+                aria-pressed="true" onclick="spToggleVibrateOnTap()">📳</button>
     </div>
 
     <!-- فاصل -->
@@ -7960,6 +7980,22 @@ const moreTranslations = [{
     var btn = document.getElementById('salah-pip-btn');
     if (spCount >= spTarget) btn.classList.add('sp-done');
     else btn.classList.remove('sp-done');
+
+    /* حلقة التقدّم نحو الهدف (بتتحكم فيها CSS عبر المتغير --sp-prog) */
+    var _pct = spTarget > 0 ? Math.min(100, Math.max(0, (spCount / spTarget) * 100)) : 0;
+    btn.style.setProperty('--sp-prog', _pct.toFixed(2) + '%');
+
+    /* حركة احتفال لحظة الوصول للهدف فقط (مش عند التحميل أو تغيير الهدف) */
+    if (spCount > 0 && spCount === spTarget && window._spPrevCount === spCount - 1) {
+      btn.classList.remove('sp-celebrate');
+      void btn.offsetWidth;
+      btn.classList.add('sp-celebrate');
+      setTimeout(function() { btn.classList.remove('sp-celebrate'); }, 2000);
+    }
+    window._spPrevCount = spCount;
+
+    /* مزامنة قايمة الهدف والأزرار السريعة مع الهدف الفعلى (يصلّح عرض رقم غلط لو الهدف مش ضمن القايمة) */
+    if (typeof window.spSyncTargetUI === 'function') window.spSyncTargetUI(spTarget);
   }
 
   window.spIncrement = function() {
@@ -8967,13 +9003,18 @@ const moreTranslations = [{
 
   var spAlarmTimer = null; // setInterval handle
   var spWakeLock = null; // Wake Lock مشترك
+  var spWakeLockPending = false;
 
   window.alRequestWakeLock = function() {
     if (!('wakeLock' in navigator)) return;
-    if (spWakeLock) return;
+    if ((spWakeLock && !spWakeLock.released) || spWakeLockPending) return;
+    spWakeLockPending = true;
     navigator.wakeLock.request('screen').then(function(wl) {
+      spWakeLockPending = false;
       spWakeLock = wl;
-    }).catch(function() {});
+      /* لو المتصفح فكّ القفل (تبويب اتخبّى مثلًا) نصفّر المرجع عشان الطلب الجاي يعيد القفل */
+      try { wl.addEventListener('release', function() { if (spWakeLock === wl) spWakeLock = null; }); } catch (e) {}
+    }).catch(function() { spWakeLockPending = false; });
   };
   window.alReleaseWakeLock = function() {
     var alarmOn = !!spAlarmTimer;
@@ -9198,6 +9239,93 @@ const moreTranslations = [{
     spSyncCustomDd();
   };
 
+  /* ---- المفضلة + آخر المستخدم فى قايمة الأذكار ---- */
+  var SP_FAV_KEY = 'spFavDhikr';
+  var SP_RECENT_KEY = 'spRecentDhikr';
+  function spReadList(key) {
+    try {
+      var a = JSON.parse(localStorage.getItem(key) || '[]');
+      return Array.isArray(a) ? a.map(String) : [];
+    } catch (e) { return []; }
+  }
+  function spWriteList(key, arr) { try { localStorage.setItem(key, JSON.stringify(arr)); } catch (e) {} }
+  function spFindOptByValue(sel, v) {
+    var opts = sel.querySelectorAll('option');
+    for (var i = 0; i < opts.length; i++) { if (String(opts[i].value) === v) return opts[i]; }
+    return null;
+  }
+  function spRecordRecent() {
+    var sel = document.getElementById('sp-athkar-sel');
+    if (!sel || sel.selectedIndex < 0) return;
+    var o = sel.options[sel.selectedIndex];
+    if (!o) return;
+    var v = String(o.value);
+    var r = spReadList(SP_RECENT_KEY).filter(function(x) { return x !== v; });
+    r.unshift(v);
+    spWriteList(SP_RECENT_KEY, r.slice(0, 10));
+  }
+  (function() {
+    var s = document.getElementById('sp-athkar-sel');
+    if (s) s.addEventListener('change', spRecordRecent);
+  })();
+  function spRefreshStars() {
+    var favs = spReadList(SP_FAV_KEY);
+    document.querySelectorAll('.sp-dd-star').forEach(function(b) {
+      var on = favs.indexOf(b.getAttribute('data-value')) !== -1;
+      b.classList.toggle('sp-fav', on);
+      b.textContent = on ? '★' : '☆';
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function spToggleFav(v) {
+    var f = spReadList(SP_FAV_KEY);
+    var i = f.indexOf(v);
+    if (i >= 0) f.splice(i, 1); else f.unshift(v);
+    spWriteList(SP_FAV_KEY, f);
+    spRefreshStars();
+    spRenderQuickSections();
+  }
+  function spRenderQuickSections() {
+    var wrap = document.getElementById('sp-dd-quick-wrap');
+    var sel = document.getElementById('sp-athkar-sel');
+    if (!wrap || !sel) return;
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    wrap.innerHTML = '';
+    var favs = spReadList(SP_FAV_KEY);
+    var recent = spReadList(SP_RECENT_KEY).filter(function(v) { return favs.indexOf(v) === -1; }).slice(0, 5);
+    function addSection(title, color, values) {
+      var opts = [];
+      values.forEach(function(v) { var o = spFindOptByValue(sel, v); if (o) opts.push(o); });
+      if (!opts.length) return;
+      var block = document.createElement('div');
+      block.className = 'sp-dd-quick';
+      block.style.background = color + '0d';
+      var lbl = document.createElement('div');
+      lbl.className = 'sp-custom-dd-group-label';
+      lbl.textContent = title;
+      lbl.style.color = color;
+      lbl.style.background = color + '18';
+      block.appendChild(lbl);
+      opts.forEach(function(o) {
+        var item = spMakeDdItem(o, isAr);
+        item.setAttribute('data-grp-color', color);
+        item.style.borderInlineEnd = '3px solid ' + color + '70';
+        block.appendChild(item);
+      });
+      wrap.appendChild(block);
+    }
+    addSection(isAr ? '⭐ المفضلة' : '⭐ Favorites', '#d4a017', favs);
+    addSection(isAr ? '🕘 آخر المستخدم' : '🕘 Recently used', '#3b82c4', recent);
+    var ms = document.getElementById('sp-athkar-search');
+    wrap.style.display = (ms && ms.value && ms.value.trim()) ? 'none' : '';
+    var cur = sel.options[sel.selectedIndex];
+    if (cur) {
+      wrap.querySelectorAll('.sp-custom-dd-item').forEach(function(d) {
+        d.classList.toggle('sp-dd-selected', d.getAttribute('data-value') === cur.value);
+      });
+    }
+  }
+
   /* ---- Custom Dropdown Logic ---- */
   function spBuildCustomDd() {
     var sel = document.getElementById('sp-athkar-sel');
@@ -9205,6 +9333,9 @@ const moreTranslations = [{
     if (!sel || !items) return;
     var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
     items.innerHTML = '';
+    var quickWrap = document.createElement('div');
+    quickWrap.id = 'sp-dd-quick-wrap';
+    items.appendChild(quickWrap);
     var firstBlock = true;
     Array.from(sel.children).forEach(function(child) {
       if (child.tagName === 'OPTGROUP') {
@@ -9247,6 +9378,7 @@ const moreTranslations = [{
         items.appendChild(spMakeDdItem(child, isAr));
       }
     });
+    spRenderQuickSections();
     spSyncCustomDd();
   }
 
@@ -9296,9 +9428,31 @@ const moreTranslations = [{
       div.appendChild(badge);
       div.title = clean;
     } else {
-      div.textContent = clean;
+      var plainSpan = document.createElement('span');
+      plainSpan.textContent = clean;
+      plainSpan.style.flex = '1';
+      plainSpan.style.minWidth = '0';
+      div.appendChild(plainSpan);
       div.title = clean;
     }
+
+    /* نجمة المفضلة */
+    var star = document.createElement('button');
+    star.type = 'button';
+    star.className = 'sp-dd-star';
+    star.setAttribute('data-value', String(opt.value));
+    star.setAttribute('aria-label', isAr ? 'المفضلة' : 'Favorite');
+    var starOn = spReadList(SP_FAV_KEY).indexOf(String(opt.value)) !== -1;
+    star.textContent = starOn ? '★' : '☆';
+    star.setAttribute('aria-pressed', starOn ? 'true' : 'false');
+    if (starOn) star.classList.add('sp-fav');
+    star.addEventListener('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      spToggleFav(String(opt.value));
+    });
+    div.appendChild(star);
+    div.classList.add('sp-has-star');
 
     div.addEventListener('click', function() {
       var sel2 = document.getElementById('sp-athkar-sel');
@@ -9441,6 +9595,10 @@ const moreTranslations = [{
     }
     var norm = _ddNorm(term);
 
+    /* أقسام المفضلة/آخر المستخدم بتختفى أثناء البحث عشان النتايج ما تتكررش */
+    var _qw = document.getElementById('sp-dd-quick-wrap');
+    if (_qw) _qw.style.display = norm ? 'none' : '';
+
     // لكل block مجموعة: تحقق من العنوان والأذكار
     document.querySelectorAll('.sp-custom-dd-group-block').forEach(function(block) {
       var grp = block.querySelector('.sp-custom-dd-group-label');
@@ -9494,6 +9652,7 @@ const moreTranslations = [{
         document.querySelectorAll('#sp-custom-dd-items .sp-custom-dd-item'),
         function(item) {
           if (item.style.display === 'none') return false;
+          if (item.closest('#sp-dd-quick-wrap')) return false;
           var block = item.closest('.sp-custom-dd-group-block');
           return !(block && block.style.display === 'none');
         }
@@ -19552,6 +19711,193 @@ function toggleTasbihAutoFromBox(event) {
     }
   });
 
+})();
+
+/* ══════════════════════════════════════════════════════════════════════════
+   أزرار الهدف السريعة + هدف مخصص للسبحة
+   كل الاختيارات بتمرّ على #sp-target-sel وحدث change الموجود أصلًا، فحفظ الهدف
+   لكل ذكر (sp_user_target_v..) وتحديث الواجهة بيفضلوا بنفس المنطق القديم.
+   spSyncTargetUI بتضمن إن القايمة فيها عنصر بالهدف الفعلى (قبل كده لو الهدف
+   مش ضمن القايمة كانت بتعرض آخر عنصر ١٠٠٠٠ غلط، زى ذكر هدفه ١).
+   ══════════════════════════════════════════════════════════════════════════ */
+(function initSebhaTargetChips() {
+  var PRESETS = [33, 100, 500, 1000];
+  var MAX_TARGET = 1000000;
+  var _lastKey = '';
+
+  function isAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
+  function fmt(n) {
+    var s = String(n);
+    return isAr() ? s.replace(/\d/g, function(d) { return '٠١٢٣٤٥٦٧٨٩'.charAt(d); }) : s;
+  }
+  function sel() { return document.getElementById('sp-target-sel'); }
+  function currentTarget() {
+    var info = document.getElementById('salah-pip-info');
+    var n = info ? parseInt(info.getAttribute('data-target'), 10) : NaN;
+    return isNaN(n) ? null : n;
+  }
+  function ensureOption(n) {
+    var s = sel();
+    if (!s) return null;
+    var i;
+    for (i = 0; i < s.options.length; i++) {
+      if (parseInt(s.options[i].value, 10) === n) return s.options[i];
+    }
+    var o = document.createElement('option');
+    o.value = String(n);
+    o.textContent = fmt(n);
+    o.setAttribute('data-sp-custom', '1');
+    for (i = 0; i < s.options.length; i++) {
+      if (parseInt(s.options[i].value, 10) > n) { s.insertBefore(o, s.options[i]); return o; }
+    }
+    s.appendChild(o);
+    return o;
+  }
+  function selectValue(n) {
+    var s = sel();
+    if (!s) return;
+    for (var i = 0; i < s.options.length; i++) {
+      if (parseInt(s.options[i].value, 10) === n) { s.selectedIndex = i; return; }
+    }
+  }
+  function toLatinDigits(str) {
+    return String(str).replace(/[٠-٩]/g, function(d) { return d.charCodeAt(0) - 1632; })
+                      .replace(/[۰-۹]/g, function(d) { return d.charCodeAt(0) - 1776; });
+  }
+
+  window.spSyncTargetUI = function(n) {
+    var s = sel();
+    if (!s) return;
+    if (typeof n !== 'number' || isNaN(n)) n = currentTarget();
+    if (!n || n < 1) return;
+    var key = n + '|' + (isAr() ? 'ar' : 'en');
+    if (key === _lastKey && s.options[s.selectedIndex] && parseInt(s.value, 10) === n) return;
+    _lastKey = key;
+    ensureOption(n);
+    Array.prototype.slice.call(s.options).forEach(function(o) {
+      if (o.getAttribute('data-sp-custom') === '1' && parseInt(o.value, 10) !== n) s.removeChild(o);
+    });
+    selectValue(n);
+    Array.prototype.forEach.call(document.querySelectorAll('#sp-target-chips .sp-chip[data-t]'), function(c) {
+      var v = parseInt(c.getAttribute('data-t'), 10);
+      c.textContent = fmt(v);
+      c.classList.toggle('sp-chip-active', v === n);
+    });
+    var cc = document.getElementById('sp-chip-custom');
+    if (cc) cc.classList.toggle('sp-chip-active', PRESETS.indexOf(n) === -1);
+  };
+
+  window.spPickTarget = function(n) {
+    n = parseInt(n, 10);
+    var s = sel();
+    if (!s || !n || n < 1 || n > MAX_TARGET) return;
+    ensureOption(n);
+    selectValue(n);
+    s.dispatchEvent(new Event('change', { bubbles: true }));
+  };
+
+  window.spToggleCustomTarget = function() {
+    var box = document.getElementById('sp-custom-target-box');
+    var inp = document.getElementById('sp-custom-target-input');
+    if (!box) return;
+    var show = box.hidden;
+    box.hidden = !show;
+    if (show && inp) {
+      var n = currentTarget();
+      inp.value = n ? fmt(n) : '';
+      inp.focus();
+      inp.select();
+    }
+  };
+
+  window.spApplyCustomTarget = function() {
+    var box = document.getElementById('sp-custom-target-box');
+    var inp = document.getElementById('sp-custom-target-input');
+    if (!inp) return;
+    var n = parseInt(toLatinDigits(inp.value).replace(/[^\d]/g, ''), 10);
+    if (!n || n < 1 || n > MAX_TARGET) {
+      inp.classList.add('sp-invalid');
+      setTimeout(function() { inp.classList.remove('sp-invalid'); }, 900);
+      return;
+    }
+    window.spPickTarget(n);
+    if (box) box.hidden = true;
+  };
+
+  function init() {
+    var inp = document.getElementById('sp-custom-target-input');
+    if (inp && !inp._spBound) {
+      inp._spBound = true;
+      inp.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); window.spApplyCustomTarget(); }
+        else if (e.key === 'Escape') {
+          var box = document.getElementById('sp-custom-target-box');
+          if (box) box.hidden = true;
+        }
+      });
+    }
+    window.spSyncTargetUI();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ملاحظات لمس السبحة (اهتزاز مع الضغط + منع انطفاء الشاشة أثناء العدّ اليدوى)
+   مربوطة على ضغطة المستخدم اليدوية فقط (حدث click على الزرار)، فمش بتشتغل
+   مع العدّ التلقائى أو المنبه اللى بينادوا spIncrement من جوّه. العدد بيتقرا من
+   data-count فى #salah-pip-info (بيتحدّث داخل spUpdateUI قبل وصول الحدث هنا).
+   ══════════════════════════════════════════════════════════════════════════ */
+(function initSebhaTapFeedback() {
+  var KEY = 'spVibrateOnTap';
+  var IDLE_MS = 180000; /* 3 دقايق من غير ضغط → نسيب قفل الشاشة */
+  var idleTimer = null;
+
+  function vibOn() { try { return localStorage.getItem(KEY) !== '0'; } catch (e) { return true; } }
+  function vib(p) { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} }
+
+  function applyToggleUI() {
+    var b = document.getElementById('sp-vibrate-btn');
+    if (!b) return;
+    if (!navigator.vibrate) { b.style.display = 'none'; return; }
+    var on = vibOn();
+    b.classList.toggle('sp-off', !on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
+
+  window.spToggleVibrateOnTap = function() {
+    var on = !vibOn();
+    try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (e) {}
+    applyToggleUI();
+    if (on) vib(30);
+  };
+
+  function onTap() {
+    var info = document.getElementById('salah-pip-info');
+    var c = info ? parseInt(info.getAttribute('data-count'), 10) : NaN;
+    var tg = info ? parseInt(info.getAttribute('data-target'), 10) : NaN;
+    if (vibOn() && !isNaN(c)) {
+      if (!isNaN(tg) && c === tg) vib([60, 70, 60, 70, 140]);
+      else if (c > 0 && c % 100 === 0) vib([40, 50, 40]);
+      else if (c > 0 && c % 33 === 0) vib(35);
+      else vib(10);
+    }
+    if (typeof window.alRequestWakeLock === 'function') window.alRequestWakeLock();
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function() {
+      if (typeof window.alReleaseWakeLock === 'function') window.alReleaseWakeLock();
+    }, IDLE_MS);
+  }
+
+  function init() {
+    var btn = document.getElementById('salah-pip-btn');
+    if (!btn || btn._spFeedbackBound) return;
+    btn._spFeedbackBound = true;
+    btn.addEventListener('click', onTap);
+    applyToggleUI();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
 
 /* ══════════════════════════════════════════════════════════════════════════
