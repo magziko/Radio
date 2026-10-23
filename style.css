@@ -10899,3 +10899,36 @@ body:not(.dark-mode) #settings-panel[data-active-tab="general"] #settingsQuickGr
   #qiblaCompassPopup button { min-height: 40px; min-width: 40px; }
   #settings-modal-close-btn, #searchOverlayCloseBtn { width: 40px; height: 40px; }
 }
+
+
+/* ===== إصلاح: القوائم المنسدلة الأصلية (الهدف / التذكير) غير مقروءة فى ثيمات صورة/فيديو =====
+   السبب: قاعدة الثيم الزجاجى بتفرض لون أبيض + ظل نص على الـ <select>، والـ <option> بيورثهم
+   بينما خلفية القائمة المنسدلة (popup) بيضاء → نص أبيض على أبيض.
+   الحل: نحدد لون وخلفية الـ option صراحةً بدون ظل. (الموبايل بيستخدم picker أصلى فمش متأثر) */
+body.media-theme-glass .sp-target-row select,
+body.media-theme-glass #sp-alarm-interval-sel,
+body.media-theme-glass #sp-athkar-sel {
+    color-scheme: light;
+}
+body.media-theme-glass .sp-target-row select option,
+body.media-theme-glass #sp-alarm-interval-sel option,
+body.media-theme-glass #sp-athkar-sel option,
+body.media-theme-glass #sp-athkar-sel optgroup {
+    background-color: #ffffff !important;
+    color: #1a2433 !important;
+    text-shadow: none !important;
+}
+body.media-theme-glass .sp-target-row select option:checked,
+body.media-theme-glass #sp-alarm-interval-sel option:checked {
+    background-color: #1a73e8 !important;
+    color: #ffffff !important;
+}
+body.dark-mode.media-theme-glass .sp-target-row select,
+body.dark-mode.media-theme-glass #sp-alarm-interval-sel {
+    color-scheme: dark;
+}
+body.dark-mode.media-theme-glass .sp-target-row select option,
+body.dark-mode.media-theme-glass #sp-alarm-interval-sel option {
+    background-color: #1e2a38 !important;
+    color: #f1f5f9 !important;
+}
