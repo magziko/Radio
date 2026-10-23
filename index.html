@@ -9323,7 +9323,18 @@ const moreTranslations = [{
       ? (opt.getAttribute('data-ar') || opt.textContent)
       : (opt.getAttribute('data-en') || opt.getAttribute('data-ar') || opt.textContent);
     var clean = full.replace(/^[🌅🌙\s]+/, '').trim();
-    lbl.textContent = clean;
+    /* الزرار المقفول يعرض اسم مختصر بس؛ النص الكامل معروض تحت فى #sp-athkar-display
+       (كان بيتكرر مرتين). القايمة المفتوحة لسه بتعرض النص الكامل للاختيار. */
+    var _short = clean;
+    var _MAX = 38;
+    if (_short.length > _MAX) {
+      var _cut = _short.slice(0, _MAX);
+      var _sp = _cut.lastIndexOf(' ');
+      if (_sp > 15) _cut = _cut.slice(0, _sp);
+      _short = _cut.replace(/[\s،,؛;:\-—]+$/, '') + '…';
+    }
+    lbl.textContent = _short;
+    lbl.title = clean;
     document.querySelectorAll('.sp-custom-dd-item').forEach(function(d){
       d.classList.toggle('sp-dd-selected', d.getAttribute('data-value') === opt.value);
     });
