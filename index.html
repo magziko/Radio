@@ -7772,6 +7772,9 @@ const moreTranslations = [{
         <button type="button" class="sp-speed-btn" id="sp-vibrate-btn"
                 title="اهتزاز عند الضغط" data-ar-title="اهتزاز عند الضغط" data-en-title="Vibrate on tap"
                 aria-pressed="true" onclick="spToggleVibrateOnTap()">📳</button>
+        <button type="button" class="sp-speed-btn" id="sp-autonext-btn"
+                title="الانتقال التلقائى للذكر التالى" data-ar-title="الانتقال التلقائى للذكر التالى" data-en-title="Auto-advance to next dhikr"
+                aria-pressed="true" onclick="spToggleAutoNext()">⏭</button>
     </div>
 
     <!-- فاصل -->
@@ -7992,6 +7995,8 @@ const moreTranslations = [{
       void btn.offsetWidth;
       btn.classList.add('sp-celebrate');
       setTimeout(function() { btn.classList.remove('sp-celebrate'); }, 2000);
+      /* الانتقال للذكر التالى (أذكار الصباح/المساء/بعد الصلاة/النوم) */
+      if (typeof window.spOnDhikrCompleted === 'function') window.spOnDhikrCompleted();
     }
     window._spPrevCount = spCount;
 
@@ -19946,6 +19951,153 @@ function toggleTasbihAutoFromBox(event) {
       });
     }
     window.spSyncTargetUI();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+/* ══════════════════════════════════════════════════════════════════════════
+   الانتقال للذكر التالى بعد اكتمال الهدف (أذكار الصباح / المساء / بعد الصلاة / النوم)
+   - بيتنادى من spUpdateUI لحظة الوصول للهدف (spOnDhikrCompleted) سواء بالضغط أو العدّ التلقائى.
+   - ضغط يدوى: شريط صغير "التالى: ..." بعدّ تنازلى 3 ثوانى + زر "الآن" و"إلغاء".
+     ضغطة جديدة على زرار السبحة أو تغيير الذكر يدويًا بيلغيه.
+   - عدّ تلقائى شغّال: بينتقل فورًا (عشان العدّ ما يزيدش عن هدف الذكر)، وفى آخر ذكر بيوقف العدّ.
+   - بينتقل للّى بعده فى نفس المجموعة بس (مش بيعدّى لمجموعة تانية) عن طريق window.spNavDhikr(1).
+   ══════════════════════════════════════════════════════════════════════════ */
+(function initSebhaAutoNextDhikr() {
+  var KEY = 'spAutoNextDhikr';
+  var DELAY_MS = 3000;
+  var pendingTimer = null;
+  var chip = null;
+  var chipBornAt = 0;
+
+  function isAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
+  function enabled() { try { return localStorage.getItem(KEY) !== '0'; } catch (e) { return true; } }
+  function toast(msg) { if (typeof showToast === 'function') showToast(msg); }
+
+  function orderedGroup(label) {
+    var l = String(label || '');
+    return /الصباح|morning|المساء|evening|بعد الصلاة|after.*prayer|post.?prayer|النوم|sleep|dream/i.test(l);
+  }
+  function stripEmoji(s) {
+    return String(s).replace(/[\u{1F300}-\u{1FAFF}\u2600-\u27BF\uFE0F]/gu, '').replace(/[─]+/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  function shortName(opt) {
+    var s = isAr()
+      ? (opt.getAttribute('data-ar') || opt.textContent)
+      : (opt.getAttribute('data-en') || opt.getAttribute('data-ar') || opt.textContent);
+    s = stripEmoji(s).replace(/\s*\([^()]{2,50}\)\s*$/, '');
+    if (s.length > 30) {
+      var cut = s.slice(0, 30), sp = cut.lastIndexOf(' ');
+      if (sp > 12) cut = cut.slice(0, sp);
+      s = cut + '…';
+    }
+    return s;
+  }
+
+  function applyToggleUI() {
+    var b = document.getElementById('sp-autonext-btn');
+    if (!b) return;
+    var on = enabled();
+    b.classList.toggle('sp-off', !on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
+  window.spToggleAutoNext = function() {
+    var on = !enabled();
+    try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (e) {}
+    applyToggleUI();
+    if (!on) cancel();
+    toast(on
+      ? (isAr() ? '⏭ الانتقال التلقائى للذكر التالى: مفعّل' : '⏭ Auto-advance: on')
+      : (isAr() ? '⏭ الانتقال التلقائى للذكر التالى: متوقف' : '⏭ Auto-advance: off'));
+  };
+
+  function cancel() {
+    if (pendingTimer) { clearTimeout(pendingTimer); pendingTimer = null; }
+    if (chip && chip.parentNode) chip.parentNode.removeChild(chip);
+    chip = null;
+  }
+  function goNext() {
+    cancel();
+    if (typeof window.spNavDhikr === 'function') window.spNavDhikr(1);
+  }
+
+  function showChip(name) {
+    cancel();
+    chip = document.createElement('div');
+    chip.id = 'spNextChip';
+    chip.setAttribute('role', 'status');
+    var txt = document.createElement('span');
+    txt.className = 'sp-next-txt';
+    txt.textContent = (isAr() ? '⏭ التالى: ' : '⏭ Next: ') + name;
+    var go = document.createElement('button');
+    go.type = 'button';
+    go.className = 'sp-next-go';
+    go.textContent = isAr() ? 'الآن' : 'Now';
+    go.addEventListener('click', function(e) { e.stopPropagation(); goNext(); });
+    var no = document.createElement('button');
+    no.type = 'button';
+    no.className = 'sp-next-no';
+    no.textContent = isAr() ? 'إلغاء' : 'Cancel';
+    no.addEventListener('click', function(e) { e.stopPropagation(); cancel(); });
+    var bar = document.createElement('i');
+    bar.className = 'sp-next-bar';
+    bar.style.animationDuration = DELAY_MS + 'ms';
+    chip.appendChild(txt);
+    chip.appendChild(go);
+    chip.appendChild(no);
+    chip.appendChild(bar);
+    document.body.appendChild(chip);
+    chipBornAt = Date.now();
+  }
+
+  window.spOnDhikrCompleted = function() {
+    if (!enabled()) return;
+    var sel = document.getElementById('sp-athkar-sel');
+    if (!sel || sel.selectedIndex < 0) return;
+    var opt = sel.options[sel.selectedIndex];
+    var grp = opt && opt.parentElement;
+    if (!grp || grp.tagName !== 'OPTGROUP' || !orderedGroup(grp.getAttribute('label'))) return;
+
+    var autoBtn = document.getElementById('sp-auto-btn');
+    var autoOn = !!(autoBtn && autoBtn.classList.contains('active'));
+    var nextOpt = opt.nextElementSibling;
+    while (nextOpt && nextOpt.tagName !== 'OPTION') nextOpt = nextOpt.nextElementSibling;
+
+    if (!nextOpt) {
+      /* آخر ذكر فى المجموعة */
+      cancel();
+      if (autoOn && typeof window.spToggleAuto === 'function') setTimeout(window.spToggleAuto, 0);
+      var gname = stripEmoji(grp.getAttribute('label') || '');
+      toast(isAr() ? ('🎉 أتممت ' + gname + ' — تقبّل الله منك') : ('🎉 ' + gname + ' completed — may Allah accept it'));
+      return;
+    }
+
+    if (autoOn) {
+      /* بعد ما spIncrement الحالى يخلّص */
+      cancel();
+      setTimeout(function() { if (typeof window.spNavDhikr === 'function') window.spNavDhikr(1); }, 0);
+      return;
+    }
+    showChip(shortName(nextOpt));
+    pendingTimer = setTimeout(goNext, DELAY_MS);
+  };
+
+  function init() {
+    applyToggleUI();
+    var btn = document.getElementById('salah-pip-btn');
+    if (btn && !btn._spNextBound) {
+      btn._spNextBound = true;
+      /* ضغطة جديدة بعد الاكتمال = عايز يكمّل عدّ => نلغى الانتقال (نتجاهل نفس الضغطة اللى كمّلت الهدف) */
+      btn.addEventListener('click', function() {
+        if (chip && Date.now() - chipBornAt > 400) cancel();
+      });
+    }
+    var sel = document.getElementById('sp-athkar-sel');
+    if (sel && !sel._spNextBound) {
+      sel._spNextBound = true;
+      sel.addEventListener('change', cancel);
+    }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
