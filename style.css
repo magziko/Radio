@@ -11090,3 +11090,55 @@ body.media-theme-glass .sp-dd-tab {
 }
 body.media-theme-glass .sp-dd-tab.sp-active { background: rgba(255, 255, 255, 0.40); }
 body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(0, 0, 0, 0.95); }
+
+
+/* ===== شريط الانتقال للذكر التالى + زرار التفعيل ===== */
+#sp-autonext-btn.sp-off { opacity: 0.45; filter: grayscale(1); }
+#spNextChip {
+    position: fixed;
+    left: 50%;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 72px);
+    transform: translateX(-50%);
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: min(92vw, 420px);
+    padding: 8px 12px 10px;
+    border-radius: 16px;
+    background: rgba(20, 40, 33, 0.94);
+    color: #ffffff;
+    font-family: 'Cairo', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    direction: rtl;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    animation: spNextIn 0.22s ease-out;
+}
+@keyframes spNextIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+#spNextChip .sp-next-txt { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#spNextChip button {
+    flex-shrink: 0;
+    border: none;
+    border-radius: 12px;
+    padding: 5px 12px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+#spNextChip .sp-next-go { background: var(--theme-g1); color: #ffffff; }
+#spNextChip .sp-next-no { background: rgba(255, 255, 255, 0.16); color: #ffffff; }
+#spNextChip .sp-next-bar {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 3px;
+    background: var(--theme-g1);
+    transform-origin: right center;
+    animation-name: spNextBar;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+@keyframes spNextBar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@media (prefers-reduced-motion: reduce) { #spNextChip { animation: none; } }
