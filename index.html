@@ -7694,6 +7694,7 @@ const moreTranslations = [{
             </button>
             <div id="sp-custom-dd-list" class="sp-custom-dd-list" style="display:none;">
                 <!-- بحث واحد فقط للأذكار: خانة #sp-athkar-search اللي فوق هي اللي بتفلتر القايمة دي كمان (بدل خانة بحث تانية مكررة هنا) -->
+                <div id="sp-dd-tabs" class="sp-dd-tabs" role="tablist"></div>
                 <div id="sp-custom-dd-items" class="sp-custom-dd-items"></div>
             </div>
         </div>
@@ -9316,14 +9317,117 @@ const moreTranslations = [{
     }
     addSection(isAr ? '⭐ المفضلة' : '⭐ Favorites', '#d4a017', favs);
     addSection(isAr ? '🕘 آخر المستخدم' : '🕘 Recently used', '#3b82c4', recent);
+    if (!wrap.children.length) {
+      var hint = document.createElement('div');
+      hint.className = 'sp-dd-empty';
+      hint.textContent = isAr ? 'اضغط ☆ جنب أي ذكر عشان يظهر هنا فى المفضلة' : 'Tap ☆ next to any dhikr to see it here';
+      wrap.appendChild(hint);
+    }
     var ms = document.getElementById('sp-athkar-search');
-    wrap.style.display = (ms && ms.value && ms.value.trim()) ? 'none' : '';
+    spApplyDdTab(!!(ms && ms.value && ms.value.trim()));
     var cur = sel.options[sel.selectedIndex];
     if (cur) {
       wrap.querySelectorAll('.sp-custom-dd-item').forEach(function(d) {
         d.classList.toggle('sp-dd-selected', d.getAttribute('data-value') === cur.value);
       });
     }
+  }
+
+  /* ---- تبويبات قايمة الأذكار (فلتر فوق المجموعات الموجودة؛ البحث بيتخطّاها ويدوّر فى الكل) ---- */
+  var SP_DD_TABS = [
+    { id: 'all',         ar: 'الكل',          en: 'All',          ic: '' },
+    { id: 'fav',         ar: 'المفضلة',       en: 'Favorites',    ic: '⭐' },
+    { id: 'morning',     ar: 'الصباح',        en: 'Morning',      ic: '🌅' },
+    { id: 'evening',     ar: 'المساء',        en: 'Evening',      ic: '🌙' },
+    { id: 'afterprayer', ar: 'بعد الصلاة',    en: 'After prayer', ic: '🕌' },
+    { id: 'sleep',       ar: 'النوم',         en: 'Sleep',        ic: '🛏️' },
+    { id: 'quran',       ar: 'أدعية القرآن',  en: 'Quran duas',   ic: '📖' },
+    { id: 'sunnah',      ar: 'أدعية السنة',   en: 'Sunnah duas',  ic: '🤲' },
+    { id: 'general',     ar: 'أذكار عامة',    en: 'General',      ic: '📿' }
+  ];
+  var spDdTab = (function() {
+    try { return localStorage.getItem('spDdTab') || 'all'; } catch (e) { return 'all'; }
+  })();
+
+  function spTabForGroup(label) {
+    var l = String(label || '');
+    if (/القرآن|قرآن|quran/i.test(l)) return 'quran';
+    if (/السنة|sunnah|sunna/i.test(l)) return 'sunnah';
+    if (/الصباح|morning/i.test(l)) return 'morning';
+    if (/المساء|evening/i.test(l)) return 'evening';
+    if (/بعد الصلاة|after.*prayer|post.?prayer/i.test(l)) return 'afterprayer';
+    if (/النوم|sleep|dream/i.test(l)) return 'sleep';
+    return 'general';
+  }
+
+  function spApplyDdTab(hasSearch) {
+    var items = document.getElementById('sp-custom-dd-items');
+    if (!items) return;
+    var tab = spDdTab;
+    var showAll = hasSearch || tab === 'all';
+    var favTab = !hasSearch && tab === 'fav';
+    Array.prototype.forEach.call(
+      items.querySelectorAll(':scope > .sp-custom-dd-group-block, :scope > .sp-custom-dd-group-separator, :scope > .sp-custom-dd-item'),
+      function(el) {
+        var hide = false;
+        if (!showAll) {
+          if (favTab) hide = true;
+          else if (el.classList.contains('sp-custom-dd-group-separator')) hide = true;
+          else hide = el.getAttribute('data-tab') !== tab;
+        }
+        el.classList.toggle('sp-tab-hide', hide);
+      }
+    );
+    var qw = document.getElementById('sp-dd-quick-wrap');
+    if (qw) qw.style.display = favTab ? '' : 'none';
+    var tabsEl = document.getElementById('sp-dd-tabs');
+    if (tabsEl) tabsEl.classList.toggle('sp-dd-tabs-dim', !!hasSearch);
+  }
+
+  function spRenderDdTabs() {
+    var bar = document.getElementById('sp-dd-tabs');
+    var items = document.getElementById('sp-custom-dd-items');
+    if (!bar || !items) return;
+    var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var counts = {};
+    Array.prototype.forEach.call(items.querySelectorAll(':scope > .sp-custom-dd-group-block'), function(b) {
+      var k = b.getAttribute('data-tab') || 'general';
+      counts[k] = (counts[k] || 0) + b.querySelectorAll('.sp-custom-dd-item').length;
+    });
+    Array.prototype.forEach.call(items.querySelectorAll(':scope > .sp-custom-dd-item'), function(it) {
+      var k = it.getAttribute('data-tab') || 'general';
+      counts[k] = (counts[k] || 0) + 1;
+    });
+    var valid = SP_DD_TABS.some(function(t) { return t.id === spDdTab && (t.id === 'all' || t.id === 'fav' || counts[t.id]); });
+    if (!valid) spDdTab = 'all';
+    bar.innerHTML = '';
+    SP_DD_TABS.forEach(function(t) {
+      if (t.id !== 'all' && t.id !== 'fav' && !counts[t.id]) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'sp-dd-tab' + (t.id === spDdTab ? ' sp-active' : '');
+      b.setAttribute('role', 'tab');
+      b.setAttribute('data-tab-id', t.id);
+      b.setAttribute('aria-selected', t.id === spDdTab ? 'true' : 'false');
+      b.textContent = (t.ic ? t.ic + ' ' : '') + (isAr ? t.ar : t.en);
+      b.addEventListener('click', function(e) {
+        e.stopPropagation();
+        spSetDdTab(t.id);
+      });
+      bar.appendChild(b);
+    });
+  }
+
+  function spSetDdTab(id) {
+    spDdTab = id;
+    try { localStorage.setItem('spDdTab', id); } catch (e) {}
+    spRenderDdTabs();
+    var ms = document.getElementById('sp-athkar-search');
+    spFilterDdItems(ms ? ms.value : '');
+    var items = document.getElementById('sp-custom-dd-items');
+    if (items) items.scrollTop = 0;
+    var act = document.querySelector('#sp-dd-tabs .sp-dd-tab.sp-active');
+    if (act && act.scrollIntoView) { try { act.scrollIntoView({ block: 'nearest', inline: 'center' }); } catch (e) {} }
   }
 
   /* ---- Custom Dropdown Logic ---- */
@@ -9353,6 +9457,7 @@ const moreTranslations = [{
         // بلوكة المجموعة بخلفية فاتحة
         var block = document.createElement('div');
         block.className = 'sp-custom-dd-group-block';
+        block.setAttribute('data-tab', spTabForGroup(child.getAttribute('label')));
         block.setAttribute('data-grp-color', grpColor);
         block.style.background = grpColor + '0d'; // 5% opacity
 
@@ -9375,9 +9480,12 @@ const moreTranslations = [{
 
         items.appendChild(block);
       } else if (child.tagName === 'OPTION') {
-        items.appendChild(spMakeDdItem(child, isAr));
+        var genItem = spMakeDdItem(child, isAr);
+        genItem.setAttribute('data-tab', 'general');
+        items.appendChild(genItem);
       }
     });
+    spRenderDdTabs();
     spRenderQuickSections();
     spSyncCustomDd();
   }
@@ -9533,7 +9641,9 @@ const moreTranslations = [{
        الوحيدة بقت #sp-athkar-search اللي فوق، فمفيش ارتفاع نطرحه غير الـ padding بس) */
     if (items) {
       var pad = 12; /* padding الـ list نفسها (6px × 2) */
-      items.style.maxHeight = Math.max(80, Math.round(availH - pad)) + 'px';
+      var _tb = document.getElementById('sp-dd-tabs');
+      var _th = _tb ? (_tb.offsetHeight + 4) : 0;
+      items.style.maxHeight = Math.max(80, Math.round(availH - pad - _th)) + 'px';
     }
   }
 
@@ -9596,8 +9706,7 @@ const moreTranslations = [{
     var norm = _ddNorm(term);
 
     /* أقسام المفضلة/آخر المستخدم بتختفى أثناء البحث عشان النتايج ما تتكررش */
-    var _qw = document.getElementById('sp-dd-quick-wrap');
-    if (_qw) _qw.style.display = norm ? 'none' : '';
+    spApplyDdTab(!!norm);
 
     // لكل block مجموعة: تحقق من العنوان والأذكار
     document.querySelectorAll('.sp-custom-dd-group-block').forEach(function(block) {
