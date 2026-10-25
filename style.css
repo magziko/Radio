@@ -11255,8 +11255,15 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
     pointer-events: none;
     z-index: 2;
 }
+/* حلقة الاكتمال: بلون الثيم الحالي (--theme-g1) بدل الأخضر الثابت،
+   فاتح بشكل بسيط عشان يبان فوق خلفية المربع الغامقة في كل الثيمات */
 .button.has-tasbih.completed .tasbih-box::after {
-    background: conic-gradient(#2e9e5b 100%, #2e9e5b 0);
+    background: conic-gradient(var(--theme-g1, #1D9E75) 100%, var(--theme-g1, #1D9E75) 0);
+}
+@supports (color: color-mix(in srgb, red 50%, white)) {
+    .button.has-tasbih.completed .tasbih-box::after {
+        background: conic-gradient(color-mix(in srgb, var(--theme-g1, #1D9E75) 65%, #fff) 100%, color-mix(in srgb, var(--theme-g1, #1D9E75) 65%, #fff) 0);
+    }
 }
 @property --tb-prog { syntax: '<percentage>'; inherits: true; initial-value: 0%; }
 .button.has-tasbih .tasbih-box { transition: --tb-prog .25s ease; }
