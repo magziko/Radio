@@ -11142,3 +11142,68 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
 }
 @keyframes spNextBar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 @media (prefers-reduced-motion: reduce) { #spNextChip { animation: none; } }
+
+/* =====================================================================
+   المسبحة — تصغير وضغط التخطيط على الموبايل (سطور مدمجة بدل سطور طويلة)
+   ===================================================================== */
+
+/* الصف القديم (الذكر: + select مخفى) مالوش لازمة بعد نقل الأزرار لسطر الهدف */
+#salah-pip-section .sp-athkar-row { display: none; }
+
+/* سطر الهدف: [الهدف: select] ........ [سابق ▶ تالى] */
+#salah-pip-section .sp-target-row { width: 100%; box-sizing: border-box; flex-wrap: nowrap; }
+.sp-dhikr-ctrls { display: inline-flex; align-items: center; gap: 6px; margin-inline-start: auto; flex-shrink: 0; }
+
+@media (max-width: 767px) {
+    #salah-pip-section { padding: 12px 10px 10px; }
+
+    /* ---- سطر الهدف + أزرار الذكر ---- */
+    #salah-pip-section .sp-target-row { gap: 6px; margin-bottom: 6px; }
+    #salah-pip-section .sp-dhikr-ctrls { gap: 5px; }
+    #salah-pip-section .sp-dhikr-ctrls .sp-athkar-nav-btn,
+    #salah-pip-section .sp-dhikr-ctrls .sp-athkar-play-btn {
+        min-width: 30px; min-height: 30px; width: 30px; height: 30px;
+        padding: 0; font-size: 13px;
+    }
+    #salah-pip-section .sp-dhikr-ctrls .sp-athkar-play-btn { border-radius: 50%; }
+    #salah-pip-section .sp-dhikr-ctrls .sp-athkar-play-btn svg { width: 12px; height: 12px; }
+
+    /* ---- تلقائى / استرجاع / تصفير: أيقونات فقط (الشرح فى الـ title) ---- */
+    #salah-pip-section .sp-main-controls { flex-wrap: nowrap; gap: 8px; margin-bottom: 7px; }
+    #salah-pip-section .sp-main-controls .sp-btn {
+        font-size: 0;               /* بيخفى النص اللى الـ JS بيكتبه */
+        flex: 0 1 72px; min-width: 0; height: 30px; padding: 0;
+        border-radius: 15px;
+        display: inline-flex; align-items: center; justify-content: center;
+    }
+    #salah-pip-section .sp-main-controls .sp-btn::before { font-size: 15px; line-height: 1; }
+    #sp-auto-btn::before            { content: "\23E9"; }       /* ⏩ */
+    #sp-auto-btn.active::before     { content: "\23F8"; }       /* ⏸ */
+    #sp-restore-btn::before         { content: "\21A9"; }       /* ↩ */
+    #sp-reset-btn::before           { content: "\21BA"; }       /* ↺ */
+
+    /* ---- السرعة: سطر واحد جوه الإطار ---- */
+    .sp-speed-row { flex-wrap: nowrap; gap: 4px; margin-bottom: 6px; width: 100%; box-sizing: border-box; }
+    .sp-speed-row .sp-speed-label { font-size: 11px; flex-shrink: 0; }
+    .sp-speed-btn { width: 26px; height: 26px; font-size: 12px; }
+    .sp-speed-reset-btn { font-size: 12px; }
+    #sp-speed-value { font-size: 11px; min-width: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ---- التذكير + زر المنبه: سطر واحد ---- */
+    .sp-alarm-row { flex-wrap: nowrap; gap: 5px; margin-bottom: 5px; }
+    .sp-alarm-label { font-size: 11px; flex-shrink: 0; }
+    #sp-alarm-interval-sel { font-size: 11px; padding: 2px 6px; min-width: 0; max-width: 96px; }
+    #salah-pip-section #sp-alarm-btn {
+        font-size: 11px; padding: 4px 10px; flex-shrink: 0; white-space: nowrap;
+    }
+
+    /* ---- PiP + مشاركة كصورة: سطر واحد ---- */
+    #salah-pip-section .sp-pip-share-row { flex-wrap: nowrap; gap: 6px; margin-bottom: 4px; }
+    #salah-pip-section .sp-pip-share-row .sp-btn {
+        flex: 1 1 auto; min-width: 0; font-size: 11px; padding: 5px 8px;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    #sp-pip-note { font-size: 10.5px; min-height: 0; margin-top: 2px; }
+
+    .sp-divider { margin: 6px auto; }
+}
