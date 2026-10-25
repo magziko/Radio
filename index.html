@@ -28519,10 +28519,48 @@ function _estimateTasbihReadingDelay(button, isRepeatLap) {
   return delay;
 }
 
+// ===== خط التارجت المتحرك حوالين مربع التسبيح (أذكار الصباح/المساء بتارجت ١ فقط) =====
+// الأذكار اللى تارجتها ١ مفيهاش لفّات بتزوّد حلقة --tb-prog خطوة خطوة (زي ٣/٤/٧)،
+// فبنخلّى نفس الحلقة تزيد تدريجيًا من ٠٪ لـ ١٠٠٪ على مدار مهلة قراءة الذكر
+// (عكس دائرة العدّ التنازلى الصغيرة جوّا زر الإيقاف اللى بتفرغ). باقى الأذكار
+// (تارجت > ١، العامة، الرقية) وعدّاداتها ونظامها زي ما هى من غير أى تغيير.
+function _tasbihTargetLineApplies(button) {
+  return !!button &&
+    (parseInt(button.dataset.target) || 0) === 1 &&
+    typeof _isMorningEveningAdhkar === 'function' &&
+    _isMorningEveningAdhkar(button);
+}
+
+function _startTasbihTargetLine(button, delay) {
+  if (!_tasbihTargetLineApplies(button)) return;
+  if (!(typeof delay === 'number' && delay > 0)) return;
+  var box = button.querySelector('.tasbih-box');
+  if (!box) return;
+  // نبدأ من صفر بدون انتقال، نجبر reflow، وبعدين نمشّى الخط لـ ١٠٠٪ على مدار المهلة
+  box.style.transition = 'none';
+  box.classList.add('tb-line-running');
+  box.style.setProperty('--tb-prog', '0%');
+  void box.getBoundingClientRect();
+  box.style.transition = '--tb-prog ' + delay + 'ms linear';
+  box.style.setProperty('--tb-prog', '100%');
+}
+
+function _stopTasbihTargetLine(button) {
+  var box = button && button.querySelector ? button.querySelector('.tasbih-box') : null;
+  if (!box || !box.classList.contains('tb-line-running')) return;
+  box.classList.remove('tb-line-running');
+  box.style.transition = '';
+  // رجّع الحلقة لقيمتها الحقيقية حسب العدّاد (٠٪ لو لسه ماتعدّش، ١٠٠٪ لو اكتمل)
+  if (typeof window.tasbihRingSync === 'function') window.tasbihRingSync(box);
+}
+
 function _showTasbihNextHint(button, delay) {
   var box = button.querySelector('.tasbih-box');
   if (!box) return;
   _clearTasbihNextHint(button);
+
+  // خط التارجت المتحرك لأذكار الصباح/المساء بتارجت ١ (مستقل عن وجود زر الإيقاف)
+  _startTasbihTargetLine(button, delay);
 
   // زر الإيقاف/الاستئناف ثابت وموجود بالفعل جوّا المربع (لو الميزة مفعّلة من
   // الإعدادات)، فبس بنلف حواليه دائرة عدّ تنازلى (تبدأ ممتلئة وتفرغ تدريجيًا
@@ -28569,6 +28607,7 @@ function _showTasbihNextHint(button, delay) {
 
 function _clearTasbihNextHint(button) {
   if (!button) return;
+  _stopTasbihTargetLine(button);
   var box = button.querySelector('.tasbih-box');
   if (box) box.classList.remove('tasbih-hint-visible');
   // دائرة العدّ التنازلى بس هى اللى بتتشال؛ زر الإيقاف/الاستئناف نفسه بيفضل ظاهر فى مكانه
@@ -37500,6 +37539,8 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   }
   function sync(box) {
     if (!box || !box.querySelector) return;
+    // أثناء حركة خط التارجت (أذكار الصباح/المساء بتارجت ١) الحركة بتتحكم فيها مهلة القراءة
+    if (box.classList && box.classList.contains('tb-line-running')) return;
     var btn = box.closest ? box.closest('button') : null;
     var countEl = box.querySelector('.tasbih-count');
     if (!btn || !countEl) return;
@@ -37511,6 +37552,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   function syncAll(root) {
     (root || document).querySelectorAll('.tasbih-box').forEach(sync);
   }
+  window.tasbihRingSync = sync;
   function boxOf(node) {
     var el = node.nodeType === 1 ? node : node.parentElement;
     return el && el.closest ? el.closest('.tasbih-box') : null;
