@@ -28412,6 +28412,27 @@ function scheduleTasbihAdvance(button, wasAlreadyFocusedBeforeTap) {
   }
 }
 
+// ===== إظهار الرقم النهائى (٣ / ٤ / ٧ / ١٠ / ١٠٠ ...) لحظة قبل الانتقال للذكر التالى =====
+// لما الذكر يكتمل (تارجت أكتر من ١)، العدّاد كان بيتحدّث والتركيز بينتقل فى نفس
+// اللحظة فالمستخدم مكانش بيلحق يشوف الرقم الأخير. هنا بنسيب الرقم ظاهر مدة
+// قصيرة جدًا وبعدين ننتقل مباشرة. لو المستخدم ضغط على نفس الذكر خلال المدة دى،
+// المنطق الموجود (ذكر مكتمل + مؤقّت معلّق) بينقله فورًا من غير انتظار.
+var TASBIH_SHOW_FINAL_COUNT_MS = 500;
+function _advanceTasbihAfterCountShown(button) {
+  _clearTasbihAdvanceTimer();
+  _tasbihAdvanceCallback = function() {
+    advanceTasbihFocus(button);
+  };
+  _tasbihAdvancePendingButton = button;
+  _tasbihAdvanceTimer = setTimeout(function() {
+    _tasbihAdvanceTimer = null;
+    _tasbihAdvanceCallback = null;
+    _tasbihAdvancePendingButton = null;
+    advanceTasbihFocus(button);
+  }, TASBIH_SHOW_FINAL_COUNT_MS);
+  return false;
+}
+
 // ===== عدّ تلقائى (لفة بلفة) للذكر اللى فيه تارجت أكتر من ضغطة واحدة =====
 // لما نوصل لذكر جديد عن طريق الانتقال التلقائى، بدل ما ننتظر المستخدم يضغط
 // كل مرة، الدائرة نفسها بتلف على قد عدد المرات المطلوبة (التارجت)، وكل ما
@@ -28483,7 +28504,7 @@ function _performTasbihAutoLap(button) {
     // فاتت كان فيها أصلًا مهلة قراءة كاملة قبل ما تزيد العدّاد، فمفيش داعى
     // لمهلة/لفة تنازلية زيادة هنا؛ دي بالذات كانت سبب ظهور "لفة زيادة" على
     // الدائرة من غير ما تزيد العدّاد فعليًا (مثلًا تارجت ٣ كانت تلف ٤ مرات)
-    advanceTasbihFocus(button);
+    _advanceTasbihAfterCountShown(button);
   } else {
     // لسه محتاج لفّات، نكمّل نفس الذكر
     scheduleTasbihAutoLap(button);
@@ -28719,7 +28740,7 @@ function incrementTasbih(event) {
         scheduleTasbihAdvance(button);
       }
     } else {
-      _tasbihMovedFocusAway = advanceTasbihFocus(button);
+      _tasbihMovedFocusAway = _advanceTasbihAfterCountShown(button);
     }
   } else if (target && _adhkarAutoAdvanceActive()) {
     // لسه ماوصلش للتارجت (ضغطة يدوية إضافية أثناء عدّ شغال بالفعل، أو الميزة
@@ -32103,7 +32124,7 @@ function incrementTasbihKeyboard(box) {
         scheduleTasbihAdvance(button);
       }
     } else {
-      advanceTasbihFocus(button);
+      _advanceTasbihAfterCountShown(button);
     }
   } else if (target && _adhkarAutoAdvanceActive()) {
     // لسه ماوصلش للتارجت (ضغطة إضافية أثناء عدّ شغال بالفعل): نكمّل الباقى تلقائيًا (لفة بلفة)
