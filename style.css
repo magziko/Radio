@@ -11235,3 +11235,28 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
     .sp-speed-row .sp-speed-label, #sp-speed-value, .sp-alarm-label { font-size: 15px; }
     #sp-alarm-interval-sel { font-size: 15px; }
 }
+
+/* =====================================================================
+   حلقة اكتمال التارجت حوالين مربع التسبيح فى بطاقات الأذكار
+   (نفس فكرة حلقة التقدّم حوالين زر التسبيح فى المسبحة، لكن بتمشى مع حدود المربع)
+   المتغير --tb-prog بيتحدّث من JS مع كل تغيير فى العدّاد
+   ===================================================================== */
+.button.has-tasbih .tasbih-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 4px;
+    background: conic-gradient(var(--theme-g1, #1D9E75) var(--tb-prog, 0%), rgba(var(--theme-g1-rgb, 29,158,117), 0.20) 0);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 2;
+}
+.button.has-tasbih.completed .tasbih-box::after {
+    background: conic-gradient(#2e9e5b 100%, #2e9e5b 0);
+}
+@property --tb-prog { syntax: '<percentage>'; inherits: true; initial-value: 0%; }
+.button.has-tasbih .tasbih-box { transition: --tb-prog .25s ease; }
