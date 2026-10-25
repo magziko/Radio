@@ -37268,5 +37268,65 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 })();
 </script>
 
+
+<script>
+/* حلقة اكتمال التارجت حوالين مربع التسبيح فى بطاقات الأذكار:
+   بنحدّث المتغير --tb-prog (نسبة العدّ ÷ التارجت) على كل .tasbih-box. بنراقب نص .tasbih-count
+   بدل ما نلزق التحديث فى كل مكان فى الكود بيغيّر فيه العدّاد (ضغط/تلقائى/كيبورد/تصفير/استرجاع) */
+(function initTasbihTargetRing() {
+  function toNum(s) {
+    s = String(s || '').replace(/[\u0660-\u0669]/g, function(d) { return d.charCodeAt(0) - 0x0660; })
+                       .replace(/[\u06F0-\u06F9]/g, function(d) { return d.charCodeAt(0) - 0x06F0; });
+    var n = parseInt(s, 10);
+    return isNaN(n) ? 0 : n;
+  }
+  function sync(box) {
+    if (!box || !box.querySelector) return;
+    var btn = box.closest ? box.closest('button') : null;
+    var countEl = box.querySelector('.tasbih-count');
+    if (!btn || !countEl) return;
+    var target = parseInt(btn.getAttribute('data-target'), 10) || 0;
+    var count = toNum(countEl.textContent);
+    var pct = target > 0 ? Math.min(100, Math.max(0, (count / target) * 100)) : 0;
+    box.style.setProperty('--tb-prog', pct.toFixed(2) + '%');
+  }
+  function syncAll(root) {
+    (root || document).querySelectorAll('.tasbih-box').forEach(sync);
+  }
+  function boxOf(node) {
+    var el = node.nodeType === 1 ? node : node.parentElement;
+    return el && el.closest ? el.closest('.tasbih-box') : null;
+  }
+  var obs = new MutationObserver(function(muts) {
+    var seen = [];
+    for (var i = 0; i < muts.length; i++) {
+      var m = muts[i];
+      if (m.type === 'characterData') {
+        var b = boxOf(m.target);
+        if (b && seen.indexOf(b) === -1) seen.push(b);
+      } else {
+        var t = boxOf(m.target);
+        if (t && seen.indexOf(t) === -1) seen.push(t);              // تغيّر محتوى مربع موجود (العدّاد اتحدّث)
+        for (var j = 0; j < m.addedNodes.length; j++) {              // بطاقات جديدة اتعملها render
+          var n = m.addedNodes[j];
+          if (n.nodeType !== 1) continue;
+          if (n.matches && n.matches('.tasbih-box')) { if (seen.indexOf(n) === -1) seen.push(n); }
+          else if (n.querySelectorAll && (n.matches('button.has-tasbih') || n.querySelector('.tasbih-box'))) {
+            n.querySelectorAll('.tasbih-box').forEach(function(x) { if (seen.indexOf(x) === -1) seen.push(x); });
+          }
+        }
+      }
+    }
+    seen.forEach(sync);
+  });
+  function start() {
+    syncAll();
+    obs.observe(document.body, { childList: true, subtree: true, characterData: true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+  window.addEventListener('load', function() { syncAll(); });
+})();
+</script>
 </body>
 </html>
