@@ -3498,20 +3498,11 @@ setTimeout(autoScaleVerseFont, 100);
 
   
 
-  <div id="pwa-install-settings" data-stab="general" style="margin: 8px auto 4px; width: 97%; max-width: 860px; box-sizing: border-box; direction: rtl; font-family: 'Cairo', Arial, sans-serif; display: flex; flex-direction: column; gap: 10px;">
-    <button id="pwa-install-btn" type="button" onclick="pwaInstallFromSettings()"
-      style="display:flex;align-items:center;justify-content:center;gap:8px;align-self:flex-start;
-        padding:11px 26px;border-radius:14px;border:none;cursor:pointer;
-        font-size:15px;font-weight:800;font-family:'Cairo',Arial,sans-serif;
-        background:linear-gradient(135deg,var(--theme-c2),var(--theme-g2));color:#fff;
-        box-shadow:0 4px 14px rgba(var(--theme-c1-rgb),0.30);transition:transform 0.15s, opacity 0.15s;"
-      onmouseover="if(!this.disabled)this.style.transform='scale(1.04)'"
-      onmouseout="this.style.transform='scale(1)'">
-      <svg id="pwa-install-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-      <span id="pwa-install-btn-text" class="stab-i18n" data-ar="تثبيت التطبيق" data-en="Install App">تثبيت التطبيق</span>
-    </button>
-    <div id="pwa-install-note" style="border:1.5px dashed rgba(var(--theme-c1-rgb),0.35);border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.7;color:var(--theme-c3);background:rgba(var(--theme-c1-rgb),0.04);">
-      <span id="pwa-install-note-text" class="stab-i18n" data-ar="يفتح أسرع ويعمل مثل أي تطبيق على جهازك." data-en="Opens faster and works like any app on your device.">يفتح أسرع ويعمل مثل أي تطبيق على جهازك.</span>
+  <div id="pwa-install-settings" data-stab="general" style="margin: 8px auto 4px; width: 97%; box-sizing: border-box; padding: 10px 14px; border-radius: 14px; direction: rtl; border: 1.5px solid rgba(var(--theme-c1-rgb),0.18); background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07)); font-family: 'Cairo', Arial, sans-serif;">
+    <div class="stab-i18n sdt-title" data-ar="📲 التطبيق على جهازك" data-en="📲 App on your device">📲 التطبيق على جهازك</div>
+    <div id="pwa-install-note" class="sdt-desc"><span id="pwa-install-note-text" class="stab-i18n" data-ar="يفتح أسرع ويعمل مثل أي تطبيق على جهازك." data-en="Opens faster and works like any app on your device.">يفتح أسرع ويعمل مثل أي تطبيق على جهازك.</span></div>
+    <div class="sdt-btns">
+      <button id="pwa-install-btn" type="button" class="sdt-btn" onclick="pwaInstallFromSettings()"><span id="pwa-install-btn-text" class="stab-i18n" data-ar="⬇️ تثبيت التطبيق" data-en="⬇️ Install App">⬇️ تثبيت التطبيق</span></button>
     </div>
   </div>
 
@@ -20596,7 +20587,7 @@ function _pwaRefreshInstallUI() {
     return;
   }
   // شغّال فعلاً كتطبيق مثبّت: مفيش داعى للزر
-  box.style.display = _pwaIsStandalone() ? 'none' : 'flex';
+  box.style.display = _pwaIsStandalone() ? 'none' : '';
 }
 window._pwaRefreshInstallUI = _pwaRefreshInstallUI;
 
