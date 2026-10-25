@@ -3347,6 +3347,33 @@ setTimeout(autoScaleVerseFont, 100);
       style="margin-inline-start:auto;"></div>
   </div>
 
+  <div id="adhkar-autosub-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <span data-ar="🌅 اختيار صباح/مساء تلقائيًا" data-en="🌅 Auto-pick Morning/Evening"
+      style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">🌅 اختيار صباح/مساء تلقائيًا</span>
+
+    <span data-ar="عند فتح الأذكار يختار الصباح أو المساء حسب مواقيت الصلاة (أو الساعة)" data-en="When opening Adhkar, pick Morning or Evening based on prayer times (or the clock)"
+      style="font-size:12px;color:var(--theme-c3);">عند فتح الأذكار يختار الصباح أو المساء حسب مواقيت الصلاة (أو الساعة)</span>
+
+    <div id="adhkarAutoSubToggle" class="mini-toggle-switch" role="switch" aria-checked="true" tabindex="0"
+      onclick="toggleAdhkarAutoSubByTime()"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAdhkarAutoSubByTime();}"
+      style="margin-inline-start:auto;"></div>
+  </div>
+
   <div id="adhkar-advanced-settings" style="
     margin: 8px auto 4px;
     width: 97%; max-width: 860px;
@@ -19669,6 +19696,27 @@ function toggleTasbihAutoFromBox(event) {
   _applyAdhkarAutoAdvance(saved === null ? true : saved === '1');
 })();
 
+// خيار اختيار صباح/مساء تلقائيًا عند فتح قسم الأذكار (مفعّل افتراضيًا). لو اتقفل،
+// getAdhkarSubByTime() بترجّع null فيفتح القسم على "الكل" زي أى وقت تانى
+var _adhkarAutoSubByTimeOn = true;
+function _applyAdhkarAutoSubByTime(on) {
+  _adhkarAutoSubByTimeOn = !!on;
+  var toggle = document.getElementById('adhkarAutoSubToggle');
+  if (toggle) {
+    toggle.classList.toggle('on', _adhkarAutoSubByTimeOn);
+    toggle.setAttribute('aria-checked', _adhkarAutoSubByTimeOn ? 'true' : 'false');
+  }
+}
+function toggleAdhkarAutoSubByTime() {
+  _applyAdhkarAutoSubByTime(!_adhkarAutoSubByTimeOn);
+  try { localStorage.setItem('adhkarAutoSubByTime', _adhkarAutoSubByTimeOn ? '1' : '0'); } catch (e) {}
+}
+(function initAdhkarAutoSubByTimeSetting() {
+  var saved = null;
+  try { saved = localStorage.getItem('adhkarAutoSubByTime'); } catch (e) {}
+  _applyAdhkarAutoSubByTime(saved === null ? true : saved === '1');
+})();
+
 /* ══════════════════════════════════════════════════════════════════════════
    إيقاف العدّ/الانتقال التلقائى للأذكار تلقائيًا عند مغادرة الصفحة
    ──────────────────────────────────────────────────────────────────────────
@@ -27739,6 +27787,7 @@ function filterQuranSciencesSub(subType, btn) {
 }
 
 function getAdhkarSubByTime() {
+  if (typeof _adhkarAutoSubByTimeOn !== 'undefined' && !_adhkarAutoSubByTimeOn) return null;
   var now = new Date();
   // أولًا: مواقيت الصلاة المحفوظة لليوم (نفس كاش نظام الأذان adhanTimingsCacheV2):
   // صباح من الفجر لحد الظهر، ومساء من العصر لحد العشاء. لو مفيش مواقيت محفوظة
