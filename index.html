@@ -20586,10 +20586,21 @@ function _pwaRefreshInstallUI() {
     _pwaSetText(noteText, 'افتح التطبيق من الشاشة الرئيسية أو قائمة التطبيقات فى جهازك.', 'Open the app from your home screen or app list.');
     return;
   }
+  // الحدث وصل بعد ما اتعرضت التعليمات اليدوية: نرجّع الوصف الأصلى (الزر بقى جاهز)
+  if (window._pwaDeferredPrompt && window._pwaManualHelpShown && !_pwaWaiting) _pwaResetNote();
   // شغّال فعلاً كتطبيق مثبّت: مفيش داعى للزر
   box.style.display = _pwaIsStandalone() ? 'none' : '';
 }
 window._pwaRefreshInstallUI = _pwaRefreshInstallUI;
+
+var _pwaWaiting = false;
+var PWA_DEFAULT_NOTE_AR = 'يفتح أسرع ويعمل مثل أي تطبيق على جهازك.';
+var PWA_DEFAULT_NOTE_EN = 'Opens faster and works like any app on your device.';
+
+function _pwaResetNote() {
+  _pwaSetText(document.getElementById('pwa-install-note-text'), PWA_DEFAULT_NOTE_AR, PWA_DEFAULT_NOTE_EN);
+  window._pwaManualHelpShown = false;
+}
 
 function _pwaShowManualHelp() {
   var noteText = document.getElementById('pwa-install-note-text');
@@ -20599,32 +20610,60 @@ function _pwaShowManualHelp() {
       'On iPhone/iPad: tap the Share button ⬆️ in Safari, then choose “Add to Home Screen”.');
   } else {
     _pwaSetText(noteText,
-      'افتح قائمة المتصفح (⋮) ثم اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».',
-      'Open the browser menu (⋮) then choose “Install app” or “Add to Home Screen”.');
+      'افتح قائمة المتصفح (⋮) ثم اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية». وإن كان مثبّتًا بالفعل فافتحه من قائمة التطبيقات.',
+      'Open the browser menu (⋮) then choose “Install app” or “Add to Home Screen”. If it is already installed, open it from your app list.');
+  }
+  window._pwaManualHelpShown = true;
+}
+
+// بيعرض نافذة التثبيت الرسمية بالحدث المحفوظ
+function _pwaDoPrompt(ev) {
+  window._pwaDeferredPrompt = null; // الحدث بيتستخدم مرة واحدة بس
+  try {
+    ev.prompt();
+    ev.userChoice.then(function(r) {
+      if (r && r.outcome === 'accepted') {
+        try { localStorage.setItem('pwaInstalled', '1'); } catch (e) {}
+      } else {
+        window._pwaDismissedOnce = true; // رفضها: الضغطة الجاية تعرض التعليمات مباشرة
+      }
+    }).catch(function() { window._pwaDismissedOnce = true; });
+  } catch (e) {
+    // الحدث اتستخدم قبل كده (مثلاً من إشعار التثبيت) ومينفعش يتكرر
+    _pwaShowManualHelp();
   }
 }
 
 function pwaInstallFromSettings() {
+  if (_pwaWaiting) return;
   var ev = window._pwaDeferredPrompt;
-  if (!ev) { _pwaShowManualHelp(); return; }
-  try {
-    ev.prompt();
-    ev.userChoice.then(function(r) {
-      window._pwaDeferredPrompt = null;
-      if (r && r.outcome === 'accepted') {
-        try { localStorage.setItem('pwaInstalled', '1'); } catch (e) {}
-      } else {
-        _pwaShowManualHelp();
-      }
-    }).catch(function() {
-      window._pwaDeferredPrompt = null;
-      _pwaShowManualHelp();
-    });
-  } catch (e) {
-    // الحدث اتستخدم قبل كده (مثلاً من إشعار التثبيت) ومينفعش يتكرر
-    window._pwaDeferredPrompt = null;
+  if (ev) { _pwaDoPrompt(ev); return; }
+
+  // متصفحات مفيهاش حدث التثبيت أصلاً (Safari/iOS/Firefox) أو العميل رفض النافذة قبل كده: تعليمات فورًا
+  if (_pwaIsIOS() || !('onbeforeinstallprompt' in window) || window._pwaDismissedOnce) {
     _pwaShowManualHelp();
+    return;
   }
+
+  // المتصفح لسه ماأطلقش حدث التثبيت (بيتأخر أحيانًا بعد فتح الصفحة): نستنى لحد ٤ ثوانٍ
+  // (جوّه مهلة نشاط المستخدم اللى بيسمح بفتح النافذة) بدل ما الضغطة الأولى تبان كأنها ماحصلتش
+  var btn = document.getElementById('pwa-install-btn');
+  var btnText = document.getElementById('pwa-install-btn-text');
+  _pwaWaiting = true;
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.7'; }
+  _pwaSetText(btnText, '⏳ جارٍ التحضير...', '⏳ Preparing...');
+  var tries = 0;
+  var iv = setInterval(function() {
+    tries++;
+    var e2 = window._pwaDeferredPrompt;
+    if (e2 || tries >= 16) {
+      clearInterval(iv);
+      _pwaWaiting = false;
+      if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+      _pwaSetText(btnText, '⬇️ تثبيت التطبيق', '⬇️ Install App');
+      if (e2) _pwaDoPrompt(e2); else _pwaShowManualHelp();
+    }
+  }, 250);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _pwaRefreshInstallUI); else _pwaRefreshInstallUI();
 
@@ -25759,8 +25798,9 @@ window.addEventListener("load", function() {
       _pwaPrompt = null;
     });
 
-    // أضف الإشعار رابعاً — يُنفَّذ بعد إضافة 3 إشعارات قبله
-    toastQueue.push({
+    // الإشعار مابقاش بيظهر مع إشعارات البداية؛ بيتأجّل لحد ما المستخدم يسمع فعلاً
+    // حوالى دقيقتين فى الجلسة دى (وقتها بيكون مبسوط بالموقع وأقرب إنه يقبل التثبيت)
+    var _installToast = {
       messageEn: '📲 <b>Install Radio Ma</b> — get quick access anytime!',
       messageAr: '📲 <b>ثبّت إذاعة قرآن</b> — وصول سريع في أي وقت!',
       imgUrl: 'https://cdn-icons-png.flaticon.com/512/1041/1041916.png',
@@ -25823,13 +25863,70 @@ window.addEventListener("load", function() {
       },
       locText: null,
       onLocClick: null
-    });
+    };
 
-    // بعد ظهور الإشعار — احفظ مرجع الزر لتفعيله لاحقاً إذا لزم
-    setTimeout(function() {
-      var btn = document.querySelector('.toast .toast-play-btn');
-      if (btn) _toastInstallBtn = btn;
-    }, TOAST_INITIAL_MS + 200);
+    var PWA_LISTEN_GOAL_SECS = 120; // مدة الاستماع المطلوبة قبل إظهار إشعار التثبيت
+    var _pwaListenSecs = 0;
+
+    function _pwaAnyAudioPlaying() {
+      var els = document.querySelectorAll('audio');
+      for (var i = 0; i < els.length; i++) {
+        var a = els[i];
+        if (!a.paused && !a.ended && a.readyState >= 3) return true;
+      }
+      return false;
+    }
+
+    function _showInstallToastNow() {
+      // ممكن يكون اتثبّت فى نفس الجلسة (مثلاً من زر الإعدادات)
+      if (window._pwaJustInstalled || localStorage.getItem('pwaInstalled') === '1') return;
+      queueToast(_installToast.messageEn, _installToast.messageAr, _installToast.imgUrl,
+        _installToast.btnText, _installToast.onClick, null, null);
+      // بعد ظهور الإشعار — احفظ مرجع الزر لتفعيله لاحقاً إذا لزم
+      setTimeout(function() {
+        var btn = document.querySelector('.toast .toast-play-btn');
+        if (btn) _toastInstallBtn = btn;
+      }, TOAST_INITIAL_MS + 200);
+    }
+
+    var _pwaListenTimer = setInterval(function() {
+      if (window._pwaJustInstalled) { clearInterval(_pwaListenTimer); return; }
+      if (_pwaAnyAudioPlaying()) _pwaListenSecs += 5;
+      if (_pwaListenSecs >= PWA_LISTEN_GOAL_SECS) {
+        clearInterval(_pwaListenTimer);
+        _showInstallToastNow();
+      }
+    }, 5000);
+  })();
+
+  // ===== إشعار "لا يوجد اتصال بالإنترنت" — بيوضّح إيه اللى شغّال وإيه اللى محتاج نت =====
+  (function() {
+    var OFFLINE_NOTICE_GAP_MS = 10 * 60 * 1000; // مرة واحدة كل ١٠ دقايق على الأكثر (عشان النت المتقطع)
+    var _lastOfflineNoticeAt = 0;
+    // أيقونة مضمّنة (data URI) عشان تظهر حتى من غير إنترنت
+    var _offlineIcon = 'data:image/svg+xml,' + encodeURIComponent(
+      "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text y='19' font-size='19'>📡</text></svg>");
+
+    function _offlineNotice(atStartup) {
+      var now = Date.now();
+      if (now - _lastOfflineNoticeAt < OFFLINE_NOTICE_GAP_MS) return;
+      _lastOfflineNoticeAt = now;
+      var item = {
+        messageEn: "📡 <b>You're offline</b> — live streams and recitations need internet, but the tasbih, adhkar counters and settings still work.",
+        messageAr: '📡 <b>لا يوجد اتصال بالإنترنت</b> — البث المباشر والتلاوات تحتاج إنترنت، أما المسبحة وعدّادات الأذكار والإعدادات فتعمل كالمعتاد.',
+        imgUrl: _offlineIcon,
+        btnText: null,
+        onClick: null,
+        locText: null,
+        onLocClick: null
+      };
+      // وقت فتح الصفحة: يظهر قبل باقى إشعارات البداية
+      if (atStartup) toastQueue.unshift(item); else toastQueue.push(item);
+      if (!toastRunning) setTimeout(_showNextToast, atStartup ? TOAST_INITIAL_MS : 0);
+    }
+
+    window.addEventListener('offline', function() { _offlineNotice(false); });
+    if (navigator.onLine === false) _offlineNotice(true);
   })();
 
   // ===== إشعار استئناف الجلسة =====
