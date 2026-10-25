@@ -7391,13 +7391,6 @@ const moreTranslations = [{
 
     <div class="sp-athkar-row" style="position:relative;">
         <label class="sp-athkar-label" data-ar="الذكر:" data-en="Dhikr:">الذكر:</label>
-        <button type="button" id="sp-athkar-play-btn" class="sp-athkar-play-btn"
-                data-ar-title="تشغيل الذكر المختار" data-en-title="Play selected dhikr"
-                title="تشغيل الذكر المختار" onclick="window.spPlaySelectedDhikr()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </button>
-        <button type="button" class="sp-athkar-nav-btn" id="sp-athkar-prev"
-                title="الذكر السابق" onclick="window.spNavDhikr(-1)">⏮</button>
         <select id="sp-athkar-sel" style="display:none;">
             
             <option value="4"  data-ar="لا إله إلا الله"                       data-en="La ilaha illallah">لا إله إلا الله</option>
@@ -7682,8 +7675,6 @@ const moreTranslations = [{
             <option value="sl10" data-ar="أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ غَضَبِهِ وَشَرِّ عِبَادِهِ، وَمِنْ هَمَزَاتِ الشَّيَاطِينِ وَأَنْ يَحْضُرُونِ" data-en="I seek refuge in the perfect words of Allah from His wrath, from the evil of His servants, from the whisperings of the devils, and from their presence" data-target="1">أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ... (من الفزع)</option>
             </optgroup>
         </select>
-        <button type="button" class="sp-athkar-nav-btn" id="sp-athkar-next"
-                title="الذكر التالي" onclick="window.spNavDhikr(1)">⏭</button>
     </div>
     <!-- Custom dropdown — full width row like search bar -->
     <div class="sp-athkar-search-row">
@@ -7714,7 +7705,21 @@ const moreTranslations = [{
             <option value="5000">٥٠٠٠</option>
             <option value="10000">١٠٠٠٠</option>
         </select>
-    </div>
+    
+        <div class="sp-dhikr-ctrls">
+        <button type="button" class="sp-athkar-nav-btn" id="sp-athkar-prev"
+                data-ar-title="الذكر السابق" data-en-title="Previous dhikr"
+                title="الذكر السابق" aria-label="الذكر السابق" onclick="window.spNavDhikr(-1)">⏮</button>
+        <button type="button" id="sp-athkar-play-btn" class="sp-athkar-play-btn"
+                data-ar-title="تشغيل الذكر المختار" data-en-title="Play selected dhikr"
+                title="تشغيل الذكر المختار" aria-label="تشغيل الذكر المختار" onclick="window.spPlaySelectedDhikr()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button type="button" class="sp-athkar-nav-btn" id="sp-athkar-next"
+                data-ar-title="الذكر التالي" data-en-title="Next dhikr"
+                title="الذكر التالي" aria-label="الذكر التالي" onclick="window.spNavDhikr(1)">⏭</button>
+        </div>
+</div>
 
     <!-- أزرار هدف سريعة + هدف مخصص (بتمرّ على نفس القايمة وحدث change الموجود) -->
     <div class="sp-target-chips" id="sp-target-chips">
@@ -7744,12 +7749,18 @@ const moreTranslations = [{
     <!-- أزرار التحكم الأساسية: تسبيح تلقائي + استرجاع + تصفير -->
     <div class="sp-row sp-main-controls">
         <button class="sp-btn" id="sp-auto-btn"
+                title="تسبيح تلقائي: يعدّ لوحده بالسرعة المختارة" aria-label="تسبيح تلقائي"
+                data-ar-title="تسبيح تلقائي: يعدّ لوحده بالسرعة المختارة" data-en-title="Auto count at the selected speed"
                 data-ar="⏩ تلقائي" data-en="⏩ Auto"
                 onclick="spToggleAuto()">⏩ تلقائي</button>
         <button class="sp-btn" id="sp-restore-btn"
+                title="استرجاع آخر عدد محفوظ لهذا الذكر" aria-label="استرجاع آخر عدد"
+                data-ar-title="استرجاع آخر عدد محفوظ لهذا الذكر" data-en-title="Restore last saved count"
                 data-ar="↩ استرجاع آخر عدد" data-en="↩ Restore last count"
                 onclick="window.spRestoreLastCount()">↩ استرجاع آخر عدد</button>
         <button class="sp-btn" id="sp-reset-btn"
+                title="تصفير العدّاد" aria-label="تصفير العدّاد"
+                data-ar-title="تصفير العدّاد" data-en-title="Reset counter"
                 data-ar="↺ تصفير" data-en="↺ Reset"
                 onclick="spConfirmReset()">↺ تصفير</button>
     </div>
@@ -7804,21 +7815,17 @@ const moreTranslations = [{
     <div class="sp-divider"></div>
 
     <!-- PiP وملاحظته -->
-    <div class="sp-row">
+    <div class="sp-row sp-pip-share-row">
         <button class="sp-btn" id="sp-pip-toggle"
                 data-ar="📺 وضع النافذة العائمة PiP" data-en="📺 Open PiP Window"
                 onclick="spTogglePip()">📺 وضع النافذة العائمة PiP</button>
-    </div>
-    <p id="sp-pip-note"
-       data-ar="افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب"
-       data-en="Open PiP then press ⏭ to count from any tab">افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب</p>
-
-    <!-- مشاركة الذكر والتقدّم الحالى كصورة -->
-    <div class="sp-row">
         <button class="sp-btn" id="sp-share-btn"
                 data-ar="📤 مشاركة كصورة" data-en="📤 Share as Image"
                 onclick="shareSpDhikrAsCard(event)">📤 مشاركة كصورة</button>
     </div>
+    <p id="sp-pip-note"
+       data-ar="افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب"
+       data-en="Open PiP then press ⏭ to count from any tab">افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب</p>
 </div>
 
 <canvas id="spCanvas" width="400" height="280" style="display:none;"></canvas>
