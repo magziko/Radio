@@ -11267,3 +11267,10 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
 }
 @property --tb-prog { syntax: '<percentage>'; inherits: true; initial-value: 0%; }
 .button.has-tasbih .tasbih-box { transition: --tb-prog .25s ease; }
+
+/* خط التارجت المتحرك أثناء مهلة قراءة الذكر (أذكار الصباح/المساء بتارجت ١):
+   بيتغلّب على شكل "مكتمل" الكامل عشان الخط يزيد تدريجيًا من ٠٪ لـ ١٠٠٪ */
+.button.has-tasbih .tasbih-box.tb-line-running::after,
+.button.has-tasbih.completed .tasbih-box.tb-line-running::after {
+    background: conic-gradient(var(--theme-g1, #1D9E75) var(--tb-prog, 0%), rgba(var(--theme-g1-rgb, 29,158,117), 0.20) 0);
+}
