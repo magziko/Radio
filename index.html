@@ -18311,6 +18311,85 @@ document.addEventListener('click', function(e) {
   }
 }, true);
 
+// ===== سكرول "يطارد" الذكر لحد ما الصفحة تستقر =====
+// المشكلة القديمة: السكرول كان بيتحسب مرة واحدة بعد 80ms من تغيير التركيز، لكن الـ layout
+// اللى فوق الذكر الجديد (الذكر اللى لسه مخلّص بيصغّر ويرجع لحجمه العادى، وبنزل الكروت
+// تانى فى الصفوف) بيفضل يتغيّر حوالى نص ثانية بعدها. فالسكرول بيوصل لمكان اتحسب على
+// layout قديم: مرة بيعدّى الذكر (تخطى كلى/جزئى) ومرة بيبان صح وبعدين الصفحة تتحرك لفوق.
+// الحل: كل فريم بنعيد حساب مكان الذكر الحالى ونقرّب منه بنعومة، ونوقف لما يستقر
+// (أو لو المستخدم لمس الشاشة/عمل سكرول بإيده)
+var _adhkarChaseToken = 0;
+function _chaseScrollToButton(btn, gap) {
+  var token = ++_adhkarChaseToken;
+  var startT = performance.now();
+  var lastT = startT;
+  var settledSince = null;
+  var prevCur = null, stuckFrames = 0;
+  var reduce = false;
+  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  // أسفل الشريط الثابت فوق فعليًا (اللى بيغطّى المحتوى وقت السكرول): بنقيس الحافة السفلية لكل
+  // عنصر ثابت/لاصق فعلاً (sticky/fixed) بدل ما نجمع ارتفاعات عناصر مش لاصقة
+  function stickyHeight() {
+    var bottom = 0;
+    ['sticky-player-wrap', 'player-nav-bar', 'status', 'filters-container'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var pos = getComputedStyle(el).position;
+      if (pos !== 'sticky' && pos !== 'fixed') return;
+      var r = el.getBoundingClientRect();
+      if (r.height > 0 && r.top <= 8 && r.bottom > bottom) bottom = r.bottom;
+    });
+    // مسافة تنفّس صغيرة إضافية تحت الشريط
+    return bottom + 20;
+  }
+
+  function cancel() { if (_adhkarChaseToken === token) _adhkarChaseToken++; cleanup(); }
+  function cleanup() {
+    ['wheel', 'touchstart', 'mousedown', 'keydown'].forEach(function(ev) {
+      window.removeEventListener(ev, cancel, true);
+    });
+  }
+  ['wheel', 'touchstart', 'mousedown', 'keydown'].forEach(function(ev) {
+    window.addEventListener(ev, cancel, { capture: true, passive: true });
+  });
+
+  function frame(now) {
+    if (token !== _adhkarChaseToken || !btn.isConnected) { cleanup(); return; }
+    var dt = Math.min(now - lastT, 120); lastT = now;
+    var cur = window.scrollY || window.pageYOffset;
+    var target = btn.getBoundingClientRect().top + cur - stickyHeight() - gap;
+    if (target < 0) target = 0;
+    var d = target - cur;
+
+    // لو الصفحة وصلت لآخرها (مش قادرة تنزل أكتر) نعتبرها استقرت برضه
+    var stuck = (prevCur !== null && Math.abs(cur - prevCur) < 0.5 && Math.abs(d) >= 1);
+    stuckFrames = stuck ? stuckFrames + 1 : 0;
+    prevCur = cur;
+
+    if (Math.abs(d) < 1 || stuckFrames >= 6) {
+      if (settledSince === null) settledSince = now;
+    } else {
+      settledSince = null;
+      // سرعة التقرّب مربوطة بالزمن مش بعدد الفريمات (عشان تفضل نفس السرعة حتى لو الجهاز بطىء)
+      var k = reduce ? 1 : 1 - Math.exp(-dt / 100);
+      var step = d * k;
+      if (Math.abs(step) < 1.5) step = d > 0 ? Math.min(1.5, d) : Math.max(-1.5, d);
+      window.scrollTo({ top: cur + step, left: 0, behavior: 'instant' });
+    }
+
+    var elapsed = now - startT;
+    // نكمّل لحد ما الصفحة تستقر فعلاً (700ms على الأقل لأن الـ layout بيفضل يتغيّر بعد التبديل)،
+    // وبحد أقصى 3 ثوانى
+    if (elapsed > 3000 || (elapsed > 700 && settledSince !== null && now - settledSince > 250)) {
+      cleanup();
+      return;
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
 // forceToButton = true: التنقل بين الأذكار (الذكر التالى / أول ذكر لسه / استكمال الجلسة) —
 // السكرول لازم يروح للذكر نفسه (السلوك القديم) مش لأعلى الفلاتر الفرعية
 function smartScrollToStations(firstVisibleBtn, extraDelay, forceToButton) {
@@ -18352,6 +18431,9 @@ function smartScrollToStations(firstVisibleBtn, extraDelay, forceToButton) {
     var stickyH = stickyTopH;
     var filtersEl = document.getElementById('filters-container');
     if (filtersEl) stickyH += filtersEl.offsetHeight;
+
+    // التنقل بين الأذكار: سكرول بيتابع مكان الذكر لحد ما الـ layout يستقر
+    if (forceToButton) { _chaseScrollToButton(firstVisibleBtn, gap); return; }
 
     var targetY = rect.top + scrollY - stickyH - gap;
     if (targetY < 0) targetY = 0;
