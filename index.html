@@ -27739,7 +27739,31 @@ function filterQuranSciencesSub(subType, btn) {
 }
 
 function getAdhkarSubByTime() {
-  var hour = new Date().getHours();
+  var now = new Date();
+  // أولًا: مواقيت الصلاة المحفوظة لليوم (نفس كاش نظام الأذان adhanTimingsCacheV2):
+  // صباح من الفجر لحد الظهر، ومساء من العصر لحد العشاء. لو مفيش مواقيت محفوظة
+  // لليوم ده (أو ناقصة)، بنكمّل بالمنطق القديم بالساعات زي ما هو بالظبط تحت
+  try {
+    var _raw = JSON.parse(localStorage.getItem('adhanTimingsCacheV2') || 'null');
+    var _dayStr = now.getDate() + '-' + (now.getMonth() + 1) + '-' + now.getFullYear();
+    if (_raw && _raw.date === _dayStr && _raw.timings) {
+      var _toMin = function(name) {
+        var s = _raw.timings[name];
+        if (!s) return null;
+        var p = String(s).split(' ')[0].split(':');
+        var hh = parseInt(p[0], 10), mm = parseInt(p[1], 10);
+        return (isNaN(hh) || isNaN(mm)) ? null : hh * 60 + mm;
+      };
+      var _fajr = _toMin('Fajr'), _dhuhr = _toMin('Dhuhr'), _asr = _toMin('Asr'), _isha = _toMin('Isha');
+      if (_fajr !== null && _dhuhr !== null && _asr !== null && _isha !== null) {
+        var _cur = now.getHours() * 60 + now.getMinutes();
+        if (_cur >= _fajr && _cur < _dhuhr) return 'morning';
+        if (_cur >= _asr && _cur < _isha) return 'evening';
+        return null;
+      }
+    }
+  } catch (e) {}
+  var hour = now.getHours();
   if (hour >= 4 && hour < 11) return 'morning';
   if (hour >= 16 && hour < 19) return 'evening';
   return null;
@@ -29129,6 +29153,29 @@ function _playAdhkarCompletionChime() {
   } catch (e) {}
 }
 
+// عدّاد الأيام المتتالية لإتمام أذكار الصباح/المساء (سلسلة منفصلة لكل منهم)،
+// بيتسجّل مرة واحدة فى اليوم (حسب تاريخ الجهاز) ومحفوظ فى localStorage
+function _adhkarLocalDayKey(d) {
+  d = d || new Date();
+  return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+}
+function _recordAdhkarStreak(type) {
+  var KEY = 'adhkarStreakV1', data = {};
+  try { data = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { data = {}; }
+  var rec = data[type] || { last: null, streak: 0, best: 0 };
+  var today = _adhkarLocalDayKey();
+  if (rec.last !== today) {
+    var y = new Date();
+    y.setDate(y.getDate() - 1);
+    rec.streak = (rec.last === _adhkarLocalDayKey(y)) ? (rec.streak || 0) + 1 : 1;
+    rec.last = today;
+    if (rec.streak > (rec.best || 0)) rec.best = rec.streak;
+    data[type] = rec;
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+  }
+  return { streak: rec.streak || 1, best: rec.best || rec.streak || 1 };
+}
+
 function showAdhkarDoneModal(type) {
 
   var old = document.getElementById('adhkar-done-modal');
@@ -29206,6 +29253,28 @@ function showAdhkarDoneModal(type) {
   box.appendChild(title);
   box.appendChild(stars);
   box.appendChild(body);
+
+  var _st = _recordAdhkarStreak(type);
+  var _toArD = function(n) { return String(n).replace(/\d/g, function(d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }); };
+  var _stText;
+  if (isAr) {
+    var _what = isMorning ? 'الصباح' : 'المساء';
+    if (_st.streak <= 1) _stText = '🌱 بداية طيبة — أول يوم فى أذكار ' + _what;
+    else if (_st.streak === 2) _stText = '🔥 يومان متتاليان فى أذكار ' + _what;
+    else if (_st.streak <= 10) _stText = '🔥 ' + _toArD(_st.streak) + ' أيام متتالية فى أذكار ' + _what;
+    else _stText = '🔥 ' + _toArD(_st.streak) + ' يومًا متتاليًا فى أذكار ' + _what;
+    if (_st.best > _st.streak) _stText += ' • أفضل سلسلة: ' + _toArD(_st.best);
+  } else {
+    var _w = isMorning ? 'morning' : 'evening';
+    _stText = (_st.streak <= 1) ? ('🌱 Great start — day 1 of ' + _w + ' adhkar') :
+      ('🔥 ' + _st.streak + '-day streak of ' + _w + ' adhkar');
+    if (_st.best > _st.streak) _stText += ' • Best: ' + _st.best;
+  }
+  var streakEl = document.createElement('div');
+  streakEl.style.cssText = 'margin:-6px 0 20px;padding:9px 14px;border-radius:12px;background:rgba(var(--theme-c1-rgb),0.10);color:#1a3a52;font-size:14px;font-weight:700;line-height:1.6;font-family:Cairo,Arial,sans-serif;';
+  streakEl.textContent = _stText;
+  box.appendChild(streakEl);
+
   box.appendChild(btn);
   modal.appendChild(box);
 
