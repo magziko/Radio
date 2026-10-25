@@ -11168,19 +11168,18 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
     #salah-pip-section .sp-dhikr-ctrls .sp-athkar-play-btn { border-radius: 50%; }
     #salah-pip-section .sp-dhikr-ctrls .sp-athkar-play-btn svg { width: 12px; height: 12px; }
 
-    /* ---- تلقائى / استرجاع / تصفير: أيقونات فقط (الشرح فى الـ title) ---- */
-    #salah-pip-section .sp-main-controls { flex-wrap: nowrap; gap: 8px; margin-bottom: 7px; }
+    /* ---- تلقائى / استرجاع / تصفير: تلقائى وتصفير بالاسم، واسترجاع أيقونة فقط (الشرح فى الـ title) ---- */
+    #salah-pip-section .sp-main-controls { flex-wrap: nowrap; gap: 6px; margin-bottom: 7px; }
     #salah-pip-section .sp-main-controls .sp-btn {
-        font-size: 0;               /* بيخفى النص اللى الـ JS بيكتبه */
-        flex: 0 1 72px; min-width: 0; height: 30px; padding: 0;
+        flex: 1 1 0; min-width: 0; height: 30px; padding: 0 8px;
+        font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         border-radius: 15px;
         display: inline-flex; align-items: center; justify-content: center;
     }
-    #salah-pip-section .sp-main-controls .sp-btn::before { font-size: 15px; line-height: 1; }
-    #sp-auto-btn::before            { content: "\23E9"; }       /* ⏩ */
-    #sp-auto-btn.active::before     { content: "\23F8"; }       /* ⏸ */
-    #sp-restore-btn::before         { content: "\21A9"; }       /* ↩ */
-    #sp-reset-btn::before           { content: "\21BA"; }       /* ↺ */
+    #salah-pip-section .sp-main-controls #sp-restore-btn {
+        flex: 0 0 44px; font-size: 0; padding: 0;     /* بيخفى النص اللى الـ JS بيكتبه */
+    }
+    #sp-restore-btn::before { content: "\21A9"; font-size: 16px; line-height: 1; }   /* ↩ */
 
     /* ---- السرعة: سطر واحد جوه الإطار ---- */
     .sp-speed-row { flex-wrap: nowrap; gap: 4px; margin-bottom: 6px; width: 100%; box-sizing: border-box; }
@@ -11197,12 +11196,18 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
         font-size: 11px; padding: 4px 10px; flex-shrink: 0; white-space: nowrap;
     }
 
-    /* ---- PiP + مشاركة كصورة: سطر واحد ---- */
+    /* ---- PiP + مشاركة كصورة: سطر واحد بنص مختصر ---- */
     #salah-pip-section .sp-pip-share-row { flex-wrap: nowrap; gap: 6px; margin-bottom: 4px; }
     #salah-pip-section .sp-pip-share-row .sp-btn {
-        flex: 1 1 auto; min-width: 0; font-size: 11px; padding: 5px 8px;
-        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        flex: 1 1 0; min-width: 0; height: 30px; padding: 0 8px;
+        font-size: 0;                                  /* بيخفى النص الطويل اللى الـ JS بيكتبه */
+        display: inline-flex; align-items: center; justify-content: center;
     }
+    #salah-pip-section .sp-pip-share-row .sp-btn::before { font-size: 12px; line-height: 1; white-space: nowrap; }
+    #sp-pip-toggle::before { content: "\1F4FA  PiP"; }
+    #sp-pip-toggle.active::before { content: "\274C  PiP"; }
+    #sp-share-btn::before { content: "\1F4E4  \645\634\627\631\643\629"; }              /* 📤 مشاركة */
+    #salah-pip-section[style*="direction: ltr"] #sp-share-btn::before { content: "\1F4E4  Share"; }
     #sp-pip-note { font-size: 10.5px; min-height: 0; margin-top: 2px; }
 
     .sp-divider { margin: 6px auto; }
