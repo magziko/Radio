@@ -28998,6 +28998,36 @@ function _wrapDhikrText(ctx, text, maxWidth) {
   return allLines;
 }
 
+// ===== خلفيات كارت الذكر: صور مجلد islamic فى الريبو، بتتختار عشوائى فى كل مرة =====
+// (i3.jpg مستبعدة لأن مقاسها صغير جدًا وهتبان مفرودة/مشوّشة على كارت 1080×1920)
+// لو الصورة ما اتحمّلتش (مفيش اتصال مثلًا) الكارت بيرجع للتدرج اللونى القديم تلقائيًا
+var _DHIKR_CARD_BACKGROUNDS = [
+  'i1.webp', 'i2.jpg'
+].concat((function() {
+  var a = [];
+  for (var n = 1; n <= 26; n++) a.push('isl-' + (n < 10 ? '0' + n : n) + '.webp');
+  return a;
+})());
+var _lastDhikrCardBgIdx = -1;
+
+function _loadRandomDhikrCardBackground() {
+  return new Promise(function(resolve) {
+    var tries = 0;
+    function attempt() {
+      if (tries++ >= 3) { resolve(null); return; }
+      var idx;
+      do {
+        idx = Math.floor(Math.random() * _DHIKR_CARD_BACKGROUNDS.length);
+      } while (idx === _lastDhikrCardBgIdx && _DHIKR_CARD_BACKGROUNDS.length > 1);
+      var img = new Image();
+      img.onload = function() { _lastDhikrCardBgIdx = idx; resolve(img); };
+      img.onerror = attempt;
+      img.src = 'islamic/' + _DHIKR_CARD_BACKGROUNDS[idx];
+    }
+    attempt();
+  });
+}
+
 // بيرسم كارت الذكر على canvas بمقاس مناسب لقصص/منشورات إنستجرام وفيسبوك
 // (9:16)، بلون ثيم التطبيق الحالى، وبعدين يسلّمه لدالة المشاركة/التحميل
 function _buildDhikrShareCard(dhikrText, progress) {
@@ -29036,7 +29066,7 @@ function _buildDhikrShareCard(dhikrText, progress) {
     ctx.restore();
   }
 
-  function draw(logoImg) {
+  function draw(logoImg, bgImg) {
     // الخلفية: تدرج قطرى بلون ثيم التطبيق الحالى مع توقّف لونى وسطى لإحساس أعمق
     var grad = ctx.createLinearGradient(0, 0, W, H);
     grad.addColorStop(0, c1);
@@ -29044,6 +29074,27 @@ function _buildDhikrShareCard(dhikrText, progress) {
     grad.addColorStop(1, c2);
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, W, H);
+
+    // لو فيه صورة خلفية (عشوائية من مجلد islamic): بنملا بيها الكارت (cover) وبعدين
+    // بنغطيها بطبقة لون الثيم + تعتيم عشان النص الأبيض يفضل مقروء فوق أى صورة (حتى الفاتحة)
+    if (bgImg && bgImg.naturalWidth) {
+      var bs = Math.max(W / bgImg.naturalWidth, H / bgImg.naturalHeight);
+      var bw = bgImg.naturalWidth * bs, bh = bgImg.naturalHeight * bs;
+      ctx.drawImage(bgImg, (W - bw) / 2, (H - bh) / 2, bw, bh);
+
+      ctx.save();
+      ctx.globalAlpha = 0.28;
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+
+      var dim = ctx.createLinearGradient(0, 0, 0, H);
+      dim.addColorStop(0, 'rgba(0,0,0,0.40)');
+      dim.addColorStop(0.5, 'rgba(0,0,0,0.50)');
+      dim.addColorStop(1, 'rgba(0,0,0,0.62)');
+      ctx.fillStyle = dim;
+      ctx.fillRect(0, 0, W, H);
+    }
 
     // توهج خفيف خلف منطقة النص
     var glow = ctx.createRadialGradient(W / 2, H * 0.44, 40, W / 2, H * 0.44, W * 0.8);
@@ -29209,9 +29260,18 @@ function _buildDhikrShareCard(dhikrText, progress) {
     ctx.textAlign = 'center';
     ctx.fillText('magziko.github.io/Radio', W / 2, logoBottom);
 
-    canvas.toBlob(function(blob) {
-      _deliverDhikrShareCard(blob);
-    }, 'image/png', 0.95);
+    try {
+      canvas.toBlob(function(blob) {
+        _deliverDhikrShareCard(blob);
+      }, 'image/png', 0.95);
+    } catch (e) {
+      // canvas اتلوّث بصورة من مصدر مختلف (مثلًا فتح الملف مباشرة من الجهاز): نرسم تانى بالتدرج اللونى بس
+      if (bgImg) {
+        canvas.getContext('2d').clearRect(0, 0, W, H);
+        ctx.shadowBlur = 0;
+        draw(logoImg, null);
+      }
+    }
   }
 
   // تحميل لوجو التطبيق (نفس أيقونة الموقع) عشان نرسمه فى الكارت بدل التوقيع النصّى؛
@@ -29232,8 +29292,8 @@ function _buildDhikrShareCard(dhikrText, progress) {
       document.fonts.load('400 24px Cairo')
     ]).catch(function() {}) : Promise.resolve();
 
-  Promise.all([fontsPromise, loadLogoImage()]).then(function(results) {
-    draw(results[1]);
+  Promise.all([fontsPromise, loadLogoImage(), _loadRandomDhikrCardBackground()]).then(function(results) {
+    draw(results[1], results[2]);
   });
 }
 
