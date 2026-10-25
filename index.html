@@ -8729,6 +8729,14 @@ const moreTranslations = [{
     var shareBtnEl = document.getElementById('sp-share-btn');
     if (shareBtnEl) shareBtnEl.textContent = t('shareBtn');
 
+    /* تايتل أزرار التحكم (تلقائى/استرجاع/تصفير) بيتبدّل مع اللغة */
+    ['sp-auto-btn', 'sp-restore-btn', 'sp-reset-btn'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var ttl = el.getAttribute(lang === 'ar' ? 'data-ar-title' : 'data-en-title');
+      if (ttl) { el.title = ttl; el.setAttribute('aria-label', ttl); }
+    });
+
     sec.style.direction = (lang === 'ar') ? 'rtl' : 'ltr';
   }
   window.spApplyWelcomeLang = spApplyWelcomeLang;
