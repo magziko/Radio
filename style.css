@@ -11207,3 +11207,26 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
 
     .sp-divider { margin: 6px auto; }
 }
+
+/* ---- شاشات التابليت والكمبيوتر: نفس السطور المدمجة لكن بالأحجام العادية ---- */
+@media (min-width: 768px) {
+    #salah-pip-section .sp-target-row { gap: 10px; margin-bottom: 10px; }
+    #salah-pip-section .sp-main-controls,
+    #salah-pip-section .sp-pip-share-row,
+    .sp-speed-row,
+    .sp-alarm-row { flex-wrap: nowrap; justify-content: center; align-items: center; }
+    #salah-pip-section .sp-main-controls .sp-btn,
+    #salah-pip-section .sp-pip-share-row .sp-btn,
+    #salah-pip-section #sp-alarm-btn { white-space: nowrap; flex-shrink: 0; }
+    .sp-speed-row { gap: 10px; }
+    .sp-speed-row .sp-speed-label { font-size: 14px; flex-shrink: 0; }
+    #sp-speed-value { font-size: 14px; }
+    .sp-alarm-row { gap: 10px; }
+    .sp-alarm-label { font-size: 14px; }
+    #sp-alarm-interval-sel { font-size: 14px; padding: 5px 10px; }
+    #sp-pip-note { font-size: 13px; }
+}
+@media (min-width: 992px) {
+    .sp-speed-row .sp-speed-label, #sp-speed-value, .sp-alarm-label { font-size: 15px; }
+    #sp-alarm-interval-sel { font-size: 15px; }
+}
