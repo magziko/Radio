@@ -2057,18 +2057,6 @@ body.dark-mode .badge-mojawwad {
     border-color: rgba(129, 199, 132, 0.35);
 }
 
-/* إخفاء العلم من أزرار المرتل والمجود للشيوخ الثلاثة */
-button[data-minshawi-type="muratal"] .flag,
-button[data-minshawi-type="mojawwad"] .flag,
-button[data-hussary-type="muratal"] .flag,
-button[data-hussary-type="mojawwad"] .flag,
-button[data-banna-type="muratal"] .flag,
-button[data-banna-type="mojawwad"] .flag,
-button[data-basit-type="mojawwad"] .flag,
-button[data-basit-type="muratal"] .flag,
-button[data-basit-type="saudi-muratal"] .flag {
-    display: none !important;
-}
 
 /* ===================== قسم 3 — الاستايل الرئيسي (Main Styles) (part3-main.css) ===================== */
 #customLogo {
@@ -2796,34 +2784,36 @@ body.media-theme-glass #khStreakBadge {
             font-weight: 800;
             text-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 0 3px rgba(0,0,0,0.5);
         }
-  .flag {
-    display: inline-block;
-    width: 38px;
-    height: 38px;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Palestine.svg/1280px-Flag_of_Palestine.svg.png');
-    background-size: cover;
-    position: absolute;
-    left: 4px;
-    bottom: 4px;
-    top: auto;
-    transform: none;
-    border-radius: 4px;
+  /* علم فلسطين: عنصر واحد فى شريط المشغّل (#pnb-flag) بدل علم على كل زر.
+     بيظهر لمدة ثانية واحدة فقط كل 30 ثانية، والعلم SVG مدمج (من غير اعتماد على موقع خارجى) */
+  #pnb-flag {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 15px;
+    margin: 0 4px;
+    border-radius: 2px;
+    background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%206%203'%3E%3Crect%20width='6'%20height='1'%20fill='%23000'/%3E%3Crect%20y='1'%20width='6'%20height='1'%20fill='%23fff'/%3E%3Crect%20y='2'%20width='6'%20height='1'%20fill='%23007a3d'/%3E%3Cpath%20d='M0%200l2%201.5L0%203z'%20fill='%23ce1126'/%3E%3C/svg%3E") center / cover no-repeat;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.25);
+    opacity: 0;
     animation: flagRareBlink 30s steps(1) infinite;
+    pointer-events: none;
   }
-  /* العلم يظهر لمدة ثانية واحدة فقط كل 30 ثانية عند تفعيل الخيار */
   @keyframes flagRareBlink {
     0%, 96.66% { opacity: 0; }
     96.67%, 99.99% { opacity: 1; }
     100% { opacity: 0; }
   }
+  @media (max-width: 420px) {
+    #pnb-flag { width: 24px; height: 12px; margin: 0 2px; }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .flag {
+    #pnb-flag {
       animation: none;
       opacity: 1;
     }
   }
-  /* إخفاء علم فلسطين من الأزرار عند تعطيل الخيار من الإعدادات */
-  body.hide-buttons-flag .flag {
+  /* إخفاء علم فلسطين من شريط المشغّل عند تعطيل الخيار من الإعدادات */
+  body.hide-buttons-flag #pnb-flag {
     display: none !important;
     animation: none !important;
   }
