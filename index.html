@@ -17513,11 +17513,39 @@ function _ensureLabelWrapper(btn) {
   return wrapper;
 }
 
+// لو الاسم المخصص المحفوظ هو فى الحقيقة نفس اسم الزر الافتراضى بأى لغة (مع أو من غير الإيموجى)،
+// يبقى مش اسم مخصص فعلًا ولازم يتبدّل مع لغة الموقع، فنمسحه بدل ما يفضل عربى والموقع بالإنجليزى
+function _normFilterLabel(s) {
+  return String(s || '').replace(/[^\p{L}\p{N}]+/gu, '').toLowerCase();
+}
+function _filterNameIsBuiltin(btn, name) {
+  var n = _normFilterLabel(name);
+  if (!n) return false;
+  var attrs = btn.attributes;
+  for (var i = 0; i < attrs.length; i++) {
+    if (attrs[i].name.indexOf('data-') === 0 && attrs[i].name.length === 7 &&
+        _normFilterLabel(attrs[i].value) === n) return true;
+  }
+  var w = btn.querySelector('.filter-label-text');
+  if (w && w.dataset.filterDefaultLabel !== undefined &&
+      _normFilterLabel(w.dataset.filterDefaultLabel.replace(/<[^>]*>/g, '')) === n) return true;
+  return false;
+}
+function _dropBuiltinCustomName(btn, id) {
+  if (filterButtonsCustomNames[id] && _filterNameIsBuiltin(btn, filterButtonsCustomNames[id])) {
+    delete filterButtonsCustomNames[id];
+    try { localStorage.setItem(FILTER_NAMES_STORAGE_KEY, JSON.stringify(filterButtonsCustomNames)); } catch (e) {}
+    return true;
+  }
+  return false;
+}
+
 function _applyCustomNamesToGroup(g) {
   Array.prototype.forEach.call(g.el.children, function (btn) {
     var wrapper = _ensureLabelWrapper(btn);
     if (!wrapper) return;
     var id = _filterBtnId(btn);
+    _dropBuiltinCustomName(btn, id);
     var custom = filterButtonsCustomNames[id];
     if (custom) {
       wrapper.textContent = custom;
@@ -17536,6 +17564,7 @@ function applyAllFilterCustomNames() {
 // مع احترام الاسم المخصص اللي غيّره المستخدم (منمنعش تحديث اللغة يمسح اسمه المخصص)
 function _setFilterButtonLangText(btn, text) {
   var id = _filterBtnId(btn);
+  _dropBuiltinCustomName(btn, id);
   if (filterButtonsCustomNames[id]) return; // فيه اسم مخصص، منغيروش حسب اللغة
   var wrapper = _ensureLabelWrapper(btn);
   if (!wrapper) return;
@@ -17649,7 +17678,7 @@ function _promptRenameFilter(btn) {
   var result = window.prompt(msg, current);
   if (result === null) return; // المستخدم ألغى العملية
   result = result.trim();
-  if (result === '') {
+  if (result === '' || _filterNameIsBuiltin(btn, result)) {
     delete filterButtonsCustomNames[id];
     if (wrapper.dataset.filterDefaultLabel !== undefined) wrapper.innerHTML = wrapper.dataset.filterDefaultLabel;
   } else {
