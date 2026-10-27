@@ -3542,6 +3542,14 @@ setTimeout(autoScaleVerseFont, 100);
     </div>
   </div>
 
+  <div id="pwa-sister-settings" data-stab="general" style="margin: 8px auto 4px; width: 97%; box-sizing: border-box; padding: 10px 14px; border-radius: 14px; direction: rtl; border: 1.5px solid rgba(var(--theme-c1-rgb),0.18); background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07)); font-family: 'Cairo', Arial, sans-serif;">
+    <div class="stab-i18n sdt-title" data-ar="📖 تطبيق المصحف (eQuran)" data-en="📖 eQuran app">📖 تطبيق المصحف (eQuran)</div>
+    <div class="sdt-desc"><span class="stab-i18n" data-ar="ثبّت تطبيق المصحف أيضًا على جهازك. سيُفتح في تبويب جديد مع زر التثبيت." data-en="Install the eQuran app on your device too. It opens in a new tab with an install button.">ثبّت تطبيق المصحف أيضًا على جهازك. سيُفتح في تبويب جديد مع زر التثبيت.</span></div>
+    <div class="sdt-btns">
+      <button id="pwa-sister-btn" type="button" class="sdt-btn" onclick="openSisterAppInstall()"><span class="stab-i18n" data-ar="⬇️ تثبيت تطبيق المصحف" data-en="⬇️ Install eQuran app">⬇️ تثبيت تطبيق المصحف</span></button>
+    </div>
+  </div>
+
   <div id="settings-data-tools" data-stab="general">
     <div class="stab-i18n sdt-title" data-ar="💾 النسخ الاحتياطي والتصفير" data-en="💾 Backup &amp; Reset">💾 النسخ الاحتياطي والتصفير</div>
     <div class="stab-i18n sdt-desc" data-ar="صدّر إعداداتك ومفضلتك كملف وارجع استوردها وقت ما تحب، أو رجّع كل الإعدادات للوضع الافتراضي" data-en="Export your settings and favorites to a file and import them any time, or reset all settings to default">صدّر إعداداتك ومفضلتك كملف وارجع استوردها وقت ما تحب، أو رجّع كل الإعدادات للوضع الافتراضي</div>
@@ -20823,6 +20831,116 @@ function pwaCopyAppsAddress() {
   });
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _pwaRefreshStartupUI); else _pwaRefreshStartupUI();
+
+// ===== تثبيت تطبيق المصحف (eQuran) من داخل تطبيق الراديو، والعكس =====
+// المتصفح لا يسمح بتثبيت تطبيق من صفحة تطبيق آخر، فنفتح التطبيق الشقيق فى تبويب جديد
+// مع ?install=app، وهناك تظهر لافتة فيها زر التثبيت (لازم ضغطة من العميل عشان تظهر نافذة التثبيت).
+var PWA_SISTER_URL = 'https://magziko.github.io/equran/';
+function openSisterAppInstall() {
+  var url = PWA_SISTER_URL + '?install=app';
+  try {
+    var a = document.createElement('a');
+    a.href = url; a.target = '_blank'; a.rel = 'noopener';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch (e) { window.location.href = url; }
+}
+
+// لافتة التثبيت لما العميل يوصل من التطبيق الشقيق (?install=app)
+(function pwaArriveBanner() {
+  var wanted = false;
+  try { wanted = new URLSearchParams(location.search).get('install') === 'app'; } catch (e) {}
+  if (!wanted) return;
+  // نشيل البارامتر من الرابط عشان اللافتة ما تظهرش تانى لو حدّث الصفحة
+  try {
+    var u = new URL(location.href);
+    u.searchParams.delete('install');
+    history.replaceState(null, '', u.pathname + u.search + u.hash);
+  } catch (e) {}
+
+  function show() {
+    if (_pwaIsStandalone() || document.getElementById('pwa-arrive-banner')) return;
+    var ar = _settingsIsAr();
+    function tx(a, e) { return ar ? a : e; }
+    var labelInstall = tx('⬇️ تثبيت', '⬇️ Install');
+
+    var bar = document.createElement('div');
+    bar.id = 'pwa-arrive-banner';
+    bar.setAttribute('role', 'dialog');
+    bar.style.cssText = 'position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);' +
+      'z-index:2147483647;width:min(94vw,440px);box-sizing:border-box;padding:12px 14px;border-radius:16px;' +
+      'background:#0b6b4f;color:#fff;box-shadow:0 8px 28px rgba(0,0,0,.4);font-family:Cairo,Arial,sans-serif;' +
+      'direction:' + (ar ? 'rtl' : 'ltr') + ';text-align:' + (ar ? 'right' : 'left') + ';';
+
+    var title = document.createElement('div');
+    title.style.cssText = 'font-weight:800;font-size:15px;margin-bottom:4px;';
+    title.textContent = tx('📻 تثبيت تطبيق الراديو', '📻 Install the Radio app');
+
+    var msg = document.createElement('div');
+    msg.style.cssText = 'font-size:13px;line-height:1.7;';
+    msg.textContent = tx('اضغط «تثبيت» ليُضاف التطبيق إلى جهازك.', 'Tap Install to add the app to your device.');
+
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:8px;margin-top:10px;';
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = labelInstall;
+    btn.style.cssText = 'flex:1;padding:9px 12px;border:0;border-radius:10px;background:#fff;color:#0b6b4f;font-weight:800;font-size:14px;font-family:inherit;cursor:pointer;';
+    var closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.textContent = tx('إغلاق', 'Close');
+    closeBtn.style.cssText = 'padding:9px 14px;border:1px solid rgba(255,255,255,.55);border-radius:10px;background:transparent;color:#fff;font-weight:700;font-size:14px;font-family:inherit;cursor:pointer;';
+    row.appendChild(btn); row.appendChild(closeBtn);
+    bar.appendChild(title); bar.appendChild(msg); bar.appendChild(row);
+    document.body.appendChild(bar);
+
+    function hide() { if (bar.parentNode) bar.parentNode.removeChild(bar); }
+    closeBtn.onclick = hide;
+
+    function manualHelp() {
+      msg.textContent = _pwaIsIOS()
+        ? tx('اضغط زر المشاركة ⬆️ فى متصفح Safari ثم اختر «إضافة إلى الشاشة الرئيسية».', 'Tap the Share button ⬆️ in Safari, then choose “Add to Home Screen”.')
+        : tx('لم تظهر نافذة التثبيت. إن كان التطبيق مثبّتًا بالفعل فافتحه من قائمة التطبيقات، وإلا افتح قائمة المتصفح (⋮) واختر «تثبيت التطبيق».',
+             'No install prompt appeared. If the app is already installed, open it from your app list. Otherwise open the browser menu (⋮) and choose “Install app”.');
+    }
+    function go(ev) {
+      window._pwaDeferredPrompt = null; // الحدث بيتستخدم مرة واحدة بس
+      try {
+        ev.prompt();
+        ev.userChoice.then(function(r) {
+          if (r && r.outcome === 'accepted') {
+            try { localStorage.setItem('pwaInstalled', '1'); } catch (e) {}
+            hide();
+          }
+        });
+      } catch (e) { manualHelp(); }
+    }
+    var busy = false;
+    btn.onclick = function() {
+      if (busy) return;
+      var ev = window._pwaDeferredPrompt;
+      if (ev) { go(ev); return; }
+      if (_pwaIsIOS()) { manualHelp(); return; }
+      // المتصفح أحيانًا بيتأخر فى إطلاق حدث التثبيت: نستنى لحد ٤ ثوانٍ
+      busy = true; btn.disabled = true;
+      btn.textContent = tx('⏳ جارٍ التحضير...', '⏳ Preparing...');
+      var tries = 0;
+      var iv = setInterval(function() {
+        tries++;
+        var e2 = window._pwaDeferredPrompt;
+        if (e2 || tries >= 16) {
+          clearInterval(iv);
+          busy = false; btn.disabled = false; btn.textContent = labelInstall;
+          if (e2) go(e2); else manualHelp();
+        }
+      }, 250);
+    };
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function() { setTimeout(show, 400); });
+  else setTimeout(show, 400);
+})();
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
