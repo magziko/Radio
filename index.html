@@ -2,6 +2,30 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
+<script>
+/* حارس التوافق: المتصفحات القديمة جدًا (بدون async/await أو Promise) لا تستطيع قراءة سكربت الموقع،
+   فكانت تعرض صفحة فارغة. هنا نعرض رسالة واضحة بدلًا من ذلك. (ES5 فقط عمدًا) */
+(function () {
+  var unsupported = false;
+  try { new Function('return async function () { await 0; }'); }
+  catch (e) { if (e instanceof SyntaxError) unsupported = true; }
+  if (typeof Promise === 'undefined') unsupported = true;
+  if (!unsupported) return;
+  function show() {
+    if (document.getElementById('legacy-browser-notice')) return;
+    var d = document.createElement('div');
+    d.id = 'legacy-browser-notice';
+    d.setAttribute('style', 'position:fixed;top:0;right:0;bottom:0;left:0;z-index:2147483647;background:#0f4c3a;color:#fff;padding:28px 20px;overflow:auto;text-align:center;line-height:1.9;font-family:Tahoma,Arial,sans-serif;');
+    d.innerHTML =
+      '<div dir="rtl" style="max-width:560px;margin:0 auto 22px;"><div style="font-size:22px;font-weight:bold;margin-bottom:8px;">متصفحك قديم ولا يدعم هذا الموقع</div>' +
+      '<div style="font-size:16px;">حدّث المتصفح إلى أحدث إصدار متاح لجهازك (Chrome أو Firefox أو Edge)، أو افتح الموقع من متصفح آخر أو من هاتفك.</div></div>' +
+      '<div dir="ltr" style="max-width:560px;margin:0 auto;opacity:.9;"><div style="font-size:18px;font-weight:bold;margin-bottom:6px;">Your browser is too old for this site</div>' +
+      '<div style="font-size:15px;">Please update to the latest version available for your device (Chrome, Firefox or Edge), or open the site in another browser or on your phone.</div></div>';
+    document.body.appendChild(d);
+  }
+  if (document.body) show(); else if (document.addEventListener) document.addEventListener('DOMContentLoaded', show);
+})();
+</script>
   <script>
   /* isArabic must exist before ANY other script on the page references it.
      Originally this was declared with `let isArabic = ...` far down the file
@@ -17533,7 +17557,11 @@ function _ensureLabelWrapper(btn) {
 // لو الاسم المخصص المحفوظ هو فى الحقيقة نفس اسم الزر الافتراضى بأى لغة (مع أو من غير الإيموجى)،
 // يبقى مش اسم مخصص فعلًا ولازم يتبدّل مع لغة الموقع، فنمسحه بدل ما يفضل عربى والموقع بالإنجليزى
 function _normFilterLabel(s) {
-  return String(s || '').replace(/[^\p{L}\p{N}]+/gu, '').toLowerCase();
+  // توافق: \p{L} غير مدعومة فى Chrome < 64 و Firefox < 78، وكتابتها كـ literal كانت تُسقط السكربت كله وقت التحميل
+  var re;
+  try { re = new RegExp('[^\\p{L}\\p{N}]+', 'gu'); }
+  catch (e) { re = /[^A-Za-z0-9\u00C0-\u024F\u0370-\u03FF\u0400-\u04FF\u0621-\u064A\u0660-\u0669\u066E-\u06D3\u06D5\u06FA-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]+/g; }
+  return String(s || '').replace(re, '').toLowerCase();
 }
 function _filterNameIsBuiltin(btn, name) {
   var n = _normFilterLabel(name);
