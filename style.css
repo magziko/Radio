@@ -2785,7 +2785,7 @@ body.media-theme-glass #khStreakBadge {
             text-shadow: 0 1px 3px rgba(0,0,0,0.7), 0 0 3px rgba(0,0,0,0.5);
         }
   /* علم فلسطين: عنصر واحد فى شريط المشغّل (#pnb-flag) بدل علم على كل زر.
-     بيظهر لمدة ثانية واحدة فقط كل 30 ثانية، والعلم SVG مدمج (من غير اعتماد على موقع خارجى) */
+     بيظهر حوالى 6 ثوانى (ظهور تدريجى ثم اختفاء تدريجى) كل 30 ثانية، والعلم SVG مدمج (من غير اعتماد على موقع خارجى) */
   #pnb-flag {
     flex: 0 0 auto;
     width: 30px;
@@ -2795,12 +2795,13 @@ body.media-theme-glass #khStreakBadge {
     background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%206%203'%3E%3Crect%20width='6'%20height='1'%20fill='%23000'/%3E%3Crect%20y='1'%20width='6'%20height='1'%20fill='%23fff'/%3E%3Crect%20y='2'%20width='6'%20height='1'%20fill='%23007a3d'/%3E%3Cpath%20d='M0%200l2%201.5L0%203z'%20fill='%23ce1126'/%3E%3C/svg%3E") center / cover no-repeat;
     box-shadow: 0 0 0 1px rgba(255,255,255,0.25);
     opacity: 0;
-    animation: flagRareBlink 30s steps(1) infinite;
+    animation: flagRareBlink 30s linear infinite;
     pointer-events: none;
   }
+  /* من 80% لـ 100% من الدورة (حوالى 6 ثوانى من كل 30): ظهور خلال 0.6 ثانية، ثابت حوالى 4.8 ثانية، واختفاء خلال 0.6 ثانية */
   @keyframes flagRareBlink {
-    0%, 96.66% { opacity: 0; }
-    96.67%, 99.99% { opacity: 1; }
+    0%, 80% { opacity: 0; }
+    82%, 98% { opacity: 1; }
     100% { opacity: 0; }
   }
   @media (max-width: 420px) {
@@ -3718,14 +3719,14 @@ body.filter-favorites .isolated-radio-player {
 
 .free-palestine-text {
     margin-top: 25px;
-    font-size: 16px;
+    font-size: 28px;
     color: red;
     font-weight: bold;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.6);
 }
 
 @media (max-width: 768px) {
-    .free-palestine-text { font-size: 13px; margin-top: 8px; color: #fff; }
+    .free-palestine-text { font-size: 20px; margin-top: 10px; color: #fff; }
 }
 
           .button .equalizer {
