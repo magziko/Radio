@@ -3533,6 +3533,15 @@ setTimeout(autoScaleVerseFont, 100);
     </div>
   </div>
 
+  <div id="pwa-startup-settings" data-stab="general" style="display:none; margin: 8px auto 4px; width: 97%; box-sizing: border-box; padding: 10px 14px; border-radius: 14px; direction: rtl; border: 1.5px solid rgba(var(--theme-c1-rgb),0.18); background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07)); font-family: 'Cairo', Arial, sans-serif;">
+    <div class="stab-i18n sdt-title" data-ar="🚀 تشغيل التطبيق مع الويندوز" data-en="🚀 Launch with Windows">🚀 تشغيل التطبيق مع الويندوز</div>
+    <div class="sdt-desc"><span id="pwa-startup-note-text" class="stab-i18n" data-ar="المتصفح لا يسمح لأي موقع بفتح صفحة التطبيقات مباشرة، فاضغط الزر لنسخ العنوان ثم الصقه في تبويب جديد (لازم يكون التطبيق مثبّتًا أولًا)." data-en="Browsers don't allow websites to open the apps page directly. Tap the button to copy the address, then paste it in a new tab (the app must be installed first).">المتصفح لا يسمح لأي موقع بفتح صفحة التطبيقات مباشرة، فاضغط الزر لنسخ العنوان ثم الصقه في تبويب جديد (لازم يكون التطبيق مثبّتًا أولًا).</span></div>
+    <div style="margin:6px 0 2px;text-align:center;"><code id="pwa-startup-url" dir="ltr" style="display:inline-block;padding:4px 12px;border-radius:8px;background:rgba(var(--theme-c1-rgb),0.12);font-family:Consolas,Menlo,monospace;font-size:13px;user-select:all;-webkit-user-select:all;">chrome://apps</code></div>
+    <div class="sdt-btns">
+      <button id="pwa-startup-btn" type="button" class="sdt-btn" onclick="pwaCopyAppsAddress()"><span id="pwa-startup-btn-text" class="stab-i18n" data-ar="📋 نسخ عنوان صفحة التطبيقات" data-en="📋 Copy apps page address">📋 نسخ عنوان صفحة التطبيقات</span></button>
+    </div>
+  </div>
+
   <div id="settings-data-tools" data-stab="general">
     <div class="stab-i18n sdt-title" data-ar="💾 النسخ الاحتياطي والتصفير" data-en="💾 Backup &amp; Reset">💾 النسخ الاحتياطي والتصفير</div>
     <div class="stab-i18n sdt-desc" data-ar="صدّر إعداداتك ومفضلتك كملف وارجع استوردها وقت ما تحب، أو رجّع كل الإعدادات للوضع الافتراضي" data-en="Export your settings and favorites to a file and import them any time, or reset all settings to default">صدّر إعداداتك ومفضلتك كملف وارجع استوردها وقت ما تحب، أو رجّع كل الإعدادات للوضع الافتراضي</div>
@@ -20742,6 +20751,78 @@ function pwaInstallFromSettings() {
   }, 250);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _pwaRefreshInstallUI); else _pwaRefreshInstallUI();
+
+// ===== زر "تشغيل التطبيق مع الويندوز" =====
+// المتصفح بيمنع أي موقع يفتح chrome://apps أو edge://apps، فالزر بينسخ العنوان
+// والعميل يلصقه فى تبويب جديد، وهناك يفعّل تشغيل التطبيق عند تسجيل الدخول.
+function _pwaAppsAddress() {
+  var ua = navigator.userAgent || '';
+  if (/Android|iPhone|iPad|iPod|Mobile/i.test(ua)) return null;      // الموبايل: مفيش صفحة تطبيقات
+  if (/Firefox\//.test(ua) || /OPR\/|Opera/.test(ua)) return null;    // متصفحات مش مدعومة
+  if (navigator.brave) return null;
+  if (/Edg\//.test(ua)) return 'edge://apps';
+  if (/Chrome\//.test(ua)) return 'chrome://apps';
+  return null;
+}
+function _pwaRefreshStartupUI() {
+  var box = document.getElementById('pwa-startup-settings');
+  if (!box) return;
+  var addr = _pwaAppsAddress();
+  if (!addr) { box.style.display = 'none'; return; }
+  var codeEl = document.getElementById('pwa-startup-url');
+  if (codeEl) codeEl.textContent = addr;
+  box.style.display = '';
+}
+function _pwaCopyText(text) {
+  // نجرّب الـ Clipboard API الأول، ولو مش متاح نرجع للطريقة القديمة
+  function legacy() {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:-1000px;opacity:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch (e) { return false; }
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).then(function() { return true; }, function() { return legacy(); });
+  }
+  return Promise.resolve(legacy());
+}
+var _pwaStartupTimer = null;
+function pwaCopyAppsAddress() {
+  var addr = _pwaAppsAddress();
+  if (!addr) return;
+  var isEdge = addr.indexOf('edge') === 0;
+  var noteText = document.getElementById('pwa-startup-note-text');
+  var btnText = document.getElementById('pwa-startup-btn-text');
+  _pwaCopyText(addr).then(function(ok) {
+    if (ok) {
+      var stepAr = isEdge
+        ? '✅ تم نسخ العنوان. افتح تبويبًا جديدًا (Ctrl+T) والصقه (Ctrl+V) ثم Enter. بعدها اضغط «التفاصيل» تحت التطبيق وفعّل «بدء التطبيق عند تسجيل الدخول للجهاز».'
+        : '✅ تم نسخ العنوان. افتح تبويبًا جديدًا (Ctrl+T) والصقه (Ctrl+V) ثم Enter. بعدها اضغط كليك يمين على أيقونة التطبيق واختر «تشغيل التطبيق عند تسجيل الدخول».';
+      var stepEn = isEdge
+        ? '✅ Address copied. Open a new tab (Ctrl+T), paste it (Ctrl+V) and press Enter. Then click “Details” under the app and turn on “Start app on device sign-in”.'
+        : '✅ Address copied. Open a new tab (Ctrl+T), paste it (Ctrl+V) and press Enter. Then right-click the app icon and choose “Start app when you sign in”.';
+      _pwaSetText(noteText, stepAr, stepEn);
+      _pwaSetText(btnText, '✅ تم النسخ', '✅ Copied');
+      clearTimeout(_pwaStartupTimer);
+      _pwaStartupTimer = setTimeout(function() {
+        _pwaSetText(btnText, '📋 نسخ عنوان صفحة التطبيقات', '📋 Copy apps page address');
+      }, 2500);
+    } else {
+      // فشل النسخ: نعرض العنوان للنسخ اليدوى (العنوان فوق متحدد بضغطة واحدة)
+      _pwaSetText(noteText,
+        'تعذّر النسخ تلقائيًا. انسخ العنوان الظاهر أعلاه يدويًا والصقه فى تبويب جديد.',
+        'Automatic copy failed. Copy the address shown above manually and paste it in a new tab.');
+    }
+  });
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _pwaRefreshStartupUI); else _pwaRefreshStartupUI();
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
