@@ -1686,7 +1686,7 @@ function _stationNameKey(name) {
   if (n.indexOf('الانبياء') !== -1) return 'anbiya';
   if (n.indexOf('الحديث') !== -1) return 'hadith';
   if (n.indexOf('اذاعه القران') !== -1) return n.indexOf('متنوع') !== -1 ? 'variety' : 'radio';
-  if (n === 'القران الكريم') return 'quran';
+  if (n === 'القران الكريم' || (n.indexOf('القران الكريم') === 0 && n.indexOf('مصحف') !== -1)) return 'quran';
   if (n === 'اذاعه الشيخ') return 'sheikh';
   return null;
 }
