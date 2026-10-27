@@ -3155,7 +3155,7 @@ setTimeout(autoScaleVerseFont, 100);
              onchange="setWelcomeAutoSwitchDuration()">
     </div>
     <div id="settings-flag-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
-      <label for="buttonsFlagToggle" class="wtb-text" data-ar="🇵🇸 علم فلسطين بالأزرار" data-en="🇵🇸 Palestine Flag on Buttons" data-fr="🇵🇸 Drapeau palestinien sur les boutons" data-es="🇵🇸 Bandera de Palestina en los botones" data-sv="🇵🇸 Palestinsk flagga på knapparna" data-nl="🇵🇸 Palestijnse vlag op knoppen" data-ga="🇵🇸 Bratach na Palaistíne ar na cnaipí" data-de="🇵🇸 Palästina-Flagge auf den Buttons" data-ru="🇵🇸 Флаг Палестины на кнопках" data-tr="🇵🇸 Butonlarda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina nos botões" data-zh="🇵🇸 按钮上的巴勒斯坦国旗" data-ur="🇵🇸 بٹنوں پر فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بالأزرار</label>
+      <label for="buttonsFlagToggle" class="wtb-text" data-ar="🇵🇸 علم فلسطين بشريط المشغّل" data-en="🇵🇸 Palestine Flag in the Player Bar" data-fr="🇵🇸 Drapeau palestinien dans la barre du lecteur" data-es="🇵🇸 Bandera de Palestina en la barra del reproductor" data-sv="🇵🇸 Palestinsk flagga i spelarfältet" data-nl="🇵🇸 Palestijnse vlag in de spelerbalk" data-ga="🇵🇸 Bratach na Palaistíne sa bharra seinnteora" data-de="🇵🇸 Palästina-Flagge in der Player-Leiste" data-ru="🇵🇸 Флаг Палестины в панели плеера" data-tr="🇵🇸 Oynatıcı çubuğunda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina na barra do player" data-zh="🇵🇸 播放器栏中的巴勒斯坦国旗" data-ur="🇵🇸 پلیئر بار میں فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بشريط المشغّل</label>
       <input type="checkbox" id="buttonsFlagToggle" class="wtb-switch" onchange="toggleButtonsFlagSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('buttonsFlagToggle');if(_cb){_cb.checked=(localStorage.getItem('buttonsFlagHidden')!=='true');}})();</script>
@@ -4692,7 +4692,6 @@ setTimeout(autoScaleVerseFont, 100);
     }
 
     let inner = '';
-    if (s.hasFlag !== false) inner += '<span class="flag"></span>';
     inner += '<span class="station-text">' + s.ar + '</span>';
     inner += '<img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">';
     inner += '<span class="favorite-icon" onclick="toggleFavorite(event, \'' + s.station.replace(/'/g, "\'") + '\'); event.stopPropagation(); return false;">&#x2764;</span>';
@@ -4762,9 +4761,6 @@ function renderStationButtons(arr, container, opts) {
     var inner = '';
     var stationEsc = s.station.replace(/'/g, "\\'").replace(/\\/g, "\\\\");
 
-    if (s.hasFlag !== false) {
-      inner += '<span class="flag"></span>';
-    }
 
     if (s.hasTasbih) {
       btn.classList.add('has-tasbih');
@@ -4939,7 +4935,6 @@ function lazyRender(arr, container) {
     }
 
     btn.innerHTML =
-      '<span class="flag"></span>' +
       '<span class="station-text">' + stationLabel + '</span>' +
       '<img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">' +
       '<span class="favorite-icon" onclick="toggleFavorite(event, \'' + s.station.replace(/'/g, "\\'") + '\'); event.stopPropagation(); return false;">&#x2764;</span>';
@@ -4968,7 +4963,6 @@ function lazyRender(arr, container) {
       "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
     );
     btn.innerHTML =
-      '<span class="flag"></span>' +
       '<span class="station-text">' + s.ar + '</span>' +
       '<img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">' +
       '<span class="favorite-icon" onclick="toggleFavorite(event, \'' + s.station.replace(/'/g, "\\'") + '\'); event.stopPropagation(); return false;">&#x2764;</span>';
@@ -5005,7 +4999,6 @@ function lazyRender(arr, container) {
     );
 
     btn.innerHTML =
-      '<span class="flag"></span>' +
       '<span class="station-text">' + s.en + '</span>' +
       '<img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">' +
       '<span class="favorite-icon" onclick="toggleFavorite(event,\'' + s.station.replace(/'/g, "\\'") + '\'); event.stopPropagation(); return false;">&#x2764;</span>';
@@ -5055,7 +5048,6 @@ function lazyRender(arr, container) {
       "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
     );
     btn.innerHTML =
-      '<span class="flag"></span>' +
       '<span class="station-text">' + s.ar + '</span>' +
       '<img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">' +
       '<span class="favorite-icon" onclick="toggleFavorite(event, \'' + s.station.replace(/'/g, "\\'") + '\'); event.stopPropagation(); return false;">&#x2764;</span>';
@@ -5096,7 +5088,6 @@ function lazyRender(arr, container) {
       "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
     );
     btn.innerHTML =
-      '<span class="flag"></span>' +
       '<span class="station-text">' + s.ar + '</span>' +
       '<img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">' +
       '<span class="favorite-icon" onclick="toggleFavorite(event, \'' + s.station.replace(/'/g, "\\'") + '\'); event.stopPropagation(); return false;">&#x2764;</span>';
@@ -5143,7 +5134,6 @@ function lazyRender(arr, container) {
     }
 
     btn.innerHTML =
-      '<span class="flag"></span>' +
       '<span class="station-text">' + displayText + '</span>' +
       '<img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">' +
       '<span class="favorite-icon" onclick="toggleFavorite(event, \'' + favKey.replace(/'/g, "\'") + '\'); event.stopPropagation(); return false;">&#x2764;</span>';
@@ -6891,7 +6881,6 @@ const moreTranslations = [{
       }
 
       btn.innerHTML =
-        '<span class="flag"></span>' +
         '<span class="station-text">' + s.ar + '</span>' +
         (s.newTab ? '<span class="newtab-marker" title="يفتح في تبويب جديد | Opens in new tab">↗</span>' : '') +
         '<img src="https://cdn.instant.audio/images/equalizer.gif" class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">' +
@@ -6913,7 +6902,6 @@ const moreTranslations = [{
     data-en="Al-Qatami Drive"
     data-fr="Al-Qatami Drive" data-es="Al-Qatami Drive" data-sv="Al-Qatami Drive" data-nl="Al-Qatami Drive" data-ga="Al-Qatami Drive" data-de="Al-Qatami Drive" data-ru="Al-Qatami Диск" data-tr="Al-Qatami Drive" data-pt="Al-Qatami Drive" data-zh="Al-Qatami 云端硬盘" data-ur="Al-Qatami ڈرائیو"
     style="float: right; text-align: center;">
-    <span class="flag"></span>
     <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
         <div>
             <a href="https://drive.google.com/drive/folders/1CfzFkv410IXUxb8_Baw84-4XfVJI37J2?usp=sharing" target="_blank" style="margin: 0 3px; font-size: 18px;">①</a>
@@ -6945,7 +6933,6 @@ const moreTranslations = [{
     ]'
     style="padding: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;">
 
-    <span class="flag"></span>
 
 <span class="station-text triple-icon"
       style="font-size: 28px; padding: 14px;"
@@ -7016,7 +7003,6 @@ const moreTranslations = [{
     data-en="📡 / ♟️ / 📜"
     style="font-size: 16px; padding: 10px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
 
-    <span class="flag"></span>
 
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
@@ -7057,7 +7043,6 @@ const moreTranslations = [{
     style="opacity: 0.7; border: 1px dashed #999; position: relative;"
     onclick="window.open('https://median.co/share/xxaowo', '_blank');">
 
-  <span class="flag"></span>
 
   <span class="station-text" style="font-size: 18px;">
     🤖 تحميل التطبيق
@@ -7090,7 +7075,6 @@ const moreTranslations = [{
     style="border: 2px solid #28a745; background: #eafaf1; position: relative;"
     onclick="window.open('https://median.co/share/bnakxxn#androidphone', '_blank');">
 
-  <span class="flag"></span>
 
   <span class="station-text" style="font-size: 20px; font-weight: bold;">
     🤖 تحميل التطبيق
@@ -7137,7 +7121,7 @@ const moreTranslations = [{
 </div>
 
 <div class="isolated-radio-player" id="isolatedRadioWrapper">
-    <img class="flag-bg-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Palestine.svg/1920px-Flag_of_Palestine.svg.png" alt="علم فلسطين" loading="lazy">
+    <img class="flag-bg-img" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%206%203'%3E%3Crect%20width='6'%20height='1'%20fill='%23000'/%3E%3Crect%20y='1'%20width='6'%20height='1'%20fill='%23fff'/%3E%3Crect%20y='2'%20width='6'%20height='1'%20fill='%23007a3d'/%3E%3Cpath%20d='M0%200l2%201.5L0%203z'%20fill='%23ce1126'/%3E%3C/svg%3E" alt="علم فلسطين" loading="lazy">
     <div class="isolated-controls">
         <button class="isolated-play-button" id="isolatedPlayPauseButton">&#9658;</button>
         <button class="isolated-play-button isolated-share-button" id="isolatedShareButton" title="مشاركة المحطة الحالية / Share this station" aria-label="Share station" onclick="event.stopPropagation(); shareCurrentStation();">
@@ -34142,6 +34126,8 @@ document.addEventListener('DOMContentLoaded', function() {
       '<span id="pnb-dot" class="live-dot-player" style="display:none;"></span>',
       '<span id="pnb-name">اختر محطة...</span>',
       '</span>',
+
+      '<span id="pnb-flag" role="img" aria-label="علم فلسطين" title="🇵🇸"></span>',
 
       '<button id="pnb-copy" title="نسخ رابط المحطة" aria-label="نسخ رابط المحطة">',
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">',
