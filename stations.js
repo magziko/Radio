@@ -136,6 +136,13 @@ const quranRadioStations = [
   "en": "Holy Quran Radio Bahrain",
   "url": "https://5c7b683162943.streamlock.net/live/ngrp:radio-106-1_all/playlist.m3u8"
 },
+    {
+  "category": "Radio",
+  "station": "إذاعة القرآن الكريم الكويت",
+  "ar": "إذاعة القرآن الكريم الكويت",
+  "en": "Holy Quran Radio Kuwait",
+  "url": "https://way2quran.com/api/external-radio/stream/kuwait-quran"
+},
   {
     "category": "Radio",
     "station": "إذاعة القرآن الكريم الشارقة",
