@@ -164,7 +164,7 @@ const quranRadioStations = [
   "station": "إذاعة القرآن الكريم الكويت",
   "ar": "إذاعة القرآن الكريم الكويت",
   "en": "Kuwait Holy Quran Radio",
-  "url": "https://way2quran.com/api/external-radio/stream/kuwait-quran"
+  "url": "https://kwtkrdota.cdn.mangomolo.com/qrrdo/qrrdo.stream_aac/chunklist.m3u8"
 },
 
   {
