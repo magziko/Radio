@@ -24,13 +24,27 @@
   var hasMse = !!(window.MediaSource || window.ManagedMediaSource);
   var nativeHls = isApple || !hasMse;
 
+  function isW2Q(u) { return /^https?:\/\/([^\/]*\.)?way2quran\.com\//i.test(u || ''); }
+
+  // way2quran بيرفض (403) أي طلب جاي من موقع تاني حسب الـ Referer، فنشيل الـ Referer لحظة الطلب بس
+  var refTimer = null;
+  function noReferrerBriefly() {
+    var m = document.querySelector('meta[name="referrer"][data-w2q]');
+    if (!m) {
+      m = document.createElement('meta');
+      m.name = 'referrer'; m.content = 'no-referrer'; m.setAttribute('data-w2q', '1');
+      document.head.appendChild(m);
+    }
+    clearTimeout(refTimer);
+    refTimer = setTimeout(function () { if (m.parentNode) m.parentNode.removeChild(m); }, 8000);
+  }
+
   function isHlsUrl(u) {
     if (!u || typeof u !== 'string') return false;
     if (/^(blob|data):/i.test(u)) return false;
+    // way2quran بث صوتي مباشر عادي (بيشتغل في عنصر <audio>) ويرفض طلبات XHR من نطاقات تانية
+    if (isW2Q(u)) return false;
     if (/\.m3u8(\?|#|$)/i.test(u)) return true;
-    if (/[?&]ext=\.m3u8/i.test(u)) return true;
-    // روابط way2quran: مرشّحة لـ HLS، ولو مش HLS بنرجع للتشغيل المباشر
-    if (/way2quran\.com\/api\/external-radio\/stream\//i.test(u)) return true;
     return false;
   }
 
@@ -121,6 +135,7 @@
       attach(el, url);
       return;
     }
+    if (isW2Q(url)) noReferrerBriefly();
     el.__hlsFallback = null;
     var had = el.__hls || el.__hlsPending;
     destroy(el);
@@ -157,6 +172,8 @@
       }
     }
     this.__wantPlay = true;
+    var cur = this.getAttribute('src');
+    if (cur && isW2Q(cur)) noReferrerBriefly();
     if (this.__hlsPending) return Promise.resolve();  // hls.js بيشغّل أول ما يجهز
     return nativePlay.apply(this, arguments);
   };
