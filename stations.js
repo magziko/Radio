@@ -136,13 +136,37 @@ const quranRadioStations = [
   "en": "Holy Quran Radio Bahrain",
   "url": "https://5c7b683162943.streamlock.net/live/ngrp:radio-106-1_all/playlist.m3u8"
 },
-    {
+  
+{
+  "category": "Radio",
+  "station": "القرآن الكريم الأردنية",
+  "ar": "القرآن الكريم الأردنية",
+  "en": "Jordan Holy Quran Radio",
+  "url": "https://jrtv-live.ercdn.net/jrradio/quranradio.m3u8"
+},
+
+{
+  "category": "Radio",
+  "station": "القرآن الكريم - قطر 106",
+  "ar": "القرآن الكريم - قطر 106",
+  "en": "Qatar Holy Quran Radio 2 (106 FM)",
+  "url": "https://way2quran.com/api/external-radio/stream/qatar-quran-2?ext=.m3u8"
+},
+{
+  "category": "Radio",
+  "station": "القرآن الكريم - قطر 103.4",
+  "ar": "القرآن الكريم - قطر 103.4",
+  "en": "Qatar Holy Quran Radio (103.4 FM)",
+  "url": "https://way2quran.com/api/external-radio/stream/qatar-quran?ext=.m3u8"
+}, 
+{
   "category": "Radio",
   "station": "إذاعة القرآن الكريم الكويت",
   "ar": "إذاعة القرآن الكريم الكويت",
-  "en": "Holy Quran Radio Kuwait",
+  "en": "Kuwait Holy Quran Radio",
   "url": "https://way2quran.com/api/external-radio/stream/kuwait-quran"
 },
+
   {
     "category": "Radio",
     "station": "إذاعة القرآن الكريم الشارقة",
