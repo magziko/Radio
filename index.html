@@ -4722,7 +4722,7 @@ setTimeout(autoScaleVerseFont, 100);
         "if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('" + s.url + "', '_blank'); } else { openModal('" + s.url + "', '" + s.ar + "'); }"
       );
     } else if (s.external) {
-      btn.setAttribute('onclick', "window.open('" + s.url + "', '_blank');");
+      btn.setAttribute('onclick', "window.open('" + s.url + "', '_blank', 'noopener,noreferrer');");
     } else if (s.url === 'https://sawtelghad.org:8888/;') {
       btn.setAttribute('onclick',
         "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
