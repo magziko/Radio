@@ -147,20 +147,6 @@ const quranRadioStations = [
 
 {
   "category": "Radio",
-  "station": "القرآن الكريم - قطر 106",
-  "ar": "القرآن الكريم - قطر 106",
-  "en": "Qatar Holy Quran Radio 2 (106 FM)",
-  "url": "https://way2quran.com/api/external-radio/stream/qatar-quran-2?ext=.m3u8"
-},
-{
-  "category": "Radio",
-  "station": "القرآن الكريم - قطر 103.4",
-  "ar": "القرآن الكريم - قطر 103.4",
-  "en": "Qatar Holy Quran Radio (103.4 FM)",
-  "url": "https://way2quran.com/api/external-radio/stream/qatar-quran?ext=.m3u8"
-}, 
-{
-  "category": "Radio",
   "station": "إذاعة القرآن الكريم الكويت",
   "ar": "إذاعة القرآن الكريم الكويت",
   "en": "Kuwait Holy Quran Radio",
@@ -298,6 +284,22 @@ const quranRadioStations = [
     "ar": "إذاعة القرآن الكريم – قطر",
     "en": "Qatar Quran Radio",
     "url": "https://www.quranradio.qa/",
+    "external": true
+  },
+  {
+    "category": "radio-external",
+    "station": "القرآن الكريم - قطر 106",
+    "ar": "القرآن الكريم - قطر 106 FM",
+    "en": "Qatar Holy Quran Radio 2 (106 FM)",
+    "url": "https://way2quran.com/api/external-radio/stream/qatar-quran-2?ext=.m3u8",
+    "external": true
+  },
+  {
+    "category": "radio-external",
+    "station": "القرآن الكريم - قطر 103.4",
+    "ar": "القرآن الكريم - قطر 103.4 FM",
+    "en": "Qatar Holy Quran Radio (103.4 FM)",
+    "url": "https://way2quran.com/api/external-radio/stream/qatar-quran?ext=.m3u8",
     "external": true
   },
   {
