@@ -3123,6 +3123,13 @@ setTimeout(autoScaleVerseFont, 100);
         <option value="10800000" data-ar="⏱️ كل 3 ساعات" data-en="⏱️ Every 3 hours" data-fr="⏱️ Toutes les 3 heures" data-es="⏱️ Cada 3 horas" data-sv="⏱️ Var 3:e timme" data-nl="⏱️ Elke 3 uur" data-ga="⏱️ Gach 3 huaire" data-de="⏱️ Alle 3 Stunden" data-ru="⏱️ Каждые 3 часа" data-tr="⏱️ Her 3 saatte" data-pt="⏱️ A cada 3 horas" data-zh="⏱️ 每3小时" data-ur="⏱️ ہر 3 گھنٹے">⏱️ كل 3 ساعات</option>
       </select>
     </div>
+    <div class="color-setting-item" id="themeDimGroup" data-stab="look" title="تعتيم خلفيات الصور والفيديو لتوضيح النصوص / Darken photo & video backgrounds">
+      <label for="themeDimSlider" data-ar="🌗 درجة التعتيم" data-en="🌗 Dim Level" data-fr="🌗 Niveau d’assombrissement" data-es="🌗 Nivel de oscurecimiento" data-sv="🌗 Mörkningsnivå" data-nl="🌗 Donkerheid" data-ga="🌗 Leibhéal Dorchaithe" data-de="🌗 Abdunkelung" data-ru="🌗 Затемнение" data-tr="🌗 Karartma Düzeyi" data-pt="🌗 Nível de escurecimento" data-zh="🌗 变暗程度" data-ur="🌗 اندھیرے کی سطح">🌗 درجة التعتيم</label>
+      <div style="display:flex;align-items:center;gap:10px;width:100%;">
+        <input type="range" id="themeDimSlider" min="0" max="85" step="5" value="0" style="flex:1;min-width:0;cursor:pointer;" oninput="setThemeDim(this.value)">
+        <span id="themeDimValue" style="min-width:42px;text-align:center;font-weight:700;">0%</span>
+      </div>
+    </div>
   </div>
 
   
@@ -22929,6 +22936,52 @@ var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-sl
 // ثيمات الصور المستخدمة في العرض التعريفي التلقائي للزوار الجدد (انظر themeShowcase أدناه)
 var PHOTO_SHOWCASE_THEMES = ['tropical-beach', 'clear-shore', 'beach-sunset', 'tropical-island', 'coral-reef-world', 'heart-of-nature', 'forest-waterfall', 'rocky-shore', 'sunny-meadow', 'kyoto-night', 'golden-sunset-field', 'masjid-al-haram', 'nabawi-dusk', 'dome-of-rock', 'kaaba', 'nabawi-day', 'al-quds', 'nabawi-courtyard', 'golden-quds', 'islamic-mosaic', 'prophetic-calligraphy', 'nabawi-umbrellas', 'night-quran', 'emerald-cover', 'green-dome', 'mosque-arches', 'blue-dome-ceiling', 'verses-of-light', 'madinah-nights', 'minaret-sunset', 'mosque-tranquility', 'dome-and-roses', 'dome-ornament', 'cairo-minarets', 'golden-mosque-hall', 'istanbul-sunset', 'quran-light', 'islamic-photo-1', 'islamic-photo-2', 'islamic-photo-3', 'misty-lake-dawn', 'amber-lake-sunset', 'sea-of-clouds', 'misty-mountain-lake', 'layered-mountains', 'golden-ridge-sunrise', 'dusty-mountain-dusk', 'amber-mountain-lake', 'lavender-lake-sunset', 'palm-beach-sunset', 'wildflower-highlands', 'coastal-palm-sunset', 'crashing-waves', 'northern-lights', 'poppy-field-sunset', 'blossom-garden', 'canyon-waterfall', 'meadow-sunset-clouds', 'clouds-and-sky', 'limestone-lagoon', 'rocky-cove-mist', 'lone-tree-twilight', 'sunlit-forest-path', 'autumn-forest', 'sunrays-forest', 'forest-light-trail', 'moonlit-sky', 'coastal-blue-view', 'sunset-ocean-clouds', 'milky-way-night'];
 
+// ── درجة تعتيم الثيمات (خلفيات الصور والفيديو) ──
+// طبقة سوداء شفافة فوق الخلفية وتحت المحتوى؛ تُحفظ في localStorage ولا تؤثر على الثيمات اللونية العادية
+function _themeDimGet() {
+  var v = 0;
+  try { v = parseInt(localStorage.getItem('themeDim'), 10); } catch (e) {}
+  return (isFinite(v) && v > 0) ? Math.min(v, 85) : 0;
+}
+function applyThemeDim() {
+  var pct = _themeDimGet();
+  var el = document.getElementById('themeDimOverlay');
+  var media = document.body.classList.contains('media-theme-glass');
+  if (!el) {
+    if (!pct || !media) return;
+    el = document.createElement('div');
+    el.id = 'themeDimOverlay';
+    el.style.cssText = 'position:fixed;top:0;right:0;bottom:0;left:0;background:#000;pointer-events:none;transition:opacity .2s;';
+    var ref = document.getElementById('bgThemeVideoOverlay');
+    if (ref && ref.parentNode) ref.parentNode.insertBefore(el, ref.nextSibling);
+    else document.body.insertBefore(el, document.body.firstChild);
+  }
+  // نفس طبقة overlay الفيديو (وبعدها في ترتيب الصفحة) كي تبقى فوق الخلفية وتحت المحتوى
+  var z = -1;
+  try {
+    var ref2 = document.getElementById('bgThemeVideoOverlay');
+    var zz = parseInt(getComputedStyle(ref2).zIndex, 10);
+    if (isFinite(zz)) z = zz;
+  } catch (e) {}
+  el.style.zIndex = String(z);
+  el.style.opacity = (media ? pct / 100 : 0);
+  el.style.display = (media && pct > 0) ? 'block' : 'none';
+}
+function setThemeDim(v) {
+  var n = Math.max(0, Math.min(85, parseInt(v, 10) || 0));
+  try { localStorage.setItem('themeDim', String(n)); } catch (e) {}
+  var lbl = document.getElementById('themeDimValue');
+  if (lbl) lbl.textContent = n + '%';
+  applyThemeDim();
+}
+(function initThemeDimUI() {
+  var s = document.getElementById('themeDimSlider');
+  var n = _themeDimGet();
+  if (s) s.value = n;
+  var lbl = document.getElementById('themeDimValue');
+  if (lbl) lbl.textContent = n + '%';
+})();
+
 function applySiteTheme(theme, save) {
   if (save === undefined) save = true;
   if (!theme) return;
@@ -22960,6 +23013,7 @@ function applySiteTheme(theme, save) {
     if (preset.cls) document.body.classList.add(preset.cls);
   }
   document.body.classList.toggle('media-theme-glass', isMediaTheme);
+  try { applyThemeDim(); } catch (e) {}
 
   // ثيمات الفيديو المتحرك: أظهر/أخفِ فيديو الخلفية الثابت حسب الثيم المختار
   try {
