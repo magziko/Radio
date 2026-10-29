@@ -11280,3 +11280,40 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
 .button.has-tasbih.completed .tasbih-box.tb-line-running::after {
     background: conic-gradient(var(--theme-g1, #1D9E75) var(--tb-prog, 0%), rgba(var(--theme-g1-rgb, 29,158,117), 0.20) 0);
 }
+
+/* ==========================================================================
+   موبايل/شاشات صغيرة: علم فلسطين بجانب اسم المحطة + منع خروج شريط المشغّل عن الإطار
+   (في آخر الملف عشان تتغلّب على القواعد الأقدم بنفس الأولوية)
+   ========================================================================== */
+/* موبايل/شاشات صغيرة: علم فلسطين ينتقل من شريط المشغّل (السطر الأول) إلى جانب اسم المحطة في السطر الثاني،
+   لتخفيف زحمة الشريط ومنع خروج الأزرار عن الإطار. يحترم إعداد "علم فلسطين بشريط المشغّل". */
+@media (max-width: 600px) {
+  #pnb-flag { display: none !important; }
+  body:not(.hide-buttons-flag) #status::before {
+    content: "";
+    display: inline-block;
+    width: 22px;
+    height: 15px;
+    margin-inline-end: 7px;
+    vertical-align: -2px;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.18);
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'%3E%3Crect width='60' height='13.34' fill='%23000'/%3E%3Crect y='13.33' width='60' height='13.34' fill='%23fff'/%3E%3Crect y='26.66' width='60' height='13.34' fill='%23009736'/%3E%3Cpath d='M0 0L24 20L0 40Z' fill='%23ee2a35'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  }
+}
+/* شاشات ضيقة: تصغير أزرار شريط المشغّل بالتدريج كي لا يخرج الشريط عن الإطار ويسحب الصفحة لليمين */
+@media (max-width: 380px) {
+  #player-nav-bar { gap: 3px; padding: 5px 5px; }
+  #player-nav-bar .pnb-btn { width: 30px; height: 30px; }
+  #player-nav-bar #pnb-play { width: 38px; height: 38px; min-width: 38px; min-height: 38px; }
+  #pnb-copy, #pnb-share, #pnb-download { width: 26px; height: 26px; }
+}
+@media (max-width: 345px) {
+  #player-nav-bar .pnb-btn { width: 28px; height: 28px; }
+  #player-nav-bar #pnb-play { width: 34px; height: 34px; min-width: 34px; min-height: 34px; }
+  #pnb-copy, #pnb-share, #pnb-download { width: 24px; height: 24px; }
+  #player-nav-bar .pnb-divider { display: none; }
+}
+#player-nav-bar { max-width: 100%; box-sizing: border-box; }
+/* مناطق اللمس الشفافة (44px) حول الأزرار الطرفية كانت تتجاوز حافة الشريط وتزيح الصفحة أفقيًا */
+@supports (overflow: clip) { #player-nav-bar { overflow-x: clip; } }
