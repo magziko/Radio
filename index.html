@@ -2616,7 +2616,7 @@ setTimeout(autoScaleVerseFont, 100);
 <button class="filter-button" data-ar="محطات إسلامية" data-en="Islamic Mix" data-fr="Mix islamique" data-es="Mezcla islámica" data-sv="Islamisk mix" data-nl="Islamitische mix" data-ga="Meascán Ioslamach" data-de="Islamischer Mix" data-ru="Исламский микс" data-tr="İslami Karışık" data-pt="Mix Islâmico" data-zh="伊斯兰综合" data-ur="اسلامی مکس" onclick="filterStations('mix')">محطات إسلامية</button>
 <button class="filter-button" data-ar="البث المرئي" data-en="Live Video" data-fr="Vidéo en direct" data-es="Video en vivo" data-sv="Livevideo" data-nl="Live video" data-ga="Físeán Beo" data-de="Live-Video" data-ru="Прямой эфир" data-tr="Canlı Yayın" data-pt="Vídeo ao Vivo" data-zh="视频直播" data-ur="لائیو ویڈیو" onclick="filterStations('LiveTV')">البث المرئي</button>
 
-<button class="filter-button" data-ar="المزيد" data-en="More" data-fr="Plus" data-es="Más" data-sv="Mer" data-nl="Meer" data-ga="Tuilleadh" data-de="Mehr" data-ru="Ещё" data-tr="Daha Fazla" data-pt="Mais" data-zh="更多" data-ur="مزید" onclick="filterStations('More')">المزيد</button>
+<button class="filter-button" data-ar="المزيد" data-en="More" data-fr="Plus" data-es="Más" data-sv="Mer" data-nl="Meer" data-ga="Tuilleadh" data-de="Mehr" data-ru="Ещё" data-tr="Daha Fazla" data-pt="Mais" data-zh="更多" data-ur="مزید" onclick="moreFilterPress(); filterStations('More')">المزيد</button>
 
 <button class="filter-button" data-ar="كل الإذاعات" data-en="All Stations" data-fr="Toutes les stations" data-es="Todas las emisoras" data-sv="Alla stationer" data-nl="Alle stations" data-ga="Gach Stáisiún" data-de="Alle Sender" data-ru="Все радиостанции" data-tr="Tüm İstasyonlar" data-pt="Todas as Estações" data-zh="所有电台" data-ur="تمام اسٹیشنز" onclick="filterStations('all')">كل الإذاعات</button>
 
@@ -7040,6 +7040,7 @@ const moreTranslations = [{
 <button class="button palestine triple-click no-auto-play"
     data-category="more-sites"
     data-hidden-sub="true"
+    data-more-secret="true"
     data-station="📡 / ♟️ / 📜"
     data-ar="📡 / ♟️ / 📜"
     data-en="📡 / ♟️ / 📜"
@@ -7062,6 +7063,16 @@ const moreTranslations = [{
           data-target="https://docs.google.com/document/d/1DuuwsJ4mIs7PGvGRXNOYK9A9B6zAZHdZE2_5vMi8w5k/edit?usp=sharing"
           data-password="A@1"
           onclick="handleTripleClickWithPassword(this)">📜</span>
+
+    <span class="station-text triple-icon"
+          style="font-size: 28px; padding: 12px;"
+          title="POS"
+          onclick="checkPwdThenOpen('https://magziko.github.io/Pos/')">🧾</span>
+
+    <span class="station-text triple-icon"
+          style="font-size: 28px; padding: 12px;"
+          title="Menu"
+          onclick="checkPwdThenOpen('https://magzikopops-ui.github.io/menu/')">🍽️</span>
 
     <img src="https://cdn.instant.audio/images/equalizer.gif"
          class="equalizer"
@@ -18567,8 +18578,18 @@ function smartScrollToStations(firstVisibleBtn, extraDelay, forceToButton) {
   }, delay);
 }
 
+// ── الزر السري في فلتر "المزيد": يظهر فقط بعد الضغط على "المزيد" مرتين متتاليتين ──
+// (أي فلتر رئيسي آخر يقفله من جديد. وفي المفضلة يظهر عادي لو كان مضاف للمفضلة)
+var _moreSecret = { count: 0, unlocked: false };
+function moreFilterPress() {
+  var wasMore = (window._lastActiveCategory === 'More');
+  _moreSecret.count = wasMore ? _moreSecret.count + 1 : 1;
+  _moreSecret.unlocked = _moreSecret.count >= 2;
+}
+
 function filterStations(category) {
   window._lastActiveCategory = category;
+  if (category !== 'More') { _moreSecret.count = 0; _moreSecret.unlocked = false; }
 
   // إلغاء وضع التركيز الموسّع لأى ذكر عند مغادرة قسم الأذكار
   if (category !== 'Adhkar') {
@@ -18670,6 +18691,8 @@ function filterStations(category) {
     } else {
       shouldShow = (cat === realCat) && !hasSpecialAttr;
     }
+
+    if (button.hasAttribute('data-more-secret') && !_moreSecret.unlocked) shouldShow = false;
 
     if (shouldShow !== undefined) {
       button.style.display = shouldShow ? 'block' : 'none';
@@ -27621,7 +27644,9 @@ function filterMoreSub(subType, btn) {
   allMoreCats.forEach(function(cat) {
     document.querySelectorAll('button[data-category="' + cat + '"]').forEach(function(b) {
       var show;
-      if (b.hasAttribute('data-hidden-sub')) {
+      if (b.hasAttribute('data-more-secret') && _moreSecret.unlocked) {
+        show = (subType === 'all') ? true : (cat === subType);
+      } else if (b.hasAttribute('data-hidden-sub')) {
         show = false;
       } else {
         show = (subType === 'all') ? true : (cat === subType);
