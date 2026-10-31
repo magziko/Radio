@@ -17278,6 +17278,9 @@ function applyInitialLanguage() {
     var randomSeekLblInit = document.querySelector('label[for="randomSeekToggle"]');
     if (randomSeekLblInit) randomSeekLblInit.textContent = randomSeekLblInit.getAttribute('data-en');
 
+    var holdSeekLblInit = document.querySelector('label[for="holdSeekToggle"]');
+    if (holdSeekLblInit) holdSeekLblInit.textContent = holdSeekLblInit.getAttribute('data-en');
+
     var fullRandomLblInit = document.querySelector('label[for="fullRandomUrlToggle"]');
     if (fullRandomLblInit) fullRandomLblInit.textContent = fullRandomLblInit.getAttribute('data-en');
 
@@ -21642,6 +21645,9 @@ function toggleLanguage() {
 
   var randomSeekLbl = document.querySelector('label[for="randomSeekToggle"]');
   if (randomSeekLbl) randomSeekLbl.textContent = isArabic ? randomSeekLbl.getAttribute('data-ar') : randomSeekLbl.getAttribute('data-en');
+
+  var holdSeekLbl = document.querySelector('label[for="holdSeekToggle"]');
+  if (holdSeekLbl) holdSeekLbl.textContent = isArabic ? holdSeekLbl.getAttribute('data-ar') : holdSeekLbl.getAttribute('data-en');
 
   var fullRandomLbl = document.querySelector('label[for="fullRandomUrlToggle"]');
   if (fullRandomLbl) fullRandomLbl.textContent = isArabic ? fullRandomLbl.getAttribute('data-ar') : fullRandomLbl.getAttribute('data-en');
@@ -38079,13 +38085,13 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
    - ضغطة عادية: تغيير المحطة زى الأول
    - ضغطة مطولة قصيرة (≈0.45 ثانية): 5 ثوانٍ
    - ضغطة مطولة أطول (≈1.2 ثانية): 10 ثوانٍ
-   الخيار بيتحكم فيه زر فى الإعدادات (holdSeekEnabled) — افتراضياً مقفول
+   الخيار بيتحكم فيه زر فى الإعدادات (holdSeekEnabled) — افتراضياً مفعّل
    ══════════════════════════════════════════════════════════════ */
 (function () {
   var HOLD_SHORT_MS = 450, HOLD_LONG_MS = 1200;
 
   window.isHoldSeekEnabled = function () {
-    try { return localStorage.getItem('holdSeekEnabled') === 'true'; } catch (e) { return false; }
+    try { return localStorage.getItem('holdSeekEnabled') !== 'false'; } catch (e) { return true; }
   };
   window.toggleHoldSeekSetting = function () {
     var cb = document.getElementById('holdSeekToggle');
