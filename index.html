@@ -3669,6 +3669,10 @@ setTimeout(autoScaleVerseFont, 100);
     <div class="aqx-boost-row" id="recLoopGroup" style="display:flex;flex-direction:column;align-items:stretch;gap:8px;">
       <div id="recLoopTitle" style="font-weight:700;font-size:14px;">🎙️ تسجيل مقطع للتكرار عند انقطاع الإنترنت</div>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <label id="recLoopSrcLbl" for="recLoopSrc" style="font-size:13px;">مصدر التسجيل</label>
+        <select id="recLoopSrc" onchange="window.recLoopSetSrc && window.recLoopSetSrc(this.value)" style="width:150px;text-align:center;padding:4px 6px;font-size:14px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;"></select>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
         <label id="recLoopMaxLbl" for="recLoopMax" style="font-size:13px;">أقصى مدة للتسجيل</label>
         <select id="recLoopMax" onchange="window.recLoopSetMax && window.recLoopSetMax(this.value)" style="width:110px;text-align:center;padding:4px 6px;font-size:14px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;"></select>
       </div>
@@ -3676,6 +3680,8 @@ setTimeout(autoScaleVerseFont, 100);
         <button type="button" id="recLoopRecBtn" onclick="window.recLoopToggleRecord && window.recLoopToggleRecord()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🔴 تسجيل</button>
         <button type="button" id="recLoopPlayBtn" onclick="window.recLoopTogglePreview && window.recLoopTogglePreview()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">▶️ تجربة</button>
         <button type="button" id="recLoopDelBtn" onclick="window.recLoopDelete && window.recLoopDelete()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🗑️ حذف</button>
+        <button type="button" id="recLoopImpBtn" onclick="window.recLoopImport && window.recLoopImport()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">📁 ملف</button>
+        <input type="file" id="recLoopFile" accept="audio/*" style="display:none">
       </div>
       <div id="recLoopInfo" style="font-size:12px;opacity:.85;"></div>
       <label style="display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;font-size:13px;">
@@ -21025,7 +21031,7 @@ function openSisterAppInstall() {
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
-var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
+var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|recLoopSrc|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
 
 function _settingsKeys() {
   var out = [];
@@ -38396,21 +38402,85 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     }
     return null;
   }
-  function getStream(a) {
+  function nativeStream(a) {
     try {
-      var s = typeof a.captureStream === 'function' ? a.captureStream() : (typeof a.mozCaptureStream === 'function' ? a.mozCaptureStream() : null);
-      if (s && s.getAudioTracks().length) return { stream: s };
+      var st = typeof a.captureStream === 'function' ? a.captureStream() : (typeof a.mozCaptureStream === 'function' ? a.mozCaptureStream() : null);
+      if (st && st.getAudioTracks().length) return { stream: st, source: 'direct' };
     } catch (e) {}
+    return null;
+  }
+  function chainStream(a) {
     var chain = window._audioChains && window._audioChains.get && window._audioChains.get(a);
     if (chain && window._boostCtx) {
       try {
         if (window._boostCtx.state === 'suspended') window._boostCtx.resume().catch(function () {});
         var d = window._boostCtx.createMediaStreamDestination();
         chain.gain.connect(d);
-        return { stream: d.stream, cleanup: function () { try { chain.gain.disconnect(d); } catch (e) {} } };
+        return { stream: d.stream, source: 'direct', cleanup: function () { try { chain.gain.disconnect(d); } catch (e) {} } };
       } catch (e) {}
     }
     return null;
+  }
+  // فحص CORS على عنصر وهمى (مفيش تأثير على المحطة الشغّالة)
+  function probeCors(url, cb) {
+    if (!url) { cb(false); return; }
+    try {
+      var p = new Audio(), done = false;
+      p.crossOrigin = 'anonymous'; p.muted = true; p.preload = 'auto';
+      var fin = function (ok) { if (done) return; done = true; try { p.src = ''; p.load(); } catch (e) {} cb(ok); };
+      p.addEventListener('loadedmetadata', function () { fin(true); }, { once: true });
+      p.addEventListener('canplay', function () { fin(true); }, { once: true });
+      p.addEventListener('error', function () { fin(false); }, { once: true });
+      setTimeout(function () { fin(false); }, 6000);
+      p.src = url; p.load();
+    } catch (e) { cb(false); }
+  }
+  // التقاط مباشر من عنصر الصوت: native → ممر الموقع الجاهز → فحص CORS وبناء ممر
+  function acquireDirect(a, cb) {
+    var g = nativeStream(a) || chainStream(a);
+    if (g) { cb(g); return; }
+    var cs = window._corsState ? window._corsState.get(a) : undefined;
+    if (cs === 'unsupported') { cb(null); return; }
+    if (cs === 'ok') { cb(chainStream(a)); return; }
+    probeCors(a.currentSrc || a.src, function (ok) {
+      if (!ok) { if (window._corsState) window._corsState.set(a, 'unsupported'); cb(null); return; }
+      if (typeof _probeAndBuildChain !== 'function' || !window._audioChains) { cb(null); return; }
+      _probeAndBuildChain(a, function (ok2) { cb(ok2 ? chainStream(a) : null); });
+    });
+  }
+  function isMobile() { return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || ''); }
+  // مشاركة صوت التبويبة (كروم/إيدج على الكمبيوتر فقط) — صوت نظيف من أى محطة
+  function acquireTab(cb) {
+    if (!navigator.mediaDevices || typeof navigator.mediaDevices.getDisplayMedia !== 'function' || isMobile()) {
+      note(T('مشاركة صوت التبويبة غير متاحة على هذا الجهاز — جرّب الميكروفون أو استيراد ملف', 'Tab-audio sharing isn\u2019t available on this device \u2014 try the microphone or import a file'), 5000);
+      cb(null); return;
+    }
+    note(T('اختر هذا التبويب وفعّل "مشاركة صوت التبويب"', 'Pick this tab and tick \u201cShare tab audio\u201d'), 5000);
+    navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then(function (st) {
+      var at = st.getAudioTracks();
+      st.getVideoTracks().forEach(function (t) { try { t.stop(); } catch (e) {} });
+      if (!at.length) {
+        st.getTracks().forEach(function (t) { try { t.stop(); } catch (e) {} });
+        note(T('لم تتم مشاركة صوت — أعد المحاولة وفعّل خيار الصوت', 'No audio was shared \u2014 try again and enable audio'), 5000);
+        cb(null); return;
+      }
+      cb({ stream: new MediaStream(at), source: 'tab', cleanup: function () { st.getTracks().forEach(function (t) { try { t.stop(); } catch (e) {} }); } });
+    }).catch(function (err) {
+      if (!(err && err.name === 'NotAllowedError')) note(T('تعذّر بدء مشاركة التبويبة', 'Couldn\u2019t start tab sharing'), 4000);
+      cb(null);
+    });
+  }
+  // تسجيل بالميكروفون (بيلتقط صوت السماعة) — بيشتغل على الموبايل وأى محطة
+  function acquireMic(cb) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { note(T('المتصفح لا يدعم الميكروفون', 'Microphone isn\u2019t supported'), 4000); cb(null); return; }
+    navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } }).then(function (st) {
+      note(T('🎤 التسجيل بالميكروفون — قرّب الجهاز من السماعة وقلّل الضوضاء', '🎤 Recording via microphone \u2014 keep the device near the speaker and reduce noise'), 5000);
+      cb({ stream: st, source: 'mic', cleanup: function () { st.getTracks().forEach(function (t) { try { t.stop(); } catch (e) {} }); } });
+    }).catch(function (err) {
+      var n = err && err.name;
+      note(n === 'NotAllowedError' ? T('تم رفض إذن الميكروفون', 'Microphone permission denied') : T('تعذّر فتح الميكروفون', 'Couldn\u2019t open the microphone'), 4000);
+      cb(null);
+    });
   }
   function watchSilence(stream) {
     try {
@@ -38432,18 +38502,31 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       if (rec) rec.silent = function () { clearInterval(iv); try { c.close(); } catch (e) {} };
     } catch (e) {}
   }
+  var acquiring = false;
+  function srcMode() { var v = 'auto'; try { v = localStorage.getItem('recLoopSrc') || 'auto'; } catch (e) {} return (v === 'tab' || v === 'mic') ? v : 'auto'; }
   function startRec() {
-    if (rec) return;
+    if (rec || acquiring) return;
     if (typeof MediaRecorder === 'undefined') { note(T('المتصفح لا يدعم التسجيل', 'This browser doesn\u2019t support recording'), 3500); return; }
-    var a = activeEl();
-    if (!a) { note(T('شغّل محطة أولاً ثم ابدأ التسجيل', 'Play a station first, then start recording'), 3500); return; }
-    var gs = getStream(a);
-    if (!gs) { note(T('تعذّر التقاط صوت هذه المحطة على هذا المتصفح', 'Can\u2019t capture this station\u2019s audio in this browser'), 4500); return; }
     ensureCtx();
+    var mode = srcMode(), done = function (gs) { acquiring = false; if (gs) beginRec(gs); refreshUI(); };
+    acquiring = true;
+    if (mode === 'tab') { acquireTab(done); return; }
+    if (mode === 'mic') { acquireMic(done); return; }
+    var a = activeEl();
+    if (!a) { acquiring = false; note(T('شغّل محطة أولاً ثم ابدأ التسجيل', 'Play a station first, then start recording'), 3500); return; }
+    acquireDirect(a, function (gs) {
+      if (gs) { done(gs); return; }
+      // الالتقاط المباشر مرفوض من سيرفر المحطة: كمبيوتر → صوت التبويبة، موبايل → الميكروفون
+      note(T('هذه المحطة لا تسمح بالتقاط صوتها مباشرة — جاري استخدام بديل', 'This station blocks direct capture \u2014 using a fallback'), 3500);
+      if (!isMobile() && navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) acquireTab(done);
+      else acquireMic(done);
+    });
+  }
+  function beginRec(gs) {
     var mime = pickMime(), chunks = [], mr;
     try { mr = mime ? new MediaRecorder(gs.stream, { mimeType: mime, audioBitsPerSecond: 64000 }) : new MediaRecorder(gs.stream); }
     catch (e) { if (gs.cleanup) gs.cleanup(); note(T('تعذّر بدء التسجيل', 'Couldn\u2019t start recording'), 3500); return; }
-    rec = { mr: mr, chunks: chunks, stream: gs.stream, cleanup: gs.cleanup, startTs: Date.now(), mime: mr.mimeType || mime || 'audio/webm', discard: false };
+    rec = { mr: mr, chunks: chunks, stream: gs.stream, cleanup: gs.cleanup, source: gs.source || 'direct', startTs: Date.now(), mime: mr.mimeType || mime || 'audio/webm', discard: false };
     mr.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
     mr.onstop = finishRec;
     mr.onerror = function () { stopRec(true); };
@@ -38476,9 +38559,9 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var blob = new Blob(r.chunks, { type: r.mime });
     if (loop) endLoop('replaced');
     if (preview) { preview.h.stop(0.1); preview = null; }
-    clip = { blob: blob, mime: r.mime, ms: ms, savedAt: Date.now(), buf: null, prepared: false };
+    clip = { blob: blob, mime: r.mime, ms: ms, savedAt: Date.now(), buf: null, prepared: false, src: r.source };
     ready = false;
-    var saved = { blob: blob, mime: r.mime, ms: ms, savedAt: clip.savedAt };
+    var saved = { blob: blob, mime: r.mime, ms: ms, savedAt: clip.savedAt, src: r.source };
     dbOp('readwrite', function (s) { return s.put(saved, KEY); }).catch(function () {
       note(T('تعذّر حفظ المقطع على الجهاز (هيشتغل لحد إغلاق الصفحة)', 'Couldn\u2019t save the clip on this device (works until the page closes)'), 5000);
     });
@@ -38626,7 +38709,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     pb.disabled = !clip || !!rec; db.disabled = !clip || !!rec;
     pb.style.opacity = pb.disabled ? '.5' : '1'; db.style.opacity = db.disabled ? '.5' : '1';
     setTxt(info, clip
-      ? T('المقطع المحفوظ', 'Saved clip') + ': ' + fmt(clip.ms / 1000) + ' — ' + (clip.blob.size / 1048576).toFixed(2) + ' MB'
+      ? T('المقطع المحفوظ', 'Saved clip') + ': ' + fmt(clip.ms / 1000) + ' — ' + (clip.blob.size / 1048576).toFixed(2) + ' MB' + (clip.src ? ' — ' + srcName(clip.src) : '')
       : T('لا يوجد مقطع محفوظ. شغّل محطة ثم اضغط تسجيل.', 'No clip saved. Play a station, then press Record.'));
     if (sel) {
       if (!sel.options.length) MAX_OPTS.forEach(function (o) { var op = document.createElement('option'); op.value = String(o[0]); sel.appendChild(op); });
@@ -38634,7 +38717,20 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       if (sel.value !== String(maxSec())) sel.value = String(maxSec());
       sel.disabled = !!rec;
     }
+    var ss = $('recLoopSrc');
+    if (ss) {
+      var SO = [['auto', 'تلقائي', 'Auto'], ['tab', 'صوت التبويبة (كمبيوتر)', 'Tab audio (desktop)'], ['mic', 'الميكروفون', 'Microphone']];
+      if (!ss.options.length) SO.forEach(function (o) { var op = document.createElement('option'); op.value = o[0]; ss.appendChild(op); });
+      for (var k = 0; k < ss.options.length; k++) setTxt(ss.options[k], ar() ? SO[k][1] : SO[k][2]);
+      if (ss.value !== srcMode()) ss.value = srcMode();
+      ss.disabled = !!rec;
+    }
+    setTxt($('recLoopSrcLbl'), T('مصدر التسجيل', 'Recording source'));
+    var ib = $('recLoopImpBtn'); if (ib) { setTxt(ib, '📁 ' + T('ملف', 'File')); ib.disabled = !!rec; ib.style.opacity = rec ? '.5' : '1'; }
     var cb = $('recLoopEnabled'); if (cb && cb.checked !== isEnabled()) cb.checked = isEnabled();
+  }
+  function srcName(k) {
+    return ({ direct: T('مباشر', 'direct'), tab: T('صوت التبويبة', 'tab audio'), mic: T('الميكروفون', 'microphone'), file: T('ملف', 'file') })[k] || k;
   }
 
   window.recLoopToggleRecord = function () { if (rec) stopRec(false); else startRec(); refreshUI(); };
@@ -38661,6 +38757,34 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (!MAX_OPTS.some(function (o) { return o[0] === v; })) return;
     try { localStorage.setItem(LS_MAX, String(v)); } catch (e) {}
   };
+  window.recLoopSetSrc = function (v) {
+    if (v !== 'auto' && v !== 'tab' && v !== 'mic') return;
+    try { localStorage.setItem('recLoopSrc', v); } catch (e) {}
+  };
+  window.recLoopImport = function () { var f = $('recLoopFile'); if (f && !rec) f.click(); };
+  (function () {
+    var f = $('recLoopFile'); if (!f) return;
+    f.addEventListener('change', function () {
+      var file = f.files && f.files[0]; f.value = '';
+      if (!file) return;
+      if (file.size > 30 * 1048576) { note(T('الملف كبير (الحد 30 ميجا)', 'File too large (30 MB max)'), 4000); return; }
+      if (loop) endLoop('replaced');
+      if (preview) { preview.h.stop(0.1); preview = null; }
+      clip = { blob: file, mime: file.type || 'audio/mpeg', ms: 0, savedAt: Date.now(), buf: null, prepared: false, src: 'file' };
+      ready = false;
+      prepare().then(function () {
+        if (!clip) return;
+        if (clip.buf) clip.ms = Math.round(clip.buf.duration * 1000);
+        else note(T('⚠️ تعذّر فك ترميز الملف — قد لا يتكرر بسلاسة', '⚠️ Couldn\u2019t decode the file \u2014 looping may not be seamless'), 5000);
+        var saved = { blob: clip.blob, mime: clip.mime, ms: clip.ms, savedAt: clip.savedAt, src: 'file' };
+        dbOp('readwrite', function (st) { return st.put(saved, KEY); }).catch(function () {
+          note(T('تعذّر حفظ المقطع على الجهاز (هيشتغل لحد إغلاق الصفحة)', 'Couldn\u2019t save the clip on this device (works until the page closes)'), 5000);
+        });
+        refreshUI(); note(T('✅ تم حفظ المقطع', '✅ Clip saved'), 2500);
+      });
+      refreshUI();
+    });
+  })();
   window.recLoopSetEnabled = function (on) {
     try { localStorage.setItem(LS_EN, on ? 'true' : 'false'); } catch (e) {}
     if (!on && loop) endLoop('disabled');
@@ -38670,7 +38794,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   refreshUI(); setInterval(refreshUI, 1500);
   dbOp('readonly', function (s) { return s.get(KEY); }).then(function (v) {
     if (v && v.blob && !clip) {
-      clip = { blob: v.blob, mime: v.mime, ms: v.ms || 0, savedAt: v.savedAt, buf: null, prepared: false };
+      clip = { blob: v.blob, mime: v.mime, ms: v.ms || 0, savedAt: v.savedAt, buf: null, prepared: false, src: v.src };
       return prepare();
     }
   }).then(refreshUI).catch(function () {});
