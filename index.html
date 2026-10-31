@@ -3156,6 +3156,10 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="randomSeekToggle" class="wtb-switch" onchange="toggleRandomSeekSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
+    <div id="settings-holdseek-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;" title="اضغط مطولاً على زر السابق/التالي: ضغطة مطولة قصيرة = 5 ثوانٍ، ضغطة مطولة أطول = 10 ثوانٍ (رجوع / تقديم في المقطع) / Long-press Prev/Next: short hold = 5s, long hold = 10s (rewind / forward)">
+      <label for="holdSeekToggle" class="wtb-text" data-ar="ضغط مطول على السابق/التالي للتقديم والرجوع" data-en="Hold Prev/Next to seek" data-fr="Maintenir Préc./Suiv. pour avancer/reculer" data-es="Mantener Anterior/Siguiente para avanzar/retroceder" data-sv="Håll Föregående/Nästa för att spola" data-nl="Houd Vorige/Volgende ingedrukt om te spoelen" data-ga="Coinnigh Roimhe seo/Ar aghaidh chun scimeáil" data-de="Zurück/Weiter gedrückt halten zum Spulen" data-ru="Удерживать «Пред./След.» для перемотки" data-tr="Geri/İleri tuşuna basılı tut: sar" data-pt="Segurar Anterior/Próxima para avançar/voltar" data-zh="长按上一个/下一个进行快退/快进" data-ur="پچھلا/اگلا دبائے رکھیں: آگے/پیچھے" style="cursor:pointer; margin:0;">ضغط مطول على السابق/التالي للتقديم والرجوع</label>
+      <input type="checkbox" id="holdSeekToggle" class="wtb-switch" onchange="toggleHoldSeekSetting()">
+    </div>
     <div id="settings-fullrandom-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
       <label for="fullRandomUrlToggle" class="wtb-text" data-ar="روابط ديناميكية" data-en="Dynamic Links" data-fr="Liens dynamiques" data-es="Enlaces dinámicos" data-sv="Dynamiska länkar" data-nl="Dynamische links" data-ga="Naisc Dhinimiciúla" data-de="Dynamische Links" data-ru="Динамические ссылки" data-tr="Dinamik Bağlantılar" data-pt="Links dinâmicos" data-zh="动态链接" data-ur="متحرک لنکس" style="cursor:pointer; margin:0;">روابط ديناميكية</label>
       <input type="checkbox" id="fullRandomUrlToggle" class="wtb-switch" onchange="toggleFullRandomUrlSetting()">
@@ -21003,7 +21007,7 @@ function openSisterAppInstall() {
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
-var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
+var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
 
 function _settingsKeys() {
   var out = [];
@@ -38041,6 +38045,183 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
   window.addEventListener('load', function() { syncAll(); });
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ضغط مطول على زر السابق / التالي = رجوع / تقديم داخل المقطع
+   - ضغطة عادية: تغيير المحطة زى الأول
+   - ضغطة مطولة قصيرة (≈0.45 ثانية): 5 ثوانٍ
+   - ضغطة مطولة أطول (≈1.2 ثانية): 10 ثوانٍ
+   الخيار بيتحكم فيه زر فى الإعدادات (holdSeekEnabled) — افتراضياً مقفول
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+  var HOLD_SHORT_MS = 450, HOLD_LONG_MS = 1200;
+
+  window.isHoldSeekEnabled = function () {
+    try { return localStorage.getItem('holdSeekEnabled') === 'true'; } catch (e) { return false; }
+  };
+  window.toggleHoldSeekSetting = function () {
+    var cb = document.getElementById('holdSeekToggle');
+    try { localStorage.setItem('holdSeekEnabled', (cb && cb.checked) ? 'true' : 'false'); } catch (e) {}
+    applyTouchStyle();
+  };
+  (function () {
+    var cb = document.getElementById('holdSeekToggle');
+    if (cb) cb.checked = window.isHoldSeekEnabled();
+  })();
+
+  function ar() { return (typeof isArabic !== 'undefined') ? !!isArabic : true; }
+
+  function applyTouchStyle() {
+    var on = window.isHoldSeekEnabled();
+    ['pnb-prev', 'pnb-next'].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (!b) return;
+      b.style.webkitTouchCallout = on ? 'none' : '';
+      b.style.webkitUserSelect = on ? 'none' : '';
+      b.style.userSelect = on ? 'none' : '';
+      b.style.touchAction = on ? 'manipulation' : '';
+    });
+  }
+
+  // أنهى مشغّل شغّال دلوقتى؟ (الترحيبى ولا الرئيسى)
+  function activePlayer() {
+    var main = document.getElementById('currentAudio');
+    var wel = (typeof customAudioPlayer !== 'undefined') ? customAudioPlayer : document.getElementById('customAudioPlayer');
+    if (main && !main.paused && main.src) return main;
+    if (wel && !wel.paused && wel.src) return wel;
+    var ws = document.getElementById('welcomeScreen');
+    var welOpen = ws && ws.style.display !== 'none' && ws.style.display !== '';
+    return (welOpen && wel && wel.src) ? wel : (main || wel);
+  }
+
+  // النطاق اللى ينفع نتنقل فيه: المخزن المؤقت للبث المباشر (لو متاح) أو المقطع كله
+  function seekRange(a) {
+    if (!a) return null;
+    try {
+      if (a.seekable && a.seekable.length > 0) {
+        var s0 = a.seekable.start(0), e0 = a.seekable.end(a.seekable.length - 1);
+        if (isFinite(s0) && isFinite(e0) && e0 - s0 >= 1) return { start: s0, end: e0 };
+      }
+    } catch (_) {}
+    if (isFinite(a.duration) && a.duration > 0) return { start: 0, end: a.duration };
+    return null;
+  }
+
+  var badge = null;
+  function showBadge(btn, text) {
+    if (!badge) {
+      badge = document.createElement('div');
+      badge.style.cssText = 'position:fixed;z-index:2147483000;padding:5px 11px;border-radius:14px;' +
+        'background:rgba(0,0,0,.82);color:#fff;font:700 13px/1.2 sans-serif;pointer-events:none;' +
+        'transform:translate(-50%,-100%);white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,.35);';
+      document.body.appendChild(badge);
+    }
+    var r = btn.getBoundingClientRect();
+    badge.textContent = text;
+    badge.style.left = (r.left + r.width / 2) + 'px';
+    badge.style.top = (r.top - 6) + 'px';
+    badge.style.display = 'block';
+  }
+  function hideBadge(delay) {
+    if (!badge) return;
+    var b = badge;
+    setTimeout(function () { if (b) b.style.display = 'none'; }, delay || 0);
+  }
+  function secLabel(n, dir) {
+    var txt = n + (ar() ? ' ث' : 's');
+    return dir < 0 ? ('⏪ ' + txt) : (txt + ' ⏩');
+  }
+
+  var st = null;
+  var suppressClick = false;
+
+  function cancel() {
+    if (!st) return;
+    clearTimeout(st.t1); clearTimeout(st.t2);
+    st = null;
+    hideBadge(0);
+  }
+
+  function buzz() { if (navigator.vibrate) { try { navigator.vibrate(15); } catch (_) {} } }
+
+  function onDown(e) {
+    if (!window.isHoldSeekEnabled()) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    var btn = e.currentTarget;
+    var dir = btn.id === 'pnb-prev' ? -1 : 1;
+    cancel();
+    st = { btn: btn, dir: dir, level: 0 };
+    st.t1 = setTimeout(function () {
+      if (!st) return;
+      st.level = 5; showBadge(btn, secLabel(5, dir)); buzz();
+    }, HOLD_SHORT_MS);
+    st.t2 = setTimeout(function () {
+      if (!st) return;
+      st.level = 10; showBadge(btn, secLabel(10, dir)); buzz();
+    }, HOLD_LONG_MS);
+  }
+
+  function onUp() {
+    if (!st) return;
+    var s = st;
+    clearTimeout(s.t1); clearTimeout(s.t2);
+    st = null;
+    if (s.level === 0) { hideBadge(0); return; }   // ضغطة عادية → الكليك الطبيعى يشتغل
+
+    suppressClick = true;                          // نمنع تغيير المحطة بعد الضغطة المطولة
+    setTimeout(function () { suppressClick = false; }, 400);
+
+    var a = activePlayer();
+    var rg = seekRange(a);
+    if (!rg) {
+      showBadge(s.btn, ar() ? 'الرجوع/التقديم غير متاح فى هذه المحطة' : 'Seeking isn\u2019t available for this station');
+      hideBadge(1500);
+      return;
+    }
+    var cur = a.currentTime || 0;
+    var t = Math.max(rg.start, Math.min(cur + s.dir * s.level, rg.end - 0.5));
+    if (Math.abs(t - cur) < 0.3) {               // وصلنا لأول المتاح أو لحد البث المباشر
+      showBadge(s.btn, s.dir < 0 ? (ar() ? 'وصلت لأقدم نقطة متاحة' : 'Earliest available point')
+                                 : (ar() ? 'أنت على البث المباشر' : 'You\u2019re at the live edge'));
+      hideBadge(1200);
+      return;
+    }
+    try { a.currentTime = t; } catch (_) {}
+    showBadge(s.btn, secLabel(s.level, s.dir));
+    hideBadge(700);
+  }
+
+  // يوقف الكليك اللى بييجى بعد الضغطة المطولة قبل ما يوصل لأى مستمع تانى
+  document.addEventListener('click', function (e) {
+    if (!suppressClick) return;
+    var b = e.target && e.target.closest ? e.target.closest('#pnb-prev, #pnb-next') : null;
+    if (!b) return;
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    suppressClick = false;
+  }, true);
+
+  function bind() {
+    ['pnb-prev', 'pnb-next'].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (!b || b._holdSeekBound) return;
+      b._holdSeekBound = true;
+      b.addEventListener('pointerdown', onDown);
+      b.addEventListener('pointerup', onUp);
+      b.addEventListener('pointercancel', cancel);
+      b.addEventListener('pointerleave', cancel);
+      b.addEventListener('contextmenu', function (e) { if (window.isHoldSeekEnabled()) e.preventDefault(); });
+    });
+    applyTouchStyle();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
+  setTimeout(bind, 1500);
 })();
 </script>
 </body>
