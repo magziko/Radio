@@ -3666,6 +3666,24 @@ setTimeout(autoScaleVerseFont, 100);
       </select>
     </div>
 
+    <div class="aqx-boost-row" id="recLoopGroup" style="display:flex;flex-direction:column;align-items:stretch;gap:8px;">
+      <div id="recLoopTitle" style="font-weight:700;font-size:14px;">🎙️ تسجيل مقطع للتكرار عند انقطاع الإنترنت</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <label id="recLoopMaxLbl" for="recLoopMax" style="font-size:13px;">أقصى مدة للتسجيل</label>
+        <select id="recLoopMax" onchange="window.recLoopSetMax && window.recLoopSetMax(this.value)" style="width:110px;text-align:center;padding:4px 6px;font-size:14px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;"></select>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button type="button" id="recLoopRecBtn" onclick="window.recLoopToggleRecord && window.recLoopToggleRecord()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🔴 تسجيل</button>
+        <button type="button" id="recLoopPlayBtn" onclick="window.recLoopTogglePreview && window.recLoopTogglePreview()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">▶️ تجربة</button>
+        <button type="button" id="recLoopDelBtn" onclick="window.recLoopDelete && window.recLoopDelete()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🗑️ حذف</button>
+      </div>
+      <div id="recLoopInfo" style="font-size:12px;opacity:.85;"></div>
+      <label style="display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;font-size:13px;">
+        <span id="recLoopEnLbl">استخدام المقطع المسجل عند الانقطاع</span>
+        <input type="checkbox" id="recLoopEnabled" checked onchange="window.recLoopSetEnabled && window.recLoopSetEnabled(this.checked)" style="width:20px;height:20px;accent-color:#66bb6a;">
+      </label>
+    </div>
+
     <div id="equalizer-row" class="aqx-eq-row">
       <div class="aqx-eq-inner">
 
@@ -21007,7 +21025,7 @@ function openSisterAppInstall() {
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
-var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
+var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
 
 function _settingsKeys() {
   var out = [];
@@ -37365,6 +37383,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     }
 
     function tryEnter() {
+      if (window._recLoopOwns && window._recLoopOwns()) return false;   // فيه مقطع مسجّل جاهز: هو اللى بيتكرر بدل المخزّن المؤقت
       if (st.active || userStopped() || !isLive()) return false;
       var r = lastRange();
       if (!r || (r.e - r.s) < MIN_BUFFER) return false;
@@ -38222,6 +38241,439 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
   else bind();
   setTimeout(bind, 1500);
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   تسجيل مقطع من صوت الموقع وتكراره لانهائياً عند انقطاع الإنترنت
+   - تسجيل المحطة الشغّالة (نفس أسلوب تسجيل صوت الجهاز فى الملاحظات)
+   - المقطع بيتحفظ على الجهاز (IndexedDB) ويفضل بعد إغلاق الصفحة
+   - لما البث يقف والإنترنت مقطوع: بيتكرر المقطع بدون توقف
+   - لما الإنترنت يرجع: بيرجّع المحطة تلقائياً ويوقف التكرار بتلاشى
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+  var DB_NAME = 'radioOfflineClipDB', STORE = 'clips', KEY = 'main';
+  var LS_EN = 'recLoopEnabled', LS_MAX = 'recLoopMaxSec';
+  var PLAY_IDS = ['currentAudio', 'customAudioPlayer'];
+  var REC_IDS = ['currentAudio', 'customAudioPlayer', 'audioStreamPlayer'];
+  var MAX_OPTS = [[15, '15 ث', '15 s'], [30, '30 ث', '30 s'], [60, 'دقيقة', '1 min'],
+                  [120, 'دقيقتان', '2 min'], [300, '5 دقائق', '5 min'], [600, '10 دقائق', '10 min']];
+
+  var clip = null, ready = false, ctx = null, rec = null, loop = null, preview = null, last = null, stallTimer = null;
+
+  function $(id) { return document.getElementById(id); }
+  function ar() { return (typeof isArabic !== 'undefined') ? !!isArabic : true; }
+  function T(a, e) { return ar() ? a : e; }
+  function isEnabled() { try { return localStorage.getItem(LS_EN) !== 'false'; } catch (e) { return true; } }
+  function maxSec() {
+    var v = 60; try { v = parseInt(localStorage.getItem(LS_MAX), 10); } catch (e) {}
+    return MAX_OPTS.some(function (o) { return o[0] === v; }) ? v : 60;
+  }
+  function fmt(s) { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+
+  /* ── رسائل عائمة ── */
+  var noteEl = null, noteT = null;
+  function note(msg, ms) {
+    if (!noteEl) {
+      noteEl = document.createElement('div');
+      noteEl.style.cssText = 'position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top,0px));transform:translateX(-50%);' +
+        'z-index:2147483000;max-width:92vw;padding:9px 14px;border-radius:14px;background:rgba(20,20,28,.94);color:#fff;' +
+        "font:700 13px/1.4 Cairo,Arial,sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.4);text-align:center;";
+      document.body.appendChild(noteEl);
+    }
+    noteEl.textContent = msg; noteEl.style.display = 'block';
+    clearTimeout(noteT); noteT = setTimeout(function () { noteEl.style.display = 'none'; }, ms || 3000);
+  }
+  var chip = null;
+  function showChip() {
+    if (!chip) {
+      chip = document.createElement('div');
+      chip.style.cssText = 'position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);' +
+        'z-index:2147483000;max-width:92vw;display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:22px;' +
+        "background:rgba(20,20,28,.92);color:#fff;font:700 13px/1.4 Cairo,Arial,sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.4);";
+      chip.innerHTML = '<span id="recLoopChipTxt"></span><button type="button" id="recLoopChipStop" ' +
+        'style="border:0;border-radius:14px;padding:4px 10px;font:inherit;cursor:pointer;background:#e53935;color:#fff;">⏹</button>';
+      document.body.appendChild(chip);
+      $('recLoopChipStop').addEventListener('click', function () { endLoop('user-chip'); });
+    }
+    chip.style.direction = ar() ? 'rtl' : 'ltr';
+    $('recLoopChipTxt').textContent = T('🔁 لا يوجد اتصال — تكرار المقطع المسجل حتى عودة الإنترنت',
+                                        '🔁 No connection — replaying your recorded clip until it returns');
+    chip.style.display = 'flex';
+  }
+  function hideChip() { if (chip) chip.style.display = 'none'; }
+
+  /* ── التخزين (IndexedDB) ── */
+  function dbOpen() {
+    return new Promise(function (res, rej) {
+      if (!window.indexedDB) { rej(new Error('no idb')); return; }
+      var r = indexedDB.open(DB_NAME, 1);
+      r.onupgradeneeded = function () { r.result.createObjectStore(STORE); };
+      r.onsuccess = function () { res(r.result); };
+      r.onerror = function () { rej(r.error); };
+    });
+  }
+  function dbOp(mode, fn) {
+    return dbOpen().then(function (db) {
+      return new Promise(function (res, rej) {
+        var tx = db.transaction(STORE, mode), req = fn(tx.objectStore(STORE));
+        tx.oncomplete = function () { res(req && req.result); };
+        tx.onerror = tx.onabort = function () { rej(tx.error); };
+      });
+    });
+  }
+
+  /* ── الصوت ── */
+  function ensureCtx() {
+    if (!ctx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      try { ctx = new AC(); } catch (e) { return null; }
+    }
+    if (ctx.state === 'suspended') { try { ctx.resume(); } catch (e) {} }
+    return ctx;
+  }
+  // أى تفاعل من المستخدم يفتح الصوت، عشان التكرار يقدر يشتغل لوحده وقت الانقطاع
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) {
+    document.addEventListener(ev, function () { if (clip || rec) ensureCtx(); }, { passive: true });
+  });
+
+  function prepare() {
+    if (!clip) { ready = false; return Promise.resolve(false); }
+    if (clip.prepared) { ready = true; return Promise.resolve(true); }
+    var c = ensureCtx();
+    var done = function () { clip.prepared = true; ready = true; return true; };
+    if (!c || !clip.blob.arrayBuffer) return Promise.resolve(done());
+    return clip.blob.arrayBuffer().then(function (ab) {
+      return new Promise(function (res, rej) {
+        var p = c.decodeAudioData(ab, res, rej);
+        if (p && p.catch) p.catch(rej);
+      });
+    }).then(function (b) { clip.buf = b; return done(); }, function () { clip.buf = null; return done(); });
+  }
+
+  // تشغيل المقطع: عبر Web Audio (تكرار بدون أى فجوة) وإلا عنصر <audio> كبديل
+  function playClip(vol, loopIt, onend, onfail) {
+    var c = ensureCtx(), h = {};
+    if (c && clip.buf && c.state === 'running') {
+      var src = c.createBufferSource(), g = c.createGain(), t = c.currentTime;
+      src.buffer = clip.buf; src.loop = !!loopIt;
+      src.connect(g); g.connect(c.destination);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.4);
+      if (onend) src.onended = onend;
+      src.start(0);
+      h.stop = function (fade) {
+        fade = fade || 0.3;
+        try {
+          var n = c.currentTime;
+          g.gain.cancelScheduledValues(n); g.gain.setValueAtTime(g.gain.value, n);
+          g.gain.linearRampToValueAtTime(0, n + fade);
+          src.onended = null; src.stop(n + fade + 0.05);
+        } catch (e) {}
+      };
+      return h;
+    }
+    var url = URL.createObjectURL(clip.blob), a = new Audio(url);
+    a.loop = !!loopIt; a.volume = Math.min(1, vol); a.onended = onend || null;
+    var p = a.play();
+    if (p && p.catch) p.catch(function () { if (onfail) onfail(); });
+    h.stop = function () { try { a.onended = null; a.pause(); } catch (e) {} setTimeout(function () { URL.revokeObjectURL(url); }, 300); };
+    return h;
+  }
+
+  /* ── التسجيل ── */
+  function pickMime() {
+    var t = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus'];
+    for (var i = 0; i < t.length; i++) { try { if (MediaRecorder.isTypeSupported(t[i])) return t[i]; } catch (e) {} }
+    return '';
+  }
+  function activeEl() {
+    for (var i = 0; i < REC_IDS.length; i++) {
+      var el = $(REC_IDS[i]);
+      if (el && !el.paused && !el.ended && (el.currentSrc || el.src)) return el;
+    }
+    return null;
+  }
+  function getStream(a) {
+    try {
+      var s = typeof a.captureStream === 'function' ? a.captureStream() : (typeof a.mozCaptureStream === 'function' ? a.mozCaptureStream() : null);
+      if (s && s.getAudioTracks().length) return { stream: s };
+    } catch (e) {}
+    var chain = window._audioChains && window._audioChains.get && window._audioChains.get(a);
+    if (chain && window._boostCtx) {
+      try {
+        if (window._boostCtx.state === 'suspended') window._boostCtx.resume().catch(function () {});
+        var d = window._boostCtx.createMediaStreamDestination();
+        chain.gain.connect(d);
+        return { stream: d.stream, cleanup: function () { try { chain.gain.disconnect(d); } catch (e) {} } };
+      } catch (e) {}
+    }
+    return null;
+  }
+  function watchSilence(stream) {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+      var c = new AC(), s = c.createMediaStreamSource(stream), an = c.createAnalyser();
+      an.fftSize = 512; s.connect(an);
+      var buf = new Uint8Array(512), peak = 0, n = 0;
+      var iv = setInterval(function () {
+        an.getByteTimeDomainData(buf);
+        for (var i = 0; i < 512; i++) { var d = Math.abs(buf[i] - 128); if (d > peak) peak = d; }
+        n++;
+        if (peak >= 2 || n >= 16) {
+          clearInterval(iv); try { c.close(); } catch (e) {}
+          if (rec) rec.silent = null;
+          if (peak < 2 && rec) note(T('⚠️ التسجيل يبدو صامتاً — غالباً سيرفر هذه المحطة لا يسمح بالتقاط صوته',
+                                      '⚠️ The recording looks silent — this station\u2019s server may not allow audio capture'), 6500);
+        }
+      }, 250);
+      if (rec) rec.silent = function () { clearInterval(iv); try { c.close(); } catch (e) {} };
+    } catch (e) {}
+  }
+  function startRec() {
+    if (rec) return;
+    if (typeof MediaRecorder === 'undefined') { note(T('المتصفح لا يدعم التسجيل', 'This browser doesn\u2019t support recording'), 3500); return; }
+    var a = activeEl();
+    if (!a) { note(T('شغّل محطة أولاً ثم ابدأ التسجيل', 'Play a station first, then start recording'), 3500); return; }
+    var gs = getStream(a);
+    if (!gs) { note(T('تعذّر التقاط صوت هذه المحطة على هذا المتصفح', 'Can\u2019t capture this station\u2019s audio in this browser'), 4500); return; }
+    ensureCtx();
+    var mime = pickMime(), chunks = [], mr;
+    try { mr = mime ? new MediaRecorder(gs.stream, { mimeType: mime, audioBitsPerSecond: 64000 }) : new MediaRecorder(gs.stream); }
+    catch (e) { if (gs.cleanup) gs.cleanup(); note(T('تعذّر بدء التسجيل', 'Couldn\u2019t start recording'), 3500); return; }
+    rec = { mr: mr, chunks: chunks, stream: gs.stream, cleanup: gs.cleanup, startTs: Date.now(), mime: mr.mimeType || mime || 'audio/webm', discard: false };
+    mr.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+    mr.onstop = finishRec;
+    mr.onerror = function () { stopRec(true); };
+    mr.start(1000);
+    rec.tick = setInterval(function () {
+      if (!rec) return;
+      if ((Date.now() - rec.startTs) / 1000 >= maxSec()) stopRec(false);
+      refreshUI();
+    }, 500);
+    watchSilence(gs.stream);
+    refreshUI();
+  }
+  function stopRec(discard) {
+    if (!rec) return;
+    rec.discard = !!discard;
+    try { if (rec.mr.state !== 'inactive') rec.mr.stop(); else finishRec(); } catch (e) { finishRec(); }
+  }
+  function finishRec() {
+    var r = rec; if (!r || r.finished) return;
+    r.finished = true; rec = null;
+    clearInterval(r.tick);
+    if (r.silent) { try { r.silent(); } catch (e) {} }
+    try { r.stream.getTracks().forEach(function (t) { t.stop(); }); } catch (e) {}
+    if (r.cleanup) { try { r.cleanup(); } catch (e) {} }
+    var ms = Date.now() - r.startTs;
+    if (r.discard || !r.chunks.length || ms < 1500) {
+      if (!r.discard) note(T('التسجيل قصير جداً', 'Recording too short'), 3000);
+      refreshUI(); return;
+    }
+    var blob = new Blob(r.chunks, { type: r.mime });
+    if (loop) endLoop('replaced');
+    if (preview) { preview.h.stop(0.1); preview = null; }
+    clip = { blob: blob, mime: r.mime, ms: ms, savedAt: Date.now(), buf: null, prepared: false };
+    ready = false;
+    var saved = { blob: blob, mime: r.mime, ms: ms, savedAt: clip.savedAt };
+    dbOp('readwrite', function (s) { return s.put(saved, KEY); }).catch(function () {
+      note(T('تعذّر حفظ المقطع على الجهاز (هيشتغل لحد إغلاق الصفحة)', 'Couldn\u2019t save the clip on this device (works until the page closes)'), 5000);
+    });
+    prepare().then(function () { refreshUI(); note(T('✅ تم حفظ المقطع', '✅ Clip saved'), 2500); });
+    refreshUI();
+  }
+
+  /* ── التكرار وقت الانقطاع ── */
+  function pingOne(url) {
+    return new Promise(function (resolve) {
+      var done = false, ctl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+      var t = setTimeout(function () { if (!done) { done = true; try { ctl && ctl.abort(); } catch (e) {} resolve(false); } }, 4000);
+      fetch(url + (url.indexOf('?') < 0 ? '?' : '&') + '_rl=' + Date.now(), { method: 'GET', mode: 'no-cors', cache: 'no-store', signal: ctl ? ctl.signal : undefined })
+        .then(function () { if (!done) { done = true; clearTimeout(t); resolve(true); } },
+              function () { if (!done) { done = true; clearTimeout(t); resolve(false); } });
+    });
+  }
+  function pingInternet() {
+    var u = ['https://www.gstatic.com/generate_204'];
+    if (/^https?:/.test(location.protocol)) u.push(location.origin + location.pathname);
+    return Promise.all(u.map(pingOne)).then(function (r) { return r.some(Boolean); });
+  }
+  function controllerFor(el) {
+    var c = window._offlineLoop;
+    if (!c || !el) return null;
+    return el.id === 'currentAudio' ? c.main : (el.id === 'customAudioPlayer' ? c.welcome : null);
+  }
+  function genuine(el) {
+    if (!loop || el !== loop.el || navigator.onLine === false) return false;
+    var c = controllerFor(el);
+    if (c && c.state && c.state.active) return false;
+    return el.readyState >= 3;
+  }
+
+  function cancelStall() { if (stallTimer) { clearTimeout(stallTimer); stallTimer = null; } }
+  function stuckNow(el) { return el.readyState < 3 || el.ended || !!el.error; }
+  function onStall(el) {
+    if (loop || stallTimer || !clip || !ready || !isEnabled()) return;
+    if (el !== last || window._userStoppedManually) return;
+    if (el.ended && isFinite(el.duration)) return;            // انتهى ملف عادى، مش انقطاع
+    var off = navigator.onLine === false;
+    stallTimer = setTimeout(function () {
+      stallTimer = null;
+      if (loop || !clip || !ready || !isEnabled() || window._userStoppedManually) return;
+      if (el.paused && !el.ended) return;                     // المستخدم وقّفها
+      if (!stuckNow(el)) return;                              // لسه فى بيانات مخزّنة
+      if (navigator.onLine === false) startLoop(el);
+      else pingInternet().then(function (ok) { if (!ok && !loop && stuckNow(el)) startLoop(el); });
+    }, off ? 1200 : 6000);
+  }
+
+  function startLoop(el) {
+    if (loop) return;
+    prepare().then(function () {
+      if (loop || !clip) return;
+      var vol = el.volume; if (!(vol > 0.05)) vol = 0.8;
+      loop = { el: el, url: el.currentSrc || el.src, wasMuted: el.muted, h: null, tick: 0, okCount: 0, reconnecting: false, checking: false };
+      el.muted = true;                                         // نكتم المحطة الميتة عشان ما يتداخلش صوت
+      loop.h = playClip(vol, true, null, function () { endLoop('blocked'); });
+      loop.timer = setInterval(loopTick, 1000);
+      showChip();
+    });
+  }
+  function loopTick() {
+    if (!loop) return;
+    if (window._userStoppedManually) { endLoop('user-stopped'); return; }
+    loop.tick++;
+    if (loop.tick % 5 === 0) watchReturn();
+  }
+  function watchReturn() {
+    if (!loop || loop.checking || navigator.onLine === false) return;
+    loop.checking = true;
+    pingInternet().then(function (ok) {
+      if (!loop) return;
+      loop.checking = false;
+      if (!ok) { loop.okCount = 0; return; }
+      loop.okCount++;
+      var c = controllerFor(loop.el);
+      var managed = c && c.state && (c.state.watch || c.state.active);
+      if (!managed || loop.okCount >= 4) reconnect();
+    });
+  }
+  function reconnect() {
+    if (!loop || loop.reconnecting) return;
+    var el = loop.el;
+    loop.reconnecting = true;
+    clearTimeout(loop.reconTimer);
+    loop.reconTimer = setTimeout(function () { if (loop) loop.reconnecting = false; }, 12000);
+    try {
+      el.src = loop.url; el.load();
+      window._mainPlayAllowed = true;
+      var p = el.play(); if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+  }
+  function endLoop(why) {
+    var l = loop; if (!l) return;
+    loop = null;
+    clearInterval(l.timer); clearTimeout(l.reconTimer);
+    if (l.h) l.h.stop(0.5);
+    try { l.el.muted = l.wasMuted; } catch (e) {}
+    hideChip();
+  }
+
+  /* ── ربط الأحداث ── */
+  function bindEls() {
+    PLAY_IDS.forEach(function (id) {
+      var el = $(id);
+      if (!el || el._recLoopBound) return;
+      el._recLoopBound = true;
+      el.addEventListener('playing', function () {
+        last = el; cancelStall();
+        if (loop && el === loop.el && genuine(el)) endLoop('back-online');
+      });
+      ['waiting', 'stalled', 'error', 'ended'].forEach(function (ev) {
+        el.addEventListener(ev, function () { onStall(el); });
+      });
+      el.addEventListener('loadstart', function () {
+        cancelStall();
+        if (loop && el === loop.el && !loop.reconnecting) endLoop('source-changed');
+      });
+    });
+  }
+  window.addEventListener('offline', function () { if (last && !last.paused) onStall(last); });
+  window.addEventListener('online', function () { if (loop) setTimeout(watchReturn, 800); });
+  document.addEventListener('click', function (e) {
+    if (!loop) return;
+    var b = e.target && e.target.closest ? e.target.closest('#pnb-play, #pnb-prev, #pnb-next, #pnb-random, #prevButton, #nextButton, #randomButton') : null;
+    if (b) endLoop('user-action');
+  }, true);
+
+  window._recLoopOwns = function () { return !!(clip && ready && isEnabled()); };
+
+  /* ── واجهة الإعدادات ── */
+  function setTxt(el, t) { if (el && el.textContent !== t) el.textContent = t; }
+  function refreshUI() {
+    var rb = $('recLoopRecBtn'); if (!rb) return;
+    var pb = $('recLoopPlayBtn'), db = $('recLoopDelBtn'), info = $('recLoopInfo'), sel = $('recLoopMax');
+    setTxt($('recLoopTitle'), T('🎙️ تسجيل مقطع للتكرار عند انقطاع الإنترنت', '🎙️ Record a clip to loop when the internet drops'));
+    setTxt($('recLoopMaxLbl'), T('أقصى مدة للتسجيل', 'Max recording length'));
+    setTxt($('recLoopEnLbl'), T('استخدام المقطع المسجل عند الانقطاع', 'Use the recorded clip when offline'));
+    if (rec) setTxt(rb, '⏹ ' + T('إيقاف', 'Stop') + ' (' + fmt((Date.now() - rec.startTs) / 1000) + ' / ' + fmt(maxSec()) + ')');
+    else setTxt(rb, '🔴 ' + (clip ? T('تسجيل جديد', 'Re-record') : T('تسجيل', 'Record')));
+    setTxt(pb, preview ? '⏹ ' + T('إيقاف', 'Stop') : '▶️ ' + T('تجربة', 'Preview'));
+    setTxt(db, '🗑️ ' + T('حذف', 'Delete'));
+    pb.disabled = !clip || !!rec; db.disabled = !clip || !!rec;
+    pb.style.opacity = pb.disabled ? '.5' : '1'; db.style.opacity = db.disabled ? '.5' : '1';
+    setTxt(info, clip
+      ? T('المقطع المحفوظ', 'Saved clip') + ': ' + fmt(clip.ms / 1000) + ' — ' + (clip.blob.size / 1048576).toFixed(2) + ' MB'
+      : T('لا يوجد مقطع محفوظ. شغّل محطة ثم اضغط تسجيل.', 'No clip saved. Play a station, then press Record.'));
+    if (sel) {
+      if (!sel.options.length) MAX_OPTS.forEach(function (o) { var op = document.createElement('option'); op.value = String(o[0]); sel.appendChild(op); });
+      for (var i = 0; i < sel.options.length; i++) setTxt(sel.options[i], ar() ? MAX_OPTS[i][1] : MAX_OPTS[i][2]);
+      if (sel.value !== String(maxSec())) sel.value = String(maxSec());
+      sel.disabled = !!rec;
+    }
+    var cb = $('recLoopEnabled'); if (cb && cb.checked !== isEnabled()) cb.checked = isEnabled();
+  }
+
+  window.recLoopToggleRecord = function () { if (rec) stopRec(false); else startRec(); refreshUI(); };
+  window.recLoopTogglePreview = function () {
+    if (preview) { preview.h.stop(0.1); preview = null; refreshUI(); return; }
+    if (!clip) return;
+    prepare().then(function () {
+      if (preview || !clip) return;
+      preview = { h: playClip(0.8, false, function () { preview = null; refreshUI(); }) };
+      refreshUI();
+    });
+  };
+  window.recLoopDelete = function () {
+    if (!clip) return;
+    if (!confirm(T('حذف المقطع المسجل؟', 'Delete the recorded clip?'))) return;
+    if (loop) endLoop('deleted');
+    if (preview) { preview.h.stop(0.1); preview = null; }
+    clip = null; ready = false;
+    dbOp('readwrite', function (s) { return s.delete(KEY); }).catch(function () {});
+    refreshUI();
+  };
+  window.recLoopSetMax = function (v) {
+    v = parseInt(v, 10);
+    if (!MAX_OPTS.some(function (o) { return o[0] === v; })) return;
+    try { localStorage.setItem(LS_MAX, String(v)); } catch (e) {}
+  };
+  window.recLoopSetEnabled = function (on) {
+    try { localStorage.setItem(LS_EN, on ? 'true' : 'false'); } catch (e) {}
+    if (!on && loop) endLoop('disabled');
+  };
+
+  bindEls(); setTimeout(bindEls, 1500);
+  refreshUI(); setInterval(refreshUI, 1500);
+  dbOp('readonly', function (s) { return s.get(KEY); }).then(function (v) {
+    if (v && v.blob && !clip) {
+      clip = { blob: v.blob, mime: v.mime, ms: v.ms || 0, savedAt: v.savedAt, buf: null, prepared: false };
+      return prepare();
+    }
+  }).then(refreshUI).catch(function () {});
 })();
 </script>
 </body>
