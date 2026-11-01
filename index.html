@@ -38652,6 +38652,11 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     document.addEventListener(ev, function () { if (clip || rec) ensureCtx(); }, { passive: true });
   });
 
+  var lastGesture = 0;
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) {
+    document.addEventListener(ev, function () { lastGesture = Date.now(); }, { passive: true, capture: true });
+  });
+
   function prepare() {
     if (!clip) { ready = false; return Promise.resolve(false); }
     if (clip.prepared) { ready = true; return Promise.resolve(true); }
@@ -38674,7 +38679,9 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       src.buffer = clip.buf; src.loop = !!loopIt;
       src.connect(g); g.connect(c.destination);
       g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.4);
-      if (onend) src.onended = onend;
+      var srcEnded = false;
+      src.onended = function () { srcEnded = true; if (onend) onend(); };
+      h.alive = function () { return !srcEnded && c.state === 'running'; };
       src.start(0);
       h.stop = function (fade) {
         fade = fade || 0.3;
@@ -38691,6 +38698,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     a.loop = !!loopIt; a.volume = Math.min(1, vol); a.onended = onend || null;
     var p = a.play();
     if (p && p.catch) p.catch(function () { if (onfail) onfail(); });
+    h.alive = function () { return !a.paused && !a.ended; };
     h.stop = function () { try { a.onended = null; a.pause(); } catch (e) {} setTimeout(function () { URL.revokeObjectURL(url); }, 300); };
     return h;
   }
@@ -38920,7 +38928,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     prepare().then(function () {
       if (loop || !clip) return;
       var vol = el.volume; if (!(vol > 0.05)) vol = 0.8;
-      loop = { el: el, url: el.currentSrc || el.src, wasMuted: el.muted, h: null, tick: 0, okCount: 0, reconnecting: false, checking: false };
+      loop = { el: el, url: el.currentSrc || el.src, wasMuted: el.muted, h: null, tick: 0, okCount: 0, reconnecting: false, checking: false, vol: vol, reviving: false };
       el.muted = true;                                         // نكتم المحطة الميتة عشان ما يتداخلش صوت
       loop.h = playClip(vol, true, null, function () { endLoop('blocked'); });
       loop.timer = setInterval(loopTick, 1000);
@@ -38931,7 +38939,25 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (!loop) return;
     if (window._userStoppedManually) { endLoop('user-stopped'); return; }
     loop.tick++;
+    // أثناء الانقطاع: نثبّت كتم المحطة الميتة ونتأكد إن المقطع لسه شغّال؛ لو وقف لأى سبب نعيد تشغيله فورًا
+    try { if (loop.el && !loop.el.muted) loop.el.muted = true; } catch (e) {}
+    if (!loop.h || (loop.h.alive && !loop.h.alive())) reviveLoop();
     if (loop.tick % 5 === 0) watchReturn();
+  }
+  function reviveLoop() {
+    if (!loop || loop.reviving || mloop) return;
+    loop.reviving = true;
+    try { if (loop.h) loop.h.stop(0.05); } catch (e) {}
+    loop.h = null;
+    var c = ensureCtx();
+    var wake = (c && c.state !== 'running' && c.resume) ? Promise.resolve(c.resume()).catch(function () {}) : Promise.resolve();
+    var guard = setTimeout(function () { if (loop) loop.reviving = false; }, 4000);
+    wake.then(prepare).then(function () {
+      clearTimeout(guard);
+      if (!loop || !clip) return;
+      loop.h = playClip(loop.vol || 0.8, true, null, function () { if (loop) loop.h = null; });   // لو المتصفح منع التشغيل نحاول تانى فى النبضة الجاية
+      loop.reviving = false;
+    });
   }
   function watchReturn() {
     if (!loop || loop.checking || navigator.onLine === false) return;
@@ -38984,7 +39010,9 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       });
       el.addEventListener('loadstart', function () {
         cancelStall();
-        if (loop && el === loop.el && !loop.reconnecting) endLoop('source-changed');
+        // محاولات إعادة الاتصال التلقائية من التطبيق وقت الانقطاع بتغيّر مصدر المحطة (loadstart) —
+        // دي ما توقفش التكرار (كانت هى سبب إن المقطع يشتغل مرة واحدة وبس). اختيار المستخدم لمحطة جديدة هو اللى يوقفه.
+        if (loop && el === loop.el && !loop.reconnecting && (Date.now() - lastGesture) < 2500) endLoop('source-changed');
       });
     });
   }
