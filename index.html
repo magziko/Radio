@@ -29175,7 +29175,12 @@ function _tbCardRingGeom(btn) {
 function _startTasbihCardRing(button, delay) {
   _stopTasbihCardRing(button);
   if (!button || !(typeof delay === 'number' && delay > 0)) return;
-  if ((parseInt(button.dataset.target) || 0) < _TB_CARD_RING_MIN_TARGET) return;
+  var _tg = parseInt(button.dataset.target) || 0;
+  if (_tg < _TB_CARD_RING_MIN_TARGET) return;
+  // الحلقة أثناء العدّ بس: لو الذكر اكتمل (مهلة الانتظار الأخيرة قبل الذكر التالى) منعرضهاش
+  var _saved = 0;
+  try { _saved = parseInt(localStorage.getItem('tasbih_' + button.getAttribute('data-station'))) || 0; } catch (e) {}
+  if (button.classList.contains('completed') || _saved >= _tg) return;
   var NS = 'http://www.w3.org/2000/svg';
   if (getComputedStyle(button).position === 'static') button.classList.add('tb-card-ring-host');
   var svg = document.createElementNS(NS, 'svg');
