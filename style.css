@@ -11338,8 +11338,9 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
 }
 
 /* =====================================================================
-   حلقة تقدّم التارجت حوالين بطاقة الذكر نفسها (للأذكار اللى تارجتها ٤ فأكثر)
-   بتتبنى بالـ JS كعنصر SVG جوّا الزر؛ السمك هنا بيتقرأ منه الـ JS
+   حلقة العدّ التنازلى حوالين بطاقة الذكر نفسها (للأذكار اللى تارجتها ٤ فأكثر)
+   نفس دائرة زر الإيقاف: فى كل عدّة بتبدأ ممتلئة وتفرغ على مدار مهلة العدّة.
+   بتتبنى بالـ JS كعنصر SVG جوّا الزر؛ المدة بتتحط من JS، والسمك واللون هنا
    ===================================================================== */
 .button.tb-card-ring-host { position: relative; }
 .tb-card-ring {
@@ -11351,9 +11352,7 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
 .tb-card-ring .tb-cr-track { stroke: rgba(var(--theme-g1-rgb, 29,158,117), 0.20); }
 .tb-card-ring .tb-cr-prog {
     stroke: var(--theme-g1, #1D9E75);
-    stroke-linecap: round;
-    transition: stroke-dasharray .35s ease;
-}
-@supports (color: color-mix(in srgb, red 50%, white)) {
-    .tb-card-ring.done .tb-cr-prog { stroke: color-mix(in srgb, var(--theme-g1, #1D9E75) 65%, #fff); }
+    stroke-linecap: butt;
+    transition-property: stroke-dasharray;
+    transition-timing-function: linear;
 }
