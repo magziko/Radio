@@ -3679,6 +3679,8 @@ setTimeout(autoScaleVerseFont, 100);
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
         <button type="button" id="recLoopRecBtn" onclick="window.recLoopToggleRecord && window.recLoopToggleRecord()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🔴 تسجيل</button>
         <button type="button" id="recLoopPlayBtn" onclick="window.recLoopTogglePreview && window.recLoopTogglePreview()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">▶️ تجربة</button>
+        <button type="button" id="recLoopLoopBtn" onclick="window.recLoopToggleManual && window.recLoopToggleManual()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🔁 تكرار</button>
+        <button type="button" id="recLoopDlBtn" onclick="window.recLoopDownload && window.recLoopDownload()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">💾 تنزيل</button>
         <button type="button" id="recLoopDelBtn" onclick="window.recLoopDelete && window.recLoopDelete()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🗑️ حذف</button>
         <button type="button" id="recLoopImpBtn" onclick="window.recLoopImport && window.recLoopImport()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">📁 ملف</button>
         <input type="file" id="recLoopFile" accept="audio/*" style="display:none">
@@ -38274,6 +38276,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
                   [120, 'دقيقتان', '2 min'], [300, '5 دقائق', '5 min'], [600, '10 دقائق', '10 min']];
 
   var clip = null, ready = false, ctx = null, rec = null, loop = null, preview = null, last = null, stallTimer = null;
+  var mloop = null, chipMode = null;   // mloop = تكرار يدوي للمقطع المسجل (بدون الحاجة لانقطاع الإنترنت)
 
   function $(id) { return document.getElementById(id); }
   function ar() { return (typeof isArabic !== 'undefined') ? !!isArabic : true; }
@@ -38299,23 +38302,37 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     clearTimeout(noteT); noteT = setTimeout(function () { noteEl.style.display = 'none'; }, ms || 3000);
   }
   var chip = null;
-  function showChip() {
+  function showChip(mode) {
+    mode = mode || 'auto'; chipMode = mode;
     if (!chip) {
       chip = document.createElement('div');
       chip.style.cssText = 'position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);' +
         'z-index:2147483000;max-width:92vw;display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:22px;' +
         "background:rgba(20,20,28,.92);color:#fff;font:700 13px/1.4 Cairo,Arial,sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.4);";
-      chip.innerHTML = '<span id="recLoopChipTxt"></span><button type="button" id="recLoopChipStop" ' +
+      chip.innerHTML = '<span id="recLoopChipTxt"></span>' +
+        '<button type="button" id="recLoopChipPlay" ' +
+        'style="display:none;border:0;border-radius:14px;padding:4px 10px;font:inherit;cursor:pointer;background:#43a047;color:#fff;">▶️</button>' +
+        '<button type="button" id="recLoopChipStop" ' +
         'style="border:0;border-radius:14px;padding:4px 10px;font:inherit;cursor:pointer;background:#e53935;color:#fff;">⏹</button>';
       document.body.appendChild(chip);
-      $('recLoopChipStop').addEventListener('click', function () { endLoop('user-chip'); });
+      $('recLoopChipStop').addEventListener('click', function () {
+        if (mloop) stopManual(); else if (loop) endLoop('user-chip'); else hideChip();
+      });
+      $('recLoopChipPlay').addEventListener('click', function () { hideChip(); startManual(); });
     }
     chip.style.direction = ar() ? 'rtl' : 'ltr';
-    $('recLoopChipTxt').textContent = T('🔁 لا يوجد اتصال — تكرار المقطع المسجل حتى عودة الإنترنت',
-                                        '🔁 No connection — replaying your recorded clip until it returns');
+    var txt;
+    if (mode === 'prompt') txt = T('📴 لا يوجد اتصال — اضغط ▶️ لتشغيل مقطعك المسجل بتكرار مستمر',
+                                   '📴 You are offline — tap ▶️ to replay your recorded clip on repeat');
+    else if (mode === 'manual') txt = T('🔁 تكرار المقطع المسجل — اضغط ⏹ للإيقاف',
+                                        '🔁 Replaying your recorded clip — tap ⏹ to stop');
+    else txt = T('🔁 لا يوجد اتصال — تكرار المقطع المسجل حتى عودة الإنترنت',
+                 '🔁 No connection — replaying your recorded clip until it returns');
+    $('recLoopChipTxt').textContent = txt;
+    $('recLoopChipPlay').style.display = (mode === 'prompt') ? '' : 'none';
     chip.style.display = 'flex';
   }
-  function hideChip() { if (chip) chip.style.display = 'none'; }
+  function hideChip() { if (chip) chip.style.display = 'none'; chipMode = null; }
 
   /* ── التخزين (IndexedDB) ── */
   function dbOpen() {
@@ -38512,6 +38529,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   function srcMode() { var v = 'auto'; try { v = localStorage.getItem('recLoopSrc') || 'auto'; } catch (e) {} return (v === 'tab' || v === 'mic') ? v : 'auto'; }
   function startRec() {
     if (rec || acquiring) return;
+    if (mloop) stopManual();
     if (typeof MediaRecorder === 'undefined') { note(T('المتصفح لا يدعم التسجيل', 'This browser doesn\u2019t support recording'), 3500); return; }
     ensureCtx();
     var mode = srcMode(), done = function (gs) { acquiring = false; if (gs) beginRec(gs); refreshUI(); };
@@ -38564,6 +38582,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     }
     var blob = new Blob(r.chunks, { type: r.mime });
     if (loop) endLoop('replaced');
+    if (mloop) stopManual();
     if (preview) { preview.h.stop(0.1); preview = null; }
     clip = { blob: blob, mime: r.mime, ms: ms, savedAt: Date.now(), buf: null, prepared: false, src: r.source };
     ready = false;
@@ -38620,7 +38639,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   }
 
   function startLoop(el) {
-    if (loop) return;
+    if (loop || mloop) return;
     prepare().then(function () {
       if (loop || !clip) return;
       var vol = el.volume; if (!(vol > 0.05)) vol = 0.8;
@@ -38679,6 +38698,8 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       el._recLoopBound = true;
       el.addEventListener('playing', function () {
         last = el; cancelStall();
+        if (mloop) stopManual();
+        if (chipMode === 'prompt') hideChip();
         if (loop && el === loop.el && genuine(el)) endLoop('back-online');
       });
       ['waiting', 'stalled', 'error', 'ended'].forEach(function (ev) {
@@ -38714,6 +38735,9 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     setTxt(db, '🗑️ ' + T('حذف', 'Delete'));
     pb.disabled = !clip || !!rec; db.disabled = !clip || !!rec;
     pb.style.opacity = pb.disabled ? '.5' : '1'; db.style.opacity = db.disabled ? '.5' : '1';
+    var lb = $('recLoopLoopBtn'), dl = $('recLoopDlBtn');
+    if (lb) { setTxt(lb, mloop ? '⏹ ' + T('إيقاف التكرار', 'Stop loop') : '🔁 ' + T('تكرار', 'Loop')); lb.disabled = !clip || !!rec; lb.style.opacity = lb.disabled ? '.5' : '1'; }
+    if (dl) { setTxt(dl, '💾 ' + T('تنزيل', 'Download')); dl.disabled = !clip || !!rec; dl.style.opacity = dl.disabled ? '.5' : '1'; }
     setTxt(info, clip
       ? T('المقطع المحفوظ', 'Saved clip') + ': ' + fmt(clip.ms / 1000) + ' — ' + (clip.blob.size / 1048576).toFixed(2) + ' MB' + (clip.src ? ' — ' + srcName(clip.src) : '')
       : T('لا يوجد مقطع محفوظ. شغّل محطة ثم اضغط تسجيل.', 'No clip saved. Play a station, then press Record.'));
@@ -38743,6 +38767,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   window.recLoopTogglePreview = function () {
     if (preview) { preview.h.stop(0.1); preview = null; refreshUI(); return; }
     if (!clip) return;
+    if (mloop) stopManual();
     prepare().then(function () {
       if (preview || !clip) return;
       preview = { h: playClip(0.8, false, function () { preview = null; refreshUI(); }) };
@@ -38753,10 +38778,58 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (!clip) return;
     if (!confirm(T('حذف المقطع المسجل؟', 'Delete the recorded clip?'))) return;
     if (loop) endLoop('deleted');
+    if (mloop) stopManual();
     if (preview) { preview.h.stop(0.1); preview = null; }
     clip = null; ready = false;
     dbOp('readwrite', function (s) { return s.delete(KEY); }).catch(function () {});
     refreshUI();
+  };
+  /* ── تكرار يدوي لا نهائي (يشتغل أونلاين أو أوفلاين، حتى بعد فتح الموقع من جديد) ── */
+  function startManual() {
+    if (!clip || rec || mloop) return;
+    if (loop) endLoop('manual');
+    if (preview) { preview.h.stop(0.1); preview = null; }
+    var c = ensureCtx(), l = mloop = { h: null };
+    // نوقف المحطة الشغّالة (لو فيه) عشان ما يتداخلش الصوت
+    PLAY_IDS.concat(['audioStreamPlayer']).forEach(function (id) {
+      var el = $(id); if (el && !el.paused) { try { el.pause(); } catch (e) {} }
+    });
+    var wake = (c && c.state !== 'running' && c.resume) ? Promise.resolve(c.resume()).catch(function () {}) : Promise.resolve();
+    wake.then(prepare).then(function () {
+      if (mloop !== l || !clip) return;
+      l.h = playClip(0.9, true, null, function () {
+        stopManual();
+        note(T('المتصفح منع التشغيل — اضغط تكرار مرة أخرى', 'Playback was blocked \u2014 tap Loop again'), 3500);
+      });
+      showChip('manual'); refreshUI();
+    });
+    refreshUI();
+  }
+  function stopManual() {
+    var l = mloop; if (!l) return;
+    mloop = null;
+    if (l.h) l.h.stop(0.4);
+    hideChip(); refreshUI();
+  }
+  function clipExt(m) {
+    m = (m || '').toLowerCase();
+    if (m.indexOf('webm') >= 0) return 'webm';
+    if (m.indexOf('mp4') >= 0 || m.indexOf('aac') >= 0 || m.indexOf('m4a') >= 0) return 'm4a';
+    if (m.indexOf('ogg') >= 0) return 'ogg';
+    if (m.indexOf('mpeg') >= 0 || m.indexOf('mp3') >= 0) return 'mp3';
+    if (m.indexOf('wav') >= 0) return 'wav';
+    return 'audio';
+  }
+  window.recLoopToggleManual = function () { if (mloop) stopManual(); else startManual(); };
+  window.recLoopDownload = function () {
+    if (!clip) return;
+    var d = new Date(clip.savedAt || Date.now()), p2 = function (n) { return ('0' + n).slice(-2); };
+    var name = 'radio-clip-' + d.getFullYear() + p2(d.getMonth() + 1) + p2(d.getDate()) + '-' + p2(d.getHours()) + p2(d.getMinutes()) + '.' + clipExt(clip.mime);
+    var url = URL.createObjectURL(clip.blob), a = document.createElement('a');
+    a.href = url; a.download = name; a.style.display = 'none';
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { try { document.body.removeChild(a); } catch (e) {} URL.revokeObjectURL(url); }, 4000);
+    note(T('💾 جاري تنزيل المقطع على الجهاز', '💾 Downloading the clip to your device'), 2500);
   };
   window.recLoopSetMax = function (v) {
     v = parseInt(v, 10);
@@ -38775,6 +38848,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       if (!file) return;
       if (file.size > 30 * 1048576) { note(T('الملف كبير (الحد 30 ميجا)', 'File too large (30 MB max)'), 4000); return; }
       if (loop) endLoop('replaced');
+      if (mloop) stopManual();
       if (preview) { preview.h.stop(0.1); preview = null; }
       clip = { blob: file, mime: file.type || 'audio/mpeg', ms: 0, savedAt: Date.now(), buf: null, prepared: false, src: 'file' };
       ready = false;
@@ -38803,7 +38877,10 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       clip = { blob: v.blob, mime: v.mime, ms: v.ms || 0, savedAt: v.savedAt, buf: null, prepared: false, src: v.src };
       return prepare();
     }
-  }).then(refreshUI).catch(function () {});
+  }).then(refreshUI).then(function () {
+    // فتح الموقع والإنترنت مفصول: اعرض زر تشغيل المقطع المسجل (المتصفح يتطلب لمسة من المستخدم لبدء الصوت)
+    if (clip && ready && isEnabled() && navigator.onLine === false && !loop && !mloop && !rec) showChip('prompt');
+  }).catch(function () {});
 })();
 </script>
 </body>
