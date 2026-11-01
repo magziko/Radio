@@ -29148,6 +29148,60 @@ function _stopTasbihTargetLine(button) {
   if (typeof window.tasbihRingSync === 'function') window.tasbihRingSync(box);
 }
 
+// ===== حلقة العدّ التنازلى حوالين بطاقة الذكر نفسها =====
+// نفس فكرة الدائرة الصغيرة حوالين زر الإيقاف: فى كل عدّة (لفة) بتبدأ ممتلئة وتفرغ تدريجيًا
+// على مدار مهلة القراءة، لكن حوالين حدود البطاقة كلها عشان تبان أوضح. للأذكار اللى تارجتها ٤ فأكثر.
+// الشكل (السمك واللون) فى style.css (.tb-card-ring)
+var _TB_CARD_RING_MIN_TARGET = 4;
+var _tbCardRingRO = (typeof ResizeObserver !== 'undefined') ? new ResizeObserver(function(entries) {
+  entries.forEach(function(e) { _tbCardRingGeom(e.target); });
+}) : null;
+
+function _tbCardRingGeom(btn) {
+  var r = btn && btn.__tbRing; if (!r) return;
+  var w = btn.clientWidth, h = btn.clientHeight; if (!w || !h) return;
+  var sw = parseFloat(getComputedStyle(r.prog).strokeWidth) || 3;
+  var rad = parseFloat(getComputedStyle(btn).borderTopLeftRadius) || 12;
+  rad = Math.max(0, Math.min(rad, (Math.min(w, h) - sw) / 2) - sw / 2);
+  r.svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+  [r.track, r.prog].forEach(function(el) {
+    el.setAttribute('x', sw / 2); el.setAttribute('y', sw / 2);
+    el.setAttribute('width', Math.max(0, w - sw)); el.setAttribute('height', Math.max(0, h - sw));
+    el.setAttribute('rx', rad); el.setAttribute('ry', rad);
+  });
+  r.svg.classList.toggle('rtl', getComputedStyle(btn).direction === 'rtl');
+}
+
+function _startTasbihCardRing(button, delay) {
+  _stopTasbihCardRing(button);
+  if (!button || !(typeof delay === 'number' && delay > 0)) return;
+  if ((parseInt(button.dataset.target) || 0) < _TB_CARD_RING_MIN_TARGET) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  if (getComputedStyle(button).position === 'static') button.classList.add('tb-card-ring-host');
+  var svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('class', 'tb-card-ring');
+  svg.setAttribute('aria-hidden', 'true');
+  var track = document.createElementNS(NS, 'rect'); track.setAttribute('class', 'tb-cr-track');
+  var prog = document.createElementNS(NS, 'rect'); prog.setAttribute('class', 'tb-cr-prog');
+  prog.setAttribute('pathLength', '100');
+  prog.style.strokeDasharray = '100 100';                 // ممتلئة الأول = كل الوقت لسه متبقى
+  svg.appendChild(track); svg.appendChild(prog);
+  button.appendChild(svg);
+  button.__tbRing = { svg: svg, track: track, prog: prog };
+  _tbCardRingGeom(button);
+  if (_tbCardRingRO) _tbCardRingRO.observe(button);
+  void prog.getBoundingClientRect();                      // نفرض رسم الحالة الابتدائية قبل التفريغ
+  prog.style.transitionDuration = delay + 'ms';
+  prog.style.strokeDasharray = '0 100';
+}
+
+function _stopTasbihCardRing(button) {
+  var r = button && button.__tbRing; if (!r) return;
+  if (_tbCardRingRO) _tbCardRingRO.unobserve(button);
+  r.svg.remove();
+  button.__tbRing = null;
+}
+
 function _showTasbihNextHint(button, delay) {
   var box = button.querySelector('.tasbih-box');
   if (!box) return;
@@ -29155,6 +29209,7 @@ function _showTasbihNextHint(button, delay) {
 
   // خط التارجت المتحرك لأذكار الصباح/المساء بتارجت ١ (مستقل عن وجود زر الإيقاف)
   _startTasbihTargetLine(button, delay);
+  _startTasbihCardRing(button, delay);
 
   // زر الإيقاف/الاستئناف ثابت وموجود بالفعل جوّا المربع (لو الميزة مفعّلة من
   // الإعدادات)، فبس بنلف حواليه دائرة عدّ تنازلى (تبدأ ممتلئة وتفرغ تدريجيًا
@@ -29202,6 +29257,7 @@ function _showTasbihNextHint(button, delay) {
 function _clearTasbihNextHint(button) {
   if (!button) return;
   _stopTasbihTargetLine(button);
+  _stopTasbihCardRing(button);
   var box = button.querySelector('.tasbih-box');
   if (box) box.classList.remove('tasbih-hint-visible');
   // دائرة العدّ التنازلى بس هى اللى بتتشال؛ زر الإيقاف/الاستئناف نفسه بيفضل ظاهر فى مكانه
@@ -38179,54 +38235,6 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var n = parseInt(s, 10);
     return isNaN(n) ? 0 : n;
   }
-  /* ── حلقة تقدّم التارجت حوالين زر الذكر نفسه (للأذكار اللى تارجتها أكتر من ٣) ──
-     بتتحدّث مع كل عدّة عن طريق نفس دالة sync تحت، وبتتبع حجم الزر (تكبير وضع التركيز) */
-  var CARD_RING_MIN_TARGET = 4, SVGNS = 'http://www.w3.org/2000/svg';
-  var cardRO = (typeof ResizeObserver !== 'undefined') ? new ResizeObserver(function(entries) {
-    entries.forEach(function(e) { cardRingGeom(e.target); });
-  }) : null;
-  function cardRingGeom(btn) {
-    var r = btn && btn.__tbRing; if (!r) return;
-    var w = btn.clientWidth, h = btn.clientHeight; if (!w || !h) return;
-    var sw = parseFloat(getComputedStyle(r.prog).strokeWidth) || 3;   // السمك من style.css
-    var rad = parseFloat(getComputedStyle(btn).borderTopLeftRadius) || 12;
-    rad = Math.max(0, Math.min(rad, (Math.min(w, h) - sw) / 2) - sw / 2);
-    r.svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
-    [r.track, r.prog].forEach(function(el) {
-      el.setAttribute('x', sw / 2); el.setAttribute('y', sw / 2);
-      el.setAttribute('width', Math.max(0, w - sw)); el.setAttribute('height', Math.max(0, h - sw));
-      el.setAttribute('rx', rad); el.setAttribute('ry', rad);
-    });
-    r.svg.classList.toggle('rtl', getComputedStyle(btn).direction === 'rtl');
-  }
-  function cardRingUpdate(btn, pct, target) {
-    if (!btn) return;
-    if (target < CARD_RING_MIN_TARGET) {
-      if (btn.__tbRing) {
-        if (cardRO) cardRO.unobserve(btn);
-        btn.__tbRing.svg.remove(); btn.__tbRing = null;
-      }
-      return;
-    }
-    var r = btn.__tbRing;
-    if (!r || !r.svg.isConnected) {
-      if (getComputedStyle(btn).position === 'static') btn.classList.add('tb-card-ring-host');
-      var svg = document.createElementNS(SVGNS, 'svg');
-      svg.setAttribute('class', 'tb-card-ring');
-      svg.setAttribute('aria-hidden', 'true');
-      var track = document.createElementNS(SVGNS, 'rect'); track.setAttribute('class', 'tb-cr-track');
-      var prog = document.createElementNS(SVGNS, 'rect'); prog.setAttribute('class', 'tb-cr-prog');
-      prog.setAttribute('pathLength', '100');
-      svg.appendChild(track); svg.appendChild(prog);
-      btn.appendChild(svg);
-      r = btn.__tbRing = { svg: svg, track: track, prog: prog };
-      cardRingGeom(btn);
-      if (cardRO) cardRO.observe(btn);
-    }
-    r.prog.style.strokeDasharray = pct.toFixed(2) + ' 100';
-    r.svg.classList.toggle('done', pct >= 100);
-  }
-
   function sync(box) {
     if (!box || !box.querySelector) return;
     // أثناء حركة خط التارجت (أذكار الصباح/المساء بتارجت ١) الحركة بتتحكم فيها مهلة القراءة
@@ -38238,7 +38246,6 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var count = toNum(countEl.textContent);
     var pct = target > 0 ? Math.min(100, Math.max(0, (count / target) * 100)) : 0;
     box.style.setProperty('--tb-prog', pct.toFixed(2) + '%');
-    cardRingUpdate(btn, pct, target);
   }
   function syncAll(root) {
     (root || document).querySelectorAll('.tasbih-box').forEach(sync);
