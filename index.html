@@ -3410,6 +3410,33 @@ setTimeout(autoScaleVerseFont, 100);
       style="margin-inline-start:auto;"></div>
   </div>
 
+  <div id="adhkar-count-dir-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <span data-ar="⏳ عدّ العدّة تصاعديًا" data-en="⏳ Ascending count per repetition"
+      style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">⏳ عدّ العدّة تصاعديًا</span>
+
+    <span data-ar="مفعّل: الحلقة تبدأ فارغة وتمتلئ فى كل عدّة. مقفول (الافتراضى): تبدأ ممتلئة وتفرغ" data-en="On: the ring starts empty and fills during each repetition. Off (default): starts full and empties"
+      style="font-size:12px;color:var(--theme-c3);">مفعّل: الحلقة تبدأ فارغة وتمتلئ فى كل عدّة. مقفول (الافتراضى): تبدأ ممتلئة وتفرغ</span>
+
+    <div id="adhkarCountAscToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0"
+      onclick="toggleAdhkarCountAsc()"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAdhkarCountAsc();}"
+      style="margin-inline-start:auto;"></div>
+  </div>
+
   <div id="adhkar-tahlil-settings" class="adhkar-tahlil-settings">
     <div class="tahlil-row tahlil-row-count">
       <span class="tahlil-title" data-ar="🤲 عدد مرات «لا إله إلا الله وحده لا شريك له»" data-en="🤲 Repetitions of “La ilaha illallah wahdahu…”">🤲 عدد مرات «لا إله إلا الله وحده لا شريك له»</span>
@@ -19858,6 +19885,26 @@ function toggleTasbihAutoFromBox(event) {
   _applyAdhkarAutoAdvance(saved === null ? true : saved === '1');
 })();
 
+// اتجاه حلقة العدّة فى الأذكار: الافتراضى تنازلى (تبدأ ممتلئة وتفرغ). لو اتفعّل = تصاعدى (تبدأ فارغة وتمتلئ)
+var _adhkarCountAscOn = false;
+function _applyAdhkarCountAsc(on) {
+  _adhkarCountAscOn = !!on;
+  var toggle = document.getElementById('adhkarCountAscToggle');
+  if (toggle) {
+    toggle.classList.toggle('on', _adhkarCountAscOn);
+    toggle.setAttribute('aria-checked', _adhkarCountAscOn ? 'true' : 'false');
+  }
+}
+function toggleAdhkarCountAsc() {
+  _applyAdhkarCountAsc(!_adhkarCountAscOn);
+  try { localStorage.setItem('adhkarCountAsc', _adhkarCountAscOn ? '1' : '0'); } catch (e) {}
+}
+(function initAdhkarCountAscSetting() {
+  var saved = null;
+  try { saved = localStorage.getItem('adhkarCountAsc'); } catch (e) {}
+  _applyAdhkarCountAsc(saved === '1');
+})();
+
 // خيار اختيار صباح/مساء تلقائيًا عند فتح قسم الأذكار (مفعّل افتراضيًا). لو اتقفل،
 // getAdhkarSubByTime() بترجّع null فيفتح القسم على "الكل" زي أى وقت تانى
 var _adhkarAutoSubByTimeOn = true;
@@ -29164,10 +29211,11 @@ function _startTasbihBoxCountdown(button, delay) {
   if (!box) return;
   box.style.transition = 'none';
   box.classList.add('tb-line-running');
-  box.style.setProperty('--tb-prog', '100%');                 // ممتلئة الأول = كل الوقت لسه متبقى
+  var _asc = !!_adhkarCountAscOn;                              // تصاعدى: فارغة -> ممتلئة | تنازلى (الافتراضى): ممتلئة -> فارغة
+  box.style.setProperty('--tb-prog', _asc ? '0%' : '100%');
   void box.getBoundingClientRect();
   box.style.transition = '--tb-prog ' + delay + 'ms linear';
-  box.style.setProperty('--tb-prog', '0%');
+  box.style.setProperty('--tb-prog', _asc ? '100%' : '0%');
 }
 
 function _showTasbihNextHint(button, delay) {
@@ -29205,7 +29253,8 @@ function _showTasbihNextHint(button, delay) {
   ringProgress.setAttribute('cy', '11');
   ringProgress.setAttribute('r', String(r));
   ringProgress.style.strokeDasharray = circumference.toFixed(2);
-  ringProgress.style.strokeDashoffset = '0'; // مليانة الأول = كل الوقت لسه متبقى
+  var _ascC = !!_adhkarCountAscOn;
+  ringProgress.style.strokeDashoffset = _ascC ? circumference.toFixed(2) : '0'; // تنازلى: مليانة الأول | تصاعدى: فاضية الأول
   svg.appendChild(ringBg);
   svg.appendChild(ringProgress);
   toggleBtn.appendChild(svg);
@@ -29218,7 +29267,7 @@ function _showTasbihNextHint(button, delay) {
   if (typeof delay === 'number' && delay > 0) {
     void ringProgress.getBoundingClientRect();
     ringProgress.style.transitionDuration = delay + 'ms';
-    ringProgress.style.strokeDashoffset = circumference.toFixed(2);
+    ringProgress.style.strokeDashoffset = _ascC ? '0' : circumference.toFixed(2);
   }
 }
 
