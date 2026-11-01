@@ -3410,40 +3410,21 @@ setTimeout(autoScaleVerseFont, 100);
       style="margin-inline-start:auto;"></div>
   </div>
 
-  <div id="adhkar-tahlil-settings" style="
-    margin: 8px auto 4px;
-    width: 97%; max-width: 860px;
-    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
-    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
-    border-radius: 14px;
-    padding: 4px 16px;
-    box-sizing: border-box;
-    direction: rtl;
-    font-family: 'Cairo', Arial, sans-serif;
-  ">
-    <style>
-      .tahlil-count-btn{font-family:inherit;font-size:14px;font-weight:700;min-width:52px;min-height:36px;padding:4px 14px;border-radius:10px;cursor:pointer;border:1.5px solid rgba(var(--theme-c1-rgb),0.35);background:transparent;color:var(--theme-c4);}
-      .tahlil-count-btn.active{background:rgba(var(--theme-c1-rgb),0.9);color:#fff;border-color:transparent;}
-    </style>
-    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed rgba(var(--theme-c1-rgb),0.2);">
-      <span data-ar="🤲 عدد مرات «لا إله إلا الله وحده لا شريك له»" data-en="🤲 Repetitions of “La ilaha illallah wahdahu…”"
-        style="font-size:15px;font-weight:700;color:var(--theme-c4);">🤲 عدد مرات «لا إله إلا الله وحده لا شريك له»</span>
-      <span data-ar="تختلف الروايات بين 10 و100، اختر ما يناسبك (الافتراضى 100)" data-en="Narrations differ between 10 and 100; pick what suits you (default 100)"
-        style="font-size:12px;color:var(--theme-c3);">تختلف الروايات بين 10 و100، اختر ما يناسبك (الافتراضى 100)</span>
-      <div style="margin-inline-start:auto;display:flex;gap:8px;">
+  <div id="adhkar-tahlil-settings" class="adhkar-tahlil-settings">
+    <div class="tahlil-row tahlil-row-count">
+      <span class="tahlil-title" data-ar="🤲 عدد مرات «لا إله إلا الله وحده لا شريك له»" data-en="🤲 Repetitions of “La ilaha illallah wahdahu…”">🤲 عدد مرات «لا إله إلا الله وحده لا شريك له»</span>
+      <span class="tahlil-note" data-ar="تختلف الروايات بين 10 و100، اختر ما يناسبك (الافتراضى 100)" data-en="Narrations differ between 10 and 100; pick what suits you (default 100)">تختلف الروايات بين 10 و100، اختر ما يناسبك (الافتراضى 100)</span>
+      <div class="tahlil-count-group">
         <button type="button" class="tahlil-count-btn" data-n="10" onclick="setTahlilCount(10)">10</button>
         <button type="button" class="tahlil-count-btn" data-n="100" onclick="setTahlilCount(100)">100</button>
       </div>
     </div>
-    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 0;">
-      <span data-ar="🔚 جعل التهليل آخر ذكر" data-en="🔚 Make this dhikr the last one"
-        style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">🔚 جعل التهليل آخر ذكر</span>
-      <span data-ar="فى أذكار الصباح والمساء فقط؛ وإن أُطفئ يبقى فى مكانه الأصلى" data-en="In Morning/Evening adhkar only; when off it stays in its original place"
-        style="font-size:12px;color:var(--theme-c3);">فى أذكار الصباح والمساء فقط؛ وإن أُطفئ يبقى فى مكانه الأصلى</span>
-      <div id="adhkarTahlilLastToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0"
+    <div class="tahlil-row">
+      <span class="tahlil-title tahlil-nowrap" data-ar="🔚 جعل التهليل آخر ذكر" data-en="🔚 Make this dhikr the last one">🔚 جعل التهليل آخر ذكر</span>
+      <span class="tahlil-note" data-ar="فى أذكار الصباح والمساء فقط؛ وإن أُطفئ يبقى فى مكانه الأصلى" data-en="In Morning/Evening adhkar only; when off it stays in its original place">فى أذكار الصباح والمساء فقط؛ وإن أُطفئ يبقى فى مكانه الأصلى</span>
+      <div id="adhkarTahlilLastToggle" class="mini-toggle-switch tahlil-toggle" role="switch" aria-checked="false" tabindex="0"
         onclick="toggleTahlilLast()"
-        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTahlilLast();}"
-        style="margin-inline-start:auto;"></div>
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTahlilLast();}"></div>
     </div>
   </div>
 
@@ -19936,6 +19917,8 @@ function _tahlilApplyCount() {
   try { saved = parseInt(localStorage.getItem('tasbih_' + b.getAttribute('data-station'))) || 0; } catch (e) {}
   b.classList.toggle('completed', saved > 0 && saved >= n);
   if (typeof updateAdhkarProgress === 'function') requestAnimationFrame(updateAdhkarProgress);
+  var _bx = b.querySelector('.tasbih-box');
+  if (_bx && typeof window.tasbihRingSync === 'function') window.tasbihRingSync(_bx);
 }
 function _tahlilWrapNode(b) {
   return (b.parentElement && b.parentElement.classList.contains('pl-check-wrap')) ? b.parentElement : b;
@@ -38196,6 +38179,54 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var n = parseInt(s, 10);
     return isNaN(n) ? 0 : n;
   }
+  /* ── حلقة تقدّم التارجت حوالين زر الذكر نفسه (للأذكار اللى تارجتها أكتر من ٣) ──
+     بتتحدّث مع كل عدّة عن طريق نفس دالة sync تحت، وبتتبع حجم الزر (تكبير وضع التركيز) */
+  var CARD_RING_MIN_TARGET = 4, SVGNS = 'http://www.w3.org/2000/svg';
+  var cardRO = (typeof ResizeObserver !== 'undefined') ? new ResizeObserver(function(entries) {
+    entries.forEach(function(e) { cardRingGeom(e.target); });
+  }) : null;
+  function cardRingGeom(btn) {
+    var r = btn && btn.__tbRing; if (!r) return;
+    var w = btn.clientWidth, h = btn.clientHeight; if (!w || !h) return;
+    var sw = parseFloat(getComputedStyle(r.prog).strokeWidth) || 3;   // السمك من style.css
+    var rad = parseFloat(getComputedStyle(btn).borderTopLeftRadius) || 12;
+    rad = Math.max(0, Math.min(rad, (Math.min(w, h) - sw) / 2) - sw / 2);
+    r.svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    [r.track, r.prog].forEach(function(el) {
+      el.setAttribute('x', sw / 2); el.setAttribute('y', sw / 2);
+      el.setAttribute('width', Math.max(0, w - sw)); el.setAttribute('height', Math.max(0, h - sw));
+      el.setAttribute('rx', rad); el.setAttribute('ry', rad);
+    });
+    r.svg.classList.toggle('rtl', getComputedStyle(btn).direction === 'rtl');
+  }
+  function cardRingUpdate(btn, pct, target) {
+    if (!btn) return;
+    if (target < CARD_RING_MIN_TARGET) {
+      if (btn.__tbRing) {
+        if (cardRO) cardRO.unobserve(btn);
+        btn.__tbRing.svg.remove(); btn.__tbRing = null;
+      }
+      return;
+    }
+    var r = btn.__tbRing;
+    if (!r || !r.svg.isConnected) {
+      if (getComputedStyle(btn).position === 'static') btn.classList.add('tb-card-ring-host');
+      var svg = document.createElementNS(SVGNS, 'svg');
+      svg.setAttribute('class', 'tb-card-ring');
+      svg.setAttribute('aria-hidden', 'true');
+      var track = document.createElementNS(SVGNS, 'rect'); track.setAttribute('class', 'tb-cr-track');
+      var prog = document.createElementNS(SVGNS, 'rect'); prog.setAttribute('class', 'tb-cr-prog');
+      prog.setAttribute('pathLength', '100');
+      svg.appendChild(track); svg.appendChild(prog);
+      btn.appendChild(svg);
+      r = btn.__tbRing = { svg: svg, track: track, prog: prog };
+      cardRingGeom(btn);
+      if (cardRO) cardRO.observe(btn);
+    }
+    r.prog.style.strokeDasharray = pct.toFixed(2) + ' 100';
+    r.svg.classList.toggle('done', pct >= 100);
+  }
+
   function sync(box) {
     if (!box || !box.querySelector) return;
     // أثناء حركة خط التارجت (أذكار الصباح/المساء بتارجت ١) الحركة بتتحكم فيها مهلة القراءة
@@ -38207,6 +38238,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var count = toNum(countEl.textContent);
     var pct = target > 0 ? Math.min(100, Math.max(0, (count / target) * 100)) : 0;
     box.style.setProperty('--tb-prog', pct.toFixed(2) + '%');
+    cardRingUpdate(btn, pct, target);
   }
   function syncAll(root) {
     (root || document).querySelectorAll('.tasbih-box').forEach(sync);
