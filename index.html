@@ -3721,6 +3721,10 @@ setTimeout(autoScaleVerseFont, 100);
         <label id="recLoopMaxLbl" for="recLoopMax" style="font-size:13px;">أقصى مدة للتسجيل</label>
         <select id="recLoopMax" onchange="window.recLoopSetMax && window.recLoopSetMax(this.value)" style="width:110px;text-align:center;padding:4px 6px;font-size:14px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;"></select>
       </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <label id="recLoopCapLbl" for="recLoopCap" style="font-size:13px;">أقصى مدة للتكرار عند الانقطاع</label>
+        <select id="recLoopCap" onchange="window.recLoopSetCap && window.recLoopSetCap(this.value)" style="width:110px;text-align:center;padding:4px 6px;font-size:14px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;"></select>
+      </div>
       <div style="display:flex;align-items:center;gap:6px;">
         <label id="recLoopSelLbl" for="recLoopSel" style="font-size:13px;">المقطع</label>
         <select id="recLoopSel" onchange="window.recLoopSelect && window.recLoopSelect(this.value)" style="flex:1;min-width:0;width:auto;text-align:center;padding:4px 6px;font-size:14px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;"></select>
@@ -29395,8 +29399,7 @@ function _performTasbihAutoLap(button) {
 
   var target = parseInt(button.dataset.target) || 0;
   if (target && count >= target) {
-    var audio = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
-    audio.play().catch(function() {});
+    if (typeof window.playAdhkarDoneChime === 'function') window.playAdhkarDoneChime();
     if (navigator.vibrate) navigator.vibrate(200);
 
     button.classList.add('completed');
@@ -29607,8 +29610,7 @@ function incrementTasbih(event) {
 
   if (target && count === target) {
 
-    const audio = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
-    audio.play().catch(function() {});
+    if (typeof window.playAdhkarDoneChime === 'function') window.playAdhkarDoneChime();
 
     if (navigator.vibrate) {
       navigator.vibrate(200);
@@ -38542,6 +38544,67 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 
 <script>
 /* ══════════════════════════════════════════════════════════════
+   1) نغمة اكتمال الذكر: بتتولّد من الكود (Web Audio) فتشتغل أوفلاين
+      بدل تحميلها من رابط خارجى. بتتبع مستوى صوت الراديو.
+   2) إبقاء الشاشة صاحية أثناء التسبيح التلقائى للأذكار (Wake Lock)
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+  var cctx = null;
+  function chimeVol() {
+    var sl = document.getElementById('centralVolumeSlider'), v = sl ? parseFloat(sl.value) : NaN;
+    if (isNaN(v)) v = 0.8;
+    return Math.max(0.15, Math.min(1, v));      // حد أدنى بسيط عشان النغمة تتسمع حتى لو الراديو واطى
+  }
+  window.playAdhkarDoneChime = function () {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+      if (!cctx) cctx = new AC();
+      if (cctx.state === 'suspended') { try { cctx.resume(); } catch (e) {} }
+      var t = cctx.currentTime, master = cctx.createGain();
+      master.gain.value = 0.28 * chimeVol(); master.connect(cctx.destination);
+      [[880, 0], [1318.5, 0.14]].forEach(function (n) {          // نغمتين قصيرتين (لا - مى) بتلاشى ناعم
+        var o = cctx.createOscillator(), g = cctx.createGain(), st = t + n[1];
+        o.type = 'sine'; o.frequency.value = n[0];
+        g.gain.setValueAtTime(0.0001, st);
+        g.gain.exponentialRampToValueAtTime(1, st + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, st + 0.7);
+        o.connect(g); g.connect(master); o.start(st); o.stop(st + 0.75);
+      });
+    } catch (e) {}
+  };
+
+  /* ── Wake Lock للتسبيح التلقائى ── */
+  var wl = null, wlPending = false, lastActive = 0, IDLE_RELEASE_MS = 60000;
+  function adhkarAutoRunning() {
+    try {
+      return (typeof _adhkarAutoAdvanceActive === 'function' ? _adhkarAutoAdvanceActive() : false) &&
+             (typeof _tasbihAdvanceTimer !== 'undefined' && !!_tasbihAdvanceTimer);
+    } catch (e) { return false; }
+  }
+  function acquire() {
+    if (!('wakeLock' in navigator) || document.visibilityState !== 'visible') return;
+    if ((wl && !wl.released) || wlPending) return;
+    wlPending = true;
+    navigator.wakeLock.request('screen').then(function (s) {
+      wlPending = false; wl = s;
+      try { s.addEventListener('release', function () { if (wl === s) wl = null; }); } catch (e) {}
+    }).catch(function () { wlPending = false; });
+  }
+  function release() {
+    if (wl) { try { wl.release(); } catch (e) {} wl = null; }
+  }
+  setInterval(function () {
+    if (adhkarAutoRunning()) { lastActive = Date.now(); acquire(); }
+    else if (wl && Date.now() - lastActive > IDLE_RELEASE_MS) release();      // بعد دقيقة بدون عدّ تلقائى نحرر القفل لتوفير البطارية
+  }, 3000);
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && Date.now() - lastActive <= IDLE_RELEASE_MS && lastActive) acquire();   // القفل بيتحرر لما الصفحة تتخبّى
+  });
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
    تسجيل مقطع من صوت الموقع وتكراره لانهائياً عند انقطاع الإنترنت
    - تسجيل المحطة الشغّالة (نفس أسلوب تسجيل صوت الجهاز فى الملاحظات)
    - المقطع بيتحفظ على الجهاز (IndexedDB) ويفضل بعد إغلاق الصفحة
@@ -38558,7 +38621,22 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
                   [120, 'دقيقتان', '2 min'], [300, '5 دقائق', '5 min'], [600, '10 دقائق', '10 min']];
 
   var clip = null, ready = false, ctx = null, rec = null, loop = null, preview = null, last = null, stallTimer = null;
-  var mloop = null, chipMode = null;
+  var mloop = null, chipMode = null, loopCapped = false;
+  /* openOffline: الموقع اتفتح (أو اتعمله ريفرش) والإنترنت مقطوع → المقطع المسجل هو اللى يشتغل ويفضل شغّال لحد ما الإنترنت يرجع فعلاً
+     dismissed: المستخدم أوقفه بنفسه (⏹ أو من الإعدادات) فمنبدأوش تانى لحد ما الإنترنت يرجع */
+  var openOffline = (navigator.onLine === false), dismissed = false;
+  /* أقصى مدة لتكرار المقطع وقت الانقطاع (الافتراضى: بلا حد) */
+  var LS_CAP = 'recLoopCapMin';
+  var CAP_OPTS = [[0, 'بلا حد', 'No limit'], [10, '10 دقائق', '10 min'], [30, '30 دقيقة', '30 min'], [60, 'ساعة', '1 hour'], [180, '3 ساعات', '3 hours']];
+  function capMin() {
+    var v = 0; try { v = parseInt(localStorage.getItem(LS_CAP), 10); } catch (e) {}
+    return CAP_OPTS.some(function (o) { return o[0] === v; }) ? v : 0;
+  }
+  window.recLoopSetCap = function (v) {
+    v = parseInt(v, 10);
+    if (!CAP_OPTS.some(function (o) { return o[0] === v; })) return;
+    try { localStorage.setItem(LS_CAP, String(v)); } catch (e) {}
+  };
   var clips = [], MAX_CLIPS = 20, LS_SEL = 'recLoopSel';   // قائمة المقاطع؛ clip = المقطع المختار حالياً   // mloop = تكرار يدوي للمقطع المسجل (بدون الحاجة لانقطاع الإنترنت)
 
   function $(id) { return document.getElementById(id); }
@@ -38601,7 +38679,11 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       $('recLoopChipStop').addEventListener('click', function () {
         if (mloop) stopManual(); else if (loop) endLoop('user-chip'); else hideChip();
       });
-      $('recLoopChipPlay').addEventListener('click', function () { hideChip(); startManual(); });
+      $('recLoopChipPlay').addEventListener('click', function () {
+        if (mloop) return;   // لمسة الشاشة بدأت التكرار فعلاً
+        hideChip();
+        if (openOffline && navigator.onLine === false) { dismissed = false; startManual(true); } else startManual();
+      });
     }
     chip.style.direction = ar() ? 'rtl' : 'ltr';
     var txt;
@@ -38691,12 +38773,35 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     }).then(function (b) { clip.buf = b; return done(); }, function () { clip.buf = null; return done(); });
   }
 
+  // نسخة المقطع للتكرار بدون "طقطقة" أو قطع حاد عند نقطة الوصل: بنخلط آخر ٠٫٤ ث (أو ١٥٪ من المقطع) مع أوله
+  // بتلاشى متقاطع (equal-power) فنهاية المقطع بتدخل فى بدايته بنعومة. للمقاطع حتى ٣ دقائق بس (عشان الذاكرة).
+  function loopBuffer(c) {
+    var b = clip.buf;
+    if (!b || b.duration < 2 || b.duration > 180) return b;
+    if (clip.loopBuf && clip.loopBufFor === b) return clip.loopBuf;
+    try {
+      var X = Math.min(Math.floor(b.sampleRate * 0.4), Math.floor(b.length * 0.15)), L = b.length - X;
+      if (X < 64 || L <= X) return b;
+      var out = c.createBuffer(b.numberOfChannels, L, b.sampleRate);
+      for (var ch = 0; ch < b.numberOfChannels; ch++) {
+        var inp = b.getChannelData(ch), o = out.getChannelData(ch);
+        o.set(inp.subarray(0, L));
+        for (var i = 0; i < X; i++) {
+          var t = i / X;
+          o[i] = inp[i] * Math.sin(t * Math.PI / 2) + inp[L + i] * Math.cos(t * Math.PI / 2);
+        }
+      }
+      clip.loopBuf = out; clip.loopBufFor = b;
+      return out;
+    } catch (e) { return b; }
+  }
+
   // تشغيل المقطع: عبر Web Audio (تكرار بدون أى فجوة) وإلا عنصر <audio> كبديل
   function playClip(vol, loopIt, onend, onfail) {
     var c = ensureCtx(), h = {};
     if (c && clip.buf && c.state === 'running') {
       var src = c.createBufferSource(), g = c.createGain(), t = c.currentTime;
-      src.buffer = clip.buf; src.loop = !!loopIt;
+      src.buffer = loopIt ? loopBuffer(c) : clip.buf; src.loop = !!loopIt;
       src.connect(g); g.connect(c.destination);
       g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.4);
       var srcEnded = false;
@@ -38946,11 +39051,11 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   }
 
   function startLoop(el) {
-    if (loop || mloop) return;
+    if (loop || mloop || loopCapped) return;
     prepare().then(function () {
       if (loop || !clip) return;
       var vol = radioVol();
-      loop = { el: el, url: el.currentSrc || el.src, wasMuted: el.muted, h: null, tick: 0, okCount: 0, reconnecting: false, checking: false, vol: vol, reviving: false };
+      loop = { el: el, url: el.currentSrc || el.src, wasMuted: el.muted, h: null, tick: 0, okCount: 0, reconnecting: false, checking: false, vol: vol, reviving: false, startTs: Date.now() };
       el.muted = true;                                         // نكتم المحطة الميتة عشان ما يتداخلش صوت
       loop.h = playClip(vol, true, null, function () { endLoop('blocked'); });
       loop.timer = setInterval(loopTick, 1000);
@@ -38961,6 +39066,12 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (!loop) return;
     if (window._userStoppedManually) { endLoop('user-stopped'); return; }
     loop.tick++;
+    var _cm = capMin();
+    if (_cm > 0 && Date.now() - loop.startTs >= _cm * 60000) {          // وصلنا للحد الأقصى: نوقف التكرار ومنبدأش تانى لحد ما الصوت/الإنترنت يرجعوا
+      loopCapped = true; endLoop('cap');
+      note(T('⏹ توقّف تكرار المقطع بعد ' + _cm + ' دقيقة', '\u23F9 Clip loop stopped after ' + _cm + ' min'), 5000);
+      return;
+    }
     // أثناء الانقطاع: نثبّت كتم المحطة الميتة ونتأكد إن المقطع لسه شغّال؛ لو وقف لأى سبب نعيد تشغيله فورًا
     try { if (loop.el && !loop.el.muted) loop.el.muted = true; } catch (e) {}
     if (!loop.h || (loop.h.alive && !loop.h.alive())) reviveLoop();
@@ -39022,10 +39133,14 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       if (!el || el._recLoopBound) return;
       el._recLoopBound = true;
       el.addEventListener('playing', function () {
-        last = el; cancelStall();
-        if (mloop) stopManual();
-        if (chipMode === 'prompt') hideChip();
-        if (loop && el === loop.el && genuine(el)) endLoop('back-online');
+        // فتح بدون إنترنت: التكرار ثابت ومش بيقف بأى حدث تشغيل، بيقف بس لما الإنترنت يرجع فعلاً (فحص حقيقى) أو المستخدم يوقفه
+        if (mloop && mloop.sticky) { last = el; return; }
+        last = el; cancelStall(); loopCapped = false;
+        // مقاطع الفتح التلقائية فى الشاشة الترحيبية (اعوذ بالله / صلّ على النبي) مش اختيار من المستخدم ولا رجوع للإنترنت
+        var _intro = (el.id === 'customAudioPlayer' && !!window._welcomeHasChainedNext);
+        if (mloop && !_intro) stopManual();
+        if (chipMode === 'prompt' && !_intro) hideChip();
+        if (loop && el === loop.el && !_intro && genuine(el)) endLoop('back-online');
       });
       ['waiting', 'stalled', 'error', 'ended'].forEach(function (ev) {
         el.addEventListener(ev, function () { onStall(el); });
@@ -39034,12 +39149,27 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
         cancelStall();
         // محاولات إعادة الاتصال التلقائية من التطبيق وقت الانقطاع بتغيّر مصدر المحطة (loadstart) —
         // دي ما توقفش التكرار (كانت هى سبب إن المقطع يشتغل مرة واحدة وبس). اختيار المستخدم لمحطة جديدة هو اللى يوقفه.
-        if (loop && el === loop.el && !loop.reconnecting && (Date.now() - lastGesture) < 2500) endLoop('source-changed');
+        if (loop && el === loop.el && !loop.reconnecting && (Date.now() - lastGesture) < 2500) {
+          // بنوقف التكرار بس لو المستخدم اختار محطة مختلفة فعلاً؛ ضغطة عادية أو إعادة محاولة لنفس المحطة ما توقفوش
+          var _ns = el.src || el.currentSrc || '';
+          if (_ns && loop.url && _ns !== loop.url) endLoop('source-changed');
+        }
       });
     });
   }
   window.addEventListener('offline', function () { if (last && !last.paused) onStall(last); });
-  window.addEventListener('online', function () { if (loop) setTimeout(watchReturn, 800); });
+  window.addEventListener('online', function () {
+    loopCapped = false;
+    if (loop) setTimeout(watchReturn, 800);
+    if (mloop && mloop.sticky) {
+      setTimeout(function () { if (mloop && mloop.sticky) holdCheckReturn(mloop); }, 800);
+    } else if (openOffline && !mloop) {
+      // الإنترنت رجع قبل ما المقطع يبدأ: نرجّع الشاشة الترحيبية لسلوكها الطبيعى
+      openOffline = false;
+      if (chipMode === 'prompt') hideChip();
+      if (!window._welcomeScreenClosed && !window._welcomeRadioBgStarted) window._welcomePlayInitiated = false;
+    }
+  });
   document.addEventListener('click', function (e) {
     if (!loop) return;
     var b = e.target && e.target.closest ? e.target.closest('#pnb-play, #pnb-prev, #pnb-next, #pnb-random, #prevButton, #nextButton, #randomButton') : null;
@@ -39091,6 +39221,13 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       ss.disabled = !!rec;
     }
     setTxt($('recLoopSrcLbl'), T('مصدر التسجيل', 'Recording source'));
+    var cs = $('recLoopCap');
+    setTxt($('recLoopCapLbl'), T('أقصى مدة للتكرار عند الانقطاع', 'Max loop time when offline'));
+    if (cs) {
+      if (!cs.options.length) CAP_OPTS.forEach(function (o) { var op = document.createElement('option'); op.value = String(o[0]); cs.appendChild(op); });
+      for (var q = 0; q < cs.options.length; q++) setTxt(cs.options[q], ar() ? CAP_OPTS[q][1] : CAP_OPTS[q][2]);
+      if (document.activeElement !== cs && cs.value !== String(capMin())) cs.value = String(capMin());
+    }
     var ib = $('recLoopImpBtn'); if (ib) { setTxt(ib, '📁 ' + T('ملف', 'File')); ib.disabled = !!rec; ib.style.opacity = rec ? '.5' : '1'; }
     var cb = $('recLoopEnabled'); if (cb && cb.checked !== isEnabled()) cb.checked = isEnabled();
   }
@@ -39377,32 +39514,162 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   };
 
   /* ── تكرار يدوي لا نهائي (يشتغل أونلاين أو أوفلاين، حتى بعد فتح الموقع من جديد) ── */
-  function startManual() {
+  function startManual(sticky) {
     if (!clip || rec || mloop) return;
     if (loop) endLoop('manual');
     if (preview) { preview.h.stop(0.1); preview = null; }
-    var c = ensureCtx(), l = mloop = { h: null };
-    // نوقف المحطة الشغّالة (لو فيه) عشان ما يتداخلش الصوت
-    PLAY_IDS.concat(['audioStreamPlayer']).forEach(function (id) {
-      var el = $(id); if (el && !el.paused) { try { el.pause(); } catch (e) {} }
-    });
+    var c = ensureCtx(), l = mloop = { h: null, sticky: sticky === true, startTs: Date.now(), tick: 0, ok: 0, checking: false, reviving: false, started: false, muted: [], lastVol: -1, timer: null };
+    if (l.sticky) {
+      // فتح بدون إنترنت: ما بنوقفش المحطات (هتتكتم بس) عشان أى ضغطة أو إعادة محاولة منها ما تأثرش على المقطع
+      dismissed = false;
+      holdMute(l);
+      l.timer = setInterval(holdTick, 1000);
+    } else {
+      // نوقف المحطة الشغّالة (لو فيه) عشان ما يتداخلش الصوت
+      PLAY_IDS.concat(['audioStreamPlayer']).forEach(function (id) {
+        var el = $(id); if (el && !el.paused) { try { el.pause(); } catch (e) {} }
+      });
+    }
     var wake = (c && c.state !== 'running' && c.resume) ? Promise.resolve(c.resume()).catch(function () {}) : Promise.resolve();
     wake.then(prepare).then(function () {
       if (mloop !== l || !clip) return;
+      if (l.sticky && ctx && ctx.state !== 'running') { stopManual('blocked'); return; }   // المتصفح لسه مش سامح بالصوت: ننتظر أول لمسة
       l.h = playClip(radioVol(), true, null, function () {
+        if (l.sticky) { stopManual('blocked'); return; }
         stopManual();
         note(T('المتصفح منع التشغيل — اضغط تكرار مرة أخرى', 'Playback was blocked \u2014 tap Loop again'), 3500);
       });
-      showChip('manual'); refreshUI();
+      l.started = true;
+      showChip(l.sticky ? 'auto' : 'manual'); refreshUI();
     });
     refreshUI();
   }
-  function stopManual() {
+  function stopManual(why) {
     var l = mloop; if (!l) return;
     mloop = null;
-    if (l.h) l.h.stop(0.4);
-    hideChip(); refreshUI();
+    if (l.timer) { clearInterval(l.timer); l.timer = null; }
+    if (l.h) l.h.stop(l.sticky && why === 'online' ? 1.2 : 0.4);
+    hideChip();
+    if (l.sticky) {
+      holdUnmute(l);
+      if (why === 'blocked') { showChip('prompt'); }                 // لسه محتاجين لمسة من المستخدم
+      else if (why === 'online') { openOffline = false; dismissed = false; loopCapped = false; resumeAfterOffline(); }
+      else if (why === 'cap') { /* loopCapped اتضبط */ }
+      else { dismissed = true; }                                      // المستخدم أوقفه: ما نبدأوش تانى لحد ما الإنترنت يرجع
+    }
+    refreshUI();
   }
+
+  /* ── فتح/ريفرش بدون إنترنت: تكرار ثابت لحد رجوع الإنترنت ── */
+  function holdWanted() {
+    return !!(openOffline && !dismissed && !loopCapped && clip && ready && isEnabled() && navigator.onLine === false &&
+              !loop && !mloop && !rec && !ed && !window._userStoppedManually);
+  }
+  function holdMute(l) {
+    ['customAudioPlayer', 'currentAudio'].forEach(function (id) {
+      var el = $(id); if (!el) return;
+      var r0 = null;
+      for (var i = 0; i < l.muted.length; i++) if (l.muted[i].el === el) r0 = l.muted[i];
+      if (!r0) { r0 = { el: el, was: el.muted }; l.muted.push(r0); }
+      try { if (!el.muted) el.muted = true; } catch (e) {}
+    });
+    // سلسلة مقاطع الفتح (اعوذ بالله...) لو كانت شغّالة نوقفها بدل ما تكمل لمحطة مش هتشتغل
+    if (window._welcomeHasChainedNext) { try { var w = $('customAudioPlayer'); if (w && !w.paused) w.pause(); } catch (e) {} }
+    // أى ضغطة فى الصفحة ما تشغّلش مقطع الفتح/المحطة فوق المقطع المسجل
+    if (!window._welcomeScreenClosed) window._welcomePlayInitiated = true;
+  }
+  function holdUnmute(l) {
+    (l.muted || []).forEach(function (r0) { try { r0.el.muted = r0.was; } catch (e) {} });
+    l.muted = [];
+    window._welcomeHasChainedNext = false;
+  }
+  function holdTick() {
+    var l = mloop;
+    if (!l || !l.sticky) return;
+    holdMute(l);
+    var v = radioVol();
+    if (Math.abs(v - l.lastVol) > 0.005) { l.lastVol = v; applyClipVol(); }
+    if (l.started && !l.reviving && (!l.h || (l.h.alive && !l.h.alive()))) reviveHold(l);
+    var cm = capMin();
+    if (cm > 0 && Date.now() - l.startTs >= cm * 60000) {
+      loopCapped = true; stopManual('cap');
+      note(T('⏹ توقّف تكرار المقطع بعد ' + cm + ' دقيقة', '\u23F9 Clip loop stopped after ' + cm + ' min'), 5000);
+      return;
+    }
+    l.tick++;
+    if (l.tick % 4 === 0 && navigator.onLine !== false) holdCheckReturn(l);
+  }
+  function reviveHold(l) {
+    if (l.reviving) return;
+    l.reviving = true;
+    try { if (l.h) l.h.stop(0.05); } catch (e) {}
+    l.h = null;
+    var c = ensureCtx();
+    var wake = (c && c.state !== 'running' && c.resume) ? Promise.resolve(c.resume()).catch(function () {}) : Promise.resolve();
+    var guard = setTimeout(function () { l.reviving = false; }, 4000);
+    wake.then(prepare).then(function () {
+      clearTimeout(guard);
+      if (mloop !== l || !clip || (ctx && ctx.state !== 'running')) { l.reviving = false; return; }
+      l.h = playClip(radioVol(), true, null, function () { if (mloop === l) l.h = null; });
+      l.reviving = false;
+    });
+  }
+  function holdCheckReturn(l) {
+    if (!l || l.checking) return;
+    l.checking = true;
+    pingInternet().then(function (ok) {
+      l.checking = false;
+      if (mloop !== l) return;
+      l.ok = ok ? l.ok + 1 : 0;
+      if (l.ok >= 2) stopManual('online');   // رجع فعلاً (فحصين ناجحين ورا بعض)
+    });
+  }
+  // الإنترنت رجع: نرجّع المحطة لو التطبيق ما رجّعهاش بنفسه
+  function resumeAfterOffline() {
+    if (!window._welcomeScreenClosed && !window._welcomeRadioBgStarted) window._welcomePlayInitiated = false;
+    setTimeout(function () {
+      if (window._userStoppedManually || mloop || loop) return;
+      var el = $(window._welcomeScreenClosed ? 'currentAudio' : 'customAudioPlayer'); if (!el) return;
+      if (!el.paused && el.readyState >= 3) return;                   // التطبيق رجّع البث بنفسه
+      var url = '';
+      if (el.id === 'customAudioPlayer') { try { url = (typeof sources !== 'undefined' && sources[0]) || ''; } catch (e) {} }
+      else {
+        url = el.currentSrc || el.src || '';
+        if (!url) { try { var ls = JSON.parse(localStorage.getItem('lastStation') || 'null'); url = (ls && ls.url) || ''; } catch (e) {} }
+      }
+      if (!url) return;
+      try {
+        if (el.id === 'currentAudio') window._mainPlayAllowed = true;
+        el.src = url; el.load();
+        var p = el.play(); if (p && p.catch) p.catch(function () {});
+      } catch (e) {}
+    }, 1500);
+  }
+  // محاولة بدء المقطع تلقائياً عند فتح الموقع بدون إنترنت؛ لو المتصفح منع الصوت نعرض زر ▶️ وأول لمسة فى أى مكان بتشغّله
+  function attemptHold() {
+    if (!holdWanted()) return;
+    if (!window._welcomeScreenClosed) window._welcomePlayInitiated = true;
+    var c = ensureCtx();
+    var go = function () {
+      if (!holdWanted()) return;
+      if (!c || c.state === 'running') startManual(true); else showChip('prompt');
+    };
+    if (c && c.state !== 'running' && c.resume) { try { Promise.resolve(c.resume()).catch(function () {}); } catch (e) {} setTimeout(go, 300); }
+    else go();
+  }
+  // أول لمسة/ضغطة/زر فى أى مكان = إذن الصوت من المتصفح؛ بنبدأ المقطع فوراً (والضغطات بعد كده ما بتوقفوش)
+  ['pointerdown', 'keydown', 'touchstart', 'touchend', 'click'].forEach(function (ev) {
+    document.addEventListener(ev, function () {
+      if (!openOffline || navigator.onLine !== false || !clip || !isEnabled()) return;
+      if (!window._welcomeScreenClosed && !dismissed) window._welcomePlayInitiated = true;
+      if (holdWanted()) { ensureCtx(); startManual(true); }
+    }, { passive: true, capture: true });
+  });
+  // سلايدر الصوت (أى سلايدر) بيأثر لحظياً على مستوى المقطع
+  document.addEventListener('input', function (e) {
+    var t = e.target;
+    if (t && t.type === 'range' && (mloop || loop || preview)) setTimeout(function () { try { applyClipVol(); } catch (er) {} }, 0);
+  }, true);
   function clipExt(m) {
     m = (m || '').toLowerCase();
     if (m.indexOf('webm') >= 0) return 'webm';
@@ -39472,6 +39739,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   window.recLoopSetEnabled = function (on) {
     try { localStorage.setItem(LS_EN, on ? 'true' : 'false'); } catch (e) {}
     if (!on && loop) endLoop('disabled');
+    if (!on && mloop && mloop.sticky) stopManual();
   };
 
   bindEls(); setTimeout(bindEls, 1500);
@@ -39491,8 +39759,8 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       return prepare();
     }
   }).then(refreshUI).then(function () {
-    // فتح الموقع والإنترنت مفصول: اعرض زر تشغيل المقطع المسجل (المتصفح يتطلب لمسة من المستخدم لبدء الصوت)
-    if (clip && ready && isEnabled() && navigator.onLine === false && !loop && !mloop && !rec) showChip('prompt');
+    // فتح الموقع (أو ريفرش) والإنترنت مفصول: نشغّل المقطع المسجل تلقائياً، ولو المتصفح منع الصوت يظهر زر ▶️ وأول لمسة تشغّله
+    attemptHold();
   }).catch(function () {});
 })();
 </script>
