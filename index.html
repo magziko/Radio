@@ -3410,6 +3410,43 @@ setTimeout(autoScaleVerseFont, 100);
       style="margin-inline-start:auto;"></div>
   </div>
 
+  <div id="adhkar-tahlil-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
+    border-radius: 14px;
+    padding: 4px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <style>
+      .tahlil-count-btn{font-family:inherit;font-size:14px;font-weight:700;min-width:52px;min-height:36px;padding:4px 14px;border-radius:10px;cursor:pointer;border:1.5px solid rgba(var(--theme-c1-rgb),0.35);background:transparent;color:var(--theme-c4);}
+      .tahlil-count-btn.active{background:rgba(var(--theme-c1-rgb),0.9);color:#fff;border-color:transparent;}
+    </style>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed rgba(var(--theme-c1-rgb),0.2);">
+      <span data-ar="🤲 عدد مرات «لا إله إلا الله وحده لا شريك له»" data-en="🤲 Repetitions of “La ilaha illallah wahdahu…”"
+        style="font-size:15px;font-weight:700;color:var(--theme-c4);">🤲 عدد مرات «لا إله إلا الله وحده لا شريك له»</span>
+      <span data-ar="تختلف الروايات بين 10 و100، اختر ما يناسبك (الافتراضى 100)" data-en="Narrations differ between 10 and 100; pick what suits you (default 100)"
+        style="font-size:12px;color:var(--theme-c3);">تختلف الروايات بين 10 و100، اختر ما يناسبك (الافتراضى 100)</span>
+      <div style="margin-inline-start:auto;display:flex;gap:8px;">
+        <button type="button" class="tahlil-count-btn" data-n="10" onclick="setTahlilCount(10)">10</button>
+        <button type="button" class="tahlil-count-btn" data-n="100" onclick="setTahlilCount(100)">100</button>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 0;">
+      <span data-ar="🔚 جعل التهليل آخر ذكر" data-en="🔚 Make this dhikr the last one"
+        style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">🔚 جعل التهليل آخر ذكر</span>
+      <span data-ar="فى أذكار الصباح والمساء فقط؛ وإن أُطفئ يبقى فى مكانه الأصلى" data-en="In Morning/Evening adhkar only; when off it stays in its original place"
+        style="font-size:12px;color:var(--theme-c3);">فى أذكار الصباح والمساء فقط؛ وإن أُطفئ يبقى فى مكانه الأصلى</span>
+      <div id="adhkarTahlilLastToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0"
+        onclick="toggleTahlilLast()"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTahlilLast();}"
+        style="margin-inline-start:auto;"></div>
+    </div>
+  </div>
+
   <div id="adhkar-advanced-settings" style="
     margin: 8px auto 4px;
     width: 97%; max-width: 860px;
@@ -19862,6 +19899,111 @@ function toggleAdhkarAutoSubByTime() {
 })();
 
 /* ══════════════════════════════════════════════════════════════════════════
+   التهليل (لا إله إلا الله وحده لا شريك له): اختيار العدد (10 / 100)
+   وخيار جعله آخر ذكر فى الصباح/المساء
+   ══════════════════════════════════════════════════════════════════════════ */
+var _tahlilCount = 100;
+var _tahlilLast = false;
+function _tahlilNorm(s) {
+  return (s || '').replace(/[\u064B-\u065F\u0670\u0640]/g, '').replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/\s+/g, ' ').trim();
+}
+function _tahlilBtn() {
+  if (_tahlilBtn._c && document.contains(_tahlilBtn._c)) return _tahlilBtn._c;
+  var all = document.querySelectorAll('button[data-category="Adhkar"].has-tasbih');
+  for (var i = 0; i < all.length; i++) {
+    if (_tahlilNorm(all[i].getAttribute('data-station')).indexOf('لا اله الا الله وحده لا شريك له') === 0) {
+      _tahlilBtn._c = all[i];
+      return all[i];
+    }
+  }
+  return null;
+}
+function _tahlilApplyCount() {
+  var b = _tahlilBtn();
+  if (!b) return;
+  var n = _tahlilCount;
+  if (b.getAttribute('data-target') === String(n)) return;
+  b.setAttribute('data-target', String(n));
+  ['data-ar', 'data-en'].forEach(function(a) {
+    var v = b.getAttribute(a);
+    if (v) b.setAttribute(a, v.replace(/\(×\d+\)/, '(×' + n + ')'));
+  });
+  var st = b.querySelector('.station-text');
+  if (st) st.innerHTML = st.innerHTML.replace(/\(×\d+\)/, '(×' + n + ')');
+  var ghost = b.querySelector('.tasbih-ghost-target');
+  if (ghost) ghost.textContent = String(n);
+  var saved = 0;
+  try { saved = parseInt(localStorage.getItem('tasbih_' + b.getAttribute('data-station'))) || 0; } catch (e) {}
+  b.classList.toggle('completed', saved > 0 && saved >= n);
+  if (typeof updateAdhkarProgress === 'function') requestAnimationFrame(updateAdhkarProgress);
+}
+function _tahlilWrapNode(b) {
+  return (b.parentElement && b.parentElement.classList.contains('pl-check-wrap')) ? b.parentElement : b;
+}
+function _tahlilMoveLast(sub) {
+  if (!_tahlilLast || (sub !== 'morning' && sub !== 'evening')) return;
+  var b = _tahlilBtn();
+  if (!b || !b.hasAttribute('data-adhkar-' + sub)) return;
+  var group = document.querySelectorAll('button[data-category="Adhkar"][data-adhkar-' + sub + ']');
+  var last = group[group.length - 1];
+  if (!last || last === b) return;
+  var lastNode = _tahlilWrapNode(last);
+  lastNode.parentNode.insertBefore(_tahlilWrapNode(b), lastNode.nextSibling);
+}
+function _tahlilReapplyOrder() {
+  var first = document.querySelector('button[data-category="Adhkar"]');
+  if (!first || !first.hasAttribute('data-adhkar-orig-order')) return; // لسه الفلتر ما اشتغلش، هيتطبّق عند أول فتح
+  var sub = (typeof currentAdhkarSub !== 'undefined') ? currentAdhkarSub : 'all';
+  var all = Array.from(document.querySelectorAll('button[data-category="Adhkar"]'));
+  var container = _tahlilWrapNode(first).parentNode;
+  all.sort(function(a, b) {
+    return parseInt(a.getAttribute('data-adhkar-orig-order')) - parseInt(b.getAttribute('data-adhkar-orig-order'));
+  }).forEach(function(b) { container.appendChild(_tahlilWrapNode(b)); });
+  _tahlilMoveLast(sub);
+  if (sub === 'morning' || sub === 'evening') {
+    var firstVisible = null;
+    document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
+      var w = b.parentElement && b.parentElement.classList.contains('pl-check-wrap') ? b.parentElement : null;
+      if (w) w.removeAttribute('data-adhkar-featured');
+      b.removeAttribute('data-adhkar-featured');
+      if (!firstVisible && b.style.display !== 'none') firstVisible = b;
+    });
+    if (firstVisible) _tahlilWrapNode(firstVisible).setAttribute('data-adhkar-featured', '1');
+  }
+  if (typeof updateButtonIndices === 'function') updateButtonIndices();
+}
+function _tahlilSyncUI() {
+  var tg = document.getElementById('adhkarTahlilLastToggle');
+  if (tg) {
+    tg.classList.toggle('on', _tahlilLast);
+    tg.setAttribute('aria-checked', _tahlilLast ? 'true' : 'false');
+  }
+  document.querySelectorAll('.tahlil-count-btn').forEach(function(btn) {
+    btn.classList.toggle('active', parseInt(btn.getAttribute('data-n')) === _tahlilCount);
+  });
+}
+function setTahlilCount(n) {
+  _tahlilCount = (n === 10) ? 10 : 100;
+  try { localStorage.setItem('adhkarTahlilCount', String(_tahlilCount)); } catch (e) {}
+  _tahlilApplyCount();
+  _tahlilSyncUI();
+}
+function toggleTahlilLast() {
+  _tahlilLast = !_tahlilLast;
+  try { localStorage.setItem('adhkarTahlilLast', _tahlilLast ? '1' : '0'); } catch (e) {}
+  _tahlilSyncUI();
+  _tahlilReapplyOrder();
+}
+(function initTahlilSettings() {
+  var c = null, l = null;
+  try { c = localStorage.getItem('adhkarTahlilCount'); l = localStorage.getItem('adhkarTahlilLast'); } catch (e) {}
+  _tahlilCount = (c === '10') ? 10 : 100;
+  _tahlilLast = (l === '1');
+  _tahlilApplyCount();
+  _tahlilSyncUI();
+})();
+
+/* ══════════════════════════════════════════════════════════════════════════
    إيقاف العدّ/الانتقال التلقائى للأذكار تلقائيًا عند مغادرة الصفحة
    ──────────────────────────────────────────────────────────────────────────
    الفكرة: لما المستخدم يبدّل التاب، أو يعمل مينيمايز، أو يقفل الشاشة، أو
@@ -27842,6 +27984,9 @@ function filterAdhkarSub(subType, btn) {
       _adhkarContainer.appendChild(node);
     });
   }
+
+  if (typeof _tahlilApplyCount === 'function') _tahlilApplyCount();
+  if (typeof _tahlilMoveLast === 'function') _tahlilMoveLast(subType);
 
   document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
     var show = (subType === 'all') ? true : b.hasAttribute('data-adhkar-' + subType);
