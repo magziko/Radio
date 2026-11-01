@@ -3676,11 +3676,18 @@ setTimeout(autoScaleVerseFont, 100);
         <label id="recLoopMaxLbl" for="recLoopMax" style="font-size:13px;">أقصى مدة للتسجيل</label>
         <select id="recLoopMax" onchange="window.recLoopSetMax && window.recLoopSetMax(this.value)" style="width:110px;text-align:center;padding:4px 6px;font-size:14px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;"></select>
       </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <label id="recLoopSelLbl" for="recLoopSel" style="font-size:13px;">المقطع</label>
+        <select id="recLoopSel" onchange="window.recLoopSelect && window.recLoopSelect(this.value)" style="flex:1;min-width:0;width:auto;text-align:center;padding:4px 6px;font-size:14px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;"></select>
+        <button type="button" id="recLoopRenBtn" title="إعادة تسمية" onclick="window.recLoopRename && window.recLoopRename()" style="padding:6px 10px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">✏️</button>
+      </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
         <button type="button" id="recLoopRecBtn" onclick="window.recLoopToggleRecord && window.recLoopToggleRecord()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🔴 تسجيل</button>
         <button type="button" id="recLoopPlayBtn" onclick="window.recLoopTogglePreview && window.recLoopTogglePreview()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">▶️ تجربة</button>
         <button type="button" id="recLoopLoopBtn" onclick="window.recLoopToggleManual && window.recLoopToggleManual()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🔁 تكرار</button>
         <button type="button" id="recLoopDlBtn" onclick="window.recLoopDownload && window.recLoopDownload()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">💾 تنزيل</button>
+        <button type="button" id="recLoopShareBtn" onclick="window.recLoopShare && window.recLoopShare()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">📤 مشاركة</button>
+        <button type="button" id="recLoopTrimBtn" onclick="window.recLoopTrim && window.recLoopTrim()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">✂️ قص</button>
         <button type="button" id="recLoopDelBtn" onclick="window.recLoopDelete && window.recLoopDelete()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🗑️ حذف</button>
         <button type="button" id="recLoopImpBtn" onclick="window.recLoopImport && window.recLoopImport()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">📁 ملف</button>
         <input type="file" id="recLoopFile" accept="audio/*" style="display:none">
@@ -38276,7 +38283,8 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
                   [120, 'دقيقتان', '2 min'], [300, '5 دقائق', '5 min'], [600, '10 دقائق', '10 min']];
 
   var clip = null, ready = false, ctx = null, rec = null, loop = null, preview = null, last = null, stallTimer = null;
-  var mloop = null, chipMode = null;   // mloop = تكرار يدوي للمقطع المسجل (بدون الحاجة لانقطاع الإنترنت)
+  var mloop = null, chipMode = null;
+  var clips = [], MAX_CLIPS = 20, LS_SEL = 'recLoopSel';   // قائمة المقاطع؛ clip = المقطع المختار حالياً   // mloop = تكرار يدوي للمقطع المسجل (بدون الحاجة لانقطاع الإنترنت)
 
   function $(id) { return document.getElementById(id); }
   function ar() { return (typeof isArabic !== 'undefined') ? !!isArabic : true; }
@@ -38528,7 +38536,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   var acquiring = false;
   function srcMode() { var v = 'auto'; try { v = localStorage.getItem('recLoopSrc') || 'auto'; } catch (e) {} return (v === 'tab' || v === 'mic') ? v : 'auto'; }
   function startRec() {
-    if (rec || acquiring) return;
+    if (rec || acquiring || ed) return;
     if (mloop) stopManual();
     if (typeof MediaRecorder === 'undefined') { note(T('المتصفح لا يدعم التسجيل', 'This browser doesn\u2019t support recording'), 3500); return; }
     ensureCtx();
@@ -38584,13 +38592,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (loop) endLoop('replaced');
     if (mloop) stopManual();
     if (preview) { preview.h.stop(0.1); preview = null; }
-    clip = { blob: blob, mime: r.mime, ms: ms, savedAt: Date.now(), buf: null, prepared: false, src: r.source };
-    ready = false;
-    var saved = { blob: blob, mime: r.mime, ms: ms, savedAt: clip.savedAt, src: r.source };
-    dbOp('readwrite', function (s) { return s.put(saved, KEY); }).catch(function () {
-      note(T('تعذّر حفظ المقطع على الجهاز (هيشتغل لحد إغلاق الصفحة)', 'Couldn\u2019t save the clip on this device (works until the page closes)'), 5000);
-    });
-    prepare().then(function () { refreshUI(); note(T('✅ تم حفظ المقطع', '✅ Clip saved'), 2500); });
+    openEditor({ mode: 'new', blob: blob, mime: r.mime, ms: ms, src: r.source, name: defName() });
     refreshUI();
   }
 
@@ -38730,7 +38732,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     setTxt($('recLoopMaxLbl'), T('أقصى مدة للتسجيل', 'Max recording length'));
     setTxt($('recLoopEnLbl'), T('استخدام المقطع المسجل عند الانقطاع', 'Use the recorded clip when offline'));
     if (rec) setTxt(rb, '⏹ ' + T('إيقاف', 'Stop') + ' (' + fmt((Date.now() - rec.startTs) / 1000) + ' / ' + fmt(maxSec()) + ')');
-    else setTxt(rb, '🔴 ' + (clip ? T('تسجيل جديد', 'Re-record') : T('تسجيل', 'Record')));
+    else setTxt(rb, '🔴 ' + T('تسجيل', 'Record'));
     setTxt(pb, preview ? '⏹ ' + T('إيقاف', 'Stop') : '▶️ ' + T('تجربة', 'Preview'));
     setTxt(db, '🗑️ ' + T('حذف', 'Delete'));
     pb.disabled = !clip || !!rec; db.disabled = !clip || !!rec;
@@ -38738,9 +38740,17 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var lb = $('recLoopLoopBtn'), dl = $('recLoopDlBtn');
     if (lb) { setTxt(lb, mloop ? '⏹ ' + T('إيقاف التكرار', 'Stop loop') : '🔁 ' + T('تكرار', 'Loop')); lb.disabled = !clip || !!rec; lb.style.opacity = lb.disabled ? '.5' : '1'; }
     if (dl) { setTxt(dl, '💾 ' + T('تنزيل', 'Download')); dl.disabled = !clip || !!rec; dl.style.opacity = dl.disabled ? '.5' : '1'; }
+    var sh = $('recLoopShareBtn');
+    if (sh) { setTxt(sh, '📤 ' + T('مشاركة', 'Share')); sh.disabled = !clip || !!rec || !!ed; sh.style.opacity = sh.disabled ? '.5' : '1'; }
     setTxt(info, clip
-      ? T('المقطع المحفوظ', 'Saved clip') + ': ' + fmt(clip.ms / 1000) + ' — ' + (clip.blob.size / 1048576).toFixed(2) + ' MB' + (clip.src ? ' — ' + srcName(clip.src) : '')
+      ? fmt(clip.ms / 1000) + ' — ' + (clip.blob.size / 1048576).toFixed(2) + ' MB' + (clip.src ? ' — ' + srcName(clip.src) : '') +
+        ' — ' + T('مقطع ', 'clip ') + (clips.indexOf(clip) + 1) + '/' + clips.length
       : T('لا يوجد مقطع محفوظ. شغّل محطة ثم اضغط تسجيل.', 'No clip saved. Play a station, then press Record.'));
+    syncClipSelect();
+    var rn = $('recLoopRenBtn'), tb = $('recLoopTrimBtn');
+    if (rn) { rn.disabled = !clip || !!rec; rn.style.opacity = rn.disabled ? '.5' : '1'; }
+    if (tb) { setTxt(tb, '✂️ ' + T('قص', 'Trim')); tb.disabled = !clip || !!rec || !!ed; tb.style.opacity = tb.disabled ? '.5' : '1'; }
+    setTxt($('recLoopSelLbl'), T('المقطع', 'Clip'));
     if (sel) {
       if (!sel.options.length) MAX_OPTS.forEach(function (o) { var op = document.createElement('option'); op.value = String(o[0]); sel.appendChild(op); });
       for (var i = 0; i < sel.options.length; i++) setTxt(sel.options[i], ar() ? MAX_OPTS[i][1] : MAX_OPTS[i][2]);
@@ -38776,14 +38786,271 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   };
   window.recLoopDelete = function () {
     if (!clip) return;
-    if (!confirm(T('حذف المقطع المسجل؟', 'Delete the recorded clip?'))) return;
+    if (!confirm(T('حذف المقطع «' + clip.name + '»؟', 'Delete the clip \u201c' + clip.name + '\u201d?'))) return;
     if (loop) endLoop('deleted');
     if (mloop) stopManual();
     if (preview) { preview.h.stop(0.1); preview = null; }
-    clip = null; ready = false;
-    dbOp('readwrite', function (s) { return s.delete(KEY); }).catch(function () {});
+    var gone = clip, i = clips.indexOf(gone);
+    clips.splice(i, 1);
+    dbOp('readwrite', function (st) { return st.delete(gone.id); }).catch(function () {});
+    clip = clips.length ? clips[Math.min(i, clips.length - 1)] : null;
+    ready = false;
+    try { if (clip) localStorage.setItem(LS_SEL, clip.id); else localStorage.removeItem(LS_SEL); } catch (e) {}
+    if (clip) prepare().then(refreshUI);
     refreshUI();
   };
+  /* ── إدارة المقاطع المتعددة ── */
+  function p2(n) { return ('0' + n).slice(-2); }
+  function defName() { var d = new Date(); return T('مقطع', 'Clip') + ' ' + p2(d.getDate()) + '/' + p2(d.getMonth() + 1) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes()); }
+  function newId() { return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); }
+  function persist(c) {
+    var saved = { id: c.id, name: c.name, blob: c.blob, mime: c.mime, ms: c.ms, savedAt: c.savedAt, src: c.src };
+    return dbOp('readwrite', function (st) { return st.put(saved, c.id); }).catch(function () {
+      note(T('تعذّر حفظ المقطع على الجهاز (هيشتغل لحد إغلاق الصفحة)', 'Couldn\u2019t save the clip on this device (works until the page closes)'), 5000);
+    });
+  }
+  function addClip(c) {
+    if (loop) endLoop('replaced');
+    if (mloop) stopManual();
+    if (preview) { preview.h.stop(0.1); preview = null; }
+    if (clip) { clip.buf = null; clip.prepared = false; }
+    clips.push(c); persist(c);
+    clip = c; ready = false;
+    try { localStorage.setItem(LS_SEL, c.id); } catch (e) {}
+    prepare().then(function () { refreshUI(); note(T('✅ تم حفظ المقطع', '✅ Clip saved'), 2500); });
+    refreshUI();
+  }
+  function selectClip(id) {
+    var c = null; for (var i = 0; i < clips.length; i++) if (clips[i].id === id) c = clips[i];
+    if (!c || c === clip) return;
+    if (loop) endLoop('switched');
+    if (mloop) stopManual();
+    if (preview) { preview.h.stop(0.1); preview = null; }
+    if (clip) { clip.buf = null; clip.prepared = false; }   // نفرّغ ذاكرة المقطع السابق
+    clip = c; ready = false;
+    try { localStorage.setItem(LS_SEL, c.id); } catch (e) {}
+    prepare().then(refreshUI);
+    refreshUI();
+  }
+  var selSig = '';
+  function syncClipSelect() {
+    var sel = $('recLoopSel'); if (!sel) return;
+    var sig = clips.map(function (c) { return c.id + '|' + c.name + '|' + Math.round(c.ms / 1000); }).join('~') + '#' + (clip ? clip.id : '') + '#' + (ar() ? 'a' : 'e');
+    if (sig === selSig) return;
+    if (document.activeElement === sel && sel.options.length) return;   // لا نغلق القائمة وهى مفتوحة
+    selSig = sig;
+    while (sel.options.length) sel.remove(0);
+    if (!clips.length) { var o0 = document.createElement('option'); o0.value = ''; o0.textContent = T('— لا يوجد —', '— none —'); sel.appendChild(o0); sel.disabled = true; return; }
+    clips.forEach(function (c) {
+      var o = document.createElement('option'); o.value = c.id; o.textContent = c.name + ' (' + fmt(c.ms / 1000) + ')'; sel.appendChild(o);
+    });
+    sel.value = clip ? clip.id : clips[0].id; sel.disabled = !!rec;
+  }
+  window.recLoopSelect = function (id) { if (id) selectClip(id); };
+  window.recLoopRename = function () {
+    if (!clip || rec) return;
+    var v = prompt(T('اسم المقطع', 'Clip name'), clip.name);
+    if (v === null) return;
+    v = v.trim().slice(0, 40); if (!v) return;
+    clip.name = v; persist(clip); selSig = ''; refreshUI();
+  };
+
+  /* ── محرر القص ── */
+  var ed = null;
+  function fmt1(sec) { sec = Math.max(0, sec); var m = Math.floor(sec / 60); return m + ':' + ('0' + (sec - m * 60).toFixed(1)).slice(-4); }
+  function encodeWav(samples, rate) {
+    var n = samples.length, buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
+    function w(o, str) { for (var i = 0; i < str.length; i++) v.setUint8(o + i, str.charCodeAt(i)); }
+    w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVE'); w(12, 'fmt ');
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+    w(36, 'data'); v.setUint32(40, n * 2, true);
+    for (var i = 0; i < n; i++) { var x = Math.max(-1, Math.min(1, samples[i])); v.setInt16(44 + i * 2, x < 0 ? x * 0x8000 : x * 0x7fff, true); }
+    return new Blob([buf], { type: 'audio/wav' });
+  }
+  // قص جزء من المقطع المفكوك → WAV أحادى (مع تلاشى ١٠ مللى ثانية فى الطرفين لتفادى الطقطقة)
+  function renderTrim(buf, s, e) {
+    var rate = Math.min(32000, buf.sampleRate), dur = e - s, len = Math.max(1, Math.round(dur * rate));
+    var OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    if (!OAC) return Promise.reject(new Error('no offline ctx'));
+    var oc = new OAC(1, len, rate), src = oc.createBufferSource(), g = oc.createGain(), f = Math.min(0.01, dur / 4);
+    src.buffer = buf; src.connect(g); g.connect(oc.destination);
+    g.gain.setValueAtTime(0, 0); g.gain.linearRampToValueAtTime(1, f);
+    g.gain.setValueAtTime(1, Math.max(f, dur - f)); g.gain.linearRampToValueAtTime(0, dur);
+    src.start(0, s, dur);
+    return new Promise(function (res, rej) {
+      var p = oc.startRendering();
+      if (p && p.then) p.then(res, rej); else oc.oncomplete = function (ev) { res(ev.renderedBuffer); };
+    }).then(function (out) { return encodeWav(out.getChannelData(0), rate); });
+  }
+  function pauseStations() {
+    PLAY_IDS.concat(['audioStreamPlayer']).forEach(function (id) { var el = $(id); if (el && !el.paused) { try { el.pause(); } catch (e) {} } });
+  }
+  function edStopPlay() { if (ed && ed.play) { try { ed.play.onended = null; ed.play.stop(); } catch (e) {} ed.play = null; } var b = $('recEdPrev'); if (b) b.textContent = '▶️ ' + T('تجربة القص', 'Preview'); }
+  function edDraw() {
+    var cv = $('recEdCv'); if (!cv || !ed) return;
+    var g = cv.getContext('2d'), W = cv.width, H = cv.height, pk = ed.peaks, n = pk.length;
+    g.fillStyle = '#2a2840'; g.fillRect(0, 0, W, H);
+    var xs = ed.s / ed.dur * W, xe = ed.e / ed.dur * W;
+    for (var i = 0; i < n; i++) {
+      var x = i / n * W, h = Math.max(2, pk[i] * H * 0.9);
+      g.fillStyle = (x >= xs && x <= xe) ? '#8c9bff' : '#5a5870';
+      g.fillRect(x, (H - h) / 2, Math.max(1, W / n - 1), h);
+    }
+    g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(0, 0, xs, H); g.fillRect(xe, 0, W - xe, H);
+    g.fillStyle = '#66bb6a'; g.fillRect(xs - 2, 0, 4, H);
+    g.fillStyle = '#ef5350'; g.fillRect(xe - 2, 0, 4, H);
+    $('recEdLs').textContent = '⏮ ' + fmt1(ed.s);
+    $('recEdLl').textContent = '⏱ ' + fmt1(ed.e - ed.s);
+    $('recEdLe').textContent = fmt1(ed.e) + ' ⏭';
+  }
+  function closeEditor(silent) {
+    if (!ed) return;
+    edStopPlay();
+    var el = $('recEdOverlay'); if (el && el.parentNode) el.parentNode.removeChild(el);
+    ed = null; refreshUI();
+  }
+  function edFinish(blob, mime, ms, name, replace) {
+    var o = ed.o;
+    closeEditor(true);
+    if (replace && o.clip && clips.indexOf(o.clip) >= 0) {
+      var c = o.clip; c.blob = blob; c.mime = mime; c.ms = ms; c.name = name; c.buf = null; c.prepared = false;
+      persist(c);
+      if (c === clip) { ready = false; prepare().then(refreshUI); }
+      selSig = ''; refreshUI(); note(T('✅ تم حفظ التعديل', '✅ Changes saved'), 2500);
+      return;
+    }
+    addClip({ id: newId(), name: name, blob: blob, mime: mime, ms: ms, savedAt: Date.now(), src: o.src, buf: null, prepared: false });
+  }
+  function edSave(replace) {
+    if (!ed || ed.busy) return;
+    var o = ed.o, s0 = ed.s, e0 = ed.e, dur = ed.dur;
+    var name = ($('recEdName').value || '').trim().slice(0, 40) || o.name;
+    if (!(replace && o.mode === 'edit') && clips.length >= MAX_CLIPS) {
+      note(T('وصلت للحد الأقصى (' + MAX_CLIPS + ' مقطعاً) — احذف مقطعاً أولاً', 'Limit reached (' + MAX_CLIPS + ' clips) \u2014 delete one first'), 4500); return;
+    }
+    if (s0 <= 0.02 && e0 >= dur - 0.02) { edFinish(o.blob, o.mime, Math.round(dur * 1000), name, replace); return; }   // بدون قص: نحفظ الأصل
+    ed.busy = true; edStopPlay();
+    var btns = document.querySelectorAll('#recEdOverlay button'); for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
+    note(T('جاري القص والحفظ…', 'Trimming and saving…'), 8000);
+    var buf = ed.buf;
+    renderTrim(buf, s0, e0).then(function (wav) {
+      if (!ed) return;
+      edFinish(wav, 'audio/wav', Math.round((e0 - s0) * 1000), name, replace);
+    }, function () {
+      if (!ed) return;
+      ed.busy = false; for (var j = 0; j < btns.length; j++) btns[j].disabled = false;
+      note(T('تعذّر القص على هذا المتصفح', 'Trimming isn\u2019t supported in this browser'), 4500);
+    });
+  }
+  function openEditor(o) {
+    closeEditor(true);
+    if (!o.blob) return;
+    var c = ensureCtx();
+    // لو المتصفح لا يفك ترميز الصوت: نحفظ المقطع كما هو بدون محرر
+    var direct = function () {
+      if (o.mode === 'edit') { note(T('تعذّر فتح المقطع للقص', 'Couldn\u2019t open the clip for trimming'), 4000); return; }
+      if (clips.length >= MAX_CLIPS) { note(T('وصلت للحد الأقصى — احذف مقطعاً أولاً', 'Limit reached \u2014 delete a clip first'), 4500); return; }
+      note(T('⚠️ تعذّر فتح محرر القص — تم حفظ المقطع كاملاً', '⚠️ Trim editor unavailable \u2014 saved the full clip'), 4500);
+      addClip({ id: newId(), name: o.name, blob: o.blob, mime: o.mime, ms: o.ms, savedAt: Date.now(), src: o.src, buf: null, prepared: false });
+    };
+    if (!c || !o.blob.arrayBuffer) { direct(); return; }
+    ed = { o: o, buf: null, peaks: null, s: 0, e: 0, dur: 0, play: null, drag: null, busy: false };
+    var mine = ed;
+    note(T('جاري تجهيز المقطع…', 'Preparing the clip…'), 3000);
+    o.blob.arrayBuffer().then(function (ab) {
+      return new Promise(function (res, rej) { var p = c.decodeAudioData(ab, res, rej); if (p && p.catch) p.catch(rej); });
+    }).then(function (b) {
+      if (ed !== mine) return;
+      mine.buf = b; mine.dur = b.duration; mine.s = 0; mine.e = b.duration;
+      var ch = b.getChannelData(0), N = 200, step = Math.max(1, Math.floor(ch.length / N)), pk = [], mx = 0.0001;
+      for (var i = 0; i < N; i++) { var m = 0, a = i * step, z = Math.min(ch.length, a + step); for (var k = a; k < z; k++) { var v = Math.abs(ch[k]); if (v > m) m = v; } pk.push(m); if (m > mx) mx = m; }
+      mine.peaks = pk.map(function (x) { return x / mx; });
+      showEditor(mine);
+    }, function () { if (ed === mine) { ed = null; direct(); } });
+  }
+  function showEditor(E) {
+    var o = E.o, edit = o.mode === 'edit', rtl = ar();
+    var BS = "padding:6px 12px;font:700 13px Cairo,Arial,sans-serif;color:#1a1826;background:#fff;border:0;border-radius:8px;cursor:pointer;";
+    var d = document.createElement('div');
+    d.id = 'recEdOverlay';
+    d.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483100;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:12px;';
+    d.innerHTML =
+      '<div style="width:min(460px,100%);max-height:94vh;overflow:auto;box-sizing:border-box;background:#1d1b2b;color:#fff;border-radius:16px;padding:14px;font:700 13px/1.5 Cairo,Arial,sans-serif;box-shadow:0 8px 30px rgba(0,0,0,.5);display:flex;flex-direction:column;gap:10px;direction:' + (rtl ? 'rtl' : 'ltr') + ';">' +
+      '<div style="font-size:15px;">✂️ ' + (edit ? T('قص المقطع', 'Trim clip') : T('قص المقطع قبل الحفظ', 'Trim before saving')) + '</div>' +
+      '<input id="recEdName" type="text" maxlength="40" style="width:100%;box-sizing:border-box;padding:6px 8px;border-radius:8px;border:2px solid #444;background:#2a2840;color:#fff;font:inherit;">' +
+      '<canvas id="recEdCv" width="800" height="160" style="width:100%;height:80px;border-radius:8px;touch-action:none;cursor:ew-resize;"></canvas>' +
+      '<div style="display:flex;justify-content:space-between;gap:6px;direction:ltr;font-size:12px;"><span id="recEdLs"></span><span id="recEdLl"></span><span id="recEdLe"></span></div>' +
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;direction:ltr;">' +
+        '<button type="button" id="recEdSm" style="' + BS + '" title="' + T('البداية أبكر', 'Start earlier') + '">⏮ −0.1</button>' +
+        '<button type="button" id="recEdSp" style="' + BS + '" title="' + T('البداية أبعد', 'Start later') + '">⏮ +0.1</button>' +
+        '<button type="button" id="recEdEm" style="' + BS + '" title="' + T('النهاية أبكر', 'End earlier') + '">⏭ −0.1</button>' +
+        '<button type="button" id="recEdEp" style="' + BS + '" title="' + T('النهاية أبعد', 'End later') + '">⏭ +0.1</button>' +
+      '</div>' +
+      '<div style="font-size:12px;opacity:.8;">' + T('اسحب العلامة الخضراء (البداية) والحمراء (النهاية) أو اضبطهما بدقة بالأزرار.', 'Drag the green (start) and red (end) markers, or fine-tune with the buttons.') + '</div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;">' +
+        '<button type="button" id="recEdPrev" style="' + BS + '">▶️ ' + T('تجربة القص', 'Preview') + '</button>' +
+        '<span style="display:flex;gap:8px;flex-wrap:wrap;">' +
+        (edit ? '<button type="button" id="recEdSaveCopy" style="' + BS + 'background:#66bb6a;color:#fff;">💾 ' + T('حفظ كنسخة', 'Save as copy') + '</button>' +
+                '<button type="button" id="recEdSaveRep" style="' + BS + 'background:#ffa726;color:#fff;">♻️ ' + T('استبدال الأصل', 'Replace original') + '</button>'
+              : '<button type="button" id="recEdSaveNew" style="' + BS + 'background:#66bb6a;color:#fff;">💾 ' + T('حفظ', 'Save') + '</button>') +
+        '<button type="button" id="recEdCancel" style="' + BS + 'background:#e53935;color:#fff;">' + (edit ? T('إغلاق', 'Close') : T('تجاهل', 'Discard')) + '</button>' +
+        '</span>' +
+      '</div></div>';
+    document.body.appendChild(d);
+    $('recEdName').value = o.name;
+    var cv = $('recEdCv'), MIN = Math.min(0.3, E.dur / 2);
+    function tAt(ev) { var r = cv.getBoundingClientRect(); return Math.max(0, Math.min(1, (ev.clientX - r.left) / (r.width || 1))) * E.dur; }
+    function move(ev) {
+      var t = tAt(ev);
+      if (E.drag === 's') E.s = Math.max(0, Math.min(t, E.e - MIN)); else E.e = Math.min(E.dur, Math.max(t, E.s + MIN));
+      edStopPlay(); edDraw();
+    }
+    cv.addEventListener('pointerdown', function (ev) {
+      var t = tAt(ev); E.drag = Math.abs(t - E.s) <= Math.abs(t - E.e) ? 's' : 'e';
+      try { cv.setPointerCapture(ev.pointerId); } catch (e) {}
+      move(ev);
+    });
+    cv.addEventListener('pointermove', function (ev) { if (E.drag) move(ev); });
+    ['pointerup', 'pointercancel'].forEach(function (n) { cv.addEventListener(n, function () { E.drag = null; }); });
+    function nudge(which, dv) {
+      if (which === 's') E.s = Math.max(0, Math.min(E.s + dv, E.e - MIN)); else E.e = Math.min(E.dur, Math.max(E.e + dv, E.s + MIN));
+      edStopPlay(); edDraw();
+    }
+    $('recEdSm').addEventListener('click', function () { nudge('s', -0.1); });
+    $('recEdSp').addEventListener('click', function () { nudge('s', 0.1); });
+    $('recEdEm').addEventListener('click', function () { nudge('e', -0.1); });
+    $('recEdEp').addEventListener('click', function () { nudge('e', 0.1); });
+    $('recEdPrev').addEventListener('click', function () {
+      if (E.play) { edStopPlay(); return; }
+      var c = ensureCtx(); if (!c) return;
+      pauseStations();
+      var go = function () {
+        var src = c.createBufferSource(), g = c.createGain();
+        src.buffer = E.buf; src.connect(g); g.connect(c.destination); g.gain.value = 0.9;
+        src.onended = function () { if (E.play === src) { E.play = null; var b = $('recEdPrev'); if (b) b.textContent = '▶️ ' + T('تجربة القص', 'Preview'); } };
+        E.play = src; src.start(0, E.s, E.e - E.s);
+        $('recEdPrev').textContent = '⏹ ' + T('إيقاف', 'Stop');
+      };
+      if (c.state !== 'running' && c.resume) Promise.resolve(c.resume()).then(go, go); else go();
+    });
+    if (edit) {
+      $('recEdSaveCopy').addEventListener('click', function () { edSave(false); });
+      $('recEdSaveRep').addEventListener('click', function () { edSave(true); });
+    } else {
+      $('recEdSaveNew').addEventListener('click', function () { edSave(false); });
+    }
+    $('recEdCancel').addEventListener('click', function () {
+      if (!edit && !confirm(T('تجاهل هذا التسجيل بدون حفظ؟', 'Discard this recording without saving?'))) return;
+      closeEditor(true);
+    });
+    edDraw(); refreshUI();
+  }
+  window.recLoopTrim = function () {
+    if (!clip || rec || ed) return;
+    openEditor({ mode: 'edit', clip: clip, blob: clip.blob, mime: clip.mime, ms: clip.ms, src: clip.src, name: clip.name });
+  };
+
   /* ── تكرار يدوي لا نهائي (يشتغل أونلاين أو أوفلاين، حتى بعد فتح الموقع من جديد) ── */
   function startManual() {
     if (!clip || rec || mloop) return;
@@ -38820,11 +39087,33 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (m.indexOf('wav') >= 0) return 'wav';
     return 'audio';
   }
+  function clipFileName() {
+    var d = new Date(clip.savedAt || Date.now());
+    var base = String(clip.name || '').replace(/[\\/:*?"<>|]+/g, '_').trim().slice(0, 40) ||
+      ('radio-clip-' + d.getFullYear() + p2(d.getMonth() + 1) + p2(d.getDate()) + '-' + p2(d.getHours()) + p2(d.getMinutes()));
+    return base + '.' + clipExt(clip.mime);
+  }
+  // مشاركة مباشرة (واتساب/تيليجرام/إلخ) عبر قائمة المشاركة بالجهاز؛ وإن لم تُدعم: تنزيل الملف
+  window.recLoopShare = function () {
+    if (!clip || rec || ed) return;
+    var file = null, type = String(clip.mime || '').split(';')[0] || 'audio/webm';
+    try { file = new File([clip.blob], clipFileName(), { type: type }); } catch (e) {}
+    var can = false;
+    try { can = !!(file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })); } catch (e) {}
+    if (!can) {
+      note(T('المشاركة المباشرة غير متاحة في هذا المتصفح — سيتم تنزيل الملف لتشاركه يدوياً', 'Direct sharing isn\u2019t available here \u2014 downloading the file so you can share it manually'), 4500);
+      window.recLoopDownload(); return;
+    }
+    navigator.share({ files: [file], title: clip.name || 'Radio clip' }).catch(function (err) {
+      if (err && err.name === 'AbortError') return;                        // المستخدم أغلق قائمة المشاركة
+      note(T('تعذّرت المشاركة — جاري تنزيل الملف', 'Sharing failed \u2014 downloading the file instead'), 4000);
+      window.recLoopDownload();
+    });
+  };
   window.recLoopToggleManual = function () { if (mloop) stopManual(); else startManual(); };
   window.recLoopDownload = function () {
     if (!clip) return;
-    var d = new Date(clip.savedAt || Date.now()), p2 = function (n) { return ('0' + n).slice(-2); };
-    var name = 'radio-clip-' + d.getFullYear() + p2(d.getMonth() + 1) + p2(d.getDate()) + '-' + p2(d.getHours()) + p2(d.getMinutes()) + '.' + clipExt(clip.mime);
+    var name = clipFileName();
     var url = URL.createObjectURL(clip.blob), a = document.createElement('a');
     a.href = url; a.download = name; a.style.display = 'none';
     document.body.appendChild(a); a.click();
@@ -38840,7 +39129,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (v !== 'auto' && v !== 'tab' && v !== 'mic') return;
     try { localStorage.setItem('recLoopSrc', v); } catch (e) {}
   };
-  window.recLoopImport = function () { var f = $('recLoopFile'); if (f && !rec) f.click(); };
+  window.recLoopImport = function () { var f = $('recLoopFile'); if (f && !rec && !ed) f.click(); };
   (function () {
     var f = $('recLoopFile'); if (!f) return;
     f.addEventListener('change', function () {
@@ -38850,18 +39139,8 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       if (loop) endLoop('replaced');
       if (mloop) stopManual();
       if (preview) { preview.h.stop(0.1); preview = null; }
-      clip = { blob: file, mime: file.type || 'audio/mpeg', ms: 0, savedAt: Date.now(), buf: null, prepared: false, src: 'file' };
-      ready = false;
-      prepare().then(function () {
-        if (!clip) return;
-        if (clip.buf) clip.ms = Math.round(clip.buf.duration * 1000);
-        else note(T('⚠️ تعذّر فك ترميز الملف — قد لا يتكرر بسلاسة', '⚠️ Couldn\u2019t decode the file \u2014 looping may not be seamless'), 5000);
-        var saved = { blob: clip.blob, mime: clip.mime, ms: clip.ms, savedAt: clip.savedAt, src: 'file' };
-        dbOp('readwrite', function (st) { return st.put(saved, KEY); }).catch(function () {
-          note(T('تعذّر حفظ المقطع على الجهاز (هيشتغل لحد إغلاق الصفحة)', 'Couldn\u2019t save the clip on this device (works until the page closes)'), 5000);
-        });
-        refreshUI(); note(T('✅ تم حفظ المقطع', '✅ Clip saved'), 2500);
-      });
+      var nm = (file.name || '').replace(/\.[^.]+$/, '').trim().slice(0, 40);
+      openEditor({ mode: 'new', blob: file, mime: file.type || 'audio/mpeg', ms: 0, src: 'file', name: nm || defName() });
       refreshUI();
     });
   })();
@@ -38872,9 +39151,18 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 
   bindEls(); setTimeout(bindEls, 1500);
   refreshUI(); setInterval(refreshUI, 1500);
-  dbOp('readonly', function (s) { return s.get(KEY); }).then(function (v) {
-    if (v && v.blob && !clip) {
-      clip = { blob: v.blob, mime: v.mime, ms: v.ms || 0, savedAt: v.savedAt, buf: null, prepared: false, src: v.src };
+  dbOp('readonly', function (st) { return st.getAll(); }).then(function (list) {
+    list = (list || []).filter(function (v) { return v && v.blob; });
+    list.sort(function (x, y) { return (x.savedAt || 0) - (y.savedAt || 0); });
+    list.forEach(function (v, i) {
+      if (clips.some(function (c) { return c.id === (v.id || KEY); })) return;
+      var d = new Date(v.savedAt || Date.now());
+      clips.push({ id: v.id || KEY, name: v.name || (T('مقطع', 'Clip') + ' ' + p2(d.getDate()) + '/' + p2(d.getMonth() + 1)),
+                   blob: v.blob, mime: v.mime, ms: v.ms || 0, savedAt: v.savedAt, src: v.src, buf: null, prepared: false });
+    });
+    if (!clip && clips.length) {
+      var want = null; try { want = localStorage.getItem(LS_SEL); } catch (e) {}
+      clip = clips.filter(function (c) { return c.id === want; })[0] || clips[clips.length - 1];
       return prepare();
     }
   }).then(refreshUI).then(function () {
