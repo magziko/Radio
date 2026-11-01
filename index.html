@@ -24123,6 +24123,21 @@ function toggleRadio(button, event = null) {
     }
   });
 
+  // ذكر له عدّاد تسبيح: تشغيل صوته من الزر (خارج مربع التسبيح) يكبّر الذكر
+  // ومربع العدّ كمان، عشان المستخدم ينتبه إنه يقدر يسبّح بالمربع وهو بيسمع.
+  // (الضغط على المربع نفسه بيروح لـ incrementTasbih ومش بيعدّى هنا)
+  if (button.classList.contains('has-tasbih') && typeof setTasbihFocus === 'function') {
+    if (typeof _tasbihAdvancePendingButton !== 'undefined' && _tasbihAdvancePendingButton && _tasbihAdvancePendingButton !== button) {
+      if (typeof _clearTasbihNextHint === 'function') _clearTasbihNextHint(_tasbihAdvancePendingButton);
+      if (typeof _clearTasbihAdvanceTimer === 'function') _clearTasbihAdvanceTimer();
+    }
+    // لو الذكر مكتمل، الضغطة الجاية على المربع = "خلصت، انتقل للتالى" بدل ما تحتاج ضغطتين
+    if (button.classList.contains('completed') && typeof _tasbihCompletedFocusOpenedButton !== 'undefined') {
+      _tasbihCompletedFocusOpenedButton = button;
+    }
+    setTasbihFocus(button);
+  }
+
   var stationUrl;
   var urls = null;
   var urlsAttr = button.getAttribute('data-urls');
