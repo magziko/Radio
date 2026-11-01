@@ -38215,7 +38215,9 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var sw = parseFloat(getComputedStyle(r.prog).strokeWidth) || 3;
     var rad = parseFloat(getComputedStyle(btn).borderTopLeftRadius) || 12;
     rad = Math.max(0, Math.min(rad, (Math.min(w, h) - sw) / 2) - sw / 2);
-    r.svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    /* بدون viewBox: وحدات الـ SVG = بكسل CSS 1:1، فمفيش تصغير/توسيط لو القياس اتأخر */
+    r.svg.removeAttribute('viewBox');
+    r.svg.setAttribute('preserveAspectRatio', 'none');
     [r.track, r.prog].forEach(function(el) {
       el.setAttribute('x', sw / 2); el.setAttribute('y', sw / 2);
       el.setAttribute('width', Math.max(0, w - sw)); el.setAttribute('height', Math.max(0, h - sw));
@@ -38246,7 +38248,13 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       r = btn.__tbRing = { svg: svg, track: track, prog: prog };
       cardRingGeom(btn);
       if (cardRO) cardRO.observe(btn);
+      /* إعادة القياس عند تغيّر كلاسات الزر (completed / tasbih-focus) وبعد انتهاء الترانزشن */
+      var regeom = function() { cardRingGeom(btn); };
+      new MutationObserver(function() { requestAnimationFrame(regeom); })
+        .observe(btn, { attributes: true, attributeFilter: ['class'] });
+      btn.addEventListener('transitionend', regeom);
     }
+    requestAnimationFrame(function() { cardRingGeom(btn); });
     r.prog.style.strokeDasharray = pct.toFixed(2) + ' 100';
     r.svg.classList.toggle('done', pct >= 100);
   }
