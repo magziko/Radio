@@ -38652,6 +38652,26 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     document.addEventListener(ev, function () { if (clip || rec) ensureCtx(); }, { passive: true });
   });
 
+  /* مستوى صوت المقطع = مستوى صوت الراديو (السلايدر المركزى)، وبيتغيّر لحظيًا مع أى تعديل عليه */
+  function radioVol() {
+    var sl = $('centralVolumeSlider'), v = sl ? parseFloat(sl.value) : NaN;
+    if (isNaN(v)) { var m = $('currentAudio'); v = m ? m.volume : 0.8; }
+    return Math.max(0, Math.min(1, v));
+  }
+  function applyClipVol() {
+    var v = radioVol();
+    if (loop) { loop.vol = v; if (loop.h && loop.h.setVol) loop.h.setVol(v); }
+    if (mloop && mloop.h && mloop.h.setVol) mloop.h.setVol(v);
+    if (preview && preview.h && preview.h.setVol) preview.h.setVol(v);
+  }
+  (function hookRadioVolume() {
+    var orig = window.syncAllVolume;
+    if (typeof orig !== 'function' || orig._clipHooked) return;
+    var wrapped = function () { var r = orig.apply(this, arguments); try { applyClipVol(); } catch (e) {} return r; };
+    wrapped._clipHooked = true;
+    window.syncAllVolume = wrapped;
+  })();
+
   var lastGesture = 0;
   ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) {
     document.addEventListener(ev, function () { lastGesture = Date.now(); }, { passive: true, capture: true });
@@ -38682,6 +38702,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       var srcEnded = false;
       src.onended = function () { srcEnded = true; if (onend) onend(); };
       h.alive = function () { return !srcEnded && c.state === 'running'; };
+      h.setVol = function (v) { try { var n = c.currentTime; g.gain.cancelScheduledValues(n); g.gain.setValueAtTime(g.gain.value, n); g.gain.linearRampToValueAtTime(Math.max(0, v), n + 0.08); } catch (e) {} };
       src.start(0);
       h.stop = function (fade) {
         fade = fade || 0.3;
@@ -38699,6 +38720,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var p = a.play();
     if (p && p.catch) p.catch(function () { if (onfail) onfail(); });
     h.alive = function () { return !a.paused && !a.ended; };
+    h.setVol = function (v) { try { a.volume = Math.max(0, Math.min(1, v)); } catch (e) {} };
     h.stop = function () { try { a.onended = null; a.pause(); } catch (e) {} setTimeout(function () { URL.revokeObjectURL(url); }, 300); };
     return h;
   }
@@ -38927,7 +38949,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (loop || mloop) return;
     prepare().then(function () {
       if (loop || !clip) return;
-      var vol = el.volume; if (!(vol > 0.05)) vol = 0.8;
+      var vol = radioVol();
       loop = { el: el, url: el.currentSrc || el.src, wasMuted: el.muted, h: null, tick: 0, okCount: 0, reconnecting: false, checking: false, vol: vol, reviving: false };
       el.muted = true;                                         // نكتم المحطة الميتة عشان ما يتداخلش صوت
       loop.h = playClip(vol, true, null, function () { endLoop('blocked'); });
@@ -38955,7 +38977,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     wake.then(prepare).then(function () {
       clearTimeout(guard);
       if (!loop || !clip) return;
-      loop.h = playClip(loop.vol || 0.8, true, null, function () { if (loop) loop.h = null; });   // لو المتصفح منع التشغيل نحاول تانى فى النبضة الجاية
+      loop.h = playClip(radioVol(), true, null, function () { if (loop) loop.h = null; });   // لو المتصفح منع التشغيل نحاول تانى فى النبضة الجاية
       loop.reviving = false;
     });
   }
@@ -39083,7 +39105,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (mloop) stopManual();
     prepare().then(function () {
       if (preview || !clip) return;
-      preview = { h: playClip(0.8, false, function () { preview = null; refreshUI(); }) };
+      preview = { h: playClip(radioVol(), false, function () { preview = null; refreshUI(); }) };
       refreshUI();
     });
   };
@@ -39367,7 +39389,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var wake = (c && c.state !== 'running' && c.resume) ? Promise.resolve(c.resume()).catch(function () {}) : Promise.resolve();
     wake.then(prepare).then(function () {
       if (mloop !== l || !clip) return;
-      l.h = playClip(0.9, true, null, function () {
+      l.h = playClip(radioVol(), true, null, function () {
         stopManual();
         note(T('المتصفح منع التشغيل — اضغط تكرار مرة أخرى', 'Playback was blocked \u2014 tap Loop again'), 3500);
       });
