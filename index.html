@@ -3746,6 +3746,10 @@ setTimeout(autoScaleVerseFont, 100);
         <span id="recLoopEnLbl">استخدام المقطع المسجل عند الانقطاع</span>
         <input type="checkbox" id="recLoopEnabled" checked onchange="window.recLoopSetEnabled && window.recLoopSetEnabled(this.checked)" style="width:20px;height:20px;accent-color:#66bb6a;">
       </label>
+      <label style="display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;font-size:13px;">
+        <span id="recLoopRotLbl">تناوب بين كل المقاطع المحفوظة أثناء التكرار</span>
+        <input type="checkbox" id="recLoopRotate" onchange="window.recLoopSetRotate && window.recLoopSetRotate(this.checked)" style="width:20px;height:20px;accent-color:#66bb6a;">
+      </label>
     </div>
 
     <div id="equalizer-row" class="aqx-eq-row">
@@ -31553,6 +31557,36 @@ document.addEventListener('keydown', function(e) {
       zh: '切换当前分段的重复播放',
       ur: 'موجودہ سیگمنٹ کی تکرار تبدیل کریں'
     },
+    r_rec: {
+      ar: 'تسجيل مقطع جديد للتكرار (اضغط مرة ثانية للإيقاف)',
+      en: 'Record a new loop clip (press again to stop)',
+      fr: 'Enregistrer un nouveau clip en boucle (appuyer à nouveau pour arrêter)',
+      es: 'Grabar un nuevo clip en bucle (pulsa de nuevo para detener)',
+      sv: 'Spela in ett nytt loopklipp (tryck igen för att stoppa)',
+      nl: 'Nieuwe loopclip opnemen (druk nogmaals om te stoppen)',
+      ga: 'Taifead gearrthóg lúibe nua (brúigh arís chun stopadh)',
+      de: 'Neuen Loop-Clip aufnehmen (erneut drücken zum Stoppen)',
+      ru: 'Записать новый клип для повтора (нажмите снова для остановки)',
+      tr: 'Yeni döngü klibi kaydet (durdurmak için tekrar bas)',
+      pt: 'Gravar novo clipe em loop (pressione novamente para parar)',
+      zh: '录制新的循环片段（再按一次停止）',
+      ur: 'نئی لوپ کلپ ریکارڈ کریں (روکنے کے لیے دوبارہ دبائیں)'
+    },
+    r_loop: {
+      ar: 'تشغيل / إيقاف تكرار المقطع المسجل',
+      en: 'Start / stop the recorded clip loop',
+      fr: 'Démarrer / arrêter la boucle du clip enregistré',
+      es: 'Iniciar / detener el bucle del clip grabado',
+      sv: 'Starta / stoppa loopen av det inspelade klippet',
+      nl: 'Opgenomen clip-loop starten / stoppen',
+      ga: 'Tosaigh / stad lúb an ghearrthóg taifeadta',
+      de: 'Loop des aufgenommenen Clips starten / stoppen',
+      ru: 'Запустить / остановить повтор записанного клипа',
+      tr: 'Kayıtlı klibin döngüsünü başlat / durdur',
+      pt: 'Iniciar / parar o loop do clipe gravado',
+      zh: '开始 / 停止录制片段的循环播放',
+      ur: 'ریکارڈ شدہ کلپ کی لوپ شروع / بند کریں'
+    },
     r_order: {
       ar: 'تبديل ترتيب الروابط (متعددة الروابط): بالترتيب ⇄ ديناميكي (عشوائي)',
       en: 'Toggle link order (multi-link stations): sequential ⇄ dynamic (random)',
@@ -32474,6 +32508,16 @@ document.addEventListener('keydown', function(e) {
       key: 'r',
       code: 'KeyR'
     },
+    r_rec: {
+      key: 'r',
+      code: 'KeyR',
+      alt: true
+    },
+    r_loop: {
+      key: 'p',
+      code: 'KeyP',
+      alt: true
+    },
     r_order: {
       key: 'o',
       code: 'KeyO'
@@ -32647,6 +32691,7 @@ document.addEventListener('keydown', function(e) {
       key: act.key,
       code: act.code,
       shiftKey: !!act.shift,
+      altKey: !!act.alt,
       bubbles: true,
       cancelable: true
     });
@@ -32757,6 +32802,8 @@ document.addEventListener('keydown', function(e) {
       kbRow('r_n', ['N'], lang),
       kbRow('r_b', ['B'], lang),
       kbRow('r_r', ['R'], lang),
+      kbRow('r_rec', ['Alt', 'R'], lang),
+      kbRow('r_loop', ['Alt', 'P'], lang),
       kbRow('r_order', ['O'], lang),
       '</div>',
       '<div class="kb-tip" style="margin-top:8px">',
@@ -38763,7 +38810,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (!clip) { ready = false; return Promise.resolve(false); }
     if (clip.prepared) { ready = true; return Promise.resolve(true); }
     var c = ensureCtx();
-    var done = function () { clip.prepared = true; ready = true; return true; };
+    var done = function () { clip.prepared = true; ready = true; setTimeout(warmShare, 0); return true; };
     if (!c || !clip.blob.arrayBuffer) return Promise.resolve(done());
     return clip.blob.arrayBuffer().then(function (ab) {
       return new Promise(function (res, rej) {
@@ -38797,17 +38844,69 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   }
 
   // تشغيل المقطع: عبر Web Audio (تكرار بدون أى فجوة) وإلا عنصر <audio> كبديل
-  function playClip(vol, loopIt, onend, onfail) {
+  /* ── تناوب بين المقاطع المحفوظة أثناء التكرار (اختيارى) ── */
+  var LS_ROT = 'recLoopRotate';
+  function rotateOn() { try { return localStorage.getItem(LS_ROT) === 'true'; } catch (e) { return false; } }
+  function prepareOne(cl) {
+    if (!cl) return Promise.resolve(false);
+    if (cl.prepared) return Promise.resolve(true);
+    var c = ensureCtx();
+    var done = function () { cl.prepared = true; return true; };
+    if (!c || !cl.blob || !cl.blob.arrayBuffer) return Promise.resolve(done());
+    return cl.blob.arrayBuffer().then(function (ab) {
+      return new Promise(function (res, rej) {
+        var p = c.decodeAudioData(ab, res, rej);
+        if (p && p.catch) p.catch(rej);
+      });
+    }).then(function (b) { cl.buf = b; return done(); }, function () { cl.buf = null; return done(); });
+  }
+  // بيشغّل كل المقاطع واحد ورا التانى (كل مقطع مرة كاملة بتلاشى فى أوله وآخره) وبيلف من الأول؛ بيرجّع نفس واجهة playClip
+  function playRotating(vol, onfail) {
+    var h = {}, cur = null, dead = false, gap = true, curVol = vol, skips = 0;
+    var idx = Math.max(0, clips.indexOf(clip)), deadline = Date.now() + 8000;
+    function next() {
+      if (dead || !clips.length) return;
+      var cl = clips[idx % clips.length]; idx++;
+      gap = true; deadline = Date.now() + 8000;
+      prepareOne(cl).then(function () {
+        if (dead) return;
+        var me = playClip(curVol, false, function () { if (!dead && cur === me) next(); }, function () {
+          if (!dead) { dead = true; if (onfail) onfail(); }
+        }, cl);
+        cur = me; gap = false;
+        var d = (cl.buf && cl.buf.duration) || (cl.ms ? cl.ms / 1000 : 60);
+        deadline = Date.now() + (d + 6) * 1000;
+      });
+    }
+    h.alive = function () { return !dead && Date.now() < deadline && (gap || !cur || cur.alive()); };
+    h.setVol = function (v) { curVol = v; try { if (cur) cur.setVol(v); } catch (e) {} };
+    h.stop = function (fade) { dead = true; try { if (cur) cur.stop(fade); } catch (e) {} };
+    next();
+    return h;
+  }
+
+  function playClip(vol, loopIt, onend, onfail, cl) {
+    if (loopIt && !cl && rotateOn() && clips.length > 1) return playRotating(vol, onfail);
+    cl = cl || clip;
     var c = ensureCtx(), h = {};
-    if (c && clip.buf && c.state === 'running') {
+    if (c && cl.buf && c.state === 'running') {
       var src = c.createBufferSource(), g = c.createGain(), t = c.currentTime;
-      src.buffer = loopIt ? loopBuffer(c) : clip.buf; src.loop = !!loopIt;
+      var dur = cl.buf.duration || 0, tail = (!loopIt && dur > 2) ? t + dur - 0.35 : 0;   // تلاشى فى آخر المقطع لما بيتشغّل مرة واحدة (فى التناوب)
+      src.buffer = loopIt ? loopBuffer(c) : cl.buf; src.loop = !!loopIt;
       src.connect(g); g.connect(c.destination);
       g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.4);
+      if (tail) { g.gain.setValueAtTime(vol, tail); g.gain.linearRampToValueAtTime(0, tail + 0.35); }
       var srcEnded = false;
       src.onended = function () { srcEnded = true; if (onend) onend(); };
       h.alive = function () { return !srcEnded && c.state === 'running'; };
-      h.setVol = function (v) { try { var n = c.currentTime; g.gain.cancelScheduledValues(n); g.gain.setValueAtTime(g.gain.value, n); g.gain.linearRampToValueAtTime(Math.max(0, v), n + 0.08); } catch (e) {} };
+      h.setVol = function (v) {
+        try {
+          v = Math.max(0, v);
+          var n = c.currentTime;
+          g.gain.cancelScheduledValues(n); g.gain.setValueAtTime(g.gain.value, n); g.gain.linearRampToValueAtTime(v, n + 0.08);
+          if (tail && tail > n + 0.1) { g.gain.setValueAtTime(v, tail); g.gain.linearRampToValueAtTime(0, tail + 0.35); }
+        } catch (e) {}
+      };
       src.start(0);
       h.stop = function (fade) {
         fade = fade || 0.3;
@@ -38820,7 +38919,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       };
       return h;
     }
-    var url = URL.createObjectURL(clip.blob), a = new Audio(url);
+    var url = URL.createObjectURL(cl.blob), a = new Audio(url);
     a.loop = !!loopIt; a.volume = Math.min(1, vol); a.onended = onend || null;
     var p = a.play();
     if (p && p.catch) p.catch(function () { if (onfail) onfail(); });
@@ -39230,11 +39329,48 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     }
     var ib = $('recLoopImpBtn'); if (ib) { setTxt(ib, '📁 ' + T('ملف', 'File')); ib.disabled = !!rec; ib.style.opacity = rec ? '.5' : '1'; }
     var cb = $('recLoopEnabled'); if (cb && cb.checked !== isEnabled()) cb.checked = isEnabled();
+    setTxt($('recLoopRotLbl'), T('تناوب بين كل المقاطع المحفوظة أثناء التكرار', 'Rotate through all saved clips while looping'));
+    var rt = $('recLoopRotate'); if (rt && rt.checked !== rotateOn()) rt.checked = rotateOn();
   }
   function srcName(k) {
     return ({ direct: T('مباشر', 'direct'), tab: T('صوت التبويبة', 'tab audio'), mic: T('الميكروفون', 'microphone'), file: T('ملف', 'file') })[k] || k;
   }
 
+  // Alt + R (أو Alt + ق — نفس المفتاح) = بدء/إيقاف تسجيل مقطع جديد. بنعتمد على e.code فيشتغل مع أى تخطيط كيبورد.
+  // capture + stopImmediatePropagation عشان معالج مفتاح R العادى (تكرار المقطع) ما يتفعّلش معاه
+  document.addEventListener('keydown', function (e) {
+    if (!(e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && e.code === 'KeyR')) return;
+    var t = e.target, tag = t && t.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    if (e.repeat || ed) return;
+    window.recLoopToggleRecord();
+  }, true);
+  window.recLoopSetRotate = function (on) {
+    try { localStorage.setItem(LS_ROT, on ? 'true' : 'false'); } catch (e) {}
+    if (on && clips.length < 2) note(T('التناوب يحتاج مقطعين محفوظين على الأقل', 'Rotation needs at least two saved clips'), 3500);
+    else note(on ? T('🔀 هيتناوب التكرار بين كل المقاطع المحفوظة', '🔀 Looping will rotate through all saved clips')
+                 : T('🔁 التكرار على المقطع المختار فقط', '🔁 Looping the selected clip only'), 3000);
+    // لو فيه تكرار شغّال دلوقتى نطبّق الإعداد فوراً
+    try {
+      if (mloop && mloop.h) {
+        var l = mloop;
+        if (l.sticky) { l.reviving = false; reviveHold(l); }
+        else { l.h.stop(0.2); l.h = playClip(radioVol(), true, null, function () { if (mloop === l) l.h = null; }); }
+      } else if (loop && loop.h) { reviveLoop(); }
+    } catch (e) {}
+    refreshUI();
+  };
+  // Alt + P (أو Alt + ح — نفس المفتاح) = تشغيل/إيقاف تكرار المقطع المسجل يدوياً
+  document.addEventListener('keydown', function (e) {
+    if (!(e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && e.code === 'KeyP')) return;
+    var t = e.target, tag = t && t.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+    e.preventDefault(); e.stopImmediatePropagation();     // عشان مفتاح P العادى (تشغيل/إيقاف المحطة) ما يتفعّلش معاه
+    if (e.repeat || ed || rec) return;
+    if (!clip) { note(T('سجّل مقطعاً أولاً (Alt + R)', 'Record a clip first (Alt + R)'), 3000); return; }
+    window.recLoopToggleManual();
+  }, true);
   window.recLoopToggleRecord = function () { if (rec) stopRec(false); else startRec(); refreshUI(); };
   window.recLoopTogglePreview = function () {
     if (preview) { preview.h.stop(0.1); preview = null; refreshUI(); return; }
@@ -39679,38 +39815,88 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (m.indexOf('wav') >= 0) return 'wav';
     return 'audio';
   }
-  function clipFileName() {
+  function clipFileName(ext) {
     var d = new Date(clip.savedAt || Date.now());
     var base = String(clip.name || '').replace(/[\\/:*?"<>|]+/g, '_').trim().slice(0, 40) ||
       ('radio-clip-' + d.getFullYear() + p2(d.getMonth() + 1) + p2(d.getDate()) + '-' + p2(d.getHours()) + p2(d.getMinutes()));
-    return base + '.' + clipExt(clip.mime);
+    return base + '.' + (ext || clipExt(clip.mime));
   }
+  /* واتساب/ماسنجر بيرفضوا webm/opus (اللى بيسجّله المتصفح)؛ فبنحوّل المقطع لـ WAV (متقبّل فى كل التطبيقات) عند المشاركة والتنزيل.
+     الصيغ المقبولة أصلاً (m4a/mp4/mp3/wav) بتتبعت زى ما هى. */
+  function bufToWav(b) {
+    var ch = Math.min(b.numberOfChannels, 2), n = b.length, sr = b.sampleRate, bytes = n * ch * 2;
+    var dv = new DataView(new ArrayBuffer(44 + bytes)), o = 0;
+    function str(t) { for (var i = 0; i < t.length; i++) dv.setUint8(o++, t.charCodeAt(i)); }
+    str('RIFF'); dv.setUint32(o, 36 + bytes, true); o += 4; str('WAVE'); str('fmt ');
+    dv.setUint32(o, 16, true); o += 4; dv.setUint16(o, 1, true); o += 2; dv.setUint16(o, ch, true); o += 2;
+    dv.setUint32(o, sr, true); o += 4; dv.setUint32(o, sr * ch * 2, true); o += 4;
+    dv.setUint16(o, ch * 2, true); o += 2; dv.setUint16(o, 16, true); o += 2; str('data'); dv.setUint32(o, bytes, true); o += 4;
+    var d = []; for (var c = 0; c < ch; c++) d.push(b.getChannelData(c));
+    for (var i = 0; i < n; i++) for (var k = 0; k < ch; k++) {
+      var v = Math.max(-1, Math.min(1, d[k][i]));
+      dv.setInt16(o, v < 0 ? v * 0x8000 : v * 0x7FFF, true); o += 2;
+    }
+    return new Blob([dv], { type: 'audio/wav' });
+  }
+  function shareReady() {
+    var c0 = clip;
+    if (!c0) return Promise.reject(new Error('noclip'));
+    var m = String(c0.mime || '').toLowerCase();
+    if (/wav|mpeg|mp3|mp4|m4a|aac/.test(m)) return Promise.resolve({ blob: c0.blob, type: m.split(';')[0], ext: clipExt(m) });
+    if (c0.shareFor === c0.blob && c0.sharePromise) return c0.sharePromise;
+    c0.shareFor = c0.blob; c0.shareRes = null;
+    c0.sharePromise = prepare().then(function () {
+      if (!c0.buf) throw new Error('nodecode');
+      return { blob: bufToWav(c0.buf), type: 'audio/wav', ext: 'wav' };
+    }).catch(function () {
+      return { blob: c0.blob, type: m.split(';')[0] || 'audio/webm', ext: clipExt(m) };   // لو التحويل فشل نبعت الأصلى
+    }).then(function (r) { c0.shareRes = r; return r; });
+    return c0.sharePromise;
+  }
+  function warmShare() { try { if (clip) shareReady().catch(function () {}); } catch (e) {} }
   // مشاركة مباشرة (واتساب/تيليجرام/إلخ) عبر قائمة المشاركة بالجهاز؛ وإن لم تُدعم: تنزيل الملف
   window.recLoopShare = function () {
     if (!clip || rec || ed) return;
-    var file = null, type = String(clip.mime || '').split(';')[0] || 'audio/webm';
-    try { file = new File([clip.blob], clipFileName(), { type: type }); } catch (e) {}
-    var can = false;
-    try { can = !!(file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })); } catch (e) {}
-    if (!can) {
-      note(T('المشاركة المباشرة غير متاحة في هذا المتصفح — سيتم تنزيل الملف لتشاركه يدوياً', 'Direct sharing isn\u2019t available here \u2014 downloading the file so you can share it manually'), 4500);
-      window.recLoopDownload(); return;
-    }
-    navigator.share({ files: [file], title: clip.name || 'Radio clip' }).catch(function (err) {
-      if (err && err.name === 'AbortError') return;                        // المستخدم أغلق قائمة المشاركة
-      note(T('تعذّرت المشاركة — جاري تنزيل الملف', 'Sharing failed \u2014 downloading the file instead'), 4000);
-      window.recLoopDownload();
-    });
+    var c0 = clip;
+    var doShare = function (r) {
+      var file = null;
+      try { file = new File([r.blob], clipFileName(r.ext), { type: r.type }); } catch (e) {}
+      var can = false;
+      try { can = !!(file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })); } catch (e) {}
+      if (!can) {
+        note(T('المشاركة المباشرة غير متاحة في هذا المتصفح — سيتم تنزيل الملف لتشاركه يدوياً', 'Direct sharing isn\u2019t available here \u2014 downloading the file so you can share it manually'), 4500);
+        saveResult(r); return;
+      }
+      navigator.share({ files: [file], title: c0.name || 'Radio clip' }).catch(function (err) {
+        if (err && err.name === 'AbortError') return;                        // المستخدم أغلق قائمة المشاركة
+        note(T('تعذّرت المشاركة — جاري تنزيل الملف', 'Sharing failed \u2014 downloading the file instead'), 4000);
+        saveResult(r);
+      });
+    };
+    // لو الملف جاهز (اتحضّر فى الخلفية) نشارك فوراً عشان إذن اللمسة يفضل صالح
+    if (c0.shareFor === c0.blob && c0.shareRes) { doShare(c0.shareRes); return; }
+    note(T('جاري تجهيز الملف للمشاركة…', 'Preparing the file\u2026'), 2000);
+    shareReady().then(doShare);
   };
-  window.recLoopToggleManual = function () { if (mloop) stopManual(); else startManual(); };
-  window.recLoopDownload = function () {
-    if (!clip) return;
-    var name = clipFileName();
-    var url = URL.createObjectURL(clip.blob), a = document.createElement('a');
+  // تشغيل/إيقاف التكرار اليدوى (الزر أو Alt+P). لو الإنترنت مقطوع بيشتغل بنفس حماية التكرار التلقائى:
+  // الضغطات ومقاطع الشاشة الترحيبية ما بتوقفوش، ولما الإنترنت يرجع بيقف ويرجّع المحطة. أونلاين: تكرار عادى لحد ما توقفه.
+  window.recLoopToggleManual = function () {
+    if (mloop) { stopManual(); return; }
+    startManual(navigator.onLine === false);
+  };
+  function saveResult(r) {
+    var name = clipFileName(r.ext);
+    var url = URL.createObjectURL(r.blob), a = document.createElement('a');
     a.href = url; a.download = name; a.style.display = 'none';
     document.body.appendChild(a); a.click();
     setTimeout(function () { try { document.body.removeChild(a); } catch (e) {} URL.revokeObjectURL(url); }, 4000);
     note(T('💾 جاري تنزيل المقطع على الجهاز', '💾 Downloading the clip to your device'), 2500);
+  }
+  window.recLoopDownload = function () {
+    if (!clip) return;
+    var c0 = clip;
+    if (c0.shareFor === c0.blob && c0.shareRes) { saveResult(c0.shareRes); return; }
+    shareReady().then(saveResult);
   };
   window.recLoopSetMax = function (v) {
     v = parseInt(v, 10);
