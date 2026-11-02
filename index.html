@@ -19927,6 +19927,7 @@ function _applyAdhkarAutoSubByTime(on) {
 function toggleAdhkarAutoSubByTime() {
   _applyAdhkarAutoSubByTime(!_adhkarAutoSubByTimeOn);
   try { localStorage.setItem('adhkarAutoSubByTime', _adhkarAutoSubByTimeOn ? '1' : '0'); } catch (e) {}
+  if (_adhkarAutoSubByTimeOn && typeof window._adhkarAutoPickBannerCheck === 'function') setTimeout(window._adhkarAutoPickBannerCheck, 300);
 }
 (function initAdhkarAutoSubByTimeSetting() {
   var saved = null;
@@ -36013,6 +36014,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '#adhkar-reminder-banner .banner-btn:active { transform: scale(0.95); }',
         '#adhkar-reminder-banner .btn-go  { background:#fff; color:var(--theme-g2); }',
         '#adhkar-reminder-banner .btn-close{ background:rgba(255,255,255,0.18); color:#fff; }',
+        '#adhkar-reminder-banner .btn-later{ background:rgba(255,255,255,0.18); color:#fff; }',
       ].join('\n');
       document.head.appendChild(style);
 
@@ -36024,14 +36026,20 @@ document.addEventListener('DOMContentLoaded', function() {
         '<div class="banner-body"  id="banner-body"></div>',
         '<div class="banner-actions">',
         '  <button class="banner-btn btn-go"    id="banner-btn-go"></button>',
+        '  <button class="banner-btn btn-later" id="banner-btn-later"></button>',
         '  <button class="banner-btn btn-close" id="banner-btn-close"></button>',
         '</div>',
       ].join('');
       document.body.appendChild(_bannerEl);
 
-      document.getElementById('banner-btn-close').addEventListener('click', hideBanner);
+      document.getElementById('banner-btn-close').addEventListener('click', function() {
+        clearSnooze();
+        hideBanner();
+      });
+      document.getElementById('banner-btn-later').addEventListener('click', snoozeBanner);
       document.getElementById('banner-btn-go').addEventListener('click', function() {
         var type = _bannerEl.dataset.type;
+        clearSnooze();
         hideBanner();
         var adhkarBtn = document.querySelector('.filter-button[data-en="Adhkar"]');
         if (adhkarBtn) adhkarBtn.click();
@@ -36040,6 +36048,37 @@ document.addEventListener('DOMContentLoaded', function() {
           if (subBtn) subBtn.click();
         }, 200);
       });
+    }
+
+    // ── ذكّرني لاحقًا: يخفي البانر ويرجّعه بعد مدة (محفوظ فى localStorage فيكمّل حتى لو أعدت فتح الموقع) ──
+    var SNOOZE_KEY = 'adhkar_banner_snooze';
+    var SNOOZE_MS = 15 * 60 * 1000; // غيّر المدة من هنا (15 دقيقة)
+    var _snoozeTimer = null;
+
+    function clearSnooze() {
+      if (_snoozeTimer) { clearTimeout(_snoozeTimer); _snoozeTimer = null; }
+      try { localStorage.removeItem(SNOOZE_KEY); } catch (e) {}
+    }
+
+    function scheduleSnooze(type, at) {
+      if (_snoozeTimer) clearTimeout(_snoozeTimer);
+      try { localStorage.setItem(SNOOZE_KEY, JSON.stringify({ type: type, at: at })); } catch (e) {}
+      _snoozeTimer = setTimeout(function() {
+        _snoozeTimer = null;
+        try { localStorage.removeItem(SNOOZE_KEY); } catch (e) {}
+        showInPageBanner(type);
+      }, Math.max(0, at - Date.now()));
+    }
+
+    function snoozeBanner() {
+      var type = (_bannerEl && _bannerEl.dataset.type) || 'morning';
+      hideBanner();
+      scheduleSnooze(type, Date.now() + SNOOZE_MS);
+      var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+      var mins = Math.round(SNOOZE_MS / 60000);
+      if (typeof showToast === 'function') {
+        showToast(isAr ? '⏰ هذكّرك بعد ' + mins + ' دقيقة' : '⏰ Will remind you in ' + mins + ' min');
+      }
     }
 
     function hideBanner() {
@@ -36107,12 +36146,14 @@ document.addEventListener('DOMContentLoaded', function() {
         _bannerEl.classList.add('evening-mode');
       }
       btnClose = isAr ? 'إغلاق' : 'Dismiss';
+      var btnLater = isAr ? 'ذكّرني لاحقًا' : 'Remind me later';
 
       document.getElementById('banner-icon').textContent = icon;
       document.getElementById('banner-title').textContent = title;
       document.getElementById('banner-body').textContent = body;
       document.getElementById('banner-btn-go').textContent = btnGo;
       document.getElementById('banner-btn-close').textContent = btnClose;
+      document.getElementById('banner-btn-later').textContent = btnLater;
       _bannerEl.dataset.type = type;
 
       _bannerEl.style.display = 'flex';
@@ -36423,6 +36464,37 @@ document.addEventListener('DOMContentLoaded', function() {
         showInPageBanner(winner.type);
       })();
     }
+
+    // ── بانر التذكير مع خيار "اختيار صباح/مساء تلقائيًا" ──
+    // لو الخيار مفعّل والتذكير 🔔 متوقف: يظهر البانر مرة واحدة لكل فترة (صباح/مساء) كل يوم
+    // لما نكون جوه الفترة (حسب مواقيت الصلاة أو الساعات). لو التذكير مفعّل، جدوله الخاص هو اللى بيشتغل.
+    function autoPickBannerCheck() {
+      try {
+        if (loadSettings().enabled) return;
+        if (typeof _adhkarAutoSubByTimeOn === 'undefined' || !_adhkarAutoSubByTimeOn) return;
+        if (typeof getAdhkarSubByTime !== 'function') return;
+        var type = getAdhkarSubByTime();
+        if (type !== 'morning' && type !== 'evening') return;
+        var n = new Date();
+        var key = 'adhkar_shown_' + n.getFullYear() + '-' + (n.getMonth() + 1) + '-' + n.getDate();
+        var shown = {};
+        try { shown = JSON.parse(localStorage.getItem(key) || '{}'); } catch (e) {}
+        if (shown[type]) return;
+        shown[type] = true;
+        try { localStorage.setItem(key, JSON.stringify(shown)); } catch (e) {}
+        showInPageBanner(type);
+      } catch (e) {}
+    }
+    window._adhkarAutoPickBannerCheck = autoPickBannerCheck;
+    setTimeout(autoPickBannerCheck, 2500);
+    // استئناف "ذكّرني لاحقًا" لو الصفحة اتقفلت واتفتحت قبل ما يحين الموعد
+    try {
+      var _sn = JSON.parse(localStorage.getItem(SNOOZE_KEY) || 'null');
+      if (_sn && (_sn.type === 'morning' || _sn.type === 'evening') && _sn.at) {
+        scheduleSnooze(_sn.type, Math.max(_sn.at, Date.now() + 2500));
+      }
+    } catch (e) {}
+    setInterval(autoPickBannerCheck, 60000);
 
   })();
 
