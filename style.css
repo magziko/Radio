@@ -11535,3 +11535,48 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
     .adhkar-tahlil-settings .tahlil-title { font-size: 13.5px !important; }
     .tahlil-count-btn { min-width: 46px; padding: 4px 10px; }
 }
+/* =====================================================================
+   زر إغلاق الإعدادات (✕) ثابت وعائم: يفضل ظاهر فى مكانه وإنت بتعمل سكرول جوه الإعدادات
+   (كان absolute فبيتحرك مع المحتوى). بقى sticky من غير ما ياخد مساحة من التخطيط.
+   المتغيرات بتطابق padding لوحة الإعدادات فى كل حجم شاشة
+   ===================================================================== */
+#settings-panel.settings-modal-panel { --scb-pt: 46px; --scb-pr: 12px; --scb-size: 34px; }
+@media (min-width: 600px)  { #settings-panel.settings-modal-panel { --scb-pr: 16px; } }
+@media (min-width: 1024px) { #settings-panel.settings-modal-panel { --scb-pt: 48px; --scb-pr: 20px; } }
+@media (max-height: 520px) { #settings-panel.settings-modal-panel { --scb-pt: 40px; } }
+@media (pointer: coarse)   { #settings-panel.settings-modal-panel { --scb-size: 40px; } }
+
+#settings-panel #settings-modal-close-btn {
+    position: sticky;
+    top: calc(8px - var(--scb-pt)); /* الـ sticky بيتقاس من حافة محتوى اللوحة (بعد الـ padding) */
+    right: auto;
+    width: var(--scb-size);
+    height: var(--scb-size);
+    margin: calc(8px - var(--scb-pt)) calc(8px - var(--scb-pr)) calc(var(--scb-pt) - 8px - var(--scb-size)) auto;
+    z-index: 10002;
+    background: rgba(255,255,255,0.88);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.06);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+#settings-panel #settings-modal-close-btn:hover { background: rgba(255,255,255,1); }
+body.dark-mode #settings-panel #settings-modal-close-btn {
+    background: rgba(38,52,72,0.9);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.12);
+}
+body.dark-mode #settings-panel #settings-modal-close-btn:hover { background: rgba(52,70,96,0.98); }
+/* =====================================================================
+   حلقة تقدّم التارجت حوالين بطاقة الذكر — وضوح فى الثيمات الألوان الثابتة
+   كانت بتاخد --theme-g1 (= لون الثيم الأساسى) وده نفس لون خلفية البطاقة فى ثيمات زى soft-gold
+   فبتختفى. دلوقتى فى الثيمات العادية بتاخد اللون الأغمق (--theme-c2) وعند الاكتمال الأغمق (--theme-c4).
+   ثيمات الصور/الفيديو (الزجاجى) والوضع الداكن ليهم لونهم الخاص تحت.
+   ===================================================================== */
+body:not(.media-theme-glass) .tb-card-ring .tb-cr-track { stroke: rgba(var(--theme-c2-rgb), 0.22); }
+body:not(.media-theme-glass) .tb-card-ring .tb-cr-prog  { stroke: var(--theme-c2); }
+body:not(.media-theme-glass) .tb-card-ring.done .tb-cr-prog { stroke: var(--theme-c4); }
+/* الوضع الداكن: البطاقة غامقة، فنرجّع اللون الفاتح (c1) والاكتمال أفتح */
+body.dark-mode:not(.media-theme-glass) .tb-card-ring .tb-cr-track { stroke: rgba(var(--theme-c1-rgb), 0.30); }
+body.dark-mode:not(.media-theme-glass) .tb-card-ring .tb-cr-prog  { stroke: var(--theme-c1); }
+@supports (color: color-mix(in srgb, red 50%, white)) {
+    body.dark-mode:not(.media-theme-glass) .tb-card-ring.done .tb-cr-prog { stroke: color-mix(in srgb, var(--theme-c1) 65%, #fff); }
+}
