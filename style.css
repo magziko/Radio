@@ -11358,3 +11358,180 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
 @supports (color: color-mix(in srgb, red 50%, white)) {
     .tb-card-ring.done .tb-cr-prog { stroke: color-mix(in srgb, var(--theme-g1, #1D9E75) 65%, #fff); }
 }
+/* =====================================================================
+   ضبط شاشة إعدادات الأذكار (وتنبيهات فتح الموقع) للموبايل والشاشات الصغيرة
+   - الصف: العنوان + المفتاح فى سطر، والشرح تحتهم بعرض كامل
+   - مواعيد الصباح/المساء: عمودين متساويين (العنوان فوق الحقل) وينزلوا تحت بعض لو الشاشة ضيقة جدًا
+   - الأزرار الكبيرة بعرض كامل، ومنطقة لمس المفاتيح ≥ 44px
+   ===================================================================== */
+@media (max-width: 600px) {
+    #adhkar-settings-drawer,
+    #adhkar-settings-drawer > div,
+    #startup-notif-settings {
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-wrap: anywhere;
+    }
+
+    /* ---- الكروت ذات الشكل: عنوان + شرح + (مفتاح | زر | أدوات) ---- */
+    #adhkar-autoadvance-settings,
+    #adhkar-autosub-settings,
+    #adhkar-count-dir-settings,
+    #adhkar-share-settings,
+    #adhkar-speed-settings,
+    #adhkar-notif-settings,
+    #startup-notif-settings {
+        padding: 10px 12px !important;
+        gap: 6px 10px !important;
+    }
+    #adhkar-autoadvance-settings > span:first-child,
+    #adhkar-autosub-settings > span:first-child,
+    #adhkar-count-dir-settings > span:first-child,
+    #adhkar-share-settings > span:first-child,
+    #adhkar-speed-settings > span:first-child,
+    #adhkar-notif-settings > span:first-child,
+    #startup-notif-settings > span:first-child {
+        order: 1;
+        flex: 1 1 0;
+        min-width: 0;
+        white-space: normal !important;
+        font-size: 14px !important;
+        line-height: 1.5;
+    }
+    /* الشرح: سطر كامل تحت العنوان والمفتاح */
+    #adhkar-autoadvance-settings > span:nth-child(2),
+    #adhkar-autosub-settings > span:nth-child(2),
+    #adhkar-count-dir-settings > span:nth-child(2),
+    #adhkar-share-settings > span:nth-child(2),
+    #adhkar-speed-settings > span:nth-child(2),
+    #startup-notif-settings > span:nth-child(2) {
+        order: 3;
+        flex: 1 1 100%;
+        font-size: 12px !important;
+        line-height: 1.7;
+    }
+    /* المفاتيح: جنب العنوان */
+    #adhkar-autoadvance-settings > .mini-toggle-switch,
+    #adhkar-autosub-settings > .mini-toggle-switch,
+    #adhkar-count-dir-settings > .mini-toggle-switch {
+        order: 2;
+        margin-inline-start: 0 !important;
+    }
+    /* العنوان وحده فى سطر لما مفيش مفتاح جنبه، والأدوات/الأزرار بعرض كامل */
+    #adhkar-share-settings > span:first-child,
+    #adhkar-speed-settings > span:first-child,
+    #startup-notif-settings > span:first-child,
+    #adhkar-notif-settings > span:first-child {
+        flex-basis: 100%;
+    }
+    #adhkar-share-settings > button,
+    #startup-notif-settings > button,
+    #adhkar-notif-settings > #notif-toggle-btn {
+        order: 4;
+        flex: 1 1 100%;
+        margin-inline-start: 0 !important;
+        padding: 10px 14px !important;
+        font-size: 14px !important;
+        white-space: normal !important;
+        min-height: 42px;
+    }
+    #adhkar-speed-settings > div {
+        order: 4;
+        flex: 1 1 100%;
+        justify-content: center;
+        margin-inline-start: 0 !important;
+        gap: 12px !important;
+    }
+    #adhkar-speed-settings > div button { min-width: 38px; min-height: 38px; }
+    #adhkar-speed-settings > div button[onclick*="reset"] { width: 34px !important; height: 34px !important; }
+    #startup-notif-settings > span[id$="status-text"],
+    #adhkar-notif-settings > #notif-status-text {
+        order: 5;
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+    /* محاذاة النصوص لبداية السطر (اليمين فى العربى) بدل التوسيط */
+    #adhkar-autoadvance-settings > span,
+    #adhkar-autosub-settings > span,
+    #adhkar-count-dir-settings > span,
+    #adhkar-share-settings > span,
+    #adhkar-speed-settings > span,
+    #adhkar-notif-settings > span:first-child,
+    #startup-notif-settings > span:not([id]),
+    .adhkar-tahlil-settings .tahlil-title,
+    .adhkar-tahlil-settings .tahlil-note { text-align: start; }
+
+    /* ---- مواعيد التذكير: عمودين، العنوان فوق الحقل ---- */
+    #adhkar-settings-drawer #adhkar-notif-times-row {
+        order: 2;
+        flex: 1 1 100%;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        width: 100%;
+    }
+    #adhkar-settings-drawer #adhkar-notif-times-row > div {
+        flex: 1 1 130px;
+        min-width: 0;
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 3px !important;
+    }
+    #adhkar-settings-drawer #adhkar-notif-times-row label {
+        font-size: 12.5px !important;
+        text-align: start;
+    }
+    #adhkar-settings-drawer #notif-morning-time,
+    #adhkar-settings-drawer #notif-evening-time {
+        width: 100%;
+        min-height: 40px;
+        box-sizing: border-box;
+        padding: 6px 10px !important;
+        font-size: 14px !important;
+    }
+
+    /* ---- التهليل ---- */
+    .adhkar-tahlil-settings { padding: 2px 12px; }
+    .adhkar-tahlil-settings .tahlil-row { gap: 6px 10px; padding: 10px 0; }
+    .adhkar-tahlil-settings .tahlil-title {
+        order: 1;
+        flex: 1 1 0;
+        min-width: 0;
+        white-space: normal;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    .adhkar-tahlil-settings .tahlil-count-group,
+    .adhkar-tahlil-settings .tahlil-toggle { order: 2; margin-inline-start: 0; }
+    .adhkar-tahlil-settings .tahlil-note {
+        order: 3;
+        flex: 1 1 100%;
+        line-height: 1.7;
+    }
+
+    /* ---- كارت الخيارات المتقدمة: العنوان ياخد المساحة والمفتاح فى الطرف ---- */
+    #adhkar-advanced-settings { padding: 2px 12px !important; }
+    #adhkar-advanced-settings > div > div:first-child > span { flex: 1 1 0; min-width: 0; }
+}
+
+/* أهداف لمس مريحة للمفاتيح (من غير تغيير شكلها): منطقة شفافة ≥ 44px */
+@media (pointer: coarse) {
+    #adhkar-settings-drawer .mini-toggle-switch::before,
+    #startup-notif-settings .mini-toggle-switch::before {
+        content: '';
+        position: absolute;
+        inset: -11px -6px;
+    }
+}
+
+@media (max-width: 360px) {
+    #adhkar-autoadvance-settings > span:first-child,
+    #adhkar-autosub-settings > span:first-child,
+    #adhkar-count-dir-settings > span:first-child,
+    #adhkar-share-settings > span:first-child,
+    #adhkar-speed-settings > span:first-child,
+    #adhkar-notif-settings > span:first-child,
+    #startup-notif-settings > span:first-child,
+    .adhkar-tahlil-settings .tahlil-title { font-size: 13.5px !important; }
+    .tahlil-count-btn { min-width: 46px; padding: 4px 10px; }
+}
