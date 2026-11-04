@@ -11262,25 +11262,65 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
    ===================================================================== */
 #dhikr-tip {
     position: absolute; z-index: 2147483000;
-    max-width: min(86vw, 340px); box-sizing: border-box;
+    max-width: min(88vw, 360px); box-sizing: border-box;
     display: flex; align-items: flex-start; gap: 10px;
-    padding: 10px 12px; border-radius: 12px;
-    background: rgba(20, 24, 32, 0.95); color: #fff;
-    font: 600 13px/1.6 'Cairo', Arial, sans-serif;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    padding: 10px 12px; border-radius: 14px;
+    background: rgba(20, 24, 32, 0.95);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--theme-c2, #1565c0) 45%, #10141c) 0%, color-mix(in srgb, var(--theme-c1, #1e90ff) 30%, #10141c) 100%);
+    color: #fff;
+    border: 1.5px solid rgba(var(--theme-c1-rgb, 30,144,255), 0.65);
+    box-shadow: inset 0 2.5px 0 var(--theme-c1, #1e90ff), 0 6px 24px rgba(0, 0, 0, 0.35), 0 0 14px rgba(var(--theme-c1-rgb, 30,144,255), 0.25);
+    font: 600 15px/1.9 'Cairo', Arial, sans-serif;
     opacity: 0; visibility: hidden; pointer-events: none;
     transform: translateY(-4px);
     transition: opacity .18s, transform .18s, visibility .18s;
+    touch-action: pan-x; /* يسمح بالسحب الرأسى لإغلاق التلميح على الموبايل */
+    -webkit-user-select: text; user-select: text;
 }
 #dhikr-tip.show { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
-#dhikr-tip .dhikr-tip-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-#dhikr-tip .dhikr-tip-close {
-    flex: none; width: 26px; height: 26px; padding: 0;
-    border: none; border-radius: 50%; cursor: pointer;
-    background: rgba(255, 255, 255, 0.18); color: #fff;
-    font-size: 14px; line-height: 1;
+#dhikr-tip .dhikr-tip-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+#dhikr-tip .dhikr-tip-text { min-width: 0; overflow-wrap: anywhere; font-size: 15px; line-height: 1.9; }
+#dhikr-tip .dhikr-tip-actions { flex: none; display: flex; align-items: center; gap: 6px; }
+#dhikr-tip .dhikr-tip-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* السهم: مثلث صغير يشير لمركز الذكر (يتحرك أفقيًا بالـ JS عبر left) */
+#dhikr-tip .dhikr-tip-arrow {
+    position: absolute; top: -7px; left: 50%;
+    width: 12px; height: 12px; margin-left: -6px;
+    background: color-mix(in srgb, var(--theme-c2, #1565c0) 45%, #10141c);
+    border-top: 1.5px solid rgba(var(--theme-c1-rgb, 30,144,255), 0.65);
+    border-left: 1.5px solid rgba(var(--theme-c1-rgb, 30,144,255), 0.65);
+    transform: rotate(45deg); pointer-events: none;
 }
-#dhikr-tip .dhikr-tip-close:hover { background: rgba(255, 255, 255, 0.32); }
+#dhikr-tip.above .dhikr-tip-arrow {
+    top: auto; bottom: -7px;
+    background: color-mix(in srgb, var(--theme-c1, #1e90ff) 30%, #10141c);
+    border-top: none; border-left: none;
+    border-bottom: 1.5px solid rgba(var(--theme-c1-rgb, 30,144,255), 0.65);
+    border-right: 1.5px solid rgba(var(--theme-c1-rgb, 30,144,255), 0.65);
+}
+
+/* زر النسخ (أيقونة) وزر ✕ بنفس الحجم جنب بعض */
+#dhikr-tip .dhikr-tip-close,
+#dhikr-tip .dhikr-tip-copy {
+    flex: none; width: 28px; height: 28px; padding: 0;
+    border: none; border-radius: 50%; cursor: pointer;
+    background: rgba(var(--theme-c1-rgb, 30,144,255), 0.40); color: #fff;
+    font-size: 14px; line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center;
+}
+#dhikr-tip .dhikr-tip-close:hover,
+#dhikr-tip .dhikr-tip-copy:hover { background: rgba(var(--theme-c1-rgb, 30,144,255), 0.70); }
+#dhikr-tip .dhikr-tip-copy.done { background: rgba(46, 160, 67, 0.85); }
+
+/* زر الاستماع */
+#dhikr-tip .dhikr-tip-btn {
+    padding: 4px 12px; border: none; border-radius: 999px; cursor: pointer;
+    background: rgba(var(--theme-c1-rgb, 30,144,255), 0.40); color: #fff;
+    font: 700 13px/1.6 'Cairo', Arial, sans-serif;
+}
+#dhikr-tip .dhikr-tip-btn:hover { background: rgba(var(--theme-c1-rgb, 30,144,255), 0.70); }
+#dhikr-tip .dhikr-tip-btn.on { background: rgba(220, 70, 70, 0.85); }
 .adhkar-tahlil-settings .tip-dur-group { flex-wrap: wrap; }
 .tip-dur-group .tahlil-count-btn { min-width: 44px; padding: 4px 10px; }
 @media (prefers-reduced-motion: reduce) { #dhikr-tip { transition: none; } }
