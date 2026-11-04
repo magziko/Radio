@@ -45,7 +45,8 @@ const STATIC_ASSETS = [
   '/Radio/favicon.png',
   '/Radio/manifest.json',
   '/Radio/icon-192.png',
-  '/Radio/icon-512.png'
+  '/Radio/icon-512.png',
+  '/Radio/equran-embed.js'   // محمّل المصحف (equran): يتخزن مع الأصول الأساسية ليفتح زر المصحف أوفلاين
 ];
 
 const PRAYER_NAMES_AR = { Fajr:'الفجر', Dhuhr:'الظهر', Asr:'العصر', Maghrib:'المغرب', Isha:'العشاء' };
