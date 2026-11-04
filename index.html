@@ -3455,6 +3455,20 @@ setTimeout(autoScaleVerseFont, 100);
     </div>
   </div>
 
+  <div id="adhkar-tip-settings" class="adhkar-tahlil-settings">
+    <div class="tahlil-row tahlil-row-count">
+      <span class="tahlil-title" data-ar="💬 تلميح الذكر (الفضل والشرح)" data-en="💬 Dhikr tooltip (virtue / info)">💬 تلميح الذكر (الفضل والشرح)</span>
+      <span class="tahlil-note" data-ar="يظهر عند الضغط على الذكر. اختر مدة ظهوره أو أخفِه. ويمكن إغلاقه بزر ✕ أو بالضغط فى أى مكان فاضى." data-en="Shown when you tap a dhikr. Choose how long it stays, or hide it. Close it with ✕ or by tapping any empty area.">يظهر عند الضغط على الذكر. اختر مدة ظهوره أو أخفِه. ويمكن إغلاقه بزر ✕ أو بالضغط فى أى مكان فاضى.</span>
+      <div class="tahlil-count-group tip-dur-group">
+        <button type="button" class="tahlil-count-btn" data-sec="0" data-ar="إخفاء" data-en="Off" onclick="setDhikrTipDuration(0)">إخفاء</button>
+        <button type="button" class="tahlil-count-btn" data-sec="4" data-ar="٤ ث" data-en="4s" onclick="setDhikrTipDuration(4)">٤ ث</button>
+        <button type="button" class="tahlil-count-btn" data-sec="8" data-ar="٨ ث" data-en="8s" onclick="setDhikrTipDuration(8)">٨ ث</button>
+        <button type="button" class="tahlil-count-btn" data-sec="15" data-ar="١٥ ث" data-en="15s" onclick="setDhikrTipDuration(15)">١٥ ث</button>
+        <button type="button" class="tahlil-count-btn" data-sec="-1" data-ar="حتى أغلقه" data-en="Until closed" onclick="setDhikrTipDuration(-1)">حتى أغلقه</button>
+      </div>
+    </div>
+  </div>
+
   <div id="adhkar-advanced-settings" style="
     margin: 8px auto 4px;
     width: 97%; max-width: 860px;
@@ -20043,6 +20057,145 @@ function toggleTahlilLast() {
 })();
 
 /* ══════════════════════════════════════════════════════════════════════════
+   تلميح الذكر/المحطة المخصص (بدل الـ title الأصلى بتاع المتصفح)
+   ──────────────────────────────────────────────────────────────────────────
+   الـ title الأصلى مش ممكن نتحكم فى مدته ولا نقفله. فبننقل نصه إلى data-tip
+   ونعرضه فى كارت خاص: بيظهر عند الضغط على الذكر (وعند التحويم بالماوس)،
+   ويتقفل بزر ✕ أو بالضغط فى أى مكان فاضى أو Esc أو بعد المدة المختارة.
+   الإعداد: adhkarTipDuration = 0 مخفى | 4 | 8 | 15 ثانية | -1 مفتوح لحد ما يتقفل
+   ══════════════════════════════════════════════════════════════════════════ */
+var _dhikrTipSec = 8;
+function _dhikrTipSyncUI() {
+  document.querySelectorAll('.tip-dur-group .tahlil-count-btn').forEach(function(btn) {
+    btn.classList.toggle('active', parseInt(btn.getAttribute('data-sec'), 10) === _dhikrTipSec);
+  });
+}
+function setDhikrTipDuration(n) {
+  _dhikrTipSec = n;
+  try { localStorage.setItem('adhkarTipDuration', String(n)); } catch (e) {}
+  _dhikrTipSyncUI();
+  if (n === 0 && typeof window._dhikrTipHide === 'function') window._dhikrTipHide();
+}
+(function initDhikrTip() {
+  try {
+    var v = parseInt(localStorage.getItem('adhkarTipDuration'), 10);
+    if (!isNaN(v) && [0, 4, 8, 15, -1].indexOf(v) !== -1) _dhikrTipSec = v;
+  } catch (e) {}
+  _dhikrTipSyncUI();
+
+  var tipEl = null, textEl = null, hideTimer = null, hoverTimer = null, curBtn = null, pinned = false;
+
+  function build() {
+    if (tipEl) return;
+    tipEl = document.createElement('div');
+    tipEl.id = 'dhikr-tip';
+    tipEl.setAttribute('role', 'tooltip');
+    tipEl.setAttribute('dir', 'auto');
+    textEl = document.createElement('div');
+    textEl.className = 'dhikr-tip-text';
+    var x = document.createElement('button');
+    x.type = 'button';
+    x.className = 'dhikr-tip-close';
+    x.setAttribute('aria-label', (typeof isArabic !== 'undefined' && !isArabic) ? 'Close' : 'إغلاق');
+    x.textContent = '✕';
+    x.addEventListener('click', function(e) { e.stopPropagation(); hide(); });
+    tipEl.appendChild(textEl);
+    tipEl.appendChild(x);
+    document.body.appendChild(tipEl);
+  }
+
+  function hide() {
+    clearTimeout(hideTimer); clearTimeout(hoverTimer);
+    hideTimer = hoverTimer = null;
+    if (tipEl) tipEl.classList.remove('show');
+    curBtn = null; pinned = false;
+  }
+  window._dhikrTipHide = hide;
+
+  function place() {
+    if (!tipEl || !curBtn || !tipEl.classList.contains('show')) return;
+    var r = curBtn.getBoundingClientRect();
+    var w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+    var sx = window.pageXOffset, sy = window.pageYOffset;
+    var left = r.left + r.width / 2 - w / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - w - 8));
+    var top = r.bottom + 8;
+    if (top + h > window.innerHeight - 8 && r.top - h - 8 > 8) top = r.top - h - 8;
+    tipEl.style.left = (left + sx) + 'px';
+    tipEl.style.top = (top + sy) + 'px';
+  }
+
+  // الـ title الأصلى بيتنقل لـ data-tip (التلميحات الإرشادية "Click ⏭️..." تفضل زى ما هى)
+  function adopt(btn) {
+    var t = btn.getAttribute('title');
+    if (t && t.indexOf('Click ⏭️') !== 0) {
+      btn.setAttribute('data-tip', t);
+      btn.removeAttribute('title');
+    }
+    return btn.getAttribute('data-tip') || '';
+  }
+  function tipButton(target) {
+    var b = target && target.closest ? target.closest('.button') : null;
+    if (!b) return null;
+    return (b.hasAttribute('data-tip') || b.hasAttribute('title')) ? b : null;
+  }
+
+  function show(btn, byHover) {
+    if (_dhikrTipSec === 0) return;
+    if (!byHover) clearTimeout(hoverTimer);
+    var text = adopt(btn);
+    if (!text) return;
+    build();
+    textEl.textContent = text;
+    curBtn = btn;
+    pinned = !byHover;
+    tipEl.classList.add('show');
+    place();
+    setTimeout(place, 150); setTimeout(place, 450); // لو الزر اتحرك/اتكبّر بعد الضغط
+    clearTimeout(hideTimer);
+    if (_dhikrTipSec > 0) hideTimer = setTimeout(hide, _dhikrTipSec * 1000);
+  }
+
+  // نشيل الـ title الأصلى بمجرد اقتراب المؤشر عشان تلميح المتصفح ما يظهرش
+  document.addEventListener('mouseover', function(e) {
+    var b = tipButton(e.target);
+    if (!b) return;
+    adopt(b);
+    if (_dhikrTipSec === 0 || b === curBtn || !b.hasAttribute('data-tip')) return;
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(function() { show(b, true); }, 500);
+  }, true);
+  document.addEventListener('mouseout', function(e) {
+    var b = tipButton(e.target);
+    if (!b || (e.relatedTarget && b.contains(e.relatedTarget))) return;
+    clearTimeout(hoverTimer);
+    if (b === curBtn && !pinned) hide();
+  }, true);
+  document.addEventListener('touchstart', function(e) { var b = tipButton(e.target); if (b) adopt(b); }, { passive: true, capture: true });
+
+  // الضغط على الذكر نفسه (مش على صندوق العدّ أو أزرار داخلية) = إظهار/إخفاء التلميح
+  document.addEventListener('click', function(e) {
+    var b = tipButton(e.target);
+    if (!b) return;
+    var inner = e.target.closest('.tasbih-box, a, input, select, textarea, [onclick], [class*="fav"], [class*="heart"], button');
+    if (inner && inner !== b) return;
+    if (_dhikrTipSec === 0) return;
+    if (b === curBtn && pinned && tipEl && tipEl.classList.contains('show')) { hide(); return; }
+    show(b, false);
+  });
+
+  // إغلاق بالضغط فى أى مكان فاضى / Esc / تغيير حجم الشاشة
+  document.addEventListener('pointerdown', function(e) {
+    if (!tipEl || !tipEl.classList.contains('show')) return;
+    if (tipEl.contains(e.target)) return;
+    if (curBtn && curBtn.contains(e.target)) return;
+    hide();
+  }, true);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hide(); });
+  window.addEventListener('resize', hide);
+})();
+
+/* ══════════════════════════════════════════════════════════════════════════
    إيقاف العدّ/الانتقال التلقائى للأذكار تلقائيًا عند مغادرة الصفحة
    ──────────────────────────────────────────────────────────────────────────
    الفكرة: لما المستخدم يبدّل التاب، أو يعمل مينيمايز، أو يقفل الشاشة، أو
@@ -21224,7 +21377,7 @@ function openSisterAppInstall() {
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
-var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|recLoopSrc|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
+var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|recLoopSrc|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhkarTipDuration|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
 
 function _settingsKeys() {
   var out = [];
@@ -29209,6 +29362,12 @@ function _stopTasbihTargetLine(button) {
 // بنستخدم نفس حلقة المربع (--tb-prog) المرسومة فى style.css، وبنعكس اتجاهها (١٠٠٪ -> ٠٪).
 // أثناء المهلة الأخيرة بعد اكتمال الذكر مفيش حلقة. وقت العدّ بيتولى _stopTasbihTargetLine إيقافها
 var _TB_BOX_COUNTDOWN_MIN_TARGET = 4;
+// الحلقة (ترانزشن CSS) بتبدأ فعليًا مع أول إطار رسم، بينما مؤقّت اللفة (setTimeout) بيبدأ فورًا؛
+// فأي تأخير بسيط (إطار أو شغل تمرير/تكبير) بيخلّى الحلقة تتقطع قبل ما توصل لآخرها خصوصًا فى الأذكار
+// القصيرة والسرعات العالية. فبنخلّى الحلقة تخلص قبل المؤقّت بشوية عشان تكمل لفتها دايمًا
+function _tasbihRingDuration(delay) {
+  return Math.max(delay * 0.88, delay - 180);
+}
 function _startTasbihBoxCountdown(button, delay) {
   if (!button || !(typeof delay === 'number' && delay > 0)) return;
   var tg = parseInt(button.dataset.target) || 0;
@@ -29223,7 +29382,7 @@ function _startTasbihBoxCountdown(button, delay) {
   var _asc = !!_adhkarCountAscOn;                              // تصاعدى: فارغة -> ممتلئة | تنازلى (الافتراضى): ممتلئة -> فارغة
   box.style.setProperty('--tb-prog', _asc ? '0%' : '100%');
   void box.getBoundingClientRect();
-  box.style.transition = '--tb-prog ' + delay + 'ms linear';
+  box.style.transition = '--tb-prog ' + _tasbihRingDuration(delay) + 'ms linear';
   box.style.setProperty('--tb-prog', _asc ? '100%' : '0%');
 }
 
@@ -29275,7 +29434,7 @@ function _showTasbihNextHint(button, delay) {
   // التركيز)، وده اللى كان بيخلّي الدائرة تفضل ثابتة لثوانى قبل ما تبدأ تتحرك
   if (typeof delay === 'number' && delay > 0) {
     void ringProgress.getBoundingClientRect();
-    ringProgress.style.transitionDuration = delay + 'ms';
+    ringProgress.style.transitionDuration = _tasbihRingDuration(delay) + 'ms';
     ringProgress.style.strokeDashoffset = _ascC ? '0' : circumference.toFixed(2);
   }
 }
