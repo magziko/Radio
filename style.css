@@ -6336,21 +6336,6 @@ body.dark-mode #welcomeDarkModeBtn:hover {
     background: rgba(40,40,70,0.95) !important;
 }
 
-body.dark-mode .custom-tooltip {
-    background: linear-gradient(135deg, #0f1e30 0%, #1a2a3a 55%, #0f1e2e 100%) !important;
-    color: #b2dfdb !important;
-    border-color: rgba(100,181,246,0.30) !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.50), 0 2px 8px rgba(0,0,0,0.35) !important;
-}
-
-body.dark-mode .custom-tooltip::before {
-    background: linear-gradient(90deg, transparent, #64b5f6 35%, #81d4fa 50%, #64b5f6 65%, transparent) !important;
-    opacity: 0.45 !important;
-}
-
-body.dark-mode .custom-tooltip::after {
-    border-top-color: rgba(100,181,246,0.30) !important;
-}
 .search-wrapper {
     display: flex;
     justify-content: center;
@@ -7179,72 +7164,6 @@ html[dir="ltr"] .tasbih-auto-toggle {
     width: 23px;
     height: 23px;
   }
-}
-
-.custom-tooltip {
-    position: fixed;
-    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 55%, #eaf3fb 100%);
-    color: #1a3a52;
-    border: 1.5px solid rgba(var(--theme-c1-rgb),0.25);
-    box-shadow: 0 8px 32px rgba(var(--theme-c1-rgb),0.14), 0 2px 8px rgba(0,0,0,0.10);
-    padding: 14px 16px 12px;
-    border-radius: 16px;
-    font-family: 'Cairo', 'Amiri', serif;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 2;
-    direction: rtl;
-    text-align: right;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    width: 320px;
-    max-width: calc(100vw - 24px);
-    z-index: 99999;
-    pointer-events: auto;
-    cursor: pointer;
-    box-sizing: border-box;
-    word-break: break-word;
-    white-space: pre-wrap;
-}
-
-.custom-tooltip::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 18%; right: 18%;
-    height: 2.5px;
-    border-radius: 0 0 4px 4px;
-    background: linear-gradient(90deg, transparent, var(--theme-c1) 35%, var(--theme-c1) 50%, var(--theme-c1) 65%, transparent);
-    opacity: 0.55;
-}
-
-.custom-tooltip::after {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid rgba(var(--theme-c1-rgb),0.22);
-}
-
-@media (min-width: 600px) and (max-width: 991px) {
-    .custom-tooltip {
-        font-size: 14px;
-        width: 300px;
-        padding: 13px 15px 11px;
-        border-radius: 14px;
-        line-height: 1.95;
-    }
-}
-
-@media (max-width: 599px) {
-    .custom-tooltip {
-        font-size: 13px;
-        padding: 12px 14px 10px;
-        border-radius: 13px;
-        line-height: 1.9;
-    }
 }
 
 .footer-button, .facebook-button {
