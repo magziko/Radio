@@ -20084,6 +20084,133 @@ function setDhikrTipDuration(n) {
   _dhikrTipSyncUI();
 
   var tipEl = null, textEl = null, hideTimer = null, hoverTimer = null, curBtn = null, pinned = false;
+  var arrowEl = null, copyBtn = null, speakBtn = null, speaking = false, speakTok = 0;
+
+  function _ar() { return (typeof isArabic === 'undefined') ? true : isArabic; }
+  function _note(msg) { try { if (typeof showMessage === 'function') showMessage(msg); } catch (e) {} }
+
+  function armHide() {
+    clearTimeout(hideTimer); hideTimer = null;
+    if (_dhikrTipSec > 0) {
+      hideTimer = setTimeout(function auto() {
+        // لا نقفل التلميح أثناء القراءة الصوتية
+        if (speaking) { hideTimer = setTimeout(auto, 1500); } else { hide(); }
+      }, _dhikrTipSec * 1000);
+    }
+  }
+
+  // ───── نسخ ─────
+  function copyTip() {
+    var t = textEl ? textEl.textContent : '';
+    if (!t) return;
+    function ok() {
+      copyBtn.textContent = '✓'; copyBtn.classList.add('done');
+      setTimeout(function() { if (copyBtn) { copyBtn.textContent = '📋'; copyBtn.classList.remove('done'); } }, 1400);
+    }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = t; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch (e) { _note(_ar() ? 'تعذّر النسخ' : 'Copy failed'); }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(ok, fallback);
+    else fallback();
+  }
+
+  // ───── قراءة صوتية ─────
+  function _setSpeakUI() {
+    if (!speakBtn) return;
+    speakBtn.classList.toggle('on', speaking);
+    speakBtn.textContent = speaking ? (_ar() ? '⏹ إيقاف' : '⏹ Stop') : (_ar() ? '🔊 استماع' : '🔊 Listen');
+  }
+  function stopSpeak() {
+    speakTok++;
+    try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
+    speaking = false; _setSpeakUI();
+  }
+  function _cleanForSpeech(t) {
+    return String(t)
+      .replace(/\uFDFA/g, 'صلى الله عليه وسلم').replace(/\uFDFB/g, 'جل جلاله')
+      .replace(/\(\s*[×xX]\s*\d+\s*\)/g, ' ').replace(/[«»“”"]/g, ' ')
+      .replace(/\s+/g, ' ').trim();
+  }
+  function _pickVoice(lang) {
+    var vs = [];
+    try { vs = window.speechSynthesis.getVoices() || []; } catch (e) {}
+    var pre = lang.slice(0, 2).toLowerCase(), i;
+    for (i = 0; i < vs.length; i++) if (vs[i].lang && vs[i].lang.replace('_', '-').toLowerCase() === lang.toLowerCase()) return vs[i];
+    for (i = 0; i < vs.length; i++) if (vs[i].lang && vs[i].lang.toLowerCase().indexOf(pre) === 0) return vs[i];
+    return null;
+  }
+  function speakTip() {
+    if (speaking) { stopSpeak(); return; }
+    if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) {
+      _note(_ar() ? 'القراءة الصوتية غير مدعومة في هذا المتصفح' : 'Text-to-speech is not supported in this browser');
+      return;
+    }
+    var parts = [];
+    String(textEl ? textEl.textContent : '').split(/\n\s*\n/).map(_cleanForSpeech).filter(Boolean).forEach(function(p) {
+      // نقطّع النص الطويل عند علامات الوقف عشان المتصفح ما يقطع القراءة فى النص
+      var chunk = '';
+      p.split(/(?<=[.،,;؛:!؟?])\s+/).forEach(function(sn) {
+        if (chunk && (chunk.length + sn.length) > 170) { parts.push(chunk); chunk = sn; }
+        else chunk = chunk ? chunk + ' ' + sn : sn;
+      });
+      if (chunk) parts.push(chunk);
+    });
+    if (!parts.length) return;
+    var haveVoices = (window.speechSynthesis.getVoices() || []).length > 0;
+    var utts = [], noAr = false;
+    parts.forEach(function(part) {
+      var isAr = /[\u0600-\u06FF]/.test(part);
+      var lang = isAr ? 'ar-SA' : 'en-US';
+      var v = _pickVoice(lang);
+      if (isAr && !v && haveVoices) noAr = true;
+      var u = new SpeechSynthesisUtterance(part);
+      u.lang = lang; if (v) u.voice = v; u.rate = isAr ? 0.85 : 0.95;
+      utts.push(u);
+    });
+    if (noAr) { _note(_ar() ? 'لا يوجد صوت عربي على جهازك' : 'No Arabic voice found on this device'); return; }
+    window.speechSynthesis.cancel();
+    var tok = ++speakTok;
+    speaking = true; _setSpeakUI();
+    utts.forEach(function(u, i) {
+      var done = function() { if (tok === speakTok && i === utts.length - 1) { speaking = false; _setSpeakUI(); } };
+      u.onend = done; u.onerror = done;
+    });
+    utts.forEach(function(u) { window.speechSynthesis.speak(u); });
+  }
+
+  // ───── سحب لإغلاق التلميح (موبايل) ─────
+  function bindSwipe(el) {
+    var y0 = null, x0 = null, drag = false, dy = 0;
+    el.addEventListener('touchstart', function(e) {
+      if (e.touches.length !== 1) return;
+      y0 = e.touches[0].clientY; x0 = e.touches[0].clientX; drag = false; dy = 0;
+    }, { passive: true });
+    el.addEventListener('touchmove', function(e) {
+      if (y0 === null) return;
+      dy = e.touches[0].clientY - y0;
+      var dx = e.touches[0].clientX - x0;
+      if (!drag && Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) { drag = true; clearTimeout(hideTimer); }
+      if (drag) {
+        el.style.transition = 'none';
+        el.style.transform = 'translateY(' + dy + 'px)';
+        el.style.opacity = String(Math.max(0.2, 1 - Math.abs(dy) / 160));
+      }
+    }, { passive: true });
+    function end() {
+      if (y0 === null) return;
+      var wasDrag = drag, far = Math.abs(dy) > 60;
+      y0 = null; drag = false;
+      if (!wasDrag) return;
+      el.style.transition = ''; el.style.transform = ''; el.style.opacity = '';
+      if (far) hide(); else armHide();
+    }
+    el.addEventListener('touchend', end, { passive: true });
+    el.addEventListener('touchcancel', end, { passive: true });
+  }
 
   function build() {
     if (tipEl) return;
@@ -20091,23 +20218,51 @@ function setDhikrTipDuration(n) {
     tipEl.id = 'dhikr-tip';
     tipEl.setAttribute('role', 'tooltip');
     tipEl.setAttribute('dir', 'auto');
+
+    arrowEl = document.createElement('span');
+    arrowEl.className = 'dhikr-tip-arrow';
+
+    var body = document.createElement('div');
+    body.className = 'dhikr-tip-body';
     textEl = document.createElement('div');
     textEl.className = 'dhikr-tip-text';
+
+    var tools = document.createElement('div');
+    tools.className = 'dhikr-tip-tools';
+    copyBtn = document.createElement('button');
+    copyBtn.type = 'button'; copyBtn.className = 'dhikr-tip-copy';
+    copyBtn.addEventListener('click', function(e) { e.stopPropagation(); copyTip(); });
+    speakBtn = document.createElement('button');
+    speakBtn.type = 'button'; speakBtn.className = 'dhikr-tip-btn';
+    speakBtn.addEventListener('click', function(e) { e.stopPropagation(); speakTip(); });
+    tools.appendChild(speakBtn);
+    body.appendChild(textEl);
+    body.appendChild(tools);
+
     var x = document.createElement('button');
     x.type = 'button';
     x.className = 'dhikr-tip-close';
     x.setAttribute('aria-label', (typeof isArabic !== 'undefined' && !isArabic) ? 'Close' : 'إغلاق');
     x.textContent = '✕';
     x.addEventListener('click', function(e) { e.stopPropagation(); hide(); });
-    tipEl.appendChild(textEl);
-    tipEl.appendChild(x);
+
+    var actions = document.createElement('div');
+    actions.className = 'dhikr-tip-actions';
+    actions.appendChild(copyBtn);
+    actions.appendChild(x);
+
+    tipEl.appendChild(body);
+    tipEl.appendChild(actions);
+    tipEl.appendChild(arrowEl);
     document.body.appendChild(tipEl);
+    bindSwipe(tipEl);
   }
 
   function hide() {
     clearTimeout(hideTimer); clearTimeout(hoverTimer);
     hideTimer = hoverTimer = null;
     if (tipEl) tipEl.classList.remove('show');
+    stopSpeak();
     curBtn = null; pinned = false;
   }
   window._dhikrTipHide = hide;
@@ -20119,10 +20274,18 @@ function setDhikrTipDuration(n) {
     var sx = window.pageXOffset, sy = window.pageYOffset;
     var left = r.left + r.width / 2 - w / 2;
     left = Math.max(8, Math.min(left, window.innerWidth - w - 8));
-    var top = r.bottom + 8;
-    if (top + h > window.innerHeight - 8 && r.top - h - 8 > 8) top = r.top - h - 8;
+    var top = r.bottom + 10;
+    var above = false;
+    if (top + h > window.innerHeight - 8 && r.top - h - 10 > 8) { top = r.top - h - 10; above = true; }
     tipEl.style.left = (left + sx) + 'px';
     tipEl.style.top = (top + sy) + 'px';
+    // السهم: يشير لمركز الذكر
+    tipEl.classList.toggle('above', above);
+    if (arrowEl) {
+      var ax = r.left + r.width / 2 - left;
+      ax = Math.max(18, Math.min(ax, w - 18));
+      arrowEl.style.left = ax + 'px';
+    }
   }
 
   // الـ title الأصلى بيتنقل لـ data-tip (التلميحات الإرشادية "Click ⏭️..." تفضل زى ما هى)
@@ -20149,15 +20312,19 @@ function setDhikrTipDuration(n) {
     var _tipEn = btn.getAttribute('data-en');
     if (btn.getAttribute('data-category') === 'Adhkar' && typeof isArabic !== 'undefined' && !isArabic && _tipEn && _tipEn !== text) text = _tipEn + '\n\n' + text;
     build();
+    stopSpeak();
     textEl.style.whiteSpace = 'pre-line';
     textEl.textContent = text;
+    copyBtn.textContent = '📋';
+    copyBtn.title = _ar() ? 'نسخ' : 'Copy';
+    copyBtn.setAttribute('aria-label', copyBtn.title);
+    _setSpeakUI();
     curBtn = btn;
     pinned = !byHover;
     tipEl.classList.add('show');
     place();
     setTimeout(place, 150); setTimeout(place, 450); // لو الزر اتحرك/اتكبّر بعد الضغط
-    clearTimeout(hideTimer);
-    if (_dhikrTipSec > 0) hideTimer = setTimeout(hide, _dhikrTipSec * 1000);
+    armHide();
   }
 
   // نشيل الـ title الأصلى بمجرد اقتراب المؤشر عشان تلميح المتصفح ما يظهرش
