@@ -11338,6 +11338,35 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
 }
 
 /* =====================================================================
+   تلميح الذكر/المحطة المخصص (#dhikr-tip) + أزرار مدة الظهور فى الإعدادات
+   بيتبني بالـ JS (initDhikrTip): الكارت absolute وبيتحط جنب الزر، والكلاس .show بيظهره.
+   ===================================================================== */
+#dhikr-tip {
+    position: absolute; z-index: 2147483000;
+    max-width: min(86vw, 340px); box-sizing: border-box;
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px; border-radius: 12px;
+    background: rgba(20, 24, 32, 0.95); color: #fff;
+    font: 600 13px/1.6 'Cairo', Arial, sans-serif;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity .18s, transform .18s, visibility .18s;
+}
+#dhikr-tip.show { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+#dhikr-tip .dhikr-tip-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+#dhikr-tip .dhikr-tip-close {
+    flex: none; width: 26px; height: 26px; padding: 0;
+    border: none; border-radius: 50%; cursor: pointer;
+    background: rgba(255, 255, 255, 0.18); color: #fff;
+    font-size: 14px; line-height: 1;
+}
+#dhikr-tip .dhikr-tip-close:hover { background: rgba(255, 255, 255, 0.32); }
+.adhkar-tahlil-settings .tip-dur-group { flex-wrap: wrap; }
+.tip-dur-group .tahlil-count-btn { min-width: 44px; padding: 4px 10px; }
+@media (prefers-reduced-motion: reduce) { #dhikr-tip { transition: none; } }
+
+/* =====================================================================
    حلقة تقدّم التارجت حوالين بطاقة الذكر نفسها (للأذكار اللى تارجتها ٤ فأكثر)
    تراكمية (العدّ ÷ التارجت) وبتزيد مع كل عدّة. بتتبنى بالـ JS كعنصر SVG جوّا الزر؛
    السمك واللون هنا. (حلقة مربع التسبيح الصغير للأذكار دي بقت عدّ تنازلى للعدّة، شوف --tb-prog فوق)
