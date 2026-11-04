@@ -29811,18 +29811,33 @@ function _adhkarLocalDayKey(d) {
 function _recordAdhkarStreak(type) {
   var KEY = 'adhkarStreakV1', data = {};
   try { data = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { data = {}; }
-  var rec = data[type] || { last: null, streak: 0, best: 0 };
+  var rec = data[type] || { last: null, streak: 0, best: 0, total: 0, todayCount: 0 };
+  // سجلات قديمة (قبل إضافة الإجمالى): نبدأ الإجمالى من أفضل رقم معروف
+  if (typeof rec.total !== 'number') rec.total = rec.last ? Math.max(rec.best || 0, rec.streak || 0, 1) : 0;
   var today = _adhkarLocalDayKey();
-  if (rec.last !== today) {
+  var repeatToday = (rec.last === today);
+  var wasFirstEver = !rec.last;
+  if (!repeatToday) {
     var y = new Date();
     y.setDate(y.getDate() - 1);
     rec.streak = (rec.last === _adhkarLocalDayKey(y)) ? (rec.streak || 0) + 1 : 1;
     rec.last = today;
+    rec.total = (rec.total || 0) + 1;
+    rec.todayCount = 1;
     if (rec.streak > (rec.best || 0)) rec.best = rec.streak;
-    data[type] = rec;
-    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+  } else {
+    rec.todayCount = (rec.todayCount || 1) + 1;
   }
-  return { streak: rec.streak || 1, best: rec.best || rec.streak || 1 };
+  data[type] = rec;
+  try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+  return {
+    streak: rec.streak || 1,
+    best: rec.best || rec.streak || 1,
+    total: rec.total || 1,
+    todayCount: rec.todayCount || 1,
+    repeatToday: repeatToday,
+    firstEver: wasFirstEver
+  };
 }
 
 function showAdhkarDoneModal(type) {
@@ -29908,19 +29923,34 @@ function showAdhkarDoneModal(type) {
   var _stText;
   if (isAr) {
     var _what = isMorning ? 'الصباح' : 'المساء';
-    if (_st.streak <= 1) _stText = '🌱 بداية طيبة — أول يوم فى أذكار ' + _what;
+    // السطر الأول: حالة اليوم/السلسلة (بداية فعلية بس لو دى أول مرة على الإطلاق)
+    if (_st.firstEver) _stText = '🌱 بداية طيبة — أول مرة تُتمّ فيها أذكار ' + _what;
+    else if (_st.repeatToday) _stText = '✅ أتممتَ أذكار ' + _what + ' اليوم من قبل — وهذه المرة ' + _toArD(_st.todayCount) + ' اليوم';
+    else if (_st.streak <= 1) _stText = '🔄 بدأتَ سلسلة جديدة فى أذكار ' + _what;
     else if (_st.streak === 2) _stText = '🔥 يومان متتاليان فى أذكار ' + _what;
     else if (_st.streak <= 10) _stText = '🔥 ' + _toArD(_st.streak) + ' أيام متتالية فى أذكار ' + _what;
     else _stText = '🔥 ' + _toArD(_st.streak) + ' يومًا متتاليًا فى أذكار ' + _what;
-    if (_st.best > _st.streak) _stText += ' • أفضل سلسلة: ' + _toArD(_st.best);
+    if (!_st.firstEver && _st.repeatToday && _st.streak > 1) _stText += '\n🔥 سلسلتك: ' + _toArD(_st.streak) + (_st.streak <= 10 ? ' أيام' : ' يومًا');
+    // السطر الثانى: العدّ الفعلى
+    if (_st.total > 1) {
+      _stText += '\n📿 إجمالى الأيام التى أتممتَ فيها أذكار ' + _what + ': ' + _toArD(_st.total);
+      if (_st.best > _st.streak) _stText += ' • أفضل سلسلة: ' + _toArD(_st.best);
+    }
   } else {
     var _w = isMorning ? 'morning' : 'evening';
-    _stText = (_st.streak <= 1) ? ('🌱 Great start — day 1 of ' + _w + ' adhkar') :
-      ('🔥 ' + _st.streak + '-day streak of ' + _w + ' adhkar');
-    if (_st.best > _st.streak) _stText += ' • Best: ' + _st.best;
+    if (_st.firstEver) _stText = '🌱 Great start — your first time completing ' + _w + ' adhkar';
+    else if (_st.repeatToday) _stText = '✅ You already completed ' + _w + ' adhkar today — this is time #' + _st.todayCount + ' today';
+    else if (_st.streak <= 1) _stText = '🔄 New streak started for ' + _w + ' adhkar';
+    else _stText = '🔥 ' + _st.streak + '-day streak of ' + _w + ' adhkar';
+    if (!_st.firstEver && _st.repeatToday && _st.streak > 1) _stText += '\n🔥 Streak: ' + _st.streak + ' days';
+    if (_st.total > 1) {
+      _stText += '\n📿 Total days you completed ' + _w + ' adhkar: ' + _st.total;
+      if (_st.best > _st.streak) _stText += ' • Best streak: ' + _st.best;
+    }
   }
   var streakEl = document.createElement('div');
   streakEl.style.cssText = 'margin:-6px 0 20px;padding:9px 14px;border-radius:12px;background:rgba(var(--theme-c1-rgb),0.10);color:#1a3a52;font-size:14px;font-weight:700;line-height:1.6;font-family:Cairo,Arial,sans-serif;';
+  streakEl.style.whiteSpace = 'pre-line';
   streakEl.textContent = _stText;
   box.appendChild(streakEl);
 
