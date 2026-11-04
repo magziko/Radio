@@ -38389,6 +38389,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     ['🧮', 'openZakatCalculator', 'zakatCalcBtn', { ar: 'حاسبة الزكاة', en: 'Zakat calculator', fr: 'Calculateur de zakat', es: 'Calculadora de zakat', sv: 'Zakatkalkylator', nl: 'Zakat-calculator', ga: 'Áireamhán zakat', de: 'Zakat-Rechner', ru: 'Калькулятор закята', tr: 'Zekat hesaplayıcı', pt: 'Calculadora de zakat', zh: '天课计算器', ur: 'زکوٰۃ کیلکولیٹر' }],
     ['📗', 'openKhatmaTracker', 'khatmaTrackerBtn', { ar: 'متابعة الختمة', en: 'Khatma tracker', fr: 'Suivi de la Khatma', es: 'Seguimiento de la Jatma', sv: 'Khatma-spårare', nl: 'Khatma-tracker', ga: 'Rianaitheoir Khatma', de: 'Khatma-Tracker', ru: 'Трекер хатма', tr: 'Hatim takibi', pt: 'Acompanhamento da Khatma', zh: '诵读进度（Khatma）', ur: 'ختمہ ٹریکر' }],
     ['📝', 'openNotes', 'notesBtn', { ar: 'ملاحظاتي', en: 'My notes', fr: 'Mes notes', es: 'Mis notas', sv: 'Mina anteckningar', nl: 'Mijn notities', ga: 'Mo nótaí', de: 'Meine Notizen', ru: 'Мои заметки', tr: 'Notlarım', pt: 'Minhas notas', zh: '我的笔记', ur: 'میرے نوٹس' }],
+    ['📖', 'openEquran', 'equranMenuBtn', { ar: 'المصحف الشريف', en: 'Quran (Mushaf)', fr: 'Le Coran (Mushaf)', es: 'Corán (Mushaf)', sv: 'Koranen (Mushaf)', nl: 'Koran (Mushaf)', ga: "An Quran (Mushaf)", de: 'Koran (Mushaf)', ru: 'Коран (мусхаф)', tr: 'Kur’ân-ı Kerîm (Mushaf)', pt: 'Alcorão (Mushaf)', zh: '古兰经（经文阅读）', ur: 'قرآن مجید (مصحف)' }],
     ['📿', 'openTasbihSection', 'sp-collapse-head', { ar: 'المسبحة', en: 'Tasbih', fr: 'Chapelet (tasbih)', es: 'Tasbih', sv: 'Tasbih', nl: 'Tasbih', ga: 'Tasbih', de: 'Tasbih', ru: 'Тасбих', tr: 'Tesbih', pt: 'Tasbih', zh: '念珠（Tasbih）', ur: 'تسبیح' }]
   ];
   function openScreen(fn, btnId) {
@@ -40630,6 +40631,37 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   /* ترجمة تلميح زر الشريط مع تغيير اللغة */
   var pb = document.getElementById('adhkar-progress-pdf-btn');
   if (pb) pb.title = _ar() ? pb.getAttribute('data-ar') : pb.getAttribute('data-en');
+})();
+</script>
+
+<!-- ===== المصحف الشريف (equran) — ملف مستقل equran-embed.js: لا يُحمَّل إلا بعد اكتمال الصفحة أو عند أول ضغطة على زر المصحف ===== -->
+<script>
+(function () {
+  var state = 0, queue = [];            // 0: لم يبدأ، 1: جارٍ التحميل، 2: تم
+  function load(cb) {
+    if (state === 2) { if (cb) cb(); return; }
+    if (cb) queue.push(cb);
+    if (state === 1) return;
+    state = 1;
+    var s = document.createElement('script');
+    s.src = 'equran-embed.js';
+    s.async = true;
+    s.onload = function () { state = 2; queue.splice(0).forEach(function (f) { try { f(); } catch (e) {} }); };
+    s.onerror = function () {
+      state = 0; queue.length = 0;
+      var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+      if (typeof showToast === 'function') showToast(ar ? '📖 تعذّر تحميل المصحف، تأكد من الاتصال وحاول مرة أخرى' : '📖 Could not load the Quran reader, check your connection');
+    };
+    document.head.appendChild(s);
+  }
+  // دالة مؤقتة: أول ضغطة تحمّل الملف ثم تفتح المصحف (الملف نفسه يستبدلها بالدالة الحقيقية)
+  function stub() { load(function () { if (window.openEquran !== stub) window.openEquran(); }); }
+  window.openEquran = stub;
+  // تحميل مسبق هادئ بعد اكتمال الصفحة وفى وقت الخمول (ملف صغير، ويجهّز المصحف للأوفلاين)
+  window.addEventListener('load', function () {
+    var go = function () { load(); };
+    if (window.requestIdleCallback) requestIdleCallback(go, { timeout: 20000 }); else setTimeout(go, 10000);
+  });
 })();
 </script>
 </body>
