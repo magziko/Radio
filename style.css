@@ -11568,3 +11568,32 @@ body.dark-mode:not(.media-theme-glass) .tb-card-ring .tb-cr-prog  { stroke: var(
 @supports (color: color-mix(in srgb, red 50%, white)) {
     body.dark-mode:not(.media-theme-glass) .tb-card-ring.done .tb-cr-prog { stroke: color-mix(in srgb, var(--theme-c1) 65%, #fff); }
 }
+
+
+/* ===================== ألوان نصوص/عناوين الأذكار حسب الثيم المختار (الثيمات الزجاجية: صور/فيديو) =====================
+   قبل: النص أبيض ثابت بإطار أسود أيًّا كان الثيم.
+   دلوقتي: لون النص = درجة فاتحة من لون الثيم (--theme-c1)، والإطار الحوالين الخط = درجة غامقة جدًا من لون الثيم (--theme-c4)،
+   فيفضل واضح فوق أى خلفية، وفى نفس الوقت منسجم مع الثيم (أخضر/تيل/ذهبي/وردي... إلخ).
+   الشامل: "أعوذ بالله من الشيطان الرجيم" + عنوان الذكر فى وضع التركيز + نصوص الأزرار العادية + حالة التشغيل. */
+body.media-theme-glass {
+    --adhkar-title-color: #f3f6f6;                       /* fallback للمتصفحات القديمة */
+    --adhkar-title-outline: rgba(0,0,0,0.9);
+}
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+    body.media-theme-glass {
+        --adhkar-title-color: color-mix(in srgb, var(--theme-c1) 32%, #ffffff);
+        --adhkar-title-outline: color-mix(in srgb, var(--theme-c4) 45%, #000000);
+    }
+}
+body.media-theme-glass .button.has-tasbih .station-text,
+body.media-theme-glass .button.has-tasbih.playing .station-text,
+body.media-theme-glass .button.has-tasbih.tasbih-focus .station-text,
+body.media-theme-glass .button.has-tasbih.completed .station-text,
+body.media-theme-glass .button.has-tasbih .station-text .istiadha-prefix {
+    color: var(--adhkar-title-color) !important;
+    text-shadow:
+        0 0 2px var(--adhkar-title-outline),
+        0 0 3px var(--adhkar-title-outline),
+        0 1px 4px var(--adhkar-title-outline),
+        0 0 10px rgba(var(--theme-c4-rgb), 0.65) !important;
+}
