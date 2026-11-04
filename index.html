@@ -20145,7 +20145,11 @@ function setDhikrTipDuration(n) {
     if (!byHover) clearTimeout(hoverTimer);
     var text = adopt(btn);
     if (!text) return;
+    // في وضع الإنجليزية: النص الإنجليزي ثم العربي (كان في التلميح القديم)
+    var _tipEn = btn.getAttribute('data-en');
+    if (btn.getAttribute('data-category') === 'Adhkar' && typeof isArabic !== 'undefined' && !isArabic && _tipEn && _tipEn !== text) text = _tipEn + '\n\n' + text;
     build();
+    textEl.style.whiteSpace = 'pre-line';
     textEl.textContent = text;
     curBtn = btn;
     pinned = !byHover;
@@ -33318,135 +33322,6 @@ function incrementTasbihKeyboard(box) {
   }
   updateAdhkarProgress();
 }
-
-var _ttLastBtn = null;
-var _ttTimer = null;
-
-document.addEventListener("click", function(e) {
-
-  if (e.target.closest(".custom-tooltip")) {
-    var tt = e.target.closest(".custom-tooltip");
-    tt.style.opacity = "0";
-    setTimeout(function() {
-      if (tt.parentNode) tt.remove();
-    }, 300);
-    if (_ttTimer) {
-      clearTimeout(_ttTimer);
-      _ttTimer = null;
-    }
-    _ttLastBtn = null;
-    return;
-  }
-
-  var adhkarBtn = e.target.closest('button[data-category="Adhkar"]');
-
-  if (!adhkarBtn) {
-
-    var old = document.querySelector(".custom-tooltip");
-    if (old) {
-      old.style.opacity = "0";
-      setTimeout(function() {
-        if (old.parentNode) old.remove();
-      }, 300);
-      if (_ttTimer) {
-        clearTimeout(_ttTimer);
-        _ttTimer = null;
-      }
-      _ttLastBtn = null;
-    }
-    return;
-  }
-
-  var _isArForTooltip = (typeof isArabic !== 'undefined') ? isArabic : true;
-  var _arText = adhkarBtn.getAttribute("title");
-  var _enText = adhkarBtn.getAttribute("data-en");
-  var text;
-  if (_isArForTooltip) {
-    text = _arText;
-  } else if (_enText && _arText) {
-    text = _enText + "\n\n" + _arText;
-  } else {
-    text = _enText || _arText;
-  }
-  if (!text) {
-    var stEl = adhkarBtn.querySelector(".station-text[title]");
-    if (stEl) text = stEl.getAttribute("title");
-  }
-
-  if (!text || text === "Click ⏭️ / Shift+Click ⏮️") {
-
-    var old2 = document.querySelector(".custom-tooltip");
-    if (old2) {
-      old2.style.opacity = "0";
-      setTimeout(function() {
-        if (old2.parentNode) old2.remove();
-      }, 300);
-      if (_ttTimer) {
-        clearTimeout(_ttTimer);
-        _ttTimer = null;
-      }
-      _ttLastBtn = null;
-    }
-    return;
-  }
-
-  if (_ttLastBtn === adhkarBtn) {
-    var old3 = document.querySelector(".custom-tooltip");
-    if (old3) {
-      old3.style.opacity = "0";
-      setTimeout(function() {
-        if (old3.parentNode) old3.remove();
-      }, 300);
-    }
-    if (_ttTimer) {
-      clearTimeout(_ttTimer);
-      _ttTimer = null;
-    }
-    _ttLastBtn = null;
-    return;
-  }
-
-  var old4 = document.querySelector(".custom-tooltip");
-  if (old4) old4.remove();
-  if (_ttTimer) {
-    clearTimeout(_ttTimer);
-    _ttTimer = null;
-  }
-
-  var tooltip = document.createElement("div");
-  tooltip.className = "custom-tooltip";
-  tooltip.innerText = text;
-  tooltip.style.direction = _isArForTooltip ? "rtl" : "auto";
-  tooltip.style.textAlign = _isArForTooltip ? "right" : "start";
-  document.body.appendChild(tooltip);
-
-  var rect = adhkarBtn.getBoundingClientRect();
-  var vw = window.innerWidth;
-  var ttWidth = Math.min(320, vw - 24);
-
-  var leftPos = rect.left + rect.width / 2;
-  leftPos = Math.max(ttWidth / 2 + 8, Math.min(leftPos, vw - ttWidth / 2 - 8));
-
-  tooltip.style.width = ttWidth + "px";
-  tooltip.style.left = (leftPos - ttWidth / 2) + "px";
-  tooltip.style.top = (rect.bottom + 8) + "px";
-  tooltip.style.transform = "none";
-
-  setTimeout(function() {
-    tooltip.style.opacity = "1";
-  }, 10);
-
-  _ttLastBtn = adhkarBtn;
-
-  _ttTimer = setTimeout(function() {
-    tooltip.style.opacity = "0";
-    setTimeout(function() {
-      if (tooltip.parentNode) tooltip.remove();
-    }, 300);
-    _ttLastBtn = null;
-    _ttTimer = null;
-  }, 16000);
-});
 
 function copyLink() {
   const link = "https://magziko.github.io/Radio/";
