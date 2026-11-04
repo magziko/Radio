@@ -3531,6 +3531,41 @@ setTimeout(autoScaleVerseFont, 100);
     ">📤 مشاركة كصورة</button>
   </div>
 
+  <div id="adhkar-share-all-settings" style="
+    margin: 8px auto 4px;
+    width: 97%; max-width: 860px;
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
+    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cairo', Arial, sans-serif;
+  ">
+    <span data-ar="📜 كل أذكار القسم" data-en="📜 All dhikr in this section"
+      style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">📜 كل أذكار القسم</span>
+
+    <span data-ar="انسخ أو شارك كل الأذكار الظاهرة فى القسم المفتوح (صباح / مساء / عامة / رقية) كنص واحد مرتب" data-en="Copy or share every dhikr shown in the open section (Morning / Evening / General / Ruqyah) as one ordered text"
+      style="font-size:12px;color:var(--theme-c3);">انسخ أو شارك كل الأذكار الظاهرة فى القسم المفتوح (صباح / مساء / عامة / رقية) كنص واحد مرتب</span>
+
+    <div style="margin-inline-start:auto;display:flex;gap:8px;flex-wrap:wrap;">
+      <button type="button" onclick="copyAllAdhkar(event)" data-ar="📋 نسخ الكل" data-en="📋 Copy all" style="
+        padding:8px 18px; border:none; border-radius:10px;
+        background:linear-gradient(135deg,var(--theme-c2),var(--theme-g2)); color:#fff;
+        font-weight:700; font-size:13px; font-family:'Cairo',Arial,sans-serif; cursor:pointer; white-space:nowrap;
+      ">📋 نسخ الكل</button>
+      <button type="button" onclick="shareAllAdhkar(event)" data-ar="📤 مشاركة النص" data-en="📤 Share text" style="
+        padding:8px 18px; border:none; border-radius:10px;
+        background:linear-gradient(135deg,var(--theme-c2),var(--theme-g2)); color:#fff;
+        font-weight:700; font-size:13px; font-family:'Cairo',Arial,sans-serif; cursor:pointer; white-space:nowrap;
+      ">📤 مشاركة النص</button>
+    </div>
+  </div>
+
 
   <div id="adhkar-speed-settings" style="
     margin: 8px auto 4px;
@@ -7281,6 +7316,12 @@ const moreTranslations = [{
           title="تصفير جميع عدادات الأذكار"
           data-ar="تصفير جميع عدادات الأذكار"
           data-en="Reset all adhkar counters">↻</span>
+    <span id="adhkar-progress-pdf-btn" role="button" tabindex="0"
+          onclick="exportAdhkarPDF(event)"
+          onkeydown="if(event.key==='Enter'||event.key===' '){exportAdhkarPDF(event);}"
+          title="تصدير الأذكار كملف PDF"
+          data-ar="تصدير الأذكار كملف PDF"
+          data-en="Export adhkar as PDF">📄 PDF</span>
   </div>
 </div>
 
@@ -30283,6 +30324,7 @@ function showAdhkarDoneModal(type) {
   streakEl.style.whiteSpace = 'pre-line';
   streakEl.textContent = _stText;
   box.appendChild(streakEl);
+  if (typeof _adhkarMakePdfBtn === 'function') box.appendChild(_adhkarMakePdfBtn(type));
 
   box.appendChild(btn);
   modal.appendChild(box);
@@ -30340,6 +30382,88 @@ function resetTasbih(event) {
 
   updateAdhkarProgress();
   activeTasbih = box;
+}
+
+// ===== نسخ / مشاركة كل أذكار القسم المفتوح كنص واحد =====
+// بتجمع الأذكار الظاهرة حاليًا فى الفلتر (الكل / صباح / مساء / عامة / رقية) بنفس
+// ترتيب ظهورها فى الصفحة (يشمل ترتيب "التهليل آخر ذكر")، وبتكتب العدد (×N) لو الهدف أكتر من مرة
+function _buildAllAdhkarText() {
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var sub = (typeof currentAdhkarSub !== 'undefined') ? currentAdhkarSub : 'all';
+  var titles = {
+    all:     isAr ? 'الأذكار' : 'Adhkar',
+    morning: isAr ? 'أذكار الصباح' : 'Morning Adhkar',
+    evening: isAr ? 'أذكار المساء' : 'Evening Adhkar',
+    general: isAr ? 'أذكار عامة' : 'General Adhkar',
+    ruqya:   isAr ? 'الرُّقْيَة الشَّرْعِيَّة' : 'Ruqyah'
+  };
+  var title = titles[sub] || titles.all;
+  var items = [];
+  document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
+    if (b.style.display === 'none') return;
+    var wrap = b.parentElement;
+    if (wrap && wrap.classList.contains('pl-check-wrap') && wrap.style.display === 'none') return;
+    var t = b.querySelector('.station-text');
+    var txt = t ? String(t.innerText || t.textContent || '').replace(/[ \t]+\n/g, '\n').trim() : '';
+    if (!txt) return;
+    var target = parseInt(b.getAttribute('data-target'), 10) || 0;
+    items.push({ text: txt, target: target });
+  });
+  if (!items.length) return null;
+  var lines = ['📿 ' + title, ''];
+  items.forEach(function(it, i) {
+    var n = (i + 1) + '. ';
+    var cnt = it.target > 1 ? (isAr ? '  (× ' + it.target + ')' : '  (× ' + it.target + ')') : '';
+    lines.push(n + it.text + cnt);
+    lines.push('');
+  });
+  try { lines.push(location.href.split('#')[0]); } catch (e) {}
+  return { title: title, text: lines.join('\n').replace(/\n{3,}/g, '\n\n').trim() };
+}
+
+function _copyTextAny(t, onOk, onFail) {
+  function fallback() {
+    var ta = document.createElement('textarea');
+    ta.value = t; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    if (ok) onOk(); else onFail();
+  }
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(onOk, fallback);
+  else fallback();
+}
+
+function copyAllAdhkar(event) {
+  if (event) { event.stopPropagation(); if (event.preventDefault) event.preventDefault(); }
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var pack = _buildAllAdhkarText();
+  if (!pack) {
+    alert(isAr ? 'افتح قسم الأذكار الأول (الكل / صباح / مساء / عامة / رقية) عشان تقدر تنسخها' : 'Open the Adhkar section first (All / Morning / Evening / General / Ruqyah) to copy them');
+    return;
+  }
+  _copyTextAny(pack.text,
+    function() { if (typeof showMessage === 'function') showMessage(isAr ? '✓ تم نسخ ' + pack.title : '✓ Copied: ' + pack.title); },
+    function() { if (typeof showMessage === 'function') showMessage(isAr ? 'تعذّر النسخ' : 'Copy failed'); });
+}
+
+function shareAllAdhkar(event) {
+  if (event) { event.stopPropagation(); if (event.preventDefault) event.preventDefault(); }
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var pack = _buildAllAdhkarText();
+  if (!pack) {
+    alert(isAr ? 'افتح قسم الأذكار الأول (الكل / صباح / مساء / عامة / رقية) عشان تقدر تشاركها' : 'Open the Adhkar section first (All / Morning / Evening / General / Ruqyah) to share them');
+    return;
+  }
+  if (navigator.share) {
+    navigator.share({ title: pack.title, text: pack.text }).catch(function(err) {
+      if (err && err.name === 'AbortError') return; // المستخدم قفل قائمة المشاركة
+      copyAllAdhkar();
+    });
+  } else {
+    copyAllAdhkar();
+  }
 }
 
 // ===== تحويل الذكر لكارت صورة قابل للمشاركة (ستوري / بوست فيسبوك وغيره) =====
@@ -36258,12 +36382,14 @@ document.addEventListener('DOMContentLoaded', function() {
         '#adhkar-reminder-banner .banner-btn:active { transform: scale(0.95); }',
         '#adhkar-reminder-banner .btn-go { background: rgba(255,255,255,0.92); color: var(--theme-g2); border: 1.5px solid transparent; }',
         '#adhkar-reminder-banner .btn-go:hover { background: #fff; }',
+        '#adhkar-reminder-banner .btn-pdf,',
         '#adhkar-reminder-banner .btn-later,',
         '#adhkar-reminder-banner .btn-close {',
         '  background: rgba(255,255,255,0.16); color: #fff; border: 1.5px solid rgba(255,255,255,0.4);',
         '  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);',
         '  text-shadow: 0 1px 3px rgba(0,0,0,0.5);',
         '}',
+        '#adhkar-reminder-banner .btn-pdf:hover,',
         '#adhkar-reminder-banner .btn-later:hover,',
         '#adhkar-reminder-banner .btn-close:hover { background: rgba(255,255,255,0.28); }',
         'body.dark-mode #adhkar-reminder-banner .btn-go { background: rgba(255,255,255,0.88); }',
@@ -36287,6 +36413,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '<div class="banner-body"  id="banner-body"></div>',
         '<div class="banner-actions">',
         '  <button class="banner-btn btn-go"    id="banner-btn-go"></button>',
+        '  <button class="banner-btn btn-pdf"   id="banner-btn-pdf"></button>',
         '  <button class="banner-btn btn-later" id="banner-btn-later"></button>',
         '  <button class="banner-btn btn-close" id="banner-btn-close"></button>',
         '</div>',
@@ -36298,6 +36425,9 @@ document.addEventListener('DOMContentLoaded', function() {
         hideBanner();
       });
       document.getElementById('banner-btn-later').addEventListener('click', snoozeBanner);
+      document.getElementById('banner-btn-pdf').addEventListener('click', function(ev) {
+        if (typeof exportAdhkarPDF === 'function') exportAdhkarPDF(ev, _bannerEl.dataset.type);
+      });
       document.getElementById('banner-btn-go').addEventListener('click', function() {
         var type = _bannerEl.dataset.type;
         clearSnooze();
@@ -36415,6 +36545,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('banner-btn-go').textContent = btnGo;
       document.getElementById('banner-btn-close').textContent = btnClose;
       document.getElementById('banner-btn-later').textContent = btnLater;
+      document.getElementById('banner-btn-pdf').textContent = isAr ? '📄 PDF' : '📄 PDF';
       _bannerEl.dataset.type = type;
 
       _bannerEl.style.display = 'grid';
@@ -40281,6 +40412,224 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     // فتح الموقع (أو ريفرش) والإنترنت مفصول: نشغّل المقطع المسجل تلقائياً، ولو المتصفح منع الصوت يظهر زر ▶️ وأول لمسة تشغّله
     attemptHold();
   }).catch(function () {});
+})();
+</script>
+<script>
+/* ===== تصدير الأذكار كملف PDF =====
+   بتبني صفحة أذكار منسّقة (RTL) وبتفتح نافذة الطباعة؛ المستخدم يختار "حفظ كـ PDF".
+   بتشتغل من 3 أماكن: بانر التذكير، شاشة "أتممت الأذكار"، وشريط التقدم أسفل الأزرار. */
+(function () {
+  var TYPE_ATTR = { morning: 'data-adhkar-morning', evening: 'data-adhkar-evening', general: 'data-adhkar-general', ruqya: 'data-adhkar-ruqya' };
+
+  function _ar() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
+  function _toAr(n) { return String(n).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }); }
+  function _esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function _toast(m) {
+    if (typeof showToast === 'function') showToast(m);
+    else if (typeof showMessage === 'function') showMessage(m);
+  }
+
+  function _titleFor(sub) {
+    var a = _ar();
+    var t = {
+      all: a ? 'الأذكار' : 'Adhkar',
+      morning: a ? 'أذكار الصباح' : 'Morning Adhkar',
+      evening: a ? 'أذكار المساء' : 'Evening Adhkar',
+      general: a ? 'أذكار عامة' : 'General Adhkar',
+      ruqya: a ? 'الرُّقْيَة الشَّرْعِيَّة' : 'Ruqyah'
+    };
+    return t[sub] || t.all;
+  }
+
+  function _collect(type) {
+    var attr = TYPE_ATTR[type];
+    var items = [];
+    document.querySelectorAll('button[data-category="Adhkar"]').forEach(function (b) {
+      if (attr) {
+        if (!b.hasAttribute(attr)) return;           // قسم محدد: بغض النظر عن الفلتر المفتوح
+      } else {
+        if (b.style.display === 'none') return;      // نفس الفلتر الظاهر حاليًا
+        var w = b.parentElement;
+        if (w && w.classList.contains('pl-check-wrap') && w.style.display === 'none') return;
+      }
+      var t = b.querySelector('.station-text');
+      var raw = t ? String(t.innerText || t.textContent || '') : '';
+      var lines = raw.split(/\n+/).map(function (x) { return x.replace(/\s+/g, ' ').trim(); }).filter(Boolean);
+      if (!lines.length) return;
+      items.push({ lines: lines, target: parseInt(b.getAttribute('data-target'), 10) || 0 });
+    });
+    return items;
+  }
+
+  function _buildHtml(title, items, opts) {
+    opts = opts || { size: 20, counts: true };
+    var a = _ar();
+    var date = '';
+    try { date = new Date().toLocaleDateString(a ? 'ar-EG' : undefined, { year: 'numeric', month: 'long', day: 'numeric' }); } catch (e) {}
+    var url = '';
+    try { url = location.href.split('#')[0]; } catch (e) {}
+    var body = items.map(function (it, i) {
+      var cnt = (opts.counts && it.target > 1) ? '<span class="cnt">× ' + (a ? _toAr(it.target) : it.target) + '</span>' : '';
+      return '<div class="item" dir="auto"><span class="n">' + (a ? _toAr(i + 1) : (i + 1)) + '</span>' +
+        it.lines.map(_esc).join('<br>') + cnt + '</div>';
+    }).join('');
+    return '<!DOCTYPE html><html lang="' + (a ? 'ar' : 'en') + '" dir="' + (a ? 'rtl' : 'ltr') + '"><head><meta charset="UTF-8">' +
+      '<title>' + _esc(title) + '</title>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">' +
+      '<style>' +
+      '@page{size:A4;margin:14mm}' +
+      '*{-webkit-print-color-adjust:exact;print-color-adjust:exact;box-sizing:border-box}' +
+      'body{font-family:Amiri,Cairo,"Traditional Arabic",Arial,sans-serif;color:#111;margin:0;line-height:2}' +
+      'h1{text-align:center;font-size:26px;margin:0 0 2px;color:#1b5e43;font-family:Cairo,Amiri,Arial,sans-serif}' +
+      '.sub{text-align:center;color:#555;font-size:13px;margin-bottom:14px;border-bottom:2px solid #2a7a5a;padding-bottom:10px;font-family:Cairo,Arial,sans-serif}' +
+      '.item{border:1px solid #cfd8d3;border-radius:10px;padding:8px 14px;margin:0 0 10px;font-size:' + opts.size + 'px;page-break-inside:avoid;break-inside:avoid}' +
+      '.n{display:inline-block;min-width:26px;height:26px;line-height:26px;text-align:center;border-radius:13px;background:#2a7a5a;color:#fff;font-size:13px;margin-inline-end:8px;font-family:Cairo,Arial,sans-serif;padding:0 4px}' +
+      '.cnt{display:inline-block;background:#eef6f1;color:#1b5e43;border-radius:8px;padding:0 8px;font-size:14px;margin-inline-start:8px;font-family:Cairo,Arial,sans-serif;white-space:nowrap}' +
+      '.foot{text-align:center;color:#777;font-size:11px;margin-top:14px;font-family:Cairo,Arial,sans-serif;direction:ltr}' +
+      '</style></head><body>' +
+      '<h1>📿 ' + _esc(title) + '</h1>' +
+      '<div class="sub">' + _esc(date) + (a ? ' — إذاعة القرآن الكريم' : ' — Quran Radio') + '</div>' +
+      body +
+      '<div class="foot">' + _esc(url) + '</div>' +
+      '</body></html>';
+  }
+
+  function _isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); }
+
+  function _printHtml(html) {
+    function delay(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+    if (_isIOS()) {                       // سفارى iOS بيطبع الصفحة الأم لو الطباعة من iframe → نافذة جديدة
+      var w = window.open('', '_blank');
+      if (!w) { _toast(_ar() ? 'اسمح بالنوافذ المنبثقة لتصدير PDF' : 'Allow pop-ups to export PDF'); return; }
+      w.document.open(); w.document.write(html); w.document.close();
+      setTimeout(function () { try { w.focus(); w.print(); } catch (e) {} }, 1500);
+      return;
+    }
+
+    var ifr = document.createElement('iframe');
+    ifr.setAttribute('aria-hidden', 'true');
+    ifr.style.cssText = 'position:fixed;right:0;bottom:0;width:1px;height:1px;border:0;opacity:0;pointer-events:none;';
+    document.body.appendChild(ifr);
+    var cw = ifr.contentWindow, d = cw.document;
+    d.open(); d.write(html); d.close();
+
+    var lk = d.querySelector('link[rel="stylesheet"]');
+    var linkReady = new Promise(function (res) { if (!lk) return res(); lk.onload = res; lk.onerror = res; });
+    var fontsReady = linkReady.then(function () {
+      try { void d.body.offsetHeight; } catch (e) {}
+      return (d.fonts && d.fonts.ready) ? d.fonts.ready : null;
+    });
+    var cleaned = false;
+    function cleanup() { if (cleaned) return; cleaned = true; try { ifr.remove(); } catch (e) {} }
+    try { cw.addEventListener('afterprint', function () { setTimeout(cleanup, 500); }); } catch (e) {}
+
+    Promise.race([fontsReady, delay(3000)]).then(function () {
+      try { cw.focus(); cw.print(); }
+      catch (e) {
+        var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        window.open(URL.createObjectURL(blob), '_blank');
+      }
+      setTimeout(cleanup, 120000);
+    });
+  }
+
+  var OPT_KEY = 'adhkar_pdf_opts';
+  function _loadOpts() {
+    var o = { size: 20, counts: true };
+    try { var r = JSON.parse(localStorage.getItem(OPT_KEY) || 'null'); if (r) { if (r.size) o.size = r.size; if (typeof r.counts === 'boolean') o.counts = r.counts; } } catch (e) {}
+    return o;
+  }
+
+  function _askOpts(onGo) {
+    var old = document.getElementById('adhkar-pdf-opts'); if (old) old.remove();
+    var a = _ar(), o = _loadOpts();
+    var dark = document.body.classList.contains('dark-mode');
+    var ov = document.createElement('div');
+    ov.id = 'adhkar-pdf-opts';
+    ov.setAttribute('dir', a ? 'rtl' : 'ltr');
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100000;display:flex;align-items:center;justify-content:center;font-family:Cairo,Arial,sans-serif;';
+    var sizes = [[17, a ? 'صغير' : 'Small'], [20, a ? 'متوسط' : 'Medium'], [24, a ? 'كبير' : 'Large']];
+    var bx = document.createElement('div');
+    bx.style.cssText = 'background:' + (dark ? '#1c2a22' : '#fff') + ';color:' + (dark ? '#eee' : '#1a3a52') + ';border-radius:20px;padding:20px 18px;width:88%;max-width:340px;box-shadow:0 12px 40px rgba(0,0,0,.35);';
+    bx.innerHTML =
+      '<div style="font-size:17px;font-weight:700;margin-bottom:14px;text-align:center;">📄 ' + (a ? 'خيارات ملف PDF' : 'PDF options') + '</div>' +
+      '<div style="font-size:13.5px;margin-bottom:6px;">' + (a ? 'حجم الخط' : 'Font size') + '</div>' +
+      '<div id="apo-sizes" style="display:flex;gap:6px;margin-bottom:14px;"></div>' +
+      '<label style="display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:18px;cursor:pointer;">' +
+      '<input type="checkbox" id="apo-counts" style="width:18px;height:18px;"> ' + (a ? 'إظهار عدد التكرار (× N)' : 'Show repeat count (× N)') + '</label>' +
+      '<div style="display:flex;gap:8px;"><button type="button" id="apo-go" style="flex:2;"></button><button type="button" id="apo-cancel" style="flex:1;"></button></div>';
+    ov.appendChild(bx);
+    document.body.appendChild(ov);
+
+    var sel = o.size, wrap = bx.querySelector('#apo-sizes');
+    var base = 'flex:1;padding:8px 4px;border-radius:12px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;border:1.5px solid #2a7a5a;';
+    function paint() {
+      wrap.querySelectorAll('button').forEach(function (b) {
+        var on = +b.dataset.v === sel;
+        b.style.cssText = base + (on ? 'background:#2a7a5a;color:#fff;' : 'background:transparent;color:inherit;');
+      });
+    }
+    sizes.forEach(function (z) {
+      var b = document.createElement('button'); b.type = 'button'; b.dataset.v = z[0]; b.textContent = z[1];
+      b.onclick = function () { sel = z[0]; paint(); };
+      wrap.appendChild(b);
+    });
+    paint();
+    var cb = bx.querySelector('#apo-counts'); cb.checked = o.counts;
+    var go = bx.querySelector('#apo-go'), cn = bx.querySelector('#apo-cancel');
+    go.textContent = a ? 'تصدير' : 'Export';
+    cn.textContent = a ? 'إلغاء' : 'Cancel';
+    go.style.cssText = 'padding:11px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--theme-c1,#2a7a5a),var(--theme-c2,#1b5e43));color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;';
+    cn.style.cssText = 'padding:11px;border:1.5px solid rgba(128,128,128,.5);border-radius:14px;background:transparent;color:inherit;font-size:14px;cursor:pointer;font-family:inherit;';
+    function close() { ov.remove(); }
+    cn.onclick = close;
+    ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+    go.onclick = function () {
+      var res = { size: sel, counts: cb.checked };
+      try { localStorage.setItem(OPT_KEY, JSON.stringify(res)); } catch (e) {}
+      close(); onGo(res);
+    };
+  }
+
+  window.exportAdhkarPDF = function (event, type) {
+    if (event) { if (event.stopPropagation) event.stopPropagation(); if (event.preventDefault) event.preventDefault(); }
+    var a = _ar();
+    var sub = type || ((typeof currentAdhkarSub !== 'undefined') ? currentAdhkarSub : 'all');
+    var explicit = TYPE_ATTR[sub] ? sub : null;
+    var items = _collect(explicit);
+    if (!items.length) {
+      alert(a ? 'افتح قسم الأذكار أولًا (الكل / صباح / مساء / عامة / رقية) لتتمكن من تصديرها' : 'Open the Adhkar section first to export it');
+      return;
+    }
+    _askOpts(function (opts) {
+      _toast(a ? '📄 جاري تجهيز الملف… اختر «حفظ كـ PDF» من نافذة الطباعة' : '📄 Preparing… choose “Save as PDF” in the print dialog');
+      _printHtml(_buildHtml(_titleFor(explicit || 'all'), items, opts));
+    });
+  };
+
+  window._adhkarMakePdfBtn = function (type) {
+    var a = _ar();
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = a ? '📄 تصدير الأذكار PDF' : '📄 Export Adhkar PDF';
+    b.style.cssText = 'display:block;width:100%;margin:0 0 12px;background:transparent;color:#1a3a52;border:1.5px solid rgba(26,58,82,0.45);' +
+      'border-radius:14px;padding:10px 16px;font-size:14.5px;font-weight:700;cursor:pointer;font-family:Cairo,Arial,sans-serif;';
+    b.addEventListener('click', function (ev) { window.exportAdhkarPDF(ev, type); });
+    return b;
+  };
+
+  var st = document.createElement('style');
+  st.textContent =
+    '#adhkar-progress-pdf-btn{display:inline-block;margin-inline-start:12px;padding:2px 10px;border-radius:12px;font-size:12.5px;font-weight:700;' +
+    'cursor:pointer;border:1.5px solid currentColor;opacity:.85;user-select:none;-webkit-user-select:none;white-space:nowrap}' +
+    '#adhkar-progress-pdf-btn:hover,#adhkar-progress-pdf-btn:focus{opacity:1}' +
+    '#adhkar-progress-pdf-btn:active{transform:scale(.95)}';
+  document.head.appendChild(st);
+
+  /* ترجمة تلميح زر الشريط مع تغيير اللغة */
+  var pb = document.getElementById('adhkar-progress-pdf-btn');
+  if (pb) pb.title = _ar() ? pb.getAttribute('data-ar') : pb.getAttribute('data-en');
 })();
 </script>
 </body>
