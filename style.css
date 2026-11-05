@@ -88,7 +88,7 @@ body.theme-clear-shore {
   --theme-g1: #2E9C86; --theme-g1-rgb: 46,156,134;
   --theme-g2: #0A4436; --theme-g2-rgb: 10,68,54;
   --theme-bg: #DCEEE7;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/background/ClearShore.jpg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/ClearShore.jpg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -103,7 +103,7 @@ body.theme-beach-sunset {
   --theme-g1: #C86B4A; --theme-g1-rgb: 200,107,74;
   --theme-g2: #3D1610; --theme-g2-rgb: 61,22,16;
   --theme-bg: #F2D9C7;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/background/BeachSunset.jpg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/BeachSunset.jpg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -118,7 +118,7 @@ body.theme-tropical-island {
   --theme-g1: #1FA8D8; --theme-g1-rgb: 31,168,216;
   --theme-g2: #062F47; --theme-g2-rgb: 6,47,71;
   --theme-bg: #CFEAF5;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/background/TropicalIsland.jpg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/TropicalIsland.jpg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -133,7 +133,7 @@ body.theme-coral-reef-world {
   --theme-g1: #26A0B8; --theme-g1-rgb: 38,160,184;
   --theme-g2: #062A32; --theme-g2-rgb: 6,42,50;
   --theme-bg: #D1EDF2;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/background/CoralReef.jpg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/CoralReef.jpg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -147,7 +147,7 @@ body.theme-heart-of-nature {
   --theme-g1: #4A8C3F; --theme-g1-rgb: 74,140,63;
   --theme-g2: #0F280A; --theme-g2-rgb: 15,40,10;
   --theme-bg: #DCEAD4;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/background/HeartofNature.jpeg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/HeartofNature.jpeg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -162,7 +162,7 @@ body.theme-forest-waterfall {
   --theme-g1: #2E9C7A; --theme-g1-rgb: 46,156,122;
   --theme-g2: #0A3D30; --theme-g2-rgb: 10,61,48;
   --theme-bg: #D6EEE5;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/background/ForestWaterfall.jpeg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/ForestWaterfall.jpeg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -177,7 +177,7 @@ body.theme-rocky-shore {
   --theme-g1: #3D82C4; --theme-g1-rgb: 61,130,196;
   --theme-g2: #0D1F32; --theme-g2-rgb: 13,31,50;
   --theme-bg: #D3E4F2;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/background/RockyShore.jpeg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/RockyShore.jpeg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -192,7 +192,7 @@ body.theme-sunny-meadow {
   --theme-g1: #4FA83F; --theme-g1-rgb: 79,168,63;
   --theme-g2: #153010; --theme-g2-rgb: 21,48,16;
   --theme-bg: #DDF0D0;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/background/SunnyMeadow.jpeg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/SunnyMeadow.jpeg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -207,7 +207,7 @@ body.theme-kyoto-night {
   --theme-g1: #1F6B8C; --theme-g1-rgb: 31,107,140;
   --theme-g2: #051620; --theme-g2-rgb: 5,22,32;
   --theme-bg: #CCE0E8;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/background/KyotoNight.jpeg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/KyotoNight.jpeg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -222,7 +222,7 @@ body.theme-golden-sunset-field {
   --theme-g1: #4A8C5C; --theme-g1-rgb: 74,140,92;
   --theme-g2: #0F1F14; --theme-g2-rgb: 15,31,20;
   --theme-bg: #D9E8DA;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/background/GoldenSunsetField.jpeg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/GoldenSunsetField.jpeg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -237,7 +237,7 @@ body.theme-masjid-al-haram {
   --theme-g1: #7B92B0; --theme-g1-rgb: 123,146,176;
   --theme-g2: #1B2436; --theme-g2-rgb: 27,36,54;
   --theme-bg: #DCE2EC;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-01.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-01.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -252,7 +252,7 @@ body.theme-nabawi-dusk {
   --theme-g1: #4F9E8C; --theme-g1-rgb: 79,158,140;
   --theme-g2: #122B23; --theme-g2-rgb: 18,43,35;
   --theme-bg: #D7E8E3;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-02.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-02.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -267,7 +267,7 @@ body.theme-dome-of-rock {
   --theme-g1: #C9A227; --theme-g1-rgb: 201,162,39;
   --theme-g2: #3D2E0E; --theme-g2-rgb: 61,46,14;
   --theme-bg: #EFE3C0;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-03.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-03.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -282,7 +282,7 @@ body.theme-kaaba {
   --theme-g1: #B08D3E; --theme-g1-rgb: 176,141,62;
   --theme-g2: #0D0D0D; --theme-g2-rgb: 13,13,13;
   --theme-bg: #E7E0D0;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-04.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-04.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -297,7 +297,7 @@ body.theme-nabawi-day {
   --theme-g1: #6B9A6E; --theme-g1-rgb: 107,154,110;
   --theme-g2: #212B18; --theme-g2-rgb: 33,43,24;
   --theme-bg: #DEE8D9;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-05.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-05.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -312,7 +312,7 @@ body.theme-al-quds {
   --theme-g1: #A98E5A; --theme-g1-rgb: 169,142,90;
   --theme-g2: #2B2213; --theme-g2-rgb: 43,34,19;
   --theme-bg: #E9DFC7;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-06.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-06.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -327,7 +327,7 @@ body.theme-nabawi-courtyard {
   --theme-g1: #8B9CA6; --theme-g1-rgb: 139,156,166;
   --theme-g2: #262E32; --theme-g2-rgb: 38,46,50;
   --theme-bg: #E1E6E8;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-07.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-07.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -342,7 +342,7 @@ body.theme-golden-quds {
   --theme-g1: #B98B3E; --theme-g1-rgb: 185,139,62;
   --theme-g2: #2E220E; --theme-g2-rgb: 46,34,14;
   --theme-bg: #EAE0C6;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-08.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-08.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -357,7 +357,7 @@ body.theme-islamic-mosaic {
   --theme-g1: #3E6FB8; --theme-g1-rgb: 62,111,184;
   --theme-g2: #0D1730; --theme-g2-rgb: 13,23,48;
   --theme-bg: #D6E0F0;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-09.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-09.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -372,7 +372,7 @@ body.theme-prophetic-calligraphy {
   --theme-g1: #B8862E; --theme-g1-rgb: 184,134,46;
   --theme-g2: #120D07; --theme-g2-rgb: 18,13,7;
   --theme-bg: #E5D8BC;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-10.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-10.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -387,7 +387,7 @@ body.theme-nabawi-umbrellas {
   --theme-g1: #B7A98E; --theme-g1-rgb: 183,169,142;
   --theme-g2: #332C22; --theme-g2-rgb: 51,44,34;
   --theme-bg: #ECE6D8;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-11.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-11.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -402,7 +402,7 @@ body.theme-night-quran {
   --theme-g1: #4C5EA8; --theme-g1-rgb: 76,94,168;
   --theme-g2: #0A0E1D; --theme-g2-rgb: 10,14,29;
   --theme-bg: #DADFEE;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-12.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-12.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -417,7 +417,7 @@ body.theme-emerald-cover {
   --theme-g1: #3E7A4A; --theme-g1-rgb: 62,122,74;
   --theme-g2: #0A1D0F; --theme-g2-rgb: 10,29,15;
   --theme-bg: #D6E7D8;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-13.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-13.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -432,7 +432,7 @@ body.theme-green-dome {
   --theme-g1: #6B87AE; --theme-g1-rgb: 107,135,174;
   --theme-g2: #1B2434; --theme-g2-rgb: 27,36,52;
   --theme-bg: #DDE3EE;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-14.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-14.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -447,7 +447,7 @@ body.theme-mosque-arches {
   --theme-g1: #8A5A3E; --theme-g1-rgb: 138,90,62;
   --theme-g2: #21120C; --theme-g2-rgb: 33,18,12;
   --theme-bg: #E6D8CC;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-15.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-15.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -462,7 +462,7 @@ body.theme-blue-dome-ceiling {
   --theme-g1: #4A5E8C; --theme-g1-rgb: 74,94,140;
   --theme-g2: #0C111E; --theme-g2-rgb: 12,17,30;
   --theme-bg: #D9DEEA;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-16.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-16.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -477,7 +477,7 @@ body.theme-verses-of-light {
   --theme-g1: #B89A4E; --theme-g1-rgb: 184,154,78;
   --theme-g2: #0E0E0E; --theme-g2-rgb: 14,14,14;
   --theme-bg: #E7E1CE;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-17.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-17.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -492,7 +492,7 @@ body.theme-madinah-nights {
   --theme-g1: #C9A227; --theme-g1-rgb: 201,162,39;
   --theme-g2: #0A0E1C; --theme-g2-rgb: 10,14,28;
   --theme-bg: #E6E0CB;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-18.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-18.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -507,7 +507,7 @@ body.theme-minaret-sunset {
   --theme-g1: #C97A3E; --theme-g1-rgb: 201,122,62;
   --theme-g2: #22120D; --theme-g2-rgb: 34,18,13;
   --theme-bg: #EAD8C6;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-19.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-19.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -522,7 +522,7 @@ body.theme-mosque-tranquility {
   --theme-g1: #4A6B3E; --theme-g1-rgb: 74,107,62;
   --theme-g2: #0A1207; --theme-g2-rgb: 10,18,7;
   --theme-bg: #DAE3D3;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-20.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-20.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -537,7 +537,7 @@ body.theme-dome-and-roses {
   --theme-g1: #4FA89A; --theme-g1-rgb: 79,168,154;
   --theme-g2: #0E2822; --theme-g2-rgb: 14,40,34;
   --theme-bg: #D5EAE5;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-21.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-21.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -552,7 +552,7 @@ body.theme-dome-ornament {
   --theme-g1: #B9A26A; --theme-g1-rgb: 185,162,106;
   --theme-g2: #292112; --theme-g2-rgb: 41,33,18;
   --theme-bg: #EAE3CC;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-22.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-22.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -567,7 +567,7 @@ body.theme-cairo-minarets {
   --theme-g1: #4E86A0; --theme-g1-rgb: 78,134,160;
   --theme-g2: #0C1B22; --theme-g2-rgb: 12,27,34;
   --theme-bg: #D6E5EA;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-23.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-23.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -582,7 +582,7 @@ body.theme-golden-mosque-hall {
   --theme-g1: #B98F3E; --theme-g1-rgb: 185,143,62;
   --theme-g2: #0C1D1A; --theme-g2-rgb: 12,29,26;
   --theme-bg: #DDE7DF;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-24.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-24.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -597,7 +597,7 @@ body.theme-istanbul-sunset {
   --theme-g1: #C4703E; --theme-g1-rgb: 196,112,62;
   --theme-g2: #21140F; --theme-g2-rgb: 33,20,15;
   --theme-bg: #E9D8CA;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-25.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-25.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -612,7 +612,7 @@ body.theme-quran-light {
   --theme-g1: #B8862E; --theme-g1-rgb: 184,134,46;
   --theme-g2: #130D07; --theme-g2-rgb: 19,13,7;
   --theme-bg: #E7DBC0;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/isl-26.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-26.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -627,7 +627,7 @@ body.theme-islamic-photo-1 {
   --theme-g1: #B08D3E; --theme-g1-rgb: 176,141,62;
   --theme-g2: #171208; --theme-g2-rgb: 23,18,8;
   --theme-bg: #EADFC4;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/i1.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/i1.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -642,7 +642,7 @@ body.theme-islamic-photo-2 {
   --theme-g1: #4E86A0; --theme-g1-rgb: 78,134,160;
   --theme-g2: #0B1417; --theme-g2-rgb: 11,20,23;
   --theme-bg: #D6E5EA;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/i2.jpg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/i2.jpg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -657,7 +657,7 @@ body.theme-islamic-photo-3 {
   --theme-g1: #6B7A3E; --theme-g1-rgb: 107,122,62;
   --theme-g2: #10140A; --theme-g2-rgb: 16,20,10;
   --theme-bg: #E3E7CE;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/islamic/i3.jpg') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/i3.jpg') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -672,7 +672,7 @@ body.theme-misty-lake-dawn {
   --theme-g1: #9B8AB0; --theme-g1-rgb: 155,138,176;
   --theme-g2: #241D30; --theme-g2-rgb: 36,29,48;
   --theme-bg: #E5DFEC;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-01.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-01.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -687,7 +687,7 @@ body.theme-amber-lake-sunset {
   --theme-g1: #D98A4A; --theme-g1-rgb: 217,138,74;
   --theme-g2: #33200E; --theme-g2-rgb: 51,32,14;
   --theme-bg: #EFDCC4;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-02.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-02.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -702,7 +702,7 @@ body.theme-sea-of-clouds {
   --theme-g1: #D9B98A; --theme-g1-rgb: 217,185,138;
   --theme-g2: #3D3020; --theme-g2-rgb: 61,48,32;
   --theme-bg: #EFE5D4;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-03.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-03.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -717,7 +717,7 @@ body.theme-misty-mountain-lake {
   --theme-g1: #4F8C6E; --theme-g1-rgb: 79,140,110;
   --theme-g2: #0E241A; --theme-g2-rgb: 14,36,26;
   --theme-bg: #D8E8DE;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-04.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-04.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -732,7 +732,7 @@ body.theme-layered-mountains {
   --theme-g1: #3E7A5A; --theme-g1-rgb: 62,122,90;
   --theme-g2: #0A1811; --theme-g2-rgb: 10,24,17;
   --theme-bg: #D4E3D8;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-05.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-05.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -747,7 +747,7 @@ body.theme-golden-ridge-sunrise {
   --theme-g1: #D9A83E; --theme-g1-rgb: 217,168,62;
   --theme-g2: #332510; --theme-g2-rgb: 51,37,16;
   --theme-bg: #EFE3C4;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-06.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-06.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -762,7 +762,7 @@ body.theme-dusty-mountain-dusk {
   --theme-g1: #8A7BA0; --theme-g1-rgb: 138,123,160;
   --theme-g2: #1A1826; --theme-g2-rgb: 26,24,38;
   --theme-bg: #DFDCEA;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-07.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-07.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -777,7 +777,7 @@ body.theme-amber-mountain-lake {
   --theme-g1: #C9A26A; --theme-g1-rgb: 201,162,106;
   --theme-g2: #332614; --theme-g2-rgb: 51,38,20;
   --theme-bg: #EAE0C9;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-08.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-08.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -792,7 +792,7 @@ body.theme-lavender-lake-sunset {
   --theme-g1: #B08AAE; --theme-g1-rgb: 176,138,174;
   --theme-g2: #241826; --theme-g2-rgb: 36,24,38;
   --theme-bg: #E8DCE7;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-09.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-09.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -807,7 +807,7 @@ body.theme-palm-beach-sunset {
   --theme-g1: #5C7CAE; --theme-g1-rgb: 92,124,174;
   --theme-g2: #111A2B; --theme-g2-rgb: 17,26,43;
   --theme-bg: #D8E0EE;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-10.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-10.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -822,7 +822,7 @@ body.theme-wildflower-highlands {
   --theme-g1: #4F8C6E; --theme-g1-rgb: 79,140,110;
   --theme-g2: #3D1830; --theme-g2-rgb: 61,24,48;
   --theme-bg: #DDE8DE;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-11.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-11.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -837,7 +837,7 @@ body.theme-coastal-palm-sunset {
   --theme-g1: #D9824A; --theme-g1-rgb: 217,130,74;
   --theme-g2: #33190E; --theme-g2-rgb: 51,25,14;
   --theme-bg: #EFDBC6;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-12.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-12.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -852,7 +852,7 @@ body.theme-crashing-waves {
   --theme-g1: #5C8A96; --theme-g1-rgb: 92,138,150;
   --theme-g2: #121E24; --theme-g2-rgb: 18,30,36;
   --theme-bg: #D9E5E8;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-13.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-13.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -867,7 +867,7 @@ body.theme-northern-lights {
   --theme-g1: #3EC98A; --theme-g1-rgb: 62,201,138;
   --theme-g2: #081722; --theme-g2-rgb: 8,23,34;
   --theme-bg: #D4EBE2;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-14.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-14.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -882,7 +882,7 @@ body.theme-poppy-field-sunset {
   --theme-g1: #C9503E; --theme-g1-rgb: 201,80,62;
   --theme-g2: #2B0F0A; --theme-g2-rgb: 43,15,10;
   --theme-bg: #EAD2CC;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-15.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-15.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -897,7 +897,7 @@ body.theme-blossom-garden {
   --theme-g1: #4F8C5C; --theme-g1-rgb: 79,140,92;
   --theme-g2: #3D1828; --theme-g2-rgb: 61,24,40;
   --theme-bg: #DDE8DD;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-16.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-16.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -912,7 +912,7 @@ body.theme-canyon-waterfall {
   --theme-g1: #4FA8B0; --theme-g1-rgb: 79,168,176;
   --theme-g2: #33200E; --theme-g2-rgb: 51,32,14;
   --theme-bg: #D6E8E9;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-17.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-17.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -927,7 +927,7 @@ body.theme-meadow-sunset-clouds {
   --theme-g1: #7A9A4A; --theme-g1-rgb: 122,154,74;
   --theme-g2: #242B0E; --theme-g2-rgb: 36,43,14;
   --theme-bg: #E1E8D4;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-18.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-18.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -942,7 +942,7 @@ body.theme-clouds-and-sky {
   --theme-g1: #5C96C9; --theme-g1-rgb: 92,150,201;
   --theme-g2: #0F1F30; --theme-g2-rgb: 15,31,48;
   --theme-bg: #D6E5F0;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-19.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-19.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -957,7 +957,7 @@ body.theme-limestone-lagoon {
   --theme-g1: #3EA89C; --theme-g1-rgb: 62,168,156;
   --theme-g2: #0A1917; --theme-g2-rgb: 10,25,23;
   --theme-bg: #D4E9E5;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-20.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-20.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -972,7 +972,7 @@ body.theme-rocky-cove-mist {
   --theme-g1: #6B7E8C; --theme-g1-rgb: 107,126,140;
   --theme-g2: #141B20; --theme-g2-rgb: 20,27,32;
   --theme-bg: #DBE1E5;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-21.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-21.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -987,7 +987,7 @@ body.theme-lone-tree-twilight {
   --theme-g1: #8A6BA0; --theme-g1-rgb: 138,107,160;
   --theme-g2: #191026; --theme-g2-rgb: 25,16,38;
   --theme-bg: #E1D9EA;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-22.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-22.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -1002,7 +1002,7 @@ body.theme-sunlit-forest-path {
   --theme-g1: #4F8C4A; --theme-g1-rgb: 79,140,74;
   --theme-g2: #0D1B0A; --theme-g2-rgb: 13,27,10;
   --theme-bg: #D8E6D3;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-23.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-23.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -1017,7 +1017,7 @@ body.theme-autumn-forest {
   --theme-g1: #C9703E; --theme-g1-rgb: 201,112,62;
   --theme-g2: #2B120A; --theme-g2-rgb: 43,18,10;
   --theme-bg: #EADBCA;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-24.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-24.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -1032,7 +1032,7 @@ body.theme-sunrays-forest {
   --theme-g1: #B89A3E; --theme-g1-rgb: 184,154,62;
   --theme-g2: #1F1A09; --theme-g2-rgb: 31,26,9;
   --theme-bg: #E7E1C4;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-25.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-25.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -1047,7 +1047,7 @@ body.theme-forest-light-trail {
   --theme-g1: #5C9A4A; --theme-g1-rgb: 92,154,74;
   --theme-g2: #111F0A; --theme-g2-rgb: 17,31,10;
   --theme-bg: #DCE8D4;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-26.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-26.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -1062,7 +1062,7 @@ body.theme-moonlit-sky {
   --theme-g1: #7B8CA0; --theme-g1-rgb: 123,140,160;
   --theme-g2: #080C18; --theme-g2-rgb: 8,12,24;
   --theme-bg: #D9DEE8;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-27.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-27.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -1077,7 +1077,7 @@ body.theme-coastal-blue-view {
   --theme-g1: #5C9AC4; --theme-g1-rgb: 92,154,196;
   --theme-g2: #0F1F2C; --theme-g2-rgb: 15,31,44;
   --theme-bg: #D8E6F0;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-28.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-28.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -1092,7 +1092,7 @@ body.theme-sunset-ocean-clouds {
   --theme-g1: #C97A6B; --theme-g1-rgb: 201,122,107;
   --theme-g2: #2B140F; --theme-g2-rgb: 43,20,15;
   --theme-bg: #EAD8D2;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-29.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-29.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
@@ -1107,7 +1107,7 @@ body.theme-milky-way-night {
   --theme-g1: #6B5C9A; --theme-g1-rgb: 107,92,154;
   --theme-g2: #0C0A1A; --theme-g2-rgb: 12,10,26;
   --theme-bg: #DDD9E8;
-  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio@main/nature/nat-30.webp') !important;
+  background-image: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35)), url('https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-30.webp') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
