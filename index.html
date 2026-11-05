@@ -7322,6 +7322,12 @@ const moreTranslations = [{
           title="تصدير الأذكار كملف PDF"
           data-ar="تصدير الأذكار كملف PDF"
           data-en="Export adhkar as PDF">📄 PDF</span>
+    <span id="adhkar-progress-share-btn" role="button" tabindex="0"
+          onclick="shareAllAdhkar(event)"
+          onkeydown="if(event.key==='Enter'||event.key===' '){shareAllAdhkar(event);}"
+          title="مشاركة الأذكار كنص"
+          data-ar="مشاركة الأذكار كنص"
+          data-en="Share adhkar as text">📤 مشاركة</span>
   </div>
 </div>
 
@@ -30387,9 +30393,11 @@ function resetTasbih(event) {
 // ===== نسخ / مشاركة كل أذكار القسم المفتوح كنص واحد =====
 // بتجمع الأذكار الظاهرة حاليًا فى الفلتر (الكل / صباح / مساء / عامة / رقية) بنفس
 // ترتيب ظهورها فى الصفحة (يشمل ترتيب "التهليل آخر ذكر")، وبتكتب العدد (×N) لو الهدف أكتر من مرة
-function _buildAllAdhkarText() {
+function _buildAllAdhkarText(type) {
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-  var sub = (typeof currentAdhkarSub !== 'undefined') ? currentAdhkarSub : 'all';
+  var _typeAttr = { morning: 'data-adhkar-morning', evening: 'data-adhkar-evening', general: 'data-adhkar-general', ruqya: 'data-adhkar-ruqya' };
+  var explicitAttr = (type && _typeAttr[type]) ? _typeAttr[type] : null;   // قسم محدد (من البانر/شاشة الإتمام) بغض النظر عن الفلتر المفتوح
+  var sub = explicitAttr ? type : ((typeof currentAdhkarSub !== 'undefined') ? currentAdhkarSub : 'all');
   var titles = {
     all:     isAr ? 'الأذكار' : 'Adhkar',
     morning: isAr ? 'أذكار الصباح' : 'Morning Adhkar',
@@ -30400,13 +30408,22 @@ function _buildAllAdhkarText() {
   var title = titles[sub] || titles.all;
   var items = [];
   document.querySelectorAll('button[data-category="Adhkar"]').forEach(function(b) {
-    if (b.style.display === 'none') return;
-    var wrap = b.parentElement;
-    if (wrap && wrap.classList.contains('pl-check-wrap') && wrap.style.display === 'none') return;
+    // نبدأ بالأذكار المكتوبة مباشرة: نتخطى محطات الإذاعة/المقاطع (اللى مفيش لها عدّاد تسبيح) زى أول محطة فى القسم
+    if (!b.classList.contains('has-tasbih')) return;
+    if (explicitAttr) {
+      if (!b.hasAttribute(explicitAttr)) return;
+    } else {
+      if (b.style.display === 'none') return;
+      var wrap = b.parentElement;
+      if (wrap && wrap.classList.contains('pl-check-wrap') && wrap.style.display === 'none') return;
+    }
     var t = b.querySelector('.station-text');
     var txt = t ? String(t.innerText || t.textContent || '').replace(/[ \t]+\n/g, '\n').trim() : '';
     if (!txt) return;
     var target = parseInt(b.getAttribute('data-target'), 10) || 0;
+    // النص نفسه غالبًا فيه "(×3)" وإحنا بنضيف العدد تحت، فنشيل اللى فى النص عشان ما يتكررش
+    if (target > 1) txt = txt.replace(/[ \t]*\(\s*[×xX]\s*[\d٠-٩]+\s*\)/g, '').replace(/[ \t]+\n/g, '\n').trim();
+    if (!txt) return;
     items.push({ text: txt, target: target });
   });
   if (!items.length) return null;
@@ -30448,10 +30465,10 @@ function copyAllAdhkar(event) {
     function() { if (typeof showMessage === 'function') showMessage(isAr ? 'تعذّر النسخ' : 'Copy failed'); });
 }
 
-function shareAllAdhkar(event) {
+function shareAllAdhkar(event, type) {
   if (event) { event.stopPropagation(); if (event.preventDefault) event.preventDefault(); }
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-  var pack = _buildAllAdhkarText();
+  var pack = _buildAllAdhkarText(type);
   if (!pack) {
     alert(isAr ? 'افتح قسم الأذكار الأول (الكل / صباح / مساء / عامة / رقية) عشان تقدر تشاركها' : 'Open the Adhkar section first (All / Morning / Evening / General / Ruqyah) to share them');
     return;
@@ -30459,11 +30476,17 @@ function shareAllAdhkar(event) {
   if (navigator.share) {
     navigator.share({ title: pack.title, text: pack.text }).catch(function(err) {
       if (err && err.name === 'AbortError') return; // المستخدم قفل قائمة المشاركة
-      copyAllAdhkar();
+      _copyPackFallback(pack, isAr);
     });
   } else {
-    copyAllAdhkar();
+    _copyPackFallback(pack, isAr);
   }
+}
+// نسخ النص المجهّز نفسه (بدل إعادة بنائه من الفلتر الحالى) لو المشاركة مش متاحة
+function _copyPackFallback(pack, isAr) {
+  _copyTextAny(pack.text,
+    function() { if (typeof showMessage === 'function') showMessage(isAr ? '✓ تم نسخ ' + pack.title : '✓ Copied: ' + pack.title); },
+    function() { if (typeof showMessage === 'function') showMessage(isAr ? 'تعذّر النسخ' : 'Copy failed'); });
 }
 
 // ===== تحويل الذكر لكارت صورة قابل للمشاركة (ستوري / بوست فيسبوك وغيره) =====
@@ -36383,6 +36406,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '#adhkar-reminder-banner .btn-go { background: rgba(255,255,255,0.92); color: var(--theme-g2); border: 1.5px solid transparent; }',
         '#adhkar-reminder-banner .btn-go:hover { background: #fff; }',
         '#adhkar-reminder-banner .btn-pdf,',
+        '#adhkar-reminder-banner .btn-share,',
         '#adhkar-reminder-banner .btn-later,',
         '#adhkar-reminder-banner .btn-close {',
         '  background: rgba(255,255,255,0.16); color: #fff; border: 1.5px solid rgba(255,255,255,0.4);',
@@ -36390,6 +36414,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '  text-shadow: 0 1px 3px rgba(0,0,0,0.5);',
         '}',
         '#adhkar-reminder-banner .btn-pdf:hover,',
+        '#adhkar-reminder-banner .btn-share:hover,',
         '#adhkar-reminder-banner .btn-later:hover,',
         '#adhkar-reminder-banner .btn-close:hover { background: rgba(255,255,255,0.28); }',
         'body.dark-mode #adhkar-reminder-banner .btn-go { background: rgba(255,255,255,0.88); }',
@@ -36414,6 +36439,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '<div class="banner-actions">',
         '  <button class="banner-btn btn-go"    id="banner-btn-go"></button>',
         '  <button class="banner-btn btn-pdf"   id="banner-btn-pdf"></button>',
+        '  <button class="banner-btn btn-share" id="banner-btn-share"></button>',
         '  <button class="banner-btn btn-later" id="banner-btn-later"></button>',
         '  <button class="banner-btn btn-close" id="banner-btn-close"></button>',
         '</div>',
@@ -36427,6 +36453,9 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('banner-btn-later').addEventListener('click', snoozeBanner);
       document.getElementById('banner-btn-pdf').addEventListener('click', function(ev) {
         if (typeof exportAdhkarPDF === 'function') exportAdhkarPDF(ev, _bannerEl.dataset.type);
+      });
+      document.getElementById('banner-btn-share').addEventListener('click', function(ev) {
+        if (typeof shareAllAdhkar === 'function') shareAllAdhkar(ev, _bannerEl.dataset.type);
       });
       document.getElementById('banner-btn-go').addEventListener('click', function() {
         var type = _bannerEl.dataset.type;
@@ -36546,6 +36575,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('banner-btn-close').textContent = btnClose;
       document.getElementById('banner-btn-later').textContent = btnLater;
       document.getElementById('banner-btn-pdf').textContent = isAr ? '📄 PDF' : '📄 PDF';
+      document.getElementById('banner-btn-share').textContent = isAr ? '📤 مشاركة' : '📤 Share';
       _bannerEl.dataset.type = type;
 
       _bannerEl.style.display = 'grid';
@@ -40446,6 +40476,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var attr = TYPE_ATTR[type];
     var items = [];
     document.querySelectorAll('button[data-category="Adhkar"]').forEach(function (b) {
+      if (!b.classList.contains('has-tasbih')) return;   // نبدأ بالأذكار مباشرة: نتخطى محطات الإذاعة/المقاطع (زى أول محطة فى القسم)
       if (attr) {
         if (!b.hasAttribute(attr)) return;           // قسم محدد: بغض النظر عن الفلتر المفتوح
       } else {
@@ -40455,9 +40486,12 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       }
       var t = b.querySelector('.station-text');
       var raw = t ? String(t.innerText || t.textContent || '') : '';
+      var tgt = parseInt(b.getAttribute('data-target'), 10) || 0;
+      // نشيل "(×N)" المكتوب جوه نص الذكر لما يكون له عدد، لأن العدد بيظهر فى شارة منفصلة (وبيحترم خيار إظهار/إخفاء العدد)
+      if (tgt > 1) raw = raw.replace(/[ \t]*\(\s*[×xX]\s*[\d٠-٩]+\s*\)/g, '');
       var lines = raw.split(/\n+/).map(function (x) { return x.replace(/\s+/g, ' ').trim(); }).filter(Boolean);
       if (!lines.length) return;
-      items.push({ lines: lines, target: parseInt(b.getAttribute('data-target'), 10) || 0 });
+      items.push({ lines: lines, target: tgt });
     });
     return items;
   }
@@ -40611,13 +40645,23 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 
   window._adhkarMakePdfBtn = function (type) {
     var a = _ar();
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:8px;width:100%;margin:0 0 12px;';
+    var btnCss = 'flex:1 1 0;min-width:0;background:transparent;color:#1a3a52;border:1.5px solid rgba(26,58,82,0.45);' +
+      'border-radius:14px;padding:10px 8px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,Arial,sans-serif;';
     var b = document.createElement('button');
     b.type = 'button';
-    b.textContent = a ? '📄 تصدير الأذكار PDF' : '📄 Export Adhkar PDF';
-    b.style.cssText = 'display:block;width:100%;margin:0 0 12px;background:transparent;color:#1a3a52;border:1.5px solid rgba(26,58,82,0.45);' +
-      'border-radius:14px;padding:10px 16px;font-size:14.5px;font-weight:700;cursor:pointer;font-family:Cairo,Arial,sans-serif;';
+    b.textContent = a ? '📄 تصدير PDF' : '📄 Export PDF';
+    b.style.cssText = btnCss;
     b.addEventListener('click', function (ev) { window.exportAdhkarPDF(ev, type); });
-    return b;
+    var s = document.createElement('button');
+    s.type = 'button';
+    s.textContent = a ? '📤 مشاركة الأذكار' : '📤 Share adhkar';
+    s.style.cssText = btnCss;
+    s.addEventListener('click', function (ev) { if (typeof shareAllAdhkar === 'function') shareAllAdhkar(ev, type); });
+    row.appendChild(b);
+    row.appendChild(s);
+    return row;
   };
 
   var st = document.createElement('style');
@@ -40626,11 +40670,32 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     'cursor:pointer;border:1.5px solid currentColor;opacity:.85;user-select:none;-webkit-user-select:none;white-space:nowrap}' +
     '#adhkar-progress-pdf-btn:hover,#adhkar-progress-pdf-btn:focus{opacity:1}' +
     '#adhkar-progress-pdf-btn:active{transform:scale(.95)}';
+  st.textContent +=
+    '#adhkar-progress-share-btn{display:inline-block;margin-inline-start:8px;padding:2px 10px;border-radius:12px;font-size:12.5px;font-weight:700;' +
+    'cursor:pointer;border:1.5px solid currentColor;opacity:.85;user-select:none;-webkit-user-select:none;white-space:nowrap}' +
+    '#adhkar-progress-share-btn:hover,#adhkar-progress-share-btn:focus{opacity:1}' +
+    '#adhkar-progress-share-btn:active{transform:scale(.95)}';
   document.head.appendChild(st);
 
-  /* ترجمة تلميح زر الشريط مع تغيير اللغة */
-  var pb = document.getElementById('adhkar-progress-pdf-btn');
-  if (pb) pb.title = _ar() ? pb.getAttribute('data-ar') : pb.getAttribute('data-en');
+  /* ترجمة تلميح زرّى الشريط (PDF / مشاركة) ونص زر المشاركة مع تغيير اللغة */
+  function _syncProgressBtns() {
+    var pb = document.getElementById('adhkar-progress-pdf-btn');
+    if (pb) pb.title = _ar() ? pb.getAttribute('data-ar') : pb.getAttribute('data-en');
+    var sb = document.getElementById('adhkar-progress-share-btn');
+    if (sb) { sb.title = _ar() ? sb.getAttribute('data-ar') : sb.getAttribute('data-en'); sb.textContent = _ar() ? '📤 مشاركة' : '📤 Share'; }
+  }
+  _syncProgressBtns();
+  // نفس أسلوب باقى الأقسام: نلفّ toggleLanguage ليحدّث نص زر المشاركة بعد تغيير اللغة
+  var _shLangInt = setInterval(function () {
+    if (typeof window.toggleLanguage !== 'function') return;
+    clearInterval(_shLangInt);
+    var _origTL = window.toggleLanguage;
+    window.toggleLanguage = function () {
+      var r = _origTL.apply(this, arguments);
+      setTimeout(_syncProgressBtns, 50);
+      return r;
+    };
+  }, 300);
 })();
 </script>
 
