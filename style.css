@@ -11597,3 +11597,9 @@ body.media-theme-glass .button.has-tasbih .station-text .istiadha-prefix {
         0 1px 4px var(--adhkar-title-outline),
         0 0 10px rgba(var(--theme-c4-rgb), 0.65) !important;
 }
+
+/* شاشات الموبايل والصغيرة: اسم المحطة يظهر أسفل المشغّل، فنخفيه من شريط المشغّل (النقطة الخضراء تبقى) */
+@media (max-width: 480px) {
+  #pnb-name { display: none; }
+  #player-station-label { justify-content: center; }
+}
