@@ -7201,23 +7201,23 @@ const moreTranslations = [{
           style="font-size: 28px; padding: 12px;"
           data-target="https://papergames.io/en/"
           data-title="ألعاب ذكاء"
-          data-password="265"
+          data-password="265" data-kbd="games" title="Alt+Shift+G"
           onclick="handleTripleClickPwd(this)">♟️</span>
 
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
           data-target="https://docs.google.com/document/d/1DuuwsJ4mIs7PGvGRXNOYK9A9B6zAZHdZE2_5vMi8w5k/edit?usp=sharing"
-          data-password="A@1"
+          data-password="A@1" data-kbd="docs" title="Alt+Shift+D"
           onclick="handleTripleClickWithPassword(this)">📜</span>
 
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
-          title="POS"
+          title="POS (Alt+Shift+P)" data-kbd="pos"
           onclick="checkPwdThenOpen('https://magziko.github.io/Pos/')">🧾</span>
 
     <span class="station-text triple-icon"
           style="font-size: 28px; padding: 12px;"
-          title="Menu"
+          title="Menu (Alt+Shift+M)" data-kbd="menu"
           onclick="checkPwdThenOpen('https://magzikopops-ui.github.io/menu/')">🍽️</span>
 
     <img src="https://cdn.instant.audio/images/equalizer.gif"
@@ -26433,6 +26433,54 @@ document.addEventListener("keydown", function(e) {
   }
 });
 
+/* ===== اختصارات Alt+Shift للأيقونات المخفية + المصحف ===== */
+(function() {
+  function secretTarget(key) {
+    var el = document.querySelector('[data-kbd="' + key + '"]');
+    return el || null;
+  }
+  var actions = {
+    // 📜 مستند جوجل (باسورد من data-password)
+    KeyD: function() {
+      var el = secretTarget('docs'); if (!el) return;
+      var pwd = el.getAttribute('data-password'), url = el.getAttribute('data-target');
+      promptPasswordSecure("أدخل الباسورد:").then(function(p) {
+        if (p === pwd) window.open(url, '_blank');
+        else if (p !== null) alert("الباسورد غير صحيح!");
+      });
+    },
+    // ♟️ ألعاب ذكاء (مودال)
+    KeyG: function() {
+      var el = secretTarget('games'); if (!el) return;
+      var pwd = el.getAttribute('data-password'), url = el.getAttribute('data-target'),
+          title = el.getAttribute('data-title');
+      promptPasswordSecure("أدخل الباسورد:").then(function(p) {
+        if (p === pwd) openModal(url, title, false, true);
+        else if (p !== null) alert("الباسورد غير صحيح!");
+      });
+    },
+    // 🧾 POS
+    KeyP: function() { checkPwdThenOpen('https://magziko.github.io/Pos/'); },
+    // 🍽️ Menu
+    KeyM: function() { checkPwdThenOpen('https://magzikopops-ui.github.io/menu/'); },
+    // 📖 المصحف الشريف (نفس زر القائمة ⋮)
+    KeyQ: function() {
+      if (typeof window.openEquran === 'function') window.openEquran();
+      else { var b = document.getElementById('equranMenuBtn'); if (b) b.click(); }
+    }
+  };
+  document.addEventListener('keydown', function(e) {
+    if (!(e.altKey && e.shiftKey) || e.ctrlKey || e.metaKey || e.repeat) return;
+    var a = document.activeElement;
+    if (a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.isContentEditable)) return;
+    var fn = actions[e.code];   // e.code = مكان الزر الفعلي، فيشتغل مع الكيبورد العربي كمان
+    if (!fn) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();   // عشان اختصارات الموقع القديمة (D/M/Q/G/P...) ما تشتغلش معاه
+    fn();
+  });
+})();
+
 /* old single-modal JS removed — now handled by SiteModalManager */
 
 window.addEventListener("load", function() {
@@ -32860,6 +32908,22 @@ document.addEventListener('keydown', function(e) {
       zh: '切换视频主题',
       ur: 'ویڈیو تھیمز کے درمیان تبدیلی'
     },
+    sec_quick: {
+      ar: '🚀 وصول سريع (أيقونات ومصحف)',
+      en: '🚀 Quick Access (Icons & Mushaf)'
+    },
+    r_kb_docs: {
+      ar: '📜 المستند',
+      en: '📜 Document'
+    },
+    r_kb_pos: {
+      ar: '🧾 POS',
+      en: '🧾 POS'
+    },
+    r_kb_mushaf: {
+      ar: '📖 المصحف الشريف',
+      en: '📖 Quran (Mushaf)'
+    },
     sec6: {
       ar: 'تلميحات إضافية',
       en: 'Additional Tips',
@@ -33254,7 +33318,7 @@ document.addEventListener('keydown', function(e) {
     var hasAction = !!actionMap[id];
     var actionAttr = hasAction ? ' data-action="' + id + '" role="button" tabindex="0" onclick="window._kbFireAction(\'' + id + '\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'' + id + '\')"' : '';
     var tapHint = hasAction ? '<span class="kb-row-tap-hint">' + (KB_TAP_HINT[lang] || KB_TAP_HINT.en) + '</span>' : '';
-    return '<div class="kb-row"' + actionAttr + '><span class="kb-row-desc">' + T[id][lang] + tapHint + '</span><div class="kb-keys">' + kbKey(keys) + '</div></div>';
+    return '<div class="kb-row"' + actionAttr + '><span class="kb-row-desc">' + (T[id][lang] || T[id].en) + tapHint + '</span><div class="kb-keys">' + kbKey(keys) + '</div></div>';
   }
 
   function buildModal(lang) {
@@ -33377,6 +33441,17 @@ document.addEventListener('keydown', function(e) {
       kbRow('r_theme_solid', ['G'], lang),
       kbRow('r_theme_image', ['X'], lang),
       kbRow('r_theme_video', ['V'], lang),
+      '</div>',
+      '</div>',
+
+      '<div class="kb-divider"></div>',
+
+      '<div>',
+      '<p class="kb-section-title">' + (T.sec_quick[lang] || T.sec_quick.en) + '</p>',
+      '<div class="kb-rows">',
+      kbRow('r_kb_docs', ['Alt', 'Shift', 'D'], lang),
+      kbRow('r_kb_pos', ['Alt', 'Shift', 'P'], lang),
+      kbRow('r_kb_mushaf', ['Alt', 'Shift', 'Q'], lang),
       '</div>',
       '</div>',
 
@@ -37244,6 +37319,91 @@ document.addEventListener('DOMContentLoaded', function() {
       reply_en: 'Goodbye! 🌿 May Allah protect you. See you soon, insha\'Allah.'
     },
 
+    // ===== أسئلة عن الأدوات والاختصارات الجديدة (ar/en) — تأتي قبل الردود العامة لأن أول تطابق يكسب =====
+    {
+      keys: ['الإحصائيات', 'إحصائيات', 'احصائيات', 'إحصاءات', 'احصاءات'],
+      reply: '📈 إحصائيات الاستماع:\n\nتعرض لك:\n• وقت استماعك اليوم وهذا الأسبوع والإجمالي\n• عدد الأيام المتتالية التي استمعت فيها\n• مخطط نشاطك خلال الأيام\n• 🎙️ أكثر المحطات تشغيلاً\n\nوفيها زر لإعادة تعيين الإحصائيات إن أردت البدء من جديد.\n\n📍 للفتح: أيقونة 📈 في الفوتر أو من القائمة ⋮، أو اضغط I من الكيبورد 🌿',
+      keys_en: ['listening stats', 'my stats', 'statistics', 'listening statistics'],
+      reply_en: '📈 Listening Stats:\n\nIt shows:\n• Your listening time today, this week and in total\n• Your streak of consecutive listening days\n• An activity chart over the days\n• 🎙️ Your most played stations\n\nThere is also a button to reset the stats if you want a fresh start.\n\n📍 To open: the 📈 icon in the footer or the ⋮ menu, or press I on your keyboard 🌿'
+    },
+
+    {
+      keys: ['القبلة', 'قبلة', 'بوصلة'],
+      reply: '🧭 اتجاه القبلة:\n\nتفتح نافذة "اتجاه القبلة" لمعرفة اتجاه الكعبة المشرفة من مكانك. قد يطلب المتصفح إذن تحديد الموقع، وتعمل البوصلة الحية على الأجهزة التي تدعم حساس الاتجاه (غالباً الموبايل).\n\n📍 للفتح: أيقونة 🧭 في الفوتر أو من القائمة ⋮، أو اضغط Q من الكيبورد 🌿',
+      keys_en: ['qibla', 'kibla', 'compass'],
+      reply_en: '🧭 Qibla Direction:\n\nIt opens a "Qibla Direction" window showing the direction of the Kaaba from where you are. Your browser may ask for location permission, and the live compass works on devices with a direction sensor (usually phones).\n\n📍 To open: the 🧭 icon in the footer or the ⋮ menu, or press Q on your keyboard 🌿'
+    },
+
+    {
+      keys: ['الزكاة', 'زكاة', 'نصاب'],
+      reply: '🧮 حاسبة الزكاة:\n\n• أدخل: النقد والمدخرات، الذهب (الوزن والعيار)، الفضة، عروض التجارة والاستثمارات، والديون (التي لك والتي عليك)\n• تعرض أسعار الذهب والفضة بالعملة التي تختارها، وتحدّثها بزر "تحديث الأسعار" وتحفظ سجل أسعار\n• اختر أساس النصاب: الفضة (الأحوط) أو الذهب\n• تخبرك هل بلغ مالك النصاب (بشرط مرور حول كامل) وتحسب لك الزكاة\n\n📍 للفتح: أيقونة 🧮 أو القائمة ⋮، أو اضغط Z من الكيبورد\n\n⚠️ للأحكام الخاصة بحالتك استشر أهل العلم 🌿',
+      keys_en: ['zakat', 'nisab'],
+      reply_en: '🧮 Zakat Calculator:\n\n• Enter: cash and savings, gold (weight and karat), silver, trade goods and investments, and debts (owed to you and by you)\n• It shows gold and silver prices in the currency you choose, refreshes them with the "Update prices" button and keeps a price history\n• Choose the nisab basis: silver (the safer view) or gold\n• It tells you whether your wealth reached the nisab (provided a full lunar year has passed) and calculates the zakat\n\n📍 To open: the 🧮 icon or the ⋮ menu, or press Z on your keyboard\n\n⚠️ For rulings specific to your situation, consult a scholar 🌿'
+    },
+
+    {
+      keys: ['الختمة', 'ختمة', 'ختمت', 'ختم القرآن', 'ختم القران'],
+      reply: '📗 متابعة الختمة:\n\n• سجّل قراءتك اليومية بضغطة (مع زر تراجع)\n• يعرض تقدمك والسورة التالية، وعدد الأيام المتتالية وأفضل متتالية\n• حدّد موعداً اختيارياً لإنهاء الختمة فيحسب لك المعدل اليومي المطلوب وهل أنت في الموعد\n• تبويب إحصائيات: الختمات المكتملة، الأيام النشطة، متوسط القراءة يومياً، وإنجازاتك\n• زر لمتابعة القراءة في المصحف، وزر لمشاركة تقدمك، وبدء ختمة جديدة بعد الإكمال\n\n📍 للفتح: أيقونة 📗 أو القائمة ⋮، أو اضغط C من الكيبورد\n\n⚠️ تغيير وحدة العدّ يصفّر تقدمك في الختمة الحالية 🌿',
+      keys_en: ['khatma', 'khatam', 'finish the quran', 'quran completion'],
+      reply_en: '📗 Khatma Tracker:\n\n• Log your daily reading with one tap (with an undo button)\n• It shows your progress, the next surah, your streak and best streak\n• Set an optional target date and it calculates the daily pace you need and whether you are on track\n• A stats tab: completed khatmas, active days, daily average and your achievements\n• Buttons to continue reading in the Mushaf, share your progress, and start a new khatma once finished\n\n📍 To open: the 📗 icon or the ⋮ menu, or press C on your keyboard\n\n⚠️ Changing the counting unit resets your progress in the current khatma 🌿'
+    },
+
+    {
+      keys: ['ملاحظاتي', 'ملاحظات', 'ملاحظة'],
+      reply: '📝 ملاحظاتي:\n\n• اكتب ملاحظاتك واحفظها، وابحث فيها وعدّلها أو احذفها\n• يمكنك ربط الملاحظة بالمحطة التي تستمع إليها\n• سجّل ملاحظة صوتية، أو حوّل كلامك إلى نص بالطريقة التي تناسبك (مباشر / ذكي / جملة بجملة / عند الإيقاف)\n• نسخة احتياطية واستيراد لملاحظاتك\n• تُحفظ في متصفحك على جهازك\n\n📍 للفتح: أيقونة 📝 أو القائمة ⋮، أو اضغط J من الكيبورد 🌿',
+      keys_en: ['my notes', 'notes', 'voice note', 'write a note', 'take a note'],
+      reply_en: '📝 My Notes:\n\n• Write and save notes, search them, edit or delete them\n• You can attach a note to the station you are listening to\n• Record a voice note, or turn your speech into text with the method that suits you (Live / Smart / Phrase by phrase / On stop)\n• Backup and import for your notes\n• They are stored in your browser on your device\n\n📍 To open: the 📝 icon or the ⋮ menu, or press J on your keyboard 🌿'
+    },
+
+    {
+      keys: ['الثيمات', 'ثيمات', 'تبديل الثيم', 'تغيير الثيم', 'ثيم الفيديو', 'ثيم الصور'],
+      reply: '🎨 التنقل بين الثيمات بالكيبورد:\n\n• G — التنقل بين الثيمات السادة (الألوان)\n• X — التنقل بين ثيمات الصور\n• V — التنقل بين ثيمات الفيديو\n• أضف Shift (مثل Shift+G) للرجوع للثيم السابق\n\nوتجد خيارات الألوان أيضاً في ⚙️ الإعدادات > لون الخلفية. والوضع الليلي/النهاري بزر D 🌿',
+      keys_en: ['cycle themes', 'change theme with keyboard', 'theme shortcut', 'solid themes', 'photo themes', 'video themes'],
+      reply_en: '🎨 Cycling Themes with the Keyboard:\n\n• G — cycle solid (color) themes\n• X — cycle photo themes\n• V — cycle video themes\n• Add Shift (e.g. Shift+G) to go back to the previous theme\n\nColor options are also in ⚙️ Settings > Background Color. Dark/Light mode is on the D key 🌿'
+    },
+
+    {
+      keys: ['البحث الصوتي', 'بحث صوتي', 'حجم الخط', 'تكبير الخط', 'تصغير الخط', 'تكبير الكتابة'],
+      reply: '🔎 البحث الصوتي وحجم الخط:\n\n• Y — بحث صوتي (تتكلم بدل الكتابة)\n• S — فتح البحث مباشرةً\n• ] — تكبير حجم الخط\n• [ — تصغير حجم الخط\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿',
+      keys_en: ['voice search', 'search by voice', 'font size', 'increase font', 'decrease font', 'bigger text'],
+      reply_en: '🔎 Voice Search & Font Size:\n\n• Y — voice search (speak instead of typing)\n• S — open search directly\n• ] — increase font size\n• [ — decrease font size\n\n💡 Press ? to see all shortcuts 🌿'
+    },
+
+    {
+      keys: ['تسجيل مقطع', 'تسجيل المقطع', 'تكرار مقطع مسجل', 'مقطع مسجل'],
+      reply: '🔁 تسجيل مقطع وتكراره:\n\n• Alt+R — ابدأ تسجيل مقطع جديد للتكرار (اضغطها مرة ثانية للإيقاف)\n• Alt+P — تشغيل / إيقاف تكرار المقطع المسجل\n• R — تبديل تكرار المقطع الحالي\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿',
+      keys_en: ['record a clip', 'record clip', 'loop clip', 'clip loop', 'recorded clip'],
+      reply_en: '🔁 Record & Loop a Clip:\n\n• Alt+R — start recording a new loop clip (press again to stop)\n• Alt+P — start / stop looping the recorded clip\n• R — toggle repeat of the current segment\n\n💡 Press ? to see all shortcuts 🌿'
+    },
+
+    {
+      keys: ['شاشة الترحيب', 'صفحة الترحيب'],
+      reply: '👋 شاشة الترحيب:\n\n• Shift+W — فتح شاشة الترحيب\n• Esc — إغلاقها\n• أو اضغط ثلاث مرات على مساحة فارغة لفتحها\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿',
+      keys_en: ['welcome screen', 'welcome page'],
+      reply_en: '👋 Welcome Screen:\n\n• Shift+W — open the welcome screen\n• Esc — close it\n• Or tap three times on an empty area to open it\n\n💡 Press ? to see all shortcuts 🌿'
+    },
+
+    {
+      keys: ['وصول سريع', 'الوصول السريع'],
+      reply: '🚀 وصول سريع (أيقونات ومصحف):\n\n• Alt+Shift+D — 📜 المستند\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 المصحف الشريف\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿',
+      keys_en: ['quick access'],
+      reply_en: '🚀 Quick Access (Icons & Mushaf):\n\n• Alt+Shift+D — 📜 Document\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 Quran (Mushaf)\n\n💡 Press ? to see all shortcuts 🌿'
+    },
+
+    {
+      keys: ['القائمة ⋮', 'قائمة ⋮', 'النقاط الثلاث', 'الثلاث نقاط', '⋮'],
+      reply: '⋮ القائمة (الثلاث نقاط):\n\nتجد فيها وصولاً سريعاً إلى:\n• 📈 إحصائيات الاستماع\n• 🧭 اتجاه القبلة\n• 🕌 مواقيت الصلاة\n• 🧮 حاسبة الزكاة\n• 📗 متابعة الختمة\n• 📝 ملاحظاتي\n• 📖 المصحف الشريف\n• 📿 المسبحة\n\nومعها اللغة، والمساعدة والاختصارات، وإعادة التحميل، وخيار الأذان التلقائي 🌿',
+      keys_en: ['three dots', 'more menu', 'the ⋮ menu', 'kebab menu'],
+      reply_en: '⋮ The Menu (three dots):\n\nIt gives quick access to:\n• 📈 Listening stats\n• 🧭 Qibla direction\n• 🕌 Prayer times\n• 🧮 Zakat calculator\n• 📗 Khatma tracker\n• 📝 My notes\n• 📖 The Holy Quran (Mushaf)\n• 📿 Tasbih\n\nPlus language, help & shortcuts, reload, and the Auto Adhan option 🌿'
+    },
+
+    {
+      keys: ['تثبيت التطبيق', 'تثبيت المصحف', 'تطبيق المصحف', 'تحميل التطبيق للجوال'],
+      reply: '⬇️ تثبيت تطبيق المصحف (eQuran):\n\nمن ⚙️ الإعدادات اضغط "⬇️ تثبيت تطبيق المصحف". سيُفتح التطبيق في تبويب جديد وفيه زر التثبيت على جهازك 🌿',
+      keys_en: ['install the app', 'install equran', 'equran app', 'install mushaf app'],
+      reply_en: '⬇️ Install the eQuran (Mushaf) App:\n\nFrom ⚙️ Settings tap "⬇️ Install eQuran app". It opens in a new tab with an install button for your device 🌿'
+    },
+
     // أسئلة عن الموقع / Site questions
     {
       keys: ['القراء', 'قائمة القراء', 'فين القراء', 'اين القراء', 'أين القراء'],
@@ -37353,9 +37513,9 @@ document.addEventListener('DOMContentLoaded', function() {
       reply_en: 'Adhkar Reminder 🔔:\n\nThe site reminds you of morning and evening adhkar automatically!\n\nHow to set it up:\n1. Open "⚙️ Settings"\n2. Enable "Morning & Evening Adhkar Reminder"\n3. Set your preferred morning and evening times\n4. You\'ll receive notifications at those times 🌅\n\nMake sure to allow the site to send notifications 🌿'
     }, {
       keys: ['المصحف', 'الصحف', 'مصحف المدينة', 'افتح المصحف', 'mushaf'],
-      reply: 'المصحف الشريف 📖:\n\n• يوجد زر "افتح المصحف / Open Mushaf" ثابت في أسفل الشاشة\n• اضغط عليه لفتح مصحف المدينة المنورة كاملاً في وضع ملء الشاشة\n• اضغط ✕ لإغلاقه أو اضغط Escape من لوحة المفاتيح\n• يمكنك فتحه في تبويب جديد للتصفح المريح\n\n⌨️ اختصار الكيبورد: اضغط L لفتح المصحف مباشرةً\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿',
+      reply: 'المصحف الشريف 📖:\n\n• تجده في القائمة ⋮ باسم "المصحف الشريف"\n• يفتح مصحف المدينة المنورة كاملاً في وضع ملء الشاشة\n• اضغط ✕ لإغلاقه أو اضغط Escape من لوحة المفاتيح\n• يمكنك فتحه في تبويب جديد للتصفح المريح\n\n⌨️ اختصارات الكيبورد: اضغط L أو Alt+Shift+Q لفتح المصحف مباشرةً\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿',
       keys_en: ['mushaf', 'quran book', 'open mushaf', 'madina mushaf', 'quran pages'],
-      reply_en: 'The Holy Mushaf 📖:\n\n• There is a fixed "Open Mushaf" button at the bottom of the screen\n• Tap it to open the full Madinah Mushaf in fullscreen mode\n• Press ✕ or Escape to close it\n• You can open it in a new tab for comfortable reading\n\n⌨️ Keyboard shortcut: Press L to open the Mushaf directly\n\n💡 Press ? to see all shortcuts 🌿'
+      reply_en: 'The Holy Mushaf 📖:\n\n• You will find it in the ⋮ menu as "Quran (Mushaf)"\n• It opens the full Madinah Mushaf in fullscreen mode\n• Press ✕ or Escape to close it\n• You can open it in a new tab for comfortable reading\n\n⌨️ Keyboard shortcuts: press L or Alt+Shift+Q to open the Mushaf directly\n\n💡 Press ? to see all shortcuts 🌿'
     }, {
       keys: ['البحث', 'بحث عن محطة', 'كيف أبحث', 'كيف ابحث', 'تصفية المحطات'],
       reply: 'البحث في المحطات 🔍:\n\nيوجد حقل بحث في أعلى قائمة المحطات.\nاكتب اسم المحطة أو القارئ وستظهر لك النتائج فوراً دون الحاجة للتمرير 🌿',
@@ -37376,14 +37536,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // اختصارات لوحة المفاتيح / Keyboard shortcuts
     {
       keys: ['اختصارات لوحة المفاتيح', 'اختصارات الكيبورد', 'اختصارات', 'كيبورد', 'keyboard shortcuts', 'مفاتيح الاختصار', 'ما هي الاختصارات', 'الاختصارات المتاحة'],
-      reply: '⌨️ اختصارات لوحة المفاتيح:\n\n▶️ التشغيل والتحكم:\n• Space — تشغيل / إيقاف\n• P — تشغيل / إيقاف المحطة الرئيسية\n• K — تشغيل / إيقاف المحطة الفورية\n• M — كتم / رفع الصوت\n• + / - — رفع أو خفض مستوى الصوت\n\n⏭️ التنقل بين المحطات:\n• ← السهم الأيسر — المحطة السابقة\n• → السهم الأيمن — المحطة التالية\n• N — المقطع التالي داخل نفس المحطة\n• B — المقطع السابق\n• R — تبديل تكرار المقطع الحالي (اضغط مرة تانية لإلغائه والعودة للتنقل)\n• O — تبديل ترتيب الروابط للمحطات متعددة الروابط: بالترتيب ⇄ ديناميكي (عشوائي)\n\n🔢 اختصارات سريعة للقراء (0–9):\n• 1 = الحصري | 2 = عبدالباسط | 3 = البنا\n• 4 = علي جابر | 5 = المنشاوي | 6 = القطامي\n• 7 = عبادة | 8 = إسلام صبحي | 9 = الصلاة على النبي ﷺ | 0 = آيات\n\n🖥️ الواجهة والتنقل:\n• ? — فتح/إغلاق نافذة الاختصارات\n• S — فتح البحث مباشرةً\n• Shift+3 (#) — فتح/إغلاق الإعدادات\n• F — عرض/إخفاء المفضلة\n• Shift+F — محطة عشوائية من المفضلة\n• D — تبديل الوضع الليلي/النهاري\n• J — فتح ملاحظاتي\n• G — فتح المصحف الشريف\n• T — الانتقال لعداد التسبيح\n• E — تحويل للإنجليزية | A — تحويل للعربية\n• Esc — إغلاق الشاشة الحالية\n\n📿 عداد التسبيح:\n• . (نقطة) — إضافة تسبيحة\n\n💡 اضغط ? في أي وقت لفتح نافذة الاختصارات الكاملة 🌿',
+      reply: '⌨️ اختصارات لوحة المفاتيح:\n\n▶️ التشغيل والتحكم:\n• Space — تشغيل / إيقاف\n• P — تشغيل / إيقاف المحطة الرئيسية\n• K — تشغيل / إيقاف المحطة الفورية\n• M — كتم / رفع الصوت\n• + / - — رفع أو خفض مستوى الصوت\n• Shift+P — إعادة تشغيل المحطة الحالية\n\n⏭️ التنقل بين المحطات:\n• ← السهم الأيسر — المحطة السابقة\n• → السهم الأيمن — المحطة التالية\n• N — المقطع التالي داخل نفس المحطة\n• B — المقطع السابق\n• R — تبديل تكرار المقطع الحالي (اضغط مرة تانية لإلغائه والعودة للتنقل)\n• Alt+R — تسجيل مقطع جديد للتكرار (اضغطها مرة ثانية للإيقاف)\n• Alt+P — تشغيل / إيقاف تكرار المقطع المسجل\n• O — تبديل ترتيب الروابط للمحطات متعددة الروابط: بالترتيب ⇄ ديناميكي (عشوائي)\n\n🔢 اختصارات سريعة للقراء (0–9):\n• 1 = الحصري | 2 = عبدالباسط | 3 = البنا\n• 4 = علي جابر | 5 = المنشاوي | 6 = القطامي\n• 7 = عبادة | 8 = إسلام صبحي | 9 = الصلاة على النبي ﷺ | 0 = آيات\n\n🖥️ الواجهة والتنقل:\n• ? — فتح/إغلاق نافذة الاختصارات\n• Esc — إغلاق الشاشة الحالية\n• Shift+W — فتح شاشة الترحيب\n• Shift+3 (#) — فتح/إغلاق الإعدادات\n• S — فتح البحث مباشرةً | Y — بحث صوتي\n• ] — تكبير الخط | [ — تصغير الخط\n• E — تحويل للإنجليزية | A — تحويل للعربية\n• D — تبديل الوضع الليلي/النهاري\n• F — عرض/إخفاء المفضلة | Shift+F — محطة عشوائية من المفضلة\n• L — فتح المصحف الشريف\n• H — الانتقال للمسبحة\n• U — الانتقال لعلوم القرآن\n• W — الانتقال لمواقيت الصلاة\n\n🧰 أدوات الفوتر:\n• I — إحصائيات الاستماع\n• Q — اتجاه القبلة\n• T — نافذة مواقيت الصلاة\n• Z — حاسبة الزكاة\n• C — متابعة الختمة\n• J — ملاحظاتي\n• G / X / V — التنقل بين ثيمات الألوان / الصور / الفيديو (مع Shift للرجوع)\n\n🚀 وصول سريع (أيقونات ومصحف):\n• Alt+Shift+D — 📜 المستند\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 المصحف الشريف\n\n📿 عداد التسبيح:\n• . (نقطة) — إضافة تسبيحة\n\n💡 اضغط ? في أي وقت لفتح نافذة الاختصارات الكاملة 🌿',
       keys_en: ['keyboard shortcuts', 'shortcuts', 'keyboard', 'hotkeys', 'what are the shortcuts'],
-      reply_en: '⌨️ Keyboard Shortcuts:\n\n▶️ Playback Controls:\n• Space — play / pause\n• P — play / pause main station\n• K — play / pause instant station\n• M — mute / unmute\n• + / - — raise or lower volume\n\n⏭️ Station Navigation:\n• ← left arrow — previous station\n• → right arrow — next station\n• N — next track within same station\n• B — previous track\n• R — toggle repeat for current track (press again to cancel and resume navigation)\n• O — toggle link order for multi-link stations: sequential ⇄ dynamic (random)\n\n🔢 Quick Reciter Shortcuts (0–9):\n• 1 = Hussary | 2 = Abdul Basit | 3 = Al-Banna\n• 4 = Ali Jaber | 5 = Minshawi | 6 = Al-Qatami\n• 7 = Ibadah | 8 = Islam Sobhi | 9 = Salawat | 0 = Ayat\n\n🖥️ Interface & Navigation:\n• ? — open/close shortcuts window\n• S — open search directly\n• Shift+3 (#) — open/close Settings panel\n• F — show/hide favorites\n• Shift+F — random station from favorites\n• D — toggle dark/light mode\n• J — open My Notes\n• G — open the Holy Mushaf\n• T — go to tasbih counter\n• E — switch to English | A — switch to Arabic\n• Esc — close current screen\n\n📿 Tasbih Counter:\n• . (period) — add a tasbih\n\n💡 Press ? anytime for the full shortcuts window 🌿'
+      reply_en: '⌨️ Keyboard Shortcuts:\n\n▶️ Playback Controls:\n• Space — play / pause\n• P — play / pause main station\n• K — play / pause instant station\n• M — mute / unmute\n• + / - — raise or lower volume\n• Shift+P — restart the current stream\n\n⏭️ Station Navigation:\n• ← left arrow — previous station\n• → right arrow — next station\n• N — next track within same station\n• B — previous track\n• R — toggle repeat for current track (press again to cancel and resume navigation)\n• Alt+R — record a new loop clip (press again to stop)\n• Alt+P — start / stop the recorded clip loop\n• O — toggle link order for multi-link stations: sequential ⇄ dynamic (random)\n\n🔢 Quick Reciter Shortcuts (0–9):\n• 1 = Hussary | 2 = Abdul Basit | 3 = Al-Banna\n• 4 = Ali Jaber | 5 = Minshawi | 6 = Al-Qatami\n• 7 = Ibadah | 8 = Islam Sobhi | 9 = Salawat | 0 = Ayat\n\n🖥️ Interface & Navigation:\n• ? — open/close shortcuts window\n• Esc — close current screen\n• Shift+W — open the welcome screen\n• Shift+3 (#) — open/close Settings panel\n• S — open search directly | Y — voice search\n• ] — bigger font | [ — smaller font\n• E — switch to English | A — switch to Arabic\n• D — toggle dark/light mode\n• F — show/hide favorites | Shift+F — random station from favorites\n• L — open the Holy Mushaf\n• H — go to the tasbih counter\n• U — go to Quran Sciences\n• W — go to Prayer Times\n\n🧰 Footer Tools:\n• I — listening stats\n• Q — Qibla direction\n• T — Prayer Times popup\n• Z — Zakat calculator\n• C — Khatma tracker\n• J — My Notes\n• G / X / V — cycle solid / photo / video themes (add Shift to go back)\n\n🚀 Quick Access (Icons & Mushaf):\n• Alt+Shift+D — 📜 Document\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 Quran (Mushaf)\n\n📿 Tasbih Counter:\n• . (period) — add a tasbih\n\n💡 Press ? anytime for the full shortcuts window 🌿'
     }, {
       keys: ['زر الاختصارات', 'نافذة الاختصارات', 'فتح الاختصارات', 'أين الاختصارات', 'شرح نافذة الاختصارات'],
-      reply: '⌨️ نافذة الاختصارات الكاملة:\n\nالموقع يحتوي على نافذة متكاملة لجميع الاختصارات!\n\nطرق فتحها:\n• اضغط زر ❓ في شاشة الترحيب\n• أو اضغط "الاختصارات" من داخل ⚙️ الإعدادات\n• أو اضغط مفتاح ? مباشرةً من لوحة المفاتيح\n\nتحتوي النافذة على:\n✅ اختصارات التشغيل والتحكم بالصوت\n✅ اختصارات التنقل بين المحطات\n✅ اختصارات سريعة للقراء (0–9)\n✅ اختصارات الواجهة والتنقل\n✅ اختصارات عداد التسبيح\n✅ إيماءات الموبايل (السحب والضغط المطوّل)\n✅ تلميحات وحيل مخفية\n\n🌐 النافذة ثنائية اللغة عربي/إنجليزي 🌿',
+      reply: '⌨️ نافذة الاختصارات الكاملة:\n\nالموقع يحتوي على نافذة متكاملة لجميع الاختصارات!\n\nطرق فتحها:\n• اضغط زر ❓ في شاشة الترحيب\n• أو اضغط "الاختصارات" من داخل ⚙️ الإعدادات\n• أو اضغط مفتاح ? مباشرةً من لوحة المفاتيح\n\nتحتوي النافذة على:\n✅ اختصارات التشغيل والتحكم بالصوت\n✅ اختصارات التنقل بين المحطات\n✅ اختصارات سريعة للقراء (0–9)\n✅ اختصارات الواجهة والتنقل\n✅ أدوات الفوتر (إحصائيات، قبلة، زكاة، ختمة، ملاحظات، ثيمات)\n✅ وصول سريع (أيقونات ومصحف)\n✅ اختصارات عداد التسبيح\n✅ إيماءات الموبايل (السحب والضغط المطوّل)\n✅ تلميحات وحيل مخفية\n\n🌐 النافذة ثنائية اللغة عربي/إنجليزي 🌿',
       keys_en: ['shortcuts window', 'shortcuts panel', 'where are shortcuts', 'open shortcuts'],
-      reply_en: '⌨️ Full Shortcuts Window:\n\nThe site has a complete shortcuts window!\n\nHow to open it:\n• Press the ❓ button on the welcome screen\n• Or go to ⚙️ Settings > Shortcuts\n• Or press the ? key directly on your keyboard\n\nThe window includes:\n✅ Playback and volume shortcuts\n✅ Station navigation shortcuts\n✅ Quick reciter shortcuts (0–9)\n✅ Interface and navigation shortcuts\n✅ Tasbih counter shortcuts\n✅ Mobile gestures (swipe and long press)\n✅ Tips and hidden tricks\n\n🌐 The window is bilingual Arabic/English 🌿'
+      reply_en: '⌨️ Full Shortcuts Window:\n\nThe site has a complete shortcuts window!\n\nHow to open it:\n• Press the ❓ button on the welcome screen\n• Or go to ⚙️ Settings > Shortcuts\n• Or press the ? key directly on your keyboard\n\nThe window includes:\n✅ Playback and volume shortcuts\n✅ Station navigation shortcuts\n✅ Quick reciter shortcuts (0–9)\n✅ Interface and navigation shortcuts\n✅ Footer tools (stats, Qibla, zakat, khatma, notes, themes)\n✅ Quick access (icons & Mushaf)\n✅ Tasbih counter shortcuts\n✅ Mobile gestures (swipe and long press)\n✅ Tips and hidden tricks\n\n🌐 The window is bilingual Arabic/English 🌿'
     }, {
       keys: ['إيماءات الموبايل', 'ايماءات الجوال', 'gestures', 'سحب', 'swipe', 'ضغط مطول', 'long press'],
       reply: '📱 إيماءات الموبايل:\n\n• 👈 سحب لليسار → المحطة التالية\n• 👉 سحب لليمين → المحطة السابقة\n• 👇 ضغط مطوّل على محطة → تكرار تلقائي للمقطع\n• ×3 ثلاث نقرات على مساحة فارغة → شاشة الترحيب\n\n💡 Ctrl + Click على أي محطة يفتح بثها في تبويب جديد مباشرةً 🌿',
@@ -37406,9 +37566,9 @@ document.addEventListener('DOMContentLoaded', function() {
       reply_en: 'Mute 🔇:\n\n• Press M on your keyboard to mute / unmute\n• Or press + and - to control volume step by step 🌿'
     }, {
       keys: ['مواقيت الصلاة', 'أوقات الصلاة', 'وقت الصلاة', 'prayer times'],
-      reply: 'مواقيت الصلاة 🕌:\n\nالموقع يحتوي على قسم مواقيت الصلاة!\n• اضغط W من الكيبورد للانتقال إليه مباشرةً\n• أو ابحث عنه في قائمة أقسام الموقع 🌿',
+      reply: 'مواقيت الصلاة 🕌:\n\nالموقع يحتوي على قسم مواقيت الصلاة ونافذة منبثقة لها!\n• اضغط W للانتقال إلى القسم مباشرةً\n• اضغط T لفتح نافذة مواقيت الصلاة\n• أو افتحها من القائمة ⋮ 🌿',
       keys_en: ['prayer times', 'salah times', 'namaz times', 'prayer schedule'],
-      reply_en: 'Prayer Times 🕌:\n\nThe site has a Prayer Times section!\n• Press W on your keyboard to go there directly\n• Or find it in the site sections menu 🌿'
+      reply_en: 'Prayer Times 🕌:\n\nThe site has a Prayer Times section and a popup for it!\n• Press W to go to the section directly\n• Press T to open the Prayer Times popup\n• Or open it from the ⋮ menu 🌿'
     }, {
       keys: ['علوم القرآن', 'تفسير', 'تفسير القرآن', 'علوم', 'quran sciences'],
       reply: 'علوم القرآن 📚:\n\nيمكنك الانتقال لقسم علوم القرآن مباشرةً:\n• اضغط U من لوحة المفاتيح\n• أو ابحث عنه في قائمة أقسام الموقع 🌿',
@@ -37465,7 +37625,9 @@ document.addEventListener('DOMContentLoaded', function() {
       // Also always search Arabic keys (user might type Arabic even in EN mode)
       var allKeys = isEn ? (item.keys_en || []).concat(item.keys) : item.keys.concat(item.keys_en || []);
       for (var j = 0; j < allKeys.length; j++) {
-        if (t.indexOf(allKeys[j].toLowerCase()) !== -1) {
+        var _k = allKeys[j].toLowerCase();
+        var _hit = (_k.length <= 3 && /^[a-z]+$/.test(_k)) ? new RegExp('(^|[^a-z])' + _k + '($|[^a-z])').test(t) : (t.indexOf(_k) !== -1);
+        if (_hit) {
           // Return the reply in the current language
           if (isEn && item.reply_en) return item.reply_en;
           return item.reply;
