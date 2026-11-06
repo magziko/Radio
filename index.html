@@ -2263,59 +2263,108 @@ function fadeElement(el, newHTML, callback) {
   }, 500);
 }
 
-function autoScaleVerseFont() {
-  const isMobile = window.innerWidth <= 767;
-  const isTablet = window.innerWidth >= 768 && window.innerWidth <= 991;
-  if (!isMobile && !isTablet) return;
+// ══════════════════════════════════════════════════════════════════════
+// ضبط حجم خط الآية تلقائيًا ليناسب صندوق الآية (على كل الشاشات)
+//  - صندوق الآية ثابت المساحة (مش بيتأثر بطول الآية) → الآية الطويلة بتصغّر خطها
+//    والقصيرة بتكبّر خطها (لحد حد أقصى) بدل ما تتقصّ أو تسيب فراغ.
+//  - الحجم بيتحدد مرة لكل آية بناءً على أطول ترجماتها، فالخط ما بيتغيّرش
+//    كل ما الترجمة تتبدّل (كل 12 ثانية) والآية + أى ترجمة بتتسع دايمًا.
+// ══════════════════════════════════════════════════════════════════════
+var _verseFitWorst = null;  // HTML لأطول ترجمات الآية الحالية (null = قياس المحتوى الظاهر كما هو)
+var _verseFitKey = -1;      // رقم الآية اللى اتحسب لها _verseFitWorst
 
+function _vfBase() {
+  var w = window.innerWidth;
+  if (w <= 767) return { ar: 13.5, tr: 11.5, lhAr: 1.85, lhTr: 1.55, arMin: 11,   trMin: 9.5  };
+  if (w <= 991) return { ar: 14.5, tr: 12.5, lhAr: 1.9,  lhTr: 1.6,  arMin: 11.5, trMin: 10   };
+  return            { ar: 16,   tr: 13.5, lhAr: 2,    lhTr: 1.75, arMin: 12,   trMin: 10.5 };
+}
+
+function _vfApply(arabicEl, transEl, b, s) {
+  var lhAr = b.lhAr * (s < 1 ? (0.9 + 0.1 * s) : 1);
+  arabicEl.style.setProperty('font-size', (b.ar * s).toFixed(2) + 'px', 'important');
+  arabicEl.style.setProperty('line-height', lhAr.toFixed(3), 'important');
+  if (transEl) {
+    transEl.style.setProperty('font-size', (b.tr * s).toFixed(2) + 'px', 'important');
+    transEl.style.setProperty('line-height', String(b.lhTr), 'important');
+  }
+}
+
+function _vfContentHeight(box) {
+  var h = 0;
+  for (var i = 0; i < box.children.length; i++) {
+    var c = box.children[i];
+    var cs = getComputedStyle(c);
+    if (cs.display === 'none') continue;
+    h += c.offsetHeight + (parseFloat(cs.marginTop) || 0) + (parseFloat(cs.marginBottom) || 0);
+  }
+  return h;
+}
+
+function autoScaleVerseFont() {
   const arabicEl = document.getElementById('arabicVerse');
   const transEl = document.getElementById('englishVerse');
   const box = document.getElementById('quranVerse');
   if (!arabicEl || !box) return;
+  if (!box.clientHeight) return;   // الشاشة الترحيبية مخفية حاليًا — هيتعاد الضبط أول ما تظهر
 
-  const arabicLen = (arabicEl.innerText || arabicEl.textContent || '').length;
+  const b = _vfBase();
+  const bcs = getComputedStyle(box);
+  // مساحة النص = ارتفاع الصندوق − الحشو − مكان الخطين الزخرفيين فوق وتحت
+  const avail = box.clientHeight - (parseFloat(bcs.paddingTop) || 0) - (parseFloat(bcs.paddingBottom) || 0) - 34;
+  if (avail < 60) return;
 
-  let arSize, trSize, lhAr;
+  const saved = transEl ? transEl.innerHTML : '';
+  const variants = (_verseFitWorst && _verseFitWorst.length && transEl) ? _verseFitWorst : [null];
 
-  if (isMobile) {
-
-    if (arabicLen <= 120) {
-      arSize = 15;
-      trSize = 12.5;
-      lhAr = 1.95;
-
-    } else if (arabicLen <= 220) {
-      arSize = 13.5;
-      trSize = 11.5;
-      lhAr = 1.85;
-
-    } else {
-      arSize = 12;
-      trSize = 10.5;
-      lhAr = 1.75;
+  function fitsAll(s) {
+    _vfApply(arabicEl, transEl, b, s);
+    for (var i = 0; i < variants.length; i++) {
+      if (variants[i] !== null) transEl.innerHTML = variants[i];
+      if (_vfContentHeight(box) > avail) return false;
     }
-  } else {
-    if (arabicLen <= 120) {
-      arSize = 16;
-      trSize = 13.5;
-      lhAr = 2;
-    } else if (arabicLen <= 220) {
-      arSize = 14.5;
-      trSize = 12.5;
-      lhAr = 1.9;
-    } else {
-      arSize = 13;
-      trSize = 11.5;
-      lhAr = 1.8;
-    }
+    return true;
   }
 
-  arabicEl.style.setProperty('font-size', arSize + 'px', 'important');
-  arabicEl.style.setProperty('line-height', lhAr, 'important');
-  if (transEl) {
-    transEl.style.setProperty('font-size', trSize + 'px', 'important');
+  const sMax = 1.25;
+  const sMin = Math.max(b.arMin / b.ar, b.trMin / b.tr);
+  let s, overflow = false;
+  if (fitsAll(sMax)) {
+    s = sMax;
+  } else if (!fitsAll(sMin)) {
+    s = sMin; overflow = true;      // حتى أصغر خط ما اتسعش (نادر): نسمح بالتمرير داخل الصندوق
+  } else {
+    let lo = sMin, hi = sMax;
+    for (let k = 0; k < 7; k++) {
+      const mid = (lo + hi) / 2;
+      if (fitsAll(mid)) lo = mid; else hi = mid;
+    }
+    s = lo;
+  }
+
+  if (transEl) transEl.innerHTML = saved;   // نرجّع الترجمة الظاهرة (القياس كان متزامن ومن غير رسم)
+  _vfApply(arabicEl, transEl, b, s);
+
+  if (overflow) {
+    box.style.setProperty('justify-content', 'flex-start');
+    box.style.setProperty('overflow-y', 'auto');
+  } else {
+    box.style.removeProperty('justify-content');
+    box.style.removeProperty('overflow-y');
   }
 }
+
+// إعادة الضبط تلقائيًا لو حجم الصندوق اتغيّر (تدوير الشاشة، تغيير حجم النافذة، ظهور الشاشة الترحيبية)
+(function _watchVerseBox() {
+  var raf = 0;
+  function sched() {
+    if (raf) return;
+    raf = requestAnimationFrame(function() { raf = 0; autoScaleVerseFont(); });
+  }
+  var box = document.getElementById('quranVerse');
+  if (window.ResizeObserver && box) new ResizeObserver(sched).observe(box);
+  window.addEventListener('resize', sched);
+})();
 
 function showVerseWithTranslation(verseIndex, transIndex) {
   const v = verses[verseIndex];
@@ -2332,9 +2381,18 @@ function showVerseWithTranslation(verseIndex, transIndex) {
     `<span style="display:inline-block;font-size:11px;background:rgba(46,134,193,0.12);color:var(--theme-c3);border-radius:20px;padding:2px 10px;margin-bottom:6px;font-style:normal;letter-spacing:0.5px;">${langLabel}</span><br>` :
     '';
 
-  fadeElement(transEl, langBadge + trans.join("<br>"));
+  // آية جديدة: نحسب أطول ترجماتها مرة واحدة ونضبط الخط عليها (الخط بيفضل ثابت طول دورة الترجمات)
+  if (_verseFitKey !== verseIndex) {
+    _verseFitKey = verseIndex;
+    _verseFitWorst = v.translations
+      .map(function(t) { return { h: t.join("<br>"), n: t.join(" ").length }; })
+      .sort(function(a, b) { return b.n - a.n; })
+      .slice(0, 4)
+      .map(function(r) { return langBadge + r.h; });
+    autoScaleVerseFont();
+  }
 
-  setTimeout(autoScaleVerseFont, 50);
+  fadeElement(transEl, langBadge + trans.join("<br>"));
 }
 
 function scheduleNextTranslation() {
@@ -2473,6 +2531,7 @@ setTimeout(autoScaleVerseFont, 100);
         '⚠️ عرض تقريبي حسب موضع التشغيل — وليس مزامنة حرفية مع الصوت / Approximate display, not an exact live sync' +
         '</span>';
     }
+    _verseFitWorst = null; _verseFitKey = -1;   // وضع المزامنة: نقيس المحتوى الظاهر كما هو
     setTimeout(autoScaleVerseFont, 30);
   }
 
