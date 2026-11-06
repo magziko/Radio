@@ -20179,8 +20179,16 @@ function setDhikrTipDuration(n) {
   }
 
   // ───── قراءة صوتية ─────
+  // زر الاستماع يظهر فقط لو المتصفح/الجهاز فيه صوت عربى
+  function _hasArVoice() {
+    try {
+      if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return false;
+      return !!_pickVoice('ar-SA');
+    } catch (e) { return false; }
+  }
   function _setSpeakUI() {
     if (!speakBtn) return;
+    speakBtn.style.display = (speaking || _hasArVoice()) ? '' : 'none';
     speakBtn.classList.toggle('on', speaking);
     speakBtn.textContent = speaking ? (_ar() ? '⏹ إيقاف' : '⏹ Stop') : (_ar() ? '🔊 استماع' : '🔊 Listen');
   }
@@ -20189,6 +20197,10 @@ function setDhikrTipDuration(n) {
     try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
     speaking = false; _setSpeakUI();
   }
+  try {
+    if (window.speechSynthesis && window.speechSynthesis.addEventListener)
+      window.speechSynthesis.addEventListener('voiceschanged', function() { _setSpeakUI(); });
+  } catch (e) {}
   function _cleanForSpeech(t) {
     return String(t)
       .replace(/\uFDFA/g, 'صلى الله عليه وسلم').replace(/\uFDFB/g, 'جل جلاله')
@@ -20392,6 +20404,12 @@ function setDhikrTipDuration(n) {
     var b = tipButton(e.target);
     if (!b) return;
     adopt(b);
+    // داخل مربع التسبيح: لا تلميح (نلغى أى تلميح تحويم قيد الانتظار أو ظاهر)
+    if (e.target.closest && e.target.closest('.tasbih-box')) {
+      clearTimeout(hoverTimer);
+      if (b === curBtn && !pinned) hide();
+      return;
+    }
     if (_dhikrTipSec === 0 || b === curBtn || !b.hasAttribute('data-tip')) return;
     clearTimeout(hoverTimer);
     hoverTimer = setTimeout(function() { show(b, true); }, 500);
@@ -20408,6 +20426,7 @@ function setDhikrTipDuration(n) {
   document.addEventListener('click', function(e) {
     var b = tipButton(e.target);
     if (!b) return;
+    if (e.target.closest('.tasbih-box')) return; // الضغط فى مربع التسبيح لا يُظهر التلميح
     var inner = e.target.closest('.tasbih-box, a, input, select, textarea, [onclick], [class*="fav"], [class*="heart"], button');
     if (inner && inner !== b) return;
     if (_dhikrTipSec === 0) return;
