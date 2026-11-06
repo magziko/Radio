@@ -20144,7 +20144,7 @@ function setDhikrTipDuration(n) {
   _dhikrTipSyncUI();
 
   var tipEl = null, textEl = null, hideTimer = null, hoverTimer = null, curBtn = null, pinned = false;
-  var arrowEl = null, copyBtn = null, speakBtn = null, speaking = false, speakTok = 0;
+  var arrowEl = null, copyBtn = null, shareBtn = null, speakBtn = null, speaking = false, speakTok = 0;
 
   function _ar() { return (typeof isArabic === 'undefined') ? true : isArabic; }
   function _note(msg) { try { if (typeof showMessage === 'function') showMessage(msg); } catch (e) {} }
@@ -20176,6 +20176,14 @@ function setDhikrTipDuration(n) {
     }
     if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(ok, fallback);
     else fallback();
+  }
+
+  // ───── مشاركة (Web Share) ─────
+  function shareTip() {
+    var t = textEl ? textEl.textContent : '';
+    if (!t || !navigator.share) return;
+    clearTimeout(hideTimer); // ما يتقفلش التلميح أثناء نافذة المشاركة
+    navigator.share({ text: t }).then(armHide, armHide);
   }
 
   // ───── قراءة صوتية ─────
@@ -20304,6 +20312,11 @@ function setDhikrTipDuration(n) {
     copyBtn = document.createElement('button');
     copyBtn.type = 'button'; copyBtn.className = 'dhikr-tip-copy';
     copyBtn.addEventListener('click', function(e) { e.stopPropagation(); copyTip(); });
+    shareBtn = document.createElement('button');
+    shareBtn.type = 'button'; shareBtn.className = 'dhikr-tip-share';
+    shareBtn.textContent = '📤';
+    shareBtn.addEventListener('click', function(e) { e.stopPropagation(); shareTip(); });
+    if (!navigator.share) shareBtn.style.display = 'none';
     speakBtn = document.createElement('button');
     speakBtn.type = 'button'; speakBtn.className = 'dhikr-tip-btn';
     speakBtn.addEventListener('click', function(e) { e.stopPropagation(); speakTip(); });
@@ -20321,6 +20334,7 @@ function setDhikrTipDuration(n) {
     var actions = document.createElement('div');
     actions.className = 'dhikr-tip-actions';
     actions.appendChild(copyBtn);
+    actions.appendChild(shareBtn);
     actions.appendChild(x);
 
     tipEl.appendChild(body);
@@ -20390,6 +20404,8 @@ function setDhikrTipDuration(n) {
     copyBtn.textContent = '📋';
     copyBtn.title = _ar() ? 'نسخ' : 'Copy';
     copyBtn.setAttribute('aria-label', copyBtn.title);
+    shareBtn.title = _ar() ? 'مشاركة' : 'Share';
+    shareBtn.setAttribute('aria-label', shareBtn.title);
     _setSpeakUI();
     curBtn = btn;
     pinned = !byHover;
