@@ -2234,7 +2234,7 @@ body.dark-mode .badge-mojawwad {
     line-height: 1.75 !important;
     font-style: italic !important;
     opacity: 0.92;
-    max-width: 88%;
+    max-width: 94%;
 }
 
 #verseNumber {
@@ -10406,10 +10406,10 @@ body:not(.dark-mode) #unifiedControls.in-welcome .pnb-divider {
   }
 }
 @media (max-width: 767px) {
-  #quranVerse { height: auto; flex: 1 0 400px; }
+  #quranVerse { height: auto; flex: 1 0 440px; }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-  #quranVerse { height: auto; flex: 1 0 370px; }
+  #quranVerse { height: auto; flex: 1 0 400px; }
 }
 /* شاشات الكمبيوتر: نفس الفكرة — البطاقة تملا ارتفاع الشاشة وصندوق الآية ياخد المساحة الزيادة */
 @media (min-width: 992px) {
@@ -10418,7 +10418,7 @@ body:not(.dark-mode) #unifiedControls.in-welcome .pnb-divider {
     min-height: calc(100vh - 2vh);
     min-height: calc(100dvh - 2vh);
   }
-  #quranVerse { height: auto; flex: 1 0 320px; }
+  #quranVerse { height: auto; flex: 1 0 360px; }
 }
 
 /* اختصار التنقل التلقائي بجانب أزرار التحكم (#pnb-autosw) */
@@ -11300,8 +11300,9 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
     border-right: 1.5px solid rgba(var(--theme-c1-rgb, 30,144,255), 0.65);
 }
 
-/* زر النسخ (أيقونة) وزر ✕ بنفس الحجم جنب بعض */
+/* زر النسخ (أيقونة) وزر المشاركة وزر ✕ بنفس الحجم جنب بعض */
 #dhikr-tip .dhikr-tip-close,
+#dhikr-tip .dhikr-tip-share,
 #dhikr-tip .dhikr-tip-copy {
     flex: none; width: 28px; height: 28px; padding: 0;
     border: none; border-radius: 50%; cursor: pointer;
@@ -11310,6 +11311,7 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
     display: inline-flex; align-items: center; justify-content: center;
 }
 #dhikr-tip .dhikr-tip-close:hover,
+#dhikr-tip .dhikr-tip-share:hover,
 #dhikr-tip .dhikr-tip-copy:hover { background: rgba(var(--theme-c1-rgb, 30,144,255), 0.70); }
 #dhikr-tip .dhikr-tip-copy.done { background: rgba(46, 160, 67, 0.85); }
 
