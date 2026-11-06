@@ -18681,6 +18681,55 @@ document.addEventListener('click', function(e) {
   }
 }, true);
 
+// ===== تثبيت الذكر الحالى فى مكانه على الشاشة أثناء القراءة =====
+// بعد ما السكرول "المطارد" يستقر (وبيقف خلال ثوانى)، أى تغيّر فى حجم حاجة فوق الذكر
+// (كارت رجع لحجمه العادى، شريط/نص اتغيّر ارتفاعه، خط اتحمّل... إلخ) كان بيزحزح الذكر
+// لفوق أو لتحت والمستخدم يضطر يسحب الشاشة تانى. هنا بنفتكر مكان الذكر على الشاشة،
+// ولو اتحرك من غير ما الصفحة نفسها تتسكرول، بنرجّعه مكانه فورًا.
+// لو المستخدم سحب الشاشة بنفسه (scrollY اتغيّر) بنعتمد مكانه الجديد ومنتدخلش.
+var _adhkarAnchor = { btn: null, top: 0, y: 0, timer: null, ro: null };
+function _adhkarAnchorRelease() {
+  var A = _adhkarAnchor;
+  if (A.timer) { clearInterval(A.timer); A.timer = null; }
+  if (A.ro) { try { A.ro.disconnect(); } catch (e) {} A.ro = null; }
+  A.btn = null;
+}
+function _adhkarAnchorCheck() {
+  var A = _adhkarAnchor, b = A.btn;
+  if (!b) return;
+  if (!b.isConnected || b.offsetParent === null || !b.classList.contains('tasbih-focus')) {
+    _adhkarAnchorRelease();   // الذكر خرج من وضع التركيز أو اختفى
+    return;
+  }
+  if (document.hidden) return;
+  var y = window.scrollY || window.pageYOffset;
+  var top = b.getBoundingClientRect().top;
+  if (Math.abs(y - A.y) > 0.5) {   // الصفحة اتسكرولت (المستخدم أو المتصفح): نعتمد المكان الجديد
+    A.y = y; A.top = top;
+    return;
+  }
+  var d = top - A.top;
+  if (Math.abs(d) >= 2) {          // الصفحة ثابتة بس الذكر اتزحزح بسبب تغيّر الـ layout: نرجّعه
+    window.scrollBy({ top: d, left: 0, behavior: 'instant' });
+    A.y = window.scrollY || window.pageYOffset;
+    A.top = b.getBoundingClientRect().top;
+  }
+}
+function _adhkarAnchorSet(btn) {
+  _adhkarAnchorRelease();
+  if (!btn || !btn.isConnected) return;
+  var A = _adhkarAnchor;
+  A.btn = btn;
+  A.y = window.scrollY || window.pageYOffset;
+  A.top = btn.getBoundingClientRect().top;
+  if (window.ResizeObserver) {
+    A.ro = new ResizeObserver(_adhkarAnchorCheck);
+    A.ro.observe(document.body);
+    A.ro.observe(btn);
+  }
+  A.timer = setInterval(_adhkarAnchorCheck, 300);
+}
+
 // ===== سكرول "يطارد" الذكر لحد ما الصفحة تستقر =====
 // المشكلة القديمة: السكرول كان بيتحسب مرة واحدة بعد 80ms من تغيير التركيز، لكن الـ layout
 // اللى فوق الذكر الجديد (الذكر اللى لسه مخلّص بيصغّر ويرجع لحجمه العادى، وبنزل الكروت
@@ -18691,6 +18740,7 @@ document.addEventListener('click', function(e) {
 var _adhkarChaseToken = 0;
 function _chaseScrollToButton(btn, gap) {
   var token = ++_adhkarChaseToken;
+  _adhkarAnchorRelease();   // سكرول جديد بدأ: نفك تثبيت الذكر القديم لحد ما يستقر
   var startT = performance.now();
   var lastT = startT;
   var settledSince = null;
@@ -18753,6 +18803,7 @@ function _chaseScrollToButton(btn, gap) {
     // وبحد أقصى 3 ثوانى
     if (elapsed > 3000 || (elapsed > 700 && settledSince !== null && now - settledSince > 250)) {
       cleanup();
+      _adhkarAnchorSet(btn);   // الذكر استقر: نثبّته فى مكانه أثناء القراءة
       return;
     }
     requestAnimationFrame(frame);
