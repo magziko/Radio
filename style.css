@@ -10398,6 +10398,16 @@ body:not(.dark-mode) #unifiedControls.in-welcome .pnb-divider {
    الشاشة الترحيبية: منع المساحة الفاضية أسفل البطاقة
    (الأصل: margin-top ثابت + margin-bottom:auto كان بيرمي كل المساحة الزيادة تحت السهم)
    ══════════════════════════════════════════════════════════════ */
+/* الشاشة الترحيبية: #customRadioBox (أب صندوق الآية) كان display:block فقاعدة flex بتاعة #quranVerse
+   ماكانتش بتشتغل وارتفاع الصندوق كان بيتحدد من طول الآية (فالأزرار تحت بتتحرك والجزء السفلى يفضل فاضى).
+   دلوقتى عمود مرن بيملا ارتفاع الكارت، وصندوق الآية هو اللى بياخد المساحة الزيادة بارتفاع ثابت مستقل عن طول الآية. */
+#customRadioBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* لو صندوق الآية وصل لأقصى ارتفاع، الباقى يتوزع فوق وتحت */
+  flex: 1 0 auto;
+}
+
 /* موبايل/تابلت: البطاقة تملا الشاشة، وصندوق الآية هو اللي بياخد المساحة الزيادة */
 @media (max-width: 991px) {
   #welcomeContent {
@@ -10406,10 +10416,10 @@ body:not(.dark-mode) #unifiedControls.in-welcome .pnb-divider {
   }
 }
 @media (max-width: 767px) {
-  #quranVerse { height: auto; flex: 1 0 440px; }
+  #quranVerse { height: auto; flex: 1 0 440px; max-height: 520px; }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-  #quranVerse { height: auto; flex: 1 0 400px; }
+  #quranVerse { height: auto; flex: 1 0 340px; max-height: 460px; }
 }
 /* شاشات الكمبيوتر: نفس الفكرة — البطاقة تملا ارتفاع الشاشة وصندوق الآية ياخد المساحة الزيادة */
 @media (min-width: 992px) {
@@ -10418,7 +10428,7 @@ body:not(.dark-mode) #unifiedControls.in-welcome .pnb-divider {
     min-height: calc(100vh - 2vh);
     min-height: calc(100dvh - 2vh);
   }
-  #quranVerse { height: auto; flex: 1 0 360px; }
+  #quranVerse { height: auto; flex: 1 0 380px; max-height: 480px; }
 }
 
 /* اختصار التنقل التلقائي بجانب أزرار التحكم (#pnb-autosw) */
