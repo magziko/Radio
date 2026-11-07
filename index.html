@@ -2267,7 +2267,7 @@ function fadeElement(el, newHTML, callback) {
 // ضبط حجم خط الآية تلقائيًا ليناسب صندوق الآية (على كل الشاشات)
 //  - صندوق الآية ثابت المساحة (مش بيتأثر بطول الآية) → الآية الطويلة بتصغّر خطها
 //    والقصيرة بتكبّر خطها (لحد حد أقصى) بدل ما تتقصّ أو تسيب فراغ.
-//  - الحجم بيتحدد مرة لكل آية بناءً على أطول ترجماتها، فالخط ما بيتغيّرش
+//  - الحجم بيتحدد مرة لكل آية بناءً على أكبر ترجماتها ارتفاعًا، فالخط ما بيتغيّرش
 //    كل ما الترجمة تتبدّل (كل 12 ثانية) والآية + أى ترجمة بتتسع دايمًا.
 // ══════════════════════════════════════════════════════════════════════
 var _verseFitWorst = null;  // HTML لأطول ترجمات الآية الحالية (null = قياس المحتوى الظاهر كما هو)
@@ -2317,10 +2317,10 @@ function autoScaleVerseFont() {
   const saved = transEl ? transEl.innerHTML : '';
   const variants = (_verseFitWorst && _verseFitWorst.length && transEl) ? _verseFitWorst : [null];
 
-  function fitsAll(s) {
-    _vfApply(arabicEl, transEl, b, s);
-    for (var i = 0; i < variants.length; i++) {
-      if (variants[i] !== null) transEl.innerHTML = variants[i];
+  function fits(set, s) {
+    _vfApply(arabicEl, transEl, b, s);   // تغيير حجم الخط هو الأغلى فى القياس، فبنقلّل عدد مراته
+    for (var i = 0; i < set.length; i++) {
+      if (set[i] !== null) transEl.innerHTML = set[i];
       if (_vfContentHeight(box) > avail) return false;
     }
     return true;
@@ -2328,18 +2328,28 @@ function autoScaleVerseFont() {
 
   const sMax = 1.25;
   const sMin = Math.max(b.arMin / b.ar, b.trMin / b.tr);
-  let s, overflow = false;
-  if (fitsAll(sMax)) {
-    s = sMax;
-  } else if (!fitsAll(sMin)) {
-    s = sMin; overflow = true;      // حتى أصغر خط ما اتسعش (نادر): نسمح بالتمرير داخل الصندوق
-  } else {
+  let s = sMax, overflow = false;
+
+  // 1) بأكبر حجم: نقيس كل الترجمات. لو كلها اتسعت (أغلب الآيات القصيرة) خلصنا.
+  _vfApply(arabicEl, transEl, b, sMax);
+  const measured = variants.map(function(v) {
+    if (v !== null) transEl.innerHTML = v;
+    return { v: v, h: _vfContentHeight(box) };
+  });
+  if (measured.some(function(m) { return m.h > avail; })) {
+    // 2) بحث ثنائى بأكبر 3 ترجمات ارتفاعًا بس (سريع)
+    const search = measured.slice().sort(function(x, y) { return y.h - x.h; }).slice(0, 3).map(function(x) { return x.v; });
     let lo = sMin, hi = sMax;
-    for (let k = 0; k < 7; k++) {
+    for (let k = 0; k < 5; k++) {
       const mid = (lo + hi) / 2;
-      if (fitsAll(mid)) lo = mid; else hi = mid;
+      if (fits(search, mid)) lo = mid; else hi = mid;
     }
     s = lo;
+    // 3) تأكيد على كل الترجمات، ولو واحدة ما اتسعتش نصغّر شوية
+    while (!fits(variants, s)) {
+      if (s <= sMin) { overflow = true; break; }   // حتى أصغر خط ما اتسعش (نادر): نسمح بالتمرير داخل الصندوق
+      s = Math.max(sMin, s - 0.03);
+    }
   }
 
   if (transEl) transEl.innerHTML = saved;   // نرجّع الترجمة الظاهرة (القياس كان متزامن ومن غير رسم)
@@ -2364,6 +2374,11 @@ function autoScaleVerseFont() {
   var box = document.getElementById('quranVerse');
   if (window.ResizeObserver && box) new ResizeObserver(sched).observe(box);
   window.addEventListener('resize', sched);
+  // الخطوط بتتحمّل متأخر وبتغيّر مقاسات النص: نعيد الضبط بعد تحميلها
+  if (document.fonts) {
+    if (document.fonts.ready) document.fonts.ready.then(sched);
+    if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', sched);
+  }
 })();
 
 function showVerseWithTranslation(verseIndex, transIndex) {
@@ -2387,8 +2402,7 @@ function showVerseWithTranslation(verseIndex, transIndex) {
     _verseFitWorst = v.translations
       .map(function(t) { return { h: t.join("<br>"), n: t.join(" ").length }; })
       .sort(function(a, b) { return b.n - a.n; })
-      .slice(0, 4)
-      .map(function(r) { return langBadge + r.h; });
+      .map(function(r) { return langBadge + r.h; });   // كل الترجمات (الدالة بتختار الأسوأ وبتتأكد من الباقى)
     autoScaleVerseFont();
   }
 
