@@ -2272,6 +2272,7 @@ function fadeElement(el, newHTML, callback) {
 // ══════════════════════════════════════════════════════════════════════
 var _verseFitWorst = null;  // HTML لأطول ترجمات الآية الحالية (null = قياس المحتوى الظاهر كما هو)
 var _verseFitKey = -1;      // رقم الآية اللى اتحسب لها _verseFitWorst
+var _verseFitInfo = null;   // نتيجة آخر ضبط: { s: معامل التكبير, overflow: هل المحتوى ما اتسعش }
 
 function _vfBase() {
   var w = window.innerWidth;
@@ -2305,6 +2306,7 @@ function autoScaleVerseFont() {
   const arabicEl = document.getElementById('arabicVerse');
   const transEl = document.getElementById('englishVerse');
   const box = document.getElementById('quranVerse');
+  _verseFitInfo = null;
   if (!arabicEl || !box) return;
   if (!box.clientHeight) return;   // الشاشة الترحيبية مخفية حاليًا — هيتعاد الضبط أول ما تظهر
 
@@ -2314,8 +2316,10 @@ function autoScaleVerseFont() {
   const avail = box.clientHeight - (parseFloat(bcs.paddingTop) || 0) - (parseFloat(bcs.paddingBottom) || 0) - 34;
   if (avail < 60) return;
 
-  const saved = transEl ? transEl.innerHTML : '';
   const variants = (_verseFitWorst && _verseFitWorst.length && transEl) ? _verseFitWorst : [null];
+  // بنبدّل محتوى الترجمة مؤقتًا بس لو فيه ترجمات نقيس عليها؛ فى وضع المزامنة ما بنلمسش الـ DOM
+  // (إعادة كتابة innerHTML كانت بتمسح عنصر التنبيه ومعالجاته).
+  const saved = (variants[0] !== null) ? transEl.innerHTML : null;
 
   function fits(set, s) {
     _vfApply(arabicEl, transEl, b, s);   // تغيير حجم الخط هو الأغلى فى القياس، فبنقلّل عدد مراته
@@ -2352,9 +2356,10 @@ function autoScaleVerseFont() {
     }
   }
 
-  if (transEl) transEl.innerHTML = saved;   // نرجّع الترجمة الظاهرة (القياس كان متزامن ومن غير رسم)
+  if (saved !== null) transEl.innerHTML = saved;   // نرجّع الترجمة الظاهرة (القياس كان متزامن ومن غير رسم)
   _vfApply(arabicEl, transEl, b, s);
 
+  _verseFitInfo = { s: s, overflow: overflow };
   if (overflow) {
     box.style.setProperty('justify-content', 'flex-start');
     box.style.setProperty('overflow-y', 'auto');
@@ -2369,7 +2374,11 @@ function autoScaleVerseFont() {
   var raf = 0;
   function sched() {
     if (raf) return;
-    raf = requestAnimationFrame(function() { raf = 0; autoScaleVerseFont(); });
+    raf = requestAnimationFrame(function() {
+      raf = 0;
+      if (window._quranLiveSyncActive && typeof window._syncRelayout === 'function') window._syncRelayout();
+      else autoScaleVerseFont();
+    });
   }
   var box = document.getElementById('quranVerse');
   if (window.ResizeObserver && box) new ResizeObserver(sched).observe(box);
@@ -2489,6 +2498,8 @@ setTimeout(autoScaleVerseFont, 100);
   var _sync = {
     active: false,
     surahNumber: null,
+    reciterKey: '',
+    noteShown: false,
     audioEl: null,
     ayahs: null,
     weights: null,
@@ -2515,6 +2526,91 @@ setTimeout(autoScaleVerseFont, 100);
     return cumWeights;
   }
 
+  // ───── التحكم فى سرعة انتقال الآيات (بيتحفظ لكل قارئ/مصدر صوت) ─────
+  // الموضع التقريبى بيتحسب من وقت التشغيل × معامل السرعة (1 + النسبة/100):
+  // نسبة موجبة = الآيات تتقدّم أسرع، سالبة = أبطأ. المفتاح = مصدر الملف الصوتى (السيرفر + المجلد)
+  // فكل قارئ/نوع تلاوة (مرتل/مجوّد) له ضبطه الخاص، وغير كده بيستخدم الضبط الافتراضى.
+  var SPEED_DEFAULT_KEY = 'syncAyahSpeedDefault';
+  var SPEED_MAP_KEY = 'syncAyahSpeedByReciter';
+  function _lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function _lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function reciterKeyFromSrc(src) {
+    try {
+      var u = new URL(src, location.href);
+      var parts = u.pathname.split('/');
+      parts.pop();                       // نشيل اسم الملف (002.mp3)
+      return u.host + parts.join('/');
+    } catch (e) { return ''; }
+  }
+  function _clampPct(v) {
+    v = Math.round(parseFloat(v));
+    if (isNaN(v)) v = 0;
+    return Math.max(-25, Math.min(25, v));
+  }
+  function _readSpeedMap() {
+    try { var m = JSON.parse(_lsGet(SPEED_MAP_KEY) || '{}'); return (m && typeof m === 'object') ? m : {}; }
+    catch (e) { return {}; }
+  }
+  function getSyncSpeedPct(key) {
+    var m = _readSpeedMap();
+    if (key && m[key] !== undefined) return _clampPct(m[key]);
+    return _clampPct(_lsGet(SPEED_DEFAULT_KEY));
+  }
+  function _isAr() { return (typeof isArabic === 'undefined') ? true : isArabic; }
+  function syncSpeedUI() {
+    var sl = document.getElementById('syncAyahSpeedSlider');
+    var lb = document.getElementById('syncAyahSpeedLabel');
+    var sc = document.getElementById('syncAyahSpeedScope');
+    var grp = document.getElementById('syncAyahSpeedGroup');
+    var key = _sync.active ? _sync.reciterKey : '';
+    var pct = getSyncSpeedPct(key);
+    var ar = _isAr();
+    if (sl && String(sl.value) !== String(pct)) sl.value = pct;
+    if (lb) lb.textContent = (pct > 0 ? '+' : '') + pct + '%';
+    if (grp) grp.title = grp.getAttribute(ar ? 'data-title-ar' : 'data-title-en') || '';
+    var lbl = document.querySelector("label[for='syncAyahSpeedSlider']");   // نص الخيار حسب لغة الموقع
+    if (lbl) { var lt = lbl.getAttribute(ar ? 'data-ar' : 'data-en'); if (lt) lbl.textContent = lt; }
+    if (sc) {
+      var hasOwn = !!(key && _readSpeedMap()[key] !== undefined);
+      var how = pct > 0 ? (ar ? 'أسرع' : 'faster') : pct < 0 ? (ar ? 'أبطأ' : 'slower') : (ar ? 'الوضع الأصلى' : 'original');
+      if (key) {
+        sc.textContent = (ar ? '🎧 القارئ/المصدر الحالى: ' : '🎧 Current reciter/source: ') + key.split('/').slice(-1)[0] +
+          ' — ' + (hasOwn ? (ar ? 'ضبط محفوظ له' : 'saved for it') : (ar ? 'الضبط الافتراضى' : 'default setting')) + ' (' + how + ')';
+      } else {
+        sc.textContent = (ar ? 'الضبط الافتراضى لكل القرّاء (' : 'Default for all reciters (') + how + ')' +
+          (ar ? ' — شغّل تلاوة وعدّل الشريط لحفظ ضبط خاص بالقارئ' : ' — play a recitation and adjust to save a per-reciter value');
+      }
+    }
+  }
+  window.syncSpeedRefresh = syncSpeedUI;
+  window.setSyncAyahSpeed = function(v) {
+    var pct = _clampPct(v);
+    if (_sync.active && _sync.reciterKey) {
+      var m = _readSpeedMap(); m[_sync.reciterKey] = pct; _lsSet(SPEED_MAP_KEY, JSON.stringify(m));
+    } else {
+      _lsSet(SPEED_DEFAULT_KEY, String(pct));
+    }
+    syncSpeedUI();
+    try { tick(); } catch (e) {}       // نطبّق التغيير فورًا من غير ما ننتظر الثانية الجاية
+  };
+  window.resetSyncAyahSpeed = function() {
+    if (_sync.active && _sync.reciterKey) {
+      var m = _readSpeedMap(); delete m[_sync.reciterKey]; _lsSet(SPEED_MAP_KEY, JSON.stringify(m));
+    } else {
+      _lsSet(SPEED_DEFAULT_KEY, '0');
+    }
+    syncSpeedUI();
+    try { tick(); } catch (e) {}
+  };
+  // السكربت ده فى الـ <head> فالعناصر لسه ما اتبنتش: نجهّز الواجهة بعد تحميل الصفحة
+  function _initSyncSpeedUI() {
+    syncSpeedUI();
+    var g = document.getElementById('syncAyahSpeedGroup');   // نحدّث الوصف (اللغة/القارئ الحالى) لما المستخدم يقرّب من الخيار
+    if (g) { g.addEventListener('pointerenter', syncSpeedUI); g.addEventListener('focusin', syncSpeedUI); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _initSyncSpeedUI);
+  else _initSyncSpeedUI();
+
   function findActiveSurahAudio() {
     for (var i = 0; i < QURAN_SYNC_AUDIO_IDS.length; i++) {
       var el = document.getElementById(QURAN_SYNC_AUDIO_IDS[i]);
@@ -2534,20 +2630,83 @@ setTimeout(autoScaleVerseFont, 100);
     return (n >= 1 && n <= 114) ? n : null;
   }
 
+  // التنبيه "عرض تقريبى": أيقونة ⚠️ صغيرة، ونصه بيظهر كطبقة عائمة (من غير ما ياخد مساحة من الآيات):
+  //  - مرة واحدة ~6 ثوانى أول ما تبدأ المزامنة لسورة جديدة،
+  //  - وبعدها بالتحويم بالماوس، أو بالضغط على الأيقونة (للموبايل).
+  var APPROX_NOTE_TEXT = '⚠️ عرض تقريبي حسب موضع التشغيل — وليس مزامنة حرفية مع الصوت / Approximate display, not an exact live sync';
+  var APPROX_NOTE_HTML = '<span class="sync-note" role="note" tabindex="0" title="">' +
+        '<span class="sync-note-icon" aria-hidden="true">⚠️</span>' +
+        '<span class="sync-note-text">' + APPROX_NOTE_TEXT + '</span></span>';
+
+  function ensureSyncNote(transEl) {
+    if (!transEl) return;
+    // لو الأيقونة موجودة بالفعل ما نعيدش إنشاءها (عشان التنبيه الظاهر ما يوميضش مع تغيّر الآية)
+    if (transEl.querySelector('.sync-note')) return;
+    transEl.innerHTML = APPROX_NOTE_HTML;
+    var chip = transEl.querySelector('.sync-note');
+    if (!chip) return;
+    chip.addEventListener('click', function(e) { e.stopPropagation(); chip.classList.toggle('show'); });
+    if (!_sync.noteShown) {
+      _sync.noteShown = true;
+      chip.classList.add('show');
+      setTimeout(function() { chip.classList.remove('show'); }, 6000);
+    }
+  }
+  // ضغطة فى أى مكان تقفل التنبيه المفتوح بالضغط
+  document.addEventListener('click', function() {
+    var open = document.querySelector('.sync-note.show');
+    if (open) open.classList.remove('show');
+  });
+
   function setSyncWidget(arabicHTML, numberLabel, showApproxNote) {
     var arabicEl = document.getElementById('arabicVerse');
     var numEl = document.getElementById('verseNumber');
     var transEl = document.getElementById('englishVerse');
     if (arabicEl) arabicEl.innerHTML = arabicHTML;
     if (numEl) numEl.innerText = numberLabel;
-    if (transEl && showApproxNote) {
-      transEl.innerHTML = '<span style="display:inline-block;font-size:11px;background:rgba(46,134,193,0.12);color:var(--theme-c3);border-radius:20px;padding:2px 10px;font-style:normal;letter-spacing:0.5px;">' +
-        '⚠️ عرض تقريبي حسب موضع التشغيل — وليس مزامنة حرفية مع الصوت / Approximate display, not an exact live sync' +
-        '</span>';
-    }
+    if (transEl) { if (showApproxNote) ensureSyncNote(transEl); else transEl.innerHTML = ''; }
     _verseFitWorst = null; _verseFitKey = -1;   // وضع المزامنة: نقيس المحتوى الظاهر كما هو
     setTimeout(autoScaleVerseFont, 30);
   }
+
+  // ───── عرض نافذة من 2–3 آيات (الحالية + اللى بعدها) ─────
+  // الآية الحالية فى الأول بوضوح كامل، واللى بعدها أخف. لو الصوت سابق الآية المحسوبة تقدر تلاقيها قدامك
+  // فى السطر التانى/التالت من غير ما تحس بتأخير، ولما نتقدّم آية اللى فى النص بتبقى الأولى وهكذا.
+  // عدد الآيات بيتحدد تلقائيًا حسب اللى يتسع فى صندوق الآية بخط مقروء (آية طويلة جدًا = آية واحدة بس).
+  var AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
+  function toArDigits(n) { return String(n).replace(/\d/g, function(d) { return AR_DIGITS.charAt(+d); }); }
+
+  function ayahWindowHTML(idx, n) {
+    var h = '';
+    for (var k = 0; k < n; k++) {
+      var i = idx + k;
+      h += '<span class="sync-ayah ' + (k === 0 ? 'sync-current' : 'sync-next') + '">' +
+           _sync.ayahs[i] + ' <span class="sync-num">\uFD3F' + toArDigits(i + 1) + '\uFD3E</span></span>';
+    }
+    return h;
+  }
+
+  function showAyahWindow(idx) {
+    var arabicEl = document.getElementById('arabicVerse');
+    var numEl = document.getElementById('verseNumber');
+    var transEl = document.getElementById('englishVerse');
+    if (!arabicEl || !_sync.ayahs) return;
+    var count = _sync.ayahs.length;
+    if (numEl) numEl.innerText = _sync.name + ' — الآية ' + (idx + 1) + ' من ' + count + ' (تقريبي)';
+    ensureSyncNote(transEl);
+    _verseFitWorst = null; _verseFitKey = -1;   // وضع المزامنة: نقيس المحتوى الظاهر كما هو
+    var maxN = Math.min(3, count - idx);
+    for (var n = maxN; n >= 1; n--) {
+      arabicEl.innerHTML = ayahWindowHTML(idx, n);
+      autoScaleVerseFont();
+      var info = _verseFitInfo;
+      // نقبل العدد ده لو اتسع من غير ما الخط يصغر عن الحجم الأساسى؛ ولو آية واحدة نقبلها مهما كان
+      if (n === 1 || (info && !info.overflow && info.s >= 0.95)) break;
+    }
+  }
+  window._syncRelayout = function() {
+    if (_sync.active && _sync.ayahs && _sync.lastIdx >= 0) showAyahWindow(_sync.lastIdx);
+  };
 
   function loadSurah(n) {
     if (_syncCache[n]) return Promise.resolve(_syncCache[n]);
@@ -2571,10 +2730,12 @@ setTimeout(autoScaleVerseFont, 100);
     _sync.active = false;
     window._quranLiveSyncActive = false;
     _sync.surahNumber = null;
+    _sync.reciterKey = '';
     _sync.audioEl = null;
     _sync.ayahs = null;
     _sync.lastIdx = -1;
     _sync.fetching = false;
+    syncSpeedUI();
     if (typeof scheduleNextTranslation === 'function') {
       try { scheduleNextTranslation(); } catch (e) {}
     }
@@ -2587,13 +2748,22 @@ setTimeout(autoScaleVerseFont, 100);
     var n = extractSurahNumber(audioEl.src);
     if (!n) { exitSyncMode(); return; }
 
+    // تغيير القارئ/المصدر مع نفس رقم السورة ما بيبدأش جلسة جديدة، فنحدّث مفتاح ضبط السرعة هنا
+    if (_sync.active) {
+      var rk = reciterKeyFromSrc(audioEl.src);
+      if (rk !== _sync.reciterKey) { _sync.reciterKey = rk; syncSpeedUI(); }
+    }
+
     if (_sync.surahNumber !== n || _sync.audioEl !== audioEl) {
       _sync.surahNumber = n;
       _sync.audioEl = audioEl;
       _sync.ayahs = null;
       _sync.weights = null;
       _sync.lastIdx = -1;
+      _sync.noteShown = false;   // سورة جديدة: التنبيه يظهر مرة تانية
       _sync.active = true;
+      _sync.reciterKey = reciterKeyFromSrc(audioEl.src);
+      syncSpeedUI();
       window._quranLiveSyncActive = true;
 
       setSyncWidget('جاري تحميل نص السورة… / Loading surah text…', 'سورة رقم ' + n, false);
@@ -2620,7 +2790,8 @@ setTimeout(autoScaleVerseFont, 100);
     var count = _sync.ayahs.length;
     var idx = 0;
     if (duration && isFinite(duration) && duration > 0 && _sync.weights) {
-      var frac = (audioEl.currentTime || 0) / duration;
+      var speed = 1 + getSyncSpeedPct(_sync.reciterKey) / 100;
+      var frac = ((audioEl.currentTime || 0) * speed) / duration;
       idx = count - 1;
       for (var i = 0; i < _sync.weights.length; i++) {
         if (frac < _sync.weights[i]) { idx = i; break; }
@@ -2631,11 +2802,7 @@ setTimeout(autoScaleVerseFont, 100);
 
     if (idx !== _sync.lastIdx) {
       _sync.lastIdx = idx;
-      setSyncWidget(
-        _sync.ayahs[idx],
-        _sync.name + ' — الآية ' + (idx + 1) + ' من ' + count + ' (تقريبي)',
-        true
-      );
+      showAyahWindow(idx);
     }
   }
 
@@ -3262,6 +3429,20 @@ setTimeout(autoScaleVerseFont, 100);
              placeholder="الدقائق"
              class="welcome-toggle-inline-input"
              onchange="setWelcomeAutoSwitchDuration()">
+    </div>
+    <div id="syncAyahSpeedGroup" data-stab="general" class="welcome-toggle-btn" style="gap:7px;flex-wrap:wrap;cursor:default;"
+         data-title-ar="سرعة انتقال الآيات في الشاشة الترحيبية أثناء تشغيل المصحف المرتل/المجوّد. زوّدها لو الآية بتتأخر عن الصوت، وقلّلها لو بتسبقه. بتتحفظ لكل قارئ/مصدر صوت لوحده."
+         data-title-en="Ayah follow speed on the welcome screen while a Quran recitation plays. Increase it if the ayah lags behind the audio, decrease it if it runs ahead. Saved separately for each reciter/audio source.">
+      <span class="wtb-icon">📖</span>
+      <label for="syncAyahSpeedSlider" class="wtb-text" data-ar="سرعة تنقل الآيات مع التلاوة" data-en="Ayah follow speed (recitation)" data-fr="Vitesse de suivi des versets" data-es="Velocidad de seguimiento de aleyas" data-de="Vers-Folgegeschwindigkeit" data-tr="Ayet takip hızı" data-ru="Скорость смены аятов">سرعة تنقل الآيات مع التلاوة</label>
+      <input type="range" id="syncAyahSpeedSlider" min="-25" max="25" step="1" value="0"
+             style="flex:1 1 110px;min-width:90px;cursor:pointer;"
+             oninput="window.setSyncAyahSpeed && window.setSyncAyahSpeed(this.value)">
+      <span id="syncAyahSpeedLabel" style="min-width:3.4em;text-align:center;font-variant-numeric:tabular-nums;">0%</span>
+      <button type="button" id="syncAyahSpeedReset" class="welcome-toggle-inline-input" style="cursor:pointer;padding:2px 8px;"
+              onclick="window.resetSyncAyahSpeed && window.resetSyncAyahSpeed()"
+              data-ar="↺" data-en="↺" title="إعادة الضبط / Reset">↺</button>
+      <div id="syncAyahSpeedScope" style="flex-basis:100%;font-size:11px;opacity:0.8;line-height:1.5;white-space:normal;overflow-wrap:anywhere;text-align:center;"></div>
     </div>
     <div id="settings-flag-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
       <label for="buttonsFlagToggle" class="wtb-text" data-ar="🇵🇸 علم فلسطين بشريط المشغّل" data-en="🇵🇸 Palestine Flag in the Player Bar" data-fr="🇵🇸 Drapeau palestinien dans la barre du lecteur" data-es="🇵🇸 Bandera de Palestina en la barra del reproductor" data-sv="🇵🇸 Palestinsk flagga i spelarfältet" data-nl="🇵🇸 Palestijnse vlag in de spelerbalk" data-ga="🇵🇸 Bratach na Palaistíne sa bharra seinnteora" data-de="🇵🇸 Palästina-Flagge in der Player-Leiste" data-ru="🇵🇸 Флаг Палестины в панели плеера" data-tr="🇵🇸 Oynatıcı çubuğunda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina na barra do player" data-zh="🇵🇸 播放器栏中的巴勒斯坦国旗" data-ur="🇵🇸 پلیئر بار میں فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بشريط المشغّل</label>
@@ -17358,6 +17539,7 @@ function applySettingsStaticLang(lang) {
   window._gsetHeadLang(lang);
   var rst = document.getElementById('filtersResetOrderTxt');
   if (rst) rst.textContent = rst.getAttribute('data-' + lang) || rst.getAttribute('data-en') || rst.textContent;
+  if (typeof window.syncSpeedRefresh === 'function') window.syncSpeedRefresh();   // خيار سرعة تنقل الآيات
 }
 
 function applyInitialLanguage() {
