@@ -11627,6 +11627,21 @@ body.media-theme-glass .button.has-tasbih .station-text .istiadha-prefix {
 #arabicVerse .sync-next { opacity: 0.5; font-size: 0.86em; }
 /* الآية السابقة (باهتة قبل الحالية) – نفس شكل اللى بعدها عشان الحالية تفضل هى الأوضح */
 #arabicVerse .sync-prev { opacity: 0.5; font-size: 0.86em; }
+/* البسملة: سطر مستقل متوسّط أول السورة */
+#arabicVerse .sync-basmala { text-align: center; }
+/* أزرار معايرة الآية (⏮️ ⏭️) حوالين تنبيه "عرض تقريبى" */
+#englishVerse .sync-cal-wrap { display: inline-flex; align-items: center; gap: 8px; }
+#englishVerse .sync-cal-btn {
+  min-width: 36px; height: 32px; padding: 0 10px;
+  border: none; border-radius: 20px;
+  background: rgba(46, 134, 193, 0.12); color: inherit;
+  font-size: 14px; line-height: 1; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, transform 0.1s;
+}
+#englishVerse .sync-cal-btn:hover { background: rgba(46, 134, 193, 0.22); }
+#englishVerse .sync-cal-btn:active { transform: scale(0.92); }
+
 #arabicVerse .sync-num { opacity: 0.75; font-size: 0.8em; white-space: nowrap; }
 @keyframes syncAyahIn { from { opacity: 0; transform: translateY(6px); } }
 @media (prefers-reduced-motion: reduce) {
