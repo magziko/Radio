@@ -2679,8 +2679,12 @@ setTimeout(autoScaleVerseFont, 100);
   function toArDigits(n) { return String(n).replace(/\d/g, function(d) { return AR_DIGITS.charAt(+d); }); }
 
   function ayahSpanHTML(i, cls) {
+    var off = _sync.off || 0;
+    if (i < off) {   // البسملة: سطر مستقل بدون رقم آية
+      return '<span class="sync-ayah sync-basmala ' + cls + '">' + _sync.ayahs[i] + '</span>';
+    }
     return '<span class="sync-ayah ' + cls + '">' +
-           _sync.ayahs[i] + ' <span class="sync-num">\uFD3F' + toArDigits(i + 1) + '\uFD3E</span></span>';
+           _sync.ayahs[i] + ' <span class="sync-num">\uFD3F' + toArDigits(i + 1 - off) + '\uFD3E</span></span>';
   }
 
   // withPrev: نعرض الآية السابقة (باهتة) قبل الحالية، لأن العرض تقريبى وممكن القارئ لسه فى آخر الآية اللى فاتت
@@ -2700,11 +2704,6 @@ setTimeout(autoScaleVerseFont, 100);
     _lsSet(SHOW_PREV_KEY, (cb && cb.checked) ? 'true' : 'false');
     if (_sync.active && _sync.ayahs && _sync.lastIdx >= 0) showAyahWindow(_sync.lastIdx);   // نطبّق فورًا
   };
-  (function() {
-    var st = document.createElement('style');
-    st.textContent = '.sync-ayah.sync-prev{opacity:.5;}';
-    document.head.appendChild(st);
-  })();
 
   function showAyahWindow(idx) {
     var arabicEl = document.getElementById('arabicVerse');
@@ -2712,7 +2711,10 @@ setTimeout(autoScaleVerseFont, 100);
     var transEl = document.getElementById('englishVerse');
     if (!arabicEl || !_sync.ayahs) return;
     var count = _sync.ayahs.length;
-    if (numEl) numEl.innerText = _sync.name + ' — الآية ' + (idx + 1) + ' من ' + count + ' (تقريبي)';
+    var off = _sync.off || 0;
+    if (numEl) numEl.innerText = (idx < off)
+      ? _sync.name + ' — البسملة (تقريبي)'
+      : _sync.name + ' — الآية ' + (idx + 1 - off) + ' من ' + (count - off) + ' (تقريبي)';
     ensureSyncNote(transEl);
     _verseFitWorst = null; _verseFitKey = -1;   // وضع المزامنة: نقيس المحتوى الظاهر كما هو
     var maxN = Math.min(3, count - idx);
@@ -2743,6 +2745,47 @@ setTimeout(autoScaleVerseFont, 100);
     if (_sync.active && _sync.ayahs && _sync.lastIdx >= 0) showAyahWindow(_sync.lastIdx);
   };
 
+  // ───── معايرة يدوية (اختصار Y / Shift+Y فى الشاشة الترحيبية) ─────
+  // بتزيح موضع التلاوة المحسوب بإزاحة ثابتة (نسبة من مدة الملف) بحيث الآية المطلوبة تظهر فورًا
+  // وتكمّل التلاوة منها. الإزاحة مؤقتة: خاصة بنفس الملف الصوتى ونفس السورة (بتفضل بعد الإيقاف/التشغيل،
+  // وبتتصفّر تلقائيًا أول ما تتغيّر السورة أو المصدر). مش بتغيّر ضبط السرعة المحفوظ للقارئ.
+  var _calib = { el: null, n: null, off: 0 };
+
+  // dir = +1: التلاوة وصلت للآية اللى بعد المعروضة (العرض متأخر) → نتقدّم آية
+  // dir = -1: العرض سابق للتلاوة → نرجع آية
+  // بترجّع null لو مفيش عرض متزامن شغّال (فالاختصار يرجع لوظيفته الأصلية).
+  window.calibrateSyncAyah = function(dir) {
+    if (!_sync.active || !_sync.ayahs || !_sync.weights || _sync.lastIdx < 0 || !_sync.audioEl) return null;
+    var a = _sync.audioEl, dur = a.duration, count = _sync.ayahs.length;
+    if (!dur || !isFinite(dur) || dur <= 0) return { ok: false, reason: 'nodur' };
+    var target = _sync.lastIdx + (dir < 0 ? -1 : 1);
+    if (target < 0 || target > count - 1) return { ok: false, reason: 'edge', idx: _sync.lastIdx, dir: dir };
+    var start = target === 0 ? 0 : _sync.weights[target - 1];
+    var span = _sync.weights[target] - start;
+    // تقدّم: الآية الجديدة لسه بادئة (15% من مدتها). رجوع: القارئ غالبًا فى آخر الآية السابقة (70%).
+    var targetFrac = start + span * (dir < 0 ? 0.7 : 0.15);
+    var speed = 1 + getSyncSpeedPct(_sync.reciterKey) / 100;
+    _calib = { el: a, n: _sync.surahNumber, off: targetFrac - ((a.currentTime || 0) * speed) / dur };
+    tick();   // نطبّق فورًا
+    var offC = _sync.off || 0;
+    return { ok: true, idx: target, num: target + 1 - offC, total: count - offC, basmala: target < offC, name: _sync.name };
+  };
+
+  // ───── البسملة ─────
+  // واجهة alquran.cloud بتدمج البسملة جوه نص الآية الأولى لكل سورة (ما عدا الفاتحة والتوبة)،
+  // فكانت بتظهر مكررة. هنا بنفصلها فى سطر مستقل أول السورة (التلاوة بتبدأ بيها) وبنشيلها من الآية الأولى.
+  function _normAr(s) {
+    return String(s || '')
+      .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '')
+      .replace(/[\u0671\u0622\u0623\u0625]/g, '\u0627');
+  }
+  function _splitBasmala(text) {
+    var tokens = String(text || '').trim().split(/\s+/);
+    if (tokens.length <= 4) return null;
+    if (_normAr(tokens.slice(0, 4).join('')) !== '\u0628\u0633\u0645\u0627\u0644\u0644\u0647\u0627\u0644\u0631\u062D\u0645\u0646\u0627\u0644\u0631\u062D\u064A\u0645') return null;
+    return { basmala: tokens.slice(0, 4).join(' '), rest: tokens.slice(4).join(' ') };
+  }
+
   function loadSurah(n) {
     if (_syncCache[n]) return Promise.resolve(_syncCache[n]);
     return fetch('https://api.alquran.cloud/v1/surah/' + n + '/quran-uthmani')
@@ -2751,9 +2794,16 @@ setTimeout(autoScaleVerseFont, 100);
         if (!j || j.code !== 200 || !j.data || !j.data.ayahs || !j.data.ayahs.length) {
           throw new Error('bad response');
         }
+        var texts = j.data.ayahs.map(function(a) { return a.text; });
+        var hasBasmala = false;
+        if (n !== 1 && n !== 9) {   // الفاتحة: البسملة هى الآية 1 نفسها، والتوبة: من غير بسملة
+          var sp = _splitBasmala(texts[0]);
+          if (sp) { texts[0] = sp.rest; texts.unshift(sp.basmala); hasBasmala = true; }
+        }
         var result = {
           name: j.data.name || ('سورة رقم ' + n),
-          ayahs: j.data.ayahs.map(function(a) { return a.text; })
+          ayahs: texts,
+          off: hasBasmala ? 1 : 0    // عدد العناصر غير المرقّمة فى أول القائمة (البسملة)
         };
         _syncCache[n] = result;
         return result;
@@ -2796,6 +2846,7 @@ setTimeout(autoScaleVerseFont, 100);
       _sync.weights = null;
       _sync.lastIdx = -1;
       _sync.noteShown = false;   // سورة جديدة: التنبيه يظهر مرة تانية
+      if (!(_calib.el === audioEl && _calib.n === n)) _calib = { el: null, n: null, off: 0 };   // سورة/مصدر مختلف: نلغى المعايرة
       _sync.active = true;
       _sync.reciterKey = reciterKeyFromSrc(audioEl.src);
       syncSpeedUI();
@@ -2809,6 +2860,7 @@ setTimeout(autoScaleVerseFont, 100);
         if (_sync.surahNumber !== n) return; // تغيّرت المحطة أثناء التحميل
         _sync.name = data.name;
         _sync.ayahs = data.ayahs;
+        _sync.off = data.off || 0;
         _sync.weights = computeAyahWeights(data.ayahs);
       }).catch(function() {
         _sync.fetching = false;
@@ -2826,7 +2878,8 @@ setTimeout(autoScaleVerseFont, 100);
     var idx = 0;
     if (duration && isFinite(duration) && duration > 0 && _sync.weights) {
       var speed = 1 + getSyncSpeedPct(_sync.reciterKey) / 100;
-      var frac = ((audioEl.currentTime || 0) * speed) / duration;
+      var calOff = (_calib.el === audioEl && _calib.n === n) ? _calib.off : 0;   // إزاحة المعايرة اليدوية (Y)
+      var frac = ((audioEl.currentTime || 0) * speed) / duration + calOff;
       idx = count - 1;
       for (var i = 0; i < _sync.weights.length; i++) {
         if (frac < _sync.weights[i]) { idx = i; break; }
@@ -31941,13 +31994,31 @@ document.addEventListener("keydown", function(e) {
     return;
   }
 
-  // Y = بحث صوتي
-  if (e.key === 'y' || e.key === 'Y') {
-    e.preventDefault();
-    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
-    if (typeof startVoiceSearch === 'function') startVoiceSearch();
-    if (typeof showToast === 'function') showToast(ar ? '🎤 بحث صوتي' : '🎤 Voice search');
-    return;
+  // Y = معايرة الآية المعروضة مع التلاوة (فى الشاشة الترحيبية أثناء تلاوة سورة)
+  //   Y = التلاوة وصلت للآية التالية (نتقدّم آية) ، Shift+Y = العرض سابق للتلاوة (نرجع آية)
+  // وفى أى حالة تانية Y = بحث صوتى زى ما كان
+  if (e.key === 'y' || e.key === 'Y' || e.key === 'غ') {
+    var _ws = document.getElementById('welcomeScreen');
+    var _wsOpen = !!(_ws && !window._welcomeScreenClosed && getComputedStyle(_ws).display !== 'none');
+    var _cal = (_wsOpen && typeof window.calibrateSyncAyah === 'function') ? window.calibrateSyncAyah(e.shiftKey ? -1 : 1) : null;
+    if (_cal) {
+      e.preventDefault();
+      var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+      if (typeof showToast === 'function') {
+        if (_cal.ok && _cal.basmala) showToast(ar ? '🎯 تمت المعايرة — البسملة' : '🎯 Calibrated — Basmala');
+        else if (_cal.ok) showToast((ar ? '🎯 تمت المعايرة — الآية ' : '🎯 Calibrated — ayah ') + _cal.num + (ar ? ' من ' : ' of ') + _cal.total);
+        else if (_cal.reason === 'edge') showToast(_cal.dir < 0 ? (ar ? '⏮️ دى أول آية' : '⏮️ This is the first ayah') : (ar ? '⏭️ دى آخر آية' : '⏭️ This is the last ayah'));
+        else showToast(ar ? 'المعايرة متاحة بعد بدء تشغيل التلاوة' : 'Calibration is available once playback has started');
+      }
+      return;
+    }
+    if (e.key === 'y' || e.key === 'Y') {
+      e.preventDefault();
+      var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+      if (typeof startVoiceSearch === 'function') startVoiceSearch();
+      if (typeof showToast === 'function') showToast(ar ? '🎤 بحث صوتي' : '🎤 Voice search');
+      return;
+    }
   }
 
   // F = عرض / إخفاء المفضلة  (يجب فحص Shift+F أولاً)
@@ -33114,6 +33185,24 @@ document.addEventListener('keydown', function(e) {
       zh: '减小字体',
       ur: 'فونٹ سائز کم کریں'
     },
+    r_ayahcal: {
+      ar: 'معايرة الآية مع التلاوة: التلاوة وصلت للآية التالية (الشاشة الترحيبية)',
+      en: 'Sync ayah with recitation: recitation reached the next ayah (welcome screen)',
+      fr: 'Caler le verset sur la récitation : passer au verset suivant (écran d\'accueil)',
+      es: 'Sincronizar aleya con la recitación: pasar a la siguiente (pantalla de bienvenida)',
+      de: 'Vers mit Rezitation abgleichen: zum nächsten Vers (Startbildschirm)',
+      tr: 'Ayeti tilavetle eşle: sonraki ayete geç (karşılama ekranı)',
+      ru: 'Синхронизировать аят с чтением: перейти к следующему (экран приветствия)'
+    },
+    r_ayahcalback: {
+      ar: 'معايرة الآية مع التلاوة: العرض سابق للتلاوة (رجوع آية)',
+      en: 'Sync ayah with recitation: display is ahead (go back one ayah)',
+      fr: 'Caler le verset : l\'affichage est en avance (revenir d\'un verset)',
+      es: 'Sincronizar aleya: la pantalla va adelantada (volver una aleya)',
+      de: 'Vers abgleichen: Anzeige ist voraus (einen Vers zurück)',
+      tr: 'Ayeti eşle: ekran ileride (bir ayet geri)',
+      ru: 'Синхронизировать аят: показ опережает (назад на один аят)'
+    },
     r_voice: {
       ar: 'بحث صوتي',
       en: 'Voice search',
@@ -33788,6 +33877,8 @@ document.addEventListener('keydown', function(e) {
       kbRow('r_fontup', [']'], lang),
       kbRow('r_fontdown', ['['], lang),
       kbRow('r_voice', ['Y'], lang),
+      kbRow('r_ayahcal', ['Y'], lang),
+      kbRow('r_ayahcalback', ['Shift', 'Y'], lang),
       '<div class="kb-row" data-action="r_o" role="button" tabindex="0" onclick="window._kbFireAction(\'r_o\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_o\')"><span class="kb-row-desc">' + T.r_o[lang] + '<span class="kb-row-tap-hint">' + (KB_TAP_HINT[lang] || KB_TAP_HINT.en) + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">3</span><span class="kb-sep">(</span><span class="kb-key">#</span><span class="kb-sep">)</span></div></div>',
       kbRow('r_f', ['F'], lang),
       '<div class="kb-row" data-action="r_sf" role="button" tabindex="0" onclick="window._kbFireAction(\'r_sf\')" onkeypress="if(event.key===\'Enter\')window._kbFireAction(\'r_sf\')"><span class="kb-row-desc">' + T.r_sf[lang] + '<span class="kb-row-tap-hint">' + (KB_TAP_HINT[lang] || KB_TAP_HINT.en) + '</span></span><div class="kb-keys"><span class="kb-key">Shift</span><span class="kb-sep">+</span><span class="kb-key">F</span></div></div>',
