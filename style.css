@@ -11625,6 +11625,8 @@ body.media-theme-glass .button.has-tasbih .station-text .istiadha-prefix {
 }
 #arabicVerse .sync-ayah:last-child { margin-bottom: 0; }
 #arabicVerse .sync-next { opacity: 0.5; font-size: 0.86em; }
+/* الآية السابقة (باهتة قبل الحالية) – نفس شكل اللى بعدها عشان الحالية تفضل هى الأوضح */
+#arabicVerse .sync-prev { opacity: 0.5; font-size: 0.86em; }
 #arabicVerse .sync-num { opacity: 0.75; font-size: 0.8em; white-space: nowrap; }
 @keyframes syncAyahIn { from { opacity: 0; transform: translateY(6px); } }
 @media (prefers-reduced-motion: reduce) {
