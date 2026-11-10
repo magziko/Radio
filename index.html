@@ -2636,17 +2636,36 @@ setTimeout(autoScaleVerseFont, 100);
   //  - مرة واحدة ~6 ثوانى أول ما تبدأ المزامنة لسورة جديدة،
   //  - وبعدها بالتحويم بالماوس، أو بالضغط على الأيقونة (للموبايل).
   var APPROX_NOTE_TEXT = '⚠️ عرض تقريبي حسب موضع التشغيل — وليس مزامنة حرفية مع الصوت / Approximate display, not an exact live sync';
-  var APPROX_NOTE_HTML = '<span class="sync-note" role="note" tabindex="0" title="">' +
+  var APPROX_NOTE_CHIP_HTML = '<span class="sync-note" role="note" tabindex="0" title="">' +
         '<span class="sync-note-icon" aria-hidden="true">⚠️</span>' +
         '<span class="sync-note-text">' + APPROX_NOTE_TEXT + '</span></span>';
+
+  // أزرار المعايرة على الشاشة (للموبايل): ⏮️ = العرض سابق للتلاوة (رجوع آية) ، ⏭️ = التلاوة وصلت للآية التالية (تقدّم آية)
+  function approxNoteHTML() {
+    var ar = _isAr();
+    var tBack = ar ? 'العرض سابق للتلاوة — رجوع آية (Shift+Y)' : 'Display is ahead — go back one ayah (Shift+Y)';
+    var tNext = ar ? 'التلاوة وصلت للآية التالية — تقدّم آية (Y)' : 'Recitation reached the next ayah — advance one (Y)';
+    return '<span class="sync-cal-wrap">' +
+      '<button type="button" class="sync-cal-btn" data-dir="-1" title="' + tBack + '" aria-label="' + tBack + '">⏮️</button>' +
+      APPROX_NOTE_CHIP_HTML +
+      '<button type="button" class="sync-cal-btn" data-dir="1" title="' + tNext + '" aria-label="' + tNext + '">⏭️</button>' +
+      '</span>';
+  }
 
   function ensureSyncNote(transEl) {
     if (!transEl) return;
     // لو الأيقونة موجودة بالفعل ما نعيدش إنشاءها (عشان التنبيه الظاهر ما يوميضش مع تغيّر الآية)
     if (transEl.querySelector('.sync-note')) return;
-    transEl.innerHTML = APPROX_NOTE_HTML;
+    transEl.innerHTML = approxNoteHTML();
     var chip = transEl.querySelector('.sync-note');
     if (!chip) return;
+    var calBtns = transEl.querySelectorAll('.sync-cal-btn');
+    for (var bi = 0; bi < calBtns.length; bi++) {
+      calBtns[bi].addEventListener('click', function(e) {
+        e.stopPropagation(); e.preventDefault();
+        window.calibrateSyncAyahUI(parseInt(this.getAttribute('data-dir'), 10) || 1);
+      });
+    }
     chip.addEventListener('click', function(e) { e.stopPropagation(); chip.classList.toggle('show'); });
     if (!_sync.noteShown) {
       _sync.noteShown = true;
@@ -2749,7 +2768,9 @@ setTimeout(autoScaleVerseFont, 100);
   // بتزيح موضع التلاوة المحسوب بإزاحة ثابتة (نسبة من مدة الملف) بحيث الآية المطلوبة تظهر فورًا
   // وتكمّل التلاوة منها. الإزاحة مؤقتة: خاصة بنفس الملف الصوتى ونفس السورة (بتفضل بعد الإيقاف/التشغيل،
   // وبتتصفّر تلقائيًا أول ما تتغيّر السورة أو المصدر). مش بتغيّر ضبط السرعة المحفوظ للقارئ.
-  var _calib = { el: null, n: null, off: 0 };
+  var _calib = { el: null, n: null, off: 0, pts: [] };
+  // pts = نقاط المعايرة فى الجلسة: {t: وقت الصوت بالثوانى, f: النسبة الفعلية من السورة وقتها}. بنستخدمها نحسب سرعة القارئ.
+  var LEARN_MIN_GAP = 90;   // أقل فرق (ثوانى) بين نقطتين عشان نثق فى حساب السرعة
 
   // dir = +1: التلاوة وصلت للآية اللى بعد المعروضة (العرض متأخر) → نتقدّم آية
   // dir = -1: العرض سابق للتلاوة → نرجع آية
@@ -2764,11 +2785,72 @@ setTimeout(autoScaleVerseFont, 100);
     var span = _sync.weights[target] - start;
     // تقدّم: الآية الجديدة لسه بادئة (15% من مدتها). رجوع: القارئ غالبًا فى آخر الآية السابقة (70%).
     var targetFrac = start + span * (dir < 0 ? 0.7 : 0.15);
-    var speed = 1 + getSyncSpeedPct(_sync.reciterKey) / 100;
-    _calib = { el: a, n: _sync.surahNumber, off: targetFrac - ((a.currentTime || 0) * speed) / dur };
-    tick();   // نطبّق فورًا
+    var tNow = a.currentTime || 0;
+    var oldPct = getSyncSpeedPct(_sync.reciterKey);
+    var speed = 1 + oldPct / 100;
+    var sameSession = (_calib.el === a && _calib.n === _sync.surahNumber);
+    var prevPts = sameSession ? _calib.pts : [];
+    var off = targetFrac - (tNow * speed) / dur;
+
+    // ───── تعلّم سرعة القارئ ─────
+    // لو فيه نقطة معايرة سابقة بعيدة عن دلوقتى (>= 90 ث) نحسب السرعة الفعلية من النقطتين:
+    //   السرعة = (فرق النسبة بين النقطتين × مدة الملف) ÷ فرق الوقت. ونحفظها للقارئ لو اختلفت عن الحالية بنقطتين مئويتين أو أكتر.
+    var best = null;
+    for (var i = 0; i < prevPts.length; i++) {
+      var gap = Math.abs(tNow - prevPts[i].t);
+      if (gap >= LEARN_MIN_GAP && (!best || gap > Math.abs(tNow - best.t))) best = prevPts[i];
+    }
+    var learned = null;
+    if (best) {
+      var est = ((targetFrac - best.f) * dur) / (tNow - best.t);
+      if (est > 0.6 && est < 1.4) {
+        var newPct = _clampPct((est - 1) * 100);
+        if (Math.abs(newPct - oldPct) >= 2) {
+          learned = { from: oldPct, to: newPct };
+          speed = 1 + newPct / 100;
+          off = targetFrac - (tNow * speed) / dur;   // نحافظ على المعايرة الحالية بالسرعة الجديدة
+        }
+      }
+    }
+    _calib = { el: a, n: _sync.surahNumber, off: off, pts: prevPts.concat([{ t: tNow, f: targetFrac }]).slice(-8) };
+    if (learned) window.setSyncAyahSpeed(learned.to);   // بيحفظ للقارئ وبيعمل tick
+    else tick();   // نطبّق فورًا
     var offC = _sync.off || 0;
-    return { ok: true, idx: target, num: target + 1 - offC, total: count - offC, basmala: target < offC, name: _sync.name };
+    return { ok: true, idx: target, num: target + 1 - offC, total: count - offC, basmala: target < offC, name: _sync.name, learned: learned };
+  };
+
+  // تراجع عن السرعة اللى اتعلّمناها: نرجّع القيمة القديمة مع الحفاظ على الآية المعروضة
+  window.undoLearnedSyncSpeed = function(fromPct) {
+    var a = _sync.audioEl;
+    if (_sync.active && a && a.duration && isFinite(a.duration) && _calib.el === a && _calib.pts.length) {
+      var last = _calib.pts[_calib.pts.length - 1];
+      _calib.off = last.f - (last.t * (1 + _clampPct(fromPct) / 100)) / a.duration;
+    }
+    window.setSyncAyahSpeed(fromPct);
+  };
+
+  // واجهة موحّدة للكيبورد والأزرار: بتعاير وبتظهر إشعار (وبترجّع null لو مفيش عرض متزامن)
+  window.calibrateSyncAyahUI = function(dir) {
+    var r = window.calibrateSyncAyah(dir);
+    if (!r) return null;
+    if (typeof showToast !== 'function') return r;
+    var ar = _isAr();
+    if (!r.ok) {
+      if (r.reason === 'edge') showToast(r.dir < 0 ? (ar ? '⏮️ دى أول آية' : '⏮️ This is the first ayah') : (ar ? '⏭️ دى آخر آية' : '⏭️ This is the last ayah'));
+      else showToast(ar ? 'المعايرة متاحة بعد بدء تشغيل التلاوة' : 'Calibration is available once playback has started');
+      return r;
+    }
+    var msg = r.basmala
+      ? (ar ? '🎯 تمت المعايرة — البسملة' : '🎯 Calibrated — Basmala')
+      : (ar ? '🎯 تمت المعايرة — الآية ' : '🎯 Calibrated — ayah ') + r.num + (ar ? ' من ' : ' of ') + r.total;
+    if (r.learned) {
+      var p = r.learned.to;
+      msg += (ar ? ' · 💾 اتحفظت سرعة القارئ (' : ' · 💾 Reciter speed saved (') + (p > 0 ? '+' : '') + p + '%)';
+      showToast(msg, { actionLabel: ar ? 'تراجع' : 'Undo', duration: 7000, onAction: function() { window.undoLearnedSyncSpeed(r.learned.from); } });
+    } else {
+      showToast(msg);
+    }
+    return r;
   };
 
   // ───── البسملة ─────
@@ -32000,18 +32082,8 @@ document.addEventListener("keydown", function(e) {
   if (e.key === 'y' || e.key === 'Y' || e.key === 'غ') {
     var _ws = document.getElementById('welcomeScreen');
     var _wsOpen = !!(_ws && !window._welcomeScreenClosed && getComputedStyle(_ws).display !== 'none');
-    var _cal = (_wsOpen && typeof window.calibrateSyncAyah === 'function') ? window.calibrateSyncAyah(e.shiftKey ? -1 : 1) : null;
-    if (_cal) {
-      e.preventDefault();
-      var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
-      if (typeof showToast === 'function') {
-        if (_cal.ok && _cal.basmala) showToast(ar ? '🎯 تمت المعايرة — البسملة' : '🎯 Calibrated — Basmala');
-        else if (_cal.ok) showToast((ar ? '🎯 تمت المعايرة — الآية ' : '🎯 Calibrated — ayah ') + _cal.num + (ar ? ' من ' : ' of ') + _cal.total);
-        else if (_cal.reason === 'edge') showToast(_cal.dir < 0 ? (ar ? '⏮️ دى أول آية' : '⏮️ This is the first ayah') : (ar ? '⏭️ دى آخر آية' : '⏭️ This is the last ayah'));
-        else showToast(ar ? 'المعايرة متاحة بعد بدء تشغيل التلاوة' : 'Calibration is available once playback has started');
-      }
-      return;
-    }
+    var _cal = (_wsOpen && typeof window.calibrateSyncAyahUI === 'function') ? window.calibrateSyncAyahUI(e.shiftKey ? -1 : 1) : null;
+    if (_cal) { e.preventDefault(); return; }
     if (e.key === 'y' || e.key === 'Y') {
       e.preventDefault();
       var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
