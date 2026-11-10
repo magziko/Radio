@@ -2605,6 +2605,8 @@ setTimeout(autoScaleVerseFont, 100);
   // السكربت ده فى الـ <head> فالعناصر لسه ما اتبنتش: نجهّز الواجهة بعد تحميل الصفحة
   function _initSyncSpeedUI() {
     syncSpeedUI();
+    var _pcb = document.getElementById('syncShowPrevToggle');
+    if (_pcb) _pcb.checked = syncShowPrev();
     var g = document.getElementById('syncAyahSpeedGroup');   // نحدّث الوصف (اللغة/القارئ الحالى) لما المستخدم يقرّب من الخيار
     if (g) { g.addEventListener('pointerenter', syncSpeedUI); g.addEventListener('focusin', syncSpeedUI); }
   }
@@ -2676,15 +2678,33 @@ setTimeout(autoScaleVerseFont, 100);
   var AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
   function toArDigits(n) { return String(n).replace(/\d/g, function(d) { return AR_DIGITS.charAt(+d); }); }
 
-  function ayahWindowHTML(idx, n) {
-    var h = '';
-    for (var k = 0; k < n; k++) {
-      var i = idx + k;
-      h += '<span class="sync-ayah ' + (k === 0 ? 'sync-current' : 'sync-next') + '">' +
+  function ayahSpanHTML(i, cls) {
+    return '<span class="sync-ayah ' + cls + '">' +
            _sync.ayahs[i] + ' <span class="sync-num">\uFD3F' + toArDigits(i + 1) + '\uFD3E</span></span>';
+  }
+
+  // withPrev: نعرض الآية السابقة (باهتة) قبل الحالية، لأن العرض تقريبى وممكن القارئ لسه فى آخر الآية اللى فاتت
+  function ayahWindowHTML(idx, n, withPrev) {
+    var h = '';
+    if (withPrev && idx > 0) h += ayahSpanHTML(idx - 1, 'sync-prev');
+    for (var k = 0; k < n; k++) {
+      h += ayahSpanHTML(idx + k, k === 0 ? 'sync-current' : 'sync-next');
     }
     return h;
   }
+
+  // ───── خيار إظهار الآية السابقة (افتراضى: شغّال، وبيتحفظ فى المتصفح) ─────
+  var SHOW_PREV_KEY = 'syncShowPrevAyah';
+  function syncShowPrev() { return _lsGet(SHOW_PREV_KEY) !== 'false'; }
+  window.toggleSyncShowPrevAyah = function(cb) {
+    _lsSet(SHOW_PREV_KEY, (cb && cb.checked) ? 'true' : 'false');
+    if (_sync.active && _sync.ayahs && _sync.lastIdx >= 0) showAyahWindow(_sync.lastIdx);   // نطبّق فورًا
+  };
+  (function() {
+    var st = document.createElement('style');
+    st.textContent = '.sync-ayah.sync-prev{opacity:.5;}';
+    document.head.appendChild(st);
+  })();
 
   function showAyahWindow(idx) {
     var arabicEl = document.getElementById('arabicVerse');
@@ -2696,12 +2716,27 @@ setTimeout(autoScaleVerseFont, 100);
     ensureSyncNote(transEl);
     _verseFitWorst = null; _verseFitKey = -1;   // وضع المزامنة: نقيس المحتوى الظاهر كما هو
     var maxN = Math.min(3, count - idx);
-    for (var n = maxN; n >= 1; n--) {
-      arabicEl.innerHTML = ayahWindowHTML(idx, n);
-      autoScaleVerseFont();
+    function fitsWell() {
       var info = _verseFitInfo;
-      // نقبل العدد ده لو اتسع من غير ما الخط يصغر عن الحجم الأساسى؛ ولو آية واحدة نقبلها مهما كان
-      if (n === 1 || (info && !info.overflow && info.s >= 0.95)) break;
+      return !!(info && !info.overflow && info.s >= 0.95);
+    }
+    var done = false;
+    // 1) مع الآية السابقة: نجرّب أكبر عدد آيات يتسع بخط مقروء
+    if (syncShowPrev() && idx > 0) {
+      for (var p = maxN; p >= 1; p--) {
+        arabicEl.innerHTML = ayahWindowHTML(idx, p, true);
+        autoScaleVerseFont();
+        if (fitsWell()) { done = true; break; }
+      }
+    }
+    // 2) لو الخيار مقفول أو الآيات طويلة ومفيش مكان للسابقة: العرض القديم (الحالية + اللى بعدها)
+    if (!done) {
+      for (var n = maxN; n >= 1; n--) {
+        arabicEl.innerHTML = ayahWindowHTML(idx, n, false);
+        autoScaleVerseFont();
+        // نقبل العدد ده لو اتسع من غير ما الخط يصغر عن الحجم الأساسى؛ ولو آية واحدة نقبلها مهما كان
+        if (n === 1 || fitsWell()) break;
+      }
     }
   }
   window._syncRelayout = function() {
@@ -3443,6 +3478,12 @@ setTimeout(autoScaleVerseFont, 100);
               onclick="window.resetSyncAyahSpeed && window.resetSyncAyahSpeed()"
               data-ar="↺" data-en="↺" title="إعادة الضبط / Reset">↺</button>
       <div id="syncAyahSpeedScope" style="flex-basis:100%;font-size:11px;opacity:0.8;line-height:1.5;white-space:normal;overflow-wrap:anywhere;text-align:center;"></div>
+    </div>
+    <div id="settings-syncprev-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="إظهار الآية السابقة قبل الآية الحالية في الشاشة الترحيبية أثناء التلاوة">
+      <span class="wtb-icon">⬆️</span>
+      <label for="syncShowPrevToggle" class="wtb-text" data-ar="إظهار الآية السابقة مع التلاوة" data-en="Show previous ayah during recitation" data-fr="Afficher le verset précédent" data-es="Mostrar la aleya anterior" data-de="Vorherigen Vers anzeigen" data-tr="Önceki ayeti göster" data-ru="Показывать предыдущий аят">إظهار الآية السابقة مع التلاوة</label>
+      <input type="checkbox" id="syncShowPrevToggle" class="wtb-switch" checked onchange="window.toggleSyncShowPrevAyah && window.toggleSyncShowPrevAyah(this)">
     </div>
     <div id="settings-flag-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
       <label for="buttonsFlagToggle" class="wtb-text" data-ar="🇵🇸 علم فلسطين بشريط المشغّل" data-en="🇵🇸 Palestine Flag in the Player Bar" data-fr="🇵🇸 Drapeau palestinien dans la barre du lecteur" data-es="🇵🇸 Bandera de Palestina en la barra del reproductor" data-sv="🇵🇸 Palestinsk flagga i spelarfältet" data-nl="🇵🇸 Palestijnse vlag in de spelerbalk" data-ga="🇵🇸 Bratach na Palaistíne sa bharra seinnteora" data-de="🇵🇸 Palästina-Flagge in der Player-Leiste" data-ru="🇵🇸 Флаг Палестины в панели плеера" data-tr="🇵🇸 Oynatıcı çubuğunda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina na barra do player" data-zh="🇵🇸 播放器栏中的巴勒斯坦国旗" data-ur="🇵🇸 پلیئر بار میں فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بشريط المشغّل</label>
