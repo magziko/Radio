@@ -21224,12 +21224,16 @@ function setDhikrTipDuration(n) {
       btn.setAttribute('data-tip', t);
       btn.removeAttribute('title');
     }
+    // النص الداخلى (.station-text) بيتبنى بنفس الـ title (renderStationButtons)، فكان بيظهر تلميح المتصفح القديم
+    // جنب التلميح المخصص لما المؤشر يقف على النص. نشيله هنا (التلميح المخصص بيعرض نفس النص بالفعل).
+    var inner = btn.querySelectorAll ? btn.querySelectorAll('.station-text[title]') : [];
+    for (var i = 0; i < inner.length; i++) inner[i].removeAttribute('title');
     return btn.getAttribute('data-tip') || '';
   }
   function tipButton(target) {
     var b = target && target.closest ? target.closest('.button') : null;
     if (!b) return null;
-    return (b.hasAttribute('data-tip') || b.hasAttribute('title')) ? b : null;
+    return (b.hasAttribute('data-tip') || b.hasAttribute('title') || b.querySelector('.station-text[title]')) ? b : null;
   }
 
   function show(btn, byHover) {
