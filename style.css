@@ -11627,8 +11627,8 @@ body.media-theme-glass .button.has-tasbih .station-text .istiadha-prefix {
 #arabicVerse .sync-next { opacity: 0.5; font-size: 0.86em; }
 /* الآية السابقة (باهتة قبل الحالية) – نفس شكل اللى بعدها عشان الحالية تفضل هى الأوضح */
 #arabicVerse .sync-prev { opacity: 0.5; font-size: 0.86em; }
-/* البسملة: سطر مستقل متوسّط أول السورة */
-#arabicVerse .sync-basmala { text-align: center; }
+/* الضغط على الآية الحالية يفتح المصحف (eQuran) عند نفس الآية */
+#arabicVerse.sync-tap .sync-current { cursor: pointer; }
 /* أزرار معايرة الآية (⏮️ ⏭️) حوالين تنبيه "عرض تقريبى" */
 #englishVerse .sync-cal-wrap { display: inline-flex; align-items: center; gap: 8px; }
 #englishVerse .sync-cal-btn {
@@ -11640,6 +11640,23 @@ body.media-theme-glass .button.has-tasbih .station-text .istiadha-prefix {
   transition: background 0.15s, transform 0.1s;
 }
 #englishVerse .sync-cal-btn:hover { background: rgba(46, 134, 193, 0.22); }
+/* ترجمة / تفسير الآية الحالية (زر 📖) — مختصر 3 أسطر، والضغط عليه يفتحه كامل فوق الصندوق */
+#englishVerse .sync-extra { display: none; margin: 0 auto 6px; max-width: 94%; font-style: normal; cursor: pointer; }
+#englishVerse .sync-extra-title { display: block; font-size: 0.85em; opacity: 0.7; margin-bottom: 2px; letter-spacing: 0.02em; }
+#englishVerse .sync-extra-body { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.6; }
+#englishVerse .sync-extra-close { display: none; }
+#englishVerse .sync-extra.expanded {
+  position: absolute; top: 8px; right: 8px; bottom: 8px; left: 8px; z-index: 7;
+  max-width: none; margin: 0; padding: 14px 16px; overflow-y: auto; box-sizing: border-box;
+  text-align: start; border-radius: 14px;
+  background: rgba(255, 255, 255, 0.97); color: #1a3a52 !important; text-shadow: none !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+}
+#englishVerse .sync-extra.expanded .sync-extra-body { display: block; overflow: visible; -webkit-line-clamp: unset; font-size: 1.05em; line-height: 1.85; }
+#englishVerse .sync-extra.expanded .sync-extra-title { opacity: 0.8; margin-bottom: 8px; padding-inline-end: 24px; }
+#englishVerse .sync-extra.expanded .sync-extra-close { display: block; position: absolute; top: 8px; inset-inline-end: 12px; font-size: 16px; opacity: 0.6; }
+body.dark-mode #englishVerse .sync-extra.expanded { background: rgba(18, 28, 42, 0.97); color: #c8d8e8 !important; }
+
 #englishVerse .sync-cal-btn:active { transform: scale(0.92); }
 
 #arabicVerse .sync-num { opacity: 0.75; font-size: 0.8em; white-space: nowrap; }
