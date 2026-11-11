@@ -2573,7 +2573,9 @@ setTimeout(autoScaleVerseFont, 100);
     if (sc) {
       var hasOwn = !!(key && _readSpeedMap()[key] !== undefined);
       var how = pct > 0 ? (ar ? 'أسرع' : 'faster') : pct < 0 ? (ar ? 'أبطأ' : 'slower') : (ar ? 'الوضع الأصلى' : 'original');
-      if (key) {
+      if (_sync.active && _sync.exact) {
+        sc.textContent = ar ? '✅ هذا القارئ له توقيت دقيق لكل آية — ضبط السرعة غير مستخدم معه' : '✅ Exact per-ayah timing for this reciter — the speed setting is not used';
+      } else if (key) {
         sc.textContent = (ar ? '🎧 القارئ/المصدر الحالى: ' : '🎧 Current reciter/source: ') + key.split('/').slice(-1)[0] +
           ' — ' + (hasOwn ? (ar ? 'ضبط محفوظ له' : 'saved for it') : (ar ? 'الضبط الافتراضى' : 'default setting')) + ' (' + how + ')';
       } else {
@@ -2605,8 +2607,7 @@ setTimeout(autoScaleVerseFont, 100);
   // السكربت ده فى الـ <head> فالعناصر لسه ما اتبنتش: نجهّز الواجهة بعد تحميل الصفحة
   function _initSyncSpeedUI() {
     syncSpeedUI();
-    var _pcb = document.getElementById('syncShowPrevToggle');
-    if (_pcb) _pcb.checked = syncShowPrev();
+    syncOptionsUI();
     var g = document.getElementById('syncAyahSpeedGroup');   // نحدّث الوصف (اللغة/القارئ الحالى) لما المستخدم يقرّب من الخيار
     if (g) { g.addEventListener('pointerenter', syncSpeedUI); g.addEventListener('focusin', syncSpeedUI); }
   }
@@ -2645,11 +2646,130 @@ setTimeout(autoScaleVerseFont, 100);
     var ar = _isAr();
     var tBack = ar ? 'العرض سابق للتلاوة — رجوع آية (Shift+Y)' : 'Display is ahead — go back one ayah (Shift+Y)';
     var tNext = ar ? 'التلاوة وصلت للآية التالية — تقدّم آية (Y)' : 'Recitation reached the next ayah — advance one (Y)';
-    return '<span class="sync-cal-wrap">' +
+    var tRead = ar ? 'اقرأ من هنا في المصحف (eQuran) — أو اضغط على الآية' : 'Read from here in the Quran reader (eQuran) — or tap the ayah';
+    return '<span class="sync-extra" style="display:none"><span class="sync-extra-close" aria-hidden="true">✕</span>' +
+      '<span class="sync-extra-title"></span><span class="sync-extra-body" dir="auto"></span></span>' +
+      '<span class="sync-cal-wrap">' +
       '<button type="button" class="sync-cal-btn" data-dir="-1" title="' + tBack + '" aria-label="' + tBack + '">⏮️</button>' +
       APPROX_NOTE_CHIP_HTML +
       '<button type="button" class="sync-cal-btn" data-dir="1" title="' + tNext + '" aria-label="' + tNext + '">⏭️</button>' +
+      '<button type="button" class="sync-cal-btn sync-extra-btn" data-act="extra">📖</button>' +
+      '<button type="button" class="sync-cal-btn sync-eq-btn" data-act="equran" title="' + tRead + '" aria-label="' + tRead + '">📗</button>' +
       '</span>';
+  }
+
+  // ───── ترجمة / تفسير الآية الحالية (زر 📖: إيقاف ← ترجمة ← تفسير ميسّر) ─────
+  // النصوص من alquran.cloud (طلب واحد لكل سورة ولكل نسخة، وبتتخزن فى الذاكرة). الترجمة بلغة الشاشة الترحيبية (welcomeDisplayLang)
+  // وإنجليزى لو اللغة مالهاش نسخة. لو نسخة اللغة فشلت بنرجع للإنجليزى (en.sahih).
+  var EXTRA_MODE_KEY = 'syncExtraMode';
+  var TR_EDITIONS = { ar: 'en.sahih', en: 'en.sahih', fr: 'fr.hamidullah', es: 'es.cortes', sv: 'sv.bernstrom', nl: 'nl.keyzer',
+                      de: 'de.aburida', ru: 'ru.kuliev', tr: 'tr.diyanet', pt: 'pt.elhayek', zh: 'zh.jian', ur: 'ur.jalandhry', id: 'id.indonesian' };
+  var _extraCache = {}, _extraPending = {};
+
+  function getExtraMode() { var m = _lsGet(EXTRA_MODE_KEY); return (m === 'tr' || m === 'tafsir') ? m : 'off'; }
+  function extraEdition(mode) {
+    if (mode === 'tafsir') return 'ar.muyassar';
+    var l = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : 'ar';
+    return TR_EDITIONS[l] || 'en.sahih';
+  }
+  function fetchEdition(n, ed) {
+    return fetch('https://api.alquran.cloud/v1/surah/' + n + '/' + ed)
+      .then(function(r) { return r.json(); })
+      .then(function(j) {
+        if (!j || j.code !== 200 || !j.data || !Array.isArray(j.data.ayahs) || !j.data.ayahs.length) throw new Error('bad edition');
+        return j.data.ayahs.map(function(a) { return a.text; });
+      });
+  }
+  function loadExtra(n, ed) {
+    var key = n + ':' + ed;
+    if (_extraCache[key]) return Promise.resolve(_extraCache[key]);
+    if (_extraPending[key]) return _extraPending[key];
+    _extraPending[key] = fetchEdition(n, ed)
+      .then(function(tx) { return { ed: ed, texts: tx }; })
+      .catch(function(e) {
+        if (ed === 'en.sahih' || ed === 'ar.muyassar') throw e;
+        return fetchEdition(n, 'en.sahih').then(function(tx) { return { ed: 'en.sahih', texts: tx }; });
+      })
+      .catch(function() { return { ed: ed, texts: null, failed: true }; })
+      .then(function(res) { _extraCache[key] = res; delete _extraPending[key]; return res; });
+    return _extraPending[key];
+  }
+
+  // بتعرض نص الآية الحالية (idx = عنصر العرض الحالى؛ أثناء البسملة بنعرض الآية الأولى)
+  function renderSyncExtra(idx) {
+    var transEl = document.getElementById('englishVerse');
+    var box = transEl && transEl.querySelector('.sync-extra');
+    if (!box) return;
+    var mode = getExtraMode(), ar = _isAr();
+    var btn = transEl.querySelector('.sync-extra-btn');
+    if (btn) {
+      btn.textContent = mode === 'tr' ? '🌐' : (mode === 'tafsir' ? '📜' : '📖');
+      var tt = ar ? 'ترجمة / تفسير الآية الحالية — الوضع: ' + (mode === 'tr' ? 'ترجمة' : (mode === 'tafsir' ? 'التفسير الميسّر' : 'متوقف'))
+                  : 'Translation / tafsir of the current ayah — now: ' + (mode === 'tr' ? 'translation' : (mode === 'tafsir' ? 'tafsir' : 'off'));
+      btn.title = tt; btn.setAttribute('aria-label', tt);
+    }
+    if (mode === 'off' || !_sync.active || !_sync.ayahs) { box.style.display = 'none'; box.classList.remove('expanded'); return; }
+    var off = _sync.off || 0, k = Math.max(idx, off) - off;
+    var n = _sync.surahNumber, ed = extraEdition(mode), res = _extraCache[n + ':' + ed];
+    var txt = '…', usedEd = ed;
+    if (res) {
+      usedEd = res.ed;
+      txt = (res.texts && res.texts.length === _sync.ayahs.length - off) ? res.texts[k] : '—';
+    } else {
+      loadExtra(n, ed).then(function() {
+        if (_sync.active && _sync.surahNumber === n && typeof window._syncRelayout === 'function') window._syncRelayout();
+      });
+    }
+    var titleEl = box.querySelector('.sync-extra-title'), bodyEl = box.querySelector('.sync-extra-body');
+    var title = (mode === 'tafsir' ? (ar ? 'التفسير الميسّر' : 'Tafsir al-Muyassar (Arabic)')
+                                   : (ar ? 'الترجمة' : 'Translation') + ' · ' + usedEd.split('.')[0].toUpperCase())
+                + ' — ' + (ar ? 'الآية ' : 'Ayah ') + (k + 1);
+    if (titleEl && titleEl.textContent !== title) titleEl.textContent = title;
+    if (bodyEl && bodyEl.textContent !== txt) bodyEl.textContent = txt;
+    box.style.display = 'block';
+  }
+  // ───── اقرأ من هنا: يفتح eQuran عند الآية الحالية (زر 📗 أو الضغط على الآية المعروضة) ─────
+  window.openEquranAtCurrentAyah = function() {
+    if (!_sync.active || !_sync.ayahs || typeof window.openEquranAt !== 'function') return false;
+    var off = _sync.off || 0, ayah = Math.max(_sync.lastIdx, off) - off + 1;
+    if (!window.openEquranAt(_sync.surahNumber, ayah)) return false;
+    if (typeof showToast === 'function') {
+      var ar = _isAr();
+      showToast(ar ? '📗 فتح المصحف عند الآية ' + ayah : '📗 Opening the Quran reader at ayah ' + ayah);
+    }
+    return true;
+  };
+  document.addEventListener('click', function(e) {   // الضغط على الآية الحالية (من غير تحديد نص)
+    if (!_sync.active || !syncTapEnabled()) return;
+    var el = e.target && e.target.closest ? e.target.closest('#arabicVerse .sync-current') : null;
+    if (!el) return;
+    var sel = window.getSelection ? String(window.getSelection()) : '';
+    if (sel.length > 0) return;
+    window.openEquranAtCurrentAyah();
+  });
+
+  window.cycleSyncExtra = function() {
+    var m = getExtraMode(), nxt = m === 'off' ? 'tr' : (m === 'tr' ? 'tafsir' : 'off'), ar = _isAr();
+    _lsSet(EXTRA_MODE_KEY, nxt);
+    syncOptionsUI();   // نحدّث القايمة فى الإعدادات
+    Object.keys(_extraCache).forEach(function(k) { if (_extraCache[k] && _extraCache[k].failed) delete _extraCache[k]; });   // نعيد المحاولة لو فشلت قبل كده
+    if (typeof showToast === 'function') {
+      showToast(nxt === 'tr' ? (ar ? '🌐 ترجمة الآية الحالية' : '🌐 Translation of the current ayah')
+              : nxt === 'tafsir' ? (ar ? '📜 التفسير الميسّر للآية الحالية' : '📜 Tafsir al-Muyassar of the current ayah')
+              : (ar ? '📖 إخفاء الترجمة والتفسير' : '📖 Translation & tafsir hidden'));
+    }
+    if (typeof window._syncRelayout === 'function') window._syncRelayout();
+  };
+
+  var EXACT_NOTE_TEXT = '✅ توقيت دقيق لكل آية (من mp3quran.net) / Exact per-ayah timing';
+  // أيقونة/نص التنبيه حسب الوضع: ⚠️ تقريبى أو ✅ دقيق
+  function applyNoteMode() {
+    var transEl = document.getElementById('englishVerse');
+    var chip = transEl && transEl.querySelector('.sync-note');
+    if (!chip) return;
+    var ic = chip.querySelector('.sync-note-icon'), tx = chip.querySelector('.sync-note-text');
+    if (ic) ic.textContent = _sync.exact ? '✅' : '⚠️';
+    if (tx) tx.textContent = _sync.exact ? EXACT_NOTE_TEXT : APPROX_NOTE_TEXT;
   }
 
   function ensureSyncNote(transEl) {
@@ -2663,9 +2783,14 @@ setTimeout(autoScaleVerseFont, 100);
     for (var bi = 0; bi < calBtns.length; bi++) {
       calBtns[bi].addEventListener('click', function(e) {
         e.stopPropagation(); e.preventDefault();
+        var act = this.getAttribute('data-act');
+        if (act === 'extra') { window.cycleSyncExtra(); return; }                // زر 📖
+        if (act === 'equran') { window.openEquranAtCurrentAyah(); return; }      // زر 📗
         window.calibrateSyncAyahUI(parseInt(this.getAttribute('data-dir'), 10) || 1);
       });
     }
+    var extraBox = transEl.querySelector('.sync-extra');   // الضغط على النص بيفتحه كامل/بيقفله
+    if (extraBox) extraBox.addEventListener('click', function(e) { e.stopPropagation(); this.classList.toggle('expanded'); });
     chip.addEventListener('click', function(e) { e.stopPropagation(); chip.classList.toggle('show'); });
     if (!_sync.noteShown) {
       _sync.noteShown = true;
@@ -2697,11 +2822,9 @@ setTimeout(autoScaleVerseFont, 100);
   var AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
   function toArDigits(n) { return String(n).replace(/\d/g, function(d) { return AR_DIGITS.charAt(+d); }); }
 
+  // عنصر البسملة (لو موجود) بيفضل فى القايمة للتوقيت بس، وما بيتعرضش: السطر الثابت .basmala-line فوق الآية بيعرضها
   function ayahSpanHTML(i, cls) {
     var off = _sync.off || 0;
-    if (i < off) {   // البسملة: سطر مستقل بدون رقم آية
-      return '<span class="sync-ayah sync-basmala ' + cls + '">' + _sync.ayahs[i] + '</span>';
-    }
     return '<span class="sync-ayah ' + cls + '">' +
            _sync.ayahs[i] + ' <span class="sync-num">\uFD3F' + toArDigits(i + 1 - off) + '\uFD3E</span></span>';
   }
@@ -2709,12 +2832,56 @@ setTimeout(autoScaleVerseFont, 100);
   // withPrev: نعرض الآية السابقة (باهتة) قبل الحالية، لأن العرض تقريبى وممكن القارئ لسه فى آخر الآية اللى فاتت
   function ayahWindowHTML(idx, n, withPrev) {
     var h = '';
-    if (withPrev && idx > 0) h += ayahSpanHTML(idx - 1, 'sync-prev');
+    if (withPrev && idx > (_sync.off || 0)) h += ayahSpanHTML(idx - 1, 'sync-prev');
     for (var k = 0; k < n; k++) {
       h += ayahSpanHTML(idx + k, k === 0 ? 'sync-current' : 'sync-next');
     }
     return h;
   }
+
+  // ───── خيارات وضع التلاوة فى الإعدادات (كلها افتراضيًا شغّالة ما عدا الترجمة/التفسير، وبتتحفظ فى المتصفح) ─────
+  function _flag(key) { return _lsGet(key) !== 'false'; }
+  function syncExactEnabled()   { return _flag('syncExactTiming'); }     // التوقيت الدقيق (mp3quran) لما يكون متاح
+  function syncLearnEnabled()   { return _flag('syncLearnSpeed'); }      // حفظ سرعة القارئ تلقائيًا من المعايرة
+  function syncButtonsEnabled() { return _flag('syncShowButtons'); }     // أزرار ⏮️ ⏭️ 📖 📗 على الشاشة
+  function syncTapEnabled()     { return _flag('syncTapOpenEquran'); }   // الضغط على الآية يفتح المصحف
+
+  // بتحدّث حالة كل عناصر الإعدادات الخاصة بوضع التلاوة
+  function syncOptionsUI() {
+    var set = function(id, v) { var el = document.getElementById(id); if (el) el.checked = !!v; };
+    set('syncShowPrevToggle', syncShowPrev());
+    set('syncExactToggle', syncExactEnabled());
+    set('syncLearnToggle', syncLearnEnabled());
+    set('syncButtonsToggle', syncButtonsEnabled());
+    set('syncTapToggle', syncTapEnabled());
+    var sel = document.getElementById('syncExtraModeSelect');
+    if (sel) sel.value = getExtraMode();
+  }
+  // التوقيت الدقيق: لو اتقفل نرجع للتقدير فورًا، ولو اتفتح نشغّله (ونجيب التوقيت لو ما اتجابش)
+  function dropExactTiming() {
+    _sync.times = null; _sync.starts = null; _sync.exact = false; _sync.lastIdx = -1;
+    _calib = { el: null, n: null, off: 0, pts: [] };
+    applyNoteMode(); syncSpeedUI();
+  }
+  window.toggleSyncOption = function(name, cb) {
+    var on = !!(cb && cb.checked);
+    if (name === 'exact') {
+      _lsSet('syncExactTiming', on ? 'true' : 'false');
+      if (on && _sync.active && !_sync.timingList && _sync.audioEl && _sync.surahNumber) startTimingLookup(_sync.surahNumber, _sync.audioEl);
+      if (on) _sync.timingBad = false;
+      try { tick(); } catch (e) {}
+      return;
+    }
+    if (name === 'learn')   _lsSet('syncLearnSpeed', on ? 'true' : 'false');
+    if (name === 'buttons') _lsSet('syncShowButtons', on ? 'true' : 'false');
+    if (name === 'tap')     _lsSet('syncTapOpenEquran', on ? 'true' : 'false');
+    if (typeof window._syncRelayout === 'function') window._syncRelayout();   // نطبّق فورًا
+  };
+  window.setSyncExtraMode = function(v) {
+    _lsSet(EXTRA_MODE_KEY, (v === 'tr' || v === 'tafsir') ? v : 'off');
+    Object.keys(_extraCache).forEach(function(k) { if (_extraCache[k] && _extraCache[k].failed) delete _extraCache[k]; });
+    if (typeof window._syncRelayout === 'function') window._syncRelayout();
+  };
 
   // ───── خيار إظهار الآية السابقة (افتراضى: شغّال، وبيتحفظ فى المتصفح) ─────
   var SHOW_PREV_KEY = 'syncShowPrevAyah';
@@ -2731,21 +2898,30 @@ setTimeout(autoScaleVerseFont, 100);
     if (!arabicEl || !_sync.ayahs) return;
     var count = _sync.ayahs.length;
     var off = _sync.off || 0;
+    var tag = _sync.exact ? ' (دقيق)' : ' (تقريبي)';
     if (numEl) numEl.innerText = (idx < off)
-      ? _sync.name + ' — البسملة (تقريبي)'
-      : _sync.name + ' — الآية ' + (idx + 1 - off) + ' من ' + (count - off) + ' (تقريبي)';
+      ? _sync.name + ' — البسملة' + tag
+      : _sync.name + ' — الآية ' + (idx + 1 - off) + ' من ' + (count - off) + tag;
     ensureSyncNote(transEl);
+    applyNoteMode();
+    var calBtnsEl = transEl ? transEl.querySelectorAll('.sync-cal-btn') : [];   // إظهار/إخفاء الأزرار حسب الإعدادات
+    var showBtns = syncButtonsEnabled();
+    for (var cb = 0; cb < calBtnsEl.length; cb++) calBtnsEl[cb].style.display = showBtns ? '' : 'none';
+    arabicEl.classList.toggle('sync-tap', syncTapEnabled());
+    renderSyncExtra(idx);   // قبل القياس عشان مساحته تتحسب
     _verseFitWorst = null; _verseFitKey = -1;   // وضع المزامنة: نقيس المحتوى الظاهر كما هو
-    var maxN = Math.min(3, count - idx);
+    // أثناء البسملة نعرض الآية الأولى (القارئ يقدر يبدأ يقراها) والبسملة ظاهرة فى السطر الثابت فوقها
+    var base = Math.max(idx, off);
+    var maxN = Math.min(getExtraMode() !== 'off' ? 1 : 3, count - base);   // ترجمة/تفسير شغّال: السابقة + الحالية بس
     function fitsWell() {
       var info = _verseFitInfo;
       return !!(info && !info.overflow && info.s >= 0.95);
     }
     var done = false;
     // 1) مع الآية السابقة: نجرّب أكبر عدد آيات يتسع بخط مقروء
-    if (syncShowPrev() && idx > 0) {
+    if (syncShowPrev() && base > off) {
       for (var p = maxN; p >= 1; p--) {
-        arabicEl.innerHTML = ayahWindowHTML(idx, p, true);
+        arabicEl.innerHTML = ayahWindowHTML(base, p, true);
         autoScaleVerseFont();
         if (fitsWell()) { done = true; break; }
       }
@@ -2753,7 +2929,7 @@ setTimeout(autoScaleVerseFont, 100);
     // 2) لو الخيار مقفول أو الآيات طويلة ومفيش مكان للسابقة: العرض القديم (الحالية + اللى بعدها)
     if (!done) {
       for (var n = maxN; n >= 1; n--) {
-        arabicEl.innerHTML = ayahWindowHTML(idx, n, false);
+        arabicEl.innerHTML = ayahWindowHTML(base, n, false);
         autoScaleVerseFont();
         // نقبل العدد ده لو اتسع من غير ما الخط يصغر عن الحجم الأساسى؛ ولو آية واحدة نقبلها مهما كان
         if (n === 1 || fitsWell()) break;
@@ -2780,7 +2956,16 @@ setTimeout(autoScaleVerseFont, 100);
     var a = _sync.audioEl, dur = a.duration, count = _sync.ayahs.length;
     if (!dur || !isFinite(dur) || dur <= 0) return { ok: false, reason: 'nodur' };
     var target = _sync.lastIdx + (dir < 0 ? -1 : 1);
-    if (target < 0 || target > count - 1) return { ok: false, reason: 'edge', idx: _sync.lastIdx, dir: dir };
+    if (target < (_sync.off || 0) || target > count - 1) return { ok: false, reason: 'edge', idx: _sync.lastIdx, dir: dir };
+    if (_sync.exact && _sync.starts) {   // توقيت دقيق: نزيح الوقت بالملّى ثانية (من غير تعلّم سرعة)
+      var sMs = _sync.starts[target];
+      var eMs = (target < count - 1) ? _sync.starts[target + 1] : sMs + 3000;
+      var tgtMs = sMs + (eMs - sMs) * (dir < 0 ? 0.7 : 0.15);
+      _calib = { el: a, n: _sync.surahNumber, off: 0, offMs: tgtMs - (a.currentTime || 0) * 1000, pts: [] };
+      tick();
+      var offE = _sync.off || 0;
+      return { ok: true, idx: target, num: target + 1 - offE, total: count - offE, basmala: target < offE, name: _sync.name, learned: null };
+    }
     var start = target === 0 ? 0 : _sync.weights[target - 1];
     var span = _sync.weights[target] - start;
     // تقدّم: الآية الجديدة لسه بادئة (15% من مدتها). رجوع: القارئ غالبًا فى آخر الآية السابقة (70%).
@@ -2801,7 +2986,7 @@ setTimeout(autoScaleVerseFont, 100);
       if (gap >= LEARN_MIN_GAP && (!best || gap > Math.abs(tNow - best.t))) best = prevPts[i];
     }
     var learned = null;
-    if (best) {
+    if (best && syncLearnEnabled()) {
       var est = ((targetFrac - best.f) * dur) / (tNow - best.t);
       if (est > 0.6 && est < 1.4) {
         var newPct = _clampPct((est - 1) * 100);
@@ -2853,6 +3038,102 @@ setTimeout(autoScaleVerseFont, 100);
     return r;
   };
 
+  // ───── التوقيت الدقيق لكل آية (واجهة mp3quran.net الرسمية: ayat_timing) ─────
+  // لو الملف الصوتى من سيرفر/مجلد له توقيت عند mp3quran بنستخدم أوقات بداية كل آية الحقيقية (بالملّى ثانية)
+  // بدل التقدير بعدد الحروف. لو مفيش توقيت للقارئ، أو التوقيت مش مطابق للملف، بنرجع للتقدير التقريبى تلقائيًا.
+  var TIMING_API = 'https://mp3quran.net/api/v3/ayat_timing';
+  var TIMING_READS_KEY = 'syncTimingReadsCache';
+  var _timingReads = null, _timingReadsPromise = null, _timingCache = {};
+
+  function _folderKey(u) {
+    try { var x = new URL(u); return (x.host + x.pathname).replace(/\/+$/, '').toLowerCase(); } catch (e) { return ''; }
+  }
+  function loadTimingReads() {
+    if (_timingReads) return Promise.resolve(_timingReads);
+    if (_timingReadsPromise) return _timingReadsPromise;
+    try {   // قايمة القراءات المتاحة بتتخزن أسبوع عشان ما نطلبهاش كل مرة
+      var c = JSON.parse(_lsGet(TIMING_READS_KEY) || 'null');
+      if (c && c.t && Date.now() - c.t < 7 * 864e5 && Array.isArray(c.d) && c.d.length) { _timingReads = c.d; return Promise.resolve(_timingReads); }
+    } catch (e) {}
+    _timingReadsPromise = fetch(TIMING_API + '/reads')
+      .then(function(r) { return r.json(); })
+      .then(function(list) {
+        if (!Array.isArray(list) || !list.length) throw new Error('bad reads');
+        _timingReads = list.map(function(x) { return { id: x.id, key: _folderKey(x.folder_url) }; })
+                           .filter(function(x) { return x.id && x.key; });
+        _lsSet(TIMING_READS_KEY, JSON.stringify({ t: Date.now(), d: _timingReads }));
+        return _timingReads;
+      })
+      .catch(function(e) { _timingReadsPromise = null; throw e; });
+    return _timingReadsPromise;
+  }
+  // مفتاح القارئ (سيرفر + مجلد) -> رقم القراءة. أولًا مطابقة كاملة، وبعدها المجلد بس لو السيرفر تبع mp3quran ورقم واحد فقط بيطابقه
+  function findTimingReadId(reads, reciterKey) {
+    var k = String(reciterKey || '').toLowerCase();
+    if (!k) return null;
+    for (var i = 0; i < reads.length; i++) if (reads[i].key === k) return reads[i].id;
+    if (k.indexOf('mp3quran') < 0 || k.indexOf('/') < 0) return null;
+    var path = k.slice(k.indexOf('/')), hit = null, cnt = 0;
+    for (var j = 0; j < reads.length; j++) {
+      var kk = reads[j].key;
+      if (kk.indexOf('/') >= 0 && kk.slice(kk.indexOf('/')) === path) { hit = reads[j].id; cnt++; }
+    }
+    return cnt === 1 ? hit : null;
+  }
+  function loadTiming(readId, n) {
+    var ck = readId + ':' + n;
+    if (_timingCache[ck]) return Promise.resolve(_timingCache[ck]);
+    return fetch(TIMING_API + '?surah=' + n + '&read=' + readId)
+      .then(function(r) { return r.json(); })
+      .then(function(list) {
+        if (!Array.isArray(list) || !list.length) return null;
+        _timingCache[ck] = list;
+        return list;
+      });
+  }
+  // بيحوّل توقيت mp3quran لحدود عناصر العرض عندنا (البسملة المفصولة + الآيات). بيرجّع null لو التوقيت مش مطابق.
+  //   starts[i] = بداية العنصر (ms) ، bounds[i] = نهايته (= بداية اللى بعده)
+  //   المقدّمة (ayah 0: استعاذة/بسملة) بتتحسب مع أول عنصر؛ فأول عنصر بيبدأ من الصفر.
+  function buildTimes(list, count, off, durMs) {
+    var by = {}, maxA = 0;
+    for (var i = 0; i < list.length; i++) {
+      var a = parseInt(list[i].ayah, 10), s = Number(list[i].start_time), e = Number(list[i].end_time);
+      if (!isFinite(a) || !isFinite(s) || !isFinite(e)) continue;
+      by[a] = { s: s, e: e };
+      if (a > maxA) maxA = a;
+    }
+    var nAy = count - off;
+    if (nAy < 1 || maxA !== nAy) return null;                 // عدد الآيات لازم يطابق بالظبط
+    for (var k = 1; k <= nAy; k++) if (!by[k]) return null;
+    if (durMs && Math.abs(by[nAy].e - durMs) > Math.max(5000, durMs * 0.03)) return null;   // الملف مختلف عن اللى اتوقّت
+    var starts = [];
+    for (var j = 0; j < count; j++) starts.push(j === 0 ? 0 : by[j - off + 1].s);
+    var bounds = [];
+    for (var m = 0; m < count; m++) {
+      if (m > 0 && starts[m] < starts[m - 1]) return null;     // ترتيب غير منطقى
+      bounds.push(m < count - 1 ? starts[m + 1] : Infinity);
+    }
+    return { starts: starts, bounds: bounds };
+  }
+  function startTimingLookup(n, audioEl) {
+    var rk = _sync.reciterKey;
+    loadTimingReads().then(function(reads) {
+      if (_sync.surahNumber !== n || _sync.audioEl !== audioEl) return null;
+      var id = findTimingReadId(reads, rk);
+      return id ? loadTiming(id, n) : null;
+    }).then(function(list) {
+      if (!list || _sync.surahNumber !== n || _sync.audioEl !== audioEl) return;
+      _sync.timingList = list;
+      try { tick(); } catch (e) {}
+    }).catch(function() { /* لو الواجهة مش متاحة نكمل بالتقدير التقريبى */ });
+  }
+  // السطر الثابت (.basmala-line) فوق الآية: فى المزامنة بنخفيه للفاتحة (الآية 1 هى البسملة نفسها) وللتوبة (من غير بسملة)
+  function setStaticBasmala(show) {
+    var el = document.querySelector('#quranVerse .basmala-line');
+    if (el) el.style.display = show ? '' : 'none';
+  }
+  function resetTiming() { _sync.times = null; _sync.starts = null; _sync.exact = false; _sync.timingList = null; _sync.timingBad = false; }
+
   // ───── البسملة ─────
   // واجهة alquran.cloud بتدمج البسملة جوه نص الآية الأولى لكل سورة (ما عدا الفاتحة والتوبة)،
   // فكانت بتظهر مكررة. هنا بنفصلها فى سطر مستقل أول السورة (التلاوة بتبدأ بيها) وبنشيلها من الآية الأولى.
@@ -2902,6 +3183,8 @@ setTimeout(autoScaleVerseFont, 100);
     _sync.ayahs = null;
     _sync.lastIdx = -1;
     _sync.fetching = false;
+    resetTiming();
+    setStaticBasmala(true);
     syncSpeedUI();
     if (typeof scheduleNextTranslation === 'function') {
       try { scheduleNextTranslation(); } catch (e) {}
@@ -2928,13 +3211,16 @@ setTimeout(autoScaleVerseFont, 100);
       _sync.weights = null;
       _sync.lastIdx = -1;
       _sync.noteShown = false;   // سورة جديدة: التنبيه يظهر مرة تانية
-      if (!(_calib.el === audioEl && _calib.n === n)) _calib = { el: null, n: null, off: 0 };   // سورة/مصدر مختلف: نلغى المعايرة
+      if (!(_calib.el === audioEl && _calib.n === n)) _calib = { el: null, n: null, off: 0, pts: [] };   // سورة/مصدر مختلف: نلغى المعايرة
+      resetTiming();
+      setStaticBasmala(n !== 1 && n !== 9);
       _sync.active = true;
       _sync.reciterKey = reciterKeyFromSrc(audioEl.src);
       syncSpeedUI();
       window._quranLiveSyncActive = true;
 
       setSyncWidget('جاري تحميل نص السورة… / Loading surah text…', 'سورة رقم ' + n, false);
+      if (syncExactEnabled()) startTimingLookup(n, audioEl);   // التوقيت الدقيق (لو متاح للقارئ ومفعّل فى الإعدادات)
 
       _sync.fetching = true;
       loadSurah(n).then(function(data) {
@@ -2958,7 +3244,25 @@ setTimeout(autoScaleVerseFont, 100);
     var duration = audioEl.duration;
     var count = _sync.ayahs.length;
     var idx = 0;
-    if (duration && isFinite(duration) && duration > 0 && _sync.weights) {
+    // التوقيت الدقيق (لو القارئ له توقيت عند mp3quran): نجهّزه أول ما مدة الملف تبقى معروفة
+    if (_sync.times && !syncExactEnabled()) dropExactTiming();   // اتقفل من الإعدادات
+    if (_sync.timingList && !_sync.times && !_sync.timingBad && syncExactEnabled() && duration && isFinite(duration) && duration > 0) {
+      var tm = buildTimes(_sync.timingList, count, _sync.off || 0, duration * 1000);
+      if (tm) {
+        _sync.times = tm.bounds; _sync.starts = tm.starts; _sync.exact = true;
+        _sync.lastIdx = -1;          // نعيد الرسم بالوضع الدقيق
+        applyNoteMode(); syncSpeedUI();
+      } else {
+        _sync.timingBad = true;      // التوقيت مش مطابق للملف: نكمل بالتقدير التقريبى
+      }
+    }
+    if (_sync.times) {
+      var posMs = (audioEl.currentTime || 0) * 1000 + ((_calib.el === audioEl && _calib.n === n) ? (_calib.offMs || 0) : 0);
+      idx = count - 1;
+      for (var ti = 0; ti < _sync.times.length; ti++) {
+        if (posMs < _sync.times[ti]) { idx = ti; break; }
+      }
+    } else if (duration && isFinite(duration) && duration > 0 && _sync.weights) {
       var speed = 1 + getSyncSpeedPct(_sync.reciterKey) / 100;
       var calOff = (_calib.el === audioEl && _calib.n === n) ? _calib.off : 0;   // إزاحة المعايرة اليدوية (Y)
       var frac = ((audioEl.currentTime || 0) * speed) / duration + calOff;
@@ -3619,6 +3923,41 @@ setTimeout(autoScaleVerseFont, 100);
       <span class="wtb-icon">⬆️</span>
       <label for="syncShowPrevToggle" class="wtb-text" data-ar="إظهار الآية السابقة مع التلاوة" data-en="Show previous ayah during recitation" data-fr="Afficher le verset précédent" data-es="Mostrar la aleya anterior" data-de="Vorherigen Vers anzeigen" data-tr="Önceki ayeti göster" data-ru="Показывать предыдущий аят">إظهار الآية السابقة مع التلاوة</label>
       <input type="checkbox" id="syncShowPrevToggle" class="wtb-switch" checked onchange="window.toggleSyncShowPrevAyah && window.toggleSyncShowPrevAyah(this)">
+    </div>
+    <div id="settings-syncExact-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="استخدام التوقيت الحقيقي لكل آية (من mp3quran.net) للقرّاء المتاح لهم، بدل التقدير. اقفله لو لاحظت اختلافًا مع التلاوة.">
+      <span class="wtb-icon">🎯</span>
+      <label for="syncExactToggle" class="wtb-text" data-ar="التوقيت الدقيق للآيات عند توفره" data-en="Exact ayah timing when available" data-fr="Minutage exact des versets" data-es="Tiempo exacto de las aleyas" data-de="Genaues Vers-Timing" data-tr="Ayet zamanlaması (tam)" data-ru="Точные тайминги аятов">التوقيت الدقيق للآيات عند توفره</label>
+      <input type="checkbox" id="syncExactToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('exact', this)">
+    </div>
+    <div id="settings-syncLearn-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="عند المعايرة أكثر من مرة (Y أو الأزرار) يحسب التطبيق سرعة القارئ ويحفظها له. اقفله لو عايز المعايرة مؤقتة بس.">
+      <span class="wtb-icon">💾</span>
+      <label for="syncLearnToggle" class="wtb-text" data-ar="حفظ سرعة القارئ تلقائيًا من المعايرة" data-en="Save reciter speed automatically from calibration" data-fr="Enregistrer la vitesse du récitant" data-es="Guardar la velocidad del recitador" data-de="Rezitator-Tempo speichern" data-tr="Okuyucu hızını kaydet" data-ru="Сохранять скорость чтеца">حفظ سرعة القارئ تلقائيًا من المعايرة</label>
+      <input type="checkbox" id="syncLearnToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('learn', this)">
+    </div>
+    <div id="settings-syncButtons-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="إظهار أزرار ⏮️ ⏭️ 📖 📗 تحت الآيات في الشاشة الترحيبية أثناء التلاوة.">
+      <span class="wtb-icon">🎛️</span>
+      <label for="syncButtonsToggle" class="wtb-text" data-ar="أزرار المعايرة والترجمة والمصحف على الشاشة" data-en="On-screen calibration, translation & reader buttons" data-fr="Boutons de calage, traduction et lecteur" data-es="Botones de ajuste, traducción y lector" data-de="Schaltflächen für Abgleich, Übersetzung, Leser" data-tr="Ayarlama, çeviri ve okuyucu düğmeleri" data-ru="Кнопки калибровки, перевода и чтения">أزرار المعايرة والترجمة والمصحف على الشاشة</label>
+      <input type="checkbox" id="syncButtonsToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('buttons', this)">
+    </div>
+    <div id="settings-syncTap-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="الضغط على الآية الحالية أثناء التلاوة يفتح المصحف عند نفس الآية. اقفله لتفادي الفتح بالغلط.">
+      <span class="wtb-icon">👆</span>
+      <label for="syncTapToggle" class="wtb-text" data-ar="الضغط على الآية يفتح المصحف (eQuran)" data-en="Tap the ayah to open the Quran reader (eQuran)" data-fr="Toucher le verset ouvre le lecteur (eQuran)" data-es="Tocar la aleya abre el lector (eQuran)" data-de="Vers antippen öffnet den Leser (eQuran)" data-tr="Ayete dokunmak okuyucuyu açar (eQuran)" data-ru="Нажатие на аят открывает читалку (eQuran)">الضغط على الآية يفتح المصحف (eQuran)</label>
+      <input type="checkbox" id="syncTapToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('tap', this)">
+    </div>
+    <div id="settings-syncExtra-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="عرض ترجمة أو التفسير الميسّر للآية الحالية تحت الآيات أثناء التلاوة (نفس زر 📖)">
+      <span class="wtb-icon">📖</span>
+      <label for="syncExtraModeSelect" class="wtb-text" data-ar="ترجمة / تفسير الآية الحالية" data-en="Translation / tafsir of the current ayah" data-fr="Traduction / tafsir du verset" data-es="Traducción / tafsir de la aleya" data-de="Übersetzung / Tafsir des Verses" data-tr="Ayetin meali / tefsiri" data-ru="Перевод / тафсир аята">ترجمة / تفسير الآية الحالية</label>
+      <select id="syncExtraModeSelect" class="welcome-toggle-inline-input" style="cursor:pointer;padding:2px 6px;max-width:48%;"
+              onchange="window.setSyncExtraMode && window.setSyncExtraMode(this.value)">
+        <option value="off">متوقف · Off</option>
+        <option value="tr">ترجمة · Translation</option>
+        <option value="tafsir">التفسير الميسّر · Tafsir</option>
+      </select>
     </div>
     <div id="settings-flag-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
       <label for="buttonsFlagToggle" class="wtb-text" data-ar="🇵🇸 علم فلسطين بشريط المشغّل" data-en="🇵🇸 Palestine Flag in the Player Bar" data-fr="🇵🇸 Drapeau palestinien dans la barre du lecteur" data-es="🇵🇸 Bandera de Palestina en la barra del reproductor" data-sv="🇵🇸 Palestinsk flagga i spelarfältet" data-nl="🇵🇸 Palestijnse vlag in de spelerbalk" data-ga="🇵🇸 Bratach na Palaistíne sa bharra seinnteora" data-de="🇵🇸 Palästina-Flagge in der Player-Leiste" data-ru="🇵🇸 Флаг Палестины в панели плеера" data-tr="🇵🇸 Oynatıcı çubuğunda Filistin Bayrağı" data-pt="🇵🇸 Bandeira da Palestina na barra do player" data-zh="🇵🇸 播放器栏中的巴勒斯坦国旗" data-ur="🇵🇸 پلیئر بار میں فلسطین کا جھنڈا" style="cursor:pointer; margin:0;">🇵🇸 علم فلسطين بشريط المشغّل</label>
@@ -8051,6 +8390,52 @@ const moreTranslations = [{
       }
     }
   });
+
+  // يفتح eQuran (فى نافذة المصحف الكاملة) عند آية محددة.
+  // الراديو وeQuran على نفس الدومين (magziko.github.io) فبننادى jumpToAyah جوه الـ iframe مباشرة بعد ما eQuran يخلّص تحميل بياناته.
+  // لو الوصول للـ iframe اتمنع (دومين مختلف) أو eQuran ما جهزش خلال 20 ثانية: بنفتح السورة بالـ hash (#surah-N) كحل أخير.
+  window.openEquranAt = function(surah, ayah) {
+    surah = parseInt(surah, 10); ayah = parseInt(ayah, 10) || 1;
+    if (!surah || surah < 1 || surah > 114) return false;
+    var iframe = document.getElementById('mushafFullscreenIframe');
+    if (!iframe) return false;
+    var eqUrl = SOURCES.equran.url;
+    // مصغّرة على المصحف الأول؟ نقفلها الأول عشان toggleMushaf يفتح equran بدل ما يستعيد القديم
+    if (mshfTaskbarItem && currentSource !== 'equran') window.closeMushafFullscreen();
+    var needLoad = (currentSource !== 'equran') || (iframe.getAttribute('data-loaded-src') !== eqUrl);
+    var loaded = !needLoad;
+    if (needLoad) {
+      var onLoad = function() { loaded = true; iframe.removeEventListener('load', onLoad); };
+      iframe.addEventListener('load', onLoad);
+    }
+    window.toggleMushaf('equran');
+
+    var started = Date.now(), finished = false, timer = null;
+    function finish() { finished = true; if (timer) clearInterval(timer); }
+    function fallback() {
+      finish();
+      iframe.setAttribute('data-loaded-src', eqUrl);
+      iframe.src = eqUrl + '?goto=' + Date.now() + '#surah-' + surah;   // أقرب مكان ممكن: أول السورة
+    }
+    timer = setInterval(function() {
+      if (finished) return;
+      try {
+        var w = iframe.contentWindow, d = w && w.document;
+        if (d && d.readyState === 'complete' && typeof w.jumpToAyah === 'function') {
+          var ld = d.getElementById('loading');
+          if (ld && ld.style.display === 'none') {   // eQuran خلّص تحميل بيانات القرآن
+            finish();
+            setTimeout(function() { try { w.jumpToAyah(surah, ayah); } catch (e) { fallback(); } }, 350);
+            return;
+          }
+        }
+      } catch (e) {
+        if (loaded) { fallback(); return; }          // الصفحة اتحمّلت ومش قادرين نوصلها: دومين مختلف
+      }
+      if (Date.now() - started > 20000) fallback();
+    }, 250);
+    return true;
+  };
 })();
 </script>
 <!-- ===== END MUSHAF SECTION ===== -->
