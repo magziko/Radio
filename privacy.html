@@ -35,7 +35,7 @@
   <p>يحفظ التطبيق على جهازك (داخل المتصفح عبر localStorage / الذاكرة المؤقتة) إعداداتك واللغة المختارة، وسجل الاستماع وإحصائيات المحطات، وعدّادات التسبيح والأذكار، والملاحظات التي تكتبها. هذه البيانات تبقى على جهازك (ولا تُرسل إلى خوادمنا) ويمكنك حذفها في أي وقت من داخل التطبيق أو بمسح بيانات الموقع من المتصفح.</p>
 
   <h2>3. الموقع الجغرافي (GPS)</h2>
-  <p>يُستخدم الموقع فقط لحساب مواقيت الصلاة، ولا يُطلب إلا بعد موافقتك الصريحة. يمكنك رفض الإذن أو سحبه من إعدادات المتصفح، وسيعمل التطبيق بإدخال المدينة يدويًا.</p>
+  <p>يُستخدم الموقع فقط لحساب مواقيت الصلاة، ولا يُطلب إلا بعد موافقتك الصريحة. لحساب المواقيت وتحديد اسم المدينة تُرسل الإحداثيات (أو المدينة التي تبحث عنها) إلى خدمتَي Aladhan وOpenStreetMap Nominatim، ولا نحتفظ بها على خوادمنا. يمكنك رفض الإذن أو سحبه من إعدادات المتصفح، وسيعمل التطبيق بإدخال المدينة يدويًا.</p>
 
   <h2>4. الميكروفون</h2>
   <p>يُستخدم الميكروفون فقط عند استخدامك ميزة التحويل من الصوت إلى نص في الملاحظات. قد يعالج المتصفح أو نظام التشغيل الصوت عبر خدمة التعرف على الكلام الخاصة بمزوّده (مثل Google أو Apple) وفق سياسة خصوصيتهم. نحن لا نسجّل صوتك على خوادمنا.</p>
@@ -44,10 +44,11 @@
   <p>إشعارات التذكير (مثل الأذكار) اختيارية ويمكن إيقافها من الإعدادات أو من المتصفح.</p>
 
   <h2>6. الإحصائيات والإعلانات</h2>
-  <p>قد يستخدم الموقع أدوات إحصائيات الزوار (مثل Google Analytics) لمعرفة عدد الزوار وكيفية استخدام التطبيق لتحسينه، وقد يعرض إعلانات عبر Google AdSense. تستخدم هذه الخدمات ملفات تعريف الارتباط (Cookies) ومعرّفات مشابهة، وقد تجمع معلومات مثل عنوان IP ونوع الجهاز والمتصفح والصفحات التي تزورها، وقد تعرض Google إعلانات مخصصة بناءً على زياراتك لهذا الموقع ومواقع أخرى. يمكنك التحكم في ذلك عبر <a href="https://adssettings.google.com">إعدادات الإعلانات في Google</a>، أو إلغاء التتبع عبر <a href="https://tools.google.com/dlpage/gaoptout">إضافة إلغاء Google Analytics</a>، أو تعطيل ملفات الارتباط من إعدادات المتصفح. للمزيد: <a href="https://policies.google.com/technologies/partner-sites">كيف تستخدم Google البيانات</a>.</p>
+  <p>يعرض الموقع عدّاد زوار من خدمة Flag Counter (flagcounter.com) يُظهر أعداد الزوار ودولهم، وقد تقرأ هذه الخدمة عنوان IP ونوع المتصفح وتستخدم ملفات تعريف الارتباط وفق سياستها. كما يُحمَّل صندوق البحث من Google Custom Search عند فتحه فقط، وقد تضع Google ملفات تعريف ارتباط وفق <a href="https://policies.google.com/privacy">سياستها</a>. لا يستخدم الموقع حاليًا Google Analytics ولا Google AdSense. إن أضفنا أيًا منها مستقبلًا سنحدّث هذه الصفحة. يمكنك تعطيل ملفات الارتباط من إعدادات المتصفح.</p>
 
   <h2>7. خدمات الطرف الثالث</h2>
-  <p>يبثّ التطبيق الصوت من محطات إذاعية وخوادم صوت خارجية، وقد يستخدم واجهات خارجية لمواقيت الصلاة. عند الاتصال بهذه الخدمات قد يرى مزوّد الخدمة عنوان IP الخاص بك كأي موقع ويب، وتخضع بياناتك لديهم لسياساتهم. الموقع مستضاف على GitHub Pages وتسري عليه <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">سياسة خصوصية GitHub</a>.</p>
+  <p>يعتمد التطبيق على خدمات خارجية، منها: محطات وخوادم الصوت (مثل archive.org)، وواجهات القرآن ومواقيت الصلاة (alquran.cloud وAladhan)، وخرائط OpenStreetMap، وأسعار الذهب والفضة والعملات لحاسبة الزكاة، ويوتيوب للبث المضمّن، وخطوط Google، ومكتبات من jsDelivr. عند الاتصال بها قد ترى هذه الجهات عنوان IP الخاص بك كأي موقع ويب، وتخضع بياناتك لديها لسياساتها. الموقع مستضاف على GitHub Pages وتسري عليه <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">سياسة خصوصية GitHub</a>. نسخة الأندرويد مبنية عبر خدمة Median.co.</p>
+  <p>مساعد الذكاء الاصطناعي (اختياري): إن استخدمته بإدخال مفتاح Claude API الخاص بك، فيُحفظ المفتاح في متصفحك فقط، وتُرسل رسائلك مباشرة من جهازك إلى Anthropic وفق <a href="https://www.anthropic.com/legal/privacy">سياسة خصوصيتها</a>، دون المرور بخوادمنا.</p>
 
   <h2>8. أمان البيانات</h2>
   <p>نعتمد على اتصال HTTPS، ولا نخزّن بياناتك الشخصية على خوادمنا. أما البيانات التي تجمعها خدمات الإحصائيات والإعلانات فتخضع لسياسات مزوّديها.</p>
@@ -75,7 +76,7 @@
   <p>Settings, language, listening history and station statistics, tasbih/adhkar counters and your notes are stored locally in your browser (localStorage / cache). They are not sent to our servers, and you can delete them anytime in the app or by clearing the site's data in your browser.</p>
 
   <h2>3. Location (GPS)</h2>
-  <p>Location is used only to calculate prayer times and is requested only after your explicit consent. You can decline or revoke it in your browser settings and enter your city manually instead.</p>
+  <p>Location is used only to calculate prayer times and is requested only after your explicit consent. To calculate times and name your city, the coordinates (or the city you search for) are sent to the Aladhan and OpenStreetMap Nominatim services; we do not keep them on our servers. You can decline or revoke it in your browser settings and enter your city manually instead.</p>
 
   <h2>4. Microphone</h2>
   <p>The microphone is used only when you use voice-to-text in Notes. Your browser or OS may process audio through its own speech-recognition provider (e.g. Google or Apple) under their privacy policies. We do not record or store your voice on our servers.</p>
@@ -84,10 +85,11 @@
   <p>Reminder notifications (such as adhkar) are optional and can be turned off in Settings or in your browser.</p>
 
   <h2>6. Analytics and advertising</h2>
-  <p>The site may use visitor-analytics tools (such as Google Analytics) to understand how many people use the app and how, in order to improve it, and may display ads through Google AdSense. These services use cookies and similar identifiers and may collect information such as your IP address, device and browser type, and pages visited; Google may show personalized ads based on your visits to this and other sites. You can manage this via <a href="https://adssettings.google.com">Google Ads Settings</a>, opt out of Google Analytics with the <a href="https://tools.google.com/dlpage/gaoptout">browser add-on</a>, or disable cookies in your browser. More: <a href="https://policies.google.com/technologies/partner-sites">How Google uses data</a>.</p>
+  <p>The site shows a visitor counter from Flag Counter (flagcounter.com), which displays visitor numbers and countries; that service may read your IP address and browser type and use cookies under its own policy. The search box loads Google Custom Search only when you open it, and Google may set cookies under its <a href="https://policies.google.com/privacy">privacy policy</a>. The site does not currently use Google Analytics or Google AdSense; if we add any, this page will be updated. You can disable cookies in your browser settings.</p>
 
   <h2>7. Third-party services</h2>
-  <p>The app streams audio from external radio stations and audio servers and may use external APIs for prayer times. These providers may see your IP address like any website and handle it under their own policies. The site is hosted on GitHub Pages, which is governed by the <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">GitHub Privacy Statement</a>.</p>
+  <p>The app relies on external services, including: radio stations and audio servers (e.g. archive.org), Quran and prayer-time APIs (alquran.cloud, Aladhan), OpenStreetMap, gold/silver/currency rates for the Zakat calculator, YouTube for embedded streams, Google Fonts, and libraries from jsDelivr. These providers may see your IP address like any website and handle it under their own policies. The site is hosted on GitHub Pages (<a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement">GitHub Privacy Statement</a>). The Android app is built with Median.co.</p>
+  <p>AI assistant (optional): if you use it by entering your own Claude API key, the key is stored only in your browser and your messages go directly from your device to Anthropic under its <a href="https://www.anthropic.com/legal/privacy">privacy policy</a>, not through our servers.</p>
 
   <h2>8. Security</h2>
   <p>The site is served over HTTPS, and we do not store your personal data on our servers. Data collected by analytics and ad providers is governed by their own policies.</p>
