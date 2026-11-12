@@ -4432,6 +4432,14 @@ setTimeout(autoScaleVerseFont, 100);
     </div>
   </div>
 
+  <div id="privacy-policy-settings" data-stab="general" style="margin: 8px auto 4px; width: 97%; box-sizing: border-box; padding: 10px 14px; border-radius: 14px; direction: rtl; border: 1.5px solid rgba(var(--theme-c1-rgb),0.18); background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07)); font-family: 'Cairo', Arial, sans-serif;">
+    <div class="stab-i18n sdt-title" data-ar="🔒 سياسة الخصوصية" data-en="🔒 Privacy policy">🔒 سياسة الخصوصية</div>
+    <div class="sdt-desc" dir="auto"><span class="stab-i18n" data-ar="اعرف أي بيانات يستخدمها التطبيق وكيف نحميها." data-en="See what data the app uses and how it is protected.">اعرف أي بيانات يستخدمها التطبيق وكيف نحميها.</span></div>
+    <div class="sdt-btns">
+      <button id="privacy-policy-btn" type="button" class="sdt-btn" onclick="window.open('privacy.html','_blank','noopener');"><span class="stab-i18n" data-ar="📄 عرض سياسة الخصوصية" data-en="📄 View privacy policy">📄 عرض سياسة الخصوصية</span></button>
+    </div>
+  </div>
+
   <div id="pwa-install-settings" data-stab="general" style="margin: 8px auto 4px; width: 97%; box-sizing: border-box; padding: 10px 14px; border-radius: 14px; direction: rtl; border: 1.5px solid rgba(var(--theme-c1-rgb),0.18); background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07)); font-family: 'Cairo', Arial, sans-serif;">
     <div class="stab-i18n sdt-title" data-ar="📲 التطبيق على جهازك" data-en="📲 App on your device">📲 التطبيق على جهازك</div>
     <div id="pwa-install-note" class="sdt-desc"><span id="pwa-install-note-text" class="stab-i18n" data-ar="يفتح أسرع ويعمل مثل أي تطبيق على جهازك." data-en="Opens faster and works like any app on your device.">يفتح أسرع ويعمل مثل أي تطبيق على جهازك.</span></div>
@@ -17677,6 +17685,8 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
         <div style="width:100%;flex-basis:100%;text-align:center;margin-top:12px;">
           <button id="toggleButton" type="button" class="dl-app-footer-btn" onclick="openAppDownloadModal()"
             data-ar="تحميل التطبيق 📻" data-en="Download App 📻" data-fr="Télécharger l'app 📻" data-es="Descargar la app 📻" data-sv="Ladda ner appen 📻" data-nl="App downloaden 📻" data-ga="Íoslódáil an aip 📻" data-de="App herunterladen 📻" data-ru="Скачать приложение 📻" data-tr="Uygulamayı indir 📻" data-pt="Baixar o app 📻" data-zh="下载应用 📻" data-ur="ایپ ڈاؤن لوڈ کریں 📻">تحميل التطبيق 📻</button>
+        
+          <div><a class="footer-privacy-link" href="privacy.html" target="_blank" rel="noopener" id="privacyPolicyFooterLink">🔒 سياسة الخصوصية · Privacy Policy</a></div>
         </div>
         <div class="flag-counter-container" id="flagContainer" style="display:none; margin-top:10px;">
             <a href="http://s01.flagcounter.com/more/Qgi">
