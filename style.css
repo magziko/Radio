@@ -12010,7 +12010,7 @@ body.dark-mode #englishVerse .sync-extra.expanded { background: rgba(18, 28, 42,
 /* ═══════════════════════════════════════════════════════════════
    اختيار تصميم الشاشة الترحيبية (تبويب «الترحيب» في الإعدادات)
    ═══════════════════════════════════════════════════════════════ */
-.ws-picker { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; width: 100%; box-sizing: border-box; }
+.ws-picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 10px; width: 100%; box-sizing: border-box; }
 .ws-opt {
     position: relative; display: flex; flex-direction: column; align-items: stretch; gap: 4px;
     padding: 8px 8px 10px; border-radius: 14px; cursor: pointer; text-align: start;
@@ -12296,4 +12296,187 @@ html.wstyle-noor body #downArrow svg { stroke: var(--ws-gold) !important; animat
     html.wstyle-noor body #customStatus::before,
     html.wstyle-noor body #downArrow svg { animation: none; }
     html.wstyle-noor body :is(#welcomeLogo, #siteWelcomeText, #quranVerse, #unifiedControls.in-welcome, #customStatusRow, #customVolumeAutoRow) { animation: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   الشاشة الترحيبية — تصميم «المصحف» (html.wstyle-mushaf)
+   التصميم الثالث: صفحة مصحف على ورق عتيق بإطار مزخرف وعمود واحد
+   CSS فقط: نفس العناصر والمعرّفات ودوال JS — التصميمان الكلاسيكي
+   و«المحراب» لا يتأثران (الكلاس يظهر فقط عند اختيار «المصحف»).
+   ═══════════════════════════════════════════════════════════════ */
+.ws-thumb--mushaf { background: linear-gradient(160deg,#f7efd9,#e9d9ae); }
+.ws-thumb--mushaf::before { content:""; position:absolute; inset: 6px 24%; border: 1.5px solid #a67c1f; border-radius: 3px; background: rgba(255,255,255,.45); box-shadow: inset 0 0 0 3px rgba(247,239,217,.9), inset 0 0 0 4px rgba(166,124,31,.55); }
+.ws-thumb--mushaf b { width: 13px; height: 13px; top: 13px; left: 50%; transform: translateX(-50%) rotate(45deg); background: #1d5e49; border: 2px solid #c9a24a; border-radius: 2px; }
+.ws-thumb--mushaf i { height: 3px; border-radius: 2px; background: rgba(60,45,15,.5); left: 50%; transform: translateX(-50%); }
+.ws-thumb--mushaf i:nth-of-type(1) { width: 28%; top: 38px; }
+.ws-thumb--mushaf i:nth-of-type(2) { width: 22%; top: 46px; }
+.ws-thumb--mushaf em { left: 50%; transform: translateX(-50%); width: 14%; top: 55px; height: 3px; border-radius: 2px; background: #a67c1f; }
+
+html.wstyle-mushaf #welcomeScreen {
+    --mk-paper: #f7efd9; --mk-paper2: #ecdfb8; --mk-page: #fcf7e8; --mk-glow: rgba(255,255,255,.65);
+    --mk-ink: #2b2416; --mk-muted: #6b5d3c;
+    --mk-gold: #a67c1f; --mk-gold-rgb: 166,124,31;
+    --mk-green: #1d5e49; --mk-red: #9b2d20;
+    --mk-shadow: 0 18px 44px rgba(70,50,10,.18);
+}
+html.wstyle-mushaf body.dark-mode #welcomeScreen {
+    --mk-paper: #15110a; --mk-paper2: #221b0f; --mk-page: #1d1810; --mk-glow: rgba(216,178,90,.10);
+    --mk-ink: #f0e6c8; --mk-muted: #b9aa80;
+    --mk-gold: #d8b25a; --mk-gold-rgb: 216,178,90;
+    --mk-green: #5fd0ad; --mk-red: #e58a72;
+    --mk-shadow: 0 18px 50px rgba(0,0,0,.55);
+}
+@keyframes mkRise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes mkLive { 0% { box-shadow: 0 0 0 0 rgba(46,170,120,.5); } 100% { box-shadow: 0 0 0 8px rgba(46,170,120,0); } }
+
+html.wstyle-mushaf body #welcomeScreen {
+    background:
+        radial-gradient(1000px 520px at 50% -12%, var(--mk-glow), transparent 62%),
+        repeating-linear-gradient(0deg, rgba(var(--mk-gold-rgb),.045) 0 1px, transparent 1px 5px),
+        linear-gradient(180deg, var(--mk-paper), var(--mk-paper2)) !important;
+    color: var(--mk-ink);
+    overflow-x: hidden; overflow-y: auto; align-items: flex-start;
+}
+html.wstyle-mushaf body #welcomeContent {
+    background: transparent !important; border: 0 !important; border-radius: 0 !important;
+    box-shadow: none !important; backdrop-filter: none; -webkit-backdrop-filter: none;
+    width: min(640px, 92%) !important; max-width: none !important; min-width: 0 !important;
+    padding: 0 0 32px !important; margin: 0 auto !important;
+    min-height: 100vh; min-height: 100dvh; color: var(--mk-ink); animation: none;
+}
+
+/* الشريط العلوي: شريط مسطّح بخط ذهبي سفلي */
+html.wstyle-mushaf body #welcome-top-bar {
+    position: sticky; top: 0; z-index: 6;
+    margin: 0 0 18px !important; padding: 8px 2px !important; border-radius: 0 !important;
+    background: var(--mk-paper) !important; border: 0 !important;
+    border-bottom: 1px solid rgba(var(--mk-gold-rgb),.5) !important;
+    box-shadow: 0 8px 14px -12px rgba(0,0,0,.4); backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+html.wstyle-mushaf body #welcome-top-bar button:not(#closeButton) {
+    background: transparent !important; border-color: transparent !important; box-shadow: none !important;
+    color: var(--mk-green) !important; border-radius: 8px !important;
+}
+html.wstyle-mushaf body #welcome-top-bar button:not(#closeButton):hover { background: rgba(var(--mk-gold-rgb),.16) !important; }
+
+/* عمود واحد دائمًا — الترتيب بـ order */
+html.wstyle-mushaf body #customRadioBox { display: flex; flex-direction: column; gap: 16px; flex: 1 0 auto; }
+html.wstyle-mushaf body #customControlButtons { display: none; }
+html.wstyle-mushaf body #welcomeLogo { order: 1; }
+html.wstyle-mushaf body #siteWelcomeText { order: 2; }
+html.wstyle-mushaf body #quranVerse { order: 3; }
+html.wstyle-mushaf body #unifiedControls.in-welcome { order: 4; }
+html.wstyle-mushaf body #customStatusRow { order: 5; }
+html.wstyle-mushaf body #customVolumeAutoRow { order: 6; }
+html.wstyle-mushaf body #customAutoSwitchContainer { order: 7; }
+
+/* الشعار: ختم بحلقتين ذهبيتين */
+html.wstyle-mushaf body #welcomeLogo {
+    margin: 4px 0 0 !important; display: flex; justify-content: center;
+    animation: mkRise .7s .05s both cubic-bezier(.2,.7,.2,1);
+}
+html.wstyle-mushaf body #welcomeLogo img {
+    width: 92px !important; height: 92px !important; object-fit: cover; border-radius: 50% !important;
+    box-shadow: 0 0 0 3px var(--mk-paper), 0 0 0 4.5px var(--mk-gold), 0 0 0 9px var(--mk-paper), 0 0 0 10px rgba(var(--mk-gold-rgb),.5), 0 10px 26px rgba(0,0,0,.22) !important;
+}
+
+/* العنوان */
+html.wstyle-mushaf body #siteWelcomeText {
+    margin: 6px 0 0 !important; text-align: center; color: var(--mk-ink) !important;
+    animation: mkRise .7s .15s both cubic-bezier(.2,.7,.2,1);
+}
+html.wstyle-mushaf body #siteWelcomeText #basmalaOpenSiteBtn {
+    color: var(--mk-gold) !important; font-family: 'Amiri','Cairo',serif; font-size: 17px !important;
+    font-weight: 700 !important; letter-spacing: .06em !important; text-transform: none !important; margin-bottom: 6px !important;
+}
+html.wstyle-mushaf body #siteWelcomeText > span:nth-of-type(2) {
+    font-size: 15px !important; font-weight: 600 !important; color: var(--mk-muted) !important;
+}
+html.wstyle-mushaf body #siteWelcomeText > span:nth-of-type(3) {
+    font-size: clamp(30px, 8vw, 40px) !important; font-weight: 700 !important; letter-spacing: .02em !important; margin-top: 2px !important;
+}
+html.wstyle-mushaf body #siteWelcomeText > span:nth-of-type(4) {
+    font-size: 13.5px !important; color: var(--mk-muted) !important; font-style: normal !important; line-height: 1.7; margin-top: 6px !important;
+}
+html.wstyle-mushaf body #siteWelcomeText::after {
+    content: ""; display: block; width: 150px; height: 1px; margin: 14px auto 0;
+    background: linear-gradient(90deg, transparent, var(--mk-gold), transparent);
+}
+
+/* صفحة المصحف: إطار مزدوج + زخارف */
+html.wstyle-mushaf body #quranVerse {
+    position: relative; flex: none !important;
+    height: clamp(360px, 58dvh, 560px) !important; max-height: none !important; min-height: 0 !important;
+    margin: 8px 8px 0 !important; padding: 46px 30px !important;
+    background: var(--mk-page) !important;
+    border: 1.5px solid var(--mk-gold) !important; border-radius: 4px !important;
+    outline: 1px solid rgba(var(--mk-gold-rgb),.55); outline-offset: -9px;
+    box-shadow: 0 0 0 6px var(--mk-page), 0 0 0 7px rgba(var(--mk-gold-rgb),.6), var(--mk-shadow) !important;
+    color: var(--mk-ink) !important; font-style: normal !important;
+    animation: mkRise .8s .25s both cubic-bezier(.2,.7,.2,1);
+}
+html.wstyle-mushaf body #quranVerse::before,
+html.wstyle-mushaf body #quranVerse::after {
+    content: "❖ ✦ ❖"; width: auto !important; height: auto !important; background: none !important;
+    color: var(--mk-gold); font-size: 11px; line-height: 1; letter-spacing: .45em; white-space: nowrap;
+}
+html.wstyle-mushaf body #quranVerse::before { top: 17px !important; }
+html.wstyle-mushaf body #quranVerse::after  { bottom: 17px !important; }
+html.wstyle-mushaf body #quranVerse #arabicVerse {
+    font-family: 'Amiri','Scheherazade New','Cairo',serif !important; font-weight: 700 !important;
+    color: var(--mk-ink) !important; text-shadow: none !important; width: 100%; max-width: 100% !important;
+}
+html.wstyle-mushaf body #quranVerse #englishVerse {
+    color: var(--mk-muted) !important; font-style: normal !important; max-width: 94% !important;
+    margin-top: 10px !important; padding-top: 10px; border-top: 1px dashed rgba(var(--mk-gold-rgb),.45);
+}
+html.wstyle-mushaf body #quranVerse #verseNumber {
+    display: inline-block; font-size: 12.5px !important; color: var(--mk-green) !important;
+    padding: 3px 14px; border: 1px solid rgba(var(--mk-gold-rgb),.6); border-radius: 999px;
+    background: rgba(var(--mk-gold-rgb),.09); margin-top: 12px !important; letter-spacing: .03em;
+}
+html.wstyle-mushaf body #quranVerse .basmala-line {
+    font-family: 'Amiri','Cairo',serif !important; font-size: clamp(17px, 4.6vw, 21px) !important;
+    color: var(--mk-red) !important; margin-bottom: 8px !important;
+}
+
+/* لوحة التحكم: شريط مستطيل بخط ذهبي */
+html.wstyle-mushaf body #unifiedControls.in-welcome {
+    background: var(--mk-page) !important; border: 1px solid rgba(var(--mk-gold-rgb),.55) !important;
+    border-radius: 14px !important; box-shadow: var(--mk-shadow) !important; margin: 6px auto 0;
+    animation: mkRise .7s .35s both cubic-bezier(.2,.7,.2,1);
+}
+/* الحالة: ما يشبه علامة المصحف */
+html.wstyle-mushaf body #customStatusRow {
+    margin: 0 auto; padding: 8px 18px; max-width: 100%; box-sizing: border-box;
+    border-radius: 4px; background: rgba(var(--mk-gold-rgb),.10);
+    border: 0; border-inline: 3px solid var(--mk-gold);
+    animation: mkRise .7s .4s both cubic-bezier(.2,.7,.2,1);
+}
+html.wstyle-mushaf body #customStatus {
+    display: inline-flex; align-items: center; gap: 8px; color: var(--mk-ink) !important; font-size: 13.5px; font-weight: 700;
+}
+html.wstyle-mushaf body #customStatus::before {
+    content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: #2eaa78; animation: mkLive 1.8s infinite;
+}
+html.wstyle-mushaf body #customStatusRow button { color: var(--mk-green) !important; }
+html.wstyle-mushaf body #customVolumeAutoRow { margin: 0 auto !important; animation: mkRise .7s .45s both cubic-bezier(.2,.7,.2,1); }
+html.wstyle-mushaf body #customVolumeControl {
+    max-width: 300px !important; padding: 8px 16px; border-radius: 4px; box-sizing: border-box;
+    background: transparent; border: 0; border-top: 1px solid rgba(var(--mk-gold-rgb),.5); border-bottom: 1px solid rgba(var(--mk-gold-rgb),.5);
+}
+html.wstyle-mushaf body #customVolumeRange { accent-color: var(--mk-gold) !important; height: 5px; }
+html.wstyle-mushaf body #customAutoSwitchContainer { margin-top: 0; padding-top: 2px; }
+html.wstyle-mushaf body #downArrow svg { stroke: var(--mk-gold) !important; }
+
+@media (min-width: 768px) {
+    html.wstyle-mushaf body #welcomeContent { width: min(720px, 92%) !important; }
+    html.wstyle-mushaf body #welcomeLogo img { width: 108px !important; height: 108px !important; }
+    html.wstyle-mushaf body #quranVerse { padding: 54px 48px !important; height: clamp(420px, 56dvh, 600px) !important; }
+    html.wstyle-mushaf body #siteWelcomeText > span:nth-of-type(3) { font-size: 44px !important; }
+    html.wstyle-mushaf body #siteWelcomeText > span:nth-of-type(4) { font-size: 15px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html.wstyle-mushaf body :is(#welcomeLogo, #siteWelcomeText, #quranVerse, #unifiedControls.in-welcome, #customStatusRow, #customVolumeAutoRow) { animation: none; }
+    html.wstyle-mushaf body #customStatus::before { animation: none; }
 }
