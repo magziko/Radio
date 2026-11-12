@@ -52,6 +52,10 @@
   };
 })();
 </script>
+<style id="settings-tabs-extra-css">
+.stab-off { display: none !important; }
+#settings-tabs { flex-wrap: wrap; }
+</style>
 <script>
 /* حارس التوافق: المتصفحات القديمة جدًا (بدون async/await أو Promise) لا تستطيع قراءة سكربت الموقع،
    فكانت تعرض صفحة فارغة. هنا نعرض رسالة واضحة بدلًا من ذلك. (ES5 فقط عمدًا) */
@@ -3667,6 +3671,7 @@ setTimeout(autoScaleVerseFont, 100);
   </div>
   <div id="settings-tabs" role="tablist">
     <button type="button" role="tab" class="settings-tab-btn active" data-tab="general" data-ar="🎛️ عام" data-en="🎛️ General" aria-selected="true" onclick="setSettingsTab('general')">🎛️ عام</button>
+    <button type="button" role="tab" class="settings-tab-btn" data-tab="radio" data-ar="📻 الراديو والتلاوة" data-en="📻 Radio &amp; Recitation" aria-selected="false" onclick="setSettingsTab('radio')">📻 الراديو والتلاوة</button>
     <button type="button" role="tab" class="settings-tab-btn" data-tab="look" data-ar="🎨 المظهر" data-en="🎨 Look" aria-selected="false" onclick="setSettingsTab('look')">🎨 المظهر</button>
     <button type="button" role="tab" class="settings-tab-btn" data-tab="adhkar" data-ar="📿 الأذكار" data-en="📿 Adhkar" aria-selected="false" onclick="setSettingsTab('adhkar')">📿 الأذكار</button>
     <button type="button" role="tab" class="settings-tab-btn" data-tab="audio" data-ar="🔊 الصوت" data-en="🔊 Audio" aria-selected="false" onclick="setSettingsTab('audio')">🔊 الصوت</button>
@@ -3974,7 +3979,7 @@ setTimeout(autoScaleVerseFont, 100);
   
   <div id="welcomeExtraControlsRow" style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 8px 0 4px; flex-wrap:wrap;">
     <div class="gset-head" id="gset-h-play" role="heading" aria-level="3"><span data-ar="▶️ التشغيل" data-en="▶️ Playback" data-fr="▶️ Lecture" data-es="▶️ Reproducción" data-sv="▶️ Uppspelning" data-nl="▶️ Afspelen" data-ga="▶️ Seinm" data-de="▶️ Wiedergabe" data-ru="▶️ Воспроизведение" data-tr="▶️ Oynatma" data-pt="▶️ Reprodução" data-zh="▶️ 播放" data-ur="▶️ پلے بیک">▶️ التشغيل</span></div>
-    <button id="radioAutoplayToggleBtn" data-stab="general"
+    <button id="radioAutoplayToggleBtn" data-stab="radio"
             onclick="toggleRadioAutoplayOption()"
             title="تفعيل/تعطيل التشغيل التلقائي للراديو عند فتح الموقع / Enable or disable radio autoplay on site open"
             class="welcome-toggle-btn">
@@ -3982,7 +3987,7 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="wtb-text" id="radioAutoplayToggleTxt" data-ar="تشغيل تلقائي: مفعّل" data-en="Autoplay: On" data-fr="Lecture auto : activée" data-es="Reproducción automática: activada" data-sv="Autospelning: På" data-nl="Automatisch afspelen: Aan" data-ga="Uath-sheinm: Ar" data-de="Autoplay: An" data-ru="Автовоспроизведение: вкл" data-tr="Otomatik oynatma: Açık" data-pt="Reprodução automática: Ativada" data-zh="自动播放：开" data-ur="خودکار پلے: آن">تشغيل تلقائي: مفعّل</span>
         <span class="wtb-switch-visual" aria-hidden="true"></span>
     </button>
-    <button id="introClipToggleBtn" data-stab="general"
+    <button id="introClipToggleBtn" data-stab="radio"
             onclick="toggleIntroClipOption()"
             title="تشغيل مقطع صلِّ على النبي ﷺ تلقائياً عند فتح الموقع / Auto-play a Salawat clip when the site opens"
             class="welcome-toggle-btn">
@@ -3990,27 +3995,27 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="wtb-text" id="introClipToggleTxt" data-ar="تفعيل التنبيه الصوتي" data-en="Enable Sound Alert" data-fr="Activer l'alerte sonore" data-es="Activar alerta sonora" data-sv="Aktivera ljudlarm" data-nl="Geluidsmelding inschakelen" data-ga="Cumasaigh Rabhadh Fuaime" data-de="Tonalarm aktivieren" data-ru="Включить звуковое оповещение" data-tr="Sesli Uyarıyı Etkinleştir" data-pt="Ativar alerta sonoro" data-zh="启用声音提醒" data-ur="صوتی الرٹ فعال کریں">تفعيل التنبيه الصوتي</span>
         <span class="wtb-switch-visual" aria-hidden="true"></span>
     </button>
-    <div id="settings-randomseek-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;" title="عند التفعيل: أول تشغيل لمحطة ملفات mp3 متعددة الروابط (مثل القراء) يبدأ من موضع داخل الملف (بعد أول 10٪ وقبل آخر 10٪) بدل بدايته، ليبدو كبث إذاعي حقيقي. عند الإيقاف: يبدأ الملف من أوله. / When on: the first play of a multi-file mp3 station (e.g. reciters) starts partway into the file (after the first 10% and before the last 10%) instead of at the start, so it feels like live radio. When off: the file starts from the beginning.">
+    <div id="settings-randomseek-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;" title="عند التفعيل: أول تشغيل لمحطة ملفات mp3 متعددة الروابط (مثل القراء) يبدأ من موضع داخل الملف (بعد أول 10٪ وقبل آخر 10٪) بدل بدايته، ليبدو كبث إذاعي حقيقي. عند الإيقاف: يبدأ الملف من أوله. / When on: the first play of a multi-file mp3 station (e.g. reciters) starts partway into the file (after the first 10% and before the last 10%) instead of at the start, so it feels like live radio. When off: the file starts from the beginning.">
       <label for="randomSeekToggle" class="wtb-text" data-ar="بداية التشغيل من وسط الملف" data-en="Start playback mid-file" data-fr="Démarrer au milieu du fichier" data-es="Iniciar a mitad del archivo" data-sv="Starta mitt i filen" data-nl="Start halverwege het bestand" data-ga="Tosaigh i lár an chomhaid" data-de="Mitten in der Datei starten" data-ru="Начинать с середины файла" data-tr="Dosyanın ortasından başla" data-pt="Iniciar no meio do arquivo" data-zh="从文件中间开始播放" data-ur="فائل کے درمیان سے شروع کریں" style="cursor:pointer; margin:0;">بداية التشغيل من وسط الملف</label>
       <input type="checkbox" id="randomSeekToggle" class="wtb-switch" onchange="toggleRandomSeekSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('randomSeekToggle');if(_cb){_cb.checked=(localStorage.getItem('randomSeekEnabled')!=='false');}})();</script>
-    <div id="settings-holdseek-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;" title="اضغط مطولاً على زر السابق/التالي: ضغطة مطولة قصيرة = 5 ثوانٍ، ضغطة مطولة أطول = 10 ثوانٍ (رجوع / تقديم في المقطع) / Long-press Prev/Next: short hold = 5s, long hold = 10s (rewind / forward)">
+    <div id="settings-holdseek-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;" title="اضغط مطولاً على زر السابق/التالي: ضغطة مطولة قصيرة = 5 ثوانٍ، ضغطة مطولة أطول = 10 ثوانٍ (رجوع / تقديم في المقطع) / Long-press Prev/Next: short hold = 5s, long hold = 10s (rewind / forward)">
       <label for="holdSeekToggle" class="wtb-text" data-ar="ضغط مطول على السابق/التالي للتقديم والرجوع" data-en="Hold Prev/Next to seek" data-fr="Maintenir Préc./Suiv. pour avancer/reculer" data-es="Mantener Anterior/Siguiente para avanzar/retroceder" data-sv="Håll Föregående/Nästa för att spola" data-nl="Houd Vorige/Volgende ingedrukt om te spoelen" data-ga="Coinnigh Roimhe seo/Ar aghaidh chun scimeáil" data-de="Zurück/Weiter gedrückt halten zum Spulen" data-ru="Удерживать «Пред./След.» для перемотки" data-tr="Geri/İleri tuşuna basılı tut: sar" data-pt="Segurar Anterior/Próxima para avançar/voltar" data-zh="长按上一个/下一个进行快退/快进" data-ur="پچھلا/اگلا دبائے رکھیں: آگے/پیچھے" style="cursor:pointer; margin:0;">ضغط مطول على السابق/التالي للتقديم والرجوع</label>
       <input type="checkbox" id="holdSeekToggle" class="wtb-switch" onchange="toggleHoldSeekSetting()">
     </div>
-    <div id="settings-fullrandom-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
+    <div id="settings-fullrandom-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;">
       <label for="fullRandomUrlToggle" class="wtb-text" data-ar="روابط ديناميكية" data-en="Dynamic Links" data-fr="Liens dynamiques" data-es="Enlaces dinámicos" data-sv="Dynamiska länkar" data-nl="Dynamische links" data-ga="Naisc Dhinimiciúla" data-de="Dynamische Links" data-ru="Динамические ссылки" data-tr="Dinamik Bağlantılar" data-pt="Links dinâmicos" data-zh="动态链接" data-ur="متحرک لنکس" style="cursor:pointer; margin:0;">روابط ديناميكية</label>
       <input type="checkbox" id="fullRandomUrlToggle" class="wtb-switch" onchange="toggleFullRandomUrlSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('fullRandomUrlToggle');if(_cb){_cb.checked=(localStorage.getItem('fullRandomUrlEnabled')==='true');}})();</script>
-    <div id="settings-welcomefallback-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;" title="تحويل تلقائي لرابط/محطة احتياطية في الشاشة الترحيبية عند تعطّل البث (مع إشعار). التعطيل يوقف الإشعار ومؤقتات المراقبة في الخلفية / Auto-switch to a backup link on the welcome screen when the stream fails (with a notice). Turning it off removes the notice and the background watchdog timers.">
+    <div id="settings-welcomefallback-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;" title="تحويل تلقائي لرابط/محطة احتياطية في الشاشة الترحيبية عند تعطّل البث (مع إشعار). التعطيل يوقف الإشعار ومؤقتات المراقبة في الخلفية / Auto-switch to a backup link on the welcome screen when the stream fails (with a notice). Turning it off removes the notice and the background watchdog timers.">
       <label for="welcomeFallbackToggle" class="wtb-text" data-ar="تحويل تلقائي للرابط الاحتياطي" data-en="Auto backup-link switch" data-fr="Bascule auto vers le lien de secours" data-es="Cambio automático al enlace de respaldo" data-sv="Automatiskt byte till reservlänk" data-nl="Automatisch naar back-uplink" data-ga="Athrú uathoibríoch go nasc cúltaca" data-de="Automatischer Wechsel zum Ersatzlink" data-ru="Автопереключение на резервную ссылку" data-tr="Yedek bağlantıya otomatik geçiş" data-pt="Troca automática para link de reserva" data-zh="自动切换备用链接" data-ur="بیک اپ لنک پر خودکار تبدیلی" style="cursor:pointer; margin:0;">تحويل تلقائي للرابط الاحتياطي</label>
       <input type="checkbox" id="welcomeFallbackToggle" class="wtb-switch" onchange="toggleWelcomeFallbackSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('welcomeFallbackToggle');if(_cb){_cb.checked=(localStorage.getItem('welcomeAutoFallback')!=='false');}})();</script>
     <div class="gset-head" id="gset-h-ui" role="heading" aria-level="3"><span data-ar="🏠 الواجهة وشاشة الترحيب" data-en="🏠 Interface &amp; Welcome" data-fr="🏠 Interface et accueil" data-es="🏠 Interfaz y bienvenida" data-sv="🏠 Gränssnitt &amp; välkomst" data-nl="🏠 Interface &amp; welkom" data-ga="🏠 Comhéadan &amp; fáilte" data-de="🏠 Oberfläche &amp; Willkommen" data-ru="🏠 Интерфейс и приветствие" data-tr="🏠 Arayüz ve karşılama" data-pt="🏠 Interface e boas-vindas" data-zh="🏠 界面与欢迎页" data-ur="🏠 انٹرفیس اور خوش آمدید">🏠 الواجهة وشاشة الترحيب</span></div>
-    <button id="disableWelcomeToggleBtn" data-stab="general"
+    <button id="disableWelcomeToggleBtn" data-stab="radio"
             onclick="toggleDisableWelcomeBtn()"
             title="إخفاء شاشة الترحيب / Disable Welcome Screen"
             class="welcome-toggle-btn">
@@ -4020,7 +4025,7 @@ setTimeout(autoScaleVerseFont, 100);
               data-on-ar="شاشة الترحيب: مخفية" data-on-en="Welcome: Hidden" data-on-fr="Accueil : masqué" data-on-es="Bienvenida: oculta" data-on-sv="Välkomst: dold" data-on-nl="Welkom: verborgen" data-on-ga="Fáilte: folaithe" data-on-de="Begrüßung: ausgeblendet" data-on-ru="Приветствие: скрыто" data-on-tr="Karşılama: gizli" data-on-pt="Boas-vindas: oculta" data-on-zh="欢迎屏幕：已隐藏" data-on-ur="خوش آمدید: مخفی">إخفاء شاشة الترحيب</span>
         <span class="wtb-switch-visual" aria-hidden="true"></span>
     </button>
-    <div id="welcomeAutoSwitchDurationGroup" data-stab="general" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" style="gap:7px;">
+    <div id="welcomeAutoSwitchDurationGroup" data-stab="radio" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" style="gap:7px;">
       <span class="wtb-icon">⏱️</span>
       <label for="welcomeAutoSwitchDuration" data-ar="مدة تنقل الترحيب" data-en="Welcome Cycle" data-fr="Cycle d'accueil" data-es="Ciclo de bienvenida" data-sv="Välkomstcykel" data-nl="Welkomstcyclus" data-ga="Timthriall Fáilte" data-de="Begrüßungszyklus" data-ru="Цикл приветствия" data-tr="Karşılama Döngüsü" data-pt="Ciclo de boas-vindas" data-zh="欢迎轮播周期" data-ur="خوش آمدید سائیکل" class="wtb-text" style="cursor:default; margin:0;">مدة تنقل الترحيب</label>
       <input type="number" id="welcomeAutoSwitchDuration" min="1" max="60"
@@ -4029,7 +4034,7 @@ setTimeout(autoScaleVerseFont, 100);
              class="welcome-toggle-inline-input"
              onchange="setWelcomeAutoSwitchDuration()">
     </div>
-    <div id="syncAyahSpeedGroup" data-stab="general" class="welcome-toggle-btn" style="gap:7px;flex-wrap:wrap;cursor:default;"
+    <div id="syncAyahSpeedGroup" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;flex-wrap:wrap;cursor:default;"
          data-title-ar="سرعة انتقال الآيات في الشاشة الترحيبية أثناء تشغيل المصحف المرتل/المجوّد. زوّدها لو الآية بتتأخر عن الصوت، وقلّلها لو بتسبقه. بتتحفظ لكل قارئ/مصدر صوت لوحده."
          data-title-en="Ayah follow speed on the welcome screen while a Quran recitation plays. Increase it if the ayah lags behind the audio, decrease it if it runs ahead. Saved separately for each reciter/audio source.">
       <span class="wtb-icon">📖</span>
@@ -4043,49 +4048,49 @@ setTimeout(autoScaleVerseFont, 100);
               data-ar="↺" data-en="↺" title="إعادة الضبط / Reset">↺</button>
       <div id="syncAyahSpeedScope" style="flex-basis:100%;font-size:11px;opacity:0.8;line-height:1.5;white-space:normal;overflow-wrap:anywhere;text-align:center;"></div>
     </div>
-    <div id="settings-syncprev-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+    <div id="settings-syncprev-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;"
          title="إظهار الآية السابقة قبل الآية الحالية في الشاشة الترحيبية أثناء التلاوة">
       <span class="wtb-icon">⬆️</span>
       <label for="syncShowPrevToggle" class="wtb-text" data-ar="إظهار الآية السابقة مع التلاوة" data-en="Show previous ayah during recitation" data-fr="Afficher le verset précédent" data-es="Mostrar la aleya anterior" data-de="Vorherigen Vers anzeigen" data-tr="Önceki ayeti göster" data-ru="Показывать предыдущий аят">إظهار الآية السابقة مع التلاوة</label>
       <input type="checkbox" id="syncShowPrevToggle" class="wtb-switch" checked onchange="window.toggleSyncShowPrevAyah && window.toggleSyncShowPrevAyah(this)">
     </div>
-    <div id="settings-syncExact-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+    <div id="settings-syncExact-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;"
          title="استخدام التوقيت الحقيقي لكل آية (من mp3quran.net) للقرّاء المتاح لهم، بدل التقدير. اقفله لو لاحظت اختلافًا مع التلاوة.">
       <span class="wtb-icon">🎯</span>
       <label for="syncExactToggle" class="wtb-text" data-ar="التوقيت الدقيق للآيات عند توفره" data-en="Exact ayah timing when available" data-fr="Minutage exact des versets" data-es="Tiempo exacto de las aleyas" data-de="Genaues Vers-Timing" data-tr="Ayet zamanlaması (tam)" data-ru="Точные тайминги аятов">التوقيت الدقيق للآيات عند توفره</label>
       <input type="checkbox" id="syncExactToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('exact', this)">
     </div>
-    <div id="settings-syncLearn-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+    <div id="settings-syncLearn-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;"
          title="عند المعايرة أكثر من مرة (Y أو الأزرار) يحسب التطبيق سرعة القارئ ويحفظها له. اقفله لو عايز المعايرة مؤقتة بس.">
       <span class="wtb-icon">💾</span>
       <label for="syncLearnToggle" class="wtb-text" data-ar="حفظ سرعة القارئ تلقائيًا من المعايرة" data-en="Save reciter speed automatically from calibration" data-fr="Enregistrer la vitesse du récitant" data-es="Guardar la velocidad del recitador" data-de="Rezitator-Tempo speichern" data-tr="Okuyucu hızını kaydet" data-ru="Сохранять скорость чтеца">حفظ سرعة القارئ تلقائيًا من المعايرة</label>
       <input type="checkbox" id="syncLearnToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('learn', this)">
     </div>
-    <div id="settings-syncButtons-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+    <div id="settings-syncButtons-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;"
          title="إظهار أزرار ⏮️ ⏭️ 📖 📗 تحت الآيات في الشاشة الترحيبية أثناء التلاوة.">
       <span class="wtb-icon">🎛️</span>
       <label for="syncButtonsToggle" class="wtb-text" data-ar="أزرار المعايرة والترجمة والمصحف على الشاشة" data-en="On-screen calibration, translation & reader buttons" data-fr="Boutons de calage, traduction et lecteur" data-es="Botones de ajuste, traducción y lector" data-de="Schaltflächen für Abgleich, Übersetzung, Leser" data-tr="Ayarlama, çeviri ve okuyucu düğmeleri" data-ru="Кнопки калибровки, перевода и чтения">أزرار المعايرة والترجمة والمصحف على الشاشة</label>
       <input type="checkbox" id="syncButtonsToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('buttons', this)">
     </div>
-    <div id="settings-syncTap-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+    <div id="settings-syncTap-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;"
          title="الضغط على الآية الحالية أثناء التلاوة يفتح المصحف عند نفس الآية. اقفله لتفادي الفتح بالغلط.">
       <span class="wtb-icon">👆</span>
       <label for="syncTapToggle" class="wtb-text" data-ar="الضغط على الآية يفتح المصحف (eQuran)" data-en="Tap the ayah to open the Quran reader (eQuran)" data-fr="Toucher le verset ouvre le lecteur (eQuran)" data-es="Tocar la aleya abre el lector (eQuran)" data-de="Vers antippen öffnet den Leser (eQuran)" data-tr="Ayete dokunmak okuyucuyu açar (eQuran)" data-ru="Нажатие на аят открывает читалку (eQuran)">الضغط على الآية يفتح المصحف (eQuran)</label>
       <input type="checkbox" id="syncTapToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('tap', this)">
     </div>
-    <div id="settings-syncMini-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+    <div id="settings-syncMini-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;"
          title="يعرض الآية الحالية في شريط صغير أسفل الشاشة أثناء تلاوة السورة لما تكون الشاشة الترحيبية مقفولة.">
       <span class="wtb-icon">📜</span>
       <label for="syncMiniToggle" class="wtb-text" data-ar="إظهار الآية في شريط صغير لما الشاشة الترحيبية تتقفل" data-en="Show the current ayah in a mini bar when the welcome screen is closed" data-fr="Afficher le verset dans une mini-barre quand l’écran d’accueil est fermé" data-es="Mostrar la aleya en una mini barra al cerrar la pantalla de bienvenida" data-de="Aktuellen Vers in einer Mini-Leiste zeigen, wenn der Startbildschirm geschlossen ist" data-tr="Karşılama ekranı kapalıyken ayeti mini çubukta göster" data-ru="Показывать аят в мини-панели, когда экран приветствия закрыт">إظهار الآية في شريط صغير لما الشاشة الترحيبية تتقفل</label>
       <input type="checkbox" id="syncMiniToggle" class="wtb-switch" checked onchange="window.toggleMiniAyahBar && window.toggleMiniAyahBar(this)">
     </div>
-    <div id="settings-syncAnnounce-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+    <div id="settings-syncAnnounce-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;"
          title="لما الشاشة الترحيبية تكون مفتوحة وتبدأ سورة، تظهر شارة صغيرة ووميض خفيف ينبّهك إن الآيات بتتابع التلاوة.">
       <span class="wtb-icon">🔔</span>
       <label for="syncAnnounceToggle" class="wtb-text" data-ar="تنبيه عند بدء عرض الآيات مع التلاوة" data-en="Notify when ayahs start following the recitation" data-fr="Signaler le début du suivi des versets" data-es="Avisar cuando las aleyas siguen la recitación" data-de="Hinweis, wenn Verse der Rezitation folgen" data-tr="Ayetler tilavetle başladığında bildir" data-ru="Уведомлять, когда аяты следуют за чтением">تنبيه عند بدء عرض الآيات مع التلاوة</label>
       <input type="checkbox" id="syncAnnounceToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('announce', this)">
     </div>
-    <div id="settings-syncExtra-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+    <div id="settings-syncExtra-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;"
          title="عرض ترجمة أو التفسير الميسّر للآية الحالية تحت الآيات أثناء التلاوة (نفس زر 📖)">
       <span class="wtb-icon">📖</span>
       <label for="syncExtraModeSelect" class="wtb-text" data-ar="ترجمة / تفسير الآية الحالية" data-en="Translation / tafsir of the current ayah" data-fr="Traduction / tafsir du verset" data-es="Traducción / tafsir de la aleya" data-de="Übersetzung / Tafsir des Verses" data-tr="Ayetin meali / tefsiri" data-ru="Перевод / тафсир аята">ترجمة / تفسير الآية الحالية</label>
@@ -4116,7 +4121,7 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="alarmPauseAdhanToggle" class="wtb-switch" onchange="try{localStorage.setItem('alarmPauseOnAdhan', this.checked ? 'true' : 'false');}catch(e){}">
     </div>
     <script>(function(){var _cb=document.getElementById('alarmPauseAdhanToggle');if(_cb){try{_cb.checked=(localStorage.getItem('alarmPauseOnAdhan')!=='false');}catch(e){_cb.checked=true;}}})();</script>
-    <div id="settings-stopradiomedia-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+    <div id="settings-stopradiomedia-item" data-stab="radio" class="welcome-toggle-btn" style="gap:7px;"
          title="عند الضغط على زر يفتح فيديو يوتيوب أو بث في نافذة، يتوقف أي راديو شغّال تلقائيًا / Opening a YouTube video or a stream window stops any playing radio">
       <label for="stopRadioOnMediaToggle" class="wtb-text" data-ar="⏹️ إيقاف الراديو عند فتح فيديو يوتيوب أو بث" data-en="⏹️ Stop radio when opening a YouTube video or stream">⏹️ إيقاف الراديو عند فتح فيديو يوتيوب أو بث</label>
       <input type="checkbox" id="stopRadioOnMediaToggle" class="wtb-switch" onchange="try{localStorage.setItem('stopRadioOnMedia', this.checked ? 'true' : 'false');}catch(e){}">
@@ -22402,11 +22407,20 @@ function _refreshSettingsTabLabels() {
   var fi = document.getElementById('settings-find-input');
   if (fi) fi.placeholder = ar ? fi.getAttribute('data-ph-ar') : fi.getAttribute('data-ph-en');
 }
+// إظهار عناصر التاب النشط فقط (يشمل التابات الجديدة: الراديو/التلاوة/التنبيهات/التطبيق)
+function _applySettingsStab(tab) {
+  var panel = document.getElementById('settings-panel');
+  if (!panel) return;
+  panel.querySelectorAll('[data-stab]').forEach(function(el) {
+    el.classList.toggle('stab-off', el.getAttribute('data-stab') !== tab);
+  });
+}
 function setSettingsTab(tab) {
   if (tab === 'look' && typeof _loadAllOptFonts === 'function') _loadAllOptFonts();
   var panel = document.getElementById('settings-panel');
   if (!panel) return;
   panel.setAttribute('data-active-tab', tab);
+  _applySettingsStab(tab);
   document.querySelectorAll('#settings-tabs .settings-tab-btn').forEach(function(b) {
     var on = b.getAttribute('data-tab') === tab;
     b.classList.toggle('active', on);
@@ -22429,10 +22443,10 @@ function _renderPrayerTabIfNeeded() {
 (function initSettingsTabs() {
   var saved = null;
   try { saved = localStorage.getItem('settingsActiveTab'); } catch (e) {}
-  var valid = ['general', 'look', 'adhkar', 'audio', 'prayer'];
+  var valid = ['general', 'radio', 'look', 'adhkar', 'audio', 'prayer'];
   function init() {
     _refreshSettingsTabLabels();
-    if (saved && valid.indexOf(saved) !== -1) setSettingsTab(saved);
+    if (saved && valid.indexOf(saved) !== -1) setSettingsTab(saved); else _applySettingsStab('general');
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
   // تحديث أسماء التابات بعد تبديل اللغة من داخل الإعدادات
@@ -22851,7 +22865,8 @@ function _settingsFindInfo(el) {
 }
 var _SETTINGS_TAB_NAMES = {
   general: ['🎛️ عام', '🎛️ General'], look: ['🎨 المظهر', '🎨 Look'], adhkar: ['📿 الأذكار', '📿 Adhkar'],
-  audio: ['🔊 الصوت', '🔊 Audio'], prayer: ['🕌 الصلاة', '🕌 Prayer']
+  audio: ['🔊 الصوت', '🔊 Audio'], prayer: ['🕌 الصلاة', '🕌 Prayer'],
+  radio: ['📻 الراديو والتلاوة', '📻 Radio & Recitation']
 };
 function settingsFindRun(q) {
   var box = document.getElementById('settings-find-results');
