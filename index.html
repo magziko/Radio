@@ -17518,23 +17518,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
 </script>
 <!-- ===== END My Notes ===== -->
 
-<button id="toggleButton" class="toggle-button"
-    data-ar="تحميل التطبيق 📻"
-    data-en="Download App 📻"
-    data-fr="Télécharger l'app 📻"
-    data-es="Descargar la app 📻"
-    data-sv="Ladda ner appen 📻"
-    data-nl="App downloaden 📻"
-    data-ga="Íoslódáil an aip 📻"
-    data-de="App herunterladen 📻"
-    data-ru="Скачать приложение 📻"
-    data-tr="Uygulamayı indir 📻"
-    data-pt="Baixar o app 📻"
-    data-zh="下载应用 📻"
-    data-ur="ایپ ڈاؤن لوڈ کریں 📻"
-    onclick="window.open('https://median.co/share/bnakxxn#androidphone', '_blank')">
-    تحميل التطبيق 📻
-</button>
+
 
 <div class="footer-share">
 
@@ -17690,6 +17674,10 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
 <span class="footer-listen-stats-icon">📝</span>
 </button>
 </div>
+        <div style="width:100%;flex-basis:100%;text-align:center;margin-top:12px;">
+          <button id="toggleButton" type="button" class="dl-app-footer-btn" onclick="openAppDownloadModal()"
+            data-ar="تحميل التطبيق 📻" data-en="Download App 📻" data-fr="Télécharger l'app 📻" data-es="Descargar la app 📻" data-sv="Ladda ner appen 📻" data-nl="App downloaden 📻" data-ga="Íoslódáil an aip 📻" data-de="App herunterladen 📻" data-ru="Скачать приложение 📻" data-tr="Uygulamayı indir 📻" data-pt="Baixar o app 📻" data-zh="下载应用 📻" data-ur="ایپ ڈاؤن لوڈ کریں 📻">تحميل التطبيق 📻</button>
+        </div>
         <div class="flag-counter-container" id="flagContainer" style="display:none; margin-top:10px;">
             <a href="http://s01.flagcounter.com/more/Qgi">
                 <img src="https://s01.flagcounter.com/count2/Qgi/bg_FFFFFF/txt_000000/border_CCCCCC/columns_9/maxflags_100/viewers_Visitors/labels_1/pageviews_1/flags_0/percent_0/"
@@ -25270,19 +25258,9 @@ function checkPasswordForLink() {
   });
 }
 
-function showButtonTemporarily() {
-  const button = document.getElementById('toggleButton');
+function showButtonTemporarily() { /* لم يعد مستخدمًا */ }
 
-  button.style.display = 'block';
-
-  setTimeout(() => {
-    button.style.display = 'none';
-  }, 10000);
-}
-
-setInterval(showButtonTemporarily, 60000);
-
-showButtonTemporarily();
+// زر تحميل التطبيق بقى ثابت في الفوتر (من غير إظهار/إخفاء تلقائي)
 
 function openAllUrls(btn, evt) {
   if (evt) {
@@ -41871,6 +41849,57 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var go = function () { load(); };
     if (window.requestIdleCallback) requestIdleCallback(go, { timeout: 20000 }); else setTimeout(go, 10000);
   });
+})();
+</script>
+
+<div id="appDlOverlay" role="dialog" aria-modal="true" aria-labelledby="appDlTitle" onclick="if(event.target===this)closeAppDownloadModal()">
+  <div id="appDlCard">
+    <h3 id="appDlTitle">تحميل التطبيق</h3>
+    <p id="appDlDesc">تطبيق أندرويد (APK)</p>
+    <button type="button" id="appDlPreview" onclick="appDlPreview()">معاينة التطبيق</button>
+    <button type="button" id="appDlDirect" onclick="appDlDirect()">تحميل مباشر</button>
+    <button type="button" id="appDlClose" onclick="closeAppDownloadModal()">إغلاق</button>
+  </div>
+</div>
+<script>
+(function(){
+  var APK_URL='https://raw.githubusercontent.com/magziko/Radio-media/main/Quran%20Radio%20Ma.apk', PREVIEW_URL='https://median.co/share/bnakxxn#androidphone';
+  var T={
+    ar:['تحميل التطبيق','تطبيق أندرويد (APK) — اختر معاينة التطبيق أو التحميل المباشر','معاينة التطبيق','تحميل مباشر','إغلاق'],
+    en:['Download app','Android app (APK) — preview it or download it directly','Preview app','Direct download','Close'],
+    fr:['Télécharger l’app','Application Android (APK) — aperçu ou téléchargement direct','Aperçu de l’app','Téléchargement direct','Fermer'],
+    es:['Descargar la app','App Android (APK): vista previa o descarga directa','Vista previa','Descarga directa','Cerrar'],
+    sv:['Ladda ner appen','Android-app (APK) – förhandsgranska eller ladda ner direkt','Förhandsgranska','Direktnedladdning','Stäng'],
+    nl:['App downloaden','Android-app (APK) – bekijk een voorbeeld of download direct','Voorbeeld bekijken','Direct downloaden','Sluiten'],
+    ga:['Íoslódáil an aip','Aip Android (APK) – réamhamharc nó íoslódáil dhíreach','Réamhamharc','Íoslódáil dhíreach','Dún'],
+    de:['App herunterladen','Android-App (APK) – Vorschau oder direkter Download','App-Vorschau','Direkt herunterladen','Schließen'],
+    ru:['Скачать приложение','Android-приложение (APK) — предпросмотр или прямая загрузка','Предпросмотр','Прямая загрузка','Закрыть'],
+    tr:['Uygulamayı indir','Android uygulaması (APK) — önizleme veya doğrudan indirme','Uygulamayı önizle','Doğrudan indir','Kapat'],
+    pt:['Baixar o app','App Android (APK) — pré-visualizar ou baixar direto','Pré-visualizar','Download direto','Fechar'],
+    zh:['下载应用','安卓应用 (APK) — 预览或直接下载','预览应用','直接下载','关闭'],
+    ur:['ایپ ڈاؤن لوڈ کریں','اینڈرائیڈ ایپ (APK) — پیش منظر یا براہ راست ڈاؤن لوڈ','ایپ کا پیش منظر','براہ راست ڈاؤن لوڈ','بند کریں']
+  };
+  function lang(){
+    var l=(typeof welcomeDisplayLang!=='undefined'&&welcomeDisplayLang)?welcomeDisplayLang:((typeof isArabic!=='undefined'&&isArabic)?'ar':'en');
+    return T[l]?l:'en';
+  }
+  window.openAppDownloadModal=function(){
+    var l=lang(),t=T[l],o=document.getElementById('appDlOverlay');
+    document.getElementById('appDlCard').setAttribute('dir',(l==='ar'||l==='ur')?'rtl':'ltr');
+    document.getElementById('appDlTitle').textContent=t[0];
+    document.getElementById('appDlDesc').textContent=t[1];
+    document.getElementById('appDlPreview').textContent='👀  '+t[2];
+    document.getElementById('appDlDirect').textContent='⬇️  '+t[3];
+    document.getElementById('appDlClose').textContent=t[4];
+    o.classList.add('open');
+  };
+  window.closeAppDownloadModal=function(){document.getElementById('appDlOverlay').classList.remove('open');};
+  window.appDlPreview=function(){window.open(PREVIEW_URL,'_blank','noopener');closeAppDownloadModal();};
+  window.appDlDirect=function(){
+    var a=document.createElement('a');a.href=APK_URL;a.download='Quran Radio Ma.apk';a.rel='noopener';
+    document.body.appendChild(a);a.click();a.remove();closeAppDownloadModal();
+  };
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAppDownloadModal();});
 })();
 </script>
 </body>
