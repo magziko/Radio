@@ -298,6 +298,10 @@
 })();
 </script>
 
+<script>
+/* تصميم الشاشة الترحيبية: الكلاسيكي = بدون كلاس (الأساسي) | noor = «المحراب» */
+(function(){ try { if (localStorage.getItem('welcomeStyle') === 'noor') document.documentElement.classList.add('wstyle-noor'); } catch(e) {} })();
+</script>
 <div id="welcomeScreen" onclick="checkClickOutside(event)">
     <div id="welcomeContent">
 
@@ -4083,6 +4087,46 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="welcomeFallbackToggle" class="wtb-switch" onchange="toggleWelcomeFallbackSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('welcomeFallbackToggle');if(_cb){_cb.checked=(localStorage.getItem('welcomeAutoFallback')!=='false');}})();</script>
+    <div class="gset-head" id="gset-h-wstyle" role="heading" aria-level="3"><span class="stab-i18n" data-ar="🎨 تصميم الشاشة الترحيبية" data-en="🎨 Welcome Design">🎨 تصميم الشاشة الترحيبية</span></div>
+    <div id="welcomeStylePicker" data-stab="welcome" class="ws-picker" role="radiogroup" aria-label="Welcome screen design">
+      <button type="button" class="ws-opt is-active" data-style="classic" role="radio" aria-checked="true" onclick="setWelcomeStyle('classic')">
+        <span class="ws-thumb ws-thumb--classic" aria-hidden="true"><b></b><i></i><i></i></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الكلاسيكي (الأساسي)" data-en="Classic (Default)">الكلاسيكي (الأساسي)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="بطاقة مركزية هادئة" data-en="Calm centered card">بطاقة مركزية هادئة</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="noor" role="radio" aria-checked="false" onclick="setWelcomeStyle('noor')">
+        <span class="ws-thumb ws-thumb--noor" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="المحراب (جديد)" data-en="Mihrab (New)">المحراب (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="شاشة كاملة بإضاءة ليلية وتخطيط عمودين" data-en="Full-screen night glow, two-column layout">شاشة كاملة بإضاءة ليلية وتخطيط عمودين</span>
+      </button>
+    </div>
+    <script>
+    (function(){
+      var STYLES = ['classic', 'noor'];
+      function sync(s) {
+        document.querySelectorAll('#welcomeStylePicker .ws-opt').forEach(function(b) {
+          var on = b.getAttribute('data-style') === s;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-checked', on ? 'true' : 'false');
+        });
+      }
+      window.setWelcomeStyle = function(s) {
+        if (STYLES.indexOf(s) === -1) s = 'classic';
+        try { localStorage.setItem('welcomeStyle', s); } catch (e) {}
+        // الكلاسيكي = إزالة الكلاس بالكامل فيرجع التصميم الأساسي كما هو
+        document.documentElement.classList.toggle('wstyle-noor', s === 'noor');
+        sync(s);
+        if (typeof showToast === 'function') {
+          var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+          showToast(s === 'noor' ? (ar ? '🎨 تم تفعيل تصميم «المحراب»' : '🎨 Mihrab design enabled')
+                                 : (ar ? '🎨 تم الرجوع للتصميم الكلاسيكي' : '🎨 Classic design restored'));
+        }
+      };
+      var saved = 'classic';
+      try { saved = localStorage.getItem('welcomeStyle') || 'classic'; } catch (e) {}
+      sync(STYLES.indexOf(saved) === -1 ? 'classic' : saved);
+    })();
+    </script>
     <div class="gset-head" id="gset-h-sync" role="heading" aria-level="3"><span data-ar="📖 متابعة الآيات" data-en="📖 Ayah Follow" data-fr="📖 Suivi des versets" data-es="📖 Seguimiento de aleyas" data-sv="📖 Versföljning" data-nl="📖 Verzen volgen" data-ga="📖 Leanúint véarsaí" data-de="📖 Versbegleitung" data-ru="📖 Сопровождение аятов" data-tr="📖 Ayet takibi" data-pt="📖 Acompanhar versículos" data-zh="📖 经文跟随" data-ur="📖 آیات کی پیروی">📖 متابعة الآيات</span></div>
     <div id="syncAyahSpeedGroup" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;flex-wrap:wrap;cursor:default;"
          data-title-ar="سرعة انتقال الآيات في الشاشة الترحيبية أثناء تشغيل المصحف المرتل/المجوّد. زِدْها إذا كانت الآية تتأخر عن الصوت، وأنقِصْها إذا كانت تسبقه. تُحفظ لكل قارئ/مصدر صوت على حدة."
