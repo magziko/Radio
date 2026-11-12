@@ -4056,6 +4056,11 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="floatPlayBtnToggle" class="wtb-switch" onchange="toggleFloatPlayBtnSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('floatPlayBtnToggle');if(_cb){_cb.checked=(localStorage.getItem('showTogglePlayBtn')==='true');}})();</script>
+    <div id="settings-alarm-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="تذكير بالصلاة على النبي ﷺ والأذكار كل فترة (الفترة والذكر من قسم السبحة) / Periodic dhikr reminder (interval and dhikr are set in the tasbeeh section)">
+      <label for="alarmSettingsToggle" class="wtb-text" data-ar="🔔 تفعيل المنبه" data-en="🔔 Enable Alarm">🔔 تفعيل المنبه</label>
+      <input type="checkbox" id="alarmSettingsToggle" class="wtb-switch" checked onchange="window.spSetAlarm && window.spSetAlarm(this.checked)">
+    </div>
     <div id="settings-autodark-item" data-stab="look" class="welcome-toggle-btn" style="gap:7px;">
       <label for="autoDarkModeToggle" class="wtb-text" data-ar="🌙 الوضع الداكن التلقائي (حسب الوقت)" data-en="🌙 Auto Dark Mode (by time)" data-fr="🌙 Mode sombre automatique (selon l'heure)" data-es="🌙 Modo oscuro automático (según la hora)" data-sv="🌙 Automatiskt mörkt läge (efter tid)" data-nl="🌙 Automatische donkere modus (op tijd)" data-ga="🌙 Modh Dorcha Uathoibríoch (de réir ama)" data-de="🌙 Automatischer Dunkelmodus (nach Uhrzeit)" data-ru="🌙 Автотёмный режим (по времени)" data-tr="🌙 Otomatik Karanlık Mod (saate göre)" data-pt="🌙 Modo escuro automático (por hora)" data-zh="🌙 自动深色模式（按时间）" data-ur="🌙 خودکار ڈارک موڈ (وقت کے مطابق)" style="cursor:pointer; margin:0;">🌙 الوضع الداكن التلقائي (حسب الوقت)</label>
       <input type="checkbox" id="autoDarkModeToggle" class="wtb-switch" onchange="toggleAutoDarkModeSetting()">
@@ -11145,6 +11150,18 @@ const moreTranslations = [{
     }
   };
 
+  /* ---- تفعيل/إيقاف من الإعدادات + مزامنة مفتاح الإعدادات مع حالة المنبه ---- */
+  window.spSetAlarm = function(on) {
+    on = !!on;
+    if (on && !spAlarmTimer) alStartAlarm();
+    else if (!on && spAlarmTimer) alStopAlarm();
+    alSyncSettingsToggle();
+  };
+  function alSyncSettingsToggle() {
+    var cb = document.getElementById('alarmSettingsToggle');
+    if (cb) cb.checked = !!spAlarmTimer;
+  }
+
   function alStartAlarm() {
     var mins = parseInt(document.getElementById('sp-alarm-interval-sel').value) || 5;
     var ms = mins * 60 * 1000;
@@ -11260,7 +11277,11 @@ const moreTranslations = [{
       if (prefs.active && !spAlarmTimer) {
         alStartAlarm();
       }
+    } else if (!spAlarmTimer) {
+      /* أول زيارة (مفيش إعدادات محفوظة): المنبه يكون مفعّل افتراضيًا */
+      alStartAlarm();
     }
+    alSyncSettingsToggle();
 
     /* حفظ تلقائي عند تغيير الذكر أو الفترة */
     var dhikrSel2 = document.getElementById('sp-athkar-sel');
@@ -11290,10 +11311,12 @@ const moreTranslations = [{
   alStartAlarm = function() {
     _origStartAlarm();
     alSavePrefs();
+    alSyncSettingsToggle();
   };
   alStopAlarm = function() {
     _origStopAlarm();
     alSavePrefs();
+    alSyncSettingsToggle();
   };
 
   if (document.readyState === 'loading') {
