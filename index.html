@@ -4024,6 +4024,12 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="stopRadioOnMediaToggle" class="wtb-switch" onchange="try{localStorage.setItem('stopRadioOnMedia', this.checked ? 'true' : 'false');}catch(e){}">
     </div>
     <script>(function(){var _cb=document.getElementById('stopRadioOnMediaToggle');if(_cb){try{_cb.checked=(localStorage.getItem('stopRadioOnMedia')!=='false');}catch(e){_cb.checked=true;}}})();</script>
+    <div id="settings-resumeradiomedia-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="عند إغلاق نافذة الفيديو أو البث (أو العودة من تبويب يوتيوب) يعود الراديو الذي كان يعمل إلى التشغيل تلقائيًا. يعمل مع خيار إيقاف الراديو عند الفتح." data-title-en="When you close the video or stream window (or come back from a YouTube tab), the radio that was playing resumes automatically. Works together with the option to stop the radio when opening.">
+      <label for="resumeRadioOnMediaToggle" class="wtb-text" data-ar="▶️ استئناف الراديو بعد إغلاق الفيديو أو البث" data-en="▶️ Resume radio after closing the video or stream">▶️ استئناف الراديو بعد إغلاق الفيديو أو البث</label>
+      <input type="checkbox" id="resumeRadioOnMediaToggle" class="wtb-switch" onchange="try{localStorage.setItem('resumeRadioOnMedia', this.checked ? 'true' : 'false');}catch(e){}">
+    </div>
+    <script>(function(){var _cb=document.getElementById('resumeRadioOnMediaToggle');if(_cb){try{_cb.checked=(localStorage.getItem('resumeRadioOnMedia')!=='false');}catch(e){_cb.checked=true;}}})();</script>
     <div class="gset-head" id="gset-h-alarm" role="heading" aria-level="3"><span data-ar="🔔 المنبه والتذكير" data-en="🔔 Alarm &amp; Reminders" data-fr="🔔 Alarme et rappels" data-es="🔔 Alarma y recordatorios" data-sv="🔔 Larm &amp; påminnelser" data-nl="🔔 Alarm &amp; herinneringen" data-ga="🔔 Aláram &amp; meabhrúcháin" data-de="🔔 Wecker &amp; Erinnerungen" data-ru="🔔 Будильник и напоминания" data-tr="🔔 Alarm ve hatırlatmalar" data-pt="🔔 Alarme e lembretes" data-zh="🔔 闹钟与提醒" data-ur="🔔 الارم اور یاد دہانی">🔔 المنبه والتذكير</span></div>
     <div id="settings-alarm-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
          title="تذكير بالصلاة على النبي ﷺ والأذكار كل فترة (الفترة والذكر من قسم السبحة) / Periodic dhikr reminder (interval and dhikr are set in the tasbeeh section)">
@@ -4035,6 +4041,13 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="alarmPauseAdhanToggle" class="wtb-switch" onchange="try{localStorage.setItem('alarmPauseOnAdhan', this.checked ? 'true' : 'false');}catch(e){}">
     </div>
     <script>(function(){var _cb=document.getElementById('alarmPauseAdhanToggle');if(_cb){try{_cb.checked=(localStorage.getItem('alarmPauseOnAdhan')!=='false');}catch(e){_cb.checked=true;}}})();</script>
+    <button id="notifPermBtn" type="button" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+            onclick="window.requestNotifPermission && window.requestNotifPermission()"
+            title="يطلب من المتصفح السماح للموقع بإرسال الإشعارات (تذكير الأذكار، المنبه، تنبيهات فتح الموقع). إن كان الإذن محظورًا فعليك تفعيله من إعدادات الموقع في المتصفح." data-title-en="Asks the browser to let the site send notifications (dhikr reminders, alarm, site-open alerts). If permission is blocked, enable it from the site settings in your browser.">
+      <span class="wtb-icon">🔔</span>
+      <span class="wtb-text" data-ar="طلب إذن الإشعارات" data-en="Request notification permission">طلب إذن الإشعارات</span>
+      <span id="notifPermStatus" style="font-size:11px;opacity:.85;margin-inline-start:auto;white-space:nowrap;"></span>
+    </button>
     <div id="settings-autodark-item" data-stab="look" class="welcome-toggle-btn" style="gap:7px;">
       <label for="autoDarkModeToggle" class="wtb-text" data-ar="🌙 الوضع الداكن التلقائي (حسب الوقت)" data-en="🌙 Auto Dark Mode (by time)" data-fr="🌙 Mode sombre automatique (selon l'heure)" data-es="🌙 Modo oscuro automático (según la hora)" data-sv="🌙 Automatiskt mörkt läge (efter tid)" data-nl="🌙 Automatische donkere modus (op tijd)" data-ga="🌙 Modh Dorcha Uathoibríoch (de réir ama)" data-de="🌙 Automatischer Dunkelmodus (nach Uhrzeit)" data-ru="🌙 Автотёмный режим (по времени)" data-tr="🌙 Otomatik Karanlık Mod (saate göre)" data-pt="🌙 Modo escuro automático (por hora)" data-zh="🌙 自动深色模式（按时间）" data-ur="🌙 خودکار ڈارک موڈ (وقت کے مطابق)" style="cursor:pointer; margin:0;">🌙 الوضع الداكن التلقائي (حسب الوقت)</label>
       <input type="checkbox" id="autoDarkModeToggle" class="wtb-switch" onchange="toggleAutoDarkModeSetting()">
@@ -5825,7 +5838,7 @@ setTimeout(autoScaleVerseFont, 100);
         "if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('" + s.url + "', '_blank'); } else { openModal('" + s.url + "', '" + s.ar + "'); }"
       );
     } else if (s.external) {
-      btn.setAttribute('onclick', (/youtu\.?be/i.test(s.url) ? "window.stopRadiosForMedia && window.stopRadiosForMedia();" : "") + "window.open('" + s.url + "', '_blank', 'noopener,noreferrer');");
+      btn.setAttribute('onclick', (/youtu\.?be/i.test(s.url) ? "window.stopRadiosForMedia && window.stopRadiosForMedia('tab');" : "") + "window.open('" + s.url + "', '_blank', 'noopener,noreferrer');");
     } else if (s.url === 'https://sawtelghad.org:8888/;') {
       btn.setAttribute('onclick',
         "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
@@ -6337,7 +6350,7 @@ function lazyRender(arr, container) {
 
     if (s.externalUrl) {
       btn.setAttribute('data-url', s.externalUrl);
-      btn.setAttribute('onclick', (/youtu\.?be/i.test(s.externalUrl) ? "window.stopRadiosForMedia && window.stopRadiosForMedia();" : "") + "window.open('" + s.externalUrl + "', '_blank')");
+      btn.setAttribute('onclick', (/youtu\.?be/i.test(s.externalUrl) ? "window.stopRadiosForMedia && window.stopRadiosForMedia('tab');" : "") + "window.open('" + s.externalUrl + "', '_blank')");
     } else if (s.iframeSrc) {
       btn.setAttribute('data-url', s.iframeSrc);
       btn.setAttribute('onclick', "openModal(null, '" + modalTitle.replace(/'/g, "\\'") + "', true, false, undefined, '" + s.iframeSrc.replace(/'/g, "\\'") + "')");
@@ -18354,6 +18367,7 @@ window._applySettingsPanelLang = function (lang) {
       if (v && cur !== v) el.setAttribute(attr, v);
     });
   });
+  if (typeof window._notifPermRender === 'function') window._notifPermRender();
   if (typeof _refreshSettingsTabLabels === 'function') _refreshSettingsTabLabels();
 };
 function applySettingsStaticLang(lang) {
@@ -22800,7 +22814,7 @@ function openSisterAppInstall() {
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
-var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|recLoopSrc|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhkarTipDuration|alarmPauseOnAdhan|stopRadioOnMedia|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
+var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|recLoopSrc|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhkarTipDuration|alarmPauseOnAdhan|stopRadioOnMedia|resumeRadioOnMedia|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
 
 function _settingsKeys() {
   var out = [];
@@ -26386,7 +26400,8 @@ const YTModalManager = (function() {
     minimize,
     restore,
     close,
-    toggleMaximize
+    toggleMaximize,
+    count: function() { return Object.keys(openModals).length; }
   };
 })();
 
@@ -26636,7 +26651,8 @@ const SiteModalManager = (function() {
     minimize,
     restore,
     close,
-    toggleMaximize
+    toggleMaximize,
+    count: function() { return Object.keys(openModals).length; }
   };
 })();
 
@@ -26815,12 +26831,139 @@ function stopAllOtherAudios(activePlayer) {
 window.stopAllOtherAudios = stopAllOtherAudios;
 
 // إيقاف أي راديو عند فتح فيديو يوتيوب أو مودال بث (خيار في الإعدادات، مفعّل افتراضيًا)
-window.stopRadiosForMedia = function() {
+// kind === 'tab' عند فتح الفيديو في تبويب جديد (يُعرف الرجوع منه بعودة ظهور الصفحة)
+window.stopRadiosForMedia = function(kind) {
   try {
     if (localStorage.getItem('stopRadioOnMedia') === 'false') return;
+    // تسجيل ما كان يعمل قبل الإيقاف ليُستأنف لاحقًا (إن كان الخيار مفعّلًا)
+    var playing = [];
+    ['customAudioPlayer', 'currentAudio'].forEach(function(id) {
+      var a = document.getElementById(id);
+      if (a && !a.paused && !a.ended && (a.currentSrc || a.src)) playing.push(a);
+    });
+    if (window.isolatedAudio && !window.isolatedAudio.paused && !window.isolatedAudio.ended) playing.push(window.isolatedAudio);
     if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('media');
+    if (playing.length && localStorage.getItem('resumeRadioOnMedia') !== 'false') {
+      window._mediaResume = { els: playing, tab: kind === 'tab', hidden: false, t: Date.now() };
+      window._mediaResumeWatch();
+    }
   } catch (e) {}
 };
+
+// ── استئناف الراديو بعد إغلاق نافذة الفيديو/البث ──
+window._mediaResume = null;
+window._mediaResumeTimer = null;
+
+// ── زر إذن الإشعارات في الإعدادات ──
+window._notifPermRender = function() {
+  var st = document.getElementById('notifPermStatus');
+  if (!st) return;
+  var p = (typeof Notification === 'undefined') ? 'unsupported' : Notification.permission;
+  var map = {
+    granted:     [_tAE('✅ مسموح', '✅ Allowed'), '#1e8e3e'],
+    denied:      [_tAE('⛔ محظور', '⛔ Blocked'), '#d93025'],
+    'default':   [_tAE('⚪ لم يُطلب بعد', '⚪ Not asked yet'), ''],
+    unsupported: [_tAE('غير مدعوم', 'Not supported'), '']
+  };
+  var m = map[p] || map['default'];
+  st.textContent = m[0];
+  st.style.color = m[1];
+};
+window.requestNotifPermission = function() {
+  var say = function(ar, en) { if (typeof showToast === 'function') showToast(_tAE(ar, en)); };
+  if (typeof Notification === 'undefined') {
+    say('⚠️ هذا المتصفح لا يدعم الإشعارات', '⚠️ This browser does not support notifications');
+    window._notifPermRender();
+    return;
+  }
+  if (Notification.permission === 'granted') {
+    say('✅ الإشعارات مسموحة بالفعل', '✅ Notifications are already allowed');
+    window._notifPermRender();
+    return;
+  }
+  if (Notification.permission === 'denied') {
+    // لا يسمح المتصفح بإظهار نافذة الطلب مرة أخرى بعد الحظر
+    say('⛔ الإشعارات محظورة — فعّلها من إعدادات الموقع في المتصفح (أيقونة القفل بجوار العنوان)', '⛔ Notifications are blocked — enable them from the site settings in your browser (lock icon next to the address)');
+    window._notifPermRender();
+    return;
+  }
+  var done = function(perm) {
+    window._notifPermRender();
+    if (perm === 'granted') say('✅ تم السماح بالإشعارات', '✅ Notifications allowed');
+    else if (perm === 'denied') say('⛔ تم رفض إذن الإشعارات', '⛔ Notification permission was denied');
+  };
+  try {
+    var pr = Notification.requestPermission(done);   // الصيغة القديمة تستخدم دالة رد النداء
+    if (pr && typeof pr.then === 'function') pr.then(done).catch(function() { window._notifPermRender(); });
+  } catch (e) { window._notifPermRender(); }
+};
+(function() {
+  function init() {
+    window._notifPermRender();
+    try {   // تحديث الحالة فور تغيير الإذن من إعدادات المتصفح
+      if (navigator.permissions && navigator.permissions.query) {
+        navigator.permissions.query({ name: 'notifications' }).then(function(s) {
+          s.onchange = window._notifPermRender;
+        }).catch(function() {});
+      }
+    } catch (e) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+window._mediaInPageOpen = function() {
+  if (document.getElementById('audioStreamModalWin')) return true;
+  try { if (typeof YTModalManager !== 'undefined' && YTModalManager.count() > 0) return true; } catch (e) {}
+  try { if (typeof SiteModalManager !== 'undefined' && SiteModalManager.count() > 0) return true; } catch (e) {}
+  return false;
+};
+window._mediaResumeDo = function() {
+  var r = window._mediaResume;
+  window._mediaResume = null;
+  if (window._mediaResumeTimer) { clearInterval(window._mediaResumeTimer); window._mediaResumeTimer = null; }
+  if (!r) return;
+  try {
+    if (localStorage.getItem('resumeRadioOnMedia') === 'false') return;
+    // إن بدأ المستخدم تشغيلًا آخر بنفسه فلا نتدخل
+    var busy = ['customAudioPlayer', 'currentAudio'].some(function(id) {
+      var a = document.getElementById(id);
+      return a && !a.paused;
+    }) || (window.isolatedAudio && !window.isolatedAudio.paused);
+    if (busy) return;
+    var resumed = false;
+    r.els.forEach(function(a) {
+      try {
+        if (!(a.currentSrc || a.src)) return;
+        if (a.id === 'currentAudio') window._mainPlayAllowed = true;
+        // البث المباشر: نعيد التحميل ليعود إلى الوقت الحالي بدل الصوت المخزّن القديم
+        if (!isFinite(a.duration)) a.load();
+        var p = a.play();
+        if (p && p.catch) p.catch(function() {});
+        resumed = true;
+      } catch (e) {}
+    });
+    if (resumed && typeof showToast === 'function') showToast(_tAE('▶️ تم استئناف الراديو', '▶️ Radio resumed'));
+  } catch (e) {}
+};
+window._mediaResumeCheck = function() {
+  var r = window._mediaResume;
+  if (!r) return;
+  if (Date.now() - r.t > 3 * 60 * 60 * 1000) { window._mediaResume = null; return; }   // تخلٍّ بعد ثلاث ساعات
+  if (window._mediaInPageOpen()) return;                                                   // ما زالت نافذة مفتوحة
+  if (r.tab) { if (r.hidden && !document.hidden) window._mediaResumeDo(); return; }       // تبويب خارجي: ننتظر العودة إليه
+  window._mediaResumeDo();
+};
+window._mediaResumeWatch = function() {
+  if (window._mediaResumeTimer) clearInterval(window._mediaResumeTimer);
+  window._mediaResumeTimer = setInterval(function() {
+    if (!window._mediaResume) { clearInterval(window._mediaResumeTimer); window._mediaResumeTimer = null; return; }
+    window._mediaResumeCheck();
+  }, 800);
+};
+document.addEventListener('visibilitychange', function() {
+  var r = window._mediaResume;
+  if (!r) return;
+  if (document.hidden) r.hidden = true; else window._mediaResumeCheck();
+});
 
 const customAudioPlayerEl = document.getElementById('customAudioPlayer');
 const currentAudioEl = document.getElementById('currentAudio');
@@ -27356,7 +27499,7 @@ function handleClickWithCounter(event, btn, videoId, title) {
 
   if (!btn.classList.contains("triple-click")) {
     if (event.ctrlKey || event.metaKey) {
-      window.stopRadiosForMedia(); window.open(`https://www.youtube.com/live/${videoId}`, '_blank');
+      window.stopRadiosForMedia('tab'); window.open(`https://www.youtube.com/live/${videoId}`, '_blank');
     } else {
       openModal(videoId, title, true);
     }
@@ -27370,7 +27513,7 @@ function handleClickWithCounter(event, btn, videoId, title) {
   }
 
   if (event.ctrlKey || event.metaKey) {
-    window.stopRadiosForMedia(); window.open(`https://www.youtube.com/live/${videoId}`, '_blank');
+    window.stopRadiosForMedia('tab'); window.open(`https://www.youtube.com/live/${videoId}`, '_blank');
   } else {
     openModal(videoId, title, true);
   }
