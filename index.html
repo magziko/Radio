@@ -8030,14 +8030,16 @@ const moreTranslations = [{
     data-en="Download Android App (New)"
     data-fr="Télécharger Application Android (Nouveau)" data-es="Descargar Aplicación Android (Nuevo)" data-sv="Ladda ner App Android (Ny)" data-nl="Downloaden App Android (Nieuw)" data-ga="Íoslódáil Aip Android (Nua)" data-de="Herunterladen App Android (Neu)" data-ru="Скачать Приложение Android (Новый)" data-tr="İndir Uygulama Android (Yeni)" data-pt="Baixar Aplicativo Android (Novo)" data-zh="下载 应用 Android (新版)" data-ur="ڈاؤن لوڈ ایپ Android (نیا)"
     style="border: 2px solid #28a745; background: #eafaf1; position: relative;"
-    onclick="var a=document.createElement('a');a.href='https://raw.githubusercontent.com/magziko/Radio-media/main/Quran%20Radio%20Ma.apk';a.download='Quran Radio Ma.apk';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();">
+    onclick="window.open('https://median.co/share/bnakxxn#androidphone', '_blank');">
 
 
   <span class="station-text" style="font-size: 20px; font-weight: bold;">
     🤖 تحميل التطبيق
     <span style="color: #28a745; font-size: 14px; margin: 0 5px;">(جديد)</span>
 
-    <span style="margin-right: 6px; font-size: 24px;">🚀</span>
+    <a href="https://median.co/share/bnakxxn#androidphone"
+       target="_blank"
+       style="margin-right: 6px; font-size: 24px;">🚀</a>
   </span>
 
   <span id="newBadge" data-ar="جديد" data-en="NEW" data-fr="NOUVEAU" data-es="NUEVO" data-sv="NY" data-nl="NIEUW" data-ga="NUA" data-de="NEU" data-ru="НОВОЕ" data-tr="YENİ" data-pt="NOVO" data-zh="新版" data-ur="نیا" style="position:absolute; top:5px; left:5px; background:#28a745; color:#fff; padding:2px 6px; border-radius:5px; font-size:12px;">
@@ -39559,6 +39561,15 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var b = document.getElementById(btnId); if (b) b.click();
   }
 
+  // تحميل تطبيق الأندرويد (APK مباشر)
+  var APK_URL = 'https://raw.githubusercontent.com/magziko/Radio-media/main/Quran%20Radio%20Ma.apk';
+  var DL_T = { ar: 'تحميل التطبيق', en: 'Download app', fr: 'Télécharger l’app', es: 'Descargar la app', sv: 'Ladda ner appen', nl: 'App downloaden', ga: 'Íoslódáil an aip', de: 'App herunterladen', ru: 'Скачать приложение', tr: 'Uygulamayı indir', pt: 'Baixar o app', zh: '下载应用', ur: 'ایپ ڈاؤن لوڈ کریں' };
+  function downloadApk() {
+    var a = document.createElement('a');
+    a.href = APK_URL; a.download = 'Quran Radio Ma.apk'; a.rel = 'noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
   function curLang() {
     var l = (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) ? welcomeDisplayLang : ((typeof isArabic !== 'undefined' && isArabic) ? 'ar' : 'en');
     return T[l] ? l : 'en';
@@ -39590,6 +39601,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     SCREENS.forEach(function(sc) {
       menu.appendChild(row(sc[0], sc[3][l] || sc[3].en, function() { close(); openScreen(sc[1], sc[2]); }));
     });
+    menu.appendChild(row('📲', DL_T[l] || DL_T.en, function() { close(); downloadApk(); }));
     var sep = document.createElement('div');
     sep.style.cssText = 'height:1px;margin:4px 6px;background:rgba(0,0,0,0.12);';
     menu.appendChild(sep);
