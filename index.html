@@ -300,7 +300,7 @@
 
 <script>
 /* تصميم الشاشة الترحيبية: الكلاسيكي = بدون كلاس (الأساسي) | noor = «المحراب» | mushaf = «المصحف» | fajr = «الفجر» | bold = «الجريء» | player = «المشغّل» | editorial = «الصحيفة» | arabesque = «الأرابيسك» */
-(function(){ try { var _ws = localStorage.getItem('welcomeStyle'); if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial' || _ws === 'arabesque' || _ws === 'lantern') document.documentElement.classList.add('wstyle-' + _ws); } catch(e) {} })();
+(function(){ try { var _ws = localStorage.getItem('welcomeStyle'); if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial' || _ws === 'arabesque' || _ws === 'lantern' || _ws === 'kiswa') document.documentElement.classList.add('wstyle-' + _ws); } catch(e) {} })();
 /* الزخارف الإسلامية الخفيفة في بقية التصاميم: تُوقَف بالقيمة off */
 (function(){ try { if (localStorage.getItem('welcomeOrnaments') === 'off') document.documentElement.classList.add('worn-off'); } catch(e) {} })();
 /* خلفية الموقع في الشاشة الترحيبية: تُفعَّل بالقيمة on */
@@ -4140,10 +4140,15 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="ws-opt-name stab-i18n" data-ar="الفانوس (جديد)" data-en="Lantern (New)">الفانوس (جديد)</span>
         <span class="ws-opt-desc stab-i18n" data-ar="ليل رمضاني بفوانيس متدلية وإضاءة دافئة وبطاقة آية على هيئة محراب مقوّس" data-en="Ramadan night with hanging lanterns, warm glow and an arched mihrab verse card">ليل رمضاني بفوانيس متدلية وإضاءة دافئة وبطاقة آية على هيئة محراب مقوّس</span>
       </button>
+      <button type="button" class="ws-opt" data-style="kiswa" role="radio" aria-checked="false" onclick="setWelcomeStyle('kiswa')">
+        <span class="ws-thumb ws-thumb--kiswa" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الكسوة (جديد)" data-en="Kiswa (New)">الكسوة (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="أسود مخملي بحزام ذهبي مطرّز وإطار ذهبي مزدوج" data-en="Black velvet with an embroidered golden belt and a double gold frame">أسود مخملي بحزام ذهبي مطرّز وإطار ذهبي مزدوج</span>
+      </button>
     </div>
     <script>
     (function(){
-      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold', 'player', 'editorial', 'arabesque', 'lantern'];
+      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold', 'player', 'editorial', 'arabesque', 'lantern', 'kiswa'];
       function sync(s) {
         document.querySelectorAll('#welcomeStylePicker .ws-opt').forEach(function(b) {
           var on = b.getAttribute('data-style') === s;
@@ -4163,6 +4168,7 @@ setTimeout(autoScaleVerseFont, 100);
         document.documentElement.classList.toggle('wstyle-editorial', s === 'editorial');
         document.documentElement.classList.toggle('wstyle-arabesque', s === 'arabesque');
         document.documentElement.classList.toggle('wstyle-lantern', s === 'lantern');
+        document.documentElement.classList.toggle('wstyle-kiswa', s === 'kiswa');
         sync(s);
         if (typeof showToast === 'function') {
           var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
@@ -4174,6 +4180,7 @@ setTimeout(autoScaleVerseFont, 100);
                                  : s === 'editorial' ? (ar ? '🎨 تم تفعيل تصميم «الصحيفة»' : '🎨 Editorial design enabled')
                                   : s === 'arabesque' ? (ar ? '🎨 تم تفعيل تصميم «الأرابيسك»' : '🎨 Arabesque design enabled')
                                   : s === 'lantern' ? (ar ? '🎨 تم تفعيل تصميم «الفانوس»' : '🎨 Lantern design enabled')
+                                  : s === 'kiswa' ? (ar ? '🎨 تم تفعيل تصميم «الكسوة»' : '🎨 Kiswa design enabled')
                                  : (ar ? '🎨 تم الرجوع للتصميم الكلاسيكي' : '🎨 Classic design restored'));
         }
         // إعادة ضبط حجم الآية على الشكل الجديد (لو الشاشة الترحيبية ظاهرة)
