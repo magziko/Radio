@@ -3948,6 +3948,12 @@ setTimeout(autoScaleVerseFont, 100);
       <label for="syncTapToggle" class="wtb-text" data-ar="الضغط على الآية يفتح المصحف (eQuran)" data-en="Tap the ayah to open the Quran reader (eQuran)" data-fr="Toucher le verset ouvre le lecteur (eQuran)" data-es="Tocar la aleya abre el lector (eQuran)" data-de="Vers antippen öffnet den Leser (eQuran)" data-tr="Ayete dokunmak okuyucuyu açar (eQuran)" data-ru="Нажатие на аят открывает читалку (eQuran)">الضغط على الآية يفتح المصحف (eQuran)</label>
       <input type="checkbox" id="syncTapToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('tap', this)">
     </div>
+    <div id="settings-syncMini-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="يعرض الآية الحالية في شريط صغير أسفل الشاشة أثناء تلاوة السورة لما تكون الشاشة الترحيبية مقفولة.">
+      <span class="wtb-icon">📜</span>
+      <label for="syncMiniToggle" class="wtb-text" data-ar="إظهار الآية في شريط صغير لما الشاشة الترحيبية تتقفل" data-en="Show the current ayah in a mini bar when the welcome screen is closed" data-fr="Afficher le verset dans une mini-barre quand l’écran d’accueil est fermé" data-es="Mostrar la aleya en una mini barra al cerrar la pantalla de bienvenida" data-de="Aktuellen Vers in einer Mini-Leiste zeigen, wenn der Startbildschirm geschlossen ist" data-tr="Karşılama ekranı kapalıyken ayeti mini çubukta göster" data-ru="Показывать аят в мини-панели, когда экран приветствия закрыт">إظهار الآية في شريط صغير لما الشاشة الترحيبية تتقفل</label>
+      <input type="checkbox" id="syncMiniToggle" class="wtb-switch" checked onchange="window.toggleMiniAyahBar && window.toggleMiniAyahBar(this)">
+    </div>
     <div id="settings-syncExtra-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
          title="عرض ترجمة أو التفسير الميسّر للآية الحالية تحت الآيات أثناء التلاوة (نفس زر 📖)">
       <span class="wtb-icon">📖</span>
@@ -42011,6 +42017,72 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     e.preventDefault();
     if (ptype === 'mouse' && typeof window._asLongAdjust === 'function') window._asLongAdjust(-1, kindNow(b));
   }, true);
+})();
+</script>
+
+<script>
+// شريط الآية المصغّر: بيعكس الآية الحالية (.sync-current) اللي كود المزامنة بيرسمها جوه الشاشة الترحيبية،
+// ويظهر بس لما التلاوة شغّالة والشاشة الترحيبية مقفولة. مفيش تغيير في منطق المزامنة نفسه.
+(function(){
+  var KEY = 'syncMiniBar';
+  function on(){ try { return localStorage.getItem(KEY) !== 'false'; } catch (e) { return true; } }
+  function setOn(v){ try { localStorage.setItem(KEY, v ? 'true' : 'false'); } catch (e) {} }
+  function ar(){ return (typeof isArabic === 'undefined') ? true : isArabic; }
+
+  var bar = document.createElement('div');
+  bar.id = 'miniAyahBar';
+  bar.setAttribute('role', 'status');
+  bar.innerHTML = '<div class="mab-text" id="mabText"></div>' +
+    '<div class="mab-meta"><span class="mab-label" id="mabLabel"></span>' +
+    '<span class="mab-btns"><button type="button" id="mabOpen">📗</button><button type="button" id="mabClose">✕</button></span></div>';
+  document.body.appendChild(bar);
+  var txt = bar.querySelector('#mabText'), lab = bar.querySelector('#mabLabel');
+  var openBtn = bar.querySelector('#mabOpen'), closeBtn = bar.querySelector('#mabClose');
+  var lastText = '';
+
+  function welcomeVisible(){
+    var ws = document.getElementById('welcomeScreen');
+    if (!ws) return false;
+    var cs = getComputedStyle(ws);
+    if (cs.display === 'none' || cs.visibility === 'hidden') return false;
+    var r = ws.getBoundingClientRect();
+    return r.width > 0 && r.height > 0;
+  }
+  function update(){
+    var cur = null;
+    if (on() && window._quranLiveSyncActive && !welcomeVisible()) {
+      var av = document.getElementById('arabicVerse');
+      cur = av ? av.querySelector('.sync-current') : null;
+    }
+    if (!cur) { bar.classList.remove('show'); return; }
+    var t = cur.textContent;
+    if (t !== lastText) {
+      lastText = t;
+      var clone = cur.cloneNode(true);
+      clone.className = 'mab-ayah';
+      txt.textContent = '';
+      txt.appendChild(clone);
+      txt.scrollTop = 0;
+      txt.style.animation = 'none'; void txt.offsetWidth; txt.style.animation = '';
+    }
+    var vn = document.getElementById('verseNumber');
+    var l = vn ? vn.textContent.replace(/\s*\((دقيق|تقريبي)\)\s*$/, '') : '';
+    if (lab.textContent !== l) lab.textContent = l;
+    openBtn.title = ar() ? 'اقرأ من هنا في المصحف' : 'Read from here in the Quran reader';
+    closeBtn.title = ar() ? 'إخفاء الشريط' : 'Hide bar';
+    bar.classList.add('show');
+  }
+  openBtn.addEventListener('click', function(){
+    if (typeof window.openEquranAtCurrentAyah === 'function') window.openEquranAtCurrentAyah();
+  });
+  closeBtn.addEventListener('click', function(){
+    setOn(false); syncCheckbox(); update();
+    if (typeof showToast === 'function') showToast(ar() ? '📜 تم إخفاء شريط الآية — فعّله من الإعدادات' : '📜 Ayah bar hidden — re-enable it in Settings');
+  });
+  function syncCheckbox(){ var cb = document.getElementById('syncMiniToggle'); if (cb) cb.checked = on(); }
+  window.toggleMiniAyahBar = function(cb){ setOn(!!(cb && cb.checked)); update(); };
+  syncCheckbox();
+  setInterval(update, 500);
 })();
 </script>
 </body>
