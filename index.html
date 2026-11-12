@@ -4116,6 +4116,12 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="alarmPauseAdhanToggle" class="wtb-switch" onchange="try{localStorage.setItem('alarmPauseOnAdhan', this.checked ? 'true' : 'false');}catch(e){}">
     </div>
     <script>(function(){var _cb=document.getElementById('alarmPauseAdhanToggle');if(_cb){try{_cb.checked=(localStorage.getItem('alarmPauseOnAdhan')!=='false');}catch(e){_cb.checked=true;}}})();</script>
+    <div id="settings-stopradiomedia-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="عند الضغط على زر يفتح فيديو يوتيوب أو بث في نافذة، يتوقف أي راديو شغّال تلقائيًا / Opening a YouTube video or a stream window stops any playing radio">
+      <label for="stopRadioOnMediaToggle" class="wtb-text" data-ar="⏹️ إيقاف الراديو عند فتح فيديو يوتيوب أو بث" data-en="⏹️ Stop radio when opening a YouTube video or stream">⏹️ إيقاف الراديو عند فتح فيديو يوتيوب أو بث</label>
+      <input type="checkbox" id="stopRadioOnMediaToggle" class="wtb-switch" onchange="try{localStorage.setItem('stopRadioOnMedia', this.checked ? 'true' : 'false');}catch(e){}">
+    </div>
+    <script>(function(){var _cb=document.getElementById('stopRadioOnMediaToggle');if(_cb){try{_cb.checked=(localStorage.getItem('stopRadioOnMedia')!=='false');}catch(e){_cb.checked=true;}}})();</script>
     <div id="settings-autodark-item" data-stab="look" class="welcome-toggle-btn" style="gap:7px;">
       <label for="autoDarkModeToggle" class="wtb-text" data-ar="🌙 الوضع الداكن التلقائي (حسب الوقت)" data-en="🌙 Auto Dark Mode (by time)" data-fr="🌙 Mode sombre automatique (selon l'heure)" data-es="🌙 Modo oscuro automático (según la hora)" data-sv="🌙 Automatiskt mörkt läge (efter tid)" data-nl="🌙 Automatische donkere modus (op tijd)" data-ga="🌙 Modh Dorcha Uathoibríoch (de réir ama)" data-de="🌙 Automatischer Dunkelmodus (nach Uhrzeit)" data-ru="🌙 Автотёмный режим (по времени)" data-tr="🌙 Otomatik Karanlık Mod (saate göre)" data-pt="🌙 Modo escuro automático (por hora)" data-zh="🌙 自动深色模式（按时间）" data-ur="🌙 خودکار ڈارک موڈ (وقت کے مطابق)" style="cursor:pointer; margin:0;">🌙 الوضع الداكن التلقائي (حسب الوقت)</label>
       <input type="checkbox" id="autoDarkModeToggle" class="wtb-switch" onchange="toggleAutoDarkModeSetting()">
@@ -5813,7 +5819,7 @@ setTimeout(autoScaleVerseFont, 100);
         "if (event.shiftKey || event.ctrlKey || event.metaKey) { window.open('" + s.url + "', '_blank'); } else { openModal('" + s.url + "', '" + s.ar + "'); }"
       );
     } else if (s.external) {
-      btn.setAttribute('onclick', "window.open('" + s.url + "', '_blank', 'noopener,noreferrer');");
+      btn.setAttribute('onclick', (/youtu\.?be/i.test(s.url) ? "window.stopRadiosForMedia && window.stopRadiosForMedia();" : "") + "window.open('" + s.url + "', '_blank', 'noopener,noreferrer');");
     } else if (s.url === 'https://sawtelghad.org:8888/;') {
       btn.setAttribute('onclick',
         "if (event.ctrlKey || event.metaKey) { openRandomUrl(this, event); } else { toggleRadio(this); }"
@@ -6325,7 +6331,7 @@ function lazyRender(arr, container) {
 
     if (s.externalUrl) {
       btn.setAttribute('data-url', s.externalUrl);
-      btn.setAttribute('onclick', "window.open('" + s.externalUrl + "', '_blank')");
+      btn.setAttribute('onclick', (/youtu\.?be/i.test(s.externalUrl) ? "window.stopRadiosForMedia && window.stopRadiosForMedia();" : "") + "window.open('" + s.externalUrl + "', '_blank')");
     } else if (s.iframeSrc) {
       btn.setAttribute('data-url', s.iframeSrc);
       btn.setAttribute('onclick', "openModal(null, '" + modalTitle.replace(/'/g, "\\'") + "', true, false, undefined, '" + s.iframeSrc.replace(/'/g, "\\'") + "')");
@@ -18303,7 +18309,7 @@ function applySettingsStaticLang(lang) {
   // مجموعات لها معالج خاص بها، فلا نلمسها
   var skip = '#adhkar-notif-settings, #startup-notif-settings, #audio-quality-settings';
   roots.forEach(function (sel) {
-    document.querySelectorAll(sel + ' span[data-ar], ' + sel + ' label[data-ar], ' + sel + ' div[data-ar]').forEach(function (el) {
+    document.querySelectorAll(sel + ' span[data-ar], ' + sel + ' label[data-ar], ' + sel + ' div[data-ar], ' + sel + ' button[data-ar]').forEach(function (el) {
       if (el.children.length || el.id) return;
       if (el.closest && el.closest(skip)) return;
       var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
@@ -22735,7 +22741,7 @@ function openSisterAppInstall() {
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
-var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|recLoopSrc|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhkarTipDuration|alarmPauseOnAdhan|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
+var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|recLoopSrc|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhkarTipDuration|alarmPauseOnAdhan|stopRadioOnMedia|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
 
 function _settingsKeys() {
   var out = [];
@@ -26582,6 +26588,7 @@ const SiteModalManager = (function() {
 
 // ── مودال بث صوتي مباشر (Audio Stream Modal) ──
 function openAudioStreamModal(streamUrl, title) {
+  window.stopRadiosForMedia();
   scrollPastWelcomeScreen();
   const overlay = document.getElementById('site-modal-overlay');
   // إيقاف أي صوت سابق في المودال
@@ -26697,6 +26704,7 @@ function scrollPastWelcomeScreen() {
 window.scrollPastWelcomeScreen = scrollPastWelcomeScreen;
 
 function openModal(url, title, isYouTube = false, fullSize = false, bgColor = 'rgba(0, 0, 0, 0.8)', iframeSrc = null) {
+  if (isYouTube || !fullSize) window.stopRadiosForMedia();
   scrollPastWelcomeScreen();
   if (isYouTube) {
     YTModalManager.open(url, title, iframeSrc);
@@ -26745,6 +26753,14 @@ function stopAllOtherAudios(activePlayer) {
 }
 
 window.stopAllOtherAudios = stopAllOtherAudios;
+
+// إيقاف أي راديو عند فتح فيديو يوتيوب أو مودال بث (خيار في الإعدادات، مفعّل افتراضيًا)
+window.stopRadiosForMedia = function() {
+  try {
+    if (localStorage.getItem('stopRadioOnMedia') === 'false') return;
+    if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('media');
+  } catch (e) {}
+};
 
 const customAudioPlayerEl = document.getElementById('customAudioPlayer');
 const currentAudioEl = document.getElementById('currentAudio');
@@ -27280,7 +27296,7 @@ function handleClickWithCounter(event, btn, videoId, title) {
 
   if (!btn.classList.contains("triple-click")) {
     if (event.ctrlKey || event.metaKey) {
-      window.open(`https://www.youtube.com/live/${videoId}`, '_blank');
+      window.stopRadiosForMedia(); window.open(`https://www.youtube.com/live/${videoId}`, '_blank');
     } else {
       openModal(videoId, title, true);
     }
@@ -27294,7 +27310,7 @@ function handleClickWithCounter(event, btn, videoId, title) {
   }
 
   if (event.ctrlKey || event.metaKey) {
-    window.open(`https://www.youtube.com/live/${videoId}`, '_blank');
+    window.stopRadiosForMedia(); window.open(`https://www.youtube.com/live/${videoId}`, '_blank');
   } else {
     openModal(videoId, title, true);
   }
