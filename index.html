@@ -42157,6 +42157,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   (function(){
     var st = document.createElement('style');
     st.textContent =
+      '#miniAyahBar.mab-tap .mab-ayah{cursor:pointer}' +
       '#miniAyahBar .mab-desk,#miniAyahBar .mab-extra{display:none}' +
       '@media (min-width:1024px){' +
         '#miniAyahBar .mab-desk{display:inline-block}' +
@@ -42167,6 +42168,8 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     document.head.appendChild(st);
   })();
   // أزرار المعايرة (⏮️ ⏭️) بتتبع نفس إعداد "أزرار ⏮️ ⏭️ 📖 📗 على الشاشة" فى الإعدادات (syncShowButtons)
+  // الضغط على الآية فى الشريط يفتح eQuran عندها — بنفس إعداد "الضغط على الآية يفتح المصحف" (syncTapOpenEquran)
+  function tapOn(){ try { return localStorage.getItem('syncTapOpenEquran') !== 'false'; } catch (e) { return true; } }
   function calBtnsOn(){ try { return localStorage.getItem('syncShowButtons') !== 'false'; } catch (e) { return true; } }
   var lastText = '';
 
@@ -42206,6 +42209,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (lab.textContent !== l) lab.textContent = l;
     openBtn.title = ar() ? 'اقرأ من هنا في المصحف' : 'Read from here in the Quran reader';
     closeBtn.title = ar() ? 'إخفاء الشريط' : 'Hide bar';
+    bar.classList.toggle('mab-tap', tapOn());
     var showCal = calBtnsOn();
     backBtn.style.display = nextBtn.style.display = extraBtn.style.display = showCal ? '' : 'none';
     // نسخة من صندوق الترجمة/التفسير اللى كود المزامنة بيملاه جوه الشاشة الترحيبية (.sync-extra)
@@ -42231,6 +42235,12 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (typeof window.calibrateSyncAyahUI === 'function') window.calibrateSyncAyahUI(dir);
     update(); setTimeout(update, 120);   // نحدّث الشريط فورًا بالآية الجديدة
   }
+  txt.addEventListener('click', function(e){
+    if (!tapOn()) return;
+    var sel = window.getSelection ? String(window.getSelection()) : '';
+    if (sel.length > 0) return;   // لو بيحدد نص للنسخ ما نفتحش المصحف
+    if (typeof window.openEquranAtCurrentAyah === 'function') window.openEquranAtCurrentAyah();
+  });
   extraBtn.addEventListener('click', function(e){
     e.stopPropagation(); e.preventDefault();
     if (typeof window.cycleSyncExtra === 'function') window.cycleSyncExtra();   // إيقاف ← ترجمة ← تفسير ميسّر
@@ -42255,6 +42265,88 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   function _onScrollish(){ if (_rafPending) return; _rafPending = true; requestAnimationFrame(function(){ _rafPending = false; update(); }); }
   window.addEventListener('scroll', _onScrollish, { passive: true });
   window.addEventListener('resize', _onScrollish, { passive: true });
+})();
+</script>
+
+<script>
+// ربط الآيات العشوائية (اللى بتتعرض فى الشاشة الترحيبية من verses.js عند فتح الموقع) بمصحف eQuran:
+// الضغط على الآية بيفتح المصحف عندها — بنفس إعداد "الضغط على الآية يفتح المصحف" (syncTapOpenEquran) وبنفس دالة openEquranAt.
+// بيشتغل بس لما العرض مش "متابعة التلاوة" (لأن الآيات المتزامنة ليها مستمعها الخاص)، ومن غير ما يلمس منطق الدوران.
+(function(){
+  var NAMES = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس",
+    "هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه",
+    "الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم",
+    "لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر",
+    "فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق",
+    "الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة",
+    "الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج",
+    "نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس",
+    "التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد",
+    "الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات",
+    "القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر",
+    "المسد","الإخلاص","الفلق","الناس"];
+  function norm(t){
+    return String(t || '').replace(/[\u064B-\u065F\u0670\u0640]/g, '')
+      .replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/\s+/g, ' ').trim();
+  }
+  var NN = NAMES.map(norm);
+  function digits(t){ return String(t).replace(/[٠-٩]/g, function(d){ return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); }); }
+  function tapOn(){ try { return localStorage.getItem('syncTapOpenEquran') !== 'false'; } catch (e) { return true; } }
+
+  // بيطلع (رقم السورة، رقم الآية) من نص مرجع الآية المعروض (#verseNumber)، مثال: (سورة الإسراء / Al-Isra، الآية: 9)
+  function currentRef(){
+    // لو بيانات الآية نفسها فيها أرقام جاهزة نستخدمها
+    try {
+      if (typeof verses !== 'undefined' && typeof current !== 'undefined' && verses[current]) {
+        var v = verses[current], sn = parseInt(v.surah || v.surahNumber || v.sura, 10), an = parseInt(v.ayah || v.ayahNumber || v.aya, 10);
+        if (sn >= 1 && sn <= 114 && an >= 1) return { surah: sn, ayah: an };
+      }
+    } catch (e) {}
+    var el = document.getElementById('verseNumber');
+    if (!el) return null;
+    var raw = digits(el.textContent || '');
+    var m = raw.match(/سورة\s+([^\/،,\(\)]+?)\s*(?:\/|،|,|\)|$)/);
+    var idx = -1;
+    if (m) idx = NN.indexOf(norm(m[1]));
+    if (idx < 0) {   // احتياطى: أطول اسم سورة موجود كاملاً داخل النص
+      var nt = ' ' + norm(raw).replace(/[^\u0621-\u064A0-9 ]+/g, ' ').replace(/\s+/g, ' ') + ' ', best = -1, bl = 0;
+      for (var i = 0; i < NN.length; i++) {
+        if (NN[i].length >= 2 && NN[i].length > bl && nt.indexOf(' ' + NN[i] + ' ') !== -1) { best = i; bl = NN[i].length; }
+      }
+      idx = best;
+    }
+    if (idx < 0) return null;
+    var a = raw.match(/(?:الآية|الآيات|الايه|الايات|Ayah|Ayat|Verses?)\s*[:：]?\s*(\d+)/i) || raw.match(/[:：]\s*(\d+)\s*\)?\s*$/);
+    var ayah = a ? parseInt(a[1], 10) : 1;
+    return { surah: idx + 1, ayah: ayah >= 1 ? ayah : 1 };
+  }
+
+  document.addEventListener('click', function(e){
+    var el = e.target && e.target.closest ? e.target.closest('#arabicVerse') : null;
+    if (!el || !tapOn()) return;
+    if (window._quranLiveSyncActive || el.querySelector('.sync-ayah')) return;   // العرض المتزامن له مستمعه الخاص
+    var sel = window.getSelection ? String(window.getSelection()) : '';
+    if (sel.length > 0) return;
+    var ref = currentRef();
+    if (!ref || typeof window.openEquranAt !== 'function') return;
+    if (window.openEquranAt(ref.surah, ref.ayah) && typeof showToast === 'function') {
+      var ar = (typeof isArabic === 'undefined') ? true : isArabic;
+      showToast(ar ? '📗 فتح المصحف عند الآية ' + ref.ayah : '📗 Opening the Quran reader at ayah ' + ref.ayah);
+    }
+  });
+
+  // مؤشر اليد + تلميح على الآية العشوائية طول ما الإعداد شغّال
+  var st = document.createElement('style');
+  st.textContent = '#arabicVerse.eq-tap{cursor:pointer}';
+  document.head.appendChild(st);
+  setInterval(function(){
+    var el = document.getElementById('arabicVerse');
+    if (!el) return;
+    var on = tapOn() && !window._quranLiveSyncActive && !el.querySelector('.sync-ayah');
+    el.classList.toggle('eq-tap', on);
+    if (on) { if (!el.title) el.title = ((typeof isArabic === 'undefined') || isArabic) ? 'اضغط لفتح المصحف عند هذه الآية' : 'Tap to open the Quran reader at this ayah'; }
+    else if (el.title) el.removeAttribute('title');
+  }, 800);
 })();
 </script>
 </body>
