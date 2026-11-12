@@ -6353,7 +6353,7 @@ body.dark-mode #welcomeDarkModeBtn:hover {
     background: rgba(10,14,20,0.55);
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
-    z-index: 9998;
+    z-index: 9999; /* نفس طبقة الشاشة الترحيبية وبعدها فى الترتيب، عشان الضغط بره الإطار يوصل للخلفية ويقفل */
     animation: settingsBackdropFade .2s ease;
 }
 @keyframes settingsBackdropFade {
@@ -10238,6 +10238,7 @@ body.dark-mode .settings-tab-btn.active { color: #fff; }
 
 /* إخفاء كل عناصر التابات غير النشطة */
 #settings-panel[data-active-tab="general"] [data-stab]:not([data-stab="general"]),
+#settings-panel[data-active-tab="welcome"] [data-stab]:not([data-stab="welcome"]),
 #settings-panel[data-active-tab="look"]    [data-stab]:not([data-stab="look"]),
 #settings-panel[data-active-tab="adhkar"]  [data-stab]:not([data-stab="adhkar"]),
 #settings-panel[data-active-tab="audio"]   [data-stab]:not([data-stab="audio"]),
@@ -10258,6 +10259,11 @@ body.dark-mode .settings-tab-btn.active { color: #fff; }
     display: none;
 }
 
+/* 6 تابات: على الموبايل شبكة 3×2 متساوية بدل صف مكسور */
+@media (max-width: 559px) {
+    #settings-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+    .settings-tab-btn { padding: 8px 4px; font-size: 12px; }
+}
 @media (max-width: 420px) {
     #settings-tabs { gap: 4px; }
     .settings-tab-btn { padding: 7px 4px; font-size: 11.5px; border-radius: 10px; }
@@ -10616,7 +10622,7 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
    ========================================================================== */
 
 /* =====================================================================
-   تبويب "عام": أقسام بعناوين + ترتيب منطقي + بطاقات موحدة الشكل والارتفاع
+   تبويبا "عام" و"الترحيب": أقسام بعناوين + ترتيب منطقي + بطاقات موحدة الشكل والارتفاع
    (العناصر داخل شبكة #settingsQuickGrid عبر grid-template-areas)
    ===================================================================== */
 #settings-panel[data-active-tab="general"] #settingsQuickGrid {
@@ -10626,31 +10632,63 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
     "autoswitch sleep"
     "h-play     h-play"
     "autoplay   soundalert"
-    "startfile  fullrandom"
-    "fallback   fallback"
-    "h-ui       h-ui"
-    "disablewelcome welcomecycle"
+    "startfile  holdseek"
+    "fullrandom stopmedia"
     "flag       floatplay"
+    "h-alarm    h-alarm"
+    "alarm      alarmadhan"
     "h-filters  h-filters"
     "freorder   freset";
   gap: 8px 10px;
 }
+/* تبويب "الترحيب": شاشة الترحيب ثم متابعة الآيات (عناصر المتابعة تتوزع تلقائيًا تحت عنوانها) */
+#settings-panel[data-active-tab="welcome"] #settingsQuickGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "h-ui           h-ui"
+    "disablewelcome welcomecycle"
+    "fallback       fallback"
+    "h-sync         h-sync";
+  gap: 8px 10px;
+}
 #gset-h-timers  { grid-area: h-timers; }
 #gset-h-play    { grid-area: h-play; }
+#gset-h-alarm   { grid-area: h-alarm; }
 #gset-h-ui      { grid-area: h-ui; }
+#gset-h-sync    { grid-area: h-sync; }
 #gset-h-filters { grid-area: h-filters; }
 #settings-floatplay-item       { grid-area: floatplay; }
 #settings-welcomefallback-item { grid-area: fallback; }
+#settings-holdseek-item        { grid-area: holdseek; }
+#settings-stopradiomedia-item  { grid-area: stopmedia; }
+#settings-alarm-item           { grid-area: alarm; }
+#settings-alarmadhan-item      { grid-area: alarmadhan; }
 #filtersReorderToggleBtn       { grid-area: freorder; }
 #filtersResetOrderBtn          { grid-area: freset; }
 
-#settings-floatplay-item, #settings-welcomefallback-item,
+#settings-floatplay-item, #settings-welcomefallback-item, #settings-holdseek-item,
+#settings-stopradiomedia-item, #settings-alarm-item, #settings-alarmadhan-item,
 #filtersReorderToggleBtn, #filtersResetOrderBtn {
   width: 100% !important; max-width: 100% !important; margin: 0 !important; box-sizing: border-box !important;
 }
+/* عناصر متابعة الآيات: تملأ خانتها عشان الصفوف تتساوى */
+#settings-panel[data-active-tab="welcome"] #settingsQuickGrid :is(
+  #syncAyahSpeedGroup, #settings-syncprev-item, #settings-syncExact-item, #settings-syncLearn-item,
+  #settings-syncButtons-item, #settings-syncTap-item, #settings-syncMini-item,
+  #settings-syncAnnounce-item, #settings-syncExtra-item) {
+  width: 100%; max-width: 100%; margin: 0; box-sizing: border-box;
+}
+#settings-panel[data-active-tab="welcome"] #settingsQuickGrid :is(
+  #settings-syncprev-item, #settings-syncExact-item, #settings-syncLearn-item,
+  #settings-syncButtons-item, #settings-syncTap-item, #settings-syncMini-item,
+  #settings-syncAnnounce-item, #settings-syncExtra-item) .wtb-text {
+  white-space: normal; line-height: 1.35; overflow-wrap: anywhere;
+}
 
 /* عناوين الأقسام (تظهر في تبويب عام فقط) */
-#settings-panel:not([data-active-tab="general"]) .gset-head { display: none !important; }
+#settings-panel:not([data-active-tab="general"]):not([data-active-tab="welcome"]) .gset-head { display: none !important; }
+#settings-panel[data-active-tab="general"] :is(#gset-h-ui, #gset-h-sync) { display: none !important; }
+#settings-panel[data-active-tab="welcome"] :is(#gset-h-timers, #gset-h-play, #gset-h-alarm, #gset-h-filters) { display: none !important; }
 #settingsQuickGrid .gset-head {
   display: flex; align-items: center; gap: 8px;
   margin: 10px 2px 0; padding: 0;
@@ -10662,42 +10700,44 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
   background: rgba(var(--theme-c1-rgb), 0.22);
 }
 body.dark-mode #settingsQuickGrid .gset-head { color: #cfe3f5; }
-#settingsQuickGrid #gset-h-timers { margin-top: 2px; }
+#settingsQuickGrid :is(#gset-h-timers, #gset-h-ui) { margin-top: 2px; }
 
 /* بطاقات موحدة: نفس الارتفاع والحواف والمحاذاة (النص في البداية والمفتاح في النهاية) */
-#settings-panel[data-active-tab="general"] #settingsQuickGrid :is(
+#settings-panel:is([data-active-tab="general"], [data-active-tab="welcome"]) #settingsQuickGrid :is(
   #autoSwitchGroup, #sleepModeGroup, #introClipToggleBtn, #radioAutoplayToggleBtn,
   #settings-randomseek-item, #settings-fullrandom-item, #settings-welcomefallback-item,
   #disableWelcomeToggleBtn, #welcomeAutoSwitchDurationGroup, #settings-flag-item,
-  #settings-floatplay-item, #filtersReorderToggleBtn, #filtersResetOrderBtn) {
+  #settings-floatplay-item, #filtersReorderToggleBtn, #filtersResetOrderBtn,
+  #settings-holdseek-item, #settings-stopradiomedia-item, #settings-alarm-item, #settings-alarmadhan-item) {
   display: flex; align-items: center; justify-content: flex-start; gap: 8px;
   min-height: 46px; padding: 8px 12px; border-radius: 14px;
   border: 1.5px solid rgba(var(--theme-c1-rgb), 0.22);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   font-size: 13px; line-height: 1.35; text-align: start;
 }
-body:not(.dark-mode) #settings-panel[data-active-tab="general"] #settingsQuickGrid :is(
+body:not(.dark-mode) #settings-panel:is([data-active-tab="general"], [data-active-tab="welcome"]) #settingsQuickGrid :is(
   #autoSwitchGroup, #sleepModeGroup, #introClipToggleBtn, #radioAutoplayToggleBtn,
   #settings-randomseek-item, #settings-fullrandom-item, #settings-welcomefallback-item,
   #disableWelcomeToggleBtn, #welcomeAutoSwitchDurationGroup, #settings-flag-item,
-  #settings-floatplay-item, #filtersReorderToggleBtn, #filtersResetOrderBtn) {
+  #settings-floatplay-item, #filtersReorderToggleBtn, #filtersResetOrderBtn,
+  #settings-holdseek-item, #settings-stopradiomedia-item, #settings-alarm-item, #settings-alarmadhan-item) {
   background: rgba(var(--theme-c1-rgb), 0.06);
 }
 /* النص يأخذ المساحة المتاحة، والمفتاح/الحقل في آخر البطاقة */
-#settings-panel[data-active-tab="general"] #settingsQuickGrid :is(.welcome-toggle-btn) .wtb-text {
+#settings-panel:is([data-active-tab="general"], [data-active-tab="welcome"]) #settingsQuickGrid :is(.welcome-toggle-btn) .wtb-text {
   flex: 1 1 auto; min-width: 0; margin: 0; text-align: start;
 }
-#settings-panel[data-active-tab="general"] #settingsQuickGrid :is(.welcome-toggle-btn) .wtb-switch,
-#settings-panel[data-active-tab="general"] #settingsQuickGrid :is(.welcome-toggle-btn) .wtb-switch-visual {
+#settings-panel:is([data-active-tab="general"], [data-active-tab="welcome"]) #settingsQuickGrid :is(.welcome-toggle-btn) .wtb-switch,
+#settings-panel:is([data-active-tab="general"], [data-active-tab="welcome"]) #settingsQuickGrid :is(.welcome-toggle-btn) .wtb-switch-visual {
   margin-inline-start: auto !important; flex-shrink: 0;
 }
-#settings-panel[data-active-tab="general"] #settingsQuickGrid .input-group label {
+#settings-panel:is([data-active-tab="general"], [data-active-tab="welcome"]) #settingsQuickGrid .input-group label {
   flex: 1 1 auto; min-width: 0; font-size: 13px; white-space: normal;
 }
-#settings-panel[data-active-tab="general"] #settingsQuickGrid .input-group input[type="number"] {
+#settings-panel:is([data-active-tab="general"], [data-active-tab="welcome"]) #settingsQuickGrid .input-group input[type="number"] {
   flex: 0 0 auto; width: 48%; max-width: 96px; padding: 6px 8px; border-radius: 10px;
 }
-#settings-panel[data-active-tab="general"] #settingsQuickGrid #welcomeAutoSwitchDurationGroup .welcome-toggle-inline-input {
+#settings-panel:is([data-active-tab="general"], [data-active-tab="welcome"]) #settingsQuickGrid #welcomeAutoSwitchDurationGroup .welcome-toggle-inline-input {
   flex: 0 0 auto; width: 52px;
 }
 /* عدّادات التنقل/النوم تظهر تحت الحقل بدل ما تكسر الصف */
