@@ -11217,7 +11217,6 @@ const moreTranslations = [{
     banner.id = 'geoConsentBanner';
     banner.style.cssText = 'position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483000;width:min(92vw,380px);background:' + bg + ';color:' + clr + ';border:1px solid ' + border + ';border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,0.25);font-family:Cairo,sans-serif;direction:' + (isAr ? 'rtl' : 'ltr') + ';';
     banner.innerHTML =
-      '<style>@keyframes geoConsentSlideIn{from{transform:translate(-50%,24px);opacity:0}to{transform:translate(-50%,0);opacity:1}}#geoConsentBanner{animation:geoConsentSlideIn .22s ease}</style>' +
       '<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;">' +
         '<div style="font-size:22px;line-height:1;">📍</div>' +
         '<div>' +
@@ -11295,7 +11294,6 @@ const moreTranslations = [{
     overlay.id = 'cityPickerModal';
     overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);';
     overlay.innerHTML =
-      '<style>@keyframes cpFadeIn{from{opacity:0}to{opacity:1}}@keyframes cpSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}#cityPickerModal{animation:cpFadeIn .18s ease}#cityPickerModal>div{animation:cpSlideIn .22s ease}</style>' +
       '<div style="background:' + bg + ';color:' + clr + ';width:min(92vw,380px);max-height:80vh;overflow:auto;border-radius:18px;padding:20px;font-family:Cairo,sans-serif;direction:' + dir + ';box-shadow:0 12px 40px rgba(0,0,0,0.3);">' +
         '<div style="font-size:16px;font-weight:700;margin-bottom:14px;color:' + green + ';">🏙️ ' + T('cityPickerTitle', lang) + '</div>' +
         '<input id="cp-input" type="text" placeholder="' + T('cityPickerPlaceholder', lang) + '" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid ' + border + ';background:' + (isDark ? '#132018' : '#f7faf8') + ';color:' + clr + ';font-family:Cairo,sans-serif;font-size:13px;margin-bottom:12px;box-sizing:border-box;" autocomplete="off">' +
@@ -12458,7 +12456,6 @@ window._ptComputeDuha = _ptComputeDuha;
     popup.id = 'prayerTimesPopup';
     popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:ptFadeIn .18s ease;';
     popup.innerHTML =
-      '<style>@keyframes ptFadeIn{from{opacity:0}to{opacity:1}}@keyframes ptSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
       '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:360px;max-height:88vh;overflow-y:auto;direction:' + dir + ';font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:ptSlideIn .22s ease;">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';">' +
           '<div style="font-size:15px;font-weight:700;">🕌 ' + _ptT('popupTitle', lang) + '</div>' +
@@ -12791,7 +12788,6 @@ window._ptComputeDuha = _ptComputeDuha;
     popup.id = 'qiblaCompassPopup';
     popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:qcFadeIn .18s ease;';
     popup.innerHTML =
-      '<style>@keyframes qcFadeIn{from{opacity:0}to{opacity:1}}@keyframes qcSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
       '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:360px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:qcSlideIn .22s ease;">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';">' +
           '<div style="font-size:15px;font-weight:700;">🧭 ' + (isAr ? 'اتجاه القبلة' : 'Qibla Direction') + '</div>' +
@@ -13226,7 +13222,6 @@ window._ptComputeDuha = _ptComputeDuha;
     popup.id = 'zakatCalcPopup';
     popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:zkFadeIn .18s ease;';
     popup.innerHTML =
-      '<style>@keyframes zkFadeIn{from{opacity:0}to{opacity:1}}@keyframes zkSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
       '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:zkSlideIn .22s ease;">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';position:sticky;top:0;background:' + bg + ';border-radius:18px 18px 0 0;z-index:1;">' +
           '<div style="font-size:15px;font-weight:700;">🧮 ' + (isAr ? 'حاسبة الزكاة' : 'Zakat Calculator') + '</div>' +
@@ -15428,7 +15423,6 @@ window._ptComputeDuha = _ptComputeDuha;
     popup.id = 'khatmaTrackerPopup';
     popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:khFadeIn .18s ease;';
     popup.innerHTML =
-      '<style>@keyframes khFadeIn{from{opacity:0}to{opacity:1}}@keyframes khSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
       '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:88vh;overflow-y:auto;direction:' + dir + ';font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:khSlideIn .22s ease;">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';position:sticky;top:0;background:' + bg + ';border-radius:18px 18px 0 0;z-index:1;">' +
           '<div style="font-size:15px;font-weight:700;">📗 ' + kt('trackerTitle') + '</div>' +
@@ -35350,7 +35344,6 @@ function openListenStats() {
   popup.id = 'listenStatsPopup';
   popup.style.cssText = 'position:fixed;inset:0;z-index:99997;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.42);animation:listenStatsFadeIn .18s ease;';
   popup.innerHTML =
-    '<style>@keyframes listenStatsFadeIn{from{opacity:0}to{opacity:1}}@keyframes listenStatsSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}</style>' +
     '<div style="background:' + bg + ';color:' + clr + ';border-radius:18px;width:92%;max-width:400px;max-height:88vh;overflow-y:auto;direction:rtl;font-family:Cairo,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,0.22);animation:listenStatsSlideIn .22s ease;">' +
       // Header
       '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:.5px solid ' + borderClr + ';position:sticky;top:0;background:' + bg + ';border-radius:18px 18px 0 0;z-index:1;">' +
