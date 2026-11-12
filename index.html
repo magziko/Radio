@@ -91,6 +91,9 @@
     return browserLang.startsWith('ar');
   })();
 
+  /* اختيار النص بحسب لغة الواجهة (عربي/إنجليزي) — تُستخدم في رسائل الإعدادات */
+  function _tAE(ar, en) { return (typeof isArabic === 'undefined' || isArabic) ? ar : en; }
+
   /* Same class of bug: the welcome screen's play/pause button and its close
      button use inline onclick="..." handlers, and both elements render very
      early in the HTML — long before the huge script block (tens of thousands
@@ -856,7 +859,7 @@ function toggleRadioAutoplayOption() {
     if (txt) txt.textContent = _radioAutoplayLabel(enabled);
   }
   if (typeof showToast === 'function') {
-    showToast(enabled ? '▶️ تم تفعيل التشغيل التلقائي للراديو' : '⏸️ تم تعطيل التشغيل التلقائي للراديو');
+    showToast(enabled ? _tAE('▶️ تم تفعيل التشغيل التلقائي للراديو', '▶️ Radio autoplay enabled') : _tAE('⏸️ تم تعطيل التشغيل التلقائي للراديو', '⏸️ Radio autoplay disabled'));
   }
 }
 
@@ -3719,7 +3722,7 @@ setTimeout(autoScaleVerseFont, 100);
         white-space:nowrap;
         letter-spacing:0.03em;
         cursor:pointer;
-      " onclick="document.getElementById('sleepCheckbox').checked=false;document.getElementById('sleepCheckbox').dispatchEvent(new Event('change'));" title="اضغط لإلغاء مؤقت النوم"></span>
+      " onclick="document.getElementById('sleepCheckbox').checked=false;document.getElementById('sleepCheckbox').dispatchEvent(new Event('change'));" title="اضغط لإلغاء مؤقت النوم" data-title-en="Tap to cancel the sleep timer"></span>
     </div>
 
   </div>
@@ -3951,7 +3954,7 @@ setTimeout(autoScaleVerseFont, 100);
         <span id="settingsShortcutsText" data-ar="الاختصارات" data-en="Shortcuts" data-fr="Raccourcis" data-es="Atajos" data-sv="Genvägar" data-nl="Sneltoetsen" data-ga="Aicearraí" data-de="Tastenkombinationen" data-ru="Горячие клавиши" data-tr="Kısayollar" data-pt="Atalhos" data-zh="快捷键" data-ur="شارٹ کٹس">الاختصارات</span>
       </button>
     </div>
-    <div class="color-setting-item" id="themeAutoRotateGroup" data-stab="look" title="تغيير المظهر تلقائيًا كل فترة">
+    <div class="color-setting-item" id="themeAutoRotateGroup" data-stab="look" title="تغيير المظهر تلقائيًا كل فترة" data-title-en="Automatically change the theme at regular intervals">
       <label for="themeAutoRotateInterval" data-ar="🔄 تغيير المظهر تلقائيًا" data-en="🔄 Auto-Change Theme" data-fr="🔄 Changement auto. du thème" data-es="🔄 Cambio automático de tema" data-sv="🔄 Automatiskt temabyte" data-nl="🔄 Automatisch thema wisselen" data-ga="🔄 Athrú téama uathoibríoch" data-de="🔄 Design automatisch wechseln" data-ru="🔄 Автосмена темы" data-tr="🔄 Otomatik Tema Değiştir" data-pt="🔄 Alternar tema automaticamente" data-zh="🔄 自动切换主题" data-ur="🔄 خودکار تھیم تبدیلی" class="wtb-text">🔄 تغيير المظهر تلقائيًا</label>
       <select id="themeAutoRotateInterval" class="responsive-select" onchange="changeThemeAutoRotate()">
         <option value="0" data-ar="⛔ إيقاف" data-en="⛔ Off" data-fr="⛔ Désactivé" data-es="⛔ Desactivado" data-sv="⛔ Av" data-nl="⛔ Uit" data-ga="⛔ As" data-de="⛔ Aus" data-ru="⛔ Выкл" data-tr="⛔ Kapalı" data-pt="⛔ Desativado" data-zh="⛔ 关闭" data-ur="⛔ بند">⛔ إيقاف</option>
@@ -4066,7 +4069,7 @@ setTimeout(autoScaleVerseFont, 100);
               data-on-ar="شاشة الترحيب: مخفية" data-on-en="Welcome: Hidden" data-on-fr="Accueil : masqué" data-on-es="Bienvenida: oculta" data-on-sv="Välkomst: dold" data-on-nl="Welkom: verborgen" data-on-ga="Fáilte: folaithe" data-on-de="Begrüßung: ausgeblendet" data-on-ru="Приветствие: скрыто" data-on-tr="Karşılama: gizli" data-on-pt="Boas-vindas: oculta" data-on-zh="欢迎屏幕：已隐藏" data-on-ur="خوش آمدید: مخفی">إخفاء شاشة الترحيب</span>
         <span class="wtb-switch-visual" aria-hidden="true"></span>
     </button>
-    <div id="welcomeAutoSwitchDurationGroup" data-stab="welcome" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" style="gap:7px;">
+    <div id="welcomeAutoSwitchDurationGroup" data-stab="welcome" class="welcome-toggle-btn" title="مدة التنقل التلقائي بين محطات الشاشة الترحيبية" data-title-en="Time between automatic station switches on the welcome screen" style="gap:7px;">
       <span class="wtb-icon">⏱️</span>
       <label for="welcomeAutoSwitchDuration" data-ar="مدة تنقل الترحيب" data-en="Welcome Cycle" data-fr="Cycle d'accueil" data-es="Ciclo de bienvenida" data-sv="Välkomstcykel" data-nl="Welkomstcyclus" data-ga="Timthriall Fáilte" data-de="Begrüßungszyklus" data-ru="Цикл приветствия" data-tr="Karşılama Döngüsü" data-pt="Ciclo de boas-vindas" data-zh="欢迎轮播周期" data-ur="خوش آمدید سائیکل" class="wtb-text" style="cursor:default; margin:0;">مدة تنقل الترحيب</label>
       <input type="number" id="welcomeAutoSwitchDuration" min="1" max="60"
@@ -4082,7 +4085,7 @@ setTimeout(autoScaleVerseFont, 100);
     <script>(function(){var _cb=document.getElementById('welcomeFallbackToggle');if(_cb){_cb.checked=(localStorage.getItem('welcomeAutoFallback')!=='false');}})();</script>
     <div class="gset-head" id="gset-h-sync" role="heading" aria-level="3"><span data-ar="📖 متابعة الآيات" data-en="📖 Ayah Follow" data-fr="📖 Suivi des versets" data-es="📖 Seguimiento de aleyas" data-sv="📖 Versföljning" data-nl="📖 Verzen volgen" data-ga="📖 Leanúint véarsaí" data-de="📖 Versbegleitung" data-ru="📖 Сопровождение аятов" data-tr="📖 Ayet takibi" data-pt="📖 Acompanhar versículos" data-zh="📖 经文跟随" data-ur="📖 آیات کی پیروی">📖 متابعة الآيات</span></div>
     <div id="syncAyahSpeedGroup" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;flex-wrap:wrap;cursor:default;"
-         data-title-ar="سرعة انتقال الآيات في الشاشة الترحيبية أثناء تشغيل المصحف المرتل/المجوّد. زوّدها لو الآية بتتأخر عن الصوت، وقلّلها لو بتسبقه. بتتحفظ لكل قارئ/مصدر صوت لوحده."
+         data-title-ar="سرعة انتقال الآيات في الشاشة الترحيبية أثناء تشغيل المصحف المرتل/المجوّد. زِدْها إذا كانت الآية تتأخر عن الصوت، وأنقِصْها إذا كانت تسبقه. تُحفظ لكل قارئ/مصدر صوت على حدة."
          data-title-en="Ayah follow speed on the welcome screen while a Quran recitation plays. Increase it if the ayah lags behind the audio, decrease it if it runs ahead. Saved separately for each reciter/audio source.">
       <span class="wtb-icon">📖</span>
       <label for="syncAyahSpeedSlider" class="wtb-text" data-ar="سرعة تنقل الآيات مع التلاوة" data-en="Ayah follow speed (recitation)" data-fr="Vitesse de suivi des versets" data-es="Velocidad de seguimiento de aleyas" data-de="Vers-Folgegeschwindigkeit" data-tr="Ayet takip hızı" data-ru="Скорость смены аятов">سرعة تنقل الآيات مع التلاوة</label>
@@ -4096,56 +4099,56 @@ setTimeout(autoScaleVerseFont, 100);
       <div id="syncAyahSpeedScope" style="flex-basis:100%;font-size:11px;opacity:0.8;line-height:1.5;white-space:normal;overflow-wrap:anywhere;text-align:center;"></div>
     </div>
     <div id="settings-syncprev-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;"
-         title="إظهار الآية السابقة قبل الآية الحالية في الشاشة الترحيبية أثناء التلاوة">
+         title="إظهار الآية السابقة قبل الآية الحالية في الشاشة الترحيبية أثناء التلاوة" data-title-en="Show the previous ayah above the current one on the welcome screen during recitation">
       <span class="wtb-icon">⬆️</span>
       <label for="syncShowPrevToggle" class="wtb-text" data-ar="إظهار الآية السابقة مع التلاوة" data-en="Show previous ayah during recitation" data-fr="Afficher le verset précédent" data-es="Mostrar la aleya anterior" data-de="Vorherigen Vers anzeigen" data-tr="Önceki ayeti göster" data-ru="Показывать предыдущий аят">إظهار الآية السابقة مع التلاوة</label>
       <input type="checkbox" id="syncShowPrevToggle" class="wtb-switch" checked onchange="window.toggleSyncShowPrevAyah && window.toggleSyncShowPrevAyah(this)">
     </div>
     <div id="settings-syncExact-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;"
-         title="استخدام التوقيت الحقيقي لكل آية (من mp3quran.net) للقرّاء المتاح لهم، بدل التقدير. اقفله لو لاحظت اختلافًا مع التلاوة.">
+         title="استخدام التوقيت الحقيقي لكل آية (من mp3quran.net) للقرّاء الذين يتوفّر لهم، بدل التقدير. عطّله إن لاحظتَ اختلافًا مع التلاوة." data-title-en="Use the real timing of each ayah (from mp3quran.net) for reciters who have it, instead of an estimate. Turn it off if you notice a mismatch with the recitation.">
       <span class="wtb-icon">🎯</span>
       <label for="syncExactToggle" class="wtb-text" data-ar="التوقيت الدقيق للآيات عند توفره" data-en="Exact ayah timing when available" data-fr="Minutage exact des versets" data-es="Tiempo exacto de las aleyas" data-de="Genaues Vers-Timing" data-tr="Ayet zamanlaması (tam)" data-ru="Точные тайминги аятов">التوقيت الدقيق للآيات عند توفره</label>
       <input type="checkbox" id="syncExactToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('exact', this)">
     </div>
     <div id="settings-syncLearn-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;"
-         title="عند المعايرة أكثر من مرة (Y أو الأزرار) يحسب التطبيق سرعة القارئ ويحفظها له. اقفله لو عايز المعايرة مؤقتة بس.">
+         title="عند المعايرة أكثر من مرة (Y أو الأزرار) يحسب التطبيق سرعة القارئ ويحفظها له. عطّله إن أردتَ أن تكون المعايرة مؤقتة فقط." data-title-en="After calibrating more than once (Y or the buttons), the app works out the reciter's speed and saves it. Turn it off if you want calibration to be temporary only.">
       <span class="wtb-icon">💾</span>
       <label for="syncLearnToggle" class="wtb-text" data-ar="حفظ سرعة القارئ تلقائيًا من المعايرة" data-en="Save reciter speed automatically from calibration" data-fr="Enregistrer la vitesse du récitant" data-es="Guardar la velocidad del recitador" data-de="Rezitator-Tempo speichern" data-tr="Okuyucu hızını kaydet" data-ru="Сохранять скорость чтеца">حفظ سرعة القارئ تلقائيًا من المعايرة</label>
       <input type="checkbox" id="syncLearnToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('learn', this)">
     </div>
     <div id="settings-syncButtons-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;"
-         title="إظهار أزرار ⏮️ ⏭️ 📖 📗 تحت الآيات في الشاشة الترحيبية أثناء التلاوة.">
+         title="إظهار أزرار ⏮️ ⏭️ 📖 📗 تحت الآيات في الشاشة الترحيبية أثناء التلاوة." data-title-en="Show the ⏮️ ⏭️ 📖 📗 buttons under the ayahs on the welcome screen during recitation.">
       <span class="wtb-icon">🎛️</span>
       <label for="syncButtonsToggle" class="wtb-text" data-ar="أزرار المعايرة والترجمة والمصحف على الشاشة" data-en="On-screen calibration, translation & reader buttons" data-fr="Boutons de calage, traduction et lecteur" data-es="Botones de ajuste, traducción y lector" data-de="Schaltflächen für Abgleich, Übersetzung, Leser" data-tr="Ayarlama, çeviri ve okuyucu düğmeleri" data-ru="Кнопки калибровки, перевода и чтения">أزرار المعايرة والترجمة والمصحف على الشاشة</label>
       <input type="checkbox" id="syncButtonsToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('buttons', this)">
     </div>
     <div id="settings-syncTap-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;"
-         title="الضغط على الآية الحالية أثناء التلاوة يفتح المصحف عند نفس الآية. اقفله لتفادي الفتح بالغلط.">
+         title="الضغط على الآية الحالية أثناء التلاوة يفتح المصحف عند الآية نفسها. عطّله لتفادي الفتح عن طريق الخطأ." data-title-en="Tapping the current ayah during recitation opens the Quran reader at the same ayah. Turn it off to avoid opening it by accident.">
       <span class="wtb-icon">👆</span>
       <label for="syncTapToggle" class="wtb-text" data-ar="الضغط على الآية يفتح المصحف (eQuran)" data-en="Tap the ayah to open the Quran reader (eQuran)" data-fr="Toucher le verset ouvre le lecteur (eQuran)" data-es="Tocar la aleya abre el lector (eQuran)" data-de="Vers antippen öffnet den Leser (eQuran)" data-tr="Ayete dokunmak okuyucuyu açar (eQuran)" data-ru="Нажатие на аят открывает читалку (eQuran)">الضغط على الآية يفتح المصحف (eQuran)</label>
       <input type="checkbox" id="syncTapToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('tap', this)">
     </div>
     <div id="settings-syncMini-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;"
-         title="يعرض الآية الحالية في شريط صغير أسفل الشاشة أثناء تلاوة السورة لما تكون الشاشة الترحيبية مقفولة.">
+         title="يعرض الآية الحالية في شريط صغير أسفل الشاشة أثناء تلاوة السورة حين تكون الشاشة الترحيبية مغلقة." data-title-en="Shows the current ayah in a small bar at the bottom of the screen while a surah plays and the welcome screen is closed.">
       <span class="wtb-icon">📜</span>
-      <label for="syncMiniToggle" class="wtb-text" data-ar="إظهار الآية في شريط صغير لما الشاشة الترحيبية تتقفل" data-en="Show the current ayah in a mini bar when the welcome screen is closed" data-fr="Afficher le verset dans une mini-barre quand l’écran d’accueil est fermé" data-es="Mostrar la aleya en una mini barra al cerrar la pantalla de bienvenida" data-de="Aktuellen Vers in einer Mini-Leiste zeigen, wenn der Startbildschirm geschlossen ist" data-tr="Karşılama ekranı kapalıyken ayeti mini çubukta göster" data-ru="Показывать аят в мини-панели, когда экран приветствия закрыт">إظهار الآية في شريط صغير لما الشاشة الترحيبية تتقفل</label>
+      <label for="syncMiniToggle" class="wtb-text" data-ar="إظهار الآية في شريط صغير عند إغلاق الشاشة الترحيبية" data-en="Show the current ayah in a mini bar when the welcome screen is closed" data-fr="Afficher le verset dans une mini-barre quand l’écran d’accueil est fermé" data-es="Mostrar la aleya en una mini barra al cerrar la pantalla de bienvenida" data-de="Aktuellen Vers in einer Mini-Leiste zeigen, wenn der Startbildschirm geschlossen ist" data-tr="Karşılama ekranı kapalıyken ayeti mini çubukta göster" data-ru="Показывать аят в мини-панели, когда экран приветствия закрыт">إظهار الآية في شريط صغير عند إغلاق الشاشة الترحيبية</label>
       <input type="checkbox" id="syncMiniToggle" class="wtb-switch" checked onchange="window.toggleMiniAyahBar && window.toggleMiniAyahBar(this)">
     </div>
     <div id="settings-syncAnnounce-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;"
-         title="لما الشاشة الترحيبية تكون مفتوحة وتبدأ سورة، تظهر شارة صغيرة ووميض خفيف ينبّهك إن الآيات بتتابع التلاوة.">
+         title="حين تكون الشاشة الترحيبية مفتوحة وتبدأ سورة، تظهر شارة صغيرة ووميض خفيف يُنبّهانك إلى أن الآيات تتابع التلاوة." data-title-en="When the welcome screen is open and a surah starts, a small badge and a light flash tell you the ayahs are following the recitation.">
       <span class="wtb-icon">🔔</span>
       <label for="syncAnnounceToggle" class="wtb-text" data-ar="تنبيه عند بدء عرض الآيات مع التلاوة" data-en="Notify when ayahs start following the recitation" data-fr="Signaler le début du suivi des versets" data-es="Avisar cuando las aleyas siguen la recitación" data-de="Hinweis, wenn Verse der Rezitation folgen" data-tr="Ayetler tilavetle başladığında bildir" data-ru="Уведомлять, когда аяты следуют за чтением">تنبيه عند بدء عرض الآيات مع التلاوة</label>
       <input type="checkbox" id="syncAnnounceToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('announce', this)">
     </div>
     <div id="settings-syncExtra-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;"
-         title="عرض ترجمة أو التفسير الميسّر للآية الحالية تحت الآيات أثناء التلاوة (نفس زر 📖)">
+         title="عرض ترجمة أو التفسير الميسّر للآية الحالية تحت الآيات أثناء التلاوة (نفس زر 📖)" data-title-en="Show a translation or the Muyassar tafsir of the current ayah under the ayahs during recitation (same as the 📖 button)">
       <span class="wtb-icon">📖</span>
       <label for="syncExtraModeSelect" class="wtb-text" data-ar="ترجمة / تفسير الآية الحالية" data-en="Translation / tafsir of the current ayah" data-fr="Traduction / tafsir du verset" data-es="Traducción / tafsir de la aleya" data-de="Übersetzung / Tafsir des Verses" data-tr="Ayetin meali / tefsiri" data-ru="Перевод / тафсир аята">ترجمة / تفسير الآية الحالية</label>
       <select id="syncExtraModeSelect" class="welcome-toggle-inline-input" style="cursor:pointer;padding:2px 6px;max-width:48%;"
               onchange="window.setSyncExtraMode && window.setSyncExtraMode(this.value)">
-        <option value="off">متوقف · Off</option>
-        <option value="tr">ترجمة · Translation</option>
-        <option value="tafsir">التفسير الميسّر · Tafsir</option>
+        <option value="off" data-ar="متوقف · Off" data-en="Off">متوقف · Off</option>
+        <option value="tr" data-ar="ترجمة · Translation" data-en="Translation">ترجمة · Translation</option>
+        <option value="tafsir" data-ar="التفسير الميسّر · Tafsir" data-en="Tafsir (simplified)">التفسير الميسّر · Tafsir</option>
       </select>
     </div>
   
@@ -4353,8 +4356,8 @@ setTimeout(autoScaleVerseFont, 100);
     <span data-ar="⏳ عدّ العدّة تصاعديًا" data-en="⏳ Ascending count per repetition"
       style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">⏳ عدّ العدّة تصاعديًا</span>
 
-    <span data-ar="مفعّل: الحلقة تبدأ فارغة وتمتلئ فى كل عدّة. مقفول (الافتراضى): تبدأ ممتلئة وتفرغ" data-en="On: the ring starts empty and fills during each repetition. Off (default): starts full and empties"
-      style="font-size:12px;color:var(--theme-c3);">مفعّل: الحلقة تبدأ فارغة وتمتلئ فى كل عدّة. مقفول (الافتراضى): تبدأ ممتلئة وتفرغ</span>
+    <span data-ar="مفعّل: تبدأ الحلقة فارغة وتمتلئ في كل عدّة. معطّل (الافتراضي): تبدأ ممتلئة وتفرغ" data-en="On: the ring starts empty and fills during each repetition. Off (default): starts full and empties"
+      style="font-size:12px;color:var(--theme-c3);">مفعّل: تبدأ الحلقة فارغة وتمتلئ في كل عدّة. معطّل (الافتراضي): تبدأ ممتلئة وتفرغ</span>
 
     <div id="adhkarCountAscToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0"
       onclick="toggleAdhkarCountAsc()"
@@ -4417,7 +4420,7 @@ setTimeout(autoScaleVerseFont, 100);
         <span data-ar="🎚️ سرعة منفصلة لكل ذكر" data-en="🎚️ Separate speed per dhikr" style="font-size:14px;font-weight:700;color:var(--theme-c4);">🎚️ سرعة منفصلة لكل ذكر</span>
         <div id="adhkarPerDhikrPaceToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0" onclick="toggleTasbihPaceOpt('adhkarPerDhikrPace')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTasbihPaceOpt('adhkarPerDhikrPace');}" style="margin-inline-start:auto;flex-shrink:0;"></div>
       </div>
-      <div data-ar="كل ذكر يحفظ سرعته الخاصة، ولو مقفول تُستخدم سرعة واحدة لكل الأذكار" data-en="Each dhikr remembers its own speed; when off, one speed is used for all" style="font-size:11.5px;color:var(--theme-c3);margin-top:3px;line-height:1.5;">كل ذكر يحفظ سرعته الخاصة، ولو مقفول تُستخدم سرعة واحدة لكل الأذكار</div>
+      <div data-ar="كل ذكر يحفظ سرعته الخاصة، وإذا عُطّل هذا الخيار تُستخدم سرعة واحدة لكل الأذكار" data-en="Each dhikr remembers its own speed; when off, one speed is used for all" style="font-size:11.5px;color:var(--theme-c3);margin-top:3px;line-height:1.5;">كل ذكر يحفظ سرعته الخاصة، وإذا عُطّل هذا الخيار تُستخدم سرعة واحدة لكل الأذكار</div>
     </div>
     <div style="padding:8px 0;">
       <div style="display:flex;align-items:center;gap:10px;">
@@ -4446,8 +4449,8 @@ setTimeout(autoScaleVerseFont, 100);
     <span data-ar="📤 مشاركة الذكر" data-en="📤 Share Dhikr"
       style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">📤 مشاركة الذكر</span>
 
-    <span data-ar="حوّل الذكر اللى بتقرأه دلوقتى لصورة تقدر تشاركها كستوري أو بوست فيسبوك/إنستجرام" data-en="Turn the dhikr you're reading now into an image you can share as a story or Facebook/Instagram post"
-      style="font-size:12px;color:var(--theme-c3);">حوّل الذكر اللى بتقرأه دلوقتى لصورة تقدر تشاركها كستوري أو بوست فيسبوك/إنستجرام</span>
+    <span data-ar="حوّل الذكر الذي تقرؤه الآن إلى صورة يمكنك مشاركتها كقصة (ستوري) أو منشور على فيسبوك/إنستجرام" data-en="Turn the dhikr you're reading now into an image you can share as a story or Facebook/Instagram post"
+      style="font-size:12px;color:var(--theme-c3);">حوّل الذكر الذي تقرؤه الآن إلى صورة يمكنك مشاركتها كقصة (ستوري) أو منشور على فيسبوك/إنستجرام</span>
 
     <button onclick="shareDhikrAsCard()" data-ar="📤 مشاركة كصورة" data-en="📤 Share as Image" style="
       margin-inline-start:auto; padding:8px 18px; border:none; border-radius:10px;
@@ -4474,8 +4477,8 @@ setTimeout(autoScaleVerseFont, 100);
     <span data-ar="📜 كل أذكار القسم" data-en="📜 All dhikr in this section"
       style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">📜 كل أذكار القسم</span>
 
-    <span data-ar="انسخ أو شارك كل الأذكار الظاهرة فى القسم المفتوح (صباح / مساء / عامة / رقية) كنص واحد مرتب" data-en="Copy or share every dhikr shown in the open section (Morning / Evening / General / Ruqyah) as one ordered text"
-      style="font-size:12px;color:var(--theme-c3);">انسخ أو شارك كل الأذكار الظاهرة فى القسم المفتوح (صباح / مساء / عامة / رقية) كنص واحد مرتب</span>
+    <span data-ar="انسخ أو شارك كل الأذكار الظاهرة في القسم المفتوح (صباح / مساء / عامة / رقية) كنص واحد مرتّب" data-en="Copy or share every dhikr shown in the open section (Morning / Evening / General / Ruqyah) as one ordered text"
+      style="font-size:12px;color:var(--theme-c3);">انسخ أو شارك كل الأذكار الظاهرة في القسم المفتوح (صباح / مساء / عامة / رقية) كنص واحد مرتّب</span>
 
     <div style="margin-inline-start:auto;display:flex;gap:8px;flex-wrap:wrap;">
       <button type="button" onclick="copyAllAdhkar(event)" data-ar="📋 نسخ الكل" data-en="📋 Copy all" style="
@@ -4687,7 +4690,7 @@ setTimeout(autoScaleVerseFont, 100);
         white-space:nowrap;
         letter-spacing:0.03em;
         cursor:pointer;
-      " onclick="document.getElementById('maxVolCheckbox').checked=false;document.getElementById('maxVolCheckbox').dispatchEvent(new Event('change'));" title="اضغط للإلغاء"></span>
+      " onclick="document.getElementById('maxVolCheckbox').checked=false;document.getElementById('maxVolCheckbox').dispatchEvent(new Event('change'));" title="اضغط للإلغاء" data-title-en="Tap to cancel"></span>
     </div>
 
     <div class="aqx-boost-row" id="offlineLoopGroup">
@@ -4718,7 +4721,7 @@ setTimeout(autoScaleVerseFont, 100);
       <div style="display:flex;align-items:center;gap:6px;">
         <label id="recLoopSelLbl" for="recLoopSel" style="font-size:13px;">المقطع</label>
         <select id="recLoopSel" onchange="window.recLoopSelect && window.recLoopSelect(this.value)" style="flex:1;min-width:0;width:auto;text-align:center;padding:4px 6px;font-size:14px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;"></select>
-        <button type="button" id="recLoopRenBtn" title="إعادة تسمية" onclick="window.recLoopRename && window.recLoopRename()" style="padding:6px 10px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">✏️</button>
+        <button type="button" id="recLoopRenBtn" title="إعادة تسمية" data-title-en="Rename" onclick="window.recLoopRename && window.recLoopRename()" style="padding:6px 10px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">✏️</button>
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
         <button type="button" id="recLoopRecBtn" onclick="window.recLoopToggleRecord && window.recLoopToggleRecord()" style="padding:6px 12px;font-size:13px;font-weight:700;font-family:'Cairo',Arial,sans-serif;color:#1a1826;background:#fff;border:2px solid #ddd;border-radius:8px;cursor:pointer;">🔴 تسجيل</button>
@@ -18301,6 +18304,58 @@ window._gsetHeadLang = function(lang) {
     if (tx) el.textContent = tx;
   });
 };
+/* ===== ترجمة شاملة لكل نصوص لوحة الإعدادات =====
+   أى عنصر نصّى داخل #settings-panel عليه data-ar و data-en (أو data-<lang>) بيتبدّل تلقائيًا مع اللغة،
+   فلا يتبقى عنصر عربى فى النسخة الإنجليزية لو نسينا نضيفه لقائمة معالج مخصص. ===== */
+window._applySettingsPanelLang = function (lang) {
+  lang = lang || (isArabic ? 'ar' : 'en');
+  var root = document.getElementById('settings-panel');
+  if (!root) return;
+  root.querySelectorAll('[data-ar]').forEach(function (el) {
+    var tg = el.tagName;
+    if (el.children.length || tg === 'INPUT' || tg === 'TEXTAREA' || tg === 'SELECT' || tg === 'SCRIPT' || tg === 'STYLE') return;
+    if (el.hasAttribute('data-off-ar') || el.hasAttribute('data-on-ar')) return;   // نصوص حالة الأزرار لها معالجها
+    var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en');
+    if (t && el.textContent !== t) el.textContent = t;
+  });
+  // تلميحات (title) المكتوبة بإحدى صيغتى الخصائص: data-title-ar أو data-ar-title
+  root.querySelectorAll('[data-title-ar],[data-ar-title]').forEach(function (el) {
+    var t = el.getAttribute('data-title-' + lang) || el.getAttribute('data-' + lang + '-title') ||
+            el.getAttribute('data-title-en') || el.getAttribute('data-en-title');
+    if (t && el.title !== t) el.title = t;
+  });
+  // aria-label المرافق لتلميح ثنائي اللغة يتبع اللغة نفسها
+  root.querySelectorAll('[aria-label][data-title-ar],[aria-label][data-ar-title]').forEach(function (el) {
+    if (el.title && el.getAttribute('aria-label') !== el.title) el.setAttribute('aria-label', el.title);
+  });
+  // تلميحات (title) وaria-label الأخرى: الصيغة الثنائية «عربي / English» تُعرض بلغة الواجهة فقط،
+  // والتلميح العربي وحده يأخذ نظيره من data-title-en إن وُجد
+  root.querySelectorAll('[title],[aria-label]').forEach(function (el) {
+    ['title', 'aria-label'].forEach(function (attr) {
+      var cur = el.getAttribute(attr);
+      if (cur === null) return;
+      if (attr === 'title' && (el.hasAttribute('data-title-ar') || el.hasAttribute('data-ar-title'))) return; // له معالجه الخاص أعلاه
+      if (attr === 'aria-label' && (el.hasAttribute('data-title-ar') || el.hasAttribute('data-ar-title'))) return;
+      var store = el.__ttPairs || (el.__ttPairs = {});
+      var pair = store[attr];
+      if (!pair || (cur !== pair.ar && cur !== pair.en)) {
+        pair = null;
+        if (/[\u0600-\u06FF]/.test(cur)) {
+          var m = cur.match(/^(.*?)\s\/\s([^\u0600-\u06FF]+)$/);
+          var enAttr = el.getAttribute('data-title-en') || el.getAttribute('data-en-title');
+          if (m) pair = { ar: m[1].trim(), en: m[2].trim() };
+          else if (enAttr) pair = { ar: cur, en: enAttr };
+          else pair = { ar: cur, en: null };
+        }
+        store[attr] = pair;
+      }
+      if (!pair) return;
+      var v = (lang === 'ar') ? pair.ar : (pair.en || pair.ar);
+      if (v && cur !== v) el.setAttribute(attr, v);
+    });
+  });
+  if (typeof _refreshSettingsTabLabels === 'function') _refreshSettingsTabLabels();
+};
 function applySettingsStaticLang(lang) {
   lang = lang || (isArabic ? 'ar' : 'en');
   var roots = [
@@ -18331,6 +18386,7 @@ function applySettingsStaticLang(lang) {
   var rst = document.getElementById('filtersResetOrderTxt');
   if (rst) rst.textContent = rst.getAttribute('data-' + lang) || rst.getAttribute('data-en') || rst.textContent;
   if (typeof window.syncSpeedRefresh === 'function') window.syncSpeedRefresh();   // خيار سرعة تنقل الآيات
+  if (typeof window._applySettingsPanelLang === 'function') window._applySettingsPanelLang(lang);
 }
 
 function applyInitialLanguage() {
@@ -19324,7 +19380,7 @@ function activateAutoSwitch() {
   if (document.getElementById('autoSwitchCheckbox').checked) {
     var autoSwitchMinutes = parseInt(document.getElementById('autoSwitchTimer').value);
     if (isNaN(autoSwitchMinutes) || autoSwitchMinutes <= 0) {
-      if (typeof showToast === 'function') showToast('⚠️ يرجى إدخال عدد دقائق صحيح');
+      if (typeof showToast === 'function') showToast(_tAE('⚠️ يرجى إدخال عدد دقائق صحيح', '⚠️ Please enter a valid number of minutes'));
       document.getElementById('autoSwitchCheckbox').checked = false;
       return;
     }
@@ -19337,11 +19393,11 @@ function activateAutoSwitch() {
     _asSettingsMinutes = autoSwitchMinutes;
     _asSettingsArm();
 
-    if (typeof showToast === 'function') showToast('🔄 التنقل التلقائي كل ' + autoSwitchMinutes + ' دقيقة');
+    if (typeof showToast === 'function') showToast(_tAE('🔄 التنقل التلقائي كل ' + autoSwitchMinutes + ' دقيقة', '🔄 Auto-switch every ' + autoSwitchMinutes + ' min'));
   } else {
     clearTimeout(autoSwitchTimeout);
     _asSettingsStopCountdown();
-    if (typeof showToast === 'function') showToast('⏹️ تم إيقاف التنقل التلقائي');
+    if (typeof showToast === 'function') showToast(_tAE('⏹️ تم إيقاف التنقل التلقائي', '⏹️ Auto-switch stopped'));
   }
 }
 
@@ -19416,7 +19472,7 @@ function activateAutoSwitch() {
       settingsSpan.style.display = 'none';
       settingsSpan.textContent = '';
     }
-    if (typeof showToast === 'function') showToast('❌ تم إلغاء مؤقت النوم');
+    if (typeof showToast === 'function') showToast(_tAE('❌ تم إلغاء مؤقت النوم', '❌ Sleep timer cancelled'));
   }
 
   function fadeAndStop(audio, callback) {
@@ -19466,7 +19522,7 @@ function activateAutoSwitch() {
 
     var mins = parseInt(input.value);
     if (isNaN(mins) || mins <= 0) {
-      if (typeof showToast === 'function') showToast('⚠️ أدخل عدد دقائق صحيح');
+      if (typeof showToast === 'function') showToast(_tAE('⚠️ أدخل عدد دقائق صحيحًا', '⚠️ Enter a valid number of minutes'));
       cb.checked = false;
       return;
     }
@@ -19515,7 +19571,7 @@ function activateAutoSwitch() {
 
       // 4) إيقاف الراديو الأساسي مع fade ثم تنظيف الـ UI
       function _afterFade() {
-        if (typeof showToast === 'function') showToast('🌙 تم إيقاف الراديو');
+        if (typeof showToast === 'function') showToast(_tAE('🌙 تم إيقاف الراديو', '🌙 Radio stopped'));
         var lbl = document.getElementById('pnb-sleep-label');
         if (lbl) lbl.style.display = 'none';
         var ss = document.getElementById('sleep-countdown-settings');
@@ -19537,7 +19593,7 @@ function activateAutoSwitch() {
 
     startCountdown();
     if (typeof showToast === 'function') {
-      showToast('🌙 مؤقت النوم: ' + mins + ' دقيقة');
+      showToast(_tAE('🌙 مؤقت النوم: ' + mins + ' دقيقة', '🌙 Sleep timer: ' + mins + ' min'));
     }
   };
 })();
@@ -19585,7 +19641,7 @@ document.getElementById('sleepCheckbox').addEventListener('change', activateSlee
       var a = document.getElementById('currentAudio'); if (a) a.volume = 1;
       var w = document.getElementById('customAudioPlayer'); if (w) w.volume = 1;
     }
-    if (typeof showToast === 'function') showToast('🔊 تم رفع الصوت للأقصى');
+    if (typeof showToast === 'function') showToast(_tAE('🔊 تم رفع الصوت للأقصى', '🔊 Volume raised to maximum'));
   }
   function tick() {
     var end = getEnd(), e = els();
@@ -19604,7 +19660,7 @@ document.getElementById('sleepCheckbox').addEventListener('change', activateSlee
     if (!e.cb || !e.cb.checked) { clearState(); try { localStorage.removeItem(KEY_H); } catch (x) {} return; }
     var hours = parseFloat(e.input.value);
     if (isNaN(hours) || hours <= 0 || hours > 48) {
-      if (typeof showToast === 'function') showToast('⚠️ أدخل عدد ساعات صحيح (حتى 48)');
+      if (typeof showToast === 'function') showToast(_tAE('⚠️ أدخل عدد ساعات صحيحًا (حتى 48)', '⚠️ Enter a valid number of hours (up to 48)'));
       e.cb.checked = false;
       return;
     }
@@ -19613,7 +19669,7 @@ document.getElementById('sleepCheckbox').addEventListener('change', activateSlee
       localStorage.setItem(KEY_H, String(hours));
     } catch (x) {}
     startTicking();
-    if (typeof showToast === 'function') showToast('🔊 سيُرفع الصوت للأقصى بعد ' + hours + ' ساعة');
+    if (typeof showToast === 'function') showToast(_tAE('🔊 سيُرفع الصوت للأقصى بعد ' + hours + ' ساعة', '🔊 Volume will be raised to maximum in ' + hours + ' h'));
   }
 
   window.activateMaxVolTimer = activate;
@@ -23088,6 +23144,7 @@ function toggleSettingsPanel() {
   } else {
     panel.style.display = 'block';
     if (typeof _refreshSettingsTabLabels === 'function') _refreshSettingsTabLabels();
+    if (typeof window._applySettingsPanelLang === 'function') window._applySettingsPanelLang();
     if (typeof _renderPrayerTabIfNeeded === 'function') _renderPrayerTabIfNeeded();
     if (backdrop) backdrop.style.display = 'block';
     document.body.style.overflow = 'hidden';
@@ -27063,7 +27120,7 @@ function _probeAndBuildChain(audioEl, onDone) {
       } catch (e2) {}
       if (!window._boostUnsupportedNotified && typeof showToast === 'function') {
         window._boostUnsupportedNotified = true;
-        showToast('⚠️ هذه المحطة لا تدعم تضخيم الصوت/المعادل (قيد من المتصفح)');
+        showToast(_tAE('⚠️ هذه المحطة لا تدعم تضخيم الصوت/المعادل (قيد من المتصفح)', '⚠️ This station does not support volume boost/equalizer (browser limitation)'));
       }
     }
     onDone(ok);
@@ -38945,20 +39002,24 @@ document.addEventListener('DOMContentLoaded', function() {
     keyBtn.onclick = function(e) { e.stopPropagation(); toggleClaudeKeyPanel(); };
     keyBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:13px;opacity:' + (CLAUDE_API_KEY ? '1' : '0.45') + ';padding:2px 4px;border-radius:6px;transition:opacity .2s;flex-shrink:0;';
     keyBtn.innerHTML = '🔑';
+    var _kEn = (typeof isArabic !== 'undefined') ? !isArabic : false;
+    // العنوان بالعربية دائمًا ونظيره الإنجليزي في data-title-en، فيتبدّل مع اللغة بمعالج لوحة الإعدادات
     keyBtn.title = CLAUDE_API_KEY ? 'Claude API متصل ✅' : 'أضف Claude API Key';
+    keyBtn.setAttribute('data-title-en', CLAUDE_API_KEY ? 'Claude API connected ✅' : 'Add Claude API Key');
     var toggleIcon = document.getElementById('ai-assistant-toggle-icon');
     if (toggleIcon) hdr.insertBefore(keyBtn, toggleIcon);
+    if (typeof window._applySettingsPanelLang === 'function') window._applySettingsPanelLang();
 
     var panel = document.createElement('div');
     panel.id = 'claude-key-panel';
     panel.style.cssText = 'display:none;padding:10px 12px;border-top:1px solid rgba(var(--theme-g1-rgb),0.15);direction:rtl;';
     panel.innerHTML =
-      '<div style="font-size:11px;opacity:.7;margin-bottom:6px;">🔑 Claude API Key — <a href="https://console.anthropic.com/keys" target="_blank" style="color:var(--theme-g1);">احصل عليه هنا</a></div>' +
+      '<div style="font-size:11px;opacity:.7;margin-bottom:6px;">🔑 Claude API Key — <a href="https://console.anthropic.com/keys" target="_blank" style="color:var(--theme-g1);" data-ar="احصل عليه هنا" data-en="Get it here">احصل عليه هنا</a></div>' +
       '<div style="display:flex;gap:6px;">' +
         '<input id="claude-key-input" type="password" placeholder="sk-ant-api03-..." style="flex:1;padding:6px 8px;border-radius:8px;border:1px solid rgba(var(--theme-g1-rgb),0.3);background:rgba(var(--theme-g1-rgb),0.06);color:inherit;font-size:11px;font-family:monospace;outline:none;" value="' + CLAUDE_API_KEY + '">' +
-        '<button onclick="saveClaudeKey()" style="padding:6px 10px;background:var(--theme-g1);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;">حفظ</button>' +
+        '<button onclick="saveClaudeKey()" style="padding:6px 10px;background:var(--theme-g1);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;" data-ar="حفظ" data-en="Save">حفظ</button>' +
       '</div>' +
-      '<div style="font-size:10px;opacity:.55;margin-top:5px;">المفتاح محفوظ محلياً في متصفحك فقط ولا يُرسل لأي خادم.</div>';
+      '<div style="font-size:10px;opacity:.55;margin-top:5px;" data-ar="المفتاح محفوظ محلياً في متصفحك فقط ولا يُرسل لأي خادم." data-en="The key is stored only in your browser and is never sent to any server.">المفتاح محفوظ محلياً في متصفحك فقط ولا يُرسل لأي خادم.</div>';
 
     var aiBody = document.getElementById('ai-assistant-body');
     if (aiBody) aiBody.before(panel);
@@ -39054,7 +39115,7 @@ document.addEventListener('DOMContentLoaded', function() {
       _appendBotMsg(reply, messagesEl);
       aiMessages.push({ role: 'assistant', content: reply });
       var btn = document.getElementById('claude-key-toggle-btn');
-      if (btn) { btn.style.opacity = '1'; btn.title = 'Claude API متصل ✅'; }
+      if (btn) { btn.style.opacity = '1'; btn.title = 'Claude API متصل ✅'; btn.setAttribute('data-title-en', 'Claude API connected ✅'); if (typeof window._applySettingsPanelLang === 'function') window._applySettingsPanelLang(); }
     })
     .catch(function(err) {
       var typing = document.getElementById('ai-typing-indicator');
