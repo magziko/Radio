@@ -11906,3 +11906,96 @@ body.dark-mode #englishVerse .sync-extra.expanded { background: rgba(18, 28, 42,
 #miniAyahBar .mab-btns button:active{background:rgba(255,255,255,.32)}
 @keyframes mabIn{from{opacity:0;transform:translateY(5px)}}
 @media (prefers-reduced-motion:reduce){#miniAyahBar,#miniAyahBar .mab-text{transition:none;animation:none}}
+
+/* ═══════════════════════════════════════════════════════════
+   قسم المسبحة (salah-pip-section) — تكبير متناسق للتابليت والكمبيوتر
+   الموبايل (≤767) بدون أي تغيير | تابلت 768–991 | كمبيوتر ≥992 | شاشة كبيرة ≥1400
+   ═══════════════════════════════════════════════════════════ */
+
+/* ---- تابلت (768–991) ---- */
+@media (min-width: 768px) {
+    #salah-pip-section { max-width: 640px; width: 92%; padding: 26px 30px 22px; }
+    #salah-pip-btn { width: 240px; height: 240px; }
+    #salah-pip-num { font-size: 72px; }
+    #salah-pip-hint { font-size: 15px; }
+    #salah-pip-info { font-size: 16px; }
+
+    /* البحث + القائمة المنسدلة */
+    .sp-athkar-search-row { margin-bottom: 10px; }
+    .sp-athkar-search { font-size: 15px; padding: 10px 16px; border-radius: 14px; }
+    .sp-custom-dd-btn { font-size: 15px; padding: 10px 16px; border-radius: 14px; }
+    .sp-athkar-mic-btn { width: 40px; height: 40px; font-size: 17px; }
+    .sp-custom-dd-search { font-size: 14px; padding: 8px 12px; border-radius: 10px; }
+    .sp-custom-dd-item { font-size: 14px; padding: 9px 12px; }
+    .sp-dd-tab { font-size: 13.5px; padding: 6px 14px; }
+
+    /* نص الذكر الحالي */
+    #sp-athkar-display { font-size: 18px; line-height: 1.75; padding: 12px 18px; min-height: 52px; border-radius: 14px; margin-bottom: 12px; }
+
+    /* الهدف + أزرار الذكر */
+    #salah-pip-section .sp-target-row { margin-bottom: 12px; }
+    #salah-pip-section .sp-dhikr-ctrls { gap: 8px; }
+    #salah-pip-section .sp-dhikr-ctrls .sp-athkar-nav-btn,
+    #salah-pip-section .sp-dhikr-ctrls .sp-athkar-play-btn { width: 38px; height: 38px; min-width: 38px; min-height: 38px; font-size: 15px; }
+    .sp-target-row select, #sp-alarm-interval-sel { font-size: 15px; padding: 6px 12px; }
+
+    /* اختصارات الهدف */
+    .sp-target-chips { gap: 8px; margin-bottom: 16px; }
+    .sp-chip { min-width: 44px; height: 36px; padding: 0 14px; border-radius: 18px; font-size: 15px; }
+    #sp-custom-target-input { width: 112px; height: 36px; font-size: 15px; border-radius: 18px; }
+
+    /* السرعة والتحكم */
+    .sp-speed-row { gap: 12px; }
+    .sp-speed-btn { width: 38px; height: 38px; font-size: 16px; }
+    .sp-speed-reset-btn { font-size: 15px; }
+    #sp-speed-value { min-width: 72px; }
+
+    /* التذكير */
+    #sp-alarm-status { font-size: 13.5px; min-height: 20px; }
+    #sp-alarm-today-bar { font-size: 13.5px; padding: 5px 14px; border-radius: 10px; }
+}
+
+/* ---- كمبيوتر (≥992) ---- */
+@media (min-width: 992px) {
+    #salah-pip-section { max-width: 780px; width: 80%; padding: 34px 44px 30px; border-radius: 28px; }
+    #salah-pip-btn { width: 290px; height: 290px; border-width: 5px; margin-bottom: 20px; }
+    #salah-pip-num { font-size: 88px; }
+    #salah-pip-hint { font-size: 17px; margin-top: 8px; }
+    #salah-pip-info { font-size: 18px; margin-bottom: 18px; }
+
+    .sp-athkar-search-row { margin-bottom: 12px; }
+    .sp-athkar-search { font-size: 16px; padding: 12px 18px; border-radius: 16px; }
+    .sp-custom-dd-btn { font-size: 16px; padding: 12px 18px; border-radius: 16px; }
+    .sp-athkar-mic-btn { width: 46px; height: 46px; font-size: 19px; }
+    .sp-custom-dd-search { font-size: 15px; padding: 9px 14px; }
+    .sp-custom-dd-item { font-size: 15px; padding: 10px 14px; }
+    .sp-dd-tab { font-size: 14.5px; padding: 7px 16px; }
+
+    #sp-athkar-display { font-size: 21px; line-height: 1.8; padding: 14px 22px; min-height: 60px; border-radius: 16px; margin-bottom: 14px; }
+
+    #salah-pip-section .sp-target-row { margin-bottom: 14px; }
+    #salah-pip-section .sp-dhikr-ctrls { gap: 10px; }
+    #salah-pip-section .sp-dhikr-ctrls .sp-athkar-nav-btn,
+    #salah-pip-section .sp-dhikr-ctrls .sp-athkar-play-btn { width: 44px; height: 44px; min-width: 44px; min-height: 44px; font-size: 16px; }
+    .sp-target-row select, #sp-alarm-interval-sel { font-size: 16px; padding: 7px 14px; }
+
+    .sp-target-chips { gap: 10px; margin-bottom: 20px; }
+    .sp-chip { min-width: 52px; height: 42px; padding: 0 18px; border-radius: 21px; font-size: 16px; }
+    #sp-custom-target-input { width: 128px; height: 42px; font-size: 16px; border-radius: 21px; }
+
+    .sp-speed-row { gap: 14px; }
+    .sp-speed-btn { width: 44px; height: 44px; font-size: 18px; }
+    .sp-speed-reset-btn { font-size: 17px; }
+    #sp-speed-value { min-width: 84px; }
+
+    #sp-alarm-status { font-size: 14.5px; }
+    #sp-alarm-today-bar { font-size: 14.5px; }
+}
+
+/* ---- شاشة كبيرة (≥1400) ---- */
+@media (min-width: 1400px) {
+    #salah-pip-section { max-width: 860px; width: 70%; }
+    #salah-pip-btn { width: 320px; height: 320px; }
+    #salah-pip-num { font-size: 100px; }
+    #sp-athkar-display { font-size: 23px; }
+}
