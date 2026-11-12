@@ -3,6 +3,56 @@
 <head>
   <meta charset="UTF-8">
 <script>
+/* إيقاف أي صوت/راديو وقت الأذان واستئنافه بعده: تتبّع كل عناصر الصوت اللي اتشغّلت (حتى new Audio()) */
+(function(){
+  if (window._adhanPauseAll) return;
+  var seen = new Set();
+  var proto = window.HTMLMediaElement && window.HTMLMediaElement.prototype;
+  if (proto && !proto.__adhanTrk) {
+    var origPlay = proto.play;
+    proto.play = function() {
+      try {
+        seen.add(this);
+        if (seen.size > 80) seen.forEach(function(e) { if (e.paused) seen.delete(e); });
+      } catch (e) {}
+      return origPlay.apply(this, arguments);
+    };
+    proto.__adhanTrk = true;
+  }
+  /* بتوقف كل صوت شغّال (إلا اللي skipFn بترجّع true له) وبترجّع دالة استئناف تشتغل مرة واحدة بس */
+  window._adhanPauseAll = function(skipFn) {
+    var els = [], items = [];
+    try { seen.forEach(function(e) { els.push(e); }); } catch (e) {}
+    try {
+      Array.prototype.forEach.call(document.querySelectorAll("audio,video"), function(e) {
+        if (els.indexOf(e) < 0) els.push(e);
+      });
+    } catch (e) {}
+    els.forEach(function(el) {
+      try {
+        if (!el || el.paused || el.ended || el.muted || el.volume === 0) return;
+        if (typeof skipFn === "function" && skipFn(el)) return;
+        items.push({ el: el, live: !isFinite(el.duration), src: el.currentSrc || el.src });
+        el.pause();
+      } catch (e) {}
+    });
+    var done = false;
+    return function resume() {
+      if (done) return;
+      done = true;
+      items.forEach(function(it) {
+        try {
+          if (it.el.id === "currentAudio") window._mainPlayAllowed = true;
+          if (it.live && it.src) { it.el.src = it.src; it.el.load(); }
+          var pr = it.el.play();
+          if (pr && pr.catch) pr.catch(function() {});
+        } catch (e) {}
+      });
+    };
+  };
+})();
+</script>
+<script>
 /* حارس التوافق: المتصفحات القديمة جدًا (بدون async/await أو Promise) لا تستطيع قراءة سكربت الموقع،
    فكانت تعرض صفحة فارغة. هنا نعرض رسالة واضحة بدلًا من ذلك. (ES5 فقط عمدًا) */
 (function () {
@@ -4061,6 +4111,11 @@ setTimeout(autoScaleVerseFont, 100);
       <label for="alarmSettingsToggle" class="wtb-text" data-ar="🔔 تفعيل المنبه" data-en="🔔 Enable Alarm">🔔 تفعيل المنبه</label>
       <input type="checkbox" id="alarmSettingsToggle" class="wtb-switch" checked onchange="window.spSetAlarm && window.spSetAlarm(this.checked)">
     </div>
+    <div id="settings-alarmadhan-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;">
+      <label for="alarmPauseAdhanToggle" class="wtb-text" data-ar="🕌 إيقاف المنبه مؤقتًا وقت الأذان" data-en="🕌 Pause alarm during Adhan">🕌 إيقاف المنبه مؤقتًا وقت الأذان</label>
+      <input type="checkbox" id="alarmPauseAdhanToggle" class="wtb-switch" onchange="try{localStorage.setItem('alarmPauseOnAdhan', this.checked ? 'true' : 'false');}catch(e){}">
+    </div>
+    <script>(function(){var _cb=document.getElementById('alarmPauseAdhanToggle');if(_cb){try{_cb.checked=(localStorage.getItem('alarmPauseOnAdhan')!=='false');}catch(e){_cb.checked=true;}}})();</script>
     <div id="settings-autodark-item" data-stab="look" class="welcome-toggle-btn" style="gap:7px;">
       <label for="autoDarkModeToggle" class="wtb-text" data-ar="🌙 الوضع الداكن التلقائي (حسب الوقت)" data-en="🌙 Auto Dark Mode (by time)" data-fr="🌙 Mode sombre automatique (selon l'heure)" data-es="🌙 Modo oscuro automático (según la hora)" data-sv="🌙 Automatiskt mörkt läge (efter tid)" data-nl="🌙 Automatische donkere modus (op tijd)" data-ga="🌙 Modh Dorcha Uathoibríoch (de réir ama)" data-de="🌙 Automatischer Dunkelmodus (nach Uhrzeit)" data-ru="🌙 Автотёмный режим (по времени)" data-tr="🌙 Otomatik Karanlık Mod (saate göre)" data-pt="🌙 Modo escuro automático (por hora)" data-zh="🌙 自动深色模式（按时间）" data-ur="🌙 خودکار ڈارک موڈ (وقت کے مطابق)" style="cursor:pointer; margin:0;">🌙 الوضع الداكن التلقائي (حسب الوقت)</label>
       <input type="checkbox" id="autoDarkModeToggle" class="wtb-switch" onchange="toggleAutoDarkModeSetting()">
@@ -11124,7 +11179,24 @@ const moreTranslations = [{
   }
 
   /* ---- الرنة الواحدة ---- */
+  /* ---- إيقاف مؤقت للمنبه وقت الأذان (افتراضيًا مفعّل) ---- */
+  function alAdhanPauseOn() {
+    try { return localStorage.getItem('alarmPauseOnAdhan') !== 'false'; } catch (e) { return true; }
+  }
+  function alAdhanPlaying() {
+    try {
+      return !!((typeof window._isAdhanPlayingNow === 'function' && window._isAdhanPlayingNow()) ||
+                (typeof window._isFullAdhanPlaying === 'function' && window._isFullAdhanPlaying()));
+    } catch (e) { return false; }
+  }
+
   function alRing() {
+    /* لو الأذان شغّال: نتخطى الرنة دي (من غير صوت ولا إشعار ولا عدّ) ونكمل العدّ للرنة اللي بعدها */
+    if (alAdhanPauseOn() && alAdhanPlaying()) {
+      var _m = parseInt(document.getElementById('sp-alarm-interval-sel').value) || 5;
+      alStartCountdown(_m * 60 * 1000);
+      return;
+    }
     var dhikr = (typeof window.spGetDhikr === 'function') ? window.spGetDhikr() :
       'اللهم صلِّ وسلِّم على نبينا محمد ﷺ';
     /* زيادة العداد */
@@ -22663,7 +22735,7 @@ function openSisterAppInstall() {
 
 // ===== أدوات الإعدادات: بحث • نسخ احتياطي • تصفير =====
 var _SETTINGS_EXCLUDE = /key|token|secret|cache|timing|geo|pwa|rating|history|stats|lastcheck|reminderlast|version|^_|settingsactivetab/i;
-var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|recLoopSrc|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhkarTipDuration|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
+var _SETTINGS_RESET = /^(siteTheme|theme|siteLang|welcomeDisplayLang|introClipEnabled|disableStartupToasts|autoDarkModeEnabled|userFontScale|userFontFamily|userFontBold|fullRandomUrlEnabled|welcomeAutoFallback|disableWelcomeScreen|audioEqBands|audioNormalize|audioBoostLevel|playbackSpeed|offlineLoopSeconds|radioVolume|randomSeekEnabled|holdSeekEnabled|recLoopEnabled|recLoopMaxSec|recLoopSrc|buttonsFlagHidden|welcomeAutoSwitchDuration|themeAutoRotateInterval|radioAutoplayEnabled|radioButtonColor|bgColor|prayerMadhab|prayerCalcMethod|adhkarAutoAdvance|adhkarVibrateOnAdvance|adhkarPerDhikrPace|adhkarPaceLock|adhkarTipDuration|alarmPauseOnAdhan|adhanEnabled|adhanVolume|adhanSoundChoice|adhanRandomMode|adhanPreReminderMinutes)$|^tasbihReadPaceFactor/;
 
 function _settingsKeys() {
   var out = [];
@@ -26665,6 +26737,7 @@ function stopAllOtherAudios(activePlayer) {
       adhanAudio.pause();
       adhanAudio.currentTime = 0;
       adhanAudio = null;
+      window._adhanResumePending = null; // المستخدم اختار تشغيل حاجة تانية: منرجّعش اللي اتوقف
       const banner = document.getElementById('adhan-banner');
       if (banner) banner.classList.remove('show');
     }
@@ -28144,24 +28217,41 @@ window.addEventListener("load", function() {
     const FULL_ADHAN_URL_MIRROR = "https://ia800703.us.archive.org/21/items/20250512_20250512_1243/%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%AF%20%D8%B1%D8%A7%D9%85%D9%89%20%D8%B9%D8%A7%D8%AF%D9%84%20%D8%A7%D9%84%D8%B1%D9%81%D8%A7%D8%B9%D9%89.m4a";
     var _fullAdhanAudio = null;
     window._applyFullAdhanVolume = function(v) { if (_fullAdhanAudio) _fullAdhanAudio.volume = v; };
+    window._isFullAdhanEl = function(el) { return !!_fullAdhanAudio && el === _fullAdhanAudio; };
+    window._isFullAdhanPlaying = function() { try { return !!(_fullAdhanAudio && !_fullAdhanAudio.paused && !_fullAdhanAudio.ended); } catch (e) { return false; } };
+
+    function _fullAdhanFinish() {
+      var r = window._fullAdhanResume;
+      window._fullAdhanResume = null;
+      if (r) r();
+    }
 
     function playFullAdhan() {
       if (_fullAdhanAudio) {
+        _fullAdhanAudio._adhanSkipResume = true; // إعادة تشغيل: مش نهاية فعلية
         _fullAdhanAudio.pause();
         _fullAdhanAudio = null;
+      }
+      if (!window._fullAdhanResume && typeof window._adhanPauseAll === 'function') {
+        window._fullAdhanResume = window._adhanPauseAll();
       }
       _playFullAdhanSrc(FULL_ADHAN_URL_MIRROR, false);
     }
 
     function _playFullAdhanSrc(url, isFallback) {
       _fullAdhanAudio = new Audio(url);
+      (function(a) {
+        function fin() { if (a._adhanSkipResume || a !== _fullAdhanAudio) return; _fullAdhanFinish(); }
+        a.addEventListener('ended', fin);
+        a.addEventListener('pause', fin);
+      })(_fullAdhanAudio);
       _fullAdhanAudio.volume = (typeof window.getAdhanVolume === 'function') ? window.getAdhanVolume() : 1.0;
       _fullAdhanAudio.addEventListener('error', function() {
-        if (!isFallback) _playFullAdhanSrc(FULL_ADHAN_URL, true);
+        if (!isFallback) _playFullAdhanSrc(FULL_ADHAN_URL, true); else _fullAdhanFinish();
       });
       _fullAdhanAudio.play().catch(function(err) {
         console.warn('preview full adhan play() failed:', err && err.name, err && err.message);
-        if (!isFallback) _playFullAdhanSrc(FULL_ADHAN_URL, true);
+        if (!isFallback) _playFullAdhanSrc(FULL_ADHAN_URL, true); else _fullAdhanFinish();
       });
     }
 
@@ -28363,6 +28453,7 @@ window.addEventListener("load", function() {
 
   let adhanAudio = null;
   window._applyAdhanVolume = function(v) { if (adhanAudio) adhanAudio.volume = v; };
+  window._isAdhanPlayingNow = function() { try { return !!(adhanAudio && !adhanAudio.paused && !adhanAudio.ended); } catch (e) { return false; } };
   let adhanTimers = [];
   let adhanEnabled = (localStorage.getItem('adhanEnabled') !== 'false'); // مفعّل افتراضياً
   let adhanTimings = null; // تخزين المواقيت للعدّ التنازلي
@@ -28831,6 +28922,11 @@ window.addEventListener("load", function() {
 
     // إيقاف جميع الراديوهات
     if (typeof window.stopAllOtherAudios === 'function') window.stopAllOtherAudios('adhan');
+    // أي صوت تاني شغّال في الموقع (تلاوات، أذكار، ملاحظات صوتية...) نوقفه برضه ونستأنفه بعد الأذان
+    var _extraResume = (typeof window._adhanPauseAll === 'function') ? window._adhanPauseAll(function(el) {
+      return el === _elWelcome || el === _elMain || el === _elIsolated ||
+        (typeof window._isFullAdhanEl === 'function' && window._isFullAdhanEl(el));
+    }) : null;
 
     // استئناف راديو كان شغال: لازم .load() قبل .play() لأنها بثوث مباشرة (live stream)
     // ومجرد play() بعد وقفة طويلة (مدة الأذان) بيفشل بصمت لأن الاتصال بالسيرفر يكون قطع
@@ -28848,15 +28944,26 @@ window.addEventListener("load", function() {
     // علامة نشاط الأذان — لو المستخدم وقّف أثناء الـ fetch نتجاهل النتيجة
     var _adhanActive = true;
 
+    // استئناف موحّد (مرة واحدة فقط): بعد انتهاء الأذان أو بعد إيقافه يدويًا
+    var _resumeDone = false;
+    function _resumeAfterAdhan() {
+      if (_resumeDone) return;
+      _resumeDone = true;
+      if (window._adhanResumePending === _resumeAfterAdhan) window._adhanResumePending = null;
+      _adhanResume.forEach(_resumeAdhanAudio);
+      if (_extraResume) _extraResume();
+    }
+    window._adhanResumePending = _resumeAfterAdhan;
+
     // تشغيل الأذان — بيجرّب مصادر بالترتيب لحد ما وحدة تشتغل فعلاً
     function _startAdhanAudio(sources, idx) {
       idx = idx || 0;
       // لو المستخدم وقّف الأذان أثناء تحميل الملف → نوقف هنا
       if (!_adhanActive) {
-        _adhanResume.forEach(_resumeAdhanAudio);
+        _resumeAfterAdhan();
         return;
       }
-      if (idx >= sources.length) return; // كل المصادر فشلت — استسلم بهدوء
+      if (idx >= sources.length) { stopAdhan(); return; } // كل المصادر فشلت — نخفي البانر ونرجّع الصوت اللي اتوقف
 
       var src = sources[idx];
       var _triedNext = false;
@@ -28916,8 +29023,8 @@ window.addEventListener("load", function() {
       });
       adhanAudio.onended = () => {
         stopAdhan();
-        // استئناف كل راديو كان شغال قبل الأذان
-        _adhanResume.forEach(_resumeAdhanAudio);
+        // استئناف كل راديو/صوت كان شغال قبل الأذان
+        _resumeAfterAdhan();
       };
     }
 
@@ -29004,6 +29111,12 @@ window.addEventListener("load", function() {
     if (banner) banner.classList.remove('show');
     // رجّع أزرار شاشة القفل (تشغيل/إيقاف/سابق/تالي) والعنوان للراديو بعد انتهاء الأذان
     if (typeof window._radioRestoreMediaSession === 'function') window._radioRestoreMediaSession();
+    // استئناف الراديو/الأصوات اللي اتوقفت وقت الأذان (سواء انتهى الأذان أو اتوقف يدويًا)
+    if (typeof window._adhanResumePending === 'function') {
+      var _rp = window._adhanResumePending;
+      window._adhanResumePending = null;
+      _rp();
+    }
   }
 
   // ---- جدولة المؤقتات ----
