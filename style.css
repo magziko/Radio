@@ -11617,7 +11617,7 @@ body.media-theme-glass .button.has-tasbih .station-text .istiadha-prefix {
 }
 
 
-/* ───── وضع المزامنة مع التلاوة: نافذة من 2–3 آيات (الحالية + اللى بعدها) ───── */
+/* ───── وضع المزامنة مع التلاوة: نافذة من 2–3 آيات (السابقة + الحالية + اللى بعدها) ───── */
 #arabicVerse .sync-ayah {
   display: block;
   margin: 0 0 0.35em;
@@ -11656,6 +11656,28 @@ body.media-theme-glass .button.has-tasbih .station-text .istiadha-prefix {
 #englishVerse .sync-extra.expanded .sync-extra-title { opacity: 0.8; margin-bottom: 8px; padding-inline-end: 24px; }
 #englishVerse .sync-extra.expanded .sync-extra-close { display: block; position: absolute; top: 8px; inset-inline-end: 12px; font-size: 16px; opacity: 0.6; }
 body.dark-mode #englishVerse .sync-extra.expanded { background: rgba(18, 28, 42, 0.97); color: #c8d8e8 !important; }
+/* تنبيه بدء عرض الآيات (لما الشاشة الترحيبية مفتوحة وتبدأ سورة): شارة أعلى الصندوق + وميض خفيف حواليه */
+#quranVerse .sync-live-badge {
+  position: absolute; top: 8px; left: 50%; transform: translate(-50%, -6px); z-index: 6;
+  max-width: 92%; padding: 5px 14px; border-radius: 999px;
+  background: rgba(27, 108, 168, 0.92); color: #fff;
+  font: 700 12.5px/1.5 'Cairo', Arial, sans-serif; font-style: normal; text-shadow: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s, transform 0.35s;
+}
+#quranVerse .sync-live-badge.show { opacity: 1; transform: translate(-50%, 0); }
+@keyframes syncAttnGlow {
+  0%   { box-shadow: 0 0 0 0 rgba(27, 108, 168, 0.55); }
+  70%  { box-shadow: 0 0 0 14px rgba(27, 108, 168, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(27, 108, 168, 0); }
+}
+#quranVerse.sync-attn { animation: syncAttnGlow 1.3s ease-out 2; }
+@media (prefers-reduced-motion: reduce) {
+  #quranVerse.sync-attn { animation: none; }
+  #quranVerse .sync-live-badge { transition: none; }
+}
 
 #englishVerse .sync-cal-btn:active { transform: scale(0.92); }
 
