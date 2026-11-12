@@ -2625,12 +2625,53 @@ setTimeout(autoScaleVerseFont, 100);
     return null;
   }
 
+  // ───── حالات إضافية (روابط مش اسمها رقم السورة من 3 خانات) — بتتحدد من بيانات المحطات نفسها (stations.js) ─────
+  //  1) محطة قارئ فيها 114 رابط بالترتيب (مثلاً الأرقام من غير أصفار 1.mp3 … 99.mp3): رقم السورة = ترتيب الرابط، بشرط إن اسم الملف يطابق الترتيب.
+  //  2) محطات "سورة X" (surahStations) لو الرابط ملف mp3 على archive.org: رقم السورة = ترتيب المحطة.
+  //  مش بنعمّم على أى رابط: بنات البث المباشر والتفسير والأذكار والمقاطع الجزئية مستبعدة عمدًا لأن عرض آيات السورة عليها هيطلع غلط.
+  var _extraSurahMap = null;
+  function _normUrl(u) { try { return new URL(u, location.href).href; } catch (e) { return String(u || ''); } }
+  function _buildExtraSurahMap() {
+    var map = {}, pad3 = /(\d{3})\.mp3(?:[?#]|$)/i;
+    try {
+      if (typeof recitersStations !== 'undefined' && Array.isArray(recitersStations)) {
+        recitersStations.forEach(function(st) {
+          var urls = st && st.urls;
+          if (!Array.isArray(urls) || urls.length !== 114) return;
+          urls.forEach(function(u, i) {
+            if (typeof u !== 'string') return;
+            var m = u.match(/(?:^|\/)(\d{1,3})\.mp3(?:[?#]|$)/i);
+            if (m && parseInt(m[1], 10) === i + 1) map[_normUrl(u)] = i + 1;
+          });
+        });
+      }
+      if (typeof surahStations !== 'undefined' && Array.isArray(surahStations) && surahStations.length === 114) {
+        surahStations.forEach(function(st, i) {
+          var urls = st && st.urls;
+          if (!Array.isArray(urls)) return;
+          urls.forEach(function(u) {
+            if (typeof u !== 'string' || pad3.test(u)) return;
+            if (/^https?:\/\/(?:www\.)?archive\.org\/download\/.+\.mp3(?:[?#]|$)/i.test(u)) map[_normUrl(u)] = i + 1;
+          });
+        });
+      }
+    } catch (e) {}
+    return map;
+  }
   function extractSurahNumber(src) {
     if (!src) return null;
     var m = src.match(/(\d{3})\.mp3(?:[?#]|$)/i);
-    if (!m) return null;
-    var n = parseInt(m[1], 10);
-    return (n >= 1 && n <= 114) ? n : null;
+    if (m) {
+      var n = parseInt(m[1], 10);
+      if (n >= 1 && n <= 114) return n;
+    }
+    if (!_extraSurahMap) {
+      var built = _buildExtraSurahMap();
+      if (!Object.keys(built).length) return null;   // stations.js لسه ما اتحمّلش: نعيد المحاولة بعدين
+      _extraSurahMap = built;
+    }
+    var v = _extraSurahMap[_normUrl(src)];
+    return v || null;
   }
 
   // التنبيه "عرض تقريبى": أيقونة ⚠️ صغيرة، ونصه بيظهر كطبقة عائمة (من غير ما ياخد مساحة من الآيات):
