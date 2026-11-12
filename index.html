@@ -21344,6 +21344,7 @@ function setDhikrTipDuration(n) {
   _dhikrTipSyncUI();
 
   var tipEl = null, textEl = null, hideTimer = null, hoverTimer = null, curBtn = null, pinned = false;
+  var leaveTimer = null, overTip = false, lastW = window.innerWidth;   // إبقاء الفقاعة أثناء التوجّه إليها/لمسها
   var arrowEl = null, copyBtn = null, shareBtn = null, speakBtn = null, speaking = false, speakTok = 0;
 
   function _ar() { return (typeof isArabic === 'undefined') ? true : isArabic; }
@@ -21351,6 +21352,7 @@ function setDhikrTipDuration(n) {
 
   function armHide() {
     clearTimeout(hideTimer); hideTimer = null;
+    if (overTip) return;   // المستخدم فوق الفقاعة الآن: لا تُخفِها
     if (_dhikrTipSec > 0) {
       hideTimer = setTimeout(function auto() {
         // لا نقفل التلميح أثناء القراءة الصوتية
@@ -21511,7 +21513,7 @@ function setDhikrTipDuration(n) {
     tools.className = 'dhikr-tip-tools';
     copyBtn = document.createElement('button');
     copyBtn.type = 'button'; copyBtn.className = 'dhikr-tip-copy';
-    copyBtn.addEventListener('click', function(e) { e.stopPropagation(); copyTip(); });
+    copyBtn.addEventListener('click', function(e) { e.stopPropagation(); copyTip(); armHide(); });
     shareBtn = document.createElement('button');
     shareBtn.type = 'button'; shareBtn.className = 'dhikr-tip-share';
     shareBtn.textContent = '📤';
@@ -21542,11 +21544,26 @@ function setDhikrTipDuration(n) {
     tipEl.appendChild(arrowEl);
     document.body.appendChild(tipEl);
     bindSwipe(tipEl);
+    // الفقاعة تبقى ما دام المؤشر أو الإصبع أو التركيز عليها، وتبدأ مهلتها من جديد بعد المغادرة
+    function holdTip() { overTip = true; clearTimeout(leaveTimer); clearTimeout(hideTimer); hideTimer = null; }
+    function releaseTip(e) {
+      overTip = false;
+      if (curBtn && e && e.relatedTarget && curBtn.contains(e.relatedTarget)) return;  // رجع للزر
+      if (pinned) { armHide(); return; }
+      clearTimeout(leaveTimer);
+      leaveTimer = setTimeout(function() { if (!overTip) hide(); }, 450);
+    }
+    tipEl.addEventListener('mouseenter', holdTip);
+    tipEl.addEventListener('mouseleave', releaseTip);
+    tipEl.addEventListener('focusin', holdTip);
+    tipEl.addEventListener('focusout', function() { overTip = false; armHide(); });
+    tipEl.addEventListener('touchstart', function() { clearTimeout(hideTimer); hideTimer = null; }, { passive: true });
+    tipEl.addEventListener('touchend', function() { armHide(); }, { passive: true });
   }
 
   function hide() {
-    clearTimeout(hideTimer); clearTimeout(hoverTimer);
-    hideTimer = hoverTimer = null;
+    clearTimeout(hideTimer); clearTimeout(hoverTimer); clearTimeout(leaveTimer);
+    hideTimer = hoverTimer = leaveTimer = null; overTip = false;
     if (tipEl) tipEl.classList.remove('show');
     stopSpeak();
     curBtn = null; pinned = false;
@@ -21623,6 +21640,7 @@ function setDhikrTipDuration(n) {
   document.addEventListener('mouseover', function(e) {
     var b = tipButton(e.target);
     if (!b) return;
+    if (b === curBtn) clearTimeout(leaveTimer);
     adopt(b);
     // داخل مربع التسبيح: لا تلميح (نلغى أى تلميح تحويم قيد الانتظار أو ظاهر)
     if (e.target.closest && e.target.closest('.tasbih-box')) {
@@ -21638,7 +21656,11 @@ function setDhikrTipDuration(n) {
     var b = tipButton(e.target);
     if (!b || (e.relatedTarget && b.contains(e.relatedTarget))) return;
     clearTimeout(hoverTimer);
-    if (b === curBtn && !pinned) hide();
+    if (b === curBtn && !pinned) {
+      if (e.relatedTarget && tipEl && tipEl.contains(e.relatedTarget)) return;   // انتقل إلى الفقاعة نفسها
+      clearTimeout(leaveTimer);
+      leaveTimer = setTimeout(function() { if (!overTip) hide(); }, 450);          // مهلة للوصول إليها
+    }
   }, true);
   document.addEventListener('touchstart', function(e) { var b = tipButton(e.target); if (b) adopt(b); }, { passive: true, capture: true });
 
@@ -21662,7 +21684,10 @@ function setDhikrTipDuration(n) {
     hide();
   }, true);
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hide(); });
-  window.addEventListener('resize', hide);
+  window.addEventListener('resize', function() {
+    if (window.innerWidth !== lastW) { lastW = window.innerWidth; hide(); }   // تغيّر العرض فعلاً فقط
+    else place();
+  });
 })();
 
 /* ══════════════════════════════════════════════════════════════════════════
