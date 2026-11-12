@@ -2296,7 +2296,7 @@ function _vfContentHeight(box) {
   for (var i = 0; i < box.children.length; i++) {
     var c = box.children[i];
     var cs = getComputedStyle(c);
-    if (cs.display === 'none') continue;
+    if (cs.display === 'none' || cs.position === 'absolute') continue;   // العناصر العايمة (تنبيه بدء المزامنة) مالهاش مساحة فى القياس
     h += c.offsetHeight + (parseFloat(cs.marginTop) || 0) + (parseFloat(cs.marginBottom) || 0);
   }
   return h;
@@ -2844,7 +2844,37 @@ setTimeout(autoScaleVerseFont, 100);
   function syncExactEnabled()   { return _flag('syncExactTiming'); }     // التوقيت الدقيق (mp3quran) لما يكون متاح
   function syncLearnEnabled()   { return _flag('syncLearnSpeed'); }      // حفظ سرعة القارئ تلقائيًا من المعايرة
   function syncButtonsEnabled() { return _flag('syncShowButtons'); }     // أزرار ⏮️ ⏭️ 📖 📗 على الشاشة
+  function syncAnnounceEnabled(){ return _flag('syncAnnounce'); }        // تنبيه "الآيات بتتابع التلاوة" أول ما تبدأ سورة
   function syncTapEnabled()     { return _flag('syncTapOpenEquran'); }   // الضغط على الآية يفتح المصحف
+
+  // ───── تنبيه بدء عرض الآيات ─────
+  // لما الشاشة الترحيبية تكون مفتوحة وتبدأ تلاوة سورة: شارة صغيرة أعلى صندوق الآيات (٥ ثوانى) + وميض خفيف حوالين الصندوق،
+  // عشان المستخدم ينتبه إن الآيات بتتابع التلاوة. بيتكرر مع كل سورة جديدة، ولو الشاشة كانت مقفولة بيظهر أول ما تتفتح.
+  // تنسيق الشارة والوميض (.sync-live-badge / .sync-attn) موجود فى style.css
+  function welcomeOpenNow() {
+    var ws = document.getElementById('welcomeScreen');
+    return !!(ws && !window._welcomeScreenClosed && getComputedStyle(ws).display !== 'none');
+  }
+  var _announceTimer = null, _attnTimer = null;
+  function announceSync() {
+    var box = document.getElementById('quranVerse');
+    if (!box) return;
+    var badge = box.querySelector('.sync-live-badge');
+    if (!badge) {
+      badge = document.createElement('div');
+      badge.className = 'sync-live-badge';
+      badge.setAttribute('role', 'status');
+      box.appendChild(badge);
+    }
+    var ar = _isAr();
+    badge.textContent = '📖 ' + (ar ? (_sync.name || '') + ' — الآيات بتتابع التلاوة الآن'
+                                    : 'Surah ' + _sync.surahNumber + ' — ayahs now follow the recitation');
+    badge.classList.add('show');
+    box.classList.remove('sync-attn'); void box.offsetWidth; box.classList.add('sync-attn');   // يعيد تشغيل الوميض
+    clearTimeout(_announceTimer); clearTimeout(_attnTimer);
+    _announceTimer = setTimeout(function() { badge.classList.remove('show'); }, 5000);
+    _attnTimer = setTimeout(function() { box.classList.remove('sync-attn'); }, 3000);
+  }
 
   // بتحدّث حالة كل عناصر الإعدادات الخاصة بوضع التلاوة
   function syncOptionsUI() {
@@ -2854,6 +2884,7 @@ setTimeout(autoScaleVerseFont, 100);
     set('syncLearnToggle', syncLearnEnabled());
     set('syncButtonsToggle', syncButtonsEnabled());
     set('syncTapToggle', syncTapEnabled());
+    set('syncAnnounceToggle', syncAnnounceEnabled());
     var sel = document.getElementById('syncExtraModeSelect');
     if (sel) sel.value = getExtraMode();
   }
@@ -2875,6 +2906,7 @@ setTimeout(autoScaleVerseFont, 100);
     if (name === 'learn')   _lsSet('syncLearnSpeed', on ? 'true' : 'false');
     if (name === 'buttons') _lsSet('syncShowButtons', on ? 'true' : 'false');
     if (name === 'tap')     _lsSet('syncTapOpenEquran', on ? 'true' : 'false');
+    if (name === 'announce') _lsSet('syncAnnounce', on ? 'true' : 'false');
     if (typeof window._syncRelayout === 'function') window._syncRelayout();   // نطبّق فورًا
   };
   window.setSyncExtraMode = function(v) {
@@ -2896,6 +2928,7 @@ setTimeout(autoScaleVerseFont, 100);
     var numEl = document.getElementById('verseNumber');
     var transEl = document.getElementById('englishVerse');
     if (!arabicEl || !_sync.ayahs) return;
+    if (!_sync.announced && syncAnnounceEnabled() && welcomeOpenNow()) { _sync.announced = true; announceSync(); }
     var count = _sync.ayahs.length;
     var off = _sync.off || 0;
     var tag = _sync.exact ? ' (دقيق)' : ' (تقريبي)';
@@ -3211,6 +3244,7 @@ setTimeout(autoScaleVerseFont, 100);
       _sync.weights = null;
       _sync.lastIdx = -1;
       _sync.noteShown = false;   // سورة جديدة: التنبيه يظهر مرة تانية
+      _sync.announced = false;   // وشارة "الآيات بتتابع التلاوة" كمان
       if (!(_calib.el === audioEl && _calib.n === n)) _calib = { el: null, n: null, off: 0, pts: [] };   // سورة/مصدر مختلف: نلغى المعايرة
       resetTiming();
       setStaticBasmala(n !== 1 && n !== 9);
@@ -3953,6 +3987,12 @@ setTimeout(autoScaleVerseFont, 100);
       <span class="wtb-icon">📜</span>
       <label for="syncMiniToggle" class="wtb-text" data-ar="إظهار الآية في شريط صغير لما الشاشة الترحيبية تتقفل" data-en="Show the current ayah in a mini bar when the welcome screen is closed" data-fr="Afficher le verset dans une mini-barre quand l’écran d’accueil est fermé" data-es="Mostrar la aleya en una mini barra al cerrar la pantalla de bienvenida" data-de="Aktuellen Vers in einer Mini-Leiste zeigen, wenn der Startbildschirm geschlossen ist" data-tr="Karşılama ekranı kapalıyken ayeti mini çubukta göster" data-ru="Показывать аят в мини-панели, когда экран приветствия закрыт">إظهار الآية في شريط صغير لما الشاشة الترحيبية تتقفل</label>
       <input type="checkbox" id="syncMiniToggle" class="wtb-switch" checked onchange="window.toggleMiniAyahBar && window.toggleMiniAyahBar(this)">
+    </div>
+    <div id="settings-syncAnnounce-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
+         title="لما الشاشة الترحيبية تكون مفتوحة وتبدأ سورة، تظهر شارة صغيرة ووميض خفيف ينبّهك إن الآيات بتتابع التلاوة.">
+      <span class="wtb-icon">🔔</span>
+      <label for="syncAnnounceToggle" class="wtb-text" data-ar="تنبيه عند بدء عرض الآيات مع التلاوة" data-en="Notify when ayahs start following the recitation" data-fr="Signaler le début du suivi des versets" data-es="Avisar cuando las aleyas siguen la recitación" data-de="Hinweis, wenn Verse der Rezitation folgen" data-tr="Ayetler tilavetle başladığında bildir" data-ru="Уведомлять, когда аяты следуют за чтением">تنبيه عند بدء عرض الآيات مع التلاوة</label>
+      <input type="checkbox" id="syncAnnounceToggle" class="wtb-switch" checked onchange="window.toggleSyncOption && window.toggleSyncOption('announce', this)">
     </div>
     <div id="settings-syncExtra-item" data-stab="general" class="welcome-toggle-btn" style="gap:7px;"
          title="عرض ترجمة أو التفسير الميسّر للآية الحالية تحت الآيات أثناء التلاوة (نفس زر 📖)">
