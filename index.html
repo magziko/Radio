@@ -299,8 +299,8 @@
 </script>
 
 <script>
-/* تصميم الشاشة الترحيبية: الكلاسيكي = بدون كلاس (الأساسي) | noor = «المحراب» */
-(function(){ try { if (localStorage.getItem('welcomeStyle') === 'noor') document.documentElement.classList.add('wstyle-noor'); } catch(e) {} })();
+/* تصميم الشاشة الترحيبية: الكلاسيكي = بدون كلاس (الأساسي) | noor = «المحراب» | mushaf = «المصحف» | fajr = «الفجر» | bold = «الجريء» */
+(function(){ try { var _ws = localStorage.getItem('welcomeStyle'); if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold') document.documentElement.classList.add('wstyle-' + _ws); } catch(e) {} })();
 </script>
 <div id="welcomeScreen" onclick="checkClickOutside(event)">
     <div id="welcomeContent">
@@ -4099,10 +4099,25 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="ws-opt-name stab-i18n" data-ar="المحراب (جديد)" data-en="Mihrab (New)">المحراب (جديد)</span>
         <span class="ws-opt-desc stab-i18n" data-ar="شاشة كاملة بإضاءة ليلية وتخطيط عمودين" data-en="Full-screen night glow, two-column layout">شاشة كاملة بإضاءة ليلية وتخطيط عمودين</span>
       </button>
+      <button type="button" class="ws-opt" data-style="mushaf" role="radio" aria-checked="false" onclick="setWelcomeStyle('mushaf')">
+        <span class="ws-thumb ws-thumb--mushaf" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="المصحف (جديد)" data-en="Mushaf (New)">المصحف (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="صفحة مصحف على ورق عتيق بإطار مزخرف" data-en="Mushaf page on aged paper with an ornate frame">صفحة مصحف على ورق عتيق بإطار مزخرف</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="fajr" role="radio" aria-checked="false" onclick="setWelcomeStyle('fajr')">
+        <span class="ws-thumb ws-thumb--fajr" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الفجر (جديد)" data-en="Dawn (New)">الفجر (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="سماء الفجر وخط أفق المآذن والآية بدون إطار" data-en="Dawn sky with a minaret skyline and a frameless verse">سماء الفجر وخط أفق المآذن والآية بدون إطار</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="bold" role="radio" aria-checked="false" onclick="setWelcomeStyle('bold')">
+        <span class="ws-thumb ws-thumb--bold" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الجريء (جديد)" data-en="Bold (New)">الجريء (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="بلاطات ملوّنة بحدود سميكة وظلال حادة" data-en="Color tiles with thick borders and hard shadows">بلاطات ملوّنة بحدود سميكة وظلال حادة</span>
+      </button>
     </div>
     <script>
     (function(){
-      var STYLES = ['classic', 'noor'];
+      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold'];
       function sync(s) {
         document.querySelectorAll('#welcomeStylePicker .ws-opt').forEach(function(b) {
           var on = b.getAttribute('data-style') === s;
@@ -4115,12 +4130,23 @@ setTimeout(autoScaleVerseFont, 100);
         try { localStorage.setItem('welcomeStyle', s); } catch (e) {}
         // الكلاسيكي = إزالة الكلاس بالكامل فيرجع التصميم الأساسي كما هو
         document.documentElement.classList.toggle('wstyle-noor', s === 'noor');
+        document.documentElement.classList.toggle('wstyle-mushaf', s === 'mushaf');
+        document.documentElement.classList.toggle('wstyle-fajr', s === 'fajr');
+        document.documentElement.classList.toggle('wstyle-bold', s === 'bold');
         sync(s);
         if (typeof showToast === 'function') {
           var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
           showToast(s === 'noor' ? (ar ? '🎨 تم تفعيل تصميم «المحراب»' : '🎨 Mihrab design enabled')
+                                 : s === 'mushaf' ? (ar ? '🎨 تم تفعيل تصميم «المصحف»' : '🎨 Mushaf design enabled')
+                                 : s === 'fajr' ? (ar ? '🎨 تم تفعيل تصميم «الفجر»' : '🎨 Dawn design enabled')
+                                 : s === 'bold' ? (ar ? '🎨 تم تفعيل تصميم «الجريء»' : '🎨 Bold design enabled')
                                  : (ar ? '🎨 تم الرجوع للتصميم الكلاسيكي' : '🎨 Classic design restored'));
         }
+        // إعادة ضبط حجم الآية على الشكل الجديد (لو الشاشة الترحيبية ظاهرة)
+        setTimeout(function() {
+          try { if (typeof autoScaleVerseFont === 'function') autoScaleVerseFont(); } catch (e) {}
+          try { if (typeof window._syncRelayout === 'function') window._syncRelayout(); } catch (e) {}
+        }, 60);
       };
       var saved = 'classic';
       try { saved = localStorage.getItem('welcomeStyle') || 'classic'; } catch (e) {}
