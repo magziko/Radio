@@ -13227,3 +13227,257 @@ html.wstyle-editorial body #downArrow svg { stroke: var(--ed-ink) !important; }
     html.wstyle-editorial body #customStatus::before { animation: none; }
     html.wstyle-editorial body :is(#welcomeLogo, #siteWelcomeText, #quranVerse, #unifiedControls.in-welcome, #customStatusRow, #customVolumeAutoRow) { animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   الطابع الإسلامي الخفيف لبقية التصاميم (طبقة زخرفية خلف المحتوى)
+   عنصر #islamicPatternLayer: نقش هندسي من نجوم ثمانية وشريطان زخرفيان
+   علوي وسفلي. لا يغيّر أي تخطيط، ويمكن إيقافه من الإعدادات
+   (الكلاس worn-off على عنصر html).
+   ═══════════════════════════════════════════════════════════════ */
+#islamicPatternLayer {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22 viewBox=%220 0 80 80%22%3E%3Cg fill=%22none%22 stroke=%22%23e2bd63%22 stroke-width=%221.1%22 stroke-linejoin=%22round%22%3E%3Cpolygon points=%2258.38,58.38 21.62,58.38 21.62,21.62 58.38,21.62%22/%3E%3Cpolygon points=%2266.00,40.00 40.00,66.00 14.00,40.00 40.00,14.00%22/%3E%3Cpolygon points=%2240.00,28.00 43.51,31.51 48.49,31.51 48.49,36.49 52.00,40.00 48.49,43.51 48.49,48.49 43.51,48.49 40.00,52.00 36.49,48.49 31.51,48.49 31.51,43.51 28.00,40.00 31.51,36.49 31.51,31.51 36.49,31.51%22 stroke-width=%22.8%22/%3E%3Ccircle cx=%2240%22 cy=%2240%22 r=%224%22/%3E%3Cpath d=%22M66 40H80M0 40H14M40 66V80M40 0V14%22/%3E%3Cpolygon points=%22-7,0 0,-7 7,0 0,7%22/%3E%3Cpolygon points=%2273,0 80,-7 87,0 80,7%22/%3E%3Cpolygon points=%22-7,80 0,73 7,80 0,87%22/%3E%3Cpolygon points=%2273,80 80,73 87,80 80,87%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2212%22 viewBox=%220 0 40 12%22%3E%3Cg fill=%22none%22 stroke=%22%23e2bd63%22 stroke-width=%221%22%3E%3Cpath d=%22M0 11.5H40%22/%3E%3Cpolygon points=%2220,1.5 26,6 20,10.5 14,6%22/%3E%3C/g%3E%3Ccircle cx=%221%22 cy=%226%22 r=%221.2%22 fill=%22%23e2bd63%22/%3E%3Ccircle cx=%2239%22 cy=%226%22 r=%221.2%22 fill=%22%23e2bd63%22/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2212%22 viewBox=%220 0 40 12%22%3E%3Cg fill=%22none%22 stroke=%22%23e2bd63%22 stroke-width=%221%22%3E%3Cpath d=%22M0 0.5H40%22/%3E%3Cpolygon points=%2220,1.5 26,6 20,10.5 14,6%22/%3E%3C/g%3E%3Ccircle cx=%221%22 cy=%226%22 r=%221.2%22 fill=%22%23e2bd63%22/%3E%3Ccircle cx=%2239%22 cy=%226%22 r=%221.2%22 fill=%22%23e2bd63%22/%3E%3C/svg%3E");
+    background-repeat: repeat, repeat-x, repeat-x;
+    background-position: center top, center top, center bottom;
+    background-size: 80px 80px, 40px 12px, 40px 12px;
+    opacity: .13;
+    -webkit-mask-image: radial-gradient(ellipse at 50% 38%, rgba(0,0,0,.55) 0%, #000 100%);
+            mask-image: radial-gradient(ellipse at 50% 38%, rgba(0,0,0,.55) 0%, #000 100%);
+}
+body.dark-mode #islamicPatternLayer { opacity: .09; }
+html.worn-off:not(.wstyle-arabesque) #islamicPatternLayer { display: none; }
+
+/* ═══════════════════════════════════════════════════════════════
+   الشاشة الترحيبية — تصميم «الأرابيسك» (html.wstyle-arabesque)
+   التصميم السابع: زمرّد عميق ونقوش هندسية ذهبية، شعار داخل نجمة ثمانية،
+   وإطار مزخرف للآية بنجوم في الأركان. CSS فقط: نفس العناصر والمعرّفات
+   ودوال JS — بقية التصاميم لا تتأثر (الكلاس يظهر فقط عند اختيار «الأرابيسك»).
+   ═══════════════════════════════════════════════════════════════ */
+.ws-thumb--arabesque {
+    background:
+        radial-gradient(120px 70px at 50% 0%, rgba(226,189,99,.30), transparent 70%),
+        linear-gradient(160deg,#0b5a49,#042a23);
+}
+.ws-thumb--arabesque::before {
+    content:""; position:absolute; inset: 7px 22%; border: 1.5px solid #e2bd63; border-radius: 2px;
+    background: rgba(3,30,25,.72);
+    box-shadow: inset 0 0 0 3px #06342b, inset 0 0 0 4px rgba(226,189,99,.6);
+}
+.ws-thumb--arabesque b {
+    width: 14px; height: 14px; top: 12px; left: 50%; transform: translateX(-50%) rotate(45deg);
+    background: #e2bd63; box-shadow: 0 0 0 2px #06342b, 0 0 0 3px rgba(226,189,99,.7);
+}
+.ws-thumb--arabesque i { height: 3px; border-radius: 2px; background: rgba(251,244,223,.7); left: 50%; transform: translateX(-50%); }
+.ws-thumb--arabesque i:nth-of-type(1) { width: 30%; top: 38px; }
+.ws-thumb--arabesque i:nth-of-type(2) { width: 22%; top: 46px; }
+.ws-thumb--arabesque em { left: 50%; transform: translateX(-50%); width: 14%; top: 55px; height: 3px; border-radius: 2px; background: #e2bd63; }
+
+html.wstyle-arabesque #welcomeScreen {
+    --ar-bg1: #0b5a49; --ar-bg2: #05352c;
+    --ar-gold: #e2bd63; --ar-gold-rgb: 226,189,99; --ar-gold-hi: #f6e2a4;
+    --ar-ivory: #fbf4df; --ar-muted: rgba(251,244,223,.76);
+    --ar-card: rgba(3,32,26,.74); --ar-solid: #06382f;
+    --ar-glow: rgba(47,181,154,.20);
+}
+html.wstyle-arabesque body.dark-mode #welcomeScreen {
+    --ar-bg1: #0a2f3b; --ar-bg2: #030d12;
+    --ar-gold: #d8b25a; --ar-gold-rgb: 216,178,90; --ar-gold-hi: #efd890;
+    --ar-ivory: #eef2e6; --ar-muted: rgba(226,234,220,.72);
+    --ar-card: rgba(2,14,19,.78); --ar-solid: #062129;
+    --ar-glow: rgba(60,150,190,.16);
+}
+@keyframes arRise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes arSpin { to { transform: rotate(360deg); } }
+@keyframes arLive { 0% { box-shadow: 0 0 0 0 rgba(80,220,170,.55); } 100% { box-shadow: 0 0 0 8px rgba(80,220,170,0); } }
+
+html.wstyle-arabesque body #welcomeScreen {
+    background:
+        radial-gradient(900px 520px at 50% -8%, rgba(var(--ar-gold-rgb),.20), transparent 62%),
+        radial-gradient(760px 520px at 50% 112%, var(--ar-glow), transparent 66%),
+        linear-gradient(180deg, var(--ar-bg1), var(--ar-bg2)) !important;
+    color: var(--ar-ivory);
+    overflow-x: hidden; overflow-y: auto; align-items: flex-start;
+}
+html.wstyle-arabesque body #islamicPatternLayer { opacity: .24; }
+html.wstyle-arabesque body.dark-mode #islamicPatternLayer { opacity: .19; }
+
+html.wstyle-arabesque body #welcomeContent {
+    background: transparent !important; border: 0 !important; border-radius: 0 !important;
+    box-shadow: none !important; backdrop-filter: none; -webkit-backdrop-filter: none;
+    width: min(660px, 92%) !important; max-width: none !important; min-width: 0 !important;
+    padding: 0 0 36px !important; margin: 0 auto !important;
+    min-height: 100vh; min-height: 100dvh; color: var(--ar-ivory); animation: none;
+}
+
+/* الشريط العلوي: زجاج زمرّدي بخط ذهبي سفلي */
+html.wstyle-arabesque body #welcome-top-bar {
+    position: sticky; top: 0; z-index: 6;
+    margin: 0 0 14px !important; padding: 8px 4px !important; border-radius: 0 0 14px 14px !important;
+    background: rgba(2,28,23,.62) !important; border: 0 !important;
+    border-bottom: 1px solid rgba(var(--ar-gold-rgb),.55) !important;
+    box-shadow: 0 10px 22px -14px rgba(0,0,0,.6);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+html.wstyle-arabesque body #welcome-top-bar button:not(#closeButton) {
+    background: transparent !important; border-color: transparent !important; box-shadow: none !important;
+    color: var(--ar-gold) !important; border-radius: 10px !important;
+}
+html.wstyle-arabesque body #welcome-top-bar button:not(#closeButton):hover { background: rgba(var(--ar-gold-rgb),.16) !important; }
+
+/* عمود واحد دائمًا — الترتيب بـ order */
+html.wstyle-arabesque body #customRadioBox { display: flex; flex-direction: column; gap: 16px; flex: 1 0 auto; }
+html.wstyle-arabesque body #customControlButtons { display: none; }
+html.wstyle-arabesque body #welcomeLogo { order: 1; }
+html.wstyle-arabesque body #siteWelcomeText { order: 2; }
+html.wstyle-arabesque body #quranVerse { order: 3; }
+html.wstyle-arabesque body #unifiedControls.in-welcome { order: 4; }
+html.wstyle-arabesque body #customStatusRow { order: 5; }
+html.wstyle-arabesque body #customVolumeAutoRow { order: 6; }
+html.wstyle-arabesque body #customAutoSwitchContainer { order: 7; }
+
+/* الشعار: داخل نجمة ثمانية ذهبية وحلقة منقّطة تدور ببطء */
+html.wstyle-arabesque body #welcomeLogo {
+    margin: 10px 0 0 !important; display: flex; justify-content: center;
+    animation: arRise .7s .05s both cubic-bezier(.2,.7,.2,1);
+}
+html.wstyle-arabesque body #welcomeLogo a {
+    position: relative; display: grid; place-items: center; width: 128px; height: 128px;
+}
+html.wstyle-arabesque body #welcomeLogo a::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--ar-gold-hi), var(--ar-gold) 50%, #9a7420);
+    clip-path: polygon(50.00% 0.00%, 64.65% 14.64%, 85.36% 14.64%, 85.36% 35.35%, 100.00% 50.00%, 85.36% 64.65%, 85.36% 85.36%, 64.65% 85.36%, 50.00% 100.00%, 35.35% 85.36%, 14.64% 85.36%, 14.64% 64.65%, 0.00% 50.00%, 14.64% 35.35%, 14.64% 14.64%, 35.35% 14.64%);
+    filter: drop-shadow(0 8px 14px rgba(0,0,0,.35));
+}
+html.wstyle-arabesque body #welcomeLogo a::after {
+    content: ""; position: absolute; inset: -10px; border-radius: 50%;
+    border: 1px dashed rgba(var(--ar-gold-rgb),.6); animation: arSpin 48s linear infinite; pointer-events: none;
+}
+html.wstyle-arabesque body #welcomeLogo img {
+    position: relative; z-index: 1;
+    width: 112px !important; height: 112px !important; object-fit: cover;
+    border-radius: 0 !important; box-shadow: none !important;
+    clip-path: polygon(50.00% 0.00%, 64.65% 14.64%, 85.36% 14.64%, 85.36% 35.35%, 100.00% 50.00%, 85.36% 64.65%, 85.36% 85.36%, 64.65% 85.36%, 50.00% 100.00%, 35.35% 85.36%, 14.64% 85.36%, 14.64% 64.65%, 0.00% 50.00%, 14.64% 35.35%, 14.64% 14.64%, 35.35% 14.64%);
+}
+
+/* العنوان */
+html.wstyle-arabesque body #siteWelcomeText {
+    margin: 8px 0 0 !important; text-align: center; color: var(--ar-ivory) !important;
+    animation: arRise .7s .15s both cubic-bezier(.2,.7,.2,1);
+}
+html.wstyle-arabesque body #siteWelcomeText #basmalaOpenSiteBtn {
+    color: var(--ar-gold) !important; font-family: 'Amiri','Cairo',serif; font-size: 18px !important;
+    font-weight: 700 !important; letter-spacing: .05em !important; text-transform: none !important; margin-bottom: 6px !important;
+}
+html.wstyle-arabesque body #siteWelcomeText > span:nth-of-type(2) {
+    font-size: 15px !important; font-weight: 600 !important; color: var(--ar-muted) !important;
+}
+html.wstyle-arabesque body #siteWelcomeText > span:nth-of-type(3) {
+    font-size: clamp(30px, 8vw, 42px) !important; font-weight: 900 !important; letter-spacing: .02em !important; margin-top: 2px !important;
+    background: linear-gradient(180deg, var(--ar-gold-hi), var(--ar-gold) 60%, #b98f2e);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent !important;
+}
+html.wstyle-arabesque body #siteWelcomeText > span:nth-of-type(3) a { color: inherit !important; }
+html.wstyle-arabesque body #siteWelcomeText > span:nth-of-type(4) {
+    font-size: 13.5px !important; color: var(--ar-muted) !important; font-style: normal !important; line-height: 1.7; margin-top: 6px !important;
+}
+html.wstyle-arabesque body #siteWelcomeText::after {
+    content: "\2756"; display: block; width: 220px; margin: 12px auto 0; text-align: center;
+    color: var(--ar-gold); font-size: 13px; line-height: 1;
+    background:
+        linear-gradient(90deg, transparent, var(--ar-gold)) left center / 42% 1px no-repeat,
+        linear-gradient(270deg, transparent, var(--ar-gold)) right center / 42% 1px no-repeat;
+}
+
+/* بطاقة الآية: إطار مزخرف بنجوم ثمانية في الأركان */
+html.wstyle-arabesque body #quranVerse {
+    --ar-b: 40px;
+    position: relative; flex: none !important;
+    height: clamp(380px, 60dvh, 580px) !important; max-height: none !important; min-height: 0 !important;
+    margin: 6px 4px 0 !important; padding: 28px 16px !important; box-sizing: border-box;
+    background: radial-gradient(420px 260px at 50% 0%, rgba(var(--ar-gold-rgb),.12), transparent 70%), var(--ar-card) !important;
+    border: var(--ar-b) solid transparent !important; border-radius: 0 !important;
+    border-image-source: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22 viewBox=%220 0 120 120%22%3E%3Cg fill=%22none%22 stroke=%22%23e2bd63%22%3E%3Crect x=%2217%22 y=%2217%22 width=%2286%22 height=%2286%22 stroke-width=%221.4%22/%3E%3Crect x=%2223%22 y=%2223%22 width=%2274%22 height=%2274%22 stroke-width=%22.8%22 opacity=%22.75%22/%3E%3C/g%3E%3Cpolygon points=%2220.00,5.00 24.39,9.39 30.61,9.39 30.61,15.61 35.00,20.00 30.61,24.39 30.61,30.61 24.39,30.61 20.00,35.00 15.61,30.61 9.39,30.61 9.39,24.39 5.00,20.00 9.39,15.61 9.39,9.39 15.61,9.39%22 fill=%22%2306382f%22 stroke=%22%23e2bd63%22 stroke-width=%221.3%22 stroke-linejoin=%22round%22/%3E%3Ccircle cx=%2220%22 cy=%2220%22 r=%223.2%22 fill=%22%23e2bd63%22/%3E%3Cpolygon points=%22100.00,5.00 104.39,9.39 110.61,9.39 110.61,15.61 115.00,20.00 110.61,24.39 110.61,30.61 104.39,30.61 100.00,35.00 95.61,30.61 89.39,30.61 89.39,24.39 85.00,20.00 89.39,15.61 89.39,9.39 95.61,9.39%22 fill=%22%2306382f%22 stroke=%22%23e2bd63%22 stroke-width=%221.3%22 stroke-linejoin=%22round%22/%3E%3Ccircle cx=%22100%22 cy=%2220%22 r=%223.2%22 fill=%22%23e2bd63%22/%3E%3Cpolygon points=%2220.00,85.00 24.39,89.39 30.61,89.39 30.61,95.61 35.00,100.00 30.61,104.39 30.61,110.61 24.39,110.61 20.00,115.00 15.61,110.61 9.39,110.61 9.39,104.39 5.00,100.00 9.39,95.61 9.39,89.39 15.61,89.39%22 fill=%22%2306382f%22 stroke=%22%23e2bd63%22 stroke-width=%221.3%22 stroke-linejoin=%22round%22/%3E%3Ccircle cx=%2220%22 cy=%22100%22 r=%223.2%22 fill=%22%23e2bd63%22/%3E%3Cpolygon points=%22100.00,85.00 104.39,89.39 110.61,89.39 110.61,95.61 115.00,100.00 110.61,104.39 110.61,110.61 104.39,110.61 100.00,115.00 95.61,110.61 89.39,110.61 89.39,104.39 85.00,100.00 89.39,95.61 89.39,89.39 95.61,89.39%22 fill=%22%2306382f%22 stroke=%22%23e2bd63%22 stroke-width=%221.3%22 stroke-linejoin=%22round%22/%3E%3Ccircle cx=%22100%22 cy=%22100%22 r=%223.2%22 fill=%22%23e2bd63%22/%3E%3C/svg%3E");
+    border-image-slice: 40; border-image-width: var(--ar-b); border-image-repeat: stretch;
+    box-shadow: 0 18px 44px rgba(0,0,0,.35) !important;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    color: var(--ar-ivory) !important; font-style: normal !important;
+    animation: arRise .8s .25s both cubic-bezier(.2,.7,.2,1);
+}
+html.wstyle-arabesque body #quranVerse::before,
+html.wstyle-arabesque body #quranVerse::after {
+    content: "\06DE"; position: absolute; left: 50% !important; transform: translateX(-50%) !important;
+    width: auto !important; height: auto !important; display: block; background: none !important;
+    color: var(--ar-gold); font-family: 'Amiri','Scheherazade New',serif; font-size: 20px; line-height: 1;
+}
+html.wstyle-arabesque body #quranVerse::before { top: 3px !important; }
+html.wstyle-arabesque body #quranVerse::after  { bottom: 3px !important; top: auto !important; }
+html.wstyle-arabesque body #quranVerse #arabicVerse {
+    font-family: 'Amiri','Scheherazade New','Cairo',serif !important; font-weight: 700 !important;
+    color: var(--ar-ivory) !important; text-shadow: 0 2px 10px rgba(0,0,0,.35) !important;
+    width: 100%; max-width: 100% !important;
+}
+html.wstyle-arabesque body #quranVerse #englishVerse {
+    color: var(--ar-muted) !important; font-style: normal !important; max-width: 94% !important;
+    margin-top: 10px !important; padding-top: 10px; border-top: 1px dashed rgba(var(--ar-gold-rgb),.5);
+}
+html.wstyle-arabesque body #quranVerse #verseNumber {
+    display: inline-block; font-size: 12.5px !important; color: var(--ar-gold) !important;
+    padding: 3px 14px; border: 1px solid rgba(var(--ar-gold-rgb),.65); border-radius: 999px;
+    background: rgba(var(--ar-gold-rgb),.10); margin-top: 12px !important; letter-spacing: .03em;
+}
+html.wstyle-arabesque body #quranVerse .basmala-line {
+    font-family: 'Amiri','Cairo',serif !important; font-size: clamp(17px, 4.6vw, 21px) !important;
+    color: var(--ar-gold-hi) !important; margin-bottom: 8px !important;
+}
+
+/* لوحة التحكم: شريط بحدّ ذهبي وزوايا مقصوصة قليلًا */
+html.wstyle-arabesque body #unifiedControls.in-welcome {
+    background: linear-gradient(135deg, rgba(2,30,25,.88), rgba(7,66,54,.82)) !important;
+    border: 1px solid rgba(var(--ar-gold-rgb),.6) !important;
+    border-radius: 16px !important; box-shadow: 0 10px 26px rgba(0,0,0,.35), inset 0 0 0 3px rgba(var(--ar-gold-rgb),.08) !important;
+    margin: 6px auto 0; animation: arRise .7s .35s both cubic-bezier(.2,.7,.2,1);
+}
+/* الحالة: معين متوهّج بدل النقطة */
+html.wstyle-arabesque body #customStatusRow {
+    margin: 0 auto; padding: 8px 18px; max-width: 100%; box-sizing: border-box;
+    border-radius: 999px; background: rgba(var(--ar-gold-rgb),.10);
+    border: 1px solid rgba(var(--ar-gold-rgb),.45);
+    animation: arRise .7s .4s both cubic-bezier(.2,.7,.2,1);
+}
+html.wstyle-arabesque body #customStatus {
+    display: inline-flex; align-items: center; gap: 9px; color: var(--ar-ivory) !important; font-size: 13.5px; font-weight: 700;
+}
+html.wstyle-arabesque body #customStatus::before {
+    content: ""; flex: none; width: 8px; height: 8px; transform: rotate(45deg); background: #50dcaa; animation: arLive 1.8s infinite;
+}
+html.wstyle-arabesque body #customStatusRow button { color: var(--ar-gold) !important; }
+html.wstyle-arabesque body #customVolumeAutoRow { margin: 0 auto !important; animation: arRise .7s .45s both cubic-bezier(.2,.7,.2,1); }
+html.wstyle-arabesque body #customVolumeControl {
+    max-width: 300px !important; padding: 8px 16px; border-radius: 999px; box-sizing: border-box;
+    background: rgba(2,28,23,.55); border: 1px solid rgba(var(--ar-gold-rgb),.45);
+}
+html.wstyle-arabesque body #customVolumeRange { accent-color: var(--ar-gold) !important; height: 5px; }
+html.wstyle-arabesque body #customAutoSwitchContainer { margin-top: 0; padding-top: 2px; }
+html.wstyle-arabesque body #welcomeScreen .welcome-toggle-btn {
+    background: rgba(var(--ar-gold-rgb),.12) !important; border: 1px solid rgba(var(--ar-gold-rgb),.5) !important;
+    color: var(--ar-ivory) !important; box-shadow: none !important;
+}
+html.wstyle-arabesque body #welcomeScreen .welcome-toggle-btn:hover { background: rgba(var(--ar-gold-rgb),.22) !important; }
+html.wstyle-arabesque body #downArrow svg { stroke: var(--ar-gold) !important; }
+
+@media (max-width: 559px) {
+    html.wstyle-arabesque body #quranVerse { --ar-b: 30px; padding: 26px 10px !important; }
+    html.wstyle-arabesque body #welcomeLogo a { width: 116px; height: 116px; }
+    html.wstyle-arabesque body #welcomeLogo img { width: 101px !important; height: 101px !important; }
+}
+@media (min-width: 768px) {
+    html.wstyle-arabesque body #welcomeContent { width: min(740px, 92%) !important; }
+    html.wstyle-arabesque body #quranVerse { padding: 30px 28px !important; height: clamp(430px, 58dvh, 620px) !important; }
+    html.wstyle-arabesque body #siteWelcomeText > span:nth-of-type(3) { font-size: 46px !important; }
+    html.wstyle-arabesque body #siteWelcomeText > span:nth-of-type(4) { font-size: 15px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html.wstyle-arabesque body :is(#welcomeLogo, #siteWelcomeText, #quranVerse, #unifiedControls.in-welcome, #customStatusRow, #customVolumeAutoRow) { animation: none; }
+    html.wstyle-arabesque body #welcomeLogo a::after, html.wstyle-arabesque body #customStatus::before { animation: none; }
+}
