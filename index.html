@@ -299,10 +299,16 @@
 </script>
 
 <script>
-/* تصميم الشاشة الترحيبية: الكلاسيكي = بدون كلاس (الأساسي) | noor = «المحراب» | mushaf = «المصحف» | fajr = «الفجر» | bold = «الجريء» | player = «المشغّل» | editorial = «الصحيفة» */
-(function(){ try { var _ws = localStorage.getItem('welcomeStyle'); if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial') document.documentElement.classList.add('wstyle-' + _ws); } catch(e) {} })();
+/* تصميم الشاشة الترحيبية: الكلاسيكي = بدون كلاس (الأساسي) | noor = «المحراب» | mushaf = «المصحف» | fajr = «الفجر» | bold = «الجريء» | player = «المشغّل» | editorial = «الصحيفة» | arabesque = «الأرابيسك» */
+(function(){ try { var _ws = localStorage.getItem('welcomeStyle'); if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial' || _ws === 'arabesque' || _ws === 'lantern') document.documentElement.classList.add('wstyle-' + _ws); } catch(e) {} })();
+/* الزخارف الإسلامية الخفيفة في بقية التصاميم: تُوقَف بالقيمة off */
+(function(){ try { if (localStorage.getItem('welcomeOrnaments') === 'off') document.documentElement.classList.add('worn-off'); } catch(e) {} })();
+/* خلفية الموقع في الشاشة الترحيبية: تُفعَّل بالقيمة on */
+(function(){ try { if (localStorage.getItem('welcomeSiteBg') === 'on') document.documentElement.classList.add('wbg-site'); } catch(e) {} })();
 </script>
 <div id="welcomeScreen" onclick="checkClickOutside(event)">
+    <div id="islamicPatternLayer" aria-hidden="true"></div>
+    <div id="welcomeSiteBg" aria-hidden="true"><video muted loop playsinline preload="none"></video></div>
     <div id="welcomeContent">
 
 
@@ -4124,10 +4130,20 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="ws-opt-name stab-i18n" data-ar="الصحيفة (جديد)" data-en="Editorial (New)">الصحيفة (جديد)</span>
         <span class="ws-opt-desc stab-i18n" data-ar="طباعة تحريرية: عنوان ضخم وخطوط رفيعة ولون واحد" data-en="Editorial print style: giant headline, hairlines, one accent">طباعة تحريرية: عنوان ضخم وخطوط رفيعة ولون واحد</span>
       </button>
+      <button type="button" class="ws-opt" data-style="arabesque" role="radio" aria-checked="false" onclick="setWelcomeStyle('arabesque')">
+        <span class="ws-thumb ws-thumb--arabesque" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الأرابيسك (جديد)" data-en="Arabesque (New)">الأرابيسك (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="زمرّد عميق ونقوش هندسية ذهبية وإطار مزخرف بنجوم ثمانية" data-en="Deep emerald, golden geometric patterns and an ornate eight-point star frame">زمرّد عميق ونقوش هندسية ذهبية وإطار مزخرف بنجوم ثمانية</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="lantern" role="radio" aria-checked="false" onclick="setWelcomeStyle('lantern')">
+        <span class="ws-thumb ws-thumb--lantern" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الفانوس (جديد)" data-en="Lantern (New)">الفانوس (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل رمضاني بفوانيس متدلية وإضاءة دافئة وبطاقة آية على هيئة محراب مقوّس" data-en="Ramadan night with hanging lanterns, warm glow and an arched mihrab verse card">ليل رمضاني بفوانيس متدلية وإضاءة دافئة وبطاقة آية على هيئة محراب مقوّس</span>
+      </button>
     </div>
     <script>
     (function(){
-      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold', 'player', 'editorial'];
+      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold', 'player', 'editorial', 'arabesque', 'lantern'];
       function sync(s) {
         document.querySelectorAll('#welcomeStylePicker .ws-opt').forEach(function(b) {
           var on = b.getAttribute('data-style') === s;
@@ -4145,6 +4161,8 @@ setTimeout(autoScaleVerseFont, 100);
         document.documentElement.classList.toggle('wstyle-bold', s === 'bold');
         document.documentElement.classList.toggle('wstyle-player', s === 'player');
         document.documentElement.classList.toggle('wstyle-editorial', s === 'editorial');
+        document.documentElement.classList.toggle('wstyle-arabesque', s === 'arabesque');
+        document.documentElement.classList.toggle('wstyle-lantern', s === 'lantern');
         sync(s);
         if (typeof showToast === 'function') {
           var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
@@ -4154,6 +4172,8 @@ setTimeout(autoScaleVerseFont, 100);
                                  : s === 'bold' ? (ar ? '🎨 تم تفعيل تصميم «الجريء»' : '🎨 Bold design enabled')
                                  : s === 'player' ? (ar ? '🎨 تم تفعيل تصميم «المشغّل»' : '🎨 Player design enabled')
                                  : s === 'editorial' ? (ar ? '🎨 تم تفعيل تصميم «الصحيفة»' : '🎨 Editorial design enabled')
+                                  : s === 'arabesque' ? (ar ? '🎨 تم تفعيل تصميم «الأرابيسك»' : '🎨 Arabesque design enabled')
+                                  : s === 'lantern' ? (ar ? '🎨 تم تفعيل تصميم «الفانوس»' : '🎨 Lantern design enabled')
                                  : (ar ? '🎨 تم الرجوع للتصميم الكلاسيكي' : '🎨 Classic design restored'));
         }
         // إعادة ضبط حجم الآية على الشكل الجديد (لو الشاشة الترحيبية ظاهرة)
@@ -4175,7 +4195,81 @@ setTimeout(autoScaleVerseFont, 100);
       })();
     })();
     </script>
-    <div class="gset-head" id="gset-h-sync" role="heading" aria-level="3"><span data-ar="📖 متابعة الآيات" data-en="📖 Ayah Follow" data-fr="📖 Suivi des versets" data-es="📖 Seguimiento de aleyas" data-sv="📖 Versföljning" data-nl="📖 Verzen volgen" data-ga="📖 Leanúint véarsaí" data-de="📖 Versbegleitung" data-ru="📖 Сопровождение аятов" data-tr="📖 Ayet takibi" data-pt="📖 Acompanhar versículos" data-zh="📖 经文跟随" data-ur="📖 آیات کی پیروی">📖 متابعة الآيات</span></div>
+        <div id="settings-ornaments-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="إظهار نقوش هندسية خفيفة وشريطين زخرفيين خلف الشاشة الترحيبية في التصاميم الأخرى (لا يؤثر على تصميم «الأرابيسك») / Show subtle geometric patterns and two ornamental bands behind the welcome screen in the other designs (does not affect the Arabesque design)">
+      <label for="welcomeOrnamentsToggle" class="wtb-text" data-ar="الزخارف الإسلامية في بقية التصاميم" data-en="Islamic ornaments in other designs" data-fr="Ornements islamiques dans les autres designs" data-es="Ornamentos islámicos en los demás diseños" data-de="Islamische Ornamente in den anderen Designs" data-ru="Исламские орнаменты в других дизайнах" data-tr="Diğer tasarımlarda İslami süslemeler" data-pt="Ornamentos islâmicos nos outros designs" data-zh="其他设计中的伊斯兰装饰" data-ur="دیگر ڈیزائنز میں اسلامی نقوش" style="cursor:pointer; margin:0;">الزخارف الإسلامية في بقية التصاميم</label>
+      <input type="checkbox" id="welcomeOrnamentsToggle" class="wtb-switch" onchange="toggleWelcomeOrnaments()">
+    </div>
+    <script>
+    (function(){
+      var cb = document.getElementById('welcomeOrnamentsToggle');
+      if (!cb) return;
+      var off = false;
+      try { off = localStorage.getItem('welcomeOrnaments') === 'off'; } catch (e) {}
+      cb.checked = !off;
+      window.toggleWelcomeOrnaments = function() {
+        var on = cb.checked;
+        try { localStorage.setItem('welcomeOrnaments', on ? 'on' : 'off'); } catch (e) {}
+        document.documentElement.classList.toggle('worn-off', !on);
+        if (typeof showToast === 'function') {
+          var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+          showToast(on ? (ar ? '🕌 تم تفعيل الزخارف الإسلامية' : '🕌 Islamic ornaments enabled')
+                       : (ar ? '🕌 تم إيقاف الزخارف الإسلامية' : '🕌 Islamic ornaments disabled'));
+        }
+      };
+    })();
+    </script>
+    <div id="settings-sitebg-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="عرض خلفية الموقع (اللون أو الصورة أو الفيديو) خلف الشاشة الترحيبية بدل خلفية التصميم / Show the site background (color, image or video) behind the welcome screen instead of the design's own background">
+      <label for="welcomeSiteBgToggle" class="wtb-text" data-ar="خلفية الموقع في الشاشة الترحيبية" data-en="Site background on welcome screen" data-fr="Arrière-plan du site sur l'écran d'accueil" data-es="Fondo del sitio en la pantalla de bienvenida" data-de="Website-Hintergrund auf dem Startbildschirm" data-ru="Фон сайта на экране приветствия" data-tr="Karşılama ekranında site arka planı" data-pt="Fundo do site na tela de boas-vindas" data-zh="欢迎屏幕使用网站背景" data-ur="ویلکم اسکرین پر سائٹ کا پس منظر" style="cursor:pointer; margin:0;">خلفية الموقع في الشاشة الترحيبية</label>
+      <input type="checkbox" id="welcomeSiteBgToggle" class="wtb-switch" onchange="toggleWelcomeSiteBg()">
+    </div>
+    <script>
+    (function(){
+      var cb = document.getElementById('welcomeSiteBgToggle');
+      if (!cb) return;
+      var html = document.documentElement;
+      cb.checked = html.classList.contains('wbg-site');
+      // مزامنة فيديو الخلفية (ثيمات الفيديو) مع الشاشة الترحيبية
+      function sync() {
+        var on = html.classList.contains('wbg-site');
+        var ws = document.getElementById('welcomeScreen');
+        var bv = document.getElementById('bgThemeVideo');
+        var host = document.getElementById('welcomeSiteBg');
+        var mv = host ? host.querySelector('video') : null;
+        var open = !!ws && getComputedStyle(ws).display !== 'none';
+        var src = bv ? (bv.getAttribute('data-current-src') || bv.getAttribute('src') || '') : '';
+        var vis = on && open && !!bv && bv.style.display === 'block' && !!src;
+        html.classList.toggle('wbg-video', vis);
+        if (!mv) return;
+        if (vis) {
+          if (mv.getAttribute('src') !== src) mv.setAttribute('src', src);
+          try { var p = mv.play(); if (p && p.catch) p.catch(function(){}); } catch (e) {}
+        } else if (mv.getAttribute('src')) {
+          try { mv.pause(); } catch (e) {}
+          mv.removeAttribute('src'); try { mv.load(); } catch (e) {}
+        }
+      }
+      window.toggleWelcomeSiteBg = function() {
+        var on = cb.checked;
+        try { localStorage.setItem('welcomeSiteBg', on ? 'on' : 'off'); } catch (e) {}
+        html.classList.toggle('wbg-site', on);
+        sync();
+        if (typeof showToast === 'function') {
+          var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+          showToast(on ? (ar ? '🖼️ ستظهر خلفية الموقع في الشاشة الترحيبية' : '🖼️ Site background shown on welcome screen')
+                       : (ar ? '🖼️ عادت الشاشة الترحيبية إلى خلفية التصميم' : '🖼️ Welcome screen uses the design background'));
+        }
+      };
+      if (window.MutationObserver) {
+        var bv = document.getElementById('bgThemeVideo'), ws = document.getElementById('welcomeScreen');
+        var mo = new MutationObserver(sync);
+        if (bv) mo.observe(bv, { attributes: true, attributeFilter: ['style', 'data-current-src', 'src'] });
+        if (ws) mo.observe(ws, { attributes: true, attributeFilter: ['style'] });
+      }
+      window.addEventListener('load', sync);
+      setTimeout(sync, 600);
+    })();
+    </script>
+<div class="gset-head" id="gset-h-sync" role="heading" aria-level="3"><span data-ar="📖 متابعة الآيات" data-en="📖 Ayah Follow" data-fr="📖 Suivi des versets" data-es="📖 Seguimiento de aleyas" data-sv="📖 Versföljning" data-nl="📖 Verzen volgen" data-ga="📖 Leanúint véarsaí" data-de="📖 Versbegleitung" data-ru="📖 Сопровождение аятов" data-tr="📖 Ayet takibi" data-pt="📖 Acompanhar versículos" data-zh="📖 经文跟随" data-ur="📖 آیات کی پیروی">📖 متابعة الآيات</span></div>
     <div id="syncAyahSpeedGroup" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;flex-wrap:wrap;cursor:default;"
          data-title-ar="سرعة انتقال الآيات في الشاشة الترحيبية أثناء تشغيل المصحف المرتل/المجوّد. زِدْها إذا كانت الآية تتأخر عن الصوت، وأنقِصْها إذا كانت تسبقه. تُحفظ لكل قارئ/مصدر صوت على حدة."
          data-title-en="Ayah follow speed on the welcome screen while a Quran recitation plays. Increase it if the ayah lags behind the audio, decrease it if it runs ahead. Saved separately for each reciter/audio source.">
