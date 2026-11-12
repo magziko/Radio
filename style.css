@@ -11420,6 +11420,9 @@ body.media-theme-glass .sp-dd-empty { color: #ffffff; text-shadow: 0 0 2px rgba(
     -webkit-user-select: text; user-select: text;
 }
 #dhikr-tip.show { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
+/* جسر شفاف بين الزر والفقاعة: المؤشر يبقى "داخل" الفقاعة أثناء الانتقال إليها */
+#dhikr-tip::before { content: ""; position: absolute; left: -8px; right: -8px; top: -18px; height: 18px; }
+#dhikr-tip.above::before { top: auto; bottom: -18px; }
 #dhikr-tip .dhikr-tip-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
 #dhikr-tip .dhikr-tip-text { min-width: 0; overflow-wrap: anywhere; font-size: 15px; line-height: 1.9; }
 #dhikr-tip .dhikr-tip-actions { flex: none; display: flex; align-items: center; gap: 6px; }
