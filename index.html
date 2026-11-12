@@ -42144,11 +42144,30 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   bar.id = 'miniAyahBar';
   bar.setAttribute('role', 'status');
   bar.innerHTML = '<div class="mab-text" id="mabText"></div>' +
+    '<div class="mab-extra" id="mabExtra"><div class="mab-extra-title" id="mabExtraTitle"></div><div class="mab-extra-body" id="mabExtraBody" dir="auto"></div></div>' +
     '<div class="mab-meta"><span class="mab-label" id="mabLabel"></span>' +
-    '<span class="mab-btns"><button type="button" id="mabOpen">📗</button><button type="button" id="mabClose">✕</button></span></div>';
+    '<span class="mab-btns"><button type="button" id="mabBack" data-dir="-1">⏮️</button><button type="button" id="mabNext" data-dir="1">⏭️</button><button type="button" id="mabExtraBtn" class="mab-desk">📖</button><button type="button" id="mabOpen">📗</button><button type="button" id="mabClose">✕</button></span></div>';
   document.body.appendChild(bar);
   var txt = bar.querySelector('#mabText'), lab = bar.querySelector('#mabLabel');
   var openBtn = bar.querySelector('#mabOpen'), closeBtn = bar.querySelector('#mabClose');
+  var backBtn = bar.querySelector('#mabBack'), nextBtn = bar.querySelector('#mabNext');
+  var extraBtn = bar.querySelector('#mabExtraBtn'), extraBox = bar.querySelector('#mabExtra');
+  var extraTitle = bar.querySelector('#mabExtraTitle'), extraBody = bar.querySelector('#mabExtraBody');
+  // الترجمة/التفسير + زر 📖 فى الشريط: على شاشات الكمبيوتر بس (عرض >= 1024px) علشان حجم الشاشة
+  (function(){
+    var st = document.createElement('style');
+    st.textContent =
+      '#miniAyahBar .mab-desk,#miniAyahBar .mab-extra{display:none}' +
+      '@media (min-width:1024px){' +
+        '#miniAyahBar .mab-desk{display:inline-block}' +
+        '#miniAyahBar .mab-extra.on{display:block;flex:0 1 auto;min-height:0;max-height:14vh;overflow-y:auto;text-align:center;border-top:1px solid rgba(255,255,255,.28);padding-top:5px;font-size:14.5px;line-height:1.75}' +
+        '#miniAyahBar .mab-extra-title{font-size:11.5px;opacity:.8;margin-bottom:2px}' +
+        '#miniAyahBar .mab-extra-body{opacity:.97}' +
+      '}';
+    document.head.appendChild(st);
+  })();
+  // أزرار المعايرة (⏮️ ⏭️) بتتبع نفس إعداد "أزرار ⏮️ ⏭️ 📖 📗 على الشاشة" فى الإعدادات (syncShowButtons)
+  function calBtnsOn(){ try { return localStorage.getItem('syncShowButtons') !== 'false'; } catch (e) { return true; } }
   var lastText = '';
 
   function welcomeVisible(){
@@ -42157,7 +42176,13 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     var cs = getComputedStyle(ws);
     if (cs.display === 'none' || cs.visibility === 'hidden') return false;
     var r = ws.getBoundingClientRect();
-    return r.width > 0 && r.height > 0;
+    if (!(r.width > 0 && r.height > 0)) return false;
+    // الشاشة الترحيبية جوه الصفحة (مش fixed): لو المستخدم نزل بالاسكرول وهي بقت بره الشاشة
+    // نعتبرها "مقفولة" ونظهر شريط الآية، ولو رجّع لفوق وظهرت (أغلب ارتفاعها) نخفيه.
+    var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+    if (!vh) return true;
+    var shown = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+    return shown > 0.4 * Math.min(r.height, vh);
   }
   function update(){
     var cur = null;
@@ -42181,8 +42206,39 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (lab.textContent !== l) lab.textContent = l;
     openBtn.title = ar() ? 'اقرأ من هنا في المصحف' : 'Read from here in the Quran reader';
     closeBtn.title = ar() ? 'إخفاء الشريط' : 'Hide bar';
+    var showCal = calBtnsOn();
+    backBtn.style.display = nextBtn.style.display = extraBtn.style.display = showCal ? '' : 'none';
+    // نسخة من صندوق الترجمة/التفسير اللى كود المزامنة بيملاه جوه الشاشة الترحيبية (.sync-extra)
+    var srcBox = document.querySelector('#englishVerse .sync-extra');
+    var srcBtn = document.querySelector('#englishVerse .sync-extra-btn');
+    if (srcBtn) { if (extraBtn.textContent !== srcBtn.textContent) extraBtn.textContent = srcBtn.textContent; extraBtn.title = srcBtn.title; }
+    else extraBtn.title = ar() ? 'ترجمة / تفسير الآية الحالية' : 'Translation / tafsir of the current ayah';
+    var srcOn = srcBox && srcBox.style.display !== 'none';
+    var sT = srcOn ? srcBox.querySelector('.sync-extra-title') : null;
+    var sB = srcOn ? srcBox.querySelector('.sync-extra-body') : null;
+    if (sT && sB && sB.textContent) {
+      if (extraTitle.textContent !== sT.textContent) extraTitle.textContent = sT.textContent;
+      if (extraBody.textContent !== sB.textContent) extraBody.textContent = sB.textContent;
+      extraBox.classList.add('on');
+    } else extraBox.classList.remove('on');
+    backBtn.title = ar() ? 'العرض سابق للتلاوة — رجوع آية (Shift+Y)' : 'Display is ahead — go back one ayah (Shift+Y)';
+    nextBtn.title = ar() ? 'التلاوة وصلت للآية التالية — تقدّم آية (Y)' : 'Recitation reached the next ayah — advance one (Y)';
     bar.classList.add('show');
   }
+  function calibrate(e){
+    e.stopPropagation(); e.preventDefault();
+    var dir = parseInt(this.getAttribute('data-dir'), 10) || 1;
+    if (typeof window.calibrateSyncAyahUI === 'function') window.calibrateSyncAyahUI(dir);
+    update(); setTimeout(update, 120);   // نحدّث الشريط فورًا بالآية الجديدة
+  }
+  extraBtn.addEventListener('click', function(e){
+    e.stopPropagation(); e.preventDefault();
+    if (typeof window.cycleSyncExtra === 'function') window.cycleSyncExtra();   // إيقاف ← ترجمة ← تفسير ميسّر
+    if (typeof window._syncRelayout === 'function') window._syncRelayout();
+    update(); setTimeout(update, 250); setTimeout(update, 1200);   // التحميل من النت ممكن يتأخر ثوانى
+  });
+  backBtn.addEventListener('click', calibrate);
+  nextBtn.addEventListener('click', calibrate);
   openBtn.addEventListener('click', function(){
     if (typeof window.openEquranAtCurrentAyah === 'function') window.openEquranAtCurrentAyah();
   });
@@ -42194,6 +42250,11 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   window.toggleMiniAyahBar = function(cb){ setOn(!!(cb && cb.checked)); update(); };
   syncCheckbox();
   setInterval(update, 500);
+  // استجابة فورية أثناء الاسكرول (بدل انتظار الـ500ms)
+  var _rafPending = false;
+  function _onScrollish(){ if (_rafPending) return; _rafPending = true; requestAnimationFrame(function(){ _rafPending = false; update(); }); }
+  window.addEventListener('scroll', _onScrollish, { passive: true });
+  window.addEventListener('resize', _onScrollish, { passive: true });
 })();
 </script>
 </body>
