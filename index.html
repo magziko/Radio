@@ -41902,5 +41902,113 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAppDownloadModal();});
 })();
 </script>
+
+<script>
+// ضغطة مطولة على زر "تنقل تلقائي" (الشاشة الترحيبية): +1 دقيقة على العدّاد الجاري.
+// تقليل دقيقة: كليك يمين على الكمبيوتر، أو من خانة "مدة التنقل" في الإعدادات (للتغيير الدائم).
+(function(){
+  var btn = document.getElementById('autoSwitchToggleBtn');
+  if (!btn) return;
+  var HOLD_MS = 550, STEP_MS = 60000, MAX_LEFT_MS = 60 * 60000, MIN_LEFT_MS = 5000;
+  var timer = null, fired = false, ptype = 'mouse';
+  function ar(){ return (typeof isArabic !== 'undefined') ? isArabic : true; }
+  function toast(a, e){ if (typeof showToast === 'function') showToast(ar() ? a : e); }
+  function running(kind){
+    if (kind === 'main') {
+      var cm = document.getElementById('autoSwitchCheckbox');
+      return !!(cm && cm.checked && typeof _asSettingsDeadline !== 'undefined' && _asSettingsDeadline > 0);
+    }
+    var cb = document.getElementById('customAutoSwitch');
+    return !!(cb && cb.checked && typeof _asDeadline !== 'undefined' && _asDeadline > 0);
+  }
+  function adjust(sign, kind){
+    kind = kind || 'welcome';
+    if (!running(kind)) { toast('⏱️ فعّل التنقل التلقائي أولًا', '⏱️ Turn on auto switch first'); return; }
+    var dl = (kind === 'main') ? _asSettingsDeadline : _asDeadline;
+    var left = dl - Date.now();
+    if (sign > 0 && left + STEP_MS > MAX_LEFT_MS) { toast('⏱️ الحد الأقصى 60 دقيقة', '⏱️ Maximum is 60 minutes'); return; }
+    var next = left + sign * STEP_MS;
+    if (next < MIN_LEFT_MS) next = MIN_LEFT_MS;
+    var nd = Date.now() + next;
+    if (kind === 'main') {
+      _asSettingsDeadline = nd;
+      _asSettingsEndTime = nd;   // يحدّث العدّاد الظاهر في الإعدادات وتحت الزر
+      var sp = document.getElementById('autoSwitch-countdown-settings');
+      if (sp && typeof _asSettingsFormat === 'function') sp.textContent = _asSettingsFormat(Math.ceil(next / 1000));
+    } else {
+      _asDeadline = nd;
+      if (typeof _asCheck === 'function') _asCheck();
+    }
+    var txt = (typeof _asFormatCountdown === 'function') ? _asFormatCountdown(Math.ceil(next / 1000)) : '';
+    toast((sign > 0 ? '⏱️ +1 دقيقة' : '⏱️ −1 دقيقة') + ' — المتبقي ' + txt,
+          (sign > 0 ? '⏱️ +1 min' : '⏱️ −1 min') + ' — left ' + txt);
+  }
+  window._asLongAdjust = adjust;   // يستخدمها زر المشغّل الرئيسي (pnb-autosw)
+  function clear(){ if (timer) { clearTimeout(timer); timer = null; } }
+  btn.style.webkitTouchCallout = 'none';
+  btn.style.userSelect = 'none';
+  btn.title = 'Auto switch — long press: +1 min (right-click: −1 min)';
+  btn.addEventListener('pointerdown', function(e){
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    ptype = e.pointerType || 'mouse';
+    fired = false; clear();
+    timer = setTimeout(function(){
+      timer = null; fired = true;
+      if (navigator.vibrate) { try { navigator.vibrate(25); } catch (x) {} }
+      adjust(+1);
+    }, HOLD_MS);
+  });
+  ['pointerup','pointerleave','pointercancel'].forEach(function(ev){
+    btn.addEventListener(ev, function(){ clear(); if (fired) setTimeout(function(){ fired = false; }, 400); });
+  });
+  // منع التبديل (إيقاف/تشغيل) بعد الضغطة المطولة
+  btn.addEventListener('click', function(e){
+    if (fired) { e.stopImmediatePropagation(); e.preventDefault(); fired = false; }
+  }, true);
+  btn.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    if (ptype === 'mouse') adjust(-1);
+  });
+})();
+</script>
+
+<script>
+// نفس النظام لزر "تنقل تلقائي" في شريط المشغّل (pnb-autosw): ضغطة مطولة = +1 دقيقة، كليك يمين (كمبيوتر) = −1 دقيقة.
+// في الشريط الرئيسي بيعدّل عدّاد الراديو الرئيسي، ولما الأزرار تكون في الشاشة الترحيبية بيعدّل عدّاد الترحيبية.
+(function(){
+  var HOLD_MS = 550, timer = null, fired = false, ptype = 'mouse';
+  function btnOf(e){ return e.target && e.target.closest ? e.target.closest('#pnb-autosw') : null; }
+  function kindNow(b){
+    var uc = b.closest('#unifiedControls');
+    return (uc && uc.classList.contains('in-welcome')) ? 'welcome' : 'main';
+  }
+  function clear(){ if (timer) { clearTimeout(timer); timer = null; } }
+  document.addEventListener('pointerdown', function(e){
+    var b = btnOf(e); if (!b) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    ptype = e.pointerType || 'mouse';
+    b.style.webkitTouchCallout = 'none'; b.style.userSelect = 'none';
+    fired = false; clear();
+    timer = setTimeout(function(){
+      timer = null; fired = true;
+      if (navigator.vibrate) { try { navigator.vibrate(25); } catch (x) {} }
+      if (typeof window._asLongAdjust === 'function') window._asLongAdjust(+1, kindNow(b));
+    }, HOLD_MS);
+  }, true);
+  ['pointerup','pointercancel'].forEach(function(ev){
+    document.addEventListener(ev, function(){ clear(); if (fired) setTimeout(function(){ fired = false; }, 400); }, true);
+  });
+  document.addEventListener('pointerleave', function(e){ if (btnOf(e)) clear(); }, true);
+  // منع التبديل (إيقاف/تشغيل) بعد الضغطة المطولة — بيشتغل قبل أي مستمع تاني
+  document.addEventListener('click', function(e){
+    if (fired && btnOf(e)) { e.stopImmediatePropagation(); e.preventDefault(); fired = false; }
+  }, true);
+  document.addEventListener('contextmenu', function(e){
+    var b = btnOf(e); if (!b) return;
+    e.preventDefault();
+    if (ptype === 'mouse' && typeof window._asLongAdjust === 'function') window._asLongAdjust(-1, kindNow(b));
+  }, true);
+})();
+</script>
 </body>
 </html>
