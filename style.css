@@ -11707,3 +11707,16 @@ body.dark-mode #englishVerse .sync-extra.expanded { background: rgba(18, 28, 42,
   display: block;
   animation: syncAyahIn 0.2s ease both;
 }
+
+/* ===== زر وشاشة تحميل التطبيق (الفوتر) ===== */
+.dl-app-footer-btn{display:inline-block;padding:9px 22px;border:none;border-radius:999px;background:linear-gradient(135deg,#28a745,#1e8e3e);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);transition:transform .15s,box-shadow .15s}
+.dl-app-footer-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+#appDlOverlay{display:none;position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px}
+#appDlOverlay.open{display:flex}
+#appDlCard{background:#fff;color:#1e2327;width:100%;max-width:360px;border-radius:16px;padding:20px 18px 16px;box-shadow:0 10px 40px rgba(0,0,0,.4);text-align:center}
+#appDlCard h3{margin:0 0 6px;font-size:18px}
+#appDlCard p{margin:0 0 14px;font-size:13px;opacity:.75;line-height:1.7}
+#appDlCard button{display:block;width:100%;margin:8px 0 0;padding:11px 12px;border-radius:10px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;border:2px solid #28a745}
+#appDlPreview{background:#eafaf1;color:#1e6e34}
+#appDlDirect{background:#28a745;color:#fff}
+#appDlClose{background:transparent;color:inherit;border:none!important;font-weight:400!important;font-size:13px!important;opacity:.7}
