@@ -10303,22 +10303,110 @@ body.dark-mode #settings-find-results { background: #1c1f24; }
     100% { box-shadow: 0 0 0 3px rgba(var(--theme-c1-rgb),0); }
 }
 
-#settings-data-tools {
-    margin: 8px auto 4px; width: 97%; box-sizing: border-box;
-    padding: 10px 14px; border-radius: 14px; direction: rtl;
-    border: 1.5px solid rgba(var(--theme-c1-rgb),0.18);
-    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
+/* ═══════════════════════════════════════════════════════════
+   بطاقات التطبيق والإعدادات العامة — تصميم مدمج ومتجاوب
+   موبايل: عمود واحد مضغوط | تابلت/كمبيوتر: عمودان + بطاقات عريضة
+   ═══════════════════════════════════════════════════════════ */
+.app-cards {
+    display: grid; grid-template-columns: minmax(0,1fr); gap: 8px;
+    width: 100%; margin: 8px 0 4px; box-sizing: border-box; direction: rtl;
     font-family: 'Cairo', Arial, sans-serif;
 }
-.sdt-title { font-size: 15px; font-weight: 800; color: var(--theme-c4); }
-.sdt-desc { font-size: 12px; color: var(--theme-c3); margin: 4px 0 8px; line-height: 1.5; }
-.sdt-btns { display: flex; flex-wrap: wrap; gap: 6px; }
-.sdt-btn {
-    flex: 1 1 auto; padding: 8px 10px; border-radius: 10px; border: none; cursor: pointer;
-    font-family: 'Cairo', Arial, sans-serif; font-size: 13px; font-weight: 700; color: #fff;
-    background: linear-gradient(135deg,var(--theme-c2),var(--theme-g2));
+.app-card {
+    display: grid; grid-template-columns: minmax(0,1fr);
+    grid-template-areas: "title" "desc" "chip" "btns";
+    grid-template-rows: auto 1fr auto auto;
+    box-sizing: border-box; min-width: 0; margin: 0; padding: 10px 12px;
+    border-radius: 14px; direction: rtl; text-align: start;
+    border: 1px solid rgba(var(--theme-c1-rgb),0.20);
+    background: linear-gradient(135deg,rgba(var(--theme-c1-rgb),0.07),rgba(var(--theme-c2-rgb),0.07));
+    font-family: 'Cairo', Arial, sans-serif;
+    transition: border-color .2s ease, box-shadow .2s ease;
 }
-.sdt-btn.sdt-danger { background: linear-gradient(135deg,#c0392b,#e74c3c); }
+.app-card:hover {
+    border-color: rgba(var(--theme-c1-rgb),0.38);
+    box-shadow: 0 2px 10px rgba(var(--theme-c1-rgb),0.12);
+}
+.app-card > .sdt-title, .sdt-title {
+    grid-area: title; font-size: 14px; font-weight: 800; line-height: 1.4;
+    color: var(--theme-c4);
+}
+.app-card > .sdt-desc, .sdt-desc {
+    grid-area: desc; font-size: 12px; line-height: 1.55;
+    color: var(--theme-c3); margin: 2px 0 9px;
+}
+.app-card > .app-card-code { grid-area: chip; margin: -2px 0 9px; text-align: start; }
+.app-card-code code {
+    display: inline-block; padding: 3px 12px; border-radius: 8px; direction: ltr;
+    background: rgba(var(--theme-c1-rgb),0.12);
+    font-family: Consolas, Menlo, monospace; font-size: 13px;
+    user-select: all; -webkit-user-select: all;
+}
+.app-card > .sdt-btns, .sdt-btns {
+    grid-area: btns; display: flex; flex-wrap: wrap; gap: 6px; align-self: end;
+}
+.sdt-btn {
+    flex: 1 1 auto; min-height: 38px; padding: 7px 12px; border-radius: 10px; border: 1px solid transparent;
+    cursor: pointer; font-family: 'Cairo', Arial, sans-serif; font-size: 13px; font-weight: 700;
+    line-height: 1.3; color: #fff;
+    background: linear-gradient(135deg,var(--theme-c2),var(--theme-g2));
+    box-shadow: 0 2px 6px rgba(var(--theme-c1-rgb),0.22);
+    transition: filter .15s ease, transform .1s ease, box-shadow .15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.sdt-btn:hover { filter: brightness(1.08); box-shadow: 0 3px 10px rgba(var(--theme-c1-rgb),0.30); }
+.sdt-btn:active { transform: scale(.98); filter: brightness(.96); }
+.sdt-btn:focus-visible { outline: 2px solid rgba(var(--theme-c1-rgb),0.9); outline-offset: 2px; }
+.sdt-btn:disabled { filter: none; box-shadow: none; transform: none; }
+/* زر ثانوي (أخف) للإجراءات غير الأساسية */
+.sdt-btn.sdt-btn--ghost {
+    color: var(--theme-c4); box-shadow: none;
+    background: rgba(var(--theme-c1-rgb),0.10);
+    border-color: rgba(var(--theme-c1-rgb),0.30);
+}
+.sdt-btn.sdt-btn--ghost:hover { background: rgba(var(--theme-c1-rgb),0.18); filter: none; box-shadow: none; }
+.sdt-btn.sdt-danger {
+    background: linear-gradient(135deg,#c0392b,#e74c3c); color: #fff;
+    box-shadow: 0 2px 6px rgba(192,57,43,0.25);
+}
+.sdt-btn.sdt-danger.sdt-btn--ghost {
+    color: #c0392b; background: rgba(192,57,43,0.08); border-color: rgba(192,57,43,0.35); box-shadow: none;
+}
+.sdt-btn.sdt-danger.sdt-btn--ghost:hover { background: rgba(192,57,43,0.16); }
+/* بطاقة الأندرويد (مميّزة بالأخضر) */
+.app-card--android {
+    border-color: rgba(40,167,69,0.55);
+    background: linear-gradient(135deg, rgba(40,167,69,0.13), rgba(40,167,69,0.04));
+    box-shadow: 0 2px 10px rgba(40,167,69,0.14);
+}
+.app-card--android:hover { border-color: rgba(40,167,69,0.8); box-shadow: 0 3px 14px rgba(40,167,69,0.22); }
+.app-card--android > .sdt-title { color: #1e7e34; }
+.app-card--android .sdt-btn { background: linear-gradient(135deg,#2fb350,#1e8a3a); box-shadow: 0 2px 8px rgba(40,167,69,0.30); }
+/* الوضع الداكن */
+body.dark-mode .app-card--android > .sdt-title { color: #6fdc8c; }
+body.dark-mode .sdt-btn.sdt-btn--ghost { color: #e6edf5; background: rgba(var(--theme-c1-rgb),0.20); border-color: rgba(var(--theme-c1-rgb),0.38); }
+body.dark-mode .sdt-btn.sdt-btn--ghost:hover { background: rgba(var(--theme-c1-rgb),0.30); }
+body.dark-mode .sdt-btn.sdt-danger.sdt-btn--ghost { color: #ff8a80; background: rgba(231,76,60,0.14); border-color: rgba(231,76,60,0.45); }
+/* أجهزة اللمس: هدف لمس مريح */
+@media (pointer: coarse) { .sdt-btn { min-height: 42px; } }
+/* تابلت / كمبيوتر: عمودان */
+@media (min-width: 600px) {
+    .app-cards { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+    .app-card { padding: 12px 14px; }
+    .app-card--wide {
+        grid-column: 1 / -1;
+        grid-template-columns: minmax(0,1fr) auto;
+        grid-template-areas: "title btns" "desc btns" "chip btns";
+        grid-template-rows: auto auto auto;
+        column-gap: 16px; align-items: center;
+    }
+    .app-card--wide > .sdt-desc { margin-bottom: 0; }
+    .app-card--wide > .app-card-code { margin: 6px 0 0; }
+    .app-card--wide > .sdt-btns { align-self: center; min-width: 220px; }
+}
+@media (min-width: 1024px) {
+    .app-card--wide > .sdt-btns { min-width: 250px; }
+}
 
 
 /* مقبض السحب لقفل الإعدادات */
