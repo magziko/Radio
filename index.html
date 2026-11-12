@@ -42146,7 +42146,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   bar.innerHTML = '<div class="mab-text" id="mabText"></div>' +
     '<div class="mab-extra" id="mabExtra"><div class="mab-extra-title" id="mabExtraTitle"></div><div class="mab-extra-body" id="mabExtraBody" dir="auto"></div></div>' +
     '<div class="mab-meta"><span class="mab-label" id="mabLabel"></span>' +
-    '<span class="mab-btns"><button type="button" id="mabBack" data-dir="-1">⏮️</button><button type="button" id="mabNext" data-dir="1">⏭️</button><button type="button" id="mabExtraBtn" class="mab-desk">📖</button><button type="button" id="mabOpen">📗</button><button type="button" id="mabClose">✕</button></span></div>';
+    '<span class="mab-btns"><button type="button" id="mabBack" data-dir="-1">⏮️</button><button type="button" id="mabNext" data-dir="1">⏭️</button><button type="button" id="mabExtraBtn" class="mab-desk">📖</button><button type="button" id="mabShareBtn">📤</button><button type="button" id="mabOpen">📗</button><button type="button" id="mabClose">✕</button></span></div>';
   document.body.appendChild(bar);
   var txt = bar.querySelector('#mabText'), lab = bar.querySelector('#mabLabel');
   var openBtn = bar.querySelector('#mabOpen'), closeBtn = bar.querySelector('#mabClose');
@@ -42193,7 +42193,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       var av = document.getElementById('arabicVerse');
       cur = av ? av.querySelector('.sync-current') : null;
     }
-    if (!cur) { bar.classList.remove('show'); return; }
+    if (!cur) { bar.classList.remove('show'); closeShareMenu(); return; }
     var t = cur.textContent;
     if (t !== lastText) {
       lastText = t;
@@ -42235,6 +42235,143 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (typeof window.calibrateSyncAyahUI === 'function') window.calibrateSyncAyahUI(dir);
     update(); setTimeout(update, 120);   // نحدّث الشريط فورًا بالآية الجديدة
   }
+  // ───── نسخ / مشاركة الآية الحالية (نص أو صورة) ─────
+  var shareBtn = bar.querySelector('#mabShareBtn');
+  var shareMenu = document.createElement('div');
+  shareMenu.id = 'mabShareMenu';
+  shareMenu.setAttribute('role', 'menu');
+  bar.appendChild(shareMenu);
+  (function(){
+    var st = document.createElement('style');
+    st.textContent =
+      '#mabShareMenu{display:none;position:absolute;bottom:calc(100% + 8px);left:8px;min-width:210px;padding:6px;border-radius:14px;background:rgba(18,28,26,.97);color:#fff;box-shadow:0 8px 28px rgba(0,0,0,.45);z-index:2;direction:rtl}' +
+      '#mabShareMenu.open{display:block}' +
+      '#mabShareMenu button{display:block;width:100%;text-align:right;background:none;border:none;color:#fff;font:inherit;font-size:14px;padding:9px 12px;border-radius:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
+      '#mabShareMenu button:hover,#mabShareMenu button:active{background:rgba(255,255,255,.14)}';
+    document.head.appendChild(st);
+  })();
+  function toast(m){ if (typeof showToast === 'function') showToast(m); }
+  function closeShareMenu(){ shareMenu.classList.remove('open'); }
+  function buildShareMenu(){
+    var a = ar();
+    shareMenu.innerHTML = '';
+    [['copy', a ? '📋 نسخ الآية' : '📋 Copy ayah'],
+     ['text', a ? '📤 مشاركة كنص' : '📤 Share as text'],
+     ['img',  a ? '🖼️ مشاركة كصورة' : '🖼️ Share as image']].forEach(function(it){
+      var b = document.createElement('button');
+      b.type = 'button'; b.setAttribute('role', 'menuitem'); b.setAttribute('data-act', it[0]); b.textContent = it[1];
+      shareMenu.appendChild(b);
+    });
+  }
+  // الآية الحالية كما هى معروضة فى الشريط (النص برقم الآية ﴿٣﴾) + المرجع
+  function currentAyahData(){
+    var el = txt.querySelector('.mab-ayah');
+    var t = el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
+    var l = (lab.textContent || '').trim();
+    var url = ''; try { url = location.href.split('#')[0]; } catch (e) {}
+    return { text: t, label: l, url: url };
+  }
+  function shareText(d){ return d.text + '\n\n— ' + d.label + (d.url ? '\n' + d.url : ''); }
+  function copyText(str){
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(str);
+    return new Promise(function(res, rej){
+      try {
+        var ta = document.createElement('textarea'); ta.value = str; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+        document.body.appendChild(ta); ta.select();
+        var ok = document.execCommand('copy'); document.body.removeChild(ta);
+        ok ? res() : rej();
+      } catch (e) { rej(e); }
+    });
+  }
+  function drawAyahImage(d){
+    var W = 1080, PAD = 90, maxW = W - PAD * 2;
+    var cs = getComputedStyle(bar);
+    var rgb = (cs.getPropertyValue('--theme-c1-rgb') || '').trim();
+    var c1 = rgb ? 'rgb(' + rgb + ')' : '#1b6b50';
+    var c2 = (cs.getPropertyValue('--theme-g2') || '').trim() || '#0e3d2e';
+    var cv = document.createElement('canvas'), ctx = cv.getContext('2d');
+    var fam = "'Amiri','Cairo','Traditional Arabic',serif";
+    function wrap(size){
+      ctx.font = size + 'px ' + fam; ctx.direction = 'rtl';
+      var words = d.text.split(' '), lines = [], line = '';
+      for (var i = 0; i < words.length; i++) {
+        var test = line ? line + ' ' + words[i] : words[i];
+        if (line && ctx.measureText(test).width > maxW) { lines.push(line); line = words[i]; } else line = test;
+      }
+      if (line) lines.push(line);
+      return lines;
+    }
+    var size = 64, lines = wrap(size);
+    while (lines.length > 12 && size > 34) { size -= 4; lines = wrap(size); }
+    var lh = Math.round(size * 1.95), top = 150, bottom = 190;
+    var H = top + lines.length * lh + bottom;
+    cv.width = W; cv.height = H;
+    var g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, c1); g.addColorStop(1, c2);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 3;
+    ctx.strokeRect(28, 28, W - 56, H - 56);
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = 'rtl';
+    ctx.font = '48px ' + fam; ctx.fillText('﷽', W / 2, 95);
+    ctx.font = size + 'px ' + fam;
+    for (var k = 0; k < lines.length; k++) ctx.fillText(lines[k], W / 2, top + lh * k + lh / 2);
+    ctx.globalAlpha = .9; ctx.font = '34px ' + fam;
+    ctx.fillText(d.label, W / 2, H - 110);
+    ctx.globalAlpha = .65; ctx.font = '26px ' + fam;
+    ctx.fillText('إذاعة القرآن الكريم | Quran Radio', W / 2, H - 62);
+    ctx.globalAlpha = 1;
+    return cv;
+  }
+  function shareImage(d){
+    var a = ar();
+    var fontsReady = (document.fonts && document.fonts.load)
+      ? Promise.race([document.fonts.load('40px Amiri', d.text), new Promise(function(r){ setTimeout(r, 1500); })]).catch(function(){})
+      : Promise.resolve();
+    fontsReady.then(function(){
+      var cv = drawAyahImage(d);
+      cv.toBlob(function(blob){
+        if (!blob) { toast(a ? 'تعذّر إنشاء الصورة' : 'Could not create the image'); return; }
+        var file = null;
+        try { file = new File([blob], 'ayah.png', { type: 'image/png' }); } catch (e) {}
+        if (file && navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+          navigator.share({ files: [file], text: shareText(d) }).catch(function(err){ if (!err || err.name !== 'AbortError') toast(a ? 'تعذّرت المشاركة' : 'Sharing failed'); });
+        } else {   // الكمبيوتر / متصفح من غير مشاركة ملفات: تنزيل الصورة
+          var u = URL.createObjectURL(blob), l = document.createElement('a');
+          l.href = u; l.download = 'ayah.png'; document.body.appendChild(l); l.click(); document.body.removeChild(l);
+          setTimeout(function(){ URL.revokeObjectURL(u); }, 4000);
+          toast(a ? '🖼️ تم تنزيل صورة الآية' : '🖼️ Ayah image downloaded');
+        }
+      }, 'image/png');
+    });
+  }
+  shareBtn.addEventListener('click', function(e){
+    e.stopPropagation(); e.preventDefault();
+    if (shareMenu.classList.contains('open')) { closeShareMenu(); return; }
+    buildShareMenu();
+    shareBtn.title = ar() ? 'نسخ / مشاركة الآية' : 'Copy / share the ayah';
+    shareMenu.classList.add('open');
+  });
+  shareMenu.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('button[data-act]') : null;
+    if (!b) return;
+    e.stopPropagation();
+    var act = b.getAttribute('data-act'), d = currentAyahData(), a = ar();
+    closeShareMenu();
+    if (!d.text) return;
+    if (act === 'copy') {
+      copyText(shareText(d)).then(function(){ toast(a ? '📋 تم نسخ الآية' : '📋 Ayah copied'); }, function(){ toast(a ? 'تعذّر النسخ' : 'Copy failed'); });
+    } else if (act === 'text') {
+      if (navigator.share) navigator.share({ text: shareText(d) }).catch(function(err){ if (!err || err.name !== 'AbortError') toast(a ? 'تعذّرت المشاركة' : 'Sharing failed'); });
+      else copyText(shareText(d)).then(function(){ toast(a ? '📋 المشاركة غير متاحة هنا — تم نسخ الآية' : '📋 Sharing unavailable — ayah copied'); }, function(){});
+    } else if (act === 'img') {
+      shareImage(d);
+    }
+  });
+  document.addEventListener('click', function(e){
+    if (!shareMenu.classList.contains('open')) return;
+    if (e.target.closest && (e.target.closest('#mabShareMenu') || e.target.closest('#mabShareBtn'))) return;
+    closeShareMenu();
+  });
+
   txt.addEventListener('click', function(e){
     if (!tapOn()) return;
     var sel = window.getSelection ? String(window.getSelection()) : '';
