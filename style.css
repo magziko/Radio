@@ -11708,15 +11708,37 @@ body.dark-mode #englishVerse .sync-extra.expanded { background: rgba(18, 28, 42,
   animation: syncAyahIn 0.2s ease both;
 }
 
-/* ===== زر وشاشة تحميل التطبيق (الفوتر) ===== */
-.dl-app-footer-btn{display:inline-block;padding:9px 22px;border:none;border-radius:999px;background:linear-gradient(135deg,#28a745,#1e8e3e);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);transition:transform .15s,box-shadow .15s}
-.dl-app-footer-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+/* ===== زر وشاشة تحميل التطبيق (الفوتر) — بألوان الثيم ===== */
+.dl-app-footer-btn{display:inline-block;padding:9px 22px;border:none;border-radius:999px;background:linear-gradient(135deg,var(--theme-c1),var(--theme-g2));color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(var(--theme-c1-rgb),.35);transition:transform .15s,box-shadow .15s}
+.dl-app-footer-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(var(--theme-c1-rgb),.45)}
 #appDlOverlay{display:none;position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px}
 #appDlOverlay.open{display:flex}
-#appDlCard{background:#fff;color:#1e2327;width:100%;max-width:360px;border-radius:16px;padding:20px 18px 16px;box-shadow:0 10px 40px rgba(0,0,0,.4);text-align:center}
-#appDlCard h3{margin:0 0 6px;font-size:18px}
+#appDlCard{background:#fff;color:#1e2327;width:100%;max-width:360px;border-radius:16px;padding:20px 18px 16px;box-shadow:0 10px 40px rgba(0,0,0,.4);text-align:center;border-top:4px solid var(--theme-c1)}
+#appDlCard h3{margin:0 0 6px;font-size:18px;color:var(--theme-g2)}
 #appDlCard p{margin:0 0 14px;font-size:13px;opacity:.75;line-height:1.7}
-#appDlCard button{display:block;width:100%;margin:8px 0 0;padding:11px 12px;border-radius:10px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;border:2px solid #28a745}
-#appDlPreview{background:#eafaf1;color:#1e6e34}
-#appDlDirect{background:#28a745;color:#fff}
+#appDlCard button{display:block;width:100%;margin:8px 0 0;padding:11px 12px;border-radius:10px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;border:2px solid var(--theme-c1)}
+#appDlPreview{background:rgba(var(--theme-c1-rgb),.1);color:var(--theme-g2)}
+#appDlDirect{background:linear-gradient(135deg,var(--theme-c1),var(--theme-g2));color:#fff}
 #appDlClose{background:transparent;color:inherit;border:none!important;font-weight:400!important;font-size:13px!important;opacity:.7}
+
+/* ===== رابط سياسة الخصوصية (الفوتر) ===== */
+.footer-privacy-link{display:inline-block;margin-top:8px;font-size:12px;color:inherit;opacity:.75;text-decoration:underline;text-underline-offset:3px}
+.footer-privacy-link:hover{opacity:1;color:var(--theme-c1)}
+
+/* ===== أنيميشن النوافذ المنبثقة (كانت <style> داخل نصوص JS؛ اتنقلت هنا) ===== */
+@keyframes geoConsentSlideIn{from{transform:translate(-50%,24px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+#geoConsentBanner{animation:geoConsentSlideIn .22s ease}
+@keyframes cpFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes cpSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+#cityPickerModal{animation:cpFadeIn .18s ease}
+#cityPickerModal>div{animation:cpSlideIn .22s ease}
+@keyframes ptFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes ptSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes qcFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes qcSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes zkFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes zkSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes khFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes khSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes listenStatsFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes listenStatsSlideIn{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
