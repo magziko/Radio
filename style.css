@@ -13539,8 +13539,10 @@ html.wstyle-arabesque body #downArrow svg { stroke: var(--ar-gold) !important; }
    خلفية الموقع في الشاشة الترحيبية (خيار من الإعدادات — html.wbg-site)
    عند التفعيل تأخذ الشاشة خلفية الموقع نفسها (لون أو صورة أو فيديو)
    مع طبقة تعتيم/تفتيح خفيفة للحفاظ على وضوح النص.
+   ملاحظة: الطبقة absolute (وليست fixed) داخل #welcomeScreen حتى لا تغطي فيديو/تعتيم
+   الخلفية أزرار المحطات أسفل الشاشة الترحيبية (لأن #welcomeScreen له z-index عالٍ).
    ═══════════════════════════════════════════════════════════════ */
-#welcomeSiteBg { position: fixed; inset: 0; z-index: -2; pointer-events: none; display: none; overflow: hidden; }
+#welcomeSiteBg { position: absolute; inset: 0; z-index: -2; pointer-events: none; display: none; overflow: hidden; }
 html.wbg-site #welcomeSiteBg { display: block; }
 #welcomeSiteBg video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
 html.wbg-video #welcomeSiteBg video { display: block; }
