@@ -18450,3 +18450,9 @@ html.worn-off.wstyle-arabesque #islamicPatternLayer { display: none !important; 
 #welcomeScreen[style*="display: none"]::after,
 #welcomeScreen[style*="display:none"]::before,
 #welcomeScreen[style*="display:none"]::after { display: none !important; }
+
+/* ── إصلاح (3): مع تفعيل «خلفية الموقع في الشاشة الترحيبية» تُخفى زخارف خلفية التصميم
+   (الأشعة، المسجد، الهلال، النجوم، النقوش) لتظهر خلفية الموقع نظيفة ── */
+html.wbg-site body #welcomeScreen::before,
+html.wbg-site body #welcomeScreen::after,
+html.wbg-site #islamicPatternLayer { display: none !important; }
