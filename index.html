@@ -299,8 +299,130 @@
 </script>
 
 <script>
-/* تصميم الشاشة الترحيبية: الكلاسيكي = بدون كلاس (الأساسي) | noor = «المحراب» | mushaf = «المصحف» | fajr = «الفجر» | bold = «الجريء» | player = «المشغّل» | editorial = «الصحيفة» | arabesque = «الأرابيسك» */
-(function(){ try { var _ws = localStorage.getItem('welcomeStyle'); if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial' || _ws === 'arabesque' || _ws === 'lantern' || _ws === 'kiswa') document.documentElement.classList.add('wstyle-' + _ws); } catch(e) {} })();
+/* تصميم الشاشة الترحيبية: الكلاسيكي = بدون كلاس (الأساسي) | noor = «المحراب» | mushaf = «المصحف» | fajr = «الفجر» | bold = «الجريء» | player = «المشغّل» | editorial = «الصحيفة» | arabesque = «الأرابيسك» | hijri = «رأس السنة الهجرية» | ashura = «عاشوراء» | mawlid = «المولد النبوي» | zellige = «الزليج» | khatt = «الخط العربي» | rain = «المطر» */
+(function(){ try {
+  /* ===== التاريخ الهجري (أم القرى) — نفس تقويم أيام الحج ===== */
+  function _wsHijri(d) {
+    try {
+      var q = (location.search.match(/[?&]hdate=(\d{1,2})-(\d{1,2})/) || []);   // معاينة: ?hdate=12-9
+      if (q[1]) return { y: 1448, m: +q[1], d: +q[2] };
+      var off = parseInt(localStorage.getItem('hijriOffset') || '0', 10) || 0;     // تصحيح يدوي ±1 يوم عند الحاجة
+      var dd = new Date(d.getTime() + off * 86400000), r = {};
+      new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'numeric', year: 'numeric' })
+        .formatToParts(dd).forEach(function(p) { if (p.type === 'day' || p.type === 'month' || p.type === 'year') r[p.type] = parseInt(p.value, 10); });
+      if (r.day && r.month && r.year) return { y: r.year, m: r.month, d: r.day };
+    } catch (e) {}
+    var gy = d.getFullYear(), gm = d.getMonth() + 1, gd = d.getDate();            // احتياطي: نفس معادلة إشعار المناسبات
+    var a = Math.floor((14 - gm) / 12), y = gy + 4800 - a, m = gm + 12 * a - 3;
+    var jdn = gd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+    var days = (jdn - 0.5) - 1948438.5, mt = Math.floor(days / 29.530589);
+    return { y: Math.floor(mt / 12) + 1, m: (mt % 12) + 1, d: Math.round(days - mt * 29.530589) + 1 };
+  }
+  /* الساعة بالدقائق (معاينة: ?hhour=20) */
+  function _wsClock() { var q = location.search.match(/[?&]hhour=(\d{1,2})/), n = new Date(); return q ? (+q[1]) * 60 : n.getHours() * 60 + n.getMinutes(); }
+  /* ===== مناسبة اللحظة → تصميمها ===== */
+  function _wsOccasion(h) {
+    var m = h.m, d = h.d, s = null;
+    if (m === 9) {                                                                  // ليالي القدر الوترية: من المغرب (18:00) حتى قبيل الفجر (05:00)
+      var hr = _wsClock() / 60, night = 0;
+      if (hr >= 18 && d >= 20 && d <= 28 && d % 2 === 0) night = d + 1;
+      else if (hr < 5 && d >= 21 && d <= 29 && d % 2 === 1) night = d;
+      if (night) return { style: 'qadr', tag: 'qadr@' + h.y + '-' + night, night: night };
+    }
+    if (m === 12 && d === 10) s = 'adha';                                           // يوم العيد
+    else if (m === 12 && ((d >= 1 && d <= 9) || (d >= 11 && d <= 13))) s = 'hajj';  // العشر + التروية + عرفة + التشريق
+    else if (m === 10 && d >= 1 && d <= 3) s = 'eid';                               // عيد الفطر
+    else if (m === 7 && d === 27) s = 'isra';                                       // الإسراء والمعراج
+    else if (m === 9) s = 'ramadan';                                                // رمضان
+    else if (m === 1 && d === 1) s = 'hijri';                                       // رأس السنة الهجرية
+    else if (m === 1 && d === 10) s = 'ashura';                                     // عاشوراء
+    else if (m === 3 && d === 12) s = 'mawlid';                                     // المولد النبوي
+    return s ? { style: s, tag: s + '@' + h.y } : null;
+  }
+  /* وقت اليوم لتصميم «الغروب»: day / sunset (المغرب→العشاء) / night — من كاش مواقيت الصلاة */
+  function _wsPhase() {
+    var t = { Fajr: '04:30', Maghrib: '18:00', Isha: '19:30' };
+    try {
+      var c = JSON.parse(localStorage.getItem('pwTimingsCacheV2') || '{}');
+      if (c && c.timings) ['Fajr', 'Maghrib', 'Isha'].forEach(function(k) { if (c.timings[k]) t[k] = String(c.timings[k]).split(' ')[0]; });
+    } catch (e) {}
+    function mm(s) { var p = s.split(':'); return (+p[0]) * 60 + (+p[1]); }
+    var n = _wsClock(), f = mm(t.Fajr), mg = mm(t.Maghrib), is = mm(t.Isha);
+    if (n >= mg && n < is) return 'sunset';
+    if (n >= is || n < f) return 'night';
+    return 'day';
+  }
+  /* خط «قتيبة» لتصميم «الخط العربي»: يُحمَّل عند الحاجة فقط */
+  window.wsLoadKhattFont = function() {
+    try { if (document.getElementById('wsKhattFont')) return; var l = document.createElement('link'); l.id = 'wsKhattFont'; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=Katibeh&family=Aref+Ruqaa:wght@400;700&display=swap'; document.head.appendChild(l); } catch (e) {}
+  };
+  window.wsHijriNow = function() { return _wsHijri(new Date()); };
+  window.wsOccasionToday = function() { return _wsOccasion(_wsHijri(new Date())); };
+  /* ===== تصاميم متعددة للمناسبة الواحدة: يُختار واحد منها عشوائيًا عند كل فتح (دون تكرار نفس التصميم مرتين متتاليتين) ===== */
+  var _WS_POOLS = { ramadan: ['ramadan', 'lantern'], hajj: ['hajj', 'kiswa'], adha: ['adha', 'kiswa'], 'phase-fajr': ['sabah', 'fajr', 'azkarday'], 'phase-asr': ['azkarday'], 'phase-maghrib': ['maghrib'] };
+  window.wsPool = function(k) { return _WS_POOLS[k] || [k]; };
+  window.wsPick = function(k) {
+    var p = window.wsPool(k), last = null;
+    try { last = localStorage.getItem('welcomeLastPick'); } catch (e) {}
+    var c = p.length > 1 ? p.filter(function(x) { return x !== last; }) : p;
+    var r = c[Math.floor(Math.random() * c.length)] || p[0];
+    try { localStorage.setItem('welcomeLastPick', r); } catch (e) {}
+    return r;
+  };
+  /* ===== تصاميم وقت اليوم: الفجر (من أذان الفجر حتى الشروق) والمغرب (من أذان المغرب حتى العشاء) — من كاش مواقيت الصلاة حسب موقع المستخدم (معاينة: ?hhour=5) ===== */
+  window.wsPhaseToday = function() {
+    try {
+      var c = JSON.parse(localStorage.getItem('pwTimingsCacheV2') || '{}');
+      if (!c || !c.timings || !c.date || !c.timings.Fajr || !c.timings.Maghrib || !c.timings.Isha) return null;      // بدون مواقيت حقيقية لا نخمّن
+      if (Date.now() - new Date(c.date + 'T00:00:00').getTime() > 8 * 86400000) return null;                         // كاش قديم: المواقيت تغيّرت مع الفصول
+      var g = function(k) { var p = String(c.timings[k]).split(' ')[0].split(':'); return (+p[0]) * 60 + (+p[1]); };
+      var fj = g('Fajr'), sr = c.timings.Sunrise ? g('Sunrise') : fj + 90, mg = g('Maghrib'), is = g('Isha');
+      var n = _wsClock(), d = new Date(), k = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      if (n >= fj && n < sr) return { style: 'phase-fajr', tag: 'fajr@' + k };
+      if (c.timings.Asr && n >= g('Asr') && n < mg) return { style: 'phase-asr', tag: 'asr@' + k };   // أذكار المساء: بعد العصر حتى المغرب
+      if (n >= mg && n < is) return { style: 'phase-maghrib', tag: 'maghrib@' + k };
+    } catch (e) {}
+    return null;
+  };
+  /* خصائص التصاميم الديناميكية: عنوان/تاريخ الحج، رقم ليلة القدر، وقت «الغروب» */
+  /* أذكار الصباح والمساء: data-azkar = morning (من الفجر حتى الظهر) أو evening (بقية اليوم)، و data-azkar-live = on داخل وقت الأذكار الفعلي (الفجر→الشروق، العصر→المغرب) */
+  window.wsAdhkarState = function() {
+    var t = { Fajr: 270, Sunrise: 360, Dhuhr: 720, Asr: 930, Maghrib: 1080 };
+    try {
+      var c = JSON.parse(localStorage.getItem('pwTimingsCacheV2') || '{}');
+      if (c && c.timings) Object.keys(t).forEach(function(k) { if (c.timings[k]) { var p = String(c.timings[k]).split(' ')[0].split(':'); t[k] = (+p[0]) * 60 + (+p[1]); } });
+    } catch (e) {}
+    var n = _wsClock();
+    return { mode: (n >= t.Fajr && n < t.Dhuhr) ? 'morning' : 'evening', live: (n >= t.Fajr && n < t.Sunrise) || (n >= t.Asr && n < t.Maghrib) };
+  };
+  window.wsApplyHajjAttrs = function() {
+    try {
+      var h = _wsHijri(new Date()), r = document.documentElement, k = null;
+      if (h.m === 12) { if (h.d >= 1 && h.d <= 7) k = 'ten'; else if (h.d === 8) k = 'tarwiyah'; else if (h.d === 9) k = 'arafah'; else if (h.d >= 11 && h.d <= 13) k = 'tashreeq'; }
+      if (k) { r.setAttribute('data-hajj-day', k); r.style.setProperty('--hj-date', '"' + h.d + ' ذو الحجة ' + h.y + ' هـ"'); }
+      else { r.removeAttribute('data-hajj-day'); r.style.removeProperty('--hj-date'); }
+      var oc = _wsOccasion(h);
+      if (oc && oc.night) r.style.setProperty('--qd-date', '"ليلة ' + oc.night + ' رمضان ' + h.y + ' هـ"'); else r.style.removeProperty('--qd-date');
+      r.setAttribute('data-dusk', _wsPhase());
+      var _ad = window.wsAdhkarState(); r.setAttribute('data-azkar', _ad.mode); if (_ad.live) r.setAttribute('data-azkar-live', 'on'); else r.removeAttribute('data-azkar-live');
+      var _mn = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+      r.style.setProperty('--ev-date', '"' + h.d + ' ' + _mn[h.m - 1] + ' ' + h.y + ' هـ"');   // تاريخ اليوم الهجري لشارة تصاميم المناسبات الجديدة
+    } catch (e) {}
+  };
+
+  var _ws = localStorage.getItem('welcomeStyle');
+  var _td = new Date(), _tk = _td.getFullYear() + '-' + (_td.getMonth() + 1) + '-' + _td.getDate();
+  var _fri = _td.getDay() === 5 && localStorage.getItem('welcomeFridayOverride') !== _tk;
+  var _oc = window.wsOccasionToday();
+  var _ocOn = _oc && localStorage.getItem('welcomeOccasionOverride') !== _oc.tag;
+  /* الأولوية: مناسبة اللحظة ← الجمعة ← وقت اليوم (الفجر/المغرب) ← اختيار المستخدم (رمضان أضعف من الجمعة) */
+  var _ph = window.wsPhaseToday();
+  var _phOn = _ph && !_oc && _td.getDay() !== 5 && localStorage.getItem('welcomePhaseOverride') !== _ph.tag;   // وقت اليوم يعمل في الأيام العادية فقط (لا يزاحم مناسبة ولا الجمعة)
+  if (_ocOn && !(_oc.style === 'ramadan' && _fri)) _ws = window.wsPick(_oc.style); else if (_fri) _ws = 'jumuah'; else if (_phOn) _ws = window.wsPick(_ph.style);
+  window.wsApplyHajjAttrs();
+  setInterval(window.wsApplyHajjAttrs, 300000);                                     // يتحدّث وقت «الغروب» والليلة لو الصفحة مفتوحة
+  if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial' || _ws === 'arabesque' || _ws === 'lantern' || _ws === 'kiswa' || _ws === 'ramadan' || _ws === 'eid' || _ws === 'adha' || _ws === 'isra' || _ws === 'sabah' || _ws === 'jumuah' || _ws === 'hajj' || _ws === 'qadr' || _ws === 'andalus' || _ws === 'maghrib' || _ws === 'hijri' || _ws === 'ashura' || _ws === 'mawlid' || _ws === 'zellige' || _ws === 'khatt' || _ws === 'rain' || _ws === 'sakina' || _ws === 'athkar' || _ws === 'tahajjud' || _ws === 'azkarday') { document.documentElement.classList.add('wstyle-' + _ws); if (_ws === 'khatt') window.wsLoadKhattFont(); }
+} catch(e) {} })();
 /* الزخارف الإسلامية الخفيفة في بقية التصاميم: تُوقَف بالقيمة off */
 (function(){ try { if (localStorage.getItem('welcomeOrnaments') === 'off') document.documentElement.classList.add('worn-off'); } catch(e) {} })();
 /* خلفية الموقع في الشاشة الترحيبية: تُفعَّل بالقيمة on */
@@ -3918,8 +4040,295 @@ setTimeout(autoScaleVerseFont, 100);
     <option data-ar="🐫 سراب صحراوي" data-en="🐫 Desert Mirage" value="desert-mirage" style="background-color:#9C6B2E; color:#fff;">🐫 سراب صحراوي</option>
     <option data-ar="🌌 سديم كوني" data-en="🌌 Cosmic Nebula" value="cosmic-nebula" style="background-color:#1E1B4B; color:#fff;">🌌 سديم كوني</option>
     <option data-ar="🌙 نعناع الشفق" data-en="🌙 Twilight Mint" value="twilight-mint" style="background-color:#0B1F33; color:#fff;">🌙 نعناع الشفق</option>
+    <option data-ar="🌅 أذكار الصباح" data-en="🌅 Morning Adhkar" value="adhkar-morning" style="background-color:#2F7F73; color:#fff;">🌅 أذكار الصباح</option>
+    <option data-ar="🌇 أذكار المساء" data-en="🌇 Evening Adhkar" value="adhkar-evening" style="background-color:#2A2250; color:#fff;">🌇 أذكار المساء</option>
     </optgroup>
       </select>
+<script>
+(function(){
+  var MEDIA_IMG={"clear-shore":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/ClearShore.jpg","beach-sunset":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/BeachSunset.jpg","tropical-island":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/TropicalIsland.jpg","coral-reef-world":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/CoralReef.jpg","heart-of-nature":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/HeartofNature.jpeg","forest-waterfall":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/ForestWaterfall.jpeg","rocky-shore":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/RockyShore.jpeg","sunny-meadow":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/SunnyMeadow.jpeg","kyoto-night":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/KyotoNight.jpeg","golden-sunset-field":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/background/GoldenSunsetField.jpeg","masjid-al-haram":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-01.webp","nabawi-dusk":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-02.webp","dome-of-rock":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-03.webp","kaaba":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-04.webp","nabawi-day":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-05.webp","al-quds":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-06.webp","nabawi-courtyard":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-07.webp","golden-quds":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-08.webp","islamic-mosaic":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-09.webp","prophetic-calligraphy":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-10.webp","nabawi-umbrellas":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-11.webp","night-quran":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-12.webp","emerald-cover":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-13.webp","green-dome":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-14.webp","mosque-arches":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-15.webp","blue-dome-ceiling":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-16.webp","verses-of-light":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-17.webp","madinah-nights":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-18.webp","minaret-sunset":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-19.webp","mosque-tranquility":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-20.webp","dome-and-roses":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-21.webp","dome-ornament":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-22.webp","cairo-minarets":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-23.webp","golden-mosque-hall":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-24.webp","istanbul-sunset":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-25.webp","quran-light":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/isl-26.webp","islamic-photo-1":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/i1.webp","islamic-photo-2":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/i2.jpg","islamic-photo-3":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/islamic/i3.jpg","misty-lake-dawn":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-01.webp","amber-lake-sunset":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-02.webp","sea-of-clouds":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-03.webp","misty-mountain-lake":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-04.webp","layered-mountains":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-05.webp","golden-ridge-sunrise":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-06.webp","dusty-mountain-dusk":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-07.webp","amber-mountain-lake":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-08.webp","lavender-lake-sunset":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-09.webp","palm-beach-sunset":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-10.webp","wildflower-highlands":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-11.webp","coastal-palm-sunset":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-12.webp","crashing-waves":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-13.webp","northern-lights":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-14.webp","poppy-field-sunset":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-15.webp","blossom-garden":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-16.webp","canyon-waterfall":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-17.webp","meadow-sunset-clouds":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-18.webp","clouds-and-sky":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-19.webp","limestone-lagoon":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-20.webp","rocky-cove-mist":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-21.webp","lone-tree-twilight":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-22.webp","sunlit-forest-path":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-23.webp","autumn-forest":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-24.webp","sunrays-forest":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-25.webp","forest-light-trail":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-26.webp","moonlit-sky":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-27.webp","coastal-blue-view":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-28.webp","sunset-ocean-clouds":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-29.webp","milky-way-night":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/nature/nat-30.webp"},MEDIA_VID={"video-1":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/1.mp4","video-2":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/2.mp4","video-3":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/3.mp4","video-4":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/4.mp4","video-5":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/5.mp4","video-6":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/6.mp4","video-7":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/7.mp4","video-8":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/8.mp4","video-9":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/9.mp4","video-10":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/10.mp4","video-11":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/11.mp4","video-12":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/12.mp4","video-13":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/13.mp4","video-14":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/14.mp4","video-15":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/15.mp4","video-16":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/vid/16.mp4","video-17":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/i%20v/1.mp4","video-18":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/i%20v/2.mp4","video-19":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/i%20v/3.mp4","video-20":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/i%20v/4.mp4","video-21":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/i%20v/5.mp4","video-22":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/i%20v/6.mp4","video-23":"https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/i%20v/7.mp4"};
+  function init(){
+    var sel=document.getElementById('siteTheme');
+    if(!sel||document.getElementById('siteThemePicker'))return;
+    var box=document.createElement('div');
+    box.id='siteThemePicker';box.setAttribute('role','radiogroup');
+    sel.parentNode.insertBefore(box,sel.nextSibling);
+    sel.classList.add('st-hidden');
+    var bar=document.createElement('div');bar.className='st-toolbar';
+    bar.innerHTML='<div class="st-row"><input type="search" class="st-search" autocomplete="off"><button type="button" class="st-rand"></button></div><div class="st-chips" role="tablist"></div>';
+    var content=document.createElement('div');content.className='st-content';
+    box.appendChild(bar);box.appendChild(content);
+    var search=bar.querySelector('.st-search'),rand=bar.querySelector('.st-rand'),chipsEl=bar.querySelector('.st-chips');
+
+    var state={filter:'all',q:''},items=[],visible=[],curGrid=null;
+    var favs=[];try{favs=JSON.parse(localStorage.getItem('siteThemeFavs')||'[]')||[];}catch(e){favs=[];}
+    function saveFavs(){try{localStorage.setItem('siteThemeFavs',JSON.stringify(favs));}catch(e){}}
+
+    /* ---------- labels ---------- */
+    var TX={all:['الكل','All'],color:['ألوان','Colors'],photo:['صور','Photos'],video:['فيديو','Video'],fav:['⭐ المفضلة','⭐ Favorites'],
+      search:['ابحث عن ثيم…','Search themes…'],rand:['🎲 عشوائي','🎲 Random'],cur:['✓ الحالي','✓ Current'],
+      none:['لا توجد نتائج','No results'],nofav:['اضغط ☆ على أي ثيم لإضافته للمفضلة','Tap ☆ on a theme to add it to favorites'],
+      star:['إضافة للمفضلة','Toggle favorite']};
+    function isEn(){var o=sel.querySelector('option[value="default"]');return !!(o&&o.getAttribute('data-en')&&o.textContent.trim()===o.getAttribute('data-en').trim());}
+    function T(k){return TX[k][isEn()?1:0];}
+    function setLabels(){
+      search.placeholder=T('search');rand.textContent=T('rand');
+      chipsEl.innerHTML='';
+      ['all','color','photo','video','fav'].forEach(function(k){
+        var c=document.createElement('button');c.type='button';c.className='st-chip'+(state.filter===k?' is-on':'');
+        c.setAttribute('data-f',k);c.textContent=T(k);chipsEl.appendChild(c);
+      });
+    }
+
+    /* ---------- helpers ---------- */
+    function mix(hex,p){
+      var m=/^#?([0-9a-f]{6})$/i.exec((hex||'').trim());if(!m)return hex||'#888';
+      var n=parseInt(m[1],16),r=n>>16,g=(n>>8)&255,b=n&255;
+      function f(c){return Math.round(c+(255-c)*p);}
+      return 'rgb('+f(r)+','+f(g)+','+f(b)+')';
+    }
+    function hexOf(o){var m=/background-color:\s*(#[0-9a-f]{6})/i.exec(o.getAttribute('style')||'');return m?m[1]:'#2E86C1';}
+    function split(t){
+      t=(t||'').trim();
+      var m=/^([^A-Za-z\u0600-\u06FF0-9]+)\s*(.*)$/.exec(t);
+      return m&&m[2]?{e:m[1].trim(),n:m[2]}:{e:'',n:t};
+    }
+    function cssBg(v){
+      try{
+        var cls='body.theme-'+v;
+        for(var i=0;i<document.styleSheets.length;i++){
+          var rules;try{rules=document.styleSheets[i].cssRules;}catch(e){continue;}
+          for(var j=0;j<rules.length;j++){
+            var r=rules[j];
+            if(r.selectorText===cls&&r.style&&r.style.backgroundImage){
+              var m=/url\(["']?(data:image[^"')]+|https?:[^"')]+)["']?\)/.exec(r.style.backgroundImage);
+              if(m)return m[1];
+            }
+          }
+        }
+      }catch(e){}
+      return '';
+    }
+
+    /* ---------- lazy thumbnails ---------- */
+    var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
+      es.forEach(function(en){if(!en.isIntersecting)return;io.unobserve(en.target);loadThumb(en.target);});
+    },{rootMargin:'120px'}):null;
+    function loadThumb(th){
+      if(th.getAttribute('data-done'))return;th.setAttribute('data-done','1');
+      var img=th.getAttribute('data-img'),vid=th.getAttribute('data-vid');
+      if(img){
+        var im=new Image();
+        im.onload=function(){th.style.backgroundImage='url("'+img.replace(/"/g,'%22')+'")';th.classList.add('st-loaded');};
+        im.src=img;
+      }else if(vid){
+        var v=document.createElement('video');
+        v.muted=true;v.defaultMuted=true;v.playsInline=true;v.preload='metadata';v.setAttribute('muted','');
+        v.onloadeddata=function(){th.classList.add('st-loaded');};
+        v.src=vid+'#t=1';th.insertBefore(v,th.firstChild);
+      }
+    }
+
+    /* ---------- data ---------- */
+    function add(o,g){
+      if(!o.value)return;
+      var p=split(o.textContent),style=o.getAttribute('style')||'';
+      var col=(/color:\s*(#[0-9a-f]{6})/i.exec(style.replace(/background-color:[^;]*;?/i,''))||[])[1]||'#fff';
+      var live=window.SITE_THEMES&&window.SITE_THEMES[o.value];
+      var vurl=(live&&live.video)||MEDIA_VID[o.value]||'',iurl=MEDIA_IMG[o.value]||'';
+      var isPhoto=!!iurl||!!(window.PHOTO_SHOWCASE_THEMES&&window.PHOTO_SHOWCASE_THEMES.indexOf(o.value)!==-1);
+      items.push({v:o.value,g:g,e:p.e,n:p.n,c:hexOf(o),col:col,vurl:vurl,iurl:iurl,
+        type:vurl?'video':(isPhoto?'photo':'color'),
+        s:((o.getAttribute('data-ar')||'')+' '+(o.getAttribute('data-en')||'')+' '+o.value+' '+o.textContent).toLowerCase()});
+    }
+    function collect(){
+      items=[];
+      Array.prototype.forEach.call(sel.children,function(ch){
+        if(ch.tagName==='OPTGROUP'){Array.prototype.forEach.call(ch.querySelectorAll('option'),function(o){add(o,ch.label);});}
+        else if(ch.tagName==='OPTION')add(ch,'');
+      });
+    }
+    function byValue(v){for(var i=0;i<items.length;i++)if(items[i].v===v)return items[i];return null;}
+
+    /* ---------- cards ---------- */
+    function card(it){
+      var b=document.createElement('button');
+      b.type='button';b.className='ws-opt';b.setAttribute('data-theme',it.v);
+      b.setAttribute('role','radio');b.setAttribute('aria-checked','false');
+      var th=document.createElement('span');th.className='st-thumb';th.setAttribute('aria-hidden','true');
+      th.style.backgroundImage='linear-gradient(135deg,'+it.c+','+mix(it.c,0.35)+')';th.style.color=it.col;
+      th.innerHTML='<b></b><i></i><i></i><em></em>';th.lastChild.textContent=it.e;
+      var img=it.iurl||(it.type==='photo'?cssBg(it.v):'');
+      if(it.vurl){th.setAttribute('data-vid',it.vurl);th.classList.add('st-media','st-video');}
+      else if(img){th.setAttribute('data-img',img);th.classList.add('st-media');}
+      var nm=document.createElement('span');nm.className='ws-opt-name';nm.textContent=it.n;
+      var st=document.createElement('span');st.className='st-fav';st.setAttribute('role','button');
+      st.setAttribute('aria-label',T('star'));st.title=T('star');
+      st.textContent=favs.indexOf(it.v)!==-1?'★':'☆';
+      if(favs.indexOf(it.v)!==-1)st.classList.add('on');
+      b.appendChild(th);b.appendChild(nm);b.appendChild(st);
+      return b;
+    }
+    function section(title,list){
+      if(title){var h=document.createElement('div');h.className='st-group-head';h.textContent=title;content.appendChild(h);}
+      var grid=document.createElement('div');grid.className='ws-picker';content.appendChild(grid);
+      list.forEach(function(it){grid.appendChild(card(it));});
+      return grid;
+    }
+
+    /* ---------- state: committed vs previewing ---------- */
+    var previewing=null,committed='';
+    function curTheme(){return previewing?committed:sel.value;}
+
+    function render(){
+      var keep=box.scrollTop;
+      content.innerHTML='';curGrid=null;
+      var q=state.q.trim().toLowerCase(),f=state.filter;
+      var list=items.filter(function(it){
+        if(f==='fav')return favs.indexOf(it.v)!==-1&&(!q||it.s.indexOf(q)!==-1);
+        if(f!=='all'&&it.type!==f)return false;
+        return !q||it.s.indexOf(q)!==-1;
+      });
+      visible=list;
+      if(!list.length){
+        var n=document.createElement('div');n.className='st-empty';
+        n.textContent=(f==='fav'&&!q)?T('nofav'):T('none');content.appendChild(n);return;
+      }
+      if(f==='all'&&!q){
+        var ci=byValue(curTheme());
+        if(ci)curGrid=section(T('cur'),[ci]);
+        var fl=favs.map(byValue).filter(Boolean);
+        if(fl.length)section(T('fav'),fl);
+      }
+      var order=[],map={};
+      list.forEach(function(it){var g=it.g||'';if(!map[g]){map[g]=[];order.push(g);}map[g].push(it);});
+      order.forEach(function(g){section(g,map[g]);});
+      Array.prototype.forEach.call(content.querySelectorAll('.st-media'),function(th){if(io)io.observe(th);else loadThumb(th);});
+      mark();
+      box.scrollTop=keep;
+    }
+    function mark(){
+      var cur=curTheme();
+      if(curGrid&&curGrid.firstChild&&curGrid.firstChild.getAttribute('data-theme')!==cur){
+        var ci=byValue(cur);
+        if(ci){curGrid.innerHTML='';curGrid.appendChild(card(ci));
+          Array.prototype.forEach.call(curGrid.querySelectorAll('.st-media'),function(th){if(io)io.observe(th);else loadThumb(th);});}
+      }
+      Array.prototype.forEach.call(content.querySelectorAll('.ws-opt'),function(b){
+        var on=b.getAttribute('data-theme')===cur;
+        b.classList.toggle('is-active',on);b.setAttribute('aria-checked',on?'true':'false');
+        b.classList.toggle('is-preview',!!previewing&&b.getAttribute('data-theme')===previewing);
+      });
+    }
+    function build(){collect();setLabels();render();}
+
+    /* ---------- commit / preview ---------- */
+    var hoverT=null,revertT=null,pressT=null,suppressUntil=0,lastTouch=0;
+    function commit(v){
+      clearTimeout(hoverT);clearTimeout(revertT);clearTimeout(pressT);
+      previewing=null;
+      sel.value=v;
+      if(typeof changeSiteTheme==='function')changeSiteTheme();else sel.dispatchEvent(new Event('change'));
+      mark();
+    }
+    function preview(v){
+      if(previewing===v)return;
+      if(!previewing)committed=sel.value||localStorage.getItem('siteTheme')||'default';
+      previewing=v;
+      try{if(typeof cancelThemeShowcase==='function')cancelThemeShowcase();applySiteTheme(v,false);}catch(e){}
+      mark();
+    }
+    function endPreview(){
+      if(!previewing)return;
+      var c=committed;previewing=null;
+      try{applySiteTheme(c,false);}catch(e){}
+      mark();
+    }
+    function cardOf(t){return t&&t.closest?t.closest('.ws-opt'):null;}
+
+    content.addEventListener('click',function(e){
+      if(Date.now()<suppressUntil){e.preventDefault();return;}
+      var star=e.target.closest&&e.target.closest('.st-fav');
+      var b=cardOf(e.target);if(!b)return;
+      var v=b.getAttribute('data-theme');
+      if(star){
+        e.stopPropagation();
+        var i=favs.indexOf(v);if(i===-1)favs.push(v);else favs.splice(i,1);
+        saveFavs();render();return;
+      }
+      commit(v);
+    });
+    // mouse: hover preview
+    var canHover=window.matchMedia&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if(canHover){
+      content.addEventListener('mouseover',function(e){
+        var b=cardOf(e.target);if(!b||e.target.closest('.st-fav'))return;
+        clearTimeout(revertT);clearTimeout(hoverT);
+        var v=b.getAttribute('data-theme');
+        hoverT=setTimeout(function(){preview(v);},previewing?60:350);
+      });
+      content.addEventListener('mouseout',function(e){
+        var b=cardOf(e.target);if(!b)return;
+        if(b.contains(e.relatedTarget))return;
+        clearTimeout(hoverT);clearTimeout(revertT);
+        revertT=setTimeout(endPreview,140);
+      });
+      box.addEventListener('mouseleave',function(){clearTimeout(hoverT);clearTimeout(revertT);endPreview();});
+    }
+    // touch: long-press preview
+    content.addEventListener('pointerdown',function(e){
+      if(e.pointerType!=='touch')return;
+      lastTouch=Date.now();
+      var b=cardOf(e.target);if(!b||e.target.closest('.st-fav'))return;
+      var v=b.getAttribute('data-theme');
+      clearTimeout(pressT);
+      pressT=setTimeout(function(){preview(v);suppressUntil=Date.now()+60000;},450);
+    });
+    function endPress(e){
+      if(e&&e.pointerType&&e.pointerType!=='touch')return;
+      clearTimeout(pressT);
+      if(previewing){suppressUntil=Date.now()+400;endPreview();}
+      else suppressUntil=0;
+    }
+    content.addEventListener('pointerup',endPress);
+    content.addEventListener('pointercancel',endPress);
+    content.addEventListener('contextmenu',function(e){if(Date.now()-lastTouch<1500)e.preventDefault();});
+
+    /* ---------- toolbar ---------- */
+    var sT=null;
+    search.addEventListener('input',function(){clearTimeout(sT);sT=setTimeout(function(){state.q=search.value;render();},150);});
+    chipsEl.addEventListener('click',function(e){
+      var c=e.target.closest&&e.target.closest('.st-chip');if(!c)return;
+      state.filter=c.getAttribute('data-f');
+      Array.prototype.forEach.call(chipsEl.children,function(x){x.classList.toggle('is-on',x===c);});
+      render();
+    });
+    rand.addEventListener('click',function(){
+      var cur=curTheme();
+      var pool=visible.filter(function(x){return x.v!==cur;});
+      if(!pool.length)return;
+      var pick=pool[Math.floor(Math.random()*pool.length)].v;
+      commit(pick);
+      var els=content.querySelectorAll('.ws-opt[data-theme="'+pick+'"]');
+      var el=els[els.length-1];
+      if(el&&el.scrollIntoView)el.scrollIntoView({block:'nearest',behavior:'smooth'});
+    });
+
+    build();
+    // keep in sync when the site applies a theme programmatically (auto-rotate, dark mode, showcase)
+    var orig=window.applySiteTheme;
+    if(typeof orig==='function'&&!orig.__stWrapped){
+      var w=function(){var r=orig.apply(this,arguments);try{if(!previewing)mark();}catch(e){}return r;};
+      w.__stWrapped=true;window.applySiteTheme=w;
+    }
+    // rebuild when option/group labels are re-translated
+    var t=null;
+    new MutationObserver(function(){clearTimeout(t);t=setTimeout(build,60);}).observe(sel,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['label']});
+    window.addEventListener('load',function(){setTimeout(mark,300);});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
     </div>
     <div class="color-setting-item" id="settings-fontsize-item" data-stab="look" style="min-width:150px;">
       <label for="fontSizeSlider" data-ar="🔠 حجم الخط" data-en="🔠 Font Size" data-fr="🔠 Taille de police" data-es="🔠 Tamaño de fuente" data-sv="🔠 Textstorlek" data-nl="🔠 Lettergrootte" data-ga="🔠 Méid an Chló" data-de="🔠 Schriftgröße" data-ru="🔠 Размер шрифта" data-tr="🔠 Yazı Boyutu" data-pt="🔠 Tamanho da fonte" data-zh="🔠 字体大小" data-ur="🔠 فونٹ سائز">🔠 حجم الخط</label>
@@ -4093,6 +4502,198 @@ setTimeout(autoScaleVerseFont, 100);
       <input type="checkbox" id="welcomeFallbackToggle" class="wtb-switch" onchange="toggleWelcomeFallbackSetting()">
     </div>
     <script>(function(){var _cb=document.getElementById('welcomeFallbackToggle');if(_cb){_cb.checked=(localStorage.getItem('welcomeAutoFallback')!=='false');}})();</script>
+    <div id="settings-wscolormode-item" data-stab="welcome" class="color-setting-item">
+      <label for="wsColorMode" id="wsColorModeLabel" data-ar="🎨 ألوان الشاشة الترحيبية" data-en="🎨 Welcome screen colors">🎨 ألوان الشاشة الترحيبية</label>
+      <select id="wsColorMode" class="responsive-select">
+        <option value="independent" data-ar="مستقلة (الافتراضي)" data-en="Independent (default)">مستقلة (الافتراضي)</option>
+        <option value="tint" data-ar="الترحيبية تتبع ثيم الموقع" data-en="Welcome follows site theme">الترحيبية تتبع ثيم الموقع</option>
+        <option value="site" data-ar="الموقع يتبع الترحيبية" data-en="Site follows welcome screen">الموقع يتبع الترحيبية</option>
+      </select>
+      <input type="checkbox" id="wsFollowSiteToggle" style="display:none" tabindex="-1" aria-hidden="true">
+      <input type="checkbox" id="siteFollowWsToggle" style="display:none" tabindex="-1" aria-hidden="true">
+    </div>
+<script>
+(function(){
+  function init(){
+    var m=document.getElementById('wsColorMode'),c1=document.getElementById('wsFollowSiteToggle'),c2=document.getElementById('siteFollowWsToggle'),
+        body=document.getElementById('wsTintBody'),sel=document.getElementById('siteTheme');
+    if(!m||!c1||!c2)return;
+    function cur(){return c1.checked?'tint':(c2.checked?'site':'independent');}
+    function fire(el){el.dispatchEvent(new Event('change'));}
+    function showBody(mode){if(body)body.style.display=mode==='tint'?'flex':'none';}
+    // initial state comes from the stored flags (the other scripts set the checkboxes)
+    m.value=(function(){
+      try{if(localStorage.getItem('wsFollowSite')==='true')return 'tint';if(localStorage.getItem('siteFollowWs')==='true')return 'site';}catch(e){}
+      return 'independent';
+    })();
+    showBody(m.value);
+    m.addEventListener('change',function(){
+      var v=m.value;
+      if(v==='independent'){
+        if(c1.checked){c1.checked=false;fire(c1);}
+        if(c2.checked){c2.checked=false;fire(c2);}
+      }else if(v==='tint'){
+        if(c2.checked){c2.checked=false;fire(c2);}
+        if(!c1.checked){c1.checked=true;fire(c1);}
+      }else{
+        if(c1.checked){c1.checked=false;fire(c1);}
+        if(!c2.checked){c2.checked=true;fire(c2);}
+      }
+      showBody(v);
+    });
+    function labels(){
+      var o=sel&&sel.querySelector('option[value="default"]');
+      var en=!!(o&&o.getAttribute('data-en')&&o.textContent.trim()===o.getAttribute('data-en').trim());
+      var a=en?'data-en':'data-ar',l=document.getElementById('wsColorModeLabel');
+      if(l)l.textContent=l.getAttribute(a);
+      Array.prototype.forEach.call(m.options,function(op){op.textContent=op.getAttribute(a);});
+    }
+    labels();
+    if(sel)new MutationObserver(labels).observe(sel,{childList:true,subtree:true,characterData:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+    <div id="settings-wstintextra-item" data-stab="welcome" class="welcome-toggle-btn" style="flex-direction:column;align-items:stretch;gap:8px;">
+      <div id="wsTintBody" style="display:none;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <label for="wsTintStrength" id="wsTintStrLabel" class="wtb-text" data-ar="🎚️ شدة التلوين" data-en="🎚️ Tint strength">🎚️ شدة التلوين</label>
+          <input type="range" id="wsTintStrength" min="0" max="100" step="5" value="60" style="flex:1;min-width:0;cursor:pointer;">
+          <span id="wsTintStrVal" style="min-width:42px;text-align:center;font-weight:700;">60%</span>
+        </div>
+        <details id="wsTintExcl">
+          <summary id="wsTintExclLabel" class="wtb-text" style="cursor:pointer;" data-ar="🚫 تصاميم مستثناة من التلوين" data-en="🚫 Designs excluded from tinting">🚫 تصاميم مستثناة من التلوين</summary>
+          <div id="wsTintExclList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px 10px;margin-top:8px;"></div>
+        </details>
+      </div>
+    </div>
+<script>
+(function(){
+  var KS='wsTintStrength',KE='wsTintExclude',root=document.documentElement;
+  var DEF_EXCL=['ramadan','eid','adha','hajj','hijri','ashura','isra','mawlid','qadr','mushaf','fajr'];
+  function tintOn(){try{return localStorage.getItem('wsFollowSite')==='true';}catch(e){return false;}}
+  function getStr(){var v=NaN;try{v=parseInt(localStorage.getItem(KS),10);}catch(e){}return isNaN(v)?60:Math.max(0,Math.min(100,v));}
+  function getEx(){
+    try{var raw=localStorage.getItem(KE);if(raw!==null){var a=JSON.parse(raw);if(Array.isArray(a))return a;}}catch(e){}
+    return DEF_EXCL.slice();
+  }
+  function saveEx(a){try{localStorage.setItem(KE,JSON.stringify(a));}catch(e){}}
+  function curStyle(){var m=/(?:^|\s)wstyle-([\w-]+)/.exec(root.className);return m?m[1]:'classic';}
+  function apply(){
+    root.style.setProperty('--ws-tint-op',(getStr()/100).toString());
+    var off=getEx().indexOf(curStyle())!==-1;
+    if(root.classList.contains('ws-tint-off')!==off)root.classList.toggle('ws-tint-off',off);
+  }
+  apply();
+  function init(){
+    var body=document.getElementById('wsTintBody'),rng=document.getElementById('wsTintStrength'),val=document.getElementById('wsTintStrVal'),
+        list=document.getElementById('wsTintExclList'),c1=document.getElementById('wsFollowSiteToggle'),sel=document.getElementById('siteTheme');
+    if(!body||!rng||!list)return;
+    function isEn(){var o=sel&&sel.querySelector('option[value="default"]');return !!(o&&o.getAttribute('data-en')&&o.textContent.trim()===o.getAttribute('data-en').trim());}
+    function showBody(){body.style.display=tintOn()?'flex':'none';}
+    rng.value=getStr();val.textContent=rng.value+'%';
+    rng.addEventListener('input',function(){
+      try{localStorage.setItem(KS,rng.value);}catch(e){}
+      val.textContent=rng.value+'%';apply();
+    });
+    function buildList(){
+      var ex=getEx(),en=isEn();list.innerHTML='';
+      var seen={};
+      Array.prototype.forEach.call(document.querySelectorAll('#welcomeStylePicker .ws-opt[data-style]'),function(b){
+        var key=b.getAttribute('data-style');if(seen[key])return;seen[key]=1;
+        var nm=b.querySelector('.ws-opt-name');
+        var name=nm?(nm.getAttribute(en?'data-en':'data-ar')||nm.textContent).trim():key;
+        var lab=document.createElement('label');
+        lab.style.cssText='display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;';
+        var cb=document.createElement('input');cb.type='checkbox';cb.checked=ex.indexOf(key)!==-1;
+        cb.addEventListener('change',function(){
+          var a=getEx(),i=a.indexOf(key);
+          if(cb.checked&&i===-1)a.push(key);else if(!cb.checked&&i!==-1)a.splice(i,1);
+          saveEx(a);apply();
+        });
+        var sp=document.createElement('span');sp.textContent=name;
+        lab.appendChild(cb);lab.appendChild(sp);list.appendChild(lab);
+      });
+    }
+    function labels(){
+      var en=isEn();
+      ['wsTintStrLabel','wsTintExclLabel'].forEach(function(id){var l=document.getElementById(id);if(l)l.textContent=l.getAttribute(en?'data-en':'data-ar');});
+      buildList();
+    }
+    labels();showBody();
+    if(c1)c1.addEventListener('change',showBody);
+    // welcome design changes (manual / occasion / time of day) -> re-evaluate exclusion
+    new MutationObserver(apply).observe(root,{attributes:true,attributeFilter:['class']});
+    if(sel)new MutationObserver(function(){setTimeout(labels,80);}).observe(sel,{childList:true,subtree:true,characterData:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+<script>
+(function(){
+  var ACC={"adha":"#f6dc9a","andalus":"#f6d98a","arabesque":"#efd890","ashura":"#2a6fb0","athkar":"#e4b862","azkarday":"#e0a94e","bold":"#ffd23f","editorial":"#ff5a3c","eid":"#f6d365","fajr":"#f4a261","hajj":"#f6d98a","hijri":"#f6d98a","isra":"#8b7cff","jumuah":"#f6d98a","khatt":"#f3dd9f","kiswa":"#f3dc8a","lantern":"#ffb84a","maghrib":"#ffc98a","mawlid":"#f6d98a","mushaf":"#b08d3e","noor":"#e7c675","player":"#5b7cfa","qadr":"#d4a73a","rain":"#8fbbe8","ramadan":"#ffc857","sabah":"#f6d98a","sakina":"#8fd0aa","tahajjud":"#9aa4f0","zellige":"#2a6fb0"};
+  var K1='wsFollowSite',K2='siteFollowWs',root=document.documentElement,lastApplied='';
+  function on(k){try{return localStorage.getItem(k)==='true';}catch(e){return false;}}
+  function put(k,v){try{localStorage.setItem(k,v?'true':'false');}catch(e){}}
+  function rgb(h){var m=/^#?([0-9a-f]{6})$/i.exec(h||'');if(!m)return null;var n=parseInt(m[1],16);return [n>>16,(n>>8)&255,n&255];}
+  function curStyle(){var m=/(?:^|\s)wstyle-([\w-]+)/.exec(root.className);return m?m[1]:'';}
+  function nearest(hex){
+    var t=rgb(hex),S=window.SITE_THEMES||{},best=null,bd=1e9;if(!t)return null;
+    Object.keys(S).forEach(function(k){
+      var p=S[k];if(!p||p.video||k==='dark')return;
+      if(window.PHOTO_SHOWCASE_THEMES&&window.PHOTO_SHOWCASE_THEMES.indexOf(k)!==-1)return;
+      var c=rgb(p.btn);if(!c)return;
+      var d=Math.pow(c[0]-t[0],2)+Math.pow(c[1]-t[1],2)+Math.pow(c[2]-t[2],2);
+      if(d<bd){bd=d;best=k;}
+    });
+    return best;
+  }
+  function applyTint(){root.classList.toggle('ws-follow-site',on(K1));}
+  function syncSite(){
+    if(!on(K2))return;
+    var st=curStyle();if(!st||!ACC[st])return;
+    var th=(st==='azkarday')?(root.getAttribute('data-azkar')==='evening'?'adhkar-evening':'adhkar-morning'):nearest(ACC[st]);if(!th||th===lastApplied)return;
+    lastApplied=th;
+    try{if(typeof cancelThemeShowcase==='function')cancelThemeShowcase();applySiteTheme(th,false);}catch(e){}
+  }
+  applyTint();
+  function init(){
+    var c1=document.getElementById('wsFollowSiteToggle'),c2=document.getElementById('siteFollowWsToggle');
+    if(!c1||!c2)return;
+    c1.checked=on(K1);c2.checked=on(K2);
+    c1.addEventListener('change',function(){
+      put(K1,c1.checked);
+      if(c1.checked&&c2.checked){c2.checked=false;put(K2,false);revert();}
+      applyTint();
+    });
+    c2.addEventListener('change',function(){
+      put(K2,c2.checked);
+      if(c2.checked){if(c1.checked){c1.checked=false;put(K1,false);applyTint();}lastApplied='';syncSite();}
+      else revert();
+    });
+    function revert(){
+      lastApplied='';
+      try{applySiteTheme(localStorage.getItem('siteTheme')||'default',false);}catch(e){}
+    }
+    // react whenever the welcome design changes (manual pick, occasion, time of day)
+    new MutationObserver(function(){setTimeout(syncSite,50);}).observe(root,{attributes:true,attributeFilter:['class','data-azkar']});
+    window.addEventListener('load',function(){setTimeout(syncSite,700);setTimeout(syncSite,2500);});
+    setTimeout(syncSite,300);
+    // labels follow the site language
+    var sel=document.getElementById('siteTheme');
+    function labels(){
+      var o=sel&&sel.querySelector('option[value="default"]');
+      var en=!!(o&&o.getAttribute('data-en')&&o.textContent.trim()===o.getAttribute('data-en').trim());
+      ['wsFollowSiteLabel','siteFollowWsLabel'].forEach(function(id){
+        var l=document.getElementById(id);if(l)l.textContent=l.getAttribute(en?'data-en':'data-ar');
+      });
+    }
+    labels();
+    if(sel)new MutationObserver(labels).observe(sel,{childList:true,subtree:true,characterData:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
     <div class="gset-head" id="gset-h-wstyle" role="heading" aria-level="3"><span class="stab-i18n" data-ar="🎨 تصميم الشاشة الترحيبية" data-en="🎨 Welcome Design">🎨 تصميم الشاشة الترحيبية</span></div>
     <div id="welcomeStylePicker" data-stab="welcome" class="ws-picker" role="radiogroup" aria-label="Welcome screen design">
       <button type="button" class="ws-opt is-active" data-style="classic" role="radio" aria-checked="true" onclick="setWelcomeStyle('classic')">
@@ -4113,7 +4714,7 @@ setTimeout(autoScaleVerseFont, 100);
       <button type="button" class="ws-opt" data-style="fajr" role="radio" aria-checked="false" onclick="setWelcomeStyle('fajr')">
         <span class="ws-thumb ws-thumb--fajr" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
         <span class="ws-opt-name stab-i18n" data-ar="الفجر (جديد)" data-en="Dawn (New)">الفجر (جديد)</span>
-        <span class="ws-opt-desc stab-i18n" data-ar="سماء الفجر والآية بدون إطار" data-en="Dawn sky and a frameless verse">سماء الفجر والآية بدون إطار</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="سماء الفجر والآية بدون إطار، ويفتح تلقائيًا من أذان الفجر حتى الشروق (يتبدّل عشوائيًا مع «صباح الفجر»)" data-en="Dawn sky and a frameless verse; opens automatically from Fajr until sunrise (random with “Fajr Morning”)">سماء الفجر والآية بدون إطار، ويفتح تلقائيًا من أذان الفجر حتى الشروق (يتبدّل عشوائيًا مع «صباح الفجر»)</span>
       </button>
       <button type="button" class="ws-opt" data-style="bold" role="radio" aria-checked="false" onclick="setWelcomeStyle('bold')">
         <span class="ws-thumb ws-thumb--bold" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
@@ -4138,27 +4739,260 @@ setTimeout(autoScaleVerseFont, 100);
       <button type="button" class="ws-opt" data-style="lantern" role="radio" aria-checked="false" onclick="setWelcomeStyle('lantern')">
         <span class="ws-thumb ws-thumb--lantern" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
         <span class="ws-opt-name stab-i18n" data-ar="الفانوس (جديد)" data-en="Lantern (New)">الفانوس (جديد)</span>
-        <span class="ws-opt-desc stab-i18n" data-ar="ليل رمضاني بفوانيس متدلية وإضاءة دافئة وبطاقة آية على هيئة محراب مقوّس" data-en="Ramadan night with hanging lanterns, warm glow and an arched mihrab verse card">ليل رمضاني بفوانيس متدلية وإضاءة دافئة وبطاقة آية على هيئة محراب مقوّس</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل رمضاني بفوانيس متدلية وإضاءة دافئة وبطاقة آية على هيئة محراب مقوّس، ويظهر عشوائيًا مع «رمضان» طوال شهر رمضان" data-en="Ramadan night with hanging lanterns, warm glow and an arched mihrab verse card; shown at random with “Ramadan” throughout the month">ليل رمضاني بفوانيس متدلية وإضاءة دافئة وبطاقة آية على هيئة محراب مقوّس، ويظهر عشوائيًا مع «رمضان» طوال شهر رمضان</span>
       </button>
       <button type="button" class="ws-opt" data-style="kiswa" role="radio" aria-checked="false" onclick="setWelcomeStyle('kiswa')">
         <span class="ws-thumb ws-thumb--kiswa" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
         <span class="ws-opt-name stab-i18n" data-ar="الكسوة (جديد)" data-en="Kiswa (New)">الكسوة (جديد)</span>
-        <span class="ws-opt-desc stab-i18n" data-ar="أسود مخملي بحزام ذهبي مطرّز وإطار ذهبي مزدوج" data-en="Black velvet with an embroidered golden belt and a double gold frame">أسود مخملي بحزام ذهبي مطرّز وإطار ذهبي مزدوج</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="أسود مخملي بحزام ذهبي مطرّز وإطار ذهبي مزدوج، ويظهر عشوائيًا في موسم الحج ويوم عيد الأضحى" data-en="Black velvet with an embroidered golden belt and a double gold frame; shown at random during Hajj season and Eid al-Adha">أسود مخملي بحزام ذهبي مطرّز وإطار ذهبي مزدوج، ويظهر عشوائيًا في موسم الحج ويوم عيد الأضحى</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="ramadan" role="radio" aria-checked="false" onclick="setWelcomeStyle('ramadan')">
+        <span class="ws-thumb ws-thumb--ramadan" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="رمضان (جديد)" data-en="Ramadan (New)">رمضان (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل رمضاني بهلال كبير وأفق مآذن وقباب وزينة هلالية وتهنئة «رمضان كريم»" data-en="Ramadan night with a large crescent, a skyline of minarets and domes, crescent garlands and a Ramadan Kareem greeting">ليل رمضاني بهلال كبير وأفق مآذن وقباب وزينة هلالية وتهنئة «رمضان كريم»</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="eid" role="radio" aria-checked="false" onclick="setWelcomeStyle('eid')">
+        <span class="ws-thumb ws-thumb--eid" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="عيد الفطر (جديد)" data-en="Eid al-Fitr (New)">عيد الفطر (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="بالونات وقصاصات ملوّنة وزينة احتفالية وتهنئة «عيد مبارك» بألوان بهيجة" data-en="Balloons, colorful confetti, festive garlands and an Eid Mubarak greeting in joyful colors">بالونات وقصاصات ملوّنة وزينة احتفالية وتهنئة «عيد مبارك» بألوان بهيجة</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="adha" role="radio" aria-checked="false" onclick="setWelcomeStyle('adha')">
+        <span class="ws-thumb ws-thumb--adha" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="عيد الأضحى (جديد)" data-en="Eid al-Adha (New)">عيد الأضحى (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="غروب صحراوي بكثبان رملية وكعبة مشرّفة وأشعة شمس دافئة وتهنئة «عيد أضحى مبارك»" data-en="A desert sunset with sand dunes, the Kaaba, warm sun rays and an Eid Adha Mubarak greeting">غروب صحراوي بكثبان رملية وكعبة مشرّفة وأشعة شمس دافئة وتهنئة «عيد أضحى مبارك»</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="isra" role="radio" aria-checked="false" onclick="setWelcomeStyle('isra')">
+        <span class="ws-thumb ws-thumb--isra" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الإسراء والمعراج (جديد)" data-en="Isra and Mi'raj (New)">الإسراء والمعراج (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="سماء كونية مرصّعة بالنجوم وشهب عابرة وشعاع نور يعلو قبة الصخرة وإطار مثمّن للآية" data-en="A cosmic starry sky, shooting stars, a beam of light above the Dome of the Rock and an octagonal verse frame">سماء كونية مرصّعة بالنجوم وشهب عابرة وشعاع نور يعلو قبة الصخرة وإطار مثمّن للآية</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="sabah" role="radio" aria-checked="false" onclick="setWelcomeStyle('sabah')">
+        <span class="ws-thumb ws-thumb--sabah" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="صباح الفجر (جديد)" data-en="Fajr Morning (New)">صباح الفجر (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="فجر هادئ ومسجد بنوافذ مضيئة ودلّة قهوة عربية وفناجين يتصاعد بخارها وبطاقة آية بإطار سجّادة، ويفتح تلقائيًا من أذان الفجر حتى الشروق (يتبدّل عشوائيًا مع «الفجر»)" data-en="A calm dawn, a mosque with lit windows, an Arabic coffee dallah with steaming cups and a prayer-rug verse card; opens automatically from Fajr until sunrise (random with “Dawn”)">فجر هادئ ومسجد بنوافذ مضيئة ودلّة قهوة عربية وفناجين يتصاعد بخارها وبطاقة آية بإطار سجّادة، ويفتح تلقائيًا من أذان الفجر حتى الشروق (يتبدّل عشوائيًا مع «الفجر»)</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="jumuah" role="radio" aria-checked="false" onclick="setWelcomeStyle('jumuah')">
+        <span class="ws-thumb ws-thumb--jumuah" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الجمعة (جديد)" data-en="Friday (New)">الجمعة (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="نور أبيض وأخضر وذهبي بأشعة شمس ومسجد وهلال، ويفتح تلقائيًا كل يوم جمعة" data-en="White, emerald and gold light with sun rays, a mosque and a crescent; opens automatically every Friday">نور أبيض وأخضر وذهبي بأشعة شمس ومسجد وهلال، ويفتح تلقائيًا كل يوم جمعة</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="hajj" role="radio" aria-checked="false" onclick="setWelcomeStyle('hajj')">
+        <span class="ws-thumb ws-thumb--hajj" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الحج (جديد)" data-en="Hajj (New)">الحج (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل المشاعر بكعبة مشرّفة وحلقتين تطوفان حول الشعار وعنوان يتغيّر مع أيام الحج (العشر والتروية وعرفة والتشريق)، ويفتح تلقائيًا في موسم الحج" data-en="A night at the holy sites with the Kaaba, two rings circling the logo and a title that follows the Hajj days (first ten days, Tarwiyah, Arafah, Tashreeq); opens automatically in Hajj season">ليل المشاعر بكعبة مشرّفة وحلقتين تطوفان حول الشعار وعنوان يتغيّر مع أيام الحج (العشر والتروية وعرفة والتشريق)، ويفتح تلقائيًا في موسم الحج</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="qadr" role="radio" aria-checked="false" onclick="setWelcomeStyle('qadr')">
+        <span class="ws-thumb ws-thumb--qadr" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="ليلة القدر (جديد)" data-en="Laylat al-Qadr (New)">ليلة القدر (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="سماء ليلية بنجوم وشعاع نور نازل وهالة نابضة حول الشعار وهلال، ويفتح تلقائيًا في ليالي رمضان الوترية من المغرب إلى الفجر" data-en="A starry night sky with a descending beam of light, a pulsing halo around the logo and a crescent; opens automatically on the odd nights of Ramadan from Maghrib until dawn">سماء ليلية بنجوم وشعاع نور نازل وهالة نابضة حول الشعار وهلال، ويفتح تلقائيًا في ليالي رمضان الوترية من المغرب إلى الفجر</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="andalus" role="radio" aria-checked="false" onclick="setWelcomeStyle('andalus')">
+        <span class="ws-thumb ws-thumb--andalus" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الأندلس (جديد)" data-en="Andalusia (New)">الأندلس (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="جصّ كريمي وفيروزي وذهب بنجمة ثمانية تدور حول الشعار ورواق أقواس ونقش «لا غالب إلا الله»" data-en="Cream stucco, turquoise and gold with an eight-point star circling the logo, an arcade of arches and the «La ghalib illa Allah» inscription">جصّ كريمي وفيروزي وذهب بنجمة ثمانية تدور حول الشعار ورواق أقواس ونقش «لا غالب إلا الله»</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="maghrib" role="radio" aria-checked="false" onclick="setWelcomeStyle('maghrib')">
+        <span class="ws-thumb ws-thumb--maghrib" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الغروب (جديد)" data-en="Sunset (New)">الغروب (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="سماء تتبدّل مع وقت الصلاة: نهار هادئ ثم غروب ثم ليل بقمر ونجوم، وبحر وشمس أسفل الصفحة، ويفتح تلقائيًا من أذان المغرب حتى العشاء" data-en="A sky that follows prayer times: calm day, sunset, then a night with moon and stars, with a sea and sun at the bottom; opens automatically from Maghrib until Isha">سماء تتبدّل مع وقت الصلاة: نهار هادئ ثم غروب ثم ليل بقمر ونجوم، وبحر وشمس أسفل الصفحة، ويفتح تلقائيًا من أذان المغرب حتى العشاء</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="hijri" role="radio" aria-checked="false" onclick="setWelcomeStyle('hijri')">
+        <span class="ws-thumb ws-thumb--hijri" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="رأس السنة الهجرية (جديد)" data-en="Hijri New Year (New)">رأس السنة الهجرية (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="قافلة الهجرة بالجمال على كثبان رملية تحت قمر ونجمة، ويفتح تلقائيًا في 1 محرم" data-en="The Hijra caravan of camels over sand dunes under a moon and star; opens automatically on 1 Muharram">قافلة الهجرة بالجمال على كثبان رملية تحت قمر ونجمة، ويفتح تلقائيًا في 1 محرم</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="ashura" role="radio" aria-checked="false" onclick="setWelcomeStyle('ashura')">
+        <span class="ws-thumb ws-thumb--ashura" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="عاشوراء (جديد)" data-en="Ashura (New)">عاشوراء (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="بحر هادئ بفضة وأزرق تحت قمر فضي وفكرة الصيام والشكر، ويفتح تلقائيًا في 10 محرم" data-en="A calm silver-and-blue sea under a silver moon, with the theme of fasting and gratitude; opens automatically on 10 Muharram">بحر هادئ بفضة وأزرق تحت قمر فضي وفكرة الصيام والشكر، ويفتح تلقائيًا في 10 محرم</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="mawlid" role="radio" aria-checked="false" onclick="setWelcomeStyle('mawlid')">
+        <span class="ws-thumb ws-thumb--mawlid" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="المولد النبوي (جديد)" data-en="Mawlid (New)">المولد النبوي (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="القبة الخضراء بأخضر وذهبي مع الصلاة على النبي ﷺ، ويفتح تلقائيًا في 12 ربيع الأول" data-en="The Green Dome in green and gold with salutations upon the Prophet ﷺ; opens automatically on 12 Rabi al-Awwal">القبة الخضراء بأخضر وذهبي مع الصلاة على النبي ﷺ، ويفتح تلقائيًا في 12 ربيع الأول</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="zellige" role="radio" aria-checked="false" onclick="setWelcomeStyle('zellige')">
+        <span class="ws-thumb ws-thumb--zellige" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الزليج (جديد)" data-en="Zellige (New)">الزليج (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="بلاط هندسي تركواز وأزرق كوبالت بنجوم ثمانية، زخرفة خالصة بلا مبانٍ" data-en="Geometric turquoise and cobalt-blue tiles with eight-point stars, pure ornament with no buildings">بلاط هندسي تركواز وأزرق كوبالت بنجوم ثمانية، زخرفة خالصة بلا مبانٍ</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="khatt" role="radio" aria-checked="false" onclick="setWelcomeStyle('khatt')">
+        <span class="ws-thumb ws-thumb--khatt" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الخط العربي (جديد)" data-en="Calligraphy (New)">الخط العربي (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="آية واحدة كبيرة بخط الثلث على ورق أو حبر (الوضع الليلي)، وتصميم بسيط جدًا" data-en="One large verse in Thuluth-style calligraphy on paper, or ink in dark mode; very minimal">آية واحدة كبيرة بخط الثلث على ورق أو حبر (الوضع الليلي)، وتصميم بسيط جدًا</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="rain" role="radio" aria-checked="false" onclick="setWelcomeStyle('rain')">
+        <span class="ws-thumb ws-thumb--rain" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="المطر (جديد)" data-en="Rain (New)">المطر (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="شباك عليه قطرات وغيم وليل هادئ ودعاء نزول المطر" data-en="A window with raindrops, clouds, a calm night and the prayer for rain">شباك عليه قطرات وغيم وليل هادئ ودعاء نزول المطر</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="sakina" role="radio" aria-checked="false" onclick="setWelcomeStyle('sakina')">
+        <span class="ws-thumb ws-thumb--sakina" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="السكينة (جديد)" data-en="Tranquility (New)">السكينة (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="طمأنينة هادئة بدوائر خضراء ناعمة وآية «أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ»" data-en="Calm sage circles and the verse “In the remembrance of Allah do hearts find rest”">طمأنينة هادئة بدوائر خضراء ناعمة وآية «أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ»</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="athkar" role="radio" aria-checked="false" onclick="setWelcomeStyle('athkar')">
+        <span class="ws-thumb ws-thumb--athkar" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الأذكار (جديد)" data-en="Adhkar (New)">الأذكار (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="سبحة ذهبية متحرّكة على جانبي الشاشة بلون رمل دافئ وآية «فَاذْكُرُونِي أَذْكُرْكُمْ»" data-en="Moving golden tasbih beads on warm sand, with the verse “Remember Me and I will remember you”">سبحة ذهبية متحرّكة على جانبي الشاشة بلون رمل دافئ وآية «فَاذْكُرُونِي أَذْكُرْكُمْ»</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="azkarday" role="radio" aria-checked="false" onclick="setWelcomeStyle('azkarday')">
+        <span class="ws-thumb ws-thumb--azkarday" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="أذكار الصباح والمساء (جديد)" data-en="Morning &amp; Evening Adhkar (New)">أذكار الصباح والمساء (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="يتبدّل تلقائيًا: فجر مشرق بعد الفجر وشفق دافئ بعد العصر، مع شارة «الآن وقت الأذكار»" data-en="Switches automatically: bright dawn after Fajr, warm dusk after Asr, with a “Adhkar time now” badge">يتبدّل تلقائيًا: فجر مشرق بعد الفجر وشفق دافئ بعد العصر، مع شارة «الآن وقت الأذكار»</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="tahajjud" role="radio" aria-checked="false" onclick="setWelcomeStyle('tahajjud')">
+        <span class="ws-thumb ws-thumb--tahajjud" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="قيام الليل (جديد)" data-en="Night Prayer (New)">قيام الليل (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل عميق بنجوم متلألئة وهلال ذهبي وآية «وَمِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ»" data-en="Deep night with twinkling stars, a golden crescent and the verse about night prayer">ليل عميق بنجوم متلألئة وهلال ذهبي وآية «وَمِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ»</span>
       </button>
     </div>
     <script>
     (function(){
-      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold', 'player', 'editorial', 'arabesque', 'lantern', 'kiswa'];
+      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold', 'player', 'editorial', 'arabesque', 'lantern', 'kiswa', 'ramadan', 'eid', 'adha', 'isra', 'sabah', 'jumuah', 'hajj', 'qadr', 'andalus', 'maghrib', 'hijri', 'ashura', 'mawlid', 'zellige', 'khatt', 'rain', 'sakina', 'athkar', 'tahajjud', 'azkarday'];
+      /* ===== درج «المزيد»: نعرض أول WS_VISIBLE تصاميم، والباقي داخل درج سفلي ===== */
+      var WS_VISIBLE = 6;
+      var WS_GROUPS = [
+        { ar: '🎨 الأساسية والفنية', en: '🎨 Core & Artistic', ids: ['classic', 'noor', 'mushaf', 'bold', 'player', 'editorial', 'arabesque', 'zellige', 'khatt', 'andalus', 'rain', 'sakina', 'athkar'] },
+        { ar: '🌙 المناسبات والمواسم', en: '🌙 Occasions & Seasons', ids: ['lantern', 'kiswa', 'ramadan', 'eid', 'adha', 'isra', 'jumuah', 'hajj', 'qadr', 'hijri', 'ashura', 'mawlid'] },
+        { ar: '⏰ أوقات اليوم', en: '⏰ Times of Day', ids: ['fajr', 'sabah', 'azkarday', 'maghrib', 'tahajjud'] }
+      ];
+      var wsGrid = document.getElementById('welcomeStylePicker');
+      var wsBtns = {}, wsOrder = [];
+      Array.prototype.forEach.call(wsGrid.querySelectorAll('.ws-opt'), function(b) {
+        var id = b.getAttribute('data-style'); wsBtns[id] = b; wsOrder.push(id);
+      });
+      function wsIsAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
+      function wsMk(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+      function wsI18n(tag, cls, ar, en) {
+        var e = wsMk(tag, (cls ? cls + ' ' : '') + 'stab-i18n');
+        e.setAttribute('data-ar', ar); e.setAttribute('data-en', en);
+        e.textContent = wsIsAr() ? ar : en;
+        return e;
+      }
+      function wsSetI18n(e, ar, en) { e.setAttribute('data-ar', ar); e.setAttribute('data-en', en); e.textContent = wsIsAr() ? ar : en; }
+
+      // بطاقة «المزيد» داخل الشبكة
+      var wsMoreBtn = wsMk('button', 'ws-more');
+      wsMoreBtn.type = 'button'; wsMoreBtn.id = 'wsMoreBtn';
+      wsMoreBtn.setAttribute('aria-haspopup', 'dialog'); wsMoreBtn.setAttribute('aria-expanded', 'false');
+      var wsMoreIco = wsMk('span', 'ws-more-ico', '⋯'); wsMoreIco.setAttribute('aria-hidden', 'true');
+      var wsMoreName = wsI18n('span', 'ws-more-name', 'المزيد', 'More');
+      var wsMoreDesc = wsI18n('span', 'ws-more-desc', 'المناسبات وأوقات اليوم والتصاميم الفنية', 'Occasions, times of day and artistic designs');
+      wsMoreBtn.appendChild(wsMoreIco); wsMoreBtn.appendChild(wsMoreName); wsMoreBtn.appendChild(wsMoreDesc);
+
+      // الدرج السفلي
+      var wsSheet = wsMk('div'); wsSheet.id = 'wsSheet';
+      wsSheet.setAttribute('role', 'dialog'); wsSheet.setAttribute('aria-modal', 'true'); wsSheet.setAttribute('aria-labelledby', 'wsSheetTitle');
+      var wsBackdrop = wsMk('div', 'ws-sheet-backdrop');
+      var wsPanel = wsMk('div', 'ws-sheet-panel');
+      var wsTop = wsMk('div', 'ws-sheet-top');
+      var wsGrab = wsMk('div', 'ws-sheet-grab'); wsGrab.setAttribute('aria-hidden', 'true');
+      var wsHead = wsMk('div', 'ws-sheet-head');
+      var wsTitle = wsI18n('h3', 'ws-sheet-title', '🎨 كل التصاميم', '🎨 All Designs'); wsTitle.id = 'wsSheetTitle';
+      var wsCloseBtn = wsMk('button', 'ws-sheet-close', '✕'); wsCloseBtn.type = 'button'; wsCloseBtn.setAttribute('aria-label', 'Close');
+      var wsBody = wsMk('div', 'ws-sheet-body');
+      wsHead.appendChild(wsTitle); wsHead.appendChild(wsCloseBtn);
+      wsTop.appendChild(wsGrab); wsTop.appendChild(wsHead);
+      wsPanel.appendChild(wsTop); wsPanel.appendChild(wsBody);
+      wsSheet.appendChild(wsBackdrop); wsSheet.appendChild(wsPanel);
+      document.body.appendChild(wsSheet);
+
+      function wsKey(e) { if (e.key === 'Escape') { e.stopPropagation(); wsClose(); } }
+      function wsOpen() {
+        wsSheet.classList.add('is-open');
+        wsMoreBtn.setAttribute('aria-expanded', 'true');
+        wsBody.scrollTop = 0;
+        document.addEventListener('keydown', wsKey, true);
+        try { wsCloseBtn.focus({ preventScroll: true }); } catch (e) {}
+      }
+      function wsClose() {
+        if (!wsSheet.classList.contains('is-open')) return;
+        wsSheet.classList.remove('is-open');
+        wsPanel.style.transform = '';
+        wsMoreBtn.setAttribute('aria-expanded', 'false');
+        document.removeEventListener('keydown', wsKey, true);
+        try { wsMoreBtn.focus({ preventScroll: true }); } catch (e) {}
+      }
+      wsMoreBtn.addEventListener('click', wsOpen);
+      wsCloseBtn.addEventListener('click', wsClose);
+      wsBackdrop.addEventListener('click', wsClose);
+
+      // سحب الدرج لأسفل للإغلاق
+      var wsDrag = null;
+      wsTop.addEventListener('pointerdown', function(e) {
+        if (e.target.closest && e.target.closest('.ws-sheet-close')) return;
+        wsDrag = { y: e.clientY, dy: 0, t: Date.now() };
+        try { wsTop.setPointerCapture(e.pointerId); } catch (_) {}
+        wsPanel.style.transition = 'none';
+      });
+      wsTop.addEventListener('pointermove', function(e) {
+        if (!wsDrag) return;
+        wsDrag.dy = Math.max(0, e.clientY - wsDrag.y);
+        wsPanel.style.transform = 'translate(-50%,' + wsDrag.dy + 'px)';
+      });
+      function wsEndDrag() {
+        if (!wsDrag) return;
+        var d = wsDrag; wsDrag = null;
+        wsPanel.style.transition = '';
+        if (d.dy > 90 || (d.dy > 40 && Date.now() - d.t < 250)) wsClose(); else wsPanel.style.transform = '';
+      }
+      wsTop.addEventListener('pointerup', wsEndDrag);
+      wsTop.addEventListener('pointercancel', wsEndDrag);
+
+      // توزيع التصاميم: أول WS_VISIBLE بالترتيب (والمفعّل دائمًا ظاهر) في الشبكة، والباقي في الدرج مجمّعًا
+      function wsLayout(active) {
+        var vis = wsOrder.slice(0, WS_VISIBLE);
+        if (wsBtns[active] && vis.indexOf(active) === -1) vis[WS_VISIBLE - 1] = active;
+        vis.forEach(function(id) { wsGrid.appendChild(wsBtns[id]); });
+        wsGrid.appendChild(wsMoreBtn);
+        while (wsBody.firstChild) wsBody.removeChild(wsBody.firstChild);
+        var rest = wsOrder.filter(function(id) { return vis.indexOf(id) === -1; });
+        var placed = [];
+        function addGroup(ar, en, ids) {
+          if (!ids.length) return;
+          wsBody.appendChild(wsI18n('div', 'ws-sheet-group', ar, en));
+          var g = wsMk('div', 'ws-picker'); g.setAttribute('role', 'radiogroup'); g.setAttribute('aria-label', en);
+          ids.forEach(function(id) { g.appendChild(wsBtns[id]); placed.push(id); });
+          wsBody.appendChild(g);
+        }
+        WS_GROUPS.forEach(function(g) {
+          addGroup(g.ar, g.en, g.ids.filter(function(id) { return rest.indexOf(id) !== -1; }));
+        });
+        addGroup('✨ أخرى', '✨ Other', rest.filter(function(id) { return placed.indexOf(id) === -1; }));
+        wsSetI18n(wsMoreName, 'المزيد (' + rest.length + ')', 'More (' + rest.length + ')');
+      }
+
+
       function sync(s) {
-        document.querySelectorAll('#welcomeStylePicker .ws-opt').forEach(function(b) {
+        document.querySelectorAll('#welcomeStylePicker .ws-opt, #wsSheet .ws-opt').forEach(function(b) {
           var on = b.getAttribute('data-style') === s;
           b.classList.toggle('is-active', on);
           b.setAttribute('aria-checked', on ? 'true' : 'false');
         });
+        wsLayout(s);
       }
       window.setWelcomeStyle = function(s) {
         if (STYLES.indexOf(s) === -1) s = 'classic';
         try { localStorage.setItem('welcomeStyle', s); } catch (e) {}
+        // يوم الجمعة يفتح التصميم الخاص تلقائيًا؛ لو اختار المستخدم تصميمًا آخر نحترم اختياره لباقي اليوم فقط
+        try {
+          var _d = new Date(), _k = _d.getFullYear() + '-' + (_d.getMonth() + 1) + '-' + _d.getDate();
+          if (_d.getDay() === 5) { if (s === 'jumuah') localStorage.removeItem('welcomeFridayOverride'); else localStorage.setItem('welcomeFridayOverride', _k); }
+        } catch (e) {}
+        // مناسبة اليوم (رمضان/العيدين/الحج/الإسراء) تفتح تلقائيًا؛ لو اختار المستخدم غيرها نحترم اختياره لباقي الموسم
+        try {
+          var _o = (typeof window.wsOccasionToday === 'function') ? window.wsOccasionToday() : null;
+          if (_o) {
+            if ((typeof window.wsPool === 'function' ? window.wsPool(_o.style) : [_o.style]).indexOf(s) > -1) localStorage.removeItem('welcomeOccasionOverride');
+            else if (!(s === 'jumuah' && _o.style === 'ramadan')) localStorage.setItem('welcomeOccasionOverride', _o.tag);
+          }
+        } catch (e) {}
+        // تصميم وقت اليوم (الفجر/المغرب): لو اختار المستخدم غيره نحترم اختياره حتى نهاية نفس الفترة
+        try {
+          var _p = (typeof window.wsPhaseToday === 'function') ? window.wsPhaseToday() : null;
+          if (_p) { if (window.wsPool(_p.style).indexOf(s) > -1) localStorage.removeItem('welcomePhaseOverride'); else localStorage.setItem('welcomePhaseOverride', _p.tag); }
+        } catch (e) {}
         // الكلاسيكي = إزالة الكلاس بالكامل فيرجع التصميم الأساسي كما هو
         document.documentElement.classList.toggle('wstyle-noor', s === 'noor');
         document.documentElement.classList.toggle('wstyle-mushaf', s === 'mushaf');
@@ -4169,6 +5003,28 @@ setTimeout(autoScaleVerseFont, 100);
         document.documentElement.classList.toggle('wstyle-arabesque', s === 'arabesque');
         document.documentElement.classList.toggle('wstyle-lantern', s === 'lantern');
         document.documentElement.classList.toggle('wstyle-kiswa', s === 'kiswa');
+        document.documentElement.classList.toggle('wstyle-ramadan', s === 'ramadan');
+        document.documentElement.classList.toggle('wstyle-eid', s === 'eid');
+        document.documentElement.classList.toggle('wstyle-adha', s === 'adha');
+        document.documentElement.classList.toggle('wstyle-isra', s === 'isra');
+        document.documentElement.classList.toggle('wstyle-sabah', s === 'sabah');
+        document.documentElement.classList.toggle('wstyle-jumuah', s === 'jumuah');
+        document.documentElement.classList.toggle('wstyle-hajj', s === 'hajj');
+        document.documentElement.classList.toggle('wstyle-qadr', s === 'qadr');
+        document.documentElement.classList.toggle('wstyle-andalus', s === 'andalus');
+        document.documentElement.classList.toggle('wstyle-maghrib', s === 'maghrib');
+        document.documentElement.classList.toggle('wstyle-hijri', s === 'hijri');
+        document.documentElement.classList.toggle('wstyle-ashura', s === 'ashura');
+        document.documentElement.classList.toggle('wstyle-mawlid', s === 'mawlid');
+        document.documentElement.classList.toggle('wstyle-zellige', s === 'zellige');
+        document.documentElement.classList.toggle('wstyle-khatt', s === 'khatt');
+        document.documentElement.classList.toggle('wstyle-rain', s === 'rain');
+        document.documentElement.classList.toggle('wstyle-sakina', s === 'sakina');
+        document.documentElement.classList.toggle('wstyle-athkar', s === 'athkar');
+        document.documentElement.classList.toggle('wstyle-tahajjud', s === 'tahajjud');
+        document.documentElement.classList.toggle('wstyle-azkarday', s === 'azkarday');
+        if (s === 'khatt' && typeof window.wsLoadKhattFont === 'function') window.wsLoadKhattFont();
+        try { if (typeof window.wsApplyHajjAttrs === 'function') window.wsApplyHajjAttrs(); } catch (e) {}
         sync(s);
         if (typeof showToast === 'function') {
           var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
@@ -4181,6 +5037,26 @@ setTimeout(autoScaleVerseFont, 100);
                                   : s === 'arabesque' ? (ar ? '🎨 تم تفعيل تصميم «الأرابيسك»' : '🎨 Arabesque design enabled')
                                   : s === 'lantern' ? (ar ? '🎨 تم تفعيل تصميم «الفانوس»' : '🎨 Lantern design enabled')
                                   : s === 'kiswa' ? (ar ? '🎨 تم تفعيل تصميم «الكسوة»' : '🎨 Kiswa design enabled')
+                                  : s === 'ramadan' ? (ar ? '🌙 تم تفعيل تصميم «رمضان»' : '🌙 Ramadan design enabled')
+                                  : s === 'eid' ? (ar ? '🎉 تم تفعيل تصميم «عيد الفطر»' : '🎉 Eid al-Fitr design enabled')
+                                  : s === 'adha' ? (ar ? '🕋 تم تفعيل تصميم «عيد الأضحى»' : '🕋 Eid al-Adha design enabled')
+                                  : s === 'isra' ? (ar ? '✨ تم تفعيل تصميم «الإسراء والمعراج»' : '✨ Isra and Mi\'raj design enabled')
+                                  : s === 'sabah' ? (ar ? '☕ تم تفعيل تصميم «صباح الفجر»' : '☕ Fajr Morning design enabled')
+                                  : s === 'jumuah' ? (ar ? '🕌 تم تفعيل تصميم «الجمعة»' : '🕌 Friday design enabled')
+                                  : s === 'hajj' ? (ar ? '🕋 تم تفعيل تصميم «الحج»' : '🕋 Hajj design enabled')
+                                  : s === 'qadr' ? (ar ? '🌌 تم تفعيل تصميم «ليلة القدر»' : '🌌 Laylat al-Qadr design enabled')
+                                  : s === 'andalus' ? (ar ? '🏰 تم تفعيل تصميم «الأندلس»' : '🏰 Andalusia design enabled')
+                                  : s === 'maghrib' ? (ar ? '🌅 تم تفعيل تصميم «الغروب»' : '🌅 Sunset design enabled')
+                                  : s === 'hijri' ? (ar ? '🐪 تم تفعيل تصميم «رأس السنة الهجرية»' : '🐪 Hijri New Year design enabled')
+                                  : s === 'ashura' ? (ar ? '🌊 تم تفعيل تصميم «عاشوراء»' : '🌊 Ashura design enabled')
+                                  : s === 'mawlid' ? (ar ? '🕌 تم تفعيل تصميم «المولد النبوي»' : '🕌 Mawlid design enabled')
+                                  : s === 'zellige' ? (ar ? '🔷 تم تفعيل تصميم «الزليج»' : '🔷 Zellige design enabled')
+                                  : s === 'khatt' ? (ar ? '✒️ تم تفعيل تصميم «الخط العربي»' : '✒️ Calligraphy design enabled')
+                                  : s === 'rain' ? (ar ? '🌧️ تم تفعيل تصميم «المطر»' : '🌧️ Rain design enabled')
+                                  : s === 'sakina' ? (ar ? '🌿 تم تفعيل تصميم «السكينة»' : '🌿 Tranquility design enabled')
+                                  : s === 'athkar' ? (ar ? '📿 تم تفعيل تصميم «الأذكار»' : '📿 Adhkar design enabled')
+                                  : s === 'azkarday' ? (ar ? '🌅 تم تفعيل تصميم «أذكار الصباح والمساء»' : '🌅 Morning & Evening Adhkar design enabled')
+                                  : s === 'tahajjud' ? (ar ? '🌙 تم تفعيل تصميم «قيام الليل»' : '🌙 Night Prayer design enabled')
                                  : (ar ? '🎨 تم الرجوع للتصميم الكلاسيكي' : '🎨 Classic design restored'));
         }
         // إعادة ضبط حجم الآية على الشكل الجديد (لو الشاشة الترحيبية ظاهرة)
@@ -4189,8 +5065,11 @@ setTimeout(autoScaleVerseFont, 100);
           try { if (typeof window._syncRelayout === 'function') window._syncRelayout(); } catch (e) {}
         }, 60);
       };
+      var _wsOrigSet = window.setWelcomeStyle;
+      window.setWelcomeStyle = function(s) { _wsOrigSet(s); wsClose(); };
       var saved = 'classic';
       try { saved = localStorage.getItem('welcomeStyle') || 'classic'; } catch (e) {}
+      STYLES.forEach(function(x) { if (x !== 'classic' && document.documentElement.classList.contains('wstyle-' + x)) saved = x; });  // التصميم الفعلي (يشمل تصميم المناسبة التلقائي)
       sync(STYLES.indexOf(saved) === -1 ? 'classic' : saved);
       // تصميم «المشغّل»: إيقاف دوران الأسطوانة وموجات الصوت عند الإيقاف المؤقت
       (function() {
@@ -22676,7 +23555,7 @@ function _refreshSettingsTabLabels() {
   document.querySelectorAll('#settings-tabs .settings-tab-btn').forEach(function(b) {
     b.textContent = ar ? b.getAttribute('data-ar') : b.getAttribute('data-en');
   });
-  document.querySelectorAll('#settings-panel .stab-i18n').forEach(function(el) {
+  document.querySelectorAll('#settings-panel .stab-i18n, #wsSheet .stab-i18n').forEach(function(el) {
     el.textContent = ar ? el.getAttribute('data-ar') : el.getAttribute('data-en');
   });
   var fi = document.getElementById('settings-find-input');
@@ -24838,6 +25717,8 @@ var SITE_THEMES = {
   'ocean-sunset':   { btn: '#2E86DE', cls: 'theme-ocean-sunset' },
   'berry-bliss':    { btn: '#E754A0', cls: 'theme-berry-bliss' },
   'golden-dusk':    { btn: '#F0B429', cls: 'theme-golden-dusk' },
+  'adhkar-morning': { btn: '#E0A94E', cls: 'theme-adhkar-morning' },
+  'adhkar-evening': { btn: '#E0875A', cls: 'theme-adhkar-evening' },
   'northern-pine':  { btn: '#3FAE5C', cls: 'theme-northern-pine' },
   'makkah-dawn':    { btn: '#8A8578', cls: 'theme-makkah-dawn' },
   'madinah-night':  { btn: '#2F4A3E', cls: 'theme-madinah-night' },
@@ -24953,7 +25834,7 @@ var SITE_THEMES = {
   'video-22': { btn: '#4A6B9E', cls: 'theme-video-22', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/i%20v/6.mp4' },
   'video-23': { btn: '#B0542E', cls: 'theme-video-23', video: 'https://cdn.jsdelivr.net/gh/magziko/Radio-media@main/i%20v/7.mp4' },
 };
-var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate', 'theme-lavender', 'theme-teal', 'theme-rose', 'theme-terracotta', 'theme-ruby', 'theme-indigo', 'theme-olive', 'theme-coral', 'theme-turquoise', 'theme-burgundy', 'theme-mustard', 'theme-charcoal', 'theme-palestine', 'theme-egypt', 'theme-saudi', 'theme-sunset-desert', 'theme-deep-ocean', 'theme-ottoman-gold', 'theme-ramadan-nights', 'theme-copper-bronze', 'theme-deep-forest', 'theme-rose-gold', 'theme-mint', 'theme-navy', 'theme-plum', 'theme-sunny', 'theme-silver', 'theme-vivid-orange', 'theme-royal-emerald', 'theme-soft-pink', 'theme-glacier-cyan', 'theme-coffee-brown', 'theme-warm-sand', 'theme-aubergine', 'theme-jade', 'theme-crimson', 'theme-deep-cerulean', 'theme-autumn-maple', 'theme-onyx-black', 'theme-citrus-lime', 'theme-classic-beige', 'theme-cobalt', 'theme-soft-gold', 'theme-moss', 'theme-snow-white', 'theme-aurora', 'theme-ocean-sunset', 'theme-berry-bliss', 'theme-golden-dusk', 'theme-northern-pine', 'theme-makkah-dawn', 'theme-madinah-night', 'theme-peach-blush', 'theme-neon-cyber', 'theme-frost-peak', 'theme-sapphire-dusk', 'theme-rosewood-ember', 'theme-emerald-horizon', 'theme-midnight-violet', 'theme-coral-reef', 'theme-volcanic-ash', 'theme-lagoon-breeze', 'theme-cherry-blossom', 'theme-desert-mirage', 'theme-cosmic-nebula', 'theme-twilight-mint', 'theme-tropical-beach', 'theme-clear-shore', 'theme-beach-sunset', 'theme-tropical-island', 'theme-coral-reef-world', 'theme-heart-of-nature', 'theme-forest-waterfall', 'theme-rocky-shore', 'theme-sunny-meadow', 'theme-kyoto-night', 'theme-golden-sunset-field', 'theme-masjid-al-haram', 'theme-nabawi-dusk', 'theme-dome-of-rock', 'theme-kaaba', 'theme-nabawi-day', 'theme-al-quds', 'theme-nabawi-courtyard', 'theme-golden-quds', 'theme-islamic-mosaic', 'theme-prophetic-calligraphy', 'theme-nabawi-umbrellas', 'theme-night-quran', 'theme-emerald-cover', 'theme-green-dome', 'theme-mosque-arches', 'theme-blue-dome-ceiling', 'theme-verses-of-light', 'theme-madinah-nights', 'theme-minaret-sunset', 'theme-mosque-tranquility', 'theme-dome-and-roses', 'theme-dome-ornament', 'theme-cairo-minarets', 'theme-golden-mosque-hall', 'theme-istanbul-sunset', 'theme-quran-light', 'theme-islamic-photo-1', 'theme-islamic-photo-2', 'theme-islamic-photo-3', 'theme-misty-lake-dawn', 'theme-amber-lake-sunset', 'theme-sea-of-clouds', 'theme-misty-mountain-lake', 'theme-layered-mountains', 'theme-golden-ridge-sunrise', 'theme-dusty-mountain-dusk', 'theme-amber-mountain-lake', 'theme-lavender-lake-sunset', 'theme-palm-beach-sunset', 'theme-wildflower-highlands', 'theme-coastal-palm-sunset', 'theme-crashing-waves', 'theme-northern-lights', 'theme-poppy-field-sunset', 'theme-blossom-garden', 'theme-canyon-waterfall', 'theme-meadow-sunset-clouds', 'theme-clouds-and-sky', 'theme-limestone-lagoon', 'theme-rocky-cove-mist', 'theme-lone-tree-twilight', 'theme-sunlit-forest-path', 'theme-autumn-forest', 'theme-sunrays-forest', 'theme-forest-light-trail', 'theme-moonlit-sky', 'theme-coastal-blue-view', 'theme-sunset-ocean-clouds', 'theme-milky-way-night', 'theme-video-1', 'theme-video-2', 'theme-video-3', 'theme-video-4', 'theme-video-5', 'theme-video-6', 'theme-video-7', 'theme-video-8', 'theme-video-9', 'theme-video-10', 'theme-video-11', 'theme-video-12', 'theme-video-13', 'theme-video-14', 'theme-video-15', 'theme-video-16', 'theme-video-17', 'theme-video-18', 'theme-video-19', 'theme-video-20', 'theme-video-21', 'theme-video-22', 'theme-video-23'];
+var SITE_THEME_CLASSES = ['theme-sky', 'theme-emerald', 'theme-amber', 'theme-slate', 'theme-lavender', 'theme-teal', 'theme-rose', 'theme-terracotta', 'theme-ruby', 'theme-indigo', 'theme-olive', 'theme-coral', 'theme-turquoise', 'theme-burgundy', 'theme-mustard', 'theme-charcoal', 'theme-palestine', 'theme-egypt', 'theme-saudi', 'theme-sunset-desert', 'theme-deep-ocean', 'theme-ottoman-gold', 'theme-ramadan-nights', 'theme-copper-bronze', 'theme-deep-forest', 'theme-rose-gold', 'theme-mint', 'theme-navy', 'theme-plum', 'theme-sunny', 'theme-silver', 'theme-vivid-orange', 'theme-royal-emerald', 'theme-soft-pink', 'theme-glacier-cyan', 'theme-coffee-brown', 'theme-warm-sand', 'theme-aubergine', 'theme-jade', 'theme-crimson', 'theme-deep-cerulean', 'theme-autumn-maple', 'theme-onyx-black', 'theme-citrus-lime', 'theme-classic-beige', 'theme-cobalt', 'theme-soft-gold', 'theme-moss', 'theme-snow-white', 'theme-aurora', 'theme-ocean-sunset', 'theme-berry-bliss', 'theme-golden-dusk', 'theme-northern-pine', 'theme-makkah-dawn', 'theme-madinah-night', 'theme-peach-blush', 'theme-neon-cyber', 'theme-frost-peak', 'theme-sapphire-dusk', 'theme-rosewood-ember', 'theme-emerald-horizon', 'theme-midnight-violet', 'theme-coral-reef', 'theme-volcanic-ash', 'theme-lagoon-breeze', 'theme-cherry-blossom', 'theme-desert-mirage', 'theme-cosmic-nebula', 'theme-twilight-mint', 'theme-tropical-beach', 'theme-clear-shore', 'theme-beach-sunset', 'theme-tropical-island', 'theme-coral-reef-world', 'theme-heart-of-nature', 'theme-forest-waterfall', 'theme-rocky-shore', 'theme-sunny-meadow', 'theme-kyoto-night', 'theme-golden-sunset-field', 'theme-masjid-al-haram', 'theme-nabawi-dusk', 'theme-dome-of-rock', 'theme-kaaba', 'theme-nabawi-day', 'theme-al-quds', 'theme-nabawi-courtyard', 'theme-golden-quds', 'theme-islamic-mosaic', 'theme-prophetic-calligraphy', 'theme-nabawi-umbrellas', 'theme-night-quran', 'theme-emerald-cover', 'theme-green-dome', 'theme-mosque-arches', 'theme-blue-dome-ceiling', 'theme-verses-of-light', 'theme-madinah-nights', 'theme-minaret-sunset', 'theme-mosque-tranquility', 'theme-dome-and-roses', 'theme-dome-ornament', 'theme-cairo-minarets', 'theme-golden-mosque-hall', 'theme-istanbul-sunset', 'theme-quran-light', 'theme-islamic-photo-1', 'theme-islamic-photo-2', 'theme-islamic-photo-3', 'theme-misty-lake-dawn', 'theme-amber-lake-sunset', 'theme-sea-of-clouds', 'theme-misty-mountain-lake', 'theme-layered-mountains', 'theme-golden-ridge-sunrise', 'theme-dusty-mountain-dusk', 'theme-amber-mountain-lake', 'theme-lavender-lake-sunset', 'theme-palm-beach-sunset', 'theme-wildflower-highlands', 'theme-coastal-palm-sunset', 'theme-crashing-waves', 'theme-northern-lights', 'theme-poppy-field-sunset', 'theme-blossom-garden', 'theme-canyon-waterfall', 'theme-meadow-sunset-clouds', 'theme-clouds-and-sky', 'theme-limestone-lagoon', 'theme-rocky-cove-mist', 'theme-lone-tree-twilight', 'theme-sunlit-forest-path', 'theme-autumn-forest', 'theme-sunrays-forest', 'theme-forest-light-trail', 'theme-moonlit-sky', 'theme-coastal-blue-view', 'theme-sunset-ocean-clouds', 'theme-milky-way-night', 'theme-video-1', 'theme-video-2', 'theme-video-3', 'theme-video-4', 'theme-video-5', 'theme-video-6', 'theme-video-7', 'theme-video-8', 'theme-video-9', 'theme-video-10', 'theme-video-11', 'theme-video-12', 'theme-video-13', 'theme-video-14', 'theme-video-15', 'theme-video-16', 'theme-video-17', 'theme-video-18', 'theme-video-19', 'theme-video-20', 'theme-video-21', 'theme-video-22', 'theme-video-23', 'theme-adhkar-morning', 'theme-adhkar-evening'];
 
 // ثيمات الصور المستخدمة في العرض التعريفي التلقائي للزوار الجدد (انظر themeShowcase أدناه)
 var PHOTO_SHOWCASE_THEMES = ['tropical-beach', 'clear-shore', 'beach-sunset', 'tropical-island', 'coral-reef-world', 'heart-of-nature', 'forest-waterfall', 'rocky-shore', 'sunny-meadow', 'kyoto-night', 'golden-sunset-field', 'masjid-al-haram', 'nabawi-dusk', 'dome-of-rock', 'kaaba', 'nabawi-day', 'al-quds', 'nabawi-courtyard', 'golden-quds', 'islamic-mosaic', 'prophetic-calligraphy', 'nabawi-umbrellas', 'night-quran', 'emerald-cover', 'green-dome', 'mosque-arches', 'blue-dome-ceiling', 'verses-of-light', 'madinah-nights', 'minaret-sunset', 'mosque-tranquility', 'dome-and-roses', 'dome-ornament', 'cairo-minarets', 'golden-mosque-hall', 'istanbul-sunset', 'quran-light', 'islamic-photo-1', 'islamic-photo-2', 'islamic-photo-3', 'misty-lake-dawn', 'amber-lake-sunset', 'sea-of-clouds', 'misty-mountain-lake', 'layered-mountains', 'golden-ridge-sunrise', 'dusty-mountain-dusk', 'amber-mountain-lake', 'lavender-lake-sunset', 'palm-beach-sunset', 'wildflower-highlands', 'coastal-palm-sunset', 'crashing-waves', 'northern-lights', 'poppy-field-sunset', 'blossom-garden', 'canyon-waterfall', 'meadow-sunset-clouds', 'clouds-and-sky', 'limestone-lagoon', 'rocky-cove-mist', 'lone-tree-twilight', 'sunlit-forest-path', 'autumn-forest', 'sunrays-forest', 'forest-light-trail', 'moonlit-sky', 'coastal-blue-view', 'sunset-ocean-clouds', 'milky-way-night'];
