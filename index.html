@@ -4053,8 +4053,43 @@ setTimeout(autoScaleVerseFont, 100);
     if(!sel||document.getElementById('siteThemePicker'))return;
     var box=document.createElement('div');
     box.id='siteThemePicker';box.setAttribute('role','radiogroup');
-    sel.parentNode.insertBefore(box,sel.nextSibling);
+    box.className='st-closed';
+    var holder=sel.parentNode;
+    holder.classList.add('st-combo');
+    /* combo-box trigger (looks like the other selects) */
+    var trig=document.createElement('button');
+    trig.type='button';trig.id='siteThemeTrigger';trig.className='st-trigger';
+    trig.setAttribute('aria-haspopup','listbox');trig.setAttribute('aria-expanded','false');
+    trig.innerHTML='<span class="st-trig-dot"></span><span class="st-trig-name"></span><span class="st-trig-arrow" aria-hidden="true">\u25BE</span>';
+    holder.insertBefore(trig,sel.nextSibling);
+    holder.insertBefore(box,trig.nextSibling);
     sel.classList.add('st-hidden');
+    var lab=holder.querySelector('label');if(lab)lab.setAttribute('for','siteThemeTrigger');
+    var trigDot=trig.querySelector('.st-trig-dot'),trigName=trig.querySelector('.st-trig-name');
+    function syncTrigger(){
+      var it=byValue(curTheme());
+      trigName.textContent=it?(it.e?it.e+' ':'')+it.n:(sel.options[0]?sel.options[0].textContent:'');
+      trigDot.style.background=it?'linear-gradient(135deg,'+it.c+','+mix(it.c,0.35)+')':'transparent';
+      trigDot.style.display=it?'':'none';
+    }
+    function isOpen(){return !box.classList.contains('st-closed');}
+    function openPicker(){
+      if(isOpen())return;
+      box.classList.remove('st-closed');holder.classList.add('st-open');
+      trig.setAttribute('aria-expanded','true');
+      var a=content.querySelector('.ws-opt.is-active');
+      if(a&&a.scrollIntoView)try{a.scrollIntoView({block:'nearest'});}catch(e){}
+    }
+    function closePicker(){
+      if(!isOpen())return;
+      clearTimeout(hoverT);clearTimeout(revertT);clearTimeout(pressT);
+      endPreview();
+      box.classList.add('st-closed');holder.classList.remove('st-open');
+      trig.setAttribute('aria-expanded','false');
+    }
+    trig.addEventListener('click',function(){isOpen()?closePicker():openPicker();});
+    document.addEventListener('pointerdown',function(e){if(isOpen()&&!holder.contains(e.target))closePicker();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isOpen()){closePicker();trig.focus();}});
     var bar=document.createElement('div');bar.className='st-toolbar';
     bar.innerHTML='<div class="st-row"><input type="search" class="st-search" autocomplete="off"><button type="button" class="st-rand"></button></div><div class="st-chips" role="tablist"></div>';
     var content=document.createElement('div');content.className='st-content';
@@ -4220,6 +4255,7 @@ setTimeout(autoScaleVerseFont, 100);
         b.classList.toggle('is-active',on);b.setAttribute('aria-checked',on?'true':'false');
         b.classList.toggle('is-preview',!!previewing&&b.getAttribute('data-theme')===previewing);
       });
+      syncTrigger();
     }
     function build(){collect();setLabels();render();}
 
@@ -4258,6 +4294,7 @@ setTimeout(autoScaleVerseFont, 100);
         saveFavs();render();return;
       }
       commit(v);
+      closePicker();
     });
     // mouse: hover preview
     var canHover=window.matchMedia&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
