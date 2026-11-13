@@ -10738,6 +10738,9 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
     "fallback       fallback"
     "h-wstyle       h-wstyle"
     "wstyle         wstyle"
+    "h-wcolor       h-wcolor"
+    "wscolor        wtint"
+    "ornaments      sitebg"
     "h-sync         h-sync";
   gap: 8px 10px;
 }
@@ -10747,6 +10750,11 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
 #gset-h-ui      { grid-area: h-ui; }
 #gset-h-sync    { grid-area: h-sync; }
 #gset-h-wstyle  { grid-area: h-wstyle; }
+#gset-h-wcolor  { grid-area: h-wcolor; }
+#settings-wscolormode-item  { grid-area: wscolor; }
+#settings-wstintextra-item  { grid-area: wtint; }
+#settings-ornaments-item    { grid-area: ornaments; }
+#settings-sitebg-item       { grid-area: sitebg; }
 #welcomeStylePicker { grid-area: wstyle; }
 #gset-h-filters { grid-area: h-filters; }
 #settings-floatplay-item       { grid-area: floatplay; }
@@ -10779,7 +10787,7 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
 
 /* عناوين الأقسام (تظهر في تبويب عام فقط) */
 #settings-panel:not([data-active-tab="general"]):not([data-active-tab="welcome"]) .gset-head { display: none !important; }
-#settings-panel[data-active-tab="general"] :is(#gset-h-ui, #gset-h-sync, #gset-h-wstyle) { display: none !important; }
+#settings-panel[data-active-tab="general"] :is(#gset-h-ui, #gset-h-sync, #gset-h-wstyle, #gset-h-wcolor) { display: none !important; }
 #settings-panel[data-active-tab="welcome"] :is(#gset-h-timers, #gset-h-play, #gset-h-alarm, #gset-h-filters) { display: none !important; }
 #settingsQuickGrid .gset-head {
   display: flex; align-items: center; gap: 8px;
@@ -18161,7 +18169,7 @@ body.dark-mode .st-search, body.dark-mode .st-chip { color: #cfe3f5; }
 /* ----- welcome screen: tint with site theme color (opt-in) ----- */
 /* التلوين بلون الثيم: عنصر مستقل #wsTintLayer بدل ::after، لأن 17 تصميمًا (الجمعة، المحراب، الأذكار…) بتستخدم ::after لزخارفها وكانت بتقصّ التلوين وتدفنه ورا المحتوى */
 #wsTintLayer { display: none; }
-html.ws-follow-site #wsTintLayer { display: block; position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 99999; pointer-events: none; background: var(--theme-g1, #2E86C1); mix-blend-mode: color; opacity: var(--ws-tint-op, .6); }
+html.ws-follow-site #wsTintLayer { display: block; position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 99999; pointer-events: none; background: var(--theme-g1, #2E86C1); mix-blend-mode: color; opacity: var(--ws-tint-op, .35); }
 html.ws-tint-off #wsTintLayer { display: none !important; }
 
 
@@ -18486,3 +18494,15 @@ body.dark-mode #settings-theme-item.st-combo #siteThemePicker { background: var(
 @media (max-width: 600px) {
   .st-trigger { font-size: 11px; padding: 4px 5px; }
 }
+
+/* ----- تبويب الترحيب: قسم "ألوان وخلفية الشاشة الترحيبية" ----- */
+#settings-panel[data-active-tab="welcome"] #settingsQuickGrid :is(
+  #settings-wscolormode-item, #settings-wstintextra-item, #settings-ornaments-item, #settings-sitebg-item) {
+  width: 100%; max-width: 100%; margin: 0; box-sizing: border-box;
+}
+/* شدة التلوين والاستثناءات لا معنى لها إلا في وضع "تتبع ثيم الموقع": نخفي البطاقة الفارغة في غيره */
+html:not(.ws-follow-site) #settings-wstintextra-item { display: none !important; }
+/* وعند إخفائها يمتد اختيار الألوان على العرض كله بدل ترك نصف الصف فارغًا */
+html:not(.ws-follow-site) #settings-panel[data-active-tab="welcome"] #settingsQuickGrid #settings-wscolormode-item { grid-column: 1 / -1; }
+/* عند التلوين: بطاقة الشدة تأخذ ارتفاع صف الخيار بالكامل بدون فراغ زائد */
+html.ws-follow-site #settings-wstintextra-item { align-self: stretch; justify-content: center; }
