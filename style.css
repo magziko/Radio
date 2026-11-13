@@ -18185,8 +18185,10 @@ body.dark-mode .st-search, body.dark-mode .st-chip { color: #cfe3f5; }
 .st-thumb, .ws-opt { -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; }
 
 /* ----- welcome screen: tint with site theme color (opt-in) ----- */
-html.ws-follow-site #welcomeScreen::after { content: ""; position: fixed; inset: 0; z-index: 99999; pointer-events: none; background: var(--theme-g1, #2E86C1); mix-blend-mode: color; opacity: var(--ws-tint-op, .6); }
-html.ws-tint-off #welcomeScreen::after { display: none; }
+/* التلوين بلون الثيم: عنصر مستقل #wsTintLayer بدل ::after، لأن 17 تصميمًا (الجمعة، المحراب، الأذكار…) بتستخدم ::after لزخارفها وكانت بتقصّ التلوين وتدفنه ورا المحتوى */
+#wsTintLayer { display: none; }
+html.ws-follow-site #wsTintLayer { display: block; position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 99999; pointer-events: none; background: var(--theme-g1, #2E86C1); mix-blend-mode: color; opacity: var(--ws-tint-op, .6); }
+html.ws-tint-off #wsTintLayer { display: none !important; }
 
 
 /* ═══════════════════════════════════════════════════════════════
