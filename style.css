@@ -18456,3 +18456,33 @@ html.worn-off.wstyle-arabesque #islamicPatternLayer { display: none !important; 
 html.wbg-site body #welcomeScreen::before,
 html.wbg-site body #welcomeScreen::after,
 html.wbg-site #islamicPatternLayer { display: none !important; }
+
+/* ===== Theme picker as a combo-box dropdown (click "🎨 Theme" / the trigger to open) ===== */
+#settings-theme-item.st-combo { position: relative; }
+#settings-theme-item.st-combo > label { cursor: pointer; }
+.st-trigger {
+  display: flex; align-items: center; gap: 6px; width: 100%; box-sizing: border-box; cursor: pointer;
+  font: 600 12px 'Cairo', Arial, sans-serif; text-align: start; color: #1a3a52;
+  padding: 5px 7px; border-radius: 6px; border: 1px solid #b0c8e0; background: #fff;
+  min-height: 28px; box-shadow: none;
+}
+.st-trigger:hover, .st-trigger[aria-expanded="true"] { border-color: var(--theme-g1, #2E86C1); }
+.st-trigger:focus-visible { outline: 2px solid var(--theme-g1, #2E86C1); outline-offset: 1px; }
+.st-trig-dot { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 5px; border: 1px solid rgba(0,0,0,.18); }
+.st-trig-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st-trig-arrow { flex: 0 0 auto; font-size: 12px; line-height: 1; transition: transform .2s; }
+.st-trigger[aria-expanded="true"] .st-trig-arrow { transform: rotate(180deg); }
+body.dark-mode .st-trigger { background: #1e2d3e; color: #cfe3f5; border-color: #3a5370; }
+
+/* the list itself becomes a floating panel under the trigger */
+#siteThemePicker.st-closed { display: none !important; }
+#settings-theme-item.st-combo #siteThemePicker {
+  position: absolute; top: calc(100% + 4px); inset-inline: 0; z-index: 1200;
+  max-height: min(62vh, 440px); margin: 0; padding: 4px 6px 8px;
+  background: var(--theme-bg, #fff); border: 1px solid rgba(var(--theme-c1-rgb),0.35);
+  border-radius: 10px; box-shadow: 0 10px 28px rgba(0,0,0,.28);
+}
+body.dark-mode #settings-theme-item.st-combo #siteThemePicker { background: var(--theme-bg, #1e1e2e); }
+@media (max-width: 600px) {
+  .st-trigger { font-size: 11px; padding: 4px 5px; }
+}
