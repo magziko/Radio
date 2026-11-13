@@ -4596,8 +4596,8 @@ setTimeout(autoScaleVerseFont, 100);
       <div id="wsTintBody" style="display:none;flex-direction:column;gap:8px;">
         <div style="display:flex;align-items:center;gap:8px;">
           <label for="wsTintStrength" id="wsTintStrLabel" class="wtb-text" data-ar="🎚️ شدة التلوين" data-en="🎚️ Tint strength">🎚️ شدة التلوين</label>
-          <input type="range" id="wsTintStrength" min="0" max="100" step="5" value="60" style="flex:1;min-width:0;cursor:pointer;">
-          <span id="wsTintStrVal" style="min-width:42px;text-align:center;font-weight:700;">60%</span>
+          <input type="range" id="wsTintStrength" min="0" max="100" step="5" value="35" style="flex:1;min-width:0;cursor:pointer;">
+          <span id="wsTintStrVal" style="min-width:42px;text-align:center;font-weight:700;">35%</span>
         </div>
         <details id="wsTintExcl">
           <summary id="wsTintExclLabel" class="wtb-text" style="cursor:pointer;" data-ar="🚫 تصاميم مستثناة من التلوين" data-en="🚫 Designs excluded from tinting">🚫 تصاميم مستثناة من التلوين</summary>
@@ -4610,7 +4610,7 @@ setTimeout(autoScaleVerseFont, 100);
   var KS='wsTintStrength',KE='wsTintExclude',root=document.documentElement;
   var DEF_EXCL=['ramadan','eid','adha','hajj','hijri','ashura','isra','mawlid','qadr','mushaf','fajr'];
   function tintOn(){try{return localStorage.getItem('wsFollowSite')==='true';}catch(e){return false;}}
-  function getStr(){var v=NaN;try{v=parseInt(localStorage.getItem(KS),10);}catch(e){}return isNaN(v)?60:Math.max(0,Math.min(100,v));}
+  function getStr(){var v=NaN;try{v=parseInt(localStorage.getItem(KS),10);}catch(e){}return isNaN(v)?35:Math.max(0,Math.min(100,v));}
   function getEx(){
     try{var raw=localStorage.getItem(KE);if(raw!==null){var a=JSON.parse(raw);if(Array.isArray(a))return a;}}catch(e){}
     return DEF_EXCL.slice();
