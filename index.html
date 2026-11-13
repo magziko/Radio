@@ -299,7 +299,7 @@
 </script>
 
 <script>
-/* تصميم الشاشة الترحيبية: الكلاسيكي = بدون كلاس (الأساسي) | noor = «المحراب» | mushaf = «المصحف» | fajr = «الفجر» | bold = «الجريء» | player = «المشغّل» | editorial = «الصحيفة» | arabesque = «الأرابيسك» | hijri = «رأس السنة الهجرية» | ashura = «عاشوراء» | mawlid = «المولد النبوي» | zellige = «الزليج» | khatt = «الخط العربي» | rain = «المطر» */
+/* تصميم الشاشة الترحيبية: الكلاسيكي = بدون كلاس (الأساسي) | noor = «المحراب» | mushaf = «المصحف» | fajr = «الفجر» | bold = «الجريء» | player = «المشغّل» | editorial = «الصحيفة» | arabesque = «الأرابيسك» | hijri = «رأس السنة الهجرية» | ashura = «عاشوراء» | mawlid = «المولد النبوي» | khatt = «الخط العربي» | rain = «المطر» */
 (function(){ try {
   /* ===== التاريخ الهجري (أم القرى) — نفس تقويم أيام الحج ===== */
   function _wsHijri(d) {
@@ -421,7 +421,7 @@
   if (_ocOn && !(_oc.style === 'ramadan' && _fri)) _ws = window.wsPick(_oc.style); else if (_fri) _ws = 'jumuah'; else if (_phOn) _ws = window.wsPick(_ph.style);
   window.wsApplyHajjAttrs();
   setInterval(window.wsApplyHajjAttrs, 300000);                                     // يتحدّث وقت «الغروب» والليلة لو الصفحة مفتوحة
-  if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial' || _ws === 'arabesque' || _ws === 'lantern' || _ws === 'kiswa' || _ws === 'ramadan' || _ws === 'eid' || _ws === 'adha' || _ws === 'isra' || _ws === 'sabah' || _ws === 'jumuah' || _ws === 'hajj' || _ws === 'qadr' || _ws === 'andalus' || _ws === 'maghrib' || _ws === 'hijri' || _ws === 'ashura' || _ws === 'mawlid' || _ws === 'zellige' || _ws === 'khatt' || _ws === 'rain' || _ws === 'sakina' || _ws === 'athkar' || _ws === 'tahajjud' || _ws === 'azkarday') { document.documentElement.classList.add('wstyle-' + _ws); if (_ws === 'khatt') window.wsLoadKhattFont(); }
+  if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial' || _ws === 'arabesque' || _ws === 'lantern' || _ws === 'kiswa' || _ws === 'ramadan' || _ws === 'eid' || _ws === 'adha' || _ws === 'isra' || _ws === 'sabah' || _ws === 'jumuah' || _ws === 'hajj' || _ws === 'qadr' || _ws === 'andalus' || _ws === 'maghrib' || _ws === 'hijri' || _ws === 'ashura' || _ws === 'mawlid' || _ws === 'khatt' || _ws === 'rain' || _ws === 'sakina' || _ws === 'athkar' || _ws === 'tahajjud' || _ws === 'azkarday') { document.documentElement.classList.add('wstyle-' + _ws); if (_ws === 'khatt') window.wsLoadKhattFont(); }
 } catch(e) {} })();
 /* الزخارف الإسلامية الخفيفة في بقية التصاميم: تُوقَف بالقيمة off */
 (function(){ try { if (localStorage.getItem('welcomeOrnaments') === 'off') document.documentElement.classList.add('worn-off'); } catch(e) {} })();
@@ -4670,7 +4670,7 @@ setTimeout(autoScaleVerseFont, 100);
 </script>
 <script>
 (function(){
-  var ACC={"adha":"#f6dc9a","andalus":"#f6d98a","arabesque":"#efd890","ashura":"#2a6fb0","athkar":"#e4b862","azkarday":"#e0a94e","bold":"#ffd23f","editorial":"#ff5a3c","eid":"#f6d365","fajr":"#f4a261","hajj":"#f6d98a","hijri":"#f6d98a","isra":"#8b7cff","jumuah":"#f6d98a","khatt":"#f3dd9f","kiswa":"#f3dc8a","lantern":"#ffb84a","maghrib":"#ffc98a","mawlid":"#f6d98a","mushaf":"#b08d3e","noor":"#e7c675","player":"#5b7cfa","qadr":"#d4a73a","rain":"#8fbbe8","ramadan":"#ffc857","sabah":"#f6d98a","sakina":"#8fd0aa","tahajjud":"#9aa4f0","zellige":"#2a6fb0"};
+  var ACC={"adha":"#f6dc9a","andalus":"#f6d98a","arabesque":"#efd890","ashura":"#2a6fb0","athkar":"#e4b862","azkarday":"#e0a94e","bold":"#ffd23f","editorial":"#ff5a3c","eid":"#f6d365","fajr":"#f4a261","hajj":"#f6d98a","hijri":"#f6d98a","isra":"#8b7cff","jumuah":"#f6d98a","khatt":"#f3dd9f","kiswa":"#f3dc8a","lantern":"#ffb84a","maghrib":"#ffc98a","mawlid":"#f6d98a","mushaf":"#b08d3e","noor":"#e7c675","player":"#5b7cfa","qadr":"#d4a73a","rain":"#8fbbe8","ramadan":"#ffc857","sabah":"#f6d98a","sakina":"#8fd0aa","tahajjud":"#9aa4f0"};
   var K1='wsFollowSite',K2='siteFollowWs',root=document.documentElement,lastApplied='';
   function on(k){try{return localStorage.getItem(k)==='true';}catch(e){return false;}}
   function put(k,v){try{localStorage.setItem(k,v?'true':'false');}catch(e){}}
@@ -4850,11 +4850,6 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="ws-opt-name stab-i18n" data-ar="المولد النبوي (جديد)" data-en="Mawlid (New)">المولد النبوي (جديد)</span>
         <span class="ws-opt-desc stab-i18n" data-ar="القبة الخضراء بأخضر وذهبي مع الصلاة على النبي ﷺ، ويفتح تلقائيًا في 12 ربيع الأول" data-en="The Green Dome in green and gold with salutations upon the Prophet ﷺ; opens automatically on 12 Rabi al-Awwal">القبة الخضراء بأخضر وذهبي مع الصلاة على النبي ﷺ، ويفتح تلقائيًا في 12 ربيع الأول</span>
       </button>
-      <button type="button" class="ws-opt" data-style="zellige" role="radio" aria-checked="false" onclick="setWelcomeStyle('zellige')">
-        <span class="ws-thumb ws-thumb--zellige" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
-        <span class="ws-opt-name stab-i18n" data-ar="الزليج (جديد)" data-en="Zellige (New)">الزليج (جديد)</span>
-        <span class="ws-opt-desc stab-i18n" data-ar="بلاط هندسي تركواز وأزرق كوبالت بنجوم ثمانية، زخرفة خالصة بلا مبانٍ" data-en="Geometric turquoise and cobalt-blue tiles with eight-point stars, pure ornament with no buildings">بلاط هندسي تركواز وأزرق كوبالت بنجوم ثمانية، زخرفة خالصة بلا مبانٍ</span>
-      </button>
       <button type="button" class="ws-opt" data-style="khatt" role="radio" aria-checked="false" onclick="setWelcomeStyle('khatt')">
         <span class="ws-thumb ws-thumb--khatt" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
         <span class="ws-opt-name stab-i18n" data-ar="الخط العربي (جديد)" data-en="Calligraphy (New)">الخط العربي (جديد)</span>
@@ -4888,11 +4883,11 @@ setTimeout(autoScaleVerseFont, 100);
     </div>
     <script>
     (function(){
-      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold', 'player', 'editorial', 'arabesque', 'lantern', 'kiswa', 'ramadan', 'eid', 'adha', 'isra', 'sabah', 'jumuah', 'hajj', 'qadr', 'andalus', 'maghrib', 'hijri', 'ashura', 'mawlid', 'zellige', 'khatt', 'rain', 'sakina', 'athkar', 'tahajjud', 'azkarday'];
+      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold', 'player', 'editorial', 'arabesque', 'lantern', 'kiswa', 'ramadan', 'eid', 'adha', 'isra', 'sabah', 'jumuah', 'hajj', 'qadr', 'andalus', 'maghrib', 'hijri', 'ashura', 'mawlid', 'khatt', 'rain', 'sakina', 'athkar', 'tahajjud', 'azkarday'];
       /* ===== درج «المزيد»: نعرض أول WS_VISIBLE تصاميم، والباقي داخل درج سفلي ===== */
       var WS_VISIBLE = 6;
       var WS_GROUPS = [
-        { ar: '🎨 الأساسية والفنية', en: '🎨 Core & Artistic', ids: ['classic', 'noor', 'mushaf', 'bold', 'player', 'editorial', 'arabesque', 'zellige', 'khatt', 'andalus', 'rain', 'sakina', 'athkar'] },
+        { ar: '🎨 الأساسية والفنية', en: '🎨 Core & Artistic', ids: ['classic', 'noor', 'mushaf', 'bold', 'player', 'editorial', 'arabesque', 'khatt', 'andalus', 'rain', 'sakina', 'athkar'] },
         { ar: '🌙 المناسبات والمواسم', en: '🌙 Occasions & Seasons', ids: ['lantern', 'kiswa', 'ramadan', 'eid', 'adha', 'isra', 'jumuah', 'hajj', 'qadr', 'hijri', 'ashura', 'mawlid'] },
         { ar: '⏰ أوقات اليوم', en: '⏰ Times of Day', ids: ['fajr', 'sabah', 'azkarday', 'maghrib', 'tahajjud'] }
       ];
@@ -5055,7 +5050,6 @@ setTimeout(autoScaleVerseFont, 100);
         document.documentElement.classList.toggle('wstyle-hijri', s === 'hijri');
         document.documentElement.classList.toggle('wstyle-ashura', s === 'ashura');
         document.documentElement.classList.toggle('wstyle-mawlid', s === 'mawlid');
-        document.documentElement.classList.toggle('wstyle-zellige', s === 'zellige');
         document.documentElement.classList.toggle('wstyle-khatt', s === 'khatt');
         document.documentElement.classList.toggle('wstyle-rain', s === 'rain');
         document.documentElement.classList.toggle('wstyle-sakina', s === 'sakina');
@@ -5089,7 +5083,6 @@ setTimeout(autoScaleVerseFont, 100);
                                   : s === 'hijri' ? (ar ? '🐪 تم تفعيل تصميم «رأس السنة الهجرية»' : '🐪 Hijri New Year design enabled')
                                   : s === 'ashura' ? (ar ? '🌊 تم تفعيل تصميم «عاشوراء»' : '🌊 Ashura design enabled')
                                   : s === 'mawlid' ? (ar ? '🕌 تم تفعيل تصميم «المولد النبوي»' : '🕌 Mawlid design enabled')
-                                  : s === 'zellige' ? (ar ? '🔷 تم تفعيل تصميم «الزليج»' : '🔷 Zellige design enabled')
                                   : s === 'khatt' ? (ar ? '✒️ تم تفعيل تصميم «الخط العربي»' : '✒️ Calligraphy design enabled')
                                   : s === 'rain' ? (ar ? '🌧️ تم تفعيل تصميم «المطر»' : '🌧️ Rain design enabled')
                                   : s === 'sakina' ? (ar ? '🌿 تم تفعيل تصميم «السكينة»' : '🌿 Tranquility design enabled')
