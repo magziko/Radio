@@ -2622,6 +2622,8 @@ function scheduleNextTranslation() {
     if (currentTransIndex + 1 < v.translations.length) {
 
       currentTransIndex++;
+      // نتخطى الترجمات الفارغة (مثلًا الأيرلندية فى الآيات المضافة بدون ترجمة معتمدة)
+      while (currentTransIndex + 1 < v.translations.length && !String(v.translations[currentTransIndex].join('')).trim()) currentTransIndex++;
       showVerseWithTranslation(current, currentTransIndex);
       scheduleNextTranslation();
     } else {
@@ -43844,7 +43846,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
       idx = best;
     }
     if (idx < 0) return null;
-    var a = raw.match(/(?:الآية|الآيات|الايه|الايات|Ayah|Ayat|Verses?)\s*[:：]?\s*(\d+)/i) || raw.match(/[:：]\s*(\d+)\s*\)?\s*$/);
+    var a = raw.match(/(?:الآية|الآيتان|الآيات|الايه|الايات|Ayah|Ayat|Verses?)\s*[:：]?\s*(\d+)/i) || raw.match(/[:：]\s*(\d+)\s*\)?\s*$/);
     var ayah = a ? parseInt(a[1], 10) : 1;
     return { surah: idx + 1, ayah: ayah >= 1 ? ayah : 1 };
   }
@@ -43875,6 +43877,109 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     if (on) { if (!el.title) el.title = ((typeof isArabic === 'undefined') || isArabic) ? 'اضغط لفتح المصحف عند هذه الآية' : 'Tap to open the Quran reader at this ayah'; }
     else if (el.title) el.removeAttribute('title');
   }, 800);
+})();
+</script>
+<script>
+// ===== التنقل بالسحب (تاتش / ماوس) بين آيات الشاشة الترحيبية =====
+//  • السحب يمينًا/يسارًا من جزء الآية العربية (#arabicVerse أو سطر المرجع #verseNumber): الآية السابقة/التالية بترتيب verses.js (ترتيب المصحف)
+//  • السحب يمينًا/يسارًا من جزء الترجمة (#englishVerse): الترجمة السابقة/التالية بنفس ترتيب اللغات (وتلف على نفس الآية)
+//  • بعد أي سحبة بيتأجل الدوران التلقائى 12 ثانية كاملة؛ والسحب بيتعطل فى وضع متابعة التلاوة (المزامنة) زى النقر على الآية.
+(function(){
+  var THRESH = 50;            // أقل مسافة أفقية (بكسل) تُحسب سحبة
+  var NEXT_ON_LEFT = true;    // true: السحب لليسار = التالى ولليمين = السابق. غيّرها إلى false لعكس الاتجاه
+  var tok = 0, swipedAt = 0, st = null;
+
+  var css = document.createElement('style');
+  css.textContent = '#arabicVerse,#englishVerse,#verseNumber{touch-action:pan-y;}';
+  document.head.appendChild(css);
+
+  function ready() {
+    return typeof verses !== 'undefined' && verses && verses.length &&
+           !window._quranLiveSyncActive && !document.querySelector('#arabicVerse .sync-ayah');
+  }
+  function empty(t) { return !t || !String(t.join('')).trim(); }
+  function restartTimer() { if (typeof scheduleNextTranslation === 'function') scheduleNextTranslation(); }
+
+  function goTrans(dir) {
+    var v = verses[current], n = v.translations.length, i = currentTransIndex;
+    for (var k = 0; k < n; k++) { i = (i + dir + n) % n; if (!empty(v.translations[i])) break; }
+    if (empty(v.translations[i])) return;
+    currentTransIndex = i;
+    showVerseWithTranslation(current, i);
+    restartTimer();
+  }
+
+  function goVerse(dir) {
+    var n = verses.length;
+    if (n < 2) return;
+    current = (current + dir + n) % n;
+    var v = verses[current], len = v.translations.length, i = currentTransIndex;
+    for (var k = 0; k < len && empty(v.translations[i]); k++) i = (i + 1) % len;   // نفس اللغة، أو أقرب لغة فيها ترجمة
+    currentTransIndex = i;
+    var my = ++tok;
+    var arabicEl = document.getElementById('arabicVerse'), numEl = document.getElementById('verseNumber');
+    fadeElement(arabicEl, v.arabic.join('<br>'), function() {
+      if (my !== tok) return;   // سحبة أحدث بدأت
+      numEl.innerText = v.number;
+      showVerseWithTranslation(current, currentTransIndex);
+    });
+    restartTimer();
+  }
+
+  function region(t) {
+    if (!t || !t.closest) return null;
+    if (t.closest('#englishVerse')) return { kind: 'tr', el: document.getElementById('englishVerse') };
+    if (t.closest('#arabicVerse')) return { kind: 'ar', el: document.getElementById('arabicVerse') };
+    if (t.closest('#verseNumber')) return { kind: 'ar', el: document.getElementById('verseNumber') };
+    return null;
+  }
+
+  document.addEventListener('pointerdown', function(e) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (!ready()) return;
+    var r = region(e.target);
+    if (!r) return;
+    st = { id: e.pointerId, x: e.clientX, y: e.clientY, kind: r.kind, el: r.el, drag: false };
+  });
+
+  document.addEventListener('pointermove', function(e) {
+    if (!st || e.pointerId !== st.id) return;
+    var dx = e.clientX - st.x, dy = e.clientY - st.y;
+    if (!st.drag && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) st.drag = true;
+    if (st.drag) {
+      if (window.getSelection) { var s = window.getSelection(); if (s && s.removeAllRanges) s.removeAllRanges(); }
+      st.el.style.transition = 'none';
+      st.el.style.transform = 'translateX(' + Math.max(-40, Math.min(40, dx * 0.3)) + 'px)';
+    }
+  });
+
+  function finish(e, cancelled) {
+    if (!st || e.pointerId !== st.id) return;
+    var s = st; st = null;
+    if (s.drag) {
+      s.el.style.transition = 'opacity 0.5s ease, transform 0.2s ease';
+      s.el.style.transform = '';
+    }
+    if (cancelled || !s.drag) return;
+    var dx = e.clientX - s.x, dy = e.clientY - s.y;
+    if (Math.abs(dx) < THRESH || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    swipedAt = Date.now();
+    if (!ready()) return;
+    var dir = ((dx < 0) === NEXT_ON_LEFT) ? 1 : -1;
+    if (s.kind === 'ar') goVerse(dir); else goTrans(dir);
+  }
+  document.addEventListener('pointerup', function(e) { finish(e, false); });
+  document.addEventListener('pointercancel', function(e) { finish(e, true); });
+
+  // منع تحديد النص أثناء السحب بالماوس
+  document.addEventListener('selectstart', function(e) { if (st && st.drag) e.preventDefault(); });
+
+  // بعد السحب بالماوس لا نترك النقر يفتح المصحف
+  document.addEventListener('click', function(e) {
+    if (Date.now() - swipedAt < 400 && e.target && e.target.closest && e.target.closest('#quranVerse')) {
+      e.stopImmediatePropagation(); e.preventDefault();
+    }
+  }, true);
 })();
 </script>
 </body>
