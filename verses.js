@@ -1,6 +1,6 @@
 // ===== آيات الشاشة الترحيبية (تم فصلها من index.html) =====
-// ملف منفصل يحتوي على مصفوفة verses: كل عنصر = آية بالعربي (arabic) + الترجمات (translations) + رقم/اسم السورة (number).
-// لازم يتحمّل قبل أول كود بيستخدم verses (محمّل في index.html قبل سكربت عرض الآيات مباشرةً).
+// ملف منفصل يحتوي على مصفوفة verses: كل عنصر = الآية بالعربية (arabic) + الترجمات (translations) + اسم السورة ورقم الآية (number).
+// يجب تحميله قبل أول شيفرة تستخدم verses (ويُحمَّل في index.html قبل سكربت عرض الآيات مباشرةً).
 //
 // ===== ملاحظات المراجعة (نوفمبر 2026) =====
 // مصادر الترجمات (بترتيب translations): 0 English=Saheeh International | 1 Français=Hamidullah | 2 Español=Julio Cortés |
@@ -22,6 +22,15 @@
 // ===== آيات أُضيفت (نوفمبر 2026): الترغيب والترهيب (الجنة ونعيمها، النار وعذابها، الوعد والوعيد)، مرتبة حسب المصحف =====
 // 53 موضعًا جديدًا: 2:25، 2:81-82، 2:161-162، 2:261، 2:274، 2:281، 3:30، 3:92، 3:102، 3:133-134، 3:185، 3:200، 4:10، 4:13-14، 4:31، 4:40، 4:48، 4:57، 4:93، 4:123-124، 5:9-10، 5:72، 6:82، 7:42-43، 9:20-21، 9:34-35، 9:72، 9:111، 10:26-27، 13:22-24، 16:97، 18:30-31، 18:103-106، 20:124، 21:47، 23:1-11، 32:16-17، 33:35، 41:30-32، 51:15-19، 55:46، 61:10-12، 78:31-36، 79:40-41، 82:13-14، 85:11، 89:27-30، 92:5-7، 98:7-8، 101:6-11، 102:1-8، 103:1-3، 104:1-9.
 // العربي من نسخة Tanzil المبسّطة، والترجمات حرفية من نفس المصادر المذكورة أعلاه (مراجَعة حرفيًا مقابل نسخ مستودع fawazahmed0/quran-api)، كل موضع في جزء واحد كامل، والأيرلندية (فهرس 6) فارغة.
+
+// ===== آيات أُضيفت (نوفمبر 2026): آيات الإعجاز العلمي (الكونيات، الأرض والجبال، البحار، الماء والسحاب، خلق الإنسان)، مرتبة حسب المصحف =====
+// 36 موضعًا جديدًا: 4:55-56، 6:125، 10:5، 15:19-22، 16:66، 16:68-69، 21:30-33، 22:5، 23:12-14، 24:40، 24:43، 24:45، 25:53، 27:88، 32:7-9، 36:36-40،
+// 39:5، 39:6، 40:67، 41:11-12، 51:47-49، 53:45-46، 55:19-22، 56:75-76، 57:25، 71:15-16، 75:3-4، 75:37-39، 76:2، 77:20-23، 78:6-7، 79:30-33،
+// 80:24-32، 86:5-7، 86:11-12، 96:15-16.
+// العربي من نسخة Tanzil المبسّطة، والترجمات حرفية من نفس المصادر المذكورة في أعلى الملف (مأخوذة من مستودع fawazahmed0/quran-api)، كل موضع في جزء واحد كامل، والأيرلندية (فهرس 6) فارغة.
+// عُدّلت الترجمات آليًا في أمرين فقط: حُذفت أرقام الحواشي مثل [1073]، وسُوّيت المسافات الزائدة؛ وفي الفرنسية استُبدلت الفاصلة العليا المنحنية بالمستقيمة لتطابق بقية الملف.
+// ترجمة Diyanet التركية تجمع أحيانًا عدة آيات في نص واحد، فحُذف التكرار المتتالي عند ضم الآيات؛ وفي 4:55-56 اتُّسع النطاق إلى الآية 55 لأن الترجمة التركية تشملها.
+// ملاحظة: إدراج آية هنا لا يعني أن كل ما يُنسب إليها من تفسيرات علمية متفق عليه؛ العرض يكتفي بنص الآية وترجمتها.
 
 // فهارس اللغات التي لا توجد لها ترجمة معتمدة (الأيرلندية: لا توجد ترجمة كاملة معتمدة) — يُفضّل عرض تنبيه "ترجمة غير معتمدة" عند عرضها.
 const UNVERIFIED_TRANSLATION_INDEXES = [6];
@@ -4469,6 +4478,117 @@ const verses = [
 
   {
     arabic: [
+      `فَمِنْهُمْ مَنْ آمَنَ بِهِ وَمِنْهُمْ مَنْ صَدَّ عَنْهُ ۚ وَكَفَىٰ بِجَهَنَّمَ سَعِيرًا إِنَّ الَّذِينَ كَفَرُوا بِآيَاتِنَا سَوْفَ نُصْلِيهِمْ نَارًا كُلَّمَا نَضِجَتْ جُلُودُهُمْ بَدَّلْنَاهُمْ جُلُودًا غَيْرَهَا لِيَذُوقُوا الْعَذَابَ ۗ إِنَّ اللَّهَ كَانَ عَزِيزًا حَكِيمًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And some among them believed in it, and some among them were averse to it. And sufficient is Hell as a blaze Indeed, those who disbelieve in Our verses - We will drive them into a Fire. Every time their skins are roasted through We will replace them with other skins so they may taste the punishment. Indeed, Allah is ever Exalted in Might and Wise`,
+        ``,
+        ``
+      ],
+      [
+        `Certains d'entre eux ont cru en lui, d'autres d'entre eux s'en sont écartés. L'Enfer leur suffira comme brasier (pour y brûler) Certes, ceux qui ne croient pas à Nos Versets, (le Coran) Nous les brûlerons bientôt dans le Feu. Chaque fois que leurs peaux auront été consumées, Nous leur donnerons d'autres peaux en échange afin qu'ils goûtent au châtiment. Allah est certes Puissant et Sage`,
+        ``,
+        ``
+      ],
+      [
+        `De ellos, unos creen en ella y otros se apartan de ella. La gehena les bastará como fuego A quienes no crean en Nuestros signos les arrojaremos a un Fuego. Siempre que se les consuma la piel, se la repondremos, para que gusten el castigo. Alá es poderoso, sabio`,
+        ``,
+        ``
+      ],
+      [
+        `Среди них есть такие, которые уверовали в него (Мухаммада), и такие, которые отвернулись от него. Довольно того пламени, которое в Геенне Воистину, тех, которые не уверовали в Наши знамения, Мы сожжем в Огне. Всякий раз, когда их кожа приготовится, Мы заменим ее другой кожей, чтобы они вкусили мучения. Воистину, Аллах - Могущественный, Мудрый`,
+        ``,
+        ``
+      ],
+      [
+        `Unter ihnen gab es manche, die daran glaubten, und manche, die davon abhielten. Und die Hölle genügt als Feuerglut Diejenigen, die Unsere Zeichen verleugnen, werden Wir gewiß einem Feuer aussetzen. Jedesmal, wenn ihre Haut verbrannt ist, tauschen Wir sie ihnen gegen eine andere Haut aus, damit sie die Strafe kosten. Allah ist Allmächtig und Allweise`,
+        ``,
+        ``
+      ],
+      [
+        `Det finns bland dem de som håller fast vid honom men också de som har vänt honom ryggen. Helvetets högt flammande eld är het nog [för dem] Vi skall låta dem som påstår att Våra budskap är lögn brinna i denna eld - i den takt som deras hud förbränns, skall Vi ersätta den med ny hud, så att de får pröva straffet helt och fullt. Gud är allsmäktig, vis`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En onder hen (de jaloerse mensen) waren er die erin geloofden en onder hen waren er die (mensen van het geloof) afhielden. En de Hel is voldoende als laaiend vuur Voorwaar, degenen die niet in Onze Tekenen geloven zullen Wij in het vuur (de Hel) leiden: telkens wanneer hun huiden gebraden zijn, zullen Wij die door andere huiden vervangen, opdat zij de bestraffing proeven. Voorwaar, Allah is Almachtig, Alwijs`,
+        ``,
+        ``
+      ],
+      [
+        `پھر لوگوں میں سے کسی نے تو اس کتاب کو مانا اور کوئی اس سے رکا (اور ہٹا) رہا تو نہ ماننے والوں (کے جلانے) کو دوزخ کی جلتی ہوئی آگ کافی ہے جن لوگوں نے ہماری آیتوں سے کفر کیا ان کو ہم عنقریب آگ میں داخل کریں گے جب ان کی کھالیں گل (اور جل) جائیں گی تو ہم اور کھالیں بدل دیں گے تاکہ (ہمیشہ) عذاب (کا مزہ چکھتے) رہیں بےشک خدا غالب حکمت والا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Maka di antara mereka (yang dengki itu), ada yang beriman kepadanya dan ada pula yang menghalangi (manusia beriman) kepadanya. Cukuplah (bagi mereka) neraka Jahanam yang menyala-nyala apinya Sungguh, orang-orang yang kafir kepada ayat-ayat Kami, kelak akan Kami masukkan ke dalam neraka. Setiap kali kulit mereka hangus, Kami ganti dengan kulit yang lain, agar mereka merasakan azab. Sungguh, Allah Mahaperkasa, Mahabijaksana`,
+        ``,
+        ``
+      ],
+      [
+        `Onlardan ona inananlar ve yüz çevirenler vardı. Çılgın bir alev olarak cehennem yeter. Doğrusu, ayetlerimizi inkar edenleri ateşe sokacağız; derilerinin her yanışında, azabı tatmaları için onları başka derilerle değiştireceğiz. Allah güçlüdür, Hakim'dir`,
+        ``,
+        ``
+      ],
+      [
+        `پس برخى از آنان به وى ايمان آوردند، و برخى از ايشان از او روى برتافتند، و [براى آنان‌] دوزخ پرشراره بس است به زودى كسانى را كه به آيات ما كفر ورزيده‌اند، در آتشى [سوزان‌] درآوريم؛ كه هر چه پوستشان بريان گردد، پوستهاى ديگرى بر جايش نهيم تا عذاب را بچشند. آرى، خداوند تواناى حكيم است`,
+        ``,
+        ``
+      ],
+      [
+        `অতঃপর তাদের কেউ তাকে মান্য করেছে আবার কেউ তার কাছ থেকে দূরে সরে রয়েছে। বস্তুতঃ (তাদের জন্য) দোযখের শিখায়িত আগুনই যথেষ্ট। এতে সন্দেহ নেই যে, আমার নিদর্শন সমুহের প্রতি যেসব লোক অস্বীকৃতি জ্ঞাপন করবে, আমি তাদেরকে আগুনে নিক্ষেপ করব। তাদের চামড়াগুলো যখন জ্বলে-পুড়ে যাবে, তখন আবার আমি তা পালটে দেব অন্য চামড়া দিয়ে, যাতে তারা আযাব আস্বাদন করতে থাকে। নিশ্চয়ই আল্লাহ মহাপরাক্রমশালী, হেকমতের অধিকারী।`,
+        ``,
+        ``
+      ],
+      [
+        `Então, dentre eles há quem nele creia e, dentre eles, há quem dele se afaste. E basta a Geena por fogo ardente Por certo, aos que renegam Nossos sinais, fá-los-emos entrar em Fogo. Cada vez que suas peles se consumirem, trocá-las-emos por outras peles, para que experimentem o castigo. Por certo, Allah é Todo-Poderoso, Sábio`,
+        ``,
+        ``
+      ],
+      [
+        `他们中有确信他的，有拒绝他的。火狱是足以惩治的。 不信我的迹象的人，我必定使他们入火狱，每当他们的皮肤烧焦的时候，我另换一套皮肤给他们，以便他们尝试刑罚。真主确是万能的，确是至睿的。`,
+        ``,
+        ``
+      ],
+      [
+        `だがかれらのある者はこれを信じたが，ある者はそれから背き去った。地獄は燃え盛る火と して十分であろう。 本当にわが印を信じない者は，やがて火獄に投げ込まれよう。かれらの皮膚が焼け尽きる度に，われは他の皮膚でこれに替え，かれらに（飽くまで）懲罰を味わわせるであろう。誠にアッラーは偉力ならびなく英明であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `그들 가운데는 믿는자가 있 었고 믿지 아니한자가 있었나니 타오르는 지옥이 그들 불신자들에게는 충분하도다 하나님의 계시를 불신하는 자들을 화염속으로 들게 하며 그 들의 피부가 불에 익어 다른 피부로 변하니 그들은 고통을 맛보더 라 실로 하나님은 권능과 지혜로 충만하심이라`,
+        ``,
+        ``
+      ],
+      [
+        `Qualcuno di loro ha creduto e qualcun altro si è allontanato. L'Inferno sarà [per loro] una fornace sufficiente Presto getteremo nel Fuoco coloro che smentiscono i Nostri segni. Ogni volta che la loro pelle sarà consumata, ne daremo loro un'altra, sì che gustino il tormento. In verità Allah è eccelso e saggio`,
+        ``,
+        ``
+      ],
+      [
+        `I wśród nich byli tacy, którzy uwierzyli w to, i wśród nich byli tacy, którzy się odwrócili od tego. Piekło wystarczy jako ogień Zaprawdę, tych, którzy nie uwierzyli w Nasze znaki, będziemy palić w ogniu. I za każdym razem, kiedy się ich skóra spali, zamienimy im skóry na inne, aby zakosztowali kary. Zaprawdę, Bóg jest potężny, mądry`,
+        ``,
+        ``
+      ],
+      [
+        `Серед них є ті, які увірували в [Мухаммада], а є й такі, які відвертаються від нього. Достатньо ж палаючої геєни для них Воістину, тих, які не вірують у Наші знамення, Ми вкинемо у вогонь. Коли їхня шкіра згорить, Ми будемо замінювати її на нову шкіру — для того, щоб вони спробували цю кару на смак! Воістину, Аллаг — Великий, Мудрий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآيتان 55-56`
+  },
+
+  {
+    arabic: [
       `وَالَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ سَنُدْخِلُهُمْ جَنَّاتٍ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ خَالِدِينَ فِيهَا أَبَدًا ۖ لَهُمْ فِيهَا أَزْوَاجٌ مُطَهَّرَةٌ ۖ وَنُدْخِلُهُمْ ظِلًّا ظَلِيلًا`,
       ``,
       ``
@@ -6796,6 +6916,117 @@ const verses = [
       ]
     ],
     number: `سورة الأنعام / Al-An'am، الآيتان 102-103`
+  },
+
+  {
+    arabic: [
+      `فَمَنْ يُرِدِ اللَّهُ أَنْ يَهْدِيَهُ يَشْرَحْ صَدْرَهُ لِلْإِسْلَامِ ۖ وَمَنْ يُرِدْ أَنْ يُضِلَّهُ يَجْعَلْ صَدْرَهُ ضَيِّقًا حَرَجًا كَأَنَّمَا يَصَّعَّدُ فِي السَّمَاءِ ۚ كَذَٰلِكَ يَجْعَلُ اللَّهُ الرِّجْسَ عَلَى الَّذِينَ لَا يُؤْمِنُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `So whoever Allah wants to guide - He expands his breast to [contain] Islam; and whoever He wants to misguide - He makes his breast tight and constricted as though he were climbing into the sky. Thus does Allah place defilement upon those who do not believe`,
+        ``,
+        ``
+      ],
+      [
+        `Et puis, quiconque Allah veut guider, Il lui ouvre la poitrine à l'islam . Et quiconque Il veut égarer, Il rend sa poitrine étroite et gênée, comme s'il s'efforçait de monter au ciel. Ainsi Allah inflige Sa punition à ceux qui ne croient pas`,
+        ``,
+        ``
+      ],
+      [
+        `Alá abre al islam el pecho de aquél a quien Él quiere dirigir. Y estrecha y oprime el pecho de aquél a quien Él quiere extraviar, como si se elevara en el aire. Así muestra Alá la indignación contra quienes no creen`,
+        ``,
+        ``
+      ],
+      [
+        `Кого Аллах желает наставить на прямой путь, тому Он раскрывает грудь для ислама, а кого Он желает ввести в заблуждение, тому Он сдавливает и сжимает грудь, словно тот забирается на небо. Так Аллах насылает скверну (или наказание) на тех, кто не верует`,
+        ``,
+        ``
+      ],
+      [
+        `Wen Allah rechtleiten will, dem tut Er die Brust auf für den Islam. Und wen Er in die Irre gehen lassen will, dem macht Er die Brust eng und bedrängt, so als ob er in den Himmel hochsteigen sollte. So legt Allah den Greuel auf diejenigen, die nicht glauben`,
+        ``,
+        ``
+      ],
+      [
+        `Gud vidgar bröstet hos den som Han vill vägleda, så att det kan fyllas av underkastelsen under Hans vilja, men hos den som Han vill låta gå vilse låter Han bröstet pressas samman i ångest, som hos den som stiger uppför ett högt [berg]. Så låter Gud nederlagets skam drabba dem som inte vill tro`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En wie wil dat Allah hem leidt, diens borst verruimt Hij voor de Islam; en wie Hij wenst te doen dwalen, diens borst maakt hij nauw en beklemd alsof hij (op een hoge berg) naar de hemel klimt. Zo legt Allah de bestraffing op aan degenen die niet geloven`,
+        ``,
+        ``
+      ],
+      [
+        `تو جس شخص کو خدا چاہتا ہے کہ ہدایت بخشے اس کا سینہ اسلام کے لیے کھول دیتا ہے اور جسے چاہتا ہے کہ گمراہ کرے اس کا سینہ تنگ اور گھٹا ہوا کر دیتا ہے گویا وہ آسمان پر چڑھ رہا ہے اس طرح خدا ان لوگوں پر جو ایمان نہیں لاتے عذاب بھیجتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Barang siapa yang dikehendaki Allah akan mendapat hidayah (petunjuk), Dia akan membukakan dadanya untuk (menerima) Islam. Dan barang siapa dikehendaki-Nya menjadi sesat, Dia jadikan dadanya sempit dan sesak, seakan-akan dia (sedang) mendaki ke langit. Demikianlah Allah menimpakan siksa kepada orang-orang yang tidak beriman`,
+        ``,
+        ``
+      ],
+      [
+        `Allah kimi doğru yola koymak isterse onun kalbini İslamiyet'e açar, kimi de saptırmak isterse, göğe yükseliyormuş gibi, kalbini dar ve sıkıntılı kılar. Allah böylece, inanmayanları küfür bataklığında bırakır`,
+        ``,
+        ``
+      ],
+      [
+        `پس كسى را كه خدا بخواهد هدايت نمايد، دلش را به پذيرش اسلام مى‌گشايد؛ و هر كه را بخواهد گمراه كند، دلش را سخت تنگ مى‌گرداند؛ چنانكه گويى به زحمت در آسمان بالا مى‌رود. اين گونه، خدا پليدى را بر كسانى كه ايمان نمى‌آورند قرار مى‌دهد`,
+        ``,
+        ``
+      ],
+      [
+        `অতঃপর আল্লাহ যাকে পথ-প্রদর্শন করতে চান, তার বক্ষকে ইসলামের জন্যে উম্মুক্ত করে দেন এবং যাকে বিপথগামী করতে চান, তার বক্ষকে সংকীর্ণ অত্যধিক সংকীর্ণ করে দেন-যেন সে সবেগে আকাশে আরোহণ করছে। এমনি ভাবে যারা বিশ্বাস স্থাপন করে না। আল্লাহ তাদের উপর আযাব বর্ষন করেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Então, a quem Allah deseja guiar, Ele lhe dilatará o peito para o Islam. E a quem deseja descaminhar, Ele lhe tornará o peito constrito, oprimido, como se se esforçasse para ascender ao céu. Assim, Allah faz cair o tormento sobre os que não crêem`,
+        ``,
+        ``
+      ],
+      [
+        `真主欲使谁遵循正道，就使谁的心胸为伊斯兰而敞开；真主欲使谁误入迷途，就使谁的心胸狭隘，（要他信道），难如登天。真主这样以刑罚加于不信道的人。`,
+        ``,
+        ``
+      ],
+      [
+        `凡そアッラーが導こうと御望みになった者は，イスラームのためにその胸を開く。だが迷う に任せようと御考えになった者には，その胸をまるで天に登ろうとするかのようにしめせばめる （もがき苦しめる）。このようにアッラーは，信仰を拒否する者に恥辱を加えられた。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님의 뜻이 있어 인도하고자 하는 자를 위해서는 그들의 가슴을 이슬람에로 열었으며 그분 의 뜻이 있어 방황케 하고자 하는 자를 위해서는 그들의 가슴을 좁 게 하시니 이는 그들이 하늘에 오 르는 것과 같더라 이렇듯 하나님 은 믿음을 거역하는 이들 위에 벌 을 내리심이라`,
+        ``,
+        ``
+      ],
+      [
+        `Allah apre il cuore all'Islàm a coloro che vuole guidare, colui che vuole sviare, lo stringe e opprime il suo petto, come a chi fa sforzo a salire verso il cielo. Così Allah impone l'infamità a coloro che non credono`,
+        ``,
+        ``
+      ],
+      [
+        `Kogo Bóg chce prowadzić drogą prostą, rozszerza jego pierś dla islamu, a kogo chce sprowadzić z drogi, czyni jego pierś ciasną, udręczoną, jak gdyby on chciał wznieść się do nieba. W ten sposób Bóg daje odczuć swój gniew tym, którzy nie wierzą`,
+        ``,
+        ``
+      ],
+      [
+        `Кому Аллаг бажає вказати прямий шлях, тому Він розкриває груди для ісламу, а кого Він бажає збити зі шляху, тому здавлює та стискає груди, ніби той підіймається на небо! Так Аллаг зводить покарання на тих, які не вірують`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنعام / Al-An'am، الآية 125`
   },
 
   {
@@ -9242,6 +9473,117 @@ const verses = [
 
   {
     arabic: [
+      `هُوَ الَّذِي جَعَلَ الشَّمْسَ ضِيَاءً وَالْقَمَرَ نُورًا وَقَدَّرَهُ مَنَازِلَ لِتَعْلَمُوا عَدَدَ السِّنِينَ وَالْحِسَابَ ۚ مَا خَلَقَ اللَّهُ ذَٰلِكَ إِلَّا بِالْحَقِّ ۚ يُفَصِّلُ الْآيَاتِ لِقَوْمٍ يَعْلَمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `It is He who made the sun a shining light and the moon a derived light and determined for it phases - that you may know the number of years and account [of time]. Allah has not created this except in truth. He details the signs for a people who know`,
+        ``,
+        ``
+      ],
+      [
+        `C'est Lui qui a fait du soleil une clarté et de la lune une lumière, et Il en a déterminé les phases afin que vous sachiez le nombre des années et le calcul (du temps). Allah n'a créé cela qu'en toute vérité. Il expose les signes pour les gens doués de savoir`,
+        ``,
+        ``
+      ],
+      [
+        `Él es Quien ha hecho del sol claridad y de la luna luz, Quien ha determinado las fases de ésta para que sepáis el número de años y el cómputo. Alá no ha creado esto sino con un fin. Él explica los signos a gente que sabe`,
+        ``,
+        ``
+      ],
+      [
+        `Он - Тот, Кто даровал солнцу сияние, а луне - свет. Он установил для нее фазы, чтобы вы могли вести летосчисление и знали счет. Все это Аллах сотворил только ради истины. Он разъясняет Свои знамения для людей знающих`,
+        ``,
+        ``
+      ],
+      [
+        `Er ist es, Der die Sonne zu einer Leuchte und den Mond zu einem Licht gemacht und ihm Himmelspunkte zugemessen hat, damit ihr die Zahl der Jahre und die (Zeit)rechnung wißt. Allah hat dies ja nur in Wahrheit erschaffen. Er legt die Zeichen ausführlich dar für Leute, die Bescheid wissen`,
+        ``,
+        ``
+      ],
+      [
+        `Det är Han som skapade solen som ett bländande ljus och månen [som återger dess] sken, och som har fastställt dess faser, så att ni kan räkna åren och mäta [tiden]. Gud har inte skapat detta utan en plan och ett syfte. Han framställer budskapen fast och klart för de insiktsfulla`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij is Degene Die de zon heeft gemaakt tot een (stralend) schijnsel en de maan tot een licht en Hij bepaalde haar standen opdat jullie de jaartelling zouden kennen en de (tijds-)berekening. Allah heeft dat slechts in Waarheid geschapen. Hij zet de Tekenen uiteen aan een volk dat weet`,
+        ``,
+        ``
+      ],
+      [
+        `وہی تو ہے جس نے سورج کو روشن اور چاند کو منور بنایا اور چاند کی منزلیں مقرر کیں تاکہ تم برسوں کا شمار اور (کاموں کا) حساب معلوم کرو۔ یہ (سب کچھ) خدا نے تدبیر سے پیدا کیا ہے۔ سمجھنے والوں کے لیے وہ اپنی آیاتیں کھول کھول کر بیان فرماتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dialah yang menjadikan matahari bersinar dan bulan bercahaya, dan Dialah yang menetapkan tempat-tempat orbitnya, agar kamu mengetahui bilangan tahun, dan perhitungan (waktu). Allah tidak menciptakan demikian itu melainkan dengan benar. Dia menjelaskan tanda-tanda (kebesaran-Nya) kepada orang-orang yang mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Güneşi ışıklı ve ayı nurlu yapan; yılların sayısını ve hesabı bilmeniz için, aya konak yerleri düzenleyen O'dur. Allah bunları ancak gerçeğe göre yaratmıştır; bilen millete ayetleri uzun uzadıya açıklıyor`,
+        ``,
+        ``
+      ],
+      [
+        `اوست كسى كه خورشيد را روشنايى بخشيد و ماه را تابان كرد، و براى آن منزلهايى معين كرد تا شماره سالها و حساب را بدانيد. خدا اينها را جز به حق نيافريده است. نشانه‌ها[ى خود] را براى گروهى كه مى‌دانند به روشنى بيان مى‌كند`,
+        ``,
+        ``
+      ],
+      [
+        `তিনিই সে মহান সত্তা, যিনি বানিয়েছেন সুর্যকে উজ্জল আলোকময়, আর চন্দ্রকে স্নিগ্ধ আলো বিতরণকারীরূপে এবং অতঃপর নির্ধারিত করেছেন এর জন্য মনযিল সমূহ, যাতে করে তোমরা চিনতে পার বছরগুলোর সংখ্যা ও হিসাব। আল্লাহ এই সমস্ত কিছু এমনিতেই সৃষ্টি করেননি, কিন্তু যথার্থতার সাথে। তিনি প্রকাশ করেন লক্ষণসমূহ সে সমস্ত লোকের জন্য যাদের জ্ঞান আছে।`,
+        ``,
+        ``
+      ],
+      [
+        `Ele é Quem fez do sol luminosidade, e da lua, luz e determinou-lhe fases para que saibais o número dos anos e o cômputo do tempo. Allah não criou isso senão com a verdade. Ele aclara os sinais a um povo que sabe`,
+        ``,
+        ``
+      ],
+      [
+        `他曾以太阳为发光的、以月亮为光明的，并为月亮而定列宿，以便你们知道历算。真主只依真理而创造之。他为能了解的民众而解释一切迹象。`,
+        ``,
+        ``
+      ],
+      [
+        `かれこそは太陽を輝やかせ，月を灯明とされ，その軌道を定め，年数（と時日）の計算をあなたがたに教えられた方である。アッラーがこれらを創造されたのは，只真理（を現わすため）に外ならない。かれは知識ある人びとに印を詳しく述べられる。`,
+        ``,
+        ``
+      ],
+      [
+        `그분께서 태양을 빛나게 하고그것으로 달은 빛을 비추며 아름 답게 하사 일년의 날과 계산을 알 게 하시도다 하나님께서 그것을 진리로 창조하시어 이성이 있는 백성에게 말씀을 설명하시더라`,
+        ``,
+        ``
+      ],
+      [
+        `È Lui che ha fatto del sole uno splendore e della luna una luce, ed ha stabilito le sue fasi, perché possiate conoscere il numero degli anni e il computo. Allah non creò tutto ciò se non in verità. Egli estrinseca i Suoi segni per la gente che conosce`,
+        ``,
+        ``
+      ],
+      [
+        `On jest Tym, który uczynił słońce jasnością, a księżyc światłem; i który wyznaczył dla niego fazy, abyście znali liczbę lat i rachunek. Bóg stworzył to niewątpliwie w całej prawdzie, rozdzielając znaki dla ludzi, którzy wiedzą`,
+        ``,
+        ``
+      ],
+      [
+        `Він — Той, Хто зробив сонце світилом, а місяць — світлом, визначивши йому фази, щоб ви знали кількість років і лічбу. Аллаг створив це все тільки в істині! Він пояснює знамення для людей, які знають`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يونس / Yunus، الآية 5`
+  },
+
+  {
+    arabic: [
       `يَا أَيُّهَا النَّاسُ إِنَّمَا بَغْيُكُمْ عَلَىٰ أَنفُسِكُمْ`,
       `مَّتَاعَ الْحَيَاةِ الدُّنْيَا`,
       `ثُمَّ إِلَيْنَا مَرْجِعُكُمْ فَنُنَبِّئُكُم بِمَا كُنتُمْ تَعْمَلُونَ`
@@ -11018,6 +11360,117 @@ const verses = [
 
   {
     arabic: [
+      `وَالْأَرْضَ مَدَدْنَاهَا وَأَلْقَيْنَا فِيهَا رَوَاسِيَ وَأَنْبَتْنَا فِيهَا مِنْ كُلِّ شَيْءٍ مَوْزُونٍ وَجَعَلْنَا لَكُمْ فِيهَا مَعَايِشَ وَمَنْ لَسْتُمْ لَهُ بِرَازِقِينَ وَإِنْ مِنْ شَيْءٍ إِلَّا عِنْدَنَا خَزَائِنُهُ وَمَا نُنَزِّلُهُ إِلَّا بِقَدَرٍ مَعْلُومٍ وَأَرْسَلْنَا الرِّيَاحَ لَوَاقِحَ فَأَنْزَلْنَا مِنَ السَّمَاءِ مَاءً فَأَسْقَيْنَاكُمُوهُ وَمَا أَنْتُمْ لَهُ بِخَازِنِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And the earth - We have spread it and cast therein firmly set mountains and caused to grow therein [something] of every well-balanced thing And We have made for you therein means of living and [for] those for whom you are not providers And there is not a thing but that with Us are its depositories, and We do not send it down except according to a known measure And We have sent the fertilizing winds and sent down water from the sky and given you drink from it. And you are not its retainers`,
+        ``,
+        ``
+      ],
+      [
+        `Et quant à la terre, Nous l'avons étalée et y avons placé des montagnes (immobiles) et y avons fait pousser toute chose harmonieusement proportionnée Et Nous y avons placé des vivres pour vous, et (placé aussi pour vous) des êtres que vous ne nourrissez pas Et il n'est rien dont Nous n'ayons les réserves et Nous ne le faisons descendre que dans une mesure déterminée Et Nous envoyons les vents fécondants; et Nous faisons alors descendre du ciel une eau dont Nous vous abreuvons et que vous n'êtes pas en mesure de conserver`,
+        ``,
+        ``
+      ],
+      [
+        `Hemos extendido la tierra, colocado en ella firmes montañas y hecho crecer en ella de todo en la debida proporción Y hemos puesto en ella subsistencias para vosotros y para quien no depende de vuestro sustento No hay nada de que no dispongamos Nosotros tesoros. Pero no lo hacemos bajar sino con arreglo a una medida determinada Hemos enviado los vientos, que fecundan, y hacemos bajar del cielo agua, de la que os damos a beber y que no sabéis conservar`,
+        ``,
+        ``
+      ],
+      [
+        `Мы простерли землю, поместили на ней незыблемые горы и взрастили на ней в меру всякие вещи Мы предоставили на земле пропитание вам и тем, кого вы не кормите Нет таких вещей, хранилищ которых не было бы у Нас, и ниспосылаем Мы их только в известной мере Мы послали ветры, оплодотворяющие облака водой, а потом низвели с неба воду и напоили вас ею, но не вам ее сберегать`,
+        ``,
+        ``
+      ],
+      [
+        `Und die Erde haben Wir gedehnt und darauf festgegründete Berge gesetzt und auf ihr von allen zu wiegenden Dingen wachsen lassen Und Wir haben auf ihr für euch (Möglichkeiten für den) Lebensunterhalt geschaffen und (auch) für diejenigen, die ihr nicht versorgt Und es gibt nichts, dessen Schatzkammern nicht bei Uns wären. Und Wir senden es nur in bestimmtem Maß hinab Und Wir senden die Winde zur Befruchtung. Und Wir lassen dann vom Himmel Wasser hinabkommen und geben es euch zu trinken, doch ihr könnt es nicht (alles davon) als Vorrat lagern`,
+        ``,
+        ``
+      ],
+      [
+        `Och Vi har brett ut jorden och där sänkt ned fast förankrade berg och låtit alla slag av växter uppstå på den enligt en väl avvägd plan Och Vi har sörjt för att ni där får ert uppehälle och för uppehället av allt levande som ni inte har ansvar för Ingenting finns som inte [har sitt ursprung] i Våra förråd och ur dem skänker Vi bara enligt ett [i förhållande till behovet] bestämt mått Vi lösgör vindarna som biträder vid [växternas] befruktning och Vi låter regn falla så att ni får [vatten] att dricka; men det är inte ni som förfogar över det`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En Wij hebben de aarde uitgestrekt en Wij hebben daarop bergen geplaatst en Wij hebben daarop van alles doen groeien volgens een evenwichte maat En Wij hebben voor jullie daar levensonderhoud gemaakt, (ook voor) degene voor wie jullie niet de voorzieners zijn Er is geen ding waarvan de schatten niet bij Ons zijn, en Wij zenden deze slechts volgens een vastgestelde maatgeving neer En Wij hebben de winden gezonden als bestuivers en Wij hebben regen neergezonden uit de hemel, waarmee wij jullie te drinken geven. En jullie zijn daar niet de bewaarders van`,
+        ``,
+        ``
+      ],
+      [
+        `اور زمین کو بھی ہم ہی نے پھیلایا اور اس پر پہاڑ (بنا کر) رکھ دیئے اور اس میں ہر ایک سنجیدہ چیز اُگائی اور ہم ہی نے تمہارے لیے اور ان لوگوں کے لیے جن کو تم روزی نہیں دیتے اس میں معاش کے سامان پیدا کئے اور ہمارے ہاں ہر چیز کے خزانے ہیں اور ہم ان کو بمقدار مناسب اُتارتے رہتے ہیں اور ہم ہی ہوائیں چلاتے ہیں (جو بادلوں کے پانی سے) بھری ہوئی ہوتی ہیں اور ہم ہی آسمان سے مینہ برساتے ہیں اور ہم ہی تم کو اس کا پانی پلاتے ہیں اور تم تو اس کا خرانہ نہیں رکھتے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Kami telah menghamparkan bumi dan Kami pancangkan padanya gunung-gunung serta Kami tumbuhkan di sana segala sesuatu menurut ukuran Dan Kami telah menjadikan padanya sumber-sumber kehidupan untuk keperluanmu, dan (Kami ciptakan pula) makhluk-makhluk yang bukan kamu pemberi rezekinya (Dan tidak ada sesuatu pun, melainkan pada sisi Kamilah khazanahnya;434) Kami tidak menurunkannya melainkan dengan ukuran tertentu (Dan Kami telah meniupkan angin untuk mengawinkan435) dan Kami turunkan hujan dari langit, lalu Kami beri minum kamu dengan (air) itu, dan bukanlah kamu yang menyimpannya`,
+        ``,
+        ``
+      ],
+      [
+        `Yeri yaydık, oraya sabit dağlar yerleştirdik, orada her şeyi bir ölçüye göre bitirdik Orada sizin ve rızık veremeyeceğiniz kimseler için geçimlikler meydana getirdik Hazinesi Bizim katımızda olmayan hiçbir şey yoktur. Biz onu ancak belli bir ölçüye göre indiririz Rüzgarları aşılayıcı olarak gönderdik; yukarıdan su indirdik de sizi onunla suladık. Yoksa siz onu toplayamazdınız`,
+        ``,
+        ``
+      ],
+      [
+        `و زمين را گسترانيديم و در آن كوههاى استوار افكنديم و از هر چيز سنجيده‌اى در آن رويانيديم و براى شما و هر كس كه شما روزى‌دهنده او نيستيد، در آن وسايل زندگى قرار داديم و هيچ چيز نيست مگر آنكه گنجينه‌هاى آن نزد ماست، و ما آن را جز به اندازه‌اى معين فرو نمى‌فرستيم و بادها را بارداركننده فرستاديم و از آسمان، آبى نازل كرديم، پس شما را بدان سيراب نموديم، و شما خزانه‌دار آن نيستيد`,
+        ``,
+        ``
+      ],
+      [
+        `আমি ভু-পৃষ্ঠকে বিস্তৃত করেছি এবং তার উপর পর্বতমালা স্থাপন করেছি এবং তাতে প্রত্যেক বস্তু সুপরিমিতভাবে উৎপন্ন করেছি। আমি তোমাদের জন্যে তাতে জীবিকার উপকরন সৃষ্টি করছি এবং তাদের জন্যেও যাদের অন্নদাতা তোমরা নও। আমার কাছে প্রত্যেক বস্তুর ভান্ডার রয়েছে। আমি নির্দিষ্ট পরিমানেই তা অবতরণ করি। আমি বৃষ্টিগর্ভ বায়ু পরিচালনা করি অতঃপর আকাশ থেকে পানি বর্ষণ করি, এরপর তোমাদেরকে তা পান করাই। বস্তুতঃ তোমাদের কাছে এর ভান্ডার নেই।`,
+        ``,
+        ``
+      ],
+      [
+        `E a terra, estendemo-la e,nela, implantamos assentes montanhas e nela, fizemos germinar de toda cousa, no justo peso E, nela, fizemos meios de subsistência para vós e para aqueles aos quais não estais dando sustento E não há cousa alguma, sem que estejam junto de nós seus cofres, e não a fazemos descer senão na medida determinada E enviamos os ventos fecundantes, e fazemos descer do céu água, e damo-vo-la de beber; e não sois seus retentores`,
+        ``,
+        ``
+      ],
+      [
+        `我展开了大地，并把许多山岳安置在大地上，而且使各种均衡的东西生出来。 我在大地上为你们和你们所不能供养者而创造了许多生活资料。 每一种事物，我这里都有其仓库，我只依定数降下它。 我派遣滋润的风，我就从云中降下雨水，以供给你们饮料，你们绝不是雨水的蓄藏者。`,
+        ``,
+        ``
+      ],
+      [
+        `またわれは大地を伸ベ広げて，山々をその上に堅固に据えつけた。そこで凡てのものを（妥当な）均衡の下に，生長させる。 われはあなたがたのためにも，またあなたがたが決して養育者たりえないものにも生計の道を与えた。 どのようなものでも，われにその（無尽の）蓄えのないものはない。（必要に応した）一定の分量以外には下さないだけである。 またわれは豊沃にする風を送り，天から雨を降らせて，それをあなたがたに飲ませる。だがあなたがたはその（宝庫の）管理者ではない。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 대지를 펼쳐 그안에 산들을 세워 고정시키고 모든 것이 그안에서 균형되게 생산케 함이라 하나님은 너희들을 위하여 너희가 생성케 하지 못하는 일용 할 양식을 그안에 부여하였노라 하나님에게는 모든 일용할 양식이 있으되 필요한 양 외에는 내려주지 아니 하시니라 하나님은 비구름을 보내어 하늘로부터 비를 내리게 하사 그 것으로 너희를 충족시키나 너희는그것을 저장하지 못하며`,
+        ``,
+        ``
+      ],
+      [
+        `E la terra, l'abbiamo distesa e vi abbiamo infisso le montagne e ogni cosa abbiamo fatto crescere con dovuta misura Alimenti vi ponemmo, per voi e per tutti coloro che voi non nutrite affatto Di ogni cosa abbiamo tesori, ma la facciamo scendere in quantità misurata I venti mandammo, portatori di fertilità, e dal cielo facemmo scendere l'acqua con la quale vi dissetiamo e che non sapreste conservare`,
+        ``,
+        ``
+      ],
+      [
+        `A ziemię rozpostarliśmy i rzuciliśmy na nią solidnie stojące; i sprawiliśmy, iż wyrosła na niej wszelka rzecz wyważona I przygotowaliśmy na niej wszelkie środki do życia, dla was i dla tych, których wy nie zaopatrujecie I nie ma żadnej rzeczy, której nie posiadalibyśmy pełne skarby; My zsyłamy ją tylko według wiadomej miary My posyłamy wiatry użyźniające, My spuszczamy z nieba wodę i dajemy ją wam do picia, lecz nie wy jesteście jej strażnikami`,
+        ``,
+        ``
+      ],
+      [
+        `І Ми розіслали землю й встановили там гори, а також виростили там кожну зважену річ Ми створили на землі засоби прожиття для вас і для тих, кого ви не годуєте і немає речей, сховищ яких не було б у Нас. Ми відсилаємо їх тільки у визначеній мірі Ми відіслали вітри, які запліднюють, і пролили з неба воду, якою вас напуваємо. Але ви не можете її зберегти`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الحجر / Al-Hijr، الآيات 19-22`
+  },
+
+  {
+    arabic: [
       `وَأَنزَلْنَا إِلَيْكَ الذِّكْرَ`,
       `لِتُبَيِّنَ لِلنَّاسِ مَا نُزِّلَ إِلَيْهِمْ`,
       `وَلَعَلَّهُمْ يَتَفَكَّرُونَ`
@@ -11125,6 +11578,228 @@ const verses = [
       ]
     ],
     number: `سورة النحل / An-Nahl، الآية 44 (جزء منها)`
+  },
+
+  {
+    arabic: [
+      `وَإِنَّ لَكُمْ فِي الْأَنْعَامِ لَعِبْرَةً ۖ نُسْقِيكُمْ مِمَّا فِي بُطُونِهِ مِنْ بَيْنِ فَرْثٍ وَدَمٍ لَبَنًا خَالِصًا سَائِغًا لِلشَّارِبِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And indeed, for you in grazing livestock is a lesson. We give you drink from what is in their bellies - between excretion and blood - pure milk, palatable to drinkers`,
+        ``,
+        ``
+      ],
+      [
+        `Il y a certes un enseignement pour vous dans les bestiaux: Nous vous abreuvons de ce qui est dans leurs ventres, - [un produit] extrait du chyme et du sang - un lait pur, délicieux pour les buveurs`,
+        ``,
+        ``
+      ],
+      [
+        `Y en los rebaños tenéis motivo de reflexión. Os damos a beber del contenido de sus vientres, entre heces y sangre: una leche pura, grata a los bebedores`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, в домашней скотине для вас - назидание. Мы поим вас тем, что образуется в их животах между пометом и кровью, - чистым молоком, приятным для пьющих`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, auch im Vieh habt ihr wahrlich eine Lehre. Wir geben euch von dem, was in ihren Leibern zwischen Kot und Blut ist, zu trinken, reine Milch, angenehm für diejenigen, die (sie) trinken`,
+        ``,
+        ``
+      ],
+      [
+        `Och från boskapen kan ni hämta en [annan] lärdom: i deras buk, mellan det som kroppen stöter bort och blodet [som uppehåller livet], låter Vi ren mjölk [alstras] för er, en välsmakande [dryck]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En voorwaar, voor jullie is er in het vee een lering: Wij geven jullie van wat er in hun buiken tussen mest en bloed is pure melk, gemakkelijk voor de drinkers`,
+        ``,
+        ``
+      ],
+      [
+        `اور تمہارے لیے چارپایوں میں بھی (مقام) عبرت (وغور) ہے کہ ان کے پیٹوں میں جو گوبر اور لہو ہے اس سے ہم تم کو خالص دودھ پلاتے ہیں جو پینے والوں کے لیے خوشگوار ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan sungguh, pada hewan ternak itu benar-benar terdapat pelajaran bagi kamu. Kami memberimu minum dari apa yang ada dalam perutnya (berupa) susu murni antara kotoran dan darah, yang mudah ditelan bagi orang yang meminumnya`,
+        ``,
+        ``
+      ],
+      [
+        `Hayvanlarda da size ibretler vardır. Bağırsaklarındakiler ile kan arasından, içenlere halis ve içimi kolay süt içiririz`,
+        ``,
+        ``
+      ],
+      [
+        `و در دامها قطعاً براى شما عبرتى است: از آنچه در [لابلاى‌] شكم آنهاست، از ميان سرگين و خون، شيرى ناب به شما مى‌نوشانيم كه براى نوشندگان گواراست`,
+        ``,
+        ``
+      ],
+      [
+        `তোমাদের জন্যে চতুস্পদ জন্তুদের মধ্যে চিন্তা করার অবকাশ রয়েছে। আমি তোমাদেরকে পান করাই তাদের উদরস্থিত বস্তুসমুহের মধ্যে থেকে গোবর ও রক্ত নিঃসৃত দুগ্ধ যা পানকারীদের জন্যে উপাদেয়।`,
+        ``,
+        ``
+      ],
+      [
+        `E, por certo, há nos rebanhos, lição para vós. Damo-vos de beber, do que há em seus ventres - entre fezes e sangue - leite puro, suave para quem o bebe`,
+        ``,
+        ``
+      ],
+      [
+        `在牲畜中，对于你们，确有一种教训。我使你们得饮那从牲畜腹内的粪和血之间提出的又纯洁又可口的乳汁。`,
+        ``,
+        ``
+      ],
+      [
+        `また家畜にもあなたがたへの教訓がある。われはその腹の中の雑物と血液の間から，あなたがたに飲料を与える。（その）乳は飲む者にとり，清らかであり（喉に）快適である。`,
+        ``,
+        ``
+      ],
+      [
+        `가축에도 너희를 위한 교훈 이 있나니 몸 안에 있는 물질과 피와 침전물 사이에서 마시기에 순수하고 유쾌한 순수한 우유를 만드니라`,
+        ``,
+        ``
+      ],
+      [
+        `E invero dai vostri greggi trarrete un insegnamento: vi dissetiamo con quello che è nei loro visceri, tra chimo e sangue: un latte puro, delizioso per chi lo beve`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, macie pouczający przykład w waszych trzodach! My poimy was tym, co jest w ich wnętrznościach, między pokarmem strawionym a krwią - mlekiem czystym, przyjemnym dla pijących`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, в худобі для вас — повчальний приклад. Ми даємо вам пити те, що в їхніх черевах між перетравленою їжею та кров’ю — чисте молоко, приємне для того, хто його п’є`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النحل / An-Nahl، الآية 66`
+  },
+
+  {
+    arabic: [
+      `وَأَوْحَىٰ رَبُّكَ إِلَى النَّحْلِ أَنِ اتَّخِذِي مِنَ الْجِبَالِ بُيُوتًا وَمِنَ الشَّجَرِ وَمِمَّا يَعْرِشُونَ ثُمَّ كُلِي مِنْ كُلِّ الثَّمَرَاتِ فَاسْلُكِي سُبُلَ رَبِّكِ ذُلُلًا ۚ يَخْرُجُ مِنْ بُطُونِهَا شَرَابٌ مُخْتَلِفٌ أَلْوَانُهُ فِيهِ شِفَاءٌ لِلنَّاسِ ۗ إِنَّ فِي ذَٰلِكَ لَآيَةً لِقَوْمٍ يَتَفَكَّرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And your Lord inspired to the bee, "Take for yourself among the mountains, houses, and among the trees and [in] that which they construct Then eat from all the fruits and follow the ways of your Lord laid down [for you]." There emerges from their bellies a drink, varying in colors, in which there is healing for people. Indeed in that is a sign for a people who give thought`,
+        ``,
+        ``
+      ],
+      [
+        `[Et voilà] ce que ton Seigneur révéla aux abeilles : "Prenez des demeures dans les montagnes, les arbres, et les treillages que [les hommes] font Puis mangez de toute espèce de fruits, et suivez les sentiers de votre Seigneur, rendus faciles pour vous. De leur ventre, sort une liqueur, aux couleurs variées, dans laquelle il y a une guérison pour les gens. Il y a vraiment là une preuve pour des gens qui réfléchissent`,
+        ``,
+        ``
+      ],
+      [
+        `Tu Señor ha inspirado a las abejas: «Estableced habitación en las montañas, en los árboles y en las construcciones humanas Comed de todos los frutos y caminad dócilmente por los caminos de vuestro Señor». De su abdomen sale un líquido de diferentes clases, que contiene un remedio para los hombres. Ciertamente, hay en ello un signo para gente que reflexiona`,
+        ``,
+        ``
+      ],
+      [
+        `Твой Господь внушил пчеле: «Воздвигай жилища в горах, на деревьях и в строениях А потом питайся всевозможными плодами и следуй по путям твоего Господа, которые доступны тебе». Из брюшков пчел исходит питье разных цветов, которое приносит людям исцеление. Воистину, в этом - знамение для людей размышляющих`,
+        ``,
+        ``
+      ],
+      [
+        `Und dein Herr hat der Biene eingegeben: "Nimm dir in den Bergen Häuser, in den Bäumen und in dem, was sie an Spalieren errichten Hierauf iß von allen Früchten, ziehe auf den Wegen deines Herrn dahin, die (dir) geebnet sind." Aus ihren Leibern kommt ein Getränk von unterschiedlichen Farben, in dem Heilung für die Menschen ist. Darin ist wahrlich ein Zeichen für Leute, die nachdenken`,
+        ``,
+        ``
+      ],
+      [
+        `Och din Herre har lärt biet att inrätta sig i bergen och i träd och i det som [människor] ställer i ordning [för dess behov] och att hämta sin näring från alla [växter som ger] frukt och att följa de vägar som din Herre [har utstakat för det]. Och en saft av skiftande färg sipprar fram ur dess [inre] i vilken det finns läkande ämnen [till nytta] för människorna. I allt detta ligger helt visst ett budskap till människor som tänker`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En jouw Heer inspireerde de bij: "Bouw huizen in de bergen en in de bomen en in wat zij (de mensen) bouwen Eet dan van alle vruchten en volg de wegen die jouw Heer makkelijk maakte."' Er komt uit hun buiken een drank met verschillende kleuren, daarin is genezing voor de mensen. Voorwaar, daarin is zeker een Teken voof een volk dat nadenkt`,
+        ``,
+        ``
+      ],
+      [
+        `اور تمہارے پروردگار نے شہد کی مکھیوں کو ارشاد فرمایا کہ پہاڑوں میں اور درختوں میں اور اونچی اونچی چھتریوں میں جو لوگ بناتے ہیں گھر بنا اور ہر قسم کے میوے کھا۔ اور اپنے پروردگار کے صاف رستوں پر چلی جا۔ اس کے پیٹ سے پینے کی چیز نکلتی ہے جس کے مختلف رنگ ہوتے ہیں اس میں لوگوں (کے کئی امراض) کی شفا ہے۔ بےشک سوچنے والوں کے لیے اس میں بھی نشانی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Tuhanmu mengilhamkan kepada lebah, "Buatlah sarang di gunung-gunung, di pohon-pohon kayu, dan di tempat-tempat yang dibikin manusia kemudian makanlah dari segala (macam) buah-buahan lalu tempuhlah jalan Tuhanmu yang telah dimudahkan (bagimu)." Dari perut lebah itu keluar minuman (madu) yang bermacam-macam warnanya, di dalamnya terdapat obat yang menyembuhkan bagi manusia. Sungguh, pada yang demikian itu benar-benar terdapat tanda (kebesaran Allah) bagi orang yang berpikir`,
+        ``,
+        ``
+      ],
+      [
+        `Rabbin bal arısına: "Dağlarda, ağaçlarda ve hazırlanmış kovanlarda yuva edin; sonra her çeşit üründen ye; sonra da Rabbinin işlemen için gösterdiği yollardan yürü" diye öğretti. Karınlarından insanlara şifa olan çeşitli renklerde bal çıkar. Düşünen bir millet için bunda ibret vardır`,
+        ``,
+        ``
+      ],
+      [
+        `و پروردگار تو به زنبور عسل وحى [=الهام غريزى‌] كرد كه از پاره‌اى كوهها و از برخى درختان و از آنچه داربست [و چفته‌سازى‌] مى‌كنند، خانه‌هايى براى خود درست كن، سپس از همه ميوه‌ها بخور، و راههاى پروردگارت را فرمانبردارانه، بپوى. [آنگاه‌] از درون [شكم‌] آن، شهدى كه به رنگهاى گوناگون است بيرون مى‌آيد. در آن، براى مردم درمانى است. راستى در اين [زندگى زنبوران‌] براى مردمى كه تفكر مى‌كنند نشانه [قدرت الهى‌] است`,
+        ``,
+        ``
+      ],
+      [
+        `আপনার পালনকর্তা মধু মক্ষিকাকে আদেশ দিলেনঃ পর্বতগাহ্রে, বৃক্ষ এবং উঁচু চালে গৃহ তৈরী কর এরপর সর্বপ্রকার ফল থেকে ভক্ষণ কর এবং আপন পালনকর্তার উম্মুক্ত পথ সমূহে চলমান হও। তার পেট থেকে বিভিন্ন রঙে পানীয় নির্গত হয়। তাতে মানুষের জন্যে রয়েছে রোগের প্রতিকার। নিশ্চয় এতে চিন্তাশীল সম্প্রদায়ের জন্যে নিদর্শন রয়েছে।`,
+        ``,
+        ``
+      ],
+      [
+        `E teu Senhor inspirou às abelhas: "Tomai casas, nas montanhas e nas árvores e no que eles erigem Em seguida, comei de todos os frutos. E ide, docilmente, pelos caminhos de vosso Senhor."" De seu ventre sai um licor: variadas são`,
+        ``,
+        ``
+      ],
+      [
+        `你的主曾启示蜜蜂：你可以筑房在山上和树上，以及人们所建造的蜂房里。 然后，你从每种果实上吃一点，并驯服地遵循你的主的道路。将有一种颜色不同，而可以治病的饮料，从它的腹中吐出来；对于能思维的民众，此中确有一种迹象。`,
+        ``,
+        ``
+      ],
+      [
+        `またあなたの主は，蜜蜂に啓示した。「丘や樹木の上に作った屋根の中に巣を営み， （地上の）各種の果実を吸い，あなたの主の道に，障碍なく（従順に）働きなさい。」それらは，腹の中から種々異った色合いの飲料を出し，それには人間を癒すものがある。本当にこの中には，反省する者への一つの印がある。`,
+        ``,
+        ``
+      ],
+      [
+        `그대의 주님께서 은혜를 부 여하사 벌에게 산과 나무와 사람 이 사는 거주지에 집을 지으라 하시고 모든 꽃에서 일용할 양식을먹되 주님의 길을 따르라 이는 쉬우니라 하셨더라 그들 몸에서는 여러가지 색깔의 마실것이 나오며인간에게 유용한 치료약이 있으니실로 그 안에는 숙고하는 백성을 위한 예증이 있노라`,
+        ``,
+        ``
+      ],
+      [
+        `Ed il tuo Signore ispirò alle api: “Dimorate nelle montagne, negli alberi e negli edifici degli uomini Cibatevi di tutti i frutti e vivete nei sentieri che vi ha tracciato il vostro Signore”. Scaturisce dai loro ventri un liquido dai diversi colori, in cui c'è guarigione per gli uomini. Ecco un segno per gente che riflette`,
+        ``,
+        ``
+      ],
+      [
+        `I objawił twój Pan pszczołom: "Wybierajcie sobie wasze mieszkania w górach, w drzewach i w tym, co ludzie budują Następnie jedzcie ze wszystkich owoców i chodźcie pokornie drogami swego Pana!" Z wnętrzności ich wychodzi napój różnego koloru, w którym ludzie znajdują uzdrowienie. Zaprawdę, w tym jest znak dla ludzi, którzy się zastanawiają`,
+        ``,
+        ``
+      ],
+      [
+        `І відкрив твій Господь бджолі: «Роби собі будинки в горах, на деревах і в спорудах А потім споживай із різних плодів і смиренно йди шляхами Господа твого». Із бджолиних черев виходить напій різного кольору, в якому зцілення для людей. Воістину, в цьому знамення для людей, які замислюються`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النحل / An-Nahl، الآيتان 68-69`
   },
 
   {
@@ -13238,6 +13913,117 @@ const verses = [
 
   {
     arabic: [
+      `أَوَلَمْ يَرَ الَّذِينَ كَفَرُوا أَنَّ السَّمَاوَاتِ وَالْأَرْضَ كَانَتَا رَتْقًا فَفَتَقْنَاهُمَا ۖ وَجَعَلْنَا مِنَ الْمَاءِ كُلَّ شَيْءٍ حَيٍّ ۖ أَفَلَا يُؤْمِنُونَ وَجَعَلْنَا فِي الْأَرْضِ رَوَاسِيَ أَنْ تَمِيدَ بِهِمْ وَجَعَلْنَا فِيهَا فِجَاجًا سُبُلًا لَعَلَّهُمْ يَهْتَدُونَ وَجَعَلْنَا السَّمَاءَ سَقْفًا مَحْفُوظًا ۖ وَهُمْ عَنْ آيَاتِهَا مُعْرِضُونَ وَهُوَ الَّذِي خَلَقَ اللَّيْلَ وَالنَّهَارَ وَالشَّمْسَ وَالْقَمَرَ ۖ كُلٌّ فِي فَلَكٍ يَسْبَحُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Have those who disbelieved not considered that the heavens and the earth were a joined entity, and We separated them and made from water every living thing? Then will they not believe And We placed within the earth firmly set mountains, lest it should shift with them, and We made therein [mountain] passes [as] roads that they might be guided And We made the sky a protected ceiling, but they, from its signs, are turning away And it is He who created the night and the day and the sun and the moon; all [heavenly bodies] in an orbit are swimming`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui ont mécru, n'ont-ils pas vu que les cieux et la Terre formaient une masse compacte ? Ensuite Nous les avons séparés et fait de l'eau toute chose vivante. Ne croiront-ils donc pas Et Nous avons placé des montagnes fermes dans la terre, afin qu'elle ne s'ébranle pas en les [entraînant]. Et Nous y avons placé des défilés servant de chemins afin qu'ils se guident Et Nous avons fait du ciel un toit protégé. Et cependant ils se détournent de ses merveilles Et c'est Lui qui a créé la nuit et le jour, le soleil et la lune, chacun voguant dans une orbite`,
+        ``,
+        ``
+      ],
+      [
+        `¿Es que no han visto los infieles que los cielos y la tierra formaban un todo homogéneo y los separamos? ¿Y que sacamos del agua a todo ser viviente? ¿Y no creerán Hemos colocado en la tierra montañas firmes para que ella y sus habitantes no vacilen. Hemos puesto en ella anchos pasos a modo de caminos. Quizás, así, sean bien dirigidos Hemos hecho del cielo una techumbre protegida. Pero ellos se desvían de sus signos Él es Quien ha creado la noche y el día, el sol y la luna. Cada uno navega en una órbita`,
+        ``,
+        ``
+      ],
+      [
+        `Неужели неверующие не видят, что небеса и земля были единым целым и что Мы разделили их и сотворили все живое из воды? Неужели они не уверуют Мы воздвигли на земле незыблемые горы, чтобы она не колебалась вместе с ними. Мы проложили на ней широкие дороги, чтобы они следовали верным путем Мы сделали небо оберегаемой кровлей, однако они отворачиваются от его знамений Он - Тот, Кто сотворил ночь и день, солнце и луну. Все плывут по орбитам`,
+        ``,
+        ``
+      ],
+      [
+        `Sehen denn diejenigen, die ungläubig sind, nicht, daß die Himmel und die Erde eine zusammenhängende Masse waren? Da haben Wir sie getrennt und aus dem Wasser alles Lebendige gemacht. Wollen sie denn nicht glauben Und Wir haben auf der Erde festgegründete Berge gemacht, daß sie nicht mit ihnen wanke. Und Wir haben auf ihr breite Durchgänge als Wege gemacht, auf daß sie rechtgeleitet werden mögen Und Wir haben den Himmel zu einem wohlbehüteten Dach gemacht. Dennoch wenden sie sich von seinen Zeichen ab Und Er ist es, Der die Nacht und den Tag, die Sonne und den Mond erschaffen hat; alles läuft in einer (jeweils eigenen) Umlaufbahn`,
+        ``,
+        ``
+      ],
+      [
+        `INSER DE inte, de som vill förneka sanningen, att himlarna och jorden [en gång] utgjorde en enda, sammanhållen massa och [att] Vi skilde dem åt? Och [vet de inte] att Vi har låtit allt liv uppstå ur vatten? Har de då ingen tro Och [ser de inte att] Vi har sänkt ned i jorden fast förankrade berg, så att den inte svajar under deras fot, och banat vägar över den för att de skall kunna komma fram och byggt himlens [valv] som ett väl skyddat tak? Men de vänder ryggen åt [naturens alla] tecken Också natten och dagen är Hans verk, liksom solen och månen, som rör sig var och en i sitt kretslopp`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Weten degenen die ongelovig zijn niet dat de hemelen en de aarde als een gemengde massa waren en dat Wij hen beide daarop splitsten en dat Wij alle levende dingen uit het water maakten? Geloven zij niet En Wij maakten stevige bergen op de aarde, zodat zij niet met hen schudt. En Wij maakten daarin brede passen als wegen. Hopelijk zullen zij Leiding volgen En Wij maakten de hemel als een beschermende kap, maar zij wendden zich af van zijn Tekenen En Hij is Degene Die de nacht en de dag geschapen heeft, en de zon en de maan, allen bewegen in een baan`,
+        ``,
+        ``
+      ],
+      [
+        `کیا کافروں نے نہیں دیکھا کہ آسمان اور زمین دونوں ملے ہوئے تھے تو ہم نے جدا جدا کردیا۔ اور تمام جاندار چیزیں ہم نے پانی سے بنائیں۔ پھر یہ لوگ ایمان کیوں نہیں لاتے؟ اور ہم نے زمین میں پہاڑ بنائے تاکہ لوگوں (کے بوجھ) سے ہلنے (اور جھکنے) نہ لگے اور اس میں کشادہ راستے بنائے تاکہ لوگ ان پر چلیں اور آسمان کو محفوظ چھت بنایا۔ اس پر بھی وہ ہماری نشانیوں سے منہ پھیر رہے ہیں اور وہی تو ہے جس نے رات اور دن اور سورج اور چاند کو بنایا۔ (یہ) سب (یعنی سورج اور چاند اور ستارے) آسمان میں (اس طرح چلتے ہیں گویا) تیر رہے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan apakah orang-orang kafir tidak mengetahui bahwa langit dan bumi keduanya dahulu menyatu, kemudian Kami pisahkan antara keduanya; dan Kami jadikan segala sesuatu yang hidup berasal dari air; maka mengapa mereka tidak beriman Dan Kami telah menjadikan di bumi ini gunung-gunung yang kokoh agar ia (tidak) guncang bersama mereka, dan Kami jadikan (pula) di sana jalan-jalan yang luas, agar mereka mendapat petunjuk Dan Kami menjadikan langit sebagai atap yang terpelihara, namun mereka tetap berpaling dari tanda-tanda (kebesaran Allah) itu (matahari, bulan, angin, awan, dan lain-lain) Dan Dialah yang telah menciptakan malam dan siang, matahari dan bulan. Masing-masing beredar pada garis edarnya`,
+        ``,
+        ``
+      ],
+      [
+        `İnkar edenler, gökler ve yer yapışıkken onları ayırdığımızı ve bütün canlıları sudan meydana getirdiğimizi bilmezler mi? İnanmıyorlar mı Yeryüzüne, insanlar sarsılmasın diye sabit dağlar yerleştirdik; rahat gidebilsinler diye aralarında geniş yollar varettik Göğü karışıklıktan korunmuş bir tavan kıldık; oysa onlar bundaki delillerden yüz çeviriyorlar Geceyi ve gündüzü, güneşi ve ayı yaratan O'dur. Her biri bir yörüngede yürür`,
+        ``,
+        ``
+      ],
+      [
+        `آيا كسانى كه كفر ورزيدند ندانستند كه آسمانها و زمين هر دو به هم پيوسته بودند، و ما آن دو را از هم جدا ساختيم، و هر چيز زنده‌اى را از آب پديد آورديم؟ آيا [باز هم‌] ايمان نمى‌آورند؟ و در زمين كوههايى استوار نهاديم تا مبادا [زمين‌] آنان [=مردم‌] را بجنباند، و در آن راههايى فراخ پديد آورديم، باشد كه راه يابند و آسمان را سقفى محفوظ قرار داديم، و[لى‌] آنان از [مطالعه در] نشانه‌هاى آن اِعراض مى‌كنند و اوست آن كسى كه شب و روز و خورشيد و ماه را پديد آورده است. هر كدام از اين دو در مدارى [معيّن‌] شناورند`,
+        ``,
+        ``
+      ],
+      [
+        `কাফেররা কি ভেবে দেখে না যে, আকাশমন্ডলী ও পৃথিবীর মুখ বন্ধ ছিল, অতঃপর আমি উভয়কে খুলে দিলাম এবং প্রাণবন্ত সবকিছু আমি পানি থেকে সৃষ্টি করলাম। এরপরও কি তারা বিশ্বাস স্থাপন করবে না আমি পৃথিবীতে ভারী বোঝা রেখে দিয়েছি যাতে তাদেরকে নিয়ে পৃথিবী ঝুঁকে না পড়ে এবং তাতে প্রশস্ত পথ রেখেছি, যাতে তারা পথ প্রাপ্ত হয়। আমি আকাশকে সুরক্ষিত ছাদ করেছি; অথচ তারা আমার আকাশস্থ নিদর্শনাবলী থেকে মুখ ফিরিয়ে রাখে। তিনিই সৃষ্টি করেছেন রাত্রি ও দিন এবং সূর্য ও চন্দ্র। সবাই আপন আপন কক্ষপথে বিচরণ করে।`,
+        ``,
+        ``
+      ],
+      [
+        `E os que renegam a Fé não viram que os céus e a terra eram um todo compacto e Nós desagregamo-los, e fizemos da água toda cousa viva? - Então, não crêem E fizemos, na terra, assentes montanhas, para que ela se não abalasse com eles e, nela, fizemos amplos desfiladeiros, por caminhos, para se guiarem E fizemos do céu um teto custodiado. E eles, a seus sinais, estão dando de ombros E Ele é Quem criou a noite e o dia, e o sol e a lua. Cada qual voga, em uma órbita`,
+        ``,
+        ``
+      ],
+      [
+        `不信道者难道不知道吗？天地原是闭塞的，而我开天辟地，我用水创造一切生物。难道他们不信吗？ 我在大地上创造了群山，以免大地动荡而他们不安； 我在群山间创造许多宽阔的道路，以便他们能达到目的。 我把天造成安全的穹窿，而他们忽视其中的迹象。 他是创造昼夜和日月的，天体运行各循一条轨道。`,
+        ``,
+        ``
+      ],
+      [
+        `信仰しない者たちは分らないのか。天と地は，一緒に合わさっていたが，われはそれを分けた。そして水から一切の生きものを創ったのである。かれらはそれでも信仰しないのか。 われはまた，大地に山々を据えてかれら不信心者にとっても大地を揺るぎないものとした。またそこに，往来のための広い道を創った。それでかれらは必ず利するところがあろう。 更にわれは，天を屋根とし守護した。それでもかれらは，これらの印から背き去る。 かれこそは昼と夜，また太陽と月を創造された方である。それらは，軌道に浮んでいる。`,
+        ``,
+        ``
+      ],
+      [
+        `불신자들은 하늘과 땅이 하 나였음을 알지 못하느뇨 하나님은하늘과 땅을 분리하고 물을 모든 생명체의 근본으로 두셨으나 그들은 믿지 아니하려 하느뇨 하나님은 대지위에 산들을 고정시켰으니 그것이 동요치 못 하도록 함이며 또한 하나님이 그 안에 넓은 도로를 두어 그들이 인도받도록 하노라 하나님은 하늘에 잘 보호된 지붕을 두었노라 그들은 아직도 그것의 예증에 등을 돌리고 있느 뇨 그분께서 밤과 낮 태양과 달을 창조하시니 모든 것이 그 안에서 궤도에 따라 운행하노라`,
+        ``,
+        ``
+      ],
+      [
+        `Non sanno dunque i miscredenti che i cieli e la terra formavano una massa compatta? Poi li separammo e traemmo dall'acqua ogni essere vivente. Ancora non credono Abbiamo infisso sulla terra le montagne, affinché non oscilli coinvolgendoli e vi ponemmo larghi passi. Si sapranno dirigere E del cielo abbiamo fatto una volta sicura. Eppure essi si distolgono dai segni Egli è Colui Che ha creato la notte e il giorno, il sole e la luna: ciascuno naviga nella sua orbita`,
+        ``,
+        ``
+      ],
+      [
+        `Czyż ci, którzy nie uwierzyli, nie widzieli, iż niebiosa i ziemia stanowiły jedną zwartą masę i My rozdzieliliśmy je, i stworzyliśmy z wody każdą żyjącą rzecz? Czyż oni nie uwierzą I umieściliśmy na ziemi solidnie stojące, aby się ona nie kołysała z ludźmi I uczyniliśmy na niej wąwozy jako drogi. Być może, oni pójdą drogą prostą! I uczyniliśmy niebo sklepieniem chroniącym~ lecz oni się odwracają od Naszych znaków On jest Tym, który stworzył: noc i dzień, słońce i księżyce: - Wszystko żegluje po orbicie`,
+        ``,
+        ``
+      ],
+      [
+        `Невже не бачать невіруючі, що небеса й земля були єдиним цілим, а Ми роз’єднали їх, і що Ми створили все живе з води? Невже вони не увірують І Ми поставили на землі непохитні гори, щоб вона не коливалася під ними, й проклали широкі шляхи, щоб вони мали змогу йти правильним шляхом І Ми зробили небо захищеним дахом, але вони відвертаються від Його знамень Він — Той, Хто створив ніч, день, сонце й місяць. Усі вони плинуть небосхилом`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنبياء / Al-Anbiya، الآيات 30-33`
+  },
+
+  {
+    arabic: [
       `وَنَضَعُ الْمَوَازِينَ الْقِسْطَ لِيَوْمِ الْقِيَامَةِ فَلَا تُظْلَمُ نَفْسٌ شَيْئًا ۖ وَإِنْ كَانَ مِثْقَالَ حَبَّةٍ مِنْ خَرْدَلٍ أَتَيْنَا بِهَا ۗ وَكَفَىٰ بِنَا حَاسِبِينَ`,
       ``,
       ``
@@ -13567,6 +14353,117 @@ const verses = [
       ]
     ],
     number: `سورة الحج / Al-Hajj، الآية 1`
+  },
+
+  {
+    arabic: [
+      `يَا أَيُّهَا النَّاسُ إِنْ كُنْتُمْ فِي رَيْبٍ مِنَ الْبَعْثِ فَإِنَّا خَلَقْنَاكُمْ مِنْ تُرَابٍ ثُمَّ مِنْ نُطْفَةٍ ثُمَّ مِنْ عَلَقَةٍ ثُمَّ مِنْ مُضْغَةٍ مُخَلَّقَةٍ وَغَيْرِ مُخَلَّقَةٍ لِنُبَيِّنَ لَكُمْ ۚ وَنُقِرُّ فِي الْأَرْحَامِ مَا نَشَاءُ إِلَىٰ أَجَلٍ مُسَمًّى ثُمَّ نُخْرِجُكُمْ طِفْلًا ثُمَّ لِتَبْلُغُوا أَشُدَّكُمْ ۖ وَمِنْكُمْ مَنْ يُتَوَفَّىٰ وَمِنْكُمْ مَنْ يُرَدُّ إِلَىٰ أَرْذَلِ الْعُمُرِ لِكَيْلَا يَعْلَمَ مِنْ بَعْدِ عِلْمٍ شَيْئًا ۚ وَتَرَى الْأَرْضَ هَامِدَةً فَإِذَا أَنْزَلْنَا عَلَيْهَا الْمَاءَ اهْتَزَّتْ وَرَبَتْ وَأَنْبَتَتْ مِنْ كُلِّ زَوْجٍ بَهِيجٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O People, if you should be in doubt about the Resurrection, then [consider that] indeed, We created you from dust, then from a sperm-drop, then from a clinging clot, and then from a lump of flesh, formed and unformed - that We may show you. And We settle in the wombs whom We will for a specified term, then We bring you out as a child, and then [We develop you] that you may reach your [time of] maturity. And among you is he who is taken in [early] death, and among you is he who is returned to the most decrepit [old] age so that he knows, after [once having] knowledge, nothing. And you see the earth barren, but when We send down upon it rain, it quivers and swells and grows [something] of every beautiful kind`,
+        ``,
+        ``
+      ],
+      [
+        `Ô hommes ! Si vous doutez au sujet de la Résurrection, c'est Nous qui vous avons créés de terre, puis d'une goutte de sperme, puis d'une adhérence puis d'un embryon [normalement] formé aussi bien qu'informe pour vous montrer [Notre Omnipotence] et Nous déposons dans les matrices ce que Nous voulons jusqu'à un terme fixé. Puis Nous vous en faisons sortir [à l'état] de bébé, pour qu'ensuite vous atteigniez votre maturité. Il en est parmi vous qui meurent [jeunes] tandis que d'autres parviennent au plus vil de l'âge si bien qu'ils ne savent plus rien de ce qu'ils connaissaient auparavant. De même tu vois la terre desséchée [mais] dès que Nous y faisons descendre de l'eau elle remue, se gonfle, et fait pousser toutes sortes de splendides couples de végétaux`,
+        ``,
+        ``
+      ],
+      [
+        `¡Hombres! Si dudáis de la resurrección, Nosotros os hemos creado de tierra; luego, de una gota; luego, de un coágulo de sangre; luego, de un embrión formado o informe. Para aclararos. Depositamos en las matrices lo que queremos por un tiempo determinado; luego, os hacemos salir como criaturas para alcanzar, más tarde, la madurez. Algunos de vosotros mueren prematuramente; otros viven hasta alcanzar una edad decrépita, para que, después de haber sabido, terminen no sabiendo nada. Ves la tierra reseca, pero, cuando hacemos que el agua baje sobre ella, se agita, se hincha y hace brotar toda especie primorosa`,
+        ``,
+        ``
+      ],
+      [
+        `О люди! Если вы сомневаетесь в воскрешении, то ведь Мы сотворили вас из земли, потом - из капли, потом - из сгустка крови, потом - из разжеванного кусочка, сформировавшегося или не сформировавшегося. Так Мы разъясняем вам истину. Мы помещаем в утробах то, что желаем, до назначенного срока. Потом Мы выводим вас младенцами, чтобы вы могли достигнуть зрелого возраста. Одни из вас умирают, другие же возвращаются в жалкую старость и забывают все, что знали. Ты видишь безжизненную землю. Но стоит Нам ниспослать на нее воду, как она приходит в движение, набухает и порождает всякие прекрасные растения`,
+        ``,
+        ``
+      ],
+      [
+        `O ihr Menschen, wenn ihr über die Auferweckung im Zweifel seid, so haben Wir euch aus Erde erschaffen, hierauf aus einem Samentropfen, hierauf aus einem Anhängsel, hierauf aus einem kleinen Klumpen, gestaltet und ungestaltet, um (es) euch klarzumachen. Und Wir lassen, was Wir wollen, im Mutterleib auf eine festgesetzte Frist untergebracht. Danach lassen Wir euch als kleine Kinder hervorkommen. Hierauf (lassen Wir euch heranwachsen), damit ihr eure Vollreife erlangt. Und mancher von euch wird (frühzeitig) abberufen, und manch einer von euch wird in das niedrigste (Greisen)alter gebracht, so daß er nach (dem vorherigen) Wissen nichts (mehr) weiß. Und du siehst die Erde regungslos, doch wenn Wir Wasser auf sie herabkommen lassen, regt sie sich, schwillt und läßt von jeder entzückenden (Pflanzen)art wachsen`,
+        ``,
+        ``
+      ],
+      [
+        `MÄNNISKOR! Om ni tvivlar på uppståndelsen, [tänk då på att] Vi har skapat er av jord och sedan av en droppe säd, därefter av en grodd som sätter sig fast, därefter av en klump, dels formad, dels ännu formlös. Så klargör Vi för er [Vår makt]. Och det Vi vill [skall födas] lägger Vi i moderlivets trygga förvar till en fastställd tid och Vi låter er födas som späda barn och därefter [växa till] och nå [full kroppslig och andlig] mognad. Några av er får dö [unga] och några av er blir med tilltagande ålder så skröpliga att de glömmer allt vad de en gång har vetat. Och [om ni ännu tvivlar], se på den torra döda jorden och hur den, när Vi låter regnet falla över den, skälver till och börjar svälla och låter alla slag av växter spira, ljuvliga att se`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O mensen, als jullie in twijfel verkeren over de Opstanding: voorwaar, Wij schiepen jullie uit aarde, vervolgens uit sperma, daarop uiteen bloedklonter, toen uit een vleesklomp, gevormd en niet gevormd; om aan jullie (de schepping) duidelijk te maken. En Wij laten in de baarmoeder rusten wat Wij willen, tot een bepaald tijdstip, waarna Wij voor jullie een kind (de baarmoeder) doen verlaten Daarop (is er een tijd) om jullie je leefkijd van volledige kracht te doen bereiken. En er zijn er onder jullie die weggenomen worden en er zijn er onder jullie die teruggevoerd worden tot de meest vervallen der leeftijden, zodat hij niets meer weet, na kennis (gehad te hebben). En je ziet de aarde verdord en wanneer Wij dan het water op haar doen neerdalen, beweegt zij zich en zwelt op en brengt velerlei schitterende planten voort`,
+        ``,
+        ``
+      ],
+      [
+        `لوگو اگر تم کو مرنے کے بعد جی اُٹھنے میں کچھ شک ہو تو ہم نے تم کو (پہلی بار بھی تو) پیدا کیا تھا (یعنی ابتدا میں) مٹی سے پھر اس سے نطفہ بنا کر۔ پھر اس سے خون کا لوتھڑا بنا کر۔ پھر اس سے بوٹی بنا کر جس کی بناوٹ کامل بھی ہوتی ہے اور ناقص بھی تاکہ تم پر (اپنی خالقیت) ظاہر کردیں۔ اور ہم جس کو چاہتے ہیں ایک میعاد مقرر تک پیٹ میں ٹھہرائے رکھتے ہیں پھر تم کو بچہ بنا کر نکالتے ہیں۔ پھر تم جوانی کو پہنچتے ہو۔ اور بعض (قبل از پیری مرجاتے ہیں اور بعض شیخ فالی ہوجاتے اور بڑھاپے کی) نہایت خراب عمر کی طرف لوٹائے جاتے ہیں کہ بہت کچھ جاننے کے بعد بالکل بےعلم ہوجاتے ہیں۔ اور (اے دیکھنے والے) تو دیکھتا ہے (کہ ایک وقت میں) زمین خشک (پڑی ہوتی ہے) پھر جب ہم اس پر مینہ برساتے ہیں تو شاداب ہوجاتی اور ابھرنے لگتی ہے اور طرح طرح کی بارونق چیزیں اُگاتی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai manusia! Jika kamu meragukan (hari) kebangkitan, maka sesungguhnya Kami telah menjadikan kamu dari tanah, kemudian dari setetes mani, kemudian dari segumpal darah, kemudian dari segumpal daging yang sempurna kejadiannya dan yang tidak sempurna, agar Kami jelaskan kepada kamu; dan Kami tetapkan dalam rahim menurut kehendak Kami sampai waktu yang sudah ditentukan, kemudian Kami keluarkan kamu sebagai bayi, kemudian (dengan berangsur-angsur) kamu sampai kepada usia dewasa, dan di antara kamu ada yang diwafatkan dan (ada pula) di antara kamu yang dikembalikan sampai usia sangat tua (pikun), sehingga dia tidak mengetahui lagi sesuatu yang telah diketahuinya. Dan kamu lihat bumi ini kering, kemudian apabila telah Kami turunkan air (hujan) di atasnya, hiduplah bumi itu dan menjadi subur serta menumbuhkan berbagai jenis pasangan tetumbuhan yang indah`,
+        ``,
+        ``
+      ],
+      [
+        `Ey insanlar! Öldükten sonra tekrar dirilmekten şüphede iseniz bilin ki, ne olduğunuzu size açıklamak için, Biz sizi topraktan sonra nutfeden, sonra pıhtılaşmış kandan, sonra da yapısı belli belirsiz bir çiğnem etten yaratmışızdır. Dilediğimizi belli bir süreye kadar rahimlerde tutarız; sonra sizi çocuk olarak çıkartırız, böylece yetişip erginlik çağına varırsınız. Kiminiz öldürülür, kiminiz de ömrünün en fena zamanına ulaştırılır ki, bilirken birşey bilmez olur. Yeryüzünü görürsün ki kupkurudur; fakat Biz ona su indirdiğimiz zaman harekete geçer, kabarır, her güzel bitkiden çift çift yetiştirir`,
+        ``,
+        ``
+      ],
+      [
+        `اى مردم، اگر در باره برانگيخته شدن در شكّيد، پس [بدانيد] كه ما شما را از خاك آفريده‌ايم، سپس از نطفه، سپس از علقه، آنگاه از مضغه، داراى خلقت كامل و [احياناً] خلقت ناقص، تا [قدرت خود را] بر شما روشن گردانيم. و آنچه را اراده مى‌كنيم تا مدتى معين در رحمها قرار مى‌دهيم، آنگاه شما را [به صورت‌] كودك برون مى‌آوريم، سپس [حيات شما را ادامه مى‌دهيم‌] تا به حد رشدتان برسيد، و برخى از شما [زودرس‌] مى‌ميرد، و برخى از شما به غايت پيرى مى‌رسد به گونه‌اى كه پس از دانستن [بسى چيزها] چيزى نمى‌داند. و زمين را خشكيده مى‌بينى و[لى‌] چون آب بر آن فرود آوريم به جنبش درمى‌آيد و نمو مى‌كند و از هر نوع [رستنيهاى‌] نيكو مى‌روياند`,
+        ``,
+        ``
+      ],
+      [
+        `হে লোকসকল! যদি তোমরা পুনরুত্থানের ব্যাপারে সন্দিগ্ধ হও, তবে (ভেবে দেখ-) আমি তোমাদেরকে মৃত্তিকা থেকে সৃষ্টি করেছি। এরপর বীর্য থেকে, এরপর জমাট রক্ত থেকে, এরপর পূর্ণাকৃতিবিশিষ্ট ও অপূর্ণাকৃতিবিশিষ্ট মাংসপিন্ড থেকে, তোমাদের কাছে ব্যক্ত করার জন্যে। আর আমি এক নির্দিষ্ট কালের জন্যে মাতৃগর্ভে যা ইচ্ছা রেখে দেই, এরপর আমি তোমাদেরকে শিশু অবস্থায় বের করি; তারপর যাতে তোমরা যৌবনে পদার্পণ কর। তোমাদের মধ্যে কেউ কেউ মৃত্যুমুখে পতিত হয় এবং তোমাদের মধ্যে কাউকে নিষ্কর্মা বয়স পর্যন্ত পৌছানো হয়, যাতে সে জানার পর জ্ঞাত বিষয় সম্পর্কে সজ্ঞান থাকে না। তুমি ভূমিকে পতিত দেখতে পাও, অতঃপর আমি যখন তাতে বৃষ্টি বর্ষণ করি, তখন তা সতেজ ও স্ফীত হয়ে যায় এবং সর্বপ্রকার সুদৃশ্য উদ্ভিদ উৎপন্ন করে।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó homens ! Se estais em dúvida acerca da Ressurreição, por certo, Nós vos criamos de pó; em seguida, de gota seminal; depois, de uma aderência; em seguida, de embrião configurado e não configurado, para tornar evidente, para vós, Nosso poder. E fazemos permanecer, nas matrizes, o que queremos, até um termo designado. Em seguida, fazemo-vos sair crianças, para depois, atingirdes vossa força plena. E há dentre vós quem morra. E há, dentre vós, quem seja levado à mais provecta idade, para nada mais saber, após haver tido ciência. E tu vês a terra árida; então, quando fazemos descer, sobre ela, a água, move-se e cresce e germina toda espécie de esplêndidos casais de plantas`,
+        ``,
+        ``
+      ],
+      [
+        `众人啊！如果你们对于复活的事还在怀疑之中，那末，我确已创造了你们， 先用泥土，继用一小滴精液，继用一块凝血，继用完整的和不完整的肉团，以便我对你们阐明（道理）。我使我所意欲的（胎儿）在子宫里安居一个定期，然后， 我使你们出生为婴儿，然后（我让你们活着），以便你们达到成年。 你们中有夭折的；有复返于最劣的年纪的，以便他在有知识之后，什么也不知道。你看大地是不毛的，当我使雨水降于大地的时候，它就活动和膨胀，而且生出各种美丽的植物。`,
+        ``,
+        ``
+      ],
+      [
+        `人びとよ，あなたがたは復活に就いて疑うのか。われがあなたがたを創る際には先ず土から始め，次いで精液の一滴，次いで血の固まりとし，更に形をなした。また形をなさない肉魂から （あなたがたを創った）。あなたがたに（わが偉力を）明示するためである。われは欲する者を ，定めた時期まで胎内に置き，それから赤ん坊としてあなたがたを出生させ，それから成年に到達させる。あなたがたの中或る者は（若くして）死なせる者もあり，また或る者は何がしかを知った後，凡て忘れ去る程に弱まる老齢に返される者もある。またあなたは大地が枯れて荒れ果てるのを見よう。だがわれが一度それに雨を降らせると，（生気が）躍動し膨らんで，凡ての植物が雌雄で美しく萌え出る。`,
+        ``,
+        ``
+      ],
+      [
+        `사람들이여 부활에 관하여 의심하고 있다면 태초의 창조를 보 라 실로 하나님이 너희를 흙에서 창조한 후 한방울의 정액으로 그 후 응혈로 그리고는 살을 붙이니 완전한 형상과 완성치 아니한 형 상으로 되었더라 이는 너희에게 하나님의 능력을 보이고자 함이라 또한 그분의 뜻에 따라 정하여진 기간에 태내에서 자라게 한 후 아 이로써 출산케 하고 양육하여 충 분히 성장토록 하다가 너희 가운 데 일부는 젊어서 죽음의 부름을 받게 하고 일부는 노령에 이르게 하여 알았던 자식마저도 알지 뭇 하게 되노라 또한 그대는 황폐하 게 되고 생명을 잃은 대지를 보게되리라 그러나 하나님이 그곳에 비를 내릴 때 대지는 다시 생동하고 솟아 오르며 모든 종류의 아름다운 초목들이 생성하노라`,
+        ``,
+        ``
+      ],
+      [
+        `O uomini, se dubitate della Resurrezione, sappiate che vi creammo da polvere e poi da sperma e poi da un'aderenza e quindi da un pezzetto di carne, formata e non formata - così Noi vi spieghiamo - e poniamo nell'utero quello che vogliamo fino a un termine stabilito. Vi facciamo uscire lattanti, per condurvi poi alla pubertà. Qualcuno di voi muore e altri portiamo fino all'età decrepita, tanto che non sanno più nulla, dopo aver saputo. Vedrai [alla stessa maniera] la terra disseccata che freme e si gonfia quando vi facciamo scendere l'acqua e lascia spuntare ogni splendida specie di piante`,
+        ``,
+        ``
+      ],
+      [
+        `O ludzie! Jeśli pozostajecie w zwątpieniu, co się tyczy zmartwychwstania... - to przecież My stworzyliśmy was z prochu, potem z kropli nasienia, potem z grudki krwi zakrzepłej, potem z kęska ciała kleistego, ukształtowanego i nie ukształtowanego - takie dajemy wam wyjaśnienie. I My umieszczamy w łonach to, co chcemy, aż do oznaczonego czasu; potem wyprowadzamy was jako dzieci, abyście następnie doszli do wieku dojrzałego. Wśród was są tacy, którzy umierają, i wśród was są tacy, którzy są doprowadzeni do godnego pożałowania wiek tak iż tracą wszelką wiedzę o tym, co wiedzieli. I I widzisz ziemię opustoszałą, a kiedy My na nią ześlemy wodę, ona burzy się i pęcznieje, i wydaje wszelkiego rodzaju piękne pary`,
+        ``,
+        ``
+      ],
+      [
+        `О люди! Якщо ви перебуваєте в сумнівах щодо воскресіння, то Ми створили вас спочатку з праху, потім — із краплі сімені, потім — із кров’яного згустку, а потім — із частинки плоті, яка має свій образ або ще не має. Так Ми пояснюємо це вам! Ми вкладаємо в лона те, що хочемо, до визначеного строку. Потім Ми виводимо вас звідти дітьми, щоб ви могли досягти зрілості. Деякі з вас помирають, а деякі доживають до жалюгідних часів, забуваючи все, що колись знали. Ти бачиш висохлу землю, але щойно Ми проливаємо на неї воду, вона починає рухатись, підійматись та народжує різні пари прекрасних рослин`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الحج / Al-Hajj، الآية 5`
   },
 
   {
@@ -14015,6 +14912,117 @@ const verses = [
 
   {
     arabic: [
+      `وَلَقَدْ خَلَقْنَا الْإِنْسَانَ مِنْ سُلَالَةٍ مِنْ طِينٍ ثُمَّ جَعَلْنَاهُ نُطْفَةً فِي قَرَارٍ مَكِينٍ ثُمَّ خَلَقْنَا النُّطْفَةَ عَلَقَةً فَخَلَقْنَا الْعَلَقَةَ مُضْغَةً فَخَلَقْنَا الْمُضْغَةَ عِظَامًا فَكَسَوْنَا الْعِظَامَ لَحْمًا ثُمَّ أَنْشَأْنَاهُ خَلْقًا آخَرَ ۚ فَتَبَارَكَ اللَّهُ أَحْسَنُ الْخَالِقِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And certainly did We create man from an extract of clay Then We placed him as a sperm-drop in a firm lodging Then We made the sperm-drop into a clinging clot, and We made the clot into a lump [of flesh], and We made [from] the lump, bones, and We covered the bones with flesh; then We developed him into another creation. So blessed is Allah, the best of creators`,
+        ``,
+        ``
+      ],
+      [
+        `Nous avons certes créé l'homme d'un extrait d'argile puis Nous en fîmes une goutte de sperme dans un reposoir solide Ensuite, Nous avons fait du sperme une adhérence; et de l'adhérence Nous avons créé un embryon ; puis, de cet embryon Nous avons créé des os et Nous avons revêtu les os de chair. Ensuite, Nous l'avons transformé en une tout autre création. Béni soit donc Allah le Meilleur des créateurs`,
+        ``,
+        ``
+      ],
+      [
+        `Hemos creado al hombre de arcilla fina Luego, le colocamos como gota en un receptáculo firme Luego, creamos de la gota un coágulo de sangre, del coágulo un embrión y del embrión huesos, que revestimos de carne. Luego, hicimos de él otra criatura. ¡Bendito sea Alá, el Mejor de los creadores`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, Мы сотворили человека из эссенции глины Потом Мы поместили его каплей в надежном месте Потом Мы создали из капли сгусток крови, потом создали из сгустка крови разжеванный кусочек, потом создали из этого кусочка кости, и потом облекли кости мясом. Потом Мы вырастили его в другом творении. Благословен же Аллах, Наилучший из творцов`,
+        ``,
+        ``
+      ],
+      [
+        `Wir schufen den Menschen ja aus einem Auszug aus Lehm Hierauf machten Wir ihn zu einem Samentropfen in einem festen Aufenthaltsort Hierauf schufen Wir den Samentropfen zu einem Anhängsel, dann schufen Wir das Anhängsel zu einem kleinen Klumpen, dann schufen Wir den kleinen Klumpen zu Knochen, dann bekleideten Wir die Knochen mit Fleisch. Hierauf ließen Wir ihn als eine weitere Schöpfung entstehen. Segensreich ist Allah, der beste Schöpfer`,
+        ``,
+        ``
+      ],
+      [
+        `VI HAR skapat människan av finaste lera därefter lämnar Vi henne som en droppe säd i [skötets] fasta förvar Därefter skapar Vi av droppen en grodd som sätter sig fast och av grodden en klump och i klumpen skapar Vi ben och dessa ben klär Vi med kött; därefter låter Vi henne stiga fram som en ny skapelse. Välsignad vare Gud, den bäste Formgivaren`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En voorzeker, Wij hebben de mens uit een uittreksel van klei geschapen Vervolgens maakten Wij hem tot een druppel in een stevige bewaarplaats Vervolgens schiepen Wij de druppel tot een bloedklonter, toen vormden Wij de bloedklonter tot een vleesklomp, waarna Wij de vleesklomp voorzagen van beenderen, die Wij vervolgens met vlees bekleedden. Later scheppen Wij een andere schepping. Gezegend is daarom Allah, de Beste der Scheppers`,
+        ``,
+        ``
+      ],
+      [
+        `اور ہم نے انسان کو مٹی کے خلاصے سے پیدا کیا ہے پھر اس کو ایک مضبوط (اور محفوظ) جگہ میں نطفہ بنا کر رکھا پھر نطفے کا لوتھڑا بنایا۔ پھر لوتھڑے کی بوٹی بنائی پھر بوٹی کی ہڈیاں بنائیں پھر ہڈیوں پر گوشت (پوست) چڑھایا۔ پھر اس کو نئی صورت میں بنا دیا۔ تو خدا جو سب سے بہتر بنانے والا بڑا بابرکت ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan sungguh, Kami telah menciptakan manusia dari saripati (berasal) dari tanah Kemudian Kami menjadikannya air mani (yang disimpan) dalam tempat yang kokoh (rahim) Kemudian, air mani itu Kami jadikan sesuatu yang melekat, lalu sesuatu yang melekat itu Kami jadikan segumpal daging, dan segumpal daging itu lalu Kami jadikan tulang belulang, lalu tulang belulang itu Kami bungkus dengan daging. Kemudian, Kami menjadikannya makhluk yang (berbentuk) lain. Mahasuci Allah, Pencipta yang paling baik`,
+        ``,
+        ``
+      ],
+      [
+        `And olsun ki, insanı süzme çamurdan yarattık Sonra onu nutfe halinde sağlam bir yere yerleştirdik Sonra nutfeyi kan pıhtısına çevirdik, kan pıhtısını bir çiğnemlik et yaptık, bir çiğnemlik etten kemikler yarattık, kemiklere de et giydirdik. Sonra onu başka bir yaratık yaptık: Biçim verenlerin en güzeli olan Allah ne uludur`,
+        ``,
+        ``
+      ],
+      [
+        `و به يقين، انسان را از عصاره‌اى از گِل آفريديم سپس او را [به صورت‌] نطفه‌اى در جايگاهى استوار قرار داديم آنگاه نطفه را به صورت علقه درآورديم. پس آن علقه را [به صورت‌] مضغه گردانيديم، و آنگاه مضغه را استخوانهايى ساختيم، بعد استخوانها را با گوشتى پوشانيديم، آنگاه [جنين را در] آفرينشى ديگر پديد آورديم. آفرين باد بر خدا كه بهترين آفرينندگان است`,
+        ``,
+        ``
+      ],
+      [
+        `আমি মানুষকে মাটির সারাংশ থেকে সৃষ্টি করেছি। অতঃপর আমি তাকে শুক্রবিন্দু রূপে এক সংরক্ষিত আধারে স্থাপন করেছি। এরপর আমি শুক্রবিন্দুকে জমাট রক্তরূপে সৃষ্টি করেছি, অতঃপর জমাট রক্তকে মাংসপিন্ডে পরিণত করেছি, এরপর সেই মাংসপিন্ড থেকে অস্থি সৃষ্টি করেছি, অতঃপর অস্থিকে মাংস দ্বারা আবৃত করেছি, অবশেষে তাকে নতুন রূপে দাঁড় করিয়েছি। নিপুণতম সৃষ্টিকর্তা আল্লাহ কত কল্যাণময়।`,
+        ``,
+        ``
+      ],
+      [
+        `E, com efeito, criamos o ser humano da quintessência de barro Em seguida, fizemo-lo gota seminal, em lugar estável, seguro Depois, criamos, da gota seminal, uma aderência; e criamos, da aderência, embrião; e criamos, do embrião, ossos; e revestimos os ossos de carne; em seguida, fizemo-lo surgir em criatura outra. Então, Bendito seja Allah, O Melhor dos criadores`,
+        ``,
+        ``
+      ],
+      [
+        `我确已用泥土的精华创造人， 然后，我使他变成精液，在坚固的容器中的精液， 然后，我把精液造成血块，然后，我把血块造成肉团，然后，我把肉团造成骨骼，然后，我使肌肉附着在骨骼上，然后我把他造成别的生物。愿真主降福，他是最善于创造的。`,
+        ``,
+        ``
+      ],
+      [
+        `われは泥の精髄から人間を創った。 次に，われはかれを精液の一滴として，堅固な住みかに納めた。 それからわれは，その精滴を一つの血の塊に創り，次にその塊から肉塊を創り，次いでその肉塊から骨を創り，次に肉でその骨を覆い，それからかれを外の生命体に創り上げた。ああ，何と素晴しいアッラー，最も優れた創造者であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 하나님은 인간을 흙으 로 빛은 다음 그를 한방울의 정액으로써 안정된 곳에 두었으며 그런 다음 그 정액을 응혈 시키고 그 응혈로써 살을 만들고 그 살로써 뼈를 만들었으며 살로 써 그 뼈를 감싸게 한 후 다른 것 을 만들었나니 가장 흘륭하신 하 나님께 축복이 있으소서`,
+        ``,
+        ``
+      ],
+      [
+        `In verità creammo l'uomo da un estratto di argilla Poi ne facemmo una goccia di sperma [posta] in un sicuro ricettacolo poi di questa goccia facemmo un'aderenza e dell'aderenza un embrione; dall'embrione creammo le ossa e rivestimmo le ossa di carne. E quindi ne facemmo un'altra creatura. Sia benedetto Allah, il Migliore dei creatori`,
+        ``,
+        ``
+      ],
+      [
+        `Stworzyliśmy człowieka z ekstraktu gliny Następnie umieściliśmy go - jako kroplę nasienia - w naczyniu solidnym Następnie stworzyliśmy z kropli nasienia grudkę krwi zakrzepłej; potem stworzyliśmy z tej grudki krwi zakrzepłej zalążek ciała; a z tego zalążka stworzyliśmy kości; wtedy oblekaliśmy te kości ciałem; następnie uczyniliśmy go innym stworzeniem. Niech będzie błogosławiony Bóg, najlepszy ze stwórców`,
+        ``,
+        ``
+      ],
+      [
+        `Справді, Ми створили людину з глиняного замісу а потім у надійному місці перетворили на краплю потім створили з краплі кров’яний згусток, а з кров’яного згустку створили шматочок плоті. Зі шматочку плоті Ми створили кістки, а потім покрили їх м’язами. Потім Ми виростили це як нове творіння! Благословенний Аллаг, Найкращий із творців`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المؤمنون / Al-Mu'minun، الآيات 12-14`
+  },
+
+  {
+    arabic: [
       `أَفَلَمْ يَدَّبَّرُوا الْقَوْلَ`,
       `أَمْ جَاءَهُم مَّا لَمْ يَأْتِ آبَاءَهُمُ الْأَوَّلِينَ`,
       ``
@@ -14233,6 +15241,450 @@ const verses = [
       ]
     ],
     number: `سورة النور / An-Nur، الآية 35`
+  },
+
+  {
+    arabic: [
+      `أَوْ كَظُلُمَاتٍ فِي بَحْرٍ لُجِّيٍّ يَغْشَاهُ مَوْجٌ مِنْ فَوْقِهِ مَوْجٌ مِنْ فَوْقِهِ سَحَابٌ ۚ ظُلُمَاتٌ بَعْضُهَا فَوْقَ بَعْضٍ إِذَا أَخْرَجَ يَدَهُ لَمْ يَكَدْ يَرَاهَا ۗ وَمَنْ لَمْ يَجْعَلِ اللَّهُ لَهُ نُورًا فَمَا لَهُ مِنْ نُورٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Or [they are] like darknesses within an unfathomable sea which is covered by waves, upon which are waves, over which are clouds - darknesses, some of them upon others. When one puts out his hand [therein], he can hardly see it. And he to whom Allah has not granted light - for him there is no light`,
+        ``,
+        ``
+      ],
+      [
+        `[Les actions des mécréants] sont encore semblables à des ténèbres sur une mer profonde : des vagues la recouvrent, [vagues] au-dessus desquelles s'élèvent [d'autres] vagues, sur lesquelles il y a [d'épais] nuages. Ténèbres [entassées] les unes au-dessus des autres. Quand quelqu'un étend la main, il ne la distingue presque pas. Et celui qu'Allah prive de lumière n'a aucune lumière`,
+        ``,
+        ``
+      ],
+      [
+        `O como tinieblas en un mar profundo, cubierto de olas, unas sobre otras, con nubes por encima, tinieblas sobre tinieblas. Si se saca la mano, apenas se la distingue. No dispone de luz ninguna aquél a quien Alá se la niega`,
+        ``,
+        ``
+      ],
+      [
+        `Или же они подобны мраку в глубине морской пучины. Его покрывает волна, над которой находится другая волна, над которой находится облако. Один мрак поверх другого! Если он вытянет свою руку, то не увидит ее. Кому Аллах не даровал света, тому не будет света`,
+        ``,
+        ``
+      ],
+      [
+        `Oder (sie sind) wie Finsternisse in einem abgrundtiefen Meer, das von Wogen überdeckt ist, über denen (nochmals) Wogen sind, über denen (wiederum) Wolken sind: Finsternisse, eine über der anderen. Wenn er seine Hand ausstreckt, kann er sie kaum sehen. Und wem Allah kein Licht schafft, für den gibt es kein Licht`,
+        ``,
+        ``
+      ],
+      [
+        `[Vad de har gjort] kan också liknas vid det djupa mörkret i ett bottenlöst hav, ytterligare förmörkat av vågorna som svallar över varandra och molnmassorna ovanför; skikt på skikt av mörker [så tätt att den som] håller upp sin hand knappt kan se den. Nej, den [vars mörker] Gud inte lyser upp med [Sitt] ljus finner aldrig ljus`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Of (de toestand van de ongelovige is) als de donkerten in de diepe zee, bedekt door golf op golf, waarop wolken zijn. donkerten bovenop elkaar. Wanneer iemand zijn hand uitstrekt kan hij die bijna niet zien. En aan wie Allah geen licht geeft: voor hem is er gew licht`,
+        ``,
+        ``
+      ],
+      [
+        `یا (ان کے اعمال کی مثال ایسی ہے) جیسے دریائے عمیق میں اندھیرے جس پر لہر چڑھی چلی آتی ہو اور اس کے اوپر اور لہر (آرہی ہو) اور اس کے اوپر بادل ہو، غرض اندھیرے ہی اندھیرے ہوں، ایک پر ایک (چھایا ہوا) جب اپنا ہاتھ نکالے تو کچھ نہ دیکھ سکے۔ اور جس کو خدا روشنی نہ دے اس کو (کہیں بھی) روشنی نہیں (مل سکتی)`,
+        ``,
+        ``
+      ],
+      [
+        `atau (keadaan orang-orang kafir) seperti gelap gulita di lautan yang dalam, yang diliputi oleh gelombang demi gelombang, di atasnya ada (lagi) awan gelap. Itulah gelap gulita yang berlapis-lapis. Apabila dia mengeluarkan tangannya hampir tidak dapat melihatnya. Barang siapa tidak diberi cahaya (petunjuk) oleh Allah, maka dia tidak mempunyai cahaya sedikit pun`,
+        ``,
+        ``
+      ],
+      [
+        `Veya derin denizin karanlıklarına benzer. Onu üstüste dalgalar ve dalgaların üstünde de bulutlar örter; karanlıklar üstünde karanlıklar; insan elini uzattığı zaman, nerdeyse onu bile göremez. Allah'ın nur vermediği kimsenin nuru olmaz`,
+        ``,
+        ``
+      ],
+      [
+        `يا [كارهايشان‌] مانند تاريكيهايى است كه در دريايى ژرف است كه موجى آن را مى‌پوشاند [و] روى آن موجى [ديگر] است [و] بالاى آن ابرى است. تاريكيهايى است كه بعضى بر روى بعضى قرار گرفته است. هر گاه [غرقه‌] دستش را بيرون آورد، به زحمت آن را مى‌بيند، و خدا به هر كس نورى نداده باشد او را هيچ نورى نخواهد بود`,
+        ``,
+        ``
+      ],
+      [
+        `অথবা (তাদের কর্ম) প্রমত্ত সমুদ্রের বুকে গভীর অন্ধকারের ন্যায়, যাকে উদ্বেলিত করে তরঙ্গের উপর তরঙ্গ, যার উপরে ঘন কালো মেঘ আছে। একের উপর এক অন্ধকার। যখন সে তার হাত বের করে, তখন তাকে একেবারেই দেখতে পায় না। আল্লাহ যাকে জ্যোতি দেন না, তার কোন জ্যোতিই নেই।`,
+        ``,
+        ``
+      ],
+      [
+        `Ou são como trevas em um mar profundo: encobrem-no ondas, por cima das quais, há outras ondas; por cima destas, há nuvens; trevas, umas por cima das outras. Quando alguém faz sair sua mão quase não a vê. E aquele, a quem Allah não faz luz jamais terá luz`,
+        ``,
+        ``
+      ],
+      [
+        `或如重重黑暗，笼罩着汪洋大海，波涛澎湃，上有黑云，黑暗重重叠叠，观者伸出手来时，几乎不见五指。真主没有给谁光明，谁就绝无光明。`,
+        ``,
+        ``
+      ],
+      [
+        `また（不信者の状態は），深海の暗黒のようなもので，波がかれらを覆い，その上に（また）波があり，その上を（更に）雲が覆っている。暗黒の上に暗黒が重なる。かれが手を差し伸べても凡んどそれは見られない。アッラーが光を与えられない者には，光はない。`,
+        ``,
+        ``
+      ],
+      [
+        `그들의 행위는 넓고 깊은 바다속의 암흑과도 같노라 파도가 그 위를 덮으니 또 파도가 그 위 를 덮으며 구름이 그 위에 더하매 어둠은 아래로 겹쳐 있더라 그가 손을 내밀어도 그것을 볼 수 없나 니 하나님으로부터 빛을 받지 못 한자 그에게는 빛이 없노라`,
+        ``,
+        ``
+      ],
+      [
+        `Oppure [le loro opere sono paragonabili] a tenebre di un mare profondo, le onde lo coprono, [onde] al di sopra delle quali si ergono [altre] onde, sulle quali vi sono le nuvole. [Ammassi di] tenebre le une sulle altre, dove l'uomo che stende la mano quasi non può vederla. Per colui cui Allah non ha dato la luce, non c'è alcuna luce`,
+        ``,
+        ``
+      ],
+      [
+        `Albo są jak ciemności na morzu głębokim: pokrywa je fala, nad którą wznosi się druga fala, a nad nią są chmury. To są ciemności jedne nad drugimi. Kiedy ktoś wyciągnie rękę, ledwie może ją zobaczyć. Jeśli Bóg nie da komuś światła, to on tu nie ma światła`,
+        ``,
+        ``
+      ],
+      [
+        `Або вони подібні до мороку в морських глибинах. Хвиля накриває їх згори, ще одна хвиля вище, а ще вище — хмара. Одна темрява над іншою! Якщо хтось витягне свою руку, то не зможе її побачити. Кому Аллаг не дав світла, тому немає світла`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النور / An-Nur، الآية 40`
+  },
+
+  {
+    arabic: [
+      `أَلَمْ تَرَ أَنَّ اللَّهَ يُزْجِي سَحَابًا ثُمَّ يُؤَلِّفُ بَيْنَهُ ثُمَّ يَجْعَلُهُ رُكَامًا فَتَرَى الْوَدْقَ يَخْرُجُ مِنْ خِلَالِهِ وَيُنَزِّلُ مِنَ السَّمَاءِ مِنْ جِبَالٍ فِيهَا مِنْ بَرَدٍ فَيُصِيبُ بِهِ مَنْ يَشَاءُ وَيَصْرِفُهُ عَنْ مَنْ يَشَاءُ ۖ يَكَادُ سَنَا بَرْقِهِ يَذْهَبُ بِالْأَبْصَارِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Do you not see that Allah drives clouds? Then He brings them together, then He makes them into a mass, and you see the rain emerge from within it. And He sends down from the sky, mountains [of clouds] within which is hail, and He strikes with it whom He wills and averts it from whom He wills. The flash of its lightening almost takes away the eyesight`,
+        ``,
+        ``
+      ],
+      [
+        `N'as-tu pas vu qu'Allah pousse les nuages ? Ensuite, Il les réunit et Il en fait un amas, et tu vois la pluie sortir de son sein. Et Il fait descendre du ciel, de la grêle [provenant] des nuages [comparables] à des montagnes. Il en frappe qui Il veut et l'écarte de qui Il veut. Peu s'en faut que l'éclat de son éclair ne ravisse la vue`,
+        ``,
+        ``
+      ],
+      [
+        `¿No ves que Alá empuja las nubes y las agrupa y, luego, forma nubarrones? Ves, entonces, que el chaparrón sale de ellos. Hace bajar del cielo montañas de granizo y hiere o no con él según que quiera o no quiera. El resplandor del relámpago que acompaña deja casi sin vista`,
+        ``,
+        ``
+      ],
+      [
+        `Разве ты не видишь, что Аллах гонит облака, потом соединяет их, потом превращает их в кучу облаков, и ты видишь, как из расщелин ее изливается ливень. Он низвергает град с гор, которые на небе. Он поражает им, кого пожелает, и отвращает его, от кого пожелает. Блеск их молний готов унести зрение`,
+        ``,
+        ``
+      ],
+      [
+        `Siehst du nicht, daß Allah die Wolken sanft bewegt, sie hierauf zusammenfügt und hierauf zu einem Haufen macht? Dann siehst du den (Platz)regen dazwischen herauskommen. Und Er sendet vom Himmel (Wolken)berge herab, mit Hagel darin, dann trifft Er damit, wen Er will, und wendet ihn ab, von wem Er will. Das Aufleuchten Seines Blitzes nimmt beinahe das Augenlicht`,
+        ``,
+        ``
+      ],
+      [
+        `Har du inte klart för dig att det är Gud som driver fram molnen och får dem att flyta samman och skocka sig i bankar, till dess regnet ses strömma ur deras mitt? Och Han låter hela berg [av moln], fyllda av hagel, sänka sig från höjden, och [detta hagel] drabbar den ene och skonar den andre, allt enligt Hans vilja; och skenet från Hans blixtar är nära att förta dem deras syn`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zie jij niet dat Allah de wolken voortdrijft en hen dan bij elkaar voegt en hen daarop in stapels verzamelt? Hierna zie jij de regen uit hun midden komen. En Hij doet uit de hemelen bergen (wolken) neerdalen waarin hagel is. Hij treft daarme wie Hij wil en Hij wendt het af van wie Hij wil. De flits van de bliksem ontneemt bijna het gezichtsvermogen`,
+        ``,
+        ``
+      ],
+      [
+        `کیا تم نے نہیں دیکھا کہ خدا ہی بادلوں کو چلاتا ہے، اور ان کو آپس میں ملا دیتا ہے، پھر ان کو تہ بہ تہ کردیتا ہے، پھر تم دیکھتے ہو کہ بادل میں سے مینہ نکل (کر برس) رہا ہے اور آسمان میں جو (اولوں کے) پہاڑ ہیں، ان سے اولے نازل کرتا ہے تو جس پر چاہتا ہے اس کو برسا دیتا ہے اور جس سے چاہتا ہے ہٹا دیتا ہے۔ اور بادل میں جو بجلی ہوتی ہے اس کی چمک آنکھوں کو خیرہ کرکے بینائی کو اُچکے لئے جاتی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Tidakkah engkau melihat bahwa Allah menjadikan awan bergerak perlahan, kemudian mengumpulkannya, lalu dia menjadikannya bertumpuk-tumpuk, lalu engkau lihat hujan ke luar dari celah-celahnya, dan Dia (juga) menurunkan (butiran-butiran) es dari langit, (yaitu) dari (gumpalan-gumpalan awan seperti) gunung-gunung, maka ditimpakan-Nya (butiran-butiran es) itu kepada siapa yang Dia kehendaki dan dihindarkan-Nya dari siapa yang Dia kehendaki. Kilauan kilatnya hampir-hampir menghilangkan penglihatan`,
+        ``,
+        ``
+      ],
+      [
+        `Bilmez misiniz ki, Allah bulutları sürer, sonra onları bir araya getirir; üstüste yığar, sen de onların arasından yağmur yağdığını görürsün. Gökten içinde dolu bulunan dağlar gibi bulutlar indirir, dilediğini ona uğratır, dilediğinden de uzak tutar. Bu bulutların şimşeğinin parıltısı nerdeyse gözleri alır`,
+        ``,
+        ``
+      ],
+      [
+        `آيا ندانسته‌اى كه خدا[ست كه‌] ابر را به آرامى مى‌راند، سپس ميان [اجزاء] آن پيوند مى‌دهد، آنگاه آن را متراكم مى‌سازد، پس دانه‌هاى باران را مى‌بينى كه از خلال آن بيرون مى‌آيد، و [خداست كه‌] از آسمان از كوههايى [از ابر يخ‌زده ]كه در آنجاست تگرگى فرو مى‌ريزد؛ و هر كه را بخواهد بدان گزند مى‌رساند، و آن را از هر كه بخواهد باز مى‌دارد. نزديك است روشنىِ برقش چشمها را بِبَرَد`,
+        ``,
+        ``
+      ],
+      [
+        `তুমি কি দেখ না যে, আল্লাহ মেঘমালাকে সঞ্চালিত করেন, অতঃপর তাকে পুঞ্জীভূত করেন, অতঃপর তাকে স্তরে স্তরে রাখেন; অতঃপর তুমি দেখ যে, তার মধ্য থেকে বারিধারা নির্গত হয়। তিনি আকাশস্থিত শিলাস্তুপ থেকে শিলাবর্ষণ করেন এবং তা দ্বারা যাকে ইচ্ছা আঘাত করেন এবং যার কাছ থেকে ইচ্ছা, তা অন্যদিকে ফিরিয়ে দেন। তার বিদ্যুৎঝলক দৃষ্টিশক্তি যেন বিলীন করে দিতে চায়।`,
+        ``,
+        ``
+      ],
+      [
+        `Não viste que Allah impulsa as nuvens; em seguida, junta-as; depois, fá-las um aglomerado? Então, tu vês a chuva sair de dentro delas. E do céu, de montanhas nele formadas de nuvens, Ele faz descer granizo e, com este alcança a quem quer e o desvia de quem quer. O fulgor de seu relâmpago quase se vai com as vistas`,
+        ``,
+        ``
+      ],
+      [
+        `难道你不知道吗？真主使云缓缓移动，而加以配合，然后把它堆积起来。你就看见雨从云间降下。他从天空中，从山岳般的云内，降下冰雹， 用来折磨他所意欲者，而免除他所意欲者。电光闪闪，几乎夺取目光。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがたは見ないか。アッラーは雲を駆り，やがてそれを相い合わせ，さらに固まりにされ，やがて慈雨が，その間から降るのを。また雹を含む，山（のような雲）を天から下し，かれは，御好みの者をそれで撃ち，御好みの者を避けられる。稲妻の閃きは，本当に目を奪おうとする。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서 구름을 두사 그 것을 흐르게하고 그것을 다시 모 아 비구름으로 만들어 그 사이로 비를 내리게 하심을 그대는 보지 못했느뇨 그분께서는 우박을 담은산과 같은 구름을 하늘에서 내리 게 하시어 그분께서 원하는 자를 멸망케 하시고 그분께서 원하는 자를 보호하기도 하시며 번개의 섬광으로는 시력을 앗아가기도 하시니라`,
+        ``,
+        ``
+      ],
+      [
+        `Non vedi che Allah spinge le nuvole e poi le raduna per farne ammassi? E vedi la pioggia scaturire dai loro recessi. E fa scendere dal cielo montagne gonfie di grandine. Colpisce con esse chi vuole e ne preserva chi vuole e per poco, il lampo della folgore [che le accompagna], non rapisce la vista`,
+        ``,
+        ``
+      ],
+      [
+        `Czy ty nie widziałeś, iż Bóg pędzi chmury, potem je łączy razem, potem układa je warstwami? Widzisz przecież, jak obfity deszcz wylewa się spomiędzy nich. On zsyła z nieba góry pełne gradu i dosięga nim, kogo chce, i oszczędza, kogo chce. Blask Jego błyskawicy omal nie porywa spojrzenia`,
+        ``,
+        ``
+      ],
+      [
+        `Невже ти не бачиш, що Аллаг жене хмари, потім збирає їх, нагромаджує, і стає видно, як злива виливається з-поміж них? Із гір, що на небі, Він посилає град і вражає ним, кого побажає, і відвертає його, від кого побажає. Світло блискавок мало не позбавляє зору`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النور / An-Nur، الآية 43`
+  },
+
+  {
+    arabic: [
+      `وَاللَّهُ خَلَقَ كُلَّ دَابَّةٍ مِنْ مَاءٍ ۖ فَمِنْهُمْ مَنْ يَمْشِي عَلَىٰ بَطْنِهِ وَمِنْهُمْ مَنْ يَمْشِي عَلَىٰ رِجْلَيْنِ وَمِنْهُمْ مَنْ يَمْشِي عَلَىٰ أَرْبَعٍ ۚ يَخْلُقُ اللَّهُ مَا يَشَاءُ ۚ إِنَّ اللَّهَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Allah has created every [living] creature from water. And of them are those that move on their bellies, and of them are those that walk on two legs, and of them are those that walk on four. Allah creates what He wills. Indeed, Allah is over all things competent`,
+        ``,
+        ``
+      ],
+      [
+        `Et Allah a créé d'eau tout animal . Il y en a qui marche sur le ventre, d'autres marchent sur deux pattes, et d'autres encore marchent sur quatre. Allah créé ce qu'Il veut car Allah est Omnipotent`,
+        ``,
+        ``
+      ],
+      [
+        `Alá ha creado a todos los animales de agua: de ellos unos se arrastran, otros caminan a dos patas, otros a cuatro. Alá crea lo que quiere. Alá es omnipotente`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах сотворил все живые существа из воды. Среди них есть такие, которые ползают на брюхе, такие, которые ходят на двух ногах, и такие, которые ходят на четырех. Аллах творит то, что пожелает. Воистину, Аллах способен на всякую вещь`,
+        ``,
+        ``
+      ],
+      [
+        `Und Allah hat jedes Tier aus Wasser erschaffen. So gibt es unter ihnen solche, die auf ihrem Bauch kriechen, und solche, die auf zwei Beinen gehen, und (wieder) solche, die auf Vieren gehen. Allah erschafft, was Er will. Gewiß, Allah hat zu allem die Macht`,
+        ``,
+        ``
+      ],
+      [
+        `Och Gud har skapat alla levande varelser av vatten; bland dem finns de som krälar på sin buk, de som går på två ben och de som går på fyra. Gud skapar vad Han vill - Gud har allt i Sin makt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En Allah schiep ieder levend wezen uit water; onder hen er die zich op hun buiken voortbewegen en onder hen zijn er die op twee (voeten) lopen en onder hen zijn er die op vier (poten) lopen. Allah schept wat Hij wil. Voorwaar, Allah is Almachtig over alle zaken`,
+        ``,
+        ``
+      ],
+      [
+        `اور خدا ہی نے ہر چلنے پھرنے والے جاندار کو پانی سے پیدا کیا۔ تو اس میں بعضے ایسے ہیں کہ پیٹ کے بل چلتے ہیں اور بعض ایسے ہیں جو دو پاؤں پر چلتے ہیں اور بعض ایسے ہیں جو چار پاؤں پر چلتے ہیں۔ خدا جو چاہتا ہے پیدا کرتا ہے، بےشک خدا ہر چیز پر قادر ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Allah menciptakan semua jenis hewan dari air, maka sebagian ada yang berjalan di atas perutnya dan sebagian berjalan dengan dua kaki, sedang sebagian (yang lain) berjalan dengan empat kaki. Allah menciptakan apa yang Dia kehendaki. Sungguh, Allah Mahakuasa atas segala sesuatu`,
+        ``,
+        ``
+      ],
+      [
+        `Allah bütün canlıları sudan yaratmıştır. Kimi karnı üzerinde sürünür, kimi iki ayakla yürür, kimi dört ayakla yürür. Allah dilediğini yaratır, Allah şüphesiz herşeye Kadir'dir`,
+        ``,
+        ``
+      ],
+      [
+        `و خداست كه هر جنبنده‌اى را [ابتدا] از آبى آفريد. پس پاره‌اى از آنها بر روى شكم راه مى‌روند و پاره‌اى از آنها بر روى دو پا و بعضى از آنها بر روى چهار [پا] راه مى‌روند. خدا هر چه بخواهد مى‌آفريند. در حقيقت، خدا بر هر چيزى تواناست`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ প্রত্যেক চলন্ত জীবকে পানি দ্বারা সৃষ্টি করেছেন। তাদের কতক বুকে ভয় দিয়ে চলে, কতক দুই পায়ে ভর দিয়ে চলে এবং কতক চার পায়ে ভর দিয়ে চলে; আল্লাহ যা ইচ্ছা সৃষ্টি করেন। নিশ্চয়ই আল্লাহ সবকিছু করতে সক্ষম।`,
+        ``,
+        ``
+      ],
+      [
+        `E Allah criou todo ser animal de água. Então, dentre eles, há quem ande sobre o ventre e, dentre eles, há quem ande sobre dois pés, e dentre eles, há quem ande sobre quatro. Allah cria o que quer. Por certo, Allah sobre todas as cousas, é Onipotente`,
+        ``,
+        ``
+      ],
+      [
+        `真主用水创造一切动物，其中有用腹部行走的，有用两足行走的， 有用四足行走的。真主创造他所意欲者，真主对于万事是全能的。`,
+        ``,
+        ``
+      ],
+      [
+        `またアッラーは，ありとあらゆる動物を水から創られた。そのあるものは，腹で這い，またあるものは2本足で歩き，あるものは4つ足で歩く。アッラーは御望みのものを創られる。本当にアッラーは何事につけ全能であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 물로써 동물들을 창조하셨나니 그들 가운데는 배로기는 동물이 있고 두발로 걷는 동물이 있고 네발로 걷는 동물이 있더라 하나님은 그분이 뜻하시는 대로 창조하시니 실로 그분은 모 든 일에 전지전능하심이라`,
+        ``,
+        ``
+      ],
+      [
+        `Dall'acqua, Allah ha creato tutti gli animali. Alcuni di loro strisciano sul ventre, altri camminano su due piedi e altri su quattro. Allah crea ciò che vuole. In verità Allah è onnipotente`,
+        ``,
+        ``
+      ],
+      [
+        `Bóg stworzył wszelkie zwierzę z wody. Wśród nich są takie, które pełzają na swoim brzuchu; wśród nich są takie, które chodzą na dwóch nogach; i wśród nich są takie, które chodzą na czterech; Bóg stwarza to, co chce. Przecież Bóg jest nad każdą rzeczą Wszechwładny`,
+        ``,
+        ``
+      ],
+      [
+        `Аллаг створив усіх живих істот із води. Серед них є такі, що повзають на череві, є такі, що ходять на двох ногах, є такі, що ходять на чотирьох. Аллаг творить, що побажає. Воістину, Аллаг спроможний на кожну річ`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النور / An-Nur، الآية 45`
+  },
+
+  {
+    arabic: [
+      `۞ وَهُوَ الَّذِي مَرَجَ الْبَحْرَيْنِ هَٰذَا عَذْبٌ فُرَاتٌ وَهَٰذَا مِلْحٌ أُجَاجٌ وَجَعَلَ بَيْنَهُمَا بَرْزَخًا وَحِجْرًا مَحْجُورًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And it is He who has released [simultaneously] the two seas, one fresh and sweet and one salty and bitter, and He placed between them a barrier and prohibiting partition`,
+        ``,
+        ``
+      ],
+      [
+        `Et c'est Lui qui fait confluer les deux mers: l'une douce, rafraîchissante, l'autre salée, amère. Et Il assigne entre les deux une zone intermédiaire et un barrage infranchissable`,
+        ``,
+        ``
+      ],
+      [
+        `Él es Quien ha hecho que las dos grandes masas de agua fluyan: una, dulce, agradable; otra, salobre, amarga. Ha colocado entre ellas una barrera y límite infranqueable`,
+        ``,
+        ``
+      ],
+      [
+        `Он - Тот, Кто смешал два моря (вида воды): одно - приятное, пресное, а другое - соленое, горькое. Он установил между ними преграду и непреодолимое препятствие`,
+        ``,
+        ``
+      ],
+      [
+        `Und Er ist es, Der den beiden Meeren freien Lauf läßt: Das eine ist süß und erfrischend, das andere salzig und (auf der Zunge) brennend. Und Er hat zwischen ihnen beiden ein trennendes Hindernis und eine verwehrte Absperrung errichtet`,
+        ``,
+        ``
+      ],
+      [
+        `OCH DET är Han som låter de två stora vattenmassorna röra sig fritt - den enas [vatten] är sött och släcker törsten och den andras är salt och bittert - och som har rest ett hinder mellan dem, en skiljelinje som de inte kan överskrida`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij is Degem Die de twee zeeën naast elkaar doet stromen, de een zoet en fris van smaak, de ander zout en bitter. En Hij heeft een afscheiding tussen hen geplaatst, en (die is) als een onverbrugbare afscheiding`,
+        ``,
+        ``
+      ],
+      [
+        `اور وہی تو ہے جس نے دو دریاؤں کو ملا دیا ایک کا پانی شیریں ہے پیاس بجھانے والا اور دوسرے کا کھاری چھاتی جلانے والا۔ اور دونوں کے درمیان ایک آڑ اور مضبوط اوٹ بنادی`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Dialah yang membiarkan dua laut mengalir (berdampingan); yang ini tawar dan segar dan yang lain sangat asin lagi pahit; dan Dia jadikan antara keduanya dinding dan batas yang tidak tembus`,
+        ``,
+        ``
+      ],
+      [
+        `Birinin suyu tatlı ve kolay içimli, diğerininki tuzlu ve acı olan iki denizi salıverip aralarına da, karışmalarına engel olan bir sınır koyan Allah'tır`,
+        ``,
+        ``
+      ],
+      [
+        `و اوست كسى كه دو دريا را موج‌زنان به سوى هم روان كرد: اين يكى شيرين [و] گوارا و آن يكى شور [و] تلخ است؛ و ميان آن دو، مانع و حريمى استوار قرار داد`,
+        ``,
+        ``
+      ],
+      [
+        `তিনিই সমান্তরালে দুই সমুদ্র প্রবাহিত করেছেন, এটি মিষ্ট, তৃষ্ণা নিবারক ও এটি লোনা, বিস্বাদ; উভয়ের মাঝখানে রেখেছেন একটি অন্তরায়, একটি দুর্ভেদ্য আড়াল।`,
+        ``,
+        ``
+      ],
+      [
+        `E Ele é Quem desenleou os dois mares este é doce, sápido, e aquele é salso, amargo. E fez, entre ambos, uma barreira e terminante proibição de sua mescla`,
+        ``,
+        ``
+      ],
+      [
+        `他就是任两海之间自由交流的，这是很甜的淡水，那是很苦的咸水；他在两海之间设置屏障和堤防。`,
+        ``,
+        ``
+      ],
+      [
+        `かれこそは，二つの海を分け隔てられた御方である。一つは甘くして旨い，外は塩辛くして苦い。両者の間に障壁を設け，完全に分離なされた。`,
+        ``,
+        ``
+      ],
+      [
+        `두 바다를 각각 자유롭게 흐르도록 하여 이쪽은 향긋하고 달콤하게 하사 다른 쪽은 짭짤하 고 쓴 맛을 나게하여 그 둘 사이 에 장벽을 두어 분리하신 분도 하 나님이시라`,
+        ``,
+        ``
+      ],
+      [
+        `Egli è Colui Che ha fatto confluire le due acque: una dolce e gradevole, l'altra salata e amara, e ha posto tra loro una zona intermedia, una barriera insormontabile`,
+        ``,
+        ``
+      ],
+      [
+        `On jest Tym, który dał wolną drogę dwom morzom: temu słodkiemu, o przyjemnym smaku, i temu słonemu, gorzkiemu. Umieścił On między nimi przegrodę i barierę nie do przebycia`,
+        ``,
+        ``
+      ],
+      [
+        `Він — Той, Хто змішав дві водойми. Одна з них — приємна на смак, прісна, а друга — солона, гірка. І Він поставив між ними загорожу й нездоланну перепону`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الفرقان / Al-Furqan، الآية 53`
   },
 
   {
@@ -14677,6 +16129,117 @@ const verses = [
       ]
     ],
     number: `سورة الشعراء / Ash-Shu'ara، الآية 215`
+  },
+
+  {
+    arabic: [
+      `وَتَرَى الْجِبَالَ تَحْسَبُهَا جَامِدَةً وَهِيَ تَمُرُّ مَرَّ السَّحَابِ ۚ صُنْعَ اللَّهِ الَّذِي أَتْقَنَ كُلَّ شَيْءٍ ۚ إِنَّهُ خَبِيرٌ بِمَا تَفْعَلُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And you see the mountains, thinking them rigid, while they will pass as the passing of clouds. [It is] the work of Allah, who perfected all things. Indeed, He is Acquainted with that which you do`,
+        ``,
+        ``
+      ],
+      [
+        `Et tu verras les montagnes - tu les crois figées - alors qu'elles passent comme des nuages. Telle est l'œuvre d'Allah qui a tout façonné à la perfection. Il est Parfaitement Connaisseur de ce que vous faites`,
+        ``,
+        ``
+      ],
+      [
+        `Verás pasar las montañas, que tú creías inmóviles, como pasan las nubes: obra de Alá, Que todo lo hace perfecto. Él está bien informado de lo que hacéis`,
+        ``,
+        ``
+      ],
+      [
+        `И ты увидишь, что горы, которые ты считал неподвижными, придут в движение, словно облака. Таково творение Аллаха, Который выполнил все в совершенстве. Воистину, Он ведает о том, что вы делаете`,
+        ``,
+        ``
+      ],
+      [
+        `Und du siehst die Berge, von denen du meinst, sie seien unbeweglich, während sie wie Wolken vorbeiziehen. - (Es ist) das Werk Allahs, Der alles sehr geschickt gemacht hat. Gewiß, Er ist Kundig dessen, was ihr tut`,
+        ``,
+        ``
+      ],
+      [
+        `Och du skall se bergen, som du trodde vara orörliga, driva förbi liksom molnen driver förbi - Guds verk, som i allt är fulländat! - Han är väl underrättad om vad ni gör`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En jij ziet de bergen, waarvan jij denkt dat zij vaststaan, terwijl zij voorbijgaan als wolken. Een werk van Allah, Degene Die alle zaken nauwkeurig geregeld heeft. Voorwaar, Hij is Alwetend over wat jullie doen`,
+        ``,
+        ``
+      ],
+      [
+        `اور تم پہاڑوں کو دیکھتے ہو تو خیال کرتے ہو کہ (اپنی جگہ پر) کھڑے ہیں مگر وہ (اس روز) اس طرح اُڑے پھریں گے جیسے بادل۔ (یہ) خدا کی کاریگری ہے جس نے ہر چیز کو مضبوط بنایا۔ بےشک وہ تمہارے سب افعال سے باخبر ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan engkau akan melihat gunung-gunung, yang engkau kira tetap di tempatnya, padahal ia berjalan (seperti) awan berjalan. (Itulah) ciptaan Allah yang mencipta dengan sempurna segala sesuatu. Sungguh, Dia Mahateliti atas apa yang kamu kerjakan`,
+        ``,
+        ``
+      ],
+      [
+        `Dağları yerinde donmuş gibi durur görürsün, oysa onlar bulutlar gibi geçerler. Bu her şeyi sağlam tutan Allah'ın işidir. Doğrusu O, yaptıklarınızdan haberdardır`,
+        ``,
+        ``
+      ],
+      [
+        `و كوهها را مى‌بينى [و] مى‌پندارى كه آنها بى‌حركتند و حال آنكه آنها ابرآسا در حركتند. [اين‌] صُنعِ خدايى است كه هر چيزى را در كمال استوارى پديد آورده است. در حقيقت، او به آنچه انجام مى‌دهيد آگاه است`,
+        ``,
+        ``
+      ],
+      [
+        `তুমি পর্বতমালাকে দেখে অচল মনে কর, অথচ সেদিন এগুলো মেঘমালার মত চলমান হবে। এটা আল্লাহর কারিগরী, যিনি সবকিছুকে করেছেন সুসংহত। তোমরা যা কিছু করছ, তিনি তা অবগত আছেন।`,
+        ``,
+        ``
+      ],
+      [
+        `E tu vês as montanhas: tu as supões imóveis, enquanto passam do mesmo modo que as nuvens. É a obra de Allah, Quem aperfeiçoou todas as cousas. Por certo, Ele é Conhecedor do que fazeis`,
+        ``,
+        ``
+      ],
+      [
+        `你见群山而以为都是固定的，其实群山都象行云样逝去。那是精制万物的真主的化工，他确是彻知你们的行为的。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたは山々を見て堅固であると思うだろう。だがそれは雲が散るように通り過ぎていくのである。それは凡てのものを，完成なされるアッラーの御業である。本当にかれはあなたがたの行うことを熟知なされる。`,
+        ``,
+        ``
+      ],
+      [
+        `그대가 산들을 보매 견고하 다고 생각하나 그것은 구름이 지 나가듯 사라지거늘 그것은 모든 것을 주관하시는 하나님의 작품이라 실로 그분은 너희들이 행하는 모든 것을 알고 계시노라`,
+        ``,
+        ``
+      ],
+      [
+        `E vedrai le montagne, che ritieni immobili, passare come fossero nuvole. Opera di Allah, Che rende perfetta ogni cosa. Egli è ben informato di quello che fate`,
+        ``,
+        ``
+      ],
+      [
+        `I zobaczysz góry, które uważałeś za nieruchome, jak będą przechodzić, podobnie jak przechodzą chmury. To jest działanie Boga, który uczynił doskonale każdą rzecz. Zaprawdę, On jest w pełni świadomy tego, co wy czynicie`,
+        ``,
+        ``
+      ],
+      [
+        `Ти побачиш, що гори, які ти вважав непорушними, почнуть рухатися, наче хмари. Таке творіння Аллага, Який зробив досконалою кожну річ. Воістину, Йому відомо те, що ви робите`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النمل / An-Naml، الآية 88`
   },
 
   {
@@ -15343,6 +16906,117 @@ const verses = [
       ]
     ],
     number: `سورة لقمان / Luqman، الآية 33`
+  },
+
+  {
+    arabic: [
+      `الَّذِي أَحْسَنَ كُلَّ شَيْءٍ خَلَقَهُ ۖ وَبَدَأَ خَلْقَ الْإِنْسَانِ مِنْ طِينٍ ثُمَّ جَعَلَ نَسْلَهُ مِنْ سُلَالَةٍ مِنْ مَاءٍ مَهِينٍ ثُمَّ سَوَّاهُ وَنَفَخَ فِيهِ مِنْ رُوحِهِ ۖ وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَ ۚ قَلِيلًا مَا تَشْكُرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Who perfected everything which He created and began the creation of man from clay Then He made his posterity out of the extract of a liquid disdained Then He proportioned him and breathed into him from His [created] soul and made for you hearing and vision and hearts; little are you grateful`,
+        ``,
+        ``
+      ],
+      [
+        `qui a bien fait tout ce qu'Il a créé. Et Il a commencé la création de l'homme à partir de l'argile puis Il tira sa descendance d'une goutte d'eau vile [le sperme] puis Il lui donna sa forme parfaite et lui insuffla de Son Esprit . Et Il vous a assigné l'ouïe, les yeux et le cœur. Que vous êtes peu reconnaissants`,
+        ``,
+        ``
+      ],
+      [
+        `Que ha hecho bien todo cuanto ha creado y ha comenzado la creación del hombre de arcilla luego, ha establecido su descendencia de una gota de líquido vil luego, le ha dado forma armoniosa e infundido en él de Su Espíritu. Os ha dado el oído, la vista y el intelecto. ¡Qué poco agradecidos sois`,
+        ``,
+        ``
+      ],
+      [
+        `Который превосходно создал все, что сотворил, и начал создавать человека из глины затем создал его потомство из капли презренной жидкости затем придал ему соразмерный облик, вдохнул в него от Своего духа и даровал вам слух, зрение и сердца. Но как мала ваша благодарность`,
+        ``,
+        ``
+      ],
+      [
+        `Der alles gut macht, was Er erschafft. Und Er machte die Schöpfung des Menschen am Anfang aus Lehm hierauf machte Er seine Nachkommenschaft aus einem Auszug aus verächtlichem Wasser Hierauf formte Er ihn zurecht und hauchte ihm von Seinem Geist ein, und Er hat euch Gehör, Augenlicht und Herzen gemacht. Wie wenig ihr dankbar seid`,
+        ``,
+        ``
+      ],
+      [
+        `som åt allt vad Han skapar ger en fulländad [form]. Först skapar Han människan av lera därefter låter Han hennes avkomma avlas av en droppe av en oansenlig vätska därefter formar Han henne och andas in i henne något av Sin ande och skänker henne hörsel och syn samt förmågan att känna och förstå. Men ni visar sällan tacksamhet`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Degene Die alles wat Hij schiep op de beste manier heeft geschapen. En Hij begon de schepping van de mens uit klei Daarna maakte Hij zijn nageslacht van een uittreksel van nederig water (sperma) Daarop voltooide Hij hem en blies in hem van de Ziel en Hij maakte voor jullie het gehoor en het gezichtsvermogen en de harten. Weinig dankbaarheid tonen jullie`,
+        ``,
+        ``
+      ],
+      [
+        `جس نے ہر چیز کو بہت اچھی طرح بنایا (یعنی) اس کو پیدا کیا۔ اور انسان کی پیدائش کو مٹی سے شروع کیا پھر اس کی نسل خلاصے سے (یعنی) حقیر پانی سے پیدا کی پھر اُس کو درست کیا پھر اس میں اپنی (طرف سے) روح پھونکی اور تمہارے کان اور آنکھیں اور دل بنائے مگر تم بہت کم شکر کرتے ہو`,
+        ``,
+        ``
+      ],
+      [
+        `Yang memperindah segala sesuatu yang Dia ciptakan dan yang memulai penciptaan manusia dari tanah kemudian Dia menjadikan keturunannya dari saripati air yang hina (air mani) Kemudian Dia menyempurnakannya dan meniupkan roh (ciptaan)-Nya ke dalam (tubuh)nya dan Dia menjadikan pendengaran, penglihatan dan hati bagimu, (tetapi) sedikit sekali dari kamu yang bersyukur`,
+        ``,
+        ``
+      ],
+      [
+        `Yarattığı her şeyi güzel yaratan, insanı başlangıçta çamurdan yaratan, sonra onun soyunu, bayağı bir suyun özünden yapan, sonra onu şekillendirip ruhundan ona üfleyen Allah'tır. Size kulaklar, gözler, kalbler verilmiştir. Öyleyken, pek az şükrediyorsunuz`,
+        ``,
+        ``
+      ],
+      [
+        `همان كسى كه هر چيزى را كه آفريده است نيكو آفريده، و آفرينش انسان را از گِل آغاز كرد؛ سپس [تداوم‌] نسل او را از چكيده آبى پست مقرر فرمود؛ آنگاه او را درست‌اندام كرد، و از روح خويش در او دميد، و براى شما گوش و ديدگان و دلها قرار داد؛ چه اندك سپاس مى‌گزاريد`,
+        ``,
+        ``
+      ],
+      [
+        `যিনি তাঁর প্রত্যেকটি সৃষ্টিকে সুন্দর করেছেন এবং কাদামাটি থেকে মানব সৃষ্টির সূচনা করেছেন। অতঃপর তিনি তার বংশধর সৃষ্টি করেন তুচ্ছ পানির নির্যাস থেকে। অতঃপর তিনি তাকে সুষম করেন, তাতে রূহ সঞ্চার করেন এবং তোমাদেরকে দেন কর্ণ, চক্ষু ও অন্তঃকরণ। তোমরা সামান্যই কৃতজ্ঞতা প্রকাশ কর।`,
+        ``,
+        ``
+      ],
+      [
+        `Que fez perfeita cada cousa que criou, e iniciou de barro a criação do ser humano Em seguida, fez-lhe a descendência da quintessência de gota d'água desprezível Em seguida, formou-o e, nele, soprou algo de seu espírito. E vos fez o ouvido e as vistas e os corações. Quão pouco agradeceis`,
+        ``,
+        ``
+      ],
+      [
+        `他精制他所创造的万物，他最初用泥土创造人。 然后用贱水的精华创造他的子孙。 然后使他健全，并将他的精神吹在他的身体中，又为你们创造耳目心灵。你们很少感谢。`,
+        ``,
+        ``
+      ],
+      [
+        `創造された一切を，最も善美なものになされ，泥から人間の創造を始められる。 かれは，いやしい水（精液）の精からその後継者を創られ， それからかれ（人間）を均整にし，かれの聖霊を吹き込まれ，またあなたがたのために聴覚と視覚と心を授けられた御方。あなたがたはほとんど感謝もしない。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 그분이 창조하신 모든 것을 가장 조화있게 두셨으며 인간을 흙에서 창조하기 시작하 셨노라 이리하여 한방울의 정액으로 부터 인간의 자손을 지으셨노라 그런 후 그것을 형상으로 만 드사 그 안에 그분의 영혼을 불어넣고 청각과 시각과 심장을 주겼 노라 그러나 너희는 감사하는 마 음이 크지 못하더라`,
+        ``,
+        ``
+      ],
+      [
+        `è Colui Che ha perfezionato ogni cosa creata e dall'argilla ha dato inizio alla creazione dell'uomo quindi ha tratto la sua discendenza da una goccia d'acqua insignificante quindi gli ha dato forma e ha insufflato in lui del Suo Spirito. Vi ha dato l'udito, gli occhi e i cuori. Quanto poco siete riconoscenti`,
+        ``,
+        ``
+      ],
+      [
+        `On jest Tym, który doskonale stworzył każdą rzecz, On zaczął stworzenie człowieka z gliny Potem uczynił jego potomstwo z ekstraktu nędznej wody Następnie ukształtował go harmonijnie i tchnął w niego nieco ze Swojego Ducha; i dał wam słuch, wzrok i serca. Jakże mało jesteście wdzięczni`,
+        ``,
+        ``
+      ],
+      [
+        `Який створив кожну річ якнайкраще й почав творити людину з глини створив її нащадків із краплі жалюгідної рідини а потім розмірив [людину] та вдихнув у неї від Нашого Духу. Він дарував вам слух, зір і серця. Мало ж ви дякуєте`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة السجدة / As-Sajdah، الآيات 7-9`
   },
 
   {
@@ -16901,6 +18575,117 @@ const verses = [
 
   {
     arabic: [
+      `سُبْحَانَ الَّذِي خَلَقَ الْأَزْوَاجَ كُلَّهَا مِمَّا تُنْبِتُ الْأَرْضُ وَمِنْ أَنْفُسِهِمْ وَمِمَّا لَا يَعْلَمُونَ وَآيَةٌ لَهُمُ اللَّيْلُ نَسْلَخُ مِنْهُ النَّهَارَ فَإِذَا هُمْ مُظْلِمُونَ وَالشَّمْسُ تَجْرِي لِمُسْتَقَرٍّ لَهَا ۚ ذَٰلِكَ تَقْدِيرُ الْعَزِيزِ الْعَلِيمِ وَالْقَمَرَ قَدَّرْنَاهُ مَنَازِلَ حَتَّىٰ عَادَ كَالْعُرْجُونِ الْقَدِيمِ لَا الشَّمْسُ يَنْبَغِي لَهَا أَنْ تُدْرِكَ الْقَمَرَ وَلَا اللَّيْلُ سَابِقُ النَّهَارِ ۚ وَكُلٌّ فِي فَلَكٍ يَسْبَحُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Exalted is He who created all pairs - from what the earth grows and from themselves and from that which they do not know And a sign for them is the night. We remove from it [the light of] day, so they are [left] in darkness And the sun runs [on course] toward its stopping point. That is the determination of the Exalted in Might, the Knowing And the moon - We have determined for it phases, until it returns [appearing] like the old date stalk It is not allowable for the sun to reach the moon, nor does the night overtake the day, but each, in an orbit, is swimming`,
+        ``,
+        ``
+      ],
+      [
+        `Louange à Celui qui a créé tous les couples de ce que la terre fait pousser, d'eux-mêmes, et de ce qu'ils ne savent pas Et une preuve pour eux est la nuit, dont Nous dépouillons le jour, et les voilà alors dans les ténèbres et le soleil court vers un gîte qui lui est assigné; telle est la détermination du Tout-Puissant, de l'Omniscient Et la lune, Nous lui avons déterminé des phases jusqu'à ce qu'elle devienne comme la palme vieillie Le soleil ne peut rattraper la lune, ni la nuit devancer le jour ; et chacun vogue dans une orbite`,
+        ``,
+        ``
+      ],
+      [
+        `¡Gloria al Creador de todas las parejas: las que produce la tierra, las de los mismos hombres y otras que ellos no conocen Y tienen un signo en la noche, de la que quitamos el día, quedando los hombres a oscuras Y el sol. Corre a una parada suya por decreto del Poderoso, del Omnisciente Hemos determinado para la luna fases, hasta que se pone como la palma seca No le está bien al sol alcanzar a la luna, ni la noche adelanta al día. Cada uno navega en una órbita`,
+        ``,
+        ``
+      ],
+      [
+        `Пречист Тот, Кто сотворил парами то, что растит земля, их самих и то, чего они не знают Знамением для них является ночь, которую Мы отделяем ото дня, и вот они погружаются во мрак Солнце плывет к своему местопребыванию. Так предопределил Могущественный, Знающий Мы предопределили для луны положения, пока она вновь не становится подобна старой пальмовой ветви Солнцу не надлежит догонять луну, и ночь не опережает день. Каждый плывет по орбите`,
+        ``,
+        ``
+      ],
+      [
+        `Preis sei Demjenigen, Der die Paare alle erschaffen hat von dem, was die Erde wachsen läßt, von ihnen selbst und von dem, was sie nicht wissen Und ein Zeichen ist für sie die Nacht. Wir ziehen von ihr den Tag weg, und sogleich befinden sie sich im Finstern Und die Sonne läuft zu einem für sie bestimmten Aufenthaltsort. Das ist die Anordnung des Allmächtigen und Allwissenden Und dem Mond haben Wir das rechte Maß in Himmelspunkten festgesetzt, bis er wieder wie ein alter Dattelrispenstiel wird Weder ziemt es der Sonne, den Mond einzuholen, noch wird die Nacht dem Tag zuvorkommen; alle laufen in einer (jeweils eigenen) Umlaufbahn`,
+        ``,
+        ``
+      ],
+      [
+        `Stor i Sin härlighet är Han, som har skapat allt vad jorden alstrar, människorna själva och det som de saknar kunskap om, i motsatspar Också i natten har de ett tecken; Vi klär av den dagen - och de sveps i mörker Och solen som löper mot sin viloplats, anvisad henne av Den som äger all makt, all kunskap Och månen, för vilken Vi har föreskrivit faser [som den måste passera] tills den blir lik den vissna, krökta stjälken till en dadelklase Solen skall inte skynda ifatt månen, och natten hinner inte upp dagen; var och en rör sig nämligen i sin [fastställda] bana`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Heilig is Degene Die al de soorten heeft geschapen die de aarde voortbrengt en uit henzelf en van wat zij niet weten En een Teken voor hen is de nacht waarvan Wij de dag onttrekken, dan bevinden zij zich in de duisternis En de zon loopt in haar vaste baan. Dat is de verordening van de Almachtige, de Alwijze En Wij hebben voor de maan standen bepaald, zodat zij terugkeert als een oud sikkeltje van een dadeltros Het is niet mogelijk dat de zon de maan bereikt en de nacht kan de dag niet inhalen. Allen bewegen in een kringloop`,
+        ``,
+        ``
+      ],
+      [
+        `وہ خدا پاک ہے جس نے زمین کی نباتات کے اور خود ان کے اور جن چیزوں کی ان کو خبر نہیں سب کے جوڑے بنائے اور ایک نشانی ان کے لئے رات ہے کہ اس میں سے ہم دن کو کھینچ لیتے ہیں تو اس وقت ان پر اندھیرا چھا جاتا ہے اور سورج اپنے مقرر رستے پر چلتا رہتا ہے۔ یہ (خدائے) غالب اور دانا کا (مقرر کیا ہوا) اندازہ ہے اور چاند کی بھی ہم نے منزلیں مقرر کردیں یہاں تک کہ (گھٹتے گھٹتے) کھجور کی پرانی شاخ کی طرح ہو جاتا ہے نہ تو سورج ہی سے ہوسکتا ہے کہ چاند کو جا پکڑے اور نہ رات ہی دن سے پہلے آسکتی ہے۔ اور سب اپنے اپنے دائرے میں تیر رہے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Mahasuci (Allah) yang telah menciptakan semuanya berpasang-pasangan, baik dari apa yang ditumbuhkan oleh bumi dan dari diri mereka sendiri, maupun dari apa yang tidak mereka ketahui Dan suatu tanda (kebesaran Allah) bagi mereka adalah malam; Kami tanggalkan siang dari (malam) itu, maka seketika itu mereka (berada dalam) kegelapan dan matahari berjalan di tempat peredarannya. Demikianlah ketetapan (Allah) Yang Mahaperkasa, Maha Mengetahui Dan telah Kami tetapkan tempat peredaran bagi bulan, sehingga (setelah ia sampai ke tempat peredaran yang terakhir) kembalilah ia seperti bentuk tandan yang tua Tidaklah mungkin bagi matahari mengejar bulan dan malam pun tidak dapat mendahului siang. Masing-masing beredar pada garis edarnya`,
+        ``,
+        ``
+      ],
+      [
+        `Yerin yetiştirdiklerinden, kendilerinden ve daha bilmediklerinden çift çift yaratan Allah münezzehtir Onlara bir delil de gecedir; gündüzü ondan sıyırırız da karanlıkta kalıverirler Güneş de yörüngesinde yürüyüp gitmektedir. Bu, güçlü ve bilgin olan Allah'ın kanunudur Ay için de sonunda kuru bir hurma dalına döneceği konaklar tayin etmişizdir Aya erişmek güneşe düşmez. Gece de gündüzü geçemez. Her biri bir yörüngede yürürler`,
+        ``,
+        ``
+      ],
+      [
+        `پاك [خدايى‌] كه از آنچه زمين مى‌روياند و [نيز] از خودشان و از آنچه نمى‌دانند، همه را نر و ماده گردانيده است و نشانه‌اى [ديگر] براى آنها شب است كه روز را [مانند پوست‌] از آن برمى‌كنيم و بناگاه آنان در تاريكى فرو مى‌روند و خورشيد به [سوى‌] قرارگاه ويژه خود روان است. تقدير آن عزيز دانا اين است و براى ماه منزلهايى معين كرده‌ايم، تا چون شاخك خشك خوشه خرما برگردد نه خورشيد را سزد كه به ماه رسد، و نه شب بر روز پيشى جويد، و هر كدام در سپهرى شناورند`,
+        ``,
+        ``
+      ],
+      [
+        `পবিত্র তিনি যিনি যমীন থেকে উৎপন্ন উদ্ভিদকে, তাদেরই মানুষকে এবং যা তারা জানে না, তার প্রত্যেককে জোড়া জোড়া করে সৃষ্টি করেছেন। তাদের জন্যে এক নিদর্শন রাত্রি, আমি তা থেকে দিনকে অপসারিত করি, তখনই তারা অন্ধকারে থেকে যায়। সূর্য তার নির্দিষ্ট অবস্থানে আবর্তন করে। এটা পরাক্রমশালী, সর্বজ্ঞ, আল্লাহর নিয়ন্ত্রণ। চন্দ্রের জন্যে আমি বিভিন্ন মনযিল নির্ধারিত করেছি। অবশেষে সে পুরাতন খর্জুর শাখার অনুরূপ হয়ে যায়। সূর্য নাগাল পেতে পারে না চন্দ্রের এবং রাত্রি অগ্রে চলে না দিনের প্রত্যেকেই আপন আপন কক্ষপথে সন্তরণ করে।`,
+        ``,
+        ``
+      ],
+      [
+        `Glorificado seja Quem criou todos os casais do que a terra brota, e deles mesmos e do que não sabem E é um sinal para eles a noite, da qual esfolamos o dia: então, ei-los imersos nas trevas E o sol corre para uma morada pertencente a ele: essa é a determinação dO Todo-Poderoso, dO Onisciente E a lua, determinamo-lhe fases, até tornar-se como o velho racemo da tamareira Não é concebível ao sol atingir a lua, nem à noite antecipar-se ao dia. E cada qual voga, em uma órbita`,
+        ``,
+        ``
+      ],
+      [
+        `赞颂真主，超绝万物！他创造一切配偶，地面所生产的，他们自己，以及他们所不知道的，都有配偶。 他们有一种迹象，我使白昼脱离黑夜，他们便忽然在黑暗中。 太阳疾行，至一定所，那是万能的、全知的主所预定的。 月亮，我为它预定星宿，直到它再变成象干枯的椰枣枝一样。 太阳不得追及月亮，黑夜也不得超越白昼，各在一个轨道上浮游着。`,
+        ``,
+        ``
+      ],
+      [
+        `かれの栄光を讃える。かれは大地に生えるもの，かれら自身も，またかれらの知らないものも，凡て雌雄に創られた方である。 またかれらへの印には，夜がある。われがそれから昼を退かせると，見よ，真っ暗になる。 また太陽は，規則正しく運行する。これも全能全知な御方の摂理である。 また月には，天宮を振り分けた。（それを通って）ナツメヤシの老いた葉柄のように（細くなって）戻ってくる。 太陽が月に追い付くことはならず，夜は昼と先を争うことは出来ない。それらは，それぞれの軌道を泳ぐ。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께 영광이 있으소서 그분께서는 대지가 생산하는 모든것을 자웅으로 두셨고 인간도 그 리고 알지 못하는 것도 자웅으로 지으셨노라 그들을 위한 예증으로 밤이 있나니 하나님이 낮을 거두어 간다면 그들은 암흑 속에 있게 되리라 태양은 그의 궤도를 운행하 니 그것은 권능과 아심으로 충만 하신 그분의 명령이시라 달을 두어 그의 궤도를 운행 케 하니 오래된 메마른 종려나무 가지처럼 다시 돌아오니라 태양이 달을 잡을 수 없으며 밤이 낮을 추월하지 못하니 각자 는 각자의 궤도를 법칙에 따라 운 행할 뿐이라`,
+        ``,
+        ``
+      ],
+      [
+        `Gloria a Colui Che ha creato le specie di tutto quello che la terra fa crescere, di loro stessi e di ciò che neppure conoscono È un segno per loro la notte che spogliamo del giorno ed allora sono nelle tenebre E il sole che corre verso la sua dimora: questo è il Decreto dell'Eccelso, del Sapiente E alla luna abbiamo assegnato le fasi, finché non diventa come una palma invecchiata Non sta al sole raggiungere la luna e neppure alla notte sopravanzare il giorno. Ciascuno vaga nella sua orbita`,
+        ``,
+        ``
+      ],
+      [
+        `Chwała niech będzie Temu, który stworzył wszystkie pary, jakie wydaje ziemia i oni sami, i te, których oni nie znają I znakiem dla nich - noc. My zdejmujemy z niej dzień i oto oni są w ciemnościach I słońce - ono płynie do swego stałego miejsca. To jest ustanowienie Potężnego, Wszechwiedzącego I księżyc - ustanowiliśmy dla niego stacje, aż staje się podobny do suchej gałęzi palmowej I ani słońcu nie wolno doganiać księżyca, ani też noc nie wyprzedzi dnia; i wszystko żegluje po orbicie`,
+        ``,
+        ``
+      ],
+      [
+        `Преславний Аллаг, Який створив парами все, що зрощує земля, їх самих і те, про що вони не знають Знамення для них — ніч, від якої Ми віддаляємо день, і вони опиняються в темряві Сонце плине до свого постійного місця. Так визначив Всемогутній, Всезнаючий Ми визначили для місяця стани, доки він не стає наче стара пальмова гілка Сонце не повинно наздоганяти місяць, а ніч не повинна випереджати день. Усі вони плинуть небосхилом`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يس / Ya-Sin، الآيات 36-40`
+  },
+
+  {
+    arabic: [
       `إِنَّمَا أَمْرُهُ إِذَا أَرَادَ شَيْئًا أَنْ يَقُولَ لَهُ كُنْ`,
       `فَيَكُونُ`,
       ``
@@ -17119,6 +18904,228 @@ const verses = [
       ]
     ],
     number: `سورة ص / Sad، الآية 29`
+  },
+
+  {
+    arabic: [
+      `خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ بِالْحَقِّ ۖ يُكَوِّرُ اللَّيْلَ عَلَى النَّهَارِ وَيُكَوِّرُ النَّهَارَ عَلَى اللَّيْلِ ۖ وَسَخَّرَ الشَّمْسَ وَالْقَمَرَ ۖ كُلٌّ يَجْرِي لِأَجَلٍ مُسَمًّى ۗ أَلَا هُوَ الْعَزِيزُ الْغَفَّارُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `He created the heavens and earth in truth. He wraps the night over the day and wraps the day over the night and has subjected the sun and the moon, each running [its course] for a specified term. Unquestionably, He is the Exalted in Might, the Perpetual Forgiver`,
+        ``,
+        ``
+      ],
+      [
+        `Il a créé les cieux et la terre en toute vérité. Il enroule la nuit sur le jour et enroule le jour sur la nuit, et Il a assujetti le soleil et la lune à poursuivre chacun sa course pour un terme fixé. C'est bien Lui le Puissant, le Grand Pardonneur`,
+        ``,
+        ``
+      ],
+      [
+        `Ha creado con un fin los cielos y la tierra. Hace que la noche suceda al día y el día a la noche. Ha sujetado el sol y la luna, prosiguiendo cada uno su curso hacia un término fijo. ¿No es Él el Poderoso, el Indulgente`,
+        ``,
+        ``
+      ],
+      [
+        `Он сотворил небеса и землю ради истины. Он обвивает ночью день и обвивает днем ночь. Он подчинил солнце и луну. Все они движутся к назначенному сроку. Воистину, Он - Могущественный, Всепрощающий`,
+        ``,
+        ``
+      ],
+      [
+        `Er hat die Himmel und die Erde in Wahrheit erschaffen. Er läßt die Nacht den Tag umschlingen, und Er läßt den Tag die Nacht umschlingen. Und Er hat die Sonne und den Mond dienstbar gemacht - ein jedes läuft auf eine festgesetzte Frist zu. Sicherlich, Er ist der Allmächtige und Allvergebende`,
+        ``,
+        ``
+      ],
+      [
+        `Han har skapat himlarna och jorden i enlighet med en plan och ett syfte. Han låter natten svepa in dagen [i sitt mörker] och låter dagen svepa in natten [i sitt ljus] och Han har underordnat solen och månen under [Sina lagar], som var och en löper sitt kretslopp till en fastställd tidpunkt. Han är i sanning den Allsmäktige, Den som förlåter och förlåter på nytt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij heeft de hemelen en de aarde in Waarheid geschapen. Hij doet de nacht de dag bedekken en Hij doet de dag de nacht bedekken. En Hij heeft de zou en de maan dienstbaar gemaakt. Allen bewegen tot een bepaalde tijd. Weet dat Hij de Almachtige, de Vergevensgezinde is`,
+        ``,
+        ``
+      ],
+      [
+        `اسی نے آسمانوں اور زمین کو تدبیر کے ساتھ پیدا کیا ہے۔ (اور) وہی رات کو دن پر لپیٹتا ہے اور دن کو رات پر لپیٹتا ہے اور اسی نے سورج اور چاند کو بس میں کر رکھا ہے۔ سب ایک وقت مقرر تک چلتے رہیں گے۔ دیکھو وہی غالب (اور) بخشنے والا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dia menciptakan langit dan bumi dengan (tujuan) yang benar; Dia memasukkan malam atas siang dan memasukkan siang atas malam dan menundukkan matahari dan bulan, masing-masing berjalan menurut waktu yang ditentukan. Ingatlah! Dialah Yang Mahamulia, Maha Pengampun`,
+        ``,
+        ``
+      ],
+      [
+        `Gökleri ve yeri gerçekten yaratan O'dur. Geceyi gündüze dolar, gündüzü geceye dolar. Her biri belirli bir süreye kadar yörüngelerinde yürüyen güneş ve ayı buyruk altında tutar. Dikkat edin, güçlü olan, çok bağışlayan O'dur`,
+        ``,
+        ``
+      ],
+      [
+        `آسمانها و زمين را به حق آفريد. شب را به روز درمى‌پيچد، و روز را به شب درمى‌پيچد و آفتاب و ماه را تسخير كرد. هر كدام تا مدتى معين روانند. آگاه باش كه او همان شكست‌ناپذير آمرزنده است`,
+        ``,
+        ``
+      ],
+      [
+        `তিনি আসমান ও যমীন সৃষ্টি করেছেন যথাযথভাবে। তিনি রাত্রিকে দিবস দ্বারা আচ্ছাদিত করেন এবং দিবসকে রাত্রি দ্বারা আচ্ছাদিত করেন এবং তিনি সুর্য ও চন্দ্রকে কাজে নিযুক্ত করেছেন প্রত্যেকেই বিচরণ করে নির্দিষ্ট সময়কাল পর্যন্ত। জেনে রাখুন, তিনি পরাক্রমশালী, ক্ষমাশীল।`,
+        ``,
+        ``
+      ],
+      [
+        `Ele criou os céus e a terra, com a verdade. Ele enrola a noite no dia e enrola o dia na noite. E submeteu o sol e a lua; cada qual corre até um termo designado. Ora, Ele é O Todo-Poderoso, O Perdoador`,
+        ``,
+        ``
+      ],
+      [
+        `他本着真理，创造天地；他截夜补昼，截昼补夜；他制服日月，各自运行，到一个定期。真的，他确是万能的，确是至赦的。`,
+        ``,
+        ``
+      ],
+      [
+        `かれは真理をもって天地を創造なされ，夜をもって昼を覆いまた昼をもって夜を覆わせ，太陽と月を服従させてそれぞれ定められた周期に運行させる。本当にかれは，偉力ならびなくよく赦される方である。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 하늘과 대지를 진리로써 창조하사 밤으로 하여금 낮 을 덮게 하고 낮으로 하여금 밤을덮게 하였으며 태양과 달로 하여 금 그분의 법칙에 복종케 하니 각자는 정하여진 시간에 운행하니라실로 그분은 권능과 관용으로 충 만하심이라`,
+        ``,
+        ``
+      ],
+      [
+        `Ha creato i cieli e la terra in tutta verità. Arrotola la notte sul giorno e il giorno sulla notte, e il sole e la luna ha costretto [a orbitare] fino ad un termine stabilito. Non è forse Lui l'Eccelso, il Perdonatore`,
+        ``,
+        ``
+      ],
+      [
+        `On stworzył niebiosa i ziemię prawdziwie. On nawija noc na dzień i On nawija dzień na noc. On podporządkował słońce i księżyc - każde wędruje do naznaczonego kresu. Czyż On nie jest Potężny, Przebaczający`,
+        ``,
+        ``
+      ],
+      [
+        `Він створив небеса й землю в істині. Він огортає день ніччю та огортає ніч днем. Він підкорив сонце й місяць. Усі вони плинуть до визначеного строку. Так! Він — Всемогутній, Прощаючий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الزمر / Az-Zumar، الآية 5`
+  },
+
+  {
+    arabic: [
+      `خَلَقَكُمْ مِنْ نَفْسٍ وَاحِدَةٍ ثُمَّ جَعَلَ مِنْهَا زَوْجَهَا وَأَنْزَلَ لَكُمْ مِنَ الْأَنْعَامِ ثَمَانِيَةَ أَزْوَاجٍ ۚ يَخْلُقُكُمْ فِي بُطُونِ أُمَّهَاتِكُمْ خَلْقًا مِنْ بَعْدِ خَلْقٍ فِي ظُلُمَاتٍ ثَلَاثٍ ۚ ذَٰلِكُمُ اللَّهُ رَبُّكُمْ لَهُ الْمُلْكُ ۖ لَا إِلَٰهَ إِلَّا هُوَ ۖ فَأَنَّىٰ تُصْرَفُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `He created you from one soul. Then He made from it its mate, and He produced for you from the grazing livestock eight mates. He creates you in the wombs of your mothers, creation after creation, within three darknesses. That is Allah, your Lord; to Him belongs dominion. There is no deity except Him, so how are you averted`,
+        ``,
+        ``
+      ],
+      [
+        `Il vous a créés d'une personne unique et a tiré d'elle son épouse. Et Il a fait descendre [créé] pour vous huit couples de bestiaux. Il vous crée dans les ventres de vos mères, création après création, dans trois ténèbres . Tel est Allah, votre Seigneur ! A Lui appartient toute la Royauté. Point de divinité à part Lui. Comment pouvez-vous vous détourner [de son culte]`,
+        ``,
+        ``
+      ],
+      [
+        `Os ha creado de una sola persona, de la que ha sacado a su cónyuge. Os ha dado, de los rebaños, cuatro parejas. Os ha creado en el seno de vuestras madres, creación tras creación, en triple oscuridad. Tal es Alá, vuestro Señor. Suyo es el domino. No hay más dios que Él. ¡Cómo, podéis pues, ser tan desviados`,
+        ``,
+        ``
+      ],
+      [
+        `Он создал вас из одного человека. Он сотворил из него жену и ниспослал для вас из скотины восемь животных парами. Он создает вас в утробах ваших матерей: одно творение появляется вслед за другим в трех мраках. Таков Аллах, ваш Господь. Ему принадлежит власть. Нет божества, кроме Него. До чего же вы отвращены от истины`,
+        ``,
+        ``
+      ],
+      [
+        `Er schuf euch aus einem einzigen Wesen, hierauf machte Er aus ihm seine Gattin. Und Er hat für euch an Vieh acht (Tiere) in Paaren herabgesandt. Er erschafft euch in den Leibern eurer Mütter, eine Schöpfung nach der anderen in dreifacher Finsternis. Dies ist doch Allah, euer Herr. Ihm gehört die Herrschaft. Es gibt keinen Gott außer Ihm. Wie laßt ihr euch also abwenden`,
+        ``,
+        ``
+      ],
+      [
+        `Han har skapat er av en enda varelse av vilken Han sedan skapade dess make; och av boskap har Han skänkt er åtta djur i par. Och Han skapar er i moderlivet genom den ena skapelseakten efter den andra, i tre [skikt av] mörker. Detta är Gud, er Herre! Allt herravälde är Hans. Det finns ingen gudom utom Han. Hur har någon kunnat förmå er att vända Honom ryggen`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij heeft jullie uit één ziet geschapen, daarna maakte Hij ervan zijn vrouw, en Hij heeft voor jullie van het vee acht, in paren, neergezonden. Hij schept jullie in de schoten van jullie moeders, een schepping na een schepping, in drie duisternissen."' Dat is Allah, jullie ie Heer, aan Hem behoort de herschappij, geen god is er dan Hij. Waarom wenden jullie je af`,
+        ``,
+        ``
+      ],
+      [
+        `اسی نے تم کو ایک شخص سے پیدا کیا پھر اس سے اس کا جوڑا بنایا اور اسی نے تمہارے لئے چار پایوں میں سے آٹھ جوڑے بنائے۔ وہی تم کو تمہاری ماؤں کے پیٹ میں (پہلے) ایک طرح پھر دوسری طرح تین اندھیروں میں بناتا ہے۔ یہی خدا تمہارا پروردگار ہے اسی کی بادشاہی ہے۔ اس کے سوا کوئی معبود نہیں پھر تم کہاں پھرے جاتے ہو؟`,
+        ``,
+        ``
+      ],
+      [
+        `Dia menciptakan kamu dari diri yang satu (Adam) kemudian darinya Dia jadikan pasangannya dan Dia menurunkan delapan pasang hewan ternak untukmu. Dia menjadikan kamu dalam perut ibumu kejadian demi kejadian dalam tiga kegelapan.757) Yang (berbuat) demikian itu adalah Allah, Tuhan kamu, Tuhan Yang memiliki kerajaan. Tidak ada tuhan selain Dia; maka mengapa kamu dapat dipalingkan`,
+        ``,
+        ``
+      ],
+      [
+        `Sizi bir tek nefisten yaratmış, sonra ondan eşini varetmiştir; sizin için hayvanlardan sekiz çift meydana getirmiştir; sizi annelerinizin karınlarında üç türlü karanlık içinde, yaratılıştan yaratılışa geçirerek yaratmıştır; işte bu Rabbiniz olan Allah'tır. Hükümranlık O'nundur, O'ndan başka tanrı yoktur. Öyleyken nasıl olur da O'nu bırakıp başkasına yönelirsiniz`,
+        ``,
+        ``
+      ],
+      [
+        `شما را از نفسى واحد آفريد، سپس جفتش را از آن قرار داد، و براى شما از دامها هشت قسم پديد آورد. شما را در شكمهاى مادرانتان آفرينشى پس از آفرينشى [ديگر] در تاريكيهاى سه گانه: [مَشيمه و رحم و شكم‌] خلق كرد. اين است خدا، پروردگار شما، فرمانروايى [و حكومت مطلق‌] از آنِ اوست. خدايى جز او نيست، پس چگونه [و كجا از حق‌] برگردانيده مى‌شويد؟`,
+        ``,
+        ``
+      ],
+      [
+        `তিনি সৃষ্টি করেছেন তোমাদেরকে একই ব্যক্তি থেকে। অতঃপর তা থেকে তার যুগল সৃষ্টি করেছেন এবং তিনি তোমাদের জন্যে আট প্রকার চতুষ্পদ জন্তু অবতীর্ণ করেছেন। তিনি তোমাদেরকে সৃষ্টি করেছেন তোমাদের মাতৃগর্ভে পর্যায়ক্রমে একের পর এক ত্রিবিধ অন্ধকারে। তিনি আল্লাহ তোমাদের পালনকর্তা, সাম্রাজ্য তাঁরই। তিনি ব্যতীত কোন উপাস্য নেই। অতএব, তোমরা কোথায় বিভ্রান্ত হচ্ছ`,
+        ``,
+        ``
+      ],
+      [
+        `Ele vos criou de uma só pessoa; em seguida, deste, fez sua mulher. E criou, para vós, dos rebanhos, oito reses acasaladas. Ele vos cria, nos ventres de vossas mães, criação após criação, em trevas tríplices. Esse é Allah, vosso Senhor. DEle é a soberania. Não existe deus senão Ele. Então, como dEle vos desviais`,
+        ``,
+        ``
+      ],
+      [
+        `他从一个人创造你们，然后以他的同类为他的配偶。他为你们而降赐八只牲畜。他将你们造化在你们的母腹中，在三重黑暗中，一再造化你们。那是真主--你们的主，国权只是他的；除他外，绝无应受崇拜的。你们怎么悖谬呢？`,
+        ``,
+        ``
+      ],
+      [
+        `かれはあなたがたを一つの魂から創り，それからその配偶者を創り，またかれは8頭の家畜を雌雄であなたがたに遣わされた。かれはあなたがたを母の胎内に創られ，3つの暗黒の中において，創造につぐ創造をなされた。このように，あなたがたの主アッラーに大権は属する。かれの外に神はないのである。なのにあなたがたはどうして背き去るのか。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 한 인간으로 부터 너희 모두를 창조하셨고 그로부터 배우자를 창조하신 후 너희를 위 하여 여덟마리 자웅의 가축을 두 셨노라 그분께서 어머니 태내에서 너희를 만드사 차례로 단계를 두 시어 어둠으로 가리워진 세 곳이 라 그렇게 하시는 분이 바로 너희 주님 하나님이시니 왕국이 그분의 것이라 실로 그분 외에는 신이 없 나니 그래도 너희는 등을 돌리느뇨`,
+        ``,
+        ``
+      ],
+      [
+        `Vi ha creati da un solo essere, da cui ha tratto la sua sposa. Del bestiame vi diede otto coppie, Vi crea nel ventre delle vostre madri, creazione dopo creazione, in tre tenebre [successive]. Questi è Allah, il vostro Signore`,
+        ``,
+        ``
+      ],
+      [
+        `On stworzył was z jednej duszy, potem uczynił z niej jej parę. On zesłał dla was, spośród trzód, osiem par. On was stwarza w łonach waszych matek, stworzenie po stworzeniu, w trzech ciemnościach. To jest Bóg, wasz Pan. Do Niego należy królestwo. Nie ma boga, jak tylko On! Jakże, więc jesteście odwróceni`,
+        ``,
+        ``
+      ],
+      [
+        `Він створив вас із єдиної душі, а потім зробив для вас дружин із вас самих. Він зіслав для вас вісім пар худоби. Він створює вас в утробах матерів ваших: одне творіння після іншого, в трьох темрявах. Такий Аллаг, ваш Господь! Йому належить влада. Немає бога, крім Нього. Як же ви заблукали`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الزمر / Az-Zumar، الآية 6`
   },
 
   {
@@ -17896,6 +19903,228 @@ const verses = [
       ]
     ],
     number: `سورة غافر / Ghafir، الآية 60`
+  },
+
+  {
+    arabic: [
+      `هُوَ الَّذِي خَلَقَكُمْ مِنْ تُرَابٍ ثُمَّ مِنْ نُطْفَةٍ ثُمَّ مِنْ عَلَقَةٍ ثُمَّ يُخْرِجُكُمْ طِفْلًا ثُمَّ لِتَبْلُغُوا أَشُدَّكُمْ ثُمَّ لِتَكُونُوا شُيُوخًا ۚ وَمِنْكُمْ مَنْ يُتَوَفَّىٰ مِنْ قَبْلُ ۖ وَلِتَبْلُغُوا أَجَلًا مُسَمًّى وَلَعَلَّكُمْ تَعْقِلُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `It is He who created you from dust, then from a sperm-drop, then from a clinging clot; then He brings you out as a child; then [He develops you] that you reach your [time of] maturity, then [further] that you become elders. And among you is he who is taken in death before [that], so that you reach a specified term; and perhaps you will use reason`,
+        ``,
+        ``
+      ],
+      [
+        `C'est Lui qui vous a créés de terre, puis d'une goutte sperme, puis d'une adhérence puis Il vous fait sortir petit enfant pour qu'ensuite vous atteigniez votre maturité et qu'ensuite vous deveniez vieux, - certains parmi vous meurent plus tôt, - et pour que vous atteigniez un terme fixé, afin que vous raisonniez`,
+        ``,
+        ``
+      ],
+      [
+        `Él es Quien os ha creado de tierra; luego, de una gota; luego, de un coágulo de sangre. Luego, os hace salir como criaturas para alcanzar, más tarde, la madurez, luego la vejez -aunque algunos de vosotros mueren prematuramente- y llegar a un término fijo. Quizás, así, razonéis`,
+        ``,
+        ``
+      ],
+      [
+        `Он - Тот, Кто сотворил вас из земли, потом - из капли, потом - из сгустка крови. Потом Он выводит вас младенцами, чтобы потом вы могли достигнуть зрелого возраста и чтобы потом вы стали стариками, хотя среди вас есть такие, которых умерщвляют раньше, и чтобы вы достигли назначенного срока. Быть может, вы уразумеете`,
+        ``,
+        ``
+      ],
+      [
+        `Er ist es, Der euch aus Erde erschaffen hat, hierauf aus einem Samentropfen, hierauf aus einem Anhängsel'. Hierauf läßt Er euch als kleine Kinder hervorkommen. Hierauf (läßt Er euch heranwachsen), damit ihr eure Vollreife erlangt und damit ihr dann Greise werdet - manch einer von euch wird vorher abberufen - und damit ihr eine festgesetzte Frist erreicht, und auf daß ihr begreifen möget`,
+        ``,
+        ``
+      ],
+      [
+        `Det är Han som har skapat er av jord, därefter [skapar Han er] av en droppe säd, därefter av en grodd som sätter sig fast, därefter låter Han er komma till världen som späda barn för att småningom nå full mognad och, till sist, hög ålder - men några av er får dö innan [de når sådan ålder] - så att ert levnadslopp, som [Han har] fastställt, skall fullbordas, och för att ni skall [lära er] att använda ert förstånd`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij is Degene Die jullie uit aarde heeft geschapen, daarna uit een druppel, daarop uit een bloedklonter, vervolgens deed Hij jullie naar buiten komen als een kind. Om jullie daarna jullie volwassenheid te doen bereiken, om jullie tenslotte oud te doen worden. En onder jullie zijn er die eerder overlijden, opdat jullie de vastgestelde tijd zullen bereiken. En hopelijk zullen jullie het begrijpen`,
+        ``,
+        ``
+      ],
+      [
+        `وہی تو ہے جس نے تم کو (پہلے) مٹی سے پیدا کیا۔ ہھر نطفہ بنا کر پھر لوتھڑا بنا کر پھر تم کو نکالتا ہے (کہ تم) بچّے (ہوتے ہو) پھر تم اپنی جوانی کو پہنچتے ہو۔ پھر بوڑھے ہوجاتے ہو۔ اور کوئی تم میں سے پہلے ہی مرجاتا ہے اور تم (موت کے) وقت مقرر تک پہنچ جاتے ہو اور تاکہ تم سمجھو`,
+        ``,
+        ``
+      ],
+      [
+        `Dialah yang menciptakanmu dari tanah, kemudian dari setetes mani, lalu dari segumpal darah, kemudian kamu dilahirkan sebagai seorang anak, kemudian dibiarkan kamu sampai dewasa, lalu menjadi tua. Tetapi di antara kamu ada yang dimatikan sebelum itu. (Kami perbuat demikian) agar kamu sampai kepada kurun waktu yang ditentukan, agar kamu mengerti`,
+        ``,
+        ``
+      ],
+      [
+        `Sizi topraktan, sonra nutfeden, sonra kan pıhtısından yaratan; sonra erginlik çağına ulaşmanız, sonra da yaşlanmanız için sizi bebek olarak dünyaya çıkaran O'dur. Kiminiz daha önce öldürülür, kiminiz de, belirtilmiş bir süreye ulaşırsınız. Belki artık düşünürsünüz`,
+        ``,
+        ``
+      ],
+      [
+        `او همان كسى است كه شما را از خاكى آفريد، سپس از نطفه‌اى، آنگاه از علقه‌اى، و بعد شما را [به صورت‌] كودكى برمى‌آورد، تا به كمال قوّت خود برسيد و تا سالمند شويد، و از ميان شما كسى است كه مرگ پيش‌رس مى‌يابد، و تا [بالاخره‌] به مدتى كه مقرّر است برسيد، و اميد كه در انديشه فرو رويد`,
+        ``,
+        ``
+      ],
+      [
+        `তিনি তো তোমাদের সৃষ্টি করেছেন মাটির দ্বারা, অতঃপর শুক্রবিন্দু দ্বারা, অতঃপর জমাট রক্ত দ্বারা, অতঃপর তোমাদেরকে বের করেন শিশুরূপে, অতঃপর তোমরা যৌবনে পদর্পণ কর, অতঃপর বার্ধক্যে উপনীত হও। তোমাদের কারও কারও এর পূর্বেই মৃত্যু ঘটে এবং তোমরা নির্ধারিত কালে পৌঁছ এবং তোমরা যাতে অনুধাবন কর।`,
+        ``,
+        ``
+      ],
+      [
+        `Ele é Quem vos criou de pó; em seguida, de gota seminal; depois, de aderência; em seguida, faz-vos sair como crianças, para, depois, atingirdes vossa força para, depois, serdes anciãos e há, entre vós, quem morra antes e para atingirdes um termo designado. E tudo isso para que razoeis`,
+        ``,
+        ``
+      ],
+      [
+        `他创造了你们，先用泥土，继用精液，继用血块，然后使你们出生为婴儿，然后让你们成年，然后让你们变成老人--你们中有夭折的--然后，让你们活到一个定期，以便你们明理。`,
+        ``,
+        ``
+      ],
+      [
+        `かれこそは，泥からあなたがたを創られ，次いで一滴の精液から，次いで，一かたまりの血から赤ん坊にされて，あなたがたを出生させ，それから十分な力量を備えさせ，それから老いさせられる方である。あなたがたの中（老いる）前に死ぬ者もいるが既定の時期にまで達せられることは，あなたがたに反省させるためである。`,
+        ``,
+        ``
+      ],
+      [
+        `너희를 흙으로 빛은 후 부터는 한방울의 정액이 응혈이 되게 하여 창조하시는 분이 하나님이시라 그분은 너희를 아기로써 태어 나게 하고 노인이 되게 하며 그 중에는 그 이전에 임종케도 하고 너희가 정해진 기간이 이르도록 하게 하니 이로 하여 너희가 지혜를 알도록 함에 있노라`,
+        ``,
+        ``
+      ],
+      [
+        `Egli è Colui Che vi ha creati dalla terra, poi da una goccia di sperma e poi da una aderenza. Vi ha fatto uscire neonati [dal grembo materno] perché possiate poi raggiungere la pienezza e poi la vecchiaia - ma qualcuno di voi muore prima - affinché giungiate ad un termine stabilito. Rifletterete dunque`,
+        ``,
+        ``
+      ],
+      [
+        `On jest Tym, który stworzył was z prochu, potem z kropli spermy, potem z grudki krwi zakrzepłej, potem wyprowadził was jako dziecko; abyście następnie osiągnęli dojrzałość, a potem stali się starcami - choć wśród was są tacy, którzy umierają wcześniej - i abyście osiągnęli wyznaczony termin. Być może, będziecie rozumni`,
+        ``,
+        ``
+      ],
+      [
+        `Він — Той, Хто створив вас із праху, потім — із краплі сімені, а потім – зі згустку крові. Потім Він виводить вас дітьми, щоб ви могли досягнути зрілого віку, а згодом перетворитися на старих, хоч серед вас є такі, хто помирає раніше; і щоб ви могли досягнути призначеного строку. Можливо, ви зрозумієте`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة غافر / Ghafir، الآية 67`
+  },
+
+  {
+    arabic: [
+      `ثُمَّ اسْتَوَىٰ إِلَى السَّمَاءِ وَهِيَ دُخَانٌ فَقَالَ لَهَا وَلِلْأَرْضِ ائْتِيَا طَوْعًا أَوْ كَرْهًا قَالَتَا أَتَيْنَا طَائِعِينَ فَقَضَاهُنَّ سَبْعَ سَمَاوَاتٍ فِي يَوْمَيْنِ وَأَوْحَىٰ فِي كُلِّ سَمَاءٍ أَمْرَهَا ۚ وَزَيَّنَّا السَّمَاءَ الدُّنْيَا بِمَصَابِيحَ وَحِفْظًا ۚ ذَٰلِكَ تَقْدِيرُ الْعَزِيزِ الْعَلِيمِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Then He directed Himself to the heaven while it was smoke and said to it and to the earth, "Come [into being], willingly or by compulsion." They said, "We have come willingly And He completed them as seven heavens within two days and inspired in each heaven its command. And We adorned the nearest heaven with lamps and as protection. That is the determination of the Exalted in Might, the Knowing`,
+        ``,
+        ``
+      ],
+      [
+        `Il S'est ensuite occupé du ciel qui était alors fumée et lui dit, ainsi qu'à la terre : "Venez tous deux, bon gré, mal gré." Tous deux dirent : "Nous venons obéissants Il décréta d'en faire sept cieux en deux jours et révéla à chaque ciel sa fonction . Et Nous avons décoré le ciel le plus proche de lampes [étoiles] de lampes par lesquelles Nous l'avons protégé. Tel est l'Ordre établi par le Puissant, l'Omniscient`,
+        ``,
+        ``
+      ],
+      [
+        `Luego, se dirigió al cielo, que era humo, y dijo a éste y a la tierra: «¡Venid, queráis o no!» Dijeron: «¡Venimos de buen grado!» «Decretó que fueran siete cielos, en dos días, e inspiró a cada cielo su cometido. Hemos engalanado el cielo más bajo con luminares, como protección. Tal es la decisión del Poderoso, del Omnisciente»`,
+        ``,
+        ``
+      ],
+      [
+        `Потом Он обратился к небу, которое было дымом, и сказал ему и земле: «Придите по доброй воле или по принуждению». Они сказали: «Мы пришли по доброй воле» Он сотворил их семью небесами за два дня и внушил каждому небу его обязанности. Мы украсили нижнее небо светильниками и оберегаем его (или для оберегания его). Таково предопределение Могущественного, Знающего»`,
+        ``,
+        ``
+      ],
+      [
+        `Hierauf wandte Er sich dem Himmel zu, während er noch aus Rauch bestand, und sagte dann zu ihm und zur Erde: "Kommt beide her, freiwillig oder widerwillig." Sie sagten: "Wir kommen in Gehorsam So führte Er sie als sieben Himmel in zwei Tagen aus und gab jedem Himmel seine Aufgabe ein. Und Wir haben den untersten Himmel mit Lampen geschmückt, und auch als Schutz. Das ist die Anordnung des Allmächtigen und Allwissenden`,
+        ``,
+        ``
+      ],
+      [
+        `Och Han vände sig mot rymden, som var rök, och sade till den och till jorden: "Kom, villigt eller nödda och tvungna!" - och de svarade: "Vi kommer villigt Och under två dagar skapade och formade Han dem till sju rymder, och anvisade varje rymd dess uppgift. Rymden närmast jorden har Vi smyckat med ljus och gjort säker [mot intrång]. Gud, den Allsmäktige, den Allvetande, har förordnat om allt detta`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Daama wendde Hij Zich tot de hemel die een nevel was en Hij zei tot haar en tot de aarde: "Komt tot Ons, gewillig of ongewillig." Zij (de hemelen en de aarde) zeiden: "Wij zijn gewillig gekomen En Hij vervolmaakte hen, de zeven hemelen, in twee dagen (perioden) en Hij openbaarde in alle hemelen hun beschikking. En Wij versierden de nabije hemel met sterren, als een bescherming (tegen de Satan). Dat is de ordening van de Almachtige, de Alwetende`,
+        ``,
+        ``
+      ],
+      [
+        `پھر آسمان کی طرف متوجہ ہوا اور وہ دھواں تھا تو اس نے اس سے اور زمین سے فرمایا کہ دونوں آؤ (خواہ) خوشی سے خواہ ناخوشی سے۔ انہوں نے کہا کہ ہم خوشی سے آتے ہیں پھر دو دن میں سات آسمان بنائے اور ہر آسمان میں اس (کے کام) کا حکم بھیجا اور ہم نے آسمان دنیا کو چراغوں (یعنی ستاروں) سے مزین کیا اور (شیطانوں سے) محفوظ رکھا۔ یہ زبردست (اور) خبردار کے (مقرر کئے ہوئے) اندازے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Kemudian Dia menuju ke langit dan (langit) itu masih berupa asap, lalu Dia berfirman kepadanya dan kepada bumi, "Datanglah kamu berdua menurut perintah-Ku dengan patuh atau terpaksa." Keduanya menjawab, "Kami datang dengan patuh Lalu diciptakan-Nya tujuh langit dalam dua masa dan pada setiap langit Dia mewahyukan urusan masing-masing. Kemudian langit yang dekat (dengan bumi), Kami hiasi dengan bintang-bintang, dan (Kami ciptakan itu) untuk memelihara. Demikianlah ketentuan (Allah) Yang Mahaperkasa, Maha Mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Sonra, duman halinde bulunan göğe yöneldi, ona ve yeryüzüne: "İsteyerek veya istemeyerek buyruğuma gelin" dedi. İkisi de: "İsteyerek geldik" dediler Böylece onları, iki gün içinde yedi göğe tamamladı ve her göğün işini kendisine bildirdi. Yakın göğü ışıklarla donattık ve bozulmaktan koruduk. İşte bu, bilen, güçlü olan Allah'ın kanunudur`,
+        ``,
+        ``
+      ],
+      [
+        `سپس آهنگ [آفرينش‌] آسمان كرد، و آن بخارى بود. پس به آن و به زمين فرمود: «خواه يا ناخواه بياييد.» آن دو گفتند: «فرمان‌پذير آمديم.» پس آنها را [به صورت‌] هفت آسمان، در دو هنگام مقرّر داشت و در هر آسمانى كار [مربوط به‌] آن را وحى فرمود، و آسمان [اين‌] دنيا را به چراغها آذين كرديم و [آن را نيك‌] نگاه داشتيم؛ اين است اندازه‌گيرى آن نيرومند دانا`,
+        ``,
+        ``
+      ],
+      [
+        `অতঃপর তিনি আকাশের দিকে মনোযোগ দিলেন যা ছিল ধুম্রকুঞ্জ, অতঃপর তিনি তাকে ও পৃথিবীকে বললেন, তোমরা উভয়ে আস ইচ্ছায় অথবা অনিচ্ছায়। তারা বলল, আমরা স্বেচ্ছায় আসলাম। অতঃপর তিনি আকাশমন্ডলীকে দু’দিনে সপ্ত আকাশ করে দিলেন এবং প্রত্যেক আকাশে তার আদেশ প্রেরণ করলেন। আমি নিকটবর্তী আকাশকে প্রদীপমালা দ্বারা সুশোভিত ও সংরক্ষিত করেছি। এটা পরাক্রমশালী সর্বজ্ঞ আল্লাহর ব্যবস্থাপনা।`,
+        ``,
+        ``
+      ],
+      [
+        `Em seguida, dirigiu-se ao céu, enquanto fumo, e disse-lhe e à terra: "Vinde ambos, de bom ou de mau grado." Ambos disseram: "Viemos obedientes Então, decretou fossem sete céus, em dois dias, e revelou a cada céu sua condição. E aformoseamos o céu mais próximo com lâmpadas, e custodiamo-lo. Essa foi a determinação dO Todo-Poderoso, dO Onisciente`,
+        ``,
+        ``
+      ],
+      [
+        `然后，他志于造天，那时，天还是蒸气。他对天说：你们俩顺服地，或勉强地来吧！它俩说：我们俩顺服地来了。 他在两日内创造了七层天，他以他的命令启示各天的居民，他以众星点缀最低的天，并加以保护。那是万能的、全知的主的预定。`,
+        ``,
+        ``
+      ],
+      [
+        `それからまだ煙（のよう）であった天に転じられた。そして天と地に向かって，『両者は，好むと好まざるとに関わらず，われに来たれ。」と仰せられた。天地は（答えて），『わたしたちは喜んで参上します。』と申し上げた。 そこでかれは，2日の間に7層の天を完成なされた。そしてそれぞれの天に命令を下し，（大地に）近い天を，われは照明で飾り，守護した。これは，偉力ならびなく全知なる御方の摂理である。」`,
+        ``,
+        ``
+      ],
+      [
+        `그런 후 그분은 스스로 수증기로 가득한 하늘로 오르시며 하 늘과 대지에게 말씀이 있었으니 좋든 싫든간에 너희가 함께 오라 하니 그것들이 답하여 우리는 다 함께 순종하나이다 하더라 하나님은 이틀만에 일곱개의하늘을 완성하신 후 각 하늘에 임 무를 부여하사 지상에 가까운 하 늘을 빛으로 장식하고 그리고 보호되도록 하였나니 그러함이 권능과 아심으로 충만하신 그분의 창조이시라`,
+        ``,
+        ``
+      ],
+      [
+        `Poi si rivolse al cielo che era fumo e disse a quello e alla terra: “Venite entrambi, per amore o per forza”. Risposero: “Veniamo obbedienti!” Stabilì in due giorni i sette cieli e ad ogni cielo assegnò la sua funzione. E abbellimmo il cielo più vicino di luminarie e di una protezione. Questo è il decreto dell'Eccelso, del Sapiente`,
+        ``,
+        ``
+      ],
+      [
+        `Potem zwrócił się ku niebu - ono było wtedy dymem - i powiedział jemu i ziemi: "Przychodźcie dobrowolnie lub wbrew woli!" One powiedziały: "Przychodzimy posłuszne I On ustanowił siedem niebios, w dwa dni, i objawił każdemu niebu jego zasady. I ozdobiliśmy niebo najbliższe lampami - także dla ochrony. Takie jest ustanowienie Potężnego, Wszechwiedzącego`,
+        ``,
+        ``
+      ],
+      [
+        `Потім Він повернувся до неба — а воно було димом — і сказав йому та землі: «Прийдіть — добровільно чи примусово!» Вони сказали: «Ми прийдемо добровільно Він завершив сім небес за два дні й відкрив кожному з них його обов’язок. Ми прикрасили нижнє небо світилами, й вони захищають його. Так визначив Всемогутній, Всезнаючий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة فصلت / Fussilat، الآيتان 11-12`
   },
 
   {
@@ -19454,6 +21683,117 @@ const verses = [
 
   {
     arabic: [
+      `وَالسَّمَاءَ بَنَيْنَاهَا بِأَيْدٍ وَإِنَّا لَمُوسِعُونَ وَالْأَرْضَ فَرَشْنَاهَا فَنِعْمَ الْمَاهِدُونَ وَمِنْ كُلِّ شَيْءٍ خَلَقْنَا زَوْجَيْنِ لَعَلَّكُمْ تَذَكَّرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And the heaven We constructed with strength, and indeed, We are [its] expander And the earth We have spread out, and excellent is the preparer And of all things We created two mates; perhaps you will remember`,
+        ``,
+        ``
+      ],
+      [
+        `Le ciel, Nous l'avons construit par Notre puissance : et Nous l'étendons [constamment] : dans l'immensité Et la terre, Nous l'avons étendue. Et de quelle excellente façon Nous l'avons nivelée Et de toute chose Nous avons créé [deux éléments] : de couple. Peut-être vous rappellerez-vous`,
+        ``,
+        ``
+      ],
+      [
+        `Y el cielo, lo construimos con fuerza. Y, ciertamente, asignamos un vasto espacio Y la tierra, la extendimos. ¡Qué bien que la preparamos Todo lo creamos por parejas. Quizás, así, os dejéis amonestar`,
+        ``,
+        ``
+      ],
+      [
+        `Мы воздвигли небо благодаря могуществу, и Мы его расширяем (или даруем пропитание; или обладаем мощью) Мы разостлали землю, и как же прекрасно Мы расстилаем Мы сотворили все сущее парами, - быть может, вы помяните назидание`,
+        ``,
+        ``
+      ],
+      [
+        `Und den Himmel haben Wir mit Kraft aufgebaut, und Wir weiten (ihn) wahrlich (noch) aus Und die Erde haben Wir ausgebreitet. Wie trefflich haben Wir (sie) geebnet Und von allem haben Wir ein Paar erschaffen, auf daß ihr bedenken möget`,
+        ``,
+        ``
+      ],
+      [
+        `VI HAR byggt världsalltet och gett det en fast struktur, och förvisso är det Vi som utvidgar det Och Vi har brett ut jordens [yta] - kunde någon ha brett ut den på bättre sätt Allt som Vi har skapat har Vi skapat i motsatspar; kanske skall ni minnas [att En Gud är upphovet till denna väl planerade mångfald]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En Wij hebben de hemel met een grote macht gebouwd. En voorwaar, Wij zijn zeker Machtigen En Wij hebben de aarde uitgespreid, en de beste Uitspreiders zijn Wij En van alle dingen hebben Wij paren geschapen. Hopelijk zullen jullie je laten vermanen`,
+        ``,
+        ``
+      ],
+      [
+        `اور آسمانوں کو ہم ہی نے ہاتھوں سے بنایا اور ہم کو سب مقدور ہے اور زمین کو ہم ہی نے بچھایا تو (دیکھو) ہم کیا خوب بچھانے والے ہیں اور ہر چیز کی ہم نے دو قسمیں بنائیں تاکہ تم نصیحت پکڑو`,
+        ``,
+        ``
+      ],
+      [
+        `Dan langit Kami bangun dengan kekuasaan (Kami), dan Kami benar-benar meluaskannya Dan bumi telah Kami hamparkan; maka (Kami) sebaik-baik yang menghamparkan Dan segala sesuatu Kami ciptakan berpasang-pasangan agar kamu mengingat (kebesaran Allah)`,
+        ``,
+        ``
+      ],
+      [
+        `Göğü, gücümüzle Biz kurduk; şüphesiz biz onu genişleticiyiz Yeryüzünü biz yayıp döşedik: Ne güzel döşeyiciyiz İbret alasınız diye her şeyi çift çift yaratmışızdır`,
+        ``,
+        ``
+      ],
+      [
+        `و آسمان را به قدرت خود برافراشتيم، و بى‌گمان، ما [آسمان‌]گستريم و زمين را گسترانيده‌ايم و چه نيكو گسترندگانيم و از هر چيزى دو گونه [يعنى نر و ماده‌] آفريديم، اميد كه شما عبرت گيريد`,
+        ``,
+        ``
+      ],
+      [
+        `আমি স্বীয় ক্ষমতাবলে আকাশ নির্মাণ করেছি এবং আমি অবশ্যই ব্যাপক ক্ষমতাশালী। আমি ভূমিকে বিছিয়েছি। আমি কত সুন্দরভাবেই না বিছাতে সক্ষম। আমি প্রত্যেক বস্তু জোড়ায় জোড়ায় সৃষ্টি করেছি, যাতে তোমরা হৃদয়ঙ্গম কর।`,
+        ``,
+        ``
+      ],
+      [
+        `E o céu, edificamo-lo com vigor e, por certo, somos Nós Que o estamos ampliando E a terra, estendemo-la; então, que Excelente Aplainador somos Nós E, de cada cousa, criamos um casal, para meditardes`,
+        ``,
+        ``
+      ],
+      [
+        `天，我曾以权力建造它，我确是大能的； 地，我曾铺张它。美哉铺张者！ 我将每种物造成配偶，以便你们觉悟。`,
+        ``,
+        ``
+      ],
+      [
+        `われは偉力をもって天を打ち建て，果しない広がりにした。 またわれは大地を打ち広げた。何と見事に広げたことよ。 またわれは，凡てのものを両性に創った。あなたがたは訓戒を受け入れるであろう（という配慮から）。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서 하늘을 두사 권 능과 능력으로 높이 두고 넓게 두셨으며 대지를 두되 넓게 펼쳤으너 얼마나 아름답게 펼쳐 졌느뇨 하나님이 모든 것을 창조하 시되 자웅을 두었으니 이로 하여 너희가 교훈을 얻도록 함이라`,
+        ``,
+        ``
+      ],
+      [
+        `Il cielo lo abbiamo costruito con la Nostra potenza e [costantemente] lo estendiamo nell'immensità la terra l'abbiamo distesa, e quanto bene la distendemmo Di ogni cosa creammo una coppia, affinché possiate riflettere`,
+        ``,
+        ``
+      ],
+      [
+        `A niebo?! Zbudowaliśmy je solidnie - My przecież tworzymy rozległe przestrzenie A ziemia?! Rozpostarliśmy ją. I jakże wspaniale wszystko porządkujemy Z każdej rzeczy stworzyliśmy parę. Może sobie przypomnicie`,
+        ``,
+        ``
+      ],
+      [
+        `Могутністю Нашою Ми створили небо; воістину, Ми — розширюємо І Ми розрівняли землю. Як же чудово розстеляємо Ми Із кожної речі Ми створили пару, можливо, схаменетеся ви`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الذاريات / Adh-Dhariyat، الآيات 47-49`
+  },
+
+  {
+    arabic: [
       `وَمَا خَلَقْتُ الْجِنَّ وَالْإِنْسَ إِلَّا لِيَعْبُدُونِ`,
       ``,
       ``
@@ -19787,6 +22127,117 @@ const verses = [
 
   {
     arabic: [
+      `وَأَنَّهُ خَلَقَ الزَّوْجَيْنِ الذَّكَرَ وَالْأُنْثَىٰ مِنْ نُطْفَةٍ إِذَا تُمْنَىٰ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And that He creates the two mates - the male and female From a sperm-drop when it is emitted`,
+        ``,
+        ``
+      ],
+      [
+        `et que c'est Lui qui a créé les deux éléments de couple, le mâle et la femelle d'une goutte de sperme quand elle est éjaculée`,
+        ``,
+        ``
+      ],
+      [
+        `que Él crea la pareja, varón y hembra de una gota cuando es eyaculada`,
+        ``,
+        ``
+      ],
+      [
+        `Он сотворил пару - мужчину и женщину (или самца и самку) из капли, которая извергается`,
+        ``,
+        ``
+      ],
+      [
+        `daß Er beide Teile des Paares, das Männliche und das Weibliche, erschafft aus einem Samentropfen, wenn er ausgespritzt wird`,
+        ``,
+        ``
+      ],
+      [
+        `och att Han har skapat de två könen, mankön och kvinnokön av en droppe utgjuten säd`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En dat Hij de paren heeft geschapen; de man en de vrouw Van een druppel (sperma), wanneer die wordt uitgestort`,
+        ``,
+        ``
+      ],
+      [
+        `اور یہ کہ وہی نر اور مادہ دو قسم (کے حیوان) پیدا کرتا ہے (یعنی) نطفے سے جو (رحم میں) ڈالا جاتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `dan sesungguhnya Dialah yang menciptakan pasangan laki-laki dan perempuan dari mani, apabila dipancarkan`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu, atıldığında meniden erkek ve dişiyi, iki çifti yaratan O'dur`,
+        ``,
+        ``
+      ],
+      [
+        `و هم اوست كه دو نوع مى‌آفريند: نر و ماده، از نطفه‌اى چون فرو ريخته شود`,
+        ``,
+        ``
+      ],
+      [
+        `এবং তিনিই সৃষ্টি করেন যুগল-পুরুষ ও নারী। একবিন্দু বীর্য থেকে যখন স্খলিত করা হয়।`,
+        ``,
+        ``
+      ],
+      [
+        `E que Ele é Quem criou o casal: o varão e a varoa De gota seminal, quando ejaculada`,
+        ``,
+        ``
+      ],
+      [
+        `他曾创造配偶──男性的与女性的── 是以射出的精液；`,
+        ``,
+        ``
+      ],
+      [
+        `本当にかれは，男と女の組み合わせを創られた。 それも精液を吹き込むことで。`,
+        ``,
+        ``
+      ],
+      [
+        `자웅으로 남성과 여성을 창 조하사 보존된 정액으로 부터라`,
+        ``,
+        ``
+      ],
+      [
+        `e che Egli è Colui Che ha creato i due generi, il maschio e la femmina da una goccia di sperma quand'è eiaculata`,
+        ``,
+        ``
+      ],
+      [
+        `I że to On stworzył parę - mężczyznę i kobietę z kropli spermy, kiedy wytryska`,
+        ``,
+        ``
+      ],
+      [
+        `і це Він створив пару — чоловіка та жінку із краплі, яка витікає`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النجم / An-Najm، الآيتان 45-46`
+  },
+
+  {
+    arabic: [
       `اقْتَرَبَتِ السَّاعَةُ وَانشَقَّ الْقَمَرُ`,
       ``,
       ``
@@ -20005,6 +22456,117 @@ const verses = [
       ]
     ],
     number: `سورة القمر / Al-Qamar، الآيات 17،22،28،32`
+  },
+
+  {
+    arabic: [
+      `مَرَجَ الْبَحْرَيْنِ يَلْتَقِيَانِ بَيْنَهُمَا بَرْزَخٌ لَا يَبْغِيَانِ فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ يَخْرُجُ مِنْهُمَا اللُّؤْلُؤُ وَالْمَرْجَانُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `He released the two seas, meeting [side by side] Between them is a barrier [so] neither of them transgresses So which of the favors of your Lord would you deny From both of them emerge pearl and coral`,
+        ``,
+        ``
+      ],
+      [
+        `Il a donné libre cours aux deux mers pour se rencontrer il y a entre elles une barrière qu'elles ne dépassent pas Lequel donc des bienfaits de votre Seigneur nierez-vous De ces deux [mers] : sortent la perle et le corail`,
+        ``,
+        ``
+      ],
+      [
+        `Ha dejado fluir las dos grandes masas de agua, que se encuentran pero las separa una barrera que no rebasan ¿Cuál, pues, de los beneficios de vuestro Señor negaréis De ambas provienen la perla y el coral`,
+        ``,
+        ``
+      ],
+      [
+        `Он смешал два моря, которые встречаются друг с другом Между ними существует преграда, которую они не могут преступить Какую же из милостей вашего Господа вы считаете ложью Из них обоих вылавливают жемчуг и кораллы`,
+        ``,
+        ``
+      ],
+      [
+        `Er hat den beiden Meeren freien Lauf gelassen; sie treffen aufeinander zwischen ihnen ist (aber) ein trennendes Hindernis, (das)s sie (ihre Grenzen) nicht überschreiten Welche der Wohltaten eures Herrn wollt ihr beide denn leugnen Aus ihnen beiden kommen Perlen und Korallen hervor`,
+        ``,
+        ``
+      ],
+      [
+        `Han låter de två stora vattenmassorna röra sig fritt och mötas mellan dem [har Han likväl dragit] en skiljelinje som de inte kan överskrida Vilket verk av er [allsmäktige] Herre vill ni båda då förneka Från bådadera kommer pärlor och koraller`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij heeft de twee zeeën laten stromen en zij ontmoeten elkaar Tussen beide is een scheiding, zij kunnen die niet passeren Welke gunsten van jullie Heer loochenen jullie dan Uit beide komen parels en koraal voort`,
+        ``,
+        ``
+      ],
+      [
+        `اسی نے دو دریا رواں کئے جو آپس میں ملتے ہیں دونوں میں ایک آڑ ہے کہ (اس سے) تجاوز نہیں کرسکتے تو تم اپنے پروردگار کی کون کون سی نعمت کو جھٹلاؤ گے؟ دونوں دریاؤں سے موتی اور مونگے نکلتے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Dia membiarkan dua laut mengalir yang (kemudian) keduanya bertemu di antara keduanya ada batas yang tidak dilampaui oleh masing-masing Maka nikmat Tuhanmu yang manakah yang kamu dustakan Dari keduanya keluar mutiara dan marjan`,
+        ``,
+        ``
+      ],
+      [
+        `Acı ve tatlı sulu iki denizi birbirine kavuşmamak üzere salıvermiştir Aralarında bir engel vardır; birbirinin sınırını aşamazlar Öyleyken, Rabbinizin nimetlerinden hangisini yalanlarsınız Bu iki denizden de inci ve mercan çıkar`,
+        ``,
+        ``
+      ],
+      [
+        `دو دريا را [به گونه‌اى‌] روان كرد [كه‌] با هم برخورد كنند ميان آن دو، حد فاصلى است كه به هم تجاوز نمى‌كنند پس كدام يك از نعمتهاى پروردگارتان را منكريد؟ از هر دو [دريا] مرواريد و مرجان برآيد`,
+        ``,
+        ``
+      ],
+      [
+        `তিনি পাশাপাশি দুই দরিয়া প্রবাহিত করেছেন। উভয়ের মাঝখানে রয়েছে এক অন্তরাল, যা তারা অতিক্রম করে না। অতএব, তোমরা উভয়ে তোমাদের পালনকর্তার কোন কোন অবদানকে অস্বীকার করবে উভয় দরিয়া থেকে উৎপন্ন হয় মোতি ও প্রবাল।`,
+        ``,
+        ``
+      ],
+      [
+        `Desenleia os dois mares, para se depararem Entre ambos, há uma barreira; nenhum dos dois comete transgressão Então, qual das mercês de vosso Senhor vós ambos desmentis De ambos saem as pérolas e o coral`,
+        ``,
+        ``
+      ],
+      [
+        `他曾任两海相交而会合， 两海之间，有一个堤坊，两海互不侵犯。 你们究竟否认你们的主的哪一件恩典呢？ 他从两海中取出大珍珠和小珍珠。`,
+        ``,
+        ``
+      ],
+      [
+        `かれは2つの海を一緒に合流させられる。 （だが）両者の間には，（アッラーの配慮によって）障壁があリ一方が他方を制圧することはない。 それであなたがたは，主の恩恵のどれを嘘と言うのか。 両方は真珠とサンゴを産する。`,
+        ``,
+        ``
+      ],
+      [
+        `그분께서 두 바다를 자유룹 게 흐르게 하고 만나게 하되 둘 사이에 장벽을 두니 그 들 각자는 침범하지 아니 하노라 너희는 너희 주님의 은혜 중 어느 것을 거역하겠느뇨 그 두곳에서 진주와 산호가 나오니라`,
+        ``,
+        ``
+      ],
+      [
+        `Ha lasciato liberi mari affinché si incontrassero [ma] fra loro vi è una barriera che non possono oltrepassare Quale dunque dei benefici del vostro Signore negherete Da entrambi si estraggono la perla e il corallo`,
+        ``,
+        ``
+      ],
+      [
+        `On puścił wolno dwa morza, aby mogły się spotkać Między nimi jest przegroda, której nie przekraczają Przeto które z dobrodziejstw waszego Pana uważacie za kłamstwo Z nich obu pochodzą perły i korale`,
+        ``,
+        ``
+      ],
+      [
+        `Він створив дві водойми поряд, що не зливаються в одну Між ними — перепона, щоб не виходили вони [з берегів] То які з Господніх благ ви заперечуєте Отримують з них перли й корали`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الرحمن / Ar-Rahman، الآيات 19-22`
   },
 
   {
@@ -20231,6 +22793,117 @@ const verses = [
 
   {
     arabic: [
+      `۞ فَلَا أُقْسِمُ بِمَوَاقِعِ النُّجُومِ وَإِنَّهُ لَقَسَمٌ لَوْ تَعْلَمُونَ عَظِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Then I swear by the setting of the stars And indeed, it is an oath - if you could know - [most] great`,
+        ``,
+        ``
+      ],
+      [
+        `Non !... Je jure par les positions des étoiles (dans le firmament) Et c'est vraiment un serment solennel, si vous saviez`,
+        ``,
+        ``
+      ],
+      [
+        `¡Pues no! ¡Juro por el ocaso de las estrellas Juramento en verdad-si supierais...-solemne`,
+        ``,
+        ``
+      ],
+      [
+        `Но нет! Клянусь местами заката звезд (или ниспослания частей Корана) Если бы вы только знали, что это - клятва великая`,
+        ``,
+        ``
+      ],
+      [
+        `Nein! Ich schwöre bei den Standorten der Sterne und das ist wahrlich, wenn ihr (nur) wüßtet, ein gewaltiger Schwur`,
+        ``,
+        ``
+      ],
+      [
+        `JAG KALLAR de stegvis uppenbarade avsnitten av Koranen att vittna detta är en försäkran av största vikt, om ni bara kunde inse det`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Ik zweer bij het vallen van de sterren En voorwaar, dat is zeker een geweldige eed, als jullie dat begrepen`,
+        ``,
+        ``
+      ],
+      [
+        `ہمیں تاروں کی منزلوں کی قسم اور اگر تم سمجھو تو یہ بڑی قسم ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Lalu Aku bersumpah dengan tempat beredarnya bintang-bintang Dan sesungguhnya itu benar-benar sumpah yang besar sekiranya kamu mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Hayır; yıldızların yerleri üzerine yemin ederim; ki bunun ne büyük yemin olduğunu bir bilseniz`,
+        ``,
+        ``
+      ],
+      [
+        `نه [چنين است كه مى‌پنداريد]، سوگند به جايگاه‌هاى [ويژه و فواصل معيّن‌] ستارگان اگر بدانيد، آن سوگندى سخت بزرگ است`,
+        ``,
+        ``
+      ],
+      [
+        `অতএব, আমি তারকারাজির অস্তাচলের শপথ করছি নিশ্চয় এটা এক মহা শপথ-যদি তোমরা জানতে।`,
+        ``,
+        ``
+      ],
+      [
+        `E juro pelas posições das estrelas E, por certo, é magnífico juramento, se soubésseis`,
+        ``,
+        ``
+      ],
+      [
+        `我必以星宿的没落处盟誓， 这确是一个重大的盟誓，假若你们知道。`,
+        ``,
+        ``
+      ],
+      [
+        `わたしは，沈んでゆく星にかけて誓う。 それは本当に偉大な誓いである。もしあなたがたに分るならば，`,
+        ``,
+        ``
+      ],
+      [
+        `실로 지는 별들을 두고 맹 세하나니 너희가 알고만 있다면 실로 이것은 하나의 위대한 맹세로`,
+        ``,
+        ``
+      ],
+      [
+        `Lo giuro per il declino delle stelle e questo è giuramento solenne, se lo sapeste`,
+        ``,
+        ``
+      ],
+      [
+        `Ależ nie! Przysięgam na miejsca zapadania gwiazd A to, zaprawdę, jest wielka przysięga - żebyście tylko mogli wiedzieć`,
+        ``,
+        ``
+      ],
+      [
+        `Та ж ні! Клянуся місцями заходу зірок І ця клятва — якби ви тільки знали — клятва велика`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الواقعة / Al-Waqi'ah، الآيتان 75-76`
+  },
+
+  {
+    arabic: [
       `هُوَ الْأَوَّلُ وَالْآخِرُ وَالظَّاهِرُ وَالْبَاطِنُ وَهُوَ بِكُلِّ شَيْءٍ عَلِيمٌ`,
       `هُوَ الَّذِي خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ فِي سِتَّةِ أَيَّامٍ ثُمَّ اسْتَوَىٰ عَلَى الْعَرْشِ يَعْلَمُ مَا يَلِجُ فِي الْأَرْضِ وَمَا يَخْرُجُ مِنْهَا وَمَا يَنزِلُ مِنَ السَّمَاءِ وَمَا يَعْرُجُ فِيهَا`,
       `وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ ۚ وَاللَّهُ بِمَا تَعْمَلُونَ بَصِيرٌ`
@@ -20449,6 +23122,117 @@ const verses = [
       ]
     ],
     number: `سورة الحديد / Al-Hadid، الآية 20`
+  },
+
+  {
+    arabic: [
+      `لَقَدْ أَرْسَلْنَا رُسُلَنَا بِالْبَيِّنَاتِ وَأَنْزَلْنَا مَعَهُمُ الْكِتَابَ وَالْمِيزَانَ لِيَقُومَ النَّاسُ بِالْقِسْطِ ۖ وَأَنْزَلْنَا الْحَدِيدَ فِيهِ بَأْسٌ شَدِيدٌ وَمَنَافِعُ لِلنَّاسِ وَلِيَعْلَمَ اللَّهُ مَنْ يَنْصُرُهُ وَرُسُلَهُ بِالْغَيْبِ ۚ إِنَّ اللَّهَ قَوِيٌّ عَزِيزٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `We have already sent Our messengers with clear evidences and sent down with them the Scripture and the balance that the people may maintain [their affairs] in justice. And We sent down iron, wherein is great military might and benefits for the people, and so that Allah may make evident those who support Him and His messengers unseen. Indeed, Allah is Powerful and Exalted in Might`,
+        ``,
+        ``
+      ],
+      [
+        `Nous avons effectivement envoyé Nos Messagers avec des preuves évidentes, et fait descendre avec eux le Livre et la balance, afin que les gens établissent la justice. Et Nous avons fait descendre le fer, dans lequel il y a une force redoutable, aussi bien que des utilités pour les gens, et pour qu'Allah reconnaisse qui, dans l'Invisible, défendra Sa cause et celle de Ses Messagers. Certes, Allah est Fort et Puissant`,
+        ``,
+        ``
+      ],
+      [
+        `Ya hemos mandado a nuestros enviados con las pruebas claras. Y hemos hecho descender con ellos la Escritura y la Balanza, para que los hombres observen la equidad. Hemos hecho descender el hierro, que encierra una gran fuerza y ventajas para los hombres. A fin de que Alá sepa quiénes les auxilian en secreto, a Él y a Sus enviados. Alá es fuerte poderoso`,
+        ``,
+        ``
+      ],
+      [
+        `Мы уже отправили Наших посланников с ясными знамениями и ниспослали с ними Писание и Весы, чтобы люди придерживались справедливости. Мы также ниспослали железо, в котором заключается могучая сила и польза для людей, для того, чтобы Аллах узнал тех, кто помогает Ему и Его посланникам, хотя и не видит Его воочию. Воистину, Аллах - Всесильный, Могущественный`,
+        ``,
+        ``
+      ],
+      [
+        `Wir haben ja Unsere Gesandten mit den klaren Beweisen gesandt und mit ihnen die Schrift und die Waage herabkommen lassen, damit die Menschen für die Gerechtigkeit eintreten. Und Wir haben das Eisen herabkommen lassen. In ihm ist starke Gewalt und Nutzen für die Menschen -, damit Allah kennt, wer Ihm und Seinen Gesandten im Verborgenen hilft. Gewiß, Allah ist Stark und Allmächtig`,
+        ``,
+        ``
+      ],
+      [
+        `Vi sände Våra profeter med klara bevis [om sanningen] och med dem sände Vi Skriften och en Våg för att [hjälpa] människorna att handla rättvist. Och järnet, som har fruktansvärd styrka och som är människan till nytta, har Vi satt i era [händer]. Låt därför dem ge sig till känna som vill stödja och försvara Guds och Hans Sändebuds sak, fastän [Gud] inte kan ses eller förnimmas. All styrka och all makt ligger hos Gud`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorzeker, Wij hebben Onze Boodschappers met de duidelijke bewijzen gezonden en Wij hebben met hen het Boek en de wetgeving neergezonden, opdat de mens in het midden zou staan (rechtvaardig zou handelen). En Wij hebben het ijzer neergezonden, waarin grote macht is en voordelen voor de mensheid, opdat Allah zou doen weten wie Hem en Zijn Boodschappers helpt, zonder dat hij (bv. Allah en het Paradijs) kan waarnemen. Voorwaar, Allah is Sterk, Geweldig`,
+        ``,
+        ``
+      ],
+      [
+        `ہم نے اپنے پیغمبروں کو کھلی نشانیاں دے کر بھیجا۔ اور اُن پر کتابیں نازل کیں اور ترازو (یعنی قواعد عدل) تاکہ لوگ انصاف پر قائم رہیں۔ اور لوہا پیدا کیا اس میں (اسلحہٴ جنگ کے لحاظ سے) خطرہ بھی شدید ہے۔ اور لوگوں کے لئے فائدے بھی ہیں اور اس لئے کہ جو لوگ بن دیکھے خدا اور اس کے پیغمبروں کی مدد کرتے ہیں خدا ان کو معلوم کرے۔ بےشک خدا قوی (اور) غالب ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, Kami telah mengutus rasul-rasul Kami dengan bukti-bukti yang nyata dan Kami turunkan bersama mereka Kitab dan neraca (keadilan) agar manusia dapat berlaku adil. Dan Kami menciptakan besi yang mempunyai kekuatan hebat dan banyak manfaat bagi manusia, dan agar Allah mengetahui siapa yang menolong (agama)-Nya dan rasul-rasul-Nya walaupun (Allah) tidak dilihatnya. Sesungguhnya Allah Mahakuat, Mahaperkasa`,
+        ``,
+        ``
+      ],
+      [
+        `And olsun ki peygamberlerimizi belgelerle gönderdik; insanların doğru (adaletli) hareket etmeleri için peygamberlere kitap ve ölçü indirdik; pek sert olan ve insanlara birçok faydası bulunan demiri de indirdik. Bu, Allah'ın dinine ve peygamberlerine görmeksizin yardım edenleri meydana çıkarması içindir. Doğrusu Allah kuvvetlidir, güçlüdür`,
+        ``,
+        ``
+      ],
+      [
+        `به راستى [ما] پيامبران خود را با دلايل آشكار روانه كرديم و با آنها كتاب و ترازو را فرود آورديم تا مردم به انصاف برخيزند، و آهن را كه در آن براى مردم خطرى سخت و سودهايى است، پديد آورديم، تا خدا معلوم بدارد چه كسى در نهان، او و پيامبرانش را يارى مى‌كند. آرى، خدا نيرومند شكست ناپذير است`,
+        ``,
+        ``
+      ],
+      [
+        `আমি আমার রসূলগণকে সুস্পষ্ট নিদর্শনসহ প্রেরণ করেছি এবং তাঁদের সাথে অবতীর্ণ করেছি কিতাব ও ন্যায়নীতি, যাতে মানুষ ইনসাফ প্রতিষ্ঠা করে। আর আমি নাযিল করেছি লৌহ, যাতে আছে প্রচন্ড রণশক্তি এবং মানুষের বহুবিধ উপকার। এটা এজন্যে যে, আল্লাহ জেনে নিবেন কে না দেখে তাঁকে ও তাঁর রসূলগণকে সাহায্য করে। আল্লাহ শক্তিধর, পরাক্রমশালী।`,
+        ``,
+        ``
+      ],
+      [
+        `Com efeito, enviamos Nossos Mensageiros com as evidências, e por eles, fizemos descer o Livro e a balança para que os homens observem a eqüidade. E criamos o ferro; nele, há veemente força e benefícios para os humanos. E isso, para que Allah saiba quem O socorre a Ele, ainda que Invisível e a Seus Mensageiros. Por certo, Allah é Forte, Todo-Poderoso`,
+        ``,
+        ``
+      ],
+      [
+        `我确已派遣我的众使者，去传达我的许多明证，并降示天经和公平，以便众人谨守公道。我曾创造钢铁，其中有严厉的刑罚，对于众人，有许多裨益；以便真主知道在秘密中相助他和他的众使者的人。真主确是至刚的，确是万能的。`,
+        ``,
+        ``
+      ],
+      [
+        `実にわれは明証を授けて使徒たちを遣わし，またかれらと一緒に，啓典と（正邪の）秤を下した。それは人びとが正義を行うためである。またわれは鉄を下した。それには偉大な力があり，また人間のために種々の便益を供する。それはアッラーが，密にかれを助ける者，また使徒たちを助ける者を，知っておられるためである。本当にアッラーは強大にして偉力ならびなき方であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 하나님은 분명한 예증 과 더불어 그분의 선지자들을 보 냈으며 또한 사람들이 공평하게 스스로를 인도할 성서와 균형을 함께 보내셨노라 그리고 하나님은 강한 힘을 상징하고 여러가지로 유용한 무쇠를 보냈나니 이로하 여 하나님께서 그분과 그분의 선 지자와 보이지 않는 것을 믿는 신 도를 돕는자를 시험코자 함이라 실로 하나님은 강하심과 권능으로충만하심이라`,
+        ``,
+        ``
+      ],
+      [
+        `Invero inviammo i Nostri messaggeri con prove inequivocabili, e facemmo scendere con loro la Scrittura e la Bilancia, affinché gli uomini osservassero l'equità. Facemmo scendere il ferro, strumento terribile e utile per gli uomini, affinché Allah riconosca chi sostiene Lui e i Suoi messaggeri in ciò che è invisibile. Allah è forte, eccelso`,
+        ``,
+        ``
+      ],
+      [
+        `Wysłaliśmy już Naszych posłańców z jasnymi dowodami i zesłaliśmy z nimi Księgę i wagę, aby ludzie stali przy sprawiedliwości. I zesłaliśmy żelazo, w którym jest moc straszna i korzyści dla ludzi, ażeby wiedział Bóg, kto pomaga Jemu i Jego posłańcom w tym, co skryte. Zaprawdę, Bóg jest mocny, potężny`,
+        ``,
+        ``
+      ],
+      [
+        `Відсилали Ми посланців наших зі знаменнями ясними, і відсилали Ми з ними Писання та мірило для того, щоб трималися люди справедливості; зіслали Ми залізо, в якому велика міць і користь для людей – щоб знав Аллаг, хто потаємно допомагає Йому й посланцям Його. Аллаг — Сильний, Великий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الحديد / Al-Hadid، الآية 25`
   },
 
   {
@@ -21674,6 +24458,117 @@ const verses = [
 
   {
     arabic: [
+      `أَلَمْ تَرَوْا كَيْفَ خَلَقَ اللَّهُ سَبْعَ سَمَاوَاتٍ طِبَاقًا وَجَعَلَ الْقَمَرَ فِيهِنَّ نُورًا وَجَعَلَ الشَّمْسَ سِرَاجًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Do you not consider how Allah has created seven heavens in layers And made the moon therein a [reflected] light and made the sun a burning lamp`,
+        ``,
+        ``
+      ],
+      [
+        `N'avez-vous pas vu comment Allah a créé sept cieux superposés Et y a fait de la lune une lumière et du soleil une lampe`,
+        ``,
+        ``
+      ],
+      [
+        `¿No habéis visto cómo ha creado Alá siete cielos superpuestos y puesto en ellos la luna como luz y el sol como lámpara`,
+        ``,
+        ``
+      ],
+      [
+        `Неужели вы не видели, как Аллах создал семь небес одно над другим сделал луну светлой, а солнце сделал светильником`,
+        ``,
+        ``
+      ],
+      [
+        `Seht ihr nicht, wie Allah sieben Himmel in Schichten (übereinander) erschaffen hat den Mond darin zu einem Licht gemacht und die Sonne zu einem Leuchtkörper gemacht hat`,
+        ``,
+        ``
+      ],
+      [
+        `Ser ni inte att Gud har skapat sju himlar, som välver sig över varandra och satt ibland dem månen [som lyser med lånat] ljus och solen som en sprakande fackla`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zien jullie niet hoe Allah de zeven hemelen in lagen heeft geschapen En Hij heeft daarin de maan geplaatst als een licht en de zon als een lamp`,
+        ``,
+        ``
+      ],
+      [
+        `کیا تم نے نہیں دیکھا کہ خدا نے سات آسمان کیسے اوپر تلے بنائے ہیں اور چاند کو ان میں (زمین کا) نور بنایا ہے اور سورج کو چراغ ٹھہرایا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Tidakkah kamu memperhatikan bagaimana Allah telah menciptakan tujuh langit berlapis-lapis Dan di sana Dia menciptakan bulan yang bercahaya dan menjadikan matahari sebagai pelita (yang cemerlang)`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'ın, göğü yedi kat üzerine nasıl yarattığını görmez misiniz Aralarında aya aydınlık vermiş ve güneşin ışık saçmasını sağlamıştır`,
+        ``,
+        ``
+      ],
+      [
+        `مگر ملاحظه نكرده‌ايد كه چگونه خدا هفت آسمان را تُوبرتُو آفريده است؟ و ماه را در ميان آنها روشنايى‌بخش گردانيد و خورشيد را [چون‌] چراغى قرار داد`,
+        ``,
+        ``
+      ],
+      [
+        `তোমরা কি লক্ষ্য কর না যে, আল্লাহ কিভাবে সপ্ত আকাশ স্তরে স্তরে সৃষ্টি করেছেন। এবং সেখানে চন্দ্রকে রেখেছেন আলোরূপে এবং সূর্যকে রেখেছেন প্রদীপরূপে।`,
+        ``,
+        ``
+      ],
+      [
+        `Não vistes como Allah criou sete céus superpostos E, neles, fez a lua como luz e fez o sol como luzeiro`,
+        ``,
+        ``
+      ],
+      [
+        `难道你们没有看到真主怎样创造7层天， 并以月亮为光明，以太阳为明灯吗？`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがたは，アッラーが7天を如何に一層また一層と，創られたかを考えてみなかったのか。 また月をその中の明りとされ，太陽を（燃える）灯明となされたかを。`,
+        ``,
+        ``
+      ],
+      [
+        `‘하나님께서 어떻게 일곱 개의 하늘을 층층이 창조하셨는지 그대들은 알지 못하는가?’ ‘그분께서는 달을 그(하늘) 안에 빛으로 두셨으며 태양을 등불로 두셨노라’`,
+        ``,
+        ``
+      ],
+      [
+        `Non avete considerato come Allah ha creato sette cieli sovrapposti e della luna ha fatto una luce e del sole un luminare`,
+        ``,
+        ``
+      ],
+      [
+        `Czyż nie widzieliście, jak Bóg stworzył siedem niebios, nałożonych warstwami I jak umieścił na nich księżyc jako światło, a słońce uczynił lampą`,
+        ``,
+        ``
+      ],
+      [
+        `Чи не бачите ви, як створив Аллаг сім небес — одне над одним І зробив Він місяць світлом, а сонце — світилом`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة نوح / Nuh، الآيتان 15-16`
+  },
+
+  {
+    arabic: [
       `وَرَتِّلِ الْقُرآنَ تَرْتِيلًا`,
       ``,
       ``
@@ -21896,6 +24791,561 @@ const verses = [
 
   {
     arabic: [
+      `أَيَحْسَبُ الْإِنْسَانُ أَلَّنْ نَجْمَعَ عِظَامَهُ بَلَىٰ قَادِرِينَ عَلَىٰ أَنْ نُسَوِّيَ بَنَانَهُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Does man think that We will not assemble his bones Yes. [We are] Able [even] to proportion his fingertips`,
+        ``,
+        ``
+      ],
+      [
+        `L'homme, pense-t-il que Nous ne réunirons jamais ses os Mais si ! Nous somme Capable de remettre à leur place les extrémités de ses doigts`,
+        ``,
+        ``
+      ],
+      [
+        `¿Cree el hombre que no juntaremos sus huesos ¡Claro que sí! Somos capaces de recomponer sus dedos`,
+        ``,
+        ``
+      ],
+      [
+        `Неужели человек полагает, что Мы не соберем его костей Конечно! Мы способны восстановить даже кончики его пальцев (или сделать всего его пальцы одинаковыми, так что он не сможет пользоваться ими, как прежде)`,
+        ``,
+        ``
+      ],
+      [
+        `Meint der Mensch (etwa), daß Wir seine Knochen nicht zusammenfügen werden Ja doch! (Wir) haben die Macht dazu, seine Fingerspitzen zurechtzuformen`,
+        ``,
+        ``
+      ],
+      [
+        `Tror människan att Vi inte förmår sätta samman hennes ben [på nytt] Visst förmår Vi det! Vi förmår [till och med] återställa hennes fingerspetsar [i deras forna skick]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Denkt de mens dat Wij Zijn botten nooit zullen bijeenbrengen Welzeker, Wij zijn in staat om zelfs zijn vingertoppen (opnieuw) volmaakt te vormen`,
+        ``,
+        ``
+      ],
+      [
+        `کیا انسان یہ خیال کرتا ہے کہ ہم اس کی (بکھری ہوئی) ہڈیاں اکٹھی نہیں کریں گے؟ ضرور کریں گے (اور) ہم اس بات پر قادر ہیں کہ اس کی پور پور درست کردیں`,
+        ``,
+        ``
+      ],
+      [
+        `Apakah manusia mengira, bahwa Kami tidak akan mengumpulkan (kembali) tulang belulangnya (Bahkan) Kami mampu menyusun (kembali) jari jemarinya dengan sempurna`,
+        ``,
+        ``
+      ],
+      [
+        `İnsan, kemiklerini bir araya toplayamayız mı sanıyor Evet, Biz onu, parmak uçlarına varıncaya kadar bütün incelikleriyle yeniden yapmaya kadiriz`,
+        ``,
+        ``
+      ],
+      [
+        `آيا انسان مى‌پندارد كه هرگز استخوانهاى او را جمع نخواهيم كرد؟ آرى قادريم كه (حتى خطوط سر) انگشتان او را موزون و مرتّب كنيم`,
+        ``,
+        ``
+      ],
+      [
+        `মানুষ কি মনে করে যে আমি তার অস্থিসমূহ একত্রিত করব না পরন্ত আমি তার অংগুলিগুলো পর্যন্ত সঠিকভাবে সন্নিবেশিত করতে সক্ষম।`,
+        ``,
+        ``
+      ],
+      [
+        `O ser humano supõe que não lhe juntaremos os ossos Sim! Juntar-lhos-emos, sendo Nós Poderoso para refazer-lhe as extremidades dos dedos`,
+        ``,
+        ``
+      ],
+      [
+        `难道人猜想我绝不能集合他的骸骨吗？ 不然，（我将集合他的骸骨），而且能使他的每个手指复原。`,
+        ``,
+        ``
+      ],
+      [
+        `人間は，われがかれの骨を集められないと考えるのか。 いや，われはかれの指先（の骨）まで揃えることが出来るのである。`,
+        ``,
+        ``
+      ],
+      [
+        `인간은 내가 그의 뼈를 모으지 않을 것이라고 생각하는가 그렇지 않노라. 나는 그의 손가락을 하나로 만들어버릴 수 있노라`,
+        ``,
+        ``
+      ],
+      [
+        `Crede forse l'uomo che mai riuniremo le sue ossa Invece sì, possiamo persino riordinare le sue falangi`,
+        ``,
+        ``
+      ],
+      [
+        `Czy człowiek sądzi, że My nie zbierzemy jego kości Ależ tak! My mamy moc ponownie ułożyć nawet jego palce`,
+        ``,
+        ``
+      ],
+      [
+        `Невже людина думає, що Ми не зберемо її кісток Та ж ні! Ми зможемо вирівняти навіть пальці її`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة القيامة / Al-Qiyamah، الآيتان 3-4`
+  },
+
+  {
+    arabic: [
+      `أَلَمْ يَكُ نُطْفَةً مِنْ مَنِيٍّ يُمْنَىٰ ثُمَّ كَانَ عَلَقَةً فَخَلَقَ فَسَوَّىٰ فَجَعَلَ مِنْهُ الزَّوْجَيْنِ الذَّكَرَ وَالْأُنْثَىٰ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Had he not been a sperm from semen emitted Then he was a clinging clot, and [Allah] created [his form] and proportioned [him] And made of him two mates, the male and the female`,
+        ``,
+        ``
+      ],
+      [
+        `N'était-il pas une goutte de sperme éjaculé Et ensuite une adhérence Puis [Allah] l'a créée et formée harmonieusement puis en a fait alors les deux éléments de couple: le mâle et la femelle`,
+        ``,
+        ``
+      ],
+      [
+        `¿No fue una gota de esperma eyaculada y, luego, un coágulo de sangre? Él lo creó y le dio forma armoniosa E hizo de él una pareja: varón y hembra`,
+        ``,
+        ``
+      ],
+      [
+        `Разве он не был каплей из семени источаемого Потом он превратился в сгусток крови, после чего Он создал его и придал ему соразмерный облик Он сотворил из него чету: мужчину и женщину`,
+        ``,
+        ``
+      ],
+      [
+        `Ist er nicht ein Tropfen von Samenflüssigkeit, die ausgespritzt wird hierauf ein Anhängsel gewesen? Da hat Er erschaffen und zurechtgeformt und dann daraus beide Teile des Paares gemacht, das Männliche und das Weibliche`,
+        ``,
+        ``
+      ],
+      [
+        `Var hon inte en droppe sädesvätska, utgjuten [i ett kvinnligt sköte] och blev därefter en grodd som satte sig fast - och som Han sedan skapade och formade [till människa i enlighet med den uppgift som skulle bli hennes] och skapade av detta de två könen, det manliga och det kvinnliga`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Was hij niet eerst een druppel van uitgestort sperma En vervolgens een bloedklonter waarna Hij (hem) schiep en nauwkeurig vormde Zo maakte Hij daarvan de twee geslachten, de man en de vrouw`,
+        ``,
+        ``
+      ],
+      [
+        `کیا وہ منی کا جو رحم میں ڈالی جاتی ہے ایک قطرہ نہ تھا؟ پھر لوتھڑا ہوا پھر (خدا نے) اس کو بنایا پھر (اس کے اعضا کو) درست کیا پھر اس کی دو قسمیں بنائیں (ایک) مرد اور (ایک) عورت`,
+        ``,
+        ``
+      ],
+      [
+        `Bukankah dia mulanya hanya setetes mani yang ditumpahkan (ke dalam rahim) kemudian (mani itu) menjadi sesuatu yang melekat, lalu Allah menciptakannya dan menyempurnakannya lalu Dia menjadikan darinya sepasang laki-laki dan perempuan`,
+        ``,
+        ``
+      ],
+      [
+        `O, katılan bir meni damlası değil miydi Sonra kan pıhtısı olmuş, sonra Allah onu yaratıp şekil vermişti Ondan, erkek, dişi iki cins yaratmıştı`,
+        ``,
+        ``
+      ],
+      [
+        `آيا او نطفه‌اى از منى كه در رحم ريخته مى‌شود نبود؟ سپس بصورت خون‌بسته در آمد، و خداوند او را آفريد و موزون ساخت، و از او دو زوج مرد و زن آفريد`,
+        ``,
+        ``
+      ],
+      [
+        `সে কি স্খলিত বীর্য ছিল না অতঃপর সে ছিল রক্তপিন্ড, অতঃপর আল্লাহ তাকে সৃষ্টি করেছেন এবং সুবিন্যস্ত করেছেন। অতঃপর তা থেকে সৃষ্টি করেছেন যুগল নর ও নারী।`,
+        ``,
+        ``
+      ],
+      [
+        `Não era ele uma gota de esperma ejaculada Em seguida, uma aderência. Então, Ele o criou e o formou E fez dele o casal: o varão e a varoa`,
+        ``,
+        ``
+      ],
+      [
+        `难道他不曾是被射出精液吗？ 然后，他变成血块，而真主加以创造他，使之成为肢体完全的人吗？ 他用精液造化两性，男的和女的。`,
+        ``,
+        ``
+      ],
+      [
+        `元々かれは射出された，一滴の精液ではなかったか。 それから一塊の血となり，更にアッラーが，（均整に）形作り， かれは，人間を男と女の両性になされたのではなかったか。`,
+        ``,
+        ``
+      ],
+      [
+        `그는 분출하는 정액 방울이지 않았던가 그런 후 그는 응혈이었으며 그 후 그분께서는 만드시고 균형을 잡으셨노라 그 후 그분께서는 그로부터 쌍을 두시니 남자와 여자라`,
+        ``,
+        ``
+      ],
+      [
+        `Già non fu che una goccia di sperma eiaculata quindi un'aderenza, poi [Allah] lo creò e gli diede forma armoniosa poi ne trasse una coppia, il maschio e la femmina`,
+        ``,
+        ``
+      ],
+      [
+        `Czyż nie był on kroplą spermy, która wytrysnęła Potem stała się grudką krwi zakrzepłej? On go stworzył i ukształtował I uczynił z niego parę - mężczyznę i kobietę`,
+        ``,
+        ``
+      ],
+      [
+        `Невже вона не була краплею сім’я, що ллється А потім — кров’яним згустком; Ми створили її та розмірили зробивши з неї пару: чоловіка та жінку`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة القيامة / Al-Qiyamah، الآيات 37-39`
+  },
+
+  {
+    arabic: [
+      `إِنَّا خَلَقْنَا الْإِنْسَانَ مِنْ نُطْفَةٍ أَمْشَاجٍ نَبْتَلِيهِ فَجَعَلْنَاهُ سَمِيعًا بَصِيرًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, We created man from a sperm-drop mixture that We may try him; and We made him hearing and seeing`,
+        ``,
+        ``
+      ],
+      [
+        `En effet, Nous avons créé l'homme d'une goutte de sperme mélangé [aux composantes diverses] pour le mettre à l'épreuve. [C'est pourquoi] Nous l'avons fait entendant et voyant`,
+        ``,
+        ``
+      ],
+      [
+        `Hemos creado al hombre de una gota, de ingredientes, para ponerle a prueba. Le hemos dado el oído, la vista`,
+        ``,
+        ``
+      ],
+      [
+        `Мы создали человека из смешанной капли, подвергая его испытанию, и сделали его слышащим и зрячим`,
+        ``,
+        ``
+      ],
+      [
+        `Wir haben den Menschen ja aus einem Samentropfen, einem Gemisch erschaffen, (um) ihn zu prüfen. Und so haben Wir ihn mit Gehör und Augenlicht versehen`,
+        ``,
+        ``
+      ],
+      [
+        `För att sätta henne på prov har Vi skapat människan av en droppe av ett flöde, blandat [med ett annat flöde], och så har Vi gett henne hörsel och syn`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, Wij hebben de mens geschapen uit een gemengde druppel om hem te beproeven. Daarop gaven Wij hem het gehoor en gezichtsvermogen`,
+        ``,
+        ``
+      ],
+      [
+        `ہم نے انسان کو نطفہٴ مخلوط سے پیدا کیا تاکہ اسے آزمائیں تو ہم نے اس کو سنتا دیکھتا بنایا`,
+        ``,
+        ``
+      ],
+      [
+        `(Sungguh, Kami telah menciptakan manusia dari setetes mani yang bercampur882) yang Kami hendak mengujinya (dengan perintah dan larangan), karena itu Kami jadikan dia mendengar dan melihat`,
+        ``,
+        ``
+      ],
+      [
+        `Biz insanı katışık bir nutfeden yaratmışızdır; onu deneriz; bu yüzden, onun işitmesini ve görmesini sağlamışızdır`,
+        ``,
+        ``
+      ],
+      [
+        `ما انسان را از نطفه مختلطى آفريديم، و او را مى‌آزماييم؛ (بدين جهت) او را شنوا و بينا قرار داديم`,
+        ``,
+        ``
+      ],
+      [
+        `আমি মানুষকে সৃষ্টি করেছি মিশ্র শুক্রবিন্দু থেকে, এভাবে যে, তাকে পরীক্ষা করব অতঃপর তাকে করে দিয়েছি শ্রবণ ও দৃষ্টিশক্তিসম্পন্ন।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, criamos o ser humano de gota seminal, mesclada para pô-lo à prova; então, fizemo-lo ouvinte, vidente`,
+        ``,
+        ``
+      ],
+      [
+        `我确已用混合的精液创造人，并加以试验，将他创造成聪明的。`,
+        ``,
+        ``
+      ],
+      [
+        `本当にわれはかれを試みるため混合した一滴の精液から人間を創った。それでわれは聴覚と視覚をかれに授けた。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 나는 인간을 혼합된 방울로부터 창조하였고 그를 시험하니 그를 듣고 보는 자로 두었노라`,
+        ``,
+        ``
+      ],
+      [
+        `Invero creammo l'uomo, per metterlo alla prova, da una goccia di sperma eterogenea e abbiamo fatto sì che sentisse e vedesse`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, stworzyliśmy człowieka z kropli spermy, mieszaniny, aby go doświadczyć. I uczyniliśmy go słyszącym, widzącym`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, Ми створили людину зі змішаної краплі сім’я, випробовуючи її, а потім дарували їй слух і зір`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الإنسان / Al-Insan، الآية 2`
+  },
+
+  {
+    arabic: [
+      `أَلَمْ نَخْلُقْكُمْ مِنْ مَاءٍ مَهِينٍ فَجَعَلْنَاهُ فِي قَرَارٍ مَكِينٍ إِلَىٰ قَدَرٍ مَعْلُومٍ فَقَدَرْنَا فَنِعْمَ الْقَادِرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Did We not create you from a liquid disdained And We placed it in a firm lodging For a known extent And We determined [it], and excellent [are We] to determine`,
+        ``,
+        ``
+      ],
+      [
+        `Ne vous avons-Nous pas créés d'une eau vile que Nous avons placée dans un reposoir sûr pour une durée connue Nous l'avons décrété ainsi et Nous décrétons [tout] de façon parfaite`,
+        ``,
+        ``
+      ],
+      [
+        `¿No os hemos creado de un líquido vil que hemos depositado en un receptáculo seguro durante un tiempo determinado Así lo hemos decidido y ¡qué bien que lo hemos decidido`,
+        ``,
+        ``
+      ],
+      [
+        `Разве Мы не сотворили вас из презренной жидкости и не поместили ее в надежном месте до известного срока Мы предопределили меру, и как прекрасно Мы предопределяем`,
+        ``,
+        ``
+      ],
+      [
+        `Haben Wir euch nicht aus verächtlichem Wasser erschaffen das Wir dann in einem festen Aufenthaltsort haben sein lassen bis zu einem bekannten Zeitpunkt So haben Wir bemessen. Welch trefflicher Bemesser sind Wir`,
+        ``,
+        ``
+      ],
+      [
+        `Skapade Vi er inte av en oansenlig vätska som Vi sedan lämnade i [skötets] säkra förvar till en fastställd tidpunkt Så har Vi fogat det - och hur förträffligt har Vi inte fogat det`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hebben Wij jullie niet uit een onaanzienlijk water geschapen Toen plaatsten Wij het in een beschermende rustplaats Tot een bekend tijdstip Wij beschikten (erover) en Wij zijn de beste Beschikkers`,
+        ``,
+        ``
+      ],
+      [
+        `کیا ہم نے تم کو حقیر پانی سے نہیں پیدا کیا؟ اس کو ایک محفوظ جگہ میں رکھا ایک وقت معین تک پھر اندازہ مقرر کیا اور ہم کیا ہی خوب اندازہ مقرر کرنے والے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Bukankah Kami menciptakan kamu dari air yang hina (mani) kemudian Kami letakkan ia dalam tempat yang kokoh (rahim) sampai waktu yang ditentukan lalu Kami tentukan (bentuknya), maka (Kamilah) sebaik-baik yang menentukan`,
+        ``,
+        ``
+      ],
+      [
+        `Sizi bayağı bir sudan yaratıp onu belli bir süreye kadar sağlam bir yere yerleştirmedik mi Buna gücümüz yeter; Biz ne güzel güç yetireniz`,
+        ``,
+        ``
+      ],
+      [
+        `مگر شما را از آبى بى‌مقدار نيافريديم؟ پس آن را در جايگاهى استوار نهاديم، تا مدّتى معيّن و توانا آمديم، و چه نيك تواناييم`,
+        ``,
+        ``
+      ],
+      [
+        `আমি কি তোমাদেরকে তুচ্ছ পানি থেকে সৃষ্টি করিনি অতঃপর আমি তা রেখেছি এক সংরক্ষিত আধারে এক নির্দিষ্টকাল পর্যন্ত অতঃপর আমি পরিমিত আকারে সৃষ্টি করেছি, আমি কত সক্ষম স্রষ্টা`,
+        ``,
+        ``
+      ],
+      [
+        `Não vos criamos de uma água desprezível E fizemo-la estar em lugar estável, seguro Até um tempo determinado Então, determinamos a criação. Quão Excelente Poderoso somos Nós`,
+        ``,
+        ``
+      ],
+      [
+        `难道我没有用薄弱的精液创造你们吗？ 我把它放在一个坚固的安息之所， 到一个定期。 我曾判定，我是善於判定的。`,
+        ``,
+        ``
+      ],
+      [
+        `われはあなたがたを卑しい水から創ったではないか。 われはそれを，安泰な休み所（子宮）に置いた， 定められた時期まで。 われはそう定めた。わが決定の何と善いことよ。`,
+        ``,
+        ``
+      ],
+      [
+        `내가 비천한 물로부터 그대들을 창조하지 않았던가 그 후 나는 그것을 확고한 정착지에 두었으니 일정한 기간까지라 그렇게 내가 조절하였으니 얼마나 훌륭히 조절하는 자인가`,
+        ``,
+        ``
+      ],
+      [
+        `Non vi creammo da un liquido vile che depositammo in un sicuro ricettacolo per un tempo stabilito Siamo Noi che lo stabiliamo. Siamo i migliori nello stabilire [tutte le cose]`,
+        ``,
+        ``
+      ],
+      [
+        `Cóż nie stworzyliśmy was z marnej wody I czy nie umieściliśmy jej potem w miejscu pewnym Do oznaczonego czasu Potem wyznaczyliśmy... a jak wspaniale My wyznaczamy`,
+        ``,
+        ``
+      ],
+      [
+        `Невже Ми не створили вас із мізерної рідини вмістивши її у надійне місц до визначеного строку Ми визначили міру; як же прекрасно Ми визначаємо міру`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المرسلات / Al-Mursalat، الآيات 20-23`
+  },
+
+  {
+    arabic: [
+      `أَلَمْ نَجْعَلِ الْأَرْضَ مِهَادًا وَالْجِبَالَ أَوْتَادًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Have We not made the earth a resting place And the mountains as stakes`,
+        ``,
+        ``
+      ],
+      [
+        `N'avons-Nous pas fait de la terre une couche et (placé) les montagnes comme des piquets`,
+        ``,
+        ``
+      ],
+      [
+        `¿No hemos hecho de la tierra lecho y de las montañas estacas`,
+        ``,
+        ``
+      ],
+      [
+        `Разве Мы не сделали землю ложем а горы - колышками`,
+        ``,
+        ``
+      ],
+      [
+        `Haben Wir nicht die Erde zu einer Lagerstatt gemacht und die Berge zu Pfählen`,
+        ``,
+        ``
+      ],
+      [
+        `HAR VI inte gjort jorden till en bädd [över vilken ni kan resa ert tält för att] få vila Och [har Vi inte gjort] bergen som tältpålar`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hebben Wij de aarde niet tot een uitgespreide plaats gemaakt En de bergen als pinnen`,
+        ``,
+        ``
+      ],
+      [
+        `کیا ہم نے زمین کو بچھونا نہیں بنایا اور پہاڑوں کو (ا س کی) میخیں (نہیں ٹھہرایا؟)`,
+        ``,
+        ``
+      ],
+      [
+        `Bukankah Kami telah menjadikan bumi sebagai hamparan dan gunung-gunung sebagai pasak`,
+        ``,
+        ``
+      ],
+      [
+        `Biz yeryüzünü bir beşik, dağları da onun için birer direk kılmadık mı`,
+        ``,
+        ``
+      ],
+      [
+        `آيا زمين را گهواره‌اى نگردانيديم؟ و كوهها را [چون‌] ميخهايى [نگذاشتيم‌]؟`,
+        ``,
+        ``
+      ],
+      [
+        `আমি কি করিনি ভূমিকে বিছানা এবং পর্বতমালাকে পেরেক`,
+        ``,
+        ``
+      ],
+      [
+        `Não fizemos da terra leito E das montanhas estacas`,
+        ``,
+        ``
+      ],
+      [
+        `难道我没有使大地如摇篮， 使山峦如木桩吗？`,
+        ``,
+        ``
+      ],
+      [
+        `われは大地を，広々としなかったか。 また山々を，杭としたてはないか。`,
+        ``,
+        ``
+      ],
+      [
+        `내가 대지를 침상으로 두지 않았던가 또한 산을 말뚝으로 두지 않았던가`,
+        ``,
+        ``
+      ],
+      [
+        `Non facemmo della terra una culla delle montagne pioli`,
+        ``,
+        ``
+      ],
+      [
+        `Czyż nie uczyniliśmy ziemi łożem dla wypoczynku A gór jako podpory do namiotu`,
+        ``,
+        ``
+      ],
+      [
+        `Хіба не зробили Ми землю — ложем а гори — підпорами`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النبأ / An-Naba، الآيتان 6-7`
+  },
+
+  {
+    arabic: [
       `إِنَّ لِلْمُتَّقِينَ مَفَازًا حَدَائِقَ وَأَعْنَابًا وَكَوَاعِبَ أَتْرَابًا وَكَأْسًا دِهَاقًا لَا يَسْمَعُونَ فِيهَا لَغْوًا وَلَا كِذَّابًا جَزَاءً مِنْ رَبِّكَ عَطَاءً حِسَابًا`,
       ``,
       ``
@@ -22007,6 +25457,117 @@ const verses = [
 
   {
     arabic: [
+      `وَالْأَرْضَ بَعْدَ ذَٰلِكَ دَحَاهَا أَخْرَجَ مِنْهَا مَاءَهَا وَمَرْعَاهَا وَالْجِبَالَ أَرْسَاهَا مَتَاعًا لَكُمْ وَلِأَنْعَامِكُمْ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And after that He spread the earth He extracted from it its water and its pasture And the mountains He set firmly As provision for you and your grazing livestock`,
+        ``,
+        ``
+      ],
+      [
+        `Et quant à la terre, après cela, Il l'a étendue Il a fait sortir d'elle son eau et son pâturage et quant aux montagnes, Il les a ancrées pour votre jouissance, vous et vos bestiaux`,
+        ``,
+        ``
+      ],
+      [
+        `Extendió, luego, la tierra sacó de ella el agua y los pastos fijó las montañas Para disfrute vuestro y de vuestros rebaños`,
+        ``,
+        ``
+      ],
+      [
+        `После этого Он распростер землю вывел из нее воду и пастбища и утвердил на ней горы на пользу вам и вашему скоту`,
+        ``,
+        ``
+      ],
+      [
+        `Und die Erde, Er hat sie danach hingebreitet Er hat aus ihr ihr Wasser und ihre Weide hervorkommen lassen Und die Berge, Er hat sie fest gegründet (Dies) als Nießbrauch für euch und für euer Vieh`,
+        ``,
+        ``
+      ],
+      [
+        `Och efter detta har Han brett ut jordens yta och låtit dess vatten komma i dagen och dess ängar och beteshagar [frodas] och förankrat bergen [allt detta har Han gjort] till nytta för er och er boskap`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En daarna spreidde Hij de aarde uit En Hij bracht uit haar haar water en planten tevoorschijn En Hij verstevigde de bergen Als een voorziening voor jullie en voor jullie vee`,
+        ``,
+        ``
+      ],
+      [
+        `اور اس کے بعد زمین کو پھیلا دیا اسی نے اس میں سے اس کا پانی نکالا اور چارا اگایا اور اس پر پہاڑوں کابوجھ رکھ دیا یہ سب کچھ تمہارے اور تمہارے چارپایوں کے فائدے کے لیے (کیا)`,
+        ``,
+        ``
+      ],
+      [
+        `Dan setelah itu bumi Dia hamparkan Darinya Dia pancarkan mata air, dan (ditumbuhkan) tumbuh-tumbuhannya Dan gunung-gunung Dia pancangkan dengan kokoh (Semua itu) untuk kesenanganmu dan untuk hewan-hewan ternakmu`,
+        ``,
+        ``
+      ],
+      [
+        `Ardından yeri düzenlemiştir Suyunu ondan çıkarmış ve otlak yer meydana getirmiştir Dağları yerleştirmiştir Bunları sizin ve hayvanlarınızın geçinmesi için yapmıştır`,
+        ``,
+        ``
+      ],
+      [
+        `و پس از آن، زمين را با غلتانيدن گسترد، آبش و چراگاهش را از آن بيرون آورد، و كوهها را لنگر آن گردانيد، [تا وسيله‌] استفاده براى شما و دامهايتان باشد`,
+        ``,
+        ``
+      ],
+      [
+        `পৃথিবীকে এর পরে বিস্তৃত করেছেন। তিনি এর মধ্য থেকে এর পানি ও ঘাম নির্গত করেছেন পর্বতকে তিনি দৃঢ়ভাবে প্রতিষ্ঠিত করেছেন তোমাদের ও তোমাদের চতুস্পদ জন্তুদের উপকারার্থে।`,
+        ``,
+        ``
+      ],
+      [
+        `E a terra, após isso, estendeu-a Dela, fez sair sua àgua e seus pastos E as montanhas, assentou-as Tudo, para o gozo de vós e de vossos rebanhos`,
+        ``,
+        ``
+      ],
+      [
+        `此后，他将地面展开， 他使地面涌出泉水来，生出植物来。 他使山峦稳定， 以便你们和你们的牲畜获得享受。`,
+        ``,
+        ``
+      ],
+      [
+        `その後，大地を延べ広げられた。 そこから水と牧場を現われさせ， また山々をそれにしっかりと据えられ， あなたがたとあなたがたの家畜のための，用益に供される。`,
+        ``,
+        ``
+      ],
+      [
+        `땅은 그 후에 펼치셨고 그것(땅)으로부터 그것의 물과 목초(牧草)를 내셨으며 산은 단단히 고정시키셨으니 그대들과 그대들 가축을 위한 편의라`,
+        ``,
+        ``
+      ],
+      [
+        `Dopo di ciò ha esteso la terra ne ha tratto l'acqua e i pascoli e le montagne le ha ancorate sì che ne godeste voi e il vostro bestiame`,
+        ``,
+        ``
+      ],
+      [
+        `Następnie rozpostarł ziemię Wyprowadził z niej wodę i pastwiska jej I On utwierdził solidnie góry Na pożytek wam i waszych trzód`,
+        ``,
+        ``
+      ],
+      [
+        `І землю після цього простер Він вивів з неї воду й пасовиська І гори ствердив Ві на користь вам і худобі вашій`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النازعات / An-Nazi'at، الآيات 30-33`
+  },
+
+  {
+    arabic: [
       `وَأَمَّا مَنْ خَافَ مَقَامَ رَبِّهِ وَنَهَى النَّفْسَ عَنِ الْهَوَىٰ فَإِنَّ الْجَنَّةَ هِيَ الْمَأْوَىٰ`,
       ``,
       ``
@@ -22114,6 +25675,117 @@ const verses = [
       ]
     ],
     number: `سورة النازعات / An-Nazi'at، الآيتان 40-41`
+  },
+
+  {
+    arabic: [
+      `فَلْيَنْظُرِ الْإِنْسَانُ إِلَىٰ طَعَامِهِ أَنَّا صَبَبْنَا الْمَاءَ صَبًّا ثُمَّ شَقَقْنَا الْأَرْضَ شَقًّا فَأَنْبَتْنَا فِيهَا حَبًّا وَعِنَبًا وَقَضْبًا وَزَيْتُونًا وَنَخْلًا وَحَدَائِقَ غُلْبًا وَفَاكِهَةً وَأَبًّا مَتَاعًا لَكُمْ وَلِأَنْعَامِكُمْ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Then let mankind look at his food How We poured down water in torrents Then We broke open the earth, splitting [it with sprouts] And caused to grow within it grain And grapes and herbage And olive and palm trees And gardens of dense shrubbery And fruit and grass [As] enjoyment for you and your grazing livestock`,
+        ``,
+        ``
+      ],
+      [
+        `Que l'homme considère donc sa nourriture C'est Nous qui versons l'eau abondante Puis Nous fendons la terre par fissure Et y faisons pousser grains vignobles et légumes oliviers et palmiers jardins touffus fruits et herbages pour votre jouissance vous et vos bestiaux`,
+        ``,
+        ``
+      ],
+      [
+        `¡Que mire el hombre su alimento Nosotros hemos derramado el agua en abundancia luego, hendido la tierra profundamente y hecho crecer en ella grano vides, hortalizas olivos, palmeras frondosos jardines frutas, pastos para disfrute vuestro y de vuestros rebaños`,
+        ``,
+        ``
+      ],
+      [
+        `Пусть посмотрит человек на свое пропитание Мы проливаем обильные ливни затем рассекаем землю трещинами и взращиваем на ней зерна виноград и люцерну маслины и финиковые пальмы сады густые (или с могучими деревьями) фрукты и травы на пользу вам и вашей скотине`,
+        ``,
+        ``
+      ],
+      [
+        `So schaue der Mensch doch auf seine Nahrung Wir gießen ja Güsse von Wasser hierauf spalten Wir die Erde in Spalten auf und lassen dann auf ihr Korn wachsen und Rebstöcke und Grünzeug und Ölbäume und Palmen und Gärten mit dicken Bäumen und Früchte und Futter als Nießbrauch für euch und für euer Vieh`,
+        ``,
+        ``
+      ],
+      [
+        `Låt människan se på sin föda Vi sänder ned regn i riklig mängd och låter sedan [de spirande fröna] öppna fåror i jorden och brödsäd växa upp ur den och druvor och färskt grönt och olivträd och dadelpalmer och [andra träd som bildar] lummiga parker och frukter och foderväxter för era egna behov och för er boskap`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Laat de mens dan naar zijn voedsel kijken Voorwaar, Wij doen het water in stromen neerkomen Daarna doen Wij de aarde openploegen Dan doen Wij daarin granen groeien En druiven en groenten En olijfbomen on dadelpalmen En dichtbegroeide gaarden En vruchten en weidegras Als een voorziening voor jullie en voor jullie vee`,
+        ``,
+        ``
+      ],
+      [
+        `تو انسان کو چاہیئے کہ اپنے کھانے کی طرف نظر کرے بے شک ہم ہی نے پانی برسایا پھر ہم ہی نے زمین کو چیرا پھاڑا پھر ہم ہی نے اس میں اناج اگایا اور انگور اور ترکاری اور زیتون اور کھجوریں اور گھنے گھنے باغ اور میوے اور چارا (یہ سب کچھ) تمہارے اور تمہارے چارپایوں کے لیے بنایا`,
+        ``,
+        ``
+      ],
+      [
+        `Maka hendaklah manusia itu memperhatikan makanannya Kamilah yang telah mencurahkan air melimpah (dari langit) kemudian Kami belah bumi dengan sebaik-baiknya lalu di sana Kami tumbuhkan biji-bijian dan anggur dan sayur-sayuran dan zaitun dan pohon kurma dan kebun-kebun (yang) rindang dan buah-buahan serta rerumputan (Semua itu) untuk kesenanganmu dan untuk hewan-hewan ternakmu`,
+        ``,
+        ``
+      ],
+      [
+        `İnsan, yiyeceğine bir baksın Doğrusu suyu bol bol indirmekteyiz Sonra yeryüzünü iyice yarmakta ve orada taneli ekinler, üzümler, sebzeler, zeytin, hurma ağaçları ve bahçelerde koca koca ağaçlı meyveler ve çayırlar bitirmekteyiz Bunlar sizin ve hayvanlarınız için geçimliktir`,
+        ``,
+        ``
+      ],
+      [
+        `پس انسان بايد به خوراك خود بنگرد، كه ما آب را به صورت بارشى فرو ريختيم؛ آنگاه زمين را با شكافتنى [لازم‌] شكافتيم؛ پس در آن، دانه رويانيديم و انگور و سبزى، و زيتون و درخت خرما، و باغهاى انبوه، و ميوه و چراگاه، [تا وسيله‌] استفاده شما و دامهايتان باشد`,
+        ``,
+        ``
+      ],
+      [
+        `মানুষ তার খাদ্যের প্রতি লক্ষ্য করুক আমি আশ্চর্য উপায়ে পানি বর্ষণ করেছি এরপর আমি ভূমিকে বিদীর্ণ করেছি অতঃপর তাতে উৎপন্ন করেছি শস্য আঙ্গুর, শাক-সব্জি যয়তুন, খর্জূর ঘন উদ্যান ফল এবং ঘাস তোমাদেরও তোমাদের চতুস্পদ জন্তুদের উপাকারার্থে।`,
+        ``,
+        ``
+      ],
+      [
+        `Então, que o ser humano olhe para seu alimento Nós fizemos entornar a água abundantemente Em seguida, fendemos a terra, suficientemente E, nela fizemos brotar grãos E videiras e hortaliças E oliveiras e tamareiras E pomares entrelaçados E frutas e pastagens Tudo, para o gozo de vós e de vossos rebanhos`,
+        ``,
+        ``
+      ],
+      [
+        `教人观察自己的食物吧！ 我将雨水大量地倾注下来。 然后，我使地面奇异地裂开， 我在大地上生产百谷， 与葡萄和苜蓿， 与橄榄和海枣， 与茂密的园圃， 水果和牧草， 以供你们和你们的牲畜享受。`,
+        ``,
+        ``
+      ],
+      [
+        `かれに，自分の食物に就いて考えさせてみるがよい。 本当にわれは，水（雨）を豊かに注ぎ， 次いで大地を裂いて切れ切れにし， そこに生長させるものには，穀物， またブドウや青草， オリーブやナツメヤシ， 繁茂した庭園， 果物や牧草（がある）。 あなたがたとあなたがたの家畜のための用益である。`,
+        ``,
+        ``
+      ],
+      [
+        `인간으로 하여금 그가 먹는음식을 숙고하여 보게 하라 실로 하나님은 흡족한 비를내리게 한 후 대지를 펼쳐 그곳으로 부터식물을 재배케 하여 그곳에서 곡식들을 성장케 하며 포도와 푸른 식물과 올리브와 종려나무와 울창한 정원과 과실과 목초가 있으니 이 모든 것은 인간과 가축들을 위한 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `Consideri l'uomo il suo cibo siamo Noi che versiamo l'acqua in abbondanza poi spacchiamo la terra in profondità e vi facciamo germinare cereali vitigni e foraggi olive e palmeti lussureggianti giardini frutti e pascoli di cui godete voi e il vostro bestiame`,
+        ``,
+        ``
+      ],
+      [
+        `Niech spojrzy człowiek na swe pożywienie Jak wylaliśmy wodę obficie Potem spowodowaliśmy popękanie ziemi I sprawiliśmy, iż wyrosły na niej ziarna Winna latorośl i trzcina cukrowa Drzewa oliwne i drzewa palmowe I ogrody bujnie rosnące I owoce, i pastwiska to na używanie dla was i dla waszych trzód`,
+        ``,
+        ``
+      ],
+      [
+        `Хай погляне людина на їжу свою Проливаємо Ми дощі зливами потім розколюємо Ми землю тріщинам і пророщуємо на ній зерно виноград і трави і оливи, і пальми і сади густі і плоди, і пасовиська на користь вам і худобі вашій`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة عبس / 'Abasa، الآيات 24-32`
   },
 
   {
@@ -22336,6 +26008,228 @@ const verses = [
       ]
     ],
     number: `سورة البروج / Al-Buruj، الآية 11`
+  },
+
+  {
+    arabic: [
+      `فَلْيَنْظُرِ الْإِنْسَانُ مِمَّ خُلِقَ خُلِقَ مِنْ مَاءٍ دَافِقٍ يَخْرُجُ مِنْ بَيْنِ الصُّلْبِ وَالتَّرَائِبِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `So let man observe from what he was created He was created from a fluid, ejected Emerging from between the backbone and the ribs`,
+        ``,
+        ``
+      ],
+      [
+        `Que l'homme considère donc de quoi il a été créé Il a été créé d'une giclée d'eau sortie d'entre les lombes et les côtes`,
+        ``,
+        ``
+      ],
+      [
+        `¡Que considere el hombre de qué ha sido creado Ha sido creado de un líquido fluente que sale de entre los riñones y las costillas`,
+        ``,
+        ``
+      ],
+      [
+        `Пусть посмотрит человек, из чего он создан Он создан из изливающейся жидкости которая выходит между чреслами и грудными костями`,
+        ``,
+        ``
+      ],
+      [
+        `So soll der Mensch doch hinsehen, woraus er erschaffen ist Er ist aus sich ergießendem Wasser erschaffen das zwischen der Lende und der (weiblichen) Brust hervorkommt`,
+        ``,
+        ``
+      ],
+      [
+        `LÅT människan betrakta det som hon är skapad av Hon är skapad av flöden som väller fram ur [mannens] länder och ur [kvinnans] bäckenring`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Laat de mens er daarom over denken waarvan hij geschapen is Geschapen is hij van een spurtend water Dat komt van tussen de lendenen en de ribben`,
+        ``,
+        ``
+      ],
+      [
+        `تو انسان کو دیکھنا چاہئے کہ وہ کاہے سے پیدا ہوا ہے وہ اچھلتے ہوئے پانی سے پیدا ہوا ہے جو پیٹھ اور سینے کے بیچ میں سے نکلتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Maka hendaklah manusia memperhatikan dari apa dia diciptakan Dia diciptakan dari air (mani) yang terpancar yang keluar dari antara tulang punggung (sulbi) dan tulang dada`,
+        ``,
+        ``
+      ],
+      [
+        `Öyleyse insan neden yaratıldığına bir baksın O, erkek ve kadının beli ile kaburga kemikleri arasından atılagelen bir sudan yaratılmıştır`,
+        ``,
+        ``
+      ],
+      [
+        `پس انسان بايد بنگرد كه از چه آفريده شده است؟ از آب جهنده‌اى خلق شده، [كه‌] از صلب مرد و ميان استخوانهاى سينه زن بيرون مى‌آيد`,
+        ``,
+        ``
+      ],
+      [
+        `অতএব, মানুষের দেখা উচিত কি বস্তু থেকে সে সৃজিত হয়েছে। সে সৃজিত হয়েছে সবেগে স্খলিত পানি থেকে। এটা নির্গত হয় মেরুদন্ড ও বক্ষপাজরের মধ্য থেকে।`,
+        ``,
+        ``
+      ],
+      [
+        `Então, que o ser humano olhe aquilo de que foi criado Foi criado de água emitida Que sai de entre a espinha dorsal e os ossos do peito`,
+        ``,
+        ``
+      ],
+      [
+        `人应当想一想，他自己是用什麽造成的？ 他是射出的精液造成的。 那精液是从脊柱和肋骨之间发出的。`,
+        ``,
+        ``
+      ],
+      [
+        `人間は，何から創られたかを考察させなさい。 かれは噴出する水から創られ， （それは）肋骨と腰の間から出てくる。`,
+        ``,
+        ``
+      ],
+      [
+        `그가 무엇으로부터 창조되었 는지 생각케 하라 떨어지는 한 방울의 정액으로 창조되며 그 정액은 등뼈와 늑골 사이 에서 나오는 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `Consideri dunque l'uomo da che cosa fu creato Da un liquido eiaculato che esce di tra i lombi e le costole`,
+        ``,
+        ``
+      ],
+      [
+        `Niech więc rozważy człowiek, z czego on został stworzony Został stworzony z cieczy wytryskającej Która wychodzi spomiędzy lędźwi i żeber`,
+        ``,
+        ``
+      ],
+      [
+        `Хай погляне людина, з чого вона створена Створена з рідини, що ллється яка виходить з-поміж хребта й грудей`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الطارق / At-Tariq، الآيات 5-7`
+  },
+
+  {
+    arabic: [
+      `وَالسَّمَاءِ ذَاتِ الرَّجْعِ وَالْأَرْضِ ذَاتِ الصَّدْعِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `By the sky which returns [rain] And [by] the earth which cracks open`,
+        ``,
+        ``
+      ],
+      [
+        `Par le ciel qui fait revenir la pluie et par la terre qui se fend`,
+        ``,
+        ``
+      ],
+      [
+        `¡Por el cielo periódico ¡Por la tierra que se abre`,
+        ``,
+        ``
+      ],
+      [
+        `Клянусь небом возвращающим (возвращающим воду земле или возвращающим небесные тела, которые восходят с одной стороны и заходят в другой) Клянусь землей раскалываемой (при прорастании растений, или при выходе из земли воды, или при воскрешении мертвых)`,
+        ``,
+        ``
+      ],
+      [
+        `Beim Himmel mit der Wiederkehr und der Erde mit ihren Sprüngen`,
+        ``,
+        ``
+      ],
+      [
+        `Vid himlen som ger regn och vid jorden som öppnar sig [för att ge plats åt det som spirar]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Bij de hemel, regen bevattend En bij de aarde, planten bevattend`,
+        ``,
+        ``
+      ],
+      [
+        `آسمان کی قسم جو مینہ برساتا ہے اور زمین کی قسم جو پھٹ جاتی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Demi langit yang mengandung hujan dan bumi yang mempunyai tumbuh-tumbuhan`,
+        ``,
+        ``
+      ],
+      [
+        `Dönüşlü göğe ve yarılan yeryüzüne and olsun ki`,
+        ``,
+        ``
+      ],
+      [
+        `سوگند به آسمان بارش‌انگيز، سوگند به زمين شكافدار [آماده كشت‌]،`,
+        ``,
+        ``
+      ],
+      [
+        `শপথ চক্রশীল আকাশের এবং বিদারনশীল পৃথিবীর`,
+        ``,
+        ``
+      ],
+      [
+        `Pelo céu do retorno da chuva E pela terra de gretas`,
+        ``,
+        ``
+      ],
+      [
+        `以含雨的云 和有缝的地发誓，`,
+        ``,
+        ``
+      ],
+      [
+        `（回転して）返る天によって， 裂け割れる大地によって（誓う）。`,
+        ``,
+        ``
+      ],
+      [
+        `비를 보내는 하늘을 두고 맹세하사 식물을 싹트게 하는 대지를두고 맹세하나니`,
+        ``,
+        ``
+      ],
+      [
+        `Per il cielo che ritorna incessantemente e per la terra quando si fende`,
+        ``,
+        ``
+      ],
+      [
+        `Na niebo, które włada powrotem Na ziemię posiadającą rozpadliny`,
+        ``,
+        ``
+      ],
+      [
+        `Клянуся небом, яке поновлює дощі клянуся землею, яка розколюється`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الطارق / At-Tariq، الآيتان 11-12`
   },
 
   {
@@ -23224,6 +27118,117 @@ const verses = [
       ]
     ],
     number: `سورة العلق / Al-'Alaq، الآية 1`
+  },
+
+  {
+    arabic: [
+      `كَلَّا لَئِنْ لَمْ يَنْتَهِ لَنَسْفَعًا بِالنَّاصِيَةِ نَاصِيَةٍ كَاذِبَةٍ خَاطِئَةٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `No! If he does not desist, We will surely drag him by the forelock A lying, sinning forelock`,
+        ``,
+        ``
+      ],
+      [
+        `Mais non ! S'il ne cesse pas, Nous le saisirons certes, par le toupet le toupet d'un menteur, d'un pécheur`,
+        ``,
+        ``
+      ],
+      [
+        `¡No! Si no cesa, hemos de arrastrarle por el copete copete que miente, que peca`,
+        ``,
+        ``
+      ],
+      [
+        `Но нет, если он не перестанет, то Мы схватим его за хохол хохол лживый, грешный`,
+        ``,
+        ``
+      ],
+      [
+        `Keineswegs! Wenn er nicht aufhört, werden Wir ihn ganz gewiß an der Stirnlocke packen und ziehen einer Stirnlocke, einer lügnerischen, einer verfehlt handelnden`,
+        ``,
+        ``
+      ],
+      [
+        `Nej! Om han inte upphör [med detta] skall Vi helt visst gripa honom i luggen luggen på hans lögnaktiga, syndiga [panna]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Nee, als hij niet ophoudt, dan zullen Wij hem bij zijn voorhoofdslok grijpen Een leugenachtige, zondige voorhoofdslok`,
+        ``,
+        ``
+      ],
+      [
+        `دیکھو اگر وہ باز نہ آئے گا تو ہم (اس کی) پیشانی کے بال پکڑ گھسیٹیں گے یعنی اس جھوٹے خطاکار کی پیشانی کے بال`,
+        ``,
+        ``
+      ],
+      [
+        `Sekali-kali tidak! Sungguh, jika dia tidak berhenti (berbuat demikian) niscaya Kami tarik ubun-ubunnya (ke dalam neraka) (yaitu) ubun-ubun orang yang mendustakan dan durhaka`,
+        ``,
+        ``
+      ],
+      [
+        `Ama bundan vazgeçmezse, and olsun ki, onu perçeminden Yalancı ve günahkar perçeminden cehenneme sürükleriz`,
+        ``,
+        ``
+      ],
+      [
+        `زنهار، اگر باز نايستد، موى پيشانى [او] را سخت بگيريم؛ [همان‌] موى پيشانى دروغزن گناه‌پيشه را`,
+        ``,
+        ``
+      ],
+      [
+        `কখনই নয়, যদি সে বিরত না হয়, তবে আমি মস্তকের সামনের কেশগুচ্ছ ধরে হেঁচড়াবই মিথ্যাচারী, পাপীর কেশগুচ্ছ।`,
+        ``,
+        ``
+      ],
+      [
+        `Em absoluto, não o sabe! Em verdade, se ele não se detiver, arrastá-lo-emos pelo topete Topete mentiroso, errado`,
+        ``,
+        ``
+      ],
+      [
+        `绝不然，如果他不停止，我一定要抓住他的额发 说谎者，犯罪者的额发。`,
+        ``,
+        ``
+      ],
+      [
+        `断じてそうではない。もしかれが止ないならば，われは前髪でかれを捕えるであろう， 嘘付きで，罪深い前髪を。`,
+        ``,
+        ``
+      ],
+      [
+        `그로 하여금 알게 하리니 그가 단념하지 않는다면 그의 앞머 리를 끌어가리라 그 머리는 거짓과 죄악의 머리라`,
+        ``,
+        ``
+      ],
+      [
+        `Stia in guardia: se non smette, Noi lo afferreremo per il ciuffo il ciuffo mendace peccaminoso`,
+        ``,
+        ``
+      ],
+      [
+        `Niech się ma na baczności! Jeśli nie zaprzestanie, to, zaprawdę, pociągniemy go za kosmyk Za kosmyk kłamliwy i grzeszny`,
+        ``,
+        ``
+      ],
+      [
+        `Але ж ні! Якщо він не зупиниться, Ми схопимо його за чуб чуб брехливий, грішний`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة العلق / Al-'Alaq، الآيتان 15-16`
   },
 
   {
