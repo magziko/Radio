@@ -4,9 +4,112 @@
 
 const verses = [
   {
-    arabic: [`ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ`, `هُدًى لِّلْمُتَّقِينَ`, ``],
+    arabic: [
+      `ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ`,
+      `هُدًى لِّلْمُتَّقِينَ`,
+      ``
+    ],
     translations: [
-      [`This is the Book about which there is no doubt,`, `a guidance for those conscious of Allah.`, ``]
+      [
+        `This is the Book about which there is no doubt,`,
+        `a guidance for those conscious of Allah.`,
+        ``
+      ],
+      [
+        `C'est le Livre au sujet duquel il n'y a aucun doute,`,
+        `c'est un guide pour les pieux`,
+        ``
+      ],
+      [
+        `Ésta es la Escritura, exenta de dudas,`,
+        `como dirección para los temerosos de Alá`,
+        ``
+      ],
+      [
+        `Это Писание, в котором нет сомнения,`,
+        `является верным руководством для богобоязненных`,
+        ``
+      ],
+      [
+        `Dieses Buch, an dem es keinen Zweifel gibt,`,
+        `ist eine Rechtleitung für die Gottesfürchtigen`,
+        ``
+      ],
+      [
+        `DENNA Skrift - här råder inget tvivel - är en vägledning`,
+        `för dem som fruktar Gud och ständigt har Honom för ögonen`,
+        ``
+      ],
+      [
+        `Is é seo an Leabhar nach bhfuil aon amhras ann,`,
+        `treoir dóibh siúd a bhfuil eagla Allah orthu.`,
+        ``
+      ],
+      [
+        `Dit is het Boek (de Koran) waaraan geen twijfel is,`,
+        `een leidraad voor de Moettaqôen`,
+        ``
+      ],
+      [
+        `یہ کتاب (قرآن مجید) اس میں کچھ شک نہیں (کہ`,
+        `کلامِ خدا ہے۔ خدا سے) ڈرنے والوں کی رہنما ہے`,
+        ``
+      ],
+      [
+        `Kitab (Alquran) ini tidak ada keraguan padanya;`,
+        `petunjuk bagi mereka yang bertakwa`,
+        ``
+      ],
+      [
+        `Bu,`,
+        `doğruluğu şüphe götürmeyen ve Allah'a karşı gelmekten sakınanlara yol gösteren Kitap'dır`,
+        ``
+      ],
+      [
+        `اين است كتابى كه در [حقانيت‌] آن هيچ ترديدى نيست؛`,
+        `[و] مايه هدايت تقواپيشگان است`,
+        ``
+      ],
+      [
+        `এ সেই কিতাব যাতে কোনই সন্দেহ নেই।`,
+        `পথ প্রদর্শনকারী পরহেযগারদের জন্য`,
+        ``
+      ],
+      [
+        `Esse é o Livro. Nele, não há dúvida alguma.`,
+        `É orientação para os piedosos`,
+        ``
+      ],
+      [
+        `这部经，其中毫无可疑，`,
+        `是敬畏者的向导。`,
+        ``
+      ],
+      [
+        `それこそは，疑いの余地のない啓典である。`,
+        `その中には，主を畏れる者たちへの導きがある。`,
+        ``
+      ],
+      [
+        `의혹의 여지가 없는 이 성서는`,
+        `하나님을 경외하는 자들을 위한 길잡이라`,
+        ``
+      ],
+      [
+        `Questo è il Libro su cui non ci sono dubbi,`,
+        `una guida per i timorati`,
+        ``
+      ],
+      [
+        `To jest Księga - nie ma,`,
+        `co do tego żadnej wątpliwości - droga prosta dla bogobojnych`,
+        ``
+      ],
+      [
+        `Це — Писання, в якому немає сумніву,`,
+        `— прямий шлях для богобоязливих`,
+        ``
+      ]
     ],
     number: `سورة البقرة / Al-Baqarah، الآية 2`
   },
@@ -572,7 +675,6 @@ const verses = [
       `لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ`,
       `رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ`
     ],
-
     translations: [
       [
         `Allah does not burden a soul beyond that it can bear.`,
@@ -605,6 +707,11 @@ const verses = [
         `Herre, straffa oss inte om vi glömmer eller gör fel… Lägg inte på oss en börda som du lade på dem före oss… Förlåt oss, förbarma dig över oss och ge oss seger över de otrogna.`
       ],
       [
+        `Ní leagann Allah ualach ar anam thar a chumas.`,
+        `Tá aige an méid a thuill sé, agus iompraíonn sé an méid a thuill sé.`,
+        `A Thiarna, ná cuir an milleán orainn má dhéanaimid dearmad nó botún… A Thiarna, ná leag orainn ualach cosúil leis an ualach a leag Tú orthu siúd a bhí romhainn… Maith dúinn, loirg maitheanas dúinn agus déan trócaire orainn. Is Tú ár gCosantóir, mar sin tabhair dúinn bua ar an dream nach gcreideann.`
+      ],
+      [
         `Allah belast geen ziel boven haar vermogen.`,
         `Zij krijgt wat zij heeft verdiend en draagt wat zij heeft verworven.`,
         `Onze Heer, straf ons niet als wij vergeten of fouten maken… Leg ons geen last op zoals U dat deed bij degenen voor ons… Vergeef ons, heb genade met ons en geef ons overwinning op de ongelovigen.`
@@ -623,9 +730,53 @@ const verses = [
         `Allah hiçbir nefse gücünün yettiğinden fazlasını yüklemez.`,
         `İyilik yapan iyiliğini, kötülük yapan da karşılığını görür.`,
         `Rabbimiz, unutursak veya hata yaparsak bizi sorumlu tutma… Bizden öncekilere yüklediğin gibi bize yük yükleme… Bizi bağışla, bize merhamet et ve kâfirlere karşı bize yardım et.`
+      ],
+      [
+        `خداوند هيچ كس را جز به قدر توانايى‌اش تكليف نمى‌كند. آنچه [از خوبى‌] به دست آورده به سود او، و آنچه [از بدى‌] به دست آورده به زيان اوست. پروردگارا،`,
+        `اگر فراموش كرديم يا به خطا رفتيم بر ما مگير، پروردگارا، هيچ بار گرانى بر [دوش‌] ما مگذار؛ همچنانكه بر [دوش‌] كسانى كه پيش از ما بودند نهادى.`,
+        `پروردگارا، و آنچه تاب آن نداريم بر ما تحميل مكن؛ و از ما درگذر؛ و ما را ببخشاى و بر ما رحمت آور؛ سرور ما تويى؛ پس ما را بر گروه كافران پيروز كن`
+      ],
+      [
+        `আল্লাহ কাউকে তার সাধ্যাতীত কোন কাজের ভার দেন না, সে তাই পায় যা সে উপার্জন করে এবং তাই তার উপর বর্তায় যা সে করে। হে আমাদের পালনকর্তা, যদি আমরা ভুলে যাই কিংবা ভুল করি,`,
+        `তবে আমাদেরকে অপরাধী করো না। হে আমাদের পালনকর্তা! এবং আমাদের উপর এমন দায়িত্ব অর্পণ করো না, যেমন আমাদের পূর্ববর্তীদের উপর অর্পণ করেছ, হে আমাদের প্রভূ! এবং আমাদের দ্বারা ঐ বোঝা বহন করিও না,`,
+        `যা বহন করার শক্তি আমাদের নাই। আমাদের পাপ মোচন কর। আমাদেরকে ক্ষমা কর এবং আমাদের প্রতি দয়া কর। তুমিই আমাদের প্রভু। সুতরাং কাফের সম্প্রদায়ের বিরুদ্ধে আমাদের কে সাহায্যে কর।`
+      ],
+      [
+        `Allah não impõe a alma alguma senão o que é de sua capacidade. A ela, o que logrou de bom e, contra ela, o que cometeu de mau E dizem: "Senhor nosso! Não nos culpes,`,
+        `se esquecemos ou erramos. Senhor nosso! E não nos carregues de pesados fardos como deles carregaste aos que foram antes de nós. Senhor nosso!`,
+        `E não nos carregues daquilo para o que não temos força. E indulta-nos e perdoa-nos e tem misericórdia de nós. Tu és nosso Protetor; então, socorre-nos contra o povo renegador da Fé`
+      ],
+      [
+        `真主只依各人的能力而加以责成。各人要享受自己所行善功的奖赏，要遭遇自己所作罪恶的惩罚。我们的主啊！求你不要惩罚我们，`,
+        `如果我们遗忘或错误。求你不要使我们荷负重担，犹如你使古人荷负它一样。我们的主啊！求你不要 使我们担负我们所不能胜任的。`,
+        `求你恕饶我们，求你赦宥我们，求你怜悯我们。你是我们的保佑者，求你援助我们，以对抗不信道的民众。`
+      ],
+      [
+        `アッラーは誰にも，その能力以上のものを負わせられない。（人びとは）自分の稼いだもので（自分を）益し，その稼いだもので（自分を）損う。「主よ，わたしたちがもし忘れたり，`,
+        `過 ちを犯すことがあっても，咎めないで下さい。主よ，わたしたち以前の者に負わされたような重 荷を，わたしたちに負わせないで下さい。主よ，わたしたちの力でかなわないものを，担わせないで下さい。`,
+        `わたしたちの罪障を消滅なされ，わたしたちを赦し，わたしたちに慈悲を御くだし下さい。あなたこそわたしたちの愛護者であられます。不信心の徒に対し，わたしたちを御助け下さい。」`
+      ],
+      [
+        `하나님께서는 영혼에게 오직 감당할 수 있는 능력만큼만 짐 지우시니 그에게 도움이 되는 것은 그가 얻은 (좋은) 것이며 그에게 해가 되는 것은 그가 저지른 (나쁜) 것이라. 저희의 주님,`,
+        `저희가 망각했거나 실수를 저지렀을 경우에는 저희를 힐책하지 말아 주십시오. 저희의 주님, 저희 이전의 자들에게 지우셨던 것과 같은 무거운 약속을 저희에게 지우지 말아 주십시오. 저희의 주님,`,
+        `저희가 감당할 힘이 없는 것을 저희에게 짊어지우지 말아 주십시오. 저희에게 관용을 베풀어 주시고 저희를 용서해 주시며 저희에게 자비를 베풀어 주십시오. 당신께서는 저희의 가호자이십니다, 그러니 불신자 무리를 상대로 저희를 도와 주십시오`
+      ],
+      [
+        `Allah non impone a nessun'anima al di là delle sue capacità. Quello che ognuno avrà guadagnato sarà a suo favore e ciò che avrà demeritato sarà a suo danno. “Signore,`,
+        `non ci punire per le nostre dimenticanze e i nostri sbagli. Signore, non caricarci di un peso grave come quello che imponesti a coloro che furono prima di noi.`,
+        `Signore, non imporci ciò per cui non abbiamo la forza. Assolvici, perdonaci, abbi misericordia di noi. Tu sei il nostro patrono, dacci la vittoria sui miscredenti.”`
+      ],
+      [
+        `Bóg nie nakłada na duszę niczego więcej nad jej możliwości. Dla niej będzie to, co dla siebie zyskała; i przeciwko niej będzie to, co ona zyskała! Panie nasz!`,
+        `Nie bierz nam za złe, jeśli zapomnieliśmy lub jeśli zgrzeszyliśmy! Panie nasz! Nie nakładaj na nas ciężaru, jak nałożyłeś na tych, którzy byli przed nami! Panie nasz!`,
+        `Nie nakładaj na nas tego, czego my nie jesteśmy w stanie unieść! Odpuść nam, przebacz nam i zmiłuj się nad nami! Ty jesteś naszym Panem! Dopomóż nam przeciw ludowi niewiernych`
+      ],
+      [
+        `Аллаг не вимагає від людини понад можливості її. За неї те, що здобула собі вона, і проти неї теж те, що здобула собі вона. «Господи наш!`,
+        `Не карай нас за те, що забули ми або в чому помилилися! Господи наш! Не покладай на нас тягаря, який поклав Ти на тих, які жили раніше за нас.`,
+        `І не покладай на нас того, на що не вистачить сил. Вибач нам, прости нас і змилуйся над нами! Ти — Захисник наш, тож допоможи нам проти невіруючих людей!»`
       ]
     ],
-
     number: `سورة البقرة / Al-Baqarah، الآية 286`
   },
 
@@ -1414,9 +1565,112 @@ const verses = [
   },
 
   {
-    arabic: [`إِن يَشَأْ يُذْهِبْكُمْ أَيُّهَا النَّاسُ`, `وَيَأْتِ بِآخَرِينَ`, `وَكَانَ اللَّهُ عَلَىٰ ذَٰلِكَ قَدِيرًا`],
+    arabic: [
+      `إِن يَشَأْ يُذْهِبْكُمْ أَيُّهَا النَّاسُ`,
+      `وَيَأْتِ بِآخَرِينَ`,
+      `وَكَانَ اللَّهُ عَلَىٰ ذَٰلِكَ قَدِيرًا`
+    ],
     translations: [
-      [`If He wills, He can remove you, O mankind,`, `and bring others in your place.`, `And Allah is over that, competent.`]
+      [
+        `If He wills, He can remove you, O mankind,`,
+        `and bring others in your place.`,
+        `And Allah is over that, competent.`
+      ],
+      [
+        `S'Il voulait, il vous ferait disparaître,`,
+        `ô gens, et en ferait venir d'autres.`,
+        `Car Allah en est très capable`
+      ],
+      [
+        `¡Hombres! Si Él quisiera,`,
+        `os haría desaparecer y os sustituiría por otros.`,
+        `Alá es capaz de hacerlo`
+      ],
+      [
+        `О люди! Если Он пожелает,`,
+        `то уведет вас и приведет других.`,
+        `Аллах способен на это`
+      ],
+      [
+        `Wenn Er will, läßt Er euch vergehen,`,
+        `ihr Menschen, und bringt andere.`,
+        `Allah hat dazu die Macht`
+      ],
+      [
+        `Om Han ville, kunde Han låta er,`,
+        `människor, försvinna och låta ett nytt släkte uppstå.`,
+        `Gud har makt att göra detta`
+      ],
+      [
+        `Más mian leis, is féidir leis sibh a bhaint, a dhaoine uaisle,`,
+        `agus daoine eile a thabhairt in bhur n-ionad.`,
+        `Agus tá Allah in ann é sin a dhéanamh.`
+      ],
+      [
+        `En indien Hij wilt, vernietigt Hij jullie,`,
+        `O mensen, en vervangt Hij jullie.`,
+        `En Allah heeft de macht om dat te doen`
+      ],
+      [
+        `لوگو! اگر وہ چاہے تو تم کو فنا کردے`,
+        `اور (تمہاری جگہ) اور لوگوں کو`,
+        `پیدا کردے۔اور خدا اس بات پر قادر ہے`
+      ],
+      [
+        `Kalau Allah menghendaki, niscaya dimusnahkan-Nya kamu semua wahai manusia!`,
+        `Kemudian Dia datangkan (umat) yang lain (sebagai penggantimu).`,
+        `Dan Allah Mahakuasa berbuat demikian`
+      ],
+      [
+        `Ey İnsanlar!`,
+        `Allah dilerse sizi yok eder, başkalarını getirir,`,
+        `O, buna Kadir'dir`
+      ],
+      [
+        `اى مردم، اگر [خدا] بخواهد،`,
+        `شما را [از ميان‌] مى‌برد و ديگران را [پديد ] مى‌آورد،`,
+        `و خدا بر اين [كار] تواناست`
+      ],
+      [
+        `হে মানবকূল,`,
+        `যদি আল্লাহ তোমাদেরকে সরিয়ে তোমাদের জায়গায় অন্য কাউকে প্রতিষ্ঠিত করেন?`,
+        `বস্তুতঃ আল্লাহর সে ক্ষমতা রয়েছে।`
+      ],
+      [
+        `Se Ele quisesse, far-vos-ia ir,`,
+        `ó humanos, e faria vir outros em vosso lugar!`,
+        `E Allah, sobre isso, é Onipotente`
+      ],
+      [
+        `如果真主意欲，他就毁灭你们这些人，`,
+        `而以别的民众代替你们。`,
+        `真主对于这件事，是全能的。`
+      ],
+      [
+        `もしかれが御望みになれば，あなたがたを滅ぼし，`,
+        `外の民を招いてこられよう。`,
+        `誠にアッラーは，それをする御力を持っておられる。`
+      ],
+      [
+        `만일 그분의 뜻이라면 너희를 멸망케하고`,
+        `다른 백성을 오게 하시니 하나님은 그렇게`,
+        `할 수 있 는 완전한 권능이 있으시니라`
+      ],
+      [
+        `Se volesse vi annienterebbe,`,
+        `o uomini, e ne susciterebbe altri.`,
+        `Allah ha tutto il potere di farlo`
+      ],
+      [
+        `Jeśli On zechce, to was usunie,`,
+        `o ludzie! i przyprowadzi innych.`,
+        `Bóg jest w stanie to uczynić`
+      ],
+      [
+        `Якщо Він побажає, то забере вас —`,
+        `о люди! — і приведе нових.`,
+        `Адже Аллаг спроможний на це`
+      ]
     ],
     number: `سورة النساء / An-Nisa، الآية 133`
   },
@@ -1977,9 +2231,112 @@ const verses = [
   },
 
   {
-    arabic: [`مَن جَاءَ بِالْحَسَنَةِ فَلَهُ عَشْرُ أَمْثَالِهَا`, `وَمَن جَاءَ بِالسَّيِّئَةِ فَلَا يُجْزَىٰ إِلَّا مِثْلَهَا`, `وَهُمْ لَا يُظْلَمُونَ`],
+    arabic: [
+      `مَن جَاءَ بِالْحَسَنَةِ فَلَهُ عَشْرُ أَمْثَالِهَا`,
+      `وَمَن جَاءَ بِالسَّيِّئَةِ فَلَا يُجْزَىٰ إِلَّا مِثْلَهَا`,
+      `وَهُمْ لَا يُظْلَمُونَ`
+    ],
     translations: [
-      [`Whoever brings a good deed shall have ten times the like thereof to his credit,`, `and whoever brings an evil deed shall have only the recompense of the like thereof,`, `and they will not be wronged.`]
+      [
+        `Whoever brings a good deed shall have ten times the like thereof to his credit,`,
+        `and whoever brings an evil deed shall have only the recompense of the like thereof,`,
+        `and they will not be wronged.`
+      ],
+      [
+        `Quiconque viendra avec le bien aura dix fois autant;`,
+        `et quiconque viendra avec le mal ne sera rétribué que par son équivalent.`,
+        `Et on ne leur fera aucune injustice`
+      ],
+      [
+        `Quien presente una buena obra, recibirá diez veces más.`,
+        `Y quien presente una mala obra,`,
+        `será retribuido con sólo una pena semejante. No serán tratados injustamente`
+      ],
+      [
+        `Кто явится с добрым деянием, тот получит десятикратное воздаяние.`,
+        `А кто явится со злым деянием,`,
+        `тот получит только соответствующее воздаяние, и с ними не поступят несправедливо`
+      ],
+      [
+        `Wer mit (etwas) Gutem kommt, erhält zehnmal soviel.`,
+        `Und Wer mit einer bösen Tat kommt, dem wird nur gleichviel vergolten,`,
+        `und es wird ihnen kein Unrecht zugefügt`
+      ],
+      [
+        `Den som [på Räkenskapens dag] för med sig en god handling skall belönas`,
+        `tiofalt, men den som för med sig en dålig handling skall bara straffas`,
+        `med vad som motsvarar denna handling och ingen orätt skall tillfogas dem`
+      ],
+      [
+        `An té a thugann gníomh maith leis, beidh deich n-uaire a leithéid aige,`,
+        `agus an té a thugann drochghníomh leis, ní bheidh air ach a leithéid mar chúiteamh,`,
+        `agus ní dhéanfar éagóir orthu.`
+      ],
+      [
+        `Wie met een pede (daad) komt; voor hem is er (een beloning) als van tien daarvan;`,
+        `en wie met een slechte (daad) komt,`,
+        `dit wordt dan slechts vergolden met het gelijke, en hun zal geen onrecht worden amgedaan`
+      ],
+      [
+        `اور جو کوئی (خدا کے حضور) نیکی لے کر آئے گا اس کو`,
+        `ویسی دس نیکیاں ملیں گی اور جو برائی لائے گا اسے`,
+        `سزا ویسے ہی ملے گی اور ان پر ظلم نہیں کیا جائے گا`
+      ],
+      [
+        `Barang siapa berbuat kebaikan mendapat balasan sepuluh kali lipat amalnya.`,
+        `Dan barang siapa berbuat kejahatan dibalas seimbang dengan kejahatannya.`,
+        `Mereka sedikit pun tidak dirugikan (dizalimi)`
+      ],
+      [
+        `Kim ortaya bir iyilik koyarsa ona on katı verilir;`,
+        `ortaya bir kötülük koyan ise ancak misliyle cezalandırılır;`,
+        `onlara haksızlık yapılmaz`
+      ],
+      [
+        `هر كس كار نيكى بياورد، ده برابر آن [پاداش‌] خواهد داشت،`,
+        `و هر كس كار بدى بياورد،`,
+        `جز مانند آن جزا نيابد و بر آنان ستم نرود`
+      ],
+      [
+        `যে একটি সৎকর্ম করবে, সে তার দশগুণ পাবে এবং যে,`,
+        `একটি মন্দ কাজ করবে,`,
+        `সে তার সমান শাস্তিই পাবে। বস্তুতঃ তাদের প্রতি জুলুম করা হবে না।`
+      ],
+      [
+        `Quem chega com a boa ação terá dez vezes seu equivalente,`,
+        `e quem chega com a má ação não será recompensado senão com seu equivalente.`,
+        `E eles não sofrerão injustiça`
+      ],
+      [
+        `行一件善事的人，将得十倍的报酬；`,
+        `作一件恶事的人，`,
+        `只受同样的惩罚；他们都不受亏枉。`
+      ],
+      [
+        `善いことを行う者は，それと同じようなものを10倍にして頂ける。`,
+        `だが悪いことを行う者には，それと等しい応報だけで，`,
+        `かれらは不当に扱われることはないであろう。`
+      ],
+      [
+        `선을 실천한자 그에게는 열배의 보상이 있으며 악을`,
+        `끼친자 그에게는 그와 같은 것 외에는 다 른 것이 보상되지`,
+        `아니하니 어느 누구도 부정한 대우를 받지 않노 라`
+      ],
+      [
+        `Chi verrà con un bene,`,
+        `ne avrà dieci volte tanto e chi verrà con un male, ne pagherà solo l'equivalente.`,
+        `Non verrà fatto loro alcun torto`
+      ],
+      [
+        `Ten, kto przyjdzie z dobrym czynem, otrzyma w nagrodę dziesięć jemu podobnych;`,
+        `a ten, kto przyjdzie ze złym czynem,`,
+        `otrzyma jako zapłatę tylko równowartość. I oni nie doznają niesprawiedliwości`
+      ],
+      [
+        `Хто прийде з добрим вчинком, той матиме десять таких.`,
+        `А хто прийде із лихим вчинком,`,
+        `тому відплатять за нього; і ні з ким не вчинять несправедливо`
+      ]
     ],
     number: `سورة الأنعام / Al-An'am، الآية 160`
   },
@@ -7707,6 +8064,51 @@ const verses = [
         `Allah en güzel sözü indirmiştir: tutarlı ve tekrar eden bir Kitap.`,
         `Rablerinden korkanların derileri ondan ürperir;`,
         `sonra derileri ve kalpleri Allah’ı anmakla yumuşar. İşte bu Allah’ın hidayetidir.`
+      ],
+      [
+        `خدا زيباترين سخن را [به صورت‌] كتابى متشابه، متضمّن وعد و وعيد، نازل كرده است.`,
+        `آنان كه از پروردگارشان مى‌هراسند، پوست بدنشان از آن به لرزه مى‌افتد، سپس پوستشان و دلشان به ياد خدا نرم مى‌گردد.`,
+        `اين است هدايت خدا، هر كه را بخواهد، به آن راه نمايد، و هر كه را خدا گمراه كند او را راهبرى نيست`
+      ],
+      [
+        `আল্লাহ উত্তম বাণী তথা কিতাব নাযিল করেছেন, যা সামঞ্জস্যপূর্ণ, পূনঃ পূনঃ পঠিত। এতে তাদের লোম কাঁটা দিয়ে উঠে চামড়ার উপর,`,
+        `যারা তাদের পালনকর্তাকে ভয় করে, এরপর তাদের চামড়া ও অন্তর আল্লাহর স্মরণে বিনম্র হয়। এটাই আল্লাহর পথ নির্দেশ,`,
+        `এর মাধ্যমে আল্লাহ যাকে ইচ্ছা পথ প্রদর্শন করেন। আর আল্লাহ যাকে গোমরাহ করেন, তার কোন পথপ্রদর্শক নেই।`
+      ],
+      [
+        `Allah fez descer a mais bela narrativa: um Livro de partes semelhantes, reiterativo. De ouvi-lo,`,
+        `as peles dos que receiam a seu Senhor arrepiam-se; em seguida, suas peles e seus corações tornam-se dúcteis à menção de Allah.`,
+        `Essa é a orientação de Allah, com que guia a quem quer. E aquele, a quem Allah descaminha, não terá guia algum`
+      ],
+      [
+        `真主曾降示最美的训辞，就是前后一律、反复叮咛的经典；`,
+        `畏惧主的人，为他而战栗，然后，为记忆真主而安静。那是真主的正道，`,
+        `他用来引导他所意欲引导者，真主使谁迷误，谁就没有向导。`
+      ],
+      [
+        `アッラーはこの上ない素晴しい言葉を，互いに似た（語句をもって）繰り返し啓典で啓示なされた。`,
+        `主を畏れる者は，それによって肌は戦き震える。その時アッラーを讃え唱念すれば肌も心も和ぐ。`,
+        `これがアッラーの御導きである。かれは御心に適う者を導かれる。だがアッラーが迷うに任せた者には，導き手はない。`
+      ],
+      [
+        `하나님께서 계시를 내리사 가장 아름다운 말씀으로 성서를 주셨나니 때로는 서로 유사하게 하여 때로는 반복 하셨더라`,
+        `주 님을 두려워 한 자들의 피부는 떨리고 그런 후 그들의 피부와 마음은 하나님을 찬미함으로 편안하여 지나니 그것이`,
+        `바로 하나님의 복음이라 하나님은 그분이 원하는자를 인도하시나 방황케 하고자 원하는 자 그에게는 안내자가 없 노라`
+      ],
+      [
+        `Allah ha fatto scendere il più bello dei racconti, un Libro coerente e reiterante,`,
+        `[alla lettura del quale] rabbrividisce la pelle di coloro che temono il loro Signore e poi si distende la pelle, insieme coi cuori, al Ricordo di Allah.`,
+        `Questa è la Guida di Allah con cui Egli guida chi vuole. E coloro che Allah svia, non avranno direzione`
+      ],
+      [
+        `Bóg zesłał najpiękniejsze opowiadanie - Księgę, zawierającą podobne do siebie powtórzenia, od których cierpnie skóra tych,`,
+        `którzy się boją swego Pana; potem ich skóra i ich serca stają się miękkie na napomnienie Boga.`,
+        `To jest droga Boga, którą On prowadzi, kogo chce. A kogo On sprowadzi z niej, to nie ma już dla niego żadnego przewodnika`
+      ],
+      [
+        `Аллаг зіслав найкращу розповідь — Писання, частини якого схожі між собою та повторюються. Від нього тремтить шкіра тих,`,
+        `які бояться Господа свого. А потім, під час згадування Аллага, пом’якшується і шкіра їхня, і серця їхні! Це —`,
+        `дороговказ Аллага, через який Він провадить прямим шляхом, кого побажає! А кого Аллаг зіб’є зі шляху, тому не буде провідника`
       ]
     ],
     number: `سورة الزمر / Az-Zumar، الآية 23`
