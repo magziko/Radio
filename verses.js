@@ -19,6 +19,10 @@
 // كل موضع مضاف يأتي في جزء واحد كامل (بدون تقسيم) لأن ترتيب الجمل يختلف بين اللغات فلا يمكن محاذاة الأجزاء آليًا دون تحريف.
 // الأيرلندية (فهرس 6) فارغة في المواضع المضافة لعدم وجود ترجمة معتمدة — يلزم أن يتعامل التطبيق مع النص الفارغ (يعرض الإنجليزية مثلًا).
 
+// ===== آيات أُضيفت (نوفمبر 2026): الترغيب والترهيب (الجنة ونعيمها، النار وعذابها، الوعد والوعيد)، مرتبة حسب المصحف =====
+// 53 موضعًا جديدًا: 2:25، 2:81-82، 2:161-162، 2:261، 2:274، 2:281، 3:30، 3:92، 3:102، 3:133-134، 3:185، 3:200، 4:10، 4:13-14، 4:31، 4:40، 4:48، 4:57، 4:93، 4:123-124، 5:9-10، 5:72، 6:82، 7:42-43، 9:20-21، 9:34-35، 9:72، 9:111، 10:26-27، 13:22-24، 16:97، 18:30-31، 18:103-106، 20:124، 21:47، 23:1-11، 32:16-17، 33:35، 41:30-32، 51:15-19، 55:46، 61:10-12، 78:31-36، 79:40-41، 82:13-14، 85:11، 89:27-30، 92:5-7، 98:7-8، 101:6-11، 102:1-8، 103:1-3، 104:1-9.
+// العربي من نسخة Tanzil المبسّطة، والترجمات حرفية من نفس المصادر المذكورة أعلاه (مراجَعة حرفيًا مقابل نسخ مستودع fawazahmed0/quran-api)، كل موضع في جزء واحد كامل، والأيرلندية (فهرس 6) فارغة.
+
 // فهارس اللغات التي لا توجد لها ترجمة معتمدة (الأيرلندية: لا توجد ترجمة كاملة معتمدة) — يُفضّل عرض تنبيه "ترجمة غير معتمدة" عند عرضها.
 const UNVERIFIED_TRANSLATION_INDEXES = [6];
 
@@ -358,6 +362,228 @@ const verses = [
 
   {
     arabic: [
+      `وَبَشِّرِ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ أَنَّ لَهُمْ جَنَّاتٍ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ ۖ كُلَّمَا رُزِقُوا مِنْهَا مِنْ ثَمَرَةٍ رِزْقًا ۙ قَالُوا هَٰذَا الَّذِي رُزِقْنَا مِنْ قَبْلُ ۖ وَأُتُوا بِهِ مُتَشَابِهًا ۖ وَلَهُمْ فِيهَا أَزْوَاجٌ مُطَهَّرَةٌ ۖ وَهُمْ فِيهَا خَالِدُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And give good tidings to those who believe and do righteous deeds that they will have gardens [in Paradise] beneath which rivers flow. Whenever they are provided with a provision of fruit therefrom, they will say, "This is what we were provided with before." And it is given to them in likeness. And they will have therein purified spouses, and they will abide therein eternally`,
+        ``,
+        ``
+      ],
+      [
+        `Annonce à ceux qui croient et pratiquent de bonnes œuvres qu'ils auront pour demeures des jardins sous lesquels coulent les ruisseaux; chaque fois qu'ils seront gratifiés d'un fruit des jardins ils diront: «C'est bien là ce qui nous avait été servi auparavant». Or c'est quelque chose de semblable (seulement dans la forme); ils auront là des épouses pures, et là ils demeureront éternellement`,
+        ``,
+        ``
+      ],
+      [
+        `Anuncia la buena nueva a quienes creen y obran bien: tendrán jardines por cuyos bajos fluyen arroyos. Siempre que se les dé como sustento algún fruto de ellos, dirán: «Esto es igual que lo que se nos ha dado antes». Pero se les dará algo sólo parecido. Tendrán esposas purificadas y estarán allí eternamente`,
+        ``,
+        ``
+      ],
+      [
+        `Обрадуй тех, которые уверовали и совершали праведные деяния, тем, что им уготованы Райские сады, в которых текут реки. Всякий раз, когда им будут подавать плоды для пропитания, они будут говорить: «Это уже было даровано нам прежде». Но им будут давать нечто похожее. У них там будут очищенные супруги, и они пребудут там вечно`,
+        ``,
+        ``
+      ],
+      [
+        `Und verkünde denen, die glauben und rechtschaffene Werke tun, (die frohe Botschaft,) daß ihnen Gärten zuteil werden, durcheilt von Bächen. Jedesmal, wenn sie mit einer Frucht daraus versorgt werden, sagen sie: "Das ist ja das, womit wir zuvor versorgt wurden"; doch es ist ihnen eine ihr ähnliche gegeben worden. Und darin haben sie vollkommen gereinigte Gattinnen. Und ewig werden sie darin bleiben`,
+        ``,
+        ``
+      ],
+      [
+        `[Muhammad!] Ge dem som tror och lever rättskaffens det glada budskapet att lustgårdar, vattnade av bäckar, väntar dem; var gång de förses med frukt därifrån skall de säga: "Detta är vad vi försågs med i forna dagar" - de kommer nämligen att få sådant som påminner om det [förgångna]. Och [deras] hustrur skall vara med dem i dessa [lustgårdar], renade från [all jordisk] orenlighet, och där skall de förbli till evig tid`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En geef (O Moehammad) goede tijdingen aan degenen die geloven en goede werken verrichten: dat er voor hen Tuinen (in het Paradijs) zijn waar onder door de rivieren stromen. Telkens wanneer hun daaruit een vrucht wordt gegeven als voorziening, zeggen zij: "Dit is waarmee wij vroeger zijn voorzien." en het soortgelijke zal hun gegeven worden en er zijn daarin reine echtgenoten voor hen, en zij zijn daarin eeuwig levenden`,
+        ``,
+        ``
+      ],
+      [
+        `اور جو لوگ ایمان لائے اور نیک عمل کرتے رہے، ان کو خوشخبری سنا دو کہ ان کے لیے (نعمت کے) باغ ہیں، جن کے نیچے نہریں بہہ رہی ہیں۔ جب انہیں ان میں سے کسی قسم کا میوہ کھانے کو دیا جائے گا تو کہیں گے، یہ تو وہی ہے جو ہم کو پہلے دیا گیا تھا۔ اور ان کو ایک دوسرے کے ہم شکل میوے دیئے جائیں گے اور وہاں ان کے لیے پاک بیویاں ہوں گی اور وہ بہشتوں میں ہمیشہ رہیں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan sampaikanlah kabar gembira kepada orang-orang yang beriman dan berbuat kebajikan, bahwa untuk mereka (disediakan) surga-surga yang mengalir di bawahnya sungai-sungai. Setiap kali mereka diberi rezeki buah-buahan dari surga, mereka berkata, "Inilah rezeki yang diberikan kepada kami dahulu." Mereka telah diberi (buah-buahan) yang serupa. Dan di sana mereka (memperoleh) pasangan-pasangan yang suci. Mereka kekal di dalamnya`,
+        ``,
+        ``
+      ],
+      [
+        `İnananlar ve yararlı işler yapanlara, kendilerine altlarından ırmaklar akan cennetler olduğunu müjdele. Onlara buranın bir ürünü rızık olarak verildiğinde, "Bu daha önce de rızıklandığımızdır" derler. Bunlar, söylediklerinin benzerleri olarak sunulmuştur. Onlara orada tertemiz eşler vardır ve orada temelli kalırlar`,
+        ``,
+        ``
+      ],
+      [
+        `و كسانى را كه ايمان آورده‌اند و كارهاى شايسته انجام داده‌اند، مژده ده كه ايشان را باغهايى خواهد بود كه از زير [درختان‌] آنها جويها روان است. هر گاه ميوه‌اى از آن روزىِ ايشان شود، مى‌گويند: «اين همان است كه پيش از اين [نيز ]روزىِ ما بوده.» و مانند آن [نعمتها] به ايشان داده شود؛ و در آنجا همسرانى پاكيزه خواهند داشت؛ و در آنجا جاودانه بمانند`,
+        ``,
+        ``
+      ],
+      [
+        `আর হে নবী (সাঃ), যারা ঈমান এনেছে এবং সৎকাজসমূহ করেছে, আপনি তাদেরকে এমন বেহেশতের সুসংবাদ দিন, যার পাদদেশে নহরসমূহ প্রবাহমান থাকবে। যখনই তারা খাবার হিসেবে কোন ফল প্রাপ্ত হবে, তখনই তারা বলবে, এতো অবিকল সে ফলই যা আমরা ইতিপূর্বেও লাভ করেছিলাম। বস্তুতঃ তাদেরকে একই প্রকৃতির ফল প্রদান করা হবে। এবং সেখানে তাদের জন্য শুদ্ধচারিনী রমণীকূল থাকবে। আর সেখানে তারা অনন্তকাল অবস্থান করবে।`,
+        ``,
+        ``
+      ],
+      [
+        `E alvissara, Muhammad, aos que crêem e fazem as boas obras que terão Jardins, abaixo dos quais correm os rios. Cada vez que forem sustentados por algo de seus frutos, dirão: "Eis o fruto pelo qual fomos sustentados antes". Enquanto o que lhes for concedido será, apenas, semelhante. E neles, terão esposas puras e neles serão eternos`,
+        ``,
+        ``
+      ],
+      [
+        `你当向信道而行善的人报喜；他们将享有许多下临诸河的乐园，每当他们得以园里的一种水果为给养的时候，他们都说：这是我们以前所受赐的。其实，他们所受赐的是类似的。他们在乐园里将享有纯洁的配偶，他们将永居其中。`,
+        ``,
+        ``
+      ],
+      [
+        `信仰して善行に勤しむ者たちには，かれらのために，川が下を流れる楽園に就いての吉報を伝えなさい。かれらはそこで，糧の果実を与えられる度に，「これはわたしたちが以前に与えられた物だ。」と言う。かれらには，それ程似たものが授けられる。また純潔な配偶者を授けられ，永遠にその中に住むのである。`,
+        ``,
+        ``
+      ],
+      [
+        `그대는 (하나님과 사도를) 믿고 선행을 실천하는 자들에게 기쁜 소식을 전하라 ; 아래로부터 강이 흐르는 천국이 그들의 것이라. 그들에게 그곳(천국)의 열매가 양식으로 베풀어질 때마다 그들은 말하더라 : “이것은 우리가 이전에 받은 양식입니다.” 그들에게 서로 비슷한 모습으로 주어진 것이라. 그리고 그들은 그곳에서 순결한 배우자들을 가질 것이며, 그들은 그곳에서 머물 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `E annuncia a coloro che credono e compiono il bene, che avranno i Giardini in cui scorrono i ruscelli. Ogni volta che sarà loro dato un frutto diranno: “Già ci era stato concesso!”. Ma è qualcosa di simile che verrà loro dato; avranno spose purissime e colà rimarranno in eterno`,
+        ``,
+        ``
+      ],
+      [
+        `I zwiastuje radosną wieść tym, którzy uwierzyli i czynili dobre dzieła, iż dla nich będą Ogrody, gdzie w dole płyną strumyki. Ilekroć są zaopatrywani w jakiekolwiek owoce z nich, oni mówią: "To jest to, co otrzymywaliśmy kiedyś!", albowiem to, co otrzymują, jest bardzo podobne. Będą tam mieli małżonki czyste, będą tam przebywać na wieki`,
+        ``,
+        ``
+      ],
+      [
+        `Сповісти ж радісну звістку тим, які увірували й творили добро. Чекають на них сади, де течуть ріки. Коли наділяють їх плодами звідти, то вони говорять: «Це те, чим наділяли нас раніше», — але ж насправді схожі вони лише ззовні. Матимуть вони там пречистих дружин. І будуть вони там довіку`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 25`
+  },
+
+  {
+    arabic: [
+      `بَلَىٰ مَنْ كَسَبَ سَيِّئَةً وَأَحَاطَتْ بِهِ خَطِيئَتُهُ فَأُولَٰئِكَ أَصْحَابُ النَّارِ ۖ هُمْ فِيهَا خَالِدُونَ وَالَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ أُولَٰئِكَ أَصْحَابُ الْجَنَّةِ ۖ هُمْ فِيهَا خَالِدُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Yes, whoever earns evil and his sin has encompassed him - those are the companions of the Fire; they will abide therein eternally But they who believe and do righteous deeds - those are the companions of Paradise; they will abide therein eternally`,
+        ``,
+        ``
+      ],
+      [
+        `Bien au contraire! Ceux qui font le mal et qui se font cerner par leurs péchés, ceux-là sont les gens du Feu où ils demeureront éternellement Et ceux qui croient et pratiquent les bonnes œuvres, ceux-là sont les gens du Paradis où ils demeureront éternellement`,
+        ``,
+        ``
+      ],
+      [
+        `¡Pues sí! Quienes hayan obrado mal y estén cercados por su pecado, ésos morarán en el Fuego eternamente Pero quienes hayan creído y obrado bien, ésos morarán en el Jardín eternamente`,
+        ``,
+        ``
+      ],
+      [
+        `О нет! Те, которые приобрели зло и оказались окружены своим грехом, окажутся обитателями Огня. Они пребудут там вечно А те, которые уверовали и совершали праведные деяния, окажутся обитателями Рая. Они пребудут там вечно`,
+        ``,
+        ``
+      ],
+      [
+        `Aber nein! Wer eine böse Tat begangen hat, und wen seine Verfehlung umfangen hält, das sind Insassen des (Höllen)feuers. Ewig werden sie darin bleiben Diejenigen aber, die glauben und rechtschaffene Werke tun, das sind Insassen des (Paradies)gartens. Ewig werden sie darin bleiben`,
+        ``,
+        ``
+      ],
+      [
+        `Nej! De som har begått onda handlingar och är helt omslutna av sin synd, har Elden till arvedel och där skall de förbli till evig tid Men de som tror och lever rättskaffens har paradiset till arvedel och där skall de förbli till evig tid`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Welzeker, degenen die slechte daden verrichten, en door hun zonden omsloten zijn, diegenen dan, zijn de bewoners van de Hel. Zij zijn daarin eeuwig levenden Maar degenen die geloven en goede werken verrichten, zij zijn degenen die de bewoners van het Paradijs zijn. Zij zijn daarin eeuwig levenden`,
+        ``,
+        ``
+      ],
+      [
+        `ہاں جو برے کام کرے، اور اس کے گناہ (ہر طرف سے) گھیر لیں تو ایسے لوگ دوزخ (میں جانے) والے ہیں (اور) وہ ہمیشہ اس میں (جلتے) رہیں گے اور جو ایمان لائیں اور نیک کام کریں، وہ جنت کے مالک ہوں گے (اور) ہمیشہ اس میں (عیش کرتے) رہیں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Tidaklah demikian! Barang siapa berbuat keburukan dan dosanya telah menenggelamkannya, maka mereka itu penghuni neraka. Mereka kekal di dalamnya Dan orang-orang yang beriman dan mengerjakan kebajikan, mereka itu penghuni surga. Mereka kekal di dalamnya`,
+        ``,
+        ``
+      ],
+      [
+        `Hayır öyle değil; kötülük işleyip suçu kendisini kuşatmış olan kimseler; cehennemlikler işte onlardır. Onlar orada temellidirler İnanıp yararlı işler yapan kimseler cennetlik olanlardır, onlar da orada temellidirler`,
+        ``,
+        ``
+      ],
+      [
+        `آرى، كسى كه بدى به دست آورد، و گناهش او را در ميان گيرد، پس چنين كسانى اهل آتشند، و در آن ماندگار خواهند بود و كسانى كه ايمان آورده، و كارهاى شايسته كرده‌اند، آنان اهل بهشتند، و در آن جاودان خواهند ماند`,
+        ``,
+        ``
+      ],
+      [
+        `হাঁ, যে ব্যক্তি পাপ অর্জন করেছে এবং সে পাপ তাকে পরিবেষ্টিত করে নিয়েছে, তারাই দোযখের অধিবাসী। তারা সেখানেই চিরকাল থাকবে। পক্ষান্তরে যারা ঈমান এনেছে এবং সৎকাজ করেছে, তারাই জান্নাতের অধিবাসী। তারা সেখানেই চিরকাল থাকবে।`,
+        ``,
+        ``
+      ],
+      [
+        `Sim! Aqueles que cometem um mal, e são abarcados por seus erros, esses são os companheiros do Fogo. Nele serão eternos E os crentes e os que fazem as boas obras, esses são os companheiros do Paraíso. Nele, serão eternos`,
+        ``,
+        ``
+      ],
+      [
+        `不然，凡作恶而为其罪孽所包罗者，都是火狱的居民，他们将永居其中。 信道而且行善者，是乐园的居民，他们将永居其中。`,
+        ``,
+        ``
+      ],
+      [
+        `いや悪い行いを重ね，自分の罪で身動きが出来なくなるような者は皆，業火の住人である。その中に永遠に住むのである。 だが信仰して善行に勤しむ者は楽園の住人である。その中に永遠に住むのである。`,
+        ``,
+        ``
+      ],
+      [
+        `그렇지 않노라. 악행을 저지르고 스스로의 죄가 자신을 에워싸는 자, 그러한 자들은 불지옥의 거주자들이니 실로 그들은 그 안에서 머물 것이라 (하나님과 사도를) 믿고 선행을 실천하는 자들, 그러한 자들은 천국의 거주자들이니 실로 그들은 그 안에서 머물 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `Badate, chi opera il male ed è circondato dal suo errore, questi sono i compagni del Fuoco, vi rimarranno in perpetuità E coloro che hanno creduto e operato nel bene, sono i compagni del Paradiso e vi rimarranno in perpetuità`,
+        ``,
+        ``
+      ],
+      [
+        `Tak! Ten, kto popełnił zło i kogo objął grzech - tacy jak on będą mieszkańcami ognia; tam będą przebywać na wieki A ci, którzy wierzą i czynią dobre dzieła, będą mieszkańcami Ogrodu; tam będą przebywać na wieki`,
+        ``,
+        ``
+      ],
+      [
+        `Та ж ні! Ті, хто вчинив зло, кого оплутав власний гріх, вони — жителі вогню. Будуть вони там довіку А ті, хто увірував і творив добро, вони — жителі раю. Будуть вони там довіку`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآيتان 81-82`
+  },
+
+  {
+    arabic: [
       `إِنَّا أَرْسَلْنَاكَ بِالْحَقِّ بَشِيرًا وَنَذِيرًا ۖ وَلَا تُسْأَلُ عَنْ أَصْحَابِ الْجَحِيمِ`,
       ``,
       ``
@@ -687,6 +913,117 @@ const verses = [
       ]
     ],
     number: `سورة البقرة / Al-Baqarah، الآية 151`
+  },
+
+  {
+    arabic: [
+      `إِنَّ الَّذِينَ كَفَرُوا وَمَاتُوا وَهُمْ كُفَّارٌ أُولَٰئِكَ عَلَيْهِمْ لَعْنَةُ اللَّهِ وَالْمَلَائِكَةِ وَالنَّاسِ أَجْمَعِينَ خَالِدِينَ فِيهَا ۖ لَا يُخَفَّفُ عَنْهُمُ الْعَذَابُ وَلَا هُمْ يُنْظَرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, those who disbelieve and die while they are disbelievers - upon them will be the curse of Allah and of the angels and the people, all together Abiding eternally therein. The punishment will not be lightened for them, nor will they be reprieved`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui ne croient pas et meurent mécréants, recevront la malédiction d'Allah, des Anges et de tous les hommes Ils y demeureront éternellement; le châtiment ne leur sera pas allégé, et on ne leur accordera pas de répit`,
+        ``,
+        ``
+      ],
+      [
+        `Los que no crean y mueran siendo infieles, incurrirán en la maldición de Alá. de los ángeles y de los hombres, en la de todos ellos Eternos en ella, no se les mitigará el castigo, ni les será dado esperar`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, на тех, которые не уверовали и умерли неверующими, лежит проклятие Аллаха, ангелов и людей - всех Это продлится вечно. Их мучения не будут облегчены, и они не получат отсрочки`,
+        ``,
+        ``
+      ],
+      [
+        `Diejenigen aber, die ungläubig sind und als Ungläubige sterben, auf ihnen liegt der Fluch Allahs und der Engel und der Menschen allesamt ewig darin zu bleiben. Die Strafe soll ihnen nicht erleichtert noch soll ihnen Aufschub gewährt werden`,
+        ``,
+        ``
+      ],
+      [
+        `Men de som envist förnekar sanningen och dör som förnekare, över dem faller Guds och änglarnas och alla människors fördömelse Under denna [fördömelse] skall de förbli; deras straff skall inte lindras och de skall inte beviljas uppskov`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, degenen die ongelovig waren en stierven terwijl zij ongelovig waren, op hen rust de vloek van Allah en van de Engelen en de mensen tezamen Eeuwig levenden zijn zij daarin (de Hel). En voor hen zal de bestraffing niet verlicht worden, noch zal hen uitstel gegeven worden`,
+        ``,
+        ``
+      ],
+      [
+        `جو لوگ کافر ہوئے اور کافر ہی مرے ایسوں پر خدا کی اور فرشتوں اور لوگوں کی سب کی لعنت وہ ہمیشہ اسی (لعنت) میں (گرفتار) رہیں گے۔ ان سے نہ تو عذاب ہی ہلکا کیا جائے گا اور نہ انہیں (کچھ) مہلت ملے گی`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, orang-orang yang kafir dan mati dalam keadaan kafir, mereka itu mendapat laknat Allah, para malaikat dan manusia seluruhnya mereka kekal di dalamnya (laknat), tidak akan diringankan azabnya, dan mereka tidak diberi penangguhan`,
+        ``,
+        ``
+      ],
+      [
+        `İnkar edip de o halde ölenler var ya, işte, Allah'ın, meleklerin, insanların hepsinin laneti onlaradır Lanette temellidirler, onlardan azab hafifletilmez ve onların azabı geciktirilmez`,
+        ``,
+        ``
+      ],
+      [
+        `كسانى كه كافر شدند، و در حال كفر مردند، لعنت خدا و فرشتگان و تمام مردم بر آنان باد در آن [لعنت‌] جاودانه بمانند؛ نه عذابشان كاسته گردد، و نه مهلت يابند`,
+        ``,
+        ``
+      ],
+      [
+        `নিশ্চয় যারা কুফরী করে এবং কাফের অবস্থায়ই মৃত্যুবরণ করে, সে সমস্ত লোকের প্রতি আল্লাহর ফেরেশতাগনের এবং সমগ্র মানুষের লা’নত। এরা চিরকাল এ লা’নতের মাঝেই থাকবে। তাদের উপর থেকে আযাব কখনও হালকা করা হবে না বরং এরা বিরাম ও পাবে না।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, os que renegam a Fé e morrem enquanto renegadores da Fé, sobre esses será a maldição de Allah e dos anjos e de toda a humanidade Nela, serão eternos. Não se lhes aliviará o castigo nem se lhes concederá dilação`,
+        ``,
+        ``
+      ],
+      [
+        `终身不信道、临死还不信道的人，必受真主的弃绝，必受天神和人类全体的诅咒。 他们将永居火狱，不蒙减刑，不获宽限。`,
+        ``,
+        ``
+      ],
+      [
+        `本当に信仰を拒んで不信者として死ぬ者たち，かれらの上にはアッラーの譴責と，天使たちおよび全人類の呪いがある。 かれらはその中に永遠に住むであろう。その懲罰は軽減されず，また猶予もないであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 불신하고 불신자로서 죽음을 맞이하는 자, 그러한 자들에게는 실로 하나님과 천사들과 사람들 그 모두의 저주가 있을 것이라 그들은 그(지옥) 안에서 머물 것이며 그들에 대한 벌은 경감되지 않을 것이며 그들은 유예를 받지도 못할 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `E i miscredenti che muoiono nella miscredenza, saranno maledetti da Allah, dagli angeli e da tutti gli uomini Rimarranno in questo stato in eterno e il castigo non sarà loro alleviato, né avranno attenuanti`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, nad tymi, którzy nie uwierzyli i umarli, będąc niewiernymi - nad nimi przekleństwo Boga, aniołów i ludzi, wszystkich razem Będzie im ono towarzyszyć na wieki. I kara ich nie będzie zmniejszona, i nie uzyskają żadnej zwłoki`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, ті, які не увірували та померли невіруючими, матимуть над собою прокляття Аллага, ангелів та всіх людей Воно буде вічним! Не буде полегшено кару їхню, і не буде відстрочки їм`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآيتان 161-162`
   },
 
   {
@@ -1246,6 +1583,339 @@ const verses = [
 
   {
     arabic: [
+      `مَثَلُ الَّذِينَ يُنْفِقُونَ أَمْوَالَهُمْ فِي سَبِيلِ اللَّهِ كَمَثَلِ حَبَّةٍ أَنْبَتَتْ سَبْعَ سَنَابِلَ فِي كُلِّ سُنْبُلَةٍ مِائَةُ حَبَّةٍ ۗ وَاللَّهُ يُضَاعِفُ لِمَنْ يَشَاءُ ۗ وَاللَّهُ وَاسِعٌ عَلِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The example of those who spend their wealth in the way of Allah is like a seed [of grain] which grows seven spikes; in each spike is a hundred grains. And Allah multiplies [His reward] for whom He wills. And Allah is all-Encompassing and Knowing`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui dépensent leurs biens dans le sentier d'Allah ressemblent à un grain d'où naissent sept épis, à cent grains l'épi. Car Allah multiplie la récompense à qui Il veut et la grâce d'Allah est immense, et Il est Omniscient`,
+        ``,
+        ``
+      ],
+      [
+        `Quienes gastan su hacienda por Alá son semejantes a un grano que produce siete espigas, cada una de las cuales contiene cien granos. Así dobla Alá a quien Él quiere. Alá es inmenso, omnisciente`,
+        ``,
+        ``
+      ],
+      [
+        `Притчей о тех, кто расходует свое имущество на пути Аллаха, является притча о зерне, из которого выросло семь колосьев, и в каждом колосе - по сто зерен. Аллах увеличивает награду, кому пожелает. Аллах - Объемлющий, Знающий`,
+        ``,
+        ``
+      ],
+      [
+        `Das Gleichnis derjenigen, die ihren Besitz auf Allahs Weg ausgeben, ist das eines Saatkorns, das sieben Ähren wachsen läßt, (und) in jeder Ähre hundert Körner. Allah vervielfacht, wem Er will. Und Allah ist Allumfassend und Allwissend`,
+        ``,
+        ``
+      ],
+      [
+        `DE SOM ger av vad de äger för Guds sak kan liknas vid sädeskorn som ger sju ax och vart ax bär hundra korn. Gud mångdubblar avkastningen för den Han vill; Gud når överallt och Han vet allt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `De gelijkenis van degenen die op de Weg van Allah uitgeven is als de gelijkenis van een graankorrel, (die) zeven aren voortbrengt, in iedere aar honderd korrels, en Allah vermenigvuldigt voor wie Hij wil. En Allah is Alomvattend, Alwetend`,
+        ``,
+        ``
+      ],
+      [
+        `جو لوگ اپنا مال خدا کی راہ میں خرچ کرتے ہیں ان (کے مال) کی مثال اس دانے کی سی ہے جس سے سات بالیں اگیں اور ہر ایک بال میں سو سو دانے ہوں اور خدا جس (کے مال) کو چاہتا ہے زیادہ کرتا ہے۔ وہ بڑی کشائش والا اور سب کچھ جاننے والا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Perumpamaan orang yang menginfakkan hartanya di jalan Allah seperti sebutir biji yang menumbuhkan tujuh tangkai, pada setiap tangkai ada seratus biji. Allah melipatgandakan bagi siapa yang Dia kehendaki, Dan Allah Mahaluas, Maha Mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Mallarını Allah yolunda sarfedenlerin durumu, her başağında yüz tane olmak üzere yedi başak veren tanenin durumu gibidir. Allah dilediğine kat kat verir. Allah'ın lütfü geniştir, O her şeyi bilendir`,
+        ``,
+        ``
+      ],
+      [
+        `مَثَل [صدقات‌] كسانى كه اموال خود را در راه خدا انفاق مى‌كنند همانند دانه‌اى است كه هفت خوشه بروياند كه در هر خوشه‌اى صد دانه باشد؛ و خداوند براى هر كس كه بخواهد [آن را] چند برابر مى‌كند، و خداوند گشايشگر داناست`,
+        ``,
+        ``
+      ],
+      [
+        `যারা আল্লাহর রাস্তায় স্বীয় ধন সম্পদ ব্যয় করে, তাদের উদাহরণ একটি বীজের মত, যা থেকে সাতটি শীষ জন্মায়। প্রত্যেকটি শীষে একশ করে দানা থাকে। আল্লাহ অতি দানশীল, সর্বজ্ঞ।`,
+        ``,
+        ``
+      ],
+      [
+        `O exemplo dos que despendem suas riquezas no caminho de Allah é como o de um grão que germina sete espigas; em cada espiga, há cem grãos. E Allah multiplica a recompensa a quem quer. E Allah é Munificente, Onisciente`,
+        ``,
+        ``
+      ],
+      [
+        `为主道而施舍财产的人，譬如（一个农夫，播下）一粒谷种，发出七穗，每穗结一百颗谷粒。真主加倍地报酬他所意欲的人，真主是宽大的，是全知的。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーの道のために自分の所有するものを施す者を例えてみれば，ちょうど1粒が7穂を付け，1穂に百粒を付けるのと同じである。アッラーは御心に適う者に，倍加してくださる。アッラーは厚施にして全知であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님의 길에서 자신의 재산을 희사하는 자들의 예는 일곱 개의 이삭을 자라나게 한 낱알과도 같으니 이삭 하나마다 백 개의 낱알이 있도다. 하나님께서는 원하시는 자를 위해 (보상을) 불려 주시노라. 하나님께서는 (은혜가) 드넓으신 분이며 아시는 분이라`,
+        ``,
+        ``
+      ],
+      [
+        `Quelli che con i loro beni sono generosi per la causa di Allah, sono come un seme da cui nascono sette spighe e in ogni spiga ci sono cento chicchi. Allah moltiplica il merito di chi vuole Lui. Allah è immenso, sapiente`,
+        ``,
+        ``
+      ],
+      [
+        `Ci, którzy rozdają swoje majątki na drodze Boga, są podobni do ziarna, które wydało siedem kłosów, a w każdym kłosie - sto ziaren. Bóg daje wielokrotnie temu, komu chce. Bóg jest wszechobejmujący, wszechwiedzący`,
+        ``,
+        ``
+      ],
+      [
+        `Прикладом тих, які жертвують майно своє на шляху Аллага, є зернина, з якої виросло сім колосків, а у кожному колоску — сто зернин. Аллаг дає більше тому, кому побажає. Аллаг — Всеосяжний, Всезнаючий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 261`
+  },
+
+  {
+    arabic: [
+      `الَّذِينَ يُنْفِقُونَ أَمْوَالَهُمْ بِاللَّيْلِ وَالنَّهَارِ سِرًّا وَعَلَانِيَةً فَلَهُمْ أَجْرُهُمْ عِنْدَ رَبِّهِمْ وَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Those who spend their wealth [in Allah 's way] by night and by day, secretly and publicly - they will have their reward with their Lord. And no fear will there be concerning them, nor will they grieve`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui, de nuit et de jour, en secret et ouvertement, dépensent leurs biens (dans les bonnes œuvres), ont leur salaire auprès de leur Seigneur. Ils n'ont rien à craindre et ils ne seront point affligés`,
+        ``,
+        ``
+      ],
+      [
+        `Los que gastan su hacienda de noche o de día, en secreto o en público, tendrán su recompensa junto a su Señor. No tienen que temer y no estarán tristes`,
+        ``,
+        ``
+      ],
+      [
+        `Тем, кто расходует свое имущество ночью и днем, тайно и явно, уготована награда у их Господа. Они не познают страха и не будут опечалены`,
+        ``,
+        ``
+      ],
+      [
+        `Diejenigen, die ihren Besitz bei Nacht und Tag, heimlich oder öffentlich ausgeben, haben ihren Lohn bei ihrem Herrn, und keine Furcht soll sie überkommen, noch werden sie traurig sein`,
+        ``,
+        ``
+      ],
+      [
+        `De som ger av vad de äger, nattetid eller under dagen, i tysthet eller öppet i allas åsyn, skall få sin lön av sin Herre och de skall inte känna fruktan och ingen sorg skall tynga dem`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En degenen die 's nachts en overdag van hun eigendommen uitgeven, heimlijk en openlijk, voor hen is hun beloning bij hun Heer, en voor hen zal er geen vrees zijn en zij zullen treuren`,
+        ``,
+        ``
+      ],
+      [
+        `جو لوگ اپنا مال رات اور دن اور پوشیدہ اور ظاہر (راہ خدا میں) خرچ کرتے رہتے ہیں ان کا صلہ پروردگار کے پاس ہے اور ان کو (قیامت کے دن) نہ کسی طرح کا خوف ہوگا اور نہ غم`,
+        ``,
+        ``
+      ],
+      [
+        `Orang-orang yang menginfakkan hartanya malam dan siang hari (secara) sembunyi-sembunyi maupun terang-terangan, mereka mendapat pahala di sisi Tuhannya. Tidak ada rasa takut pada mereka dan mereka tidak bersedih hati`,
+        ``,
+        ``
+      ],
+      [
+        `Gece gündüz, açık gizli, mallarını sarfedenlerin mükafatlarını Rab'leri verecektir. Onlara korku yoktur ve onlar üzülmeyeceklerdir`,
+        ``,
+        ``
+      ],
+      [
+        `كسانى كه اموال خود را شب و روز، و نهان و آشكارا، انفاق مى‌كنند، پاداش آنان نزد پروردگارشان براى آنان خواهد بود؛ و نه بيمى بر آنان است و نه اندوهگين مى‌شوند`,
+        ``,
+        ``
+      ],
+      [
+        `যারা স্বীয় ধন-সম্পদ ব্যয় করে, রাত্রে ও দিনে, গোপনে ও প্রকাশ্যে। তাদের জন্যে তাদের সওয়াব রয়েছে তাদের পালনকর্তার কাছে। তাদের কোন আশংঙ্কা নেই এবং তারা চিন্তিত ও হবে না।`,
+        ``,
+        ``
+      ],
+      [
+        `Os que despendem suas riquezas, quer de noite quer de dia, secreta e manifestamente, terão seu prêmio junto de seu Senhor e nada haverá que temer por eles e eles não se entristecerão`,
+        ``,
+        ``
+      ],
+      [
+        `不分昼夜，不拘隐显地施舍财物的人们，将在他们的主那里享受报酬，他们将来没有恐惧，也不忧愁。`,
+        ``,
+        ``
+      ],
+      [
+        `自分の財を，夜となく昼となく，人日を避けて，またあらわに施す者は，主の御許から報奨が下される。かれらには恐れもなく憂いもない。`,
+        ``,
+        ``
+      ],
+      [
+        `비밀리에 그리고 공개리에 자신의 재산을 밤낮으로 희사하는 자들, 그들에게는 그들 주님에게서의 보상이 있을 것이며 그들에게 두려움이란 없을 것이며 그들은 슬퍼하지도 않을 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `Quelli che di giorno o di notte, in segreto o apertamente, danno dei loro beni, avranno la ricompensa presso il loro Signore, non avranno nulla da temere e non saranno afflitti`,
+        ``,
+        ``
+      ],
+      [
+        `Ci, którzy rozdają swoje majątki nocą i dniem, skrycie i jawnie, otrzymają nagrodę u swego Pana, nie doznają strachu i nie będą się smucić`,
+        ``,
+        ``
+      ],
+      [
+        `Ті, які витрачають як милостиню своє майно вдень і вночі, потаємно та відкрито, матимуть винагороду у Господа їхнього. Немає страху для них і не будуть засмучені вони`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 274`
+  },
+
+  {
+    arabic: [
+      `وَاتَّقُوا يَوْمًا تُرْجَعُونَ فِيهِ إِلَى اللَّهِ ۖ ثُمَّ تُوَفَّىٰ كُلُّ نَفْسٍ مَا كَسَبَتْ وَهُمْ لَا يُظْلَمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And fear a Day when you will be returned to Allah. Then every soul will be compensated for what it earned, and they will not be treated unjustly`,
+        ``,
+        ``
+      ],
+      [
+        `Et craignez le jour où vous serez ramenés vers Allah. Alors chaque âme sera pleinement rétribuée de ce qu'elle aura acquis. Et ils ne seront point lésés`,
+        ``,
+        ``
+      ],
+      [
+        `Temed un día en que seréis devueltos a Alá. Entonces, cada uno recibirá su merecido. Y no serán tratados injustamente`,
+        ``,
+        ``
+      ],
+      [
+        `Бойтесь того дня, когда вы будете возвращены к Аллаху. Тогда каждый человек сполна получит то, что приобрел, и с ними не поступят несправедливо`,
+        ``,
+        ``
+      ],
+      [
+        `Und hütet euch vor einem Tag, an dem ihr zu Allah zurückgebracht werdet. Dann wird jeder Seele in vollem Maß zukommen, was sie verdient hat, und es wird ihnen kein Unrecht zugefügt`,
+        ``,
+        ``
+      ],
+      [
+        `Och frukta den Dag då ni skall föras åter till Gud! Då skall var och en fullt ut erhålla den lön som han förtjänat, och ingen skall lida orätt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En vreest de Dag waarop jullie tot Allah teruggevoerd zullen worden: dan zal iedere ziel beloond worden voor wat zij verdiend heeft, en zij zullen niet onrechtvaardig behandeld worden`,
+        ``,
+        ``
+      ],
+      [
+        `اور اس دن سے ڈرو جب کہ تم خدا کے حضور میں لوٹ کر جاؤ گے اور ہر شخص اپنے اعمال کا پورا پورا بدلہ پائے گا۔ اور کسی کا کچھ نقصان نہ ہوگا`,
+        ``,
+        ``
+      ],
+      [
+        `Dan takutlah pada hari (ketika) kamu semua dikembalikan kepada Allah. Kemudian setiap orang diberi balasan yang sempurna sesuai dengan apa yang telah dilakukannya, dan mereka tidak dizalimi (dirugikan)`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'a döneceğiniz ve sonra haksızlığa uğramadan herkesin kazancının kendisine eksiksiz verileceği günden korkunuz`,
+        ``,
+        ``
+      ],
+      [
+        `و بترسيد از روزى كه در آن، به سوى خدا بازگردانده مى‌شويد، سپس به هر كسى [پاداش‌] آنچه به دست آورده، تمام داده شود؛ و آنان مورد ستم قرار نمى‌گيرند`,
+        ``,
+        ``
+      ],
+      [
+        `ঐ দিনকে ভয় কর, যে দিন তোমরা আল্লাহর কাছে প্রত্যাবর্তিত হবে। অতঃপর প্রত্যেকেই তার কর্মের ফল পুরোপুরি পাবে এবং তাদের প্রতি কোন রূপ অবিচার করা হবে না।`,
+        ``,
+        ``
+      ],
+      [
+        `E guardai-vos de um dia, em que sereis retornados a Allah. Em seguida, cada alma será compensada com o que logrou e eles não sofrerão injustiça`,
+        ``,
+        ``
+      ],
+      [
+        `你们当防备将来有一日，你们要被召归於主，然後人人都得享受自己行为的完全的报酬而不受亏枉。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがたは，アッラーに帰される日のために（かれを）畏れなさい。その時，各人が稼いだ分に対し清算され，誰も不当に扱われることはないであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `그대들은 하나님께로 돌아가게 될 그날을 두려워하라. 그 후 모든 이는 자신의 행위를 남김없이 보상 받을 것이며 실로 그들은 부당히 다루어지지 않을 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `E temete il giorno in cui sarete ricondotti verso Allah. Allora ogni anima avrà quello che si sarà guadagnata. Nessuno subirà un torto`,
+        ``,
+        ``
+      ],
+      [
+        `I bójcie się Dnia, kiedy zostaniecie sprowadzeni do Boga! Wtedy zostanie wypłacone w pełni każdej duszy, co ona zarobiła - i nikt nie dozna niesprawiedliwości`,
+        ``,
+        ``
+      ],
+      [
+        `Бійтесь того Дня, коли повернетеся ви до Аллага. Віддадуть кожній душі сповна за те, що вона собі здобула. І не вчинять із вами несправедливо`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 281`
+  },
+
+  {
+    arabic: [
       `لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا`,
       `لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ`,
       `رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ`
@@ -1575,6 +2245,117 @@ const verses = [
       ]
     ],
     number: `سورة آل عمران / Al-'Imran، الآية 19`
+  },
+
+  {
+    arabic: [
+      `يَوْمَ تَجِدُ كُلُّ نَفْسٍ مَا عَمِلَتْ مِنْ خَيْرٍ مُحْضَرًا وَمَا عَمِلَتْ مِنْ سُوءٍ تَوَدُّ لَوْ أَنَّ بَيْنَهَا وَبَيْنَهُ أَمَدًا بَعِيدًا ۗ وَيُحَذِّرُكُمُ اللَّهُ نَفْسَهُ ۗ وَاللَّهُ رَءُوفٌ بِالْعِبَادِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The Day every soul will find what it has done of good present [before it] and what it has done of evil, it will wish that between itself and that [evil] was a great distance. And Allah warns you of Himself, and Allah is Kind to [His] servants`,
+        ``,
+        ``
+      ],
+      [
+        `Le jour où chaque âme se trouvera confrontée avec ce qu'elle aura fait de bien et ce qu'elle aura fait de mal; elle souhaitera qu'il y ait entre elle et ce mal une longue distance! Allah vous met en garde à l'égard de Lui-même. Allah est Compatissant envers [Ses] serviteurs`,
+        ``,
+        ``
+      ],
+      [
+        `El día que cada uno se encuentre frente al bien y el mal que ha hecho, deseará tener bien lejos ese día. Alá advierte que tengáis cuidado con Él. Alá es manso con Sus siervos`,
+        ``,
+        ``
+      ],
+      [
+        `В тот день, когда каждая душа увидит все добро и зло, которое она совершила, ей захочется, чтобы между ней и между ее злодеяниями было огромное расстояние. Аллах предостерегает вас от Самого Себя. Аллах сострадателен к рабам`,
+        ``,
+        ``
+      ],
+      [
+        `An dem Tag wird jede Seele das, was sie an Gutem getan hat, bereit finden. Und von dem, was sie an Bösem getan hat, hätte sie gern, wenn zwischen ihr und ihm ein weiter Abstand wäre. Und Allah mahnt euch zur Vorsicht vor Sich selbst. Allah ist Gnädig zu den Menschen`,
+        ``,
+        ``
+      ],
+      [
+        `Den Dag då människan skall ställas inför allt det goda som hon har gjort och allt det onda som hon har gjort kommer hon att önska att den [Dagen] hade varit oändligt avlägsen. Därför uppmanar Gud er att inte ta lätt på Hans varningar; Gud ömmar för Sina tjänare`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Op de Dag dat iedere ziel aanwezig vindt wat zij van het goede verricht heeft en wat zij van het kwade verricht heeft, zal zij wensen dat er een grotere afstand tussen haar en haar (kwaad) zou zijn. En Allah waarschuwt jullie (voor) Zijn (bestraffing) en Allah is Genadig voor de dienaren`,
+        ``,
+        ``
+      ],
+      [
+        `جس دن ہر شخص اپنے اعمال کی نیکی کو موجود پالے گا اور ان کی برائی کو بھی (دیکھ لے گا) تو آرزو کرے گا کہ اے کاش اس میں اور اس برائی میں دور کی مسافت ہو جاتی اور خدا تم کو اپنے (غضب) سے ڈراتا ہے اور خدا اپنے بندوں پر نہایت مہربان ہے`,
+        ``,
+        ``
+      ],
+      [
+        `(Ingatlah) pada hari (ketika) setiap jiwa mendapatkan (balasan) atas kebajikan yang telah dikerjakan ada dihadapannya, (begitu juga balasan) atas kejahatan yang telah dia kerjakan. Dia berharap sekiranya ada jarak yang jauh antara dia dengan (hari) itu. Dan Allah memperingatkan kamu akan diri (siksa)-Nya. Allah Maha Penyayang terhadap hamba-hamba-Nya`,
+        ``,
+        ``
+      ],
+      [
+        `Her kişinin yaptığı iyiliği ve yaptığı kötülüğü, ki kendisiyle o kötülük arasında uzun bir mesafe olmasını diler, hazır bulacağı günü bir düşünün. Kullarına karşı şefkatli olan Allah size kendinden korkmanızı emreder`,
+        ``,
+        ``
+      ],
+      [
+        `روزى كه هر كسى آنچه كار نيك به جاى آورده و آنچه بدى مرتكب شده، حاضر شده مى يابد؛ و آرزو مى‌كند: كاش ميان او و آن [كارهاى بد] فاصله‌اى دور بود. و خداوند، شما را از [كيفر] خود مى‌ترساند، و [در عين حال‌] خدا به بندگان [خود ]مهربان است`,
+        ``,
+        ``
+      ],
+      [
+        `সেদিন প্রত্যেকেই যা কিছু সে ভাল কাজ করেছে; চোখের সামনে দেখতে পাবে এবং যা কিছু মন্দ কাজ করেছে তাও, ওরা তখন কামনা করবে, যদি তার এবং এসব কর্মের মধ্যে ব্যবধান দুরের হতো! আল্লাহ তাঁর নিজের সম্পর্কে তোমাদের সাবধান করছেন। আল্লাহ তাঁর বান্দাদের প্রতি অত্যন্ত দয়ালু।`,
+        ``,
+        ``
+      ],
+      [
+        `Um dia, cada alma encontrará presente o que fez de bem e o que fez de mal; ela almejará que haja longínquo termo entre ela e ele. E Allah vos adverte dEle. E Allah, para com os servos, é Compassivo`,
+        ``,
+        ``
+      ],
+      [
+        `在那日，人人都要发现自己所作善恶的记录陈列在自己面前。人人都要希望在自己和那日之间，有很远的距离。真主使你们防备他自己，真主是仁爱众仆的。`,
+        ``,
+        ``
+      ],
+      [
+        `凡ての人が，それぞれ行った善事と，その行なった悪事とを，まのあたりに見る日。かれらはその日と，その（行った悪事との）間に，遠い隔たりがあることを望むであろう。アッラーは ，あなたがたにしたしく戒められる。アッラーはしもべたちに慈悲深くあられる。`,
+        ``,
+        ``
+      ],
+      [
+        `그날에 모든 이는 그가 실천한 선행이 자신 앞에 놓여 있음을 발견할 것이며 그가 저지른 악행도 그러할 것이니 그것(악행)과 자신 사이에 머나먼 거리가 있기를 갈망할 것이라. 하나님께서는 그대들에게 그분 자신을 경고하시노라. 하나님께서는 종복들에게 인자하신 분이라`,
+        ``,
+        ``
+      ],
+      [
+        `Il Giorno in cui ogni uomo avrà dinanzi ciò che avrà fatto di bene e ciò che avrà commesso di male, e si augurerà che tra lui e tutto questo, ci sia un tempo immenso. Allah vi mette in guardia da Se Stesso. Allah è indulgente con i servi`,
+        ``,
+        ``
+      ],
+      [
+        `Tego dnia, kiedy każdej duszy zostanie przedstawione to, co uczyniła dobrego, i to, co uczyniła złego, każda z nich będzie pragnąć, aby między nią a tym dniem znalazła się ogromna przestrzeń. Ostrzega was Bóg przed samym Sobą. Bóg jest dobrotliwy dla Swoich sług`,
+        ``,
+        ``
+      ],
+      [
+        `У той День перед кожною душею постане добро, яке вчинила вона, а також вчинене нею зло, і вона побажає великої відстані між собою й ним. Аллаг застерігає вас від Самого Себе, і Він — Ласкавий до рабів`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 30`
   },
 
   {
@@ -1912,6 +2693,339 @@ const verses = [
 
   {
     arabic: [
+      `لَنْ تَنَالُوا الْبِرَّ حَتَّىٰ تُنْفِقُوا مِمَّا تُحِبُّونَ ۚ وَمَا تُنْفِقُوا مِنْ شَيْءٍ فَإِنَّ اللَّهَ بِهِ عَلِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Never will you attain the good [reward] until you spend [in the way of Allah] from that which you love. And whatever you spend - indeed, Allah is Knowing of it`,
+        ``,
+        ``
+      ],
+      [
+        `Vous n'atteindrez la (vraie) piété, que si vous faites largesses de ce que vous chérissez. Tout ce dont vous faites largesses, Allah le sait certainement bien`,
+        ``,
+        ``
+      ],
+      [
+        `No alcanzaréis la piedad auténtica mientras no gastéis algo de lo que amáis. Y Alá conoce bien cualquier cosa que gastáis`,
+        ``,
+        ``
+      ],
+      [
+        `Вы не обретете благочестия, пока не будете расходовать из того, что вы любите, и что бы вы ни расходовали, Аллах ведает об этом`,
+        ``,
+        ``
+      ],
+      [
+        `Ihr werdet die Güte nicht erreichen, bevor ihr nicht von dem ausgebt, was euch lieb ist. Und was immer ihr ausgebt, so weiß Allah darüber Bescheid`,
+        ``,
+        ``
+      ],
+      [
+        `[TROENDE!] Ni kommer inte att uppnå sann fromhet, förrän ni ger åt andra av det som ni [själva] värdesätter; Gud har full kännedom om vad ni ger`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Jullie zullen de vroomheid niet bereiken totdat jullie van wat jullie liefhebben bijdragen geven. En wat jullie ook van iets bijdragen. voorwaar, Allah weet daarvan`,
+        ``,
+        ``
+      ],
+      [
+        `(مومنو!) جب تک تم ان چیزوں میں سے جو تمھیں عزیز ہیں (راہِ خدا میں) صرف نہ کرو گے کبھی نیکی حاصل نہ کر سکو گے اور جو چیز تم صرف کرو گے خدا اس کو جانتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Kamu tidak akan memperoleh kebajikan, sebelum kamu menginfakkan sebagian harta yang kamu cintai. Dan apa pun yang kamu infakkan, tentang hal itu sungguh, Allah Maha Mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Sevdiğiniz şeylerden sarfetmedikçe iyiliğe erişemezsiniz. Her ne sarfederseniz, şüphesiz Allah onu bilir`,
+        ``,
+        ``
+      ],
+      [
+        `هرگز به نيكوكارى نخواهيد رسيد تا از آنچه دوست داريد انفاق كنيد؛ و از هر چه انفاق كنيد قطعاً خدا بدان داناست`,
+        ``,
+        ``
+      ],
+      [
+        `কস্মিণকালেও কল্যাণ লাভ করতে পারবে না, যদি তোমাদের প্রিয় বস্তু থেকে তোমরা ব্যয় না কর। আর তোমরা যদি কিছু ব্যয় করবে আল্লাহ তা জানেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Não alcançareis a bondade, até que despendais daquilo que amais. E o que quer que despendais, por certo, Allah é, disso, Onisciente`,
+        ``,
+        ``
+      ],
+      [
+        `你们绝不能获得全善，直到你们分舍自己所爱的事物。你们所施舍的，无论是什么，确是真主所知道的。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがたは愛するものを（施しに）使わない限り，信仰を全うし得ないであろう。あなたがたが（施しに）使うどんなものでも，アッラ―は必ず御存知である。`,
+        ``,
+        ``
+      ],
+      [
+        `그대들이 사랑하는 것으로써 희사하기 전까지는 그대들이 신앙을 얻지 못할 것이라. 그대들이 희사하는 어떤 것이라도 하나님께서는 그것을 알고 계신 분이라`,
+        ``,
+        ``
+      ],
+      [
+        `Non avrete la vera pietà, finché non sarete generosi con ciò che più amate. Tutto quello che donate, Allah lo conosce`,
+        ``,
+        ``
+      ],
+      [
+        `Nigdy nie osiągniecie prawdziwej pobożności, dopóki nie będziecie rozdawać z tego, co kochacie. Cokolwiek rozdacie, Bóg wie o tym doskonale`,
+        ``,
+        ``
+      ],
+      [
+        `Ви не досягнете благочестя, поки не будете жертвувати те, що дороге вам. І що б ви не пожертвували, воістину, Аллаг знає про це`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 92`
+  },
+
+  {
+    arabic: [
+      `يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O you who have believed, fear Allah as He should be feared and do not die except as Muslims [in submission to Him]`,
+        ``,
+        ``
+      ],
+      [
+        `O les croyants! Craignez Allah comme Il doit être craint. Et ne mourez qu'en pleine soumission`,
+        ``,
+        ``
+      ],
+      [
+        `¡Creyentes! Temed a Alá con el temor que Le es debido y no muráis sino como musulmanes`,
+        ``,
+        ``
+      ],
+      [
+        `О те, которые уверовали! Бойтесь Аллаха должным образом и умирайте не иначе, как будучи мусульманами`,
+        ``,
+        ``
+      ],
+      [
+        `O die ihr glaubt, fürchtet Allah in gebührender Furcht und sterbt ja nicht anders denn als (Allah) Ergebene`,
+        ``,
+        ``
+      ],
+      [
+        `Troende! Frukta Gud så som det åligger er att frukta Honom och underkasta er Hans vilja, innan döden överraskar er`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O jullie die geloven, vreest Allah vol ware godsvrees voor Hem, en sterft niet anders dan als moslims`,
+        ``,
+        ``
+      ],
+      [
+        `مومنو! خدا سے ڈرو جیسا کہ اس سے ڈرنے کا حق ہے اور مرنا تو مسلمان ہی مرنا`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai orang-orang yang beriman! Bertakwalah kepada Allah sebenar-benar takwa kepada-Nya dan janganlah kamu mati kecuali dalam keadaan Muslim`,
+        ``,
+        ``
+      ],
+      [
+        `Ey inananlar! Allah'tan, sakınılması gerektiği gibi sakının, sizler ancak müslüman olarak can verin`,
+        ``,
+        ``
+      ],
+      [
+        `اى كسانى كه ايمان آورده‌ايد، از خدا آن گونه كه حق پرواكردن از اوست، پروا كنيد؛ و زينهار، جز مسلمان نميريد`,
+        ``,
+        ``
+      ],
+      [
+        `হে ঈমানদারগণ! আল্লাহকে যেমন ভয় করা উচিৎ ঠিক তেমনিভাবে ভয় করতে থাক। এবং অবশ্যই মুসলমান না হয়ে মৃত্যুবরণ করো না।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó vós que credes! Temei a Allah como se deve temê-LO, e não morrais senão enquanto muçulmanos`,
+        ``,
+        ``
+      ],
+      [
+        `信道的人们啊！你们当真实地敬畏真主，你们除非成了顺主的人。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがた信仰する者よ，十分な畏敬の念でアッラ―を畏れなさい。あなたがたはムスリムにならずに死んではならない。`,
+        ``,
+        ``
+      ],
+      [
+        `믿는 자들이여! 그대들은 진정으로 하나님을 경외하라. 그리고 반드시 무슬림으로서 죽음을 맞이하라`,
+        ``,
+        ``
+      ],
+      [
+        `O voi che credete, temete Allah come deve essere temuto e non morite non musulmani`,
+        ``,
+        ``
+      ],
+      [
+        `O wy, którzy wierzycie! Bójcie się Boga bojaźnią Jemu należną, i nie umierajcie inaczej, jak tylko będąc całkowicie poddanymi`,
+        ``,
+        ``
+      ],
+      [
+        `О ви, які увірували! Бійтесь Аллага гідним Його страхом! І помирайте не інакше як ставши відданими Йому`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 102`
+  },
+
+  {
+    arabic: [
+      `۞ وَسَارِعُوا إِلَىٰ مَغْفِرَةٍ مِنْ رَبِّكُمْ وَجَنَّةٍ عَرْضُهَا السَّمَاوَاتُ وَالْأَرْضُ أُعِدَّتْ لِلْمُتَّقِينَ الَّذِينَ يُنْفِقُونَ فِي السَّرَّاءِ وَالضَّرَّاءِ وَالْكَاظِمِينَ الْغَيْظَ وَالْعَافِينَ عَنِ النَّاسِ ۗ وَاللَّهُ يُحِبُّ الْمُحْسِنِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And hasten to forgiveness from your Lord and a garden as wide as the heavens and earth, prepared for the righteous Who spend [in the cause of Allah] during ease and hardship and who restrain anger and who pardon the people - and Allah loves the doers of good`,
+        ``,
+        ``
+      ],
+      [
+        `Et concourez au pardon de votre Seigneur, et à un Jardin (paradis) large comme les cieux et la terre, préparé pour les pieux qui dépensent dans l'aisance et dans l'adversité, qui dominent leur rage et pardonnent à autrui - car Allah aime les bienfaisants`,
+        ``,
+        ``
+      ],
+      [
+        `¡Y apresuraos a obtener el perdón de vuestro Señor y un Jardín tan vasto como los cielos y la tierra, que ha sido preparado para los temerosos de Alá que dan limosna tanto en la prosperidad como en la adversidad, reprimen la ira, perdonan a los hombres -Alá ama a quienes hacen el bien`,
+        ``,
+        ``
+      ],
+      [
+        `Стремитесь к прощению вашего Господа и Раю, ширина которого равна небесам и земле, уготованному для богобоязненных которые делают пожертвования в радости и в горе, сдерживают гнев и прощают людей. Воистину, Аллах любит творящих добро`,
+        ``,
+        ``
+      ],
+      [
+        `Und beeilt euch um Vergebung von eurem Herrn und (um) einen (Paradies)garten, dessen Breite (wie) die Himmel und die Erde ist. Er ist für die Gottesfürchtigen bereitet die in Freude und Leid ausgeben und ihren Grimm zurückhalten und den Menschen verzeihen. Und Allah liebt die Gutes Tuenden`,
+        ``,
+        ``
+      ],
+      [
+        `Och tävla med varandra om er Herres förlåtelse och ett paradis, lika vidsträckt som himlarna och jorden, som står berett att ta emot de gudfruktiga de som ger åt andra såväl i välfärdens dagar som i tider av brist och som lägger band på sin vrede och förlåter sina medmänniskor - Gud älskar dem som gör det goda och det rätta`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En haast jullie naar vergeving van jullie Heer en (naar het) Paradijs, dat net zo wijd is als de hemelen en de aarde, gereedgemaakt voor de Moettaqôen (Zij zij het) die uitgeven in voorspoed en in tegenspoed, en die de woede inhouden en vergevers van de mensen zijn. En Allah houdt van de weldoeners`,
+        ``,
+        ``
+      ],
+      [
+        `اپنے پروردگار کی بخشش اور بہشت کی طرف لپکو جس کا عرض آسمان اور زمین کے برابر ہے اور جو (خدا سے) ڈرنے والوں کے لیے تیار کی گئی ہے جو آسودگی اور تنگی میں (اپنا مال خدا کی راہ میں) خرچ کرتےہیں اور غصے کو روکتے اور لوگوں کے قصور معاف کرتے ہیں اور خدا نیکو کاروں کو دوست رکھتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan bersegeralah kamu mencari ampunan dari Tuhanmu dan mendapatkan surga yang luasnya seluas langit dan bumi yang disediakan bagi orang-orang yang bertakwa (yaitu) orang yang berinfak, baik di waktu lapang maupun sempit, dan orang-orang yang menahan amarahnya dan memaafkan (kesalahan) orang lain. Dan Allah mencintai orang yang berbuat kebaikan`,
+        ``,
+        ``
+      ],
+      [
+        `Rabbinizin mağfiretine ve Allah'a karşı gelmekten sakınanlar için hazırlanmış eni gökler ve yer kadar olan cennete koşuşun Onlar bollukta ve darlıkta sarfederler, öfkelerini yenerler, insanların kusurlarını affederler. Allah iyilik yapanları sever`,
+        ``,
+        ``
+      ],
+      [
+        `و براى نيل به آمرزشى از پروردگار خود، و بهشتى كه پهنايش [به قدر] آسمانها و زمين است [و] براى پرهيزگاران آماده شده است، بشتابيد همانان كه در فراخى و تنگى انفاق مى‌كنند؛ و خشم خود را فرو مى‌برند؛ و از مردم در مى‌گذرند؛ و خداوند نكوكاران را دوست دارد`,
+        ``,
+        ``
+      ],
+      [
+        `তোমরা তোমাদের পালনকর্তার ক্ষমা এবং জান্নাতের দিকে ছুটে যাও যার সীমানা হচ্ছে আসমান ও যমীন, যা তৈরী করা হয়েছে পরহেযগারদের জন্য। যারা স্বচ্ছলতায় ও অভাবের সময় ব্যয় করে, যারা নিজেদের রাগকে সংবরণ করে আর মানুষের প্রতি ক্ষমা প্রদর্শন করে, বস্তুতঃ আল্লাহ সৎকর্মশীলদিগকেই ভালবাসেন।`,
+        ``,
+        ``
+      ],
+      [
+        `E apressai-vos para um perdão de vosso Senhor e para um Paraíso, cuja amplidão é a dos céus e da terra, preparado para os piedosos Que despendem, na prosperidade e na adversidade, e que contêm o rancor, e indultam as outras pessoas e Allah ama os benfeitores`,
+        ``,
+        ``
+      ],
+      [
+        `你们当争先趋赴从你们的主发出的赦宥，和那与天地同宽的、已为敬畏者预备好的乐园。 敬畏的人，在康乐时施舍，在艰难时也施舍，且能抑怒、又能恕人。真主是喜爱行善者的。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがたの主の御赦しを得るため，競いなさい。天と地程の広い楽園に（入るために）。それは主を畏れる者のために，準備されている。 順境においてもまた逆境にあっても，（主の贈物を施しに）使う者，怒りを押えて人びとを寛容する者，本当にアッラーは，善い行いをなす者を愛でられる。`,
+        ``,
+        ``
+      ],
+      [
+        `그대들은 그대들 주님으로부터의 용서와 천국을 위해 서두르라. 그 너비는 하늘과 땅의 너비이며 하나님을 경외하는 자들을 위해 준비되었노라 그들은 쉬울 때나 어려울 때나 희사하는 자들이며 분노를 참는 자들이며 사람들에게 관용을 베푸는 자들이라. 하나님께서는 선행하는 자들을 사랑하시노라`,
+        ``,
+        ``
+      ],
+      [
+        `Affrettatevi al perdono del vostro Signore e al Giardino vasto come i cieli e la terra, che è preparato per i timorati quelli che donano nella buona e nella cattiva sorte, per quelli che controllano la loro collera e perdonano agli altri, poiché Allah ama chi opera il bene`,
+        ``,
+        ``
+      ],
+      [
+        `I na wyścigi spieszcie ku przebaczeniu od waszego Pana i ku Ogrodowi - którego rozległość jest jak niebiosa i ziemia - przygotowanemu dla ludzi bogobojnych Dla tych, którzy rozdają, i w radości, i w utrapieniu; dla tych, którzy powstrzymują gniew i przebaczają ludziom; - a Bóg kocha ludzi czyniących dobro`,
+        ``,
+        ``
+      ],
+      [
+        `Прагніть же до прощення від Господа вашого та до раю, протяжність якого дорівнює небесам та землі. Його приготували для богобоязливих які витрачають на милостиню у радості та в біді, які стримують гнів та прощають людей. Аллаг любить тих, які роблять добро`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآيتان 133-134`
+  },
+
+  {
+    arabic: [
       `وَمَا مُحَمَّدٌ إِلَّا رَسُولٌ قَدْ خَلَتْ مِنْ قَبْلِهِ الرُّسُلُ ۚ أَفَإِنْ مَاتَ أَوْ قُتِلَ انْقَلَبْتُمْ عَلَىٰ أَعْقَابِكُمْ ۚ وَمَنْ يَنْقَلِبْ عَلَىٰ عَقِبَيْهِ فَلَنْ يَضُرَّ اللَّهَ شَيْئًا ۗ وَسَيَجْزِي اللَّهُ الشَّاكِرِينَ`,
       ``,
       ``
@@ -2245,6 +3359,117 @@ const verses = [
 
   {
     arabic: [
+      `كُلُّ نَفْسٍ ذَائِقَةُ الْمَوْتِ ۗ وَإِنَّمَا تُوَفَّوْنَ أُجُورَكُمْ يَوْمَ الْقِيَامَةِ ۖ فَمَنْ زُحْزِحَ عَنِ النَّارِ وَأُدْخِلَ الْجَنَّةَ فَقَدْ فَازَ ۗ وَمَا الْحَيَاةُ الدُّنْيَا إِلَّا مَتَاعُ الْغُرُورِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Every soul will taste death, and you will only be given your [full] compensation on the Day of Resurrection. So he who is drawn away from the Fire and admitted to Paradise has attained [his desire]. And what is the life of this world except the enjoyment of delusion`,
+        ``,
+        ``
+      ],
+      [
+        `Toute âme goûtera la mort. Mais c'est seulement au Jour de la Résurrection que vous recevrez votre entière rétribution. Quiconque donc est écarté du Feu et introduit au Paradis, a certes réussi. Et la vie présente n'est qu'un objet de jouissance trompeuse`,
+        ``,
+        ``
+      ],
+      [
+        `Cada uno gustará la muerte, pero no recibiréis vuestra recompensa íntegra hasta el día dela Resurrección. Habrá triunfado quien sea preservado del Fuego e introducido en el Jardín. La vida de acá no es más que falaz disfrute`,
+        ``,
+        ``
+      ],
+      [
+        `Каждая душа вкусит смерть, но только в День воскресения вы получите вашу плату сполна. Кто будет удален от Огня и введен в Рай, тот обретет успех, а земная жизнь - всего лишь наслаждение обольщением`,
+        ``,
+        ``
+      ],
+      [
+        `Jede Seele wird den Tod kosten. Und erst am Tag der Auferstehung wird euch euer Lohn in vollem Maß zukommen. Wer dann dem (Höllen)feuer entrückt und in den (Paradies)garten eingelassen wird, der hat fürwahr einen Erfolg erzielt. Und das diesseitige Leben ist nur trügerischer Genuß`,
+        ``,
+        ``
+      ],
+      [
+        `Varje människa skall smaka döden. Men först på Uppståndelsens dag skall ni få er fulla lön. Den som då rycks bort från Elden och förs till paradiset har sannerligen vunnit en stor seger. - Livet i denna värld [skänker] bara bedräglig glädje`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Iedere ziet zal de dood proeven, en voorwaar: pas op de Dag der Opstanding zullen jullie je beloning volledig ontvangen, en slechts degene die van de Het weggehouden wordt en het Paradijs binnengeleid wordt heeft waarlijk succes en het wereldse leven is slechts een misleidende genieting`,
+        ``,
+        ``
+      ],
+      [
+        `ہر متنفس کو موت کا مزا چکھنا ہے اور تم کو قیامت کے دن تمہارے اعمال کا پورا پورا بدلا دیا جائے گا۔ تو جو شخص آتش جہنم سے دور رکھا گیا اور بہشت میں داخل کیا گیا وہ مراد کو پہنچ گیا اور دنیا کی زندگی تو دھوکے کا سامان ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Setiap yang bernyawa akan merasakan mati. Dan hanya pada hari Kiamat sajalah diberikan dengan sempurna balasanmu. Barang siapa dijauhkan dari neraka dan dimasukkan ke dalam surga, sungguh, dia memperoleh kemenangan. Kehidupan dunia hanyalah kesenangan yang memperdaya`,
+        ``,
+        ``
+      ],
+      [
+        `Her insan ölümü tadacaktır. Kıyamet günü, ecirleriniz size mutlaka ödenecektir. Ateşten uzaklaştırılıp cennete sokulan kimse artık kurtulmuştur. Dünya hayatı, zaten, sadece aldatıcı bir geçinmeden ibarettir`,
+        ``,
+        ``
+      ],
+      [
+        `هر جاندارى چشنده [طعم‌] مرگ است، و همانا روز رستاخيز پاداشهايتان به طور كامل به شما داده مى‌شود. پس هر كه را از آتش به دور دارند و در بهشت درآورند قطعاً كامياب شده است؛ و زندگى دنيا جز مايه فريب نيست`,
+        ``,
+        ``
+      ],
+      [
+        `প্রত্যেক প্রাণীকে আস্বাদন করতে হবে মৃত্যু। আর তোমরা কিয়ামতের দিন পরিপূর্ণ বদলা প্রাপ্ত হবে। তারপর যাকে দোযখ থেকে দূরে রাখা হবে এবং জান্নাতে প্রবেশ করানো হবে, তার কার্যসিদ্ধি ঘটবে। আর পার্থিব জীবন ধোঁকা ছাড়া অন্য কোন সম্পদ নয়।`,
+        ``,
+        ``
+      ],
+      [
+        `Cada alma experimentará a morte. E apenas no Dia da Ressurreição, sereis compensados com vossos prêmios. Então, quem for distanciado do Fogo e introduzido no Paraíso, com efeito, triunfará. E a vida terrena não é senão gozo falaz`,
+        ``,
+        ``
+      ],
+      [
+        `人人都要尝死的滋味。在复活日，你们才得享受你们的完全报酬。谁得远离火狱，而入乐园，谁已成功。今世的生活，只是虚幻的享受。`,
+        ``,
+        ``
+      ],
+      [
+        `誰でも皆死を味わうのである。だが復活の日には，あなたがたは十分に報いられよう。（またこの日）業火から遠ざけられた者は，楽園に入れられ，確実に本望を成就する。この世の生活は，偽りの快楽に過ぎない。`,
+        ``,
+        ``
+      ],
+      [
+        `모든 이는 죽음을 맛볼 것이며 부활의 날에 그대들은 남김없이 보상을 받는 것일 뿐이라. 그러니 (지옥)불에서 멀어지고 천국으로 들게 되는 자는 진정으로 성공한 것이라. 실로 현세의 삶이란 한낱 허망한 유희에 불과하노라`,
+        ``,
+        ``
+      ],
+      [
+        `Ogni anima gusterà la morte, ma riceverete le vostre mercedi solo nel Giorno della Resurrezione. Chi sarà allontanato dal Fuoco e introdotto nel Paradiso, sarà certamente uno dei beati, poiché la vita terrena non è che ingannevole godimento`,
+        ``,
+        ``
+      ],
+      [
+        `Każda dusza zakosztuje śmierci i w Dniu Zmartwychwstania zostaną wam w pełni dane nagrody. A ten, kto zostanie odsunięty od ognia i wprowadzony do Ogrodu, ten osiągnął szczęście. Bo życie tego świata, to tylko złudne używanie`,
+        ``,
+        ``
+      ],
+      [
+        `Кожна душа спробує смерті, але відплатять вам сповна лише у День Воскресіння. І хто буде віддалений від вогню та буде введений до раю, той і матиме успіх. Земне життя — лише оманлива втіха`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 185`
+  },
+
+  {
+    arabic: [
       `إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ`,
       `وَاخْتِلَافِ اللَّيْلِ وَالنَّهَارِ`,
       `لآيَاتٍ لِّأُولِي الْأَلْبَابِ`
@@ -2467,6 +3692,117 @@ const verses = [
 
   {
     arabic: [
+      `يَا أَيُّهَا الَّذِينَ آمَنُوا اصْبِرُوا وَصَابِرُوا وَرَابِطُوا وَاتَّقُوا اللَّهَ لَعَلَّكُمْ تُفْلِحُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O you who have believed, persevere and endure and remain stationed and fear Allah that you may be successful`,
+        ``,
+        ``
+      ],
+      [
+        `O les croyants! Soyez endurants. Incitez-vous à l'endurance. Luttez constamment (contre l'ennemi) et craignez Allah, afin que vous réussissiez`,
+        ``,
+        ``
+      ],
+      [
+        `¡Creyentes! ¡Tened paciencia, rivalizad en ella! ¡Sed firmes! ¡Temed a Alá! Quizás así, prosperéis`,
+        ``,
+        ``
+      ],
+      [
+        `О те, которые уверовали! Будьте терпеливы, запасайтесь терпением, несите службу на заставах и бойтесь Аллаха, - быть может, вы преуспеете`,
+        ``,
+        ``
+      ],
+      [
+        `O die ihr glaubt, geduldet euch, haltet standhaft aus, seid kampfbereit und fürchtet Allah, auf daß es euch wohl ergehen möge`,
+        ``,
+        ``
+      ],
+      [
+        `Troende! Uthärda allt - ja, tävla om att ge prov på tålamod och uthållighet och var alltid beredda att kämpa [för tron] och frukta Gud! Kanske skall det gå er väl i händer`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O jullie die geloven, weest geduldig, en weest standvastig, sluit de rijen en vreest Allah. Hopelijk zullen jullie welslagen`,
+        ``,
+        ``
+      ],
+      [
+        `اے اہل ایمان (کفار کے مقابلے میں) ثابت قدم رہو اور استقامت رکھو اور مورچوں پر جمے رہو اور خدا سے ڈرو تاکہ مراد حاصل کرو`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai orang-orang yang beriman! Bersabarlah kamu dan kuatkanlah kesabaranmu dan tetaplah bersiap-siaga (di perbatasan negerimu) dan bertakwalah kepada Allah agar kamu beruntung`,
+        ``,
+        ``
+      ],
+      [
+        `Ey İnananlar! Sabredin, düşmanlarınızdan daha sabırlı olun, cihada hazır bulunun, Allah'a karşı gelmekten sakının ki başarıya erişebilesiniz`,
+        ``,
+        ``
+      ],
+      [
+        `اى كسانى كه ايمان آورده‌ايد، صبر كنيد و ايستادگى ورزيد و مرزها را نگهبانى كنيد و از خدا پروا نماييد، اميد است كه رستگار شويد`,
+        ``,
+        ``
+      ],
+      [
+        `হে ঈমানদানগণ! ধৈর্য্য ধারণ কর এবং মোকাবেলায় দৃঢ়তা অবলম্বন কর। আর আল্লাহকে ভয় করতে থাক যাতে তোমরা তোমাদের উদ্দেশ্য লাভে সমর্থ হতে পার।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó vós que credes! Pacientai e perseverai na paciência; e sede constantes na vigilância e temei a Allah, na esperança de serdes bem-aventurados`,
+        ``,
+        ``
+      ],
+      [
+        `信道的人们啊！你们当坚忍，当奋斗，当戒备，当敬畏真主，以便你们成功。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがた信仰する者よ，耐え忍びなさい。忍耐に極めて強く，互いに堅固でありなさい。そしてアッラーを畏れなさい。そうすればあなたがたは成功するであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `믿는 자들이여! 인내하고 굳건히 견디며 물러서지 말고 자리를 지키라. 그리고 하나님을 경외하라, 그대들이 성공할 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `O voi che credete, perseverate! Incitatevi alla perseveranza, lottate e temete Allah, sì che possiate prosperare`,
+        ``,
+        ``
+      ],
+      [
+        `O wy, którzy wierzycie! Bądźcie cierpliwi i współzawodniczcie w cierpliwości! Bądźcie wytrwali i bójcie się Boga! Być może, będziecie szczęśliwi`,
+        ``,
+        ``
+      ],
+      [
+        `О ви, які увірували! Будьте терплячими, змагайтесь у терпінні, будьте стійкими! І бійтесь Аллага — можливо, матимете ви успіх`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 200`
+  },
+
+  {
+    arabic: [
       `يَا أَيُّهَا النَّاسُ اتَّقُوا رَبَّكُمُ`,
       `الَّذِي خَلَقَكُمْ مِنْ نَفْسٍ وَاحِدَةٍ`,
       `وَخَلَقَ مِنْهَا زَوْجَهَا وَبَثَّ مِنْهُمَا رِجَالًا كَثِيرًا وَنِسَاءً`
@@ -2574,6 +3910,672 @@ const verses = [
       ]
     ],
     number: `سورة النساء / An-Nisa، الآية 1`
+  },
+
+  {
+    arabic: [
+      `إِنَّ الَّذِينَ يَأْكُلُونَ أَمْوَالَ الْيَتَامَىٰ ظُلْمًا إِنَّمَا يَأْكُلُونَ فِي بُطُونِهِمْ نَارًا ۖ وَسَيَصْلَوْنَ سَعِيرًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, those who devour the property of orphans unjustly are only consuming into their bellies fire. And they will be burned in a Blaze`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui mangent [disposent] injustement des biens des orphelins ne font que manger du feu dans leurs ventres. Ils brûleront bientôt dans les flammes de l'Enfer`,
+        ``,
+        ``
+      ],
+      [
+        `Quienes consuman injustamente la hacienda de los huérfanos, sólo fuego ingerirán en sus entrañas y arderán en fuego de la gehena`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, те, которые несправедливо пожирают имущество сирот, наполняют свои животы Огнем и будут гореть в Пламени`,
+        ``,
+        ``
+      ],
+      [
+        `Diejenigen, die den Besitz der Waisen ungerechterweise verschlingen, verzehren in ihren Bäuchen nur Feuer; und sie werden der Feuerglut ausgesetzt sein`,
+        ``,
+        ``
+      ],
+      [
+        `De som med orätt tillägnar sig de faderlösas egendom fyller [redan i detta liv] sin buk med eld; de kommer att plågas i ett flammande bål`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, degenen die van de eigendommen van de wezen op onrechtmatige wijze eten: voorwaar, zij verteren slechts vuur in hun buiken. En zij zullen een laaiend vuur (de Hel) binnengaan`,
+        ``,
+        ``
+      ],
+      [
+        `لوگ یتیموں کا مال ناجائز طور پر کھاتے ہیں وہ اپنے پیٹ میں آگ بھرتے ہیں۔ اور دوزخ میں ڈالے جائیں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya orang-orang yang memakan harta anak yatim secara zalim, sebenarnya mereka itu menelan api dalam perutnya dan mereka akan masuk ke dalam api yang menyala-nyala (neraka)`,
+        ``,
+        ``
+      ],
+      [
+        `Yetimlerin mallarını haksız yere yiyenler, karınlarına ancak ateş tıkınmış olurlar, zaten onlar çılgın aleve atılacaklardır`,
+        ``,
+        ``
+      ],
+      [
+        `در حقيقت، كسانى كه اموال يتيمان را به ستم مى‌خورند، جز اين نيست كه آتشى در شكم خود فرو مى‌برند، و به زودى در آتشى فروزان درآيند`,
+        ``,
+        ``
+      ],
+      [
+        `যারা এতীমদের অর্থ-সম্পদ অন্যায়ভাবে খায়, তারা নিজেদের পেটে আগুনই ভর্তি করেছে এবং সত্ত্বরই তারা অগ্নিতে প্রবেশ করবে।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, os que devoram as riquezas dos órfãos injustamente, apenas devoram fogo, para dentro de seus ventres. E queimar-se-ão em Fogo ardente`,
+        ``,
+        ``
+      ],
+      [
+        `侵吞孤儿的财产的人，只是把火吞在自己的肚腹里，他们将入烈火之中。`,
+        ``,
+        ``
+      ],
+      [
+        `不当に孤児の財産を食い減らす者は，本当に腹の中に火を食らう者。かれらはやがて烈火に焼かれるであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `고아들의 재산을 부당하게 탐내는 자는 그들의 복부에 불길 을 삼키는 것과 같나니 이리하여 타오르는 화염속에 밥이 되리라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità, coloro che consumano ingiustamente i beni degli orfani non fanno che alimentare il fuoco nel ventre loro, e presto precipiteranno nella Fiamma`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, ci, którzy zjadają dobra sierot, popełniając niesprawiedliwość, zjadają to, co w ich trzewiach będzie ogniem; i będą wystawieni na ogień płonący`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, ті, які несправедливо пожирають майно сиріт, лише пожирають своїми черевами вогонь. Вкинуть їх у полум’я`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 10`
+  },
+
+  {
+    arabic: [
+      `تِلْكَ حُدُودُ اللَّهِ ۚ وَمَنْ يُطِعِ اللَّهَ وَرَسُولَهُ يُدْخِلْهُ جَنَّاتٍ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ خَالِدِينَ فِيهَا ۚ وَذَٰلِكَ الْفَوْزُ الْعَظِيمُ وَمَنْ يَعْصِ اللَّهَ وَرَسُولَهُ وَيَتَعَدَّ حُدُودَهُ يُدْخِلْهُ نَارًا خَالِدًا فِيهَا وَلَهُ عَذَابٌ مُهِينٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `These are the limits [set by] Allah, and whoever obeys Allah and His Messenger will be admitted by Him to gardens [in Paradise] under which rivers flow, abiding eternally therein; and that is the great attainment And whoever disobeys Allah and His Messenger and transgresses His limits - He will put him into the Fire to abide eternally therein, and he will have a humiliating punishment`,
+        ``,
+        ``
+      ],
+      [
+        `Tels sont les ordres d'Allah. Et quiconque obéit à Allah et à Son messager, Il le fera entrer dans les Jardins sous lesquels coulent les ruisseaux, pour y demeurer éternellement. Et voilà la grande réussite Et quiconque désobéit à Allah et à Son messager, et transgresse Ses ordres, Il le fera entrer au Feu pour y demeurer éternellement. Et celui-là aura un châtiment avilissant`,
+        ``,
+        ``
+      ],
+      [
+        `Éstas son las leyes de Alá. A quien obedezca a Alá y a Su Enviado, Él le introducirá en jardines por cuyos bajos fluyen arroyos, en los que estarán eternamente. ¡Éste es el éxito grandioso A quien, al contrario, desobedezca a Alá y a Su Enviado y viole Sus leyes. Él le introducirá en un Fuego, eternamente. Tendrá un castigo humillante`,
+        ``,
+        ``
+      ],
+      [
+        `Таковы ограничения Аллаха. Тех, кто повинуется Аллаху и Его Посланнику, Он введет в Райские сады, в которых текут реки. Они пребудут там вечно. Это и есть великое преуспеяние А тех, кто ослушается Аллаха и Его Посланника и преступает Его ограничения, Он ввергнет в Огонь, в котором они пребудут вечно. Им уготованы унизительные мучения`,
+        ``,
+        ``
+      ],
+      [
+        `Dies sind Allahs Grenzen. Wer nun Allah und Seinem Gesandten gehorcht, den wird Er in Gärten eingehen lassen, durcheilt von Bächen, ewig darin zu bleiben; und das ist ein großartiger Erfolg Wer sich aber Allah und Seinem Gesandten widersetzt und Seine Grenzen überschreitet, den läßt Er in ein Feuer eingehen, ewig darin zu bleiben; und für ihn gibt es schmachvolle Strafe`,
+        ``,
+        ``
+      ],
+      [
+        `Dessa är de gränser som Gud [har fastställt]. Gud skall föra den som lyder Honom och Hans Sändebud till lustgårdar, vattnade av bäckar, där han skall förbli till evig tid. Detta är den stora, den lysande segern Men den som trotsar Gud och Hans Sändebud och överträder de gränser Han [har fastställt] skall föras till Elden och förbli där till evig tid - ett förnedrande straff väntar honom`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Dit zijn de door Allah vastgestelde bepalingen en hij die Allah en Zijn Boodschapper gehoorzaamt: Hij (Allah) zal hem het Paradijs binnenleiden, waar onder door de rivieren stromen. Zij zijn eeuwig levenden daarin. En dat is de geweldige overwinning En hij die Allah en Zijn Boodschapper ongehoorzaam is en Zijn bepalingen overtreedt, Hij (Allah) zal hem de Hel binnenleiden. Zij zijn eeuwig levenden daarin. En voor hem is er een vemedenende bestraffing`,
+        ``,
+        ``
+      ],
+      [
+        `(یہ تمام احکام) خدا کی حدیں ہیں۔ اور جو شخص خدا اور اس کے پیغمبر کی فرمانبرداری کرے گا خدا اس کو بہشتوں میں داخل کرے گا جن میں نہریں بہہ رہی ہیں وہ ان میں ہمیشہ رہیں گے۔اور یہ بڑی کامیابی ہے اور جو خدا اور اس کے رسول کی نافرمانی کرے گا اور اس کی حدوں سے نکل جائے گا اس کو خدا دوزخ میں ڈالے گا جہاں وہ ہمیشہ رہے گا۔ اور اس کو ذلت کا عذاب ہوگا`,
+        ``,
+        ``
+      ],
+      [
+        `Itulah batas-batas (hukum) Allah. Barang siapa taat kepada Allah dan Rasul-Nya, Dia akan memasukkannya ke dalam surga-surga yang mengalir di bawahnya sungai-sungai, mereka kekal di dalamnya. Dan itulah kemenangan yang agung Dan barang siapa mendurhakai Allah dan Rasul-Nya dan melanggar batas-batas hukum-Nya, niscaya Allah memasukkannya ke dalam api neraka, dia kekal di dalamnya dan dia akan mendapat azab yang menghinakan`,
+        ``,
+        ``
+      ],
+      [
+        `Bunlar Allah'ın yasalarıdır. Allah'a ve Peygamberine kim itaat ederse onu içlerinden ırmaklar akan cennetlere koyacaktır, orada temellidirler, büyük kurtuluş budur Kim Allah'a ve Peygamberine baş kaldırır ve yasalarını aşarsa, onu, temelli kalacağı cehenneme sokar. Alçaltıcı azab onadır`,
+        ``,
+        ``
+      ],
+      [
+        `اينها احكام الهى است، و هر كس از خدا و پيامبر او اطاعت كند، وى را به باغهايى درآورد كه از زير [درختان‌] آن نهرها روان است. در آن جاودانه‌اند، و اين همان كاميابى بزرگ است و هر كس از خدا و پيامبر او نافرمانى كند و از حدود مقرر او تجاوز نمايد، وى را در آتشى درآورد كه همواره در آن خواهد بود و براى او عذابى خفت‌آور است`,
+        ``,
+        ``
+      ],
+      [
+        `এগুলো আল্লাহর নির্ধারিত সীমা। যে কেউ আল্লাহ ও রসূলের আদেশমত চলে, তিনি তাকে জান্নাত সমূহে প্রবেশ করাবেন, যেগুলোর তলদেশ দিয়ে স্রোতস্বিনী প্রবাহিত হবে। তারা সেখানে চিরকাল থাকবে। এ হল বিরাট সাফল্য। যে কেউ আল্লাহ ও রসূলের অবাধ্যতা করে এবং তার সীমা অতিক্রম করে তিনি তাকে আগুনে প্রবেশ করাবেন। সে সেখানে চিরকাল থাকবে। তার জন্যে রয়েছে অপমানজনক শাস্তি।`,
+        ``,
+        ``
+      ],
+      [
+        `Esses são os limites de Allah. E a quem obedece a Allah e ao Seu Mensageiro, Ele os fará entrar em Jardins, abaixo dos quais correm E a quem desobedece a Allah e ao Seu Mensageiro e transgride Seus limites, Ele o fará entrar em Fogo; nele será eterno. E terá aviltante castigo`,
+        ``,
+        ``
+      ],
+      [
+        `这些是真主的法度。谁服从真主和使者，真主将使谁入那下临诸河的乐园，而永居其中。这是伟大的成功。 谁违抗真主和使者，并超越他的法度，真主将使谁入火狱，而永居其中，他将受凌辱的刑罚。`,
+        ``,
+        ``
+      ],
+      [
+        `これらは，アッラーの定められた決まりである。アッラーとその使徒に服従する者は，川が下を流れる楽園に入り，永遠にその中に住むであろう。それは至上の幸福の成就である。 だがアッラーとその使徒に従わず，かれの定めに背く者は，業火に入り，永遠にその中に住む。かれは恥ずべき懲罰を受けるであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `이것은 하나님이 내리신 범주이거늘 하나님과 그분의 선지자께 복종하는 자는 누구든지 물이 흐르는 천국에 들어가 그곳에서 영생하며 영광을 만끽하리라 그러나 하나님과 그분의 선지자께 순종치 아니하고 하나님의범주를 거역하는 자는 누구든지 지옥에 들어가 그곳에서 기거하며고통스러운 운명을 맞게 되리라`,
+        ``,
+        ``
+      ],
+      [
+        `Questi sono i limiti di Allah. Chi obbedisce ad Allah e al Suo Messaggero, sarà introdotto nei Giardini dove scorrono i ruscelli, dove rimarrà in eterno. Ecco la beatitudine immensa E chi disobbedisce ad Allah e al Suo Messaggero e trasgredisce le Sue leggi, sarà introdotto nel Fuoco, dove rimarrà in perpetuo e avrà castigo avvilente`,
+        ``,
+        ``
+      ],
+      [
+        `Takie są granice Boga. A kto jest posłuszny Bogu i Jego Posłańcowi, tego On wprowadzi do Ogrodów, gdzie w dole płyną strumyki; oni tam będą przebywać na wieki. I to jest wielkie szczęście A kto się zbuntuje przeciw Bogu i przeciw Jego Posłańcowi i przekroczy Jego granice, to Bóg wprowadzi go do ognia, gdzie będzie przebywał na wieki. I ta kara będzie dla niego poniżająca`,
+        ``,
+        ``
+      ],
+      [
+        `Такими є обмеження Аллага. Тих, хто кориться Аллагу та Його Посланцю, Він введе до садів, де течуть ріки. Вони будуть там довіку. Це і є великий успіх А того, хто чинитиме непослух Аллагу та Його Посланцю і буде порушувати Його обмеження, Він введе до вогню, і той буде там довіку. Чекає на нього ганебна кара`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآيتان 13-14`
+  },
+
+  {
+    arabic: [
+      `إِنْ تَجْتَنِبُوا كَبَائِرَ مَا تُنْهَوْنَ عَنْهُ نُكَفِّرْ عَنْكُمْ سَيِّئَاتِكُمْ وَنُدْخِلْكُمْ مُدْخَلًا كَرِيمًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `If you avoid the major sins which you are forbidden, We will remove from you your lesser sins and admit you to a noble entrance [into Paradise]`,
+        ``,
+        ``
+      ],
+      [
+        `Si vous évitez les grands péchés qui vous sont interdits, Nous effacerons vos méfaits de votre compte, et Nous vous ferons entrer dans un endroit honorable (le Paradis)`,
+        ``,
+        ``
+      ],
+      [
+        `Si evitáis los pecados graves que se os han prohibido, borraremos vuestras malas obras y os introduciremos con honor`,
+        ``,
+        ``
+      ],
+      [
+        `Если вы будете избегать больших грехов из того, что вам запрещено, то Мы простим ваши злодеяния и введем вас в почтенный вход`,
+        ``,
+        ``
+      ],
+      [
+        `Wenn ihr die schwerwiegenden (Dinge) meidet, die euch verboten sind, tilgen Wir euch eure bösen Taten und gewähren euch auf eine ehrenvolle Weise Eingang (in den Paradiesgarten)`,
+        ``,
+        ``
+      ],
+      [
+        `Om ni, som ni befallts, undviker de svåraste synderna skall Vi utplåna era dåliga handlingar och föra er in [i evigheten] genom en äreport`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Indien jullie grote zonden, die verboden zijn, vermijden zullen Wij jullie fouten uitwissen en zullen Wij jullie naar een eervolle plaats (het Paradijs) leiden`,
+        ``,
+        ``
+      ],
+      [
+        `اگر تم بڑے بڑے گناہوں سے جن سے تم کو منع کیا جاتا ہے اجتناب رکھو گے تو ہم تمہارے (چھوٹے چھوٹے) گناہ معاف کردیں گے اور تمہیں عزت کے مکانوں میں داخل کریں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Jika kamu menjauhi dosa-dosa besar di antara dosa-dosa yang dilarang mengerjakannya, niscaya Kami hapus kesalahan-kesalahanmu dan akan Kami masukkan kamu ke tempat yang mulia (surga)`,
+        ``,
+        ``
+      ],
+      [
+        `Size yasak edilen büyük günahlardan kaçınırsanız, kusurlarınızı örter ve sizi şerefli bir yere yerleştiririz`,
+        ``,
+        ``
+      ],
+      [
+        `اگر از گناهان بزرگى كه از آن‌[ها] نهى شده‌ايد دورى گزينيد، بديهاى شما را از شما مى زداييم، و شما را در جايگاهى ارجمند درمى‌آوريم`,
+        ``,
+        ``
+      ],
+      [
+        `যেগুলো সম্পর্কে তোমাদের নিষেধ করা হয়েছে যদি তোমরা সেসব বড় গোনাহ গুলো থেকে বেঁচে থাকতে পার। তবে আমি তোমাদের ক্রটি-বিচ্যুতিগুলো ক্ষমা করে দেব এবং সম্মান জনক স্থানে তোমাদের প্রবেশ করার।`,
+        ``,
+        ``
+      ],
+      [
+        `Se evitais os grandes pecados, de que sois coibidos, remir-vos-emos as más obras e far-vos-emos entrar em entrada nobre`,
+        ``,
+        ``
+      ],
+      [
+        `如果你们远离你们所受禁的一切大罪，我就赦宥你们的一切罪过，并使你们得入一个尊贵的境地。`,
+        ``,
+        ``
+      ],
+      [
+        `だがあなたがたが，禁じられた大罪を避けるならば，われはあなたがたの罪過を消滅させ，栄誉ある門に入らせるであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `금지된 가장 가중한 것을 너희가 피한다면 너희 안에 있는 모든 죄악으로부터 너희를 구하사 천국에 이르는 자비의 문으로 너 희를 들게 하리라`,
+        ``,
+        ``
+      ],
+      [
+        `Se eviterete i peccati più gravi che vi sono stati proibiti, cancelleremo le altre colpe e vi faremo entrare con onore [in Paradiso]`,
+        ``,
+        ``
+      ],
+      [
+        `Jeśli będziecie unikać wielkich grzechów, które wam zostały zakazane, to My odpuścimy wam wasze złe uczynki i wprowadzimy was wejściem szlachetnym`,
+        ``,
+        ``
+      ],
+      [
+        `І якщо ви будете уникати важких гріхів, які заборонені вам, то Ми простимо вам злі вчинки ваші та введемо вас через вхід пошани`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 31`
+  },
+
+  {
+    arabic: [
+      `إِنَّ اللَّهَ لَا يَظْلِمُ مِثْقَالَ ذَرَّةٍ ۖ وَإِنْ تَكُ حَسَنَةً يُضَاعِفْهَا وَيُؤْتِ مِنْ لَدُنْهُ أَجْرًا عَظِيمًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, Allah does not do injustice, [even] as much as an atom's weight; while if there is a good deed, He multiplies it and gives from Himself a great reward`,
+        ``,
+        ``
+      ],
+      [
+        `Certes, Allah ne lèse (personne), fût-ce du poids d'un atome. S'il est une bonne action, Il la double, et accorde une grosse récompense de Sa part`,
+        ``,
+        ``
+      ],
+      [
+        `Alá no hará ni el peso de un átomo de injusticia a nadie. Y si se trata de una obra buena, la doblará y dará, por Su parte, una magnífica recompensa`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах не совершает несправедливости даже весом в мельчайшую частицу, а если поступок окажется благим, то Он приумножит его и одарит от Себя великой наградой`,
+        ``,
+        ``
+      ],
+      [
+        `Allah tut gewiß nicht im Gewicht eines Stäubchens Unrecht. Und wenn es eine gute Tat ist, vervielfacht Er sie und gibt von Sich aus großartigen Lohn`,
+        ``,
+        ``
+      ],
+      [
+        `Gud låter [ingen] lida ens så mycket som ett stoftkorns vikt av orätt. Och [varje] god handling fördubblar Han [i värde] och i Sin godhet skänker Han den som utfört den en rik belöning`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, Allah behandelt niemand in de geringste mate onrechtvaardig, an als er iets goeds gedaan wordt, vermeerdert Hij het en geeft Hij van Zijn Zijde een geweldige beloning`,
+        ``,
+        ``
+      ],
+      [
+        `خدا کسی کی ذرا بھی حق تلفی نہیں کرتا اور اگر نیکی (کی) ہوگی تو اس کو دوچند کردے گا اور اپنے ہاں سے اجرعظیم بخشے گا`,
+        ``,
+        ``
+      ],
+      [
+        `(Sungguh, Allah tidak akan menzalimi seseorang walaupun sebesar zarah,195) dan jika ada kebajikan (sekecil zarah), niscaya Allah akan melipatgandakannya dan memberikan pahala yang besar dari sisi-Nya`,
+        ``,
+        ``
+      ],
+      [
+        `Allah şüphesiz zerre kadar haksızlık yapmaz, zerre kadar iyilik olsa onu kat kat arttırır ve yapana büyük ecir verir`,
+        ``,
+        ``
+      ],
+      [
+        `در حقيقت، خدا هم‌وزن ذره‌اى ستم نمى‌كند و اگر [آن ذره، كار] نيكى باشد دو چندانش مى‌كند، و از نزد خويش پاداشى بزرگ مى‌بخشد`,
+        ``,
+        ``
+      ],
+      [
+        `নিশ্চয়ই আল্লাহ কারো প্রাপ্য হক বিন্দু-বিসর্গও রাখেন না; আর যদি তা সৎকর্ম হয়, তবে তাকে দ্বিগুণ করে দেন এবং নিজের পক্ষ থেকে বিপুল সওয়াব দান করেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, Allah não faz injustiça nem mesmo do peso de um átomo. E se este é uma boa ação, multiplicá-la-á, e concederá, de Sua parte, magnífico prêmio`,
+        ``,
+        ``
+      ],
+      [
+        `真主必不亏枉人一丝毫。如果人有一丝毫善功，他要加倍地酬劳他，并且以他那里的重大的报酬赏赐他。`,
+        ``,
+        ``
+      ],
+      [
+        `誠にアッラーは，敏塵の重さ程も間違えられない。もし一善があれば，かれはこれを倍加なされ，またかれの御許から偉大な報奨を与えられよう。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 조금도 불공평하지않으시니 선을 행하는 자에게는 곱절로 크게 보상하여 주시노라`,
+        ``,
+        ``
+      ],
+      [
+        `Invero, Allah non commette ingiustizie, nemmeno del peso di un solo atomo. Se si tratta di una buona azione, Egli la valuterà il doppio e darà ricompensa enorme da parte Sua`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, Bóg nie wyrządzi niesprawiedliwości nawet na ciężar jednego pyłku. A jeśli to będzie czyn dobry, to On go podwoi i da, ze Swojej strony, nagrodę ogromną`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, Аллаг нікого не скривдить навіть на вагу порошинки. А якщо вчинок буде добрим, то Він подвоїть його і дарує від Себе велику винагороду`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 40`
+  },
+
+  {
+    arabic: [
+      `إِنَّ اللَّهَ لَا يَغْفِرُ أَنْ يُشْرَكَ بِهِ وَيَغْفِرُ مَا دُونَ ذَٰلِكَ لِمَنْ يَشَاءُ ۚ وَمَنْ يُشْرِكْ بِاللَّهِ فَقَدِ افْتَرَىٰ إِثْمًا عَظِيمًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, Allah does not forgive association with Him, but He forgives what is less than that for whom He wills. And he who associates others with Allah has certainly fabricated a tremendous sin`,
+        ``,
+        ``
+      ],
+      [
+        `Certes Allah ne pardonne pas qu'on Lui donne quelqu'associé. A part cela, Il pardonne à qui Il veut. Mais quiconque donne à Allah quelqu'associé commet un énorme péché`,
+        ``,
+        ``
+      ],
+      [
+        `Alá no perdona que se Le asocie. Pero perdona lo menos grave a quien Él quiere. Quien asocia a Alá comete un gravísimo pecado`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, Аллах не прощает, когда к Нему приобщают сотоварищей, но прощает все остальные (или менее тяжкие) грехи, кому пожелает. Кто же приобщает сотоварищей к Аллаху, тот измышляет великий грех`,
+        ``,
+        ``
+      ],
+      [
+        `Allah vergibt gewiß nicht, daß man Ihm (etwas) beigesellt. Doch was außer diesem ist, vergibt Er, wem Er will. Wer Allah (etwas) beigesellt, der hat fürwahr eine gewaltige Sünde ersonnen`,
+        ``,
+        ``
+      ],
+      [
+        `GUD FÖRLÅTER inte dem som sätter medhjälpare vid Hans sida, men Han förlåter den Han vill hans mindre synder; den som sätter medhjälpare vid Guds sida har sannerligen gjort sig skyldig till en oerhörd synd`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, Allah vergeeft niet dat aan Hem deelgenoten toegekend worden, maar Hij vergeeft daarnaast alles, aan wie Hij wil. En wie aan Allah deelgenoten toekent: die heeft waarlijk een geweldige zonde verzonnen`,
+        ``,
+        ``
+      ],
+      [
+        `خدا اس گناہ کو نہیں بخشے گا کہ کسی کو اس کا شریک بنایا جائے اور اس کے سوا اور گناہ جس کو چاہے معاف کردے اور جس نے خدا کا شریک مقرر کیا اس نے بڑا بہتان باندھا`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya Allah tidak akan mengampuni (dosa) karena mempersekutukan-Nya (syirik), dan Dia mengampuni apa (dosa) yang selain (syirik) itu bagi siapa yang Dia kehendaki. Barang siapa mempersekutukan Allah, maka sungguh, dia telah berbuat dosa yang besar`,
+        ``,
+        ``
+      ],
+      [
+        `Allah kendisine ortak koşmayı elbette bağışlamaz, bundan başkasını dilediğine bağışlar. Allah'a ortak koşan kimse, şüphesiz büyük bir günahla iftira etmiş olur`,
+        ``,
+        ``
+      ],
+      [
+        `مسلماً خدا، اين را كه به او شرك ورزيده شود نمى‌بخشايد و غير از آن را براى هر كه بخواهد مى‌بخشايد، و هر كس به خدا شرك ورزد، به يقين گناهى بزرگ بربافته است`,
+        ``,
+        ``
+      ],
+      [
+        `নিঃসন্দেহে আল্লাহ তাকে ক্ষমা করেন না, যে লোক তাঁর সাথে শরীক করে। তিনি ক্ষমা করেন এর নিম্ন পর্যায়ের পাপ, যার জন্য তিনি ইচ্ছা করেন। আর যে লোক অংশীদার সাব্যস্ত করল আল্লাহর সাথে, সে যেন অপবাদ আরোপ করল।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, Allah não perdoa que Lhe associem outra divindade, e perdoa tudo o que for, afora isso, a quem quer. E quem associa a Allah, com efeito, forjará formidável pecado`,
+        ``,
+        ``
+      ],
+      [
+        `真主必不赦宥以物配主的罪恶，他为自己所意欲的人而赦宥比这差一等的罪过。谁以物配主，谁已犯大罪了。`,
+        ``,
+        ``
+      ],
+      [
+        `本当にアッラーは，（何ものをも）かれに配することを赦されない。それ以外のことに就いては，御心に適う者を赦される。アッラーに（何ものかを）配する者は，まさに大罪を犯す者で ある。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 하나님은 그분에 비유 하려 한 자를 용서치 아니하며 그외에는 그분의 뜻에 따라 용서를 베푸시나 하나님에 비유하려 하는자는 죄를 조성하는 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità Allah non perdona che Gli si associ alcunché; ma, all'infuori di ciò, perdona chi vuole. Ma chi attribuisce consimili ad Allah, commette un peccato immenso`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, Bóg nie przebacza tym, którzy Jemu dodają współtowarzyszy, podczas gdy On przebacza, komu chce, mniejsze grzechy. A kto dodaje Bogu współtowarzyszy, ten wymyślił grzech ogromny`,
+        ``,
+        ``
+      ],
+      [
+        `Аллаг не прощає, коли Йому приписують рівних, але прощає все інше, крім цього, тому, кому побажає! І хто приписує Аллагу рівних, той чинить великий гріх`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 48`
+  },
+
+  {
+    arabic: [
+      `وَالَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ سَنُدْخِلُهُمْ جَنَّاتٍ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ خَالِدِينَ فِيهَا أَبَدًا ۖ لَهُمْ فِيهَا أَزْوَاجٌ مُطَهَّرَةٌ ۖ وَنُدْخِلُهُمْ ظِلًّا ظَلِيلًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `But those who believe and do righteous deeds - We will admit them to gardens beneath which rivers flow, wherein they abide forever. For them therein are purified spouses, and We will admit them to deepening shade`,
+        ``,
+        ``
+      ],
+      [
+        `Et quant à ceux qui ont cru et fait de bonnes œuvres, bientôt Nous les ferons entrer aux Jardins sous lesquels coulent des ruisseaux. Ils y demeureront éternellement. Il y aura là pour eux des épouses purifiées. Et Nous les ferons entrer sous un ombrage épais`,
+        ``,
+        ``
+      ],
+      [
+        `A quienes crean y obren bien, les introduciremos en jardines por cuyos bajos fluyen arroyos, en los que estarán eternamente, para siempre. Allí tendrán esposas purificadas y haremos que les dé una sombra espesa`,
+        ``,
+        ``
+      ],
+      [
+        `А тех, которые уверовали и совершали праведные деяния, Мы введем в Райские сады, в которых текут реки. Они пребудут там вечно. У них там будут очищенные супруги. Мы введем их в густую тень`,
+        ``,
+        ``
+      ],
+      [
+        `Diejenigen aber, die glauben und rechtschaffene Werke tun, werden Wir in Gärten eingehen lassen, durcheilt von Bächen, ewig und auf immer darin zu bleiben. Darin haben sie vollkommen gereinigte Gattinnen; und Wir lassen sie in vollkommenen Schatten eingehen`,
+        ``,
+        ``
+      ],
+      [
+        `Men de som tror och lever ett rättskaffens liv skall föras till lustgårdar, vattnade av bäckar, där de skall förbli till evig tid. Och där skall [deras] hustrur vara hos dem, renade från [all jordisk] orenlighet och Vi skall låta dem smaka den fullaste lycka`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En degenen die geloven en goede werken verrichten zullen Wij in de Tuinen (het Paradijs) binnenleiden, waar onder door de rivieren stromen, zij zijn eeuwig levenden daarin. Voor hen zijn daarin reine echtgenotes. En Wij zullen hen in de beschuttende schaduw leiden`,
+        ``,
+        ``
+      ],
+      [
+        `اور جو ایمان لائے اور نیک عمل کرتے رہے ان کو ہم بہشتوں میں داخل کریں گے جن کے نیچے نہریں بہہ رہی ہیں وہ ان میں ہمیشہ ہمیشہ رہیں گے وہاں ان کے لئے پاک بیبیاں ہیں اور ان کو ہم گھنے سائے میں داخل کریں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Adapun orang-orang yang beriman dan mengerjakan kebajikan, kelak akan Kami masukkan ke dalam surga yang mengalir di bawahnya sungai-sungai, mereka kekal di dalamnya selama-lamanya. Di sana mereka mempunyai pasangan-pasangan yang suci, dan Kami masukkan mereka ke tempat yang teduh lagi nyaman`,
+        ``,
+        ``
+      ],
+      [
+        `İnanıp yararlı iş işleyenleri içinde temelli ve ebedi kalacakları, içlerinden ırmaklar akan cennetlere koyacağız. Onlara orada tertemiz eşler vardır. Onları en koyu gölgeliklere yerleştireceğiz`,
+        ``,
+        ``
+      ],
+      [
+        `و به زودى كسانى را كه ايمان آورده و كارهاى شايسته كرده‌اند، در باغهايى كه از زيرِ [درختان‌] آن نهرها روان است درآوريم. براى هميشه در آن جاودانند، و در آنجا همسرانى پاكيزه دارند، و آنان را در سايه‌اى پايدار درآوريم`,
+        ``,
+        ``
+      ],
+      [
+        `আর যারা ঈমান এনেছে এবং সৎকর্ম করেছে, অবশ্য আমি প্রবিষ্ট করাব তাদেরকে জান্নাতে, যার তলদেশে প্রবাহিত রয়েছে নহর সমূহ। সেখানে তারা থাকবে অনন্তকাল। সেখানে তাদের জন্য থাকবে পরিষ্কার-পরিচ্ছন্ন স্ত্রীগণ। তাদেরকে আমি প্রবিষ্ট করব ঘন ছায়া নীড়ে।`,
+        ``,
+        ``
+      ],
+      [
+        `E aos que crêem e fazem as boas obras, fá-los-emos entrar em Jardins, abaixo dos quais correm os rios; nesses, serão eternos, para todo o sempre. Nesses, terão mulheres puras. E fá-los-emos entrar em sombra sombrosa`,
+        ``,
+        ``
+      ],
+      [
+        `信道而且行善者，我将使他们入下临诸河的乐园，而永居其中。他们在乐园里有纯洁的配偶，我将使他们入于永恒的庇荫中。`,
+        ``,
+        ``
+      ],
+      [
+        `だが信仰して善い行いに励む者には，われは川が下を流れる楽園に入らせ，永遠にその中に住まわせよう。そこでかれらは，純潔な配偶を持ち，われは涼しい影にかれらを入らせるであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 하나님은 믿음을 찾 고 선행을 하는 자를 천국에 들게하리니 강이 흐르는 그곳에서 영 생케 하리라 그곳에는 순결한 아 내가 있노라 또한 그들을 온화한 그늘에 들어가게 하리라`,
+        ``,
+        ``
+      ],
+      [
+        `Coloro che invece hanno creduto e operato il bene, presto li faremo entrare nei Giardini dove scorrono i ruscelli e in cui rimarranno immortali in perpetuo, avranno spose purissime e li introdurremo nell'ombra che rinfresca`,
+        ``,
+        ``
+      ],
+      [
+        `A tych, którzy uwierzyli i czynili dobro, wprowadzimy do Ogrodów; gdzie w dole płyną strumyki. Będą oni tam przebywać na wieki, nieśmiertelni. Będą tam mieli małżonki bez skazy. I wprowadzimy ich do cienia cienistego`,
+        ``,
+        ``
+      ],
+      [
+        `А тих, які увірували та чинили добрі справи, Ми введемо у сади, де течуть ріки. Вони будуть там довіку і матимуть там пречистих дружин. І Ми введемо їх у густий затінок`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 57`
   },
 
   {
@@ -2911,6 +4913,117 @@ const verses = [
 
   {
     arabic: [
+      `وَمَنْ يَقْتُلْ مُؤْمِنًا مُتَعَمِّدًا فَجَزَاؤُهُ جَهَنَّمُ خَالِدًا فِيهَا وَغَضِبَ اللَّهُ عَلَيْهِ وَلَعَنَهُ وَأَعَدَّ لَهُ عَذَابًا عَظِيمًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `But whoever kills a believer intentionally - his recompense is Hell, wherein he will abide eternally, and Allah has become angry with him and has cursed him and has prepared for him a great punishment`,
+        ``,
+        ``
+      ],
+      [
+        `Quiconque tue intentionnellement un croyant, Sa rétribution alors sera l'Enfer, pour y demeurer éternellement. Allah l'a frappé de Sa colère, l'a maudit et lui a préparé un énorme châtiment`,
+        ``,
+        ``
+      ],
+      [
+        `Y quien mate a un creyente premeditadamente, tendrá la gehena como retribución, eternamente. Alá se irritará con él, le maldecirá y le preparará un castigo terrible`,
+        ``,
+        ``
+      ],
+      [
+        `Если же кто-либо убьет верующего преднамеренно, то возмездием ему будет Геенна, в которой он пребудет вечно. Аллах разгневается на него, проклянет его и приготовит ему великие мучения`,
+        ``,
+        ``
+      ],
+      [
+        `Und wer einen Gläubigen vorsätzlich tötet, dessen Lohn ist die Hölle, ewig darin zu bleiben. Und Allah zürnt ihm und verflucht ihn und bereitet ihm gewaltige Strafe`,
+        ``,
+        ``
+      ],
+      [
+        `För den som avsiktligen dödar en troende är straffet helvetet, och där skall han förbli till evig tid; han skall drabbas av Guds vrede och Gud skall fördöma honom och utlämna honom åt det svåraste lidande`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En wie een gelovige opzettelijk doodt: zijn vergelding is de hel, hij is eeuwig levend daarin. En Allah is woedend op hem en Allah vervloekt hem en Hij bereidt voor hem een geweldige bestraffing voor`,
+        ``,
+        ``
+      ],
+      [
+        `اور جو شخص مسلمان کو قصداً مار ڈالے گا تو اس کی سزا دوزخ ہے جس میں وہ ہمیشہ (جلتا) رہے گا اور خدا اس پر غضبناک ہوگا اور اس پر لعنت کرے گا اور ایسے شخص کے لئے اس نے بڑا (سخت) عذاب تیار کر رکھا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan barang siapa membunuh seorang yang beriman dengan sengaja, maka balasannya ialah neraka Jahanam, dia kekal di dalamnya. Allah murka kepadanya, dan melaknatnya serta menyediakan azab yang besar baginya`,
+        ``,
+        ``
+      ],
+      [
+        `Kim bir mümini kasden öldürürse cezası, içinde temelli kalacağı cehennemdir. Allah ona gazabetmiş, lanetlemiş ve büyük azab hazırlamıştır`,
+        ``,
+        ``
+      ],
+      [
+        `و هر كس عمداً مؤمنى را بكشد، كيفرش دوزخ است كه در آن ماندگار خواهد بود؛ و خدا بر او خشم مى‌گيرد و لعنتش مى‌كند و عذابى بزرگ برايش آماده ساخته است`,
+        ``,
+        ``
+      ],
+      [
+        `যে ব্যক্তি স্বেচ্ছাক্রমে মুসলমানকে হত্যা করে, তার শাস্তি জাহান্নাম, তাতেই সে চিরকাল থাকবে। আল্লাহ তার প্রতি ক্রুদ্ধ হয়েছেন, তাকে অভিসম্পাত করেছেন এবং তার জন্যে ভীষণ শাস্তি প্রস্তুত রেখেছেন।`,
+        ``,
+        ``
+      ],
+      [
+        `E quem mata um crente intencionalmente, sua recompensa será a Geena; nela será eterno, e Allah irar-Se-á contra ele, e amaldiçoá-lo-á e preparar-lhe-á formidável castigo`,
+        ``,
+        ``
+      ],
+      [
+        `谁故意杀害一个信士，谁要受火狱的报酬，而永居其中，且受真主的谴怒和弃绝，真主已为他预备重大的刑罚。`,
+        ``,
+        ``
+      ],
+      [
+        `だが信者を故意に殺害した者は，その応報は地獄で，かれは永遠にその中に住むであろう。アッラーは怒ってかれを見はなされ，厳しい懲罰を備えられる。`,
+        ``,
+        ``
+      ],
+      [
+        `고의적으로 믿는 자를 살해 한 자에 대한 대가는 지옥이며 그 곳에서 영원히 거주하리라 또한 하나님은 그에게 노여워 하고 저 주를 하시며 무서운 벌을 준비하 시니라`,
+        ``,
+        ``
+      ],
+      [
+        `Chi uccide intenzionalmente un credente, avrà il compenso dell'Inferno, dove rimarrà in perpetuo. Su di lui la collera e la maledizione di Allah e gli sarà preparato atroce castigo`,
+        ``,
+        ``
+      ],
+      [
+        `A kto zabije wierzącego naumyślnie, to zapłatą dla niego będzie Gehenna, gdzie będzie przebywał wiecznie. Bóg rozgniewał się na niego i przeklął go, i przygotował dla niego karę ogromną`,
+        ``,
+        ``
+      ],
+      [
+        `А хто вб’є віруючого навмисне, тому відплатою буде геєна, де він буде довіку! Аллаг розгнівається на нього і прокляне Його! Приготовано для нього велику кару`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 93`
+  },
+
+  {
+    arabic: [
       `وَمَن يَعْمَلْ سُوءًا أَوْ يَظْلِمْ نَفْسَهُ`,
       `ثُمَّ يَسْتَغْفِرِ اللَّهَ`,
       `يَجِدِ اللَّهَ غَفُورًا رَّحِيمًا`
@@ -3129,6 +5242,117 @@ const verses = [
       ]
     ],
     number: `سورة النساء / An-Nisa، الآية 113`
+  },
+
+  {
+    arabic: [
+      `لَيْسَ بِأَمَانِيِّكُمْ وَلَا أَمَانِيِّ أَهْلِ الْكِتَابِ ۗ مَنْ يَعْمَلْ سُوءًا يُجْزَ بِهِ وَلَا يَجِدْ لَهُ مِنْ دُونِ اللَّهِ وَلِيًّا وَلَا نَصِيرًا وَمَنْ يَعْمَلْ مِنَ الصَّالِحَاتِ مِنْ ذَكَرٍ أَوْ أُنْثَىٰ وَهُوَ مُؤْمِنٌ فَأُولَٰئِكَ يَدْخُلُونَ الْجَنَّةَ وَلَا يُظْلَمُونَ نَقِيرًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Paradise is not [obtained] by your wishful thinking nor by that of the People of the Scripture. Whoever does a wrong will be recompensed for it, and he will not find besides Allah a protector or a helper And whoever does righteous deeds, whether male or female, while being a believer - those will enter Paradise and will not be wronged, [even as much as] the speck on a date seed`,
+        ``,
+        ``
+      ],
+      [
+        `Ceci ne dépend ni de vos désirs ni des désirs des gens du Livre. Quiconque fait un mal sera rétribué pour cela, et ne trouvera en sa faveur, hors d'Allah, ni allié ni secoureur Et quiconque, homme ou femme, fait de bonnes œuvres, tout en étant croyant... les voilà ceux qui entreront au Paradis; et on ne leur fera aucune injustice, fût-ce d'un creux de noyau de datte`,
+        ``,
+        ``
+      ],
+      [
+        `Esto no depende de lo que vosotros anheléis ni de lo que anhele la gente de la Escritura. Quien obre mal será retribuido por ello y no encontrará, fuera de Alá, amigo ni auxiliar El creyente, varón o hembra, que obre bien, entrará en el Jardín y no será tratado injustamente en lo más mínimo`,
+        ``,
+        ``
+      ],
+      [
+        `Этого не достичь посредством ваших мечтаний или мечтаний людей Писания. Кто творит зло, тот получит за него воздаяние и не найдет для себя вместо Аллаха ни покровителя, ни помощника А те мужчины и женщины, которые совершают некоторые из праведных поступков, будучи верующими, войдут в Рай, и не будут обижены даже на величину выемки на финиковой косточке`,
+        ``,
+        ``
+      ],
+      [
+        `Es geht weder nach euren Wünschen noch nach den Wünschen der Leute der Schrift. Wer Böses tut, dem wird es vergolten, und der findet für sich außer Allah weder Schutzherrn noch Helfer Wer aber, sei es Mann oder Frau, etwas an rechtschaffenen Werken tut, und dabei gläubig ist, jene werden in den (Paradies)garten eingehen, und es wird ihnen nicht ein Dattelkerngrübchen Unrecht zugefügt`,
+        ``,
+        ``
+      ],
+      [
+        `Här är det inte fråga om vad ni önskar eller vad efterföljarna av äldre tiders uppenbarelser önskar och hoppas. Den som gör ont skall straffas för detta och han skall varken finna beskyddare eller hjälpare vid sidan av Gud Men den som gör gott och har tron - man eller kvinna - skall stiga in i paradiset och de skall inte lida ens så mycken orätt som [kunde fylla] skåran i en dadelkärna`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Het gebeurt niet door jullie ijdelheden en (ook) niet door de ijdelheden van de Lieden van de Schrift: wie slacht doet wordt er voor vergolden en hij zal zich buiten Allah geen beschermer en geen helper vinden En wie goed deel, man of vrouw en hij (zij) is gelovig: zij zijn degenen die het Paradijs binnengaan en zij zullen in het geheel niet onrechtvaardig behandeld worden`,
+        ``,
+        ``
+      ],
+      [
+        `(نجات) نہ تو تمہاری آرزوؤں پر ہے اور نہ اہل کتاب کی آرزوؤں پر۔ جو شخص برے عمل کرے گا اسے اسی (طرح) کا بدلا دیا جائے گا اور وہ خدا کے سوا نہ کسی کو حمایتی پائے گا اور نہ مددگار اور جو نیک کام کرے گا مرد ہو یا عورت اور وہ صاحب ایمان بھی ہوگا تو ایسے لوگ بہشت میں داخل ہوں گے اور ان کی تل برابر بھی حق تلفی نہ کی جائے گی`,
+        ``,
+        ``
+      ],
+      [
+        `(Pahala dari Allah) itu bukanlah angan-anganmu227) dan bukan (pula) angan-angan Ahli Kitab. Barang siapa mengerjakan kejahatan, niscaya akan dibalas sesuai dengan kejahatan itu, dan dia tidak akan mendapatkan pelindung dan penolong selain Allah Dan barang siapa mengerjakan amal kebajikan, baik laki-laki maupun perempuan sedang dia beriman, maka mereka itu akan masuk ke dalam surga dan mereka tidak dizalimi sedikit pun`,
+        ``,
+        ``
+      ],
+      [
+        `Bu, sizin kuruntularınıza ve Kitap ehlinin kuruntularına göre değildir. Kim fenalık yaparsa cezasını görür, kendisine Allah'tan başka ne dost ve ne de yardımcı bulur Erkek veya kadın, mümin olarak, kim yararlı işler işlerse, işte onlar cennete girerler, kendilerine zerre kadar zulmedilmez`,
+        ``,
+        ``
+      ],
+      [
+        `[پاداش و كيفر] به دلخواه شما و به دلخواه اهل كتاب نيست؛ هر كس بدى كند، در برابر آن كيفر مى‌بيند، و جز خدا براى خود يار و مددكارى نمى‌يابد و كسانى كه كارهاى شايسته كنند -چه مرد باشند يا آن- در حالى كه مؤمن باشند، آنان داخل بهشت مى‌شوند، و به قدر گودى پشت هسته خرمايى مورد ستم قرار نمى‌گيرند`,
+        ``,
+        ``
+      ],
+      [
+        `তোমাদের আশার উপর ও ভিত্তি নয় এবং আহলে-কিতাবদের আশার উপরও না। যে কেউ মন্দ কাজ করবে, সে তার শাস্তি পাবে এবং সে আল্লাহ ছাড়া নিজের কোন সমর্থক বা সাহায্যকারী পাবে না। যে লোক পুরুষ হোক কিংবা নারী, কোন সৎকর্ম করে এবং বিশ্বাসী হয়, তবে তারা জান্নাতে প্রবেশ করবে এবং তাদের প্রাপ্য তিল পরিমাণ ও নষ্ট হবে না।`,
+        ``,
+        ``
+      ],
+      [
+        `A recompensa não depende de vossos desejos nem dos desejos dos seguidores do Livro. Quem faz mal com ele será recompensado e não encontrará para si, além de Allah, protetor nem socorredor E quem faz as boas obras, varão ou varoa, enquanto crente, esses entrarão no Paraíso e não sofrerão injustiça, a mínima que seja`,
+        ``,
+        ``
+      ],
+      [
+        `（他的应许），不是借你们的妄想可以获得的，也不是借信奉天经者的妄想可以获得的。谁作恶，谁受恶报，除真主外，他不能为自己找到任何保护者，和任何援助者。 信士和信女，谁行善谁得入乐园，他们不受丝毫的亏枉。`,
+        ``,
+        ``
+      ],
+      [
+        `これはあなたがたの妄想によるものではなく，また啓典の民の妄想でもない。誰でも悪事を行う者は，その報いを受けよう。アッラーの外には，愛護し援助する者も見いだせない。 誰でも，正しい行いに励む者は，男でも女でも信仰に堅固な者。これらは楽園に入り，少しも不当に扱われない。`,
+        ``,
+        ``
+      ],
+      [
+        `그것은 너희가 원한다하여 성취됨이 아니며 그 성서의 백성 들이 원한다하여 성취됨이 아니라 악을 행하는 자는 누구든지 그에 따른 대가를 받을 것이며 하나님 외에는 어떤 보호자도 또는 후원 자도 발견치 못하리라 믿음을 갖고 선을 행하는 남녀가 천국에 들어 가나니 그들 이 받을 보상은 조금도 부정함이 없노라`,
+        ``,
+        ``
+      ],
+      [
+        `Questo non dipende dai vostri desideri e neppure da quelli della Gente della Scrittura. Chi opera il male ne pagherà il fio e non troverà, all'infuori di Allah, né patrono né alleato Quanto a coloro che, uomini o donne, operano il bene e sono credenti, ecco coloro che entreranno nel Giardino e non subiranno alcun torto, foss'anche [del peso] di una fibra di dattero`,
+        ``,
+        ``
+      ],
+      [
+        `To nie zależy od waszych życzeń ani też od życzeń ludzi Księgi. Kto czyni zło, ten otrzyma za nie zapłatę; i nie znajdzie on dla siebie, poza Bogiem, ani opiekuna, ani pomocnika Ktokolwiek pełni dobre dzieła - mężczyzna czy kobieta - i jest wierzącym - tacy wejdą do Ogrodu i nie doznają niesprawiedliwości nawet na łupinkę daktyla`,
+        ``,
+        ``
+      ],
+      [
+        `І це не залежить від ваших бажань чи бажань людей Писання. І хто чинить зло, тому відплатять тим же, і не знайдеться йому, окрім Аллага, ні покровителів, ні помічників І хто не робив би добрих справ, віруючий чоловік чи віруюча жінка, то увійдуть вони до раю, і не вчинять із ними несправедливо навіть на плівку із кісточки фініка`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآيتان 123-124`
   },
 
   {
@@ -3577,6 +5801,117 @@ const verses = [
 
   {
     arabic: [
+      `وَعَدَ اللَّهُ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ ۙ لَهُمْ مَغْفِرَةٌ وَأَجْرٌ عَظِيمٌ وَالَّذِينَ كَفَرُوا وَكَذَّبُوا بِآيَاتِنَا أُولَٰئِكَ أَصْحَابُ الْجَحِيمِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Allah has promised those who believe and do righteous deeds [that] for them there is forgiveness and great reward But those who disbelieve and deny Our signs - those are the companions of Hellfire`,
+        ``,
+        ``
+      ],
+      [
+        `Allah a promis à ceux qui croient et font de bonnes œuvres qu'il y aura pour eux un pardon et une énorme récompense Quant à ceux qui ne croient pas et traitent de mensonge Nos preuves, ceux-là sont des gens de l'Enfer`,
+        ``,
+        ``
+      ],
+      [
+        `Alá ha prometido a quienes crean y obren bien perdón y una magnífica recompensa Quienes no crean y desmientan Nuestros signos morarán en el fuego de la gehena`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах обещал тем, которые уверовали и совершали праведные деяния, прощение и великую награду А те, которые не уверовали и сочли ложью Наши знамения, окажутся обитателями Ада`,
+        ``,
+        ``
+      ],
+      [
+        `Allah hat denen, die glauben und rechtschaffene Werke tun, versprochen, daß es für sie Vergebung und großartigen Lohn geben wird Diejenigen aber, die ungläubig sind und Unsere Zeichen für Lüge erklären, das sind Insassen des Höllenbrandes`,
+        ``,
+        ``
+      ],
+      [
+        `Gud har lovat dem som tror och lever rättskaffens förlåtelse [för deras synder] och en rik belöning Men de som förnekar sanningen och påstår att Våra budskap är lögn - deras arvedel är helvetet`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En Allah beloofde degenen die geloofden en goede werken verrichtten dat er voor hen vergeving en een geweldige beloning is En degenen die ongelovig waren en Onze Tekenen loochenden: zij zijn de bewoners van Djahîm (de Hel)`,
+        ``,
+        ``
+      ],
+      [
+        `جو لوگ ایمان لائے اور نیک کام کرتے رہے ان سے خدا نے وعدہ فرمایا ہے کہ ان کے لیے بخشش اور اجر عظیم ہے اور جنہوں نے کفر کیا اور ہماری آیتوں کو جھٹلایا وہ جہنمی ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Allah telah menjanjikan kepada orang-orang yang beriman dan beramal saleh, (bahwa) mereka akan mendapat ampunan dan pahala yang besar Adapun orang-orang yang kafir dan mendustakan ayat-ayat Kami, mereka itulah penghuni neraka`,
+        ``,
+        ``
+      ],
+      [
+        `Allah, inananlara ve yararlı işler işleyenlere mağfiret ve büyük ecir olduğunu vadetmiştir İnkar edenler ve ayetlerimizi yalanlayanlar, işte onlar cehennemliklerdir`,
+        ``,
+        ``
+      ],
+      [
+        `خدا كسانى را كه ايمان آورده و كارهاى شايسته كرده‌اند، به آمرزش و پاداشى بزرگ وعده داده است و كسانى كه كفر ورزيدند و آيات ما را دروغ انگاشتند، آنان اهل دوزخند`,
+        ``,
+        ``
+      ],
+      [
+        `যারা বিশ্বাস স্থাপন করে, এবং সৎকর্ম সম্পাদন করে, আল্লাহ তা˦#2503;দরকে ক্ষমা ও মহান প্রতিদানের প্রতিশ্রুতি দিয়েছেন। যারা অবিশ্বাস করে এবং আমার নিদর্শনাবলীকে মিথ্যা বলে, তার দোযখী।`,
+        ``,
+        ``
+      ],
+      [
+        `Allah promete aos que crêem e fazem as boas obras que terão perdão e magnífico prêmio E os que renegam a Fé e desmentem Nossos sinais, esses são os companheiros do Inferno`,
+        ``,
+        ``
+      ],
+      [
+        `信道而且行善的人，真主应许他们得享赦宥和重大的报酬。 不信道而且否认我的迹象的人, 是火狱的居民。`,
+        ``,
+        ``
+      ],
+      [
+        `信仰して善い行いに励む者に，アッラーは約束なされた。かれらには，御赦しと偉大な報奨がある。 だが信仰を拒否してわが印を偽りであるとする者，これらは火獄の住人である。`,
+        ``,
+        ``
+      ],
+      [
+        `믿음을 갖고 선을 행하는 자들에게 하나님은 약속을 하셨나니 이는 그들을 위한 관용과 커다란 보상이라 그러나 하나님의 말씀을 부 정하고 거짓하는 자들에게는 지옥 이 그들의 것이 되리라`,
+        ``,
+        ``
+      ],
+      [
+        `Allah ha promesso a coloro che credono e compiono il bene, il perdono e un'immensa ricompensa Quelli che sono miscredenti e tacciano di menzogna i segni Nostri, sono i compagni della Fornace`,
+        ``,
+        ``
+      ],
+      [
+        `Bóg obiecał tym, którzy wierzą i pełnią dobre dzieła, iż otrzymają przebaczenie i nagrodę wielką A ci, którzy odrzucili wiarę i za kłamstwo uznali Nasze znaki - będą mieszkańcami ognia piekielnego`,
+        ``,
+        ``
+      ],
+      [
+        `Обіцяв Аллаг тим, які увірували і творили добрі справи, прощення і велику винагороду А ті, які не увірували й відкидали Наші знамення, вони — жителі пекла`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المائدة / Al-Ma'idah، الآيتان 9-10`
+  },
+
+  {
+    arabic: [
       `يَا أَهْلَ الْكِتَابِ قَدْ جَاءَكُمْ رَسُولُنَا يُبَيِّنُ لَكُمْ كَثِيرًا مِمَّا كُنْتُمْ تُخْفُونَ مِنَ الْكِتَابِ وَيَعْفُو عَنْ كَثِيرٍ ۚ قَدْ جَاءَكُمْ مِنَ اللَّهِ نُورٌ وَكِتَابٌ مُبِينٌ`,
       `يَهْدِي بِهِ اللَّهُ مَنِ اتَّبَعَ رِضْوَانَهُ سُبُلَ السَّلَامِ وَيُخْرِجُهُمْ مِنَ الظُّلُمَاتِ إِلَى النُّورِ بِإِذْنِهِ وَيَهْدِيهِمْ إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ`,
       ``
@@ -3795,6 +6130,117 @@ const verses = [
       ]
     ],
     number: `سورة المائدة / Al-Ma'idah، الآية 67`
+  },
+
+  {
+    arabic: [
+      `لَقَدْ كَفَرَ الَّذِينَ قَالُوا إِنَّ اللَّهَ هُوَ الْمَسِيحُ ابْنُ مَرْيَمَ ۖ وَقَالَ الْمَسِيحُ يَا بَنِي إِسْرَائِيلَ اعْبُدُوا اللَّهَ رَبِّي وَرَبَّكُمْ ۖ إِنَّهُ مَنْ يُشْرِكْ بِاللَّهِ فَقَدْ حَرَّمَ اللَّهُ عَلَيْهِ الْجَنَّةَ وَمَأْوَاهُ النَّارُ ۖ وَمَا لِلظَّالِمِينَ مِنْ أَنْصَارٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `They have certainly disbelieved who say, "Allah is the Messiah, the son of Mary" while the Messiah has said, "O Children of Israel, worship Allah, my Lord and your Lord." Indeed, he who associates others with Allah - Allah has forbidden him Paradise, and his refuge is the Fire. And there are not for the wrongdoers any helpers`,
+        ``,
+        ``
+      ],
+      [
+        `Ce sont, certes, des mécréants ceux qui disent: «En vérité, Allah c'est le Messie, fils de Marie.» Alors que le Messie a dit: «O enfants d'Israël, adorez Allah, mon Seigneur et votre Seigneur». Quiconque associe à Allah (d'autres divinités,) Allah lui interdit le Paradis; et son refuge sera le Feu. Et pour les injustes, pas de secoureurs`,
+        ``,
+        ``
+      ],
+      [
+        `No creen, en realidad, quienes dicen: «Alá es el Ungido, hijo de María», siendo así que el mismo Ungido ha dicho: «¡Hijos de Israel, servid a Alá, mi Señor y Señor vuestro!». Alá veda el Jardín a quien asocia a Alá. Su morada será el Fuego. Los impíos no tendrán quien les auxilie`,
+        ``,
+        ``
+      ],
+      [
+        `Не уверовали те, которые говорят: «Аллах - это Мессия, сын Марьям (Марии)». Мессия сказал: «О сыны Исраила (Израиля)! Поклоняйтесь Аллаху, Господу моему и Господу вашему». Воистину, кто приобщает к Аллаху сотоварищей, тому Он запретил Рай. Его пристанищем будет Геенна, и у беззаконников не будет помощников`,
+        ``,
+        ``
+      ],
+      [
+        `Fürwahr, ungläubig sind diejenigen, die sagen: "Gewiß, Allah ist al-Masih, der Sohn Maryams", wo doch al-Masih (selbst) gesagt hat: "O Kinder Isra'ils, dient Allah, meinem Herrn und eurem Herrn!" Wer Allah (etwas) beigesellt, dem verbietet fürwahr Allah das Paradies, und dessen Zufluchtsort wird das (Höllen)feuer sein. Die Ungerechten werden keine Helfer haben`,
+        ``,
+        ``
+      ],
+      [
+        `De som säger: "Gud är Kristus, Marias son" förnekar sanningen; Kristus sade [själv]: "Israeliter! Dyrka Gud, min Herre och er Herre." Gud utestänger den från paradiset som sätter medhjälpare vid Guds sida och Elden skall bli hans sista hemvist. För [dessa] syndare finns ingen hjälpare`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorzeker, zij zijn ongelovig die zeggen: "Allah is de Masîh, zoon van Maryam." Hoewel de Masîh zei: "O Kinderen van Israël, aanbidt Allah, mijn Heer on jullie Heer." Voorwaar, hij die deelgenoten aan Allah toekent: Allah heeft hem waarlijk het Paradijs verboden. En zijn bestemming zal de Hel zijn. En voor de onrechtvaardigen zijn er geen helpers`,
+        ``,
+        ``
+      ],
+      [
+        `وہ لوگ بےشبہ کافر ہیں جو کہتے ہیں کہ مریم کے بیٹے (عیسیٰ) مسیح خدا ہیں حالانکہ مسیح یہود سے یہ کہا کرتے تھے کہ اے بنی اسرائیل خدا ہی کی عبادت کرو جو میرا بھی پروردگار ہے اور تمہارا بھی (اور جان رکھو کہ) جو شخص خدا کے ساتھ شرک کرے گا خدا اس پر بہشت حرام کر دے گا اور اس کا ٹھکانہ دوزخ ہے اور ظالموں کا کوئی مددگار نہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, telah kafir orang-orang yang berkata, "Sesungguhnya Allah itulah Al-Masih putra Maryam." padahal Al-Masih (sendiri) berkata, "Wahai Bani Israil! Sembahlah Allah, Tuhanku dan Tuhanmu." Sesungguhnya barang siapa mempersekutukan (sesuatu dengan) Allah, maka sungguh, Allah mengharamkan surga baginya, dan tempatnya ialah neraka. Dan tidak ada seorang penolong pun bagi orang-orang zalim itu`,
+        ``,
+        ``
+      ],
+      [
+        `And olsun ki, "Allah ancak Meryem oğlu Mesih'tir" diyenler kafir oldular. Oysa Mesih, "Ey İsrailoğulları! Rabbim ve Rabbiniz olan Allah'a kulluk edin; kim Allah'a ortak koşarsa muhakkak Allah ona cenneti haram eder, varacağı yer ateştir, zulmedenlerin yardımcıları yoktur" dedi`,
+        ``,
+        ``
+      ],
+      [
+        `كسانى كه گفتند: «خدا همان مسيح پسر مريم است»، قطعاً كافر شده‌اند، و حال آنكه مسيح، مى‌گفت: «اى فرزندان اسرائيل، پروردگار من و پروردگار خودتان را بپرستيد؛ كه هر كس به خدا شرك آورد، قطعاً خدا بهشت را بر او حرام ساخته و جايگاهش آتش است، و براى ستمكاران ياورانى نيست.»`,
+        ``,
+        ``
+      ],
+      [
+        `তারা কাফের, যারা বলে যে, মরিময়-তনয় মসীহ-ই আল্লাহ; অথচ মসীহ বলেন, হে বণী-ইসরাঈল, তোমরা আল্লাহর এবাদত কর, যিনি আমার পালন কর্তা এবং তোমাদেরও পালনকর্তা। নিশ্চয় যে ব্যক্তি আল্লাহর সাথে অংশীদার স্থির করে, আল্লাহ তার জন্যে জান্নাত হারাম করে দেন। এবং তার বাসস্থান হয় জাহান্নাম। অত্যাচারীদের কোন সাহায্যকারী নেই।`,
+        ``,
+        ``
+      ],
+      [
+        `Com efeito, são renegadores da Fé os que dizem: "Por certo, Allah é o Messias, filho de Maria". E o Messias diz: "Ó filhos de Israel! Adorai a Allah, meu Senhor e vosso Senhor." Por certo, a quem associa outras divindades a Allah, com efeito, Allah proíbe-lhe o Paraíso, e sua morada é o Fogo. E não há para os injustos socorredores`,
+        ``,
+        ``
+      ],
+      [
+        `妄言真主就是麦尔彦之子麦西哈的人，确已不信道了。麦西哈曾说：以色列的后裔啊! 你们当崇拜真主--我的主，和你们的主。谁以物配主，真主必禁止谁入乐园，他的归宿是火狱。不义的人，绝没有任何援助者。`,
+        ``,
+        ``
+      ],
+      [
+        `「アッラーこそは，マルヤムの子マスィーフである。」と言う者は，確かに不信心者である。しかもマスィーフは言ったのである。「イスラエルの子孫よ，わたしの主であり，あなたがたの主であられるアッラーに仕えなさい。」凡そアッラーに何ものかを配する者には，アッラーは楽園（に入ること）を禁じられ，かれの住まいは業火である。不義を行う者には援助者はないのである。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님 그분은 마리아의 아들 메시아라고 말하는 자들은 진실로 불신하였도다 메시아 가로되 이스라 엘 자손들이여 나의 주님이고 너 희의 주님인 하나님만 경배하라 하나님을 불신하는 자 하나님께서그들에의 천국을 금하시고 볼지옥을 그의 거주지로 하게하니 죄인 들에게는 구원자가 없노라`,
+        ``,
+        ``
+      ],
+      [
+        `Sono certamente miscredenti quelli che dicono: “Allah è il Messia, figlio di Maria!”. Mentre il Messia disse: “O Figli di Israele, adorate Allah, mio Signore e vostro Signore”. Quanto a chi attribuisce consimili ad Allah, Allah gli preclude il Paradiso, il suo rifugio sarà il Fuoco. Gli ingiusti non avranno chi li soccorra`,
+        ``,
+        ``
+      ],
+      [
+        `Nie uwierzyli ci, którzy powiedzieli: "Zaprawdę, Bóg - to Mesjasz, syn Marii!" A Mesjasz powiedział: "Synowie Izraela! Czcijcie Boga, mojego Pana i waszego Pana!" Oto, zaprawdę, kto daje Bogu współtowarzyszy, temu Bóg zabronił wejścia do Ogrodu! Jego miejscem schronienia będzie ogień. A niesprawiedliwi nie będą mieli żadnych pomocników`,
+        ``,
+        ``
+      ],
+      [
+        `Істинно, невіруючі ті, які говорять: «Воістину, Аллаг — це Месія, син Мар’ям!». Але ж казав Месія: «О сини Ісраїля! Поклоняйтеся Аллагу, Господу моєму й Господу вашому!» Воістину, ті, які додають Аллагу рівних — заборонив Аллаг їм сади раю, будуть у пеклі вони! І не буде у неправедних помічників`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المائدة / Al-Ma'idah، الآية 72`
   },
 
   {
@@ -4128,6 +6574,117 @@ const verses = [
       ]
     ],
     number: `سورة الأنعام / Al-An'am، الآية 59 (جزء منها)`
+  },
+
+  {
+    arabic: [
+      `الَّذِينَ آمَنُوا وَلَمْ يَلْبِسُوا إِيمَانَهُمْ بِظُلْمٍ أُولَٰئِكَ لَهُمُ الْأَمْنُ وَهُمْ مُهْتَدُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `They who believe and do not mix their belief with injustice - those will have security, and they are [rightly] guided`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui ont cru et n'ont point troublé la pureté de leur foi par quelqu'inéquité (association), ceux-là ont la sécurité; et ce sont eux les bien-guidés»`,
+        ``,
+        ``
+      ],
+      [
+        `Quienes creen y no revisten su fe de impiedad, ésos son los que están en seguridad, los que están dirigidos`,
+        ``,
+        ``
+      ],
+      [
+        `Те, которые уверовали и не облекли свою веру в несправедливость, пребывают в безопасности, и они следуют прямым путем`,
+        ``,
+        ``
+      ],
+      [
+        `Diejenigen, die glauben und ihren Glauben nicht mit Ungerechtigkeit verdecken, die haben (das Recht auf) Sicherheit, und sie sind rechtgeleitet`,
+        ``,
+        ``
+      ],
+      [
+        `[Det är] de som tror och inte låter sin tro förmörkas av orätt som de begår. De kan känna sig trygga; de har funnit den rätta vägen`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Degenen die geloven en niet hun geloof met onrecht (afgoderij) mengen: zij zijn degenen die veiligheid toekomt en zij zijn de rechtgelieden`,
+        ``,
+        ``
+      ],
+      [
+        `جو لوگ ایمان لائے اور اپنے ایمان کو (شرک کے) ظلم سے مخلوط نہیں کیا ان کے امن (اور جمعیت خاطر) ہے اور وہی ہدایت پانے والے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Orang-orang yang beriman dan tidak mencampuradukkan iman mereka dengan syirik, mereka itulah orang-orang yang mendapat rasa aman dan mereka mendapat petunjuk`,
+        ``,
+        ``
+      ],
+      [
+        `İşte güven; onlara, inanıp haksızlık karıştırmayanlaradır. Onlar doğru yoldadırlar`,
+        ``,
+        ``
+      ],
+      [
+        `كسانى كه ايمان آورده و ايمان خود را به شرك نيالوده‌اند، آنان راست ايمنى و ايشان راه‌يافتگانند`,
+        ``,
+        ``
+      ],
+      [
+        `যারা ঈমান আনে এবং স্বীয় বিশ্বাসকে শেরেকীর সাথে মিশ্রিত করে না, তাদের জন্যেই শান্তি এবং তারাই সুপথগামী।`,
+        ``,
+        ``
+      ],
+      [
+        `Os que crêem e não confundem sua fé com injustiça, esses têm a segurança e são guiados`,
+        ``,
+        ``
+      ],
+      [
+        `确信真主，而未以不义混淆其信德的人，不畏惧刑罚，而且是遵循正道的。`,
+        ``,
+        ``
+      ],
+      [
+        `信仰して，自分の信心に不義を混じえない者，これらの者は安全であり，（正しく）導かれる者である。」`,
+        ``,
+        ``
+      ],
+      [
+        `믿음을 갖되 그들의 믿음을 사악함으로 흔돈하지 아니한 그 들에게 실로 안전함이 있을 것이 요 그들이 오른길로 인도되리라`,
+        ``,
+        ``
+      ],
+      [
+        `Coloro che hanno creduto e non ammantano di iniquità la loro fede, ecco a chi spetta l'immunità; essi sono i ben guidati”`,
+        ``,
+        ``
+      ],
+      [
+        `Ci, którzy wierzą, i ci, którzy nie ubierają swojej wiary w niesprawiedliwość, posiadają prawdziwe bezpieczeństwo i są na drodze prostej`,
+        ``,
+        ``
+      ],
+      [
+        `Ті, які увірували й не одягали своєї віри в несправедливість, перебувають у безпеці — вони йдуть прямим шляхом`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنعام / Al-An'am، الآية 82`
   },
 
   {
@@ -4905,6 +7462,117 @@ const verses = [
       ]
     ],
     number: `سورة الأعراف / Al-A'raf، الآية 35`
+  },
+
+  {
+    arabic: [
+      `وَالَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ لَا نُكَلِّفُ نَفْسًا إِلَّا وُسْعَهَا أُولَٰئِكَ أَصْحَابُ الْجَنَّةِ ۖ هُمْ فِيهَا خَالِدُونَ وَنَزَعْنَا مَا فِي صُدُورِهِمْ مِنْ غِلٍّ تَجْرِي مِنْ تَحْتِهِمُ الْأَنْهَارُ ۖ وَقَالُوا الْحَمْدُ لِلَّهِ الَّذِي هَدَانَا لِهَٰذَا وَمَا كُنَّا لِنَهْتَدِيَ لَوْلَا أَنْ هَدَانَا اللَّهُ ۖ لَقَدْ جَاءَتْ رُسُلُ رَبِّنَا بِالْحَقِّ ۖ وَنُودُوا أَنْ تِلْكُمُ الْجَنَّةُ أُورِثْتُمُوهَا بِمَا كُنْتُمْ تَعْمَلُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `But those who believed and did righteous deeds - We charge no soul except [within] its capacity. Those are the companions of Paradise; they will abide therein eternally And We will have removed whatever is within their breasts of resentment, [while] flowing beneath them are rivers. And they will say, "Praise to Allah, who has guided us to this; and we would never have been guided if Allah had not guided us. Certainly the messengers of our Lord had come with the truth." And they will be called, "This is Paradise, which you have been made to inherit for what you used to do`,
+        ``,
+        ``
+      ],
+      [
+        `Et ceux qui croient et font de bonnes œuvres - Nous n'imposons aucune charge à personne que selon sa capacité - ceux-là seront les gens du Paradis: ils y demeureront éternellement Et Nous enlèverons toute la rancune de leurs poitrines, sous eux couleront les ruisseaux, et ils diront: «Louange à Allah qui nous a guidés à ceci. Nous n'aurions pas été guidés, si Allah ne nous avait pas guidés. Les messagers de notre Seigneur sont venus avec la vérité.» Et on leur proclamera: «Voilà le Paradis qui vous a été donné en héritage pour ce que vous faisiez»`,
+        ``,
+        ``
+      ],
+      [
+        `Quienes creyeron y obraron bien- a nadie pedimos sino según sus posibilidades-. ésos morarán en el Jardín eternamente Extirparemos el rencor que quede en sus pechos. Fluirán arroyos a sus pies. Dirán: «¡Alabado sea Alá, Que nos ha dirigido acá! No habríamos sido bien dirigidos si no nos hubiera dirigido Alá. Los enviados de nuestro Señor bien que trajeron la Verdad». Y se les llamará: «Éste es el Jardín. Lo habéis heredado en premio a vuestras obras»`,
+        ``,
+        ``
+      ],
+      [
+        `Те, которые уверовали и совершали праведные деяния, будут обитателями Рая и пребудут там вечно. Мы не возлагаем на человека сверх его возможностей Мы исторгнем из их сердец злобу, и под ними будут протекать реки. Они скажут: «Хвала Аллаху, Который привел нас к этому! Мы не последовали бы прямым путем, если бы Аллах не наставил нас. И посланники Господа нашего принесли истину». Им будет возвещено: «Вот Рай, который вы унаследовали за то, что совершали»`,
+        ``,
+        ``
+      ],
+      [
+        `Diejenigen aber, die glauben und rechtschaffene Werke tun - Wir erlegen keiner Seele mehr auf, als sie zu leisten vermag -, jene sind Insassen des (Paradies)gartens. Ewig werden sie darin bleiben Und Wir nehmen weg, was in ihren Brüsten an Groll ist. Unter ihnen strömen Flüsse. Und sie sagen: "(Alles) Lob gehört Allah, Der uns hierher geleitet hat! Wir hätten unmöglich die Rechtleitung gefunden, wenn uns Allah nicht rechtgeleitet hätte. Die Gesandten unseres Herrn sind wirklich mit der Wahrheit gekommen." Und es wird ihnen zugerufen: "Siehe, das ist der (Paradies)garten. Er ist euch zum Erbe gegeben worden für das, was ihr zu tun pflegtet`,
+        ``,
+        ``
+      ],
+      [
+        `Men de som tror och lever rättskaffens - Vi lägger inte på någon en tyngre börda än han kan bära - deras arvedel är paradiset och där skall de förbli till evig tid Vi skall rensa bort ur deras hjärtan [alla rester av gammalt] agg. Medan bäckar porlar framför deras fötter, skall de höja sin röst [i bön]: "Vi lovar och prisar Gud som har fört oss hit! Utan Guds vägledning skulle Vi inte ha funnit vägen. Vår Herres sändebud gav oss sanningen." Och [änglarna] skall säga: "Detta är paradiset, arvet som har tillfallit er [som lön] för era handlingar`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En degenen die geloven en goede werken verrichten, Wij belasten niemand (van hen) dan naar zijn vermogen: zij zijn degenen die de bewoners van het Paradijs zijn. Zij zijn daarin eeuwig levenden En Wij nemen uit hun harten weg wat er aan wrok is, onder (het Paradijs) door stromen de rivieren. En zij zeiden: "Alle lof zij Allah, Die ons hierheen heeft geleid en wij zouden geen leiding hebben gevonden als Allah ons geen Leiding had geschonken, Voorzeker, de gezanten van Onze Heer zijn in Waarheid gekomen. En tot hen wordt geroepen: "Dit is het Paradijs dat jullie hebben beerfd wegens watjullie plachten te doen`,
+        ``,
+        ``
+      ],
+      [
+        `اور جو لوگ ایمان لائے اور عمل نیک کرتے رہے اور ہم (عملوں کے لیے) کسی شخص کو اس کی طاقت سے زیادہ تکلیف نہیں دیتے۔ ایسے ہی لوگ اہل بہشت ہیں (کہ) اس میں ہمیشہ رہیں گے اور جو کینے ان کے دلوں میں ہوں گے ہم سب نکال ڈالیں گے۔ ان کے محلوں کے نیچے نہریں بہہ رہی ہوں گی اور کہیں گے کہ خدا کا شکر ہے جس نے ہم کو یہاں کا راستہ دکھایا اور اگر خدا ہم کو رستہ نہ دکھاتا تو ہم رستہ نہ پا سکتے۔ بےشک ہمارا پروردگار کے رسول حق بات لے کر آئے تھے اور (اس روز) منادی کر دی جائے گی کہ تم ان اعمال کے صلے میں جو دنیا میں کرتے تھے اس بہشت کے وارث بنا دیئے گئے ہو`,
+        ``,
+        ``
+      ],
+      [
+        `Dan orang-orang yang beriman serta mengerjakan kebajikan, Kami tidak akan membebani seseorang melainkan menurut kesanggupannya. Mereka itulah penghuni surga; mereka kekal di dalamnya dan kami mencabut rasa dendam dari dalam dada mereka, di bawahnya mengalir sungai-sungai. Mereka berkata, "Segala puji bagi Allah yang telah menunjukan kami ke (surga) ini. Kami tidak akan mendapat petunjuk sekiranya Allah tidak menunjukan kami. Sesungguhnya Rasul-rasul Tuhan kami telah datang membawa kebenaran." Diserukan kepada mereka, "Itulah surga yang telah diwariskan kepadamu, karena apa yang telah kamu kerjakan`,
+        ``,
+        ``
+      ],
+      [
+        `İnanan ve yararlı iş işleyenler ki kişiye ancak gücünün yeteceği kadar yükleriz işte cennetlikler onlardır, orada temelli kalacaklardır Cennette altlarından ırmaklar akarken gönüllerinden kini çıkarıp atarız. "Bizi buraya eriştiren Allah'a hamdolsun. Eğer Allah bizi doğru yola iletmeseydi, biz doğru yolu bulamazdık. And olsun ki Rabbimizin peygamberleri bize gerçeği getirmiştir" derler. Onlara, "İşlediğinize karşılık işte mirasçısı olduğunuz cennet" diye seslenilir`,
+        ``,
+        ``
+      ],
+      [
+        `و كسانى كه ايمان آورده و كارهاى شايسته كرده‌اند -هيچ كسى را جز به قدر توانش تكليف نمى‌كنيم- آنان همدم بهشتند [كه‌] در آن جاودانند و هر گونه كينه‌اى را از سينه‌هايشان مى‌زداييم. از زير [قصرهاى‌]شان نهرها جارى است، و مى‌گويند: «ستايش خدايى را كه ما را بدين [راه‌] هدايت نمود، و اگر خدا ما را رهبرى نمى‌كرد ما خود هدايت نمى‌يافتيم. در حقيقت، فرستادگانِ پروردگارِ ما حق را آوردند.» و به آنان ندا داده مى‌شود كه اين همان بهشتى است كه آن را به [پاداش‌] آنچه انجام مى‌داديد ميراث يافته‌ايد`,
+        ``,
+        ``
+      ],
+      [
+        `যারা বিশ্বাস স্থাপন করেছে এবং সৎকর্ম করেছে আমি কাউকে তার সামর্থ্যের চাইতে বেশী বোঝা দেই না। তারাই জান্নাতের অধিবাসী। তারা তাতেই চিরকাল থাকবে। তাদের অন্তরে যা কিছু দুঃখ ছিল, আমি তা বের করে দেব। তাদের তলদেশ দিয়ে নির্ঝরণী প্রবাহিত হবে। তারা বলবেঃ আল্লাহ শোকর, যিনি আমাদেরকে এ পর্যন্ত পৌছিয়েছেন। আমরা কখনও পথ পেতাম না, যদি আল্লাহ আমাদেরকে পথ প্রদর্শন না করতেন। আমাদের প্রতিপালকের রসূল আমাদের কাছে সত্যকথা নিয়ে এসেছিলেন। আওয়াজ আসবেঃ এটি জান্নাত। তোমরা এর উত্তরাধিকারী হলে তোমাদের কর্মের প্রতিদানে।`,
+        ``,
+        ``
+      ],
+      [
+        `E os que crêem e fazem as boas obras - não impomos a nenhuma alma senão o que é de sua capacidade - esses são os companheiros do Paraíso. Nele, serão eternos E tiraremos o que houver de ódio em seus peitos. Correrão rios a seus pés. E dirão: "Louvor a Allah, Que nos guiou a isto! E não haveríamos guiado, se Allah não nos houvesse guiado! Com efeito, os Mensageiros de nosso Senhor chegaram com a Verdade." E bradar-se-lhes-á: "Este é o Paraíso que vos fizeram herdar, pelo que fazíeis`,
+        ``,
+        ``
+      ],
+      [
+        `信道而且行善者--我只按各人的能力而加以责成--他们是乐园的居民，他们将永居其中。 我将拔除他们心中的怨恨，他们将住在下临诸河的乐园，他们将说：一切赞颂，全归真主！他引导我们获此善报，假如真主没有引导我们，我们不致于遵循正道。我们的主的众使者，确已昭示了真理。或者将大声地对他们说：这就是你们因自己的行为而得继承的乐园。`,
+        ``,
+        ``
+      ],
+      [
+        `だが信仰して善い行いに励む者は，われは誰にも，能力以上のものを負わせない。かれらは楽園の住人である。その中に永遠に住むのである。 われはかれらの心の中の怨恨を除き，かれらの足元に川を流す。かれらは言うであろう。「わたしたちをこの（幸福）に御導き下された，アッラーを讃える。もしアッラーの御導きがなかったならば，わたしたちは決して（正しく）導かれなかったでありましょう。主の使徒たちは，確かに真理を伝えました。」（声があり）かれらは呼びかけられる。「これが楽園である。あなたがたは（正しい）行いのために，ここの居住者となれたのである。」`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 믿음을 갖고 선을 행하는 이들에게 무거운 짐을 주지 아니하니 이들이 천국의 중인들 로서 그 안에서 영생하니라 하나님이 그들의 마음을 청결케 하였고 그들 밑에는 강이 흐르니 그들이 말하길 저희를 이 기쁨으로 인도하여 주신 하나님께찬미를 드리나이다 하나님의 인도하심이 없었다면 저희는 인도되지못하였으리라 실로 그것이 주님의선지자들이 저희에게 전한 진리였습니다 라고 그들이 말하니 천사 들이 너희 앞에 있는 천국을 보라너희가 행한 선행으로 너희가 너 희 것으로 물려 받은 것이라 하더라`,
+        ``,
+        ``
+      ],
+      [
+        `Quanto a coloro che credono e compiono il bene - ché non obbligheremo nessuno oltre le sue possibilità - essi saranno i compagni del Giardino e vi rimarranno in perpetuo Cancelleremo il rancore dai loro petti, mentre ai loro piedi scorreranno i ruscelli e diranno: “La lode [appartiene] ad Allah, Che ci ha guidati a ciò! Non saremmo stati guidati, se Allah non ci avesse guidato. I messaggeri del nostro Signore sono venuti con la verità”. Verrà affermato a gran voce: “Ecco, il Giardino vi è dato in eredità per quello che avete fatto”`,
+        ``,
+        ``
+      ],
+      [
+        `A ci, którzy wierzą i pełnią dobre dzieła - My nie obciążamy żadnej duszy więcej, jak tylko na miarę jej możliwości - oni będą mieszkańcami Ogrodu; oni tam będą przebywać na wieki My usuniemy z ich piersi wszelką zawiść,, jaka się tam jeszcze znajduje. Pod nimi będą płynąć strumyki. I oni będą mówić: "Chwała niech będzie Bogu, który poprowadził nas do tego! Nie bylibyśmy w stanie pójść drogą prostą, gdyby nie poprowadził nas Bóg. Z pewnością posłańcy naszego Pana przyszli z prawdą!" Będzie im ogłoszone: "Oto dla was Ogród, dany wam w dziedzictwo za to, coście czynili`,
+        ``,
+        ``
+      ],
+      [
+        `А ті, які увірували й робили добро — а Ми не вимагаємо від людини понад її можливості — вони є жителями раю й будуть вони там довіку Ми очистимо їхні серця від ненависті, а під ними тектимуть річки. Вони скажуть: «Хвала Аллагу, який привів нас сюди. Ми б не йшли прямим шляхом, якби Аллаг не повів нас ним! Посланці Господа нашого приходили з істиною!» Їм буде сказано: «Оце рай. Ви успадкували його за те, що робили`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأعراف / Al-A'raf، الآيتان 42-43`
   },
 
   {
@@ -6019,6 +8687,450 @@ const verses = [
 
   {
     arabic: [
+      `الَّذِينَ آمَنُوا وَهَاجَرُوا وَجَاهَدُوا فِي سَبِيلِ اللَّهِ بِأَمْوَالِهِمْ وَأَنْفُسِهِمْ أَعْظَمُ دَرَجَةً عِنْدَ اللَّهِ ۚ وَأُولَٰئِكَ هُمُ الْفَائِزُونَ يُبَشِّرُهُمْ رَبُّهُمْ بِرَحْمَةٍ مِنْهُ وَرِضْوَانٍ وَجَنَّاتٍ لَهُمْ فِيهَا نَعِيمٌ مُقِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The ones who have believed, emigrated and striven in the cause of Allah with their wealth and their lives are greater in rank in the sight of Allah. And it is those who are the attainers [of success] Their Lord gives them good tidings of mercy from Him and approval and of gardens for them wherein is enduring pleasure`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui ont cru, qui ont émigré et qui ont lutté par leurs biens et leurs personnes dans le sentier d'Allah, ont les plus hauts rangs auprès d'Allah... et ce sont eux les victorieux Leur Seigneur leur annonce de Sa part, miséricorde et agrément, et des Jardins où il y aura pour eux un délice permanent`,
+        ``,
+        ``
+      ],
+      [
+        `Quienes crean, emigren y luchen por Alá con su hacienda y sus personas tendrán una categoría más elevada junto a Alá. Ésos serán los que triunfen Su Señor les anuncia Su misericordia y satisfacción, así, como jardines en los que gozarán de delicia sin fin`,
+        ``,
+        ``
+      ],
+      [
+        `Те, которые уверовали, совершили переселение и сражались на пути Аллаха своим имуществом и своими душами, выше пред Ним. Они являются преуспевшими Господь обрадует их вестью о Своей милости, Своем довольстве и Райских садах, в которых им уготовано вечное блаженство`,
+        ``,
+        ``
+      ],
+      [
+        `Diejenigen, die glauben und ausgewandert sind und sich auf Allahs Weg mit ihrem Besitz und ihrer eigenen Person abgemüht haben, haben einen größeren Vorzug bei Allah. Das sind die Erfolgreichen Ihr Herr verkündet ihnen Barmherzigkeit von sich und Wohlgefallen und Gärten, in denen sie beständige Wonne haben`,
+        ``,
+        ``
+      ],
+      [
+        `De som har antagit tron och utvandrat från ondskans rike och som med sina ägodelar och sina liv [som insats] strävar och kämpar för Guds sak har den högsta rangen inför Gud; det är de som skall vinna den stora segern Deras Herre ger dem det glädjerika budskapet om [Sin] nåd och [Sitt] välbehag och om lustgårdar där Guds gåvor aldrig tryter`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Degenen die geloven en die zijn uitgeweken en die strijden op de Weg van Allah met hun bezittingen en hun levens zijn hoger in rang bij Allah. En zij zijn degenen die de overwinnaren zijn Hun Heer verkondigt hun verheugende tijdingen over Barmhartigheid van Hem en welbehagen en Tuinen (het Paradijs) waarin voor hen een blijvende gelukzaligheid is`,
+        ``,
+        ``
+      ],
+      [
+        `جو لوگ ایمان لائے اور وطن چھوڑ گئے اور خدا کی راہ میں مال اور جان سے جہاد کرتے رہے۔ خدا کے ہاں ان کے درجے بہت بڑے ہیں۔ اور وہی مراد کو پہنچنے والے ہیں ان کا پروردگار ان کو اپنی رحمت کی اور خوشنودی کی اور بہشتوں کی خوشخبری دیتا ہے جن میں ان کے لیے نعمت ہائے جاودانی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Orang-orang yang beriman dan berhijrah serta berjihad di jalan Allah, dengan harta dan jiwa mereka, adalah lebih tinggi derajatnya di sisi Allah. Mereka itulah orang-orang yang memperoleh kemenangan Tuhan menggembirakan mereka dengan memberikan rahmat, keridaan dan surga, mereka memperoleh kesenangan yang kekal di dalamnya`,
+        ``,
+        ``
+      ],
+      [
+        `İnanan, hicret eden ve Allah yolunda mallarıyla, canlarıyla cihat eden kimselere Allah katında en büyük dereceler vardır. İşte kurtulanlar onlardır Rableri onlara katından bir rahmet, hoşnutluk ve içinde tükenmez nimetler bulunan cennetleri müjdeler. Doğrusu büyük ecir Allah katındadır`,
+        ``,
+        ``
+      ],
+      [
+        `كسانى كه ايمان آورده و هجرت كرده و در راه خدا با مال و جانشان به جهاد پرداخته‌اند نزد خدا مقامى هر چه والاتر دارند و اينان همان رستگارانند پروردگارشان آنان را از جانب خود، به رحمت و خشنودى و باغهايى [در بهشت‌] كه در آنها نعمتهايى پايدار دارند، مژده مى‌دهد`,
+        ``,
+        ``
+      ],
+      [
+        `যারা ঈমান এনেছে, দেশ ত্যাগ করেছে এবং আল্লাহর রাহে নিজেদের জান ও মাল দিয়ে জেহাদ করেছে, তাদের বড় মর্যাদা রয়েছে আল্লাহর কাছে আর তারাই সফলকাম। তাদের সুসংবাদ দিচ্ছেন তাদের পরওয়ারদেগার স্বীয় দয়া ও সন্তোষের এবং জান্নাতের, সেখানে আছে তাদের জন্য স্থায়ী শান্তি।`,
+        ``,
+        ``
+      ],
+      [
+        `Os que crêem e emigram e lutam no caminho de Allah, com suas riquezas e com si mesmos, têm escalões mais elevados junto de Allah. E esses são os triunfadores Seu Senhor alvissara-lhes misericórdia vinda dEle, e agrado, e jardins; neles, terão delícia permanente`,
+        ``,
+        ``
+      ],
+      [
+        `信道而且迁居，并借自己的财产和生命为主道而奋斗者，在真主看来，是品级更高的；这等人就是成功的。 他们的主以自己的慈恩、喜悦和乐园向他们报喜，他们将在乐园里享受永恒的恩`,
+        ``,
+        ``
+      ],
+      [
+        `信仰する者，移住した者，またアッラーの道のために財産と生命を捧げて奮闘努力した者は ，アッラーの御許においては最高の位階にあり，至上の幸福を成就する。 主は，親しく慈悲と満悦を与えられ，かれらのために永遠の至福の楽園の吉報を与えられる。`,
+        ``,
+        ``
+      ],
+      [
+        `믿음을 갖고 이주하여 하나 님의 길에서 그들의 재산과 생명 으로 성전하는 자들은 하나님으 로부터 가장 큰 보상을 받으니 그들이 숭리한 자들이라 그들의 주님께서 그들에게 자비와 기쁨으로 복음을 전하니 천국이 그들의 것이요 그곳에서 영원한 기쁨을 누리리라`,
+        ``,
+        ``
+      ],
+      [
+        `Coloro che credono, che sono emigrati e che lottano sul sentiero di Allah con i loro beni e le loro vite, hanno i più alti gradi presso Allah. Essi sono i vincenti Il loro Signore annuncia loro la Sua misericordia e il Suo compiacimento e i Giardini in cui avranno delizia durevole`,
+        ``,
+        ``
+      ],
+      [
+        `Ci, którzy uwierzyli, ci, którzy wywędrowali wspólnie, ci, którzy walczyli na drodze Boga swoim majątkiem i swoimi duszami, będą mieli najwyższy stopień u Boga - oni są tymi, którzy osiągnęli sukces Ich Pan obwieści im radosną nowinę przez miłosierdzie od Niego i przez upodobanie, i przez Ogrody, gdzie czeka ich nieustanna szczęśliwość`,
+        ``,
+        ``
+      ],
+      [
+        `Ті, які увірували, переселилися й боролися на шляху Аллага, жертвуючи своє майно та душі, мають вищий ступінь перед Аллагом! Саме вони й матимуть успіх Господь їхній сповістить їм добру звістку про милість від Себе, ласку й сади, де їх чекає нетлінна благодать`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة التوبة / At-Tawbah، الآيتان 20-21`
+  },
+
+  {
+    arabic: [
+      `۞ يَا أَيُّهَا الَّذِينَ آمَنُوا إِنَّ كَثِيرًا مِنَ الْأَحْبَارِ وَالرُّهْبَانِ لَيَأْكُلُونَ أَمْوَالَ النَّاسِ بِالْبَاطِلِ وَيَصُدُّونَ عَنْ سَبِيلِ اللَّهِ ۗ وَالَّذِينَ يَكْنِزُونَ الذَّهَبَ وَالْفِضَّةَ وَلَا يُنْفِقُونَهَا فِي سَبِيلِ اللَّهِ فَبَشِّرْهُمْ بِعَذَابٍ أَلِيمٍ يَوْمَ يُحْمَىٰ عَلَيْهَا فِي نَارِ جَهَنَّمَ فَتُكْوَىٰ بِهَا جِبَاهُهُمْ وَجُنُوبُهُمْ وَظُهُورُهُمْ ۖ هَٰذَا مَا كَنَزْتُمْ لِأَنْفُسِكُمْ فَذُوقُوا مَا كُنْتُمْ تَكْنِزُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O you who have believed, indeed many of the scholars and the monks devour the wealth of people unjustly and avert [them] from the way of Allah. And those who hoard gold and silver and spend it not in the way of Allah - give them tidings of a painful punishment The Day when it will be heated in the fire of Hell and seared therewith will be their foreheads, their flanks, and their backs, [it will be said], "This is what you hoarded for yourselves, so taste what you used to hoard`,
+        ``,
+        ``
+      ],
+      [
+        `O vous qui croyez! Beaucoup de rabbins et de moines dévorent, les biens des gens illégalement et [leur] obstruent le sentier d'Allah. A ceux qui thésaurisent l'or et l'argent et ne les dépensent pas dans le sentier d'Allah, annonce un châtiment douloureux le jour où (ces trésors) seront portés à l'incandescence dans le feu de l'Enfer et qu'ils en seront cautérisés, front, flancs et dos: voici ce que vous avez thésaurisé pour vous-mêmes. Goûtez de ce que vous thésaurisiez.»`,
+        ``,
+        ``
+      ],
+      [
+        `¡Creyentes! Muchos doctores y monjes devoran, sí, la hacienda ajena injustamente, desviando a otros del camino de Alá. A quienes atesoran oro y plata y no lo gastan por la causa de Alá, anúnciales un castigo doloroso el día que esos metales se pongan candentes en el fuego de la gehena y sus frentes, costados y espaldas sean marcados con ellos: «Esto es lo que atesorabais para vosotros. ¡Gustad, pues, lo que atesorabais!»`,
+        ``,
+        ``
+      ],
+      [
+        `О те, которые уверовали! Воистину, многие из первосвященников и монахов незаконно пожирают имущество людей и сбивают их с пути Аллаха. Обрадуй же тех, которые накапливают золото и серебро и не расходуют их на пути Аллаха, мучительными страданиями В тот день они (накопленные ими сокровища) будут раскалены в огне Геенны, и ими будут заклеймены их лбы, бока и спины. Им будет сказано: «Вот то, что вы копили для себя. Вкусите же то, что вы копили!»`,
+        ``,
+        ``
+      ],
+      [
+        `O die ihr glaubt, viele von den Gelehrten und den Mönchen verschlingen fürwahr den Besitz der Menschen auf nichtige Weise und halten von Allahs Weg ab. Diejenigen, die Gold und Silber horten und es nicht auf Allahs Weg ausgeben, denen verkünde schmerzhafte Strafe am Tag, da im Feuer der Hölle darüber heiß gemacht wird und damit ihre Stirnen, ihre Seiten und ihre Rücken gebrandmarkt werden: Dies ist, was ihr für euch selbst gehortet habt. Nun kostet, was ihr zu horten pflegtet`,
+        ``,
+        ``
+      ],
+      [
+        `Troende! Många rabbiner och kyrkans lärda män lägger med orätt beslag på [andras] egendom och spärrar Guds väg [för andra]. De som samlar skatter av guld och silver och inte ger av detta för Guds sak, låt dem veta att ett plågsamt straff [väntar dem] den dag då dessa [skatter] skall glödgas i helvetets eld och deras pannor, sidor och ryggar brännmärkas med detta [och en röst säger:] "Detta är de skatter ni samlade för att i ensamhet [ruva över dem]; smaka nu det som ni lade på hög`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O jullie die geloven, voorwaar, de meesten van de schriftgeleerden en de monniken verteren de bezittingen van de mensen op onrechtmatige wijze en zij houden (hen) af van de Weg van Allah. En zij die het goud en het zilver oppotten dit niet besteden op de Weg van Allah; verkondig hen over een pijnlijke bestraffing De dag waarop dit (goud en zilver) verhit zal worden in het vuur van de Hel, dan zal ermee over hun voorhoofden, hun zijden en hun ruggen gestreken worden. (En er zal worden gezegd.) "Dat is, wat jullie voor jezelf hadden opgepot, proeft dan wat jullie plachten op te potten`,
+        ``,
+        ``
+      ],
+      [
+        `مومنو! (اہل کتاب کے) بہت سے عالم اور مشائخ لوگوں کا مال ناحق کھاتے اور (ان کو) راہ خدا سے روکتے ہیں۔ اور جو لوگ سونا اور چاندی جمع کرتے ہیں اور اس کو خدا کے رستے میں خرچ نہیں کرتے۔ ان کو اس دن عذاب الیم کی خبر سنادو جس دن وہ مال دوزخ کی آگ میں (خوب) گرم کیا جائے گا۔ پھر اس سے ان (بخیلوں) کی پیشانیاں اور پہلو اور پیٹھیں داغی جائیں گی (اور کہا جائے گا) کہ یہ وہی ہے جو تم نے اپنے لیے جمع کیا تھا سو جو تم جمع کرتے تھے (اب) اس کا مزہ چکھو`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai orang-orang yang beriman! Sesungguhnya banyak dari orang-orang alim dan rahib-rahib mereka benar-benar memakan harta orang dengan jalan yang batil, dan (mereka) menghalang-halangi (manusia) dari jalan Allah. Dan orang-orang yang menyimpan emas dan perak dan tidak menginfakkannya di jalan Allah, maka berikanlah kabar gembira kepada mereka, (bahwa mereka akan mendapat) azab yang pedih (Ingatlah) Pada hari ketika emas dan perak di panaskan dalam neraka Jahanam, lalu dengan itu disetrika dahi, lambung dan punggung mereka (seraya dikatakan) kepada mereka, "Inilah harta bendamu yang kamu simpan untuk dirimu sendiri, maka rasakanlah (akibat dari) apa yang kamu simpan itu`,
+        ``,
+        ``
+      ],
+      [
+        `Ey inananlar! Hahamlar ve rahiplerin çoğu, insanların mallarını haksızlıkla yerler. Allah yolundan alıkoyarlar. Altın ve gümüşü biriktirip Allah yolunda sarf etmeyenlere can yakıcı bir azabı müjdele Bunlar cehennem ateşinde kızdırıldığı gün, alınları, böğürleri ve sırtları onlarla dağlanacak, "Bu, kendiniz için biriktirdiğinizdir; biriktirdiğinizi tadın" denecek`,
+        ``,
+        ``
+      ],
+      [
+        `اى كسانى كه ايمان آورده‌ايد، بسيارى از دانشمندان يهود و راهبان، اموال مردم را به ناروا مى‌خورند، و [آنان را] از راه خدا باز مى‌دارند، و كسانى كه زر و سيم را گنجينه مى‌كنند و آن را در راه خدا هزينه نمى‌كنند، ايشان را از عذابى دردناك خبر ده روزى كه آن [گنجينه‌]ها را در آتش دوزخ بگدازند، و پيشانى و پهلو و پشت آنان را با آنها داغ كنند [و گويند:] «اين است آنچه براى خود اندوختيد، پس [كيفر] آنچه را مى‌اندوختيد بچشيد.»`,
+        ``,
+        ``
+      ],
+      [
+        `হে ঈমানদারগণ! পন্ডিত ও সংসারবিরাগীদের অনেকে লোকদের মালামাল অন্যায়ভাবে ভোগ করে চলছে এবং আল্লাহর পথ থেকে লোকদের নিবৃত রাখছে। আর যারা স্বর্ণ ও রূপা জমা করে রাখে এবং তা ব্যয় করে না আল্লাহর পথে, তাদের কঠোর আযাবের সুসংবাদ শুনিয়ে দিন। সে দিন জাহান্নামের আগুনে তা উত্তপ্ত করা হবে এবং তার দ্বারা তাদের ললাট, পার্শ্ব ও পৃষ্ঠদেশকে দগ্ধ করা হবে (সেদিন বলা হবে), এগুলো যা তোমরা নিজেদের জন্যে জমা রেখেছিলে, সুতরাং এক্ষণে আস্বাদ গ্রহণ কর জমা করে রাখার।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó vós que credes! Por certo, muitos dos rabinos e dos monges devoram, ilicitamente, as riquezas dos homens e afastam-nos do caminho de Allah. E aos que entesouram o ouro e a prata e não os despendem no caminho de Allah, alvissara-lhes doloroso castigo Um dia, quando os incandescerem no fogo da Geena, e, com eles, lhes cauterizar as frontes e os flancos e os dorsos, dir-se-lhes-á: "Isto é o que entesourastes, para vós mesmos: então, experimentai o que entesouráveis`,
+        ``,
+        ``
+      ],
+      [
+        `信道的人们啊！有许多博士和僧侣，的确借诈术而侵吞别人的财产，并且阻止别人走真主的大道。窖藏金银，而不用于主道者，你应当以痛苦的刑罚向他们报喜。 在那日，要把那些金银放在火狱的火里烧红，然后用来烙他们的前额、肋下和背脊。这是你们为自己而窖藏的金银。你们尝尝藏在窖里的东西的滋味吧！`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがた信仰する者たちよ，律法学者や修道士の多くは偽って人びとの財産を貪り，（かれらを）アッラーの道から妨げている。また金や銀を蓄えて，それをアッラーの道のために施さない者もいる。かれらに痛ましい懲罰を告げてやれ。 その日，それら（の金銀）は地獄の火で熱せられて，かれらの額やわき腹や背に，焼印が押されるであろう。「これはあなたがたが自分の魂のために，蓄積したものである。だからあなたがたが蓄積したものを味わえ。」`,
+        ``,
+        ``
+      ],
+      [
+        `믿는자들이여 많은 아흐바 르와 루흐반들이 부정으로 사람 의 재물을 축적하며 하나님의 길 에 있는 이들을 방해 하도다 또한금과 은을 저장하여 두고 하나님 을 위해 사용치 않는 자들이 있으니 그들에게 고통스러운 벌이 있 을 것이라 경고하라 지옥의 불에서 달구어질 그 날 그들의 앞 이마와 그들의 옆구리와 그들의 등 위에 그들이 얻은것이 표시가 되니 이것은 너희가 네 자신만을 위해 저장한 것이거 늘 너희가 저장한 것을 맛보라`,
+        ``,
+        ``
+      ],
+      [
+        `O voi che credete, molti dottori e monaci divorano i beni altrui, senza diritto alcuno, e distolgono dalla causa di Allah. Annuncia a coloro che accumulano l'oro e l'argento e non spendono per la causa di Allah un doloroso castigo nel Giorno in cui queste ricchezze saranno rese incandescenti dal fuoco dell'Inferno e ne saranno marchiate le loro fronti, i loro fianchi e le loro spalle: “Questo è ciò che accumulavate? Gustate dunque quello che avete accumulato!”`,
+        ``,
+        ``
+      ],
+      [
+        `O wy, którzy wierzycie! Zaprawdę, wielu spośród uczonych w piśmie - rabinów i mnichów - zjada nadaremnie majątki ludzi i oddala od drogi Boga. A tym, którzy zbierają złoto i srebro, a nie rozdają ich na drodze Boga - obwieść karę bolesną W Dniu, kiedy te metale będą rozpalone w ogniu Gehenny i będą napiętnowane nimi ich czoła, ich boki i grzbiety: "Oto co zebraliście dla siebie. Zakosztujcie więc tego, co zebraliście`,
+        ``,
+        ``
+      ],
+      [
+        `О ви, які увірували! Воістину, багато хто з учених і ченців неправедно пожирає майно людей і збиває їх зі шляху Аллага. А щодо тих, які накопичують золото й срібло та не жертвують його на шляху Аллага, то сповісти їм добру звістку про болісну кару Того Дня його розтоплять у вогні пекла й затаврують ним їхні чола, боки та спини: «Ось те, що ви накопичували для себе. Тож скуштуйте того, що ви накопичували`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة التوبة / At-Tawbah، الآيتان 34-35`
+  },
+
+  {
+    arabic: [
+      `وَعَدَ اللَّهُ الْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ جَنَّاتٍ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ خَالِدِينَ فِيهَا وَمَسَاكِنَ طَيِّبَةً فِي جَنَّاتِ عَدْنٍ ۚ وَرِضْوَانٌ مِنَ اللَّهِ أَكْبَرُ ۚ ذَٰلِكَ هُوَ الْفَوْزُ الْعَظِيمُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Allah has promised the believing men and believing women gardens beneath which rivers flow, wherein they abide eternally, and pleasant dwellings in gardens of perpetual residence; but approval from Allah is greater. It is that which is the great attainment`,
+        ``,
+        ``
+      ],
+      [
+        `Aux croyants et aux croyantes, Allah a promis des Jardins sous lesquels coulent les ruisseaux, pour qu'ils y demeurent éternellement, et des demeures excellentes, aux jardins d'Eden [du séjour permanent]. Et la satisfaction d'Allah est plus grande encore, et c'est là l'énorme succès`,
+        ``,
+        ``
+      ],
+      [
+        `Alá ha prometido a los creyentes y a las creyentes jardines por cuyos bajos fluyen arroyos, en los que estarán eternamente, y viviendas agradables en los jardines del edén. Pero la satisfacción de Alá será mejor aún. ¡Ése el éxito grandioso`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах обещал верующим мужчинам и женщинам Райские сады, в которых текут реки и в которых они пребудут вечно, а также прекрасные жилища в садах Эдема. Но довольство Аллаха будет превыше этого. Это и есть великое преуспеяние`,
+        ``,
+        ``
+      ],
+      [
+        `Allah hat den gläubigen Männern und Frauen Gärten versprochen, durcheilt von Bächen, ewig darin zu bleiben, und gute Wohnungen in den Gärten Edens. Wohlgefallen von Allah ist aber (noch) größer. Das ist der großartige Erfolg`,
+        ``,
+        ``
+      ],
+      [
+        `Gud har lovat de troende, männen såväl som kvinnorna, ett paradis, vattnat av bäckar, där de skall förbli till evig tid, och sköna boningar i dessa Edens lustgårdar; men större än allt detta är Guds välbehag - detta är den stora, den lysande segern`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Allah heeft de gelovigen mannen en de gelovige vrouwen Tuinen (het Paradijs) beloofd waar onder door de rivieren stromen, zij zijn daarin eeuwig, levenden. En goede woonplaatsen in de Tuinen van 'Adn (Eden). En het welbehagen van Allah is groter. Dat is de geweldige overwinning`,
+        ``,
+        ``
+      ],
+      [
+        `خدا نے مومن مردوں اور مومن عورتوں سے بہشتوں کا وعدہ کیا ہے جن کے نیچے نہریں بہہ رہی ہیں (وہ) ان میں ہمیشہ رہیں گے اور بہشت ہائے جاودانی میں نفیس مکانات کا (وعدہ کیا ہے) اور خدا کی رضا مندی تو سب سے بڑھ کر نعمت ہے یہی بڑی کامیابی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Allah menjanjikan kepada orang-orang mukmin laki-laki dan perempuan, (akan mendapat) surga yang mengalir di bawahnya sungai-sungai, mereka kekal di dalamnya, dan (mendapat) tempat yang baik di surga 'Adn. Dan keridaan Allah lebih besar. Itulah kemenangan yang agung`,
+        ``,
+        ``
+      ],
+      [
+        `Allah mümin erkeklere ve mümin kadınlara, temelli kalacakları, içlerinden ırmaklar akan cennetler, Adn cennetlerinde hoş meskenler vadetmiştir. Allah'ın hoşnut olması en büyük şeydir. İşte büyük kurtuluş budur`,
+        ``,
+        ``
+      ],
+      [
+        `خداوند به مردان و زنان با ايمان باغهايى وعده داده است كه از زير [درختان‌] آن نهرها جارى است. در آن جاودانه خواهند بود. و [نيز] سراهايى پاكيزه در بهشتهاى جاودان [به آنان وعده داده است‌] و خشنودى خدا بزرگتر است. اين است همان كاميابى بزرگ`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ ঈমানদার পুরুষ ও ঈমানদার নারীদের প্রতিশ্রুতি দিয়েছেনে কানন-কুঞ্জের, যার তলদেশে প্রবাহিত হয় প্রস্রবণ। তারা সে গুলোরই মাঝে থাকবে। আর এসব কানন-কুঞ্জে থাকবে পরিচ্ছন্ন থাকার ঘর। বস্তুতঃ এ সমুদয়ের মাঝে সবচেয়ে বড় হল আল্লাহর সন্তুষ্টি। এটিই হল মহান কৃতকার্যতা।`,
+        ``,
+        ``
+      ],
+      [
+        `Allah promete aos crentes e às crentes Jardins, abaixo dos quais correm os rios; nesses, serão eternos, e esplêndidas vivendas nos Jardins do Éden e agrado de Allah, ainda, maior. Esse é o magnífico triunfo`,
+        ``,
+        ``
+      ],
+      [
+        `真主应许信道的男女们将进入下临诸河的乐园，并永居其中，他们在常住的乐园里，将有优美的住宅，得到真主的更大的喜悦。这就是伟大的成功。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーは，男の信者にも女の信者にも，川が永遠に下を流れる楽園に住むことを約束された。また永遠〔アドン〕の園の中の，立派な館をも。だがも偉大なものは，アッラーの御満悦である。それを得ることは，至上の幸福の成就である。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서 신앙인들에게 아래로 강이 흐르는 천국을 약속하 사 그곳에서 영생할 것이며 에덴 의 천국에는 아름다운 주거지와 하나님의 보다 큰 기쁨이 있나니 그것이 위대한 승리라`,
+        ``,
+        ``
+      ],
+      [
+        `Ai credenti e alle credenti, Allah ha promesso i Giardini in cui scorrono i ruscelli, dove rimarranno in perpetuo, e splendide dimore nei giardini dell'Eden; ma il compiacimento di Allah vale ancora di più: questa è l'immensa beatitudine`,
+        ``,
+        ``
+      ],
+      [
+        `Obiecał Bóg wierzącym, mężczyznom i kobietom, Ogrody, gdzie w dole płyną strumyki - oni tam będą przebywać na wieki - i mieszkania przyjemne w Ogrodach Edenu. A zadowolenie Boga jest jeszcze czymś większym od tego! To jest osiągnięcie ogromne`,
+        ``,
+        ``
+      ],
+      [
+        `Обіцяв Аллаг віруючим чоловікам і жінкам рай, де течуть ріки, де прекрасні житла в садах Едену. Вони будуть там довіку! А ласка від Аллага ще більша! Це — великий успіх`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة التوبة / At-Tawbah، الآية 72`
+  },
+
+  {
+    arabic: [
+      `۞ إِنَّ اللَّهَ اشْتَرَىٰ مِنَ الْمُؤْمِنِينَ أَنْفُسَهُمْ وَأَمْوَالَهُمْ بِأَنَّ لَهُمُ الْجَنَّةَ ۚ يُقَاتِلُونَ فِي سَبِيلِ اللَّهِ فَيَقْتُلُونَ وَيُقْتَلُونَ ۖ وَعْدًا عَلَيْهِ حَقًّا فِي التَّوْرَاةِ وَالْإِنْجِيلِ وَالْقُرْآنِ ۚ وَمَنْ أَوْفَىٰ بِعَهْدِهِ مِنَ اللَّهِ ۚ فَاسْتَبْشِرُوا بِبَيْعِكُمُ الَّذِي بَايَعْتُمْ بِهِ ۚ وَذَٰلِكَ هُوَ الْفَوْزُ الْعَظِيمُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, Allah has purchased from the believers their lives and their properties [in exchange] for that they will have Paradise. They fight in the cause of Allah, so they kill and are killed. [It is] a true promise [binding] upon Him in the Torah and the Gospel and the Qur'an. And who is truer to his covenant than Allah? So rejoice in your transaction which you have contracted. And it is that which is the great attainment`,
+        ``,
+        ``
+      ],
+      [
+        `Certes, Allah a acheté des croyants, leurs personnes et leurs biens en échange du Paradis. Ils combattent dans le sentier d'Allah: ils tuent, et ils se font tuer. C'est une promesse authentique qu'Il a prise sur Lui-même dans la Thora, l'Evangile et le Coran. Et qui est plus fidèle qu'Allah à son engagement? Réjouissez-vous donc de l'échange que vous avez fait: Et c'est là le très grand succès`,
+        ``,
+        ``
+      ],
+      [
+        `Alá ha comprado a los creyentes sus personas y su hacienda, ofreciédoles, a cambio, el Jardín. Combaten por Alá: matan o les matan. Es una promesa que Le obliga, verdad, contenida en la Tora. en el Evangelio y en el Corán. Y ¿quién respeta mejor su alianza que Alá? ¡Regocijaos por el trato que habéis cerrado con É! ¡Ése es el éxito grandioso`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, Аллах купил у верующих их души и имущество в обмен на Рай. Они сражаются на пути Аллаха, убивая и погибая. Таково Его обещание и обязательство в Таурате (Торе), Инджиле (Евангелии) и Коране. Кто выполняет свои обещания лучше Аллаха? Возрадуйтесь же сделке, которую вы заключили. Это и есть великое преуспеяние`,
+        ``,
+        ``
+      ],
+      [
+        `Allah hat von den Gläubigen ihre eigene Person und ihren Besitz dafür erkauft, daß ihnen der (Paradies)garten gehört: Sie kämpfen auf Allahs Weg, und so töten sie und werden getötet. (Das ist) ein für Ihn bindendes Versprechen in Wahrheit in der Tora, dem Evangelium und dem Qur'an. Und wer ist treuer in (der Einhaltung) seiner Abmachung als Allah? So freut euch über das Kaufgeschäft, das ihr abgeschlossen habt, denn das ist der großartige Erfolg`,
+        ``,
+        ``
+      ],
+      [
+        `GUD HAR [slutit ett avtal] med de troende, enligt vilket Han i utbyte för deras liv och egendom lovar dem paradiset; de kämpar för Guds sak och dödar eller dödas. [Detta är] ett fast och klart löfte, vars sanning Han har bekräftat i Tora och Evangeliet och i Koranen, och vem uppfyller sina löften bättre än Gud? Gläds därför över det avtal som ni har slutit - detta är den stora, den lysande segern`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, Allah heeft van de gelovigen hun levens en bezittingen gekocht omdat er voor hen het Paradijs is. Zij strijden op de Weg van Allah, zodat zij doden of gedood wordenm als een belofte waar Hij Zich aan heeft verbonden, een Waarheid (die staat verineld) in de Taurât, en de lndjîl en de Koran. En wie is zijn belofte meer trouw dan Allah? Verheugt jullie daarom over jullie koop die jullie met Hem hebben gestoten. En dat is de geweldige overwinning`,
+        ``,
+        ``
+      ],
+      [
+        `خدا نے مومنوں سے ان کی جانیں اور ان کے مال خرید لیے ہیں (اور اس کے) عوض ان کے لیے بہشت (تیار کی) ہے۔ یہ لوگ خدا کی راہ میں لڑتے ہیں تو مارتے بھی ہیں اور مارے بھی جاتے ہیں بھی ہیں۔ یہ تورات اور انجیل اور قرآن میں سچا وعدہ ہے۔ جس کا پورا کرنا اسے ضرور ہے اور خدا سے زیادہ وعدہ پورا کرنے والا کون ہے تو جو سودا تم نے اس سے کیا ہے اس سے خوش رہو۔ اور یہی بڑی کامیابی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya Allah membeli dari orang-orang mukmin, baik diri maupun harta mereka dengan memberikan surga untuk mereka. Mereka berperang di jalan Allah; sehingga mereka membunuh atau terbunuh, (sebagai) janji yang benar dari Allah di dalam Taurat, Injil dan Alquran. Dan siapakah yang lebih menepati janjinya selain Allah? Maka bergembiralah dengan jual beli yang telah kamu lakukan itu, dan demikian itulah kemenangan yang agung`,
+        ``,
+        ``
+      ],
+      [
+        `Allah şüphesiz, Allah yolunda savaşıp, öldüren ve öldürülen müminlerin canlarını ve mallarını Tevrat, İncil ve Kuran'da söz verilmiş bir hak olarak cennete karşılık satın almıştır. Verdiği sözü Allah'tan daha çok tutan kim vardır? Öyleyse, yaptığınız alışverişe sevinin; bu büyük başarıdır`,
+        ``,
+        ``
+      ],
+      [
+        `در حقيقت، خدا از مؤمنان، جان و مالشان را به [بهاى‌] اينكه بهشت براى آنان باشد، خريده است؛ همان كسانى كه در راه خدا مى‌جنگند و مى‌كُشند و كشته مى‌شوند. [اين‌] به عنوان وعده حقى در تورات و انجيل و قرآن بر عهده اوست. و چه كسى از خدا به عهد خويش وفادارتر است؟ پس به اين معامله‌اى كه با او كرده‌ايد شادمان باشيد، و اين همان كاميابى بزرگ است`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ ক্রয় করে নিয়েছেন মুসলমানদের থেকে তাদের জান ও মাল এই মূল্যে যে, তাদের জন্য রয়েছে জান্নাত। তারা যুদ্ধ করে আল্লাহর রাহেঃ অতঃপর মারে ও মরে। তওরাত, ইঞ্জিল ও কোরআনে তিনি এ সত্য প্রতিশ্রুতিতে অবিচল। আর আল্লাহর চেয়ে প্রতিশ্রুতি রক্ষায় কে অধিক? সুতরাং তোমরা আনন্দিত হও সে লেন-দেনের উপর, যা তোমরা করছ তাঁর সাথে। আর এ হল মহান সাফল্য।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, Allah comprou aos crentes suas pessoas e suas riquezas, pelo preço por que terão o Paraíso. Combatem no caminho de Allah: então, eles matam e são mortos, promessa que, deveras, Lhe impende na Torá e no Evangelho e no Alcorão. E quem mais fiel a seu pacto que Allah? Então, exultai pela venda que fizestes. E esse é o magnífico triunfo`,
+        ``,
+        ``
+      ],
+      [
+        `真主确已用乐园换取信士们的生命和财产。他们为真主而战斗；他们或杀敌致果，或杀身成仁。那是真实的应许，记录在《讨拉特》、《引支勒》和《古兰经》中。谁比真主更能践约呢？你们要为自己所缔结的契约而高兴。那正是伟大的成功。`,
+        ``,
+        ``
+      ],
+      [
+        `本当にアッラーは，信者たちからその生命と財産を贖われた。かれらのため（の代償）は，楽園である。かれらはアッラーの道のために戦い，殺し，また殺される。それは律法と福音とクルアーンとを通じて，かれが結ばれる真実な約束である。誰がアッラー以上に，約束に忠実であろうか。だからあなたがたが結んだ契約を喜べ。それこそは至上の幸福の成就である。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 믿는자 가운데서그들의 영혼과 그들의 재산을 사 시나니 천국이 그들의 것이기 때 문이라 그들은 하나님을 위해 성 전하고 투쟁하며 또 순교하리니 그것은 구약과 신약과 꾸란에 약 속된 것이라 하나님보다 약속을 잘 지키시는 분이 누구이뇨 너희 가 하나님과 성약한 것에 기뻐하 라 그것이 영광된 승리라`,
+        ``,
+        ``
+      ],
+      [
+        `Allah ha comprato dai credenti le loro persone e i loro beni [dando] in cambio il Giardino, [poiché] combattono sul sentiero di Allah, uccidono e sono uccisi. Promessa autentica per Lui vincolante, presente nella Torâh, nel Vangelo e nel Corano. Chi, più di Allah, rispetta i patti? Rallegratevi del baratto che avete fatto. Questo è il successo più grande`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, Bóg kupił u wiernych ich dusze i ich majątki, w zamian za co otrzymają Ogród. Oni walczą na drodze Boga i zabijają, i są zabijani, zgodnie z Jego prawdziwą obietnicą w Torze, Ewangelii i w Koranie. A kto wierniej wypełnia swoje przymierze aniżeli Bóg? Cieszcie się więc z handlu, jaki z Nim zrobiliście! To jest osiągnięcie ogromne`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, Аллаг купив у віруючих їхні душі й майно в обмін на рай. Вони ведуть боротьбу на шляху Аллага, вбивають і бувають убиті. Така правдива обіцянка, дана в Таураті, Інджілі й Корані. Хто ж краще виконує обіцянки, ніж Аллаг? Тож радійте угоді, яку ви уклали з Ним! Це — великий успіх`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة التوبة / At-Tawbah، الآية 111`
+  },
+
+  {
+    arabic: [
       `لَقَدْ جَاءَكُمْ رَسُولٌ مِّنْ أَنفُسِكُمْ`,
       `عَزِيزٌ عَلَيْهِ مَا عَنِتُّمْ`,
       `حَرِيصٌ عَلَيْكُم بِالْمُؤْمِنِينَ رَءُوفٌ رَّحِيمٌ`
@@ -6348,6 +9460,117 @@ const verses = [
       ]
     ],
     number: `سورة يونس / Yunus، الآية 25`
+  },
+
+  {
+    arabic: [
+      `۞ لِلَّذِينَ أَحْسَنُوا الْحُسْنَىٰ وَزِيَادَةٌ ۖ وَلَا يَرْهَقُ وُجُوهَهُمْ قَتَرٌ وَلَا ذِلَّةٌ ۚ أُولَٰئِكَ أَصْحَابُ الْجَنَّةِ ۖ هُمْ فِيهَا خَالِدُونَ وَالَّذِينَ كَسَبُوا السَّيِّئَاتِ جَزَاءُ سَيِّئَةٍ بِمِثْلِهَا وَتَرْهَقُهُمْ ذِلَّةٌ ۖ مَا لَهُمْ مِنَ اللَّهِ مِنْ عَاصِمٍ ۖ كَأَنَّمَا أُغْشِيَتْ وُجُوهُهُمْ قِطَعًا مِنَ اللَّيْلِ مُظْلِمًا ۚ أُولَٰئِكَ أَصْحَابُ النَّارِ ۖ هُمْ فِيهَا خَالِدُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `For them who have done good is the best [reward] and extra. No darkness will cover their faces, nor humiliation. Those are companions of Paradise; they will abide therein eternally But they who have earned [blame for] evil doings - the recompense of an evil deed is its equivalent, and humiliation will cover them. They will have from Allah no protector. It will be as if their faces are covered with pieces of the night - so dark [are they]. Those are the companions of the Fire; they will abide therein eternally`,
+        ``,
+        ``
+      ],
+      [
+        `A ceux qui agissent en bien est réservée la meilleure (récompense) et même davantage. Nulle fumée noircissante, nul avilissement ne couvriront leurs visages. Ceux-là sont les gens du Paradis, où ils demeureront éternellement Et ceux qui ont commis de mauvaises actions, la rétribution d'une mauvaise action sera l'équivalent. Un avilissement les couvrira, - pas de protecteur pour eux contre Allah -, comme si leurs visages se couvraient de lambeaux de ténèbres nocturnes. Ceux-là sont là les gens du Feu où ils demeureront éternellement`,
+        ``,
+        ``
+      ],
+      [
+        `Para quienes obren bien, lo mejor y más. Ni el polvo ni la humillación cubrirán sus rostros. Ésos morarán en el Jardín eternamente A quienes obren mal, se les retribuirá con otro tanto. Les cubrirá la humillación -no tendrán quien les proteja de Alá-, como si jirones de tinieblas nocturnas cubrieran sus rostros. Ésos morarán en el Fuego eternamente`,
+        ``,
+        ``
+      ],
+      [
+        `Тем, которые творили добро, уготовано Наилучшее (Рай), и им будет добавлено еще (они получат возможность взглянуть на Лик Аллаха). Не будет на их лицах ни праха, ни унижения. Они - обитатели Рая, в котором они пребудут вечно А воздаянием тех, кто приобрел зло, будет равноценное зло. Их постигнет унижение, и никто не защитит их от Аллаха. Их лица словно покроются клочьями ночного мрака. Они - обитатели Огня, в котором они пребудут вечно`,
+        ``,
+        ``
+      ],
+      [
+        `Für diejenigen, die Gutes tun, gibt es das Beste (an Lohn) und noch mehr. Ihre Gesichter werden weder von Dunkelheit noch Erniedrigung bedeckt. Das sind die Insassen des (Paradies)gartens; ewig werden sie darin bleiben Für diejenigen aber, die böse Taten erwerben, ist der Lohn einer bösen Tat ein Gleiches, und Erniedrigung wird sie bedecken - sie haben vor Allah nichts, das sie schützen könnte -, als ob ihre Gesichter von Stücken finsterer Nacht überdeckt wären. Das sind die Insassen des (Höllen)feuers; ewig werden sie darin bleiben`,
+        ``,
+        ``
+      ],
+      [
+        `De som gör det goda och det rätta skall få det högsta goda - och mer därtill. Inga skuggor, inga känslor av skam skall förmörka deras ansikten [på Uppståndelsens dag] - deras arvedel är paradiset och där skall de förbli till evig tid Men de som ständigt begår orätt, för dem skall lönen för varje ond handling vara vad som motsvarar den; och skammen skall förmörka deras ansikten - de har inget skydd mot Guds [vrede] - som om de hade täckts av en flik av nattens svarta [mantel]. Deras arvedel är Elden; där skall de förbli till evig tid`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voor degenen die het goede verrichten is er het beste en meer. Grauwheid noch vernedering zal hun gezichten bedekken. Zij zijn degenen die de bewoners van het Paradijs zijn, zij zijn daarin eeuwig levenden En degenen die slechte daden verrichten: de vergelding van de slechte daad is met het daaraan gelijke, en vernedering, bedekt hen. Er zal voor hen tegen Allah geen verdediger zijn. Het is alsof hun gezichten zijn bedekt inet stukken vaji de nacht, als een duisternis. Zij zijn de bewoners van de Hel, zij zijn daarin eeuwig levenden`,
+        ``,
+        ``
+      ],
+      [
+        `جن لوگوں نے نیکو کاری کی ان کے لیے بھلائی ہے اور (مزید برآں) اور بھی اور ان کے مونہوں پر نہ تو سیاہی چھائے گی اور نہ رسوائی۔ یہی جنتی ہیں کہ اس میں ہمیشہ رہیں گے اور جنہوں نے برے کام کئے تو برائی کا بدلہ ویسا ہی ہوگا۔ اور ان کے مونہوں پر ذلت چھا جائے گی۔ اور کوئی ان کو خدا سے بچانے والا نہ ہوگا۔ ان کے مونہوں (کی سیاہی کا یہ عالم ہوگا کہ ان) پر گویا اندھیری رات کے ٹکڑے اُڑھا دیئے گئے ہیں۔ یہی دوزخی ہیں کہ ہمیشہ اس میں رہیں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Bagi orang-orang yang berbuat baik, ada pahala yang terbaik (surga) dan tambahannya (kenikmatan melihat Allah). Dan wajah mereka tidak ditutupi debu hitam dan tidak (pula) dalam kehinaan. Mereka itulah penghuni surga, mereka kekal di dalamnya Adapun orang-orang yang berbuat kejahatan (akan mendapat) balasan kejahatan yang setimpal dan mereka diselubungi kehinaan. Tidak ada bagi mereka seorang pelindung pun dari (azab) Allah, seakan-akan wajah mereka ditutupi dengan kepingan-kepingan malam yang gelap gulita. Mereka itulah penghuni neraka, mereka kekal di dalamnya`,
+        ``,
+        ``
+      ],
+      [
+        `İyi davrananlara; daima daha iyisi ve üstünü verilir. Onların yüzlerine ne bir karalık, ne de zillet bulaşır. İşte onlar cennetliklerdir, orada temelli kalırlar Kötülük işleyenlere kötülükleri kadar ceza verilir; onların yüzlerini zillet bürür; Allah'a karşı onları savunacak yoktur; yüzleri, geceden kara bir parçayla örtülmüş gibidir. Bunlar cehennemliklerdir, orada temelli kalırlar`,
+        ``,
+        ``
+      ],
+      [
+        `براى كسانى كه كار نيكو كرده‌اند، نيكويى [بهشت‌] و زياده [بر آن‌] است. چهره‌هايشان را غبارى و ذلتى نمى‌پوشاند. اينان اهل بهشتند [و] در آن جاودانه خواهند بود و كسانى كه مرتكب بديها شده‌اند، [بدانند كه‌] جزاى [هر] بدى مانند آن است و خوارى آنان را فرو مى‌گيرد. در مقابل خدا، هيچ حمايتگرى براى ايشان نيست. گويى چهره‌هايشان با پاره‌اى از شبِ تار پوشيده شده است. آنان همدم آتشند، كه در آن جاودانه خواهند بود`,
+        ``,
+        ``
+      ],
+      [
+        `যারা সৎকর্ম করেছে তাদের জন্য রয়েছে কল্যাণ এবং তারও চেয়ে বেশী। আর তাদের মুখমন্ডলকে আবৃত করবে না মলিনতা কিংবা অপমান। তারাই হল জান্নাতবাসী, এতেই তারা বসবাস করতে থাকবে অনন্তকাল। আর যারা সঞ্চয় করেছে অকল্যাণ অসৎ কর্মের বদলায় সে পরিমাণ অপমান তাদের চেহারাকে আবৃত করে ফেলবে। কেউ নেই তাদেরকে বাঁচাতে পারে আল্লাহর হাত থেকে। তাদের মুখমন্ডল যেন ঢেকে দেয়া হয়েছে আধাঁর রাতের টুকরো দিয়ে। এরা হল দোযখবাসী। এরা এতেই থাকবে অনন্তকাল।`,
+        ``,
+        ``
+      ],
+      [
+        `Para os que bem-fazem, haverá a mais bela recompensa e ainda, algo mais. E não lhes cobrirá as faces nem negrume nem vileza. Esses são os companheiros do Paraíso; nele, serão eternos E os que cometem as más obras terão recompensa de uma ação má equivalente, e cobri-los-á uma vileza. Não terão defensor algum contra o castigo de Allah; suas faces ficarão como que encobertas por fragmentos da tenebrosa noite. Esses são os companheiros do Fogo; nele, serão eternos`,
+        ``,
+        ``
+      ],
+      [
+        `行善者将受善报，且有余庆，脸上没有黑灰和忧色，这些人是乐园的居民，将永居其中。 作恶者每作一恶，必受同样的恶报，而且脸上有忧色--没有任何人能帮助他们对抗真主--他们的脸上彷佛有黑夜的颜色。这些人是火狱的居民，将永居其中。`,
+        ``,
+        ``
+      ],
+      [
+        `善行をした者には（天国へ入るという）素晴しい報奨があり，また追加もある。かれらの顔には，暗さや屈辱の影もないであろう。これらは楽園の住人である。永遠にその中に住むであろう。 だが悪を行っていた者には，同様の悪の報いがある。また屈辱に覆われ，アッラー（の怒り）からかれらを守るものはないであろう。その顔は丁度夜の暗闇に覆われたようである。これらは火獄の住人である。永遠にその中に住むであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `또한 선행을 행하는 이들에 게는 보상이 더하여 지니라 그들 얼굴에는 먼지도 추함도 없으며 그들은 천국의 주인으로 그곳에서 영생하니라 그러나 사악한 방법으로 얻 는자는 그와 같은 사악한 보상을 받을 것이며 치욕이 그들의 얼굴 올 덮도다 그들은 하나님의 분노로부터 보호해 줄 자가 없으니 마치 그들의 얼굴이 밤의 암혹으로 싸여진 것 같더라 그들은 불지옥의 주 인으로서 그곳에서 영생하니라`,
+        ``,
+        ``
+      ],
+      [
+        `Bene a chi fa il bene, e ancor di più. Polvere e umiliazione non copriranno i loro volti. Essi sono i compagni del Giardino, e vi resteranno in perpetuo E coloro che hanno commesso azioni malvagie, vedranno pagato col male, il male loro. Saranno avvolti nella vergogna, senza nessun protettore al cospetto di Allah, come se i loro volti fossero coperti da oscuri lembi di notte. Essi sono i compagni del Fuoco, in cui rimarranno in perpetuo`,
+        ``,
+        ``
+      ],
+      [
+        `Tych, którzy czynili dobro, czeka piękna nagroda i jeszcze coś więcej. I nie pokryje ich twarzy pył ani poniżenie. Oni będą mieszkańcami Ogrodu, gdzie przebywać będą na wieki A ci, którzy popełnili złe czyny, otrzymają jako zapłatę zło podobne. I okryje ich poniżenie; nie będą mieli żadnego obrońcy przed Bogiem! Ich twarze zostaną pokryte jakby mrocznymi płatami nocy. Oni będą mieszkańcami ognia, gdzie pozostaną na wieki`,
+        ``,
+        ``
+      ],
+      [
+        `На тих, які робили добро, чекає найкраще й більше за це. Не вразить обличчя їхнього ні темрява, ні приниження. Саме вони — жителі раю! Будуть вони там довіку А хто чинив зло, тим відплатять таким самим злом. Їх спіткає приниження, і не захистить ніхто їх від Аллага. Обличчя їхні наче вкриються шматками нічного мороку. Саме вони — жителі пекла! І будуть вони там довіку`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يونس / Yunus، الآيتان 26-27`
   },
 
   {
@@ -7240,6 +10463,117 @@ const verses = [
 
   {
     arabic: [
+      `وَالَّذِينَ صَبَرُوا ابْتِغَاءَ وَجْهِ رَبِّهِمْ وَأَقَامُوا الصَّلَاةَ وَأَنْفَقُوا مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً وَيَدْرَءُونَ بِالْحَسَنَةِ السَّيِّئَةَ أُولَٰئِكَ لَهُمْ عُقْبَى الدَّارِ جَنَّاتُ عَدْنٍ يَدْخُلُونَهَا وَمَنْ صَلَحَ مِنْ آبَائِهِمْ وَأَزْوَاجِهِمْ وَذُرِّيَّاتِهِمْ ۖ وَالْمَلَائِكَةُ يَدْخُلُونَ عَلَيْهِمْ مِنْ كُلِّ بَابٍ سَلَامٌ عَلَيْكُمْ بِمَا صَبَرْتُمْ ۚ فَنِعْمَ عُقْبَى الدَّارِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And those who are patient, seeking the countenance of their Lord, and establish prayer and spend from what We have provided for them secretly and publicly and prevent evil with good - those will have the good consequence of [this] home Gardens of perpetual residence; they will enter them with whoever were righteous among their fathers, their spouses and their descendants. And the angels will enter upon them from every gate, [saying] Peace be upon you for what you patiently endured. And excellent is the final home`,
+        ``,
+        ``
+      ],
+      [
+        `et qui endurent dans la recherche de l'agrément d'Allah, accomplissent la Salât et dépensent (dans le bien), en secret et en public, de ce que Nous leur avons attribué, et repoussent le mal par le bien. A ceux-là, la bonne demeure finale les jardins d'Eden, où ils entreront, ainsi que tous ceux de leurs ascendants, conjoints et descendants, qui ont été de bons croyants. De chaque porte, les Anges entreront auprès d'eux «Paix sur vous, pour ce que vous avez enduré!» - Comme est bonne votre demeure finale!»`,
+        ``,
+        ``
+      ],
+      [
+        `quienes tienen paciencia por deseo de agradar a su Señor, hacen la azalá, dan limosna, en secreto o en público, de lo que les hemos proveído y repelen el mal con el bien, ésos tendrán la Morada Postrera los jardines del edén, en que entrarán, junto con aquéllos de sus padres, esposas y descendientes que fueron buenos. Los ángeles entrarán en donde ellos estén, por todas partes «¡Paz sobre vosotros, por haber tenido paciencia!» ¡Qué agradable será la Morada Postrera`,
+        ``,
+        ``
+      ],
+      [
+        `которые проявляют терпение, стремясь к Лику своего Господа, совершают намаз, расходуют тайно и открыто из того, чем Мы их наделили, и добром отталкивают зло. Им уготована Последняя обитель сады Эдема, в которые они войдут вместе со своими праведными отцами, супругами и потомками. Ангелы будут входить к ним через любые врата Мир вам за то, что вы проявили терпение! Как же прекрасна Последняя обитель`,
+        ``,
+        ``
+      ],
+      [
+        `und die geduldig sind im Trachten nach dem Angesicht ihres Herrn, das Gebet verrichten und von dem, womit Wir sie versorgt haben, heimlich und öffentlich ausgeben und mit dem Guten das Böse abwehren, für sie gibt es letztendlich die Wohnstätte die Gärten Edens, in die sie eingehen werden, (sie) und diejenigen, die rechtschaffen waren von ihren Vätern, ihren Gattinnen und ihren Nachkommenschaften. Und die Engel treten zu ihnen ein durch alle Tore Friede sei auf euch dafür, daß ihr geduldig wart!" Wie trefflich ist die endgültige Wohnstätte`,
+        ``,
+        ``
+      ],
+      [
+        `de som bär motgången med jämnmod och strävar efter att vinna Guds välbehag, som förrättar bönen och ger åt andra av det som Vi skänkt dem för deras försörjning, så att ingen ser det eller öppet inför alla, och som fördriver ont med gott. Deras mål är de eviga boningarna Edens lustgårdar, där de skall stiga in med sina föräldrar, hustrur, barn och barnbarn - de bland dem som var rättsinniga människor - och änglarna kommer emot dem från alla portar [och välkomnar dem] Fred! [Detta är lönen] för ert tålamod och er uthållighet!" Vilken lycka i dessa eviga boningar`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En degenen die geduldig zijn bij het zoeken naar het welbehagen van hun Heer, en die de shalât onderhouden en die bijdragen geven van waar Wij hun mee voorzagen, in het verborgene en openlijk. En die door het goede het kwade opheffen. Zij zijn degenen voor wie er de goede eindbestemming is Zij treden de Tuinen van "Adn (het paradijs) binnen en (ook) degenen die oprecht waren van hun vaderen en hun echtgenoten en hun nakomelingen. En de Engelen treden bij hen binnen door iedere poort (Zeggend:) "Salâmoen alaikoem bima shabartoem." (Vrede zij met jullie wegens jullie geduldig zijn) Het is de beste eindbestemming`,
+        ``,
+        ``
+      ],
+      [
+        `اور جو پروردگار کی خوشنودی حاصل کرنے کے لیے (مصائب پر) صبر کرتے ہیں اور نماز پڑھتے ہیں اور جو (مال) ہم نے ان کو دیا ہے اس میں سے پوشیدہ اور ظاہر خرچ کرتے ہیں اور نیکی سے برائی دور کرتے ہیں یہی لوگ ہیں جن کے لیے عاقبت کا گھر ہے (یعنی) ہمیشہ رہنے کے باغات جن میں وہ داخل ہوں گے اور ان کے باپ دادا اور بیبیوں اور اولاد میں سے جو نیکوکار ہوں گے وہ بھی (بہشت میں جائیں گے) اور فرشتے (بہشت کے) ہر ایک دروازے سے ان کے پاس آئیں گے (اور کہیں گے) تم پر رحمت ہو (یہ) تمہاری ثابت قدمی کا بدلہ ہے اور عاقبت کا گھر خوب (گھر) ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan orang yang sabar karena mengharap keridaan Tuhannya, melaksanakan salat, dan menginfakkan sebagian rezeki yang Kami berikan kepada mereka, secara sembunyi atau terang-terangan serta menolak kejahatan dengan kebaikan; orang itulah yang mendapat tempat kesudahan (yang baik) (yaitu) surga-surga 'Ādn, mereka masuk ke dalamnya bersama dengan orang yang saleh dari nenek moyangnya, pasangan-pasangannya dan anak cucunya, sedangkan para malaikat masuk ke tempat-tempat mereka dari semua pintu (sambil mengucapkan), "Selamat sejahtera atasmu karena kesabaranmu." Maka alangkah nikmatnya tempat kesudahan itu`,
+        ``,
+        ``
+      ],
+      [
+        `Onlar, Rablerinin rızasını dileyerek sabrederler, namazı kılarlar; kendilerine verdiğimiz rızıktan, gizlice ve açıkça sarfederler; iyilik yaparak kötülüğü ortadan kaldırırlar; işte onlara bu dünyanın iyi sonucu, girecekleri Adn cennetleri vardır; babalarının, eşlerinin, çocuklarının iyi olanları da oraya girerler. Melekler her kapıdan yanlarına girip: "Sabretmenize karşılık size selam olsun; burası dünyanın ne güzel bir sonucudur!" derler Onlar, Rablerinin rızasını dileyerek sabrederler, namazı kılarlar; kendilerine verdiğimiz rızıktan, gizlice ve açıkça sarfederler; iyilik yaparak kötülüğü ortadan kaldırırlar; işte onlara bu dünyanın iyi sonucu, girecekleri Adn cennetleri vardır; babalarının, eşlerinin, çocuklarının iyi olanları da oraya girerler. Melekler her kapıdan yanlarına girip: "Sabretmenize karşılık size selam olsun; burası dünyanın ne güzel bir sonucudur!" derler Onlar, Rablerinin rızasını dileyerek sabrederler, namazı kılarlar; kendilerine verdiğimiz rızıktan, gizlice ve açıkça sarfederler; iyilik yaparak kötülüğü ortadan kaldırırlar; işte onlara bu dünyanın iyi sonucu, girecekleri Adn cennetleri vardır; babalarının, eşlerinin, çocuklarının iyi olanları da oraya girerler. Melekler her kapıdan yanlarına girip: "Sabretmenize karşılık size selam olsun; burası dünyanın ne güzel bir sonucudur!" derler`,
+        ``,
+        ``
+      ],
+      [
+        `و كسانى كه براى طلب خشنودى پروردگارشان شكيبايى كردند و نماز برپا داشتند و از آنچه روزيشان داديم، نهان و آشكارا انفاق كردند، و بدى را با نيكى مى‌زدايند، ايشان راست فرجامِ خوشِ سراى باقى [همان‌] بهشتهاى عدن كه آنان با پدرانشان و همسرانشان و فرزندانشان كه درستكارند در آن داخل مى‌شوند، و فرشتگان از هر درى بر آنان درمى‌آيند [و به آنان مى‌گويند:] «درود بر شما به [پاداش‌] آنچه صبر كرديد. راستى چه نيكوست فرجام آن سراى!»`,
+        ``,
+        ``
+      ],
+      [
+        `এবং যারা স্বীয় পালনকর্তার সন্তুষ্টির জন্যে সবর করে, নামায প্রতিষ্টা করে আর আমি তাদেরকে যা দিয়েছি, তা থেকে গোপনে ও প্রকাশ্য ব্যয় করে এবং যারা মন্দের বিপরীতে ভাল করে, তাদের জন্যে রয়েছে পরকালের গৃহ। তা হচ্ছে বসবাসের বাগান। তাতে তারা প্রবেশ করবে এবং তাদের সৎকর্মশীল বাপ-দাদা, স্বামী-স্ত্রী ও সন্তানেরা। ফেরেশতারা তাদের কাছে আসবে প্রত্যেক দরজা দিয়ে। বলবেঃ তোমাদের সবরের কারণে তোমাদের উপর শান্তি বর্ষিত হোক। আর তোমাদের এ পরিণাম-গৃহ কতই না চমৎকার।`,
+        ``,
+        ``
+      ],
+      [
+        `E os que pacientam, em busca do agrado de seu Senhor, e cumprem a oração e despendem, secreta e manifestamente, daquilo que lhes damos por sustento, e revidam o mal com o bem, esses terão o final feliz da Derradeira Morada Os Jardins do Éden, em que entrarão junto com os que se emendaram dentre seus pais e seus cônjuges e sua descendência. E os anjos entrarão junto deles, por todas as portas, dizendo Que a paz seja sobre vós, porque pacientastes! Então, que excelente final feliz da Derradeira Morada`,
+        ``,
+        ``
+      ],
+      [
+        `他们是为求得主的喜悦而坚忍的，是谨守拜功的，是秘密地和公开地分舍我所赐给他们的财物的，是以德报怨的。这等人得吃后世的善果 常住的乐园，他们将进入乐园。他们的祖先、妻子和后裔中的善良者，都将进入乐园。众天神从每道门进去见他们， （说）：祝你们平安！这是你们因坚忍而得的报酬，后世的善果真优美。`,
+        ``,
+        ``
+      ],
+      [
+        `また主の御顔を求めて耐え忍び，礼拝の務めを守り，われが糧のために与えたものの中から，陰に陽に施し，また善によって悪を退けるような者は，（善）果の住まいを得る。 かれらは，その祖先と配偶者と子孫の中の善行に励む者と一緒に，アドン（エデン）の園に入るであろう。そして天使たちも各々の門からかれらの許に入（ってこう挨拶す）るであろう。 「あなたがよく耐え忍んだ故に，あなたがたの上に平安あれ。まあ何と善美な終末の住まいであることよ。」`,
+        ``,
+        ``
+      ],
+      [
+        `주님의 기쁨을 위하여 인내 하고 예배하며 하나님이 그들에게 베푼 일용할 양식 가운데서 알게 모르게 자선을 베풀며 사악함을 선으로 막아내는 그들에게는 최후 의 거주지가 천국이라 그들이 들어가는 곳은 에덴 의 천국으로 그들의 선조들과 배 우자들과 후손들 가운데서 선을 행한 이들과 함께 들어가게 되리 니 천사들이 라 문으로 부터 들 어오며 너희가 인내하였으므로 평 안이 있으라 아름다운 것은 최후 의 거주지라 인사하더라`,
+        ``,
+        ``
+      ],
+      [
+        `coloro che perseverano nella ricerca del Volto del loro Signore, assolvono all'orazione, danno pubblicamente o in segreto di ciò di cui li abbiamo provvisti e respingono il male con il bene. Essi avranno per Dimora Ultima i Giardini dell'Eden, in cui entreranno insieme ai probi tra i loro padri, le loro spose e i loro figli. Gli angeli andranno a visitarli, entrando da ogni porta [e diranno]: “Pace su di voi, poiché siete stati perseveranti. Com'è bella la vostra Ultima Dimora”`,
+        ``,
+        ``
+      ],
+      [
+        `Ci, którzy są cierpliwi, poszukując oblicza swego Pana; ci, którzy odprawiają modlitwę; ci, którzy rozdają z tego, czym ich obdarzyliśmy jako zaopatrzeniem - potajemnie i jawnie; ci, którzy odsuwają zło przez dobro - tych wszystkich czekają jako ostateczna siedziba Ogrody Edenu, do których wejdą oni oraz ci spośród ich ojców, którzy byli sprawiedliwi, jak też ich żony i ich potomstwo. A aniołowie będą wchodzili do nich przez wszystkie bramy Pokój wam! za to, iż byliście sprawiedliwi!" A jakże wspaniała ta ostateczna siedziba`,
+        ``,
+        ``
+      ],
+      [
+        `які виявляють терпіння, прагнучи до лику Господа свого, звершують молитву, таємно й відкрито жертвують із того, чим Ми їх наділили, відштовхують зло добром. Чекає на них остання обитель сади Едену, куди вони ввійдуть разом зі своїми праведними батьками, дружинами й нащадками. До них будуть входити ангели через усі ворота «Мир вам за терпіння ваше!» Яка ж прекрасна остання обитель`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الرعد / Ar-Ra'd، الآيات 22-24`
+  },
+
+  {
+    arabic: [
       `الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ`,
       `أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ`,
       ``
@@ -8013,6 +11347,117 @@ const verses = [
       ]
     ],
     number: `سورة النحل / An-Nahl، الآية 90`
+  },
+
+  {
+    arabic: [
+      `مَنْ عَمِلَ صَالِحًا مِنْ ذَكَرٍ أَوْ أُنْثَىٰ وَهُوَ مُؤْمِنٌ فَلَنُحْيِيَنَّهُ حَيَاةً طَيِّبَةً ۖ وَلَنَجْزِيَنَّهُمْ أَجْرَهُمْ بِأَحْسَنِ مَا كَانُوا يَعْمَلُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Whoever does righteousness, whether male or female, while he is a believer - We will surely cause him to live a good life, and We will surely give them their reward [in the Hereafter] according to the best of what they used to do`,
+        ``,
+        ``
+      ],
+      [
+        `Quiconque, mâle ou femelle, fait une bonne œuvre tout en étant croyant, Nous lui ferons vivre une bonne vie. Et Nous les récompenserons, certes, en fonction des meilleures de leurs actions`,
+        ``,
+        ``
+      ],
+      [
+        `Al creyente, varón o hembra, que obre bien, le haremos, ciertamente, que viva una vida buena y le retribuiremos, sí, con arreglo a sus mejores obras`,
+        ``,
+        ``
+      ],
+      [
+        `Верующих мужчин и женщин, которые поступали праведно, Мы непременно одарим прекрасной жизнью и вознаградим за лучшее из того, что они совершали`,
+        ``,
+        ``
+      ],
+      [
+        `Wer rechtschaffen handelt, sei es Mann oder Frau, und dabei gläubig ist, den werden Wir ganz gewiß ein gutes Leben leben lassen. Und Wir werden ihnen ganz gewiß mit ihrem Lohn das Beste von dem vergelten, was sie taten`,
+        ``,
+        ``
+      ],
+      [
+        `Den man eller kvinna som gör gott och lever rättskaffens och som har tron skall Vi skänka ett gott liv och Vi skall bestämma deras [slutliga] belöning efter deras bästa handlingar`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Wie het goede doet, man of vrouw, en hij gelooft: voorwaar, aan hem geven Wij een goed leven. En Wij zullen hen zeker belonen met hun beloning, volgens het beste van wat zÜij plachten te doen. THIS TEXT HAS BEEN AUTOMATICALLY GENERATED (OCR) AND REQUIRES FIXING/CHECKING. USE THE CTRL+(Right/Left Arrow) KEYS TO MOVE ALONG THE WORDS AND CHECK WITH THE LEFT SIDE. PLEASE DELETE *THIS* NOTE IF YOU ARE READY TO CHECK AND APPROVE`,
+        ``,
+        ``
+      ],
+      [
+        `جو شخص نیک اعمال کرے گا مرد ہو یا عورت وہ مومن بھی ہوگا تو ہم اس کو (دنیا میں) پاک (اور آرام کی) زندگی سے زندہ رکھیں گے اور (آخرت میں) اُن کے اعمال کا نہایت اچھا صلہ دیں گے`,
+        ``,
+        ``
+      ],
+      [
+        `(Barangsiapa mengerjakan kebajikan, baik laki-laki maupun perempuan dalam keadaan beriman, maka pasti akan Kami berikan kepadanya kehidupan yang baik463) dan akan Kami beri balasan dengan pahala yang lebih baik dari apa yang telah mereka kerjakan`,
+        ``,
+        ``
+      ],
+      [
+        `Kadın, erkek, inanmış olarak kim iyi iş işlerse, ona hoş bir hayat yaşatacağız. Ecirlerini yaptıklarından daha güzeli ile ödeyeceğiz`,
+        ``,
+        ``
+      ],
+      [
+        `هر كس -از مرد يا زن- كار شايسته كند و مؤمن باشد، قطعاً او را با زندگى پاكيزه‌اى، حيات [حقيقى‌] بخشيم، و مسلماً به آنان بهتر از آنچه انجام مى‌دادند پاداش خواهيم داد`,
+        ``,
+        ``
+      ],
+      [
+        `যে সৎকর্ম সম্পাদন করে এবং সে ঈমাণদার, পুরুষ হোক কিংবা নারী আমি তাকে পবিত্র জীবন দান করব এবং প্রতিদানে তাদেরকে তাদের উত্তম কাজের কারণে প্রাপ্য পুরষ্কার দেব যা তারা করত।`,
+        ``,
+        ``
+      ],
+      [
+        `A quem faz o bem, seja varão ou varoa, enquanto crente, certamente, fá-lo-emos viver vida benigna. E Nós recompensá-los-emos com prêmio melhor que aquilo que faziam`,
+        ``,
+        ``
+      ],
+      [
+        `凡行善的男女信士，我誓必要使他们过一种美满的生活，我誓必要以他们所行的最大善功报酬他们。`,
+        ``,
+        ``
+      ],
+      [
+        `誰でも善い行いをし（真の）信者ならば，男でも女でも，われは必ず幸せな生活を送らせるであろう。なおわれはかれらが行った最も優れたものによって報奨を与えるのである。`,
+        ``,
+        ``
+      ],
+      [
+        `믿음으로 선을 행하는 모든 남녀에게 하나님은 행복한 삶을 부여할 것이며 또한 하나님은 그 들이 행한 선에 대하여 최상의 것으로 보상 하리라`,
+        ``,
+        ``
+      ],
+      [
+        `Daremo una vita eccellente a chiunque, maschio o femmina, sia credente e compia il bene. Compenseremo quelli che sono stati costanti in ragione delle loro azioni migliori`,
+        ``,
+        ``
+      ],
+      [
+        `Tego, kto spełni dobre dzieło - czy to. mężczyzna, czy kobieta - i jest wierzącym, My ożywimy życiem wspaniałym, i takim wypłacimy ich wynagrodzenie czymś piękniejszym niż to, co czynili`,
+        ``,
+        ``
+      ],
+      [
+        `Чоловікам і жінкам, які робили добро й були віруючими, Ми неодмінно даруємо прекрасне життя. І Ми неодмінно винагородимо їх за те найкраще, що вони робили`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النحل / An-Nahl، الآية 97`
   },
 
   {
@@ -9016,6 +12461,228 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ إِنَّا لَا نُضِيعُ أَجْرَ مَنْ أَحْسَنَ عَمَلًا أُولَٰئِكَ لَهُمْ جَنَّاتُ عَدْنٍ تَجْرِي مِنْ تَحْتِهِمُ الْأَنْهَارُ يُحَلَّوْنَ فِيهَا مِنْ أَسَاوِرَ مِنْ ذَهَبٍ وَيَلْبَسُونَ ثِيَابًا خُضْرًا مِنْ سُنْدُسٍ وَإِسْتَبْرَقٍ مُتَّكِئِينَ فِيهَا عَلَى الْأَرَائِكِ ۚ نِعْمَ الثَّوَابُ وَحَسُنَتْ مُرْتَفَقًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, those who have believed and done righteous deeds - indeed, We will not allow to be lost the reward of any who did well in deeds Those will have gardens of perpetual residence; beneath them rivers will flow. They will be adorned therein with bracelets of gold and will wear green garments of fine silk and brocade, reclining therein on adorned couches. Excellent is the reward, and good is the resting place`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui croient et font de bonnes œuvres... vraiment Nous ne laissons pas perdre la récompense de celui qui fait le bien Voilà ceux qui auront les jardins du séjour (éternel) sous lesquels coulent les ruisseaux. Ils y seront parés de bracelets d'or et se vêtiront d'habits verts de soie fine et de brocart, accoudés sur des divans (bien ornés). Quelle bonne récompense et quelle belle demeure`,
+        ``,
+        ``
+      ],
+      [
+        `Quienes, en cambio, crean y obren bien... No dejaremos de remunerar a quienes se conduzcan bien Para ésos serán los jardines del edén, por cuyos bajos fluyen arroyos. Se les adornará allí con brazaletes de oro, se les vestirá de satén y brocado verdes, estarán allí reclinados en divanes. ¡Qué agradable recompensa y qué bello lugar de descanso`,
+        ``,
+        ``
+      ],
+      [
+        `А что до тех, которые уверовали и совершали праведные деяния, то ведь Мы не теряем награды тех, кто совершал добро Именно им уготованы сады Эдема, в которых текут реки. Они будут украшены золотыми браслетами и облачены в зеленые одеяния из атласа и парчи. Они будут возлежать там на ложах, прислонившись. Замечательное вознаграждение и прекрасная обитель`,
+        ``,
+        ``
+      ],
+      [
+        `Diejenigen, die glauben und rechtschaffene Werke tun - gewiß, Wir lassen den Lohn derer nicht verlorengehen, die die besten Taten begehen (Für jene wird es die Gärten Edens geben, wo unterhalb von) ihnen Flüsse strömen. Geschmückt sind sie darin mit Armreifen aus Gold, und sie tragen grüne Gewänder aus Seidenbrokat und schwerem Brokat, indem sie sich darin auf überdachten Liegen lehnen. Wie trefflich ist die Belohnung und wie schön der Rastplatz`,
+        ``,
+        ``
+      ],
+      [
+        `Men dem som tror och lever ett rättskaffens liv skall Vi inte låta gå miste om lönen för det goda och rätta de gör Edens lustgårdar väntar dem med porlande bäckar, där de skall vila, behagligt stödda på kuddar, och förses med armringar av guld och få klä sig i dräkter av grönt silke och den rikaste brokad. Vilken makalös belöning! Vilken ljuvlig viloplats`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, degenen die geloven en goede werken verrichten: voorwaar, Wij zullen de beloning van wie een goed werk verricht niet verloren doen gaan Zij zijn degenen voor wie er de Tuinen van 'Adn (het Paradijs) zijn, waar onder door de rivieren stromen, zij zullen er in versierd worden met kettingen van goud en zij dragen groene gewaden van zijde en brokaat, er in leunend op kussens, De beste beloning en de beste verblijfplaats`,
+        ``,
+        ``
+      ],
+      [
+        `(اور) جو ایمان لائے اور کام بھی نیک کرتے رہے تو ہم نیک کام کرنے والوں کا اجر ضائع نہیں کرتے ایسے لوگوں کے لئے ہمیشہ رہنے کے باغ ہیں جن میں ان کے (محلوں کے) نیچے نہریں بہہ رہی ہیں ان کو وہاں سونے کے کنگن پہنائے جائیں گے اور وہ باریک دیبا اور اطلس کے سبز کپڑے پہنا کریں گے (اور) تختوں پر تکیئے لگا کر بیٹھا کریں گے۔ (کیا) خوب بدلہ اور (کیا) خوب آرام گاہ ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, mereka yang beriman dan mengerjakan kebajikan, Kami benar-benar tidak akan menyia-nyiakan pahala orang yang mengerjakan perbuatan yang baik itu Mereka itulah yang memperoleh surga Aden, yang mengalir di bawahnya sungai-sungai; (dalam surga itu) mereka diberi hiasan gelang emas dan mereka memakai pakaian hijau dari sutera halus dan sutera tebal, sedang mereka duduk sambil bersandar di atas dipan-dipan yang indah. (Itulah) sebaik-baik pahala, dan tempat istirahat yang indah`,
+        ``,
+        ``
+      ],
+      [
+        `İyi hareket edenin ecrini zayi etmeyiz. Doğrusu, inanıp yararlı iş yapanlara, işte onlara, içlerinden ırmaklar akan Adn cennetleri vardır. Orada altın bilezikler takınırlar, ince ve kalın ipekliden yeşil elbiseler giyerek tahtları üzerinde otururlar. Ne güzel bir mükafat ve ne güzel yaslanacak yer İyi hareket edenin ecrini zayi etmeyiz. Doğrusu, inanıp yararlı iş yapanlara, işte onlara, içlerinden ırmaklar akan Adn cennetleri vardır. Orada altın bilezikler takınırlar, ince ve kalın ipekliden yeşil elbiseler giyerek tahtları üzerinde otururlar. Ne güzel bir mükafat ve ne güzel yaslanacak yer`,
+        ``,
+        ``
+      ],
+      [
+        `كسانى كه ايمان آورده و كارهاى شايسته كرده‌اند [بدانند كه‌] ما پاداش كسى را كه نيكوكارى كرده است تباه نمى‌كنيم آنانند كه بهشتهاى عدن به ايشان اختصاص دارد كه از زير [قصرها]شان جويبارها روان است. در آنجا با دستبندهايى از طلا آراسته مى‌شوند و جامه‌هايى سبز از پرنيان نازك و حرير ستبر مى‌پوشند. در آنجا بر سريرها تكيه مى‌زنند. چه خوش پاداش و نيكو تكيه‌گاهى`,
+        ``,
+        ``
+      ],
+      [
+        `যারা বিশ্বাস স্থাপন করে এবং সৎকর্ম সম্পাদন করে আমি সৎকর্মশীলদের পুরস্কার নষ্ট করি না। তাদেরই জন্যে আছে বসবাসের জান্নাত। তাদের পাদদেশে প্রবাহিত হয় নহরসমূহ। তাদের তথায় স্বর্ণ-কংকনে অলংকৃত করা হবে এবং তারা পাতলা ও মোটা রেশমের সবুজ কাপর পরিধান করবে এমতাবস্থায় যে, তারা সিংহাসনে সমাসীন হবে। চমৎকার প্রতিদান এবং কত উত্তম আশ্রয়।`,
+        ``,
+        ``
+      ],
+      [
+        `Quanto aos que crêem e fazem as boas obras, por certo, não faremos perder o prêmio de quem bem-faz, em obras Esses terão os Jardins de Éden, abaixo dos quais correm os rios; nesses, serão enfeitados com braceletes de ouro, e se vestirão com trajes verdes, de fina seda e de brocado; nesses, estarão reclinados sobre coxins. Que excelente retribuição! E que aprazível recinto de permanência`,
+        ``,
+        ``
+      ],
+      [
+        `信道而行善者，我必不使他们的善行徒劳无酬， 这等人得享受常住的乐园，他们下临诸河，他们在乐园里，佩金质的手镯，穿绫罗锦缎的绿袍，靠在床上。那报酬，真优美！那归宿，真美好！`,
+        ``,
+        ``
+      ],
+      [
+        `信仰して善行に勤しむ者には，本当にわれは，（唯）一つの善事にも，必ず報奨を空しくしない。 これらの者にはアドン（エデン）の園があろう。川が下を流れ，そこで黄金の腕輪で身を飾り，美しい緑色の絹の長い衣や，厚い錦を装い，高座にゆったりと身を託す。何と幸福な恵み。何とよい臥所よ。`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 믿음으로 선을 행한 그에게는 실로 하나님은 보상이 헛되지 않게 하리라 그리하여 에덴의 천국이 그 들의 것이 되리니 그들 밑에는 강 들이 흐르며 그들은 그안에서 금 팔찌로 장식을 하고 섬세하고 초 록색 실크와 능라로 몸을 두르고서높은 권자에 기대도다 얼마나 큰 보상이며 얼마나 안락한 곳이뇨`,
+        ``,
+        ``
+      ],
+      [
+        `Quanto a coloro che credono e compiono il bene, non lasceremo andar perduta la ricompensa di chi avrà agito per il bene Ecco coloro che avranno i Giardini dell'Eden, dove scorrono i ruscelli. Saranno ornati di bracciali d'oro e vestiranno verdi abiti di seta finissima e di broccato e staranno appoggiati su alti divani. Che eccellente ricompensa, che splendida dimora`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, ci, którzy uwierzą i którzy będą czynić dobre dzieła... - My na pewno nie pozwolimy, by przepadła nagroda temu, kto czynił dobro Oto ci, których czekają Ogrody Edenu, gdzie w dole płyną strumyki. Będą tam przebywać ozdobieni bransoletami ze złota, ubrani w szaty zielone z jedwabiu i brokatu; będą tam wypoczywać, wyciągnięci wygodnie na łożach. Jakże to wspaniała nagroda! Jakże to piękne miejsce wypoczynku`,
+        ``,
+        ``
+      ],
+      [
+        `А щодо тих, які увірували й робили добро, то Ми не залишимо без винагороди праведні вчинки На них чекають сади Едену, де течуть ріки. Їхніми прикрасами будуть браслети із золота, вони вберуться в зелені шати з атласу й парчі й лежатимуть тут на ложах! Яка прекрасна ця винагорода, яка чудова ця обитель`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الكهف / Al-Kahf، الآيتان 30-31`
+  },
+
+  {
+    arabic: [
+      `قُلْ هَلْ نُنَبِّئُكُمْ بِالْأَخْسَرِينَ أَعْمَالًا الَّذِينَ ضَلَّ سَعْيُهُمْ فِي الْحَيَاةِ الدُّنْيَا وَهُمْ يَحْسَبُونَ أَنَّهُمْ يُحْسِنُونَ صُنْعًا أُولَٰئِكَ الَّذِينَ كَفَرُوا بِآيَاتِ رَبِّهِمْ وَلِقَائِهِ فَحَبِطَتْ أَعْمَالُهُمْ فَلَا نُقِيمُ لَهُمْ يَوْمَ الْقِيَامَةِ وَزْنًا ذَٰلِكَ جَزَاؤُهُمْ جَهَنَّمُ بِمَا كَفَرُوا وَاتَّخَذُوا آيَاتِي وَرُسُلِي هُزُوًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Say, [O Muhammad], "Shall we [believers] inform you of the greatest losers as to [their] deeds [They are] those whose effort is lost in worldly life, while they think that they are doing well in work Those are the ones who disbelieve in the verses of their Lord and in [their] meeting Him, so their deeds have become worthless; and We will not assign to them on the Day of Resurrection any importance That is their recompense - Hell - for what they denied and [because] they took My signs and My messengers in ridicule`,
+        ``,
+        ``
+      ],
+      [
+        `Dis: «Voulez-vous que Nous vous apprenions lesquels sont les plus grands perdants, en œuvres Ceux dont l'effort, dans la vie présente, s'est égaré, alors qu'ils s'imaginent faire le bien Ceux-là qui ont nié les signes de leur Seigneur, ainsi que Sa rencontre. Leurs actions sont donc vaines». Nous ne leur assignerons pas de poids au Jour de la Résurrection C'est que leur rétribution sera l'Enfer, pour avoir mécru et pris en raillerie Mes signes (enseignements) et Mes messagers`,
+        ``,
+        ``
+      ],
+      [
+        `Di: «¿Os daré a conocer quiénes son los que más pierden por sus obras aquéllos cuyo celo se pierde en la vida de acá mientras creen obrar bien?» Son ellos los que no creen en los signos de su Señor, ni en que Le encontrarán. Vanas habrán sido sus obras y el día de la Resurrección no les reconoceremos peso Su retribución será la gehena por no haber creído y por haber tomado a burla Mis signos y a Mis enviados`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи: «Не сообщить ли вам о тех, чьи деяния принесут наибольший убыток О тех, чьи усилия заблудились в мирской жизни, хотя они думали, что поступают хорошо Это - те, кто не уверовал в знамения своего Господа и во встречу с Ним. Тщетны будут их деяния, и в День воскресения Мы не отпустим им никакого веса (не придадим им никакого значения; или не поместим на чашу их добрых деяний ни одного праведного поступка)» Геенна будет им воздаянием за то, что они не уверовали и насмехались над Моими знамениями и Моими посланниками`,
+        ``,
+        ``
+      ],
+      [
+        `Sag: Sollen Wir euch Kunde geben von denjenigen, die an ihren Werken am meisten verlieren deren Bemühen im diesseitigen Leben fehlgeht, während sie meinen, daß sie gut handeln würden Das sind diejenigen, die die Zeichen ihres Herrn und die Begegnung mit Ihm leugnen. So werden ihre Werke hinfällig, und so werden Wir ihnen am Tag der Auferstehung kein Gewicht beimessen Das ist ihr Lohn - die Hölle - dafür, daß sie ungläubig waren und sich über Meine Zeichen und Meine Gesandten lustig machten`,
+        ``,
+        ``
+      ],
+      [
+        `Säg: "Skall vi säga er vilka de är som i allt vad de företar sig är de största förlorarna [Det är] de som har inriktat hela sin strävan på det som hör till denna värld och ändå tror att de har levt ett gott och rättskaffens liv Det är de som avvisade sin Herres budskap och som inte ville tro att de [till sist] skall möta Honom." Allt vad de har strävat mot skall gå om intet och på Uppståndelsens dag skall deras [goda] handlingar väga lätt inför Oss Detta - helvetet - är deras lön därför att de förnekade sanningen och gjorde narr av Mina budskap och Mina budbärare`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zeg (O Moehammad): "Zullen wij jullie op de hoogte brengen van wie de grootste verliezers zijn door (hun) daden (Het zijn) degenen wiens daden vruchteloos waren in het wereldse leven. En zij dachten dat zij goed werk verrichtten Zij zijn degenen die niet geloven in de Tekenen van hun Heer en in de ontmoeting met Hem. Hun daden zijn vruchteloos en Wij kennen hun (daden) op de Dag der Opstanding geen gewicht toe Dat is hun vergelding: de Hel, omdat zij ongelovig waren en zij de spot dreven met Mijn Tekenen en Mijn Boodschappers`,
+        ``,
+        ``
+      ],
+      [
+        `کہہ دو کہ ہم تمہیں بتائیں جو عملوں کے لحاظ سے بڑے نقصان میں ہیں وہ لوگ جن کی سعی دنیا کی زندگی میں برباد ہوگئی۔ اور وہ یہ سمجھے ہوئے ہیں کہ اچھے کام کر رہے ہیں یہ وہ لوگ ہیں جنہوں نے اپنے پروردگار کی آیتوں اور اس کے سامنے جانے سے انکار کیا تو ان کے اعمال ضائع ہوگئے اور ہم قیامت کے دن ان کے لئے کچھ بھی وزن قائم نہیں کریں گے یہ ان کی سزا ہے (یعنی) جہنم۔ اس لئے کہ انہوں نے کفر کیا اور ہماری آیتوں اور ہمارے پیغمبروں کی ہنسی اُڑائی`,
+        ``,
+        ``
+      ],
+      [
+        `Katakanlah (Muhammad), "Apakah perlu Kami beritahukan kepadamu tentang orang yang paling rugi perbuatannya (Yaitu) orang yang sia-sia perbuatannya dalam kehidupan dunia, sedangkan mereka mengira telah berbuat sebaik-baiknya Mereka itulah orang yang mengingkari ayat-ayat Tuhan mereka dan (tidak percaya) terhadap pertemuan dengan-Nya.500) Maka sia-sia amal mereka, dan Kami tidak memberikan penimbangan terhadap (amal) mereka pada hari Kiamat Demikianlah, balasan mereka itu neraka Jahanam, karena kekafiran mereka, dan karena mereka menjadikan ayat-ayat-Ku dan rasul-rasul-Ku sebagai bahan olok-olok`,
+        ``,
+        ``
+      ],
+      [
+        `Size, amelce en çok kayıpta bulunanları haber verelim mi?" de Dünya hayatında, çalışmaları boşa gitmiştir, oysa onlar güzel iş yaptıklarını sanıyorlardı Bunlar, Rablerinin ayetlerini ve O'na kavuşmayı inkar edenlerdir. Bu yüzden işleri boşa gitmiştir. Kıyamet günü Biz onlara değer vermeyeceğiz İşte onların cezası; inkarlarına, peygamberlerimi ve ayetlerimi alaya almalarına karşılık olarak, cehennemdir`,
+        ``,
+        ``
+      ],
+      [
+        `بگو: «آيا شما را از زيانكارترين مردم آگاه گردانم؟» [آنان‌] كسانى‌اند كه كوشش‌شان در زندگى دنيا به هدر رفته و خود مى‌پندارند كه كار خوب انجام مى‌دهند [آرى،] آنان كسانى‌اند كه آيات پروردگارشان و لقاى او را انكار كردند، در نتيجه اعمالشان تباه گرديد، و روز قيامت براى آنها [قدر و] ارزشى نخواهيم نهاد اين جهنم سزاى آنان است، چرا كه كافر شدند و آيات من و پيامبرانم را به ريشخند گرفتند`,
+        ``,
+        ``
+      ],
+      [
+        `বলুনঃ আমি কি তোমাদেরকে সেসব লোকের সংবাদ দেব, যারা কর্মের দিক দিয়ে খুবই ক্ষতিগ্রস্ত। তারাই সে লোক, যাদের প্রচেষ্টা পার্থিবজীবনে বিভ্রান্ত হয়, অথচ তারা মনে করে যে, তারা সৎকর্ম করেছে। তারাই সে লোক, যারা তাদের পালনকর্তার নিদর্শনাবলী এবং তাঁর সাথে সাক্ষাতের বিষয় অস্বীকার করে। ফলে তাদের কর্ম নিষ্ফল হয়ে যায়। সুতরাং কেয়ামতের দিন তাদের জন্য আমি কোন গুরুত্ব স্থির করব না। জাহান্নাম-এটাই তাদের প্রতিফল; কারণ, তারা কাফের হয়েছে এবং আমার নিদর্শনাবলী ও রসূলগণকে বিদ্রূপের বিষয় রূপে গ্রহণ করেছে।`,
+        ``,
+        ``
+      ],
+      [
+        `Dize, Muhammad: "Informar-vos-emos dos mais perdedores, em obras São aqueles cujo esforço, na vida terrena, se descaminha, enquanto supõem que eles fazem o bem Esses são os que renegam os sinais de seu Senhor e Seu deparar; então, serão anuladas suas obras e, no Dia da Ressurreição, não lhes estipularemos peso algum E que sua recompensa será a Geena, porque renegaram a Fé e tomaram Meus sinais e Meus mensageiro por objeto de zombaria`,
+        ``,
+        ``
+      ],
+      [
+        `你说：我告诉你们在行为方面最吃亏的人，好吗？ 他们就是在今世生活中徒劳无功，而认为自己是手法巧妙的人。 这等人不信他们的主的迹象，也不信将与他相会，所以他们在今世生活中的善功变为无效的，复活日我不为他们树立权衡。 他们的报酬是火狱，因为他们不信道，并且把我的迹象和使者当做笑柄。`,
+        ``,
+        ``
+      ],
+      [
+        `言ってやるがいい。「誰が行いにおいて最大の失敗者であるか，告げようか。 つまり自分では善いことをしていると，かれらは考えているが，現世の生活においての努力が，凡て間違った道に行ってしまうような者たちである。 これらの者は，主の印，また主との会見を信じない者たちで，かれらの行いは無駄になり，われは審判の日にかれらにどんな目方も与えないであろう。 それがかれらにとって当然の報いの地獄である。かれらは信仰を拒否し，われの印や使徒たちを嘲笑したからである。`,
+        ``,
+        ``
+      ],
+      [
+        `일러가로되 하나님이 너희 에게 그들의 행위로 손실이 가장 큰 자를 일러주리요 이들은 그들의 하는 일이 선행이라 생각하면서 현세의 삶 에만 노력하도다 그들은 주님의 말씀과 주님과의 만남을 부정하는 자들이니 그들의 일들은 무위로 끝날 것이 며 심판의 날 하나님은 그들에게 아무런 가치도 두지 않으리라 그것이 그들을 위한 지옥의 보상이라 이는 믿음을 거역하고 나의 말씀과 나의 선지자들을 조 롱하였기 때문이라`,
+        ``,
+        ``
+      ],
+      [
+        `Di': “Volete che vi citiamo coloro le cui opere sono più inutili coloro il cui sforzo in questa vita li ha sviati, mentre credevano di fare il bene?” Sono coloro che negarono i segni del loro Signore e l'Incontro con Lui. Le loro azioni falliscono e non avranno alcun peso nel Giorno della Resurrezione La loro retribuzione sarà l'Inferno, per la loro miscredenza e per essersi burlati dei Miei segni e dei Miei Messaggeri`,
+        ``,
+        ``
+      ],
+      [
+        `Powiedz: "Czyż ja mam wam obwieścić o tych, którzy ponieśli największą stratę przez swoje czyny o tych, których wysiłek zagubił się w życiu tego świata, gdy tymczasem sądzili, iż czynią dobrze To są ci, którzy nie wierzą w znaki swego Pana i w Jego spotkanie. Czyny ich są daremne i My, w Dniu Zmartwychwstania, nie nadamy im żadnej wagi To ich zapłata - Gehenna, za to, iż nie wierzyli, za to, iż wzięli sobie za przedmiot szyderstwa Nasze znaki i Naszych posłańców`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи: «Чи не розповісти вам про тих, які через свої вчинки втратять найбільше Про тих, чиї зусилля заблукали в земному житті, хоч вони думали, що роблять добро Це ті, які не вірують у знамення Господа їхнього й зустріч із Ним. Марні вчинки їхні й не будуть вони в День Воскресіння нічого важити За те, що вони не вірували й глузували з Наших знамень і посланців, винагородою їм буде геєна`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الكهف / Al-Kahf، الآيات 103-106`
+  },
+
+  {
+    arabic: [
       `إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلًا`,
       `خَالِدِينَ فِيهَا لَا يَبْغُونَ عَنْهَا حِوَلًا`,
       ``
@@ -9456,6 +13123,228 @@ const verses = [
       ]
     ],
     number: `سورة طه / Ta-Ha، الآيات 75-76`
+  },
+
+  {
+    arabic: [
+      `وَمَنْ أَعْرَضَ عَنْ ذِكْرِي فَإِنَّ لَهُ مَعِيشَةً ضَنْكًا وَنَحْشُرُهُ يَوْمَ الْقِيَامَةِ أَعْمَىٰ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And whoever turns away from My remembrance - indeed, he will have a depressed life, and We will gather him on the Day of Resurrection blind`,
+        ``,
+        ``
+      ],
+      [
+        `Et quiconque se détourne de Mon Rappel, mènera certes, une vie pleine de gêne, et le Jour de la Résurrection Nous l'amènerons aveugle au rassemblement»`,
+        ``,
+        ``
+      ],
+      [
+        `Pero quien no siga Mi Amonestación llevará una existencia miserable y le resucitaremos, ciego, el día de la Resurrección»`,
+        ``,
+        ``
+      ],
+      [
+        `А кто отвернется от Моего Напоминания, того ожидает тяжкая жизнь, а в День воскресения Мы воскресим его слепым»`,
+        ``,
+        ``
+      ],
+      [
+        `Wer sich aber von Meiner Ermahnung abwendet, der wird ein beengtes Leben fuhren, und Wir werden ihn am Tag der Auferstehung blind (zu den anderen) versammeln`,
+        ``,
+        ``
+      ],
+      [
+        `Men den som vänder ryggen åt Mig [och Mina budskap] skall få ett eländigt liv och på Uppståndelsens dag skall Vi låta honom stiga fram blind`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En hij die zich afwendt van Mijn Vemaning: voorwaar, er zal dan voor hem een benauwd leven zijn. En Wij zullen hen verzamelen op de Dag der Opstanding, in blinde toestand`,
+        ``,
+        ``
+      ],
+      [
+        `اور جو میری نصیحت سے منہ پھیرے گا اس کی زندگی تنگ ہوجائے گی اور قیامت کو ہم اسے اندھا کرکے اٹھائیں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan barangsiapa berpaling dari peringatan-Ku, maka sungguh, dia akan menjalani kehidupan yang sempit, dan Kami akan mengumpulkannya pada hari Kiamat dalam keadaan buta`,
+        ``,
+        ``
+      ],
+      [
+        `Benim Kitap'ımdan yüz çeviren bilsin ki onun dar bir geçimi olur ve kıyamet günü de onu kör olarak haşrederiz`,
+        ``,
+        ``
+      ],
+      [
+        `و هر كس از ياد من دل بگرداند، در حقيقت، زندگى تنگ [و سختى‌] خواهد داشت، و روز رستاخيز او را نابينا محشور مى‌كنيم.»`,
+        ``,
+        ``
+      ],
+      [
+        `এবং যে আমার স্মরণ থেকে মুখ ফিরিয়ে নেবে, তার জীবিকা সংকীর্ণ হবে এবং আমি তাকে কেয়ামতের দিন অন্ধ অবস্থায় উত্থিত করব।`,
+        ``,
+        ``
+      ],
+      [
+        `E quem der de ombros a Minha Mensagem, por certo, ele terá uma vida atormentada e ressuscitá-lo-emos cego, no Dia da Ressurreição`,
+        ``,
+        ``
+      ],
+      [
+        `谁违背我的教诲，谁必过窘迫的生活，复活日我使他在盲目的情况下被集合。`,
+        ``,
+        ``
+      ],
+      [
+        `だが誰でも，わが訓戒に背を向ける者は，生活が窮屈になり，また審判の日には盲目で甦らされるであろう。」`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 나의 교훈에 등을 돌리는 자는 누구나 궁핍할 것이 며 심판의 날에 우리는 그를 장님 으로 만들어 부활케 하리라`,
+        ``,
+        ``
+      ],
+      [
+        `Chi si sottrae al Mio Monito, avrà davvero vita miserabile e sarà resuscitato cieco nel Giorno della Resurrezione`,
+        ``,
+        ``
+      ],
+      [
+        `A kto odwróci się od Mojego napomnienia, ten, zaprawdę, będzie miał życie nędzne i My wskrzesimy go jako ślepego w Dniu Zmartwychwstania`,
+        ``,
+        ``
+      ],
+      [
+        `А той, хто відвернеться від Мого нагадування, той матиме важке життя, а в День Воскресіння Ми піднімемо його сліпим`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة طه / Ta-Ha، الآية 124`
+  },
+
+  {
+    arabic: [
+      `وَنَضَعُ الْمَوَازِينَ الْقِسْطَ لِيَوْمِ الْقِيَامَةِ فَلَا تُظْلَمُ نَفْسٌ شَيْئًا ۖ وَإِنْ كَانَ مِثْقَالَ حَبَّةٍ مِنْ خَرْدَلٍ أَتَيْنَا بِهَا ۗ وَكَفَىٰ بِنَا حَاسِبِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And We place the scales of justice for the Day of Resurrection, so no soul will be treated unjustly at all. And if there is [even] the weight of a mustard seed, We will bring it forth. And sufficient are We as accountant`,
+        ``,
+        ``
+      ],
+      [
+        `Au Jour de la Résurrection, Nous placerons les balances exactes. Nulle âme ne sera lésée en rien, fût-ce du poids d'un grain de moutarde que Nous ferons venir. Nous suffisons largement pour dresser les comptes`,
+        ``,
+        ``
+      ],
+      [
+        `Para el día de la Resurrección dispondremos balanzas que den el peso justo y nadie será tratado injustamente en nada. Aunque se trate de algo del peso de un grano de mostaza, lo tendremos en cuenta. ¡Bastamos Nosotros para ajustar cuentas`,
+        ``,
+        ``
+      ],
+      [
+        `В День воскресения Мы установим справедливые Весы, и ни с кем не поступят несправедливо. Если найдется нечто весом с горчичное зернышко, Мы принесем его. Довольно того, что Мы ведем счет`,
+        ``,
+        ``
+      ],
+      [
+        `Und Wir stellen die gerechten Waagen für den Tag der Auferstehung auf. So wird keiner Seele um irgend etwas Unrecht zugefügt; und wäre es auch das Gewicht eines Senfkorns, Wir bringen es bei. Und Wir genügen als Berechner`,
+        ``,
+        ``
+      ],
+      [
+        `På Uppståndelsens dag skall Vi ställa fram rättvisande vågar och ingen skall då lida den minsta orätt. [Allt,] till och med det som väger så litet som ett senapskorn, skall Vi dra fram i ljuset. Det är Vi som bäst håller räkning på allt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En Wij zullen betrouwbare weegschalen opstellen op de Dag der Opstanding, zodat geen ziet iets van onrecht aangedaan wordt. En al gaat het om het gewicht van een mosterdzaadje: Wij zullen het naar voren brengen. En Wij zijn voldoende als Berekenaars`,
+        ``,
+        ``
+      ],
+      [
+        `اور ہم قیامت کے دن انصاف کی ترازو کھڑی کریں گے تو کسی شخص کی ذرا بھی حق تلفی نہ کی جائے گی۔ اور اگر رائی کے دانے کے برابر بھی (کسی کا عمل) ہوگا تو ہم اس کو لاحاضر کریں گے۔ اور ہم حساب کرنے کو کافی ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Kami akan memasang timbangan yang tepat pada hari Kiamat, maka tidak seorang pun dirugikan walau sedikit; sekali pun hanya seberat biji sawi, pasti Kami mendatangkannya (pahala). Dan cukuplah Kami yang membuat perhitungan`,
+        ``,
+        ``
+      ],
+      [
+        `Kıyamet günü doğru teraziler kurarız; hiçbir kimse hiçbir haksızlığa uğratılmaz. Hardal tanesi kadar olsa bile yapılanı ortaya koyarız. Hesap gören olarak Biz yeteriz`,
+        ``,
+        ``
+      ],
+      [
+        `و ترازوهاى داد را در روز رستاخيز مى‌نهيم، پس هيچ كس [در] چيزى ستم نمى‌بيند، و اگر [عمل‌] هموزن دانه خردلى باشد آن را مى‌آوريم و كافى است كه ما حسابرس باشيم`,
+        ``,
+        ``
+      ],
+      [
+        `আমি কেয়ামতের দিন ন্যায়বিচারের মানদন্ড স্থাপন করব। সুতরাং কারও প্রতি জুলুম হবে না। যদি কোন আমল সরিষার দানা পরিমাণও হয়, আমি তা উপস্থিত করব এবং হিসাব গ্রহণের জন্যে আমিই যথেষ্ট।`,
+        ``,
+        ``
+      ],
+      [
+        `E Nós poremos as balanças eqüitativas para o Dia da Ressurreição; então, nenhuma alma sofrerá nada de injustiça. E se houver ação do peso de um grão de mostarda fá-la-emos vir à balança. E bastamos Nós por Ajustador de contas`,
+        ``,
+        ``
+      ],
+      [
+        `在复活日，我将设置公道的天秤，任何人都不受一点儿冤枉； 他的行为虽微 如芥子，我也要报酬他；我足为清算者。`,
+        ``,
+        ``
+      ],
+      [
+        `われは審判の日のために，公正な秤を設ける。1人として仮令芥子一粒の重さであっても不当に扱われることはない。われはそれを（計算に）持ち出す。われは清算者として万全である。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 심판의 날 공정한 저울을 준비하나니 어느 누구도 불공평한 대우를 받지 않도록 함 이라 비록 겨자씨만한 무게일지라 도 그분은 그것을 드러내 계산하 리니 계산은 하나님만으로 충분하 니라`,
+        ``,
+        ``
+      ],
+      [
+        `Rizzeremo bilance esatte, nel Giorno della Resurrezione e nessuna anima subirà alcun torto; foss'anche del peso di un granello di senape, lo riesumeremo. Basteremo Noi a tirare le somme`,
+        ``,
+        ``
+      ],
+      [
+        `My postawimy wagi sprawiedliwości w Dniu Zmartwychwstania. Żadna dusza nie dozna w niczym krzywdy, nawet na ciężar jednego tylko ziarnka gorczycy; My je przyniesiemy. My wystarczymy jako rozliczający`,
+        ``,
+        ``
+      ],
+      [
+        `У День Воскресіння Ми встановимо справедливу вагу й ні з ким не вчинять несправедливо. Коли щось матиме навіть вагу гірчичного зерна, Ми все одно принесемо Його! Достатньо тієї лічби, що в Нас`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنبياء / Al-Anbiya، الآية 47`
   },
 
   {
@@ -10011,6 +13900,117 @@ const verses = [
       ]
     ],
     number: `سورة الحج / Al-Hajj، الآية 73`
+  },
+
+  {
+    arabic: [
+      `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ قَدْ أَفْلَحَ الْمُؤْمِنُونَ الَّذِينَ هُمْ فِي صَلَاتِهِمْ خَاشِعُونَ وَالَّذِينَ هُمْ عَنِ اللَّغْوِ مُعْرِضُونَ وَالَّذِينَ هُمْ لِلزَّكَاةِ فَاعِلُونَ وَالَّذِينَ هُمْ لِفُرُوجِهِمْ حَافِظُونَ إِلَّا عَلَىٰ أَزْوَاجِهِمْ أَوْ مَا مَلَكَتْ أَيْمَانُهُمْ فَإِنَّهُمْ غَيْرُ مَلُومِينَ فَمَنِ ابْتَغَىٰ وَرَاءَ ذَٰلِكَ فَأُولَٰئِكَ هُمُ الْعَادُونَ وَالَّذِينَ هُمْ لِأَمَانَاتِهِمْ وَعَهْدِهِمْ رَاعُونَ وَالَّذِينَ هُمْ عَلَىٰ صَلَوَاتِهِمْ يُحَافِظُونَ أُولَٰئِكَ هُمُ الْوَارِثُونَ الَّذِينَ يَرِثُونَ الْفِرْدَوْسَ هُمْ فِيهَا خَالِدُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Certainly will the believers have succeeded They who are during their prayer humbly submissive And they who turn away from ill speech And they who are observant of zakah And they who guard their private parts Except from their wives or those their right hands possess, for indeed, they will not be blamed But whoever seeks beyond that, then those are the transgressors And they who are to their trusts and their promises attentive And they who carefully maintain their prayers Those are the inheritors Who will inherit al-Firdaus. They will abide therein eternally`,
+        ``,
+        ``
+      ],
+      [
+        `Bienheureux sont certes les croyants ceux qui sont humbles dans leur Salât qui se détournent des futilités qui s'acquittent de la Zakât et qui préservent leurs sexes [de tout rapport] si ce n'est qu'avec leurs épouses ou les esclaves qu'ils possèdent, car là vraiment, on ne peut les blâmer alors que ceux qui cherchent au-delà de ces limites sont des transgresseurs et qui veillent à la sauvegarde des dépôts confiés à eux et honorent leurs engagements et qui observent strictement leur Salât Ce sont eux les héritiers qui hériteront le Paradis pour y demeurer éternellement`,
+        ``,
+        ``
+      ],
+      [
+        `¡Bienaventurados los creyentes que hacen su azalá con humildad que evitan el vaniloquio que dan el azaque que se abstienen de comercio carnal salvo con sus esposas o con sus esclavas en cuyo caso no incurren en reproche mientras que quienes desean a otras mujeres, ésos son los que violan la ley que respetan los depósitos que se les confían y las promesas que hacen que observan sus azalás Ésos son los herederos que heredarán el paraíso, en el que estarán eternamente`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, преуспели верующие которые смиренны во время своих намазов которые отворачиваются от всего праздного которые выплачивают закят которые оберегают свои половые органы от всех кроме своих жен или невольниц, которыми овладели их десницы, за что они не заслуживают порицания тогда как желающие сверх этого являются преступниками которые оберегают вверенное им на хранение и соблюдают договоры которые регулярно совершают намаз Именно они являются наследниками которые унаследуют Фирдаус, в котором они пребудут вечно`,
+        ``,
+        ``
+      ],
+      [
+        `Den Gläubigen wird es ja wohl ergehen denjenigen, die in ihrem Gebet demütig sind und denjenigen, die sich von unbedachter Rede abwenden und denjenigen, die die (Zahlung der) Abgabe anwenden und denjenigen, die ihre Scham hüten außer gegenüber ihren Gattinnen oder was ihre rechte Hand (an Sklavinnen) besitzt, denn sie sind (hierin) nicht zu tadeln wer aber darüber hinaus (etwas) begehrt, das sind die Übertreter und denjenigen, die auf die ihnen anvertrauten Güter und ihre Verpflichtung achtgeben und denjenigen, die ihre Gebete einhalten Das sind die Erben die das Paradies erben werden; ewig werden sie darin bleiben`,
+        ``,
+        ``
+      ],
+      [
+        `DET SKALL gå de troende väl i händer de som ber med ödmjukt sinne som drar sig undan när de hör lättsinnigt tal som gör en insats för hjälpen till de behövande som håller sina begär i styr [och inte ger fritt utlopp åt sin lust] med någon annan än sina hustrur eller dem som de rättmätigt besitter - inget klander kan då riktas mot dem men de som går längre är syndare och som troget fullgör sina förtroendeuppdrag och uppfyller sina löften och som slår vakt om bönen De är arvtagarna som skall ta paradiset i arv och där skall förbli till evig tid`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Waarlijk, de gelovigen slagen Degenen die nederig zijn in hun shalât En degenen die nutteloos gepraat vemijden En degenen die hun plicht tot zakât nakomen En degenen die hun kuisheid bewaken Behalve tegenover hun echtgenotes en hun slavinnen, dan worden zij niet verweten Maar wie meer dan dat wensen: zij zijn degenen die de overtreders zijn En degenen die goed zorgen voor wat hen is toevertrouwd en voor hun beloften En degenen die hun shalât onderhouden Zij zijn degenen die de erfgenamen zijn Degenen die Firdaus (het Paradijs) zullen erven, zij zijn daarin eeuwig levenden`,
+        ``,
+        ``
+      ],
+      [
+        `بےشک ایمان والے رستگار ہوگئے جو نماز میں عجزو نیاز کرتے ہیں اور جو بیہودہ باتوں سے منہ موڑے رہتے ہیں اور جو زکوٰة ادا کرتے ہیں اور جو اپنی شرمگاہوں کی حفاظت کرتے ہیں مگر اپنی بیویوں سے یا (کنیزوں سے) جو ان کی مِلک ہوتی ہیں کہ (ان سے) مباشرت کرنے سے انہیں ملامت نہیں اور جو ان کے سوا اوروں کے طالب ہوں وہ (خدا کی مقرر کی ہوئی حد سے) نکل جانے والے ہیں اور جو امانتوں اور اقراروں کو ملحوظ رکھتے ہیں اور جو نمازوں کی پابندی کرتے ہیں یہ ہی لوگ میراث حاصل کرنے والے ہیں (یعنی) جو بہشت کی میراث حاصل کریں گے۔ اور اس میں ہمیشہ رہیں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh beruntung orang-orang yang beriman (yaitu) orang yang khusyuk dalam salatnya dan orang yang menjauhkan diri dari (perbuatan dan perkataan) yang tidak berguna dan orang yang menunaikan zakat dan orang yang memelihara kemaluannya (kecuali terhadap istri-istri mereka atau hamba sahaya yang mereka miliki;550)maka sesungguhnya mereka tidak tercela Tetapi barang siapa mencari di balik itu (zina, dan sebagainya), maka mereka itulah orang-orang yang melampaui batas Dan (sungguh beruntung) orang yang memelihara amanat-amanat dan janjinya serta orang yang memelihara salatnya Mereka itulah orang yang akan mewarisi (yakni) yang akan mewarisi (surga) Firdaus. Mereka kekal di dalamnya`,
+        ``,
+        ``
+      ],
+      [
+        `Müminler saadete ermişlerdir Onlar namazda huşu içindedirler Onlar boş şeylerden yüz çevirirler Onlar zekatlarını verirler Onlar, eşleri ve cariyeleri dışında, mahrem yerlerini herkesten korurlar. Doğrusu bunlar yerilemezler Onlar, eşleri ve cariyeleri dışında, mahrem yerlerini herkesten korurlar. Doğrusu bunlar yerilemezler Bu sınırları aşmak isteyenler, işte bunlar aşırı gidenlerdir Onlar emanetlerini ve sözlerini yerine getirirler Namazlarına riayet ederler İşte onlar, temelli kalacakları Firdevs cennetine varis olanlardır İşte onlar, temelli kalacakları Firdevs cennetine varis olanlardır`,
+        ``,
+        ``
+      ],
+      [
+        `به راستى كه مؤمنان رستگار شدند، همانان كه در نمازشان فروتنند، و آنان كه از بيهوده رويگردانند، و آنان كه زكات مى‌پردازند، و كسانى كه پاكدامنند، مگر در مورد همسرانشان يا كنيزانى كه به دست آورده‌اند، كه در اين صورت بر آنان نكوهشى نيست پس هر كه فراتر از اين جويد، آنان از حد درگذرندگانند و آنان كه امانتها و پيمان خود را رعايت مى‌كنند، و آنان كه بر نمازهايشان مواظبت مى‌نمايند، آنانند كه خود وارثانند، همانان كه بهشت را به ارث مى‌برند و در آنجا جاودان مى‌مانند`,
+        ``,
+        ``
+      ],
+      [
+        `মুমিনগণ সফলকাম হয়ে গেছে যারা নিজেদের নামাযে বিনয়-নম্র যারা অনর্থক কথা-বার্তায় নির্লিপ্ত যারা যাকাত দান করে থাকে এবং যারা নিজেদের যৌনাঙ্গকে সংযত রাখে। তবে তাদের স্ত্রী ও মালিকানাভুক্ত দাসীদের ক্ষেত্রে সংযত না রাখলে তারা তিরস্কৃত হবে না। অতঃপর কেউ এদেরকে ছাড়া অন্যকে কামনা করলে তারা সীমালংঘনকারী হবে। এবং যারা আমানত ও অঙ্গীকার সম্পর্কে হুশিয়ার থাকে। এবং যারা তাদের নামাযসমূহের খবর রাখে। তারাই উত্তরাধিকার লাভ করবে। তারা শীতল ছায়াময় উদ্যানের উত্তরাধিকার লাভ করবে। তারা তাতে চিরকাল থাকবে।`,
+        ``,
+        ``
+      ],
+      [
+        `Suratu Al-Mu'minun. Com efeito, bem-aventurados os crentes Que são humildes em suas orações E que dão de ombros à frivolidade E que concedem as esmolas E os que são custódios de seu sexo Exceto com suas mulheres, ou com as escravas que possuem; então, por certo, não serão censurados E quem busca algo, além disso, esses são os agressores E que respeitam fielmente seus depósitos, a eles confiados, e honram seus pactos E que custodiam suas orações Esses são os herdeiros Que herdarão o lugar mais alto do Paraíso. Nele, serão eternos`,
+        ``,
+        ``
+      ],
+      [
+        `信士们确已成功了； 他们在拜中是恭顺的， 他们是远离谬论的， 他们是完纳天课的， 他们是保持贞操的 除非对他们的妻子和女奴，因为他们的心不是受谴责的； 此外，谁再有所求，谁是超越法度的 他们是尊重自己所受的信托和自己所缔的盟约的， 他们是谨守拜功的； 这等人，才是继承者。 他们是继承乐园的，他们将永居其中。`,
+        ``,
+        ``
+      ],
+      [
+        `信者たちは，確かに勝利を勝ちとる。 かれらは，礼拝に敬虔であり， 虚しい（凡ての）ことを避け， 施し〔ザカート〕のために励み， 自分の陰部を守る者。 ただし配偶と，かれらの右手に所有する者（奴隷）は，別である。かれらに関しては，咎められることはない。 しかし法を越えて求める者は，アッラーの掟に背く者である。 また信託と約束に忠実な者， 自分の礼拝を（忠実に）守る者である。 これらの者こそ本当の相続者で， フィルダウス（天国）を継ぐ者である。かれらはそこに永遠に住むのである。`,
+        ``,
+        ``
+      ],
+      [
+        `믿는 사람들은 번성하나니 이들은 예배에 임하여 겸손하는 자들이며 헛된 말을 하지 않는 자들이 며 이슬람세를 바치는 자들이며 그들의 순결을 지키는 자들이라 그러나 아내와 오른 손이 소 유하는 것들은 제외되어 나무랄 데가 없노라 그러나 그 한계를 넘어 욕망 을 가진 자 실로 그들은 죄인들 이라 그들의 신용을 지키고 계약을 준수하는 자들이며 그들의 예배를 충실히 지키는자들이니 이들이 상속인들이 되어 천국을 상속받아 그 안에서 영생하리라`,
+        ``,
+        ``
+      ],
+      [
+        `Invero prospereranno i credenti quelli che sono umili nell'orazione che evitano il vaniloquio che versano la decima e che si mantengono casti eccetto con le loro spose e con schiave che possiedono - e in questo non sono biasimevoli mentre coloro che desiderano altro sono i trasgressori che rispettano ciò che è loro stato affidato e i loro impegni che sono costanti nell'orazione essi sono gli eredi che erediteranno il Giardino, dove rimarranno in perpetuo`,
+        ``,
+        ``
+      ],
+      [
+        `Szczęśliwi są wierzący Którzy są pokorni w swoich modlitwach Którzy się odwracają od pustej gadaniny Którzy dają jałmużnę Którzy zachowują wstrzemięźliwość Z wyjątkiem swoich żon i tego, czym zawładnęła ich prawica, bo wtedy nie będą ganieni a którzy pożądają inne, poza nimi, są występni Którzy strzegą powierzonych sobie depozytów i dochowują zobowiązań Którzy odprawiają swoje modlitwy Tacy są dziedzicami Którzy odziedziczą Raj, gdzie będą przebywać na wieki`,
+        ``,
+        ``
+      ],
+      [
+        `Досягають успіху віруючі які смиренні у своїх молитвах які уникають усього марного які дають закят які закривають свою наготу від усіх окрім дружин, і тих, ким оволоділи їхні правиці, — їм не докорятимуть за це а хто прагне більшого, ті — порушники які зберігають довірене їм та договори які належно звершують свої молитви саме вони — спадкоємці які отримають у спадок Фірдаус, де будуть довіку`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المؤمنون / Al-Mu'minun، الآيات 1-11`
   },
 
   {
@@ -11347,6 +15347,117 @@ const verses = [
 
   {
     arabic: [
+      `تَتَجَافَىٰ جُنُوبُهُمْ عَنِ الْمَضَاجِعِ يَدْعُونَ رَبَّهُمْ خَوْفًا وَطَمَعًا وَمِمَّا رَزَقْنَاهُمْ يُنْفِقُونَ فَلَا تَعْلَمُ نَفْسٌ مَا أُخْفِيَ لَهُمْ مِنْ قُرَّةِ أَعْيُنٍ جَزَاءً بِمَا كَانُوا يَعْمَلُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `They arise from [their] beds; they supplicate their Lord in fear and aspiration, and from what We have provided them, they spend And no soul knows what has been hidden for them of comfort for eyes as reward for what they used to do`,
+        ``,
+        ``
+      ],
+      [
+        `Ils s'arrachent de leurs lits pour invoquer leur Seigneur, par crainte et espoir; et ils font largesse de ce que Nous leur attribuons Aucun être ne sait ce qu'on a réservé pour eux comme réjouissance pour les yeux, en récompense de ce qu'ils œuvraient`,
+        ``,
+        ``
+      ],
+      [
+        `Se alzan del lecho para invocar a su Señor con temor y anhelo y dan limosna de lo que les hemos proveído Nadie sabe la alegría reservada a ellos en retribución a sus obras`,
+        ``,
+        ``
+      ],
+      [
+        `Они отрывают свои бока от постелей, взывая к своему Господу со страхом и надеждой, и расходуют из того, чем Мы их наделили Ни один человек не знает, какие услады для глаз сокрыты для них в воздаяние за то, что они совершали`,
+        ``,
+        ``
+      ],
+      [
+        `Ihre Seiten weichen vor den Schlafstätten zurück; sie rufen ihren Herrn in Furcht und Begehren an und geben von dem, womit Wir sie versorgt haben, aus Keine Seele weiß, welche Freuden im Verborgenen für sie bereitgehalten werden als Lohn für das, was sie zu tun pflegten`,
+        ``,
+        ``
+      ],
+      [
+        `de som avstår från sömn för att med fruktan och hopp åkalla sin Herre och som ger åt andra av det som Vi har skänkt dem för deras försörjning Ingen människa vet vilka dolda [skatter av] djup glädje som väntar de [troende] som belöning för deras handlingar`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hun zijden mijden de slaapplaatsen, zij roepen hun Heer aan, vrezend en hopend. En zij geven uit van dat waar Wij hun mee voorzagen En geen ziet weet welke verkoeling van de ogen voor hen verborgen wordt gehouden, als beloning voor wat zij plachten te doen`,
+        ``,
+        ``
+      ],
+      [
+        `اُن کے پہلو بچھونوں سے الگ رہتے ہیں (اور) وہ اپنے پروردگار کو خوف اور اُمید سے پکارتے اور جو (مال) ہم نے اُن کو دیا ہے اس میں سے خرچ کرتے ہیں کوئی متنفس نہیں جانتا کہ اُن کے لئے کیسی آنکھوں کی ٹھنڈک چھپا کر رکھی گئی ہے۔ یہ ان اعمال کا صلہ ہے جو وہ کرتے تھے`,
+        ``,
+        ``
+      ],
+      [
+        `(Lambung mereka jauh dari tempat tidurnya,659) mereka berdoa kepada Tuhannya dengan rasa takut dan penuh harap, dan mereka menginfakkan sebagian dari rezeki yang Kami berikan kepada mereka Maka tidak seorang pun mengetahui apa yang disembunyikan untuk mereka yaitu (bermacam-macam nikmat) yang menyenangkan hati sebagai balasan terhadap apa yang mereka kerjakan`,
+        ``,
+        ``
+      ],
+      [
+        `Ayetlerimize ancak, kendilerine hatırlatıldığı zaman secdeye kapananlar, büyüklük taslamayarak Rablerini överek yüceltenler, vücudlarını yataklardan uzak tutup korkarak ve umarak Rablerine yalvaranlar ve verdiğimiz rızıklardan sarfedenler inanır Yaptıklarına karşılık onlar için saklanan müjdeyi kimse bilmez`,
+        ``,
+        ``
+      ],
+      [
+        `پهلوهايشان از خوابگاهها جدا مى‌گردد [و] پروردگارشان را از روى بيم و طمع مى‌خوانند، و از آنچه روزيشان داده‌ايم انفاق مى‌كنند هيچ كس نمى‌داند چه چيز از آنچه روشنى‌بخش ديدگان است به [پاداش‌] آنچه انجام مى‌دادند براى آنان پنهان كرده‌ام`,
+        ``,
+        ``
+      ],
+      [
+        `তাদের পার্শ্ব শয্যা থেকে আলাদা থাকে। তারা তাদের পালনকর্তাকে ডাকে ভয়ে ও আশায় এবং আমি তাদেরকে যে রিযিক দিয়েছি, তা থেকে ব্যয় করে। কেউ জানে না তার জন্যে কৃতকর্মের কি কি নয়ন-প্রীতিকর প্রতিদান লুক্কায়িত আছে।`,
+        ``,
+        ``
+      ],
+      [
+        `Seus flancos apartam-se dos leitos, enquanto suplicam a seu Senhor, com temor e aspiração, e despendem do que lhes damos por sustento E nenhuma alma sabe o que lhes é oculto do alegre frescor dos olhos, em recompensa do que faziam`,
+        ``,
+        ``
+      ],
+      [
+        `他们肋不落床，他们以恐惧和希望的心情祈祷他们的主；他们分舍我所赐予他们的。 任何人都不知道已为他们贮藏了什么慰藉，以报酬他们的行为。`,
+        ``,
+        ``
+      ],
+      [
+        `かれらの体が臥床を離れると，畏れと希望とを抱いて主に祈り，われが授けたものを施しにさし出す。 かれらはその行ったことの報奨として，喜ばしいものが自分のためにひそかに（用意）されているのを知らない。`,
+        ``,
+        ``
+      ],
+      [
+        `그들의 손발은 그들의 침상을 멀리하고 두려움과 희망으로 그들의 주님을 부르며 우리가 그 들에게 베푼 양식으로 자선을 베 푸노라 아무도 모를 것은 그들이 행한 것에 대한 보상이니 그들을 기 쁘게 할 숨겨진 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `Strappano i loro corpi dai letti per invocare il loro Signore, per timore e speranza, e sono generosi di quello che abbiamo loro concesso Nessuno conosce la gioia immensa che li attende, ricompensa per quello che avranno fatto`,
+        ``,
+        ``
+      ],
+      [
+        `Ich boki wyrywają się z pościeli oni wzywają swego Pana z obawą i nadzieją i rozdają z tego, w co ich zaopatrzyliśmy I żadna dusza nie wie, jaka radość jest trzymana dla nich w ukryciu w nagrodę za to, co oni czynili`,
+        ``,
+        ``
+      ],
+      [
+        `Вони підводяться зі своїх лож, щоб кликати Господа свого зі страхом і надією, жертвуючи те, чим Ми наділили їх Жодна душа не знає, яка насолода очей прихована для них за те, що вони робили`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة السجدة / As-Sajdah، الآيتان 16-17`
+  },
+
+  {
+    arabic: [
       `النَّبِيُّ أَوْلَىٰ بِالْمُؤْمِنِينَ مِنْ أَنْفُسِهِمْ ۖ وَأَزْوَاجُهُ أُمَّهَاتُهُمْ ۗ وَأُولُو الْأَرْحَامِ بَعْضُهُمْ أَوْلَىٰ بِبَعْضٍ فِي كِتَابِ اللَّهِ مِنَ الْمُؤْمِنِينَ وَالْمُهَاجِرِينَ إِلَّا أَنْ تَفْعَلُوا إِلَىٰ أَوْلِيَائِكُمْ مَعْرُوفًا ۚ كَانَ ذَٰلِكَ فِي الْكِتَابِ مَسْطُورًا`,
       ``,
       ``
@@ -11565,6 +15676,117 @@ const verses = [
       ]
     ],
     number: `سورة الأحزاب / Al-Ahzab، الآية 21`
+  },
+
+  {
+    arabic: [
+      `إِنَّ الْمُسْلِمِينَ وَالْمُسْلِمَاتِ وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ وَالْقَانِتِينَ وَالْقَانِتَاتِ وَالصَّادِقِينَ وَالصَّادِقَاتِ وَالصَّابِرِينَ وَالصَّابِرَاتِ وَالْخَاشِعِينَ وَالْخَاشِعَاتِ وَالْمُتَصَدِّقِينَ وَالْمُتَصَدِّقَاتِ وَالصَّائِمِينَ وَالصَّائِمَاتِ وَالْحَافِظِينَ فُرُوجَهُمْ وَالْحَافِظَاتِ وَالذَّاكِرِينَ اللَّهَ كَثِيرًا وَالذَّاكِرَاتِ أَعَدَّ اللَّهُ لَهُمْ مَغْفِرَةً وَأَجْرًا عَظِيمًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, the Muslim men and Muslim women, the believing men and believing women, the obedient men and obedient women, the truthful men and truthful women, the patient men and patient women, the humble men and humble women, the charitable men and charitable women, the fasting men and fasting women, the men who guard their private parts and the women who do so, and the men who remember Allah often and the women who do so - for them Allah has prepared forgiveness and a great reward`,
+        ``,
+        ``
+      ],
+      [
+        `Les Musulmans et Musulmanes, croyants et croyantes, obéissants et obéissantes, loyaux et loyales, endurants et endurantes, craignants et craignantes, donneurs et donneuses d'aumône, jeûnants et jeûnantes, gardiens de leur chasteté et gardiennes, invocateurs souvent d'Allah et invocatrices: Allah a préparé pour eux un pardon et une énorme récompense`,
+        ``,
+        ``
+      ],
+      [
+        `Alá ha preparado perdón y magnífica recompensa para los musulmanes y las musulmanas, los creyentes y las creyentes, los devotos y las devotas, los sinceros y las sinceras, los pacientes y las pacientes, los humildes y las humildes, los que y las que dan limosna, los que y las que ayunan, los castos y las castas, los que y las que recuerdan mucho a Alá`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, для мусульман и мусульманок, верующих мужчин и верующих женщин, покорных мужчин и покорных женщин, правдивых мужчин и правдивых женщин, терпеливых мужчин и терпеливых женщин, смиренных мужчин и смиренных женщин, подающих милостыню мужчин и подающих милостыню женщин, постящихся мужчин и постящихся женщин, хранящих целомудрие мужчин и хранящих целомудрие женщин и часто поминающих Аллаха мужчин и женщин, Аллах уготовил прощение и великую награду`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, muslimische Männer und muslimische Frauen, gläubige Männer und gläubige Frauen, ergebene Männer und ergebene Frauen, wahrhaftige Männer und wahrhaftige Frauen, standhafte Männer und standhafte Frauen, demütige Männer und demütige Frauen, Almosen gebende Männer und Almosen gebende Frauen, fa stende Männer und fastende Frauen, Männer, die ihre Scham hüten und Frauen, die (ihre Scham) hüten, und Allahs viel gedenkende Männer und gedenkende Frauen für (all) sie hat Allah Vergebung und großartigen Lohn bereitet`,
+        ``,
+        ``
+      ],
+      [
+        `FÖR DE män och de kvinnor som har underkastat sig Guds vilja, de troende männen och de troende kvinnorna, de män och de kvinnor som visar sann fromhet, de män och de kvinnor som älskar sanningen, de män och de kvinnor som tåligt uthärdar motgång, de män och de kvinnor som visar ödmjukhet, de män och de kvinnor som ger åt de fattiga, de män och de kvinnor som fastar, de män och de kvinnor som lägger band på sin sinnlighet, de män och de kvinnor som alltid har Gud i tankarna - [för dem alla] har Gud i beredskap förlåtelse för deras synder och en rik belöning`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, de mannen die zich hebben overgegeven (aan Allalh) en de vrouwen die zich hebben overgegeven, en de gelovige mannen en de gelovige vrouwen, en de gehoorzame mannen en de gehoorzame vrouwen, en de waarachtige mannen en de waarachtige vrouwen, en de geduldige mannen en de geduldige vrouwen, en de ootmoedige mannen en de ootmoedige vrouwen, en de bijdragen gevende mannen en de bijdragen gevende vrouwen, en de vastende mannen en de vastende vrouwen en de mannen die over hun kuisheid waken en de vrouwen die (daarover) waken, en de mannen die Allah veelvuldig gedenken en de vrouwen die gedenken: Allah heeft voor hen vergeving bereid en een geweldige beloning`,
+        ``,
+        ``
+      ],
+      [
+        `(جو لوگ خدا کے آگے سر اطاعت خم کرنے والے ہیں یعنی) مسلمان مرد اور مسلمان عورتیں اور مومن مرد اور مومن عورتیں اور فرماں بردار مرد اور فرماں بردار عورتیں اور راست باز مرد اور راست باز عورتیں اور صبر کرنے والے مرد اور صبر کرنے والی عورتیں اور فروتنی کرنے والے مرد اور فروتنی کرنے والی عورتیں اور خیرات کرنے والے مرد اور اور خیرات کرنے والی عورتیں اور روزے رکھنے والے مرد اور روزے رکھنے والی عورتیں اور اپنی شرمگاہوں کی حفاظت کرنے والے مرد اور حفاظت کرنے والی عورتیں اور خدا کو کثرت سے یاد کرنے والے مرد اور کثرت سے یاد کرنے والی عورتیں۔ کچھ شک نہیں کہ ان کے لئے خدا نے بخشش اور اجر عظیم تیار کر رکھا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, laki-laki dan perempuan muslim, laki-laki dan perempuan mukmin, laki-laki dan perempuan yang tetap dalam ketaatannya, laki-laki dan perempuan yang benar, laki-laki dan perempuan yang sabar, laki-laki dan perempuan yang khusyuk, laki-laki dan perempuan yang bersedekah, laki-laki dan perempuan yang berpuasa, laki-laki dan perempuan yang memelihara kehormatannya, laki-laki dan perempuan yang banyak menyebut (nama) Allah, Allah telah menyediakan untuk mereka ampunan dan pahala yang besar`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu erkek ve kadın müslümanlar, erkek ve kadın müminler, boyun eğen erkekler ve kadınlar, doğru sözlü erkekler ve kadınlar, sabırlı erkekler ve kadınlar, gönülden bağlanan erkekler ve kadınlar, sadaka veren erkekler ve kadınlar, oruç tutan erkekler ve kadınlar iffetlerini koruyan erkekler ve kadınlar, Allah'ı çok anan erkekler ve kadınlar, işte Allah bunların hepsine mağfiret ve büyük ecir hazırlamıştır`,
+        ``,
+        ``
+      ],
+      [
+        `مردان و زنان مسلمان، و مردان و زنان با ايمان، و مردان و زنان عبادت‌پيشه، و مردان و زنان راستگو، و مردان و زنان شكيبا، و مردان و زنان فروتن، و مردان و زنان صدقه‌دهنده، و مردان و زنان روزه‌دار، و مردان و زنان پاكدامن، و مردان و زنانى كه خدا را فراوان ياد مى‌كنند، خدا براى [همه‌] آنان آمرزشى و پاداشى بزرگ فراهم ساخته است`,
+        ``,
+        ``
+      ],
+      [
+        `নিশ্চয় মুসলমান পুরুষ, মুসলমান নারী, ঈমানদার পুরুষ, ঈমানদার নারী, অনুগত পুরুষ, অনুগত নারী, সত্যবাদী পুরুষ, সত্যবাদী নারী, ধৈর্য্যশীল পুরুষ, ধৈর্য্যশীল নারী, বিনীত পুরুষ, বিনীত নারী, দানশীল পুরুষ, দানশীল নারী, রোযা পালণকারী পুরুষ, রোযা পালনকারী নারী, যৌনাঙ্গ হেফাযতকারী পুরুষ, , যৌনাঙ্গ হেফাযতকারী নারী, আল্লাহর অধিক যিকরকারী পুরুষ ও যিকরকারী নারী-তাদের জন্য আল্লাহ প্রস্তুত রেখেছেন ক্ষমা ও মহাপুরষ্কার।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, aos muçulmanos e às muçulmanas, e aos crentes e às crentes, e aos devotos e às devotas, e aos verídicos e às verídicas, e aos perseverantes e às perseverantes, e aos humildes e às humildes, e aos esmoleres e às esmoleres, e aos jejuadores e às jejuadoras, e aos custódios de seu sexo e às custódias de seu sexo, e aos que se lembram amiúde de Allah e às que se lembram amiúde dEle, Allah preparou-lhes perdão e magnífico prêmio`,
+        ``,
+        ``
+      ],
+      [
+        `顺服的男女、信道的男女、服从的男女、诚实的男女、坚忍的男女、恭敬的男女、好施的男女、斋戒的男女、保守贞操的男女、常念真主的男女，真主已为他们预备了赦宥和重大的报酬。`,
+        ``,
+        ``
+      ],
+      [
+        `本当にムスリムの男と女，信仰する男と女，献身的な男と女，正直な男と女，堅忍な男と女，謙虚な男と女，施しをする男と女，斎戒（断食）する男と女，貞節な男と女，アッラーを多く唱念する男と女，これらの者のために，アッラーは罪を赦し，偉大な報奨を準備なされる。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 무슬림 남녀에게 믿음 이 있는 남녀에게 순종하는 남녀 에게 진실한 남녀와 인내하는 남 녀에게 두려워하는 남녀와 자선을베푸는 남녀에게 단식을 행하는 남녀와 정조를 지키는 남녀에게 하나님을 염원하는 남녀에게 하나님은 관용과 크나큰 보상을 준비 하셨노라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità i musulmani e le musulmane, i credenti e le credenti, i devoti e le devote, i leali e le leali, i perseveranti e le perseveranti, i timorati e le timorate, quelli che fanno l'elemosina e quelle che fanno l'elemosina, i digiunatori e le digiunatrici, i casti e le caste, quelli che spesso ricordano Allah e quelle che spesso ricordano Allah, sono coloro per i quali Allah ha disposto perdono ed enorme ricompensa`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę - muzułmanie i muzułmanki, wierzący i wierzące, prawdomówni i prawdomówne, cierpliwi i cierpliwe, pokorni i pokorne, dający jałmużnę i dające jałmużnę, poszczący i poszczące, zachowujący czystość i zachowujące, wspominający Boga często i wspominające - przygotował dla was Bóg przebaczenie i nagrodę ogromną`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, для відданих [Аллагу] — чоловіків і жінок, для віруючих – чоловіків і жінок, для смиренних — чоловіків і жінок, для правдивих – чоловіків і жінок, для терплячих — чоловіків і жінок, для покірних – чоловіків і жінок, для тих, які тримають піст — чоловіків і жінок, для тих, які закривають свою наготу — чоловіків і жінок, для тих, які часто згадують Аллага — чоловіків і жінок — усім Аллаг приготував прощення та велику винагороду`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأحزاب / Al-Ahzab، الآية 35`
   },
 
   {
@@ -13678,6 +17900,117 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّ الَّذِينَ قَالُوا رَبُّنَا اللَّهُ ثُمَّ اسْتَقَامُوا تَتَنَزَّلُ عَلَيْهِمُ الْمَلَائِكَةُ أَلَّا تَخَافُوا وَلَا تَحْزَنُوا وَأَبْشِرُوا بِالْجَنَّةِ الَّتِي كُنْتُمْ تُوعَدُونَ نَحْنُ أَوْلِيَاؤُكُمْ فِي الْحَيَاةِ الدُّنْيَا وَفِي الْآخِرَةِ ۖ وَلَكُمْ فِيهَا مَا تَشْتَهِي أَنْفُسُكُمْ وَلَكُمْ فِيهَا مَا تَدَّعُونَ نُزُلًا مِنْ غَفُورٍ رَحِيمٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, those who have said, "Our Lord is Allah " and then remained on a right course - the angels will descend upon them, [saying], "Do not fear and do not grieve but receive good tidings of Paradise, which you were promised We [angels] were your allies in worldly life and [are so] in the Hereafter. And you will have therein whatever your souls desire, and you will have therein whatever you request [or wish] As accommodation from a [Lord who is] Forgiving and Merciful`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui disent: «Notre Seigneur est Allah», et qui se tiennent dans le droit chemin, les Anges descendent sur eux. «N'ayez pas peur et ne soyez pas affligés; mais ayez la bonne nouvelle du Paradis qui vous était promis Nous sommes vos protecteurs dans la vie présente et dans l'au-delà; et vous y aurez ce que vos âmes désireront et ce que vous réclamerez un lieu d'accueil de la part d'un Très Grand Pardonneur, d'un Très Miséricordieux»`,
+        ``,
+        ``
+      ],
+      [
+        `A los que hayan dicho: «¡Nuestro Señor es Alá!» y se hayan portado correctamente, descenderán los ángeles: «¡No temáis ni estéis tristes! ¡Regocijaos, más bien, por el Jardín que se os había prometido Somos vuestros amigos en la vida de acá y en la otra. Tendréis allí todo cuanto vuestras almas deseen, todo cuanto pidáis como alojamiento venido de Uno Que es indulgente, misericordioso»`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, к тем, которые сказали: «Наш Господь - Аллах», - а потом были стойки, нисходят ангелы: «Не бойтесь и не печальтесь, а возрадуйтесь Раю, который был обещан вам Мы - ваши помощники (или хранители) в мирской жизни и Последней жизни. Вам там уготовано все, чего пожелают ваши души! Вам там уготовано все, о чем вы попросите Таково угощение от Прощающего, Милосердного»`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, diejenigen, die sagen: "Unser Herr ist Allah", und sich hierauf recht verhalten, auf sie kommen die Engel herab: "Fürchtet euch nicht, seid nicht traurig, und vernehmt die frohe Botschaft vom (Paradies)garten', der euch stets versprochen wurde Wir sind eure Beschützer im diesseitigen Leben und im Jenseits. Ihr werdet darin haben, was eure Seelen begehren, und ihr werdet darin haben, was ihr erbetet eine gastliche Aufnahme von einem Allvergebenden, einem Barmherzigen`,
+        ``,
+        ``
+      ],
+      [
+        `De som säger: "Gud är vår Herre" och som vill följa den raka vägen, till dem stiger änglarna ned [med hälsningen]: "Ni skall inte känna någon fruktan och ingen sorg skall tynga er! Tag emot det glada budskapet att paradiset som ni har blivit lovade [väntar er] Vi är hos er och vakar över er i detta liv och i det liv som skall komma; och där skall allt som era själar längtar efter vara ert och det ni ber om skall ni få [Detta är] välkomsthälsningen från en förlåtande, barmhärtig Herre`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, degenen die zeggen: "Onze Heer is Allah," en die vervolgens standvastig zijn: over hen zullen de Engelen neerdalen (en zeggen:) "Weest niet bevreesd en niet treurig, en weest verheugd met het Paradijs dat aan jullie is beloofd Wij zijn jullie helpers tijdens het wereldse kven en in het Hiernamaals en voor jullie is daarin wat jullie verlangen en voor jullie is daarin wat jullie vragen Als een ontvangst van de Vergevensgezinde, de Meest Barmhartige`,
+        ``,
+        ``
+      ],
+      [
+        `جن لوگوں نے کہا کہ ہمارا پروردگار خدا ہے پھر وہ (اس پر) قائم رہے ان پر فرشتے اُتریں گے (اور کہیں گے) کہ نہ خوف کرو اور نہ غمناک ہو اور بہشت کی جس کا تم سے وعدہ کیا جاتا تھا خوشی مناؤ ہم دنیا کی زندگی میں بھی تمہارے دوست تھے اور آخرت میں بھی (تمہارے رفیق ہیں) ۔ اور وہاں جس (نعمت) کو تمہارا جی چاہے گا تم کو (ملے گی) اور جو چیز طلب کرو گے تمہارے لئے (موجود ہوگی) (یہ) بخشنے والے مہربان کی طرف سے مہمانی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya orang-orang yang berkata, "Tuhan kami adalah Allah" kemudian mereka meneguhkan pendirian mereka, maka malaikat-malaikat akan turun kepada mereka (dengan berkata), "Janganlah kamu merasa takut dan janganlah kamu bersedih hati; dan bergembiralah kamu dengan (memperoleh) surga yang telah dijanjikan kepadamu Kamilah pelindung-pelindungmu dalam kehidupan dunia dan akhirat; di dalamnya (surga) kamu memperoleh apa yang kamu inginkan dan memperoleh apa yang kamu minta Sebagai penghormatan (bagimu) dari (Allah) Yang Maha Pengampun, Maha Penyayang`,
+        ``,
+        ``
+      ],
+      [
+        `Rabbimiz Allah'tır" deyip sonra da doğrulukta devam edenler, onları, melekler, ölümleri anında: "Korkmayınız, üzülmeyiniz, size söz verilen cennetle sevinin, biz dünya hayatında da, ahirette de size dostuz. Burada, canlarınızın çektiği, umduğunuz şeyler, bağışlayan ve acıyan Allah katından bir ziyafet olarak size sunulur" diyerek inerler Rabbimiz Allah'tır" deyip sonra da doğrulukta devam edenler, onları, melekler, ölümleri anında: "Korkmayınız, üzülmeyiniz, size söz verilen cennetle sevinin, biz dünya hayatında da, ahirette de size dostuz. Burada, canlarınızın çektiği, umduğunuz şeyler, bağışlayan ve acıyan Allah katından bir ziyafet olarak size sunulur" diyerek inerler Rabbimiz Allah'tır" deyip sonra da doğrulukta devam edenler, onları, melekler, ölümleri anında: "Korkmayınız, üzülmeyiniz, size söz verilen cennetle sevinin, biz dünya hayatında da, ahirette de size dostuz. Burada, canlarınızın çektiği, umduğunuz şeyler, bağışlayan ve acıyan Allah katından bir ziyafet olarak size sunulur" diyerek inerler`,
+        ``,
+        ``
+      ],
+      [
+        `در حقيقت، كسانى كه گفتند: «پروردگار ما خداست»؛ سپس ايستادگى كردند، فرشتگان بر آنان فرود مى‌آيند [و مى‌گويند:] «هان، بيم مداريد و غمين مباشيد، و به بهشتى كه وعده يافته بوديد شاد باشيد در زندگى دنيا و در آخرت دوستانتان ماييم، و هر چه دلهايتان بخواهد در [بهشت‌] براى شماست، و هر چه خواستار باشيد در آنجا خواهيد داشت؛ روزىِ آماده‌اى از سوى آمرزنده مهربان است.»`,
+        ``,
+        ``
+      ],
+      [
+        `নিশ্চয় যারা বলে, আমাদের পালনকর্তা আল্লাহ, অতঃপর তাতেই অবিচল থাকে, তাদের কাছে ফেরেশতা অবতীর্ণ হয় এবং বলে, তোমরা ভয় করো না, চিন্তা করো না এবং তোমাদের প্রতিশ্রুত জান্নাতের সুসংবাদ শোন। ইহকালে ও পরকালে আমরা তোমাদের বন্ধু। সেখানে তোমাদের জন্য আছে যা তোমাদের মন চায় এবং সেখানে তোমাদের জন্যে আছে তোমরা দাবী কর। এটা ক্ষমাশীল করুনাময়ের পক্ষ থেকে সাদর আপ্যায়ন।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, os que dizem: "Nosso Senhor é Allah", em seguida, são retos, os anjos descerão sobre eles, freqüentemente, dizendo: "Não temais e não vos entristeçais; e exultai com o Paraíso, que vos era prometido Somos vossos protetores, na vida terrena e na Derradeira Vida. E tereis, nela, o que vossas almas apetecerem; e tereis nela, o que cobiçardes Como hospedagem de Um Perdoador, Misericordiador`,
+        ``,
+        ``
+      ],
+      [
+        `凡说过我们的主是真主，然后遵循正道者，众天神将来 临他们，说：你们不要恐惧，不要忧愁，你们应当为你们被 预许的乐园而高兴。 在今世和后世，我们都是你们的保护者。你们在乐园里将享受你们所爱好的一切，你们在乐园里将享受你们所要求的一切。 那是至仁至慈的主所赐的宴飨。`,
+        ``,
+        ``
+      ],
+      [
+        `本当に，「わたしたちの主は，アッラーであられる。」と言って，その後正しくしっかりと立つ者，かれらには，（次から次に）天使が下り，「恐れてはならない。また憂いてはならない。あなたがたに約束されている楽園への吉報を受け取りなさい。（と言うのである）。 われは現世の生活においても，また来世においても，あなたがたの友である。そこではあなたがたの魂は望むものを得，そこではあなたがたの求めるものが得られる。 寛容にして慈悲深い御方からの歓待である。」`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 우리의 주님은 하나 님이시라고 말하며 옳은 길에 있 는 자들을 위해서는 천사들이 그 들에게 강림하여 두려워 하지도 슬퍼하지도 말라 너희에게 약속된 천국의 복음이 있노라 우리는 현세와 내세에서 너 희의 보호자들이라 너희는 그 안 에서 너희 영혼이 원하는 모든 것 과 너희가 구하는 모든 것을 갖게 되니 이것이 관용과 자비로 충만하신 분의 관대한 선물이라`,
+        ``,
+        ``
+      ],
+      [
+        `Gli angeli scendono su coloro che dicono: “Il nostro Signore è Allah”, e che perseverano [sulla retta via]. [Dicono loro:] “Non abbiate paura e non affliggetevi; gioite per il Giardino che vi è stato promesso Noi siamo vostri alleati in questa vita e nell'altra, e in quella avrete ciò che l’ anime vostre desidereranno e quel che chiederanno Questa è l'ospitalità del Perdonatore, del Misericordioso”`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, na tych, którzy powiedzieli: "Pan nasz - to Bóg!", i potem poszli prosto - zstąpią aniołowie: "Nie obawiajcie się i nie smućcie! Cieszcie się Ogrodem, który wam został obiecany My jesteśmy waszymi opiekunami w życiu na tym świecie i w życiu ostatecznym. Dla was będzie tam to, czego zapragną wasze dusze; i dla was będzie tam to, o co wy poprosicie jako gościnne przyjęcie od Przebaczającego, Litościwego`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, до тих, які говорять: «Господь наш — Аллаг!» — а потім ідуть прямим шляхом, [перед смертю] сходять ангели: «Не бійтеся, не сумуйте й радійте від звістки про рай, який вам обіцяно Ми — ваші покровителі в житті земному й наступному! Там на вас чекатиме все те, чого самі побажаєте, чекатиме все те, чого попросите наділ від Прощаючого й Милосердного`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة فصلت / Fussilat، الآيات 30-32`
+  },
+
+  {
+    arabic: [
       `وَمَنْ أَحْسَنُ قَوْلًا مِّمَّن دَعَا إِلَى اللَّهِ`,
       `وَعَمِلَ صَالِحًا`,
       `وَقَالَ إِنَّنِي مِنَ الْمُسْلِمِينَ`
@@ -14899,6 +19232,117 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّ الْمُتَّقِينَ فِي جَنَّاتٍ وَعُيُونٍ آخِذِينَ مَا آتَاهُمْ رَبُّهُمْ ۚ إِنَّهُمْ كَانُوا قَبْلَ ذَٰلِكَ مُحْسِنِينَ كَانُوا قَلِيلًا مِنَ اللَّيْلِ مَا يَهْجَعُونَ وَبِالْأَسْحَارِ هُمْ يَسْتَغْفِرُونَ وَفِي أَمْوَالِهِمْ حَقٌّ لِلسَّائِلِ وَالْمَحْرُومِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, the righteous will be among gardens and springs Accepting what their Lord has given them. Indeed, they were before that doers of good They used to sleep but little of the night And in the hours before dawn they would ask forgiveness And from their properties was [given] the right of the [needy] petitioner and the deprived`,
+        ``,
+        ``
+      ],
+      [
+        `Les pieux seront dans des Jardins et [parmi] des sources recevant ce que leur Seigneur leur aura donné. Car ils ont été auparavant des bienfaisants ils dormaient peu, la nuit et aux dernières heures de la nuit ils imploraient le pardon [d'Allah] et dans leurs biens, il y avait un droit au mendiant et au déshérité`,
+        ``,
+        ``
+      ],
+      [
+        `Los que temen a Alá estarán entre jardines y fuentes tomando lo que su Señor les dé. Hicieron el bien en el pasado de noche dormían poco al rayar el alba, pedían perdón y parte de sus bienes correspondía de derecho al mendigo y al indigente`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, богобоязненные пребудут в Райских садах и среди источников получая то, что даровал им их Господь. До этого они были творящими добро Они спали лишь малую часть ночи а перед рассветом они молили о прощении Они выделяли известную долю своего имущества для просящих и обездоленных`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, die Gottesfürchtigen werden in Gärten und an Quellen sein sie nehmen, was ihr Herr ihnen gegeben hat, denn sie pflegten davor Gutes zu tun Nur ein wenig pflegten sie in der Nacht zu schlafen und im letzten Teil der Nacht pflegten sie um Vergebung zu bitten und (sie gestanden) an ihrem Besitz dem Bettler und dem Unbemittelten ein Anrecht (zu)`,
+        ``,
+        ``
+      ],
+      [
+        `Men de som fruktade Gud skall vistas i lustgårdar med [porlande] källor och där njuta av det som deras Herre har skänkt dem, därför att de [på jorden] gjorde de det goda och det rätta de ägnade inte mera än en kort del av natten åt sömn och i den tidiga gryningen bad de om Guds förlåtelse för sina synder Och av det som de ägde gav de tiggarna och dem som led nöd [i tysthet] deras rättmätiga andel`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, de Moettaqôen verblijven in Tuinen en bij bronnen (in het Paradijs) Zij nemen wat hun Heer hun geeft. Voorwaar, zij behoorden voorheen tot de weldoeners Zij plachten gedurende de nacht weinig te slapen En in de laatste uren van de nacht smeekten zij om vergeving En van hun bezittingen was een rechtmatig deel voor de bedelaar en voor degene die zich weerhield van bedelen`,
+        ``,
+        ``
+      ],
+      [
+        `بےشک پرہیزگار بہشتوں اور چشموں میں (عیش کر رہے) ہوں گے (اور) جو جو (نعمتیں) ان کا پروردگار انہیں دیتا ہوگا ان کو لے رہے ہوں گے۔ بےشک وہ اس سے پہلے نیکیاں کرتے تھے رات کے تھوڑے سے حصے میں سوتے تھے اور اوقات سحر میں بخشش مانگا کرتے تھے اور ان کے مال میں مانگنے والے اور نہ مانگنے والے (دونوں) کا حق ہوتا تھا`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya orang-orang yang bertakwa berada di dalam taman-taman (surga) dan mata air mereka mengambil apa yang diberikan Tuhan kepada mereka. Sesungguhnya mereka sebelum itu (di dunia) adalah orang-orang yang berbuat baik mereka sedikit sekali tidur pada waktu malam dan pada akhir malam mereka memohon ampunan (kepada Allah) Dan pada harta benda mereka ada hak untuk orang miskin yang meminta, dan orang miskin yang tidak meminta`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu, Allah'a karşı gelmekten sakınanlar, Rablerinin kendilerine verdiğini almış olarak bahçelerde ve pınar başlarındadırlar. Çünkü onlar, bundan önce iyi davrananlardı Doğrusu, Allah'a karşı gelmekten sakınanlar, Rablerinin kendilerine verdiğini almış olarak bahçelerde ve pınar başlarındadırlar. Çünkü onlar, bundan önce iyi davrananlardı Onlar, geceleri az uyuyanlardı Seher vakitlerinde bağışlanma dilerlerdi Onların mallarında muhtaç ve yoksullar için bir hak vardı, onu verirlerdi`,
+        ``,
+        ``
+      ],
+      [
+        `پرهيزگاران در باغها و چشمه سارانند آنچه را پروردگارشان عطا فرموده مى‌گيرند، زيرا كه آنها پيش از اين نيكوكار بودند و از شب اندكى را مى‌غنودند و در سحرگاهان [از خدا] طلب آمرزش مى‌كردند و در اموالشان براى سائل و محروم حقى [معين‌] بود`,
+        ``,
+        ``
+      ],
+      [
+        `খোদাভীরুরা জান্নাতে ও প্রস্রবণে থাকবে। এমতাবস্থায় যে, তারা গ্রহণ করবে যা তাদের পালনকর্তা তাদেরকে দেবেন। নিশ্চয় ইতিপূর্বে তারা ছিল সৎকর্মপরায়ণ তারা রাত্রির সামান্য অংশেই নিদ্রা যেত রাতের শেষ প্রহরে তারা ক্ষমাপ্রার্থনা করত এবং তাদের ধন-সম্পদে প্রার্থী ও বঞ্চিতের হক ছিল।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, os piedosos estarão entre jardins e fontes Tomando o que seu Senhor lhes conceder. Por certo, antes disso, eram benfeitores De noite, dormiam pouco E, nas madrugadas, imploravam perdão de Allah E, em suas riquezas, havia, de direito, parte para o mendigo e para o desprovido`,
+        ``,
+        ``
+      ],
+      [
+        `敬畏的人们必定在许多乐园中，在许多泉源畔， 接受他们的主所赏赐的。他们在生前确是行善的， 他们在夜间只稍稍睡一下， 他们在黎明时向主求饶， 他们的财产中，有乞丐和贫民的权利。`,
+        ``,
+        ``
+      ],
+      [
+        `だが主を畏れ（敬虔であっ）た者は，楽園と泉に（住み）， 主がかれらに授けられる物を授かる。本当にかれらは，以前善行に勤しんでいた。 かれらは，夜間でも少しだけ眠り， また黎明には，御赦しを祈っていた。 またかれらの財産には，乞う者や，乞うこともできない困窮者たちの権利があると認識していた。`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 의로운 자들은 샘이 있는 천국에서 거주하며 주님께서 부여한 은혜속에서 기뻐하나니 이는 그들이 의롭게 살았기 때문이라 그들은 밤에도 많은 잠을 자 지 아니하고 이른 새벽부터 그가 가진 재산중에서 필요 로 한 자와 요구하지 못한 자에게 일정한 몫을 베푸는 자라`,
+        ``,
+        ``
+      ],
+      [
+        `I timorati staranno tra i giardini e le fonti prendendo ciò che il Signore darà loro, poiché in passato facevano il bene dormivano poco di notte e all'alba imploravano il perdono e nei loro beni c'era un diritto per il mendicante e il diseredato`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, bogobojni będą przebywać wśród ogrodów i źródeł Przyjmując to, co dał im Pan. Oni byli przedtem wśród czyniących dobro Oni mało sypiali nocą I o świcie prosili Boga o przebaczenie W ich majątku mieli odpowiedni udział żebrak i nędzarz`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, богобоязливі будуть у райських садах, серед джерел отримуючи те, що дарував їм Господь їхній. Воістину, вони за життя були праведниками спали лише малу частину ночі а перед світанком вони благали про прощення і віддавали частку майна бідняку та вбогому`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الذاريات / Adh-Dhariyat، الآيات 15-19`
+  },
+
+  {
+    arabic: [
       `وَفِي الْأَرْضِ آيَاتٌ لِّلْمُوقِنِينَ`,
       `وَفِي أَنفُسِكُمْ أَفَلَا تُبْصِرُونَ`,
       ``
@@ -15565,6 +20009,117 @@ const verses = [
 
   {
     arabic: [
+      `وَلِمَنْ خَافَ مَقَامَ رَبِّهِ جَنَّتَانِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `But for he who has feared the position of his Lord are two gardens`,
+        ``,
+        ``
+      ],
+      [
+        `Et pour celui qui aura craint de comparaître devant son Seigneur, il y aura deux jardins`,
+        ``,
+        ``
+      ],
+      [
+        `Para quien, en cambio, haya temido comparecer ante su Señor. habrá dos jardines`,
+        ``,
+        ``
+      ],
+      [
+        `Тем же, которые боялись предстать перед своим Господом, уготовано два сада`,
+        ``,
+        ``
+      ],
+      [
+        `Für jemanden aber, der den Stand seines Herrn fürchtet, wird es zwei Gärten geben`,
+        ``,
+        ``
+      ],
+      [
+        `MEN DEN som bävar vid tanken på att han en gång skall stå [till svars] inför sin Herre honom [väntar] två lustgårdar`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En voor wie vreesde voor het staan voor zijn Heer zijn er twee Tuinen (in het Paradijs)`,
+        ``,
+        ``
+      ],
+      [
+        `اور جو شخص اپنے پروردگار کے سامنے کھڑے ہونے سے ڈرا اس کے لئے دو باغ ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan bagi siapa yang takut akan saat menghadap Tuhannya ada dua surga`,
+        ``,
+        ``
+      ],
+      [
+        `Rabbine karşı durmaktan korkan kimseye iki cennet vardır`,
+        ``,
+        ``
+      ],
+      [
+        `و هر كس را كه از مقام پروردگارش بترسد دو باغ است`,
+        ``,
+        ``
+      ],
+      [
+        `যে ব্যক্তি তার পালনকর্তার সামনে পেশ হওয়ার ভয় রাখে, তার জন্যে রয়েছে দু’টি উদ্যান।`,
+        ``,
+        ``
+      ],
+      [
+        `E para quem teme a preeminência de seu senhor, haverá dois Jardins`,
+        ``,
+        ``
+      ],
+      [
+        `凡怕站在主的御前受审问者，都得享受两座乐园。`,
+        ``,
+        ``
+      ],
+      [
+        `だが主の（審判の座の）前に立つことを畏れてきた者のためには，2つの楽園があろう。`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 주님 심판대 앞에 서게 될 그때를 두려워 한 자들에게는 두개의 천국이 있나니`,
+        ``,
+        ``
+      ],
+      [
+        `Per chi avrà temuto di presentarsi [al cospetto] del suo Signore ci saranno due Giardini`,
+        ``,
+        ``
+      ],
+      [
+        `A tego, który się lęka stanąć przed swoim Panem, czekają dwa Ogrody`,
+        ``,
+        ``
+      ],
+      [
+        `А ті, які бояться постати перед Господом своїм, отримають два сади`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الرحمن / Ar-Rahman، الآية 46`
+  },
+
+  {
+    arabic: [
       `هَلْ جَزَاءُ الْإِحْسَانِ`,
       `إِلَّا الْإِحْسَانُ`,
       ``
@@ -16227,6 +20782,117 @@ const verses = [
       ]
     ],
     number: `سورة الصف / As-Saff، الآية 6`
+  },
+
+  {
+    arabic: [
+      `يَا أَيُّهَا الَّذِينَ آمَنُوا هَلْ أَدُلُّكُمْ عَلَىٰ تِجَارَةٍ تُنْجِيكُمْ مِنْ عَذَابٍ أَلِيمٍ تُؤْمِنُونَ بِاللَّهِ وَرَسُولِهِ وَتُجَاهِدُونَ فِي سَبِيلِ اللَّهِ بِأَمْوَالِكُمْ وَأَنْفُسِكُمْ ۚ ذَٰلِكُمْ خَيْرٌ لَكُمْ إِنْ كُنْتُمْ تَعْلَمُونَ يَغْفِرْ لَكُمْ ذُنُوبَكُمْ وَيُدْخِلْكُمْ جَنَّاتٍ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ وَمَسَاكِنَ طَيِّبَةً فِي جَنَّاتِ عَدْنٍ ۚ ذَٰلِكَ الْفَوْزُ الْعَظِيمُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O you who have believed, shall I guide you to a transaction that will save you from a painful punishment [It is that] you believe in Allah and His Messenger and strive in the cause of Allah with your wealth and your lives. That is best for you, if you should know He will forgive for you your sins and admit you to gardens beneath which rivers flow and pleasant dwellings in gardens of perpetual residence. That is the great attainment`,
+        ``,
+        ``
+      ],
+      [
+        `O vous qui avez cru! vous indiquerai-je un commerce qui vous sauvera d'un châtiment douloureux Vous croyez en Allah et en Son messager et vous combattez avec vos biens et vos personnes dans le chemin d'Allah, et cela vous est bien meilleur, si vous saviez Il vous pardonnera vos péchés et vous fera entrer dans des Jardins sous lesquels coulent les ruisseaux, et dans des demeures agréables dans les jardins d'Eden. Voilà l'énorme succès`,
+        ``,
+        ``
+      ],
+      [
+        `¡Creyentes! ¿Queréis que os indique un negocio que os librará de un castigo doloroso ¡Creed en Alá y en Su Enviado y combatid por Alá con vuestra hacienda y vuestras personas! Es mejor para vosotros. Si supierais Así, os perdonará vuestros pecados y os introducirá en jardines por cuyos bajos fluyen arroyos y en viviendas agradables en los jardines del edén. ¡Ese es el éxito grandioso`,
+        ``,
+        ``
+      ],
+      [
+        `О те, которые уверовали! Указать ли вам на торговлю, которая спасет вас от мучительных страданий Веруйте в Аллаха и Его Посланника и сражайтесь на пути Аллаха своим имуществом и своими душами. Так будет лучше для вас, если бы вы только знали Он простит вам ваши грехи, введет вас в Райские сады, в которых текут реки, и в прекрасные жилища в садах Эдема. Это - великое преуспеяние`,
+        ``,
+        ``
+      ],
+      [
+        `O die ihr glaubt, soll ich euch auf einen Handel hinweisen, der euch vor schmerzhafter Strafe rettet Ihr sollt an Allah und Seinen Gesandten glauben und euch auf Allahs Weg mit eurem Besitz und mit eurer eigenen Person abmühen; das ist besser für euch, wenn ihr nur wißt dann wird Er euch eure Sünden vergeben und euch eingehen lassen in Gärten, durcheilt von Bächen, und in angenehme Wohnungen in den Gärten Edens. Das ist der großartige Erfolg`,
+        ``,
+        ``
+      ],
+      [
+        `TROENDE! Skall Jag berätta för er om en byteshandel som kommer att rädda er från ett svårt lidande [Den består för er del i att] ni tror på Gud och Hans Sändebud och strävar och kämpar för Guds sak med er egendom och ert liv som insats; detta är för er det bästa - om ni bara visste Ã‰ [I gengäld] skall Han förlåta era synder och föra er till lustgårdar, vattnade av bäckar, och de bästa boningar i [detta] Edens paradis; detta är den stora, den lysande segern`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O jullie die geloven, zal ik jullie een handel tonen die jullie van een pijnlijke bestraffing redden kan (Het is) het geloof in Allah en Zijn Boodschapper geloven en jullie op de Weg van Allah strijden met jullie bezittingen en jullie zielen. Dat is beter voor jullie, als jullie het wisten Hij vergeeft jullie zonden en doet jullie Tuinen (het Paradijs) binnengaan waar de rivieren onder door stromen. En (Hij schenkt) een goede woonplaats in de Tuin van 'Adn. Dat is de geweldige overwinning`,
+        ``,
+        ``
+      ],
+      [
+        `مومنو! میں تم کو ایسی تجارت بتاؤں جو تمہیں عذاب الیم سے مخلصی دے (وہ یہ کہ) خدا پر اور اس کے رسولﷺ پر ایمان لاؤ اور خدا کی راہ میں اپنے مال اور جان سے جہاد کرو۔ اگر سمجھو تو یہ تمہارے حق میں بہتر ہے وہ تمہارے گناہ بخش دے گا اور تم کو باغہائے جنت میں جن میں نہریں بہہ رہیں ہیں اور پاکیزہ مکانات میں جو بہشت ہائے جاودانی میں (تیار) ہیں داخل کرے گا۔ یہ بڑی کامیابی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai orang-orang yang beriman! Maukah kamu Aku tunjukkan suatu perdagangan yang dapat menyelamatkan kamu dari azab yang pedih (Yaitu) kamu beriman kepada Allah dan Rasul-Nya dan berjihad di jalan Allah dengan harta dan jiwamu. Itulah yang lebih baik bagi kamu jika kamu mengetahui niscaya Allah mengampuni dosa-dosamu dan memasukkan kamu ke dalam surga yang mengalir di bawahnya sungai-sungai, dan ke tempat-tempat tinggal yang baik di dalam surga 'Ādn. Itulah kemenangan yang agung`,
+        ``,
+        ``
+      ],
+      [
+        `Ey inananlar! Sizi can yakıcı bir azabdan kurtaracak, kazançlı bir yolu size göstereyim mi Allah'a ve Peygamberine inanırsınız; Allah yolunda canlarınızla, mallarınızla cihat edersiniz; bilseniz, bu sizin için en iyi yoldur Böyle yaparsanız, Allah günahlarınızı size bağışlar, sizi, içlerinden ırmaklar akan cennetlere, Adn cennetlerinde hoş yerlere koyar. Büyük kurtuluş budur`,
+        ``,
+        ``
+      ],
+      [
+        `اى كسانى كه ايمان آورده‌ايد، آيا شما را بر تجارتى راه نمايم كه شما را از عذابى دردناك مى‌رهاند؟ به خدا و فرستاده او بگرويد و در راه خدا با مال و جانتان جهاد كنيد. اين [گذشت و فداكارى‌] اگر بدانيد، براى شما بهتر است تا گناهانتان را بر شما ببخشايد، و شما را در باغهايى كه از زير [درختان‌] آن جويبارها روان است و [در] سراهايى خوش، در بهشتهاى هميشگى درآورد. اين [خود] كاميابى بزرگ است`,
+        ``,
+        ``
+      ],
+      [
+        `মুমিনগণ, আমি কি তোমাদেরকে এমন এক বানিজ্যের সন্ধান দিব, যা তোমাদেরকে যন্ত্রণাদায়ক শাস্তি থেকে মুক্তি দেবে তা এই যে, তোমরা আল্লাহ ও তাঁর রসূলের প্রতি বিশ্বাস স্থাপন করবে এবং আল্লাহর পথে নিজেদের ধন-সম্পদ ও জীবনপণ করে জেহাদ করবে। এটাই তোমাদের জন্যে উত্তম; যদি তোমরা বোঝ। তিনি তোমাদের পাপরাশি ক্ষমা করবেন এবং এমন জান্নাতে দাখিল করবেন, যার পাদদেশে নদী প্রবাহিত এবং বসবাসের জান্নাতে উত্তম বাসগৃহে। এটা মহাসাফল্য।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó vós que credes! Indicar-vos-ei um comércio, que vos salvará de doloroso castigo Crerdes em Allah e em Seu Mensageiro, e lutardes no caminho de Allah com vossas riquezas e com vós mesmos. Isso vos é melhor. Se soubésseis Se o fizerdes, Ele vos perdoará os delitos e vos fará entrar em Jardins, abaixo dos quais correm os rios, e em esplêndidas vivendas, nos Jardins do Éden. - Isso é o magnífico triunfo`,
+        ``,
+        ``
+      ],
+      [
+        `信道的人们啊！我将指示你们一种生意，它能拯救你们脱离痛苦的刑罚，好吗？ 你们信仰真主和使者，你们以自己的财产和生命，为真主而奋斗，那对於你们是更好的，如果你们知道。 他将赦宥你们的罪过，并且使你们入下临诸河的乐园和常住的乐园中的许多优美的住宅，那确是伟大的成功。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがた信仰する者よ，われは痛苦の懲罰から救われる一つの取引を，あなたがたに示そう。 それはあなたがたがアッラーとその使徒を信じ，あなたがたの財産と生命をもってアッラーの道に奮闘努力することである。もし分るならば，それはあなたがたのために最も善い。 かれはあなたがたの様々な罪は赦して，川が（木々の）下を流れる楽園に入らせ，アドン（エデン）の楽園における美しい邸宅に住まわせる。それは至福の成就である。`,
+        ``,
+        ``
+      ],
+      [
+        `믿는 자들이여! 내가 그대들에게, 고통스런 벌로부터 그대들을 구해줄 거래 행위를 안내해 주려 하노라 (그것은) 그대들이 하나님과 그분의 사도를 믿고, 그대들의 재산과 생명으로써 하나님의 길에서 분투하는 것이라. 그대들이 알고 있다면, 그것이 그대들에게 더 좋은 것이라 (그리하면) 그분께서 그대들을 위해 그대들의 죄를 용서해 주실 것이고, 그대들을 아래로부터 강이 흐르는 천국에 들게 하실 것이며, 영원의 천국 속에 있는 안락한 거주지에 들게 하실 것이라. 이것이야말로 위대한 성공이라`,
+        ``,
+        ``
+      ],
+      [
+        `O voi che credete, [volete che] vi indichi una transazione che vi salverà da un doloroso castigo Credete in Allah e nel Suo Inviato e lottate con i vostri beni e le vostre persone sulla Via di Allah. Ciò è meglio per voi, se lo sapeste [Allah] perdonerà i vostri peccati e vi farà entrare nei Giardini dove scorrono i ruscelli e nelle piacevoli dimore dei Giardini di Eden. Ecco il più grande successo`,
+        ``,
+        ``
+      ],
+      [
+        `O wy, którzy wierzycie! Czyż mogę ukazać wam handel, który by was wybawił od kary bolesnej Będziecie wierzyć w Boga i Jego Posłańca! Będziecie walczyć na drodze Boga waszym majątkiem i waszymi duszami! To będzie lepsze dla was - o, gdybyście tylko mogli to wiedzieć Wtedy On przebaczy wam wasze grzechy i wprowadzi was do Ogrodów, gdzie w dole płyną strumyki, i do mieszkań przyjemnych w Ogrodach Edenu. To jest osiągnięcie ogromne`,
+        ``,
+        ``
+      ],
+      [
+        `О ви, які увірували! Чи не вказати вам на справу, яка врятує вас від кари болісної Увіруйте в Аллага й Посланця Його та боріться на шляху Аллага своїм майном і життям! Це краще для вас, якщо ви розумієте Простить Він вам гріхи ваші та введе в сади, де течуть ріки, в прекрасне житло та в сади Едену. Це — успіх великий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الصف / As-Saff، الآيات 10-12`
   },
 
   {
@@ -17230,6 +21896,450 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّ لِلْمُتَّقِينَ مَفَازًا حَدَائِقَ وَأَعْنَابًا وَكَوَاعِبَ أَتْرَابًا وَكَأْسًا دِهَاقًا لَا يَسْمَعُونَ فِيهَا لَغْوًا وَلَا كِذَّابًا جَزَاءً مِنْ رَبِّكَ عَطَاءً حِسَابًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, for the righteous is attainment Gardens and grapevines And full-breasted [companions] of equal age And a full cup No ill speech will they hear therein or any falsehood [As] reward from your Lord, [a generous] gift [made due by] account`,
+        ``,
+        ``
+      ],
+      [
+        `Pour les pieux ce sera une réussite jardins et vignes et des (belles) aux seins arrondis, d'une égale jeunesse et coupes débordantes Ils n'y entendront ni futilités ni mensonges A titre de récompense de ton Seigneur et à titre de don abondant`,
+        ``,
+        ``
+      ],
+      [
+        `En cambio, a los temerosos de Alá se les deparará el éxito vergeles y viñedos de turgidos senos, de una misma edad copa desbordante No oirán allí vaniloquio, ni falsedad Es una retribución de tu Señor, regalo bien pensado`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, богобоязненных ожидает место спасения Райские сады и виноградники и полногрудые сверстницы и полные чаши Они не услышат там ни пустословия, ни лжи Это будет воздаянием от твоего Господа и даром исчисленным (или щедрым, или достаточным)`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, für die Gottesfürchtigen wird es einen Ort des Erfolgs geben umfriedete Gärten und Rebstöcke und prächtige, gleichaltrige (weibliche Wesen) und ein (stets) voller Becher Weder hören sie darin unbedachte Rede noch Lüge (Dies) als Belohnung von deinem Herrn, als hinreichende Gabe`,
+        ``,
+        ``
+      ],
+      [
+        `I sin triumf får de gudfruktiga glädjas åt lummiga parker och [spaljéer av] vindruvor och följeslagerskor, evigt unga som de själva och bägare fyllda till brädden [med paradisets vin] Där skall de varken höra tomt och meningslöst tal eller lögner [Detta är] din Herres belöning - som Han skänker enligt [Sin] räkning`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, voor de Moettaqôen is er een overwinning Tuinen en druivenstruiken En jeugdige gezellinnen, gelijk in leeftijd En een gevulde beker Zij horen daar geen onzin en geen leugens Als een beloning van jouw Heer, als afrekenende gift`,
+        ``,
+        ``
+      ],
+      [
+        `بے شک پرہیز گاروں کے لیے کامیابی ہے (یعنی) باغ اور انگور اور ہم عمر نوجوان عورتیں اور شراب کے چھلکتے ہوئے گلاس وہاں نہ بیہودہ بات سنیں گے نہ جھوٹ (خرافات) یہ تمہارے پروردگار کی طرف سے صلہ ہے انعام کثیر`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, orang-orang yang bertakwa mendapat kemenangan (yaitu) kebun-kebun dan buah anggur dan gadis-gadis belia yang sebaya dan gelas-gelas yang penuh (berisi minuman) Di sana mereka tidak mendengar percakapan yang sia-sia maupun (perkataan dusta) Sebagai balasan dan pemberian yang cukup banyak dari Tuhanmu`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu, Allah'a karşı gelmekten sakınanlara kurtuluş, bahçeler, bağlar, yaşıtlar ve dolu kadehler vardır Doğrusu, Allah'a karşı gelmekten sakınanlara kurtuluş, bahçeler, bağlar, yaşıtlar ve dolu kadehler vardır Doğrusu, Allah'a karşı gelmekten sakınanlara kurtuluş, bahçeler, bağlar, yaşıtlar ve dolu kadehler vardır Doğrusu, Allah'a karşı gelmekten sakınanlara kurtuluş, bahçeler, bağlar, yaşıtlar ve dolu kadehler vardır Orada boş ve yalan söz işitmezler Bunlar Rabbinin katından, hesabları karşılığı verilenlerdir`,
+        ``,
+        ``
+      ],
+      [
+        `مسلماً پرهيزگاران را رستگارى است باغچه‌ها و تاكستانها، و دخترانى همسال با سينه‌هاى برجسته، و پياله‌هاى لبالب در آنجا نه بيهوده‌اى شنوند، و نه [يكديگر را] تكذيب [كنند] [اين است‌] پاداشى از پروردگار تو، عطايى از روى حساب`,
+        ``,
+        ``
+      ],
+      [
+        `পরহেযগারদের জন্যে রয়েছে সাফল্য। উদ্যান, আঙ্গুর সমবয়স্কা, পূর্ণযৌবনা তরুণী। এবং পূর্ণ পানপাত্র। তারা তথায় অসার ও মিথ্যা বাক্য শুনবে না। এটা আপনার পালনকর্তার তরফ থেকে যথোচিত দান`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, haverá para os piedosos triunfo Pomares e videiras E donzelas, de incipientes seios, da mesma idade E taça repleta Neles, não ouvirão frivolidades nem mentira Como recompensa de teu Senhor, dádiva bastante`,
+        ``,
+        ``
+      ],
+      [
+        `敬畏的人们必有一种收获， 许多园圃和葡萄， 和两乳圆润，年龄划一的少女， 和满杯的醴泉。 他们在那里面听不到恶言和谎话。 那是从你的主发出的报酬 充足的赏赐。`,
+        ``,
+        ``
+      ],
+      [
+        `本当に主を畏れる者には，安全な場所（楽園）がある。 緑の園や，ブドウ園， 胸の脹れた同じ年頃の乙女たち， またなみなみと溢れる杯。 そこではつまらぬ話や偽り言を聞かない。 これらはあなたの主からの報奨，賜物の決算である。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 (하나님을) 경외하는 자들에게는 성공의 장소가 주어질 것이니 뜰과 포도나무 봉긋한 가슴의 동갑내기 여성 가득 찬 술잔이 주어질 것이며 그들은 그곳에서 실없는 말도, 거짓말도 듣지 않을 것이라 그대 주님으로부터의 보상으로서 베풂이자 계산의 결과로서`,
+        ``,
+        ``
+      ],
+      [
+        `In verità avranno successo i timorati giardini e vigne fanciulle dai seni pieni e coetanee calici traboccanti Non udranno colà né vanità né menzogna compenso del tuo Signore, dono adeguato`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, dla bogobojnych - miejsce szczęśliwości Sady i winnice I dziewczęta o zaokrąglonych piersiach - jednakowej młodości I puchary napełnione Nie będą oni, tam słyszeć ani próżnej gadaniny, ani kłamstwa Taka jest nagroda od twojego Pana - dar dobrze obliczony`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, богобоязливих чекає успіх сади та виноградники повногруді ровесниц та повні чаші Не почують вони там ні пустослів’я, ні брехні Це — нагорода від Господа твого, дар відплачений`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النبأ / An-Naba، الآيات 31-36`
+  },
+
+  {
+    arabic: [
+      `وَأَمَّا مَنْ خَافَ مَقَامَ رَبِّهِ وَنَهَى النَّفْسَ عَنِ الْهَوَىٰ فَإِنَّ الْجَنَّةَ هِيَ الْمَأْوَىٰ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `But as for he who feared the position of his Lord and prevented the soul from [unlawful] inclination Then indeed, Paradise will be [his] refuge`,
+        ``,
+        ``
+      ],
+      [
+        `Et pour celui qui aura redouté de comparaître devant son Seigneur, et préservé son âme de la passion le Paradis sera alors son refuge`,
+        ``,
+        ``
+      ],
+      [
+        `mientras que quien haya temidoí comparecer ante su Señor y preservado su alma de la pasión tendrá el Jardín por morada`,
+        ``,
+        ``
+      ],
+      [
+        `Тому же, кто боялся предстать перед своим Господом и удерживал себя от страстей пристанищем будет Рай`,
+        ``,
+        ``
+      ],
+      [
+        `Was aber jemanden angeht, der den Stand seines Herrn gefürchtet und seiner Seele die (bösen) Neigungen untersagt hat so wird der (Paradies)garten (ihm) Zufluchtsort sein`,
+        ``,
+        ``
+      ],
+      [
+        `Men den som bävade vid tanken att en Dag stå [till svars] inför sin Herre och som kunde lägga band på sina begär skall [få se att] paradiset är [hans] slutliga bestämmelse`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En wat betreft degene die de macht van zijn Heer vreesde en zijn ziel weerhield van slechte begeerten Voorwaar, het Paradijs is de verblijfplaats`,
+        ``,
+        ``
+      ],
+      [
+        `اور جو اپنے پروردگار کے سامنے کھڑے ہونے سے ڈرتا اور جی کو خواہشوں سے روکتا رہا اس کا ٹھکانہ بہشت ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan adapun orang-orang yang takut kepada kebesaran Tuhannya dan menahan diri dari (keinginan) hawa nafsunya maka sungguh, surgalah tempat tinggal-(nya)`,
+        ``,
+        ``
+      ],
+      [
+        `Ama kim Rabbinin azametinden korkup da kendini kötülükten alıkoymuşsa, varacağı yer şüphesiz cennettir Ama kim Rabbinin azametinden korkup da kendini kötülükten alıkoymuşsa, varacağı yer şüphesiz cennettir`,
+        ``,
+        ``
+      ],
+      [
+        `و اما كسى كه از ايستادن در برابر پروردگارش هراسيد، و نفس خود را از هوس باز داشت پس جايگاه او همان بهشت است`,
+        ``,
+        ``
+      ],
+      [
+        `পক্ষান্তরে যে ব্যক্তি তার পালনকর্তার সামনে দন্ডায়মান হওয়াকে ভয় করেছে এবং খেয়াল-খুশী থেকে নিজেকে নিবৃত্ত রেখেছে তার ঠিকানা হবে জান্নাত।`,
+        ``,
+        ``
+      ],
+      [
+        `E, quanto a quem temeu a preeminência de seu Senhor e coibiu a alma das paixões Por certo, o Paraíso lhe será morada`,
+        ``,
+        ``
+      ],
+      [
+        `至於怕站在主的御前受审问，并戒除私欲的人， 乐园必为他的归宿。`,
+        ``,
+        ``
+      ],
+      [
+        `だが主の御前に立つことを恐れた者，また低劣な欲望に対し（自分の）魂を抑制した者は， 本当に楽園がその住まいであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 자신의 주님 앞에 서는 일을 두려워하며 자신의 욕구를 절제하던 자는 실로 천국, 그곳이 거주지가 될 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `E colui che avrà paventato di comparire davanti al suo Signore e avrà preservato l'animo suo dalle passioni avrà invero il Giardino per rifugio`,
+        ``,
+        ``
+      ],
+      [
+        `Lecz dla tego, kto się lękał stawienia się przed swoim Panem i powstrzymywał duszę od namiętności To, zaprawdę, dla niego Ogród będzie miejscem schronienia`,
+        ``,
+        ``
+      ],
+      [
+        `А тому, хто боявся постати перед Господом своїм і утримував себе від пристрастей тому, воістину, рай буде притулком`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النازعات / An-Nazi'at، الآيتان 40-41`
+  },
+
+  {
+    arabic: [
+      `إِنَّ الْأَبْرَارَ لَفِي نَعِيمٍ وَإِنَّ الْفُجَّارَ لَفِي جَحِيمٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, the righteous will be in pleasure And indeed, the wicked will be in Hellfire`,
+        ``,
+        ``
+      ],
+      [
+        `Les bons seront, certes, dans un [jardin] de délice et les libertins seront, certes, dans une fournaise`,
+        ``,
+        ``
+      ],
+      [
+        `Sí, los justos estarán en delicia mientras que los pecadores estarán en fuego de gehena`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, благочестивые окажутся в блаженстве Воистину, грешники окажутся в Аду`,
+        ``,
+        ``
+      ],
+      [
+        `Die Frommen werden wahrlich in Wonne sein Und die Sittenlosen werden wahrlich in einem Höllenbrand sein`,
+        ``,
+        ``
+      ],
+      [
+        `De gudfruktiga skall helt visst finna salighet och de som har sjunkit djupt i synd skall förvisso finna helvetets eld`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, de deugdzamen verkeren zeker in gelukzaligheid En voorwaar, de zondaren verkeren zeker in de Hel`,
+        ``,
+        ``
+      ],
+      [
+        `بے شک نیکوکار نعمتوں (کی بہشت) میں ہوں گے۔ اور بدکردار دوزخ میں`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya orang-orang yang berbakti benar-benar berada dalam (surga yang penuh) kenikmatan dan sesungguhnya orang-orang yang durhaka benar-benar berada dalam neraka`,
+        ``,
+        ``
+      ],
+      [
+        `İyiler şüphesiz nimet içindedirler Allah'ın buyruğundan çıkanlar cehennemdedirler`,
+        ``,
+        ``
+      ],
+      [
+        `قطعاً نيكان به بهشت اندرند و بى‌شك، بدكاران در دوزخند`,
+        ``,
+        ``
+      ],
+      [
+        `সৎকর্মশীলগণ থাকবে জান্নাতে। এবং দুষ্কর্মীরা থাকবে জাহান্নামে`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, os virtuosos estarão na delícia E, por certo, os ímpios estarão no Inferno`,
+        ``,
+        ``
+      ],
+      [
+        `善人们，必在恩泽中； 恶人们，必在烈火中。`,
+        ``,
+        ``
+      ],
+      [
+        `敬虔な者は，必ず至福の中にいる。 罪ある者は，きっと火の中にいて，`,
+        ``,
+        ``
+      ],
+      [
+        `실로 의로운 자들은 축복속 에 있게 되나 사악한 자들은 불지옥에 있 게 되나니`,
+        ``,
+        ``
+      ],
+      [
+        `In verità i giusti saranno nella Delizia e in verità i peccatori nella Fornace`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, sprawiedliwi będą w szczęśliwości Zaprawdę, grzesznicy będą w ogniu piekielnym`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, праведники опиняться у блаженстві А грішники, воістину, опиняться у пеклі`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الانفطار / Al-Infitar، الآيتان 13-14`
+  },
+
+  {
+    arabic: [
+      `إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ لَهُمْ جَنَّاتٌ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ ۚ ذَٰلِكَ الْفَوْزُ الْكَبِيرُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, those who have believed and done righteous deeds will have gardens beneath which rivers flow. That is the great attainment`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui croient et accomplissent les bonnes œuvres auront des Jardins sous lesquels coulent les ruisseaux. Cela est le grand succès`,
+        ``,
+        ``
+      ],
+      [
+        `Quienes, en cambio, hayan creído y obrado bien tendrán jardines por cuyos bajos fluyen arroyos. ¡Ese es el gran éxito`,
+        ``,
+        ``
+      ],
+      [
+        `Тем же, которые уверовали и совершали праведные деяния, уготованы Райские сады, в которых текут реки. Это - великое преуспеяние`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, diejenigen, die glauben und rechtschaffene Werke tun, für sie wird es Gärten geben, durcheilt von Bächen; das ist der große Erfolg`,
+        ``,
+        ``
+      ],
+      [
+        `[Men] de som tror och lever ett rättskaffens liv [skall stiga in i] lustgårdar, vattnade av bäckar - detta är den stora segern`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, degenen die geloven en goede daden verrichten, voor hen is het Paradijs waar de rivieren onder door stromen. Dat is de grote overwinning`,
+        ``,
+        ``
+      ],
+      [
+        `(اور) جو لوگ ایمان لائے اور نیک کام کرتے رہے ان کے لیے باغات ہیں جن کے نیچے نہریں بہہ رہی ہیں۔ یہ ہی بڑی کامیابی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, orang-orang yang beriman dan mengerjakan kebajikan, mereka akan mendapat surga yang mengalir di bawahnya sungai-sungai, itulah kemenangan yang agung`,
+        ``,
+        ``
+      ],
+      [
+        `Şüphesiz inanıp yararlı işler işleyenlere, onlara, içlerinden ırmaklar akan cennetler vardır. Bu, büyük kurtuluştur`,
+        ``,
+        ``
+      ],
+      [
+        `كسانى كه ايمان آورده و كارهاى شايسته كرده‌اند، براى آنان باغهايى است كه از زير [درختان‌] آن جويها روان است؛ اين است [همان‌] رستگارى بزرگ`,
+        ``,
+        ``
+      ],
+      [
+        `যারা ঈমান আনে ও সৎকর্ম করে তাদের জন্যে আছে জান্নাত, যার তলদেশে প্রবাহিত হয় নির্ঝরিণীসমূহ। এটাই মহাসাফল্য।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, os que crêem e fazem as boas obras terão Jardins, abaixo dos quais correm os rios. Esse é o grande triunfo`,
+        ``,
+        ``
+      ],
+      [
+        `信道而且行善的人们，必入下临诸河的乐园，那确是伟大的成功。`,
+        ``,
+        ``
+      ],
+      [
+        `信仰して善行に勤しんだ者には，川が下を流れる楽園があろう。これは偉大な幸福の成就である。`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 믿음으로 선을 행하 는 의로운 자들에게는 강물이 흐 르는 천국이 있나니 실로 그것이 위대한 숭리라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità coloro che credono e compiono il bene avranno i Giardini dove scorrono i ruscelli. Questo è il grande successo`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, dla tych, którzy uwierzyli i którzy pełnili dobre dzieła - dla nich będą Ogrody, gdzie w dole płyną strumyki. To jest wielkie osiągnięcie`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, тим, які увірували та чинили добрі справи, їм сади, де течуть ріки. Це — успіх великий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البروج / Al-Buruj، الآية 11`
+  },
+
+  {
+    arabic: [
       `أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ وَإِلَى السَّمَاءِ كَيْفَ رُفِعَتْ`,
       `وَإِلَى الْجِبَالِ كَيْفَ نُصِبَتْ`,
       `وَإِلَى الْأَرْضِ كَيْفَ سُطِحَتْ`
@@ -17337,6 +22447,228 @@ const verses = [
       ]
     ],
     number: `سورة الغاشية / Al-Ghashiyah، الآيات 17-20`
+  },
+
+  {
+    arabic: [
+      `يَا أَيَّتُهَا النَّفْسُ الْمُطْمَئِنَّةُ ارْجِعِي إِلَىٰ رَبِّكِ رَاضِيَةً مَرْضِيَّةً فَادْخُلِي فِي عِبَادِي وَادْخُلِي جَنَّتِي`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `[To the righteous it will be said], "O reassured soul Return to your Lord, well-pleased and pleasing [to Him] And enter among My [righteous] servants And enter My Paradise`,
+        ``,
+        ``
+      ],
+      [
+        `«O toi, âme apaisée retourne vers ton Seigneur, satisfaite et agréée entre donc parmi Mes serviteurs et entre dans Mon Paradis»`,
+        ``,
+        ``
+      ],
+      [
+        `«¡Alma sosegada ¡Vuelve a tu Señor, satisfecha, acepta ¡Y entra con Mis siervos Entra en Mi Jardín!»`,
+        ``,
+        ``
+      ],
+      [
+        `О обретшая покой душа Вернись к своему Господу удовлетворенной и снискавшей довольство Войди в круг Моих рабов Войди в Мой Рай`,
+        ``,
+        ``
+      ],
+      [
+        `O du Seele, die du Ruhe gefunden hast kehre zu deinem Herrn zufrieden und mit Wohlgefallen zurück Tritt ein unter Meine Diener und tritt ein in Meinen (Paradies)garten`,
+        ``,
+        ``
+      ],
+      [
+        `[Då säger Gud till den rättfärdige:] "Du själ, som har kommit till ro Vänd tillbaka till din Herre, tillfredsställd [med Hans gåvor och] omsluten av Hans välbehag Stig in med skaran av Mina tjänare Stig in i Mitt paradis`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O tot rust gekomen ziel Keer terug tot jouw Heer, behaagd en welbehaagd (ontvangen door Hem) En treed binnen onder Mijn dienaren En treed binnen in Mijn Paradijs`,
+        ``,
+        ``
+      ],
+      [
+        `اے اطمینان پانے والی روح اپنے پروردگار کی طرف لوٹ چل۔ تو اس سے راضی وہ تجھ سے راضی تو میرے (ممتاز) بندوں میں شامل ہو جا اور میری بہشت میں داخل ہو جا`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai jiwa yang tenang Kembalilah kepada Tuhanmu dengan hati yang rida dan diridai-Nya Maka masuklah ke dalam golongan hamba-hamba-Ku dan masuklah ke dalam surga-Ku`,
+        ``,
+        ``
+      ],
+      [
+        `Ey huzur içinde olan can O, senden, sen de O'ndan hoşnut olarak Rabbine dön Ey can! İyi kullarımın arasına gir Cennetime gir`,
+        ``,
+        ``
+      ],
+      [
+        `اى نفس مطمئنّه، خشنود و خداپسند به سوى پروردگارت بازگرد، و در ميان بندگان من درآى، و در بهشت من داخل شو`,
+        ``,
+        ``
+      ],
+      [
+        `হে প্রশান্ত মন তুমি তোমার পালনকর্তার নিকট ফিরে যাও সন্তুষ্ট ও সন্তোষভাজন হয়ে। অতঃপর আমার বান্দাদের অন্তর্ভুক্ত হয়ে যাও। এবং আমার জান্নাতে প্রবেশ কর।`,
+        ``,
+        ``
+      ],
+      [
+        `Dir-se-á: "Ó alma tranquila Retorna a teu Senhor, agradada e agradável Então, entra para junto de Meus servos E entra em Meu Paraíso`,
+        ``,
+        ``
+      ],
+      [
+        `安定的灵魂啊！ 你应当喜悦地，被喜悦地归於你的主。 你应当入在我的众仆里； 你应当入在我的乐园里。`,
+        ``,
+        ``
+      ],
+      [
+        `（善行を積んだ魂に言われるであろう。）おお，安心，大悟している魂よ， あなたの主に返れ，歓喜し御満悦にあずかって。 あなたは，わがしもべの中に入れ。 あなたは，わが楽園に入れ。`,
+        ``,
+        ``
+      ],
+      [
+        `의로운 영혼들에게는 영혼들 아 너희는 완전한 휴식과 기쁨속 에 있으리라 라는 말씀과 기뻐하고 즐거워하며 주님께 로 돌아가 나와 함께 하는 자들 가운데들어와 나의 천국으로 들라는 말씀 이 있을 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `“O anima ormai acquietata ritorna al tuo Signore soddisfatta e accetta entra tra i Miei servi entra nel Mio Paradiso”`,
+        ``,
+        ``
+      ],
+      [
+        `O ty, duszo uspokojona Powróć do twego Pana, zadowolona i z upodobaniem przyjęta Wejdź więc między Moje sługi Wejdź do Mojego Ogrodu`,
+        ``,
+        ``
+      ],
+      [
+        `О ти, душе, що заспокоїлася Повернися до Господа твого, отримавши вдоволення та милість І ввійди до рабів Моїх! Увійди до раю Мого І увійди до раю Мого`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الفجر / Al-Fajr، الآيات 27-30`
+  },
+
+  {
+    arabic: [
+      `فَأَمَّا مَنْ أَعْطَىٰ وَاتَّقَىٰ وَصَدَّقَ بِالْحُسْنَىٰ فَسَنُيَسِّرُهُ لِلْيُسْرَىٰ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `As for he who gives and fears Allah And believes in the best [reward] We will ease him toward ease`,
+        ``,
+        ``
+      ],
+      [
+        `Celui qui donne et craint (Allah) et déclare véridique la plus belle récompense Nous lui faciliterons la voie au plus grand bonheur`,
+        ``,
+        ``
+      ],
+      [
+        `A quien da, teme a Dios y cree en lo más bello le facilitaremos el acceso a la mayor felicidad`,
+        ``,
+        ``
+      ],
+      [
+        `Тому, кто отдавал должное (или раздавал милостыню) и был богобоязнен кто признавал наилучшее (свидетельство единобожия или Рай) Мы облегчим путь к легчайшему (к праведным деяниям)`,
+        ``,
+        ``
+      ],
+      [
+        `Was nun jemanden angeht, der gibt und gottesfürchtig ist und das Beste für wahr hält so werden Wir ihm den Weg zum Leichteren leicht machen`,
+        ``,
+        ``
+      ],
+      [
+        `För den som villigt ger [av sina ägodelar] och fruktar Gud och som tror på det högsta goda skall Vi göra det lätt [att följa religionens bud]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Wat betreft degene die geeft en (Allah) vreest En in de goede beloning (het Paradijs) gelooft Wij zullen voor hem het gemakkelijke vergemakkelijken`,
+        ``,
+        ``
+      ],
+      [
+        `تو جس نے (خدا کے رستے میں مال) دیا اور پرہیز گاری کی اور نیک بات کو سچ جانا اس کو ہم آسان طریقے کی توفیق دیں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Maka barangsiapa memberikan (hartanya di jalan Allah) dan bertakwa dan membenarkan (adanya pahala) yang terbaik (surga) maka akan Kami mudahkan baginya jalan menuju kemudahan (kebahagiaan)`,
+        ``,
+        ``
+      ],
+      [
+        `Elinde bulunandan verenin, Allah'a karşı gelmekten sakınanın, en güzel söz olan Allah'ın birliğini doğrulayanın işlerini kolaylaştırırız Elinde bulunandan verenin, Allah'a karşı gelmekten sakınanın, en güzel söz olan Allah'ın birliğini doğrulayanın işlerini kolaylaştırırız Elinde bulunandan verenin, Allah'a karşı gelmekten sakınanın, en güzel söz olan Allah'ın birliğini doğrulayanın işlerini kolaylaştırırız`,
+        ``,
+        ``
+      ],
+      [
+        `اما آنكه [حق خدا را] داد و پروا داشت، و [پاداش‌] نيكوتر را تصديق كرد، بزودى راه آسانى پيش پاى او خواهيم گذاشت`,
+        ``,
+        ``
+      ],
+      [
+        `অতএব, যে দান করে এবং খোদাভীরু হয় এবং উত্তম বিষয়কে সত্য মনে করে আমি তাকে সুখের বিষয়ের জন্যে সহজ পথ দান করব।`,
+        ``,
+        ``
+      ],
+      [
+        `Então, quanto a quem dá e teme a Allah E confirma a mais bela Verdade A esse, facilitar-lhe-emos o acesso ao caminho fácil`,
+        ``,
+        ``
+      ],
+      [
+        `至於赈济贫民，敬畏真主， 且承认至善者， 我将使他易於达到最易的结局。`,
+        ``,
+        ``
+      ],
+      [
+        `それで施しをなし，主を畏れる者， また至善を実証する者には， われは（至福への道を）容易にしよう。`,
+        ``,
+        ``
+      ],
+      [
+        `자선을 베풀고 두려워 하며 진리를 증언하는 자를 위해 하나님은 그가 축복으로 가는 길을 쉽게 하여 주시노라`,
+        ``,
+        ``
+      ],
+      [
+        `A chi sarà stato generoso e timorato e avrà attestato la verità della cosa più bella faciliteremo il facile`,
+        ``,
+        ``
+      ],
+      [
+        `Ale ten, kto daje i jest bogobojny I uznaje za prawdę nagrodę najpiękniejszą temu My ułatwimy dostęp do szczęścia`,
+        ``,
+        ``
+      ],
+      [
+        `Тому, хто жертвував і був богобоязливим і визнавав найкраще тому полегшимо Ми шлях до найлегшого`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الليل / Al-Layl، الآيات 5-7`
   },
 
   {
@@ -17896,6 +23228,117 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ أُولَٰئِكَ هُمْ خَيْرُ الْبَرِيَّةِ جَزَاؤُهُمْ عِنْدَ رَبِّهِمْ جَنَّاتُ عَدْنٍ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ خَالِدِينَ فِيهَا أَبَدًا ۖ رَضِيَ اللَّهُ عَنْهُمْ وَرَضُوا عَنْهُ ۚ ذَٰلِكَ لِمَنْ خَشِيَ رَبَّهُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, they who have believed and done righteous deeds - those are the best of creatures Their reward with Allah will be gardens of perpetual residence beneath which rivers flow, wherein they will abide forever, Allah being pleased with them and they with Him. That is for whoever has feared his Lord`,
+        ``,
+        ``
+      ],
+      [
+        `Quant à ceux qui croient et accomplissent les bonnes œuvres, ce sont les meilleurs de toute la création Leur récompense auprès d'Allah sera les Jardins de séjour, sous lesquels coulent les ruisseaux, pour y demeurer éternellement. Allah les agrée et ils L'agréent. Telle sera [la récompense] de celui qui craint son Seigneur`,
+        ``,
+        ``
+      ],
+      [
+        `En cambio, los que crean y obren bien, ésos son lo mejor de la creación y tendrán como retribución, junto a su Señor, los jardines del edén, por cuyos bajos fluyen arroyos, en los que estarán eternamente, para siempre. Dios está satisfecho de ellos y ellos lo están de Él. Esto es sólo para quien tiene miedo de su Señor`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, те, которые уверовали и совершали праведные деяния, являются наилучшими из тварей Их воздаянием у их Господа будут сады Эдема, в которых текут реки. Они пребудут в них вечно. Аллах доволен ими, и они довольны Им. Это уготовано для тех, кто боится своего Господа`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, diejenigen aber, die glauben und rechtschaffene Werke tun, das sind die besten Geschöpfe Ihr Lohn bei ihrem Herrn sind die Gärten Edens, durcheilt von Bächen, ewig und auf immer darin zu bleiben. Allah hat Wohlgefallen an ihnen, und sie haben Wohlgefallen an Ihm; das ist für jemanden, der seinen Herrn fürchtet`,
+        ``,
+        ``
+      ],
+      [
+        `Men de som tror och lever ett rättskaffens liv, de är de bästa av alla skapade varelser Belöningen väntar hos deras Herre: Edens lustgårdar, vattnade av bäckar, där de skall förbli till evig tid. Gud är nöjd med dem och de är nöjda [där de njuter] Hans [gåvor]. Detta väntar dem som står i bävan inför sin Herre`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, degenen die geloven en goede werken verrichten, zij zijn degenen die de beste schepselen zijn Hun beloningen bij hun Heer zijn de Tuinen van 'Adn (het Paradijs), waar de rivieren onder door stromen, zij zijn eeuwig levenden daarin, voor altijd. Allah is met hen behaagd en zij zijn met Hem behaagd. Dat is voor wie zijn Heer vreest`,
+        ``,
+        ``
+      ],
+      [
+        `(اور) جو لوگ ایمان لائے اور نیک عمل کرتے رہے وہ تمام خلقت سے بہتر ہیں ان کا صلہ ان کے پروردگار کے ہاں ہمیشہ رہنے کے باغ ہیں جن کے نیچے نہریں بہہ رہی ہیں ابدالاباد ان میں رہیں گے۔ خدا ان سے خوش اور وہ اس سے خوش۔ یہ (صلہ) اس کے لیے ہے جو اپنے پروردگار سے ڈرتا رہا`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, orang-orang yang beriman dan mengerjakan kebajikan, mereka itulah sebaik-baik makhluk Balasan mereka di sisi Tuhan mereka ialah surga 'Ādn yang mengalir di bawahnya sungai-sungai; mereka kekal di dalamnya selama-lamanya. Allah rida terhadap mereka dan mereka pun rida kepada-Nya. Yang demikian itu adalah (balasan) bagi orang yang takut kepada Tuhannya`,
+        ``,
+        ``
+      ],
+      [
+        `Fakat, inanıp yararlı iş işleyenler, işte onlar da, yaratıkların en iyileridirler Onların Rableri katındaki mükafatı, içinde temelli ve sonsuz kalacakları, içlerinden ırmaklar akan Adn cennetleridir. Allah onlardan razıdır. Onlar da Allah'tan razıdır. Bu, Rabbinden korkan kimseyedir`,
+        ``,
+        ``
+      ],
+      [
+        `در حقيقت كسانى كه گرويده و كارهاى شايسته كرده‌اند، آنانند كه بهترين آفريدگانند پاداش آنان نزد پروردگارشان باغهاى هميشگى است كه از زير [درختان‌] آن، نهرها روان است، جاودانه در آن «همى» مانند؛ خدا از آنان خشنود است و [آنان نيز] از او خشنود، اين [پاداش‌] براى كسى است كه از پروردگارش بترسد`,
+        ``,
+        ``
+      ],
+      [
+        `যারা ঈমান আনে ও সৎকর্ম করে, তারাই সৃষ্টির সেরা। তাদের পালনকর্তার কাছে রয়েছে তাদের প্রতিদান চিরকাল বসবাসের জান্নাত, যার তলদেশে নির্ঝরিণী প্রবাহিত। তারা সেখানে থাকবে অনন্তকাল। আল্লাহ তাদের প্রতি সন্তুষ্ট এবং তারা আল্লাহর প্রতি সন্তুষ্ট। এটা তার জন্যে, যে তার পালনকর্তাকে ভয় কর।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, os que crêem e fazem as boas obras, esses são os melhores de toda criação Sua recompensa, junto de seu Senhor, são os Jardins do Éden, abaixo dos quais correm os rios; nesses, serão eternos para todo o sempre. Allah se agradará deles, e eles se agradarão dEle. Isso para quem receia a seu Senhor`,
+        ``,
+        ``
+      ],
+      [
+        `信道而行善的人，是最善的人， 他们在他们的主那里的报酬是下临诸河的常住的乐园，他们将永居其中，真主喜悦他们，他们也喜悦他；这是畏惧真主者所有的。`,
+        ``,
+        ``
+      ],
+      [
+        `だが信仰して善行に勤しむ者たち，これらは，衆生の中最善の者である。 かれらへの報奨は，主の御許の，川が下を流れる永遠の園である。永遠にその中に住むであろう。アッラーはかれらを喜ばれ，かれらもかれに満悦する。それは主を畏れる者（への報奨）である。`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 믿음으로 선을 실천하는 자들은 가장 의로운 자들로 그들을 위해 주님의 보상이 있나니 밑으로 강물이 흐르는 영 생할 에덴의 천국이라 하나님은 그들로 기뻐하시고 그들은 그분으로 기뻐하리니 그것은 주님을 두 려워하는 자에 대한 보상이라`,
+        ``,
+        ``
+      ],
+      [
+        `Quelli che invece credono e compiono il bene sono i migliori di tutta la creazione Presso il loro Signore, la loro ricompensa saranno i Giardini di Eden, dove scorrono i ruscelli, in cui rimarranno in perpetuo. Allah si compiace di loro e loro si compiacciono di Lui. Ecco [cosa è riservato] a chi teme il suo Signore`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, ci, którzy wierzą i którzy czynią dobre dzieła - oni są najlepsi ze stworzeń Nagrodą ich u pana będą Ogrody Edenu, gdzie w dole płyną strumyki. Będą tam przebywać na wieki, nieśmiertelni. Bóg będzie z nich zadowolony i oni będą z Niego zadowoleni. - To będzie dla tych, którzy się obawiają swego Pana`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, ті, які увірували й творили добрі справи, вони — найкращі з творінь Нагорода їм у їхнього Господа — сади вічності, в яких течуть ріки. Вони будуть там вічно. Аллаг буде задоволений ними, а вони будуть задоволені Ним. Це — для тих, які бояться свого Господа`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البينة / Al-Bayyinah، الآيتان 7-8`
+  },
+
+  {
+    arabic: [
       `فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُ`,
       `وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ شَرًّا يَرَهُ`,
       ``
@@ -18003,6 +23446,450 @@ const verses = [
       ]
     ],
     number: `سورة الزلزلة / Az-Zalzalah، الآيات 7-8`
+  },
+
+  {
+    arabic: [
+      `فَأَمَّا مَنْ ثَقُلَتْ مَوَازِينُهُ فَهُوَ فِي عِيشَةٍ رَاضِيَةٍ وَأَمَّا مَنْ خَفَّتْ مَوَازِينُهُ فَأُمُّهُ هَاوِيَةٌ وَمَا أَدْرَاكَ مَا هِيَهْ نَارٌ حَامِيَةٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Then as for one whose scales are heavy [with good deeds] He will be in a pleasant life But as for one whose scales are light His refuge will be an abyss And what can make you know what that is It is a Fire, intensely hot`,
+        ``,
+        ``
+      ],
+      [
+        `quant à celui dont la balance sera lourde il sera dans une vie agréable et quant à celui dont la balance sera légère sa mère [destination] est un abîme très profond Et qui te dira ce que c'est C'est un Feu ardent`,
+        ``,
+        ``
+      ],
+      [
+        `entonces, el autor de obras de peso gozará de una vida agradable mientras que el autor de obras ligeras tendrá un abismo por morada Y ¿cómo sabrás qué es ¡Un fuego ardiente`,
+        ``,
+        ``
+      ],
+      [
+        `Тогда тот, чья чаша Весов окажется тяжелой обретет приятную жизнь Для того же, чья чаша Весов окажется легкой матерью станет Пропасть (грешники будут искать убежище в Аду, подобно тому, как ребенок ищет убежище у своей матери; или грешники будут падать в Адскую Пропасть вниз головой) Откуда ты мог знать, что это такое Это - жаркий Огонь`,
+        ``,
+        ``
+      ],
+      [
+        `Was nun jemanden angeht, dessen Waagschalen schwer sind so wird er in einem zufriedenen Leben sein Was aber jemanden angeht, dessen Waagschalen leicht sind dessen Mutter wird ein Abgrund sein Und was läßt dich wissen, was das ist Ein sehr heißes Feuer`,
+        ``,
+        ``
+      ],
+      [
+        `Då skall den vars vågskål [med goda handlingar] väger tungt gå till ett liv i lycksalighet men den vars vågskål väger lätt skall se sig innesluten i en avgrund Och vad kan låta dig förstå vad denna [avgrund] betyder En [famn av] het eld`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Wat betreft degene van wie dan zijn weegschaal (met goede daden) zwaar weegt Hij zal een behaaglijk leven leiden En wat betreft degene van wie zijn weegschaal licht weegt Zijn verblijfplaats is dan Hawiyah*2 (de Hel) En wat doet jou weten wat zij is Een verbandende Hel`,
+        ``,
+        ``
+      ],
+      [
+        `تو جس کے (اعمال کے) وزن بھاری نکلیں گے وہ دل پسند عیش میں ہو گا اور جس کے وزن ہلکے نکلیں گے اس کا مرجع ہاویہ ہے اور تم کیا سمجھے کہ ہاویہ کیا چیز ہے؟ دہکتی ہوئی آگ ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Maka adapun orang yang berat timbangan (kebaikan)nya maka dia berada dalam kehidupan yang memuaskan (senang) Dan adapun orang yang ringan timbangan (kebaikan)nya maka tempat kembalinya adalah neraka Hāwiyah Dan tahukah kamu apakah neraka Hāwiyah itu (Yaitu) api yang sangat panas`,
+        ``,
+        ``
+      ],
+      [
+        `Ama tartıları ağır gelen kimse hoş bir hayat içinde olacaktır Ama tartıları ağır gelen kimse hoş bir hayat içinde olacaktır Tartıları hafif gelenler ise Onların yeri bir çukurdur O çukurun ne olduğunu sen bilir misin O, kızgın bir ateştir`,
+        ``,
+        ``
+      ],
+      [
+        `اما هر كه سنجيده‌هايش سنگين برآيد، پس وى در زندگى خوشى خواهد بود و اما هر كه سنجيده‌هايش سبك بر آيد، پس جايش «هاويه» باشد و تو چه دانى كه آن چيست؟ آتشى است سوزنده`,
+        ``,
+        ``
+      ],
+      [
+        `অতএব যার পাল্লা ভারী হবে সে সুখীজীবন যাপন করবে। আর যার পাল্লা হালকা হবে তার ঠিকানা হবে হাবিয়া। আপনি জানেন তা কি প্রজ্জ্বলিত অগ্নি`,
+        ``,
+        ``
+      ],
+      [
+        `Então, quanto àquele, cujos pesos em boas ações forem pesados Estará em vida agradável E quanto áquele, cujos pesos em boas ações forem leves Sua morada será um Abismo E o que te faz inteirar-te do que é este Abismo É Fogo incandescente`,
+        ``,
+        ``
+      ],
+      [
+        `至於善功的份量较重者 将在满意的生活中 至於善功的份量较轻者 他的归宿是深坑。 你怎能知道深坑里有什么？ 有烈火。`,
+        ``,
+        ``
+      ],
+      [
+        `それで，かれの秤が（善行で）重い者は， 幸福で満ち足りて暮らすであろう。 だが秤の軽い者は， 奈落が，かれの里であろう。 それが何であるかを，あなたに理解させるものは何か。 （それは）焦熱（地獄）の火。`,
+        ``,
+        ``
+      ],
+      [
+        `그날 그의 선행이 무거운 자 는 안락한 삶을 영위할 것이나 그의 선행이 가벼운 자는 불지옥의 함정에 있게 되리라 불지옥의 함정이 무엇인지 무엇이 그대에게 설명하려 주리요 그것은 격렬하게 타오르는 불지옥이라`,
+        ``,
+        ``
+      ],
+      [
+        `colui le cui bilance saranno pesanti avrà una vita felice colui che invece avrà bilance leggere avrà per dimora il Baratro E chi potrà farti comprendere cos’è È un Fuoco ardente`,
+        ``,
+        ``
+      ],
+      [
+        `Wtedy ten, którego szalki będą ciężkie Zazna życia przyjemnego A ten; którego szalki będą lekkie Pogrąży się w głębi Czeluści A co ciebie pouczy, co to jest Czeluść To jest Ogień Palący`,
+        ``,
+        ``
+      ],
+      [
+        `Тоді той, чия чаша на терезах буде важкою отримає він життя, сповнене задоволення А той, чия чаша на терезах буде легкою притулком його буде прірва А звідки знати тобі, що це таке Це — вогонь палаючий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة القارعة / Al-Qari'ah، الآيات 6-11`
+  },
+
+  {
+    arabic: [
+      `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ أَلْهَاكُمُ التَّكَاثُرُ حَتَّىٰ زُرْتُمُ الْمَقَابِرَ كَلَّا سَوْفَ تَعْلَمُونَ ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ كَلَّا لَوْ تَعْلَمُونَ عِلْمَ الْيَقِينِ لَتَرَوُنَّ الْجَحِيمَ ثُمَّ لَتَرَوُنَّهَا عَيْنَ الْيَقِينِ ثُمَّ لَتُسْأَلُنَّ يَوْمَئِذٍ عَنِ النَّعِيمِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Competition in [worldly] increase diverts you Until you visit the graveyards No! You are going to know Then no! You are going to know No! If you only knew with knowledge of certainty You will surely see the Hellfire Then you will surely see it with the eye of certainty Then you will surely be asked that Day about pleasure`,
+        ``,
+        ``
+      ],
+      [
+        `La course aux richesses vous distrait jusqu'à ce que vous visitiez les tombes Mais non! Vous saurez bientôt (Encore une fois)! Vous saurez bientôt Sûrement! Si vous saviez de science certaine Vous verrez, certes, la Fournaise Puis, vous la verrez certes, avec l'œil de la certitude Puis, assurément, vous serez interrogés, ce jour-là, sur les délices`,
+        ``,
+        ``
+      ],
+      [
+        `El afán de lucro os distrae hasta la hora de la muerte ¡No! ¡Ya veréis ¡No y no! ¡Ya veréis ¡No! Si supierais a ciencia cierta ¡Veréis, de seguro, el fuego de la gehena ¡Sí, lo veréis con ojos de certeza Luego, ese día, se os preguntará, ciertamente, por la delicia`,
+        ``,
+        ``
+      ],
+      [
+        `Страсть к приумножению (похвальба богатством и детьми) увлекает вас настолько, что вы посещаете кладбища, чтобы бахвалиться своими покойниками (или пока вы сами не посетите могилы) Но нет! Скоро вы узнаете Еще раз нет! Скоро вы узнаете Но нет! Если бы вы только обладали убедительным знанием А ведь вы непременно увидите Ад Вы увидите его глазами убежденными В тот день вы будете спрошены о благах`,
+        ``,
+        ``
+      ],
+      [
+        `Die Vermehrung lenkt euch ab bis ihr die Friedhöfe besucht Keineswegs! Ihr werdet (es noch) erfahren Abermals: Keineswegs! Ihr werdet (es noch) erfahren Keineswegs! Wenn ihr es nur mit dem Wissen der Gewißheit wüßtet Ihr werdet ganz gewiß den Höllenbrand sehen Abermals: Ihr werdet ihn mit dem Auge der Gewißheit sehen Hierauf werdet ihr an jenem Tag ganz gewiß nach der Wonne gefragt werden`,
+        ``,
+        ``
+      ],
+      [
+        `NI FINNER ert nöje i att överglänsa varandra i rikedom och världsliga framgångar ända till dess ni står vid gravens rand Ack nej! En dag skall ni få veta [ert misstag] Ja, en dag skall ni få veta [ert misstag] Ack, om ni visste det [nu] med full visshet Ja, ni skall få skåda helvetets eld Era egna ögons vittnesbörd skall då ge er visshet och den Dagen skall ni ställas till svars för [vad ni gjorde av] det goda som skänktes er [i livet]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Jullie gaan op in de wedijver om meer Totdat jullie in de graven terechtkomen Nee, jullie zullen het weten Nogmaals, nee! Jullie zullen het weten Nee! Als jullie het maar met zekere kennis zouden weten Jullie zullen zeker de Hel zien Nogmaals, jullie zullen haar met een zeker oog zien Dan zullen jullie op die Dag ondervraagd worden over de genietingen`,
+        ``,
+        ``
+      ],
+      [
+        `(لوگو) تم کو (مال کی) بہت سی طلب نے غافل کر دیا یہاں تک کہ تم نے قبریں جا دیکھیں دیکھو تمہیں عنقریب معلوم ہو جائے گا پھر دیکھو تمہیں عنقریب معلوم ہو جائے گا دیکھو اگر تم جانتے (یعنی) علم الیقین (رکھتے تو غفلت نہ کرتے) تم ضرور دوزخ کو دیکھو گے پھر اس کو (ایسا) دیکھو گے (کہ) عین الیقین (آ جائے گا) پھر اس روز تم سے (شکر) نعمت کے بارے میں پرسش ہو گی`,
+        ``,
+        ``
+      ],
+      [
+        `Bermegah-megahan telah melalaikan kamu sampai kamu masuk ke dalam kubur Sekali-kali tidak! Kelak kamu akan mengetahui (akibat perbuatanmu itu) kemudian sekali-kali tidak! Kelak kamu akan mengetahui Sekali-kali tidak! Sekiranya kamu mengetahui dengan pasti niscaya kamu benar-benar akan melihat neraka Jahim kemudian kamu benar-benar akan melihatnya dengan mata kepala sendiri kemudian kamu benar-benar akan ditanya pada hari itu tentang kenikmatan (yang megah di dunia itu)`,
+        ``,
+        ``
+      ],
+      [
+        `Çoğunluk olmak iddianız sizi o kadar meşgul etti ki, mezarları ziyaretle oradakileri de sayacak kadar oldunuz Çoğunluk olmak iddianız sizi o kadar meşgul etti ki, mezarları ziyaretle oradakileri de sayacak kadar oldunuz Hayır; öyle olmayın; yakında bileceksiniz Hayır; gözünüzü açın; yakında bileceksiniz Dikkat edin, şayet yaptığınızın sonucunu kesin olarak bir bilseniz And olsun ki, cehennemi göreceksiniz And olsun ki, onu gözünüzle kesin olarak göreceksiniz Sonra o gün, size verilmiş olan her nimetten sorguya çekileceksiniz`,
+        ``,
+        ``
+      ],
+      [
+        `تفاخر به بيشترداشتن، شما را غافل داشت تا كارتان [و پايتان‌] به گورستان رسيد نه چنين است، زودا كه بدانيد باز هم نه چنين است، زودا كه بدانيد هرگز چنين نيست، اگر علم‌اليقين داشتيد به يقين دوزخ را مى‌بينيد سپس آن را قطعاً به عين‌اليقين درمى‌يابيد سپس در همان روز است كه از نعمت [روى زمين‌] پرسيده خواهيد شد`,
+        ``,
+        ``
+      ],
+      [
+        `প্রাচুর্যের লালসা তোমাদেরকে গাফেল রাখে এমনকি, তোমরা কবরস্থানে পৌছে যাও। এটা কখনও উচিত নয়। তোমরা সত্ত্বরই জেনে নেবে। অতঃপর এটা কখনও উচিত নয়। তোমরা সত্ত্বরই জেনে নেবে। কখনই নয়; যদি তোমরা নিশ্চিত জানতে। তোমরা অবশ্যই জাহান্নাম দেখবে অতঃপর তোমরা তা অবশ্যই দেখবে দিব্য প্রত্যয়ে এরপর অবশ্যই সেদিন তোমরা নেয়ামত সম্পর্কে জিজ্ঞাসিত হবে।`,
+        ``,
+        ``
+      ],
+      [
+        `Suratu At-Takathur. A ostentação entretém-vos Até visitardes os sepulcros Em absoluto, não vos ostenteis! Vós logo sabereis Mais uma vez, em absoluto, não vos ostenteis! Vós logo sabereis Ora, se soubésseis a ciência da Certeza, renunciaríeis a ostentação Em verdade, vereis o Inferno Em seguida, certamente, vê-lo-eis, com os olhos da certeza Depois, sereis, em verdade, nesse dia, interrogados das delícias da vida`,
+        ``,
+        ``
+      ],
+      [
+        `竞赛富庶, 已使你们疏忽 直到你们去游坟地。 真的, 你们将来就知道了。 真的, 你们将来就知道了。 真的, 假若你们有真知灼见, (你们必不疏忽) 你们必定看见火狱 然後, 你们必亲眼看见它。 在那日, 你们必为恩泽而被审问。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがたは（財産や息子などの）多いことを張り合って，現を抜かす。 墓に追い立てられるまでも。 いや，やがて（死後）あなたがたは（その真実を）知ろう。 もう一度言おうか，いや，やがてあなたがたは知ろう。 いや，あなたがたは（今に）はっきり知るとよいのである。 あなたがたは必ず獄火を見よう。 その時あなたがたはそれを明確に目で見ることであろう。 その日あなたがたは，（現を抜かしていた）享楽に就いて，必ず問われるであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `축적한 것들이 너희를 벗어나게 하리니 너희가 무덤으로 갈 때 까지 오만하려 하느뇨 그러나 너희는 곧 알게 되리 라 실로 너희는 곧 알게 되리라 너희가 분명한 지식을 갖고 있다면 너희는 알게 되리니 너희는 지옥의 불을 볼 것이 라 실로 너희는 분명히 눈으로서 목격할 것이라 그런 후 너희는 너희가 탐닉 했던 향락에 관하여 힐문을 받을 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `Il rivaleggiare vi distrarrà finché visiterete le tombe Invece no! Ben presto saprete E ancora no! Ben presto saprete No! Se solo sapeste con certezza Vedrete certamente la Fornace Lo vedrete con l’occhio della certezza quindi in quel Giorno, sarete interrogati sulla delizia`,
+        ``,
+        ``
+      ],
+      [
+        `Zabawia was współzawodnictwo w pomnażaniu Do chwili, gdy odwiedzicie groby Wcale nie! Wy wkrótce będziecie wiedzieć Jeszcze raz nie! Wy wkrótce będziecie wiedzieć Wcale nie! Gdybyście wiedzieli wiedzą pewną Z pewnością zobaczycie ogień piekielny Potem, z pewnością, zobaczycie go okiem pewności Potem, z pewnością, zostaniecie zapytani tego Dnia o szczęśliwość`,
+        ``,
+        ``
+      ],
+      [
+        `Вабить вас жадоба до примноження Поки не підете ви в могилу Та ж ні! Скоро дізнаєтеся ви І ще раз, ні! Скоро дізнаєтеся ви Та ж ні! Якби ж знали ви знанням достеменним що справді побачите ви пекло І ще раз — побачите ви його поглядом достеменним У той День вас запитають про земні насолоди`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة التكاثر / At-Takathur، الآيات 1-8`
+  },
+
+  {
+    arabic: [
+      `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ وَالْعَصْرِ إِنَّ الْإِنْسَانَ لَفِي خُسْرٍ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `By time Indeed, mankind is in loss Except for those who have believed and done righteous deeds and advised each other to truth and advised each other to patience`,
+        ``,
+        ``
+      ],
+      [
+        `Par le Temps L'homme est certes, en perdition sauf ceux qui croient et accomplissent les bonnes œuvres, s'enjoignent mutuellement la vérité et s'enjoignent mutuellement l'endurance`,
+        ``,
+        ``
+      ],
+      [
+        `¡Por la tarde En verdad, el hombre camina hacia su perdición Excepto quienes crean, obren bien, se recomienden mutuamente la verdad y se recomienden mutuamente la paciencia`,
+        ``,
+        ``
+      ],
+      [
+        `Клянусь предвечерним временем (или временем) Воистину, каждый человек в убытке кроме тех, которые уверовали, совершали праведные деяния, заповедали друг другу истину и заповедали друг другу терпение`,
+        ``,
+        ``
+      ],
+      [
+        `Beim Zeitalter Der Mensch befindet sich wahrlich in Verlust außer denjenigen, die glauben und rechtschaffene Werke tun und einander die Wahrheit eindringlich empfehlen und einander die Standhaftigkeit eindringlich empfehlen`,
+        ``,
+        ``
+      ],
+      [
+        `VID DEN flyende tiden Människan förbereder helt visst sin egen undergång utom de som tror och lever ett rättskaffens liv och råder varandra [att hålla fast vid] sanningen och råder varandra [att bära motgång med] tålamod`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Bij de tijd Voorwaar, de mens lijdt zeker verlies Behalve degenen die geloven en goede daden verrichten en elkaar aansporen tot de Waarheid en elkaar aansporen tot geduld`,
+        ``,
+        ``
+      ],
+      [
+        `عصر کی قسم کہ انسان نقصان میں ہے مگر وہ لوگ جو ایمان لائے اور نیک عمل کرتے رہے اور آپس میں حق (بات) کی تلقین اور صبر کی تاکید کرتے رہے`,
+        ``,
+        ``
+      ],
+      [
+        `Demi masa Sungguh, manusia berada dalam kerugian kecuali orang-orang yang beriman dan mengerjakan kebajikan serta saling menasihati untuk kebenaran dan saling menasihati untuk kesabaran`,
+        ``,
+        ``
+      ],
+      [
+        `İkindi vaktine (Asra; çağa) and olsun ki İnsan hiç şüphesiz hüsran içindedir Ancak inanıp yararlı iş işleyenler, birbirlerine gerçeği tavsiye edenler ve sabırlı olmayı tavsiye edenler bunun dışındadır`,
+        ``,
+        ``
+      ],
+      [
+        `سوگند به عصر [غلبه حق بر باطل‌]، كه واقعاً انسان دستخوش زيان است؛ مگر كسانى كه گرويده و كارهاى شايسته كرده و همديگر را به حق سفارش و به شكيبايى توصيه كرده‌اند`,
+        ``,
+        ``
+      ],
+      [
+        `কসম যুগের (সময়ের) নিশ্চয় মানুষ ক্ষতিগ্রস্ত কিন্তু তারা নয়, যারা বিশ্বাস স্থাপন করে ও সৎকর্ম করে এবং পরস্পরকে তাকীদ করে সত্যের এবং তাকীদ করে সবরের।`,
+        ``,
+        ``
+      ],
+      [
+        `Suratu Al-Asr. Pelo tempo Por certo, o ser humano está em perdição Exceto aos que crêem e fazem as boas obras e se recomendam mutuamente a verdade, e se recomendam mutuamente a paciência`,
+        ``,
+        ``
+      ],
+      [
+        `以时光盟誓， 一切人确是在亏折之中， 惟信道而且行善，并以真理相劝，以坚忍相勉的人则不然。`,
+        ``,
+        ``
+      ],
+      [
+        `時間にかけて（誓う）。 本当に人間は，喪失の中にいる。 信仰して善行に勤しみ，互いに真理を勧めあい，また忍耐を勧めあう者たちの外は。`,
+        ``,
+        ``
+      ],
+      [
+        `세월을 두고 맹세하사 실로 모든 인간은 멸망케 되 니라 그러나 믿음으로 의로운 일을실천하며 서로가 서로에게 진리를권고하며 인내하는 자들은 제외라`,
+        ``,
+        ``
+      ],
+      [
+        `Per il Tempo Invero l’uomo è in perdita eccetto coloro che credono e compiono il bene, vicendevolmente si raccomandano la verità e vicendevolmente si raccomandano la pazienza`,
+        ``,
+        ``
+      ],
+      [
+        `Na porę przedwieczorną Zaprawdę, człowiek jest na drodze zguby Z wyjątkiem tych, którzy uwierzyli i czynili dobre dzieła, i zachęcali się wzajemnie do prawdy, i zachęcali się wzajemnie do cierpliwości`,
+        ``,
+        ``
+      ],
+      [
+        `Клянуся часом Воістину, людина зазнає збитків Окрім тих, які увірували, творили добрі справи, заповідали одне одному істину, заповідали одне одному терпіння`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة العصر / Al-Asr، الآيات 1-3`
+  },
+
+  {
+    arabic: [
+      `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ وَيْلٌ لِكُلِّ هُمَزَةٍ لُمَزَةٍ الَّذِي جَمَعَ مَالًا وَعَدَّدَهُ يَحْسَبُ أَنَّ مَالَهُ أَخْلَدَهُ كَلَّا ۖ لَيُنْبَذَنَّ فِي الْحُطَمَةِ وَمَا أَدْرَاكَ مَا الْحُطَمَةُ نَارُ اللَّهِ الْمُوقَدَةُ الَّتِي تَطَّلِعُ عَلَى الْأَفْئِدَةِ إِنَّهَا عَلَيْهِمْ مُؤْصَدَةٌ فِي عَمَدٍ مُمَدَّدَةٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Woe to every scorner and mocker Who collects wealth and [continuously] counts it He thinks that his wealth will make him immortal No! He will surely be thrown into the Crusher And what can make you know what is the Crusher It is the fire of Allah, [eternally] fueled Which mounts directed at the hearts Indeed, Hellfire will be closed down upon them In extended columns`,
+        ``,
+        ``
+      ],
+      [
+        `Malheur à tout calomniateur diffamateur qui amasse une fortune et la compte pensant que sa fortune l'immortalisera Mais non! Il sera certes, jeté dans la Hutamah Et qui te dira ce qu'est la Hutamah Le Feu attisé d'Allah qui monte jusqu'aux cœurs Il se refermera sur eux en colonnes (de flammes) étendues`,
+        ``,
+        ``
+      ],
+      [
+        `¡Ay de todo aquél que difame, que critique que amase hacienda y la cuente una y otra vez creyendo que su hacienda le hará inmortal ¡No! ¡Será precipitado, ciertamente, en la hutama Y ¿cómo sabrás qué es la hutama Es el fuego de Alá encendido Que llega hasta las entrañas Se cerrará sobre ellos en extensas columnas`,
+        ``,
+        ``
+      ],
+      [
+        `Горе всякому хулителю и обидчику который копит состояние и пересчитывает его думая, что богатство увековечит его Но нет! Его непременно ввергнут в Огонь сокрушающий Откуда ты мог знать, что такое Огонь сокрушающий Это - разожженный Огонь Аллаха который вздымается над сердцами Воистину, он сомкнется над ними высокими столбами (мученики будут прикованы к этим столбам или врата Ада будут заперты и закреплены этими столбами)`,
+        ``,
+        ``
+      ],
+      [
+        `Wehe jedem Stichler und Nörgler der Besitz zusammenträgt und ihn zählt und immer wieder zählt wobei er meint, daß sein Besitz ihn ewig leben ließe Keineswegs! Er wird ganz gewiß in al-Hutama geworfen werden Was läßt dich wissen, was al-Hutama ist (Sie ist) Allahs entfachtes Feuer das Einblick in die Herzen gewinnt Gewiß, es wird sie einschließen in langgestreckten Säulen`,
+        ``,
+        ``
+      ],
+      [
+        `ILLA SKALL det gå den som försöker finna fel hos [andra] och baktalar dem [Och] som samlar pengar på hög och [i stället för att göra gott] ägnar sig åt att räkna dem i förhoppningen att hans rikedom skall ge honom evigt liv Nej [han misstar sig]! Han kommer att kastas i Hutamah Och vad kan låta dig förstå vad Hutamah betyder [Det är] Guds eld som skall blossa upp och tränga in i [syndarnas] hjärtan och sluta sig omkring dem i ändlösa kolonnader av eld`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Wee elke lasteraar en roddelaar Degene die bezit verzamelt en het telkens telt Hij denkt dat zijn bezit hem eeuwiglevend maakt Nee! Hij zal zeker in de vernietiger gesmeten worden En wat doet jou weten wat de vernietiger is Het door Allah aangestoken Vuur (de Hel) Dat tot in de harten doordringt Voorwaar, het zal hen omhullen In langgerekte zuilen`,
+        ``,
+        ``
+      ],
+      [
+        `ہر طعن آمیز اشارتیں کرنے والے چغل خور کی خرابی ہے جو مال جمع کرتا اور اس کو گن گن کر رکھتا ہے (اور) خیال کرتا ہے کہ اس کا مال اس کی ہمیشہ کی زندگی کا موجب ہو گا ہر گز نہیں وہ ضرور حطمہ میں ڈالا جائے گا اور تم کیا سمجھے حطمہ کیا ہے؟ وہ خدا کی بھڑکائی ہوئی آگ ہے جو دلوں پر جا لپٹے گی (اور) وہ اس میں بند کر دیئے جائیں گے (یعنی آگ کے) لمبے لمبے ستونوں میں`,
+        ``,
+        ``
+      ],
+      [
+        `Celakalah bagi setiap pengumpat dan pencela yang mengumpulkan harta dan menghitung-hitungnya dia (manusia) mengira bahwa hartanya itu dapat mengekalkannya Sekali-kali tidak! Pasti dia akan dilemparkan ke dalam (neraka) Ḥuṭamah Dan tahukah kamu apakah (neraka) Ḥuṭamah itu (Yaitu) api (azab) Allah yang dinyalakan yang (membakar) sampai ke hati Sungguh, api itu ditutup rapat atas (diri) mereka (sedang mereka itu) diikat pada tiang-tiang yang panjang`,
+        ``,
+        ``
+      ],
+      [
+        `Mal toplayarak onu tekrar tekrar sayan, diliyle çekiştirip alay eden kimsenin vay haline Mal toplayarak onu tekrar tekrar sayan, diliyle çekiştirip alay eden kimsenin vay haline Malının kendisini ölümsüz kılacağını sanır Hayır; o, and olsun ki, Hutame'ye atılacaktır Hutame'nin ne olduğunu sen bilir misin O, yüreklere çökecek olan, Allah'ın tutuşturulmuş ateşidir O, yüreklere çökecek olan, Allah'ın tutuşturulmuş ateşidir Onlar, uzun sütunlar arasında, her yönden o ateşle kapatılmışlardır Onlar, uzun sütunlar arasında, her yönden o ateşle kapatılmışlardır`,
+        ``,
+        ``
+      ],
+      [
+        `واى بر هر بدگوى عيبجويى، كه مالى گرد آورد و برشمردش پندارد كه مالش او را جاويد كرده، ولى نه! قطعاً در آتش خردكننده فرو افكنده خواهد شد و تو چه دانى كه آن آتش خردكننده چيست؟ آتش افروخته خدا[يى‌] است [آتشى‌] كه به دلها مى‌رسد آنان را در ميان فرامى‌گيرد [آتشى كه‌] در ستونهايى دراز است`,
+        ``,
+        ``
+      ],
+      [
+        `প্রত্যেক পশ্চাতে ও সম্মুখে পরনিন্দাকারীর দুর্ভোগ যে অর্থ সঞ্চিত করে ও গণনা করে সে মনে করে যে, তার অর্থ চিরকাল তার সাথে থাকবে কখনও না, সে অবশ্যই নিক্ষিপ্ত হবে পিষ্টকারীর মধ্যে। আপনি কি জানেন, পিষ্টকারী কি এটা আল্লাহর প্রজ্জ্বলিত অগ্নি যা হৃদয় পর্যন্ত পৌছবে। এতে তাদেরকে বেঁধে দেয়া হবে লম্বা লম্বা খুঁটিতে।`,
+        ``,
+        ``
+      ],
+      [
+        `Suratu Al-Humazah. Ai de todo difamador, caluniador Que junta riquezas e, com deleite, as conta Supõe que suas riquezas o tornarão eterno Em absoluto, não o tornarão! Em verdade, ele será deitado fora, em al-Hutama E o que te faz inteirar-te do que é al-Hutamah É o fogo aceso, de Allah O qual sobe até os corações Por certo, será cerrado sobre eles Em colunas extensas`,
+        ``,
+        ``
+      ],
+      [
+        `伤哉！每个诽谤者, 诋毁者 他聚积财产, 而当作武器 他以为他的财产, 能使他不灭。 绝不然, 他必定要被投在毁灭坑中。 你怎能知道毁灭坑是什麽？ 是真主的燃著的烈活。 能升到人的心上。 他们必定要被关在烈火中 吊在许多很高的柱子上。`,
+        ``,
+        ``
+      ],
+      [
+        `災いなるかな，凡ての悪口を言って中傷する者。 財を集めて計算する（のに余念のない）者。 本当にその財が，かれを永久に生かすと考えている。 断じてそうではない。かれは必ず業火の中に，投げ込まれる。 業火が，何であるかをあなたに理解させるものは何か。 （それは）ぼうぼうと燃えているアッラーの火， 心臓を焼き尽し， かれらの頭上に完全に覆い被さり， （逃れることの出来ない）列柱の中に。`,
+        ``,
+        ``
+      ],
+      [
+        `뒤에서 중상모략하는 자에게재앙이 있을지니 그는 재산을 모아 계산에 열 중하며 그 재산이 현세에서 그를 영 원케 하리라 생각하도다 그러나 그렇지 아니하니 그는 지옥에 던져지리라 그 지옥이 무엇이지 무엇이 그대에게 알려주리요 그것은 하나님의 분노가 타는 불지옥이거늘 그 뜨거움이 가습을 에워싸고 그들에게 문이 잠겨져 버리며 기둥들로 빗장이 내려지노라`,
+        ``,
+        ``
+      ],
+      [
+        `Guai ad ogni diffamatore maldicente che accumula ricchezze e le conta pensa che la sua ricchezza lo renderà immortale No, sarà certamente gettato nella Voragine E chi mai ti farà comprendere cos’è la Voragine [È] il Fuoco attizzato di Allah che consuma i cuori Invero [si chiuderà] su di loro in estese colonne`,
+        ``,
+        ``
+      ],
+      [
+        `Biada każdemu oszczercy zniesławiającemu Który gromadzi bogactwo i przygotowuje je Sądzi on, że jego bogactwo uczyni go nieśmiertelnym Wcale nie! Zostanie on wrzucony do AI-Hutama A co ciebie pouczy, co to jest Al-Hutama To jest ogień Boga, buchający płomieniem Który wznosi się ponad serca On nad nimi tworzy sklepienie Na wydłużonych kolumnach`,
+        ``,
+        ``
+      ],
+      [
+        `Горе кожному насмішнику, наклепнику Який зібрав багатство та підрахував його Думає він, що багатство зробить його безсмертним Але ж ні! Істинно, буде він вкинутий у розтрощуюче А звідки тобі знати, що це — розтрощуюче Це — вогонь Аллага розпалений який здіймається над серцями Воістину, він зімкнеться над ним на ланцюгах простягнутих`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الهمزة / Al-Humazah، الآيات 1-9`
   },
 
   {
