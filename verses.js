@@ -32,6 +32,14 @@
 // ترجمة Diyanet التركية تجمع أحيانًا عدة آيات في نص واحد، فحُذف التكرار المتتالي عند ضم الآيات؛ وفي 4:55-56 اتُّسع النطاق إلى الآية 55 لأن الترجمة التركية تشملها.
 // ملاحظة: إدراج آية هنا لا يعني أن كل ما يُنسب إليها من تفسيرات علمية متفق عليه؛ العرض يكتفي بنص الآية وترجمتها.
 
+// ===== آيات أُضيفت (نوفمبر 2026): إسلام الأنبياء جميعًا ودعوتهم أقوامهم إلى عبادة الله الواحد الأحد، مرتبة حسب المصحف =====
+// 39 موضعًا جديدًا: 2:83، 2:127-128، 2:130-133، 2:136، 2:285، 3:50-52، 3:67، 3:84، 4:163، 5:44، 5:111، 5:116-117، 6:84-90، 6:161، 7:59، 7:65، 7:73، 7:85،
+// 10:72، 10:84، 12:39-40، 12:101، 16:36، 19:36، 19:42-45، 21:25، 21:51-56، 21:92، 22:78، 23:51-52، 26:75-83، 27:44، 29:16-17، 36:59-61، 41:14، 42:13،
+// 43:26-28، 43:63-64، 71:2-4.
+// المصدر والمعالجة كما في الإضافة السابقة (Tanzil المبسّطة للعربي، والترجمات حرفية من المصادر المذكورة في أعلى الملف، كل موضع في جزء واحد، والأيرلندية فارغة).
+// اتُّسع نطاق 26:75-83 و36:59-61 ليشمل الآية 83 والآية 59 لأن ترجمة Diyanet التركية تجمعهما مع ما بعدهما/قبلهما في نص واحد.
+// بدأ 71:2-4 من الآية 2 تجنّبًا لحمل البسملة مع الآية الأولى من السورة.
+
 // فهارس اللغات التي لا توجد لها ترجمة معتمدة (الأيرلندية: لا توجد ترجمة كاملة معتمدة) — يُفضّل عرض تنبيه "ترجمة غير معتمدة" عند عرضها.
 const UNVERIFIED_TRANSLATION_INDEXES = [6];
 
@@ -593,6 +601,117 @@ const verses = [
 
   {
     arabic: [
+      `وَإِذْ أَخَذْنَا مِيثَاقَ بَنِي إِسْرَائِيلَ لَا تَعْبُدُونَ إِلَّا اللَّهَ وَبِالْوَالِدَيْنِ إِحْسَانًا وَذِي الْقُرْبَىٰ وَالْيَتَامَىٰ وَالْمَسَاكِينِ وَقُولُوا لِلنَّاسِ حُسْنًا وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ ثُمَّ تَوَلَّيْتُمْ إِلَّا قَلِيلًا مِنْكُمْ وَأَنْتُمْ مُعْرِضُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And [recall] when We took the covenant from the Children of Israel, [enjoining upon them], "Do not worship except Allah; and to parents do good and to relatives, orphans, and the needy. And speak to people good [words] and establish prayer and give zakah." Then you turned away, except a few of you, and you were refusing`,
+        ``,
+        ``
+      ],
+      [
+        `Et [rappelle-toi], lorsque Nous avons pris l'engagement des Enfants d'Israël de n'adorer qu'Allah; de faire le bien envers les pères, les mères, les proches parents, les orphelins et les nécessiteux; d'avoir de bonnes paroles avec les gens; d'accomplir [régulièrement] la prière (Aṣ-Ṣalāt) et d'acquitter l'aumône (Az-Zakāt). Mais, à l'exception d'un petit nombre parmi vous, vous avez manqué à vos engagements en vous détournant de Nos commandements`,
+        ``,
+        ``
+      ],
+      [
+        `Y cuando concertamos un pacto con los hijos de Israel: «¡No sirváis sino a Alá! ¡Sed buenos con vuestros padres y parientes, con los huérfanos y pobres, hablad bien a todos, haced la azalá dad el azaque!» Luego, os desviasteis, exceptuados unos pocos, y os alejasteis`,
+        ``,
+        ``
+      ],
+      [
+        `Вот Мы заключили с сынами Исраила (Израиля) завет о том, что вы не будете поклоняться никому, кроме Аллаха; будете делать добро родителям, а также родственникам, сиротам и беднякам; будете говорить людям прекрасное, совершать намаз и выплачивать закят. Но впоследствии вы отвернулись с отвращением, за исключением немногих`,
+        ``,
+        ``
+      ],
+      [
+        `Und als Wir mit den Kindern Isra'ils ein Abkommen trafen: Dient keinem außer Allah! Und zu den Eltern sollt ihr gütig sein und zu den Verwandten, den Waisen und den Armen! Und sagt Gutes zu den Menschen, verrichtet das Gebet und entrichtet die Abgabe. Danach kehrtet ihr euch - bis auf wenige von euch - ab; ihr seid ja Widerstrebende`,
+        ``,
+        ``
+      ],
+      [
+        `MINNS, ISRAELITER, att Vi slöt Vårt förbund med er [enligt vilket ni lovade] att inte dyrka någon utom Gud, att visa godhet mot era föräldrar och anhöriga och mot de faderlösa och de nödställda, att ha ett vänligt ord för alla människor och att förrätta bönen och ge åt de behövande. Men ni vände er ifrån [det som ni åtagit er], alla utom ett fåtal, eftersom ni är ett motsträvigt släkte`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En (gedenkt) toen Wij het verbond van de Kinderen van Israël aanvardden (zeggent): "Aanbidt niets dan Allah, en betracht goedheid jegens de ouders, en de verwand, en de wees, en de behoeftige, en spreekt het goede tot de mensen en onderhoudt de shalât en geeft de zakât." Vervolgens ontrokken jullie je er aan, behalve een klein aantal van jullie, terwijl jullie je afwendden`,
+        ``,
+        ``
+      ],
+      [
+        `اور جب ہم نے بنی اسرائیل سے عہد لیا کہ خدا کے سوا کسی کی عبادت نہ کرنا اور ماں باپ اور رشتہ داروں اور یتیموں اور محتاجوں کے ساتھ بھلائی کرتے رہنا اور لوگوں سے اچھی باتیں کہنا، اور نماز پڑھتے اور زکوٰة دیتے رہنا، تو چند شخصوں کے سوا تم سب (اس عہد سے) منہ پھیر کر پھر بیٹھے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan (ingatlah) ketika Kami mengambil janji dari Bani Israil, "Janganlah kamu menyembah selain Allah, dan berbuat baiklah kepada kedua orang tua, kerabat, anak-anak yatim, dan orang-orang miskin. Dan bertutur katalah yang baik kepada manusia, laksanakan salat dan tunaikanlah zakat." Tetapi kemudian kamu berpaling (mengingkari), kecuali sebagian kecil dari kamu, dan kamu (masih menjadi) pembangkang`,
+        ``,
+        ``
+      ],
+      [
+        `İsrailoğullarından, "Allah'tan başkasına kulluk etmeyin, anne babaya, yakınlara, yetimlere, düşkünlere iyilik edin, insanlarla güzel güzel konuşun, namazı kılın, zekatı verin" diye söz almıştık. Sonra siz pek azınız müstesna, döndünüz; hala da yüz çevirip duruyorsunuz`,
+        ``,
+        ``
+      ],
+      [
+        `و چون از فرزندان اسرائيل پيمان محكم گرفتيم كه: «جز خدا را نپرستيد، و به پدر و مادر، و خويشان و يتيمان و مستمندان احسان كنيد، و با مردم [به زبان‌] خوش سخن بگوييد، و نماز را به پا داريد، و زكات را بدهيد»؛ آنگاه، جز اندكى از شما، [همگى‌] به حالت اعراض روى برتافتيد`,
+        ``,
+        ``
+      ],
+      [
+        `যখন আমি বনী-ইসরাঈলের কাছ থেকে অঙ্গীকার নিলাম যে, তোমরা আল্লাহ ছাড়া কারও উপাসনা করবে না, পিতা-মাতা, আত্নীয়-স্বজন, এতীম ও দীন-দরিদ্রদের সাথে সদ্ব্যবহার করবে, মানুষকে সৎ কথাবার্তা বলবে, নামায প্রতিষ্ঠা করবে এবং যাকাত দেবে, তখন সামান্য কয়েকজন ছাড়া তোমরা মুখ ফিরিয়ে নিলে, তোমরাই অগ্রাহ্যকারী।`,
+        ``,
+        ``
+      ],
+      [
+        `E lembra-lhes de quando firmamos a aliança com os filhos de Israel: Não adorareis senão a Allah; e tende benevolência para com os pais e os parentes e os órfãos e os necessitados; e dizei aos homens belas palavras e cumpri a oração e concedei az-zakāh; em seguida, exceto poucos de vós, voltastes as costas dando de ombros`,
+        ``,
+        ``
+      ],
+      [
+        `当时，我与以色列的後裔缔约，说：你们应当只崇拜真主，并当孝敬父母，和睦亲戚，怜恤孤儿，赈济贫民，对人说善言，谨守拜功，完纳天课。然後，你们除少数人外，都违背约言，你们是常常爽约的。`,
+        ``,
+        ``
+      ],
+      [
+        `われがイスラエルの子孫と，約束を結んだ時のことを思い起せ。（その時われは言った。）「あなたがたはアッラーの外に，何ものも崇めてはならない。父母に孝養をつくし，近親，孤児 ，貧者を親切に扱い，人びとに善い言葉で話し，礼拝の務めを守り，定めの喜捨をしなさい。」だが，あなたがたの中少数の者を除き，背き去った。`,
+        ``,
+        ``
+      ],
+      [
+        `내가 이스라엘의 자손들과 성약을 맺었으니 그대들은 오직 하나님만을 경배하라. 그리고 부모님께 효도하고 친척과 고아들와 불우한 자들에게 친절할 것이며 사람들에게 훌륭한 말을 하고 꾸준히 예배를 드리며 의무 희사금을 내도록 하라. 그 후에 그대들은 그대들 중의 소수를 제외하고는 등을 돌리며 돌아섰노라`,
+        ``,
+        ``
+      ],
+      [
+        `E quando stringemmo il patto con i Figli di Israele [dicemmo]: “Non adorerete altri che Allah, vi comporterete bene con i genitori, i parenti, gli orfani e i poveri; userete buone parole con la gente, assolverete all'orazione e pagherete la decima!”. Ma dopo di ciò avete voltato le spalle, a parte qualcuno tra voi, e vi siete sottratti`,
+        ``,
+        ``
+      ],
+      [
+        `Oto zawarliśmy przymierze z synami Izraela: "Nie będziecie czcić nikogo innego, jak tylko Boga; rodzicom okazujcie dobroć i bliskim krewnym, i sierotom, i biednym. Przemawiajcie do ludzi uprzejmie! Odprawiajcie modlitwę i dawajcie jałmużnę!" Potem jednak wyście się odwrócili oprócz nielicznych spośród was, i wy się sprzeciwiacie`,
+        ``,
+        ``
+      ],
+      [
+        `Ось Ми уклали завіт із синами Ісраїля: «Не поклоняйтесь нікому, окрім Аллага, ставтесь якнайкраще до батьків, інших родичів, сиріт та нужденних. Кажіть людям добре слово, звершуйте молитву, давайте закят». Але згодом ви відвернулися, окрім небагатьох, і відступили`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 83`
+  },
+
+  {
+    arabic: [
       `إِنَّا أَرْسَلْنَاكَ بِالْحَقِّ بَشِيرًا وَنَذِيرًا ۖ وَلَا تُسْأَلُ عَنْ أَصْحَابِ الْجَحِيمِ`,
       ``,
       ``
@@ -704,6 +823,117 @@ const verses = [
 
   {
     arabic: [
+      `وَإِذْ يَرْفَعُ إِبْرَاهِيمُ الْقَوَاعِدَ مِنَ الْبَيْتِ وَإِسْمَاعِيلُ رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ رَبَّنَا وَاجْعَلْنَا مُسْلِمَيْنِ لَكَ وَمِنْ ذُرِّيَّتِنَا أُمَّةً مُسْلِمَةً لَكَ وَأَرِنَا مَنَاسِكَنَا وَتُبْ عَلَيْنَا ۖ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And [mention] when Abraham was raising the foundations of the House and [with him] Ishmael, [saying], "Our Lord, accept [this] from us. Indeed You are the Hearing, the Knowing Our Lord, and make us Muslims [in submission] to You and from our descendants a Muslim nation [in submission] to You. And show us our rites and accept our repentance. Indeed, You are the Accepting of repentance, the Merciful`,
+        ``,
+        ``
+      ],
+      [
+        `Et quand Abraham et Ismaël élevaient les assises de la Maison: "Ô notre Seigneur! Accepte ceci de notre part! Car c'est Toi l'Audient, l'Omniscient Notre Seigneur! Fais de nous Tes Soumis, et de notre descendance une communauté soumise à Toi. Et montre nous nos rites et accepte de nous le repentir. Car c'est Toi certes l'Accueillant au repentir, le Miséricordieux`,
+        ``,
+        ``
+      ],
+      [
+        `Y cuando Abraham e Ismael levantaban los cimientos de la Casa: «¡Señor, acéptanoslo! ¡Tú eres Quien todo lo oye, Quien todo lo sabe ¡Y haz, Señor, que nos sometamos a Ti, haz de nuestra descendencia una comunidad sumisa a Ti, muéstranos nuestros ritos y vuélvete a nosotros! ¡Tú eres, ciertamente, el Indulgente, el Misericordioso`,
+        ``,
+        ``
+      ],
+      [
+        `Вот Ибрахим (Авраам) и Исмаил (Измаил) подняли основание Дома (Каабы): «Господь наш! Прими от нас! Воистину, Ты - Слышащий, Знающий Господь наш! Сделай нас покорившимися Тебе, а из нашего потомства - общину, покорившуюся Тебе. Покажи нам обряды поклонения и прими наше покаяние. Воистину, Ты - Принимающий покаяние, Милосердный`,
+        ``,
+        ``
+      ],
+      [
+        `Und (gedenkt,) als Ibrahim die Grundmauern des Hauses errichtete, zusammen mit Isma'il, (da beteten sie): "Unser Herr, nimm (es) von uns an. Du bist ja der Allhörende und Allwissende Unser Herr, mache uns Dir ergeben und von unserer Nachkommenschaft eine Dir ergebene Gemeinschaft. Und zeige uns unsere Riten, und nimm unsere Reue an. Du bist ja der Reue-Annehmende und Barmherzige`,
+        ``,
+        ``
+      ],
+      [
+        `Och när Abraham och Ismael lade grunden till Helgedomen [bad de:] "Herre! Tag nådigt emot vår [möda]! Du är den som hör allt, vet allt Herre! Gör att vi underkastar oss Din vilja och gör våra efterkommande till ett samfund av [människor] som underkastar sig Din vilja. Lär oss att förrätta vår andakt och tag emot vår ånger; Du är Den som går den ångerfulle till mötes, den Barmhärtige`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En (gedenkt) toen Ibrâhîm de grondvesten van het Huis legde, samen met Isma'îl (biddend): "Onze Heer, aanvaard het van ons: voorwar, U bent de Alhorende, de Alwetende Onze Heer, maak ons beiden tot mensen die zich overgeven aan U en (maak) onze nakomelingen tot een volk dat zich overgeeft aan U en onderwijs ons de gebruiken (van o.a. de Haddj) en aanvaard ons berouw, voorwaar, U bent de Meest Berouwaanvaardende, de Meest Barmhartige`,
+        ``,
+        ``
+      ],
+      [
+        `اور جب ابراہیم اور اسمٰعیل بیت الله کی بنیادیں اونچی کر رہے تھے (تو دعا کئے جاتے تھے کہ) اے پروردگار، ہم سے یہ خدمت قبول فرما۔ بےشک تو سننے والا (اور) جاننے والا ہے اے پروردگار، ہم کو اپنا فرمانبردار بنائے رکھیو۔ اور ہماری اولاد میں سے بھی ایک گروہ کو اپنا مطیع بنائے رہیو، اور (پروردگار) ہمیں طریق عبادت بتا اور ہمارے حال پر (رحم کے ساتھ) توجہ فرما۔ بے شک تو توجہ فرمانے والا مہربان ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan (ingatlah) ketika Ibrahim meninggikan pondasi Baitullah bersama Ismail (seraya berdoa), "Ya Tuhan kami, terimalah (amal) dari kami. Sungguh, Engkaulah Yang Maha Mendengar, Maha Mengetahui Ya Tuhan kami, jadikanlah kami orang yang berserah diri kepada-Mu, dan anak cucu kami (juga) umat yang berserah diri kepada-Mu dan tunjukkanlah kepada kami cara-cara melakukan (ibadah) haji kami, dan terimalah tobat kami. Sungguh, Engkaulah Yang Maha Penerima tobat, Maha Penyayang`,
+        ``,
+        ``
+      ],
+      [
+        `İbrahim ve İsmail, Kabenin temellerini yükseltiyordu: "Rabbimiz! Yaptığımızı kabul buyur. Şüphesiz ki, Sen hem işitir hem bilirsin Rabbimiz! İkimizi Sana teslim olanlardan kıl, soyumuzdan da Sana teslim olanlardan bir ümmet yetiştir. Bize ibadet yollarımızı göster, tevbemizi kabul buyur, çünkü tevbeleri daima kabul eden, merhametli olan ancak Sensin`,
+        ``,
+        ``
+      ],
+      [
+        `و هنگامى كه ابراهيم و اسماعيل پايه‌هاى خانه [كعبه‌] را بالا مى‌بردند، [مى‌گفتند:] «اى پروردگار ما، از ما بپذير كه در حقيقت، تو شنواى دانايى پروردگارا، ما را تسليم [فرمان‌] خود قرار ده؛ و از نسل ما، امتى فرمانبردار خود [پديد آر]؛ و آداب دينى ما را به ما نشان ده؛ و بر ما ببخشاى، كه تويى توبه‌پذير مهربان`,
+        ``,
+        ``
+      ],
+      [
+        `স্মরণ কর, যখন ইব্রাহীম ও ইসমাঈল কা’বাগৃহের ভিত্তি স্থাপন করছিল। তারা দোয়া করেছিলঃ পরওয়ারদেগার! আমাদের থেকে কবুল কর। নিশ্চয়ই তুমি শ্রবণকারী, সর্বজ্ঞ। পরওয়ারদেগার! আমাদের উভয়কে তোমার আজ্ঞাবহ কর এবং আমাদের বংশধর থেকেও একটি অনুগত দল সৃষ্টি কর, আমাদের হজ্বের রীতিনীতি বলে দাও এবং আমাদের ক্ষমা কর। নিশ্চয় তুমি তওবা কবুলকারী। দয়ালু।`,
+        ``,
+        ``
+      ],
+      [
+        `E lembrai-vos de quando Abraão levantava os alicerces da Casa, e Ismael também, dizendo: "Senhor nosso! Aceita-a de nós. Por certo, Tu, Tu és O Oniouvinte, O Onisciente Senhor nosso! E faze de ambos de nós submissos para Ti, e faze de nossa descendência uma comunidade submissa para Ti; e ensina-nos nossos cultos e volta-Te para nós, remindo-nos. Por certo, Tu, Tu és O Remissório, O Misericordiador`,
+        ``,
+        ``
+      ],
+      [
+        `当时，易卜拉欣和易司马仪树起天房的基础，他们俩祈祷说：我们的主啊！求你接受我们的敬意，你确是全聪的，确是全知的。 我们的主啊！求你使我们变成你的两个顺民，并从我们的後裔中造成归顺你的民族，求你昭示我们朝觐的仪式，求你恕宥我们，你确是至宥的，确是至慈的。`,
+        ``,
+        ``
+      ],
+      [
+        `それからイブラーヒームとイスマーイールが，その家の礎を定めた時のこと。（その時二人は言った。）「主よ，わたしたちから（この奉仕を）受け入れて下さい。本当にあなたは全聴にして全知であられる。 主よ，わたしたち両人を，あなたに服従，帰依する者〔ムスリム〕にして下さい。またわたしたちの子孫をも，あなたに服従，帰依する民〔ウンマ〕にして下さい。わたしたちに祭儀を示し，哀れみを与えて下さい。あなたは度々許される方，慈悲深い方であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `이브라힘(아브라함)과 이스마일(이스마엘)이 그 집(카으바)의 토대를 올리니 “저희의 주님이시여! 저희를 받아주십시오. 실로 당신께서는 모든 것을 들으시는 분이시며 모든 것을 알고 계시는 분이십니다.” “저희의 주님이시여! 저희를 당신께 복종하는 자로, 그리고 저희의 후손들의 일부를 당신께 복종하는 공동체로 만들어 주십시오. 또한 저희에게 저희의 경배 방식을 보여주시고 저희의 뉘우침을 받아주십시오. 진실로 당신께서는 뉘우치는 자를 받아주시는 가장 자애로우신 분입니다.”`,
+        ``,
+        ``
+      ],
+      [
+        `E quando Abramo e Ismaele posero le fondamenta della Casa, dissero: “O Signor nostro, accettala da noi! Tu sei Colui Che tutto ascolta e conosce O Signor nostro, fai di noi dei musulmani e della nostra discendenza una comunità musulmana. Mostraci i riti e accetta il nostro pentimento. In verità Tu sei il Perdonatore, il Misericordioso`,
+        ``,
+        ``
+      ],
+      [
+        `I kiedy Abraham i Isma\`il wznosili fundamenty, Domu: "Panie nasz! Przyjmij to od nas, przecież Ty jesteś Słyszący, Wszechwiedzący Panie nasz! Uczyń nas całkowicie poddanymi Tobie, a z naszego potomstwa naród Tobie całkowicie poddany! Pokaż nam nasze miejsca czci i zwróć się ku nam! Ty przecież jesteś Przebaczający, Litościwy`,
+        ``,
+        ``
+      ],
+      [
+        `І ось Ібрагім з Ісмаїльом заклали основу Дому: «Господи наш! Прийми від нас, воістину, Ти — Всечуючий та Всезнаючий Господи наш! Зроби нас двома відданими тобі і зроби з нащадків наших покірний тобі народ. Вкажи нам, як виконувати приписи наші. І прийми каяття наше, воістину, Ти — Приймаючий каяття, Милосердний`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآيتان 127-128`
+  },
+
+  {
+    arabic: [
       `رَبَّنَا وَابْعَثْ فِيهِمْ رَسُولًا مِنْهُمْ يَتْلُو عَلَيْهِمْ آيَاتِكَ وَيُعَلِّمُهُمُ الْكِتَابَ وَالْحِكْمَةَ وَيُزَكِّيهِمْ ۚ إِنَّكَ أَنْتَ الْعَزِيزُ الْحَكِيمُ`,
       ``,
       ``
@@ -811,6 +1041,228 @@ const verses = [
       ]
     ],
     number: `سورة البقرة / Al-Baqarah، الآية 129`
+  },
+
+  {
+    arabic: [
+      `وَمَنْ يَرْغَبُ عَنْ مِلَّةِ إِبْرَاهِيمَ إِلَّا مَنْ سَفِهَ نَفْسَهُ ۚ وَلَقَدِ اصْطَفَيْنَاهُ فِي الدُّنْيَا ۖ وَإِنَّهُ فِي الْآخِرَةِ لَمِنَ الصَّالِحِينَ إِذْ قَالَ لَهُ رَبُّهُ أَسْلِمْ ۖ قَالَ أَسْلَمْتُ لِرَبِّ الْعَالَمِينَ وَوَصَّىٰ بِهَا إِبْرَاهِيمُ بَنِيهِ وَيَعْقُوبُ يَا بَنِيَّ إِنَّ اللَّهَ اصْطَفَىٰ لَكُمُ الدِّينَ فَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ أَمْ كُنْتُمْ شُهَدَاءَ إِذْ حَضَرَ يَعْقُوبَ الْمَوْتُ إِذْ قَالَ لِبَنِيهِ مَا تَعْبُدُونَ مِنْ بَعْدِي قَالُوا نَعْبُدُ إِلَٰهَكَ وَإِلَٰهَ آبَائِكَ إِبْرَاهِيمَ وَإِسْمَاعِيلَ وَإِسْحَاقَ إِلَٰهًا وَاحِدًا وَنَحْنُ لَهُ مُسْلِمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And who would be averse to the religion of Abraham except one who makes a fool of himself. And We had chosen him in this world, and indeed he, in the Hereafter, will be among the righteous When his Lord said to him, "Submit", he said "I have submitted [in Islam] to the Lord of the worlds And Abraham instructed his sons [to do the same] and [so did] Jacob, [saying], "O my sons, indeed Allah has chosen for you this religion, so do not die except while you are Muslims Or were you witnesses when death approached Jacob, when he said to his sons, "What will you worship after me?" They said, "We will worship your God and the God of your fathers, Abraham and Ishmael and Isaac - one God. And we are Muslims [in submission] to Him`,
+        ``,
+        ``
+      ],
+      [
+        `Qui donc aura en aversion la religion d'Abraham, sinon celui qui sème son âme dans la sottise? Et très certainement, Nous l'avons choisi en ce [bas] monde; et, dans l'au-delà, il sera certes du nombre des gens de bien Quand son Seigneur lui a dit: “Soumets-toi!” Il dit: “Je me soumets au Seigneur de l'Univers.” Et c'est ce que Abraham recommanda à ses fils, de même que Jacob: "Ô mes fils! Certes, Allah vous a choisi la religion: ne mourrez point, donc, autrement qu'en Soumis!" (à Allah) Etiez-vous témoins quand la mort se présenta à Jacob et qu'il dit à ses fils: "Qu'adorerez-vous après moi?" - Ils répondirent: "Nous adorerons ta divinité et la divinité de tes pères: Abraham, Ismaël et Isaac, Divinité Unique et à laquelle nous sommes Soumis`,
+        ``,
+        ``
+      ],
+      [
+        `¿Quién sino el necio de espíritu puede sentir aversión a la religión de Abraham? Le elegimos en la vida de acá y en la otra vida es, ciertamente, de los justos Cuando su Señor le dijo: «¡Sométete!». Dijo: «Me someto al Señor del universo» Abraham ordenó hacer lo mismo a sus hijos varones, y también Jacob: «¡Hijos míos! Alá os ha escogido esta religión. Así, pues, no muráis sino sometidos a Él» ¿Fuisteis, acaso, testigos de lo que dijo Jacob a sus hijos varones cuando iba a morir. «¿A quién serviréis cuando yo ya no esté?» Dijeron: «Serviremos a tu Dios, el Dios de tus padres Abraham, Ismael e Isaac, como a un Dios Uno. Nos sometemos a Él»`,
+        ``,
+        ``
+      ],
+      [
+        `Кто же отвернется от религии Ибрахима (Авраама), кроме глупца? Мы избрали его в мирской жизни, а в Последней жизни он будет в числе праведников Вот сказал Господь Ибрахиму (Аврааму): «Покорись!». Он сказал: «Я покорился Господу миров» Ибрахим (Авраам) и Йакуб (Иаков) заповедали это своим сыновьям. Йакуб (Иаков) сказал: «О сыновья мои! Аллах избрал для вас религию. И умирайте не иначе, как будучи мусульманами» Или же вы находились рядом, когда смерть явилась к Йакубу (Иакову)? Он сказал своим сыновьям: «Кому вы будете поклоняться после меня?». Они сказали: «Мы будем поклоняться твоему Богу и Богу твоих отцов - Ибрахима (Авраама), Исмаила (Измаила) и Исхака (Исаака), Единственному Богу. Ему одному мы покоряемся»`,
+        ``,
+        ``
+      ],
+      [
+        `Wer wird das Glaubensbekenntnis Ibrahims wohl verschmähen außer dem, der selbst betört ist? Wir haben ihn (Ibrahim) ja bereits im Diesseits auserwählt, und im Jenseits gehört er wahrlich zu den Rechtschaffenen (Damals,) als sein Herr zu ihm sagte: "Werde Muslim!" Ich habe mich dem Herrn der Weltenbewohner ergeben Und Ibrahim befahl es seinen Söhnen an - (er) und Ya'qub: "O meine Kinder, Allah hat euch die Religion auserwählt; so sterbt denn nicht, außer (Ihm) ergeben zu sein Oder wart ihr etwa Zeugen, als Ya'qub der Tod nahte? Als er zu seinen Söhnen sagte: "Wem werdet ihr nach mir dienen?" Sie sagten: "Wir werden deinem Gott und dem Gott deiner Vorväter Ibrahim, lsma'il und Ishaq dienen, als dem Einen Gott, und Ihm sind wir ergeben`,
+        ``,
+        ``
+      ],
+      [
+        `Vem utom den tanklöse, den lättsinnige, vänder ryggen åt Abrahams tro? [Abraham] som Vi har utvalt och upphöjt i denna värld och som i det kommande livet helt visst har sin plats bland de rättfärdiga När hans Herre sade till honom: "Underkasta dig Guds vilja!" svarade han: "Jag underkastar mig Guds, världarnas Herres vilja Och han gav sina söner, liksom [senare] Jakob, denna maning: "Söner! Gud [själv] har valt er tro; underkasta er därför Guds vilja innan döden överraskar er Ja, ni är själva vittnen till att Jakob, när han kände döden nalkas, sade till sina söner: "Vem skall ni dyrka när jag är borta?" Och de svarade: "Vi skall dyrka din och dina fäders, Abrahams, Ismaels och Isaks Gud, den Ende Guden, och vi underkastar oss Hans vilja`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En wie keert zich af van de godsdienst van Ibrâhîm, anders dan wie zichzelf voor de gek houdt? En voorzeker hebben Wij hem uitverkoren in de wereld, en voorwaar, hij behoort in het Hiernamaals tot de oprechten En (gedenkt) toen zijn Heer tot hem zei: "Onderwerp jezelf (aan Mij)." Hij zei: "Ik onderwerp mij aan de Heer der Werelden En Ibrâhîm droeg aan zijn kinderen en aan Ya'qoeb op: "O mijn kinderen, voorwaar, Allah heeft de godsdienst voor jullie gekozen, sterft daarom niet, behalve als jullie overgegevenen zijn Of waren jullie getuigen toen Ya'qoeb de dood nabij was (en) hij tot zijn kinderen zei: "Wat zullen jullie aanbidden na mij?" Zij zeiden: "Wij zullen uw God aanbidden, de God van uw vaderen, Ibrâhîm, en Isma'îl en Ishaq, als de Ene God, en wij heebn ons aan Hem overgegeven`,
+        ``,
+        ``
+      ],
+      [
+        `اور ابراہیم کے دین سے کون رو گردانی کر سکتا ہے، بجز اس کے جو نہایت نادان ہو۔ ہم نے ان کو دنیا میں بھی منتخب کیا تھا اور آخرت میں بھی وہ (زمرہٴ) صلحا میں سے ہوں گے جب ان سے ان کے پروردگار نے فرمایا کہ اسلام لے آؤ تو انہوں نے عرض کی کہ میں رب العالمین کے آگے سر اطاعت خم کرتا ہوں اور ابرہیم نے اپنے بیٹوں کو اسی بات کی وصیت کی اور یعقوب نے بھی (اپنے فرزندوں سے یہی کہا) کہ بیٹا خدا نے تمہارے لیے یہی دین پسند فرمایا ہے تو مرنا ہے تو مسلمان ہی مرنا بھلا جس وقت یعقوب وفات پانے لگے تو تم اس وقت موجود تھے، جب انہوں نے اپنے بیٹوں سے پوچھا کہ میرے بعد تم کس کی عبادت کرو گے، تو انہوں نے کہا کہ آپ کے معبود اور آپ کے باپ دادا ابراہیم اور اسمٰعیل اور اسحاق کے معبود کی عبادت کریں گے جو معبود یکتا ہے اور ہم اُسی کے حکم بردار ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan orang yang membenci agama Ibrahim, hanyalah orang yang memperbodoh dirinya sendiri. Dan sungguh, Kami telah memilihnya (Ibrahim) di dunia ini. Dan sesungguhnya di akhirat dia termasuk orang-orang yang saleh (Ingatlah) ketika Tuhan berfirman kepadanya (Ibrahim), "Berserah dirilah!" Dia menjawab, "Aku berserah diri kepada Tuhan seluruh alam Dan Ibrahim mewasiatkan (ucapan) itu kepada anak-anaknya, demikian pula Yakub. "Wahai anak-anakku! Sesungguhnya Allah telah memilih agama ini untukmu, maka janganlah kamu mati kecuali dalam keadaan muslim Apakah kamu menjadi saksi saat maut akan menjemput Yakub, ketika dia berkata kepada anak-anaknya, "Apa yang kamu sembah sepeninggalku?" Mereka menjawab, "Kami akan menyembah Tuhanmu dan Tuhan nenek moyangmu yaitu Ibrahim, Ismail dan Ishak, (yaitu) Tuhan Yang Mahaesa dan kami (hanya) berserah diri kepada-Nya`,
+        ``,
+        ``
+      ],
+      [
+        `Kendini bilmezden başkası İbrahim'in dininden yüz çevirmez. And olsun ki, dünyada onu seçtik, şüphesiz o, ahirette de iyilerdendir Rabbi ona: "Teslim ol" buyurduğunda, "Alemlerin Rabbine teslim oldum" demişti İbrahim bunu oğullarına vasiyet etti. Yakub da: "Oğullarım! Allah dini size seçti, siz de ancak O'na teslim olmuş olarak can verin" dedi Yoksa Yakub can verirken sizler yanında mı idiniz? O, oğullarına: "Benden sonra kime kulluk edeceksiniz?" diye sormuştu; Onlar da: "Senin Tanrına ve ataların İbrahim, İsmail, İshak'ın Tanrısı olan tek Tanrıya kulluk edeceğiz, bizler O'na teslim olmuşuzdur" demişlerdi`,
+        ``,
+        ``
+      ],
+      [
+        `و چه كسى -جز آنكه به سبك‌مغزى گرايد- از آيين ابراهيم روى برمى‌تابد؟ و ما او را در اين دنيا برگزيديم؛ و البته در آخرت [نيز] از شايستگان خواهد بود هنگامى كه پروردگارش به او فرمود: «تسليم شو»، گفت: «به پروردگار جهانيان تسليم شدم.» و ابراهيم و يعقوب، پسران خود را به همان [آيين‌] سفارش كردند؛ [و هر دو در وصيتشان چنين گفتند:] «اى پسران من، خداوند براى شما اين دين را برگزيد؛ پس، البته نبايد جز مسلمان بميريد.» آيا وقتى كه يعقوب را مرگ فرا رسيد، حاضر بوديد؟ هنگامى كه به پسران خود گفت: «پس از من، چه را خواهيد پرستيد؟» گفتند: «معبود تو، و معبود پدرانت، ابراهيم و اسماعيل و اسحاق -معبودى يگانه- را مى‌پرستيم؛ و در برابر او تسليم هستيم.»`,
+        ``,
+        ``
+      ],
+      [
+        `ইব্রাহীমের ধর্ম থেকে কে মুখ ফেরায়? কিন্তু সে ব্যক্তি, যে নিজেকে বোকা প্রতিপন্ন করে। নিশ্চয়ই আমি তাকে পৃথিবীতে মনোনীত করেছি এবং সে পরকালে সৎকর্মশীলদের অন্তর্ভুক্ত। স্মরণ কর, যখন তাকে তার পালনকর্তা বললেনঃ অনুগত হও। সে বললঃ আমি বিশ্বপালকের অনুগত হলাম। এরই ওছিয়ত করেছে ইব্রাহীম তার সন্তানদের এবং ইয়াকুবও যে, হে আমার সন্তানগণ, নিশ্চয় আল্লাহ তোমাদের জন্য এ ধর্মকে মনোনীত করেছেন। কাজেই তোমরা মুসলমান না হয়ে কখনও মৃত্যুবরণ করো না। তোমরা কি উপস্থিত ছিলে, যখন ইয়াকুবের মৃত্যু নিকটবর্তী হয়? যখন সে সন্তানদের বললঃ আমার পর তোমরা কার এবাদত করবে? তারা বললো, আমরা তোমার পিতৃ-পুরুষ ইব্রাহীম, ইসমাঈল ও ইসহাকের উপাস্যের এবাদত করব। তিনি একক উপাস্য।`,
+        ``,
+        ``
+      ],
+      [
+        `E quem, pois, rejeita a crença de Abraão senão aquele cuja alma se perde na inépcia? E, com efeito, escolhemo-lo na vida terrena, e por certo, na Derradeira Vida será dos íntegros Quando seu Senhor lhe disse: "Islamiza-te." Disse: "Islamizo-me, para O Senhor dos mundos E Abraão recomendou-a a seus filhos - e assim também, Jacó - dizendo: "Ó filhos meus! Por certo, Allah escolheu para vós a religião; então não morrais senão enquanto muçulmanos Ou fostes vós testemunhas, quando a morte se apresentou a Jacó quando ele disse a seus filhos: "O que adorareis depois de mim?" Disseram: "Adoraremos a teu deus e ao deus de teus pais - Abraão e Ismael e Isaque - como um Deus Único. E para Ele seremos muçulmanos`,
+        ``,
+        ``
+      ],
+      [
+        `除妄自菲薄者外，谁愿鄙弃易卜拉欣的宗教呢？在今世，我确已拣选了他；在後世，他必居於善人之列。 当时，他的主对他说：你归顺吧。他说：我已归顺全世界的主了。 易卜拉欣和叶尔孤白都曾以此嘱咐自己的儿子说：我的儿子们啊！真主确已为你们拣选了这个宗教，所以你们除非成了归顺的人不可以死。 当叶尔孤白临死的时候，你们在埸吗？当时，他对他的儿子们说：我死之後，你们将崇拜甚麽？他们说：我们将崇拜你所崇拜的，和你的祖先易卜拉欣、易司马仪、易司哈格所崇拜的──独一的主宰──我们只归顺他。`,
+        ``,
+        ``
+      ],
+      [
+        `愚か者でもない限り，誰がイブラーヒームの教えを避けるであろうか。まさにわれは，現世においてかれを選んだ。来世においても，かれはきっと正義の徒の1人である。 主がかれに向かって，「服従，帰依しなさい。」と仰せられた時を思い起せ。かれは，「わたしは，万有の主に服従，帰依します。」と申し上げた。 イブラーヒームは，このことをその子孫に伝え，ヤアコーブもまた（それにならった）。「わたしの子孫よ，アッラーはあなたがたのために，この教えを選ばれた。だから必ずムスリム（服従，帰依者）となって死なねばならない。」 ヤアコーブが臨終の時，あなたがたは立ち会ったか。かれがその子孫に向かって，「わたしが亡き後，あなたがたは何に仕えるのか。」と言うと，かれらは，「わたしたちはあなたの神，イブラーヒーム，イスマーイール，イスハークの神，唯一の神（アッラー）に仕えます。かれに，わたしたちは服従，帰依します。」と言った。`,
+        ``,
+        ``
+      ],
+      [
+        `이브라힘의 종교를 기피하는 자는 정녕코 자신을 우둔하게 만들 뿐이라. 진실로 나는 현세에서 그를 선택하였으며 진실로 그는 내세에서 선량한 자들 중의 하나로 있을 것이라 그(아브라함)의 주님께서 그에게 ‘그대는 복종하라’ 라고 말씀하셨고 그는 ‘제가 만유의 주님께 복종하였습니다’ 라고 말하였노라 아브라함이 그의 자손들에게 그 말(복종의 말)을 분부하고 야곱도 그러하였으니 “나의 자손들이여, 실로 하나님께서는 그대들을 위하여 종교를 선택하셨으니 그대들은 반드시 무슬림으로서 죽음을 맞이하라.” 그대들은 야곱에게 죽음이 찾아왔을 때 함께 있었던 자들인가? 그가 그의 자손들에게 말하니 “나 이후에 그대들은 무엇을 경배할 것인가?” 그들이 말하길 “저희는 당신의 신, 그리고 당신의 조상인 아브라함과 이스마엘과 이삭의 신을 유일신으로서 경배할 것입니다. 저희는 그분께 복종하는 자들입니다.”`,
+        ``,
+        ``
+      ],
+      [
+        `Chi altri avrà, dunque, in odio la religione di Abramo, se non colui che coltiva la stoltezza nell'animo suo? Noi lo abbiamo scelto in questo mondo, e nell'altra vita sarà tra i devoti Quando il suo Signore gli disse: “Sottomettiti”, disse: “Mi sottometto al Signore dei mondi” Fu questo che Abramo inculcò ai suoi figli, e anche Giacobbe: “Figli miei, Allah ha scelto per voi la religione: non morite se non musulmani” Forse eravate presenti quando la morte si presentò a Giacobbe ed egli disse ai suoi figli: “Chi adorerete dopo di me?”. Risposero: “Adoreremo la tua divinità, la divinità dei tuoi padri Abramo e Ismaele e Isacco, il Dio unico al quale saremo sottomessi”`,
+        ``,
+        ``
+      ],
+      [
+        `A któż odwraca się od religii Abrahama, jeśli nie ten, kto ogłupił swoją duszę? My wybraliśmy go już na tym świecie i on w życiu ostatecznym z pewnością będzie między sprawiedliwymi Oto powiedział do niego jego Pan: "Poddaj się całkowicie!" On powiedział: "Poddałem się całkowicie Panu światów Abraham nakazał to swoim synom i tak samo Jakub: "O moi synowie! Zaprawdę, Bóg wybrał dla was religię. Nie umierajcie inaczej, jak tylko będąc całkowicie poddanymi Czy wy byliście świadkami, kiedy zjawiła się przed Jakubem śmierć? On powiedział do swoich synów: "Co wy będziecie czcić po mnie?" Oni powiedzieli: "Będziemy czcić twego Boga i Boga twoich ojców - Abrahama, Isma\`ila i Izaaka Boga Jedynego! I my Jemu poddajemy się całkowicie`,
+        ``,
+        ``
+      ],
+      [
+        `Хто ж відвертається від релігії Ібрагіма, окрім легковажного невігласа? Ми обрали Ібрагіма у земному житті, а у житті наступному він буде разом із праведниками Коли Господь сказав йому: «Будь покірним Мені!» — той відповів: «Я став покірним Господу світів Ібрагім разом із Якубом заповідали своїм синам це: «О сини мої! Воістину, Аллаг обрав для вас цю релігію. Тож не помирайте, не ставши покірними Йому!» Чи ж ви були свідками того, як підступила до Якуба смерть, і як запитав він синів своїх: «Кому ви будете поклонятися після того, як я залишу вас?» Вони сказали: «Ми будемо поклонятися твоєму Богу і Богу твоїх батьків — Ібрагіма, Ісмаїля та Ісхака, Богу Єдиному! І ми — покірні Йому`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآيات 130-133`
+  },
+
+  {
+    arabic: [
+      `قُولُوا آمَنَّا بِاللَّهِ وَمَا أُنْزِلَ إِلَيْنَا وَمَا أُنْزِلَ إِلَىٰ إِبْرَاهِيمَ وَإِسْمَاعِيلَ وَإِسْحَاقَ وَيَعْقُوبَ وَالْأَسْبَاطِ وَمَا أُوتِيَ مُوسَىٰ وَعِيسَىٰ وَمَا أُوتِيَ النَّبِيُّونَ مِنْ رَبِّهِمْ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِنْهُمْ وَنَحْنُ لَهُ مُسْلِمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Say, [O believers], "We have believed in Allah and what has been revealed to us and what has been revealed to Abraham and Ishmael and Isaac and Jacob and the Descendants and what was given to Moses and Jesus and what was given to the prophets from their Lord. We make no distinction between any of them, and we are Muslims [in submission] to Him`,
+        ``,
+        ``
+      ],
+      [
+        `Dites : “Nous croyons en Allah et en ce qu'on nous a révélé, et en ce qu'on a fait descendre vers Abraham et Ismaël et Isaac et Jacob et les Tribus, et en ce qui a été donné à Moïse et à Jésus, et en ce qui a été donné aux Prophètes, venant de leur Seigneur: Nous ne faisons aucune distinction entre eux. Et à Lui nous sommes Soumis.”`,
+        ``,
+        ``
+      ],
+      [
+        `Decid: «Creemos en Alá y en lo que se nos ha revelado, en lo que se reveló a Abraham, Ismael, Isaac, Jacob y las tribus, en lo que Moisés, Jesús y los profetas recibieron de su Señor. No hacemos distinción entre ninguno de ellos y nos sometemos a É»`,
+        ``,
+        ``
+      ],
+      [
+        `Скажите: «Мы уверовали в Аллаха, а также в то, что было ниспослано нам и что было ниспослано Ибрахиму (Аврааму), Исмаилу (Измаилу), Исхаку (Исааку), Йакубу (Иакову) и коленам (двенадцати сыновьям Йакуба), что было даровано Мусе (Моисею) и Исе (Иисусу) и что было даровано пророкам их Господом. Мы не делаем различий между ними, и Ему одному мы покоряемся»`,
+        ``,
+        ``
+      ],
+      [
+        `Sagt: Wir glauben an Allah und an das, was zu uns (als Offenbarung) herabgesandt worden ist, und an das, was zu Ibrahim, Isma'il, lshaq, Ya\`qub und den Stämmen herabgesandt wurde, und (an das,) was Musa und 'Isa gegeben wurde, und (an das,) was den Propheten von ihrem Herrn gegeben wurde. Wir machen keinen Unterschied bei jemandem von ihnen, und wir sind Ihm ergeben`,
+        ``,
+        ``
+      ],
+      [
+        `Säg: "Vi tror på Gud och på det som har uppenbarats för oss och det som uppenbarades för Abraham och Ismael och Isak och Jakob och deras efterkommande och det som uppenbarades för Moses och Jesus och för [de andra] profeterna av deras Herre; vi gör ingen åtskillnad mellan dem. Och vi har underkastat oss Hans vilja`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zeg (O Moehammad): "Wij geloven in Allah en wat er aan ons is neergezonden en wat er is neergezonden aan Ibrâhîm en Ishma'il en Ishaq en Ya'qoeb en de kinderen van Ya'qoeb en wat er is gegeven aan Môesa en Isa en wat er is gegeven van hun Heer aan de Profeten, wij maken geen onderscheid tussen één van hen en wij onderwerpen ons aan Hem`,
+        ``,
+        ``
+      ],
+      [
+        `(مسلمانو) کہو کہ ہم خدا پر ایمان لائے اور جو (کتاب) ہم پر اتری، اس پر اور جو (صحیفے) ابراہیم اور اسمٰعیل اور اسحاق اور یعقوب اور ان کی اولاد پر نازل ہوئے ان پر اور جو (کتابیں) موسیٰ اور عیسی کو عطا ہوئیں، ان پر، اور جو اور پیغمبروں کو ان کے پروردگار کی طرف سے ملیں، ان پر (سب پر ایمان لائے) ہم ان پیغمروں میں سے کسی میں کچھ فرق نہیں کرتے اور ہم اسی (خدائے واحد) کے فرمانبردار ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Katakanlah, "Kami beriman kepada Allah dan kepada apa yang diturunkan kepada kami, dan kepada apa yang diturunkan kepada Ibrahim, Ismail, Ishak, Yakub dan anak cucunya, dan kepada apa yang diberikan kepada Musa dan Isa serta kepada apa yang diberikan kepada nabi-nabi dari Tuhan mereka. Kami tidak membeda-bedakan seorang pun di antara mereka dan kami berserah diri kepada-Nya`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'a, bize gönderilene, İbrahim'e, İsmail'e, İshak'a, Yakub'a ve torunlarına gönderilene, Musa ve İsa'ya verilene, Rableri tarafından peygamberlere verilene, onları birbirinden ayırt etmeyerek inandık, biz O'na teslim olanlarız" deyin`,
+        ``,
+        ``
+      ],
+      [
+        `بگوييد: «ما به خدا، و به آنچه بر ما نازل شده، و به آنچه بر ابراهيم و اسحاق و يعقوب و اسباط نازل آمده، و به آنچه به موسى و عيسى داده شده، و به آنچه به همه پيامبران از سوى پروردگارشان داده شده، ايمان آورده‌ايم؛ ميان هيچ يك از ايشان فرق نمى‌گذاريم؛ و در برابر او تسليم هستيم.»`,
+        ``,
+        ``
+      ],
+      [
+        `তোমরা বল, আমরা ঈমান এনেছি আল্লাহর উপর এবং যা অবতীর্ণ হয়েছে আমাদের প্রতি এবং যা অবতীর্ণ হয়েছে ইব্রাহীম, ইসমাঈল, ইসহাক, ইয়াকুব এবং তদীয় বংশধরের প্রতি এবং মূসা, ঈসা, অন্যান্য নবীকে পালনকর্তার পক্ষ থেকে যা দান করা হয়েছে, তৎসমুদয়ের উপর। আমরা তাদের মধ্যে পার্থক্য করি না। আমরা তাঁরই আনুগত্যকারী।`,
+        ``,
+        ``
+      ],
+      [
+        `Dizei: "Cremos em Allah e no que foi revelado para nós, e no que fora revelado para Abraão e Ismael e Isaque e Jacó e para as tribos; e no que fora concedido a Moisés e a Jesus, e no que fora concedido aos profetas, por seu Senhor. Não fazemos distinção entre nenhum deles. E para Ele somos muçulmanos`,
+        ``,
+        ``
+      ],
+      [
+        `你们说：我们信我们所受的启示，与易卜拉欣、易司马仪、易司哈格、叶尔孤白和各支派所受的启示，与穆萨和尔撒受赐的经典，与众先知受主所赐的经典；我们对他们中任何一个，都不加以歧视，我们只顺真主。`,
+        ``,
+        ``
+      ],
+      [
+        `言え，「わたしたちはアッラーを信じ，わたしたちに啓示されたものを信じます。またイブラーヒーム，イスマーイール，イスハーク，ヤアコーブと諸支部族に啓示されたもの，とムーサーとイーサーに与えられたもの，と主から預言者たちに下されたものを信じます。かれらの間のどちらにも，差別をつけません。かれにわたしたちは服従，帰依します。」`,
+        ``,
+        ``
+      ],
+      [
+        `그대들(무슬림들)은 말하라 : ‘우리는 하나님과, 우리에게 내려진 것과, 아브라함과 이스마엘과 이삭과 야곱과 (이삭의) 손자들에게 내려진 것과, 모세와 예수가 받은 것과, 선지자들이 그들의 주님으로부터 받은 것을 믿노라. 우리는 그들 중 어떤 누구도 구분하지 아니하며 우리는 그분께 복종하는 자들(무슬림들)이라.’`,
+        ``,
+        ``
+      ],
+      [
+        `Dite: “Crediamo in Allah e in quello che è stato fatto scendere su di noi e in quello che è stato fatto scendere su Abramo, Ismaele, Isacco, Giacobbe e sulle Tribù, e in quello che è stato dato a Mosè e a Gesù e in tutto quello che è stato dato ai Profeti da parte del loro Signore, non facciamo differenza alcuna tra di loro e a Lui siamo sottomessi”`,
+        ``,
+        ``
+      ],
+      [
+        `Powiedzcie: "My wierzymy w Boga i w to, co nam zostało zesłane, i w to, co zostało zesłane Abrahamowi, Isma\`ilowi i Izaakowi, Jakubowi i pokoleniom; i w to, co zostało dane prorokom od ich Pana. My nie robimy żadnej różnicy między nimi i poddajemy się Jemu całkowicie`,
+        ``,
+        ``
+      ],
+      [
+        `Скажіть: «Ми увірували в Аллага і у те, що зіслано нам, і що зіслано Ібрагіму, Ісмаїлю, Ісхаку, Якубу та колінам із нащадків їхніх; у те, що було дано Мусі, Іcі, у те, що було дано пророкам від Господа їхнього. Ми не проводимо межі між ними, і Йому Ми підкоряємося`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 136`
   },
 
   {
@@ -1925,6 +2377,117 @@ const verses = [
 
   {
     arabic: [
+      `آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِنْ رَبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِنْ رُسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The Messenger has believed in what was revealed to him from his Lord, and [so have] the believers. All of them have believed in Allah and His angels and His books and His messengers, [saying], "We make no distinction between any of His messengers." And they say, "We hear and we obey. [We seek] Your forgiveness, our Lord, and to You is the [final] destination`,
+        ``,
+        ``
+      ],
+      [
+        `Le Messager a cru en ce qu'on a fait descendre vers lui venant de son Seigneur, et aussi les croyants: tous ont cru en Allah, en Ses Anges, à Ses Livres et en Ses Messagers (en disant): “Nous ne faisons aucune distinction entre Ses Messagers.” Et ils ont dit: “Nous avons entendu et obéi. Seigneur! Nous implorons Ton pardon. C'est vers Toi que sera le retour.”`,
+        ``,
+        ``
+      ],
+      [
+        `El Enviado cree en cuanto le ha sido revelado por su Señor, y lo mismo los creyentes. Todos ellos creen en Alá, en Sus ángeles. en Sus Escrituras y en Sus enviados. No hacemos distinción ente ninguno de Sus enviados. Han dicho: «Oímos y obedecemos. ¡Tu perdón, Señor! ¡Eres Tú el fin de todo!»`,
+        ``,
+        ``
+      ],
+      [
+        `Посланник и верующие уверовали в то, что ниспослано ему от Господа. Все они уверовали в Аллаха, Его ангелов, Его Писания и Его посланников. Они говорят: «Мы не делаем различий между Его посланниками». Они говорят: «Слушаем и повинуемся! Твоего прощения мы просим, Господь наш, и к Тебе предстоит прибытие»`,
+        ``,
+        ``
+      ],
+      [
+        `Der Gesandte (Allahs) glaubt an das, was zu ihm von seinem Herrn (als Offenbarung) herabgesandt worden ist, und ebenso die Gläubigen; alle glauben an Allah, Seine Engel, Seine Bücher und Seine Gesandten - Wir machen keinen Unterschied bei jemandem von Seinen Gesandten. Und sie sagen: "Wir hören und gehorchen. (Gewähre uns) Deine Vergebung, unser Herr! Und zu Dir ist der Ausgang`,
+        ``,
+        ``
+      ],
+      [
+        `SÄNDEBUDET tror på vad hans Herre har uppenbarat för honom och de troende med honom. De tror alla på Gud och Hans änglar och Hans uppenbarelser och Hans sändebud - utan att göra åtskillnad mellan Hans sändebud - och de säger: "Vi hör och vi lyder. Herre, [ge oss] Din förlåtelse; Du är målet för vår färd`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `De Boodschapper gelooft in wat hem van zijn Heer is geopenbaard, en (ook) de gelovigen, allen geloven in Allah, en Zijn Engelen en Zijn Boeken en Zijn Boodschappers. Wij maken geen onderscheid tussen Zijn Boodschappers. Zij zeiden: "Wij luisteren en wij gehoorzamen, vergeef ons, onze heer, en tot U is de terugkeer`,
+        ``,
+        ``
+      ],
+      [
+        `رسول (خدا) اس کتاب پر جو ان کے پروردگار کی طرف سے ان پر نازل ہوئی ایمان رکھتے ہیں اور مومن بھی۔ سب خدا پر اور اس کے فرشتوں پر اور اس کی کتابوں پر اور اس کے پیغمبروں پر ایمان رکھتے ہیں (اورکہتے ہیں کہ) ہم اس کے پیغمبروں سے کسی میں کچھ فرق نہیں کرتے اور وہ (خدا سے) عرض کرتے ہیں کہ ہم نے (تیرا حکم) سنا اور قبول کیا۔ اے پروردگار ہم تیری بخشش مانگتے ہیں اور تیری ہی طرف لوٹ کر جانا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Rasul (Muhammad) beriman kepada apa yang diturunkan kepadanya (Alquran) dari Tuhannya, demikian pula orang-orang yang beriman. Semua beriman kepada Allah, malaikat-malaikat-Nya, kitab-kitab-Nya, dan rasul-rasul-Nya. (Mereka berkata), "Kami tidak membeda-bedakan seorang pun dari rasul-rasul-Nya." Dan mereka berkata, "Kami dengar dan kami taat. Ampunilah kami Ya Tuhan kami, dan kepada-Mu tempat (kami) kembali`,
+        ``,
+        ``
+      ],
+      [
+        `Peygamber ve inananlar, ona Rabb'inden indirilene inandı. Hepsi Allah'a, meleklerine, kitaplarına, peygamberlerine inandı. "Peygamberleri arasından hiçbirini ayırdetmeyiz, işittik, itaat ettik, Rabbimiz! Affını dileriz, dönüş Sanadır" dediler`,
+        ``,
+        ``
+      ],
+      [
+        `پيامبر [خدا] بدانچه از جانب پروردگارش بر او نازل شده است ايمان آورده است، و مؤمنان همگى به خدا و فرشتگان و كتابها و فرستادگانش ايمان آورده‌اند [و گفتند:] «ميان هيچ يك از فرستادگانش فرق نمى‌گذاريم» و گفتند: «شنيديم و گردن نهاديم، پروردگارا، آمرزش تو را [خواستاريم‌] و فرجام به سوى تو است.»`,
+        ``,
+        ``
+      ],
+      [
+        `রসূল বিশ্বাস রাখেন ঐ সমস্ত বিষয় সম্পর্কে যা তাঁর পালনকর্তার পক্ষ থেকে তাঁর কাছে অবতীর্ণ হয়েছে এবং মুসলমানরাও সবাই বিশ্বাস রাখে আল্লাহর প্রতি, তাঁর ফেরেশতাদের প্রতি, তাঁর গ্রন্থসমুহের প্রতি এবং তাঁর পয়গম্বরগণের প্রতি। তারা বলে আমরা তাঁর পয়গম্বরদের মধ্যে কোন তারতম্য করিনা। তারা বলে, আমরা শুনেছি এবং কবুল করেছি। আমরা তোমার ক্ষমা চাই, হে আমাদের পালনকর্তা। তোমারই দিকে প্রত্যাবর্তন করতে হবে।`,
+        ``,
+        ``
+      ],
+      [
+        `O Mensageiro crê no que foi descido para ele de seu Senhor, e, assim também os crentes. Todos crêem em Allah e em Seus anjos e em Seus Livros e em Seus Mensageiros. E dizem: "Não fazemos distinção entre nenhum de Seus Mensageiros." E dizem: "Ouvimos e obedecemos. Rogamos Teu perdão. Senhor nosso! E a Ti será o destino`,
+        ``,
+        ``
+      ],
+      [
+        `使者确信主所降示他的经典，信士们也确信那部经典，他们人人都确信真主和他的众天神，一切经典和众使者。（他们说）：我们对於他的任何使者，都不加以歧视。他们说：我们听从了，我们恳求你赦宥；我们的主啊！你是最後的归宿。`,
+        ``,
+        ``
+      ],
+      [
+        `使徒は，主から下されたものを信じる，信者たちもまた同じである。（かれらは）皆，アッラーと天使たち，諸啓典と使徒たちを信じる。わたしたちは，使徒たちの誰にも差別をつけない（と言う）。また，かれらは（祈って）言う。「わたしたちは，（教えを）聞き，服従します。 主よ，あなたの御赦しを願います。（わたしたちの）帰り所はあなたの御許であります。」`,
+        ``,
+        ``
+      ],
+      [
+        `사도는 그의 주님으로부터 그에게 내려진 것을 믿으며 믿는 자들도 그러하도다. 모두는 하나님과 그분의 천사들과 그분의 성서들과 그분의 사도들을 믿더라 : (그들이 말하길) ‘우리는 그분의 사도들 중 어떤 누구도 구분하지 않습니다’. 또한 그들이 말하길 “우리는 들었고 복종하였습니다. 저희의 주님, 당신의 용서를 구합니다. 귀착할 곳은 당신이십니다”`,
+        ``,
+        ``
+      ],
+      [
+        `Il Messaggero crede in quello che è stato fatto scendere su di lui da parte del suo Signore, come del resto i credenti: tutti credono in Allah, nei Suoi Angeli, nei Suoi Libri e nei Suoi Messaggeri. “Non facciamo differenza alcuna tra i Suoi Messaggeri.” E dicono: “Abbiamo ascoltato e obbediamo. Perdono, Signore! E’ a Te, che tutto ritorna”`,
+        ``,
+        ``
+      ],
+      [
+        `Posłaniec i ludzie wierzący uwierzyli w to, co im zostało zesłane od ich Pana. Wszyscy uwierzyli w Boga i w Jego aniołów, w Jego Księgi i w Jego posłańców. My nie czynimy różnicy między żadnym z Jego posłańców! Oni powiedzieli: "Usłyszeliśmy i posłuchaliśmy! Twoje przebaczenie! Panie nasz! Do Ciebie zmierza wędrowanie`,
+        ``,
+        ``
+      ],
+      [
+        `Посланець увірував у те, що зіслано йому від Господа його, а разом із ним — віруючі. Усі увірували в Аллага, в ангелів Його, у книги Його, у посланців Його: «Ми не проводимо межі між посланцями». Вони говорять: «Слухаємо та підкоряємось! Даруй нам прощення, Господи наш, і до Тебе повернення`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 285`
+  },
+
+  {
+    arabic: [
       `لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا`,
       `لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ`,
       `رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ`
@@ -2480,6 +3043,117 @@ const verses = [
 
   {
     arabic: [
+      `وَمُصَدِّقًا لِمَا بَيْنَ يَدَيَّ مِنَ التَّوْرَاةِ وَلِأُحِلَّ لَكُمْ بَعْضَ الَّذِي حُرِّمَ عَلَيْكُمْ ۚ وَجِئْتُكُمْ بِآيَةٍ مِنْ رَبِّكُمْ فَاتَّقُوا اللَّهَ وَأَطِيعُونِ إِنَّ اللَّهَ رَبِّي وَرَبُّكُمْ فَاعْبُدُوهُ ۗ هَٰذَا صِرَاطٌ مُسْتَقِيمٌ ۞ فَلَمَّا أَحَسَّ عِيسَىٰ مِنْهُمُ الْكُفْرَ قَالَ مَنْ أَنْصَارِي إِلَى اللَّهِ ۖ قَالَ الْحَوَارِيُّونَ نَحْنُ أَنْصَارُ اللَّهِ آمَنَّا بِاللَّهِ وَاشْهَدْ بِأَنَّا مُسْلِمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And [I have come] confirming what was before me of the Torah and to make lawful for you some of what was forbidden to you. And I have come to you with a sign from your Lord, so fear Allah and obey me Indeed, Allah is my Lord and your Lord, so worship Him. That is the straight path But when Jesus felt [persistence in] disbelief from them, he said, "Who are my supporters for [the cause of] Allah?" The disciples said, "We are supporters for Allah. We have believed in Allah and testify that we are Muslims [submitting to Him]`,
+        ``,
+        ``
+      ],
+      [
+        `Et je confirme ce qu'il y a dans la Thora révélée avant moi, et je vous rends licite une partie de ce qui était interdit. Et j'ai certes apporté un signe de votre Seigneur. Craignez Allah donc, et obéissez-moi Allah est mon Seigneur et votre Seigneur. Adorez-Le donc ! Voilà le chemin droit Puis, quand Jésus ressentit de l'incrédulité de leur part, il dit: “Qui sont mes partisans dans la voie d'Allah ? ” Les apôtres dirent: “Nous sommes les partisans d'Allah. Nous croyons en Allah. Et sois témoin que nous Lui sommes soumis`,
+        ``,
+        ``
+      ],
+      [
+        `Y en confirmación de la Toraanterior a mí y para declararos lícitas algunas de las cosas que se os han prohibido. Y os he traído un signo que viene de vuestro Señor. ¡Temed, pues, a Alá y obedecedme Alá es mi Señor y Señor vuestro. ¡Servidle, pues! Esto es una vía recta» Pero, cuando Jesús percibió su incredulidad, dijo: «¿Quiénes son mis auxiliares en la vía que lleva a Alá?» Los apóstoles dijeron: «Nosotros somos los auxiliares de Alá. ¡Creemos en Alá! ¡Sé testigo de nuestra sumisión`,
+        ``,
+        ``
+      ],
+      [
+        `Я пришел, чтобы подтвердить истинность того, что было в Таурате (Торе) до меня, и чтобы разрешить вам часть того, что было вам запрещено. Я принес вам знамение от вашего Господа. Бойтесь же Аллаха и повинуйтесь мне Воистину, Аллах - мой Господь и ваш Господь. Поклоняйтесь же Ему, ибо таков прямой путь!»» Когда Иса (Иисус) почувствовал их неверие, он сказал: «Кто будет моим помощником на пути к Аллаху?». Апостолы сказали: «Мы - помощники Аллаха. Мы уверовали в Аллаха. Будь же свидетелем того, что мы являемся мусульманами`,
+        ``,
+        ``
+      ],
+      [
+        `Und das zu bestätigen, was von der Tora vor mir (offenbart) war, und um euch einiges von dem zu erlauben, was euch verboten war. Und ich bin mit einem Zeichen von eurem Herrn zu euch gekommen; so fürchtet Allah und gehorcht mir Gewiß, Allah ist mein Herr und euer Herr; so dient Ihm. Das ist ein gerader Weg Als 'Isa aber ihren Unglauben wahrnahm, sagte er: "Wer sind meine Helfer (auf dem Weg hin) zu Allah?" Die Jünger sagten: "Wir sind Allahs Helfer. Wir glauben an Allah, und bezeuge, daß wir (Ihm) ergeben sind`,
+        ``,
+        ``
+      ],
+      [
+        `Och [jag har kommit] för att bekräfta vad som ännu består av Tora och för att förklara tillåtet något av det som var förbjudet för er. Och jag har kommit till er med ett tecken från er Herre. Frukta därför Gud och följ mig Gud är min Herre och er Herre; det är därför Honom ni skall dyrka! Detta är en rak väg När Jesus märkte deras ovillighet att tro [på honom], sade han: "Vem vill hjälpa mig [att kalla människorna] till Guds väg?" De vitklädda sade: "Vi är Guds medhjälpare! Vi tror på Gud; vittna du att vi har underkastat oss Hans vilja`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En als bevestiging van wat er voor mij is gekomen van de Taurât, opdat ik jullie een paar dingen wettig kan verklaren die voor jullie verboden waren, en ik ben tot jullie gekomen met een Teken van jullie Heer, vreest daarom Allah en gehoorzaamt mij Voorwaar, Allah is mijn Heer en jullie Heer, dient Hem dus, dit is een recht Pad En toen 'Îsa ongeloof bij hen ontdekte, zei hij: "Wie zijn mijn helpers (op het rechte Pad) naar Allah?" Zijn metgezellen (Hawâriyyôen) zeiden: "Wij zijn helpers van Allah, wij geloven in Allah en getuigen dat wij ons overgegeven hebben`,
+        ``,
+        ``
+      ],
+      [
+        `اور مجھ سے پہلے جو تورات (نازل ہوئی) تھی اس کی تصدیق بھی کرتا ہوں اور (میں) اس لیے بھی (آیا ہوں) کہ بعض چیزیں جو تم پر حرام تھیں ان کو تمہارے لیے حلال کر دوں اور میں تو تمہارے پروردگار کی طرف سے نشانی لے کر آیا ہوں تو خدا سے ڈرو اور میرا کہا مانو کچھ شک نہیں کہ خدا ہی میرا اور تمہارا پروردگار ہے تو اسی کی عبادت کرو یہی سیدھا رستہ ہے جب عیسیٰؑ نے ان کی طرف سے نافرمانی اور (نیت قتل) دیکھی تو کہنے لگے کہ کوئی ہے جو خدا کا طرف دار اور میرا مددگار ہو حواری بولے کہ ہم خدا کے (طرفدار اور آپ کے) مددگار ہیں ہم خدا پر ایمان لائے اور آپ گواہ رہیں کہ ہم فرمانبردار ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan sebagai seorang yang membenarkan Taurat yang datang sebelumku, dan agar aku menghalalkan bagi kamu sebagian dari yang telah diharamkan untukmu. Dan aku datang kepadamu membawa suatu tanda (mukjizat) dari Tuhanmu. Karena itu, bertakwalah kepada Allah dan taatlah kepadaku Sesungguhnya Allah itu Tuhanku dan Tuhanmu, karena itu sembahlah Dia. Inilah jalan yang lurus Maka ketika Isa merasakan keingkaran mereka (Bani Israil), dia berkata, "Siapakah yang akan menjadi penolongku untuk (menegakkan agama) Allah?" Para Ḥawāriyyūn (sahabat setianya) menjawab, "Kamilah penolong (agama) Allah. Kami beriman kepada Allah, dan saksikanlah, bahwa kami adalah orang-orang Muslim`,
+        ``,
+        ``
+      ],
+      [
+        `Benden önce gelen Tevrat'ı tasdik etmekle beraber size yasak edilenlerin bir kısmını helal kılmak üzere, Rabbinizden size bir ayet getirdim. Allah'tan sakının ve bana itaat edin; çünkü Allah benim de Rabbim, sizin de Rabbinizdir. O'na kulluk edin, bu doğru yoldur İsa onların inkarlarını hissedince: "Allah uğrunda yardımcılarım kimlerdir?" dedi. Havariler şöyle dediler: "Biz Allah'ın yardımcılarıyız, Allah'a inandık, O'na teslim olduğumuza şahid ol`,
+        ``,
+        ``
+      ],
+      [
+        `و [مى‌گويد: «آمده‌ام تا] تورات را كه پيش از من [نازل شده‌] است تصديق كننده باشم، و تا پاره‌اى از آنچه را كه بر شما حرام گرديده، براى شما حلال كنم، و از جانب پروردگارتان براى شما نشانه‌اى آورده‌ام. پس، از خدا پروا داريد و مرا اطاعت كنيد.» «در حقيقت، خداوند پروردگار من و پروردگار شماست؛ پس او را بپرستيد [كه ] راه راست اين است.» چون عيسى از آنان احساس كفر كرد، گفت: «ياران من در راه خدا چه كسانند؟» حواريون گفتند: «ما ياران [دين‌] خداييم، به خدا ايمان آورده‌ايم؛ و گواه باش كه ما تسليم [او] هستيم.»`,
+        ``,
+        ``
+      ],
+      [
+        `আর এটি পূর্ববর্তী কিতাব সমুহকে সত্যায়ন করে, যেমন তওরাত। আর তা এজন্য যাতে তোমাদের জন্য হালাল করে দেই কোন কোন বস্তু যা তোমাদের জন্য হারাম ছিল। আর আমি তোমাদের নিকট এসেছি তোমাদের পালনকর্তার নিদর্শনসহ। কাজেই আল্লাহকে ভয় কর এবং আমার অনুসরণ কর। নিশ্চয়ই আল্লাহ আমার পালনকর্তা এবং তোমাদেরও পালনকর্তা-তাঁর এবাদত কর, এটাই হলো সরল পথ। অতঃপর ঈসা (আঃ) যখন বণী ইসরায়ীলের কুফরী সম্পর্কে উপলব্ধি করতে পারলেন, তখন বললেন, কারা আছে আল্লাহর পথে আমাকে সাহায্য করবে? সঙ্গী-সাথীরা বললো, আমরা রয়েছি আল্লাহর পথে সাহায্যকারী। আমরা আল্লাহর প্রতি ঈমান এনেছি। আর তুমি সাক্ষী থাক যে, আমরা হুকুম কবুল করে নিয়েছি।`,
+        ``,
+        ``
+      ],
+      [
+        `E cheguei-vos para confirmar o que havia antes de mim: a Torá, e para tornar lícito para vós, algo do que vos era proibido. E cheguei-vos com um sinal de vosso Senhor. Então, temei a Allah e obedecei-me Por certo, Allah é meu Senhor e vosso Senhor. Então, adorai-O. Essa é a senda reta E quando Jesus lhes sentiu a renegação da Fé, disse: "Quem são meus socorredores, no caminho para Allah?" Os discípulos disseram: "Nós somos os socorredores de Allah; cremos nEle, e testemunha tu que somos muçulmanos`,
+        ``,
+        ``
+      ],
+      [
+        `（我奉命来）证实在我之前降示的《讨拉特》，并为你们解除一部分禁令。我已昭示你们从真主发出的一种迹象，故你们应当敬畏真主，应当服从我。 真主确是我的主，也是你们的主，故你们应当崇拜他。这是正路。 当尔撒确知众人不信道的时候，他说：谁为真主而协助我? 众门徒说：我们为真主而协助你，我们已确信真主，求你作证我们是归顺者。`,
+        ``,
+        ``
+      ],
+      [
+        `わたしはまた，わたしより以前に下された律法を実証し，またあなたがたに禁じられていたことの一部を解禁するために，あなたがたの主からの印を齎したのである。だからアッラーを畏れ，わたしに従いなさい。 本当にわたしの主はアッラーであり，またあなたがたの主であられる。だからかれに仕えなさい。これこそは，正しい道である。」 イーサーは，かれらが信じないのを察知して，言った。「アッラー （の道）のために，わたしを助ける者は誰か。」弟子たちは言った。「わたしたちは，アッラー （の道）の援助者です。わたしたちはアッラーを信じます。わたしたちがムスリムであることの証人となって下さい。`,
+        ``,
+        ``
+      ],
+      [
+        `“그리고 나 이전의 타우라(토라)를 확증하는 자로서, 그리고 그대들에게 금지된 것 중의 일부를 내가 허락하기 위함이라. 내가 그대들에게 그대들 주님으로부터의 징표를 가지고 왔으니 그대들은 하나님을 두려워하고 나를 따르라.” “실로 하나님께서는 나의 주님이시며 그대들의 주님이시니 그대들은 그분을 경배하라. 이것이 올곧은 길이라.” 그 후 예수가 그들로부터 불신을 인지했을 때 그가 말하길 “하나님을 위해서 나를 도와줄 자들은 누구인가?” 하와리윤(제자들)이 말하길 “우리들이 하나님을 위해 돕는 자들입니다. 우리들은 하나님을 믿었으며, 당신께서 우리들이 무슬림(복종하는 자)임을 증언해 주십시오.”`,
+        ``,
+        ``
+      ],
+      [
+        `[Sono stato mandato] a confermarvi la Torâh che mi ha preceduto e a rendervi lecito qualcosa che vi era stata vietata. Sono venuto a voi con un segno da parte del vostro Signore. Temete dunque Allah e obbeditemi In verità, Allah è il mio e vostro Signore. AdorateLo dunque: "ecco la retta via"” Quando poi Gesù avvertì la miscredenza in loro, disse: “Chi sono i miei ausiliari sulla via di Allah?”. “Noi, dissero gli apostoli, siamo gli ausiliari di Allah. Noi crediamo in Allah, sii testimone della nostra sottomissione`,
+        ``,
+        ``
+      ],
+      [
+        `Ja przychodzę potwierdzić prawdziwość tego, co było przede mną w Torze, i aby uczynić dla was dozwolonym część tego, co wam było zakazane. Przyszedłem do was ze znakiem pochodzącym od waszego Pana. Bójcie się Boga i słuchajcie mnie Zaprawdę, Bóg jest moim i waszym Panem! Przeto czcijcie Go! To jest droga prosta A kiedy Jezus poczuł w nich niewiarę, powiedział: "Kto jest moim pomocnikiem dla sprawy Boga?" Powiedzieli apostołowie: "My jesteśmy pomocnikami Boga. My w Niego uwierzyliśmy. Daj świadectwo, iż jesteśmy całkowicie poddani`,
+        ``,
+        ``
+      ],
+      [
+        `Я буду підтверджувати те, що було до мене в Таураті. Я дозволю вам частину того, що заборонено вам. Я прийшов до вас зі знаменням від Господа вашого! Тож бійтесь Аллага і коріться мені Воістину, Аллаг — мій Господь і ваш Господь. Поклоняйтесь же Йому! Це і є прямий шлях І коли Іса відчув їхнє невір’я, то він запитав: «Хто мої помічники на шляху до Аллага?» Відповіли апостоли: «Ми — помічники Аллага! Ми увірували в Аллага! Засвідчи ж те, що ми — віддані Йому`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآيات 50-52`
+  },
+
+  {
+    arabic: [
       `قُلْ يَا أَهْلَ الْكِتَابِ تَعَالَوْا إِلَىٰ كَلِمَةٍ سَوَاءٍ بَيْنَنَا`,
       `وَبَيْنَكُمْ أَلَّا نَعْبُدَ إِلَّا اللَّهَ وَلَا نُشْرِكَ بِهِ شَيْئًا وَلَا يَتَّخِذَ بَعْضُنَا بَعْضًا أَرْبَابًا مِنْ دُونِ اللَّهِ ۚ`,
       `فَإِنْ تَوَلَّوْا فَقُولُوا اشْهَدُوا بِأَنَّا مُسْلِمُونَ`
@@ -2587,6 +3261,228 @@ const verses = [
       ]
     ],
     number: `سورة آل عمران / Al-'Imran، الآية 64`
+  },
+
+  {
+    arabic: [
+      `مَا كَانَ إِبْرَاهِيمُ يَهُودِيًّا وَلَا نَصْرَانِيًّا وَلَٰكِنْ كَانَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Abraham was neither a Jew nor a Christian, but he was one inclining toward truth, a Muslim [submitting to Allah]. And he was not of the polytheists`,
+        ``,
+        ``
+      ],
+      [
+        `Abraham n'était ni Juif ni Chrétien. Mais, il était entièrement soumis à Allah (Musulman). Et il n'était point du nombre des polythéistes`,
+        ``,
+        ``
+      ],
+      [
+        `Abraham no fue judío ni cristiano, sino que fue hanif, sometido a Alá, no asociador`,
+        ``,
+        ``
+      ],
+      [
+        `Ибрахим (Авраам) не был ни иудеем, ни христианином. Он был ханифом, мусульманином и не был из числа многобожников`,
+        ``,
+        ``
+      ],
+      [
+        `Ibrahim war weder ein Jude noch ein Christ, sondern er war Anhänger des rechten Glaubens, einer, der sich Allah ergeben hat, und er gehörte nicht zu den Götzendienern`,
+        ``,
+        ``
+      ],
+      [
+        `Abraham var [till sin tro] varken jude eller kristen - han sökte och fann den rena, ursprungliga tron och underkastade sig Guds vilja; och han vägrade att ge avgudarna sin dyrkan`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Ibrâhîm was geen Jood, en geen Christen, maar hij was een Hanîf, die zich (aan Allah) overgegeven had, en hij behoorde niet tot de veelgodenaanbidders`,
+        ``,
+        ``
+      ],
+      [
+        `ابراہیم نہ تو یہودی تھے اور نہ عیسائی بلکہ سب سے بے تعلق ہو کر ایک (خدا) کے ہو رہے تھے اور اسی کے فرماں بردار تھے اور مشرکوں میں نہ تھے`,
+        ``,
+        ``
+      ],
+      [
+        `Ibrahim bukanlah seorang Yahudi dan bukan (pula) seorang Nasrani, tetapi dia adalah seorang yang lurus,125) muslim dan dia tidaklah termasuk orang-orang musyrik`,
+        ``,
+        ``
+      ],
+      [
+        `İbrahim, yahudi de, hıristiyan da değildi, ama doğruya yönelen bir müslimdi; ortak koşanlardan değildi`,
+        ``,
+        ``
+      ],
+      [
+        `ابراهيم نه يهودى بود و نه نصرانى، بلكه حق گرايى فرمانبردار بود، و از مشركان نبود`,
+        ``,
+        ``
+      ],
+      [
+        `ইব্রাহীম ইহুদী ছিলেন না এবং নাসারাও ছিলেন না, কিক্তু তিনি ছিলেন ‘হানীফ’ অর্থাৎ, সব মিথ্যা ধর্মের প্রতি বিমুখ এবং আত্নসমর্পণকারী, এবং তিনি মুশরিক ছিলেন না।`,
+        ``,
+        ``
+      ],
+      [
+        `Abraão não era nem judeu nem cristão, mas monoteísta sincero, muslim. E não era dos idólatras`,
+        ``,
+        ``
+      ],
+      [
+        `易卜拉欣既不是犹太教徒，也不是基督教徒。他是一个崇信正教、归顺真主的人，他不是以物配主的人。`,
+        ``,
+        ``
+      ],
+      [
+        `イブラーヒームはユダヤ教徒でもキリスト教徒でもなかった。しかしかれは純正なムスリムであり，多神教徒の仲間ではなかったのである。`,
+        ``,
+        ``
+      ],
+      [
+        `이브라힘(아브라함)은 유대인이 아니었으며 기독교인도 아니었노라. 그러나 그는 하나님 한 분만을 경배하는 무슬림(복종하는 자)이었으며 하나님께 대등한 존재를 두는 자들 중의 하나가 아니었노라`,
+        ``,
+        ``
+      ],
+      [
+        `Abramo non era né giudeo, né nazareno, ma puro credente e musulmano. E non era uno degli associatori`,
+        ``,
+        ``
+      ],
+      [
+        `Abraham nie był żydem ani chrześcijaninem, lecz był szczerze wierzącym hanifem, całkowicie poddanym, i nie był on z liczby bałwochwalców`,
+        ``,
+        ``
+      ],
+      [
+        `Ібрагім не був ні юдеєм, ні християнином, але він був ханіфом, відданим! Він не був багатобожником`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 67`
+  },
+
+  {
+    arabic: [
+      `قُلْ آمَنَّا بِاللَّهِ وَمَا أُنْزِلَ عَلَيْنَا وَمَا أُنْزِلَ عَلَىٰ إِبْرَاهِيمَ وَإِسْمَاعِيلَ وَإِسْحَاقَ وَيَعْقُوبَ وَالْأَسْبَاطِ وَمَا أُوتِيَ مُوسَىٰ وَعِيسَىٰ وَالنَّبِيُّونَ مِنْ رَبِّهِمْ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِنْهُمْ وَنَحْنُ لَهُ مُسْلِمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Say, "We have believed in Allah and in what was revealed to us and what was revealed to Abraham, Ishmael, Isaac, Jacob, and the Descendants, and in what was given to Moses and Jesus and to the prophets from their Lord. We make no distinction between any of them, and we are Muslims [submitting] to Him`,
+        ``,
+        ``
+      ],
+      [
+        `Dis : "Nous croyons en Allah, à ce qu'on a fait descendre sur nous, à ce qu'on a fait descendre sur Abraham, Ismaël, Isaac, Jacob et les Tribus, et à ce qui a été apporté à Moïse, à Jésus et aux Prophètes, de la part de leur Seigneur: nous ne faisons aucune différence entre eux; et c'est à Lui que nous sommes Soumis`,
+        ``,
+        ``
+      ],
+      [
+        `Di «Creemos en Alá y en lo que se nos ha revelado, en lo que se ha revelado a Abraham, Ismael, Isaac, Jacob y las tribus, en lo que Moisés, Jesús y los profetas han recibido de su Señor. No hacemos distinción entre ninguno de ellos y nos sometemos a Él»`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи: «Мы уверовали в Аллаха и в ниспосланное нам, в ниспосланное Ибрахиму (Аврааму), Исмаилу (Измаилу), Исхаку (Исааку), Йакубу (Иакову) и коленам (двенадцати сыновьям Йакуба) ивдарованное Мусе (Моисею), Исе (Иисусу) и пророкам от их Господа. Мы не делаем различий между ними, и Ему одному мы покоряемся»`,
+        ``,
+        ``
+      ],
+      [
+        `Sag: Wir glauben an Allah und (an das,) was auf uns und was auf Ibrahim, Isma'il, Ishaq, Ya'qub und die Stämme (als Offenbarung) herabgesandt wurde und was Musa, "Isa und den Propheten von ihrem Herrn gegeben wurde. Wir machen keinen Unterschied bei jemandem von Ihnen, und wir sind Ihm ergeben`,
+        ``,
+        ``
+      ],
+      [
+        `Säg: "Vi tror på Gud och på det som har uppenbarats för oss och det som uppenbarades för Abraham och Ismael och Isak och Jakob och deras efterkommande och det som uppenbarades för Moses och Jesus och för [alla de övriga] profeterna av deras Herre; vi gör ingen åtskillnad mellan dem. Och vi har underkastat oss Hans vilja`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zeg: "Wij geloven in Allah en in wat er tot ons neergezonden is en in wat er neergezonden is aan Ibrâhîm en Isma'îl, Ishaq, Ya'qoeb en de kinderen van Ya'qoeb (al Asbath) en in wat er aan Môesa, 'Isa en de Profeten van hun Heer werd gegeven. Wij maken geen onderscheid tussen wie van hen dan ook en wij hebben ons aan Hem overgegeven`,
+        ``,
+        ``
+      ],
+      [
+        `کہو کہ ہم خدا پر ایمان لائے اور جو کتاب ہم پر نازل ہوئی اور جو صحیفے ابراہیم اور اسماعیل اور اسحٰق اور یعقوب اور ان کی اولاد پر اترے اور جو کتابیں موسیٰ اور عیسیٰ اور دوسرے انبیاء کو پروردگار کی طرف سے ملیں سب پر ایمان لائے ہم ان پیغمبروں میں سے کسی میں کچھ فرق نہیں کرتے اور ہم اسی (خدائے واحد) کے فرماں بردار ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Katakanlah (Muhammad), "Kami beriman kepada Allah dan kepada apa yang diturunkan kepada kami dan yang diturunkan kepada Ibrahim, Ismail, Ishak, Yakub, dan anak cucunya, dan apa yang diberikan kepada Musa, Isa dan para Nabi dari Tuhan mereka. Kami tidak membeda-bedakan seorang pun diantara mereka dan hanya kepada-Nya kami berserah diri`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'a, bize indirilene, İbrahim'e, İsmail'e, İshak'a, Yakub'a ve torunlarına indirilene, Rableri tarafından Musa, İsa ve peygamberlere verilene inandık, onları birbirinden ayırt etmeyiz, biz O'na teslim olanlarız" de`,
+        ``,
+        ``
+      ],
+      [
+        `بگو: «به خدا و آنچه بر ما نازل شده، و آنچه بر ابراهيم و اسماعيل و اسحاق و يعقوب و اسباط نازل گرديده، و آنچه به موسى و عيسى و انبياى [ديگر] از جانب پروردگارشان داده شده، گرويديم؛ و ميان هيچ يك از آنان فرق نمى‌گذاريم و ما او را فرمانبرداريم`,
+        ``,
+        ``
+      ],
+      [
+        `বলুন, আমরা ঈমান এনেছি আল্লাহর উপর এবং যা কিছু অবতীর্ণ হয়েছে আমাদের উপর, ইব্রাহীম, ইসমাঈল, ইসহাক, ইয়াকুব এবং তাঁদের সন্তানবর্গের উপর আর যা কিছু পেয়েছেন মূসা ও ঈসা এবং অন্যান্য নবী রসূলগণ তাঁদের পালনকর্তার পক্ষ থেকে। আমরা তাঁদের কারো মধ্যে পার্থক্য করি না। আর আমরা তাঁরই অনুগত।`,
+        ``,
+        ``
+      ],
+      [
+        `Dize: "Cremos em Allah e no que foi revelado para nós, e no que fora revelado para Abraão e Ismael e Isaque e Jacó e para as tribos; e no que fora concedido a Moisés e a Jesus, e no que fora concedido aos profetas, por seu Senhor. Não fazemos distinção entre nenhum deles. E para Ele somos muçulmanos`,
+        ``,
+        ``
+      ],
+      [
+        `你说：我们确信真主，确信我们所受的启示，与易卜拉欣，易司马仪，易司哈格，叶尔孤白和各支派所受的启示，与穆萨，尔萨和众先知所受赐于他们的主的经典，我们对于他们中的任何一人，都不加以歧视，我们只归顺他。`,
+        ``,
+        ``
+      ],
+      [
+        `言え，「わたしたちはアッラーを信じ，わたしたちに下されたものを信じ，またイブラーヒ ーム，イスマーイール，イスハーク，ヤアコーブおよび諸支挨に下されたものを信じ，またムーサーとイーサーと（その他の）預言者たちに主から授かったものを信じます。わたしたちはかれら（預言者たち）の間に，どんな差別もしません。わたしたちは，只かれに服従，帰依します。 」`,
+        ``,
+        ``
+      ],
+      [
+        `그대는 말하라 : ‘우리는 하나님과, 우리에게 내려진 것과, 이브라힘(아브라함)과 이스마일(이스마엘)과 이스학(이삭)과 야으꿉(야곱)과 (이스학의) 손자들에게 내려진 것과, 무사(모세)와 이사(예수)와 선지자들이 그들의 주님으로부터 받은 것을 믿노라. 우리는 그들 중 어떤 누구도 구분하지 아니하며 우리는 그분께 복종하는 자들(무슬림들)이라.’`,
+        ``,
+        ``
+      ],
+      [
+        `Di': “Crediamo in Allah e in quello che ha fatto scendere su di noi e in quello che ha fatto scendere su Abramo, Ismaele, Isacco, Giacobbe e le Tribù, e in ciò che, da parte del Signore, è stato dato a Mosè, a Gesù e ai Profeti: non facciamo alcuna differenza tra loro e a Lui siamo sottomessi”`,
+        ``,
+        ``
+      ],
+      [
+        `Powiedz: "Wierzymy w Boga i w to, co nam zesłał, i w to, co zostało zesłane Abrahamowi i Isma\`ilowi, Izaakowi i Jakubowi, jak i plemionom; i w to, co zostało dane Mojżeszowi, Jezusowi i prorokom - od ich Pana. My nie robimy rozróżnienia między żadnym z nich i jesteśmy Jemu całkowicie poddani`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи: «Ми увірували в Аллага і в те, що зіслано нам, і що заслано Ібрагіму, Ісмаїлю, Ісхаку, Якубу та колінам; у те, що даровано Мусі, Іcі та пророкам від Господа їхнього. Ми не проводимо межі між ними і ми — віддані Йому`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 84`
   },
 
   {
@@ -5588,6 +6484,117 @@ const verses = [
 
   {
     arabic: [
+      `۞ إِنَّا أَوْحَيْنَا إِلَيْكَ كَمَا أَوْحَيْنَا إِلَىٰ نُوحٍ وَالنَّبِيِّينَ مِنْ بَعْدِهِ ۚ وَأَوْحَيْنَا إِلَىٰ إِبْرَاهِيمَ وَإِسْمَاعِيلَ وَإِسْحَاقَ وَيَعْقُوبَ وَالْأَسْبَاطِ وَعِيسَىٰ وَأَيُّوبَ وَيُونُسَ وَهَارُونَ وَسُلَيْمَانَ ۚ وَآتَيْنَا دَاوُودَ زَبُورًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, We have revealed to you, [O Muhammad], as We revealed to Noah and the prophets after him. And we revealed to Abraham, Ishmael, Isaac, Jacob, the Descendants, Jesus, Job, Jonah, Aaron, and Solomon, and to David We gave the book [of Psalms]`,
+        ``,
+        ``
+      ],
+      [
+        `Nous t'avons fait une révélation comme Nous fîmes à Noé et aux Prophètes après lui. Et Nous avons fait révélation à Abraham, à Ismaël, à Isaac, à Jacob, aux Tribus, à Jésus, à Job, à Jonas, à Aaron et à Salomon, et Nous avons donné les Psaumes (Az-Zabûr) à David`,
+        ``,
+        ``
+      ],
+      [
+        `Te hemos hecho una revelación, como hicimos una revelación a Noé y a los profeta que le siguieron. Hicimos una revelación a Abraham, Ismael, Isaac, Jacob, as tribus, Jesús, Job, Jonás, Aarón y Salomón. Y dimos a David Salmos`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, Мы внушили тебе откровение, подобно тому, как внушили его Нуху (Ною) и пророкам после него. Мы внушили откровение Ибрахиму (Аврааму), Исмаилу (Измаилу), Исхаку (Исааку), Йакубу (Иакову) и коленам (двенадцати сыновьям Йакуба), Исе (Иисусу), Айюбу (Иову), Йунусу (Ионе), Харуну (Аарону), Сулейману (Соломону). Давуду (Давиду) же Мы даровали Забур (Псалтирь)`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, Wir haben dir (Offenbarung) eingegeben, wie Wir Nuh und den Propheten nach ihm (Offenbarung) eingegeben haben. Und Wir haben Ibrahim, Isma'il, Ishaq, Ya'qub, den Stämmen, "Isa, Ayyub, Yunus, Harun und Sulaiman (Offenbarung) eingegeben, und Dawud haben Wir ein Buch der Weisheit gegeben`,
+        ``,
+        ``
+      ],
+      [
+        `VI HAR gett dig Vår uppenbarelse liksom Vi gav Noa och de profeter som följde efter honom Vår uppenbarelse, och liksom Vi gav Abraham och Ismael och Isak och Jakob och deras efterkommande Vår uppenbarelse, och Jesus och Job och Jona och Aron och Salomo, och liksom Vi skänkte David en Skrift fylld av visdom`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, Wij hebben aan jou geopenbaard zoals Wij aan Nôeh en de Profeten na hem opendaarden. En Wij openbanden aan Ibrâhîm en Ismâ'îl on Ishâq en Ya'qôeb en de kinderen (van Ya'qôeb) en 'Isa en Ayyôeb en Yôenoes en Hârôen en Soelaimân, En Wij gaven Dâwôed de Zabôer (Psalmen)`,
+        ``,
+        ``
+      ],
+      [
+        `(اے محمدﷺ) ہم نے تمہاری طرف اسی طرح وحی بھیجی ہے جس طرح نوح اور ان سے پچھلے پیغمبروں کی طرف بھیجی تھی۔ اور ابراہیم اور اسمعیل اور اسحاق اور یعقوب اور اولاد یعقوب اور عیسیٰ اور ایوب اور یونس اور ہارون اور سلیمان کی طرف بھی ہم نے وحی بھیجی تھی اور داؤد کو ہم نے زبور بھی عنایت کی تھی`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya Kami mewahyukan kepadamu (Muhammad) sebagaimana Kami telah mewahyukan kepada Nuh, dan Nabi-nabi setelahnya, dan Kami telah mewahyukan (pula) kepada Ibrahim, Ismail, Ishak, Yakub dan anak cucunya; Isa, Ayub, Yunus, Harun dan Sulaiman. Dan Kami telah memberikan Kitab Zabur kepada Dawud`,
+        ``,
+        ``
+      ],
+      [
+        `Nuh'a, ondan sonra gelen peygamberlere vahyettiğimiz, İbrahim'e, İsmail'e, İshak'a, Yakub'a, torunlarına, İsa'ya, Eyyub'a, Yunus'a, Harun'a ve Süleyman'a vahyettiğimiz gibi şüphesiz sana da vahyettik. Davud'a da Zebur verdik`,
+        ``,
+        ``
+      ],
+      [
+        `ما همچنانكه به نوح و پيامبران بعد از او، وحى كرديم، به تو [نيز] وحى كرديم؛ و به ابراهيم و اسماعيل و اسحاق و يعقوب و اسباط و عيسى و ايوب و يونس و هارون و سليمان [نيز] وحى نموديم، و به داوود زبور بخشيديم`,
+        ``,
+        ``
+      ],
+      [
+        `আমি আপনার প্রতি ওহী পাঠিয়েছি, যেমন করে ওহী পাঠিয়েছিলাম নূহের প্রতি এবং সে সমস্ত নবী-রসূলের প্রতি যাঁরা তাঁর পরে প্রেরিত হয়েছেন। আর ওহী পাঠিয়েছি, ইসমাঈল, ইব্রাহীম, ইসহাক, ইয়াকুব, ও তাঁর সন্তাবর্গের প্রতি এবং ঈসা, আইয়ুব, ইউনূস, হারুন ও সুলায়মানের প্রতি। আর আমি দাউদকে দান করেছি যবুর গ্রন্থ।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, Nós te fizemos revelações, Muhammad, como fizemos a Noé e aos profetas, depois dele. E fizemos revelações a Abraão e a Ismael, e a Isaque e a Jacó, e às tribos e a Jesus, e a Jó e a Jonas, e a Aarão e a Salomão ; e concedemos os Salmos a Davi`,
+        ``,
+        ``
+      ],
+      [
+        `我确已启示你，犹如我启示努哈和在他之后的众先知一样， 也犹如我启示易卜拉欣、易司马仪、易司哈格、叶尔孤白各支派，以及尔撒、安优卜、优努司、哈伦、素莱曼一样。我以《宰逋卜》赏赐达五德。`,
+        ``,
+        ``
+      ],
+      [
+        `本当にわれは，ヌーフやかれ以後の預言者たちに啓示したように，あなたに啓示した。われはまたイブラーヒーム，イスマーイール，イスハーク，ヤアコーブおよび諸支族に（啓示し），またイ―サー，イスハーク，ユーヌス，ハールーンならびにスライマーンにも（啓示した）。またわれはダーウードに詩篇を授けた。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 하나님은 그대에게 계시하였거늘 이는 노아나 그 이후 예언자들에게 계시한 것과 같으며 또한 아브라함과 이스마엘과 이삭 과 야곱과 그의 후손과 예수와 아 이용과 유누스와 하룬과 솔로몬에 게 계시한 것과 같으며 다원에게 시편을 내린것과도 같으니라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità ti abbiamo dato la rivelazione come la demmo a Noè e ai Profeti dopo di lui. E abbiamo dato la rivelazione ad Abramo, Ismaele, Isacco, Giacobbe e alle Tribù, a Gesù, Giobbe, Giona, Aronne, Salomone, e a Davide demmo il Salterio`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, objawiliśmy tobie, tak jak objawiliśmy Noemu i prorokom po nim; i jak objawiliśmy Abrahamowi i Isma\`ilowi Izaakowi i Jakubowi, jak i pokoleniom, Jezusowi, Hiobowi i Jonaszowi, Aaronowi i Salomonowi; a Dawidowi daliśmy Psalmy`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, Ми дарували тобі одкровення, як дарували його Нуху та пророкам після нього, як дарували одкровення Ібрагіму, Ісмаїлю, Ісхаку, Якубу та колінам; Іcі, Айюбу, Юнусу, Гаруну та Сулєйману. І Ми дарували Дауду Забур`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 163`
+  },
+
+  {
+    arabic: [
       `يَا أَيُّهَا النَّاسُ قَدْ جَاءَكُمُ الرَّسُولُ بِالْحَقِّ مِن رَّبِّكُمْ`,
       `فَآمِنُوا خَيْرًا لَّكُمْ`,
       `وَإِن تَكْفُرُوا فَإِنَّ لِلَّهِ مَا فِي السَّمَاوَاتِ وَالْأَرْضِ وَكَانَ اللَّهُ عَلِيمًا حَكِيمًا`
@@ -6143,6 +7150,117 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّا أَنْزَلْنَا التَّوْرَاةَ فِيهَا هُدًى وَنُورٌ ۚ يَحْكُمُ بِهَا النَّبِيُّونَ الَّذِينَ أَسْلَمُوا لِلَّذِينَ هَادُوا وَالرَّبَّانِيُّونَ وَالْأَحْبَارُ بِمَا اسْتُحْفِظُوا مِنْ كِتَابِ اللَّهِ وَكَانُوا عَلَيْهِ شُهَدَاءَ ۚ فَلَا تَخْشَوُا النَّاسَ وَاخْشَوْنِ وَلَا تَشْتَرُوا بِآيَاتِي ثَمَنًا قَلِيلًا ۚ وَمَنْ لَمْ يَحْكُمْ بِمَا أَنْزَلَ اللَّهُ فَأُولَٰئِكَ هُمُ الْكَافِرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, We sent down the Torah, in which was guidance and light. The prophets who submitted [to Allah] judged by it for the Jews, as did the rabbis and scholars by that with which they were entrusted of the Scripture of Allah, and they were witnesses thereto. So do not fear the people but fear Me, and do not exchange My verses for a small price. And whoever does not judge by what Allah has revealed - then it is those who are the disbelievers`,
+        ``,
+        ``
+      ],
+      [
+        `Nous avons fait descendre la Thora dans laquelle il y a guide et lumière. C'est sur sa base que les Prophètes qui se sont soumis à Allah, ainsi que les rabbins et les docteurs jugent les affaires des Juifs. Car on leur a confié la garde du Livre d'Allah, et ils en sont les témoins . Ne craignez donc pas les gens, mais craignez Moi. Et ne vendez pas Mes enseignements à vil prix. Et ceux qui ne jugent pas d'après ce qu'Allah a fait descendre, les voilà les mécréants`,
+        ``,
+        ``
+      ],
+      [
+        `Hemos revelado la Tora, que contiene Dirección y Luz. Los profetas que se habían sometido administraban justicia a los judíos según ella, como hacían los maestros y doctores, según lo que de la Escritura de Alá se les había confiado y de lo cual eran testigos. ¡No tengáis, pues, miedo a los hombres, sino a Mí! ¡Y no malvendáis Mis signos! Quienes no decidan según lo que Alá ha revelado, ésos son los infieles`,
+        ``,
+        ``
+      ],
+      [
+        `Мы ниспослали Таурат (Тору), в котором содержится верное руководство и свет. Покорившиеся пророки выносили по нему решения для исповедующих иудаизм. Раввины и первосвященники поступали таким же образом в соответствии с тем, что им было поручено сохранить из Писания Аллаха. Они свидетельствовали о нем. Не бойтесь же людей, а бойтесь Меня, и не продавайте Мои знамения за ничтожную цену. Те же, которые не принимают решений в соответствии с тем, что ниспослал Аллах, являются неверующими`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, Wir haben die Tora hinabgesandt, in der Rechtleitung und Licht sind, womit die Propheten, die sich (Allah) ergeben hatten, für diejenigen, die dem Judentum angehören, walten, und so auch die Leute des Herrn und die Gelehrten, nach dem, was ihnen von der Schrift Allahs anvertraut worden war und worüber sie Zeugen waren. So fürchtet nicht die Menschen, sondern fürchtet Mich. Und verkauft Meine Zeichen nicht für einen geringen Preis! Wer nicht nach dem waltet, was Allah (als Offenbarung) herabgesandt hat, das sind die Ungläubigen`,
+        ``,
+        ``
+      ],
+      [
+        `Vi har uppenbarat Tora med vägledning och ljus. Profeterna, som underkastade sig Guds vilja, dömde på dess grundval mellan dem som bekände den judiska tron och [så gjorde] deras skriftlärda och rabbiner, eftersom de hade anförtrotts att vaka över det som Gud hade uppenbarat och vittnade [om dess sanning]. Frukta således inte människorna! Frukta Mig! Och sälj inte Mina budskap för en ynklig slant! De som inte dömer i enlighet med vad Gud har uppenbarat, de är [i sanning] förnekare`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, Wij hebben de Taurât neergezonden met daarin leiding en licht. De profeten, die zich (aan Allah) overgegeven hadden, oordeelden ermee over de Joden. En de rabbijnen en de schriftgeleerden (oordeelden ook), met behulp van hetgeen hun van de schrift van Allah was toevertrouwd en zij waren daar getuigen van. Vreest daarom niet de mensen maar vreest Mij en verruilt Mijn tekens niet voor een geringe prijs. En wie niet oordeelt met wat Allah geopenbaard heeft: zij zijn de ongelovigen`,
+        ``,
+        ``
+      ],
+      [
+        `بیشک ہم نے توریت نازل فرمائی جس میں ہدایت اور روشنی ہے اسی کے مطابق انبیاء جو (خدا کے) فرمانبردار تھے یہودیوں کو حکم دیتے رہے ہیں اور مشائخ اور علماء بھی کیونکہ وہ کتاب خدا کے نگہبان مقرر کیے گئے تھے اور اس پر گواہ تھے (یعنی حکم الہٰی کا یقین رکھتے تھے) تو تم لوگوں سے مت ڈرنا اور مجھی سے ڈرتے رہنا اور میری آیتوں کے بدلے تھوڑی سی قیمت نہ لینا اور جو خدا کے نازل فرمائے ہوئے احکام کے مطابق حکم نہ دے تو ایسے ہی لوگ کافر ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, Kami yang menurunkan Kitab Taurat; di dalamnya (ada) petunjuk dan cahaya. Yang dengan Kitab itu para nabi yang berserah diri kepada Allah memberi putusan atas perkara orang Yahudi, demikian juga para ulama dan pendeta-pendeta mereka, sebab mereka diperintahkan memelihara kitab-kitab Allah dan mereka menjadi saksi terhadapnya. Karena itu janganlah kamu takut kepada manusia, (tetapi) takutlah kepada-Ku. Dan janganlah kamu jual ayat-ayat-Ku dengan harga murah. Barang siapa tidak memutuskan dengan apa yang diturunkan Allah, maka mereka itulah orang-orang kafir`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu Biz yol gösterici olarak Tevrat'ı indirdik. Kendisini Allah'a teslim etmiş peygamberler, yahudi olanlara onunla ve Rabbe kul olanlar, bilginler de Allah'ın Kitap'ından elde mahfuz kalanla hükmederlerdi. Tevrat'a şahiddiler. O halde insanlardan korkmayın, benden korkun, ayetlerimi hiçbir değerle değiştirmeyin; Allah'ın indirdiği ile hükmetmeyenler, işte onlar kafirlerdir`,
+        ``,
+        ``
+      ],
+      [
+        `ما تورات را كه در آن رهنمود و روشنايى بود نازل كرديم. پيامبرانى كه تسليم [فرمان خدا] بودند، به موجب آن براى يهود داورى مى‌كردند؛ و [همچنين‌] الهيّون و دانشمندان به سبب آنچه از كتاب خدا به آنان سپرده شده و بر آن گواه بودند. پس، از مردم نترسيد و از من بترسيد، و آيات مرا به بهاى ناچيزى مفروشيد؛ و كسانى كه به موجب آنچه خدا نازل كرده داورى نكرده‌اند، آنان خود كافرانند`,
+        ``,
+        ``
+      ],
+      [
+        `আমি তওরাত অবর্তীর্ন করেছি। এতে হেদায়াত ও আলো রয়েছে। আল্লাহর আজ্ঞাবহ পয়গম্বর, দরবেশ ও আলেমরা এর মাধ্যমে ইহুদীদেরকে ফয়সালা দিতেন। কেননা, তাদেরকে এ খোদায়ী গ্রন্থের দেখাশোনা করার নির্দেশ দেয়া হয়েছিল এবং তাঁরা এর রক্ষণাবেক্ষণে নিযুক্ত ছিলেন। অতএব, তোমরা মানুষকে ভয় করো না এবং আমাকে ভয় কর এবং আমার আয়াত সমূহের বিনিময়ে স্বল্পমূল্যে গ্রহণ করো না, যেসব লোক আল্লাহ যা অবতীর্ণ করেছেন, তদনুযায়ী ফায়সালা করে না, তারাই কাফের।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, fizemos descer a Torá; nela, há orientação e luz. Com ela, os profetas, que se islamizaram, julgavam aos que praticavam o judaísmo e, assim também, os rabis e os sacerdotes, porque custodiavam o Livro de Allah, e eram testemunhas dele. Então, não receeis os homens, e receai-Me. E não vendais Meus sinais por ínfimo preço. E quem não julga conforme o que Allah fez descer, esses são os renegadores da Fé`,
+        ``,
+        ``
+      ],
+      [
+        `我确已降示《讨拉特》，其中有向导和光明，归顺真主的众先知，曾依照它替犹太教徒进行判决，一般明哲和博士，也依照他们所奉命护持的天经而判决，并为其见证，故你们不要畏惧人，当畏惧我，不要以我的迹象去换取些微的代价。谁不依照真主所降示的经典而判决，谁是不信道的人。`,
+        ``,
+        ``
+      ],
+      [
+        `誠にわれは，導きとして光明のある律法を，（ム－サーに）下した。それで（アッラーに）服従，帰依した預言者たちは，これによってユダヤ人を裁いた。聖職者たちや律法学者たちも（裁いた）。アッラーの啓典の護持を託されていたからである。かれらはそれに対する証人でもあった。だからあなたがたは人間を恐れず，只われを畏れなさい。僅かな代価で，われの印を売ってはならない。そしてアッラーが下されたもので 裁判しない者は不信心者（カーフィル）である。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 구약을 내리사 복 음과 빛이 그안에 있음이라 그리 하여 이슬람을 믿는 예언자들은 그것으로 하여 유대인들을 판결하 였으며 율법학자들과 유대학자들 도 하나님의 성서에 의존함이라 그들은 그에 대해 증언자들이었으 니 사람들을 두려워하지 말고 나 를 두려워할 것이며 하찮은 대가 로 나의 말씀을 매도하지 말라 했 거늘 하나님이 계시한 것으로 판 결치 못한 자 그들은 불신자들이 라`,
+        ``,
+        ``
+      ],
+      [
+        `Facemmo scendere la Torâh, fonte di guida e di luce. Con essa giudicavano tra i giudei, i profeti sottomessi ad Allah, e i rabbini e i dottori: [giudicavano] in base a quella parte dei precetti di Allah che era stata loro affidata e della quale erano testimoni. Non temete gli uomini, ma temete Me. E non svendete a vil prezzo i segni Miei. Coloro che non giudicano secondo quello che Allah ha fatto scendere, questi sono i miscredenti`,
+        ``,
+        ``
+      ],
+      [
+        `My, zaprawdę, zesłaliśmy Torę, w której jest przewodnictwo i światło. Według niej prorocy, całkowicie poddani, sądzili tych, którzy wyznawali judaizm; podobnie rabini i doktorzy prawa sądzili według tego, co im zostało powierzone z Księgi Boga, której byli świadkami. Dlatego nie bójcie się ludzi, lecz bójcie się Mnie! I nie sprzedajcie Moich znaków za niską cenę! A ci, którzy nie sądzą według tego, co zesłał Bóg, są niewiernymi`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, зіслали Ми Таурат, в якому — прямий шлях і світло. Судять за ним юдеїв пророки, які навернулися до Аллага, і рабини, і книжники, як це було наказано їм — оберігати Писання Аллага і бути свідками йому. І не бійтеся людей, а бійтеся Мене! І не продавайте знамень Моїх за безцінь! А ті, які не судять за тим, що зіслав Аллаг, вони — невіруючі`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المائدة / Al-Ma'idah، الآية 44`
+  },
+
+  {
+    arabic: [
       `يَا أَيُّهَا الرَّسُولُ بَلِّغْ مَا أُنْزِلَ إِلَيْكَ مِنْ رَبِّكَ ۖ وَإِنْ لَمْ تَفْعَلْ فَمَا بَلَّغْتَ رِسَالَتَهُ ۚ وَاللَّهُ يَعْصِمُكَ مِنَ النَّاسِ ۗ إِنَّ اللَّهَ لَا يَهْدِي الْقَوْمَ الْكَافِرِينَ`,
       ``,
       ``
@@ -6361,6 +7479,228 @@ const verses = [
       ]
     ],
     number: `سورة المائدة / Al-Ma'idah، الآية 72`
+  },
+
+  {
+    arabic: [
+      `وَإِذْ أَوْحَيْتُ إِلَى الْحَوَارِيِّينَ أَنْ آمِنُوا بِي وَبِرَسُولِي قَالُوا آمَنَّا وَاشْهَدْ بِأَنَّنَا مُسْلِمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And [remember] when I inspired to the disciples, "Believe in Me and in My messenger Jesus." They said, "We have believed, so bear witness that indeed we are Muslims [in submission to Allah]`,
+        ``,
+        ``
+      ],
+      [
+        `Et quand J'ai révélé aux Apôtres ceci : "Croyez en Moi et Mon Messager (Jésus) !" Ils dirent : "Nous croyons; et atteste que nous sommes entièrement soumis`,
+        ``,
+        ``
+      ],
+      [
+        `Y cuando inspiré a los apóstoles: '¡Creed en Mí y en Mi enviado!' Dijeron: «¡Creemos! ¡Sé testigo de nuestra sumisión!'»`,
+        ``,
+        ``
+      ],
+      [
+        `Я внушил апостолам: «Уверуйте в Меня и Моего посланника». Они сказали: «Мы уверовали! Засвидетельствуй же, что мы стали мусульманами»`,
+        ``,
+        ``
+      ],
+      [
+        `Und als Ich den Jüngern eingab: "Glaubt an Mich und an Meinen Gesandten!" Sie sagten: "Wir glauben. Bezeuge, daß wir Dir ergeben sind`,
+        ``,
+        ``
+      ],
+      [
+        `OCH [MINNS] hur Jag ingav de vitklädda tron på Mig och Mitt Sändebud [så att] de förklarade: "Vi tror; var du därför vårt vittne att vi har underkastat oss Guds vilja`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En toen Ik de metgezellen (van 'Isa) inspireerde om in Mij le geloven en in Mijn Boodschappers, zij zeiden: "Wij geloven, en getuig dat wij ons (aan U) overgegeven hebben`,
+        ``,
+        ``
+      ],
+      [
+        `اور جب میں نے حواریوں کی طرف حکم بھیجا کہ مجھ پر اور میرے پیغمبر پر ایمان لاؤ وہ کہنے لگے کہ (پروردگار) ہم ایمان لائے تو شاہد رہیو کہ ہم فرمانبردار ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan (ingatlah), ketika Aku ilhamkan kepada pengikut-pengikut Isa yang setia, "Berimanlah kamu kepada-Ku dan kepada Rasul-Ku." Mereka menjawab, "Kami telah beriman dan saksikanlah (wahai Rasul) bahwa kami adalah orang-orang yang berserah diri (muslim)`,
+        ``,
+        ``
+      ],
+      [
+        `Havarilere, "Bana ve peygamberime inanın" diye bildirmiştim, "İnandık, bizim müslimler olduğumuza şahid ol" demişlerdi`,
+        ``,
+        ``
+      ],
+      [
+        `و [ياد كن‌] هنگامى را كه به حواريّون وحى كردم كه به من و فرستاده‌ام ايمان آوريد. گفتند: «ايمان آورديم، و گواه باش كه ما مسلمانيم.»`,
+        ``,
+        ``
+      ],
+      [
+        `আর যখন আমি হাওয়ারীদের মনে জাগ্রত করলাম যে, আমার প্রতি এবং আমার রসূলের প্রতি বিশ্বাস স্থাপন কর, তখন তারা বলতে লাগল, আমরা বিশ্বাস স্থাপন করলাম এবং আপনি সাক্ষী থাকুন যে, আমরা অনুগত্যশীল।`,
+        ``,
+        ``
+      ],
+      [
+        `E quando inspirei aos discípulos: 'Crede em Mim e em Meu Mensageiro'; disseram: 'Cremos, e testemunha que somos muçulmanos`,
+        ``,
+        ``
+      ],
+      [
+        `当时，我启示众门徒说：你们当信仰我和我的使者。他们说：我们已信仰了，求你作证我们是归顺的人。`,
+        ``,
+        ``
+      ],
+      [
+        `その時われは弟子たちに啓示して，『われを信じ，わが使徒を信じなさい。』と言った。かれらは（答えて）言った。『わたしたちは信じます。あなたは，わたしたちがムスリムであることを立証して下さい。』」`,
+        ``,
+        ``
+      ],
+      [
+        `보라 내가 제자들에게 나를 믿고 나의 선지자를 믿으라 하니 믿나이다 우리는 무슬림으로써 하나님께 복종하나이다 하더라`,
+        ``,
+        ``
+      ],
+      [
+        `E quando rivelai agli apostoli: “Credete in Me e nel Mio messaggero”, risposero: “Crediamo, sii testimone che siamo musulmani”`,
+        ``,
+        ``
+      ],
+      [
+        `I oto Ja objawiłem apostołom: Uwierzcie we Mnie i w Mojego Posłańca!" Oni powiedzieli: "Uwierzyliśmy! Daj świadectwo, że jesteśmy całkowicie poddani`,
+        ``,
+        ``
+      ],
+      [
+        `І коли відкрив Я апостолам: «Увіруйте в Мене й посланця Мого!». Вони сказали: «Увірували Ми, тож засвідчи, що ми — віддані Тобі`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المائدة / Al-Ma'idah، الآية 111`
+  },
+
+  {
+    arabic: [
+      `وَإِذْ قَالَ اللَّهُ يَا عِيسَى ابْنَ مَرْيَمَ أَأَنْتَ قُلْتَ لِلنَّاسِ اتَّخِذُونِي وَأُمِّيَ إِلَٰهَيْنِ مِنْ دُونِ اللَّهِ ۖ قَالَ سُبْحَانَكَ مَا يَكُونُ لِي أَنْ أَقُولَ مَا لَيْسَ لِي بِحَقٍّ ۚ إِنْ كُنْتُ قُلْتُهُ فَقَدْ عَلِمْتَهُ ۚ تَعْلَمُ مَا فِي نَفْسِي وَلَا أَعْلَمُ مَا فِي نَفْسِكَ ۚ إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ مَا قُلْتُ لَهُمْ إِلَّا مَا أَمَرْتَنِي بِهِ أَنِ اعْبُدُوا اللَّهَ رَبِّي وَرَبَّكُمْ ۚ وَكُنْتُ عَلَيْهِمْ شَهِيدًا مَا دُمْتُ فِيهِمْ ۖ فَلَمَّا تَوَفَّيْتَنِي كُنْتَ أَنْتَ الرَّقِيبَ عَلَيْهِمْ ۚ وَأَنْتَ عَلَىٰ كُلِّ شَيْءٍ شَهِيدٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And [beware the Day] when Allah will say, "O Jesus, Son of Mary, did you say to the people, 'Take me and my mother as deities besides Allah?'" He will say, "Exalted are You! It was not for me to say that to which I have no right. If I had said it, You would have known it. You know what is within myself, and I do not know what is within Yourself. Indeed, it is You who is Knower of the unseen I said not to them except what You commanded me - to worship Allah, my Lord and your Lord. And I was a witness over them as long as I was among them; but when You took me up, You were the Observer over them, and You are, over all things, Witness`,
+        ``,
+        ``
+      ],
+      [
+        `(Rappelle-leur) le moment où Allah dira : "Ô Jésus, fils de Marie, !Est-ce toi qui as dit aux gens : "Prenez-moi, ainsi que ma mère, pour deux divinités en dehors d'Allah ?" Il dira: "Gloire et pureté à Toi ! Il ne m'appartient pas de déclarer ce que je n'ai pas le droit de dire! Si je l'avais dit, certes Tu l'aurais su. Tu sais ce qu'il y a en moi, et je ne sais pas ce qu'il y a en Toi. Tu es, en vérité, le grand connaisseur de tout ce qui est inconnu Je ne leur ai dit que ce Tu m'avais commandé, (à savoir) : "Adorez Allah, mon Seigneur et votre Seigneur !" Et je fus témoin contre eux aussi longtemps que je fus parmi eux. Puis quand Tu m'as rappelé, c'est Toi qui fus leur observateur attentif. Et Tu es témoin de toute chose`,
+        ``,
+        ``
+      ],
+      [
+        `Y cuando dijo Alá: «¡Jesús, hijo de María! ¡Eres tú quien ha dicho a los hombres: '¡Tomadnos a mí y a mi madre como a dioses, además de tomar a Alá!'?». Dijo: «¡Gloria a Ti! ¿Cómo voy a decir algo que no tengo por verdad? Si lo hubiera dicho, Tú lo habrías sabido. Tú sabes lo que hay en mí, pero yo no sé lo que hay en Ti. Tú eres Quien conoce a fondo las cosas ocultas No les he dicho más que lo que Tú me has ordenado: '¡Servid a Alá, mi Señor y Señor vuestro!' Fui testigo de ellos mientras estuve entre ellos, pero, después de llamarme a Ti, fuiste Tú Quien les vigiló. Tú eres testigo de todo`,
+        ``,
+        ``
+      ],
+      [
+        `Вот сказал Аллах: «О Иса (Иисус), сын Марьям (Марии)! Говорил ли ты людям: «Примите меня и мою мать двумя богами наряду с Аллахом»?». Он сказал: «Пречист Ты! Как я мог сказать то, на что я не имею права? Если бы я сказал такое, Ты знал бы об этом. Ты знаешь то, что у меня в душе, а я не знаю того, что у Тебя в Душе. Воистину, Ты - Ведающий сокровенное Я не говорил им ничего, кроме того, что Ты мне велел: «Поклоняйтесь Аллаху, моему Господу и вашему Господу». Я был свидетелем о них, пока находился среди них. Когда же Ты упокоил меня, Ты стал наблюдать за ними. Воистину, Ты - Свидетель всякой вещи`,
+        ``,
+        ``
+      ],
+      [
+        `Und wenn Allah sagt: "O 'Isa, Sohn Maryams, bist du es, der zu den Menschen gesagt hat: ,Nehmt mich und meine Mutter außer Allah zu Göttern!'?", wird er sagen: "Preis sei Dir! Es steht mir nicht zu, etwas zu sagen, wozu ich kein Recht habe. Wenn ich es (tatsächlich doch) gesagt hätte, dann wüßtest Du es bestimmt. Du weißt, was in mir vorgeht, aber ich weiß nicht, was in Dir vorgeht. Du bist ja der Allwisser der verborgenen Dinge Ich habe ihnen nur gesagt, was Du mir befohlen hast (, nämlich): ,Dient Allah, meinem und eurem Herrn! Und ich war über sie Zeuge, solange ich unter ihnen weilte. Seitdem Du mich abberufen hast, bist Du der Wächter über sie. Du bist über alles Zeuge`,
+        ``,
+        ``
+      ],
+      [
+        `OCH GUD skall säga: "Jesus, son av Maria! Är det du som uppmanade människorna att dyrka dig och din moder som gudomliga väsen vid sidan av Gud?" [Jesus] skall svara: "Stor är Du i Din härlighet! Hur skulle jag kunna säga vad jag inte hade rätt att säga? Om jag hade sagt detta skulle Du helt visst ha vetat det. Du vet vad som är i mitt innersta men jag vet inte vad som är i Ditt innersta; Du känner allt det som är dolt för människor Vad jag har sagt dem är det som Du har befallt mig [att säga]: 'Dyrka Gud, min Herre och er Herre.' Jag var vittne till deras handlingar så länge jag levde bland dem, men sedan Du kallade mig till Dig är det Du som vakar över dem; Du är vittne till allt som sker`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En toen zei Allah: "O 'Isa, zoon van Maryam, heb jij tegen de mensen gezegd: "Neemt mij en mijn moeder tot twee goden naast Allah?" En hij (Isa) zei: "Heilig bent U! Nooit zou ik kunnen zeggen waarop ik geen recht beb. Indien ik dat gezegd had, zou U dat zeker geweten hebben. U weet wat er in mijn ziel is, en ik weet niet wat er in Uw Ziel is. Voorwaar, U bent de Kenner van het verborgene Ik heb hen niet anders gezegd dan U mij heeft geboden te zeggen: 'Dient Allah, mijn Heer en jullie Heer.' En ik was getuige van hen zolang ik onder hen was, on toen u mij tot U opnam was U de Waker over hen en U bent Getuige van alle zaken`,
+        ``,
+        ``
+      ],
+      [
+        `اور (اس وقت کو بھی یاد رکھو) جب خدا فرمائے گا کہ اے عیسیٰ بن مریم! کیا تم نے لوگوں سے کہا تھا کہ خدا کے سوا مجھے اور میری والدہ کو معبود مقرر کرو؟ وہ کہیں گے کہ تو پاک ہے مجھے کب شایاں تھا کہ میں ایسی بات کہتا جس کا مجھے کچھ حق نہیں اگر میں نے ایسا کہا ہوگا تو تجھ کو معلوم ہوگا (کیونکہ) جو بات میرے دل میں ہے تو اسے جانتا ہے اور جو تیرے ضمیر میں ہے اسے میں نہیں جانتا بےشک تو علاّم الغیوب ہے میں نے ان سے کچھ نہیں کہا بجز اس کے جس کا تو نے مجھے حکم دیا ہے وہ یہ کہ تم خدا کی عبادت کرو جو میرا اور تمہارا سب کا پروردگار ہے اور جب تک میں ان میں رہا ان (کے حالات) کی خبر رکھتا رہا جب تو نے مجھے دنیا سے اٹھا لیا تو تو ان کا نگران تھا اور تو ہر چیز سے خبردار ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan (ingatlah) ketika Allah berfirman, "Wahai Isa putra Maryam! Engkaukah yang mengatakan kepada orang-orang, Jadikanlah aku dan ibuku sebagai dua Tuhan selain Allah?" (Isa) menjawab, "Maha Suci Engkau, tidak patut bagiku mengatakan apa yang bukan hakku. Jika aku pernah mengatakannya tentulah Engkau telah mengetahuinya. Engkau mengetahui apa yang ada pada diriku dan aku tidak mengetahui apa yang ada pada-Mu. Sungguh, Engkaulah Yang Maha Mengetahui segala yang gaib Aku tidak pernah mengatakan kepada mereka kecuali apa yang Engkau perintahkan kepadaku (yaitu), "Sembahlah Allah, Tuhanku dan Tuhanmu," dan aku menjadi saksi terhadap mereka, selama aku berada di tengah-tengah mereka. Maka setelah Engkau mewafatkan aku, Engkaulah yang mengawasi mereka. Dan Engkaulah Yang Maha Menyaksikan atas segala sesuatu`,
+        ``,
+        ``
+      ],
+      [
+        `Allah, "Ey Meryem oğlu İsa! Sen mi insanlara Beni ve annemi Allah'tan başka iki tanrı olarak benimseyin dedin?" demişti de, "Haşa, hak olmayan sözü söylemek bana yaraşmaz; eğer söylemişsem, şüphesiz Sen onu bilirsin; Sen, benim içimde olanı bilirsin; ben Senin içinde olanı bilmem; doğrusu görülmeyeni bilen ancak Sensin" demişti, "Ben onlara sadece 'Rabbim ve Rabbiniz olan Allah'a kulluk edin' diye bana emrettiğini söyledim. Aralarında bulunduğum müddetce onlar hakkında şahiddim, beni aralarından aldığında onları Sen gözlüyordun. Sen her şeye şahidsin`,
+        ``,
+        ``
+      ],
+      [
+        `و [ياد كن‌] هنگامى را كه خدا فرمود: «اى عيسى پسر مريم، آيا تو به مردم گفتى: من و مادرم را همچون دو خدا به جاى خداوند بپرستيد؟» گفت: «منزهى تو، مرا نزيبد كه [در باره خويشتن‌] چيزى را كه حق من نيست بگويم. اگر آن را گفته بودم قطعاً آن را مى‌دانستى. آنچه در نفس من است تو مى‌دانى؛ و آنچه در ذات توست من نمى‌دانم، چرا كه تو خود، داناى رازهاى نهانى جز آنچه مرا بدان فرمان دادى [چيزى‌] به آنان نگفتم؛ [گفته‌ام‌] كه: خدا، پروردگار من و پروردگار خود را عبادت كنيد، و تا وقتى در ميانشان بودم بر آنان گواه بودم؛ پس چون روح مرا گرفتى، تو خود بر آنان نگهبان بودى، و تو بر هر چيز گواهى`,
+        ``,
+        ``
+      ],
+      [
+        `যখন আল্লাহ বললেনঃ হে ঈসা ইবনে মরিয়ম! তুমি কি লোকদেরকে বলে দিয়েছিলে যে, আল্লাহকে ছেড়ে আমাকে ও আমার মাতাকে উপাস্য সাব্যস্ত কর? ঈসা বলবেন; আপনি পবিত্র! আমার জন্যে শোভা পায় না যে, আমি এমন কথা বলি, যা বলার কোন অধিকার আমার নেই। যদি আমি বলে থাকি, তবে আপনি অবশ্যই পরিজ্ঞাত; আপনি তো আমার মনের কথা ও জানেন এবং আমি জানি না যা আপনার মনে আছে। নিশ্চয় আপনিই অদৃশ্য বিষয়ে জ্ঞাত। আমি তো তাদেরকে কিছুই বলিনি, শুধু সে কথাই বলেছি যা আপনি বলতে আদেশ করেছিলেন যে, তোমরা আল্লাহর দাসত্ব অবলম্বন কর যিনি আমার ও তোমাদের পালনকর্তা আমি তাদের সম্পর্কে অবগত ছিলাম যতদিন তাদের মধ্যে ছিলাম। অতঃপর যখন আপনি আমাকে লোকান্তরিত করলেন, তখন থেকে আপনিই তাদের সম্পর্কে অবগত রয়েছেন। আপনি সর্ববিষয়ে পূর্ণ পরিজ্ঞাত।`,
+        ``,
+        ``
+      ],
+      [
+        `E lembra-lhes de quando Allah dirá: "Ó Jesus, filho de Maria! Disseste tu aos homens: 'Tomai-me e a minha mãe por dois deuses, além de Allah?'" Ele dirá: "Glorificado sejas! Não me é admissível dizer o que me não é de direito. Se o houvesse dito, por certo, Tu o haverias sabido. Tu sabes o que há em mim, e não sei o que há em Ti. Por certo, Tu, Tu és O Profundo Sabedor das cousas invisíveis Não lhes disse senão o que me ordenaste: 'Adorai a Allah, meu Senhor e vosso Senhor'. E fui testemunha deles, enquanto permaneci entre eles. Então, quando findaste meus dias na terra. Tu foste, sobre eles, O Observante. E Tu, de todas as cousas, és Testemunha`,
+        ``,
+        ``
+      ],
+      [
+        `当时，真主将说：麦尔彦之子尔撒啊! 你曾对众人说过这句话吗﹖'你们当舍真主而以我和我母亲为主宰'。他说：我赞颂你超绝万物，我不会说出我不该说的话。如果我说了，那你一定知道。你知道我心里的事，我却不知道你心里的事。你确是深知一切幽玄的。 我只对他们说过你所命我说的话，即：你们当崇拜真主--我的主，和你们 的主。我同他们相处期间，我是他们的见证。你使我死去之后，盟护他们的是你，你是万物的见证。`,
+        ``,
+        ``
+      ],
+      [
+        `またアッラーがこのように仰せられた時を思え。「マルヤムの子イーサーよ，あなたは『アッラーの外に，わたしとわたしの母とを2柱の神とせよ。』と人びとに告げたか。」かれは申し上げた。「あなたに讃えあれ。わたしに権能のないことを，わたしは言うべきでありません。も しわたしがそれを言ったならば，必ずあなたは知っておられます。あなたは，わたしの心の中を知っておられます。だがわたしはあなたの御心の中は知りません。本当にあなたは凡ての奥義を熟知なされています。 わたしはあなたに命じられたこと以外は，決してかれらに告げません。『わたしの主であり ，あなたがたの主であられるアッラーに仕えなさい。』（と言う以外には）わたしがかれらの中にいた間は，わたしはかれらの証人でありました。あなたがわたしを御呼びになった後は，あなたがかれらの監視者であり，またあなたは，凡てのことの立証者であられます。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서 마리아의 아들 예수야 네가 백성에게 말하여 하 나님을 제외하고 나 예수와 나의 어머니를 경배하라 하였느뇨 하시 니 영광을 받으소서 결코 그렇게 말하지 아니했으며 그렇게 할 권 리도 없나이다 제가 그렇게 말하였다면 당신께서 알고 계실것입니다 당신은 저의 심중을 아시나 저는 당신의 심중을 모르나니 당신은 숨겨진 것도 아시는 분이십니다 당신께서 저에게 명령한 것외에는 그들에게 말하지 아니했으 니 나의 주님이요 너희의 주님인 하나님만을 경배하라 하였으며 제 가 그들과 함께 있음에 저는 그들 에게 중인이 되었고 당신이 저를 승천시킨 후에는 당신께서 그들을 지켜보고 계시나니 당신은 모든 것의 중인이십니다`,
+        ``,
+        ``
+      ],
+      [
+        `E quando Allah dirà: “O Gesù figlio di Maria, hai forse detto alla gente: "Prendete me e mia madre come due divinità, all'infuori di Allah?"”, risponderà: “Gloria a Te! Come potrei dire ciò di cui non ho il diritto? Se lo avessi detto, Tu certamente lo sapresti, ché Tu conosci quello che c'è in me e io non conosco quello che c'è in Te. In verità sei il Supremo conoscitore dell'inconoscibile Ho detto loro solo quello che Tu mi avevi ordinato di dire: Adorate Allah, mio Signore e vostro Signore". Fui testimone di loro finché rimasi presso di loro; da quando mi hai elevato [a Te], Tu sei rimasto a sorvegliarli. Tu sei testimone di tutte le cose`,
+        ``,
+        ``
+      ],
+      [
+        `I oto powiedział Bóg: "O Jezusie, synu Marii! Czy ty powiedziałeś ludziom: Bierzcie mnie i moją matkę za dwa bóstwa, poza Bogiem?" On powiedział: Chwała Tobie! Nie do mnie należy mówić to, do czego nie mam prawa. Jeślibym ja tak powiedział, Ty przecież wiedziałbyś o tym. Ty wiesz, co jest w mojej duszy, a ja nie wiem, co jest w Twojej. Zaprawdę, Ty dobrze znasz rzeczy ukryte Ja im powiedziałem tylko to, co Ty mi nakazałeś powiedzieć: Czcijcie Boga, mojego Pana i waszego Pana! Ja byłem świadkiem ich, jak długo przebywałem wśród ludzi; a kiedyś mnie wezwał do Siebie, Tyś został ich pilnym stróżem, wszak jesteś świadkiem każdej rzeczy`,
+        ``,
+        ``
+      ],
+      [
+        `І коли сказав Аллаг: «О Ісо, сину Мар’ям, чи говорив ти людям: «Візьміть мене й матір мою за двох богів нарівні з Аллагом?» Іса сказав: «Преславний Ти! Не говорив я того, на що не маю права. Якби я таке й сказав, Ти б це напевно знав. Ти знаєш те, що в мені, а я не знаю того, що в Тобі. Воістину, тільки Ти знаєш потаємне Не говорив я їм [нічого], крім того, що Ти наказав мені: «Поклоняйтеся Аллагу, Господу моєму й Господу вашому!» І був я свідком їм, поки був серед них. Коли ж Ти взяв мене, то Ти наглядаєш за ними, а Ти — кожній речі Свідок`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المائدة / Al-Ma'idah، الآيتان 116-117`
   },
 
   {
@@ -6809,6 +8149,117 @@ const verses = [
 
   {
     arabic: [
+      `وَوَهَبْنَا لَهُ إِسْحَاقَ وَيَعْقُوبَ ۚ كُلًّا هَدَيْنَا ۚ وَنُوحًا هَدَيْنَا مِنْ قَبْلُ ۖ وَمِنْ ذُرِّيَّتِهِ دَاوُودَ وَسُلَيْمَانَ وَأَيُّوبَ وَيُوسُفَ وَمُوسَىٰ وَهَارُونَ ۚ وَكَذَٰلِكَ نَجْزِي الْمُحْسِنِينَ وَزَكَرِيَّا وَيَحْيَىٰ وَعِيسَىٰ وَإِلْيَاسَ ۖ كُلٌّ مِنَ الصَّالِحِينَ وَإِسْمَاعِيلَ وَالْيَسَعَ وَيُونُسَ وَلُوطًا ۚ وَكُلًّا فَضَّلْنَا عَلَى الْعَالَمِينَ وَمِنْ آبَائِهِمْ وَذُرِّيَّاتِهِمْ وَإِخْوَانِهِمْ ۖ وَاجْتَبَيْنَاهُمْ وَهَدَيْنَاهُمْ إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ ذَٰلِكَ هُدَى اللَّهِ يَهْدِي بِهِ مَنْ يَشَاءُ مِنْ عِبَادِهِ ۚ وَلَوْ أَشْرَكُوا لَحَبِطَ عَنْهُمْ مَا كَانُوا يَعْمَلُونَ أُولَٰئِكَ الَّذِينَ آتَيْنَاهُمُ الْكِتَابَ وَالْحُكْمَ وَالنُّبُوَّةَ ۚ فَإِنْ يَكْفُرْ بِهَا هَٰؤُلَاءِ فَقَدْ وَكَّلْنَا بِهَا قَوْمًا لَيْسُوا بِهَا بِكَافِرِينَ أُولَٰئِكَ الَّذِينَ هَدَى اللَّهُ ۖ فَبِهُدَاهُمُ اقْتَدِهْ ۗ قُلْ لَا أَسْأَلُكُمْ عَلَيْهِ أَجْرًا ۖ إِنْ هُوَ إِلَّا ذِكْرَىٰ لِلْعَالَمِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And We gave to Abraham, Isaac and Jacob - all [of them] We guided. And Noah, We guided before; and among his descendants, David and Solomon and Job and Joseph and Moses and Aaron. Thus do We reward the doers of good And Zechariah and John and Jesus and Elias - and all were of the righteous And Ishmael and Elisha and Jonah and Lot - and all [of them] We preferred over the worlds And [some] among their fathers and their descendants and their brothers - and We chose them and We guided them to a straight path That is the guidance of Allah by which He guides whomever He wills of His servants. But if they had associated others with Allah, then worthless for them would be whatever they were doing Those are the ones to whom We gave the Scripture and authority and prophethood. But if the disbelievers deny it, then We have entrusted it to a people who are not therein disbelievers Those are the ones whom Allah has guided, so from their guidance take an example. Say, "I ask of you for this message no payment. It is not but a reminder for the worlds`,
+        ``,
+        ``
+      ],
+      [
+        `Et Nous lui avons donné Isaac et Jacob et Nous les avons guidés tous les deux. Et Noé, Nous l'avons guidé auparavant, et parmi la descendance (d'Abraham) (ou de Noé), David, Salomon, Job, Joseph, Moïse et Aaron. Et c'est ainsi que Nous récompensons les bienfaisants De même, Zacharie, Jean-Baptiste, Jésus et Elie, tous étaient du nombre des vertueux De même, Ismaël, Elisée, Jonas et Lot. Chacun d'eux Nous l'avons favorisé par-dessus le reste du monde De même une partie de leurs ancêtres, de leurs descendants et de leurs frères et Nous les avons choisis et guidés vers un droit chemin Telle est la (bonne) direction par laquelle Allah guide qui Il veut parmi Ses serviteurs. Mais s'ils avaient donné à Allah des associés, alors, tout ce qu'ils auraient fait eût certainement été vain C'est à eux que Nous avons donné le Livre, la sagesse et la prophétie. Si ces autres-là n'y croient pas, du moins Nous avons confié ces choses à des gens qui ne les nient pas Voilà ceux qu'Allah a guidés : Suis donc leur direction ! Dis : "Je ne vous demande pas pour cela de salaire." Ce n'est qu'un rappel à l'intention de tout l'Univers`,
+        ``,
+        ``
+      ],
+      [
+        `Le regalamos a Isaac y a Jacob. Dirigimos a los dos. A Noé ya le habíamos dirigido antes y, de sus descendientes, a David, a Salomón, a Job, a José, a Moisés y a Aarón. Así retribuimos a quienes hacen el bien Y a Zacarías, a Juan, a Jesús y a Elías, todos ellos de los justos Y a Ismael, a Eliseo, a Jonás y a Lot. A cada uno de ellos le distinguimos entre todos los hombres así como a algunos de sus antepasados, descendientes y hermanos. Les elegimos y dirigimos a una vía recta Ésta es la dirección de Alá, por la que dirige a quien Él quiere de Sus siervos. Si hubieran sido asociadores, todas sus obras habrían sido vanas Fue a éstos a quienes dimos la Escritura, el juicio y el profetismo. Y, si éstos no creen en ello, lo hemos confiado a otro pueblo, que sí que cree A éstos ha dirigido Alá. ¡Sigue, pues, su Dirección! Di: «No os pido salario a cambio. No es más que una Amonestación dirigida a todo el mundo»`,
+        ``,
+        ``
+      ],
+      [
+        `Мы даровали ему Исхака (Исаака) и Йакуба (Иакова). Мы повели их обоих прямым путем. Еще раньше Мы повели прямым путем Нуха (Ноя), а из его потомства - Давуда (Давида), Сулеймана (Соломона), Айюба (Иова), Йусуфа (Иосифа), Мусу (Моисея) и Харуна (Аарона). Таким образом Мы воздаем творящим добро А также Закарию (Захарию), Йахйу (Иоанна), Ису (Иисуса) и Ильяса (Илию). Все они были из числа праведников А также Исмаила (Измаила), Альяcу (Елисея), Йунуса (Иону) и Лута (Лота). Всех их Мы превознесли над мирами А также некоторых из их отцов, потомков и братьев. Мы избрали их и повели прямым путем Таково руководство Аллаха, посредством которого Он ведет прямым путем тех из Своих рабов, кого пожелает. Но если бы они приобщили сотоварищей, то стало бы тщетным все, что они совершали Это - те, кому Мы даровали Писание, мудрость и пророчество. И даже если они не уверуют в это, Мы уже вверили это другим людям, которые не станут неверующими Это - те, кого Аллах повел прямым путем. Следуй же их прямым путем. Скажи: «Я не прошу у вас вознаграждения за него. Это не что иное, как Напоминание для миров»`,
+        ``,
+        ``
+      ],
+      [
+        `Und Wir schenkten ihm Ishaq und Ya'qub; jeden (von ihnen) haben Wir rechtgeleitet. Und (auch) Nuh haben Wir zuvor rechtgeleitet, und aus seiner Nachkommenschaft Dawud, Sulaiman, Ayyub, Yusuf, Musa und Harun - so vergelten Wir (es) den Gutes Tuenden und Zakariyya, Yahya, 'Isa und Ilyas: jeder (von ihnen) gehört zu den Rechtschaffenen und lsma'il, Alyasa', Yunus und Lut: jeden (von ihnen) haben Wir vor den (anderen) Weltenbewohnern bevorzugt und (auch manche) von ihren (Vor)Vätern, ihren Nachkommen und ihren Brüdern; Wir haben sie erwählt und zu einem geraden Weg geleitet Das ist Allahs Rechtleitung. Er leitet damit recht, wen von Seinen Dienern Er will. Wenn sie (Ihm) aber (andere) beigesellt hätten, wäre für sie wahrlich hinfällig geworden, was sie zu tun pflegten Das sind diejenigen, denen Wir die Schrift, das Urteil und das Prophetentum gegeben haben. Wenn aber diese es verleugnen, so haben Wir damit schon (andere) Leute betraut, die dem gegenüber nicht ungläubig sind Das sind diejenigen, die Allah rechtgeleitet hat. So nimm ihre Rechtleitung zum Vorbild! Sag: Ich verlange von euch keinen Lohn dafür. Es ist nur eine Ermahnung für die Weltenbewohner`,
+        ``,
+        ``
+      ],
+      [
+        `Och Vi skänkte honom [avkomlingar], Isak och Jakob, som Vi vägledde [liksom] Vi förut väglett Noa. Och bland hans efterkommande var också David och Salomo, Job och Josef, Moses och Aron - så belönar Vi dem som gör det goda och det rätta och Sakarias och Johannes, Jesus och Elia - alla hörde de till de rättfärdiga och Ismael och Elisa, Jona och Lot - var och en av dessa har Vi satt högre än alla [övriga] skapade varelser [dem] och andra bland deras förfäder, deras efterkommande och deras bröder. Vi utvalde dem och ledde dem till en rak väg Sådan är Guds vägledning [som] Han skänker dem Han vill av Sina tjänare. Om de hade satt medhjälpare vid Hans sida skulle helt visst allt vad de åstadkommit ha gått om intet Det var dessa män som Vi skänkte uppenbarelsen och klart omdöme och kallade till profeter. Och om dessa [av ditt folk] förnekar Våra [budskap], har Vi anförtrott dem åt dem som inte var förnekare åt dem som Gud vägledde. Följ deras exempel [Muhammad] och säg: "Jag begär inte ersättning av er för detta [budskap]; det är ingenting mindre än en påminnelse till alla folk`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En Wij schonken hem Ishaq en Ya'qoeb, allen leidden Wij, on ervoor leiden wij Noeh, en van zijn nageslacht Dawoed en Soelaiman en Ayyoeb en Yoesoef en Mocsa en Hârôen: en zo belonen Wij de weldoeners En Zakariyya en Yahya en 'Isa en Ilyas: allen behoorden tot de oprechten En Isma'îl en Al Yasa' en Yoenoes en Loeth: allen hebben Wij boven de werelden bevoorrecht En van hun vaderen en hun nageslacht en hun broeders: Wij hebben hen verkozen en Wij leidden hen op een recht Pad Dit is de Leiding van Allah, waarmee Hij van Zijn dienaren leidt wie Hij wil, maar als zij deelgenoten (aan Allah) toegekend hadden, was wat zij aan het doen waren vruchteloos geworden Zij zijn degenen die Wij de Schrift en de Wijsheid en het Profeetschap gaven en indien zij er ongelovig aan zijn: waarlijk, Wij vertrouwen het toe aan een volk dat er niet ongelovig aan is Zij zijn degenen die Allah Leiding gaf: volgt dus hun leiding. Zeg: "Ik vraag U er geen beloning voor, het is slechts een vermaning voor de werelden`,
+        ``,
+        ``
+      ],
+      [
+        `اور ہم نے ان کو اسحاق اور یعقوب بخشے۔ (اور) سب کو ہدایت دی۔ اور پہلے نوح کو بھی ہدایت دی تھی اور ان کی اولاد میں سے داؤد اور سلیمان اور ایوب اور یوسف اور موسیٰ اور ہارون کو بھی۔ اور ہم نیک لوگوں کو ایسا ہی بدلا دیا کرتے ہیں اور زکریا اور یحییٰ اور عیسیٰ اور الیاس کو بھی۔ یہ سب نیکوکار تھے اور اسمٰعیل اور الیسع اور یونس اور لوط کو بھی۔ اور ان سب کو جہان کے لوگوں پر فضلیت بخشی تھی اور بعض بعض کو ان کے باپ دادا اور اولاد اور بھائیوں میں سے بھی۔ اور ان کو برگزیدہ بھی کیا تھا اور سیدھا رستہ بھی دکھایا تھا یہ خدا کی ہدایت ہے اس پر اپنے بندوں میں سے جسے چاہے چلائے۔ اور اگر وہ لوگ شرک کرتے تو جو عمل وہ کرتے تھے سب ضائع ہوجاتے یہ وہ لوگ تھے جن کو ہم نے کتاب اور حکم (شریعت) اور نبوت عطا فرمائی تھی۔ اگر یہ (کفار) ان باتوں سے انکار کریں تو ہم نے ان پر (ایمان لانے کے لئے) ایسے لوگ مقرر کردیئے ہیں کہ وہ ان سے کبھی انکار کرنے والے نہیں یہ وہ لوگ ہیں جن کو خدا نے ہدایت دی تھی تو تم انہیں کی ہدایت کی پیروی کرو۔ کہہ دو کہ میں تم سے اس (قرآن) کا صلہ نہیں مانگتا۔ یہ تو جہان کے لوگوں کے لئےمحض نصیحت ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Kami telah menganugerahkan Ishak dan Yakub kepadanya. Kepada masing-masing telah Kami beri petunjuk; dan sebelum itu Kami telah memberi petunjuk kepada Nuh dan kepada sebagian dari keturunannya (Ibrahim) yaitu Dawud, Sulaiman, Ayub, Yusuf, Musa, dan Harun. Dan demikianlah kami memberi balasan kepada orang-orang yang berbuat baik dan Zakaria, Yahya, Isa dan Ilyas. Semuanya termasuk orang-orang yang saleh Dan Ismail, Alyasa', Yunus dan Lut. Masing-masing Kami lebihkan (derajatnya) di atas umat lain (pada masanya) (dan Kami lebihkan pula derajat) sebagian dari nenek moyang mereka, keturunan mereka dan saudara-saudara mereka. Kami telah memilih mereka (menjadi Nabi dan Rasul) dan mereka Kami beri petunjuk ke jalan yang lurus Itulah petunjuk Allah, dengan itu Dia memberi petunjuk kepada siapa saja di antara hamba-hamba-Nya yang Dia kehendaki. Sekiranya mereka mempersekutukan Allah, pasti lenyaplah amalan yang telah mereka kerjakan Mereka itulah orang-orang yang telah Kami berikan kitab, hikmah dan kenabian. Jika orang-orang (Quraisy) itu mengingkarinya, maka Kami akan menyerahkannya kepada kaum yang tidak mengingkarinya Mereka itulah (para nabi) yang telah diberi petunjuk oleh Allah, maka ikutlah petunjuk mereka. Katakanlah (Muhammad), "Aku tidak meminta imbalan kepadamu dalam menyampaikan (Alquran)." Alquran itu tidak lain hanyalah peringatan untuk (segala umat) seluruh alam`,
+        ``,
+        ``
+      ],
+      [
+        `Ona İshak'ı, Yakub'u bağışladık, her birini doğru yola eriştirdik. Daha önce Nuh'u ve soyundan Davud'u, Süleyman'ı, Eyyub'u, Yusuf'u, Musa'yı ve Harun'u -ki işlerini iyi yapanlara böylece karşılık veririz-, Zekeriya'yı, Yahya'yı, İsa'yı ve İlyas'ı -ki hepsi iyilerdendir-, İsmail'i, Elyesa'ı, Yunus'u, Lut'u -ki hepsini dünyalara üstün kıldık- doğru yola eriştirdik Babalarından, soylarından, kardeşlerinden bir kısmını seçtik ve doğru yola eriştirdik Bu, Allah'ın kullarından dilediğini eriştirdiği yoludur. Eğer ortak koşsalarda amelleri boşa çıkardı Kendilerine kitap, hüküm ve peygamberlik verdiklerimiz işte bunlardır. Kafirler onları inkar ederlerse, inkar etmeyecek bir milleti onlara vekil kılarız İşte bunlar Allah'ın doğru yola eriştirdikleridir, onların yoluna uy, "Sizden buna karşılık bir ücret istemem, bu sadece herkes için bir hatırlatmadır" de`,
+        ``,
+        ``
+      ],
+      [
+        `و به او اسحاق و يعقوب را بخشيديم، و همه را به راه راست درآورديم، و نوح را از پيش راه نموديم، و از نسل او داوود و سليمان و ايوب و يوسف و موسى و هارون را [هدايت كرديم‌] و اين گونه، نيكوكاران را پاداش مى‌دهيم و زكريّا و يحيى و عيسى و الياس را كه همه از شايستگان بودند، و اسماعيل و يسع و يونس و لوط، كه جملگى را بر جهانيان برترى داديم و از پدران و فرزندان و برادرانشان برخى را [بر جهانيان برترى داديم‌]، و آنان را برگزيديم و به راه راست راهنمايى كرديم اين، هدايت خداست كه هر كس از بندگانش را بخواهد بدان هدايت مى‌كند. و اگر آنان شرك ورزيده بودند، قطعاً آن چه انجام مى‌دادند از دستشان مى‌رفت آنان كسانى بودند كه كتاب و داورى و نبوت بديشان داديم؛ و اگر اينان [=مشركان‌] بدان كفر ورزند، بى‌گمان، گروهى [ديگر] را بر آن گماريم كه بدان كافر نباشند اينان كسانى هستند كه خدا هدايتشان كرده است، پس به هدايت آنان اقتدا كن. بگو: «من، از شما هيچ مزدى بر اين [رسالت‌] نمى‌طلبم. اين [قرآن‌] جز تذكرى براى جهانيان نيست.»`,
+        ``,
+        ``
+      ],
+      [
+        `আমি তাঁকে দান করেছি ইসহাক এবং এয়াকুব। প্রত্যেককেই আমি পথ প্রদর্শন করেছি এবং পূর্বে আমি নূহকে পথ প্রদর্শন করেছি-তাঁর সন্তানদের মধ্যে দাউদ, সোলায়মান, আইউব, ইউসুফ, মূসা ও হারুনকে। এমনিভাবে আমি সৎকর্মীদেরকে প্রতিদান দিয়ে থাকি। আর ও যাকারিয়া, ইয়াহিয়া, ঈসা এবং ইলিয়াসকে। তারা সবাই পুণ্যবানদের অন্তর্ভুক্ত ছিল। এবং ইসরাঈল, ইয়াসা, ইউনূস, লূতকে প্রত্যেককেই আমি সারা বিশ্বের উপর গৌরবাম্বিত করেছি। আর ও তাদের কিছু সংখ্যক পিতৃপুরুষ, সন্তান-সন্ততি ও ভ্রাতাদেরকে; আমি তাদেরকে মনোনীত করেছি এবং সরল পথ প্রদর্শন করেছি। এটি আল্লাহর হেদায়েত। স্বীয় বান্দাদের মধ্যে যাকে ইচ্ছা, এপথে চালান। যদি তারা শেরেকী করত, তবে তাদের কাজ কর্ম তাদের জন্যে ব্যর্থ হয়ে যেত। তাদেরকেই আমি গ্রন্থ, শরীয়ত ও নবুয়ত দান করেছি। অতএব, যদি এরা আপনার নবুয়ত অস্বীকার করে, তবে এর জন্যে এমন সম্প্রদায় নির্দিষ্ট করেছি, যারা এতে অবিশ্বাসী হবে না। এরা এমন ছিল, যাদেরকে আল্লাহ পথ প্রদর্শন করেছিলেন। অতএব, আপনিও তাদের পথ অনুসরণ করুন। আপনি বলে দিনঃ আমি তোমাদের কাছে এর জন্যে কোন পারিশ্রমিক চাই না। এটি সারা বিশ্বের জন্যে একটি উপদেশমাত্র।`,
+        ``,
+        ``
+      ],
+      [
+        `E dadivamo-lo com Isaque e Jacó. A ambos guiamos. E a Noé, guiamo-lo, antes. E, de sua descendência, guiamos a Davi e a Salomão e a Jó e a José e a Moisés e a Aarão. Assim, recompensamos os benfeitores E a Zacarias e a Yahiã, João-Batista, e a Jesus e a Elias - todos eram dos íntegros E a Ismael e a Eliseu e a Jonas e a Lot e a todos eles preferimos aos mundos E a alguns de seus pais, e de sua descendência, e de seus irmãos. E Nós os elegemos e os guiamos a uma senda reta Essa é a orientação de Allah: guia com ela a quem quer, entre Seus servos. E, se eles houvessem idolatrado; haver-se-ia anulado o que faziam Esses são aqueles a quem concedêramos o Livro e a sabedoria, e a profecia. E, se estes os renegam, com efeito, confiá-los-emos a um povo não renegador deles Esses são os que Allah guiou. Então, segue sua orientação. Dize: "Não vos peço prêmio por ele. Ele não é senão lembrança para os mundos`,
+        ``,
+        ``
+      ],
+      [
+        `我赏赐他易司哈格和叶尔孤白，-个人我都加以引导。以前，我曾引导努哈，还引导过他的后裔达5德、素莱曼、安优卜、优素福、穆萨、哈伦，我这样报酬行善的人。 （我曾引导）宰凯里雅、叶哈雅、尔撒和易勒雅斯，他们都是善人。 （我曾引导）易司马仪、艾勒叶赛、优努斯和鲁特，我曾使他们超越世人。 （我曾引导）他们的一部分祖先、后裔和弟兄，我曾拣选他们，并指示他们正路。 这是真主的正道，他以它引导他所欲引导的仆人。假若他们以物配主，那末，他们的善功必定变成无效的。 这等人，我曾把天经. 智慧和预言赏赐他们。如果这些人不信这些事物，那末，我就把这些事物委托一个对于它们不会不信的民众。 这等人，是真主引导的人，你应当效法他们走正道。你说：我不为这部经典而向你们索取报酬，这部经典是全世界的教训。`,
+        ``,
+        ``
+      ],
+      [
+        `われはかれ（イブラーヒーム）に（子）イスハークと（孫）ヤアコーブを授けて，それぞれ導いた。先にヌーフも導いた。またかれ（イブラーヒーム）の子孫の中には，ダーウードと，スライマーン，アイユーブ，ユースフ， ムーサー，ハールーンがいる。われはこのように善い行いをする者に報いる。 またザカリーヤー，ヤヒヤー，イーサーとイルヤースがいる。それぞれみな正義の徒であっ た。 またイスマーイール，アル・ヤサア，ユーヌスとル―トがいる。われはかれらを，皆世に秀でた者とした。 またかれらの祖先と子孫と兄弟の中，われはかれら（のある者）を選んで正しい道に導いた。 これはアッラーの導きであり，かれはそのしもベの中から，御好みになられる者を導かれる。もしかれらが（神々をかれと）並べたならば，凡ての行いは，かれらにとって，虚しいものと なろう。 これらの者はわれが，啓典と識見と預言の天分を授けた者である。それでもしかれらがこれを信じないならば，われはこれらを拒否しない（別の）者にこれを委ねるであろう。 これらの者は，アッラーが導かれた者であるから，かれらの導きに従いなさい。言ってやるがいい。「わたしはこのために，どんな報酬もあなたがたに求めない。これは只諸民族に対して （アッラーの真意を）思い起させるだけである。」`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 그에게 이삭과 야 곱을 주어 그들 모두를 인도하였 으며 그 이전의 노아를 인도하였 으며 그의 자손 가운데 다원과 솔로몬과 욥과 요셉과 모세와 아론 을 인도하였노라 이와 같이 하나 님은 선을 행하는 자들에게는 보 상을 주었노라 자카리야와 요한과 예수와 엘리야스 모두도 의로운자 중에 있었노라 이스마엘과 엘리샤와 요나와롯 모두를 다른 민족위에 두었노 라 그들의 선조들과 그들의 후 손과 형제들 가운데서 하나님은 그들을 선택하여 그들을 올바른 길로 인도하였음이라 이것이 하나님의 인도하심이니 그분은 그분의 종복가운데 그 분의 뜻이 있는자를 인도하심이라만일 그들이 그분께 다른 우상을 비유했다면 그들의 모든 것이 헛 되었으리라 이들에게는 성서와 권능과 예언자의 능력을 부여했노라 그들이 그것을 믿지 아니 했다면 하 나님은 그것을 불신하지 아니한 백성에게 부여하였으리라 이들은 하나님의 인도하심 을 받은 예언자들이니 그들의 인 도함을 따르라 일러 가로되 내가 그것으로 인하여 어떤 보상을 너 희에게 구하지 아니함이라 그것은백성을 일깨워 주는 것에 불과하 니라`,
+        ``,
+        ``
+      ],
+      [
+        `Gli demmo Isacco e Giacobbe, e li guidammo entrambi. E in precedenza guidammo Noè; tra i suoi discendenti [guidammo]: Davide, Salomone, Giobbe, Giuseppe, Mosè e Aronne. Così Noi ricompensiamo quelli che fanno il bene E [guidammo] Zaccaria, Giovanni, Gesù ed Elia. Era tutta gente del bene E [guidammo] Ismaele, Eliseo, Giona e Lot. Concedemmo a tutti loro eccellenza sugli uomini Così abbiamo scelto e guidato sulla retta via, una parte dei loro antenati, dei loro discendenti e dei loro fratelli Ecco la guida con la quale Allah dirige chi vuole tra i Suoi servi. Se avessero attribuito ad Allah dei consimili, tutte le loro opere sarebbero state vane Essi sono coloro a cui demmo la Scrittura e la Saggezza e la Profezia. Se [altri] non credono in loro, ebbene li abbiamo affidati a gente che non è miscredente Essi sono coloro che Allah ha guidato: attieniti alla loro guida. Di': “Non vi chiedo compenso per questo. Non è che un monito rivolto al creato”`,
+        ``,
+        ``
+      ],
+      [
+        `I darowaliśmy mu Izaaka i Jakuba, każdego poprowadziliśmy drogą prostą. I Noego poprowadziliśmy drogą prostą; a z jego potomstwa: Dawida, Salomona, Hioba, Józefa, Mojżesza i Aarona - w ten sposób płacimy tym, którzy czynią dobro I Zachariasza, i Jana, Jezusa i Eliasza - oni wszyscy są z liczby cnotliwych I Isma\`ila, i Al-Jasa, Jonasza i Lota - wszystkich wywyższyliśmy ponad światy A spośród ich ojców i ich potomstwa, jak i spośród ich braci wybraliśmy niektórych i poprowadziliśmy ku drodze prostej To jest droga Boga, którą On prowadzi, kogo chce ze Swoich sług. A gdyby oni dodawali Jemu współtowarzyszy, to daremne byłoby dla nich to, co uczynili To są ci, którym daliśmy Księgę, mądrość i proroctwo. Jeśli jednak oni nie uwierzą w nie, to My już powierzyliśmy je ludziom, którzy nie będą niewiernymi To są ci, których Bóg poprowadził drogą prostą. I ty postępuj po tej drodze prostej! Powiedz: "Ja nie żądam od was za to żadnej zapłaty. To jest tylko napomnienie dla światów`,
+        ``,
+        ``
+      ],
+      [
+        `І Ми дарували йому Ісхака та Якуба, і Ми вказали їм прямий шлях. А ще раніше Ми вказали прямий шлях Нуху, а з нащадків його — Дауду, Сулєйману, Айюбу, Юсуфу, Мусі та Гаруну. Так Ми винагороджуємо тих, які роблять добро А також Закарії, Ях’ї, Ісі та Ільясу — усі вони з праведників А також Ісмаїлю, Альясу, Юнусу та Люту — усіх їх Ми вивищили над світами А також деяким серед батьків їхніх, нащадків їхніх і братів їхніх. Ми обрали їх і вказали прямий шлях Такий прямий шлях від Аллага. Він веде ним тих із рабів Своїх, кого побажає. А якщо вони додають Йому рівних, то марним буде все те, що роблять вони Це ті, яким Ми дарували Писання, мудрість і пророцтво. А якщо ці не увірують в них, то Ми вже доручили це іншим людям, які не стануть невіруючими Це ті, кому Аллаг вказав прямий шлях. Тож прямуй слідом за ними! Скажи: «Я не прошу у вас відплати, а це лише нагадування для світів`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنعام / Al-An'am، الآيات 84-90`
+  },
+
+  {
+    arabic: [
       `ذَٰلِكُمُ اللَّهُ رَبُّكُمْ ۖ لَا إِلَٰهَ إِلَّا هُوَ ۖ خَالِقُ كُلِّ شَيْءٍ فَاعْبُدُوهُ ۚ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ وَكِيلٌ`,
       `لَا تُدْرِكُهُ الْأَبْصَارُ وَهُوَ يُدْرِكُ الْأَبْصَارَ ۖ وَهُوَ اللَّطِيفُ الْخَبِيرُ`,
       ``
@@ -7138,6 +8589,117 @@ const verses = [
       ]
     ],
     number: `سورة الأنعام / Al-An'am، الآية 160`
+  },
+
+  {
+    arabic: [
+      `قُلْ إِنَّنِي هَدَانِي رَبِّي إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ دِينًا قِيَمًا مِلَّةَ إِبْرَاهِيمَ حَنِيفًا ۚ وَمَا كَانَ مِنَ الْمُشْرِكِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Say, "Indeed, my Lord has guided me to a straight path - a correct religion - the way of Abraham, inclining toward truth. And he was not among those who associated others with Allah`,
+        ``,
+        ``
+      ],
+      [
+        `Dis : “Moi, mon Seigneur m'a guidé vers un droit chemin, une religion droite : la religion d'Abraham, le soumis exclusivement à Allah et qui n'était point parmi les polythéistes. ”`,
+        ``,
+        ``
+      ],
+      [
+        `Di: «A mí, mi Señor me ha dirigido a una vía recta, una fe verdadera, la religión de Abraham, que fue hanif y no asociador»`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи: «Воистину, мой Господь наставил меня на прямой путь, на правильную религию, веру Ибрахима (Авраама), ханифа. Ведь он не был из числа многобожников»`,
+        ``,
+        ``
+      ],
+      [
+        `Sag: Gewiß, mich hat mein Herr zu einem geraden Weg geleitet, einer richtigen Religion, dem Glaubensbekenntnis Ibrahims, als Anhänger des rechten Glaubens, und er war keiner der Götzendiener`,
+        ``,
+        ``
+      ],
+      [
+        `SÄG: "Min Herre har lett mig till en rak väg, till den sanna tron, Abrahams rena, ursprungliga tro - han som vägrade avgudarna sin dyrkan`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zeg (O Moehammad): "Voorwaar, Mijn Heer heeft mij op een reht Pad geleid, de ware godsdienst, de godsdienst van Ibrâhîm, de Hanîf, en hij behoorde niet tot de veelgodenaanbidders`,
+        ``,
+        ``
+      ],
+      [
+        `کہہ دو کہ مجھے میرے پروردگار نے سیدھا رستہ دکھا دیا ہے (یعنی دین صحیح) مذہب ابراہیم کا جو ایک (خدا) ہی کی طرف کے تھے اور مشرکوں میں سے نہ تھے`,
+        ``,
+        ``
+      ],
+      [
+        `Katakanlah (Muhammad), "Sesungguhnya Tuhanku telah memberiku petunjuk ke jalan yang lurus, agama yang benar, agama Ibrahim yang lurus. Dia (Ibrahim) tidak termasuk orang-orang musyrik`,
+        ``,
+        ``
+      ],
+      [
+        `Şüphesiz Rabbim beni doğru yola, gerçek dine, doğruya yönelen ve puta tapanlardan olmayan İbrahim'in dinine iletmiştir" de`,
+        ``,
+        ``
+      ],
+      [
+        `بگو: «آرى! پروردگارم مرا به راه راست هدايت كرده است: دينى پايدار، آيين ابراهيمِ حق‌گراى! و او از مشركان نبود.»`,
+        ``,
+        ``
+      ],
+      [
+        `আপনি বলে দিনঃ আমার প্রতিপালক আমাকে সরল পথ প্রদর্শন করেছেন একাগ্রচিত্ত ইব্রাহীমের বিশুদ্ধ ধর্ম। সে অংশীবাদীদের অন্তর্ভূক্ত ছিল না।`,
+        ``,
+        ``
+      ],
+      [
+        `Dize: "Por certo, meu Senhor guiou-me a uma senda reta: a uma religião justa, a crença de Abraão, monoteísta sincero, e que não era dos idólatras`,
+        ``,
+        ``
+      ],
+      [
+        `你说：我的主己指引我一条正路，即正教，崇正的易卜拉欣的宗教。他不是以物配主的人。`,
+        ``,
+        ``
+      ],
+      [
+        `言ってやるがいい。「本当に主は，わたしを正しい道，真実の教え，純正なイブラーヒームの信仰に導かれる。かれは多神教徒の仲間ではなかった。」`,
+        ``,
+        ``
+      ],
+      [
+        `일러가로되 실로 나의 주님께서 나를 바른 신앙의 길로 인도 하였으며 그 길은 바로 아브라함 의 믿음이요 진리의 길이라 또한 그분은 하나님께 아무것도 비유 하지 아니 했노라`,
+        ``,
+        ``
+      ],
+      [
+        `Di': “Il Signore mi ha guidato sulla retta via, in una religione giusta, la fede di Abramo, che era un puro credente e non associatore”`,
+        ``,
+        ``
+      ],
+      [
+        `Powiedz: "Oto poprowadził mnie mój Pan ku drodze prostej, jako religii prawdziwej społeczności religijnej Abrahama, prawdziwie pobożnego. On nie był z liczby bałwochwalców`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи: «Воістину, мій Господь указав мені прямий шлях, який є істинною релігією, віросповіданням Ібрагіма-ханіфа. А він не був багатобожником`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنعام / Al-An'am، الآية 161`
   },
 
   {
@@ -7804,6 +9366,450 @@ const verses = [
       ]
     ],
     number: `سورة الأعراف / Al-A'raf، الآيتان 42-43`
+  },
+
+  {
+    arabic: [
+      `لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ فَقَالَ يَا قَوْمِ اعْبُدُوا اللَّهَ مَا لَكُمْ مِنْ إِلَٰهٍ غَيْرُهُ إِنِّي أَخَافُ عَلَيْكُمْ عَذَابَ يَوْمٍ عَظِيمٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `We had certainly sent Noah to his people, and he said, "O my people, worship Allah; you have no deity other than Him. Indeed, I fear for you the punishment of a tremendous Day`,
+        ``,
+        ``
+      ],
+      [
+        `Nous avons envoyé Noé vers son peuple. Il dit : "Ô mon peuple ! Adorez Allah ! Pour vous, pas d'autre divinité que Lui. Je crains pour vous le châtiment d'un jour terrible`,
+        ``,
+        ``
+      ],
+      [
+        `Enviamos Noé a su pueblo. Dijo: «¡Pueblo! ¡Servid a Alá! No tenéis a ningún otro dios que a Él. Temo por vosotros el castigo de un día terrible»`,
+        ``,
+        ``
+      ],
+      [
+        `Мы послали Нуха (Ноя) к его народу, и он сказал: «О мой народ! Поклоняйтесь Аллаху, ибо нет у вас другого божества, кроме Него. Я боюсь, что вас постигнут мучения в Великий день»`,
+        ``,
+        ``
+      ],
+      [
+        `Wir sandten doch bereits Nuh zu seinem Volk, und da sagte er: "O mein Volk, dient Allah! Keinen Gott habt ihr außer Ihm. Gewiß, ich fürchte für euch die Strafe eines gewaltigen Tages`,
+        ``,
+        ``
+      ],
+      [
+        `SE, VI sände Noa till hans folk och han sade: "Dyrka Gud, mitt folk - ni har ingen annan gud än Honom! Jag bävar för det straff [som annars skall drabba] er en Dag av svåraste vånda`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorzeker, Wij zonden Nôeh tot zijn volk en hij zei: "O mijn volk, aanbidt Allah, er is voor jullie geen god dan Hij: voorwaar, ik vrees voor jullie de bestraffing van een geweldige Dag`,
+        ``,
+        ``
+      ],
+      [
+        `ہم نے نوح کو ان کی قوم کی طرف بھیجا تو انہوں نے (ان سے کہا) اے میری برادری کے لوگو خدا کی عبادت کرو اس کے سوا تمہارا کوئی معبود نہیں۔ مجھے تمہارے بارے میں بڑے دن کے عذاب کا (بہت ہی) ڈر ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, Kami benar-benar telah mengutus Nuh kepada kaumnya, lalu dia berkata, "Wahai kaumku! Sembahlah Allah! Tidak ada Tuhan (sembahan) bagimu selain Dia. Sesungguhnya aku takut kamu akan ditimpa azab pada hari yang dahsyat (Kiamat)`,
+        ``,
+        ``
+      ],
+      [
+        `And olsun ki Nuh'u milletine gönderdik. "Ey milletim! Allah'a kulluk edin, O'ndan başka tanrınız yoktur; doğrusu sizin için büyük günün azabından korkuyorum" dedi`,
+        ``,
+        ``
+      ],
+      [
+        `همانا نوح را به سوى قومش فرستاديم. پس گفت: «اى قوم من، خدا را بپرستيد كه براى شما معبودى جز او نيست، من از عذاب روزى سترگ بر شما بيمناكم.»`,
+        ``,
+        ``
+      ],
+      [
+        `নিশ্চয় আমি নূহকে তার সম্প্রদায়ের প্রতি পাঠিয়েছি। সে বললঃ হে আমার সম্প্রদায়, তোমরা আল্লাহর এবাদত কর। তিনি ব্যতীত তোমাদের কোন উপাস্য নেই। আমি তোমাদের জন্যে একটি মহাদিবসের শাস্তির আশঙ্কা করি।`,
+        ``,
+        ``
+      ],
+      [
+        `Com efeito, enviamos Noé a seu povo. E disse: "Ó meu povo! Adorai a Allah: não tendes outro deus que não seja Ele. Por certo, temo, por vós, o castigo de um formidável dia`,
+        ``,
+        ``
+      ],
+      [
+        `我确已派遣努哈去教化他的宗族，他说：我的宗族啊！你们要崇拜真主，除他之外，绝无应受你们崇拜的。我的确担心你们遭受重大日的刑罚。`,
+        ``,
+        ``
+      ],
+      [
+        `先にわれはヌーフをその民に遺わした。かれは言った。「わたしの人びとよ，アッラーに仕えなさい。かれの外に神はないのである。本当にわたしは，偉大な日の懲罰をあなたがたのために恐れる。」`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 노아를 그의 백성 에게 보내었을 때 노아 이르되 백성들이여 하나님을 경배하라 그 분 외에는 신이 없으며 심판의 날너희가 벌을 받을까 내가 두렵도 다 경고했더라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità mandammo Noè al suo popolo. Disse: “O popol mio, adorate Allah! Per voi non c'è altro dio che Lui. Temo, per voi, il castigo di un Giorno terribile”`,
+        ``,
+        ``
+      ],
+      [
+        `I wysłaliśmy Noego do jego ludu; on powiedział: "O ludu mój! Czcijcie Boga! Nie macie innego boga, jak tylko On! Zaprawdę, obawiam się dla was kary Dnia Wielkiego`,
+        ``,
+        ``
+      ],
+      [
+        `Ми послали Нуха до його народу. Він сказав: «О люди! Поклоняйтеся Аллагу! У вас немає бога, крім Нього! Я боюся, що впаде на вас кара у Великий День`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأعراف / Al-A'raf، الآية 59`
+  },
+
+  {
+    arabic: [
+      `۞ وَإِلَىٰ عَادٍ أَخَاهُمْ هُودًا ۗ قَالَ يَا قَوْمِ اعْبُدُوا اللَّهَ مَا لَكُمْ مِنْ إِلَٰهٍ غَيْرُهُ ۚ أَفَلَا تَتَّقُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And to the 'Aad [We sent] their brother Hud. He said, "O my people, worship Allah; you have no deity other than Him. Then will you not fear Him`,
+        ``,
+        ``
+      ],
+      [
+        `Et aux ‘Âd, leur frère Hûd : “Ô mon peuple, dit-il, adorez Allah! Pour vous, pas d'autre divinité que Lui. Ne [Le] craignez-vous donc pas ?”`,
+        ``,
+        ``
+      ],
+      [
+        `Y a los aditas su hermano Hud. Dijo: «¡Pueblo! ¡Servid a Alá! No tenéis a ningún otro dios que a Él. ¿No vais a temerle?»`,
+        ``,
+        ``
+      ],
+      [
+        `Мы отправили к адитам их брата Худа. Он сказал: «О мой народ! Поклоняйтесь Аллаху, ибо нет у вас другого божества, кроме Него. Неужели вы не устрашитесь?»`,
+        ``,
+        ``
+      ],
+      [
+        `Und (Wir sandten) zu "Ad ihren Bruder Hud. Er sagte: "O mein Volk, dient Allah! Keinen Gott habt ihr außer Ihm. Wollt ihr denn nicht gottesfürchtig sein`,
+        ``,
+        ``
+      ],
+      [
+        `OCH TILL [stammen] Aad [sände Vi] deras broder Hud. Han sade: "Dyrka Gud, mitt folk - ni har ingen annan gud än Honom! Fruktar ni Honom inte`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En tot de 'Âd (zonden Wij) hun broeder Hôed, Hij zei: "O mijn vok aanbidt Allah, er is voor jullie geen god dan Hij, zullen jullie dan niet (Allah) vrezen`,
+        ``,
+        ``
+      ],
+      [
+        `اور (اسی طرح) قوم عاد کی طرف ان کے بھائی ہود کو بھیجا۔ انہوں نے کہا کہ بھائیو خدا ہی کی عبادت کرو۔ اس کے سوا تمہارا کوئی معبود نہیں۔ کیا تم ڈرتے نہیں؟`,
+        ``,
+        ``
+      ],
+      [
+        `Dan kepada kaum 'Ād (Kami utus) Hud, saudara mereka. Dia berkata, "Wahai kaumku! Sembahlah Allah! Tidak ada tuhan (sesembahan) bagimu selain Dia. Maka mengapa kamu tidak bertakwa`,
+        ``,
+        ``
+      ],
+      [
+        `Ad milletine de, kardeşleri Hud'u gönderdik "Ey milletim! Allah'a kulluk edin, O'ndan başka tanrınız yoktur, karşı gelmekten sakınmaz mısınız?" dedi`,
+        ``,
+        ``
+      ],
+      [
+        `و به سوى عاد، برادرشان هود را [فرستاديم‌]؛ گفت: «اى قوم من، خدا را بپرستيد كه براى شما معبودى جز او نيست، پس آيا پرهيزگارى نمى‌كنيد؟»`,
+        ``,
+        ``
+      ],
+      [
+        `আদ সম্প্রদায়ের কাছে প্রেরণ করেছি তাদের ভাই হুদকে। সে বললঃ হে আমার সম্প্রদায়, তোমরা আল্লাহর এবাদত কর। তিনি ব্যতিত তোমাদের কোন উপাস্য নেই।`,
+        ``,
+        ``
+      ],
+      [
+        `E, ao povo de Ãd, enviamos seu irmão Hud. Disse: "Ó meu povo! Adorai a Allah: não tendes outro deus que não seja Ele. Então, não temeis a Allah`,
+        ``,
+        ``
+      ],
+      [
+        `（我确已派遣）阿德人的弟兄呼德去教化他们，他说：我的宗族啊！你们要崇拜真主，除他之外，绝无应受你们崇拜的。难道你们还不敬畏吗？`,
+        ``,
+        ``
+      ],
+      [
+        `(（われは）またアードの民に，その同胞のフードを（遣わした)。かれは言った。「わたしの人びとよ，アッラーに仕えなさい。あなたがたには，かれ（アッラー）の外に神はないのである。あなたがたは主を畏れないのか。」`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 아드 백성에게 그 들의 형제 후드를 보내니 백성들 이여 하나님을 경배하라 그 분 외에는 신이 없노라 너희는 하나님 이 두렵지 않느뇨`,
+        ``,
+        ``
+      ],
+      [
+        `E agli Âd [inviammo] il loro fratello Hûd: “O popol mio, disse, adorate Allah. Per voi non c'è altro dio che Lui. Non Lo temerete?”`,
+        ``,
+        ``
+      ],
+      [
+        `A do ludu Ad posłaliśmy ich brata Huda. Powiedział on: "O ludu mój! Czcijcie Boga! Nie ma dla was boga, jak tylko On! Czyż nie możecie być bogobojni`,
+        ``,
+        ``
+      ],
+      [
+        `І до адитів Ми послали їхнього брата Гуда. Він сказав: «О люди! Поклоняйтеся Аллагу! У вас немає бога, крім Нього! Невже не матимете страху перед Ним?»`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأعراف / Al-A'raf، الآية 65`
+  },
+
+  {
+    arabic: [
+      `وَإِلَىٰ ثَمُودَ أَخَاهُمْ صَالِحًا ۗ قَالَ يَا قَوْمِ اعْبُدُوا اللَّهَ مَا لَكُمْ مِنْ إِلَٰهٍ غَيْرُهُ ۖ قَدْ جَاءَتْكُمْ بَيِّنَةٌ مِنْ رَبِّكُمْ ۖ هَٰذِهِ نَاقَةُ اللَّهِ لَكُمْ آيَةً ۖ فَذَرُوهَا تَأْكُلْ فِي أَرْضِ اللَّهِ ۖ وَلَا تَمَسُّوهَا بِسُوءٍ فَيَأْخُذَكُمْ عَذَابٌ أَلِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And to the Thamud [We sent] their brother Salih. He said, "O my people, worship Allah; you have no deity other than Him. There has come to you clear evidence from your Lord. This is the she-camel of Allah [sent] to you as a sign. So leave her to eat within Allah 's land and do not touch her with harm, lest there seize you a painful punishment`,
+        ``,
+        ``
+      ],
+      [
+        `Et aux Thamûd, leur frère Sâlîh : “Ô mon peuple, dit-il, adorez Allah ! Pour vous, pas d'autre divinité que Lui. Certes, une preuve vous est venue de votre Seigneur : voici la chamelle d'Allah, un signe pour vous. Laissez-la donc manger sur la terre d'Allah et ne lui faites aucun mal ; sinon un châtiment douloureux vous saisira`,
+        ``,
+        ``
+      ],
+      [
+        `Y a los tamudeos su hermano Salih. Dijo: «¡Pueblo! ¡Servid a Alá! No tenéis a ningún otro dios que a Él. Os ha venido de vuestro Señor una prueba: es la camella de Alá, que será signo para vosotros, ¡Dejadla que pazca en la tierra de Alá y no le hagáis mal! Si no, os alcanzará un castigo doloroso`,
+        ``,
+        ``
+      ],
+      [
+        `Мы отправили к самудянам их брата Салиха. Он сказал: «О мой народ! Поклоняйтесь Аллаху, ибо нет у вас другого божества, кроме Него. К вам явилось ясное знамение от вашего Господа. Эта верблюдица Аллаха является знамением для вас. Позвольте ей пастись на земле Аллаха и не причиняйте ей зла, а не то вас постигнут мучительные страдания`,
+        ``,
+        ``
+      ],
+      [
+        `Und (Wir sandten) zu Tamud ihren Bruder Salih. Er sagte: "O mein Volk, dient Allah! Keinen Gott habt ihr außer Ihm. Nun ist ein klarer Beweis von eurem Herrn zu euch gekommen: Dies ist die Kamelstute Allahs, euch zum Zeichen. So laßt sie auf Allahs Erde fressen und fügt ihr nichts Böses zu, sonst überkommt euch schmerzhafte Strafe`,
+        ``,
+        ``
+      ],
+      [
+        `OCH TILL stammen Thamud [sändes] deras broder Salih. Han sade: "Dyrka Gud, mitt folk - ni har ingen annan gud än Honom! Ni har fått ett klart vittnesbörd från er Herre: detta Guds kamelsto är ett tecken för er. Lämna henne i fred att beta på Guds jord och tillfoga henne ingen skada; annars väntar er ett plågsamt straff`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En tot de Tsamôed (zonden Wij) hun broeder Shâlih. Hij zei: "O mijn volk, aanbidt Allah, er is voor jullie geen god dan Hij. Waarlijk, er is een duidelijk bewijs van jullie Heer tot jullie gekomen. Dat is de vrouwtjeskameel van Allah, als een Teken voor jullie. Laat haar daarom op de aarde van Allah eten en doe haar geen kwaad, anders zal een pijnlijke bestraffing jullie grijpen`,
+        ``,
+        ``
+      ],
+      [
+        `اور قوم ثمود کی طرف ان کے بھائی صالح کو بھیجا۔ (تو) صالح نے کہا کہ اے قوم! خدا ہی کی عبادت کرو اس کے سوا تمہارا کوئی معبود نہیں۔ تمہارے پاس تمہارے پروردگار کی طرف سے ایک معجزہ آ چکا ہے۔ (یعنی) یہی خدا کی اونٹنی تمہارے لیے معجزہ ہے۔ تو اسے (آزاد) چھوڑ دو کہ خدا کی زمین میں چرتی پھرے اور تم اسے بری نیت سے ہاتھ بھی نہ لگانا۔ ورنہ عذابِ الیم میں تمہیں پکڑ لے گا`,
+        ``,
+        ``
+      ],
+      [
+        `Dan kepada kaum Samud (Kami utus) saudara mereka Saleh. Dia berkata, "Wahai kaumku! Sembahlah Allah! Tidak ada tuhan (sembahan) bagimu selain Dia. Sesungguhnya telah datang kepadamu bukti yang nyata dari Tuhanmu. Ini (seekor) Unta betina dari Allah sebagai tanda untukmu. Biarkanlah ia makan di bumi Allah, janganlah disakiti, nanti akibatnya kamu akan mendapatkan siksaan yang pedih`,
+        ``,
+        ``
+      ],
+      [
+        `Semud milletine de kardeşleri Salih'i gönderdik. "Ey milletim! Allah'a kulluk edin, O'ndan başka tanrınız yoktur. Rabbinizden size bir belge geldi: Allah'ın bu dişi devesi size bir delildir, onu bırakın, Allah'ın toprağında otlasın; ona kötülük etmeyin, yoksa can yakıcı azaba uğrarsınız`,
+        ``,
+        ``
+      ],
+      [
+        `و به سوى [قوم‌] ثمود، صالح، برادرشان را [فرستاديم‌]؛ گفت: «اى قوم من، خدا را بپرستيد، براى شما معبودى جز او نيست؛ در حقيقت، براى شما از جانب پروردگارتان دليلى آشكار آمده است. اين، ماده‌شتر خدا براى شماست كه پديده‌اى شگرف است. پس آن را بگذاريد تا در زمين خدا بخورد و گزندى به او نرسانيد تا [مبادا] شما را عذابى دردناك فرو گيرد.»`,
+        ``,
+        ``
+      ],
+      [
+        `সামুদ সম্প্রদায়ের কাছে প্রেরণ করেছি তাদের ভাই সালেহকে। সে বললঃ হে আমার সম্প্রদায়, তোমরা আল্লাহর এবাদত কর। তিনি ব্যতিত তোমাদের কোন উপাস্য নেই। তোমাদের কাছে তোমাদের প্রতিপালকের পক্ষ থেকে একটি প্রমাণ এসে গেছে। এটি আল্লাহর উষ্টী তোমাদের জন্যে প্রমাণ। অতএব একে ছেড়ে দাও, আল্লাহর ভুমিতে চড়ে বেড়াবে। একে অসৎভাবে স্পর্শ করবে না। অন্যথায় তোমাদেরকে যন্ত্রনাদায়ক শাস্তি পাকড়াও করবে।`,
+        ``,
+        ``
+      ],
+      [
+        `E ao povo de Thamud, enviamos seu irmão Sãlih. Disse: "Ó meu povo! Adorai a Allah: não tendes outro deus que não seja Ele. Com efeito, chegou-vos uma evidência de vosso Senhor; este camelo fêmea vindo de Allah é, para vós, como sinal. Então, deixai-o comer na terra de Allah e não o toqueis com mal algum: pois, apanhar-vos-ia um doloroso castigo`,
+        ``,
+        ``
+      ],
+      [
+        `（我确已派遣）赛莫德人的弟兄撒立哈去教化他们，他说：我的宗族啊！你们要崇拜真主，除他之外，绝无应受你们崇拜的。从你们的主发出的明证确已降临你们，这只真主的母驼可以作你们的迹象。故你们让它在真主的大地上随便吃草，不要伤害它，否则，痛苦的刑罚必袭击你们。`,
+        ``,
+        ``
+      ],
+      [
+        `（われは）また，サムードの民にその同胞サーリフを（遣わした）。かれは言った。「わたしの人びとよ，アッラーに仕えなさい。あなたがたには，かれの外に神はないのである。今主から証があなたがたに下った。このアッラーの雌ラクダが，あなたがたへの印である。それでこれ をアッラーの大地に放牧して食べさせなさい。そしてあなたがたが痛ましい懲罰に遭わないよう，それに害を加えてはならない。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 사무드 백성에게 그들의 형제 살레를 보내니 그가 이르더라 백성이여 하나님을 경배하라 그 분 외에는 신이 없노라 이제 너희 주님으로부터 너희에게예중이 이르렀거늘 이것이 하나님이 너희에게 예중으로 보낸 암낙 타라 그리하니 하나님의 대지 위 에서 풀을 뜯도록 놓아두되 해치 지 말라 그렇지 아니하면 너희가 고통스러운 벌을 받으리라`,
+        ``,
+        ``
+      ],
+      [
+        `E ai Thamûd [inviammo] il loro fratello Sâlih. [Disse]: “O popol mio, adorate Allah. Per voi non c'è altro dio all'infuori di Lui. Ecco che vi è giunta una prova da parte del vostro Signore: ecco la cammella di Allah, un segno per voi. Lasciatela pascolare sulla terra di Allah e non le fate alcun male: scontereste un doloroso castigo`,
+        ``,
+        ``
+      ],
+      [
+        `I do ludu Samud posłaliśmy ich brata Saliha. On powiedział: "O ludu mój! Czcijcie Boga! Nie ma dla was boga innego niż On! Otrzymaliście jasny dowód od waszego Pana. Oto wielbłądzica jest dla was znakiem! Pozwólcie jej paść się na ziemi Boga i nie dotknijcie jej żadnym złem, bo inaczej pochwyci was kara bolesna`,
+        ``,
+        ``
+      ],
+      [
+        `А до самудитів [відіслали] їхнього брата Саліха. Він сказав: «Люди! Поклоняйтеся Аллагу! У вас немає бога, крім Нього! Прийшло до вас ясне знамення від Господа вашого. Ось ця верблюдиця Аллага — знамення для вас. Дозвольте ж їй пастися на землі Аллага й не завдавайте їй шкоди, інакше впаде на вас болісна кара!»`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأعراف / Al-A'raf، الآية 73`
+  },
+
+  {
+    arabic: [
+      `وَإِلَىٰ مَدْيَنَ أَخَاهُمْ شُعَيْبًا ۗ قَالَ يَا قَوْمِ اعْبُدُوا اللَّهَ مَا لَكُمْ مِنْ إِلَٰهٍ غَيْرُهُ ۖ قَدْ جَاءَتْكُمْ بَيِّنَةٌ مِنْ رَبِّكُمْ ۖ فَأَوْفُوا الْكَيْلَ وَالْمِيزَانَ وَلَا تَبْخَسُوا النَّاسَ أَشْيَاءَهُمْ وَلَا تُفْسِدُوا فِي الْأَرْضِ بَعْدَ إِصْلَاحِهَا ۚ ذَٰلِكُمْ خَيْرٌ لَكُمْ إِنْ كُنْتُمْ مُؤْمِنِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And to [the people of] Madyan [We sent] their brother Shu'ayb. He said, "O my people, worship Allah; you have no deity other than Him. There has come to you clear evidence from your Lord. So fulfill the measure and weight and do not deprive people of their due and cause not corruption upon the earth after its reformation. That is better for you, if you should be believers`,
+        ``,
+        ``
+      ],
+      [
+        `Et aux Madyan, leur frère Chuaïb: "Ô mon peuple, dit-il, adorez Allah ! Pour vous, pas d'autre divinité que Lui. Une preuve vous est venue de votre Seigneur. Donnez donc la pleine mesure et le poids et ne donnez pas aux gens moins que ce qui leur est dû. Et ne commettez pas de la corruption sur la Terre après sa réforme. Ce sera mieux pour vous si vous êtes croyants`,
+        ``,
+        ``
+      ],
+      [
+        `Y a los madianitas su hermano Suayb. Dijo: «¡Pueblo! ¡Servid a Alá! No tenéis a ningún otro dios que a Él. Os ha venido, de vuestro Señor, una prueba. ¡Dad la medida y el peso justos, no defraudéis a los hombres en sus bienes! ¡No corrompáis en la tierra después de reformada! Eso es mejor para vosotros, si es que sois creyentes`,
+        ``,
+        ``
+      ],
+      [
+        `Мы отправили к мадьянитам их брата Шуейба. Он сказал: «О мой народ! Поклоняйтесь Аллаху, ибо нет у вас другого божества, кроме Него. К вам явилось ясное знамение от вашего Господа. Наполняйте же меру и весы сполна, не придерживайте имущества людей и не распространяйте нечестия на земле после того, как на ней наведен порядок. Так лучше для вас, если только вы являетесь верующими`,
+        ``,
+        ``
+      ],
+      [
+        `Und (Wir sandten) zu Madyan ihren Bruder Su'aib. Er sagte: "O mein Volk, dient Allah! Keinen Gott habt ihr außer Ihm. Nun ist ein klarer Beweis von eurem Herrn zu euch gekommen; so gebt volles Maß und Gewicht und schmälert den Menschen nicht ihre Sachen und stiftet auf der Erde nicht Unheil, nachdem sie in Ordnung gebracht worden ist! Das ist besser für euch, wenn ihr gläubig seid`,
+        ``,
+        ``
+      ],
+      [
+        `OCH TILL [folket i] Madyan [sände Vi] deras broder Shu\`ayb. Och han sade: "Dyrka Gud, mitt folk - ni har ingen annan gud än Honom! Ni har fått ett klart vittnesbörd från er Herre. Mät och väg därför med fulla mått [i allt vad ni företar er] och inkräkta inte i något avseende på andras rätt. Och stör inte ordningen och sprid inte sedefördärv på jorden, sedan allt där har ställts till rätta. Detta är för ert väl, om ni är troende`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En tot (de bewoners van) Madyan (zonden Wij) hun broeder Sjoe'aib, Hij zei: "O mijn volk, unbidt Allah, er is voor jullie geen god dan Hij. Waarlijk, er is een duidelijk bewijs van jullie Heer tot jullie gekomen. Geeft dan de volle maat en het volle gewicht en benadeelt de mensen niet in hun zaken en zaait geen verderf op aarde na de verbetering op haar (door de komst van een Profeet). Dat is beter voor jullie, als jullie gelovigen zijn`,
+        ``,
+        ``
+      ],
+      [
+        `اور مَدین کی طرف ان کے بھائی شعیب کو بھیجا۔ (تو) انہوں نے کہا کہ قوم! خدا ہی کی عبادت کرو اس کے سوا تمہارا کوئی معبود نہیں۔ تمہارے پاس تمہارے پروردگار کی طرف سے نشانی آچکی ہے تو تم ناپ تول پوری کیا کرو اور لوگوں کو چیزیں کم نہ دیا کرو۔ اور زمین میں اصلاح کے بعد خرابی نہ کرو۔ اگر تم صاحب ایمان ہو تو سمجھ لو کہ یہ بات تمہارے حق میں بہتر ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan kepada penduduk Madyan, Kami (utus) Syu'aib, saudara mereka sendiri. Dia berkata, "Wahai kaumku! Sembahlah Allah. Tidak ada tuhan (sembahan) bagimu selain Dia. Sesungguhnya telah datang kepadamu bukti yang nyata dari Tuhanmu. Sempurnakanlah takaran dan timbangan, dan jangan kamu merugikan orang sedikit pun. Janganlah kamu berbuat kerusakan di bumi setelah (diciptakan) dengan baik. Itulah yang lebih baik bagimu jika kamu orang beriman`,
+        ``,
+        ``
+      ],
+      [
+        `Medyen halkına da kardeşleri Şuayb'ı gönderdik, onlara şöyle dedi: "Ey milletim! Allah'a kulluk edin, O'ndan başka tanrınız yoktur. Rabbinizden size bir belge geldi. Ölçü ve tartıyı tam yapın, insanların eşyasını eksik vermeyin, düzelttikten sonra yeryüzünde bozgunculuk etmeyin; inanıyorsanız bilin ki, bunlar sizin için hayırlıdır`,
+        ``,
+        ``
+      ],
+      [
+        `و به سوى [مردم‌] مدين، برادرشان شعيب را [فرستاديم‌]؛ گفت: «اى قوم من، خدا را بپرستيد كه براى شما هيچ معبودى جز او نيست. در حقيقت، شما را از جانب پروردگارتان برهانى روشن آمده است. پس پيمانه و ترازو را تمام نهيد، و اموال مردم را كم مدهيد، و در زمين، پس از اصلاح آن فساد مكنيد. اين [رهنمودها] اگر مؤمنيد براى شما بهتر است.»`,
+        ``,
+        ``
+      ],
+      [
+        `আমি মাদইয়ানের প্রতি তাদের ভাই শোয়ায়েবকে প্রেরণ করেছি। সে বললঃ হে আমার সম্প্রদায়! তোমরা আল্লাহর এবাদত কর। তিনি ব্যতীত তোমাদের কোন উপাস্য নেই। তোমাদের কাছে তোমাদের প্রতিপালকের পক্ষ থেকে প্রমাণ এসে গেছে। অতএব তোমরা মাপ ও ওজন পূর্ন কর এবং মানুষকে তাদের দ্রব্যদি কম দিয়ো না এবং ভুপৃষ্টের সংস্কার সাধন করার পর তাতে অনর্থ সৃষ্টি করো না। এই হল তোমাদের জন্যে কল্যাণকর, যদি তোমরা বিশ্বাসী হও।`,
+        ``,
+        ``
+      ],
+      [
+        `E, ao povo de Madian, enviamos seu irmão Chuaib. Disse: "Ó meu povo! Adorai a Allah; não tendes outro deus que não seja Ele. Com efeito, chegou-vos uma evidência de vosso Senhor. Então, completai, com eqüidade, a medida e o peso, e não subtraias das pessoas suas cousas, e não semeeis a corrupção na terra, depois de reformada. Isso vos é melhor, se sois crentes`,
+        ``,
+        ``
+      ],
+      [
+        `（我确已派遣）麦德彦人的弟兄舒阿卜去教化他们说：我的宗族啊！你们要崇拜真主，除他之外，绝无应受你们崇拜的。从你们的主发出的明证，确已来临你们了，你们当使用充足的斗和秤，不要克扣别人所应得的货物。在改善地方之后，你们不要在地方上作恶，这对你们是更好的，如果你们是信道者。`,
+        ``,
+        ``
+      ],
+      [
+        `（われは）また，マドヤンの民に，その同胞のシュアイブを（遺わした）。かれは言った。「わたしの人びとよ，アッラーに仕えなさい。あなたがたにはかれの外に神はないのである。今主からの証が，あなたがたに下ったのだ。だからきちんと寸法をとり，目方を量り，人を誤魔化 してはならない。また秩序が定められた後，地上で悪を行ってはならない。もしあなたがたが信者であるならば，これはあなたがたのためにも良いことである。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 마드얀의 백성에 게 그들의 형제 슈와이브를 보내 니 그가 이르더라 백성들이여 하 나님을 경배하라 그분 외에는 신 이 없노라 이제 주님으로부터 너 희에게 예증이 이르렀거늘 치수 와 무게를 공평케 하고 그들의 것 을 삭감하지 말며 개심한 후 대 지 위에서 해악됨을 하지 말라 너 희가 믿는 신앙인들이라면 이것이 너희에게 복이 되리라`,
+        ``,
+        ``
+      ],
+      [
+        `Agli abitanti di Madyan [inviammo] il loro fratello Shuayb! Disse: “O popol mio, adorate Allah. Per voi non c'è altro dio che Lui. Vi è giunta una prova da parte del vostro Signore. Riempite la misura e date il giusto peso e non danneggiate gli uomini nei loro beni. Non corrompete la terra dopo che Allah la creò pura: ciò è meglio per voi, se siete credenti`,
+        ``,
+        ``
+      ],
+      [
+        `I do ludu Median posłaliśmy ich brata Szu\`ajba! On powiedział: "O ludu mój! Czcijcie Boga! Nie ma dla was boga innego niż On! Otrzymaliście przecież jasny dowód od waszego Pana. Dawajcie więc pełną miarę i wagę! Nie wyrządzajcie szkody ludziom w ich dobrach! Nie rozprzestrzeniajcie zepsucia na ziemi po jej udoskonaleniu! To jest dla was lepsze, jeśli jesteście wierzący`,
+        ``,
+        ``
+      ],
+      [
+        `А до мад’янітів [Ми послали] їхнього брата Шуейба. Він сказав: «О люди! Поклоняйтеся Аллагу! У вас немає бога, крім Нього! Прийшло до вас ясне знамення від Господа вашого. Наповнюйте ж міру й вагу, не обманюйте людей у майнових справах і не поширюйте безчестя на землі після того, як вона стала кращою. Так буде краще для вас, якщо ви віруючі`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأعراف / Al-A'raf، الآية 85`
   },
 
   {
@@ -10028,6 +12034,228 @@ const verses = [
 
   {
     arabic: [
+      `فَإِنْ تَوَلَّيْتُمْ فَمَا سَأَلْتُكُمْ مِنْ أَجْرٍ ۖ إِنْ أَجْرِيَ إِلَّا عَلَى اللَّهِ ۖ وَأُمِرْتُ أَنْ أَكُونَ مِنَ الْمُسْلِمِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And if you turn away [from my advice] then no payment have I asked of you. My reward is only from Allah, and I have been commanded to be of the Muslims`,
+        ``,
+        ``
+      ],
+      [
+        `Si vous vous détournez, alors je ne vous ai pas demandé de salaire... Mon salaire n'incombe qu'à Allah. Et il m'a été commandé d'être du nombre des soumis`,
+        ``,
+        ``
+      ],
+      [
+        `Pero, si dais media... Yo no os he pedido un salario. Mi salario incumbe sólo a Alá. He recibido la orden de ser de los que se someten a Alá`,
+        ``,
+        ``
+      ],
+      [
+        `Но если вы отвернетесь, то ведь я не просил у вас награды. Меня вознаградит только Аллах, и мне велено быть одним из мусульман»`,
+        ``,
+        ``
+      ],
+      [
+        `Doch wenn ihr euch abkehrt, so habe ich von euch keinen Lohn verlangt. Mein Lohn obliegt nur Allah. Und mir ist befohlen worden, einer der (Allah) Ergebenen zu sein`,
+        ``,
+        ``
+      ],
+      [
+        `Men om ni vänder ryggen [åt mina varningar, tänk då på att] jag inte begär någon lön av er; jag väntar ingen lön från någon annan än Gud, och jag har blivit befalld att vara en av dem som underkastar sig Hans vilja`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Als jullie je dan afwenden; ik heb jullie geen beloning gevraagd; mijn beloning rust slechts bij Allah, en mij is bevolen om te behoren tot hen die zich hebben overgegeven (aan Allah)`,
+        ``,
+        ``
+      ],
+      [
+        `اور اگر تم نے منہ پھیر لیا تو (تم جانتے ہو کہ) میں نے تم سے کچھ معاوضہ نہیں مانگا۔ میرا معاوضہ تو خدا کے ذمے ہے۔ اور مجھے حکم ہوا ہے کہ میں فرمانبرداروں میں رہوں`,
+        ``,
+        ``
+      ],
+      [
+        `Maka jika kamu berpaling (dari peringatanku), aku tidak meminta imbalan sedikit pun darimu. Imbalanku tidak lain hanyalah dari Allah, dan aku diperintah agar aku termasuk golongan orang-orang muslim (berserah diri)`,
+        ``,
+        ``
+      ],
+      [
+        `Eğer yüz çevirirseniz bilin ki, ben sizden bir ücret istemiyorum. Benim ecrim Allah'a aiddir. Müslimlerden olmakla emrolundum`,
+        ``,
+        ``
+      ],
+      [
+        `«و اگر روى گردانيديد، من مزدى از شما نمى‌طلبم. پاداش من جز بر عهده خدا نيست، و مأمورم كه از گردن‌نهندگان باشم.»`,
+        ``,
+        ``
+      ],
+      [
+        `তারপরও যদি বিমুখতা অবলম্বন কর, তবে আমি তোমাদের কাছে কোন রকম বিনিময় কামনা করি না। আমার বিনিময় হল আল্লাহর দায়িত্বে। আর আমার প্রতি নির্দেশ রয়েছে যেন আমি আনুগত্য অবলম্বন করি।`,
+        ``,
+        ``
+      ],
+      [
+        `E, se voltais as costas, não vos pedirei prêmio algum. Meu prêmio não impende senão a Allah, e foi-me ordenado ser dos crentes`,
+        ``,
+        ``
+      ],
+      [
+        `如果你们违背我的教诲，那末，我未曾向你们索取任何报酬；我的报酬只归真主负担。我曾奉命做－个顺服的人。`,
+        ``,
+        ``
+      ],
+      [
+        `仮令あなたがたが背き去っても，わたしはあなたがたから報酬をもらうわけではなかった。わたしは只アッラーから報酬をいただくだけ。わたしは，ムスリムであるよう命じられている。」`,
+        ``,
+        ``
+      ],
+      [
+        `만일 너희가 거역 한다해도 나는 너희에게 보상을 요구치 않 으리라 나의 보상은 오로지 하나 님 안에서 무슬림으로 있으라는 명령을 받았노라`,
+        ``,
+        ``
+      ],
+      [
+        `E se mi voltate le spalle, non vi chiedo ricompensa alcuna. La mia ricompensa è in Allah, e ho ricevuto l'ordine di essere uno dei musulmani”`,
+        ``,
+        ``
+      ],
+      [
+        `A jeśli się odwrócicie, to przecież nie żądam od was żadnej nagrody. Moja nagroda jest tylko u Boga, a ja otrzymałem rozkaz, abym był wśród całkowicie poddanych`,
+        ``,
+        ``
+      ],
+      [
+        `Та якщо відвернетеся ви, то я ж не просив у вас винагороди. Винагородить мене лише Аллаг. І мені наказано бути одним із покірних Йому`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يونس / Yunus، الآية 72`
+  },
+
+  {
+    arabic: [
+      `وَقَالَ مُوسَىٰ يَا قَوْمِ إِنْ كُنْتُمْ آمَنْتُمْ بِاللَّهِ فَعَلَيْهِ تَوَكَّلُوا إِنْ كُنْتُمْ مُسْلِمِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And Moses said, "O my people, if you have believed in Allah, then rely upon Him, if you should be Muslims`,
+        ``,
+        ``
+      ],
+      [
+        `Et Moïse dit : "Ô mon peuple ! Si vous croyez en Allah, placez votre confiance en Lui si vous (Lui) êtes soumis`,
+        ``,
+        ``
+      ],
+      [
+        `Moisés dijo: «¡Pueblo! Si creéis en Alá, ¡confiad en Él! Si es que estáis sometidos a Él...»`,
+        ``,
+        ``
+      ],
+      [
+        `Муса (Моисей) сказал: «О мой народ! Если вы уверовали в Аллаха и стали мусульманами, то уповайте на Него»`,
+        ``,
+        ``
+      ],
+      [
+        `Und Musa sagte: "O mein Volk, wenn ihr wirklich an Allah glaubt, dann verlaßt euch auf Ihn, wenn ihr (Ihm) Ergebene seid`,
+        ``,
+        ``
+      ],
+      [
+        `Och Moses sade: "Lita till Gud, mitt folk, om ni tror på Honom och om ni har underkastat er Hans vilja [helt och fullt]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En Môesa zei: "O mijn volk, als jullie in Allah geloven, stelt dan jullie vertrouwen op Hem, als jullie je hebben overgegeven (aan Allah)`,
+        ``,
+        ``
+      ],
+      [
+        `اور موسیٰ نے کہا کہ بھائیو! اگر تم خدا پر ایمان لائے ہو تو اگر (دل سے) فرمانبردار ہو تو اسی پر بھروسہ رکھو`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Musa berkata, "Wahai kaumku! Apabila kamu beriman kepada Allah, maka bertawakallah kepada-Nya, jika kamu benar-benar orang muslim (berserah diri)`,
+        ``,
+        ``
+      ],
+      [
+        `Musa: "Ey milletim! Allah'a inanıyorsanız ve teslim olmuşsanız O'na güvenin" dedi`,
+        ``,
+        ``
+      ],
+      [
+        `و موسى گفت: «اى قوم من، اگر به خدا ايمان آورده‌ايد، و اگر اهل تسليميد بر او توكّل كنيد.»`,
+        ``,
+        ``
+      ],
+      [
+        `আর মূসা বলল, হে আমার সম্প্রদায়, তোমরা যদি আল্লাহর উপর ঈমান এনে থাক, তবে তারই উপর ভরসা কর যদি তোমরা ফরমাবরদার হয়ে থাক।`,
+        ``,
+        ``
+      ],
+      [
+        `E Moisés disse: "Ó meu povo! Se credes em Allah, nEle confiais, se sois submissos`,
+        ``,
+        ``
+      ],
+      [
+        `穆萨说：我的宗族啊！如果你们信仰真主，你们就应当只信赖他，如果你们是归顺的。`,
+        ``,
+        ``
+      ],
+      [
+        `ムーサーは言った。「わたしの人びとよ，あなたがたはアッラーを信仰するのなら，かれを信頼しなさい。もしあなたがたが服従，帰依する者であるならば。」`,
+        ``,
+        ``
+      ],
+      [
+        `모세가 이르되 백성이여 너 희가 하나님을 믿고 그분께 순종 한다면 그분에게 의탁하라 하니`,
+        ``,
+        ``
+      ],
+      [
+        `Disse Mosè: “O popol mio, se credete in Allah, abbiate fiducia in Lui, se siete musulmani”`,
+        ``,
+        ``
+      ],
+      [
+        `I powiedział Mojżesz: "O ludu mój! Jeśli uwierzyliście w Boga, to zaufajcie Jemu, skoro jesteście całkowicie poddani`,
+        ``,
+        ``
+      ],
+      [
+        `Сказав Муса: «О народе мій! Якщо ви увірували в Аллага, то покладайтеся на Нього, якщо ви віддані Йому`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يونس / Yunus، الآية 84`
+  },
+
+  {
+    arabic: [
       `قُلِ انظُرُوا مَاذَا فِي السَّمَاوَاتِ وَالْأَرْضِ`,
       `وَمَا تُغْنِي الْآيَاتُ وَالنُّذُرُ`,
       `عَنْ قَوْمٍ لَّا يُؤْمِنُونَ`
@@ -10468,6 +12696,228 @@ const verses = [
       ]
     ],
     number: `سورة هود / Hud، الآية 114`
+  },
+
+  {
+    arabic: [
+      `يَا صَاحِبَيِ السِّجْنِ أَأَرْبَابٌ مُتَفَرِّقُونَ خَيْرٌ أَمِ اللَّهُ الْوَاحِدُ الْقَهَّارُ مَا تَعْبُدُونَ مِنْ دُونِهِ إِلَّا أَسْمَاءً سَمَّيْتُمُوهَا أَنْتُمْ وَآبَاؤُكُمْ مَا أَنْزَلَ اللَّهُ بِهَا مِنْ سُلْطَانٍ ۚ إِنِ الْحُكْمُ إِلَّا لِلَّهِ ۚ أَمَرَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ ۚ ذَٰلِكَ الدِّينُ الْقَيِّمُ وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يَعْلَمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O [my] two companions of prison, are separate lords better or Allah, the One, the Prevailing You worship not besides Him except [mere] names you have named them, you and your fathers, for which Allah has sent down no authority. Legislation is not but for Allah. He has commanded that you worship not except Him. That is the correct religion, but most of the people do not know`,
+        ``,
+        ``
+      ],
+      [
+        `Ô mes deux compagnons de prison ! Qui est le meilleur : des Seigneurs éparpillés ou Allah, l'Unique, le Dominateur suprême Vous n'adorez, en dehors de Lui, que des noms que vous avez inventés, vous et vos ancêtres, et à l'appui desquels Allah n'a fait descendre aucune preuve. Le pouvoir n'appartient qu'Allah. Il vous a commandé de n'adorer que Lui. Telle est la religion droite; mais la plupart des gens ne savent pas`,
+        ``,
+        ``
+      ],
+      [
+        `¡Compañeros de cárcel! ¿Son preferibles señores separados a Alá, el Uno, el Invicto Lo que servís, en lugar de servirle a Él, no son sino nombres que habéis puesto, vosotros y vuestros padres, nombres a los que Alá no ha conferido ninguna autoridad. La decisión pertenece sólo a Alá. Él ha ordenado que no sirváis a nadie sino a Él. Ésa es la religión verdadera. Pero la mayoría de los hombres no saben`,
+        ``,
+        ``
+      ],
+      [
+        `О мои товарищи по темнице! Множество различных богов лучше или же Аллах, Единственный, Могущественный Помимо Него вы поклоняетесь лишь именам, которые придумали вы и ваши отцы. Аллах не ниспослал о них никакого доказательства. Решение принимает только Аллах. Он повелел, чтобы вы не поклонялись никому, кроме Него. Это и есть правая вера, но большая часть людей не знает этого`,
+        ``,
+        ``
+      ],
+      [
+        `O meine beiden Gefängnisgefährten! Sind verschiedene Herren besser oder Allah, der Eine, der Allbezwinger Ihr dient außer Ihm nur Namen, die ihr genannt habt, ihr und eure Väter, für die Allah (jedoch) keine Ermächtigung herabgesandt hat. Das Urteil ist allein Allahs. Er hat befohlen, daß ihr nur Ihm dienen sollt. Das ist die richtige Religion. Aber die meisten Menschen wissen nicht`,
+        ``,
+        ``
+      ],
+      [
+        `Kamrater i fångenskapen! Vad är rimligare - [att tro på] gudomligheter av många olika slag eller [att tro på] den Ende Guden, som härskar över allt med oinskränkt makt Vad ni dyrkar vid sidan av Honom är ingenting annat än namn som ni har tänkt ut, ni och era förfäder; Gud har inte gett er tillstånd till detta. Ingen dömer utom Gud; Han befaller er att dyrka Honom ensam. Detta är den evigt sanna tron, men de flesta människor har ingen kunskap [om detta]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `(Yôesoef zei:) "O mijn medegevangenen, zijn verschillende heren beter, of Allah, de Ene, de Overweldiger Wat jullie naast Hem aanbidden zijn slechts namen die jullie en jullie vaderen hebben gegeven. Allah heeft hiervoor geen bewijs neergezonden. Het oordeel is slechts aan Allah. Hij beveeft dat jullie niets aanbidden behalve Hem: dat is de ware godsdieng maar de meeste mensen weten het niet`,
+        ``,
+        ``
+      ],
+      [
+        `میرے جیل خانے کے رفیقو! بھلا کئی جدا جدا آقا اچھے یا (ایک) خدائے یکتا وغالب؟ جن چیزوں کی تم خدا کے سوا پرستش کرتے ہو وہ صرف نام ہی نام ہیں جو تم نے اور تمہارے باپ دادا نے رکھ لیے ہیں۔ خدا نے ان کی کوئی سند نازل نہیں کی۔ (سن رکھو کہ) خدا کے سوا کسی کی حکومت نہیں ہے۔ اس نے ارشاد فرمایا ہے کہ اس کے سوا کسی کی عبادت نہ کرو۔ یہی سیدھا دین ہے لیکن اکثر لوگ نہیں جانتے`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai kedua penghuni penjara! Manakah yang baik, tuhan-tuhan yang bermacam-macam itu ataukah Allah Yang Maha Esa, Mahaperkasa Apa yang kamu sembah selain Dia, hanyalah nama-nama yang kamu buat-buat, baik oleh kamu sendiri maupun oleh nenek moyangmu. Allah tidak menurunkan suatu keterangan pun tentang hal (nama-nama) itu. Keputusan itu hanyalah milik Allah. Dia telah memerintahkan agar kamu tidak menyembah selain Dia. Itulah agama yang lurus, tetapi kebanyakan manusia tidak mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Ey mahpus arkadaşlarım! Ayrı ayrı bir sürü uydurma rabler mi daha iyidir, yoksa her şeyden üstün tek Allah mı Allah'ı bırakıp taptığınız, sizin ve babalarınızın adlandırdığı putlardan başka bir şey değildir. Allah onların doğru olduğuna dair bir delil indirmemiştir. Hüküm vermek ancak Allah'a aittir; kendisinden başkasına değil, O'na tapmanızı emretmiştir. Bu, dosdoğru dindir, fakat insanların çoğu bilmezler`,
+        ``,
+        ``
+      ],
+      [
+        `اى دو رفيق زندانيم، آيا خدايان پراكنده بهترند يا خداى يگانه مقتدر؟ شما به جاى او جز نامهايى [چند] را نمى‌پرستيد كه شما و پدرانتان آنها را نامگذارى كرده‌ايد، و خدا دليلى بر [حقانيت‌] آنها نازل نكرده است. فرمان جز براى خدا نيست. دستور داده كه جز او را نپرستيد. اين است دين درست، ولى بيشتر مردم نمى‌دانند`,
+        ``,
+        ``
+      ],
+      [
+        `হে কারাগারের সঙ্গীরা! পৃথক পৃথক অনেক উপাস্য ভাল, না পরাক্রমশালী এক আল্লাহ তোমরা আল্লাহকে ছেড়ে নিছক কতগুলো নামের এবাদত কর, সেগুলো তোমরা এবং তোমাদের বাপ-দাদারা সাব্যস্ত করে নিয়েছে। আল্লাহ এদের কোন প্রমাণ অবতীর্ণ করেননি। আল্লাহ ছাড়া কারও বিধান দেবার ক্ষমতা নেই। তিনি আদেশ দিয়েছেন যে, তিনি ব্যতীত অন্য কারও এবাদত করো না। এটাই সরল পথ। কিন্তু অধিকাংশ লোক তা জানে না।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó meus dois companheiros de prisão! Que é melhor: divindades dispersas ou Allah, O Único, O Dominador Não adorais, em vez dEle, senão nomes de ídolos que nomeastes, vós e vossos pais, dos quais Allah não fez descer comprovação alguma. O julgamento não é senão de Allah. Ele ordenou que não adoreis senão a Ele. Essa é a religião reta, mas a maioria dos homens não sabe`,
+        ``,
+        ``
+      ],
+      [
+        `两位难友啊！是许多涣散的主宰更好呢？还是独一万能的真主更好呢？ 你们舍真主而崇拜的，只是你们和你们的祖先所定的一些（偶像的）名称，真主并未加以证实，一切判决只归真主。他命令你们只崇拜他。这才是正教。但世人大半不知道。`,
+        ``,
+        ``
+      ],
+      [
+        `人の獄の友よ（わたしはあなたがたに尋ねる）。雑多の神々がよいのか，それとも唯一にして全能であられるアッラーなのか。 かれに仕えないならば，あなたがたとその祖先が命名した，（只の）名称に仕えるに過ぎない。アッラーはそれに対し権能を与えてはいない。大権はアッラーにだけ属し，あなたがたはかれ以外の何ものにも仕えてはならないと（アッラーは）命じている。これこそ正しい教えである。だが人びとの多くは知らない。`,
+        ``,
+        ``
+      ],
+      [
+        `감옥의 두 동료여 서로 달리하는 많은 신들이 나으뇨 아니면 절대자인 하나님이 나으뇨 그분 외에 너희가 숭배한 것들은 너희와 너희 선조가 이름 뿐인 것에 불과하며 하나님은 그것 들을 위해 권한을 주지도 아니 했으니 권능은 하나님께만 있노라 그분온 명령하시어 그분 외에 다 른 것을 경배하지 말라 하셨으매 그것이 진실된 종교라 그러나 많 은 사람이 알지 못하더라`,
+        ``,
+        ``
+      ],
+      [
+        `O miei compagni di prigione! Una miriade di signori sono forse meglio di Allah, l'Unico, Colui Che prevale Non adorate all'infuori di Lui altro che nomi, che voi e i vostri avi avete inventato, e a proposito dei quali Allah non ha fatto scendere nessuna prova. In verità, il giudizio appartiene solo ad Allah. Egli vi ha ordinato di non adorare altri che Lui. Questa la religione immutabile, eppure la maggior parte degli uomini lo ignora`,
+        ``,
+        ``
+      ],
+      [
+        `O wy, towarzysze więzienia! Czy podzieleni panowie są lepsi, czy Bóg - Jeden, Wszechpotężny Ci, których wy czcicie, poza Nim, to są tylko imiona, którymi wy ich nazwaliście - wy i wasi ojcowie. Bóg nie zesłał z nimi żadnej władzy. Sąd należy tylko do Boga. On rozkazał; abyście czcili tylko Jego. To jest religia prawdziwa, lecz większość ludzi nie wie`,
+        ``,
+        ``
+      ],
+      [
+        `О мої друзі по в’язниці! Краще різні боги чи Аллаг — Єдиний, Всепереможний Ви поклоняєтеся тільки іменам, якими назвали їх ви та ваші батьки. Аллаг не відсилав про них жодного доказу. Але рішення належить тільки Аллагу. Він наказав вам не поклонятися нікому, крім Нього! Така істинна релігія, але ж більшість людей не знають`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يوسف / Yusuf، الآيتان 39-40`
+  },
+
+  {
+    arabic: [
+      `۞ رَبِّ قَدْ آتَيْتَنِي مِنَ الْمُلْكِ وَعَلَّمْتَنِي مِنْ تَأْوِيلِ الْأَحَادِيثِ ۚ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ أَنْتَ وَلِيِّي فِي الدُّنْيَا وَالْآخِرَةِ ۖ تَوَفَّنِي مُسْلِمًا وَأَلْحِقْنِي بِالصَّالِحِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `My Lord, You have given me [something] of sovereignty and taught me of the interpretation of dreams. Creator of the heavens and earth, You are my protector in this world and in the Hereafter. Cause me to die a Muslim and join me with the righteous`,
+        ``,
+        ``
+      ],
+      [
+        `Ô Mon Seigneur ! Tu m'as donné du pouvoir et m'as enseigné l'interprétation des rêves. [C'est Toi Le] Créateur des cieux et de la Terre, Tu es mon allié, ici-bas et dans l'au-delà. Fais-moi mourir en parfaite soumission et fait moi rejoindre les vertueux`,
+        ``,
+        ``
+      ],
+      [
+        `¡Señor! Tú me has dado del dominio y me has enseñado a interpretar sueños. ¡Creador de los cielos y de la tierra! ¡Tú eres mi Amigo en la vida de acá y en la otra! ¡Haz que cuando muera lo haga sometido a Ti y me reúna con los justos!»`,
+        ``,
+        ``
+      ],
+      [
+        `Господи! Ты даровал мне власть и научил толковать сновидения. Творец небес и земли! Ты - мой Покровитель в этом мире и в Последней жизни. Умертви меня мусульманином и присоедини меня к праведникам»`,
+        ``,
+        ``
+      ],
+      [
+        `Mein Herr, Du hast mir etwas von der Herrschaft gegeben und mich etwas von der Deutung der Sprüche gelehrt. (O Du) Erschaffer der Himmel und der Erde, Du bist mein Schutzherr im Diesseits und Jenseits. Berufe mich als (Dir) ergeben ab und nimm mich unter die Rechtschaffenen auf`,
+        ``,
+        ``
+      ],
+      [
+        `[Och Josef bad:] "Herre! Du har gett mig makt och Du har skänkt mig en djupare förståelse av innebörden i det som sker. Himlarnas och jordens Skapare! Du är min Beskyddare i detta liv och i det kommande. Låt mig dö i underkastelse under Din vilja och låt mig förenas med de rättfärdiga`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O mijn Heer, voorzeker, U heeft mij een gedeelte van het koninkrijk gegeven en U heeft mij de uitleg van de dromen onderwezen. Schepper van de hemelen en de aarde, U bent mijn Beschermer, op de wereld en in het Hiernamaals, doe rnij sterven als iemand die zich (aan Allah) overgegeven heeft en verenig mij met de oprechten`,
+        ``,
+        ``
+      ],
+      [
+        `(جب یہ سب باتیں ہولیں تو یوسف نے خدا سے دعا کی کہ) اے میرے پروردگار تو نے مجھ کو حکومت سے بہرہ دیا اور خوابوں کی تعبیر کا علم بخشا۔ اے آسمانوں اور زمین کے پیدا کرنے والے تو ہی دنیا اور آخرت میں میرا کارساز ہے۔ تو مجھے (دنیا سے) اپنی اطاعت (کی حالت) میں اٹھائیو اور (آخرت میں) اپنے نیک بندوں میں داخل کیجیو`,
+        ``,
+        ``
+      ],
+      [
+        `Tuhanku, sesungguhnya Engkau telah menganugerahkan kepadaku sebagian kekuasaan dan telah mengajarkan kepadaku sebagian takwil mimpi. (Wahai Tuhan) pencipta langit dan bumi, Engkaulah pelindungku di dunia dan di akhirat, wafatkanlah aku dalam keadaan muslim dan gabungkanlah aku dengan orang yang saleh`,
+        ``,
+        ``
+      ],
+      [
+        `Rabbim! Bana hükümranlık verdin, rüyaların yorumunu öğrettin. Ey göklerin ve yerin yaradanı! Dünya ve ahirette işlerimi yoluna koyan sensin; benim canımı müslüman olarak al ve beni iyilere kat`,
+        ``,
+        ``
+      ],
+      [
+        `«پروردگارا، تو به من دولت دادى و از تعبير خوابها به من آموختى. اى پديدآورنده آسمانها و زمين، تنها تو در دنيا و آخرت مولاى منى؛ مرا مسلمان بميران و مرا به شايستگان ملحق فرما.»`,
+        ``,
+        ``
+      ],
+      [
+        `হে পালনকর্তা আপনি আমাকে রাষ্ট্রক্ষমতাও দান করেছেন এবং আমাকে বিভিন্ন তাৎপর্য সহ ব্যাখ্যা করার বিদ্যা শিখিয়ে দিয়েছেন। হে নভোমন্ডল ও ভূ-মন্ডলের স্রষ্টা, আপনিই আমার কার্যনির্বাহী ইহকাল ও পরকালে। আমাকে ইসলামের উপর মৃত্যুদান করুন এবং আমাকে স্বজনদের সাথে মিলিত করুন।`,
+        ``,
+        ``
+      ],
+      [
+        `Senhor meu! Com efeito, concedeste-me algo da soberania e ensinaste-me algo da interpretação dos sonhos. Ó Criador dos céus e da terra! Tu és meu Protetor na vida terrena e na Derradeira Vida. Leva-me a alma, enquanto muçulmano, e ajunta-me aos íntegros`,
+        ``,
+        ``
+      ],
+      [
+        `我的主啊！你确已赏赐我一部分政权，并教给我一些圆梦的知识。天地的创造者啊！在今世和后世，你都是我的主宰。求你使我作为顺从者而死去，求你使我入于善人之列。`,
+        ``,
+        ``
+      ],
+      [
+        `主よ，あなたはわたしに権能を授けられ，また出来事の解釈を御教えになりました。天と地の創造の主よ，あなたは現世と来世でのわたしの守護者です。あなたは，わたしをムスリムとして死なせ，正義の徒の中に加えて下さい。」`,
+        ``,
+        ``
+      ],
+      [
+        `주여 당신께서 저에게 힘을주셨고 사건의 해명을 가르쳐 주 셨으며 천지창조를 하셨으니 당신 이야말로 현세와 내세의 주인이십 니다 저희가 무슬림으로써 생을 마치게 하여 주소서 그리고 저를 정의와 함께 있도록 하여 주소서`,
+        ``,
+        ``
+      ],
+      [
+        `O mio Signore, mi hai dato qualche potere e mi hai insegnato l'interpretazione dei sogni. O Creatore dei cieli e della terra, Tu sei il mio patrono, in questa vita come nell'altra. Fammi morire musulmano e ponimi tra i devoti!”`,
+        ``,
+        ``
+      ],
+      [
+        `Panie mój! Ty mi dałeś nieco władzy królewskiej i nauczyłeś mnie tłumaczenia wydarzeń. Ty jesteś stwórcą niebios i ziemi i jesteś moim opiekunem na tym świecie i w życiu ostatecznym. Daj mi umrzeć poddanym Tobie całkowicie i dołącz mnie do sprawiedliwych`,
+        ``,
+        ``
+      ],
+      [
+        `Господь дарував мені владу й навчив мене тлумачити сни. Творець небес і землі, Ти — мій Покровитель у житті земному й наступному! Забери мене відданим Тобі й приєднай мене до тих, які роблять добро`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يوسف / Yusuf، الآية 101`
   },
 
   {
@@ -11467,6 +13917,117 @@ const verses = [
       ]
     ],
     number: `سورة الحجر / Al-Hijr، الآيات 19-22`
+  },
+
+  {
+    arabic: [
+      `وَلَقَدْ بَعَثْنَا فِي كُلِّ أُمَّةٍ رَسُولًا أَنِ اعْبُدُوا اللَّهَ وَاجْتَنِبُوا الطَّاغُوتَ ۖ فَمِنْهُمْ مَنْ هَدَى اللَّهُ وَمِنْهُمْ مَنْ حَقَّتْ عَلَيْهِ الضَّلَالَةُ ۚ فَسِيرُوا فِي الْأَرْضِ فَانْظُرُوا كَيْفَ كَانَ عَاقِبَةُ الْمُكَذِّبِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And We certainly sent into every nation a messenger, [saying], "Worship Allah and avoid Taghut." And among them were those whom Allah guided, and among them were those upon whom error was [deservedly] decreed. So proceed through the earth and observe how was the end of the deniers`,
+        ``,
+        ``
+      ],
+      [
+        `Nous avons envoyé dans chaque communauté un Messager, [pour leur dire] : "Adorez Allah et écartez-vous du Rebelle (Tâghût) ! Alors Allah en guida certains, mais il y en eut qui ont été destinés à l'égarement. Parcourez donc la terre, et regardez quelle furent la fin de ceux qui traitaient [Nos Messagers] de menteurs`,
+        ``,
+        ``
+      ],
+      [
+        `Mandamos a cada comunidad un enviado: «Servid a Alá y evitad a los taguts». A algunos de ellos les dirigió Alá, mientras que otros merecieron extraviarse. ¡Id por la tierra y mirad cómo terminaron los desmentidores`,
+        ``,
+        ``
+      ],
+      [
+        `Мы отправили к каждой общине посланника: «Поклоняйтесь Аллаху и избегайте тагута!». Среди них есть такие, которых Аллах наставил на прямой путь, и такие, которым было справедливо предначертано заблуждение. Ступайте же по земле и посмотрите, каким был конец неверующих`,
+        ``,
+        ``
+      ],
+      [
+        `Und Wir haben ja bereits in jeder Gemeinschaft einen Gesandten erweckt: "Dient Allah und meidet die falschen Götter." Unter ihnen gibt es manche, die Allah rechtgeleitet hat, und unter ihnen gibt es manche, an denen sich das Irregehen bewahrheitet hat. So reist auf der Erde umher und schaut, wie das Ende der Leugner war`,
+        ``,
+        ``
+      ],
+      [
+        `Till varje samfund har Vi låtit ett sändebud komma [för att förkunna]: "Dyrka Gud och håll er borta från det onda!" Bland dessa [människor i äldre tider] fanns den som Gud vägledde, och det fanns den som dömde sig själv att gå vilse. Gå därför ut i världen och se [spåren som visar] vad slutet blev för dem som kallade sanningen för lögn`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En voorzeker. Wij hebben aan iedere gemeenschap een Boodschapper gezonden (die zei:) "Aanbidt Allah en houdt afstand van de Thagoet." En er zijn er onder hen die Allah leidde en er zijn er die Hij tot de dwaling veroordeelde. Reist dus op de aarde rond en zie boe het einde was van de loochenaars`,
+        ``,
+        ``
+      ],
+      [
+        `اور ہم نے ہر جماعت میں پیغمبر بھیجا کہ خدا ہی کی عبادت کرو اور بتوں (کی پرستش) سے اجتناب کرو۔ تو ان میں بعض ایسے ہیں جن کو خدا نے ہدایت دی اور بعض ایسے ہیں جن پر گمراہی ثابت ہوئی۔ سو زمین پر چل پھر کر دیکھ لو کہ جھٹلانے والوں کا انجام کیسا ہوا`,
+        ``,
+        ``
+      ],
+      [
+        `Dan sungguh, Kami telah mengutus seorang rasul untuk setiap umat (untuk menyerukan), "Sembahlah Allah, dan jauhilah tagut," kemudian di antara mereka ada yang diberi petunjuk oleh Allah dan ada pula yang tetap dalam kesesatan. Maka berjalanlah kamu di bumi dan perhatikanlah bagaimana kesudahan orang yang mendustakan (rasul-rasul)`,
+        ``,
+        ``
+      ],
+      [
+        `And olsun ki, her ümmete: "Allah'a kulluk edin, azdırıcılardan kaçının" diyen peygamber göndermişizdir. Allah içlerinden kimini doğru yola eriştirdi, kimi de sapıklığı haketti. Yeryüzünde gezin; peygamberleri yalanlayanların sonlarının nasıl olduğunugörün`,
+        ``,
+        ``
+      ],
+      [
+        `و در حقيقت، در ميان هر امتى فرستاده‌اى برانگيختيم [تا بگويد:] «خدا را بپرستيد و از طاغوت [=فريبگر] بپرهيزيد.» پس، از ايشان كسى است كه خدا [او را] هدايت كرده، و از ايشان كسى است كه گمراهى بر او سزاوار است. بنابراين در زمين بگرديد و ببينيد فرجام تكذيب‌كنندگان چگونه بوده است`,
+        ``,
+        ``
+      ],
+      [
+        `আমি প্রত্যেক উম্মতের মধ্যেই রাসূল প্রেরণ করেছি এই মর্মে যে, তোমরা আল্লাহর এবাদত কর এবং তাগুত থেকে নিরাপদ থাক। অতঃপর তাদের মধ্যে কিছু সংখ্যককে আল্লাহ হেদায়েত করেছেন এবং কিছু সংখ্যকের জন্যে বিপথগামিতা অবধারিত হয়ে গেল। সুতরাং তোমরা পৃথিবীতে ভ্রমণ কর এবং দেখ মিথ্যারোপকারীদের কিরূপ পরিণতি হয়েছে।`,
+        ``,
+        ``
+      ],
+      [
+        `E, com efeito, enviamos a cada comunidade um Mensageiro, para dizer: "Adorai a Allah e evitai os ídolos." Então, dentre eles, houve aquele a quem Allah guiou, mas, dentre eles, houve aquele ao qual se deveu o descaminho. Caminhai, pois, na terra, e olhai como foi o fim dos desmentidores`,
+        ``,
+        ``
+      ],
+      [
+        `我在每个民族中，确已派遣一个使者，说：你们当崇拜真主，当远离恶魔。但他们中有真主所引导的，有应当迷误的。故你们当在大地上旅行，应当观察否认（使者）的人们的结局是怎样的。`,
+        ``,
+        ``
+      ],
+      [
+        `本当にわれは，各々の民に一人の使徒を遺わして「アッラーに仕え，邪神を避けなさい。」 と（命じた）。それでかれらの中には，アッラーの導かれた者もあり，また，迷誤が避けられない者もあった。それで地上を旅して，（真理を）拒否した者の後がどんなものであったかを見るがいい。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 각 민족에 선지자 를 보내어 하나님을 섬기되 우상 을 피하라 하였으니 그들 중 하나님께서 인도한자 있었으며 그들 가운데 방황하는 자도 있었으니 대지위를 여행하며 진리를 부정하는 이들의 말로가 어떠했는가를 보라`,
+        ``,
+        ``
+      ],
+      [
+        `Ad ogni comunità inviammo un profeta [che dicesse]: “Adorate Allah e fuggite gli idoli!”. Allah guidò alcuni di essi e altri si persero, sviati. Percorrete la terra e vedrete cosa accadde a coloro che accusarono di menzogna [i messaggeri]`,
+        ``,
+        ``
+      ],
+      [
+        `Posłaliśmy do każdego narodu posłańca: "Czcijcie Boga i unikajcie bałwochwalstwa!" Wśród nich byli tacy, których Bóg poprowadził drogą prostą; i byli tacy, którzy słusznie popadli w obłęd. Wędrujcie po ziemi i popatrzcie, jaki był ostateczny koniec tych, którzy zadawali kłam`,
+        ``,
+        ``
+      ],
+      [
+        `До кожного народу Ми відсилали посланця: «Поклоняйтесь Аллагу та уникайте тагута!» Серед них є ті, кому Аллаг указав прямий шлях, а також ті, які заслужили оману. Ідіть землею та погляньте, який був кінець тих, що заперечували`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النحل / An-Nahl، الآية 36`
   },
 
   {
@@ -13580,6 +16141,228 @@ const verses = [
 
   {
     arabic: [
+      `وَإِنَّ اللَّهَ رَبِّي وَرَبُّكُمْ فَاعْبُدُوهُ ۚ هَٰذَا صِرَاطٌ مُسْتَقِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `[Jesus said], "And indeed, Allah is my Lord and your Lord, so worship Him. That is a straight path`,
+        ``,
+        ``
+      ],
+      [
+        `Certes, Allah est mon Seigneur tout comme votre Seigneur. Adorez-Le donc ! Voilà un droit chemin`,
+        ``,
+        ``
+      ],
+      [
+        `Y: «Alá es mi Señor y Señor vuestro. ¡Servidle, pues! Esto es una vía recta»`,
+        ``,
+        ``
+      ],
+      [
+        `Иса (Иисус) сказал: «Воистину, Аллах - мой Господь и ваш Господь. Поклоняйтесь же Ему. Это и есть прямой путь»`,
+        ``,
+        ``
+      ],
+      [
+        `(Isa sagte:) "Und gewiß, Allah ist mein Herr und euer Herr; so dient Ihm. Das ist ein gerader Weg`,
+        ``,
+        ``
+      ],
+      [
+        `Och [Jesus själv sade:] "Gud är min Herre och er Herre - Honom skall ni dyrka! Detta är en rak väg`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `(Zeg:) "En voorwaar, Allah is mijn Heer en jullie Heer: dus aanbidt Hem, dit is het rechte Pad`,
+        ``,
+        ``
+      ],
+      [
+        `اور بےشک خدا ہی میرا اور تمہارا پروردگار ہے تو اسی کی عبادت کرو۔ یہی سیدھا رستہ ہے`,
+        ``,
+        ``
+      ],
+      [
+        `(Isa berkata), "Dan sesungguhnya Allah itu Tuhanku dan Tuhanmu, maka sembahlah Dia. Inilah jalan yang lurus`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu Allah benim de sizin de Rabbinizdir. O'na kulluk edin, bu doğru yoldur`,
+        ``,
+        ``
+      ],
+      [
+        `و در حقيقت، خداست كه پروردگار من و پروردگار شماست، پس او را بپرستيد. اين است راه راست`,
+        ``,
+        ``
+      ],
+      [
+        `তিনি আরও বললেনঃ নিশ্চয় আল্লাহ আমার পালনকর্তা ও তোমাদের পালনকর্তা। অতএব, তোমরা তার এবাদত কর। এটা সরল পথ।`,
+        ``,
+        ``
+      ],
+      [
+        `E por certo, Allah é meu Senhor e vosso Senhor. Então, adorai-O. Esta é uma senda reta`,
+        ``,
+        ``
+      ],
+      [
+        `真主确是我的主，也确是你们的主，所以你们应当崇拜他。这是正路。`,
+        ``,
+        ``
+      ],
+      [
+        `本当にアッラーは，わたしの主であり，またあなたがたの主であられる。だからかれに仕えなさい。これこそ正しい道である。`,
+        ``,
+        ``
+      ],
+      [
+        `진실로 하나님은 나의 주님 이요 너희 주님이시니 그분 만을 경배하라 이것이 가장 바른 길이 라`,
+        ``,
+        ``
+      ],
+      [
+        `“In verità, Allah è il mio e vostro Signore, adorateLo! Questa è la retta via.”`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, Bóg jest moim Panem i waszym Panem! Czcijcie Go! To jest droga prosta`,
+        ``,
+        ``
+      ],
+      [
+        `І, воістину, Аллаг — мій Господь і ваш Господь. Тож поклоняйтеся Йому, це — прямий шлях`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة مريم / Maryam، الآية 36`
+  },
+
+  {
+    arabic: [
+      `إِذْ قَالَ لِأَبِيهِ يَا أَبَتِ لِمَ تَعْبُدُ مَا لَا يَسْمَعُ وَلَا يُبْصِرُ وَلَا يُغْنِي عَنْكَ شَيْئًا يَا أَبَتِ إِنِّي قَدْ جَاءَنِي مِنَ الْعِلْمِ مَا لَمْ يَأْتِكَ فَاتَّبِعْنِي أَهْدِكَ صِرَاطًا سَوِيًّا يَا أَبَتِ لَا تَعْبُدِ الشَّيْطَانَ ۖ إِنَّ الشَّيْطَانَ كَانَ لِلرَّحْمَٰنِ عَصِيًّا يَا أَبَتِ إِنِّي أَخَافُ أَنْ يَمَسَّكَ عَذَابٌ مِنَ الرَّحْمَٰنِ فَتَكُونَ لِلشَّيْطَانِ وَلِيًّا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `[Mention] when he said to his father, "O my father, why do you worship that which does not hear and does not see and will not benefit you at all O my father, indeed there has come to me of knowledge that which has not come to you, so follow me; I will guide you to an even path O my father, do not worship Satan. Indeed Satan has ever been, to the Most Merciful, disobedient O my father, indeed I fear that there will touch you a punishment from the Most Merciful so you would be to Satan a companion [in Hellfire]`,
+        ``,
+        ``
+      ],
+      [
+        `Lorsqu'il dit à son père : “Ô mon cher père ! Pourquoi adores-tu ce qui n'entend ni ne voit, et ne te profite en rien Ô mon cher père ! Il m'est venu de la science ce que tu n'as pas reçu ; suis-moi donc, je te guiderai sur une voie droite Ô mon cher père ! N'adore pas le Diable (Satan), car le Diable désobéit au Tout Miséricordieux Ô mon cher père ! Je crains qu'un châtiment venant du Tout Miséricordieux ne te touche et que tu ne deviennes un allié du Diable (Satan).”`,
+        ``,
+        ``
+      ],
+      [
+        `Cuando dijo a su padre: «¡Padre! ¿Por qué sirves lo que no oye, ni ve, ni te sirve de nada ¡Padre! He recibido una ciencia que tú no has recibido. ¡Sígueme, pues, y yo te dirigiré por una vía llana ¡Padre! ¡No sirvas al Demonio! El Demonio se rebeló contra el Compasivo ¡Padre! Temo que te alcance un castigo del Compasivo y que te hagas, así, amigo del Demonio»`,
+        ``,
+        ``
+      ],
+      [
+        `Вот он сказал своему отцу: «Отец мой! Почему ты поклоняешься тому, что не слышит и не видит и не принесет тебе никакого избавления Отец мой! Мне открылось знание, которое не было открыто тебе. Последуй же за мной, и я поведу тебя верным путем Отец мой! Не поклоняйся дьяволу, поскольку он ослушался Милостивого Отец мой! Я боюсь, что тебя постигнет наказание от Милостивого и что ты станешь помощником дьявола`,
+        ``,
+        ``
+      ],
+      [
+        `Als er zu seinem Vater sagte: "O mein lieber Vater, warum dienst du dem, was nicht hört und nicht sieht und dir nichts nützt O mein lieber Vater, gewiß, zu mir ist vom Wissen gekommen, was nicht zu dir gekommen ist. So folge mir, dann leite ich dich einen ebenen Weg O mein lieber Vater, diene nicht dem Satan. Gewiß, der Satan ist gegen den Allerbarmer widerspenstig O mein lieber Vater, ich fürchte, daß dir Strafe vom Allerbarmer widerfährt, so daß du zu einem Gefolgsmann des Satans wirst`,
+        ``,
+        ``
+      ],
+      [
+        `och han sade till sin fader: "Fader! Varför tillber du [stenar] som varken kan höra eller se och som är dig till ingen nytta Fader! Jag har fått del av en kunskap som du inte har fått del av. Följ mig [så] skall jag visa dig en rak väg Fader! Dyrka inte Djävulen - Djävulen som gjorde uppror mot den Nåderike Fader! Jag fruktar att Guds straff skall drabba dig och att du då [skall inse att du] varit Djävulens vän`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `(Gedenk) toen hij tot zijn vader zei: "O mijn vader, waarom aanbidt u iets dat niet hoort, niet ziet en u niets baat O mijn vader, er is waarlijk kennis tot mij gekomen, die niet tot u kwam. Dus volg mij, dan leid ik u op het rechte Pad O mijn vader, gehoorzaam de Satan niet: voorwaar, de Satan is opstandig tegen de Barmhartige O mijn vader, ik ben bang dat een bestraffing van de Barmhartige u zig treffen, dan zal u een helper van de Satan worden`,
+        ``,
+        ``
+      ],
+      [
+        `جب انہوں نے اپنے باپ سے کہا کہ ابّا آپ ایسی چیزوں کو کیوں پوجتے ہیں جو نہ سنیں اور نہ دیکھیں اور نہ آپ کے کچھ کام آسکیں ابّا مجھے ایسا علم ملا ہے جو آپ کو نہیں ملا ہے تو میرے ساتھ ہوجیئے میں آپ کو سیدھی راہ پر چلا دوں گا ابّا شیطان کی پرستش نہ کیجیئے۔ بےشک شیطان خدا کا نافرمان ہے ابّا مجھے ڈر لگتا ہے کہ آپ کو خدا کا عذاب آپکڑے تو آپ شیطان کے ساتھی ہوجائیں`,
+        ``,
+        ``
+      ],
+      [
+        `(Ingatlah) ketika dia (Ibrahim) berkata kepada ayahnya, "Wahai ayahku! Mengapa engkau menyembah sesuatu yang tidak mendengar, tidak melihat dan tidak dapat menolongmu sedikit pun Wahai ayahku! Sungguh, telah sampai kepadaku sebagian ilmu yang tidak diberikan kepadamu, maka ikutilah aku, niscaya aku akan menunjukkan kepadamu jalan yang lurus Wahai ayahku! Janganlah engkau menyembah setan. Sungguh, setan itu durhaka kepada Tuhan Yang Maha Pengasih Wahai ayahku! Sungguh aku khawatir engkau akan ditimpa azab dari Tuhan Yang Maha Pengasih, sehingga engkau menjadi teman bagi setan`,
+        ``,
+        ``
+      ],
+      [
+        `Babasına şöyle demişti: "Babacığım! İşitmeyen, görmeyen ve sana bir faydası olmayan şeylere niçin tapıyorsun Babacığım! Doğrusu sana gelmeyen bir ilim bana geldi. Bana uy, seni doğru yola eriştireyim Babacığım! Şeytana tapma, çünkü şeytan Rahman'a baş kaldırmıştır Babacığım! Doğrusu sana Rahman katından bir azabın gelmesinden korkuyorum ki böylece şeytanın dostu olarak kalırsın`,
+        ``,
+        ``
+      ],
+      [
+        `چون به پدرش گفت: «پدر جان، چرا چيزى را كه نمى‌شنود و نمى‌بيند و از تو چيزى را دور نمى‌كند مى‌پرستى؟ اى پدر، به راستى مرا از دانش [وحى، حقايقى به دست‌] آمده كه تو را نيامده است. پس، از من پيروى كن تا تو را به راهى راست هدايت نمايم، پدر جان، شيطان را مپرست، كه شيطان [خداى‌] رحمان را عصيانگر است، پدر جان، من مى‌ترسم از جانب [خداى‌] رحمان عذابى به تو رسد و تو يار شيطان باشى.»`,
+        ``,
+        ``
+      ],
+      [
+        `যখন তিনি তার পিতাকে বললেনঃ হে আমার পিতা, যে শোনে না, দেখে না এবং তোমার কোন উপকারে আসে না, তার এবাদত কেন কর হে আমার পিতা, আমার কাছে এমন জ্ঞান এসেছে; যা তোমার কাছে আসেনি, সুতরাং আমার অনুসরণ কর, আমি তোমাকে সরল পথ দেখাব। হে আমার পিতা, শয়তানের এবাদত করো না। নিশ্চয় শয়তান দয়াময়ের অবাধ্য। হে আমার পিতা, আমি আশঙ্কা করি, দয়াময়ের একটি আযাব তোমাকে স্পর্শ করবে, অতঃপর তুমি শয়তানের সঙ্গী হয়ে যাবে।`,
+        ``,
+        ``
+      ],
+      [
+        `Quando disse a seu pai: "Ó meu pai! Por que adoras o que não ouve nem vê e de nada te vale Ó meu pai! Por certo, chegou-me, da ciência, o que te não chegou; então, segue-me, eu te guiarei a uma senda perfeita Ó meu pai! Não adores Satã. Por certo, Satã é desobediente aO Misericordioso Ó meu pai! Por certo, temo que um castigo dO Misericordioso te toque: então, tornar-te-ias aliado a Satã`,
+        ``,
+        ``
+      ],
+      [
+        `当时他对他父亲说：我的父亲啊！你为何崇拜那既不能听，又不能见，对于你又没有任何裨益的东西呢？ 我的父亲啊！没有降临你的知识，确已降临我了；你顺从我吧，我要指示你一条正路。 我的父亲啊！你不要崇拜恶魔，恶魔确是违抗至仁主的。 我的父亲啊！我的确怕你遭受从至仁主发出的刑罚，而变成恶魔的朋友。`,
+        ``,
+        ``
+      ],
+      [
+        `かれが父にこう言った時を思え。「父よ，あなたは何故聞きも，見もしないで，また僅かの益をも与えないもの（木石の偶像）を崇拝なさるのか。 父よ，あなたが授かっていない知識が，今，確かにわたしに下った。だからわたしに従いなさい。わたしはあなたを正しい道に導くでしょう。 父よ，悪魔に仕えてはなりません。本当に悪魔は慈悲深き御方に対する謀叛者です。 父よ，本当にわたしは慈悲深き御方からの懲罰が，あなたに下ることを恐れます。それであなたが，悪魔の友になることを心配しています。」`,
+        ``,
+        ``
+      ],
+      [
+        `그가 그의 아버지께 왜 듣 지도 못하고 보지도 못하며 당신 께 효용도 없는 것을 숭배하고 있습니까 아버지 당신께 이르지 못한 지식이 저에게 이르렀나니 저를 따르십시요 제가 아버지를 바른 길로 안내하겠습니다 아버지 사탄을 섬기면 아니 됩니다 실로 사탄은 하나님을 배 반하였습니다 아버지가 하나님으로부터 벌을 받아 사탄의 친구가 될까 두렵습니다`,
+        ``,
+        ``
+      ],
+      [
+        `Disse a suo padre: “O padre, perché adori ciò che non vede e non sente e non può proteggerti da alcunché O padre, mi è stata data una scienza che tu non hai avuto, seguimi e ti condurrò sulla retta via O padre, non adorare Satana: egli è sempre disobbediente al Compassionevole O padre, temo che ti giunga un castigo del Compassionevole e che tu divenga uno dei prossimi di Satana”`,
+        ``,
+        ``
+      ],
+      [
+        `Oto powiedział on do swojego ojca: "O mój ojcze! Dlaczego czcisz to, co nie słyszy, to, co nie widzi, to, co ci nic nie pomoże O mój ojcze! Ja otrzymałem wiedzę, która nie przyszła do ciebie; postępuj więc za mną, poprowadzę ciebie drogą równą O mój ojcze! Nie czcij szatana! Zaprawdę, szatan jest buntownikiem względem Miłosiernego O mój ojcze! Boję się, aby cię nie dotknęła kara od Miłosiernego i abyś nie był poplecznikiem szatana`,
+        ``,
+        ``
+      ],
+      [
+        `Коли він сказав своєму батькові: «Батьку мій! Чому ти поклоняєшся тому, що не чує й не бачить і не порятує тебе ні від чого Батьку мій! До мене прийшло знання, яке не було відкрито тобі. Іди за мною, я поведу тебе прямим шляхом Батьку мій! Не поклоняйся шайтану, бо шайтан не послухався Милостивого Батьку мій! Воістину, я боюся, що впаде на тебе кара від Милостивого й ти станеш приятелем шайтана`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة مريم / Maryam، الآيات 42-45`
+  },
+
+  {
+    arabic: [
       `إِنَّنِي أَنَا اللَّهُ لَا إِلَٰهَ إِلَّا أَنَا`,
       `فَاعْبُدْنِي`,
       `وَأَقِمِ الصَّلَاةَ لِذِكْرِي`
@@ -13913,6 +16696,117 @@ const verses = [
 
   {
     arabic: [
+      `وَمَا أَرْسَلْنَا مِنْ قَبْلِكَ مِنْ رَسُولٍ إِلَّا نُوحِي إِلَيْهِ أَنَّهُ لَا إِلَٰهَ إِلَّا أَنَا فَاعْبُدُونِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And We sent not before you any messenger except that We revealed to him that, "There is no deity except Me, so worship Me`,
+        ``,
+        ``
+      ],
+      [
+        `Et Nous n'avons envoyé avant toi aucun Messager à qui nous n'ayons révélé : "Point de divinité [véritable] en dehors de Moi. Adorez-moi donc`,
+        ``,
+        ``
+      ],
+      [
+        `Antes de ti no mandamos a ningún enviado que no le reveláramos: «¡No hay más dios que Yo! ¡Servidme, pues!»`,
+        ``,
+        ``
+      ],
+      [
+        `Мы не посылали до тебя ни одного посланника, которому не было бы внушено: «Нет божества, кроме Меня. Поклоняйтесь же Мне!»`,
+        ``,
+        ``
+      ],
+      [
+        `Und Wir haben vor dir keinen Gesandten gesandt, dem Wir nicht (die Weisung) eingegeben hätten: "Es gibt keinen Gott außer Mir, so dient Mir`,
+        ``,
+        ``
+      ],
+      [
+        `Vi har aldrig sänt en profet före dig utan att uppenbara för honom: "Det finns ingen annan gud än Jag - tillbe Mig`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En Wij stuurden niet één van de Boodschappers vóór jou, of Wij openbaarden aan hem dat er geen andere god dan Ik is, aanbidt Mij daarom`,
+        ``,
+        ``
+      ],
+      [
+        `اور جو پیغمبر ہم نےتم سے پہلے بھیجے ان کی طرف یہی وحی بھیجی کہ میرے سوا کوئی معبود نہیں تو میری ہی عبادت کرو`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Kami tidak mengutus seorang rasul pun sebelum engkau (Muhammad), melainkan Kami wahyukan kepadanya, "bahwa tidak ada tuhan (yang berhak disembah) selain Aku, maka sembahlah Aku`,
+        ``,
+        ``
+      ],
+      [
+        `Senden önce gönderdiğimiz her peygambere: "Benden başka tanrı yoktur, Bana kulluk edin" diye vahyetmişizdir`,
+        ``,
+        ``
+      ],
+      [
+        `و پيش از تو هيچ پيامبرى نفرستاديم مگر اينكه به او وحى كرديم كه: «خدايى جز من نيست، پس مرا بپرستيد.»`,
+        ``,
+        ``
+      ],
+      [
+        `আপনার পূর্বে আমি যে রাসূলই প্রেরণ করেছি, তাকে এ আদেশই প্রেরণ করেছি যে, আমি ব্যতীত অন্য কোন উপাস্য নেই। সুতরাং আমারই এবাদত কর।`,
+        ``,
+        ``
+      ],
+      [
+        `E não enviamos, antes de ti, Mensageiro algum, sem que lhe revelássemos que não existe deus além de Mim; então, adorai-Me`,
+        ``,
+        ``
+      ],
+      [
+        `在你之前，我所派遣的使者，都奉到我的启示： 除我之外绝无应受崇拜的。所以你们应当崇拜我。`,
+        ``,
+        ``
+      ],
+      [
+        `あなた以前にも，われが遺わした使徒には，等しく，「われの外に神はない，だからわれに仕えよ。」と啓示した。`,
+        ``,
+        ``
+      ],
+      [
+        `그대 이전에 선지자를 보내 어 계시를 내릴 때도 나 외에는 신이 없나니 나만을 경배하라 하 였노라`,
+        ``,
+        ``
+      ],
+      [
+        `Non inviammo prima di te nessun messaggero senza rivelargli: “Non c'è altro dio che Me. AdorateMi!”`,
+        ``,
+        ``
+      ],
+      [
+        `My nie wysłaliśmy przed tobą żadnego posłańca, któremu nie dalibyśmy objawienia: "Nie ma boga, jak tylko Ja! Przeto czcijcie Mnie`,
+        ``,
+        ``
+      ],
+      [
+        `Ми не відсилали раніше за тебе жодного посланця, не відкривши йому: «Немає бога, крім Мене! Тож поклоняйтеся Мені`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنبياء / Al-Anbiya، الآية 25`
+  },
+
+  {
+    arabic: [
       `أَوَلَمْ يَرَ الَّذِينَ كَفَرُوا أَنَّ السَّمَاوَاتِ وَالْأَرْضَ كَانَتَا رَتْقًا فَفَتَقْنَاهُمَا ۖ وَجَعَلْنَا مِنَ الْمَاءِ كُلَّ شَيْءٍ حَيٍّ ۖ أَفَلَا يُؤْمِنُونَ وَجَعَلْنَا فِي الْأَرْضِ رَوَاسِيَ أَنْ تَمِيدَ بِهِمْ وَجَعَلْنَا فِيهَا فِجَاجًا سُبُلًا لَعَلَّهُمْ يَهْتَدُونَ وَجَعَلْنَا السَّمَاءَ سَقْفًا مَحْفُوظًا ۖ وَهُمْ عَنْ آيَاتِهَا مُعْرِضُونَ وَهُوَ الَّذِي خَلَقَ اللَّيْلَ وَالنَّهَارَ وَالشَّمْسَ وَالْقَمَرَ ۖ كُلٌّ فِي فَلَكٍ يَسْبَحُونَ`,
       ``,
       ``
@@ -14131,6 +17025,228 @@ const verses = [
       ]
     ],
     number: `سورة الأنبياء / Al-Anbiya، الآية 47`
+  },
+
+  {
+    arabic: [
+      `۞ وَلَقَدْ آتَيْنَا إِبْرَاهِيمَ رُشْدَهُ مِنْ قَبْلُ وَكُنَّا بِهِ عَالِمِينَ إِذْ قَالَ لِأَبِيهِ وَقَوْمِهِ مَا هَٰذِهِ التَّمَاثِيلُ الَّتِي أَنْتُمْ لَهَا عَاكِفُونَ قَالُوا وَجَدْنَا آبَاءَنَا لَهَا عَابِدِينَ قَالَ لَقَدْ كُنْتُمْ أَنْتُمْ وَآبَاؤُكُمْ فِي ضَلَالٍ مُبِينٍ قَالُوا أَجِئْتَنَا بِالْحَقِّ أَمْ أَنْتَ مِنَ اللَّاعِبِينَ قَالَ بَلْ رَبُّكُمْ رَبُّ السَّمَاوَاتِ وَالْأَرْضِ الَّذِي فَطَرَهُنَّ وَأَنَا عَلَىٰ ذَٰلِكُمْ مِنَ الشَّاهِدِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And We had certainly given Abraham his sound judgement before, and We were of him well-Knowing When he said to his father and his people, "What are these statues to which you are devoted They said, "We found our fathers worshippers of them He said, "You were certainly, you and your fathers, in manifest error They said, "Have you come to us with truth, or are you of those who jest He said, "[No], rather, your Lord is the Lord of the heavens and the earth who created them, and I, to that, am of those who testify`,
+        ``,
+        ``
+      ],
+      [
+        `En effet, Nous avons mis auparavant Abraham sur le droit chemin. Et Nous en avions bonne connaissance Quand il dit à son père et à son peuple : "Que sont ces statues auxquelles vous vous attachez Ils dirent : "Nous avons trouvé nos ancêtres les adorant Il dit : "Certainement, vous avez été, vous et vos ancêtres, dans un égarement évident Ils dirent : "Viens-tu à nous avec la vérité ou plaisantes-tu Il dit : “Plutôt, votre Seigneur est le Seigneur des cieux et de la Terre, et c'est Lui qui les a créés. Et je suis un de ceux qui en témoignent`,
+        ``,
+        ``
+      ],
+      [
+        `Antes, dimos a Abraham, a quien conocíamos, la rectitud Cuando dijo a su padre y a su pueblo: «¿Qué son estas estatuas a cuyo culto estáis entregados?» Dijeron: «Nuestros padres ya les rendían culto» Dijo: «Pues vosotros y vuestros padres estáis evidentemente extraviados» Dijeron: «¿Nos hablas en serio o bromeas?» Dijo: «¡No! Vuestro Señor es el Señor de los cielos y de la tierra, que Él ha creado. Yo soy testigo de ello`,
+        ``,
+        ``
+      ],
+      [
+        `Еще раньше Мы даровали Ибрахиму (Аврааму) верное руководство, и Мы были осведомлены о нем Вот он сказал своему отцу и народу: «Что это за изваяния, которым вы предаетесь?» Они сказали: «Мы видели, что наши отцы поклонялись им» Он сказал: «Воистину, вы и ваши отцы пребываете в очевидном заблуждении» Они сказали: «Ты принес нам истину, или же ты забавляешься?» Он сказал: «О нет! Ваш Господь - Господь небес и земли, Который создал их. Я же являюсь одним из тех, кто свидетельствует об этом»`,
+        ``,
+        ``
+      ],
+      [
+        `Wir verliehen bereits zuvor Ibrahim seine Besonnenheit; und Wir wußten über ihn Bescheid Als er zu seinem Vater und seinem Volk sagte: "Was sind das für Bildwerke, deren Andacht ihr euch hingebt Sie sagten: "Wir haben (schon) unsere Väter (vor)gefunden, wie sie ihnen dienten Er sagte: "Ihr und eure Väter befindet euch ja in einem deutlichen Irrtum Sie sagten: "Bringst du uns die Wahrheit, oder gehörst du zu denjenigen, die ihr Spiel treiben Er sagte: "Nein! Vielmehr ist euer Herr der Herr der Himmel und der Erde, Der sie erschaffen hat. Und ich gehöre zu denjenigen, die euch darüber Zeugnis ablegen`,
+        ``,
+        ``
+      ],
+      [
+        `REDAN i hans ungdom gav Vi Abraham kunskap om den rätta vägen och ett rättrådigt handlande; Vi visste att han var [värdig Våra gåvor] Till sin fader och sitt folk sade han: "Vad föreställer dessa statyer som ni dyrkar med en sådan hängivenhet De svarade: "Vi såg våra fäder dyrka dem Han sade: "Det är tydligt att ni och era fäder helt har gått vilse De sade: "Säger du detta på fullt allvar, eller vill du skämta Han svarade: "[Jag talar allvar!] Er Herre är himlarnas och jordens Herre, Han som har skapat dem, och jag är en av dem som vittnar om detta`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En voorzeker gaven Wij vroeger Ibrâhîm zijn rechtgeleidheid en Wij waren bekend met hem (Gedenkt) toen hij tegen zijn vader en zijn voik zei: "Wat zijn dat voor beelden, die jullie aanbidden Zij zeiden: "Wij vonden dat onze vaderen hen aanbaden Hij zei: "Voorzeker, jullie en jullie vaderen verkeren in duidelijke dwaling Zij zeiden: "Ben jij naar ons gekomen met de Waarheid, of behoor jij tot hen die spotten Hij zei "Integendeel, jullie Heer is de Heer van de hemelen en de aarde, die Hij geschapen heeft. En ik behoor tot degenen die daarvan getuigen`,
+        ``,
+        ``
+      ],
+      [
+        `اور ہم نے ابراہیمؑ کو پہلے ہی سے ہدایت دی تھی اور ہم ان کے حال سے واقف تھے جب انہوں نے اپنے باپ اور اپنی قوم کے لوگوں سے کہا یہ کیا مورتیں ہیں جن (کی پرستش) پر تم معتکف (وقائم) ہو؟ وہ کہنے لگے کہ ہم نے اپنے باپ دادا کو ان کی پرستش کرتے دیکھا ہے (ابراہیم نے) کہا کہ تم بھی (گمراہ ہو) اور تمہارے باپ دادا بھی صریح گمراہی میں پڑے رہے وہ بولے کیا تم ہمارے پاس (واقعی) حق لائے ہو یا (ہم سے) کھیل (کی باتیں) کرتے ہو؟ (ابراہیم نے) کہا (نہیں) بلکہ تمہارا پروردگار آسمانوں اور زمین کا پروردگار ہے جس نے ان کو پیدا کیا ہے۔ اور میں اس (بات) کا گواہ (اور اسی کا قائل) ہوں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan sungguh, sebelum dia (Musa dan Harun) telah Kami berikan kepada Ibrahim petunjuk, dan Kami telah mengetahui dia (Ingatlah), ketika dia (Ibrahim) berkata kepada ayahnya dan kaumnya, "Patung-patung apakah ini yang kamu tekun menyembahnya Mereka menjawab, "Kami mendapati nenek moyang kami menyembahnya Dia (Ibrahim) berkata, "Sesungguhnya kamu dan nenek moyang kamu berada dalam kesesatan yang nyata Mereka berkata, "Apakah engkau datang kepada kami membawa kebenaran atau engkau main-main Dia (Ibrahim) menjawab, "Sebenarnya Tuhan kamu ialah Tuhan (pemilik) langit dan bumi; (Dialah) yang telah menciptakannya; dan aku termasuk orang yang dapat bersaksi atas itu`,
+        ``,
+        ``
+      ],
+      [
+        `And olsun ki, daha önce İbrahim'e de akla uygun olanı göstermiştik. Biz onu biliyorduk İbrahim, babasına ve milletine: "Bu tapınıp durduğunuz heykeller nedir?" demişti Babalarımızı onlara tapar bulduk" demişlerdi İbrahim: "And olsun ki sizler de babalarınız da apaçık bir sapıklık içindesiniz" deyince Sen bize gerçeği mi getirdin yoksa şaka mı ediyorsun?" dediler O şöyle dedi: "Hayır; Rabbiniz, göklerin ve yerin Rabbidir ki onları O yaratmıştır. Ben de buna şahidlik edenlerdenim`,
+        ``,
+        ``
+      ],
+      [
+        `و در حقيقت، پيش از آن، به ابراهيم رشد [فكرى‌]اش را داديم و ما به [شايستگى‌] او دانا بوديم آنگاه كه به پدر خود و قومش گفت: «اين مجسمه‌هايى كه شما ملازم آنها شده‌ايد چيستند؟» گفتند: «پدران خود را پرستندگان آنها يافتيم.» گفت: «قطعاً شما و پدرانتان در گمراهى آشكارى بوديد.» گفتند: «آيا حق را براى ما آورده‌اى يا تو از شوخى‌كنندگانى؟» گفت: «[نه‌] بلكه پروردگارتان، پروردگار آسمانها و زمين است، همان كسى كه آنها را پديد آورده است، و من بر اين [واقعيت‌] از گواهانم`,
+        ``,
+        ``
+      ],
+      [
+        `আর, আমি ইতিপূর্বে ইব্রাহীমকে তার সৎপন্থা দান করেছিলাম এবং আমি তার সম্পর্কে সম্যক পরিজ্ঞাত ও ছিলাম। যখন তিনি তাঁর পিতা ও তাঁর সম্প্রদায়কে বললেনঃ এই মূর্তিগুলো কী, যাদের তোমরা পূজারী হয়ে বসে আছ। তারা বললঃ আমরা আমাদের বাপ-দাদাকে এদের পুজা করতে দেখেছি। তিনি বললেনঃ তোমরা প্রকাশ্য গোমরাহীতে আছ এবং তোমাদের বাপ-দাদারাও। তারা বললঃ তুমি কি আমাদের কাছে সত্যসহ আগমন করেছ, না তুমি কৌতুক করছ তিনি বললেনঃ না, তিনিই তোমাদের পালনকর্তা যিনি নভোমন্ডল ও ভুমন্ডলের পালনকর্তা, যিনি এগুলো সৃষ্টি করেছেন; এবং আমি এই বিষয়েরই সাক্ষ্যদাতা।`,
+        ``,
+        ``
+      ],
+      [
+        `E, com efeito, concedêramos, antes, a Abraão sua retidão – e éramos, dele, Onisciente Quando disse a seu pai e a seu povo: "Que são estes ídolos, que estais cultuando Disseram: "Encontramos nossos pais adorando-os Ele disse: "Com efeito, vós e vossos pais tendes estado em evidente descaminho Disseram: "Chegaste-nos com a verdade, ou és dos que se divertem Disse: "Não o sou. Mas vosso Senhor é O Senhor dos céus e da terra, Que os criou, e sou das testemunhas disso`,
+        ``,
+        ``
+      ],
+      [
+        `以前我确已把正直赏赐易卜拉欣，我原是深知他的。 当时，他对他的父亲和宗族说：你们所依恋的这些雕像是什么东西？ 他们说：我们发现我们的祖先是崇拜他们的。 他说：你们和你们的祖先，确已陷于明显的迷误之中。 他们说：你是对我们说正经话呢？还是和我们开玩笑呢？ 他说：不然，你们的主，是天地的主，是天地的创造者，我对于此事是一个证人。`,
+        ``,
+        ``
+      ],
+      [
+        `われは以前イブラーヒームに，方正な行いを授けた。われはかれをよく知っている。 かれが父とかれの人びとに，こう言った時を思いなさい。「あなたがたが崇拝するこれらの偶像は，何ものであるのか。」 かれらは言った。「わたしたちは，祖先がそれらを崇拝するのを見ました。」 かれは言った。「あなたがたとあなたがたの祖先は，明らかに誤っていたのである。」 かれらは言った。「あなたは真理を齎したのですか。それとも戯れる者なのですか。」 かれは言った。「そうではない。あなたがたの主は，天と地の主。（無から）それら（天地）を創造された方である。そしてわたしはそれに対する証人の一人である。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 이전에 아브라함 에게 지침서를 주었으며 그를 잘 아시노라 그때 그는 그의 아버지와 백성에게 여러분들이 숭배하는 이 우상들이 무엇이뇨 라고 말하 였더라 이때 그들은 우리 선조들이 그것을 숭배했노라고 말하자 그가 말하길 여러분과 여러 분의 선조들이 분명히 방황했노라 그들이 말하길 네가 우리에 게 진실을 말하느뇨 아니면 우리 를 조롱하느뇨 이때 그가 말하길 너희의 주님은 천지를 창조하신 분이거늘 내가 그것을 증명하는 한 중인이 라`,
+        ``,
+        ``
+      ],
+      [
+        `Siamo Noi che conducemmo Abramo sulla retta via, Noi che lo conoscevamo Quando disse a suo padre e alla sua gente: “Cosa sono queste statue in cui credete?” Risposero: “Trovammo i nostri avi che le adoravano” Disse: “Certo siete stati nell'errore più palese, voi e i vostri avi” Dissero: “Sei venuto con la Verità o stai scherzando?” Disse: “Certo che no! Il vostro Signore è il Signore dei cieli e della terra, è Lui Che li ha creati e io sono tra coloro che lo attestano`,
+        ``,
+        ``
+      ],
+      [
+        `I daliśmy Abrahamowi jego prawość, i My znaliśmy jego Oto powiedział on swemu ojcu i swemu ludowi: "Cóż to są te posągi, którym się kłaniacie Powiedzieli: "Zastaliśmy naszych ojców składających im cześć On powiedział: "Wy i wasi ojcowie byliście z pewnością w jawnym zabłądzeniu Oni powiedzieli; "Czy ty przyszedłeś do nas z prawdą, czy też jesteś z liczby tych, którzy się zabawiają Powiedział: "Tak! Wasz Pan jest Panem niebios i ziemi; On jest Tym, który je stworzył, a ja jestem z liczby tych, którzy są tego świadkami`,
+        ``,
+        ``
+      ],
+      [
+        `Ще раніше Ми дарували Ібрагіму дороговказ, і Ми знали, ким є [Ібрагім] Ось він сказав своєму батьку та іншим людям: «Що це за образи, яким ви настільки віддані Ті відповіли: «Ми бачили, що наші батьки поклонялися їм Він сказав: «Ви та ваші батьки перебуваєте в справжній омані Ті сказали: «Ти прийшов до нас з істиною чи просто бавишся Він сказав: «Ні! Ваш Господь — Господь небес і землі, Який створив їх. І я — один із тих, хто свідчить про це`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنبياء / Al-Anbiya، الآيات 51-56`
+  },
+
+  {
+    arabic: [
+      `إِنَّ هَٰذِهِ أُمَّتُكُمْ أُمَّةً وَاحِدَةً وَأَنَا رَبُّكُمْ فَاعْبُدُونِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed this, your religion, is one religion, and I am your Lord, so worship Me`,
+        ``,
+        ``
+      ],
+      [
+        `Certes, cette communauté qui est la vôtre est une communauté unique, et Je suis votre Seigneur. Adorez-Moi donc`,
+        ``,
+        ``
+      ],
+      [
+        `«Ésta es vuestra comunidad, es una sola comunidad. Y Yo soy vuestro Señor. ¡Servidme, pues!»`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, эта ваша религия - религия единая. Я же - ваш Господь. Поклоняйтесь же Мне`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, diese ist eure Gemeinschaft, eine einzige Gemeinschaft, und Ich bin euer Herr; so dient Mir`,
+        ``,
+        ``
+      ],
+      [
+        `[TROENDE!] Detta ert samfund är i sanning ett samfund och Jag är [allas] er Herre. Dyrka därför Mig`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwar, deze godsdienst (Islam) is jullie godsdienst, de enigste. Ik ben jullie Heer, aanbidt Mij daarom`,
+        ``,
+        ``
+      ],
+      [
+        `یہ تمہاری جماعت ایک ہی جماعت ہے اور میں تمہارا پروردگار ہوں تو میری ہی عبادت کیا کرو`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, (agama tauhid) inilah agama kamu, agama yang satu dan Aku adalah Tuhanmu, maka sembahlah Aku`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu tevhid dini olan Müslümanlık, bir tek din olarak sizin dininizdir ve Ben de Rabbinizim, artık Bana kulluk edin`,
+        ``,
+        ``
+      ],
+      [
+        `اين است امت شما كه امتى يگانه است، و منم پروردگار شما، پس مرا بپرستيد`,
+        ``,
+        ``
+      ],
+      [
+        `তারা সকলেই তোমাদের ধর্মের; একই ধর্মে তো বিশ্বাসী সবাই এবং আমিই তোমাদের পালনকর্তা, অতএব আমার বন্দেগী কর।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, esta é vossa religião uma religião única, e Eu sou vosso Senhor: então, adorai-Me`,
+        ``,
+        ``
+      ],
+      [
+        `你们的这个民族，确是一个统一的民族，我是你们的主，故你们应当崇拜我。`,
+        ``,
+        ``
+      ],
+      [
+        `本当に，あなたがたのこのウンマこそは，唯一の共同体である。そしてわれはあなたがたの主である。だからわれに仕えなさい。`,
+        ``,
+        ``
+      ],
+      [
+        `이슬람은 너희를 위한 유일 한 종교이며 내가 너희의 주님이 거늘 나만을 경배하라`,
+        ``,
+        ``
+      ],
+      [
+        `Sì, questa vostra Comunità è un'unica Comunità e Io sono il vostro Signore. AdorateMi`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, ten wasz naród - to naród jedyny! I Ja jestem waszym Panem, przeto czcijcie Mnie`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, ця ваша громада — громада єдина! А Я — Ваш Господь, тож поклоняйтесь Мені`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنبياء / Al-Anbiya، الآية 92`
   },
 
   {
@@ -14801,6 +17917,117 @@ const verses = [
 
   {
     arabic: [
+      `وَجَاهِدُوا فِي اللَّهِ حَقَّ جِهَادِهِ ۚ هُوَ اجْتَبَاكُمْ وَمَا جَعَلَ عَلَيْكُمْ فِي الدِّينِ مِنْ حَرَجٍ ۚ مِلَّةَ أَبِيكُمْ إِبْرَاهِيمَ ۚ هُوَ سَمَّاكُمُ الْمُسْلِمِينَ مِنْ قَبْلُ وَفِي هَٰذَا لِيَكُونَ الرَّسُولُ شَهِيدًا عَلَيْكُمْ وَتَكُونُوا شُهَدَاءَ عَلَى النَّاسِ ۚ فَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ وَاعْتَصِمُوا بِاللَّهِ هُوَ مَوْلَاكُمْ ۖ فَنِعْمَ الْمَوْلَىٰ وَنِعْمَ النَّصِيرُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And strive for Allah with the striving due to Him. He has chosen you and has not placed upon you in the religion any difficulty. [It is] the religion of your father, Abraham. Allah named you "Muslims" before [in former scriptures] and in this [revelation] that the Messenger may be a witness over you and you may be witnesses over the people. So establish prayer and give zakah and hold fast to Allah. He is your protector; and excellent is the protector, and excellent is the helper`,
+        ``,
+        ``
+      ],
+      [
+        `Et luttez pour Allah avec tout l'effort qu'Il mérite. C'est Lui qui vous a élus ; et Il ne vous a imposé aucune gêne dans la religion, celle de votre père Abraham, lequel vous a déjà nommés "Musulmans" avant (ce Livre) et dans ce (Livre), afin que le Messager soit témoin contre vous, et que vous soyez vous-mêmes témoins contre les gens. Accomplissez donc la prière (As-Salât), acquittez l'aumône (Az-Zakât) et attachez-vous fortement à Allah ! C'est Lui votre Maître. Et quel Excellent Maître ! Et quel Excellent soutien`,
+        ``,
+        ``
+      ],
+      [
+        `¡Luchad por Alá como Él se merece! Él os eligió y no os ha impuesto ninguna carga en la religión! ¡La religión de vuestro padre Abraham! Él os llamó 'musulmanes' anteriormente y aquí, para que el Enviado sea testigo de vosotros y que vosotros seáis testigos de los hombres. ¡Haced la azalá y, dad el azaque! ¡Y aferraos a Alá! ¡Él es vuestro Protector! ¡Es un protector excelente, un auxiliar excelente`,
+        ``,
+        ``
+      ],
+      [
+        `Усердствуйте на пути Аллаха надлежащим образом. Он избрал вас и не сделал для вас никакого затруднения в религии. Такова вера отца вашего Ибрахима (Авраама). Аллах нарек вас мусульманами до этого и здесь (в Коране), чтобы Посланник был свидетелем о вас, а вы были свидетелями о людях. Совершайте намаз, выплачивайте закят и крепко держитесь за Аллаха. Он - ваш Покровитель. Как же прекрасен этот Покровитель! Как же прекрасен этот Помощник`,
+        ``,
+        ``
+      ],
+      [
+        `Und müht euch für Allah ab, wie der wahre Einsatz für Ihn sein soll. Er hat euch erwählt und euch in der Religion keine Bedrängnis auferlegt, dem Glau bensbekenntnis eures Vaters Ibrahim: Er hat euch Muslime genannt, zuvor und (nunmehr) in diesem (Qur'an), damit der Gesandte Zeuge über euch sei und ihr Zeugen über die Menschen seid. So verrichtet das Gebet, entrichtet die Abgabe und haltet an Allah fest. Er ist euer Schutzherr. Wie trefflich ist doch der Schutzherr, und wie trefflich ist der Helfer`,
+        ``,
+        ``
+      ],
+      [
+        `Och sträva för Guds sak med all den hängivelse som ni är skyldiga Honom. Han har utvalt er och Han har inte lagt på er svåra eller tunga plikter i [utövningen av er] religion, den rena, ursprungliga tro som var er fader Abrahams. Det är Han som i gången tid och i denna [Skrift] har kallat er "dem som har underkastat sig Guds vilja". Om detta skall Sändebudet vittna mot er och ni skall vittna mot människorna. Förrätta därför bönen regelbundet och erlägg allmoseskatten! Och håll fast vid Gud, er Herre och er Beskyddare - den mäktigaste Beskyddaren och den bäste Hjälparen av alla`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En streeft naar Allah volgens het streven waar Hij rechtop heeft. Hij heeft jullie uitgekozen en Hij heeft het jullie in de godsdienst niet moeilijk gemaakt: (volgt) de godsdienst van jullie vader Ibrâhîm. Hij is degene die jullie Moslims genoemd heeft, vroeger en hierin (de Koran): opdat de Boodschapper getuige is voor jullie en opdat jullie getuigen zijn voor de mensen. Onderhoudt dus de shalât en geeft de zakât en houdt jullie vast ma Allah, Hij is jullie Meester: de beste Meester en de beste Helper`,
+        ``,
+        ``
+      ],
+      [
+        `اور خدا (کی راہ) میں جہاد کرو جیسا جہاد کرنے کا حق ہے۔ اس نے تم کو برگزیدہ کیا ہے اور تم پر دین کی (کسی بات) میں تنگی نہیں کی۔ (اور تمہارے لئے) تمہارے باپ ابراہیم کا دین (پسند کیا) اُسی نے پہلے (یعنی پہلی کتابوں میں) تمہارا نام مسلمان رکھا تھا اور اس کتاب میں بھی (وہی نام رکھا ہے تو جہاد کرو) تاکہ پیغمبر تمہارے بارے میں شاہد ہوں۔ اور تم لوگوں کے مقابلے میں شاہد اور نماز پڑھو اور زکوٰة دو اور خدا کے دین کی (رسی کو) پکڑے رہو۔ وہی تمہارا دوست ہے۔ اور خوب دوست اور خوب مددگار ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan berjihadlah kamu di jalan Allah dengan jihad yang sebenar-benarnya. Dia telah memilih kamu, dan Dia tidak menjadikan kesukaran untukmu dalam agama. (Ikutilah) agama nenek moyangmu Ibrahim. Dia (Allah) telah menamakan kamu orang-orang muslim sejak dahulu, dan (begitu pula) dalam (Alquran) ini, agar Rasul (Muhammad) itu menjadi saksi atas dirimu dan agar kamu semua menjadi saksi atas segenap manusia. Maka laksanakanlah salat dan tunaikanlah zakat, dan berpegang teguhlah kepada Allah. Dialah Pelindungmu; Dia sebaik-baik pelindung dan sebaik-baik penolong`,
+        ``,
+        ``
+      ],
+      [
+        `Allah uğrunda gereği gibi cihat edin. O, sizi seçmiş, babanız İbrahim'in yolu olan dinde sizin için bir zorluk kılmamıştır. Daha önce ve Kuran'da, peygamberin size şahit olması, sizin de insanlara şahit olmanız için size müslüman adını veren O'dur. Artık, namaz kılın, zekat verin, Allah'a sarılın. O sizin sahibinizdir. Ne güzel sahip ve ne güzel yardımcıdır`,
+        ``,
+        ``
+      ],
+      [
+        `و در راه خدا چنانكه حق جهاد [در راه‌] اوست جهاد كنيد، اوست كه شما را [براى خود] برگزيده و در دين بر شما سختى قرار نداده است. آيين پدرتان ابراهيم [نيز چنين بوده است‌] او بود كه قبلاً شما را مسلمان ناميد، و در اين [قرآن نيز همين مطلب آمده است‌] تا اين پيامبر بر شما گواه باشد و شما بر مردم گواه باشيد. پس نماز را برپا داريد و زكات بدهيد و به پناه خدا رويد. او مولاى شماست؛ چه نيكو مولايى و چه نيكو ياورى`,
+        ``,
+        ``
+      ],
+      [
+        `তোমরা আল্লাহর জন্যে শ্রম স্বীকার কর যেভাবে শ্রম স্বীকার করা উচিত। তিনি তোমাদেরকে পছন্দ করেছেন এবং ধর্মের ব্যাপারে তোমাদের উপর কোন সংকীর্ণতা রাখেননি। তোমরা তোমাদের পিতা ইব্রাহীমের ধর্মে কায়েম থাক। তিনিই তোমাদের নাম মুসলমান রেখেছেন পূর্বেও এবং এই কোরআনেও, যাতে রসূল তোমাদের জন্যে সাক্ষ্যদাতা এবং তোমরা সাক্ষ্যদাতা হও মানবমন্ডলির জন্যে। সুতরাং তোমরা নামায কায়েম কর, যাকাত দাও এবং আল্লাহকে শক্তভাবে ধারণ কর। তিনিই তোমাদের মালিক। অতএব তিনি কত উত্তম মালিক এবং কত উত্তম সাহায্যকারী।`,
+        ``,
+        ``
+      ],
+      [
+        `E lutai por Allah, como se deve lutar por Ele. Ele vos elegeu. E não vos fez constrangimento algum, na religião: a crença de vosso pai Abraão. Ele vos nomeou muçulmanos antes e, agora, neste para que o Mensageiro seja testemunha de vós, e vós sejais testemunhas da humanidade. Então, cumpri a oração e concedei as esmolas, e agarrai-vos a Allah. Ele é vosso Protetor. Então, que Excelente Protetor e que Excelente Socorredor`,
+        ``,
+        ``
+      ],
+      [
+        `你们应当为真主而真实地奋斗。他拣选你们，关于宗教的事，他未曾以任何烦难为你们的义务，你们应当遵循你们的祖先易卜拉欣的宗教，以前真主称你们为穆斯林，在这部经典里他也称你们为穆斯林，以便使者为你们作证，而你们为世人作证。你们当谨守拜功，完纳天课，信托真主；他是你们的主宰，主宰真好！助者真好！`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーの（道の）ために，限りを尽くして奮闘努力しなさい。かれは，あなたがたを選ばれる。この教えは，あなたがたに苦業を押しつけない。これはあなたがたの祖先，イブラーヒームの教義である。かれは以前も，またこの（クルアーン）においても，あなたがたをムスリムと名付けられた。使徒はあなたがたのための立証者であり，またあなたがたは人びとのための立証者である。だから礼拝の務めを守り，定めの喜捨を行い，確りとアッラーに縋りなさい。かれは あなたがたの守護者である。何と優れた守護者，何と優れた援助者であることよ。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님의 길에서 성전하라 그 성전은 그분의 권리라 그분께 서 너희를 선택하사 종교생활에 어려움이 없도록 했노라 그럼으로 너희의 선조 아브라함의 신앙을 따르라 그분은 전에도 그리고 오 늘날에도 너희를 무슬링이라 부 르셨으며 그 선지자가 너희에의 중인이 되고 너희는 백성들에게 중인이 되리니 예배를 드리고 이 슬람세를 바치라 그리고 하나님을 따르라 그분은 보호함과 도와 주심이 가장 으뜸가신 보호자 이시라`,
+        ``,
+        ``
+      ],
+      [
+        `Lottate per Allah come Egli ha diritto [che si lotti]. Egli vi ha scelti e non ha posto nulla di gravoso nella religione, quella del vostro padre Abramo che vi ha chiamati “musulmani”. Già allora e qui ancora, sì che il Messaggero testimoni nei vostri confronti e voi testimoniate nei confronti delle genti. Assolvete all'orazione e versate la decima e aggrappatevi ad Allah: Egli è il vostro patrono. Qual miglior patrono, qual miglior alleato`,
+        ``,
+        ``
+      ],
+      [
+        `I bądźcie gorliwi w walce za sprawę Boga gorliwością, na jaką On zasługuje! On was wybrał i nie uczynił żadnej trudności w waszej religii, religii waszego ojca Abrahama. On nazwał was muzułmanami, niegdyś i obecnie, aby Posłaniec był świadkiem dla was i abyście wy byli świadkami dla ludzi. Odprawiajcie więc modlitwę! Dawajcie jałmużnę! I trzymajcie się mocno Boga! On jest waszym Panem! Jakże to wspaniały Pan! Jakże to wspaniały Pomocnik`,
+        ``,
+        ``
+      ],
+      [
+        `Боріться ж на шляху Аллага гідною Його боротьбою! Він обрав вас і не зробив у релігії жодних труднощів. Така релігія Ібрагіма, вашого батька! Він назвав вас мусульманами ще раніше й у цьому [Корані], щоб Посланець був свідком для вас, а ви були свідками людям. Звершуйте молитву, давайте закят і тримайтеся за Аллага! Він — Охоронець ваш! Прекрасний Охоронець, прекрасний Помічник`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الحج / Al-Hajj، الآية 78`
+  },
+
+  {
+    arabic: [
       `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ قَدْ أَفْلَحَ الْمُؤْمِنُونَ الَّذِينَ هُمْ فِي صَلَاتِهِمْ خَاشِعُونَ وَالَّذِينَ هُمْ عَنِ اللَّغْوِ مُعْرِضُونَ وَالَّذِينَ هُمْ لِلزَّكَاةِ فَاعِلُونَ وَالَّذِينَ هُمْ لِفُرُوجِهِمْ حَافِظُونَ إِلَّا عَلَىٰ أَزْوَاجِهِمْ أَوْ مَا مَلَكَتْ أَيْمَانُهُمْ فَإِنَّهُمْ غَيْرُ مَلُومِينَ فَمَنِ ابْتَغَىٰ وَرَاءَ ذَٰلِكَ فَأُولَٰئِكَ هُمُ الْعَادُونَ وَالَّذِينَ هُمْ لِأَمَانَاتِهِمْ وَعَهْدِهِمْ رَاعُونَ وَالَّذِينَ هُمْ عَلَىٰ صَلَوَاتِهِمْ يُحَافِظُونَ أُولَٰئِكَ هُمُ الْوَارِثُونَ الَّذِينَ يَرِثُونَ الْفِرْدَوْسَ هُمْ فِيهَا خَالِدُونَ`,
       ``,
       ``
@@ -15019,6 +18246,117 @@ const verses = [
       ]
     ],
     number: `سورة المؤمنون / Al-Mu'minun، الآيات 12-14`
+  },
+
+  {
+    arabic: [
+      `يَا أَيُّهَا الرُّسُلُ كُلُوا مِنَ الطَّيِّبَاتِ وَاعْمَلُوا صَالِحًا ۖ إِنِّي بِمَا تَعْمَلُونَ عَلِيمٌ وَإِنَّ هَٰذِهِ أُمَّتُكُمْ أُمَّةً وَاحِدَةً وَأَنَا رَبُّكُمْ فَاتَّقُونِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `[Allah said], "O messengers, eat from the good foods and work righteousness. Indeed, I, of what you do, am Knowing And indeed this, your religion, is one religion, and I am your Lord, so fear Me`,
+        ``,
+        ``
+      ],
+      [
+        `Ô Messagers ! Mangez de ce qui est permis et agréable et faites du bien. Car Je sais parfaitement ce que vous faites Et cette communauté, la vôtre, est une seule communauté, tandis que Je suis votre Seigneur. Craignez-Moi donc`,
+        ``,
+        ``
+      ],
+      [
+        `«¡Enviados! ¡Comed de las cosas buenas y obrad bien! ¡Yo sé bien lo que hacéis Y ésta es vuestra comunidad. Es una sola comunidad. Y Yo soy vuestro Señor. ¡Temedme, pues!»`,
+        ``,
+        ``
+      ],
+      [
+        `О посланники! Вкушайте блага и поступайте праведно. Воистину, Мне известно о том, что вы совершаете Воистину, ваша религия - религия единая, а Я - ваш Господь. Бойтесь же Меня`,
+        ``,
+        ``
+      ],
+      [
+        `O ihr Gesandten, eßt von den guten Dingen und handelt rechtschaffen; gewiß, Ich weiß über das, was ihr tut, Bescheid Gewiß, diese ist eure Gemeinschaft, eine einzige Gemeinschaft, und Ich bin euer Herr; so fürchtet Mich`,
+        ``,
+        ``
+      ],
+      [
+        `NJUT, ni sändebud, av allt [i livet] som är gott och sunt och lev rättskaffens; Jag har full vetskap om vad ni gör Detta ert samfund är i sanning ett samfund och Jag är [allas] er Herre. Frukta därför Mig`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O Boodschappers, eet van de goede zaken en verricht goede daden. Voorwaar, Ik ben Alwetend over wat jullie doen En voorwaar, deze godsdienst (de Islam) is jullie godsdienst, de enigste. En Ik ben jullie Heer, vreest Mij daarom`,
+        ``,
+        ``
+      ],
+      [
+        `اے پیغمبرو! پاکیزہ چیزیں کھاؤ اور عمل نیک کرو۔ جو عمل تم کرتے ہو میں ان سے واقف ہوں اور یہ تمہاری جماعت (حقیقت میں) ایک ہی جماعت ہے اور میں تمہارا پروردگار ہوں تو مجھ سے ڈرو`,
+        ``,
+        ``
+      ],
+      [
+        `Allah berfirman, "Wahai para rasul! Makanlah dari (makanan) yang baik-baik, dan kerjakanlah kebajikan. Sungguh, Aku Maha Mengetahui apa yang kamu kerjakan Dan sungguh, (agama tauhid) inilah agama kamu, agama yang satu dan Aku adalah Tuhanmu, maka bertakwalah kepada-Ku`,
+        ``,
+        ``
+      ],
+      [
+        `Ey Peygamberler! Temiz şeylerden yiyin, yararlı iş işleyin; doğrusu Ben, yaptığınızı bilirim Şüphesiz bu Müslümanlık, bir tek din olarak sizin dininizdir ve Ben de Rabbinizim; öyleyse Benden sakının`,
+        ``,
+        ``
+      ],
+      [
+        `اى پيامبران، از چيزهاى پاكيزه بخوريد و كار شايسته كنيد، كه من به آنچه انجام مى‌دهيد دانايم و در حقيقت، اين امّت شماست كه امتى يگانه است، و من پروردگار شمايم؛ پس، از من پروا داريد`,
+        ``,
+        ``
+      ],
+      [
+        `হে রসূলগণ, পবিত্র বস্তু আহার করুন এবং সৎকাজ করুন। আপনারা যা করেন সে বিষয়ে আমি পরিজ্ঞাত। আপনাদের এই উম্মত সব তো একই ধর্মের অনুসারী এবং আমি আপনাদের পালনকর্তা; অতএব আমাকে ভয় করুন।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó Mensageiros! Comei das cousas benignas e fazei o bem. Por certo, do que fazeis, sou Onisciente E por certo, esta é vossa religião, uma religião única. E sou vosso Senhor: então, temei-Me`,
+        ``,
+        ``
+      ],
+      [
+        `众使者啊！你们可以吃佳美的食物，应当力行善功， 我对于你们的行为确是全知的。 这个确是你们的统一的民族我是你们的主，故你们应当敬畏我。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがた使徒たちよ，善い清いものを食べ，善い行いをしなさい。われはあなたがたのすることを熟知している。 本当にあなたがたのこのウンマは，唯一の共同体である。われはあなたがたの主である。われを畏れよ。`,
+        ``,
+        ``
+      ],
+      [
+        `선지자들이여 허락된 좋은 것들을 섭취하되 선을 행하라 너 희가 행하는 일들을 내가 알고 있노라 실로 너희의 공동체는 하나 이며 내가 너희의 주님이거늘 항 상 나를 두려워하라`,
+        ``,
+        ``
+      ],
+      [
+        `O Messaggeri, mangiate quello che è puro e operate il bene. Sì, io conosco bene il vostro agire In verità questa vostra Comunità è una Comunità unica e Io sono il vostro Signore. TemeteMi dunque`,
+        ``,
+        ``
+      ],
+      [
+        `O wy, posłańcy! Jedzcie wyśmienite rzeczy i czyńcie dobro! Ja wiem doskonale, co wy czynicie Zaprawdę, ten wasz naród jest narodem jedynym. Ja jestem waszym Panem. Bójcie się Mnie`,
+        ``,
+        ``
+      ],
+      [
+        `О ви, посланці! Споживайте блага й робіть добро. Воістину, Я знаю, що ви робите Воістину, ваша громада — громада єдина. А Я — ваш Господь. Тож бійтеся Мене`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المؤمنون / Al-Mu'minun، الآيتان 51-52`
   },
 
   {
@@ -15911,6 +19249,117 @@ const verses = [
 
   {
     arabic: [
+      `قَالَ أَفَرَأَيْتُمْ مَا كُنْتُمْ تَعْبُدُونَ أَنْتُمْ وَآبَاؤُكُمُ الْأَقْدَمُونَ فَإِنَّهُمْ عَدُوٌّ لِي إِلَّا رَبَّ الْعَالَمِينَ الَّذِي خَلَقَنِي فَهُوَ يَهْدِينِ وَالَّذِي هُوَ يُطْعِمُنِي وَيَسْقِينِ وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ وَالَّذِي يُمِيتُنِي ثُمَّ يُحْيِينِ وَالَّذِي أَطْمَعُ أَنْ يَغْفِرَ لِي خَطِيئَتِي يَوْمَ الدِّينِ رَبِّ هَبْ لِي حُكْمًا وَأَلْحِقْنِي بِالصَّالِحِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `He said, "Then do you see what you have been worshipping You and your ancient forefathers Indeed, they are enemies to me, except the Lord of the worlds Who created me, and He [it is who] guides me And it is He who feeds me and gives me drink And when I am ill, it is He who cures me And who will cause me to die and then bring me to life And who I aspire that He will forgive me my sin on the Day of Recompense [And he said], "My Lord, grant me authority and join me with the righteous`,
+        ``,
+        ``
+      ],
+      [
+        `Il dit : "Que dites-vous de ce que vous adoriez Vous et vos vieux ancêtres Ils sont tous pour moi des ennemis sauf le Seigneur de l'Univers Celui qui m'a créé, et c'est Lui qui me guide et c'est Lui qui me nourrit et me donne à boire et quand je suis malade, c'est Lui qui me guérit et qui me fera mourir, puis me redonnera la vie et c'est de Lui que je convoite le pardon de mes fautes le Jour de la Rétribution Seigneur ! Accorde-moi sagesse (et savoir) et fais-moi rejoindre les gens de bien`,
+        ``,
+        ``
+      ],
+      [
+        `Dijo: «¿Y habéis visto lo que servíais vosotros y vuestros lejanos antepasados Son mis enemigos, a diferencia del Señor del universo Que me ha creado y me dirige me da de comer y de beber me cura cuando enfermo me hará morir y, luego, me volverá a la vida de Quien anhelo el perdón de mis faltas el día del Juicio ¡Señor! ¡Regálame juicio y reúneme con los justos`,
+        ``,
+        ``
+      ],
+      [
+        `Он сказал: «Видели ли вы, чему поклоняетесь вы со своими древними отцами Все они - враги мои, кроме Господа миров Который сотворил меня и ведет прямым путем Который кормит меня и поит Который исцеляет меня, когда я заболеваю Который умертвит меня, а потом воскресит Который, я надеюсь, простит мой грех в День воздаяния Господи! Даруй мне власть (пророчество или знание) и воссоедини меня с праведниками`,
+        ``,
+        ``
+      ],
+      [
+        `Er sagte: "Was meint ihr wohl zu dem, was ihr zu verehren pflegt ihr und eure Vorväter Gewiß, sie sind mir (alle) Feinde, außer dem Herrn der Weltenbewohner Der mich erschaffen hat und mich (nun) rechtleitet und Der mir zu essen und zu trinken gibt und Der, wenn ich krank bin, mich heilt und Der mich sterben läßt und hierauf wieder lebendig macht und von Dem ich erhoffe, daß Er mir am Tag des Gerichts meine Verfehlung vergeben wird Mein Herr, schenke mir Urteil(skraft), und nimm mich unter die Rechtschaffenen auf`,
+        ``,
+        ``
+      ],
+      [
+        `Han sade: "Har ni ägnat en tanke åt vad det är ni dyrkar ni och alla era förfäder Dessa [gudar] är mina fiender - [för mig] finns ingen [gud] utom världarnas Herre Det är Han som har skapat mig och Han som leder mig och Han som ger mig mat och dryck Och när jag är sjuk, återger Han mig hälsan Han skall låta mig dö och därefter väcka mig till nytt liv och på Domens dag - det är mitt hopp - skall Han förlåta mig mina synder [Och Abraham bad:] "Herre! Ge mig visdom och förena mig med skaran av Dina rättfärdiga [tjänare]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij (Ibrâhîm) zei: "Hebben jullie dain gezien wat jullie plegen te aanbidden Jullie en jullie vaderen die voorafgingen Voorwaar, zij zijn een vijand voor mij, (ik aanbid niemand) behalve de Heer der Werelden Degene Die mij geschapen heeft, Hij leidt mij En Hij is Degene Die mij voedt en Die mij te drinken geeft En wanneer ik ziek ben, is Hij het Die mij geneest Degene Die mij doet sterven en mi vervolgens doet leven En Degene van Wie ik hevig verlang dat Hij mijn zonden zal vergeven op de Dag des Oordeels Mijn Heer, schenk mij wijsheid en verenig mij met de rechtschapenen`,
+        ``,
+        ``
+      ],
+      [
+        `ابراہیم نے کہا کیا تم نے دیکھا کہ جن کو تم پوجتے رہے ہو تم بھی اور تمہارے اگلے باپ دادا بھی وہ میرے دشمن ہیں۔ مگر خدائے رب العالمین (میرا دوست ہے) جس نے مجھے پیدا کیا ہے اور وہی مجھے رستہ دکھاتا ہے اور وہ جو مجھے کھلاتا اور پلاتا ہے اور جب میں بیمار پڑتا ہوں تو مجھے شفا بخشتا ہے اور جو مجھے مارے گا اور پھر زندہ کرے گا اور وہ جس سے میں امید رکھتا ہوں کہ قیامت کے دن میرے گناہ بخشے گا اے پروردگار مجھے علم ودانش عطا فرما اور نیکوکاروں میں شامل کر`,
+        ``,
+        ``
+      ],
+      [
+        `Dia (Ibrahim) berkata, "Apakah kamu memperhatikan apa yang kamu sembah kamu dan nenek moyang kamu yang terdahulu sesungguhnya mereka (apa yang kamu sembah) itu musuhku, lain halnya Tuhan seluruh alam (yaitu) Yang telah menciptakan aku, maka Dia yang memberi petunjuk kepadaku dan Yang memberi makan dan minum kepadaku dan apabila aku sakit, Dialah yang menyembuhkan aku dan Yang akan mematikan aku, kemudian akan menghidupkan aku (kembali) dan Yang sangat ku inginkan akan mengampuni kesalahanku pada hari Kiamat (Ibrahim berdoa), "Ya Tuhanku, berikanlah kepadaku ilmu dan masukkanlah aku ke dalam golongan orang-orang yang saleh`,
+        ``,
+        ``
+      ],
+      [
+        `İbrahim: "Eski atalarınızın ve sizin nelere taptıklarınızı görüyor musunuz? Doğrusu onlar benim düşmanımdır. Dostum ancak Alemlerin Rabbidir. Beni yaratan da, doğru yola eriştiren de O'dur. Beni yediren de, içiren de O'dur. Hasta olduğumda bana O şifa verir. Beni öldürecek, sonra da diriltecek O'dur. Ahiret gününde yanılmalarımı bana bağışlamasını umduğum O'dur. Rabbim! Bana hikmet ver ve beni iyiler arasına kat`,
+        ``,
+        ``
+      ],
+      [
+        `گفت: «آيا در آنچه مى‌پرستيده‌ايد تأمّل كرده‌ايد؟ شما و پدران پيشين شما؟ قطعاً همه آنها -جز پروردگار جهانيان- دشمن منند آن كس كه مرا آفريده و همو راهنماييم مى‌كند، و آن كس كه او به من خوراك مى‌دهد و سيرابم مى‌گرداند، و چون بيمار شوم او مرا درمان مى‌بخشد، و آن كس كه مرا مى‌ميراند و سپس زنده‌ام مى‌گرداند، و آن كس كه اميد دارم روز پاداش، گناهم را بر من ببخشايد.» پروردگارا، به من دانش عطا كن و مرا به صالحان ملحق فرماى،`,
+        ``,
+        ``
+      ],
+      [
+        `ইব্রাহীম বললেন, তোমরা কি তাদের সম্পর্কে ভেবে দেখেছ, যাদের পূজা করে আসছ। তোমরা এবং তোমাদের পূর্ববর্তী পিতৃপুরুষেরা বিশ্বপালনকর্তা ব্যতীত তারা সবাই আমার শত্রু। যিনি আমাকে সৃষ্টি করেছেন, অতঃপর তিনিই আমাকে পথপ্রদর্শন করেন যিনি আমাকে আহার এবং পানীয় দান করেন যখন আমি রোগাক্রান্ত হই, তখন তিনিই আরোগ্য দান করেন। যিনি আমার মৃত্যু ঘটাবেন, অতঃপর পুনর্জীবন দান করবেন। আমি আশা করি তিনিই বিচারের দিনে আমার ক্রটি-বিচ্যুতি মাফ করবেন। হে আমার পালনকর্তা, আমাকে প্রজ্ঞা দান কর এবং আমাকে সৎকর্মশীলদের অন্তর্ভুক্ত কর`,
+        ``,
+        ``
+      ],
+      [
+        `Disse: "E vistes o que adorais Vós e vossos antigos pais Então, por certo, são de mim inimigos, exceto O Senhor dos mundos Quem me criou; e é Ele Quem me guia E Quem me alimenta e me dá de beber E, quando adoeço, é Ele Quem me cura E Quem me dará a morte, em seguida, me dará a vida E a Quem aspiro o erro, no Dia do Juízo Senhor meu! Dadiva-me com sabedoria e ajunta-me aos íntegros`,
+        ``,
+        ``
+      ],
+      [
+        `他说：你们告诉我吧！你们所崇拜的是什么？ 你们最古的祖先崇拜的是什么？ 他们确是我的仇敌，惟全世界的主则不然。 他是创造我，然后引导我的。 他是供我食，供我饮的。 我害病时，是他使我痊愈的。 他将使我死，然后使我复活。 我希望他在报应日赦宥我的过失。 主啊！求你赐我智慧，求你使我进入善人的行列。`,
+        ``,
+        ``
+      ],
+      [
+        `かれは言った。「それならあなたがたは，あなたがたが今迄崇拝してきたものに就いて考えてみたのですか。 あなたがたも，昔の祖先たちも（崇拝していたものに就いて）。 万有の主を除いては，かれらはわたしの敵です。 かれはわたしを創られた方で，わたしを導かれ， わたしに食料を支給し，また飲料を授けられた御方。 また病気になれば，かれはわたしを癒して下さいます。 わたしを死なせ，それから生き返らせられる御方。 審判の日には，罪過を御赦し下されるよう，わたしが願い望む方である。 主よ，英知をわたしに授け，正しい者たちの仲間に入れて下さい。`,
+        ``,
+        ``
+      ],
+      [
+        `그가 말하길 여러분은 여러 분이 숭배하고 있는 것이 무엇인 지 알고 있느뇨 여러분과 여러분의 옛조상들이 숭배한 것은 무엇입니까 그것들은 나의 적으로 나는 만유의 주님만을 경배하니 그분은 나를 창조하셨고 또 나를 인도하시며 그분은 나에게 일용할 양식 을 주시고 마실 음료수를 주시며 내가 병들었을 때 나를 치료하여 주시며 나의 생명을 앗아가신 후 생명을 주시는 분이시며 심판의 날 나의 잘못을 사하 여 주시기를 내가 기도하는 분이 십니다 주여 저에게 지혜를 주옵시 고 의로운 사람 가운데 있게 하여 주소서`,
+        ``,
+        ``
+      ],
+      [
+        `Disse: “Avete ben riflettuto su ciò che avete adorato sia voi che i vostri lontani antenati Essi sono tutti miei nemici, eccetto il Signore dei mondi Colui Che mi ha creato e mi guida Colui Che mi nutre e mi dà da bere Colui Che, quando sono malato, mi guarisce Colui Che mi farà morire e mi ridarà la vita ed è da Lui che bramo il perdono delle mie colpe, nel Giorno del Giudizio Signore, dammi discernimento e annoverami tra i giusti`,
+        ``,
+        ``
+      ],
+      [
+        `Powiedział: "A czy przyglądnęliście się temu Co czciliście, wy i wasi najdawniejsi ojcowie Te bałwany są przecież wrogami dla mnie, a nie Pan światów Który mnie stworzył i który mnie prowadzi drogą prostą Który mnie karmi i poi A kiedy zachoruję, to mnie leczy Który sprowadzi na mnie śmierć, potem mnie ożywi I który - pragnę tego gorąco - przebaczy mi moje grzechy w Dzień Sądu Panie mój! Użycz mi mądrości, i połącz mnie ze sprawiedliwymi`,
+        ``,
+        ``
+      ],
+      [
+        `[Ібрагім] сказав: «Чи бачили ви, чому поклоняєтес ви та ваші прабатьки Це все Мої вороги, крім Господа світів Який мене створив і веде прямим шляхом Який мене годує та поїть зцілює мене, коли я хворію Який умертвить мене, а потім оживить Який, сподіваюсь, в Судний День простить мої гріхи Господи! Даруй Мені знання та возз’єднай мене з праведниками`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الشعراء / Ash-Shu'ara، الآيات 75-83`
+  },
+
+  {
+    arabic: [
       `وَإِنَّهُ لَتَنزِيلُ رَبِّ الْعَالَمِينَ`,
       `نَزَلَ بِهِ الرُّوحُ الْأَمِينُ`,
       `عَلَى قَلْبِكَ لِتَكُونَ مِنَ الْمُنذِرِينَ`
@@ -16133,6 +19582,117 @@ const verses = [
 
   {
     arabic: [
+      `قِيلَ لَهَا ادْخُلِي الصَّرْحَ ۖ فَلَمَّا رَأَتْهُ حَسِبَتْهُ لُجَّةً وَكَشَفَتْ عَنْ سَاقَيْهَا ۚ قَالَ إِنَّهُ صَرْحٌ مُمَرَّدٌ مِنْ قَوَارِيرَ ۗ قَالَتْ رَبِّ إِنِّي ظَلَمْتُ نَفْسِي وَأَسْلَمْتُ مَعَ سُلَيْمَانَ لِلَّهِ رَبِّ الْعَالَمِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `She was told, "Enter the palace." But when she saw it, she thought it was a body of water and uncovered her shins [to wade through]. He said, "Indeed, it is a palace [whose floor is] made smooth with glass." She said, "My Lord, indeed I have wronged myself, and I submit with Solomon to Allah, Lord of the worlds`,
+        ``,
+        ``
+      ],
+      [
+        `On lui dit : "Entre dans le palais !" Puis, quand elle le vit, elle le prit pour de l'eau profonde et elle se découvrit les jambes. Alors, [Salomon] lui dit : "Ceci est un palais pavé de cristal." - Elle dit : "Seigneur ! Je me suis fait du tort à moi- même et je me soumets avec Salomon à Allah, Seigneur de l'Univers`,
+        ``,
+        ``
+      ],
+      [
+        `Se le dijo: «¡Entra en el palacio!» Cuando ella lo vio, creyó que era un estanque de agua y se descubrió las piernas. Dijo él: «Es un palacio pavimentado de cristal». Dijo ella: «¡Señor! He sido injusta conmigo misma, pero, como Salomón, me someto a Alá, Señor del universo»`,
+        ``,
+        ``
+      ],
+      [
+        `Ей сказали: «Войди во дворец». Увидев его, она приняла его за водную пучину и обнажила свои голени. Он сказал: «Это - отшлифованный дворец из хрусталя». Она сказала: «Господи! Я была несправедлива к самой себе. Я покоряюсь вместе с Сулейманом (Соломоном) Аллаху, Господу миров»`,
+        ``,
+        ``
+      ],
+      [
+        `Es wurde zu ihr gesagt: "Tritt in den Prachtbau ein." Als sie ihn sah, hielt sie ihn für ein tiefes Wasser und entblößte ihre Unterschenkel. Er sagte: "Es ist ein mit Glas ausgelegter Prachtbau." Sie sagte: "Mein Herr, ich habe mir selbst Unrecht zugefügt, aber ich ergebe mich (nun), zusammen mit Sulaiman, Allah, dem Herrn der Weltenbewohner`,
+        ``,
+        ``
+      ],
+      [
+        `[Då] man bjöd henne att stiga in på palatsets gård trodde hon att det var [en bassäng med] djupt vatten och blottade benen [för att fästa upp sina kjolar]. [Men Salomo] sade: "Det är en gård belagd med glas." Hon utbrast: "Herre! Jag har gjort orätt mot mig själv [genom att tillbe solen]! Men nu, tillsammans med Salomo, underkastar jag mig Guds, världarnas Herres, vilja`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Er werd tegen haar gezegd: "Treed het paleis binnen." Toen zij het zag, dacht zij dat het een waterplas was en zij trok (haar gewaad) op van haar benen. Hij zei: "Het is een paleis dat betegeld is met glas. Zij zei: "Mijn Heer, voorwaar, ik heb mijzelf onrecht aangedaan en ik geef mij met Soelaimân over aan Allah, de Heer der Werelden`,
+        ``,
+        ``
+      ],
+      [
+        `(پھر) اس سے کہا گیا کہ محل میں چلیے، جب اس نے اس (کے فرش) کو دیکھا تو اسے پانی کا حوض سمجھا اور (کپڑا اٹھا کر) اپنی پنڈلیاں کھول دیں۔ سلیمان نے کہا یہ ایسا محل ہے جس میں (نیچے بھی) شیشے جڑے ہوئے ہیں۔ وہ بول اٹھی کہ پروردگار میں اپنے آپ پر ظلم کرتی رہی تھی اور (اب) میں سلیمان کے ہاتھ پر خدائے رب العالمین پر ایمان لاتی ہوں`,
+        ``,
+        ``
+      ],
+      [
+        `Dikatakan kepadanya (Balqis), "Masuklah ke dalam istana." Maka ketika dia (Balqis) melihat (lantai istana) itu, dikiranya kolam air yang besar, dan disingkapkannya (penutup) kedua betisnya, Dia (Sulaiman) berkata, "Sesungguhnya ini hanyalah lantai istana yang dilapisi kaca." Dia (Balqis) berkata, "Ya Tuhanku, sungguh, aku telah berbuat zalim terhadap diriku. Aku berserah diri bersama Sulaiman kepada Allah, Tuhan seluruh alam`,
+        ``,
+        ``
+      ],
+      [
+        `Ona: "Köşke gir" dendi; salonu görünce, onu derin bir su zannetti, eteğini çekti. Süleyman: "Doğrusu bu camdan yapılmış mücella bir salondur" dedi. Melike: "Rabbim! Şüphesiz ben kendime yazık etmişim. Süleyman'la beraber, Alemlerin Rabbi olan Allah'a teslim oldum" dedi`,
+        ``,
+        ``
+      ],
+      [
+        `به او گفته شد: «وارد ساحت كاخ [پادشاهى‌] شو.» و چون آن را ديد، بركه‌اى پنداشت و ساقهايش را نمايان كرد. [سليمان‌] گفت: «اين كاخى مفروش از آبگينه است.» [ملكه‌] گفت: «پروردگارا، من به خود ستم كردم و [اينك‌] با سليمان در برابر خدا، پروردگار جهانيان، تسليم شدم.»`,
+        ``,
+        ``
+      ],
+      [
+        `তাকে বলা হল, এই প্রাসাদে প্রবেশ কর। যখন সে তার প্রতি দৃষ্টিপাত করল সে ধারণা করল যে, এটা স্বচ্ছ গভীর জলাশয়। সে তার পায়ের গোছা খুলে ফেলল। সুলায়মান বলল, এটা তো স্বচ্ছ স্ফটিক নির্মিত প্রাসাদ। বিলকীস বলল, হে আমার পালনকর্তা, আমি তো নিজের প্রতি জুলুম করেছি। আমি সুলায়মানের সাথে বিশ্ব জাহানের পালনকর্তা আল্লাহর কাছে আত্নসমর্পন করলাম।`,
+        ``,
+        ``
+      ],
+      [
+        `Disseram-lhe: "Entra no palácio." E, quando ela o viu, supô-lo um manto d'água; ergueu, então, as vestes, e descobriu ambas as canelas de suas pernas. Salomão disse: "É um palácio revestido de cristal." Ela disse: "Senhor meu! Por certo, fui injusta com mim mesma, e islamizo-me, com Salomão, para Allah, O Senhor dos mundos`,
+        ``,
+        ``
+      ],
+      [
+        `有人对她说：你进那宫殿去吧！当她看见那座宫殿的时候她以为宫殿里是一片汪洋，（就提起衣裳）露出她的两条小腿。他说：这确是用玻璃造成的光滑的宫殿。她说：我的主啊！我确是自欺的，我（现在）跟着素莱曼归顺真主--全世界的主。`,
+        ``,
+        ``
+      ],
+      [
+        `（それから）かの女は，宮殿に入るよう告げられた。だがそれを見た時，池だと思い，（裾を上げて）かの女は両脚を現わした。スライマーンは言った。「本当にこれはガラス張りの宮殿です。」かの女は，「主よ，本当にわたしは自ら不義を犯しました。（今）わたしは，スライマーンと共に万有の主に服従，帰依いたします。」と言った。`,
+        ``,
+        ``
+      ],
+      [
+        `그녀에게 궁궐에 들어가라 말하니 궁전을 본 그녀가 그것을 연못이라 생각하여 그녀의 치마를걷어 올리매 솔로몬이 이것은 유 리로 평탄하게 만든 궁전이라 말 하니 그녀가 말하길 주여 실로 제가 죄를 지었나이다 저는 솔로몬 과 더불어 만유의 주이신 하나님 께 귀의하나이다`,
+        ``,
+        ``
+      ],
+      [
+        `Le fu detto: “Entra nel palazzo”. Quando lo vide, credette che fosse un'acqua profonda e si scoprì le gambe. [Allora Salomone] disse: “È un palazzo lastricato di cristallo”. Disse [quella]: “Signore! Sono stata ingiusta nei miei stessi confronti. Mi sottometto con Salomone ad Allah, Signore dei mondi”`,
+        ``,
+        ``
+      ],
+      [
+        `Powiedziano jej: "Wejdź do pałacu!" Kiedy ona go zobaczyła, sądziła, że to jest tafla wody, i odsłoniła swoje nogi. On powiedział: "To jest pałac wyłożony taflami z kryształu." Ona powiedziała: "Panie mój! Uczyniłam sobie niesprawiedliwość; razem z Salomonem poddaję się całkowicie Bogu, Panu światów`,
+        ``,
+        ``
+      ],
+      [
+        `Їй сказали: «Увійди до палацу!» Коли вона побачила його, то сприйняла за поверхню води та оголила свої ноги. Сулєйман сказав: «Цей палац із кришталю!» Вона сказала: «Господи! Я була несправедлива до себе! І я разом із Сулєйманом корюся Аллагу, Господу світів`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النمل / An-Naml، الآية 44`
+  },
+
+  {
+    arabic: [
       `وَتَرَى الْجِبَالَ تَحْسَبُهَا جَامِدَةً وَهِيَ تَمُرُّ مَرَّ السَّحَابِ ۚ صُنْعَ اللَّهِ الَّذِي أَتْقَنَ كُلَّ شَيْءٍ ۚ إِنَّهُ خَبِيرٌ بِمَا تَفْعَلُونَ`,
       ``,
       ``
@@ -16351,6 +19911,117 @@ const verses = [
       ]
     ],
     number: `سورة القصص / Al-Qasas، الآية 56`
+  },
+
+  {
+    arabic: [
+      `وَإِبْرَاهِيمَ إِذْ قَالَ لِقَوْمِهِ اعْبُدُوا اللَّهَ وَاتَّقُوهُ ۖ ذَٰلِكُمْ خَيْرٌ لَكُمْ إِنْ كُنْتُمْ تَعْلَمُونَ إِنَّمَا تَعْبُدُونَ مِنْ دُونِ اللَّهِ أَوْثَانًا وَتَخْلُقُونَ إِفْكًا ۚ إِنَّ الَّذِينَ تَعْبُدُونَ مِنْ دُونِ اللَّهِ لَا يَمْلِكُونَ لَكُمْ رِزْقًا فَابْتَغُوا عِنْدَ اللَّهِ الرِّزْقَ وَاعْبُدُوهُ وَاشْكُرُوا لَهُ ۖ إِلَيْهِ تُرْجَعُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And [We sent] Abraham, when he said to his people, "Worship Allah and fear Him. That is best for you, if you should know You only worship, besides Allah, idols, and you produce a falsehood. Indeed, those you worship besides Allah do not possess for you [the power of] provision. So seek from Allah provision and worship Him and be grateful to Him. To Him you will be returned`,
+        ``,
+        ``
+      ],
+      [
+        `Et Abraham, quand il dit à son peuple : "Adorez Allah, et craignez-Le ! cela vous est bien meilleur si vous saviez Vous n'adorez que des idoles, en dehors d'Allah, et vous forgez un mensonge. Ceux que vous adorez en dehors d'Allah ne possèdent aucun moyen pour vous procurer nourriture; Recherchez donc votre subsistance auprès d'Allah ! Adorez-Le et soyez-Lui reconnaissants ! C'est à Lui que vous serez ramenés`,
+        ``,
+        ``
+      ],
+      [
+        `Y a Abraham. Cuando dijo a su pueblo: «¡Servid a Alá y temedle! Es mejor para vosotros. Si supierais...» Servís, en lugar de servir a Alá, sólo ídolos, y creáis una mentira. Los que vosotros servís, en lugar de servir a Alá, no pueden procuraros sustento. ¡Buscad, pues, en Alá el sustento! ¡Servidle, dadle gracias! ¡A Él seréis devueltos`,
+        ``,
+        ``
+      ],
+      [
+        `А вот Ибрахим (Авраам) сказал своему народу: «Поклоняйтесь Аллаху и бойтесь Его! Так будет лучше для вас, если бы вы только знали Вы поклоняетесь вместо Аллаха идолам и измышляете ложь. Воистину, те, кому вы поклоняетесь вместо Аллаха, не способны даровать вам пропитание. Ищите же пропитание у Аллаха, поклоняйтесь Ему и благодарите Его. К Нему вы будете возвращены»`,
+        ``,
+        ``
+      ],
+      [
+        `Und (Wir sandten) Ibrahim. Als er zu seinem Volk sagte: "Dient Allah und fürchtet Ihn. Das ist besser für euch, wenn ihr (es) nur wißt Ihr dient anstatt Allahs nur Götzen und schafft (dabei nur) ungeheuerliche Lüge. Gewiß, diejenigen, denen ihr anstatt Allahs dient, vermögen euch nicht zu versor gen. Sucht darum bei Allah die Versorgung und dient Ihm und dankt Ihm. Zu Ihm werdet ihr zurückgebracht`,
+        ``,
+        ``
+      ],
+      [
+        `OCH [MINNS] Abraham som sade till sitt folk: "Dyrka Gud och frukta Honom! [Ni skulle inse att] detta är bäst för er, om ni visste [skillnaden mellan rätt och orätt] De som ni dyrkar i Guds ställe är bara bilder utan liv, och [på så sätt] ger ni verklighet åt en lögn. De som ni tillber i Guds ställe kan inte sörja för era behov. Be därför Gud om er försörjning, dyrka Honom och tacka Honom; det är till Honom ni skall föras åter`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En (gedenkt) Ibrâhîm, toen hij tot zijn volk zei: "Aanbidt Allah en vreest Hem, dat is beter voor jullie, ah jullie het weten Voorwaar, wat jullie naast Allah aanbidden zijn slechts afgoden, en jullie verzinnen leugens. Voorwaar, degenen die jullie naast Allah aanbidden hebben geen macht om jullie van levensonderhoud te voorzien. Zoekt daarom de levensvoorziening bij Allah en aanbidt Hem, en weest Hem dankbaar, tot Hem worden jullie teruggebracht`,
+        ``,
+        ``
+      ],
+      [
+        `اور ابراہیمؑ کو (یاد کرو) جب اُنہوں نے اپنی قوم سے کہا کہ خدا کی عبادت کرو اور اس سے ڈرو اگر تم سمجھ رکھتے ہو تو یہ تمہارے حق میں بہتر ہے تو تم خدا کو چھوڑ کر بتوں کو پوجتے اور طوفان باندھتے ہو تو جن لوگوں کو تم خدا کے سوا پوجتے ہو وہ تم کو رزق دینے کا اختیار نہیں رکھتے پس خدا ہی کے ہاں سے رزق طلب کرو اور اسی کی عبادت کرو اور اسی کا شکر کرو اسی کی طرف تم لوٹ کر جاؤ گے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan (ingatlah) Ibrahim, ketika dia berkata kepada kaumnya, "Sembahlah Allah dan bertakwalah kepada-Nya. Yang demikian itu lebih baik bagimu, jika kamu mengetahui (Sesungguhnya yang kamu sembah selain Allah hanyalah berhala-berhala, dan kamu membuat kebohongan.619) Sesungguhnya apa yang kamu sembah selain Allah itu tidak mampu memberikan rezeki kepadamu; maka mintalah rezeki dari Allah, dan sembahlah Dia dan bersyukurlah kepada-Nya. Hanya kepada-Nya kamu akan dikembalikan`,
+        ``,
+        ``
+      ],
+      [
+        `İbrahim'i de gönderdik. Milletine: "Allah'a kulluk edin, O'ndan sakının; bilirseniz bu sizin için daha iyidir" dedi Siz Allah'ı bırakıp sadece bir takım putlara tapıyor, aslı olmayan sözler uyduruyorsunuz. Doğrusu, Allah'tan başka taptıklarınızın size rızık vermeye güçleri yetmez. Artık rızkı Allah katında arayın. O'na kulluk edin. O'na şükredin. Siz O'na döneceksiniz`,
+        ``,
+        ``
+      ],
+      [
+        `و [ياد كن‌] ابراهيم را چون به قوم خويش گفت: «خدا را بپرستيد و از او پروا بداريد؛ اگر بدانيد اين [كار] براى شما بهتر است.» واقعاً آنچه را كه شما سواى خدا مى‌پرستيد جز بتانى [بيش‌] نيستند و دروغى برمى‌سازيد. در حقيقت، كسانى را كه جز خدا مى‌پرستيد اختيار روزى شما را در دست ندارند. پس روزى را پيش خدا بجوييد و او را بپرستيد و وى را سپاس گوييد، كه به سوى او بازگردانيده مى‌شويد`,
+        ``,
+        ``
+      ],
+      [
+        `স্মরণ কর ইব্রাহীমকে। যখন তিনি তাঁর সম্প্রদায়কে বললেন; তোমরা আল্লাহর এবাদত কর এবং তাঁকে ভয় কর। এটাই তোমাদের জন্যে উত্তম যদি তোমরা বোঝ। তোমরা তো আল্লাহর পরিবর্তে কেবল প্রতিমারই পূজা করছ এবং মিথ্যা উদ্ভাবন করছ। তোমরা আল্লাহর পরিবর্তে যাদের এবাদত করছ, তারা তোমাদের রিযিকের মালিক নয়। কাজেই আল্লাহর কাছে রিযিক তালাশ কর, তাঁর এবাদত কর এবং তাঁর কৃতজ্ঞতা প্রকাশ কর। তাঁরই কাছে তোমরা প্রত্যাবর্তিত হবে।`,
+        ``,
+        ``
+      ],
+      [
+        `E Abraão, quando disse a seu povo: "Adorai a Allah e temei-O. Isso é melhor, se soubésseis Apenas vós adorais ídolos, em vez de Allah, e inventais mentiras. Por certo, os que adorais, em vez de Allah, não possuem, para vós, sustento algum. Então, buscai, junto de Allah, o sustento, e adorai-O e agradecei-Lhe. A Ele sereis retornados`,
+        ``,
+        ``
+      ],
+      [
+        `（我确已派遣）易卜拉欣，当日，他对他的宗族说：你们应当崇拜真主，并当敬畏他，这对于你们是更好的。如果你们知道。 除真主外，你们只崇拜偶像，你们只捏造妄言。你们舍真主而崇拜的（偶像），不能主持你们的给养，所以，你们应当到真主那里寻求给养，你们应当崇拜他，你们应当感谢他，你们只被召归他。`,
+        ``,
+        ``
+      ],
+      [
+        `そしてイブラーヒームがその民にこう言った時を思え。「アッラーに仕え，かれを畏れなさい。それがあなたがたのためにも良い。もしあなたがたが理解するならば。 あなたがたは，アッラーを差し置いて偶像を拝し，虚偽を捏造しているに過ぎない。あなたがたがアッラーを差し置いて拝するものたちは，あなたがたに御恵みを与える力はない。だから，アッラーから糧を求め，かれに仕え，感謝しなさい。あなたがたはかれの御許に帰されるのである。`,
+        ``,
+        ``
+      ],
+      [
+        `아브라함도 구했으니 그는 그의 백성에게 하나님을 경배하고 그분을 두려워 하라 너희가 아는 자들이라면 그것이 너희에게 복이 되리라 하였더라 실로 너희는 하나님 외에 우상을 숭배하고 거짓을 꾸미고 있 을 뿐이라 하나님 외에 너희가 숭 배하는 것들은 너희에게 일용할 양식을 줄 능력이 없노라 그러브 로 하나님께 일용할 양식을 구하 라 그리고 그분께 감사하라 너희 모두가 그분께로 돌아가니라`,
+        ``,
+        ``
+      ],
+      [
+        `E [ricorda] Abramo, quando disse al suo popolo: “Adorate Allah e temeteLo. È il bene per voi, se lo sapeste!” Voi adorate idoli in luogo di Allah e inventate una menzogna. Coloro che adorate all'infuori di Allah, non sono in grado di provvedere a voi in nulla. Cercate provvidenza presso Allah, adorateLo e siateGli riconoscenti: a Lui sarete ricondotti`,
+        ``,
+        ``
+      ],
+      [
+        `I Abrahama! Oto powiedział on do swego ludu: "Czcijcie Boga! Bójcie się Go! O, gdybyście wiedzieli, jakie to dla was dobro Wy czcicie bałwany, poza Bogiem i stwarzacie kłamstwo. Zaprawdę, ci, których czcicie poza Bogiem, nie są w stanie dać wam zaopatrzenia. Poszukujcie więc zaopatrzenia u Boga, czcijcie Go i dziękujcie Mu! Do Niego będziecie sprowadzeni`,
+        ``,
+        ``
+      ],
+      [
+        `Ось Ібрагім сказав своєму народу: «Поклоняйтесь Аллагу й бійтесь Його! Так буде краще для вас, якби ви тільки знали Замість Аллага ви поклоняєтесь ідолам та вигадуєте неправду. Воістину, ті, кому ви поклоняєтеся замість Аллага, не здатні дати вам наділ. Шукайте свій наділ в Аллага, поклоняйтеся Йому й дякуйте Йому! До Нього ви повернетесь`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة العنكبوت / Al-'Ankabut، الآيتان 16-17`
   },
 
   {
@@ -18686,6 +22357,117 @@ const verses = [
 
   {
     arabic: [
+      `وَامْتَازُوا الْيَوْمَ أَيُّهَا الْمُجْرِمُونَ ۞ أَلَمْ أَعْهَدْ إِلَيْكُمْ يَا بَنِي آدَمَ أَنْ لَا تَعْبُدُوا الشَّيْطَانَ ۖ إِنَّهُ لَكُمْ عَدُوٌّ مُبِينٌ وَأَنِ اعْبُدُونِي ۚ هَٰذَا صِرَاطٌ مُسْتَقِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `[Then He will say], "But stand apart today, you criminals Did I not enjoin upon you, O children of Adam, that you not worship Satan - [for] indeed, he is to you a clear enemy And that you worship [only] Me? This is a straight path`,
+        ``,
+        ``
+      ],
+      [
+        `Ô injustes ! Tenez-vous à l'écart ce jour- là Ne vous ai-Je pas engagés, enfants d'Adam, à ne pas adorer le Diable ? Car il est vraiment pour vous un ennemi déclaré et [ne vous ai-Je pas engagés] à M'adorer ? Voilà un chemin bien droit`,
+        ``,
+        ``
+      ],
+      [
+        `En cambio: «¡Pecadores! ¡Apartaos hoy ¿No he concertado una alianza con vosotros, hijos de Adán: que no ibais a servir al Demonio, que es para vosotros un enemigo declarado sino que ibais a servirme a Mí? Esto es una vía recta`,
+        ``,
+        ``
+      ],
+      [
+        `Отделитесь сегодня, грешники Разве Я не завещал вам, сыны Адама, не поклоняться дьяволу, который является вашим явным врагом и поклоняться Мне? Это - прямой путь`,
+        ``,
+        ``
+      ],
+      [
+        `Sondert euch heute (von den Gottesfürchtigen) ab, ihr Übeltäter Habe Ich euch, o Kinder Adams, nicht als Verpflichtung auferlegt, daß ihr nicht dem Satan dienen sollt - gewiß er ist euch ein deutlicher Feind und daß ihr Mir dienen sollt?, - das ist ein gerader Weg`,
+        ``,
+        ``
+      ],
+      [
+        `Men ni, obotfärdiga syndare, håll er undan denna dag Befallde Jag er inte, ni söner av Adam, att inte tjäna Djävulen, som är er svurne fiende och befallde Jag er inte att tillbe Mig? Detta är en rak väg`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Gaat op deze Dag (van de gelovigen) weg, O jullie misdadigers Heb ik jullie, O kinderen van Adam, niet opgedragen om de Satan niet te dienen? Voorwaar, hij is voor jullie een duidelijke vijand En aanbidt Mij: dat is het rechte Pad`,
+        ``,
+        ``
+      ],
+      [
+        `اور گنہگارو! آج الگ ہوجاؤ اے آدم کی اولاد ہم نے تم سے کہہ نہیں دیا تھا کہ شیطان کو نہ پوجنا وہ تمہارا کھلا دشمن ہے اور یہ کہ میری ہی عبادت کرنا۔ یہی سیدھا رستہ ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan (dikatakan kepada orang-orang kafir), "Berpisahlah kamu (dari orang-orang mukmin) pada hari ini, wahai orang-orang yang berdosa Bukankah Aku telah memerintahkan kepadamu wahai anak cucu Adam agar kamu tidak menyembah setan? Sungguh, setan itu musuh yang nyata bagi kamu dan hendaklah kamu menyembah-Ku. Inilah jalan yang lurus`,
+        ``,
+        ``
+      ],
+      [
+        `Allah şöyle buyurur: Ey suçlular! Bugün müminlerden ayrılın. Ey insanoğulları! Ben size, şeytana tapmayın, o sizin için apaçık bir düşmandır, Bana kulluk edin, bu doğru yoldur, diye bildirmedim mi`,
+        ``,
+        ``
+      ],
+      [
+        `و اى گناهكاران، امروز [از بى‌گناهان‌] جدا شويد اى فرزندان آدم، مگر با شما عهد نكرده بودم كه شيطان را مپرستيد، زيرا وى دشمن آشكار شماست؟ و اينكه مرا بپرستيد؛ اين است راه راست`,
+        ``,
+        ``
+      ],
+      [
+        `হে অপরাধীরা! আজ তোমরা আলাদা হয়ে যাও। হে বনী-আদম! আমি কি তোমাদেরকে বলে রাখিনি যে, শয়তানের এবাদত করো না, সে তোমাদের প্রকাশ্য শত্রু এবং আমার এবাদত কর। এটাই সরল পথ।`,
+        ``,
+        ``
+      ],
+      [
+        `E Ele dirá: "Separai-vos, ó criminosos, neste dia Não vos recomendei, ó filhos de Adão, que não adorásseis a Satã? Por certo, ele vos era inimigo declarado E que Me adorásseis? Esta é uma senda reta`,
+        ``,
+        ``
+      ],
+      [
+        `犯罪的人们呀！今日你们当退避到一边去。 阿丹的后裔呀！难道我没有嘱咐过你们吗？我说你们不要崇拜恶魔，他确是你们的仇敌。 你们应当崇拜我，这是正路。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがた罪人たちよ，今日は離れて控えなさい。 アーダムの子孫よ，悪魔に仕えてはならないと，われはあなたがたに命令しなかったか。かれはあなたがたの公然の敵である。 あなたがたはわれに仕えなさい。それこそ正しい道である。`,
+        ``,
+        ``
+      ],
+      [
+        `죄인들이여 오늘은 너희를 의로운 자들로부터 분리시키리라 아담의 자손들이여 내가 너희에게 일러 사탄을 숭배하지 말라 그는 너희들의 분명한 적이라 그러므로 나만을 경배하라 그것이 옳은 길이라 하지 아니했더뇨`,
+        ``,
+        ``
+      ],
+      [
+        `E [sarà detto]: “Tenetevi in disparte in quel Giorno, o iniqui O figli di Adamo, non vi ho forse comandato di non adorare Satana - in verità è un vostro nemico dichiarato e di adorare Me? Questa è la retta via`,
+        ``,
+        ``
+      ],
+      [
+        `Trzymajcie się z dala dzisiaj, o wy, grzesznicy Czyż wam nie nakazałem, o synowie Adama: "Nie czcijcie szatana! Zaprawdę, on jest wrogiem jawnym Czcijcie Mnie! - to jest droga prosta`,
+        ``,
+        ``
+      ],
+      [
+        `«Відійдіть сьогодні, грішники Хіба Я не заповідав вам, о сини Адама, щоб ви не поклонялися шайтану, адже він для вас явний ворог а поклонялися Мені? Це — прямий шлях`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يس / Ya-Sin، الآيات 59-61`
+  },
+
+  {
+    arabic: [
       `إِنَّمَا أَمْرُهُ إِذَا أَرَادَ شَيْئًا أَنْ يَقُولَ لَهُ كُنْ`,
       `فَيَكُونُ`,
       ``
@@ -20129,6 +23911,117 @@ const verses = [
 
   {
     arabic: [
+      `إِذْ جَاءَتْهُمُ الرُّسُلُ مِنْ بَيْنِ أَيْدِيهِمْ وَمِنْ خَلْفِهِمْ أَلَّا تَعْبُدُوا إِلَّا اللَّهَ ۖ قَالُوا لَوْ شَاءَ رَبُّنَا لَأَنْزَلَ مَلَائِكَةً فَإِنَّا بِمَا أُرْسِلْتُمْ بِهِ كَافِرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `[That occurred] when the messengers had come to them before them and after them, [saying], "Worship not except Allah." They said, "If our Lord had willed, He would have sent down the angels, so indeed we, in that with which you have been sent, are disbelievers`,
+        ``,
+        ``
+      ],
+      [
+        `Quand les Messagers leur étaient venus, de devant eux et par derrière , [leur disant] : "N'adorez qu'Allah", ils dirent : "Si notre Seigneur avait voulu, Il aurait certainement fait descendre des Anges. Nous ne croyons donc pas a [au message] avec lequel vous avez été envoyés`,
+        ``,
+        ``
+      ],
+      [
+        `Cuando vinieron a ellos los enviados antes y después. «¡No sirváis sino a Alá!» Dijeron: «Si nuestro Señor hubiera querido, habría enviado de lo alto a ángeles. No creemos en vuestro mensaje»`,
+        ``,
+        ``
+      ],
+      [
+        `Посланники приходили к ним спереди и сзади: «Не поклоняйтесь никому, кроме Аллаха». Они же говорили: «Если бы наш Господь захотел, то ниспослал бы ангелов. Воистину, Мы не веруем в то, с чем вы посланы»`,
+        ``,
+        ``
+      ],
+      [
+        `als die Gesandten von vorn und von hinten zu ihnen kamen: "Dient nur Allah (allein)". Sie sagten: "Wenn unser Herr gewollt hätte, hätte Er Engel herabgesandt. So verleugnen wir das, womit ihr gesandt worden seid`,
+        ``,
+        ``
+      ],
+      [
+        `När sändebuden kom till dem från alla tänkbara håll [och förmanade dem]: "Dyrka ingen annan än Gud!" - svarade de: "Om vår Herre hade velat, skulle Han helt säkert ha sänt änglar [som budbärare så att vi kunde tro på dem]; vi avvisar därför det [budskap med vilket ni påstår att] ni har sänts`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Toen de Boodschappers vóór hen en na hen waren gekomen (en zeiden:) "Aanbidt alleen Allah," zeiden zij: "Als Allah het had gewild, dan had Hij Engelen gezonden: voorwaar, wij geloven niet in dat waar jij mee gezonden bent`,
+        ``,
+        ``
+      ],
+      [
+        `جب ان کے پاس پیغمبر ان کے آگے اور پیچھے سے آئے کہ خدا کے سوا (کسی کی) عبادت نہ کرو۔ کہنے لگے کہ اگر ہمارا پروردگار چاہتا تو فرشتے اُتار دیتا سو جو تم دے کر بھیجے گئے ہو ہم اس کو نہیں مانتے`,
+        ``,
+        ``
+      ],
+      [
+        `(Ketika para rasul datang kepada mereka dari depan dan dari belakang mereka773) (dengan menyerukan), "Janganlah kamu menyembah selain Allah!" Mereka menjawab, "Kalau Tuhan kami menghendaki tentu Dia menurunkan malaikat-malaikat-Nya, maka sesungguhnya kami mengingkari wahyu yang engkau diutus menyampaikannya`,
+        ``,
+        ``
+      ],
+      [
+        `Onlara, önlerinden, artlarından, her yönden: "Allah'tan başkasına kulluk etmeyin" diyen peygamberler gelmişti: "Eğer Rabbimiz böyle bir şey dileseydi melekler indirirdi. Doğrusu sizinle gönderileni inkar ederiz" demişlerdi`,
+        ``,
+        ``
+      ],
+      [
+        `چون فرستادگان [ما] از پيش رو و از پشت سرشان بر آنان آمدند [و گفتند:] «زنهار، جز خدا را مپرستيد»، گفتند: «اگر پروردگار ما مى‌خواست، قطعاً فرشتگانى فرومى‌فرستاد، پس ما به آنچه بدان فرستاده شده‌ايد كافريم.»`,
+        ``,
+        ``
+      ],
+      [
+        `যখন তাদের কাছে রসূলগণ এসেছিলেন সম্মুখ দিক থেকে এবং পিছন দিক থেকে এ কথা বলতে যে, তোমরা আল্লাহ ব্যতীত কারও পূজা করো না। তারা বলেছিল, আমাদের পালনকর্তা ইচ্ছা করলে অবশ্যই ফেরেশতা প্রেরণ করতেন, অতএব, আমরা তোমাদের আনীত বিষয় অমান্য করলাম।`,
+        ``,
+        ``
+      ],
+      [
+        `Quando os Mensageiros lhes chegaram, por diante deles e por detrás deles, dizendo: "Não adoreis senão a Allah", disseram: "Se Nosso Senhor quisesse, haveria feito descer anjos; e, por certo, somos renegadores do com que sois enviados`,
+        ``,
+        ``
+      ],
+      [
+        `当时，众使者从他们的前后来临他们，说：除真主外，你们不要崇拜任何物。他们说：假若我们的主意欲，他必降下许多天神，我们必定不信你们所奉的使命。`,
+        ``,
+        ``
+      ],
+      [
+        `使徒たちが，かれらの前からまた後ろからかれらのところにやって来て，「アッラーの外何ものにも仕えてはならない。」と告げた時のことを思い起こせ。かれらは言った。「わたしたちの主の御望みならば，必ず天使を御遺わしになるはずである。だからあなたがたが持って来たも の（啓示）をわたしたちが信じるわけがない。」`,
+        ``,
+        ``
+      ],
+      [
+        `선지자들이 그들을 전후하여그들에게 이르러 하나님만을 경배 하라 하였을 때 그들은 말하길 주 님께서 그렇게 원하셨다면 그분 은 천사들을 보내셨으리라 그러므 로 우리는 그대를 믿지 않도다 라 고 하더라`,
+        ``,
+        ``
+      ],
+      [
+        `Quando da ogni parte giunsero loro i messaggeri dicendo: “Non adorate altri che Allah”, risposero: “Se il nostro Signore avesse voluto [che credessimo], avrebbe certamente fatto scendere gli angeli. Dunque non crediamo a ciò con cui siete stati inviati”`,
+        ``,
+        ``
+      ],
+      [
+        `Kiedy przyszli do nich posłańcy z jednej i z drugiej strony: "Nie czcijcie nikogo oprócz Boga!", oni powiedzieli: "Jeśliby zechciał nasz Pan, to zesłałby aniołów; lecz my nie wierzymy w posłannictwo, z którym wy zostaliście posłani`,
+        ``,
+        ``
+      ],
+      [
+        `Посланці приходили до них у різні часи: «Не поклоняйтеся нікому, крім Аллага!» Але ті говорили: «Якби наш Господь побажав, то зіслав би ангелів. Воістину, ми не віруємо в те, з чим вас відіслано!»`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة فصلت / Fussilat، الآية 14`
+  },
+
+  {
+    arabic: [
       `إِنَّ الَّذِينَ قَالُوا رَبُّنَا اللَّهُ ثُمَّ اسْتَقَامُوا تَتَنَزَّلُ عَلَيْهِمُ الْمَلَائِكَةُ أَلَّا تَخَافُوا وَلَا تَحْزَنُوا وَأَبْشِرُوا بِالْجَنَّةِ الَّتِي كُنْتُمْ تُوعَدُونَ نَحْنُ أَوْلِيَاؤُكُمْ فِي الْحَيَاةِ الدُّنْيَا وَفِي الْآخِرَةِ ۖ وَلَكُمْ فِيهَا مَا تَشْتَهِي أَنْفُسُكُمْ وَلَكُمْ فِيهَا مَا تَدَّعُونَ نُزُلًا مِنْ غَفُورٍ رَحِيمٍ`,
       ``,
       ``
@@ -20684,6 +24577,117 @@ const verses = [
 
   {
     arabic: [
+      `۞ شَرَعَ لَكُمْ مِنَ الدِّينِ مَا وَصَّىٰ بِهِ نُوحًا وَالَّذِي أَوْحَيْنَا إِلَيْكَ وَمَا وَصَّيْنَا بِهِ إِبْرَاهِيمَ وَمُوسَىٰ وَعِيسَىٰ ۖ أَنْ أَقِيمُوا الدِّينَ وَلَا تَتَفَرَّقُوا فِيهِ ۚ كَبُرَ عَلَى الْمُشْرِكِينَ مَا تَدْعُوهُمْ إِلَيْهِ ۚ اللَّهُ يَجْتَبِي إِلَيْهِ مَنْ يَشَاءُ وَيَهْدِي إِلَيْهِ مَنْ يُنِيبُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `He has ordained for you of religion what He enjoined upon Noah and that which We have revealed to you, [O Muhammad], and what We enjoined upon Abraham and Moses and Jesus - to establish the religion and not be divided therein. Difficult for those who associate others with Allah is that to which you invite them. Allah chooses for Himself whom He wills and guides to Himself whoever turns back [to Him]`,
+        ``,
+        ``
+      ],
+      [
+        `Il vous a légiféré en matière de religion, ce qu'Il avait enjoint à Noé, ce que Nous t'avons révélé, ainsi que ce que Nous avons enjoint à Abraham, à Moïse et à Jésus : "Etablissez la religion; et n'en faites pas un sujet de division." Ce à quoi tu appelles les associateurs leur parait énorme. Allah élit et rapproche de Lui qui Il veut et guide vers Lui celui qui se repent`,
+        ``,
+        ``
+      ],
+      [
+        `Os ha prescrito en materia de religión lo que ya había ordenado a Noé, lo que Nosotros te hemos revelado y lo que ya habíamos ordenado a Abraham, a Moisés y a Jesús: «¡Que rindáis culto y que esto no os sirva de motivo de división!» A los asociadores les resulta difícil aquello a que tú les llamas. Alá elige para Sí a quien Él quiere y dirige a Él a quien se arrepiente`,
+        ``,
+        ``
+      ],
+      [
+        `Он узаконил для вас в религии то, что заповедал Нуху (Ною), и то, что Мы внушили тебе в откровении, и то, что Мы заповедали Ибрахиму (Аврааму), Мусе (Моисею) и Исе (Иисусу): «Исповедуйте религию и не расходитесь во мнениях относительно нее». Тяжко для многобожников то, к чему ты их призываешь. Аллах избирает для Себя того, кого пожелает, и направляет к Себе того, кто обращается к Нему`,
+        ``,
+        ``
+      ],
+      [
+        `Er hat euch von der Religion festgelegt, was Er Nuh anbefahl und was Wir dir (als Offenbarung) eingegeben haben und was Wir Ibrahim, Musa und 'Isa anbefahlen: Haltet die (Vorschriften der) Religion ein und spaltet euch nicht darin (in Gruppen). Den Götzendienern setzt das schwer zu, wozu du sie aufrufst. Allah erwählt dazu, wen Er will, und leitet dazu, wer sich (Ihm) reuig zuwendet`,
+        ``,
+        ``
+      ],
+      [
+        `Han har föreskrivit för er samma [regel för] tron som Han anbefallde Noa - detta har Vi uppenbarat för dig [Muhammad] - och som Vi anbefallde Abraham och Moses och Jesus, nämligen att hålla fast vid [den sanna] trons [principer] och att aldrig tillåta söndring. För dem som sätter medhjälpare vid Guds sida ter sig det som du uppmanar dem till som en svår väg; [men] Gud utser dem Han vill till detta och till detta leder Han dem som vänder sig till Honom [i tro och lydnad]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij heeft jullie de godsdienst uitgelegd: wat Hij heeft opgedragen aan Nôeh, en hetgeen Wij aan jou geopenbaard hebben en wat Wij aan Ibrâhîm en Môesa en 'Isa hebben opgedragen: dat jullie de godsdienst onderhouden en dat jullie daarover niet verdeeld raken. Het is een zware zaak voor de veelgodenaanbidders, waartoe jullie hen oproepen. Allah kiest voor Zich wie Hij wil en Hij leidt naar Zich wie terugkeert`,
+        ``,
+        ``
+      ],
+      [
+        `اسی نے تمہارے لئے دین کا وہی رستہ مقرر کیا جس (کے اختیار کرنے کا) نوح کو حکم دیا تھا اور جس کی (اے محمدﷺ) ہم نے تمہاری طرف وحی بھیجی ہے اور جس کا ابراہیم اور موسیٰ اور عیسیٰ کو حکم دیا تھا (وہ یہ) کہ دین کو قائم رکھنا اور اس میں پھوٹ نہ ڈالنا۔ جس چیز کی طرف تم مشرکوں کو بلاتے ہو وہ ان کو دشوار گزرتی ہے۔ الله جس کو چاہتا ہے اپنی بارگاہ کا برگزیدہ کرلیتا ہے اور جو اس کی طرف رجوع کرے اسے اپنی طرف رستہ دکھا دیتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dia (Allah) telah mensyariatkan kepadamu agama yang telah diwasiatkan-Nya kepada Nuh dan apa yang telah Kami wahyukan kepadamu (Muhammad) dan apa yang telah Kami wasiatkan kepada Ibrahim, Musa dan Isa, yaitu tegakkanlah agama (keimanan dan ketakwaan) dan janganlah kamu berpecah belah di dalamnya. Sangat berat bagi orang-orang musyrik (untuk mengikuti) agama yang kamu serukan kepada mereka. Allah memilih orang yang Dia kehendaki kepada agama tauhid dan memberi petunjuk kepada (agama)-Nya bagi orang yang kembali (kepada-Nya)`,
+        ``,
+        ``
+      ],
+      [
+        `Allah Nuh'a buyurduğu şeyleri size de din olarak buyurmuştur. Sana vahyettik; İbrahim'e, Musa'ya ve İsa'ya da buyurduk ki: "Dine bağlı kalın, onda ayrılığa düşmeyin." Ortak koşanları çağırdığın şey onların gözünde büyümektedir. Allah dilediğini kendine seçer, kendisine yöneleni de doğru yola eriştirir`,
+        ``,
+        ``
+      ],
+      [
+        `از [احكام‌] دين، آنچه را كه به نوح در باره آن سفارش كرد، براى شما تشريع كرد و آنچه را به تو وحى كرديم و آنچه را كه در باره آن به ابراهيم و موسى و عيسى سفارش نموديم كه: «دين را برپا داريد و در آن تفرقه‌اندازى مكنيد.» بر مشركان آنچه كه ايشان را به سوى آن فرا مى‌خوانى، گران مى‌آيد. خدا هر كه را بخواهد، به سوى خود برمى‌گزيند، و هر كه را كه از در توبه درآيد، به سوى خود راه مى‌نمايد`,
+        ``,
+        ``
+      ],
+      [
+        `তিনি তোমাদের জন্যে দ্বীনের ক্ষেত্রে সে পথই নিধারিত করেছেন, যার আদেশ দিয়েছিলেন নূহকে, যা আমি প্রত্যাদেশ করেছি আপনার প্রতি এবং যার আদেশ দিয়েছিলাম ইব্রাহীম, মূসা ও ঈসাকে এই মর্মে যে, তোমরা দ্বীনকে প্রতিষ্ঠিত কর এবং তাতে অনৈক্য সৃষ্টি করো না। আপনি মূশরেকদেরকে যে বিষয়ের প্রতি আমন্ত্রণ জানান, তা তাদের কাছে দুঃসাধ্য বলে মনে হয়। আল্লাহ যাকে ইচ্ছা মনোনীত করেন এবং যে তাঁর অভিমুখী হয়, তাকে পথ প্রদর্শন করেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Da religião, Ele legislou, para vós, o que recomendara a Noé, e o que te revelamos, e o que recomendáramos a Abraão e a Moisés e a Jesus: "Observai a religião e, nela, não vos separeis." É grave para os idólatras aquilo a que os convocas. Allah atrai, para Ele, quem Ele quer, e guia, para Ele, quem se Lhe volta contrito`,
+        ``,
+        ``
+      ],
+      [
+        `他已为你们制定正教，就是他所命令努哈的、他所启示你的、他命令易卜拉欣、穆萨和尔撒的宗教。你们应当谨守正教，不要为正教而分门别户。以物配主的人们，以为你所教导他们的事是难堪的。真主将他所意欲者招致于正教，将归依他者引导于真理。`,
+        ``,
+        ``
+      ],
+      [
+        `かれがあなたに定められる教えは，ヌーフに命じられたものと同じものである。われはそれをあなたに啓示し，またそれを，イブラーヒーム，ムーサー，イーサーに対しても（同様に）命じた。「その教えを打ち立て，その間に分派を作ってはならない。」あなたが招くこの教えは，多神教徒にとっては重大事である。アッラーは御心に適う者を御自分のために御選びになり，また悔悟して（主に）帰る者をかれ（の道）に導かれる。`,
+        ``,
+        ``
+      ],
+      [
+        `그분은 노아에게 내려진 종교를 너희를 위해서 확립하였나 니 그분이 그대에게 계시한 것이 라 또한 그분은 아브라함과 모세 와 예수에게도 명령하여 그 종교 에 충실하고 그 안에서 분열하지 말라 하셨노라 하나님 아닌 다른 것들을 숭배한 자들을 그대가 그 것으로 인도하려 하는 그 길은 어려운 것이라 하나님 스스로를 위하여 그분이 원하는 자를 선택 하시며 그분께로 귀의하는 자를 인도하시니라`,
+        ``,
+        ``
+      ],
+      [
+        `[Egli] ha stabilito per voi, nella religione, la stessa via che aveva raccomandato a Noè, quella che riveliamo a Te, [o Muhammad,] e che imponemmo ad Abramo, a Mosè e a Gesù: “Assolvete al culto e non fatene motivo di divisione”. Ciò a cui li inviti è invero gravoso per gli associatori: Allah sceglie e avvicina a Sé chi vuole e a Sé guida chi Gli si rivolge [pentito]`,
+        ``,
+        ``
+      ],
+      [
+        `On ustanowił dla was, jeśli chodzi o religię, to, co już polecił Noemu, i to, co objawiliśmy tobie, i to, co poleciliśmy Abrahamowi, Mojżeszowi i Jezusowi: Przestrzegajcie należycie religii i nie rozdzielajcie się w niej! Wielkie jest dla politeistów to, do czego ty ich wzywasz. Bóg wybiera dla Siebie, kogo chce, i prowadzi drogą prostą ku Sobie tego, kto się nawraca`,
+        ``,
+        ``
+      ],
+      [
+        `Він встановив вам у релігії те, що заповів Нуху, те, що Ми відкрили тобі, те, що Ми заповіли Ібрагіму, Мусі та Ісі: «Тримайтеся релігії та не розходьтеся поміж собою в ній!» Важко багатобожникам те, до чого ти закликаєш їх. Аллаг обирає Собі того, кого побажає та веде прямим шляхом того, хто до Нього звертається`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الشورى / Ash-Shura، الآية 13`
+  },
+
+  {
+    arabic: [
       `وَكَذَٰلِكَ أَوْحَيْنَا إِلَيْكَ رُوحًا مِنْ أَمْرِنَا ۚ مَا كُنْتَ تَدْرِي مَا الْكِتَابُ وَلَا الْإِيمَانُ وَلَٰكِنْ جَعَلْنَاهُ نُورًا نَهْدِي بِهِ مَنْ نَشَاءُ مِنْ عِبَادِنَا ۚ وَإِنَّكَ لَتَهْدِي إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ`,
       ``,
       ``
@@ -20791,6 +24795,228 @@ const verses = [
       ]
     ],
     number: `سورة الشورى / Ash-Shura، الآية 52`
+  },
+
+  {
+    arabic: [
+      `وَإِذْ قَالَ إِبْرَاهِيمُ لِأَبِيهِ وَقَوْمِهِ إِنَّنِي بَرَاءٌ مِمَّا تَعْبُدُونَ إِلَّا الَّذِي فَطَرَنِي فَإِنَّهُ سَيَهْدِينِ وَجَعَلَهَا كَلِمَةً بَاقِيَةً فِي عَقِبِهِ لَعَلَّهُمْ يَرْجِعُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And [mention, O Muhammad], when Abraham said to his father and his people, "Indeed, I am disassociated from that which you worship Except for He who created me; and indeed, He will guide me And he made it a word remaining among his descendants that they might return [to it]`,
+        ``,
+        ``
+      ],
+      [
+        `Et lorsqu'Abraham dit à son père et à son peuple : "Je désavoue totalement ce que vous adorez à l'exception de Celui qui m'a créé, car c'est Lui en vérité qui me guidera Et il en fit une parole qui devait se perpétuer parmi sa descendance. Peut-être reviendront-ils`,
+        ``,
+        ``
+      ],
+      [
+        `Y cuando Abraham dijo a su padre y a su gente: «Soy inocente de lo que servís Yo no sirvo sino a Quien me ha creado. Él me dirigirá» E hizo que esta palabra perdurara en su posteridad. Quizás, así, se convirtieran`,
+        ``,
+        ``
+      ],
+      [
+        `Вот Ибрахим (Авраам) сказал своему отцу и народу: «Воистину, я не имею отношения к тому, чему вы поклоняетесь кроме Того, Кто сотворил меня. Воистину, Он поведет меня прямым путем» Он сделал это (свидетельство о том, что нет божества, кроме Аллаха) словом, пребывающим в его потомстве, чтобы они могли вернуться на прямой путь`,
+        ``,
+        ``
+      ],
+      [
+        `Und als Ibrahim zu seinem Vater und seinem Volk sagte: "Gewiß, ich sage mich los von dem, dem ihr dient außer Demjenigen, Der mich erschaffen hat; denn Er wird mich gewiß rechtleiten Und er machte es zu einem bleibenden Wort unter seinen Nachkommen, auf daß sie umkehren mögen`,
+        ``,
+        ``
+      ],
+      [
+        `ABRAHAM talade till sin fader och sitt folk och sade: "Jag avsvär mig allt ansvar för er dyrkan [av falska gudar] [Jag dyrkar] ingen annan än Honom som har skapat mig, och Han skall leda mig på rätt väg Och dessa ord yttrade han för att de skulle bevaras bland hans efterkommande, så att de [som avviker från den rena tron] skall finna vägen tillbaka`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En (gedenkt) toen Ibrâhîm tot zijn vader en zijn volk zei: "Voorwaar, Ik ben niet verantwoordelijk voor wat jullie aanbidden Behalve (voor mijn aanbidding van) Degene Die mij heeft geschapen: voorwaar, Hij zal mij leiden En hij maakte het (getuigen van de eenheid van Allah) tot een blijvend woord onder zijn nakomelingen. Hopelijk zullen zij terugkeren`,
+        ``,
+        ``
+      ],
+      [
+        `اور جب ابراہیم نے اپنے باپ اور اپنی قوم کے لوگوں سے کہا کہ جن چیزوں کو تم پوجتے ہو میں ان سے بیزار ہوں ہاں جس نے مجھ کو پیدا کیا وہی مجھے سیدھا رستہ دکھائے گا اور یہی بات اپنی اولاد میں پیچھے چھوڑ گئے تاکہ وہ (خدا کی طرف) رجوع کریں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan (ingatlah) ketika Ibrahim berkata kepada ayahnya dan kaumnya, "Sesungguhnya aku berlepas diri dari apa yang kamu sembah kecuali (kamu menyembah) Allah yang menciptakanku; karena sungguh, Dia akan memberi petunjuk kepadaku Dan (Ibrahim) menjadikan (kalimat tauhid) itu kalimat yang kekal pada keturunannya agar mereka kembali (kepada kalimat tauhid itu)`,
+        ``,
+        ``
+      ],
+      [
+        `İbrahim, babasına ve milletine demişti ki: "Beni yaratan hariç, sizin taptığınız şeylerden uzağım. Beni doğru yola eriştirecek olan şüphesiz O'dur İbrahim ardından geleceklere bu sözü, devamlı kalacak bir miras olarak bıraktı. Artık belki doğru yola dönerler`,
+        ``,
+        ``
+      ],
+      [
+        `و چون ابراهيم به [نا]پدرى خود و قومش گفت: «من واقعاً از آنچه مى‌پرستيد بيزارم، مگر [از] آن كس كه مرا پديد آورد؛ و البته او مرا راهنمايى خواهد كرد.» و او آن را در پى خود سخنى جاويدان كرد، باشد كه آنان [به توحيد] بازگردند`,
+        ``,
+        ``
+      ],
+      [
+        `যখন ইব্রাহীম তার পিতা ও সম্প্রদায়কে বলল, তোমরা যাদের পূজা কর, তাদের সাথে আমার কোন সম্পর্ক নেই। তবে আমার সম্পর্ক তাঁর সাথে যিনি আমাকে সৃষ্টি করেছেন। অতএব, তিনিই আমাকে সৎপথ প্রদর্শন করবেন। এ কথাটিকে সে অক্ষয় বাণীরূপে তার সন্তানদের মধ্যে রেখে গেছে, যাতে তারা আল্লাহর দিকেই আকৃষ্ট থাকে।`,
+        ``,
+        ``
+      ],
+      [
+        `E quando Abraão disse a seu pai e a seu povo: "Por certo, estou em rompimento com o que adorais Exceto com Quem me criou; então, por certo, Ele me guiará E fez disto uma palavra permanente em sua prole, para retornarem`,
+        ``,
+        ``
+      ],
+      [
+        `当时，易卜拉欣对他的父亲和宗族说：我与你们所崇拜的，确是没有关系的， 惟创造我的主则不然，他必定要引导我。 他将这句话留赠他的后裔，以便他们悔悟。`,
+        ``,
+        ``
+      ],
+      [
+        `イブラーヒームが，その父とその人びとにこう言った時のことを思い起せ。「本当にわたしは，あなたがたが崇拝するものと絶縁します。 わたしを御創りになり，わたしを必ず御導き下される方にだけ（仕えます。）」 かれはそれを，子孫への永遠の言葉として残した。必ずかれらは（主に）返る言葉と（思って）。`,
+        ``,
+        ``
+      ],
+      [
+        `아브라함은 그의 아버지와 백성들에게 말하길 실로 저는 여 러분이 숭배하는 것을 숭배하지 아니하며 나를 창조하신 하나님만을 경배하나니 실로 그분께서 나를 인도하실 것이라 아브라함은 그의 후손들에게이 말을 남겼으니 아마도 그들은 하나님께로 돌아가리라`,
+        ``,
+        ``
+      ],
+      [
+        `E [ricorda] quando Abramo disse a suo padre e al suo popolo: “Io rinnego tutto quello che voi adorate eccetto Colui Che mi ha creato, poiché è Lui che mi guiderà” E di ciò fece una parola che doveva perpetuarsi nella sua discendenza: forse ritorneranno [ad Allah]`,
+        ``,
+        ``
+      ],
+      [
+        `Oto powiedział Abraham do swojego ojca i do swojego ludu: "Zaprawdę, jestem niewinny tego, co wy czcicie Oprócz czci Tego, który mnie stworzył, ponieważ On prowadzi mnie drogą prostą I on uczynił to słowem, które przetrwało wśród jego potomstwa. Być może, oni powrócą`,
+        ``,
+        ``
+      ],
+      [
+        `Ось Ібрагім сказав своєму батьку та своєму народу: «Воістину, я зрікаюся того, чому ви поклоняєтесь окрім Того, Хто мене створив. Воістину, Він поведе мене прямим шляхом Він зробив це словом, яке залишилося серед його нащадків; можливо, повернуться [на прямий шлях] вони`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الزخرف / Az-Zukhruf، الآيات 26-28`
+  },
+
+  {
+    arabic: [
+      `وَلَمَّا جَاءَ عِيسَىٰ بِالْبَيِّنَاتِ قَالَ قَدْ جِئْتُكُمْ بِالْحِكْمَةِ وَلِأُبَيِّنَ لَكُمْ بَعْضَ الَّذِي تَخْتَلِفُونَ فِيهِ ۖ فَاتَّقُوا اللَّهَ وَأَطِيعُونِ إِنَّ اللَّهَ هُوَ رَبِّي وَرَبُّكُمْ فَاعْبُدُوهُ ۚ هَٰذَا صِرَاطٌ مُسْتَقِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And when Jesus brought clear proofs, he said, "I have come to you with wisdom and to make clear to you some of that over which you differ, so fear Allah and obey me Indeed, Allah is my Lord and your Lord, so worship Him. This is a straight path`,
+        ``,
+        ``
+      ],
+      [
+        `Et quand Jésus apporta les preuves, il dit : "Je suis venu à vous avec la sagesse et pour vous expliquer certains de vos sujets de désaccord. Craignez Allah donc et obéissez-moi Allah est en vérité mon Seigneur et votre Seigneur. Adorez- Le donc. Voilà un droit chemin`,
+        ``,
+        ``
+      ],
+      [
+        `Cuando Jesús vino con las pruebas claras, dijo: «He venido a vosotros con la Sabiduría y para aclararos algo de aquello en que discrepáis. ¡Temed, pues, a Alá y obedecedme Alá es mi Señor y Señor vuestro. ¡Servidle, pues! ¡Esto es una vía recta!»`,
+        ``,
+        ``
+      ],
+      [
+        `Когда Иса (Иисус) явился с ясными знамениями, он сказал: «Я пришел к вам с мудростью и для того, чтобы разъяснить вам часть того, относительно чего вы расходитесь во мнениях. Бойтесь же Аллаха и повинуйтесь мне Воистину, Аллах - мой Господь и ваш Господь. Поклоняйтесь же Ему. Это - прямой путь»`,
+        ``,
+        ``
+      ],
+      [
+        `Und als 'Isa mit den klaren Beweisen kam, sagte er: "Ich komme ja zu euch mit der Weisheit, und um euch einiges von dem klarzumachen, worüber ihr uneinig seid. So fürchtet Allah und gehorcht mir Gewiß, Allah ist ja mein Herr und euer Herr; so dient Ihm. Das ist ein gerader Weg`,
+        ``,
+        ``
+      ],
+      [
+        `OCH NÄR Jesus kom med [tecken och] klara bevis, sade han: "Jag har kommit till er med [uppenbarad] visdom och för att klargöra för er några av de ting som ni tvistar om. Frukta Gud och följ mig Gud är min Herre och er Herre; det är Honom ni skall dyrka! Detta är en rak väg`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En toen 'Îsa met de duidelijk bewijzen kwam, zei hij: "Ik heb jullie waarlijk de wijsheid gebracht zodat ik jullie een aantal zaken, waarover jullie van mening verschillen, verduidelijk. Vreest daarom Allah en gehoorzaamt mij Voorwaar, Allah is mijn Heer en jullie Heer, aanbidt Hem daarom. Dit is het rechte Pad`,
+        ``,
+        ``
+      ],
+      [
+        `اور جب عیسیٰ نشانیاں لے کر آئے تو کہنے لگے کہ میں تمہارے پاس دانائی (کی کتاب) لے کر آیا ہوں۔ نیز اس لئے کہ بعض باتیں جن میں تم اختلاف کر رہے ہو تم کو سمجھا دوں۔ تو خدا سے ڈرو اور میرا کہا مانو کچھ شک نہیں کہ خدا ہی میرا اور تمہارا پروردگار ہے پس اسی کی عبادت کرو۔ یہی سیدھا رستہ ہے`,
+        ``,
+        ``
+      ],
+      [
+        `(Dan ketika Isa datang membawa keterangan, dia berkata, "Sungguh, aku datang kepadamu dengan membawa hikmah,789) dan untuk menjelaskan kepadamu sebagian dari apa yang kamu perselisihkan; maka bertakwalah kepada Allah dan taatlah kepadaku Sungguh, Allah, Dia Tuhanku dan Tuhanmu, maka sembahlah Dia. Ini adalah jalan yang lurus`,
+        ``,
+        ``
+      ],
+      [
+        `İsa, belgeleri getirdiği zaman demişti ki: "Size hikmetle ve ayrılığa düştüğünüz şeylerin bir kısmını açıklamak üzere geldim. Allah'a karşı gelmekten sakının, bana itaat edin Doğrusu Allah benim de Rabbimdir, sizin de Rabbinizdir, artık O'na kulluk edin, bu, doğru yoldur`,
+        ``,
+        ``
+      ],
+      [
+        `و چون عيسى دلايل آشكار آورد، گفت: «به راستى براى شما حكمت آوردم، و تا در باره بعضى از آنچه در آن اختلاف مى‌كرديد برايتان توضيح دهم. پس، از خدا بترسيد و فرمانم ببريد.» در حقيقت، خداست كه خود پروردگار من و پروردگار شماست. پس او را بپرستيد؛ اين است راه راست`,
+        ``,
+        ``
+      ],
+      [
+        `ঈসা যখন স্পষ্ট নিদর্শনসহ আগমন করল, তখন বলল, আমি তোমাদের কাছে প্রজ্ঞা নিয়ে এসেছি এবং তোমরা যে, কোন কোন বিষয়ে মতভেদ করছ তা ব্যক্ত করার জন্যে এসেছি, অতএব, তোমরা আল্লাহকে ভয় কর এবং আমার কথা মান। নিশ্চয় আল্লাহই আমার পালনকর্তা ও তোমাদের পালনকর্তা। অতএব, তাঁর এবাদত কর। এটা হল সরল পথ।`,
+        ``,
+        ``
+      ],
+      [
+        `E, quando Jesus chegou com as evidências, disse: "Com efeito, cheguei-vos com a Sabedoria e para tornar evidente, para vós, algo daquilo de que discrepais. Então, temei a Allah e obedecei-me Por certo, Allah é meu Senhor e vosso Senhor. Então, adorai-O. Essa é a senda reta`,
+        ``,
+        ``
+      ],
+      [
+        `当尔撒带着许多明证来临的时候，他说：我确已把智慧带来给你们，以便我为你们解释你们所争论的一部分律例。故你们应当敬畏真主，应当服从我。 真主确是我的主，也是你们的主，所以你们应当崇拜他，这是正路。`,
+        ``,
+        ``
+      ],
+      [
+        `イーサーが様々な明証をもってやって来た時言った。「本当にわたしは，英知をあなたがたに齎し，あなたがたが論争することの，多少の部分をあなたがたのために，説き明かすためである。それでアッラーを畏れ，わたしに従え。 本当にアッラーこそはわたしの主であり，またあなたがたの主であられる。かれに仕えなさい。これこそ，正しい道である。」`,
+        ``,
+        ``
+      ],
+      [
+        `예수가 분명한 예증과 더불어 그들에게 이르러 말하길 내가 지혜를 가지고 너희에게 왔나니 너희가 논쟁하는 것을 밝혀 주겠 노라 그러므로 하나님을 두려워 하고 내게 순종하라 하나님은 나의 주님이요 또 한 너희의 주님이라 그러므로 그 분만을 경배하라 이것이 바른 길 이니라`,
+        ``,
+        ``
+      ],
+      [
+        `Quando Gesù portò le prove evidenti disse: “Sono venuto a voi con la saggezza e per rendervi esplicita una parte delle cose su cui divergete. Temete Allah e obbeditemi In verità Allah è il mio e vostro Signore. AdorateLo allora. Ecco la retta via”`,
+        ``,
+        ``
+      ],
+      [
+        `A kiedy przyszedł Jezus z jawnymi dowodami, powiedział: "Przyszedłem do was z mądrością i wyjaśnię wam nieco z tego, w czym się różnicie. Bójcie się więc Boga i słuchajcie mnie Zaprawdę, Bóg jest moim Panem i waszym Panem! Przeto czcijcie Go! To jest droga prosta`,
+        ``,
+        ``
+      ],
+      [
+        `Коли Іса прийшов із ясними знаменнями, то сказав: «Я прийшов до вас із мудрістю; я поясню вам частину того, про що ви сперечаєтесь! Тож бійтесь Аллага та коріться мені Воістину, Аллаг — мій Господь та ваш Господь! Тож поклоняйтесь Йому! Це — прямий шлях`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الزخرف / Az-Zukhruf، الآيتان 63-64`
   },
 
   {
@@ -24454,6 +28680,117 @@ const verses = [
       ]
     ],
     number: `سورة القلم / Al-Qalam، الآية 4`
+  },
+
+  {
+    arabic: [
+      `قَالَ يَا قَوْمِ إِنِّي لَكُمْ نَذِيرٌ مُبِينٌ أَنِ اعْبُدُوا اللَّهَ وَاتَّقُوهُ وَأَطِيعُونِ يَغْفِرْ لَكُمْ مِنْ ذُنُوبِكُمْ وَيُؤَخِّرْكُمْ إِلَىٰ أَجَلٍ مُسَمًّى ۚ إِنَّ أَجَلَ اللَّهِ إِذَا جَاءَ لَا يُؤَخَّرُ ۖ لَوْ كُنْتُمْ تَعْلَمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `He said, "O my people, indeed I am to you a clear warner [Saying], 'Worship Allah, fear Him and obey me Allah will forgive you of your sins and delay you for a specified term. Indeed, the time [set by] Allah, when it comes, will not be delayed, if you only knew`,
+        ``,
+        ``
+      ],
+      [
+        `Il [leur] dit : "Ô mon peuple, je suis vraiment pour vous, un avertisseur clair Adorez Allah, craignez-Le et obéissez-moi pour qu'Il vous pardonne vos péchés et qu'Il vous donne un délai jusqu'à un terme fixé. Mais quand vient le terme fixé par Allah, il ne saurait être différé si vous saviez`,
+        ``,
+        ``
+      ],
+      [
+        `Dijo: «¡Pueblo! Soy para vosotros un monitor que habla claro ¡Servid a Alá y temedle! ¡Y obedecedme Así, os perdonará vuestros pecados y os remitirá a un plazo fijo. Pero, cuando venza el plazo fijado por Alá, no podrá ya ser retardado. Si supierais...»`,
+        ``,
+        ``
+      ],
+      [
+        `Он сказал: «О мой народ! Воистину, я для вас - предостерегающий и разъясняющий увещеватель Поклоняйтесь Аллаху, бойтесь Его и повинуйтесь мне Он простит вам ваши грехи и предоставит вам отсрочку до назначенного срока. Воистину, когда срок Аллаха наступает, он уже не откладывается. Если бы вы только знали!»`,
+        ``,
+        ``
+      ],
+      [
+        `Er sagte: "O mein Volk, ich bin euch ja ein deutlicher Warner (euch zu mahnen:) Dient Allah und fürchtet Ihn, und gehorcht mir so wird Er euch (etwas) von euren Sünden vergeben und euch auf eine festgesetzte Frist zurückstellen. Gewiß, Allahs Frist, wenn sie kommt, kann nicht zurückgestellt werden, wenn ihr nur wüßtet`,
+        ``,
+        ``
+      ],
+      [
+        `[Och Noa] sade: "Jag har kommit, mitt folk, för att varna er klart och entydigt dyrka Gud och frukta Honom! Och lyd mig Då skall Gud förlåta er era synder och ge er uppskov till en tid [som Han] har fastställt - när den är inne, kan den inte uppskjutas - om ni [bara] visste`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij zei: "O mijn volk, ik ben voor jullie een duidelijke waarschuwer Aanbidt Allah en vreest Hem en gehoorzaamt mij Dan zal Hij jullie zonden vergeven en jullie uitstel geven tot een vastgesteld tijdstip. Voorwaar, wanneer het tijdstip van Allah komt, zal het niet worden uitgesteld. Als jullie dat wisten`,
+        ``,
+        ``
+      ],
+      [
+        `انہوں نے کہا کہ اے قوم! میں تم کو کھلے طور پر نصیحت کرتا ہوں کہ خدا کی عبات کرو اور اس سے ڈرو اور میرا کہا مانو وہ تمہارے گناہ بخش دے گا اور (موت کے) وقت مقررہ تک تم کو مہلت عطا کرے گا۔ جب خدا کا مقرر کیا ہوگا وقت آجاتا ہے تو تاخیر نہیں ہوتی۔ کاش تم جانتے ہوتے`,
+        ``,
+        ``
+      ],
+      [
+        `Dia (Nuh) berkata, "Wahai kaumku! Sesungguhnya aku ini seorang pemberi peringatan yang menjelaskan kepada kamu (yaitu) sembahlah Allah, bertakwalah kepada-Nya dan taatlah kepadaku niscaya Dia mengampuni sebagian dosa-dosamu dan menangguhkan kamu (memanjangkan umurmu) sampai pada batas waktu yang ditentukan. Sungguh, ketetapan Allah itu apabila telah datang tidak dapat ditunda, seandainya kamu mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `O da şöyle söyledi: "Ey Milletim! Şüphesiz ben, size gönderilmiş apaçık bir uyarıcıyım Allah'a kulluk edin; O'ndan sakının ve bana itaat edin ki Allah günahlarınızı size bağışlasın ve sizi belli bir süreye kadar ertelesin; doğrusu Allah'ın belirttiği süre gelince geri bırakılamaz; keşke bilseniz`,
+        ``,
+        ``
+      ],
+      [
+        `[نوح‌] گفت: «اى قوم من، من شما را هشدار دهنده‌اى آشكارم، كه خدا را بپرستيد و از او پروا داريد و مرا فرمان بريد [تا] برخى از گناهانتان را بر شما ببخشايد و [اجل‌] شما را تا وقتى معين به تأخير اندازد. اگر بدانيد، چون وقت مقرر خدا برسد، تأخير بر نخواهد داشت`,
+        ``,
+        ``
+      ],
+      [
+        `সে বলল, হে আমার সম্প্রদায়! আমি তোমাদের জন্যে স্পষ্ট সতর্ককারী। এ বিষয়ে যে, তোমরা আল্লাহ তা’আলার এবাদত কর, তাঁকে ভয় কর এবং আমার আনুগত্য কর। আল্লাহ তা’আলা তোমাদের পাপসমূহ ক্ষমা করবেন এবং নির্দিষ্ট সময় পর্যন্ত অবকাশ দিবেন। নিশ্চয় আল্লাহ তা’আলার নির্দিষ্টকাল যখন হবে, তখন অবকাশ দেয়া হবে না, যদি তোমরা তা জানতে`,
+        ``,
+        ``
+      ],
+      [
+        `Ele disse: "Ó meu povo! Por certo, sou-vos evidente admoestador Adorai a Allah, e temei-O, e obedecei a mim Ele vos perdoará parte de vossos delitos e vos concederá prazo, até um termo designado. Por certo, o termo de Allah, quando chegar, não será adiado. Se soubésseis`,
+        ``,
+        ``
+      ],
+      [
+        `他说：我的宗族啊！我确是你们的坦率的警告者， 你们应当崇拜真主，应当敬畏他，应当服从我， 他就赦宥你们的罪过，并且让你们延迟到一个定期。真主的定期一旦来临的时候，是绝不延迟的，假若你们知道。`,
+        ``,
+        ``
+      ],
+      [
+        `かれは言った。「わたしの人びとよ，わたしはあなたがたへの公明な1人の警告者です。 あなたがたはアッラーに仕え，かれを畏れ，わたしに従いなさい。 かれはあなたがたの様々な罪を赦し，定められた期限まで，あなたがたを猶予なされます。本当にアッラーの期限が来た時は，猶予されません。もしあなたがたが分っていたならば。」`,
+        ``,
+        ``
+      ],
+      [
+        `그가 말하길 “나의 사람들이여. 실로 나는 그대들을 위한 명백한 경고자라” “그대들은 하나님을 경배하고 그분을 경외하며 나를 따르라” “그리하면 그분께서 그대들을 위해 그대들의 죄를 용서하여 주실 것이며 그대들을 지정된 기한까지 늦추어 주실 것이라. 그대들이 안다면 실로 하나님의 기한, 그것이 도래했을 때는 늦추어지지 않노라”`,
+        ``,
+        ``
+      ],
+      [
+        `Disse: “O popol mio, in verità io sono per voi un ammonitore evidente adorate Allah, temeteLo e obbeditemi affinché perdoni una parte dei vostri peccati e vi conceda dilazione fino a un termine stabilito; ma quando giungerà il termine di Allah non potrà essere rimandato, se [solo] lo sapeste”`,
+        ``,
+        ``
+      ],
+      [
+        `On powiedział: "O ludu mój! Ja jestem dla was jawnie ostrzegającym Czcijcie Boga i bójcie się Go, i słuchajcie mnie On wam przebaczy wasze grzechy i da wam zwłokę do określonego terminu. Lecz kiedy nadejdzie termin Boga, to już nie będzie mógł być opóźniony. O, gdybyście wiedzieli`,
+        ``,
+        ``
+      ],
+      [
+        `Він сказав: «О народе мій! Воістину, я справді той, хто застерігає вас Поклоняйтеся Аллагу, бійтеся Його і коріться мені щоб простив Він вам гріхи ваші і відстрочив вам на певний час. Воістину, коли обіцяний Аллагом час настане, то не буде вже відстрочки. Якби ж ви тільки знали`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة نوح / Nuh، الآيات 2-4`
   },
 
   {
