@@ -2,7 +2,8 @@
 // ملف منفصل يحتوي على مصفوفة verses: كل عنصر = آية بالعربي (arabic) + الترجمات (translations) + رقم/اسم السورة (number).
 // لازم يتحمّل قبل أول كود بيستخدم verses (محمّل في index.html قبل سكربت عرض الآيات مباشرةً).
 
-const verses = [{
+const verses = [
+  {
     arabic: [`ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ`, `هُدًى لِّلْمُتَّقِينَ`, ``],
     translations: [
       [`This is the Book about which there is no doubt,`, `a guidance for those conscious of Allah.`, ``]
@@ -123,6 +124,117 @@ const verses = [{
 
   {
     arabic: [
+      `وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ ۖ`,
+      `أُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ ۖ فَلْيَسْتَجِيبُوا لِي`,
+      `وَلْيُؤْمِنُوا بِي لَعَلَّهُمْ يَرْشُدُونَ`
+    ],
+    translations: [
+      [
+        `And when My servants ask you, [O Muhammad], concerning Me - indeed I am near.`,
+        `I respond to the invocation of the supplicant when he calls upon Me.`,
+        `So let them respond to Me [by obedience] and believe in Me that they may be [rightly] guided`
+      ],
+      [
+        `Et quand Mes serviteurs t'interrogent sur Moi.. alors Je suis tout proche:`,
+        `Je réponds à l'appel de celui qui Me prie quand il Me prie.`,
+        `Qu'ils répondent à Mon appel, et qu'ils croient en Moi, afin qu'ils soient bien guidés`
+      ],
+      [
+        `Cuando Mis siervos te pregunten por Mí,`,
+        `estoy cerca y respondo a la oración de quien invoca cuando Me invoca.`,
+        `¡Que Me escuchen y crean en Mí! Quizás, así, sean bien dirigidos`
+      ],
+      [
+        `Если Мои рабы спросят тебя обо Мне, то ведь Я близок и отвечаю на зов молящегося,`,
+        `когда он взывает ко Мне.`,
+        `Пусть же они отвечают Мне и веруют в Меня, - быть может, они последуют верным путем`
+      ],
+      [
+        `Und wenn dich Meine Diener nach Mir fragen, so bin Ich nahe;`,
+        `Ich erhöre den Ruf des Bittenden, wenn er Mich anruft.`,
+        `So sollen sie nun auf Mich hören und an Mich glauben, auf daß sie besonnen handeln mögen`
+      ],
+      [
+        `När mina tjänare frågar dig om Mig då Jag är nära;`,
+        `Jag besvarar den bedjandes bön, när han ber till Mig.`,
+        `Och uppmana dem att svara när Jag kallar och att tro på Mig - kanske skall de ledas på rätt väg`
+      ],
+      [
+        `Agus nuair a fhiafraíonn mo sheirbhísigh díot fúmsa, go deimhin tá mé gar dóibh.`,
+        `Freagraím glao an té a ghlaonn orm nuair a ghlaonn sé orm. Mar sin,`,
+        `lig dóibh freagra a thabhairt orm agus a chreidiúint ionam, ionas go dtreorófar ar an mbealach ceart iad.`
+      ],
+      [
+        `En wanneer Mijn dienaren jou (O Moehammad) vragen stellen over Mij: voorwaar,`,
+        `Ik ben nabij, Ik verhoor de smeekbede van de smekende wanneer hij tot Mij smeek.`,
+        `Laten zij aan Mij gehoor geven en in Mij geloven. Hopelijk zullen zij de juiste Leiding volgen`
+      ],
+      [
+        `اور (اے پیغمبر) جب تم سے میرے بندے میرے بارے میں دریافت کریں تو (کہہ دو کہ) میں تو`,
+        `(تمہارے) پاس ہوں جب کوئی پکارنے والا مجھے پکارتا ہے تو میں اس کی دعا قبول کرتا ہوں`,
+        `تو ان کو چاہیئے کہ میرے حکموں کو مانیں اور مجھ پر ایمان لائیں تاکہ نیک رستہ پائیں`
+      ],
+      [
+        `Dan apabila hamba-hamba-Ku bertanya kepadamu (Muhammad) tentang Aku, maka sesungguhnya Aku dekat.`,
+        `Aku kabulkan permohonan orang yang berdoa apabila dia berdoa kepada-Ku.`,
+        `Hendaklah mereka itu memenuhi (perintah)-Ku dan beriman kepada-Ku, agar mereka memperoleh kebenaran`
+      ],
+      [
+        `Kullarım sana Beni sorarlarsa, bilsinler ki Ben, şüphesiz onlara yakınım.`,
+        `Benden isteyenin, dua ettiğinde duasını kabul ederim.`,
+        `Artık onlar da davetimi kabul edip Bana inansınlar ki doğru yolda yürüyenlerden olsunlar`
+      ],
+      [
+        `و هرگاه بندگان من، از تو در باره من بپرسند، [بگو] من نزديكم،`,
+        `و دعاى دعاكننده را -به هنگامى كه مرا بخواند- اجابت مى‌كنم،`,
+        `پس [آنان‌] بايد فرمان مرا گردن نهند و به من ايمان آورند، باشد كه راه يابند`
+      ],
+      [
+        `আর আমার বান্দারা যখন তোমার কাছে জিজ্ঞেস করে আমার ব্যাপারে বস্তুতঃ আমি রয়েছি সন্নিকটে। যারা প্রার্থনা করে,`,
+        `তাদের প্রার্থনা কবুল করে নেই,`,
+        `যখন আমার কাছে প্রার্থনা করে। কাজেই আমার হুকুম মান্য করা এবং আমার প্রতি নিঃসংশয়ে বিশ্বাস করা তাদের একান্ত কর্তব্য। যাতে তারা সৎপথে আসতে পারে।`
+      ],
+      [
+        `E quando Meus servos te perguntarem por Mim, por certo, estou próximo,`,
+        `atendo a súplica do suplicante, quando Me suplica.`,
+        `Que eles Me atendam, então, e creiam em Mim, na esperança de serem assisados`
+      ],
+      [
+        `如果我的仆人询问我的情状，你就告诉他们：`,
+        `我确是临近的，确是答应祈祷者的祈祷的。当他祈祷我的时候，`,
+        `教他们答应我，信仰我，以便他们遵循正道。`
+      ],
+      [
+        `われのしもべたちが，われに就いてあなたに問う時，（言え）われは本当に（しもべたちの）近くにいる。`,
+        `かれがわれに祈る時はその嘆願の祈りに答える。`,
+        `それでわれ（の呼びかけ）に答えさせ，われを信仰させなさい，恐らくかれらは正しく導かれるであろう。`
+      ],
+      [
+        `나의 종복들이 그대(무함마드)에게 나에 관해 묻거든 실로 나는 가까이 있노라.`,
+        `기도하는 자가 나에게 요청할 때 나는 그의 기도에 응답하노라.`,
+        `그러니 그들이 나의 부름에 응하도록 하고 나를 믿도록 하라. 그들이 올바른 길로 인도될 것이라`
+      ],
+      [
+        `Quando i Miei servi ti chiedono di Me, ebbene Io sono vicino!`,
+        `Rispondo all'appello di chi Mi chiama quando Mi invoca.`,
+        `Procurino quindi di rispondere al Mio richiamo e credano in Me, sì che possano essere ben guidati`
+      ],
+      [
+        `A kiedy zapytają ciebie Moi słudzy o Mnie, to zaprawdę, Ja jestem bliski!`,
+        `Odpowiadam na wezwanie każdego wzywającego, kiedy Mnie wzywa;`,
+        `niech więc oni odpowiedzą na Moje wezwanie i niech we Mnie uwierzą! Być może, oni pójdą drogą prawości`
+      ],
+      [
+        `І коли раби Мої запитують тебе про Мене, то Я — близький,`,
+        `і Я відповідаю на заклики того, хто кличе Мене.`,
+        `Нехай же й вони відповідають Мені та вірують у Мене — можливо, підуть вони правильним шляхом`
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 186`
+  },
+
+  {
+    arabic: [
       `لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا`,
       `لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ`,
       `رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ`
@@ -182,6 +294,228 @@ const verses = [{
     ],
 
     number: `سورة البقرة / Al-Baqarah، الآية 286`
+  },
+
+  {
+    arabic: [
+      `إِنَّ الدِّينَ عِنْدَ اللَّهِ الْإِسْلَامُ ۗ`,
+      `وَمَا اخْتَلَفَ الَّذِينَ أُوتُوا الْكِتَابَ إِلَّا مِنْ بَعْدِ مَا جَاءَهُمُ الْعِلْمُ بَغْيًا بَيْنَهُمْ ۗ`,
+      `وَمَنْ يَكْفُرْ بِآيَاتِ اللَّهِ فَإِنَّ اللَّهَ سَرِيعُ الْحِسَابِ`
+    ],
+    translations: [
+      [
+        `Indeed, the religion in the sight of Allah is Islam.`,
+        `And those who were given the Scripture did not differ except after knowledge had come to them - out of jealous animosity between themselves.`,
+        `And whoever disbelieves in the verses of Allah, then indeed, Allah is swift in [taking] account`
+      ],
+      [
+        `Certes, la religion acceptée d'Allah, c'est l'Islam. Ceux auxquels le Livre a été apporté ne se sont disputés,`,
+        `par agressivité entre eux, qu'après avoir reçu la science.`,
+        `Et quiconque ne croit pas aux signes d'Allah... alors Allah est prompt à demander compte`
+      ],
+      [
+        `Ciertamente, la Religión, para Alá, es el islam. Aquéllos a quienes se dio la Escritura no se opusieron unos a otros,`,
+        `por rebeldía mutua, sino después de haber recibido la Ciencia.`,
+        `Quien no cree en los signos de Alá,... Alá es rápido en ajustar cuentas`
+      ],
+      [
+        `Воистину, религией у Аллаха является ислам. Те, кому было даровано Писание,`,
+        `впали в разногласия только после того, как к ним явилось знание, по причине зависти и несправедливого отношения друг к другу.`,
+        `Если кто не уверовал в знамения Аллаха, то ведь Аллах скор на расчет`
+      ],
+      [
+        `Gewiß, die Religion ist bei Allah der Islam. Doch diejenigen, denen die Schrift gegeben wurde,`,
+        `wurden erst uneinig, nachdem das Wissen zu ihnen gekommen war - aus Mißgunst untereinander,`,
+        `Doch wer Allahs Zeichen verleugnet -, so ist Allah schnell im Abrechnen`
+      ],
+      [
+        `För Gud är [den sanna] religionen underkastelse under Hans vilja;`,
+        `de som [tidigare] tog emot uppenbarelsen kom att omfatta skilda meningar först efter att ha fått [all] kunskap och av ovilja och avund mot varandra.`,
+        `Och den som vill förneka sanningen i Guds budskap [bör minnas att] Gud är snar att kalla till räkenskap`
+      ],
+      [
+        `Go deimhin, is é an tIoslam an reiligiún i bhfianaise Allah.`,
+        `Agus níor easaontaigh iad siúd a tugadh an Scrioptúr dóibh ach tar éis go dtáinig an t-eolas chucu, de bharr formaid eatarthu féin.`,
+        `Agus an té a dhiúltaíonn do chomharthaí Allah, go deimhin tá Allah tapa ag glacadh cuntais.`
+      ],
+      [
+        `Voorwaar,`,
+        `de (enige) Godsdienst bij Allah is de Islam en degenen die de Schrift gegeven was verschilden (hierover) nadat de kennis tot hen gekomen was niet over van mening dan door onderlinge jaloezie.`,
+        `En wie de Tekenen van Allah loochent: voorwaar, Allah is snel in de afrekening`
+      ],
+      [
+        `دین تو خدا کے نزدیک اسلام ہے اور اہل کتاب نے جو (اس دین سے)`,
+        `اختلاف کیا تو علم ہونے کے بعد آپس کی ضد سے کیا اور جو شخص خدا کی`,
+        `آیتوں کو نہ مانے تو خدا جلد حساب لینے والا (اور سزا دینے والا) ہے`
+      ],
+      [
+        `(Sesungguhnya agama di sisi Allah ialah Islam.`,
+        `Tidaklah berselisih orang-orang yang telah diberi Kitab kecuali setelah mereka memperoleh ilmu, karena kedengkian di antara mereka.`,
+        `Barang siapa ingkar terhadap ayat-ayat Allah, maka sungguh, Allah sangat cepat perhitungan-Nya`
+      ],
+      [
+        `Allah katında din, şüphesiz İslam'dır. Ancak, Kitap verilenler,`,
+        `kendilerine ilim geldikten sonra, aralarındaki ihtiras yüzünden ayrılığa düştüler.`,
+        `Allah'ın ayetlerini kim inkar ederse bilsin ki, Allah hesabı çabuk görür`
+      ],
+      [
+        `در حقيقت، دين نزد خدا همان اسلام است. و كسانى كه كتاب [آسمانى‌] به آنان داده شده،`,
+        `با يكديگر به اختلاف نپرداختند مگر پس از آنكه علم براى آنان [حاصل‌] آمد،`,
+        `آن هم به سابقه حسدى كه ميان آنان وجود داشت. و هر كس به آيات خدا كفر ورزد، پس [بداند] كه خدا زودشمار است`
+      ],
+      [
+        `নিঃসন্দেহে আল্লাহর নিকট গ্রহণযোগ্য দ্বীন একমাত্র ইসলাম। এবং যাদের প্রতি কিতাব দেয়া হয়েছে তাদের নিকট প্রকৃত জ্ঞান আসার পরও ওরা মতবিরোধে লিপ্ত হয়েছে,`,
+        `শুধুমাত্র পরস্পর বিদ্বেষবশতঃ,`,
+        `যারা আল্লাহর নিদর্শনসমূহের প্রতি কুফরী করে তাদের জানা উচিত যে, নিশ্চিতরূপে আল্লাহ হিসাব গ্রহণে অত্যন্ত দ্রুত।`
+      ],
+      [
+        `Por certo, a religião perante Allah é o Islam. E aqueles, aos quais fora concedido o Livro,`,
+        `não discreparam senão após a ciência haver-lhes chegado, movidos por agressividade entre eles.`,
+        `E quem renega os sinais de Allah, por certo, Allah é Destro no ajuste de contas`
+      ],
+      [
+        `真主所喜悦的宗教，确是伊斯兰教。曾受天经的人，除在知识降临他们之后，`,
+        `由于互相嫉妒外，对于伊斯兰教也没有异议。`,
+        `谁不信真主的迹象，（真主不久就要惩治谁），因为真主确是清算神速的。`
+      ],
+      [
+        `本当にアッラーの御許の教えは，イスラーム（主の意志に服従，帰依すること）である。`,
+        `啓典を授けられた人びとが，知識が下った後に相争うのは，只かれらの間の妬みからである。`,
+        `アッラーの印を拒否する者があれば，アッラーは本当に清算に迅速であられる。`
+      ],
+      [
+        `실로 하나님께 있어 종교는 이슬람이라.`,
+        `성서를 받은 자들이 의견을 달리함은 오직 그들에게 지식이 도래한 이후로서 그들 사이에 퍼진 적대심 때문이라.`,
+        `하나님의 징표를 불신하는 자가 있다면 실로 하나님께서는 계산함에 가장 빠르신 분이라`
+      ],
+      [
+        `Invero, la religione presso Allah è l'Islàm. Quelli che ricevettero la Scrittura caddero nella discordia,`,
+        `nemici gli uni degli altri, solo dopo aver avuto la scienza.`,
+        `Ma chi rifiuta i segni di Allah, [sappia che] Allah è rapido al conto`
+      ],
+      [
+        `Religią prawdziwą w oczach Boga jest islam! Ci, którym została dana Księga,`,
+        `przez zawiść poróżnili się między sobą, dopiero wtedy, gdy przyszła do nich wiedza.`,
+        `A kto nie wierzy w znaki Boga... zaprawdę, Bóg jest szybki w rozrachunku`
+      ],
+      [
+        `Воістину, релігія перед Аллагом — іслам! Ті, кому дано Писання,`,
+        `розійшлися поміж собою через взаємну ненависть лише після того, як до них прийшло знання.`,
+        `А якщо хто не вірує у знамення Аллага, то, воістину, Аллаг — швидкий у відплаті`
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 19`
+  },
+
+  {
+    arabic: [
+      `قُلْ يَا أَهْلَ الْكِتَابِ تَعَالَوْا إِلَىٰ كَلِمَةٍ سَوَاءٍ بَيْنَنَا`,
+      `وَبَيْنَكُمْ أَلَّا نَعْبُدَ إِلَّا اللَّهَ وَلَا نُشْرِكَ بِهِ شَيْئًا وَلَا يَتَّخِذَ بَعْضُنَا بَعْضًا أَرْبَابًا مِنْ دُونِ اللَّهِ ۚ`,
+      `فَإِنْ تَوَلَّوْا فَقُولُوا اشْهَدُوا بِأَنَّا مُسْلِمُونَ`
+    ],
+    translations: [
+      [
+        `Say, "O People of the Scripture,`,
+        `come to a word that is equitable between us and you - that we will not worship except Allah and not associate anything with Him and not take one another as lords instead of Allah."`,
+        `But if they turn away, then say, "Bear witness that we are Muslims [submitting to Him]`
+      ],
+      [
+        `Dis: «O gens du Livre, venez à une parole commune entre nous et vous: que nous n'adorions qu'Allah,`,
+        `sans rien Lui associer, et que nous ne prenions point les uns les autres pour seigneurs en dehors d'Allah».`,
+        `Puis, s'ils tournent le dos, dites: «Soyez témoins que nous, nous sommes soumis»`
+      ],
+      [
+        `Di: «¡Gente de la Escritura !Convengamos en una fórmula aceptable a nosotros y a vosotros,`,
+        `según la cual no serviremos sino a Alá, no Le asociaremos nada y no tomaremos a nadie de entre nosotros como Señor fuera de Alá».`,
+        `Y, si vuelven la espalda, decid: «¡Sed testigos de nuestra sumisión!»`
+      ],
+      [
+        `Скажи: «О люди Писания! Давайте придем к единому слову для нас и для вас, о том, что мы не будем поклоняться никому,`,
+        `кроме Аллаха, не будем приобщать к Нему никаких сотоварищей и не будем считать друг друга господами наряду с Аллахом».`,
+        `Если же они отвернутся, то скажите: «Свидетельствуйте, что мы - мусульмане»`
+      ],
+      [
+        `Sag: O Leute der Schrift, kommt her zu einem zwischen uns und euch gleichen Wort:`,
+        `daß wir niemandem dienen außer Allah und Ihm nichts beigesellen und sich nicht die einen von uns die anderen zu Herren außer Allah nehmen.`,
+        `Doch wenn sie sich abkehren, dann sagt: Bezeugt, daß wir (Allah) ergeben sind`
+      ],
+      [
+        `Säg: "Efterföljare av äldre tiders uppenbarelser! Låt oss samlas kring en regel,`,
+        `gemensam för oss och för er - att vi inte skall dyrka någon utom Gud och inte sätta något vid Guds sida och inte erkänna andra människor som våra herrar och beskyddare i Guds ställe."`,
+        `Och säg, om de vänder er ryggen: "Vittna då, att det är vi som har underkastat oss Hans vilja`
+      ],
+      [
+        `Abair: A Mhuintir an Scrioptúir, tagaigí chuig focal atá cothrom eadrainn agus eadraibh:`,
+        `nach ndéanfaimid adhradh ach d'Allah amháin, nach gcuirfimid aon rud i gcomhpháirt leis, agus nach nglacfaidh cuid againn le cuid eile mar thiarnaí in ionad Allah.`,
+        `Ach má iompaíonn siad ar shiúl, abraigí: Déanaigí finné gur Moslamaigh muid.`
+      ],
+      [
+        `Zeg: "O Lieden van de Schrift, komt tot een gelijkluidend woord tussen ons en jullie:`,
+        `dat wij niemand dan Allah aanbidden en dat wij niets naast Hem tot delgenoot maken en dat wij elkaar niet als heren naast Allah plaatsen."`,
+        `Als zij zich dan afwenden, zegt dan: "Getuigt dat wij ons (aan Allah) overgegeven hebben`
+      ],
+      [
+        `کہہ دو کہ اے اہل کتاب جو بات ہمارے اور تمہارے دونوں کے درمیان یکساں (تسلیم کی گئی) ہے اس کی طرف آؤ وہ یہ کہ خدا`,
+        `کے سوا ہم کسی کی عبادت نہ کریں اور اس کے ساتھ کسی چیز کو شریک نہ بنائیں اور ہم میں سے کوئی کسی کو خدا کے سوا اپنا`,
+        `کار ساز نہ سمجھے اگر یہ لوگ (اس بات کو) نہ مانیں تو (ان سے) کہہ دو کہ تم گواہ رہو کہ ہم (خدا کے) فرماں بردار ہیں`
+      ],
+      [
+        `Katakanlah (Muhammad), "Wahai Ahli Kitab! Marilah (kita) menuju kepada satu kalimat (pegangan) yang sama antara kami dan kamu,`,
+        `bahwa kita tidak menyembah selain Allah dan kita tidak mempersekutukan-Nya dengan sesuatu pun, dan bahwa kita tidak menjadikan satu sama lain tuhan-tuhan selain Allah.`,
+        `Jika mereka berpaling maka katakanlah (kepada mereka), "Saksikanlah, bahwa kami adalah orang Muslim`
+      ],
+      [
+        `De ki: "Ey Kitap ehli! Ancak Allah'a kulluk etmek, O'na bir şeyi eş koşmamak,`,
+        `Allah'ı bırakıp birbirimizi rab olarak benimsememek üzere, bizimle sizin aranızda müşterek bir söze gelin".`,
+        `Eğer yüz çevirirlerse: "Bizim müslüman olduğumuza şahid olun" deyin`
+      ],
+      [
+        `بگو: «اى اهل كتاب، بياييد بر سر سخنى كه ميان ما و شما يكسان است بايستيم كه:`,
+        `جز خدا را نپرستيم و چيزى را شريك او نگردانيم، و بعضى از ما بعضى ديگر را به جاى خدا به خدايى نگيرد.»`,
+        `پس اگر [از اين پيشنهاد] اعراض كردند، بگوييد: «شاهد باشيد كه ما مسلمانيم [نه شما].»`
+      ],
+      [
+        `বলুনঃ ‘হে আহলে-কিতাবগণ! একটি বিষয়ের দিকে আস-যা আমাদের মধ্যে ও তোমাদের মধ্যে সমান-যে,`,
+        `আমরা আল্লাহ ছাড়া অন্য কারও ইবাদত করব না, তাঁর সাথে কোন শরীক সাব্যস্ত করব না এবং একমাত্র আল্লাহকে ছাড়া কাউকে পালনকর্তা বানাব না। তারপর যদি তারা স্বীকার না করে,`,
+        `তাহলে বলে দাও যে, ‘সাক্ষী থাক আমরা তো অনুগত।`
+      ],
+      [
+        `Dize: "Ó seguidores do Livro! Vinde a uma palavra igual entre nós e vós:`,
+        `não adoremos senão a Allah, e nada Lhe associemos e não tomemos uns aos outros por senhores,`,
+        `além de Allah." E, se voltarem as costas, dizei: "Testemunhai que somos muçulmanos`
+      ],
+      [
+        `你说：信奉天经的人啊！你们来吧，让我们共同遵守一种双方认为公平的信条：`,
+        `我们大家只崇拜真主，不以任何物配他，除真主外，不以同类为主宰。`,
+        `如果他们背弃这种信条，那末，你们说：请你们作证我们是归顺的人。`
+      ],
+      [
+        `言ってやるがいい。「啓典の民よ，わたしたちとあなたがたとの間の共通のことば（の下）に来なさい。`,
+        `わたしたちはアッラーにだけ仕え，何ものをもかれに列しない。またわたしたちは アッラーを差し置いて，外のものを主として崇ない。`,
+        `」それでもし，かれらが背き去るならば， 言ってやるがいい。「わたしたちはムスリムであることを証言する。」`
+      ],
+      [
+        `그대(무함마드)는 말하라 : ‘성서의 사람들(유대교인과 기독교인)이여! 우리와 그대들 모두에게 공평한 다음의 말씀으로 오라 :`,
+        `‘우리는 하나님 이외에 그 어떤 것도 경배하지 않고 그분께 대등한 존재를 두지 않으며 하나님이 아닌, 우리 중의 누군가를 주님으로 삼지 않겠노라.’`,
+        `‘ 그 후에도 그들이 돌아선다면 그대들(무슬림들)은 말하라 : ‘그대들은 우리가 무슬림임을 증언하시오.’`
+      ],
+      [
+        `Di': “O gente della Scrittura, addivenite ad una dichiarazione comune tra noi e voi:`,
+        `[e cioè] che non adoreremo altri che Allah, senza nulla associarGli, e che non prenderemo alcuni di noi come signori all'infuori di Allah”.`,
+        `Se poi volgono le spalle, allora dite: “Testimoniate che noi siamo musulmani”`
+      ],
+      [
+        `Powiedz: "O ludu Księgi! Dochodźcie do słowa jednakowego dla was i dla nas: abyśmy nie czcili nikogo innego,`,
+        `jak tylko Boga, abyśmy nie dodawali Jemu niczego za współtowarzyszy i aby jedni z nas nie brali sobie innych ' jako panów,`,
+        `poza Bogiem." A jeśli oni się odwrócą, to powiedzcie: "Bądźcie świadkami, że my jesteśmy całkowicie poddani`
+      ],
+      [
+        `Скажи: «О люди Писання! Прийдімо ж до єдиного слова між нами і між вами — що ми не будемо поклонятися нікому,`,
+        `окрім Аллага, і не будемо нікого додавати Йому як рівного, і не будемо вважати за Господа когось іншого з нас чи з вас,`,
+        `а тільки Аллага!» А якщо вони відвернуться, то скажи: «Засвідчіть же, що ми — віддані Йому!»`
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 64`
   },
 
   {
@@ -293,6 +627,117 @@ const verses = [{
       ]
     ],
     number: `سورة آل عمران / Al-'Imran، الآية 190`
+  },
+
+  {
+    arabic: [
+      `الَّذِينَ يَذْكُرُونَ اللَّهَ قِيَامًا وَقُعُودًا وَعَلَىٰ جُنُوبِهِمْ`,
+      `وَيَتَفَكَّرُونَ فِي خَلْقِ السَّمَاوَاتِ`,
+      `وَالْأَرْضِ رَبَّنَا مَا خَلَقْتَ هَٰذَا بَاطِلًا سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ`
+    ],
+    translations: [
+      [
+        `Who remember Allah while standing or sitting or [lying] on their sides and give thought to the creation of the heavens and the earth,`,
+        `[saying], "Our Lord, You did not create this aimlessly;`,
+        `exalted are You [above such a thing]; then protect us from the punishment of the Fire`
+      ],
+      [
+        `qui, debout, assis, couchés sur leurs côtés,`,
+        `invoquent Allah et méditent sur la création des cieux et de la terre (disant): «Notre Seigneur!`,
+        `Tu n'as pas créé cela en vain. Gloire à Toi! Garde-nous du châtiment du Feu`
+      ],
+      [
+        `que recuerdan a Alá de pie, sentados o echados,`,
+        `y que meditan en la creación de los cielos y de la tierra:«¡Señor!`,
+        `No has creado todo esto en vano ¡Gloria a Ti! ¡Presérvanos del castigo del Fuego!»`
+      ],
+      [
+        `которые поминают Аллаха стоя,`,
+        `сидя и на боку и размышляют о сотворении небес и земли: «Господь наш! Ты не сотворил это понапрасну.`,
+        `Пречист Ты! Защити же нас от мучений в Огне`
+      ],
+      [
+        `die Allahs stehend, sitzend und auf der Seite (liegend) gedenken und über die Schöpfung der Himmel und der Erde nachdenken:`,
+        `"Unser Herr, Du hast (all) dies nicht umsonst erschaffen.`,
+        `Preis sei Dir! Bewahre uns vor der Strafe des (Höllen)feuers`
+      ],
+      [
+        `de som minns Gud när de står, när de sitter och när de lägger sig till vila, och som,`,
+        `när de begrundar himlarnas och jordens skapelse [ber med dessa ord]: "Herre!`,
+        `Du har inte skapat [allt] detta i blindo. Stor är Du i Din härlighet! Förskona oss från Eldens straff`
+      ],
+      [
+        `Iad siúd a chuimhníonn ar Allah agus iad ina seasamh nó ina suí nó ina luí ar a dtaobh,`,
+        `agus a mhachnaíonn ar chruthú na bhflaitheas agus na talún: A Thiarna,`,
+        `ní gan chuspóir a chruthaigh Tú é seo; moladh duit! Mar sin, cosain sinn ó phionós na Tine.`
+      ],
+      [
+        `Degenen die Allah gedenken terwijl zij staan en zitten on op hun zij liggen en nadenken over de schepping van de hemelen en de aarde,`,
+        `(zeggend:) "Onze Heer,`,
+        `U heeft dit (alles) niet voor niets geschapen, glorie zij U, bescherm ons dus tegen de bestraffing van de Hel`
+      ],
+      [
+        `جو کھڑے اور بیٹھے اور لیٹے (ہر حال میں) خدا کو یاد کرتے اور آسمان اور زمین`,
+        `کی پیدائش میں غور کرتے (اور کہتے ہیں) کہ اے پروردگار! تو نے اس (مخلوق) کو بے`,
+        `فائدہ نہیں پیدا کیا تو پاک ہے تو (قیامت کے دن) ہمیں دوزخ کے عذاب سے بچائیو`
+      ],
+      [
+        `(yaitu) orang-orang yang mengingat Allah sambil berdiri, duduk atau dalam keadaan berbaring,`,
+        `dan mereka memikirkan tentang penciptaan langit dan bumi (seraya berkata), "Ya Tuhan kami,`,
+        `tidaklah Engkau menciptakan semua ini sia-sia; Mahasuci Engkau, lindungilah kami dari azab neraka`
+      ],
+      [
+        `Onlar ayakta iken, otururken, yan yatarken Allah'ı anarlar;`,
+        `göklerin ve yerin yaratılışını düşünürler: "Rabbimiz!`,
+        `Sen bunu boşuna yaratmadın, Sen münezzehsin. Bizi ateşin azabından koru`
+      ],
+      [
+        `همانان كه خدا را [در همه احوال‌] ايستاده و نشسته، و به پهلو آرميده ياد مى‌كنند،`,
+        `و در آفرينش آسمانها و زمين مى‌انديشند [كه:] پروردگارا،`,
+        `اينها را بيهوده نيافريده‌اى؛ منزهى تو! پس ما را از عذاب آتش دوزخ در امان بدار`
+      ],
+      [
+        `যাঁরা দাঁড়িয়ে, বসে, ও শায়িত অবস্থায় আল্লাহকে স্মরণ করে এবং চিন্তা গবেষণা করে আসমান ও জমিন সৃষ্টির বিষযে,`,
+        `(তারা বলে) পরওয়ারদেগার!`,
+        `এসব তুমি অনর্থক সৃষ্টি করনি। সকল পবিত্রতা তোমারই, আমাদিগকে তুমি দোযখের শাস্তি থেকে বাঁচাও।`
+      ],
+      [
+        `Que se lembram de Allah, estando de pé e assentados e deitados ,`,
+        `e refletem na criação dos céus e da terra e dizem: "Senhor nosso!`,
+        `Não criaste tudo isto em vão. Glorificado sejas! Então, guarda-nos do castigo do Fogo`
+      ],
+      [
+        `他们站着，坐着，躺着记念真主，并思维天地的创造，`,
+        `（他们说）：我们的主啊！你没有徒然地创造这个世界。`,
+        `我们赞颂你超绝万物，求你保护我们，免受火狱的刑罚。`
+      ],
+      [
+        `または立ち，または座り，または横たわって（不断に）アッラーを唱念し，`,
+        `天と地の創造に就いて考える者は言う。「主よ，あなたは徒らに，これを御創りになったのではないのです。`,
+        `あなたの栄光を讃えます。火の懲罰からわたしたちを救って下さい。`
+      ],
+      [
+        `그들은 서서도, 앉아서도, 누워서도 하나님을 기억하고 하늘과 대지의 창조에 관하여 숙고하는 자들이라.`,
+        `“저희의 주님이시여! 당신께서는 아무 목적 없이 이것을 창조하신 것이 아닙니다.`,
+        `완벽하신 당신이십니다! 그러니 불지옥의 벌으로부터 저희를 구해 주십시오.”`
+      ],
+      [
+        `che in piedi, seduti o coricati su un fianco ricordano Allah e meditano sulla creazione dei cieli e della terra,`,
+        `[dicendo]: “Signore,`,
+        `non hai creato tutto questo invano. Gloria a Te! Preservaci dal castigo del Fuoco`
+      ],
+      [
+        `Dla tych, którzy wspominają Boga, stojąc, siedząc i leżąc, dla tych,`,
+        `którzy rozmyślają nad stworzeniem niebios i ziemi: Panie nasz!`,
+        `Nie stworzyłeś tego nadaremnie. Niech Ci będzie chwała! Uchroń nas od kary ognia i`
+      ],
+      [
+        `які згадують Аллага стоячи, сидячи та лежачи,`,
+        `які роздумують над творінням небес і землі: «Господи наш!`,
+        `Ти не створив усе це марно. Преславний Ти! Врятуй же нас від кари вогнем`
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 191`
   },
 
   {
@@ -641,6 +1086,228 @@ const verses = [{
       ]
     ],
     number: `سورة النساء / An-Nisa، الآية 170`
+  },
+
+  {
+    arabic: [
+      `يَا أَيُّهَا النَّاسُ قَدْ جَاءَكُمْ بُرْهَانٌ مِنْ رَبِّكُمْ`,
+      `وَأَنْزَلْنَا إِلَيْكُمْ نُورًا مُبِينًا`,
+      ``
+    ],
+    translations: [
+      [
+        `O mankind,`,
+        `there has come to you a conclusive proof from your Lord,`,
+        `and We have sent down to you a clear light`
+      ],
+      [
+        `O gens! Certes,`,
+        `une preuve évidente vous est venue de la part de votre Seigneur.`,
+        `Et Nous avons fait descendre vers vous une lumière éclatante`
+      ],
+      [
+        `¡Hombres!`,
+        `Os ha venido de vuestro Señor una prueba.`,
+        `Y os hemos hecho bajar una Luz manifiesta`
+      ],
+      [
+        `О люди!`,
+        `К вам уже явилось доказательство от вашего Господа,`,
+        `и Мы ниспослали вам ясный свет`
+      ],
+      [
+        `O ihr Menschen,`,
+        `zu euch ist nunmehr ein Beweis von eurem Herrn gekommen,`,
+        `und Wir haben zu euch ein deutliches Licht hinabgesandt`
+      ],
+      [
+        `MÄNNISKOR! Ni har tagit emot bevis [för`,
+        `sanningen] från er Herre och Vi har gett`,
+        `er ett klart ljus [som skall lysa er]`
+      ],
+      [
+        `A dhaoine uaisle! Go deimhin,`,
+        `tháinig fianaise chinnte chugaibh ó bhur dTiarna,`,
+        `agus chuireamar solas follasach anuas chugaibh.`
+      ],
+      [
+        `O mensen, er is voor jullie waarlijk een bewijs`,
+        `van jullie Heer gekomen en Wij hebben een duidelijk`,
+        `Licht (do Koran) over jullie doen neerdalen`
+      ],
+      [
+        `لوگو تمہارے پروردگار کی طرف سے تمہارے پاس دلیل`,
+        `(روشن) آچکی ہے اور ہم نے (کفر اور ضلالت کا اندھیرا`,
+        `دور کرنے کو) تمہاری طرف چمکتا ہوا نور بھیج دیا ہے`
+      ],
+      [
+        `Wahai manusia! Sesungguhnya telah sampai kepadamu bukti kebenaran dari Tuhanmu,`,
+        `(Muhammad dengan mukjizatnya) dan telah Kami turunkan kepadamu cahaya yang terang benderang (Alquran)`,
+        ``
+      ],
+      [
+        `Ey İnsanlar!`,
+        `Rabbiniz'den size açık bir delil geldi,`,
+        `size apaçık bir nur, Kuran indirdik`
+      ],
+      [
+        `اى مردم،`,
+        `در حقيقت براى شما از جانب پروردگارتان برهانى آمده است،`,
+        `و ما به سوى شما نورى تابناك فرو فرستاده‌ايم`
+      ],
+      [
+        `হে মানবকুল! তোমাদের পরওয়ারদেগারের পক্ষ`,
+        `থেকে তোমাদের নিকট সনদ পৌঁছে গেছে। আর আমি`,
+        `তোমাদের প্রতি প্রকৃষ্ট আলো অবতীর্ণ করেছি।`
+      ],
+      [
+        `Ó humanos! Com efeito,`,
+        `chegou-vos uma provança de vosso Senhor,`,
+        `e fizemos descer, para vós, evidente luz`
+      ],
+      [
+        `众人啊！`,
+        `从你们的主派遣来的明证确已来临你们，`,
+        `我已降示你们一种明显的光明。`
+      ],
+      [
+        `人びとよ，主から確証が既にあなたがたに齎されたのである。`,
+        `われは明らかな光明をあなたがたに下したのである。`,
+        ``
+      ],
+      [
+        `백성들이여 주님으로부터 너희에게`,
+        `증언이 도래하였으니 이는 하나님이`,
+        `너희에게 광명을 주고자 함이라`
+      ],
+      [
+        `Uomini! Vi è giunta una prova da parte del vostro Signore.`,
+        `E abbiamo fatto scendere su di voi una Luce chiarissima`,
+        ``
+      ],
+      [
+        `O ludzie! Otrzymaliście`,
+        `dowód od waszego Pana i`,
+        `zesłaliśmy wam światło jasne`
+      ],
+      [
+        `О люди!`,
+        `Прийшов до вас доказ від Господа вашого!`,
+        `І зіслали Ми вам світло ясне`
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 174`
+  },
+
+  {
+    arabic: [
+      `وَإِذَا جَاءَكَ الَّذِينَ يُؤْمِنُونَ بِآيَاتِنَا فَقُلْ سَلَامٌ عَلَيْكُمْ ۖ`,
+      `كَتَبَ رَبُّكُمْ عَلَىٰ نَفْسِهِ الرَّحْمَةَ ۖ`,
+      `أَنَّهُ مَنْ عَمِلَ مِنْكُمْ سُوءًا بِجَهَالَةٍ ثُمَّ تَابَ مِنْ بَعْدِهِ وَأَصْلَحَ فَأَنَّهُ غَفُورٌ رَحِيمٌ`
+    ],
+    translations: [
+      [
+        `And when those come to you who believe in Our verses, say, "Peace be upon you.`,
+        `Your Lord has decreed upon Himself mercy:`,
+        `that any of you who does wrong out of ignorance and then repents after that and corrects himself - indeed, He is Forgiving and Merciful`
+      ],
+      [
+        `Et lorsque viennent vers toi ceux qui croient à nos versets (le Coran), dis: «Que la paix soit sur vous!`,
+        `Votre Seigneur S'est prescrit à Lui-même la miséricorde. Et quiconque d'entre vous a fait un mal par ignorance,`,
+        `et ensuite s'est repenti et s'est réformé... Il est, alors, Pardonneur et Miséricordieux»`
+      ],
+      [
+        `Cuando vengan a ti los que creen en Nuestros signos, di: «¡Paz sobre vosotros!»`,
+        `Vuestro Señor Se ha prescrito la misericordia, de modo que si uno de vosotros obra mal por ignorancia,`,
+        `pero luego se arrepiente y enmienda... Él es indulgente, misericordioso`
+      ],
+      [
+        `Когда к тебе приходят те, которые уверовали в Наши знамения, говори им: «Мир вам!`,
+        `Ваш Господь предписал себе быть Милосердным, и если кто из вас сотворит зло по своему невежеству,`,
+        `а затем раскается и станет совершать праведные деяния, то ведь Он - Прощающий, Милосердный»`
+      ],
+      [
+        `Und wenn diejenigen, die an Unsere Zeichen glauben, zu dir kommen, dann sag: Friede sei auf euch!`,
+        `Euer Herr hat Sich Selbst Barmherzigkeit vorgeschrieben: Wer von euch in Unwissenheit Böses tut,`,
+        `aber danach dann bereut und (es) wieder gutmacht, so ist Er Allvergebend und Barmherzig`
+      ],
+      [
+        `Och när de som tror på Våra budskap kommer till dig, säg då: "Fred vare med er!`,
+        `Er Herre har för Sig stadfäst nådens och barmhärtighetens [lag];`,
+        `den av er som av okunnighet gör orätt och som därefter ångrar vad han gjort och vill bättra sig [skall finna] Honom ständigt förlåtande, barmhärtig`
+      ],
+      [
+        `Agus nuair a thagann iad siúd a chreideann inár gcomharthaí chugat, abair: Síocháin oraibh.`,
+        `D'ordaigh bhur dTiarna an trócaire air Féin:`,
+        `an té ar bhur measc a dhéanann olc as aineolas agus a chaitheann aithrí ina dhiaidh sin agus a leasaíonn é féin, go deimhin tá Sé Maiteach, Trócaireach.`
+      ],
+      [
+        `En wanneer degenen die in Onze Tekenen geloven tot jou komen, zeg dan: Salâmoen 'alaikoem (Vrede zij met jullie)."`,
+        `Jullie Heer heeft Zichzelf de Barmhartigheid voorgeschreven.`,
+        `Indien een van jullie uit onwetendheid slecht doet en dan daarna berouw heeft en zich betert: voorwaar, dan is Hij Vergeveinsgezind, Meest Barmhartig`
+      ],
+      [
+        `اور جب تمہارے پاس ایسے لوگ آیا کریں جو ہماری آیتوں پر ایمان لاتے ہیں تو (ان سے) سلام علیکم`,
+        `کہا کرو خدا نے اپنی ذات (پاک) پر رحمت کو لازم کرلیا ہے کہ جو کوئی تم میں نادانی سے کوئی`,
+        `بری حرکت کر بیٹھے پھر اس کے بعد توبہ کرلے اور نیکوکار ہوجائے تو وہ بخشنے والا مہربان ہے`
+      ],
+      [
+        `Dan apabila orang-orang yang beriman kepada ayat-ayat Kami datang kepadamu, maka katakanlah, "Salāmun 'alaikum" (selamat sejahtera untuk kamu)."`,
+        `Tuhanmu telah menetapkan sifat kasih sayang pada diri-Nya, (yaitu) barang siapa berbuat kejahatan di antara kamu karena kebodohan,`,
+        `kemudian dia bertobat setelah itu dan memperbaiki diri, maka Dia Maha Pengampun, Maha Penyayang`
+      ],
+      [
+        `Ayetlerimize inananlar sana gelince: "Size selam olsun" de. Rabbiniz,`,
+        `sizden kim bilmeyerek fenalık işler de arkasından tövbe eder ve nefsini düzeltirse,`,
+        `ona rahmet etmeyi kendi üzerine almıştır. O, bağışlar ve merhamet eder`
+      ],
+      [
+        `و چون كسانى كه به آيات ما ايمان دارند، نزد تو آيند، بگو: «درود بر شما»،`,
+        `پروردگارتان رحمت را بر خود مقرّر كرده كه هر كس از شما به نادانى كار بدى كند و آنگاه به توبه و صلاح آيد،`,
+        `پس وى آمرزنده مهربان است`
+      ],
+      [
+        `আর যখন তারা আপনার কাছে আসবে যারা আমার নিদর্শনসমূহে বিশ্বাস করে,`,
+        `তখন আপনি বলে দিনঃ তোমাদের উপর শান্তি বর্ষিত হোক। তোমাদের পালনকর্তা রহমত করা নিজ দায়িত্বে লিখে নিয়েছেন যে, তোমাদের মধ্যে যে কেউ অজ্ঞতাবশতঃ কোন মন্দ কাজ করে,`,
+        `অনন্তর এরপরে তওবা করে নেয় এবং সৎ হয়ে যায়, তবে তিনি অত্যন্ত ক্ষমাশীল, করুণাময়।`
+      ],
+      [
+        `E, quando os que crêem em Nossos sinais te chegarem, dize:`,
+        `""Que a paz seja sobre vós! Vosso Senhor prescreveu a Si mesmo a misericórdia:`,
+        `quem de vós faz um mal, por ignorância; em seguida, por certo Ele é`
+      ],
+      [
+        `确信我的迹象的人来见你的时候，你说：祝你们平安。你们的主，`,
+        `曾以慈悯为自己的责任。你们中谁无知地作恶，`,
+        `然后悔过自新，真主必定赦宥谁，因为他确是至赦的，确是至慈的。`
+      ],
+      [
+        `わが印を信じる者があなたの許に来たならば，言ってやるがいい。「あなたがたに平安あれ。`,
+        `あなたがたの主は，慈悲を御自分の務めとされる。それであなたがたの中，無知で悪事を行った者も，`,
+        `悔悟してその身を修めるならば（許される），本当にかれは寛容にして慈悲深くあられる。」`
+      ],
+      [
+        `말씀을 믿는 이들이 그대에 게 왔을때 너희 위에 평화가 있을것이라 너희`,
+        `주님은 자비를 베푸 시고자 현시하셨으니 너희 가운데알지 못하여 죄지은자`,
+        `있다면 곧 회개하고 선을 행하라 실로 그분 은 관용과 자비로 충만하심이라`
+      ],
+      [
+        `Quando vengono a te quelli che credono nei Nostri segni, di': “Pace su di voi!`,
+        `Il vostro Signore Si è imposto la misericordia. Quanto a chi di voi commette il male per ignoranza e poi si pente e si corregge,`,
+        `in verità Allah è perdonatore, misericordioso”`
+      ],
+      [
+        `Kiedy przyjdą do ciebie ci; którzy wierzą w Nasze znaki, to powiedz: "Pokój wam!"`,
+        `Wasz Pan przepisał samemu Sobie miłosierdzie. Tak aby ten spośród was, kto popełni zło przez nieświadomość,`,
+        `następnie nawróci się i czyni dobro... zaprawdę, On jest przebaczający, litościwy`
+      ],
+      [
+        `І коли до тебе приходять ті, які увірували в Наші знамення, то скажи: «Мир вам!`,
+        `Ваш Господь зробив для Себе милість обов’язком; і як хто з вас вчинить зло через невігластво,`,
+        `а потім покається й робитиме добро, то Він — Прощаючий, Милосердний!»`
+      ]
+    ],
+    number: `سورة الأنعام / Al-An'am، الآية 54`
   },
 
   {
@@ -1097,6 +1764,117 @@ const verses = [{
 
   {
     arabic: [
+      `وَاكْتُبْ لَنَا فِي هَٰذِهِ الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ إِنَّا هُدْنَا إِلَيْكَ ۚ`,
+      `قَالَ عَذَابِي أُصِيبُ بِهِ مَنْ أَشَاءُ ۖ وَرَحْمَتِي وَسِعَتْ كُلَّ شَيْءٍ ۚ`,
+      `فَسَأَكْتُبُهَا لِلَّذِينَ يَتَّقُونَ وَيُؤْتُونَ الزَّكَاةَ وَالَّذِينَ هُمْ بِآيَاتِنَا يُؤْمِنُونَ`
+    ],
+    translations: [
+      [
+        `And decree for us in this world [that which is] good and [also] in the Hereafter; indeed, we have turned back to You."`,
+        `[Allah] said, "My punishment - I afflict with it whom I will, but My mercy encompasses all things."`,
+        `So I will decree it [especially] for those who fear Me and give zakah and those who believe in Our verses`
+      ],
+      [
+        `Et prescris pour nous le bien ici-bas ainsi que dans l'au-delà. Nous voilà revenus vers Toi, repentis.»`,
+        `Et (Allah) dit: «Je ferai que Mon châtiment atteigne qui Je veux. Et Ma miséricorde embrasse toute chose.`,
+        `Je la prescrirai à ceux qui (Me) craignent, acquittent la Zakât, et ont foi en Nos signes`
+      ],
+      [
+        `Destínanos bien en la vida de acá y en la otra. Nos hemos vuelto a Ti». Dijo:`,
+        `«Inflijo Mi castigo a quien quiero, pero Mi misericordia es omnímoda».`,
+        `Destinaré a ella a quienes teman a Alá y den el azaque y a quienes crean en Nuestros signos`
+      ],
+      [
+        `Предпиши для нас добро в этом мире и в Последней жизни, ибо мы возвращаемся к Тебе (каемся перед Тобой).`,
+        `Он сказал: «Я поражаю Своим наказанием, кого пожелаю, а Моя милость объемлет всякую вещь.`,
+        `Я предпишу ее для тех, которые будут богобоязненны, станут выплачивать закят и уверуют в Наши знамения`
+      ],
+      [
+        `Und bestimme für uns in diesem Diesseits Gutes und auch im Jenseits! Gewiß, wir haben zu Dir zurückgefunden."`,
+        `Er sagte: "Mit Meiner Strafe treffe Ich, wen Ich will, aber Meine Barmherzigkeit umfaßt alles.`,
+        `Ich werde sie für die bestimmen, die gottesfürchtig sind und die Abgabe entrichten und die an Unsere Zeichen glauben`
+      ],
+      [
+        `Låt gott komma oss till del i detta liv och i det eviga livet. Ja, Vi vänder tillbaka till Dig [i djup ånger]."`,
+        `[Gud] svarade: "Jag låter Mitt straff drabba den Jag vill;`,
+        `men Min nåd och Min barmhärtighet når överallt och Min nåd skänker Jag dem som fruktar Gud och ger åt de behövande och som tror på Mina budskap`
+      ],
+      [
+        `Agus ordaigh dúinn sa saol seo an mhaith, agus sa Saol Eile freisin; go deimhin, d'iompaíomar chugat. Dúirt Sé:`,
+        `Mo phionós, buailim leis an té is mian liom, ach tá mo thrócaire ag clúdach gach ruda. Mar sin,`,
+        `ordóidh mé í go sonrach dóibh siúd a bhfuil eagla orthu romham, a thugann an zakat, agus a chreideann inár gcomharthaí.`
+      ],
+      [
+        `En schrijf ons in deze wereld het goede voor en (ook) in het Hiernamaals. Voorwaar, wij wonden ons in berouw tot U."`,
+        `Hij (Allah) zei: "Met Mijn bestraffing tref Ik wie Ik wil en Mijn Barmhartigheid omvat alle dingen.`,
+        `Ik zal haar voorschrijven aan degenen die (Mij) vrezen, die de zakât geven en die in Mijn Tekenen geloven`
+      ],
+      [
+        `اور ہمارے لیے اس دنیا میں بھی بھلائی لکھ دے اور آخرت میں بھی۔ ہم تیری طرف رجوع ہوچکے۔ فرمایا کہ جو`,
+        `میرا عذاب ہے اسے تو جس پر چاہتا ہوں نازل کرتا ہوں اور جو میری رحمت ہے وہ ہر چیز کو شامل ہے۔ میں اس`,
+        `کو ان لوگوں کے لیے لکھ دوں گا جو پرہیزگاری کرتے اور زکوٰة دیتے اور ہماری آیتوں پر ایمان رکھتے ہیں`
+      ],
+      [
+        `Dan tetapkanlah untuk kami kebaikan di dunia ini dan di akhirat. Sungguh, kami kembali (bertobat) kepada Engkau. (Allah) berfirman,`,
+        `"Siksa-Ku akan Aku timpakan kepada siapa yang Aku kehendaki dan rahmat-Ku meliputi segala sesuatu.`,
+        `Maka akan Aku tetapkan rahmat-Ku bagi orang-orang yang bertakwa, yang menunaikan zakat dan orang-orang yang beriman kepada ayat-ayat Kami`
+      ],
+      [
+        `Bu dünyada ve ahirette bizim için güzel olanı yaz; biz Sana yöneldik" dedi. Allah: "Azabıma dilediğim kimseyi uğratırım, rahmetim herşeyi kaplamıştır; bunu Allah'a karşı gelmekten sakınanlara, zekat verenlere,`,
+        `ayetlerimize inanıp, yanlarındaki Tevrat ve İncil'de yazılı buldukları, okuyup yazması olmayan peygambere uyanlara yazacağız. O peygamber, onlara, uygun olanı emreder ve fenalıktan meneder, temiz şeyleri helal,`,
+        `murdar şeyleri haram kılar, onların ağır yüklerini indirir, zor tekliflerini hafifletir. Bu peygambere inanan, hürmet eden, yardım eden, onunla gönderilen nura uyanlar yok mu? İşte onlar saadete erenlerdir" dedi`
+      ],
+      [
+        `«و براى ما در اين دنيا نيكى مقرّر فرما و در آخرت [نيز]، زيرا كه ما به سوى تو بازگشته‌ايم.» فرمود:`,
+        `«عذاب خود را به هر كس بخواهم مى‌رسانم، و رحمتم همه چيز را فرا گرفته است؛`,
+        `و به زودى آن را براى كسانى كه پرهيزگارى مى‌كنند و زكات مى‌دهند و آنان كه به آيات ما ايمان مى‌آورند، مقرّر مى‌دارم.»`
+      ],
+      [
+        `আর পৃথিবীতে এবং আখেরাতে আমাদের জন্য কল্যাণ লিখে দাও। আমরা তোমার দিকে প্রত্যাবর্তন করছি। আল্লাহ তা’আলা বললেন,`,
+        `আমার আযাব তারই উপর পরিব্যাপ্ত। সুতরাং তা তাদের জন্য লিখে দেব যারা ভয় রাখে,`,
+        `যাকাত দান করে এবং যারা আমার আয়তসমুহের উপর বিশ্বাস স্থাপন করে।`
+      ],
+      [
+        `E prescreve-nos, nesta vida terrena, algo de bom, e na Derradeira Vida também. Por certo, para Ti,`,
+        `voltamo-nos arrependidos." Allah disse: "Com Meu castigo, alcançarei a quem quiser. E Minha misericórdia abrange todas as cousas.`,
+        `Então, prescrevê-la-ei aos que são piedosos, e concedem as esmolas e aos que crêem em Nossos sinais`
+      ],
+      [
+        `求你在今世和后世为我们注定幸福，我们确已对你悔过了。主说：`,
+        `我的刑罚，是用去惩治我欲惩治的人的，我的慈恩是包罗万物的。`,
+        `我将注定以我的慈恩归于敬畏真主，完纳天课，而且信仰我的迹象者。`
+      ],
+      [
+        `またわたしたちのために，現世も来世でも，幸福を授けて下さい。本当にわたしたちは，改峻してあなたの許に戻って来ました。`,
+        `」かれは仰せられた。「われは，自分が欲する者に懲罰を加える。またわれの慈悲は，`,
+        `凡てのものにあまねくおよぶ。それ故われは，主を畏れ，喜捨をなし，またわが印を信じる者にそれを授けるであろう。`
+      ],
+      [
+        `주여 현세와 내세에서 저희에게 복을 주소서 저희는 당신께 로 귀의하였나이다 이때 하나님 께서`,
+        `말씀이 있었으니 내가 원하 는 자에게 벌을 내릴 것이라 그러나 나의 자비가 모든 것을`,
+        `포용하나니 하나님을 경외하고 자선을 베풀며 하나님의 말씀을 믿는 자 들에게 은해가 있게 하리라`
+      ],
+      [
+        `Annoveraci un bene in questa vita terrena e un bene nell'Altra vita. Ecco che, pentiti, ritorniamo a Te”.`,
+        `E [Allah] disse: “Farò sì che il Mio castigo colpisca chi voglio, ma la Mia misericordia abbraccia ogni cosa:`,
+        `la riserverò a coloro che [Mi] temono e pagano la decima, a coloro che credono nei Nostri segni`
+      ],
+      [
+        `Zapisz nam to, co jest piękne w życiu na tym świecie i w życiu ostatecznym! âOto nawróciliśmy się ku Tobie!"`,
+        `Powiedział: "Ja dosięgam Moją karą, kogo chcę, a Moje miłosierdzie obejmuje każdą rzecz.`,
+        `Ja zapiszę to tym, którzy są bogobojni, tym, którzy dają jałmużnę, tym, którzy wierzą w Nasze znaki`
+      ],
+      [
+        `Даруй нам найкраще в цьому житті й у житті наступному. Ми повертаємося до Тебе!»`,
+        `Він відповів: «Я вражаю Своєю карою, кого побажаю, але милість Моя охоплює кожну річ!`,
+        `Я дарую її тим, які богобоязливі, які дають закят і які вірують у Наші знамення`
+      ]
+    ],
+    number: `سورة الأعراف / Al-A'raf، الآية 156`
+  },
+
+  {
+    arabic: [
       `قُلْ يَا أَيُّهَا النَّاسُ إِنِّي رَسُولُ اللَّهِ إِلَيْكُمْ جَمِيعًا`,
       `الَّذِي لَهُ مُلْكُ السَّمَاوَاتِ وَالْأَرْضِ ۖ لَا إِلَٰهَ إِلَّا هُوَ`,
       `يُحْيِي وَيُمِيتُ ۖ فَآمِنُوا بِاللَّهِ وَرَسُولِهِ`
@@ -1204,6 +1982,117 @@ const verses = [{
       ]
     ],
     number: `سورة الأعراف / Al-A'raf، الآية 158`
+  },
+
+  {
+    arabic: [
+      `وَإِذْ أَخَذَ رَبُّكَ مِنْ بَنِي آدَمَ مِنْ ظُهُورِهِمْ ذُرِّيَّتَهُمْ`,
+      `وَأَشْهَدَهُمْ عَلَىٰ أَنْفُسِهِمْ أَلَسْتُ بِرَبِّكُمْ ۖ قَالُوا بَلَىٰ ۛ شَهِدْنَا ۛ`,
+      `أَنْ تَقُولُوا يَوْمَ الْقِيَامَةِ إِنَّا كُنَّا عَنْ هَٰذَا غَافِلِينَ`
+    ],
+    translations: [
+      [
+        `And [mention] when your Lord took from the children of Adam - from their loins - their descendants and made them testify of themselves,`,
+        `[saying to them], "Am I not your Lord?" They said, "Yes,`,
+        `we have testified." [This] - lest you should say on the day of Resurrection, "Indeed, we were of this unaware`
+      ],
+      [
+        `Et quand ton Seigneur tira une descendance des reins des fils d'Adam et les fit témoigner sur eux-mêmes:`,
+        `«Ne suis-Je pas votre Seigneur?» Ils répondirent: «Mais si, nous en témoignons...»`,
+        `- afin que vous ne disiez point, au Jour de la Résurrection: «Vraiment, nous n'y avons pas fait attention»`
+      ],
+      [
+        `Y cuando tu Señor sacó de los riñones de los hijos de Adán a su descendencia y les hizo atestiguar contra sí mismos:`,
+        `«¿No soy yo vuestro Señor?» Dijeron: «¡Claro que sí,`,
+        `damos fe!» No sea que dijerais el día de la Resurrección: «No habíamos reparado en ello»`
+      ],
+      [
+        `Вот твой Господь вынул из чресл сынов Адама их потомство и заставил их засвидетельствовать против самих себя:`,
+        `«Разве Я - не ваш Господь?». Они сказали: «Да, мы свидетельствуем».`,
+        `Это - для того, чтобы в День воскресения вы не говорили: «Мы не знали этого»`
+      ],
+      [
+        `Und als dein Herr aus den Kindern Adams, aus ihren Rücken,`,
+        `ihre Nachkommenschaft nahm und sie gegen sich selbst zeugen ließ: "Bin Ich nicht euer Herr?" Sie sagten: "Doch, wir bezeugen (es)!"`,
+        `(Dies,) damit ihr nicht am Tag der Auferstehung sagt: "Wir waren dessen unachtsam`
+      ],
+      [
+        `Och när din Herre låter nya släkten utgå från Adams söners länder, begär Han av dem att de skall vittna om sig själva [och frågar]:`,
+        `"Är Jag inte er Herre?" [Då] svarar de: "Jo, vi vittnar [att Du är vår Herre]!"`,
+        `[Detta sker] för att ni [människor] inte på Uppståndelsens dag skall säga: "Om detta var vi inte medvetna`
+      ],
+      [
+        `Agus [cuimhnigh] nuair a thóg do Thiarna ó chlann Adaimh, óna ndroimeanna, a sliocht,`,
+        `agus thug Sé orthu finné a thabhairt orthu féin: Nach mise bhur dTiarna? Dúirt siad: Sea, tá finné againn.`,
+        `[Rinneadh é seo] ar eagla go ndéarfadh sibh ar Lá an Aiséirí: Go deimhin, ní raibh a fhios againn é seo.`
+      ],
+      [
+        `En (gedenkt) toen jouw Heer het nageslacht van de Kinderen van Adam uit hun lendenen nam,`,
+        `en hen deed getuigen over zichzelf (en Hij zei:) "Ben Ik niet jullie Heer?" Zij zeiden: "Jazeker, dat getuigen wij."`,
+        `Opdat jullie op de Dag van de Opstanding niet zullen zeggen: "Wij waren hieromtrent achtelozen`
+      ],
+      [
+        `اور جب تمہارے پروردگار نے بنی آدم سے یعنی ان کی پیٹھوں سے ان کی اولاد نکالی تو ان سے خود ان کے مقابلے میں اقرار`,
+        `کرا لیا (یعنی ان سے پوچھا کہ) کیا تمہارا پروردگار نہیں ہوں۔ وہ کہنے لگے کیوں نہیں ہم گواہ ہیں (کہ تو ہمارا`,
+        `پروردگار ہے) ۔ یہ اقرار اس لیے کرایا تھا کہ قیامت کے دن (کہیں یوں نہ) کہنے لگو کہ ہم کو تو اس کی خبر ہی نہ تھی`
+      ],
+      [
+        `Dan (ingatlah) ketika Tuhanmu mengeluarkan dari sulbi (tulang belakang) anak cucu Adam keturunan mereka dan Allah mengambil kesaksian terhadap roh mereka (seraya berfirman),`,
+        `"Bukanlah Aku ini Tuhanmu?" Mereka menjawab, "Betul (Engkau Tuhan kami), kami bersaksi."`,
+        `(Kami lakukan yang demikian itu) agar di hari Kiamat kamu tidak mengatakan, "Sesungguhnya ketika itu kami lengah terhadap ini`
+      ],
+      [
+        `Rabbin, insanoğlunun sulbünden soyunu alıp devam ettirmiş, onlara: "Ben sizin Rabbiniz değil miyim" demiş ve buna kendilerini şahit tutmuştu.`,
+        `Onlar da: "Evet şahidiz" demişlerdi. Bu, kıyamet günü, "Bizim bundan haberimiz yoktu" dersiniz veya "Daha önce babalarımız Allah'a ortak koşmuşlardı,`,
+        `biz de onlardan sonra gelen bir soyuz, bizi, boşa çalışanların yaptıklarından ötürü yok eder misin?" dersiniz diyedir`
+      ],
+      [
+        `و هنگامى را كه پروردگارت از پشت فرزندان آدم،`,
+        `ذريه آنان را برگرفت و ايشان را بر خودشان گواه ساخت كه آيا پروردگار شما نيستم؟ گفتند: «چرا،`,
+        `گواهى داديم» تا مبادا روز قيامت بگوييد ما از اين [امر] غافل بوديم`
+      ],
+      [
+        `আর যখন তোমার পালনকর্তা বনী আদমের পৃষ্টদেশ থেকে বের করলেন তাদের সন্তানদেরকে এবং নিজের উপর তাদেরকে প্রতিজ্ঞা করালেন,`,
+        `আমি কি তোমাদের পালনকর্তা নই ? তারা বলল, অবশ্যই,`,
+        `আমরা অঙ্গীকার করছি। আবার না কেয়ামতের দিন বলতে শুরু কর যে, এ বিষয়টি আমাদের জানা ছিল না।`
+      ],
+      [
+        `E lembra-te, Muhammad, de quando teu Senhor tomou, dos filhos de Adão - do dorso deles - seus descendentes e fê-los testemunhas de si mesmos,`,
+        `dizendo-lhes: "Não sou vosso Senhor?" Disseram: "Sim,`,
+        `testemunhamo-lo." Isso, para não dizerdes, no Dia da Ressurreição: "Por certo, a isto estávamos desatentos`
+      ],
+      [
+        `当时，你的主从阿丹的子孙的背脊中取出他们的后裔，并使他们招认。主说：`,
+        `难道我不是你们的主吗？他们说：怎么不是呢？我们已作证了。`,
+        `（我所以要使他们招认），是因为不愿你们在复活日说，我们生前确实忽视了这件事。`
+      ],
+      [
+        `あなたがたの主が，アーダムの子孫の背骨からかれらの子孫を取り出され，かれらを自らの証人となされた時を思え。`,
+        `（その時かれは仰せられた。）「われは，あなたがたの主ではないか。」 かれらは申し上げた。「はい，わたしたちは証言いたします。`,
+        `」これは復活の日にあなたがたに ，「わたしたちは，このことを本当に注意しませんでした。」と言わせないためである。`
+      ],
+      [
+        `주님께서 아담의 후손들을 일으켜 그들로 하여금 스스로 중 언케 하리라는 말씀이 계셨으니 내가 너희`,
+        `주님이 아니더뇨 라고 하시니 그렇습니다 저희는 주님이 심을 증언하나이다 라고 그들이 대답하더라`,
+        `이는 너희가 심판의 날 우리는 이에 관하여 알지 못하 였습니다 라고 말하지 아니 하도 륵 함이라`
+      ],
+      [
+        `E quando il Signore trasse, dai lombi dei figli di Adamo, tutti i loro discendenti e li fece testimoniare contro loro stessi [disse]:`,
+        `“Non sono il vostro Signore?”. Risposero: “Sì, lo attestiamo”,`,
+        `[Lo facemmo] perché nel Giorno della Resurrezione non diciate: “Veramente eravamo incoscienti”`
+      ],
+      [
+        `I oto wziął twój Pan z lędźwi synów Adama - ich potomstwo, i nakazał im zaświadczyć wobec samych siebie:`,
+        `"Czy Ja nie jestem waszym Panem?" Oni powiedzieli: " Tak!`,
+        `Zaświadczamy" - a byście nie powiedzieli w Dniu Zmartwychwstania: "Nie dbaliśmy o to`
+      ],
+      [
+        `Ось твій Господь вивів із плоті синів Адама нащадків їхніх,`,
+        `змусивши свідчити про самих себе: «Чи не Я ваш Господь?» Ті відповіли: «Так, ми свідчимо!»`,
+        `— щоб не говорили ви в День Воскресіння: «Воістину, ми не знали про це!»`
+      ]
+    ],
+    number: `سورة الأعراف / Al-A'raf، الآية 172`
   },
 
   {
@@ -1653,6 +2542,117 @@ const verses = [{
 
   {
     arabic: [
+      `وَاللَّهُ يَدْعُو إِلَىٰ دَارِ السَّلَامِ`,
+      `وَيَهْدِي مَنْ يَشَاءُ إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ`,
+      ``
+    ],
+    translations: [
+      [
+        `And Allah invites to the`,
+        `Home of Peace and guides whom`,
+        `He wills to a straight path`
+      ],
+      [
+        `Allah appelle à la demeure`,
+        `de la paix et guide qui Il`,
+        `veut vers un droit chemin`
+      ],
+      [
+        `Alá invita a la Morada de`,
+        `la Paz y dirige a quien`,
+        `Él quiere a una vía recta`
+      ],
+      [
+        `Аллах призывает к Обители мира`,
+        `и благополучия и наставляет на`,
+        `прямой путь тех, кого пожелает`
+      ],
+      [
+        `Allah lädt zur Wohnstätte des Friedens ein und leitet,`,
+        `wen Er will,`,
+        `zu einem geraden Weg`
+      ],
+      [
+        `GUD KALLAR [människan] till den eviga`,
+        `fredens boning och Han leder den`,
+        `till den raka vägen som vill [vägledas]`
+      ],
+      [
+        `Agus tugann Allah cuireadh chun Theach`,
+        `na Síochána, agus treoraíonn Sé an`,
+        `té is mian leis chun conair dhíreach.`
+      ],
+      [
+        `En Allah roept naar het Huis van de`,
+        `Vrede (Dâroessalâm, het Paradijs) en Hij`,
+        `leidt wie Hij wil naar een recht Pad`
+      ],
+      [
+        `اور خدا سلامتی کے گھر کی`,
+        `طرف بلاتا ہے۔ اور جس کو چاہتا`,
+        `ہے سیدھا راستہ دکھاتا ہے`
+      ],
+      [
+        `Dan Allah menyeru (manusia) ke Dārussalām`,
+        `(surga), dan memberikan petunjuk kepada orang`,
+        `yang Dia kehendaki ke jalan yang lurus (Islam)`
+      ],
+      [
+        `Allah, cennete`,
+        `çağırır ve dilediğini`,
+        `doğru yola eriştirir`
+      ],
+      [
+        `و خدا [شما را] به سراى سلامت`,
+        `فرا مى‌خواند، و هر كه را`,
+        `بخواهد به راه راست هدايت مى‌كند`
+      ],
+      [
+        `আর আল্লাহ শান্তি-নিরাপত্তার`,
+        `আলয়ের প্রতি আহবান জানান এবং`,
+        `যাকে ইচ্ছা সরলপথ প্রদর্শন করেন।`
+      ],
+      [
+        `E Allah convoca à Morada da paz e guia,`,
+        `a quem quer,`,
+        `à senda reta`
+      ],
+      [
+        `真主召人到平安的住宅，`,
+        `并引导其所欲引导的人走上正路。`,
+        ``
+      ],
+      [
+        `本当にアッラーは，`,
+        `人を平安の家に招き，`,
+        `また御好みになられた者を正しい道に導かれる。`
+      ],
+      [
+        `그러나 하나님은 평화의 집`,
+        `으로 불러 그분이 원하시는`,
+        `이들 을 옳은 길로 인도하시니라`
+      ],
+      [
+        `Allah chiama alla dimora`,
+        `della pace e guida chi`,
+        `Egli vuole sulla Retta via`
+      ],
+      [
+        `A Bóg wzywa do siedziby`,
+        `pokoju i prowadzi ku`,
+        `drodze prostej, kogo chce`
+      ],
+      [
+        `Аллаг кличе в обитель миру й веде,`,
+        `кого побажає,`,
+        `до прямого шляху`
+      ]
+    ],
+    number: `سورة يونس / Yunus، الآية 25`
+  },
+
+  {
+    arabic: [
       `يَا أَيُّهَا النَّاسُ قَدْ جَاءَتْكُم مَوْعِظَةٌ مِّن رَّبِّكُمْ`,
       `وَشِفَاءٌ لِمَا فِي الصُّدُورِ`,
       `وَهُدًى وَرَحْمَةٌ لِّلْمُؤْمِنِينَ`
@@ -1986,6 +2986,117 @@ const verses = [{
 
   {
     arabic: [
+      `قُلْ هَٰذِهِ سَبِيلِي أَدْعُو إِلَى اللَّهِ ۚ`,
+      `عَلَىٰ بَصِيرَةٍ أَنَا وَمَنِ اتَّبَعَنِي ۖ`,
+      `وَسُبْحَانَ اللَّهِ وَمَا أَنَا مِنَ الْمُشْرِكِينَ`
+    ],
+    translations: [
+      [
+        `Say, "This is my way; I invite to Allah with insight,`,
+        `I and those who follow me. And exalted is Allah;`,
+        `and I am not of those who associate others with Him`
+      ],
+      [
+        `Dis: «Voici ma voie, j'appelle les gens à [la religion] d'Allah,`,
+        `moi et ceux qui me suivent, nous basant sur une preuve évidente.`,
+        `Gloire à Allah! Et je ne suis point du nombre des associateurs`
+      ],
+      [
+        `Di: «Éste es mi camino. Basado en una prueba visible,`,
+        `llamo a Alá, y los que me siguen también.`,
+        `¡Gloria a Alá! Yo no soy de los asociadores»`
+      ],
+      [
+        `Скажи: «Таков мой путь.`,
+        `Я и мои последователи призываем к Аллаху согласно убеждению.`,
+        `Пречист Аллах, и я не являюсь одним из многобожников»`
+      ],
+      [
+        `Sag: Das ist mein Weg: Ich rufe zu Allah aufgrund eines sichtbaren Hinweises,`,
+        `ich und diejenigen, die mir folgen.`,
+        `Preis sei Allah! Und ich gehöre nicht zu den Götzendienern`
+      ],
+      [
+        `Säg [Muhammad]: "Detta är min väg: jag uppmanar [er] med klarsyn och insikt att dyrka Gud - jag och de som följer mig.`,
+        `Stor är Gud i Sin härlighet - [fjärran från] de medhjälpare som de sätter vid Hans sida och som jag tar avstånd från`,
+        ``
+      ],
+      [
+        `Abair: Is é seo mo bhealach; tugaim cuireadh chun Allah le léargas,`,
+        `mé féin agus iad siúd a leanann mé. Agus is ard é Allah;`,
+        `agus nílim ar na daoine a chuireann comhpháirtithe leis.`
+      ],
+      [
+        `Zeg: "Dit is mijn Weg (godsdienst),`,
+        `ik en degenen die mij volgen roepen op tot Allah, op grond van een duidelijk bewijs.`,
+        `Heilig is Allah, en ik behoor niet tot de veelgodenaanbidders`
+      ],
+      [
+        `کہہ دو میرا رستہ تو یہ ہے میں خدا کی طرف بلاتا ہوں (از روئے یقین`,
+        `وبرہان) سمجھ بوجھ کر میں بھی (لوگوں کو خدا کی طرف بلاتا ہوں) اور میرے`,
+        `پیرو بھی۔ اور خدا پاک ہے۔ اور میں شرک کرنے والوں میں سے نہیں ہوں`
+      ],
+      [
+        `Katakanlah (Muhammad), "Inilah jalanku,`,
+        `aku dan orang-orang yang mengikutiku mengajak (kamu) kepada Allah dengan yakin,`,
+        `Mahasuci Allah, dan aku tidak termasuk orang-orang musyrik`
+      ],
+      [
+        `De ki: "Benim yolum budur;`,
+        `ben ve bana uyanlar bilerek insanları Allah'a çağırırız. Allah'ı noksan sıfatlardan tenzih ederim.`,
+        `Ben asla Allah'a eş koşanlardan değilim`
+      ],
+      [
+        `بگو: «اين است راه من،`,
+        `كه من و هر كس (پيروى‌ام) كرد با بينايى به سوى خدا دعوت مى‌كنيم،`,
+        `و منزّه است خدا، و من از مشركان نيستم.»`
+      ],
+      [
+        `বলে দিনঃ এই আমার পথ। আমি আল্লাহর দিকে বুঝে`,
+        `সুঝে দাওয়াত দেই আমি এবং আমার অনুসারীরা।`,
+        `আল্লাহ পবিত্র। আমি অংশীবাদীদের অন্তর্ভুক্ত নই।`
+      ],
+      [
+        `Dize: "Este é o meu caminho: convoco-vos a Allah.`,
+        `Estou fundado sobre clarividência, eu e quem me segue.`,
+        `E Glorificado seja Allah! E não sou dos idólatras`
+      ],
+      [
+        `你说：这是我的道，我号召人们信仰真主，`,
+        `我和随从我的人，都是依据明证的。`,
+        `（我证）真主，超绝万物！我不是以物配主的。`
+      ],
+      [
+        `言ってやるがいい。「これこそわたしの道。わたしも，`,
+        `わたしに従う者たちも明瞭な証拠の上に立って，アッラーに呼びかける。`,
+        `アッラーに讃えあれ。わたしたちは多神を信じる者ではない。」`
+      ],
+      [
+        `백성들에게 일러가로되 이 것이 나의 길이라 나와 그리고`,
+        `나 를 따르는 백성들은 예증으로써 하나님을 경배하나이다`,
+        `하나님이 여 영광을 받으소서 저는 불신자 중에 있지 않나이다`
+      ],
+      [
+        `Di': “Ecco la mia via: invito ad Allah in tutta chiarezza,`,
+        `io stesso e coloro che mi seguono.`,
+        `Gloria ad Allah, non sono uno dei politeisti”`
+      ],
+      [
+        `Powiedz: "Oto jest moja droga!`,
+        `Ja wzywam do Boga na podstawie jasnego dowodu - ja i ci, którzy postępują za mną.`,
+        `Chwała niech będzie Bogu! Ja nie należę do bałwochwalców`
+      ],
+      [
+        `Скажи: «Це — мій шлях. Разом із тими, хто йде за мною,`,
+        `я закликаю до Аллага так, як мені дано це зрозуміти.`,
+        `Преславний Аллаг! Я не багатобожник!»`
+      ]
+    ],
+    number: `سورة يوسف / Yusuf، الآية 108`
+  },
+
+  {
+    arabic: [
       `الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ`,
       `أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ`,
       ``
@@ -2093,6 +3204,117 @@ const verses = [{
       ]
     ],
     number: `سورة الرعد / Ar-Ra'd، الآية 28`
+  },
+
+  {
+    arabic: [
+      `الر ۚ`,
+      `كِتَابٌ أَنْزَلْنَاهُ إِلَيْكَ لِتُخْرِجَ النَّاسَ مِنَ الظُّلُمَاتِ إِلَى النُّورِ بِإِذْنِ رَبِّهِمْ إِلَىٰ صِرَاطِ الْعَزِيزِ الْحَمِيدِ`,
+      ``
+    ],
+    translations: [
+      [
+        `Alif, Lam, Ra. [This is] a Book which We have revealed to you, [O Muhammad],`,
+        `that you might bring mankind out of darknesses into the light by permission of their Lord - to the path of the Exalted in Might,`,
+        `the Praiseworthy`
+      ],
+      [
+        `Alif, Lâm, Râ. (Voici) un livre que nous avons fait descendre sur toi,`,
+        `afin que - par la permission de leur Seigneur - tu fasses sortir les gens des ténèbres vers la lumière,`,
+        `sur la voie du Tout Puissant, du Digne de louange`
+      ],
+      [
+        `Alif, Lam, Ra. Ésta es una Escritura que te hemos revelado para que,`,
+        `con permiso de su Señor, saques a los hombres de las tinieblas a la luz,`,
+        `a la vía del Poderoso, del Digno de Alabanza`
+      ],
+      [
+        `Алиф. Лам. Ра. Мы ниспослали тебе Писание,`,
+        `чтобы ты вывел людей с дозволения их Господа из мраков к свету - на путь Могущественного,`,
+        `Достохвального`
+      ],
+      [
+        `Alif-Lam-Ra. Dies ist ein Buch, das Wir zu dir hinabgesandt haben,`,
+        `damit du die Menschen mit der Erlaubnis ihres Herrn aus den Finsternissen hinaus ins Licht bringst,`,
+        `auf den Weg des Allmächtigen und Lobenswürdigen`
+      ],
+      [
+        `Alif lam ra. [Detta är] en helig Skrift som Vi har uppenbarat för dig,`,
+        `för att du skall leda människorna ut ur mörkret till ljuset enligt deras Herres vilja,`,
+        `till den väg, som för till den Allsmäktige som allt lov och pris tillhör`
+      ],
+      [
+        `Alif, Lám, Rá. [Is] Leabhar é a chuireamar anuas chugat, [a Mhuhamad],`,
+        `chun go dtabharfá an chine daonna amach as na dorchadais isteach sa solas le cead a dTiarna,`,
+        `chuig conair an Chumhachtaigh, an Mholta.`
+      ],
+      [
+        `Alif, Lam, Ra. (Dit is) een Boek dat Wij aan jou (O Moehammad) neergezonden hebben,`,
+        `opdat jij de mensen uit de duisternissen naar het licht zult voeren,`,
+        `met verlof van hun Heer, naar het Pad van de Almachtige, de Geprezene`
+      ],
+      [
+        `الٓرٰ۔ (یہ) ایک (پُرنور) کتاب (ہے) اس کو ہم نے تم پر اس لیے نازل`,
+        `کیا ہے کہ لوگوں کو اندھیرے سے نکال کر روشنی کی طرف لے جاؤ (یعنی)`,
+        `ان کے پروردگار کے حکم سے غالب اور قابل تعریف (خدا) کے رستے کی طرف`
+      ],
+      [
+        `Alif Lām Rā\`.`,
+        `(Ini adalah) Kitab yang Kami turunkan kepadamu (Muhammad) agar engkau mengeluarkan manusia dari kegelapan kepada cahaya terang-benderang dengan izin Tuhan,`,
+        `(yaitu) menuju jalan Tuhan Yang Mahaperkasa, Maha Terpuji`
+      ],
+      [
+        `Elif, Lam, Ra; Bu, Allah'ın izniyle, insanları karanlıklardan aydınlığa,`,
+        `güçlü ve övülmeğe layık, göklerde ve yerde olanların sahibi Allah'ın yoluna çıkarman için,`,
+        `sana indirdiğimiz Kitaptır. Uğrayacakları çetin azabdan dolayı vay kafirlerin haline`
+      ],
+      [
+        `الف، لام، راء.`,
+        `كتابى است كه آن را به سوى تو فرود آورديم تا مردم را به اذن پروردگارشان از تاريكيها به سوى روشنايى بيرون آورى:`,
+        `به سوى راه آن شكست ناپذير ستوده`
+      ],
+      [
+        `আলিফ-লাম-রা; এটি একটি গ্রন্থ,`,
+        `যা আমি আপনার প্রতি নাযিল করেছি-যাতে আপনি মানুষকে অন্ধকার থেকে আলোর দিকে বের করে আনেন-পরাক্রান্ত,`,
+        `প্রশংসার যোগ্য পালনকর্তার নির্দেশে তাঁরই পথের দিকে।`
+      ],
+      [
+        `Alif, Lãm, Rã. Este é um Livro, que fizemos descer para ti, Muhammad,`,
+        `a fim de fazeres sair os homens das trevas para a Luz,`,
+        `com a permissão de seu Senhor, para a senda dO Todo-Poderoso, dO Louvável`
+      ],
+      [
+        `艾列弗，俩目，拉仪。（这是）一章经，`,
+        `我把它降示你，以便你奉主的命令而把众人从重重黑暗中引入光明，`,
+        `引入强大的、可颂的主的大道。`
+      ],
+      [
+        `アリフ・ラーム・ラー。われはあなたに，`,
+        `あなたが主の御許しによって，人びとを暗黒から光明に，`,
+        `偉大な讃美すべき方の道に導き出すために啓典を下した。`
+      ],
+      [
+        `알리프 람 라 이것은 하나님이 그대에게 계시한 한권의 성서`,
+        `이거늘 이로 말미암아 백성들을 암흑에서 모든 칭송을 흘로`,
+        `받을 그분의 길 광명으로 주님의 허락 에 따라 인도 하라`
+      ],
+      [
+        `Alif, Lâm, Râ. Abbiamo fatto scendere su di te un Libro,`,
+        `affinché, con il permesso del loro Signore, tu tragga le genti dalle tenebre alla luce,`,
+        `sulla via dell'Eccelso, del Degno di lode`
+      ],
+      [
+        `Alif. Lam. Ra. Oto Księga; posłaliśmy ją tobie,`,
+        `abyś wyprowadził ludzi z ciemności ku światłu - za pozwoleniem ich Pana - ku drodze Potężnego,`,
+        `Godnego Chwały`
+      ],
+      [
+        `Аліф. Лям. Ра. Це Писання зіслано тобі для того,`,
+        `щоб ти вивів людей із темряви до світла з дозволу Господа їхнього,`,
+        `до шляху Великого, Хвалимого`
+      ]
+    ],
+    number: `سورة إبراهيم / Ibrahim، الآية 1`
   },
 
   {
@@ -2537,6 +3759,117 @@ const verses = [{
       ]
     ],
     number: `سورة النحل / An-Nahl، الآية 98`
+  },
+
+  {
+    arabic: [
+      `ادْعُ إِلَىٰ سَبِيلِ رَبِّكَ بِالْحِكْمَةِ وَالْمَوْعِظَةِ الْحَسَنَةِ ۖ`,
+      `وَجَادِلْهُمْ بِالَّتِي هِيَ أَحْسَنُ ۚ`,
+      `إِنَّ رَبَّكَ هُوَ أَعْلَمُ بِمَنْ ضَلَّ عَنْ سَبِيلِهِ ۖ وَهُوَ أَعْلَمُ بِالْمُهْتَدِينَ`
+    ],
+    translations: [
+      [
+        `Invite to the way of your Lord with wisdom and good instruction,`,
+        `and argue with them in a way that is best. Indeed, your Lord is most knowing of who has strayed from His way,`,
+        `and He is most knowing of who is [rightly] guided`
+      ],
+      [
+        `Par la sagesse et la bonne exhortation appelle (les gens) au sentier de ton Seigneur.`,
+        `Et discute avec eux de la meilleure façon.`,
+        `Car c'est ton Seigneur qui connaît le mieux celui qui s'égare de Son sentier et c'est Lui qui connaît le mieux ceux qui sont bien guidés`
+      ],
+      [
+        `Llama al camino de tu Señor con sabiduría y buena exhortación.`,
+        `Discute con ellos de la manera más conveniente.`,
+        `Tu Señor conoce mejor que nadie a quien se extravía de Su camino y conoce mejor que nadie a quien está bien dirigido`
+      ],
+      [
+        `Призывай на путь Господа мудростью и добрым увещеванием и веди спор с ними наилучшим образом.`,
+        `Воистину, твой Господь лучше знает тех,`,
+        `кто сошел с Его пути, и лучше знает тех, кто следует прямым путем`
+      ],
+      [
+        `Rufe zum Weg deines Herrn mit Weisheit und schöner Ermahnung,`,
+        `und streite mit ihnen in bester Weise. Gewiß, dein Herr kennt sehr wohl,`,
+        `wer von Seinem Weg abirrt, und Er kennt sehr wohl die Rechtgeleiteten`
+      ],
+      [
+        `KALLA [människorna, Muhammad] med kloka och goda ord att följa din Herres väg,`,
+        `och lägg fram argumenten på ett måttfullt och försynt sätt;`,
+        `din Herre vet bäst vem det är som avviker från Hans väg och Han vet bäst vem det är som följer Hans ledning`
+      ],
+      [
+        `Tabhair cuireadh chuig conair do Thiarna le críonnacht agus le comhairle mhaith,`,
+        `agus déan argóint leo ar an mbealach is fearr. Go deimhin, is é do Thiarna is eolaí ar an té a chuaigh ar seachrán óna chonair,`,
+        `agus is Eisean is eolaí ar iad siúd atá ar an treo ceart.`
+      ],
+      [
+        `Nodig uit tot de Weg van jouw Heer, met wijsheid en goed onderricht,`,
+        `en wissel met hen van gedachten op de beste wijze. Voorwaar,`,
+        `jouw Heer weet het beste wie van Zijn Weg afgedwaald is en Hij weet beter wie de rechtgeleiden zijn`
+      ],
+      [
+        `(اے پیغمبر) لوگوں کو دانش اور نیک نصیحت سے اپنے پروردگار کے رستے کی طرف بلاؤ۔`,
+        `اور بہت ہی اچھے طریق سے ان سے مناظرہ کرو۔ جو اس کے رستے سے بھٹک گیا تمہارا`,
+        `پروردگار اسے بھی خوب جانتا ہے اور جو رستے پر چلنے والے ہیں ان سے بھی خوب واقف ہے`
+      ],
+      [
+        `Serulah (manusia) kepada jalan Tuhanmu dengan hikmah dan pengajaran yang baik,`,
+        `dan berdebatlah dengan mereka dengan cara yang baik. Sesungguhnya Tuhanmu,`,
+        `Dialah yang lebih mengetahui siapa yang sesat dari jalan-Nya dan Dialah yang lebih mengetahui siapa yang mendapat petunjuk`
+      ],
+      [
+        `Rabbinin yoluna, hikmetle, güzel öğütle çağır;`,
+        `onlarla en güzel şekilde tartış; doğrusu Rabbin, kendi yolundan sapanları daha iyi bilir.`,
+        `O, doğru yolda olanları da en iyi bilir`
+      ],
+      [
+        `با حكمت و اندرز نيكو به راه پروردگارت دعوت كن و با آنان به [شيوه‌اى‌] كه نيكوتر است مجادله نماى.`,
+        `در حقيقت، پروردگار تو به [حال‌] كسى كه از راه او منحرف شده داناتر،`,
+        `و او به [حال‌] راه‌يافتگان [نيز ]داناتر است`
+      ],
+      [
+        `আপন পালনকর্তার পথের প্রতি আহবান করুন জ্ঞানের কথা বুঝিয়ে ও উপদেশ শুনিয়ে উত্তমরূপে এবং তাদের সাথে বিতর্ক করুন পছন্দ যুক্ত পন্থায়। নিশ্চয় আপনার পালনকর্তাই ঐ ব্যক্তি সম্পর্কে বিশেষ ভাবে জ্ঞাত রয়েছেন,`,
+        `যে তাঁর পথ থেকে বিচ্যুত হয়ে পড়েছে এবং তিনিই ভাল জানেন তাদেরকে,`,
+        `যারা সঠিক পথে আছে।`
+      ],
+      [
+        `Convoca ao caminho de teu Senhor, com a sabedoria e a bela exortação,`,
+        `e discute com eles, da melhor maneira. Por certo,`,
+        `Allah é bem Sabedor de quem se descaminha de Seu caminho e Ele é bem Sabedor dos que são guiados`
+      ],
+      [
+        `你应凭智慧和善言而劝人遵循主道，`,
+        `你应当以最优秀的态度与人辩论，你的主的确知道谁是背离他的正道的，`,
+        `他的确知道谁是遵循他的正道的。`
+      ],
+      [
+        `英知と良い話し方で，（凡ての者を）あなたの主の道に招け。`,
+        `最善の態度でかれらと議論しなさい。あなたの主は，`,
+        `かれの道から迷う者と，また導かれる者を最もよく知っておられる。`
+      ],
+      [
+        `지혜와 아름다운 설교로 모두를 하나님의 길로 인도하되`,
+        `가 장 훌륭한 방법으로 그들을 맞으 라 하나님은 그분의`,
+        `길을 벗어난 자와 바른 길로 가는자를 알고 계 심이라`
+      ],
+      [
+        `Chiama al sentiero del tuo Signore con la saggezza e la buona parola e discuti con loro`,
+        `nella maniera migliore. In verità il tuo Signore conosce meglio [di ogni altro] chi si`,
+        `allontana dal Suo sentiero e conosce meglio [di ogni altro] coloro che sono ben guidati`
+      ],
+      [
+        `Wzywaj ku drodze twego Pana z mądrością i pięknym napomnieniem!`,
+        `Rozmawiaj z nimi w najlepszy sposób! Zaprawdę, twój Pan zna najlepiej tych,`,
+        `którzy zeszli z Jego drogi; i On zna najlepiej tych, którzy idą drogą prostą`
+      ],
+      [
+        `Клич на шлях Господа свого з мудрістю й добрим повчанням і сперечайся з ними тільки тим,`,
+        `що найкраще. Воістину, твій Господь краще знає,`,
+        `хто збився зі шляху Його, і Він краще знає, хто йде прямим шляхом`
+      ]
+    ],
+    number: `سورة النحل / An-Nahl، الآية 125`
   },
 
   {
@@ -3096,6 +4429,117 @@ const verses = [{
 
   {
     arabic: [
+      `إِنَّنِي أَنَا اللَّهُ لَا إِلَٰهَ إِلَّا أَنَا`,
+      `فَاعْبُدْنِي`,
+      `وَأَقِمِ الصَّلَاةَ لِذِكْرِي`
+    ],
+    translations: [
+      [
+        `Indeed, I am Allah.`,
+        `There is no deity except Me,`,
+        `so worship Me and establish prayer for My remembrance`
+      ],
+      [
+        `Certes, c'est Moi Allah:`,
+        `point de divinité que Moi.`,
+        `Adore-Moi donc et accomplis la Salât pour te souvenir de Moi`
+      ],
+      [
+        `Yo soy, ciertamente, Alá.`,
+        `No hay más dios que Yo. ¡Sírveme, pues,`,
+        `y haz la azalá para recordarme`
+      ],
+      [
+        `Воистину, Я - Аллах! Нет божества,`,
+        `кроме Меня. Поклоняйся же Мне и совершай намаз,`,
+        `чтобы помнить обо Мне`
+      ],
+      [
+        `Gewiß, Ich bin Allah.`,
+        `Es gibt keinen Gott außer Mir.`,
+        `So diene Mir und verrichte das Gebet zu Meinem Gedenken`
+      ],
+      [
+        `Jag är Gud. Ingen gudom finns utom Jag.`,
+        `Dyrka Mig därför och förrätta bönen för att minnas Mig`,
+        ``
+      ],
+      [
+        `Go deimhin, is mise Allah. Níl aon dia ach Mise,`,
+        `mar sin déan adhradh dom agus seas an phaidir chun go gcuimhneofar orm.`,
+        ``
+      ],
+      [
+        `Voorwaarm, Ik ben Allah,`,
+        `er is geen god dan Ik.`,
+        `Aanbid mij daarom en onderhoud de shalât om Mij te gedenken`
+      ],
+      [
+        `بےشک میں ہی خدا ہوں۔ میرے سوا`,
+        `کوئی معبود نہیں تو میری عبادت کرو`,
+        `اور میری یاد کے لئے نماز پڑھا کرو`
+      ],
+      [
+        `Sungguh, Aku ini Allah,`,
+        `tidak ada tuhan selain Aku,`,
+        `maka sembahlah Aku dan laksanakanlah salat untuk mengingat Aku`
+      ],
+      [
+        `Şüphesiz Ben Allah'ım,`,
+        `Benden başka tanrı yoktur; Bana kulluk et;`,
+        `Beni anmak için namaz kıl`
+      ],
+      [
+        `منم، من، خدايى كه جز من خدايى نيست،`,
+        `پس مرا پرستش كن و به ياد من نماز برپا دار`,
+        ``
+      ],
+      [
+        `আমিই আল্লাহ আমি ব্যতীত কোন ইলাহ`,
+        `নেই। অতএব আমার এবাদত কর এবং`,
+        `আমার স্মরণার্থে নামায কায়েম কর।`
+      ],
+      [
+        `Por certo, eu sou Allah;`,
+        `não existe deus além de Mim; então,`,
+        `adora-Me e cumpre a oração em lembrança de Mim`
+      ],
+      [
+        `我确是真主，除我外，`,
+        `绝无应受崇拜者。你应当崇拜我，`,
+        `当为记念我而谨守拜功。`
+      ],
+      [
+        `本当にわれはアッラーである。`,
+        `われの外に神はない。だからわれに仕え，`,
+        `われを心に抱いて礼拝の務めを守れ。`
+      ],
+      [
+        `실로 내가 하나님이요 나`,
+        `외에는 신이 없나니 나만을 경배하`,
+        `고 예배하며 나만을 생각하라`
+      ],
+      [
+        `In verità, Io sono Allah:`,
+        `non c'è dio all'infuori di Me.`,
+        `AdoraMi ed esegui l'orazione per ricordarti di Me`
+      ],
+      [
+        `Zaprawdę, Ja jestem Bogiem! Nie ma boga,`,
+        `jak tylko Ja!`,
+        `Czcij Mnie więc i odprawiaj modlitwę, wspominając Mnie`
+      ],
+      [
+        `Воістину, Я — Бог і немає бога,`,
+        `крім Мене! Тож поклоняйся Мені й звершуй молитву,`,
+        `щоб пам’ятати про Мене`
+      ]
+    ],
+    number: `سورة طه / Ta-Ha، الآية 14`
+  },
+
+  {
+    arabic: [
       `وَمَن يَأْتِهِ مُؤْمِنًا قَدْ عَمِلَ الصَّالِحَاتِ فَأُولَٰئِكَ لَهُمُ الدَّرَجَاتُ الْعُلَىٰ`,
       `جَنَّاتُ عَدْنٍ تَجْرِي مِن تَحْتِهَا الْأَنْهَارُ`,
       `خَالِدِينَ فِيهَا ۚ وَذَٰلِكَ جَزَاءُ مَن تَزَكَّىٰ`
@@ -3203,6 +4647,117 @@ const verses = [{
       ]
     ],
     number: `سورة طه / Ta-Ha، الآيات 75-76`
+  },
+
+  {
+    arabic: [
+      `وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِلْعَالَمِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And We have not sent you, [O Muhammad], except as a mercy to the worlds`,
+        ``,
+        ``
+      ],
+      [
+        `Et Nous ne t'avons envoyé qu'en miséricorde pour l'univers`,
+        ``,
+        ``
+      ],
+      [
+        `Nosotros no te hemos enviado sino como misericordia para todo el mundo`,
+        ``,
+        ``
+      ],
+      [
+        `Мы отправили тебя только в качестве милости к мирам`,
+        ``,
+        ``
+      ],
+      [
+        `Und Wir haben dich nur als Barmherzigkeit für die Weltenbewohner gesandt`,
+        ``,
+        ``
+      ],
+      [
+        `Vi har sänt dig [Muhammad] enbart av nåd till alla folk`,
+        ``,
+        ``
+      ],
+      [
+        `Agus níor chuireamar thú, [a Mhuhamad], ach mar thrócaire do na saolta.`,
+        ``,
+        ``
+      ],
+      [
+        `En Wij hebben jou (O Moehammad) slechts gezonden als een barmhartigheid voor de werelden`,
+        ``,
+        ``
+      ],
+      [
+        `اور (اے محمدﷺ) ہم نے تم کو تمام جہان کے لئے رحمت (بنا کر) بھیجا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Kami tidak mengutus engkau (Muhammad) melainkan untuk (menjadi) rahmat bagi seluruh alam`,
+        ``,
+        ``
+      ],
+      [
+        `Biz seni ancak alemlere rahmet olarak gönderdik`,
+        ``,
+        ``
+      ],
+      [
+        `و تو را جز رحمتى براى جهانيان نفرستاديم`,
+        ``,
+        ``
+      ],
+      [
+        `আমি আপনাকে বিশ্ববাসীর জন্যে রহমত স্বরূপই প্রেরণ করেছি।`,
+        ``,
+        ``
+      ],
+      [
+        `E não te enviamos senão como misericórdia para os mundos`,
+        ``,
+        ``
+      ],
+      [
+        `我派遣你，只为怜悯全世界的人。`,
+        ``,
+        ``
+      ],
+      [
+        `われは只万有への慈悲として，あなたを遣わしただけである。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 그대를 보냄은 만백성에게 자비를 베풀기 위해서라`,
+        ``,
+        ``
+      ],
+      [
+        `Non ti mandammo se non come misericordia per il creato`,
+        ``,
+        ``
+      ],
+      [
+        `My posłaliśmy ciebie tylko jako miłosierdzie dla światów`,
+        ``,
+        ``
+      ],
+      [
+        `Ми відіслали тебе тільки як милість для світів`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنبياء / Al-Anbiya، الآية 107`
   },
 
   {
@@ -3540,6 +5095,117 @@ const verses = [{
 
   {
     arabic: [
+      `اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ ۚ مَثَلُ نُورِهِ كَمِشْكَاةٍ فِيهَا مِصْبَاحٌ ۖ الْمِصْبَاحُ فِي زُجَاجَةٍ ۖ`,
+      `الزُّجَاجَةُ كَأَنَّهَا كَوْكَبٌ دُرِّيٌّ يُوقَدُ مِنْ شَجَرَةٍ مُبَارَكَةٍ زَيْتُونَةٍ لَا شَرْقِيَّةٍ وَلَا غَرْبِيَّةٍ يَكَادُ زَيْتُهَا يُضِيءُ وَلَوْ لَمْ تَمْسَسْهُ نَارٌ ۚ`,
+      `نُورٌ عَلَىٰ نُورٍ ۗ يَهْدِي اللَّهُ لِنُورِهِ مَنْ يَشَاءُ ۚ وَيَضْرِبُ اللَّهُ الْأَمْثَالَ لِلنَّاسِ ۗ وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ`
+    ],
+    translations: [
+      [
+        `Allah is the Light of the heavens and the earth. The example of His light is like a niche within which is a lamp, the lamp is within glass,`,
+        `the glass as if it were a pearly [white] star lit from [the oil of] a blessed olive tree, neither of the east nor of the west, whose oil would almost glow even if untouched by fire.`,
+        `Light upon light. Allah guides to His light whom He wills. And Allah presents examples for the people, and Allah is Knowing of all things`
+      ],
+      [
+        `Allah est la Lumière des cieux et de la terre. Sa lumière est semblable à une niche où se trouve une lampe.`,
+        `La lampe est dans un (récipient de) cristal et celui-ci ressemble à un astre de grand éclat; son combustible vient d'un arbre béni: un olivier ni oriental ni occidental dont l'huile semble éclairer sans même que le feu la touche.`,
+        `Lumière sur lumière. Allah guide vers Sa lumière qui Il veut. Allah propose aux hommes des paraboles et Allah est Omniscient`
+      ],
+      [
+        `Alá es la Luz de los cielos y de la tierra. Su Luz es comparable a una hornacina en la que hay un pabilo encendido. El pabilo está en un recipiente de vidrio,`,
+        `que es como si fuera una estrella fulgurante. Se enciende de un árbol bendito, un olivo, que no es del Oriente ni del Occidente,`,
+        `y cuyo aceite casi alumbra aun sin haber sido tocado por el fuego. ¡Luz sobre Luz! Alá dirige a Su Luz a quien Él quiere. Alá propone parábolas a los hombres. Alá es omnisciente`
+      ],
+      [
+        `Аллах - Свет небес и земли. Его свет в душе верующего подобен нише, в которой находится светильник. Светильник заключен в стекло, а стекло подобно жемчужной звезде.`,
+        `Он возжигается от благословенного оливкового дерева, которое не освещается солнцем только с востока или только с запада. Его масло готово светиться даже без соприкосновения с огнем.`,
+        `Один свет поверх другого! Аллах направляет к Своему свету, кого пожелает. Аллах приводит людям притчи, и Аллах знает о всякой вещи`
+      ],
+      [
+        `Allah ist das Licht der Himmel und der Erde. Das Gleichnis seines Lichtes ist das einer Nische, in der eine Lampe ist. Die Lampe ist in einem Glas. Das Glas ist,`,
+        `als wäre es ein funkelnder Stern. Ihr Brennstoff kommt von einem gesegneten Baum, einem Ölbaum, weder östlich noch westlich, dessen Öl beinahe schon Helligkeit verbreitete,`,
+        `auch wenn das Feuer es nicht berührte. Licht über Licht. Allah führt zu Seinem Licht, wen Er will. Allah prägt den Menschen die Gleichnisse, und Allah weiß über alles Bescheid`
+      ],
+      [
+        `Gud är himlarnas och jordens ljus. Hans ljus kan liknas vid en nisch där en lykta står. Lyktan är [omsluten] av glas och glaset lyser med en stjärnas glans.`,
+        `[Det är en lykta] tänd [med olja] från ett välsignat träd, ett olivträd som varken tillhör öst eller väst och vars olja nästan lyser utan att eld har rört vid den.`,
+        `Ljus över ljus! Gud leder till Sitt ljus den Han vill och därför framställer Han liknelser för människorna. Gud har kunskap om allt`
+      ],
+      [
+        `Is é Allah Solas na bhflaitheas agus na talún. Is cosúil a sholas le nideog ina bhfuil lampa; tá an lampa laistigh de ghloine, an ghloine mar a bheadh réalta péarlach,`,
+        `lasta ó chrann olóige beannaithe, nach den oirthear ná den iarthar é, a ndéanfadh a ola solas beagnach fiú gan tine a theagmháil léi.`,
+        `Solas ar sholas. Treoraíonn Allah chun a sholais an té is mian leis. Agus cuireann Allah samplaí os comhair na ndaoine, agus tá Allah eolach ar gach rud.`
+      ],
+      [
+        `Allah geeft het licht aan de hemelen en de aarde. De gelijkenis van Zijn licht is met een nis met een lamp erin: de lamp bevindt zich in een glas.`,
+        `Het glas is als een stralende ster, die brandt (van de olie) van een gezegende olijfbloom, die niet van het Westen en niet het Oosten is. Haar olie verlicht,`,
+        `hoewel zij (nog) niet door het vuur aangemakt is. Licht op licht. Allah leidt naar Zijn licht wie Hij wil. En Allah maakt gelijkenissen voor de mensen. En Allah is Alwetend over alle zaken`
+      ],
+      [
+        `خدا آسمانوں اور زمین کا نور ہے۔ اس کے نور کی مثال ایسی ہے کہ گویا ایک طاق ہے جس میں چراغ ہے۔ اور چراغ ایک قندیل میں ہے۔ اور قندیل (ایسی صاف شفاف ہے کہ) گویا موتی کا سا چمکتا ہوا`,
+        `تارہ ہے اس میں ایک مبارک درخت کا تیل جلایا جاتا ہے (یعنی) زیتون کہ نہ مشرق کی طرف ہے نہ مغرب کی طرف۔ (ایسا معلوم ہوتا ہے کہ) اس کا تیل خواہ آگ اسے نہ بھی چھوئے جلنے کو تیار ہے`,
+        `(پڑی) روشنی پر روشنی (ہو رہی ہے) خدا اپنے نور سے جس کو چاہتا ہے سیدھی راہ دکھاتا ہے۔ اور خدا نے (جو مثالیں) بیان فرماتا ہے (تو) لوگوں کے (سمجھانے کے) لئے اور خدا ہر چیز سے واقف ہے`
+      ],
+      [
+        `Allah (pemberi) cahaya (kepada) langit dan bumi. Perumpamaan cahaya-Nya, seperti sebuah lubang yang tidak tembus, yang di dalamnya ada pelita besar. Pelita itu di dalam tabung kaca, (dan) tabung kaca itu bagaikan bintang yang berkilauan,`,
+        `yang dinyalakan dengan minyak dari pohon yang diberkahi, (yaitu) pohon zaitun yang tumbuh tidak di timur dan tidak pula di barat, yang minyaknya (saja) hampir-hampir menerangi, walaupun tidak disentuh api.`,
+        `Cahaya di atas cahaya (berlapis-lapis), Allah memberi petunjuk kepada cahaya-Nya bagi orang yang Dia kehendaki, dan Allah membuat perumpamaan-perumpamaan bagi manusia. Dan Allah Maha Mengetahui segala sesuatu`
+      ],
+      [
+        `Allah göklerin ve yerin Nur'udur. O'nun nuru, içinde ışık bulunan bir kandil yuvasına benzer. O ışık bir cam içindedir, cam ise,`,
+        `sanki inci gibi parlayan bir yıldızdır; bu ne yalnız doğuda ve ne de yalnız batıda bulunan bereketli zeytin ağacından yakılır. Ateş değmese bile,`,
+        `nerdeyse yağın kendisi aydınlatacak! Nur üstüne nurdur. Allah dilediğini nuruna kavuşturur. Allah insanlara misaller verir. O, herşeyi bilir`
+      ],
+      [
+        `خدا نور آسمانها و زمين است. مَثَل نور او چون چراغدانى است كه در آن چراغى، و آن چراغ در شيشه‌اى است.`,
+        `آن شيشه گويى اخترى درخشان است كه از درخت خجسته زيتونى كه نه شرقى است و نه غربى، افروخته مى‌شود. نزديك است كه روغنش -هر چند بدان آتشى نرسيده باشد- روشنى بخشد.`,
+        `روشنىِ بر روى روشنى است. خدا هر كه را بخواهد با نور خويش هدايت مى‌كند، و اين مَثَلها را خدا براى مردم مى‌زند و خدا به هر چيزى داناست`
+      ],
+      [
+        `আল্লাহ নভোমন্ডল ও ভূমন্ডলের জ্যোতি, তাঁর জ্যোতির উদাহরণ যেন একটি কুলঙ্গি, যাতে আছে একটি প্রদীপ, প্রদীপটি একটি কাঁচপাত্রে স্থাপিত,`,
+        `কাঁচপাত্রটি উজ্জ্বল নক্ষত্র সদৃশ্য। তাতে পুতঃপবিত্র যয়তুন বৃক্ষের তৈল প্রজ্বলিত হয়,`,
+        `যা পূর্বমুখী নয় এবং পশ্চিমমুখীও নয়। অগ্নি স্পর্শ না করলেও তার তৈল যেন আলোকিত হওয়ার নিকটবর্তী। জ্যোতির উপর জ্যোতি। আল্লাহ যাকে ইচ্ছা পথ দেখান তাঁর জ্যোতির দিকে। আল্লাহ মানুষের জন্যে দৃষ্টান্তসমূহ বর্ণনা করেন এবং আল্লাহ সব বিষয়ে জ্ঞাত।`
+      ],
+      [
+        `Allah é a luz dos céus e da terra. O exemplo de Sua luz é como o de um nicho, em que há uma lâmpada. A lâmpada está em um cristal.`,
+        `O cristal é como se fora astro brilhante. É aceso pelo óleo de uma bendita árvore olívea, nem de leste nem de oeste; seu óleo quase se ilumina, ainda que o não toque fogo algum.`,
+        `É luz sobre luz. Allah guia a Sua luz a quem quer. E Allah propõe, para os homens, os exemplos. E Allah, de todas as cousas, é Onisciente`
+      ],
+      [
+        `真主是天地的光明，他的光明象一座灯台，那座灯台上有一盏明灯，那盏明灯在一个玻璃罩里，`,
+        `那个玻璃罩仿佛一颗灿烂的明星， 用吉祥的橄榄油燃着那盏明灯；它不是东方的，也不是西方的，它的油，`,
+        `即使没有点火也几乎发光--光上加光--真主引导他所意欲者走向他的光明。真主为众人设了许多比喻，真主是全知万事的。`
+      ],
+      [
+        `アッラーは，天地の光である。かれの光を譬れば，燈を置いた，壁龕のようなものである。燈はガラスの中にある。ガラスは輝く星のよう。`,
+        `祝福されたオリーブの木に灯されている。（その木は）東方（の産）でもなく，西方（の産）でもなく，この油は，火が凡んど触れないのに光を放つ。光の上に光を添える。`,
+        `アッラーは御好みの者を，かれの御光に導かれる。アッラーは人びとのために，比喩を挙げられる。本当にアッラーは凡てのことを知っておられる。`
+      ],
+      [
+        `하나님은 하늘과 땅의 빛이 라 그 빛을 비유하사 벽위의 등잔과 같은 것으로 그 안에 등불 이 있으며 그 등불은 유리안에 있더라 그 유리는 축복받은`,
+        `올리 브 기름으로 별처럼 밝게 빛나도 다 그것은 동쪽에 있는 나무도 아 니요 서쪽에 있는 나무도 아니라 그 기름은 불이 닿지도 아니하나 더욱`,
+        `빛나 빛위에 빛을 터하도다 하나님은 그분이 원하는자를 그 빛으로 인도하시며 사람들 위에 예증을 보이시니 하나님은 모든 것을 아심으로 충만하시노라`
+      ],
+      [
+        `Allah è la luce dei cieli e della terra. La Sua luce è come quella di una nicchia in cui si trova una lampada, la lampada è in un cristallo,`,
+        `il cristallo è come un astro brillante; il suo combustibile viene da un albero benedetto, un olivo né orientale, né occidentale, il cui olio sembra illuminare,`,
+        `senza neppure essere toccato dal fuoco. Luce su luce. Allah guida verso la Sua luce chi vuole Lui e propone agli uomini metafore. Allah è onnisciente`
+      ],
+      [
+        `Bóg jest światłem niebios i ziemi. Jego światło jest podobne do niszy, w której jest lampa; lampa jest we szkle, a szkło jest jak gwiazda świecąca.`,
+        `Zapala się ona od drzewa błogosławionego - drzewa oliwnego, ani ze Wschodu, ani z Zachodu, którego oliwa prawie by świeciła,. nawet gdyby nie dotknął jej ogień.`,
+        `światło na świetle! Bóg prowadzi drogą prostą ku światłu, kogo chce. Bóg przytacza przykłady dla ludzi. Bóg o każdej rzeczy jest wszechwiedzący`
+      ],
+      [
+        `Аллаг — світло небес і землі. Світло Його схоже на нішу, в якій є світильник, світильник у склі, а скло — наче зірка сяюча.`,
+        `Горить вона від благословенного оливного дерева, ні східного, ні західного; прагне запалати олія його, хоча б вогонь і не торкнувся її.`,
+        `Світло над світлом! Аллаг веде до Свого світла того, кого побажає! Аллаг наводить притчі людям, і Аллаг про кожну річ знаючий`
+      ]
+    ],
+    number: `سورة النور / An-Nur، الآية 35`
+  },
+
+  {
+    arabic: [
       `وَإِنَّهُ لَتَنزِيلُ رَبِّ الْعَالَمِينَ`,
       `نَزَلَ بِهِ الرُّوحُ الْأَمِينُ`,
       `عَلَى قَلْبِكَ لِتَكُونَ مِنَ الْمُنذِرِينَ`
@@ -3647,6 +5313,228 @@ const verses = [{
       ]
     ],
     number: `سورة الشعراء / Ash-Shu'ara، الآيات 192-194`
+  },
+
+  {
+    arabic: [
+      `وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا`,
+      `وَجَعَلَ بَيْنَكُمْ مَوَدَّةً`,
+      `وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِقَوْمٍ يَتَفَكَّرُونَ`
+    ],
+    translations: [
+      [
+        `And of His signs is that He created for you from yourselves mates that you may find tranquillity in them;`,
+        `and He placed between you affection and mercy.`,
+        `Indeed in that are signs for a people who give thought`
+      ],
+      [
+        `Et parmi Ses signes Il a créé de vous, pour vous,`,
+        `des épouses pour que vous viviez en tranquillité avec elles et Il a mis entre vous de l'affection et de la bonté.`,
+        `Il y a en cela des preuves pour des gens qui réfléchissent`
+      ],
+      [
+        `Y entre Sus signos está el haberos creado esposas nacidas entre vosotros,`,
+        `para que os sirvan de quietud, y el haber suscitado entre vosotros el afecto y la bondad.`,
+        `Ciertamente, hay en ellos signos para gente que reflexiona`
+      ],
+      [
+        `Среди Его знамений - то, что Он сотворил из вас самих жен для вас,`,
+        `чтобы вы находили в них успокоение, и установил между вами любовь и милосердие.`,
+        `Воистину, в этом - знамения для людей размышляющих`
+      ],
+      [
+        `Und es gehört zu Seinen Zeichen, daß Er euch aus euch selbst Gattinnen erschaffen hat,`,
+        `damit ihr bei ihnen Ruhe findet; und Er hat Zuneigung und Barmherzigkeit zwischen euch gesetzt.`,
+        `Darin sind wahrlich Zeichen für Leute, die nachdenken`
+      ],
+      [
+        `Och till Hans under hör att Han har skapat hustrur åt er av er egen art,`,
+        `så att ni kan finna ro hos dem, och Han har låtit kärlek och ömhet uppstå mellan er.`,
+        `I detta ligger helt visst budskap till människor som tänker`
+      ],
+      [
+        `Agus ó na comharthaí atá aige gur chruthaigh Sé daoibh céilí as bhur measc féin chun go bhfaighfeadh sibh suaimhneas iontu;`,
+        `agus chuir Sé grá agus trócaire eadraibh.`,
+        `Go deimhin, tá comharthaí ansin do dhaoine a mhachnaíonn.`
+      ],
+      [
+        `En het behoort tot Zijn Tekenen dat Hij van jullie eigen soort echtgenotes heeft geschapen,`,
+        `opdat jullie rust bij haar vinden en Hij bracht tussen jullie liefde en barmhartigheid.`,
+        `Voorwaar, daarin zijn zeker Tekenen voor een volk dat nadenkt`
+      ],
+      [
+        `اور اسی کے نشانات (اور تصرفات) میں سے ہے کہ اُس نے تمہارے لئے تمہاری ہی جنس کی`,
+        `عورتیں پیدا کیں تاکہ اُن کی طرف (مائل ہوکر) آرام حاصل کرو اور تم میں محبت اور`,
+        `مہربانی پیدا کر دی جو لوگ غور کرتے ہیں اُن کے لئے ان باتوں میں (بہت سی) نشانیاں ہیں`
+      ],
+      [
+        `Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri,`,
+        `agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan diantaramu rasa kasih dan sayang.`,
+        `Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir`
+      ],
+      [
+        `İçinizden, kendileriyle huzura kavuşacağınız eşler yaratıp;`,
+        `aranızda muhabbet ve rahmet var etmesi, O'nun varlığının belgelerindendir.`,
+        `Bunlarda, düşünen millet için dersler vardır`
+      ],
+      [
+        `و از نشانه‌هاى او اينكه از [نوع‌] خودتان همسرانى براى شما آفريد تا بدانها آرام گيريد،`,
+        `و ميانتان دوستى و رحمت نهاد. آرى،`,
+        `در اين [نعمت‌] براى مردمى كه مى‌انديشند قطعاً نشانه‌هايى است`
+      ],
+      [
+        `আর এক নিদর্শন এই যে, তিনি তোমাদের জন্যে তোমাদের মধ্য থেকে তোমাদের সংগিনীদের সৃষ্টি করেছেন,`,
+        `যাতে তোমরা তাদের কাছে শান্তিতে থাক এবং তিনি তোমাদের মধ্যে পারস্পরিক সম্প্রীতি ও দয়া সৃষ্টি করেছেন। নিশ্চয় এতে চিন্তাশীল লোকদের জন্যে নিদর্শনাবলী রয়েছে।`,
+        ``
+      ],
+      [
+        `E, dentre Seus sinais, está que Ele criou para vós, mulheres,`,
+        `de vós mesmos, para vos tranquilizardes junto delas, e fez entre vós afeição e misericórdia.`,
+        `Por certo, há nisso sinais para um povo que reflete`
+      ],
+      [
+        `他的一种迹象是：他从你们的同类中为你们创造配偶，`,
+        `以便你们依恋她们，并且使你们互相爱悦，`,
+        `互相怜恤。对于能思维的民众，此中确有许多迹象。`
+      ],
+      [
+        `またかれがあなたがた自身から，あなたがたのために配偶を創られたのは，かれの印の一つである。`,
+        `あなたがたはかの女らによって安らぎを得るよう（取り計らわれ），`,
+        `あなたがたの間に愛と情けの念を植え付けられる。本当にその中には，考え深い者への印がある。`
+      ],
+      [
+        `너희 자신들로 부터 배필을 창조하여 그 배필과 함께 살게 하심도`,
+        `그분 예증의 하나이며 그분 은 또한 너희간에 사랑과 자비를`,
+        `주셨으니 실로 그 안에는 생각하 는 백성을 위한 예증이 있노라`
+      ],
+      [
+        `Fa parte dei Suoi segni l'aver creato da voi, per voi, delle spose,`,
+        `affinché riposiate presso di loro, e ha stabilito tra voi amore e tenerezza.`,
+        `Ecco davvero dei segni per coloro che riflettono`
+      ],
+      [
+        `I z Jego znaków jest to, iż On stworzył dla was żony z was samych,`,
+        `abyście mogli odpocząć przy nich;`,
+        `i ustanowił między wami miłość i miłosierdzie`
+      ],
+      [
+        `Серед Його знамень — те, що Він створив вам дружин із вас самих,`,
+        `щоб ви знаходили в них спокій, і встановив між вами любов і милосердя.`,
+        `Воістину, в цьому — знамення для людей, які думають`
+      ]
+    ],
+    number: `سورة الروم / Ar-Rum، الآية 21`
+  },
+
+  {
+    arabic: [
+      `وَمِنْ آيَاتِهِ خَلْقُ السَّمَاوَاتِ وَالْأَرْضِ`,
+      `وَاخْتِلَافُ أَلْسِنَتِكُمْ وَأَلْوَانِكُمْ ۚ`,
+      `إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِلْعَالِمِينَ`
+    ],
+    translations: [
+      [
+        `And of His signs is the creation of the heavens and`,
+        `the earth and the diversity of your languages and your`,
+        `colors. Indeed in that are signs for those of knowledge`
+      ],
+      [
+        `Et parmi Ses signes la création des cieux et de la`,
+        `terre et la variété de vos idiomes et de vos`,
+        `couleurs. Il y a en cela des preuves pour les savants`
+      ],
+      [
+        `Y entre Sus signos está la creación de los cielos y de la tierra,`,
+        `la diversidad de vuestras lenguas y de vuestros colores.`,
+        `Ciertamente hay en ello signos para los que saben`
+      ],
+      [
+        `Среди Его знамений - сотворение небес и земли и различие ваших языков и цветов.`,
+        `Воистину,`,
+        `в этом - знамения для обладающих знанием`
+      ],
+      [
+        `Und zu Seinen Zeichen gehört die Erschaffung der Himmel`,
+        `und der Erde und (auch) die Verschiedenheit eurer Sprachen`,
+        `und Farben. Darin sind wahrlich Zei chen für die Wissenden`
+      ],
+      [
+        `Och till Hans under hör skapelsen av himlarna och`,
+        `jorden och skillnaderna mellan er i språk och hudfärg.`,
+        `I detta ligger helt visst budskap till de insiktsfulla`
+      ],
+      [
+        `Agus ó na comharthaí atá aige tá cruthú na bhflaitheas agus na talún,`,
+        `agus éagsúlacht bhur dteangacha agus bhur ndathanna.`,
+        `Go deimhin, tá comharthaí ansin dóibh siúd a bhfuil eolas acu.`
+      ],
+      [
+        `En tot Zijn Tekenen behoort de schepping van de hemelen en de aardeen het verschillende van jullie talen en kleuren.`,
+        `Voorwaar,`,
+        `daarin zijn zeker Tekenen voor de bezitters van kennis`
+      ],
+      [
+        `اور اسی کے نشانات (اور تصرفات) میں سے ہے آسمانوں اور زمین`,
+        `کا پیدا کرنا اور تمہاری زبانوں اور رنگوں کا جدا جدا`,
+        `ہونا۔ اہلِ دانش کے لیے ان (باتوں) میں (بہت سی) نشانیاں ہیں`
+      ],
+      [
+        `Dan di antara tanda-tanda (kebesaran)-Nya ialah penciptaan langit dan bumi,`,
+        `perbedaan bahasamu dan warna kulitmu. Sungguh,`,
+        `pada yang demikian itu benar-benar terdapat tanda-tanda bagi orang-orang yang mengetahui`
+      ],
+      [
+        `Gökleri ve yeri yaratması, dillerinizin ve renklerinizin değişik olması,`,
+        `O'nun varlığının belgelerindendir.`,
+        `Doğrusu bunlarda, bilenler için dersler vardır`
+      ],
+      [
+        `و از نشانه‌هاى [قدرت‌] او آفرينش آسمانها و`,
+        `زمين و اختلاف زبانهاى شما و رنگهاى شماست. قطعاً`,
+        `در اين [امر نيز] براى دانشوران نشانه‌هايى است`
+      ],
+      [
+        `তাঁর আর ও এক নিদর্শন হচ্ছে নভোমন্ডল ও ভূমন্ডলের`,
+        `সৃজন এবং তোমাদের ভাষা ও বর্ণের বৈচিত্র।`,
+        `নিশ্চয় এতে জ্ঞানীদের জন্যে নিদর্শনাবলী রয়েছে।`
+      ],
+      [
+        `E, dentre Seus sinais, está a criação dos céus e da terra,`,
+        `e a variedade de vossas línguas e de vossas cores.`,
+        `Por certo, há nisso sinais para os sabedores`
+      ],
+      [
+        `他的一种迹象是：天地的创造，`,
+        `以及你们的语言和肤色的差异，`,
+        `对于有学问的人，此中确有许多迹象。`
+      ],
+      [
+        `またかれが，諸天と大地を創造なされ，あなたがたの言語と，`,
+        `肌色を様々異なったものとされているのは，`,
+        `かれの印の一つである。本当にその中には，知識ある者への印がある。`
+      ],
+      [
+        `천지를 창조하시고 너희의 언어들과 피부색을`,
+        `달리 창조 하 셨음도 그분 예증의 하나이시니`,
+        `실로 그 안에는 전 인류를 위한 예증이 있노라`
+      ],
+      [
+        `E fan parte dei Suoi segni, la creazione dei cieli e della terra,`,
+        `la varietà dei vostri idiomi e dei vostri colori.`,
+        `In ciò vi sono segni per coloro che sanno`
+      ],
+      [
+        `I z Jego znaków jest stworzenie niebios i ziemi,`,
+        `różnorodność waszych języków i kolorów.`,
+        `Zaprawdę, w tym są znaki dla tych, którzy wiedzą`
+      ],
+      [
+        `Серед Його знамень — створення небес і землі,`,
+        `а також відмінності між мовами й кольорами.`,
+        `Воістину, в цьому – знамення для жителів світів`
+      ]
+    ],
+    number: `سورة الروم / Ar-Rum، الآية 22`
   },
 
   {
@@ -3762,113 +5650,113 @@ const verses = [{
 
   {
     arabic: [
-      `إِنَّ الَّذِينَ يَتْلُونَ كِتَابَ اللَّهِ وَأَقَامُوا الصَّلَاةَ`,
-      `وَأَنفَقُوا مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً يَرْجُونَ تِجَارَةً لَّن تَبُورَ`,
-      `لِيُوَفِّيَهُمْ أُجُورَهُمْ وَيَزِيدَهُم مِّن فَضْلِهِ ۚ إِنَّهُ غَفُورٌ شَكُورٌ`
+      `وَمَا أَرْسَلْنَاكَ إِلَّا كَافَّةً لِلنَّاسِ بَشِيرًا`,
+      `وَنَذِيرًا`,
+      `وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يَعْلَمُونَ`
     ],
     translations: [
       [
-        `Verily, those who recite the Book of Allah (this Quran), perform AsSalat (IqamatasSalat),`,
-        `and spend (in charity) out of what We have provided for them, secretly and openly, hope for a (sure) tradegain that will never perish.`,
-        `He will give them their reward and increase them out of His bounty. Verily, He is Most Forgiving, Most Appreciative.`
+        `And We have not sent you except comprehensively`,
+        `to mankind as a bringer of good tidings and`,
+        `a warner. But most of the people do not know`
       ],
       [
-        `Ceux qui récitent le Livre d'Allah, accomplissent la prière,`,
-        `et dépensent de ce que Nous leur avons attribué, secrètement et ouvertement, espèrent un commerce qui ne périra jamais.`,
-        `Il leur accordera leur récompense et leur ajoutera de Sa grâce. Il est certes Pardonneur et Reconnaissant.`
+        `Et Nous ne t'avons envoyé qu'en tant`,
+        `qu'annonciateur et avertisseur pour toute l'humanité.`,
+        `Mais la plupart des gens ne savent pas`
       ],
       [
-        `Aquellos que recitan el Libro de Allah, establecen la oración,`,
-        `y gastan de lo que les hemos proveído, en secreto y en público, esperan un comercio que nunca perecerá.`,
-        `Él les dará su recompensa y les aumentará de Su favor. Ciertamente, Él es Perdonador y Agradecido.`
+        `No te hemos enviado sino como nuncio de buenas`,
+        `nuevas y como monitor a todo el género`,
+        `humano. Pero la mayoría de los hombres no saben`
       ],
       [
-        `Воистину, те, кто читают Писание Аллаха, совершают молитву,`,
-        `и расходуют из того, чем Мы их наделили, тайно и явно, надеются на торговлю, которая не исчезнет.`,
-        `Он воздаст им их награду и увеличит Свою милость. Поистине, Он Прощающий, Благодарный.`
+        `Мы отправили тебя ко всем людям добрым`,
+        `вестником и предостерегающим увещевателем,`,
+        `но большинство людей не знает этого`
       ],
       [
-        `Wahrlich, diejenigen, die das Buch Allahs rezitieren, das Gebet verrichten,`,
-        `und von dem spenden, womit Wir sie versorgt haben, heimlich und öffentlich, hoffen auf einen Handel, der niemals untergeht.`,
-        `Er wird ihnen ihren Lohn geben und sie aus Seiner Gunst vermehren. Gewiss, Er ist Allvergebend, Dankbar.`
+        `Und Wir haben dich für die Menschen`,
+        `allesamt nur als Frohboten und Warner gesandt.`,
+        `Aber die meisten Menschen wissen nicht`
       ],
       [
-        `Sannerligen, de som reciterar Allahs Bok, förrättar bönen,`,
-        `och ger av det Vi har försett dem med, i hemlighet och öppet, hoppas på en handel som aldrig förgår.`,
-        `Han ska ge dem deras belöning och öka dem av Sin nåd. Han är Förlåtande, Tacksam.`
+        `Vi har sänt dig [Muhammad, inte bara till ditt eget folk utan] till hela mänskligheten,`,
+        `som förkunnare av ett glatt budskap om hopp och som varnare,`,
+        `men de flesta människor är omedvetna [om detta]`
       ],
       [
-        `Go deimhin, na daoine a léann Leabhar Allah, a bhunaíonn an phaidir,`,
-        `agus a chaitheann as an méid a thugamar dóibh go rúnda agus go poiblí, tá siad ag súil le trádáil nach gcaillfear go deo.`,
-        `Tabharfaidh Sé a luach saothair dóibh agus méadóidh Sé óna ghrásta iad. Tá Sé Maithiúnach, Buíoch.`
+        `Agus níor chuireamar thú ach do na daoine uile,`,
+        `mar sheachadóir dea-scéala agus mar rabhadóir.`,
+        `Ach níl a fhios ag formhór na ndaoine.`
       ],
       [
-        `Voorwaar, degenen die het Boek van Allah reciteren, het gebed verrichten,`,
-        `en uitgeven van wat Wij hun hebben voorzien, in het geheim en openbaar, hopen op een handel die nooit verloren gaat.`,
-        `Hij zal hen hun beloning geven en Zijn gunst aan hen vergroten. Hij is Vergevingsgezind, Waarderend.`
+        `En Wij hebben jou niet anders gezonden dan aan de gehele`,
+        `mensheid en als een verkondiger van verheugende tijdingen en`,
+        `als een waarschuwer. Maar de meeste mensen weten het niet`
       ],
       [
-        `بے شک جو لوگ اللہ کی کتاب کی تلاوت کرتے ہیں اور نماز قائم کرتے ہیں،`,
-        `اور جو کچھ ہم نے انہیں دیا ہے اس میں سے چھپا کر اور ظاہر کرکے خرچ کرتے ہیں، وہ ایسی تجارت کی امید رکھتے ہیں جو کبھی ختم نہیں ہوگی۔`,
-        `وہ انہیں ان کا اجر پورا دے گا اور اپنے فضل سے مزید دے گا، بے شک وہ بہت بخشنے والا، قدر کرنے والا ہے۔`
+        `اور (اے محمدﷺ) ہم نے تم کو تمام لوگوں کے`,
+        `لئے خوشخبری سنانے والا اور ڈرانے والا`,
+        `بنا کر بھیجا ہے لیکن اکثر لوگ نہیں جانتے`
       ],
       [
-        `Sesungguhnya orang-orang yang membaca Kitab Allah, menegakkan salat,`,
-        `dan menafkahkan sebagian dari rezeki yang Kami berikan kepada mereka secara sembunyi dan terang-terangan, mengharapkan perdagangan yang tidak akan rugi.`,
-        `Dia akan memberi mereka pahala mereka dan menambah dari karunia-Nya. Sesungguhnya Dia Maha Pengampun, Maha Mensyukuri.`
+        `Dan Kami tidak mengutus engkau (Muhammad),`,
+        `melainkan kepada semua umat manusia sebagai pembawa berita gembira dan sebagai pemberi peringatan,`,
+        `tetapi kebanyakan manusia tidak mengetahui`
       ],
       [
-        `Şüphesiz Allah’ın kitabını okuyanlar, namazı kılanlar,`,
-        `ve kendilerine verdiğimiz rızıklardan gizli ve açık infak edenler, asla yok olmayacak bir ticaret umarlar.`,
-        `Allah onlara mükafatlarını verecek ve lütfundan artıracaktır. Şüphesiz O, çok bağışlayandır, şükredilendir.`
+        `Biz seni bütün insanlara ancak`,
+        `müjdeci ve uyarıcı olarak göndermişizdir;`,
+        `fakat insanların çoğu bilmez`
       ],
       [
-        `بی‌تردید کسانی که کتاب خدا را تلاوت می‌کنند و نماز را برپا می‌دارند،`,
-        `و از آنچه روزی‌شان کرده‌ایم پنهان و آشکار انفاق می‌کنند، به تجارتی امید دارند که هرگز از بین نمی‌رود.`,
-        `او پاداششان را کامل می‌دهد و از فضل خود بر آنان می‌افزاید. او آمرزنده و شکرپذیر است.`
+        `و ما تو را جز [به سمت‌] بشارتگر و هشداردهنده براى تمام مردم،`,
+        `نفرستاديم؛`,
+        `ليكن بيشتر مردم نمى‌دانند`
       ],
       [
-        `নিশ্চয়ই যারা আল্লাহর কিতাব তিলাওয়াত করে, নামাজ কায়েম করে,`,
-        `এবং আমরা যা দিয়েছি তা থেকে গোপনে ও প্রকাশ্যে ব্যয় করে, তারা এমন বাণিজ্যের আশা করে যা কখনো ক্ষতিগ্রস্ত হবে না।`,
-        `তিনি তাদের প্রতিদান পূর্ণভাবে দেবেন এবং তাঁর অনুগ্রহ থেকে বাড়িয়ে দেবেন। তিনি ক্ষমাশীল, কৃতজ্ঞ।`
+        `আমি আপনাকে সমগ্র মানবজাতির জন্যে`,
+        `সুসংবাদাতা ও সতর্ককারী রূপে পাঠিয়েছি;`,
+        `কিন্তু অধিকাংশ মানুষ তা জানে না।`
       ],
       [
-        `Certamente, aqueles que recitam o Livro de Allah, estabelecem a oração,`,
-        `e gastam do que lhes concedemos, em segredo e em público, esperam um comércio que nunca perecerá.`,
-        `Ele lhes dará sua recompensa e aumentará de Sua graça. Ele é Perdoador, Agradecido.`
+        `E não te enviamos Muhammad,`,
+        `senão a toda a humanidade, por alvissareiro e admoestador,`,
+        `mas a maioria dos homens não sabe`
       ],
       [
-        `确实，那些诵读真主经典、履行礼拜的人，`,
-        `并暗中和公开施舍我们所供给他们的人，希望一种永不亏损的交易。`,
-        `他将赐予他们报酬，并从他的恩惠中增加他们。他确是至赦的、感恩的。`
+        `我只派遣你为全人类的报喜者和警告者，`,
+        `但世人大半不知道。`,
+        ``
       ],
       [
-        `確かに、アッラーの啓典を読み、礼拝を守り、`,
-        `われらが授けたものから密かにまた公然と施す者は、決して滅びない取引を望む者である。`,
-        `かれは彼らに報酬を与え、その恩恵を増やす。かれは寛容にして感謝されるお方である。`
+        `われは，全人類への吉報の伝達者また警告者として，`,
+        `あなたを遺わした。`,
+        `だが人びとの多くは，それが分らない。`
       ],
       [
-        `실로 알্লাহ의 책을 낭송하고 예배를 세우며,`,
-        `우리가 준 رزق 중에서 은밀히 그리고 공개적으로 베푸는 자들은 결코 사라지지 않는 거래를 바란다.`,
-        `그는 그들에게 보상을 완전히 주고 은혜를 더할 것이다. 그는 관대하고 감사하시는 분이라.`
+        `하나님이 그대를 보내매 만 인을 위한`,
+        `복음자로 그리고 경고 자로써 보내거늘`,
+        `그러나 많은 사 람들은 이를 알지 못하더라`
       ],
       [
-        `In verità, coloro che recitano il Libro di Allah, compiono la preghiera,`,
-        `e spendono di ciò che abbiamo dato loro, in segreto e in pubblico, sperano in un commercio che non perirà mai.`,
-        `Egli darà loro la ricompensa e aumenterà la Sua grazia. Egli è Perdonatore, Riconoscente.`
+        `Non ti abbiamo mandato se non come nunzio`,
+        `ed ammonitore per tutta l'umanità, ma`,
+        `la maggior parte degli uomini non sanno`
       ],
       [
-        `Zaprawdę, ci którzy recytują Księgę Allaha, odprawiają modlitwę,`,
-        `i wydają z tego, czym ich obdarzyliśmy, potajemnie i jawnie, oczekują handlu, który nigdy nie przepadnie.`,
-        `On da im ich nagrodę i zwiększy swoją łaskę. Zaprawdę, On jest Przebaczający, Wdzięczny.`
+        `Posłaliśmy cię do wszystkich ludzi`,
+        `jako zwiastuna radosnej wieści i`,
+        `ostrzegającego. Lecz większość ludzi nie wie`
       ],
       [
-        `Воістину, ті, хто читають Писання Аллаха, виконують молитву,`,
-        `і витрачають із того, чим Ми їх забезпечили, таємно і відкрито, сподіваються на торгівлю, що ніколи не зникне.`,
-        `Він віддасть їм їхню нагороду і примножить Свою милість. Воістину, Він Прощаючий, Вдячний.`
+        `Ми відіслали тебе до всіх людей`,
+        `як доброго вісника й застерігача,`,
+        `але ж більшість людей не знає`
       ]
     ],
-    number: `سورة فاطر / Fatir، الآيات 29-30`
+    number: `سورة سبأ / Saba، الآية 28`
   },
 
   {
@@ -4202,6 +6090,117 @@ const verses = [{
       ]
     ],
     number: `سورة فاطر / Fatir، الآية 10`
+  },
+
+  {
+    arabic: [
+      `إِنَّ الَّذِينَ يَتْلُونَ كِتَابَ اللَّهِ وَأَقَامُوا الصَّلَاةَ`,
+      `وَأَنفَقُوا مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً يَرْجُونَ تِجَارَةً لَّن تَبُورَ`,
+      `لِيُوَفِّيَهُمْ أُجُورَهُمْ وَيَزِيدَهُم مِّن فَضْلِهِ ۚ إِنَّهُ غَفُورٌ شَكُورٌ`
+    ],
+    translations: [
+      [
+        `Verily, those who recite the Book of Allah (this Quran), perform AsSalat (IqamatasSalat),`,
+        `and spend (in charity) out of what We have provided for them, secretly and openly, hope for a (sure) tradegain that will never perish.`,
+        `He will give them their reward and increase them out of His bounty. Verily, He is Most Forgiving, Most Appreciative.`
+      ],
+      [
+        `Ceux qui récitent le Livre d'Allah, accomplissent la prière,`,
+        `et dépensent de ce que Nous leur avons attribué, secrètement et ouvertement, espèrent un commerce qui ne périra jamais.`,
+        `Il leur accordera leur récompense et leur ajoutera de Sa grâce. Il est certes Pardonneur et Reconnaissant.`
+      ],
+      [
+        `Aquellos que recitan el Libro de Allah, establecen la oración,`,
+        `y gastan de lo que les hemos proveído, en secreto y en público, esperan un comercio que nunca perecerá.`,
+        `Él les dará su recompensa y les aumentará de Su favor. Ciertamente, Él es Perdonador y Agradecido.`
+      ],
+      [
+        `Воистину, те, кто читают Писание Аллаха, совершают молитву,`,
+        `и расходуют из того, чем Мы их наделили, тайно и явно, надеются на торговлю, которая не исчезнет.`,
+        `Он воздаст им их награду и увеличит Свою милость. Поистине, Он Прощающий, Благодарный.`
+      ],
+      [
+        `Wahrlich, diejenigen, die das Buch Allahs rezitieren, das Gebet verrichten,`,
+        `und von dem spenden, womit Wir sie versorgt haben, heimlich und öffentlich, hoffen auf einen Handel, der niemals untergeht.`,
+        `Er wird ihnen ihren Lohn geben und sie aus Seiner Gunst vermehren. Gewiss, Er ist Allvergebend, Dankbar.`
+      ],
+      [
+        `Sannerligen, de som reciterar Allahs Bok, förrättar bönen,`,
+        `och ger av det Vi har försett dem med, i hemlighet och öppet, hoppas på en handel som aldrig förgår.`,
+        `Han ska ge dem deras belöning och öka dem av Sin nåd. Han är Förlåtande, Tacksam.`
+      ],
+      [
+        `Go deimhin, na daoine a léann Leabhar Allah, a bhunaíonn an phaidir,`,
+        `agus a chaitheann as an méid a thugamar dóibh go rúnda agus go poiblí, tá siad ag súil le trádáil nach gcaillfear go deo.`,
+        `Tabharfaidh Sé a luach saothair dóibh agus méadóidh Sé óna ghrásta iad. Tá Sé Maithiúnach, Buíoch.`
+      ],
+      [
+        `Voorwaar, degenen die het Boek van Allah reciteren, het gebed verrichten,`,
+        `en uitgeven van wat Wij hun hebben voorzien, in het geheim en openbaar, hopen op een handel die nooit verloren gaat.`,
+        `Hij zal hen hun beloning geven en Zijn gunst aan hen vergroten. Hij is Vergevingsgezind, Waarderend.`
+      ],
+      [
+        `بے شک جو لوگ اللہ کی کتاب کی تلاوت کرتے ہیں اور نماز قائم کرتے ہیں،`,
+        `اور جو کچھ ہم نے انہیں دیا ہے اس میں سے چھپا کر اور ظاہر کرکے خرچ کرتے ہیں، وہ ایسی تجارت کی امید رکھتے ہیں جو کبھی ختم نہیں ہوگی۔`,
+        `وہ انہیں ان کا اجر پورا دے گا اور اپنے فضل سے مزید دے گا، بے شک وہ بہت بخشنے والا، قدر کرنے والا ہے۔`
+      ],
+      [
+        `Sesungguhnya orang-orang yang membaca Kitab Allah, menegakkan salat,`,
+        `dan menafkahkan sebagian dari rezeki yang Kami berikan kepada mereka secara sembunyi dan terang-terangan, mengharapkan perdagangan yang tidak akan rugi.`,
+        `Dia akan memberi mereka pahala mereka dan menambah dari karunia-Nya. Sesungguhnya Dia Maha Pengampun, Maha Mensyukuri.`
+      ],
+      [
+        `Şüphesiz Allah’ın kitabını okuyanlar, namazı kılanlar,`,
+        `ve kendilerine verdiğimiz rızıklardan gizli ve açık infak edenler, asla yok olmayacak bir ticaret umarlar.`,
+        `Allah onlara mükafatlarını verecek ve lütfundan artıracaktır. Şüphesiz O, çok bağışlayandır, şükredilendir.`
+      ],
+      [
+        `بی‌تردید کسانی که کتاب خدا را تلاوت می‌کنند و نماز را برپا می‌دارند،`,
+        `و از آنچه روزی‌شان کرده‌ایم پنهان و آشکار انفاق می‌کنند، به تجارتی امید دارند که هرگز از بین نمی‌رود.`,
+        `او پاداششان را کامل می‌دهد و از فضل خود بر آنان می‌افزاید. او آمرزنده و شکرپذیر است.`
+      ],
+      [
+        `নিশ্চয়ই যারা আল্লাহর কিতাব তিলাওয়াত করে, নামাজ কায়েম করে,`,
+        `এবং আমরা যা দিয়েছি তা থেকে গোপনে ও প্রকাশ্যে ব্যয় করে, তারা এমন বাণিজ্যের আশা করে যা কখনো ক্ষতিগ্রস্ত হবে না।`,
+        `তিনি তাদের প্রতিদান পূর্ণভাবে দেবেন এবং তাঁর অনুগ্রহ থেকে বাড়িয়ে দেবেন। তিনি ক্ষমাশীল, কৃতজ্ঞ।`
+      ],
+      [
+        `Certamente, aqueles que recitam o Livro de Allah, estabelecem a oração,`,
+        `e gastam do que lhes concedemos, em segredo e em público, esperam um comércio que nunca perecerá.`,
+        `Ele lhes dará sua recompensa e aumentará de Sua graça. Ele é Perdoador, Agradecido.`
+      ],
+      [
+        `确实，那些诵读真主经典、履行礼拜的人，`,
+        `并暗中和公开施舍我们所供给他们的人，希望一种永不亏损的交易。`,
+        `他将赐予他们报酬，并从他的恩惠中增加他们。他确是至赦的、感恩的。`
+      ],
+      [
+        `確かに、アッラーの啓典を読み、礼拝を守り、`,
+        `われらが授けたものから密かにまた公然と施す者は、決して滅びない取引を望む者である。`,
+        `かれは彼らに報酬を与え、その恩恵を増やす。かれは寛容にして感謝されるお方である。`
+      ],
+      [
+        `실로 알্লাহ의 책을 낭송하고 예배를 세우며,`,
+        `우리가 준 رزق 중에서 은밀히 그리고 공개적으로 베푸는 자들은 결코 사라지지 않는 거래를 바란다.`,
+        `그는 그들에게 보상을 완전히 주고 은혜를 더할 것이다. 그는 관대하고 감사하시는 분이라.`
+      ],
+      [
+        `In verità, coloro che recitano il Libro di Allah, compiono la preghiera,`,
+        `e spendono di ciò che abbiamo dato loro, in segreto e in pubblico, sperano in un commercio che non perirà mai.`,
+        `Egli darà loro la ricompensa e aumenterà la Sua grazia. Egli è Perdonatore, Riconoscente.`
+      ],
+      [
+        `Zaprawdę, ci którzy recytują Księgę Allaha, odprawiają modlitwę,`,
+        `i wydają z tego, czym ich obdarzyliśmy, potajemnie i jawnie, oczekują handlu, który nigdy nie przepadnie.`,
+        `On da im ich nagrodę i zwiększy swoją łaskę. Zaprawdę, On jest Przebaczający, Wdzięczny.`
+      ],
+      [
+        `Воістину, ті, хто читають Писання Аллаха, виконують молитву,`,
+        `і витрачають із того, чим Ми їх забезпечили, таємно і відкрито, сподіваються на торгівлю, що ніколи не зникне.`,
+        `Він віддасть їм їхню нагороду і примножить Свою милість. Воістину, Він Прощаючий, Вдячний.`
+      ]
+    ],
+    number: `سورة فاطر / Fatir، الآيات 29-30`
   },
 
   {
@@ -4605,6 +6604,117 @@ const verses = [{
 
   {
     arabic: [
+      `وَقَالَ رَبُّكُمُ ادْعُونِي أَسْتَجِبْ لَكُمْ ۚ`,
+      `إِنَّ الَّذِينَ يَسْتَكْبِرُونَ عَنْ عِبَادَتِي سَيَدْخُلُونَ جَهَنَّمَ دَاخِرِينَ`,
+      ``
+    ],
+    translations: [
+      [
+        `And your Lord says, "Call upon Me;`,
+        `I will respond to you." Indeed,`,
+        `those who disdain My worship will enter Hell [rendered] contemptible`
+      ],
+      [
+        `Et votre Seigneur dit: «Appelez-Moi, Je vous répondrai.`,
+        `Ceux qui, par orgueil,`,
+        `se refusent à M'adorer entreront bientôt dans l'Enfer, humiliés»`
+      ],
+      [
+        `Vuestro Señor ha dicho: «¡Invocadme y os escucharé!`,
+        `Los que, llevados de su altivez,`,
+        `no Me sirvan entrarán, humillados, en la gehena»`
+      ],
+      [
+        `Ваш Господь сказал: «Взывайте ко Мне,`,
+        `и Я отвечу вам. Воистину, те, которые превозносятся над поклонением Мне,`,
+        `войдут в Геенну униженными»`
+      ],
+      [
+        `Euer Herr sagt: "Ruft Mich an, so erhöre Ich euch.`,
+        `Gewiß, diejenigen, die sich aus Hochmut weigern,`,
+        `Mir zu dienen, werden in die Hölle gedemütigt eingehen`
+      ],
+      [
+        `Er herre säger: "Be till Mig, så skall Jag besvara er [bön].`,
+        `De som håller sig för goda för att tjäna Mig skall gå med böjt huvud in i helvetet`,
+        ``
+      ],
+      [
+        `Agus deir bhur dTiarna: Glaoigí orm; freagróidh mé sibh.`,
+        `Go deimhin, iad siúd a bhfuil bród orthu agus a dhiúltaíonn m'adhradh,`,
+        `rachaidh siad isteach in Ifreann go náireach.`
+      ],
+      [
+        `En jullie Heer zei: "Roept Mij aan, Ik zal jullie verhoren.`,
+        `Voorwaar,`,
+        `degenen die te hoogmoedig zijn om Mij te dienen zullen de Hel binnengaan als vernederden`
+      ],
+      [
+        `اور تمہارے پروردگار نے کہا ہے کہ تم مجھ سے دعا کرو میں`,
+        `تمہاری (دعا) قبول کروں گا۔ جو لوگ میری عبادت سے ازراہ`,
+        `تکبر کنیاتے ہیں۔ عنقریب جہنم میں ذلیل ہو کر داخل ہوں گے`
+      ],
+      [
+        `Dan Tuhanmu berfirman, "Berdoalah kepada-Ku, niscaya akan Aku perkenankan bagimu.`,
+        `Sesungguhnya orang-orang yang sombong tidak mau menyembah-Ku akan masuk neraka Jahanam dalam keadaan hina dina`,
+        ``
+      ],
+      [
+        `Rabbiniz: "Bana dua edin ki duanıza icabet edeyim.`,
+        `Bana kulluk etmeyi büyüklüklerine yediremeyenler alçalmış olarak cehenneme gireceklerdir" buyurmuştur`,
+        ``
+      ],
+      [
+        `و پروردگارتان فرمود: «مرا بخوانيد تا شما را اجابت كنم.`,
+        `در حقيقت،`,
+        `كسانى كه از پرستش من كبر مى‌ورزند به زودى خوار در دوزخ درمى‌آيند.»`
+      ],
+      [
+        `তোমাদের পালনকর্তা বলেন, তোমরা আমাকে ডাক,`,
+        `আমি সাড়া দেব। যারা আমার এবাদতে অহংকার করে তারা সত্বরই জাহান্নামে দাখিল হবে লাঞ্ছিত হয়ে।`,
+        ``
+      ],
+      [
+        `E vosso Senhor disse: "Suplicai-Me, Eu vos atenderei.`,
+        `Por certo,`,
+        `os que se ensoberbecem diante de Minha adoração entrarão na Geena, humilhados`
+      ],
+      [
+        `你们的主说：你们要祈祷我，`,
+        `我就应答你们；不肯崇拜我的人，`,
+        `他们将卑贱地入火狱。`
+      ],
+      [
+        `それであなたがたの主は，仰せられる。「われに祈れ。`,
+        `われはあなたがたに答えるであろう。だがわれに仕えるのに高慢な者たちは，`,
+        `必ず面目潰れの中に地獄に陥るであろう。」`
+      ],
+      [
+        `그러므로 나에게 구원하라 그리하면 내가 너희에게`,
+        `답하여 주리라 나를 경배함에 거만해 하 는`,
+        `자는 굴욕속에 있는 자신을 지옥에서 발견하리라`
+      ],
+      [
+        `Il vostro Signore ha detto: “InvocateMi,`,
+        `vi risponderò. Coloro che per superbia non Mi adorano,`,
+        `entreranno presto nell'Inferno, umiliati”`
+      ],
+      [
+        `Powiedział wasz Pan: "Wzywajcie Mnie,`,
+        `a ja was wysłucham! Zaprawdę, ci, którzy są zbyt dumni,`,
+        `by Mi oddawać cześć - wejdą do Gehenny, poniżeni`
+      ],
+      [
+        `Ваш Господь сказав: «Кличте Мене і Я відповім вам!`,
+        `Воістину, ті, які гордували поклонінням Мені,`,
+        `ввійдуть до геєни приниженими!»`
+      ]
+    ],
+    number: `سورة غافر / Ghafir، الآية 60`
+  },
+
+  {
+    arabic: [
       `قُلْ هُوَ لِلَّذِينَ آمَنُوا هُدًى وَشِفَاءٌ`,
       ``,
       ``
@@ -4712,6 +6822,228 @@ const verses = [{
       ]
     ],
     number: `سورة فصلت / Fussilat، الآية 44`
+  },
+
+  {
+    arabic: [
+      `سَنُرِيهِمْ آيَاتِنَا فِي الْآفَاقِ`,
+      `وَفِي أَنْفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ الْحَقُّ ۗ`,
+      `أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُ عَلَىٰ كُلِّ شَيْءٍ شَهِيدٌ`
+    ],
+    translations: [
+      [
+        `We will show them Our signs in the horizons and within themselves until it becomes clear to them that it is the truth.`,
+        `But is it not sufficient concerning your Lord that He is,`,
+        `over all things, a Witness`
+      ],
+      [
+        `Nous leur montrerons Nos signes dans l'univers et en eux-mêmes,`,
+        `jusqu'à ce qu'il leur devienne évident que c'est cela (le Coran),`,
+        `la vérité. Ne suffit-il pas que ton Seigneur soit témoin de toute chose`
+      ],
+      [
+        `Les mostraremos Nuestros signos fuera y dentro de`,
+        `sí mismos hasta que vean claramente que es la Verdad.`,
+        `¿Es que no basta que tu Señor sea testigo de todo`
+      ],
+      [
+        `Мы покажем им Наши знамения по свету и в них самих,`,
+        `пока им не станет ясно, что это есть истина. Неужели не достаточно того,`,
+        `что твой Господь является Свидетелем всякой вещи`
+      ],
+      [
+        `Wir werden ihnen Unsere Zeichen am Gesichtskreis" und in ihnen selbst zeigen,`,
+        `bis es ihnen klar wird, daß es die Wahrheit ist.`,
+        `Genügt es denn nicht, daß dein Herr über alles Zeuge ist`
+      ],
+      [
+        `Vi skall visa dem Våra tecken vid horisonten och inom dem själva,`,
+        `ända till dess [uppenbarelsens] sanning står klar för dem!`,
+        `Är det inte nog för dem [att veta] att din Herre är vittne till allt som sker`
+      ],
+      [
+        `Léireoimid dóibh ár gcomharthaí ar fud an domhain agus iontu féin,`,
+        `go dtí go mbeidh sé soiléir dóibh gurb í an fhírinne é.`,
+        `Nach leor go bhfuil do Thiarna ina Fhinné ar gach rud?`
+      ],
+      [
+        `Wij zullen hun Onze Tekenen laten zien, aan de horizonten en in jullie zelf,`,
+        `tot het jullie duidelijk zal zijn dat bij (de Koran) de Waarheid is.`,
+        `Is het niet voldoende dat jouw Heer Getuige over alle zaken is`
+      ],
+      [
+        `ہم عنقریب ان کو اطراف (عالم) میں بھی اور خود ان کی ذات میں بھی اپنی`,
+        `نشانیاں دکھائیں گے یہاں تک کہ ان پر ظاہر ہوجائے گا کہ (قرآن) حق`,
+        `ہے۔ کیا تم کو یہ کافی نہیں کہ تمہارا پروردگار ہر چیز سے خبردار ہے`
+      ],
+      [
+        `Kami akan memperlihatkan kepada mereka tanda-tanda (kebesaran) Kami di segenap penjuru dan pada diri mereka sendiri,`,
+        `sehingga jelaslah bagi mereka bahwa Alquran itu adalah benar.`,
+        `Tidak cukupkah (bagi kamu) bahwa Tuhanmu menjadi saksi atas segala sesuatu`
+      ],
+      [
+        `Onun hak olduğu meydana çıkıncaya kadar varlığımızın`,
+        `belgelerini onlara hem dış dünyada ve hem de kendi içlerinde`,
+        `göstereceğiz. Rabbinin her şeye şahit olması yetmez mi`
+      ],
+      [
+        `به زودى نشانه‌هاى خود را در افقها[ى گوناگون‌] و در دلهايشان بديشان خواهيم نمود،`,
+        `تا برايشان روشن گردد كه او خود حق است.`,
+        `آيا كافى نيست كه پروردگارت خود شاهد هر چيزى است؟`
+      ],
+      [
+        `এখন আমি তাদেরকে আমার নিদর্শনাবলী প্রদর্শন করাব পৃথিবীর দিগন্তে এবং তাদের নিজেদের মধ্যে;`,
+        `ফলে তাদের কাছে ফুটে উঠবে যে,`,
+        `এ কোরআন সত্য। আপনার পালনকর্তা সর্ববিষয়ে সাক্ষ্যদাতা, এটা কি যথেষ্ট নয়`
+      ],
+      [
+        `Fá-los-emos ver Nossos sinais nos horizontes e neles mesmos,`,
+        `até que se torne evidente, para eles, que ele, Alcorão, é a Verdade.`,
+        `E não basta que teu Senhor, sobre todas as cousas, seja Testemunha`
+      ],
+      [
+        `我将在四方和在他们自身中，`,
+        `把我的许多迹象昭示他们，直到他们明白《古兰经》确是真理。`,
+        `难道你的主能见证万物还不够吗？`
+      ],
+      [
+        `われは，わが印が真理であることが，かれらに明白になるまで，`,
+        `（遠い）空の彼方において，またかれら自身の中において（示す）。本当にあなたがたの主は，`,
+        `凡てのことの立証者であられる。そのことだけでも十分ではないか。`
+      ],
+      [
+        `하나님이 그들에게 그분의 예증을 대지 안에서 그리고 그들`,
+        `의 영혼 속에서 보여 주리니 이것이 진리임을 그들이 알때까지라`,
+        `주님이 모든 것에 대한 중인이라 는 것으로 충만하지 않느뇨`
+      ],
+      [
+        `Mostreremo loro i Nostri segni nell'universo e nelle loro stesse persone,`,
+        `finché non sia loro chiaro che questa è la Verità”.`,
+        `Non ti basta che il tuo Signore sia testimone di ogni cosa`
+      ],
+      [
+        `Niebawem pokażemy im Nasze znaki na horyzontach i w nich samych,`,
+        `aż w końcu stanie się dla nich jasne, że to jest prawda. Czyż nie jest wystarczające,`,
+        `jeśli chodzi o twojego Pana, że On jest świadkiem każdej rzeczy`
+      ],
+      [
+        `Ми покажемо їм Наші знамення на небесних обріях та в них самих,`,
+        `доки вони не зрозуміють, що це — істина!`,
+        `Невже не достатньо того, що Аллаг — кожній речі Свідок`
+      ]
+    ],
+    number: `سورة فصلت / Fussilat، الآية 53`
+  },
+
+  {
+    arabic: [
+      `فَاطِرُ السَّمَاوَاتِ وَالْأَرْضِ ۚ جَعَلَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا`,
+      `وَمِنَ الْأَنْعَامِ أَزْوَاجًا ۖ يَذْرَؤُكُمْ فِيهِ ۚ`,
+      `لَيْسَ كَمِثْلِهِ شَيْءٌ ۖ وَهُوَ السَّمِيعُ الْبَصِيرُ`
+    ],
+    translations: [
+      [
+        `[He is] Creator of the heavens and the earth. He has made for you from yourselves,`,
+        `mates, and among the cattle, mates; He multiplies you thereby.`,
+        `There is nothing like unto Him, and He is the Hearing, the Seeing`
+      ],
+      [
+        `Créateur des cieux et de la terre.`,
+        `Il vous a donné des épouses [issues] de vous-mêmes et des bestiaux par couples; par ce moyen Il vous multiplie.`,
+        `Il n'y a rien qui Lui ressemble; et c'est Lui l'Audient, le Clairvoyant`
+      ],
+      [
+        `Creador de los cielos y de la tierra.`,
+        `Os ha dado esposas salidas de vosotros y parejas salidas de vuestros rebaños, diseminándoos así.`,
+        `No hay nada que se Le asemeje. Él es Quien todo lo oye, Quien todo lo ve`
+      ],
+      [
+        `Творец небес и земли! Он создал для вас супруг из вас самих,`,
+        `а также скот парами. Так Он размножает вас.`,
+        `Нет никого подобного Ему, и Он - Слышащий, Видящий`
+      ],
+      [
+        `(Er ist) der Erschaffer der Himmel und der Erde.`,
+        `Er hat euch aus euch selbst Gattinnen gemacht, und auch aus dem Vieh Paare, wodurch Er euch vermehrt.`,
+        `Nichts ist Ihm gleich; und Er ist der Allhörende und Allsehende`
+      ],
+      [
+        `Han är himlarnas och jordens Skapare. Han har skapat hustrur åt er av samma natur som ni själva;`,
+        `även av boskapen [har Han skapat] par [- han- och hondjur -] och så får ni tillväxa i antal.`,
+        `Ingenting är som Han - Han som hör allt, ser allt`
+      ],
+      [
+        `Cruthaitheoir na bhflaitheas agus na talún. Rinne Sé daoibh céilí as bhur measc féin,`,
+        `agus ar na hainmhithe freisin; méadaíonn Sé sibh leis sin.`,
+        `Níl aon rud cosúil leis, agus is Eisean an tÉisteoir, an Feiceálaí.`
+      ],
+      [
+        `De Schepper van de hemelen en de aarde,`,
+        `Hij heeft voor jullie van julliezelf en van de dieren paren geschapen. Hij vermenigvuldigt jullie,`,
+        `niets is aan Hem gelijk. En Hij is de Alhorende, de Alziende`
+      ],
+      [
+        `آسمانوں اور زمین کا پیدا کرنے والا (وہی ہے) ۔ اسی نے تمہارے لئے تمہاری`,
+        `ہی جنس کے جوڑے بنائے اور چارپایوں کے بھی جوڑے (بنائے اور) اسی طریق`,
+        `پر تم کو پھیلاتا رہتا ہے۔ اس جیسی کوئی چیز نہیں۔ اور وہ دیکھتا سنتا ہے`
+      ],
+      [
+        `(Allah) Pencipta langit dan bumi. Dia menjadikan bagi kamu pasangan-pasangan dari jenis kamu sendiri,`,
+        `dan dari jenis hewan ternak pasangan-pasangan (juga). Dijadikan-Nya kamu berkembang biak dengan jalan itu.`,
+        `Tidak ada sesuatu pun yang serupa dengan Dia. Dan Dia Yang Maha Mendengar, Maha Melihat`
+      ],
+      [
+        `Göklerin ve yerin yaratanı, size içinizden eşler,`,
+        `çift çift hayvanlar var etmiştir. Bu suretle, çoğalmanızı sağlamıştır.`,
+        `O'nun benzeri hiçbir şey yoktur. O, işitendir, görendir`
+      ],
+      [
+        `پديدآورنده آسمانها و زمين است. از خودتان براى شما جفتهايى قرار داد،`,
+        `و از دامها [نيز] نر و ماده [قرار داد].`,
+        `بدين وسيله شما را بسيار مى‌گرداند. چيزى مانند او نيست و اوست شنواى بينا`
+      ],
+      [
+        `তিনি নভোমন্ডল ও ভূমন্ডলের স্রষ্টা। তিনি তোমাদের মধ্য থেকে তোমাদের জন্যে যুগল`,
+        `সৃষ্টি করেছেন এবং চতুস্পদ জন্তুদের মধ্য থেকে জোড়া সৃষ্টি করেছেন। এভাবে তিনি`,
+        `তোমাদের বংশ বিস্তার করেন। কোন কিছুই তাঁর অনুরূপ নয়। তিনি সব শুনেন, সব দেখেন।`
+      ],
+      [
+        `Ele é O Criador dos céus e da terra. Ele vos fez, de vós mesmos,`,
+        `casais, e dos rebanhos, casais; com isso, multiplica-vos.`,
+        `Nada é igual a Ele. E Ele é O Oniouvinte, O Onividente`
+      ],
+      [
+        `他是天地的创造者，他以你们的同类为你们的妻子；`,
+        `使你们的牲畜同类相配；他借此使你们蕃殖。`,
+        `任何物不似象他。他确是全聪的，确是全明的。`
+      ],
+      [
+        `天と地の創造者。かれはあなたがたのために，あなたがたの間から夫婦を，`,
+        `また家畜にも雌雄を創られた。このようにして，あなたがたを繁殖させる。`,
+        `かれに比べられるものは何もない。かれは全聴にして凡てを見透される方である。`
+      ],
+      [
+        `그분은 천지를 창조하신 분 이며 너희를 위해 자웅을 두사 가 축에도`,
+        `자웅을 두었노라 이로 하 여 너희를 번식케 하니 그분에 비 유할 것`,
+        `아무 것도 없도다 실로 그분은 모든 것을 들으시고 지켜 보고 계시니라`
+      ],
+      [
+        `È il Creatore dei cieli e della terra. Da voi stessi ha tratto le vostre spose,`,
+        `e [vi ha dato] il bestiame a coppie. Così vi moltiplica.`,
+        `Niente è simile a Lui. Egli è l'Audiente, Colui Che tutto osserva`
+      ],
+      [
+        `Stwórca niebios i ziemi. On uczynił dla was z was samych - pary,`,
+        `i tak samo z trzód - pary. On was rozmnaża w ten sposób.`,
+        `Nic nie jest do Niego podobne. On jest Słyszący, Widzący`
+      ],
+      [
+        `Творець небес і землі! Він створив вам дружин із вас самих,`,
+        `а також створив худобу парами; так Він розмножує вас.`,
+        `Немає нічого, схожого на Нього! А Він — Всечуючий, Всевидячий`
+      ]
+    ],
+    number: `سورة الشورى / Ash-Shura، الآية 11`
   },
 
   {
@@ -4938,6 +7270,117 @@ const verses = [{
 
   {
     arabic: [
+      `وَمَا خَلَقْتُ الْجِنَّ وَالْإِنْسَ إِلَّا لِيَعْبُدُونِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And I did not create the jinn and mankind except to worship Me`,
+        ``,
+        ``
+      ],
+      [
+        `Je n'ai créé les djinns et les hommes que pour qu'ils M'adorent`,
+        ``,
+        ``
+      ],
+      [
+        `No he creado a los genios y a los hombres sino para que Me sirvan`,
+        ``,
+        ``
+      ],
+      [
+        `Я сотворил джиннов и людей только для того, чтобы они поклонялись Мне`,
+        ``,
+        ``
+      ],
+      [
+        `Und Ich habe die Ginn und die Menschen nur (dazu) erschaffen, damit sie Mir dienen`,
+        ``,
+        ``
+      ],
+      [
+        `Jag har skapat de osynliga väsendena och människorna enbart för att de skall [känna Mig och] dyrka Mig`,
+        ``,
+        ``
+      ],
+      [
+        `Agus níor chruthaigh mé na jinn ná an chine daonna ach chun adhradh a dhéanamh dom.`,
+        ``,
+        ``
+      ],
+      [
+        `En Ik heb de Djinn's en de mens slechts geschapen om Mij te dienen`,
+        ``,
+        ``
+      ],
+      [
+        `اور میں نے جنوں اور انسانوں کو اس لئے پیدا کیا ہے کہ میری عبادت کریں`,
+        ``,
+        ``
+      ],
+      [
+        `Aku tidak menciptakan jin dan manusia melainkan agar mereka beribadah kepada-Ku`,
+        ``,
+        ``
+      ],
+      [
+        `Cinleri ve insanları ancak Bana kulluk etmeleri için yaratmışımdır`,
+        ``,
+        ``
+      ],
+      [
+        `و جن و انس را نيافريدم جز براى آنكه مرا بپرستند`,
+        ``,
+        ``
+      ],
+      [
+        `আমার এবাদত করার জন্যই আমি মানব ও জিন জাতি সৃষ্টি করেছি।`,
+        ``,
+        ``
+      ],
+      [
+        `E não criei os jinns e os humanos senão para Me adorarem`,
+        ``,
+        ``
+      ],
+      [
+        `我创造精灵和人类，只为要他们崇拜我。`,
+        ``,
+        ``
+      ],
+      [
+        `ジンと人間を創ったのはわれに仕えさせるため。`,
+        ``,
+        ``
+      ],
+      [
+        `내가 영마와 인간을 창조함은그들이 나를 섬기게 하려 함이라`,
+        ``,
+        ``
+      ],
+      [
+        `È solo perché Mi adorassero che ho creato i dèmoni e gli uomini`,
+        ``,
+        ``
+      ],
+      [
+        `I stworzyłem dżiny i ludzi tylko po to, żeby Mnie czcili`,
+        ``,
+        ``
+      ],
+      [
+        `Я створив джинів та людей лише для того, щоб вони поклонялися Мені`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الذاريات / Adh-Dhariyat، الآية 56`
+  },
+
+  {
+    arabic: [
       `وَأَن لَّيْسَ لِلْإِنسَانِ`,
       `إِلَّا مَا سَعَىٰ`,
       ``
@@ -5049,117 +7492,6 @@ const verses = [{
 
   {
     arabic: [
-      `وَلَقَدْ يَسَّرْنَا الْقُرآنَ لِلذِّكْرِ`,
-      `فَهَلْ مِن مُّدَّكِرٍ`,
-      ``
-    ],
-    translations: [
-      [
-        `And We have certainly made the Qur'an easy for remembrance,`,
-        `so is there any who will remember?`,
-        ``
-      ],
-      [
-        `Et Nous avons certes rendu le Coran facile pour la méditation,`,
-        `y a-t-il donc quelqu’un pour se rappeler ?`,
-        ``
-      ],
-      [
-        `Y ciertamente hemos hecho el Corán fácil para la reflexión,`,
-        `¿hay entonces alguien que recuerde?`,
-        ``
-      ],
-      [
-        `И Мы сделали Коран легким для поминания,`,
-        `есть ли же тот, кто вспомнит?`,
-        ``
-      ],
-      [
-        `Und Wir haben den Koran gewiss leicht zum Gedenken gemacht,`,
-        `gibt es denn jemanden, der sich erinnert?`,
-        ``
-      ],
-      [
-        `Och Vi har sannerligen gjort Koranen lätt för påminnelse,`,
-        `finns det då någon som tar lärdom?`,
-        ``
-      ],
-      [
-        `Agus táimid tar éis an Córán a dhéanamh éasca le cuimhneamh air,`,
-        `an bhfuil aon duine ann a chuimhníonn?`,
-        ``
-      ],
-      [
-        `En Wij hebben de Koran zeker gemakkelijk gemaakt ter herinnering,`,
-        `is er dan iemand die zich herinnert?`,
-        ``
-      ],
-      [
-        `اور بے شک ہم نے قرآن کو نصیحت کے لیے آسان بنا دیا ہے،`,
-        `تو کیا کوئی ہے جو نصیحت حاصل کرے؟`,
-        ``
-      ],
-      [
-        `Dan sungguh telah Kami mudahkan Al-Qur'an untuk pelajaran,`,
-        `maka adakah yang mau mengambil pelajaran?`,
-        ``
-      ],
-      [
-        `Andolsun Biz Kur'an'ı öğüt için kolaylaştırdık,`,
-        `yok mu ders alan?`,
-        ``
-      ],
-      [
-        `و به‌راستی ما قرآن را برای پند آسان کردیم،`,
-        `پس آیا پندگیرنده‌ای هست؟`,
-        ``
-      ],
-      [
-        `আর অবশ্যই আমরা কুরআনকে উপদেশের জন্য সহজ করে দিয়েছি,`,
-        `তাহলে কি কেউ উপদেশ গ্রহণ করবে?`,
-        ``
-      ],
-      [
-        `E certamente facilitamos o Alcorão para a lembrança,`,
-        `então há alguém que se lembre?`,
-        ``
-      ],
-      [
-        `我们确已使《古兰经》易于记忆，`,
-        `那么有谁会记住呢？`,
-        ``
-      ],
-      [
-        `われらはクルアーンを思い出しやすくした、`,
-        `それでも思い出す者はいるのか？`,
-        ``
-      ],
-      [
-        `우리는 꾸란을 기억하기 쉽게 만들었으니,`,
-        `그러면 기억하는 자가 있는가?`,
-        ``
-      ],
-      [
-        `E abbiamo certamente reso il Corano facile per il ricordo,`,
-        `c’è dunque qualcuno che ricordi?`,
-        ``
-      ],
-      [
-        `I z pewnością uczyniliśmy Koran łatwym do zapamiętania,`,
-        `czy jest więc ktoś, kto by sobie przypomniał?`,
-        ``
-      ],
-      [
-        `І Ми справді зробили Коран легким для нагадування,`,
-        `чи є той, хто згадає?`,
-        ``
-      ]
-    ],
-    number: `سورة القمر / Al-Qamar، الآيات 17،22،28،32`
-  },
-
-  {
-    arabic: [
       `اقْتَرَبَتِ السَّاعَةُ وَانشَقَّ الْقَمَرُ`,
       ``,
       ``
@@ -5267,6 +7599,117 @@ const verses = [{
       ]
     ],
     number: `سورة القمر / Al-Qamar، الآية 1`
+  },
+
+  {
+    arabic: [
+      `وَلَقَدْ يَسَّرْنَا الْقُرآنَ لِلذِّكْرِ`,
+      `فَهَلْ مِن مُّدَّكِرٍ`,
+      ``
+    ],
+    translations: [
+      [
+        `And We have certainly made the Qur'an easy for remembrance,`,
+        `so is there any who will remember?`,
+        ``
+      ],
+      [
+        `Et Nous avons certes rendu le Coran facile pour la méditation,`,
+        `y a-t-il donc quelqu’un pour se rappeler ?`,
+        ``
+      ],
+      [
+        `Y ciertamente hemos hecho el Corán fácil para la reflexión,`,
+        `¿hay entonces alguien que recuerde?`,
+        ``
+      ],
+      [
+        `И Мы сделали Коран легким для поминания,`,
+        `есть ли же тот, кто вспомнит?`,
+        ``
+      ],
+      [
+        `Und Wir haben den Koran gewiss leicht zum Gedenken gemacht,`,
+        `gibt es denn jemanden, der sich erinnert?`,
+        ``
+      ],
+      [
+        `Och Vi har sannerligen gjort Koranen lätt för påminnelse,`,
+        `finns det då någon som tar lärdom?`,
+        ``
+      ],
+      [
+        `Agus táimid tar éis an Córán a dhéanamh éasca le cuimhneamh air,`,
+        `an bhfuil aon duine ann a chuimhníonn?`,
+        ``
+      ],
+      [
+        `En Wij hebben de Koran zeker gemakkelijk gemaakt ter herinnering,`,
+        `is er dan iemand die zich herinnert?`,
+        ``
+      ],
+      [
+        `اور بے شک ہم نے قرآن کو نصیحت کے لیے آسان بنا دیا ہے،`,
+        `تو کیا کوئی ہے جو نصیحت حاصل کرے؟`,
+        ``
+      ],
+      [
+        `Dan sungguh telah Kami mudahkan Al-Qur'an untuk pelajaran,`,
+        `maka adakah yang mau mengambil pelajaran?`,
+        ``
+      ],
+      [
+        `Andolsun Biz Kur'an'ı öğüt için kolaylaştırdık,`,
+        `yok mu ders alan?`,
+        ``
+      ],
+      [
+        `و به‌راستی ما قرآن را برای پند آسان کردیم،`,
+        `پس آیا پندگیرنده‌ای هست؟`,
+        ``
+      ],
+      [
+        `আর অবশ্যই আমরা কুরআনকে উপদেশের জন্য সহজ করে দিয়েছি,`,
+        `তাহলে কি কেউ উপদেশ গ্রহণ করবে?`,
+        ``
+      ],
+      [
+        `E certamente facilitamos o Alcorão para a lembrança,`,
+        `então há alguém que se lembre?`,
+        ``
+      ],
+      [
+        `我们确已使《古兰经》易于记忆，`,
+        `那么有谁会记住呢？`,
+        ``
+      ],
+      [
+        `われらはクルアーンを思い出しやすくした、`,
+        `それでも思い出す者はいるのか？`,
+        ``
+      ],
+      [
+        `우리는 꾸란을 기억하기 쉽게 만들었으니,`,
+        `그러면 기억하는 자가 있는가?`,
+        ``
+      ],
+      [
+        `E abbiamo certamente reso il Corano facile per il ricordo,`,
+        `c’è dunque qualcuno che ricordi?`,
+        ``
+      ],
+      [
+        `I z pewnością uczyniliśmy Koran łatwym do zapamiętania,`,
+        `czy jest więc ktoś, kto by sobie przypomniał?`,
+        ``
+      ],
+      [
+        `І Ми справді зробили Коран легким для нагадування,`,
+        `чи є той, хто згадає?`,
+        ``
+      ]
+    ],
+    number: `سورة القمر / Al-Qamar، الآيات 17،22،28،32`
   },
 
   {
@@ -5489,6 +7932,228 @@ const verses = [{
       ]
     ],
     number: `سورة الحديد / Al-Hadid، الآية 20`
+  },
+
+  {
+    arabic: [
+      `هُوَ اللَّهُ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ ۖ عَالِمُ الْغَيْبِ وَالشَّهَادَةِ ۖ هُوَ الرَّحْمَٰنُ الرَّحِيمُ`,
+      `هُوَ اللَّهُ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْمَلِكُ الْقُدُّوسُ السَّلَامُ الْمُؤْمِنُ الْمُهَيْمِنُ الْعَزِيزُ الْجَبَّارُ الْمُتَكَبِّرُ ۚ سُبْحَانَ اللَّهِ عَمَّا يُشْرِكُونَ`,
+      `هُوَ اللَّهُ الْخَالِقُ الْبَارِئُ الْمُصَوِّرُ ۖ لَهُ الْأَسْمَاءُ الْحُسْنَىٰ ۚ يُسَبِّحُ لَهُ مَا فِي السَّمَاوَاتِ وَالْأَرْضِ ۖ وَهُوَ الْعَزِيزُ الْحَكِيمُ`
+    ],
+    translations: [
+      [
+        `He is Allah, other than whom there is no deity, Knower of the unseen and the witnessed. He is the Entirely Merciful, the Especially Merciful`,
+        `He is Allah, other than whom there is no deity, the Sovereign, the Pure, the Perfection, the Bestower of Faith, the Overseer, the Exalted in Might, the Compeller, the Superior. Exalted is Allah above whatever they associate with Him`,
+        `He is Allah, the Creator, the Inventor, the Fashioner; to Him belong the best names. Whatever is in the heavens and earth is exalting Him. And He is the Exalted in Might, the Wise`
+      ],
+      [
+        `C'est Lui Allah. Nulle divinité autre que Lui, le Connaisseur de l'Invisible tout comme du visible. C'est Lui, le Tout Miséricordieux, le Très Miséricordieux`,
+        `C'est Lui, Allah. Nulle divinité autre que Lui; Le Souverain, Le Pur, L'Apaisant, Le Rassurant, Le Prédominant, Le Tout Puissant, Le Contraignant, L'Orgueilleux. Gloire à Allah! Il transcende ce qu'ils Lui associent`,
+        `C'est Lui Allah, le Créateur, Celui qui donne un commencement à toute chose, le Formateur. A Lui les plus beaux noms. Tout ce qui est dans les cieux et la terre Le glorifie. Et c'est Lui le Puissant, le Sage`
+      ],
+      [
+        `Es Alá -no hay más dios que Él-, el Conocedor de lo oculto y de lo patente. Es el Compasivo, el Misericordioso`,
+        `Es Alá -no hay más dios que Él-, el Rey, el Santísimo, la Paz, Quien da Seguridad, el Custodio, el Poderoso, el Fuerte, el Sumo. ¡Gloria a Alá! ¡Está por encima de lo que Le asocian`,
+        `Es Alá, el Creador, el Hacedor, el Formador. Posee los nombres más bellos. Lo que está en los cielos y en la tierra Le glorifica. Es el Poderoso, el Sabio`
+      ],
+      [
+        `Он - Аллах, и нет божества, кроме Него, Ведающего сокровенное и явное. Он - Милостивый, Милосердный`,
+        `Он - Аллах, и нет божества, кроме Него, Властелина, Святого, Пречистого, Оберегающего, Хранителя, Могущественного, Могучего, Гордого. Пречист Аллах и далек от того, что они приобщают в сотоварищи`,
+        `Он - Аллах, Творец, Создатель, Дарующий облик. У Него - самые прекрасные имена. Славит Его то, что на небесах и на земле. Он - Могущественный, Мудрый`
+      ],
+      [
+        `Er ist Allah, außer dem es keinen Gott gibt, der Kenner des Verborgenen und des Offenbaren. Er ist der Allerbarmer und Barmherzige`,
+        `Er ist Allah, außer dem es keinen Gott gibt, der König, der Heilige, der Friede', der Gewährer der Sicherheit, der Wächter, der Allmächtige, der Gewalthaber, der Stolze. Preis sei Allah! (Und Erhaben ist Er) über das, was sie (Ihm) beigesellen`,
+        `Er ist Allah, der Schöpfer, der Erschaffer, der Gestalter. Sein sind die schönsten Namen. Ihn preist (alles), was in den Himmeln und auf der Erde ist. Und Er ist der Allmächtige und Allweise`
+      ],
+      [
+        `Han är Gud; ingen gudom finns utom Han! Han känner allt det som är dolt för människor liksom det som de kan bevittna - Han, den Nåderike, den Barmhärtige`,
+        `Han är Gud; ingen gudom finns utom Han, Konungen, den Helige, Han [som skänker] fred, Han som [väcker och vidmakthåller] tron, Han som vakar [över uppenbarelsen], den Mäktige, Han som betvingar och återupprättar, Han vars storhet [ingen kan fatta]! Stor är Gud i Sin härlighet, fjärran från allt som [människor] vill sätta vid Hans sida`,
+        `Han är Gud, Skaparen, som är upphovet till allt och som ger allt dess slutliga form. Hans är fullkomlighetens sköna namn; allt och alla i himlarna och på jorden prisar Honom - Han är den Allsmäktige, den Vise`
+      ],
+      [
+        `Is é Allah é, nach bhfuil aon dia ach Eisean, Eolaí an rud nach bhfeictear agus an rud a fheictear. Is Eisean an Trócaireach Uile, an Trócaireach Speisialta.`,
+        `Is é Allah é, nach bhfuil aon dia ach Eisean, an Rí, an Naofa, an tSíocháin, an Bronntóir Creidimh, an Cosantóir, an Cumhachtach, an tÉigeantóir, an tUasal. Is ard é Allah thar a gcuireann siad i gcomhpháirt leis.`,
+        `Is é Allah é, an Cruthaitheoir, an Tionscnóir, an Múnlóir; leis na hainmneacha is áille. Tá gach rud sna flaithis agus ar an talamh á mholadh. Agus is Eisean an Cumhachtach, an Críonna.`
+      ],
+      [
+        `Hij is Allah, Degene naast Wie er geen god is dan Hij, de Kenner van het onwaarneembare en het waarneembare, Hij is de Erbarmer, de Meest Barmhartige`,
+        `Hij is Allah, Degene naast Wie er geen god is dan Hij, de Heerser, de Heilige, de Schenker van veiligheid, de Vertrouwende, de Beschermer, de Almachtige, de Onweerstaanbare Onderwerper, de Trotse. Heilig is Hij boven wat zij Hem toekennen`,
+        `Hij is Allah, de Schepper, de Voortbrenger, de Vormer, aan Hem behoren de Schone Namen. Wat er in de hemelen en op de aarde is prijst Zijn Glorie. En Hij is de Almachtige, de Alwijze`
+      ],
+      [
+        `وہی خدا ہے جس کے سوا کوئی معبود نہیں۔ پوشیدہ اور ظاہر کا جاننے والا ہے وہ بڑا مہربان نہایت رحم والا ہے`,
+        `وہی خدا ہے جس کے سوا کوئی عبادت کے لائق نہیں۔ بادشاہ (حقیقی) پاک ذات (ہر عیب سے) سلامتی امن دینے والا نگہبان غالب زبردست بڑائی والا۔ خدا ان لوگوں کے شریک مقرر کرنے سے پاک ہے`,
+        `وہی خدا (تمام مخلوقات کا) خالق۔ ایجاد واختراع کرنے والا صورتیں بنانے والا اس کے سب اچھے سے اچھے نام ہیں۔ جتنی چیزیں آسمانوں اور زمین میں ہیں سب اس کی تسبیح کرتی ہیں اور وہ غالب حکمت والا ہے`
+      ],
+      [
+        `Dialah Allah, tidak ada tuhan selain Dia. Mengetahui yang gaib dan yang nyata, Dialah Yang Maha Pengasih, Maha Penyayang`,
+        `Dialah Allah, tidak ada tuhan selain Dia. Maha Raja Yang Mahasuci, Yang Mahasejahtera, Yang Menjaga Keamanan, Pemelihara Keselamatan, Yang Mahaperkasa, Yang Mahakuasa, Yang Memiliki Segala Keagungan. Mahasuci Allah dari apa yang mereka persekutukan`,
+        `Dialah Allah Yang Menciptakan, Yang Mengadakan, Yang Membentuk Rupa, Dia memiliki nama-nama yang indah. Apa yang di langit dan di bumi bertasbih kepada-Nya. Dan Dialah Yang Mahaperkasa, Mahabijaksana`
+      ],
+      [
+        `O, görüleni de görülmeyeni de bilen, kendisinden başka tanrı olmayan Allah'tır. O, acıyıcı olandır, acıyandır`,
+        `O, kendisinden başka tanrı olmayan, hükümran, çok kutsal; esenlik veren, güvenlik veren, görüp gözeten, güçlü, buyruğunu herşeye geçiren, ulu olan, Allah'tır. Allah onların koştukları eşlerden (ortaklardan) münezzehtir`,
+        `O, vareden, güzel yaratan, yarattıklarına şekil veren, en güzel adlar kendisinin olan Allah'tır. Göklerde ve yerde olanlar O'nu tesbih ederler. O güçlüdür, Hakim'dir`
+      ],
+      [
+        `اوست خدايى كه غير از او معبودى نيست، داننده غيب و آشكار است، اوست رحمتگر مهربان`,
+        `اوست خدايى كه جز او معبودى نيست، همان فرمانرواى پاك سلامت‌[بخش، و] مؤمن [به حقيقت حقه خود كه‌] نگهبان، عزيز، جبّار [و] متكبّر [است‌]. پاك است خدا از آنچه [با او] شريك مى‌گردانند`,
+        `اوست خداى خالق نوساز صورتگر [كه‌] بهترين نامها [و صفات‌] از آنِ اوست. آنچه در آسمانها و زمين است [جمله‌] تسبيح او مى‌گويند و او عزيز حكيم است`
+      ],
+      [
+        `তিনিই আল্লাহ তা’আলা, তিনি ব্যতীত কোন উপাস্য নেই; তিনি দৃশ্য ও অদৃশ্যকে জানেন তিনি পরম দয়ালু, অসীম দাতা।`,
+        `তিনিই আল্লাহ তিনি ব্যতিত কোন উপাস্য নেই। তিনিই একমাত্র মালিক, পবিত্র, শান্তি ও নিরাপত্তাদাতা, আশ্রয়দাতা, পরাক্রান্ত, প্রতাপান্বিত, মাহাত্ম্যশীল। তারা যাকে অংশীদার করে আল্লাহ তা’ আলা তা থেকে পবিত্র।`,
+        `তিনিই আল্লাহ তা’আলা, স্রষ্টা, উদ্ভাবক, রূপদাতা, উত্তম নাম সমূহ তাঁরই। নভোমন্ডলে ও ভূমন্ডলে যা কিছু আছে, সবই তাঁর পবিত্রতা ঘোষণা করে। তিনি পরাক্রান্ত প্রজ্ঞাময়।`
+      ],
+      [
+        `Ele é Allah. Não existe deus senão Ele, O Sabedor do invisível e do visível, Ele é O Misericordioso, O Misericordiador`,
+        `Ele é Allah. Não existe deus senão Ele, O Rei, O Puro, A Paz, O Confortador, O Predominante, O Todo-Poderoso, O Transcendente, O Orgulhoso. Glorificado seja Allah, acima do que idolatram`,
+        `Ele é Allah, O Criador, O Iniciador da criação, O Configurador; dEle são os mais belos nomes. O que há nos céus e na terra glorifica-O. E Ele é O Todo-Poderoso, O Sábio`
+      ],
+      [
+        `他是真主，除他外，绝无应受崇拜的。他是全知幽玄的，他是至仁的，是至慈的。`,
+        `他是真主，除他外，绝无应受崇拜的。他是君主。他是至洁的，是健全的，是保佑的，是见证的，是万能的，是尊严的，是尊大的。赞颂真主，超绝万物，他是超乎他们所用以配他的。`,
+        `他是真主，是创造者，是造化者，是赋形者，他有许多极美的称号，凡在天地间的，都赞颂他，他是万能的，是至睿的。`
+      ],
+      [
+        `かれこそは，アッラーであられる。かれの外に神はないのである。かれは幽玄界と現象界を知っておられ，慈悲あまねく慈愛深き御方であられる。`,
+        `かれこそは，アッラーであられる。かれの外に神はないのである。至高の王者，神聖にして平安の源であり，信仰を管理し，安全を守護なされ，偉力ならびなく全能で，限りなく尊い方であられる。アッラーに讃えあれ。（かれは）人が配するものの上に（高くおられる）。`,
+        `かれこそは，アッラーであられる。造物の主，造化の主，形態を授ける（主であり），最も美しい御名はかれの有である。天地の凡てのものは，かれを讃える。本当にかれは偉力ならびなく英明であられる。`
+      ],
+      [
+        `그분은 하나님으로서 그분 이외에는 경배 받을 존재가 없노라. 보이지 않는 것과 보이는 것을 아시는 분. 그분은 가장 자비로우시고 가장 자애로우신 분이라`,
+        `그분은 하나님으로서 그분 이외에는 경배 받을 존재가 없노라. 제왕, 성스러우신 분, 그 어떤 결점도 없으신 분, 안전을 주시는 분, 지켜보시는 분, 가장 존엄하신 분, 위압하시는 분, 홀로 위대하신 분. 그들이 (그분께) 대등한 존재를 두나 하나님은 완벽하신 분이라`,
+        `그분은 하나님으로서 창조하시는 분, 창조를 시작하시는 분, 형상을 부여하시는 분이라. 그분께는 가장 훌륭한 이름들이 있노라. 하늘과 대지에 있는 것들이 그분의 완벽함을 찬양하며 그분은 가장 존엄하시고 가장 현명하신 분이라`
+      ],
+      [
+        `Egli è Allah, Colui all'infuori del Quale non c'è altro dio, il Conoscitore dell'invisibile e del palese. Egli è il Compassionevole, il Misericordioso`,
+        `Egli è Allah, Colui all'infuori del Quale non c'è altro dio, il Re, il Santo, la Pace, il Fedele, il Custode, l'Eccelso, Colui Che costringe al Suo volere, Colui Che è cosciente della Sua grandezza. Gloria ad Allah, ben al di là di quanto Gli associano`,
+        `Egli è Allah, il Creatore, Colui Che dà inizio a tutte le cose, Colui Che dà forma a tutte le cose. A Lui [appartengono] i nomi più belli. Tutto ciò che è nei cieli e sulla terra rende gloria a Lui. Egli è l'Eccelso, il Saggio`
+      ],
+      [
+        `On jest Bogiem! Nie ma boga, jak tylko On! On zna skryte i widzialne. On jest Miłosierny, Litościwy`,
+        `On jest Bogiem! Nie ma boga, jak tylko On!; - Król, Przenajświętszy, Pokój, Wierny, Zachowujący, Potężny, Przemożny, Wyniosły! Chwała niech będzie Bogu! On jest ponad to, co dodają Mu jako współtowarzyszy`,
+        `On jest Bogiem! Stworzycielem, Twórcą, Kształtującym! Do Niego należą najpiękniejsze imiona! Głosi Jego chwałę to, co jest w niebiosach, i to, co jest na ziemi! On jest Potężny, Mądry`
+      ],
+      [
+        `Він — Аллаг, окрім Нього немає бога! Він знає потаємне та відкрите, і Він — Милостивий, Милосердний`,
+        `Він — Аллаг, окрім Нього немає бога! Цар, Пресвятий, Мирний, Вірний, Охоронець, Великий, Сильний, Звеличений! Пречистий Аллаг від тих, кому поклоняються нарівні з Ним`,
+        `Він — Аллаг, Творець, Створювач, Наділяючий образом! Йому належать прекрасні імена, славить Його те, що на небесах і на землі, а Він — Великий, Мудрий`
+      ]
+    ],
+    number: `سورة الحشر / Al-Hashr، الآيات 22-24`
+  },
+
+  {
+    arabic: [
+      `مَا أَصَابَ مِنْ مُصِيبَةٍ إِلَّا بِإِذْنِ اللَّهِ ۗ`,
+      `وَمَنْ يُؤْمِنْ بِاللَّهِ يَهْدِ قَلْبَهُ ۚ`,
+      `وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ`
+    ],
+    translations: [
+      [
+        `No disaster strikes except by permission of Allah.`,
+        `And whoever believes in Allah - He will guide his heart.`,
+        `And Allah is Knowing of all things`
+      ],
+      [
+        `Nul malheur n'atteint [l'homme] que par la permission d'Allah.`,
+        `Et quiconque croit en Allah,`,
+        `[Allah] guide son cœur. Allah est Omniscient`
+      ],
+      [
+        `No sucede ninguna desgracia si Alá no lo permite.`,
+        `Él dirige el corazón de quien cree en Alá.`,
+        `Alá es omnisciente`
+      ],
+      [
+        `Любое несчастье постигает только по воле Аллаха.`,
+        `Сердце того, кто уверовал в Аллаха,`,
+        `Он наставляет на прямой путь. Аллах знает о всякой вещи`
+      ],
+      [
+        `Kein Unglück trifft (jemanden), außer mit Allahs Erlaubnis.`,
+        `Und wer an Allah glaubt,`,
+        `dessen Herz leitet Er recht. Und Allah weiß über alles Bescheid`
+      ],
+      [
+        `Ingen olycka drabbar [er] utan Guds tillåtelse.`,
+        `Gud ger hjärtat hos den som tror på Honom dess vägledning.`,
+        `- Gud har kunskap om allt`
+      ],
+      [
+        `Ní bhuaileann aon tubaiste ach le cead Allah.`,
+        `Agus an té a chreideann in Allah,`,
+        `treoróidh Sé a chroí. Agus tá Allah eolach ar gach rud.`
+      ],
+      [
+        `Er is niemand die een ramp overkomt,`,
+        `of deze gebeurt met het verlof van Allah. En wie in Allah gelooft:`,
+        `Hij zal diens hart leiden. En Allah is Alwetend over alle zaken`
+      ],
+      [
+        `کوئی مصیبت نازل نہیں ہوتی مگر خدا کے حکم سے۔`,
+        `اور جو شخص خدا پر ایمان لاتا ہے وہ اس کے دل`,
+        `کو ہدایت دیتا ہے۔ اور خدا ہر چیز سے باخبر ہے`
+      ],
+      [
+        `Tidak ada suatu musibah yang menimpa (seseorang), kecuali dengan izin Allah;`,
+        `dan barangsiapa beriman kepada Allah,`,
+        `niscaya Allah akan memberi petunjuk kepada hatinya. Dan Allah Maha Mengetahui segala sesuatu`
+      ],
+      [
+        `Başa gelen hiçbir musibet Allah'ın izni olmaksızın olamaz;`,
+        `Allah'a kim inanırsa onun gönlünü doğruya yöneltir.`,
+        `Allah herşeyi bilendir`
+      ],
+      [
+        `هيچ مصيبتى جز به اذن خدا نرسد،`,
+        `و كسى كه به خدا بگرود، دلش را به راه آورد،`,
+        `و خدا[ست كه‌] به هر چيزى داناست`
+      ],
+      [
+        `আল্লাহর নির্দেশ ব্যতিরেকে কোন বিপদ আসে না এবং যে`,
+        `আল্লাহর প্রতি বিশ্বাস করে, তিনি তার অন্তরকে সৎপথ`,
+        `প্রদর্শন করেন। আল্লাহ সর্ববিষয়ে সম্যক পরিজ্ঞাত।`
+      ],
+      [
+        `Nenhuma desgraça ocorre sem que seja com a permissão de Allah.`,
+        `E quem crê em Allah, Ele lhe guiará o coração.`,
+        `E Allah, de todas as cousas, é Onisciente`
+      ],
+      [
+        `凡灾难的发生，无一不是依真主的判决的。`,
+        `谁信真主，`,
+        `他将引导谁的心，真主是全知万物的。`
+      ],
+      [
+        `どんな災厄も，アッラーの御許しなく起きることはない。`,
+        `誰でもアッラーを信仰する者は，その心を導かれよう。`,
+        `本当にアッラーは，凡てのことに通暁なされる。`
+      ],
+      [
+        `그 어떤 시련도 하나님의 허락 없이는 일어나지 않노라.`,
+        `하나님을 믿는 자가 있다면 그분께서는 그의 마음을 인도하실 것이라.`,
+        `하나님께서는 그 모든 것을 알고 계신 분이라`
+      ],
+      [
+        `Nessuna sventura colpisce [l'uomo] senza il permesso di Allah.`,
+        `Allah guida il cuore di chi crede in Lui.`,
+        `Allah è l'Onnisciente`
+      ],
+      [
+        `Nikogo nie dosięgnie żadne nieszczęście,`,
+        `jak tylko za zezwoleniem Boga. Bóg pokieruje sercem każdego,`,
+        `kto w Niego wierzy. Bóg o każdej rzeczy jest wszechwiedzący`
+      ],
+      [
+        `Лихо не вражає без дозволу Аллага.`,
+        `І для серця того, хто увірував у Аллага,`,
+        `Він вкаже прямий шлях. Аллаг — про кожну річ Знаючий`
+      ]
+    ],
+    number: `سورة التغابن / At-Taghabun، الآية 11`
   },
 
   {
@@ -5937,6 +8602,117 @@ const verses = [{
 
   {
     arabic: [
+      `مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ وَلَلْآخِرَةُ خَيْرٌ لَكَ مِنَ الْأُولَىٰ`,
+      `وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ أَلَمْ يَجِدْكَ يَتِيمًا فَآوَىٰ`,
+      `وَوَجَدَكَ ضَالًّا فَهَدَىٰ وَوَجَدَكَ عَائِلًا فَأَغْنَىٰ`
+    ],
+    translations: [
+      [
+        `Your Lord has not taken leave of you, [O Muhammad], nor has He detested [you] And the Hereafter is better for you than the first [life]`,
+        `And your Lord is going to give you, and you will be satisfied Did He not find you an orphan and give [you] refuge`,
+        `And He found you lost and guided [you] And He found you poor and made [you] self-sufficient`
+      ],
+      [
+        `Ton Seigneur ne t'a ni abandonné, ni détesté La vie dernière t'est, certes, meilleure que la vie présente`,
+        `Ton Seigneur t'accordera certes [Ses faveurs], et alors tu seras satisfait Ne t'a-t-Il pas trouvé orphelin? Alors Il t'a accueilli`,
+        `Ne t'a-t-Il pas trouvé égaré? Alors Il t'a guidé Ne t'a-t-Il pas trouvé pauvre? Alors Il t'a enrichi`
+      ],
+      [
+        `Tu Señor no te ha abonadonado ni aborrecido Sí, la otra vida será mejor para ti que ésta`,
+        `Tu Señor te dará y quedarás satisfecho ¿No te encontró huérfano y te recogió`,
+        `¿No te encontró extraviado y te dirigió ¿No te encontró pobre y te enriqueció`
+      ],
+      [
+        `Не покинул тебя твой Господь и не возненавидел Воистину, будущее для тебя лучше, чем настоящее`,
+        `Господь твой непременно одарит тебя, и ты будешь удовлетворен Разве Он не нашел тебя сиротой и не дал тебе приют`,
+        `Он нашел тебя заблудшим и повел прямым путем Он нашел тебя бедным и обогатил`
+      ],
+      [
+        `Dein Herr hat sich weder von dir verabschiedet noch haßt Er (dich) Und das Jenseits ist wahrlich besser für dich als das Diesseits`,
+        `Und dein Herr wird dir wahrlich geben, und dann wirst du zufrieden sein Hat Er dich nicht als Waise gefunden und (dir) dann Zuflucht verschafft`,
+        `und dich irregehend gefunden und dann rechtgeleitet und dich arm gefunden und dann reich gemacht`
+      ],
+      [
+        `Din Herre har inte övergett dig och du har inte väckt Hans missnöje Det liv som ligger framför dig skall förvisso bli lättare än det som hittills varit`,
+        `Och din Herre skall skänka dig [Sitt goda i överflöd] och du skall bli helt nöjd Fann Han dig inte faderlös och gav dig ett hem`,
+        `Och såg Han dig inte vilsen och vägledde dig Och såg Han dig inte lida nöd och skänkte dig allt vad du behövde`
+      ],
+      [
+        `Níor fhág do Thiarna thú, [a Mhuhamad], ná níor chuir Sé fuath ort. Agus tá an Saol Eile níos fearr duit ná an chéad saol.`,
+        `Agus tabharfaidh do Thiarna duit, agus beidh tú sásta. Nár aimsigh Sé thú i do dhílleachta agus nár thug Sé dídean duit?`,
+        `Agus fuair Sé thú caillte agus threoraigh Sé thú. Agus fuair Sé thú bocht agus rinne Sé thú neamhspleách.`
+      ],
+      [
+        `Jouw Heer heeft jou (O Moehammad) niet verlaten en Hij is niet kwaad (op jou)`,
+        `En het latere (het Hiernamaals) is zeker beter voor jou dan het eerste (het wereldse leven) En jouw Heer zal jou zeker gunsten schenken, zodat jij tevreden zult zijn`,
+        `Heeft Hij jou niet als wees gevonden en jou in bescherming genomen En Hij heeft jou dwalend gevonden en jou geleid En Hij heeft jou behoeftig gevonden en rijk gemaakt`
+      ],
+      [
+        `کہ (اے محمدﷺ) تمہارے پروردگار نے نہ تو تم کو چھوڑا اور نہ (تم سے) ناراض ہوا`,
+        `اور آخرت تمہارے لیے پہلی (حالت یعنی دنیا) سے کہیں بہتر ہے اور تمہیں پروردگار عنقریب وہ کچھ عطا فرمائے گا کہ تم خوش ہو جاؤ گے`,
+        `بھلا اس نے تمہیں یتیم پا کر جگہ نہیں دی؟ (بےشک دی) اور رستے سے ناواقف دیکھا تو رستہ دکھایا اور تنگ دست پایا تو غنی کر دیا`
+      ],
+      [
+        `Tuhanmu tidak meninggalkan engkau (Muhammad) dan tidak (pula) membencimu dan sungguh, yang kemudian itu lebih baik bagimu daripada yang permulaan`,
+        `Dan sungguh, kelak Tuhanmu pasti memberikan karunia-Nya kepadamu, sehingga engkau menjadi puas Bukankah Dia mendapatimu sebagai seorang yatim, lalu Dia melindungi(mu)`,
+        `(Dan Dia mendapatimu sebagai seorang yang bingung, lalu Dia memberikan petunjuk Dan Dia mendapatimu sebagai seorang yang kekurangan, lalu Dia memberikan kecukupan`
+      ],
+      [
+        `Rabbin seni ne bıraktı ve ne de sana darıldı Doğrusu ahiret senin için dünyadan daha hayırlıdır`,
+        `Rabbin şüphesiz sana verecek ve sen de hoşnut olacaksın Seni öksüz bulup da barındırmadı mı`,
+        `Seni şaşırmış bulup, doğru yola eriştirmedi mi Seni fakir bulup zenginleştirmedi mi`
+      ],
+      [
+        `[كه‌] پروردگارت تو را وانگذاشته، و دشمن نداشته است و قطعاً آخرت براى تو از دنيا نيكوتر خواهد بود`,
+        `و بزودى پروردگارت تو را عطا خواهد داد، تا خرسند گردى مگر نه تو را يتيم يافت، پس پناه داد؟`,
+        `و تو را سرگشته يافت، پس هدايت كرد؟ و تو را تنگدست يافت و بى‌نياز گردانيد؟`
+      ],
+      [
+        `আপনার পালনকর্তা আপনাকে ত্যাগ করেনি এবং আপনার প্রতি বিরূপও হননি। আপনার জন্যে পরকাল ইহকাল অপেক্ষা শ্রেয়।`,
+        `আপনার পালনকর্তা সত্বরই আপনাকে দান করবেন, অতঃপর আপনি সন্তুষ্ট হবেন। তিনি কি আপনাকে এতীমরূপে পাননি? অতঃপর তিনি আশ্রয় দিয়েছেন।`,
+        `তিনি আপনাকে পেয়েছেন পথহারা, অতঃপর পথপ্রদর্শন করেছেন। তিনি আপনাকে পেয়েছেন নিঃস্ব, অতঃপর অভাবমুক্ত করেছেন।`
+      ],
+      [
+        `Teu Senhor não te abandonou nem te detestou E, em verdade, a Derradeira Vida te é melhor que a primeira`,
+        `E, em verdade, teu Senhor dar-te-á graças, e disso te agradarás Não te encontrou órfão e te abrigou`,
+        `E não te encontrou descaminhado e te guiou E não te encontrou infortunado e te enriqueceu`
+      ],
+      [
+        `你的主没有弃绝你，也没有怨恨你； 後世於你，确比今世更好；`,
+        `你的主将来必赏赐你，以至你喜悦。 难道他没有发现你伶仃孤苦，而使你有所归宿？`,
+        `他曾发现你徘徊歧途，而把你引入正路； 发现你家境寒苦，而使你衣食丰足。`
+      ],
+      [
+        `主は，あなたを見捨てられず，憎まれた訳でもない。 本当に来世（将来）は，あなたにとって現世（現在）より，もっと良いのである。`,
+        `やがて主はあなたの満足するものを御授けになる。 かれは孤児のあなたを見付けられ，庇護なされたではないか。`,
+        `かれはさ迷っていたあなたを見付けて，導きを与え。 また貧しいあなたを見付けて，裕福になされたではないか。`
+      ],
+      [
+        `주님께서 그대를 버리지 아니했으며 미워하지도 않으시니라 실로 그대에게는 내세가 현세보다 나으리니`,
+        `주님께서 그대에게 은혜를 베풀것이매 그대는 이로하여 기뻐하리라 그분은 고아인 그대를 발견하여 그대를 보호하지 아니 했더뇨`,
+        `그분은 방황하는 그대를 발견하여 그대를 인도하지 아니 했더 뇨 그분은 가난했던 그대를 부유하게 하여 주지 아니 했더뇨`
+      ],
+      [
+        `il tuo Signore non ti ha abbandonato e non ti disprezza e per te l'altra vita sarà migliore della precedente`,
+        `Il tuo Signore ti darà [in abbondanza] e ne sarai soddisfatto Non ti ha trovato orfano e ti ha dato rifugio`,
+        `Non ti ha trovato smarrito e ti ha dato la guida Non ti ha trovato povero e ti ha arricchito`
+      ],
+      [
+        `Nie opuścił cię twój Pan ani cię nie znienawidził I z pewnością ostateczne będzie lepsze dla ciebie aniżeli pierwsze`,
+        `I z pewnością niebawem obdarzy cię twój Pan i będziesz zadowolony Czyż nie znalazł cię sierotą i czy nie dał ci schronienia`,
+        `Czy nie znalazł cię błądzącym i czy nie poprowadził cię drogą prostą I czy nie znalazł cię biednym, i nie wzbogacił cię`
+      ],
+      [
+        `що не залишив тебе Господь твій і не зненавидів тебе І, воістину, майбутнє для тебе краще за минуле`,
+        `І, воістину, скоро наділить тебе Господь твій, тож будеш вдоволений ти Хіба не знайшов Він тебе сиротою, і хіба не прихистив`,
+        `І хіба не знайшов Він тебе заблуканим, і хіба не повів прямим шляхом І хіба не знайшов тебе бідним, і хіба не збагатив`
+      ]
+    ],
+    number: `سورة الضحى / Ad-Duha، الآيات 3-8`
+  },
+
+  {
+    arabic: [
       `فَإِنَّ مَعَ الْعُسْرِ يُسْرًا`,
       `إِنَّ مَعَ الْعُسْرِ يُسْرًا`,
       ``
@@ -6044,6 +8820,117 @@ const verses = [{
       ]
     ],
     number: `سورة الشرح / Ash-Sharh، الآيات 5-6`
+  },
+
+  {
+    arabic: [
+      `لَقَدْ خَلَقْنَا الْإِنْسَانَ فِي أَحْسَنِ تَقْوِيمٍ`,
+      `ثُمَّ رَدَدْنَاهُ أَسْفَلَ سَافِلِينَ`,
+      `إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ فَلَهُمْ أَجْرٌ غَيْرُ مَمْنُونٍ`
+    ],
+    translations: [
+      [
+        `We have certainly created man in the best of stature`,
+        `Then We return him to the lowest of the low`,
+        `Except for those who believe and do righteous deeds, for they will have a reward uninterrupted`
+      ],
+      [
+        `Nous avons certes créé l'homme dans la forme la plus parfaite`,
+        `Ensuite, Nous l'avons ramené au niveau le plus bas`,
+        `sauf ceux qui croient et accomplissent les bonnes œuvres: ceux-là auront une récompense jamais interrompue`
+      ],
+      [
+        `Hemos creado al hombre dándole la mejor complexión`,
+        `Luego, hemos hecho de él el más abyecto`,
+        `Excepto quienes crean y obren bien, que recibirán una recompensa ininterrumpida`
+      ],
+      [
+        `Мы сотворили человека в прекраснейшем облике`,
+        `Потом Мы вернем его в нижайшее из низких (продлим ему жизнь настолько, что он превратится в дряхлого старика, или бросим его на самое дно Геенны)`,
+        `за исключением тех, которые уверовали и совершали праведные деяния. Им уготована награда неиссякаемая`
+      ],
+      [
+        `Wir haben den Menschen ja in schönster Gestaltung erschaffen`,
+        `hierauf haben Wir ihn zu den Niedrigsten der Niedrigen werden lassen`,
+        `außer denjenigen, die glauben und rechtschaffene Werke tun; für sie wird es einen Lohn geben, der nicht aufhört`
+      ],
+      [
+        `Vi har sannerligen skapat människan i den bästa skepnad`,
+        `men därefter låtit henne sjunka lägre än de lägsta`,
+        `utom dem som tror och lever ett rättskaffens liv; ja, deras lön skall vara utan ände`
+      ],
+      [
+        `Go deimhin, chruthaíomar an duine sa chruth is fearr.`,
+        `Ansin chuirimid ar ais é go dtí an ceann is ísle de na hísle.`,
+        `Ach amháin iad siúd a chreideann agus a dhéanann gníomhartha maithe, óir beidh luach saothair gan bhriseadh acu.`
+      ],
+      [
+        `Voorzeker, Wij hebben de mens in de beste vorm geschapen`,
+        `Daarna doen Wij hem terugkeren tot het laagste van het laagste`,
+        `Behalve degenen die geloven en goede daden verrichten. Voor hen is er een ononderbroken beloning`
+      ],
+      [
+        `کہ ہم نے انسان کو بہت اچھی صورت میں پیدا کیا ہے`,
+        `پھر (رفتہ رفتہ) اس (کی حالت) کو (بدل کر) پست سے پست کر دیا`,
+        `مگر جو لوگ ایمان لائے اور نیک عمل کرتے رہے انکے لیے بےانتہا اجر ہے`
+      ],
+      [
+        `Sungguh, Kami telah menciptakan manusia dalam bentuk yang sebaik-baiknya`,
+        `kemudian Kami kembalikan dia ke tempat yang serendah-rendahnya`,
+        `kecuali orang-orang yang beriman dan mengerjakan kebajikan; maka mereka akan mendapat pahala yang tidak ada putus-putusnya`
+      ],
+      [
+        `Biz insanı en güzel şekilde yarattık`,
+        `Sonra onu aşağıların en aşağısı kıldık`,
+        `Yalnız, inanıp yararlı iş işleyenler bunun dışındadır. Onlara kesintisiz ecir vardır`
+      ],
+      [
+        `[كه‌] براستى انسان را در نيكوترين اعتدال آفريديم`,
+        `سپس او را به پست‌ترين [مراتب‌] پستى بازگردانيديم؛`,
+        `مگر كسانى را كه گرويده و كارهاى شايسته كرده‌اند، كه پاداشى بى‌منّت خواهند داشت`
+      ],
+      [
+        `আমি সৃষ্টি করেছি মানুষকে সুন্দরতর অবয়বে।`,
+        `অতঃপর তাকে ফিরিয়ে দিয়েছি নীচ থেকে নীচে।`,
+        `কিন্তু যারা বিশ্বাস স্থাপন করেছে ও সৎকর্ম করেছে, তাদের জন্যে রয়েছে অশেষ পুরস্কার।`
+      ],
+      [
+        `Com efeito, criamos o ser humano na mais bela forma`,
+        `Em seguida, levamo-lo ao mais baixo dos baixos degraus`,
+        `Exceto aos que crêem e fazem as boas obras: eles terão prêmio incessante`
+      ],
+      [
+        `我确已把人造成具有最美的形态`,
+        `然后我使他变成最卑劣的`,
+        `但信道而且行善者, 将受不断的报酬。`
+      ],
+      [
+        `本当にわれは，人間を最も美しい姿に創った。`,
+        `それからわれは，かれを最も低く下げた。`,
+        `信仰して善行に勤しむ者は別である。かれらに対しては果てしない報奨があろう。`
+      ],
+      [
+        `하나님은 인간을 제일 아름다 운 형상으로 빛으신 후`,
+        `그의 위치를 가장 낮게 하였 노라`,
+        `그러나 믿음으로 선을 행하는 의로운 자들은 제외되어 그들에게 는 끊임없는 보상이 있노라`
+      ],
+      [
+        `Invero creammo l'uomo nella forma migliore`,
+        `quindi lo riducemmo all'infimo dell'abiezione`,
+        `eccezion fatta per coloro che credono e fanno il bene: avranno ricompensa inesauribile`
+      ],
+      [
+        `Stworzyliśmy człowieka w najpiękniejszej postaci`,
+        `Potem uczyniliśmy go znowu najniższym spośród tych, którzy są na dole`,
+        `Z wyjątkiem tych, którzy uwierzyli i czynili dobre dzieła - dla nich będzie nagroda nieustanna`
+      ],
+      [
+        `Ми створили людину в найкращій подобі`,
+        `Потім Ми скинемо її в найнижче з найнижчого`,
+        `окрім тих, які увірували й творили добрі справи; чекає на них невичерпна винагорода`
+      ]
+    ],
+    number: `سورة التين / At-Tin، الآيات 4-6`
   },
 
   {
