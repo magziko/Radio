@@ -788,9 +788,9 @@ const verses = [
     ],
     translations: [
       [
-        `Allah does not burden a soul beyond that it can bear.`,
-        `It will have [the consequence of] what it has earned, and it will bear [the consequence of] what it has earned.`,
-        `Our Lord, do not impose blame upon us if we forget or make a mistake… Our Lord, do not lay upon us a burden like that which You laid upon those before us… Pardon us, forgive us, and have mercy upon us. You are our protector, so give us victory over the disbelieving people.`
+        `Allah does not charge a soul except [with that within] its capacity.`,
+        `It will have [the consequence of] what [good] it has gained, and it will bear [the consequence of] what [evil] it has earned.`,
+        `“Our Lord, do not impose blame upon us if we have forgotten or erred. Our Lord, and lay not upon us a burden like that which You laid upon those before us. Our Lord, and burden us not with that which we have no ability to bear. And pardon us; and forgive us; and have mercy upon us. You are our protector, so give us victory over the disbelieving people.”`
       ],
       [
         `Allah n’impose à aucune âme une charge supérieure à sa capacité.`,
@@ -1683,44 +1683,37 @@ const verses = [
       [
         `Ne méditent-ils donc pas sur le Coran ?`,
         `S'il venait d'un autre qu'Allah,`,
-        `ils y trouveraient de nombreuses contradictions.`,
-        ``
+        `ils y trouveraient de nombreuses contradictions.`
       ],
       [
         `¿Acaso no reflexionan sobre el Corán?`,
         `Si hubiera sido de otro que no sea Allah,`,
-        `habrían encontrado en él muchas contradicciones.`,
-        ``
+        `habrían encontrado en él muchas contradicciones.`
       ],
       [
         `Разве они не размышляют над Кораном?`,
         `Если бы он был не от Аллаха,`,
-        `они нашли бы в нём множество противоречий.`,
-        ``
+        `они нашли бы в нём множество противоречий.`
       ],
       [
         `Denken sie denn nicht über den Koran nach?`,
         `Wäre er von jemand anderem als Allah,`,
-        `so würden sie darin viele Widersprüche finden.`,
-        ``
+        `so würden sie darin viele Widersprüche finden.`
       ],
       [
         `Begrundar de inte Koranen?`,
         `Om den hade kommit från någon annan än Allah,`,
-        `skulle de ha funnit många motsägelser i den.`,
-        ``
+        `skulle de ha funnit många motsägelser i den.`
       ],
       [
         `Nach smaoiníonn siad ar an gCórán?`,
         `Dá mba ó aon duine eile seachas Allah a bheadh sé,`,
-        `d’fheicfidís go leor contrárthachtaí ann.`,
-        ``
+        `d’fheicfidís go leor contrárthachtaí ann.`
       ],
       [
         `Denken zij dan niet na over de Koran?`,
         `Als hij van iemand anders dan Allah was gekomen,`,
-        `zouden zij er veel tegenstrijdigheden in vinden.`,
-        ``
+        `zouden zij er veel tegenstrijdigheden in vinden.`
       ],
       [
         `کیا یہ لوگ قرآن میں غور نہیں کرتے؟`,
@@ -1905,9 +1898,9 @@ const verses = [
     ],
     translations: [
       [
-        `If He wills, He can remove you, O mankind,`,
-        `and bring others in your place.`,
-        `And Allah is over that, competent.`
+        `If He wills, He can do away with you, O people,`,
+        `and bring others [in your place].`,
+        `And ever is Allah competent to do that.`
       ],
       [
         `S'Il voulait, il vous ferait disparaître,`,
@@ -2238,7 +2231,7 @@ const verses = [
     ],
     translations: [
       [
-        `This day those who disbelieve have given up [hope] of [defeating] your religion; so fear them not, but fear Me.`,
+        `This day those who disbelieve have despaired of [defeating] your religion; so fear them not, but fear Me.`,
         `This day I have perfected for you your religion and completed My favor upon you`,
         `and have approved for you Islam as religion.`
       ],
@@ -2793,8 +2786,8 @@ const verses = [
     ],
     translations: [
       [
-        `Whoever brings a good deed shall have ten times the like thereof to his credit,`,
-        `and whoever brings an evil deed shall have only the recompense of the like thereof,`,
+        `Whoever comes [on the Day of Judgement] with a good deed will have ten times the like thereof [to his credit],`,
+        `and whoever comes with an evil deed will not be recompensed except the like thereof;`,
         `and they will not be wronged.`
       ],
       [
@@ -3015,9 +3008,9 @@ const verses = [
     ],
     translations: [
       [
-        `O children of Adam, We have bestowed upon you clothing to cover your private parts and as adornment,`,
-        `but the clothing of righteousness – that is better.`,
-        `That is from the signs of Allah so that they may remember.`
+        `O children of Adam, We have bestowed upon you clothing to conceal your private parts and as adornment.`,
+        `But the clothing of righteousness – that is best.`,
+        `That is from the signs of Allah that perhaps they will remember.`
       ],
       [
         `Ô enfants d’Adam, Nous vous avons donné des vêtements pour couvrir vos parties intimes et comme parure,`,
@@ -3237,9 +3230,9 @@ const verses = [
     ],
     translations: [
       [
-        `O children of Adam, take your adornment at every mosque,`,
-        `and eat and drink, but do not be extravagant.`,
-        `Indeed, He does not like those who commit excess.`
+        `O children of Adam, take your adornment at every masjid,`,
+        `and eat and drink, but be not excessive.`,
+        `Indeed, He likes not those who commit excess.`
       ],
       [
         `Ô enfants d’Adam, prenez votre parure à chaque mosquée,`,
@@ -3348,8 +3341,8 @@ const verses = [
     ],
     translations: [
       [
-        `O children of Adam, whenever there come to you messengers from among yourselves recounting My signs,`,
-        `those who fear Allah and do righteous deeds – there will be no fear upon them, nor will they grieve.`,
+        `O children of Adam, if there come to you messengers from among you relating to you My verses,`,
+        `then whoever fears Allah and reforms – there will be no fear concerning them, nor will they grieve.`,
         ``
       ],
       [
@@ -4014,9 +4007,9 @@ const verses = [
     ],
     translations: [
       [
-        `The believers are only those who, when Allah is mentioned, feel fear in their hearts`,
-        `and when His Verses are recited unto them, they increase their Faith;`,
-        `and they put their trust in their Lord (Alone).`
+        `The believers are only those who, when Allah is mentioned,`,
+        `their hearts become fearful, and when His verses are recited to them,`,
+        `it increases them in faith; and upon their Lord they rely.`
       ],
       [
         `Les croyants sont seulement ceux dont les cœurs frémissent lorsque le nom d’Allah est mentionné`,
@@ -4232,8 +4225,7 @@ const verses = [
     arabic: [
       `لَقَدْ جَاءَكُمْ رَسُولٌ مِّنْ أَنفُسِكُمْ`,
       `عَزِيزٌ عَلَيْهِ مَا عَنِتُّمْ`,
-      `حَرِيصٌ عَلَيْكُم بِالْمُؤْمِنِينَ`,
-      `رَءُوفٌ رَّحِيمٌ`
+      `حَرِيصٌ عَلَيْكُم بِالْمُؤْمِنِينَ رَءُوفٌ رَّحِيمٌ`
     ],
     translations: [
       [
@@ -4348,9 +4340,9 @@ const verses = [
     ],
     translations: [
       [
-        `O mankind, your transgression is only against yourselves,`,
-        `a temporary enjoyment of worldly life;`,
-        `then to Us is your return, and We will inform you of what you used to do.`
+        `O mankind, your injustice is only against yourselves,`,
+        `[being merely] the enjoyment of worldly life.`,
+        `Then to Us is your return, and We will inform you of what you used to do.`
       ],
       [
         `Ô hommes ! Votre injustice ne retombe que sur vous-mêmes,`,
@@ -4570,9 +4562,9 @@ const verses = [
     ],
     translations: [
       [
-        `O humanity! Indeed, there has come to you a warning from your Lord,`,
-        `a cure for what is in the hearts,`,
-        `a guide, and a mercy for the believers.`
+        `O mankind, there has to come to you instruction from your Lord`,
+        `and healing for what is in the breasts`,
+        `and guidance and mercy for the believers.`
       ],
       [
         `Ô humanité ! Une exhortation vous est certes venue de votre Seigneur,`,
@@ -4681,9 +4673,9 @@ const verses = [
     ],
     translations: [
       [
-        `Say, “Look at what is in the heavens and the earth.”`,
-        `But the signs and warnings do not avail`,
-        `a people who do not believe.`
+        `Say, “Observe what is in the heavens and earth.”`,
+        `But of no avail will be signs or warners`,
+        `to a people who do not believe.`
       ],
       [
         `Dis : « Regardez ce qui est dans les cieux et la terre. »`,
@@ -4792,9 +4784,9 @@ const verses = [
     ],
     translations: [
       [
-        `Say, O mankind, if you are in doubt about my religion,`,
-        `I do not worship those you worship besides Allah,`,
-        `but I worship Allah, Who will take your souls. And I have been commanded to be among the believers.`
+        `Say, [O Muhammad], “O people, if you are in doubt as to my religion –`,
+        `then I do not worship those which you worship besides Allah;`,
+        `but I worship Allah, who causes your death. And I have been commanded to be of the believers.”`
       ],
       [
         `Dis : Ô hommes ! Si vous êtes dans le doute au sujet de ma religion,`,
@@ -4903,9 +4895,9 @@ const verses = [
     ],
     translations: [
       [
-        `Say, "O mankind, the truth has come to you from your Lord. So whoever is guided is only guided for [the benefit of] his soul,`,
-        `and whoever goes astray only goes astray to its detriment.`,
-        `And I am not over you a manager."`
+        `Say, “O mankind, the truth has come to you from your Lord, so whoever is guided is only guided for [the benefit of] his soul,`,
+        `and whoever goes astray only goes astray [in violation] against it.`,
+        `And I am not over you a manager.”`
       ],
       [
         `Dis: «Ô hommes! La vérité vous est venue de votre Seigneur. Quiconque donc se met sur le bon chemin ne le fait que pour lui-même,`,
@@ -5347,8 +5339,8 @@ const verses = [
     ],
     translations: [
       [
-        `Those who believe, and whose hearts find rest in the remembrance of Allah.`,
-        `Verily, in the remembrance of Allah do hearts find rest.`,
+        `Those who have believed and whose hearts are assured by the remembrance of Allah.`,
+        `Unquestionably, by the remembrance of Allah hearts are assured.`,
         ``
       ],
       [
@@ -5680,8 +5672,8 @@ const verses = [
     ],
     translations: [
       [
-        `Verily We: It is We Who have sent down the Dhikr (i.e. the Quran)`,
-        `and surely, We will guard it (from corruption).`,
+        `Indeed, it is We who sent down the Qur'an`,
+        `and indeed, We will be its guardian.`,
         ``
       ],
       [
@@ -5902,9 +5894,9 @@ const verses = [
     ],
     translations: [
       [
-        `Indeed, Allah commands justice, good conduct, and giving to relatives,`,
-        `and forbids immorality, bad conduct, and oppression.`,
-        `He admonishes you so that you may take heed.`
+        `Indeed, Allah orders justice and good conduct and giving to relatives`,
+        `and forbids immorality and bad conduct and oppression.`,
+        `He admonishes you that perhaps you will be reminded.`
       ],
       [
         `Certes, Allah commande la justice, la bienfaisance et l’aide aux proches,`,
@@ -6013,7 +6005,7 @@ const verses = [
     ],
     translations: [
       [
-        `So when you want to recite the Quran, seek refuge with Allah from Shaitan (Satan), the outcast (the cursed one).`,
+        `So when you recite the Qur'an, [first] seek refuge in Allah from Satan, the expelled [from His mercy].`,
         ``,
         ``
       ],
@@ -6235,9 +6227,9 @@ const verses = [
     ],
     translations: [
       [
-        `Verily, this Quran guides to that which is most just and right`,
-        `and gives glad tidings to the believers who work deeds of righteousness`,
-        `that they shall have a great reward`
+        `Indeed, this Qur'an guides to that which is most suitable`,
+        `and gives good tidings to the believers who do righteous deeds`,
+        `that they will have a great reward.`
       ],
       [
         `En vérité, ce Coran guide vers ce qui est le plus juste et droit`,
@@ -6568,8 +6560,8 @@ const verses = [
     ],
     translations: [
       [
-        `And We send down from the Quran that which is a healing and a mercy to those who believe (in Islamic Monotheism and act on it),`,
-        `and it increases the Zalimun (polytheists and wrong-doers) nothing but loss.`,
+        `And We send down of the Qur'an that which is healing`,
+        `and mercy for the believers.`,
         ``
       ],
       [
@@ -6679,8 +6671,8 @@ const verses = [
     ],
     translations: [
       [
-        `If mankind and the jinn were to gather together to produce the like of this Quran,`,
-        `they could not produce the like thereof, even if they helped one another.`,
+        `Say, “If mankind and the jinn gathered in order to produce the like of this Qur'an,`,
+        `they could not produce the like of it, even if they were to each other assistants.”`,
         ``
       ],
       [
@@ -6790,7 +6782,7 @@ const verses = [
     ],
     translations: [
       [
-        `And (it is) a Quran which We have divided (into parts), that you might recite it to the people at intervals.`,
+        `And [it is] a Qur'an which We have separated [by intervals] that you might recite it to the people over a prolonged period.`,
         ``,
         ``
       ],
@@ -6901,8 +6893,8 @@ const verses = [
     ],
     translations: [
       [
-        `Verily, those who believe and do righteous deeds shall have the Gardens of Al-Firdaus (Paradise) for their entertainment,`,
-        `abiding therein forever.`,
+        `Indeed, those who have believed and done righteous deeds – they will have the Gardens of Paradise as a lodging.`,
+        `Wherein they abide eternally. They will not desire from it any transfer.`,
         ``
       ],
       [
@@ -7123,9 +7115,9 @@ const verses = [
     ],
     translations: [
       [
-        `But whoever comes to Him as a believer and has done righteous deeds, for such are the high ranks in the Hereafter,`,
-        `Gardens of Eden, flowing beneath which are rivers, abiding therein forever.`,
-        ``
+        `But whoever comes to Him as a believer having done righteous deeds – for those will be the highest degrees [in position],`,
+        `Gardens of perpetual residence beneath which rivers flow,`,
+        `wherein they abide eternally. And that is the reward of one who purifies himself.`
       ],
       [
         `Mais celui qui vient à Lui en croyant et ayant accompli de bonnes œuvres, ceux-là auront les hauts degrés,`,
@@ -7345,8 +7337,8 @@ const verses = [
     ],
     translations: [
       [
-        `O mankind, fear your Lord;`,
-        `Indeed, the earthquake of the Hour is a terrible thing.`,
+        `O mankind, fear your Lord.`,
+        `Indeed, the convulsion of the [final] Hour is a terrible thing.`,
         ``
       ],
       [
@@ -7567,9 +7559,9 @@ const verses = [
     ],
     translations: [
       [
-        `And We sent not before you any messenger or prophet`,
-        `but when he wished, Satan threw into his wish`,
-        `and Allah cancels what Satan throws and establishes His verses. And Allah is All-Knowing, All-Wise.`
+        `And We did not send before you any messenger or prophet`,
+        `except that when he spoke [or recited], Satan threw into it [some misunderstanding].`,
+        `But Allah abolishes that which Satan throws in; then Allah makes precise His verses. And Allah is Knowing and Wise.`
       ],
       [
         `Nous n’avons envoyé avant toi ni messager ni prophète`,
@@ -7678,9 +7670,9 @@ const verses = [
     ],
     translations: [
       [
-        `O mankind, an example is set forth, so listen to it:`,
-        `Those whom you call upon besides Allah cannot create a fly, even if they all gathered for it.`,
-        `And if the fly snatched anything from them, they could not recover it. Weak are the seeker and the sought.`
+        `O people, an example is presented, so listen to it.`,
+        `Indeed, those you invoke besides Allah will never create [as much as] a fly, even if they gathered together for that purpose.`,
+        `And if the fly should steal away from them a [tiny] thing, they could not recover it from him. Weak are the pursuer and pursued.`
       ],
       [
         `Ô hommes ! Une parabole vous est proposée, écoutez-la :`,
@@ -8122,9 +8114,9 @@ const verses = [
     ],
     translations: [
       [
-        `And truly, this (the Quran) is a revelation from the Lord of the 'Alamin`,
-        `sent down by the trustworthy Spirit (Angel Gabriel) upon your heart,`,
-        `so that you may be of the warners.`
+        `And indeed, the Qur'an is the revelation of the Lord of the worlds.`,
+        `The Trustworthy Spirit has brought it down`,
+        `Upon your heart, [O Muhammad] – that you may be of the warners.`
       ],
       [
         `Et c’est en vérité une révélation du Seigneur de l’univers,`,
@@ -8677,9 +8669,9 @@ const verses = [
     ],
     translations: [
       [
-        `O mankind, fear your Lord and beware of a Day`,
-        `when no parent shall avail for their child, nor any child for their parent anything`,
-        `Indeed, the promise of Allah is true; so let not the life of this world deceive you, nor let the deceiver deceive you about Allah.`
+        `O mankind, fear your Lord and fear a Day`,
+        `when no father will avail his son, nor will a son avail his father at all.`,
+        `Indeed, the promise of Allah is truth, so let not the worldly life delude you and be not deceived about Allah by the Deceiver.`
       ],
       [
         `Ô hommes ! Craignez votre Seigneur et redoutez un jour`,
@@ -8900,7 +8892,7 @@ const verses = [
     translations: [
       [
         `O mankind, remember the favor of Allah upon you.`,
-        `Is there any creator besides Allah who provides for you from the heavens and the earth?`,
+        `Is there any creator other than Allah who provides for you from the heaven and earth?`,
         `There is no deity except Him, so how are you deluded?`
       ],
       [
@@ -9010,9 +9002,9 @@ const verses = [
     ],
     translations: [
       [
-        `O mankind, indeed the promise of Allah is true.`,
-        `So let not the life of this world deceive you,`,
-        `nor let the deceiver deceive you about Allah.`
+        `O mankind, indeed the promise of Allah is truth,`,
+        `so let not the worldly life delude you`,
+        `and be not deceived about Allah by the Deceiver.`
       ],
       [
         `Ô hommes ! La promesse d’Allah est vérité.`,
@@ -9121,9 +9113,9 @@ const verses = [
     ],
     translations: [
       [
-        `Whoever desires honor, then to Allah belongs all honor.`,
-        `To Him ascends the good word, and righteous deeds raise it.`,
-        `But those who plot evil shall have a severe punishment, and the plot of those is doomed.`
+        `Whoever desires honor [through power] – then to Allah belongs all honor.`,
+        `To Him ascends good speech, and righteous work raises it.`,
+        `But they who plot evil deeds will have a severe punishment, and the plotting of those – it will perish.`
       ],
       [
         `Quiconque désire l’honneur, alors à Allah appartient tout l’honneur.`,
@@ -9232,9 +9224,9 @@ const verses = [
     ],
     translations: [
       [
-        `Verily, those who recite the Book of Allah (this Quran), perform AsSalat (IqamatasSalat),`,
-        `and spend (in charity) out of what We have provided for them, secretly and openly, hope for a (sure) tradegain that will never perish.`,
-        `He will give them their reward and increase them out of His bounty. Verily, He is Most Forgiving, Most Appreciative.`
+        `Indeed, those who recite the Book of Allah and establish prayer`,
+        `and spend [in His cause] out of what We have provided them, secretly and publicly, [can] expect a profit that will never perish,`,
+        `That He may give them in full their rewards and increase for them of His bounty. Indeed, He is Forgiving and Appreciative.`
       ],
       [
         `Ceux qui récitent le Livre d'Allah, accomplissent la prière,`,
@@ -9454,8 +9446,8 @@ const verses = [
     ],
     translations: [
       [
-        `(This is) a Book which We have sent down to you, blessed`,
-        `that they may reflect upon its verses and that those of understanding would be reminded`,
+        `[This is] a blessed Book which We have revealed to you, [O Muhammad],`,
+        `that they might reflect upon its verses and that those of understanding would be reminded.`,
         ``
       ],
       [
@@ -9787,9 +9779,9 @@ const verses = [
     ],
     translations: [
       [
-        `Those who listen to the Word [good advice La ilaha ill-Allah and Islamic Monotheism, etc.]`,
-        `and follow the best thereof`,
-        `those are whom Allah has guided, and those are men of understanding.`
+        `So give good tidings to My servants who listen to speech`,
+        `and follow the best of it.`,
+        `Those are the ones Allah has guided, and those are people of understanding.`
       ],
       [
         `Annonce donc la bonne nouvelle à Mes serviteurs qui écoutent la parole`,
@@ -9899,7 +9891,7 @@ const verses = [
     translations: [
       [
         `Allah has sent down the best statement: a consistent Book wherein is reiteration.`,
-        `The skins of those who fear their Lord tremble from it;`,
+        `The skins shiver therefrom of those who fear their Lord;`,
         `then their skins and their hearts relax at the remembrance of Allah. That is the guidance of Allah.`
       ],
       [
@@ -10675,8 +10667,8 @@ const verses = [
     ],
     translations: [
       [
-        `Do they not then think deeply in the Quran,`,
-        `or are their hearts locked up (from understanding it)?`,
+        `Then do they not reflect upon the Qur'an,`,
+        `or are there locks upon [their] hearts?`,
         ``
       ],
       [
@@ -10786,9 +10778,9 @@ const verses = [
     ],
     translations: [
       [
-        `O mankind, indeed We have created you from a male and a female,`,
-        `and made you peoples and tribes so that you may know one another.`,
-        `Indeed, the most honorable of you in the sight of Allah is the most righteous. And Allah is All-Knowing, All-Aware.`
+        `O mankind, indeed We have created you from male and female`,
+        `and made you peoples and tribes that you may know one another.`,
+        `Indeed, the most noble of you in the sight of Allah is the most righteous of you. Indeed, Allah is Knowing and Acquainted.`
       ],
       [
         `Ô hommes ! Nous vous avons créés d’un mâle et d’une femelle,`,
@@ -11119,7 +11111,7 @@ const verses = [
     ],
     translations: [
       [
-        `The Hour has drawn near, and the moon has split.`,
+        `The Hour has come near, and the moon has split [in two].`,
         ``,
         ``
       ],
@@ -12451,7 +12443,7 @@ const verses = [
     ],
     translations: [
       [
-        `Every soul is held in pledge for what it has earned.`,
+        `Every soul, for what it has earned, will be retained.`,
         ``,
         ``
       ],
@@ -12673,8 +12665,8 @@ const verses = [
     ],
     translations: [
       [
-        `For indeed, with hardship comes ease`,
-        `Indeed, with hardship comes ease`,
+        `For indeed, with hardship [will be] ease.`,
+        `Indeed, with hardship [will be] ease.`,
         ``
       ],
       [
