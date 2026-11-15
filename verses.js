@@ -51,6 +51,12 @@
 // اتُّسع نطاق 3:16-17 و20:25-35 و29:19-21 لأن إحدى الترجمات (Diyanet التركية غالبًا) تجمع هذه الآيات في نص واحد.
 // موضعا سورتي الفلق (113:1-5) والناس (114:1-6) يحملان البسملة في أول العربي وعبارة «Suratu …» في أول الترجمة البرتغالية، كما في إدخالات الملف السابقة التي تبدأ بأول السورة.
 
+// ===== آيات أُضيفت (نوفمبر 2026): الرحمة، واليتامى، والنساء، وجمال القرآن والإسلام، مرتبة حسب المصحف =====
+// 55 موضعًا جديدًا: 2:23، 2:138، 2:208، 2:215، 2:220، 2:228، 2:233، 2:257، 3:35-37، 3:42-43، 3:195، 4:2-3، 4:6، 4:7، 4:8-9، 4:19، 4:32، 4:127، 5:83-84، 6:12، 7:189، 9:33، 10:37-38، 12:2-3، 12:87، 15:49-50، 15:56-57، 17:34، 17:107-109، 18:82، 20:2-4، 24:30-31، 25:32، 29:51، 30:30، 33:59، 36:69، 39:22، 39:27-28، 40:40، 41:41-42، 43:2-4، 49:7-8، 56:77-80، 58:1، 60:8، 60:12، 61:8-9، 66:12، 76:8-10، 85:21-22، 89:17-20، 90:11-18، 93:9-11، 107:1-3.
+// المصدر والمعالجة كما في الإضافات السابقة (Tanzil المبسّطة للعربي، والترجمات حرفية من المصادر المذكورة في أعلاه، كل موضع في جزء واحد، والأيرلندية فارغة).
+// اتُّسع نطاق 5:83-84 و15:56-57 و43:2-4 لأن إحدى الترجمات تجمع هذه الآيات في نص واحد. وتُركت مواضع كانت موجودة أصلًا في الملف فلم تُكرَّر.
+// موضع سورة الماعون (107:1-3) يبدأ بأول السورة، فيحمل البسملة في أول العربي وعبارة «Suratu …» في أول الترجمة البرتغالية، كما في إدخالات الملف السابقة.
+
 // فهارس اللغات التي لا توجد لها ترجمة معتمدة (الأيرلندية: لا توجد ترجمة كاملة معتمدة) — يُفضّل عرض تنبيه "ترجمة غير معتمدة" عند عرضها.
 const UNVERIFIED_TRANSLATION_INDEXES = [6];
 
@@ -386,6 +392,117 @@ const verses = [
       ]
     ],
     number: `سورة البقرة / Al-Baqarah، الآية 21`
+  },
+
+  {
+    arabic: [
+      `وَإِنْ كُنْتُمْ فِي رَيْبٍ مِمَّا نَزَّلْنَا عَلَىٰ عَبْدِنَا فَأْتُوا بِسُورَةٍ مِنْ مِثْلِهِ وَادْعُوا شُهَدَاءَكُمْ مِنْ دُونِ اللَّهِ إِنْ كُنْتُمْ صَادِقِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And if you are in doubt about what We have sent down upon Our Servant [Muhammad], then produce a surah the like thereof and call upon your witnesses other than Allah, if you should be truthful`,
+        ``,
+        ``
+      ],
+      [
+        `Si vous avez un doute sur ce que Nous avons révélé à Notre Serviteur, tâchez donc de produire une sourate semblable et appelez vos témoins, (les idoles) que vous adorez en dehors d'Allah, si vous êtes véridiques`,
+        ``,
+        ``
+      ],
+      [
+        `Si dudáis de lo que hemos revelado a Nuestro siervo, traed una sura semejante y, si es verdad lo que decís, llamad a vuestros testigos en lugar de llamar a Alá`,
+        ``,
+        ``
+      ],
+      [
+        `Если же вы сомневаетесь в том, что Мы ниспослали Нашему рабу, то сочините одну подобную суру и призовите своих свидетелей, помимо Аллаха, если вы говорите правду`,
+        ``,
+        ``
+      ],
+      [
+        `Und wenn ihr im Zweifel über das seid, was Wir Unserem Diener offenbart haben, dann bringt doch eine Sura gleicher Art bei und ruft eure Zeugen außer Allah an, wenn ihr wahrhaftig seid`,
+        ``,
+        ``
+      ],
+      [
+        `Och om ni tvivlar på något av det som Vi steg för steg har uppenbarat för Vår tjänare, kom då fram med en sura som kan jämföras med detta och kalla på era vittnen - andra än Gud - om ni talar sanning`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En als jullie in twijfel verkeren over wat Wij hebben neergezonden aan Onze dienaar (Moehammad), brengt dan een gelijkwaardige Soerah voort, en roept jullie getuigen buiten Allah op, als jullie waarachtigen zijn`,
+        ``,
+        ``
+      ],
+      [
+        `اور اگر تم کو اس (کتاب) میں، جو ہم نے اپنے بندے (محمدﷺ عربی) پر نازل فرمائی ہے کچھ شک ہو تو اسی طرح کی ایک سورت تم بھی بنا لاؤ اور خدا کے سوا جو تمہارے مددگار ہوں ان کو بھی بلالو اگر تم سچے ہو`,
+        ``,
+        ``
+      ],
+      [
+        `Dan jika kamu meragukan (Alquran) yang kami turunkan kepada hamba Kami (Muhammad), maka buatlah satu surah semisal dengannya dan ajaklah penolong-penolongmu selain Allah, jika kamu orang-orang yang benar`,
+        ``,
+        ``
+      ],
+      [
+        `Kulumuza indirdiğimiz Kuran'dan şüphe ediyorsanız, siz de onun benzeri bir sure meydana getirin; eğer doğru sözlü iseniz, Allah'tan başka, güvendiklerinizi de yardıma çağırın`,
+        ``,
+        ``
+      ],
+      [
+        `و اگر در آنچه بر بنده خود نازل كرده‌ايم شك داريد، پس -اگر راست مى‌گوييد- سوره‌اى مانند آن بياوريد؛ و گواهان خود را -غير خدا- فرا خوانيد`,
+        ``,
+        ``
+      ],
+      [
+        `এতদসম্পর্কে যদি তোমাদের কোন সন্দেহ থাকে যা আমি আমার বান্দার প্রতি অবতীর্ণ করেছি, তাহলে এর মত একটি সূরা রচনা করে নিয়ে এস। তোমাদের সেসব সাহায্যকারীদেরকে সঙ্গে নাও-এক আল্লাহকে ছাড়া, যদি তোমরা সত্যবাদী হয়ে থাকো।`,
+        ``,
+        ``
+      ],
+      [
+        `E se estais em dúvida acerca do que fizemos descer sobre Nosso servo, fazei vir uma sura igual à dele, e convocai vossas testemunhas, em vez de Allah, se sois verídicos`,
+        ``,
+        ``
+      ],
+      [
+        `如果你们怀疑我所降示给我的仆人的经典，那末，你们试拟作一章，并舍真主而祈祷你们的见证，如果你们是诚实的。`,
+        ``,
+        ``
+      ],
+      [
+        `もしあなたがたが，わがしもべ（ムハンマド）に下した啓示を疑うならば，それに類する1章 〔スーラ〕でも作ってみなさい。もしあなたがたが正しければ，アッラー以外のあなたがたの証人を呼んでみなさい。`,
+        ``,
+        ``
+      ],
+      [
+        `내가 나의 종복(무함마드)에게 내린 것(꾸란)에 관하여 그대들이 의혹을 품고 있다면 그(꾸란)와 유사한 것의 한 장(章)이라도 가져와 보라. 그리고, 그대들이 진실을 말하는 자라면, 하나님 이외에 그대들을 위해 증언해줄 자들을 불러 보라`,
+        ``,
+        ``
+      ],
+      [
+        `E se avete qualche dubbio in merito a quello che abbiamo fatto scendere sul Nostro Servo, portate allora una sura simile a questa e chiamate altri testimoni all'infuori di Allah, se siete veritieri`,
+        ``,
+        ``
+      ],
+      [
+        `A jeśli pozostajecie w wątpliwości wobec tego, co zesłaliśmy Naszemu słudze, o przynieście surę podobną do tego wezwijcie waszych świadków, poza Bogiem`,
+        ``,
+        ``
+      ],
+      [
+        `Якщо ви сумніваєтесь у тому, що зіслали Ми рабу Нашому, то принесіть суру, подібну до цієї! І покличте своїх свідків, окрім Аллага, якщо ви правдиві`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 23`
   },
 
   {
@@ -1274,6 +1391,117 @@ const verses = [
       ]
     ],
     number: `سورة البقرة / Al-Baqarah، الآية 136`
+  },
+
+  {
+    arabic: [
+      `صِبْغَةَ اللَّهِ ۖ وَمَنْ أَحْسَنُ مِنَ اللَّهِ صِبْغَةً ۖ وَنَحْنُ لَهُ عَابِدُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `[And say, "Ours is] the religion of Allah. And who is better than Allah in [ordaining] religion? And we are worshippers of Him`,
+        ``,
+        ``
+      ],
+      [
+        `Nous suivons la religion d'Allah! Et qui est meilleur qu'Allah en Sa religion? C'est Lui que nous adorons`,
+        ``,
+        ``
+      ],
+      [
+        `¡Tinte de Alá! Y ¿Quién puede teñir mejor que Alá? Somos Sus servidores`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи: «Такова религия Аллаха! А чья религия может быть лучше религии Аллаха? Ему одному мы поклоняемся»`,
+        ``,
+        ``
+      ],
+      [
+        `Allahs Farbgebung - und wessen Farbgebung ist besser als diejenige Allahs! Und Ihm dienen wir`,
+        ``,
+        ``
+      ],
+      [
+        `Gud [själv] har färgat [vår tro] och vem ger färg bättre än Gud? Det är Honom vi tillber [och ingen annan]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `(Neemt) de Shibghah van Allah. En wie heeft er een betere Shibghah dan Allah? En wij zijn aanbidders van Hem`,
+        ``,
+        ``
+      ],
+      [
+        `(کہہ دو کہ ہم نے) خدا کا رنگ (اختیار کر لیا ہے) اور خدا سے بہتر رنگ کس کا ہو سکتا ہے۔ اور ہم اسی کی عبادت کرنے والے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `(Ṣibgah Allah"46) Siapa yang lebih baik ṣibgah-nya daripada Allah? Dan kepada-Nya kami menyembah`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'ın verdiği renge uyun; rengi Allah'ınkinden daha güzel olan kim vardır? "Biz O'na kulluk edenleriz" deyin`,
+        ``,
+        ``
+      ],
+      [
+        `اين است نگارگرى الهى؛ و كيست خوش‌نگارتر از خدا؟ و ما او را پرستندگانيم`,
+        ``,
+        ``
+      ],
+      [
+        `আমরা আল্লাহর রং গ্রহণ করেছি। আল্লাহর রং এর চাইতে উত্তম রং আর কার হতে পারে?আমরা তাঁরই এবাদত করি।`,
+        ``,
+        ``
+      ],
+      [
+        `Nossa religião é a tintura de Allah e quem melhor que Allah, em tingir? E a Ele estamos adorando`,
+        ``,
+        ``
+      ],
+      [
+        `你们当保持真主的洗礼，有谁比真主施洗得更好呢？我们只崇拜他。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーの色染めというが，誰がアッラーよりも良く色染め出来ようか。わたしたちが仕えるのはかれである。`,
+        ``,
+        ``
+      ],
+      [
+        `(우리 무슬림이 받는 세례는) 하나님의 세례라. 세례함에 하나님보다 더 훌륭한 자가 누구인가. 우리는 그분(하나님)을 경배하는 자들이라`,
+        ``,
+        ``
+      ],
+      [
+        `Questa è la tintura di Allah! Chi mai può tingere meglio che Allah? Noi Lo adoriamo`,
+        ``,
+        ``
+      ],
+      [
+        `Religia Boga! A kto lepszy od Boga w religii? My jesteśmy Jego czcicielami`,
+        ``,
+        ``
+      ],
+      [
+        `Фарба від Аллага! Чия фарба краща за фарбу від Аллага? Тож Йому ми і поклоняємося`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 138`
   },
 
   {
@@ -2388,6 +2616,228 @@ const verses = [
 
   {
     arabic: [
+      `يَا أَيُّهَا الَّذِينَ آمَنُوا ادْخُلُوا فِي السِّلْمِ كَافَّةً وَلَا تَتَّبِعُوا خُطُوَاتِ الشَّيْطَانِ ۚ إِنَّهُ لَكُمْ عَدُوٌّ مُبِينٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O you who have believed, enter into Islam completely [and perfectly] and do not follow the footsteps of Satan. Indeed, he is to you a clear enemy`,
+        ``,
+        ``
+      ],
+      [
+        `Ô les croyants! Entrez en plein dans l'Islam, et ne suivez point les pas du Diable [Satan], car il est certes pour vous un ennemi déclaré`,
+        ``,
+        ``
+      ],
+      [
+        `¡Creyentes! ¡Entrad todos en la Paz y no sigáis los pasos del Demonio! Es para vosotros un enemigo declarado`,
+        ``,
+        ``
+      ],
+      [
+        `О те, которые уверовали! Принимайте ислам целиком и не следуйте по стопам дьявола. Воистину, он для вас - явный враг`,
+        ``,
+        ``
+      ],
+      [
+        `O die ihr glaubt, tretet allesamt in den Islam ein und folgt nicht den Fußstapfen des Satans! Er ist euch ja ein deutlicher Feind`,
+        ``,
+        ``
+      ],
+      [
+        `Troende! Ge er hän åt Gud i hel och full underkastelse [under Hans vilja] och följ inte i Djävulens fotspår - han är er svurne fiende`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O jullie die geloven, treedt de Islam binnen, volledig, en volgt niet de voetstappen van de Satan. Voorwaar, hij is voor jullie een duidelijke vijand`,
+        ``,
+        ``
+      ],
+      [
+        `مومنو! اسلام میں پورے پورے داخل ہوجاؤ اور شیطان کے پیچھے نہ چلو وہ تو تمہارا صریح دشمن ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai orang-orang yang beriman! Masuklah ke dalam Islam secara keseluruhan, dan janganlah kamu ikuti langkah-langkah setan. Sungguh, ia musuh yang nyata bagimu`,
+        ``,
+        ``
+      ],
+      [
+        `Ey İnananlar! Hep birden barışa girin, şeytana ayak uydurmayın, o sizin apaçık düşmanınızdır`,
+        ``,
+        ``
+      ],
+      [
+        `اى كسانى كه ايمان آورده‌ايد، همگى به اطاعت [خدا] درآييد، و گامهاى شيطان را دنبال مكنيد كه او براى شما دشمنى آشكار است`,
+        ``,
+        ``
+      ],
+      [
+        `হে ঈমানদার গন! তোমরা পরিপূর্ণভাবে ইসলামের অন্তর্ভুক্ত হয়ে যাও এবং শয়তানের পদাংক অনুসরণ কর না। নিশ্চিত রূপে সে তোমাদের প্রকাশ্য শত্রু।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó vós que credes! Entrai na Paz, todos vós, e não sigais os passos de Satã. Por certo, ele vos é inimigo declarado`,
+        ``,
+        ``
+      ],
+      [
+        `信道的人们啊！你们当全体入在和平教中，不要跟随恶魔的步伐，他确是你们的明敌。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがた信仰する者よ，心を込めてイスラーム（平安の境）に入れ。悪魔の歩みを追ってはならない。本当にかれは，あなたがたにとって公然の敵である。`,
+        ``,
+        ``
+      ],
+      [
+        `믿는 자들이여! 이슬람 안으로 완전히 들어가라. 그리고 사탄의 발자국을 따르지 말라. 실로 그는 그대들의 분명한 적이라`,
+        ``,
+        ``
+      ],
+      [
+        `O voi che credete! Entrate tutti nella Pace. Non seguite le tracce di Satana. In verità egli è il vostro dichiarato nemico`,
+        ``,
+        ``
+      ],
+      [
+        `Owy, którzy wierzycie! Chodźcie w pokoju wszyscy i nie chodźcie śladami szatana! Zaprawdę, on jest dla was wrogiem jawnym`,
+        ``,
+        ``
+      ],
+      [
+        `О ви, які увірували! Будьте покірні Аллагу в усьому і не йдіть слідами шайтана. Воістину, він для вас — справжній ворог`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 208`
+  },
+
+  {
+    arabic: [
+      `يَسْأَلُونَكَ مَاذَا يُنْفِقُونَ ۖ قُلْ مَا أَنْفَقْتُمْ مِنْ خَيْرٍ فَلِلْوَالِدَيْنِ وَالْأَقْرَبِينَ وَالْيَتَامَىٰ وَالْمَسَاكِينِ وَابْنِ السَّبِيلِ ۗ وَمَا تَفْعَلُوا مِنْ خَيْرٍ فَإِنَّ اللَّهَ بِهِ عَلِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `They ask you, [O Muhammad], what they should spend. Say, "Whatever you spend of good is [to be] for parents and relatives and orphans and the needy and the traveler. And whatever you do of good - indeed, Allah is Knowing of it`,
+        ``,
+        ``
+      ],
+      [
+        `Ils t'interrogent sur ce qu'ils doivent dépenser. Dis[-leur]: “Ce que vous dépensez de bien devrait être pour les pères et mère, les proches, les orphelins, les pauvres et les voyageurs indigents. Et tout ce que vous faites de bien, vraiment Allah le sait.”`,
+        ``,
+        ``
+      ],
+      [
+        `Te preguntan qué deben gastar. Di «Los bienes que gastéis, que sean para los padres, los parientes más cercanos, los huérfanos, los necesitados y el viajero». Alá conoce perfectamente el bien que hacéis`,
+        ``,
+        ``
+      ],
+      [
+        `Они спрашивают тебя, что они должны расходовать. Скажи: «Любое добро, которое вы раздаете, должно достаться родителям, близким родственникам, сиротам, беднякам, путникам. Что бы вы ни сделали доброго, Аллах знает об этом»`,
+        ``,
+        ``
+      ],
+      [
+        `Sie fragen dich, was sie ausgeben sollen. Sag: Was immer ihr an Gutem ausgebt, soll den Eltern, den nächsten Verwandten, den Waisen, den Armen und dem Sohn des Weges zukommen. Und was immer ihr an Gutem tut, so weiß Allah darüber Bescheid`,
+        ``,
+        ``
+      ],
+      [
+        `DE FRÅGAR dig vad de bör ge åt andra. Säg: "Det goda ni vill ge skall ni ge till era föräldrar och närmaste anhöriga och till de faderlösa och de behövande och till vandringsmannen. Gud har kännedom om det goda ni gör`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zij vragen jou wat zij als bijdrage moeten geven. Zeg: "Wat jullie aan goeds geven als bijdrage, is besternd voor de ouders en de verwanten en de wezen en de armen en de reiziger zonder proviand." En wat jullie aan goeds doen: voorwaar, Allah is daarover Alwetend`,
+        ``,
+        ``
+      ],
+      [
+        `(اے محمدﷺ) لوگ تم سے پوچھتے ہیں کہ (خدا کی راہ میں) کس طرح کا مال خرچ کریں۔ کہہ دو کہ (جو چاہو خرچ کرو لیکن) جو مال خرچ کرنا چاہو وہ (درجہ بدرجہ اہل استحقاق یعنی) ماں باپ اور قریب کے رشتے داروں کو اور یتیموں کو اور محتاجوں کو اور مسافروں کو (سب کو دو) اور جو بھلائی تم کرو گے خدا اس کو جانتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Mereka bertanya kepadamu (Muhammad) tentang apa yang harus mereka infakkan. Katakanlah, "Harta apa saja yang kamu infakkan, hendaknya diperuntukkan bagi kedua orang tua, kerabat, anak yatim, orang miskin dan orang yang dalam perjalanan." Dan kebaikan apa saja yang kamu kerjakan, maka sesungguhnya Allah Maha Mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Sana, ne sarfedeceklerini sorarlar, de ki: "Sarfedeceğiniz mal, ana baba, yakınlar, yetimler, düşkünler, yolcular içindir. Yaptığınız her iyiliği Allah şüphesiz bilir`,
+        ``,
+        ``
+      ],
+      [
+        `از تو مى‌پرسند: «چه چيزى انفاق كنند [و به چه كسى بدهند]؟» بگو: «هر مالى انفاق كنيد، به پدر و مادر و نزديكان و يتيمان و مسكينان و به در راه‌مانده تعلّق دارد، و هر گونه نيكى كنيد البته خدا به آن داناست.»`,
+        ``,
+        ``
+      ],
+      [
+        `তোমার কাছে জিজ্ঞেস করে, কি তারা ব্যয় করবে? বলে দাও-যে বস্তুই তোমরা ব্যয় কর, তা হবে পিতা-মাতার জন্যে, আত্নীয়-আপনজনের জন্যে, এতীম-অনাথদের জন্যে, অসহায়দের জন্যে এবং মুসাফিরদের জন্যে। আর তোমরা যে কোন সৎকাজ করবে, নিঃসন্দেহে তা অত্যন্ত ভালভাবেই আল্লাহর জানা রয়েছে।`,
+        ``,
+        ``
+      ],
+      [
+        `Perguntam-te pelo que devem despender. Dize: "O que quer que despendais de bom é para os pais e os parentes e os órfãos e os necessitados e o filho do caminho. E o que quer que façais de bom, por certo, Allah é disso, Onisciente`,
+        ``,
+        ``
+      ],
+      [
+        `他们问你他们应该怎样费用，你说：你们所费用的财产，当费用於父母、至亲、孤儿、贫民、旅客。你们无论行甚麽善功，都确是真主所全知的。`,
+        ``,
+        ``
+      ],
+      [
+        `かれらは，如何に施すべきか，あなたに問うであろう。言ってやるがいい。「あなたがたが施してよいのは両親のため，近親，孤児，貧者と旅路にある者のためである。本当にアッラーはあなたがたの善行を，何でも深く知っておられる。」`,
+        ``,
+        ``
+      ],
+      [
+        `무엇으로 희사해야 하는지 그들이 그대에게 물으니, 말하라 : ‘그대들이 쓰는 재산이라. 그리고 (그것은) 부모님과 가까운 친척과 고아와 불우한 자와 장거리 이동 중인 자를 위한 것이라. ’ 그대들이 행하는 어떠한 선행도 하나님께서는 알고 계시는 분이라`,
+        ``,
+        ``
+      ],
+      [
+        `Ti chiederanno: “Cosa dobbiamo dare in elemosina?”. Di': “I beni che erogate siano destinati ai genitori, ai parenti, agli orfani, ai poveri e ai viandanti diseredati. E Allah conosce tutto il bene che fate”`,
+        ``,
+        ``
+      ],
+      [
+        `Będą ciebie pytać o to, co oni mają rozdawać. Powiedz: "To, co wy rozdajecie z dóbr, powinno być dla rodziców i bliskich krewnych, dla sierot, biednych i podróżnego. A cokolwiek czynicie dobrego, zaprawdę, Bóg o tym wie wszystko`,
+        ``,
+        ``
+      ],
+      [
+        `Тебе запитують про те, що необхідно жертвувати. Скажи: «Що б ви не жертвували, воно повинно дістатися батькам, родичам, сиротам, біднякам та подорожнім. І яке благо ви не робили б, воістину, Аллаг знає про це`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 215`
+  },
+
+  {
+    arabic: [
       `كُتِبَ عَلَيْكُمُ الْقِتَالُ وَهُوَ كُرْهٌ لَكُمْ ۖ وَعَسَىٰ أَنْ تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَكُمْ ۖ وَعَسَىٰ أَنْ تُحِبُّوا شَيْئًا وَهُوَ شَرٌّ لَكُمْ ۗ وَاللَّهُ يَعْلَمُ وَأَنْتُمْ لَا تَعْلَمُونَ`,
       ``,
       ``
@@ -2495,6 +2945,339 @@ const verses = [
       ]
     ],
     number: `سورة البقرة / Al-Baqarah، الآية 216`
+  },
+
+  {
+    arabic: [
+      `فِي الدُّنْيَا وَالْآخِرَةِ ۗ وَيَسْأَلُونَكَ عَنِ الْيَتَامَىٰ ۖ قُلْ إِصْلَاحٌ لَهُمْ خَيْرٌ ۖ وَإِنْ تُخَالِطُوهُمْ فَإِخْوَانُكُمْ ۚ وَاللَّهُ يَعْلَمُ الْمُفْسِدَ مِنَ الْمُصْلِحِ ۚ وَلَوْ شَاءَ اللَّهُ لَأَعْنَتَكُمْ ۚ إِنَّ اللَّهَ عَزِيزٌ حَكِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `To this world and the Hereafter. And they ask you about orphans. Say, "Improvement for them is best. And if you mix your affairs with theirs - they are your brothers. And Allah knows the corrupter from the amender. And if Allah had willed, He could have put you in difficulty. Indeed, Allah is Exalted in Might and Wise`,
+        ``,
+        ``
+      ],
+      [
+        `sur ce monde et sur l'au-delà! Et ils t'interrogent au sujet des orphelins. Dis: "Leur faire du bien est la meilleur action. Si vous vous mêlez à eux, ce sont vos frères [en religion]". Allah distingue celui qui sème le désordre de celui qui fait le bien. Et si Allah avait voulu, Il vous aurait accablés. Certes Allah est Puissant et Sage`,
+        ``,
+        ``
+      ],
+      [
+        `sobre la vida de acá y la otra. Te preguntan acerca de los huérfanos. Di: «Está bien mejorar su condición; pero, si mezcláis vuestra hacienda con la suya, tratadles como a hermanos». Alá distingue al corruptor del reformador. Y si Alá hubiera querido os habría afligido. Alá es poderoso, sabio`,
+        ``,
+        ``
+      ],
+      [
+        `над этим миром и Последней жизнью. Они спрашивают тебя о сиротах. Скажи: «Делать им добро - хорошо. Если вы объедините свои дела, то ведь они - ваши братья. Аллах отличает распространяющего нечестие от творящего добро. Если бы Аллах захотел, то поставил бы вас в затруднительное положение. Воистину, Аллах - Могущественный, Мудрый»`,
+        ``,
+        ``
+      ],
+      [
+        `über das Diesseits und das Jenseits. Und sie fragen dich nach den Waisen. Sag: Ihre Lage zu verbessern ist besser. Und wenn ihr euch mit ihnen zusammentut, so sind sie eure Brüder. Allah weiß den Unheilstifter vom Heilstifter (zu unterscheiden). Und wenn Allah gewollt hätte, hätte Er euch wahrlich in Bedrängnis gebracht. Allah ist Allmächtig und Allweise`,
+        ``,
+        ``
+      ],
+      [
+        `vad gäller både detta liv och det eviga livet. Och de frågar dig hur [de bör handla gentemot] de faderlösa. Säg: "Att göra det som är till deras nytta är det bästa." Och om ni förvaltar deras egendom tillsammans med er egen, [minns då att] de är era bröder; Gud skiljer mellan den som försämrar och den som förbättrar och om Gud så ville, kunde Han lägga på er tunga bördor. Gud är allsmäktig, vis`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Over de wereld en het Hiernamaals. En zij vragen jou over de wezen. Zeg: "Het juiste beheer van hun zaken is een goede daad, en als jullie je bezittingen met die can hen vermengen, dan zijn zij jullie broeders. An Allah weet de verderfzaaier van de goede beheerder te onderscheiden. En als Allah het wilde, zou Hij jullie in moeilijkheden gebracht hebben. Voorwaar, Allah is Almachtig, Alwetend`,
+        ``,
+        ``
+      ],
+      [
+        `(یعنی) دنیا اور آخرت (کی باتوں) میں (غور کرو) ۔ اور تم سے یتیموں کے بارے میں دریافت کرتے ہیں کہہ دو کہ ان کی (حالت کی) اصلاح بہت اچھا کام ہے۔ اور اگر تم ان سے مل جل کر رہنا (یعنی خرچ اکھٹا رکھنا) چاہو تو وہ تمہارے بھائی ہیں اور خدا خوب جانتا ہے کہ خرابی کرنے والا کون ہے اور اصلاح کرنے والا کون۔ اور اگر خدا چاہتا تو تم کو تکلیف میں ڈال دیتا۔بےشک خدا غالب (اور) حکمت والا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `tentang dunia dan akhirat. Mereka menanyakan kepadamu (Muhammad) tentang anak-anak yatim. Katakanlah, "Memperbaiki keadaan mereka adalah baik!" Dan jika kamu mempergauli mereka, maka mereka adalah saudara-saudaramu. Allah mengetahui orang yang berbuat kerusakan dan yang berbuat kebaikan. Dan jika Allah menghendaki, niscaya Dia datangkan kesulitan kepadamu. Sungguh, Allah Mahaperkasa, Mahabijaksana`,
+        ``,
+        ``
+      ],
+      [
+        `Sana yetimleri sorarlar, de ki: "Onların işlerini düzeltmek hayırlıdır". Eğer onlarla bir arada yaşarsanız, artık onlar sizin kardeşlerinizdir. Allah düzeltenden bozanı ayırdetmesini bilir. Allah dileseydi sizi zora sokardı. Allah şüphesiz güçlüdür, Hakim'dir`,
+        ``,
+        ``
+      ],
+      [
+        `و در باره يتيمان از تو مى‌پرسند، بگو: «به صلاح آنان كار كردن بهتر است، و اگر با آنان همزيستى كنيد، برادران [دينى‌] شما هستند. و خدا تباهكار را از درستكار بازمى‌شناسد.» و اگر خدا مى‌خواست [در اين باره‌] شما را به دشوارى مى‌انداخت. آرى، خداوند توانا و حكيم است`,
+        ``,
+        ``
+      ],
+      [
+        `দুনিয়া ও আখেরাতের বিষয়ে। আর তোমার কাছে জিজ্ঞেস করে, এতীম সংক্রান্ত হুকুম। বলে দাও, তাদের কাজ-কর্ম সঠিকভাবে গুছিয়ে দেয়া উত্তম আর যদি তাদের ব্যয়ভার নিজের সাথে মিশিয়ে নাও, তাহলে মনে করবে তারা তোমাদের ভাই । বস্তুতঃ অমঙ্গলকামী ও মঙ্গলকামীদেরকে আল্লাহ জানেন। আল্লাহ যদি ইচ্ছা করতেন, তাহলে তোমাদের উপর জটিলতা আরোপ করতে পারতেন। নিশ্চয়ই তিনি পরাক্রমশালী, মহাপ্রজ্ঞ।`,
+        ``,
+        ``
+      ],
+      [
+        `Acerca da vida terrena e da Derradeira Vida. E perguntam-te pelos órfãos. Dize: "Emendar-lhes as condições de vida é o melhor. E se vos misturais a eles, são vossos irmãos." E Allah sabe distinguir o corruptor do emendador. E, se Allah quisesse, embaraçar-vos-ia. Por certo, Allah é Todo-Poderoso, Sábio`,
+        ``,
+        ``
+      ],
+      [
+        `他们问你怎样待遇孤儿，你说：为他们改善他们的事务是更好的。如果你们与他们合伙，那末，（你们应当记取）他们是你们的教胞。真主能辨别破坏的人和改善的人。假若真主意欲，他必使你们烦难。真主确是万能的，确是至睿的。`,
+        ``,
+        ``
+      ],
+      [
+        `現世に就いてもまた来世に就いても。またかれらは孤児に関し，あなたに問うであろう。言ってやるがいい。「かれらのために，有利に取計らうのは善いことである。もし，かれらと親しく交る時は，あなたがたは兄弟である。」アッラーは，善意の者と悪事をなす者を知っておられる。アッラーがおぼしめしならば，あなたがたをきっと困惑させられる。誠にアッラーは，偉力ならぶものなく英明であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `(그 숙고는) 현세와 내세에 관해서라. 그들이 그대에게 고아에 관해 물으니, 말하라 : ‘그들을 위한 (재산) 관리는 좋은 것이라. 만약 그대들이 그들의 일을 함께 처리한다면 (그들은) 그대들의 형제들이라’. 하나님께서는 해악을 퍼트리는 자와 선을 바라는 자를 구분하여 아시노라. 만약 하나님께서 의지하셨더라면 그대들을 힘들게 하셨을 것이라. 실로 하나님께서는 존엄하시고 지혜로우신 분이라`,
+        ``,
+        ``
+      ],
+      [
+        `su questa vita e sull'altra. E ti interrogano a proposito degli orfani. Di': “Far loro del bene è l'azione migliore. E se vi occupate dei loro affari, considerate che sono vostri fratelli!”. Allah sa distinguere chi semina il disordine da chi fa il bene. Se Allah avesse voluto, vi avrebbe afflitti. Egli è potente e saggio`,
+        ``,
+        ``
+      ],
+      [
+        `Nad życiem tego świata i życiem ostatecznym! Oni będą ciebie pytać też o sieroty. Powiedz: "Ulepszenie ich losu jest dobrem. A jeśli się mieszacie z nimi - to one są waszymi braćmi." A Bóg odróżnia tego, który szerzy zgorszenie, od tego, który czyni dobro. A gdyby Bóg zechciał, to z pewnością mógłby was udręczyć. Zaprawdę Bóg jest potężny, mądry`,
+        ``,
+        ``
+      ],
+      [
+        `про життя нинішнє та наступне! Запитують тебе і про сиріт. Скажи: «Робити їм добро — благо. А якщо ви поєднаєте свої та їхні справи, то вони — ваші брати». Та Аллаг відрізняє нечестивого від доброчинного. Якби Аллаг побажав, то утруднив би становище ваше. Аллаг — Великий, Мудрий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 220`
+  },
+
+  {
+    arabic: [
+      `وَالْمُطَلَّقَاتُ يَتَرَبَّصْنَ بِأَنْفُسِهِنَّ ثَلَاثَةَ قُرُوءٍ ۚ وَلَا يَحِلُّ لَهُنَّ أَنْ يَكْتُمْنَ مَا خَلَقَ اللَّهُ فِي أَرْحَامِهِنَّ إِنْ كُنَّ يُؤْمِنَّ بِاللَّهِ وَالْيَوْمِ الْآخِرِ ۚ وَبُعُولَتُهُنَّ أَحَقُّ بِرَدِّهِنَّ فِي ذَٰلِكَ إِنْ أَرَادُوا إِصْلَاحًا ۚ وَلَهُنَّ مِثْلُ الَّذِي عَلَيْهِنَّ بِالْمَعْرُوفِ ۚ وَلِلرِّجَالِ عَلَيْهِنَّ دَرَجَةٌ ۗ وَاللَّهُ عَزِيزٌ حَكِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Divorced women remain in waiting for three periods, and it is not lawful for them to conceal what Allah has created in their wombs if they believe in Allah and the Last Day. And their husbands have more right to take them back in this [period] if they want reconciliation. And due to the wives is similar to what is expected of them, according to what is reasonable. But the men have a degree over them [in responsibility and authority]. And Allah is Exalted in Might and Wise`,
+        ``,
+        ``
+      ],
+      [
+        `Et les femmes divorcées doivent observer un délai d'attente de trois menstrues; et il ne leur est pas permis de taire ce qu'Allah a créé dans leurs ventres, si elles croient en Allah et au Jour Dernier. Et leurs époux seront plus en droit de les reprendre pendant cette période, s'ils veulent la réconciliation. Quant à elles, elles ont des droits équivalents à leurs obligations, conformément à la bienséance. Mais les hommes ont cependant une prédominance sur elles. Et Allah est Puissant et Sage`,
+        ``,
+        ``
+      ],
+      [
+        `Las repudiadas deberán esperar tres menstruaciones. No les es lícito ocultar lo que Alá ha creado en su seno si es que creen en Alá y en el último Día. Durante esta espera, sus esposo tienen pleno derecho a tomarlas de nuevo si desean la reconciliación. Ellas tienen derechos equivalentes a sus obligaciones, conforme al uso, pero los hombres están un grado por encima de ellas. Alá es poderoso, sabio`,
+        ``,
+        ``
+      ],
+      [
+        `Разведенные женщины должны выжидать в течение трех менструаций. Не позволительно им скрывать то, что сотворил Аллах в их утробах, если они веруют в Аллаха и в Последний день. Мужья в течение этого периода имеют право вернуть их, если захотят примирения. Жены имеют такие же права, как и обязанности, и относиться к ним следует по-доброму, но мужья выше их по положению. Аллах - Могущественный, Мудрый`,
+        ``,
+        ``
+      ],
+      [
+        `Geschiedene Frauen sollen (mit sich) selbst drei Zeitabschnitte abwarten. Und es ist ihnen nicht erlaubt, zu verheimlichen, was Allah in ihrem Mutterleib erschaffen hat, wenn sie an Allah und den Jüngsten Tag glauben. Und ihre Ehemänner haben ein größeres Anrecht, sie zurückzunehmen, wenn sie eine Aussöhnung wollen. Und ihnen (den Frauen) steht in rechtlicher Weise (gegenüber den Männern) das gleiche zu, wie (den Männern) gegenüber ihnen. Doch die Männer haben ihnen gegenüber einen gewissen Vorzug. Und Allah ist Allmächtig und Allweise`,
+        ``,
+        ``
+      ],
+      [
+        `I fall av skilsmässa skall kvinnan iaktta en väntetid omfattande tre månadsblödningar [innan hon får ingå nytt äktenskap] och det är inte tillåtet för henne - om hon tror på Gud och den Yttersta dagen - att dölja vad Gud har skapat i hennes sköte. Mannen har full rätt att låta [skilsmässan återgå och] hustrun återvända, om han önskar förlikning. Hustrun har, som sig bör, rättigheter [mot mannen] motsvarande [dem han har] mot henne; hans [rätt] ligger dock ett steg framför hennes. Gud är allsmäktig, vis`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En de gescheiden vrouwen moeten voor zichzelf een Wachttijd ('Iddah) van drie maandelijkse perioden (maandstonden) in acht nemen. En het is hen niet toegestaan le verbergen wat Allah in hun schoten heeft geschapen, als jullie geloven in Allah en in de Laatste Dag. En hun echtgenoten hebben het recht om hen terug te nemen binnen die wachtijd, als zij verzoening wensen. En voor de vrouwen zijn er rechten overeenkomstig hun plichten, volgens wat redelijk is. Maar voor de mannen is er een rang boven hen (de vrouwen). En Allah is Almachtig Alwijs`,
+        ``,
+        ``
+      ],
+      [
+        `اور طلاق والی عورتیں تین حیض تک اپنی تئیں روکے رہیں۔ اور اگر وہ خدا اور روز قیامت پر ایمان رکھتی ہیں تو ان کا جائز نہیں کہ خدا نے جو کچھ ان کے شکم میں پیدا کیا ہے اس کو چھپائیں۔ اور ان کے خاوند اگر پھر موافقت چاہیں تو اس (مدت) میں وہ ان کو اپنی زوجیت میں لے لینے کے زیادہ حقدار ہیں۔ اور عورتوں کا حق (مردوں پر) ویسا ہی ہے جیسے دستور کے مطابق (مردوں کا حق) عورتوں پر ہے۔ البتہ مردوں کو عورتوں پر فضیلت ہے۔ اور خدا غالب (اور) صاحب حکمت ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan para istri yang diceraikan (wajib) menahan diri mereka (menunggu) tiga kali quru\`.81) Mereka tidak boleh menyembunyikan apa yang diciptakan Allah dalam rahim mereka, jika mereka beriman kepada Allah dan hari akhir. Dan para suami mereka lebih berhak kembali kepada mereka dalam (masa) itu, jika mereka menghendaki perbaikan. Dan mereka (para perempuan) mempunyai hak seimbang dengan kewajibannya menurut cara yang patut. Tetapi para suami, mempunyai kelebihan di atas mereka.82) Allah Mahaperkasa, Mahabijaksana`,
+        ``,
+        ``
+      ],
+      [
+        `Boşanan kadınlar, kendi kendilerine üç aybaşı hali beklerler, eğer Allah'a ve ahiret gününe inanmışlarsa, rahimlerinde Allah'ın yarattığını gizlemeleri kendilerine helal değildir. Kocaları bu arada barışmak isterlerse, karılarını geri almakta daha çok hak sahibidirler. Kadınların hakları, örfe uygun bir şekilde vazifelerine denktir. Erkeklerin onlardan bir üstün derecesi vardır. Allah güçlüdür. Hakim'dir`,
+        ``,
+        ``
+      ],
+      [
+        `و زنان طلاق داده شده، بايد مدت سه پاكى انتظار كشند، و اگر به خدا و روز بازپسين ايمان دارند، براى آنان روا نيست كه آنچه را خداوند در رحم آنان آفريده، پوشيده دارند؛ و شوهرانشان اگر سر آشتى دارند، به بازآوردن آنان در اين [مدّت‌] سزاوارترند. و مانند همان [وظايفى‌] كه بر عهده زنان است، به طور شايسته، به نفع آنان [بر عهده مردان‌] است، و مردان بر آنان درجه برترى دارند، و خداوند توانا و حكيم است`,
+        ``,
+        ``
+      ],
+      [
+        `আর তালাকপ্রাপ্তা নারী নিজেকে অপেক্ষায় রাখবে তিন হায়েয পর্যন্ত। আর যদি সে আল্লাহর প্রতি এবং আখেরাত দিবসের উপর ঈমানদার হয়ে থাকে, তাহলে আল্লাহ যা তার জরায়ুতে সৃষ্টি করেছেন তা লুকিয়ে রাখা জায়েজ নয়। আর যদি সদ্ভাব রেখে চলতে চায়, তাহলে তাদেরকে ফিরিয়ে নেবার অধিকার তাদের স্বামীরা সংরক্ষণ করে। আর পুরুষদের যেমন স্ত্রীদের উপর অধিকার রয়েছে, তেমনি ভাবে স্ত্রীদেরও অধিকার রয়েছে পুরুষদের উপর নিয়ম অনুযায়ী। আর নারীরদের ওপর পুরুষদের শ্রেষ্ঠত্ব রয়েছে। আর আল্লাহ হচ্ছে পরাক্রমশালী, বিজ্ঞ।`,
+        ``,
+        ``
+      ],
+      [
+        `E que as divorciadas aguardem, elas mesmas, antes de novo casamento, três períodos menstruais e não lhes é lícito ocultarem o que Allah criou em suas matrizes se elas crêem em Allah e no Derradeiro Dia. E nesse ínterim, seus maridos têm prioridade em tê-las de volta, se desejam reconciliação. E elas têm direitos iguais às suas obrigações, convenientemente. E há para os homens um degrau acima delas. E Allah é Todo-Poderoso, Sábio`,
+        ``,
+        ``
+      ],
+      [
+        `被休的妇人，当期待三次月经；她们不得隐讳真主造化在她们的子宫里的东西，如果她们确信真主和末日。在等待的期间，她们的丈夫是宜当挽留她们的，如果他们愿意重修旧好。她们应享合理的权利，也应尽合理的义务；男人的权利，比她们高一级。真主是万能的，是至睿的。`,
+        ``,
+        ``
+      ],
+      [
+        `離婚された女は，独身のままで3度の月経を待たねばならない。またもしもかの女らが，アッラーと最後の日を信じるならば，アッラーが胎内に創られたものを，隠すのは合法ではない。（この場合）夫たちがもし和解を望み，その期間内にかの女らを復縁させるならば，より権利がある。女は，公平な状態の下に，かれらに対して対等の権利をもつ。だが男は，女よりも一段上位である。誠にアッラーは偉力ならびなく英明であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `이혼 여성은 세 번의 생리를 참고 기다려야 하노라. 그녀들이 실로 하나님과 최후의 날을 믿는다면 자신의 자궁 속에 하나님께서 창조하신 것을 감추는 일은 그녀들에게 허락되지 않노라. 그녀들의 남편이 조정을 원할 경우 그들에게는 그 (기간) 내에 그녀들과 재결합할 수 있는 더 많은 권리를 가지노라. 그녀들에게 의무가 있는 것처럼 그녀들에게는 합당한 권리가 있노라. 남성들은 그녀들에 대하여 월등함을 지니노라. 하나님께서는 존엄하시고 지혜로우신 분이라`,
+        ``,
+        ``
+      ],
+      [
+        `Le donne divorziate osservino un ritiro della durata di tre cicli, e non è loro permesso nascondere quello che Allah ha creato nei loro ventri, se credono in Allah e nell'Ultimo Giorno. E i loro sposi avranno priorità se, volendosi riconciliare, le riprenderanno durante questo periodo. Esse hanno diritti equivalenti ai loro doveri, in base alle buone consuetudini, ma gli uomini hanno maggior responsabilità. Allah è potente, è saggio`,
+        ``,
+        ``
+      ],
+      [
+        `To kobiety rozwiedzione mają oczekiwać trzy okresy. I nie jest im dozwolone, aby ukrywały to, co stworzył Bóg w ich łonach, jeśli wierzą w Boga i w Dzień Ostatni. A ich mężowie, jeśli zapragną pogodzenia, mają pełne prawo powrócić do nich w tym czasie. One mają prawa równe swoim obowiązkom, zgodnie z uznanym zwyczajem. Mężczyźni mają nad nimi wyższość. Bóg jest potężny, mądry`,
+        ``,
+        ``
+      ],
+      [
+        `Розлучені жінки повинні очікувати три терміни місячних. Не дозволено їм приховувати те, що Аллаг створив у лонах їхніх — якщо вони вірують у Аллага та в Останній День. Якщо ж чоловіки їхні побажають примирення, то протягом цього часу вони мають право повернути їх. Відповідно до звичаю жінки мають такі права, які рівні їхнім обов’язкам, хоча чоловіки у дечому й вищі від них. Аллаг — Великий, Мудрий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 228`
+  },
+
+  {
+    arabic: [
+      `۞ وَالْوَالِدَاتُ يُرْضِعْنَ أَوْلَادَهُنَّ حَوْلَيْنِ كَامِلَيْنِ ۖ لِمَنْ أَرَادَ أَنْ يُتِمَّ الرَّضَاعَةَ ۚ وَعَلَى الْمَوْلُودِ لَهُ رِزْقُهُنَّ وَكِسْوَتُهُنَّ بِالْمَعْرُوفِ ۚ لَا تُكَلَّفُ نَفْسٌ إِلَّا وُسْعَهَا ۚ لَا تُضَارَّ وَالِدَةٌ بِوَلَدِهَا وَلَا مَوْلُودٌ لَهُ بِوَلَدِهِ ۚ وَعَلَى الْوَارِثِ مِثْلُ ذَٰلِكَ ۗ فَإِنْ أَرَادَا فِصَالًا عَنْ تَرَاضٍ مِنْهُمَا وَتَشَاوُرٍ فَلَا جُنَاحَ عَلَيْهِمَا ۗ وَإِنْ أَرَدْتُمْ أَنْ تَسْتَرْضِعُوا أَوْلَادَكُمْ فَلَا جُنَاحَ عَلَيْكُمْ إِذَا سَلَّمْتُمْ مَا آتَيْتُمْ بِالْمَعْرُوفِ ۗ وَاتَّقُوا اللَّهَ وَاعْلَمُوا أَنَّ اللَّهَ بِمَا تَعْمَلُونَ بَصِيرٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Mothers may breastfeed their children two complete years for whoever wishes to complete the nursing [period]. Upon the father is the mothers' provision and their clothing according to what is acceptable. No person is charged with more than his capacity. No mother should be harmed through her child, and no father through his child. And upon the [father's] heir is [a duty] like that [of the father]. And if they both desire weaning through mutual consent from both of them and consultation, there is no blame upon either of them. And if you wish to have your children nursed by a substitute, there is no blame upon you as long as you give payment according to what is acceptable. And fear Allah and know that Allah is Seeing of what you do`,
+        ``,
+        ``
+      ],
+      [
+        `Et les mères, qui veulent donner un allaitement complet, allaiteront leurs bébés deux ans complets. Au père de l'enfant de les nourrir et vêtir de manière convenable. Nul ne doit supporter plus que ses moyens. La mère n'a pas à subir de dommage à cause de son enfant, ni le père, à cause de son enfant. Même obligation pour l'héritier. Et si, après s'être consultés, tous deux tombent d'accord pour décider le sevrage, nul grief à leur faire. Et si vous voulez mettre vos enfants en nourrice, nul grief à vous faire non plus, à condition que vous acquittiez la rétribution convenue, conformément à l'usage. Et craignez Allah, et sachez qu'Allah observe ce que vous faites`,
+        ``,
+        ``
+      ],
+      [
+        `Las madres amamantarán a sus hijos durante dos años completos si desea que la lactancia sea completa. El padre debe sustentarlas y vestirlas conforme al uso. A nadie se le pedirá sino según sus posibilidades. No se dañará a la madre por razón de su hijo, ni al padre. Un deber semejante incumbe al heredero. Y no hay inconveniente en que el padre y la madre quieran, de mutuo acuerdo y luego de consultarse, destetar al niño. Y, si queréis emplear a una nodriza para vuestros hijos, no hacéis mal, siempre que paguéis lo acordado conforme al uso. ¡Temed a Alá y sabed que Alá ve bien lo que hacéis`,
+        ``,
+        ``
+      ],
+      [
+        `Матери должны кормить своих детей грудью два полных года, если они хотят довести кормление грудью до конца. А тот, у кого родился ребенок, должен обеспечивать питание и одежду матери на разумных условиях. Ни на одного человека не возлагается сверх его возможностей. Нельзя причинять вред матери за ее ребенка, а также отцу за его ребенка. Такие же обязанности возлагаются на наследника отца. Если они пожелают отнять ребенка от груди по взаимному согласию и совету, то не совершат греха. И если вы пожелаете нанять кормилицу для ваших детей, то не совершите греха, если вы заплатите ей на разумных условиях. Бойтесь Аллаха и знайте, что Аллах видит то, что вы совершаете`,
+        ``,
+        ``
+      ],
+      [
+        `Und die Mütter stillen ihre Kinder zwei volle Jahre. (Das gilt) für jemanden, der das Stillen zu Ende führen will. Und demjenigen, dem das Kind geboren wurde, obliegt es, für ihre Versorgung und Kleidung in rechtlicher Weise aufzukommen. Keiner Seele wird mehr auferlegt, als sie zu leisten vermag. Keine Mutter soll wegen ihres Kindes zu Schaden kommen, noch einer, dem das Kind geboren wurde, wegen seines Kindes. Und dem Erben obliegt das gleiche. Wenn sie beide jedoch in gegenseitigem Einvernehmen und gemeinsamer Beratung (das Kind vorzeitig) entwöhnen wollen, so ist darin keine Sünde für sie (beide). Und wenn ihr eure Kinder (von einer Amme) stillen lassen wollt, so ist darin keine Sünde für euch, sofern ihr das, was ihr geben wollt, in rechtlicher Weise aushändigt. Und fürchtet Allah und wißt, daß Allah das, was ihr tut, wohl sieht`,
+        ``,
+        ``
+      ],
+      [
+        `Modern skall ge sina barn di under två hela år, om [föräldrarna] önskar en full amningsperiod. Och barnets fader är skyldig att svara för moderns uppehälle och kläder enligt skick och sed. På ingen skall läggas en tyngre börda än han kan bära. Barnet skall inte bli en förevändning för att skada vare sig modern eller barnets fader. Samma [skyldigheter vilar] på [faderns] arvinge. Föräldrarna skall inte klandras om de i samråd beslutar att skilja barnet från modern. Och om ni beslutar lämna era barn till en fostermor skall ni inte klandras för detta, förutsatt att ni sörjer som sig bör för barnets säkerhet och välfärd. Och frukta Gud och tänk på att Gud ser vad ni gör`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `De moeders dienen hun kinderen twee volle jaren te zogen, voor wie die de zogingsperiode wil volmaken. En op de vader rust de plicht van het voorzien in hun voedsel en hun kleding, volgens de voorschriften. Niemand wordt belast dan volgens zijn vermogen. Laat de moeders niet geschaad worden vanwege haar kind, noch de vader vanwege zijn kind. En op de erfgenamen rust dezelfde plicht. Maar wanneer beiden spening wensen met wederzijds goedvinden en overleg, dan rust er geen zonde op hen. En wanneer jullie je kinderen door zoogmoeders wilt laten zogen, dan rust er geen zonde op jullie, als jullie er een redelijke vergoeding voor geven. En vreest Allah en weet dat Allah Alziende is over wat jullie doen`,
+        ``,
+        ``
+      ],
+      [
+        `اور مائیں اپنے بچوں کو پورے دو سال دودھ پلائیں یہ (حکم) اس شخص کے لئے ہے جو پوری مدت تک دودھ پلوانا چاہے۔ اور دودھ پلانے والی ماؤں کا کھانا اور کپڑا دستور کے مطابق باپ کے ذمے ہوگا۔ کسی شخص کو اس کی طاقت سے زیادہ تکلیف نہیں دی جاتی (تو یاد رکھو کہ) نہ تو ماں کو اس کے بچے کے سبب نقصان پہنچایا جائے اور نہ باپ کو اس کی اولاد کی وجہ سے نقصان پہنچایا جائے اور اسی طرح (نان نفقہ) بچے کے وارث کے ذمے ہے۔ اور اگر دونوں (یعنی ماں باپ) آپس کی رضامندی اور صلاح سے بچے کا دودھ چھڑانا چاہیں تو ان پر کچھ گناہ نہیں۔ اور اگر تم اپنی اولاد کو دودھ پلوانا چاہو تو تم پر کچھ گناہ نہیں بشرطیکہ تم دودھ پلانے والیوں کو دستور کے مطابق ان کا حق جو تم نے دینا کیا تھا دے دو اور خدا سے ڈرتے رہو اور جان رکھو کہ جو کچھ تم کرتے ہو خدا اس کو دیکھ رہا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan ibu-ibu hendaklah menyusui anak-anaknya selama dua tahun penuh, bagi yang ingin menyusui secara sempurna. Dan kewajiban ayah menanggung nafkah dan pakaian mereka dengan cara yang patut. Seseorang tidak dibebani lebih dari kesanggupannya. Janganlah seorang ibu menderita karena anaknya dan jangan pula seorang ayah (menderita) karena anaknya. Ahli waris pun (berkewajiban) seperti itu pula. Apabila keduanya ingin menyapih dengan persetujuan dan permusyawaratan antara keduanya, maka tidak ada dosa atas keduanya. Dan jika kamu ingin menyusukan anakmu kepada orang lain, maka tidak ada dosa bagimu memberikan bayaran dengan cara yang patut. Bertakwalah kepada Allah dan ketahuilah bahwa Allah Maha Melihat apa yang kamu kerjakan`,
+        ``,
+        ``
+      ],
+      [
+        `Anneler çocuklarını, emzirmeyi tamamlatmak isteyen baba için, tam iki sene emzirirler. Anaların yiyecek ve giyeceğini uygun bir şekilde sağlamak çocuk kendisinin olan babaya borçtur. Herkese ancak gücü nisbetinde teklifte bulunulur. Ana çocuğundan, çocuk kendisinin olan baba da çocuğundan dolayı zarara sokulmasın. Mirasçıya da aynı şeyi yapmak borçtur. Ana baba aralarında danışarak ve anlaşarak sütten kesmek isterlerse, ikisine de sorumluluk yoktur. Çocuklarınızı sütanneye emzirtmek isterseniz, vereceğinizi örfe uygun bir şekilde öderseniz, size sorumluluk yoktur. Allah'tan sakının, yaptıklarınızı gördüğünü bilin`,
+        ``,
+        ``
+      ],
+      [
+        `و مادران [بايد] فرزندان خود را دو سال تمام شير دهند. [اين حكم‌] براى كسى است كه بخواهد دوران شيرخوارگى را تكميل كند. و خوراك و پوشاك آنان [=مادران‌]، به طور شايسته، بر عهده پدر است. هيچ كس جز به قدر وسعش مكلف نمى‌شود. هيچ مادرى نبايد به سبب فرزندش زيان ببيند، و هيچ پدرى [نيز] نبايد به خاطر فرزندش [ضرر ببيند]. و مانند همين [احكام‌] بر عهده وارث [نيز] هست. پس اگر [پدر و مادر] بخواهند با رضايت و صوابديد يكديگر، كودك را [زودتر] از شير بازگيرند، گناهى بر آن دو نيست. و اگر خواستيد براى فرزندان خود دايه بگيريد، بر شما گناهى نيست، به شرط آنكه چيزى را كه پرداخت آن را به عهده گرفته‌ايد، به طور شايسته بپردازيد. و از خدا پروا كنيد و بدانيد كه خداوند به آنچه انجام مى‌دهيد بيناست`,
+        ``,
+        ``
+      ],
+      [
+        `আর সন্তানবতী নারীরা তাদের সন্তানদেরকে পূর্ন দু’বছর দুধ খাওয়াবে, যদি দুধ খাওয়াবার পূর্ণ মেয়াদ সমাপ্ত করতে চায়। আর সন্তানের অধিকারী অর্থাৎ, পিতার উপর হলো সে সমস্ত নারীর খোর-পোষের দায়িত্ব প্রচলিত নিয়ম অনুযায়ী। কাউকে তার সামর্থাতিরিক্ত চাপের সম্মুখীন করা হয় না। আর মাকে তার সন্তানের জন্য ক্ষতিগ্রস্ত করা যাবে না। এবং যার সন্তান তাকেও তার সন্তানের কারণে ক্ষতির সম্মুখীন করা যাবে না। আর ওয়ারিসদের উপরও দায়িত্ব এই। তারপর যদি পিতা-মাতা ইচ্ছা করে, তাহলে দু’বছরের ভিতরেই নিজেদের পারস্পরিক পরামর্শক্রমে দুধ ছাড়িয়ে দিতে পারে, তাতে তাদের কোন পাপ নেই, আর যদি তোমরা কোন ধাত্রীর দ্বারা নিজের সন্তানদেরকে দুধ খাওয়াতে চাও, তাহলে যদি তোমরা সাব্যস্তকৃত প্রচলিত বিনিময় দিয়ে দাও তাতেও কোন পাপ নেই। আর আল্লাহকে ভয় কর এবং জেনে রেখো যে, আল্লাহ তোমাদের যাবতীয় কাজ অত্যন্ত ভাল করেই দেখেন।`,
+        ``,
+        ``
+      ],
+      [
+        `E as mães amamentam seus filhos por dois anos inteiros. Isso, para quem deseja completar a lactação. E impende ao pai o sustento e o vestir delas, convenientemente. A nenhuma alma é imposto senão o que é de sua capacidade. Que nenhuma mãe seja prejudicada por causa de seu filho nem o pai, por causa de seu filho. E impende ao herdeiro fazer o mesmo. E se ambos desejam desmama, de comum acordo e mútua consulta, não haverá culpa sobre ambos. E se desejais amamentar vossos filhos com amas, não haverá culpa sobre vós, quando entregardes, convenientemente, o que prometestes conceder-Ihes. E temei a Allah e sabei que Allah, do que fazeis, é Onividente`,
+        ``,
+        ``
+      ],
+      [
+        `做母亲的，应当替欲哺满乳期的人，哺乳自己的婴儿两周岁。做父亲的，应当照例供给她们的衣食。每个人只依他的能力而受责成。不要使做母亲的为自己的婴儿而吃亏，也不要使做父亲的为自己的婴儿而吃亏。（如果做父亲的死了），继承人应负同样的责任。如果做父母的欲依协议而断乳，那末，他们俩毫无罪过。如果你们另顾乳母哺乳你们的婴儿，那末，你们毫无罪过，但须交付照例应给的工资。你们当敬畏真主，当知道真主是明察你们的行为的。`,
+        ``,
+        ``
+      ],
+      [
+        `母親は，乳児に満2年間授乳する。これは授乳を全うしようと望む者の期間である。父親はかれらの食料や衣服の経費を，公正に負担しなければならない。しかし誰も，その能力以上の負担を強いられない。母親はその子のために不当に強いられることなく，父親もその子のために不当に強いられてはならない。また相続人もそれと同様である。また両人が話し合いで合意の上，離乳を決めても，かれら両人に罪はない。またあなたがたは乳児を乳母に託すよう決定しても， 約束したものを公正に支給するならば，あなたがたに罪はない。アッラーを畏れなさい。アッラーは，あなたがたの行いを御存知であられることを知れ。`,
+        ``,
+        ``
+      ],
+      [
+        `어머니는 수유를 끝까지 채우고 싶어하는 자를 위하여 자신의 자식들에게 꼬박 두 해 동안 젖을 물리노라. 아이아버지는 합당한 방식으로 그녀들의 양식과 옷을 책임져야 하노라. 그 누구도 오직 감당할 수 있는 능력만큼만 짐 지워지니 어머니는 자신의 자식으로 말미암아 해를 받지 아니하며 아이아버지도 자신의 자식으로 말이암아 해를 받지 않노라. 상속자도 그와 유사한 것을 책임져야 하노라. 그 둘(부모)이 쌍방의 동의와 의견 교환으로 젖을 떼기를 원한다면 그 둘에게는 죄가 없노라. 그대들이 자식들을 젖 먹여줄 유모를 원할 경우에는 그대들이 주고자 하는 것(보수)을 합당한 방식으로 (그녀에게) 건네주었다면 그대들에게는 죄가 없노라. 그대들은 하나님을 두려워하라. 실로 하나님께서는 그대들이 행하는 것을 보고 계시는 분이라`,
+        ``,
+        ``
+      ],
+      [
+        `Per coloro che vogliono completare l'allattamento, le madri allatteranno per due anni completi. Il padre del bambino ha il dovere di nutrirle e vestirle in base alla consuetudine. Nessuno è tenuto a fare oltre i propri mezzi. La madre non deve essere danneggiata a causa del figlio e il padre neppure. Lo stesso obbligo per l'erede. E se, dopo che si siano consultati, entrambi sono d'accordo per svezzarlo, non ci sarà colpa alcuna. E se volete dare i vostri figli a balia, non ci sarà nessun peccato, a condizione che versiate realmente il salario pattuito, secondo la buona consuetudine. Temete Allah e sappiate che in verità, Egli osserva quello che fate`,
+        ``,
+        ``
+      ],
+      [
+        `Matki pragnące w pełni wykarmić swoje dzieci będą je karmiły przez całe dwa lata. A na ojcu dziecka ciąży obowiązek zaopatrzenia ich w żywność i odzież, zgodnie z przyjętym zwyczajem. Nie nakłada się na człowieka niczego, co nie jest w jego możliwości. Rodzicielka nie może doznać szkody z powodu swojego dziecka ani ten, któremu się urodziło dziecko, z powodu jego dziecka. To samo dotyczy osoby dziedziczącej. Jeśli oboje chcą odstawić dziecko od piersi za obopólną zgodą i naradą, to nie popełnią grzechu. A jeśli zechcecie oddać do karmienia wasze dzieci, to nie będziecie mieli grzechu, jeśli dacie za to wynagrodzenie zgodnie z przyjętym zwyczajem. Bójcie się Boga! I wiedzcie, że Bóg widzi dobrze to, co wy czynicie`,
+        ``,
+        ``
+      ],
+      [
+        `Матері можуть годувати дітей своїм молоком два повних роки, якщо вони бажають довести до кінця це годування. Батько повинен забезпечувати матір дитини харчуванням та одягом відповідно до звичаю. На жодну людину не покладається більше, ніж може витримати вона. Не можна завдавати шкоди матері за її дитину, а також батькові за дитину його. Такі ж обв’язки має й нащадок. А якщо батьки побажають відняти дитину [від грудей] за взаємною згодою та порадою, то не буде їм гріха. А якщо вони побажають найняти годувальниць для своїх дітей, то не буде батькам гріха, якщо вони сплатять їм відповідно до звичаю. Тож бійтесь Аллага і знайте, що Аллаг бачить те, що ви робите`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 233`
   },
 
   {
@@ -2717,6 +3500,117 @@ const verses = [
       ]
     ],
     number: `سورة البقرة / Al-Baqarah، الآية 256`
+  },
+
+  {
+    arabic: [
+      `اللَّهُ وَلِيُّ الَّذِينَ آمَنُوا يُخْرِجُهُمْ مِنَ الظُّلُمَاتِ إِلَى النُّورِ ۖ وَالَّذِينَ كَفَرُوا أَوْلِيَاؤُهُمُ الطَّاغُوتُ يُخْرِجُونَهُمْ مِنَ النُّورِ إِلَى الظُّلُمَاتِ ۗ أُولَٰئِكَ أَصْحَابُ النَّارِ ۖ هُمْ فِيهَا خَالِدُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Allah is the ally of those who believe. He brings them out from darknesses into the light. And those who disbelieve - their allies are Taghut. They take them out of the light into darknesses. Those are the companions of the Fire; they will abide eternally therein`,
+        ``,
+        ``
+      ],
+      [
+        `Allah est le défenseur de ceux qui ont la foi: Il les fait sortir des ténèbres à la lumière. Quant à ceux qui ne croient pas, ils ont pour défenseurs les Rebelles ( Tâghût) , qui les font sortir de la lumière aux ténèbres. Voilà les gens du Feu, où ils demeurent éternellement`,
+        ``,
+        ``
+      ],
+      [
+        `Alá es el Amigo de los que creen, les saca de las tinieblas a la luz. Los que no creen, en cambio, tienen como amigos a los taguts, que les sacan de la luz a las tinieblas. Ésos morarán en el Fuego eternamente`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах - Покровитель тех, которые уверовали. Он выводит их из мраков к свету. А покровителями и помощниками неверующих являются тагуты, которые выводят их из света к мракам. Они являются обитателями Огня и пребудут там вечно`,
+        ``,
+        ``
+      ],
+      [
+        `Allah ist der Schutzherr derjenigen, die glauben. Er bringt sie aus den Finsternissen heraus ins Licht. Diejenigen aber, die ungläubig sind, deren Schutzherren sind die falschen Götter. Sie bringen sie aus dem Licht hinaus in die Finsternisse. Das sind Insassen des (Höllen)feuers. Ewig werden sie darin bleiben`,
+        ``,
+        ``
+      ],
+      [
+        `Gud är de troendes Beskyddare. Han leder dem ut ur mörkret till ljuset. Men de som förnekar sanningen har onda makter till beskyddare som leder dem ut ur ljuset till mörkret. De har Elden till arvedel och där skall de förbli till evig tid`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Allah is de Helper van degenen die geloven. Hij voert hen van de duisternis naar het licht. En degenen die ongelovig zijn: hun helpers zijn de Thaghôet, zij voeren hen van het licht naar de duisternis. Diegenen zijn de gezellen van de Hel, zij zullen daar eeuwig levenden zijn`,
+        ``,
+        ``
+      ],
+      [
+        `جو لوگ ایمان لائے ہیں ان کا دوست خدا ہے کہ اُن کو اندھیرے سے نکال کر روشنی میں لے جاتا ہے اور جو کافر ہیں ان کے دوست شیطان ہیں کہ ان کو روشنی سے نکال کر اندھیرے میں لے جاتے ہیں یہی لوگ اہل دوزخ ہیں کہ اس میں ہمیشہ رہیں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Allah pelindung orang yang beriman. Dia mengeluarkan mereka dari kegelapan kepada cahaya (iman). Dan orang-orang yang kafir, pelindung-pelindungnya adalah setan, yang mengeluarkan mereka dari cahaya kepada kegelapan. Mereka adalah penghuni neraka. Mereka kekal di dalamnya`,
+        ``,
+        ``
+      ],
+      [
+        `Allah inananların dostudur, onları karanlıklardan aydınlığa çıkarır. İnkar edenlerin ise dostları tağuttur. Onları aydınlıktan karanlıklara sürüklerler. İşte onlar cehennemliklerdir, onlar orada temelli kalacaklardır`,
+        ``,
+        ``
+      ],
+      [
+        `خداوند سرور كسانى است كه ايمان آورده‌اند. آنان را از تاريكيها به سوى روشنايى به در مى‌برد. و[لى‌] كسانى كه كفر ورزيده‌اند، سرورانشان [همان عصيانگران=] طاغوتند، كه آنان را از روشنايى به سوى تاريكيها به در مى‌برند. آنان اهل آتشند كه خود، در آن جاودانند`,
+        ``,
+        ``
+      ],
+      [
+        `যারা ঈমান এনেছে, আল্লাহ তাদের অভিভাবক। তাদেরকে তিনি বের করে আনেন অন্ধকার থেকে আলোর দিকে। আর যারা কুফরী করে তাদের অভিভাবক হচ্ছে তাগুত। তারা তাদেরকে আলো থেকে বের করে অন্ধকারের দিকে নিয়ে যায়। এরাই হলো দোযখের অধিবাসী, চিরকাল তারা সেখানেই থাকবে।`,
+        ``,
+        ``
+      ],
+      [
+        `Allah é O Protetor dos que crêem: fá-los sair das trevas para a luz. E quanto aos que renegam a Fé, seus protetores são os ídolos; fazem-nos sair da luz para as trevas. Esses são os companheiros do Fogo. Nele, serão eternos`,
+        ``,
+        ``
+      ],
+      [
+        `真主是信道的人的保佑者，使他们从重重黑暗走入光明；不信道的人的保佑者是恶魔，使他们从光明走入重重黑暗。这等人，是火狱的居民，他们将永居其中。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーは信仰する者の守護者で，暗黒の深みから，かれらを光明の中に導かれる。信仰しない者は，邪神〔ターグート〕がその守護者で，かれらを光明から暗黒の深みに導く。かれらは業火の住人である。永遠にその中に住むであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서는 믿는 자들의 가호자이시니, 암흑에서 광명으로 그들을 꺼내시노라. 불신하는 자들, 그들의 가호자는 우상이니, 광명에서 암흑으로 그들을 꺼내노라. 저들은 불지옥의 거주자들이니 실로 그들은 그 안에서 머물 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `Allah è il patrono di coloro che credono, li trae dalle tenebre verso la luce. Coloro che non credono hanno per patroni gli idoli che dalla luce li traggono alle tenebre. Ecco i compagni del Fuoco in cui rimarranno in eterno`,
+        ``,
+        ``
+      ],
+      [
+        `Bóg jest opiekunem tych, którzy wierzą; On ich wyprowadza z ciemności ku światłu. A opiekunami tych, którzy nie uwierzyli, są fałszywe bóstwa. One ich wyprowadzą ze światła ku ciemnościom. Tacy są mieszkańcami ognia; oni tam będą przebywać na wieki`,
+        ``,
+        ``
+      ],
+      [
+        `Аллаг — Покровитель тих, які увірували. Він виводить їх із темряви до світла. А покровителі тих, які не увірували — тагути. Вони ведуть їх від світла до темряви. Тож вони є жителями вогню і будуть вони там довіку`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 257`
   },
 
   {
@@ -4164,6 +5058,117 @@ const verses = [
 
   {
     arabic: [
+      `إِذْ قَالَتِ امْرَأَتُ عِمْرَانَ رَبِّ إِنِّي نَذَرْتُ لَكَ مَا فِي بَطْنِي مُحَرَّرًا فَتَقَبَّلْ مِنِّي ۖ إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ فَلَمَّا وَضَعَتْهَا قَالَتْ رَبِّ إِنِّي وَضَعْتُهَا أُنْثَىٰ وَاللَّهُ أَعْلَمُ بِمَا وَضَعَتْ وَلَيْسَ الذَّكَرُ كَالْأُنْثَىٰ ۖ وَإِنِّي سَمَّيْتُهَا مَرْيَمَ وَإِنِّي أُعِيذُهَا بِكَ وَذُرِّيَّتَهَا مِنَ الشَّيْطَانِ الرَّجِيمِ فَتَقَبَّلَهَا رَبُّهَا بِقَبُولٍ حَسَنٍ وَأَنْبَتَهَا نَبَاتًا حَسَنًا وَكَفَّلَهَا زَكَرِيَّا ۖ كُلَّمَا دَخَلَ عَلَيْهَا زَكَرِيَّا الْمِحْرَابَ وَجَدَ عِنْدَهَا رِزْقًا ۖ قَالَ يَا مَرْيَمُ أَنَّىٰ لَكِ هَٰذَا ۖ قَالَتْ هُوَ مِنْ عِنْدِ اللَّهِ ۖ إِنَّ اللَّهَ يَرْزُقُ مَنْ يَشَاءُ بِغَيْرِ حِسَابٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `[Mention, O Muhammad], when the wife of 'Imran said, "My Lord, indeed I have pledged to You what is in my womb, consecrated [for Your service], so accept this from me. Indeed, You are the Hearing, the Knowing But when she delivered her, she said, "My Lord, I have delivered a female." And Allah was most knowing of what she delivered, "And the male is not like the female. And I have named her Mary, and I seek refuge for her in You and [for] her descendants from Satan, the expelled [from the mercy of Allah] So her Lord accepted her with good acceptance and caused her to grow in a good manner and put her in the care of Zechariah. Every time Zechariah entered upon her in the prayer chamber, he found with her provision. He said, "O Mary, from where is this [coming] to you?" She said, "It is from Allah. Indeed, Allah provides for whom He wills without account`,
+        ``,
+        ``
+      ],
+      [
+        `(Rappelle-toi) quand la femme d'Imrân dit : "Seigneur, je T'ai voué en toute exclusivité ce qui est dans mon ventre. Accepte-le donc de moi ! C'est Toi, certes, l'Audient et l'Omniscient Puis, lorsqu'elle en eut accouché, elle dit : "Seigneur ! Voilà que j'ai accouché d'une fille." Or, Allah savait mieux ce dont elle avait accouché! Le garçon n'est pas comme la fille. "Je l'ai nommée Marie, et je la place, ainsi que sa descendance, sous Ta protection contre le Diable, le banni Son Seigneur l'agréa alors du bon agrément, la fit croître en belle croissance. Et Il en confia la garde à Zacharie . Chaque fois que celui-ci entrait auprès d'elle dans le Sanctuaire, il trouvait près d'elle de la nourriture. Il dit : “Ô Marie! D'où te vient cette nourriture? ” - Elle dit : “Cela me vient d'Allah.” Certes, Il donne la nourriture à qui Il veut sans compter`,
+        ``,
+        ``
+      ],
+      [
+        `Cuando la mujer de Imran dijo: «¡Señor! Te ofrezco en voto, a Tu exclusivo servicio, lo que hay en mi seno. ¡Acéptamelo! Tú eres Quien todo lo oye, Quien todo lo sabe» Y cuando dio a luz a una hija, dijo:«¡Señor! Lo que he dado a luz es una hembra -bien sabía Alá lo que había dado a luz- y un varón no es igual que una hembra. Le he puesto por nombre María y la pongo bajo Tu protección contra el maldito Demonio, y también a su descendencia» Su Señor la acogió favorablemente, la hizo crecer bien y la confió a Zacarías. Siempre que Zacarías entraba en el Templo para verla, encontraba sustento junto a ella. Decía:«María!, ¿de dónde te viene eso?» Decía ella:«De Alá. Alá provee sin medida a quien Él quiere»`,
+        ``,
+        ``
+      ],
+      [
+        `Вот сказала жена Имрана: «Господи! Я дала обет посвятить Тебе одному того, кто находится в моей утробе. Прими же от меня, ведь Ты - Слышащий, Знающий» Когда она родила ее, то сказала: «Господи! Я родила девочку, - но Аллаху было лучше знать, кого она родила. - А ведь мальчик не подобен девочке. Я назвала ее Марьям (Марией) и прошу Тебя защитить ее и потомство ее от дьявола изгнанного, побиваемого» Господь принял ее прекрасным образом, вырастил достойно и поручил ее Закарии (Захарии). Каждый раз, когда Закария (Захария) входил к ней в молельню, он находил возле нее пропитание. Он сказал: «О Марьям (Мария)! Откуда у тебя это?». Она ответила: «Это - от Аллаха, ведь Аллах дарует пропитание без счета, кому пожелает»`,
+        ``,
+        ``
+      ],
+      [
+        `Als 'Imrans Frau sagte: "Mein Herr, ich gelobe Dir, was in meinem Mutterleib ist, für Deinen Dienst freigestellt. So nimm (es) von mir an! Du bist ja der Allhörende und Allwissende Als sie sie dann zur Welt gebracht hatte, sagte sie: "Mein Herr, ich habe ein Mädchen zur Welt gebracht." Und Allah wußte sehr wohl, was sie zur Welt gebracht hatte, und der Knabe ist nicht wie das Mädchen. "Ich habe sie Maryam genannt, und ich stelle sie und ihre Nachkommenschaft unter Deinen Schutz vor dem gesteinigten Satan Da nahm ihr Herr sie auf gütigste Art an und ließ sie auf schöne Weise heranwachsen und gab sie Zakariyya zur Betreuung. Jedesmal, wenn Zakariyya zu ihr in die Zelle trat, fand er bei ihr Versorgung. Er sagte: "O Maryam, woher hast du das?" Sie sagte: "Es kommt von Allah; Allah versorgt, wen Er will, ohne zu berechnen`,
+        ``,
+        ``
+      ],
+      [
+        `Och \`Imrans hustru bad till Gud och sade: "Herre! Jag viger vad jag bär i mitt sköte åt Din tjänst. Tag emot mitt [offer], Du som hör allt, vet allt Och då hon fött barnet sade hon: "Herre, jag har fött en dotter - fastän Gud noga visste vad hon hade framfött; ett gossebarn är inte som ett flickebarn - och jag har gett henne namnet Maria och jag ber Dig skydda och bevara henne och hennes efterkommande mot Djävulen, den utstötte Och hennes Herre tog nådigt emot henne och lät henne växa upp och arta sig väl och uppdrog åt Sakarias att vaka över henne. Var gång Sakarias besökte henne i helgedomen, fann han henne försedd med föda. Och när han frågade henne: "Maria, varifrån har du fått detta?" svarade hon: "Det är från Gud; Gud skänker Sitt goda i överflöd till den Han vill`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Teon de vrouw van 'Imran zei: "Mijn Heer, voorwaar, ik wijd bij belofte aan U wat er in mijn buik is, aanvaard het van mij. Voorwaar, U bent de Alhorende, de Alwetende En toen zij haar gebaard had, zei zij: "Mijn Heer, ik heb haar gebaard, (het is) een meisje," - en Allah wist het best wat zij gebaard had - "en het mannelijke is niet als het vrouwelijke. En voorwaar, ik heb haar Maryam genoemd, en ik smeek U haar en haar nakomelingen te bescherment tegen de vervloekte Satan Toen aanvaardde haar Heer haar vriendelijk en deed haar goed opgroeien. En Hij stelde haar onder de hoede van Zakariyya. Iedere keer dat Zakariyya in de (gebeds-) ruimte bij haar kwam vond hij levensvoorzieningen bij haar. Hij zei: "O maryam, van waar heb jij dat?" Zij zei: "Dat komt bij Allah vandaan, voorwaar, Allah voorziet wie Hij wil zonder afrekening`,
+        ``,
+        ``
+      ],
+      [
+        `(وہ وقت یاد کرنے کے لائق ہے) جب عمران کی بیوی نے کہا کہ اے پروردگار جو (بچہ) میرے پیٹ میں ہے میں اس کو تیری نذر کرتی ہوں اسے دنیا کے کاموں سے آزاد رکھوں گی تو (اسے) میری طرف سے قبول فرما توتو سننے والا (اور) جاننے والا ہے جب ان کے ہاں بچہ پیدا ہوا اور جو کچھ ان کے ہاں پیدا ہوا تھا خدا کو خوب معلوم تھا تو کہنے لگیں کہ پروردگار! میرے تو لڑکی ہوئی ہے اور (نذر کے لیے) لڑکا (موزوں تھا کہ وہ) لڑکی کی طرح (ناتواں) نہیں ہوتا اور میں نے اس کا نام مریم رکھا ہے اور میں اس کو اور اس کی اولاد کو شیطان مردود سے تیری پناہ میں دیتی ہوں تو پروردگار نے اس کو پسندیدگی کے ساتھ قبول فرمایا اور اسے اچھی طرح پرورش کیا اور زکریا کو اس کا متکفل بنایا زکریا جب کبھی عبادت گاہ میں اس کے پاس جاتے تو اس کے پاس کھانا پاتے (یہ کیفیت دیکھ کر ایک دن مریم سے) پوچھنے لگے کہ مریم یہ کھانا تمہارے پاس کہاں سے آتا ہے وہ بولیں خدا کے ہاں سے (آتا ہے) بیشک خدا جسے چاہتا ہے بے شمار رزق دیتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `(Ingatlah), ketika istri Imran berkata, "Ya Tuhanku, sesungguhnya aku bernazar kepada-Mu, agar (janin) yang dalam kandunganku (kelak) menjadi hamba yang mengabdi (kepada-Mu), maka terimalah (nazar itu) dariku. Sungguh, Engkaulah Yang Maha Mendengar, Maha Mengetahui Maka ketika melahirkannya, dia berkata, "Ya Tuhanku, aku telah melahirkan anak perempuan." Padahal Allah lebih tahu apa yang dia lahirkan, dan laki-laki tidak sama dengan perempuan. "Dan aku memberinya nama Maryam, dan aku mohon perlindungan-Mu untuknya dan anak cucunya dari (gangguan) setan yang terkutuk Maka Dia (Allah) menerimanya dengan penerimaan yang baik, membesarkannya dengan pertumbuhan yang baik dan menyerahkan pemeliharaannya kepada Zakaria. Setiap kali Zakaria masuk menemuinya di mihrab (kamar khusus ibadah), dia dapati makanan di sisinya. Dia berkata, "Wahai Maryam! Dari mana ini engkau peroleh?" Dia (Maryam) menjawab, "Itu dari Allah." Sesungguhnya Allah memberi rezeki kepada siapa yang Dia kehendaki tanpa perhitungan`,
+        ``,
+        ``
+      ],
+      [
+        `İmran'ın karısı: "Ya Rabbi! Karnımda olanı, sadece sana hizmet etmek üzere adadım, benden kabul buyur, doğrusu işiten ve bilen ancak Sensin" demişti Onu doğurduğunda, Allah onun ne doğurduğunu bilirken "Ya Rabbi! Kız doğurdum. Erkek, kız gibi değildir, ben ona Meryem adını verdim, ben onu da soyunu da, kovulmuş şeytandan Sana sığındırırım" dedi Rabbi onu güzel bir kabulle karşıladı, güzel bir bitki gibi yetiştirdi; onu Zekeriya'nın himayesine bıraktı. Zekeriya mabedde onun yanına her girişinde, yanında bir yiyecek bulurdu. "Ey Meryem! Bu sana nereden geldi?" demiş, o da: Bu, Allah'ın katındandır" cevabını vermişti. Doğrusu Allah dilediğini hesapsız rızıklandırır`,
+        ``,
+        ``
+      ],
+      [
+        `چون زن عمران گفت: «پروردگارا، آنچه در شكم خود دارم نذر تو كردم تا آزاد شده [از مشاغل دنيا و پرستشگر تو] باشد؛ پس، از من بپذير كه تو خود شنواى دانايى.» پس چون فرزندش را بزاد، گفت: «پروردگارا، من دختر زاده‌ام -و خدا به آنچه او زاييد داناتر بود- و پسر چون دختر نيست، و من نامش را مريم نهادم، و او و فرزندانش را از شيطان رانده‌شده، به تو پناه مى‌دهم.» پس پروردگارش وى [=مريم‌] را با حُسنِ قبول پذيرا شد و او را نيكو بار آورد، و زكريا را سرپرست وى قرار داد. زكريا هر بار كه در محراب بر او وارد مى‌شد، نزد او [نوعى‌] خوراكى مى‌يافت. [مى‌]گفت: «اى مريم، اين از كجا براى تو [آمده است؟ او در پاسخ مى‌]گفت: «اين از جانب خداست، كه خدا به هر كس بخواهد، بى شمار روزى مى‌دهد.»`,
+        ``,
+        ``
+      ],
+      [
+        `এমরানের স্ত্রী যখন বললো-হে আমার পালনকর্তা! আমার গর্ভে যা রয়েছে আমি তাকে তোমার নামে উৎসর্গ করলাম সবার কাছ থেকে মুক্ত রেখে। আমার পক্ষ থেকে তুমি তাকে কবুল করে নাও, নিশ্চয়ই তুমি শ্রবণকারী, সর্বজ্ঞাত। অতঃপর যখন তাকে প্রসব করলো বলল, হে আমার পালনকর্তা! আমি একে কন্যা প্রসব করেছি। বস্তুতঃ কি সে প্রসব করেছে আল্লাহ তা ভালই জানেন। সেই কন্যার মত কোন পুত্রই যে নেই। আর আমি তার নাম রাখলাম মারইয়াম। আর আমি তাকে ও তার সন্তানদেরকে তোমার আশ্রয়ে সমর্পণ করছি। অভিশপ্ত শয়তানের কবল থেকে। অতঃপর তাঁর পালনকর্তা তাঁকে উত্তম ভাবে গ্রহণ করে নিলেন এবং তাঁকে প্রবৃদ্ধি দান করলেন-অত্যন্ত সুন্দর প্রবৃদ্ধি। আর তাঁকে যাকারিয়ার তত্ত্বাবধানে সমর্পন করলেন। যখনই যাকারিয়া মেহরাবের মধ্যে তার কছে আসতেন তখনই কিছু খাবার দেখতে পেতেন। জিজ্ঞেস করতেন "মারইয়াম! কোথা থেকে এসব তোমার কাছে এলো?" তিনি বলতেন, "এসব আল্লাহর নিকট থেকে আসে। আল্লাহ যাকে ইচ্ছা বেহিসাব রিযিক দান করেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Lembra-lhes de quando a mulher de Imrãn disse: "Senhor meu! Voto-Te o que há em meu ventre, consagrado a Ti; então, aceita-o de mim. Por certo, Tu, Tu és O Oniouvinte, O Onisciente E quando deu à luz a ela, disse: "Senhor meu! Por certo, dei à luz uma varoa. E Allah era bem Sabedor de quem ela dera à luz "E o varão não é igual à varoa. E por certo, chamei-lhe Maria. E por certo, entrego-a e sua descendência, à Tua proteção, contra o maldito Satã Então, seu Senhor acolheu-a com bela acolhida, e fe-la crescer belo crescimento. E deixou-a aos cuidados de Zacarias. Cada vez que Zacarias entrava no santuário encontrava junto dela sustento. Ele disse: "Ó Maria! De onde te provém isso?" Ela disse: "De Allah." Por certo, Allah dá sustento, sem conta, a quem quer`,
+        ``,
+        ``
+      ],
+      [
+        `当时仪姆兰的女人说：我的主啊！我誓愿以我腹里所怀的，奉献你，求你接受我的奉献。你确是全聪的，确是全知的。 当她生了一个女孩的时候，她说：我确已生了一个女孩。真主是知道她所生的孩子的。男孩不象女孩一样。我确已把她叫做麦尔彦，求你保佑她和她的后裔，免受被弃绝的恶魔的搔扰。 她的主接受了她，并使她健全的成长，且使宰凯里雅抚育她。宰凯里雅每次进内殿去看她，都发现她面前有给养，他说：麦尔彦啊！你怎么会有这个呢？她说：这是从我的主那里降下的。真主必定无量地供给他的意欲的人。`,
+        ``,
+        ``
+      ],
+      [
+        `イムラーンの妻がこう（祈って）言った時を思え，「主よ，わたしは，この胎内に宿ったものを，あなたに奉仕のために捧げます。どうかわたしからそれを御受け入れ下さい。本当にあなたは全聴にして全知であられます。」 それから出産の時になって，かの女は（祈って）言った。「主よ，わたしは女児を生みまし た。」アッラーは，かの女が生んだ者を御存知であられる。男児は女児と同じではない。「わたしはかの女をマルヤムと名付けました。あなたに御願いします，どうかかの女とその子孫の者を呪うべき悪霊から御守り下さい。」 それで主は，恵み深くかの女を嘉納され，かの女を純潔に美しく成長させ，ザカリーヤーにかの女の養育をさせられた。ザカリーヤ一が，かの女を見舞って聖所に入る度に，かの女の前に，食物があるのを見た。かれは言った。「マルヤムよ，どうしてあなたにこれが（来たのか）。」かの女は（答えて）言った。「これはアッラーの御許から（与えられました）。」本当にアッラーは御自分の御心に適う者に限りなく与えられる。`,
+        ``,
+        ``
+      ],
+      [
+        `이므란의 아내가 말하길 : “저의 주님! 실로 저는 제 배 속에 있는 아이를 당신을 위해 헌신하는 봉사자로 바치길 맹세했습니다. 그러니 저를 받아주십시오. 실로 당신께서는 모든 것을 들으시고 모든 것을 아시는 분이십니다.” 그리하여 그녀가 여아를 낳았으니, 그녀가 말하길 “저의 주님! 실로 저는 여자를 낳았습니다.” 그녀가 무엇을 낳았는지는 하나님께서 가장 잘 아시노라. “남자는 여자와 같지 않습니다. 실로 저는 그녀를 마르얌(마리아)으로 이름지었고 실로 저는 그녀와 그녀의 후손이 저주받은 사탄으로부터 보호되길 당신께 요청드립니다.” 그리하여 그녀의 주님께서는 그녀를 훌륭히 받아주셨으며 그녀(마르얌)를 훌륭히 자라나게 하셨으며 자카리야(스가랴)를 그녀의 후견인으로 두셨노라. 자카리야가 그녀를 방문하러 경배소에 들어갈 때마다 그녀에게서 양식을 발견하니, 그가 말하길 “마르얌아! 네가 어디서 이것을 구했느냐?” 그녀가 말하길 “그것은 하나님에게서 온 것입니다.” 실로 하나님께서는 그분께서 원하시는 자에게 따짐 없이 양식을 베푸시노라`,
+        ``,
+        ``
+      ],
+      [
+        `Quando la moglie di Imrân disse: “Mio Signore, ho consacrato a Te, e solo a Te, quello che è nel mio ventre. Accettalo da parte mia. In verità Tu sei Colui Che tutto ascolta e conosce!” Poi, dopo aver partorito, disse: “Mio Signore, ecco che ho partorito una femmina”: ma Allah sapeva meglio di lei quello che aveva partorito. “Il maschio non è certo simile alla femmina! L'ho chiamata Maria e pongo lei e la sua discendenza sotto la Tua protezione, contro Satana il lapidato.” L'accolse il suo Signore di accoglienza bella, e la fece crescere della migliore crescita. L'affidò a Zaccaria e ogni volta che egli entrava nel santuario trovava cibo presso di lei. Disse: “O Maria, da dove proviene questo?”. Disse: “Da parte di Allah”. In verità Allah dà a chi vuole senza contare`,
+        ``,
+        ``
+      ],
+      [
+        `Oto powiedziała żona Imrana: "Panie mój! Ja poświęcam Tobie to, co jest w moim łonie. Przyjmij to więc ode mnie, wszak Ty jesteś Słyszący, Wszechwiedzący A kiedy ona porodziła, powiedziała: "Panie mój! Oto złożyłam ją - istotę żeńską." - A Bóg wie najlepiej, co ona złożyła, przecież rodzaj męski nie jest jak żeński. - "Nazwałam ją Marią. I oto oddaję ją, ją i jej potomstwo, Tobie pod opiekę przed szatanem przeklętym I przyjął ją jej Pan przyjęciem pięknym, i uczynił, iż wyrosła wzrostem pięknym, i zaopiekował się nią Zachariasz. Za każdym razem, jak wchodził do niej Zachariasz, do przybytku świętego, znajdował u niej zaopatrzenie. Powiedział: "O Mario! Skąd to przychodzi do ciebie?" Ona powiedziała: "To jest od Boga." Zaprawdę, Bóg daje zaopatrzenie, komu chce - bez żadnego rachunku`,
+        ``,
+        ``
+      ],
+      [
+        `І ось сказала жінка з роду Імрана: «Господи! Я дала обітницю присвятити Тобі те, що знаходиться в утробі моїй! Тож прийми від мене, бо, воістину, Ти — Всечуючий, Всезнаючий І коли вона народила, то сказала: «Господи! Я народила дівчинку!» Та Аллаг краще знав, кого вона народила, бо хлопчик — не те, що дівчинка. «Я назву її Мар’ям, і я шукаю у Тебе захисту для неї та її нащадків від каменованого шайтана!» Аллаг прийняв [дитину] якнайкраще, найкращим чином зростив її та доручив її Закарії. Кожного разу, коли Закарія входив у святилище, де була жінка, знаходив біля неї їжу. А коли він запитав: «О Мар’ям! Звідки це у тебе?» — то вона сказала: «Це — від Аллага! Воістину, Аллаг наділяє, кого побажає — без відплати за це`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآيات 35-37`
+  },
+
+  {
+    arabic: [
       `هُنَالِكَ دَعَا زَكَرِيَّا رَبَّهُ ۖ قَالَ رَبِّ هَبْ لِي مِنْ لَدُنْكَ ذُرِّيَّةً طَيِّبَةً ۖ إِنَّكَ سَمِيعُ الدُّعَاءِ`,
       ``,
       ``
@@ -4271,6 +5276,117 @@ const verses = [
       ]
     ],
     number: `سورة آل عمران / Al-'Imran، الآية 38`
+  },
+
+  {
+    arabic: [
+      `وَإِذْ قَالَتِ الْمَلَائِكَةُ يَا مَرْيَمُ إِنَّ اللَّهَ اصْطَفَاكِ وَطَهَّرَكِ وَاصْطَفَاكِ عَلَىٰ نِسَاءِ الْعَالَمِينَ يَا مَرْيَمُ اقْنُتِي لِرَبِّكِ وَاسْجُدِي وَارْكَعِي مَعَ الرَّاكِعِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And [mention] when the angels said, "O Mary, indeed Allah has chosen you and purified you and chosen you above the women of the worlds O Mary, be devoutly obedient to your Lord and prostrate and bow with those who bow [in prayer]`,
+        ``,
+        ``
+      ],
+      [
+        `Et (Rappelle-toi) quand les Anges dirent : "Ô Marie ! Certes, Allah t'a élue et purifiée; et Il t'a élue au-dessus des femmes des mondes Ô Marie ! Obéis à Ton Seigneur, prosterne-toi, et incline-toi avec ceux qui s'inclinent`,
+        ``,
+        ``
+      ],
+      [
+        `Y cuando los ángeles dijeron:«¡María! Alá te ha escogido y purificado. Te ha escogido entre todas las mujeres del universo ¡María! ¡Ten devoción a tu Señor, prostérnate e inclínate con los que se inclinan!»`,
+        ``,
+        ``
+      ],
+      [
+        `Вот сказали ангелы: «О Марьям (Мария)! Воистину, Аллах избрал тебя, очистил и возвысил над женщинами миров О Марьям (Мария)! Будь смиренной перед Господом твоим, падай ниц и кланяйся вместе с теми, кто кланяется»`,
+        ``,
+        ``
+      ],
+      [
+        `Und als die Engel sagten: "O Maryam, Allah hat dich auserwählt und dich rein gemacht und dich auserwählt vor den Frauen der (anderen) Weltenbewohner O Maryam, sei deinem Herrn demütig ergeben, wirf dich nieder und verbeuge dich zusammen mit den sich Verbeugenden`,
+        ``,
+        ``
+      ],
+      [
+        `[MINNS] änglarnas ord till Maria: "Gud har utvalt dig och renat dig [och upphöjt] dig över alla världens kvinnor Maria! Förrätta din andakt inför din Herre med ödmjukhet; fall ned på ditt ansikte [inför Honom] och böj ditt huvud tillsammans med dem som böjer sina huvuden [i bön]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En toen de Engelen zeiden: "O Maryam, voorwaarm Allah heeft jou uitverkoren en jou gereinigd en jou boven de vrouwen van de werelden uitverkoren O Maryam, gerhoorzaam jour Heer en kniel je voor Hem neer en buig je met de buigenden`,
+        ``,
+        ``
+      ],
+      [
+        `اور جب فرشتوں نے (مریم سے) کہا کہ مریم! خدا نے تم کو برگزیدہ کیا ہے اور پاک بنایا ہے اور جہان کی عورتوں میں منتخب کیا ہے مریم اپنے پروردگار کی فرمانبرداری کرنا اور سجدہ کرنا اور رکوع کرنے والوں کے ساتھ رکوع کرنا`,
+        ``,
+        ``
+      ],
+      [
+        `Dan (ingatlah) ketika para malaikat berkata, "Wahai Maryam! Sesungguhnya Allah telah memilihmu, menyucikanmu, dan melebihkanmu di atas segala wanita di seluruh alam (pada masa itu) Wahai Maryam! Taatilah Tuhanmu, sujud dan rukuklah bersama orang-orang yang rukuk`,
+        ``,
+        ``
+      ],
+      [
+        `Melekler şöyle demişti: "Ey Meryem! Allah seni seçip temizledi. Dünyaların kadınlarından seni üstün tuttu Ey Meryem! Rabbine gönülden boyun eğ, secde et, rüku edenlerle birlikte rüku et`,
+        ``,
+        ``
+      ],
+      [
+        `و [ياد كن‌] هنگامى را كه فرشتگان گفتند: «اى مريم، خداوند تو را برگزيده و پاك ساخته و تو را بر زنان جهان برترى داده است.» «اى مريم، فرمانبر پروردگار خود باش و سجده كن و با ركوع‌كنندگان ركوع نما.»`,
+        ``,
+        ``
+      ],
+      [
+        `আর যখন ফেরেশতা বলল হে মারইয়াম!, আল্লাহ তোমাকে পছন্দ করেছেন এবং তোমাকে পবিত্র পরিচ্ছন্ন করে দিয়েছেন। আর তোমাকে বিশ্ব নারী সমাজের উর্ধ্বে মনোনীত করেছেন। হে মারইয়াম! তোমার পালনকর্তার উপাসনা কর এবং রুকুকারীদের সাথে সেজদা ও রুকু কর।`,
+        ``,
+        ``
+      ],
+      [
+        `E lembra-lhes, Muhammad, de quando os anjos disseram: "Ó Maria! Por certo, Allah te escolheu e te purificou, e te escolheu sobre as mulheres dos mundos Ó Maria! Sê devota a teu Senhor e prosterna-te e curva-te com os que se curvam`,
+        ``,
+        ``
+      ],
+      [
+        `当时，天神说：麦尔彦啊！真主确已拣选你，使你纯洁，使你超越全世界的妇女。 麦尔彦啊！你当顺服你的主，你当叩头，你当与鞠躬的人一同鞠躬。`,
+        ``,
+        ``
+      ],
+      [
+        `天使たちがこう言った時を思い起せ。「マルヤムよ，誠にアッラーはあなたを選んであなたを清め，万有の女人を越えて御選びになられた。」 「マルヤムよ，あなたの主に崇敬の誠を棒げてサジダしなさい。ルクーウ（立礼）するものと一緒にルクーウしなさい。」`,
+        ``,
+        ``
+      ],
+      [
+        `천사가 말하니 “마르얌(마리아)이여! 실로 하나님께서는 그대를 선택하셨고 그대를 정화하셨으며 모든 여성들 위에서 그대를 선택하셨노라.” “마르얌(마리아)이여! 그대 주님께 부단히 복종하고 엎드려 절하며 반절을 드리는 자들과 함께 반절을 하라.”`,
+        ``,
+        ``
+      ],
+      [
+        `E quando gli angeli dissero: “In verità, o Maria, Allah ti ha eletta; ti ha purificata ed eletta tra tutte le donne del mondo O Maria, sii devota al tuo Signore, prosternati e inchinati con coloro che si inchinano”`,
+        ``,
+        ``
+      ],
+      [
+        `I oto powiedzieli aniołowie: "O Mario! Zaprawdę, Bóg wybrał ciebie i uczynił cię czystą, i wybrał ciebie ponad kobietami światów O Mario! Poddaj się pokornie twemu Panu, wybijaj pokłony i skłaniaj się wraz z tymi, którzy się skłaniają`,
+        ``,
+        ``
+      ],
+      [
+        `І сказали ангели: «О Мар’ям! Воістину, Аллаг обрав тебе і зробив пречистою. Він обрав тебе перед жінками усіх світів О Мар’ям! Будь смиренною перед Господом своїм, впади до землі та вклоняйся разом із тими, хто кланяється`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآيتان 42-43`
   },
 
   {
@@ -6273,6 +7389,117 @@ const verses = [
 
   {
     arabic: [
+      `فَاسْتَجَابَ لَهُمْ رَبُّهُمْ أَنِّي لَا أُضِيعُ عَمَلَ عَامِلٍ مِنْكُمْ مِنْ ذَكَرٍ أَوْ أُنْثَىٰ ۖ بَعْضُكُمْ مِنْ بَعْضٍ ۖ فَالَّذِينَ هَاجَرُوا وَأُخْرِجُوا مِنْ دِيَارِهِمْ وَأُوذُوا فِي سَبِيلِي وَقَاتَلُوا وَقُتِلُوا لَأُكَفِّرَنَّ عَنْهُمْ سَيِّئَاتِهِمْ وَلَأُدْخِلَنَّهُمْ جَنَّاتٍ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ ثَوَابًا مِنْ عِنْدِ اللَّهِ ۗ وَاللَّهُ عِنْدَهُ حُسْنُ الثَّوَابِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And their Lord responded to them, "Never will I allow to be lost the work of [any] worker among you, whether male or female; you are of one another. So those who emigrated or were evicted from their homes or were harmed in My cause or fought or were killed - I will surely remove from them their misdeeds, and I will surely admit them to gardens beneath which rivers flow as reward from Allah, and Allah has with Him the best reward`,
+        ``,
+        ``
+      ],
+      [
+        `Leur Seigneur les a alors exaucés (disant) : "En vérité, Je ne laisse pas perdre le bien que quiconque parmi vous a fait, homme ou femme, car vous êtes les uns des autres. Donc, ceux qui ont émigré, qui ont été expulsés de leurs demeures, qui ont été persécutés dans Mon chemin, qui ont combattu, qui ont été tués, Je tiendrai certes pour expiées leurs mauvaises actions, et les ferai entrer dans les Jardins sous lesquels coulent les ruisseaux, comme récompense de la part d'Allah ." Quant à Allah, c'est auprès de Lui qu'est la plus belle récompense`,
+        ``,
+        ``
+      ],
+      [
+        `Su Señor escuchó su plegaria: «No dejaré que se pierda obra de ninguno de vosotros, lo mismo si es varón que si es hembra, que habéis salido los unos de los otros. He de borrar las malas obras de quienes emigraron y fueron expulsados de sus hogares, de quienes padecieron por causa Mía, de quienes combatieron y fueron muertos, y he de introducirles en jardines por cuyos bajos fluyen arroyos: recompensa de Alá». Alá tiene junto a Sí la bella recompensa`,
+        ``,
+        ``
+      ],
+      [
+        `Господь их ответил им: «Я не погублю деяния, совершенные любым из вас, будь то мужчина или женщина. Одни из вас произошли от других. А тем, которые переселились или были изгнаны из своих жилищ, были подвергнуты мучениям на Моем пути, сражались и были убиты, Я непременно прощу их злодеяния и введу их в Райские сады, в которых текут реки. Такой будет награда от Аллаха, а ведь у Аллаха - наилучшая награда»`,
+        ``,
+        ``
+      ],
+      [
+        `Da erhörte sie ihr Herr: "Ich lasse kein Werk eines (Gutes) Tuenden von euch verlorengehen, sei es von Mann oder Frau; die einen von euch sind von den anderen. Denen also, die ausgewandert und aus ihren Wohnstätten vertrieben worden sind und denen auf Meinem Weg Leid zugefügt worden ist, und die gekämpft haben und getötet worden sind, werde Ich ganz gewiß ihre bösen Taten tilgen und sie ganz gewiß in Gärten eingehen lassen, durcheilt von Bächen, als Belohnung von Allah." Und Allah - bei Ihm ist die schöne Belohnung`,
+        ``,
+        ``
+      ],
+      [
+        `Och Gud svarar dem: "Jag skall inte låta någon av er som arbetar och strävar, vare sig man eller kvinna, se sin strävan gå förlorad - ni är [alla] av samma rot [och skall lönas på samma sätt]. De som övergav sina hem för att fly undan det onda, eller drevs bort därifrån och led annan oförrätt för Min skull och de som kämpade [för Min sak] och stupade, för dem alla skall Jag utplåna deras dåliga handlingar och föra dem till lustgårdar, vattnade av bäckar - en belöning från Gud själv; ja, den bästa belöningen väntar hos Gud`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En hun Heer heeft hun (smeekbede) verhoort, (zeggend:) "Voorwaar, Ik doe het werk van de werkenden van jullie niet verloren gaan, of het nu man of vrouw is, jullie komen uit elkaar voort. Zij die uitgeweken zijn en uit hun huizen verdreven werden, en die leden op Mijn Weg, en zij (die) doodden en gedood werden: Ik zal hun fouten zeker uitwissen en hen in de Tuinen (het Paradijs) binnenleiden, waar onder door de rivieren stromen, als een beloning van bij Allah. En Allah, bij Hem is de goede beloning`,
+        ``,
+        ``
+      ],
+      [
+        `تو ان کے پرردگار نے ان کی دعا قبول کر لی (اور فرمایا) کہ میں کسی عمل کرنے والے کے عمل کو مرد ہو یا عورت ضائع نہیں کرتا تم ایک دوسرے کی جنس ہو تو جو لوگ میرے لیے وطن چھوڑ گئے اور اپنے گھروں سے نکالے گئے اور ستائے گئے اور لڑے اور قتل کیے گئے میں ان کے گناہ دور کردوں گا اور ان کو بہشتوں میں داخل کروں گا جن کے نیچے نہریں بہ رہی ہیں (یہ) خدا کے ہاں سے بدلہ ہے اور خدا کے ہاں اچھا بدلہ ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Maka Tuhan mereka memperkenankan permohonannya (dengan berfirman), "Sesungguhnya Aku tidak menyia-nyiakan amal orang yang beramal di antara kamu, baik laki-laki maupun perempuan, (karena) sebagian kamu adalah (keturunan) dari sebagian yang lain.171) Maka orang yang berhijrah, yang diusir dari kampung halamannya, yang disakiti pada jalan-Ku, yang berperang dan yang terbunuh, pasti akan Aku hapus kesalahan mereka dan pasti Aku masukkan mereka ke dalam surga-surga yang mengalir di bawahnya sungai-sungai, sebagai pahala dari Allah. Dan di sisi Allah ada pahala yang baik`,
+        ``,
+        ``
+      ],
+      [
+        `Rableri dualarını kabul etti: "Birbirinizden meydana gelen sizlerden, erkek olsun, kadın olsun, iş yapanın işini boşa çıkarmam. Hicret edenlerin, memleketlerinden çıkarılanların, yolumda ezaya uğratılanların, savaşan ve öldürülenlerin günahlarını elbette örteceğim. And olsun ki, Allah katından bir nimet olarak, onları içlerinden ırmaklar akan cennetlere koyacağım. Nimetin güzeli Allah katındadır`,
+        ``,
+        ``
+      ],
+      [
+        `پس، پروردگارشان دعاى آنان را اجابت كرد [و فرمود كه:] من عمل هيچ صاحب عملى از شما را، از مرد يا زن، كه همه از يكديگريد، تباه نمى‌كنم؛ پس، كسانى كه هجرت كرده و از خانه‌هاى خود رانده شده و در راه من آزار ديده و جنگيده و كشته شده‌اند، بديهايشان را از آنان مى‌زدايم، و آنان را در باغهايى كه از زيرِ [درختان‌] آن نهرها روان است درمى‌آورم؛ [اين‌] پاداشى است از جانب خدا و پاداش نيكو نزد خداست`,
+        ``,
+        ``
+      ],
+      [
+        `অতঃপর তাদের পালনকর্তা তাদের দোয়া (এই বলে) কবুল করে নিলেন যে, আমি তোমাদের কোন পরিশ্রমকারীর পরিশ্রমই বিনষ্ট করি না, তা সে পুরুষ হোক কিংবা স্ত্রীলোক। তোমরা পরস্পর এক। তারপর সে সমস্ত লোক যারা হিজরত করেছে, তাদেরকে নিজেদের দেশ থেকে বের করে দেওয়া হয়েছে এবং তাদের প্রতি উৎপীড়ন করা হয়েছে আমার পথে এবং যারা লড়াই করেছে ও মৃত্যুবরণ করেছে, অবশ্যই আমি তাদের উপর থেকে অকল্যাণকে অপসারিত করব। এবং তাদেরকে প্রবিষ্ট করব জান্নাতে যার তলদেশে নহর সমূহ প্রবাহিত। এই হলো বিনিময় আল্লাহর পক্ষ থেকে। আর আল্লাহর নিকট রয়েছে উত্তম বিনিময়।`,
+        ``,
+        ``
+      ],
+      [
+        `Então, Seu senhor atendeu-os, dizendo: "Por certo, não faço perder o labor de um laborioso, entre vós, seja varão ou varoa: procedeis uns dos outros. Então, aos que emigraram e foram expulsos de seus lares e foram molestados em Meu caminho e combateram e foram mortos em combate remir-Ihes-ei as más obras, e fá-los-ei entrar em Jardins, abaixo dos quais correm os rios, como retribuição de Allah. E junto de Allah está a aprazível retribuição`,
+        ``,
+        ``
+      ],
+      [
+        `他们的主应答了他们：我绝不使你们中任何一个行善者徒劳无酬，无论他是男的，还是女的--男女是相生的--迁居异乡者、被人驱逐者、为主道而受害者、参加战斗者、被敌杀伤者，我必消除他们的过失，我必使他们进那下临诸河的乐园。这是从真主发出的报酬。真主那里，有优美的报酬。`,
+        ``,
+        ``
+      ],
+      [
+        `主はかれら（の祈り）を聞き入れられ，（仰せられた）。「本当にわれは，あなたがたの誰の働いた働きもむだにしないであろう。男でも女でも，あなたがたは互いに同士である。それで移住した者，故郷から追放された者，わが道のために迫害され，また奮戦して殺害された者には ，われはきっとかれらから凡ての罪業を消滅して，川が下を流れる楽園に入らせよう。」これはアッラーの御許からの報奨である。アッラーの御許にこそ，最も優れた報奨がある。`,
+        ``,
+        ``
+      ],
+      [
+        `그리하여 그들의 주님께서 그들에게 응답하셨으니 : "실로 나는 그대들 중 남자든 여자든 (선행을) 실천하는 자의 어떠한 행위도 저버리지 않을 것이라. 그대들은 서로가 일부라. 그러니 이주를 단행하고 자신의 거주지에서 추방되며 나의 길에서 해를 입고 싸우고 살해당한 자들은 진실로 내가 그들을 위해 그들의 악행을 용서해 줄 것이며 진실로 나는 그들을 아래로부터 강들이 흐르는 천국에 들게 할 것이니, 하나님에게서 온 보상이라.” 하나님 그분께는 훌륭한 보상이 있노라`,
+        ``,
+        ``
+      ],
+      [
+        `Il loro Signore risponde all'invocazione: “In verità, non farò andare perduto nulla di quello che fate, uomini o donne che siate, ché gli uni vengono dagli altri. A coloro che sono emigrati, che sono stati scacciati dalle loro case, che sono stati perseguitati per la Mia causa, che hanno combattuto, che sono stati uccisi, perdonerò le loro colpe e li farò entrare nei Giardini dove scorrono i ruscelli, ricompensa questa da parte di Allah. Presso Allah c'è la migliore delle ricompense`,
+        ``,
+        ``
+      ],
+      [
+        `I wysłuchał ich Pan: "Ja nie pozwolę zginąć żadnemu uczynkowi tego spośród was, który czyni dobro, czy będzie to mężczyzna, czy kobieta. Jesteście zależni jedni od drugich. A tym, którzy wywędrowali razem, i tym, którzy zostali wypędzeni ze swoich domostw, i tym, którzy walczyli i zostali zabici - My, z pewnością, odpuścimy ich złe czyny, i wprowadzimy ich do Ogrodów, gdzie w dole płyną strumyki: to jest nagroda pochodząca od Boga!" A u Boga jest piękna nagroda`,
+        ``,
+        ``
+      ],
+      [
+        `І відповів їм Господь їхній: «Я не зроблю марними ваших вчинків – ні вчинків чоловіків, ні вчинків жінок. Адже одні з вас походять від інших. А тим, які переселилися, були вигнані зі своїх домівок, зазнавали страждань на Моєму шляху, боролися та гинули, тим Я неодмінно відпущу злі вчинки їхні та введу таких у сади, де течуть ріки. Такою є винагорода від Аллага, а у Аллага — найкраща винагорода`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 195`
+  },
+
+  {
+    arabic: [
       `يَا أَيُّهَا الَّذِينَ آمَنُوا اصْبِرُوا وَصَابِرُوا وَرَابِطُوا وَاتَّقُوا اللَّهَ لَعَلَّكُمْ تُفْلِحُونَ`,
       ``,
       ``
@@ -6491,6 +7718,450 @@ const verses = [
       ]
     ],
     number: `سورة النساء / An-Nisa، الآية 1`
+  },
+
+  {
+    arabic: [
+      `وَآتُوا الْيَتَامَىٰ أَمْوَالَهُمْ ۖ وَلَا تَتَبَدَّلُوا الْخَبِيثَ بِالطَّيِّبِ ۖ وَلَا تَأْكُلُوا أَمْوَالَهُمْ إِلَىٰ أَمْوَالِكُمْ ۚ إِنَّهُ كَانَ حُوبًا كَبِيرًا وَإِنْ خِفْتُمْ أَلَّا تُقْسِطُوا فِي الْيَتَامَىٰ فَانْكِحُوا مَا طَابَ لَكُمْ مِنَ النِّسَاءِ مَثْنَىٰ وَثُلَاثَ وَرُبَاعَ ۖ فَإِنْ خِفْتُمْ أَلَّا تَعْدِلُوا فَوَاحِدَةً أَوْ مَا مَلَكَتْ أَيْمَانُكُمْ ۚ ذَٰلِكَ أَدْنَىٰ أَلَّا تَعُولُوا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And give to the orphans their properties and do not substitute the defective [of your own] for the good [of theirs]. And do not consume their properties into your own. Indeed, that is ever a great sin And if you fear that you will not deal justly with the orphan girls, then marry those that please you of [other] women, two or three or four. But if you fear that you will not be just, then [marry only] one or those your right hand possesses. That is more suitable that you may not incline [to injustice]`,
+        ``,
+        ``
+      ],
+      [
+        `Et donnez aux orphelins leurs biens; n'y substituez pas le mauvais au bon. Ne mangez pas leurs biens avec les vôtres: c'est vraiment un grand péché Et si vous craignez de n'être pas justes envers les orphelins,...Il est permis d'épouser deux, trois ou quatre, parmi les femmes qui vous plaisent, mais, si vous craignez de n'être pas justes avec celles-ci, alors une seule, ou des esclaves que vous possédez. Cela afin de ne pas faire d'injustice (ou afin de ne pas aggraver votre charge de famille)`,
+        ``,
+        ``
+      ],
+      [
+        `Dad a los huérfanos los bienes que les pertenecen. No sustituyáis lo malo por lo bueno. No consumáis su hacienda agregándola a la vuestra. Sería un gran pecado Si teméis no ser equitativos con los huérfanos, entonces, casaos con las mujeres que os gusten: dos, tres o cuatro. Pero. si teméis no obrar con justicia, entonces con una sola o con vuestras esclavas. Así, evitaréis mejor el obrar mal`,
+        ``,
+        ``
+      ],
+      [
+        `Отдавайте сиротам их имущество и не меняйте скверное на хорошее. Не пожирайте их имущества вместе со своим. Воистину, это - великий грех Если вы боитесь, что не будете справедливы к сиротам, то женитесь на других женщинах, которые нравятся вам: на двух, трех, четырех. Если же вы боитесь, что не будете одинаково справедливы к ним, то довольствуйтесь одной или невольницами, которыми овладели ваши десницы. Это ближе к тому, чтобы избежать несправедливости (или бедности)`,
+        ``,
+        ``
+      ],
+      [
+        `Und gebt den Waisen ihren Besitz und tauscht nicht Schlechtes mit Gutem aus und zehrt nicht ihren Besitz zu eurem Besitz hinzu. Das ist gewiß ein schweres Vergehen Und wenn ihr befürchtet, nicht gerecht hinsichtlich der Waisen zu handeln, dann heiratet, was euch an Frauen gut scheint, zwei, drei oder vier. Wenn ihr aber befürchtet, nicht gerecht zu handeln, dann (nur) eine oder was eure rechte Hand besitzt. Das ist eher geeignet, daß ihr nicht ungerecht seid`,
+        ``,
+        ``
+      ],
+      [
+        `Återställ till de faderlösa deras egendom och sätt inte ting av lägre värde i stället för de goda ting [som tillhör dem] och förbruka inte deras egendom, sammanblandad med er egen. Detta är en mycket svår synd Om ni är rädda att inte kunna behandla de faderlösa med rättvisa, tag då [andra] kvinnor som är tillåtna för er till hustrur - två eller tre eller fyra; men [begränsa er till] en enda om ni inte tror er om att kunna behandla dem alla lika - eller [vänd er till] någon av dem som ni rättmätigt besitter. Detta gör det lättare för er att undvika partiskhet`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En geeft de wezen (wanneer zij volwassen worden) hun bezittingen en verruilt het slechte (van jullie niet voor goede (van hen) en eet niet van hun eigendommen (gemengd) niet jullie eigendommen. Voorwaar, dat is een grote zonde En indien jullie vrezen (de vrouwen van) de wezen niet rechtvaardige te behandelen, trouwt dan met de vrouwen (niet de vrouwen van de wezen) die jullie aanstaan, twee, drie of vier. En als jullie vrezen hen niet rechtvaardig (te kunnen) verzorgen, dan één of wat jullie aan slavinnen bezitten. Dat is de beste wijze om niet onrechtvaardig te zijn`,
+        ``,
+        ``
+      ],
+      [
+        `اور یتیموں کا مال (جو تمہاری تحویل میں ہو) ان کے حوالے کردو اور ان کے پاکیزہ (اور عمدہ) مال کو (اپنے ناقص اور) برے مال سے نہ بدلو۔ اور نہ ان کا مال اپنے مال میں ملا کر کھاؤ۔ کہ یہ بڑا سخت گناہ ہے اور اگر تم کو اس بات کا خوف ہو کہ یتیم لڑکیوں کے بارےانصاف نہ کرسکوگے تو ان کے سوا جو عورتیں تم کو پسند ہوں دو دو یا تین تین یا چار چار ان سے نکاح کرلو۔ اور اگر اس بات کا اندیشہ ہو کہ (سب عورتوں سے) یکساں سلوک نہ کرسکو گے تو ایک عورت (کافی ہے) یا لونڈی جس کے تم مالک ہو۔ اس سے تم بےانصافی سے بچ جاؤ گے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan berikanlah kepada anak-anak yatim (yang sudah dewasa) harta mereka, janganlah kamu menukar yang baik dengan yang buruk, dan janganlah kamu makan harta mereka bersama hartamu. Sungguh, (tindakan menukar dan memakan) itu adalah dosa yang besar Dan jika kamu khawatir tidak akan mampu berlaku adil terhadap (hak-hak) perempuan yatim (bilamana kamu menikahinya), maka nikahilah perempuan (lain) yang kamu senangi: dua, tiga atau empat. Tetapi jika kamu khawatir tidak akan mampu berlaku adil,173) maka (nikahilah) seorang saja,174) atau hamba sahaya perempuan yang kamu miliki.175) Yang demikian itu lebih dekat agar kamu tidak berbuat zalim`,
+        ``,
+        ``
+      ],
+      [
+        `Yetimlere mallarını verin. Temizi murdara değişmeyin, onların mallariyle kendi mallarınızı karıştırarak yemeyin, çünkü bu büyük bir suçtur Eğer, velisi olduğunuz mal sahibi yetim kızlarla evlenmekle onlara haksızlık yapmaktan korkarsanız onlarla değil, hoşunuza giden başka kadınlarla iki, üç ve dörde kadar evlenebilirsiniz; şayet, aralarında adaletsizlik yapmaktan korkarsanız bir tane almalısınız veya sahip olduğunuz ile yetinmelisiniz. Doğru yoldan sapmamanız için en uygunu budur`,
+        ``,
+        ``
+      ],
+      [
+        `و اموال يتيمان را به آنان [باز]دهيد، و [مال پاك‌] و [مرغوب آنان ] را با [مال‌] ناپاك [خود] عوض نكنيد؛ و اموال آنان را همراه با اموال خود مخوريد كه اين گناهى بزرگ است و اگر در اجراى عدالت ميان دختران يتيم بيمناكيد، هر چه از زنان [ديگر] كه شما را پسند افتاد، دو دو، سه سه، چهار چهار، به زنى گيريد. پس اگر بيم داريد كه به عدالت رفتار نكنيد، به يك [زن آزاد] يا به آنچه [از كنيزان‌] مالك شده‌ايد [اكتفا كنيد]. اين [خوددارى‌] نزديكتر است تا به ستم گراييد [و بيهوده عيال‌وار گرديد]`,
+        ``,
+        ``
+      ],
+      [
+        `এতীমদেরকে তাদের সম্পদ বুঝিয়ে দাও। খারাপ মালামালের সাথে ভালো মালামালের অদল-বদল করো না। আর তাদের ধন-সম্পদ নিজেদের ধন-সম্পদের সাথে সংমিশ্রিত করে তা গ্রাস করো না। নিশ্চয় এটা বড়ই মন্দ কাজ। আর যদি তোমরা ভয় কর যে, এতীম মেয়েদের হক যথাথভাবে পুরণ করতে পারবে না, তবে সেসব মেয়েদের মধ্যে থেকে যাদের ভাল লাগে তাদের বিয়ে করে নাও দুই, তিন, কিংবা চারটি পর্যন্ত। আর যদি এরূপ আশঙ্কা কর যে, তাদের মধ্যে ন্যায় সঙ্গত আচরণ বজায় রাখতে পারবে না, তবে, একটিই অথবা তোমাদের অধিকারভুক্ত দাসীদেরকে; এতেই পক্ষপাতিত্বে জড়িত না হওয়ার অধিকতর সম্ভাবনা।`,
+        ``,
+        ``
+      ],
+      [
+        `E concedei aos órfãos suas riquezas e não troqueis o maligno pelo benigno, e não devoreis suas riquezas, junto com vossas riquezas. Por certo, isso é grande crueldade E se temeis não ser eqüitativos para com os órfãos, esposai as que vos aprazam das mulheres sejam duas, três ou quatro. E se temeis não serdes justos, esposai uma só, ou contentai-vos com as escravas que possuís. Isso é mais adequado para que não cometais injustiça`,
+        ``,
+        ``
+      ],
+      [
+        `你们应当把孤儿的财产交还他们，不要以（你们的）恶劣的（财产），换取（他们的）佳美的（财产），也不要把他们的财产并入你们的财产，而加以吞蚀。这确是大罪。 如果你们恐怕不能公平对待孤儿，那末，你们可以择你们爱悦的女人， 各娶两妻、三妻、四妻；如果你们恐怕不能公平地待遇她们，那末，你们只可以各娶一妻，或以你们的女奴为满足。这是更近于公平的。`,
+        ``,
+        ``
+      ],
+      [
+        `孤児たちの財産を返還しなさい。（自分の）悪いものを，（かれらの）良いものと替えてはならない。またかれらの財産をわがものにしてはならない。誠にそれは大罪である。 あなたがたがもし孤児に対し，公正にしてやれそうにもないならば，あなたがたがよいと思う 2人，3人または4人の女を嬰れ。だが公平にしてやれそうにもないならば，只1人だけ（嬰るか），またはあなたがたの右手が所有する者（奴隷の女）で我慢しておきなさい。このことは不公正を避けるため，もっとも公正である。`,
+        ``,
+        ``
+      ],
+      [
+        `고아들에게 그들의 재산을 줄것이며 좋은 것을 나쁜 것으로 대체하지 말며 그들의 재산을 너희 재산으로 갈취하지 말라 이것은 크나큰 죄악이라 만일 너희가 고아들을 공정하게 대처하여 준 수 있을 것 같은 두려움이 있다면 좋은 여성과 결 혼하라 두번 또는 세번 또는 네번도 좋으니라 그러나 그녀들에게 공평을 베풀어 줄 수 없다는 두려움이 있다면 한 여성이거나 너희 오른손이 소유한 것이거늘 그것이너희를 부정으로부터 보호하여 주는 보다 적합한 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `Restituite agli orfani i beni loro e non scambiate il buono con il cattivo, né confondete i loro beni coi vostri, questo è veramente un peccato grande E se temete di essere ingiusti nei confronti degli orfani, sposate allora due o tre o quattro tra le donne che vi piacciono; ma se temete di essere ingiusti, allora sia una sola o le ancelle che le vostre destre possiedono, ciò è più atto ad evitare di essere ingiusti`,
+        ``,
+        ``
+      ],
+      [
+        `Dawajcie sierotom ich mienie i nie zamieniajcie tego, co dobre, na to, co złe; i nie zjadajcie ich majątku, dołączając go do waszego majątku! Zaprawdę, to jest wielki grzech A jeśli się obawiacie, iż nie będziecie sprawiedliwi względem sierot... Żeńcie się zatem z kobietami, które są dla was przyjemne - z dwoma, trzema lub czterema. Lecz jeśli się obawiacie, że nie będziecie sprawiedliwi, to żeńcie się tylko z jedną albo z tymi, którymi zawładnęły wasze prawice. To jest dla was odpowiedniejsze, abyście nie postępowali niesprawiedliwie`,
+        ``,
+        ``
+      ],
+      [
+        `Віддавайте сиротам їхнє майно та не міняйте лихого на добре. І не пожирайте їхнього майна разом зі своїм. Воістину, це — великий гріх Якщо ж ви боїтесь, що не будете належно ставитись до сиріт, то одружуйтесь із тими жінками, які вам до вподоби: з двома, з трьома, з чотирма. Та якщо ви боїтесь, що не будете справедливі із ними, то нехай це буде лише одна або ж невільниця, захоплена вами. Це ближче [до справедливості], якщо не прагнете відхилитися ви`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآيتان 2-3`
+  },
+
+  {
+    arabic: [
+      `وَابْتَلُوا الْيَتَامَىٰ حَتَّىٰ إِذَا بَلَغُوا النِّكَاحَ فَإِنْ آنَسْتُمْ مِنْهُمْ رُشْدًا فَادْفَعُوا إِلَيْهِمْ أَمْوَالَهُمْ ۖ وَلَا تَأْكُلُوهَا إِسْرَافًا وَبِدَارًا أَنْ يَكْبَرُوا ۚ وَمَنْ كَانَ غَنِيًّا فَلْيَسْتَعْفِفْ ۖ وَمَنْ كَانَ فَقِيرًا فَلْيَأْكُلْ بِالْمَعْرُوفِ ۚ فَإِذَا دَفَعْتُمْ إِلَيْهِمْ أَمْوَالَهُمْ فَأَشْهِدُوا عَلَيْهِمْ ۚ وَكَفَىٰ بِاللَّهِ حَسِيبًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And test the orphans [in their abilities] until they reach marriageable age. Then if you perceive in them sound judgement, release their property to them. And do not consume it excessively and quickly, [anticipating] that they will grow up. And whoever, [when acting as guardian], is self-sufficient should refrain [from taking a fee]; and whoever is poor - let him take according to what is acceptable. Then when you release their property to them, bring witnesses upon them. And sufficient is Allah as Accountant`,
+        ``,
+        ``
+      ],
+      [
+        `Et éprouvez (la capacité) des orphelins jusqu'à ce qu'ils atteignent (l'aptitude) au mariage; et si vous ressentez en eux une bonne conduite, remettez-leur leurs biens. Ne les utilisez pas (dans votre intérêt) avec gaspillage et dissipation, avant qu'ils ne grandissent. Quiconque est aisé, qu'il s'abstienne d'en prendre lui-même. S'il est pauvre, alors qu'il en utilise raisonnablement : Et lorsque vous leur remettez leurs biens, alors prenez des témoins à leur encontre. Et Allah suffit pour [amplement] compter`,
+        ``,
+        ``
+      ],
+      [
+        `Tantead a los huérfanos hasta que alcancen la nubilidad, Cuando los creáis ya maduros, pasadles su hacienda. No la consumáis pródiga y prematuramente antes de que alcancen la mayoría de edad. El rico, que no se aproveche. El pobre, que gaste como es debido. Cuando les entreguéis su hacienda, requerid la presencia de testigos. Alá basta para ajustar cuentas`,
+        ``,
+        ``
+      ],
+      [
+        `Испытывайте сирот, пока они не достигнут брачного возраста. Если обнаружите в них зрелый разум, то отдавайте им их имущество. Не пожирайте его, излишествуя, в спешке, пока они не вырастут. Кто богат, пусть воздержится, а кто беден, пусть ест по справедливости. Когда вы отдаете им их имущество, то делайте это в присутствии свидетелей. Но довольно того, что Аллах ведет счет`,
+        ``,
+        ``
+      ],
+      [
+        `Und prüft die Waisen, bis daß sie das Heiratsalter erreicht haben. Und wenn ihr dann an ihnen Besonnenheit feststellt, so händigt ihnen ihren Besitz aus. Und verzehrt ihn nicht maßlos und ihrem Erwachsenwerden zuvorkommend. Wer reich ist, der soll sich enthalten; und wer arm ist, der soll in rechtlicher Weise (davon) zehren. Und wenn ihr ihnen dann ihren Besitz aushändigt, so nehmt Zeugen vor ihnen. Doch Allah genügt als Abrechner`,
+        ``,
+        ``
+      ],
+      [
+        `Och sätt de faderlösa [som ni har i er vård] på prov fram till dess de når giftasvuxen ålder, och om ni finner dem förståndiga, överlämna då deras egendom till dem; slösa inte bort den innan de vuxit upp. Den förmögne skall inte röra [sådan egendom], men den fattige får [i mån av behov] dra fördel av den med måtta. Och när ni överlämnar deras egendom till dem, gör detta i närvaro av vittnen; men Gud håller bäst räkning på allt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Onderzoekt (de lichamelijke en geestelijke vorderingen van) de wezen, totdat zij de leeftijd van het huwelijk bereiken en wanneer jullie bemerken dat zij (hiertoe) geschikt zijn, geeft hun dan hun eigendommen terug en eet er niet buitensporig en haastig van, voordat zij groot geworden zijn. Hij (de voogd) die voldoende heeft: laat hem het niet aanraken; en hij die arm is: laat hem er op redelijke wijze van gebruiken. En als jullie hun hun eigendommen teruggeven: laat er dan getuigen bij zijn. Er Allah is genoeg als Toezichthouder`,
+        ``,
+        ``
+      ],
+      [
+        `اور یتمیوں کو بالغ ہونے تک کام کاج میں مصروف رکھو پھر (بالغ ہونے پر) اگر ان میں عقل کی پختگی دیکھو تو ان کا مال ان کے حوالے کردو اور اس خوف سے کہ وہ بڑے ہوجائیں گے (یعنی بڑے ہو کر تم سے اپنا مال واپس لے لیں گے) اس کو فضول خرچی اور جلدی میں نہ اڑا دینا۔ جو شخص آسودہ حال ہو اس کو (ایسے مال سے قطعی طور پر) پرہیز رکھنا چاہیئے اور جو بے مقدور ہو وہ مناسب طور پر (یعنی بقدر خدمت) کچھ لے لے اور جب ان کا مال ان کے حوالے کرنے لگو تو گواہ کرلیا کرو۔ اور حقیقت میں تو خدا ہی (گواہ اور) حساب لینے والا کافی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `(Dan ujilah178) anak-anak yatim itu sampai mereka cukup umur untuk menikah. Kemudian jika menurut pendapatmu mereka telah cerdas (pandai memelihara harta), maka serahkanlah kepada mereka hartanya. Dan janganlah kamu memakannya (harta anak yatim) melebihi batas kepatutan dan (janganlah kamu) tergesa-gesa (menyerahkannya) sebelum mereka dewasa. Barang siapa (di antara pemelihara itu) mampu, maka hendaklah dia menahan diri (dari memakan harta anak yatim itu) dan barang siapa miskin, maka bolehlah dia makan harta itu menurut cara yang patut. Kemudian, apabila kamu menyerahkan harta itu kepada mereka, maka hendaklah kamu adakan saksi-saksi. Dan cukuplah Allah sebagai pengawas`,
+        ``,
+        ``
+      ],
+      [
+        `Yetimleri, evlenme çağına gelene kadar deneyin; onlarda olgunlaşma görürseniz mallarını kendilerine verin; büyüyecekler de geri alacaklar diye onları israf ederek ve tez elden yemeyin. Zengin olan, iffetli olmağa çalışsın, yoksul olan uygun bir şekilde yesin. Mallarını kendilerine verdiğiniz zaman, yanlarında şahid bulundurun. Hesap sormak için Allah yeter`,
+        ``,
+        ``
+      ],
+      [
+        `و يتيمان را بيازماييد تا وقتى به [سن‌] زناشويى برسند؛ پس اگر در ايشان رشد [فكرى‌] يافتيد، اموالشان را به آنان رد كنيد، و آن را [از بيم آنكه مبادا] بزرگ شوند، به اسراف و شتاب مخوريد. و آن كس كه توانگر است بايد [از گرفتن اجرت سرپرستى‌] خوددارى ورزد؛ و هر كس تهيدست است بايد مطابق عرف [از آن‌] بخورد؛ پس هر گاه اموالشان را به آنان رد كرديد بر ايشان گواه بگيريد، خداوند حسابرسى را كافى است`,
+        ``,
+        ``
+      ],
+      [
+        `আর এতীমদের প্রতি বিশেষভাবে নজর রাখবে, যে পর্যন্ত না তারা বিয়ের বয়সে পৌঁছে। যদি তাদের মধ্যে বুদ্ধি-বিবেচনার উন্মেষ আঁচ করতে পার, তবে তাদের সম্পদ তাদের হাতে অর্পন করতে পার। এতীমের মাল প্রয়োজনাতিরিক্ত খরচ করো না বা তারা বড় হয়ে যাবে মনে করে তাড়াতাড়ি খেয়ে ফেলো না। যারা স্বচ্ছল তারা অবশ্যই এতীমের মাল খরচ করা থেকে বিরত থাকবে। আর যে অভাবগ্রস্ত সে সঙ্গত পরিমাণ খেতে পারে। যখন তাদের হাতে তাদের সম্পদ প্রত্যার্পণ কর, তখন সাক্ষী রাখবে। অবশ্য আল্লাহই হিসাব নেয়ার ব্যাপারে যথেষ্ট।`,
+        ``,
+        ``
+      ],
+      [
+        `E ponde à prova os órfãos, até que atinjam o matrimônio; então se percebeis neles maturidade, entregai-lhes suas riquezas e não as devoreis com dissipação e presteza, antes de eles alcançarem a maioridade. E quem é rico, que se abstenha dessas riquezas. E quem é pobre, que delas desfrute algo convenientemente. E quando lhes entregardes as riquezas, fazei-o perante testemunhas. E basta Deus por Ajustador de contas`,
+        ``,
+        ``
+      ],
+      [
+        `你们当试验孤儿，直到他们达到适婚年龄；当你们看见他们能处理财产的时候，应当把他们的财产交还他们；不要在他们还没有长大的时候，赶快浪费地消耗他们的财产。富裕的监护人，应当廉洁自持；贫穷的监护人，可以取合理的生活费。 你们把他们的财产交还他们的时候，应当请人作见证。真主足为监察者。`,
+        ``,
+        ``
+      ],
+      [
+        `結婚年齢に達するまでは，孤児を試しなさい。もし，立派な分別があると認められたならば，その財産をかれらに渡しなさい。かれら（孤児）が成年になるまで，浪費したり，急いで消費してはならない。（後見者が）金持ならば抑制してこれに手を触れてはならない。また貧乏ならば，（後見のために）適切に使いなさい。孤児に返還する際は，かれらのために証人を立てなさい。アッラーは清算者として万全であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `결혼할 연령에 이를때까지 고아들을 보살피되 그들이 건전하다고 판단될 때는 그들의 재산을 돌려주되 그것을 탐내거나 그들이성장하는 것을 시기하지 말라 그 보호자가 부유하다면 그 고아의 재산을 맡아 준 대가를 삭제할 것이며 그 보호자가 가난하다면 합 당한 보호료만 가질 것이라 또한 그 재산을 고아에게 돌려 줄 때는증인을 세울지니 중인은 하나님 만으로 충분하니라`,
+        ``,
+        ``
+      ],
+      [
+        `Mettete alla prova gli orfani finché raggiungano la pubertà e, se si comportano rettamente, restituite loro i loro beni. Non affrettatevi a consumarli e a sperperarli, prima che abbiano raggiunto la maggiore età. Chi è ricco se ne astenga, chi è povero ne usi con moderazione. E quando restituite i loro beni, chiamate i testimoni; ma Allah basta a tenere il conto di ogni cosa`,
+        ``,
+        ``
+      ],
+      [
+        `Doświadczajcie sieroty, aż osiągną wiek do małżeństwa. A jeśli zauważycie w nich dojrzałość sądu, oddajcie im ich dobra! I nie zjadajcie ich dóbr rozrzutnie i pośpiesznie, zanim one osiągną wiek dojrzały. Ten, kto jest bogaty, niech się powstrzyma wspaniałomyślnie, a ten, kto jest biedny, niech zjada w sposób odpowiedni. A kiedy oddajecie im ich dobra, to wezwijcie świadków. A Bóg wystarczy jako przyjmujący rachunek`,
+        ``,
+        ``
+      ],
+      [
+        `Випробовуйте сиріт, поки вони не досягнуть шлюбного віку. І коли побачите ви у них здоровий глузд, то поверніть їм їхнє майно. Не пожирайте його, займаючись марнотратством та поспішаючи, [боячись] того часу, коли вони подорослішають. Багатий нехай утримається, а бідний нехай споживає згідно зі звичаєм. І коли ви повернете їм майно їхнє, то покличте для цього свідків. Достатньо того, як рахує Аллаг`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 6`
+  },
+
+  {
+    arabic: [
+      `لِلرِّجَالِ نَصِيبٌ مِمَّا تَرَكَ الْوَالِدَانِ وَالْأَقْرَبُونَ وَلِلنِّسَاءِ نَصِيبٌ مِمَّا تَرَكَ الْوَالِدَانِ وَالْأَقْرَبُونَ مِمَّا قَلَّ مِنْهُ أَوْ كَثُرَ ۚ نَصِيبًا مَفْرُوضًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `For men is a share of what the parents and close relatives leave, and for women is a share of what the parents and close relatives leave, be it little or much - an obligatory share`,
+        ``,
+        ``
+      ],
+      [
+        `Aux hommes revient une part de ce qu'ont laissé les père et mère ainsi que les proches; et aux femmes une part de ce qu'ont laissé les père et mère ainsi que les proches, que ce soit peu ou beaucoup: une part fixée`,
+        ``,
+        ``
+      ],
+      [
+        `Sea para los hombres una parte de lo que los padres y parientes más cercanos dejen; y para las mujeres una parte de lo que los padres y parientes más cercanos dejen. Poco o mucho, es una parte determinada`,
+        ``,
+        ``
+      ],
+      [
+        `Мужчинам принадлежит доля из того, что оставили родители и ближайшие родственники, и женщинам принадлежит доля из того, что оставили родители и ближайшие родственники, будь его мало или много. Таков предписанный удел`,
+        ``,
+        ``
+      ],
+      [
+        `Den Männern steht ein Anteil von dem zu, was die Eltern und nächsten Verwandten hinterlassen, und den Frauen steht ein Anteil von dem zu, was die Eltern und nächsten Verwandten hinterlassen, sei es wenig oder viel - ein festgesetzter Anteil`,
+        ``,
+        ``
+      ],
+      [
+        `MÄN HAR rätt till en andel av vad föräldrar och nära anhöriga efterlämnar och kvinnor har rätt till en andel av vad föräldrar och nära anhöriga efterlämnar, vare sig det är litet eller mycket - en andel föreskriven [av Gud]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voor de mannen is er een aandeel in wat achtergelaten wordt door de ouders en de verwanten, en voor de vrouwen is er een aandeel in wat achtergelaten wordt door de ouders en de verwanten, of het weinig of veel is: een vastgesteld aandeel`,
+        ``,
+        ``
+      ],
+      [
+        `جو مال ماں باپ اور رشتہ دار چھوڑ مریں تھوڑا ہو یا بہت۔ اس میں مردوں کا بھی حصہ ہے اور عورتوں کا بھی یہ حصے (خدا کے) مقرر کئے ہوئے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Bagi laki-laki ada hak bagian dari harta peninggalan kedua orang tua dan kerabatnya, dan bagi perempuan ada hak bagian (pula) dari harta peninggalan kedua orang tua dan kerabatnya, baik sedikit atau banyak menurut bagian yang telah ditetapkan`,
+        ``,
+        ``
+      ],
+      [
+        `Ana babanın ve yakınların bıraktıklarından, erkeklere hisse vardır. Ana babanın ve yakınların bıraktıklarından kadınlara da hisse vardır. Bunlar, az veya çok, belirli bir hissedir`,
+        ``,
+        ``
+      ],
+      [
+        `براى مردان، از آنچه پدر و مادر و خويشاوندان [آنان‌] بر جاى گذاشته‌اند سهمى است؛ و براى زنان [نيز] از آنچه پدر و مادر و خويشاوندان [آنان‌] بر جاى گذاشته‌اند سهمى [خواهد بود] -خواه آن [مال‌] كم باشد يا زياد- نصيب هر كس مفروض شده است`,
+        ``,
+        ``
+      ],
+      [
+        `পিতা-মাতা ও আত্নীয়-স্বজনদের পরিত্যক্ত সম্পত্তিতে পুরুষদেরও অংশ আছে এবং পিতা-মাতা ও আত্নীয়-স্বজনদের পরিত্যক্ত সম্পত্তিতে নারীদেরও অংশ আছে; অল্প হোক কিংবা বেশী। এ অংশ নির্ধারিত।`,
+        ``,
+        ``
+      ],
+      [
+        `Há para os homens porção do que deixam os pais e os parentes. E há para as mulheres porção do que deixam os pais e os parentes, seja pouco ou muito. É porção preceituada`,
+        ``,
+        ``
+      ],
+      [
+        `男子得享受父母和至亲所遗财产的一部分， 女子所得享受父母和至亲所遗财产的一部分，无论他们所遗财产多寡，各人应得法定的部分。`,
+        ``,
+        ``
+      ],
+      [
+        `男は両親および近親の遺産の一部を得，女もまた両親及び近親の遺産の一部を得る。そのさい遺産の多少を問わず定められたように配分しなさい。`,
+        ``,
+        ``
+      ],
+      [
+        `부모와 가까운 친척이 남긴 재산은 남자에게 귀속하며 또한 부모와 가까운 친척이 남긴 재산 은 여자에게도 귀속되나니 남긴 것이 적던 또는 많던 합당한 몫이있노라`,
+        ``,
+        ``
+      ],
+      [
+        `Agli uomini spetta una parte di quello che hanno lasciato genitori e parenti; anche alle donne spetta una parte di quello che hanno lasciato genitori e parenti stretti: piccola o grande che sia, una parte determinata`,
+        ``,
+        ``
+      ],
+      [
+        `Mężczyznom przypada część tego, co pozostawili rodzice i krewni; i kobietom przypada część tego, co pozostawili rodzice i krewni. Czy to będzie mało, czy dużo, to jest udział obowiązujący prawnie`,
+        ``,
+        ``
+      ],
+      [
+        `Чоловіку належить частка від того, що залишили батьки та найближчі родичі; і жінці належить частка від того, що залишили батьки та найближчі родичі — як від малого, так і від великого. Такою є встановлена частка`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 7`
+  },
+
+  {
+    arabic: [
+      `وَإِذَا حَضَرَ الْقِسْمَةَ أُولُو الْقُرْبَىٰ وَالْيَتَامَىٰ وَالْمَسَاكِينُ فَارْزُقُوهُمْ مِنْهُ وَقُولُوا لَهُمْ قَوْلًا مَعْرُوفًا وَلْيَخْشَ الَّذِينَ لَوْ تَرَكُوا مِنْ خَلْفِهِمْ ذُرِّيَّةً ضِعَافًا خَافُوا عَلَيْهِمْ فَلْيَتَّقُوا اللَّهَ وَلْيَقُولُوا قَوْلًا سَدِيدًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And when [other] relatives and orphans and the needy are present at the [time of] division, then provide for them [something] out of the estate and speak to them words of appropriate kindness And let those [executors and guardians] fear [injustice] as if they [themselves] had left weak offspring behind and feared for them. So let them fear Allah and speak words of appropriate justice`,
+        ``,
+        ``
+      ],
+      [
+        `Et lorsque les proches parents, les orphelins, les nécessiteux assistent au partage, offrez-leur quelque chose de l'héritage, et adressez-leur des paroles convenables Que la crainte saisisse ceux qui laisseraient après eux une descendance faible, et qui seraient inquiets à leur sujet; qu'ils redoutent donc Allah et qu'ils prononcent des paroles justes`,
+        ``,
+        ``
+      ],
+      [
+        `Si asisten al reparto parientes, huérfanos, pobres, dadles algún sustento de ello y habladles con cariño Quienes dejen menores de edad y estén intranquilos por ellos, que tengan miedo. Que teman a Alá y digan palabras oportunas`,
+        ``,
+        ``
+      ],
+      [
+        `Если при разделе наследства присутствуют родственники, сироты и бедняки, то одарите их из него и скажите им слово доброе Пусть опасаются те, которые боялись бы за своих немощных потомков, если бы им пришлось оставить их после себя. Пусть они боятся Аллаха и говорят слово правильное`,
+        ``,
+        ``
+      ],
+      [
+        `Und wenn bei der Verteilung Verwandte, Waisen und Arme zugegen sind, dann versorgt sie davon und sagt zu ihnen geziemende Worte Und diejenigen sollen sich fürchten, die, wenn sie schwache Nachkommenschaft hinterließen, um sie bangen würden; darum sollen sie sich vor Allah hüten und treffende Worte sagen`,
+        ``,
+        ``
+      ],
+      [
+        `När arv skiftas i närvaro av anförvanter, faderlösa och behövande, ge dem då något därav för deras behov och ha vänliga ord för [alla] [De som skiftar arvet] bör tänka på den oro de själva måste känna om de vid sin död efterlämnade minderåriga barn. Därför skall de frukta Gud och [till de faderlösa och de behövande] säga de rätta orden [av tröst och uppmuntran]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En wanneer bij de verdeling verwanten (zonder erfrecht) en wezen en armen aanwezig zijn: voorziet hen ervan en spreekt tot hen met vriendelijke woorden En laat degenen die een zwak nageslacht achterlaten bevreesd zijn en bezorgd zijn. Laat hen Allah vrezen en laat hen met de juiste woorden spreken`,
+        ``,
+        ``
+      ],
+      [
+        `اور جب میراث کی تقسیم کے وقت (غیر وارث) رشتہ دار اور یتیم اور محتاج آجائیں تو ان کو بھی اس میں سے کچھ دے دیا کرو۔ اور شیریں کلامی سے پیش آیا کرو اور ایسے لوگوں کو ڈرنا چاہیئے جو (ایسی حالت میں ہوں کہ) اپنے بعد ننھے ننھے بچے چھوڑ جائیں اور ان کو ان کی نسبت خوف ہو (کہ ان کے مرنے کے بعد ان بیچاروں کا کیا حال ہوگا) پس چاہیئے کہ یہ لوگ خدا سے ڈریں اور معقول بات کہیں`,
+        ``,
+        ``
+      ],
+      [
+        `(Dan apabila sewaktu pembagian itu hadir beberapa kerabat,179) anak-anak yatim dan orang-orang miskin, maka berilah mereka dari harta itu180) (sekedarnya) dan ucapkanlah kepada mereka perkataan yang baik Dan hendaklah takut (kepada Allah) orang-orang yang sekiranya mereka meninggalkan keturunan yang lemah di belakang mereka yang mereka khawatir terhadap (kesejahteraan)nya. Oleh sebab itu, hendaklah mereka bertakwa kepada Allah, dan hendaklah mereka berbicara dengan tutur kata yang benar`,
+        ``,
+        ``
+      ],
+      [
+        `Taksimde, yakınlar, yetimler ve düşkünler bulunursa, ondan onlara da verin, güzel sözler söyleyin Arkalarında cılız çocuklar bıraktıkları takdirde, bundan endişe edecek olanlar, haksızlık yapmaktan korksunlar; dürüst söz söylesinler`,
+        ``,
+        ``
+      ],
+      [
+        `و هر گاه، خويشاوندان يتيمان و مستمندان در تقسيم [ارث‌] حاضر شدند، [چيزى‌] از آن را به ايشان ارزانى داريد و با آنان سخنى پسنديده گوييد و آنان كه اگر فرزندان ناتوانى از خود بر جاى بگذارند بر [آينده‌] آنان بيم دارند، بايد [از ستم بر يتيمان مردم نيز] بترسند. پس بايد از خدا پروا دارند و سخنى [بجا و] درست گويند`,
+        ``,
+        ``
+      ],
+      [
+        `সম্পতি বন্টনের সময় যখন আত্নীয়-স্বজন, এতীম ও মিসকীন উপস্থিত হয়, তখন তা থেকে তাদের কিছু খাইয়ে দাও এবং তাদের সাথে কিছু সদালাপ করো। তাদের ভয় করা উচিত, যারা নিজেদের পশ্চাতে দুর্বল অক্ষম সন্তান-সন্ততি ছেড়ে গেলে তাদের জন্যে তারাও আশঙ্কা করে; সুতরাং তারা যেন আল্লাহকে ভয় করে এবং সংগত কথা বলে।`,
+        ``,
+        ``
+      ],
+      [
+        `E, se os parentes não herdeiros e os órfãos e os necessitados presenciam a divisão da herança dai-lhes algo dela, e dizei-lhes palavras bondosas E que receiem pelos órfãos os que se deixarem atrás de si, descendência indefesa, com ela se preocupam. Então que temam a Allah e que digam dito apropriado`,
+        ``,
+        ``
+      ],
+      [
+        `析产的时候，如有亲戚、孤儿、贫民在场，你们当以一部分遗产周济他们，并对他们说温和的言语。 假若自己遗下幼弱的后裔，自己就会为他们而忧愁；这等人，应当也为别人的孤儿而忧虑，应当敬畏真主，应当对临终的病人说正当的话。`,
+        ``,
+        ``
+      ],
+      [
+        `遺産の分配に際し，もし遠い親族や孤児や貧者が，その場に居合わせた時は，それ（遺産）からかれらにも与え，懇切に言葉優しく話しかけなさい。 自分のあとにひ弱い子女を残し，それらの身を案じる者はよく心配して置け。だからアッラーを畏れ，誠意ある言葉で語りなさい。`,
+        ``,
+        ``
+      ],
+      [
+        `친척이나 고아나 어려운 자가그 유산을 분배하는 곳에 참석하 였을 때는 그들에게도 그 유산의 일부를 분배하여 주고 친절을 베 풀라 재산을 처분하는 그들로 하여금 그들의 심중에 두려움을 갖도 록 하라 그들의 자손이 허약하게 되나니 그들을 두려워하고 하나님을 공경하게 하며 고아들에게 사 랑을 베풀라`,
+        ``,
+        ``
+      ],
+      [
+        `Se altri parenti, gli orfani e i poveri assistono alla divisione, datene loro una parte e trattateli con dolcezza E coloro che temono di lasciare una posterità senza risorse, temano Allah e parlino rettamente`,
+        ``,
+        ``
+      ],
+      [
+        `A kiedy są przy podziale obecni: dalsi krewni, sieroty i biedacy, to dajcie im nieco zaopatrzenia i przemawiajcie do nich uprzejmie I niech się obawiają ci, którzy gdyby pozostawili potomstwo słabe, niepokoiliby się o nie; i niech oni boją się Boga i mówią słowa rozsądne`,
+        ``,
+        ``
+      ],
+      [
+        `Якщо під час поділу присутні родичі, сироти і бідняки, то наділіть їх чимось зі спадку, а також кажіть їм добрі слова І нехай мають страх перед Аллагом ті, які, залишивши після себе слабких нащадків, боялися б за них. Нехай же вони бояться Аллага та говорять розсудливе слово`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآيتان 8-9`
   },
 
   {
@@ -6717,6 +8388,117 @@ const verses = [
 
   {
     arabic: [
+      `يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَحِلُّ لَكُمْ أَنْ تَرِثُوا النِّسَاءَ كَرْهًا ۖ وَلَا تَعْضُلُوهُنَّ لِتَذْهَبُوا بِبَعْضِ مَا آتَيْتُمُوهُنَّ إِلَّا أَنْ يَأْتِينَ بِفَاحِشَةٍ مُبَيِّنَةٍ ۚ وَعَاشِرُوهُنَّ بِالْمَعْرُوفِ ۚ فَإِنْ كَرِهْتُمُوهُنَّ فَعَسَىٰ أَنْ تَكْرَهُوا شَيْئًا وَيَجْعَلَ اللَّهُ فِيهِ خَيْرًا كَثِيرًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O you who have believed, it is not lawful for you to inherit women by compulsion. And do not make difficulties for them in order to take [back] part of what you gave them unless they commit a clear immorality. And live with them in kindness. For if you dislike them - perhaps you dislike a thing and Allah makes therein much good`,
+        ``,
+        ``
+      ],
+      [
+        `Ô les croyants! Il ne vous est pas licite d'hériter des femmes contre leur gré. Ne les empêchez pas de se remarier dans le but de leur ravir une partie de ce que vous aviez donné, à moins qu'elles ne viennent à commettre un péché prouvé. Et comportez-vous convenablement envers elles. Si vous avez de l'aversion envers elles durant la vie commune, il se peut que vous ayez de l'aversion pour une chose où Allah a déposé un grand bien`,
+        ``,
+        ``
+      ],
+      [
+        `¡Creyentes! No es lícito recibir en herencia a mujeres contra su voluntad, ni impedirles que vuelvan a casarse para quitarles parte de lo que les habíais dado, a menos que sean culpables de deshonestidad manifiesta. Comportaos con ellas como es debido. Y si os resultan antipáticas, puede que Alá haya puesto mucho bien en el objeto de vuestra antipatía`,
+        ``,
+        ``
+      ],
+      [
+        `О те, которые уверовали! Вам не дозволено наследовать женщин против их воли. Не чините им препятствия, чтобы унести часть брачного дара, который вы им дали, если только они не совершили явной мерзости. Живите с ними достойно, и даже если они неприятны вам, то ведь вам может быть неприятно то, в чем Аллах заложил много добра`,
+        ``,
+        ``
+      ],
+      [
+        `O die ihr glaubt, es ist euch nicht erlaubt, Frauen wider (ihren) Willen zu erben. Und drangsaliert sie nicht, um (ihnen) einen Teil von dem, was ihr ihnen gegeben habt, zu nehmen, außer sie begehen etwas klar Abscheuliches. Und geht in rechtlicher Weise mit ihnen um. Wenn sie euch zuwider sind, so ist euch vielleicht etwas zuwider, während Allah viel Gutes in es hineinlegt`,
+        ``,
+        ``
+      ],
+      [
+        `TROENDE! Det är inte tillåtet för er att ärva [andras] hustrur mot deras vilja; och ni får inte utsätta [era hustrur] för hård behandling för att [förmå dem att begära skilsmässa och på så sätt kunna] återta något av vad ni har gett dem, såvida de inte bevisligen har gjort sig skyldiga till grovt oanständiga handlingar. Och lev med era hustrur i vänskap och samförstånd; om ni fattar motvilja mot dem är det möjligt att ni vänder er ifrån det som Gud skulle ha gjort [till en källa] till rik välsignelse [för er]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O jullie die geloven, het is jullie niet toegestaan vrouwen tegen hun wil te erven, noch te verhinderen om wat jullie aan hen gegeven hebben mee te nemen, behalve als zij duidelijk ontucht pleegden. En behandelt hen volgens de voorschriften. En wanneer jullie een afkeer van hen hebben, dan kan het zijn dat jullie een afkeer hebben van iets, terwijl Allah daarin veel goeds gelegd heeft`,
+        ``,
+        ``
+      ],
+      [
+        `مومنو! تم کو جائز نہیں کہ زبردستی عورتوں کے وارث بن جاؤ۔ اور (دیکھنا) اس نیت سے کہ جو کچھ تم نے ان کو دیا ہے اس میں سے کچھ لے لو انہیں (گھروں میں) میں مت روک رکھنا ہاں اگر وہ کھلے طور پر بدکاری کی مرتکب ہوں (تو روکنا مناسب نہیں) اور ان کے ساتھ اچھی طرح رہو سہو اگر وہ تم کو ناپسند ہوں تو عجب نہیں کہ تم کسی چیز کو ناپسند کرو اور خدا اس میں بہت سی بھلائی پیدا کردے`,
+        ``,
+        ``
+      ],
+      [
+        `(Wahai orang-orang yang beriman! Tidak halal bagi kamu mewarisi perempuan dengan jalan paksa185) dan janganlah kamu menyusahkan mereka karena hendak mengambil kembali sebagian dari apa yang telah kamu berikan kepadanya, kecuali apabila mereka melakukan perbuatan keji yang nyata. Dan bergaullah dengan mereka menurut cara yang patut. Jika kamu tidak menyukai mereka, (maka bersabarlah) karena boleh jadi kamu tidak menyukai sesuatu, padahal Allah menjadikan kebaikan yang banyak padanya`,
+        ``,
+        ``
+      ],
+      [
+        `Ey İnananlar! Kadınlara zorla mirasçı olmaya kalkmanız size helal değildir. Apaçık hayasızlık etmedikçe onlara verdiğinizin bir kısmını alıp götürmeniz için onları sıkıştırmayın. Onlarla güzellikle geçinin. Eğer onlardan hoşlanmıyorsanız, sabredin, hoşlanmadığınız bir şeyi Allah çok hayırlı kılmış olabilir`,
+        ``,
+        ``
+      ],
+      [
+        `اى كسانى كه ايمان آورده‌ايد، براى شما حلال نيست كه زنان را به اكراه ارث بريد؛ و آنان را زير فشار مگذاريد تا بخشى از آنچه را به آنان داده‌ايد [از چنگشان به در] بريد، مگر آنكه مرتكب زشتكارى آشكارى شوند، و با آنها بشايستگى رفتار كنيد؛ و اگر از آنان خوشتان نيامد، پس چه بسا چيزى را خوش نمى‌داريد و خدا در آن مصلحت فراوان قرار مى‌دهد`,
+        ``,
+        ``
+      ],
+      [
+        `হে ঈমাণদারগণ! বলপূর্বক নারীদেরকে উত্তরাধিকারে গ্রহন করা তোমাদের জন্যে হালাল নয় এবং তাদেরকে আটক রেখো না যাতে তোমরা তাদেরকে যা প্রদান করেছ তার কিয়দংশ নিয়ে নাও; কিন্তু তারা যদি কোন প্রকাশ্য অশ্লীলতা করে! নারীদের সাথে সদ্ভাবে জীবন-যাপন কর। অতঃপর যদি তাদেরকে অপছন্দ কর, তবে হয়ত তোমরা এমন এক জিনিসকে অপছন্দ করছ, যাতে আল্লাহ, অনেক কল্যাণ রেখেছেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó vós que credes! Não vos é lícito herdar às mulheres, contra a vontade delas. E não as impeçais de se casarem de novo, a fim de que vos vades com algo que já lhes havíeis concedido, exceto se elas cometem evidente obscenidade. E convivei com elas, convenientemente. E, se as odiais, pacientai: quiçá, odieis algo, em que Allah faz existir um bem abundante`,
+        ``,
+        ``
+      ],
+      [
+        `信道的人们啊！你们不得强占妇女，当作遗产，也不得压迫她们，以便你们收回你们所给她们的一部分聘仪，除非她们作了明显的丑事。你们当善待她们。如果你们厌恶她们，（那末，你们应当忍受她们），因为，或许你们厌恶一件事，而真主在那件事中安置下许多福利。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがた信仰する者よ，当人の意志に反して，女を相続してはならない。あなたがたが，かの女らに与えたマハルの一部を取り戻すために，かの女らを手荒に扱ってはならない。明らかに不貞の事実があれば別である。出来るだけ仲良く，かの女らと暮しなさい。あなたがたが，かの女らを嫌っても（忍耐しなさい）。そのうち（嫌っている点）にアッラーからよいことを授かるであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `믿는 신앙인들이여 강제로 여성들을 유산으로 남기는 것은 허락되지 아니하며 그녀들이 재혼하려 할 때 방해하지 말 것이며 너희가 그녀들에게 준것의 일부를빼앗기 위해 그녀들을 학대해서도아니 되니라 그녀들이 분명한 비 행을 저질렀을 경우는 예외라 그 녀들과 의롭게 살것이며 만일 너 희가 그녀들을 싫어한다면 이는 하나님이 주신 풍성한 선행의 일 부를 중오한 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `O voi che credete, non vi è lecito ereditare delle mogli contro la loro volontà. Non trattatele con durezza nell'intento di riprendervi parte di quello che avevate donato, a meno che abbiano commesso una palese infamità. Comportatevi verso di loro convenientemente. Se provate avversione nei loro confronti, può darsi che abbiate avversione per qualcosa in cui Allah ha riposto un grande bene`,
+        ``,
+        ``
+      ],
+      [
+        `O wy, którzy wierzycie! Nie jest wam dozwolone, abyście dziedziczyli kobiety wbrew ich woli. I nie przeszkadzajcie im zabrać część tego, co im daliście, chyba że dopuszczą się jakiegoś wszeteczeństwa oczywistego. Obchodźcie się z nimi w sposób przyzwoity. A jeśli czujecie względem nich wstręt, to, być może, czujecie wstręt do czegoś, w czym Bóg umieścił wielkie dobro`,
+        ``,
+        ``
+      ],
+      [
+        `О ви, які увірували! Вам не дозволено бути спадкоємцями дружин проти їхньої волі. Не забороняйте їм забрати частину того, що ви їм дали, хіба як вони вчинять явний перелюб. Поводьтеся з дружинами гідно. І навіть якщо вони неприємні вам, то, можливо, неприємне для вас те, куди Аллаг вклав багато добра`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 19`
+  },
+
+  {
+    arabic: [
       `إِنْ تَجْتَنِبُوا كَبَائِرَ مَا تُنْهَوْنَ عَنْهُ نُكَفِّرْ عَنْكُمْ سَيِّئَاتِكُمْ وَنُدْخِلْكُمْ مُدْخَلًا كَرِيمًا`,
       ``,
       ``
@@ -6824,6 +8606,117 @@ const verses = [
       ]
     ],
     number: `سورة النساء / An-Nisa، الآية 31`
+  },
+
+  {
+    arabic: [
+      `وَلَا تَتَمَنَّوْا مَا فَضَّلَ اللَّهُ بِهِ بَعْضَكُمْ عَلَىٰ بَعْضٍ ۚ لِلرِّجَالِ نَصِيبٌ مِمَّا اكْتَسَبُوا ۖ وَلِلنِّسَاءِ نَصِيبٌ مِمَّا اكْتَسَبْنَ ۚ وَاسْأَلُوا اللَّهَ مِنْ فَضْلِهِ ۗ إِنَّ اللَّهَ كَانَ بِكُلِّ شَيْءٍ عَلِيمًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And do not wish for that by which Allah has made some of you exceed others. For men is a share of what they have earned, and for women is a share of what they have earned. And ask Allah of his bounty. Indeed Allah is ever, of all things, Knowing`,
+        ``,
+        ``
+      ],
+      [
+        `Ne convoitez pas ce qu'Allah a attribué aux uns d'entre vous plus qu'aux autres; aux hommes la part qu'ils ont acquise, et aux femmes la part qu'elles ont acquise. Demandez à Allah de Sa grâce. Car Allah, certes, est Omniscient`,
+        ``,
+        ``
+      ],
+      [
+        `No codiciéis aquello por lo que Alá ha preferido a unos de vosotros más que a otros. Los hombres tendrán parte según sus méritos y las mujeres también. Pedid a Alá de Su favor. Alá es omnisciente`,
+        ``,
+        ``
+      ],
+      [
+        `Не желайте того, посредством чего Аллах дал одним из вас преимущество перед другими. Мужчинам полагается доля из того, что они приобрели, и женщинам полагается доля из того, что они приобрели. Просите у Аллаха из Его милости, ведь Аллаху известно о всякой вещи`,
+        ``,
+        ``
+      ],
+      [
+        `Und wünscht euch nicht das, womit Allah die einen von euch vor den anderen bevorzugt hat. Den Männern kommt ein Anteil von dem zu, was sie verdient haben, und den Frauen kommt ein Anteil von dem zu, was sie verdient haben. Und bittet Allah (um etwas) von Seiner Huld. Allah weiß über alles Bescheid`,
+        ``,
+        ``
+      ],
+      [
+        `Kasta alltså inte begärliga blickar på det som Gud har skänkt några av er i rikare mått än andra - män skall få en andel [av detta], så som de förtjänat med sina handlingar, och kvinnor skall få en andel [av detta], så som de förtjänat med sina handlingar - be Gud att ge er något av Sitt goda. Gud har kunskap om allt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En verlangt hetgeen niet waarmee Allah somigen van jullie boven anderen bevoorrecht heeft: voor de mannen is er een aandeel in wat zij gedaan hebben, en voor de vrouwen is er een aandeel in wat zij gedaan hebben. En vraagt Allah om Zijn gunst Voorwaar, Allah i's Alwetend over alle zaken`,
+        ``,
+        ``
+      ],
+      [
+        `اور جس چیز میں خدا نے تم میں سے بعض کو بعض پر فضیلت دی ہے اس کی ہوس مت کرو مردوں کو ان کاموں کا ثواب ہے جو انہوں نے کئے اور عورتوں کو ان کاموں کا ثواب ہے جو انہوں نے کئے اور خدا سے اس کا فضل (وکرم) مانگتے رہو کچھ شک نہیں کہ خدا ہر چیز سے واقف ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan janganlah kamu iri hati terhadap karunia yang telah dilebihkan Allah kepada sebagian kamu atas sebagian yang lain. (Karena) bagi laki-laki ada bagian dari apa yang mereka usahakan, dan bagi perempuan (pun) ada bagian dari apa yang mereka usahakan. Mohonlah kepada Allah sebagian dari karunia-Nya. Sungguh, Allah Maha Mengetahui segala sesuatu`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'ın sizi birbirinizden üstün kıldığı şeyleri özlemeyin. Erkeklere, kazandıklarından bir pay, kadınlara da kazandıklarından bir pay vardır. Allah'tan bol nimet isteyin. Doğrusu Allah her şeyi bilir`,
+        ``,
+        ``
+      ],
+      [
+        `و زنهار، آنچه را خداوند به [سبب‌] آن، بعضى از شما را بر بعضى [ديگر] برترى داده آرزو مكنيد. براى مردان از آنچه [به اختيار] كسب كرده‌اند بهره‌اى است، و براى زنان [نيز] از آنچه [به اختيار] كسب كرده‌اند بهره‌اى است. و از فضل خدا درخواست كنيد، كه خدا به هر چيزى داناست`,
+        ``,
+        ``
+      ],
+      [
+        `আর তোমরা আকাঙ্ক্ষা করো না এমন সব বিষয়ে যাতে আল্লাহ তা’আলা তোমাদের একের উপর অপরের শ্রেষ্ঠত্ব দান করেছেন। পুরুষ যা অর্জন করে সেটা তার অংশ এবং নারী যা অর্জন করে সেটা তার অংশ। আর আল্লাহর কাছে তাঁর অনুগ্রহ প্রার্থনা কর। নিঃসন্দেহে আল্লাহ তা’আলা সর্ব বিষয়ে জ্ঞাত।`,
+        ``,
+        ``
+      ],
+      [
+        `E não aneleis aquilo por que Allah preferiu alguns de vós a outros. Há, para os homens, porção do que logram, e há para as mulheres, porção do que logram. E pedi a Allah algo de Seu favor. Por certo, Allah, de todas as cousas, é Onisciente`,
+        ``,
+        ``
+      ],
+      [
+        `真主使你们互相超越，你们当安分守己；不要妄冀非分；男人将因他们的行为而受报酬，妇女也将因她们的行为而受报酬；你们应当祈求真主把他的恩惠赏赐你们。真主确是全知万物的。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーがあなたがたのある者に，他よりも多く与えたものを，羨んではならない。男たちは，その稼ぎに応じて分け前があり，女たちにも，その稼ぎに応じて分け前がある。アッラーの御恵みを願え。誠にアッラーは凡てのことをよく知っておられる。`,
+        ``,
+        ``
+      ],
+      [
+        `너희 가운데 하나님의 은혜 를 보다 많이 받는 자가 있나니 시기하지 말라 남성은 그들이 얻 은 것 가운데서 몫이 있고 여성도그들이 얻은 것 가운데서 몫이 있나니 서로를 시기하지 말며 하나 님께 구원하라 하나님은 모든 일 에 전지전능하심이라`,
+        ``,
+        ``
+      ],
+      [
+        `Non invidiate l'eccellenza che Allah ha dato a qualcuno di voi: gli uomini avranno ciò che si saranno meritati e le donne avranno ciò che si saranno meritate. Chiedete ad Allah, alla grazia Sua. Allah in verità conosce ogni cosa`,
+        ``,
+        ``
+      ],
+      [
+        `Nie pragnijcie tego, czym wyróżnił Bóg jednych z was, dając im wyższość nad drugimi. Mężczyznom przypadnie udział w tym, co sobie zarobili, i kobietom przypadnie udział w tym, co sobie zarobiły. Proście Boga o Jego łaskę! Zaprawdę, Bóg zna dobrze każdą rzecz`,
+        ``,
+        ``
+      ],
+      [
+        `Не бажайте того, шляхом чого Аллаг віддав перевагу одним із вас перед іншими. Чоловіку — частка з того, що отримав він, а жінці — частка з того, що отримала вона. Тож просіть у Аллага ласки Його; воістину, Він знає про кожну річ`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 32`
   },
 
   {
@@ -8160,6 +10053,117 @@ const verses = [
 
   {
     arabic: [
+      `وَيَسْتَفْتُونَكَ فِي النِّسَاءِ ۖ قُلِ اللَّهُ يُفْتِيكُمْ فِيهِنَّ وَمَا يُتْلَىٰ عَلَيْكُمْ فِي الْكِتَابِ فِي يَتَامَى النِّسَاءِ اللَّاتِي لَا تُؤْتُونَهُنَّ مَا كُتِبَ لَهُنَّ وَتَرْغَبُونَ أَنْ تَنْكِحُوهُنَّ وَالْمُسْتَضْعَفِينَ مِنَ الْوِلْدَانِ وَأَنْ تَقُومُوا لِلْيَتَامَىٰ بِالْقِسْطِ ۚ وَمَا تَفْعَلُوا مِنْ خَيْرٍ فَإِنَّ اللَّهَ كَانَ بِهِ عَلِيمًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And they request from you, [O Muhammad], a [legal] ruling concerning women. Say, "Allah gives you a ruling about them and [about] what has been recited to you in the Book concerning the orphan girls to whom you do not give what is decreed for them - and [yet] you desire to marry them - and concerning the oppressed among children and that you maintain for orphans [their rights] in justice." And whatever you do of good - indeed, Allah is ever Knowing of it`,
+        ``,
+        ``
+      ],
+      [
+        `Et ils t'interrogent à propos de ce qui a été décrété au sujet des femmes. Dis: “Allah vous donne Son décret là-dessus, en plus de ce qui vous est récité dans le Livre, au sujet des orphelines auxquelles vous ne donnez pas ce qui leur a été prescrit, et que vous désirez épouser, et au sujet des mineurs encore d'âge faible.” Vous devez agir avec équité envers les orphelins. Et de tout ce que vous faites de bien, Allah en est, certes, Omniscient`,
+        ``,
+        ``
+      ],
+      [
+        `Te consultan a propósito de las mujeres. Di: «Alá os da a conocer Su parecer sobre ellas, aparte de lo que ya se os ha recitado en la Escritura a propósito de las huérfanas a las que aún no habéis dado la parte que les corresponde y con las que deseáis casaros, y a propósito de los niños débiles, y que tratéis con equidad a los huérfanos. Alá conoce perfectamente el bien que hacéis`,
+        ``,
+        ``
+      ],
+      [
+        `Они просят тебя вынести решение относительно женщин. Скажи: «Аллах вынесет для вас решение относительно них и того, что читается вам в Писании по поводу осиротевших женщин, которым вы не даете того, что им предписано, размышляя о женитьбе на них, и по поводу слабых детей. А еще вы должны относиться к сиротам справедливо, и что бы вы ни сделали доброго, Аллаху известно об этом»`,
+        ``,
+        ``
+      ],
+      [
+        `Sie fragen dich um Belehrung über die Frauen. Sag: "Allah belehrt euch über sie, und (weiter lehrt,) was euch im Buch verlesen wird über die weiblichen Waisen, denen ihr nicht gebt, was ihnen vorgeschrieben ist, und die ihr zu heiraten begehrt, und die schwachen unter den Kindern, und daß ihr gegenüber den Waisen Gerechtigkeit wahrt. Und was immer ihr an Gutem tut, so weiß Allah darüber Bescheid`,
+        ``,
+        ``
+      ],
+      [
+        `DE BER dig om ett klarläggande av de regler som gäller kvinnor. Säg: "Gud [själv] klargör för er vad som gäller dem; och [därtill] det som blir uppläst för er i Skriften om faderlösa flickor, till vilka ni inte vill ge [de brudgåvor] som är föreskrivna för dem, trots att ni önskar ta dem till hustrur, och om de värnlösa barnen och om er plikt att behandla de faderlösa med full rättvisa. Och Gud har full kännedom om det goda ni gör`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En zij vragen jou om een uitspraak (Fatwa) over de vrouwen. Zeg: "Allah geeft uitspraken over hen en wat jullie in het Boek voorgelezen wordt over de vrouwelijke wezen, aan wie jullie niet de voor hen voorgeschreven rechten geven en (over) hen die jullie wensen te trouwen en over de zwakken onder de kinderen. En dat jullie moeten zorgen voor de rechtvaardigheid voor de wezen." Er is niets wat julli van het goede doen of, voorwaar, Allah weet erven`,
+        ``,
+        ``
+      ],
+      [
+        `(اے پیغمبر) لوگ تم سے (یتیم) عورتوں کے بارے میں فتویٰ طلب کرتے ہیں۔ کہہ دو کہ خدا تم کو ان کے (ساتھ نکاح کرنے کے) معاملے میں اجازت دیتا ہے اور جو حکم اس کتاب میں پہلے دیا گیا ہے وہ ان یتیم عورتوں کے بارے میں ہے جن کو تم ان کا حق تو دیتے نہیں اور خواہش رکھتے ہو کہ ان کے ساتھ نکاح کرلو اور (نیز) بیچارے بیکس بچوں کے بارے میں۔ اور یہ (بھی حکم دیتا ہے) کہ یتیموں کے بارے میں انصاف پر قائم رہو۔ اور جو بھلائی تم کرو گے خدا اس کو جانتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `(Dan mereka meminta fatwa kepadamu tentang perempuan. Katakanlah, "Allah memberi fatwa kepadamu tentang mereka,228) dan apa yang dibacakan kepadamu dalam Alquran (juga memfatwakan) tentang para perempuan yatim yang tidak kamu berikan sesuatu (maskawin) yang ditetapkan untuk mereka, sedang kamu ingin menikahi mereka229) dan (tentang) anak-anak yang masih dipandang lemah. Dan (Allah menyuruh kamu) agar mengurus anak-anak yatim secara adil. Dan kebajikan apa pun yang kamu kerjakan, sesungguhnya Allah Maha Mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Kadınlar hakkında senden fetva isterler, de ki: "Onlar hakkında fetvayı size Allah veriyor: "Bu fetva, kendilerine yazılan şeyi vermeyip kendileriyle evlenmeyi arzuladığınız yetim kadınlara ve bir de zavallı çocuklara ve yetimlere doğrulukla bakmanız hususunda Kitap'da size okunandır". Ne iyilik yaparsaniz Allah onu şüphesiz bilir`,
+        ``,
+        ``
+      ],
+      [
+        `و در باره زنان، رأى تو را مى‌پرسند. بگو: «خدا در باره آنان به شما فتوا مى‌دهد، و [نيز] در باره آنچه در قرآن بر شما تلاوت مى‌شود: در مورد زنان يتيمى كه حق مقرر آنان را به ايشان نمى‌دهيد و تمايل به ازدواج با آنان داريد، و [در باره‌] كودكان ناتوان و اينكه با يتيمان [چگونه‌] به داد رفتار كنيد [پاسخگر شماست‌].» و هر كار نيكى انجام دهيد، قطعاً خدا به آن داناست`,
+        ``,
+        ``
+      ],
+      [
+        `তারা আপনার কাছে নারীদের বিবাহের অনুমতি চায়। বলে দিনঃ আল্লাহ তোমাদেরকে তাদের সম্পর্কে অনুমতি দেন এবং কোরআনে তোমাদেরকে যা যা পাট করে শুনানো হয়, তা ঐ সব পিতৃহীনা-নারীদের বিধান, যাদের কে তোমরা নির্ধারিত অধিকার প্রদান কর না অথচ বিবাহ বন্ধনে আবদ্ধ করার বাসনা রাখ। আর অক্ষম শিশুদের বিধান এই যে, এতীমদের জন্যে ইনসাফের উপর কায়েম থাক। তোমরা যা ভাল কাজ করবে, তা আল্লাহ জানেন।`,
+        ``,
+        ``
+      ],
+      [
+        `E consultam-te, Muhammad, sobre as mulheres. Dize: "Allah vos instrui a respeito delas - e lembrai-vos do que se recita para vós no Livro, sobre as mulheres órfãs às quais não concedeis o que lhes é preceito, enquanto tencionais esposá-las - e a respeito das crianças indefesas; e vos ordena cuidar dos órfãos com eqüidade. E o que quer que façais de bom, por certo, Allah é disso, Onisciente`,
+        ``,
+        ``
+      ],
+      [
+        `他们请求你解释关于女子的律例，你说：真主将为你们解释关于她们的律例，此经中常对你们宣读的明文内，（有若干律例）， 有关于你们既不愿交付其应得的遗产，又不愿娶以为妻的孤女的，有关于被人欺负的儿童的，有教你们公平地照管孤儿的。无论你们所行的是什么善事，真主确是全知的。`,
+        ``,
+        ``
+      ],
+      [
+        `かれらは女のことで，あなたに訓示を求める。言ってやるがいい。「アッラーは，かの女らに関しあなたがたに告げられる。また啓典の中でも，あなたがたが，所定のものを与えず，娶ろうと欲する女の孤児に関し，また哀れな子供らに関し，更にあなたがたが孤児を公正に待遇しなければならないことに関し，あなたに読誦されたこと（を思え）。あなたがたが行うどんな善いことも，アッラーは深くそれを知っておられる。」`,
+        ``,
+        ``
+      ],
+      [
+        `그들이 여성의 일에 관하여그대에게 질문하리니 가로되 하나 님께서 그녀들에 대해 말씀이 있 으리라 또한 계시된 성서에 말씀 이 있노라 또한 너희가 지불해야 할 지참금을 제공하지 아니하고 결혼하고자 하는 고아 여성과 언 약한 어린이들에 관한 말씀이 있 나니 고아들에게 공정하라 너희 가 행하는 어떤 선행도 하나님은 그것에 대해 알고 계시니라`,
+        ``,
+        ``
+      ],
+      [
+        `Ti interpelleranno a proposito delle donne. Di': “Allah vi risponde a riguardo, e ciò è recitato nel Libro relativamente alle orfane alle quali non date quello che è prescritto loro e a quelle che desiderate sposare, ai ragazzi oppressi e agli orfani dei quali dovete aver cura con giustizia. Allah conosce tutto il bene che operate`,
+        ``,
+        ``
+      ],
+      [
+        `Oni będą cię pytać w sprawie kobiet. Powiedz: "Bóg daje wam pouczenie o nich - to, co wam się recytuje w Księdze: w sprawie osieroconych dziewcząt, którym nie dajecie tego, co im zostało przepisane, kiedy pragniecie je poślubić; i pouczenie w sprawie słabowitych dzieci; i abyście byli dla sierot sprawiedliwi." A cokolwiek uczynicie dobrego, to, zaprawdę, Bóg wie o tym dobrze`,
+        ``,
+        ``
+      ],
+      [
+        `Тебе просять встановити припис щодо жінок. Скажи: «Аллаг встановлює вам припис щодо них і щодо того, про що читаєте ви у Писанні – про осиротілих жінок, яким ви не даєте того, що належить їм, маючи бажання одружитися з ними; а також про безпомічних дітей і про те, щоб ви ставились до сиріт справедливо». І яке благо ви не робили б, Аллаг знає про це`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النساء / An-Nisa، الآية 127`
+  },
+
+  {
+    arabic: [
       `إِن يَشَأْ يُذْهِبْكُمْ أَيُّهَا النَّاسُ`,
       `وَيَأْتِ بِآخَرِينَ`,
       `وَكَانَ اللَّهُ عَلَىٰ ذَٰلِكَ قَدِيرًا`
@@ -9492,6 +11496,117 @@ const verses = [
 
   {
     arabic: [
+      `وَإِذَا سَمِعُوا مَا أُنْزِلَ إِلَى الرَّسُولِ تَرَىٰ أَعْيُنَهُمْ تَفِيضُ مِنَ الدَّمْعِ مِمَّا عَرَفُوا مِنَ الْحَقِّ ۖ يَقُولُونَ رَبَّنَا آمَنَّا فَاكْتُبْنَا مَعَ الشَّاهِدِينَ وَمَا لَنَا لَا نُؤْمِنُ بِاللَّهِ وَمَا جَاءَنَا مِنَ الْحَقِّ وَنَطْمَعُ أَنْ يُدْخِلَنَا رَبُّنَا مَعَ الْقَوْمِ الصَّالِحِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And when they hear what has been revealed to the Messenger, you see their eyes overflowing with tears because of what they have recognized of the truth. They say, "Our Lord, we have believed, so register us among the witnesses And why should we not believe in Allah and what has come to us of the truth? And we aspire that our Lord will admit us [to Paradise] with the righteous people`,
+        ``,
+        ``
+      ],
+      [
+        `Et quand ils entendent ce qui a été descendu sur le Messager [Mohammed], tu vois leurs yeux déborder de larmes, parce qu'ils ont reconnu la vérité. Ils disent : "Ô notre Seigneur ! Nous croyons ! Inscris-nous donc parmi les témoins (de la véracité du Coran) Pourquoi ne croirions-nous pas en Allah et à ce qui nous est parvenu de la vérité. Pourquoi ne convoiterions-nous pas que notre Seigneur nous fasse entrer en la compagnie des gens vertueux`,
+        ``,
+        ``
+      ],
+      [
+        `Cuando oyen lo que se ha revelado al Enviado, ves que sus ojos se inundan de lágrimas de reconocimiento de la Verdad. Dicen: «¡Señor! ¡Creemos! ¡Apúntanos, pues. como testigos ¿Cómo no vamos a creer en Alá y en la Verdad venida a nosotros si anhelamos que nuestro Señor nos introduzca con los justos?»`,
+        ``,
+        ``
+      ],
+      [
+        `Когда они слышат то, что было ниспослано Посланнику, ты видишь, как их глаза переполняются слезами по причине истины, которую они узнают. Они говорят: «Господь наш! Мы уверовали. Запиши же нас в число свидетелей Отчего нам не веровать в Аллаха и ту истину, которая явилась к нам? Мы желаем, чтобы наш Господь ввел нас вРай вместе с праведными людьми»`,
+        ``,
+        ``
+      ],
+      [
+        `Wenn sie hören, was zum Gesandten (als Offenbarung) herabgesandt worden ist, siehst du ihre Augen von Tränen überfließen wegen dessen, was sie (darin) als Wahrheit erkannt haben. Sie sagen: "Unser Herr, wir glauben. Schreibe uns unter den Zeugnis Ablegenden auf Warum sollten wir nicht an Allah glauben und an das, was von der Wahrheit zu uns gekommen ist, und begehren, daß uns unser Herr zusammen mit dem rechtschaffenen Volk (in den Paradiesgarten) eingehen lasse`,
+        ``,
+        ``
+      ],
+      [
+        `Och när de får höra det som har uppenbarats för Sändebudet, får du se hur deras ögon tåras [av rörelse], därför att de i detta känner igen en del av sanningen [och] de säger: "Herre, vi tror! Räkna oss bland vittnena Skulle vi inte tro på Gud och på [all] sanning som vi har fått ta emot, när vår djupaste önskan är att vår Herre skall låta oss stiga in [i paradiset] med de rättfärdiga`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En wannccrzij horen wat zan de Boodschapper geopenbaard is, zie jij hun ogen van de tranen overvloeien, omdat zij de Waarheid herkennen. Zij zeggen: "Onze Heer, wij geloven, schrijf ons dus op bij de getuigen En waarom zouden wij niet geloven in Allah en in wat tot ons is geckomen van de Waarheid en wij verlangen cr hevig naar dat onze Heer ons met het oprechte volk (het Paradijs) binnenleidt`,
+        ``,
+        ``
+      ],
+      [
+        `اور جب اس (کتاب) کو سنتے ہیں جو (سب سے پہلے) پیغمبر (محمدﷺ) پر نازل ہوئی تو تم دیکھتے ہو کہ ان کی آنکھوں سے آنسو جاری ہو جاتے ہیں اس لیے کہ انہوں نے حق بات پہچان لی اور وہ (خدا کی جناب میں) عرض کرتے ہیں کہ اے پروردگار ہم ایمان لے آئے تو ہم کو ماننے والوں میں لکھ لے اور ہمیں کیا ہوا ہے کہ خدا پر اور حق بات پر جو ہمارے پاس آئی ہے ایمان نہ لائیں اور ہم امید رکھتے ہیں کہ پروردگار ہم کو نیک بندوں کے ساتھ (بہشت میں) داخل کرے گا`,
+        ``,
+        ``
+      ],
+      [
+        `Dan apabila mereka mendengarkan apa (Alquran) yang diturunkan kepada Rasul (Muhammad), kamu lihat mata mereka mencucurkan air mata disebabkan kebenaran yang telah mereka ketahui (dari kitab-kitab mereka sendiri), seraya berkata, "Ya Tuhan, kami telah beriman, maka catatlah kami bersama orang-orang yang menjadi saksi (atas kebenaran Alquran dan kenabian Muhammad) Dan mengapa kami tidak akan beriman kepada Allah dan kepada kebenaran yang datang kepada kami, padahal kami sangat ingin agar Tuhan kami memasukkan kami ke dalam golongan orang-orang yang saleh`,
+        ``,
+        ``
+      ],
+      [
+        `Peygambere indirilen Kuran'ı işittiklerinde, gerçeği öğrenmelerinden gözlerinin yaşla dolarak, "Rabbimiz! İnandık, bizi de şahidlerden yaz. Rabbimizin bizi iyi milletle birlikte bulundurmasını umarken niçin Allah'a ve bize gelen gerçeğe inanmayalım?" dediklerini görürsün`,
+        ``,
+        ``
+      ],
+      [
+        `و چون آنچه را به سوى اين پيامبر نازل شده، بشنوند، مى‌بينى بر اثر آن حقيقتى كه شناخته‌اند، اشك از چشمهايشان سرازير مى‌شود. مى‌گويند: پروردگارا، ما ايمان آورده‌ايم؛ پس ما را در زمره گواهان بنويس و براى ما چه [عذرى‌] است كه به خدا و آنچه از حق به ما رسيده، ايمان نياوريم و حال آنكه چشم داريم كه پروردگارمان ما را با گروه شايستگان [به بهشت‌] درآورد؟`,
+        ``,
+        ``
+      ],
+      [
+        `আর তারা রসূলের প্রতি যা অবতীর্ণ হয়েছে, তা যখন শুনে, তখন আপনি তাদের চোখ অশ্রু সজল দেখতে পাবেন; এ কারণে যে, তারা সত্যকে চিনে নিয়েছে। তারা বলেঃ হে আমাদের প্রতি পালক, আমরা মুসলমান হয়ে গেলাম। অতএব, আমাদেরকেও মান্যকারীদের তালিকাভুক্ত করে নিন। আমাদের কি ওযর থাকতে পারে যে, আমরা আল্লাহর প্রতি এবং যে সত্য আমাদের কাছে এসেছে, তৎপ্রতি বিশ্বাস স্থাপন করব না এবং এ আশা করবো না যে, আমদের প্রতিপালক আমাদেরকে সৎ লোকদের সাথে প্রবিষ্ট করবেন`,
+        ``,
+        ``
+      ],
+      [
+        `E quando ouvem o que foi descido, para o Mensageiro, tu vês seus olhos se marejarem de lágrimas, pelo que reconhecem da Verdade. Dizem: "Senhor nosso! Cremos. Então, inscreve-nos entre as testemunhas da verdade E por que razão não creríamos em Allah e na Verdade que nos chegou, enquanto aspiramos a que nosso Senhor nos faça entrar no Paraíso, com o povo íntegro`,
+        ``,
+        ``
+      ],
+      [
+        `当他们听见诵读降示使者的经典的时候，你看他们为自己所认识的真理而眼泪汪汪，他们说：我们的主啊! 我们已信道了，求你把我们同作证真理的人记录在一处。 我们是切望我们的主使我们与善良的民众同进乐园的，我们怎能不信真主和降临我们的真理呢`,
+        ``,
+        ``
+      ],
+      [
+        `あなたはかれらが，使徒に下されたものを聞く時，自分の認めた真理のために，涙を目に溢れさせるのを見るであろう。かれらは言う。「主よ，わたしたちは信仰します。わたしたちを証人の中に書き留めて下さい。 わたしたちは，アッラーとわたしたちに下された真理を，どうして信じないでいられましょ うか。また主が，敬虔な民と一緒にわたしたちをも（楽園に）入れて下さるよう，懇願しないでいられましょうか。」`,
+        ``,
+        ``
+      ],
+      [
+        `그들이 선지자에게 계시된 것을 들을 때 그들의 눈들이 눈물로 가득차는 것을 보더라 이는 그들이 진심을 알았기 때문이라 주여 우리는 믿나이다 라고 말하 며 순교자들과 함께하게 하여 주 소서 라고 하더라 우리는 하나님과 저희에게 계시된 진실을 믿으매 무엇이 막 으리요 저희는 선량한 백성들과 함께 천국감을 주님께 바라나이다`,
+        ``,
+        ``
+      ],
+      [
+        `Quando sentono quello che è sceso sul Messaggero, vedrai i loro occhi versare lacrime per la verità che vi hanno riconosciuto. Dicono: “O nostro Signore, noi crediamo: annoveraci tra i testimoni Come potremmo non credere in Allah e in quella parte della verità che ci è giunta, quando bramiamo che il nostro Signore ci introduca in compagnia dei devoti?”`,
+        ``,
+        ``
+      ],
+      [
+        `Kiedy oni słuchają tego, co zostało zesłane Posłańcowi, widzisz, jak ich oczy przepełniają się łzami z powodu prawdy, którą poznali. Oni mówią: "Panie nasz! My wierzymy! Zapisz nas więc między świadków Dlaczego nie mielibyśmy wierzyć w Boga i w prawdę, która do nas przyszła, skoro gorąco pragniemy, aby nasz Pan wprowadził nas wraz z ludem sprawiedliwych`,
+        ``,
+        ``
+      ],
+      [
+        `І коли чують вони те, що зіслано Посланцю, бачиш ти очі їхні, сповнені сліз від істини, про яку дізналися вони. І говорять вони: «Господи наш! Увірували ми! Тож запиши нас серед тих, хто свідчить А чому нам не вірити в Аллага й ту істину, яка прийшла до нас? Ми прагнемо, щоб Господь наш увів нас разом із людьми праведними`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المائدة / Al-Ma'idah، الآيتان 83-84`
+  },
+
+  {
+    arabic: [
       `وَإِذْ أَوْحَيْتُ إِلَى الْحَوَارِيِّينَ أَنْ آمِنُوا بِي وَبِرَسُولِي قَالُوا آمَنَّا وَاشْهَدْ بِأَنَّنَا مُسْلِمُونَ`,
       ``,
       ``
@@ -9710,6 +11825,117 @@ const verses = [
       ]
     ],
     number: `سورة المائدة / Al-Ma'idah، الآيتان 116-117`
+  },
+
+  {
+    arabic: [
+      `قُلْ لِمَنْ مَا فِي السَّمَاوَاتِ وَالْأَرْضِ ۖ قُلْ لِلَّهِ ۚ كَتَبَ عَلَىٰ نَفْسِهِ الرَّحْمَةَ ۚ لَيَجْمَعَنَّكُمْ إِلَىٰ يَوْمِ الْقِيَامَةِ لَا رَيْبَ فِيهِ ۚ الَّذِينَ خَسِرُوا أَنْفُسَهُمْ فَهُمْ لَا يُؤْمِنُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Say, "To whom belongs whatever is in the heavens and earth?" Say, "To Allah." He has decreed upon Himself mercy. He will surely assemble you for the Day of Resurrection, about which there is no doubt. Those who will lose themselves [that Day] do not believe`,
+        ``,
+        ``
+      ],
+      [
+        `Dis : "À qui appartient ce qui est dans les cieux et la Terre ?" Dis : "À Allah !" Il S'est à Lui-même la miséricorde . Il vous rassemblera, certainement, au Jour de la Résurrection : il n'y a pas de doute là-dessus. Ceux qui font leur propre perte sont ceux qui ne croient pas`,
+        ``,
+        ``
+      ],
+      [
+        `Di: «¿A quién pertenece lo que está en los cielos y en la tierra?» Di: «¡A Alá!», Él mismo Se ha prescrito la misericordia. Él os reunirá, ciertamente, para el día indubitable de la Resurrección. Quienes se hayan perdido, no creerán`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи: «Кому принадлежит то, что на небесах и на земле?». Скажи: «Аллаху! Он предписал Себе милосердие. Он непременно соберет вас вместе в День воскресения, в котором нет сомнения. Те, которые потеряли самих себя, никогда не уверуют»`,
+        ``,
+        ``
+      ],
+      [
+        `Sag: Wem gehört, was in den Himmeln und auf der Erde ist? Sag: Allah. Er hat Sich Selbst Barmherzigkeit vorgeschrieben. Er wird euch ganz gewiß zum Tag der Auferstehung versammeln, an dem es keinen Zweifel gibt. (Schaut; wie das Ende) derjenigen (war), die ihre Seelen verloren haben, denn sie glaubten nicht`,
+        ``,
+        ``
+      ],
+      [
+        `Säg: "Vem tillhör allt det som är i himlarna och på jorden?" Säg: "[Allt tillhör] Gud, [Gud som] för Sig har stadfäst nådens och barmhärtighetens [lag]. Han skall samla er åter på Uppståndelsens dag - om vars [ankomst] det inte råder något tvivel. De som har förverkat sina själar är de som inte vill tro`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zeg: "Aan wie behoort wat er in de hemelen en op de aarde is?" Zeg: "Aan Allah. Hij heeft Zichzelf de Barmhartigheid voorgeschreven, Hij zal jullie zeker bijeenbrengen op de Dag der Opstanding, waaraan geen twijfel is. Degenen die zichzelf verloren hebben: zij zijn het die niet geloven`,
+        ``,
+        ``
+      ],
+      [
+        `(ان سے) پوچھو کہ آسمان اور زمین میں جو کچھ ہے کس کا ہے کہہ دو خدا کا اس نے اپنی ذات (پاک) پر رحمت کو لازم کر لیا ہے وہ تم سب کو قیامت کے دن جس میں کچھ بھی شک نہیں ضرور جمع کرے گا جن لوگوں نے اپنے تیئیں نقصان میں ڈال رکھا ہے وہ ایمان نہیں لاتے`,
+        ``,
+        ``
+      ],
+      [
+        `Katakanlah (Muhammad), "Milik siapakah apa yang di langit dan di bumi?" Katakanlah, "Milik Allah." Dia telah menetapkan (sifat) kasih sayang pada diri-Nya.308) Dia sungguh akan mengumpulkan kamu pada hari Kiamat yang tidak diragukan lagi. Orang-orang yang merugikan dirinya, mereka itu tidak beriman`,
+        ``,
+        ``
+      ],
+      [
+        `De ki: "göklerde ve yerde olanlar kimindir?", "Allah'ındır" de. O, rahmet etmeyi kendi üzerine almıştır; and olsun ki, sizi vukuu şüphe götürmeyen kıyamet gününde toplayacaktır. Kendilerine yazık ettiler; çünkü onlar inanmazlar`,
+        ``,
+        ``
+      ],
+      [
+        `بگو: «آنچه در آسمانها و زمين است از آنِ كيست؟» بگو: «از آن خداست »؛ كه رحمت را بر خويشتن واجب گردانيده است. يقيناً شما را در روز قيامت -كه در آن هيچ شكى نيست- گرد خواهد آورد. خودباختگان كسانى‌اند كه ايمان نمى‌آورند`,
+        ``,
+        ``
+      ],
+      [
+        `জিজ্ঞেস করুন, নভোমন্ডল ও ভুমন্ডলে যা আছে, তার মালিক কে? বলে দিনঃআল্লাহ। তিনি অনুকম্পা প্রদর্শনকে নিজ দায়িত্বে লিপিবদ্ধ করে নিয়েছেন। তিনি অবশ্যই তোমাদেরকে কেয়ামতের দিন একত্রিত করবেন। এর আগমনে কোন সন্দেহ নেই। যারা নিজেদের কে ক্ষতিগ্রস্ত করেছে, তারাই বিশ্বাস স্থাপন করে না।`,
+        ``,
+        ``
+      ],
+      [
+        `Dize: "De quem é o que há nos céus e na terra?" Dize: "De Allah". Ele prescreveu a Si mesmo a misericórdia. Em verdade, Ele vos juntará, no indubitável Dia da Ressurreição, os que se perdem a si mesmos, então, não crêem`,
+        ``,
+        ``
+      ],
+      [
+        `你说：天地万物是谁的？你说：是真主的。他曾以慈悯为自己的责任。他必在无疑的复活日集合你们。亏折自身的人，是不信道的。`,
+        ``,
+        ``
+      ],
+      [
+        `言ってやるがいい。「天と地にある凡てのものは，誰の有であるのか。」言ってやるがいい 。「アッラーの有である。かれは慈悲を御自分の勤となされる。審判の日には，必ずあなたがたを召集されよう。それに疑いの余地はないのである。」だが自分の魂を滅ぼしてしまった者は，信じないであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `그들에게 이르되 천지의 모든 것이 누구에게 속하여 있느뇨 이르되 그것은 하나님의 것이며 그분 스스로를 자비함으로 두셨으며 심판의 날 너희들을 모이도록 하니 이는 의심할 바 없다 하여 라 그래도 그들의 영혼을 잃은 자들은 믿지 아니하려 하더라`,
+        ``,
+        ``
+      ],
+      [
+        `Di': “A chi [appartiene] quello che c'è nei cieli e sulla terra?”. Rispondi: “Ad Allah!”. Egli si è imposto la misericordia. Vi riunirà nel Giorno della Resurrezione, sul quale non v'è dubbio alcuno. Quelli che non credono preparano la loro stessa rovina`,
+        ``,
+        ``
+      ],
+      [
+        `Powiedz: "Do kogo należy to, co jest w niebiosach i na ziemi?" Powiedz: "Do Boga!" On przepisał samemu Sobie miłosierdzie. On z pewnością zbierze was w Dniu Zmartwychwstania, co do którego nie ma żadnej wątpliwości! Ci, którzy zatracili swoje dusze - nie wierzą`,
+        ``,
+        ``
+      ],
+      [
+        `Спитай: «Кому належить те, що на небесах і на землі?» І скажи: «Аллагу! Він зробив милість Своїм обов’язком! І Він неодмінно збере вас у День Воскресіння, в якому немає сумніву! Ті, які втратили самих себе, не увірують`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنعام / Al-An'am، الآية 12`
   },
 
   {
@@ -13155,6 +15381,117 @@ const verses = [
 
   {
     arabic: [
+      `۞ هُوَ الَّذِي خَلَقَكُمْ مِنْ نَفْسٍ وَاحِدَةٍ وَجَعَلَ مِنْهَا زَوْجَهَا لِيَسْكُنَ إِلَيْهَا ۖ فَلَمَّا تَغَشَّاهَا حَمَلَتْ حَمْلًا خَفِيفًا فَمَرَّتْ بِهِ ۖ فَلَمَّا أَثْقَلَتْ دَعَوَا اللَّهَ رَبَّهُمَا لَئِنْ آتَيْتَنَا صَالِحًا لَنَكُونَنَّ مِنَ الشَّاكِرِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `It is He who created you from one soul and created from it its mate that he might dwell in security with her. And when he covers her, she carries a light burden and continues therein. And when it becomes heavy, they both invoke Allah, their Lord, "If You should give us a good [child], we will surely be among the grateful`,
+        ``,
+        ``
+      ],
+      [
+        `C'est Lui qui vous a créés d'un seul être dont il a tiré son épouse, pour qu'il trouve de la tranquillité auprès d'elle; et lorsque celui-ci eut cohabité avec elle, elle conçut une légère grossesse, avec quoi elle se déplaçait (facilement). Puis lorsqu'elle se trouva alourdie, tous deux invoquèrent leur Seigneur : "Si Tu nous donnes un (enfant) sain, nous serons certainement du nombre des reconnaissants`,
+        ``,
+        ``
+      ],
+      [
+        `Él es Quien os ha creado de una sola persona, de la que ha sacado a su cónyuge para que encuentre quietud en ella. Cuando yació con ella, ésta llevó una carga ligera, con la que iba de acá para allá; pero cuando se sintió pesada, invocaron ambos a Alá, su Señor. «Si nos das un hijo bueno, seremos, ciertamente, de los agradecidos`,
+        ``,
+        ``
+      ],
+      [
+        `Он - Тот, Кто сотворил вас из одного человека. Он создал из него супругу, чтобы он нашел в ней покой. Когда же он вступил с ней в близость, она понесла легкое бремя и ходила с ним. Когда же она отяжелела от бремени, они вдвоем воззвали к Аллаху, своему Господу: «Если Ты даруешь нам праведного ребенка, то мы непременно будем в числе благодарных»`,
+        ``,
+        ``
+      ],
+      [
+        `Er ist es, Der euch aus einem einzigen Wesen schuf, und Er hat aus ihm seine Gattin gemacht, damit er (der Mann) bei ihr Ruhe finde. Und als er über sie kam', trug sie an einer leichten Schwangerschaft und verbrachte damit (eine Zeit). Als sie dann schwer zu tragen hatte, riefen die beiden Allah, ihren Herrn, an: "Wenn Du uns einen Rechtschaffenen gibst, werden wir ganz gewiß zu den Dankbaren gehören`,
+        ``,
+        ``
+      ],
+      [
+        `DET ÄR Han som har skapat er ur en enda varelse och som av denna skapade dess make, så att [mannen] kan finna ro hos [sin hustru]. När han har slutit henne i sin famn, får hon en lätt börda att bära och hon fortsätter att bära den tills den börjar kännas tung och de anropar Gud, sin Herre: "Om Du skänker oss ett [barn], sunt till kropp och själ, skall vi sannerligen visa tacksamhet`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij is Degene Die jullie heeft geschapen uit één enkele ziel en Hij maakte daaruit zijn echtgenote, opdat bij bij haar rust zou vinden. En nadat hij bij haar gelegen had, droeg zij een lichte last waar zij toen met voortging. En toen zij zwaar werd, riepen zij Allah, hun Heer aan: "Als U ons een rechtschapene schenkt, dan zullen wij tot de dankbaren horen`,
+        ``,
+        ``
+      ],
+      [
+        `وہ خدا ہی تو ہے جس نے تم کو ایک شخص سے پیدا کیا اور اس سے اس کا جوڑا بنایا تاکہ اس سے راحت حاصل کرے۔ سو جب وہ اس کے پاس جاتا ہے تو اسے ہلکا سا حمل رہ جاتا ہے اور وہ اس کے ساتھ چلتی پھرتی ہے۔ پھر جب کچھ بوجھ معلوم کرتی یعنی بچہ پیٹ میں بڑا ہوتا ہے تو دونوں میاں بیوی اپنے پروردگار خدائے عزوجل سے التجا کرتے ہیں کہ اگر تو ہمیں صحیح وسالم (بچہ) دے گا تو ہم تیرے شکر گذار ہوں گے`,
+        ``,
+        ``
+      ],
+      [
+        `Dialah yang menciptakan kamu dari jiwa yang satu (Adam) dan daripadanya Dia menciptakan pasangannya, agar dia merasa senang kepadanya. Maka setelah dicampurinya, (istrinya) mengandung kandungan yang ringan, dan teruslah dia merasa ringan (beberapa waktu). Kemudian ketika dia merasa berat, keduanya (suami-istri) bermohon kepada Allah, Tuhan mereka (seraya berkata), "Jika Engkau memberi kami anak yang saleh, tentulah kami akan selalu bersyukur`,
+        ``,
+        ``
+      ],
+      [
+        `Sizi bir nefisten yaratan ve gönlünün huzura kavuşacağı eşini de ondan var eden Allah'tır. Eşine yaklaşınca, eşi hafif bir yük yüklendi ve bu halde bir müddet taşıdı. Hamileliği ağırlaşınca, karı-koca, Rableri olan Allah'a: "Bize kusursuz bir çocuk verirsen, and olsun ki şükredenlerden oluruz" diye yalvardılar`,
+        ``,
+        ``
+      ],
+      [
+        `اوست آن كس كه شما را از نَفْس واحدى آفريد، و جفت وى را از آن پديد آورد تا بدان آرام گيرد. پس چون [آدم‌] با او [حوّا] درآميخت باردار شد، بارى سبك. و [چندى‌] با آن [بار سبك‌] گذرانيد، و چون سنگين‌بار شد، خدا، پروردگار خود را خواندند كه اگر به ما [فرزندى‌] شايسته عطا كنى قطعاً از سپاسگزاران خواهيم بود`,
+        ``,
+        ``
+      ],
+      [
+        `তিনিই সে সত্তা যিনি তোমাদিগকে সৃষ্টি করেছেন একটি মাত্র সত্তা থেকে; আর তার থেকেই তৈরী করেছেন তার জোড়া, যাতে তার কাছে স্বস্তি পেতে পারে। অতঃপর পুরুষ যখন নারীকে আবৃত করল, তখন, সে গর্ভবতী হল। অতি হালকা গর্ভ। সে তাই নিয়ে চলাফেরা করতে থাকল। তারপর যখন বোঝা হয়ে গেল, তখন উভয়েই আল্লাহকে ডাকল যিনি তাদের পালনকর্তা যে, তুমি যদি আমাদিগকে সুস্থ ও ভাল দান কর তবে আমরা তোমার শুকরিয়া আদায় করব।`,
+        ``,
+        ``
+      ],
+      [
+        `Ele é Quem vos criou de uma só pessoa e, desta fez sua mulher, para ele tranqüilizar-se junto dela. E quando com ela coabitou, ela carregou dentro de si uma leve carga. E movimentava-se com ela, sem dificuldade. Então, quando se tornou pesada, ambos suplicaram a Allah, seu Senhor: "Em verdade, se nos concederes um filho são, seremos dos agradecidos`,
+        ``,
+        ``
+      ],
+      [
+        `他从一个人创造你们，他使那个人的配偶与他同类，以便他依恋她。他和她交接后，她怀了一个轻飘飘的孕，她能照常度日，当她感觉身子重的时候，他俩祈祷真主--他俩的主--说：如果你赏赐我们一个健全的儿子，我们一定感谢你。`,
+        ``,
+        ``
+      ],
+      [
+        `かれこそは，一個の魂（アーダム）からあなたがたを創り，互いに慰安を得るため，その妻を創られた御方であられる。かれがかの女と交わると，かの女は体内に軽い荷を負ったがそれでもかの女は（安易に）往来していた。そのうち重さが加わるようになると，かれらは両人の主，アッラーに祈って（言う）。「もしあなたが良い子をわたしたちに御授けになれば，わたしたちはきっと感謝を捧げます。」`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 한 몸에서 너희를창조하셨고 그로부터 배우자를두어 그로 하여금 그녀와 거주하 게 하니 둘이서 결합하여 그녀가 가볍게 임신하고 생활을 계속함이 라 그녀의 몸이 무거워지자 그들 은 하나님께 저희에게 착한 아이 를 주소서 실로 저희는 감사하는 자 중에 있겠나이다 라고 기도하 니`,
+        ``,
+        ``
+      ],
+      [
+        `Egli è Colui Che vi ha creati da un solo individuo, e che da esso ha tratto la sua sposa affinché riposasse presso di lei. Dopo che si unì a lei, ella fu gravida di un peso leggero, con il quale camminava [senza pena]. Quando poi si appesantì, entrambi invocarono il loro Signore Allah: “Se ci darai un [figlio] probo, Ti saremo certamente riconoscenti”`,
+        ``,
+        ``
+      ],
+      [
+        `On jest Tym, który stworzył nas Z jednego istnienia, a z niego uczynił jej małżonkę, żeby mógł odpoczywać przy niej. A kiedy on pokrył ją, ona zaczęła nosić lekki ciężar, z którym swobodnie chodziła. A kiedy stała się ociężałą, oni zawołali do Boga, swego Pana: "Jeśli Ty nam dasz sprawiedliwego, to my, z pewnością, będziemy Ci wdzięczni`,
+        ``,
+        ``
+      ],
+      [
+        `Він — Той, Хто створив вас із єдиної душі й зробив із неї другу до пари, щоб вона знаходила в ній спокій. А коли він зійшовся з нею, то вона понесла легку ношу й ходила з нею. Коли та стала важкою, вони обоє звернулися до Господа свого: «Якщо Ти даруєш нам благочестиву дитину, то ми будемо вдячні Тобі`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأعراف / Al-A'raf، الآية 189`
+  },
+
+  {
+    arabic: [
       `خُذِ الْعَفْوَ وَأْمُرْ بِالْعُرْفِ`,
       `وَأَعْرِضْ عَنِ الْجَاهِلِينَ`,
       ``
@@ -13817,6 +16154,117 @@ const verses = [
       ]
     ],
     number: `سورة التوبة / At-Tawbah، الآيتان 20-21`
+  },
+
+  {
+    arabic: [
+      `هُوَ الَّذِي أَرْسَلَ رَسُولَهُ بِالْهُدَىٰ وَدِينِ الْحَقِّ لِيُظْهِرَهُ عَلَى الدِّينِ كُلِّهِ وَلَوْ كَرِهَ الْمُشْرِكُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `It is He who has sent His Messenger with guidance and the religion of truth to manifest it over all religion, although they who associate others with Allah dislike it`,
+        ``,
+        ``
+      ],
+      [
+        `C'est Lui qui a envoyé Son Messager avec la bonne direction et la religion de la vérité, afin qu'elle triomphe sur toute autre religion, quelque répulsion qu'en aient les polythéistes`,
+        ``,
+        ``
+      ],
+      [
+        `Él es Quien ha mandado a Su Enviado con la Dirección y con la religión verdadera para que, a despecho de los asociadores, prevalezca sobre toda otra religión`,
+        ``,
+        ``
+      ],
+      [
+        `Он - Тот, Кто отправил Своего Посланника с верным руководством и истинной религией, чтобы превознести ее над всеми остальными религиями, даже если это ненавистно многобожникам`,
+        ``,
+        ``
+      ],
+      [
+        `Er ist es, Der Seinen Gesandten mit der Rechtleitung und der Religion der Wahrheit gesandt hat, um ihr die Oberhand über alle Religion zu geben', auch wenn es den Götzendienern zuwider ist`,
+        ``,
+        ``
+      ],
+      [
+        `Det är Han som har sänt Sitt Sändebud med vägledningen och [för att förkunna] den sanna tron som skall föras till seger över all [annan form av] gudstro, hur förhatligt detta än kan vara för dem som sätter medhälpare vid Guds sida`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij is het Die Zijn Boodschapper heeft gezonden met de leiding en de ware godsdienst, om deze te doen zegevieren over alle godsdiensten, ook al hebben de veelgodenaanbidders er een afkeer van`,
+        ``,
+        ``
+      ],
+      [
+        `وہی تو ہے جس نے اپنے پیغمبر کو ہدایت اور دین حق دے کر بھیجا تاکہ اس (دین) کو (دنیا کے) تمام دینوں پر غالب کرے۔ اگرچہ کافر ناخوش ہی ہوں`,
+        ``,
+        ``
+      ],
+      [
+        `Dialah yang telah mengutus Rasul-Nya dengan petunjuk (Alquran) dan agama yang benar untuk diunggulkan atas segala agama, walaupun orang-orang musyrik tidak menyukai`,
+        ``,
+        ``
+      ],
+      [
+        `Puta tapanlar hoşlanmasa da, dinini bütün dinlerden üstün kılmak üzere, Peygamberini doğru yol ve hak dinle gönderen Allah'tır`,
+        ``,
+        ``
+      ],
+      [
+        `او كسى است كه پيامبرش را با هدايت و دين درست، فرستاد تا آن را بر هر چه دين است پيروز گرداند، هر چند مشركان خوش نداشته باشند`,
+        ``,
+        ``
+      ],
+      [
+        `তিনিই প্রেরণ করেছেন আপন রসূলকে হেদায়েত ও সত্য দ্বীন সহকারে, যেন এ দ্বীনকে অপরাপর দ্বীনের উপর জয়যুক্ত করেন, যদিও মুশরিকরা তা অপ্রীতিকর মনে করে।`,
+        ``,
+        ``
+      ],
+      [
+        `Ele é Quem enviou Seu Mensageiro, com a Orientação e a religião da Verdade, para fazê-la prevalecer sobre todas as religiões, ainda que o odeiem os idólatras`,
+        ``,
+        ``
+      ],
+      [
+        `他曾以正道和真教的使命委托他的使者，以便他使真教胜过一切宗教，即使以物配主者不愿意。`,
+        ``,
+        ``
+      ],
+      [
+        `かれこそは，導きと真理の教えをもって使徒を遣し，仮令多神教徒たちが忌み嫌おうとも， 凡ての宗教の上にそれを表わされる方である。`,
+        ``,
+        ``
+      ],
+      [
+        `그분이 복음과 진리의 종교 를 선지자에게 보내어 그것을 모 든 종교 위에 있도록 하시었으니 불신자들이 또한 증오하더라`,
+        ``,
+        ``
+      ],
+      [
+        `Egli è Colui Che ha inviato il Suo Messaggero con la guida e la Religione della verità, onde farla prevalere su ogni altra religione, anche se ciò dispiace agli associatori`,
+        ``,
+        ``
+      ],
+      [
+        `On jest Tym, który wysłał Swojego Posłańca z drogą prostą i religią prawdy, aby uczynić ją widoczną ponad wszelką religię, chociażby bałwochwalcy czuli do tego wstręt`,
+        ``,
+        ``
+      ],
+      [
+        `Він — Той, Хто послав Свого Посланця з прямим шляхом і релігією істини, щоб перевершити нею всі інші релігії, хоч би це й було ненависне для багатобожників`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة التوبة / At-Tawbah، الآية 33`
   },
 
   {
@@ -15153,6 +17601,117 @@ const verses = [
 
   {
     arabic: [
+      `وَمَا كَانَ هَٰذَا الْقُرْآنُ أَنْ يُفْتَرَىٰ مِنْ دُونِ اللَّهِ وَلَٰكِنْ تَصْدِيقَ الَّذِي بَيْنَ يَدَيْهِ وَتَفْصِيلَ الْكِتَابِ لَا رَيْبَ فِيهِ مِنْ رَبِّ الْعَالَمِينَ أَمْ يَقُولُونَ افْتَرَاهُ ۖ قُلْ فَأْتُوا بِسُورَةٍ مِثْلِهِ وَادْعُوا مَنِ اسْتَطَعْتُمْ مِنْ دُونِ اللَّهِ إِنْ كُنْتُمْ صَادِقِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And it was not [possible] for this Qur'an to be produced by other than Allah, but [it is] a confirmation of what was before it and a detailed explanation of the [former] Scripture, about which there is no doubt, from the Lord of the worlds Or do they say [about the Prophet], "He invented it?" Say, "Then bring forth a surah like it and call upon [for assistance] whomever you can besides Allah, if you should be truthful`,
+        ``,
+        ``
+      ],
+      [
+        `Ce Coran n'est nullement à être forgé en dehors d'Allah mais c'est la confirmation de ce qui existait déjà avant lui, et l'exposé détaillé du Livre en quoi il n'y a pas de doute, venu du Seigneur de l'Univers Ou bien ils disent: "Il (Mohammed) l'a inventé ?" Dis : "Composez donc une sourate semblable à ceci, et appelez à votre aide n'importe qui vous pourrez, en dehors Allah, si vous êtes véridiques`,
+        ``,
+        ``
+      ],
+      [
+        `Este Corán no puede haberlo inventado nadie fuera de Alá. No sólo eso, sino que viene a confirmar los mensajes anteriores y a explicar detalladamente la Escritura , exenta de dudas, que procede del Señor del universo O dicen: «Él lo ha inventado». Di: «Si es verdad lo que decís, ¡traed una sura semejante y llamad a quien podáis, en lugar de llamar a Alá!»`,
+        ``,
+        ``
+      ],
+      [
+        `Этот Коран не может быть сочинением кого-либо, кроме Аллаха. Он является подтверждением того, что было до него, и разъяснением Писания от Господа миров, в котором нет сомнения Или же они говорят: «Он выдумал его». Скажи: «Сочините хотя бы одну суру, подобную этим, и призовите, кого сможете, кроме Аллаха, если вы говорите правду»`,
+        ``,
+        ``
+      ],
+      [
+        `Dieser Qur'an kann unmöglich ohne Allah ersonnen werden. Sondern (er ist) die Bestätigung dessen, was vor ihm war, und die ausführliche Darlegung des Buches, an dem es keinen Zweifel gibt, vom Herrn der Weltenbewohner Oder sagen sie: "Er hat ihn ersonnen" Sag: Dann bringt eine Sura bei, die ihm gleich ist, und ruft an, wen ihr könnt, anstatt Allahs, wenn ihr wahrhaftig seid`,
+        ``,
+        ``
+      ],
+      [
+        `Denna Koran kan inte ha ställts samman utan Guds medverkan; nej, [den har uppenbarats] för att bekräfta vad som ännu består [av äldre tiders uppenbarelser], och för att ge en fast och klar form åt Guds lag, [uppenbarad] - ingen skall tvivla på detta - av världarnas Herre Och ändå säger de: "[Muhammad] har författat den." Säg: "Lägg då fram en med denna jämförbar sura och kalla [till er hjälp] dem som ni kan [kalla], andra än Gud, [för att intyga att] ni talar sanning`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En het is omnogelijk dat deze Koran is gemaakt door iemand anders dan Allah, maar (hij is er) als bevestiging van wat ervoor was en als uitleg van de Schrift. Daaraan is geen twijfel, (hij komt) van de Heer der Werelden Of zeggen zij: "Hij (Moehammed) heeft hem verzonnen." Zeg: "Komt dan met een hoofdstuk dat daaraan gelijkwaardig is en roept aan wie jullie kunnen, buiten Allah, als jullie waarachtigen zijn`,
+        ``,
+        ``
+      ],
+      [
+        `اور یہ قرآن ایسا نہیں کہ خدا کے سوا کوئی اس کو اپنی طرف سے بنا لائے۔ ہاں (ہاں یہ خدا کا کلام ہے) جو (کتابیں) اس سے پہلے (کی) ہیں۔ ان کی تصدیق کرتا ہے اور ان ہی کتابوں کی (اس میں) تفصیل ہے اس میں کچھ شک نہیں (کہ) یہ رب العالمین کی طرف سے (نازل ہوا) ہے کیا یہ لوگ کہتے ہیں کہ پیغمبر نے اس کو اپنی طرف سے بنا لیا ہے کہہ دو کہ اگر سچے ہو تو تم بھی اس طرح کی ایک سورت بنا لاؤ اور خدا کے سوا جن کو تم بلا سکو بلا بھی لو`,
+        ``,
+        ``
+      ],
+      [
+        `Dan tidak mungkin Alquran ini dibuat-buat oleh selain Allah; tetapi (Alquran) membenarkan (kitab-kitab) yang sebelumnya dan menjelaskan hukum-hukum yang telah ditetapkannya,388) tidak ada keraguan di dalamnya, (diturunkan) dari Tuhan seluruh alam Apakah pantas mereka mengatakan dia (Muhammad) yang telah membuat-buatnya? Katakanlah, "Buatlah satu surah yang semisal dengan surah (Alquran), dan ajaklah siapa saja diantara kamu orang yang mampu (membuatnya) selain Allah, jika kamu orang-orang yang benar`,
+        ``,
+        ``
+      ],
+      [
+        `Bu Kuran, Allah'tandır, başkası tarafından uydurulmuş değildir. Ancak kendinden öncekini doğrular ve O Kitap'ı açıklar. Alemlerin Rabbinden geldiğinden şüphe yoktur Senin için, "Onu uydurdu mu?" diyorlar. De ki: "Onun surelerine benzer bir sure meydana getirin, iddianızda samimi iseniz, Allah'tan başka çağırabileceklerinizi de çağırın`,
+        ``,
+        ``
+      ],
+      [
+        `و چنان نيست كه اين قرآن از جانب غير خدا [و] به دروغ ساخته شده باشد. بلكه تصديق [كننده‌] آنچه پيش از آن است مى‌باشد، و توضيحى از آن كتاب است، كه در آن ترديدى نيست، [و] از پروردگار جهانيان است يا مى‌گويند: «آن را به دروغ ساخته است؟» بگو: «اگر راست مى‌گوييد، سوره‌اى مانند آن بياوريد، و هر كه را جز خدا مى‌توانيد، فرا خوانيد.»`,
+        ``,
+        ``
+      ],
+      [
+        `আর কোরআন সে জিনিস নয় যে, আল্লাহ ব্যতীত কেউ তা বানিয়ে নেবে। অবশ্য এটি পূর্ববর্তী কালামের সত্যায়ন করে এবং সে সমস্ত বিষয়ের বিশ্লেষণ দান করে যা তোমার প্রতি দেয়া হয়েছে, যাতে কোন সন্দেহ নেই-তোমার বিশ্বপালনকর্তার পক্ষ থেকে। মানুষ কি বলে যে, এটি বানিয়ে এনেছ? বলে দাও, তোমরা নিয়ে এসো একটিই সূরা, আর ডেকে নাও, যাদেরকে নিতে সক্ষম হও আল্লাহ ব্যতীত, যদি তোমরা সত্যবাদী হয়ে থাক।`,
+        ``,
+        ``
+      ],
+      [
+        `E não é admissível que este Alcorão seja forjado por fora de Allah, mas é a confirmação do que havia antes dele e aclaração do Livro indubitável, do Senhor dos mundos Ou eles dizem: "Ele o forjou?" Dize: "Então, fazei vir uma sura igual à dele e, para isso, convocai quem puderdes, afora Allah, se sois verídicos`,
+        ``,
+        ``
+      ],
+      [
+        `这部《古兰经》不是可以舍真主而伪造的，却是真主降示来证实以前的天经，并详述真主所制定的律例的。其中毫无疑义，乃是从全世界的主所降示的。 难道他们说他伪造经典吗？你说：你们就试拟作一章吧！如果你们是诚实的，你们就应当舍真主而吁请你们所能吁请的人。`,
+        ``,
+        ``
+      ],
+      [
+        `このクルアーンは，アッラー以外のものによって作られるようなものではない。それどころかこれは，それ以前にあったものの確証（の啓示）であり，万有の主からの，疑いの余地を残さない，啓典の解明である。 またかれらは言うのである。「かれ（ムハンマド）がそれを作ったのですか。」言ってやるがいい。「それなら，それに似た1章〔スーラ〕を持ってきなさい。またあなたがたの言葉が真実ならば，アッラー以外にあなたがたを助けることの出来る援助者に願ってみなさい。」`,
+        ``,
+        ``
+      ],
+      [
+        `이 꾸란은 하나닙이 아닌 다 른 것으로 인하여 있을 수 없으며 이전에 계시된 것을 확증하고 그 성서의 말씀을 설명하기 위해 계 시되었으니 이는 만유의 주님으로 부터 온 것이 틀림없노라 그가 그것을 위조하였다 말 하더뇨 일러가로되 너희가 진정 진실한 자들이라면 그와 같은 말 씀을 가져오라 하고 너희의 힘을 다하여 하나님 외에 구원을 하여 보라`,
+        ``,
+        ``
+      ],
+      [
+        `Questo Corano non può essere forgiato da altri che Allah! Ed anzi è la conferma di ciò che lo precede, una spiegazione dettagliata del Libro del Signore dei mondi, a proposito del quale non esiste dubbio alcuno Oppure diranno: “È lui che lo ha inventato”. Di': “Portate una sura simile a questa e chiamate [a collaborare] chi potrete all'infuori di Allah, se siete veritieri”`,
+        ``,
+        ``
+      ],
+      [
+        `Ten Koran nie mógł być wymyślony poza Bogiem! On jest potwierdzeniem prawdziwości tego, co było przed nim, i wyjaśnieniem Księgi - co do której nie ma żadnej wątpliwości - pochodzącej od Pana światów Oni, być może, powiedzą: "Wymyślił go!" Powiedz: "Przynieście więc surę podobną do niego i wzywajcie, kogo możecie, poza Bogiem, jeśli jesteście prawdomówni`,
+        ``,
+        ``
+      ],
+      [
+        `Цей Коран не вигадка когось замість Аллага, але підтвердження того, що було перед ним, і пояснення Писання від Господа світів, в якому немає сумніву Ось вони говорять: «Він його вигадав!» Скажи: «Принесіть суру, подібну до цих, і покличте, кого зможете, замість Аллага, якщо ви правдиві`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يونس / Yunus، الآيتان 37-38`
+  },
+
+  {
+    arabic: [
       `يَا أَيُّهَا النَّاسُ قَدْ جَاءَتْكُم مَوْعِظَةٌ مِّن رَّبِّكُمْ`,
       `وَشِفَاءٌ لِمَا فِي الصُّدُورِ`,
       `وَهُدًى وَرَحْمَةٌ لِّلْمُؤْمِنِينَ`
@@ -16152,6 +18711,117 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّا أَنْزَلْنَاهُ قُرْآنًا عَرَبِيًّا لَعَلَّكُمْ تَعْقِلُونَ نَحْنُ نَقُصُّ عَلَيْكَ أَحْسَنَ الْقَصَصِ بِمَا أَوْحَيْنَا إِلَيْكَ هَٰذَا الْقُرْآنَ وَإِنْ كُنْتَ مِنْ قَبْلِهِ لَمِنَ الْغَافِلِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, We have sent it down as an Arabic Qur'an that you might understand We relate to you, [O Muhammad], the best of stories in what We have revealed to you of this Qur'an although you were, before it, among the unaware`,
+        ``,
+        ``
+      ],
+      [
+        `Nous l'avons fait descendre, un Coran en [langue] arabe, afin que vous raisonniez Nous te racontons le meilleur récit, grâce à la révélation que Nous te faisons dans le Coran même si tu étais auparavant du nombre des inattentifs (à ces récits)`,
+        ``,
+        ``
+      ],
+      [
+        `La hemos revelado como Corán árabe. Quizás, así razonéis Con la revelación que te hacemos de este Corán vamos a contarte Nosotros el más bello de los relatos, aunque hayas sido antes de los despreocupados`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, Мы ниспослали его в виде Корана на арабском языке, чтобы вы могли понять его Мы рассказываем тебе самый прекрасный рассказ, внушая тебе в откровении этот Коран, хотя прежде ты был одним из тех, кто ничего не ведал об этом`,
+        ``,
+        ``
+      ],
+      [
+        `Wir haben es als einen arabischen Qur'an hinabgesandt, auf daß ihr begreifen möget Wir berichten dir die schönsten Geschichten dadurch, daß Wir dir diesen Qur'an (als Offenbarung) eingegeben haben, obgleich du zuvor wahrlich zu den Unachtsamen gehörtest`,
+        ``,
+        ``
+      ],
+      [
+        `Vi har uppenbarat den som en förkunnelse på det arabiska språket, för att ni med ert förstånd till fullo skall kunna tillägna er [dess budskap] Allteftersom Vi uppenbarar denna Koran för dig [Muhammad], klarlägger Vi för dig [dess mening] på bästa sätt; förut var du ju en av dem som inte kände till något om [denna berättelse]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, Wij hebben hem neergezonden, een Arabische Koran. Hopelijk zuilen jullie begrijpen Wij vertellen jou het beste verhaal doordat Wij aan jou deze Koran openbaarden, hoewel jij daarvoor tot de onwetenden behoorde`,
+        ``,
+        ``
+      ],
+      [
+        `ہم نے اس قرآن کو عربی میں نازل کیا ہے تاکہ تم سمجھ سکو (اے پیغمبر) ہم اس قرآن کے ذریعے سے جو ہم نے تمہاری طرف بھیجا ہے تمہیں ایک نہایت اچھا قصہ سناتے ہیں اور تم اس سے پہلے بےخبر تھے`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya Kami menurunkannya berupa Quran berbahasa Arab, agar kamu mengerti Kami menceritakan kepadamu (Muhammad) kisah yang paling baik dengan mewahyukan Alquran ini kepadamu, dan sesungguhnya engkau sebelum itu termasuk orang yang tidak mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Biz onu, anlayasınız diye, Arapça bir Kuran olarak indirdik Biz bu Kuran'ı vahyederek, sana en güzel kıssaları anlatıyoruz.. Oysa daha önce sen bunlardan habersizdin`,
+        ``,
+        ``
+      ],
+      [
+        `ما آن را قرآنى عربى نازل كرديم، باشد كه بينديشيد ما نيكوترين سرگذشت را به موجب اين قرآن كه به تو وحى كرديم، بر تو حكايت مى‌كنيم، و تو قطعاً پيش از آن از بى‌خبران بودى`,
+        ``,
+        ``
+      ],
+      [
+        `আমি একে আরবী ভাষায় কোরআন রূপে অবতীর্ণ করেছি, যাতে তোমরা বুঝতে পার। আমি তোমার নিকট উত্তম কাহিনী বর্ণনা করেছি, যেমতে আমি এ কোরআন তোমার নিকট অবতীর্ণ করেছি। তুমি এর আগে অবশ্যই এ ব্যাপারে অনবহিতদের অন্তর্ভূক্ত ছিলে।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, fizemo-lo descer em Alcorão árabe, para razoardes Nós te narramos, Muhammad, a mais bela das narrativas, com o te revelarmos este Alcorão e, em verdade, antes dele eras dos desatentos`,
+        ``,
+        ``
+      ],
+      [
+        `我确已把它降示成阿拉伯文的《古兰经》，以便你们了解。 我借著启示你这部《古兰经》而告诉你最美的故事，在这以前，你确是疏忽的。`,
+        ``,
+        ``
+      ],
+      [
+        `われは，アラビア語のクルアーンを下した。恐らくあなたがたは悟るであろう。 われはこのクルアーンをあなたに啓示し，物語の中の最も美しいものを語ろう。あなたもこれまで気付かずにいたものである。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 꾸란을 아랍어로 계시하사 너희는 깨달을 것이라 하나님이 그대에게 가장 아름다운 얘기를 전하니 이는 그대에 게 꾸란을 계시함이라 실로 그대 도 이전에 알지 못한자 가운데 있었노라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità lo abbiamo fatto scendere come Corano arabo, affinché possiate comprendere Grazie a ciò che ti ispiriamo in questo Corano, Noi ti raccontiamo la più bella storia, anche se precedentemente non ne eri a conoscenza`,
+        ``,
+        ``
+      ],
+      [
+        `My zesłaliśmy ją w postaci Koranu arabskiego - być może, potraficie zrozumieć Przez objawienie tobie tego Koranu My przekażemy ci najpiękniejsze opowiadanie, chociaż byłeś wśród niedbałych`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, Ми зіслали його як арабський Коран — можливо, ви зрозумієте Ми розповідаємо тобі найкращу з розповідей, відкриваючи в одкровенні цей Коран, хоч раніше ти про це нічого не знав`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يوسف / Yusuf، الآيتان 2-3`
+  },
+
+  {
+    arabic: [
       `يَا صَاحِبَيِ السِّجْنِ أَأَرْبَابٌ مُتَفَرِّقُونَ خَيْرٌ أَمِ اللَّهُ الْوَاحِدُ الْقَهَّارُ مَا تَعْبُدُونَ مِنْ دُونِهِ إِلَّا أَسْمَاءً سَمَّيْتُمُوهَا أَنْتُمْ وَآبَاؤُكُمْ مَا أَنْزَلَ اللَّهُ بِهَا مِنْ سُلْطَانٍ ۚ إِنِ الْحُكْمُ إِلَّا لِلَّهِ ۚ أَمَرَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ ۚ ذَٰلِكَ الدِّينُ الْقَيِّمُ وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يَعْلَمُونَ`,
       ``,
       ``
@@ -16259,6 +18929,117 @@ const verses = [
       ]
     ],
     number: `سورة يوسف / Yusuf، الآيتان 39-40`
+  },
+
+  {
+    arabic: [
+      `يَا بَنِيَّ اذْهَبُوا فَتَحَسَّسُوا مِنْ يُوسُفَ وَأَخِيهِ وَلَا تَيْأَسُوا مِنْ رَوْحِ اللَّهِ ۖ إِنَّهُ لَا يَيْأَسُ مِنْ رَوْحِ اللَّهِ إِلَّا الْقَوْمُ الْكَافِرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O my sons, go and find out about Joseph and his brother and despair not of relief from Allah. Indeed, no one despairs of relief from Allah except the disbelieving people`,
+        ``,
+        ``
+      ],
+      [
+        `Ô mes fils ! Partez et enquérez-vous de Joseph et de son frère ! Et ne désespérez pas de la miséricorde d'Allah. Ce sont seulement les gens mécréants qui désespèrent de la miséricorde d'Allah.”`,
+        ``,
+        ``
+      ],
+      [
+        `¡Hijos míos! ¡Id e indagad acerca de José y de su hermano y no desesperéis de la misericordia de Alá, porque sólo el pueblo infiel desespera de la misericordia de Alá!»`,
+        ``,
+        ``
+      ],
+      [
+        `О сыновья мои! Ступайте и разыщите Йусуфа (Иосифа) и его брата и не теряйте надежды на милость Аллаха, ибо отчаиваются в милости Аллаха только люди неверующие»`,
+        ``,
+        ``
+      ],
+      [
+        `O meine Kinder, geht und erkundigt euch über Yusuf und seinen Bruder. Und gebt nicht die Hoffnung auf das Erbarmen Allahs auf. Es gibt die Hoffnung auf das Erbarmen Allahs nur das ungläubige Volk auf`,
+        ``,
+        ``
+      ],
+      [
+        `Bege er [nu] i väg, mina söner, för att forska efter Josefs och hans broders öden - och ge aldrig upp hoppet om Guds nåd som stillar all oro och lindrar all sorg. Ingen utom den som förnekar sanningen ger upp hoppet om att få erfara den tröst som Guds nåd skänker`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O mijn zonen, gaat heen om nieuws in te winnen over Yôesoef en zijn broeder en wanhoopt niet aan de Genade van Allah. Voorwaar, niemand wanhoopt aan de Genade van Allah, behalve het ongelovige volk`,
+        ``,
+        ``
+      ],
+      [
+        `بیٹا (یوں کرو کہ ایک دفعہ پھر) جاؤ اور یوسف اور اس کے بھائی کو تلاش کرو اور خدا کی رحمت سے ناامید نہ ہو۔ کہ خدا کی رحمت سے بےایمان لوگ ناامید ہوا کرتے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai anak-anakku! Pergilah kamu, carilah (berita) tentang Yusuf dan saudaranya dan jangan kamu berputus asa dari rahmat Allah. Sesungguhnya yang berputus asa dari rahmat Allah, hanyalah orang-orang yang kafir`,
+        ``,
+        ``
+      ],
+      [
+        `Ey Oğullarım! Gidin, Yusuf'u ve kardeşini arayın. Allah'ın rahmetinden ümidinizi kesmeyin; doğrusu kafirlerden başkası Allah'ın rahmetinden ümidini kesmez`,
+        ``,
+        ``
+      ],
+      [
+        `اى پسران من، برويد و از يوسف و برادرش جستجو كنيد و از رحمت خدا نوميد مباشيد، زيرا جز گروه كافران كسى از رحمت خدا نوميد نمى‌شود.»`,
+        ``,
+        ``
+      ],
+      [
+        `বৎসগণ! যাও, ইউসুফ ও তার ভাইকে তালাশ কর এবং আল্লাহর রহমত থেকে নিরাশ হয়ো না। নিশ্চয় আল্লাহর রহমত থেকে কাফের সম্প্রদায়, ব্যতীত অন্য কেউ নিরাশ হয় না।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó meus filhos! Ide e procurai notícias de José e seu irmão, e não vos desespereis da misericórdia de Allah. Por certo, não se desespera da misericórdia de Allah senão o povo renegador da Fé`,
+        ``,
+        ``
+      ],
+      [
+        `他说：我的孩子们！你们去打听优素福和他弟弟的消息吧。你们不要绝望于真主的慈恩，只有不信道的人们才绝望于真主的慈恩。`,
+        ``,
+        ``
+      ],
+      [
+        `息子たちよ，あなたがたは出掛けてユースフとその弟の消息を尋ねなさい。アッラーの情け深い御恵みに決して絶望してはならない。不信心な者の外は，アッラーの情け深い御恵みに絶望しない。」`,
+        ``,
+        ``
+      ],
+      [
+        `아들들아 가서 요셉과 그의 동생 벤자민에 관해 알아보라 그 리고 하나님의 기대를 포기하지 말라 실로 어느 누구도 하나님의 은혜를 실망치 아니 하나니 볼신 하는 백성들은 그렇지 아니 하니 라`,
+        ``,
+        ``
+      ],
+      [
+        `Andate figli miei, cercate Giuseppe e suo fratello e non disperate del soccorso di Allah, ché solo i miscredenti disperano del soccorso di Allah”`,
+        ``,
+        ``
+      ],
+      [
+        `O synowie moi! Idźcie i dowiadujcie się o Józefa i jego brata! Nie powątpiewajcie w dobroć Boga! Zaprawdę w dobroć Boga powątpiewa tylko lud niewiernych`,
+        ``,
+        ``
+      ],
+      [
+        `О сини мої! Йдіть і відшукайте Юсуфа та його брата. Не втрачайте надії на милість Аллага. Воістину, втрачають надію на милість Аллага тільки невіруючі люди`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يوسف / Yusuf، الآية 87`
   },
 
   {
@@ -17480,6 +20261,228 @@ const verses = [
       ]
     ],
     number: `سورة الحجر / Al-Hijr، الآيات 19-22`
+  },
+
+  {
+    arabic: [
+      `۞ نَبِّئْ عِبَادِي أَنِّي أَنَا الْغَفُورُ الرَّحِيمُ وَأَنَّ عَذَابِي هُوَ الْعَذَابُ الْأَلِيمُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `[O Muhammad], inform My servants that it is I who am the Forgiving, the Merciful And that it is My punishment which is the painful punishment`,
+        ``,
+        ``
+      ],
+      [
+        `Informe Mes serviteurs que c'est Moi le Pardonneur, le Très Miséricordieux et que Mon châtiment est certes le châtiment douloureux`,
+        ``,
+        ``
+      ],
+      [
+        `Informa a Mis siervos de que Yo soy el Indulgente, el Misericordioso pero que Mi castigo es el castigo doloroso`,
+        ``,
+        ``
+      ],
+      [
+        `Сообщи Моим рабам, что Я - Прощающий, Милосердный но наказание Мое - наказание мучительное`,
+        ``,
+        ``
+      ],
+      [
+        `Tue Meinen Dienern kund, daß Ich es bin, der Allvergebend und Barmherzig ist und daß Meine Strafe die schmerzhafte Strafe ist`,
+        ``,
+        ``
+      ],
+      [
+        `Säg till Mina tjänare att Jag sannerligen är Den som ständigt förlåter, Den som ständigt visar barmhärtighet men Mitt straff [när det drabbar, innebär] det svåraste lidande`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Bericht mijn dienaren (O Moehammad:) "Voorwaar, ik ben de Vergevensgezinde, de meest Barmhartige En dat Mijn bestraffing een pijnlijke bestraffing is`,
+        ``,
+        ``
+      ],
+      [
+        `(اے پیغمبر) میرے بندوں کو بتادو کہ میں بڑا بخشنے والا (اور) مہربان ہوں اور یہ کہ میرا عذاب بھی درد دینے والا عذاب ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Kabarkanlah kepada hamba-hamba-Ku, bahwa Akulah Yang Maha Pengampun, Maha Penyayang dan sesungguhnya azab-Ku adalah azab yang sangat pedih`,
+        ``,
+        ``
+      ],
+      [
+        `Kullarıma Benim bağışlayan, merhamet eden olduğumu, azabımın can yakıcı bir azap olduğunu haber ver`,
+        ``,
+        ``
+      ],
+      [
+        `به بندگان من خبر ده كه منم آمرزنده مهربان و اينكه عذاب من، عذابى است دردناك`,
+        ``,
+        ``
+      ],
+      [
+        `আপনি আমার বান্দাদেরকে জানিয়ে দিন যে, আমি অত্যন্ত ক্ষমাশীল দয়ালু। এবং ইহাও যে, আমার শাস্তিই যন্ত্রনাদায়ক শাস্তি।`,
+        ``,
+        ``
+      ],
+      [
+        `Informa Meus servos, Muhammad, de que sou O Perdoador, O Misericordiador E de que Meu castigo é o doloroso castigo`,
+        ``,
+        ``
+      ],
+      [
+        `你告诉我的仆人们，我确是至赦的，至慈的； 我的刑罚确是痛苦的。`,
+        ``,
+        ``
+      ],
+      [
+        `われのしもべたちに，「われは本当に，寛容で慈悲深い者であり， われの懲罰は，本当に痛苦な懲罰である。」と告げ知らせなさい。`,
+        ``,
+        ``
+      ],
+      [
+        `나의 중복에게 일러가로되 실로 내가 관용과 은혜로 충만함 이라 그러나 나의 벌은 고통스러 운 벌이라`,
+        ``,
+        ``
+      ],
+      [
+        `[O Muhammad], annuncia ai Miei servi che, in verità, Io sono il Perdonatore, il Misericordioso e che il Mio castigo è davvero un castigo doloroso`,
+        ``,
+        ``
+      ],
+      [
+        `Obwieść Moim sługom, iż Ja jestem Przebaczający, Litościwy Zaprawdę, Moja kara jest karą bolesną`,
+        ``,
+        ``
+      ],
+      [
+        `Сповісти Моїх рабів про те, що Я — Прощаючий, Милосердний І що кара Моя — кара болісна`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الحجر / Al-Hijr، الآيتان 49-50`
+  },
+
+  {
+    arabic: [
+      `قَالَ وَمَنْ يَقْنَطُ مِنْ رَحْمَةِ رَبِّهِ إِلَّا الضَّالُّونَ قَالَ فَمَا خَطْبُكُمْ أَيُّهَا الْمُرْسَلُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `He said, "And who despairs of the mercy of his Lord except for those astray [Abraham] said, "Then what is your business [here], O messengers`,
+        ``,
+        ``
+      ],
+      [
+        `Il dit : "Et qui désespère de la miséricorde de son Seigneur, sinon les égarés Et il [leur] dit : "Que voulez-vous, ô envoyés d'Allah`,
+        ``,
+        ``
+      ],
+      [
+        `Dijo: «Y quién podría desesperar de la misericordia de su Señor, sino los extraviados!?» Dijo: «¿Qué es lo que os trae, ¡enviados!?»`,
+        ``,
+        ``
+      ],
+      [
+        `Он сказал: «Кто же отчаивается в милости своего Господа, кроме заблудших?!» Он сказал: «Какова же ваша миссия, о посланцы?»`,
+        ``,
+        ``
+      ],
+      [
+        `Er sagte: "Wer verliert die Hoffnung auf die Barmherzigkeit seines Herrn außer den Irregehenden Er sagte: "Was ist nun euer Auftrag, ihr Boten`,
+        ``,
+        ``
+      ],
+      [
+        `[Abraham] sade: "Vem - utom den som helt har gått vilse - ger upp hoppet om sin Herres nåd [Och] han fortsatte: "Vilka [andra] ärenden för er hit, ärade budbärare`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij (Ibrâhîm) zei: "Niemand wanhoopt aan de Barmhartigheid van zijn Heer dan de dwalenden Hij (Ibrâhîm) zei: "Wat is jullie zaak, O, gezanten`,
+        ``,
+        ``
+      ],
+      [
+        `(ابراہیم نے) کہا کہ خدا کی رحمت سے (میں مایوس کیوں ہونے لگا اس سے) مایوس ہونا گمراہوں کا کام ہے پھر کہنے لگے کہ فرشتو! تمہیں (اور) کیا کام ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dia (Ibrahim) berkata, "Tidak ada yang berputus asa dari rahmat Tuhannya, kecuali orang yang sesat Dia (Ibrahim) berkata, "Apakah perkara pentingmu, wahai para utusan`,
+        ``,
+        ``
+      ],
+      [
+        `Zaten sapıklardan başka kim Rabbinin rahmetinden umudunu keser!" diyerek sormuştu: "Ey elçiler! İşiniz nedir`,
+        ``,
+        ``
+      ],
+      [
+        `گفت: «چه كسى -جز گمراهان- از رحمت پروردگارش نوميد مى‌شود؟» [سپس‌] گفت: «اى فرشتگان، [ديگر] كارتان چيست؟»`,
+        ``,
+        ``
+      ],
+      [
+        `তিনি বললেনঃ পালনকর্তার রহমত থেকে পথভ্রষ্টরা ছাড়া কে নিরাশ হয় তিনি বললেনঃ অতঃপর তোমাদের প্রধান উদ্দেশ্য কি হে আল্লাহর প্রেরিতগণ`,
+        ``,
+        ``
+      ],
+      [
+        `Disse: ""E quem pode desesperar-se da misericórdia Disse ainda: "Qual é vosso intuito, ó Mensageiros`,
+        ``,
+        ``
+      ],
+      [
+        `他说：除迷误者外，谁会绝望于真主的恩惠呢？ 他说：使者们啊！你们有什么差事呢？`,
+        ``,
+        ``
+      ],
+      [
+        `かれは（答えて）言った。「迷った者の外は，誰が主の御慈悲に絶望しましょうか。」 かれは（また）言った。「（主の）使徒の方がたよ，あなたがた（が来られたところ）の用件は，何でしょうか。」`,
+        ``,
+        ``
+      ],
+      [
+        `아브라함이 대답하더라 방황하는자 외에는 누가 주님의 은혜 를 실망시키리요 천사들이여 당신들의 사명이무엇이뇨 라고 물으니`,
+        ``,
+        ``
+      ],
+      [
+        `Disse: “Chi mai dispera della misericordia del suo Signore, se non gli sviati?” Disse [ancora]: “Qual è la vostra missione, o inviati?”`,
+        ``,
+        ``
+      ],
+      [
+        `Powiedział: "A kto wątpi w miłosierdzie swego Pana oprócz tych, którzy zabłądzili Powiedział: "A jaka jest wasza sprawa, o posłańcy`,
+        ``,
+        ``
+      ],
+      [
+        `Він відповів: «Хто ж розчаровується в милості свого Господа, крім тих, що перебувають в омані І сказав: «Чого ж ви хочете, посланці`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الحجر / Al-Hijr، الآيتان 56-57`
   },
 
   {
@@ -18927,6 +21930,117 @@ const verses = [
 
   {
     arabic: [
+      `وَلَا تَقْرَبُوا مَالَ الْيَتِيمِ إِلَّا بِالَّتِي هِيَ أَحْسَنُ حَتَّىٰ يَبْلُغَ أَشُدَّهُ ۚ وَأَوْفُوا بِالْعَهْدِ ۖ إِنَّ الْعَهْدَ كَانَ مَسْئُولًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And do not approach the property of an orphan, except in the way that is best, until he reaches maturity. And fulfill [every] commitment. Indeed, the commitment is ever [that about which one will be] questioned`,
+        ``,
+        ``
+      ],
+      [
+        `Et n'approchez les biens de l'orphelin que de la meilleure façon, jusqu'à ce qu'il atteigne sa majorité. Et remplissez l'engagement, car on sera interrogé au sujet des engagements`,
+        ``,
+        ``
+      ],
+      [
+        `No toquéis la hacienda del huérfano sino de manera conveniente hasta que alcance la madurez. ¡Cumplid todo compromiso, porque se pedirá cuenta de él`,
+        ``,
+        ``
+      ],
+      [
+        `Не приближайтесь к имуществу сироты, кроме как во благо ему, пока он не достигнет совершеннолетия. И будьте верны своим обещаниям, ибо за обещания вас призовут к ответу`,
+        ``,
+        ``
+      ],
+      [
+        `Und nähert euch nicht dem Besitz des Waisenkindes, außer auf die beste Art, bis es seine Vollreife erlangt hat. Und erfüllt die (eingegangene) Verpflichtung. Gewiß, nach der (Erfüllung der) Verpflichtung wird gefragt werden`,
+        ``,
+        ``
+      ],
+      [
+        `Rör inte den faderlöses egendom - annat än för att föröka den - innan han nått myndig ålder. Och håll vad ni lovar; ni kommer att ställas till svars för [era] löften`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En benadert niet het bezit van de wees, behalve op de betere manier, totdat bij volwassen is: en komt de belofte na. Voorwaar, over de belofte worden jullie (op de Dag der Opstanding) ondervraagd`,
+        ``,
+        ``
+      ],
+      [
+        `اور یتیم کے مال کے پاس بھی نہ پھٹکنا مگر ایسے طریق سے کہ بہت بہتر ہو یہاں تک کہ ہو جوانی کو پہنچ جائے۔ اور عہد کو پورا کرو کہ عہد کے بارے میں ضرور پرسش ہوگی`,
+        ``,
+        ``
+      ],
+      [
+        `Dan janganlah kamu mendekati harta anak yatim, kecuali dengan cara yang lebih baik (bermanfaat) sampai dia dewasa, dan penuhilah janji, karena janji itu pasti diminta pertanggungjawabannya`,
+        ``,
+        ``
+      ],
+      [
+        `Yetimin malına ergin çağa ulaşana kadar en güzel şeklin dışında yaklaşmayın. Ahdi de yerine getirin, doğrusu verilen ahidde sorumluluk vardır`,
+        ``,
+        ``
+      ],
+      [
+        `و به مال يتيم -جز به بهترين وجه- نزديك مشويد تا به رشد برسد، و به پيمان [خود] وفا كنيد، زيرا كه از پيمان پرسش خواهد شد`,
+        ``,
+        ``
+      ],
+      [
+        `আর, এতিমের মালের কাছেও যেয়ো না, একমাত্র তার কল্যাণ আকাংখা ছাড়া; সংশ্লিষ্ট ব্যক্তির যৌবনে পদার্পন করা পর্যন্ত এবং অঙ্গীকার পূর্ন কর। নিশ্চয় অঙ্গীকার সম্পর্কে জিজ্ঞাসাবাদ করা হবে।`,
+        ``,
+        ``
+      ],
+      [
+        `E não vos aproximeis das riquezas de órfão, senão da melhor maneira, até que ele atinja sua força plena. E sede fiéis ao pacto firmado. Por certo, o pacto será questionado`,
+        ``,
+        ``
+      ],
+      [
+        `你们不要接近孤儿的财产，除非依照最优良的方式，直到他成年。你们应当履行诺言；诺言确是要被审问的事。`,
+        ``,
+        ``
+      ],
+      [
+        `孤児が力量（ある年齢）に達するまでは，最善（の管理）をなすための外，かれの財産に近付いてはならない。約束を果たしなさい。凡ての約束は，（審判の日）尋問されるのである。`,
+        ``,
+        ``
+      ],
+      [
+        `고아가 성년에 이를 때까지 더 나은 것이 아니거늘 고아의 재산에 가까이 하지 말라 그리고 계약을 이행하라 그 모든 계약에 대하여 질문을 받으리라`,
+        ``,
+        ``
+      ],
+      [
+        `Non toccate i beni dell'orfano se non a suo vantaggio e [solo] fino a quando non raggiunga la maggiore età. Rispettate il patto, ché in verità vi sarà chiesto di darne conto`,
+        ``,
+        ``
+      ],
+      [
+        `Dawajcie pełną miarę, kiedy mierzycie, i ważcie wagą sprawiedliwą! To jest lepsze i piękniejsze w swoim rezultacie`,
+        ``,
+        ``
+      ],
+      [
+        `Не витрачайте майна сироти, хіба що заради його блага, а чекайте на його повноліття. Виконуйте обіцянки, бо вас запитають про обіцяне`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الإسراء / Al-Isra، الآية 34`
+  },
+
+  {
+    arabic: [
       `تُسَبِّحُ لَهُ السَّمَاوَاتُ السَّبْعُ وَالْأَرْضُ وَمَنْ فِيهِنَّ ۚ وَإِنْ مِنْ شَيْءٍ إِلَّا يُسَبِّحُ بِحَمْدِهِ وَلَٰكِنْ لَا تَفْقَهُونَ تَسْبِيحَهُمْ ۗ إِنَّهُ كَانَ حَلِيمًا غَفُورًا`,
       ``,
       ``
@@ -19926,6 +23040,117 @@ const verses = [
 
   {
     arabic: [
+      `قُلْ آمِنُوا بِهِ أَوْ لَا تُؤْمِنُوا ۚ إِنَّ الَّذِينَ أُوتُوا الْعِلْمَ مِنْ قَبْلِهِ إِذَا يُتْلَىٰ عَلَيْهِمْ يَخِرُّونَ لِلْأَذْقَانِ سُجَّدًا وَيَقُولُونَ سُبْحَانَ رَبِّنَا إِنْ كَانَ وَعْدُ رَبِّنَا لَمَفْعُولًا وَيَخِرُّونَ لِلْأَذْقَانِ يَبْكُونَ وَيَزِيدُهُمْ خُشُوعًا ۩`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Say, "Believe in it or do not believe. Indeed, those who were given knowledge before it - when it is recited to them, they fall upon their faces in prostration And they say, "Exalted is our Lord! Indeed, the promise of our Lord has been fulfilled And they fall upon their faces weeping, and the Qur'an increases them in humble submission`,
+        ``,
+        ``
+      ],
+      [
+        `Dis: "Croyez-y ou n'y croyez pas. Ceux à qui la connaissance a été donnée avant cela, lorsqu'on le leur récite, tombent, prosternés, le menton contre la terre et disent : "Gloire à notre Seigneur ! La promesse de notre Seigneur est assurément accomplie Et ils tombent sur leur menton, pleurant, et cela augmente leur humilité`,
+        ``,
+        ``
+      ],
+      [
+        `Di: «Creáis en él o no, quienes han y recibido de antes la Ciencia, cuando les es recitado, caen prosternados, rostro en tierra y dicen: '¡Gloria a nuestro Señor! ¡Se ha cumplido, sí, la promesa de nuestro Señor Y continúan rostro en tierra, llorando y creciendo en humildad»`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи: «Веруйте в него (Коран) или не веруйте! Воистину, когда его читают тем, кому прежде было даровано знание, они падают ниц, касаясь земли своими подбородками Они говорят: «Хвала нашему Господу! Воистину, обещание нашего Господа непременно исполнится» Они падают ниц, касаясь земли подбородками и рыдая. И это приумножает их смирение»`,
+        ``,
+        ``
+      ],
+      [
+        `Sag: Glaubt daran oder glaubt (eben) nicht. Diejenigen, denen vor ihm das Wissen gegeben wurde, fallen, wenn er ihnen verlesen wird, ehrerbietig auf das Kinn nieder und sagen: "Preis sei unserem Herrn! Das Versprechen unseres Herrn ist wahrlich ausgeführt Und sie fallen auf das Kinn weinend nieder, und es mehrt ihnen die Demut`,
+        ``,
+        ``
+      ],
+      [
+        `Säg: "Vare sig ni tror eller inte tror på den, faller de som tidigare fick del av kunskap ned på sina ansikten när den läses för dem och säger: "Stor är vår Herre i Sin härlighet! Vår Herres löfte har uppfyllts Ja, de faller ned på sina ansikten med tårar [i ögonen] och deras ödmjukhet fördjupas`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zeg (O Moehammad): "Gelooft er in of gelooft niet." Voorwaar, degenen aan wie ervóór de kennis gegeven was, vallen op hun gezichten neer, zich neerknielend, wanneer hij hun voorgedragen wordt En zij zeggen: "Heilig is onze Heer, de belofte van onze Heer is zeker vervuld En zij vallen op hun gezichten neer, terwijl zij huilen, en het vermeerdert hun vrees (voor Allah)`,
+        ``,
+        ``
+      ],
+      [
+        `کہہ دو کہ تم اس پر ایمان لاؤ یا نہ لاؤ (یہ فی نفسہ حق ہے) جن لوگوں کو اس سے پہلے علم (کتاب) دیا ہے۔ جب وہ ان کو پڑھ کر سنایا جاتا ہے تو وہ تھوڑیوں کے بل سجدے میں گر پڑتے ہیں اور کہتے ہیں کہ ہمارا پروردگار پاک ہے بےشک ہمارے پروردگار کا وعدہ پورا ہو کر رہا اور وہ تھوڑیوں کے بل گر پڑتے ہیں (اور) روتے جاتے ہیں اور اس سے ان کو اور زیادہ عاجزی پیدا ہوتی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Katakanlah (Muhammad), "Berimanlah kamu kepadanya (Alquran) atau tidak usah beriman (sama saja bagi Allah). Sesungguhnya orang yang telah diberi pengetahuan sebelumnya, apabila (Alquran) dibacakan kepada mereka, mereka menyungkurkan wajah bersujud dan mereka berkata, "Mahasuci Tuhan kami; sungguh, janji Tuhan kami pasti dipenuhi Dan mereka menyungkurkan wajah sambil menangis dan mereka bertambah khusyuk`,
+        ``,
+        ``
+      ],
+      [
+        `De ki: "Kuran'a ister inanın, isten inanmayın, O'ndan önceki bilginlere o okunduğu zaman, yüzleri üzerine secdeye varırlar" ve "Rabbimiz münezzehtir. Rabbimiz'in sözü şüphesiz yerine gelecektir" derler Ağlayarak yüz üstü yere kapanırlar; bu, onların gönüllerindeki saygıyı artırır`,
+        ``,
+        ``
+      ],
+      [
+        `بگو: «[چه‌] به آن ايمان بياوريد يا نياوريد، بى‌گمان كسانى كه پيش از [نزول‌] آن دانش يافته‌اند، چون [اين كتاب‌] بر آنان خوانده شود سجده‌كنان به روى درمى‌افتند.» و مى‌گويند: «منزّه است پروردگار ما، كه وعده پروردگار ما قطعاً انجام‌شدنى است.» و بر روى زمين مى‌افتند و مى‌گريند و بر فروتنى آنها مى‌افزايد`,
+        ``,
+        ``
+      ],
+      [
+        `বলুনঃ তোমরা কোরআনকে মান্য কর অথবা অমান্য কর; যারা এর পূর্ব থেকে এলেম প্রাপ্ত হয়েছে, যখন তাদের কাছে এর তেলাওয়াত করা হয়, তখন তারা নতমস্তকে সেজদায় লুটিয়ে পড়ে। এবং বলেঃ আমাদের পালনকর্তা পবিত্র, মহান। নিঃসন্দেহে আমাদের পালকর্তার ওয়াদা অবশ্যই পূর্ণ হবে। তারা ক্রন্দন করতে করতে নতমস্তকে ভুমিতে লুটিয়ে পড়ে এবং তাদের বিনয়ভাব আরো বৃদ্ধি পায়।`,
+        ``,
+        ``
+      ],
+      [
+        `Dize: "Crede nele; ou, não creais. Por certo, aqueles aos quais fora concedida a ciência, antes dele quando é recitado, para eles, caem de mento, por terra, prosternando-se E dizem: 'Glorificado seja nosso Senhor! Por certo, a promessa de nosso Senhor foi cumprida E caem de mento por terra, chorando, e ele lhes acrescenta humildade`,
+        ``,
+        ``
+      ],
+      [
+        `你说：你们可以信仰它，也可以不信仰它。在降示它之前已获得知识的人们，当听到人们诵读它的时候，他们俯伏叩头。 他们说：赞颂我们的主超绝万物！我们的主的诺言必定要被履行。 他们痛哭著俯伏下去，《古兰经》使他们更恭敬。（此处叩头！）`,
+        ``,
+        ``
+      ],
+      [
+        `言ってやるがいい。「あなたがたがこの（クルアーン）を信じても，また信じなくても，以前に知識を与えられた者たちは，読誦を耳にすると，必ずその顔を伏せてサジダする。 そして（祈って），『わたしたちの主の栄光を讃えます。本当に主の御約束は果たされました。』と言う。」 かれらは涙を流して顔を地に伏せ，謙譲の誠を募らせる。〔サジダ〕`,
+        ``,
+        ``
+      ],
+      [
+        `일러가로되 너희가 그것을 믿던 또는 믿지 아니 하더라도 그 이전에 지식이 있었던 자들은 그 것이 낭송될 때 부복하고 경배하 더라 주여 영광을 받으소서 실로주님의 약속이 완성되리요 그리고 그들은 엎드려 흐느끼니 그들의 겸손함이 더하여 지 더라`,
+        ``,
+        ``
+      ],
+      [
+        `Di': “Crediate in esso oppure no, coloro ai quali in precedenza fu data la Scienza si gettano prosternati, i volti contro la terra, quando viene loro recitato e dicono: "Gloria al nostro Signore! La promessa del nostro Signore si realizza Cadono prosternati sui loro volti, piangendo, e la loro umiltà si accresce”`,
+        ``,
+        ``
+      ],
+      [
+        `Powiedz: "Wierzcie w niego albo też nie wierzcie!" Ci, którym wcześniej została dana wiedza, padają na twarze, wybijając pokłony, kiedy jest im recytowany, wybijając pokłony Oni mówią: "Chwała niech będzie Panu naszemu! Zaprawdę, obietnica naszego Pana zostanie spełniona Oni padają na twarze płacząc, i to powiększa ich pokorę`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи: «Віруєте ви в нього, чи не віруєте — байдуже. Ті, кому було дано знання перед цим, падають, торкаючись підборіддям землі, коли їм його читають Вони кажуть: «Преславний Господь наш, і обіцянку Господа нашого неодмінно буде виконано Вони вклоняються до землі, плачуть і це додає їм смирення`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الإسراء / Al-Isra، الآيات 107-109`
+  },
+
+  {
+    arabic: [
       `قُلِ ادْعُوا اللَّهَ أَوِ ادْعُوا الرَّحْمَٰنَ ۖ أَيًّا مَا تَدْعُوا فَلَهُ الْأَسْمَاءُ الْحُسْنَىٰ ۚ وَلَا تَجْهَرْ بِصَلَاتِكَ وَلَا تُخَافِتْ بِهَا وَابْتَغِ بَيْنَ ذَٰلِكَ سَبِيلًا وَقُلِ الْحَمْدُ لِلَّهِ الَّذِي لَمْ يَتَّخِذْ وَلَدًا وَلَمْ يَكُنْ لَهُ شَرِيكٌ فِي الْمُلْكِ وَلَمْ يَكُنْ لَهُ وَلِيٌّ مِنَ الذُّلِّ ۖ وَكَبِّرْهُ تَكْبِيرًا`,
       ``,
       ``
@@ -20477,6 +23702,117 @@ const verses = [
       ]
     ],
     number: `سورة الكهف / Al-Kahf، الآية 49`
+  },
+
+  {
+    arabic: [
+      `وَأَمَّا الْجِدَارُ فَكَانَ لِغُلَامَيْنِ يَتِيمَيْنِ فِي الْمَدِينَةِ وَكَانَ تَحْتَهُ كَنْزٌ لَهُمَا وَكَانَ أَبُوهُمَا صَالِحًا فَأَرَادَ رَبُّكَ أَنْ يَبْلُغَا أَشُدَّهُمَا وَيَسْتَخْرِجَا كَنْزَهُمَا رَحْمَةً مِنْ رَبِّكَ ۚ وَمَا فَعَلْتُهُ عَنْ أَمْرِي ۚ ذَٰلِكَ تَأْوِيلُ مَا لَمْ تَسْطِعْ عَلَيْهِ صَبْرًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And as for the wall, it belonged to two orphan boys in the city, and there was beneath it a treasure for them, and their father had been righteous. So your Lord intended that they reach maturity and extract their treasure, as a mercy from your Lord. And I did it not of my own accord. That is the interpretation of that about which you could not have patience`,
+        ``,
+        ``
+      ],
+      [
+        `Et quant au mur, il appartenait à deux garçons orphelins de la ville, et il y avait dessous un trésor à eux ; et leur père était un homme vertueux. Ton Seigneur a donc voulu que tous deux atteignent leur maturité et qu'ils extraient, [eux- mêmes] leur trésor, par une miséricorde de ton Seigneur Je ne l'ai d'ailleurs pas fait de mon propre chef. Voilà l'interprétation de ce que tu n'as pas pu endurer avec patience`,
+        ``,
+        ``
+      ],
+      [
+        `Y en cuanto al muro, pertenecía a dos muchachos huérfanos de la ciudad. Debajo de él había un tesoro que les pertenecía. Su padre era bueno y tu Señor quiso que descubrieran su tesoro cuando alcanzaran la madurez, como muestra de misericordia venida de tu Señor. No lo hice por propia iniciativa. Éste es el significado de aquello en que no has podido tener paciencia»`,
+        ``,
+        ``
+      ],
+      [
+        `Что же касается стены, то она принадлежит двум осиротевшим мальчикам из города. Под ней находится их клад. Их отец был праведником, и твой Господь пожелал, чтобы они достигли зрелого возраста и извлекли свой клад по милости твоего Господа. Я не поступал по своему усмотрению. Вот толкование того, к чему ты не смог отнестись с терпением»`,
+        ``,
+        ``
+      ],
+      [
+        `Was aber die Mauer angeht, so gehörte sie zwei Waisenjungen in der Stadt, und unter ihr befand sich ein für sie bestimmter Schatz. Ihr Vater war rechtschaffen, und da wollte dein Herr, daß sie (erst) ihre Vollreife erlangen und (dann) ihren Schatz hervorholen - aus Barmherzigkeit von deinem Herrn. Ich tat es ja nicht aus eigenem Ermessen. Das ist die Deutung dessen, was du nicht aushalten konntest`,
+        ``,
+        ``
+      ],
+      [
+        `Och vad muren beträffar tillhörde den två faderlösa ungdomar i byn och under den låg en skatt begraven som var deras egendom. Deras far hade varit en rättrådig man och det var din Herres vilja att de, när de uppnått vuxen ålder, som en nåd från Honom skulle få gräva upp denna skatt. Ingenting av detta har jag gjort av egen drift. Där ser du innebörden av det som du inte [stillatigande] kunde bevittna`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En wat betreft de muur: die behoorde toe ann twee jongelingen die wees waren in de stad en eronder lag een schat die bestemd was voor ben, en hun vader was een oprechte man geweest. Daarom wenste jouw Heer dat zij hun volwassen leeftijd bereikten en (dan) hun schat er uit haalden, als Barmhartigheid van jouw Heer. En ik deed het niet uit mijn eigen wil; dat is de uitleg over hetgeen waamee jij niet in staat was geduld te hebben`,
+        ``,
+        ``
+      ],
+      [
+        `اور وہ جو دیوار تھی سو وہ دو یتیم لڑکوں کی تھی (جو) شہر میں (رہتے تھے) اور اس کے نیچے ان کا خزانہ (مدفون) تھا اور ان کا باپ ایک نیک بخت آدمی تھا۔ تو تمہارے پروردگار نے چاہا کہ وہ اپنی جوانی کو پہنچ جائیں اور (پھر) اپنا خزانہ نکالیں۔ یہ تمہارے پروردگار کی مہربانی ہے۔ اور یہ کام میں نے اپنی طرف سے نہیں کئے۔ یہ ان باتوں کا راز ہے جن پر تم صبر نہ کرسکے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan adapun dinding rumah itu adalah milik dua anak yatim di kota itu, yang di bawahnya tersimpan harta bagi mereka berdua, dan ayahnya seorang yang saleh. Maka Tuhanmu menghendaki agar keduanya sampai dewasa dan keduanya mengeluarkan simpanannya itu sebagai rahmat dari Tuhanmu. Apa yang kuperbuat bukan menurut kemauanku sendiri. Itulah keterangan perbuatan-perbuatan yang engkau tidak sabar terhadapnya`,
+        ``,
+        ``
+      ],
+      [
+        `Duvar ise, şehirde iki yetim erkek çocuğa aitti. Duvarın altında onların bir hazinesi vardı; babaları da iyi bir kimseydi. Rabbin onların erginlik çağına ulaşmasını ve Rabbinden bir rahmet olarak hazinelerini çıkarmalarını istedi. Ben bunları kendiliğimden yapmadım. İşte dayanamadığın işlerin içyüzleri budur`,
+        ``,
+        ``
+      ],
+      [
+        `و اما ديوار، از آنِ دو پسر [بچه‌] يتيم در آن شهر بود، و زير آن، گنجى متعلق به آن دو بود، و پدرشان [مردى‌] نيكوكار بود، پس پروردگار تو خواست آن دو [يتيم‌] به حد رشد برسند و گنجينه خود را -كه رحمتى از جانب پروردگارت بود- بيرون آورند. و اين [كارها] را من خودسرانه انجام ندادم. اين بود تأويل آنچه كه نتوانستى بر آن شكيبايى ورزى`,
+        ``,
+        ``
+      ],
+      [
+        `প্রাচীরের ব্যাপার-সেটি ছিল নগরের দুজন পিতৃহীন বালকের। এর নীচে ছিল তাদের গুপ্তধন এবং তাদের পিতা ছিল সৎকর্ম পরায়ন। সুতরাং আপনার পালনকর্তা দায়বশতঃ ইচ্ছা করলেন যে, তারা যৌবনে পদার্পন করুক এবং নিজেদের গুপ্তধন উদ্ধার করুক। আমি নিজ মতে এটা করিনি। আপনি যে বিষয়ে ধৈর্য্যধারণ করতে অক্ষম হয়েছিলেন, এই হল তার ব্যাখ্যা।`,
+        ``,
+        ``
+      ],
+      [
+        `E, quanto ao muro, ele pertencia a dois meninos órfãos na cidade e, debaixo dele, havia um tesouro para ambos; e seu pai era íntegro: então, teu Senhor desejou que ambos atingissem sua força plena e fizessem sair seu tesouro, por misericórdia de teu Senhor. E não o fiz por minha ordem. Essa é a interpretação daquilo, com que não pudeste ter paciência`,
+        ``,
+        ``
+      ],
+      [
+        `至于那堵墙，则是城中两个孤儿的；墙下有他俩的财宝。他俩的父亲，原是善良的。你的主要他俩成年后，取出他俩的财宝，这是属于你的主的恩惠，我没有随著我的私意做这件事。这是你所不能忍受的事情的道理。`,
+        ``,
+        ``
+      ],
+      [
+        `あの壁は町の2人の幼ない孤児のもので，その下には，かれらに帰属する財宝が埋めてあり，父親は正しい人物であった。それで主は，かれらが成年に達してから，その財宝をかれら両人のために掘り出すことを望まれた。（これは）主からの御恵みである。わたしが勝手に行ったことではなかったのだ。これがあなたの耐えられなかったことの説明である。」`,
+        ``,
+        ``
+      ],
+      [
+        `그 담으로 말하자면 그것은 그 고을 두 고아의 소년의 것이었는데 그 밑에는 그 둘을 위한 보 물이 있었으니 그의 아버지는 의 로운 분이었기에 주님께서 그들이성년에 이를 때 주님의 은혜로 그보물을 꺼내도록 원하셨음이요 이것이 당신께서 인내할 수 없었던일의 해명이요 하더라`,
+        ``,
+        ``
+      ],
+      [
+        `Il muro apparteneva a due orfani della città e alla sua base c'era un tesoro che apparteneva loro. Il loro padre era uomo virtuoso e il tuo Signore volle che raggiungessero la loro età adulta e disseppellissero il loro tesoro; segno questo della misericordia del tuo Signore. Io non l'ho fatto di mia iniziativa. Ecco quello che non hai potuto sopportare con pazienza”`,
+        ``,
+        ``
+      ],
+      [
+        `A co się tyczy muru, to należał on do dwóch sierot żyjących w tym mieście. pod nim znajdował się ich skarb. Ojciec ich był człowiekiem pobożnym i chciał twój Pan, aby po osiągnięciu dojrzałego wieku wydobyli swój skarb, jako dowód miłosierdzia od twego Pana. Nie czyniłem ja tego z własnego nakazu. Oto wyjaśnienie tego, w czym nie potrafiłeś być cierpliwym`,
+        ``,
+        ``
+      ],
+      [
+        `Щодо стіни, то вона належала двом хлопчикам-сиротам із міста, і під нею був скарб. Їхній батько був праведником, і Господь твій побажав, щоб вони досягли повноліття й дістали скарб із милості Господа твого. Я не діяв на свій розсуд. Це тлумачення того, на що в тебе не вистачило терпіння`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الكهف / Al-Kahf، الآية 82`
   },
 
   {
@@ -21143,6 +24479,117 @@ const verses = [
       ]
     ],
     number: `سورة مريم / Maryam، الآيتان 66-67`
+  },
+
+  {
+    arabic: [
+      `مَا أَنْزَلْنَا عَلَيْكَ الْقُرْآنَ لِتَشْقَىٰ إِلَّا تَذْكِرَةً لِمَنْ يَخْشَىٰ تَنْزِيلًا مِمَّنْ خَلَقَ الْأَرْضَ وَالسَّمَاوَاتِ الْعُلَى`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `We have not sent down to you the Qur'an that you be distressed But only as a reminder for those who fear [Allah] A revelation from He who created the earth and highest heavens`,
+        ``,
+        ``
+      ],
+      [
+        `Nous n'avons point fait descendre sur toi le Coran pour que tu sois malheureux si ce n'est qu'un Rappel pour celui qui redoute (Allah) (et comme) une révélation émanant de Celui qui a créé la Terre et les hauts cieux`,
+        ``,
+        ``
+      ],
+      [
+        `No te hemos revelado el Corán para que padezcas sino como Recuerdo para quien tiene miedo de Alá como revelación venida de Quien ha creado la tierra y los altos cielos`,
+        ``,
+        ``
+      ],
+      [
+        `Мы ниспослали тебе Коран не для того, чтобы ты стал несчастен а только в качестве назидания для тех, кто страшится Это - Ниспослание от Того, Кто сотворил землю и высокие небеса`,
+        ``,
+        ``
+      ],
+      [
+        `Wir haben den Qur'an nicht auf dich (als Offenbarung) hinabgesandt, damit du unglücklich bist sondern als Erinnerung für denjenigen, der gottesfürchtig ist eine Offenbarung von Demjenigen, Der die Erde und die hohen Himmel erschaffen hat`,
+        ``,
+        ``
+      ],
+      [
+        `VI HAR inte uppenbarat Koranen för dig för att vålla dig oro och bekymmer [nej, den är] bara en påminnelse till dem som fruktar [Gud] sänd av Honom som har skapat jorden och de högsta himlarna`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Wij hebben de Koran niet tot jou doen neerdalen om jou ongelukkig te maken Maar slechts als een waarschuwing voor wie (Allah) vreest Als een openbaring van Hem Die de aarde en de hoge hemelen geschapen heeft`,
+        ``,
+        ``
+      ],
+      [
+        `(اے محمدﷺ) ہم نے تم پر قرآن اس لئے نازل نہیں کیا کہ تم مشقت میں پڑ جاؤ بلکہ اس شخص کو نصیحت دینے کے لئے (نازل کیا ہے) جو خوف رکھتا ہے یہ اس (ذات برتر) کا اتارا ہوا ہے جس نے زمین اور اونچے اونچے آسمان بنائے`,
+        ``,
+        ``
+      ],
+      [
+        `Kami tidak menurunkan Alquran ini kepadamu (Muhammad) agar engkau menjadi susah melainkan sebagai peringatan bagi orang yang takut (kepada Allah) diturunkan dari (Allah) yang menciptakan bumi dan langit yang tinggi`,
+        ``,
+        ``
+      ],
+      [
+        `Kuran'ı sana, sıkıntıya düşeşin diye değil, ancak Allah'tan korkanlara bir öğüt ve yeri ve yüce gökleri yaratanın katından bir Kitap olarak indirdik`,
+        ``,
+        ``
+      ],
+      [
+        `قرآن را بر تو نازل نكرديم تا به رنج افتى، جز اينكه براى هر كه مى‌ترسد، پندى باشد [كتابى است‌] نازل شده از جانب كسى كه زمين و آسمانهاى بلند را آفريده است`,
+        ``,
+        ``
+      ],
+      [
+        `আপনাকে ক্লেশ দেবার জন্য আমি আপনার প্রতি কোরআন অবতীর্ণ করিনি। কিন্তু তাদেরই উপদেশের জন্য যারা ভয় করে। এটা তাঁর কাছ থেকে অবতীর্ণ, যিনি ভূমন্ডল ও সমুচ্চ নভোমন্ডল সৃষ্টি করেছেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Não fizemos descer sobre ti o Alcorão, para que sejas infeliz Mas como lembrança para quem receia a Allah É revelação descida de Quem criou a terra e os altos céus`,
+        ``,
+        ``
+      ],
+      [
+        `我降《古兰经》给你，不为使你辛苦， 却为教诲敬畏者， 是降自创造大地和苍穹者的。`,
+        ``,
+        ``
+      ],
+      [
+        `われがあなたにクルアーンを下したのは，あなたを悩ますためではない。 主を畏れる者への，訓戒に外ならない。 大地と高い諸天とを創りなされる，かれから下された啓示である。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 그대에게 꾸란을 계시함은 그것으로 하여 그대를 고 생되게 하려함이 아니라 하나님을 두려워하는 이들을 위한 교훈이 되게 했노라 그것은 대지와 높은 하늘을 창조한 그분으로 부터 계시된 것 이라`,
+        ``,
+        ``
+      ],
+      [
+        `Non abbiamo fatto scendere il Corano su di te per renderti infelice ma come Monito per chi ha timore [di Allah] sceso da parte di Colui Che ha creato la terra e gli alti cieli`,
+        ``,
+        ``
+      ],
+      [
+        `Nie zesłaliśmy ci Koranu,. abyś był nieszczęśliwy Lecz jako napomnienie dla tego, kto się obawia Jako objawienie Tego, który stworzy ziemię i niebiosa wyniosłe`,
+        ``,
+        ``
+      ],
+      [
+        `Ми зіслали тобі Коран не для того, щоб завдати тобі страждань а тільки як згадку для тих, хто боїться Зіслав його Той, Хто створив землю й високі небеса`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة طه / Ta-Ha، الآيات 2-4`
   },
 
   {
@@ -24477,6 +27924,117 @@ const verses = [
 
   {
     arabic: [
+      `قُلْ لِلْمُؤْمِنِينَ يَغُضُّوا مِنْ أَبْصَارِهِمْ وَيَحْفَظُوا فُرُوجَهُمْ ۚ ذَٰلِكَ أَزْكَىٰ لَهُمْ ۗ إِنَّ اللَّهَ خَبِيرٌ بِمَا يَصْنَعُونَ وَقُلْ لِلْمُؤْمِنَاتِ يَغْضُضْنَ مِنْ أَبْصَارِهِنَّ وَيَحْفَظْنَ فُرُوجَهُنَّ وَلَا يُبْدِينَ زِينَتَهُنَّ إِلَّا مَا ظَهَرَ مِنْهَا ۖ وَلْيَضْرِبْنَ بِخُمُرِهِنَّ عَلَىٰ جُيُوبِهِنَّ ۖ وَلَا يُبْدِينَ زِينَتَهُنَّ إِلَّا لِبُعُولَتِهِنَّ أَوْ آبَائِهِنَّ أَوْ آبَاءِ بُعُولَتِهِنَّ أَوْ أَبْنَائِهِنَّ أَوْ أَبْنَاءِ بُعُولَتِهِنَّ أَوْ إِخْوَانِهِنَّ أَوْ بَنِي إِخْوَانِهِنَّ أَوْ بَنِي أَخَوَاتِهِنَّ أَوْ نِسَائِهِنَّ أَوْ مَا مَلَكَتْ أَيْمَانُهُنَّ أَوِ التَّابِعِينَ غَيْرِ أُولِي الْإِرْبَةِ مِنَ الرِّجَالِ أَوِ الطِّفْلِ الَّذِينَ لَمْ يَظْهَرُوا عَلَىٰ عَوْرَاتِ النِّسَاءِ ۖ وَلَا يَضْرِبْنَ بِأَرْجُلِهِنَّ لِيُعْلَمَ مَا يُخْفِينَ مِنْ زِينَتِهِنَّ ۚ وَتُوبُوا إِلَى اللَّهِ جَمِيعًا أَيُّهَ الْمُؤْمِنُونَ لَعَلَّكُمْ تُفْلِحُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Tell the believing men to reduce [some] of their vision and guard their private parts. That is purer for them. Indeed, Allah is Acquainted with what they do And tell the believing women to reduce [some] of their vision and guard their private parts and not expose their adornment except that which [necessarily] appears thereof and to wrap [a portion of] their headcovers over their chests and not expose their adornment except to their husbands, their fathers, their husbands' fathers, their sons, their husbands' sons, their brothers, their brothers' sons, their sisters' sons, their women, that which their right hands possess, or those male attendants having no physical desire, or children who are not yet aware of the private aspects of women. And let them not stamp their feet to make known what they conceal of their adornment. And turn to Allah in repentance, all of you, O believers, that you might succeed`,
+        ``,
+        ``
+      ],
+      [
+        `Dis aux croyants de baisser leurs regards et de garder leur chasteté. C'est plus pur pour eux. Allah est, certes, Parfaitement Informé de ce qu'ils font Et dis aux croyantes de baisser leurs regards, de garder leur chasteté, et de ne montrer de leurs atours que ce qui en paraît et qu'elles rabattent leur voile sur leurs poitrines ; et qu'elles ne montrent leurs atours qu'à leurs maris, ou à leurs pères, ou aux pères de leurs maris, ou à leurs fils, ou aux fils de leurs maris, ou à leurs frères, ou aux fils de leurs frères, ou aux fils de leurs sœurs, ou aux femmes musulmanes, ou aux esclaves qu'elles possèdent, ou aux domestiques mâles impuissants, ou aux garçons impubères qui ignorent tout des parties cachées des femmes. Et qu'elles ne frappent pas avec leurs pieds de façon que l'on sache ce qu'elles cachent de leurs parures. Et repentez-vous tous devant Allah, ô croyants, afin que vous récoltiez le succès`,
+        ``,
+        ``
+      ],
+      [
+        `Di a los creyentes que bajen la vista con recato y que sean castos. Es más correcto. Alá está bien informado de lo que hacen Y di a las creyentes que bajen la vista con recato, que sean castas y no muestren más adorno que los que están a la vista, que cubran su escote con el velo y no exhiban sus adornos sino a sus esposos, a sus padres, a sus suegros, a sus propios hijos, a sus hijastros, a sus hermanos, a sus sobrinos carnales, a sus mujeres, a sus esclavas, a sus criados varones fríos, a los niños que no saben aún de las partes femeninas. Que no batan ellas con sus pies de modo que se descubran sus adornos ocultos. ¡Volvéos todos a Alá, creyentes! Quizás, así, prosperéis`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи верующим мужчинам, чтобы они опускали свои взоры и оберегали свои половые органы. Так будет чище для них. Воистину, Аллаху ведомо о том, что они творят Скажи верующим женщинам, чтобы они опускали свои взоры и оберегали свои половые органы. Пусть они не выставляют напоказ своих прикрас, за исключением тех, которые видны, и пусть прикрывают своими покрывалами вырез на груди и не показывают своей красы никому, кроме своих мужей, или своих отцов, или своих свекров, или своих сыновей, или сыновей своих мужей, или своих братьев, или сыновей своих братьев, или сыновей своих сестер, или своих женщин, или невольников, которыми овладели их десницы, или слуг из числа мужчин, лишенных вожделения, или детей, которые не постигли наготы женщин; и пусть они не стучат своими ногами, давая знать об украшениях, которые они скрывают. О верующие! Обращайтесь к Аллаху с покаянием все вместе, - быть может, вы преуспеете`,
+        ``,
+        ``
+      ],
+      [
+        `Sag zu den gläubigen Männern, sie sollen ihre Blicke senken und ihre Scham hüten. Das ist lauterer für sie. Gewiß, Allah ist Kundig dessen, was sie machen Und sag zu den gläubigen Frauen, sie sollen ihre Blicke senken und ihre Scham hüten, ihren Schmuck nicht offen zeigen, außer dem, was (sonst) sichtbar ist. Und sie sollen ihre Kopftücher auf den Brustschlitz ihres Gewandes schlagen und ihren Schmuck nicht offen zeigen, außer ihren Ehegatten, ihren Vätern, den Vätern ihrer Ehegatten, ihren Söhnen, den Söhnen ihrer Ehegatten, ihren Brüdern, den Söhnen ihrer Brüder und den Söhnen ihrer Schwestern, ihren Frauen, denen, die ihre rechte Hand besitzt, den männlichen Gefolgsleuten, die keinen (Geschlechts)trieb (mehr) haben, den Kindern, die auf die Blöße der Frauen (noch) nicht aufmerksam geworden sind. Und sie sollen ihre Füße nicht aneinanderschlagen, damit (nicht) bekannt wird, was sie von ihrem Schmuck verborgen tragen. Wendet euch alle reumütig Allah zu, ihr Gläubigen, auf daß es euch wohl ergehen möge`,
+        ``,
+        ``
+      ],
+      [
+        `SÄG till de troende männen att de bör sänka blicken och lägga band på sin sinnlighet; det leder till större renhet i deras liv. Gud är underrättad om vad de gör Och säg till de troende kvinnorna att de bör sänka blicken och lägga band på sin sinnlighet och inte visa mera av sina behag än vad som [anständigtvis] kan vara synligt; låt dem därför fästa slöjan så att den täcker barmen. Och de skall inte låta sina behag skymta inför andra än sin make, sin fader, sin svärfader, sina söner, sin makes söner, sina bröder, sina brorssöner, sina systersöner, närstående kvinnor, dem som de rättmätigt besitter och sådana manliga tjänare, som inte längre känner begär efter kvinnor, eller barn som ännu inte har begrepp om kvinnlig nakenhet. Och låt dem inte gå med svajande gång för att dra uppmärksamheten till sina dolda behag. Troende! Vänd er till Gud i ånger [över era fel och synder]; kanske skall det gå er väl i händer`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zeg (O Moehammad) tegen de gelovige mannen dat zij hun ogen neerslaan en hun kuisheid bewaken, dat is reiner voor hen. Voorwaar, Allah is Alwetend over wat zij bedrijven En zeg tegen de gelovige vrouwen, dat zij hun ogen neerslaan en hun kuisheid bewaken, en hun sieraad niet tonen, behalve wat daarvan zichtbaar is. En zij moeten hun sluiers over hun boezems dragen en hun schoonheid niet openlijk tonen, behalve aan hun echtgenoten, of hun vadem of de vaders van hun echtgenoten, of hun zonen, of de zonen van hun echtgenoten, of hun broeders, of de zonen van hun broeders, of de zonen van hun zusters, of hun vrouwen, of slavinnen waarover zij beschikken, of mannelijke helpers die geen begeerte meer hebben, of de kinderen die nog niet op de 'Aurât as van vrouwen letten. En laten zij niet met hun voeten stampen om hun sieraden die zij verbergen te laten kennen. En keert jullie allen berouwvol ten Allah, O gelovigen. Hopelijk zullen jullie welslagen`,
+        ``,
+        ``
+      ],
+      [
+        `مومن مردوں سے کہہ دو کہ اپنی نظریں نیچی رکھا کریں اور اپنی شرم گاہوں کی حفاظت کیا کریں۔ یہ ان کے لئے بڑی پاکیزگی کی بات ہے اور جو کام یہ کرتے ہیں خدا ان سے خبردار ہے اور مومن عورتوں سے بھی کہہ دو کہ وہ بھی اپنی نگاہیں نیچی رکھا کریں اور اپنی شرم گاہوں کی حفاظت کیا کریں اور اپنی آرائش (یعنی زیور کے مقامات) کو ظاہر نہ ہونے دیا کریں مگر جو ان میں سے کھلا رہتا ہو۔ اور اپنے سینوں پر اوڑھنیاں اوڑھے رہا کریں اور اپنے خاوند اور باپ اور خسر اور بیٹیوں اور خاوند کے بیٹوں اور بھائیوں اور بھتیجیوں اور بھانجوں اور اپنی (ہی قسم کی) عورتوں اور لونڈی غلاموں کے سوا نیز ان خدام کے جو عورتوں کی خواہش نہ رکھیں یا ایسے لڑکوں کے جو عورتوں کے پردے کی چیزوں سے واقف نہ ہوں (غرض ان لوگوں کے سوا) کسی پر اپنی زینت (اور سنگار کے مقامات) کو ظاہر نہ ہونے دیں۔ اور اپنے پاؤں (ایسے طور سے زمین پر) نہ ماریں (کہ جھنکار کانوں میں پہنچے اور) ان کا پوشیدہ زیور معلوم ہوجائے۔ اور مومنو! سب خدا کے آگے توبہ کرو تاکہ فلاح پاؤ`,
+        ``,
+        ``
+      ],
+      [
+        `Katakanlah kepada laki-laki yang beriman, agar mereka menjaga pandangannya, dan memelihara kemaluannya; yang demikian itu lebih suci bagi mereka. Sungguh, Allah Maha Mengetahui apa yang mereka perbuat Dan katakanlah kepada para perempuan yang beriman, agar mereka menjaga pandangannya, dan memelihara kemaluannya, dan janganlah menampakkan perhiasannya (auratnya), kecuali yang (biasa) terlihat. Dan hendaklah mereka menutupkan kain kerudung ke dadanya, dan janganlah menampakkan perhiasannya (auratnya), kecuali kepada suami mereka, atau ayah mereka, atau ayah suami mereka, atau putra-putra mereka, atau putra-putra suami mereka, atau saudara-saudara laki-laki mereka, atau putra-putra saudara laki-laki mereka, atau putra-putra saudara perempuan mereka, atau para perempuan (sesama Islam) mereka, atau hamba sahaya yang mereka miliki, atau para pelayan laki-laki (tua) yang tidak mempunyai hasrat (terhadap perempuan), atau anak-anak yang belum mengerti tentang aurat perempuan. Dan janganlah mereka menghentakkan kakinya agar diketahui perhiasan yang mereka sembunyikan. Dan bertobatlah kamu semua kepada Allah, wahai orang-orang yang beriman, agar kamu beruntung`,
+        ``,
+        ``
+      ],
+      [
+        `Mümin erkeklere söyle: Gözlerini bakılması yasak olandan çevirsinler, mahrem yerlerini, korusunlar. Bu, onların arınmasını daha iyi sağlar. Allah yaptıklarından şüphesiz haberdardır Mümin kadınlara da söyle: Gözlerini bakılması yasak olandan çevirsinler, iffetlerini korusunlar. Süslerini, kendiliğinden görünen kısmı müstesna, açmasınlar. Baş örtülerini yakalarının üzerine salsınlar. Süslerini kocaları veya babaları ve kayınpederleri veya oğulları veya kocalarının oğulları veya kardeşleri veya erkek kardeşlerinin oğulları veya kızkardeşlerinin oğulları veya müslüman kadınları veya cariyeleri veya erkekliği kalmamış hizmetçiler, ya da kadınların mahrem yerlerini henüz anlamayan çocuklardan başkasına göstermesinler. Gizledikleri süslerin bilinmesi için ayaklarını yere vurmasınlar. Ey inananlar! Saadete ermeniz için hepiniz tevbe ederek Allah'ın hükmüne dönün`,
+        ``,
+        ``
+      ],
+      [
+        `به مردان با ايمان بگو: «ديده فرو نهند و پاكدامنى ورزند، كه اين براى آنان پاكيزه‌تر است، زيرا خدا به آنچه مى‌كنند آگاه است.» و به زنان با ايمان بگو: «ديدگان خود را [از هر نامحرمى‌] فرو بندند و پاكدامنى ورزند و زيورهاى خود را آشكار نگردانند مگر آنچه كه طبعاً از آن پيداست. و بايد روسرى خود را بر گردن خويش [فرو ]اندازند، و زيورهايشان را جز براى شوهرانشان يا پدرانشان يا پدران شوهرانشان يا پسرانشان يا پسران شوهرانشان يا برادرانشان يا پسران برادرانشان يا پسران خواهرانشان يا زنان [همكيش‌] خود يا كنيزانشان يا خدمتكاران مرد كه [از زن‌] بى‌نيازند يا كودكانى كه بر عورتهاى زنان وقوف حاصل نكرده‌اند، آشكار نكنند؛ و پاهاى خود را [به گونه‌اى به زمين‌] نكوبند تا آنچه از زينتشان نهفته مى‌دارند معلوم گردد. اى مؤمنان، همگى [از مرد و زن‌] به درگاه خدا توبه كنيد، اميد كه رستگار شويد`,
+        ``,
+        ``
+      ],
+      [
+        `মুমিনদেরকে বলুন, তারা যেন তাদের দৃষ্টি নত রাখে এবং তাদের যৌনাঙ্গর হেফাযত করে। এতে তাদের জন্য খুব পবিত্রতা আছে। নিশ্চয় তারা যা করে আল্লাহ তা অবহিত আছেন। ঈমানদার নারীদেরকে বলুন, তারা যেন তাদের দৃষ্টিকে নত রাখে এবং তাদের যৌন অঙ্গের হেফাযত করে। তারা যেন যা সাধারণতঃ প্রকাশমান, তা ছাড়া তাদের সৌন্দর্য প্রদর্শন না করে এবং তারা যেন তাদের মাথার ওড়না বক্ষ দেশে ফেলে রাখে এবং তারা যেন তাদের স্বামী, পিতা, শ্বশুর, পুত্র, স্বামীর পুত্র, ভ্রাতা, ভ্রাতুস্পুত্র, ভগ্নিপুত্র, স্ত্রীলোক অধিকারভুক্ত বাঁদী, যৌনকামনামুক্ত পুরুষ, ও বালক, যারা নারীদের গোপন অঙ্গ সম্পর্কে অজ্ঞ, তাদের ব্যতীত কারো আছে তাদের সৌন্দর্য প্রকাশ না করে, তারা যেন তাদের গোপন সাজ-সজ্জা প্রকাশ করার জন্য জোরে পদচারণা না করে। মুমিনগণ, তোমরা সবাই আল্লাহর সামনে তওবা কর, যাতে তোমরা সফলকাম হও।`,
+        ``,
+        ``
+      ],
+      [
+        `Dize aos crentes, Muhammad, que baixem suas vistas e custodiem seu sexo. Isso lhes é mais digno. Por certo, Allah é Conhecedor do que fazem E dize às crentes que baixem suas vistas e custodiem seu sexo e não mostrem seus ornamentos - exceto o que deles aparece - e que estendam seus cendais sobre seus decotes. E não mostrem seus ornamentos senão a seus maridos ou a seus pais ou aos pais de seus maridos ou a seus filhos ou aos filhos de seus maridos ou a seus irmãos ou aos filhos de seus irmãos ou aos filhos de suas irmãs ou a suas mulheres ou aos escravos que elas possuem ou aos domésticos, dentre os homens, privados de desejo carnal, ou às crianças que não descobriram ainda as partes pudendas das mulheres. E que elas não batam, com os pés no chão, para que se conheça o que escondem de seus ornamentos. E voltai-vos todos, arrependidos, para Allah, ó crentes, na esperança de serdes bem-aventurados`,
+        ``,
+        ``
+      ],
+      [
+        `你对信士们说，叫他们降低视线，遮蔽下身，这对于他们是更纯洁的。真主确是彻知他们的行为的。 你对信女们说，叫她们降低视线，遮蔽下身，莫露出首饰， 除非自然露出的，叫她们用面纱遮住胸膛，末露出首饰，除非对她们的丈夫，或她们的父亲，或她们的丈夫的父亲，或她们的儿子，或她们的丈夫的儿子，或她们的兄弟，或她们弟兄的儿子，或她们姐妹的儿子，或她们的女仆，或她们的奴婢，或无性欲的男仆，或不懂妇女之事的儿童； 叫她们不要用力踏足，使人得知她们所隐藏的首饰。信士们啊！你们应全体向真主悔罪，以便你们成功。`,
+        ``,
+        ``
+      ],
+      [
+        `男の信者たちに言ってやるがいい。「（自分の係累以外の婦人に対しては）かれらの視線を低くし，貞潔を守れ。」それはかれらのために一段と清廉である。アッラーはかれらの行うことを熟知なされる。 信者の女たちに言ってやるがいい。かの女らの視線を低くし，貞淑を守れ。外に表われるものの外は，かの女らの美（や飾り）を目立たせてはならない。それからヴェイルをその胸の上に垂れなさい。自分の夫または父の外は，かの女の美（や飾り）を表わしてはならない。なお夫の父，自分の息子，夫の息子，また自分の兄弟，兄弟の息子，姉妹の息子または自分の女たち，自分の右手に持つ奴隷，また性欲を持たない供回りの男，または女の体に意識をもたない幼児（の外は）。またかの女らの隠れた飾りを知らせるため，その足（で地）を打ってはならない。あなたがた信者よ，皆一緒に悔悟してアッラーに返れ。必ずあなたがたは成功するであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `믿는 남성들에게 일러가로되 그들의 시선을 낮추고 정숙하라 할지니 그것이 그들을 위한 순결 이라 실로 하나님께서는 그들이 행하고 있는 것을 아시니라 믿는 여성들에게 일러가로되 그녀들의 시선을 낮추고 순결을 지키며 밖으로 나타내는 것 외에 는 유혹하는 어떤 것도 보여서는 아니 되니라 그리고 가슴을 가리 는 머리수건을 써서 남편과 그녀 의 아버지 남편의 아버지 그녀의 아들 남편의 아들 그녀의 형제 그 녀 형제의 아들 그녀 자매의 아들 여성 무슬림 그녀가 소유하고 있 는 하녀 성욕을 갖지 못한 하인 그리고 성에 대한 부끄러움을 알 지 못하는 어린이 외에는 드러내지않도록 하라 또한 여성이 발걸음 소리를 내어 유혹함을 보여서는 아니 되나니 믿는 사람들이여 모두 하나님께 회개하라 그리하면 너회 가 번성하리라`,
+        ``,
+        ``
+      ],
+      [
+        `Di' ai credenti di abbassare il loro sguardo e di essere casti. Ciò è più puro per loro. Allah ben conosce quello che fanno E di' alle credenti di abbassare i loro sguardi ed essere caste e di non mostrare, dei loro ornamenti, se non quello che appare; di lasciar scendere il loro velo fin sul petto e non mostrare i loro ornamenti ad altri che ai loro mariti, ai loro padri, ai padri dei loro mariti, ai loro figli, ai figli dei loro mariti, ai loro fratelli, ai figli dei loro fratelli, ai figli delle loro sorelle, alle loro donne, alle schiave che possiedono, ai servi maschi che non hanno desiderio, ai ragazzi impuberi che non hanno interesse per le parti nascoste delle donne. E non battano i piedi, sì da mostrare gli ornamenti che celano. Tornate pentiti ad Allah tutti quanti, o credenti, affinché possiate prosperare`,
+        ``,
+        ``
+      ],
+      [
+        `Powiedz wierzącym: niech spuszczają skromnie spojrzenia i niech zachowują czystość. To dla nich będzie przyzwoitsze. Zaprawdę, Bóg jest w pełni świadomy tego, co oni czynią Powiedz wierzącym kobietom, żeby spuszczały skromnie swoje spojrzenia i strzegły swojej czystości; i żeby pokazywały jedynie te ozdoby, które są widoczne na zewnątrz; i żeby narzucały zasłony na piersi, i pokazywały swoje ozdoby jedynie swoim mężom lub ojcom, albo ojcom swoich mężów, albo swoim synom lub synom swoich mężów, albo swoim braciom, albo synom braci, lub synom swoich sióstr; lub ich żonom, lub tym, którymi zawładnęły ich prawice; albo swoim służącym spośród mężczyzn, którzy nie są owładnięci pożądaniem cielesnym; albo też chłopcom, którzy nie poznali nagości kobiet. I niech one nie stąpają tak, aby było wiadomo, jakie ukrywają ozdoby. Nawracajcie się wszyscy do Boga, o wy, wierzący! Być może, będziecie szczęśliwi`,
+        ``,
+        ``
+      ],
+      [
+        `Скажи віруючим чоловікам, щоб вони відводили свої погляди й закривали свою наготу. Так буде чистіше для них. Воістину, Аллагу відомо про те, що вони роблять Скажи віруючим жінкам, щоб вони відводили свої погляди й закривали свою наготу. Нехай вони не показують своїх прикрас, окрім того, що назовні, й нехай закривають своїми покривалами груди. Нехай не показують своїх прикрас нікому, крім своїх чоловіків, батьків, батьків своїх чоловіків, своїх синів, синів своїх чоловіків, своїх братів, синів братів, синів своїх сестер, інших жінок чи тих, ким оволоділи їхні правиці, слуг, у яких немає пристрасті, або дітей, які не знають жіночої наготи; нехай вони не ходять так, щоб було відомо, які прикраси вони приховують. Кайтеся перед Аллагом усі разом, о віруючі! Можливо, ви матимете успіх`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النور / An-Nur، الآيتان 30-31`
+  },
+
+  {
+    arabic: [
       `اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ ۚ مَثَلُ نُورِهِ كَمِشْكَاةٍ فِيهَا مِصْبَاحٌ ۖ الْمِصْبَاحُ فِي زُجَاجَةٍ ۖ`,
       `الزُّجَاجَةُ كَأَنَّهَا كَوْكَبٌ دُرِّيٌّ يُوقَدُ مِنْ شَجَرَةٍ مُبَارَكَةٍ زَيْتُونَةٍ لَا شَرْقِيَّةٍ وَلَا غَرْبِيَّةٍ يَكَادُ زَيْتُهَا يُضِيءُ وَلَوْ لَمْ تَمْسَسْهُ نَارٌ ۚ`,
       `نُورٌ عَلَىٰ نُورٍ ۗ يَهْدِي اللَّهُ لِنُورِهِ مَنْ يَشَاءُ ۚ وَيَضْرِبُ اللَّهُ الْأَمْثَالَ لِلنَّاسِ ۗ وَاللَّهُ بِكُلِّ شَيْءٍ عَلِيمٌ`
@@ -24917,6 +28475,117 @@ const verses = [
       ]
     ],
     number: `سورة النور / An-Nur، الآية 45`
+  },
+
+  {
+    arabic: [
+      `وَقَالَ الَّذِينَ كَفَرُوا لَوْلَا نُزِّلَ عَلَيْهِ الْقُرْآنُ جُمْلَةً وَاحِدَةً ۚ كَذَٰلِكَ لِنُثَبِّتَ بِهِ فُؤَادَكَ ۖ وَرَتَّلْنَاهُ تَرْتِيلًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And those who disbelieve say, "Why was the Qur'an not revealed to him all at once?" Thus [it is] that We may strengthen thereby your heart. And We have spaced it distinctly`,
+        ``,
+        ``
+      ],
+      [
+        `Et ceux qui ne croient pas disent : "Pourquoi n'a-t-on pas fait descendre sur lui le Coran en une seule fois ?" Nous l'avons révélé ainsi pour raffermir ton cœur. Et Nous l'avons récité soigneusement`,
+        ``,
+        ``
+      ],
+      [
+        `Los infieles dicen: «¿Por qué no se le ha revelado el Corán de una vez?» Para, así, confirmar con él tu corazón. Y lo hemos hecho recitar lenta y claramente`,
+        ``,
+        ``
+      ],
+      [
+        `Неверующие сказали: «Почему Коран не ниспослан ему целиком за один раз?». Мы поступили так, чтобы укрепить им твое сердце, и разъяснили его самым прекрасным образом`,
+        ``,
+        ``
+      ],
+      [
+        `Und diejenigen, die ungläubig sind, sagen: "O würde ihm doch der Qur'an als Ganzes offenbart!" So (geschieht es aber), damit Wir dein Herz mit ihm festigen. Und Wir haben ihn wohlgeordnet vorgetragen`,
+        ``,
+        ``
+      ],
+      [
+        `Och de som förnekar sanningen säger: "Varför har inte [hela] Koranen uppenbarats för honom i ett sammanhang?" Så [har Vi gått till väga] för att stärka din övertygelse; ja, Vi har fogat ihop dess stycken i den bästa ordning till ett väl sammanhållet helt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En degenen die ongelovig zijn, zeggen: "Was de Koran maar in één keer volledig aan hem neergezonden..," (Maar) zo hebben Wij daarmee jouw hart versterkt (O Moehammad), en Wij hebben hem regelmatig doen voordragen`,
+        ``,
+        ``
+      ],
+      [
+        `اور کافر کہتے ہیں کہ اس پر قرآن ایک ہی دفعہ کیوں نہیں اُتارا گیا۔ اس طرح (آہستہ آہستہ) اس لئے اُتارا گیا کہ اس سے تمہارے دل کو قائم رکھیں۔ اور اسی واسطے ہم اس کو ٹھہر ٹھہر کر پڑھتے رہے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `(Dan orang-orang kafir berkata, "Mengapa Alquran itu tidak diturunkan kepadanya sekaligus?" Demikianlah,578) agar Kami memperteguh hatimu (Muhammad) dengannya dan Kami membacakannya secara tartil³ (berangsur-angsur, perlahan dan benar)`,
+        ``,
+        ``
+      ],
+      [
+        `İnkar edenler: "Kuran ona bir defada indirilmeliydi" derler. Oysa Biz onu böylece senin kalbine yerleştirmek için azar azar indirir ve onu ağır ağır okuruz`,
+        ``,
+        ``
+      ],
+      [
+        `و كسانى كه كافر شدند، گفتند: «چرا قرآن يكجا بر او نازل نشده است؟» اين گونه [ما آن را به تدريج نازل كرديم‌] تا قلبت را به وسيله آن استوار گردانيم، و آن را به آرامى [بر تو] خوانديم`,
+        ``,
+        ``
+      ],
+      [
+        `সত্য প্রত্যাখানকারীরা বলে, তাঁর প্রতি সমগ্র কোরআন একদফায় অবতীর্ণ হল না কেন? আমি এমনিভাবে অবতীর্ণ করেছি এবং ক্রমে ক্রমে আবৃত্তি করেছি আপনার অন্তকরণকে মজবুত করার জন্যে।`,
+        ``,
+        ``
+      ],
+      [
+        `E os que renegam a Fé dizem: "Que houvesse descido sobre ele o Alcorão, de uma só vez!" Fragmentamo-lo assim, para com ele, te tornarmos firme o coração. E fizemo-lo ser recitado paulatinamente`,
+        ``,
+        ``
+      ],
+      [
+        `不信道者曾说：怎么不把全部《古兰经》一次降示他呢？我那样零零星星地降示它以便我凭它来坚定你的心，我逐渐降示它。`,
+        ``,
+        ``
+      ],
+      [
+        `また信仰しない者は，「クルアーンは何故一度に全巻が下されないのですか。」と言う。こうするのは，われがあなたの心を堅固にするため，よく整えて順序よく復誦させるためである。`,
+        ``,
+        ``
+      ],
+      [
+        `불신자들이 왜 꾸란을 한번에 전부 그에게 계시되지 아니했느뇨 라고 말하였더라 그렇게 함 은 하나님께서 그대의 마음을 강 하게 하기 위해 점차적으로 그리 고 단계적으로 천천히 계시했노라`,
+        ``,
+        ``
+      ],
+      [
+        `I miscredenti dicono: “Perché il Corano non è stato fatto scendere su di lui in un'unica soluzione!”. [Lo abbiamo invece rivelato] in questo modo per rafforzare il tuo cuore. E te lo facciamo recitare con cura`,
+        ``,
+        ``
+      ],
+      [
+        `Ci, którzy nie uwierzyli, mówią: "Gdyby przynajmniej Koran został zesłany naraz w całości!" Został on objawiony w ten sposób, aby twoje serce było przez niego utwierdzone; i recytowaliśmy go według pewnego porządku`,
+        ``,
+        ``
+      ],
+      [
+        `Ті, які не увірували, говорять: «Чому Коран не зіслано одразу цілком?» Це так, адже Ми прагнемо зміцнити ним твоє серце й прочитати у певному ладі`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الفرقان / Al-Furqan، الآية 32`
   },
 
   {
@@ -27141,6 +30810,117 @@ const verses = [
 
   {
     arabic: [
+      `أَوَلَمْ يَكْفِهِمْ أَنَّا أَنْزَلْنَا عَلَيْكَ الْكِتَابَ يُتْلَىٰ عَلَيْهِمْ ۚ إِنَّ فِي ذَٰلِكَ لَرَحْمَةً وَذِكْرَىٰ لِقَوْمٍ يُؤْمِنُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And is it not sufficient for them that We revealed to you the Book which is recited to them? Indeed in that is a mercy and reminder for a people who believe`,
+        ``,
+        ``
+      ],
+      [
+        `Ne leur suffit-il donc point que Nous ayons fait descendre sur toi le Livre et qu'il leur soit récité ? Il y a assurément là une miséricorde et un rappel pour des gens qui croient`,
+        ``,
+        ``
+      ],
+      [
+        `¿Es que no les basta que te hayamos revelado la Escritura que se les recita? Hay en ello una misericordia y una amonestación para gente que cree`,
+        ``,
+        ``
+      ],
+      [
+        `Неужели им не достаточно того, что Мы ниспослали тебе Писание, которое им читается? Воистину, в этом - милость и напоминание для верующих людей`,
+        ``,
+        ``
+      ],
+      [
+        `Genügt es ihnen denn nicht, daß Wir das Buch auf dich hinabgesandt haben, das ihnen verlesen wird? Darin ist wahrlich eine Barmherzigkeit und eine Ermahnung für Leute, die glauben`,
+        ``,
+        ``
+      ],
+      [
+        `Är det inte nog för dem att Vi har uppenbarat för dig [denna] Skrift [så att] den kan läsas upp för dem? I den ligger nåd och en påminnelse till dem som vill tro`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Is het voor hen niet voldoende dat Wij aan jou het Boek hebben neergezonden, dat aan hen wordt voorgedragen? Voomaar, daarin is zeker barmhartigheid en een vermaning voor een volk dat gelooft`,
+        ``,
+        ``
+      ],
+      [
+        `کیا اُن لوگوں کے لئے یہ کافی نہیں کہ ہم نے تم پر کتاب نازل کی جو اُن کو پڑھ کر سنائی جاتی ہے۔ کچھ شک نہیں کہ مومن لوگوں کے لیے اس میں رحمت اور نصیحت ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Apakah tidak cukup bagi mereka bahwa Kami telah menurunkan kepadamu Kitab (Alquran) yang dibacakan kepada mereka? Sungguh, dalam (Alquran) itu terdapat rahmat yang besar dan pelajaran bagi orang-orang yang beriman`,
+        ``,
+        ``
+      ],
+      [
+        `Kendilerine okunan bir Kitap'ı sana indirmiş olmamız onlara yetmiyor mu? Bunda, inanan topluluk için rahmet ve ibret vardır`,
+        ``,
+        ``
+      ],
+      [
+        `آيا براى ايشان بس نيست كه اين كتاب را كه بر آنان خوانده مى‌شود بر تو فرو فرستاديم؟ در حقيقت، در اين [كار] براى مردمى كه ايمان دارند، رحمت و يادآورى است`,
+        ``,
+        ``
+      ],
+      [
+        `এটাকি তাদের জন্যে যথেষ্ট নয় যে, আমি আপনার প্রতি কিতাব নাযিল করেছি, যা তাদের কাছে পাঠ করা হয়। এতে অবশ্যই বিশ্বাসী লোকদের জন্যে রহমত ও উপদেশ আছে।`,
+        ``,
+        ``
+      ],
+      [
+        `E não lhes basta que façamos descer, sobre ti, o Livro, que se recita, para eles? Por certo, há nisso misericórdia e lembrança para um povo que crê`,
+        ``,
+        ``
+      ],
+      [
+        `我降示你这部经典，可以对他们常常宣读，难道还不能使他们满意吗？在这经典里对于信道的人确有恩惠和记念。`,
+        ``,
+        ``
+      ],
+      [
+        `われがあなたに啓典を下し，あなたはかれらに読誦する。かれらにはそれで十分ではないか。本当にその中には，信仰する者への慈悲と訓戒がある。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 그대에게 계시하여 그들에게 낭송된 그 성서가 그들 에게 예증으로 충분하지 않단 말 이뇨 실로 그 안에는 믿는 사람들 을 위한 은혜와 교훈이 있노라`,
+        ``,
+        ``
+      ],
+      [
+        `Non basta loro che ti abbiamo rivelato il Libro che recitano? Questa è davvero una misericordia e un Monito per coloro che credono`,
+        ``,
+        ``
+      ],
+      [
+        `Czy im nie wystarczy, że zesłaliśmy tobie Księgę, która im jest recytowana? Zaprawdę, w tym jest miłosierdzie i napomnienie dla ludzi, którzy wierzą`,
+        ``,
+        ``
+      ],
+      [
+        `Невже їм не достатньо того, що Ми зіслали тобі Писання, яке ти їм читаєш? Воістину, в цьому — милість і нагадування для віруючих людей`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة العنكبوت / Al-'Ankabut، الآية 51`
+  },
+
+  {
+    arabic: [
       `وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا ۚ وَإِنَّ اللَّهَ لَمَعَ الْمُحْسِنِينَ`,
       ``,
       ``
@@ -27803,6 +31583,117 @@ const verses = [
       ]
     ],
     number: `سورة الروم / Ar-Rum، الآية 27`
+  },
+
+  {
+    arabic: [
+      `فَأَقِمْ وَجْهَكَ لِلدِّينِ حَنِيفًا ۚ فِطْرَتَ اللَّهِ الَّتِي فَطَرَ النَّاسَ عَلَيْهَا ۚ لَا تَبْدِيلَ لِخَلْقِ اللَّهِ ۚ ذَٰلِكَ الدِّينُ الْقَيِّمُ وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يَعْلَمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `So direct your face toward the religion, inclining to truth. [Adhere to] the fitrah of Allah upon which He has created [all] people. No change should there be in the creation of Allah. That is the correct religion, but most of the people do not know`,
+        ``,
+        ``
+      ],
+      [
+        `Dirige tout ton être vers la religion exclusivement [pour Allah], telle est la nature qu'Allah a originellement donnée aux hommes - pas de changement à la création d'Allah -. Voilà la religion de droiture ; mais la plupart des gens ne savent pas`,
+        ``,
+        ``
+      ],
+      [
+        `¡Profesa la Religión como hanif, según la naturaleza primigenia que Alá ha puesto en los hombres! No cabe alteración en la creación de Alá. Ésa es la religión verdadera. Pero la mayoría de los hombres no saben`,
+        ``,
+        ``
+      ],
+      [
+        `Обрати свой лик к религии, как ханиф. Таково врожденное качество, с которым Аллах сотворил людей. Творение Аллаха не подлежит изменению. Такова правая вера, но большинство людей не знают этого`,
+        ``,
+        ``
+      ],
+      [
+        `So richte dein Gesicht aufrichtig zur Religion hin als Anhänger des rechten Glaubens, - (gemäß) der natürlichen Anlage Allahs, in der Er die Menschen er schaffen hat. Keine Abänderung gibt es für die Schöpfung Allahs. Das ist die richtige Religion. Aber die meisten Menschen wissen nicht`,
+        ``,
+        ``
+      ],
+      [
+        `GE DIG hän med hela din själ, [du som söker sanningen,] åt den rena, ursprungliga tron, den tro som Gud vid skapelsen lade ned som en naturens norm i människan - ingenting kan rubbas i Guds skapelse! Detta är den evigt sanna tron, men de flesta människor vet ingenting [om detta]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Wend dan jouw aangezicht (O Moehammad) naar de godsdienst als een Hanîf. (Volg) de na tuurlijke aanleg, die Allah in de mens geschapen heeft. Er is geen verandering in de schepping van Allah Dat is de juiste godsdienst, maar de meeste mensen weten het niet`,
+        ``,
+        ``
+      ],
+      [
+        `تو تم ایک طرف کے ہوکر دین (خدا کے رستے) پر سیدھا منہ کئے چلے جاؤ (اور) خدا کی فطرت کو جس پر اُس نے لوگوں کو پیدا کیا ہے (اختیار کئے رہو) خدا کی بنائی ہوئی (فطرت) میں تغیر وتبدل نہیں ہو سکتا۔ یہی سیدھا دین ہے لیکن اکثر لوگ نہیں جانتے`,
+        ``,
+        ``
+      ],
+      [
+        `Maka hadapkanlah wajahmu dengan lurus kepada agama (Islam); (sesuai) fitrah Allah disebabkan Dia telah menciptakan manusia menurut (fitrah) itu.639) Tidak ada perubahan pada ciptaan Allah. (Itulah) agama yang lurus, tetapi kebanyakan manusia tidak mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Hakka yönelerek kendini Allah'ın insanlara yaratılışta verdiği dine ver. Zira Allah'ın yaratışında değişme yoktur; işte dosdoğru din budur, fakat insanların çoğu bilmezler`,
+        ``,
+        ``
+      ],
+      [
+        `پس روى خود را با گرايش تمام به حق، به سوى اين دين كن، با همان سرشتى كه خدا مردم را بر آن سرشته است. آفرينش خداى تغييرپذير نيست. اين است همان دين پايدار، ولى بيشتر مردم نمى‌دانند`,
+        ``,
+        ``
+      ],
+      [
+        `তুমি একনিষ্ঠ ভাবে নিজেকে ধর্মের উপর প্রতিষ্ঠিত রাখ। এটাই আল্লাহর প্রকৃতি, যার উপর তিনি মানব সৃষ্টি করেছেন। আল্লাহর সৃষ্টির কোন পরিবর্তন নেই। এটাই সরল ধর্ম। কিন্তু অধিকাংশ মানুষ জানে না।`,
+        ``,
+        ``
+      ],
+      [
+        `Então, ergue tua face para a religião, sendo monoteísta sincero. Assim é a natureza feita por Allah - segundo a qual Ele criou os homens. Não há alteração na criação de Allah. - Essa é a religião reta, mas a maioria dos homens não sabe`,
+        ``,
+        ``
+      ],
+      [
+        `你应当趋向正教，（并谨守）真主所赋予人的本性。真主所创造的，是不容变更的；这才是正教，但人们不半不知道。`,
+        ``,
+        ``
+      ],
+      [
+        `それであなたはあなたの顔を純正な教えに，確り向けなさい。アッラーが人間に定められた天性に基いて。アッラーの創造に，変更がある筈はない。それは正しい教えである。だが人びと の多くは分らない。`,
+        ``,
+        ``
+      ],
+      [
+        `그러므로 그대의 얼굴을 확 고히 하고 진실되게 믿음으로 향 하라 창조된 인간의 본성에 근본 을 두고 이 종교를 두셨노라 하 나님의 창조성은 변경되지 아니하매 그것이 진리의 종교라 그러나 많은 사람들이 알지 못하더라`,
+        ``,
+        ``
+      ],
+      [
+        `Rivolgi il tuo volto alla religione come puro monoteista, natura originaria che Allah ha connaturato agli uomini; non c'è cambiamento nella creazione di Allah. Ecco la vera religione, ma la maggior parte degli uomini non sa`,
+        ``,
+        ``
+      ],
+      [
+        `Przeto zwróć swoje oblicze ku religii, jak człowiek gorliwie pobożny, zgodnie z naturą, jaką Bóg obdarzył ludzi przy stworzeniu. - Nie ma żadnej odmiany w stworzeniu Boga! - To jest religia prawdziwa, lecz większość ludzi nie wie`,
+        ``,
+        ``
+      ],
+      [
+        `Поверни своє обличчя до релігії як ханіф! Це — вроджена якість, із якою Аллаг створив людей. Немає зміни в творінні Аллага. Це є правильна релігія — але ж більшість людей не знає`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الروم / Ar-Rum، الآية 30`
   },
 
   {
@@ -29139,6 +33030,117 @@ const verses = [
 
   {
     arabic: [
+      `يَا أَيُّهَا النَّبِيُّ قُلْ لِأَزْوَاجِكَ وَبَنَاتِكَ وَنِسَاءِ الْمُؤْمِنِينَ يُدْنِينَ عَلَيْهِنَّ مِنْ جَلَابِيبِهِنَّ ۚ ذَٰلِكَ أَدْنَىٰ أَنْ يُعْرَفْنَ فَلَا يُؤْذَيْنَ ۗ وَكَانَ اللَّهُ غَفُورًا رَحِيمًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O Prophet, tell your wives and your daughters and the women of the believers to bring down over themselves [part] of their outer garments. That is more suitable that they will be known and not be abused. And ever is Allah Forgiving and Merciful`,
+        ``,
+        ``
+      ],
+      [
+        `Ô Prophète ! Dis à tes épouses, à tes filles, et aux femmes des croyants, de ramener sur elles leurs grands voiles : elles en seront plus vite reconnues et éviteront ainsi d'être offensées. Allah est Pardonneur et Miséricordieux`,
+        ``,
+        ``
+      ],
+      [
+        `¡Profeta! Di a tus esposas, a tus hijas y a las mujeres de los creyentes que se cubran con el manto. Es lo mejor para que se las distinga y no sean molestadas. Alá es indulgente, misericordioso`,
+        ``,
+        ``
+      ],
+      [
+        `О Пророк! Скажи твоим женам, твоим дочерям и женщинам верующих мужчин, чтобы они опускали на себя (или сближали на себе) свои покрывала. Так их будут легче узнавать (отличать от рабынь и блудниц) и не подвергнут оскорблениям. Аллах - Прощающий, Милосердный`,
+        ``,
+        ``
+      ],
+      [
+        `O Prophet, sag deinen Gattinnen und deinen Töchtern und den Frauen der Gläubigen, sie sollen etwas von ihrem Überwurf über sich herunterziehen. Das ist eher geeignet, daß sie erkannt und so nicht belästigt werden. Und Allah ist Allver gebend und Barmherzig`,
+        ``,
+        ``
+      ],
+      [
+        `Profet! Säg till dina hustrur och dina döttrar - och till [alla] troende kvinnor - att de [utanför hemmet] noga sveper om sig sina ytterplagg; på så sätt blir de lättare igenkända [som anständiga kvinnor] och undgår att bli ofredade. Gud är ständigt förlåtande, barmhärtig`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O Profeet, zeg tot jouw echtgenotes en tot jouw dochters en tot de vrouwen van de gelovigen dat zij hun overkleden (Djilbâb) over zich heen laten hangen. Op die manier is het gemakkelijker om hen te herkennen en worden zij niet lastig gevallen. En Allah is Vergevensgezind, Meest Barmhartig`,
+        ``,
+        ``
+      ],
+      [
+        `اے پیغمبر اپنی بیویوں اور بیٹیوں اور مسلمانوں کی عورتوں سے کہہ دو کہ (باہر نکلا کریں تو) اپنے (مونہوں) پر چادر لٹکا (کر گھونگھٹ نکال) لیا کریں۔ یہ امر ان کے لئے موجب شناخت (وامتیاز) ہوگا تو کوئی ان کو ایذا نہ دے گا۔ اور خدا بخشنے والا مہربان ہے`,
+        ``,
+        ``
+      ],
+      [
+        `(Wahai Nabi! Katakanlah kepada istri-istrimu, anak-anak perempuanmu dan istri-istri orang mukmin, "Hendaklah mereka menutupkan jilbabnya690) ke seluruh tubuh mereka." Yang demikian itu agar mereka lebih mudah untuk dikenali, sehingga mereka tidak diganggu. Dan Allah Maha Pengampun, Maha Penyayang`,
+        ``,
+        ``
+      ],
+      [
+        `Ey Peygamber! Eşlerine, kızlarına ve müminlerin kadınlarına, dışarı çıkarken üstlerine örtü almalarını söyle; bu, onların hür ve namuslu bilinmelerini ve bundan dolayı incitilmemelerini daha iyi sağlar. Allah bağışlar ve merhamet eder`,
+        ``,
+        ``
+      ],
+      [
+        `اى پيامبر، به زنان و دخترانت و به زنان مؤمنان بگو: «پوششهاى خود را بر خود فروتر گيرند. اين براى آنكه شناخته شوند و مورد آزار قرار نگيرند [به احتياط] نزديكتر است، و خدا آمرزنده مهربان است`,
+        ``,
+        ``
+      ],
+      [
+        `হে নবী! আপনি আপনার পত্নীগণকে ও কন্যাগণকে এবং মুমিনদের স্ত্রীগণকে বলুন, তারা যেন তাদের চাদরের কিয়দংশ নিজেদের উপর টেনে নেয়। এতে তাদেরকে চেনা সহজ হবে। ফলে তাদেরকে উত্যক্ত করা হবে না। আল্লাহ ক্ষমাশীল পরম দয়ালু।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó Profeta! Dize a tuas mulheres e a tuas filhas e às mulheres dos crentes que se encubram em suas roupagens. Isso é mais adequado, para que sejam reconhecidas e não sejam molestadas. E Allah é Perdoador, Misericordiador`,
+        ``,
+        ``
+      ],
+      [
+        `先知啊！你应当对你的妻子、你的女儿和信士们的妇女说：她们应当用外衣蒙着自己的身体。这样做最容易使人认识她们，而不受侵犯。真主是至赦的，是至慈的。`,
+        ``,
+        ``
+      ],
+      [
+        `預言者よ，あなたの妻，娘たちまた信者の女たちにも，かの女らに長衣を纒うよう告げなさい。それで認められ易く，悩まされなくて済むであろう。アッラーは寛容にして慈悲深くあられる。`,
+        ``,
+        ``
+      ],
+      [
+        `예언자여 그대의 아내들과 딸들과 믿는 여성들에게 베일을 쓰라고 이르라 그때는 외출할 때 라 그렇게 함이 가장 편리한 것으로 그렇게 알려져 간음되지 않도 록 함이라 실로 하나님은 관용과 자비로 충만하심이라`,
+        ``,
+        ``
+      ],
+      [
+        `O Profeta, di' alle tue spose, alle tue figlie e alle donne dei credenti di coprirsi dei loro veli, così da essere riconosciute e non essere molestate. Allah è perdonatore, misericordioso`,
+        ``,
+        ``
+      ],
+      [
+        `O proroku! Powiedz swoim żonom i swoim córkom, i kobietom wierzących, aby się szczelnie zakrywały swoimi okryciami. To jest najodpowiedniejszy sposób, aby były poznawane, a nie były obrażane. A Bóg jest Przebaczający, Litościwy`,
+        ``,
+        ``
+      ],
+      [
+        `О Пророче! Скажи своїм дружинам, донькам і віруючим жінкам, щоб вони одягалися у свої покривала. Так їх легше впізнаватимуть і не образять. Аллаг — Прощаючий, Милостивий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأحزاب / Al-Ahzab، الآية 59`
+  },
+
+  {
+    arabic: [
       `وَمَا أَرْسَلْنَاكَ إِلَّا كَافَّةً لِلنَّاسِ بَشِيرًا`,
       `وَنَذِيرًا`,
       `وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يَعْلَمُونَ`
@@ -30249,6 +34251,117 @@ const verses = [
 
   {
     arabic: [
+      `وَمَا عَلَّمْنَاهُ الشِّعْرَ وَمَا يَنْبَغِي لَهُ ۚ إِنْ هُوَ إِلَّا ذِكْرٌ وَقُرْآنٌ مُبِينٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And We did not give Prophet Muhammad, knowledge of poetry, nor is it befitting for him. It is not but a message and a clear Qur'an`,
+        ``,
+        ``
+      ],
+      [
+        `Nous ne lui (à Mohammed) avons pas enseigné la poésie ; cela ne lui convient pas non plus. Ceci n'est qu'un rappel et une Lecture [Coran] claire`,
+        ``,
+        ``
+      ],
+      [
+        `No le hemos enseñado la poesía, que no le está bien. Esto no es más que una amonestación y un Corán claro`,
+        ``,
+        ``
+      ],
+      [
+        `Мы не учили его (Мухаммада) поэзии, и не подобает ему это. Это - не что иное, как Напоминание и ясный Коран`,
+        ``,
+        ``
+      ],
+      [
+        `Und Wir haben ihn nicht das Dichten gelehrt, und es ziemt ihm (auch) nicht. Das ist doch nur eine Ermahnung und ein deutlicher Qur'an`,
+        ``,
+        ``
+      ],
+      [
+        `VI HAR inte låtit [Profeten] få undervisning i diktkonsten och denna [konst] har inte med hans uppgift att göra. [Vad han läser upp] är bara en påminnelse och en klar och klargörande framställning av [Guds] sanning`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En Wij hebben hem (Mohammed) het dichten niet onderwezen en het past hem niet. Het is niets dan een Vermaning en een duidelijke Koran`,
+        ``,
+        ``
+      ],
+      [
+        `اور ہم نے ان (پیغمبر) کو شعر گوئی نہیں سکھائی اور نہ وہ ان کو شایاں ہے۔ یہ تو محض نصیحت اور صاف صاف قرآن (پُرازحکمت) ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Kami tidak mengajarkan syair kepadanya (Muhammad) dan bersyair itu tidaklah pantas baginya. Alquran itu tidak lain hanyalah pelajaran dan Kitab yang jelas`,
+        ``,
+        ``
+      ],
+      [
+        `Biz ona şiir öğretmedik, zaten ona gerekmezdi. Bu bir öğüt ve apaçık Kuran'dır`,
+        ``,
+        ``
+      ],
+      [
+        `و [ما] به او شعر نياموختيم و در خور وى نيست، اين [سخن‌] جز اندرز و قرآنى روشن نيست`,
+        ``,
+        ``
+      ],
+      [
+        `আমি রসূলকে কবিতা শিক্ষা দেইনি এবং তা তার জন্যে শোভনীয়ও নয়। এটা তো এক উপদেশ ও প্রকাশ্য কোরআন।`,
+        ``,
+        ``
+      ],
+      [
+        `E não Ihe ensinamos a poesia, e ela não lhe é concebível. Esse não é senão Mensagem e evidente Alcorão`,
+        ``,
+        ``
+      ],
+      [
+        `我没有教他诗歌，诗歌对于他是不相宜的。这个只是教诲和明白的《古兰经》，`,
+        ``,
+        ``
+      ],
+      [
+        `われはかれ（ムハンマド）に詩を教えなかった。それはかれに相応しくない。これは（アッラーの）訓戒まごうかたないクルアーンであり，`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 예언자에게 시를 가르치지 아니했으며 시인은 그 에게 적합하지 않노라 이것은 메 세지로 사실을 밝혀주는 꾸란이라`,
+        ``,
+        ``
+      ],
+      [
+        `Non gli abbiamo insegnato la poesia, non è cosa che gli si addice; questa [rivelazione] non è che un Monito e un Corano chiarissimo`,
+        ``,
+        ``
+      ],
+      [
+        `My nie nauczyliśmy go poezji - to by nie było dla niego odpowiednie. To jest tylko napomnienie i Koran jasny`,
+        ``,
+        ``
+      ],
+      [
+        `Ми не вчили його поезії, і не личить йому це робити. Це тільки нагадування і ясний Коран`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يس / Ya-Sin، الآية 69`
+  },
+
+  {
+    arabic: [
       `أَوَلَمْ يَرَ الْإِنْسَانُ أَنَّا خَلَقْنَاهُ مِنْ نُطْفَةٍ فَإِذَا هُوَ خَصِيمٌ مُبِينٌ وَضَرَبَ لَنَا مَثَلًا وَنَسِيَ خَلْقَهُ ۖ قَالَ مَنْ يُحْيِي الْعِظَامَ وَهِيَ رَمِيمٌ قُلْ يُحْيِيهَا الَّذِي أَنْشَأَهَا أَوَّلَ مَرَّةٍ ۖ وَهُوَ بِكُلِّ خَلْقٍ عَلِيمٌ الَّذِي جَعَلَ لَكُمْ مِنَ الشَّجَرِ الْأَخْضَرِ نَارًا فَإِذَا أَنْتُمْ مِنْهُ تُوقِدُونَ أَوَلَيْسَ الَّذِي خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ بِقَادِرٍ عَلَىٰ أَنْ يَخْلُقَ مِثْلَهُمْ ۚ بَلَىٰ وَهُوَ الْخَلَّاقُ الْعَلِيمُ`,
       ``,
       ``
@@ -31137,6 +35250,117 @@ const verses = [
 
   {
     arabic: [
+      `أَفَمَنْ شَرَحَ اللَّهُ صَدْرَهُ لِلْإِسْلَامِ فَهُوَ عَلَىٰ نُورٍ مِنْ رَبِّهِ ۚ فَوَيْلٌ لِلْقَاسِيَةِ قُلُوبُهُمْ مِنْ ذِكْرِ اللَّهِ ۚ أُولَٰئِكَ فِي ضَلَالٍ مُبِينٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `So is one whose breast Allah has expanded to [accept] Islam and he is upon a light from his Lord [like one whose heart rejects it]? Then woe to those whose hearts are hardened against the remembrance of Allah. Those are in manifest error`,
+        ``,
+        ``
+      ],
+      [
+        `Est-ce que celui dont Allah ouvre la poitrine à l'islam et qui détient ainsi une lumière venant de Son Seigneur... Malheur donc à ceux dont les cœurs sont endurcis contre le rappel d'Allah. Ceux-là sont dans un égarement évident`,
+        ``,
+        ``
+      ],
+      [
+        `¿Es que aquél cuyo pecho Alá ha abierto al islam y camina así a la luz de su Señor...? ¡Ay de los que tienen un corazón insensible a la amonestación de Alá! Están evidentemente extraviados`,
+        ``,
+        ``
+      ],
+      [
+        `Разве тот, чью грудь Аллах раскрыл для ислама, кто на свету от своего Господа, равен неверующему? Горе тем, чьи сердца черствы к поминанию Аллаха! Они пребывают в очевидном заблуждении`,
+        ``,
+        ``
+      ],
+      [
+        `Ist denn jemand, dessen Brust Allah für den Islam auftut, so daß er sich nach einem Licht von seinem Herrn richtet, (einem beharrlich Ungläubigen gleich)? So wehe denjenigen, deren Herzen gegen Allahs Ermahnung verhärtet sind! Sie befinden sich in deutlichem Irrtum`,
+        ``,
+        ``
+      ],
+      [
+        `Kan den vars bröst Gud öppnar så att det kan fyllas av underkastelse under Hans vilja och så att han kan ledas av sin Herres ljus [jämställas med den som är blind för Guds budskap]? Olyckliga de som förhärdar sina hjärtan mot tanken på Gud! Det är uppenbart att de har gått vilse`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Is dan hij, wiens bart Allah heeft verruimd voor de Islam, zodat hij door een licht van zijn Heer wordt geleid... (gelijk aan degene wiens had verzegeld is?) Wee daarom hen, wiens harten zich hebben verbard tegen het gedenken van Allah. Zij zijn het die in duidelijke dwaling verkeren`,
+        ``,
+        ``
+      ],
+      [
+        `بھلا جس شخص کا سینہ خدا نے اسلام کے لئے کھول دیا ہو اور وہ اپنے پروردگار کی طرف سے روشنی پر ہو (تو کیا وہ سخت دل کافر کی طرح ہوسکتا ہے) پس ان پر افسوس ہے جن کے دل خدا کی یاد سے سخت ہو رہے ہیں۔ اور یہی لوگ صریح گمراہی میں ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Maka apakah orang-orang yang dibukakan hatinya oleh Allah untuk (menerima) agama Islam lalu dia mendapat cahaya dari Tuhannya (sama dengan orang yang hatinya membatu)? Maka celakalah mereka yang hatinya telah membatu untuk mengingat Allah. Mereka itu dalam kesesatan yang nyata`,
+        ``,
+        ``
+      ],
+      [
+        `Allah kimin gönlünü İslam'a açmışsa, o, Rabbi katından bir nur üzere olmaz mı? Kalbleri Allah'ı anmak hususunda katılaşmış olanlara yazıklar olsun; işte bunlar apaçık sapıklıktadırlar`,
+        ``,
+        ``
+      ],
+      [
+        `پس آيا كسى كه خدا سينه‌اش را براى [پذيرش‌] اسلام گشاده، و [در نتيجه‌] برخوردار از نورى از جانب پروردگارش مى‌باشد [همانند فرد تاريكدل است‌]؟ پس واى بر آنان كه از سخت‌دلى ياد خدا نمى‌كنند؛ اينانند كه در گمراهى آشكارند`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ যার বক্ষ ইসলামের জন্যে উম্মুক্ত করে দিয়েছেন, অতঃপর সে তার পালনকর্তার পক্ষ থেকে আগত আলোর মাঝে রয়েছে। (সে কি তার সমান, যে এরূপ নয়) যাদের অন্তর আল্লাহ স্মরণের ব্যাপারে কঠোর, তাদের জন্যে দূর্ভোগ। তারা সুস্পষ্ঠ গোমরাহীতে রয়েছে।`,
+        ``,
+        ``
+      ],
+      [
+        `Será que aquele, a quem Allah dilata o peito para o Islam e está em luz de seu Senhor, é como quem tem o coração selado? Então, ai daqueles cujos corações estão endurecidos para a Mensagem de Allah! Esses estão em evidente descaminho`,
+        ``,
+        ``
+      ],
+      [
+        `真主为伊斯兰而开拓其胸襟，故能接受主的光明者，难道跟胸襟狭隘的人一样吗？悲哉为记忆真主而心硬者，这等人是在明显的迷误中的。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーが，胸を開きイスラームとし，主からの御光を受けた者が同じであろうか。災いなるかな，アッラーの啓示を頑なに拒む者こそ，明らかに心迷える者である。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서 이슬람으로 그의가슴을 열어주사 주님으로부터 광명을 받은 자가 마음이 굳은 자와같을 수 있느뇨 마음이 굳어 하나님을 찬미하지 아니한 자에게는 재앙이 있나니 실로 그들은 크게 방황하고 있음이라`,
+        ``,
+        ``
+      ],
+      [
+        `Colui cui Allah apre il cuore all'Islàm e che possiede una luce che proviene dal suo Signore... Guai a coloro che hanno i cuori insensibili al Ricordo di Allah. Essi sono in errore evidente`,
+        ``,
+        ``
+      ],
+      [
+        `Czyż ten, którego pierś Bóg otworzył dla islamu i który posiada światło od swego Pana?... Biada więc tym, których serca są zatwardziałe na napomnienie Boga! Ci są w błędzie oczywistym`,
+        ``,
+        ``
+      ],
+      [
+        `Хіба той, чиї груди Аллаг розкрив для ісламу й хто тримається світла від Свого Господа, рівний [тому, хто має черстве серце й далекий від істини]? Горе тим, чиї серця байдужі до згадування про Аллага! Воістину, вони перебувають у явній омані`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الزمر / Az-Zumar، الآية 22`
+  },
+
+  {
+    arabic: [
       `اللَّهُ نَزَّلَ أَحْسَنَ الْحَدِيثِ كِتَابًا مُّتَشَابِهًا مَّثَانِيَ`,
       `تَقْشَعِرُّ مِنْهُ جُلُودُ الَّذِينَ يَخْشَوْنَ رَبَّهُمْ`,
       `ثُمَّ تَلِينُ جُلُودُهُمْ وَقُلُوبُهُمْ إِلَىٰ ذِكْرِ اللَّهِ ۚ ذَٰلِكَ هُدَى اللَّهِ`
@@ -31244,6 +35468,117 @@ const verses = [
       ]
     ],
     number: `سورة الزمر / Az-Zumar، الآية 23`
+  },
+
+  {
+    arabic: [
+      `وَلَقَدْ ضَرَبْنَا لِلنَّاسِ فِي هَٰذَا الْقُرْآنِ مِنْ كُلِّ مَثَلٍ لَعَلَّهُمْ يَتَذَكَّرُونَ قُرْآنًا عَرَبِيًّا غَيْرَ ذِي عِوَجٍ لَعَلَّهُمْ يَتَّقُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And We have certainly presented for the people in this Qur'an from every [kind of] example - that they might remember [It is] an Arabic Qur'an, without any deviance that they might become righteous`,
+        ``,
+        ``
+      ],
+      [
+        `Nous avons, dans ce Coran, cité pour les gens des exemples de toutes sortes afin qu'ils se souviennent Un Coran [en langue] arabe, dénué de tortuosité, afin qu'ils soient pieux`,
+        ``,
+        ``
+      ],
+      [
+        `En este Corán hemos dado a los hombres toda clase de ejemplos. Quizás, así, se dejen amonestar Es un Corán árabe, exento de recovecos. Quizás, así, teman a Alá`,
+        ``,
+        ``
+      ],
+      [
+        `Мы уже привели для людей в этом Коране всевозможные притчи, чтобы они могли помянуть назидание Мы ниспослали Коран, в котором нет неправды, на арабском языке, чтобы они устрашились`,
+        ``,
+        ``
+      ],
+      [
+        `Und Wir haben ja den Menschen in diesem Qur'an allerlei Gleichnisse geprägt, auf daß sie bedenken mögen (in diesem) arabischen Qur'an, an dem nichts Krummes ist, - auf daß sie gottesfürchtig werden mögen`,
+        ``,
+        ``
+      ],
+      [
+        `I KORANEN har Vi framställt alla slag av liknelser för människorna - kanske skall de stämma dem till eftertanke en Koran på det arabiska språket, fri från slingrande formuleringar; kanske skall de [lära sig att] frukta Gud`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En voorzeker, Wij hebben voor de mensen in deze Koran allerlei vergelijkingen gemaakt. Hopelijk zullen zij zich laten vermanen Door een Arabische Koran, waarin geen afwijkingen voorkomen. Hopelijk zullen zij (Allah) vrezen`,
+        ``,
+        ``
+      ],
+      [
+        `اور ہم نے لوگوں کے (سمجھانے کے) لئے اس قرآن میں ہر طرح کی مثالیں بیان کی ہیں تاکہ وہ نصیحت پکڑیں (یہ) قرآن عربی (ہے) جس میں کوئی عیب (اور اختلاف) نہیں تاکہ وہ ڈر مانیں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan sungguh, telah Kami buatkan dalam Alquran ini segala macam perumpamaan bagi manusia agar mereka dapat pelajaran (Yaitu) Alquran dalam bahasa Arab, tidak ada kebengkokan (di dalamnya) agar mereka bertakwa`,
+        ``,
+        ``
+      ],
+      [
+        `Biz bu Kuran'da insanlara her türlü misali, belki öğüt alırlar diye, and olsun ki verdik O, eğriliği olmayan, Arapça bir Kuran'dır. Belki sakınırlar`,
+        ``,
+        ``
+      ],
+      [
+        `و در اين قرآن از هر گونه مثَلى براى مردم آورديم، باشد كه آنان پندگيرند قرآنى عربى، بى‌هيچ كژى؛ باشد كه آنان راه تقوا پويند`,
+        ``,
+        ``
+      ],
+      [
+        `আমি এ কোরআনে মানুষের জন্যে সব দৃষ্টান্তই বর্ণনা করেছি, যাতে তারা অনুধাবন করে আরবী ভাষায় এ কোরআন বক্রতামুক্ত, যাতে তারা সাবধান হয়ে চলে।`,
+        ``,
+        ``
+      ],
+      [
+        `E, com efeito, propomos, para os homens, neste Alcorão, toda sorte de exemplos, para meditarem Sendo Alcorão árabe, sem tortuosidade alguma, para serem piedosos`,
+        ``,
+        ``
+      ],
+      [
+        `我在这《古兰经》中，确已为人们设了各种譬喻，以便他们觉悟。 这是一本阿拉伯文的无邪曲的《古兰经》，以便他们敬畏。`,
+        ``,
+        ``
+      ],
+      [
+        `またわれは各種の比喩を人びとのために，このクルアーンの中で提示した。かれらが訓戒を受け入れればよいと思って。 少しも曲ったところのない，アラビア語のクルアーンで必ずかれらはわれを畏れること（を知る）であろう。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님은 인간을 위하여 이 꾸란속에 모든 종류의 비유를 두 었나니 이로 하여 그들에게 교훈 이 되고자 함이라 그것은 아랍어로 계시된 꾸 란이며 그 안에는 이견이 없나니 이로 하여 그들이 사악함을 막는 데 있노라`,
+        ``,
+        ``
+      ],
+      [
+        `Già in questo Corano abbiamo proposto agli uomini parabole di ogni genere, affinché riflettano [Abbiamo dato loro] un Corano arabo, esente da tortuosità, affinché temano [Allah]`,
+        ``,
+        ``
+      ],
+      [
+        `Daliśmy ludziom w tym Koranie wszelkiego rodzaju przykłady. - Być może, oni się opamiętają To jest Koran arabski, nie posiadający żadnej zawiłości, być może, oni będą bogobojni`,
+        ``,
+        ``
+      ],
+      [
+        `Ми наводимо для людей у цьому Корані різні притчі — можливо, вони замисляться У Корані арабському, в якому немає кривизни — можливо, вони будуть богобоязливими`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الزمر / Az-Zumar، الآيتان 27-28`
   },
 
   {
@@ -31688,6 +36023,117 @@ const verses = [
       ]
     ],
     number: `سورة غافر / Ghafir، الآيتان 16-17`
+  },
+
+  {
+    arabic: [
+      `مَنْ عَمِلَ سَيِّئَةً فَلَا يُجْزَىٰ إِلَّا مِثْلَهَا ۖ وَمَنْ عَمِلَ صَالِحًا مِنْ ذَكَرٍ أَوْ أُنْثَىٰ وَهُوَ مُؤْمِنٌ فَأُولَٰئِكَ يَدْخُلُونَ الْجَنَّةَ يُرْزَقُونَ فِيهَا بِغَيْرِ حِسَابٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Whoever does an evil deed will not be recompensed except by the like thereof; but whoever does righteousness, whether male or female, while he is a believer - those will enter Paradise, being given provision therein without account`,
+        ``,
+        ``
+      ],
+      [
+        `Quiconque fait une mauvaise action ne sera rétribué que par son pareil ; et quiconque, mâle ou femelle, fait une bonne action tout en étant croyant, alors ceux-là entreront au Paradis pour y recevoir leur subsistance sans compter`,
+        ``,
+        ``
+      ],
+      [
+        `Quien obre mal no será retribuido sino con una pena similar. En cambio, los creyentes, varones o hembras, que obren bien entrarán en el Jardín y serán proveídos en él sin medida`,
+        ``,
+        ``
+      ],
+      [
+        `Тот, кто совершил зло, получит только соответствующее воздаяние. А те мужчины и женщины, которые поступали праведно, будучи верующими, войдут в Рай, в котором они будут получать удел без счета`,
+        ``,
+        ``
+      ],
+      [
+        `Wer etwas Böses tut, dem wird nur gleichviel vergolten. Wer aber rechtschaffen handelt, ob Mann oder Frau, und dabei gläubig ist, jene werden dann in den (Paradies)garten eingehen, wo sie versorgt werden ohne Abrechnung`,
+        ``,
+        ``
+      ],
+      [
+        `Den som har begått en dålig handling skall få det straff som motsvarar denna handling, men den som gör det goda och det rätta, man eller kvinna, och som är troende skall stiga in i paradiset och skall där få njuta [Guds] gåvor i överflöd`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Wie een slechte daad heeft verricht wordt niet anders dan met haar gelijke vergolden. En wie een goede daad heeft verricht, man of vrouw; terwijl hij (of zij) een gelovige is: zij zijn het die Paradijs zullen binnengaan, zij zullen daarin voorzien worden, zonder berekening`,
+        ``,
+        ``
+      ],
+      [
+        `جو برے کام کرے گا اس کو بدلہ بھی ویسا ہی ملے گا۔ اور جو نیک کام کرے گا مرد ہو یا عورت اور وہ صاحب ایمان بھی ہوگا تو ایسے لوگ بہشت میں داخل ہوں گے وہاں ان کو بےشمار رزق ملے گا`,
+        ``,
+        ``
+      ],
+      [
+        `Barangsiapa mengerjakan perbuatan jahat, maka dia akan dibalas sebanding dengan kejahatan itu. Dan barangsiapa mengerjakan kebajikan, baik laki-laki maupun perempuan sedangkan dia dalam keadaan beriman, maka mereka akan masuk surga, mereka diberi rezeki didalamnya tidak terhingga`,
+        ``,
+        ``
+      ],
+      [
+        `Kim bir kötülük işlerse ancak onun kadar ceza görür. Kadın veya erkek, kim, inanarak yararlı iş işlerse, işte onlar cennete girerler; orada hesapsız şekilde rızıklanırlar`,
+        ``,
+        ``
+      ],
+      [
+        `هر كه بدى كند، جز به مانند آن كيفر نمى‌يابد؛ و هر كه كار شايسته كند -چه مرد باشد يا زن- در حالى كه ايمان داشته باشد، در نتيجه آنان داخل بهشت مى‌شوند و در آنجا بى‌حساب روزى مى‌يابند`,
+        ``,
+        ``
+      ],
+      [
+        `যে মন্দ কর্ম করে, সে কেবল তার অনুরূপ প্রতিফল পাবে, আর যে, পুরুষ অথবা নারী মুমিন অবস্থায় সৎকর্ম করে তারাই জান্নাতে প্রবেশ করবে। তথায় তাদেরকে বে-হিসাব রিযিক দেয়া হবে।`,
+        ``,
+        ``
+      ],
+      [
+        `Quem faz um mal não será recompensado senão com seu equivalente. E quem faz um bem, seja varão ou varoa, enquanto crente, esses entrarão no Paraíso; nele, dar-se-lhes-á sustento, sem conta`,
+        ``,
+        ``
+      ],
+      [
+        `作恶者只受同样的恶报；行善而且信道的男子和女子，将入乐园，受无量的供给。`,
+        ``,
+        ``
+      ],
+      [
+        `悪事を行った者は，それと同じ報いをうけます。だが善行をする者は，男でも女でも信者なら凡て楽園に入り，そこで限りない御恵みを与えられます。`,
+        ``,
+        ``
+      ],
+      [
+        `사악한 자 그와 같은 것 외에는 보상을 받지 못하며 선을 실천한 믿음의 남녀는 천국으로 들 어가리니 그곳에서 그들은 계산없는 풍성함을 누리게 되리라`,
+        ``,
+        ``
+      ],
+      [
+        `Chi farà un male, subirà una sanzione corrispondente, mentre chi fa il bene, essendo credente, maschio o femmina, sarà fra coloro che entreranno nel Giardino in cui riceveranno di ogni cosa a profusione`,
+        ``,
+        ``
+      ],
+      [
+        `Kto czyni zło, ten otrzyma odpowiednią zapłatę. A kto czyni dobro, mężczyzna czy kobieta, i jest wierzący - tacy wejdą do Ogrodu, gdzie będą mieli zaopatrzenie bez rachunku`,
+        ``,
+        ``
+      ],
+      [
+        `Хто чинитиме зло, отримає таку саму відплату. А хто чинитиме добро — чоловік чи жінка — і буде віруючим, той увійде до раю. Вони матимуть там свій наділ без відплати`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة غافر / Ghafir، الآية 40`
   },
 
   {
@@ -32580,6 +37026,117 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّ الَّذِينَ كَفَرُوا بِالذِّكْرِ لَمَّا جَاءَهُمْ ۖ وَإِنَّهُ لَكِتَابٌ عَزِيزٌ لَا يَأْتِيهِ الْبَاطِلُ مِنْ بَيْنِ يَدَيْهِ وَلَا مِنْ خَلْفِهِ ۖ تَنْزِيلٌ مِنْ حَكِيمٍ حَمِيدٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, those who disbelieve in the message after it has come to them... And indeed, it is a mighty Book Falsehood cannot approach it from before it or from behind it; [it is] a revelation from a [Lord who is] Wise and Praiseworthy`,
+        ``,
+        ``
+      ],
+      [
+        `ceux qui ne croient pas au Rappel [le Coran] quand il leur parvient... alors que c'est un Livre puissant [inattaquable] le faux ne l'atteint [d'aucune part], ni par devant ni par derrière : c'est une révélation émanant d'un Sage, Digne de louange`,
+        ``,
+        ``
+      ],
+      [
+        `Los que no creen en la Amonestación cuando ésta viene a ellos... Y eso que es una Escritura excelente completamente inaccesible a lo falso, revelación procedente de uno Que es sabio, digno de alabanza`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, те, которые не уверовали в Напоминание, когда оно дошло до них, будут наказаны. Воистину, это - могущественное Писание Ложь не подберется к нему ни спереди, ни сзади. Оно ниспослано от Мудрого, Достохвального`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, diejenigen, die die Ermahnung verleugnen, nachdem sie zu ihnen gekommen ist ... Es ist fürwahr ein wehrhaftes Buch an das das Falsche weder von vorn noch von hinten herankommt, eine Offenbarung von einem Allweisen und Lobenswürdigen`,
+        ``,
+        ``
+      ],
+      [
+        `De som förnekar sanningen i denna Påminnelse när den når dem [har ett fruktansvärt straff att vänta]. Den är en Skrift [som övertygar] med väldig kraft ingen lögn kan komma vid den vare sig öppet eller på hemliga vägar! Nej, den uppenbaras av en allvis Gud, som allt lov och pris tillkommer`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, degenen die niet in de Vermaning (de Koran) geloven nadat deze tot hen was gekomen (zullen gestraft worden). Voorwaar, het is een verheven Boek De valsheid raakt hem (de Koran) niet, niet van voren en niet van achteren. (Het is) een neerzending van de Alwijze, de Geprezene`,
+        ``,
+        ``
+      ],
+      [
+        `جن لوگوں نے نصیحت کو نہ مانا جب وہ ان کے پاس آئی۔ اور یہ تو ایک عالی رتبہ کتاب ہے اس پر جھوٹ کا دخل نہ آگے سے ہوسکتا ہے نہ پیچھے سے۔ (اور) دانا (اور) خوبیوں والے (خدا) کی اُتاری ہوئی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya orang-orang yang mengingkari Alquran ketika (Alquran) itu disampaikan kepada mereka (mereka itu pasti akan celaka), dan sesungguhnya (Alquran) itu adalah Kitab yang mulia (yang) tidak akan didatangi oleh kebatilan baik dari depan maupun dari belakang (pada masa lalu dan yang akan datang), yang diturunkan dari Tuhan Yang Mahabijaksana, Maha Terpuji`,
+        ``,
+        ``
+      ],
+      [
+        `Kitap kendilerine gelince, onlar, onu inkar etmişlerdir; oysa o, değerli bir Kitap'dır. Geçmişte ve gelecekte onu batıl kılacak yoktur. Hakim ve övülmeğe layık olan Allah katından indirilmedir`,
+        ``,
+        ``
+      ],
+      [
+        `كسانى كه به اين قرآن -چون بديشان رسيد- كفر ورزيدند [به كيفر خود مى‌رسند] و به راستى كه آن كتابى ارجمند است از پيش روى آن و از پشت سرش باطل به سويش نمى‌آيد؛ وحى [نامه‌]اى است از حكيمى ستوده‌[صفات‌]`,
+        ``,
+        ``
+      ],
+      [
+        `নিশ্চয় যারা কোরআন আসার পর তা অস্বীকার করে, তাদের মধ্যে চিন্তা-ভাবনার অভাব রয়েছে। এটা অবশ্যই এক সম্মানিত গ্রন্থ। এতে মিথ্যার প্রভাব নেই, সামনের দিক থেকেও নেই এবং পেছন দিক থেকেও নেই। এটা প্রজ্ঞাময়, প্রশংসিত আল্লাহর পক্ষ থেকে অবতীর্ণ।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, aos que renegam a Mensagem, quando esta lhes chega, castigá-los-emos. E, por certo, ele é um Livro poderoso A falsidade não lhe chega, nem por diante nem por detrás dele. É a revelação descida de Um Sábio, Louvável`,
+        ``,
+        ``
+      ],
+      [
+        `不信已降临的教诲者，我要惩罚他。那教诲确是坚固的经典。 虚伪不能从它的前后进攻它，它是从至睿的，可颂的主降示的。`,
+        ``,
+        ``
+      ],
+      [
+        `訓戒（クルアーン）がかれらのもとに来た時，それを拒否した者は（われから隠れられない）。本当にそれは偉大な啓典であり， 虚偽は，前からも後ろからも，近付ことは出来ない。これは，英明で讃美すべき方からの啓示である。`,
+        ``,
+        ``
+      ],
+      [
+        `메세지가 그들에게 이르렀을때 그것을 거역한 자들도 하나님 앞에서 숨겨질 수 없노라 실로 그것은 권능의 성서라 어떤 허위도 뒤에서나 또는 앞에서 그것에 접근할 수 없나니 그것은 지혜로 충만하시고 모든 영광을 홀로 받으실 그분에 의해 계시된 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità essi non credono al Monito che giunse loro, eppure questo è davvero un Libro venerato non lo tange la falsità in niuna delle sue parti. È una rivelazione da parte di un Saggio, Degno di lode`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, ci, którzy nie wierzą w napomnienie, kiedy ono do nich przychodzi... - a przecież to jest Księga wspaniała Nie przenika do niej fałsz z żadnej strony. To jest objawienie pochodzące od mądrego, godnego chwały`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, ті, які не увірували в нагадування, коли воно прийшло до них, [будуть покарані за своє невір’я], адже це — Могутнє Писання Брехня не підбереться до нього ні спереду, ні ззаду. Його зіслано від Мудрого, Хвалимого`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة فصلت / Fussilat، الآيتان 41-42`
+  },
+
+  {
+    arabic: [
       `قُلْ هُوَ لِلَّذِينَ آمَنُوا هُدًى وَشِفَاءٌ`,
       ``,
       ``
@@ -33242,6 +37799,117 @@ const verses = [
       ]
     ],
     number: `سورة الشورى / Ash-Shura، الآية 52`
+  },
+
+  {
+    arabic: [
+      `وَالْكِتَابِ الْمُبِينِ إِنَّا جَعَلْنَاهُ قُرْآنًا عَرَبِيًّا لَعَلَّكُمْ تَعْقِلُونَ وَإِنَّهُ فِي أُمِّ الْكِتَابِ لَدَيْنَا لَعَلِيٌّ حَكِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `By the clear Book Indeed, We have made it an Arabic Qur'an that you might understand And indeed it is, in the Mother of the Book with Us, exalted and full of wisdom`,
+        ``,
+        ``
+      ],
+      [
+        `Par le Livre explicite Nous en avons fait un Coran arabe afin que vous raisonniez Il est auprès de Nous, dans l'Ecriture-Mère (l'original du ciel), sublime et rempli de sagesse`,
+        ``,
+        ``
+      ],
+      [
+        `¡Por la Escritura clara Hemos hecho de ella un Corán árabe. Quizás, así, razonéis Está en la Escritura Matriz que Nosotros tenemos, sublime, sabio`,
+        ``,
+        ``
+      ],
+      [
+        `Клянусь ясным Писанием Воистину, Мы сделали его Кораном на арабском языке, чтобы вы могли уразуметь Воистину, он находится у Нас в Матери Писания (Хранимой скрижали). Он возвышен, преисполнен мудрости`,
+        ``,
+        ``
+      ],
+      [
+        `Bei dem deutlichen Buch Wir haben es ja zu einem arabischen Qur'an gemacht, auf daß ihr begreifen möget und gewiß, er ist in der Urschrift des Buches bei Uns wahrlich erhaben und weise`,
+        ``,
+        ``
+      ],
+      [
+        `VID SKRIFTEN, som är klar i sig själv och som klart framställer sanningen Vi har utformat den som en förkunnelse på det arabiska språket för att ni helt och fullt skall förstå [dess budskap] Den har sitt ursprung hos Oss, all uppenbarelses källa, och den [förmedlar] i högstämda ordalag den djupaste visdom`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Bij het duidelijke Boek. (de Koran) Voorwaar, Wij hebben hem als een Arabische Koran gemaakt Hopelijk zullen jullie begrijpen En voorwaar, bij is bij Ons vastgelegd in de Moeder van de Schrift (Lauhoelmahfôezh), verheven en wijs`,
+        ``,
+        ``
+      ],
+      [
+        `کتاب روشن کی قسم کہ ہم نے اس کو قرآن عربی بنایا ہے تاکہ تم سمجھو اور یہ بڑی کتاب (یعنی لوح محفوظ) میں ہمارے پاس (لکھی ہوئی اور) بڑی فضیلت اور حکمت والی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Demi Kitab (Alquran) yang jelas Kami menjadikan Alquran dalam bahasa Arab agar kamu mengerti Dan sesungguhnya Alquran itu dalam ummul Kitāb (Lauḥ Maḥfūẓ) di sisi Kami, benar-benar (bernilai) tinggi dan penuh hikmah`,
+        ``,
+        ``
+      ],
+      [
+        `Apaçık Kitap'a and olsun ki, akledesiniz diye Kuran'ı Arapça okunan bir Kitap kılmışızdır Şüphesiz o, Bizim katımızda Ana Kitap'ta mevcut, yüce ve hikmet dolu bir Kitap'dır`,
+        ``,
+        ``
+      ],
+      [
+        `سوگند به كتاب روشنگر ما آن را قرآنى عربى قرار داديم، باشد كه بينديشيد و همانا كه آن در كتاب اصلى [=لوح محفوظ] به نزد ما سخت والا و پر حكمت است`,
+        ``,
+        ``
+      ],
+      [
+        `শপথ সুস্পষ্ট কিতাবের আমি একে করেছি কোরআন, আরবী ভাষায়, যাতে তোমরা বুঝ। নিশ্চয় এ কোরআন আমার কাছে সমুন্নত অটল রয়েছে লওহে মাহফুযে।`,
+        ``,
+        ``
+      ],
+      [
+        `Pelo Livro explícito Por certo, Nós o fizemos um Alcorão árabe, para razoardes E, por certo, estando na Mãe do Livro, junto de Nós, ele é altíssimo, sábio`,
+        ``,
+        ``
+      ],
+      [
+        `以明白的经典盟誓， 我确已以此为阿拉伯文的《古兰经》，以便你们了解。 在我那里的天经原本中，它确是高尚的，确是睿智的。`,
+        ``,
+        ``
+      ],
+      [
+        `（事物を）明瞭にする啓典にかけて（誓う）。 本当にわれは，それをアラビア語のクルアーンとした。あなたがたが理解するために。 それはわが許の母典の中にあり，非常に高く英知に益れている。`,
+        ``,
+        ``
+      ],
+      [
+        `사실을 밝혀주는 이 성서에 맹세하니라 하나님은 그것을 아랍어로 계시하였으니 이로 하여 너희가 이 해하고 배우도록 함이라 실로 그것은 하나님 성서의 모전에 있는 것으로 지혜가 가득 채워진 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `Per il Libro esplicito Ne abbiamo fatto un Corano arabo affinché comprendiate Esso è presso di Noi, nella Madre del Libro, sublime e colmo di saggezza`,
+        ``,
+        ``
+      ],
+      [
+        `Na Księgę jasną Oto uczyniliśmy ją Koranem arabskim! Być może, zrozumiecie On jest w Matce Księgi u Nas, wzniosły, mądry`,
+        ``,
+        ``
+      ],
+      [
+        `Клянуся ясним Писанням Ми зробили його арабським Кораном, щоб ви могли розуміти він знаходиться біля Нас у Матері Писання, піднесений, мудрий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الزخرف / Az-Zukhruf، الآيات 2-4`
   },
 
   {
@@ -34352,6 +39020,117 @@ const verses = [
       ]
     ],
     number: `سورة الحجرات / Al-Hujurat، الآية 2`
+  },
+
+  {
+    arabic: [
+      `وَاعْلَمُوا أَنَّ فِيكُمْ رَسُولَ اللَّهِ ۚ لَوْ يُطِيعُكُمْ فِي كَثِيرٍ مِنَ الْأَمْرِ لَعَنِتُّمْ وَلَٰكِنَّ اللَّهَ حَبَّبَ إِلَيْكُمُ الْإِيمَانَ وَزَيَّنَهُ فِي قُلُوبِكُمْ وَكَرَّهَ إِلَيْكُمُ الْكُفْرَ وَالْفُسُوقَ وَالْعِصْيَانَ ۚ أُولَٰئِكَ هُمُ الرَّاشِدُونَ فَضْلًا مِنَ اللَّهِ وَنِعْمَةً ۚ وَاللَّهُ عَلِيمٌ حَكِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And know that among you is the Messenger of Allah. If he were to obey you in much of the matter, you would be in difficulty, but Allah has endeared to you the faith and has made it pleasing in your hearts and has made hateful to you disbelief, defiance and disobedience. Those are the [rightly] guided [It is] as bounty from Allah and favor. And Allah is Knowing and Wise`,
+        ``,
+        ``
+      ],
+      [
+        `Et sachez que le Messager d'Allah est parmi vous. S'il vous obéissait dans maintes affaires, vous seriez en difficultés. Mais Allah vous a fait aimer la foi et l'a embellie dans vos cœurs et vous a fait détester la mécréance, la perversité et la désobéissance. Ceux-là sont les biens dirigés c'est là en effet une grâce d'Allah et un bienfait. Allah est Omniscient et Sage`,
+        ``,
+        ``
+      ],
+      [
+        `Sabed que está entre vosotros el Enviado de Alá. En muchos casos, si os obedeciera, os veríais en apuro. Pero Alá os ha hecho amar la fe, engalanándola a vuestros corazones. En cambio, os ha hecho aborrecer la incredulidad, el vicio y la desobediencia. Ésos son los bien dirigidos por favor y gracia de Alá. Alá es omnisciente, sabio`,
+        ``,
+        ``
+      ],
+      [
+        `Знайте, что среди вас находится Посланник Аллаха. Если бы он подчинялся вам во многих делах, то вы непременно попали бы в затруднительное положение. Но Аллах привил вам любовь к вере, и представил ее прекрасной вашим сердцам, и сделал ненавистными вам неверие, нечестие и неповиновение. Таковы идущие правым путем по милосердию и милости Аллаха. Аллах - Знающий, Мудрый`,
+        ``,
+        ``
+      ],
+      [
+        `Und wißt, daß Allahs Gesandter unter euch ist. Wenn er euch in vielen Angelegenheiten gehorchte, würdet ihr wahrlich in Bedrängnis kommen. Aber Allah hat euch den Glauben lieb gemacht und in euren Herzen ausgeschmückt, und Er hat euch den Unglauben, den Frevel und den Ungehorsam verabscheuen lassen. Das sind diejenigen, die besonnen handeln Dies als Huld und Gunst von Allah. Und Allah ist Allwissend und Allweise`,
+        ``,
+        ``
+      ],
+      [
+        `Och tänk på att det är Guds Sändebud ni har mitt ibland er; om han var gång ni lägger fram ett problem lyssnade till era [åsikter], kunde det vålla er svårigheter. Men Gud har gjort tron dyrbar för er och visat era hjärtan dess skönhet och Han har ingjutit i er avsky mot förnekandet av sanningen och mot all synd och olydnad. De [som beskrivs på detta sätt] är de som följer den raka vägen tack vare Guds nåd och Hans godhet; Gud är allvetande, vis`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En weet dat onder jullie zich de Boodschapper van Allah bevindt. Als hij jullie (adviezen) zou volgen in vele aangelegenheden, dan zouden jullie zeker in moeilijkheden verkeren. Maar Allah heeft jullie doen houden van het geloof en Hij heeft het mooi gemaakt in jullie harten en Hij heeft jullie een afkeer doen hebben van ongeloof, zware zonden en opstandigheid. Zij zijn degenen die het rechte Pad volgen Als een gunst van Allah en een genieting. En Allah is Alwetend, Alwijs`,
+        ``,
+        ``
+      ],
+      [
+        `اور جان رکھو کہ تم میں خدا کے پیغمبرﷺ ہیں۔ اگر بہت سی باتوں میں وہ تمہارا کہا مان لیا کریں تو تم مشکل میں پڑ جاؤ لیکن خدا نے تم کو ایمان عزیز بنا دیا اور اس کو تمہارے دلوں میں سجا دیا اور کفر اور گناہ اور نافرمانی سے تم کو بیزار کردیا۔ یہی لوگ راہ ہدایت پر ہیں (یعنی) خدا کے فضل اور احسان سے۔ اور خدا جاننے والا (اور) حکمت والا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan ketahuilah bahwa di tengah-tengah kamu ada Rasulullah. Kalau dia menuruti (kemauan) kamu dalam banyak hal, pasti kamu akan mendapatkan kesusahan. Tetapi Allah menjadikan kamu cinta kepada keimanan, dan menjadikan (iman) itu indah dalam hatimu, serta menjadikan kamu benci kepada kekafiran, kefasikan dan kedurhakaan. Mereka itulah orang-orang yang mengikuti jalan yang lurus sebagai karunia dan nikmat dari Allah. Dan Allah Maha Mengetahui, Mahabijaksana`,
+        ``,
+        ``
+      ],
+      [
+        `Bilin ki, içinizde Allah'ın Peygamberi bulunmaktadır. Eğer o, bir çok işlerde size uymuş olsaydı şüphesiz kötü duruma düşerdiniz; ama Allah size imanı sevdirmiş, onu gönüllerinize güzel göstermiş; inkarcılığı, yoldan çıkmayı ve baş kaldırmayı size iğrenç göstermiştir. İşte böyle olanlar, Allah katından bir lütuf ve nimet sayesinde doğru yolda bulunanlardır. Allah bilendir, Hakim'dir`,
+        ``,
+        ``
+      ],
+      [
+        `و بدانيد كه پيامبر خدا در ميان شماست. اگر در بسيارى از كارها از [رأى و ميل‌] شما پيروى كند، قطعاً دچار زحمت مى‌شويد، ليكن خدا ايمان را براى شما دوست‌داشتنى گردانيد و آن را در دلهاى شما بياراست و كفر و پليدكارى و سركشى را در نظرتان ناخوشايند ساخت. آنان [كه چنين‌اند] ره‌يافتگانند [و اين‌] بخششى از خدا و نعمتى [از اوست‌]، و خدا داناى سنجيده‌كار است`,
+        ``,
+        ``
+      ],
+      [
+        `তোমরা জেনে রাখ তোমাদের মধ্যে আল্লাহর রসূল রয়েছেন। তিনি যদি অনেক বিষয়ে তোমাদের আবদার মেনে নেন, তবে তোমরাই কষ্ট পাবে। কিন্তু আল্লাহ তোমাদের অন্তরে ঈমানের মহব্বত সৃষ্টি করে দিয়েছেন এবং তা হৃদয়গ্রাহী করে দিয়েছেন। পক্ষান্তরে কুফর, পাপাচার ও নাফরমানীর প্রতি ঘৃণা সৃষ্টি করে দিয়েছেন। তারাই সৎপথ অবলম্বনকারী। এটা আল্লাহর কৃপা ও নিয়ামতঃ আল্লাহ সর্বজ্ঞ প্রজ্ঞাময়।`,
+        ``,
+        ``
+      ],
+      [
+        `E sabei que, entre vós, está o Mensageiro de Allah. Se ele vos obedecesse, em muitos dos assuntos, embaraçar-vos-íeis. Mas Allah vos fez amar a Fé e aformoseou-a, em vossos corações, e vos fez odiar a renegação da Fé e a perversidade e a desobediência. Esses são os assisados Por favor e graça de Allah. E Allah é Onisciente, Sábio`,
+        ``,
+        ``
+      ],
+      [
+        `你们应当知道，真主的使者在你们之间，假若他对于许多事情都顺从你们，你们必陷于苦难。但真主使你们热爱正信，并在你们的心中修饰它；他使你们觉得迷信、罪恶、放荡是可恶的；这等人，确是循规蹈矩的。 这是由于真主所降的恩惠和福泽。真主是全知的，是至睿。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがたの間にアッラーの使徒がいることを知れ。かれがもし多くの事柄に就いてあなたがたに従ったならば，あなたがたはきっと不幸に陥ったことであろう。だがアッラーは，あなたがたに信仰を好ましいものとなされ，またあなたがたの心を，それに相応しくして，あなたがたに不信心と邪悪と反逆を嫌うようになされた。これは正しく導かれた者である。 それもアッラーからの御恵みであり，恩恵である。アッラーは全知にして英明であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `그리고 너희 가운데 선지자가함께 하고 있음을 알라 그가 어떤많은 일들에 너희의 뜻을 따랐다 면 실로 너희는 곤경에 빠졌으리 라 그러나 하나님은 너희로 하여 금 믿음을 더 사랑케 하고 너희 심중을 더 아름답게 하사 너희로 하여금 불신과 죄악과 거역함을 증오하도록 하셨으니 실로 그것이옳은 길을 걷는 자들이라 실로 이것은 하나님의 은혜와은총이니 실로 하나님은 아심과 지혜로 충만하심이라`,
+        ``,
+        ``
+      ],
+      [
+        `E sappiate che il Messaggero di Allah è tra voi. Se in molte questioni accondiscendesse ai vostri [desideri], voi sareste in gravi difficoltà; ma Allah vi ha fatto amare la fede e l'ha resa bella ai vostri cuori, così come vi ha fatto detestare la miscredenza, la malvagità e la disobbedienza. Essi sono i ben diretti [questa] è la grazia di Allah e il Suo favore. Allah è sapiente, saggio`,
+        ``,
+        ``
+      ],
+      [
+        `I wiedzcie, że Posłaniec Boga jest pośród was. Jeśliby on posłuchał was w wielu sprawach, to z pewnością ponieślibyście szkodę. Lecz Bóg dał wam pokochać wiarę i On ozdobił ją w waszych sercach, a uczynił dla was nienawistną niewiarę, zepsucie i nieposłuszeństwo. Tacy - oni idą drogą prawości To jest łaska Boga i dobrodziejstwo. Bóg jest wszechwiedzący, mądry`,
+        ``,
+        ``
+      ],
+      [
+        `Знайте, що серед вас перебуває Посланець Аллага. Якби він слухався вас у багатьох справах, то ви потрапили б у скруту. Проте Аллаг дозволив вам полюбити віру, зробив її прекрасною для ваших сердець і дарував ненависть до невір’я, нечестя та непослуху. Саме такі йдуть прямим шляхом завдяки ласці від Аллага та Його милості. Аллаг — Всезнаючий, Мудрий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الحجرات / Al-Hujurat، الآيتان 7-8`
   },
 
   {
@@ -36465,6 +41244,117 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّهُ لَقُرْآنٌ كَرِيمٌ فِي كِتَابٍ مَكْنُونٍ لَا يَمَسُّهُ إِلَّا الْمُطَهَّرُونَ تَنْزِيلٌ مِنْ رَبِّ الْعَالَمِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, it is a noble Qur'an In a Register well-protected None touch it except the purified [It is] a revelation from the Lord of the worlds`,
+        ``,
+        ``
+      ],
+      [
+        `Et c'est certainement un Coran noble dans un Livre bien gardé que seuls les purifiés touchent C'est une révélation de la part du Seigneur de l'Univers`,
+        ``,
+        ``
+      ],
+      [
+        `¡Es, en verdad, un Corán noble contenido en una Escritura escondida que sólo los purificados tocan una revelación que procede del Señor del universo`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, это - благородный Коран находящийся в Хранимом Писании К нему прикасаются только очищенные Он ниспослан Господом миров`,
+        ``,
+        ``
+      ],
+      [
+        `Das ist wahrlich ein ehrwürdiger Qur'an in einem wohlverwahrten Buch das nur diejenigen berühren (dürfen), die vollkommen gereinigt sind (er ist) eine Offenbarung vom Herrn der Weltenbewohner`,
+        ``,
+        ``
+      ],
+      [
+        `om att detta är en framställning som måste hållas högt i ära [bevarad] i en mot allt ont skyddad Skrift som inga andra än de rena skall röra en uppenbarelse från världarnas Herre`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En voorwaar, dit is zeker de nobele Koran In een welbewaard Boek Dat niemand aanraakt dan de gereinigden Een neerzending van de Heer der Werelden`,
+        ``,
+        ``
+      ],
+      [
+        `کہ یہ بڑے رتبے کا قرآن ہے (جو) کتاب محفوظ میں (لکھا ہوا ہے) اس کو وہی ہاتھ لگاتے ہیں جو پاک ہیں پروردگار عالم کی طرف سے اُتارا گیا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `dan (ini) sesungguhnya Alquran yang sangat mulia dalam Kitab yang terpelihara (Lauḥ Maḥfūẓ) tidak ada yang menyentuhnya selain hamba-hamba yang disucikan Diturunkan dari Tuhan seluruh alam`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu bu Kitap, sadece arınmış olanların dokunabileceği, saklı bir Kitap'da mevcutken Alemlerin Rabbi tarafından indirilmiş olan Kuranı Kerim'dir`,
+        ``,
+        ``
+      ],
+      [
+        `كه اين [پيام‌] قطعاً قرآنى است ارجمند، در كتابى نهفته، كه جز پاك‌شدگان بر آن دست ندارند، وحيى است از جانب پروردگار جهانيان`,
+        ``,
+        ``
+      ],
+      [
+        `নিশ্চয় এটা সম্মানিত কোরআন যা আছে এক গোপন কিতাবে যারা পাক-পবিত্র, তারা ব্যতীত অন্য কেউ একে স্পর্শ করবে না। এটা বিশ্ব-পালনকর্তার পক্ষ থেকে অবতীর্ণ।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, este é um Alcorão nobre Em Livro resguardado Não o tocam senão os purificados É revelação do Senhor dos Mundos`,
+        ``,
+        ``
+      ],
+      [
+        `这确是宝贵的《古兰经》， 记录在珍藏的经本中， 只有纯洁者才得抚摸那经本。 《古兰经》是从全世界的主降示的。`,
+        ``,
+        ``
+      ],
+      [
+        `本当にこれは，非常に尊いクルアーンである。 （それは）秘蔵の啓典の中に（書かれてあり）， 清められた者の外，触れることが出来ない。 万有の主からの啓示である。`,
+        ``,
+        ``
+      ],
+      [
+        `이것이 성스러운 꾸란이라 잘 보호된 성서로 청결한 자 외에는 아무도 스치지 아니한 만유의 주님으로부터 계시된 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `che questo è in verità un Corano nobilissimo [contenuto] in un Libro custodito che solo i puri toccano È una Rivelazione del Signore dei mondi`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, to jest Koran szlachetny Zawarty w Księdze ukrytej Dotykają go tylko oczyszczeni Jest to objawienie od Pana światów`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, це — Преславний Коран захований у Книзі Торкаються його лише очищені Зісланий від Господа світів`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الواقعة / Al-Waqi'ah، الآيات 77-80`
+  },
+
+  {
+    arabic: [
       `هُوَ الْأَوَّلُ وَالْآخِرُ وَالظَّاهِرُ وَالْبَاطِنُ وَهُوَ بِكُلِّ شَيْءٍ عَلِيمٌ`,
       `هُوَ الَّذِي خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ فِي سِتَّةِ أَيَّامٍ ثُمَّ اسْتَوَىٰ عَلَى الْعَرْشِ يَعْلَمُ مَا يَلِجُ فِي الْأَرْضِ وَمَا يَخْرُجُ مِنْهَا وَمَا يَنزِلُ مِنَ السَّمَاءِ وَمَا يَعْرُجُ فِيهَا`,
       `وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ ۚ وَاللَّهُ بِمَا تَعْمَلُونَ بَصِيرٌ`
@@ -36905,6 +41795,117 @@ const verses = [
       ]
     ],
     number: `سورة الحديد / Al-Hadid، الآية 25`
+  },
+
+  {
+    arabic: [
+      `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ قَدْ سَمِعَ اللَّهُ قَوْلَ الَّتِي تُجَادِلُكَ فِي زَوْجِهَا وَتَشْتَكِي إِلَى اللَّهِ وَاللَّهُ يَسْمَعُ تَحَاوُرَكُمَا ۚ إِنَّ اللَّهَ سَمِيعٌ بَصِيرٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Certainly has Allah heard the speech of the one who argues with you, [O Muhammad], concerning her husband and directs her complaint to Allah. And Allah hears your dialogue; indeed, Allah is Hearing and Seeing`,
+        ``,
+        ``
+      ],
+      [
+        `Allah a bien entendu la parole de celle qui discutait avec toi à propos de son époux et se plaignait à Allah. Et Allah entendait votre conversation, car Allah est Audient et Clairvoyant`,
+        ``,
+        ``
+      ],
+      [
+        `Alá ha oído lo que decía la que discutía contigo a propósito de su esposo y que se quejaba a Alá. Alá oye vuestro diálogo. Alá todo lo oye, todo lo ve`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах уже услышал слова женщины, которая вступила с тобой в пререкания относительно своего мужа и пожаловалась Аллаху. Аллах слышал ваш спор, ведь Аллах - Слышащий, Видящий`,
+        ``,
+        ``
+      ],
+      [
+        `Gehört hat ja Allah die Aussage derjenigen, die mit dir über ihren Gatten streitet und sich bei Allah beklagt, während Allah euren Wortwechsel hört. Gewiß, Allah ist Allhörend und Allsehend`,
+        ``,
+        ``
+      ],
+      [
+        `GUD har helt visst hört hennes ord, hon som vädjar till dig i [tvisten med] sin man och som bönfaller Gud om hjälp. Och Gud hör vad ni båda har haft att anföra - Gud är Den som hör allt, ser allt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Waarlijk, Allah heeft de woorden gehoord van haar die bij jou twistte over haar echtgenoot en zij klaagt bij Allah. En Allah hoorde het gesprek van jullie beiden aan. En Allah is Alhorend, Alziend`,
+        ``,
+        ``
+      ],
+      [
+        `(اے پیغمبر) جو عورت تم سے اپنے شوہر کے بارے میں بحث جدال کرتی اور خدا سے شکایت (رنج وملال) کرتی تھی۔ خدا نے اس کی التجا سن لی اور خدا تم دونوں کی گفتگو سن رہا تھا۔ کچھ شک نہیں کہ خدا سنتا دیکھتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Sungguh, Allah telah mendengar ucapan perempuan yang mengajukan gugatan kepadamu (Muhammad) tentang suaminya, dan mengadukan (halnya) kepada Allah, dan Allah mendengar percakapan antara kamu berdua. Sesungguhnya Allah Maha Mendengar, Maha Melihat`,
+        ``,
+        ``
+      ],
+      [
+        `Kocası hakkında seninle tartışan ve Allah'a şikayette bulunan kadının sözünü Allah işitmiştir; esasen Allah konuşmanızı işitir. Doğrusu Allah işitendir, görendir`,
+        ``,
+        ``
+      ],
+      [
+        `خدا گفتار [زنى‌] را كه در باره شوهرش با تو گفتگو و به خدا شكايت مى‌كرد شنيد؛ و خدا گفتگوى شما را مى‌شنود، زيرا خدا شنواى بيناست`,
+        ``,
+        ``
+      ],
+      [
+        `যে নারী তার স্বামীর বিষয়ে আপনার সাথে বাদানুবাদ করছে এবং অভিযোগ পেশ করছে আল্লাহর দরবারে, আল্লাহ তার কথা শুনেছেন। আল্লাহ আপনাদের উভয়ের কথাবার্তা শুনেন। নিশ্চয় আল্লাহ সবকিছু শুনেন, সবকিছু দেখেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Suratu Al-Mujadilah. Com efeito, Allah ouviu o dito daquela que discutia contigo, acerca de seu marido, e se queixava a Allah. E Allah ouviu vosso diálogo. Por certo, Allah é Oniouvinte, Onividente`,
+        ``,
+        ``
+      ],
+      [
+        `真主确已听取为丈夫而向你辩诉，并向真主诉苦者的陈述了。真主听著你们俩的辩论；真主确是全聪的，确是全明的。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーは，自分の夫に就いてあなたに抗弁し，なおアッラーに不平を申し立（て祈）る女の言葉を御聞きになられた。アッラーは，あなたがた両人の議論を御聞きになられた。本当にアッラーは全聴にして全視であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 하나님께서는, 자신의 남편에 관하여 그대(무함마드)에게 논쟁하면서 하나님께 탄원하는 여성의 말을 들으셨노라. 하나님께서는 그대 둘의 대화를 들으시니 실로 하나님께서는 들으시고 보시는 분이라`,
+        ``,
+        ``
+      ],
+      [
+        `Allah ha udito il discorso di colei che discuteva con te a proposito del suo sposo e si lamentava [davanti] ad Allah. Allah ascoltava il vostro colloquio. Allah è audiente e vede con chiarezza`,
+        ``,
+        ``
+      ],
+      [
+        `Bóg usłyszał słowa tej, która dyskutowała z tobą w sprawie swego męża i która skarżyła się Bogu; a Bóg słyszał waszą rozmowę. Zaprawdę, Bóg jest słyszący, widzący`,
+        ``,
+        ``
+      ],
+      [
+        `Аллаг почув слова тієї, яка сперечалася з тобою про свого чоловіка, і скаржилася Аллагу. Аллаг почув вашу розмову, бо, воістину, Аллаг — Всечуючий, Всезнаючий`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المجادلة / Al-Mujadilah، الآية 1`
   },
 
   {
@@ -37353,6 +42354,228 @@ const verses = [
 
   {
     arabic: [
+      `لَا يَنْهَاكُمُ اللَّهُ عَنِ الَّذِينَ لَمْ يُقَاتِلُوكُمْ فِي الدِّينِ وَلَمْ يُخْرِجُوكُمْ مِنْ دِيَارِكُمْ أَنْ تَبَرُّوهُمْ وَتُقْسِطُوا إِلَيْهِمْ ۚ إِنَّ اللَّهَ يُحِبُّ الْمُقْسِطِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Allah does not forbid you from those who do not fight you because of religion and do not expel you from your homes - from being righteous toward them and acting justly toward them. Indeed, Allah loves those who act justly`,
+        ``,
+        ``
+      ],
+      [
+        `Allah ne vous défend pas d'être bienfaisants et équitables envers ceux qui ne vous ont pas combattus pour la religion et ne vous ont pas chassés de vos demeures. Car Allah aime les équitables`,
+        ``,
+        ``
+      ],
+      [
+        `Alá no os prohíbe que seáis buenos y equitativos con quienes no han combatido contra vosotros por causa de la religión, ni os han expulsado de vuestros hogares. Alá ama a los que son equitativos`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах не запрещает вам быть добрыми и справедливыми с теми, которые не сражались с вами из-за религии и не изгоняли вас из ваших жилищ. Воистину, Аллах любит беспристрастных`,
+        ``,
+        ``
+      ],
+      [
+        `Allah verbietet euch nicht, gegenüber denjenigen, die nicht gegen euch der Religion wegen gekämpft und euch nicht aus euren Wohnstätten vertrieben haben, gütig zu sein und sie gerecht zu behandeln. Gewiß, Allah liebt die Gerechten`,
+        ``,
+        ``
+      ],
+      [
+        `Gud förbjuder er inte att visa godhet mot dem som inte bekämpar er på grund av [er] tro och inte driver ut er ur era hem, och [Han förbjuder er inte] att bemöta dem med rättvisa och opartiskhet - Gud älskar de opartiska`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Allah verbiedt jullie niet om met degenen die jullie niet bestrijden vanwege de godsdienst, en die jullie niet uit jullie woonplaatsen verdrijven, goed en rechtvaardig om te gaan. Voorwaar, Allah houdt van de rechtvaardigen`,
+        ``,
+        ``
+      ],
+      [
+        `جن لوگوں نے تم سے دین کے بارے میں جنگ نہیں کی اور نہ تم کو تمہارے گھروں سے نکالا ان کے ساتھ بھلائی اور انصاف کا سلوک کرنے سے خدا تم کو منع نہیں کرتا۔ خدا تو انصاف کرنے والوں کو دوست رکھتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Allah tidak melarang kamu berbuat baik dan berlaku adil terhadap orang-orang yang tidak memerangimu dalam urusan agama dan tidak mengusir kamu dari kampung halamanmu. Sesungguhnya Allah mencintai orang-orang yang berlaku adil`,
+        ``,
+        ``
+      ],
+      [
+        `Allah, din uğrunda sizinle savaşmayan, sizi yurdunuzdan çıkarmayan kimselere iyilik yapmanızı ve onlara karşı adil davranmanızı yasak kılmaz; doğrusu Allah adil olanları sever`,
+        ``,
+        ``
+      ],
+      [
+        `[اما] خدا شما را از كسانى كه در [كار] دين با شما نجنگيده و شما را از ديارتان بيرون نكرده‌اند، باز نمى‌دارد كه با آنان نيكى كنيد و با ايشان عدالت ورزيد، زيرا خدا دادگران را دوست مى‌دارد`,
+        ``,
+        ``
+      ],
+      [
+        `ধর্মের ব্যাপারে যারা তোমাদের বিরুদ্ধে লড়াই করেনি এবং তোমাদেরকে দেশ থেকে বহিস্কৃত করেনি, তাদের প্রতি সদাচরণ ও ইনসাফ করতে আল্লাহ তোমাদেরকে নিষেধ করেন না। নিশ্চয় আল্লাহ ইনসাফকারীদেরকে ভালবাসেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Allah não vos coíbe de serdes blandiciosos e equânimes para com os que não vos combateram, na religião, e não vos fizeram sair de vossos lares. Por certo, Allah ama os equânimes`,
+        ``,
+        ``
+      ],
+      [
+        `未曾为你们的宗教而对你们作战，也未曾把你们从故乡驱逐出境者，真主并不禁止你们怜悯他们，公平待遇他们。真主确是喜爱公平者的。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーは，宗教上のことであなたがたに戦いを仕掛けたり，またあなたがたを家から追放しなかった者たちに親切を尽し，公正に待遇することを禁じられない。本当にアッラーは公正な者を御好みになられる。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서는, 종교를 이유로 그대들과 싸우지 않았고 그대들의 거주지로부터 그대들을 추방하지 않은 자들에게 그대들이 좋게 대하고 그들에게 공정을 기하는 것을 금하지 않으시노라. 실로 하나님께서는 공정한 자들을 사랑하시노라`,
+        ``,
+        ``
+      ],
+      [
+        `Allah non vi proibisce di essere buoni e giusti nei confronti di coloro che non vi hanno combattuto per la vostra religione e che non vi hanno scacciato dalle vostre case, poiché Allah ama coloro che si comportano con equità`,
+        ``,
+        ``
+      ],
+      [
+        `Bóg nie zabrania wam, abyście byli dobrzy i sprawiedliwi względem tych, którzy was nie zwalczali z powodu religii ani nie wypędzali was z waszych domostw. Zaprawdę, Bóg miłuje ludzi sprawiedliwych`,
+        ``,
+        ``
+      ],
+      [
+        `Аллаг не забороняє вам бути дружніми та справедливими до тих, хто не бився з вами через віру та не виганяв вас із ваших домівок. Воістину, Аллаг любить справедливих`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الممتحنة / Al-Mumtahanah، الآية 8`
+  },
+
+  {
+    arabic: [
+      `يَا أَيُّهَا النَّبِيُّ إِذَا جَاءَكَ الْمُؤْمِنَاتُ يُبَايِعْنَكَ عَلَىٰ أَنْ لَا يُشْرِكْنَ بِاللَّهِ شَيْئًا وَلَا يَسْرِقْنَ وَلَا يَزْنِينَ وَلَا يَقْتُلْنَ أَوْلَادَهُنَّ وَلَا يَأْتِينَ بِبُهْتَانٍ يَفْتَرِينَهُ بَيْنَ أَيْدِيهِنَّ وَأَرْجُلِهِنَّ وَلَا يَعْصِينَكَ فِي مَعْرُوفٍ ۙ فَبَايِعْهُنَّ وَاسْتَغْفِرْ لَهُنَّ اللَّهَ ۖ إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O Prophet, when the believing women come to you pledging to you that they will not associate anything with Allah, nor will they steal, nor will they commit unlawful sexual intercourse, nor will they kill their children, nor will they bring forth a slander they have invented between their arms and legs, nor will they disobey you in what is right - then accept their pledge and ask forgiveness for them of Allah. Indeed, Allah is Forgiving and Merciful`,
+        ``,
+        ``
+      ],
+      [
+        `Ô Prophète ! Quand les croyantes viennent te prêter serment d'allégeance, [et en jurent] qu'elle s'associeront rien à Allah, qu'elles ne voleront pas, qu'elles ne se livreront pas à l'adultère, qu'elles ne tueront pas leurs propres enfants, qu'elles ne commettront aucune infamie ni avec leurs mains ni avec leurs pieds et qu'elles ne désobéiront pas en ce qui est convenable, alors reçois leur serment d'allégeance, et implore d'Allah le pardon pour elles. Allah est certes, Pardonneur et Très Miséricordieux`,
+        ``,
+        ``
+      ],
+      [
+        `¡Profeta! Cuando las creyentes vengan a ti a prestarte juramento de fidelidad, de que no asociarán nada a Alá, que no robarán, que no fornicarán, que no matarán a sus hijos, que no dirán calumnia forjada entre sus manos y pies, que no te desobedecerán en lo que se juzgue razonable, acepta su juramento y pide a Alá que les perdone. Alá es indulgente, misericordioso`,
+        ``,
+        ``
+      ],
+      [
+        `О Пророк! Если к тебе придут верующие женщины, чтобы присягнуть в том, что они не будут приобщать сотоварищей к Аллаху, красть, прелюбодействовать, убивать своих детей, покрывать клеветой то, что между их руками и ногами, и ослушаться тебя в благих делах, то прими у них присягу и попроси у Аллаха прощения для них. Воистину, Аллах - Прощающий, Милосердный`,
+        ``,
+        ``
+      ],
+      [
+        `O Prophet, wenn gläubige Frauen zu dir kommen, um dir den Treueid zu leisten, daß sie Allah nichts beigesellen, nicht stehlen, keine Unzucht begehen, ihre Kinder nicht töten, keine Verleumdung vorbringen, die sie vor ihren (eigenen) Händen und Füßen ersinnen, und sich dir nicht widersetzen in dem, was recht ist, dann nimm ihren Treueid an und bitte Allah für sie um Vergebung. Gewiß, Allah ist Allvergebend und Barmherzig`,
+        ``,
+        ``
+      ],
+      [
+        `Profet! När troende kvinnor kommer till dig för att avlägga trohetsed - [och lovar] att inte sätta något, vad det än är, vid Guds sida, att inte stjäla, att inte begå äktenskapsbrott, att inte döda sina egna barn, att inte sprida förtal som de själva diktat upp och att aldrig vägra dig lydnad i det som är rätt och rimligt - tag då emot deras trohetsed och be Gud förlåta dem deras synder; Gud är ständigt förlåtande, barmhärtig`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O Boodschapper, als de gelovige vrouwen tot jou gekomen zijn om trouw aan jou te zweren, (zwerend) dat zij geen deelgenoot aan Allah toekennen, en niet stelen en geen ontucht plegen en hun kinderen niet vermoorden, en geen leugen verzinnen over wat tussen hun handen en hun voeten is, en dat zij jou niet in het goede ongehoorzaam zijn: aanvaard dan hun trouw en vraag voor hen vergeving aan Allah. Voorwaar, Allah is Vergevensgezind, Meest Barmhartig`,
+        ``,
+        ``
+      ],
+      [
+        `اے پیغمبر! جب تمہارے پاس مومن عورتیں اس بات پر بیعت کرنے کو آئیں کہ خدا کے ساتھ نہ شرک کریں گی نہ چوری کریں گی نہ بدکاری کریں گی نہ اپنی اولاد کو قتل کریں گی نہ اپنے ہاتھ پاؤں میں کوئی بہتان باندھ لائیں گی اور نہ نیک کاموں میں تمہاری نافرمانی کریں گی تو ان سے بیعت لے لو اور ان کے لئے خدا سے بخشش مانگو۔ بےشک خدا بخشنے والا مہربان ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai Nabi! Apabila perempuan-perempuan mukmin datang kepadamu untuk mengadakan baiat (janji setia), bahwa mereka tidak akan mempersekutukan sesuatu apa pun dengan Allah; tidak akan mencuri, tidak akan berzina, tidak akan membunuh anak-anaknya, tidak akan berbuat dusta yang mereka ada-adakan antara tangan dan kaki mereka840) dan tidak akan mendurhakaimu dalam urusan yang baik, maka terimalah janji setia mereka dan mohonkanlah ampunan untuk mereka kepada Allah. Sungguh, Allah Maha Pengampun, Maha Penyayang`,
+        ``,
+        ``
+      ],
+      [
+        `Ey Peygamber! İnanmış kadınlar, Allah'a hiçbir ortak koşmamak, hırsızlık yapmamak, zina etmemek, çocuklarını öldürmemek, başkasının çocuğunu sahiplenerek kocasına isnadda bulunmamak ve uygun olanı işlemekte sana karşı gelmemek şartıyla sana beyat etmek üzere geldikleri zaman, onları kabul et; onlara Allah'tan bağışlanma dile; doğrusu Allah, bağışlayandır, acıyandır`,
+        ``,
+        ``
+      ],
+      [
+        `اى پيامبر، چون زنان باايمان نزد تو آيند كه [با اين شرط] با تو بيعت كنند كه چيزى را با خدا شريك نسازند، و دزدى نكنند، و زنا نكنند، و فرزندان خود را نكشند، و بچه‌هاى حرامزاده پيش دست و پاى خود را با بهتان [و حيله‌] به شوهر نبندند، و در [كار] نيك از تو نافرمانى نكنند، با آنان بيعت كن و از خدا براى آنان آمرزش بخواه، زيرا خداوند آمرزنده مهربان است`,
+        ``,
+        ``
+      ],
+      [
+        `হে নবী, ঈমানদার নারীরা যখন আপনার কাছে এসে আনুগত্যের শপথ করে যে, তারা আল্লাহর সাথে কাউকে শরীক করবে না, চুরি করবে না, ব্যভিচার করবে না, তাদের সন্তানদেরকে হত্যা করবে না, জারজ সন্তানকে স্বামীর ঔরস থেকে আপন গর্ভজাত সন্তান বলে মিথ্যা দাবী করবে না এবং ভাল কাজে আপনার অবাধ্যতা করবে না, তখন তাদের আনুগত্য গ্রহণ করুন এবং তাদের জন্যে আল্লাহর কাছে ক্ষমা প্রার্থনা করুন। নিশ্চয় আল্লাহ ক্ষমাশীল অত্যন্ত দয়ালু।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó Profeta! Quando as crentes te chegarem, para se comprometerem a nada associar a Allah e a não roubar e a não adulterar e a não matar a seus filhos e a não cometer infâmia, que forjam entre as próprias mãos e os pés e a não te desobedecer no que for conveniente, aceita seu compromisso e implora a Allah perdão para elas. Por certo, Allah é Perdoador, Misericordiador`,
+        ``,
+        ``
+      ],
+      [
+        `先知啊！如果信女们到你面前来与你誓约：她们不以任何物配真主，不偷盗，不通奸，不杀自己的儿女，不以别人的儿子冒充丈夫的儿子，不违背你的合理的命令，那末，你当与她们誓约，你当为她们向真主告饶。真主确是至赦的，确是至慈的。`,
+        ``,
+        ``
+      ],
+      [
+        `預言者よ，あなたの許へ女の信者がやって来て，あなたに対しこう忠誠を誓うならば，「アッラーの外は何ものも同位に崇めません。盗みをしません。姦通しません。子女を殺しません。また手や足の間で，捏造した嘘は申しません。また正しいことには，あなたに背きません。」（と誓うならば）かの女たちの誓約を受け入れ，かの女たちのために罪を赦されるようアッラーに祈れ。本当にアッラーは寛容にして慈悲深くあられる。`,
+        ``,
+        ``
+      ],
+      [
+        `선지자여! 믿는 여성들이 그대에게 이주하여 와서 그대에게 맹세하길 하나님께 그 어떤 대등한 존재도 두지 않을 것이며, 도둑질하지 않고, 지나(불법 성관계)를 범하지 않고, 자신의 자식들을 죽이지 않고, 자신의 팔과 다리 사이에서 지어낸 거짓을 가져오지 않고, 선행에 있어 그대를 불복종하지 않겠다고 한다면 그대는 그녀들의 맹세를 받아들이고 그녀들을 위해 용서를 빌어주라. 실로 하나님께서는 너그러이 용서하시는 자애로우신 분이라`,
+        ``,
+        ``
+      ],
+      [
+        `O Profeta, quando vengono a te le credenti a stringere il patto, [giurando] che non assoceranno ad Allah alcunché, che non ruberanno, che non fornicheranno, che non uccideranno i loro figli, che non commetteranno infamie con le loro mani o con i loro piedi e che non ti disobbediranno in quel che è reputato conveniente, stringi il patto con loro e implora Allah di perdonarle. Allah è perdonatore, misericordioso`,
+        ``,
+        ``
+      ],
+      [
+        `O proroku! A kiedy przyjdą do ciebie kobiety wierzące złożyć ci przysięgę wierności: iż nie będą dodawać Bogu żadnych współtowarzyszy, iż nie będą kraść, iż nie będą popełniać cudzołóstwa, iż nie będą zabijać swoich dzieci, iż nie będą przychodzić z oszczerstwem, zmyślając je między swoimi rękami i nogami, ani też nie będą się buntowały przeciwko tobie w tym, co jest uznane - to przyjmij ich przysięgę i proś Boga o przebaczenie dla nich! Zaprawdę, Bóg jest przebaczający, mądry`,
+        ``,
+        ``
+      ],
+      [
+        `О Пророче! Коли прийдуть до тебе віруючі жінки й заприсягнуть у тому, що не будуть поклонятися нікому, окрім Аллага, що не будуть красти, чинити перелюб, вбивати своїх дітей, мати дітей від інших, уперто триматися брехні, та що не будуть чинити тобі непослух, коли закликаєш ти їх до заохочуваного — то прийми клятву їхню та проси для них прощення в Аллага. Воістину, Аллаг — Прощаючий, Милосердний`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الممتحنة / Al-Mumtahanah، الآية 12`
+  },
+
+  {
+    arabic: [
       `وَإِذْ قَالَ عِيسَى ابْنُ مَرْيَمَ يَا بَنِي إِسْرَائِيلَ إِنِّي رَسُولُ اللَّهِ إِلَيْكُمْ مُصَدِّقًا لِمَا بَيْنَ يَدَيَّ مِنَ التَّوْرَاةِ وَمُبَشِّرًا بِرَسُولٍ يَأْتِي مِنْ بَعْدِي اسْمُهُ أَحْمَدُ ۖ فَلَمَّا جَاءَهُمْ بِالْبَيِّنَاتِ قَالُوا هَٰذَا سِحْرٌ مُبِينٌ`,
       ``,
       ``
@@ -37460,6 +42683,117 @@ const verses = [
       ]
     ],
     number: `سورة الصف / As-Saff، الآية 6`
+  },
+
+  {
+    arabic: [
+      `يُرِيدُونَ لِيُطْفِئُوا نُورَ اللَّهِ بِأَفْوَاهِهِمْ وَاللَّهُ مُتِمُّ نُورِهِ وَلَوْ كَرِهَ الْكَافِرُونَ هُوَ الَّذِي أَرْسَلَ رَسُولَهُ بِالْهُدَىٰ وَدِينِ الْحَقِّ لِيُظْهِرَهُ عَلَى الدِّينِ كُلِّهِ وَلَوْ كَرِهَ الْمُشْرِكُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `They want to extinguish the light of Allah with their mouths, but Allah will perfect His light, although the disbelievers dislike it It is He who sent His Messenger with guidance and the religion of truth to manifest it over all religion, although those who associate others with Allah dislike it`,
+        ``,
+        ``
+      ],
+      [
+        `Ils veulent éteindre de leurs bouches la lumière d'Allah, alors qu'Allah parachèvera Sa lumière en dépit de l'aversion des mécréants C'est Lui qui a envoyé Son Messager avec la guidée et la Religion de Vérité, pour la placer au-dessus de toute autre religion, en dépit de l'aversion des associateurs`,
+        ``,
+        ``
+      ],
+      [
+        `Quisiera apagar de un soplo la Luz de Alá, pero Alá hará que resplandezca, a despecho de los infieles Él es Quien ha mandado a Su Enviado con la Dirección y con la religión verdadera para que prevalezca sobre toda otra religión, a despecho de los asociadores`,
+        ``,
+        ``
+      ],
+      [
+        `Они хотят погасить свет Аллаха своими ртами, но Аллах сохранит Свой свет, даже если это ненавистно неверующим Он - Тот, Кто отправил Своего Посланника с верным руководством и религией истины, чтобы превознести ее над всеми остальными религиями, даже если это ненавистно многобожникам`,
+        ``,
+        ``
+      ],
+      [
+        `Sie wollen gern Allahs Licht mit ihren Mündern auslöschen. Aber Allah wird Sein Licht vollenden, auch wenn es den Ungläubigen zuwider ist Er ist es, Der Seinen Gesandten mit der Rechtleitung und der Religion der Wahrheit gesandt hat, um ihr die Oberhand über alle Religion zu geben, auch wenn es den Götzendienern zuwider ist`,
+        ``,
+        ``
+      ],
+      [
+        `De vill släcka ut Guds ljus med sina ord, men Gud skall låta Sitt ljus lysa med full styrka, hur förhatligt detta än måste vara för förnekarna av sanningen Det är Han som har sänt Sitt Sändebud med vägledningen och [för att förkunna] den sanna tron som skall föras till seger över all [annan form av] gudstro, hur förhatligt detta än kan vara för dem som sätter medhjälpare vid Guds sida`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zij willen het Licht van Allah doven met hun monden, maar Allah vervolmaakt Zijn Licht, ook al haten de ongelovigen het Hij is Degene Die Zijn Boodschapper heeft gezonden met de Leiding en de ware godsdienst (de Islam) om deze laten zegevieren over alle (vormen van) godsdienst, ook al haten de veelgodenaanbidders het`,
+        ``,
+        ``
+      ],
+      [
+        `یہ چاہتے ہیں کہ خدا کے (چراغ) کی روشنی کو منہ سے (پھونک مار کر) بجھا دیں۔ حالانکہ خدا اپنی روشنی کو پورا کرکے رہے گا خواہ کافر ناخوش ہی ہوں وہی تو ہے جس نے اپنے پیغمبر کو ہدایت اور دین حق دے کر بھیجا تاکہ اسے اور سب دینوں پر غالب کرے خواہ مشرکوں کو برا ہی لگے`,
+        ``,
+        ``
+      ],
+      [
+        `Mereka hendak memadamkan cahaya (agama) Allah dengan mulut (ucapan-ucapan) mereka, tetapi Allah tetap menyempurnakan cahaya-Nya meskipun orang-orang kafir membencinya Dialah yang mengutus Rasul-Nya dengan membawa petunjuk dan agama yang benar, untuk memenangkannya di atas segala agama meskipun orang-orang musyrik membencinya`,
+        ``,
+        ``
+      ],
+      [
+        `Ağızlarıyla Allah'ın nurunu söndürmek isterler. İnkarcılar ne kadar istemeseler de, Allah nurunu, dinini tamamlayacaktır Ortak koşanlar istemese de, dinini bütün dinlerden üstün kılmak için, Peygamberini, doğruluk rehberi Kuran ve gerçek dinle gönderen O'dur`,
+        ``,
+        ``
+      ],
+      [
+        `مى‌خواهند نور خدا را با دهان خود خاموش كنند و حال آنكه خدا -گر چه كافران را ناخوش افتد- نور خود را كامل خواهد گردانيد اوست كسى كه فرستاده خود را با هدايت و آيين درست روانه كرد، تا آن را بر هر چه دين است فائق گرداند، هر چند مشركان را ناخوش آيد`,
+        ``,
+        ``
+      ],
+      [
+        `তারা মুখের ফুঁৎকারে আল্লাহর আলো নিভিয়ে দিতে চায়। আল্লাহ তাঁর আলোকে পূর্ণরূপে বিকশিত করবেন যদিও কাফেররা তা অপছন্দ করে। তিনি তাঁর রসূলকে পথ নির্দেশ ও সত্যধর্ম নিয়ে প্রেরণ করেছেন, যাতে একে সবধর্মের উপর প্রবল করে দেন যদিও মুশরিকরা তা অপছন্দ করে।`,
+        ``,
+        ``
+      ],
+      [
+        `Desejam apagar, com o sopro das bocas, a luz de Allah e Allah completará Sua luz, ainda que o odeiem os renegadores da Fé Ele é Quem enviou Seu Mensageiro, com a Orientação e a religião da Verdade, para fazê-la prevalecer sobre todas as religiões, ainda que o odeiem os idólatras`,
+        ``,
+        ``
+      ],
+      [
+        `他们想吹灭真主的光明，但真主要完成他的光明，即使不信道的人不愿意。 他曾以正道和真教的使命委托他的使者，以便他使真教胜过一切宗教，即使以物配主的人不愿意。`,
+        ``,
+        ``
+      ],
+      [
+        `かれらはアッラーの御光を，口先で消そうと望んでいる。だがアッラーは例え不信心者たちが忌み嫌おうとも御自分の光（イスラーム）を現わした。 かれこそは，導きと真実の宗教を持たせて，御自分の使徒を遺わされた方で，例え多神教徒たちが忌み嫌おうとも，それ（イスラーム）を凡ての宗教の上に高く掲げさせられる。`,
+        ``,
+        ``
+      ],
+      [
+        `그들은 자신들의 입으로써 하나님의 빛을 끄려 하나, 불신자들이 싫어할지언정 하나님께서는 그분의 빛을 완전히 하시는 분이라 인도와 진리의 종교와 함께 당신의 사도를 보내시어, 우상숭배자들이 싫어할지언정 그 모든 종교 위에 그것(이슬람)이 드러나도록 하시는 분이 그분이시라`,
+        ``,
+        ``
+      ],
+      [
+        `Vogliono spegnere la luce di Allah con le loro bocche, ma Allah completerà la Sua luce a dispetto dei miscredenti Egli è Colui Che ha inviato il Suo Messaggero con la Guida e la Religione della verità, affinché essa prevalga su ogni religione a dispetto degli associatori`,
+        ``,
+        ``
+      ],
+      [
+        `Oni chcą zagasić światło Boga swoimi ustami; lecz Bóg dopełni Swoje światło, chociaż by to było nienawistne dla niewiernych On jest Tym, który wysłał Swojego Posłańca z drogą prostą i religią prawdy, aby ją wznieść ponad wszelką religię, chociażby to było nienawistne dla bałwochwalców`,
+        ``,
+        ``
+      ],
+      [
+        `Бажають вони загасити світло Аллага своїми устами, але Аллаг доносить світло своє, хоч як не було б це ненависно невіруючим Він — Той, Хто послав Посланця Свого з прямим шляхом і релігією істини, щоб перевершила вона всі інші релігії, хоч як не було б це ненависно багатобожникам`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الصف / As-Saff، الآيتان 8-9`
   },
 
   {
@@ -38348,6 +43682,117 @@ const verses = [
       ]
     ],
     number: `سورة التحريم / At-Tahrim، الآية 11`
+  },
+
+  {
+    arabic: [
+      `وَمَرْيَمَ ابْنَتَ عِمْرَانَ الَّتِي أَحْصَنَتْ فَرْجَهَا فَنَفَخْنَا فِيهِ مِنْ رُوحِنَا وَصَدَّقَتْ بِكَلِمَاتِ رَبِّهَا وَكُتُبِهِ وَكَانَتْ مِنَ الْقَانِتِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And [the example of] Mary, the daughter of 'Imran, who guarded her chastity, so We blew into [her garment] through Our angel, and she believed in the words of her Lord and His scriptures and was of the devoutly obedient`,
+        ``,
+        ``
+      ],
+      [
+        `De même, Marie, la fille d'Imran qui avait préservé sa virginité ; Nous y insufflâmes alors de Notre Esprit. Elle avait déclaré véridiques les paroles de son Seigneur ainsi que Ses Livres : elle fut parmi les dévoués`,
+        ``,
+        ``
+      ],
+      [
+        `Y a María, hija de Imran, que conservó su virginidad y en la que infundimos de Nuestro Espíritu. Tuvo por auténticas las palabras y Escritura de su Señor y fue de las devotas`,
+        ``,
+        ``
+      ],
+      [
+        `А также Марьям (Марию), дочь Имрана, которая сберегла целомудрие, и Мы вдохнули в него (в вырез на ее одежде) от Нашего духа. Она уверовала в Слова своего Господа и Его Писания и была одной из покорных`,
+        ``,
+        ``
+      ],
+      [
+        `Und (auch von) Maryam, 'Imrans Tochter, die ihre Scham unter Schutz stellte, worauf Wir in sie von Unserem Geist einhauchten. Und sie hielt die Worte ihres Herrn und Seine Bücher für wahr und gehörte zu den (Allah) demütig Ergebenen`,
+        ``,
+        ``
+      ],
+      [
+        `Ännu ett exempel har de i Maria, \`Imrans dotter; Hon bevarade sin oskuld och Vi andades in i [hennes kropp] något av Vår ande. Hon trodde på sin Herres ord och på Hans uppenbarelser och hon var en av dem som ödmjukt böjer sig under Hans vilja`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En (het voorbeeld van) Maryam, de dochter van Imrân, die haar eerbaarheid bewaard had, waarop Wij in haar van Onze geest bliezen en zij getuigde van de Waarheid van de Woorden van haar Heer en Zijn Schriften en zij behoorde tot de gehoorzamen`,
+        ``,
+        ``
+      ],
+      [
+        `اور (دوسری) عمران کی بیٹی مریمؑ کی جنہوں نے اپنی شرمگاہ کو محفوظ رکھا تو ہم نے اس میں اپنی روح پھونک دی اور اپنے پروردگار کے کلام اور اس کی کتابوں کو برحق سمجھتی تھیں اور فرمانبرداروں میں سے تھیں`,
+        ``,
+        ``
+      ],
+      [
+        `dan Maryam putri Imran yang memelihara kehormatannya, maka Kami tiupkan ke dalam rahimnya sebagian dari roh (ciptaan) Kami; dan dia membenarkan kalimat-kalimat Tuhannya dan kitab-kitab-Nya; dan dia termasuk orang-orang yang taat`,
+        ``,
+        ``
+      ],
+      [
+        `Mahrem yerini korumuş olan İmran kızı Meryem de bir misaldir. Ona ruhumuzdan üflemiştik; Rabbinin sözlerini ve kitablarını tasdik etmişti; o, Bize gönülden itaat edenlerdendi`,
+        ``,
+        ``
+      ],
+      [
+        `و مريم دخت عمران را، همان كسى كه خود را پاكدامن نگاه داشت و در او از روح خود دميديم و سخنان پروردگار خود و كتابهاى او را تصديق كرد و از فرمانبرداران بود`,
+        ``,
+        ``
+      ],
+      [
+        `আর দৃষ্টান্ত বর্ণনা করেছেন এমরান-তনয়া মরিয়মের, যে তার সতীত্ব বজায় রেখেছিল। অতঃপর আমি তার মধ্যে আমার পক্ষ থেকে জীবন ফুঁকে দিয়েছিলাম এবং সে তার পালনকর্তার বানী ও কিতাবকে সত্যে পরিণত করেছিল। সে ছিল বিনয় প্রকাশকারীনীদের একজন।`,
+        ``,
+        ``
+      ],
+      [
+        `E Maria, filha de Imrãn, que escudou sua virgindade; então, sopramos nela algo de Nosso Espírito, e ela confirmou as palavras de seu Senhor e Seus Livros, e era dos devotos`,
+        ``,
+        ``
+      ],
+      [
+        `真主又以仪姆兰的女儿麦尔彦为信道的人们的模范，她曾保守贞操，但我以我的精神吹入她的身内，她信她的主的言辞和天经，她是一个服从的人。`,
+        ``,
+        ``
+      ],
+      [
+        `またわれは自分の貞節を守ったイムラーンの娘マルヤム（の体内）に，わが霊を吹き込んだ。かの女は，主の御言葉とその啓典を実証する，敬虔な（しもべの）一人であった。`,
+        ``,
+        ``
+      ],
+      [
+        `이므란의 딸 마리아도 마찬가지니, 그녀가 자신의 순결을 지켰기에 나는 내가 창조한 영혼(가브리엘 천사)으로부터 그 안에 숨을 불었노라. 그녀는 자신의 주님의 말씀과 그분의 성서들을 믿었으며 부단히 복종하는 자들 중의 하나였노라`,
+        ``,
+        ``
+      ],
+      [
+        `E Maria, figlia di Imrân, che conservò la sua verginità; insufflammo in lei del Nostro Spirito. Attestò la veridicità delle Parole del suo Signore e dei Suoi Libri e fu una delle devote`,
+        ``,
+        ``
+      ],
+      [
+        `I Marię, córkę Imrana, która zachowała dziewictwo; tak więc tchnęliśmy w nią nieco z Naszego Ducha. I ona potwierdziła słowa swego Pana i Jego Ksiąg, i była wśród pokornych`,
+        ``,
+        ``
+      ],
+      [
+        `І Мар’ям, доньку Імрана, яка зберегла цноту лона свого, тож вдихнули Ми в нього від Духу Нашого; сприйняла за істину вона слова Господа її та Писання Його, і була вона з-посеред покірних`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة التحريم / At-Tahrim، الآية 12`
   },
 
   {
@@ -39795,6 +45240,117 @@ const verses = [
 
   {
     arabic: [
+      `وَيُطْعِمُونَ الطَّعَامَ عَلَىٰ حُبِّهِ مِسْكِينًا وَيَتِيمًا وَأَسِيرًا إِنَّمَا نُطْعِمُكُمْ لِوَجْهِ اللَّهِ لَا نُرِيدُ مِنْكُمْ جَزَاءً وَلَا شُكُورًا إِنَّا نَخَافُ مِنْ رَبِّنَا يَوْمًا عَبُوسًا قَمْطَرِيرًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And they give food in spite of love for it to the needy, the orphan, and the captive [Saying], "We feed you only for the countenance of Allah. We wish not from you reward or gratitude Indeed, We fear from our Lord a Day austere and distressful`,
+        ``,
+        ``
+      ],
+      [
+        `et offrent la nourriture, malgré son amour, au pauvre, à l'orphelin et au prisonnier (disant) : "C'est pour le visage d'Allah que nous vous nourrissons : nous ne voulons de vous ni récompense ni gratitude Nous redoutons, de notre Seigneur, un jour terrible et catastrophique`,
+        ``,
+        ``
+      ],
+      [
+        `Por mucho amor que tuvieran al alimento, se lo daban al pobre, al huérfano y al cautivo «Os damos de comer sólo por agradar a Alá. No queremos de vosotros retribución ni gratitud Tememos, de nuestro Señor, un día terrible, calamitoso»`,
+        ``,
+        ``
+      ],
+      [
+        `Они дают пищу беднякам, сиротам и пленникам, несмотря на то, что она желанна и для них самих Они говорят: «Мы кормим вас лишь ради Лика Аллаха и не хотим от вас ни награды, ни благодарности Мы боимся от своего Господа того Мрачного и Томительного дня»`,
+        ``,
+        ``
+      ],
+      [
+        `und sie geben - obwohl man sie liebt - Speise zu essen einem Armen, einer Waisen und einem Gefangenen Wir speisen euch nur um Allahs Angesicht willen. Wir wollen von euch weder Belohnung noch Dank Wir fürchten ja von unserem Herrn einen Tag, der düster blicken läßt, einen unheilvollen`,
+        ``,
+        ``
+      ],
+      [
+        `de som ger den fattige, den faderlöse och fången att äta - oavsett deras eget behov och det pris de sätter på [födan] [och säger:] "Det är för Guds skull vi ger er att äta och vi väntar ingen gengåva och inget tack från er vi fruktar vad vår Herre [har i beredskap för oss] en olycksdiger Dag`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En zij gaven het voedsel waarvan zij hielden aan een arme, en een wees en een gevangene (Zij zeiden:) "Wij voeden jullie slechts omwille van het welbehagen van Allah, wij verlangen van jullie geen beloning en geen dank Voorwaar, wij vrezen van onze Heer een angstaanjagende, huiveringwekkende Dag`,
+        ``,
+        ``
+      ],
+      [
+        `اور باوجود یہ کہ ان کو خود طعام کی خواہش (اور حاجت) ہے فقیروں اور یتیموں اور قیدیوں کو کھلاتے ہیں (اور کہتے ہیں کہ) ہم تم کو خالص خدا کے لئے کھلاتے ہیں۔ نہ تم سے عوض کے خواستگار ہیں نہ شکرگزاری کے (طلبگار) ہم کو اپنے پروردگار سے اس دن کا ڈر لگتا ہے (جو چہروں کو) کریہہ المنظر اور (دلوں کو) سخت (مضطر کر دینے والا) ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan mereka memberikan makanan yang disukainya kepada orang miskin, anak yatim dan orang yang ditawan (sambil berkata), "Sesungguhnya kami memberi makanan kepadamu hanyalah karena mengharapkan keridaan Allah, kami tidak mengharap balasan dan terima kasih dari kamu Sungguh, kami takut akan (azab) Tuhan pada hari (ketika) orang-orang berwajah masam penuh kesulitan`,
+        ``,
+        ``
+      ],
+      [
+        `Onlar içleri çektiği halde, yiyeceği yoksula, öksüze ve esire yedirirler Biz sizi ancak Allah rızası için doyuruyoruz, bir karşılık ve teşekkür beklemiyoruz. Doğrusu biz çok asık suratların bulunacağı bir günde Rabbimizden korkarız" derler`,
+        ``,
+        ``
+      ],
+      [
+        `و به [پاس‌] دوستى [خدا]، بينوا و يتيم و اسير را خوراك مى‌دادند «ما براى خشنودى خداست كه به شما مى‌خورانيم و پاداش و سپاسى از شما نمى‌خواهيم ما از پروردگارمان از روز عبوسى سخت، هراسناكيم.»`,
+        ``,
+        ``
+      ],
+      [
+        `তারা আল্লাহর প্রেমে অভাবগ্রস্ত, এতীম ও বন্দীকে আহার্য দান করে। তারা বলেঃ কেবল আল্লাহর সন্তুষ্টির জন্যে আমরা তোমাদেরকে আহার্য দান করি এবং তোমাদের কাছে কোন প্রতিদান ও কৃতজ্ঞতা কামনা করি না। আমরা আমাদের পালনকর্তার তরফ থেকে এক ভীতিপ্রদ ভয়ংকর দিনের ভয় রাখি।`,
+        ``,
+        ``
+      ],
+      [
+        `E cedem o alimento - embora a ele apegados - a um necessitado e a um órfão e a um cativo Dizendo: "Apenas, alimentamo-vos por amor de Allah. Não desejamos de vós nem recompensa nem agradecimento Por certo, tememos, da parte de nosso Senhor, um dia austero, consternador`,
+        ``,
+        ``
+      ],
+      [
+        `他们为喜爱真主而赈济贫民、孤儿、俘虏。 我们只为爱戴真主而赈济你们，我们不望你们的报酬和感谢。 我们的确畏惧从我们的主发出的严酷的一日。`,
+        ``,
+        ``
+      ],
+      [
+        `またかれらは，かれを敬愛するために，貧者と孤児と捕虜に食物を与える。 （そして言う。）「わたしたちは，アッラーの御喜びを願って，あなたがたを養い，あなたがたに報酬も感謝も求めません。 わたしたちは，主の苦渋に満ちた御怒りの日を恐れます」。`,
+        ``,
+        ``
+      ],
+      [
+        `불우한 자와 고아와 포로에게 자신이 애착하는 음식을 주더라 우리가 그대들에게 음식을 줌은 오직 하나님의 얼굴을 위함이며 우리는 그대들로부터 보상이나 감사도 원하지 않노라 실로 우리는 얼굴을 찌푸려야 할 험난한 날에 우리의 주님을 두려워하노라`,
+        ``,
+        ``
+      ],
+      [
+        `[loro] che, nonostante il loro bisogno, nutrono il povero, l'orfano e il prigioniero [e interiormente affermano:] “È solo per il volto di Allah, che vi nutriamo; non ci aspettiamo da voi né ricompensa, né gratitudine Invero noi temiamo un Giorno terribile e catastrofico da parte del nostro Signore”`,
+        ``,
+        ``
+      ],
+      [
+        `Oni dawali pożywienie - z miłości do Niego - biednemu, sierocie i niewolnikowi Karmimy was tylko dla oblicza Boga i nie chcemy od was ani nagrody, ani wdzięczności Zaprawdę, obawiamy się ze strony naszego Pana Dnia mrocznego, nieszczęsnego`,
+        ``,
+        ``
+      ],
+      [
+        `Вони дають їжу нужденному, сироті та полоненому, хоча й самі хочуть її «Ми годуємо вас заради лику Аллага; ми не прагнемо вашої відплати чи вдячності Ми боїмося Дня, який прийде від нашого Господа та буде похмурим і суворим`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الإنسان / Al-Insan، الآيات 8-10`
+  },
+
+  {
+    arabic: [
       `أَلَمْ نَخْلُقْكُمْ مِنْ مَاءٍ مَهِينٍ فَجَعَلْنَاهُ فِي قَرَارٍ مَكِينٍ إِلَىٰ قَدَرٍ مَعْلُومٍ فَقَدَرْنَا فَنِعْمَ الْقَادِرُونَ`,
       ``,
       ``
@@ -41127,6 +46683,117 @@ const verses = [
 
   {
     arabic: [
+      `بَلْ هُوَ قُرْآنٌ مَجِيدٌ فِي لَوْحٍ مَحْفُوظٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `But this is an honored Qur'an [Inscribed] in a Preserved Slate`,
+        ``,
+        ``
+      ],
+      [
+        `Mais c'est plutôt un Coran glorifié préservé sur une Tablette (auprès d'Allah)`,
+        ``,
+        ``
+      ],
+      [
+        `¡Sí es un Corán glorioso en una Tabla bien guardada`,
+        ``,
+        ``
+      ],
+      [
+        `Да, это - славный Коран в Хранимой скрижали`,
+        ``,
+        ``
+      ],
+      [
+        `Nein! Vielmehr ist es ein ruhmvoller Qur'an auf einer wohlbehüteten Tafel`,
+        ``,
+        ``
+      ],
+      [
+        `Nej, detta är en ärorik Koran [med budskap] inristade på en [oförstörbar] tavla`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Het is zelfs een glorierijke Koran In de Lauhoelmahfôezh`,
+        ``,
+        ``
+      ],
+      [
+        `(یہ کتاب ہزل و بطلان نہیں) بلکہ یہ قرآن عظیم الشان ہے لوح محفوظ میں (لکھا ہوا)`,
+        ``,
+        ``
+      ],
+      [
+        `Bahkan (yang didustakan itu) ialah Alquran yang mulia yang (tersimpan) dalam (tempat) yang terjaga (Lauḥ Maḥfūẓ)`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu sana vahyedilen bu Kitap, Levhi Mahfuz'da bulunan şanlı bir Kuran'dır`,
+        ``,
+        ``
+      ],
+      [
+        `آرى، آن قرآنى ارجمند است، كه در لوحى محفوظ است`,
+        ``,
+        ``
+      ],
+      [
+        `বরং এটা মহান কোরআন লওহে মাহফুযে লিপিবদ্ধ।`,
+        ``,
+        ``
+      ],
+      [
+        `Mas este é um Alcorão glorioso Registado em tábua custódia`,
+        ``,
+        ``
+      ],
+      [
+        `不然，这是尊严的《古兰经》， 记录在一块受保护的天牌上。`,
+        ``,
+        ``
+      ],
+      [
+        `いやこれは，栄光に満ちたクルアーンで， 守護された碑板に（銘記されている）。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 이것이 영광의 꾸란으 로 보호된 곳에 보관된 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `Questo è invece un Corano glorioso [impresso] su di una Tavola protetta`,
+        ``,
+        ``
+      ],
+      [
+        `To zaś jest Koran godny chwały na tablicy strzeżonej`,
+        ``,
+        ``
+      ],
+      [
+        `А це — преславний Коран який міститься у Скрижалі Захищеній`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البروج / Al-Buruj، الآيتان 21-22`
+  },
+
+  {
+    arabic: [
       `فَلْيَنْظُرِ الْإِنْسَانُ مِمَّ خُلِقَ خُلِقَ مِنْ مَاءٍ دَافِقٍ يَخْرُجُ مِنْ بَيْنِ الصُّلْبِ وَالتَّرَائِبِ`,
       ``,
       ``
@@ -41571,6 +47238,117 @@ const verses = [
 
   {
     arabic: [
+      `كَلَّا ۖ بَلْ لَا تُكْرِمُونَ الْيَتِيمَ وَلَا تَحَاضُّونَ عَلَىٰ طَعَامِ الْمِسْكِينِ وَتَأْكُلُونَ التُّرَاثَ أَكْلًا لَمًّا وَتُحِبُّونَ الْمَالَ حُبًّا جَمًّا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `No! But you do not honor the orphan And you do not encourage one another to feed the poor And you consume inheritance, devouring [it] altogether And you love wealth with immense love`,
+        ``,
+        ``
+      ],
+      [
+        `Mais non ! C'est vous plutôt, qui n'êtes pas généreux envers les orphelins qui ne vous incitez pas mutuellement à nourrir le pauvre qui dévorez l'héritage avec une avidité vorace et aimez les richesses d'un amour sans bornes`,
+        ``,
+        ``
+      ],
+      [
+        `¡No! Sois vosotros, más bien, los que no honráis al huérfano ni os animáis unos a otros a alimentar al pobre sino que devoráis vorazmente la herencia y amáis la hacienda con desordenado amor`,
+        ``,
+        ``
+      ],
+      [
+        `Но нет! Вы же сами не почитаете сироту не побуждаете друг друга кормить бедняка жадно (или целиком) пожираете наследство и страстно любите богатство`,
+        ``,
+        ``
+      ],
+      [
+        `Keineswegs! Vielmehr behandelt ihr die Waise nicht freigebig und haltet euch nicht gegenseitig zur Speisung des Armen an Und ihr verzehrt das Erbe, ja ihr verzehrt es ganz und gar Und ihr liebt den Besitz, ja ihr liebt ihn voll und ganz`,
+        ``,
+        ``
+      ],
+      [
+        `Nej, men [se på er själva]! Mot de faderlösa visar ni ingen givmildhet och ni uppmanar inte varandra att ge den nödställde att äta och ni slukar [andras] arv med glupande aptit Och er kärlek till pengar känner inga gränser`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Nee! Jullie ondersteunen immers de wees niet En jullie sporen elkaar niet aan tot het voeden van de behoeftigen En jullie verteren het erfdeel inhalig En jullie beminnen het bezit met overdreven liefde`,
+        ``,
+        ``
+      ],
+      [
+        `نہیں بلکہ تم لوگ یتیم کی خاطر نہیں کرتے اور نہ مسکین کو کھانا کھلانے کی ترغیب دیتے ہو اور میراث کے مال سمیٹ کر کھا جاتے ہو اور مال کو بہت ہی عزیز رکھتے ہو`,
+        ``,
+        ``
+      ],
+      [
+        `Sekali-kali tidak! Bahkan kamu tidak memuliakan anak yatim dan kamu tidak saling mengajak memberi makan orang miskin sedangkan kamu memakan harta warisan dengan cara mencampurbaurkan (yang halal dan yang haram) dan kamu mencintai harta dengan kecintaan yang berlebihan`,
+        ``,
+        ``
+      ],
+      [
+        `Hayır; yetime karşı cömert davranmıyorsunuz Yoksulu yedirmek konusunda birbirinize özenmiyorsunuz Size kalan mirası hak gözetmeden yiyorsunuz Malı pek çok seviyorsunuz`,
+        ``,
+        ``
+      ],
+      [
+        `ولى نه، بلكه يتيم را نمى‌نوازيد؛ و بر خوراك‌[دادن‌] بينوا همديگر را بر نمى‌انگيزيد؛ و ميراث [ضعيفان‌] را چپاولگرانه مى‌خوريد؛ و مال را دوست داريد، دوست داشتنى بسيار`,
+        ``,
+        ``
+      ],
+      [
+        `এটা অমূলক, বরং তোমরা এতীমকে সম্মান কর না। এবং মিসকীনকে অন্নদানে পরস্পরকে উৎসাহিত কর না। এবং তোমরা মৃতের ত্যাজ্য সম্পত্তি সম্পূর্ণরূপে কুক্ষিগত করে ফেল এবং তোমরা ধন-সম্পদকে প্রাণভরে ভালবাস।`,
+        ``,
+        ``
+      ],
+      [
+        `Em absoluto, isso não é certo! Mas, vós não honrais o órfão E não vos incitais, mutuamente, a alimentar o necessitado E devorais as heranças com indiscriminada voracidade E amais as riquezas, com excessivo amor`,
+        ``,
+        ``
+      ],
+      [
+        `绝不然！但你们不优待孤儿， 你们不以济贫相勉励， 你们侵吞遗产， 你们酷爱钱财。`,
+        ``,
+        ``
+      ],
+      [
+        `断じていけない。いや，あなたがたは孤児を大切にしない。 また貧者を養うために，互いに励まさない。 しかも遺産を取り上げ，強欲を欲しい尽にする。 またあなたがたは，法外な愛で財産を愛する。`,
+        ``,
+        ``
+      ],
+      [
+        `그렇지 아니함이라 너희는 고아들에게 은혜를 베풀지 아니했으며 가난한 자들에게 음식을 제공함에 서로가 서로에게 격려하지아니하며 오히려 너희는 욕심을 내어그들의 유산을 삼키고 오만하게 재물만을 사랑하였노라`,
+        ``,
+        ``
+      ],
+      [
+        `No, siete voi che non onorate l'orfano che non vi sollecitate vicendevolmente a nutrire il povero che divorate avidamente l'eredità e amate le ricchezze d'amore smodato`,
+        ``,
+        ``
+      ],
+      [
+        `Wcale nie! Lecz wy nie szanujecie sieroty Nie zachęcacie się wzajemnie do nakarmienia biedaka I zjadacie dziedzictwo z wielką chciwością I kochacie bogactwo miłością ogromną`,
+        ``,
+        ``
+      ],
+      [
+        `Та ж ні! Це ви самі не шануєте сиріт І не закликаєте одне одного нагодувати бідняка жадібно поглинаєте спадо і любите багатство любов’ю сильною`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الفجر / Al-Fajr، الآيات 17-20`
+  },
+
+  {
+    arabic: [
       `يَا أَيَّتُهَا النَّفْسُ الْمُطْمَئِنَّةُ ارْجِعِي إِلَىٰ رَبِّكِ رَاضِيَةً مَرْضِيَّةً فَادْخُلِي فِي عِبَادِي وَادْخُلِي جَنَّتِي`,
       ``,
       ``
@@ -41678,6 +47456,117 @@ const verses = [
       ]
     ],
     number: `سورة الفجر / Al-Fajr، الآيات 27-30`
+  },
+
+  {
+    arabic: [
+      `فَلَا اقْتَحَمَ الْعَقَبَةَ وَمَا أَدْرَاكَ مَا الْعَقَبَةُ فَكُّ رَقَبَةٍ أَوْ إِطْعَامٌ فِي يَوْمٍ ذِي مَسْغَبَةٍ يَتِيمًا ذَا مَقْرَبَةٍ أَوْ مِسْكِينًا ذَا مَتْرَبَةٍ ثُمَّ كَانَ مِنَ الَّذِينَ آمَنُوا وَتَوَاصَوْا بِالصَّبْرِ وَتَوَاصَوْا بِالْمَرْحَمَةِ أُولَٰئِكَ أَصْحَابُ الْمَيْمَنَةِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `But he has not broken through the difficult pass And what can make you know what is [breaking through] the difficult pass It is the freeing of a slave Or feeding on a day of severe hunger An orphan of near relationship Or a needy person in misery And then being among those who believed and advised one another to patience and advised one another to compassion Those are the companions of the right`,
+        ``,
+        ``
+      ],
+      [
+        `Or, il ne s'engage pas dans la voie difficile Et qui te dira ce qu'est la voie difficile C'est délier un joug [affranchir un esclave] ou nourrir, en un jour de famine un orphelin proche parent ou un pauvre dans le dénouement Et c'est être, en outre, de ceux qui croient et s'enjoignent mutuellement l'endurance, et s'enjoignent mutuellement la miséricorde Ceux-là sont les gens de la droite`,
+        ``,
+        ``
+      ],
+      [
+        `Pues nunca se ha puesto a subir la Cuesta Y ¿cómo sabrás qué es la Cuesta Es manumitir a un esclavo Alimentar en tiempo de hambre A un pariente próximo huérfano A un pobre en la miseria Es, también, formar parte de los que creen, de los que se recomiendan mutuamente la paciencia y la misericordia Ésos son los de la Derecha`,
+        ``,
+        ``
+      ],
+      [
+        `Но он не стал преодолевать крутую тропу Откуда ты мог знать, что такое крутая тропа Это - освобождение раба или кормление в голодный день сироту из числа родственников или приникшего к земле бедняка А после этого надо быть одним из тех, которые уверовали и заповедали друг другу терпение и заповедали друг другу милосердие Таковы люди правой стороны`,
+        ``,
+        ``
+      ],
+      [
+        `Aber er ist nicht den steilen Paßweg hinaufgestürmt Und was läßt dich wissen, was der steile Paßweg ist (Es ist) die Freilassung eines Sklaven oder zu speisen am Tag der Hungersnot eine Waise, die einem nahe ist oder einen Armen, der dem Boden nahe ist Und daß man hierauf zu denjenigen gehört, die glauben, einander die Standhaftigkeit eindringlich empfehlen und einander die Barmherzigkeit eindringlich empfehlen Das sind die Gefährten der rechten Seite`,
+        ``,
+        ``
+      ],
+      [
+        `Men hon gör sig ingen brådska att slå in på den väg som bär brant uppför Vad kan låta dig ana vad det innebär [att slå in på] den väg som bär brant uppför [Det innebär] att befria [en människa] från slaveri eller att i hungerns tider föda en faderlös anförvant eller en människa som lider nöd [Det innebär] också att vara en av dem som tror och som uppmanar varandra att ha tålamod och uppmanar varandra att visa medkänsla [med de sämre lottade] Dessa är de rättfärdiga som hör till den högra sidan`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Was hij maar over de drempel gestapt En wat doet jou weten wat de drempel is Het vrijlaten van een slaaf Of het geven van voedsel op een dag van hongersnood Aan een verwante wees Of aan een arme behoeftige En dat hij behoort tot degenen die geloven en elkaar aansporen tot geduld en elkaar aansporen tot barmhartigheid Zij zijn degenen die de mensen van de rechterzijde zijn (zij zijn de bewoners van het Paradijs)`,
+        ``,
+        ``
+      ],
+      [
+        `مگر وہ گھاٹی پر سے ہو کر نہ گزرا اور تم کیا سمجھے کہ گھاٹی کیا ہے؟ کسی (کی) گردن کا چھڑانا یا بھوک کے دن کھانا کھلانا یتیم رشتہ دار کو یا فقیر خاکسار کو پھر ان لوگوں میں بھی (داخل) ہو جو ایمان لائے اور صبر کی نصیحت اور (لوگوں پر) شفقت کرنے کی وصیت کرتے رہے یہی لوگ صاحب سعادت ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Tetapi dia tidak menempuh jalan yang mendaki dan sukar Dan tahukah kamu apakah jalan yang mendaki dan sukar itu (Yaitu) membebaskan budak (hamba sahaya) atau memberi makan pada hari terjadi kelaparan (kepada) anak yatim yang ada hubungan kerabat atau orang miskin yang sangat fakir Kemudian dia termasuk orang-orang yang beriman, dan saling berpesan untuk bersabar dan saling berpesan untuk berkasih sayang Mereka (orang-orang yang beriman dan saling berpesan itu) adalah golongan kanan`,
+        ``,
+        ``
+      ],
+      [
+        `Ama o, zor geçidi aşmaya girişemedi O zor geçidin ne olduğunu sen bilir misin O geçit, bir köle ve esir azadetmek Yahut, açlık gününde, yakını olan bir öksüzü, yahut toprağa serilmiş bir yoksulu doyurmaktır Sonra, inanıp birbirlerine sabır tavsiye edenlerden, merhametlilerden olmayı tavsiye edenlerden olmaktır İşte bunlar amel defterleri sağdan verilenlerdir`,
+        ``,
+        ``
+      ],
+      [
+        `و[لى‌] نخواست از گردنه [عاقبت‌نگرى‌] بالا رود و تو چه دانى كه آن گردنه [سخت‌] چيست؟ بنده‌اى را آزادكردن، يا در روز گرسنگى، طعام‌دادن به يتيمى خويشاوند، يا بينوايى خاك‌نشين علاوه بر اين از زمره كسانى باشد كه گرويده و يكديگر را به شكيبايى و مهربانى سفارش كرده‌اند؛ اينانند خجستگان`,
+        ``,
+        ``
+      ],
+      [
+        `অতঃপর সে ধর্মের ঘাঁটিতে প্রবেশ করেনি। আপনি জানেন, সে ঘাঁটি কি তা হচ্ছে দাসমুক্তি অথবা দুর্ভিক্ষের দিনে অন্নদান। এতীম আত্বীয়কে অথবা ধুলি-ধুসরিত মিসকীনকে অতঃপর তাদের অন্তর্ভুক্ত হওয়া, যারা ঈমান আনে এবং পরস্পরকে উপদেশ দেয় সবরের ও উপদেশ দেয় দয়ার। তারাই সৌভাগ্যশালী।`,
+        ``,
+        ``
+      ],
+      [
+        `Então, ele não enfrenta o obstáculo E o que te faz inteirar-te do que é o obstáculo E libertar um escravo Ou alimentar, em dia de penúria Um órfão aparentado Ou um necessitado empoeirado pela miséria Em seguida, é ser dos que crêem e se recomendam, mutuamente, a paciência, e se recomendam, mutuamente, a misericórdia Esses são os companheiros da direita`,
+        ``,
+        ``
+      ],
+      [
+        `他怎麽不超越山径呢？ 你怎能知道超越山径是什麽事？ 是释放奴隶， 或在饥荒日赈济 亲戚的孤儿， 或困穷的贫民； 同时，他是一个信道而且行善，并以坚忍相勉，以慈悯相助者。 这等人是幸福的。`,
+        ``,
+        ``
+      ],
+      [
+        `だがかれは，険しい道を取ろうとはしない。 険しい道が何であるかを，あなたに理解させるものは何か。 （それは）奴隷を解放し， または飢餓の日には食物を出して， 近い縁者の孤児を， または酷く哀れな貧者を（養うこと）。 それから信仰する者になって忍耐のために励ましあい，互いに親切，温情を尽しあう（ことである）。 これらは右手の仲間である。`,
+        ``,
+        ``
+      ],
+      [
+        `그는 힘든 길에서 수고하려 아니 하느뇨 그 힘든 길이 무엇인지 무엇이 그대에게 설명하여 주리요 그것은 노예를 해방시켜 주 는 일이요 배고픈 자에게 음식을 베푸 는 것이며 친척의 고아들과 먼지 투성이가 된 가난한 자들에게 자선을 베푸는 것이라 그런 후 믿음으로 서로가 서로에게 인내하고 서로가 서로에게 사랑을 베푸는 것으로 이들만이 우편에 있는 동료 들이라`,
+        ``,
+        ``
+      ],
+      [
+        `Segua dunque la via ascendente E chi ti farà comprendere cos'è la via ascendente È riscattare uno schiavo o nutrire, in un giorno di carestia un parente orfano o un povero prostrato [dalla miseria] ed essere tra coloro che credono e vicendevolmente si invitano alla costanza e vicendevolmente si invitano alla misericordia Costoro sono i compagni della destra`,
+        ``,
+        ``
+      ],
+      [
+        `Lecz on nie próbował wejść na drogę stromą A co pouczy cię, co to jest droga stroma To uwolnienie niewolnika Albo nakarmienie w dniu głodu Sieroty spośród krewnych Albo biedaka znajdującego się w nędzy A także - być spośród tych, którzy wierzą, zachęcają się wzajemnie do cierpliwości, zachęcają się wzajemnie do miłosierdzia Ci - to towarzysze prawicy`,
+        ``,
+        ``
+      ],
+      [
+        `Та не стала вона долати перешкоди Звідки тобі знати, що таке перешкоди Це — звільнити раба нагодувати в день голод сироту з-посеред родичі чи пригнобленого скрутою А після цього бути серед тих, які увірували й заповідали одне одному терпіння, заповідали одне одному милосердя Це — люди, які праворуч`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البلد / Al-Balad، الآيات 11-18`
   },
 
   {
@@ -41900,6 +47789,117 @@ const verses = [
       ]
     ],
     number: `سورة الضحى / Ad-Duha، الآيات 3-8`
+  },
+
+  {
+    arabic: [
+      `فَأَمَّا الْيَتِيمَ فَلَا تَقْهَرْ وَأَمَّا السَّائِلَ فَلَا تَنْهَرْ وَأَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `So as for the orphan, do not oppress [him] And as for the petitioner, do not repel [him] But as for the favor of your Lord, report [it]`,
+        ``,
+        ``
+      ],
+      [
+        `Quant à l'orphelin, donc, ne le maltraite pas Quant au demandeur, ne le repousse pas Et quant au bienfait de ton Seigneur, proclame-le`,
+        ``,
+        ``
+      ],
+      [
+        `En cuanto al huérfano, ¡no le oprimas Y en cuanto al mendigo, ¡no le rechaces Y en cuanto a la gracia de tu Señor, ¡publícala`,
+        ``,
+        ``
+      ],
+      [
+        `Посему не притесняй сироту И не гони просящего И возвещай о милости своего Господа`,
+        ``,
+        ``
+      ],
+      [
+        `Was nun die Waise angeht, so unterjoche (sie) nicht und was den Bettler angeht, so fahre (ihn) nicht an und was die Gunst deines Herrn angeht, so erzähle (davon)`,
+        ``,
+        ``
+      ],
+      [
+        `Var därför inte hård mot den faderlöse och stöt inte bort tiggaren med barska ord Men berätta [för alla] om din Herres välgärningar`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Wat de wees betreft: beledig hem niet En wat de bedelaar betreft: wijs hem niet af En wat de gunsten van jouw Heer betreft: spreek daarover`,
+        ``,
+        ``
+      ],
+      [
+        `تو تم بھی یتیم پر ستم نہ کرنا اور مانگنے والے کو جھڑکی نہ دینا اور اپنے پروردگار کی نعمتوں کا بیان کرتے رہنا`,
+        ``,
+        ``
+      ],
+      [
+        `Maka terhadap anak yatim janganlah engkau berlaku sewenang-wenang Dan terhadap orang yang meminta-minta, janganlah engkau menghardik(nya) Dan terhadap nikmat Tuhanmu, hendaklah engkau nyatakan (dengan bersyukur)`,
+        ``,
+        ``
+      ],
+      [
+        `Öyleyse sakın öksüze kötü muamele etme Ve sakın bir şey isteyeni azarlama Yalnızca Rabbinin nimetini anlat`,
+        ``,
+        ``
+      ],
+      [
+        `و اما [تو نيز به پاس نعمت ما] يتيم را ميازار، و گدا را مران، و از نعمت پروردگار خويش [با مردم‌] سخن گوى`,
+        ``,
+        ``
+      ],
+      [
+        `সুতরাং আপনি এতীমের প্রতি কঠোর হবেন না সওয়ালকারীকে ধমক দেবেন না। এবং আপনার পালনকর্তার নেয়ামতের কথা প্রকাশ করুন।`,
+        ``,
+        ``
+      ],
+      [
+        `Então, quanto ao órfão, não o oprimas E, quanto ao mendigo, não o maltrates E, quanto à graça de teu Senhor, proclama-a`,
+        ``,
+        ``
+      ],
+      [
+        `至於孤儿，你不要压迫他； 至於乞丐，你不要喝斥他， 至於你的主所赐你的恩典呢，你应当宣示它。`,
+        ``,
+        ``
+      ],
+      [
+        `だから孤児を虐げてはならない。 請う者を揆ね付けてはならない。 あなたの主の恩恵を宣べ伝えるがいい。`,
+        ``,
+        ``
+      ],
+      [
+        `그러므로 고아들을 거칠게 대하지말며 구하는 자에게 거절하지 말고 그리고 주님의 은혜를 이야기 하라`,
+        ``,
+        ``
+      ],
+      [
+        `Dunque non opprimere l'orfano non respingere il mendicante e proclama la grazia del tuo Signore`,
+        ``,
+        ``
+      ],
+      [
+        `Przeto sieroty - nie uciskaj A żebraka - nie odpychaj A o dobrodziejstwie twego Pana - opowiadaj`,
+        ``,
+        ``
+      ],
+      [
+        `Тож не утискай сироту і не проганяй бідняка І про блага Господа свого сповіщай`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الضحى / Ad-Duha، الآيات 9-11`
   },
 
   {
@@ -43232,6 +49232,117 @@ const verses = [
       ]
     ],
     number: `سورة الهمزة / Al-Humazah، الآيات 1-9`
+  },
+
+  {
+    arabic: [
+      `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Have you seen the one who denies the Recompense For that is the one who drives away the orphan And does not encourage the feeding of the poor`,
+        ``,
+        ``
+      ],
+      [
+        `Vois-tu celui qui traite de mensonge la Rétribution C'est bien lui qui repousse l'orphelin et qui n'encourage point à nourrir le pauvre`,
+        ``,
+        ``
+      ],
+      [
+        `¿Qué te parece el que desmiente el Juicio Es el mismo que rechaza violentamente al huérfano Y no anima a dar de comer al pobre`,
+        ``,
+        ``
+      ],
+      [
+        `Видел ли ты того, кто считает ложью воздаяние Это - тот, кто гонит сироту и не побуждает накормить бедняка`,
+        ``,
+        ``
+      ],
+      [
+        `Siehst du (nicht) denjenigen, der das Gericht für Lüge erklärt Das ist derjenige, der die Waise zurückstößt und nicht zur Speisung des Armen anhält`,
+        ``,
+        ``
+      ],
+      [
+        `VAD ANSER du om den [människa] som förnekar Domen Det är samme man som motar undan den faderlöse och som inte uppmanar [någon] att ge dem som lider nöd att äta`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Weet jij wie degene is die (de Dag van) het Oordeel loochent Dat is degene die de wees wegduwt En hij spoort niet aan tot het geven van voedsel aan de behoeftigen`,
+        ``,
+        ``
+      ],
+      [
+        `بھلا تم نے اس شخص کو دیکھا جو (روزِ) جزا کو جھٹلاتا ہے؟ یہ وہی (بدبخت) ہے، جو یتیم کو دھکے دیتا ہے اور فقیر کو کھانا کھلانے کے لیے (لوگوں کو) ترغیب نہیں دیتا`,
+        ``,
+        ``
+      ],
+      [
+        `Tahukah kamu (orang) yang mendustakan agama Maka itulah orang yang menghardik anak yatim dan tidak mengajak memberi makan orang miskin`,
+        ``,
+        ``
+      ],
+      [
+        `Dini yalan sayanı gördün mü Öksüzü kakıştıran, yoksulu doyurmaya yanaşmayan kimse işte odur`,
+        ``,
+        ``
+      ],
+      [
+        `آيا كسى را كه [روز] جزا را دروغ مى‌خواند، ديدى؟ اين همان كس است كه يتيم را بسختى مى‌راند، و به خوراك‌دادن بينوا ترغيب نمى‌كند`,
+        ``,
+        ``
+      ],
+      [
+        `আপনি কি দেখেছেন তাকে, যে বিচারদিবসকে মিথ্যা বলে সে সেই ব্যক্তি, যে এতীমকে গলা ধাক্কা দেয় এবং মিসকীনকে অন্ন দিতে উৎসাহিত করে না।`,
+        ``,
+        ``
+      ],
+      [
+        `Suratu Al-Maun. Viste quem desmente o Dia do Juízo Esse é o que repele o órfão E não incitava ninguém a alimentar o necessitado`,
+        ``,
+        ``
+      ],
+      [
+        `你曾见否认报应日的人吗？ 他就是那个呵斥孤儿 且不勉励人赈济贫民的人。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたは，審判を嘘であるとする者を見たか。 かれは，孤児に手荒くする者であり， また貧者に食物を与えることを勧めない者である。`,
+        ``,
+        ``
+      ],
+      [
+        `내세를 부정하는 자를 그대 는 알았느뇨 그는 고아를 학대하고 불쌍한 자에게 음식을 제공하지 아니한 자이니`,
+        ``,
+        ``
+      ],
+      [
+        `Non vedi colui che taccia di menzogna il Giudizio È quello stesso che scaccia l’orfano e non esorta a sfamare il povero`,
+        ``,
+        ``
+      ],
+      [
+        `Czy widziałeś tego, który za kłamstwo uważa religię To jest ten, który z pogardą odpycha sierotę Który nie zachęca do nakarmienia biednego`,
+        ``,
+        ``
+      ],
+      [
+        `Чи бачив ти того, хто заперечує Суд Та це ж той, хто проганяє сирот і не закликає нагодувати бідного`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الماعون / Al-Ma'un، الآيات 1-3`
   },
 
   {
