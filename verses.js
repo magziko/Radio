@@ -62,6 +62,11 @@
 // المصدر والمعالجة كما في الإضافات السابقة (Tanzil المبسّطة للعربي، والترجمات حرفية من المصادر المذكورة في أعلاه، كل موضع في جزء واحد، والأيرلندية فارغة).
 // اتُّسع نطاق 6:155-157 لأن إحدى الترجمات تجمع هذه الآيات في نص واحد. وتُركت مواضع كانت موجودة أصلًا في الملف فلم تُكرَّر.
 
+// ===== آيات أُضيفت (نوفمبر 2026): الأمثال التي ضربها الله في القرآن، مرتبة حسب المصحف =====
+// 37 موضعًا جديدًا: 2:17-20، 2:26-27، 2:74، 2:171، 2:264، 2:265-266، 3:59، 3:117، 6:122، 7:40، 7:175-176، 10:24، 11:24، 13:14، 13:17، 13:35، 14:18، 14:24-27، 16:75-76، 16:112، 18:32-34، 18:45، 22:31، 24:39، 29:41-43، 30:28، 35:19-22، 39:29، 40:58، 47:15، 59:16، 61:4، 62:5، 63:4، 66:10، 67:22، 74:49-51.
+// المصدر والمعالجة كما في الإضافات السابقة (Tanzil المبسّطة للعربي، والترجمات حرفية من المصادر المذكورة في أعلاه، كل موضع في جزء واحد، والأيرلندية فارغة).
+// اتُّسع نطاق 2:26-27 لأن إحدى الترجمات تجمع الآيتين في نص واحد. وتُركت مواضع كانت موجودة أصلًا في الملف (22:73-74 و39:9) فلم تُكرَّر.
+
 // فهارس اللغات التي لا توجد لها ترجمة معتمدة (الأيرلندية: لا توجد ترجمة كاملة معتمدة) — يُفضّل عرض تنبيه "ترجمة غير معتمدة" عند عرضها.
 const UNVERIFIED_TRANSLATION_INDEXES = [6];
 
@@ -286,6 +291,117 @@ const verses = [
       ]
     ],
     number: `سورة البقرة / Al-Baqarah، الآية 2`
+  },
+
+  {
+    arabic: [
+      `مَثَلُهُمْ كَمَثَلِ الَّذِي اسْتَوْقَدَ نَارًا فَلَمَّا أَضَاءَتْ مَا حَوْلَهُ ذَهَبَ اللَّهُ بِنُورِهِمْ وَتَرَكَهُمْ فِي ظُلُمَاتٍ لَا يُبْصِرُونَ صُمٌّ بُكْمٌ عُمْيٌ فَهُمْ لَا يَرْجِعُونَ أَوْ كَصَيِّبٍ مِنَ السَّمَاءِ فِيهِ ظُلُمَاتٌ وَرَعْدٌ وَبَرْقٌ يَجْعَلُونَ أَصَابِعَهُمْ فِي آذَانِهِمْ مِنَ الصَّوَاعِقِ حَذَرَ الْمَوْتِ ۚ وَاللَّهُ مُحِيطٌ بِالْكَافِرِينَ يَكَادُ الْبَرْقُ يَخْطَفُ أَبْصَارَهُمْ ۖ كُلَّمَا أَضَاءَ لَهُمْ مَشَوْا فِيهِ وَإِذَا أَظْلَمَ عَلَيْهِمْ قَامُوا ۚ وَلَوْ شَاءَ اللَّهُ لَذَهَبَ بِسَمْعِهِمْ وَأَبْصَارِهِمْ ۚ إِنَّ اللَّهَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Their example is that of one who kindled a fire, but when it illuminated what was around him, Allah took away their light and left them in darkness [so] they could not see Deaf, dumb and blind - so they will not return [to the right path] Or [it is] like a rainstorm from the sky within which is darkness, thunder and lightning. They put their fingers in their ears against the thunderclaps in dread of death. But Allah is encompassing of the disbelievers The lightning almost snatches away their sight. Every time it lights [the way] for them, they walk therein; but when darkness comes over them, they stand [still]. And if Allah had willed, He could have taken away their hearing and their sight. Indeed, Allah is over all things competent`,
+        ``,
+        ``
+      ],
+      [
+        `Ils ressemblent à quelqu'un qui a allumé un feu; puis quand le feu a illuminé tout à l'entour, Allah a fait disparaître leur lumière et les a abandonnés dans les ténèbres où ils ne voient plus rien Sourds, muets, aveugles, ils ne peuvent donc pas revenir (de leur égarement) [On peut encore les comparer à ces gens qui,] au moment où les nuées éclatent en pluies, chargées de ténèbres, de tonnerre et éclairs, se mettent les doigts dans les oreilles, terrorisés par le fracas de la foudre et craignant la mort; et Allah encercle de tous côtés les infidèles L'éclair presque leur emporte la vue: chaque fois qu'il leur donne de la lumière, ils avancent; mais dès qu'il fait obscur, ils s'arrêtent. Si Allah le voulait Il leur enlèverait certes l'ouïe et la vue, car Allah a pouvoir sur toute chose`,
+        ``,
+        ``
+      ],
+      [
+        `Son como uno que alumbra un fuego. En cuanto éste ilumina lo que le rodea, Alá se les lleva la luz y les deja en tinieblas: no ven Son sordos, mudos, ciegos, no se convierten O como si viniera del cielo una nube borrascosa, cargada de tinieblas, truenos y relámpagos. Se ponen los dedos en los oídos contra el rayo, por temor a la muerte. Pero Alá cerca a los infieles El relámpago les arrebata casi la vista. Cuando les ilumina, caminan a su luz; pero, cuando les oscurece, se detienen. Si Alá hubiera querido, les habría quitado el oído y la vista. Alá es omnipotente`,
+        ``,
+        ``
+      ],
+      [
+        `Они подобны тому, кто разжег огонь. Когда же огонь озарил все вокруг него, Аллах лишил их света и оставил их в темноте, где они ничего не видят Глухие, немые, слепые! Они не вернутся на прямой путь Или же они подобны тем, кто оказался под ливнем с неба. Он несет мрак, гром и молнию. Они же в смертельном страхе затыкают уши пальцами от грохота молний. Воистину, Аллах объемлет неверующих Молния готова отнять у них зрение. Когда она вспыхивает, они отправляются в путь, когда же опускается мрак, они останавливаются. Если бы Аллах пожелал, Он лишил бы их слуха и зрения. Воистину, Аллах способен на всякую вещь`,
+        ``,
+        ``
+      ],
+      [
+        `Ihr Gleichnis ist das jemandes, der ein Feuer anzündet. Nachdem es seine Umgebung erhellt hat, nimmt Allah ihr Licht weg und läßt sie in Finsternis zurück; sie sehen nicht Taub, stumm und blind: So werden sie nicht umkehren Oder es ist wie ein Gewitterregen, der vom Himmel niedergeht, voller Finsternis, Donner und Blitz. Sie stecken sich die Finger in die Ohren vor den Donnerschlägen, um dem Tod zu entfliehen, doch Allah umfaßt die Ungläubigen Der Blitz reißt ihnen beinahe das Augenlicht fort. Jedesmal, wenn er ihnen Helligkeit verbreitet, gehen sie darin. Und wenn es finster um sie wird, bleiben sie stehen. Wenn Allah wollte, nähme Er ihnen wahrlich Gehör und Augenlicht. Allah hat zu allem die Macht`,
+        ``,
+        ``
+      ],
+      [
+        `De kan liknas vid en [man] som tänder en eld, och då elden lyser upp [alla] som står omkring, tar Gud ifrån dem deras ljus och lämnar dem i mörker så att de ingenting kan se döva, stumma och blinda finner de ingen väg tillbaka Eller vid [dem som råkar ut för] ett våldsamt oväder med regnmoln som förmörkar himlen, åska och blixtar. De sätter fingrarna i öronen för [att inte höra] åskans mullrande, i rädsla för döden - men Gud har uppsikt över dem som förnekar [Honom] De är nära att bländas av blixtarna, men när de lyser upp [mörkret] tar de några steg och stannar upp då mörkret [åter] sluter sig omkring dem. Om Gud ville kunde Han helt beröva dem hörsel och syn; Gud har allt i Sin makt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hun gelijkenis is als de gelijkenis van degene die een vuur ontsteekt: wanneer het (vuur) zijn omgeving verlicht, dan neemt Allah hun licht weg en laat Hij hen in de duisternissen achter. Zij zien niet (Zij zijn) doof, stom, en blind (van hart), daarom keren zij niet terug Of als (de gelijkenis, met) een regenstorm uit de hemel met daarin duisternissen, donder en bliksem. Zij stoppen hun vingers in hun oren voor de donderslagen, uit doodsangst. En Allah omvat de ongelovigen Bijna rukt de bliksem hun gezicht weg. Telkens wanneer deze hen verlicht, dan lopen zij in (het licht), maar wanneer hij hen in de duisternis laat, dan blijven ze staan. En als Allah het had gewild, dan had Hij hun gehoor en hun gezicht weggenomen. Voorwaar. Allah is Almachtig over alle zaken`,
+        ``,
+        ``
+      ],
+      [
+        `ان کی مثال اس شخص کی سی ہے کہ جس نے (شبِ تاریک میں) آگ جلائی۔ جب آگ نے اس کے اردگرد کی چیزیں روشن کیں تو خدا نے ان کی روشنی زائل کر دی اور ان کو اندھیروں میں چھوڑ دیا کہ کچھ نہیں دیکھتے (یہ) بہرے ہیں، گونگے ہیں، اندھے ہیں کہ (کسی طرح سیدھے رستے کی طرف) لوٹ ہی نہیں سکتے یا ان کی مثال مینہ کی سی ہے کہ آسمان سے (برس رہا ہو اور) اس میں اندھیرے پر اندھیرا (چھا رہا) ہو اور (بادل) گرج (رہا) ہو اور بجلی (کوند رہی) ہو تو یہ کڑک سے (ڈر کر) موت کے خوف سے کانوں میں انگلیاں دے لیں اور الله کافروں کو (ہر طرف سے) گھیرے ہوئے ہے قریب ہے کہ بجلی (کی چمک) ان کی آنکھوں (کی بصارت) کو اچک لے جائے۔ جب بجلی (چمکتی اور) ان پر روشنی ڈالی ہے تو اس میں چل پڑتے ہیں اور جب اندھیرا ہو جاتا ہے تو کھڑے کے کھڑے رہ جاتے ہیں اور اگر الله چاہتا تو ان کے کانوں (کی شنوائی) اور آنکھوں (کی بینائی دونوں) کو زائل کر دیتا ہے۔ بے شک الله ہر چیز پر قادر ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Perumpamaan mereka seperti orang-orang yang menyalakan api, setelah menerangi sekelilingnya, Allah melenyapkan cahaya (yang menyinari) mereka dan membiarkan mereka dalam kegelapan, tidak dapat melihat Mereka tuli, bisu dan buta, sehingga mereka tidak dapat kembali Atau seperti (orang yang ditimpa) hujan lebat dari langit, yang disertai kegelapan, petir dan kilat. Mereka menyumbat telinga dengan jari-jarinya, (menghindari) suara petir itu karena takut mati. Allah meliputi orang-orang yang kafir Hampir saja kilat itu menyambar penglihatan mereka. Setiap kali (kilat itu) menyinari, mereka berjalan di bawah (sinar) itu, dan apabila gelap menerpa mereka, mereka berhenti. Sekiranya Allah menghendaki, niscaya Dia hilangkan pendengaran dan penglihatan mereka. Sungguh, Allah Mahakuasa atas segala sesuatu`,
+        ``,
+        ``
+      ],
+      [
+        `Onlar, çevresini aydınlatmak için ateş yakan kimseye benzerler ki, Allah ışıklarını yok edince, onları karanlıklar içinde görmez bir halde bırakmıştır Sağırdırlar, dilsizdirler, kördürler, bu yüzden doğru yola dönmezler Bir kısmı da, karanlıklarda, gök gürlemeleri ve şimşek arasında gökten boşanan sağanağa tutulup, yıldırımlardan ölmek korkusu ile parmaklarını kulaklarına tıkayan kimseye benzer Şimşeğin çakması neredeyse gözlerini alır; onları aydınlattıkça ışığında yürürler ve üzerlerine karanlık basınca durakalırlar. Allah dileseydi işitme ve görmelerini giderirdi. Doğrusu Allah her şeye Kadir'dir`,
+        ``,
+        ``
+      ],
+      [
+        `مَثَل آنان، همچون مَثَل كسانى است كه آتشى افروختند، و چون پيرامون آنان را روشنايى داد، خدا نورشان را برد؛ و در ميان تاريكيهايى كه نمى‌بينند رهايشان كرد كرند، لالند، كورند؛ بنابراين به راه نمى‌آيند يا چون [كسانى كه در معرض‌] رگبارى از آسمان -كه در آن تاريكيها و رعد و برقى است- [قرار گرفته‌اند]؛ از [نهيب‌] آذرخش [و] بيم مرگ، سر انگشتان خود را در گوشهايشان نهند، ولى خدا بر كافران احاطه دارد نزديك است كه برق چشمانشان را بربايد؛ هر گاه كه بر آنان روشنى بخشد، در آن گام زنند؛ و چون راهشان را تاريك كند، [بر جاى خود] بايستند؛ و اگر خدا مى‌خواست شنوايى و بينايى‌شان را برمى‌گرفت، كه خدا بر همه چيز تواناست`,
+        ``,
+        ``
+      ],
+      [
+        `তাদের অবস্থা সে ব্যক্তির মত, যে লোক কোথাও আগুন জ্বালালো এবং তার চারদিককার সবকিছুকে যখন আগুন স্পষ্ট করে তুললো, ঠিক এমনি সময় আল্লাহ তার চারদিকের আলোকে উঠিয়ে নিলেন এবং তাদেরকে অন্ধকারে ছেড়ে দিলেন। ফলে, তারা কিছুই দেখতে পায় না। তারা বধির, মূক ও অন্ধ। সুতরাং তারা ফিরে আসবে না। আর তাদের উদাহরণ সেসব লোকের মত যারা দুর্যোগপূর্ণ ঝড়ো রাতে পথ চলে, যাতে থাকে আঁধার, গর্জন ও বিদ্যুৎচমক। মৃত্যুর ভয়ে গর্জনের সময় কানে আঙ্গুল দিয়ে রক্ষা পেতে চায়। অথচ সমস্ত কাফেরই আল্লাহ কর্তৃক পরিবেষ্ঠিত। বিদ্যুতালোকে যখন সামান্য আলোকিত হয়, তখন কিছুটা পথ চলে। আবার যখন অন্ধকার হয়ে যায়, তখন ঠাঁয় দাঁড়িয়ে থাকে। যদি আল্লাহ ইচ্ছা করেন, তাহলে তাদের শ্রবণশক্তি ও দৃষ্টিশক্তি ছিনিয়ে নিতে পারেন। আল্লাহ যাবতীয় বিষয়ের উপর সর্বময় ক্ষমতাশীল।`,
+        ``,
+        ``
+      ],
+      [
+        `Seu exemplo é como o daqueles que acenderam um fogo e, quando este iluminou o que havia ao seu redor, Allah foi-Se-lhes com a luz e deixou-os nas trevas, onde não enxergam São surdos, mudos, cegos: então, não retornam à Fé Ou como o daqueles que, sob intensa chuva do céu, em que há trevas e trovões e relâmpagos, tapam com os dedos os ouvidos, contra os raios ruidosos, para se precatarem da morte. - E Allah está sempre, abarcando os renegadores da Fé O relâmpago quase lhes arrebata as vistas. Cada vez que lhes ilumina o caminho, nele andam e, quando lhos entenebrece, detêm-se. E se Allah quisesse, ir-Se-lhes-ia com o ouvido e as vistas. Por certo, Allah, sobre todas as cousas, é Onipotente`,
+        ``,
+        ``
+      ],
+      [
+        `他们譬如燃火的人，当火光照亮了他们的四周的时候，真主把他们的火光拿去，让他们在重重的黑暗中，甚麽也看不见。 （他们）是聋的，是哑的，是瞎的，所以他们执迷不悟。 或者如遭遇倾盆大雨者，雨里有重重黑暗，又有雷和电，他们恐怕震死，故用手指塞住耳朵，以避疾雷。真主是周知不信道的人们的。 电光几乎夺了他们的视觉，每逢电光为他们而照耀的时候，他们在电光中前进；黑暗的时候，他们就站住。假如真主意欲，他必褫夺他们的听觉和视觉。真主对於万事确是全能的。`,
+        ``,
+        ``
+      ],
+      [
+        `かれらを譬えれば火を灯す者のようで，折角火が辺りを照らしたのに，アッラーはかれらの光を取り上げられ，暗闇の中に取り残されたので，何一つ見ることが出来ない。 聾唖で盲人なので，かれらは引き返すことも出来ないであろう。 また（譬えば）暗闇の中で雷鳴と稲妻を伴なう豪雨が天から降ってきたようなもので，落雷の恐さから死を恐れて，（戯らに）耳に指を差し込む。だがアッラーは，不信心者たちを全部取り囲まれる。 稲妻はほとんどかれらの視覚を奪わんばかりである。閃く度にその中で歩みを進めるが，暗闇になれば立ち止まる。もしもアッラーが御望みならば，かれらの聴覚も視覚も必ず取り上げられる。本当にアッラーは，凡てのことに全能であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `그들의 예는 불을 지핀 자의 예와 같노라. 그것(불)이 그 주위를 밝혔을 때 하나님께서 그들의 빛을 가져가시고 그들을 어둠 속에 남겨 놓으시니 그들은 보지 못하더라 귀머거리이며 벙어리이자 장님이니 그들은 (올바른 길로) 돌아오지 않더라 혹은 하늘에서 내리붓는 폭우와 같아 어둠과 천둥과 번개가 그(폭우)와 함께 있으니 그들은 벼락이 두려워 손가락을 귀에 대며 죽음을 피하려 하더라. 하나님께서는 불신자를 에워싸시는 분이라 번개가 그들의 시력을 잡아채기 직전이라. 그것(번개)이 그들을 위해 빛을 비출 때마다 그들은 그 속으로 걸어가고 그들에게 어둠이 내릴 때 그들은 멈추더라. 만약 하나님께서 원하셨더라면 그분께서는 정녕코 그들의 청각과 시각을 가져가셨을 것이라. 실로 하나님께서는 모든 것이 가능한 분이시라`,
+        ``,
+        ``
+      ],
+      [
+        `Assomigliano a chi accende un fuoco; poi, quando il fuoco ha illuminato i suoi dintorni, Allah sottrae loro la luce e li abbandona nelle tenebre in cui non vedono nulla Sordi, muti, ciechi, non possono ritornare [O come] una nuvola di pioggia nel cielo, gonfia di tenebre, di tuoni e di fulmini: mettono le loro dita nelle orecchie temendo la morte a causa dei fulmini. E Allah accerchia i miscredenti Il lampo quasi li acceca: ogni volta che rischiara, procedono; ma quando rimangono nell'oscurità si fermano. Se Allah avesse voluto, li avrebbe privati dell'udito e della vista. In verità Allah su tutte le cose è potente`,
+        ``,
+        ``
+      ],
+      [
+        `Oni są podobni do tego, który zapalił ogień, a kiedy ogień oświetlił to, co było wokół niego, Bóg zabrał im światło i pozostawił ich w ciemnościach, tak iż nie mogli widzieć Głusi, niemi i ślepi - oni nie zawrócą Albo do chmury burzowej na niebie - w niej są ciemności, grzmot i błyskawica. Oni, obawiając się śmierci, wkładają palce w swoje uszy przed piorunami. Bóg obejmuje niewiernych Błyskawica omal nie odbiera im wzroku. Za każdym razem, kiedy ona daje im światło, oni idą w nim; a kiedy ogarnia ich ciemność, oni się zatrzymują. Jeśliby zechciał Bóg, to zabrałby im słuch i wzrok. Zaprawdę, Bóg jest nad każdą rzeczą wszechwładny`,
+        ``,
+        ``
+      ],
+      [
+        `Вони — як ті, хто розпалив вогонь, а коли він освітив усе навколо, Аллаг забрав це світло, залишивши їх у пітьмі, і нічого не бачать вони Глухі, німі та сліпі! Вони не повернуться [на прямий шлях] Або й на тих, що потрапили під зливу із хмари на небі, а там — темрява, грім, блискавка! Вони бояться смерті й затуляють пальцями вуха, коли вдаряє блискавка. Аллаг оточує невіруючих Блискавка мало не осліплює їх. Коли спалах освітлює їх, вони йдуть, а коли огортає темрява, зупиняються. Якби Аллаг побажав, то забрав би їхній слух та зір. Воістину, Аллаг спроможний на кожну річ`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآيات 17-20`
   },
 
   {
@@ -619,6 +735,228 @@ const verses = [
       ]
     ],
     number: `سورة البقرة / Al-Baqarah، الآية 25`
+  },
+
+  {
+    arabic: [
+      `۞ إِنَّ اللَّهَ لَا يَسْتَحْيِي أَنْ يَضْرِبَ مَثَلًا مَا بَعُوضَةً فَمَا فَوْقَهَا ۚ فَأَمَّا الَّذِينَ آمَنُوا فَيَعْلَمُونَ أَنَّهُ الْحَقُّ مِنْ رَبِّهِمْ ۖ وَأَمَّا الَّذِينَ كَفَرُوا فَيَقُولُونَ مَاذَا أَرَادَ اللَّهُ بِهَٰذَا مَثَلًا ۘ يُضِلُّ بِهِ كَثِيرًا وَيَهْدِي بِهِ كَثِيرًا ۚ وَمَا يُضِلُّ بِهِ إِلَّا الْفَاسِقِينَ الَّذِينَ يَنْقُضُونَ عَهْدَ اللَّهِ مِنْ بَعْدِ مِيثَاقِهِ وَيَقْطَعُونَ مَا أَمَرَ اللَّهُ بِهِ أَنْ يُوصَلَ وَيُفْسِدُونَ فِي الْأَرْضِ ۚ أُولَٰئِكَ هُمُ الْخَاسِرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, Allah is not timid to present an example - that of a mosquito or what is smaller than it. And those who have believed know that it is the truth from their Lord. But as for those who disbelieve, they say, "What did Allah intend by this as an example?" He misleads many thereby and guides many thereby. And He misleads not except the defiantly disobedient Who break the covenant of Allah after contracting it and sever that which Allah has ordered to be joined and cause corruption on earth. It is those who are the losers`,
+        ``,
+        ``
+      ],
+      [
+        `Certes, Allah ne se gêne point de citer en exemple n'importe quoi: un moustique ou quoi que ce soit au-dessus; quant aux croyants, ils savent bien qu'il s'agit de la vérité venant de la part de leur Seigneur; quant aux infidèles, ils se demandent "Qu'a voulu dire Allah par un tel exemple?". Par cela, nombreux sont ceux qu'Il égare et nombreux sont ceux qu'Il guide; mais Il n'égare par cela que les pervers ceux qui rompent le pacte qu'ils avaient fermement conclu avec Allah, coupent ce qu'Allah a ordonné d'unir, et sèment la corruption sur la terre. Ceux-là sont les vrais perdants`,
+        ``,
+        ``
+      ],
+      [
+        `Alá no se avergüenza de proponer la parábola que sea, aunque se trate de un mosquito. Los que creen saben que es la Verdad, que viene de su Señor. En cuanto a los que no creen, dicen: «¿Qué es lo que se propone Alá con esta parábola?» Así extravía Él a muchos y así también dirige a muchos. Pero no extravía así sino a los perversos Quienes violan la alianza con Alá después de haberla concluido, cortan los lazos que Alá ha ordenado mantener y corrompen en la tierra, ésos son los que pierden`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, Аллах не смущается приводить притчи о комаре или том, что больше него. Те, которые уверовали, знают, что это - истина от их Господа. Те же, которые не уверовали, говорят: «Чего хотел Аллах, когда приводил эту притчу?». Посредством нее Он многих вводит в заблуждение, а многих наставляет на прямой путь. Однако вводит Он в заблуждение посредством нее только нечестивцев которые нарушают завет с Аллахом после того, как они заключили его, разрывают то, что Аллах велел поддерживать, и распространяют нечестие на земле. Именно они окажутся в убытке`,
+        ``,
+        ``
+      ],
+      [
+        `Allah schämt Sich nicht, ein Gleichnis auch nur mit einer Mücke oder mit etwas darüber (hinaus) zu prägen. Was nun diejenigen angeht, die glauben, so wissen sie, daß es die Wahrheit von ihrem Herrn ist. Was aber diejenigen angeht, die ungläubig sind, so sagen sie: "Was will denn Allah damit als Gleichnis?" Er läßt damit viele in die Irre gehen und leitet viele damit recht, doch läßt Er damit nur die Frevler in die Irre gehen die Allahs Bund nach seiner Abmachung brechen und trennen, was Allah befohlen hat, daß es verbunden werden soll, und auf der Erde Unheil stiften - das sind die Verlierer`,
+        ``,
+        ``
+      ],
+      [
+        `Gud tvekar inte att framställa en liknelse om en mygga eller något ännu oansenligare. De troende vet att dessa [liknelser] är sanningen, [uppenbarad] av deras Herre, men de som inte vill tro säger: "Vad kan Gud ha velat säga med denna liknelse?" Därmed leder Han många vilse och ger även vägledning åt många; men Han leder ingen vilse utom dem som förhärdats i synd som bryter förbundet med Gud, stadfäst [i människans natur], och som åtskiljer vad Gud befallt skall vara sammanfogat och som stör ordningen och sprider sedefördärv på jorden. Dessa är förlorarna`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, Allah acht het niet beneden Zich om een mug tot gelijkenis te stellen, of iets dat nietiger is dan dat. Wat betreft degenen die geloven, zij weten dat het de Waarheid van hun Heer is. En wat degenen betreft die niet geloven, zij zeggen: "Wat bedoelt Allah met deze gelijkenis?" Hij (Allah) doet er velen mee dwalen en Hij leidt er velen mee, en Hij doet er niemand door dwalen dan de grote zondaren (Zij zijn) degenen die het verbond met Allah verbreken na de bekrachtiging ervan, en die verbreken wat Allah bevolen heeft om te verbinden en die verderf op aarde zaaien. Zij zijn degenen die de verliezers zijn`,
+        ``,
+        ``
+      ],
+      [
+        `الله اس بات سے عار نہیں کرتا کہ مچھر یا اس سے بڑھ کر کسی چیز (مثلاً مکھی مکڑی وغیرہ) کی مثال بیان فرمائے۔ جو مومن ہیں، وہ یقین کرتے ہیں وہ ان کے پروردگار کی طرف سے سچ ہے اور جو کافر ہیں وہ کہتے ہیں کہ اس مثال سے خدا کی مراد ہی کیا ہے۔ اس سے (خدا) بہتوں کو گمراہ کرتا ہے اور بہتوں کو ہدایت بخشتا ہے اور گمراہ بھی کرتا تو نافرمانوں ہی کو جو خدا کے اقرار کو مضبوط کرنے کے بعد توڑ دیتے ہیں اور جس چیز (یعنی رشتہٴ قرابت) کے جوڑے رکھنے کا الله نے حکم دیا ہے اس کو قطع کئے ڈالتے ہیں اور زمین میں خرابی کرتے ہیں یہی لوگ نقصان اٹھانے والے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya Allah tidak segan membuat perumpamaan seekor nyamuk atau yang lebih kecil dari itu. Adapun orang-orang yang beriman, mereka tahu bahwa itu kebenaran dari Tuhan. Tetapi mereka yang kafir berkata, "Apa maksud Allah dengan perumpamaan ini?" Dengan (perumpamaan) itu banyak orang yang dibiarkan-Nya sesat,13) dan dengan itu banyak (pula) orang yang diberi-Nya petunjuk. Tetapi tidak ada yang Dia sesatkan dengan (perumpamaan) itu selain orang-orang fasik (yaitu) orang–orang yang melanggar perjanjian Allah setelah (perjanjian) itu diteguhkan, dan memutuskan apa yang diperintahkan Allah untuk disambungkan dan berbuat kerusakan di bumi. Mereka itulah orang-orang yang rugi`,
+        ``,
+        ``
+      ],
+      [
+        `Allah sivrisineği ve onun üstününü misal olarak vermekten çekinmez. İnananlar bunun Rablerinden bir gerçek olduğunu bilirler. İnkar edenler ise "Allah bu misalle neyi murad etti?" derler, O, bu misalle birçoğunu saptırır, birçoğunu da yola getirir. Onunla saptırdığı yalnız fasıklardır ki onlar Allah'la yapılan sözleşmeyi kabulden sonra bozarlar. Allah'ın birleştirilmesini buyurduğu şeyi ayırırlar ve yeryüzünde bozgunculuk yaparlar; zarara uğrayanlar işte onlardır`,
+        ``,
+        ``
+      ],
+      [
+        `خداى را از اينكه به پشه‌اى -يا فروتر [يا فراتر] از آن- مَثَل زند، شرم نيايد. پس كسانى كه ايمان آورده‌اند مى‌دانند كه آن [مَثَل‌] از جانب پروردگارشان بجاست؛ ولى كسانى كه به كفر گراييده‌اند مى‌گويند: «خدا از اين مَثَل چه قصد داشته است؟» [خدا] بسيارى را با آن گمراه، و بسيارى را با آن راهنمايى مى‌كند؛ و[لى‌] جز نافرمانان را با آن گمراه نمى‌كند همانانى كه پيمان خدا را پس از بستن آن مى‌شكنند؛ و آنچه را خداوند به پيوستنش امر فرموده مى‌گسلند؛ و در زمين به فساد مى‌پردازند؛ آنانند كه زيانكارانند`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ পাক নিঃসন্দেহে মশা বা তদুর্ধ্ব বস্তু দ্বারা উপমা পেশ করতে লজ্জাবোধ করেন না। বস্তুতঃ যারা মুমিন তারা নিশ্চিতভাবে বিশ্বাস করে যে, তাদের পালনকর্তা কর্তৃক উপস্থাপিত এ উপমা সম্পূর্ণ নির্ভূল ও সঠিক। আর যারা কাফের তারা বলে, এরূপ উপমা উপস্থাপনে আল্লাহর মতলবই বা কি ছিল। এ দ্বারা আল্লাহ তা’আলা অনেককে বিপথগামী করেন, আবার অনেককে সঠিক পথও প্রদর্শন করেন। তিনি অনুরূপ উপমা দ্বারা অসৎ ব্যক্তিবর্গ ভিন্ন কাকেও বিপথগামী করেন না। (বিপথগামী ওরাই) যারা আল্লাহর সঙ্গে অঙ্গীকারাবদ্ধ হওয়ার পর তা ভঙ্গ করে এবং আল্লাহ পাক যা অবিচ্ছিন্ন রাখতে নির্দেশ দিয়েছেন, তা ছিন্ন করে, আর পৃথিবীর বুকে অশান্তি সৃষ্টি করে। ওরা যথার্থই ক্ষতিগ্রস্ত।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, Allah não se peja de propor um exemplo qualquer, seja de um mosquito ou de algo superior a este. Então, quanto aos que crêem, eles sabem que ele é a verdade de seu Senhor. E quanto aos que renegam a Fé dizem: "Que deseja Allah com este exemplo?" Com ele, Allah descaminha a muitos e com ele guia a muitos. E não descaminha com ele, senão os perversos Que desfazem o pacto de Allah, após havê-lo firmado, e separam o que Allah ordena estar unido e semeiam a corrupção na terra. Esses são os perdedores`,
+        ``,
+        ``
+      ],
+      [
+        `真主的确不嫌以蚊子或更小的事物设任何譬喻；信道者，都知道那是从他们的主降示的真理；不信道者，却说：真主设这个譬喻的宗旨是甚麽？他以譬喻使许多人入迷途，也以譬喻使许多人上正路；但除悖逆者外，他不以譬喻使人入迷途。 他们与真主缔约之後，并断绝真主命人联络的，且在地方上作恶；这等人，确是亏折的。`,
+        ``,
+        ``
+      ],
+      [
+        `本当にアッラーは，蚊または更に小さいものをも，比喩に挙げることを厭われない。信仰する者はそれが主から下された真理であることを知る。だが不信心者は，「アッラーは，この比喩 で一体何を御望みだろう。」と言う。かれは，このように多くの者を迷うに任せ，また多くの者 を（正しい道に）導かれる。かれは，主の掟に背く者の外は，（誰も）迷わさない。 確約して置きながらアッラーとの約束を破る者，アッラーが結ぺと命じられたものから離れ，地上で悪を行う者，これらの者は（等しく）失敗者である。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 하나님께서는 모기나 그 이상의 것으로써 예를 드심에 부끄러워하지 않으시노라. 믿는 자들은 그것(예)이 그들의 주님으로부터 온 진리임을 알고 있으나 불신하는 자들은 “이 예로써 하나님께서 원하는 것이 무엇인가?” 라고 말하더라. 그분께서는 그것으로써 많은 사람을 방황케 하시고 그것으로써 많은 사람을 인도하시노라. 그분께서 그것으로써 방황케 하시는 자는 오직 거역하는 자들 뿐이라 그들은 하나님과의 계약을 체결한 후에 그것을 파기하는 자들이며, 하나님께서 연결되어야 함을 명령하신 것을 끊어버리는 자들이며, 대지에 해악을 퍼뜨리는 자들이라. 그러한 자들은 실로 손실자들이라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità, Allah non esita a prendere ad esempio un moscerino o qualsiasi altra cosa superiore. Coloro che credono sanno che si tratta della verità che proviene dal loro Signore; i miscredenti invece dicono: “Cosa vuol dire Allah con un simile esempio?”. [Con esso] ne allontana molti, e molti ne guida. Ma non allontana che gli iniqui coloro che rompono il patto di Allah dopo averlo accettato, spezzano ciò che Allah ha ordinato di unire e spargono la corruzione sulla terra. Quelli sono i perdenti`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, Bóg się nie wstydzi przytoczyć jako podobieństwo komara lub czegoś znaczniejszego. A ci, którzy wierzą, wiedzą, że to jest prawda od ich Pana. A ci, którzy nie wierzą, mówią: "Cóż to chciał Bóg wyrazić przez to podobieństwo?" Przez nie On sprowadza z drogi wielu i prowadzi drogą prostą wielu. Lecz On sprowadza przez to z drogi tylko ludzi bezbożnych Ci, którzy naruszają przymierze Boga, chociaż je przedtem uroczyście potwierdzili; ci, którzy przecinają to, co Bóg nakazał złączyć, i ci, którzy szerzą zgorszenie na ziemi - oni wszyscy poniosą stratę`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, Аллаг не посоромиться навести як приклад комара або й щось понад нього. Тож ті, які увірували, знають, що така притча — істина від Господа їхнього, а ті, які не увірували, говорять: «Що хотів сказати Аллаг цією притчею?» Багатьох Він збиває нею зі шляху, а багатьох веде шляхом прямим. А зі шляху Він збиває лише нечестивців тих, які порушують завіт Аллага після прийняття його, розривають те, що Аллаг наказав з’єднати, та й чинять безчестя на землі! Саме вони втратять усе`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآيتان 26-27`
+  },
+
+  {
+    arabic: [
+      `ثُمَّ قَسَتْ قُلُوبُكُمْ مِنْ بَعْدِ ذَٰلِكَ فَهِيَ كَالْحِجَارَةِ أَوْ أَشَدُّ قَسْوَةً ۚ وَإِنَّ مِنَ الْحِجَارَةِ لَمَا يَتَفَجَّرُ مِنْهُ الْأَنْهَارُ ۚ وَإِنَّ مِنْهَا لَمَا يَشَّقَّقُ فَيَخْرُجُ مِنْهُ الْمَاءُ ۚ وَإِنَّ مِنْهَا لَمَا يَهْبِطُ مِنْ خَشْيَةِ اللَّهِ ۗ وَمَا اللَّهُ بِغَافِلٍ عَمَّا تَعْمَلُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Then your hearts became hardened after that, being like stones or even harder. For indeed, there are stones from which rivers burst forth, and there are some of them that split open and water comes out, and there are some of them that fall down for fear of Allah. And Allah is not unaware of what you do`,
+        ``,
+        ``
+      ],
+      [
+        `Puis, et en dépit de tout cela, vos cœurs se sont endurcis; ils sont devenus comme des pierres ou même plus durs encore; car il y a des pierres d'où jaillissent les ruisseaux, d'autres se fendent pour qu'en surgisse l'eau, et d'autres [encore] s'affaissent par crainte d'Allah. Et Allah n'est certainement pas inattentif à ce que vous faites`,
+        ``,
+        ``
+      ],
+      [
+        `Luego, después de eso, se endurecieron vuestros corazones y se pusieron como la piedra o aún más duros. Hay piedras de las que brotan arroyos, otras que se quiebran y se cuela el agua por ellas, otras que s vienen abajo por miedo a Alá. Alá está atento a lo que hacéis`,
+        ``,
+        ``
+      ],
+      [
+        `После этого ваши сердца ожесточились и стали, как камни, или даже еще жестче. Воистину, среди камней есть такие, из которых бьют родники. Среди них есть такие, которые раскалываются и изливают воду. Среди них есть такие, которые падают от страха перед Аллахом. Аллах не находится в неведении о том, что вы совершаете`,
+        ``,
+        ``
+      ],
+      [
+        `Hierauf, nach alledem, verhärteten sich dann eure Herzen, so daß sie wie Steine waren oder noch härter. Und unter den Steinen gibt es wahrlich manche, denen Flüsse entspringen, und andere, die bersten, worauf Wasser aus ihnen herausfließt, und wieder andere, die herabstürzen aus Furcht vor Allah. Und Allah ist nicht unachtsam dessen, was ihr tut`,
+        ``,
+        ``
+      ],
+      [
+        `Efter [allt] detta förhärdades era hjärtan och blev som stenar - hårdare än stenar. Det finns klippor som låter källådror springa fram och klippor som, när de rämnar, lösgör vatten. Och det finns klippor som störtar i djupet i bävan inför Gud. Gud förbiser ingenting av vad ni gör`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Toen verhardden jullie harten zich daarna, zodat zij als steen werden of zelfs harder dan dat, want voorwaar, er zijn stenen waaruit rivieren ontspringen en voorwaar, er zijn stenen die splijten zodat er water uitstroomt, en er zijn er die neervallen uit vrees voor Allah. En Allah is niet onachtzaam omtrent wat jullie doen`,
+        ``,
+        ``
+      ],
+      [
+        `پھر اس کے بعد تمہارے دل سخت ہو گئے۔ گویا وہ پتھر ہیں یا ان سے بھی زیادہ سخت۔ اور پتھر تو بعضے ایسے ہوتے ہیں کہ ان میں سے چشمے پھوٹ نکلتے ہیں، اور بعضے ایسے ہوتے ہیں کہ پھٹ جاتے ہیں، اور ان میں سے پانی نکلنے لگتا ہے، اور بعضے ایسے ہوتے ہیں کہ خدا کے خوف سے گر پڑتے ہیں، اور خدا تمہارے عملوں سے بے خبر نہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Kemudian setelah itu hatimu menjadi keras, sehingga (hatimu) seperti batu, bahkan lebih keras. Padahal dari batu-batu itu pasti ada sungai-sungai yang (airnya) memancar darinya. Ada pula yang terbelah lalu keluarlah mata air darinya. Dan ada pula yang meluncur jatuh karena takut kepada Allah. Dan Allah tidaklah lengah terhadap apa yang kamu kerjakan`,
+        ``,
+        ``
+      ],
+      [
+        `Sonra kalbleriniz yine katılaştı, taş gibi, hatta daha da katı oldu. Nitekim taşlar arasında kendisinden ırmaklar fışkıran vardır; yarılıp su çıkan vardır; Allah korkusundan yuvarlananlar vardır. Allah yaptıklarınızı bilmez değildir`,
+        ``,
+        ``
+      ],
+      [
+        `سپس دلهاى شما بعد از اين [واقعه‌] سخت گرديد، همانند سنگ، يا سخت‌تر از آن، چرا كه از برخى سنگها، جويهايى بيرون مى‌زند، و پاره‌اى از آنها مى‌شكافد و آب از آن خارج مى‌شود، و برخى از آنها از بيم خدا فرو مى‌ريزد، و خدا از آنچه مى‌كنيد غافل نيست`,
+        ``,
+        ``
+      ],
+      [
+        `অতঃপর এ ঘটনার পরে তোমাদের অন্তর কঠিন হয়ে গেছে। তা পাথরের মত অথবা তদপেক্ষাও কঠিন। পাথরের মধ্যে এমন ও আছে; যা থেকে ঝরণা প্রবাহিত হয়, এমনও আছে, যা বিদীর্ণ হয়, অতঃপর তা থেকে পানি নির্গত হয় এবং এমনও আছে, যা আল্লাহর ভয়ে খসেপড়তে থাকে! আল্লাহ তোমাদের কাজকর্ম সম্পর্কে বে-খবর নন।`,
+        ``,
+        ``
+      ],
+      [
+        `Em seguida, vossos corações se endureceram depois disso e se tornaram como as pedras, ou mais veementes na dureza. E, por certo, há dentre as pedras aquelas das quais os rios emanam. E, por certo, há dentre elas as que se fendem, e, delas a água sai. E, por certo, há dentre elas as que se baixam por receio de Deus. E Deus não está desatento ao que fazeis`,
+        ``,
+        ``
+      ],
+      [
+        `此後，你们的心变硬了，变得像石头一样，或比石头还硬。有些石头，河水从其中涌出；有些石头，自己破裂，而水泉从其中流出；有些石头为惧怕真主而坠落。真主绝不忽视你们的行为。`,
+        ``,
+        ``
+      ],
+      [
+        `ところがその後，あなたがたの心は岩のように硬くなった。いやそれよりも硬くなった。本当に岩の中には，川がその間から涌き出るものがあり，また割れてその中から水がほとばしり出るものもあり，またアッラーを畏れて，崩れ落ちるものもある。アッラーはあなたがたの行うことを，おろそかにされない。`,
+        ``,
+        ``
+      ],
+      [
+        `그 후 그대들의 마음은 그 (기적) 이후에 모질어졌으니 그것(마음)은 마치 바위와 같거나 그보다 더 모질더라. 진실로 바위 중에는 거기서 강이 솟아나는 것이 있으며, 진실로 그 중에는 갈라져 거기서 물이 나오는 바위가 있으며, 진실로 그 중에는 하나님에 대한 두려움으로 인해 밑으로 떨어지는 바위가 있노라. 하나님께서는 그대들이 행하는 것에 대해 모르시는 분이 아니라`,
+        ``,
+        ``
+      ],
+      [
+        `Dopo di ciò i vostri cuori si sono induriti ancora una volta, ed essi sono come pietre o ancora più duri. Vi sono, infatti, pietre da cui scaturiscono i ruscelli, che si spaccano perché l'acqua fuoriesca, e altre che franano per il timore di Allah. E Allah non è incurante di quello che fate`,
+        ``,
+        ``
+      ],
+      [
+        `Potem znów wasze serca stały się zatwardziałe; stały się jak kamień albo jeszcze twardsze. Bo, zaprawdę, wśród kamieni są takie, z których wytryskają strumyki; i wśród nich, zaprawdę, są takie, które pękają i wypływa z nich woda; i wśród nich, zaprawdę, są takie, które staczają się z obawy przed Bogiem. A Bóg nie lekceważy tego, co czynicie`,
+        ``,
+        ``
+      ],
+      [
+        `Потім серця ваші зробилися жорстокими й стали як камінь або й твердіше! Але є скелі, з яких течуть струмки. А ще такі, що розколюються й виходить із них вода. А є й такі, що падають від страху перед Аллагом! І Аллаг не забуває того, що робите ви`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 74`
   },
 
   {
@@ -2284,6 +2622,117 @@ const verses = [
       ]
     ],
     number: `سورة البقرة / Al-Baqarah، الآية 164`
+  },
+
+  {
+    arabic: [
+      `وَمَثَلُ الَّذِينَ كَفَرُوا كَمَثَلِ الَّذِي يَنْعِقُ بِمَا لَا يَسْمَعُ إِلَّا دُعَاءً وَنِدَاءً ۚ صُمٌّ بُكْمٌ عُمْيٌ فَهُمْ لَا يَعْقِلُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The example of those who disbelieve is like that of one who shouts at what hears nothing but calls and cries cattle or sheep - deaf, dumb and blind, so they do not understand`,
+        ``,
+        ``
+      ],
+      [
+        `Et les mécréants ressemblent à [du bétail] auquel on crie et qui entend seulement appel et voix confus. Sourds, muets, aveugles, ils ne raisonnent point`,
+        ``,
+        ``
+      ],
+      [
+        `Los incrédulos son como cuando uno grita al ganado, que no percibe más que una llamada, un grito: son sordos, mudos, ciegos, no razonan`,
+        ``,
+        ``
+      ],
+      [
+        `Неверующие подобны скотине, на которую прикрикивает пастух, тогда как она не слышит ничего, кроме зова и крика. Они глухи, немы и слепы. Они ничего не разумеют`,
+        ``,
+        ``
+      ],
+      [
+        `Das Gleichnis derjenigen, die ungläubig sind, ist wie jemand, der etwas nachschreit, was nichts hört außer Stimmen und Zurufen. Taub, stumm, blind; so begreifen sie nicht`,
+        ``,
+        ``
+      ],
+      [
+        `De som vägrar att lyssna till sanningen kan liknas vid [får] som hör [herdarnas] rop utan att förstå vad de betyder. Eftersom de inte använder sitt förstånd [förblir de] döva, stumma och blinda`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En de gelijkenis van degenen die ongelovig zijn, is als de gelijkenis met iemand (een herder) die roept naar iets wat niet luistert, behalve naar een roep of een schreeuw. Zij zijn doof, stom en blind (van hart), daarom begrijpen zij niet`,
+        ``,
+        ``
+      ],
+      [
+        `جو لوگ کافر ہیں ان کی مثال اس شخص کی سی ہے جو کسی ایسی چیز کو آواز دے جو پکار اور آواز کے سوا کچھ سن نہ سکے۔ (یہ) بہرے ہیں گونگے ہیں اندھے ہیں کہ (کچھ) سمجھ ہی نہیں سکتے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan perumpamaan bagi (penyeru) orang yang kafir adalah seperti (penggembala) yang meneriaki (binatang) yang tidak mendengar selain panggilan dan teriakan. (Mereka) tuli, bisu dan buta, maka mereka tidak mengerti`,
+        ``,
+        ``
+      ],
+      [
+        `İnkar edenlerin durumu, çağırma ve bağırmadan başkasını duymayarak haykıran gibidir. Sağırdırlar, dilsizdirler, kördürler, bu yüzden akledemezler`,
+        ``,
+        ``
+      ],
+      [
+        `و مَثَل [دعوت‌كننده‌] كافران چون مَثَل كسى است كه حيوانى را كه جز صدا و ندايى [مبهم، چيزى‌] نمى‌شنود بانگ مى‌زند. [آرى،] كرند، لالند، كورند. [و] درنمى‌يابند`,
+        ``,
+        ``
+      ],
+      [
+        `বস্তুতঃ এহেন কাফেরদের উদাহরণ এমন, যেন কেউ এমন কোন জীবকে আহবান করছে যা কোন কিছুই শোনে না, হাঁক-ডাক আর চিৎকার ছাড়া বধির মুক, এবং অন্ধ। সুতরাং তারা কিছুই বোঝে না।`,
+        ``,
+        ``
+      ],
+      [
+        `E o exemplo do admoestador para os que renegam a Fé é como o daquele que grita para o animal, que não ouve senão convocar e chamar. São surdos, mudos, cegos, então não razoam`,
+        ``,
+        ``
+      ],
+      [
+        `你号召不信道者，就象叫唤只会听呼喊的牲畜一样。（他们）是聋的，是哑的，是瞎的，故他们不了解。`,
+        ``,
+        ``
+      ],
+      [
+        `信仰を拒む者たちを譬えるならば，何と呼びかけられても，呼び声と叫び声の外聞けない者のようで，聾唖者，盲人である。したがってかれらは理解することが出来ない。`,
+        ``,
+        ``
+      ],
+      [
+        `불신하는 자들의 예는 소리쳐 부르는 자(양치기)와 같으니 그것(양떼)이 듣는 것은 오직 외침과 고함 뿐이라. 그들은 귀머거리이며 벙어리이자 장님이니 실로 그들은 이성을 쓸 줄 모르더라`,
+        ``,
+        ``
+      ],
+      [
+        `I miscredenti sono come bestiame di fronte al quale si urla, ma che non ode che un indistinto richiamo. Sordi, muti, ciechi, non comprendono nulla`,
+        ``,
+        ``
+      ],
+      [
+        `Ci, którzy nie wierzą, są podobni do tego, na co się krzyczy, a co niczego nie słyszy oprócz krzyku i wezwania: głusi, niemi, ślepi, oni nie rozumieją`,
+        ``,
+        ``
+      ],
+      [
+        `Невіруючі схожі на того, кого кличуть, а він не чує нічого, окрім крику та вереску. Глухі, німі, сліпі! Нічого не розуміють вони`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 171`
   },
 
   {
@@ -4175,6 +4624,228 @@ const verses = [
 
   {
     arabic: [
+      `يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تُبْطِلُوا صَدَقَاتِكُمْ بِالْمَنِّ وَالْأَذَىٰ كَالَّذِي يُنْفِقُ مَالَهُ رِئَاءَ النَّاسِ وَلَا يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ ۖ فَمَثَلُهُ كَمَثَلِ صَفْوَانٍ عَلَيْهِ تُرَابٌ فَأَصَابَهُ وَابِلٌ فَتَرَكَهُ صَلْدًا ۖ لَا يَقْدِرُونَ عَلَىٰ شَيْءٍ مِمَّا كَسَبُوا ۗ وَاللَّهُ لَا يَهْدِي الْقَوْمَ الْكَافِرِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `O you who have believed, do not invalidate your charities with reminders or injury as does one who spends his wealth [only] to be seen by the people and does not believe in Allah and the Last Day. His example is like that of a [large] smooth stone upon which is dust and is hit by a downpour that leaves it bare. They are unable [to keep] anything of what they have earned. And Allah does not guide the disbelieving people`,
+        ``,
+        ``
+      ],
+      [
+        `Ô les croyants! N'annulez pas vos aumônes par un rappel ou un tort, comme celui qui dépense son bien par ostentation devant les gens sans croire en Allah et au Jour Dernier. Il ressemble à un rocher recouvert de terre; qu'une averse l'atteigne, elle le laisse dénué. De pareils hommes ne tireront aucun profit de leurs actes. Et Allah ne guide pas les gens mécréants`,
+        ``,
+        ``
+      ],
+      [
+        `¡Creyentes! No malogréis vuestras limosnas alardeando de ellas o agraviando, como quien gasta su hacienda para ser visto de los hombres, sin creer en Alá ni en el último Día. Ese tal es semejante a una roca cubierta de tierra. Cae sobre ella un aguacero y la deja desnuda. No pueden esperar nada por lo que han merecido. Alá no dirige al pueblo infiel`,
+        ``,
+        ``
+      ],
+      [
+        `О те, которые уверовали! Не делайте ваши подаяния тщетными своими попреками и оскорблениями, подобно тому, кто расходует свое имущество ради показухи и не веруют при этом в Аллаха и в Последний день. Притчей о нем является притча о гладкой скале, покрытой слоем земли. Но вот выпал ливень и оставил скалу голой. Они не властны ни над чем из того, что приобрели. Аллах не ведет прямым путем неверующих людей`,
+        ``,
+        ``
+      ],
+      [
+        `O die ihr glaubt, macht nicht eure Almosen durch Vorhaltungen und Beleidigungen zunichte, wie derjenige, der seinen Besitz aus Augendienerei vor den Menschen ausgibt und nicht an Allah und den Jüngsten Tag glaubt! So ist sein Gleichnis das eines glatten Steins mit Erdreich darüber: Ein heftiger Regenguß trifft ihn und läßt ihn nackt. Sie haben keine Macht über etwas von dem, was sie erworben haben. Allah leitet das ungläubige Volk nicht recht`,
+        ``,
+        ``
+      ],
+      [
+        `Troende! Beröva inte era gåvor deras värde genom [tal om] frikostighet eller genom [ord] som sårar, som den som ger av vad han äger för att ses [och berömmas] av människor och som inte tror på Gud och den Yttersta dagen. Han kan liknas vid en berggrund täckt av [ett tunt lager] jord; ett slagregn faller och sköljer bort allt inpå nakna berget. [Sådana människor] uppnår ingenting med det som de har åstadkommit. Gud leder inte dem som förnekar sanningen`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `O jullie die geloven: maakt jullie liefdadigheid noch ongeldig door opscheppen, noch door kwetsen, zoals degene die, van zijn eigendom geeft om op te vallen bij de mensen, en (die) niet in Allah en de Laatste Dag gelooft. En de gelijkenis met hem is als met een gladde rots, bedekt met aarde, waarop zware regen valt die haar kaal achterlaat: zij verdienen niets voor wat zij gedaan hebben. En Allah leidt het ongelovige volk niet`,
+        ``,
+        ``
+      ],
+      [
+        `مومنو! اپنے صدقات (وخیرات) احسان رکھنے اور ایذا دینے سے اس شخص کی طرح برباد نہ کردینا۔ جو لوگوں کو دکھاوے کے لئے مال خرچ کرتا ہے اور خدا اور روز آخرت پر ایمان نہیں رکھتا۔ تو اس (کے مال) کی مثال اس چٹان کی سی ہے جس پر تھوڑی سی مٹی پڑی ہو اور اس پر زور کا مینہ برس کر اسے صاف کر ڈالے۔ (اسی طرح) یہ (ریاکار) لوگ اپنے اعمال کا کچھ بھی صلہ حاصل نہیں کرسکیں گے۔ اور خدا ایسے ناشکروں کو ہدایت نہیں دیا کرتا`,
+        ``,
+        ``
+      ],
+      [
+        `Wahai orang-orang yang beriman! Janganlah kamu merusak sedekahmu dengan menyebut-nyebutnya dan menyakiti (perasaan penerima), seperti orang yang menginfakkan hartanya karena riya\` (pamer) kepada manusia dan dia tidak beriman kepada Allah dan hari akhir. Perumpaannya (orang itu) seperti batu licin yang di atasnya ada debu, kemudian batu itu ditimpa hujan lebat, maka tinggallah batu itu licin lagi. Mereka tidak memperoleh sesuatu apa pun dari apa yang mereka kerjakan. Dan Allah tidak memberi petunjuk kepada orang-orang kafir`,
+        ``,
+        ``
+      ],
+      [
+        `Ey İnananlar! Allah'a ve ahiret gününe inanmayıp, insanlara gösteriş için malını sarfeden kimse gibi, sadakalarınızı başa kakma ve eza etmekle boşa çıkarmayın. Onun durumu, üzerinde toprak bulunan kayanın durumu gibidir, üzerine bol yağmur yağdığındaonu cascavlak bırakır. Kazandıklarından hiçbir şey elde edemezler. Allah inkar eden kimseleri doğru yola eriştirmez`,
+        ``,
+        ``
+      ],
+      [
+        `اى كسانى كه ايمان آورده‌ايد، صدقه‌هاى خود را با منّت و آزار، باطل مكنيد، مانند كسى كه مالش را براى خودنمايى به مردم، انفاق مى‌كند و به خدا و روز بازپسين ايمان ندارد. پس مَثَل او همچون مَثَل سنگ خارايى است كه بر روى آن، خاكى [نشسته‌] است، و رگبارى به آن رسيده و آن [سنگ‌] را سخت و صاف بر جاى نهاده است. آنان [=رياكاران‌] نيز از آنچه به دست آورده‌اند، بهره‌اى نمى‌برند؛ و خداوند، گروه كافران را هدايت نمى‌كند`,
+        ``,
+        ``
+      ],
+      [
+        `হে ঈমানদারগণ!তোমরা অনুগ্রহের কথা প্রকাশ করে এবং কষ্ট দিয়ে নিজেদের দান খয়রাত বরবাদ করো না সে ব্যক্তির মত যে নিজের ধন-সম্পদ লোক দেখানোর উদ্দেশ্যে ব্যয় করে এবং আল্লাহ ও পরকালের প্রতি বিশ্বাস রাখে না। অতএব, এ ব্যাক্তির দৃষ্টান্ত একটি মসৃণ পাথরের মত যার উপর কিছু মাটি পড়েছিল। অতঃপর এর উপর প্রবল বৃষ্টি বর্ষিত হলো, অনন্তর তাকে সম্পূর্ণ পরিষ্কার করে দিল। তারা ঐ বস্তুর কোন সওয়াব পায় না, যা তারা উপার্জন করেছে। আল্লাহ কাফের সম্প্রদায়কে পথ প্রদর্শন করেন না।`,
+        ``,
+        ``
+      ],
+      [
+        `Ó vós que credes! Não derrogueis vossas esmolas com o alarde e a moléstia, como quem despende sua riqueza por ostentação, para ser visto pelos homens, e não crê em Allah e no Derradeiro Dia. E seu exemplo é como o de uma rocha, sobre a qual há pó; então, uma chuva intensa a alcança e a deixa lisa. Tais homens não poderão beneficiar-se em nada, do que lograram. E Allah não guia o povo renegador da Fé`,
+        ``,
+        ``
+      ],
+      [
+        `信道的人们啊！你们不要责备受施的人和损害他，而使你们的施舍变为无效，犹如为沽名而施舍财产，并不信真主和後世的人一样。他譬如一个光滑的石头，上面铺著一层浮土，一阵大雨过後，使它变得又硬又滑。他们不能获得他们所施舍的任何报酬。真主是不引导不信道的民众的。`,
+        ``,
+        ``
+      ],
+      [
+        `信仰する者よ，あなたがたは人びとに見せびらかすため，持物を施す者のように，負担侮辱を感じさせて，自分の施しを無益にしてはならない。またアッラーも，最後の（審判の）日も信じない者のように。かれらを譬えてみればちょうど，土を被った滑らかな岩のようなもので，大雨が降れば裸になってしまう。かれらはその働いて得たものから，何の得るところもないであろう。アッラーは不信心の者たちを御導きになられない。`,
+        ``,
+        ``
+      ],
+      [
+        `믿는 자들이여! 하나님과 최후의 날을 믿지 않으면서도 사람들에게 보여주기 위해 자신의 재산을 희사한 자처럼, 은근한 자랑이나 해를 끼침으로써 그대들의 자선을 헛된 것으로 만들지 말라. 그의 예는 번드러운 바위와 같노라 : 그 위에는 흙이 있어 장대비가 그것을 덮치니 그것을 헐벗은 채로 남겨놓더라. 그들은 자신이 얻은 것에 관해 그 무엇도 할 수 없노라. 하나님께서는 불신하는 무리를 인도하지 않으시노라`,
+        ``,
+        ``
+      ],
+      [
+        `O voi che credete, non vanificate le vostre elemosine con rimproveri e vessazioni, come quello che dà per mostrarsi alla gente e non crede in Allah e nell'Ultimo Giorno. Egli è come una roccia ricoperta di polvere sulla quale si rovescia un acquazzone e la lascia nuda. Essi non avranno nessun vantaggio dalle loro azioni. Allah non guida il popolo dei miscredenti`,
+        ``,
+        ``
+      ],
+      [
+        `O wy, którzy wierzycie! Nie czyńcie daremną waszej jałmużny przez wyrzuty i obrazę, tak jak ten, który rozdaje swój majątek przez wzgląd na ludzi, a nie wierzy w Boga i w Dzień Ostatni. On jest podobny do skały pokrytej ziemią: dosięga ją burza deszczowa i pozostawia ją nagą i twardą. Oni nie mają żadnej władzy nad niczym, co zyskali. A Bóg nie prowadzi drogą prostą ludzi niewiernych`,
+        ``,
+        ``
+      ],
+      [
+        `О ви, які увірували! Не зіпсуйте милостині вашої докором та образою, наче той, хто витратив якесь майно на пожертву задля того, щоб побачили це люди. Адже він не увірував у Аллага та Останній День. Його прикладом є слизька скеля, вкрита землею. Та ось змочив її дощ, і лишилася скеля та чистою. Немає у них жодної сили над тим, що отримали вони! Аллаг не веде прямим шляхом невіруючих людей`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآية 264`
+  },
+
+  {
+    arabic: [
+      `وَمَثَلُ الَّذِينَ يُنْفِقُونَ أَمْوَالَهُمُ ابْتِغَاءَ مَرْضَاتِ اللَّهِ وَتَثْبِيتًا مِنْ أَنْفُسِهِمْ كَمَثَلِ جَنَّةٍ بِرَبْوَةٍ أَصَابَهَا وَابِلٌ فَآتَتْ أُكُلَهَا ضِعْفَيْنِ فَإِنْ لَمْ يُصِبْهَا وَابِلٌ فَطَلٌّ ۗ وَاللَّهُ بِمَا تَعْمَلُونَ بَصِيرٌ أَيَوَدُّ أَحَدُكُمْ أَنْ تَكُونَ لَهُ جَنَّةٌ مِنْ نَخِيلٍ وَأَعْنَابٍ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ لَهُ فِيهَا مِنْ كُلِّ الثَّمَرَاتِ وَأَصَابَهُ الْكِبَرُ وَلَهُ ذُرِّيَّةٌ ضُعَفَاءُ فَأَصَابَهَا إِعْصَارٌ فِيهِ نَارٌ فَاحْتَرَقَتْ ۗ كَذَٰلِكَ يُبَيِّنُ اللَّهُ لَكُمُ الْآيَاتِ لَعَلَّكُمْ تَتَفَكَّرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And the example of those who spend their wealth seeking means to the approval of Allah and assuring [reward for] themselves is like a garden on high ground which is hit by a downpour - so it yields its fruits in double. And [even] if it is not hit by a downpour, then a drizzle [is sufficient]. And Allah, of what you do, is Seeing Would one of you like to have a garden of palm trees and grapevines underneath which rivers flow in which he has from every fruit? But he is afflicted with old age and has weak offspring, and it is hit by a whirlwind containing fire and is burned. Thus does Allah make clear to you [His] verses that you might give thought`,
+        ``,
+        ``
+      ],
+      [
+        `Et ceux qui dépensent leurs biens cherchant l'agrément d'Allah, et bien rassurés (de Sa récompense), ils ressemblent à un jardin sur une colline. Qu'une averse l'atteigne, il double ses fruits; à défaut d'une averse qui l'atteint, c'est la rosée. Et Allah voit parfaitement ce que vous faites L'un de vous aimerait-il avoir un jardin de dattiers et de vignes sous lequel coulent les ruisseaux, et qui lui donne toutes espèces de fruits, que la vieillesse le rattrape, tandis que ses enfants sont encore en bas âge, et qu'un tourbillon contenant du feu s'abatte sur son jardin et le brûle? Ainsi, Allah vous explique les signes afin que vous méditiez`,
+        ``,
+        ``
+      ],
+      [
+        `Quienes gastan su hacienda por deseo de agradar a Alá y por su propio fortalecimiento son semejantes a un jardín plantado en una colina. Si cae sobre él un aguacero, da fruto doble; si no cae, rocío. Alá ve bien lo que hacéis ¿Desearía alguno de vosotros poseer un jardín de palmeras y vides por cuyo bajo fluyeran arroyos, con toda clase de frutos, envejecer mientras sus hijos son aún débiles y que un torbellino de fuego cayera sobre el jardín y éste se incendiara? Así os explica Alá las aleyas. Quizás, así meditéis`,
+        ``,
+        ``
+      ],
+      [
+        `Притчей о тех, которые расходуют свое имущество, чтобы снискать довольство Аллаха и укрепить себя, является притча о саде на холме. Если его оросит ливень, он приносит плоды вдвойне. Если же его не оросит ливень, то ему бывает достаточно моросящего дождя. Аллах видит то, что вы совершаете Захочет ли кто-нибудь из вас, если у него будет сад из финиковых пальм и виноградника, в котором текут реки и растут всякие плоды, чтобы его сад был поражен огненным вихрем и сгорел, когда его постигнет старость, а его дети будут еще слабы? Так Аллах разъясняет вам знамения, - быть может, вы поразмыслите`,
+        ``,
+        ``
+      ],
+      [
+        `Das Gleichnis jener aber, die ihren Besitz im Trachten nach Allahs Zufriedenheit und aus ihrer Gewißheit ausgeben, ist das eines Gartens auf einer Anhöhe, den ein heftiger Regenguß trifft, und da bringt er seinen Ernteertrag zweifach (hervor). Und wenn ihn kein heftiger Regenguß trifft, so doch Sprühregen. Und was ihr tut, sieht Allah wohl Möchte einer von euch gern, daß er einen Garten habe mit Palmen und Rebstöcken, durcheilt von Bächen, in dem er von allen Früchten hat, während ihn (schon) hohes Alter getroffen hat und er (noch) schwache Nachkommenschaft hat, und daß ihn (den Garten) dann ein glühend heißer Wirbelwind treffe und er hierauf verbrenne? So macht Allah euch die Zeichen klar, auf daß ihr nachdenken möget`,
+        ``,
+        ``
+      ],
+      [
+        `Men de som ger av vad de äger för att vinna Guds välbehag och för att stärka sin själ kan liknas vid en trädgård, anlagd på en kulle, som om ett slagregn drabbar den ger dubbel skörd och om den undgår slagregn [får glädjas åt] milt duggregn. Gud ser vad ni gör Skulle någon av er önska att han hade en trädgård med dadelpalmer och vinstockar, vattnad av bäckar, [en trädgård] som ger honom alla slag av frukter, och att han, redan böjd av ålder och omgiven av minderåriga barn, [måste uppleva att] den drabbades av en glödhet virvelstorm och helt förbrändes? Så förtydligar Gud för er [Sina] budskap för att stämma er till eftertanke`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En de gelijkenis van degenen die van hun eigendommen besteden omwille van het welbehagen van Allah en de versterking van hun ziel, is als met een tuin op een hoge en vruchtbare plaats waar zware regen op valt en (die) dan dubbel vrucht draagt. En als er geen zware regen valt, dan is lichte dauw (voldoende). En Allah is Alziende ever wat jullie doen Wenst een van jullie een tuin met dadelpalmen en druivenranken waar de rivieren onderdoor stromen en waarin alle (soorten) fruit zijn, en de ouderdom treft hem terwijl zijn kinderen nog zwak zijn en zij (de tuin) wordt getroffen door een orkaan met vuur erin, zodat (deze) verbrandt? Zo maakt Allah aan jullie de Tekenen duidelijk. Hopelijk zullen jullie nadenken`,
+        ``,
+        ``
+      ],
+      [
+        `اور جو لوگ خدا کی خوشنودی حاصل کرنے کے لئے خلوص نیت سے اپنا مال خرچ کرتے ہیں ان کی مثال ایک باغ کی سی ہے جو اونچی جگہ پر واقع ہو (جب) اس پر مینہ پڑے تو دگنا پھل لائے۔ اور اگر مینہ نہ بھی پڑے تو خیر پھوار ہی سہی اور خدا تمہارے کاموں کو دیکھ رہا ہے بھلا تم میں کوئی یہ چاہتا ہے کہ اس کا کھجوروں اور انگوروں کا باغ ہو جس میں نہریں بہہ رہی ہوں اور اس میں اس کے لئے ہر قسم کے میوے موجود ہوں اور اسے بڑھاپا آپکڑے اور اس کے ننھے ننھے بچے بھی ہوں۔ تو (ناگہاں) اس باغ پر آگ کا بھرا ہوا بگولا چلے اور وہ جل کر (راکھ کا ڈھیر ہو) جائے۔ اس طرح خدا تم سے اپنی آیتیں کھول کھول کر بیان فرماتا ہے تاکہ تم سوچو (اور سمجھو)`,
+        ``,
+        ``
+      ],
+      [
+        `Dan perumpamaan orang yang menginfakkan hartanya untuk mencari rida Allah dan untuk memperteguh jiwa mereka, seperti sebuah kebun yang terletak di dataran tinggi yang di siram oleh hujan lebat, maka kebun itu menghasilkan buah-buahan dua kali lipat. Jika hujan lebat tidak menyiraminya, maka embun (pun memadai). Allah Maha Melihat apa yang kamu kerjakan (Adakah salah seorang di antara kamu yang ingin memiliki kebun kurma dan anggur yang mengalir di bawahnya sungai-sungai, di sana dia memiliki segala macam buah-buahan, kemudian datanglah masa tuanya sedang dia memiliki keturunan yang masih kecil-kecil. Lalu kebun itu ditiup angin keras yang mengandung api, sehingga terbakar.101) Demikianlah Allah menerangkan ayat-ayat-Nya kepadamu agar kamu memikirkannya`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'ın rızasını kazanmak ve kalblerini sağlamlaştırmak için mallarını sarfedenlerin durumu, yüksekçe bir tepede bulunan, bol yağmur aldığında yemişlerini iki kat veren, bol yağmur yağmasa bile çisentisi düşen bir bahçenin durumu gibidir. Allah işlediklerinizi görür Hangi biriniz, kendisi ihtiyarlamış ve çocukları da güçsüzken, altlarından ırmaklar akan, hurma, üzüm ve her çeşit meyveleri bulunan bahçesinin, ateşli bir kasırganın kopmasıyla yanmasını ister? Düşünesiniz diye Allah size ayetlerini böylece açıklar`,
+        ``,
+        ``
+      ],
+      [
+        `و مَثَل [صدقات‌] كسانى كه اموال خويش را براى طلب خشنودى خدا و استوارى روحشان انفاق مى‌كنند، همچون مَثَل باغى است كه بر فراز پشته‌اى قرار دارد [كه اگر] رگبارى بر آن برسد، دو چندان محصول برآورد، و اگر رگبارى هم بر آن نرسد، بارانِ ريزى [براى آن بس است‌]، و خداوند به آنچه انجام مى‌دهيد بيناست آيا كسى از شما دوست دارد كه باغى از درختان خرما و انگور داشته باشد كه از زير آنها نهرها روان است، و براى او در آن [باغ‌] از هر گونه ميوه‌اى [فراهم‌] باشد، و در حالى كه او را پيرى رسيده و فرزندانى خردسال دارد، [ناگهان‌] گردبادى آتشين بر آن [باغ‌] زند و [باغ يكسر] بسوزد؟ اين گونه، خداوند آيات [خود] را براى شما روشن مى‌گرداند، باشد كه شما بينديشيد`,
+        ``,
+        ``
+      ],
+      [
+        `যারা আল্লাহর রাস্তায় স্বীয় ধন-সম্পদ ব্যয় করে আল্লাহর সন্তুষ্টি অর্জনের লক্ষ্যে এবং নিজের মনকে সুদৃঢ় করার জন্যে তাদের উদাহরণ টিলায় অবস্থিত বাগানের মত, যাতে প্রবল বৃষ্টিপাত হয়; অতঃপর দ্বিগুণ ফসল দান করে। যদি এমন প্রবল বৃষ্টিপাত নাও হয়, তবে হাল্কা বর্ষণই যথেষ্ট। আল্লাহ তোমাদের কাজকর্ম যথার্থই প্রত্যক্ষ করেন। তোমাদের কেউ পছন্দ করে যে, তার একটি খেজুর ও আঙ্গুরের বাগান হবে, এর তলদেশ দিয়ে নহর প্রবাহিত হবে, আর এতে সর্বপ্রকার ফল-ফসল থাকবে এবং সে বার্ধক্যে পৌছবে, তার দুর্বল সন্তান সন্ততিও থাকবে, এমতাবস্থায় এ বাগানের একটি ঘূর্ণিবায়ু আসবে, যাতে আগুন রয়েছে, অনন্তর বাগানটি ভষ্মীভূত হয়ে যাবে? এমনিভাবে আল্লাহ তা’আলা তোমাদের জন্যে নিদর্শনসমূহ বর্ননা করেন-যাতে তোমরা চিন্তা-ভাবনা কর।`,
+        ``,
+        ``
+      ],
+      [
+        `E o exemplo dos que despendem suas riquezas em busca do agrado de Allah e com a firmeza de suas almas, é como o de um jardim em um outeiro: uma chuva intensa alcançou-o; então, deu em dobro seu fruto. E se chuva intensa não o alcançasse, haveria orvalho. E Allah, do que fazeis, é Onividente Acaso, algum de vós almejaria ter um jardim de tamareiras e videiras, abaixo do qual os rios correm, e no qual há toda a espécie de frutos, e que a velhice o alcançasse, enquanto tem indefesa descendência, então, uma tempestade, continente de fogo alcançasse seu jardim e o queimasse? Assim, Allah torna evidentes, para vós os sinais, para refletirdes`,
+        ``,
+        ``
+      ],
+      [
+        `施舍财产，以求真主的喜悦并确定自身信仰的人，譬如高原上的园圃，它得大雨，便加倍结实。如果不得大雨，小雨也足以滋润。真主是明察你们的行为的。 你们中有谁喜欢自己有一个种满海枣和葡萄，下临诸河，能出产很多果实的园圃，在自己已老迈，而儿女还是弱小的时候，遭遇挟火的旋风，把自己的园圃，烧毁无遗呢？真主为你们这样阐明许多迹象，以便你们思维。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーの御喜びを求め，また自分の魂を強めるために，その所有するものを施す者たちを譬えてみよう。かれらは丘の上にある果樹園のように，大雨が注げばその収穫は倍加し，また大雨がなくても，少しの湿り（で足りる）。アッラーはあなたがたの行うことを御存知であられる 。 あなたがたの中，ナツメヤシやブドウの園を持ち，川が下を流れ，そこに凡ての果実があっても，自分は既に年老い，その子はまだ幼弱でおまけに旋風が猛火を伴ってきて，（全部）焼き払うようなことを望む者があろうか。このようにアッラーは，あなたがたに印を説き明かされる。恐らくあなたがたは反省するであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님의 기쁨을 간구하며 자아로부터의 확신으로써 자신의 재산을 희사하는 자들의 예는 언덕에 있는 정원과도 같으니 그것이 장대비를 맞아 그 열매를 두 배로 가져다 주더라. 그러나 그것이 장대비를 맞지 않을 때는 구슬비라. 하나님께서는 그대들이 행하는 것을 보고 계시는 분이라 그대들 중 누군가가 야자수와 포도나무로 이루어진 정원이 그의 것이기를 갈망하는가 : 그 아래로부터 강이 흐르며 그 안의 모든 열매들이 그의 것이라. 그러나 그에게 노쇠가 닥쳤고 그에게는 허약한 후손만이 있으니 그것(정원)에 회오리가 덮쳤고 그 안에는 불이 있어 그것(정원)이 타 버리더라. 그렇게 하나님께서는 그대들을 위해 명백히 징표들을 드러내시니 그대들이 숙고하기 위함이라`,
+        ``,
+        ``
+      ],
+      [
+        `Coloro che invece elargiscono i loro averi per la soddisfazione di Allah e per rafforzarsi, saranno come un giardino su di un colle: quando l'acquazzone vi si rovescia raddoppierà i suoi frutti. E se l'acquazzone non lo raggiunge, sarà allora la rugiada. Allah osserva quello che fate Chi di voi vorrebbe possedere un giardino di palme e vigne, dove scorrono i ruscelli e dove crescono per lui ogni specie di frutti e, colto dalla vecchiaia con i figli ancora piccoli, [vorrebbe vedere] un uragano di fuoco investirlo e bruciarlo? Così Allah vi dichiara i Suoi segni, affinché meditiate`,
+        ``,
+        ``
+      ],
+      [
+        `Ci, którzy rozdają swoje majątki, pragnąc przypodobać się Bogu i umocnić swoje dusze, są podobni do ogrodu na wzgórzu: dosięga go burza deszczowa i on przynosi podwójne plony. A jeśli nie dosięgnie go burza deszczowa, to tylko rosa... Bóg widzi dobrze to, co wy czynicie Czy chciałby któryś z was mieć ogród z palm i winnej latorośli, gdzie w dole płyną strumyki, gdzie są dla niego wszelkiego rodzaju owoce? I oto dosięgłaby go starość - a jego potomstwo byłoby słabowite - a na ogród jego spadłby ognisty huragan i spaliłby go. W ten sposób wyjaśnia wam Bóg znaki. Być może, wy się zastanowicie`,
+        ``,
+        ``
+      ],
+      [
+        `Прикладом тих, які витрачають своє майно, прагнучи до вдоволення Аллага та переконуючи самих себе, є сад на пагорбі. Якщо зросить його дощ, то вдвічі примножаться його плоди. А якщо не зросить його дощ, то зросить хоча б мряка. Аллаг бачить те, що робите ви Невже хтось із вас хоче — якщо буде у нього сад із пальмами та виноградником, де будуть текти ріки й будуть різні плоди — щоб торкнулася його старість, тоді як діти ще будуть слабкими, а сам сад вразить вихор, у якому цей сад і згорить? Ось так Аллаг пояснює вам знамення — можливо, замислитеся ви`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة البقرة / Al-Baqarah، الآيتان 265-266`
+  },
+
+  {
+    arabic: [
       `الَّذِينَ يُنْفِقُونَ أَمْوَالَهُمْ بِاللَّيْلِ وَالنَّهَارِ سِرًّا وَعَلَانِيَةً فَلَهُمْ أَجْرُهُمْ عِنْدَ رَبِّهِمْ وَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ`,
       ``,
       ``
@@ -5951,6 +6622,117 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّ مَثَلَ عِيسَىٰ عِنْدَ اللَّهِ كَمَثَلِ آدَمَ ۖ خَلَقَهُ مِنْ تُرَابٍ ثُمَّ قَالَ لَهُ كُنْ فَيَكُونُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, the example of Jesus to Allah is like that of Adam. He created Him from dust; then He said to him, "Be," and he was`,
+        ``,
+        ``
+      ],
+      [
+        `Pour Allah, Jésus est comme Adam qu'Il créa de poussière, puis Il lui a dit : "Sois !", et il fut`,
+        ``,
+        ``
+      ],
+      [
+        `Para Alá, Jesús es semejante a Adán, a quien creó de tierra y a quien dijo:«¡Sé!» y fue`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, Иса (Иисус) перед Аллахом подобен Адаму. Он сотворил его из праха, а затем сказал ему: «Будь!». - и тот возник`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, das Gleichnis 'Isas ist bei Allah wie das Gleichnis Adams. Er erschuf ihn aus Erde. Hierauf sagte Er zu ihm: "Sei!" und da war er`,
+        ``,
+        ``
+      ],
+      [
+        `Inför Gud är Jesus till sin natur att likna vid Adam. Han skapade honom av jord och sade till honom: "Var!" och han är`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, de gelijkenis (van de schepping) van 'Îsa is bij Allah als de gelijkenis (van de schepping) van Adam. Hij schiep hem uit aarde en zei vervolgens tot hem: 'Wees', en hij was`,
+        ``,
+        ``
+      ],
+      [
+        `عیسیٰ کا حال خدا کے نزدیک آدم کا سا ہے کہ اس نے (پہلے) مٹی سے ان کا قالب بنایا پھر فرمایا کہ (انسان) ہو جا تو وہ (انسان) ہو گئے`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya perumpamaan (penciptaan) Isa bagi Allah, seperti (penciptaan) Adam. Dia menciptakannya dari tanah, kemudian Dia berkata kepadanya, "Jadilah!" Maka jadilah ia`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'ın katında İsa'nın durumu kendisini topraktan yaratıp sonra ol demesiyle olmuş olan Adem'in durumu gibidir`,
+        ``,
+        ``
+      ],
+      [
+        `در واقع، مَثل عيسى نزد خدا همچون مَثل [خلقت‌] آدم است [كه‌] او را از خاك آفريد؛ سپس بدو گفت: «باش»؛ پس وجود يافت`,
+        ``,
+        ``
+      ],
+      [
+        `নিঃসন্দেহে আল্লাহর নিকট ঈসার দৃষ্টান্ত হচ্ছে আদমেরই মতো। তাকে মাটি দিয়ে তৈরী করেছিলেন এবং তারপর তাকে বলেছিলেন হয়ে যাও, সঙ্গে সঙ্গে হয়ে গেলেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, o exemplo de Jesus, perante Allah, é como o de Adão. Ele o criou de pó; em seguida, disse-lhe: "Sê", então foi`,
+        ``,
+        ``
+      ],
+      [
+        `在真主看来，尔撒确是象阿丹一样的。他用土创造阿丹，然后他对他说有，他就有了。`,
+        ``,
+        ``
+      ],
+      [
+        `イーサーはアッラーの御許では，丁度アーダムと同じである。かれが泥でかれ（アーダム） を創られ，それに「有れ。」と仰せになるとかれは（人間として）存在した。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 하나님 보시기에 이사(예수)의 예는 아담의 예와 유사하노라. 그분께서는 그(아담)를 흙으로부터 창조하셨고 그런 후 그에게 ‘있어라’ 라고 말씀하시니 그가 있게 되더라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità, per Allah Gesù è simile ad Adamo, che Egli creò dalla polvere, poi disse: “Sii”, ed egli fu`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, Jezus jest u Boga jak Adam: On stworzył go z prochu, a następnie powiedział do niego: "Bądź!" - i on jest`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, Іса перед Аллагом схожий на Адама — Він створив його з праху, а потім сказав тому: «Будь!» — і він є`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 59`
+  },
+
+  {
+    arabic: [
       `قُلْ يَا أَهْلَ الْكِتَابِ تَعَالَوْا إِلَىٰ كَلِمَةٍ سَوَاءٍ بَيْنَنَا`,
       `وَبَيْنَكُمْ أَلَّا نَعْبُدَ إِلَّا اللَّهَ وَلَا نُشْرِكَ بِهِ شَيْئًا وَلَا يَتَّخِذَ بَعْضُنَا بَعْضًا أَرْبَابًا مِنْ دُونِ اللَّهِ ۚ`,
       `فَإِنْ تَوَلَّوْا فَقُولُوا اشْهَدُوا بِأَنَّا مُسْلِمُونَ`
@@ -6613,6 +7395,117 @@ const verses = [
       ]
     ],
     number: `سورة آل عمران / Al-'Imran، الآية 102`
+  },
+
+  {
+    arabic: [
+      `مَثَلُ مَا يُنْفِقُونَ فِي هَٰذِهِ الْحَيَاةِ الدُّنْيَا كَمَثَلِ رِيحٍ فِيهَا صِرٌّ أَصَابَتْ حَرْثَ قَوْمٍ ظَلَمُوا أَنْفُسَهُمْ فَأَهْلَكَتْهُ ۚ وَمَا ظَلَمَهُمُ اللَّهُ وَلَٰكِنْ أَنْفُسَهُمْ يَظْلِمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The example of what they spend in this worldly life is like that of a wind containing frost which strikes the harvest of a people who have wronged themselves and destroys it. And Allah has not wronged them, but they wrong themselves`,
+        ``,
+        ``
+      ],
+      [
+        `Ce qu'ils dépensent dans la vie présente ressemble à un vent glacial qui s'abat sur un champ appartenant à des gens qui se sont lésés eux-mêmes, et le détruit. Car ce n'est pas Allah qui leur cause du tort, mais ils se font du tort à eux-mêmes`,
+        ``,
+        ``
+      ],
+      [
+        `Lo que gastan en la vida de acá es semejante a un viento glacial que bate la cosecha de gente que se ha dañado a sí misma y la destruye. No es Alá quien ha sido injusto con ellos, sino que ellos lo han sido consigo mismos`,
+        ``,
+        ``
+      ],
+      [
+        `То, что они расходуют в этой мирской жизни, подобно морозному (или завывающему; или огненному) ветру, который поразил ниву людей, поступивших несправедливо по отношению к себе, а затем погубил ее. Аллах не был несправедлив к ним - они сами поступали несправедливо по отношению к себе`,
+        ``,
+        ``
+      ],
+      [
+        `Das Gleichnis dessen, was sie in diesem irdischen Leben ausgeben, ist das eines eisigen Windes, der die Saatfelder von Leuten trifft, die sich selbst Unrecht zugefügt haben; und so vernichtet er sie. Allah hat ihnen kein Unrecht zugefügt, sondern sie selbst fügen sich Unrecht zu`,
+        ``,
+        ``
+      ],
+      [
+        `Vad [människor] ger ut för [ting] som hör till detta liv kan jämföras med de orättfärdigas gröda som förhärjas av en frostig vind. Gud har inte gjort dem orätt - nej, [med sina handlingar] gör de orätt mot sig själva`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `De gelijkenis van wat zij tijdens dit wereldse leven uitgeven is als die van de wind, die een hevige kou meenam en de oogst trof van een volk dat zichzelf onrecht aandeed en die (oogst) vernielde. En het is niet Allah die hen onrecht aandeed, maar zij deden zichzelf onrecht aan`,
+        ``,
+        ``
+      ],
+      [
+        `یہ جو مال دنیا کی زندگی میں خرچ کرتے ہیں اس کی مثال ہوا کی سی ہے جس میں سخت سردی ہو اور وہ ایسے لوگوں کی کھیتی پر جو اپنے آپ پر ظلم کرتے تھے چلے اور اسے تباہ کر دے اور خدا نے ان پر کچھ ظلم نہیں کیا بلکہ یہ خود اپنے اوپر ظلم کر رہے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Perumpamaan harta yang mereka infakkan di dalam kehidupan dunia ini, ibarat angin yang mengandung hawa yang sangat dingin, yang menimpa tanaman (milik) suatu kaum yang menzalimi diri sendiri, lalu angin itu merusaknya. Allah tidak menzalimi mereka, tetapi mereka yang menzalimi diri sendiri`,
+        ``,
+        ``
+      ],
+      [
+        `Bu dünya hayatında sarfettiklerinin durumu, kendilerine zulmeden kimselerin ekinlerine isabetle kavurup mahveden soğuk bir rüzgarın durumu gibidir. Allah onlara zulmetmedi, onlar kendilerine yazık ettiler`,
+        ``,
+        ``
+      ],
+      [
+        `مثَل آنچه [آنان‌] در زندگى اين دنيا [در راه دشمنى با پيامبر] خرج مى‌كنند، همانند بادى است كه در آن، سرماى سختى است، كه به كشتزار قومى كه بر خود ستم نموده‌اند بوزد و آن را تباه سازد؛ و خدا به آنان ستم نكرده، بلكه آنان خود بر خويشتن ستم كرده‌اند`,
+        ``,
+        ``
+      ],
+      [
+        `এ দুনিয়ার জীবনে যা কিছু ব্যয় করা হয়, তার তুলনা হলো ঝড়ো হাওয়ার মতো, যাতে রয়েছে তুষারের শৈত্য, যা সে জাতির শস্যক্ষেত্রে গিয়ে লেগেছে যারা নিজের জন্য মন্দ করেছে। অতঃপর সেগুলোকে নিঃশেষ করে দিয়েছে। বস্তুতঃ আল্লাহ তাদের উপর কোন অন্যায় করেননি, কিন্তু তারা নিজেরাই নিজেদের উপর অত্যাচার করছিল।`,
+        ``,
+        ``
+      ],
+      [
+        `O exemplo do que eles despendem nesta vida terrena, é como o de um vento glacial: alcançou um campo lavrado de um povo injusto com si mesmo e aniquilou-o. E Allah não foi injusto com eles, mas eles foram injustos com eles mesmos`,
+        ``,
+        ``
+      ],
+      [
+        `他们在今世生活中所施舍的，譬如寒风吹向自欺的民众的禾稼上，就把它毁灭了。真主没有亏枉他们，但他们自欺。`,
+        ``,
+        ``
+      ],
+      [
+        `かれらが，この世の生活で費すものを例えれば，（霜を運ぶ）寒風が邪悪の者たちの田畑を襲い，その作物を減ばすようなもの。アッラーはかれらを損われない。だがかれらは自ら自分を損っている。`,
+        ``,
+        ``
+      ],
+      [
+        `이 현세의 삶에서 그들이 쓰는 재산의 예는 바람의 예와 같노라 : 그 안에는 혹한이 있으니 그것(바람)이, 자신들을 부당히 다룬 무리의 경작지를 덮쳐 그것을 파멸시켰노라. 하나님께서는 그들을 부당히 다루지 않으셨노라. 그러나 그들이 자신들을 부당히 다루고 있는 것이라`,
+        ``,
+        ``
+      ],
+      [
+        `E ciò che spendono in questa vita sarà come un vento glaciale che impazza sul campo di quelli che sono stati ingiusti con loro stessi e lo devasta. Non è Allah ad essere ingiusto con loro, ma sono essi ad esserlo con loro stessi`,
+        ``,
+        ``
+      ],
+      [
+        `To, co oni rozdają w życiu tego świata, jest podobne do wiatru lodowatego: poraził on zasiewy ludzi, którzy byli dla siebie niesprawiedliwi, i zniszczył je. Nie Bóg wyrządził im niesprawiedliwość, lecz oni sami wyrządzili sobie niesprawiedliwość`,
+        ``,
+        ``
+      ],
+      [
+        `Те, що вони витрачають у земному житті, схоже на морозний вітер. Він вразив ниву людей, які були несправедливі до самих себе, і він знищив її! Це не Аллаг вчинив несправедливо із ними, це вони самі були несправедливі до себе`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة آل عمران / Al-'Imran، الآية 117`
   },
 
   {
@@ -13499,6 +14392,117 @@ const verses = [
 
   {
     arabic: [
+      `أَوَمَنْ كَانَ مَيْتًا فَأَحْيَيْنَاهُ وَجَعَلْنَا لَهُ نُورًا يَمْشِي بِهِ فِي النَّاسِ كَمَنْ مَثَلُهُ فِي الظُّلُمَاتِ لَيْسَ بِخَارِجٍ مِنْهَا ۚ كَذَٰلِكَ زُيِّنَ لِلْكَافِرِينَ مَا كَانُوا يَعْمَلُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And is one who was dead and We gave him life and made for him light by which to walk among the people like one who is in darkness, never to emerge therefrom? Thus it has been made pleasing to the disbelievers that which they were doing`,
+        ``,
+        ``
+      ],
+      [
+        `Est-ce que celui qui était mort et que Nous avons ramené à la vie et à qui Nous avons assigné une lumière grâce à laquelle il marche parmi les gens, est pareil à celui qui est dans les ténèbres sans pouvoir en sortir ? Ainsi on a enjolivé aux mécréants ce qu'ils œuvrent`,
+        ``,
+        ``
+      ],
+      [
+        `El que estaba muerto y que luego hemos resucitado dándole una luz con la cual anda entre la gente, ¿es igual que el que está entre tinieblas sin poder salir? De este modo han sido engalanadas las obras de los infieles`,
+        ``,
+        ``
+      ],
+      [
+        `Разве тот, кто был мертвецом, и Мы вернули его к жизни и наделили светом, благодаря которому он ходит среди людей, подобен тому, кто находится во мраках и не может выйти из них? Так неверующим представляется прекрасным то, что они совершают`,
+        ``,
+        ``
+      ],
+      [
+        `Ist denn der, der tot war, und den Wir dann lebendig gemacht und dem Wir ein Licht gegeben haben, worin er unter den Menschen geht, wie einer, dessen Gleichnis das jemandes ist, der sich in Finsternissen befindet, aus denen er nicht herauskommen kann? So ist den Ungläubigen ausgeschmückt, was sie zu tun pflegten`,
+        ``,
+        ``
+      ],
+      [
+        `ÄR DÅ den som var [andligen] död och som Vi väckte till liv och skänkte ljus, med vars hjälp han kan finna sin väg bland människorna, att likställa med den som [omges av] djupt mörker varifrån han inte kan komma ut? [Nej, men] han, liksom [andra] som förnekar sanningen, har fått sina [onda] handlingar framställda i ett fördelaktigt ljus [och kommer därför, som de, inte ut ur mörkret]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En wie dood was, en die Wij daarna tot leven brachten en voor wie Wij een licht maakten, waarmee hij onder de mensen rondgaat, is hij te vergelijken met hem die in de duisternissen verkeert, waar bij nimmer uit kan komen? Zo wordt voor de gelovigen schoonschijnend gemaakt wat zij plachten w doen`,
+        ``,
+        ``
+      ],
+      [
+        `بھلا جو پہلے مردہ تھا پھر ہم نے اس کو زندہ کیا اور اس کے لیے روشنی کر دی جس کے ذریعے سے وہ لوگوں میں چلتا پھرتا ہے کہیں اس شخص جیسا ہو سکتا ہے جو اندھیرے میں پڑا ہوا ہو اور اس سے نکل ہی نہ سکے اسی طرح کافر جو عمل کر رہے ہیں وہ انہیں اچھے معلوم ہوتے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan apakah orang yang sudah mati lalu Kami hidupkan dan Kami beri dia cahaya yang membuatnya dapat berjalan di tengah-tengah orang banyak, sama dengan orang yang berada dalam kegelapan, sehingga dia tidak dapat ke luar dari sana? Demikianlah dijadikan terasa indah bagi orang-orang kafir apa yang mereka kerjakan`,
+        ``,
+        ``
+      ],
+      [
+        `Ölü iken kalbini diriltip, insanlar arasında yürürken önünü aydınlatacak bir nur verdiğimiz kimsenin durumu, karanlıklarda kalıp çıkamayan kimsenin durumu gibi midir? Kafirlere de, işledikleri güzel gösterilmiştir`,
+        ``,
+        ``
+      ],
+      [
+        `آيا كسى كه مرده‌[دل‌] بود و زنده‌اش گردانيديم و براى او نورى پديد آورديم تا در پرتو آن، در ميان مردم راه برود، چون كسى است كه گويى گرفتار در تاريكيهاست و از آن بيرون‌آمدنى نيست؟ اين گونه براى كافران آنچه انجام مى‌دادند زينت داده شده است`,
+        ``,
+        ``
+      ],
+      [
+        `আর যে মৃত ছিল অতঃপর আমি তাকে জীবিত করেছি এবং তাকে এমন একটি আলো দিয়েছি, যা নিয়ে সে মানুষের মধ্যে চলাফেরা করে। সে কি ঐ ব্যক্তির সমতুল্য হতে পারে, যে অন্ধকারে রয়েছে-সেখান থেকে বের হতে পারছে না? এমনিভাবে কাফেরদের দৃষ্টিতে তাদের কাজকর্মকে সুশোভিত করে দেয়া হয়েছে।`,
+        ``,
+        ``
+      ],
+      [
+        `E, acaso, quem estava morto, e Nós demo-lhe vida e fizemo-lhe luz, com que anda entre os homens, é igual a quem está nas trevas, das quais jamais sairá? Assim, aformoseou-se, para os renegadores da Fé, o que faziam`,
+        ``,
+        ``
+      ],
+      [
+        `一个人，原是死的，但我使他复活，并给他一道光明，带著在人间行走，难道他与那在重重黑暗中绝不走入光明的人是一样的吗？不信道的人，这样为他`,
+        ``,
+        ``
+      ],
+      [
+        `死んでいたものに，われは生命を授け，また光明を与える。これによって人びとの間を往来する者と，暗黒の中にあってそれから出られないような者と同じであろうか。このように不信者には，その行っていたことを立派だと思わせるのである。`,
+        ``,
+        ``
+      ],
+      [
+        `죽은자에게 생명을 주고 그에게 빛을 주니 그는 그것으로 사 람들 사이를 걸으매 그가 결코 나 을 수 없는 암흑에 있는 자와 같 지 아니하더라 그렇듯 믿음이 없 는 자들에게 그들의 행위가 그럴 듯하게 보이니라`,
+        ``,
+        ``
+      ],
+      [
+        `Forse colui che era morto, e al quale abbiamo dato la vita, affidandogli una luce per camminare tra gli uomini, sarebbe uguale a chi è nelle tenebre senza poterne uscire? Così sembrano graziose ai miscredenti le loro azioni`,
+        ``,
+        ``
+      ],
+      [
+        `Czy ten, kto był martwy i My daliśmy mu życie, i uczyniliśmy dla niego światło, aby szedł z nim między ludzi - jest podobny do tego, kto znajduje się w ciemnościach, z których nie może wyjść? Podobnie upiększano niewiernym to, co czynili`,
+        ``,
+        ``
+      ],
+      [
+        `Невже той, хто був мертвий, і кого Ми воскресили та дарували йому світло, з яким він пішов до людей, схожий на того, хто перебуває в пітьмі та не може вийти звідти? Так прикрашається для невіруючих те, що роблять вони`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأنعام / Al-An'am، الآية 122`
+  },
+
+  {
+    arabic: [
       `فَمَنْ يُرِدِ اللَّهُ أَنْ يَهْدِيَهُ يَشْرَحْ صَدْرَهُ لِلْإِسْلَامِ ۖ وَمَنْ يُرِدْ أَنْ يُضِلَّهُ يَجْعَلْ صَدْرَهُ ضَيِّقًا حَرَجًا كَأَنَّمَا يَصَّعَّدُ فِي السَّمَاءِ ۚ كَذَٰلِكَ يَجْعَلُ اللَّهُ الرِّجْسَ عَلَى الَّذِينَ لَا يُؤْمِنُونَ`,
       ``,
       ``
@@ -14716,6 +15720,117 @@ const verses = [
       ]
     ],
     number: `سورة الأعراف / Al-A'raf، الآية 35`
+  },
+
+  {
+    arabic: [
+      `إِنَّ الَّذِينَ كَذَّبُوا بِآيَاتِنَا وَاسْتَكْبَرُوا عَنْهَا لَا تُفَتَّحُ لَهُمْ أَبْوَابُ السَّمَاءِ وَلَا يَدْخُلُونَ الْجَنَّةَ حَتَّىٰ يَلِجَ الْجَمَلُ فِي سَمِّ الْخِيَاطِ ۚ وَكَذَٰلِكَ نَجْزِي الْمُجْرِمِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, those who deny Our verses and are arrogant toward them - the gates of Heaven will not be opened for them, nor will they enter Paradise until a camel enters into the eye of a needle. And thus do We recompense the criminals`,
+        ``,
+        ``
+      ],
+      [
+        `Pour ceux qui traitent de mensonges Nos signes et qui s'en écartent par orgueil, les portes du ciel ne leur seront pas ouvertes, et ils n'entreront au Paradis que quand le chameau passera dans le chas de l'aiguille. Ainsi rétribuons-Nous les criminels`,
+        ``,
+        ``
+      ],
+      [
+        `A quienes hayan desmentido Nuestros signos y se hayan apartado altivamente de ellos, no se les abrirán las puertas del cielo ni entrarán en el Jardín hasta que entre un camello en el ojo de una aguja. Así retribuiremos a los pecadores`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, не откроются врата небесные для тех, кто считал ложью Наши знамения и превозносился над ними. Они не войдут в Рай, пока верблюд не пройдет сквозь игольное ушко. Так Мы воздаем грешникам`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, denjenigen, die Unsere Zeichen für Lüge erklären und sich ihnen gegenüber hochmütig verhalten, werden die Tore des Himmels nicht geöffnet, und sie werden nicht in den (Paradies)garten eingehen, bis ein Kamel durch ein Nadelöhr geht. So vergelten Wir den Übeltätern`,
+        ``,
+        ``
+      ],
+      [
+        `HIMLENS portar skall förbli stängda för dem som påstår att Våra budskap är lögn och högmodigt vänder sig ifrån dem; det blir inte lättare för dem att komma in i paradiset än för ett rep att tränga igenom ett nålsöga. Så belönar Vi de obotfärdiga syndarna`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, degenen die Onze Verzen loochenen en die zich er hooghartig van afwenden: de poorten van de hemel zullen voor hen niet worden geopend, en zij zullen het Paradijs niet binnengaan, totdat de kameel door het oog van de naald gaat. En zo vergelden Wij de misdadigers`,
+        ``,
+        ``
+      ],
+      [
+        `جن لوگوں نے ہماری آیتوں کو جھٹلایا اور ان سے سرتابی کی۔ ان کے لیے نہ آسمان کے دروازے کھولے جائیں گے اور نہ وہ بہشت میں داخل ہوں گے۔ یہاں تک کہ اونٹ سوئی کے ناکے میں سے نہ نکل جائے اور گنہگاروں کو ہم ایسی ہی سزا دیا کرتے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `(Sesungguhnya orang-orang yang mendustakan ayat-ayat Kami dan menyombongkan diri terhadapnya, tidak akan dibukakan pintu-pintu langit bagi mereka,331) dan mereka tidak akan masuk surga, sebelum unta masuk ke dalam lubang jarum.332) Demikianlah Kami memberi balasan kepada orang-orang yang berbuat jahat`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu ayetlerimizi yalan sayıp, onlara karşı büyüklük taslayanlara, göğün kapıları açılmaz; deve iğnenin deliğinden geçmedikçe cennete de giremezler. Suçluları böyle cezalandırırız`,
+        ``,
+        ``
+      ],
+      [
+        `در حقيقت، كسانى كه آيات ما را دروغ شمردند و از [پذيرفتن‌] آنها تكبّر ورزيدند، درهاى آسمان را برايشان نمى‌گشايند و در بهشت درنمى‌آيند مگر آنكه شتر در سوراخ سوزن داخل شود. و بدينسان بزهكاران را كيفر مى‌دهيم`,
+        ``,
+        ``
+      ],
+      [
+        `নিশ্চয়ই যারা আমার আয়াতসমূহকে মিথ্যা বলেছে এবং এগুলো থেকে অহংকার করেছে, তাদের জন্যে আকাশের দ্বার উম্মুক্ত করা হবে না এবং তারা জান্নাতে প্রবেশ করবে না। যে পর্যন্ত না সূচের ছিদ্র দিয়ে উট প্রবেশ করে। আমি এমনিভাবে পাপীদেরকে শাস্তি প্রদান করি।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, aos que desmentem Nossos sinais e, diante deles, se ensoberbecem, não se lhes abrirão as portas do céu nem entrarão no Paraíso, até que o camelo penetre no fundo da agulha. E, assim, recompensaremos os criminosos`,
+        ``,
+        ``
+      ],
+      [
+        `否认我的迹象而加以藐视者，所有的天门必不为他们而开放，他们不得入乐园，直到缆绳能穿过针眼。我要这样报酬犯罪者。`,
+        ``,
+        ``
+      ],
+      [
+        `わが印を偽りであるとし，それに対し高慢であった者たちには，天の間は決して開かれないであろう。またラクダが針の穴を通るまで，かれらは楽園に入れないであろう。このようにわれは罪ある者に報いる。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님의 말씀을 거역하며 오만하고 거만하는 자 그들에게는 하늘에의 문이 열리지 아니하며 그들이 천국에 들어가는 것은 낙 타가 바늘구멍 들어가는 것과 같 으니 이것이 죄지은 자들에 대한 대가라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità le porte del cielo non si apriranno mai per coloro che smentiscono i Nostri segni allontanandosene orgogliosamente: non entreranno in Paradiso sino a quando un cammello non passi per la cruna di un ago. Così Noi compensiamo i peccatori`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, dla tych, którzy za kłamstwo uznali Nasze znaki i ponad nie dumnie się wywyższyli, nie będą otwarte bramy nieba i nie wejdą oni do Ogrodu, dopóki wielbłąd nie przejdzie przez igielne ucho. W ten sposób My płacimy grzesznikom`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, для тих, які заперечували Наші знамення й через гордість свою нехтували ними, не відкриються брами небесні, й не ввійдуть вони до раю, доки не пройде верблюд крізь вушко голки. Так Ми винагороджуємо грішників`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأعراف / Al-A'raf، الآية 40`
   },
 
   {
@@ -16048,6 +17163,117 @@ const verses = [
       ]
     ],
     number: `سورة الأعراف / Al-A'raf، الآية 172`
+  },
+
+  {
+    arabic: [
+      `وَاتْلُ عَلَيْهِمْ نَبَأَ الَّذِي آتَيْنَاهُ آيَاتِنَا فَانْسَلَخَ مِنْهَا فَأَتْبَعَهُ الشَّيْطَانُ فَكَانَ مِنَ الْغَاوِينَ وَلَوْ شِئْنَا لَرَفَعْنَاهُ بِهَا وَلَٰكِنَّهُ أَخْلَدَ إِلَى الْأَرْضِ وَاتَّبَعَ هَوَاهُ ۚ فَمَثَلُهُ كَمَثَلِ الْكَلْبِ إِنْ تَحْمِلْ عَلَيْهِ يَلْهَثْ أَوْ تَتْرُكْهُ يَلْهَثْ ۚ ذَٰلِكَ مَثَلُ الْقَوْمِ الَّذِينَ كَذَّبُوا بِآيَاتِنَا ۚ فَاقْصُصِ الْقَصَصَ لَعَلَّهُمْ يَتَفَكَّرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And recite to them, [O Muhammad], the news of him to whom we gave [knowledge of] Our signs, but he detached himself from them; so Satan pursued him, and he became of the deviators And if We had willed, we could have elevated him thereby, but he adhered [instead] to the earth and followed his own desire. So his example is like that of the dog: if you chase him, he pants, or if you leave him, he [still] pants. That is the example of the people who denied Our signs. So relate the stories that perhaps they will give thought`,
+        ``,
+        ``
+      ],
+      [
+        `Et raconte-leur l'histoire de celui à qui Nous avions donné Nos signes et qui s'en écarta. Le Diable (Satan), donc, l'entraîna dans sa suite et il devint ainsi du nombre des égarés Et si Nous avions voulu, Nous l'aurions élevé par ces mêmes enseignements, mais il s'inclina vers la terre et suivit sa propre passion. Il est semblable à un chien qui halète si tu l'attaques, et qui halète aussi si tu le laisses. Tel est l'exemple des gens qui traitent de mensonges Nos signes. Eh bien, raconte le récit ! Peut-être réfléchiront-ils`,
+        ``,
+        ``
+      ],
+      [
+        `Cuéntales lo que pasó con aquél a quien dimos Nuestros signos y se deshizo de ellos. El Demonio le persiguió y fue de los descarriados Si hubiéramos querido, le habríamos levantado con ellos. Pero se apegó a la tierra y siguió su pasión. Pasó con él como pasa con el perro: jadea lo mismo si le atacas que si le dejas en paz. Así es la gente que desmiente Nuestros signos. Cuéntales estas cosas. Quizás, así, reflexionen`,
+        ``,
+        ``
+      ],
+      [
+        `Прочти им историю о том, кому Мы даровали Наши знамения, а он отбросил их. Дьявол последовал за ним, и он стал заблудшим Если бы Мы пожелали, то возвысили бы его посредством этого. Однако он приник к земле и стал потакать своим желаниям. Он подобен собаке: если ты прогоняешь ее, она высовывает язык, и если ты оставишь ее в покое, она тоже высовывает язык. Такова притча о тех, которые считают ложью Наши знамения. Рассказывай эти истории, - быть может, они призадумаются`,
+        ``,
+        ``
+      ],
+      [
+        `Und verlies ihnen die Kunde von dem, dem Wir Unsere Zeichen gaben und der sich dann ihrer entledigte. Da verfolgte ihn der Satan, und so wurde er einer der Verirrten Und wenn Wir gewollt hätten, hätten Wir ihn durch sie fürwahr erhöht. Aber er neigte zur Erde hin und folgte seiner Neigung. So ist sein Gleichnis das eines Hundes: Wenn du auf ihn losgehst, hechelt er; läßt du ihn (in Ruhe), hechelt er (auch). So ist das Gleichnis der Leute, die Unsere Zeichen für Lüge erklärten. Berichte die Geschichte, auf daß sie nachdenken mögen`,
+        ``,
+        ``
+      ],
+      [
+        `Och berätta för dem vad som hände den man som Vi hade gett del av Våra budskap och som sköt dem ifrån sig. Djävulen följde honom hack i häl och han blev [till sist] en av dem som, efter att själv ha vilseletts, leder andra på avvägar Om Vi hade velat kunde Vi ha låtit honom resa sig [ur förnedringen] med hjälp av [budskapen], men hans hela håg stod till jordiska ting och han ville bara följa sina egna böjelser. Han kan liknas vid en hund som flåsar med hängande tunga vare sig du kommer hotfullt emot honom eller lämnar honom i fred. Detta är liknelsen om dem som påstår att Våra budskap är lögn. Berätta därför denna historia - kanske skall den [väcka] dem till eftertanke`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En lees hen de geschiedenis voor van degene aan wie Wij Onze Verzen gaven. Vervolgens maakte hij zich daarvan los, waarop de Satan hem achtervolgde zodat bij één van de dwalenden werd En als Wij het hadden gewild, dan zouden Wij hem daarmee (met Onze Verzen) hebben verheven, maar hij neigde naw de aarde en volgde zijn hegeerte. Zijn gelijkenis is als de gelijkenis van de hond; als je hem wegjaagt, dan hijgt bij, en als je hem met rust laat dan hijgt hij. Dat is de gelijkenis van het volk dat Onze Verzen loochent, vertel daarom de geschiedenissen. Hopelijk zullen zij nadenken`,
+        ``,
+        ``
+      ],
+      [
+        `اور ان کو اس شخص کا حال پڑھ کر سنا دو جس کو ہم نے اپنی آیتیں عطا فرمائیں (اور ہفت پارچہٴ علم شرائع سے مزین کیا) تو اس نے ان کو اتار دیا پھر شیطان اس کے پیچھے لگا تو وہ گمراہوں میں ہوگیا اور اگر ہم چاہتے تو ان آیتوں سے اس (کے درجے) کو بلند کر دیتے مگر وہ تو پستی کی طرف مائل ہوگیا اور اپنی خواہش کے پیچھے چل پڑا۔ تو اس کی مثال کتے کی سی ہوگئی کہ اگر سختی کرو تو زبان نکالے رہے اور یونہی چھوڑ دو تو بھی زبان نکالے رہے۔ یہی مثال ان لوگوں کی ہے جنہوں نے ہماری آیتوں کو جھٹلایا تو ان سے یہ قصہ بیان کردو۔ تاکہ وہ فکر کریں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan bacakanlah (Muhammad) kepada mereka, berita orang yang telah Kami berikan ayat-ayat Kami kepadanya, kemudian dia melepaskan diri dari ayat-ayat itu, lalu dia diikuti oleh setan (sampai dia tergoda), lalu jadilah dia termasuk orang yang sesat Dan sekiranya Kami menghendaki niscaya Kami tinggikan (derajat)nya dengan (ayat-ayat) itu, tetapi dia cenderung kepada dunia dan mengikuti keinginannya (yang rendah), maka perumpamaannya seperti anjing, jika kamu menghalaunya dijulurkan lidahnya dan jika kamu membiarkannya ia menjulurkan lidahnya (juga). Demikianlah perumpamaan orang-orang yang mendustakan ayat-ayat Kami. Maka ceritakanlah kisah-kisah itu agar mereka berpikir`,
+        ``,
+        ``
+      ],
+      [
+        `Onlara, şeytanın peşine takdığı ve kendisine verdiğimiz ayetlerden sıyrılarak azgınlıklardan olan kişinin olayını anlat Dileseydik, onu ayetlerimizle üstün kılardık; fakat o, dünyaya meyletti ve hevesine uydu. Durumu, üstüne varsan da, kendi haline bıraksan da, dilini sarkıtıp soluyan köpeğin durumu gibidir. İşte ayetlerimizi yalan sayan kimselerin hali böyledir. Sen onlara bu kıssayı anlat, belki üzerinde düşünürler`,
+        ``,
+        ``
+      ],
+      [
+        `و خبر آن كس را كه آيات خود را به او داده بوديم براى آنان بخوان كه از آن عارى گشت؛ آنگاه شيطان، او را دنبال كرد و از گمراهان شد و اگر مى‌خواستيم، قدر او را به وسيله آن [آيات‌] بالا مى‌برديم، اما او به زمين [=دنيا] گراييد و از هواى نَفْس خود پيروى كرد. از اين رو داستانش چون داستان سگ است [كه‌] اگر بر آن حمله‌ور شوى زبان از كام برآورد، و اگر آن را رها كنى [باز هم‌] زبان از كام برآورد. اين، مَثَل آن گروهى است كه آيات ما را تكذيب كردند. پس اين داستان را [براى آنان‌] حكايت كن، شايد كه آنان بينديشند`,
+        ``,
+        ``
+      ],
+      [
+        `আর আপনি তাদেরকে শুনিয়ে দিন, সে লোকের অবস্থা, যাকে আমি নিজের নিদর্শনসমূহ দান করেছিলাম, অথচ সে তা পরিহার করে বেরিয়ে গেছে। আর তার পেছনে লেগেছে শয়তান, ফলে সে পথভ্রষ্টদের অন্তর্ভূক্ত হয়ে পড়েছে। অবশ্য আমি ইচ্ছা করলে তার মর্যাদা বাড়িয়ে দিতাম সে সকল নিদর্শনসমূহের দৌলতে। কিন্তু সে যে অধঃপতিত এবং নিজের রিপুর অনুগামী হয়ে রইল। সুতরাং তার অবস্থা হল কুকুরের মত; যদি তাকে তাড়া কর তবুও হাঁপাবে আর যদি ছেড়ে দাও তবুও হাঁপাবে। এ হল সেসব লোকের উদাহরণ; যারা মিথ্যা প্রতিপন্ন করেছে আমার নিদর্শনসমূহকে। অতএব, আপনি বিবৃত করুন এসব কাহিনী, যাতে তারা চিন্তা করে।`,
+        ``,
+        ``
+      ],
+      [
+        `E recita para eles a história daquele a quem concedêramos Nossos sinais, e deles se afastara: então, Satã perseguira-o, e ele fora dos desviados E se quiséssemos, havê-lo-íamos elevado com eles, mas ele se ativera à terra e seguira suas paixões. E seu exemplo é igual ao do cão: se o repeles, arqueja, ou, se o deixas, arqueja. Esse é o exemplo do povo, que desmente Nossos sinais. Então, narra-lhes a narrativa, na esperança de refletirem`,
+        ``,
+        ``
+      ],
+      [
+        `你应当对他们宣读那个人的故事；我曾把我的许多迹象赏赐他，但他鄙弃那些迹象，故恶魔赶上他，而他变成了迷误者。 假若我意欲，我一定要借那些迹象而提升他，但他依恋尘世，顺从私欲，所以他像狗一样，你喝斥它，它就伸出舌头来，你不喝斥它，它也伸出舌头来，这是否认我的迹象者的譬喻。你要讲述这个人的故事，以便他们省悟。`,
+        ``,
+        ``
+      ],
+      [
+        `（ムハンマドよ）われが下した印を授かりながら，それを脱ぎ捨て，それで悪魔が憑いて，邪道に導く者の仲間となった者の話をかれらに告げなさい。 もしそれがわが意志であったならば，われはそれ（印）によってかれを引きたてたであろう。 だがかれは地上の事に執着して，自分の虚しい私欲に従った。それでかれを譬えてみれば犬のようなもので，もしあなたがそれを叱り付けても，舌を垂れている。また放って置いても，舌を垂れている。これはわが印を信じない者の比喩である。だからこの（昔の人びとの）物語を告げなさい。恐らくかれらは反省するであろう。`,
+        ``,
+        ``
+      ],
+      [
+        `그들에게 그 사람의 얘기를낭송하여 전하라 하나님이 그에게 말씀이 있었으나 그는 사탄의 유흑으로 그 말씀들을 흘러버리매 그는방황하게 되었더라 하나님의 뜻이 있었다면 하나님은 그를 높은 위치에 두었으 리라 그러나 그는 세상에 눈을 돌 리어 그의 욕망을 따랐으니 그를 비유하사 한 마리의 개와 같음이 라 그대가 그를 비난하매 그는 그 의 혀를 내밀고 그를 흔자 두어도 그의 혀를 내밀어 보임이라 그것 은 하나님의 말씀을 거역하는 자들과 같음이니 그 이야기를 들려주 라 그리하면 그들이 숙고하리라`,
+        ``,
+        ``
+      ],
+      [
+        `Racconta loro la storia di colui cui avevamo dato Nostri segni e che li trascurò. Satana lo seguì e fu uno dei traviati Se avessimo voluto, lo avremmo elevato grazie a questi segni; ma si aggrappò alla terra e seguì le sue passioni. Fu come il cane che ansima se lo attacchi e ansima se lo lasci stare. Ecco a chi è simile il popolo che taccia di menzogna i Nostri segni. Racconta loro le storie, affinché riflettano`,
+        ``,
+        ``
+      ],
+      [
+        `Przytocz im opowieść o tym któremu daliśmy N as z e znaki, lecz on przeszedł mimo nich. Wtedy poszedł za nim szatan i on znalazł się między tymi, którzy zabłądzili A gdybyśmy zechcieli, to wynieślibyśmy go przez nie; lecz on przylgnął do ziemi poszedł za swoją namiętnością. On jest podobny do psa: jeśli się rzucisz na niego, warczy, a kiedy zostawisz go w spokoju, też warczy. Podobnie zachowują się ludzie, którzy za kłamstwo uznali N as z e znaki. Opowiedz im więc tę historię, być może, oni się zastanowią`,
+        ``,
+        ``
+      ],
+      [
+        `Сповісти їм про того, кому Ми дарували Наші знамення, а він відвернувся від них. Шайтан переслідував його і він став одним із тих, хто блукає Якби Ми побажали, то піднесли би його через них, але він вхопився за земне й пішов за своїми бажаннями. Він подібний до пса: коли женеш його, він висуває язика, і коли лишаєш у спокої, він так само висовує язика. Це приклад людей, які вважають Наші знамення за брехню! Перекажи їм цю розповідь — можливо, поміркують вони`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الأعراف / Al-A'raf، الآيتان 175-176`
   },
 
   {
@@ -18716,6 +19942,117 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّمَا مَثَلُ الْحَيَاةِ الدُّنْيَا كَمَاءٍ أَنْزَلْنَاهُ مِنَ السَّمَاءِ فَاخْتَلَطَ بِهِ نَبَاتُ الْأَرْضِ مِمَّا يَأْكُلُ النَّاسُ وَالْأَنْعَامُ حَتَّىٰ إِذَا أَخَذَتِ الْأَرْضُ زُخْرُفَهَا وَازَّيَّنَتْ وَظَنَّ أَهْلُهَا أَنَّهُمْ قَادِرُونَ عَلَيْهَا أَتَاهَا أَمْرُنَا لَيْلًا أَوْ نَهَارًا فَجَعَلْنَاهَا حَصِيدًا كَأَنْ لَمْ تَغْنَ بِالْأَمْسِ ۚ كَذَٰلِكَ نُفَصِّلُ الْآيَاتِ لِقَوْمٍ يَتَفَكَّرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The example of [this] worldly life is but like rain which We have sent down from the sky that the plants of the earth absorb - [those] from which men and livestock eat - until, when the earth has taken on its adornment and is beautified and its people suppose that they have capability over it, there comes to it Our command by night or by day, and We make it as a harvest, as if it had not flourished yesterday. Thus do We explain in detail the signs for a people who give thought`,
+        ``,
+        ``
+      ],
+      [
+        `La vie présente est comparable à une eau que Nous faisons descendre du ciel et qui se mélange à la végétation de la terre dont se nourrissent les hommes et les bêtes. Puis, lorsque la terre prend sa parure et s'embellit, et que ses habitants pensent qu'elle est à leur entière disposition, Notre Ordre lui vient, de nuit ou de jour, c'est alors que Nous la rendons toute moissonnée, comme si elle n'avait pas été florissante la veille. Ainsi exposons-Nous les preuves pour des gens qui réfléchissent`,
+        ``,
+        ``
+      ],
+      [
+        `La vida de acá es como agua que hacemos bajar del cielo. Las plantas de la tierra se empapan de ella y alimentan a los hombres y a los rebaños, hasta que, cuando la tierra se ha adornado y engalanado, y creen los hombres que ya la dominan, llega a ella Nuestra orden, de noche o de día, y la dejamos cual rastrojo, como si, la víspera, no hubiera estado floreciente. Así explicamos los signos a gente que reflexiona`,
+        ``,
+        ``
+      ],
+      [
+        `Мирская жизнь подобна воде, которую Мы ниспосылаем с неба и благодаря которой (или с которой) смешиваются земные растения, идущие в пищу людям и животным. Когда же земля покрывается убранством и приукрашается, а ее жители полагают, что они властны над ней, Наше повеление постигает ее ночью или днем. Мы превращаем ее в жнивье, словно еще вчера она не изобиловала. Так Мы разъясняем знамения для людей размышляющих`,
+        ``,
+        ``
+      ],
+      [
+        `Das Gleichnis des diesseitigen Lebens ist nur wie Wasser, das Wir vom Himmel hinabsenden, worauf das Gewächs der Erde, von dem die Menschen und das Vieh verzehren, sich damit vermischt, bis dann, wenn die Erde ihren Prunk angenommen hat und sich geschmückt hat und ihre Bewohner meinen, daß sie Macht über sie hätten, kommt Unser Befehl über sie" bei Nacht oder bei Tag, und da lassen Wir sie abgemäht sein, als ob sie am Tag zuvor nicht in Blüte gestanden hätte. So legen Wir die Zeichen ausführlich dar für Leute, die nachdenken`,
+        ``,
+        ``
+      ],
+      [
+        `Livet i denna värld kan liknas vid regn som Vi låter falla från skyn och som sugs upp av jordens växtlighet; en del av detta blir till föda för människor och boskap. När jorden sedan har nått sin fulla blomstring och är grann att skåda, och dess bebyggare tror att de har tagit herraväldet över den, nås den av Vår befallning om natten eller mitt på ljusa dagen, och så lägger Vi [fälten] öde som avmejade stubbåkrar, som om gårdagens [mognande skördar] hade varit [en synvilla]. Så framställer Vi [Våra] budskap fast och klart för människor som tänker`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, de gelijkenis van het wereldse leven is als water dat Wij uit de hemel neerzenden, waardoor he de gewassen van de aarde in een rnengeling doet groeien, waarvan de mensen en het vee eten. Totdat, wanneer de aarde haar versierselen heeft aangenomen en zij mooi is geworden en haar bewoners menen dat zij machthebbers zijn over haar, Onze bestraffing tot hen komt, in de nacht of overdag, waarop Wij haar tot een afgemaaid veld maken, alsof er de dag ervoor niets groeide. Zo zetten Wij de Tekenen uiteen aan een volk dat nadenkt`,
+        ``,
+        ``
+      ],
+      [
+        `دنیا کی زندگی کی مثال مینھہ کی سی ہے کہ ہم نے اس کو آسمان سے برسایا۔ پھر اس کے ساتھ سبزہ جسے آدمی اور جانور کھاتے ہیں مل کر نکلا یہاں تک کہ زمین سبزے سے خوشنما اور آراستہ ہوگئی اور زمین والوں نے خیال کیا کہ وہ اس پر پوری دسترس رکھتے ہیں ناگہاں رات کو یا دن کو ہمارا حکم (عذاب) آپہنچا تو ہم نے اس کو کاٹ (کر ایسا کر) ڈالا کہ گویا کل وہاں کچھ تھا ہی نہیں۔ جو لوگ غور کرنے والے ہیں۔ ان کے لیے ہم (اپنی قدرت کی) نشانیاں اسی طرح کھول کھول کر بیان کرتے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya perumpamaan kehidupan duniawi itu hanya seperti air (hujan) yang Kami turunkan dari langit, lalu tumbuhlah tanaman-tanaman bumi dengan subur (karena air itu), di antaranya ada yang dimakan manusia dan hewan ternak. Hingga apabila bumi itu telah sempurna keindahannya, dan berhias,386) dan pemiliknya mengira bahwa mereka pasti menguasainya (memetik hasilnya), datanglah kepadanya azab Kami pada waktu malam atau siang, lalu Kami jadikan (tanaman)nya seperti tanaman yang sudah disabit, seakan-akan belum pernah tumbuh kemarin. Demikianlah Kami menjelaskan tanda-tanda (kekuasaan Kami) kepada kaum yang berpikir`,
+        ``,
+        ``
+      ],
+      [
+        `Dünya hayatı gökten indirdiğimiz su gibidir ki, onunla insan ve hayvanların yiyeceği bitkiler yetişip birbirine karışmıştır. Yeryüzünün süslenip bezendiği ve yerin sahiplerinin bütün bunlara malik olduklarını sandıkları sırada, gece veya gündüz buyruğumuz o yere gelmiş ve orayı hiçbir şey bitirmemişe çevirmişiz; bir gün önce birşey yokmuş gibi olmuştur. Düşünen millet için ayetleri böylece uzun açıklıyoruz`,
+        ``,
+        ``
+      ],
+      [
+        `در حقيقت، مَثَل زندگى دنيا بسان آبى است كه آن را از آسمان فرو ريختيم، پس گياه زمين -از آنچه مردم و دامها مى‌خورند- با آن درآميخت، تا آنگاه كه زمين پيرايه خود را برگرفت و آراسته گرديد و اهل آن پنداشتند كه آنان بر آن قدرت دارند، شبى يا روزى فرمان [ويرانى‌] ما آمد و آن را چنان دِرَويده كرديم كه گويى ديروز وجود نداشته است. اين گونه نشانه‌ها[ى خود] را براى مردمى كه انديشه مى‌كنند به روشنى بيان مى‌كنيم`,
+        ``,
+        ``
+      ],
+      [
+        `পার্থিব জীবনের উদাহরণ তেমনি, যেমনি আমি আসমান থেকে পানি বর্ষন করলাম, পরে তা মিলিত সংমিশ্রিত হয়ে তা থেকে যমীনের শ্যামল উদ্ভিদ বেরিয়ে এল যা মানুষ ও জীব-জন্তুরা খেয়ে থাকে। এমনকি যমীন যখন সৌন্দর্য সুষমায় ভরে উঠলো আর যমীনের অধিকর্তারা ভাবতে লাগল, এগুলো আমাদের হাতে আসবে, হঠাৎ করে তার উপর আমার নির্দেশ এল রাত্রে কিংবা দিনে, তখন সেগুলোকে কেটে স্তুপাকার করে দিল যেন কাল ও এখানে কোন আবাদ ছিল না। এমনিভাবে আমি খোলাখুলি বর্ণনা করে থাকি নিদর্শণসমূহ সে সমস্ত লোকদের জন্য যারা লক্ষ্য করে।`,
+        ``,
+        ``
+      ],
+      [
+        `O exemplo da vida terrena é apenas, como água que fazemos descer do céu e, com ela, se mescla a planta da terra da qual comem os humanos e os rebanhos, até que, quando a terra se paramenta com seus ornamentos e se aformoseia, e seus habitantes pensam ter poderes sobre ela, Nossa ordem chega-lhe, de dia ou de noite, e fazemo-la ceifada, como se na véspera, nada houvesse existido nela. Assim, aclaramos os sinais a um povo que reflete`,
+        ``,
+        ``
+      ],
+      [
+        `今世的生活，就像是从云中降下雨水，地里的禾苗，即人和牲畜所吃的东西--就因之而繁茂起来。直到田地穿上盛装，打扮得很美丽，而农夫猜想自己可以获得丰收的时候，我的命令在黑夜或白昼降临那些田地，我使五谷只留下茬儿，彷佛新近没有种过庄稼一样。我为能思维的民众这样解释许多迹象。`,
+        ``,
+        ``
+      ],
+      [
+        `本当に，現世の生活を例えれば，天からわれが降らせる水（雨）のようなものである。それで土を潤し，人間や家畜の食べ物を茂らせる。大地が美麗な装いで覆われて飾られると，そこの（住）民は，その全権を持ったと思い込む。だがわが命令が，夜も昼も一度下れば，昨日は繁茂 していなかったかのように刈り取られたもののように変えてしまう。われはこのように，熟慮する人びと のために（われの）印を解明する。`,
+        ``,
+        ``
+      ],
+      [
+        `현세의 삶을 비유하매 그것 은 하나님이 하늘에서 내리게한 물과 같으니 그것으로 배합하여 채소를 일구매 사람과 동물이 먹 어 사라지는 것과 같으나 그들은 그것으로 유용함이라 생각하고 있 더라 그러나 하나님은 그것을 밤 이나 흑은 낮에 멸망케 하여 어제 가 풍성하지 아니했던 것처럼 수 확을 하게 하였으니 생각하는 백 성을 위하여 징표들을 설명하노라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità, questa vita è come un'acqua che facciamo scendere dal cielo, e che si mescola alle piante della terra di cui si nutrono gli uomini e gli animali. Quando la terra prende i suoi ornamenti ed è rigogliosa di bellezza, i suoi abitanti pensano di possederla, ma giunge il Nostro decreto di giorno o di notte e la rendiamo spoglia, come se il giorno prima non fosse fiorita. Così esplichiamo i Nostri segni a coloro che riflettono`,
+        ``,
+        ``
+      ],
+      [
+        `Życie tego świata jest podobne do wody, którą spuściliśmy z nieba: miesza się z nią roślinność ziemi, którą żywią się ludzie i zwierzęta. A kiedy ziemia nabrała swojej ozdoby i upiększyła się, a jej mieszkańcy myślą, że nią władają, dochodzi do niej Nasz rozkaz, nocą lub dniem, i My czynimy ją polem zżętym, jak gdyby wczoraj nie była kwitnąca. W ten sposób My wyjaśniamy znaki ludziom, którzy się zastanawiają`,
+        ``,
+        ``
+      ],
+      [
+        `Прикладом земного життя є вода, яку Ми проливаємо з неба, і вона змішується з рослинами землі — тими, які вживають у їжу люди й тварини. Коли земля вбирається в свої шати й прикрашається, а її жителі вважають, що мають владу над нею, надходить наказ Наш вночі або вдень. І Ми перетворюємо її на поле, з якого зібрали врожай — наче вона й не була квітуча вчора. Так Ми пояснюємо знамення людям, які замислюються`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة يونس / Yunus، الآية 24`
+  },
+
+  {
+    arabic: [
       `وَاللَّهُ يَدْعُو إِلَىٰ دَارِ السَّلَامِ`,
       `وَيَهْدِي مَنْ يَشَاءُ إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ`,
       ``
@@ -20048,6 +21385,117 @@ const verses = [
 
   {
     arabic: [
+      `۞ مَثَلُ الْفَرِيقَيْنِ كَالْأَعْمَىٰ وَالْأَصَمِّ وَالْبَصِيرِ وَالسَّمِيعِ ۚ هَلْ يَسْتَوِيَانِ مَثَلًا ۚ أَفَلَا تَذَكَّرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The example of the two parties is like the blind and deaf, and the seeing and hearing. Are they equal in comparison? Then, will you not remember`,
+        ``,
+        ``
+      ],
+      [
+        `Les deux groupes ressemblent, l'un à l'aveugle et au sourd, l'autre à celui qui voit et qui entend. Les deux sont-ils comparativement égaux? Ne vous souvenez- vous pas`,
+        ``,
+        ``
+      ],
+      [
+        `Estas dos clases de personas son como uno ciego y sordo y otro que ve y oye. ¿Son similares? ¿Es que no os dejaréis amonestar`,
+        ``,
+        ``
+      ],
+      [
+        `Эти две группы подобны слепому и глухому и зрячему и слышащему. Разве можно их сравнить друг с другом? Неужели вы не помяните назидание`,
+        ``,
+        ``
+      ],
+      [
+        `Das Gleichnis der beiden Gruppen ist wie der Blinde und der Taube und der Sehende und der Hörende. Sind die beiden (etwa) einander gleich? Bedenkt ihr denn nicht`,
+        ``,
+        ``
+      ],
+      [
+        `Dessa två slag av människor kan liknas vid de blinda och döva [å ena sidan] och [å den andra] sådana som har synen och hörseln i behåll. Är de jämförbara? Vill ni inte tänka över detta`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `De gelijkenis tussen de twee groepen is als die tussen de blinden en de doven (van hart) en de zienden en de horenden: zijn zij gelijk? Trekken jullie er dan geen lering uit`,
+        ``,
+        ``
+      ],
+      [
+        `دونوں فرقوں (یعنی کافرومومن) کی مثال ایسی ہے جیسے ایک اندھا بہرا ہو اور ایک دیکھتا سنتا۔ بھلا دونوں کا حال یکساں ہوسکتا ہے؟ پھر تم سوچتے کیوں نہیں؟`,
+        ``,
+        ``
+      ],
+      [
+        `Perumpamaan kedua golongan (orang kafir dan mukmin), seperti orang buta dan tuli dengan orang yang dapat melihat dan dapat mendengar. Samakah kedua golongan itu? Maka tidakkah kamu mengambil pelajaran`,
+        ``,
+        ``
+      ],
+      [
+        `Bu iki zümrenin durumu, kör ve sağır kimse ile gören ve işiten kimsenin durumuna benzer. Durumları hiç eşit olabilir mi? İbret almıyor musunuz`,
+        ``,
+        ``
+      ],
+      [
+        `مَثَلِ اين دو گروه، چون نابينا و كر [در مقايسه‌] با بينا و شنواست. آيا در مَثَل يكسانند؟ پس آيا پند نمى‌گيريد؟`,
+        ``,
+        ``
+      ],
+      [
+        `উভয় পক্ষের দৃষ্টান্ত হচ্ছে যেমন অন্ধ ও বধির এবং যে দেখতে পায় ও শুনতে পায় উভয়ের অবস্থা কি এক সমান? তবুও তোমরা কি ভেবে দেখ না`,
+        ``,
+        ``
+      ],
+      [
+        `O exemplo dos dois grupos é como o do cego e do surdo, e do vidente e do ouvidor: igualam-se, como exemplo? Então, não meditais`,
+        ``,
+        ``
+      ],
+      [
+        `有两派人，这一派譬如是又瞎又聋的人，那－派譬如是又明又聪的人，难道这两派彼此的情况是一样的吗？你们怎么不觉悟呢？`,
+        ``,
+        ``
+      ],
+      [
+        `この両者を例えれば，一人は盲人で耳の遠い者のようであり，外は目も見えれば耳も聞える者である。比べてみて両者は同じであろうか。それでもあなたがたは注意しないのか。`,
+        ``,
+        ``
+      ],
+      [
+        `두 무리가 있으니 불신자는 장님과 벙어리 같으며 믿는자는 보는 자와 듣는 자에 비유됨이라 이들 둘이 같을 수 있느뇨 그래도너희가 이해하지 못하느뇨`,
+        ``,
+        ``
+      ],
+      [
+        `E’ come se fossero due gruppi, uno di ciechi e sordi e l'altro che vede e sente. Sono forse simili? Non rifletterete dunque`,
+        ``,
+        ``
+      ],
+      [
+        `Te dwie grupy są jak: ślepy i głuchy oraz widzący i słyszący. Czyż oni mogą być do siebie podobni? Czy wy się nie opamiętacie`,
+        ``,
+        ``
+      ],
+      [
+        `Прикладом двох груп є сліпий, глухий, зрячий та чуючий. Хіба можна їх порівняти? Невже не замислитеся ви`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة هود / Hud، الآية 24`
+  },
+
+  {
+    arabic: [
       `قَالَ رَبِّ إِنِّي أَعُوذُ بِكَ أَنْ أَسْأَلَكَ مَا لَيْسَ لِي بِهِ عِلْمٌ ۖ وَإِلَّا تَغْفِرْ لِي وَتَرْحَمْنِي أَكُنْ مِنَ الْخَاسِرِينَ`,
       ``,
       ``
@@ -21047,6 +22495,117 @@ const verses = [
 
   {
     arabic: [
+      `لَهُ دَعْوَةُ الْحَقِّ ۖ وَالَّذِينَ يَدْعُونَ مِنْ دُونِهِ لَا يَسْتَجِيبُونَ لَهُمْ بِشَيْءٍ إِلَّا كَبَاسِطِ كَفَّيْهِ إِلَى الْمَاءِ لِيَبْلُغَ فَاهُ وَمَا هُوَ بِبَالِغِهِ ۚ وَمَا دُعَاءُ الْكَافِرِينَ إِلَّا فِي ضَلَالٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `To Him [alone] is the supplication of truth. And those they call upon besides Him do not respond to them with a thing, except as one who stretches his hands toward water [from afar, calling it] to reach his mouth, but it will not reach it [thus]. And the supplication of the disbelievers is not but in error [i.e. futility]`,
+        ``,
+        ``
+      ],
+      [
+        `À Lui l'appel de la Vérité ! Ceux qu'ils invoquent en dehors de Lui ne leur répondent d'aucune façon; semblables à celui qui étend ses deux mains vers l'eau pour la porter à sa bouche, mais qui ne parvient jamais à l'atteindre. Et l'invocation des mécréants n'est que perte`,
+        ``,
+        ``
+      ],
+      [
+        `La verdadera invocación es la que se dirige a Él. Los que invocan a otros, en lugar de invocarle a Él, no serán escuchados nada. Les pasará, más bien, como a quien, deseando alcanzar el agua con la boca, se contenta con extender hacia ella las manos y no lo consigue. La invocación de los infieles es inútil`,
+        ``,
+        ``
+      ],
+      [
+        `К Нему обращен призыв истины. А те, которых они призывают вместо Него, ничем не отвечают им. Они подобны тому, кто простирает руки к воде, чтобы поднести ее ко рту, но не может этого сделать. Воистину, мольба неверующих является всего лишь заблуждением`,
+        ``,
+        ``
+      ],
+      [
+        `Ihm gebührt die wahre Anrufung. Diejenigen, die sie außer Ihm anrufen, erhören sie in nichts. Sie sind nur wie einer, der seine Hände nach Wasser ausstreckt, damit es seinen Mund erreiche, aber es erreicht ihn nicht. Aber das Bittgebet der Ungläubigen geht nur ins Leere`,
+        ``,
+        ``
+      ],
+      [
+        `Till Honom riktas all sann bön. De som människor åkallar i Hans ställe kan inte svara dem; [dessa människor beter sig lika bakvänt] som den som när han vill dricka sträcker flata handen mot vattnet - så når det inte [den törstiges] mun. Förnekarnas bön är bara en meningslös gest`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Aan Hem is de ware smeekbede gericht, en degenen die zij naast Hem aanbidden verhoren hen in niets, behalve zoals bij degene zijn beide handen uitstrekt naar water om het naar zijn mond te brengen, maar het bereikt zijn mond niet. En de smeekbeden van de ongelovigen zijn nutteloos`,
+        ``,
+        ``
+      ],
+      [
+        `سودمند پکارنا تو اسی کا ہے اور جن کو یہ لوگ اس کے سوا پکارتے ہیں وہ ان کی پکار کو کسی طرح قبول نہیں کرتے مگر اس شخص کی طرح جو اپنے دونوں ہاتھ پانی کی طرف پھیلا دے تاکہ (دور ہی سے) اس کے منہ تک آ پہنچے حالانکہ وہ (اس تک کبھی بھی) نہیں آسکتا اور (اسی طرح) کافروں کی پکار بیکار ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Hanya kepada Allah doa yang benar. Berhala-berhala yang mereka sembah selain Allah tidak dapat mengabulkan apa pun bagi mereka, tidak ubahnya seperti orang yang membukakan kedua telapak tangannya ke dalam air agar (air) sampai ke mulutnya. Padahal air itu tidak akan sampai ke mulutnya. Dan doa orang-orang kafir itu, hanyalah sia-sia belaka`,
+        ``,
+        ``
+      ],
+      [
+        `Gerçek dua ve ibadet ancak O'nadır. O'ndan başka çağırdıkları putlar kendilerine hiçbir cevap vermezler. Durumları, suyun ağzına gelmesi için avuçlarını ona açmış bekleyen adamın durumu gibidir. Hiçbir zaman suya kavuşamaz. İşte kafirlerin yalvarışıda böyle, boşunadır`,
+        ``,
+        ``
+      ],
+      [
+        `دعوت حق براى اوست. و كسانى كه [مشركان‌] جز او مى‌خوانند، هيچ جوابى به آنان نمى‌دهند، مگر مانند كسى كه دو دستش را به سوى آب بگشايد تا [آب‌] به دهانش برسد، در حالى كه [آب‌] به [دهان‌] او نخواهد رسيد، و دعاى كافران جز بر هدر نباشد`,
+        ``,
+        ``
+      ],
+      [
+        `সত্যের আহবান একমাত্র তাঁরই এবং তাকে ছাড়া যাদেরকে ডাকে, তারা তাদের কোন কাজে আসে না; ওদের দৃষ্টান্ত সেরূপ, যেমন কেউ দু’ হাত পানির দিকে প্রসারিত করে যাতে পানি তার মুখে পৌঁছে যায়। অথচ পানি কোন সময় পৌঁছাবে না। কাফেরদের যত আহবান তার সবই পথভ্রষ্টতা।`,
+        ``,
+        ``
+      ],
+      [
+        `D'Ele é a verdadeira súplica. E os que eles invocam, além d'Ele, em nada lhes atendem senão como é atendido aquele que estende as duas mãos à água de um poço, para que esta lhe atinja a boca, mas ela jamais a estará atingindo. E a súplica dos renegadores da Fé não está senão em descaminho`,
+        ``,
+        ``
+      ],
+      [
+        `真实的祈祷只归于他，他们舍他而祈祷的（偶像），一点也不能答应他们的祈求。但他们好像一个人，把两只手掌伸向水中，以便水达到他的口，其实，水绝不会达到他的口的。不信道者的祈祷，只在迷误中。`,
+        ``,
+        ``
+      ],
+      [
+        `真実の祈りはかれに（だけ祈ることで）ある。かれの外にかれらが祈るものは，決してかれらに答えない。丁度両手を水に差し伸べて，それが自分のロに届く（のを望む）ようなもので， それはかれに届かない。信仰がない者の祈りは，（心が）迷っている（ので無益なこと）に過ぎない。`,
+        ``,
+        ``
+      ],
+      [
+        `그분만을 위하여 드리는 기도가 진리이니 그분 아닌 다른 것에 기도할 때 하나님은 그들에 게 응답을 하지 아니하시며 그들 은 마치 물을 향하여 물이 그의 입에 이르도륵 두손을 벌리나 물 이 그외 입에 이르지 않는 것과 같나니 불신자들의 기도는 방황에불과함이라`,
+        ``,
+        ``
+      ],
+      [
+        `A Lui [spetta] la vera invocazione! Quelli che invocano all'infuori di Lui, non rispondono loro in alcunché, sono come colui che tende le mani verso l'acqua affinché giunga alla sua bocca, ma essa non vi giunge: vana è l'invocazione dei miscredenti`,
+        ``,
+        ``
+      ],
+      [
+        `Do Niego należy wezwanie prawdziwe. A ci, których ludzie wzywają poza Nim, nie dadzą im żadnej odpowiedzi. Podobnie czyni ten, który wyciąga swoje ręce ku wodzie, aby ona doszła do jego ust; lecz ona nie dochodzi do nich. Modlitwa niewiernych jest na błędnej drodze`,
+        ``,
+        ``
+      ],
+      [
+        `Йому належить заклик до істини! А ті, яких вони кличуть, окрім Нього, ніяк їм не відповідають. Адже вони схожі на того, хто простягає руки до води, намагаючись піднести її до рота, але не може цього зробити. Молитва невіруючих лише омана`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الرعد / Ar-Ra'd، الآية 14`
+  },
+
+  {
+    arabic: [
       `قُلْ مَنْ رَبُّ السَّمَاوَاتِ وَالْأَرْضِ قُلِ اللَّهُ ۚ قُلْ أَفَاتَّخَذْتُمْ مِنْ دُونِهِ أَوْلِيَاءَ لَا يَمْلِكُونَ لِأَنْفُسِهِمْ نَفْعًا وَلَا ضَرًّا ۚ قُلْ هَلْ يَسْتَوِي الْأَعْمَىٰ وَالْبَصِيرُ أَمْ هَلْ تَسْتَوِي الظُّلُمَاتُ وَالنُّورُ ۗ أَمْ جَعَلُوا لِلَّهِ شُرَكَاءَ خَلَقُوا كَخَلْقِهِ فَتَشَابَهَ الْخَلْقُ عَلَيْهِمْ ۚ قُلِ اللَّهُ خَالِقُ كُلِّ شَيْءٍ وَهُوَ الْوَاحِدُ الْقَهَّارُ`,
       ``,
       ``
@@ -21154,6 +22713,117 @@ const verses = [
       ]
     ],
     number: `سورة الرعد / Ar-Ra'd، الآية 16`
+  },
+
+  {
+    arabic: [
+      `أَنْزَلَ مِنَ السَّمَاءِ مَاءً فَسَالَتْ أَوْدِيَةٌ بِقَدَرِهَا فَاحْتَمَلَ السَّيْلُ زَبَدًا رَابِيًا ۚ وَمِمَّا يُوقِدُونَ عَلَيْهِ فِي النَّارِ ابْتِغَاءَ حِلْيَةٍ أَوْ مَتَاعٍ زَبَدٌ مِثْلُهُ ۚ كَذَٰلِكَ يَضْرِبُ اللَّهُ الْحَقَّ وَالْبَاطِلَ ۚ فَأَمَّا الزَّبَدُ فَيَذْهَبُ جُفَاءً ۖ وَأَمَّا مَا يَنْفَعُ النَّاسَ فَيَمْكُثُ فِي الْأَرْضِ ۚ كَذَٰلِكَ يَضْرِبُ اللَّهُ الْأَمْثَالَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `He sends down from the sky, rain, and valleys flow according to their capacity, and the torrent carries a rising foam. And from that [ore] which they heat in the fire, desiring adornments and utensils, is a foam like it. Thus Allah presents [the example of] truth and falsehood. As for the foam, it vanishes, [being] cast off; but as for that which benefits the people, it remains on the earth. Thus does Allah present examples`,
+        ``,
+        ``
+      ],
+      [
+        `Il a fait descendre une eau du ciel à laquelle des vallées servent de lit, selon leur grandeur. Le flot débordé à charrié une écume flottante; et semblable à celle-ci est [l'] écume provenant de ce qu'on porte à fusion, dans le feu pour [fabriquer] des bijoux et des ustensiles. Ainsi, Allah représente en parabole la Vérité et le Faux : l'écume [du torrent et du métal fondu] s'en va au rebut, tandis que [l'eau et les objets] utiles aux hommes demeurent sur la terre. Ainsi, Allah propose des paraboles`,
+        ``,
+        ``
+      ],
+      [
+        `Ha hecho bajar del cielo agua, que se desliza por los valles, según la capacidad de éstos. El torrente arrastra una espuma flotante, semejante a la escoria que se produce en la fundición para fabricar joyas o utensilios. Así habla Alá en símil de la Verdad y de lo falso: la espuma se pierde; en cambio, queda en la tierra lo útil a los hombres. Así propone Alá los símiles`,
+        ``,
+        ``
+      ],
+      [
+        `Он ниспосылает с неба воду, и долины наполняются потоками в соответствии с их размерами. Поток несет пену, поднявшуюся на поверхность. Подобная же пена появляется на том, что раскаливают в огне для изготовления украшений или утвари. Такими притчами Аллах разъясняет истину и ложь. Пена будет выброшена, а то, что приносит людям пользу, останется в земле. Такие притчи приводит Аллах`,
+        ``,
+        ``
+      ],
+      [
+        `Er läßt vom Himmel Wasser herabkommen, und dann fließen Täler entsprechend ihrem Maß, daraufhin trägt die Flut aufschwellenden Schaum. Und aus dem, worüber man das Feuer anzündet, im Trachten (da)nach(,) Schmuck oder Gerät (anzufertigen, entsteht) ein ähnlicher Schaum. So prägt Allah (im Gleichnis) das Wahre und das Falsche. Was nun den Schaum angeht, so vergeht er nutzlos. Was aber den Menschen nützt, das bleibt in der Erde. So prägt Allah die Gleichnisse`,
+        ``,
+        ``
+      ],
+      [
+        `Han låter regn falla, som [fyller] uttorkade flodbäddar till brädden, och det skummande vattnet för upp bottenslammet till ytan; på samma sätt [utfälls] slagg ur [metallen] som de smälter över eld för att av den tillverka prydnads- eller nyttoföremål. Så beskriver Gud sanningen och lögnen: slammet och slaggen stöts bort och försvinner, men det som är till människornas nytta blir kvar på jorden. Så framställer Gud [Sina] liknelser`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij (Allah) deed water uit de hemel neerdalen, dat daarna in beddingen naar hun omvang stroomt en de stroom dragt rijzend schuim mee. En uit wat zij in het vuur verhitten om sieraden of gebruiksvoorwerpen (te maken) komt soortgelijk schuim. Zo geeft Allah een gelijkenis over de Waarheid en de valsheid. Wat het schuim betreft, het verdwijnt als iets nutteloos, en wat betreft hetgeen de mensen baat, dat blijft op de aarde. Zo geeft Allah de gelijkenissen`,
+        ``,
+        ``
+      ],
+      [
+        `اسی نے آسمان سے مینہ برسایا پھر اس سے اپنے اپنے اندازے کے مطابق نالے بہہ نکلے پھر نالے پر پھولا ہوا جھاگ آگیا۔ اور جس چیز کو زیور یا کوئی اور سامان بنانے کے لیے آگ میں تپاتے ہیں اس میں بھی ایسا ہی جھاگ ہوتا ہے۔ اس طرح خدا حق اور باطل کی مثال بیان فرماتا ہے۔ سو جھاگ تو سوکھ کر زائل ہو جاتا ہے۔ اور (پانی) جو لوگوں کو فائدہ پہنچاتا ہے وہ زمین میں ٹھہرا رہتا ہے۔ اس طرح خدا (صحیح اور غلط کی) مثالیں بیان فرماتا ہے (تاکہ تم سمجھو)`,
+        ``,
+        ``
+      ],
+      [
+        `Allah telah menurunkan air (hujan) dari langit, maka mengalirlah ia (air) di lembah-lembah menurut ukurannya, maka arus itu membawa buih yang mengambang. Dan dari apa (logam) yang mereka lebur dalam api untuk membuat perhiasan atau alat-alat, ada (pula) buihnya seperti (buih arus) itu. Demikianlah Allah membuat perumpamaan (tentang) yang benar dan yang batil. Adapun buih, akan hilang sebagai sesuatu yang tidak ada gunanya; tetapi yang bermanfaat bagi manusia, akan tetap ada di bumi. Demikianlah Allah membuat perumpamaan`,
+        ``,
+        ``
+      ],
+      [
+        `Allah gökten su indirir, dereler onunla dolar taşar. Sel, üste çıkan köpüğü alır götürür. Süslenmek veya faydalanmak için ateşte erittiklerinizin üzerinde de buna benzer bir köpük vardır. Allah, hak ve batıl için şöyle misal verir: Köpük uçup gider, insanlara fayda veren ise yerde kalır. Allah bunun gibi daha nice misaller verir`,
+        ``,
+        ``
+      ],
+      [
+        `[همو كه‌] از آسمان، آبى فرو فرستاد. پس رودخانه‌هايى به اندازه گنجايش خودشان روان شدند، و سيل، كفى بلند روى خود برداشت، و از آنچه براى به دست آوردن زينتى يا كالايى، در آتش مى‌گدازند هم نظير آن كفى برمى‌آيد. خداوند، حق و باطل را چنين مَثَل مى‌زند. اما كف، بيرون افتاده از ميان مى‌رود، ولى آنچه به مردم سود مى‌رساند در زمين [باقى‌] مى‌ماند. خداوند مَثَلها را چنين مى‌زند`,
+        ``,
+        ``
+      ],
+      [
+        `তিনি আকাশ থেকে পানি বর্ষণ করেন। অতঃপর স্রোতধারা প্রবাহিত হতে থাকে নিজ নিজ পরিমাণ অনুযায়ী। অতঃপর স্রোতধারা স্ফীত ফেনারাশি উপরে নিয়ে আসে। এবং অলঙ্কার অথবা তৈজসপত্রের জন্যে যে বস্তুকে আগুনে উত্তপ্ত করে, তাতেও তেমনি ফেনারাশি থাকে। এমনি ভাবে আল্লাহ সত্য ও অসত্যের দৃষ্টান্ত প্রদান করেন। অতএব, ফেনা তো শুকিয়ে খতম হয়ে যায় এবং যা মানুষের উপকারে আসে, তা জমিতে অবশিষ্ট থাকে। আল্লাহ এমনিভাবে দৃষ্টান্তসমূহ বর্ণনা করেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Ele faz descer água do céu, e ela flui em vales, conforme a medida destes, então, a torrente carrega uma espuma flutuante. E, parte daquilo sob a qual acendem o fogo, para fazer jóias ou utensílios, é espuma igual. Assim, Allah apresenta em parábola a verdade e a falsidade. Quanto à espuma, vai-se embora. E, quanto ao que beneficia aos homens, permanece na terra. Assim, Allah propõe os exemplos`,
+        ``,
+        ``
+      ],
+      [
+        `真主从云中降下雨水，一切沟壑就尽量流行。山洪载著浮渣--他们为制造首饰和器皿而熔化的金属，也有同样的浮渣。真主如此阐明真伪--至于渣滓则被冲走，至于有益于人的东西则留存在地面上。真主如此阐明许多比喻。`,
+        ``,
+        ``
+      ],
+      [
+        `かれが天から雨を降らせられれば，その量に応じて谷を流れ，奔流は浮ぶ泡を乗せて運び去る。また装飾品や道具を造るために（金属）を火にかけても，それと同じ泡（が出来る）。 このようにアッラーは，真実と虚偽とを提示なされる。泡は塵のように消え去る。だが人類を益するものは，地上に残る。アッラーはこのように，種々の譬えで説き明かされる。`,
+        ``,
+        ``
+      ],
+      [
+        `그분이 하늘에서 비를 내리 게 하사 그 양에 따라 계곡의 물 이 흐르게 하시더라 그러나 급류 는 부풀어 오르는 거품을 동반함 이라 또한 장식품이나 용구를 만들목적으로 불에 녹이는 금속에서도 거품을 동반케 하시매 이렇게 하여하나님은 진리와 허위를 비유하고 자 하심이라 그런 후 그 거품은 쓸모없이 사라지고 사람에게 유익한 것은 땅에 머물러 있노라 하나님은이렇게 비유하셨느니라`,
+        ``,
+        ``
+      ],
+      [
+        `Fa scendere l'acqua dal cielo, e le valli si inondano secondo la loro capienza, e la corrente trasporta schiuma gorgogliante, una schiuma simile a ciò che si fonde sul fuoco, per trarne gioielli e utensili. Così Allah propone a metafora del vero e del falso: si perde la schiuma e resta sulla terra ciò che è utile agli uomini. Così Allah propone le metafore. [Paragonando la Rivelazione all'acqua che scende dal cielo, il Corano afferma che ogni uomo ne potrà ricevere nella misura della sua ricettività spirituale. L'acqua vivifica la terra, mentre la schiuma si perde, come la schiuma del metallo fuso sparisce e rimangono gli oggetti formati in quella fusione. Il fatto che inizialmente tali oggetti siano nascosti dalla schiuma può essere metafora della realtà magmatica e confusa della ricerca della fede, tensione all’interno della quale, il dono dell'Islàm, forgia le migliori qualità personali e i più alti valori sociali, solide caratteristiche destinate a durare nelle avversità e nel tempo]`,
+        ``,
+        ``
+      ],
+      [
+        `On spuścił z nieba wodę i popłynęły doliny potokami podług ich wielkości; i poniósł potok wzdymającą się pianę. Podobna piana powstaje z tego, co ludzie wypalają w ogniu przy wyrobie ozdób albo wyposażenia. W ten sposób Bóg przedstawia w przypowieści prawdę i fałsz. A co się tyczy tej piany, to ona uchodzi jako szumowina; a to, co jest pożyteczne dla ludzi, pozostaje na ziemi. W ten sposób Bóg przytacza przypowieści`,
+        ``,
+        ``
+      ],
+      [
+        `Він проливає з неба воду, якою долини наповнюються відповідно до своїх розмірів. На своїй поверхні потік несе піну. Така сама піна з’являється й на тому, що вони плавлять у вогні, виробляючи прикраси або якесь начиння. Так Аллаг пояснює істину й неправду. Згодом піна зникне, а те, що приносить користь людям, залишиться на землі. Так Аллаг наводить притчі`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الرعد / Ar-Ra'd، الآية 17`
   },
 
   {
@@ -21491,6 +23161,117 @@ const verses = [
 
   {
     arabic: [
+      `۞ مَثَلُ الْجَنَّةِ الَّتِي وُعِدَ الْمُتَّقُونَ ۖ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ ۖ أُكُلُهَا دَائِمٌ وَظِلُّهَا ۚ تِلْكَ عُقْبَى الَّذِينَ اتَّقَوْا ۖ وَعُقْبَى الْكَافِرِينَ النَّارُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The example of Paradise, which the righteous have been promised, is [that] beneath it rivers flow. Its fruit is lasting, and its shade. That is the consequence for the righteous, and the consequence for the disbelievers is the Fire`,
+        ``,
+        ``
+      ],
+      [
+        `Tel est le Paradis qui a été promis aux pieux, sous lequel coulent les ruisseaux; ses fruits sont perpétuels, ainsi que son ombrage. Voilà la fin de ceux qui pratiquent la piété, tandis que la fin des mécréants sera le Feu`,
+        ``,
+        ``
+      ],
+      [
+        `Imagen del Jardín prometido a quienes temen a Alá: fluyen arroyos por sus bajos, tiene frutos y sombra perpetuos. Ése será el fin de los que temieron a Alá. El fin de los infieles, empero, será el Fuego`,
+        ``,
+        ``
+      ],
+      [
+        `Вот описание Рая, обещанного богобоязненным. Там текут реки, не иссякают яства, и не исчезает тень. Таков конец богобоязненных, а концом неверующих будет Огонь`,
+        ``,
+        ``
+      ],
+      [
+        `(Dies ist) das Gleichnis des (Paradies)gartens, der den Gottesfürchtigen versprochen ist: Er ist durcheilt von Bächen'; sein Ernteertrag ist immerwährend und (auch) sein Schatten. Das ist das ist die letztendliche (Taten)folge derjenigen, die gottesfürchtig sind, während das endgültige Ziel der Ungläubigen das (Höllen)feuer ist`,
+        ``,
+        ``
+      ],
+      [
+        `PARADISET som har lovats dem som fruktar Gud är som [en lustgård], genomfluten av bäckar; men dess frukter och dess [svalkande] skugga varar i evighet. Detta är det verkliga målet för dem som fruktar Gud, men målet för dem som förnekar sanningen är Elden`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `De beschrijving van het Paradijs dat aan de Moettaqôen beloofd is: er stromen rivieren onder door, de vruchten erin zijn onuitputtelijk en haar schaduw ook. Dat is de eindbestemming van degenen die (Allah) vrezen. En de eindbestemming van de ongelovigen is de Hel`,
+        ``,
+        ``
+      ],
+      [
+        `جس باغ کا متقیوں سے وعدہ کیا گیا ہے اس کے اوصاف یہ ہیں کہ اس کے نیچے نہریں بہہ رہی ہیں۔ اس کے پھل ہمیشہ (قائم رہنے والے) ہیں اور اس کے سائے بھی۔ یہ ان لوگوں کا انجام ہے جو متقی ہیں۔ اور کافروں کا انجام دوزخ ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Perumpamaan surga yang dijanjikan kepada orang yang bertakwa (ialah seperti taman), mengalir di bawahnya sungai-sungai; senantiasa berbuah dan teduh. Itulah tempat kesudahan bagi orang yang bertakwa; sedangkan tempat kesudahan bagi orang yang ingkar kepada Tuhan ialah neraka`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'a karşı gelmekten sakınanlara vadedilen cennetin altından ırmaklar akar; oranın yiyecekleri ve gölgeleri devamlıdır. Bu, sakınanların elde edeceği sonuçtur, inkarcıların varacağı sonuç ise ateştir`,
+        ``,
+        ``
+      ],
+      [
+        `وصف بهشتى كه به پرهيزگاران وعده داده شده [اين است كه‌] از زير [درختان ] آن نهرها روان است. ميوه و سايه‌اش پايدار است. اين است فرجام كسانى كه پرهيزگارى كرده‌اند و فرجام كافران آتش [دوزخ ]است`,
+        ``,
+        ``
+      ],
+      [
+        `পরহেযগারদের জন্যে প্রতিশ্রুত জান্নাতের অবস্থা এই যে, তার নিম্নে নির্ঝরিণীসমূহ প্রবাহিত হয়। তার ফলসমূহ চিরস্থায়ী এবং ছায়াও। এটা তাদের প্রতিদান, যারা সাবধান হয়েছে এবং কাফেরদের প্রতিফল অগ্নি।`,
+        ``,
+        ``
+      ],
+      [
+        `Eis o exemplo do Paraíso, prometido aos piedosos: abaixo dele, correm os rios; seus frutos são permanentes, e, assim, sua sombra. Esse é o final feliz dos que são piedosos. E o final dos renegadores da Fé é o fogo`,
+        ``,
+        ``
+      ],
+      [
+        `已应许敬畏者的乐园，其情状是这样的：那乐园下临诸河，其中的果实是永恒的，其中的荫影也是永恒的。这是敬畏者的果报；不信道者的果报是火狱。`,
+        ``,
+        ``
+      ],
+      [
+        `主を畏れる者に約束される楽園に就いて言えば，川が下を流れ，常に果実が実り，日陰に覆れている。これが，かれら主を畏れる者の結末である。だが不信者の結末は火獄である。`,
+        ``,
+        ``
+      ],
+      [
+        `천국을 비유하사 이는 정의 로운 자에게 약속된 것이라 그 밑 에는 강이 흐르고 일용할 양식이 영원하고 그늘이 있으니 이는 사 악을 멀리하는 자에 대한 보상이 며 불신자들에 대한 대가는 지윽 이라`,
+        ``,
+        ``
+      ],
+      [
+        `È questo il Giardino che è stato promesso ai pii: vi scorrono ruscelli, perennemente vi sono frutti e ombra. Ecco il destino dei timorati [di Allah], mentre il destino dei miscredenti è il Fuoco`,
+        ``,
+        ``
+      ],
+      [
+        `Podobieństwo Ogrodu, który został obiecany bogobojnym: będą tam w dole płynąć strumyki; zawsze będzie dostarczał owoców, podobnie jak i cienia. Oto ostateczna nagroda tych, którzy byli bogobojni! A ostateczna nagroda dla niewiernych - ogień`,
+        ``,
+        ``
+      ],
+      [
+        `Ось образ раю, обіцяного богобоязливим: там течуть ріки, а їжа та затінок невичерпні. Отакий кінець для богобоязливих, а кінцем для невіруючих буде вогонь`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الرعد / Ar-Ra'd، الآية 35`
+  },
+
+  {
+    arabic: [
       `الر ۚ`,
       `كِتَابٌ أَنْزَلْنَاهُ إِلَيْكَ لِتُخْرِجَ النَّاسَ مِنَ الظُّلُمَاتِ إِلَى النُّورِ بِإِذْنِ رَبِّهِمْ إِلَىٰ صِرَاطِ الْعَزِيزِ الْحَمِيدِ`,
       ``
@@ -21709,6 +23490,228 @@ const verses = [
       ]
     ],
     number: `سورة إبراهيم / Ibrahim، الآية 7`
+  },
+
+  {
+    arabic: [
+      `مَثَلُ الَّذِينَ كَفَرُوا بِرَبِّهِمْ ۖ أَعْمَالُهُمْ كَرَمَادٍ اشْتَدَّتْ بِهِ الرِّيحُ فِي يَوْمٍ عَاصِفٍ ۖ لَا يَقْدِرُونَ مِمَّا كَسَبُوا عَلَىٰ شَيْءٍ ۚ ذَٰلِكَ هُوَ الضَّلَالُ الْبَعِيدُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The example of those who disbelieve in their Lord is [that] their deeds are like ashes which the wind blows forcefully on a stormy day; they are unable [to keep] from what they earned a [single] thing. That is what is extreme error`,
+        ``,
+        ``
+      ],
+      [
+        `Les œuvres de ceux qui ont mécru en leur Seigneur sont comparables à de la cendre violemment frappée par le vent, dans un jour de tempête. Ils ne tireront aucun profit de ce qu'ils ont acquis. C'est cela l'égarement profond`,
+        ``,
+        ``
+      ],
+      [
+        `Las obras de quienes no creen en su Señor son como cenizas azotadas por el viento en un día de tormenta. No pueden esperar nada por lo que han merecido. Ése es el profundo extravío`,
+        ``,
+        ``
+      ],
+      [
+        `Деяния тех, кто не уверовал в своего Господа, подобны пеплу, над которым пронесся сильный ветер в ветреный день. Они не смогут распоряжаться ничем из того, что приобрели. Это и есть глубокое заблуждение`,
+        ``,
+        ``
+      ],
+      [
+        `(Dies ist) das Gleichnis derjenigen, die ihren Herrn verleugnen: Ihre Werke sind wie Asche, auf die der Wind an einem stürmischen Tag heftig bläst. Sie haben keine Macht über etwas von dem, was sie erworben haben. Das ist wirklich der tiefe Irrtum`,
+        ``,
+        ``
+      ],
+      [
+        `De som förnekar sin Herre, deras handlingar kan liknas vid askan som sopas bort av vinden en stormig dag; inte ens [det goda] som de har gjort skall vara dem till nytta - [att förneka Gud] är att gå till syndens yttersta gräns`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `De vergelijking met degenen die niet in hun Heer geloven, is alsof hun daden als as zijn, dat door een harde wind wordt weggeblazen op een stormachtige dag. Zij hebben geen enkele macht over wat zij hebben verworven. Dat is een vergaande dwaling`,
+        ``,
+        ``
+      ],
+      [
+        `جن لوگوں نے اپنے پروردگار سے کفر کیا ان کے اعمال کی مثال راکھ کی سی ہے کہ آندھی کے دن اس پر زور کی ہوا چلے (اور) اسے اڑا لے جائے (اس طرح) جو کام وہ کرتے رہے ان پر ان کو کچھ دسترس نہ ہوگی۔ یہی تو پرلے سرے کی گمراہی ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Perumpamaan orang yang ingkar kepada Tuhannya, perbuatan mereka seperti abu yang ditiup oleh angin keras pada suatu hari yang berangin kencang. Mereka tidak kuasa (mendatangkan manfaat) sama sekali dari apa yang telah mereka usahakan (di dunia). Yang demikian itu adalah kesesatan yang jauh`,
+        ``,
+        ``
+      ],
+      [
+        `Rablerini inkar edenlerin işleri, fırtınalı bir günde, rüzgarın şiddetle savurduğu küle benzer; yaptıklarından hiçbir şey elde edemezler. İşte bu uzak sapıklıktır`,
+        ``,
+        ``
+      ],
+      [
+        `مَثَل كسانى كه به پروردگار خود كافر شدند، كردارهايشان به خاكسترى مى‌ماند كه بادى تند در روزى طوفانى بر آن بوزد: از آنچه به دست آورده‌اند هيچ [بهره‌اى‌] نمى‌توانند بُرد. اين است همان گمراهى دور و دراز`,
+        ``,
+        ``
+      ],
+      [
+        `যারা স্বীয় পালনকর্তার সত্তার অবিশ্বাসী তাদের অবস্থা এই যে, তাদের কর্মসমূহ ছাইভস্মের মত যার উপর দিয়ে প্রবল বাতাস বয়ে যায় ধূলিঝড়ের দিন। তাদের উপার্জনের কোন অংশই তাদের করতলগত হবে না। এটাই দুরবর্তী পথভ্রষ্টতা।`,
+        ``,
+        ``
+      ],
+      [
+        `O exemplo das obras dos que renegam a seu Senhor é como cinza, em que o vento sopra, intensamente, em dia tempestuoso. Não tirarão proveito algum do que lograram. Esse é o profundo descaminho`,
+        ``,
+        ``
+      ],
+      [
+        `不信主者，他们的善功比如一堆灰，在暴风之日，被狂风吹散，他们对于自己所谋求的，不能获得一点报酬。这确是深深的迷误。`,
+        ``,
+        ``
+      ],
+      [
+        `主を信じない者を例えれば，かれらの行いは丁度暴風が吹き荒ぶ大荒の日の灰のようなものである。努力した凡てのことは，かれらに何も役立つものはない。これは（真理の方向から）遠く離れ去っている者である。`,
+        ``,
+        ``
+      ],
+      [
+        `주님을 불신하는 자를 비유 하사 그들이 하는 일은 폭풍이 부 는 날 폭풍에 휘날리는 재와 같아 그들이 얻은 것을 감수하지 못하 니 그것이 최후의 방황이라`,
+        ``,
+        ``
+      ],
+      [
+        `Questa è la metafora di coloro che rinnegano il loro Signore: le loro azioni saranno come cenere sulla quale infuria il vento, in un giorno di tempesta. Non avranno alcun pro da ciò che hanno fatto. Questa è la perdizione totale`,
+        ``,
+        ``
+      ],
+      [
+        `Czyny tych, którzy nie uwierzyli w swojego Pana, podobne są do popiołu, nad którym wzmógł się wiatr w burzliwy dzień. Oni nie będą mieli władzy nad niczym, co zyskali. To jest zabłądzenie dalekie`,
+        ``,
+        ``
+      ],
+      [
+        `Вчинки тих, які не увірували, подібні до попелу, розвіяного в буремний день вітром. Вони не матимуть ніякої влади над тим, що отримали. Це — глибока омана`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة إبراهيم / Ibrahim، الآية 18`
+  },
+
+  {
+    arabic: [
+      `أَلَمْ تَرَ كَيْفَ ضَرَبَ اللَّهُ مَثَلًا كَلِمَةً طَيِّبَةً كَشَجَرَةٍ طَيِّبَةٍ أَصْلُهَا ثَابِتٌ وَفَرْعُهَا فِي السَّمَاءِ تُؤْتِي أُكُلَهَا كُلَّ حِينٍ بِإِذْنِ رَبِّهَا ۗ وَيَضْرِبُ اللَّهُ الْأَمْثَالَ لِلنَّاسِ لَعَلَّهُمْ يَتَذَكَّرُونَ وَمَثَلُ كَلِمَةٍ خَبِيثَةٍ كَشَجَرَةٍ خَبِيثَةٍ اجْتُثَّتْ مِنْ فَوْقِ الْأَرْضِ مَا لَهَا مِنْ قَرَارٍ يُثَبِّتُ اللَّهُ الَّذِينَ آمَنُوا بِالْقَوْلِ الثَّابِتِ فِي الْحَيَاةِ الدُّنْيَا وَفِي الْآخِرَةِ ۖ وَيُضِلُّ اللَّهُ الظَّالِمِينَ ۚ وَيَفْعَلُ اللَّهُ مَا يَشَاءُ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Have you not considered how Allah presents an example, [making] a good word like a good tree, whose root is firmly fixed and its branches [high] in the sky It produces its fruit all the time, by permission of its Lord. And Allah presents examples for the people that perhaps they will be reminded And the example of a bad word is like a bad tree, uprooted from the surface of the earth, not having any stability Allah keeps firm those who believe, with the firm word, in worldly life and in the Hereafter. And Allah sends astray the wrongdoers. And Allah does what He wills`,
+        ``,
+        ``
+      ],
+      [
+        `N'as-tu pas vu comment Allah propose en parabole une bonne parole pareille à un bel arbre dont la racine est ferme et la ramure s'élançe dans le ciel Il donne à tout instant ses fruits, par la grâce de son Seigneur. Allah propose ses paraboles à l'intention des gens afin qu'ils se rappellent Et une mauvaise parole est pareille à un mauvais arbre, déraciné de la surface de la terre et qui n'a point de stabilité Allah affermit les croyants par une parole ferme, dans la vie présente et dans l'au-delà . Et Il égare les injustes. Et Allah fait ce qu'Il veut`,
+        ``,
+        ``
+      ],
+      [
+        `¿No has visto cómo ha propuesto Alá como símil una buena palabra, semejante a un árbol bueno, de raíz firme y copa que se eleva en el aire que da fruto en toda estación, con permiso de su Señor? Alá propone símiles a los hombres. Quizás, así. se dejen amonestar Una mala palabra es, al contrario, semejante a un árbol malo arrancado del suelo: le falta firmeza Alá confirma con palabra firme a quienes creen, en la vida de acá y en la , otra. Pero Alá extravía a los ímpios. Alá hace lo que quiere`,
+        ``,
+        ``
+      ],
+      [
+        `Разве ты не видишь, как Аллах приводит притчи? Прекрасное слово подобно прекрасному дереву, корни которого прочны, а ветви восходят к небу Оно плодоносит каждый миг с дозволения своего Господа. Аллах приводит людям притчи, - быть может, они помянут назидание А скверное слово подобно скверному дереву, которое можно вырвать с поверхности земли, ибо нет у него прочности Аллах поддерживает верующих твердым словом в мирской жизни и Последней жизни. А беззаконников Аллах вводит в заблуждение - Аллах вершит то, что пожелает`,
+        ``,
+        ``
+      ],
+      [
+        `Siehst du nicht, wie Allah ein Gleichnis von einem guten Wort geprägt hat? (Es ist) wie ein guter Baum, dessen Wurzeln fest sitzen und dessen Zweige in den Himmel (reichen) Er bringt seinen Ernteertrag zu jeder Zeit (hervor) - mit der Erlaubnis seines Herrn. Und Allah prägt für die Menschen Gleichnisse, auf daß sie bedenken mögen Und das Gleichnis eines schlechten Wortes ist wie ein schlechter Baum, der aus der Erde herausgerissen worden ist und keinen festen Grund (mehr) hat Allah festigt diejenigen, die glauben, durch das beständige Wort im diesseitigen Leben und im Jenseits. Doch Allah läßt die Ungerechten in die Irre gehen. Allah tut, was Er will`,
+        ``,
+        ``
+      ],
+      [
+        `HAR DU inte tänkt på den liknelse som Gud framställer om det goda ordet? [Det goda ordet] är som ett starkt och friskt träd, fast rotat, som sträcker sina grenar mot skyn [ett träd] som enligt sin Herres vilja ständigt bär frukt. Gud framställer [Sina] liknelser för människorna för att [väcka dem till] eftertanke Men det usla ordet är som ett uselt, sjukt träd, som rycks upp med rötterna ur jorden - det saknar fäste Gud stärker de troende med det ord vars sanning står fast i denna värld och i evigheten; men de orättfärdiga låter Han gå vilse. - Gud gör vad Han vill`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Zie jij niet boe Allah een vergelijking maakt met een goede uitspraak, die als een goede boom is, waarvan de wortel stevig staat en de takken naar de hemel reiken Hij geeft zijn vruchten in eik seizom, met verlof van zijn Heer. Allah maakt de vergelijkingen voor de mensen. Hopelijk zullen zij er lering uit trekken En de vergelijking met een slechte uitspraak is als die met een slechte boom, die ontworteld op de aarde staat, en die geen stevigheid heeft Allah venterkt (het geloof van) degenen die geloven met de staadvastige uitspraak tijdens het wereldse leven en in het Hienamaals; en Allah laat de onrechtplegers dwalen en Allah doet wal Hij wil`,
+        ``,
+        ``
+      ],
+      [
+        `کیا تم نے نہیں دیکھا کہ خدا نے پاک بات کی کیسی مثال بیان فرمائی ہے (وہ ایسی ہے) جیسے پاکیزہ درخت جس کی جڑ مضبوط (یعنی زمین کو پکڑے ہوئے) ہو اور شاخیں آسمان میں اپنے پروردگار کے حکم سے ہر وقت پھل لاتا (اور میوے دیتا) ہو۔ اور خدا لوگوں کے لیے مثالیں بیان فرماتا ہے تاکہ وہ نصیحت پکڑیں اور ناپاک بات کی مثال ناپاک درخت کی سی ہے (نہ جڑ مستحکم نہ شاخیں بلند) زمین کے اوپر ہی سے اکھیڑ کر پھینک دیا جائے گا اس کو ذرا بھی قرار (وثبات) نہیں خدا مومنوں (کے دلوں) کو (صحیح اور) پکی بات سے دنیا کی زندگی میں بھی مضبوط رکھتا ہے اور آخرت میں بھی (رکھے گا) اور خدا بےانصافوں کو گمراہ کر دیتا ہے اور خدا جو چاہتا ہے کرتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `(Tidakkah kamu memperhatikan bagaimana Allah telah membuat perumpamaan kalimat yang baik427) seperti pohon yang baik, akarnya kuat dan cabangnya (menjulang) ke langit (pohon) itu menghasilkan buahnya pada setiap waktu dengan seizin Tuhannya. Dan Allah membuat perumpamaan itu untuk manusia agar mereka selalu ingat (Dan perumpamaan kalimat yang buruk428) seperti pohon yang buruk, yang telah dicabut akar-akarnya dari permukaan bumi; tidak dapat tetap (tegak) sedikit pun Allah meneguhkan (iman) orang-orang yang beriman dengan ucapan yang teguh429) (dalam kehidupan) di dunia dan di akhirat; dan Allah menyesatkan orang-orang yang zalim dan Allah berbuat apa yang Dia kehendaki`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'ın, hoş bir sözü; kökü sağlam, dalları göğe doğru olan, Rabbinin izniyle her zaman meyve veren hoş bir ağaca benzeterek nasıl misal verdiğini görmüyor musun? İnsanlar ibret alsın diye Allah onlara misal gösteriyor Çirkin bir söz de, yerden koparılmış, kökü olmayan kötü bir ağaca benzer Allah inananları, dünya hayatında ve ahirette sağlam bir söz üzerinde tutar; zalimleri de saptırır. Allah dilediğini yapar`,
+        ``,
+        ``
+      ],
+      [
+        `آيا نديدى خدا چگونه مَثَل زده: سخنى پاك كه مانند درختى پاك است كه ريشه‌اش استوار و شاخه‌اش در آسمان است؟ ميوه‌اش را هر دم به اذن پروردگارش مى‌دهد. و خدا مَثَلها را براى مردم مى‌زند، شايد كه آنان پند گيرند و مَثَل سخنى ناپاك چون درختى ناپاك است كه از روى زمين كنده شده و قرارى ندارد خدا كسانى را كه ايمان آورده‌اند، در زندگى دنيا و در آخرت با سخن استوار ثابت مى‌گرداند، و ستمگران را بى‌راه مى‌گذارد، و خدا هر چه بخواهد انجام مى‌دهد`,
+        ``,
+        ``
+      ],
+      [
+        `তুমি কি লক্ষ্য কর না, আল্লাহ তা’আলা কেমন উপমা বর্ণনা করেছেনঃ পবিত্র বাক্য হলো পবিত্র বৃক্ষের মত। তার শিকড় মজবুত এবং শাখা আকাশে উত্থিত। সে পালনকর্তার নির্দেশে অহরহ ফল দান করে। আল্লাহ মানুষের জন্যে দৃষ্টান্ত বর্ণণা করেন-যাতে তারা চিন্তা-ভাবনা করে। এবং নোংরা বাক্যের উদাহরণ হলো নোংরা বৃক্ষ। একে মাটির উপর থেকে উপড়ে নেয়া হয়েছে। এর কোন স্থিতি নেই। আল্লাহ তা’আলা মুমিনদেরকে মজবুত বাক্য দ্বারা মজবুত করেন। পার্থিবজীবনে এবং পরকালে। এবং আল্লাহ জালেমদেরকে পথভ্রষ্ট করেন। আল্লাহ যা ইচ্ছা, তা করেন।`,
+        ``,
+        ``
+      ],
+      [
+        `Não viste como Allah propõe um exemplo? Uma palavra benigna é como uma árvore benigna, cuja raiz é firme e cujos ramos se alçam ao céu Ela concede seus frutos, em cada tempo, com a permissão de seu Senhor. E Allah propõe os exemplos para os homens, a fim de meditarem E o exemplo de uma palavra maligna é como uma árvore maligna, que é desenraizada da superfície da terra; ela não tem estabilidade Allah torna firmes os que crêem, com o firme dito, na vida terrena e na Derradeira Vida. E Allah descaminha os injustos. E Allah faz o que quer`,
+        ``,
+        ``
+      ],
+      [
+        `难道你不知道真主有过这样一个比喻吗？一句良言，好比一棵优良的树，其根柢是深固的，其枝条高耸入云， 凭主的许可，按时结果。真主为众人打了许多比方，以便他们记取教诲。 一句恶言，恰似一棵恶劣的树，从大地上被连根拔去，绝没有一点安定。 在今世和后世，真主以坚固的言辞使信道者坚信，真主使不义者误入迷途，真主是为所欲为的。`,
+        ``,
+        ``
+      ],
+      [
+        `あなたはアッラーが如向に善い御言葉に就いて比喩を上げられているかを考えないのか。それは良い木のようなもので，その根は固く安定し，その幹は天に（聳え）， （それは）主の命により凡ての季節に実を結ぶ。アッラーは人びとのために比喩を上げられる。それはかれらに反省させるためである。 悪い言葉を譬えれば，悪い木のようなもので，地面から根が抜けて，それに安定性がない。 アッラーは現世の生活においてもまた来世でも，堅固な（地歩に立つ）御言葉で，信仰する者たちを立たせられる。だがアッラーは悪を行う者を迷うに任せ，かれは御心のままになされる 。`,
+        ``,
+        ``
+      ],
+      [
+        `너희는 하나님께서 어떻게 비유하셨는지 알지 못하느뇨 훌륭한 한 마디의 말은 알찬 한 그루 의 나무와 같다고 했거늘 그 뿌 리는 단단하고 그 가지는 하늘로 향하니라 하셨더라 그 나무는 매 계절마다 열매를 맺으며 이는 주님의 허락이라 하셨더라 또 하나님은 백성에게 비유를 들어 말씀하셨으니 이는 그들에게 교훈이 되도록 하고자 하심이라 또 비유를 들어 한마디의 나쁜 말온 좋지 못한 나무와 같으니뿌리가 땅에서 나와 있어 안정이 없노라 하셨더라 하나님은 현세와 내세에서 말씀으로 믿는 자들을 안정케 하 사 죄지은 자들을 방황케 하시니 하나님은 그분이 원하시는 대로 하시니라`,
+        ``,
+        ``
+      ],
+      [
+        `Non hai visto a cosa Allah paragona la buona parola? Essa è come un buon albero, la cui radice è salda e i cui rami [sono] nel cielo e continuamente dà frutti, col permesso di Allah. Allah propone metafore agli uomini, affinché riflettano La metafora della parola cattiva è invece quella di una mala pianta, sradicata dalla superficie della terra: non ha stabilità alcuna Allah rafforza coloro che credono con la parola ferma, in questa vita come nell'altra e, allo stesso tempo, svia gli ingiusti. Allah fa ciò che vuole`,
+        ``,
+        ``
+      ],
+      [
+        `Czy nie widziałeś, jak Bóg przytacza jako przypowieść dobre słowo? - ono jest jak dobre drzewo, którego korzeń jest mocno utwierdzony, a jego gałęzie w niebiosach Ono przynosi swoje owoce każdego czasu, za pozwoleniem swego Pana. Bóg przytacza przypowieści ludziom - być może, oni się opamiętają A złe słowo jest podobne do złego drzewa: wyrwane z powierzchni ziemi, nie ma solidnego utwierdzenia Bóg umacnia tych, którzy uwierzyli, słowem mocno utwierdzonym, w życiu na tym świecie i w życiu ostatecznym; i sprowadza Bóg z drogi niesprawiedliwych. Bóg czyni to, co chce`,
+        ``,
+        ``
+      ],
+      [
+        `Невже ти не бачиш, як Аллаг наводить притчі? Добре слово схоже на добре дерево, корінь якого міцний, а гілки сягають неба Воно постійно дає плоди з дозволу Господа його. Аллаг наводить притчі для людей — можливо, вони замисляться А погане слово подібне до поганого дерева, вирваного з землі — воно не має основи Тих, які увірували, Аллаг утверджує словом твердим як у земному, так і в наступному житті. Аллаг збиває нечестивців зі шляху; Аллаг робить, що побажає`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة إبراهيم / Ibrahim، الآيات 24-27`
   },
 
   {
@@ -22934,6 +24937,117 @@ const verses = [
 
   {
     arabic: [
+      `۞ ضَرَبَ اللَّهُ مَثَلًا عَبْدًا مَمْلُوكًا لَا يَقْدِرُ عَلَىٰ شَيْءٍ وَمَنْ رَزَقْنَاهُ مِنَّا رِزْقًا حَسَنًا فَهُوَ يُنْفِقُ مِنْهُ سِرًّا وَجَهْرًا ۖ هَلْ يَسْتَوُونَ ۚ الْحَمْدُ لِلَّهِ ۚ بَلْ أَكْثَرُهُمْ لَا يَعْلَمُونَ وَضَرَبَ اللَّهُ مَثَلًا رَجُلَيْنِ أَحَدُهُمَا أَبْكَمُ لَا يَقْدِرُ عَلَىٰ شَيْءٍ وَهُوَ كَلٌّ عَلَىٰ مَوْلَاهُ أَيْنَمَا يُوَجِّهْهُ لَا يَأْتِ بِخَيْرٍ ۖ هَلْ يَسْتَوِي هُوَ وَمَنْ يَأْمُرُ بِالْعَدْلِ ۙ وَهُوَ عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Allah presents an example: a slave [who is] owned and unable to do a thing and he to whom We have provided from Us good provision, so he spends from it secretly and publicly. Can they be equal? Praise to Allah! But most of them do not know And Allah presents an example of two men, one of them dumb and unable to do a thing, while he is a burden to his guardian. Wherever he directs him, he brings no good. Is he equal to one who commands justice, while he is on a straight path`,
+        ``,
+        ``
+      ],
+      [
+        `Allah propose en parabole un esclave appartenant [à son maître], dépourvu de tout pouvoir, et un homme à qui Nous avons accordé de Notre part une bonne attribution dont il dépense en secret et en public. [Ces deux hommes] sont-ils égaux ? Louange à Allah! Mais la plupart d'entre eux ne savent pas Et Allah propose en parabole deux hommes: l'un d'eux est muet, dépourvu de tout pouvoir et totalement à la charge de son maître; Quelque lieu où celui-ci l'envoie, il ne rapporte rien de bon. Serait-il l'égal de celui qui ordonne la justice et qui est sur le droit chemin`,
+        ``,
+        ``
+      ],
+      [
+        `Alá propone un símil: un esclavo, propiedad de otro, incapaz de nada, y un hombre a quien Nosotros hemos proveído de bello sustento, del que da limosna, en í secreto o en público. ¿Son, acaso, iguales? ¡Alabado sea Alá! Pero la mayoría no saben Alá propone un símil: dos hombres, uno de ellos mudo, incapaz de nada y carga para su dueño; le mande adonde le mande, no trae ningún bien. ¡Son iguales este hombre y el que prescribe la justicia y está en una vía recta`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах привел притчу о рабе, который принадлежит другому и ни на что не способен, и человеке, которому Мы даровали прекрасный удел и который расходует его тайно и открыто. Равны ли они? Хвала Аллаху! Но большая часть людей не знает этого Аллах также привел притчу о двух мужах, один из которых - немой, ни на что не способен и обременяет своего господина. Куда бы его ни послали, он не приносит добра. Разве он равен тому, кто отдает справедливые приказы и следует прямым путем`,
+        ``,
+        ``
+      ],
+      [
+        `Allah prägt das Gleichnis eines leibeigenen Dieners, der über nichts Macht hat, und jemandes, dem Wir von Uns her eine schöne Versorgung gewährt haben, so daß er davon heimlich und offen ausgibt. Sind sie (etwa) gleich? (Alles) Lob gehört Allah! Nein! Vielmehr wissen die meisten von ihnen nicht Und Allah prägt das Gleichnis zweier Männer. Der eine von beiden ist stumm und hat über nichts Macht; er ist seinem Herrn eine Last; wo auch immer er ihn hinschickt, bringt er nichts Gutes. Ist er etwa jemandem gleich, der Gerechtigkeit gebietet und sich auf einem geraden Weg befindet`,
+        ``,
+        ``
+      ],
+      [
+        `Gud framställer liknelsen om [två män] - en slav, som tillhör en annan man och som inte kan företa sig något [på egen hand], och en man som Vi har skänkt god försörjning och som ger av sitt både när ingen ser det och öppet inför alla. Är dessa två jämförbara? Gud ske lov [för denna liknelse]! Men de flesta [av dem] inser inte [den skillnad som här råder] Och Gud framställer liknelsen om två män, varav en är stum och inte kan reda sig själv och är en börda för sin beskyddare; vilket uppdrag denne än ger honom, misslyckas han. Kan han jämställas med den som föreskriver rättvisa [förhållanden mellan människor] och själv följer rättens raka väg`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Allah maakt een vergelijking: een slaaf waarover beschikt wordt heeft geen macht en (de ander is) degene die Wij van Ons goed levensonderhoud voorzien hebben, en hij geeft er heimelijk en openlijk van uit. Zijn zij gelijk? Alle lof is voor Allah. Welnee, de meesten van hen weten (het) niet En Allah maakt een vergelijking met twee mannen: een van de twee is stom en hij heeft geen enkele macht en hij is een last voor zijn meester; waar hij hem ook heen stuurt: hij brengt niets goeds voort. Is hij gelijk aan degene die het oprechte gebiedt, en op het Rechte Pad is`,
+        ``,
+        ``
+      ],
+      [
+        `خدا ایک اور مثال بیان فرماتا ہے کہ ایک غلام ہے جو (بالکل) دوسرے کے اختیار میں ہے اور کسی چیز پر قدرت نہیں رکھتا اور ایک ایسا شخص ہے جس کو ہم نے اپنے ہاں سے (بہت سا) مال طیب عطا فرمایا ہے اور وہ اس میں سے (رات دن) پوشیدہ اور ظاہر خرچ کرتا رہتا ہے تو کیا یہ دونوں شخص برابر ہیں؟ (ہرگز نہیں) الحمدلله لیکن ان میں سے اکثر لوگ نہیں سمجھ رکھتے اور خدا ایک اور مثال بیان فرماتا ہے کہ دو آدمی ہیں ایک اُن میں سے گونگا (اور دوسرے کی ملک) ہے (بےاختیار وناتوان) کہ کسی چیز پر قدرت نہیں رکھتا۔ اور اپنے مالک کو دوبھر ہو رہا ہے وہ جہاں اُسے بھیجتا ہے (خیر سے کبھی) بھلائی نہیں لاتا۔ کیا ایسا (گونگا بہرا) اور وہ شخص جو (سنتا بولتا اور) لوگوں کو انصاف کرنے کا حکم دیتا ہے اور خود سیدھے راستے پر چل رہا ہے دونوں برابر ہیں؟`,
+        ``,
+        ``
+      ],
+      [
+        `Allah membuat perumpamaan seorang hamba sahaya di bawah kekuasaan orang lain, yang tak berdaya untuk berbuat sesuatu dan seorang yang Kami beri rezeki yang baik, lalu dia menginfakkan sebagian rezeki itu secara sembunyi-sembunyi dan secara terang-terangan. Samakah mereka itu? Segala puji hanya bagi Allah, tetapi kebanyakan mereka tidak mengetahui Dan Allah (juga) membuat perumpamaan, dua orang laki-laki, yang seorang bisu, tidak dapat berbuat sesuatu dan dia menjadi beban penanggungnya, ke mana saja dia di suruh (oleh penanggungnya itu), dia sama sekali tidak dapat mendatangkan suatu kebaikan. Samakah orang itu dengan orang yang menyuruh berbuat keadilan, dan dia berada di jalan yang lurus`,
+        ``,
+        ``
+      ],
+      [
+        `Allah, hiçbir şeye gücü yetmeyen ve başkasının malı olan bir köle ile, kendisine verdiğimiz güzel nimetlerden gizlice ve açıkça sarfeden kimseyi misal gösterir: Hiç bunlar eşit olur mu? Övülmeğe layık olan Allah'tır, fakat çoğu bilmezler Allah iki adamı misal veriyor: Biri hiçbir şeye gücü yetmeyen bir dilsiz ki efendisine yüktür, nereye gönderse bir hayır çıkmaz; bu, doğru yolda olan, adaletle emreden kimse ile bir olabilir mi`,
+        ``,
+        ``
+      ],
+      [
+        `خدا مَثَلى مى‌زند: بنده‌اى است زرخريد كه هيچ كارى از او برنمى‌آيد. آيا [او] با كسى كه به وى از جانب خود روزى نيكو داده‌ايم، و او از آن در نهان و آشكار انفاق مى‌كند يكسان است؟ سپاس خداى راست. [نه،] بلكه بيشترشان نمى‌دانند و خدا مَثَلى [ديگر] مى‌زند: دو مردند كه يكى از آنها لال است و هيچ كارى از او برنمى‌آيد و او سربار خداوندگارش مى‌باشد. هر جا كه او را مى‌فرستد خيرى به همراه نمى‌آورد. آيا او با كسى كه به عدالت فرمان مى‌دهد و خود بر راه راست است يكسان است؟`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ একটি দৃষ্টান্ত বর্ণনা করেছেন, অপরের মালিকানাধীন গোলামের যে, কোন কিছুর উপর শক্তি রাখে না এবং এমন একজন যাকে আমি নিজের পক্ষ থেকে চমৎকার রুযী দিয়েছি। অতএব, সে তা থেকে ব্যয় করে গোপনে ও প্রকাশ্যে উভয়ে কি সমান হয়? সব প্রশংসা আল্লাহর, কিন্তু অনেক মানুষ জানে না। আল্লাহ আরেকটি দৃষ্টান্ত বর্ণনা করেছেন, দু’ব্যক্তির, একজন বোবা কোন কাজ করতে পারে না। সে মালিকের উপর বোঝা। যেদিকে তাকে পাঠায়, কোন সঠিক কাজ করে আসে না। সে কি সমান হবে ঐ ব্যক্তির, যে ন্যায় বিচারের আদেশ করে এবং সরল পথে কায়েম রয়েছে।`,
+        ``,
+        ``
+      ],
+      [
+        `Allah propõe um exemplo: um escravo subalterno, que nada pode, e um homem a quem damos por sustento um belo sustento de Nossa parte e, dele, despende, secreta e declaradamente. Igualar-se-ão? Louvor a Allah! Mas a maioria deles não sabe E Allah propõe um exemplo: dois homens, um deles mudo, que nada pode, e é fardo para seu amo; aonde quer que este o envie, daí não chegará com bem algum. Igualar-se-á ele a quem ordena a justiça e está em senda reta`,
+        ``,
+        ``
+      ],
+      [
+        `真主打一个比喻：一个奴隶，不能自由处理任何事务，一个自由人，我赏赐他忧厚的给养，而他秘密地和公开地加以施舍；他们俩人是一样的吗？一切赞颂，全归真主！但他们大半不知道。 真主又打一个比喻：两个男人，一个是哑巴，什么事也不能做，却是他主人的累赘，无论主人打发他到那里去，都不能带一点福利回来；另一个走的是正路，他劝人主持公道。他们俩人是一样的吗？`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーは一つの比喩をあげられた。（1人は）ある者が所有する奴隷で，かれは何の力も持っていない。（外は）われが与えた良い報酬を，かれは陰に陽にそれから施している。この両者は同じであろうか。アッラーに讃えあれ。しかし人びとの多くは知らないのである。 アッラーはまた2人の比喩をあげられた。一人は聾啞者で，何の力もなく，その主人にとっては重荷であり，何処に遣わしても，善いことを齎さない。（こんな者と）正義を勧め，正しい道を踏む者と同じであろうか。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서 비유하사 예속되 어 있어 아무것도 할 수 없는한 종복과 하나님의 좋은 일용할 양 식으로 은혜를 받아 알게 모르게자선을 베푸는자 있나니 아들이 같을 수 있느뇨 라고 비유하셨더라 하나님께 영광이 있으소서 그러나 그들 대다수가 알지 못하더 라 하나님께서 두 사람을 비유하사 그 가운데 한 사람은 벙어리라 아무것도 할 수 없으니 그의 주인에게 무거운 짐만되어 주인이심부름을 보내사 그는 좋은 것을 이루지 못함이라 이러한 그가 진 리요 올바른 길에 있는 그와 같다할 수 있느뇨`,
+        ``,
+        ``
+      ],
+      [
+        `Allah vi propone la metafora di un servo, uno schiavo senza alcun potere, e di un uomo al quale abbiamo dato risorse notevoli e delle quali, in pubblico e in privato, fa elemosine. Sono forse uguali? Lode ad Allah, ma la maggior parte di loro non lo sa E Allah vi propone la metafora di due uomini: uno di loro è muto, buono a nulla, a carico del suo padrone e ovunque lo si invii non combina niente di buono. È forse uguale a chi comanda con giustizia [e cammina] sulla retta via`,
+        ``,
+        ``
+      ],
+      [
+        `Bóg przytacza jako przykład pewnego sługę - niewolnika, który nie ma nad niczym władzy, oraz tego, kogo zaopatrzyliśmy zaopatrzeniem pięknym, z którego on rozdaje skrycie i jawnie. Czy oni są jednakowi? Chwała niech będzie Bogu! Ale większość ludzi nie wie I Bóg przytacza jako przypowieść dwóch ludzi: jeden z nich jest niemy, niczego nie może i jest ciężarem dla swego pana. Gdziekolwiek on go skieruje, to ten nie przyniesie nic dobrego. Czy on jest równy swemu panu, który rozkazuje sprawiedliwie i znajduje się na drodze prostej`,
+        ``,
+        ``
+      ],
+      [
+        `Аллаг навів приклад про підлеглого раба, який нічого не має, а також того, хто отримав від Нас добрий наділ, із якого й жертвує — як потаємно, так і відкрито. Чи рівні вони? Хвала Аллагу! Але більшість із них не знає Аллаг навів приклад про двох чоловіків. Один із них — німий, нічого не має та обтяжує свого господаря. Куди б його не послали,він не принесе ніякого добра. Невже він рівний тому, хто закликає до справедливості й перебуває на прямому шляху`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النحل / An-Nahl، الآيتان 75-76`
+  },
+
+  {
+    arabic: [
       `وَاللَّهُ أَخْرَجَكُمْ مِنْ بُطُونِ أُمَّهَاتِكُمْ لَا تَعْلَمُونَ شَيْئًا وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ وَالْأَفْئِدَةَ ۙ لَعَلَّكُمْ تَشْكُرُونَ`,
       ``,
       ``
@@ -23485,6 +25599,117 @@ const verses = [
       ]
     ],
     number: `سورة النحل / An-Nahl، الآية 98`
+  },
+
+  {
+    arabic: [
+      `وَضَرَبَ اللَّهُ مَثَلًا قَرْيَةً كَانَتْ آمِنَةً مُطْمَئِنَّةً يَأْتِيهَا رِزْقُهَا رَغَدًا مِنْ كُلِّ مَكَانٍ فَكَفَرَتْ بِأَنْعُمِ اللَّهِ فَأَذَاقَهَا اللَّهُ لِبَاسَ الْجُوعِ وَالْخَوْفِ بِمَا كَانُوا يَصْنَعُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And Allah presents an example: a city which was safe and secure, its provision coming to it in abundance from every location, but it denied the favors of Allah. So Allah made it taste the envelopment of hunger and fear for what they had been doing`,
+        ``,
+        ``
+      ],
+      [
+        `Et Allah propose en parabole une ville: elle était en sécurité, tranquille; sa part de nourriture lui venait de partout en abondance. Puis elle se montra ingrate aux bienfaits d'Allah. Allah lui fit alors goûter la violence de la faim et de la peur [en punition] de ce qu'ils faisaient`,
+        ``,
+        ``
+      ],
+      [
+        `Alá propone como parábola una ciudad, segura y tranquila, que recibía abundante sustento de todas partes. Y no agradeció las gracias de Alá. Alá, en castigo por su conducta, le dio a gustar la vestidura del hambre y del temor`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах привел в качестве притчи селение, которое пребывало в безопасности и покое (Мекку). Они обретали свой удел в изобилии отовсюду, но не благодарили Аллаха за эти блага, и тогда Аллах облек их в одеяние голода и страха за то, что они творили`,
+        ``,
+        ``
+      ],
+      [
+        `Allah prägt das Gleichnis einer Stadt, die Sicherheit und Ruhe genoß; ihre Versorgung kam zu ihr reichlich von überall her. Da wurde sie gegenüber den Gnaden Allahs undankbar. So ließ sie Allah das Kleid des Hungers und der Angst erleiden für das, was sie machten`,
+        ``,
+        ``
+      ],
+      [
+        `GUD framställer liknelsen om en stad. [Invånarna] levde där lugna och trygga, tillförsäkrade en riklig försörjning från alla håll. Men de ville inte erkänna Guds välsignelser och Gud lät dem pröva på hungerns och fruktans elände på grund av att de [förnekade Guds välgärningar]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En Allah geeft een voorbeeld: een veilige en rustige stad had haar voorzieningen overvloedig van iedere plaats gekregen en was toch ondankbaar voor de gunsten van Allah. Allah deed haar honger en angst proeven wegens wat zij plachten te bedrijven`,
+        ``,
+        ``
+      ],
+      [
+        `اور خدا ایک بستی کی مثال بیان فرماتا ہے کہ (ہر طرح) امن چین سے بستی تھی ہر طرف سے رزق بافراغت چلا آتا تھا۔ مگر ان لوگوں نے خدا کی نعمتوں کی ناشکری کی تو خدا نے ان کے اعمال کے سبب ان کو بھوک اور خوف کا لباس پہنا کر (ناشکری کا) مزہ چکھا دیا`,
+        ``,
+        ``
+      ],
+      [
+        `Dan Allah telah membuat suatu perumpamaan (dengan) suatu negeri yang dahulunya aman lagi tenteram, rezeki datang kepadanya melimpah ruah dari segenap tempat, tetapi (penduduk)nya mengingkari nikmat-nikmat Allah, karena itu Allah menimpakan kepada mereka bencana kelaparan dan ketakutan,465) disebabkan apa yang mereka perbuat`,
+        ``,
+        ``
+      ],
+      [
+        `Allah size güven ve huzur içinde olan bir kasabayı misal verir: Her taraftan oraya bolca rızık geliyordu. Ama Allah'ın nimetlerine nankörlük ettiler; bu yüzden Allah onlara yaptıklarına karşılık açlık ve korku belasını tattırdı`,
+        ``,
+        ``
+      ],
+      [
+        `و خدا شهرى را مَثَل زده است كه امن و امان بود [و] روزيش از هر سو فراوان مى‌رسيد، پس [ساكنانش‌] نعمتهاى خدا را ناسپاسى كردند، و خدا هم به سزاى آنچه انجام مى‌دادند، طعم گرسنگى و هراس را به [مردم‌] آن چشانيد`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ দৃষ্টান্ত বর্ণনা করেছেন একটি জনপদের, যা ছিল নিরাপদ ও নিশ্চিন্ত, তথায় প্রত্যেক জায়গা থেকে আসত প্রচুর জীবনোপকরণ। অতঃপর তারা আল্লাহর নেয়ামতের প্রতি অকৃতজ্ঞতা প্রকাশ করল। তখন আল্লাহ তাদেরকে তাদের কৃতকর্মের কারণে স্বাদ আস্বাদন করালেন, ক্ষুধা ও ভীতির।`,
+        ``,
+        ``
+      ],
+      [
+        `E Allah propõe um exemplo; uma cidade, estava em segurança, seu sustento de todos os lados. Depois`,
+        ``,
+        ``
+      ],
+      [
+        `真主打一个比喻：一个市镇，原是安全的，安稳的，丰富的给养从各方运来，但镇上的居民辜负真主的恩惠，所以真主因他们的行为而使他们尝试极度的饥荒和恐怖。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーは，平穏無事を楽しんでいた一つの町の，比喩をあげられた。糧は四方から豊かに供給されたが，アッラーの御恵みに対し不信心であったために，アッラーは（その民が）犯していた（悪）事の報いとして，（極度の）飢えと恐れを味わせられた。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서 안전하고 평온 했던 한 고을을 비유하사 모든 곳 으로 부터 그곳에 일용할 양식이 들어와 풍성하였으되 하나님의 은 혜를 불신하였으니 하나님은 그들 의 불신으로 말미암아 기아와 공 포를 맛보게 하였노라`,
+        ``,
+        ``
+      ],
+      [
+        `Allah vi propone la metafora di una città: viveva in pace e sicurezza, da ogni parte le venivano approvvigionamenti. Poi rinnegò i favori di Allah e Allah le fece provare la fame e la paura, [punizione] per quello che avevano fatto`,
+        ``,
+        ``
+      ],
+      [
+        `I Bóg przytacza jako podobieństwo pewne miasto bezpieczne i spokojne. Otrzymywało ono obfite zaopatrzenie ze wszystkich stron, lecz nie uznawało dobrodziejstw Boga. Dał mu więc Bóg zakosztować szaty głodu i strachu za to, co uczynili`,
+        ``,
+        ``
+      ],
+      [
+        `Аллаг навів приклад про селище, яке було безпечне й спокійне. Вони отримували щедрий наділ звідусіль, але не дякували Аллагу за блага. Тож Аллаг змусив їх убратися в шати голоду й страху за те, що вони робили`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النحل / An-Nahl، الآية 112`
   },
 
   {
@@ -25816,6 +28041,228 @@ const verses = [
       ]
     ],
     number: `سورة الكهف / Al-Kahf، الآيتان 30-31`
+  },
+
+  {
+    arabic: [
+      `۞ وَاضْرِبْ لَهُمْ مَثَلًا رَجُلَيْنِ جَعَلْنَا لِأَحَدِهِمَا جَنَّتَيْنِ مِنْ أَعْنَابٍ وَحَفَفْنَاهُمَا بِنَخْلٍ وَجَعَلْنَا بَيْنَهُمَا زَرْعًا كِلْتَا الْجَنَّتَيْنِ آتَتْ أُكُلَهَا وَلَمْ تَظْلِمْ مِنْهُ شَيْئًا ۚ وَفَجَّرْنَا خِلَالَهُمَا نَهَرًا وَكَانَ لَهُ ثَمَرٌ فَقَالَ لِصَاحِبِهِ وَهُوَ يُحَاوِرُهُ أَنَا أَكْثَرُ مِنْكَ مَالًا وَأَعَزُّ نَفَرًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And present to them an example of two men: We granted to one of them two gardens of grapevines, and We bordered them with palm trees and placed between them [fields of] crops Each of the two gardens produced its fruit and did not fall short thereof in anything. And We caused to gush forth within them a river And he had fruit, so he said to his companion while he was conversing with him, "I am greater than you in wealth and mightier in [numbers of] men`,
+        ``,
+        ``
+      ],
+      [
+        `Donne-leur l'exemple de deux hommes : à l'un d'eux Nous avons assigné deux jardins de vignes que Nous avons entourés de palmiers et Nous avons mis entre les deux jardins des champs cultivés Les deux jardins produisaient leur récolte sans jamais manquer. Et Nous avons fait jaillir entre eux un ruisseau Et il avait des fruits, alors il dit alors à son compagnon avec qui il conversait : "Je possède plus de bien que toi, et je suis plus puissant que toi grâce à mon clan`,
+        ``,
+        ``
+      ],
+      [
+        `Propónles la parábola de dos hombres, a uno de los cuales dimos dos viñedos, que cercamos de palmeras y separamos con sembrados Ambos viñedos dieron su cosecha, no fallaron nada, e hicimos brotar entre ellos un arroyo Uno tuvo frutos y dijo a su compañero, con quien dialogaba: «Soy más que tú en hacienda y más fuerte en gente»`,
+        ``,
+        ``
+      ],
+      [
+        `Приведи им притчу о двух мужах. Одному из них Мы устроили два виноградника, оградили их финиковыми пальмами и поместили между ними ниву Оба сада приносили плоды, и ничто из них не пропадало, а между ними Мы проложили реку У него были плоды (или богатство), и он сказал своему товарищу, беседуя с ним: «У меня больше имущества и помощников, чем у тебя»`,
+        ``,
+        ``
+      ],
+      [
+        `Und präge ihnen das Gleichnis von zwei Männern. Dem einen der beiden gaben Wir zwei Gärten mit Rebstöcken, und Wir umgaben sie mit Palmen und legten dazwischen (sonstige) Pflanzungen an Beide Gärten brachten ihren Ernteertrag hervor und ließen es in nichts davon fehlen. Und Wir ließen dazwischen einen Fluß hervorströmen Er hatte (daraus reichlich) Früchte. Da sagte er zu seinem Gefährten, während er mit ihm einen Wortwechsel führte: "Ich habe mehr Besitz als du und auch eine mächtigere Schar`,
+        ``,
+        ``
+      ],
+      [
+        `OCH LÅT dem få höra liknelsen om två män, av vilka Vi skänkte den ene två vingårdar, omgärdade av dadelpalmer och åtskilda av ett åkerfält Båda vingårdarna gav frukt i aldrig sinande mängd, eftersom Vi hade låtit en källåder rinna upp mellan dem Mannen fick därför riklig avkastning. Under ett samtal med sin vän sade han: "Jag är rikare än du och jag har fler män i mitt följe`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En geef hun de gelijkenis van de twee mannen: aan één van hen deden Wij twee tuinen met druivenstruiken toekornen en Wij omringden die met dadelpalmen (en) tussen hen in akkers Ieder van die twee tuinen bracht vructen voort en faalde daar in niets in. En in hun midden deden Wij een rivier ontspringen En er waren vruchten voor hem. Hij zei dus tot zijn (gelovige) gesprekspartner: "Ik ben jouw meerdere op het gebied van bezit en ik ben eervoller als persoon`,
+        ``,
+        ``
+      ],
+      [
+        `اور ان سے دو شخصوں کا حال بیان کرو جن میں سے ایک ہم نے انگور کے دو باغ (عنایت) کئے تھے اور ان کے گردا گرد کھجوروں کے درخت لگا دیئے تھے اور ان کے درمیان کھیتی پیدا کردی تھی دونوں باغ (کثرت سے) پھل لاتے۔ اور اس (کی پیداوار) میں کسی طرح کی کمی نہ ہوتی اور دونوں میں ہم نے ایک نہر بھی جاری کر رکھی تھی اور (اس طرح) اس (شخص) کو (ان کی) پیداوار (ملتی رہتی) تھی تو (ایک دن) جب کہ وہ اپنے دوست سے باتیں کر رہا تھا کہنے لگا کہ میں تم سے مال ودولت میں بھی زیادہ ہوں اور جتھے (اور جماعت) کے لحاظ سے بھی زیادہ عزت والا ہوں`,
+        ``,
+        ``
+      ],
+      [
+        `Dan berikanlah (Muhammad) kepada mereka493) suatu perumpamaan, dua orang laki-laki,494) yang seorang (yang kafir) Kami beri dua buah kebun anggur dan Kami kelilingi kedua kebun itu dengan pohon-pohon kurma dan di antara keduanya (kebun itu) Kami buatkan ladang Kedua kebun itu menghasilkan buahnya, dan tidak berkurang (buahnya) sedikit pun, dan di celah-celah kedua kebun itu Kami alirkan sungai dan dia memiliki kekayaan besar, maka dia berkata kepada kawannya (yang beriman) ketika bercakap-cakap dengan dia, "Hartaku lebih banyak daripada hartamu dan pengikutku lebih kuat`,
+        ``,
+        ``
+      ],
+      [
+        `Onlara iki adamı misal olarak göster: Birine iki üzüm bağı verip, etrafını hurmalıklarla çevirmiş ve aralarında ekinler bitirmiştik Her iki bahçe de ürünlerini vermişlerdi, hiçbir şeyi de eksik bırakmamışlardı. İkisinin arasından bir de ırmak akıtmıştık Onun gelirleri de vardı. Bu yüzden, arkadaşiyle konuşurken: "Ben malca senden zengin, nüfusça da senden daha itibarlıyım" dedi`,
+        ``,
+        ``
+      ],
+      [
+        `و براى آنان، آن دو مرد را مَثَل بزن كه به يكى از آنها دو باغ انگور داديم و پيرامون آن دو [باغ‌] را با درختان خرما پوشانديم، و ميان آن دو را كشتزارى قرار داديم هر يك از اين دو باغ محصول خود را [به موقع‌] مى‌داد و از [صاحبش‌] چيزى دريغ نمى‌ورزيد، و ميان آن دو [باغ‌] نهرى روان كرده بوديم و براى او ميوه فراوان بود. پس به رفيقش -در حالى كه با او گفت و گو مى‌كرد- گفت: «مال من از تو بيشتر است و از حيث افراد از تو نيرومندترم.»`,
+        ``,
+        ``
+      ],
+      [
+        `আপনি তাদের কাছে দু ব্যক্তির উদাহরণ বর্ণনা করুন। আমি তাদের একজনকে দুটি আঙ্গুরের বাগান দিয়েছি এবং এ দু’টিকে খর্জুর বৃক্ষ দ্বারা পরিবেষ্টিত করেছি এবং দু এর মাঝখানে করেছি শস্যক্ষেত্র। উভয় বাগানই ফলদান করে এবং তা থেকে কিছুই হ্রাস করত না এবং উভয়ের ফাঁকে ফাঁকে আমি নহর প্রবাহিত করেছি। সে ফল পেল। অতঃপর কথা প্রসঙ্গে সঙ্গীকে বললঃ আমার ধন-সম্পদ তোমার চাইতে বেশী এবং জনবলে আমি অধিক শক্তিশালী।`,
+        ``,
+        ``
+      ],
+      [
+        `E propõe, para eles, um exemplo: dois homens. Fizemos, para um deles, dois jardins de videiras e cercamo-los com tamareiras e fizemos, entre ambos, searas Cada um dos jardins deu seu fruto, e nada se lhe diminuía. E, através de ambos, fizemos emanar um rio E tinha ele outros frutos; então, disse a seu companheiro, enquanto dialogava com ele: "Sou mais que tu, em riqueza, e mais poderoso, em número de pessoas`,
+        ``,
+        ``
+      ],
+      [
+        `你以两个人的情况为他们打一个比喻。我为其中的一个人创造了两个葡萄园，而围以椰枣林，并且以两园之间的地方为耕地。 两园都出产果实，毫不欠缺，并在两园之间，开凿一条河。 他富有财产，故以矜夸的态度，对他的朋友说：我财产比你多，人比你强。`,
+        ``,
+        ``
+      ],
+      [
+        `かれらのために2人の者の比喩を上げなさい。1人に対し，われは2つのブドウの園を与え，ナツメヤシの木でそれらを囲み，両園の間に畑地を設けた。 つの園は，それぞれ果実を結び，少しの不作もなかった。また両園を貫いてわれは一つの川を流れさせた。 この人は（豊かに）果実を収穫していた。それでかれは，その友と議論している間に言った。「わたしは富においてあなたに優り，また（家族の）人びと（人数）でも優勢です。」`,
+        ``,
+        ``
+      ],
+      [
+        `두 사람의 이야기를 그들에 게 일러주라 하셨거늘 한사람에 게 포도밭의 두 정원을 주어 종 려나무로 에워 쌓고 그 가운데는 경작지로 하였노라 그 두정원은 열매로 풍성하 고 아무 것도 부족됩이 없었으며 하나님은 그 사이에 강이 흐르도 록 하셨노라 그리하여 그는 많은 수확을 하게 되었더라 이때 그가 그의 동료에게 논쟁하여 말하길 내가 너 보다 부유하니 사람 가운데 존경 함이 더하고 힘이 더하니라 하였 더라`,
+        ``,
+        ``
+      ],
+      [
+        `Proponi loro la metafora dei due uomini: ad uno di loro demmo due giardini di vigna circondati da palme da datteri, separati da un campo coltivato Davano il loro frutto i due giardini, senza mancare in nulla e, in mezzo a loro, facemmo sgorgare un ruscello Alla raccolta, disse al suo compagno: “Ti sono superiore per beni e più potente per clan!”`,
+        ``,
+        ``
+      ],
+      [
+        `Przytocz im przypowieść o dwóch ludziach: Jednemu z nich przygotowaliśmy dwa ogrody winnej latorośli, które otoczyliśmy palmami; między nimi umieściliśmy pole zasiane zbożem Obydwa ogrody dały swoje plony i nie przyniosły żadnej straty. I sprawiliśmy, iż wytrysnął strumyk między tymi dwoma ogrodami I zebrał on owoce. Powiedział więc swojemu towarzyszowi, który z nim rozmawiał: "Ja mam więcej majątku od ciebie i jestem potężniejszy dzięki moim ludziom`,
+        ``,
+        ``
+      ],
+      [
+        `Наведи їм притчу про двох чоловіків. Ми дарували одному з них два виноградники, оточили їх пальмами й зростили між ними ниву В обох садах визрівали плоди, й ніщо з них не пропадало. Ми зробили між ними струмок Один чоловік мав [багато] плодів і, розмовляючи зі своїм приятелем, сказав йому: «Статок мій більший за твій і я маю більше нащадків`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الكهف / Al-Kahf، الآيات 32-34`
+  },
+
+  {
+    arabic: [
+      `وَاضْرِبْ لَهُمْ مَثَلَ الْحَيَاةِ الدُّنْيَا كَمَاءٍ أَنْزَلْنَاهُ مِنَ السَّمَاءِ فَاخْتَلَطَ بِهِ نَبَاتُ الْأَرْضِ فَأَصْبَحَ هَشِيمًا تَذْرُوهُ الرِّيَاحُ ۗ وَكَانَ اللَّهُ عَلَىٰ كُلِّ شَيْءٍ مُقْتَدِرًا`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And present to them the example of the life of this world, [its being] like rain which We send down from the sky, and the vegetation of the earth mingles with it and [then] it becomes dry remnants, scattered by the winds. And Allah is ever, over all things, Perfect in Ability`,
+        ``,
+        ``
+      ],
+      [
+        `Et propose-leur l'exemple de la vie ici-bas. Elle est semblable à une eau que Nous faisons descendre du ciel; la végétation de la terre se mélange à elle. Puis elle devient de l'herbe desséchée que les vents dispersent. Allah est certes Puissant en toute chose`,
+        ``,
+        ``
+      ],
+      [
+        `Propónles la parábola de la vida de acá. Es como agua que hacemos bajar del cielo y se empapa de ella la vegetación de la tierra, pero se convierte en hierba seca, que los vientos dispersan. Alá es potísimo en todo`,
+        ``,
+        ``
+      ],
+      [
+        `Приведи им притчу о мирской жизни. Она подобна воде, которую Мы ниспосылаем с неба. Земные растения смешиваются с ней (или благодаря ней), а потом превращаются в сухие былинки, рассеиваемые ветром. Воистину, Аллах способен на всякую вещь`,
+        ``,
+        ``
+      ],
+      [
+        `Und präge ihnen das Gleichnis vom diesseitigen Leben. (Es ist) wie Wasser, das Wir vom Himmel hinabkommen lassen, worauf sich damit das Gewächs der Erde vermischt. Dann wird es zu vertrocknetem Zeug, das die Winde verwehen. Und Allah hat ja zu allem völlig die Macht`,
+        ``,
+        ``
+      ],
+      [
+        `OCH LÅT dem få höra en liknelse om livet i denna värld. [Se på] regnet som Vi låter falla från skyn och som tas upp av markens växter; men av dem blir det [till sist bara] agnar och torra strån, som skingras för vinden. Gud har allt i Sin makt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En maak voor hen de vergelijking met het wereldse leven: het is als water dat Wij uit de hemel deden neerdalen; het vermengde zich met de beplanting van de aarde. Vervolgens werd die tot droge stoppels en de wind verwaaide die. En Allah is Almachtig over alle zaken`,
+        ``,
+        ``
+      ],
+      [
+        `اور ان سے دنیا کی زندگی کی مثال بھی بیان کردو (وہ ایسی ہے) جیسے پانی جسے ہم نے آسمان سے برسایا۔ تو اس کے ساتھ زمین کی روئیدگی مل گئی۔ پھر وہ چورا چورا ہوگئی کہ ہوائیں اسے اڑاتی پھرتی ہیں۔ اور خدا تو ہر چیز پر قدرت رکھتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan buatkanlah untuk mereka (manusia) perumpamaan kehidupan dunia ini, ibarat air (hujan) yang Kami turunkan dari langit, sehingga menyuburkan tumbuh-tumbuhan di bumi, kemudian (tumbuh-tumbuhan) itu menjadi kering yang diterbangkan oleh angin. Dan Allah Mahakuasa atas segala sesuatu`,
+        ``,
+        ``
+      ],
+      [
+        `Onlara, dünya hayatı misalinin tıpkı şöyle olduğunu anlat: Gökten indirdiğimiz su ile yeryüzünde yetişen bitkiler birbirine karışır, ama sonunda rüzgarın savuracağı çerçöpe döner. Allah her şeyin üstünde bir kudrete sahip olandır`,
+        ``,
+        ``
+      ],
+      [
+        `و براى آنان زندگى دنيا را مَثَل بزن كه مانند آبى است كه آن را از آسمان فرو فرستاديم؛ سپس گياه زمين با آن درآميخت و [چنان‌] خشك گرديد كه بادها پراكنده‌اش كردند، و خداست كه همواره بر هر چيزى تواناست`,
+        ``,
+        ``
+      ],
+      [
+        `তাদের কাছে পার্থিব জীবনের উপমা বর্ণনা করুন। তা পানির ন্যায়, যা আমি আকাশ থেকে নাযিল করি। অতঃপর এর সংমিশ্রণে শ্যামল সবুজ ভূমিজ লতা-পাতা নির্গত হয়; অতঃপর তা এমন শুস্ক চুর্ণ-বিচুর্ণ হয় যে, বাতাসে উড়ে যায়। আল্লাহ এ সবকিছুর উপর শক্তিমান।`,
+        ``,
+        ``
+      ],
+      [
+        `E, para eles, propõe o exemplo da vida terrena: é como água que fazemos descer do céu, e com ela se mescla a planta da terra; então, esta se torna palha, que o vento dispersa. E Allah, sobre todas as cousas, é Onipotente`,
+        ``,
+        ``
+      ],
+      [
+        `你为他们打一个比方：今世的生活，犹如我从云中降下雨水，植物得雨，就蓬勃生长，既而零落，随风飘散。真主对于万事是全能的。`,
+        ``,
+        ``
+      ],
+      [
+        `この世の生活を，譬話でかれらに説きなさい。それはわれが天から降らす雨のようなもので ，大地の草木はそれを受けて茂るが，（そのうち）風に吹き散らされて乾いた株の根となる。アッラーは凡ての事に力を持っておられる。`,
+        ``,
+        ``
+      ],
+      [
+        `현세의 생활을 비유하여 그 들에게 말하라 하셨거늘 그것도 마치 하나님이 하늘로부터 비를 내리니 대지의 식물들이 흡수하나초목은 시들어져 바람이 그것을 날려 버리는 것과 흡사하거늘 실 로 하나님은 모든 일에 전지전능 하심이라`,
+        ``,
+        ``
+      ],
+      [
+        `Proponi loro la metafora di questa vita: è simile ad un'acqua che facciamo scendere dal cielo; la vegetazione della terra si mescola ad essa, ma poi diventa secca, stoppia che i venti disperdono. Allah ha potenza su tutte le cose`,
+        ``,
+        ``
+      ],
+      [
+        `I przytocz im przypowieść o życiu tego świata, które jest podobne do wody, jaką My spuszczamy z nieba: miesza się z nią roślinność ziemi i potem staje się zeschłym zielem, które rozrzucają wiatry. Bóg jest nad każdą rzeczą wszechwładny`,
+        ``,
+        ``
+      ],
+      [
+        `І наведи їм притчу про земне життя. Воно подібне до води, яку Ми проливаємо з неба. Земні рослини поглинають її, а потім висихають, і розвіює їх вітер. Так, Аллаг спроможний на кожну річ`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الكهف / Al-Kahf، الآية 45`
   },
 
   {
@@ -29261,6 +31708,117 @@ const verses = [
 
   {
     arabic: [
+      `حُنَفَاءَ لِلَّهِ غَيْرَ مُشْرِكِينَ بِهِ ۚ وَمَنْ يُشْرِكْ بِاللَّهِ فَكَأَنَّمَا خَرَّ مِنَ السَّمَاءِ فَتَخْطَفُهُ الطَّيْرُ أَوْ تَهْوِي بِهِ الرِّيحُ فِي مَكَانٍ سَحِيقٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Inclining [only] to Allah, not associating [anything] with Him. And he who associates with Allah - it is as though he had fallen from the sky and was snatched by the birds or the wind carried him down into a remote place`,
+        ``,
+        ``
+      ],
+      [
+        `(Soyez) exclusivement [acquis à la religion] d'Allah sans rien Lui associer ! Et quiconque associe à Allah, c'est comme s'il tombait du haut du ciel et que les oiseaux le happaient, ou que le vent le précipitait dans un abîme très profond`,
+        ``,
+        ``
+      ],
+      [
+        `¡Como hanifes para con Alá y no como asociadores! Quien asocia a Alá otros dioses es como si cayera del cielo: las aves se lo llevarán o el viento lo arrastrará a un lugar lejano`,
+        ``,
+        ``
+      ],
+      [
+        `Оставайтесь ханифами и не приобщайте к Нему сотоварищей. А кто приобщает сотоварищей к Аллаху, тот словно падает с неба, и птицы подхватят его, или же ветер забросит его в далекое место`,
+        ``,
+        ``
+      ],
+      [
+        `als Anhänger des rechten Glaubens gegenüber Allah, die Ihm nichts beigesellen. Und wenn einer Allah (etwas) beigesellt, so ist es, als ob er vom Himmel herunterfiele und er dann von den Vögeln fortgerissen oder vom Wind an einen fernen Ort hinabgeweht würde`,
+        ``,
+        ``
+      ],
+      [
+        `[Dyrka] Gud med den rena, ursprungliga tron och sätt ingenting vid Hans sida; [med] den som sätter något vid Guds sida är det som om han störtade från skyn och blev fåglarnas rov, eller fördes långt bort av vinden till en okänd plats`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Als Hoenafâ tegenover Allah, zonder Hem deelgenoten toe te kennen, want wie aan Allah deelgenoten toekent is als iemand die uit de hemel valt, en dan dom de vogels wordt weggegrist of door de wind wordt geblazen naar een afgelegen plek`,
+        ``,
+        ``
+      ],
+      [
+        `صرف ایک خدا کے ہو کر اس کے ساتھ شریک نہ ٹھیرا کر۔ اور جو شخص (کسی کو) خدا کے ساتھ شریک مقرر کرے تو وہ گویا ایسا ہے جیسے آسمان سے گر پڑے پھر اس کو پرندے اُچک لے جائیں یا ہوا کسی دور جگہ اُڑا کر پھینک دے`,
+        ``,
+        ``
+      ],
+      [
+        `(Beribadahlah) dengan ikhlas kepada Allah, tanpa mempersekutukan-Nya. Barangsiapa mempersekutukan Allah, maka seakan-akan dia jatuh dari langit lalu disambar oleh burung, atau diterbangkan angin ke tempat yang jauh`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'a ortak koşmaksızın O'na yönelerek pis putlardan kaçının, yalan sözden çekinin. Allah'a ortak koşan kimse, gökten düşüp de kuşların kaptığı veya rüzgarın bir uçuruma attığı şeye benzer`,
+        ``,
+        ``
+      ],
+      [
+        `در حالى كه گروندگان خالص به خدا باشيد؛ نه شريك‌گيرندگان [براى‌] او! و هر كس به خدا شرك ورزد چنان است كه گويى از آسمان فرو افتاده و مرغان [شكارى‌] او را ربوده‌اند يا باد او را به جايى دور افكنده است`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহর দিকে একনিষ্ট হয়ে, তাঁর সাথে শরীক না করে; এবং যে কেউ আল্লাহর সাথে শরীক করল; সে যেন আকাশ থেকে ছিটকে পড়ল, অতঃপর মৃতভোজী পাখী তাকে ছোঁ মেরে নিয়ে গেল অথবা বাতাস তাকে উড়িয়ে নিয়ে কোন দূরবর্তী স্থানে নিক্ষেপ করল।`,
+        ``,
+        ``
+      ],
+      [
+        `Sendo monoteístas sinceros para com Allah, nada Lhe associando. E quem associa algo a Allah é como se caísse do céu, então, os pássaros o arrebatassem ou o vento o abismasse em lugar bem profundo`,
+        ``,
+        ``
+      ],
+      [
+        `同时为真主而信奉正教，不以物配他。谁以物配真主，谁如从天空坠落，而被群鸟夺走，或被大风扫荡到远方。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーに純正に服従，帰依し，神々をかれに配してはならない。アッラーに神々を配する者は，丁度天から落ちて鳥に攫われた者のようである。または風が，かれを遠い所に吹き攫った者のようである。`,
+        ``,
+        ``
+      ],
+      [
+        `다른 것을 숭배하지 아니하 고 하나님만을 경배하는 올바른 믿음을 가지라 하나님을 불신하는 자 그는 마치 하늘 높은 곳에서 떨어지니 새들이 그를 먹어버리거 나 바람이 그를 먼곳으로 날려보 낸 것과 같더라`,
+        ``,
+        ``
+      ],
+      [
+        `Siate sinceri nei confronti di Allah e non associateGli alcunché. Chi attribuisce consimili ad Allah, è come se fosse precipitato dal cielo, preda di uccelli o del vento che lo scaglia in un luogo lontano`,
+        ``,
+        ``
+      ],
+      [
+        `Jako hanifowie przed Bogiem, nie dodający Jemu współtowarzyszy. A z tym, kto dodaje Bogu współtowarzyszy, jest tak, jakby on spadł z nieba i pochwyciły go ptaki; albo jakby go uniósł wiatr w odległe miejsce`,
+        ``,
+        ``
+      ],
+      [
+        `Будьте перед Аллагом ханіфами, а не багатобожниками. А хто додає Аллагу рівних у поклонінні, той наче падає з неба: або підхоплять його птахи, або вітер віднесе його у віддалене місце`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الحج / Al-Hajj، الآية 31`
+  },
+
+  {
+    arabic: [
       `أَفَلَمْ يَسِيرُوا فِي الْأَرْضِ فَتَكُونَ لَهُمْ قُلُوبٌ يَعْقِلُونَ بِهَا أَوْ آذَانٌ يَسْمَعُونَ بِهَا`,
       `فَإِنَّهَا لَا تَعْمَى الْأَبْصَارُ`,
       `وَلَٰكِن تَعْمَى الْقُلُوبُ الَّتِي فِي الصُّدُورِ`
@@ -30922,6 +33480,117 @@ const verses = [
       ]
     ],
     number: `سورة النور / An-Nur، الآية 35`
+  },
+
+  {
+    arabic: [
+      `وَالَّذِينَ كَفَرُوا أَعْمَالُهُمْ كَسَرَابٍ بِقِيعَةٍ يَحْسَبُهُ الظَّمْآنُ مَاءً حَتَّىٰ إِذَا جَاءَهُ لَمْ يَجِدْهُ شَيْئًا وَوَجَدَ اللَّهَ عِنْدَهُ فَوَفَّاهُ حِسَابَهُ ۗ وَاللَّهُ سَرِيعُ الْحِسَابِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `But those who disbelieved - their deeds are like a mirage in a lowland which a thirsty one thinks is water until, when he comes to it, he finds it is nothing but finds Allah before Him, and He will pay him in full his due; and Allah is swift in account`,
+        ``,
+        ``
+      ],
+      [
+        `Quant à ceux qui ont mécru, leurs actions sont comme un mirage dans une plaine désertique que l'assoiffé prend pour de l'eau. Puis quand il y arrive, il s'aperçoit que ce n'était rien; mais y trouve Allah qui lui règle son compte en entier, car Allah est prompt à compter`,
+        ``,
+        ``
+      ],
+      [
+        `Las obras de los infieles son como espejismo en una llanura: el muy sediento cree que es agua, hasta que, llegado allá, no encuentra nada. Sí encontrará, en cambio, a Alá junto a sí y Él le saldará su cuenta. Alá es rápido en ajustar cuentas`,
+        ``,
+        ``
+      ],
+      [
+        `А деяния неверующих подобны мареву в пустыне, которое жаждущий принимает за воду. Когда он подходит к нему, то ничего не находит. Он находит вблизи себя Аллаха, который воздает ему сполна по его счету. Аллах скор в расчете`,
+        ``,
+        ``
+      ],
+      [
+        `Die Werke derjenigen aber, die ungläubig sind, sind wie eine Luftspiegelung in einer Ebene, die der Durstige für Wasser hält. Wenn er dann dorthin kommt, findet er, daß es nichts ist; aber er findet Allah da, Der ihm dann seine Abrechnung in vollem Maß zukommen läßt. Allah ist schnell im Abrechnen`,
+        ``,
+        ``
+      ],
+      [
+        `Men de som förnekar sanningen - vad de [tror sig ha] åstadkommit är som en hägring i öknen, som den törstige uppfattar som vatten till dess han når fram och inte finner något vatten. Men där, helt nära, finner han Gud [som han förnekade och] som skall ge honom hans fulla lön. Gud är snar att kalla till räkenskap`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En degenen die ongelovig zijn: hun daden zijn als een luchtspiegeling op de woestijnvlakte. De dorstige denkt water (te vinden) totdat hij daar komt en er niets vindt Maar hij vindt Allah bij zich en Hij zal zijn rekening opmaken. En Allah is snel in de afrekening`,
+        ``,
+        ``
+      ],
+      [
+        `جن لوگوں نے کفر کیا ان کے اعمال کی مثال ایسی ہے جیسے میدان میں ریت کہ پیاسا اسے پانی سمجھے یہاں تک کہ جب اس کے پاس آئے تو اسے کچھ بھی نہ پائے اور خدا ہی کو اپنے پاس دیکھے تو وہ اسے اس کا حساب پورا پورا چکا دے۔ اور خدا جلد حساب کرنے والا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan orang-orang yang kafir, perbuatan mereka seperti fatamorgana di tanah yang datar, yang disangka air oleh orang-orang yang dahaga, tetapi apabila didatangi tidak ada apa pun. Dan didapatinya (ketetapan) Allah baginya. Lalu Allah memberikan kepadanya perhitungan (amal-amal) dengan sempurna, dan Allah sangat cepat perhitungan-Nya`,
+        ``,
+        ``
+      ],
+      [
+        `İnkar edenlerin işleri engin çöllerdeki serap gibidir. Susayan kimse onu su zanneder, fakat oraya geldiğinde hiçbir şey bulamaz. Orada Allah'ı bulur ve O da hesabını görür. Allah hesabı çabuk görendir`,
+        ``,
+        ``
+      ],
+      [
+        `و كسانى كه كفر ورزيدند، كارهايشان چون سرابى در زمينى هموار است كه تشنه، آن را آبى مى‌پندارد، تا چون بدان رسد آن را چيزى نيابد و خدا را نزد خويش يابد و حسابش را تمام به او دهد و خدا زودشمار است`,
+        ``,
+        ``
+      ],
+      [
+        `যারা কাফের, তাদের কর্ম মরুভুমির মরীচিকা সদৃশ, যাকে পিপাসার্ত ব্যক্তি পানি মনে করে। এমনকি, সে যখন তার কাছে যায়, তখন কিছুই পায় না এবং পায় সেখানে আল্লাহকে, অতঃপর আল্লাহ তার হিসাব চুকিয়ে দেন। আল্লাহ দ্রুত হিসাব গ্রহণকারী।`,
+        ``,
+        ``
+      ],
+      [
+        `E os que renegam a Fé, suas obras são como miragem em uma planície, a qual o sedento supõe água, até que, quando chega a ela, nada encontra. E, encontra a Allah junto dela; então, Ele compensá-lo-á com ajuste de contas. E Allah é Destro no ajuste de contas`,
+        ``,
+        ``
+      ],
+      [
+        `不信道者的善功恰如沙漠里的蜃景，口渴者以为那里有水， 等到他来到有蜃景的地方时，没有发现什么，却发现真主在那里。 真主就把他的帐目完全交给他，真主是清算神速的。`,
+        ``,
+        ``
+      ],
+      [
+        `しかし信仰のない者は，そのすることなすこと，砂漠の中の蜃気楼のようなもので，渇き切った者には水だと思われる。だがやってくれば何も見出せない。そこではアッラーの御前であり，かれの勘定が払われることを知るであろう。アッラーは清算に迅速であられる。`,
+        ``,
+        ``
+      ],
+      [
+        `그러나 믿음을 갖지 아니한 불신자들의 행위는 목마른 자들에 게 보이는 사막의 신기루와 같으 니 그가 그곳에 다가 갔을 때 아 무것도 발견치 못하고 거기에서 하나님을 발견하니라 그리하여 그 분은 그가 행한 것에 따라 계산을 하시니 하나님은 계산에 빠르시니 라`,
+        ``,
+        ``
+      ],
+      [
+        `Quanto a coloro che sono miscredenti, le loro opere sono come un miraggio in una piana desertica che l'assetato scambia per acqua e poi, quando vi giunge, non trova nulla; anzi, nei pressi trova Allah che gli salda il conto. Allah è rapido al conto`,
+        ``,
+        ``
+      ],
+      [
+        `A działania tych, którzy nie uwierzyli, są podobne do mirażu na pustyni: człowiek spragniony bierze go za wodę, a kiedy przyjdzie do niego; niczego tu nie znajduje; on znajduje tam Boga, który mu w pełni zapłaci jego rachunek. Bóg jest szybki przy rachunku`,
+        ``,
+        ``
+      ],
+      [
+        `А вчинки тих, які не увірували, подібні до марева в пустелі, яке спраглому видається за воду. Коли він приходить туди, то не знаходить нічого. Але знаходить поряд Аллага, який відплатить йому сповна! Аллаг – швидкий у відплаті`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة النور / An-Nur، الآية 39`
   },
 
   {
@@ -33923,6 +36592,117 @@ const verses = [
 
   {
     arabic: [
+      `مَثَلُ الَّذِينَ اتَّخَذُوا مِنْ دُونِ اللَّهِ أَوْلِيَاءَ كَمَثَلِ الْعَنْكَبُوتِ اتَّخَذَتْ بَيْتًا ۖ وَإِنَّ أَوْهَنَ الْبُيُوتِ لَبَيْتُ الْعَنْكَبُوتِ ۖ لَوْ كَانُوا يَعْلَمُونَ إِنَّ اللَّهَ يَعْلَمُ مَا يَدْعُونَ مِنْ دُونِهِ مِنْ شَيْءٍ ۚ وَهُوَ الْعَزِيزُ الْحَكِيمُ وَتِلْكَ الْأَمْثَالُ نَضْرِبُهَا لِلنَّاسِ ۖ وَمَا يَعْقِلُهَا إِلَّا الْعَالِمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The example of those who take allies other than Allah is like that of the spider who takes a home. And indeed, the weakest of homes is the home of the spider, if they only knew Indeed, Allah knows whatever thing they call upon other than Him. And He is the Exalted in Might, the Wise And these examples We present to the people, but none will understand them except those of knowledge`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui ont pris des protecteurs en dehors d'Allah ressemblent à l'araignée qui s'est donné maison. Or la maison la plus fragile est celle de l'araignée. Si seulement ils savaient Allah connaît toute chose qu'ils invoquent en dehors de Lui. Et c'est Lui le Tout Puissant, le Sage Telles sont les paraboles que Nous proposons aux gens ; cependant, seuls les savants les comprennent`,
+        ``,
+        ``
+      ],
+      [
+        `Quienes toman amigos en lugar de tomar a Alá son semejantes a la araña que se ha hecho una casa. Y la casa más frágil es la de la araña. Si supieran Alá sabe todo lo que invocan en lugar de invocarle a Él. Es el Poderoso, el Sabio Proponemos estas parábolas a los hombres, pero no las comprenden sino los que saben`,
+        ``,
+        ``
+      ],
+      [
+        `Те, которые взяли себе покровителей и помощников помимо Аллаха, подобны пауку, соткавшему себе жилище. Воистину, самое непрочное жилище - это жилище паука. Если бы они только знали Воистину, Аллах знает всех тех, кому они поклоняются помимо Него (или знает, что те, кому они поклоняются помимо Него, являются ничем). Он - Могущественный, Мудрый Такие притчи Мы приводим людям, но разумеют их только обладающие знанием`,
+        ``,
+        ``
+      ],
+      [
+        `Das Gleichnis derjenigen, die sich anstatt Allahs Schutzherren nehmen, ist das der Spinne, die sich ein Haus genommen hat; das schwächste Haus ist fürwahr das Haus der Spinne, wenn sie (es) nur wüßten Gewiß, Allah weiß all das, was sie anstatt Seiner anrufen. Und Er ist der Allmächtige und Allweise Diese Gleichnisse prägen Wir für die Menschen. Aber nur diejenigen verstehen sie, die Wissen besitzen`,
+        ``,
+        ``
+      ],
+      [
+        `DE SOM tar andra än Gud till beskyddare kan liknas vid spindeln som väljer det allra bräckligaste hus till sin bostad. Om de bara visste [vilket bräckligt skydd de får] Gud vet vad de anropar i Hans ställe; Han är den Allsmäktige, den Vise Dessa liknelser framställer Vi för människorna, men bara de som har [sann] kunskap förstår dem helt och fullt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `De gelijkenis met degenen die helpers naast Allah nemen, is als die met een spin die een huis maakt. En voorwaar, het zwakste van de huizen is zeker het huis van een spin (al 'Ankabôet), als zij het wisten Voorwaar, Allah weet wat zij voor iets naast Hem aanroepen en Hij is de Almachtige, de Alwijze En deze vergelijkingen maken Wij voor de mensen, maar zij begrijpen ze niet, behalve degenen die over kennis beschikken`,
+        ``,
+        ``
+      ],
+      [
+        `جن لوگوں نے خدا کے سوا (اوروں کو) کارساز بنا رکھا ہے اُن کی مثال مکڑی کی سی ہے کہ وہ بھی ایک (طرح کا) گھر بناتی ہے۔ اور کچھ شک نہیں کہ تمام گھروں سے کمزور مکڑی کا گھر ہے کاش یہ (اس بات کو) جانتے یہ جس چیز کو خدا کے سوا پکارتے ہیں (خواہ) وہ کچھ ہی ہو خدا اُسے جانتا ہے۔ اور وہ غالب اور حکمت والا ہے اور یہ مثالیں ہم لوگوں کے (سمجھانے کے) لئے بیان کرتے ہیں اور اُسے تو اہلِ دانش ہی سمجھتے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Perumpamaan orang-orang yang mengambil pelindung selain Allah adalah seperti laba-laba yang membuat rumah. Dan sesungguhnya rumah yang paling lemah ialah rumah laba-laba, sekiranya mereka mengetahui Sungguh, Allah mengetahui apa saja yang mereka sembah selain Dia. Dan Dia Mahaperkasa, Mahabijaksana Dan perumpamaan-perumpamaan ini Kami buat untuk manusia; dan tidak ada yang akan memahaminya kecuali mereka yang berilmu`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'tan başka dostlar edinenlerin durumu, kendine yuva yapan dişi örümceğin durumu gibidir. Evlerin en dayanıksızı ise şüphesiz örümceğin yuvasıdır. Keşke bilseler Doğrusu Allah, Kendini bırakıp da yalvardıkları şeyi bilir. O güçlüdür, Hakim'dir Biz bu misalleri insanlara veriyoruz, onları ancak bilenler anlayabilir`,
+        ``,
+        ``
+      ],
+      [
+        `داستان كسانى كه غير از خدا دوستانى اختيار كرده‌اند، همچون عنكبوت است كه [با آب دهان خود] خانه‌اى براى خويش ساخته، و در حقيقت -اگر مى‌دانستند- سست‌ترين خانه‌ها همان خانه عنكبوت است خدا مى‌داند هر آنچه را كه جز او مى‌خوانند، و هم اوست شكست‌ناپذير سنجيده‌كار و اين مَثَلها را براى مردم مى‌زنيم و[لى‌] جز دانشوران آنها را درنيابند`,
+        ``,
+        ``
+      ],
+      [
+        `যারা আল্লাহর পরিবর্তে অপরকে সাহায্যকারীরূপে গ্রহণ করে তাদের উদাহরণ মাকড়সা। সে ঘর বানায়। আর সব ঘরের মধ্যে মাকড়সার ঘরই তো অধিক দুর্বল, যদি তারা জানত। তারা আল্লাহর পরিবর্তে যা কিছুকে ডাকে, আল্লাহ তা জানেন। তিনি শক্তিশালী, প্রজ্ঞাময়। এ সকল উদাহরণ আমি মানুষের জন্যে দেই; কিন্তু জ্ঞানীরাই তা বোঝে।`,
+        ``,
+        ``
+      ],
+      [
+        `O exemplo dos que tomam protetores em vez de Allah, é como o da aranha, que construiu uma casa para proteger-se. E, por certo, a mais frágil das casas é a casa da aranha. Se soubessem Por certo, Allah sabe todas as cousas que eles invocam em vez dEle. E Ele é O Todo-Poderoso, O Sábio E esses exemplos, Propomo-los, para os homens; e não os entendem senão os sabedores`,
+        ``,
+        ``
+      ],
+      [
+        `有些人，舍真主而别求监护者，他们譬如蜘蛛造屋，最脆弱的房屋，确是蜘蛛的房屋。假若他们认识这个道理，（就不会崇拜偶像了）。 真主的确知道他们舍他而祈祷的任何物，他是万能的，是至睿的。 这些譬喻，是我为众人而设的，只有学者能了解它。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーを差し置いて外の主人を取る者を譬えれば，（自分で自分の）家を造る蜘蛛のようなものである。本当に家の中でも最も弱いのは，蜘蛛の家である。かれらに分っていたならば，よかったのに。 本当にアッラーは，かれを差し置いてかれらが祈る，凡てのことを知っておられる。かれは偉力ならびなく英明であられる。 これらは，われが人間のために提示する譬えである。だが知識ある者の外は，これを理解しない。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님 외에 다른 것을 숭배하는 자들을 비유하사 스스로를 위해 집을 짓는 거미와 같나니 가장 허약한 집이 거미의 집임을 너희는 알 것이라 하나님은 그들이 하나님 아 닌 다른 것을 숭배하는 것을 모두아시고 계시나니 그분은 권능과 지해로 충만하심이라 하나님이 비유를 드사 이것 은 온 백성을 위해서라 지혜 있는자들은 이해하리라`,
+        ``,
+        ``
+      ],
+      [
+        `Coloro che si sono presi patroni all'infuori di Allah assomigliano al ragno che si è dato una casa. Ma la casa del ragno è la più fragile delle case. Se lo sapessero In verità Allah ben conosce tutto ciò che invocano all'infuori di Lui. Egli è l'Eccelso, il Saggio Queste metafore Noi le proponiamo agli uomini, ma non le capiscono se non i sapienti`,
+        ``,
+        ``
+      ],
+      [
+        `I ci, którzy sobie wzięli opiekunów poza Bogiem, są podobni do pająka, który przygotował sobie dom. A przecież dom pająka jest najnędzniejszym z domów. Gdyby oni byli wiedzieli Zaprawdę, Bóg wie, że to, co oni wzywają poza Nim, jest niczym. A On jest Potężny, Mądry To są przypowieści, które my przytaczamy ludziom, lecz rozumieją je tylko posiadający wiedzę`,
+        ``,
+        ``
+      ],
+      [
+        `Ті, які беруть собі покровителів замість Аллага, подібні до павука, який зробив собі житло. Але ж найслабше житло — житло павука! Якби вони тільки знали Воістину, Аллаг знає всіх, до кого вони звертаються замість Нього! Він — Всемогутній, Мудрий Такі притчі Ми наводимо людям, але розуміють їх тільки знаючі`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة العنكبوت / Al-'Ankabut، الآيات 41-43`
+  },
+
+  {
+    arabic: [
       `اتْلُ مَا أُوحِيَ إِلَيْكَ مِنَ الْكِتَابِ وَأَقِمِ الصَّلَاةَ ۖ`,
       `إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنْكَرِ ۗ`,
       `وَلَذِكْرُ اللَّهِ أَكْبَرُ ۗ وَاللَّهُ يَعْلَمُ مَا تَصْنَعُونَ`
@@ -34918,6 +37698,117 @@ const verses = [
       ]
     ],
     number: `سورة الروم / Ar-Rum، الآية 27`
+  },
+
+  {
+    arabic: [
+      `ضَرَبَ لَكُمْ مَثَلًا مِنْ أَنْفُسِكُمْ ۖ هَلْ لَكُمْ مِنْ مَا مَلَكَتْ أَيْمَانُكُمْ مِنْ شُرَكَاءَ فِي مَا رَزَقْنَاكُمْ فَأَنْتُمْ فِيهِ سَوَاءٌ تَخَافُونَهُمْ كَخِيفَتِكُمْ أَنْفُسَكُمْ ۚ كَذَٰلِكَ نُفَصِّلُ الْآيَاتِ لِقَوْمٍ يَعْقِلُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `He presents to you an example from yourselves. Do you have among those whom your right hands possess any partners in what We have provided for you so that you are equal therein [and] would fear them as your fear of one another [within a partnership]? Thus do We detail the verses for a people who use reason`,
+        ``,
+        ``
+      ],
+      [
+        `Il vous a cité une parabole de vous-mêmes : Avez-vous associé vos esclaves à ce que Nous Vous avons attribué en sorte que vous soyez tous égaux [en droit de propriété] et que vous les craignez [autant] que vous vous craignez mutuellement ? C'est ainsi que Nous exposons Nos versets pour des gens qui raisonnent`,
+        ``,
+        ``
+      ],
+      [
+        `Os propone una parábola tomada de vuestro mismo ambiente: ¿Hay entre vuestros esclavos quienes participen del mismo sustento de que os hemos proveído, de modo que podáis equipararos en ello con ellos y les temáis tanto cuanto os teméis unos a otros? Así explicamos detalladamente los signos a gente que razona`,
+        ``,
+        ``
+      ],
+      [
+        `Он привел вам притчу о вас самих. Есть ли среди невольников, которыми овладели ваши десницы, совладельцы того, чем Мы наделили вас, которые имеют с вами одинаковые права на это и которых вы опасаетесь так, как опасаетесь друг друга? Так Мы разъясняем знамения для людей разумеющих`,
+        ``,
+        ``
+      ],
+      [
+        `Er prägt euch aus eurem eigenen (Lebens)bereich ein Gleichnis: Habt ihr denn (aus der Schar) unter denjenigen, die eure rechte Hand (an Sklaven) besitzt, Teilhaber an dem, womit Wir euch versorgt haben, so daß ihr darin gleich wäret und ihr sie fürchten müßtet, wie ihr einander fürchtet? So legen Wir die Zeichen ausführlich dar für Leute, die begreifen`,
+        ``,
+        ``
+      ],
+      [
+        `Han framställer en liknelse för er, hämtad ur ert eget liv: Är ni beredda att ge någon av dem som ni rättmätigt besitter del i det som Vi har skänkt er, med lika rätt för er båda, och att visa honom samma respekt som ni visar varandra? Så framställer Vi [Våra] budskap fast och klart till nytta för människor som använder sitt förstånd`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Hij geeft jullie een vergelijking met julliezelf. Zijn er voor jullie die over slaven beschikken deelgenoten in de voorzieningen die Wij jullie hebben geschonken, zodat jullie daarin gelijk zijn? En vrezen jullie hen zoals jullie elkaar vrezen? Zo leggen Wij de Tekenen uit aan een volk dat begrijpt`,
+        ``,
+        ``
+      ],
+      [
+        `وہ تمہارے لئے تمہارے ہی حال کی ایک مثال بیان فرماتا ہے کہ بھلا جن (لونڈی غلاموں) کے تم مالک ہو وہ اس (مال) میں جو ہم نے تم کو عطا فرمایا ہے تمہارے شریک ہیں، اور (کیا) تم اس میں (اُن کو اپنے) برابر (مالک سمجھتے) ہو (اور کیا) تم اُن سے اس طرح ڈرتے ہو جس طرح اپنوں سے ڈرتے ہو، اسی طرح عقل والوں کے لئے اپنی آیتیں کھول کھول کر بیان کرتے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Dia membuat perumpamaan bagimu dari dirimu sendiri. Apakah (kamu rela jika) ada di antara hamba sahaya yang kamu miliki, menjadi sekutu bagimu dalam (memiliki) rezeki yang telah Kami berikan kepadamu, sehingga kamu menjadi setara dengan mereka dalam hal ini, lalu kamu takut kepada mereka sebagaimana kamu takut kepada sesamamu.638) Demikianlah Kami jelaskan ayat-ayat itu bagi kaum yang mengerti`,
+        ``,
+        ``
+      ],
+      [
+        `Allah size kendinizden bir misal vermektedir: Size verdiğimiz rızıklarda, emrinizde bulunan kölelerinizin de eşit surette hak sahibi olmalarına razı olur ve birbirinizi saydığınız gibi bu ortaklarınızı sayar mısınız? Düşünen millete ayetleri böylece uzun uzadıya açıklarız`,
+        ``,
+        ``
+      ],
+      [
+        `[خداوند] براى شما از خودتان مَثَلى زده است: آيا در آنچه به شما روزى داده‌ايم شريكانى از بردگانتان داريد كه در آن [مال با هم‌] مساوى باشيد و همان طور كه شما از يكديگر بيم داريد از آنها بيم داشته باشيد؟ اين گونه، آيات خود را براى مردمى كه مى‌انديشند، به تفصيل بيان مى‌كنيم`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ তোমাদের জন্যে তোমাদেরই মধ্য থেকে একটি দৃষ্টান্ত বর্ণনা করেছেনঃ তোমাদের আমি যে রুযী দিয়েছি, তোমাদের অধিকারভুক্ত দাস-দাসীরা কি তাতে তোমাদের সমান সমান অংশীদার? তোমরা কি তাদেরকে সেরূপ ভয় কর, যেরূপ নিজেদের লোককে ভয় কর? এমনিভাবে আমি সমঝদার সম্প্রদায়ের জন্যে নিদর্শনাবলী বিস্তারিত বর্ণনা করি।`,
+        ``,
+        ``
+      ],
+      [
+        `Ele propõe para vós um exemplo tirado de vós mesmos. Tendes, dentre os escravos que possuís, parceiros naquilo que Nós vos damos por sustento, e, nisso, sois iguais, temendo-os como vós vos temeis reciprocamente? Assim, aclaramos os sinais a um povo que razoa`,
+        ``,
+        ``
+      ],
+      [
+        `他为你们而就你们自身设一个譬喻；难道你们准许你们的奴婢与你们共同享受我赏赐你们的给养，而你们与他们完全平等，你们畏惧他们，犹如你们互相畏惧一样吗？我这样为能了解的民众解释我的迹象。`,
+        ``,
+        ``
+      ],
+      [
+        `かれは，あなたがた自身（の経験）から，一つの譬えを提示なされる。あなたがたは，自分の右手の所有する者たち（奴隷）を，われがあなたがたに与えたものを同等に分配する仲間にするだろうか。あなたがたが互いに気付かうように，かれら（奴隷たち）に気兼ねするだろうか。 （そうではあるまい）。このようにわれは，思慮ある者に印を説き明かす。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서 너희 자신들에 관한 예를 드셨노라 너희 오른손 이 소유하고 있는 자들 가운데서 우리가 너희에게 베푼 일용할 양 식에 동등하게 분배받을 자가 있 느뇨 너희가 서로를 두려워 하듯 너희는 두려워 하느뇨 이렇게 하 여 하나님은 이해하는 백성을 위 해 말씀을 분명케 하노라`,
+        ``,
+        ``
+      ],
+      [
+        `Da voi stessi, trae una similitudine: ci sono, tra gli schiavi che possedete, alcuni che fate vostri soci, alla pari, in ciò che Allah vi ha concesso? Li temete forse quanto vi temete [a vicenda]? Così esplicitiamo i Nostri segni per coloro che ragionano`,
+        ``,
+        ``
+      ],
+      [
+        `On przytoczył wam przykład z was samych. Czy macie z waszych niewolników współuczestników w tym, w co was zaopatrzyliśmy, i czy jesteście w tym z nimi równi? Czy wy się ich obawiacie, tak jak obawiacie się siebie nawzajem? Tak My wyjaśniamy znaki ludziom,, którzy są rozumni`,
+        ``,
+        ``
+      ],
+      [
+        `Аллаг навів вам як притчу вас самих. Чи є серед невільників, якими оволоділи ваші правиці, спільники в тому, чим Ми наділили вас, та яких ви боїтеся так, як боїтеся одне одного? Ось так Ми роз’яснюємо знамення для людей, які розуміють`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الروم / Ar-Rum، الآية 28`
   },
 
   {
@@ -37697,6 +40588,117 @@ const verses = [
 
   {
     arabic: [
+      `وَمَا يَسْتَوِي الْأَعْمَىٰ وَالْبَصِيرُ وَلَا الظُّلُمَاتُ وَلَا النُّورُ وَلَا الظِّلُّ وَلَا الْحَرُورُ وَمَا يَسْتَوِي الْأَحْيَاءُ وَلَا الْأَمْوَاتُ ۚ إِنَّ اللَّهَ يُسْمِعُ مَنْ يَشَاءُ ۖ وَمَا أَنْتَ بِمُسْمِعٍ مَنْ فِي الْقُبُورِ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Not equal are the blind and the seeing Nor are the darknesses and the light Nor are the shade and the heat And not equal are the living and the dead. Indeed, Allah causes to hear whom He wills, but you cannot make hear those in the graves`,
+        ``,
+        ``
+      ],
+      [
+        `L'aveugle et celui qui voit ne sont pas semblables ni les ténèbres et la lumière ni l'ombre et la chaleur ardente De même, ne sont pas semblables les vivants et les morts. Allah fait entendre qu'Il veut, alors que toi [Mohammed], tu ne peux faire entendre ceux qui sont dans les tombeaux`,
+        ``,
+        ``
+      ],
+      [
+        `No son iguales el ciego y el vidente las tinieblas y la luz la fresca sombra y el calor ardiente No son iguales los vivos y los muertos. Alá hace que oiga quien Él quiere. Tú no puedes hacer que quienes estén en las sepulturas oigan`,
+        ``,
+        ``
+      ],
+      [
+        `Не равны слепой и зрячий мраки и свет тень и зной Не равны живые и мертвые. Воистину, Аллах дарует слух тому, кому пожелает, и ты не можешь заставить слышать тех, кто в могиле`,
+        ``,
+        ``
+      ],
+      [
+        `Nicht gleich sind der Blinde und der Sehende noch die Finsternisse und das Licht noch der Schatten und die (Sonnen)hitze Und nicht gleich sind auch die Lebenden und die Toten. Allah läßt hören, wen Er will. Und du vermagst nicht, diejenigen hören zu lassen, die in den Gräbern sind`,
+        ``,
+        ``
+      ],
+      [
+        `Och den blinde kan inte jämställas med den seende inte heller mörker med ljus eller skugga med brännande hetta Och de levande kan inte jämställas med de döda. [Muhammad!] Gud förmår den Han vill att lyssna, men du kan inte förmå dem att lyssna som är [andligen döda och] begravda`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En de blinde is niet gelijk aan de ziende En de duisternissen zijn niet (gelijk) aan het licht En de schaduw (van het Paradijs) is niet (gelijk) aan de hitte (van de Hel) En de levenden zijn niet gelijk aan de doden. Voorwaar, Allah doet horen wie Hij wil, maar jij krant degenen die in de graven zijn niet doen horen`,
+        ``,
+        ``
+      ],
+      [
+        `اور اندھا اور آنکھ والا برابر نہیں اور نہ اندھیرا اور روشنی اور نہ سایہ اور دھوپ اور نہ زندے اور مردے برابر ہوسکتے ہیں۔ خدا جس کو چاہتا ہے سنا دیتا ہے۔ اور تم ان کو جو قبروں میں مدفون ہیں نہیں سنا سکتے`,
+        ``,
+        ``
+      ],
+      [
+        `Dan tidaklah sama orang yang buta dengan orang yang melihat dan tidak (pula) sama gelap gulita dengan cahaya dan tidak (pula) sama yang teduh dengan yang panas dan tidak (pula) sama orang yang hidup dengan orang yang mati. Sungguh, Allah memberikan pendengaran kepada siapa yang Dia kehendaki dan engkau (Muhammad) tidak akan sanggup menjadikan orang yang di dalam kubur dapat mendengar`,
+        ``,
+        ``
+      ],
+      [
+        `Kör ile gören, karanlıklar ile ışık ve gölgelikle sıcaklık bir değildir Dirilerle ölüler de bir değildir. Doğrusu Allah, dilediği kimseye işittirir. Sen, kabirlerde olanlara işittiremezsin`,
+        ``,
+        ``
+      ],
+      [
+        `و نابينا و بينا يكسان نيستند، و نه تيرگيها و روشنايى، و نه سايه و گرماى آفتاب و زندگان و مردگان يكسان نيستند. خداست كه هر كه را بخواهد شنوا مى‌گرداند؛ و تو كسانى را كه در گورهايند نمى‌توانى شنوا سازى`,
+        ``,
+        ``
+      ],
+      [
+        `দৃষ্টিমান ও দৃষ্টিহীন সমান নয়। সমান নয় অন্ধকার ও আলো। সমান নয় ছায়া ও তপ্তরোদ। আরও সমান নয় জীবিত ও মৃত। আল্লাহ শ্রবণ করান যাকে ইচ্ছা। আপনি কবরে শায়িতদেরকে শুনাতে সক্ষম নন।`,
+        ``,
+        ``
+      ],
+      [
+        `E o cego e o vidente não se igualam Nem as trevas e a luz Nem a sombra e o calor E não se igualam os vivos e os mortos. Por certo, Allah faz ouvir a Verdade a quem Ele quer. E tu não podes fazer ouvir os que estão nos sepulcros`,
+        ``,
+        ``
+      ],
+      [
+        `盲人和非盲人不相等， 黑暗与光明也不相等， 背阴和当阳也不相等， 活人和死人也不相等。真主必使他的意欲者能听闻，你绝不能使在坟中的人能听闻，`,
+        ``,
+        ``
+      ],
+      [
+        `盲人と正常の目の人とは，同じではない。 暗黒と光明も， また（涼しい）影と，（太陽の）灼熱も， また生と死も，同じではない。本当にアッラーは，御好みになられた者に御聞かせになる。だがあなたは，（死んで）墓の中にいる者に聞かせることは出来ない。`,
+        ``,
+        ``
+      ],
+      [
+        `보지 못한 자와 보는 자가 같지 아니하며 암흑과 광명이 같지 아니하 며 서늘한 그늘과 작렬하는 열 이 같지 아니하며 살아있는 것과 죽은 것이 같지 않노라 실로 하나님께서는 그 분의 뜻이 있는 자로 하여 듣게 하시노라`,
+        ``,
+        ``
+      ],
+      [
+        `Non sono uguali il cieco e colui che vede né le tenebre e la luce né l'ombra e la calura né i morti sono uguali ai vivi. In verità Allah fa udire chi vuole, mentre tu non puoi far sentire coloro che sono nelle tombe`,
+        ``,
+        ``
+      ],
+      [
+        `Niewidomy nie jest równy temu, który widzi Ani ciemności i światło Ani cień i żar słońca Nie są równi żywi i umarli. Zaprawdę, Bóg daje słyszeć, komu chce, lecz ty nie możesz skłonić do słyszenia tych, którzy są w grobach`,
+        ``,
+        ``
+      ],
+      [
+        `Не рівні між собою сліпий і зрячий темрява й світло тінь і спека не рівні живі й мертві! Воістину, Аллаг дарує слух, кому побажає. Ти не подаруєш слух тим, які в могилах`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة فاطر / Fatir، الآيات 19-22`
+  },
+
+  {
+    arabic: [
       `إِنَّ الَّذِينَ يَتْلُونَ كِتَابَ اللَّهِ وَأَقَامُوا الصَّلَاةَ`,
       `وَأَنفَقُوا مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً يَرْجُونَ تِجَارَةً لَّن تَبُورَ`,
       `لِيُوَفِّيَهُمْ أُجُورَهُمْ وَيَزِيدَهُم مِّن فَضْلِهِ ۚ إِنَّهُ غَفُورٌ شَكُورٌ`
@@ -39473,6 +42475,117 @@ const verses = [
 
   {
     arabic: [
+      `ضَرَبَ اللَّهُ مَثَلًا رَجُلًا فِيهِ شُرَكَاءُ مُتَشَاكِسُونَ وَرَجُلًا سَلَمًا لِرَجُلٍ هَلْ يَسْتَوِيَانِ مَثَلًا ۚ الْحَمْدُ لِلَّهِ ۚ بَلْ أَكْثَرُهُمْ لَا يَعْلَمُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Allah presents an example: a slave owned by quarreling partners and another belonging exclusively to one man - are they equal in comparison? Praise be to Allah! But most of them do not know`,
+        ``,
+        ``
+      ],
+      [
+        `Allah a cité comme parabole un homme appartenant à des associés se querellant à son sujet et un [autre] homme appartenant à un seul homme: sont-ils égaux en exemple ? Louanges à Allah ! Mais la plupart d'entre eux ne savent pas`,
+        ``,
+        ``
+      ],
+      [
+        `Alá propone el símil de un hombre que pertenece a socios que no están de acuerdo y el hombre que pertenece exclusivamente a uno. ¿Son ambos similares? ¡Alabado sea Alá! Pero la mayoría no saben`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах приводит в качестве притчи мужа, принадлежащего нескольким несговорчивым партнерам, и мужа, принадлежащего только одному человеку. Равны ли они в притче? Хвала надлежит Аллаху, но большинство их не знает этого`,
+        ``,
+        ``
+      ],
+      [
+        `Allah prägt als Gleichnis dasjenige von einem Mann, in dem sich (mehrere) Herren (als Eigentümer) teilen, die sich miteinander nicht vertragen, und einem Mann, der nur einem Herrn gehört. Sind die beiden im Gleichnis etwa gleich? (Alles) Lob gehört Allah! Aber die meisten von ihnen wissen nicht`,
+        ``,
+        ``
+      ],
+      [
+        `Gud framställer [denna] liknelse: [Här är två män] - den ene har flera herrar som tvistar sinsemellan, och den andre beror av en enda herre. Är deras villkor jämförbara? [Nej] - Gud ske lov! - men de flesta [människor] inser inte detta`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Allah heeft een vergelijking gemaakt van een slaaf die aan meerdere meesters behoort die onderling ruziën, met een slaaf die aan slechts één meester behoort. Zijn zij aan elkaar gelijk? Alle lof zij Allah, maar de meesten van hen weten het niet`,
+        ``,
+        ``
+      ],
+      [
+        `خدا ایک مثال بیان کرتا ہے کہ ایک شخص ہے جس میں کئی (آدمی) شریک ہیں۔ (مختلف المزاج اور) بدخو اور ایک آدمی خاص ایک شخص کا (غلام) ہے۔ بھلا دونوں کی حالت برابر ہے۔ (نہیں) الحمدلله بلکہ یہ اکثر لوگ نہیں جانتے`,
+        ``,
+        ``
+      ],
+      [
+        `Allah membuat perumpamaan (yaitu) seorang laki-laki (hamba sahaya) yang dimiliki oleh beberapa orang berserikat yang dalam perselisihan, dan seorang hamba sahaya yang menjadi milik penuh dari seorang (saja). Adakah kedua hamba sahaya itu sama keadaannya? Segala puji bagi Allah, tetapi kebanyakan mereka tidak mengetahui`,
+        ``,
+        ``
+      ],
+      [
+        `Allah, geçimsiz efendileri olan bir adamla, yalnız bir kişiye bağlı olan bir adamı misal olarak verir. Bu ikisi eşit midir? Övülmek Allah içindir, fakat çoğu bilmezler`,
+        ``,
+        ``
+      ],
+      [
+        `خدا مثَلى زده است: مردى است كه چند خواجه ناسازگار در [مالكيّت‌] او شركت دارند [و هر يك او را به كارى مى‌گمارند] و مردى است كه تنها فرمانبر يك مرد است. آيا اين دو در مثَل يكسانند؟ سپاس خداى را. [نه،] بلكه بيشترشان نمى‌دانند`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ এক দৃষ্টান্ত বর্ণনা করেছেনঃ একটি লোকের উপর পরস্পর বিরোধী কয়জন মালিক রয়েছে, আরেক ব্যক্তির প্রভু মাত্র একজন-তাদের উভয়ের অবস্থা কি সমান? সমস্ত প্রশংসা আল্লাহর। কিন্তু তাদের অধিকাংশই জানে না।`,
+        ``,
+        ``
+      ],
+      [
+        `Allah propõe um exemplo: um homem que pertence a sócios litigantes, e um homem que pertence, inteiramente, a um só homem. Igualam-se ambos, como exemplo? Louvor a Allah! Mas a maioria deles não sabe`,
+        ``,
+        ``
+      ],
+      [
+        `真主设一个譬喻：一个奴隶为许多纷争的伙计所共有；又有一个奴隶专归一个主人；这两个奴隶的情状相等吗？一切 赞颂，全归真主！不然，他们大半不知道。`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーは一つの比喩を提示なされる。多くの主人がいて互いに争う者と，只一人の主人に忠実に仕えている者とこの2人は比べてみて同じであろうか。アッラーに讃えあれ。だが，かれらの多くは分らないのである。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님이 비유하사 서로 의 견이 맞지 않는 여러 주인을 섬기는 사람과 한 주인에게만 충성하 는 사람이 같을 수 있느뇨 모든 찬미는 하나님의 것이라 그러나 그들 대다수는 알지 못하더라`,
+        ``,
+        ``
+      ],
+      [
+        `Allah vi propone la metafora di un uomo che dipende da soci in lite tra loro e di un altro che sottostà ad un [unico] padrone. Sono forse nella stessa condizione? Lode ad Allah, ma la maggior parte degli uomini non sanno`,
+        ``,
+        ``
+      ],
+      [
+        `Bóg przytoczył jako przykład pewnego człowieka, o którego się sprzeczali współwłaściciele, i innego, poddanego tylko jednemu człowiekowi. Czy oni stanowią jednakowy Przykład? Chwała niech będzie Bogu! Lecz większość ludzi nie wie`,
+        ``,
+        ``
+      ],
+      [
+        `Аллаг навів притчу — раба, який належить кільком упертим господарям, і ще одного раба, який належить одному. Чи рівні вони в порівнянні? Хвала Аллагу! Але ж більшість із них не знає`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الزمر / Az-Zumar، الآية 29`
+  },
+
+  {
+    arabic: [
       `وَلَئِنْ سَأَلْتَهُمْ مَنْ خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ لَيَقُولُنَّ اللَّهُ ۚ قُلْ أَفَرَأَيْتُمْ مَا تَدْعُونَ مِنْ دُونِ اللَّهِ إِنْ أَرَادَنِيَ اللَّهُ بِضُرٍّ هَلْ هُنَّ كَاشِفَاتُ ضُرِّهِ أَوْ أَرَادَنِي بِرَحْمَةٍ هَلْ هُنَّ مُمْسِكَاتُ رَحْمَتِهِ ۚ قُلْ حَسْبِيَ اللَّهُ ۖ عَلَيْهِ يَتَوَكَّلُ الْمُتَوَكِّلُونَ`,
       ``,
       ``
@@ -40246,6 +43359,117 @@ const verses = [
       ]
     ],
     number: `سورة غافر / Ghafir، الآية 40`
+  },
+
+  {
+    arabic: [
+      `وَمَا يَسْتَوِي الْأَعْمَىٰ وَالْبَصِيرُ وَالَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَلَا الْمُسِيءُ ۚ قَلِيلًا مَا تَتَذَكَّرُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And not equal are the blind and the seeing, nor are those who believe and do righteous deeds and the evildoer. Little do you remember`,
+        ``,
+        ``
+      ],
+      [
+        `L'aveugle et le voyant ne sont pas égaux, et ceux qui croient et accomplissent les bonnes œuvres ne peuvent être comparés à celui qui fait le mal. C'est rare que vous vous rappeliez`,
+        ``,
+        ``
+      ],
+      [
+        `No son iguales el ciego y el vidente. Ni los que han creído y obrado bien y los que han obrado mal. ¡Qué poco os dejáis amonestar`,
+        ``,
+        ``
+      ],
+      [
+        `Не равны слепой и зрячий, а также те, которые уверовали и совершали праведные деяния, и творящие зло. Как же мало вы поминаете назидания`,
+        ``,
+        ``
+      ],
+      [
+        `Nicht gleich sind der Blinde und der Sehende und auch nicht diejenigen, die glauben und rechtschaffene Werke tun, und der Missetäter. Wie wenig ihr bedenkt`,
+        ``,
+        ``
+      ],
+      [
+        `Och den blinde kan inte jämställas med den seende, liksom den som tror och lever rättskaffens och den som begår orätt inte [kan jämställas]. Det är inte mycket ni ägnar eftertanke åt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En de blinde en de ziende (van hart) zijn niet gelijk, en zij die geloven en goede werken verrichten zijn niet gelijk aan de kwaaddoeners. Gering is de lering die jullie eruit trekken`,
+        ``,
+        ``
+      ],
+      [
+        `اور اندھا اور آنکھ والا برابر نہیں۔ اور نہ ایمان لانے والے نیکوکار اور نہ بدکار (برابر ہیں) (حقیقت یہ ہے کہ) تم بہت کم غور کرتے ہو`,
+        ``,
+        ``
+      ],
+      [
+        `Dan tidak sama orang yang buta dengan orang yang melihat, dan tidak (sama) pula orang-orang yang beriman dan mengerjakan kebajikan dengan orang-orang yang berbuat kejahatan. Hanya sedikit sekali yang kamu ambil pelajaran`,
+        ``,
+        ``
+      ],
+      [
+        `Körle gören, inanıp yararlı iş işleyenlerle kötülük yapan bir değildir. Ne kadar az düşünüyorsunuz`,
+        ``,
+        ``
+      ],
+      [
+        `و نابينا و بينا يكسان نيستند، و كسانى كه ايمان آورده و كارهاى شايسته كرده‌اند [نيز] با [مردم‌] بدكار [يكسان‌] نيستند؛ چه اندك پند مى‌پذيريد`,
+        ``,
+        ``
+      ],
+      [
+        `অন্ধ ও চক্ষুষ্মান সমান নয়, আর যারা বিশ্বাস স্থাপন করে ও সৎকর্ম করে এবং কুকর্মী। তোমরা অল্পই অনুধাবন করে থাক।`,
+        ``,
+        ``
+      ],
+      [
+        `E o cego e o vidente não se igualam, nem os que crêem e fazem as boas obras e o malfeitor. Quão pouco meditais`,
+        ``,
+        ``
+      ],
+      [
+        `无眼者与有眼者是不相等的；信道而且行善者与作恶者也是不相等的，但你们很少觉悟。`,
+        ``,
+        ``
+      ],
+      [
+        `盲人と正常の目の人とは同じではなく，また信仰して善行に勤しむ者と，悪行の徒とは同じではない。訓戒を留意する者は稀である。`,
+        ``,
+        ``
+      ],
+      [
+        `눈먼자와 보는자가 같지 아 니하며 믿음으로 선을 행하는 자 들이 사악한 자가 같지 아니하니 소수를 제외하고는 교훈으로 삼지못하더라`,
+        ``,
+        ``
+      ],
+      [
+        `Il cieco e colui che vede non sono simili tra loro né lo sono coloro che credono e fanno il bene e i malvagi. Quanto poco riflettete`,
+        ``,
+        ``
+      ],
+      [
+        `Nie są sobie równi niewidomy i widzący; ani też ci, którzy wierzą i którzy pełnią dobre dzieła, nie są równi temu, który czyni zło. Jakże mało wy sobie przypominacie`,
+        ``,
+        ``
+      ],
+      [
+        `Не рівні між собою сліпий і зрячий. А ті, які увірували й робили добро, не рівні тим, які чинять зло. Мало ж ви замислюєтесь`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة غافر / Ghafir، الآية 58`
   },
 
   {
@@ -43243,6 +46467,117 @@ const verses = [
       ]
     ],
     number: `سورة محمد / Muhammad، الآية 2`
+  },
+
+  {
+    arabic: [
+      `مَثَلُ الْجَنَّةِ الَّتِي وُعِدَ الْمُتَّقُونَ ۖ فِيهَا أَنْهَارٌ مِنْ مَاءٍ غَيْرِ آسِنٍ وَأَنْهَارٌ مِنْ لَبَنٍ لَمْ يَتَغَيَّرْ طَعْمُهُ وَأَنْهَارٌ مِنْ خَمْرٍ لَذَّةٍ لِلشَّارِبِينَ وَأَنْهَارٌ مِنْ عَسَلٍ مُصَفًّى ۖ وَلَهُمْ فِيهَا مِنْ كُلِّ الثَّمَرَاتِ وَمَغْفِرَةٌ مِنْ رَبِّهِمْ ۖ كَمَنْ هُوَ خَالِدٌ فِي النَّارِ وَسُقُوا مَاءً حَمِيمًا فَقَطَّعَ أَمْعَاءَهُمْ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Is the description of Paradise, which the righteous are promised, wherein are rivers of water unaltered, rivers of milk the taste of which never changes, rivers of wine delicious to those who drink, and rivers of purified honey, in which they will have from all [kinds of] fruits and forgiveness from their Lord, like [that of] those who abide eternally in the Fire and are given to drink scalding water that will sever their intestines`,
+        ``,
+        ``
+      ],
+      [
+        `Voici la description du Paradis qui a été promis aux pieux : il y aura là des ruisseaux d'une eau jamais malodorante, et des ruisseaux d'un lait au goût inaltérable, et des ruisseaux d'un vin délicieux à boire, ainsi que des ruisseaux d'un miel purifié. Et il y a là, pour eux, des fruits de toutes sortes, ainsi qu'un pardon de la part de leur Seigneur. [Ceux-là] seront-ils pareils à ceux qui s'éternisent dans le Feu et qui sont abreuvés d'une eau bouillante qui leur déchire les entrailles`,
+        ``,
+        ``
+      ],
+      [
+        `Imagen del Jardín prometido a quienes temen a Alá: habrá en él arroyos de agua incorruptible, arroyos de leche de gusto inalterable, arroyos de vino, delicia de los bebedores, arroyos de depurada miel. Tendrán en él toda clase de frutas y perdón de su Señor. ¿Serán como quienes están en el Fuego por toda la eternidad, a los que se da de beber un agua muy caliente que les roe las entrañas`,
+        ``,
+        ``
+      ],
+      [
+        `Вот описание Рая, обещанного богобоязненным! В нем текут реки из воды, которая не застаивается, реки из молока, вкус которого не изменяется, реки из вина, дарующего наслаждение пьющим, и реки из очищенного меда. В нем для них уготованы любые фрукты и прощение от их Господа. Неужели они подобны тем, которые вечно пребывают в Огне и которых поят кипящей водой, разрывающей их кишки`,
+        ``,
+        ``
+      ],
+      [
+        `Das Gleichnis des (Paradies)gartens, der den Gottesfürchtigen versprochen ist: Darin sind Bäche mit Wasser, das nicht schal wird, und Bäche mit Milch, deren Geschmack sich nicht ändert, und Bäche mit Wein, der köstlich ist für diejenigen, die (davon) trinken, und Bäche mit geklärtem Honig. Und sie haben darin von allen Früchten und Vergebung von ihrem Herrn. (Sind diese denn) jemandem gleich, der im (Höllen)feuer ewig bleibt und dem heißes Wasser zu trinken gegeben wird, das seine Gedärme zerreißt`,
+        ``,
+        ``
+      ],
+      [
+        `Paradiset som lovats dem som fruktar Gud kan liknas vid [en lustgård] där bäckar flyter med vatten som alltid förblir friskt, och floder av mjölk med ofördärvad smak, och floder av det ljuvligaste vin, och floder av renaste honung, och där de skall njuta frukter av alla slag och [dessutom få] sin Herres förlåtelse. [Kan den som stiger in i detta paradis jämföras] med den som måste förbli i Elden och [där] dricka skållhett vatten, som bränner sönder hans inälvor`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Is het (geluk van) het Paradijs dat aan de Moettaqôen beloofd is, waarin rivieren zijn met versblijvend water, en van melk waarvan de smaak niet verandert, en rivieren van Khamr, als een genieting voor hen die drinken, en rivieren van zuivere honing, en waarin voor hen allerlei vruchten zijn en vergeving van hun Heer; gelijk (aan de ellende van) hen die eeuwig levenden in de Hel zijn, in wie kokend water wordt gegoten, dat hun ingewanden dan aan stukken snijdt`,
+        ``,
+        ``
+      ],
+      [
+        `جنت جس کا پرہیزگاروں سے وعدہ کیا جاتا ہے۔ اس کی صفت یہ ہے کہ اس میں پانی کی نہریں ہیں جو بو نہیں کرے گا۔ اور دودھ کی نہریں ہیں جس کا مزہ نہیں بدلے گا۔ اور شراب کی نہریں ہیں جو پینے والوں کے لئے (سراسر) لذت ہے۔ اور شہد مصفا کی نہریں ہیں (جو حلاوت ہی حلاوت ہے) اور (وہاں) ان کے لئے ہر قسم کے میوے ہیں اور ان کے پروردگار کی طرف سے مغفرت ہے۔ (کیا یہ پرہیزگار) ان کی طرح (ہوسکتے) ہیں جو ہمیشہ دوزخ میں رہیں گے اور جن کو کھولتا ہوا پانی پلایا جائے گا تو ان کی انتڑیوں کو کاٹ ڈالے گا`,
+        ``,
+        ``
+      ],
+      [
+        `Perumpamaan taman surga yang dijanjikan kepada orang-orang yang bertakwa; di sana ada sungai-sungai yang airnya tidak payau, dan sungai-sungai air susu yang tidak berubah rasanya, dan sungai-sungai khamar (anggur yang tidak memabukkan) yang lezat rasanya bagi peminumnya, dan sungai-sungai madu yang murni. Di dalamnya mereka memperoleh segala macam buah-buahan, dan ampunan dari Tuhan mereka. Samakah mereka dengan orang yang kekal dalam neraka, dan diberi minuman dengan air yang mendidih, sehingga ususnya terpotong-potong`,
+        ``,
+        ``
+      ],
+      [
+        `Allah'a karşı gelmekten sakınanlara söz verilen cennet şöyledir: Orada temiz su ırmakları, tadı bozulmayan süt ırmakları, içenlere zevk veren şarap ırmakları, süzme bal ırmakları vardır. Onlara orada her türlü ürün ve Rablerinden mağfiret vardır. Bunların durumu, ateşte temelli kalan ve bağırsaklarını parça parça edecek kaynar su içirilen kimselerin durumu gibi olur mu`,
+        ``,
+        ``
+      ],
+      [
+        `مَثَل بهشتى كه به پرهيزگاران وعده داده شده [چون باغى است كه‌] در آن نهرهايى است از آبى كه [رنگ و بو و طعمش‌] برنگشته؛ و جويهايى از شيرى كه مزه‌اش دگرگون نشود؛ و رودهايى از باده‌اى كه براى نوشندگان لذتى است؛ و جويبارهايى از انگبين ناب. و در آنجا از هر گونه ميوه براى آنان [فراهم‌] است و [از همه بالاتر] آمرزش پروردگار آنهاست. [آيا چنين كسى در چنين باغى دل‌انگيز] مانند كسى است كه جاودانه در آتش است و آبى جوشان به خوردشان داده مى‌شود [تا] روده‌هايشان را از هم فرو پاشد؟`,
+        ``,
+        ``
+      ],
+      [
+        `পরহেযগারদেরকে যে জান্নাতের ওয়াদা দেয়া হয়েছে, তার অবস্থা নিম্নরূপঃ তাতে আছে পানির নহর, নির্মল দুধের নহর যারা স্বাদ অপরিবর্তনীয়, পানকারীদের জন্যে সুস্বাদু শরাবের নহর এবং পরিশোধিত মধুর নহর। তথায় তাদের জন্যে আছে রকমারি ফল-মূল ও তাদের পালনকর্তার ক্ষমা। পরহেযগাররা কি তাদের সমান, যারা জাহান্নামে অনন্তকাল থাকবে এবং যাদেরকে পান করতে দেয়া হবে ফুটন্ত পানি অতঃপর তা তাদের নাড়িভূঁড়ি ছিন্ন বিচ্ছিন্ন করে দেবে`,
+        ``,
+        ``
+      ],
+      [
+        `Eis o exemplo do Paraíso, prometido aos piedosos: nele, há rios de água nunca malcheirosa, e rios de leite, cujo sabor não se altera, e rios de vinho, deleitoso para quem o bebe, e rios de mel purificado. E, nele, terão todo tipo de frutos, e perdão de seu Senhor. São esses como os que, no Fogo, serão eternos, e aos quais se dará de beber água ebuliente, que lhes despedaçará os intestinos`,
+        ``,
+        ``
+      ],
+      [
+        `敬畏的人们所蒙应许的乐园，其情状是这样的：其中有水河，水质不腐；有乳河，乳味不变；有酒河，饮者称快；有蜜河，蜜质纯洁；他们在乐园中，有各种水果，可以享受；还有从他们的主发出的赦宥。永居乐园者，难道与那永居火狱，常饮沸水，肠寸寸断的人是一样的吗？`,
+        ``,
+        ``
+      ],
+      [
+        `主を畏れる者に約束されている楽園を描いてみよう。そこには腐ることのない水を湛える川，味の変ることのない乳の川，飲む者に快い（美）酒の川，純良な蜜の川がある。またそこでは，凡ての種類の果実と，主からの御赦しを賜わる。（このような者たちと）業火の中に永遠に住み，煮えたぎる湯を飲まされて，腸が寸断する者と同じであろうか。`,
+        ``,
+        ``
+      ],
+      [
+        `의로운 자들에게 약속된 천 국을 비유하사 그곳에 강물이 있 으되 변하지 아니하고 우유가 흐 르는 강이 있으되 맛이 변하지 아니하며 술이 흐르는 강이 있으 니 마시는 이들에게 기쁨을 주며 꿀이 흐르는 강이 있으되 순수하 고 깨끗하더라 그곳에는 온갖 과 일이 있으며 주님의 자비가 있노 라 이렇게 사는 자들이 지옥에 살 며 끓는 물을 마셔 그들의 내장이 산산조각이 되는 그들과 같을 수 있느뇨`,
+        ``,
+        ``
+      ],
+      [
+        `[Ecco] la descrizione del Giardino che è stata promessa ai timorati [di Allah]: ci saranno ruscelli di un'acqua che mai sarà malsana e ruscelli di latte dal gusto inalterabile e ruscelli di un vino delizioso a bersi, e ruscelli di miele purificato. E ci saranno, per loro, ogni sorta di frutta e il perdono del loro Signore. Essi sono forse simili a coloro che rimangono in perpetuo nel Fuoco e che verranno abbeverati di un'acqua bollente che devasterà le loro viscere`,
+        ``,
+        ``
+      ],
+      [
+        `To jest podobieństwo Ogrodu, który został obiecany bogobojnym: będą w nim strumyki wody nie ulegającej zepsuciu i strumyki mleka, którego smak się nie zmienia, i strumyki wina - rozkosz dla popijających, i strumyki oczyszczonego miodu. I będą tam dla nich wszelkiego rodzaju owoce; i przebaczenie od ich Pana. Czyż oni mogą być jak ten, kto na wieki przebywa w ogniu, jak ci, którzy będą pojeni wrzącą wodą, rozrywającą im wnętrzności`,
+        ``,
+        ``
+      ],
+      [
+        `Така картина раю, обіцяного богобоязливим: там течуть ріки з води, яка не застоюється, ріки з молока, яке не змінює свого смаку, ріки з вина, яке дарує насолоду тим, хто його п’є, ріки з очищеного меду. Вони матимуть там кожен плід та прощення від Господа свого. Невже вони схожі на тих, хто вічно перебуватиме в пеклі та питиме киплячу воду, яка розриватиме їхні нутрощі`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة محمد / Muhammad، الآية 15`
   },
 
   {
@@ -47243,6 +50578,117 @@ const verses = [
 
   {
     arabic: [
+      `كَمَثَلِ الشَّيْطَانِ إِذْ قَالَ لِلْإِنْسَانِ اكْفُرْ فَلَمَّا كَفَرَ قَالَ إِنِّي بَرِيءٌ مِنْكَ إِنِّي أَخَافُ اللَّهَ رَبَّ الْعَالَمِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `[The hypocrites are] like the example of Satan when he says to man, "Disbelieve." But when he disbelieves, he says, "Indeed, I am disassociated from you. Indeed, I fear Allah, Lord of the worlds`,
+        ``,
+        ``
+      ],
+      [
+        `ils sont semblables au Diable quand il dit à l'homme : "Sois incrédule.. Puis quand il a mécru, il dit : "Je te désavoue car je redoute Allah, le Seigneur de l'Univers`,
+        ``,
+        ``
+      ],
+      [
+        `Como el Demonio cuando dice al hombre: «¡No creas!». Y, cuando ya no cree, dice: «Yo no soy responsable de ti. Yo temo a Alá, Señor del universo»`,
+        ``,
+        ``
+      ],
+      [
+        `Они подобны дьяволу, который говорит человеку: «Не веруй!». Когда же тот становится неверующим, он говорит: «Я не причастен к тебе! Я боюсь Аллаха, Господа миров»`,
+        ``,
+        ``
+      ],
+      [
+        `Es ist wie das Gleichnis des Satans, wenn er zum Menschen sagt: "Sei ungläubig." Wenn er dann ungläubig geworden ist, sagt er: "Gewiß, ich bin unschuldig an dir. Gewiß, ich fürchte Allah, den Herrn der Weltenbewohner`,
+        ``,
+        ``
+      ],
+      [
+        `Se hur Djävulen [beter sig]: först säger han till människan: "Förneka sanningen!" och när hon förnekar sanningen, säger han: "Jag är inte ansvarig för dig; jag fruktar Gud, världarnas Herre`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `(De huichelaars zijn) zoals de Satan, toen hij tot de mens zei: "Wees ongelovig," maar wanneer hij dan ongelovig is, dan zegt hij (de Satan): "Voorwaar, ik ben niet verantwoordelijk voor jullie. Voorwaar, ik vrees de Heer der werelden`,
+        ``,
+        ``
+      ],
+      [
+        `(منافقوں کی) مثال شیطان کی سی ہے کہ انسان سے کہتا رہا کہ کافر ہوجا۔ جب وہ کافر ہوگیا تو کہنے لگا کہ مجھے تجھ سے کچھ سروکار نہیں۔ مجھ کو خدائے رب العالمین سے ڈر لگتا ہے`,
+        ``,
+        ``
+      ],
+      [
+        `(Bujukan orang-orang munafik itu) seperti (bujukan) setan ketika ia berkata kepada manusia, "Kafirlah kamu!" Kemudian setelah manusia itu menjadi kafir ia berkata, "Sesungguhnya aku berlepas diri dari kamu, karena sesungguhnya aku takut kepada Allah, Tuhan seluruh alam`,
+        ``,
+        ``
+      ],
+      [
+        `İkiyüzlülerin durumu insana: "İnkar et!" deyip, insan da inkar edince: "Doğrusu ben senden uzağım; Alemlerin Rabbi olan Allah'tan korkarım" diyen şeytanın durumu gibidir`,
+        ``,
+        ``
+      ],
+      [
+        `چون حكايت شيطان كه به انسان گفت: «كافر شو.» و چون [وى‌] كافر شد، گفت: «من از تو بيزارم، زيرا من از خدا، پروردگار جهانيان، مى‌ترسم.»`,
+        ``,
+        ``
+      ],
+      [
+        `তারা শয়তানের মত, যে মানুষকে কাফের হতে বলে। অতঃপর যখন সে কাফের হয়, তখন শয়তান বলেঃ তোমার সাথে আমার কোন সম্পর্ক নেই। আমি বিশ্বপালনকর্তা আল্লাহ তা’আলাকে ভয় করি।`,
+        ``,
+        ``
+      ],
+      [
+        `São iguais a Satã, quando disse ao ser humano: "Renega a Fé!" Então, quando renegou a Fé, disse aquele: "Por certo, estou em rompimento contigo; por certo, temo a Allah, O Senhor dos mundos`,
+        ``,
+        ``
+      ],
+      [
+        `他们又象恶魔一样。当时，他曾对人说：你不要信道。当他不信道的时候，他说：我确是与你无干的，我的确畏惧真主--全世界的主。`,
+        ``,
+        ``
+      ],
+      [
+        `（かれらは）悪魔のように人に向かって，「信仰を捨てなさい。」と言う。（その人が）一度不信心になると，かれは，「わたしはあなたと関わりはない。本当に万有の主アッラーが恐ろしいのである。」と言う。`,
+        ``,
+        ``
+      ],
+      [
+        `(그들의 상황은) 사탄과 유사하니 그는 인간에게 “불신하시오” 라고 말하였고, 그리하여 그가 불신했을 때 그(사탄)는 “실로 나는 당신으로부터 결백하오. 실로 나는 만유의 주님이신 하나님이 두렵소” 라고 말하더라`,
+        ``,
+        ``
+      ],
+      [
+        `[Furono traditi] come quando Satana disse all'uomo: “Non credere”; ma quando questo fu miscredente gli disse: “Ti sconfesso, io temo Allah, il Signore dei mondi”`,
+        ``,
+        ``
+      ],
+      [
+        `Oni są podobni do szatana, kiedy mówi do człowieka: "Bądź niewierny!" A kiedy jest niewierny, on mówi: "Ja się ciebie wyrzekam! Zaprawdę, boję się Boga, Pana światów`,
+        ``,
+        ``
+      ],
+      [
+        `Схожі вони на шайтана, коли мовив він до людини: «Не віруй!» Коли ж та стала невіруючою, він сказав: «А я відрікаюся від тебе, бо ж я боюся Аллага, Господа світів`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الحشر / Al-Hashr، الآية 16`
+  },
+
+  {
+    arabic: [
       `لَوْ أَنزَلْنَا هَٰذَا الْقُرْآنَ عَلَىٰ جَبَلٍ`,
       `لَّرَأَيْتَهُ خَاشِعًا مُّتَصَدِّعًا مِّنْ خَشْيَةِ اللَّهِ`,
       `وَتِلْكَ الْأَمْثَالُ نَضْرِبُهَا لِلنَّاسِ لَعَلَّهُمْ يَتَفَكَّرُونَ`
@@ -47798,6 +51244,117 @@ const verses = [
 
   {
     arabic: [
+      `إِنَّ اللَّهَ يُحِبُّ الَّذِينَ يُقَاتِلُونَ فِي سَبِيلِهِ صَفًّا كَأَنَّهُمْ بُنْيَانٌ مَرْصُوصٌ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Indeed, Allah loves those who fight in His cause in a row as though they are a [single] structure joined firmly`,
+        ``,
+        ``
+      ],
+      [
+        `Allah aime ceux qui combattent dans Son chemin en rang serré pareils à un édifice renforcé`,
+        ``,
+        ``
+      ],
+      [
+        `Alá ama a los que luchan en fila por Su causa, como si fueran un sólido edificio`,
+        ``,
+        ``
+      ],
+      [
+        `Воистину, Аллах любит тех, которые сражаются на Его пути рядами, словно они - прочное строение`,
+        ``,
+        ``
+      ],
+      [
+        `Gewiß, Allah liebt diejenigen, die auf Seinem Weg kämpfen in Reihe, als wären sie ein zusammengefügter Bau`,
+        ``,
+        ``
+      ],
+      [
+        `Gud älskar dem som kämpar för Hans sak i slutna led [så att de tillsammans bildar] liksom en stark och solid byggnad`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Voorwaar, Allah houdt van degenen die in slagorde strijden op Zijn Weg, alsof zij een hecht gevoegd bouwwerk zijn`,
+        ``,
+        ``
+      ],
+      [
+        `جو لوگ خدا کی راہ میں (ایسے طور پر) پرے جما کر لڑتے کہ گویا سیسہ پلائی دیوار ہیں وہ بےشک محبوب کردگار ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Sesungguhnya Allah mencintai orang-orang yang berperang di jalan-Nya dalam barisan yang teratur, mereka seakan-akan seperti suatu bangunan yang tersusun kokoh`,
+        ``,
+        ``
+      ],
+      [
+        `Doğrusu Allah, kendi uğrunda, kenetlenmiş bir duvar gibi, saf halinde çarpışanları sever`,
+        ``,
+        ``
+      ],
+      [
+        `در حقيقت، خدا دوست دارد كسانى را كه در راه او صف در صف، چنانكه گويى بنايى ريخته شده از سرب‌اند، جهاد مى‌كنند`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ তাদেরকে ভালবাসেন, যারা তাঁর পথে সারিবদ্ধভাবে লড়াই করে, যেন তারা সীসাগালানো প্রাচীর।`,
+        ``,
+        ``
+      ],
+      [
+        `Por certo, Allah ama os que combatem em Seu caminho, em fileira, como se fossem edificações ligadas por chumbo`,
+        ``,
+        ``
+      ],
+      [
+        `真主的确喜爱那等人；他们为他而列阵作战，好像坚实的墙壁一样。`,
+        ``,
+        ``
+      ],
+      [
+        `本当にアッラーの御好みになられる者は，堅固な建造物のように，戦列を組んでかれの道のために戦う者たちである。`,
+        ``,
+        ``
+      ],
+      [
+        `실로 하나님께서는 그분의 길에서 대열을 지어 전투에 참전하는 자들을 사랑하시니 그들은 마치 견고한 건축물과도 같더라`,
+        ``,
+        ``
+      ],
+      [
+        `In verità Allah ama coloro che combattono per la Sua causa in ranghi serrati come fossero un solido edificio`,
+        ``,
+        ``
+      ],
+      [
+        `Zaprawdę, Bóg miłuje tych, którzy walczą na Jego drodze w zwartych szeregach, jak gdyby byli budowlą solidną`,
+        ``,
+        ``
+      ],
+      [
+        `Воістину, Аллаг любить тих, які ведуть боротьбу на Його шляху лавами, схожими на міцну споруду`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الصف / As-Saff، الآية 4`
+  },
+
+  {
+    arabic: [
       `وَإِذْ قَالَ عِيسَى ابْنُ مَرْيَمَ يَا بَنِي إِسْرَائِيلَ إِنِّي رَسُولُ اللَّهِ إِلَيْكُمْ مُصَدِّقًا لِمَا بَيْنَ يَدَيَّ مِنَ التَّوْرَاةِ وَمُبَشِّرًا بِرَسُولٍ يَأْتِي مِنْ بَعْدِي اسْمُهُ أَحْمَدُ ۖ فَلَمَّا جَاءَهُمْ بِالْبَيِّنَاتِ قَالُوا هَٰذَا سِحْرٌ مُبِينٌ`,
       ``,
       ``
@@ -48238,6 +51795,228 @@ const verses = [
       ]
     ],
     number: `سورة الجمعة / Al-Jumu'ah، الآية 2`
+  },
+
+  {
+    arabic: [
+      `مَثَلُ الَّذِينَ حُمِّلُوا التَّوْرَاةَ ثُمَّ لَمْ يَحْمِلُوهَا كَمَثَلِ الْحِمَارِ يَحْمِلُ أَسْفَارًا ۚ بِئْسَ مَثَلُ الْقَوْمِ الَّذِينَ كَذَّبُوا بِآيَاتِ اللَّهِ ۚ وَاللَّهُ لَا يَهْدِي الْقَوْمَ الظَّالِمِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `The example of those who were entrusted with the Torah and then did not take it on is like that of a donkey who carries volumes [of books]. Wretched is the example of the people who deny the signs of Allah. And Allah does not guide the wrongdoing people`,
+        ``,
+        ``
+      ],
+      [
+        `Ceux qui ont été chargés de la Thora mais qui ne l'ont pas appliquée sont pareils à l'âne qui porte des livres. Quel mauvais exemple que celui de ceux qui traitent de mensonges les versets d'Allah et Allah ne guide pas les gens injustes`,
+        ``,
+        ``
+      ],
+      [
+        `Aquéllos a quienes se había confiado la Tora pero no la observaron son semejantes a un asno que lleva libros. ¡Qué mal ejemplo da la gente que desmiente los signos de Alá! Alá no dirige al pueblo impío`,
+        ``,
+        ``
+      ],
+      [
+        `Те, кому было поручено придерживаться Таурата (Торы) и которые не придерживались его, подобны ослу, который везет на себе много книг. Как же скверно сравнение с людьми, которые считают ложью знамения Аллаха! Аллах не ведет прямым путем несправедливых людей`,
+        ``,
+        ``
+      ],
+      [
+        `Das Gleichnis derjenigen, denen die Tora auferlegt wurde, die sie aber hierauf doch nicht getragen haben, ist das eines Esels, der Bücher trägt. Schlimm ist das Gleichnis der Leute, die Allahs Zeichen für Lüge erklären. Und Allah leitet das ungerechte Volk nicht recht`,
+        ``,
+        ``
+      ],
+      [
+        `DE som anförtroddes Tora och som därefter inte förmådde bära denna [börda], kan liknas vid åsnan som bär en last av heliga böcker. Ett folk som påstår att Guds budskap är lögn visar upp sin mest motbjudande sida; Gud vägleder inte dem som oupphörligt begår orätt`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `De gelijkenis van degenen aan wie de Taurât is opgedragen en zich er vervolgens niet aan houden, is als de gelijkenis van een ezel die boeken draagt. Slecht is de gelijkenis van het volk dat de Verzen van Allah loochent. En Allah leidt het onrechtplegende volk niet`,
+        ``,
+        ``
+      ],
+      [
+        `جن لوگوں (کے سر) پر تورات لدوائی گئی پھر انہوں نے اس (کے بار تعمیل) کو نہ اٹھایا ان کی مثال گدھے کی سی ہے جن پر بڑی بڑی کتابیں لدی ہوں۔ جو لوگ خدا کی آیتوں کی تکذیب کرتے ہیں ان کی مثال بری ہے۔ اور خدا ظالم لوگوں کو ہدایت نہیں دیتا`,
+        ``,
+        ``
+      ],
+      [
+        `Perumpamaan orang-orang yang diberi tugas membawa Taurat, kemudian mereka tidak membawanya (tidak mengamalkannya) adalah seperti keledai yang membawa kitab-kitab yang tebal. Sangat buruk perumpamaan kaum yang mendustakan ayat-ayat Allah. Dan Allah tidak memberi petunjuk kepada orang-orang yang zalim`,
+        ``,
+        ``
+      ],
+      [
+        `Kendilerine Tevrat öğretildiği halde, onun gereğini yapmayanların durumu, sırtına kitap yüklenmiş merkebin durumu gibidir. Allah'ın ayetlerini yalanlayan kimselerin durumu ne kötüdür! Allah zalimleri doğru yola eriştirmez`,
+        ``,
+        ``
+      ],
+      [
+        `مثل كسانى كه [عمل به‌] تورات بر آنان بار شد [و بدان مكلف گرديدند] آنگاه آن را به كار نبستند، همچون مثل خرى است كه كتابهايى را برپشت مى‌كشد. [وه‌] چه زشت است وصف آن قومى كه آيات خدا را به دروغ گرفتند. و خدا مردم ستمگر را راه نمى‌نمايد`,
+        ``,
+        ``
+      ],
+      [
+        `যাদেরকে তওরাত দেয়া হয়েছিল, অতঃপর তারা তার অনুসরণ করেনি, তাদের দৃষ্টান্ত সেই গাধা, যে পুস্তক বহন করে, যারা আল্লাহর আয়াতসমূহকে মিথ্যা বলে, তাদের দৃষ্টান্ত কত নিকৃষ্ট। আল্লাহ জালেম সম্প্রদায়কে পথ প্রদর্শন করেন না।`,
+        ``,
+        ``
+      ],
+      [
+        `O exemplo dos que foram encarregados da Torá, em seguida, não a aplicaram, é como o do asno, carregado de grandes livros. Que execrável o exemplo do povo que desmente os sinais de Allah! E Allah não guia o povo injusto`,
+        ``,
+        ``
+      ],
+      [
+        `奉命遵守《讨拉特》而不遵守者，譬如驮经的驴子。否认真主的迹象的民众的譬喻，真恶劣！真主是不引导不义的民众的。`,
+        ``,
+        ``
+      ],
+      [
+        `律法（守護）の責任を負わされて，その後それを果たさない者を譬えれば，書物を運ぶロバのようなものである。アッラーの印を嘘であるとする者も同様で，哀れむべきである。本当にアッラーは悪い行いの者を御導きになられない。`,
+        ``,
+        ``
+      ],
+      [
+        `토라가 짊어지워진 이후 그것(토라)을 짊어지지 않은 자들의 예는 장서를 짊어지는 당나귀의 예와 같노라. 하나님의 징표를 부인하는 무리의 예는 얼마나 사악한 것인가. 하나님께서는 부당한 무리를 인도하지 않으시노라`,
+        ``,
+        ``
+      ],
+      [
+        `Coloro cui fu affidata la Torâh e che non la osservarono, assomigliano all'asino che porta i libri. Quanto è detestabile la similitudine di coloro che tacciano di menzogna i segni di Allah: Allah non guida gli ingiusti`,
+        ``,
+        ``
+      ],
+      [
+        `Ci, którym dano nieść Torę - a oni jej nie ponieśli - są podobni do osła, który niesie księgi. Jakże zły jest przykład tych ludzi, którzy za kłamstwo uznali znaki Boga! A Bóg nie prowadzi drogą prostą ludzi niesprawiedliwych`,
+        ``,
+        ``
+      ],
+      [
+        `Ті, яким [наказано] триматися Таурату — але потім не дотрималися вони цього — схожі на віслюка, навантаженого книгами! Яким же злим є приклад людей, які відкидають знамення Аллага! Аллаг не веде прямим шляхом несправедливих`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الجمعة / Al-Jumu'ah، الآية 5`
+  },
+
+  {
+    arabic: [
+      `۞ وَإِذَا رَأَيْتَهُمْ تُعْجِبُكَ أَجْسَامُهُمْ ۖ وَإِنْ يَقُولُوا تَسْمَعْ لِقَوْلِهِمْ ۖ كَأَنَّهُمْ خُشُبٌ مُسَنَّدَةٌ ۖ يَحْسَبُونَ كُلَّ صَيْحَةٍ عَلَيْهِمْ ۚ هُمُ الْعَدُوُّ فَاحْذَرْهُمْ ۚ قَاتَلَهُمُ اللَّهُ ۖ أَنَّىٰ يُؤْفَكُونَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `And when you see them, their forms please you, and if they speak, you listen to their speech. [They are] as if they were pieces of wood propped up - they think that every shout is against them. They are the enemy, so beware of them. May Allah destroy them; how are they deluded`,
+        ``,
+        ``
+      ],
+      [
+        `Et quand tu les vois, leurs corps t'émerveillent; et s'ils parlent, tu écoutes leur parole. ils sont comme des bûches appuyées (contre des murs) et ils pensent que chaque cri est dirigé contre eux. L'ennemi c'est eux. Prends-y garde. Qu'Allah les extermine ! Comme les voilà détournés (du droit chemin)`,
+        ``,
+        ``
+      ],
+      [
+        `Cuando se les ve, se admira su presencia. Si dicen algo, se escucha lo que dicen. Son como maderos apoyados. Creen que todo grito va dirigido contra ellos. Son ellos el enemigo. ¡Ten, pues, cuidado con ellos! ¡Que Alá les maldiga! ¡Cómo pueden ser tan desviados`,
+        ``,
+        ``
+      ],
+      [
+        `Когда ты смотришь на них, их тела восхищают тебя. Когда они говорят, ты слушаешь их слова. Они подобны прислоненным бревнам. Всякий крик они считают обращенным против них. Они являются врагами - остерегайся же их. Да погубит их Аллах! До чего же они отвращены от истины`,
+        ``,
+        ``
+      ],
+      [
+        `Und wenn du sie siehst, gefällt dir ihr Äußeres, und wenn sie reden, hörst du ihren Worten zu. Sie sind wie angelehnte Hölzer. Sie meinen, jeder Schrei sei gegen sie. Sie sind die (wahren) Feinde; so sieh dich vor ihnen vor. Allah bekämpfe sie! Wie sie sich (doch) abwendig machen lassen`,
+        ``,
+        ``
+      ],
+      [
+        `När du ser dem kan du få ett gott intryck av deras yttre och du lyssnar på dem när de talar. [I själva verket är de lika andefattiga] som uppstöttade trästockar, och [i sin rädsla och osäkerhet] tror de att varje rop [från mängden] är ett hot mot dem. De är dina fiender, [Muhammad]; - var därför på din vakt mot dem. Guds förbannelse över dem! Hur förvirrade är inte deras begrepp`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `En wanneer jij hen ziet, wekken hun lichamen (hun uiterlijk vertoon) jouw verwondering op; en wanneer zij spreken, dan luister jij naar hun woorden. Zij zijn als balken die gestut worden. Zij denken dat elke schreeuw tot hen gericht is. Zij zijn de vijanden, kijk daarom uit voor hen. Allah vervloekt hen. Hoe kunnen zij misleid worden`,
+        ``,
+        ``
+      ],
+      [
+        `اور جب تم ان (کے تناسب اعضا) کو دیکھتے ہو تو ان کے جسم تمہیں (کیا ہی) اچھے معلوم ہوتے ہیں۔ اور جب وہ گفتگو کرتے ہیں تو تم ان کی تقریر کو توجہ سے سنتے ہو (مگر فہم وادراک سے خالی) گویا لکڑیاں ہیں جو دیواروں سے لگائی گئی ہیں۔ (بزدل ایسے کہ) ہر زور کی آواز کو سمجھیں (کہ) ان پر بلا آئی۔ یہ (تمہارے) دشمن ہیں ان سے بےخوف نہ رہنا۔ خدا ان کو ہلاک کرے۔ یہ کہاں بہکے پھرتے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `(Dan apabila engkau melihat mereka, tubuh mereka mengagumkanmu. Dan jika mereka berkata, engkau mendengarkan tutur katanya. Mereka seakan-akan kayu yang tersandar.843) Mereka mengira bahwa setiap teriakan ditujukan kepada mereka. Mereka itulah musuh (yang sebenarnya), maka waspadalah terhadap mereka; semoga Allah membinasakan mereka. Bagaimanakah mereka dapat dipalingkan (dari kebenaran)`,
+        ``,
+        ``
+      ],
+      [
+        `Onlara baktığın zaman cüsseleri hoşuna gider; konuşurlarsa sözlerini dinlersin; tıpkı, sıralanmış kof kütük gibidirler; her çığlığı kendi aleyhlerine sayarlar; onlar düşmandır, onlardan çekin; Allah canlarını alsın, nasıl da aldatılıp döndürülüyorlar`,
+        ``,
+        ``
+      ],
+      [
+        `و چون آنان را ببينى، هيكلهايشان تو را به تعجب وا مى‌دارد، و چون سخن گويند به گفتارشان گوش فرا مى‌دهى گويى آنان شمعك‌هايى پشت بر ديوارند [كه پوك شده و درخور اعتماد نيستند]: هر فريادى را به زيان خويش مى‌پندارند. خودشان دشمنند؛ از آنان بپرهيز؛ خدا بكشدشان؛ تا كجا [از حقيقت‌] انحراف يافته‌اند`,
+        ``,
+        ``
+      ],
+      [
+        `আপনি যখন তাদেরকে দেখেন, তখন তাদের দেহাবয়ব আপনার কাছে প্রীতিকর মনে হয়। আর যদি তারা কথা বলে, তবে আপনি তাদের কথা শুনেন। তারা প্রাচীরে ঠেকানো কাঠসদৃশ্য। প্রত্যেক শোরগোলকে তারা নিজেদের বিরুদ্ধে মনে করে। তারাই শত্রু, অতএব তাদের সম্পর্কে সতর্ক হোন। ধ্বংস করুন আল্লাহ তাদেরকে। তারা কোথায় বিভ্রান্ত হচ্ছে`,
+        ``,
+        ``
+      ],
+      [
+        `E, quando os vês, tu te admiras de seus corpos. E, se falam, ouves seu dito. São como madeiras encostadas. Supõem ser contra eles todo grito. Eles são os inimigos: então, precata-te deles. Que Allah os aniquile! Como se distanciam da Verdade`,
+        ``,
+        ``
+      ],
+      [
+        `当你看见他们的时候，他们的体格，将使你赞叹。如果他们说话，你就静听他们的言辞，他们好像木偶样，他们以为一切呐喊，都是对他们而发的。他们确是敌人，故你当谨防他们。愿真主诛灭他们！他们是如何悖谬的呢！`,
+        ``,
+        ``
+      ],
+      [
+        `あなたがかれらを見る時，かれらの（立派な）風体に感心するであろう。かれらが語れば，あなたはその雄弁な言葉に魅せられる。だがかれらは，（何の知識もなく何を言っても分らない）壁に寄りかかっているただの材木のようなものである。かれらはどの叫びも，自分たちのことを言っていると考えている。かれらは敵である。用心しなさい。アッラーよかれらを滅ぼして下さい。何とかれらは（真理から）逸れたことよ。`,
+        ``,
+        ``
+      ],
+      [
+        `(그대가 그들을 볼 때면 그대는 그들의 외관을 마음에 들어할 것이며, 그들이 말을 할 때면 그대는 그들의 말을 경청할 것이라. 그들은 마치 )벽에( 맞대어진 나무둥치와 같노라. 그들은 모든 외침이 그들에게 불리한 것이라 생각하더라. 그들은 적이니 그대(무함마드)는 그들에 유의하라. 하나님께서 그들을 파멸시키기를. 그들은 어떻게 돌아선단 말인가`,
+        ``,
+        ``
+      ],
+      [
+        `Quando li vedi, sei ammirato dalla loro prestanza; se parlano, ascolti le loro parole. Sono come tronchi appoggiati. Credono che ogni grido sia contro di loro. Sono essi il nemico. Stai in guardia. Li annienti Allah! Quanto si sono traviati`,
+        ``,
+        ``
+      ],
+      [
+        `Kiedy na nich patrzysz, podobają ci się ich postacie; a kiedy mówią, to słuchasz ich słów, a oni są jakby słupami podpartymi. Oni uważają, że każdy krzyk jest przeciw nim. Oni są nieprzyjaciółmi, przeto wystrzegaj się ich! Niech ich Bóg zwalczy! Jakże oni zostali oszukani`,
+        ``,
+        ``
+      ],
+      [
+        `Коли ти дивишся на них, то вражає тебе краса тіл їхніх, і коли говорять вони, то ти слухаєш їх. Та вони — наче колоди, що підпирають паркан, і кожен зойк вони вважають загрозою собі. Вони — вороги, тож бережись їх! Нехай вразить їх Аллаг! Як же віддалилися вони`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المنافقون / Al-Munafiqun، الآية 4`
   },
 
   {
@@ -48908,6 +52687,117 @@ const verses = [
 
   {
     arabic: [
+      `ضَرَبَ اللَّهُ مَثَلًا لِلَّذِينَ كَفَرُوا امْرَأَتَ نُوحٍ وَامْرَأَتَ لُوطٍ ۖ كَانَتَا تَحْتَ عَبْدَيْنِ مِنْ عِبَادِنَا صَالِحَيْنِ فَخَانَتَاهُمَا فَلَمْ يُغْنِيَا عَنْهُمَا مِنَ اللَّهِ شَيْئًا وَقِيلَ ادْخُلَا النَّارَ مَعَ الدَّاخِلِينَ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Allah presents an example of those who disbelieved: the wife of Noah and the wife of Lot. They were under two of Our righteous servants but betrayed them, so those prophets did not avail them from Allah at all, and it was said, "Enter the Fire with those who enter`,
+        ``,
+        ``
+      ],
+      [
+        `Allah a cité en parabole pour ceux qui ont mécru la femme de Noé et la femme de Lot. Elles étaient sous l'autorité de deux vertueux de Nos serviteurs. Toutes deux les trahirent et ils ne furent d'aucune aide pour [ces deux femmes] vis-à-vis d'Allah. Et il [leur] fut dit : "Entrez au Feu toutes les deux, avec ceux qui y entrent`,
+        ``,
+        ``
+      ],
+      [
+        `Alá pone como ejemplo para los infieles a la mujer de Noé y a la mujer de Lot. Ambas estaban sujetas a dos de Nuestros siervos justos, pero les traicionaron, aunque su traición no les sirvió de nada frente a Alá. Y se dijo: «¡Entrad ambas en el Fuego, junto con los demás que entran!»`,
+        ``,
+        ``
+      ],
+      [
+        `Аллах привел в качестве примера о неверующих жену Нуха (Ноя) и жену Лута (Лота). Обе были замужем за рабами из числа Наших праведных рабов. Они предали своих мужей, и те не спасли их от Аллаха. Им было сказано: «Войдите в Огонь вместе с теми, кто входит туда»`,
+        ``,
+        ``
+      ],
+      [
+        `Allah hat als Gleichnis für diejenigen, die ungläubig sind, dasjenige von Nuhs Frau und Luts Frau geprägt. Sie beide unterstanden zwei rechtschaffenen (Dienern) von Unseren Dienern, doch handelten sie verräterisch an ihnen, und so haben ihnen diese vor Allah nichts genützt. Und es wurde gesagt: "Geht beide ins (Höllen)feuer ein mit denjenigen, die hineingehen`,
+        ``,
+        ``
+      ],
+      [
+        `Gud har utpekat Noas hustru och Lots hustru som varnande exempel för dem som framhärdar i att förneka sanningen; deras män var två av Våra rättfärdiga tjänare och de svek dem. Men [männen] kunde inte skydda dem mot Guds [straff] och [på Domens dag] skall de få höra dessa ord: "Gå in i Elden med de [övriga fördömda]`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Allah heeft degenen die niet geloven de vrouw van Nôeh en de vrouw van Lôeth als een voorbeeld gegeven. Zij waren onder de hoede van twee rechtschapenen van onder Onze dienaren, maar zij verraadden hen, toen baatten zij (Nôeh en Lôeth) hun in niets tegen Allah. En er werd tot hen (de beide vrouwen) gezegd: "Treedt de hel binnen, tezamen met de binnentreders`,
+        ``,
+        ``
+      ],
+      [
+        `خدا نے کافروں کے لئے نوحؑ کی بیوی اور لوطؑ کی بیوی کی مثال بیان فرمائی ہے۔ دونوں ہمارے دو نیک بندوں کے گھر میں تھیں اور دونوں نے ان کی خیانت کی تو وہ خدا کے مقابلے میں اور ان عورتوں کے کچھ بھی کام نہ آئے اور ان کو حکم دیا گیا کہ اور داخل ہونے والوں کے ساتھ تم بھی دوزخ میں داخل ہو جاؤ`,
+        ``,
+        ``
+      ],
+      [
+        `Allah membuat perumpamaan bagi orang-orang kafir, istri Nuh dan istri Luṭ. Keduanya berada di bawah pengawasan dua orang hamba yang saleh di antara hamba-hamba Kami; lalu kedua istri itu berkhianat kepada kedua suaminya, tetapi kedua suaminya itu tidak dapat membantu mereka sedikit pun dari (siksa) Allah; dan dikatakan (kepada kedua istri itu), "Masuklah kamu berdua ke neraka bersama orang-orang yang masuk (neraka)`,
+        ``,
+        ``
+      ],
+      [
+        `Allah, inkar edenlere, Nuh'un karısıyla Lut'un karısını misal gösterir: Onlar, kullarımızdan iki iyi kulun nikahı altında iken onlara karşı hainlik edip inkarlarını gizlemişlerdi de iki peygamber Allah'tan gelen azabı onlardan savamamışlardı. O iki kadına: "Cehenneme girenlerle beraber siz de girin" dendi`,
+        ``,
+        ``
+      ],
+      [
+        `خدا براى كسانى كه كفر ورزيده‌اند، آن نوح و آن لوط را مَثَل آورده [كه‌] هر دو در نكاح دو بنده از بندگان شايسته ما بودند و به آنها خيانت كردند، و كارى از دست [شوهران‌] آنها در برابر خدا ساخته نبود، و گفته شد: «با داخل شوندگان داخل آتش شويد.»`,
+        ``,
+        ``
+      ],
+      [
+        `আল্লাহ তা’আলা কাফেরদের জন্যে নূহ-পত্নী ও লূত-পত্নীর দৃষ্টান্ত বর্ণনা করেছেন। তারা ছিল আমার দুই ধর্মপরায়ণ বান্দার গৃহে। অতঃপর তারা তাদের সাথে বিশ্বাসঘাতকতা করল। ফলে নূহ ও লূত তাদেরকে আল্লাহ তা’আলার কবল থেকে রক্ষা করতে পারল না এবং তাদেরকে বলা হলঃ জাহান্নামীদের সাথে জাহান্নামে চলে যাও।`,
+        ``,
+        ``
+      ],
+      [
+        `Allah propõe um exemplo, para os que renegam a Fé: a mulher de Noé e a mulher de Lot. Ambas estavam sob a autoridade de dois servos íntegros, de Nossos servos; e ambas os traíram; então, eles de nada lhes valeram, diante de Allah; e foi-lhes dito: "Entrai ambas no Fogo com os que aí entram`,
+        ``,
+        ``
+      ],
+      [
+        `真主以努哈的妻子和鲁特的妻子，为不信道的人们的殷鉴，她们俩曾在我的两个行善的仆人之下，而她们俩不忠於自己的丈夫，她们俩的丈夫，未能为她们俩抵御真主的一点刑罚。或者将说：你们俩与众人同入火狱吧！`,
+        ``,
+        ``
+      ],
+      [
+        `アッラーは不信者のために実例を示される。ヌーフの妻，そしてルートの妻である。かれら両人は，2人の正しいわがしもべの許にいた。かの女たちは，かれら（夫）にたいして不誠実で，アッラーの御許で何ら得るところはなかった。そして「あなたがた2人は（外の）入る者と一緒に火獄に入れ。」と告げられた。`,
+        ``,
+        ``
+      ],
+      [
+        `하나님께서는 불신하는 자들의 예로 노아의 아내와 롯의 아내를 드시노라. 그들(아내들)은 나의 종복들 중 선량했던 두 종복 밑에 있었으나 그들을 배신하였노라. 그렇기에 그들(남편들)은 하나님께 관하여 그들(아내들)에게 그 어떤 보탬도 주지 못하였노라. 그리고 목소리가 들리니 ‘그대들(아내들)은 (지옥으로) 들어갈 자들과 함께 불지옥으로 들어가라’`,
+        ``,
+        ``
+      ],
+      [
+        `Allah ha proposto ai miscredenti l'esempio della moglie di Noè e della moglie di Lot. Entrambe sottostavano a due dei Nostri servi, uomini giusti. Entrambe li tradirono, ed essi non poterono in alcun modo porle al riparo da Allah. Fu detto loro: “Entrate entrambe nel Fuoco, insieme con coloro che vi entrano”`,
+        ``,
+        ``
+      ],
+      [
+        `Bóg dał przypowieść tym, którzy nie uwierzyli: o żonie Noego i żonie Lota. Obie one były pod władzą Naszych dwóch sług, spośród Naszych sług sprawiedliwych, lecz one zdradziły ich. I oni nic nie mogli dla nich uczynić wobec Boga. I powiedziano im: "Wejdźcie do ognia obie wraz z tymi, którzy tam wchodzą`,
+        ``,
+        ``
+      ],
+      [
+        `Навів Аллаг приклад тих, які не увірували: дружину Нуха і дружину Люта. Вони були заміжніми за двома Нашими праведними рабами. Але вони зрадили їх, тож не позбавили чоловіки їх від кари Аллага, і сказано їм: «Увійдіть у пекло разом із іншими»`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة التحريم / At-Tahrim، الآية 10`
+  },
+
+  {
+    arabic: [
       `وَضَرَبَ اللَّهُ مَثَلًا لِلَّذِينَ آمَنُوا امْرَأَتَ فِرْعَوْنَ إِذْ قَالَتْ رَبِّ ابْنِ لِي عِنْدَكَ بَيْتًا فِي الْجَنَّةِ وَنَجِّنِي مِنْ فِرْعَوْنَ وَعَمَلِهِ وَنَجِّنِي مِنَ الْقَوْمِ الظَّالِمِينَ`,
       ``,
       ``
@@ -49459,6 +53349,117 @@ const verses = [
       ]
     ],
     number: `سورة الملك / Al-Mulk، الآية 19`
+  },
+
+  {
+    arabic: [
+      `أَفَمَنْ يَمْشِي مُكِبًّا عَلَىٰ وَجْهِهِ أَهْدَىٰ أَمَّنْ يَمْشِي سَوِيًّا عَلَىٰ صِرَاطٍ مُسْتَقِيمٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Then is one who walks fallen on his face better guided or one who walks erect on a straight path`,
+        ``,
+        ``
+      ],
+      [
+        `Qui est donc mieux guidé ? Celui qui marche face contre terre ou celui qui marche redressé sur un chemin droit`,
+        ``,
+        ``
+      ],
+      [
+        `Quien anda agachado ¿va mejor dirigido que quien anda erguido por una vía recta`,
+        ``,
+        ``
+      ],
+      [
+        `Кто же следует более правильным путем: блуждающий с опущенным лицом или идущий по прямому пути, выпрямившись`,
+        ``,
+        ``
+      ],
+      [
+        `Ist denn jemand, der, auf sein Gesicht gestürzt, einhergeht, eher rechtgeleitet, oder jemand, der aufrecht auf einem geraden Weg einhergeht`,
+        ``,
+        ``
+      ],
+      [
+        `Når den lättare fram som går böjd med sänkt huvud än den som går upprätt på en rak väg`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Is hij dan, die voortkruipt met zijn gezicht over de grond, beter geleid dan hij die rechtop op het rechte Pad loopt`,
+        ``,
+        ``
+      ],
+      [
+        `بھلا جو شخص چلتا ہوا منہ کے بل گر پڑتا ہے وہ سیدھے رستے پر ہے یا وہ جو سیدھے رستے پر برابر چل رہا ہو؟`,
+        ``,
+        ``
+      ],
+      [
+        `Apakah orang yang merangkak dengan wajah tertelungkup yang lebih terpimpin (dalam kebenaran) ataukah orang yang berjalan tegap di atas jalan yang lurus`,
+        ``,
+        ``
+      ],
+      [
+        `Yüzükoyun sürünen mi, yoksa doğru yolda düpedüz yürüyen mi daha doğru yoldadır`,
+        ``,
+        ``
+      ],
+      [
+        `پس آيا آن كس كه نگونسار راه مى‌پيمايد هدايت يافته تر است يا آن كس كه ايستاده بر راه راست مى‌رود؟`,
+        ``,
+        ``
+      ],
+      [
+        `যে ব্যক্তি উপুড় হয়ে মুখে ভর দিয়ে চলে, সে-ই কি সৎ পথে চলে, না সে ব্যক্তি যে সোজা হয়ে সরলপথে চলে`,
+        ``,
+        ``
+      ],
+      [
+        `Então, quem é mais bem guiado? Aquele que anda cabisbaixo ou quem anda erguido, em senda reta`,
+        ``,
+        ``
+      ],
+      [
+        `究竟谁更能获得引导呢？是匍匐而行的人呢？还是在正路上挺身而行的人呢？`,
+        ``,
+        ``
+      ],
+      [
+        `顔を伏せて（只頑なに）歩く者と，正しい道の上を規則正しく歩く者と，どちらがよく導かれるのか。`,
+        ``,
+        ``
+      ],
+      [
+        `그러니 고꾸라진 채 자신의 얼굴을 대고 걷는 자가 더 인도 받은 자인가 아니면 올곧은 길 위를 반듯하게 걷는 자인가`,
+        ``,
+        ``
+      ],
+      [
+        `Colui che cammina con il volto rivolto al suolo è forse meglio guidato di colui che si erge camminando sulla retta via`,
+        ``,
+        ``
+      ],
+      [
+        `Czy ten, kto chodzi z twarzą opuszczoną ku ziemi, jest na lepszej drodze, czy ten, który chodzi równo po drodze prostej`,
+        ``,
+        ``
+      ],
+      [
+        `Хто на правильному шляху — той, хто опустив голову, чи той, хто йде прямою дорогою, тримаючи поставу`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة الملك / Al-Mulk، الآية 22`
   },
 
   {
@@ -50569,6 +54570,117 @@ const verses = [
       ]
     ],
     number: `سورة المدثر / Al-Muddaththir، الآية 38`
+  },
+
+  {
+    arabic: [
+      `فَمَا لَهُمْ عَنِ التَّذْكِرَةِ مُعْرِضِينَ كَأَنَّهُمْ حُمُرٌ مُسْتَنْفِرَةٌ فَرَّتْ مِنْ قَسْوَرَةٍ`,
+      ``,
+      ``
+    ],
+    translations: [
+      [
+        `Then what is [the matter] with them that they are, from the reminder, turning away As if they were alarmed donkeys Fleeing from a lion`,
+        ``,
+        ``
+      ],
+      [
+        `Qu'ont-ils à se détourner du Rappel Ils sont comme des onagres épouvantés s'enfuyant devant un lion`,
+        ``,
+        ``
+      ],
+      [
+        `¿Por qué han tenido que apartarse del Recuerdo como asnos espantados que huyen del león`,
+        ``,
+        ``
+      ],
+      [
+        `Что же с ними? Почему они отворачиваются от Напоминания словно напуганные ослы бегущие от стрелка (или льва)`,
+        ``,
+        ``
+      ],
+      [
+        `Was ist denn mit ihnen, daß sie sich von der Ermahnung abwenden als wären sie aufgeschreckte Wildesel die vor einem Löwen fliehen`,
+        ``,
+        ``
+      ],
+      [
+        `HUR är det fatt med dem som vänder ryggen åt påminnelsen [De beter sig] som skrämda åsnor som flyr för ett lejon`,
+        ``,
+        ``
+      ],
+      [
+        ``,
+        ``,
+        ``
+      ],
+      [
+        `Wat is er met hen dat zij zich van de Vermaning afwenden Alsof zij opgeschrikte ezels zijn Die vluchten voor een leeuw`,
+        ``,
+        ``
+      ],
+      [
+        `ان کو کیا ہوا ہے کہ نصیحت سے روگرداں ہو رہے ہیں گویا گدھے ہیں کہ بدک جاتے ہیں (یعنی) شیر سے ڈر کر بھاگ جاتے ہیں`,
+        ``,
+        ``
+      ],
+      [
+        `Lalu mengapa mereka (orang-orang kafir) berpaling dari peringatan (Allah) seakan-akan mereka keledai liar yang lari terkejut lari dari singa`,
+        ``,
+        ``
+      ],
+      [
+        `Öyleyken, bunlara ne oluyor ki öğütten yüz çeviriyorlar Aslandan ürkerek kaçan yabani merkeplere benzerler`,
+        ``,
+        ``
+      ],
+      [
+        `چرا آنها از تذكر روى گردانند؟ گويى گورخرانى رميده‌اند، كه از (مقابل) شيرى فرار كرده‌اند`,
+        ``,
+        ``
+      ],
+      [
+        `তাদের কি হল যে, তারা উপদেশ থেকে মুখ ফিরিয়ে নেয় যেন তারা ইতস্ততঃ বিক্ষিপ্ত গর্দভ। হট্টগোলের কারণে পলায়নপর।`,
+        ``,
+        ``
+      ],
+      [
+        `E por que razão estão dando de ombros à lembrança Como se foram asnos assustados Que fogem de leão`,
+        ``,
+        ``
+      ],
+      [
+        `他们怎么退避这教训呢？ 他们好像一群惊慌的驴子， 刚逃避了一只狮子一样。`,
+        ``,
+        ``
+      ],
+      [
+        `一体訓戒から背き去るとは，かれらはどうしたのであろう。 かれらは丁度獅子を見て恐怖に陥ったロバのように， 一目散に逃げ出すかのようであった。`,
+        ``,
+        ``
+      ],
+      [
+        `그럼에도 그들은 떠올림에 등을 돌리는 자들이니 이 어찌 된 일인가 그들은 마치 달음질치는 당나귀들과 같으니 사자로부터 도망치는 당나귀들이라`,
+        ``,
+        ``
+      ],
+      [
+        `Ma perché mai si scostano dal Monito Sembravano onagri spaventati che fuggono davanti a un leone`,
+        ``,
+        ``
+      ],
+      [
+        `Cóż im się stało, że odwracają się od napomnienia Jak gdyby byli wystraszonymi osłami Które uciekają przed lwem`,
+        ``,
+        ``
+      ],
+      [
+        `Чому ж вони відвертаються від нагадування наче перелякані віслюки які втікають від лева`,
+        ``,
+        ``
+      ]
+    ],
+    number: `سورة المدثر / Al-Muddaththir، الآيات 49-51`
   },
 
   {
