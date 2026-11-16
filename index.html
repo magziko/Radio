@@ -11949,17 +11949,17 @@ const moreTranslations = [{
     { id: 'sleep',       ar: 'النوم',         en: 'Sleep',        ic: '🛏️' },
     { id: 'wake',        ar: 'الاستيقاظ',     en: 'Waking up',    ic: '⏰' },
     { id: 'tasabih',     ar: 'تسابيح',        en: 'Tasbih',       ic: '🔁' },
-    { id: 'hajj',        ar: 'الحج والعمرة',  en: 'Hajj & Umrah', ic: '🧳' },
-    { id: 'khala',       ar: 'الخلاء',        en: 'Restroom',     ic: '🚿' },
-    { id: 'food',        ar: 'الطعام',        en: 'Food',         ic: '🍽️' },
-    { id: 'home',        ar: 'المنزل',        en: 'Home',         ic: '🏠' },
-    { id: 'wudu',        ar: 'الوضوء',        en: 'Wudu',         ic: '💧' },
-    { id: 'adhan',       ar: 'الأذان',        en: 'Adhan',        ic: '📢' },
-    { id: 'mosque',      ar: 'المسجد',        en: 'Mosque',       ic: '🕋' },
+    { id: 'general',     ar: 'أذكار عامة',    en: 'General',      ic: '📿' },
     { id: 'misc',        ar: 'متفرقة',        en: 'Misc',         ic: '📌' },
     { id: 'quran',       ar: 'أدعية القرآن',  en: 'Quran duas',   ic: '📖' },
     { id: 'sunnah',      ar: 'أدعية السنة',   en: 'Sunnah duas',  ic: '🤲' },
-    { id: 'general',     ar: 'أذكار عامة',    en: 'General',      ic: '📿' }
+    { id: 'wudu',        ar: 'الوضوء',        en: 'Wudu',         ic: '💧' },
+    { id: 'adhan',       ar: 'الأذان',        en: 'Adhan',        ic: '📢' },
+    { id: 'mosque',      ar: 'المسجد',        en: 'Mosque',       ic: '🕋' },
+    { id: 'food',        ar: 'الطعام',        en: 'Food',         ic: '🍽️' },
+    { id: 'home',        ar: 'المنزل',        en: 'Home',         ic: '🏠' },
+    { id: 'khala',       ar: 'الخلاء',        en: 'Restroom',     ic: '🚿' },
+    { id: 'hajj',        ar: 'الحج والعمرة',  en: 'Hajj & Umrah', ic: '🧳' }
   ];
   var spDdTab = (function() {
     try { return localStorage.getItem('spDdTab') || 'all'; } catch (e) { return 'all'; }
@@ -23789,19 +23789,59 @@ function setDhikrTipDuration(n) {
   // بتنفّذ فعليًا الانتقال لفلتر الأذكار والذكر المحفوظ — دي كانت
   // بتتنفّذ تلقائيًا من الأول، ودلوقتى بقت بس بتشتغل لما المستخدم
   // بنفسه يضغط زرار "أكمل" فى تنبيه _showAdhkarResumeToast تحت
+  /* ---- هل الأذكار فعلًا ناقصة؟ ----
+     التنبيه كان بيظهر لأى موضع محفوظ خلال ساعتين حتى لو المستخدم خلّص أذكار الصباح/المساء كلها.
+     دلوقتى بنحدّد مجموعة الأذكار (صباح/مساء/عامة/رقية) اللى كان فيها، ولو كلها مكتملة ما نعرضش التنبيه،
+     ولو الذكر المحفوظ نفسه اكتمل بنشاور على أول ذكر ناقص بعده فى نفس المجموعة. */
+  function _adhkarBtnDone(b) {
+    if (b.classList.contains('completed')) return true;
+    var t = parseInt(b.getAttribute('data-target'), 10) || 0;
+    var c = 0;
+    try { c = parseInt(localStorage.getItem('tasbih_' + b.getAttribute('data-station')), 10) || 0; } catch (e) {}
+    return t > 0 && c >= t;
+  }
+  function _adhkarPendingTarget(data) {
+    var all = Array.prototype.slice.call(document.querySelectorAll('button.has-tasbih[data-station]'));
+    var saved = null;
+    all.forEach(function(b) { if (!saved && b.getAttribute('data-station') === data.station) saved = b; });
+    if (!saved) return null;
+    var sub = data.sub;
+    if (!sub || sub === 'all') {
+      var m = saved.hasAttribute('data-adhkar-morning'), e = saved.hasAttribute('data-adhkar-evening');
+      if (m && e) {
+        var mode = null;
+        try { mode = (typeof window.wsAdhkarState === 'function') ? window.wsAdhkarState().mode : null; } catch (x) {}
+        sub = (mode === 'evening' || mode === 'morning') ? mode : (new Date().getHours() < 15 ? 'morning' : 'evening');
+      } else if (m) sub = 'morning';
+      else if (e) sub = 'evening';
+      else if (saved.hasAttribute('data-adhkar-general')) sub = 'general';
+      else if (saved.hasAttribute('data-adhkar-ruqya')) sub = 'ruqya';
+      else sub = 'all';
+    }
+    var list = (sub === 'all') ? all : all.filter(function(b) { return b.hasAttribute('data-adhkar-' + sub); });
+    var found = null;
+    if (!_adhkarBtnDone(saved)) found = saved;
+    else {
+      var i = list.indexOf(saved);
+      for (var j = i + 1; j < list.length && !found; j++) if (!_adhkarBtnDone(list[j])) found = list[j];
+      for (var k = 0; k < i && !found; k++) if (!_adhkarBtnDone(list[k])) found = list[k];
+    }
+    if (!found) return null;
+    data._sub = sub;
+    return found;
+  }
+
   function _applyRestore(data) {
     if (typeof filterStations === 'function') filterStations('Adhkar');
 
-    if (data.sub && typeof filterAdhkarSub === 'function') {
-      var subBtn = document.querySelector('.adhkar-sub-btn[data-sub="' + data.sub + '"]');
-      filterAdhkarSub(data.sub, subBtn);
+    var _subToUse = data._sub || data.sub;
+    if (_subToUse && typeof filterAdhkarSub === 'function') {
+      var subBtn = document.querySelector('.adhkar-sub-btn[data-sub="' + _subToUse + '"]');
+      filterAdhkarSub(_subToUse, subBtn);
     }
 
     setTimeout(function() {
-      var target = null;
-      document.querySelectorAll('button.has-tasbih[data-station]').forEach(function(b) {
-        if (!target && b.getAttribute('data-station') === data.station) target = b;
-      });
+      var target = _adhkarPendingTarget(data);
       if (!target || target.style.display === 'none') return;
       if (target.classList.contains('completed')) return;
 
@@ -23897,6 +23937,12 @@ function setDhikrTipDuration(n) {
     if (!data || !data.station) return;
 
     if (Date.now() - (data.ts || 0) > EXPIRY_MS) {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      return;
+    }
+
+    // أذكار المجموعة كلها مكتملة (أو الذكر المحفوظ مش موجود): مفيش حاجة تتكمّل، فما نعرضش التنبيه
+    if (!_adhkarPendingTarget(data)) {
       try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
       return;
     }
