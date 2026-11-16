@@ -33309,7 +33309,7 @@ function shareDhikrAsCard(event) {
   var dhikrText = (textEl.innerText || textEl.textContent || '').trim();
   if (!dhikrText) return;
 
-  _buildDhikrShareCard(dhikrText, null, _lookupDhikrMeta(dhikrText));
+  _buildDhikrShareCard(dhikrText, null, _lookupDhikrMeta(dhikrText, button));
 }
 
 // ===== نفس فكرة الكارت السابق، لكن لعدّاد التسبيح العائم (salah-pip-section)
@@ -33389,27 +33389,80 @@ function _loadRandomDhikrCardBackground() {
 // بيدوّر على المصدر والدرجة بتوع ذكر معروض فى صفحة الأذكار، عن طريق مطابقة نصه (من غير تشكيل
 // ولا (×N)) مع نص نفس الذكر فى قائمة المسبحة (sp-athkar-sel) اللى فيها data-src / data-grade.
 // لو مفيش تطابق تام بيرجّع null والكارت بيتعمل من غير سطر المصدر
+// المصدر والدرجة من زر الذكر نفسه: بيانات الأذكار (stations.js) فيها سطر المصدر آخر الـ title
+// (مثل: "رواه أبو داود والترمذي (حديث صحيح)" أو "رواه الحاكم وصححه الألباني")، فنقرأه منه مباشرة
+// من غير مطابقة نص. بيرجّع null لو مفيش سطر مصدر.
+function _dhikrMetaFromButton(button) {
+  try {
+    if (!button) return null;
+    var st = button.querySelector('.station-text');
+    var title = (st && st.getAttribute('title')) || button.getAttribute('title') || '';
+    if (!title) return null;
+    var lines = title.split(/\n/).map(function(x) { return x.trim(); }).filter(Boolean);
+    var line = '';
+    for (var i = lines.length - 1; i >= 0; i--) {
+      var l = lines[i].replace(/^[\u{1F4DA}\u{1F4D6}\s]+/u, '');
+      if (/^(رواه|أخرجه|اخرجه|متفق عليه)/.test(l)) { line = l; break; }
+    }
+    if (!line) return null;
+    var grade = '', gradeEn = '';
+    var m = line.match(/\(\s*(?:حديث\s+)?([^)]+?)\s*\)/);
+    if (m) {
+      grade = m[1]; line = line.replace(m[0], '');
+      var gmap = { 'صحيح': 'Sahih', 'حسن': 'Hasan', 'حسن صحيح': 'Hasan Sahih', 'حسن غريب': 'Hasan Gharib' };
+      gradeEn = gmap[grade] || '';
+      if (grade.indexOf('موقوف') === 0) { line += ' (' + grade + ')'; grade = ''; gradeEn = ''; }
+    }
+    var a = line.match(/\s*و?صححه\s+الألباني/);
+    if (a) { line = line.replace(a[0], ''); if (!grade) { grade = 'صححه الألباني'; gradeEn = 'Graded sahih by al-Albani'; } }
+    line = line.replace(/^(رواه|أخرجه|اخرجه)\s+/, '').replace(/\s+/g, ' ').trim();
+    if (!line && !grade) return null;
+    var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
+    var enSrc = (window._spEnSrc && line) ? window._spEnSrc(line) : line;
+    return { src: ar ? line : enSrc, grade: ar ? grade : (gradeEn || grade) };
+  } catch (e) { return null; }
+}
 function _dhikrMetaNorm(t) {
   return String(t || '')
+    .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ')
     .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u0640\u06D6-\u06ED]/g, '')
     .replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
     .replace(/\(\s*[×x]\s*\d+\s*\)/gi, '')
     .replace(/[^\u0621-\u064A0-9\s]/g, ' ')
     .replace(/\s+/g, ' ').trim();
 }
-function _lookupDhikrMeta(text) {
+// صيغ المطابقة لنص ذكر: النص كما هو، وبعد حذف الاستعاذة و/أو البسملة من أوله
+// (أزرار الآيات والسور فيها الاستعاذة، وقائمة المسبحة غالبًا من غيرها)
+function _dhikrMetaKeys(t) {
+  var k = _dhikrMetaNorm(t), out = [k];
+  var pre = [_dhikrMetaNorm('أعوذ بالله من الشيطان الرجيم'), _dhikrMetaNorm('بسم الله الرحمن الرحيم')];
+  var cur = k;
+  for (var n = 0; n < 2; n++) {
+    var cut = false;
+    for (var i = 0; i < pre.length; i++) {
+      if (pre[i] && cur.indexOf(pre[i]) === 0) { cur = cur.slice(pre[i].length).trim(); out.push(cur); cut = true; }
+    }
+    if (!cut) break;
+  }
+  return out.filter(function(x) { return x.length >= 8; });
+}
+// المرجع الوحيد للمصدر والدرجة هو قائمة المسبحة (sp-athkar-sel: data-src / data-grade)، عشان يطلع
+// نفس المصدر فى الكارت وفى المسبحة. بنطابق الذكر المعروض بنص الذكر فى القائمة بعد التطبيع.
+// لو مفيش تطابق، بنقرأ سطر "رواه ..." من الزر نفسه (اختيارى) وإلا بيرجّع null ويطلع الكارت من غير مصدر
+function _lookupDhikrMeta(text, button) {
   try {
     var sel = document.getElementById('sp-athkar-sel');
-    if (!sel || !text) return null;
-    var key = _dhikrMetaNorm(text);
-    if (key.length < 8) return null;
+    var keys = _dhikrMetaKeys(text);
     var hit = null;
-    Array.prototype.forEach.call(sel.options, function(o) {
-      if (hit) return;
-      if (!o.getAttribute('data-src') && !o.getAttribute('data-grade')) return;
-      if (_dhikrMetaNorm(o.getAttribute('data-ar')) === key) hit = o;
-    });
-    if (!hit) return null;
+    if (sel && keys.length) {
+      Array.prototype.forEach.call(sel.options, function(o) {
+        if (hit) return;
+        if (!o.getAttribute('data-src') && !o.getAttribute('data-grade')) return;
+        var ok = _dhikrMetaKeys(o.getAttribute('data-ar') || o.textContent);
+        for (var a = 0; a < ok.length; a++) if (keys.indexOf(ok[a]) !== -1) { hit = o; return; }
+      });
+    }
+    if (!hit) return _dhikrMetaFromButton(button);
     var ar = (typeof isArabic !== 'undefined') ? isArabic : true;
     var raw = hit.getAttribute('data-src') || '';
     var g = hit.getAttribute('data-grade') || '';
@@ -33417,7 +33470,7 @@ function _lookupDhikrMeta(text) {
       src: raw ? (ar ? raw : (window._spEnSrc ? window._spEnSrc(raw) : raw)) : '',
       grade: g ? (ar ? g : (hit.getAttribute('data-grade-en') || g)) : ''
     };
-  } catch (e) { return null; }
+  } catch (e) { return _dhikrMetaFromButton(button); }
 }
 
 // بيرسم كارت الذكر على canvas بمقاس مناسب لقصص/منشورات إنستجرام وفيسبوك
