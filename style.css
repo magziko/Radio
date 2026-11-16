@@ -18299,3 +18299,22 @@ html:not(.ws-follow-site) #settings-wstintextra-item { display: none !important;
 html:not(.ws-follow-site) #settings-panel[data-active-tab="welcome"] #settingsQuickGrid #settings-wscolormode-item { grid-column: 1 / -1; }
 /* عند التلوين: بطاقة الشدة تأخذ ارتفاع صف الخيار بالكامل بدون فراغ زائد */
 html.ws-follow-site #settings-wstintextra-item { align-self: stretch; justify-content: center; }
+
+
+/* ===== قايمة الأذكار: المصدر/الفضل تحت نص الذكر بدل ما يزاحمه على نفس السطر ===== */
+/* الصف: [نص الذكر + النجمة] فوق، والشارة (المصدر/الفضل) فى سطر لوحدها تحتهم، فالذكر ياخد العرض كله */
+.sp-custom-dd-item.sp-has-star { flex-wrap: wrap; align-items: flex-start; row-gap: 3px; }
+.sp-custom-dd-item.sp-has-star > span:first-child { order: 0; flex: 1 1 0 !important; min-width: 0 !important; }
+.sp-custom-dd-item.sp-has-star > .sp-dd-star { order: 1; align-self: flex-start; }
+.sp-custom-dd-item.sp-has-star::after { content: ''; order: 2; flex: 0 0 100%; height: 0; }
+.sp-custom-dd-item.sp-has-star > .sp-surah-badge {
+    order: 3;
+    flex: 0 1 auto;
+    max-width: 100%;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.5;
+    font-size: 10.5px;
+    padding: 1px 7px;
+    text-align: start;
+}
