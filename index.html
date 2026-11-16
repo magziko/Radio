@@ -39439,6 +39439,16 @@ document.addEventListener('DOMContentLoaded', function() {
         '  #adhkar-reminder-banner .banner-actions { justify-content: stretch; margin-top: 8px; }',
         '  #adhkar-reminder-banner .banner-btn { flex: 1 1 auto; padding: 7px 8px; font-size: 12.5px; }',
         '}',
+        '#adhkar-reminder-banner .banner-snooze { grid-area: actions; display: none; flex-direction: column; gap: 8px; margin-top: 10px; }',
+        '#adhkar-reminder-banner.snoozing .banner-actions { display: none; }',
+        '#adhkar-reminder-banner.snoozing .banner-snooze { display: flex; }',
+        '#adhkar-reminder-banner .snooze-title { font-size: 13px; font-weight: 700; }',
+        '#adhkar-reminder-banner .snooze-chips { display: flex; flex-wrap: wrap; gap: 6px; }',
+        '#adhkar-reminder-banner .snooze-chip { padding: 6px 12px; border-radius: 30px; cursor: pointer; text-shadow: none; white-space: nowrap; font-size: 13px; font-weight: 700; font-family: Cairo, sans-serif; background: rgba(255,255,255,0.16); color: #fff; border: 1.5px solid rgba(255,255,255,0.4); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: transform .15s, background .15s; }',
+        '#adhkar-reminder-banner .snooze-chip:hover { background: rgba(255,255,255,0.28); }',
+        '#adhkar-reminder-banner .snooze-chip:active { transform: scale(0.95); }',
+        '#adhkar-reminder-banner .snooze-chip.is-default { background: rgba(255,255,255,0.92); color: var(--theme-g2); border-color: transparent; }',
+        '#adhkar-reminder-banner .snooze-hint { font-size: 11.5px; opacity: 0.92; }',
         '@media (prefers-reduced-motion: reduce) { #adhkar-reminder-banner { animation: none; } }',
       ].join('\n');
       document.head.appendChild(style);
@@ -39456,6 +39466,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '  <button class="banner-btn btn-later" id="banner-btn-later"></button>',
         '  <button class="banner-btn btn-close" id="banner-btn-close"></button>',
         '</div>',
+        '<div class="banner-snooze" id="banner-snooze"></div>',
       ].join('');
       document.body.appendChild(_bannerEl);
 
@@ -39463,7 +39474,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clearSnooze();
         hideBanner();
       });
-      document.getElementById('banner-btn-later').addEventListener('click', snoozeBanner);
+      document.getElementById('banner-btn-later').addEventListener('click', openSnoozePicker);
       document.getElementById('banner-btn-pdf').addEventListener('click', function(ev) {
         if (typeof exportAdhkarPDF === 'function') exportAdhkarPDF(ev, _bannerEl.dataset.type);
       });
@@ -39503,12 +39514,78 @@ document.addEventListener('DOMContentLoaded', function() {
       }, Math.max(0, at - Date.now()));
     }
 
-    function snoozeBanner() {
+    // ── اختيار مدة التأجيل: 5 / 10 / 15 / 20 / 30 / 45 / 60 دقيقة. لو ما اختارش خلال ثوانى يتطبّق الافتراضى SNOOZE_MS (15 دقيقة) ──
+    var SNOOZE_OPTIONS = [5, 10, 15, 20, 30, 45, 60];   // بالدقائق
+    var SNOOZE_PICK_TIMEOUT = 8;                        // ثوانى الانتظار قبل تطبيق الافتراضى
+    var _snoozePickTimer = null;
+
+    function closeSnoozePicker() {
+      if (_snoozePickTimer) { clearInterval(_snoozePickTimer); _snoozePickTimer = null; }
+      if (!_bannerEl) return;
+      _bannerEl.classList.remove('snoozing');
+      var box = document.getElementById('banner-snooze');
+      if (box) box.innerHTML = '';
+    }
+
+    function openSnoozePicker() {
+      var box = document.getElementById('banner-snooze');
+      if (!_bannerEl || !box) return;
+      closeSnoozePicker();
+      var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+      var defMin = Math.round(SNOOZE_MS / 60000);
+
+      var title = document.createElement('div');
+      title.className = 'snooze-title';
+      title.textContent = isAr ? '⏰ ذكّرني بعد:' : '⏰ Remind me in:';
+
+      var chips = document.createElement('div');
+      chips.className = 'snooze-chips';
+      SNOOZE_OPTIONS.forEach(function(m) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'snooze-chip' + (m === defMin ? ' is-default' : '');
+        b.textContent = isAr ? (m + ' د') : (m + ' min');
+        b.addEventListener('click', function() { snoozeBanner(m * 60000); });
+        chips.appendChild(b);
+      });
+      var back = document.createElement('button');
+      back.type = 'button';
+      back.className = 'snooze-chip';
+      back.textContent = isAr ? '↩ رجوع' : '↩ Back';
+      back.addEventListener('click', closeSnoozePicker);
+      chips.appendChild(back);
+
+      var hint = document.createElement('div');
+      hint.className = 'snooze-hint';
+      var left = SNOOZE_PICK_TIMEOUT;
+      function paint() {
+        hint.textContent = isAr
+          ? ('لو لم تختر، سأذكّرك بعد ' + defMin + ' دقيقة (' + left + ' ث)')
+          : ('If you don\'t pick, I\'ll remind you in ' + defMin + ' min (' + left + 's)');
+      }
+      paint();
+
+      box.innerHTML = '';
+      box.appendChild(title);
+      box.appendChild(chips);
+      box.appendChild(hint);
+      _bannerEl.classList.add('snoozing');
+
+      _snoozePickTimer = setInterval(function() {
+        left--;
+        if (left <= 0) { snoozeBanner(SNOOZE_MS); return; }   // مفيش اختيار: الافتراضى 15 دقيقة
+        paint();
+      }, 1000);
+    }
+
+    function snoozeBanner(ms) {
+      ms = (typeof ms === 'number' && ms > 0) ? ms : SNOOZE_MS;
+      closeSnoozePicker();
       var type = (_bannerEl && _bannerEl.dataset.type) || 'morning';
       hideBanner();
-      scheduleSnooze(type, Date.now() + SNOOZE_MS);
+      scheduleSnooze(type, Date.now() + ms);
       var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-      var mins = Math.round(SNOOZE_MS / 60000);
+      var mins = Math.round(ms / 60000);
       if (typeof showToast === 'function') {
         showToast(isAr ? '⏰ هذكّرك بعد ' + mins + ' دقيقة' : '⏰ Will remind you in ' + mins + ' min');
       }
@@ -39562,6 +39639,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showInPageBanner(type) {
       createBanner();
+      closeSnoozePicker();
       var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
       var icon, title, body, btnGo, btnClose;
 
@@ -44510,5 +44588,102 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   }, true);
 })();
 </script>
+<script>
+/* ===== المسبحة (📿 المسبحة · Tasbih): التنقل بين الأذكار بالسحب وأسهم ← → =====
+   • السحب (تاتش أو ماوس) على نص الذكر أو زر العدّ: يسار = الذكر التالى، يمين = السابق (نفس اتجاه سحب الموقع)
+   • أسهم ← → : نفس الشىء، لكن فقط والقسم مفتوح والتركيز/آخر نقرة داخله؛ وخارجه تفضل الأسهم لتغيير المحطة كما هى
+   • بيستخدم نفس دالة الزرارين ⏮ ⏭ (spNavDhikr) فكل منطق الذكر والعدّاد بيشتغل زى ما هو
+   • غيّر NEXT_ON_LEFT إلى false لعكس الاتجاه */
+(function () {
+  if (window.__spNavInit) return;
+  window.__spNavInit = true;
+  var sec = document.getElementById('salah-pip-section');
+  if (!sec) return;
+
+  var NEXT_ON_LEFT = true;   // true: يسار/السهم الأيسر = التالى ، يمين/السهم الأيمن = السابق
+  var LOCK = 10, THRESH = 50;
+  var SWIPE_SEL = '#sp-athkar-display,#sp-athkar-src,#salah-pip-btn,#salah-pip-info';
+  var st = null, swipedAt = 0, lastInside = false;
+
+  var css = document.createElement('style');
+  css.textContent =
+    SWIPE_SEL + '{touch-action:pan-y;}' +
+    'body.sp-swiping,body.sp-swiping *{-webkit-user-select:none!important;user-select:none!important;}';
+  document.head.appendChild(css);
+
+  function open() {
+    return !sec.classList.contains('sp-collapsed') && sec.getClientRects().length > 0;
+  }
+  function typing(el) {
+    if (!el || !el.tagName) return false;
+    var t = el.tagName;
+    return t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT' || !!el.isContentEditable;
+  }
+  function ddOpen() {
+    var l = document.getElementById('sp-custom-dd-list');
+    return !!(l && l.style.display !== 'none');
+  }
+  function nav(dir) { if (typeof window.spNavDhikr === 'function') window.spNavDhikr(dir); }
+
+  /* ---------- الكيبورد ---------- */
+  document.addEventListener('pointerdown', function (e) { lastInside = sec.contains(e.target); }, true);
+  document.addEventListener('focusin', function (e) { lastInside = sec.contains(e.target); }, true);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return;
+    if (typing(e.target) || typing(document.activeElement)) return;
+    if (!open() || ddOpen()) return;
+    if (!(lastInside || sec.contains(document.activeElement))) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();                       // يمنع تغيير المحطة بنفس الأسهم وأنت داخل المسبحة
+    nav(((e.key === 'ArrowLeft') === NEXT_ON_LEFT) ? 1 : -1);
+  }, true);
+
+  /* ---------- السحب (تاتش + ماوس) ---------- */
+  function endDrag() { st = null; document.body.classList.remove('sp-swiping'); }
+
+  document.addEventListener('pointerdown', function (e) {
+    st = null;
+    if (e.isPrimary === false) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (!e.target || !e.target.closest || !e.target.closest(SWIPE_SEL)) return;
+    if (!sec.contains(e.target) || !open()) return;
+    st = { id: e.pointerId, x: e.clientX, y: e.clientY, locked: false };
+  }, true);
+
+  document.addEventListener('pointermove', function (e) {
+    if (!st || e.pointerId !== st.id || st.locked) return;
+    var dx = e.clientX - st.x, dy = e.clientY - st.y;
+    if (Math.abs(dy) > LOCK && Math.abs(dy) > Math.abs(dx)) { st = null; return; }     // تمرير رأسى: نسيبه
+    if (Math.abs(dx) > LOCK && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      st.locked = true;
+      document.body.classList.add('sp-swiping');
+      try { window.getSelection().removeAllRanges(); } catch (err) {}
+    }
+  }, true);
+
+  document.addEventListener('pointerup', function (e) {
+    if (!st || e.pointerId !== st.id) return;
+    var dx = e.clientX - st.x, dy = e.clientY - st.y, wasLocked = st.locked;
+    endDrag();
+    if (!wasLocked) return;
+    swipedAt = Date.now();                              // النقر اللى بعد السحب ما يزوّدش العدّاد
+    if (Math.abs(dx) >= THRESH && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      nav(((dx < 0) === NEXT_ON_LEFT) ? 1 : -1);
+    }
+  }, true);
+
+  document.addEventListener('pointercancel', endDrag, true);
+  document.addEventListener('selectstart', function (e) { if (st && st.locked) e.preventDefault(); });
+  document.addEventListener('click', function (e) {
+    if (Date.now() - swipedAt < 450 && e.target && e.target.closest && e.target.closest(SWIPE_SEL)) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    }
+  }, true);
+})();
+</script>
+
 </body>
 </html>
