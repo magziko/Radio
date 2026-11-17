@@ -18586,3 +18586,81 @@ body.dark-mode .kb-row[data-action]:hover .kb-key{background:rgba(100,220,180,0.
 /* ===== السحب الأفقي في المسبحة والـ PIP — منقول من index.html ===== */
 #sp-athkar-display,#sp-athkar-src,#salah-pip-btn,#salah-pip-info{touch-action:pan-y;}
 body.sp-swiping,body.sp-swiping *{-webkit-user-select:none!important;user-select:none!important;}
+
+
+/* =====================================================================
+   إصلاح قائمة ⋮ واللغات في الشريط العلوي — مستقلة عن ثيمات wstyle-*
+   السبب: قاعدة "html.wstyle-X body #welcome-top-bar button:not(#closeButton)"
+   بتفرض لون الذهبي/الكريمي + خلفية شفافة (!important) على كل الأزرار جوه الشريط،
+   ومنها أزرار القائمة اللي خلفيتها بيضاء، فالنص بيختفي.
+   لازم يفضل هذا الجزء في آخر الملف.
+   ===================================================================== */
+html body #welcome-top-bar #welcomeMoreMenu.welcome-lang-menu,
+html body #welcome-top-bar #welcomeLangMenu.welcome-lang-menu {
+    background: #fff !important;
+    border: 1px solid rgba(0,0,0,.12) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35) !important;
+    border-radius: 14px !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+html body #welcome-top-bar .welcome-lang-menu.welcome-lang-menu button.welcome-lang-option {
+    background: transparent !important;
+    color: #263238 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 10px !important;
+    opacity: 1 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    padding: 10px 12px !important;
+    text-shadow: none !important;
+}
+html body #welcome-top-bar .welcome-lang-menu.welcome-lang-menu button.welcome-lang-option:hover,
+html body #welcome-top-bar .welcome-lang-menu.welcome-lang-menu button.welcome-lang-option:active {
+    background: rgba(var(--theme-c2-rgb, 21,101,192), .12) !important;
+    color: var(--theme-c2, #1565c0) !important;
+}
+html body #welcome-top-bar .welcome-lang-menu.welcome-lang-menu button.welcome-lang-option.active {
+    background: var(--theme-c2, #1565c0) !important;
+    color: #fff !important;
+}
+/* الوضع الليلي */
+html body.dark-mode #welcome-top-bar #welcomeMoreMenu.welcome-lang-menu,
+html body.dark-mode #welcome-top-bar #welcomeLangMenu.welcome-lang-menu {
+    background: #23283a !important;
+    border-color: rgba(255,255,255,.14) !important;
+}
+html body.dark-mode #welcome-top-bar .welcome-lang-menu.welcome-lang-menu button.welcome-lang-option {
+    color: #e8eef5 !important;
+}
+html body.dark-mode #welcome-top-bar .welcome-lang-menu.welcome-lang-menu button.welcome-lang-option:hover {
+    background: rgba(255,255,255,.1) !important;
+    color: #90caf9 !important;
+}
+html body.dark-mode #welcome-top-bar .welcome-lang-menu.welcome-lang-menu button.welcome-lang-option.active {
+    background: var(--theme-c2, #1565c0) !important;
+    color: #fff !important;
+}
+
+
+/* =====================================================================
+   قيام الليل — تفعيل تلقائي في الثلث الأخير من الليل (حتى أذان الفجر)
+   html[data-tahajjud-live="on"] تضبطها wsApplyHajjAttrs من مواقيت الصلاة
+   ===================================================================== */
+@keyframes thLive { 0% { box-shadow: 0 0 0 0 rgba(var(--x-gold-rgb),.45); } 70%,100% { box-shadow: 0 0 0 12px rgba(var(--x-gold-rgb),0); } }
+html.wstyle-tahajjud[data-tahajjud-live="on"] body #welcomeLogo::after {
+    content: "🌙 الثلث الأخير من الليل — وقت القيام والوتر";
+    display: inline-block; margin-top: 12px; padding: 4px 16px; border-radius: 999px;
+    font: 700 12.5px/1.5 'Cairo', sans-serif; color: var(--x-accent);
+    background: rgba(var(--x-gold-rgb),.18); border: 1px solid var(--x-line);
+    animation: thLive 2s ease-out infinite;
+}
+html.wstyle-tahajjud body.dark-mode[class] #welcomeLogo::after { color: var(--x-goldlt); }
+html.wstyle-tahajjud[data-tahajjud-live="on"] #welcomeScreen {
+    --x-sub: "«يَنْزِلُ رَبُّنَا إِلَى السَّمَاءِ الدُّنْيَا حِينَ يَبْقَى ثُلُثُ اللَّيْلِ الآخِرُ»\A لا تنسَ قيام الليل وصلاة الوتر";
+}
+@media (prefers-reduced-motion: reduce) {
+    html.wstyle-tahajjud[data-tahajjud-live="on"] body #welcomeLogo::after { animation: none; }
+}
