@@ -30351,100 +30351,7 @@ window.addEventListener("load", function() {
     // ✅ منع الإنشاء المكرر لو الدالة اتنادت أكتر من مرة
     if (document.getElementById('adhan-toggle-wrap')) return;
     // ابحث عن منطقة الإعدادات أو الـ sidebar وأضف الزر
-    const style = document.createElement('style');
-    style.textContent = `
-      #adhan-toggle-wrap {
-        display: flex; align-items: center; gap: 10px;
-        padding: 10px 16px; cursor: pointer; border-radius: 10px;
-        transition: background .2s;
-        box-sizing: border-box;
-      }
-      #adhan-toggle-wrap:hover { background: rgba(var(--theme-g1-rgb),.08); }
-      @media (min-width:1025px) {
-        #adhan-toggle-wrap { max-width: 900px; margin: 8px auto 0; }
-      }
-      #adhan-toggle-icon { font-size: 20px; }
-      #adhan-toggle-label { font-size: 13px; font-weight: 600; color: var(--text-primary, #222); flex:1; }
-      body.dark-mode #adhan-toggle-label { color: #ddd; }
-      #adhan-toggle-switch {
-        width: 38px; height: 22px; background: #ccc; border-radius: 11px;
-        position: relative; transition: background .3s; flex-shrink:0;
-      }
-      #adhan-toggle-switch.on { background: var(--theme-g1); }
-      #adhan-toggle-switch::after {
-        content:''; position:absolute; top:3px; left:3px;
-        width:16px; height:16px; border-radius:50%; background:#fff;
-        transition: transform .3s; box-shadow: 0 1px 3px rgba(0,0,0,.3);
-      }
-      #adhan-toggle-switch.on::after { transform: translateX(16px); }
-      #adhan-next-info {
-        font-size: 11px; color: var(--theme-g1); font-weight: 600;
-        margin-top: 2px; line-height: 1.3; display: block;
-        transition: color .3s;
-      }
-      #adhan-next-info.adhan-now {
-        color: #e65100; font-size: 12px; animation: adhanPulse 1s ease-in-out infinite alternate;
-      }
-      @keyframes adhanPulse {
-        from { opacity: 1; } to { opacity: 0.6; }
-      }
-      body.dark-mode #adhan-next-info { color: #5DCAA5; }
-      body.dark-mode #adhan-next-info.adhan-now { color: #ffb74d; }
-      #hijri-date-display { display: block; color: #888; margin-top: 1px; }
-      body.dark-mode #hijri-date-display { color: #7a9e90; }
-      #adhan-toggle-label-wrap { display: flex; flex-direction: column; flex: 1; }
-      #adhan-test-btn {
-        font-size: 15px; width: 28px; height: 28px;
-        border-radius: 50%; border: 1.5px solid rgba(var(--theme-g1-rgb),0.45);
-        background: rgba(var(--theme-g1-rgb),0.10); color: var(--theme-g1);
-        cursor: pointer; flex-shrink: 0; font-family: inherit;
-        display: flex; align-items: center; justify-content: center; padding: 0;
-        transition: background .2s, border-color .2s;
-      }
-      #adhan-test-btn:hover { background: rgba(var(--theme-g1-rgb),0.22); border-color: var(--theme-g1); }
-      body.dark-mode #adhan-test-btn { color: #5DCAA5; border-color: rgba(93,202,165,0.4); background: rgba(93,202,165,0.08); }
-      body.dark-mode #adhan-test-btn:hover { background: rgba(93,202,165,0.18); }
-      #adhan-gps-btn {
-        font-size: 15px; width: 28px; height: 28px;
-        border-radius: 50%; border: 1.5px solid rgba(var(--theme-g1-rgb),0.45);
-        background: rgba(var(--theme-g1-rgb),0.10); color: var(--theme-g1);
-        cursor: pointer; flex-shrink: 0; font-family: inherit;
-        display: flex; align-items: center; justify-content: center; padding: 0;
-        transition: background .2s, border-color .2s;
-      }
-      #adhan-gps-btn:hover { background: rgba(var(--theme-g1-rgb),0.22); border-color: var(--theme-g1); }
-      body.dark-mode #adhan-gps-btn { color: #5DCAA5; border-color: rgba(93,202,165,0.4); background: rgba(93,202,165,0.08); }
-      body.dark-mode #adhan-gps-btn:hover { background: rgba(93,202,165,0.18); }
-      #adhan-settings-btn {
-        font-size: 15px; width: 28px; height: 28px;
-        border-radius: 50%; border: 1.5px solid rgba(var(--theme-g1-rgb),0.45);
-        background: rgba(var(--theme-g1-rgb),0.10); color: var(--theme-g1);
-        cursor: pointer; flex-shrink: 0; font-family: inherit;
-        display: flex; align-items: center; justify-content: center; padding: 0;
-        transition: background .2s, border-color .2s;
-      }
-      #adhan-settings-btn:hover { background: rgba(var(--theme-g1-rgb),0.22); border-color: var(--theme-g1); }
-      body.dark-mode #adhan-settings-btn { color: #5DCAA5; border-color: rgba(93,202,165,0.4); background: rgba(93,202,165,0.08); }
-      body.dark-mode #adhan-settings-btn:hover { background: rgba(93,202,165,0.18); }
-      #adhan-banner {
-        display:none; position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
-        background:var(--theme-g1); color:#fff; padding:12px 22px; border-radius:16px;
-        font-size:14px; font-weight:700; z-index:99999; box-shadow:0 4px 20px rgba(0,0,0,.25);
-        align-items:center; gap:12px; min-width:240px; text-align:center;
-        animation: adhanSlideUp .4s ease;
-      }
-      #adhan-banner.show { display:flex; }
-      #adhan-banner-stop {
-        background:rgba(255,255,255,.25); border:none; color:#fff; border-radius:8px;
-        padding:5px 12px; cursor:pointer; font-size:13px; font-weight:700; flex-shrink:0;
-      }
-      #adhan-banner-stop:hover { background:rgba(255,255,255,.4); }
-      @keyframes adhanSlideUp {
-        from { opacity:0; transform:translateX(-50%) translateY(20px); }
-        to   { opacity:1; transform:translateX(-50%) translateY(0); }
-      }
-    `;
-    document.head.appendChild(style);
+    // (CSS انتقل إلى style.css)
 
     // الزر — نضيفه داخل قسم الإعدادات أو آخر الـ sidebar
     const wrap = document.createElement('div');
@@ -31561,17 +31468,6 @@ function resetAdhkarGroupCounters(type) {
 function showAdhkarContinuePrompt(type) {
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
   var isMorning = type === 'morning';
-
-  if (!document.getElementById('adhkar-done-style')) {
-    var _style = document.createElement('style');
-    _style.id = 'adhkar-done-style';
-    _style.textContent = [
-      '@keyframes adhkarFadeIn{from{opacity:0}to{opacity:1}}',
-      '@keyframes adhkarFadeOut{from{opacity:1}to{opacity:0}}',
-      '@keyframes adhkarSlideUp{from{transform:translateY(40px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}'
-    ].join('');
-    document.head.appendChild(_style);
-  }
 
   var old = document.getElementById('adhkar-continue-modal');
   if (old) old.remove();
@@ -33386,17 +33282,6 @@ function showAdhkarDoneModal(type) {
     if (e.target === modal) btn.click();
   });
 
-  if (!document.getElementById('adhkar-done-style')) {
-    var style = document.createElement('style');
-    style.id = 'adhkar-done-style';
-    style.textContent = [
-      '@keyframes adhkarFadeIn{from{opacity:0}to{opacity:1}}',
-      '@keyframes adhkarFadeOut{from{opacity:1}to{opacity:0}}',
-      '@keyframes adhkarSlideUp{from{transform:translateY(40px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}'
-    ].join('');
-    document.head.appendChild(style);
-  }
-
   document.body.appendChild(modal);
 
   _playAdhkarCompletionChime();
@@ -34107,17 +33992,6 @@ function confirmResetAll(event) {
 
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
 
-  if (!document.getElementById('adhkar-done-style')) {
-    var _style = document.createElement('style');
-    _style.id = 'adhkar-done-style';
-    _style.textContent = [
-      '@keyframes adhkarFadeIn{from{opacity:0}to{opacity:1}}',
-      '@keyframes adhkarFadeOut{from{opacity:1}to{opacity:0}}',
-      '@keyframes adhkarSlideUp{from{transform:translateY(40px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}'
-    ].join('');
-    document.head.appendChild(_style);
-  }
-
   var old = document.getElementById('reset-all-modal');
   if (old) old.remove();
 
@@ -34231,17 +34105,6 @@ function confirmResetAllAdhkar(event) {
   if (event) event.stopPropagation();
 
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
-
-  if (!document.getElementById('adhkar-done-style')) {
-    var _style = document.createElement('style');
-    _style.id = 'adhkar-done-style';
-    _style.textContent = [
-      '@keyframes adhkarFadeIn{from{opacity:0}to{opacity:1}}',
-      '@keyframes adhkarFadeOut{from{opacity:1}to{opacity:0}}',
-      '@keyframes adhkarSlideUp{from{transform:translateY(40px) scale(0.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}'
-    ].join('');
-    document.head.appendChild(_style);
-  }
 
   var old = document.getElementById('adhkar-reset-all-modal');
   if (old) old.remove();
@@ -34952,68 +34815,7 @@ document.addEventListener('keydown', function(e) {
 // نافذة الإرشادات واختصارات لوحة المفاتيح — ثنائية اللغة
 // ═══════════════════════════════════════════════════════
 (function() {
-  // إنشاء الـ CSS
-  var style = document.createElement('style');
-  style.textContent = [
-    '#kb-modal-overlay{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}',
-    '#kb-modal-overlay.open{display:flex}',
-    '#kb-modal{background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;direction:rtl;font-family:"Cairo",Arial,sans-serif;box-shadow:0 8px 40px rgba(0,0,0,0.18)}',
-    '#kb-modal.kb-ltr{direction:ltr}',
-    'body.dark-mode #kb-modal{background:#1e1e2e;color:#e0e0e0}',
-    '#kb-modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid rgba(0,0,0,0.09)}',
-    'body.dark-mode #kb-modal-header{border-color:rgba(255,255,255,0.1)}',
-    '#kb-modal-header h2{font-size:15px;font-weight:700;margin:0;display:flex;align-items:center;gap:8px;color:inherit}',
-    '#kb-modal-close{width:30px;height:30px;border-radius:50%;border:none;background:rgba(0,0,0,0.06);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:inherit}',
-    'body.dark-mode #kb-modal-close{background:rgba(255,255,255,0.1)}',
-    '#kb-modal-body{overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:14px}',
-    '.kb-section-title{font-size:11px;font-weight:700;letter-spacing:0.07em;opacity:0.45;text-transform:uppercase;margin-bottom:6px}',
-    '.kb-rows{display:flex;flex-direction:column;gap:2px}',
-    '.kb-row{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:8px}',
-    '.kb-row:hover{background:rgba(0,0,0,0.04)}',
-    'body.dark-mode .kb-row:hover{background:rgba(255,255,255,0.06)}',
-    '.kb-row-desc{font-size:13px}',
-    '.kb-keys{display:flex;align-items:center;gap:3px;flex-shrink:0}',
-    '.kb-key{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:22px;padding:0 7px;background:rgba(0,0,0,0.05);border:1px solid rgba(0,0,0,0.15);border-bottom-width:2.5px;border-radius:5px;font-size:11.5px;font-family:monospace;font-weight:600;color:inherit}',
-    'body.dark-mode .kb-key{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2)}',
-    '.kb-sep{font-size:10px;opacity:0.4}',
-    '.kb-divider{height:1px;background:rgba(0,0,0,0.07);margin:2px 0}',
-    'body.dark-mode .kb-divider{background:rgba(255,255,255,0.08)}',
-    '.kb-tip{background:rgba(var(--theme-c1-rgb),0.07);border-radius:8px;padding:9px 13px;font-size:12px;display:flex;gap:8px;align-items:flex-start;line-height:1.55}',
-    'body.dark-mode .kb-tip{background:rgba(100,180,255,0.1)}',
-    '#kb-modal-footer{padding:10px 18px;border-top:1px solid rgba(0,0,0,0.09);display:flex;align-items:center;justify-content:space-between}',
-    'body.dark-mode #kb-modal-footer{border-color:rgba(255,255,255,0.1)}',
-    '.kb-footer-note{font-size:11.5px;opacity:0.45;display:flex;align-items:center;gap:6px}',
-    '#kb-help-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.18);background:none;cursor:pointer;font-size:15px;font-weight:700;opacity:0.65;transition:.2s;color:inherit}',
-    '#kb-help-btn:hover{opacity:1;background:rgba(0,0,0,0.06);transform:scale(1.08)}',
-    'body.dark-mode #kb-help-btn{border-color:rgba(255,255,255,0.25)}',
-    'body.dark-mode #kb-help-btn:hover{background:rgba(255,255,255,0.1)}',
-    /* Lang toggle button (يفتح قائمة اللغات المتعددة، بنفس أسلوب شاشة الترحيب) */
-    '#kb-lang-wrap{position:relative;display:inline-flex}',
-    '#kb-lang-toggle{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;border:1.5px solid rgba(0,0,0,0.15);background:none;cursor:pointer;font-size:12px;font-weight:700;opacity:0.7;transition:.2s;color:inherit;font-family:inherit}',
-    '#kb-lang-toggle:hover{opacity:1;background:rgba(0,0,0,0.05)}',
-    'body.dark-mode #kb-lang-toggle{border-color:rgba(255,255,255,0.2)}',
-    'body.dark-mode #kb-lang-toggle:hover{background:rgba(255,255,255,0.08)}',
-    '#kb-lang-menu{position:absolute;top:calc(100% + 6px);inset-inline-end:0;background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.16);border:1px solid rgba(var(--theme-c2-rgb),0.15);padding:5px;min-width:130px;max-height:260px;overflow-y:auto;z-index:100001;display:none;flex-direction:column;gap:2px}',
-    '#kb-lang-menu.open{display:flex}',
-    '#kb-lang-menu .kb-lang-option{display:block;width:100%;text-align:start;background:none;border:none;border-radius:8px;padding:8px 10px;font-size:13px;font-weight:600;color:#263238;cursor:pointer;transition:background .15s,color .15s;font-family:"Cairo",Arial,sans-serif}',
-    '#kb-lang-menu .kb-lang-option:hover{background:rgba(var(--theme-c2-rgb),0.1);color:var(--theme-c2)}',
-    '#kb-lang-menu .kb-lang-option.active{background:var(--theme-c2);color:#fff}',
-    'body.dark-mode #kb-lang-menu{background:#23283a;border-color:rgba(255,255,255,0.12)}',
-    'body.dark-mode #kb-lang-menu .kb-lang-option{color:#dce6f0}',
-    'body.dark-mode #kb-lang-menu .kb-lang-option:hover{background:rgba(255,255,255,0.08);color:#90caf9}',
-    /* Touch-button rows */
-    '.kb-row{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:background 0.15s,transform 0.1s}',
-    '.kb-row:active{background:rgba(var(--theme-g1-rgb),0.13)!important;transform:scale(0.98)}',
-    'body.dark-mode .kb-row:active{background:rgba(100,220,180,0.15)!important}',
-    '.kb-row-tap-hint{font-size:9px;opacity:0.38;margin-top:1px;display:block;text-align:center}',
-    '.kb-row[data-action]:hover .kb-key{background:rgba(var(--theme-g1-rgb),0.12);border-color:rgba(var(--theme-g1-rgb),0.35);color:var(--theme-g2)}',
-    'body.dark-mode .kb-row[data-action]:hover .kb-key{background:rgba(100,220,180,0.15);border-color:rgba(100,220,180,0.4);color:#4dd6a3}',
-    '@keyframes kb-flash{0%{background:rgba(var(--theme-g1-rgb),0.25)}100%{background:transparent}}',
-    '.kb-row-flash{animation:kb-flash 0.4s ease-out}',
-    '#kb-mobile-note{display:none}',
-    '@media(hover:none) and (pointer:coarse){#kb-mobile-note{display:flex}}'
-  ].join('');
-  document.head.appendChild(style);
+  // (CSS نافذة الإرشادات انتقل إلى style.css)
 
   // بيانات متعددة اللغات (تُطابق قائمة لغات شاشة الترحيب)
   var T = {
@@ -44076,18 +43878,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     return row;
   };
 
-  var st = document.createElement('style');
-  st.textContent =
-    '#adhkar-progress-pdf-btn{display:inline-block;margin-inline-start:12px;padding:2px 10px;border-radius:12px;font-size:12.5px;font-weight:700;' +
-    'cursor:pointer;border:1.5px solid currentColor;opacity:.85;user-select:none;-webkit-user-select:none;white-space:nowrap}' +
-    '#adhkar-progress-pdf-btn:hover,#adhkar-progress-pdf-btn:focus{opacity:1}' +
-    '#adhkar-progress-pdf-btn:active{transform:scale(.95)}';
-  st.textContent +=
-    '#adhkar-progress-share-btn{display:inline-block;margin-inline-start:8px;padding:2px 10px;border-radius:12px;font-size:12.5px;font-weight:700;' +
-    'cursor:pointer;border:1.5px solid currentColor;opacity:.85;user-select:none;-webkit-user-select:none;white-space:nowrap}' +
-    '#adhkar-progress-share-btn:hover,#adhkar-progress-share-btn:focus{opacity:1}' +
-    '#adhkar-progress-share-btn:active{transform:scale(.95)}';
-  document.head.appendChild(st);
+  // (CSS انتقل إلى style.css)
 
   /* ترجمة تلميح زرّى الشريط (PDF / مشاركة) ونص زر المشاركة مع تغيير اللغة */
   function _syncProgressBtns() {
@@ -44324,19 +44115,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   var extraBtn = bar.querySelector('#mabExtraBtn'), extraBox = bar.querySelector('#mabExtra');
   var extraTitle = bar.querySelector('#mabExtraTitle'), extraBody = bar.querySelector('#mabExtraBody');
   // الترجمة/التفسير + زر 📖 فى الشريط: على شاشات الكمبيوتر بس (عرض >= 1024px) علشان حجم الشاشة
-  (function(){
-    var st = document.createElement('style');
-    st.textContent =
-      '#miniAyahBar.mab-tap .mab-ayah{cursor:pointer}' +
-      '#miniAyahBar .mab-desk,#miniAyahBar .mab-extra{display:none}' +
-      '@media (min-width:1024px){' +
-        '#miniAyahBar .mab-desk{display:inline-block}' +
-        '#miniAyahBar .mab-extra.on{display:block;flex:0 1 auto;min-height:0;max-height:14vh;overflow-y:auto;text-align:center;border-top:1px solid rgba(255,255,255,.28);padding-top:5px;font-size:14.5px;line-height:1.75}' +
-        '#miniAyahBar .mab-extra-title{font-size:11.5px;opacity:.8;margin-bottom:2px}' +
-        '#miniAyahBar .mab-extra-body{opacity:.97}' +
-      '}';
-    document.head.appendChild(st);
-  })();
+  // (CSS هذا الجزء انتقل إلى style.css)
   // أزرار المعايرة (⏮️ ⏭️) بتتبع نفس إعداد "أزرار ⏮️ ⏭️ 📖 📗 على الشاشة" فى الإعدادات (syncShowButtons)
   // الضغط على الآية فى الشريط يفتح eQuran عندها — بنفس إعداد "الضغط على الآية يفتح المصحف" (syncTapOpenEquran)
   function tapOn(){ try { return localStorage.getItem('syncTapOpenEquran') !== 'false'; } catch (e) { return true; } }
@@ -44411,15 +44190,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   shareMenu.id = 'mabShareMenu';
   shareMenu.setAttribute('role', 'menu');
   bar.appendChild(shareMenu);
-  (function(){
-    var st = document.createElement('style');
-    st.textContent =
-      '#mabShareMenu{display:none;position:absolute;bottom:calc(100% + 8px);left:8px;min-width:210px;padding:6px;border-radius:14px;background:rgba(18,28,26,.97);color:#fff;box-shadow:0 8px 28px rgba(0,0,0,.45);z-index:2;direction:rtl}' +
-      '#mabShareMenu.open{display:block}' +
-      '#mabShareMenu button{display:block;width:100%;text-align:right;background:none;border:none;color:#fff;font:inherit;font-size:14px;padding:9px 12px;border-radius:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
-      '#mabShareMenu button:hover,#mabShareMenu button:active{background:rgba(255,255,255,.14)}';
-    document.head.appendChild(st);
-  })();
+  // (CSS هذا الجزء انتقل إلى style.css)
   function toast(m){ if (typeof showToast === 'function') showToast(m); }
   function closeShareMenu(){ shareMenu.classList.remove('open'); }
   function buildShareMenu(){
@@ -44643,9 +44414,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   });
 
   // مؤشر اليد + تلميح على الآية العشوائية طول ما الإعداد شغّال
-  var st = document.createElement('style');
-  st.textContent = '#arabicVerse.eq-tap{cursor:pointer}';
-  document.head.appendChild(st);
+  // (CSS انتقل إلى style.css)
   setInterval(function(){
     var el = document.getElementById('arabicVerse');
     if (!el) return;
@@ -44666,9 +44435,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   var NEXT_ON_LEFT = true;    // true: السحب لليسار = التالى ولليمين = السابق. غيّرها إلى false لعكس الاتجاه
   var tok = 0, swipedAt = 0, st = null;
 
-  var css = document.createElement('style');
-  css.textContent = '#arabicVerse,#englishVerse,#verseNumber{touch-action:pan-y;}';
-  document.head.appendChild(css);
+  // (CSS انتقل إلى style.css)
 
   function ready() {
     return typeof verses !== 'undefined' && verses && verses.length &&
@@ -44776,11 +44543,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   var SWIPE_SEL = '#sp-athkar-display,#sp-athkar-src,#salah-pip-btn,#salah-pip-info';
   var st = null, swipedAt = 0, lastInside = false;
 
-  var css = document.createElement('style');
-  css.textContent =
-    SWIPE_SEL + '{touch-action:pan-y;}' +
-    'body.sp-swiping,body.sp-swiping *{-webkit-user-select:none!important;user-select:none!important;}';
-  document.head.appendChild(css);
+  // (CSS انتقل إلى style.css)
 
   function open() {
     return !sec.classList.contains('sp-collapsed') && sec.getClientRects().length > 0;
