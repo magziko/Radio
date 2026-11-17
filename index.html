@@ -359,7 +359,7 @@
   window.wsHijriNow = function() { return _wsHijri(new Date()); };
   window.wsOccasionToday = function() { return _wsOccasion(_wsHijri(new Date())); };
   /* ===== تصاميم متعددة للمناسبة الواحدة: يُختار واحد منها عشوائيًا عند كل فتح (دون تكرار نفس التصميم مرتين متتاليتين) ===== */
-  var _WS_POOLS = { ramadan: ['ramadan', 'lantern'], hajj: ['hajj', 'kiswa'], adha: ['adha', 'kiswa'], 'phase-fajr': ['sabah', 'fajr', 'azkarday'], 'phase-asr': ['azkarday'], 'phase-maghrib': ['maghrib'] };
+  var _WS_POOLS = { ramadan: ['ramadan', 'lantern'], hajj: ['hajj', 'kiswa'], adha: ['adha', 'kiswa'], 'phase-fajr': ['sabah', 'fajr', 'azkarday'], 'phase-asr': ['azkarday'], 'phase-maghrib': ['maghrib'], 'phase-tahajjud': ['tahajjud'] };
   window.wsPool = function(k) { return _WS_POOLS[k] || [k]; };
   window.wsPick = function(k) {
     var p = window.wsPool(k), last = null;
@@ -378,6 +378,12 @@
       var g = function(k) { var p = String(c.timings[k]).split(' ')[0].split(':'); return (+p[0]) * 60 + (+p[1]); };
       var fj = g('Fajr'), sr = c.timings.Sunrise ? g('Sunrise') : fj + 90, mg = g('Maghrib'), is = g('Isha');
       var n = _wsClock(), d = new Date(), k = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      /* الثلث الأخير من الليل: الليل = من المغرب إلى الفجر، ويبدأ الثلث الأخير عند (الفجر − ثلث الليل) وينتهي عند أذان الفجر (يتعامل مع تجاوز منتصف الليل) */
+      var _nl = ((fj - mg) % 1440 + 1440) % 1440, _ts = (((fj - _nl / 3) % 1440) + 1440) % 1440;
+      if (_nl > 0 && ((_ts <= fj) ? (n >= _ts && n < fj) : (n >= _ts || n < fj))) {
+        var _dk = new Date(d.getTime() + ((_ts > fj && n >= _ts) ? 86400000 : 0));   // مفتاح الليلة = تاريخ صباح الفجر
+        return { style: 'phase-tahajjud', tag: 'tahajjud@' + _dk.getFullYear() + '-' + (_dk.getMonth() + 1) + '-' + _dk.getDate() };
+      }
       if (n >= fj && n < sr) return { style: 'phase-fajr', tag: 'fajr@' + k };
       if (c.timings.Asr && n >= g('Asr') && n < mg) return { style: 'phase-asr', tag: 'asr@' + k };   // أذكار المساء: بعد العصر حتى المغرب
       if (n >= mg && n < is) return { style: 'phase-maghrib', tag: 'maghrib@' + k };
@@ -404,6 +410,7 @@
       var oc = _wsOccasion(h);
       if (oc && oc.night) r.style.setProperty('--qd-date', '"ليلة ' + oc.night + ' رمضان ' + h.y + ' هـ"'); else r.style.removeProperty('--qd-date');
       r.setAttribute('data-dusk', _wsPhase());
+      var _pt = window.wsPhaseToday(); if (_pt && _pt.style === 'phase-tahajjud') r.setAttribute('data-tahajjud-live', 'on'); else r.removeAttribute('data-tahajjud-live');   // شارة «الثلث الأخير» داخل نافذة الوقت فقط
       var _ad = window.wsAdhkarState(); r.setAttribute('data-azkar', _ad.mode); if (_ad.live) r.setAttribute('data-azkar-live', 'on'); else r.removeAttribute('data-azkar-live');
       var _mn = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
       r.style.setProperty('--ev-date', '"' + h.d + ' ' + _mn[h.m - 1] + ' ' + h.y + ' هـ"');   // تاريخ اليوم الهجري لشارة تصاميم المناسبات الجديدة
@@ -4880,7 +4887,7 @@ setTimeout(autoScaleVerseFont, 100);
       <button type="button" class="ws-opt" data-style="tahajjud" role="radio" aria-checked="false" onclick="setWelcomeStyle('tahajjud')">
         <span class="ws-thumb ws-thumb--tahajjud" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
         <span class="ws-opt-name stab-i18n" data-ar="قيام الليل (جديد)" data-en="Night Prayer (New)">قيام الليل (جديد)</span>
-        <span class="ws-opt-desc stab-i18n" data-ar="ليل عميق بنجوم متلألئة وهلال ذهبي وآية «وَمِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ»" data-en="Deep night with twinkling stars, a golden crescent and the verse about night prayer">ليل عميق بنجوم متلألئة وهلال ذهبي وآية «وَمِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ»</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="يتبدّل تلقائيًا في الثلث الأخير من الليل حتى أذان الفجر: نجوم متلألئة وهلال ذهبي وشارة تذكير بقيام الليل والوتر" data-en="Switches automatically in the last third of the night until Fajr: twinkling stars, a golden crescent and a reminder for night prayer and Witr">يتبدّل تلقائيًا في الثلث الأخير من الليل حتى أذان الفجر: نجوم متلألئة وهلال ذهبي وشارة تذكير بقيام الليل والوتر</span>
       </button>
     </div>
     <script>
