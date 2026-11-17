@@ -10227,12 +10227,24 @@ const moreTranslations = [{
             <div id="sp-custom-dd-list" class="sp-custom-dd-list" style="display:none;">
                 <!-- بحث واحد فقط للأذكار: خانة #sp-athkar-search اللي فوق هي اللي بتفلتر القايمة دي كمان (بدل خانة بحث تانية مكررة هنا) -->
                 <div id="sp-dd-tabs" class="sp-dd-tabs" role="tablist"></div>
+                <div id="sp-dd-fs-ctrl"><div class="sp-fs-ctrl">
+        <button type="button" class="sp-chip" onclick="spAdhkarFont(-10)" title="تصغير الخط" aria-label="تصغير الخط" data-ar-title="تصغير الخط" data-en-title="Smaller text">A−</button>
+        <span class="sp-fs-val">100%</span>
+        <button type="button" class="sp-chip" onclick="spAdhkarFont(10)" title="تكبير الخط" aria-label="تكبير الخط" data-ar-title="تكبير الخط" data-en-title="Larger text">A+</button>
+        <button type="button" class="sp-chip" onclick="spAdhkarFont(0)" title="الحجم الافتراضي" aria-label="الحجم الافتراضي" data-ar-title="الحجم الافتراضي" data-en-title="Default size">↺</button>
+    </div></div>
                 <div id="sp-custom-dd-items" class="sp-custom-dd-items"></div>
             </div>
         </div>
     </div>
 
     
+    <div class="sp-fs-ctrl">
+        <button type="button" class="sp-chip" onclick="spAdhkarFont(-10)" title="تصغير الخط" aria-label="تصغير الخط" data-ar-title="تصغير الخط" data-en-title="Smaller text">A−</button>
+        <span class="sp-fs-val">100%</span>
+        <button type="button" class="sp-chip" onclick="spAdhkarFont(10)" title="تكبير الخط" aria-label="تكبير الخط" data-ar-title="تكبير الخط" data-en-title="Larger text">A+</button>
+        <button type="button" class="sp-chip" onclick="spAdhkarFont(0)" title="الحجم الافتراضي" aria-label="الحجم الافتراضي" data-ar-title="الحجم الافتراضي" data-en-title="Default size">↺</button>
+    </div>
     <p id="sp-athkar-display">اللهم صلِّ وسلِّم على نبينا محمد ﷺ</p>
     <p id="sp-athkar-src" style="display:none;margin:2px 0 6px;font-size:12px;opacity:.8;text-align:center;white-space:pre-line;"></p>
 
@@ -12117,6 +12129,19 @@ const moreTranslations = [{
   }
   window.spBuildCustomDd = spBuildCustomDd;
 
+  // يفتح قايمة أذكار المسبحة على تبويب معيّن ('morning' / 'evening' ...) — بيستخدمها بنر التذكير بالأذكار
+  window.spOpenAdhkarSection = function(tabId) {
+    var ms = document.getElementById('sp-athkar-search');
+    if (ms && ms.value) ms.value = '';          // البحث بيتخطّى التبويبات، فنفضّيه
+    spDdTab = tabId;
+    try { localStorage.setItem('spDdTab', tabId); } catch (e) {}
+    var list = document.getElementById('sp-custom-dd-list');
+    if (list && list.style.display && list.style.display !== 'none') spSetDdTab(tabId);
+    else window.spToggleCustomDd();
+    // فتح القايمة بيعمل focus على خانة البحث — نشيله عشان كيبورد الموبايل ما يطلعش
+    setTimeout(function() { if (ms) ms.blur(); }, 120);
+  };
+
   function spMakeDdItem(opt, isAr) {
     var div = document.createElement('div');
     div.className = 'sp-custom-dd-item';
@@ -12277,6 +12302,8 @@ const moreTranslations = [{
       var pad = 12; /* padding الـ list نفسها (6px × 2) */
       var _tb = document.getElementById('sp-dd-tabs');
       var _th = _tb ? (_tb.offsetHeight + 4) : 0;
+      var _fsc = document.getElementById('sp-dd-fs-ctrl');
+      if (_fsc) _th += _fsc.offsetHeight + 4;
       items.style.maxHeight = Math.max(80, Math.round(availH - pad - _th)) + 'px';
     }
   }
@@ -13038,6 +13065,158 @@ window._ptComputeDuha = _ptComputeDuha;
 </script>
 
 <script>
+// ===== حساب مواقيت الصلاة محليًا (أوفلاين) — احتياطي لما الـ API مش متاح =====
+(function() {
+  var P = { // aladhan method id → زوايا الفجر/العشاء (أو isha بالدقائق بعد المغرب)
+    1:  { fajr: 18,   isha: 18 },
+    2:  { fajr: 15,   isha: 15 },
+    3:  { fajr: 18,   isha: 17 },
+    4:  { fajr: 18.5, ishaMin: 90 },
+    5:  { fajr: 19.5, isha: 17.5 },
+    8:  { fajr: 19.5, ishaMin: 90 },
+    9:  { fajr: 18,   isha: 17.5 },
+    10: { fajr: 18,   ishaMin: 90 },
+    12: { fajr: 12,   isha: 12 },
+    13: { fajr: 18,   isha: 17 },
+    15: { fajr: 18,   isha: 18 }
+  };
+  var R = Math.PI / 180;
+  function sin(d){return Math.sin(d*R);} function cos(d){return Math.cos(d*R);} function tan(d){return Math.tan(d*R);}
+  function asin(x){return Math.asin(x)/R;} function acos(x){return Math.acos(x)/R;}
+  function atan2(y,x){return Math.atan2(y,x)/R;} function acot(x){return Math.atan(1/x)/R;}
+  function fixA(a){a=a-360*Math.floor(a/360);return a<0?a+360:a;}
+  function fixH(h){h=h-24*Math.floor(h/24);return h<0?h+24:h;}
+  function julian(y,m,d){ if(m<=2){y-=1;m+=12;} var A=Math.floor(y/100),B=2-A+Math.floor(A/4);
+    return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5; }
+  function sunPos(jd){ var D=jd-2451545.0, g=fixA(357.529+0.98560028*D), q=fixA(280.459+0.98564736*D),
+    L=fixA(q+1.915*sin(g)+0.020*sin(2*g)), e=23.439-0.00000036*D, RA=atan2(cos(e)*sin(L),cos(L))/15;
+    return { decl: asin(sin(e)*sin(L)), eqt: q/15-fixH(RA) }; }
+  function f2(n){return (n<10?'0':'')+n;}
+  function fmt(t){ if(isNaN(t)) return '--:--'; t=fixH(t+0.5/60); var h=Math.floor(t), m=Math.floor((t-h)*60); return f2(h)+':'+f2(m); }
+
+  // ===== تخزين مواقيت الشهر (من الـ API) + مزامنة تلقائية أول ما الموقع يفتح أونلاين =====
+  var SKEY = 'ptTimingsStoreV1';
+  function dkey(d) { return d.getFullYear() + '-' + f2(d.getMonth()+1) + '-' + f2(d.getDate()); }
+  function loadStore() { try { return JSON.parse(localStorage.getItem(SKEY) || 'null'); } catch (e) { return null; } }
+  function curParams() { return { m: localStorage.getItem('prayerCalcMethod') || '5', sc: localStorage.getItem('prayerMadhab') || '0' }; }
+  function sameSetup(s, lat, lon) {
+    var p = curParams();
+    if (!s || !s.days || String(s.method) !== p.m || String(s.school) !== p.sc) return false;
+    if (lat != null && lon != null && (Math.abs(s.lat - lat) > 0.2 || Math.abs(s.lon - lon) > 0.2)) return false;
+    return true;
+  }
+  window._ptStoredDay = function(lat, lon, date) {
+    try { var s = loadStore(); return sameSetup(s, lat, lon) ? (s.days[dkey(date || new Date())] || null) : null; } catch (e) { return null; }
+  };
+  var _syncing = false;
+  window._ptSyncTimings = function(lat, lon, force) {
+    try {
+      if (_syncing || !navigator.onLine) return;
+      if (lat == null || lon == null) {
+        var g = JSON.parse(localStorage.getItem('adhanGeoCache') || 'null');
+        if (!g || !g.lat || !g.lon) return;
+        lat = g.lat; lon = g.lon;
+      }
+      lat = parseFloat(lat); lon = parseFloat(lon);
+      if (isNaN(lat) || isNaN(lon)) return;
+      var p = curParams(), st = loadStore(), d0 = new Date(), todayK = dkey(d0);
+      // مفيش داعي نحمّل تاني لو آخر مزامنة أقل من 12 ساعة ولسه عندنا 20 يوم قدام لنفس الإعدادات
+      if (!force && sameSetup(st, lat, lon) && st.syncedAt && (Date.now() - st.syncedAt) < 12*3600e3 &&
+          st.days[todayK] && Object.keys(st.days).length >= 20) return;
+      _syncing = true;
+      var d1 = new Date(d0.getFullYear(), d0.getMonth() + 1, 1);
+      function get(y, mo) {
+        return fetch('https://api.aladhan.com/v1/calendar/' + y + '/' + mo + '?latitude=' + lat + '&longitude=' + lon +
+                     '&method=' + p.m + '&school=' + p.sc).then(function(r){ return r.json(); }).then(function(j){ return (j && j.data) || []; });
+      }
+      Promise.all([get(d0.getFullYear(), d0.getMonth() + 1), get(d1.getFullYear(), d1.getMonth() + 1).catch(function(){ return []; })])
+        .then(function(res) {
+          var days = {};
+          res.forEach(function(arr) { arr.forEach(function(it) {
+            try {
+              var g = it.date.gregorian.date.split('-'); // DD-MM-YYYY
+              var k = g[2] + '-' + g[1] + '-' + g[0];
+              if (k < todayK) return;
+              var tm = {}; for (var n in it.timings) tm[n] = String(it.timings[n]).split(' ')[0];
+              var h = it.date.hijri;
+              days[k] = { timings: tm, hijri: h ? { day: String(parseInt(h.day, 10)), monthAr: h.month.ar, monthEn: h.month.en, year: h.year } : null };
+            } catch (e) {}
+          }); });
+          if (!days[todayK]) return;
+          localStorage.setItem(SKEY, JSON.stringify({ lat: lat, lon: lon, method: p.m, school: p.sc, syncedAt: Date.now(), days: days }));
+        })
+        .catch(function() {})
+        .then(function() { _syncing = false; });
+    } catch (e) { _syncing = false; }
+  };
+  window.addEventListener('online', function() { setTimeout(function() { window._ptSyncTimings(); }, 1500); });
+  document.addEventListener('visibilitychange', function() { if (!document.hidden) window._ptSyncTimings(); });
+  setTimeout(function() { window._ptSyncTimings(); }, 4000);
+
+  window._ptOfflineTimings = function(lat, lon, date) {
+    try {
+      lat = parseFloat(lat); lon = parseFloat(lon);
+      if (isNaN(lat) || isNaN(lon)) return null;
+      date = date || new Date();
+      // ✅ لو عندنا مواقيت اليوم ده متخزّنة من الـ API (آخر مزامنة أونلاين) استخدمها — أدق من الحساب
+      var _sd = window._ptStoredDay(lat, lon, date);
+      if (_sd && _sd.timings) return _sd.timings;
+      var mid = parseInt(localStorage.getItem('prayerCalcMethod') || '5', 10);
+      var prm = P[mid] || P[5];
+      var factor = (localStorage.getItem('prayerMadhab') === '1') ? 2 : 1;
+      var tz = -date.getTimezoneOffset() / 60;
+      var jd = julian(date.getFullYear(), date.getMonth()+1, date.getDate()) - lon/(15*24);
+      function midDay(t){ return fixH(12 - sunPos(jd+t).eqt); }
+      function angTime(angle, t, ccw){
+        var dec = sunPos(jd+t).decl;
+        var n = (-sin(angle) - sin(dec)*sin(lat)) / (cos(dec)*cos(lat));
+        return midDay(t) + (ccw?-1:1) * acos(n)/15; }
+      function asrT(t){ var dec = sunPos(jd+t).decl; return angTime(-acot(factor + tan(Math.abs(lat-dec))), t); }
+      var base = { fajr:5, sunrise:6, dhuhr:12, asr:13, sunset:18, maghrib:18, isha:18 };
+      var t = {};
+      for (var k in base) t[k] = base[k]/24;
+      var c = {
+        fajr: angTime(180-prm.fajr, t.fajr, true),
+        sunrise: angTime(0.833, t.sunrise, true),
+        dhuhr: midDay(t.dhuhr),
+        asr: asrT(t.asr),
+        sunset: angTime(0.833, t.sunset),
+      };
+      c.maghrib = c.sunset;
+      c.isha = prm.ishaMin ? c.maghrib + prm.ishaMin/60 : angTime(prm.isha, t.isha);
+      var adj = tz - lon/15;
+      for (var n in c) c[n] += adj;
+      // العروض العالية: لو الفجر/العشاء مش بيتحسبوا، استخدم طريقة جزء الليل (angle-based)
+      var night = fixH(c.sunrise - c.sunset);
+      if (isNaN(c.fajr))  c.fajr  = c.sunrise - night * (prm.fajr/60);
+      if (isNaN(c.isha))  c.isha  = c.sunset  + night * ((prm.isha||17)/60);
+      var out = {
+        Imsak: fmt(c.fajr - 10/60), Fajr: fmt(c.fajr), Sunrise: fmt(c.sunrise), Dhuhr: fmt(c.dhuhr),
+        Asr: fmt(c.asr), Sunset: fmt(c.sunset), Maghrib: fmt(c.maghrib), Isha: fmt(c.isha),
+        Midnight: fmt(c.sunset + night/2), Firstthird: fmt(c.sunset + night/3), Lastthird: fmt(c.sunset + 2*night/3)
+      };
+      if (out.Fajr === '--:--' || out.Isha === '--:--') return null;
+      return out;
+    } catch (e) { return null; }
+  };
+
+  var HM_AR = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+  var HM_EN = ['Muharram','Safar','Rabi\u2019 al-awwal','Rabi\u2019 al-thani','Jumada al-ula','Jumada al-akhirah','Rajab','Sha\u2019ban','Ramadan','Shawwal','Dhu al-Qi\u2019dah','Dhu al-Hijjah'];
+  window._ptOfflineHijri = function(date) {
+    try {
+      var _sd = window._ptStoredDay(null, null, date);
+      if (_sd && _sd.hijri) return _sd.hijri;
+      var parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { day:'numeric', month:'numeric', year:'numeric' }).formatToParts(date || new Date());
+      var o = {}; parts.forEach(function(p){ o[p.type] = p.value; });
+      var m = parseInt(o.month, 10);
+      if (!m || !o.day || !o.year) return null;
+      return { day: String(parseInt(o.day, 10)), monthAr: HM_AR[m-1], monthEn: HM_EN[m-1], year: String(parseInt(o.year, 10)) };
+    } catch (e) { return null; }
+  };
+})();
+</script>
+
+<script>
 // ===== إعدادات حساب مواقيت الصلاة: طريقة الحساب + المذهب + مستوى صوت الأذان =====
 (function() {
   window.PRAYER_CALC_METHODS = [
@@ -13618,6 +13797,14 @@ window._ptComputeDuha = _ptComputeDuha;
             });
         })
         .catch(function() {
+          // ✅ أوفلاين/فشل الـ API: احسب المواقيت محليًا
+          var _off = window._ptOfflineTimings && window._ptOfflineTimings(lat, lon);
+          if (_off) {
+            var _oh = window._ptOfflineHijri && window._ptOfflineHijri();
+            _pwData = { timings: _off, hijri: _oh, city: '', cityLang: lang };
+            _pwRender(_off, _oh, '');
+            return;
+          }
           document.getElementById('prayerWidgetNative').innerHTML =
             '<div style="text-align:center;padding:24px;color:#888;font-size:13px;">⚠️ ' + _ptT('couldNotLoad', lang) + '</div>';
         });
@@ -13651,7 +13838,7 @@ window._ptComputeDuha = _ptComputeDuha;
     // استخدم كاش الإحداثيات
     try {
       var geo = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-      if (geo.lat && geo.lon && (geo.manual || (Date.now() - geo.ts) < 30 * 864e5)) {
+      if (geo.lat && geo.lon && (geo.manual || !navigator.onLine || (Date.now() - geo.ts) < 30 * 864e5)) {
         fetchTimes(geo.lat, geo.lon);
         return;
       }
@@ -13906,13 +14093,15 @@ window._ptComputeDuha = _ptComputeDuha;
             .catch(function() { _fpwRender(timings, hijri, ''); });
         })
         .catch(function() {
+          var _off = window._ptOfflineTimings && window._ptOfflineTimings(lat, lon);
+          if (_off) { _fpwRender(_off, window._ptOfflineHijri && window._ptOfflineHijri(), ''); return; }
           if (el) el.innerHTML = '<div style="text-align:center;padding:24px 10px;color:#888;font-size:13px;">⚠️ ' + _ptT('couldNotLoad', lang) + '</div>';
         });
     }
 
     try {
       var geo = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-      if (geo.lat && geo.lon && (geo.manual || (Date.now() - geo.ts) < 30 * 864e5)) {
+      if (geo.lat && geo.lon && (geo.manual || !navigator.onLine || (Date.now() - geo.ts) < 30 * 864e5)) {
         fetchTimes(geo.lat, geo.lon);
         return;
       }
@@ -14105,7 +14294,7 @@ window._ptComputeDuha = _ptComputeDuha;
   function _qcGetCachedGeo() {
     try {
       var geo = JSON.parse(localStorage.getItem('adhanGeoCache') || '{}');
-      if (geo.lat && geo.lon && (geo.manual || (Date.now() - geo.ts) < 30 * 864e5)) return geo;
+      if (geo.lat && geo.lon && (geo.manual || !navigator.onLine || (Date.now() - geo.ts) < 30 * 864e5)) return geo;
     } catch(e) {}
     return null;
   }
@@ -29963,7 +30152,11 @@ window.addEventListener("load", function() {
             buildFallbackToast();
           }
         })
-        .catch(() => buildFallbackToast());
+        .catch(() => {
+          const _o = window._ptOfflineTimings && window._ptOfflineTimings(lat, lon);
+          const _nx = _o && findNextPrayer(_o);
+          if (_nx) buildPrayerToast(_nx.name, _nx.mins); else buildFallbackToast();
+        });
     }
 
     // استخدم كاش الإحداثيات المشترك (نفس كاش نظام الأذان)
@@ -29981,7 +30174,7 @@ window.addEventListener("load", function() {
         } = JSON.parse(raw);
         if (!lat || !lon) return null;
         // مقبول حتى 30 يوم (إلا لو مدينة مختارة يدويًا فما تنتهيش)
-        if (!manual && Date.now() - ts > 30 * 24 * 60 * 60 * 1000) return null;
+        if (!manual && navigator.onLine && Date.now() - ts > 30 * 24 * 60 * 60 * 1000) return null;
         return {
           lat,
           lon
@@ -30503,7 +30696,9 @@ window.addEventListener("load", function() {
   }
 
   // يُستدعى من رسالة الـ SW لما الصفحة تصحى بعد ما كانت مقفلة
-  window._swPlayAdhan = function(prayerName) {
+  window._swPlayAdhan = function(prayerName, scheduledTs) {
+    // ✅ تجاهل أي أذان متأخر أكتر من دقيقتين عن ميعاده
+    if (scheduledTs && (Date.now() - scheduledTs) > 120000) return;
     if (!adhanEnabled) return;
     playAdhan(prayerName);
   };
@@ -30755,7 +30950,7 @@ window.addEventListener("load", function() {
       const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
       const diff = target - now;
       if (diff > 0) {
-        const t = setTimeout(() => playAdhan(name), diff);
+        const t = setTimeout(() => { if (Date.now() - target.getTime() > 120000) return; playAdhan(name); }, diff);
         adhanTimers.push(t);
       }
       if (preMin > 0) {
@@ -30773,6 +30968,7 @@ window.addEventListener("load", function() {
     const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
     window._fetchAndScheduleAdhan = fetchAndSchedule;
     const TIMINGS_KEY = 'adhanTimingsCacheV2'; // { timings, date, lat, lon }
+    if (window._ptSyncTimings) window._ptSyncTimings(lat, lon);
 
     // دالة مساعدة لتحميل الكاش واستخدامه كـ fallback
     function _loadCachedTimings() {
@@ -30822,6 +31018,8 @@ window.addEventListener("load", function() {
       .catch(() => {
         // API فشل — لو ما في كاش محمّل، حاول كاش أمس كـ fallback أخير
         if (!_cached) {
+          const _off = window._ptOfflineTimings && window._ptOfflineTimings(lat, lon);
+          if (_off) { scheduleAdhan(_off); return; }
           try {
             const raw = localStorage.getItem(TIMINGS_KEY);
             if (raw) {
@@ -30862,7 +31060,7 @@ window.addEventListener("load", function() {
         manual
       } = JSON.parse(raw);
       if (!lat || !lon || !ts) return null;
-      if (!manual && Date.now() - ts > GEO_MAX_AGE_MS) return null; // منتهي (إلا لو مدينة مختارة يدويًا)
+      if (!manual && navigator.onLine && Date.now() - ts > GEO_MAX_AGE_MS) return null; // منتهي (إلا لو مدينة مختارة يدويًا)
       return {
         lat,
         lon
@@ -30895,6 +31093,7 @@ window.addEventListener("load", function() {
         var _dateStr = `${_today.getDate()}-${_today.getMonth()+1}-${_today.getFullYear()}`;
         if (_raw && _raw.date === _dateStr && _raw.timings) _fallbackTimings = _raw.timings;
       } catch (e) {}
+      if (!_fallbackTimings && window._ptOfflineTimings) _fallbackTimings = window._ptOfflineTimings(lat, lon);
       navigator.serviceWorker.controller.postMessage({
         type: 'ADHAN_SCHEDULE',
         lat,
@@ -39418,6 +39617,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '#adhkar-reminder-banner .banner-btn:active { transform: scale(0.95); }',
         '#adhkar-reminder-banner .btn-go { background: rgba(255,255,255,0.92); color: var(--theme-g2); border: 1.5px solid transparent; }',
         '#adhkar-reminder-banner .btn-go:hover { background: #fff; }',
+        '#adhkar-reminder-banner .btn-tasbih,',
         '#adhkar-reminder-banner .btn-pdf,',
         '#adhkar-reminder-banner .btn-share,',
         '#adhkar-reminder-banner .btn-later,',
@@ -39426,6 +39626,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);',
         '  text-shadow: 0 1px 3px rgba(0,0,0,0.5);',
         '}',
+        '#adhkar-reminder-banner .btn-tasbih:hover,',
         '#adhkar-reminder-banner .btn-pdf:hover,',
         '#adhkar-reminder-banner .btn-share:hover,',
         '#adhkar-reminder-banner .btn-later:hover,',
@@ -39461,6 +39662,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '<div class="banner-body"  id="banner-body"></div>',
         '<div class="banner-actions">',
         '  <button class="banner-btn btn-go"    id="banner-btn-go"></button>',
+        '  <button class="banner-btn btn-tasbih" id="banner-btn-tasbih"></button>',
         '  <button class="banner-btn btn-pdf"   id="banner-btn-pdf"></button>',
         '  <button class="banner-btn btn-share" id="banner-btn-share"></button>',
         '  <button class="banner-btn btn-later" id="banner-btn-later"></button>',
@@ -39480,6 +39682,19 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       document.getElementById('banner-btn-share').addEventListener('click', function(ev) {
         if (typeof shareAllAdhkar === 'function') shareAllAdhkar(ev, _bannerEl.dataset.type);
+      });
+      document.getElementById('banner-btn-tasbih').addEventListener('click', function() {
+        var type = _bannerEl.dataset.type;      // 'morning' | 'evening'
+        clearSnooze();
+        hideBanner();
+        if (typeof window.openTasbihSection === 'function') window.openTasbihSection();
+        setTimeout(function() {
+          var sec = document.getElementById('salah-pip-section');
+          if (sec) { try { sec.scrollIntoView({ block: 'start', behavior: 'instant' }); } catch (e) { sec.scrollIntoView(); } }
+          setTimeout(function() {
+            if (typeof window.spOpenAdhkarSection === 'function') window.spOpenAdhkarSection(type);
+          }, 250);
+        }, 120);
       });
       document.getElementById('banner-btn-go').addEventListener('click', function() {
         var type = _bannerEl.dataset.type;
@@ -39663,6 +39878,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('banner-title').textContent = title;
       document.getElementById('banner-body').textContent = body;
       document.getElementById('banner-btn-go').textContent = btnGo;
+      document.getElementById('banner-btn-tasbih').textContent = isAr ? '📿 المسبحة' : '📿 Tasbih';
       document.getElementById('banner-btn-close').textContent = btnClose;
       document.getElementById('banner-btn-later').textContent = btnLater;
       document.getElementById('banner-btn-pdf').textContent = isAr ? '📄 PDF' : '📄 PDF';
@@ -41200,13 +41416,38 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     // الـ SW طلب تشغيل الأذان (لما الشاشة كانت مقفلة وفتحت تاني)
     if (data.type === 'SW_PLAY_ADHAN') {
       if (typeof window._swPlayAdhan === 'function') {
-        window._swPlayAdhan(data.prayerName);
+        window._swPlayAdhan(data.prayerName, data.scheduledTs);
       }
     }
   });
 }
 </script>
 
+
+<script>
+// ===== التحكم في حجم خط الأذكار — الأحجام نفسها فى style.css عن طريق المتغير --sp-adhkar-fs =====
+(function() {
+  var KEY = 'spAdhkarFontScale', MIN = 80, MAX = 220;
+  function getScale() {
+    var v = NaN;
+    try { v = parseInt(localStorage.getItem(KEY), 10); } catch (e) {}
+    return isNaN(v) ? 100 : Math.min(MAX, Math.max(MIN, v));
+  }
+  function apply() {
+    var sc = getScale();
+    document.documentElement.style.setProperty('--sp-adhkar-fs', String(sc / 100));
+    var vals = document.querySelectorAll('.sp-fs-val');
+    for (var i = 0; i < vals.length; i++) vals[i].textContent = sc + '%';
+  }
+  window.spAdhkarFont = function(delta) {
+    var sc = delta === 0 ? 100 : getScale() + delta;
+    sc = Math.min(MAX, Math.max(MIN, sc));
+    try { localStorage.setItem(KEY, String(sc)); } catch (e) {}
+    apply();
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply); else apply();
+})();
+</script>
 
 <!-- تأكيد إجباري قبل إغلاق الصفحة أثناء تشغيل الصوت -->
 <script>
