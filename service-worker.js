@@ -2,7 +2,7 @@
    Service Worker — إذاعة القرآن الكريم
    ============================================ */
 
-const CACHE_STATIC = 'quran-radio-static-v4';
+const CACHE_STATIC = 'quran-radio-static-v5';
 const CACHE_AUDIO  = 'quran-radio-audio-v2';
 const CACHE_ALARM  = 'quran-radio-alarm-v5';
 const MAX_AUDIO_FILES = 50;
@@ -327,7 +327,7 @@ function swScheduleAdhanTimers(timings) {
     const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
     const diff = target - now;
     if (diff > 0) {
-      const t = setTimeout(() => swTriggerAdhan(name), diff);
+      const t = setTimeout(() => swTriggerAdhan(name, target.getTime()), diff);
       swAdhanTimers.push(t);
     }
   });
@@ -342,14 +342,16 @@ function swScheduleAdhanTimers(timings) {
   }, msToMidnight);
 }
 
-async function swTriggerAdhan(prayerName) {
+async function swTriggerAdhan(prayerName, scheduledTs) {
+  // ✅ لو المؤقت اتأخر (الجهاز كان نايم/الـ SW متجمد) أكتر من دقيقتين عن الميعاد → تجاهل، ما نشغّلش أذان في غير وقته
+  if (scheduledTs && (Date.now() - scheduledTs) > 120000) return;
   // لو الصفحة شغالة وأرسلت AUDIO_ALIVE مؤخراً → الصفحة هتتكلم هي
   const pageAlive = (Date.now() - swLastAliveTs) < 60000;
 
   // ابعت للصفحة تشغّل الأذان لو هي صاحية
   const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
   clients.forEach(client => {
-    client.postMessage({ type: 'SW_PLAY_ADHAN', prayerName });
+    client.postMessage({ type: 'SW_PLAY_ADHAN', prayerName, scheduledTs });
   });
 
   // لو ما في صفحة صاحية → أرسل Push Notification بصوت
@@ -362,6 +364,7 @@ async function swTriggerAdhan(prayerName) {
         icon: '/Radio/icon-192.png',
         badge: '/Radio/favicon.png',
         tag: 'adhan-' + prayerName,
+        data: { ts: scheduledTs || Date.now() },
         renotify: true,
         requireInteraction: true,
         silent: false,
@@ -411,7 +414,11 @@ self.addEventListener('notificationclick', event => {
     self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clients => {
       if (clients.length > 0) {
         clients[0].focus();
-        clients[0].postMessage({ type: 'SW_PLAY_ADHAN', prayerName: event.notification.tag.replace('adhan-', '') });
+        const _ts = event.notification.data && event.notification.data.ts;
+        // الأذان يشتغل بالضغط على الإشعار بس لو لسه جديد (أقل من 5 دقايق)
+        if (!_ts || (Date.now() - _ts) < 300000) {
+          clients[0].postMessage({ type: 'SW_PLAY_ADHAN', prayerName: event.notification.tag.replace('adhan-', ''), scheduledTs: _ts });
+        }
       } else {
         self.clients.openWindow('/Radio/');
       }
