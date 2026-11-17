@@ -31647,11 +31647,22 @@ function showAdhkarContinuePrompt(type) {
     setTimeout(function() { overlay.remove(); }, 250);
   };
 
+  var note = document.createElement('p');
+  note.style.cssText = 'margin:14px 0 0;font-size:12.5px;color:#5b7f94;line-height:1.7;';
+  note.textContent = isAr ?
+    (isMorning ?
+      '💡 يمكنك أيضاً التسبيح أو قراءة أذكار الصباح من خلال المسبحة 📿' :
+      '💡 يمكنك أيضاً التسبيح أو قراءة أذكار المساء من خلال المسبحة 📿') :
+    (isMorning ?
+      '💡 You can also do tasbih or the Morning Adhkar through the Tasbih counter 📿' :
+      '💡 You can also do tasbih or the Evening Adhkar through the Tasbih counter 📿');
+
   box.appendChild(icon);
   box.appendChild(title);
   box.appendChild(body);
   box.appendChild(btnContinue);
   box.appendChild(btnReset);
+  box.appendChild(note);
   overlay.appendChild(box);
 
   overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
@@ -39573,87 +39584,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function createBanner() {
       if (_bannerEl) return;
-      var style = document.createElement('style');
-      style.textContent = [
-        '#adhkar-reminder-banner {',
-        '  position: fixed; top: calc(env(safe-area-inset-top, 0px) + 10px); left: 0; right: 0; z-index: 99999;',
-        '  box-sizing: border-box; margin: 0 auto;',
-        '  width: max-content; min-width: min(300px, calc(100vw - 20px)); max-width: min(440px, calc(100vw - 20px));',
-        '  display: none; grid-template-columns: auto 1fr; column-gap: 12px; align-items: center;',
-        '  grid-template-areas: "icon title" "icon body" "actions actions";',
-        '  padding: 12px 16px; direction: rtl; text-align: start; font-family: Cairo, sans-serif;',
-        '  color: #fff; border-radius: 18px;',
-        '  background: linear-gradient(135deg, rgba(var(--theme-c1-rgb),0.7), rgba(var(--theme-c2-rgb),0.7));',
-        '  border: 1.5px solid rgba(255,255,255,0.38);',
-        '  -webkit-backdrop-filter: blur(16px) saturate(180%); backdrop-filter: blur(16px) saturate(180%);',
-        '  box-shadow: 0 8px 28px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.28);',
-        '  text-shadow: 0 1px 3px rgba(0,0,0,0.55);',
-        '  animation: adhkarBannerIn 0.5s cubic-bezier(.22,.68,0,1.3);',
-        '}',
-        '@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {',
-        '  #adhkar-reminder-banner { background: linear-gradient(135deg, rgba(var(--theme-c1-rgb),0.94), rgba(var(--theme-c2-rgb),0.94)); }',
-        '}',
-        'body.dark-mode #adhkar-reminder-banner {',
-        '  background: linear-gradient(135deg, rgba(var(--theme-c1-rgb),0.38), rgba(var(--theme-c2-rgb),0.38)), rgba(12,16,22,0.5);',
-        '  border-color: rgba(255,255,255,0.22);',
-        '}',
-        'body.media-theme-glass #adhkar-reminder-banner {',
-        '  background: linear-gradient(135deg, rgba(var(--theme-c1-rgb),0.28), rgba(var(--theme-c2-rgb),0.28)), rgba(255,255,255,0.14);',
-        '  text-shadow: 0 0 2px rgba(0,0,0,0.95), 0 0 3px rgba(0,0,0,0.9), 0 1px 4px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.55);',
-        '}',
-        '@keyframes adhkarBannerIn {',
-        '  from { transform: translateY(-130%); opacity: 0; }',
-        '  to   { transform: translateY(0);     opacity: 1; }',
-        '}',
-        '#adhkar-reminder-banner .banner-icon  { grid-area: icon; font-size: 30px; line-height: 1; }',
-        '#adhkar-reminder-banner .banner-title { grid-area: title; font-size: 16px; font-weight: 700; line-height: 1.4; }',
-        '#adhkar-reminder-banner .banner-body  { grid-area: body; font-size: 13px; opacity: 0.95; line-height: 1.5; }',
-        '#adhkar-reminder-banner .banner-actions { grid-area: actions; display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; margin-top: 10px; }',
-        '#adhkar-reminder-banner .banner-btn {',
-        '  padding: 6px 14px; border-radius: 30px; cursor: pointer; text-shadow: none; white-space: nowrap;',
-        '  font-size: 13px; font-weight: 700; font-family: Cairo, sans-serif;',
-        '  transition: transform .15s, background .15s;',
-        '}',
-        '#adhkar-reminder-banner .banner-btn:active { transform: scale(0.95); }',
-        '#adhkar-reminder-banner .btn-go { background: rgba(255,255,255,0.92); color: var(--theme-g2); border: 1.5px solid transparent; }',
-        '#adhkar-reminder-banner .btn-go:hover { background: #fff; }',
-        '#adhkar-reminder-banner .btn-tasbih,',
-        '#adhkar-reminder-banner .btn-pdf,',
-        '#adhkar-reminder-banner .btn-share,',
-        '#adhkar-reminder-banner .btn-later,',
-        '#adhkar-reminder-banner .btn-close {',
-        '  background: rgba(255,255,255,0.16); color: #fff; border: 1.5px solid rgba(255,255,255,0.4);',
-        '  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);',
-        '  text-shadow: 0 1px 3px rgba(0,0,0,0.5);',
-        '}',
-        '#adhkar-reminder-banner .btn-tasbih:hover,',
-        '#adhkar-reminder-banner .btn-pdf:hover,',
-        '#adhkar-reminder-banner .btn-share:hover,',
-        '#adhkar-reminder-banner .btn-later:hover,',
-        '#adhkar-reminder-banner .btn-close:hover { background: rgba(255,255,255,0.28); }',
-        'body.dark-mode #adhkar-reminder-banner .btn-go { background: rgba(255,255,255,0.88); }',
-        '@media (max-width: 440px) {',
-        '  #adhkar-reminder-banner { width: calc(100vw - 20px); padding: 10px 12px; column-gap: 10px; border-radius: 16px; }',
-        '  #adhkar-reminder-banner .banner-icon { font-size: 26px; }',
-        '  #adhkar-reminder-banner .banner-title { font-size: 15px; }',
-        '  #adhkar-reminder-banner .banner-body { font-size: 12.5px; }',
-        '  #adhkar-reminder-banner .banner-actions { justify-content: stretch; margin-top: 8px; }',
-        '  #adhkar-reminder-banner .banner-btn { flex: 1 1 auto; padding: 7px 8px; font-size: 12.5px; }',
-        '}',
-        '#adhkar-reminder-banner .banner-snooze { grid-area: actions; display: none; flex-direction: column; gap: 8px; margin-top: 10px; }',
-        '#adhkar-reminder-banner.snoozing .banner-actions { display: none; }',
-        '#adhkar-reminder-banner.snoozing .banner-snooze { display: flex; }',
-        '#adhkar-reminder-banner .snooze-title { font-size: 13px; font-weight: 700; }',
-        '#adhkar-reminder-banner .snooze-chips { display: flex; flex-wrap: wrap; gap: 6px; }',
-        '#adhkar-reminder-banner .snooze-chip { padding: 6px 12px; border-radius: 30px; cursor: pointer; text-shadow: none; white-space: nowrap; font-size: 13px; font-weight: 700; font-family: Cairo, sans-serif; background: rgba(255,255,255,0.16); color: #fff; border: 1.5px solid rgba(255,255,255,0.4); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: transform .15s, background .15s; }',
-        '#adhkar-reminder-banner .snooze-chip:hover { background: rgba(255,255,255,0.28); }',
-        '#adhkar-reminder-banner .snooze-chip:active { transform: scale(0.95); }',
-        '#adhkar-reminder-banner .snooze-chip.is-default { background: rgba(255,255,255,0.92); color: var(--theme-g2); border-color: transparent; }',
-        '#adhkar-reminder-banner .snooze-hint { font-size: 11.5px; opacity: 0.92; }',
-        '@media (prefers-reduced-motion: reduce) { #adhkar-reminder-banner { animation: none; } }',
-      ].join('\n');
-      document.head.appendChild(style);
-
       _bannerEl = document.createElement('div');
       _bannerEl.id = 'adhkar-reminder-banner';
       _bannerEl.innerHTML = [
