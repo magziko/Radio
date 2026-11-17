@@ -9422,7 +9422,7 @@ body.dark-mode .sp-hadith-badge {
 }
 .sp-custom-dd-item {
     font-family: 'Cairo', Arial, sans-serif;
-    font-size: 12px;
+    font-size: calc(12px * var(--sp-adhkar-fs, 1));
     padding: 7px 8px;
     border-radius: 8px;
     cursor: pointer;
@@ -9441,7 +9441,7 @@ body.dark-mode .sp-custom-dd-item { color: #5DCAA5; }
 body.dark-mode .sp-custom-dd-item:hover, body.dark-mode .sp-custom-dd-item:active { background: #0a3d26; }
 body.dark-mode .sp-custom-dd-item.sp-dd-selected { background: #0a4a30; }
 #sp-athkar-display {
-    font-size: 14px; font-weight: 700;
+    font-size: calc(14px * var(--sp-adhkar-fs, 1)); font-weight: 700;
     color: var(--theme-g2);
     margin: 0 0 8px;
     line-height: 1.6;
@@ -11941,11 +11941,11 @@ body.dark-mode #englishVerse .sync-extra.expanded { background: rgba(18, 28, 42,
     .sp-custom-dd-btn { font-size: 15px; padding: 10px 16px; border-radius: 14px; }
     .sp-athkar-mic-btn { width: 40px; height: 40px; font-size: 17px; }
     .sp-custom-dd-search { font-size: 14px; padding: 8px 12px; border-radius: 10px; }
-    .sp-custom-dd-item { font-size: 14px; padding: 9px 12px; }
+    .sp-custom-dd-item { font-size: calc(14px * var(--sp-adhkar-fs, 1)); padding: 9px 12px; }
     .sp-dd-tab { font-size: 13.5px; padding: 6px 14px; }
 
     /* نص الذكر الحالي */
-    #sp-athkar-display { font-size: 18px; line-height: 1.75; padding: 12px 18px; min-height: 52px; border-radius: 14px; margin-bottom: 12px; }
+    #sp-athkar-display { font-size: calc(18px * var(--sp-adhkar-fs, 1)); line-height: 1.75; padding: 12px 18px; min-height: 52px; border-radius: 14px; margin-bottom: 12px; }
 
     /* الهدف + أزرار الذكر */
     #salah-pip-section .sp-target-row { margin-bottom: 12px; }
@@ -11983,10 +11983,10 @@ body.dark-mode #englishVerse .sync-extra.expanded { background: rgba(18, 28, 42,
     .sp-custom-dd-btn { font-size: 16px; padding: 12px 18px; border-radius: 16px; }
     .sp-athkar-mic-btn { width: 46px; height: 46px; font-size: 19px; }
     .sp-custom-dd-search { font-size: 15px; padding: 9px 14px; }
-    .sp-custom-dd-item { font-size: 15px; padding: 10px 14px; }
+    .sp-custom-dd-item { font-size: calc(15px * var(--sp-adhkar-fs, 1)); padding: 10px 14px; }
     .sp-dd-tab { font-size: 14.5px; padding: 7px 16px; }
 
-    #sp-athkar-display { font-size: 21px; line-height: 1.8; padding: 14px 22px; min-height: 60px; border-radius: 16px; margin-bottom: 14px; }
+    #sp-athkar-display { font-size: calc(21px * var(--sp-adhkar-fs, 1)); line-height: 1.8; padding: 14px 22px; min-height: 60px; border-radius: 16px; margin-bottom: 14px; }
 
     #salah-pip-section .sp-target-row { margin-bottom: 14px; }
     #salah-pip-section .sp-dhikr-ctrls { gap: 10px; }
@@ -12012,7 +12012,7 @@ body.dark-mode #englishVerse .sync-extra.expanded { background: rgba(18, 28, 42,
     #salah-pip-section { max-width: 860px; width: 70%; }
     #salah-pip-btn { width: 320px; height: 320px; }
     #salah-pip-num { font-size: 100px; }
-    #sp-athkar-display { font-size: 23px; }
+    #sp-athkar-display { font-size: calc(23px * var(--sp-adhkar-fs, 1)); }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -18318,3 +18318,12 @@ html.ws-follow-site #settings-wstintextra-item { align-self: stretch; justify-co
     padding: 1px 7px;
     text-align: start;
 }
+
+/* ===== التحكم في حجم خط الأذكار (نص الذكر المعروض فى المسبحة + عناصر قايمة الأذكار) =====
+   النسبة بتتحكم فيها أزرار A− / A+ عن طريق المتغير --sp-adhkar-fs (1 = الحجم الأصلى)،
+   وبتتحفظ فى localStorage باسم spAdhkarFontScale */
+:root { --sp-adhkar-fs: 1; }
+.sp-fs-ctrl { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 4px 0; }
+.sp-fs-val { min-width: 44px; text-align: center; font-size: 12px; font-weight: 700; opacity: .85; color: var(--theme-g2); }
+body.dark-mode .sp-fs-val { color: #5DCAA5; }
+#sp-dd-fs-ctrl { padding: 2px 0; }
