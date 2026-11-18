@@ -19476,6 +19476,23 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
 
 <script>
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+// ===== المفضلة الافتراضية للزائر الجديد =====
+// أول زيارة فقط: نضيف "إذاعة الصلاة على النبي ﷺ" للمفضلة تلقائيًا.
+// بعد كده المستخدم يقدر يشيلها بالقلب عادي، ومش هترجع لأن العلامة favoritesDefaultsSeeded بتتسجل.
+// المستخدم القديم (عنده مفتاح favorites متخزن، حتى لو فاضي) مش بنلمس مفضلته.
+(function seedDefaultFavorites() {
+  var DEFAULT_FAVS = ['إذاعة الصلاة على النبي ﷺ'];
+  try {
+    if (localStorage.getItem('favoritesDefaultsSeeded') === '1') return;
+    var isExistingUser = localStorage.getItem('favorites') !== null;
+    localStorage.setItem('favoritesDefaultsSeeded', '1');
+    if (isExistingUser) return;
+    favorites = DEFAULT_FAVS.slice();
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  } catch (e) {}
+})();
+
 let showingFavorites = false;
 
 // ===== تشغيل محطة باسمها مباشرة =====
