@@ -19487,8 +19487,19 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     'more-subfilter': 'More', 'livetv-subfilter': 'LiveTV', 'sira-subfilter': 'sira',
     'adhkar-subfilter': 'Adhkar', 'quransciences-subfilter': 'QuranSciences',
     'qurankarim-subfilter': 'QuranKarim', 'radio-subfilter': 'Radio',
-    'mix-subfilter': 'mix', 'reciters-subfilter': 'reciters'
+    'mix-subfilter': 'mix', 'reciters-subfilter': 'reciters',
+    // فلاتر فرعية تحت فلتر فرعي (شرائط الشيوخ داخل "قراء")
+    'banna-subfilter': 'reciters', 'hussary-subfilter': 'reciters',
+    'minshawi-subfilter': 'reciters', 'basit-subfilter': 'reciters'
   };
+  // الشريط الفرعي-الفرعي -> اسم الـ attribute بتاع أزراره + الزر الأب اللي بيفتحه
+  var SUBSUB = {
+    'banna-subfilter':    { attr: 'data-banna-sub',    parentWrap: 'reciters-subfilter', parentSub: 'banna' },
+    'hussary-subfilter':  { attr: 'data-hussary-sub',  parentWrap: 'reciters-subfilter', parentSub: 'hussary' },
+    'minshawi-subfilter': { attr: 'data-minshawi-sub', parentWrap: 'reciters-subfilter', parentSub: 'minshawi' },
+    'basit-subfilter':    { attr: 'data-basit-sub',    parentWrap: 'reciters-subfilter', parentSub: 'basit' }
+  };
+  function attrOf(wrapId) { return SUBSUB[wrapId] ? SUBSUB[wrapId].attr : 'data-sub'; }
   var TX = {
     toggle: ['🧷 اختصارات', '🧷 Shortcuts'],
     empty: ['اضغط ❤ على أي فلتر فرعي لإضافته هنا', 'Tap ❤ on any sub-filter to add it here'],
@@ -19516,21 +19527,31 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
 
   function keyOf(btn) {
     var wrap = btn.closest('.subfilter-scroll-wrap');
-    var sub = btn.getAttribute('data-sub');
-    if (!wrap || !sub || !GROUPS[wrap.id]) return null;
+    if (!wrap || !GROUPS[wrap.id]) return null;
+    var sub = btn.getAttribute(attrOf(wrap.id));
+    if (!sub) return null;
     return wrap.id + '|' + sub;
   }
   function findBtn(key) {
     var p = key.split('|');
     if (!GROUPS[p[0]]) return null;
     var wrap = document.getElementById(p[0]);
-    return wrap ? wrap.querySelector('button[data-sub="' + p[1].replace(/"/g, '\\"') + '"]') : null;
+    return wrap ? wrap.querySelector('button[' + attrOf(p[0]) + '="' + p[1].replace(/"/g, '\\"') + '"]') : null;
   }
   function labelOf(btn) {
     var l = isAr() ? 'ar' : 'en';
     var t = btn.getAttribute('data-' + l) || btn.getAttribute('data-ar');
     if (!t) { t = btn.textContent.replace('❤', '').trim(); }
     return t;
+  }
+
+  // للفلتر تحت الفرعي نضيف اسم الأب (مثلاً: الشيخ المنشاوي › المصحف المرتل) عشان الأسماء متتكررش بشكل مبهم
+  function fullLabel(key, btn) {
+    var ss = SUBSUB[key.split('|')[0]];
+    var own = labelOf(btn);
+    if (!ss) return own;
+    var pb = findBtn(ss.parentWrap + '|' + ss.parentSub);
+    return pb ? labelOf(pb) + ' › ' + own : own;
   }
 
   var bar, toggleBtn, strip, badge;
@@ -19595,7 +19616,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       var chip = document.createElement('button');
       chip.type = 'button';
       chip.className = 'favsub-chip';
-      chip.textContent = labelOf(b);
+      chip.textContent = fullLabel(k, b);
       chip.addEventListener('click', function () { go(k); });
       strip.appendChild(chip);
     });
@@ -19613,6 +19634,12 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     var cat = GROUPS[p[0]];
     setOpen(false);
     if (typeof filterStations === 'function') filterStations(cat);
+    // فلتر تحت فرعي: نفتح الزر الأب الأول (بيظهر الشريط)، وبعدين نضغط الفرعي-الفرعي
+    var ss = SUBSUB[p[0]];
+    if (ss) {
+      var pb = findBtn(ss.parentWrap + '|' + ss.parentSub);
+      if (pb) pb.click();
+    }
     var b = findBtn(key);
     if (b) b.click();
   }
@@ -19636,7 +19663,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
   }
 
   function ensureHearts() {
-    var sel = Object.keys(GROUPS).map(function (id) { return '#' + id + ' button[data-sub]'; }).join(',');
+    var sel = Object.keys(GROUPS).map(function (id) { return '#' + id + ' button[' + attrOf(id) + ']'; }).join(',');
     document.querySelectorAll(sel).forEach(function (b) {
       if (b.querySelector('.favsub-heart')) return;
       var key = keyOf(b);
