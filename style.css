@@ -18664,3 +18664,89 @@ html.wstyle-tahajjud[data-tahajjud-live="on"] #welcomeScreen {
 @media (prefers-reduced-motion: reduce) {
     html.wstyle-tahajjud[data-tahajjud-live="on"] body #welcomeLogo::after { animation: none; }
 }
+
+/* ===== اختصارات الفلاتر الفرعية داخل المفضلة (favsub) ===== */
+.favsub-bar {
+    display: none;
+    width: 98%;
+    max-width: 100%;
+    margin: 6px auto 4px;
+    text-align: center;
+    box-sizing: border-box;
+}
+body.filter-favorites .favsub-bar { display: block; }
+
+/* الزر "اختصارات": نفس شكل أزرار الفلاتر الفرعية */
+.favsub-toggle {
+    height: 36px;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: Arial, Tahoma, "Segoe UI", sans-serif;
+    background: #fff;
+    color: var(--theme-c1);
+    border: 2px solid var(--theme-c1);
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.18s, color 0.18s, transform 0.15s, box-shadow 0.18s;
+    box-sizing: border-box;
+}
+.favsub-toggle:hover {
+    background: rgba(var(--theme-c1-rgb),0.12);
+    color: var(--theme-c2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(var(--theme-c1-rgb),0.18);
+}
+.favsub-toggle.open {
+    background: linear-gradient(135deg, var(--theme-c1) 0%, var(--theme-c2) 100%);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 3px 10px rgba(var(--theme-c1-rgb),0.38);
+    transform: translateY(-1px);
+}
+body.dark-mode .favsub-toggle {
+    background: #1e2d3e;
+    color: #90caf9;
+    border-color: rgba(100,181,246,0.2);
+}
+body.dark-mode .favsub-toggle:hover,
+body.dark-mode .favsub-toggle.open {
+    background: rgba(var(--theme-c1-rgb),0.22);
+    color: #64b5f6;
+}
+.favsub-count {
+    display: inline-block;
+    min-width: 16px;
+    margin-inline-start: 6px;
+    font-size: 12px;
+    opacity: .85;
+}
+
+/* شريط الاختصارات: يستخدم .subfilter-scroll-strip فيورّث شكل الأزرار والدارك مود */
+.favsub-bar .favsub-strip { display: none; margin-top: 6px; }
+.favsub-bar .favsub-strip.open { display: flex; }
+.favsub-empty {
+    font-size: 13px;
+    opacity: .7;
+    padding: 6px;
+    white-space: nowrap;
+}
+
+/* قلب الاختصار داخل أزرار الفلاتر الفرعية */
+.favsub-heart {
+    display: inline-block;
+    margin-inline-start: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    color: gray;
+    opacity: .75;
+}
+.favsub-heart.on { color: red; opacity: 1; }
+
+@media (min-width: 601px) {
+    .favsub-toggle { height: 32px; padding: 0 10px; font-size: 12px; }
+}
+@media (max-width: 600px) {
+    .favsub-toggle { height: 32px; padding: 0 12px; font-size: 12px; }
+}
