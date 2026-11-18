@@ -19475,6 +19475,221 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
 </button>
 
 <script>
+// ===== اختصارات الفلاتر الفرعية داخل المفضلة =====
+// المستخدم يضغط ❤ على أي فلتر فرعي (مثل "أذكار عامة") فيتحفظ كاختصار.
+// داخل المفضلة يظهر زر "اختصارات" مقفول، وبالضغط عليه يفتح شريط الاختصارات.
+(function () {
+  var KEY = 'favSubfilters';
+  var SEED_FLAG = 'favSubfiltersSeeded';
+  var DEFAULT_SHORTCUTS = ['adhkar-subfilter|general'];
+  // مجموعة الفلاتر الفرعية -> الفلتر الرئيسي اللي بيفتحها
+  var GROUPS = {
+    'more-subfilter': 'More', 'livetv-subfilter': 'LiveTV', 'sira-subfilter': 'sira',
+    'adhkar-subfilter': 'Adhkar', 'quransciences-subfilter': 'QuranSciences',
+    'qurankarim-subfilter': 'QuranKarim', 'radio-subfilter': 'Radio',
+    'mix-subfilter': 'mix', 'reciters-subfilter': 'reciters'
+  };
+  var TX = {
+    toggle: ['🧷 اختصارات', '🧷 Shortcuts'],
+    empty: ['اضغط ❤ على أي فلتر فرعي لإضافته هنا', 'Tap ❤ on any sub-filter to add it here'],
+    heart: ['إضافة/إزالة من اختصارات المفضلة', 'Add/remove from favorites shortcuts']
+  };
+  function isAr() {
+    try { return (typeof _favLang_get === 'function' ? _favLang_get() : 'ar') === 'ar'; } catch (e) { return true; }
+  }
+  function T(k) { return TX[k][isAr() ? 0 : 1]; }
+
+  function load() {
+    try { var v = JSON.parse(localStorage.getItem(KEY)); return Array.isArray(v) ? v : []; } catch (e) { return []; }
+  }
+  function save(list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} }
+
+  // زائر جديد: نضيف "أذكار عامة" مرة واحدة فقط
+  (function seed() {
+    try {
+      if (localStorage.getItem(SEED_FLAG) === '1') return;
+      var existing = localStorage.getItem(KEY) !== null;
+      localStorage.setItem(SEED_FLAG, '1');
+      if (!existing) save(DEFAULT_SHORTCUTS.slice());
+    } catch (e) {}
+  })();
+
+  function keyOf(btn) {
+    var wrap = btn.closest('.subfilter-scroll-wrap');
+    var sub = btn.getAttribute('data-sub');
+    if (!wrap || !sub || !GROUPS[wrap.id]) return null;
+    return wrap.id + '|' + sub;
+  }
+  function findBtn(key) {
+    var p = key.split('|');
+    if (!GROUPS[p[0]]) return null;
+    var wrap = document.getElementById(p[0]);
+    return wrap ? wrap.querySelector('button[data-sub="' + p[1].replace(/"/g, '\\"') + '"]') : null;
+  }
+  function labelOf(btn) {
+    var l = isAr() ? 'ar' : 'en';
+    var t = btn.getAttribute('data-' + l) || btn.getAttribute('data-ar');
+    if (!t) { t = btn.textContent.replace('❤', '').trim(); }
+    return t;
+  }
+
+  var bar, toggleBtn, strip, badge;
+
+  function injectCss() {
+    var st = document.createElement('style');
+    st.textContent =
+      '.favsub-bar{display:none;margin:6px 0;text-align:center}' +
+      'body.filter-favorites .favsub-bar{display:block}' +
+      '.favsub-toggle,.favsub-chip{font-family:inherit;font-size:14px;line-height:1.4;cursor:pointer;border-radius:999px;' +
+        'border:1px solid currentColor;background:transparent;color:inherit;padding:5px 12px;margin:3px;white-space:nowrap}' +
+      '.favsub-toggle.open{background:rgba(128,128,128,.22);font-weight:700}' +
+      '.favsub-count{display:inline-block;min-width:16px;margin-inline-start:6px;font-size:12px;opacity:.8}' +
+      '.favsub-strip{display:none;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;padding:4px 6px}' +
+      '.favsub-strip.open{display:block}' +
+      '.favsub-empty{font-size:13px;opacity:.7;padding:6px}' +
+      '.favsub-heart{display:inline-block;margin-inline-start:6px;font-size:12px;cursor:pointer;color:gray;opacity:.75}' +
+      '.favsub-heart.on{color:red;opacity:1}';
+    document.head.appendChild(st);
+  }
+
+  function buildBar() {
+    var anchor = document.getElementById('filters-container');
+    if (!anchor || document.getElementById('favsub-bar')) return false;
+    bar = document.createElement('div');
+    bar.id = 'favsub-bar';
+    bar.className = 'favsub-bar';
+    toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.className = 'favsub-toggle';
+    toggleBtn.addEventListener('click', function () { setOpen(!strip.classList.contains('open')); });
+    strip = document.createElement('div');
+    strip.className = 'favsub-strip';
+    bar.appendChild(toggleBtn);
+    bar.appendChild(strip);
+    anchor.parentNode.insertBefore(bar, anchor.nextSibling);
+    return true;
+  }
+
+  function setOpen(on) {
+    strip.classList.toggle('open', on);
+    toggleBtn.classList.toggle('open', on);
+    if (on) renderStrip();
+  }
+
+  function renderToggle() {
+    var n = load().filter(function (k) { return findBtn(k); }).length;
+    toggleBtn.textContent = T('toggle');
+    badge = document.createElement('span');
+    badge.className = 'favsub-count';
+    badge.textContent = n ? n : '';
+    toggleBtn.appendChild(badge);
+  }
+
+  function renderStrip() {
+    strip.innerHTML = '';
+    var any = false;
+    load().forEach(function (k) {
+      var b = findBtn(k);
+      if (!b) return;
+      any = true;
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'favsub-chip';
+      chip.textContent = labelOf(b);
+      chip.addEventListener('click', function () { go(k); });
+      strip.appendChild(chip);
+    });
+    if (!any) {
+      var e = document.createElement('div');
+      e.className = 'favsub-empty';
+      e.textContent = T('empty');
+      strip.appendChild(e);
+    }
+  }
+
+  // الاختصار = يفتح الفلتر الرئيسي ثم يضغط الفلتر الفرعي المطلوب
+  function go(key) {
+    var p = key.split('|');
+    var cat = GROUPS[p[0]];
+    setOpen(false);
+    if (typeof filterStations === 'function') filterStations(cat);
+    var b = findBtn(key);
+    if (b) b.click();
+  }
+
+  function toggleShortcut(key) {
+    var list = load();
+    var i = list.indexOf(key);
+    if (i === -1) list.push(key); else list.splice(i, 1);
+    save(list);
+    refreshHearts();
+    renderToggle();
+    if (strip.classList.contains('open')) renderStrip();
+  }
+
+  function refreshHearts() {
+    var list = load();
+    document.querySelectorAll('.favsub-heart').forEach(function (h) {
+      var b = h.closest('button');
+      h.classList.toggle('on', !!b && list.indexOf(keyOf(b)) !== -1);
+    });
+  }
+
+  function ensureHearts() {
+    var sel = Object.keys(GROUPS).map(function (id) { return '#' + id + ' button[data-sub]'; }).join(',');
+    document.querySelectorAll(sel).forEach(function (b) {
+      if (b.querySelector('.favsub-heart')) return;
+      var key = keyOf(b);
+      if (!key) return;
+      var h = document.createElement('span');
+      h.className = 'favsub-heart';
+      h.setAttribute('role', 'button');
+      h.title = T('heart');
+      h.textContent = '❤';
+      h.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        toggleShortcut(key);
+      });
+      b.appendChild(h);
+    });
+    refreshHearts();
+  }
+
+  function init() {
+    injectCss();
+    if (!buildBar()) return;
+    renderToggle();
+    ensureHearts();
+
+    // تطبيق اللغة على أزرار الفلاتر بيمسح محتوى الزر، فنعيد إضافة القلوب بعدها
+    var pending = false;
+    var mo = new MutationObserver(function () {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () { pending = false; ensureHearts(); });
+    });
+    Object.keys(GROUPS).forEach(function (id) {
+      var w = document.getElementById(id);
+      if (w) mo.observe(w, { childList: true, subtree: true });
+    });
+
+    // عند الخروج من المفضلة نقفل الشريط، وعند الدخول نحدّث عدّاده
+    var wasFav = document.body.classList.contains('filter-favorites');
+    new MutationObserver(function () {
+      var isFav = document.body.classList.contains('filter-favorites');
+      if (isFav === wasFav) return;
+      wasFav = isFav;
+      if (isFav) { renderToggle(); } else { setOpen(false); }
+    }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<script>
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
 // ===== المفضلة الافتراضية للزائر الجديد =====
