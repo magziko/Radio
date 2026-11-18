@@ -19556,23 +19556,6 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
 
   var bar, toggleBtn, strip, badge;
 
-  function injectCss() {
-    var st = document.createElement('style');
-    st.textContent =
-      '.favsub-bar{display:none;margin:6px 0;text-align:center}' +
-      'body.filter-favorites .favsub-bar{display:block}' +
-      '.favsub-toggle,.favsub-chip{font-family:inherit;font-size:14px;line-height:1.4;cursor:pointer;border-radius:999px;' +
-        'border:1px solid currentColor;background:transparent;color:inherit;padding:5px 12px;margin:3px;white-space:nowrap}' +
-      '.favsub-toggle.open{background:rgba(128,128,128,.22);font-weight:700}' +
-      '.favsub-count{display:inline-block;min-width:16px;margin-inline-start:6px;font-size:12px;opacity:.8}' +
-      '.favsub-strip{display:none;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;padding:4px 6px}' +
-      '.favsub-strip.open{display:block}' +
-      '.favsub-empty{font-size:13px;opacity:.7;padding:6px}' +
-      '.favsub-heart{display:inline-block;margin-inline-start:6px;font-size:12px;cursor:pointer;color:gray;opacity:.75}' +
-      '.favsub-heart.on{color:red;opacity:1}';
-    document.head.appendChild(st);
-  }
-
   function buildBar() {
     var anchor = document.getElementById('filters-container');
     if (!anchor || document.getElementById('favsub-bar')) return false;
@@ -19584,7 +19567,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     toggleBtn.className = 'favsub-toggle';
     toggleBtn.addEventListener('click', function () { setOpen(!strip.classList.contains('open')); });
     strip = document.createElement('div');
-    strip.className = 'favsub-strip';
+    strip.className = 'favsub-strip subfilter-scroll-strip';
     bar.appendChild(toggleBtn);
     bar.appendChild(strip);
     anchor.parentNode.insertBefore(bar, anchor.nextSibling);
@@ -19684,7 +19667,6 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
   }
 
   function init() {
-    injectCss();
     if (!buildBar()) return;
     renderToggle();
     ensureHearts();
