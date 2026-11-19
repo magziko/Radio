@@ -5717,6 +5717,7 @@ setTimeout(autoScaleVerseFont, 100);
     <div id="pwa-install-settings" data-stab="general" class="app-card">
         <div class="stab-i18n sdt-title" data-ar="📲 التطبيق على جهازك" data-en="📲 App on your device">📲 التطبيق على جهازك</div>
         <div id="pwa-install-note" class="sdt-desc"><span id="pwa-install-note-text" class="stab-i18n" data-ar="يفتح أسرع ويعمل مثل أي تطبيق على جهازك." data-en="Opens faster and works like any app on your device.">يفتح أسرع ويعمل مثل أي تطبيق على جهازك.</span></div>
+        <div class="sdt-desc"><span class="stab-i18n" data-ar="⌨️ من الكيبورد: Alt+Shift+I" data-en="⌨️ From keyboard: Alt+Shift+I">⌨️ من الكيبورد: Alt+Shift+I</span></div>
         <div class="sdt-btns">
           <button id="pwa-install-btn" type="button" class="sdt-btn" onclick="pwaInstallFromSettings()"><span id="pwa-install-btn-text" class="stab-i18n" data-ar="⬇️ تثبيت التطبيق" data-en="⬇️ Install App">⬇️ تثبيت التطبيق</span></button>
         </div>
@@ -5725,6 +5726,7 @@ setTimeout(autoScaleVerseFont, 100);
     <div id="pwa-sister-settings" data-stab="general" class="app-card">
         <div class="stab-i18n sdt-title" data-ar="📖 تطبيق المصحف (eQuran)" data-en="📖 eQuran app">📖 تطبيق المصحف (eQuran)</div>
         <div class="sdt-desc"><span class="stab-i18n" data-ar="ثبّت تطبيق المصحف أيضًا على جهازك. سيُفتح في تبويب جديد مع زر التثبيت." data-en="Install the eQuran app on your device too. It opens in a new tab with an install button.">ثبّت تطبيق المصحف أيضًا على جهازك. سيُفتح في تبويب جديد مع زر التثبيت.</span></div>
+        <div class="sdt-desc"><span class="stab-i18n" data-ar="⌨️ من الكيبورد: Alt+Shift+E" data-en="⌨️ From keyboard: Alt+Shift+E">⌨️ من الكيبورد: Alt+Shift+E</span></div>
         <div class="sdt-btns">
           <button id="pwa-sister-btn" type="button" class="sdt-btn" onclick="openSisterAppInstall()"><span class="stab-i18n" data-ar="⬇️ تثبيت تطبيق المصحف" data-en="⬇️ Install eQuran app">⬇️ تثبيت تطبيق المصحف</span></button>
         </div>
@@ -24574,6 +24576,25 @@ function pwaInstallFromSettings() {
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _pwaRefreshInstallUI); else _pwaRefreshInstallUI();
 
+// ===== تثبيت التطبيق بالكيبورد (Alt+Shift+I) =====
+// بتشتغل من أى مكان فى الموقع حتى لو نافذة الإعدادات مقفولة، ولو المتصفح مش هيعرض نافذة التثبيت بتظهر رسالة بالخطوات.
+function pwaInstallByKeyboard() {
+  var ar = (typeof _settingsIsAr === 'function') ? _settingsIsAr() : true;
+  if (window._pwaJustInstalled || _pwaIsStandalone()) {
+    alert(ar ? 'التطبيق مثبّت بالفعل ✅' : 'The app is already installed ✅');
+    return;
+  }
+  var ev = window._pwaDeferredPrompt;
+  if (ev) { _pwaDoPrompt(ev); return; }
+  var manual = _pwaIsIOS()
+    ? (ar ? 'على الآيفون/الآيباد: افتح Safari ثم زر المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية».'
+          : 'On iPhone/iPad: open Safari, tap Share ⬆️, then “Add to Home Screen”.')
+    : (ar ? 'لم يعرض المتصفح نافذة التثبيت.\nافتح قائمة المتصفح بالكيبورد (Alt+F أو Alt+E أو F10) ثم اختر «تثبيت التطبيق / Install app».\nوإن كان مثبّتًا بالفعل فافتحه من قائمة التطبيقات.'
+          : 'The browser did not offer an install prompt.\nOpen the browser menu with the keyboard (Alt+F, Alt+E or F10) and choose “Install app”.\nIf it is already installed, open it from your app list.');
+  alert(manual);
+}
+window.pwaInstallByKeyboard = pwaInstallByKeyboard;
+
 // ===== زر "تشغيل التطبيق مع الويندوز" =====
 // المتصفح بيمنع أي موقع يفتح chrome://apps أو edge://apps، فالزر بينسخ العنوان
 // والعميل يلصقه فى تبويب جديد، وهناك يفعّل تشغيل التطبيق عند تسجيل الدخول.
@@ -24661,6 +24682,7 @@ function openSisterAppInstall() {
     document.body.removeChild(a);
   } catch (e) { window.location.href = url; }
 }
+window.openSisterAppInstall = openSisterAppInstall;
 
 // لافتة التثبيت لما العميل يوصل من التطبيق الشقيق (?install=app)
 (function pwaArriveBanner() {
@@ -24709,6 +24731,7 @@ function openSisterAppInstall() {
     row.appendChild(btn); row.appendChild(closeBtn);
     bar.appendChild(title); bar.appendChild(msg); bar.appendChild(row);
     document.body.appendChild(bar);
+    try { btn.focus(); } catch (e) {} // عشان Enter يثبّت مباشرة من الكيبورد
 
     function hide() { if (bar.parentNode) bar.parentNode.removeChild(bar); }
     closeBtn.onclick = hide;
@@ -29630,6 +29653,10 @@ document.addEventListener("keydown", function(e) {
     KeyP: function() { checkPwdThenOpen('https://magziko.github.io/Pos/'); },
     // 🍽️ Menu
     KeyM: function() { checkPwdThenOpen('https://magzikopops-ui.github.io/menu/'); },
+    // 📖⬇️ تثبيت تطبيق المصحف (eQuran) — يفتحه فى تبويب جديد مع زر التثبيت
+    KeyE: function() { if (typeof window.openSisterAppInstall === 'function') window.openSisterAppInstall(); },
+    // 📲 تثبيت الموقع كتطبيق
+    KeyI: function() { if (typeof window.pwaInstallByKeyboard === 'function') window.pwaInstallByKeyboard(); },
     // 📖 المصحف الشريف (نفس زر القائمة ⋮)
     KeyQ: function() {
       if (typeof window.openEquran === 'function') window.openEquran();
@@ -36111,6 +36138,14 @@ document.addEventListener('keydown', function(e) {
       ar: '📖 المصحف الشريف',
       en: '📖 Quran (Mushaf)'
     },
+    r_kb_install: {
+      ar: '📲 تثبيت الموقع كتطبيق',
+      en: '📲 Install site as app'
+    },
+    r_kb_install_quran: {
+      ar: '⬇️ تثبيت تطبيق المصحف',
+      en: '⬇️ Install eQuran app'
+    },
     sec6: {
       ar: 'تلميحات إضافية',
       en: 'Additional Tips',
@@ -36641,6 +36676,8 @@ document.addEventListener('keydown', function(e) {
       kbRow('r_kb_docs', ['Alt', 'Shift', 'D'], lang),
       kbRow('r_kb_pos', ['Alt', 'Shift', 'P'], lang),
       kbRow('r_kb_mushaf', ['Alt', 'Shift', 'Q'], lang),
+      kbRow('r_kb_install', ['Alt', 'Shift', 'I'], lang),
+      kbRow('r_kb_install_quran', ['Alt', 'Shift', 'E'], lang),
       '</div>',
       '</div>',
 
@@ -40638,9 +40675,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     {
       keys: ['وصول سريع', 'الوصول السريع'],
-      reply: '🚀 وصول سريع (أيقونات ومصحف):\n\n• Alt+Shift+D — 📜 المستند\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 المصحف الشريف\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿',
+      reply: '🚀 وصول سريع (أيقونات ومصحف):\n\n• Alt+Shift+D — 📜 المستند\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 المصحف الشريف\n• Alt+Shift+I — 📲 تثبيت كتطبيق\n• Alt+Shift+E — ⬇️ تثبيت تطبيق المصحف\n\n💡 اضغط ? لرؤية كل الاختصارات 🌿',
       keys_en: ['quick access'],
-      reply_en: '🚀 Quick Access (Icons & Mushaf):\n\n• Alt+Shift+D — 📜 Document\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 Quran (Mushaf)\n\n💡 Press ? to see all shortcuts 🌿'
+      reply_en: '🚀 Quick Access (Icons & Mushaf):\n\n• Alt+Shift+D — 📜 Document\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 Quran (Mushaf)\n• Alt+Shift+I — 📲 Install as app\n• Alt+Shift+E — ⬇️ Install eQuran app\n\n💡 Press ? to see all shortcuts 🌿'
     },
 
     {
@@ -40789,9 +40826,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // اختصارات لوحة المفاتيح / Keyboard shortcuts
     {
       keys: ['اختصارات لوحة المفاتيح', 'اختصارات الكيبورد', 'اختصارات', 'كيبورد', 'keyboard shortcuts', 'مفاتيح الاختصار', 'ما هي الاختصارات', 'الاختصارات المتاحة'],
-      reply: '⌨️ اختصارات لوحة المفاتيح:\n\n▶️ التشغيل والتحكم:\n• Space — تشغيل / إيقاف\n• P — تشغيل / إيقاف المحطة الرئيسية\n• K — تشغيل / إيقاف المحطة الفورية\n• M — كتم / رفع الصوت\n• + / - — رفع أو خفض مستوى الصوت\n• Shift+P — إعادة تشغيل المحطة الحالية\n\n⏭️ التنقل بين المحطات:\n• ← السهم الأيسر — المحطة السابقة\n• → السهم الأيمن — المحطة التالية\n• N — المقطع التالي داخل نفس المحطة\n• B — المقطع السابق\n• R — تبديل تكرار المقطع الحالي (اضغط مرة تانية لإلغائه والعودة للتنقل)\n• Alt+R — تسجيل مقطع جديد للتكرار (اضغطها مرة ثانية للإيقاف)\n• Alt+P — تشغيل / إيقاف تكرار المقطع المسجل\n• O — تبديل ترتيب الروابط للمحطات متعددة الروابط: بالترتيب ⇄ ديناميكي (عشوائي)\n\n🔢 اختصارات سريعة للقراء (0–9):\n• 1 = الحصري | 2 = عبدالباسط | 3 = البنا\n• 4 = علي جابر | 5 = المنشاوي | 6 = القطامي\n• 7 = عبادة | 8 = إسلام صبحي | 9 = الصلاة على النبي ﷺ | 0 = آيات\n\n🖥️ الواجهة والتنقل:\n• ? — فتح/إغلاق نافذة الاختصارات\n• Esc — إغلاق الشاشة الحالية\n• Shift+W — فتح شاشة الترحيب\n• Shift+3 (#) — فتح/إغلاق الإعدادات\n• S — فتح البحث مباشرةً | Y — بحث صوتي\n• ] — تكبير الخط | [ — تصغير الخط\n• E — تحويل للإنجليزية | A — تحويل للعربية\n• D — تبديل الوضع الليلي/النهاري\n• F — عرض/إخفاء المفضلة | Shift+F — محطة عشوائية من المفضلة\n• L — فتح المصحف الشريف\n• H — الانتقال للمسبحة\n• U — الانتقال لعلوم القرآن\n• W — الانتقال لمواقيت الصلاة\n\n🧰 أدوات الفوتر:\n• I — إحصائيات الاستماع\n• Q — اتجاه القبلة\n• T — نافذة مواقيت الصلاة\n• Z — حاسبة الزكاة\n• C — متابعة الختمة\n• J — ملاحظاتي\n• G / X / V — التنقل بين ثيمات الألوان / الصور / الفيديو (مع Shift للرجوع)\n\n🚀 وصول سريع (أيقونات ومصحف):\n• Alt+Shift+D — 📜 المستند\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 المصحف الشريف\n\n📿 عداد التسبيح:\n• . (نقطة) — إضافة تسبيحة\n\n💡 اضغط ? في أي وقت لفتح نافذة الاختصارات الكاملة 🌿',
+      reply: '⌨️ اختصارات لوحة المفاتيح:\n\n▶️ التشغيل والتحكم:\n• Space — تشغيل / إيقاف\n• P — تشغيل / إيقاف المحطة الرئيسية\n• K — تشغيل / إيقاف المحطة الفورية\n• M — كتم / رفع الصوت\n• + / - — رفع أو خفض مستوى الصوت\n• Shift+P — إعادة تشغيل المحطة الحالية\n\n⏭️ التنقل بين المحطات:\n• ← السهم الأيسر — المحطة السابقة\n• → السهم الأيمن — المحطة التالية\n• N — المقطع التالي داخل نفس المحطة\n• B — المقطع السابق\n• R — تبديل تكرار المقطع الحالي (اضغط مرة تانية لإلغائه والعودة للتنقل)\n• Alt+R — تسجيل مقطع جديد للتكرار (اضغطها مرة ثانية للإيقاف)\n• Alt+P — تشغيل / إيقاف تكرار المقطع المسجل\n• O — تبديل ترتيب الروابط للمحطات متعددة الروابط: بالترتيب ⇄ ديناميكي (عشوائي)\n\n🔢 اختصارات سريعة للقراء (0–9):\n• 1 = الحصري | 2 = عبدالباسط | 3 = البنا\n• 4 = علي جابر | 5 = المنشاوي | 6 = القطامي\n• 7 = عبادة | 8 = إسلام صبحي | 9 = الصلاة على النبي ﷺ | 0 = آيات\n\n🖥️ الواجهة والتنقل:\n• ? — فتح/إغلاق نافذة الاختصارات\n• Esc — إغلاق الشاشة الحالية\n• Shift+W — فتح شاشة الترحيب\n• Shift+3 (#) — فتح/إغلاق الإعدادات\n• S — فتح البحث مباشرةً | Y — بحث صوتي\n• ] — تكبير الخط | [ — تصغير الخط\n• E — تحويل للإنجليزية | A — تحويل للعربية\n• D — تبديل الوضع الليلي/النهاري\n• F — عرض/إخفاء المفضلة | Shift+F — محطة عشوائية من المفضلة\n• L — فتح المصحف الشريف\n• H — الانتقال للمسبحة\n• U — الانتقال لعلوم القرآن\n• W — الانتقال لمواقيت الصلاة\n\n🧰 أدوات الفوتر:\n• I — إحصائيات الاستماع\n• Q — اتجاه القبلة\n• T — نافذة مواقيت الصلاة\n• Z — حاسبة الزكاة\n• C — متابعة الختمة\n• J — ملاحظاتي\n• G / X / V — التنقل بين ثيمات الألوان / الصور / الفيديو (مع Shift للرجوع)\n\n🚀 وصول سريع (أيقونات ومصحف):\n• Alt+Shift+D — 📜 المستند\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 المصحف الشريف\n• Alt+Shift+I — 📲 تثبيت كتطبيق\n• Alt+Shift+E — ⬇️ تثبيت تطبيق المصحف\n\n📿 عداد التسبيح:\n• . (نقطة) — إضافة تسبيحة\n\n💡 اضغط ? في أي وقت لفتح نافذة الاختصارات الكاملة 🌿',
       keys_en: ['keyboard shortcuts', 'shortcuts', 'keyboard', 'hotkeys', 'what are the shortcuts'],
-      reply_en: '⌨️ Keyboard Shortcuts:\n\n▶️ Playback Controls:\n• Space — play / pause\n• P — play / pause main station\n• K — play / pause instant station\n• M — mute / unmute\n• + / - — raise or lower volume\n• Shift+P — restart the current stream\n\n⏭️ Station Navigation:\n• ← left arrow — previous station\n• → right arrow — next station\n• N — next track within same station\n• B — previous track\n• R — toggle repeat for current track (press again to cancel and resume navigation)\n• Alt+R — record a new loop clip (press again to stop)\n• Alt+P — start / stop the recorded clip loop\n• O — toggle link order for multi-link stations: sequential ⇄ dynamic (random)\n\n🔢 Quick Reciter Shortcuts (0–9):\n• 1 = Hussary | 2 = Abdul Basit | 3 = Al-Banna\n• 4 = Ali Jaber | 5 = Minshawi | 6 = Al-Qatami\n• 7 = Ibadah | 8 = Islam Sobhi | 9 = Salawat | 0 = Ayat\n\n🖥️ Interface & Navigation:\n• ? — open/close shortcuts window\n• Esc — close current screen\n• Shift+W — open the welcome screen\n• Shift+3 (#) — open/close Settings panel\n• S — open search directly | Y — voice search\n• ] — bigger font | [ — smaller font\n• E — switch to English | A — switch to Arabic\n• D — toggle dark/light mode\n• F — show/hide favorites | Shift+F — random station from favorites\n• L — open the Holy Mushaf\n• H — go to the tasbih counter\n• U — go to Quran Sciences\n• W — go to Prayer Times\n\n🧰 Footer Tools:\n• I — listening stats\n• Q — Qibla direction\n• T — Prayer Times popup\n• Z — Zakat calculator\n• C — Khatma tracker\n• J — My Notes\n• G / X / V — cycle solid / photo / video themes (add Shift to go back)\n\n🚀 Quick Access (Icons & Mushaf):\n• Alt+Shift+D — 📜 Document\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 Quran (Mushaf)\n\n📿 Tasbih Counter:\n• . (period) — add a tasbih\n\n💡 Press ? anytime for the full shortcuts window 🌿'
+      reply_en: '⌨️ Keyboard Shortcuts:\n\n▶️ Playback Controls:\n• Space — play / pause\n• P — play / pause main station\n• K — play / pause instant station\n• M — mute / unmute\n• + / - — raise or lower volume\n• Shift+P — restart the current stream\n\n⏭️ Station Navigation:\n• ← left arrow — previous station\n• → right arrow — next station\n• N — next track within same station\n• B — previous track\n• R — toggle repeat for current track (press again to cancel and resume navigation)\n• Alt+R — record a new loop clip (press again to stop)\n• Alt+P — start / stop the recorded clip loop\n• O — toggle link order for multi-link stations: sequential ⇄ dynamic (random)\n\n🔢 Quick Reciter Shortcuts (0–9):\n• 1 = Hussary | 2 = Abdul Basit | 3 = Al-Banna\n• 4 = Ali Jaber | 5 = Minshawi | 6 = Al-Qatami\n• 7 = Ibadah | 8 = Islam Sobhi | 9 = Salawat | 0 = Ayat\n\n🖥️ Interface & Navigation:\n• ? — open/close shortcuts window\n• Esc — close current screen\n• Shift+W — open the welcome screen\n• Shift+3 (#) — open/close Settings panel\n• S — open search directly | Y — voice search\n• ] — bigger font | [ — smaller font\n• E — switch to English | A — switch to Arabic\n• D — toggle dark/light mode\n• F — show/hide favorites | Shift+F — random station from favorites\n• L — open the Holy Mushaf\n• H — go to the tasbih counter\n• U — go to Quran Sciences\n• W — go to Prayer Times\n\n🧰 Footer Tools:\n• I — listening stats\n• Q — Qibla direction\n• T — Prayer Times popup\n• Z — Zakat calculator\n• C — Khatma tracker\n• J — My Notes\n• G / X / V — cycle solid / photo / video themes (add Shift to go back)\n\n🚀 Quick Access (Icons & Mushaf):\n• Alt+Shift+D — 📜 Document\n• Alt+Shift+P — 🧾 POS\n• Alt+Shift+Q — 📖 Quran (Mushaf)\n• Alt+Shift+I — 📲 Install as app\n• Alt+Shift+E — ⬇️ Install eQuran app\n\n📿 Tasbih Counter:\n• . (period) — add a tasbih\n\n💡 Press ? anytime for the full shortcuts window 🌿'
     }, {
       keys: ['زر الاختصارات', 'نافذة الاختصارات', 'فتح الاختصارات', 'أين الاختصارات', 'شرح نافذة الاختصارات'],
       reply: '⌨️ نافذة الاختصارات الكاملة:\n\nالموقع يحتوي على نافذة متكاملة لجميع الاختصارات!\n\nطرق فتحها:\n• اضغط زر ❓ في شاشة الترحيب\n• أو اضغط "الاختصارات" من داخل ⚙️ الإعدادات\n• أو اضغط مفتاح ? مباشرةً من لوحة المفاتيح\n\nتحتوي النافذة على:\n✅ اختصارات التشغيل والتحكم بالصوت\n✅ اختصارات التنقل بين المحطات\n✅ اختصارات سريعة للقراء (0–9)\n✅ اختصارات الواجهة والتنقل\n✅ أدوات الفوتر (إحصائيات، قبلة، زكاة، ختمة، ملاحظات، ثيمات)\n✅ وصول سريع (أيقونات ومصحف)\n✅ اختصارات عداد التسبيح\n✅ إيماءات الموبايل (السحب والضغط المطوّل)\n✅ تلميحات وحيل مخفية\n\n🌐 النافذة ثنائية اللغة عربي/إنجليزي 🌿',
