@@ -24229,6 +24229,13 @@ function setDhikrTipDuration(n) {
       else sub = 'all';
     }
     var list = (sub === 'all') ? all : all.filter(function(b) { return b.hasAttribute('data-adhkar-' + sub); });
+    // لو العدادات كلها صفر (اتصفّرت) مفيش حاجة تتكمّل، فما نعرضش التنبيه
+    var _anyProgress = list.some(function(b) {
+      var c = 0;
+      try { c = parseInt(localStorage.getItem('tasbih_' + b.getAttribute('data-station')), 10) || 0; } catch (e) {}
+      return c > 0;
+    });
+    if (!_anyProgress) return null;
     var found = null;
     if (!_adhkarBtnDone(saved)) found = saved;
     else {
@@ -24298,6 +24305,8 @@ function setDhikrTipDuration(n) {
   // أصلاً (زي فلتر آخر محطة).
   function _showAdhkarResumeToast(data) {
     if (document.getElementById('adhkarResumeToast')) return;
+    // بوابة الإشعارات: لو فيه إشعار تانى ظاهر يستنى دوره (ويتأكد من الشرط تانى وقت ظهوره)
+    if (window.AdhkarNotif && !window.AdhkarNotif.enter('toast', function() { _restorePosition(); }, 5 * 60 * 1000)) return;
     var t = ADHKAR_RESUME_I18N[_adhkarResumeLang()];
     var ar = t.rtl;
     var isDark = document.body.classList.contains('dark-mode');
@@ -24334,7 +24343,7 @@ function setDhikrTipDuration(n) {
     // اختفاء تلقائي لو المستخدم متفاعلش خالص، عشان ميفضلش عالق فوق الشاشة
     setTimeout(function() {
       if (document.getElementById('adhkarResumeToast')) _dismiss();
-    }, 10000);
+    }, 7000);
   }
 
   function _restorePosition() {
@@ -31664,13 +31673,19 @@ function _goToFirstUnfinishedAdhkar(type) {
   }
 }
 
+// true = فيه تقدّم فعلي لم يكتمل (يعني: عدّاد واحد على الأقل > 0، ومش كل الأذكار مكتملة).
+// لو كل الأذكار اكتملت أو العدادات كلها صفر ما نعرضش رسالة "تسبيح سابق لم يكتمل".
 function _adhkarGroupHasProgress(type) {
   var btns = _getAdhkarGroupButtons(type);
-  return btns.some(function(b) {
+  var anyProgress = false, allDone = true;
+  btns.forEach(function(b) {
     var key = 'tasbih_' + b.getAttribute('data-station');
     var count = parseInt(localStorage.getItem(key)) || 0;
-    return count > 0;
+    var target = parseInt(b.dataset.target) || 0;
+    if (count > 0) anyProgress = true;
+    if (!(b.classList.contains('completed') || (target > 0 && count >= target))) allDone = false;
   });
+  return anyProgress && !allDone;
 }
 
 function resetAdhkarGroupCounters(type) {
@@ -31687,6 +31702,8 @@ function resetAdhkarGroupCounters(type) {
 }
 
 function showAdhkarContinuePrompt(type) {
+  // المستخدم فتح الأذكار بنفسه: نلغي أى تنبيهات سلبية (بانر/توست) عشان ما يظهروا فوق بعض
+  if (window.AdhkarNotif) window.AdhkarNotif.preempt();
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
   var isMorning = type === 'morning';
 
@@ -39806,6 +39823,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showInPageBanner(type) {
+      // بوابة الإشعارات: لو فيه إشعار أذكار تانى ظاهر يستنى دوره
+      if (window.AdhkarNotif && !window.AdhkarNotif.enter('banner', function() { showInPageBanner(type); }, 30 * 60 * 1000)) return;
       createBanner();
       closeSnoozePicker();
       var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
@@ -44840,5 +44859,67 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 })();
 </script>
 
+<script>
+/* ══════════════════════════════════════════════════════════════════════════
+   بوابة إشعارات الأذكار: إشعار واحد فقط ظاهر فى نفس الوقت
+   الإشعارات: نافذة "تسبيح سابق لم يكتمل" (modal) • بانر وقت التذكير (banner)
+   • توست "لم تُكمل أذكارك" (toast) • شارة استئناف العدّ التنازلى (تتخفى مؤقتًا بالـ CSS)
+   - modal: بيحصل بفعل المستخدم نفسه (اختار صباح/مساء) فبيلغى أى بانر/توست ظاهر أو منتظر
+   - banner / toast: لو فيه إشعار تانى ظاهر بيستنى دوره (البانر الأول) ويظهر بعد ما يقفل بثانية ونص
+   ══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  var GAP_MS = 1500;       // فاصل بعد قفل أى إشعار قبل ظهور اللى بعده
+  var queue = [];          // { kind, show, expires }
+  var passing = false;     // أثناء تنفيذ دالة منتظرة: ممنوع نعيد إدخالها للطابور
+  var lastEnd = 0, wasOpen = false;
+  var PRIORITY = { banner: 1, toast: 2 };
+
+  function $(id) { return document.getElementById(id); }
+  function isOpen(kind) {
+    if (kind === 'modal') return !!$('adhkar-continue-modal');
+    if (kind === 'toast') return !!$('adhkarResumeToast');
+    var b = $('adhkar-reminder-banner');
+    return !!b && b.style.display === 'grid';
+  }
+  function anyOpen() { return isOpen('modal') || isOpen('banner') || isOpen('toast'); }
+
+  function tick() {
+    var open = anyOpen();
+    if (wasOpen && !open) lastEnd = Date.now();
+    wasOpen = open;
+    document.body.classList.toggle('adhkar-notif-busy', open);
+
+    if (!queue.length || open || Date.now() - lastEnd < GAP_MS) return;
+    queue.sort(function (a, b) { return PRIORITY[a.kind] - PRIORITY[b.kind]; });
+    var item = queue.shift();
+    if (item.expires && Date.now() > item.expires) return;
+    passing = true;
+    try { item.show(); } catch (e) {}
+    passing = false;
+  }
+
+  window.AdhkarNotif = {
+    // true = اعرض الآن. false = اتحط فى الطابور وهيتنفّذ show() لاحقًا
+    enter: function (kind, show, ttlMs) {
+      if (passing) return true;
+      if (!anyOpen() && Date.now() - lastEnd >= GAP_MS) return true;
+      if (!queue.some(function (q) { return q.kind === kind; })) {
+        queue.push({ kind: kind, show: show, expires: ttlMs ? Date.now() + ttlMs : 0 });
+      }
+      return false;
+    },
+    // المستخدم بدأ بنفسه (فتح صباح/مساء): نلغى الإشعارات السلبية الظاهرة والمنتظرة
+    preempt: function () {
+      queue.length = 0;
+      var toast = $('adhkarResumeToast');
+      if (toast) toast.remove();
+      var banner = $('adhkar-reminder-banner');
+      if (banner && banner.style.display === 'grid') banner.style.display = 'none';
+    }
+  };
+
+  setInterval(tick, 600);
+})();
+</script>
 </body>
 </html>
