@@ -19554,7 +19554,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     return pb ? labelOf(pb) + ' › ' + own : own;
   }
 
-  var bar, toggleBtn, strip, badge;
+  var bar, strip;
 
   function buildBar() {
     var anchor = document.getElementById('filters-container');
@@ -19562,31 +19562,11 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     bar = document.createElement('div');
     bar.id = 'favsub-bar';
     bar.className = 'favsub-bar';
-    toggleBtn = document.createElement('button');
-    toggleBtn.type = 'button';
-    toggleBtn.className = 'favsub-toggle';
-    toggleBtn.addEventListener('click', function () { setOpen(!strip.classList.contains('open')); });
     strip = document.createElement('div');
     strip.className = 'favsub-strip subfilter-scroll-strip';
-    bar.appendChild(toggleBtn);
     bar.appendChild(strip);
     anchor.parentNode.insertBefore(bar, anchor.nextSibling);
     return true;
-  }
-
-  function setOpen(on) {
-    strip.classList.toggle('open', on);
-    toggleBtn.classList.toggle('open', on);
-    if (on) renderStrip();
-  }
-
-  function renderToggle() {
-    var n = load().filter(function (k) { return findBtn(k); }).length;
-    toggleBtn.textContent = T('toggle');
-    badge = document.createElement('span');
-    badge.className = 'favsub-count';
-    badge.textContent = n ? n : '';
-    toggleBtn.appendChild(badge);
   }
 
   function renderStrip() {
@@ -19603,19 +19583,13 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       chip.addEventListener('click', function () { go(k); });
       strip.appendChild(chip);
     });
-    if (!any) {
-      var e = document.createElement('div');
-      e.className = 'favsub-empty';
-      e.textContent = T('empty');
-      strip.appendChild(e);
-    }
+    bar.classList.toggle('is-empty', !any);
   }
 
   // الاختصار = يفتح الفلتر الرئيسي ثم يضغط الفلتر الفرعي المطلوب
   function go(key) {
     var p = key.split('|');
     var cat = GROUPS[p[0]];
-    setOpen(false);
     if (typeof filterStations === 'function') filterStations(cat);
     // فلتر تحت فرعي: نفتح الزر الأب الأول (بيظهر الشريط)، وبعدين نضغط الفرعي-الفرعي
     var ss = SUBSUB[p[0]];
@@ -19633,8 +19607,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
     if (i === -1) list.push(key); else list.splice(i, 1);
     save(list);
     refreshHearts();
-    renderToggle();
-    if (strip.classList.contains('open')) renderStrip();
+    renderStrip();
   }
 
   function refreshHearts() {
@@ -19668,15 +19641,15 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
 
   function init() {
     if (!buildBar()) return;
-    renderToggle();
     ensureHearts();
+    renderStrip();
 
     // تطبيق اللغة على أزرار الفلاتر بيمسح محتوى الزر، فنعيد إضافة القلوب بعدها
     var pending = false;
     var mo = new MutationObserver(function () {
       if (pending) return;
       pending = true;
-      requestAnimationFrame(function () { pending = false; ensureHearts(); });
+      requestAnimationFrame(function () { pending = false; ensureHearts(); renderStrip(); });
     });
     Object.keys(GROUPS).forEach(function (id) {
       var w = document.getElementById(id);
@@ -19689,7 +19662,7 @@ var composeTag = '';    // الفئة المختارة للملاحظة اللي
       var isFav = document.body.classList.contains('filter-favorites');
       if (isFav === wasFav) return;
       wasFav = isFav;
-      if (isFav) { renderToggle(); } else { setOpen(false); }
+      if (isFav) renderStrip();
     }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
 
