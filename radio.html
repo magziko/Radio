@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <!-- تحديد الترميز المستخدم في الصفحة وهو UTF-8 لدعم الأحرف العربية -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- لجعل الصفحة متوافقة مع مختلف أحجام الشاشات والأجهزة -->
+  <title>راديو القرآن الكريم</title>
+  <!-- عنوان الصفحة الذي يظهر في شريط المتصفح -->
+  <style>
+    /* تنسيق عام للصفحة */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 12px;
+    }
+
+    /* عرض حالة التشغيل */
+    #status {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    /* حاوية البحث */
+    .search-container {
+      margin: 16px 0;
+    }
+
+    .search-input {
+      padding: 8px;
+      width: 80%;
+      max-width: 500px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    /* مشغل الصوت */
+    #currentAudio {
+      width: 100%;
+      padding: 8px 0;
+      box-sizing: border-box;
+    }
+
+    /* أزرار التحكم العامة */
+    .control-button {
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: bold;
+      margin: 5px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      color: #0033cc;
+      background-color: #f0f0f0;
+      transition: background-color 0.3s ease, opacity 0.3s ease;
+    }
+
+    .control-button:hover {
+      opacity: 0.7;
+      background-color: #e0e0e0;
+    }
+
+    .control-button.active {
+      background-color: #007a3d;
+      color: #fff;
+    }
+
+    /* التشغيل التلقائي */
+    .auto-play-container {
+      margin: 16px 0;
+    }
+
+    .duration-input {
+      width: 50px;
+      margin: 0 6px;
+    }
+
+    /* قائمة المحطات */
+    #stationsList {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .station {
+      display: flex;
+      align-items: stretch;
+      gap: 6px;
+    }
+
+    /* زر المحطة */
+    .station-button {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 56px;
+      min-height: 52px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 5px;
+      background: linear-gradient(to bottom, #000000 30%, #ffffff 60%, #007a3d 100%);
+      font-family: inherit;
+      transition: opacity 0.3s ease, border-color 0.3s ease;
+    }
+
+    .station-button:hover {
+      opacity: 0.85;
+    }
+
+    .station-button.selected {
+      border-color: #ffd400;
+      box-shadow: 0 0 8px #ffd400;
+    }
+
+    /* علم فلسطين */
+    .flag {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 38px;
+      object-fit: cover;
+      border-radius: 3px;
+    }
+
+    .station-name {
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 1.5;
+      text-shadow: 0 0 3px #000;
+    }
+
+    .station-name-en {
+      color: #000;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* زر المفضلة */
+    .favorite-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 26px;
+      color: gray;
+      padding: 0 8px;
+      transition: color 0.3s;
+    }
+
+    .favorite-button.selected {
+      color: red;
+    }
+
+    .no-results {
+      margin: 20px 0;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div id="status">الرجاء اختيار محطة راديو.</div>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن اسم القارئ بأي جزء من الاسم">
+  </div>
+
+  <audio controls id="currentAudio">
+    الجهاز لا يدعم تشغيل الصوت.
+  </audio>
+
+  <div>
+    <button class="control-button" id="prevButton">المحطة السابقة</button>
+    <button class="control-button" id="nextButton">المحطة التالية</button>
+    <button class="control-button" id="randomButton">تشغيل عشوائي بين المحطات</button>
+    <button class="control-button" id="favoritesFilterButton">المفضلة فقط</button>
+  </div>
+
+  <div class="auto-play-container">
+    <input type="checkbox" id="autoPlayCheckbox">
+    <label for="autoPlayCheckbox">تفعيل التبديل التلقائي للمحطات كل</label>
+    <input type="number" id="durationInput" class="duration-input" value="2" min="1">
+    <span>دقيقة</span>
+  </div>
+
+  <div id="stationsList"></div>
+  <div id="noResults" class="no-results" style="display:none;">لا توجد نتائج مطابقة.</div>
+
+  <script>
+    // رابط علم فلسطين
+    var FLAG_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Palestine.svg/1280px-Flag_of_Palestine.svg.png';
+
+    // قائمة المحطات: الاسم العربي، الاسم الإنجليزي، رابط البث
+    var stations = [
+      { ar: 'راديو الشيخ محمد رفعت', en: 'Mohamed Refaat', url: 'https://3vh.liveradiu.com:8000/mohamed-refaat.mp3' },
+      { ar: 'راديو الشيخ علي عبد الله جابر', en: 'Ali Jaber', url: 'https://backup.qurango.net/radio/ali_jaber' },
+      { ar: 'راديو الشيخ محمد صديق المنشاوي', en: 'M Siddiq Al-Minshawi', url: 'https://backup.qurango.net/radio/mohammed_siddiq_alminshawi' },
+      { ar: 'الشيخ محمد صديق المنشاوي (مجوّد)', en: 'Al-Minshawi (Mojawwad)', url: 'https://backup.qurango.net/radio/mohammed_siddiq_alminshawi_mojawwad' },
+      { ar: 'راديو الشيخ محمود خليل الحصري', en: 'M Khalil Al-Hussary', url: 'https://backup.qurango.net/radio/mahmoud_khalil_alhussary' },
+      { ar: 'الشيخ محمود خليل الحصري (مجوّد)', en: 'Al-Hussary (Mojawwad)', url: 'https://backup.qurango.net/radio/mahmoud_khalil_alhussary_mojawwad' },
+      { ar: 'الشيخ محمود خليل الحصري (ورش)', en: 'Al-Hussary (Warsh)', url: 'https://backup.qurango.net/radio/mahmoud_khalil_alhussary_warsh' },
+      { ar: 'راديو الشيخ محمود علي البنا', en: 'Mahmoud Ali Albanna', url: 'https://backup.qurango.net/radio/mahmoud_ali__albanna' },
+      { ar: 'الشيخ محمود علي البنا (مجوّد)', en: 'Albanna (Mojawwad)', url: 'https://backup.qurango.net/radio/mahmoud_ali__albanna_mojawwad' },
+      { ar: 'راديو الشيخ عبد الباسط عبد الصمد', en: 'Abdulbasit Abdulsamad', url: 'https://backup.qurango.net/radio/abdulbasit_abdulsamad' },
+      { ar: 'الشيخ عبد الباسط عبد الصمد (مجوّد)', en: 'Abdulbasit (Mojawwad)', url: 'https://backup.qurango.net/radio/abdulbasit_abdulsamad_mojawwad' },
+      { ar: 'الشيخ عبد الباسط عبد الصمد (ورش)', en: 'Abdulbasit (Warsh)', url: 'https://backup.qurango.net/radio/abdulbasit_abdulsamad_warsh' },
+      { ar: 'الشيخ عبد الباسط: ترجمة معاني القرآن إلى الأردية', en: 'Translation Quran Urdu Basit', url: 'https://backup.qurango.net/radio/translation_quran_urdu_basit' },
+      { ar: 'راديو الشيخ محمد محمود الطبلاوي', en: 'Mohammad Altablaway', url: 'https://backup.qurango.net/radio/mohammad_altablaway' },
+      { ar: 'إذاعة الشيخ محمد محمود الطبلاوي', en: 'Mohammad Altablaway (2)', url: 'https://qurango.net/radio/mohammad_altablaway' },
+      { ar: 'راديو الشيخ محمد أيوب', en: 'Mohamed Ayyoub', url: 'https://backup.qurango.net/radio/mohammed_ayyub' },
+      { ar: 'راديو الشيخ محمد أيوب 2', en: 'Mohamed Ayyoub 2', url: 'https://backup.qurango.net/radio/ayyoub2' },
+      { ar: 'راديو الشيخ علي الحذيفي', en: 'Ali Alhuthaifi', url: 'https://backup.qurango.net/radio/ali_alhuthaifi' },
+      { ar: 'راديو الشيخ علي الحذيفي برواية قالون عن نافع', en: 'Ali Alhuthaifi (Qalon)', url: 'https://backup.qurango.net/radio/ali_alhuthaifi_qalon' },
+      { ar: 'راديو الشيخ مصطفى إسماعيل', en: 'Mustafa Ismail', url: 'https://backup.qurango.net/radio/mustafa_ismail' },
+      { ar: 'راديو الشيخ طه الفشني', en: 'Taha Al-Fashni', url: 'https://3vh.liveradiu.com:8000/taha-al-fashni.mp3' },
+      { ar: 'راديو الشيخ أبو العينين شعيشع', en: 'Abu Al-Aynayn Shuaisha', url: 'https://3vh.liveradiu.com:8000/abu-al-anin-shaisha.mp3' },
+      { ar: 'راديو الشيخ أحمد عامر', en: 'Ahmed Amer', url: 'https://backup.qurango.net/radio/ahmed_amer' },
+      { ar: 'راديو سعود الشريم', en: 'Saud Al-Shuraim', url: 'https://backup.qurango.net/radio/saud_alshuraim' },
+      { ar: 'راديو حاتم فريد الواعر', en: 'Hatem Fareed', url: 'https://backup.qurango.net/radio/hatem_fareed_alwaer' },
+      { ar: 'راديو محمد عبادة', en: 'Mohamed Obada', url: 'https://stream.zeno.fm/wawdmw6pjuzvv' },
+      // تنبيه: تم حذف الرمز المؤقت (zt) من الرابط لأنه ينتهي بعد دقائق؛ يُرجى التأكد من عمل الرابط
+      { ar: 'راديو إسلام صبحي', en: 'Eslam Sobhy', url: 'https://stream-175.zeno.fm/9jbilrphr3dvv' },
+      { ar: 'راديو ماهر المعيقلي', en: 'Maher Al-Muaiqly', url: 'https://backup.qurango.net/radio/maher' },
+      { ar: 'راديو إدريس أبكر', en: 'Idrees Abkar', url: 'https://backup.qurango.net/radio/idrees_abkr' },
+      { ar: 'إذاعة إدريس أبكر', en: 'Idrees Abkar (2)', url: 'https://qurango.net/radio/idrees_abkr' },
+      { ar: 'راديو مشاري العفاسي', en: 'Mishary Alafasy', url: 'https://backup.qurango.net/radio/mishary_alafasi' },
+      { ar: 'إذاعة مشاري العفاسي', en: 'Mishary Alafasy (2)', url: 'https://qurango.net/radio/mishary_alafasi' },
+      { ar: 'إذاعة ناصر القطامي', en: 'Nasser Al-Qatami (Zeno)', url: 'https://stream.zeno.fm/w7mny9qncn0vv' },
+      { ar: 'راديو ناصر القطامي', en: 'Nasser Al-Qatami', url: 'https://qurango.net/radio/nasser_alqatami' },
+      { ar: 'راديو ناصر القطامي 2', en: 'Nasser Al-Qatami 2', url: 'https://backup.qurango.net/radio/nasser_alqatami' },
+      { ar: 'راديو ياسر الدوسري', en: 'Yasser Al-Dosari', url: 'https://backup.qurango.net/radio/yasser_aldosari' },
+      { ar: 'راديو أحمد العجمي', en: 'Ahmad Al-Ajmy', url: 'https://backup.qurango.net/radio/ahmad_alajmy' },
+      { ar: 'راديو بندر بليلة', en: 'Bandar Balilah', url: 'https://backup.qurango.net/radio/bandar_balilah' },
+      { ar: 'راديو سعد الغامدي', en: 'Saad Al-Ghamdi', url: 'https://backup.qurango.net/radio/saad_alghamdi' },
+      { ar: 'راديو الشيخ أبو بكر الشاطري', en: 'Abu Bakr Al-Shatri', url: 'https://backup.qurango.net/radio/shaik_abu_bakr_al_shatri' },
+      { ar: 'راديو سيد سعيد', en: 'Syed Saeed', url: 'https://3vh.liveradiu.com:8000/syd-said.mp3' },
+      // ===== محطات إضافية من ملف المحطات: إذاعات القراء =====
+      { ar: 'الشيخ عبدالباسط عبد الصمد 3', en: 'Sheikh Abdul Basit Abdul Samad 3', url: 'https://stream-173.zeno.fm/5rmezvh3r98uv' },
+      { ar: 'الشيخ محمود خليل الحصري 2', en: 'Sheikh Mahmoud Khalil Al-Hussary 2', url: 'https://qurango.net/radio/mahmoud_khalil_alhussary' },
+      { ar: 'الشيخ محمود خليل الحصري 4', en: 'Sheikh Mahmoud Khalil Al-Hussary 4', url: 'https://stream-172.zeno.fm/vsfa9n4g698uv' },
+      { ar: 'الشيخ أحمد نعينع', en: 'Sheikh Ahmad Nauina', url: 'https://backup.qurango.net/radio/ahmad_nauina' },
+      { ar: 'الشيخ أحمد الطرابلسي', en: 'Sheikh Ahmad Al-Trabulsi', url: 'https://backup.qurango.net/radio/ahmed_altrabulsi' },
+      { ar: 'الشيخ عبدالرحمن الشحات', en: 'Sheikh Abdulrahman Al-Shahat', url: 'https://backup.qurango.net/radio/a_alshahhat' },
+      { ar: 'الشيخ ياسر القرشي', en: 'Sheikh Yasser Al-Qurashi', url: 'https://qurango.net/radio/yasser_alqurashi' },
+      { ar: 'الشيخ محمود الرفاعي', en: 'Sheikh Mahmood Al-Rifai', url: 'https://backup.qurango.net/radio/mahmood_al_rifai' },
+      { ar: 'الشيخ محمد جبريل', en: 'Sheikh Mohammed Jibreel', url: 'https://backup.qurango.net/radio/mohammed_jibreel' },
+      { ar: 'الشيخ إسلام صبحي', en: 'Sheikh Islam Sobhi', url: 'https://stream.zeno.fm/zorvpgdqfzbuv/' },
+      { ar: 'الشيخ أحمد طالب بن حميد', en: 'Sheikh Ahmed Talib Bin Humaid', url: 'https://backup.qurango.net/radio/a_binhameed' },
+      { ar: 'الشيخ بدر التركي', en: 'Sheikh Bader Al-Turki', url: 'https://backup.qurango.net/radio/bader' },
+      { ar: 'الشيخ عبد الرحمن الماجد', en: 'Sheikh Abdulrahman Al-Majed', url: 'https://backup.qurango.net/radio/abdulrahman_almajed' },
+      { ar: 'الشيخ عبد الله الخلف', en: 'Sheikh Abdullah Al-Khalaf', url: 'https://backup.qurango.net/radio/abdullah_alkhalaf' },
+      { ar: 'الشيخ عبد الله الموسى', en: 'Sheikh Abdullah Al-Mousa', url: 'https://backup.qurango.net/radio/abdullah_almousa' },
+      { ar: 'الشيخ عبدالله البعيجان', en: 'Sheikh Abdullah Al-Buaijan', url: 'https://backup.qurango.net/radio/buajan' },
+      { ar: 'الشيخ نبيل الرفاعي', en: 'Sheikh Nabil Al-Rifai', url: 'https://backup.qurango.net/radio/nabil_al_rifay' },
+      { ar: 'الشيخ هاني الرفاعي', en: 'Sheikh Hani Al-Rifai', url: 'https://backup.qurango.net/radio/hani_arrifai' },
+      { ar: 'الشيخ هيثم الجدعاني', en: 'Sheikh Hitham Al-Jadani', url: 'https://backup.qurango.net/radio/hitham_aljadani' },
+      { ar: 'الشيخ خالد القحطاني', en: 'Sheikh Khaled Al-Qahtani', url: 'https://backup.qurango.net/radio/khaled_alqahtani' },
+      { ar: 'الشيخ عادل ريان', en: 'Sheikh Adel Ryyan', url: 'https://backup.qurango.net/radio/adel_ryyan' },
+      { ar: 'الشيخ صلاح البدير', en: 'Sheikh Salah Al-Budair', url: 'https://backup.qurango.net/radio/salah_albudair' },
+      { ar: 'الشيخ ماجد الزامل', en: 'Sheikh Majed Al-Zamel', url: 'https://backup.qurango.net/radio/majed_alzamel' },
+      { ar: 'الشيخ فارس عباد', en: 'Sheikh Fares Abbad', url: 'https://backup.qurango.net/radio/fares_abbad' },
+      { ar: 'الشيخ أحمد النفيس', en: 'Sheikh Ahmed Al-Nafis', url: 'https://stream-175.zeno.fm/5erutxnt9gptv' },
+      { ar: 'الشيخ هزاع البلوشي', en: 'Sheikh Hazza Al-Balushi', url: 'https://backup.qurango.net/radio/hazza' },
+      { ar: 'الشيخ صلاح بو خاطر', en: 'Sheikh Salah Bukhatir', url: 'https://backup.qurango.net/radio/slaah_bukhatir' },
+      { ar: 'الشيخ ناصر العصفور', en: 'Sheikh Nasser Alosfor', url: 'https://backup.qurango.net/radio/nasser_alosfor' },
+      { ar: 'عبد الرحمن السدس', en: 'Sheikh Abdul Rahman Al-Suds', url: 'https://backup.qurango.net/radio/abdulrahman_alsudaes' },
+      // ===== محطات إضافية من ملف المحطات: القراءات والروايات =====
+      { ar: 'الشيخ عبدالعزيز سحيم – رواية ورش عن نافع', en: 'Sheikh Abdulaziz Suhaim – Warsh An Nafi', url: 'https://backup.qurango.net/radio/a_sheim' },
+      { ar: 'إبراهيم الدوسري - رواية ورش عن نافع', en: 'Ibrahim Al-Dosari - Warsh\'s Narration on Nafi\'', url: 'https://backup.qurango.net/radio/ibrahim_aldosari' },
+      { ar: 'العيون الكوشي - رواية ورش عن نافع', en: 'Al-\'Uyoun Al-Kouchi - Warsh\'s Narration on Nafi\'', url: 'https://backup.qurango.net/radio/aloyoon_alkoshi' },
+      { ar: 'القارئ ياسين - رواية ورش عن نافع', en: 'Al-Qari Yasin - Warsh\'s Narration on Nafi\'', url: 'https://backup.qurango.net/radio/alqaria_yassen' },
+      { ar: 'عمر القزابري - رواية ورش عن نافع', en: 'Omar Al-Qazabri - Warsh\'s Narration on Nafi\'', url: 'https://backup.qurango.net/radio/omar_alqazabri' },
+      { ar: 'محمد عبدالكريم - رواية ورش عن نافع من طريق أبي بكر الأصبهاني', en: 'Mohammad Abdul-Karim - Warsh\'s Narration on Nafi\' from the way of Abi Bakr Al-Asbahani', url: 'https://backup.qurango.net/radio/mohammad_abdullkarem_alasbahani' },
+      { ar: 'أحمد الطرابلسي - رواية قالون عن نافع', en: 'Ahmad Al-Tarabulsi - Qalun\'s Narration on Nafi\'', url: 'https://backup.qurango.net/radio/ahmad_khader_altarabulsi' },
+      { ar: 'الدوكالي محمد العالم - رواية قالون عن نافع', en: 'Al-Dokali Mohammad Al-Alim - Qalun\'s Narration on Nafi\'', url: 'https://backup.qurango.net/radio/addokali_mohammad_alalim' },
+      { ar: 'طارق دعوب - رواية قالون عن نافع', en: 'Tareq Da\'oub - Qalun\'s Narration on Nafi\'', url: 'https://backup.qurango.net/radio/tareq_abdulgani_daawob' },
+      { ar: 'وليد النائحي - رواية قالون عن نافع من طريق أبي نشيط', en: 'Waleed Al-Naehi - Qalun\'s Narration on Nafi\' from the way of Abi Nasheet', url: 'https://backup.qurango.net/radio/waleed_alnaehi' },
+      { ar: 'الفاتح محمد الزبير- رواية الدوري عن أبي عمرو', en: 'Al-Fateh Muhammad Al-Zubair - Al-Duri\'s Narration on Abi Amr', url: 'https://backup.qurango.net/radio/alfateh_alzubair' },
+      { ar: 'عبدالرشيد صوفي - رواية السوسي عن أبي عمرو', en: 'Abdulrasheed Soufi - Al-Sousi\'s Narration on Abi Amr', url: 'https://backup.qurango.net/radio/abdulrasheed_soufi_assosi' },
+      { ar: 'عبدالرشيد صوفي - رواية خلف عن حمزة', en: 'Abdulrasheed Soufi - Khalaf\'s Narration on Hamza', url: 'https://backup.qurango.net/radio/abdulrasheed_soufi_khalaf' },
+      { ar: 'محمد عبدالحكيم العبدالله - رواية البزي وقنبل عن ابن كثير', en: 'Mohammad Abdul-Hakim Al-Abdullah - Al-Bazzi\'s and Qunbul\'s Narration on Ibn Kathir', url: 'https://backup.qurango.net/radio/mohammad_alabdullah_albizi' },
+      { ar: 'محمد عبدالحكيم العبدالله - رواية الدوري عن الكسائي', en: 'Mohammad Abdul-Hakim Al-Abdullah - Al-Duri\'s Narration on Al-Kisai', url: 'https://backup.qurango.net/radio/mohammad_alabdullah_aldorai' },
+      { ar: 'محمود الشيمي - رواية الدوري عن الكسائي', en: 'Mahmoud Al-Sheimi - Al-Duri\'s Narration on Al-Kisai', url: 'https://backup.qurango.net/radio/mahmood_alsheimy' },
+      { ar: 'مفتاح السلطني - رواية ابن ذكوان عن ابن عامر', en: 'Muftah Al-Saltani - Ibn Dhakwan\'s Narration on Ibn Amr', url: 'https://qurango.net/radio/muftah_alsaltany_ibn_thakwan_an_ibn_amr' },
+      { ar: 'مفتاح السلطني - رواية الدوري عن أبي عمرو', en: 'Muftah Al-Saltani - Al-Duri\'s Narration on Abi Amr', url: 'https://qurango.net/radio/muftah_alsaltany_aldori_an_abi_amr' },
+      { ar: 'مفتاح السلطني - رواية الدوري عن الكسائي', en: 'Muftah Al-Saltani - Al-Duri\'s Narration on Al-Kisai', url: 'https://qurango.net/radio/muftah_alsaltany_aldorai' },
+      { ar: 'ياسر المزروعي - قراءة يعقوب الحضرمي بروايتي رويس وروح', en: 'Yasser Al-Mazrooi - Yaqoub Al-Hadrami\'s Reading with the Narrations of Ruwais and Rawh', url: 'https://backup.qurango.net/radio/yasser_almazroyee' },
+      // ===== محطات إضافية من ملف المحطات: إذاعات القرآن الكريم العامة =====
+      { ar: 'إذاعة القرآن الكريم القاهرة', en: 'Cairo Quran Radio', url: 'https://stream.radiojar.com/8s5u5tpdtwzuv' },
+      { ar: 'إذاعة القرآن الكريم نابلس فلسطين', en: 'Nablus Quran Radio Palestine', url: 'https://islamicbulletin.site:8108/stream' },
+      { ar: 'إذاعة الغد قرآن كريم رام الله فلسطين', en: 'Sawt El Ghad - Quran Al Kareem Ramallah Palestine', url: 'https://sawtelghad.org:8888/;' },
+      { ar: 'إذاعة القرآن الكريم مكة', en: 'Makkah Quran Radio', url: 'https://stream.radiojar.com/4wqre23fytzuv' },
+      { ar: 'إذاعة القرآن الكريم الرياض', en: 'Riyadh Quran Radio', url: 'https://stream.radiojar.com/0tpy1h0kxtzuv' },
+      { ar: 'إذاعة القرآن الكريم الحرم المكي', en: 'Makkah Quran Radio', url: 'https://r7.tarat.com:8004/stream?type=http&nocache=129' },
+      { ar: 'إذاعة القرآن الكريم عمان', en: 'Holy Quran FM 93.2 Oman', url: 'https://partrdo.mangomolo.com/quranrdo.mp3' },
+      { ar: 'إذاعة القرآن الكريم الشارقة', en: 'Sharjah Quran Radio', url: 'https://l3.itworkscdn.net/smcquranlive/quranradiolive/icecast.audio' },
+      { ar: 'إذاعة القرآن الكريم الفجيرة', en: 'Fujairah Quran Radio', url: 'https://zayedquran.gov.ae/stream.php' },
+      { ar: 'إذاعة القرآن الكريم دبي', en: 'dubai holy quran', url: 'https://uk5.internet-radio.com/proxy/dubaiholyquran?mp=/stream;' },
+      { ar: 'إذاعة القرآن الكريم 93.3 بيروت', en: 'Quran Radio 93.3 Beirut', url: 'https://audio.osina.cloud:7987/stream' },
+      { ar: 'إذاعة القرآن الكريم الجزائر', en: 'Algeria Quran Radio', url: 'https://radiocoran.ice.infomaniak.ch/coran.mp3' },
+      { ar: 'زوارة القرآن 103.7 FM إذاعة ليبيا', en: 'Zuwara Quran 103.7 FM Libya', url: 'https://stream-155.zeno.fm/snczwewpsg0uv' },
+      { ar: 'إذاعة القرآن الكريم من تونس', en: 'Holy Quran FM Tunisia', url: 'https://stream.radioendirect.net/8960' },
+      { ar: 'أضواء إف إم 2 للقرآن الكريم - المغرب', en: 'Adwaa FM 2 Quran Morocco', url: 'https://stream.zeno.fm/vrrtqsh0x1zuv' },
+      { ar: 'إذاعة الفردوس للقرآن الكريم - جنوب أفريقيا', en: 'Radio Al Firdaus Quran South Africa', url: 'https://stream.zeno.fm/r6dkcax6f2zuv' },
+      { ar: 'صوت القرآن إف إم - تنزانيا', en: 'Sauti Ya Quran FM Tanzania', url: 'https://stream.zeno.fm/igtk1anecmcvv' },
+      { ar: 'إذاعة القرآن الكريم هيرينفين 24/7 - هولندا', en: 'Quran Heerenveen 24/7 Netherlands', url: 'https://azura.boepemans.nl/listen/quran_247/radio.mp3' },
+      { ar: 'إذاعة القرآن الكريم 89.1 - بروناي', en: 'Al-Quran FM 89.1 Brunei', url: 'https://play.thestreamtech.com:7067/stream' },
+      { ar: 'إذاعة سايانغ القرآن - إندونيسيا', en: 'Radio Sayang Quran Indonesia', url: 'https://radio.sayangquran.com/listen/radiosq/radio.mp3' },
+      { ar: 'صوت القرآن 93.4 إف إم - باكستان', en: 'Saut-ul-Quran 93.4 FM Pakistan', url: 'https://whmsonic.radio.gov.pk:7002/stream/;' },
+      { ar: 'إذاعة روائع التلاوات FM', en: 'Mag Masterpieces of recitations', url: 'https://stream.zeno.fm/bg2j1n5ntltuv' },
+      { ar: 'eQuran مباشر', en: 'eQuran Live', url: 'https://radio.equran.me/listen/quran_live_me/radio.mp3' },
+      { ar: 'إذاعة متنوعة لمختلف القراء', en: 'Radio Mix', url: 'https://backup.qurango.net/radio/mix' },
+      { ar: 'إذاعة الألوكة القرآن الكريم', en: 'Alukah Quran Radio', url: 'https://radio.alukah.net/quran' },
+      { ar: 'الارتقاء قرآن كريم', en: 'Al-Irtikaa Holy Quran', url: 'https://streaming.radio.co/s596b42805/listen' },
+      { ar: 'إذاعة تراتيل', en: 'radio Tarateel', url: 'https://backup.qurango.net/radio/tarateel' },
+      { ar: 'تراتيل قصيرة متميزة', en: 'radio Tarateel qurango', url: 'https://qurango.net/radio/tarateel' },
+      { ar: 'إذاعة آيات السكينة', en: 'ayat Sakeenah Radio', url: 'https://qurango.net/radio/sakeenah' },
+      { ar: 'إذاعة آيات السكينة 2', en: 'ayat Sakeenah Radio 2', url: 'https://backup.qurango.net/radio/sakeenah' },
+      { ar: 'إذاعة تلاوات خاشعة', en: 'Khaashi\'ah Recitations Radio', url: 'https://backup.qurango.net/radio/salma' },
+      { ar: 'إذاعة قرآن كريم', en: 'Quran Kareem Radio', url: 'https://radio.radioquraan.com:9994/stream/1/' },
+      { ar: 'قرآن إذاعة 24*7', en: 'Radio Quran 24x7', url: 'https://stream-153.zeno.fm/dok66ovac9guv' },
+      { ar: 'إذاعة القرآن FM', en: 'Quran FM', url: 'https://stream-175.zeno.fm/pn1b9y56h0hvv' },
+      { ar: 'حديقة القرآن', en: 'Quran Garden', url: 'https://stream-153.zeno.fm/bcezpz655p8uv' },
+      { ar: 'القرآن الكريم', en: 'AL Quran AL Kareem', url: 'https://stream-176.zeno.fm/f5ve851shm8uv' },
+      { ar: 'إذاعة بلال القرآن', en: 'Radio Bilal Quran', url: 'https://stream-172.zeno.fm/a488q3w4za0uv' },
+      { ar: 'شروق القرآن الكريم', en: 'Shurooq Quran Kareem', url: 'https://stream-164.zeno.fm/7qksfg8x6bhvv' },
+      { ar: 'زهراء الرحمن للقرآن الكريم', en: 'Zahrt Elrahmen For the Holy Quran', url: 'https://stream-176.zeno.fm/5nmws512ag0uv' },
+      { ar: 'ADQfm - اذاعة على ضفاف القرآن', en: 'Quran on the Banks of the Quran (ADQfm)', url: 'https://stream.zeno.fm/jmjcspojcxyuv' },
+      // ===== محطات إضافية من ملف المحطات: السيرة والحديث وقصص الأنبياء =====
+      { ar: 'إذاعة المختصر في السيرة', en: 'Mukhtasar Seerah Radio', url: 'https://backup.qurango.net/radio/almukhtasar_fi_alsiyra' },
+      { ar: 'إذاعة في ظلال السيرة', en: 'Fi Zilal Al-Seerah Radio', url: 'https://backup.qurango.net/radio/fi_zilal_alsiyra' },
+      { ar: 'الارتقاء للحديث النبوي لبنان', en: 'promote for Hadith Lebanon', url: 'https://s4.radio.co/s5a0c81b0f/listen' },
+      { ar: 'صحيح البخاري', en: 'Saheeh Al-Bukhari', url: 'https://backup.qurango.net/radio/saheh-bokharee' },
+      { ar: 'صحيح مسلم', en: 'Saheeh Muslim', url: 'https://backup.qurango.net/radio/saheh-muslim' },
+      { ar: 'رياض الصالحين', en: 'Riyadh As-Salihin', url: 'https://backup.qurango.net/radio/riyad' },
+      { ar: 'إذاعة السنة', en: 'Sunnah Radio', url: 'https://radiosunna.radioca.st/stream' },
+      { ar: 'رحمة للعالمين Sirah', en: 'Rahmat Lil-Alamin Sirah', url: 'https://islamicbulletin.site:8054/stream' },
+      { ar: 'إذاعة قصص الأنبياء', en: 'Prophets Stories Radio', url: 'https://backup.qurango.net/radio/alanbiya' },
+      { ar: 'إذاعة سير الصحابة', en: 'Sahabah Radio', url: 'https://backup.qurango.net/radio/sahabah' },
+      { ar: 'حذيفة بن اليمان رضي الله عنه', en: 'Hudhaifah ibn al-Yaman', url: 'https://list.qurango.net/sahabah/huthaifa-yaman.mp3' },
+      { ar: 'أنس بن مالك رضي الله عنه', en: 'Anas bin Malik', url: 'https://list.qurango.net/sahabah/anas-malik.mp3' },
+      { ar: 'خالد بن الوليد رضي الله عنه', en: 'Khalid ibn al-Walid', url: 'https://list.qurango.net/sahabah/khaled-alwaleed.mp3' },
+      { ar: 'صفية بنت عبد المطلب رضي الله عنها', en: 'Safiyyah bint Abdul-Muttalib', url: 'https://list.qurango.net/sahabah/safeah.mp3' },
+      { ar: 'فاطمة بنت رسول الله ﷺ', en: 'Fatima bint Muhammad', url: 'https://list.qurango.net/sahabah/fatemah.mp3' },
+      { ar: 'الرميساء بنت ملحان رضي الله عنها', en: 'Rumaisa bint Milhan', url: 'https://list.qurango.net/sahabah/goaysa.mp3' },
+      { ar: 'التابعي: عروة بن الزبير رضي الله عنه', en: 'Urwa ibn al-Zubayr (Tabi\'i)', url: 'https://list.qurango.net/sahabah/auroh-zbir.mp3' },
+      // ===== محطات إضافية من ملف المحطات: التفسير =====
+      { ar: 'إذاعة المختصر في التفسير', en: 'Mukhtasar Tafsir Radio', url: 'https://backup.qurango.net/radio/mukhtasartafsir' },
+      { ar: '(الطبري) إذاعة تفسير القرآن الكريم', en: 'Tafsir Radio (Al-Tabari)', url: 'https://backup.qurango.net/radio/tabri' },
+      { ar: '(الطبري) إذاعة تفسير القرآن الكريم 2', en: 'Tafsir Radio 2 (Al-Tabari)', url: 'https://qurango.net/radio/tafseer' },
+      { ar: '(السعدي) إذاعة تفسير القرآن الكريم', en: 'Tafsir Radio (Al-Saadi)', url: 'https://stream-154.zeno.fm/0ermkt2htg8uv' },
+      { ar: 'إذاعة تفسير القرآن الكريم', en: 'Quran Tafsir Radio', url: 'https://backup.qurango.net/radio/tafseer' },
+      { ar: 'قناة تفسير القرآن الكريم الألوكة', en: 'Alukah Quran Tafsir Channel', url: 'https://radio.alukah.net/tafsir' },
+      { ar: 'إذاعة تفسير غريب القرآن', en: 'Tafsir Ghareeb Al-Quran Radio', url: 'https://backup.qurango.net/radio/gareeb-quran' },
+      { ar: '(النابلسي) آيات القرآن الكريم', en: 'Verses of the Quran (Al-Nabulsi)', url: 'https://stream-155.zeno.fm/vf2hfg10d48uv' },
+      { ar: 'تفسير الشيخ محمد متولي الشعراوي', en: 'Sheikh Muhammad Metwally Al-Sha\'rawi Channel', url: 'https://islamicbulletin.site:8066/stream' },
+      // ===== محطات إضافية من ملف المحطات: العلماء والدعاة =====
+      { ar: 'إذاعة الشيخ عبد الحميد كشك', en: 'Sheikh Abdulhamid Kishk Radio', url: 'https://islamicbulletin.site:8062/stream' },
+      { ar: 'قناة الشيخ محمد راتب النابلسي', en: 'Sheikh Muhammad Ratib Al-Nabulsi Channel', url: 'https://islamicbulletin.site:8060/stream' },
+      { ar: 'إذاعة الشيخ الحويني', en: 'Sheikh Al-Huwaini Radio', url: 'https://radio.alhuwayni.com/listen/alhuwayni/radio.mp3' },
+      { ar: 'إذاعة الشيخ أبو إسحاق الحويني', en: 'Sheikh Abu Ishaq Al-Huwaini Radio', url: 'https://stream-176.zeno.fm/c2uvmrknmolvv' },
+      { ar: 'إذاعة الشيخ نبيل العوضي', en: 'Sheikh Nabil Al-Awadi Radio', url: 'https://stream.zeno.fm/mkus1h48bm8uv' },
+      { ar: 'الشيخ عمر عبد الكافي', en: 'Sheikh Omar Abdelkafy', url: 'https://stream.zeno.fm/66geh5zntp8uv' },
+      { ar: 'قناة كبار العلماء', en: 'Senior Scholars Channel', url: 'https://radio.alukah.net/ulama' }
+    ];
+
+    var DEFAULT_STATION_URL = 'https://backup.qurango.net/radio/mahmoud_khalil_alhussary';
+    var MAX_RETRIES = 3;
+
+    var audio = document.getElementById('currentAudio');
+    var statusDiv = document.getElementById('status');
+    var listDiv = document.getElementById('stationsList');
+    var noResultsDiv = document.getElementById('noResults');
+    var searchInput = document.getElementById('searchInput');
+    var autoPlayCheckbox = document.getElementById('autoPlayCheckbox');
+    var durationInput = document.getElementById('durationInput');
+    var favoritesFilterButton = document.getElementById('favoritesFilterButton');
+
+    var currentIndex = -1;
+    var autoPlayInterval = null;
+    var retryCount = 0;
+    var retryTimer = null;
+    var showFavoritesOnly = false;
+    var favorites = loadFavorites();
+
+    // قراءة المفضلة من التخزين المحلي
+    function loadFavorites() {
+      try {
+        return JSON.parse(localStorage.getItem('radioFavorites')) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    // حفظ المفضلة في التخزين المحلي
+    function saveFavorites() {
+      try {
+        localStorage.setItem('radioFavorites', JSON.stringify(favorites));
+      } catch (e) {
+        // تجاهل الخطأ إذا كان التخزين غير متاح
+      }
+    }
+
+    // توحيد النص العربي لتسهيل البحث (الهمزات، الياء، التاء المربوطة، التشكيل)
+    function normalize(text) {
+      return text
+        .toLowerCase()
+        .replace(/[\u064B-\u0652\u0640]/g, '')
+        .replace(/[أإآ]/g, 'ا')
+        .replace(/ى/g, 'ي')
+        .replace(/ة/g, 'ه');
+    }
+
+    // تحديث رسالة الحالة
+    function updateStatus(message) {
+      statusDiv.textContent = message;
+    }
+
+    // بناء قائمة المحطات
+    function buildList() {
+      stations.forEach(function (station, index) {
+        var row = document.createElement('div');
+        row.className = 'station';
+        row.dataset.index = index;
+        row.dataset.search = normalize(station.ar + ' ' + station.en);
+
+        var playBtn = document.createElement('button');
+        playBtn.className = 'station-button';
+        playBtn.addEventListener('click', function () {
+          playStation(index);
+        });
+
+        var flag = document.createElement('img');
+        flag.className = 'flag';
+        flag.src = FLAG_URL;
+        flag.alt = 'علم فلسطين';
+
+        var nameAr = document.createElement('span');
+        nameAr.className = 'station-name';
+        nameAr.textContent = station.ar;
+
+        var nameEn = document.createElement('span');
+        nameEn.className = 'station-name-en';
+        nameEn.textContent = station.en;
+
+        playBtn.appendChild(flag);
+        playBtn.appendChild(nameAr);
+        playBtn.appendChild(nameEn);
+
+        var favBtn = document.createElement('button');
+        favBtn.className = 'favorite-button';
+        favBtn.textContent = '❤';
+        favBtn.title = 'إضافة إلى المفضلة';
+        if (favorites.indexOf(station.url) !== -1) {
+          favBtn.classList.add('selected');
+        }
+        favBtn.addEventListener('click', function () {
+          toggleFavorite(favBtn, station.url);
+        });
+
+        row.appendChild(playBtn);
+        row.appendChild(favBtn);
+        listDiv.appendChild(row);
+      });
+    }
+
+    // إضافة المحطة إلى المفضلة أو إزالتها منها
+    function toggleFavorite(button, url) {
+      var pos = favorites.indexOf(url);
+      if (pos === -1) {
+        favorites.push(url);
+        button.classList.add('selected');
+      } else {
+        favorites.splice(pos, 1);
+        button.classList.remove('selected');
+      }
+      saveFavorites();
+      applyFilters();
+    }
+
+    // تطبيق البحث وفلتر المفضلة
+    function applyFilters() {
+      var query = normalize(searchInput.value.trim());
+      var visibleCount = 0;
+      Array.prototype.forEach.call(listDiv.children, function (row) {
+        var station = stations[row.dataset.index];
+        var matchesSearch = row.dataset.search.indexOf(query) !== -1;
+        var matchesFavorite = !showFavoritesOnly || favorites.indexOf(station.url) !== -1;
+        var visible = matchesSearch && matchesFavorite;
+        row.style.display = visible ? 'flex' : 'none';
+        if (visible) {
+          visibleCount++;
+        }
+      });
+      noResultsDiv.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    // تمييز المحطة الحالية
+    function updateSelected() {
+      Array.prototype.forEach.call(listDiv.children, function (row) {
+        var btn = row.querySelector('.station-button');
+        btn.classList.toggle('selected', Number(row.dataset.index) === currentIndex);
+      });
+    }
+
+    // تشغيل محطة محددة
+    function playStation(index) {
+      clearTimeout(retryTimer);
+      retryCount = 0;
+      currentIndex = index;
+      var station = stations[index];
+      audio.src = station.url;
+      var promise = audio.play();
+      if (promise !== undefined) {
+        promise.catch(function () {
+          // قد يمنع المتصفح التشغيل التلقائي قبل تفاعل المستخدم
+          updateStatus('اضغط زر التشغيل لبدء: ' + station.ar);
+        });
+      }
+      updateStatus('تشغيل: ' + station.ar);
+      updateSelected();
+    }
+
+    // المحطات الظاهرة حاليًا (بعد البحث والفلترة) بحسب الترتيب
+    function visibleIndexes() {
+      var result = [];
+      Array.prototype.forEach.call(listDiv.children, function (row) {
+        if (row.style.display !== 'none') {
+          result.push(Number(row.dataset.index));
+        }
+      });
+      return result;
+    }
+
+    // الانتقال خطوة داخل المحطات الظاهرة (1 للتالية، -1 للسابقة)
+    function step(direction) {
+      var list = visibleIndexes();
+      if (list.length === 0) {
+        return;
+      }
+      var pos = list.indexOf(currentIndex);
+      if (pos === -1) {
+        pos = direction > 0 ? -1 : 0;
+      }
+      var nextPos = (pos + direction + list.length) % list.length;
+      playStation(list[nextPos]);
+    }
+
+    // اختيار محطة عشوائية مختلفة عن الحالية
+    function playRandom() {
+      var list = visibleIndexes();
+      if (list.length === 0) {
+        return;
+      }
+      var candidates = list.filter(function (i) { return i !== currentIndex; });
+      if (candidates.length === 0) {
+        candidates = list;
+      }
+      playStation(candidates[Math.floor(Math.random() * candidates.length)]);
+    }
+
+    // التبديل التلقائي بين المحطات
+    function startAutoPlay() {
+      stopAutoPlay();
+      var minutes = parseInt(durationInput.value, 10);
+      if (isNaN(minutes) || minutes < 1) {
+        minutes = 1;
+        durationInput.value = 1;
+      }
+      autoPlayInterval = setInterval(function () {
+        step(1);
+      }, minutes * 60 * 1000);
+    }
+
+    function stopAutoPlay() {
+      clearInterval(autoPlayInterval);
+      autoPlayInterval = null;
+    }
+
+    // ربط الأحداث
+    document.getElementById('prevButton').addEventListener('click', function () { step(-1); });
+    document.getElementById('nextButton').addEventListener('click', function () { step(1); });
+    document.getElementById('randomButton').addEventListener('click', playRandom);
+
+    autoPlayCheckbox.addEventListener('change', function () {
+      if (this.checked) {
+        startAutoPlay();
+      } else {
+        stopAutoPlay();
+      }
+    });
+
+    durationInput.addEventListener('change', function () {
+      if (autoPlayCheckbox.checked) {
+        startAutoPlay();
+      }
+    });
+
+    favoritesFilterButton.addEventListener('click', function () {
+      showFavoritesOnly = !showFavoritesOnly;
+      this.classList.toggle('active', showFavoritesOnly);
+      applyFilters();
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+
+    // عند انتهاء البث، يُعاد تشغيل المحطة نفسها
+    audio.addEventListener('ended', function () {
+      if (currentIndex !== -1) {
+        audio.load();
+        audio.play().catch(function () {});
+      }
+    });
+
+    // عند حدوث خطأ، تُعاد المحاولة عدة مرات ثم تظهر رسالة
+    audio.addEventListener('error', function () {
+      if (currentIndex === -1) {
+        return;
+      }
+      if (retryCount >= MAX_RETRIES) {
+        updateStatus('تعذر تشغيل هذه المحطة، يُرجى اختيار محطة أخرى.');
+        return;
+      }
+      retryCount++;
+      updateStatus('حدث خطأ، جارٍ إعادة المحاولة (' + retryCount + '/' + MAX_RETRIES + ')…');
+      clearTimeout(retryTimer);
+      retryTimer = setTimeout(function () {
+        audio.src = stations[currentIndex].url;
+        audio.play().catch(function () {});
+      }, 5000);
+    });
+
+    // تشغيل المحطة الافتراضية عند تحميل الصفحة
+    window.addEventListener('load', function () {
+      buildList();
+      var defaultIndex = stations.findIndex(function (s) { return s.url === DEFAULT_STATION_URL; });
+      playStation(defaultIndex === -1 ? 0 : defaultIndex);
+    });
+  </script>
+</body>
+</html>
