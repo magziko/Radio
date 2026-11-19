@@ -18692,3 +18692,7 @@ body.filter-favorites .subfilter-scroll-wrap { display: none !important; }
     opacity: .75;
 }
 .favsub-heart.on { color: red; opacity: 1; }
+
+/* ===== إشعارات الأذكار: إشعار واحد فقط فى نفس الوقت ===== */
+/* شارة "استئناف العدّ خلال N" تتخفى مؤقتًا لو فيه نافذة/بانر/توست أذكار ظاهر (العدّ التنازلى نفسه بيكمل) */
+body.adhkar-notif-busy #adhkarResumeChip { display: none !important; }
