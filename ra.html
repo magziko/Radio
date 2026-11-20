@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>راديو القرآن الكريم</title>
+  <style>
+    body {
+      background-color: none;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+.button, .palestine {
+   flex: 1 1 calc(50% - 10px);
+   box-sizing: border-box;
+   padding: 8px 16px;
+   text-align: center;
+   font-size: 14px;
+   font-weight: bold;
+   margin: 5px 0;
+   cursor: pointer;
+   border: 2px solid white;
+   border-radius: 5px;
+   width: 100%;
+   color: black;
+   background-color: #f0f0f0;
+   transition: color 0.3s ease, background-color 0.3s ease;
+   text-shadow: 1px 1px 2px white, -1px -1px 2px white, 1px -1px 2px white, -1px 1px 2px white;
+ }
+
+.palestine {
+   padding: 8px 16px 8px 36px;
+   font-size: 16px;
+   background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%);
+}
+ /*.palestine { اضافه العلم فى كل زر  مباشرة */   
+    /*  padding: 8px 16px 8px 36px;*/
+    /*  font-size: 16px;*/
+    /*  font-weight: bold;*/
+    /*  margin: 5px 0;*/
+    /*  cursor: pointer;*/
+    /*  border: none;*/
+    /*  border-radius: 5px;*/
+    /*  width: 100%;*/
+    /*  background: linear-gradient(to bottom, #000000 15%, #ffffff 50%, #007a3d 100%);*/
+    /*  color: black;*/
+    /*  transition: color 0.3s ease, background-color 0.3s ease;*/
+    /*  position: relative;*/
+    /*}*/
+
+
+
+    .radio-container {
+      width: 350px;
+      height: 250px;
+      margin: 50px auto;
+      position: relative;
+    }
+
+    .radio-image {
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+    }
+
+    .radio-buttons {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .radio-button {
+      background-color: #007a3d;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+   
+
+    .radio-display {
+      background-color: #333;
+      color: #fff;
+      border-radius: 10px;
+      padding: 5px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+ /*.palestine:hover {*/
+    /*  background-color: #dcdcdc;*/
+    /*}*/
+ /*.radio-button:hover {*/
+    /*  background-color: #005f2b;*/
+    /*}*/
+.button:hover {
+   background-color: lightblue;
+   transform: scale(1.05);
+ }
+
+
+    #prevButton, #nextButton {
+      width: auto;
+      margin: 10px;
+    }
+
+  
+
+   
+
+   /* حاوية الأزرار */
+.buttons-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* إنشاء 2 أعمدة */
+  gap: 10px; /* المسافة بين الأزرار */
+  margin-top: 20px;
+}
+
+/* تعديل حجم الأزرار لتكون متناسقة */
+.button, .palestine {
+  width: 100%; /* لتتناسب الأزرار داخل الأعمدة */
+  box-sizing: border-box;
+}
+
+
+    .palestine {
+      flex: 1 1 calc(33.333% - 10px); /* نفس الفكرة لتطبيق على الأزرار بتنسيق فلسطين */
+    }
+
+    .flag {
+      display: inline-block;
+      width: 38px;
+      height: 38px;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Palestine.svg/1280px-Flag_of_Palestine.svg.png');
+      background-size: cover;
+      position: absolute;
+      left: 0px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .group-title {
+      grid-column: 1 / -1;
+      margin: 14px 0 4px;
+      padding: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #007a3d;
+      border-radius: 5px;
+    }
+
+    .selected {
+      color: yellow;
+    }
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px; /* مسافة سفلية بين الحقول */
+}
+
+.input-group label {
+  flex: 1;
+  font-size: 16px; /* حجم النص */
+  color: blue; /* لون النص */
+  font-weight: bold;
+}
+
+.input-group input[type="number"] {
+   width: 100px;
+      height: 10px;
+/*flex: 2;*/
+  padding: 8px;
+  margin-left: 10px; /* مسافة بين الحقل والتسمية */
+  font-size: 14px; /* حجم النص داخل الحقل */
+  border: 2px solid #ddd; /* لون الحدود */
+  border-radius: 5px; /* حواف مستديرة */
+}
+
+.input-group input[type="checkbox"] {
+  margin-left: 10px;
+  transform: scale(1.2); /* تكبير حجم صندوق الاختيار */
+}
+
+
+#status {
+  color: #db0d0d; /* لون النص */
+  font-size: 18px; /* حجم النص */
+  font-weight: bold; /* جعل النص عريض */
+  margin-bottom: 15px; /* مسافة سفلية */
+}
+
+
+audio {
+  width: 100%; /* عرض المشغل ليغطي العرض بالكامل */
+  height: 50px; /* ارتفاع المشغل */
+  background-color: red; /* لون خلفية المشغل */
+  border-radius: 5px; /* جعل حواف المشغل مستديرة */
+  margin-bottom: 20px; /* إضافة مسافة سفلية */
+}
+
+label{
+  color: blue;
+}
+
+  </style>
+</head>
+<body>
+  <!-- محتوى الصفحة -->
+</body>
+</html>
+
+</head>
+<body>
+ <div class="container">
+    <!-- حالة الراديو -->
+    <div id="status">الرجاء اختيار محطة راديو.</div>
+
+    <!-- مشغل الصوت -->
+    <audio controls autoplay id="currentAudio">
+      الجهاز لا يدعم تشغيل الصوت.
+    </audio>
+
+    <!-- أزرار التبديل بين المحطات -->
+    <div class="buttons-container">
+      <button class="button" id="prevButton">المحطة السابقة</button>
+      <button class="button" id="nextButton">المحطة التالية</button>
+    </div>
+
+    <!-- التبديل التلقائي -->
+    <div class="input-group">
+      <label for="autoSwitchTimer" class"autopaly"></label>
+      <input type="number" id="autoSwitchTimer" min="1" placeholder="أدخل عدد الدقائق">
+      <label for="autoSwitchCheckbox"> التنقل التلقائي </label>
+      <input type="checkbox" id="autoSwitchCheckbox">
+    </div>
+
+    <!-- وضع النوم -->
+    <div class="input-group">
+      <label for="sleepTimer"> </label>
+      <input type="number" id="sleepTimer" min="1" placeholder="أدخل عدد الدقائق">
+      <label for="sleepCheckbox"> وضع النوم </label>
+      <input type="checkbox" id="sleepCheckbox">
+    </div>
+  </div>
+<script>
+ var audio = document.getElementById('currentAudio');
+    var statusDiv = document.getElementById('status');
+    var currentButtonIndex = 0;
+    var buttons = document.getElementsByClassName('button');
+    var sleepTimeout;
+    var autoSwitchTimeout;
+    var autoSwitchInterval;
+    var currentSource = '';
+
+ // تشغيل محطة جديدة
+    function playNewAudio(source, stationName) {
+      currentSource = source;
+      audio.src = source;
+      audio.play();
+      updateStatus("تشغيل: " + stationName);
+      updateButtonColor();
+    }
+
+    // تحديث حالة العرض
+    function updateStatus(message) {
+      statusDiv.textContent = message;
+    }
+
+    // تمييز الزر النشط
+   function updateButtonColor() {
+   Array.from(buttons).forEach(button => button.classList.remove('selected'));
+   buttons[currentButtonIndex].classList.add('selected');
+   buttons[currentButtonIndex].style.color = 'red';
+   Array.from(buttons).forEach((button, index) => {
+     if (index !== currentButtonIndex) {
+       button.style.color = 'black';
+     }
+   });
+}
+
+
+    // الانتقال إلى الزر التالي
+    function switchToNextButton() {
+      currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
+      buttons[currentButtonIndex].click();
+    }
+
+    // التبديل التلقائي بين المحطات
+    function activateAutoSwitch() {
+      if (document.getElementById('autoSwitchCheckbox').checked) {
+        var autoSwitchMinutes = parseInt(document.getElementById('autoSwitchTimer').value);
+        if (isNaN(autoSwitchMinutes) || autoSwitchMinutes <= 0) {
+          alert("يرجى إدخال عدد دقائق صحيح.");
+          document.getElementById('autoSwitchCheckbox').checked = false;
+          return;
+        }
+
+        autoSwitchInterval = autoSwitchMinutes * 60 * 1000;
+        autoSwitchTimeout = setTimeout(function autoSwitch() {
+          switchToNextButton();
+          autoSwitchTimeout = setTimeout(autoSwitch, autoSwitchInterval);
+        }, autoSwitchInterval);
+
+        alert("تم تفعيل التبديل التلقائي كل " + autoSwitchMinutes + " دقيقة.");
+      } else {
+        clearTimeout(autoSwitchTimeout);
+        alert("تم إلغاء التبديل التلقائي.");
+      }
+    }
+
+    // تفعيل وضع النوم
+    function activateSleepMode() {
+      if (document.getElementById('sleepCheckbox').checked) {
+        var sleepMinutes = parseInt(document.getElementById('sleepTimer').value);
+        if (isNaN(sleepMinutes) || sleepMinutes <= 0) {
+          alert("يرجى إدخال عدد دقائق صحيح.");
+          document.getElementById('sleepCheckbox').checked = false;
+          return;
+        }
+
+        var sleepInterval = sleepMinutes * 60 * 1000;
+        sleepTimeout = setTimeout(function() {
+          audio.pause();
+          updateStatus("تم إيقاف الراديو بسبب وضع النوم.");
+        }, sleepInterval);
+
+        alert("تم تفعيل وضع النوم لمدة " + sleepMinutes + " دقيقة.");
+      } else {
+        clearTimeout(sleepTimeout);
+        alert("تم إلغاء وضع النوم.");
+      }
+    }
+
+    // مراقبة وضع النوم والتبديل التلقائي
+    document.getElementById('autoSwitchCheckbox').addEventListener('change', activateAutoSwitch);
+    document.getElementById('sleepCheckbox').addEventListener('change', activateSleepMode);
+
+    // زر المحطة السابقة
+    document.getElementById('prevButton').addEventListener('click', function() {
+      currentButtonIndex = (currentButtonIndex - 1 + buttons.length) % buttons.length;
+      buttons[currentButtonIndex].click();
+    });
+
+    // زر المحطة التالية
+    document.getElementById('nextButton').addEventListener('click', function() {
+      currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
+      buttons[currentButtonIndex].click();
+    });
+
+    // تهيئة الصفحة وتشغيل محطة افتراضية
+    window.onload = function() {
+      buttons = document.querySelectorAll('.button:not(#prevButton):not(#nextButton)');
+      playNewAudio('https://islamicbulletin.site:8108/stream', "إذاعة القرآن الكريم نابلس ❤️ فلسطين");
+    }
+</script>
+<div class="buttons-container">
+<!-- الأزرار الحالية -->
+<button class="button palestine" onclick="playNewAudio('https://stream.radiojar.com/8s5u5tpdtwzuv', 'إذاعة القرآن الكريم القاهرة FM 98.2')"><span class="flag"></span> إذاعة القرآن الكريم القاهرة</button>
+<button class="button palestine" onclick="playNewAudio('https://stream.zeno.fm/awkn71iarz0vv', 'إذاعة القرآن الكريم المنصورة FM 98.3')">
+  <span class="flag"></span> إذاعة القرآن الكريم المنصورة
+</button>
+
+
+  
+<button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8108/stream', ' إذاعة القرآن الكريم نابلس ❤️ فــلــســطــيــن  ')">
+  <span class="flag"></span> إذاعة القرآن الكريم  نابلس ❤️ فـلـسـطـيـن </button>
+<button class="button palestine" onclick="playNewAudio('https://sawtelghad.org:7001/;', ' Sawt El Ghad - Quran Al Kareem Ramallah, Palestine')"><span class="flag"></span> إذاعة الغد قرآن كريم رام الله ❤️ فـلـسـطـيـن </button>
+  
+<button class="button palestine" onclick="playNewAudio('https://stream.radiojar.com/4wqre23fytzuv', 'اذاعة القران الكريم مكة')"><span class="flag"></span> اذاعة القران الكريم مكة</button>
+ 
+ 
+<button class="button palestine" onclick="playNewAudio('http://stream.radiojar.com/0tpy1h0kxtzuv', 'اذاعة القران الكريم الرياض')"><span class="flag"></span> اذاعة القران الكريم الرياض</button>
+
+<button class="button palestine" onclick="playNewAudio('https://r7.tarat.com:8004/;', 'اذاعة القران الكريم الحرم المكى')"><span class="flag"></span> اذاعة القران الكريم الحرم المكي </button>
+<button class="button palestine" onclick="playNewAudio('https://webradio.tda.dz/Coran_64K.mp3', 'إذاعة القرآن الكريم الجزائر')"><span class="flag"></span> إذاعة القرآن الكريم الجزائر</button>
+
+
+<button class="button palestine" onclick="playNewAudio('https://live.dofm.ly/proxy/almunir/stream', 'Almunir 94.9 FM Libya')"><span class="flag"></span>Almunir 94.9 FM Libya</button>
+<button class="button palestine" onclick="playNewAudio('https://stream-155.zeno.fm/snczwewpsg0uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJzbmN6d2V3cHNnMHV2IiwiaG9zdCI6InN0cmVhbS0xNTUuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IktvRHpXS2s3VHRlaXkxaXhMVWc4MGciLCJpYXQiOjE3Mjg2ODg2MDIsImV4cCI6MTcyODY4ODY2Mn0.M6B_q-CB9YtYrq0oelIV4aWP8bZdpVee-TeYdtQQfP0', 'Zuwara Quran 103.7 FM Libya')"><span class="flag"></span>Zuwara Quran 103.7 FM Libya</button>
+ 
+<button class="button palestine" onclick="playNewAudio('https://l3.itworkscdn.net/smcquranlive/quranradiolive/icecast.audio', ' Sharjah Quran Radio ')">
+  <span class="flag"></span> Sharjah Quran Radio </button>  
+<button class="button palestine" onclick="playNewAudio('https://uk5.internet-radio.com/proxy/dubaiholyquran?mp=/stream;', '  dubai holy quran  ')">
+  <span class="flag"></span> Ali dubai holy quran </button>
+   <button class="button palestine" onclick="playNewAudio('https://partrdo.mangomolo.com/quranrdo.mp3', 'The Holy Quran Radio FM 93.2 Oman')"> <span class="flag"></span> Holy Quran FM 93.2 Oman</button>
+  <button class="button palestine" onclick="playNewAudio('https://streaming.radiomuslim.com/;stream/1', 'radio-muslim-am-1467')"><span class="flag"></span> radio-muslim-am-1467</button> 
+<button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8102/stream', 'Quran for the Soul  San Francisco')"> 
+<span class="flag"></span> Quran for the Soul San Francisco
+</button>
+<button class="button palestine" onclick="playNewAudio('https://edge.mixlr.com/channel/rwumx', 'Quran for the Heart San Francisco CA, US')"><span class="flag"></span>Quran for the Heart San Francisco US</button>
+ 
+<button class="button palestine" onclick="playNewAudio('https://radio.islom.uz/quranuz', 'Quran.uz radio Uzbekistan')"><span class="flag"></span> Quran.uz radio Uzbekistan</button>    
+
+<button class="button palestine" onclick="playNewAudio('https://whmsonic.radio.gov.pk:7002/stream?type=http&nocache=12', 'Saut-ul-Quran pakistan')"><span class="flag"></span> Saut-ul-Quran pakistan</button>    
+
+ 
+ 
+  
+<button class="button palestine" onclick="playNewAudio('https://radio12.plathong.net/7234/;stream.mp3', '  النظر إلى الحياة مع الإسلام ')"><span class="flag"></span>มองชีวิตด้วยอิสลาม</button>     
+<button class="button palestine" onclick="playNewAudio('https://stream.muslimvanoli.com:1035/stream', '  muslim vanoli ')"><span class="flag"></span>muslim vanoli</button>
+ <button class="button palestine" onclick="playNewAudio('https://stream.zeno.fm/bg2j1n5ntltuv', 'راديو روائع التلاوات FM')"><span class="flag"></span> Mag روائع التلاوات</button>
+  <button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/mix', 'راديو Mix')"><span class="flag"></span> راديو متنوع</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/tarateel', 'راديو Tarateel')"><span class="flag"></span> راديو Tarateel</button>
+  
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/tarateel', 'Radio tarateel')"><span class="flag"></span> راديو تـراتـيـل</button>
+
+
+
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/sakeenah', 'اذاعة ايات السكينة  ')"><span class="flag"></span> اذاعة ايات السكينة  </button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/sakeenah', 'راديو آيات السكينة')"><span class="flag"></span> راديو آيات السكينة</button>
+
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/salma', 'راديو تلاوات خاشعة ')"><span class="flag"></span> راديو تلاوات خاشعة</button>
+
+
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/albaqarah', 'راديو سورة البقرة')">
+  <span>راديو سورة البقرة</span>
+  <span class="flag"></span>
+  <span>Al-Baqarah</span>
+</button>
+
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/roqiah', 'راديو الرقية الشرعية')">
+  <span>راديو الرقية الشرعية</span>
+  <span class="flag"></span>
+  <span>Roqiah</span>
+</button>
+
+
+  
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/roqiah', ' الرقية الشرعية Qurango')">
+  <span> الرقية الشرعية</span>
+  <span class="flag"></span>
+  <span>Roqiah Qurango</span>
+</button>
+<button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8052/stream', ' Ruqya Healing')">
+  <span>  Ruqya Healing</span>
+  <span class="flag"></span>
+  <span>Roqiah</span>
+</button>  
+ <button class="button palestine" onclick="playNewAudio('https://r1.tarat.com:8202/;', ' اذاعة قناة مكة Makkah TV')"><span class="flag"></span> اذاعة قناة مكة Makah TV</button>
+<button class="button palestine" onclick="playNewAudio('https://2mfm.org.au/live', 'Muslim Community Radio')"><span class="flag"></span> Muslim Community Radio </button> 
+
+ <button class="button palestine" onclick="playNewAudio('https://stream.appsunderstream.com/voiceofislam.mp3', 'Voice of Islam 87.6 FM Australia')"><span class="flag"></span> Voice of Islam 87.6 FM Australia</button>   
+  <button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8110/stream', 'Al Bayan Live From Australia')"><span class="flag"></span> Al Bayan Live From Australia</button>   
+<button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8076/stream', 'Islamic Bulletin from San Francisco')"><span class="flag"></span> Islamic Bulletin from San Francisco</button>
+<button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8114/stream', 'Radio Islam Live From South Africa')"><span class="flag"></span> Radio Islam Live From South Africa</button> 
+ 
+
+<button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8078/stream', 'Motivational Series Ahmed Deedat & Others')"><span class="flag"></span> Motivational Series Ahmed Deedat & Others</button>   
+<button class="button palestine" onclick="playNewAudio('https://r.fm-radio.net/quran', 'إذاعة ذكركم جرهم اليمن ')">
+  <span class="flag"></span> إذاعة ذكركم جرهم  </button> 
+
+
+
+
+ <button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8062/stream', 'راديو الشيخ عبد الحميد كشك ')"><span class="flag"></span> راديو الشيخ عبد الحميد كشك </button>
+
+ 
+  
+<button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8060/stream', 'قناة محمد راتب النابلسي ')"><span class="flag"></span> قناة الشيخ محمد راتب النابلسي </button>
+<button class="button palestine" onclick="playNewAudio('https://stream-176.zeno.fm/c2uvmrknmolvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJjMnV2bXJrbm1vbHZ2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImhIbktpN0V2VGcydG5DdTFRQlJlTnciLCJpYXQiOjE3Mjg4NTUxNTMsImV4cCI6MTcyODg1NTIxM30.U_YqrufPqKSwcxqnB7lQC2Y4l3PaVYPPBRdONxNUOmQ', 'راديو الشيخ ابو اسحاق الحوينى ')"><span class="flag"></span> راديو الشيخ ابو اسحاق الحوينى </button>
+<button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8066/stream', 'قناة محمد متولي الشعراوي')"> 
+<span class="flag"></span> تفسير الشيخ محمد متولى الشعراوى
+</button>
+
+
+  
+<button class="button palestine" onclick="playNewAudio('https://3vh.liveradiu.com:8000/el-shaarawy.mp3', 'راديو الشيخ محمد متولى الشعراوى')"><span class="flag"></span> خواطر الشيخ محمد متولى الشعراوى </button>
+ 
+ <button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/tabri', 'راديو تفسير القران الكريم')"><span class="flag"></span>  (الطبرى)راديو تفسير القران الكريم</button>
+ 
+
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/tafseer', 'راديو تفسير القران الكريم')"><span class="flag"></span>  (الطبرى)راديو تفسير القران الكريم</button>
+
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/tafseer', 'اذاعة   تفسير القران الكريم')"><span class="flag"></span> اذاعة  تفسير القران الكريم</button>
+
+
+
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/mukhtasartafsir', 'راديو المختصر في التفسير')"><span class="flag"></span> راديو المختصر في التفسير</button>
+
+
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/almukhtasar_fi_alsiyra', 'راديو المختصر في السيرة')"><span class="flag"></span> راديو المختصر في السيرة</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/fi_zilal_alsiyra', 'راديو في ظلال السيرة')"><span class="flag"></span> راديو في ظلال السيرة</button>
+
+<button class="button palestine" onclick="playNewAudio('https://islamicbulletin.site:8054/stream', 'رحمة للعالمين Sirah  ')"><span class="flag"></span> رحمة للعالمين Sirah </button>  
+  
+  <button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/sahabah', 'راديو سير الصحابة')"><span class="flag"></span> راديو سير الصحابة</button>
+  <button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/alaikhtiarat_alfiqhayh_bin_baz', 'راديو كتاب الاختيارات الفقهية')"><span class="flag"></span> راديو كتاب الاختيارات الفقهية </button>
+
+<!-- ===== محطات إضافية من ملف stations.js ===== -->
+<div class="group-title">إذاعات القرآن الكريم</div>
+<button class="button palestine" onclick="playNewAudio('https://audio.osina.cloud:7987/stream', 'إذاعة القرآن الكريم 93.3 بيروت')"><span class="flag"></span> إذاعة القرآن الكريم 93.3 بيروت</button>
+<button class="button palestine" onclick="playNewAudio('https://stream.radioendirect.net/8960', 'إذاعة القرآن الكريم من تونس')"><span class="flag"></span> إذاعة القرآن الكريم من تونس</button>
+<button class="button palestine" onclick="playNewAudio('https://stream.zeno.fm/vrrtqsh0x1zuv', 'أضواء إف إم 2 للقرآن الكريم - المغرب')"><span class="flag"></span> أضواء إف إم 2 للقرآن الكريم - المغرب</button>
+<button class="button palestine" onclick="playNewAudio('https://stream.zeno.fm/r6dkcax6f2zuv', 'إذاعة الفردوس للقرآن الكريم - جنوب أفريقيا')"><span class="flag"></span> إذاعة الفردوس للقرآن الكريم - جنوب أفريقيا</button>
+<button class="button palestine" onclick="playNewAudio('https://stream.zeno.fm/igtk1anecmcvv', 'صوت القرآن إف إم - تنزانيا')"><span class="flag"></span> صوت القرآن إف إم - تنزانيا</button>
+<button class="button palestine" onclick="playNewAudio('https://azura.boepemans.nl/listen/quran_247/radio.mp3', 'إذاعة القرآن الكريم هيرينفين 24/7 - هولندا')"><span class="flag"></span> إذاعة القرآن الكريم هيرينفين 24/7 - هولندا</button>
+<button class="button palestine" onclick="playNewAudio('https://play.thestreamtech.com:7067/stream', 'إذاعة القرآن الكريم 89.1 - بروناي')"><span class="flag"></span> إذاعة القرآن الكريم 89.1 - بروناي</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.sayangquran.com/listen/radiosq/radio.mp3', 'إذاعة سايانغ القرآن - إندونيسيا')"><span class="flag"></span> إذاعة سايانغ القرآن - إندونيسيا</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.equran.me/listen/quran_live_me/radio.mp3', 'eQuran مباشر')"><span class="flag"></span> eQuran مباشر</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/quran', 'إذاعة الألوكة القرآن الكريم')"><span class="flag"></span> إذاعة الألوكة القرآن الكريم</button>
+<button class="button palestine" onclick="playNewAudio('https://streaming.radio.co/s596b42805/listen', 'الارتقاء قرآن كريم')"><span class="flag"></span> الارتقاء قرآن كريم</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.radioquraan.com:9994/stream/1/', 'إذاعة قرآن كريم')"><span class="flag"></span> إذاعة قرآن كريم</button>
+<button class="button palestine" onclick="playNewAudio('https://stream-153.zeno.fm/dok66ovac9guv', 'قرآن إذاعة 24*7')"><span class="flag"></span> قرآن إذاعة 24*7</button>
+<button class="button palestine" onclick="playNewAudio('https://stream-175.zeno.fm/pn1b9y56h0hvv', 'إذاعة القرآن FM')"><span class="flag"></span> إذاعة القرآن FM</button>
+<button class="button palestine" onclick="playNewAudio('https://stream-153.zeno.fm/bcezpz655p8uv', 'حديقة القرآن')"><span class="flag"></span> حديقة القرآن</button>
+<button class="button palestine" onclick="playNewAudio('https://stream-176.zeno.fm/f5ve851shm8uv', 'القرآن الكريم')"><span class="flag"></span> القرآن الكريم</button>
+<button class="button palestine" onclick="playNewAudio('https://stream-172.zeno.fm/a488q3w4za0uv', 'إذاعة بلال القرآن')"><span class="flag"></span> إذاعة بلال القرآن</button>
+<button class="button palestine" onclick="playNewAudio('https://stream-164.zeno.fm/7qksfg8x6bhvv', 'شروق القرآن الكريم')"><span class="flag"></span> شروق القرآن الكريم</button>
+<button class="button palestine" onclick="playNewAudio('https://stream-176.zeno.fm/5nmws512ag0uv', 'زهراء الرحمن للقرآن الكريم')"><span class="flag"></span> زهراء الرحمن للقرآن الكريم</button>
+<button class="button palestine" onclick="playNewAudio('https://stream.zeno.fm/jmjcspojcxyuv', 'ADQfm - اذاعة على ضفاف القران')"><span class="flag"></span> ADQfm - اذاعة على ضفاف القران</button>
+
+<div class="group-title">قراءات وروايات</div>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/abdulbasit_abdulsamad_warsh', 'الشيخ عبدالباسط عبد الصمد (ورش)')"><span class="flag"></span> الشيخ عبدالباسط عبد الصمد (ورش)</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/mahmoud_khalil_alhussary_warsh', 'الشيخ محمود خليل الحصري (ورش)')"><span class="flag"></span> الشيخ محمود خليل الحصري (ورش)</button>
+<button class="button palestine" onclick="playNewAudio('https://serverkw.quran-uni.com:8206/;*.mp3', 'الشيخ محمود خليل الحصري (قالون)')"><span class="flag"></span> الشيخ محمود خليل الحصري (قالون)</button>
+<button class="button palestine" onclick="playNewAudio('https://serverkw.quran-uni.com:8050/;*.mp3', 'الشيخ محمود خليل الحصري (الدوري)')"><span class="flag"></span> الشيخ محمود خليل الحصري (الدوري)</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/ali_alhuthaifi_qalon', 'على الحذيفى روايه قالون عن نافع')"><span class="flag"></span> على الحذيفى روايه قالون عن نافع</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/a_sheim', 'الشيخ عبدالعزيز سحيم – رواية ورش عن نافع')"><span class="flag"></span> الشيخ عبدالعزيز سحيم – رواية ورش عن نافع</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/ibrahim_aldosari', 'ابراهيم الدوسري - رواية ورش عن نافع')"><span class="flag"></span> ابراهيم الدوسري - رواية ورش عن نافع</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/aloyoon_alkoshi', 'العيون الكوشي - رواية ورش عن نافع')"><span class="flag"></span> العيون الكوشي - رواية ورش عن نافع</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/alqaria_yassen', 'القارئ ياسين - رواية ورش عن نافع')"><span class="flag"></span> القارئ ياسين - رواية ورش عن نافع</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/omar_alqazabri', 'عمر القزابري - رواية ورش عن نافع')"><span class="flag"></span> عمر القزابري - رواية ورش عن نافع</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/mohammad_abdullkarem_alasbahani', 'محمد عبدالكريم - رواية ورش عن نافع من طريق أبي بكر الأصبهاني')"><span class="flag"></span> محمد عبدالكريم - رواية ورش عن نافع من طريق أبي بكر الأصبهاني</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/ahmad_khader_altarabulsi', 'أحمد الطرابلسي - رواية قالون عن نافع')"><span class="flag"></span> أحمد الطرابلسي - رواية قالون عن نافع</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/addokali_mohammad_alalim', 'الدوكالي محمد العالم - رواية قالون عن نافع')"><span class="flag"></span> الدوكالي محمد العالم - رواية قالون عن نافع</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/tareq_abdulgani_daawob', 'طارق دعوب - رواية قالون عن نافع')"><span class="flag"></span> طارق دعوب - رواية قالون عن نافع</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/waleed_alnaehi', 'وليد النائحي - رواية قالون عن نافع من طريق أبي نشيط')"><span class="flag"></span> وليد النائحي - رواية قالون عن نافع من طريق أبي نشيط</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/alfateh_alzubair', 'الفاتح محمد الزبير- رواية الدوري عن أبي عمرو')"><span class="flag"></span> الفاتح محمد الزبير- رواية الدوري عن أبي عمرو</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/abdulrasheed_soufi_assosi', 'عبدالرشيد صوفي - رواية السوسي عن أبي عمرو')"><span class="flag"></span> عبدالرشيد صوفي - رواية السوسي عن أبي عمرو</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/abdulrasheed_soufi_khalaf', 'عبدالرشيد صوفي - رواية خلف عن حمزة')"><span class="flag"></span> عبدالرشيد صوفي - رواية خلف عن حمزة</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/mohammad_alabdullah_albizi', 'محمد عبدالحكيم العبدالله - رواية البزي وقنبل عن ابن كثير')"><span class="flag"></span> محمد عبدالحكيم العبدالله - رواية البزي وقنبل عن ابن كثير</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/mohammad_alabdullah_aldorai', 'محمد عبدالحكيم العبدالله - رواية الدوري عن الكسائي')"><span class="flag"></span> محمد عبدالحكيم العبدالله - رواية الدوري عن الكسائي</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/mahmood_alsheimy', 'محمود الشيمي - رواية الدوري عن الكسائي')"><span class="flag"></span> محمود الشيمي - رواية الدوري عن الكسائي</button>
+<button class="button palestine" onclick="playNewAudio('https://serverkw.quran-uni.com:8174/;*.mp3', 'مجدي البلتاجي برواية ابن ذكوان')"><span class="flag"></span> مجدي البلتاجي برواية ابن ذكوان</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/muftah_alsaltany_ibn_thakwan_an_ibn_amr', 'مفتاح السلطني - رواية ابن ذكوان عن ابن عامر')"><span class="flag"></span> مفتاح السلطني - رواية ابن ذكوان عن ابن عامر</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/muftah_alsaltany_aldori_an_abi_amr', 'مفتاح السلطني - رواية الدوري عن أبي عمرو')"><span class="flag"></span> مفتاح السلطني - رواية الدوري عن أبي عمرو</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/muftah_alsaltany_aldorai', 'مفتاح السلطني - رواية الدوري عن الكسائي')"><span class="flag"></span> مفتاح السلطني - رواية الدوري عن الكسائي</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/yasser_almazroyee', 'ياسر المزروعي - قراءة يعقوب الحضرمي بروايتي رويس وروح')"><span class="flag"></span> ياسر المزروعي - قراءة يعقوب الحضرمي بروايتي رويس وروح</button>
+
+<div class="group-title">التفسير والسيرة والحديث</div>
+<button class="button palestine" onclick="playNewAudio('https://stream-154.zeno.fm/0ermkt2htg8uv', '(السعدى) إذاعة تفسير القران الكريم')"><span class="flag"></span> (السعدى) إذاعة تفسير القران الكريم</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/tafsir', 'قناة تفسير القرآن الكريم الألوكة')"><span class="flag"></span> قناة تفسير القرآن الكريم الألوكة</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/gareeb-quran', 'إذاعة تفسير غريب القرآن')"><span class="flag"></span> إذاعة تفسير غريب القرآن</button>
+<button class="button palestine" onclick="playNewAudio('https://stream-155.zeno.fm/vf2hfg10d48uv', '(النابلسى) آيات القرآن الكريم')"><span class="flag"></span> (النابلسى) آيات القرآن الكريم</button>
+<button class="button palestine" onclick="playNewAudio('https://s4.radio.co/s5a0c81b0f/listen', 'الارتقاء للحديث النبوي لبنان')"><span class="flag"></span> الارتقاء للحديث النبوي لبنان</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/saheh-bokharee', 'صحيح البخاري')"><span class="flag"></span> صحيح البخاري</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/saheh-muslim', 'صحيح مسلم')"><span class="flag"></span> صحيح مسلم</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/riyad', 'رياض الصالحين')"><span class="flag"></span> رياض الصالحين</button>
+<button class="button palestine" onclick="playNewAudio('https://radiosunna.radioca.st/stream', 'إذاعة السنة')"><span class="flag"></span> إذاعة السنة</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/alanbiya', 'إذاعة قصص الأنبياء')"><span class="flag"></span> إذاعة قصص الأنبياء</button>
+
+<div class="group-title">الأذكار والرقية والمناسبات</div>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/athkar_sabah', 'إذاعة أذكار الصباح')"><span class="flag"></span> إذاعة أذكار الصباح</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/athkar_masa', 'إذاعة أذكار المساء')"><span class="flag"></span> إذاعة أذكار المساء</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/eid', 'تكبيرات العيد')"><span class="flag"></span> تكبيرات العيد</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/ulumalquran', 'قناة علوم القرآن الكريم الألوكة')"><span class="flag"></span> قناة علوم القرآن الكريم الألوكة</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/hadith', 'قناة الحديث وعلومه الألوكة')"><span class="flag"></span> قناة الحديث وعلومه الألوكة</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/sirah', 'قناة السيرة النبوية وقصص القرآن والأنبياء والصحابة')"><span class="flag"></span> قناة السيرة النبوية وقصص القرآن والأنبياء والصحابة</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/adiyyaha', 'قناة الأدعية والأذكار اليومية')"><span class="flag"></span> قناة الأدعية والأذكار اليومية</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/ramadan', 'شهر رمضان المبارك')"><span class="flag"></span> شهر رمضان المبارك</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/SixDaysOfShawwal', 'ستة أيام من شوال')"><span class="flag"></span> ستة أيام من شوال</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/ten_dhul_hijjah', 'عشر ذي الحجة')"><span class="flag"></span> عشر ذي الحجة</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/TheDayofAshoora', 'يوم عاشوراء')"><span class="flag"></span> يوم عاشوراء</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/fatwa', 'إذاعة الفتاوى الفقهية')"><span class="flag"></span> إذاعة الفتاوى الفقهية</button>
+
+<div class="group-title">علماء ومشايخ</div>
+<button class="button palestine" onclick="playNewAudio('https://radio.alhuwayni.com/listen/alhuwayni/radio.mp3', 'إذاعة الشيخ الحويني')"><span class="flag"></span> إذاعة الشيخ الحويني</button>
+<button class="button palestine" onclick="playNewAudio('https://server03.quran-uni.com:7148/;*.mp3', 'إذاعة الشيخ محمد متولى الشعراوى')"><span class="flag"></span> إذاعة الشيخ محمد متولى الشعراوى</button>
+<button class="button palestine" onclick="playNewAudio('https://stream.zeno.fm/mkus1h48bm8uv', 'إذاعة الشيخ نبيل العوضي')"><span class="flag"></span> إذاعة الشيخ نبيل العوضي</button>
+<button class="button palestine" onclick="playNewAudio('https://stream.zeno.fm/66geh5zntp8uv', 'الشيخ عمر عبد الكافي')"><span class="flag"></span> الشيخ عمر عبد الكافي</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/ulama', 'قناة كبار العلماء')"><span class="flag"></span> قناة كبار العلماء</button>
+
+<div class="group-title">إذاعات إسلامية بلغات أخرى</div>
+<button class="button palestine" onclick="playNewAudio('https://cast1.my-control-panel.com/proxy/netmoham/radioislam.mp3', 'Radio Islam')"><span class="flag"></span> إذاعة الإسلام</button>
+
+
+<div class="group-title">ترجمات معاني القرآن الكريم بلغات العالم</div>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_english_basit', 'القرآن باللغة الإنجليزية -عبدالباسط عبدالصمد')"><span class="flag"></span> القرآن باللغة الإنجليزية -عبدالباسط عبدالصمد</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_english_walk_basit', 'القرآن باللغة الإنجليزية -ترجمة والك-عبدالباسط عبدالصمد')"><span class="flag"></span> القرآن باللغة الإنجليزية -ترجمة والك-عبدالباسط عبدالصمد</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/translation_quran_urdu_basit', 'ترجمة معاني القرآن باللغة الأوردية عبد الباسط')"><span class="flag"></span> ترجمة معاني القرآن باللغة الأوردية عبد الباسط</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_urdu_minsh', 'ترجمة معاني القرآن باللغة الأوردية - المنشاوي')"><span class="flag"></span> ترجمة معاني القرآن باللغة الأوردية - المنشاوي</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_urdu_sds_shur', 'القرآن باللغة الأوردية - عبدالرحمن و سعود الشريم')"><span class="flag"></span> القرآن باللغة الأوردية - عبدالرحمن و سعود الشريم</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_bosnia', 'ترجمة معاني القرآن باللغة البوسنية - الحصرى')"><span class="flag"></span> ترجمة معاني القرآن باللغة البوسنية - الحصرى</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_french', 'ترجمة معاني القرآن باللغة الفرنسية - على الحذيفى')"><span class="flag"></span> ترجمة معاني القرآن باللغة الفرنسية - على الحذيفى</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/mokhtasr-french', 'المختصر في تفسير القرآن الكريم باللغة الفرنسية')"><span class="flag"></span> المختصر في تفسير القرآن الكريم باللغة الفرنسية</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_portuguese', 'ترجمة معاني القرآن باللغة البرتغالية - على الحذيفى')"><span class="flag"></span> ترجمة معاني القرآن باللغة البرتغالية - على الحذيفى</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_hungarian', 'ترجمة معاني القرآن باللغة المجرية على الحذيفى')"><span class="flag"></span> ترجمة معاني القرآن باللغة المجرية على الحذيفى</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_turkish', 'ترجمة معاني القرآن باللغة التركية - سعد الغامدى')"><span class="flag"></span> ترجمة معاني القرآن باللغة التركية - سعد الغامدى</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_kurdish', 'ترجمة معاني القرآن باللغة الكردية - سعد الغامدى')"><span class="flag"></span> ترجمة معاني القرآن باللغة الكردية - سعد الغامدى</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_spanish_afs', 'ترجمة معاني القرآن باللغة الأسبانية')"><span class="flag"></span> ترجمة معاني القرآن باللغة الأسبانية</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_farsi', 'ترجمة معاني القرآن باللغة الفارسية - سعد الغامدى')"><span class="flag"></span> ترجمة معاني القرآن باللغة الفارسية - سعد الغامدى</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/farsi-trans', 'ترجمة معاني القرآن باللغة الفارسية - أهل القرآن')"><span class="flag"></span> ترجمة معاني القرآن باللغة الفارسية - أهل القرآن</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_english_bsfr', 'ترجمة معاني القرآن باللغة الإنجليزية - عبدالله بصفر')"><span class="flag"></span> ترجمة معاني القرآن باللغة الإنجليزية - عبدالله بصفر</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_albanian', 'ترجمة معاني القرآن باللغة الألبانية - عبدالله بصفر')"><span class="flag"></span> ترجمة معاني القرآن باللغة الألبانية - عبدالله بصفر</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_greek', 'ترجمة معاني القرآن باللغة اليونانية جهاد خليل')"><span class="flag"></span> ترجمة معاني القرآن باللغة اليونانية جهاد خليل</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_tamazight', 'ترجمة معاني القرآن باللغة الأمازيغية جهادي الحسين')"><span class="flag"></span> ترجمة معاني القرآن باللغة الأمازيغية جهادي الحسين</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_german', 'ترجمة معاني القرآن باللغة الألمانية')"><span class="flag"></span> ترجمة معاني القرآن باللغة الألمانية</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/translation_quran_Russia', 'ترجمة معاني القرآن باللغة الروسية')"><span class="flag"></span> ترجمة معاني القرآن باللغة الروسية</button>
+<button class="button palestine" onclick="playNewAudio('https://qurango.net/radio/translation_quran_chinese', 'ترجمة معاني القرآن باللغة الصينية')"><span class="flag"></span> ترجمة معاني القرآن باللغة الصينية</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/mokhtasr-grgstan', 'المختصر في تفسير القرآن الكريم باللغة القيرقيزية')"><span class="flag"></span> المختصر في تفسير القرآن الكريم باللغة القيرقيزية</button>
+<button class="button palestine" onclick="playNewAudio('https://backup.qurango.net/radio/mokhtasr-husa', 'المختصر في تفسير القرآن الكريم باللغة الهوساوية')"><span class="flag"></span> المختصر في تفسير القرآن الكريم باللغة الهوساوية</button>
+
+<div class="group-title">قنوات ومحاضرات إسلامية متنوعة</div>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/aqidah', 'قناة العقيدة والتوحيد الألوكة')"><span class="flag"></span> قناة العقيدة والتوحيد الألوكة</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/fiqhiyyah', 'القناة الفقهية الألوكة')"><span class="flag"></span> القناة الفقهية الألوكة</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/alfikr', 'قناة الفكر والدعوة')"><span class="flag"></span> قناة الفكر والدعوة</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/attawiyy', 'قناة التوعية الاجتماعية')"><span class="flag"></span> قناة التوعية الاجتماعية</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/almarah', 'قناة المرأة المسلمة')"><span class="flag"></span> قناة المرأة المسلمة</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/assuluk', 'قناة السلوك والآداب والأخلاق ومحاسن الأعمال')"><span class="flag"></span> قناة السلوك والآداب والأخلاق ومحاسن الأعمال</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/maharat', 'قناة المهارات الحياتية والعلوم التربوية')"><span class="flag"></span> قناة المهارات الحياتية والعلوم التربوية</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/arabiyyah', 'قناة اللغة العربية وعلومه')"><span class="flag"></span> قناة اللغة العربية وعلومه</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/aladab', 'قناة الأدب والتراث العربي')"><span class="flag"></span> قناة الأدب والتراث العربي</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/tarajim', 'قناة التراجم والتاريخ والسير')"><span class="flag"></span> قناة التراجم والتاريخ والسير</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/hajj', 'قناة الحج الألوكة')"><span class="flag"></span> قناة الحج الألوكة</button>
+<button class="button palestine" onclick="playNewAudio('https://radio.alukah.net/ramdan', 'قناة شهر رمضان المبارك')"><span class="flag"></span> قناة شهر رمضان المبارك</button>
+<button class="button palestine" onclick="playNewAudio('https://node33.obviousapproach.com:9000/stream', 'إذاعة النهج الواضح')"><span class="flag"></span> إذاعة النهج الواضح</button>
+<button class="button palestine" onclick="playNewAudio('https://s2.voscast.com:10445/stream', 'إذاعة حسنى الناس للناس')"><span class="flag"></span> إذاعة حسنى الناس للناس</button>
+
+</div>
+
+</body>
+</html>
+
+<body>
+
+
+
+
+<script>
+  var radioPlayer = document.getElementById('radioPlayer');
+  var radioDisplay = document.getElementById('radioDisplay');
+
+  function playStation(stationUrl) {
+    radioPlayer.src = stationUrl;
+    radioPlayer.play();
+    radioDisplay.textContent = "تشغيل المحطة: " + stationUrl;
+  }
+
+  function stopRadio() {
+    radioPlayer.pause();
+    radioPlayer.src = "";
+    radioDisplay.textContent = "تم إيقاف الراديو";
+  }
+</script>
+
+</body>
+</html>
+
