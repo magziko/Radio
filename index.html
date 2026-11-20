@@ -10818,8 +10818,42 @@ const moreTranslations = [{
     if (ring) ring.remove();
   }
 
+  /* مؤقت بيشتغل من Web Worker: المتصفح بيبطّئ setTimeout العادي جدًا (لحد مرة فى الدقيقة)
+     فى التابات المخفية، فكان العدّ التلقائى بيتأخر/يقف لما تروح لتاب تانى حتى مع PiP.
+     الـ Worker مش بيتبطّأ. لو الـ Worker مش متاح بنرجع لـ setTimeout العادي. */
+  var _spTimerWorker = null, _spTimerSeq = 0, _spTimerCbs = {};
+  function _spSetTimeout(fn, ms) {
+    try {
+      if (!_spTimerWorker) {
+        var wsrc = "var T={};self.onmessage=function(e){var d=e.data;" +
+                   "if(d.t==='set'){T[d.id]=setTimeout(function(){delete T[d.id];self.postMessage(d.id);},d.ms);}" +
+                   "else if(d.t==='clr'){clearTimeout(T[d.id]);delete T[d.id];}};";
+        _spTimerWorker = new Worker(URL.createObjectURL(new Blob([wsrc], { type: 'application/javascript' })));
+        _spTimerWorker.onmessage = function(e) {
+          var cb = _spTimerCbs[e.data];
+          if (cb) { delete _spTimerCbs[e.data]; cb(); }
+        };
+      }
+      var id = ++_spTimerSeq;
+      _spTimerCbs[id] = fn;
+      _spTimerWorker.postMessage({ t: 'set', id: id, ms: ms });
+      return { w: id };
+    } catch (e) {
+      return { t: setTimeout(fn, ms) };
+    }
+  }
+  function _spClearTimeout(h) {
+    if (!h) return;
+    if (h.w) {
+      delete _spTimerCbs[h.w];
+      try { _spTimerWorker.postMessage({ t: 'clr', id: h.w }); } catch (e) {}
+    } else if (h.t) {
+      clearTimeout(h.t);
+    }
+  }
+
   function spStartAuto() {
-    if (spAutoTimer) clearInterval(spAutoTimer);
+    if (spAutoTimer) _spClearTimeout(spAutoTimer);
     var btn = document.getElementById('sp-auto-btn');
     if (btn) {
       btn.classList.add('active');
@@ -10832,16 +10866,16 @@ const moreTranslations = [{
       window.spIncrement();
       var interval = spGetAutoInterval();
       _spShowCountdownRing(interval);
-      spAutoTimer = setTimeout(tick, interval);
+      spAutoTimer = _spSetTimeout(tick, interval);
     }
     var firstInterval = spGetAutoInterval();
     _spShowCountdownRing(firstInterval);
-    spAutoTimer = setTimeout(tick, firstInterval);
+    spAutoTimer = _spSetTimeout(tick, firstInterval);
   }
 
   function spStopAuto() {
     if (spAutoTimer) {
-      clearTimeout(spAutoTimer);
+      _spClearTimeout(spAutoTimer);
       spAutoTimer = null;
     }
     var btn = document.getElementById('sp-auto-btn');
@@ -23755,8 +23789,15 @@ function setDhikrTipDuration(n) {
     return !!(btn && btn.classList.contains('active'));
   }
 
+  /* وضع PiP مفتوح للسبحة: العدّ التلقائى يكمّل حتى لو رحت لتاب تانى (الحالة دى بس) */
+  function _sebhaPipOpen() {
+    var el = document.pictureInPictureElement;
+    return !!(el && el.id === 'spVideo');
+  }
+
   function _pauseNow() {
     if (!_sebhaAutoActive()) return;
+    if (_sebhaPipOpen()) return;
     if (typeof window.spToggleAuto === 'function') window.spToggleAuto();
     _pausedByUs = true;
   }
@@ -23831,6 +23872,14 @@ function setDhikrTipDuration(n) {
       _startCountdown();
     }
   });
+
+  /* لو قفلت PiP وانت برّه الصفحة → نرجع للسلوك المعتاد (إيقاف العدّ لحد ما ترجع) */
+  var _pipVid = document.getElementById('spVideo');
+  if (_pipVid) {
+    _pipVid.addEventListener('leavepictureinpicture', function() {
+      if (document.hidden) _pauseNow();
+    });
+  }
 
 })();
 
