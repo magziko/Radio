@@ -10623,6 +10623,7 @@ const moreTranslations = [{
       void btn.offsetWidth;
       btn.classList.add('sp-celebrate');
       setTimeout(function() { btn.classList.remove('sp-celebrate'); }, 2000);
+      _spNotifyDone();
       /* الانتقال للذكر التالى (أذكار الصباح/المساء/بعد الصلاة/النوم) */
       if (typeof window.spOnDhikrCompleted === 'function') window.spOnDhikrCompleted();
     }
@@ -10745,6 +10746,9 @@ const moreTranslations = [{
   };
 
   var spAutoTimer = null;
+  var spAutoTickStart = 0, spAutoTickDur = 0;   // لشريط التقدّم فى نافذة PiP
+  var spPipRedrawH = null;                      // إعادة رسم نافذة PiP (من Worker عشان تشتغل والتاب مخفى)
+  var spBeepCtx = null;                         // AudioContext للتنبيه الصوتى عند الوصول للهدف
 
   function spGetAutoInterval() {
 
@@ -10867,10 +10871,69 @@ const moreTranslations = [{
       var interval = spGetAutoInterval();
       _spShowCountdownRing(interval);
       spAutoTimer = _spSetTimeout(tick, interval);
+      spAutoTickStart = Date.now(); spAutoTickDur = interval;
+      if (spPipActive) spDrawCanvas();
     }
     var firstInterval = spGetAutoInterval();
     _spShowCountdownRing(firstInterval);
     spAutoTimer = _spSetTimeout(tick, firstInterval);
+    spAutoTickStart = Date.now(); spAutoTickDur = firstInterval;
+    _spPipSync();
+  }
+
+  /* مزامنة نافذة PiP مع حالة العدّ التلقائى: رسم الشارة وشريط التقدّم + حالة زر ▶/⏸ */
+  function _spPipSync() {
+    var on = !!spAutoTimer;
+    if (spPipActive) {
+      spDrawCanvas();
+      if ('mediaSession' in navigator) {
+        try { navigator.mediaSession.playbackState = on ? 'playing' : 'paused'; } catch (e) {}
+      }
+      if (on) _spPipRedrawStart();
+    }
+    if (!on) _spPipRedrawStop();
+  }
+  function _spPipRedrawStart() {
+    if (spPipRedrawH) return;
+    (function step() {
+      spPipRedrawH = null;
+      if (!spPipActive || !spAutoTimer) return;
+      spDrawCanvas();
+      spPipRedrawH = _spSetTimeout(step, 250);
+    })();
+  }
+  function _spPipRedrawStop() {
+    if (spPipRedrawH) { _spClearTimeout(spPipRedrawH); spPipRedrawH = null; }
+  }
+
+  /* تنبيه عند الوصول للهدف والتاب مخفى: اهتزاز + نغمة قصيرة + إشعار (لو مسموح) */
+  function _spNotifyDone() {
+    if (!document.hidden) return;
+    try { if (navigator.vibrate) navigator.vibrate([200, 100, 200]); } catch (e) {}
+    try {
+      if (spBeepCtx) {
+        if (spBeepCtx.state === 'suspended') spBeepCtx.resume();
+        var now = spBeepCtx.currentTime;
+        [880, 1175].forEach(function(f, i) {
+          var o = spBeepCtx.createOscillator(), g = spBeepCtx.createGain(), st = now + i * 0.18;
+          o.type = 'sine'; o.frequency.value = f;
+          g.gain.setValueAtTime(0.0001, st);
+          g.gain.exponentialRampToValueAtTime(0.25, st + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, st + 0.16);
+          o.connect(g); g.connect(spBeepCtx.destination);
+          o.start(st); o.stop(st + 0.18);
+        });
+      }
+    } catch (e) {}
+    try {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        var ar = spAr();
+        new Notification(ar ? '🎉 أتممت الهدف — جزاك الله خيرًا' : '🎉 Target reached', {
+          body: spGetDhikr() + ' — ' + (ar ? toAr(spCount) : spCount),
+          tag: 'sp-done'
+        });
+      }
+    } catch (e) {}
   }
 
   function spStopAuto() {
@@ -10885,6 +10948,7 @@ const moreTranslations = [{
     }
     if (typeof window.alReleaseWakeLock === 'function') window.alReleaseWakeLock();
     _spClearCountdownRing();
+    _spPipSync();
   }
 
   window.spToggleAuto = function() {
@@ -11108,8 +11172,8 @@ const moreTranslations = [{
       zh: '✖ 关闭画中画', ur: '✖ PiP بند کریں'
     },
     pipActive: {
-      ar: '✅ اضغط زر ⏭ في نافذة PiP للتسبيح من أي تاب!',
-      en: '✅ Press ⏭ in the PiP window to count from any tab!'
+      ar: '✅ من نافذة PiP: ⏭ للتسبيح، ▶/⏸ لتشغيل وإيقاف التلقائي — من أي تاب!',
+      en: '✅ In the PiP window: ⏭ to count, ▶/⏸ to start/stop auto — from any tab!'
     },
     pipNote: {
       ar: 'افتح PiP ثم اضغط ⏭ للتسبيح من أي تاب', en: 'Open PiP then press ⏭ to count from any tab',
@@ -11208,6 +11272,9 @@ const moreTranslations = [{
       nl: '⏸ Auto stoppen', ga: '⏸ Stop Uathoibríoch', de: '⏸ Automatisch stoppen',
       ru: '⏸ Остановить авто', tr: '⏸ Otomatiği durdur', pt: '⏸ Parar automático',
       zh: '⏸ 停止自动', ur: '⏸ خودکار روکیں'
+    },
+    autoOnLbl: {
+      ar: '⏩ تلقائي شغّال', en: '⏩ Auto on'
     },
     restoreBtn: {
       ar: '↩ استرجاع آخر عدد', en: '↩ Restore last count',
@@ -11465,6 +11532,20 @@ const moreTranslations = [{
     spCtx.font = done ? 'bold 15px Cairo, Arial, sans-serif' : '13px Cairo, Arial, sans-serif';
     spCtx.fillStyle = done ? themeG2 : '#777';
     spCtx.fillText(done ? t('done') : t('pressSpace'), w / 2, lineY + 160);
+
+    /* شارة "تلقائي شغّال" + شريط بيفرغ لحد العدّة الجاية */
+    if (spAutoTimer) {
+      spCtx.font = 'bold 13px Cairo, Arial, sans-serif';
+      spCtx.fillStyle = themeG1;
+      spCtx.fillText(t('autoOnLbl'), w / 2, h - 30);
+      var bx = 24, bw = w - 48, by = h - 20, bh = 7;
+      var frac = spAutoTickDur > 0 ? Math.min(1, Math.max(0, (Date.now() - spAutoTickStart) / spAutoTickDur)) : 0;
+      var rw = bw * (1 - frac);
+      spCtx.fillStyle = 'rgba(0,0,0,0.12)';
+      spCtx.fillRect(bx, by, bw, bh);
+      spCtx.fillStyle = themeG1;
+      spCtx.fillRect(ar ? bx + bw - rw : bx, by, rw, bh);
+    }
   }
 
   function spSetupMediaSession() {
@@ -11480,7 +11561,17 @@ const moreTranslations = [{
     navigator.mediaSession.setActionHandler('previoustrack', function() {
       window.spReset();
     });
-    navigator.mediaSession.playbackState = 'playing';
+    /* ▶/⏸ فى نافذة PiP = تشغيل/إيقاف العدّ التلقائى (والفيديو نفسه يفضل شغّال عشان الرسم ما يقفش) */
+    function mediaAuto(wantOn) {
+      if (wantOn !== !!spAutoTimer) window.spToggleAuto();
+      try { var pr = spVideo.play(); if (pr && pr.catch) pr.catch(function() {}); } catch (e) {}
+      _spPipSync();
+    }
+    try {
+      navigator.mediaSession.setActionHandler('play', function() { mediaAuto(true); });
+      navigator.mediaSession.setActionHandler('pause', function() { mediaAuto(false); });
+    } catch (e) {}
+    navigator.mediaSession.playbackState = spAutoTimer ? 'playing' : 'paused';
   }
 
   function spUpdateMediaSession() {
@@ -11506,6 +11597,7 @@ const moreTranslations = [{
   }
 
   function spStopLoop() {
+    _spPipRedrawStop();
     if (spAnimFrame) {
       cancelAnimationFrame(spAnimFrame);
       spAnimFrame = null;
@@ -11542,6 +11634,17 @@ const moreTranslations = [{
       btn.classList.add('active');
       note.textContent = t('pipActive');
       spStartLoop();
+      _spPipSync();
+      /* تجهيز تنبيه الهدف: نغمة (AudioContext من ضغطة المستخدم) وإذن الإشعارات مرة واحدة بس */
+      try {
+        if (!spBeepCtx && (window.AudioContext || window.webkitAudioContext)) {
+          spBeepCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if ('Notification' in window && Notification.permission === 'default' && !localStorage.getItem('sp_notif_asked')) {
+          localStorage.setItem('sp_notif_asked', '1');
+          Notification.requestPermission();
+        }
+      } catch (e) {}
       spVideo.addEventListener('leavepictureinpicture', function() {
         spPipActive = false;
         btn.textContent = t('pipOpen');
