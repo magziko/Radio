@@ -31734,7 +31734,9 @@ function filterAdhkarSub(subType, btn) {
 
   // تنبيه بوجود تسبيح سابق عند اختيار فلتر الصباح أو المساء
   if (subType === 'morning' || subType === 'evening') {
-    if (_adhkarGroupHasProgress(subType)) {
+    // لو دخلنا من بانر/إشعار التذكير لنفس النوع: نعرض الرسالة حتى لو كل الأذكار مكتملة
+    var _fromBanner = (window._adhkarBannerEntry === subType);
+    if (_adhkarGroupHasProgress(subType, _fromBanner)) {
       showAdhkarContinuePrompt(subType);
     }
   }
@@ -31780,7 +31782,7 @@ function _goToFirstUnfinishedAdhkar(type) {
 
 // true = فيه تقدّم فعلي لم يكتمل (يعني: عدّاد واحد على الأقل > 0، ومش كل الأذكار مكتملة).
 // لو كل الأذكار اكتملت أو العدادات كلها صفر ما نعرضش رسالة "تسبيح سابق لم يكتمل".
-function _adhkarGroupHasProgress(type) {
+function _adhkarGroupHasProgress(type, includeAllDone) {
   var btns = _getAdhkarGroupButtons(type);
   var anyProgress = false, allDone = true;
   btns.forEach(function(b) {
@@ -31790,7 +31792,23 @@ function _adhkarGroupHasProgress(type) {
     if (count > 0) anyProgress = true;
     if (!(b.classList.contains('completed') || (target > 0 && count >= target))) allDone = false;
   });
-  return anyProgress && !allDone;
+  // includeAllDone = true (الدخول من بانر التذكير): نعرض الرسالة حتى لو كل الأذكار مكتملة (من اليوم السابق) عشان تقدر تصفّر
+  return anyProgress && (includeAllDone || !allDone);
+}
+
+// حالة الأذكار: 'none' كلها صفر | 'partial' بعضها تقدّم | 'done' كلها مكتملة
+function _adhkarGroupState(type) {
+  var btns = _getAdhkarGroupButtons(type);
+  var anyProgress = false, allDone = true;
+  btns.forEach(function(b) {
+    var key = 'tasbih_' + b.getAttribute('data-station');
+    var count = parseInt(localStorage.getItem(key)) || 0;
+    var target = parseInt(b.dataset.target) || 0;
+    if (count > 0) anyProgress = true;
+    if (!(b.classList.contains('completed') || (target > 0 && count >= target))) allDone = false;
+  });
+  if (!anyProgress) return 'none';
+  return allDone ? 'done' : 'partial';
 }
 
 function resetAdhkarGroupCounters(type) {
@@ -31839,11 +31857,18 @@ function showAdhkarContinuePrompt(type) {
 
   var title = document.createElement('h3');
   title.style.cssText = 'margin:0 0 8px;font-size:18px;color:#1a3a52;font-weight:700;';
-  title.textContent = isAr ? 'لديك تسبيح سابق لم يكتمل' : 'You have unfinished progress';
+  var _allDone = (typeof _adhkarGroupState === 'function') && _adhkarGroupState(type) === 'done';
+  title.textContent = _allDone ?
+    (isAr ? 'أذكارك السابقة مكتملة' : 'Your previous Adhkar are complete') :
+    (isAr ? 'لديك تسبيح سابق لم يكتمل' : 'You have unfinished progress');
 
   var body = document.createElement('p');
   body.style.cssText = 'margin:0 0 22px;font-size:14px;color:#2c5f7a;line-height:1.7;';
-  body.textContent = isAr ?
+  body.textContent = _allDone ?
+    (isAr ?
+      (isMorning ? 'أذكار الصباح مكتملة من المرة السابقة. هل تريد تصفيرها والبدء من جديد؟' : 'أذكار المساء مكتملة من المرة السابقة. هل تريد تصفيرها والبدء من جديد؟') :
+      (isMorning ? 'The Morning Adhkar were completed last time. Reset and start over?' : 'The Evening Adhkar were completed last time. Reset and start over?')) :
+  isAr ?
     (isMorning ?
       'وجدنا تقدماً سابقاً في عدادات أذكار الصباح. هل تريد إكمال ما بدأته أم البدء من جديد؟' :
       'وجدنا تقدماً سابقاً في عدادات أذكار المساء. هل تريد إكمال ما بدأته أم البدء من جديد؟') :
@@ -31852,7 +31877,9 @@ function showAdhkarContinuePrompt(type) {
       'You have previous progress in the Evening Adhkar counters. Continue where you left off, or start fresh?');
 
   var btnContinue = document.createElement('button');
-  btnContinue.textContent = isAr ? '▶️ إكمال من حيث توقفت' : '▶️ Continue where I left off';
+  btnContinue.textContent = _allDone ?
+    (isAr ? '👁️ عرض الأذكار كما هي' : '👁️ View as is') :
+    (isAr ? '▶️ إكمال من حيث توقفت' : '▶️ Continue where I left off');
   btnContinue.style.cssText = [
     'display:block', 'width:100%', 'margin:0 0 10px', 'border:none', 'border-radius:12px',
     'padding:12px', 'font-size:15px', 'font-weight:700', 'cursor:pointer',
@@ -39790,11 +39817,13 @@ document.addEventListener('DOMContentLoaded', function() {
         var type = _bannerEl.dataset.type;
         clearSnooze();
         hideBanner();
+        window._adhkarBannerEntry = type;   // إشارة: الدخول جاى من البانر
         var adhkarBtn = document.querySelector('.filter-button[data-en="Adhkar"]');
         if (adhkarBtn) adhkarBtn.click();
         setTimeout(function() {
           var subBtn = document.querySelector('.adhkar-sub-btn[data-sub="' + type + '"]');
           if (subBtn) subBtn.click();
+          setTimeout(function() { window._adhkarBannerEntry = null; }, 500);
         }, 200);
       });
     }
@@ -39931,11 +39960,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         notif.onclick = function() {
           window.focus();
+          window._adhkarBannerEntry = type;
           var adhkarBtn = document.querySelector('.filter-button[data-en="Adhkar"]');
           if (adhkarBtn) adhkarBtn.click();
           setTimeout(function() {
             var subBtn = document.querySelector('.adhkar-sub-btn[data-sub="' + type + '"]');
             if (subBtn) subBtn.click();
+            setTimeout(function() { window._adhkarBannerEntry = null; }, 500);
           }, 200);
           notif.close();
         };
