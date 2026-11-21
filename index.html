@@ -13847,7 +13847,12 @@ window._ptComputeDuha = _ptComputeDuha;
               _pwRender(timings, hijri, city);
             })
             .catch(function() {
-              _pwData = { timings: timings, hijri: hijri, city: '', cityLang: lang };
+              // فشل اسم المدينة: احفظ المواقيت فى الكاش برضه (عشان ثيمات وقت اليوم) — cityLang فاضى عشان يعيد محاولة المدينة لاحقاً
+              try {
+                var _dk3 = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+                localStorage.setItem(TIMES_KEY, JSON.stringify({ date: _dk3, timings: timings, hijri: hijri, city: '', cityLang: '' }));
+              } catch(e) {}
+              _pwData = { timings: timings, hijri: hijri, city: '', cityLang: '' };
               _pwRender(timings, hijri, '');
             });
         })
@@ -13981,6 +13986,47 @@ window._ptComputeDuha = _ptComputeDuha;
     }
   };
   window._pwLoadPublic = function() { _pwLoad(); };
+
+  // ===== تحديث تلقائى صامت لكاش المواقيت (pwTimingsCacheV2) عند فتح الموقع =====
+  // الهدف: ثيمات وقت اليوم (أذكار المساء/المغرب/الفجر/التهجد) تشتغل من غير ما المستخدم يزور قسم المواقيت.
+  // بيستخدم الموقع المحفوظ بس (لا يطلب إذن ولا يخمّن) — ولو مفيش موقع محفوظ أو أوفلاين: مفيش حاجة بتحصل.
+  (function _pwAutoRefreshTimings() {
+    var TIMES_KEY = 'pwTimingsCacheV2';
+    function dkOf(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+    function readCache() { try { return JSON.parse(localStorage.getItem(TIMES_KEY) || '{}') || {}; } catch (e) { return {}; } }
+    function run() {
+      try {
+        var today = new Date(), key = dkOf(today);
+        var cached = readCache();
+        if (cached.date === key && cached.timings) return;           // محدّث لليوم
+        if (navigator.onLine === false) return;
+        var geo = {};
+        try { geo = JSON.parse(localStorage.getItem('adhanGeoCache') || '{}') || {}; } catch (e) {}
+        if (!geo.lat || !geo.lon) return;                             // مفيش موقع محفوظ: ما نطلبش إذن من نفسنا
+        var method = (typeof window.getPrayerCalcMethod === 'function') ? window.getPrayerCalcMethod() : '';
+        var school = (typeof window.getPrayerMadhab === 'function') ? window.getPrayerMadhab() : '';
+        var dateStr = today.getDate() + '-' + (today.getMonth()+1) + '-' + today.getFullYear();
+        fetch('https://api.aladhan.com/v1/timings/' + dateStr + '?latitude=' + geo.lat + '&longitude=' + geo.lon + '&method=' + method + '&school=' + school)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (!data || !data.data || !data.data.timings) return;
+            var cur = readCache();
+            if (cur.date === key && cur.timings) return;              // حد تانى حفظه فى الأثناء
+            var h = data.data.date && data.data.date.hijri;
+            var hijri = h ? { day: h.day, monthAr: h.month.ar, monthEn: h.month.en, year: h.year } : null;
+            var city = cur.city || cached.city || '';
+            try {
+              localStorage.setItem(TIMES_KEY, JSON.stringify({ date: key, timings: data.data.timings, hijri: hijri, city: city, cityLang: city ? (cur.cityLang || cached.cityLang || '') : '' }));
+            } catch (e) {}
+            try { if (typeof window.wsApplyHajjAttrs === 'function') window.wsApplyHajjAttrs(); } catch (e) {}
+          })
+          .catch(function() {});
+      } catch (e) {}
+    }
+    function start() { setTimeout(run, 1200); }                       // بعد التحميل الأساسى عشان ما يبطّأش الفتح
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+    else start();
+  })();
 
   // راقب ظهور الـ wrapper وحمّل عند الظهور لأول مرة
   var _pwObs = new MutationObserver(function() {
@@ -14145,7 +14191,13 @@ window._ptComputeDuha = _ptComputeDuha;
               try { localStorage.setItem(TIMES_KEY, JSON.stringify({ date: dk2, timings: timings, hijri: hijri, city: city, cityLang: lang })); } catch(e) {}
               _fpwRender(timings, hijri, city);
             })
-            .catch(function() { _fpwRender(timings, hijri, ''); });
+            .catch(function() {
+              try {
+                var _dk4 = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+                localStorage.setItem(TIMES_KEY, JSON.stringify({ date: _dk4, timings: timings, hijri: hijri, city: '', cityLang: '' }));
+              } catch(e) {}
+              _fpwRender(timings, hijri, '');
+            });
         })
         .catch(function() {
           var _off = window._ptOfflineTimings && window._ptOfflineTimings(lat, lon);
