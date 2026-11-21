@@ -31736,7 +31736,15 @@ function filterAdhkarSub(subType, btn) {
   if (subType === 'morning' || subType === 'evening') {
     // لو دخلنا من بانر/إشعار التذكير لنفس النوع: نعرض الرسالة حتى لو كل الأذكار مكتملة
     var _fromBanner = (window._adhkarBannerEntry === subType);
-    if (_adhkarGroupHasProgress(subType, _fromBanner)) {
+    // من الفلتر العادى: ما نكرّرش الرسالة لو المستخدم تعامل معاها بالفعل فى الجلسة دى. من البانر: دايماً.
+    // الفلتر العادى: تظهر لو فيه تقدّم جزئى، أو لو الأذكار مكتملة من يوم سابق (عشان تصفّر وتبدأ).
+    // مكتملة النهارده من الفلتر العادى: ما تظهرش. وما نكرّرهاش بعد ما المستخدم تعامل معاها فى الجلسة.
+    var _st = _adhkarGroupState(subType);
+    var _staleDone = (_st === 'done' && !_adhkarProgressIsToday(subType));
+    var _showPrompt = _fromBanner ?
+      _adhkarGroupHasProgress(subType, true) :
+      ((_st === 'partial' || _staleDone) && !_adhkarPromptHandled(subType));
+    if (_showPrompt) {
       showAdhkarContinuePrompt(subType);
     }
   }
@@ -31796,6 +31804,31 @@ function _adhkarGroupHasProgress(type, includeAllDone) {
   return anyProgress && (includeAllDone || !allDone);
 }
 
+// ===== تاريخ آخر تقدّم لكل مجموعة (صباح/مساء) — عشان نفرّق بين "مكتملة النهارده" و"مكتملة من يوم سابق" =====
+function _adhkarTodayKey() {
+  var d = new Date();
+  return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+}
+function _adhkarStampProgress(btn) {
+  try {
+    if (!btn) return;
+    var day = _adhkarTodayKey();
+    ['morning', 'evening'].forEach(function(t) {
+      if (btn.hasAttribute('data-adhkar-' + t)) localStorage.setItem('adhkar_progress_day_' + t, day);
+    });
+  } catch (e) {}
+}
+function _adhkarProgressIsToday(type) {
+  try { return localStorage.getItem('adhkar_progress_day_' + type) === _adhkarTodayKey(); } catch (e) { return false; }
+}
+// حارس الجلسة: بعد ما المستخدم يتعامل مع الرسالة (إكمال/تصفير/إغلاق) ما نكرّرهاش لنفس النوع فى نفس الزيارة
+function _adhkarPromptHandled(type) {
+  try { return sessionStorage.getItem('adhkar_prompt_handled_' + type) === '1'; } catch (e) { return false; }
+}
+function _adhkarMarkPromptHandled(type) {
+  try { sessionStorage.setItem('adhkar_prompt_handled_' + type, '1'); } catch (e) {}
+}
+
 // حالة الأذكار: 'none' كلها صفر | 'partial' بعضها تقدّم | 'done' كلها مكتملة
 function _adhkarGroupState(type) {
   var btns = _getAdhkarGroupButtons(type);
@@ -31813,14 +31846,38 @@ function _adhkarGroupState(type) {
 
 function resetAdhkarGroupCounters(type) {
   var btns = _getAdhkarGroupButtons(type);
+  // لقطة قبل التصفير عشان زر "تراجع"
+  var snapshot = { type: type, items: [], day: null };
+  try { snapshot.day = localStorage.getItem('adhkar_progress_day_' + type); } catch (e) {}
   btns.forEach(function(b) {
     var key = 'tasbih_' + b.getAttribute('data-station');
+    snapshot.items.push({
+      btn: b, key: key,
+      count: parseInt(localStorage.getItem(key)) || 0,
+      completed: b.classList.contains('completed')
+    });
     localStorage.setItem(key, 0);
     var countEl = b.querySelector('.tasbih-count');
     if (countEl) countEl.innerText = 0;
     b.classList.remove('completed');
   });
   sessionStorage.removeItem('adhkar_done_shown_' + type);
+  try { localStorage.removeItem('adhkar_progress_day_' + type); } catch (e) {}
+  updateAdhkarProgress();
+  return snapshot;
+}
+
+function undoResetAdhkarGroup(snapshot) {
+  if (!snapshot) return;
+  snapshot.items.forEach(function(it) {
+    localStorage.setItem(it.key, it.count);
+    var countEl = it.btn.querySelector('.tasbih-count');
+    if (countEl) countEl.innerText = it.count;
+    if (it.completed) it.btn.classList.add('completed'); else it.btn.classList.remove('completed');
+  });
+  try {
+    if (snapshot.day) localStorage.setItem('adhkar_progress_day_' + snapshot.type, snapshot.day);
+  } catch (e) {}
   updateAdhkarProgress();
 }
 
@@ -31831,10 +31888,12 @@ function showAdhkarContinuePrompt(type) {
   var isMorning = type === 'morning';
 
   var old = document.getElementById('adhkar-continue-modal');
+  if (old && old.dataset.type === type) return;   // نفس الرسالة ظاهرة بالفعل (استدعاء مزدوج من البانر)
   if (old) old.remove();
 
   var overlay = document.createElement('div');
   overlay.id = 'adhkar-continue-modal';
+  overlay.dataset.type = type;
   overlay.style.cssText = [
     'position:fixed', 'top:0', 'left:0', 'width:100%', 'height:100%',
     'background:rgba(0,0,0,0.52)', 'z-index:99999',
@@ -31858,13 +31917,20 @@ function showAdhkarContinuePrompt(type) {
   var title = document.createElement('h3');
   title.style.cssText = 'margin:0 0 8px;font-size:18px;color:#1a3a52;font-weight:700;';
   var _allDone = (typeof _adhkarGroupState === 'function') && _adhkarGroupState(type) === 'done';
-  title.textContent = _allDone ?
+  var _doneToday = _allDone && _adhkarProgressIsToday(type);
+  title.textContent = _doneToday ?
+    (isAr ? 'ما شاء الله، أكملتها اليوم ✨' : 'MashaAllah, you completed them today ✨') :
+    _allDone ?
     (isAr ? 'أذكارك السابقة مكتملة' : 'Your previous Adhkar are complete') :
     (isAr ? 'لديك تسبيح سابق لم يكتمل' : 'You have unfinished progress');
 
   var body = document.createElement('p');
   body.style.cssText = 'margin:0 0 22px;font-size:14px;color:#2c5f7a;line-height:1.7;';
-  body.textContent = _allDone ?
+  body.textContent = _doneToday ?
+    (isAr ?
+      (isMorning ? 'أكملت أذكار الصباح اليوم بالفعل. يمكنك مراجعتها، أو تصفيرها إن أردت إعادتها.' : 'أكملت أذكار المساء اليوم بالفعل. يمكنك مراجعتها، أو تصفيرها إن أردت إعادتها.') :
+      (isMorning ? 'You already completed the Morning Adhkar today. You can review them, or reset to repeat.' : 'You already completed the Evening Adhkar today. You can review them, or reset to repeat.')) :
+  _allDone ?
     (isAr ?
       (isMorning ? 'أذكار الصباح مكتملة من المرة السابقة. هل تريد تصفيرها والبدء من جديد؟' : 'أذكار المساء مكتملة من المرة السابقة. هل تريد تصفيرها والبدء من جديد؟') :
       (isMorning ? 'The Morning Adhkar were completed last time. Reset and start over?' : 'The Evening Adhkar were completed last time. Reset and start over?')) :
@@ -31891,6 +31957,7 @@ function showAdhkarContinuePrompt(type) {
   btnContinue.onmouseover = function() { this.style.transform = 'scale(1.03)'; };
   btnContinue.onmouseout = function() { this.style.transform = 'scale(1)'; };
   btnContinue.onclick = function() {
+    _adhkarMarkPromptHandled(type);
     _goToFirstUnfinishedAdhkar(type);
     overlay.style.animation = 'adhkarFadeOut 0.25s ease forwards';
     setTimeout(function() { overlay.remove(); }, 250);
@@ -31907,8 +31974,22 @@ function showAdhkarContinuePrompt(type) {
   btnReset.onmouseover = function() { this.style.transform = 'scale(1.02)'; };
   btnReset.onmouseout = function() { this.style.transform = 'scale(1)'; };
   btnReset.onclick = function() {
-    resetAdhkarGroupCounters(type);
+    _adhkarMarkPromptHandled(type);
+    var _snap = resetAdhkarGroupCounters(type);
     _goToFirstUnfinishedAdhkar(type);
+    // توست فيه "تراجع" لمدة 7 ثوانى (نصفّر مهلة التوست عشان ما يتبلعش لو فيه توست قبله)
+    if (typeof showToast === 'function') {
+      if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0;
+      showToast(isAr ? (isMorning ? '↺ تم تصفير أذكار الصباح' : '↺ تم تصفير أذكار المساء') :
+                       (isMorning ? '↺ Morning Adhkar reset' : '↺ Evening Adhkar reset'), {
+        actionLabel: isAr ? '↩ تراجع' : '↩ Undo',
+        duration: 7000,
+        onAction: function() {
+          undoResetAdhkarGroup(_snap);
+          _goToFirstUnfinishedAdhkar(type);
+        }
+      });
+    }
     overlay.style.animation = 'adhkarFadeOut 0.25s ease forwards';
     setTimeout(function() { overlay.remove(); }, 250);
   };
@@ -31931,7 +32012,7 @@ function showAdhkarContinuePrompt(type) {
   box.appendChild(note);
   overlay.appendChild(box);
 
-  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+  overlay.onclick = function(e) { if (e.target === overlay) { _adhkarMarkPromptHandled(type); overlay.remove(); } };
 
   document.body.appendChild(overlay);
 }
@@ -33083,6 +33164,7 @@ function _performTasbihAutoLap(button) {
   var count = parseInt(localStorage.getItem(key)) || 0;
   count++;
   localStorage.setItem(key, count);
+  if (typeof _adhkarStampProgress === 'function') _adhkarStampProgress(button);
 
   var box = button.querySelector('.tasbih-box');
   if (box) {
@@ -33293,6 +33375,7 @@ function incrementTasbih(event) {
   count++;
 
   localStorage.setItem(key, count);
+  if (typeof _adhkarStampProgress === 'function') _adhkarStampProgress(button);
   countEl.innerText = count;
 
   // بمجرد أول ضغطة تثبت كل صناديق التسبيح في كل الأذكار ولا تعود تومض/تختفي
@@ -37014,6 +37097,7 @@ function incrementTasbihKeyboard(box) {
   count++;
 
   localStorage.setItem(key, count);
+  if (typeof _adhkarStampProgress === 'function') _adhkarStampProgress(button);
   box.querySelector(".tasbih-count").innerText = count;
   markAllTasbihBoxesStarted();
 
