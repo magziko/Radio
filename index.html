@@ -424,8 +424,15 @@
   var _ocOn = _oc && localStorage.getItem('welcomeOccasionOverride') !== _oc.tag;
   /* الأولوية: مناسبة اللحظة ← الجمعة ← وقت اليوم (الفجر/المغرب) ← اختيار المستخدم (رمضان أضعف من الجمعة) */
   var _ph = window.wsPhaseToday();
-  var _phOn = _ph && !_oc && _td.getDay() !== 5 && localStorage.getItem('welcomePhaseOverride') !== _ph.tag;   // وقت اليوم يعمل في الأيام العادية فقط (لا يزاحم مناسبة ولا الجمعة)
-  if (_ocOn && !(_oc.style === 'ramadan' && _fri)) _ws = window.wsPick(_oc.style); else if (_fri) _ws = 'jumuah'; else if (_phOn) _ws = window.wsPick(_ph.style);
+  /* فترات اليوم مع المناسبات والجمعة: الفجر/العصر/الثلث الأخير تظهر فى وقتها حتى فى الجمعة ورمضان والحج (أيام طويلة/متكررة).
+     المناسبات الفريدة (العيدين/عرفة/عاشوراء/الإسراء/المولد/رأس السنة/ليالى القدر) تحتفظ بتصميمها طول اليوم. «المغرب» للأيام العادية فقط. */
+  var _LONG_OC = { ramadan: 1, hajj: 1 };
+  var _phOn = _ph && localStorage.getItem('welcomePhaseOverride') !== _ph.tag && (
+    (!_oc && _td.getDay() !== 5) ||
+    (_ph.style !== 'phase-maghrib' && (!_oc || _LONG_OC[_oc.style]))
+  );
+  window._wsPhaseTop = !!(_phOn && (_td.getDay() === 5 || _oc));   // الفترة غلبت الجمعة/المناسبة (يستخدمها setWelcomeStyle)
+  if (window._wsPhaseTop) _ws = window.wsPick(_ph.style); else if (_ocOn && !(_oc.style === 'ramadan' && _fri)) _ws = window.wsPick(_oc.style); else if (_fri) _ws = 'jumuah'; else if (_phOn) _ws = window.wsPick(_ph.style);
   window.wsApplyHajjAttrs();
   setInterval(window.wsApplyHajjAttrs, 300000);                                     // يتحدّث وقت «الغروب» والليلة لو الصفحة مفتوحة
   if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial' || _ws === 'arabesque' || _ws === 'lantern' || _ws === 'kiswa' || _ws === 'ramadan' || _ws === 'eid' || _ws === 'adha' || _ws === 'isra' || _ws === 'sabah' || _ws === 'jumuah' || _ws === 'hajj' || _ws === 'qadr' || _ws === 'andalus' || _ws === 'maghrib' || _ws === 'hijri' || _ws === 'ashura' || _ws === 'mawlid' || _ws === 'khatt' || _ws === 'rain' || _ws === 'sakina' || _ws === 'athkar' || _ws === 'tahajjud' || _ws === 'azkarday') { document.documentElement.classList.add('wstyle-' + _ws); if (_ws === 'khatt') window.wsLoadKhattFont(); }
@@ -5018,15 +5025,17 @@ setTimeout(autoScaleVerseFont, 100);
       window.setWelcomeStyle = function(s) {
         if (STYLES.indexOf(s) === -1) s = 'classic';
         try { localStorage.setItem('welcomeStyle', s); } catch (e) {}
+        var _skipDayOv = false;
+        try { _skipDayOv = !!(window._wsPhaseTop && typeof window.wsPhaseToday === 'function' && window.wsPhaseToday()); } catch (e) {}
         // يوم الجمعة يفتح التصميم الخاص تلقائيًا؛ لو اختار المستخدم تصميمًا آخر نحترم اختياره لباقي اليوم فقط
         try {
           var _d = new Date(), _k = _d.getFullYear() + '-' + (_d.getMonth() + 1) + '-' + _d.getDate();
-          if (_d.getDay() === 5) { if (s === 'jumuah') localStorage.removeItem('welcomeFridayOverride'); else localStorage.setItem('welcomeFridayOverride', _k); }
+          if (_d.getDay() === 5 && !_skipDayOv) { if (s === 'jumuah') localStorage.removeItem('welcomeFridayOverride'); else localStorage.setItem('welcomeFridayOverride', _k); }
         } catch (e) {}
         // مناسبة اليوم (رمضان/العيدين/الحج/الإسراء) تفتح تلقائيًا؛ لو اختار المستخدم غيرها نحترم اختياره لباقي الموسم
         try {
           var _o = (typeof window.wsOccasionToday === 'function') ? window.wsOccasionToday() : null;
-          if (_o) {
+          if (_o && !_skipDayOv) {
             if ((typeof window.wsPool === 'function' ? window.wsPool(_o.style) : [_o.style]).indexOf(s) > -1) localStorage.removeItem('welcomeOccasionOverride');
             else if (!(s === 'jumuah' && _o.style === 'ramadan')) localStorage.setItem('welcomeOccasionOverride', _o.tag);
           }
