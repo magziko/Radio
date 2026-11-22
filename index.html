@@ -32361,9 +32361,26 @@ function filterAdhkarSub(subType, btn) {
     // مكتملة النهارده من الفلتر العادى: ما تظهرش. وما نكرّرهاش بعد ما المستخدم تعامل معاها فى الجلسة.
     var _st = _adhkarGroupState(subType);
     var _staleDone = (_st === 'done' && !_adhkarProgressIsToday(subType));
-    var _showPrompt = _fromBanner ?
+    /* تقدّم من يوم سابق (مكتمل أو جزئي): يوم جديد = عدادات جديدة. نصفّرها تلقائيًا مع زر «تراجع» بدل ما تظهر مكتملة من أمس */
+    var _staleAny = (_st !== 'none' && !_adhkarProgressIsToday(subType));
+    var _showPrompt = !_staleAny && (_fromBanner ?
       _adhkarGroupHasProgress(subType, true) :
-      ((_st === 'partial' || _staleDone) && !_adhkarPromptHandled(subType));
+      ((_st === 'partial' || _staleDone) && !_adhkarPromptHandled(subType)));
+    if (_staleAny) {
+      var _isAr2 = (typeof isArabic !== 'undefined') ? isArabic : true;
+      var _snap2 = resetAdhkarGroupCounters(subType);
+      _adhkarMarkPromptHandled(subType);
+      setTimeout(function() { _goToFirstUnfinishedAdhkar(subType); }, 60);
+      if (typeof showToast === 'function') {
+        if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0;
+        showToast(_isAr2 ? (subType === 'morning' ? '🔄 بدأت أذكار الصباح من جديد (التقدم السابق من يوم سابق)' : '🔄 بدأت أذكار المساء من جديد (التقدم السابق من يوم سابق)') :
+                           (subType === 'morning' ? '🔄 Morning Adhkar reset for a new day' : '🔄 Evening Adhkar reset for a new day'), {
+          actionLabel: _isAr2 ? '↩ تراجع' : '↩ Undo',
+          duration: 7000,
+          onAction: function() { undoResetAdhkarGroup(_snap2); _goToFirstUnfinishedAdhkar(subType); }
+        });
+      }
+    }
     if (_showPrompt) {
       showAdhkarContinuePrompt(subType);
     }
