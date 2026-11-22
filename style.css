@@ -10741,6 +10741,11 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
     "h-wcolor       h-wcolor"
     "wscolor        wtint"
     "ornaments      sitebg"
+    "h-wopts        h-wopts"
+    "wautoocc       waltrot"
+    "wphaseprio     wrestore"
+    "wchip          wcountdown"
+    "wbadges        wadhkarbtn"
     "h-sync         h-sync";
   gap: 8px 10px;
 }
@@ -10751,6 +10756,15 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
 #gset-h-sync    { grid-area: h-sync; }
 #gset-h-wstyle  { grid-area: h-wstyle; }
 #gset-h-wcolor  { grid-area: h-wcolor; }
+#gset-h-wopts   { grid-area: h-wopts; }
+#settings-wautoocc-item   { grid-area: wautoocc; }
+#settings-waltrot-item    { grid-area: waltrot; }
+#settings-wphaseprio-item { grid-area: wphaseprio; }
+#settings-wrestore-item   { grid-area: wrestore; }
+#settings-wchip-item      { grid-area: wchip; }
+#settings-wcountdown-item { grid-area: wcountdown; }
+#settings-wbadges-item    { grid-area: wbadges; }
+#settings-wadhkarbtn-item { grid-area: wadhkarbtn; }
 #settings-wscolormode-item  { grid-area: wscolor; }
 #settings-wstintextra-item  { grid-area: wtint; }
 #settings-ornaments-item    { grid-area: ornaments; }
@@ -10787,7 +10801,7 @@ body:not(.dark-mode) #unifiedControls.in-welcome #pnb-play.is-loading::before {
 
 /* عناوين الأقسام (تظهر في تبويب عام فقط) */
 #settings-panel:not([data-active-tab="general"]):not([data-active-tab="welcome"]) .gset-head { display: none !important; }
-#settings-panel[data-active-tab="general"] :is(#gset-h-ui, #gset-h-sync, #gset-h-wstyle, #gset-h-wcolor) { display: none !important; }
+#settings-panel[data-active-tab="general"] :is(#gset-h-ui, #gset-h-sync, #gset-h-wstyle, #gset-h-wcolor, #gset-h-wopts) { display: none !important; }
 #settings-panel[data-active-tab="welcome"] :is(#gset-h-timers, #gset-h-play, #gset-h-alarm, #gset-h-filters) { display: none !important; }
 #settingsQuickGrid .gset-head {
   display: flex; align-items: center; gap: 8px;
@@ -10808,7 +10822,9 @@ body.dark-mode #settingsQuickGrid .gset-head { color: #cfe3f5; }
   #settings-randomseek-item, #settings-fullrandom-item, #settings-welcomefallback-item,
   #disableWelcomeToggleBtn, #welcomeAutoSwitchDurationGroup, #settings-flag-item,
   #settings-floatplay-item, #filtersReorderToggleBtn, #filtersResetOrderBtn,
-  #settings-holdseek-item, #settings-stopradiomedia-item, #settings-alarm-item, #settings-alarmadhan-item) {
+  #settings-holdseek-item, #settings-stopradiomedia-item, #settings-alarm-item, #settings-alarmadhan-item,
+  #settings-wautoocc-item, #settings-waltrot-item, #settings-wphaseprio-item, #settings-wrestore-item,
+  #settings-wchip-item, #settings-wcountdown-item, #settings-wbadges-item, #settings-wadhkarbtn-item) {
   display: flex; align-items: center; justify-content: flex-start; gap: 8px;
   min-height: 46px; padding: 8px 12px; border-radius: 14px;
   border: 1.5px solid rgba(var(--theme-c1-rgb), 0.22);
@@ -10820,7 +10836,9 @@ body:not(.dark-mode) #settings-panel:is([data-active-tab="general"], [data-activ
   #settings-randomseek-item, #settings-fullrandom-item, #settings-welcomefallback-item,
   #disableWelcomeToggleBtn, #welcomeAutoSwitchDurationGroup, #settings-flag-item,
   #settings-floatplay-item, #filtersReorderToggleBtn, #filtersResetOrderBtn,
-  #settings-holdseek-item, #settings-stopradiomedia-item, #settings-alarm-item, #settings-alarmadhan-item) {
+  #settings-holdseek-item, #settings-stopradiomedia-item, #settings-alarm-item, #settings-alarmadhan-item,
+  #settings-wautoocc-item, #settings-waltrot-item, #settings-wphaseprio-item, #settings-wrestore-item,
+  #settings-wchip-item, #settings-wcountdown-item, #settings-wbadges-item, #settings-wadhkarbtn-item) {
   background: rgba(var(--theme-c1-rgb), 0.06);
 }
 /* النص يأخذ المساحة المتاحة، والمفتاح/الحقل في آخر البطاقة */
@@ -20481,3 +20499,16 @@ html.wstyle-jumuaeve body #welcomeLogo::after {
 
 /* زر فتح الموقع الرئيسي انتقل إلى سطر الوصف (إذاعة القرآن الكريم…)؛ سبان البسملة القديم مخفي ويبقى في الـDOM للحفاظ على ترتيب nth-of-type في التصاميم */
 #siteWelcomeText #basmalaOpenSiteBtn { display: none !important; }
+
+/* خيارات الشاشة الترحيبية (التبديل التلقائي والشارات): نفس حجم بطاقات «متابعة الآيات» — تملأ الخانة والنص يلتف */
+#settings-panel[data-active-tab="welcome"] #settingsQuickGrid :is(#settings-wautoocc-item, #settings-waltrot-item, #settings-wphaseprio-item, #settings-wrestore-item,
+  #settings-wchip-item, #settings-wcountdown-item, #settings-wbadges-item, #settings-wadhkarbtn-item) {
+  width: 100%; max-width: 100%; margin: 0; box-sizing: border-box;
+}
+#settings-panel[data-active-tab="welcome"] #settingsQuickGrid :is(#settings-wautoocc-item, #settings-waltrot-item, #settings-wphaseprio-item, #settings-wrestore-item,
+  #settings-wchip-item, #settings-wcountdown-item, #settings-wbadges-item, #settings-wadhkarbtn-item) .wtb-text {
+  white-space: normal; line-height: 1.35; overflow-wrap: anywhere;
+}
+#settings-panel[data-active-tab="welcome"] #settingsQuickGrid #settings-wrestore-item .welcome-toggle-inline-input {
+  flex: 0 0 auto; margin-inline-start: auto; white-space: nowrap;
+}
