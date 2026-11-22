@@ -320,6 +320,27 @@
   }
   /* الساعة بالدقائق (معاينة: ?hhour=20) */
   function _wsClock() { var q = location.search.match(/[?&]hhour=(\d{1,2})/), n = new Date(); return q ? (+q[1]) * 60 : n.getHours() * 60 + n.getMinutes(); }
+  /* أذان المغرب بالدقائق من كاش المواقيت (افتراضي 18:00) */
+  function _wsMaghribMin() {
+    var t = 1080;
+    try { var c = JSON.parse(localStorage.getItem('pwTimingsCacheV2') || '{}'); if (c && c.timings && c.timings.Maghrib) { var p = String(c.timings.Maghrib).split(' ')[0].split(':'); t = (+p[0]) * 60 + (+p[1]); } } catch (e) {}
+    return t;
+  }
+  /* اليوم الأسبوعي 0=الأحد…6=السبت (معاينة: ?hday=4) */
+  function _wsDow() { var q = location.search.match(/[?&]hday=([0-6])/); return q ? +q[1] : new Date().getDay(); }
+  /* أذان الفجر بالدقائق من كاش المواقيت (افتراضي 04:30) */
+  function _wsFajrMin() {
+    var t = 270;
+    try { var c = JSON.parse(localStorage.getItem('pwTimingsCacheV2') || '{}'); if (c && c.timings && c.timings.Fajr) { var p = String(c.timings.Fajr).split(' ')[0].split(':'); t = (+p[0]) * 60 + (+p[1]); } } catch (e) {}
+    return t;
+  }
+  /* وضع الجمعة: «ليلة الجمعة» من مغرب الخميس حتى فجر الجمعة، ثم «الجمعة» باقي اليوم؛ غير ذلك null */
+  window.wsFriMode = function() {
+    var dw = _wsDow(), c = _wsClock();
+    if (dw === 4 && c >= _wsMaghribMin()) return 'jumuaeve';
+    if (dw === 5) return c < _wsFajrMin() ? 'jumuaeve' : 'jumuah';
+    return null;
+  };
   /* ===== مناسبة اللحظة → تصميمها ===== */
   function _wsOccasion(h) {
     var m = h.m, d = h.d, s = null;
@@ -330,14 +351,20 @@
       if (night) return { style: 'qadr', tag: 'qadr@' + h.y + '-' + night, night: night };
     }
     if (m === 12 && d === 10) s = 'adha';                                           // يوم العيد
-    else if (m === 12 && ((d >= 1 && d <= 9) || (d >= 11 && d <= 13))) s = 'hajj';  // العشر + التروية + عرفة + التشريق
+    else if (m === 12 && d === 9) s = 'arafah';                                     // يوم عرفة: تصميم مستقل عن الحج
+    else if (m === 12 && ((d >= 1 && d <= 8) || (d >= 11 && d <= 13))) s = 'hajj';  // العشر + التروية + التشريق
     else if (m === 10 && d >= 1 && d <= 3) s = 'eid';                               // عيد الفطر
+    else if (m === 10 && d >= 4 && d <= 12) s = 'sitt';                             // ست من شوال: بعد العيد وحتى الأيام البيض (13–15)
     else if (m === 7 && d === 27) s = 'isra';                                       // الإسراء والمعراج
+    else if (m === 7 && d === 1) s = 'rajab';                                       // أول رجب (شهر حرام)
+    else if (m === 9 && d >= 21) s = 'ashr';                                        // العشر الأواخر (21–30 رمضان)
     else if (m === 9) s = 'ramadan';                                                // رمضان
     else if (m === 1 && d === 1) s = 'hijri';                                       // رأس السنة الهجرية
-    else if (m === 1 && d === 10) s = 'ashura';                                     // عاشوراء
+    else if (m === 1 && (d === 9 || d === 10)) s = 'ashura';                        // تاسوعاء + عاشوراء
     else if (m === 3 && d === 12) s = 'mawlid';                                     // المولد النبوي
-    return s ? { style: s, tag: s + '@' + h.y } : null;
+    else if (m === 8 && (d === 15 || (d === 14 && _wsClock() >= _wsMaghribMin()))) s = 'shaaban';   // ليلة النصف من شعبان (من المغرب) ويوم 15
+    else if (d >= 13 && d <= 15) s = 'bayd';                                        // الأيام البيض من كل شهر هجري (13–15) — الأضعف أولوية
+    return s ? { style: s, tag: s + '@' + h.y + (s === 'bayd' ? '-' + h.m : '') } : null;
   }
   /* وقت اليوم لتصميم «الغروب»: day / sunset (المغرب→العشاء) / night — من كاش مواقيت الصلاة */
   function _wsPhase() {
@@ -357,9 +384,63 @@
     try { if (document.getElementById('wsKhattFont')) return; var l = document.createElement('link'); l.id = 'wsKhattFont'; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=Katibeh&family=Aref+Ruqaa:wght@400;700&display=swap'; document.head.appendChild(l); } catch (e) {}
   };
   window.wsHijriNow = function() { return _wsHijri(new Date()); };
+  /* شارات صغيرة تُعرض على أي تصميم دون تغيير الثيم: 🕋 الأشهر الحرم + 🌙 «اليوم يُستحب صيامه» (الاثنين والخميس حتى المغرب).
+     لا تظهر شارة الصيام في رمضان (فرض) ولا في العيدين وأيام التشريق (الصيام محرّم). تُوقَف من الإعدادات (welcomeBadges = off). */
+  var _WS_HARAM = { 1: ['محرّم', 'Muharram'], 7: ['رجب', 'Rajab'], 11: ['ذو القعدة', 'Dhul-Qa’dah'], 12: ['ذو الحجة', 'Dhul-Hijjah'] };
+  window.wsBadges = function(lang) {
+    var out = { haram: null, fast: null }, ar = lang === 'ar';
+    try {
+      if (localStorage.getItem('welcomeBadges') === 'off') return out;
+      var h = _wsHijri(new Date()), n = _WS_HARAM[h.m];
+      if (n) out.haram = {
+        text: '🕋 ' + (ar ? 'شهر حرام · ' + n[0] : 'Sacred month · ' + n[1]),
+        title: ar ? 'من الأشهر الحرم الأربعة (محرّم ورجب وذو القعدة وذو الحجة): عظّم الله حرمتها، فالذنب فيها أعظم والعمل الصالح أعظم أجرًا'
+                  : 'One of the four sacred months (Muharram, Rajab, Dhul-Qa’dah, Dhul-Hijjah): sins are graver and good deeds more rewarding in them'
+      };
+      var dw = _wsDow();
+      if ((dw === 1 || dw === 4) && _wsClock() < _wsMaghribMin() && h.m !== 9 && !(h.m === 10 && h.d === 1) && !(h.m === 12 && h.d >= 10 && h.d <= 13)) out.fast = {
+        text: '🌙 ' + (ar ? 'اليوم يُستحب صيامه' : 'Fasting is recommended today'),
+        title: ar ? 'صيام الاثنين والخميس سُنّة: «تُعرض الأعمال يوم الاثنين والخميس، فأُحب أن يُعرض عملي وأنا صائم» (رواه الترمذي)'
+                  : 'Fasting on Mondays and Thursdays is Sunnah: “Deeds are presented on Monday and Thursday, and I love that mine be presented while I am fasting” (Tirmidhi)'
+      };
+    } catch (e) {}
+    return out;
+  };
   window.wsOccasionToday = function() { return _wsOccasion(_wsHijri(new Date())); };
+  /* مفتاح الإعدادات «التبديل التلقائي للمناسبات»: off = لا تتبدّل التصاميم تلقائيًا للمناسبات والجمعة (يبقى اختيارك، وتصاميم أوقات اليوم لها إعدادها) */
+  window.wsAutoOccOn = function() { try { return localStorage.getItem('welcomeAutoOccasions') !== 'off'; } catch (e) { return true; } };
+  /* مفتاح «أولوية أوقات اليوم»: on (الافتراضي) = تصاميم الفجر/الضحى/العصر/الثلث الأخير تغلب المناسبة والجمعة في وقتها؛ off = تظهر فقط في الأيام العادية */
+  window.wsPhasePriorityOn = function() { try { return localStorage.getItem('welcomePhasePriority') !== 'off'; } catch (e) { return true; } };
+  /* مفتاح «التناوب»: لو تعارضت مناسبة مع الجمعة يتبادل التصميمان عند كل فتح للموقع (الافتراضي: مفعّل) */
+  window.wsAltOn = function() { try { return localStorage.getItem('welcomeAltRotate') !== 'off'; } catch (e) { return true; } };
+  /* ===== عدّ تنازلي: أقرب (رمضان / عيد الفطر / الحج ٨ ذو الحجة / عيد الأضحى) بالتقويم الهجري (أم القرى) ===== */
+  var _CD_EV = [{ k: 'ramadan', m: 9, d: 1 }, { k: 'fitr', m: 10, d: 1 }, { k: 'hajj', m: 12, d: 8 }, { k: 'adha', m: 12, d: 10 }], _cdCache = null;
+  window.wsCountdownNext = function() {
+    try {
+      var n = new Date(), pv = location.search.match(/[?&]hdate=(\d{1,2})-(\d{1,2})/);
+      var key = n.getFullYear() + '-' + n.getMonth() + '-' + n.getDate() + '|' + (pv ? pv[0] : '') + '|' + (localStorage.getItem('hijriOffset') || '0');
+      if (_cdCache && _cdCache.k === key) return _cdCache.v;
+      var res = null;
+      for (var i = 1; i <= 400 && !res; i++) {                                       // من الغد: يوم المناسبة نفسه يعرضه تصميمها
+        var h;
+        if (pv) { var ix = (+pv[1] - 1) * 30 + (+pv[2] - 1) + i; h = { m: Math.floor(ix / 30) % 12 + 1, d: ix % 30 + 1 }; }   // معاينة ?hdate=
+        else h = _wsHijri(new Date(n.getFullYear(), n.getMonth(), n.getDate() + i, 12));
+        for (var j = 0; j < _CD_EV.length; j++) if (_CD_EV[j].m === h.m && _CD_EV[j].d === h.d) { res = { key: _CD_EV[j].k, days: i }; break; }
+      }
+      _cdCache = { k: key, v: res };
+      return res;
+    } catch (e) { return null; }
+  };
+  var _CD_NAME = { ar: { ramadan: 'رمضان', fitr: 'عيد الفطر', hajj: 'الحج', adha: 'عيد الأضحى' }, en: { ramadan: 'Ramadan', fitr: 'Eid al-Fitr', hajj: 'Hajj', adha: 'Eid al-Adha' } };
+  var _CD_ICO = { ramadan: '🌙', fitr: '🎉', hajj: '🕋', adha: '🐑' };
+  window.wsCountdownText = function(cd, lang) {
+    var ar = lang === 'ar', nm = _CD_NAME[ar ? 'ar' : 'en'][cd.key], n = cd.days, t;
+    if (ar) t = n === 1 ? 'باقي يوم واحد على ' + nm : n === 2 ? 'باقي يومان على ' + nm : 'باقي ' + n + (n <= 10 ? ' أيام' : ' يومًا') + ' على ' + nm;
+    else t = n + (n === 1 ? ' day' : ' days') + ' until ' + nm;
+    return { text: _CD_ICO[cd.key] + ' ' + t, title: ar ? 'حسب تقويم أم القرى — قد يختلف يومًا بحسب رؤية الهلال' : 'Based on the Umm al-Qura calendar — may differ by a day with moon sighting' };
+  };
   /* ===== تصاميم متعددة للمناسبة الواحدة: يُختار واحد منها عشوائيًا عند كل فتح (دون تكرار نفس التصميم مرتين متتاليتين) ===== */
-  var _WS_POOLS = { ramadan: ['ramadan', 'lantern'], hajj: ['hajj', 'kiswa'], adha: ['adha', 'kiswa'], 'phase-fajr': ['sabah', 'fajr', 'azkarday'], 'phase-asr': ['azkarday'], 'phase-maghrib': ['maghrib'], 'phase-tahajjud': ['tahajjud'] };
+  var _WS_POOLS = { ramadan: ['ramadan', 'lantern'], hajj: ['hajj', 'kiswa'], adha: ['adha', 'kiswa'], 'phase-fajr': ['sabah', 'fajr', 'azkarday'], 'phase-asr': ['azkarday'], 'phase-duha': ['duha'], 'phase-adhkarlate': ['azkarday'], 'phase-maghrib': ['maghrib'], 'phase-tahajjud': ['tahajjud'] };
   window.wsPool = function(k) { return _WS_POOLS[k] || [k]; };
   window.wsPick = function(k) {
     var p = window.wsPool(k), last = null;
@@ -385,6 +466,9 @@
         return { style: 'phase-tahajjud', tag: 'tahajjud@' + _dk.getFullYear() + '-' + (_dk.getMonth() + 1) + '-' + _dk.getDate() };
       }
       if (n >= fj && n < sr) return { style: 'phase-fajr', tag: 'fajr@' + k };
+      var _dr = c.timings.Dhuhr ? g('Dhuhr') - 10 : 1440;   // الضحى/تذكير الأذكار لا يتعدّيا قبيل الظهر بـ10 دقائق
+      if (n >= sr && n < sr + 180 && n < _dr) return { style: 'phase-duha', tag: 'duha@' + k, mins: n - sr };   // الضحى: 3 ساعات من الشروق (mins = الدقائق منذ الشروق)
+      if (n >= sr + 180 && n < sr + 240 && n < _dr) return { style: 'phase-adhkarlate', tag: 'adhkarlate@' + k, mins: n - sr };   // تذكير بأذكار الصباح لمن فاته وقتها بعد الفجر: ساعة بعد انتهاء الضحى
       if (c.timings.Asr && n >= g('Asr') && n < mg) return { style: 'phase-asr', tag: 'asr@' + k };   // أذكار المساء: بعد العصر حتى المغرب
       if (n >= mg && n < is) return { style: 'phase-maghrib', tag: 'maghrib@' + k };
     } catch (e) {}
@@ -399,7 +483,7 @@
       if (c && c.timings) Object.keys(t).forEach(function(k) { if (c.timings[k]) { var p = String(c.timings[k]).split(' ')[0].split(':'); t[k] = (+p[0]) * 60 + (+p[1]); } });
     } catch (e) {}
     var n = _wsClock();
-    return { mode: (n >= t.Fajr && n < t.Dhuhr) ? 'morning' : 'evening', live: (n >= t.Fajr && n < t.Sunrise) || (n >= t.Asr && n < t.Maghrib) };
+    return { mode: (n >= t.Fajr && n < t.Dhuhr) ? 'morning' : 'evening', live: (n >= t.Fajr && n < t.Sunrise) || (n >= t.Asr && n < t.Maghrib) || (n >= t.Sunrise + 180 && n < t.Sunrise + 240 && n < t.Dhuhr - 10) };
   };
   window.wsApplyHajjAttrs = function() {
     try {
@@ -411,31 +495,59 @@
       if (oc && oc.night) r.style.setProperty('--qd-date', '"ليلة ' + oc.night + ' رمضان ' + h.y + ' هـ"'); else r.style.removeProperty('--qd-date');
       r.setAttribute('data-dusk', _wsPhase());
       var _pt = window.wsPhaseToday(); if (_pt && _pt.style === 'phase-tahajjud') r.setAttribute('data-tahajjud-live', 'on'); else r.removeAttribute('data-tahajjud-live');   // شارة «الثلث الأخير» داخل نافذة الوقت فقط
+      if (_pt && _pt.style === 'phase-duha') r.setAttribute('data-duha-live', 'on'); else r.removeAttribute('data-duha-live');   // شارة «وقت الضحى» داخل نافذة الوقت فقط
       var _ad = window.wsAdhkarState(); r.setAttribute('data-azkar', _ad.mode); if (_ad.live) r.setAttribute('data-azkar-live', 'on'); else r.removeAttribute('data-azkar-live');
       var _mn = ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
       r.style.setProperty('--ev-date', '"' + h.d + ' ' + _mn[h.m - 1] + ' ' + h.y + ' هـ"');   // تاريخ اليوم الهجري لشارة تصاميم المناسبات الجديدة
+      /* تنويعات حسب اليوم: تاسوعاء مع عاشوراء، ليلة النصف من شعبان، ورقم اليوم من الأيام البيض */
+      ['data-ashura-day', 'data-shaaban', 'data-bayd-day'].forEach(function(a) { r.removeAttribute(a); });
+      if (h.m === 1 && h.d === 9) r.setAttribute('data-ashura-day', 'tasua');
+      if (h.m === 8 && ((h.d === 14 && _wsClock() >= _wsMaghribMin()) || (h.d === 15 && _wsClock() < 300))) r.setAttribute('data-shaaban', 'night');
+      if (h.d >= 13 && h.d <= 15) r.setAttribute('data-bayd-day', String(h.d));
     } catch (e) {}
   };
 
   var _ws = localStorage.getItem('welcomeStyle');
+  window._wsBaseAtLoad = _ws || 'classic';   // التصميم الأساسى وقت فتح الصفحة (لزر «استعادة الثيم الافتراضى»)
+  /* التصميم التلقائى الآن (مناسبة/جمعة/وقت اليوم) بدون النظر لإخفاء المستخدم أو اختياره — نفس قواعد الاختيار أدناه؛ null لو مفيش تصميم تلقائى */
+  window.wsAutoStyleNow = function() {
+    try {
+      var ao = window.wsAutoOccOn(), fm = ao ? window.wsFriMode() : null, fri = !!fm;   // fm = 'jumuah' | 'jumuaeve' (ليلة الجمعة) | null
+      var oc = ao ? window.wsOccasionToday() : null, ph = window.wsPhaseToday();
+      var LONG = { ramadan: 1, ashr: 1, hajj: 1, bayd: 1 };
+      var phOn = ph && ((!oc && !fri) || (window.wsPhasePriorityOn() && ph.style !== 'phase-maghrib' && !(ph.style === 'phase-duha' && ph.mins > 90) && (!oc || LONG[oc.style])));
+      if (phOn && (fri || oc)) return window.wsPick(ph.style);
+      if (oc && fri && window.wsAltOn()) return window._wsAltFri ? fm : window.wsPick(oc.style);   // نفس قرار التناوب لهذا الفتح
+      if (oc && !((oc.style === 'ramadan' || oc.style === 'ashr') && fri)) return window.wsPick(oc.style);
+      if (fri) return fm;
+      if (phOn) return window.wsPick(ph.style);
+    } catch (e) {}
+    return null;
+  };
   var _td = new Date(), _tk = _td.getFullYear() + '-' + (_td.getMonth() + 1) + '-' + _td.getDate();
-  var _fri = _td.getDay() === 5 && localStorage.getItem('welcomeFridayOverride') !== _tk;
-  var _oc = window.wsOccasionToday();
+  var _fm = window.wsAutoOccOn() ? window.wsFriMode() : null;   // 'jumuah' | 'jumuaeve' | null
+  var _isFri = !!_fm;
+  var _fri = _isFri && localStorage.getItem('welcomeFridayOverride') !== _tk;
+  var _oc = window.wsAutoOccOn() ? window.wsOccasionToday() : null;
   var _ocOn = _oc && localStorage.getItem('welcomeOccasionOverride') !== _oc.tag;
+  /* تعارض المناسبة مع الجمعة: يتناوبان عند كل فتح (مناسبة ← جمعة ← مناسبة …) بعدّاد محفوظ لا يتقدّم إلا عند التعارض */
+  var _altOn = !!(_ocOn && _fri && window.wsAltOn());
+  window._wsAltFri = false;
+  if (_altOn) { try { var _an = (parseInt(localStorage.getItem('welcomeAltCount') || '0', 10) || 0) + 1; localStorage.setItem('welcomeAltCount', String(_an)); window._wsAltFri = (_an % 2 === 0); } catch (e) {} }
   /* الأولوية: مناسبة اللحظة ← الجمعة ← وقت اليوم (الفجر/المغرب) ← اختيار المستخدم (رمضان أضعف من الجمعة) */
   var _ph = window.wsPhaseToday();
   /* فترات اليوم مع المناسبات والجمعة: الفجر/العصر/الثلث الأخير تظهر فى وقتها حتى فى الجمعة ورمضان والحج (أيام طويلة/متكررة).
      المناسبات الفريدة (العيدين/عرفة/عاشوراء/الإسراء/المولد/رأس السنة/ليالى القدر) تحتفظ بتصميمها طول اليوم. «المغرب» للأيام العادية فقط. */
-  var _LONG_OC = { ramadan: 1, hajj: 1 };
+  var _LONG_OC = { ramadan: 1, ashr: 1, hajj: 1, bayd: 1 };
   var _phOn = _ph && localStorage.getItem('welcomePhaseOverride') !== _ph.tag && (
-    (!_oc && _td.getDay() !== 5) ||
-    (_ph.style !== 'phase-maghrib' && (!_oc || _LONG_OC[_oc.style]))
+    (!_oc && !_isFri) ||
+    (window.wsPhasePriorityOn() && _ph.style !== 'phase-maghrib' && !(_ph.style === 'phase-duha' && _ph.mins > 90) && (!_oc || _LONG_OC[_oc.style]))   // الضحى فى الجمعة/رمضان/الحج: أول 90 دقيقة بعد الشروق فقط
   );
-  window._wsPhaseTop = !!(_phOn && (_td.getDay() === 5 || _oc));   // الفترة غلبت الجمعة/المناسبة (يستخدمها setWelcomeStyle)
-  if (window._wsPhaseTop) _ws = window.wsPick(_ph.style); else if (_ocOn && !(_oc.style === 'ramadan' && _fri)) _ws = window.wsPick(_oc.style); else if (_fri) _ws = 'jumuah'; else if (_phOn) _ws = window.wsPick(_ph.style);
+  window._wsPhaseTop = !!(_phOn && (_isFri || _oc));   // الفترة غلبت الجمعة/المناسبة (يستخدمها setWelcomeStyle)
+  if (window._wsPhaseTop) _ws = window.wsPick(_ph.style); else if (_altOn) _ws = window._wsAltFri ? _fm : window.wsPick(_oc.style); else if (_ocOn && !((_oc.style === 'ramadan' || _oc.style === 'ashr') && _fri)) _ws = window.wsPick(_oc.style); else if (_fri) _ws = _fm; else if (_phOn) _ws = window.wsPick(_ph.style);
   window.wsApplyHajjAttrs();
   setInterval(window.wsApplyHajjAttrs, 300000);                                     // يتحدّث وقت «الغروب» والليلة لو الصفحة مفتوحة
-  if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial' || _ws === 'arabesque' || _ws === 'lantern' || _ws === 'kiswa' || _ws === 'ramadan' || _ws === 'eid' || _ws === 'adha' || _ws === 'isra' || _ws === 'sabah' || _ws === 'jumuah' || _ws === 'hajj' || _ws === 'qadr' || _ws === 'andalus' || _ws === 'maghrib' || _ws === 'hijri' || _ws === 'ashura' || _ws === 'mawlid' || _ws === 'khatt' || _ws === 'rain' || _ws === 'sakina' || _ws === 'athkar' || _ws === 'tahajjud' || _ws === 'azkarday') { document.documentElement.classList.add('wstyle-' + _ws); if (_ws === 'khatt') window.wsLoadKhattFont(); }
+  if (_ws === 'noor' || _ws === 'mushaf' || _ws === 'fajr' || _ws === 'bold' || _ws === 'player' || _ws === 'editorial' || _ws === 'arabesque' || _ws === 'lantern' || _ws === 'kiswa' || _ws === 'ramadan' || _ws === 'eid' || _ws === 'adha' || _ws === 'isra' || _ws === 'sabah' || _ws === 'jumuah' || _ws === 'hajj' || _ws === 'qadr' || _ws === 'ashr' || _ws === 'andalus' || _ws === 'maghrib' || _ws === 'hijri' || _ws === 'ashura' || _ws === 'mawlid' || _ws === 'khatt' || _ws === 'rain' || _ws === 'sakina' || _ws === 'athkar' || _ws === 'tahajjud' || _ws === 'azkarday' || _ws === 'duha' || _ws === 'shaaban' || _ws === 'arafah' || _ws === 'bayd' || _ws === 'sitt' || _ws === 'rajab' || _ws === 'jumuaeve') { document.documentElement.classList.add('wstyle-' + _ws); if (_ws === 'khatt') window.wsLoadKhattFont(); }
 } catch(e) {} })();
 /* الزخارف الإسلامية الخفيفة في بقية التصاميم: تُوقَف بالقيمة off */
 (function(){ try { if (localStorage.getItem('welcomeOrnaments') === 'off') document.documentElement.classList.add('worn-off'); } catch(e) {} })();
@@ -522,19 +634,21 @@
 </div>
 
 <p id="siteWelcomeText">
-    <span id="basmalaOpenSiteBtn" onclick="window.open('https://radioquran.github.io/M/','_blank')" title="فتح الموقع الرئيسي / Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">
-        🕌 بسم الله الرحمن الرحيم
-    </span>
+    <span id="basmalaOpenSiteBtn" title="فتح الموقع الرئيسي / Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#7f8c8d; display:none; margin-bottom:4px; "></span>
     <span style="font-size:26px; font-weight:700; display:block; color:var(--theme-c4); line-height:1.2;">
         مرحبًا بكم في
     </span>
     <span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:var(--theme-c2); letter-spacing:0.5px;">
         <a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit; cursor:pointer;">📻 <strong>Radio Ma</strong></a>
     </span>
-    <span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">
-        إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية
-    </span>
+    <span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;"><a href="https://radioquran.github.io/M/" target="_blank" rel="noopener noreferrer" title="فتح الموقع الرئيسي / Open main site" style="color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;">إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية</a></span>
 </p>
+
+<div id="welcomeQuickRow" style="order:2;display:none;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin:2px auto 0;">
+    <span id="welcomePrayerChip" role="button" tabindex="0" style="display:none;align-items:center;gap:6px;cursor:pointer;padding:5px 14px;border-radius:999px;font:700 12.5px/1.5 Cairo,sans-serif;color:inherit;background:rgba(127,127,127,0.14);border:1px solid rgba(127,127,127,0.3);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);"></span>
+    <span id="welcomeCountdownChip" style="display:none;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;font:700 12.5px/1.5 Cairo,sans-serif;color:inherit;background:rgba(127,127,127,0.14);border:1px solid rgba(127,127,127,0.3);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);"></span>
+    <button id="welcomeAdhkarBtn" type="button" style="display:none;align-items:center;gap:6px;cursor:pointer;padding:5px 14px;border-radius:999px;font:700 12.5px/1.5 Cairo,sans-serif;color:inherit;background:rgba(217,162,27,0.22);border:1px solid rgba(217,162,27,0.55);"></button>
+</div>
 
 <div id="quranVerse" style="margin: 20px 0; flex-shrink: 0;">
     <p class="basmala-line">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
@@ -4625,7 +4739,7 @@ setTimeout(autoScaleVerseFont, 100);
 <script>
 (function(){
   var KS='wsTintStrength',KE='wsTintExclude',root=document.documentElement;
-  var DEF_EXCL=['ramadan','eid','adha','hajj','hijri','ashura','isra','mawlid','qadr','mushaf','fajr'];
+  var DEF_EXCL=['ramadan','eid','adha','hajj','hijri','ashura','isra','mawlid','qadr','ashr','mushaf','fajr','shaaban','arafah','bayd','sitt','rajab'];
   function tintOn(){try{return localStorage.getItem('wsFollowSite')==='true';}catch(e){return false;}}
   function getStr(){var v=NaN;try{v=parseInt(localStorage.getItem(KS),10);}catch(e){}return isNaN(v)?35:Math.max(0,Math.min(100,v));}
   function getEx(){
@@ -4686,7 +4800,7 @@ setTimeout(autoScaleVerseFont, 100);
 </script>
 <script>
 (function(){
-  var ACC={"adha":"#f6dc9a","andalus":"#f6d98a","arabesque":"#efd890","ashura":"#2a6fb0","athkar":"#e4b862","azkarday":"#e0a94e","bold":"#ffd23f","editorial":"#ff5a3c","eid":"#f6d365","fajr":"#f4a261","hajj":"#f6d98a","hijri":"#f6d98a","isra":"#8b7cff","jumuah":"#f6d98a","khatt":"#f3dd9f","kiswa":"#f3dc8a","lantern":"#ffb84a","maghrib":"#ffc98a","mawlid":"#f6d98a","mushaf":"#b08d3e","noor":"#e7c675","player":"#5b7cfa","qadr":"#d4a73a","rain":"#8fbbe8","ramadan":"#ffc857","sabah":"#f6d98a","sakina":"#8fd0aa","tahajjud":"#9aa4f0"};
+  var ACC={"adha":"#f6dc9a","andalus":"#f6d98a","arabesque":"#efd890","ashura":"#2a6fb0","shaaban":"#2a7f8f","arafah":"#b4531f","bayd":"#3b5a8c","sitt":"#3f8f4e","rajab":"#9c3d5b","jumuaeve":"#4a63a8","athkar":"#e4b862","azkarday":"#e0a94e","bold":"#ffd23f","duha":"#e8b72d","editorial":"#ff5a3c","eid":"#f6d365","fajr":"#f4a261","hajj":"#f6d98a","hijri":"#f6d98a","isra":"#8b7cff","jumuah":"#f6d98a","khatt":"#f3dd9f","kiswa":"#f3dc8a","lantern":"#ffb84a","maghrib":"#ffc98a","mawlid":"#f6d98a","mushaf":"#b08d3e","noor":"#e7c675","player":"#5b7cfa","qadr":"#d4a73a","ashr":"#d4a73a","rain":"#8fbbe8","ramadan":"#ffc857","sabah":"#f6d98a","sakina":"#8fd0aa","tahajjud":"#9aa4f0"};
   var K1='wsFollowSite',K2='siteFollowWs',root=document.documentElement,lastApplied='';
   function on(k){try{return localStorage.getItem(k)==='true';}catch(e){return false;}}
   function put(k,v){try{localStorage.setItem(k,v?'true':'false');}catch(e){}}
@@ -4705,7 +4819,7 @@ setTimeout(autoScaleVerseFont, 100);
   }
   function applyTint(){root.classList.toggle('ws-follow-site',on(K1));}
   function syncSite(){
-    if(!on(K2))return;
+    if(!on(K2)||window._wsPreviewing)return;
     var st=curStyle();if(!st||!ACC[st])return;
     var th=(st==='azkarday')?(root.getAttribute('data-azkar')==='evening'?'adhkar-evening':'adhkar-morning'):nearest(ACC[st]);if(!th||th===lastApplied)return;
     lastApplied=th;
@@ -4750,6 +4864,7 @@ setTimeout(autoScaleVerseFont, 100);
 })();
 </script>
     <div class="gset-head" id="gset-h-wstyle" role="heading" aria-level="3"><span class="stab-i18n" data-ar="🎨 تصميم الشاشة الترحيبية" data-en="🎨 Welcome Design">🎨 تصميم الشاشة الترحيبية</span></div>
+    <div class="ws-hint stab-i18n" data-stab="welcome" data-ar="💡 اضغط مطولًا على أي تصميم لمعاينته مؤقتًا دون حفظ" data-en="💡 Long-press any design to preview it temporarily, without saving">💡 اضغط مطولًا على أي تصميم لمعاينته مؤقتًا دون حفظ</div>
     <div id="welcomeStylePicker" data-stab="welcome" class="ws-picker" role="radiogroup" aria-label="Welcome screen design">
       <button type="button" class="ws-opt is-active" data-style="classic" role="radio" aria-checked="true" onclick="setWelcomeStyle('classic')">
         <span class="ws-thumb ws-thumb--classic" aria-hidden="true"><b></b><i></i><i></i></span>
@@ -4841,6 +4956,11 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="ws-opt-name stab-i18n" data-ar="ليلة القدر (جديد)" data-en="Laylat al-Qadr (New)">ليلة القدر (جديد)</span>
         <span class="ws-opt-desc stab-i18n" data-ar="سماء ليلية بنجوم وشعاع نور نازل وهالة نابضة حول الشعار وهلال، ويفتح تلقائيًا في ليالي رمضان الوترية من المغرب إلى الفجر" data-en="A starry night sky with a descending beam of light, a pulsing halo around the logo and a crescent; opens automatically on the odd nights of Ramadan from Maghrib until dawn">سماء ليلية بنجوم وشعاع نور نازل وهالة نابضة حول الشعار وهلال، ويفتح تلقائيًا في ليالي رمضان الوترية من المغرب إلى الفجر</span>
       </button>
+      <button type="button" class="ws-opt" data-style="ashr" role="radio" aria-checked="false" onclick="setWelcomeStyle('ashr')">
+        <span class="ws-thumb ws-thumb--ashr" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="العشر الأواخر (جديد)" data-en="Last Ten Nights (New)">العشر الأواخر (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل زمرّدي بنجوم وشعاع نور وهالة نابضة حول الشعار وهلال وشارة بتاريخ اليوم، ويفتح تلقائيًا من 21 إلى 30 رمضان" data-en="An emerald night with stars, a beam of light, a pulsing halo around the logo, a crescent and a date badge; opens automatically from 21 to 30 Ramadan">ليل زمرّدي بنجوم وشعاع نور وهالة نابضة حول الشعار وهلال وشارة بتاريخ اليوم، ويفتح تلقائيًا من 21 إلى 30 رمضان</span>
+      </button>
       <button type="button" class="ws-opt" data-style="andalus" role="radio" aria-checked="false" onclick="setWelcomeStyle('andalus')">
         <span class="ws-thumb ws-thumb--andalus" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
         <span class="ws-opt-name stab-i18n" data-ar="الأندلس (جديد)" data-en="Andalusia (New)">الأندلس (جديد)</span>
@@ -4859,12 +4979,42 @@ setTimeout(autoScaleVerseFont, 100);
       <button type="button" class="ws-opt" data-style="ashura" role="radio" aria-checked="false" onclick="setWelcomeStyle('ashura')">
         <span class="ws-thumb ws-thumb--ashura" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
         <span class="ws-opt-name stab-i18n" data-ar="عاشوراء (جديد)" data-en="Ashura (New)">عاشوراء (جديد)</span>
-        <span class="ws-opt-desc stab-i18n" data-ar="بحر هادئ بفضة وأزرق تحت قمر فضي وفكرة الصيام والشكر، ويفتح تلقائيًا في 10 محرم" data-en="A calm silver-and-blue sea under a silver moon, with the theme of fasting and gratitude; opens automatically on 10 Muharram">بحر هادئ بفضة وأزرق تحت قمر فضي وفكرة الصيام والشكر، ويفتح تلقائيًا في 10 محرم</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="بحر هادئ بفضة وأزرق تحت قمر فضي وفكرة الصيام والشكر، ويفتح تلقائيًا في 9 (تاسوعاء) و10 محرم" data-en="A calm silver-and-blue sea under a silver moon, with the theme of fasting and gratitude; opens automatically on 9 (Tasu’a) and 10 Muharram">بحر هادئ بفضة وأزرق تحت قمر فضي وفكرة الصيام والشكر، ويفتح تلقائيًا في 9 (تاسوعاء) و10 محرم</span>
       </button>
       <button type="button" class="ws-opt" data-style="mawlid" role="radio" aria-checked="false" onclick="setWelcomeStyle('mawlid')">
         <span class="ws-thumb ws-thumb--mawlid" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
         <span class="ws-opt-name stab-i18n" data-ar="المولد النبوي (جديد)" data-en="Mawlid (New)">المولد النبوي (جديد)</span>
         <span class="ws-opt-desc stab-i18n" data-ar="القبة الخضراء بأخضر وذهبي مع الصلاة على النبي ﷺ، ويفتح تلقائيًا في 12 ربيع الأول" data-en="The Green Dome in green and gold with salutations upon the Prophet ﷺ; opens automatically on 12 Rabi al-Awwal">القبة الخضراء بأخضر وذهبي مع الصلاة على النبي ﷺ، ويفتح تلقائيًا في 12 ربيع الأول</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="shaaban" role="radio" aria-checked="false" onclick="setWelcomeStyle('shaaban')">
+        <span class="ws-thumb ws-thumb--shaaban" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="نصف شعبان (جديد)" data-en="Mid-Sha’ban (New)">نصف شعبان (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل فيروزي بقمر كامل وأفق مساجد، ويفتح تلقائيًا من مغرب 14 شعبان (ليلة النصف) ويوم 15 شعبان" data-en="A turquoise night with a full moon and a mosque skyline; opens automatically from Maghrib on 14 Sha’ban (the night of mid-Sha’ban) and on 15 Sha’ban">ليل فيروزي بقمر كامل وأفق مساجد، ويفتح تلقائيًا من مغرب 14 شعبان (ليلة النصف) ويوم 15 شعبان</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="arafah" role="radio" aria-checked="false" onclick="setWelcomeStyle('arafah')">
+        <span class="ws-thumb ws-thumb--arafah" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="يوم عرفة (جديد)" data-en="Day of Arafah (New)">يوم عرفة (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="شمس مشرقة فوق جبل عرفة بألوان الرمل والذهب مع فضل صيام عرفة والدعاء، ويفتح تلقائيًا يوم 9 ذو الحجة" data-en="A bright sun over Mount Arafah in sand and gold, with the virtue of fasting and du’a on Arafah; opens automatically on 9 Dhul-Hijjah">شمس مشرقة فوق جبل عرفة بألوان الرمل والذهب مع فضل صيام عرفة والدعاء، ويفتح تلقائيًا يوم 9 ذو الحجة</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="bayd" role="radio" aria-checked="false" onclick="setWelcomeStyle('bayd')">
+        <span class="ws-thumb ws-thumb--bayd" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الأيام البيض (جديد)" data-en="White Days (New)">الأيام البيض (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل أزرق بقمر بدر وفضل صيام 13 و14 و15 من كل شهر هجري، ويفتح تلقائيًا في هذه الأيام" data-en="A blue night with a full moon and the virtue of fasting the 13th, 14th and 15th of every Hijri month; opens automatically on those days">ليل أزرق بقمر بدر وفضل صيام 13 و14 و15 من كل شهر هجري، ويفتح تلقائيًا في هذه الأيام</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="sitt" role="radio" aria-checked="false" onclick="setWelcomeStyle('sitt')">
+        <span class="ws-thumb ws-thumb--sitt" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="ستّ شوال (جديد)" data-en="Six of Shawwal (New)">ستّ شوال (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل أخضر بهلال ذهبي وفضل صيام ست من شوال، ويفتح تلقائيًا من 4 إلى 12 شوال (بعد العيد وقبل الأيام البيض)" data-en="A green night with a golden crescent and the virtue of fasting six days of Shawwal; opens automatically from 4 to 12 Shawwal (after Eid, before the White Days)">ليل أخضر بهلال ذهبي وفضل صيام ست من شوال، ويفتح تلقائيًا من 4 إلى 12 شوال (بعد العيد وقبل الأيام البيض)</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="rajab" role="radio" aria-checked="false" onclick="setWelcomeStyle('rajab')">
+        <span class="ws-thumb ws-thumb--rajab" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="أول رجب (جديد)" data-en="First of Rajab (New)">أول رجب (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل خمري بهلال ذهبي وآية الأشهر الحرم «مِنْهَا أَرْبَعَةٌ حُرُمٌ»، ويفتح تلقائيًا يوم 1 رجب" data-en="A wine-red night with a golden crescent and the verse of the sacred months; opens automatically on 1 Rajab">ليل خمري بهلال ذهبي وآية الأشهر الحرم «مِنْهَا أَرْبَعَةٌ حُرُمٌ»، ويفتح تلقائيًا يوم 1 رجب</span>
+      </button>
+      <button type="button" class="ws-opt" data-style="jumuaeve" role="radio" aria-checked="false" onclick="setWelcomeStyle('jumuaeve')">
+        <span class="ws-thumb ws-thumb--jumuaeve" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="ليلة الجمعة (جديد)" data-en="Friday Eve (New)">ليلة الجمعة (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="ليل أزرق هادئ بهلال فضّي وتذكير بسورة الكهف والصلاة على النبي ﷺ، ويفتح تلقائيًا من مغرب الخميس حتى فجر الجمعة" data-en="A calm blue night with a silver crescent, reminding you of Surat Al-Kahf and salawat upon the Prophet ﷺ; opens automatically from Thursday Maghrib until Friday Fajr">ليل أزرق هادئ بهلال فضّي وتذكير بسورة الكهف والصلاة على النبي ﷺ، ويفتح تلقائيًا من مغرب الخميس حتى فجر الجمعة</span>
       </button>
       <button type="button" class="ws-opt" data-style="khatt" role="radio" aria-checked="false" onclick="setWelcomeStyle('khatt')">
         <span class="ws-thumb ws-thumb--khatt" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
@@ -4886,6 +5036,11 @@ setTimeout(autoScaleVerseFont, 100);
         <span class="ws-opt-name stab-i18n" data-ar="الأذكار (جديد)" data-en="Adhkar (New)">الأذكار (جديد)</span>
         <span class="ws-opt-desc stab-i18n" data-ar="سبحة ذهبية متحرّكة على جانبي الشاشة بلون رمل دافئ وآية «فَاذْكُرُونِي أَذْكُرْكُمْ»" data-en="Moving golden tasbih beads on warm sand, with the verse “Remember Me and I will remember you”">سبحة ذهبية متحرّكة على جانبي الشاشة بلون رمل دافئ وآية «فَاذْكُرُونِي أَذْكُرْكُمْ»</span>
       </button>
+      <button type="button" class="ws-opt" data-style="duha" role="radio" aria-checked="false" onclick="setWelcomeStyle('duha')">
+        <span class="ws-thumb ws-thumb--duha" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
+        <span class="ws-opt-name stab-i18n" data-ar="الضحى (جديد)" data-en="Duha (New)">الضحى (جديد)</span>
+        <span class="ws-opt-desc stab-i18n" data-ar="يتبدّل تلقائيًا من الشروق حتى قبيل الظهر: شمس مشرقة بأشعّتها وسماء صافية وتلال خضراء ونخلة مع آية «وَالضُّحَى» وشارة تذكير بصلاة الضحى" data-en="Switches automatically from sunrise until shortly before Dhuhr: a bright sun with rays, clear sky, green hills and a palm, the verse “By the morning brightness” and a Duha prayer reminder">يتبدّل تلقائيًا من الشروق حتى قبيل الظهر: شمس مشرقة بأشعّتها وسماء صافية وتلال خضراء ونخلة مع آية «وَالضُّحَى» وشارة تذكير بصلاة الضحى</span>
+      </button>
       <button type="button" class="ws-opt" data-style="azkarday" role="radio" aria-checked="false" onclick="setWelcomeStyle('azkarday')">
         <span class="ws-thumb ws-thumb--azkarday" aria-hidden="true"><b></b><i></i><i></i><em></em></span>
         <span class="ws-opt-name stab-i18n" data-ar="أذكار الصباح والمساء (جديد)" data-en="Morning &amp; Evening Adhkar (New)">أذكار الصباح والمساء (جديد)</span>
@@ -4899,13 +5054,13 @@ setTimeout(autoScaleVerseFont, 100);
     </div>
     <script>
     (function(){
-      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold', 'player', 'editorial', 'arabesque', 'lantern', 'kiswa', 'ramadan', 'eid', 'adha', 'isra', 'sabah', 'jumuah', 'hajj', 'qadr', 'andalus', 'maghrib', 'hijri', 'ashura', 'mawlid', 'khatt', 'rain', 'sakina', 'athkar', 'tahajjud', 'azkarday'];
+      var STYLES = ['classic', 'noor', 'mushaf', 'fajr', 'bold', 'player', 'editorial', 'arabesque', 'lantern', 'kiswa', 'ramadan', 'eid', 'adha', 'isra', 'sabah', 'jumuah', 'hajj', 'qadr', 'ashr', 'andalus', 'maghrib', 'hijri', 'ashura', 'mawlid', 'khatt', 'rain', 'sakina', 'athkar', 'tahajjud', 'azkarday', 'duha', 'shaaban', 'arafah', 'bayd', 'sitt', 'rajab', 'jumuaeve'];
       /* ===== درج «المزيد»: نعرض أول WS_VISIBLE تصاميم، والباقي داخل درج سفلي ===== */
       var WS_VISIBLE = 6;
       var WS_GROUPS = [
         { ar: '🎨 الأساسية والفنية', en: '🎨 Core & Artistic', ids: ['classic', 'noor', 'mushaf', 'bold', 'player', 'editorial', 'arabesque', 'khatt', 'andalus', 'rain', 'sakina', 'athkar'] },
-        { ar: '🌙 المناسبات والمواسم', en: '🌙 Occasions & Seasons', ids: ['lantern', 'kiswa', 'ramadan', 'eid', 'adha', 'isra', 'jumuah', 'hajj', 'qadr', 'hijri', 'ashura', 'mawlid'] },
-        { ar: '⏰ أوقات اليوم', en: '⏰ Times of Day', ids: ['fajr', 'sabah', 'azkarday', 'maghrib', 'tahajjud'] }
+        { ar: '🌙 المناسبات والمواسم', en: '🌙 Occasions & Seasons', ids: ['lantern', 'kiswa', 'ramadan', 'eid', 'adha', 'isra', 'rajab', 'jumuah', 'jumuaeve', 'hajj', 'qadr', 'ashr', 'hijri', 'ashura', 'mawlid', 'shaaban', 'arafah', 'bayd', 'sitt'] },
+        { ar: '⏰ أوقات اليوم', en: '⏰ Times of Day', ids: ['fajr', 'sabah', 'duha', 'azkarday', 'maghrib', 'tahajjud'] }
       ];
       var wsGrid = document.getElementById('welcomeStylePicker');
       var wsBtns = {}, wsOrder = [];
@@ -5030,14 +5185,15 @@ setTimeout(autoScaleVerseFont, 100);
         // يوم الجمعة يفتح التصميم الخاص تلقائيًا؛ لو اختار المستخدم تصميمًا آخر نحترم اختياره لباقي اليوم فقط
         try {
           var _d = new Date(), _k = _d.getFullYear() + '-' + (_d.getMonth() + 1) + '-' + _d.getDate();
-          if (_d.getDay() === 5 && !_skipDayOv) { if (s === 'jumuah') localStorage.removeItem('welcomeFridayOverride'); else localStorage.setItem('welcomeFridayOverride', _k); }
+          var _fm = (typeof window.wsFriMode === 'function') ? window.wsFriMode() : null;   // جمعة أو ليلة الجمعة (من مغرب الخميس)
+          if (_fm && !_skipDayOv) { if (s === _fm) localStorage.removeItem('welcomeFridayOverride'); else localStorage.setItem('welcomeFridayOverride', _k); }
         } catch (e) {}
         // مناسبة اليوم (رمضان/العيدين/الحج/الإسراء) تفتح تلقائيًا؛ لو اختار المستخدم غيرها نحترم اختياره لباقي الموسم
         try {
           var _o = (typeof window.wsOccasionToday === 'function') ? window.wsOccasionToday() : null;
           if (_o && !_skipDayOv) {
             if ((typeof window.wsPool === 'function' ? window.wsPool(_o.style) : [_o.style]).indexOf(s) > -1) localStorage.removeItem('welcomeOccasionOverride');
-            else if (!(s === 'jumuah' && _o.style === 'ramadan')) localStorage.setItem('welcomeOccasionOverride', _o.tag);
+            else if (!((s === 'jumuah' || s === 'jumuaeve') && (_o.style === 'ramadan' || _o.style === 'ashr'))) localStorage.setItem('welcomeOccasionOverride', _o.tag);
           }
         } catch (e) {}
         // تصميم وقت اليوم (الفجر/المغرب): لو اختار المستخدم غيره نحترم اختياره حتى نهاية نفس الفترة
@@ -5063,6 +5219,7 @@ setTimeout(autoScaleVerseFont, 100);
         document.documentElement.classList.toggle('wstyle-jumuah', s === 'jumuah');
         document.documentElement.classList.toggle('wstyle-hajj', s === 'hajj');
         document.documentElement.classList.toggle('wstyle-qadr', s === 'qadr');
+        document.documentElement.classList.toggle('wstyle-ashr', s === 'ashr');
         document.documentElement.classList.toggle('wstyle-andalus', s === 'andalus');
         document.documentElement.classList.toggle('wstyle-maghrib', s === 'maghrib');
         document.documentElement.classList.toggle('wstyle-hijri', s === 'hijri');
@@ -5074,6 +5231,13 @@ setTimeout(autoScaleVerseFont, 100);
         document.documentElement.classList.toggle('wstyle-athkar', s === 'athkar');
         document.documentElement.classList.toggle('wstyle-tahajjud', s === 'tahajjud');
         document.documentElement.classList.toggle('wstyle-azkarday', s === 'azkarday');
+        document.documentElement.classList.toggle('wstyle-duha', s === 'duha');
+        document.documentElement.classList.toggle('wstyle-shaaban', s === 'shaaban');
+        document.documentElement.classList.toggle('wstyle-arafah', s === 'arafah');
+        document.documentElement.classList.toggle('wstyle-bayd', s === 'bayd');
+        document.documentElement.classList.toggle('wstyle-sitt', s === 'sitt');
+        document.documentElement.classList.toggle('wstyle-rajab', s === 'rajab');
+        document.documentElement.classList.toggle('wstyle-jumuaeve', s === 'jumuaeve');
         if (s === 'khatt' && typeof window.wsLoadKhattFont === 'function') window.wsLoadKhattFont();
         try { if (typeof window.wsApplyHajjAttrs === 'function') window.wsApplyHajjAttrs(); } catch (e) {}
         sync(s);
@@ -5096,6 +5260,7 @@ setTimeout(autoScaleVerseFont, 100);
                                   : s === 'jumuah' ? (ar ? '🕌 تم تفعيل تصميم «الجمعة»' : '🕌 Friday design enabled')
                                   : s === 'hajj' ? (ar ? '🕋 تم تفعيل تصميم «الحج»' : '🕋 Hajj design enabled')
                                   : s === 'qadr' ? (ar ? '🌌 تم تفعيل تصميم «ليلة القدر»' : '🌌 Laylat al-Qadr design enabled')
+                                  : s === 'ashr' ? (ar ? '🌙 تم تفعيل تصميم «العشر الأواخر»' : '🌙 Last Ten Nights design enabled')
                                   : s === 'andalus' ? (ar ? '🏰 تم تفعيل تصميم «الأندلس»' : '🏰 Andalusia design enabled')
                                   : s === 'maghrib' ? (ar ? '🌅 تم تفعيل تصميم «الغروب»' : '🌅 Sunset design enabled')
                                   : s === 'hijri' ? (ar ? '🐪 تم تفعيل تصميم «رأس السنة الهجرية»' : '🐪 Hijri New Year design enabled')
@@ -5105,8 +5270,15 @@ setTimeout(autoScaleVerseFont, 100);
                                   : s === 'rain' ? (ar ? '🌧️ تم تفعيل تصميم «المطر»' : '🌧️ Rain design enabled')
                                   : s === 'sakina' ? (ar ? '🌿 تم تفعيل تصميم «السكينة»' : '🌿 Tranquility design enabled')
                                   : s === 'athkar' ? (ar ? '📿 تم تفعيل تصميم «الأذكار»' : '📿 Adhkar design enabled')
+                                  : s === 'duha' ? (ar ? '☀️ تم تفعيل تصميم «الضحى»' : '☀️ Duha design enabled')
                                   : s === 'azkarday' ? (ar ? '🌅 تم تفعيل تصميم «أذكار الصباح والمساء»' : '🌅 Morning & Evening Adhkar design enabled')
                                   : s === 'tahajjud' ? (ar ? '🌙 تم تفعيل تصميم «قيام الليل»' : '🌙 Night Prayer design enabled')
+                                  : s === 'shaaban' ? (ar ? '🌕 تم تفعيل تصميم «نصف شعبان»' : '🌕 Mid-Sha’ban design enabled')
+                                  : s === 'arafah' ? (ar ? '🤲 تم تفعيل تصميم «يوم عرفة»' : '🤲 Day of Arafah design enabled')
+                                  : s === 'sitt' ? (ar ? '🌙 تم تفعيل تصميم «ستّ شوال»' : '🌙 Six of Shawwal design enabled')
+                                  : s === 'rajab' ? (ar ? '🕋 تم تفعيل تصميم «أول رجب»' : '🕋 First of Rajab design enabled')
+                                  : s === 'jumuaeve' ? (ar ? '🌙 تم تفعيل تصميم «ليلة الجمعة»' : '🌙 Friday Eve design enabled')
+                                  : s === 'bayd' ? (ar ? '🌕 تم تفعيل تصميم «الأيام البيض»' : '🌕 White Days design enabled')
                                  : (ar ? '🎨 تم الرجوع للتصميم الكلاسيكي' : '🎨 Classic design restored'));
         }
         // إعادة ضبط حجم الآية على الشكل الجديد (لو الشاشة الترحيبية ظاهرة)
@@ -5131,6 +5303,100 @@ setTimeout(autoScaleVerseFont, 100);
       })();
     })();
     </script>
+    <div id="settings-wautoocc-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="لو أوقفته لا يتبدّل التصميم تلقائيًا في المناسبات (رمضان، الأعياد، الحج، عرفة، عاشوراء، نصف شعبان، الأيام البيض…) ولا يوم الجمعة، ويبقى تصميمك المختار. تصاميم أوقات اليوم (الفجر/الضحى/الغروب…) لا تتأثر / When off, the design does not switch automatically for occasions (Ramadan, Eids, Hajj, Arafah, Ashura, mid-Sha’ban, White Days…) or Fridays, and your chosen design stays. Time-of-day designs are not affected">
+      <span class="wtb-icon">🗓️</span>
+      <label for="welcomeAutoOccToggle" class="wtb-text" data-ar="التبديل التلقائي للتصميم في المناسبات والجمعة" data-en="Auto-switch design for occasions &amp; Fridays" style="cursor:pointer; margin:0;">التبديل التلقائي للتصميم في المناسبات والجمعة</label>
+      <input type="checkbox" id="welcomeAutoOccToggle" class="wtb-switch" checked onchange="window.toggleWelcomeAutoOcc && window.toggleWelcomeAutoOcc()">
+    </div>
+    <script>
+    /* معاينة مؤقتة: ضغطة طويلة على بطاقة أي تصميم تعرضه بدون حفظ، ويرجع لوحده بعد ثوانٍ (أو بزر «رجوع»/«تطبيق») */
+    (function() {
+      var HOLD_MS = 500, SHOW_S = 6;
+      var root = document.documentElement, timer = null, tick = null, endT = null, sx = 0, sy = 0, swallow = false, swT = null;
+      var saved = null, cur = null, left = 0, bar = null;
+      function isAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
+      function wsClasses() { return Array.prototype.filter.call(root.classList, function(c) { return c.indexOf('wstyle-') === 0; }); }
+      function welcomeVisible() { var w = document.getElementById('welcomeScreen'); return !!w && getComputedStyle(w).display !== 'none'; }
+      function say(a, e) { if (typeof showToast === 'function') { if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0; showToast(isAr() ? a : e); } }
+      function setClasses(list) {
+        wsClasses().forEach(function(c) { root.classList.remove(c); });
+        list.forEach(function(c) { root.classList.add(c); });
+        try { if (typeof window.wsApplyHajjAttrs === 'function') window.wsApplyHajjAttrs(); } catch (e) {}
+        setTimeout(function() {
+          try { if (typeof autoScaleVerseFont === 'function') autoScaleVerseFont(); } catch (e) {}
+          try { if (typeof window._syncRelayout === 'function') window._syncRelayout(); } catch (e) {}
+        }, 60);
+      }
+      function ensureBar() {
+        if (bar) return bar;
+        bar = document.createElement('div'); bar.id = 'wsPreviewBar'; bar.style.display = 'none'; bar.setAttribute('role', 'status');
+        bar.innerHTML = '<span class="wspv-t"></span><button type="button" class="wspv-ok"></button><button type="button" class="wspv-no"></button>';
+        bar.addEventListener('click', function(e) { e.stopPropagation(); });
+        bar.querySelector('.wspv-no').addEventListener('click', function() { endPreview(); });
+        bar.querySelector('.wspv-ok').addEventListener('click', function() { var s = cur; endPreview(); if (s && typeof window.setWelcomeStyle === 'function') window.setWelcomeStyle(s); });
+        document.body.appendChild(bar);
+        return bar;
+      }
+      function paint(name) {
+        var b = ensureBar();
+        b.querySelector('.wspv-t').textContent = (isAr() ? '👁️ معاينة «' + name + '» — ترجع خلال ' + left + ' ث' : '👁️ Previewing “' + name + '” — back in ' + left + 's');
+        b.querySelector('.wspv-ok').textContent = isAr() ? 'تطبيق' : 'Apply';
+        b.querySelector('.wspv-no').textContent = isAr() ? 'رجوع' : 'Back';
+      }
+      function endPreview() {
+        if (!window._wsPreviewing) return;
+        clearInterval(tick); clearTimeout(endT);
+        window._wsPreviewing = false; root.classList.remove('ws-previewing');
+        if (bar) bar.style.display = 'none';
+        setClasses(saved || []); saved = null; cur = null;
+      }
+      function startPreview(btn) {
+        var st = btn.getAttribute('data-style'); if (!st) return;
+        if (!welcomeVisible()) { say('👁️ افتح الشاشة الترحيبية أولًا لتشاهد المعاينة', '👁️ Open the welcome screen first to see the preview'); return; }
+        var nm = (btn.querySelector('.ws-opt-name') || {}).textContent || st;
+        if (!window._wsPreviewing) saved = wsClasses();
+        window._wsPreviewing = true; cur = st; root.classList.add('ws-previewing');
+        setClasses(st === 'classic' ? [] : ['wstyle-' + st]);
+        if (st === 'khatt' && typeof window.wsLoadKhattFont === 'function') window.wsLoadKhattFont();
+        left = SHOW_S; paint(nm); ensureBar().style.display = 'flex';
+        clearInterval(tick); clearTimeout(endT);
+        tick = setInterval(function() { left = Math.max(0, left - 1); paint(nm); }, 1000);
+        endT = setTimeout(endPreview, SHOW_S * 1000);
+        try { if (navigator.vibrate) navigator.vibrate(15); } catch (e) {}
+      }
+      document.addEventListener('pointerdown', function(e) {
+        var b = e.target.closest && e.target.closest('.ws-opt'); if (!b || (e.button && e.button !== 0)) return;
+        sx = e.clientX; sy = e.clientY; clearTimeout(timer);
+        timer = setTimeout(function() { timer = null; swallow = true; startPreview(b); }, HOLD_MS);
+      }, true);
+      document.addEventListener('pointermove', function(e) {
+        if (timer && (Math.abs(e.clientX - sx) > 12 || Math.abs(e.clientY - sy) > 12)) { clearTimeout(timer); timer = null; }
+      }, true);
+      function up() { clearTimeout(timer); timer = null; if (swallow) { clearTimeout(swT); swT = setTimeout(function() { swallow = false; }, 700); } }
+      document.addEventListener('pointerup', up, true);
+      document.addEventListener('pointercancel', function() { clearTimeout(timer); timer = null; swallow = false; }, true);
+      document.addEventListener('click', function(e) {               // الضغطة الطويلة لا تُعدّ نقرة اختيار
+        if (swallow && e.target.closest && e.target.closest('.ws-opt')) { e.preventDefault(); e.stopImmediatePropagation(); swallow = false; }
+      }, true);
+      document.addEventListener('contextmenu', function(e) { if (e.target.closest && e.target.closest('.ws-opt')) e.preventDefault(); }, true);
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && window._wsPreviewing) { e.stopPropagation(); endPreview(); } }, true);
+    })();
+    </script>
+    <div id="settings-waltrot-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="لو وافقت مناسبة (مثل العيد) يوم الجمعة يتبادل التصميمان عند كل فتح للموقع: مرة المناسبة ومرة الجمعة. لو أوقفته تظهر المناسبة فقط / If an occasion (e.g. Eid) falls on a Friday, the two designs alternate each time you open the site. When off, only the occasion design shows">
+      <span class="wtb-icon">🔁</span>
+      <label for="welcomeAltRotateToggle" class="wtb-text" data-ar="التناوب بين تصميم المناسبة والجمعة عند التوافق" data-en="Alternate occasion &amp; Friday designs when they coincide" style="cursor:pointer; margin:0;">التناوب بين تصميم المناسبة والجمعة عند التوافق</label>
+      <input type="checkbox" id="welcomeAltRotateToggle" class="wtb-switch" checked onchange="window.toggleWelcomeAltRotate && window.toggleWelcomeAltRotate()">
+    </div>
+    <div id="settings-wphaseprio-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="لو فعّلته تظهر تصاميم أوقات اليوم (الفجر، الضحى، العصر، الثلث الأخير) في وقتها حتى لو اليوم مناسبة أو جمعة. لو أوقفته تبقى المناسبة أو الجمعة طول اليوم، وتظهر تصاميم أوقات اليوم في الأيام العادية فقط / When on, time-of-day designs (Fajr, Duha, Asr, last third of the night) show in their time even on an occasion or Friday. When off, the occasion or Friday design stays all day and time-of-day designs show only on ordinary days">
+      <span class="wtb-icon">⏰</span>
+      <label for="welcomePhasePrioToggle" class="wtb-text" data-ar="تصاميم أوقات اليوم تغلب المناسبة والجمعة في وقتها" data-en="Time-of-day designs take priority over occasions &amp; Fridays" style="cursor:pointer; margin:0;">تصاميم أوقات اليوم تغلب المناسبة والجمعة في وقتها</label>
+      <input type="checkbox" id="welcomePhasePrioToggle" class="wtb-switch" checked onchange="window.toggleWelcomePhasePrio && window.toggleWelcomePhasePrio()">
+    </div>
+        <div id="settings-wrestore-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="يلغي اختيارك المؤقت ويرجّع التصميم التلقائى (المناسبة/الجمعة/وقت اليوم) فورًا، وإن لم يوجد تصميم تلقائى الآن يرجع التصميم الذى كان مفعّلًا عند فتح الصفحة / Cancels your temporary choice and brings back the automatic design (occasion/Friday/time of day) right away; if none applies now, it returns to the design that was active when the page opened">
+      <span class="wtb-icon">↩️</span>
+      <span class="wtb-text" data-ar="استعادة الثيم الافتراضي (التلقائي)" data-en="Restore default (automatic) theme" data-fr="Rétablir le thème par défaut (automatique)" data-es="Restaurar el tema predeterminado (automático)" data-sv="Återställ standarddesign (automatisk)" data-nl="Standaardthema (automatisch) herstellen" data-ga="Athchóirigh an téama réamhshocraithe (uathoibríoch)" data-de="Standarddesign (automatisch) wiederherstellen" data-ru="Вернуть тему по умолчанию (автоматическую)" data-tr="Varsayılan (otomatik) temayı geri yükle" data-pt="Restaurar o tema padrão (automático)" data-zh="恢复默认（自动）主题" data-ur="ڈیفالٹ (خودکار) تھیم بحال کریں" style="margin:0;">استعادة الثيم الافتراضي (التلقائي)</span>
+      <button type="button" class="welcome-toggle-inline-input" data-ar="استعادة" data-en="Restore" data-fr="Rétablir" data-es="Restaurar" data-sv="Återställ" data-nl="Herstellen" data-ga="Athchóirigh" data-de="Zurücksetzen" data-ru="Вернуть" data-tr="Geri yükle" data-pt="Restaurar" data-zh="恢复" data-ur="بحال کریں" style="cursor:pointer;padding:4px 12px;" onclick="window.restoreDefaultWelcomeTheme && window.restoreDefaultWelcomeTheme()">استعادة</button>
+    </div>
         <div id="settings-ornaments-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="إظهار نقوش هندسية خفيفة وشريطين زخرفيين خلف الشاشة الترحيبية في التصاميم الأخرى (لا يؤثر على تصميم «الأرابيسك») / Show subtle geometric patterns and two ornamental bands behind the welcome screen in the other designs (does not affect the Arabesque design)">
       <label for="welcomeOrnamentsToggle" class="wtb-text" data-ar="الزخارف الإسلامية في بقية التصاميم" data-en="Islamic ornaments in other designs" data-fr="Ornements islamiques dans les autres designs" data-es="Ornamentos islámicos en los demás diseños" data-de="Islamische Ornamente in den anderen Designs" data-ru="Исламские орнаменты в других дизайнах" data-tr="Diğer tasarımlarda İslami süslemeler" data-pt="Ornamentos islâmicos nos outros designs" data-zh="其他设计中的伊斯兰装饰" data-ur="دیگر ڈیزائنز میں اسلامی نقوش" style="cursor:pointer; margin:0;">الزخارف الإسلامية في بقية التصاميم</label>
       <input type="checkbox" id="welcomeOrnamentsToggle" class="wtb-switch" onchange="toggleWelcomeOrnaments()">
@@ -5203,6 +5469,96 @@ setTimeout(autoScaleVerseFont, 100);
       }
       window.addEventListener('load', sync);
       setTimeout(sync, 600);
+    })();
+    </script>
+    <div id="settings-wchip-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="شارة تعرض الوقت المتبقى على الصلاة القادمة (الضحى والصلوات الخمس) أسفل الترحيب / A pill showing the time left until the next prayer (Duha and the five prayers) under the greeting">
+      <span class="wtb-icon">⏳</span>
+      <label for="welcomeChipToggle" class="wtb-text" data-ar="عدّاد الصلاة القادمة في الشاشة الترحيبية" data-en="Next-prayer countdown on welcome screen" data-fr="Compte à rebours de la prochaine prière" data-es="Cuenta atrás de la próxima oración" data-sv="Nedräkning till nästa bön" data-nl="Aftelling naar het volgende gebed" data-ga="Comhaireamh síos go dtí an chéad phaidir eile" data-de="Countdown zum nächsten Gebet" data-ru="Обратный отсчёт до следующего намаза" data-tr="Sonraki namaza geri sayım" data-pt="Contagem regressiva da próxima oração" data-zh="下一次礼拜倒计时" data-ur="اگلی نماز کا الٹا شمار" style="cursor:pointer; margin:0;">عدّاد الصلاة القادمة في الشاشة الترحيبية</label>
+      <input type="checkbox" id="welcomeChipToggle" class="wtb-switch" checked onchange="window.toggleWelcomeChip && window.toggleWelcomeChip()">
+    </div>
+    <div id="settings-wcountdown-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="شارة بعدد الأيام المتبقية على أقرب رمضان أو عيد أو حج داخل الشاشة الترحيبية / A badge with the days left until the nearest Ramadan, Eid or Hajj on the welcome screen">
+      <span class="wtb-icon">📅</span>
+      <label for="welcomeCountdownToggle" class="wtb-text" data-ar="عدّ تنازلي لرمضان والعيد والحج في الشاشة الترحيبية" data-en="Countdown to Ramadan, Eid &amp; Hajj on welcome screen" style="cursor:pointer; margin:0;">عدّ تنازلي لرمضان والعيد والحج في الشاشة الترحيبية</label>
+      <input type="checkbox" id="welcomeCountdownToggle" class="wtb-switch" checked onchange="window.toggleWelcomeCountdown && window.toggleWelcomeCountdown()">
+    </div>
+    <div id="settings-wbadges-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="شارتان صغيرتان على أي تصميم: «شهر حرام» في محرّم ورجب وذي القعدة وذي الحجة، و«اليوم يُستحب صيامه» يومي الاثنين والخميس / Two small badges on any design: “Sacred month” in Muharram, Rajab, Dhul-Qa’dah and Dhul-Hijjah, and “Fasting is recommended today” on Mondays and Thursdays">
+      <span class="wtb-icon">🏷️</span>
+      <label for="welcomeBadgesToggle" class="wtb-text" data-ar="شارات الأشهر الحرم وصيام الاثنين والخميس" data-en="Sacred-month &amp; Mon/Thu fasting badges" style="cursor:pointer; margin:0;">شارات الأشهر الحرم وصيام الاثنين والخميس</label>
+      <input type="checkbox" id="welcomeBadgesToggle" class="wtb-switch" checked onchange="window.toggleWelcomeBadges && window.toggleWelcomeBadges()">
+    </div>
+    <div id="settings-wadhkarbtn-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="زر يفتح أذكار الصباح أو المساء مباشرة من الشاشة الترحيبية عند عرض تصميم «الضحى» أو «أذكار الصباح والمساء» / A button that opens the morning or evening Adhkar straight from the welcome screen when the Duha or Morning &amp; Evening Adhkar design is shown">
+      <span class="wtb-icon">🌅</span>
+      <label for="welcomeAdhkarBtnToggle" class="wtb-text" data-ar="زر «اذهب للأذكار» في ثيمي الضحى والأذكار" data-en="“Go to Adhkar” button (Duha & Adhkar designs)" data-fr="Bouton « Aller aux invocations »" data-es="Botón «Ir a los adhkar»" data-sv="Knappen ”Gå till adhkar”" data-nl="Knop ”Ga naar de adhkar”" data-ga="Cnaipe ”Téigh chuig na adhkar”" data-de="Schaltfläche „Zu den Adhkar“" data-ru="Кнопка «К азкарам»" data-tr="“Zikirlere git” düğmesi" data-pt="Botão «Ir para os adhkar»" data-zh="“前往赞词”按钮" data-ur="«اذکار پر جائیں» کا بٹن" style="cursor:pointer; margin:0;">زر «اذهب للأذكار» في ثيمي الضحى والأذكار</label>
+      <input type="checkbox" id="welcomeAdhkarBtnToggle" class="wtb-switch" checked onchange="window.toggleWelcomeAdhkarBtn && window.toggleWelcomeAdhkarBtn()">
+    </div>
+    <script>
+    (function() {
+      function isAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
+      function say(a, e) { if (typeof showToast === 'function') { if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0; showToast(isAr() ? a : e); } }
+      function loadSwitch(id, key) {
+        var cb = document.getElementById(id); if (!cb) return;
+        var off = false; try { off = localStorage.getItem(key) === 'off'; } catch (e) {}
+        cb.checked = !off;
+      }
+      function saveSwitch(id, key) {
+        var cb = document.getElementById(id); if (!cb) return false;
+        try { localStorage.setItem(key, cb.checked ? 'on' : 'off'); } catch (e) {}
+        if (typeof window._wsQuickRefresh === 'function') window._wsQuickRefresh();
+        return cb.checked;
+      }
+      loadSwitch('welcomeChipToggle', 'welcomeChip');
+      loadSwitch('welcomeAdhkarBtnToggle', 'welcomeAdhkarBtn');
+      loadSwitch('welcomeCountdownToggle', 'welcomeCountdown');
+      loadSwitch('welcomeBadgesToggle', 'welcomeBadges');
+      loadSwitch('welcomeAutoOccToggle', 'welcomeAutoOccasions');
+      loadSwitch('welcomeAltRotateToggle', 'welcomeAltRotate');
+      loadSwitch('welcomePhasePrioToggle', 'welcomePhasePriority');
+      window.toggleWelcomePhasePrio = function() {
+        var on = saveSwitch('welcomePhasePrioToggle', 'welcomePhasePriority');
+        if (typeof window.restoreDefaultWelcomeTheme === 'function') window.restoreDefaultWelcomeTheme();   // يطبّق الوضع الجديد فورًا
+        say(on ? '⏰ أوقات اليوم تغلب المناسبة والجمعة في وقتها' : '⏰ المناسبة أو الجمعة تبقى طول اليوم؛ أوقات اليوم في الأيام العادية فقط', on ? '⏰ Time-of-day designs take priority' : '⏰ Occasion/Friday stays all day; time-of-day designs on ordinary days only');
+      };
+      window.toggleWelcomeAltRotate = function() {
+        var on = saveSwitch('welcomeAltRotateToggle', 'welcomeAltRotate');
+        say(on ? '🔁 التناوب مفعّل: يتبدّل التصميم عند كل فتح لو توافقت مناسبة مع الجمعة' : '🔁 التناوب متوقف: تظهر المناسبة فقط', on ? '🔁 Alternation on: designs swap on each open when an occasion falls on Friday' : '🔁 Alternation off: only the occasion shows');
+      };
+      window.toggleWelcomeCountdown = function() {
+        var on = saveSwitch('welcomeCountdownToggle', 'welcomeCountdown');
+        say(on ? '📅 تم إظهار العدّ التنازلي' : '📅 تم إخفاء العدّ التنازلي', on ? '📅 Countdown shown' : '📅 Countdown hidden');
+      };
+      window.toggleWelcomeBadges = function() {
+        var on = saveSwitch('welcomeBadgesToggle', 'welcomeBadges');
+        if (typeof window._wsQuickRefresh === 'function') window._wsQuickRefresh();
+        say(on ? '🏷️ تم إظهار الشارات' : '🏷️ تم إخفاء الشارات', on ? '🏷️ Badges shown' : '🏷️ Badges hidden');
+      };
+      window.toggleWelcomeAutoOcc = function() {
+        var on = saveSwitch('welcomeAutoOccToggle', 'welcomeAutoOccasions');
+        if (typeof window.restoreDefaultWelcomeTheme === 'function') window.restoreDefaultWelcomeTheme();   // يطبّق الوضع الجديد فورًا
+        say(on ? '🗓️ التبديل التلقائي للمناسبات: مفعّل' : '🗓️ التبديل التلقائي للمناسبات: متوقف — يبقى تصميمك المختار', on ? '🗓️ Occasion auto-switch: on' : '🗓️ Occasion auto-switch: off — your chosen design stays');
+      };
+      window.toggleWelcomeChip = function() {
+        var on = saveSwitch('welcomeChipToggle', 'welcomeChip');
+        say(on ? '⏳ تم إظهار عدّاد الصلاة القادمة' : '⏳ تم إخفاء عدّاد الصلاة القادمة', on ? '⏳ Next-prayer countdown shown' : '⏳ Next-prayer countdown hidden');
+      };
+      window.toggleWelcomeAdhkarBtn = function() {
+        var on = saveSwitch('welcomeAdhkarBtnToggle', 'welcomeAdhkarBtn');
+        say(on ? '🌅 تم إظهار زر «اذهب للأذكار»' : '🌅 تم إخفاء زر «اذهب للأذكار»', on ? '🌅 “Go to Adhkar” button shown' : '🌅 “Go to Adhkar” button hidden');
+      };
+
+      // استعادة الثيم الافتراضى فورًا: يلغى إخفاءات اليوم (فترة/جمعة/مناسبة) ويطبّق التصميم التلقائى الآن،
+      // ولو مفيش تصميم تلقائى يرجّع التصميم الأساسى اللى كان وقت فتح الصفحة — من غير ما يغيّر اختيارك المحفوظ
+      window.restoreDefaultWelcomeTheme = function() {
+        var KEYS = ['welcomePhaseOverride', 'welcomeFridayOverride', 'welcomeOccasionOverride'];
+        function clearOv() { try { KEYS.forEach(function(k) { localStorage.removeItem(k); }); } catch (e) {} }
+        clearOv();
+        var base = window._wsBaseAtLoad || 'classic';
+        var auto = (typeof window.wsAutoStyleNow === 'function') ? window.wsAutoStyleNow() : null;
+        if (typeof window.setWelcomeStyle === 'function') window.setWelcomeStyle(auto || base);
+        try { localStorage.setItem('welcomeStyle', base); } catch (e) {}
+        clearOv();
+        say(auto ? '↩️ تم استعادة الثيم التلقائى الآن' : '↩️ تم استعادة الثيم الافتراضى', auto ? '↩️ Automatic design restored' : '↩️ Default design restored');
+        if (typeof window._wsQuickRefresh === 'function') setTimeout(window._wsQuickRefresh, 80);
+      };
     })();
     </script>
 <div class="gset-head" id="gset-h-sync" role="heading" aria-level="3"><span data-ar="📖 متابعة الآيات" data-en="📖 Ayah Follow" data-fr="📖 Suivi des versets" data-es="📖 Seguimiento de aleyas" data-sv="📖 Versföljning" data-nl="📖 Verzen volgen" data-ga="📖 Leanúint véarsaí" data-de="📖 Versbegleitung" data-ru="📖 Сопровождение аятов" data-tr="📖 Ayet takibi" data-pt="📖 Acompanhar versículos" data-zh="📖 经文跟随" data-ur="📖 آیات کی پیروی">📖 متابعة الآيات</span></div>
@@ -13092,6 +13448,10 @@ var PRAYER_I18N = {
   volumeLabel:   { ar: '🔊 مستوى صوت الأذان', en: '🔊 Adhan Volume', fr: "🔊 Volume de l'Adhan", es: '🔊 Volumen del Adhan', sv: '🔊 Böneutropets volym', nl: '🔊 Adhan-volume', ga: '🔊 Airde fuaime Adhan', de: '🔊 Adhan-Lautstärke', ru: '🔊 Громкость азана', tr: '🔊 Ezan Sesi Seviyesi', pt: '🔊 Volume do Adhan', zh: '🔊 宣礼音量', ur: '🔊 اذان کی آواز کی سطح' },
   cancel:        { ar: 'إلغاء', en: 'Cancel', fr: 'Annuler', es: 'Cancelar', sv: 'Avbryt', nl: 'Annuleren', ga: 'Cealaigh', de: 'Abbrechen', ru: 'Отмена', tr: 'İptal', pt: 'Cancelar', zh: '取消', ur: 'منسوخ کریں' },
   save:          { ar: 'حفظ', en: 'Save', fr: 'Enregistrer', es: 'Guardar', sv: 'Spara', nl: 'Opslaan', ga: 'Sábháil', de: 'Speichern', ru: 'Сохранить', tr: 'Kaydet', pt: 'Salvar', zh: '保存', ur: 'محفوظ کریں' },
+  nextIn:        { ar: 'المتبقي على {p}', en: 'Time until {p}', fr: 'Temps restant avant {p}', es: 'Tiempo hasta {p}', sv: 'Tid till {p}', nl: 'Tijd tot {p}', ga: 'Am go dtí {p}', de: 'Zeit bis {p}', ru: 'До {p} осталось', tr: '{p} vaktine kalan', pt: 'Tempo até {p}', zh: '距离{p}还有', ur: '{p} میں باقی وقت' },
+  nextShort:     { ar: '{p} بعد {t}', en: '{p} in {t}', fr: '{p} dans {t}', es: '{p} en {t}', sv: '{p} om {t}', nl: '{p} over {t}', ga: '{p} i gceann {t}', de: '{p} in {t}', ru: '{p} через {t}', tr: '{p} vaktine {t} var', pt: '{p} em {t}', zh: '{p}还有 {t}', ur: '{p} میں {t}' },
+  goMorning:     { ar: 'اذهب لأذكار الصباح', en: 'Go to Morning Adhkar', fr: 'Aller aux invocations du matin', es: 'Ir a los adhkar de la mañana', sv: 'Gå till morgonens adhkar', nl: 'Naar de ochtend-adhkar', ga: 'Téigh chuig Adhkar na Maidine', de: 'Zu den Morgen-Adhkar', ru: 'К утренним азкарам', tr: 'Sabah zikirlerine git', pt: 'Ir para os adhkar da manhã', zh: '前往晨间赞词', ur: 'صبح کے اذکار پر جائیں' },
+  goEvening:     { ar: 'اذهب لأذكار المساء', en: 'Go to Evening Adhkar', fr: 'Aller aux invocations du soir', es: 'Ir a los adhkar de la tarde', sv: 'Gå till kvällens adhkar', nl: 'Naar de avond-adhkar', ga: 'Téigh chuig Adhkar an Tráthnóna', de: 'Zu den Abend-Adhkar', ru: 'К вечерним азкарам', tr: 'Akşam zikirlerine git', pt: 'Ir para os adhkar da noite', zh: '前往晚间赞词', ur: 'شام کے اذکار پر جائیں' },
   settingsSaved: { ar: '✅ تم حفظ الإعدادات', en: '✅ Settings saved', fr: '✅ Paramètres enregistrés', es: '✅ Ajustes guardados', sv: '✅ Inställningar sparade', nl: '✅ Instellingen opgeslagen', ga: '✅ Socruithe sábháilte', de: '✅ Einstellungen gespeichert', ru: '✅ Настройки сохранены', tr: '✅ Ayarlar kaydedildi', pt: '✅ Configurações salvas', zh: '✅ 设置已保存', ur: '✅ ترتیبات محفوظ ہو گئیں' }
 };
 function _ptT(key, lang) {
@@ -13111,6 +13471,51 @@ function _ptDateStr(lang) {
   try { weekday = today.toLocaleDateString(locale, { weekday: 'long' }); } catch (e) {}
   return (weekday ? weekday + ' ' : '') + today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
 }
+
+// ===== العدّ التنازلى للصلاة القادمة (مشترك بين ودجت المواقيت والنافذة المنبثقة) =====
+function _ptCountdownTarget(timings, key) {
+  var t = timings && timings[key];
+  if (!t) return 0;
+  var p = String(t).split(' ')[0].split(':');
+  var d = new Date();
+  d.setHours(parseInt(p[0], 10), parseInt(p[1], 10), 0, 0);
+  if (d.getTime() <= Date.now()) d.setDate(d.getDate() + 1);   // بعد العشاء: فجر الغد
+  return d.getTime();
+}
+function _ptFmtRemain(ms) {
+  if (ms < 0) ms = 0;
+  var s = Math.floor(ms / 1000), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+  return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(x).padStart(2, '0');
+}
+function _ptCountdownHTML(timings, key, lang, onGreen) {
+  var target = _ptCountdownTarget(timings, key);
+  if (!target) return '';
+  var label = _ptT('nextIn', lang).replace('{p}', _ptT(String(key).toLowerCase(), lang));
+  var look = onGreen ? 'background:rgba(255,255,255,0.18);color:#fff;' : 'background:rgba(var(--theme-g1-rgb),0.10);color:var(--theme-g1);';
+  return '<div style="margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;border-radius:12px;padding:6px 12px;' + look + '">' +
+    '<span style="font-size:12px;opacity:0.92;">⏳ ' + label + '</span>' +
+    '<span class="pt-countdown" data-target="' + target + '" style="font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;">' + _ptFmtRemain(target - Date.now()) + '</span>' +
+  '</div>';
+}
+(function() {
+  var _timer = null, _lastExpire = 0;
+  function tick() {
+    var els = document.querySelectorAll('.pt-countdown[data-target]');
+    if (!els.length) { clearInterval(_timer); _timer = null; return; }
+    var now = Date.now(), expired = false;
+    for (var i = 0; i < els.length; i++) {
+      var left = parseInt(els[i].getAttribute('data-target'), 10) - now;
+      if (left <= 0) expired = true;
+      els[i].textContent = _ptFmtRemain(left);
+    }
+    // وصلنا لموعد الصلاة: أعد رسم الودجت/النافذة عشان تنتقل للصلاة التالية (مرة كل ثانيتين على الأكثر)
+    if (expired && now - _lastExpire > 2000) {
+      _lastExpire = now;
+      (window._ptCdHooks || []).forEach(function(fn) { try { fn(); } catch (e) {} });
+    }
+  }
+  window._ptStartCountdown = function() { tick(); if (!_timer) _timer = setInterval(tick, 1000); };
+})();
 
 // وقت الضحى غير متوفر من الـ API، فنحسبه محلياً: الشروق + 15 دقيقة تقريباً
 // (المدة التي يرتفع فيها قرص الشمس قيد رمح، وهي بداية وقت صلاة الضحى الشرعي)
@@ -13729,6 +14134,10 @@ window._ptComputeDuha = _ptComputeDuha;
 (function() {
   var _pwRendered = false;
   var _pwData = null;
+  var _pwLast = null;
+  (window._ptCdHooks = window._ptCdHooks || []).push(function() {
+    if (_pwLast && document.getElementById('prayerWidgetNative')) _pwRender(_pwLast[0], _pwLast[1], _pwLast[2]);
+  });
 
   var PW_AMPM = { ar: ['ص','م'], ur: ['ص','م'] };
   window._PW_AMPM = PW_AMPM;
@@ -13746,7 +14155,7 @@ window._ptComputeDuha = _ptComputeDuha;
   var PW_KEY_MAP = { Fajr:'fajr', Sunrise:'sunrise', Duha:'duha', Dhuhr:'dhuhr', Asr:'asr', Maghrib:'maghrib', Isha:'isha' };
 
   function _pwGetNextPrayer(timings) {
-    var ORDER = ['Fajr','Sunrise','Duha','Dhuhr','Asr','Maghrib','Isha'];
+    var ORDER = ['Fajr','Duha','Dhuhr','Asr','Maghrib','Isha'];   // الصلاة القادمة: الخمس + الضحى (بدون الشروق)
     var now = new Date();
     var nowMins = now.getHours() * 60 + now.getMinutes();
     var next = null, nextMins = Infinity;
@@ -13808,12 +14217,15 @@ window._ptComputeDuha = _ptComputeDuha;
           '<div style="font-size:13px;color:rgba(255,255,255,0.85);margin-bottom:2px;">🕌 ' + _ptT('popupTitle', lang) + '</div>' +
           '<div style="font-size:11px;color:rgba(255,255,255,0.7);">' + dateStr + (hijriStr ? ' | ' + hijriStr : '') + '</div>' +
           (city ? '<div style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;">📍 ' + city + '</div>' : '') +
+          _ptCountdownHTML(timings, next.name, lang, true) +
         '</div>' +
         '<div class="pw-rows-container">' + rows + '</div>' +
         '<div style="padding:4px 12px 10px;text-align:center;">' +
           '<button onclick="window._pwRefreshLocation()" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:10px;padding:4px 12px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 ' + _ptT('updateLocation', lang) + '</button>' +
         '</div>' +
       '</div>';
+    _pwLast = [timings, hijri, city];
+    if (typeof window._ptStartCountdown === 'function') window._ptStartCountdown();
   }
 
   function _pwLoad() {
@@ -14028,6 +14440,7 @@ window._ptComputeDuha = _ptComputeDuha;
               localStorage.setItem(TIMES_KEY, JSON.stringify({ date: key, timings: data.data.timings, hijri: hijri, city: city, cityLang: city ? (cur.cityLang || cached.cityLang || '') : '' }));
             } catch (e) {}
             try { if (typeof window.wsApplyHajjAttrs === 'function') window.wsApplyHajjAttrs(); } catch (e) {}
+            try { if (typeof window._wsQuickRefresh === 'function') window._wsQuickRefresh(); } catch (e) {}
           })
           .catch(function() {});
       } catch (e) {}
@@ -14093,8 +14506,136 @@ window._ptComputeDuha = _ptComputeDuha;
 </script>
 
 <script>
+// ===== شريط سريع فى الشاشة الترحيبية: العدّ التنازلى للصلاة القادمة + زر «اذهب للأذكار» (فى ثيمى الأذكار والضحى) =====
+(function() {
+  var _sig = '';
+
+  function todayTimings() {
+    try {
+      var c = JSON.parse(localStorage.getItem('pwTimingsCacheV2') || '{}');
+      var d = new Date();
+      var dk = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      if (!c || !c.timings || c.date !== dk) return null;          // مواقيت اليوم فقط (عشان العدّ يكون دقيق)
+      var t = c.timings;
+      if (t.Sunrise && !t.Duha && typeof _ptComputeDuha === 'function') t.Duha = _ptComputeDuha(t.Sunrise);
+      return t;
+    } catch (e) { return null; }
+  }
+
+  function nextKey(t) {
+    var ORDER = ['Fajr', 'Duha', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];   // الخمس + الضحى (بدون الشروق)
+    var d = new Date(), nowMins = d.getHours() * 60 + d.getMinutes(), next = null, best = Infinity;
+    ORDER.forEach(function(k) {
+      if (!t[k]) return;
+      var p = String(t[k]).split(' ')[0].split(':'), pm = parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+      if (pm > nowMins && pm < best) { best = pm; next = k; }
+    });
+    return next || (t.Fajr ? 'Fajr' : null);
+  }
+
+  // نفس مسار بانر التذكير: يقفل الترحيبية ثم يفتح فلتر الأذكار الفرعى (صباح/مساء) ومعه رسالة الإكمال/التصفير
+  function goAdhkar(type) {
+    window._adhkarBannerEntry = type;
+    var ws = document.getElementById('welcomeScreen');
+    var wasOpen = ws && ws.style.display !== 'none';
+    if (wasOpen && typeof closeWelcomeScreen === 'function') { try { closeWelcomeScreen(); } catch (e) {} }
+    setTimeout(function() {
+      var adhkarBtn = document.querySelector('.filter-button[data-en="Adhkar"]');
+      if (adhkarBtn) adhkarBtn.click();
+      setTimeout(function() {
+        var subBtn = document.querySelector('.adhkar-sub-btn[data-sub="' + type + '"]');
+        if (subBtn) subBtn.click();
+        setTimeout(function() { window._adhkarBannerEntry = null; }, 500);
+      }, 200);
+    }, wasOpen ? 400 : 0);
+  }
+
+  function render() {
+    var row = document.getElementById('welcomeQuickRow');
+    if (!row) return;
+    var chip = document.getElementById('welcomePrayerChip'), btn = document.getElementById('welcomeAdhkarBtn');
+    var lang = _ptLang();
+    var t = todayTimings(), key = t ? nextKey(t) : null;
+    var cls = document.documentElement.classList;
+    var chipOn = true, btnOn = true;
+    try { chipOn = localStorage.getItem('welcomeChip') !== 'off'; btnOn = localStorage.getItem('welcomeAdhkarBtn') !== 'off'; } catch (e) {}   // من الإعدادات
+    var showBtn = btnOn && (cls.contains('wstyle-azkarday') || cls.contains('wstyle-duha'));
+    var mode = 'morning';
+    try { mode = window.wsAdhkarState().mode; } catch (e) {}
+    var cdOn = true; try { cdOn = localStorage.getItem('welcomeCountdown') !== 'off'; } catch (e) {}
+    var cdInfo = null;
+    try { var _cd = (cdOn && typeof window.wsCountdownNext === 'function') ? window.wsCountdownNext() : null; if (_cd) cdInfo = window.wsCountdownText(_cd, lang); } catch (e) {}
+    var bd = { haram: null, fast: null };
+    try { if (typeof window.wsBadges === 'function') bd = window.wsBadges(lang); } catch (e) {}
+    if (bd.haram && cls.contains('wstyle-rajab')) bd.haram = null;   // تصميم «أول رجب» يذكر الشهر الحرام بنفسه
+    /* صف الشارات داخل نص الترحيب: يُعاد إنشاؤه لو مسحه تبديل اللغة */
+    var _bh = document.getElementById('siteWelcomeText'), _br = document.getElementById('welcomeBadgeRow');
+    if (_bh && !_br) { _br = document.createElement('div'); _br.id = 'welcomeBadgeRow'; _br.innerHTML = '<small id="welcomeHaramChip"></small><small id="welcomeFastChip"></small>'; _bh.appendChild(_br); _sig = null; }
+    var sig = [lang, key, showBtn, mode, chipOn, cdInfo ? cdInfo.text : '', bd.haram ? bd.haram.text : '', bd.fast ? bd.fast.text : ''].join('|');
+    if (sig === _sig) return;
+    _sig = sig;
+
+    var target = (key && chipOn) ? _ptCountdownTarget(t, key) : 0;
+    if (target) {
+      var timeHtml = '<span class="pt-countdown" data-target="' + target + '" style="font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;">' + _ptFmtRemain(target - Date.now()) + '</span>';
+      chip.innerHTML = '⏳ ' + _ptT('nextShort', lang).replace('{p}', _ptT(key.toLowerCase(), lang)).replace('{t}', timeHtml);
+      chip.style.display = 'inline-flex';
+    } else {
+      chip.innerHTML = '';
+      chip.style.display = 'none';
+    }
+
+    if (showBtn) {
+      var ev = (mode === 'evening');
+      btn.textContent = (ev ? '🌙 ' : '🌅 ') + _ptT(ev ? 'goEvening' : 'goMorning', lang);
+      btn.setAttribute('data-type', ev ? 'evening' : 'morning');
+      btn.style.display = 'inline-flex';
+    } else {
+      btn.style.display = 'none';
+    }
+    row.setAttribute('dir', _ptDir(lang));
+    var cdChip = document.getElementById('welcomeCountdownChip');
+    if (cdChip) {
+      if (cdInfo) { cdChip.textContent = cdInfo.text; cdChip.title = cdInfo.title; cdChip.style.display = 'inline-flex'; }
+      else { cdChip.textContent = ''; cdChip.style.display = 'none'; }
+    }
+    if (_br) {
+      _br.setAttribute('dir', _ptDir(lang));
+      [['welcomeHaramChip', bd.haram], ['welcomeFastChip', bd.fast]].forEach(function(x) {
+        var el = document.getElementById(x[0]); if (!el) return;
+        if (x[1]) { el.textContent = x[1].text; el.title = x[1].title; el.style.display = 'inline-flex'; }
+        else { el.textContent = ''; el.style.display = 'none'; }
+      });
+      _br.style.display = (bd.haram || bd.fast) ? 'flex' : 'none';
+    }
+    row.style.display = (target || showBtn || cdInfo) ? 'flex' : 'none';
+    if (typeof window._ptStartCountdown === 'function') window._ptStartCountdown();
+  }
+
+  function init() {
+    var chip = document.getElementById('welcomePrayerChip'), btn = document.getElementById('welcomeAdhkarBtn');
+    if (chip) {
+      var openPopup = function(e) { e.stopPropagation(); if (typeof openPrayerTimesPopup === 'function') openPrayerTimesPopup(); };
+      chip.addEventListener('click', openPopup);
+      chip.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPopup(e); } });
+    }
+    if (btn) btn.addEventListener('click', function(e) { e.stopPropagation(); goAdhkar(btn.getAttribute('data-type') === 'evening' ? 'evening' : 'morning'); });
+    window._wsQuickRefresh = render;
+    (window._ptCdHooks = window._ptCdHooks || []).push(render);   // عند انتهاء العدّ: انتقل للصلاة التالية
+    render();
+    setInterval(render, 5000);                                    // يلتقط تغيّر اللغة/الثيم/وصول المواقيت
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+<script>
 // ===== نافذة مواقيت الصلاة المنبثقة (زر الفوتر) =====
 (function() {
+  var _fpwLast = null;
+  (window._ptCdHooks = window._ptCdHooks || []).push(function() {
+    if (_fpwLast && document.getElementById('prayerTimesPopupBody')) _fpwRender(_fpwLast[0], _fpwLast[1], _fpwLast[2]);
+  });
   function _fpwFmtTime(t, lang) {
     lang = lang || _ptLang();
     if (typeof window._pwFmtTime === 'function') return window._pwFmtTime(t, lang);
@@ -14107,7 +14648,7 @@ window._ptComputeDuha = _ptComputeDuha;
   }
 
   function _fpwGetNextPrayer(timings) {
-    var ORDER = ['Fajr','Sunrise','Duha','Dhuhr','Asr','Maghrib','Isha'];
+    var ORDER = ['Fajr','Duha','Dhuhr','Asr','Maghrib','Isha'];   // الصلاة القادمة: الخمس + الضحى (بدون الشروق)
     var now = new Date();
     var nowMins = now.getHours() * 60 + now.getMinutes();
     var next = null, nextMins = Infinity;
@@ -14157,10 +14698,13 @@ window._ptComputeDuha = _ptComputeDuha;
         '<div style="font-size:12px;color:' + muted + ';">' + dateStr + (hijriStr ? ' | ' + hijriStr : '') + '</div>' +
         (city ? '<div style="font-size:11.5px;color:' + muted + ';margin-top:2px;">📍 ' + city + '</div>' : '') +
       '</div>' +
+      '<div style="margin-bottom:8px;">' + _ptCountdownHTML(timings, nextKey, lang, false) + '</div>' +
       rows +
       '<div style="text-align:center;margin-top:10px;">' +
         '<button onclick="window._fpwRefreshLocation()" style="background:none;border:1px solid ' + border + ';color:' + muted + ';font-size:11px;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:Cairo,sans-serif;">📍 ' + _ptT('updateLocation', lang) + '</button>' +
       '</div>';
+    _fpwLast = [timings, hijri, city];
+    if (typeof window._ptStartCountdown === 'function') window._ptStartCountdown();
   }
 
   function _fpwLoad() {
@@ -20320,10 +20864,10 @@ function applyInitialLanguage() {
 
     var welcomeText = document.getElementById('siteWelcomeText');
     if (welcomeText) welcomeText.innerHTML =
-      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Open main site" style="font-size:13px;font-weight:700;letter-spacing:2px;color:#7f8c8d;display:block;margin-bottom:4px;cursor:pointer;">\u{1F54C} In the Name of Allah</span>' +
+      '<span id="basmalaOpenSiteBtn" title="Open main site" style="font-size:13px;font-weight:700;letter-spacing:2px;color:#7f8c8d;display:none;margin-bottom:4px;"></span>' +
       '<span style="font-size:26px;font-weight:700;display:block;color:var(--theme-c4);line-height:1.2;">Welcome to</span>' +
       '<span style="font-size:20px;font-weight:700;display:block;margin-top:4px;color:var(--theme-c2);"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">\u{1F4FB} <strong>Radio Ma</strong></a></span>' +
-      '<span style="font-size:14px;color:#546e7a;display:block;margin-top:3px;font-style:italic;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</span>';
+      '<span style="font-size:14px;color:#546e7a;display:block;margin-top:3px;font-style:italic;"><a href="https://radioquran.github.io/M/" target="_blank" rel="noopener noreferrer" title="فتح الموقع الرئيسي / Open main site" style="color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</a></span>';
 
     document.querySelectorAll('.color-setting-item label[data-ar][data-en], .color-setting-item div[data-ar][data-en]').forEach(function(lbl) {
       lbl.textContent = lbl.getAttribute('data-en');
@@ -25487,16 +26031,16 @@ function toggleLanguage() {
     welcomeText.style.textAlign = '';
     if (isArabic) {
       welcomeText.innerHTML =
-        '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="فتح الموقع الرئيسي / Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 بسم الله الرحمن الرحيم</span>' +
+        '<span id="basmalaOpenSiteBtn" title="فتح الموقع الرئيسي / Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:none; margin-bottom:4px; "></span>' +
         '<span style="font-size:26px; font-weight:700; display:block; color:var(--theme-c4); line-height:1.2;">مرحبًا بكم في</span>' +
         '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:var(--theme-c2);"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
-        '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية</span>';
+        '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;"><a href="https://radioquran.github.io/M/" target="_blank" rel="noopener noreferrer" title="فتح الموقع الرئيسي / Open main site" style="color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;">إذاعة القرآن الكريم — تلاوات وأذكار والحديث الشريف والسنة النبوية</a></span>';
     } else {
       welcomeText.innerHTML =
-        '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">🕌 In the Name of Allah</span>' +
+        '<span id="basmalaOpenSiteBtn" title="Open main site" style="font-size:13px; font-weight:700; letter-spacing:2px; color:#7f8c8d; display:none; margin-bottom:4px; "></span>' +
         '<span style="font-size:26px; font-weight:700; display:block; color:var(--theme-c4); line-height:1.2;">Welcome to</span>' +
         '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:var(--theme-c2);"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
-        '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</span>';
+        '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;"><a href="https://radioquran.github.io/M/" target="_blank" rel="noopener noreferrer" title="فتح الموقع الرئيسي / Open main site" style="color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;">Holy Quran Radio — Hadith &amp; Sunnah — Recitations, Adhkar</a></span>';
     }
   }
 
@@ -26373,10 +26917,10 @@ function applyWelcomeOverlayLang(lang) {
     welcomeText.style.direction = d.dir;
     welcomeText.style.textAlign = 'center';
     welcomeText.innerHTML =
-      '<span id="basmalaOpenSiteBtn" onclick="window.open(\'https://radioquran.github.io/M/\',\'_blank\')" title="' + d.basmalaTitle + '" style="font-size:13px; font-weight:700; letter-spacing:' + d.letterSpacing + '; color:#7f8c8d; display:block; margin-bottom:4px; cursor:pointer;">' + d.basmalaText + '</span>' +
+      '<span id="basmalaOpenSiteBtn" title="' + d.basmalaTitle + '" style="font-size:13px; font-weight:700; letter-spacing:' + d.letterSpacing + '; color:#7f8c8d; display:none; margin-bottom:4px; "></span>' +
       '<span style="font-size:26px; font-weight:700; display:block; color:var(--theme-c4); line-height:' + d.lineHeight + ';">' + d.welcomeLine + '</span>' +
       '<span style="font-size:20px; font-weight:700; display:block; margin-top:4px; color:var(--theme-c2);"><a href="https://magziko.github.io/Radio/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;cursor:pointer;">📻 <strong>Radio Ma</strong></a></span>' +
-      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;">' + d.tagline + '</span>';
+      '<span style="font-size:14px; color:#546e7a; display:block; margin-top:3px; font-style:italic;"><a href="https://radioquran.github.io/M/" target="_blank" rel="noopener noreferrer" title="فتح الموقع الرئيسي / Open main site" style="color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;">' + d.tagline + '</a></span>';
   }
 
   var darkModeTxt = document.getElementById('welcomeDarkModeTxt');
