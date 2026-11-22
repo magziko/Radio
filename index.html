@@ -5306,7 +5306,7 @@ setTimeout(autoScaleVerseFont, 100);
     <div class="gset-head" id="gset-h-wopts" role="heading" aria-level="3"><span class="stab-i18n" data-ar="⚙️ التبديل التلقائي وشارات الترحيب" data-en="⚙️ Auto-switching &amp; Welcome Badges">⚙️ التبديل التلقائي وشارات الترحيب</span></div>
     <div id="settings-wautoocc-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="لو أوقفته لا يتبدّل التصميم تلقائيًا في المناسبات (رمضان، الأعياد، الحج، عرفة، عاشوراء، نصف شعبان، الأيام البيض…) ولا يوم الجمعة، ويبقى تصميمك المختار. تصاميم أوقات اليوم (الفجر/الضحى/الغروب…) لا تتأثر / When off, the design does not switch automatically for occasions (Ramadan, Eids, Hajj, Arafah, Ashura, mid-Sha’ban, White Days…) or Fridays, and your chosen design stays. Time-of-day designs are not affected">
       <span class="wtb-icon">🗓️</span>
-      <label for="welcomeAutoOccToggle" class="wtb-text" data-ar="التبديل التلقائي للتصميم في المناسبات والجمعة" data-en="Auto-switch design for occasions &amp; Fridays" style="cursor:pointer; margin:0;">التبديل التلقائي للتصميم في المناسبات والجمعة</label>
+      <label for="welcomeAutoOccToggle" class="wtb-text" data-ar="التبديل التلقائي للتصميم" data-en="Auto-switch design" style="cursor:pointer; margin:0;">التبديل التلقائي للتصميم</label>
       <input type="checkbox" id="welcomeAutoOccToggle" class="wtb-switch" checked onchange="window.toggleWelcomeAutoOcc && window.toggleWelcomeAutoOcc()">
     </div>
     <script>
@@ -5318,7 +5318,7 @@ setTimeout(autoScaleVerseFont, 100);
       function isAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
       function wsClasses() { return Array.prototype.filter.call(root.classList, function(c) { return c.indexOf('wstyle-') === 0; }); }
       function welcomeVisible() { var w = document.getElementById('welcomeScreen'); return !!w && getComputedStyle(w).display !== 'none'; }
-      function say(a, e) { if (typeof showToast === 'function') { if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0; showToast(isAr() ? a : e); } }
+      function say(a, e) { if (typeof showToast === 'function') { if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0; var x = window._wsExpl ? (' — ' + (isAr() ? window._wsExpl[0] : window._wsExpl[1])) : ''; showToast((isAr() ? a : e) + x); } }
       function setClasses(list) {
         wsClasses().forEach(function(c) { root.classList.remove(c); });
         list.forEach(function(c) { root.classList.add(c); });
@@ -5385,17 +5385,17 @@ setTimeout(autoScaleVerseFont, 100);
     </script>
     <div id="settings-waltrot-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="لو وافقت مناسبة (مثل العيد) يوم الجمعة يتبادل التصميمان عند كل فتح للموقع: مرة المناسبة ومرة الجمعة. لو أوقفته تظهر المناسبة فقط / If an occasion (e.g. Eid) falls on a Friday, the two designs alternate each time you open the site. When off, only the occasion design shows">
       <span class="wtb-icon">🔁</span>
-      <label for="welcomeAltRotateToggle" class="wtb-text" data-ar="التناوب بين تصميم المناسبة والجمعة عند التوافق" data-en="Alternate occasion &amp; Friday designs when they coincide" style="cursor:pointer; margin:0;">التناوب بين تصميم المناسبة والجمعة عند التوافق</label>
+      <label for="welcomeAltRotateToggle" class="wtb-text" data-ar="التناوب بين المناسبة والجمعة" data-en="Alternate occasion / Friday" style="cursor:pointer; margin:0;">التناوب بين المناسبة والجمعة</label>
       <input type="checkbox" id="welcomeAltRotateToggle" class="wtb-switch" checked onchange="window.toggleWelcomeAltRotate && window.toggleWelcomeAltRotate()">
     </div>
     <div id="settings-wphaseprio-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="لو فعّلته تظهر تصاميم أوقات اليوم (الفجر، الضحى، العصر، الثلث الأخير) في وقتها حتى لو اليوم مناسبة أو جمعة. لو أوقفته تبقى المناسبة أو الجمعة طول اليوم، وتظهر تصاميم أوقات اليوم في الأيام العادية فقط / When on, time-of-day designs (Fajr, Duha, Asr, last third of the night) show in their time even on an occasion or Friday. When off, the occasion or Friday design stays all day and time-of-day designs show only on ordinary days">
       <span class="wtb-icon">⏰</span>
-      <label for="welcomePhasePrioToggle" class="wtb-text" data-ar="تصاميم أوقات اليوم تغلب المناسبة والجمعة في وقتها" data-en="Time-of-day designs take priority over occasions &amp; Fridays" style="cursor:pointer; margin:0;">تصاميم أوقات اليوم تغلب المناسبة والجمعة في وقتها</label>
+      <label for="welcomePhasePrioToggle" class="wtb-text" data-ar="أوقات اليوم أولًا" data-en="Time-of-day designs first" style="cursor:pointer; margin:0;">أوقات اليوم أولًا</label>
       <input type="checkbox" id="welcomePhasePrioToggle" class="wtb-switch" checked onchange="window.toggleWelcomePhasePrio && window.toggleWelcomePhasePrio()">
     </div>
         <div id="settings-wrestore-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="يلغي اختيارك المؤقت ويرجّع التصميم التلقائى (المناسبة/الجمعة/وقت اليوم) فورًا، وإن لم يوجد تصميم تلقائى الآن يرجع التصميم الذى كان مفعّلًا عند فتح الصفحة / Cancels your temporary choice and brings back the automatic design (occasion/Friday/time of day) right away; if none applies now, it returns to the design that was active when the page opened">
       <span class="wtb-icon">↩️</span>
-      <span class="wtb-text" data-ar="استعادة الثيم الافتراضي (التلقائي)" data-en="Restore default (automatic) theme" data-fr="Rétablir le thème par défaut (automatique)" data-es="Restaurar el tema predeterminado (automático)" data-sv="Återställ standarddesign (automatisk)" data-nl="Standaardthema (automatisch) herstellen" data-ga="Athchóirigh an téama réamhshocraithe (uathoibríoch)" data-de="Standarddesign (automatisch) wiederherstellen" data-ru="Вернуть тему по умолчанию (автоматическую)" data-tr="Varsayılan (otomatik) temayı geri yükle" data-pt="Restaurar o tema padrão (automático)" data-zh="恢复默认（自动）主题" data-ur="ڈیفالٹ (خودکار) تھیم بحال کریں" style="margin:0;">استعادة الثيم الافتراضي (التلقائي)</span>
+      <span class="wtb-text" data-ar="الثيم التلقائي" data-en="Automatic theme" data-fr="Rétablir le thème par défaut (automatique)" data-es="Restaurar el tema predeterminado (automático)" data-sv="Återställ standarddesign (automatisk)" data-nl="Standaardthema (automatisch) herstellen" data-ga="Athchóirigh an téama réamhshocraithe (uathoibríoch)" data-de="Standarddesign (automatisch) wiederherstellen" data-ru="Вернуть тему по умолчанию (автоматическую)" data-tr="Varsayılan (otomatik) temayı geri yükle" data-pt="Restaurar o tema padrão (automático)" data-zh="恢复默认（自动）主题" data-ur="ڈیفالٹ (خودکار) تھیم بحال کریں" style="margin:0;">الثيم التلقائي</span>
       <button type="button" class="welcome-toggle-inline-input" data-ar="استعادة" data-en="Restore" data-fr="Rétablir" data-es="Restaurar" data-sv="Återställ" data-nl="Herstellen" data-ga="Athchóirigh" data-de="Zurücksetzen" data-ru="Вернуть" data-tr="Geri yükle" data-pt="Restaurar" data-zh="恢复" data-ur="بحال کریں" style="cursor:pointer;padding:4px 12px;" onclick="window.restoreDefaultWelcomeTheme && window.restoreDefaultWelcomeTheme()">استعادة</button>
     </div>
         <div id="settings-ornaments-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="إظهار نقوش هندسية خفيفة وشريطين زخرفيين خلف الشاشة الترحيبية في التصاميم الأخرى (لا يؤثر على تصميم «الأرابيسك») / Show subtle geometric patterns and two ornamental bands behind the welcome screen in the other designs (does not affect the Arabesque design)">
@@ -5474,28 +5474,42 @@ setTimeout(autoScaleVerseFont, 100);
     </script>
     <div id="settings-wchip-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="شارة تعرض الوقت المتبقى على الصلاة القادمة (الضحى والصلوات الخمس) أسفل الترحيب / A pill showing the time left until the next prayer (Duha and the five prayers) under the greeting">
       <span class="wtb-icon">⏳</span>
-      <label for="welcomeChipToggle" class="wtb-text" data-ar="عدّاد الصلاة القادمة في الشاشة الترحيبية" data-en="Next-prayer countdown on welcome screen" data-fr="Compte à rebours de la prochaine prière" data-es="Cuenta atrás de la próxima oración" data-sv="Nedräkning till nästa bön" data-nl="Aftelling naar het volgende gebed" data-ga="Comhaireamh síos go dtí an chéad phaidir eile" data-de="Countdown zum nächsten Gebet" data-ru="Обратный отсчёт до следующего намаза" data-tr="Sonraki namaza geri sayım" data-pt="Contagem regressiva da próxima oração" data-zh="下一次礼拜倒计时" data-ur="اگلی نماز کا الٹا شمار" style="cursor:pointer; margin:0;">عدّاد الصلاة القادمة في الشاشة الترحيبية</label>
+      <label for="welcomeChipToggle" class="wtb-text" data-ar="عدّاد الصلاة القادمة" data-en="Next-prayer timer" data-fr="Compte à rebours de la prochaine prière" data-es="Cuenta atrás de la próxima oración" data-sv="Nedräkning till nästa bön" data-nl="Aftelling naar het volgende gebed" data-ga="Comhaireamh síos go dtí an chéad phaidir eile" data-de="Countdown zum nächsten Gebet" data-ru="Обратный отсчёт до следующего намаза" data-tr="Sonraki namaza geri sayım" data-pt="Contagem regressiva da próxima oração" data-zh="下一次礼拜倒计时" data-ur="اگلی نماز کا الٹا شمار" style="cursor:pointer; margin:0;">عدّاد الصلاة القادمة</label>
       <input type="checkbox" id="welcomeChipToggle" class="wtb-switch" checked onchange="window.toggleWelcomeChip && window.toggleWelcomeChip()">
     </div>
     <div id="settings-wcountdown-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="شارة بعدد الأيام المتبقية على أقرب رمضان أو عيد أو حج داخل الشاشة الترحيبية / A badge with the days left until the nearest Ramadan, Eid or Hajj on the welcome screen">
       <span class="wtb-icon">📅</span>
-      <label for="welcomeCountdownToggle" class="wtb-text" data-ar="عدّ تنازلي لرمضان والعيد والحج في الشاشة الترحيبية" data-en="Countdown to Ramadan, Eid &amp; Hajj on welcome screen" style="cursor:pointer; margin:0;">عدّ تنازلي لرمضان والعيد والحج في الشاشة الترحيبية</label>
+      <label for="welcomeCountdownToggle" class="wtb-text" data-ar="عدّ تنازلي للمناسبات" data-en="Events countdown" style="cursor:pointer; margin:0;">عدّ تنازلي للمناسبات</label>
       <input type="checkbox" id="welcomeCountdownToggle" class="wtb-switch" checked onchange="window.toggleWelcomeCountdown && window.toggleWelcomeCountdown()">
     </div>
     <div id="settings-wbadges-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="شارتان صغيرتان على أي تصميم: «شهر حرام» في محرّم ورجب وذي القعدة وذي الحجة، و«اليوم يُستحب صيامه» يومي الاثنين والخميس / Two small badges on any design: “Sacred month” in Muharram, Rajab, Dhul-Qa’dah and Dhul-Hijjah, and “Fasting is recommended today” on Mondays and Thursdays">
       <span class="wtb-icon">🏷️</span>
-      <label for="welcomeBadgesToggle" class="wtb-text" data-ar="شارات الأشهر الحرم وصيام الاثنين والخميس" data-en="Sacred-month &amp; Mon/Thu fasting badges" style="cursor:pointer; margin:0;">شارات الأشهر الحرم وصيام الاثنين والخميس</label>
+      <label for="welcomeBadgesToggle" class="wtb-text" data-ar="شارات الأشهر الحرم والصيام" data-en="Sacred-month &amp; fasting badges" style="cursor:pointer; margin:0;">شارات الأشهر الحرم والصيام</label>
       <input type="checkbox" id="welcomeBadgesToggle" class="wtb-switch" checked onchange="window.toggleWelcomeBadges && window.toggleWelcomeBadges()">
     </div>
     <div id="settings-wadhkarbtn-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="زر يفتح أذكار الصباح أو المساء مباشرة من الشاشة الترحيبية عند عرض تصميم «الضحى» أو «أذكار الصباح والمساء» / A button that opens the morning or evening Adhkar straight from the welcome screen when the Duha or Morning &amp; Evening Adhkar design is shown">
       <span class="wtb-icon">🌅</span>
-      <label for="welcomeAdhkarBtnToggle" class="wtb-text" data-ar="زر «اذهب للأذكار» في ثيمي الضحى والأذكار" data-en="“Go to Adhkar” button (Duha & Adhkar designs)" data-fr="Bouton « Aller aux invocations »" data-es="Botón «Ir a los adhkar»" data-sv="Knappen ”Gå till adhkar”" data-nl="Knop ”Ga naar de adhkar”" data-ga="Cnaipe ”Téigh chuig na adhkar”" data-de="Schaltfläche „Zu den Adhkar“" data-ru="Кнопка «К азкарам»" data-tr="“Zikirlere git” düğmesi" data-pt="Botão «Ir para os adhkar»" data-zh="“前往赞词”按钮" data-ur="«اذکار پر جائیں» کا بٹن" style="cursor:pointer; margin:0;">زر «اذهب للأذكار» في ثيمي الضحى والأذكار</label>
+      <label for="welcomeAdhkarBtnToggle" class="wtb-text" data-ar="زر «اذهب للأذكار»" data-en="“Go to Adhkar” button" data-fr="Bouton « Aller aux invocations »" data-es="Botón «Ir a los adhkar»" data-sv="Knappen ”Gå till adhkar”" data-nl="Knop ”Ga naar de adhkar”" data-ga="Cnaipe ”Téigh chuig na adhkar”" data-de="Schaltfläche „Zu den Adhkar“" data-ru="Кнопка «К азкарам»" data-tr="“Zikirlere git” düğmesi" data-pt="Botão «Ir para os adhkar»" data-zh="“前往赞词”按钮" data-ur="«اذکار پر جائیں» کا بٹن" style="cursor:pointer; margin:0;">زر «اذهب للأذكار»</label>
       <input type="checkbox" id="welcomeAdhkarBtnToggle" class="wtb-switch" checked onchange="window.toggleWelcomeAdhkarBtn && window.toggleWelcomeAdhkarBtn()">
     </div>
     <script>
     (function() {
       function isAr() { return (typeof isArabic !== 'undefined') ? isArabic : true; }
-      function say(a, e) { if (typeof showToast === 'function') { if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0; showToast(isAr() ? a : e); } }
+      function say(a, e) { if (typeof showToast === 'function') { if (typeof _lastToastTime !== 'undefined') _lastToastTime = 0; var x = window._wsExpl ? (' — ' + (isAr() ? window._wsExpl[0] : window._wsExpl[1])) : ''; showToast((isAr() ? a : e) + x); } }
+      /* شرح مختصر لكل خيار يظهر مع رسالة التفعيل؛ الشرح الكامل يظهر عند المرور بالماوس (title) */
+      var _WS_EXPL = {
+        'welcomeAutoOccToggle': ['يبدّل التصميم تلقائيًا في المناسبات والجمعة', 'Switches design automatically on occasions & Fridays'],
+        'welcomeAltRotateToggle': ['لو وافقت مناسبة يوم الجمعة يتبادل التصميمان', 'If an occasion falls on Friday, the two designs alternate'],
+        'welcomePhasePrioToggle': ['الفجر والضحى والعصر يظهرون في وقتهم حتى في المناسبات', 'Fajr, Duha & Asr designs show in their time even on occasions'],
+        'welcomeChipToggle': ['الوقت المتبقي على الصلاة القادمة', 'Time left until the next prayer'],
+        'welcomeCountdownToggle': ['الأيام المتبقية على رمضان أو العيد أو الحج', 'Days left until Ramadan, Eid or Hajj'],
+        'welcomeBadgesToggle': ['«شهر حرام» و«اليوم يُستحب صيامه» (الاثنين والخميس)', '“Sacred month” & “Fasting recommended today” (Mon/Thu)'],
+        'welcomeAdhkarBtnToggle': ['زر يفتح الأذكار من تصميمي الضحى والأذكار', 'Opens Adhkar from the Duha & Adhkar designs']
+      };
+      Object.keys(_WS_EXPL).forEach(function(id) {
+        var cb = document.getElementById(id), card = cb && cb.closest('.welcome-toggle-btn'); if (!card) return;
+        card.addEventListener('change', function() { window._wsExpl = _WS_EXPL[id]; setTimeout(function() { window._wsExpl = null; }, 0); }, true);
+      });
       function loadSwitch(id, key) {
         var cb = document.getElementById(id); if (!cb) return;
         var off = false; try { off = localStorage.getItem(key) === 'off'; } catch (e) {}
