@@ -2554,7 +2554,7 @@ customAudioPlayer.addEventListener('ended', function() {
 <script src="stations.js"></script>
 <script>
 
-// verses.js (≈290KB) بيتحمّل بعد ظهور الشاشة الترحيبية (آخر السكربت ده) بدل ما يعطّل الصفحة؛
+// verses.js بيتحمّل عند الحاجة فقط (شوف loadVersesData تحت) بدل ما يتحمّل مع بداية الموقع؛
 // لحد ما يوصل بتفضل الآية الافتتاحية الثابتة اللي في الـ HTML ظاهرة
 let current = 0;
 let currentTransIndex = 0;
@@ -2789,13 +2789,99 @@ function _startVerseRotation() {
     scheduleNextTranslation();
   });
 }
-(function _loadVersesFile() {
-  var s = document.createElement('script');
-  s.src = 'verses.js';
-  s.async = true;
-  s.onload = _startVerseRotation;
-  s.onerror = function() { /* لو فشل التحميل نفضل على الآية الافتتاحية الثابتة */ };
-  document.head.appendChild(s);
+// ───── تحميل verses.js عند الحاجة فقط (≈1.9MB مضغوط) ─────
+// مش بيتحمّل مع بداية الموقع: بيتحمّل (1) لما المستخدم يلمس/يسحب على الآية أو الترجمة،
+// أو (2) بعد فترة هدوء (٢٠ ثانية) والصفحة ظاهرة والاتصال سريع وغير محدود (مش Data Saver ولا 3G/2G ولا شبكة جوال)،
+// أو (3) لما حد من الأكواد التانية ينادي window.loadVersesData(). لحد ما يوصل بتفضل الآية الافتتاحية الثابتة ظاهرة.
+(function() {
+  var state = 'idle';            // idle | loading | ready
+  var waiters = [];
+  var noteEl = null, noteTimer = null, hideTimer = null;
+
+  function note(msg, ms) {
+    try {
+      if (!noteEl) {
+        var st = document.createElement('style');
+        st.textContent = '#versesLoadNote{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);max-width:90vw;' +
+          'padding:6px 14px;border-radius:14px;background:rgba(20,20,20,.88);color:#fff;font-size:13px;line-height:1.5;' +
+          'z-index:2147483000;pointer-events:none;opacity:0;transition:opacity .25s;text-align:center;direction:rtl}' +
+          '#versesLoadNote.show{opacity:1}';
+        document.head.appendChild(st);
+        noteEl = document.createElement('div');
+        noteEl.id = 'versesLoadNote';
+        noteEl.setAttribute('role', 'status');
+        noteEl.setAttribute('aria-live', 'polite');
+        document.body.appendChild(noteEl);
+      }
+      clearTimeout(hideTimer);
+      noteEl.textContent = msg;
+      noteEl.classList.add('show');
+      if (ms) hideTimer = setTimeout(function() { noteEl.classList.remove('show'); }, ms);
+    } catch (e) {}
+  }
+  function hideNote() { clearTimeout(hideTimer); if (noteEl) noteEl.classList.remove('show'); }
+
+  function load(userInitiated) {
+    if (typeof verses !== 'undefined' && verses && verses.length) { state = 'ready'; return Promise.resolve(true); }
+    if (state === 'loading') return new Promise(function(res) { waiters.push(res); });
+    state = 'loading';
+    return new Promise(function(res) {
+      waiters.push(res);
+      if (userInitiated) {   // مؤشر صغير لو التحميل طوّل (أكتر من نص ثانية)
+        noteTimer = setTimeout(function() { note('جارٍ تحميل الآيات…'); }, 500);
+      }
+      var s = document.createElement('script');
+      s.src = 'verses.js';
+      s.async = true;
+      s.onload = function() {
+        clearTimeout(noteTimer); hideNote();
+        state = 'ready';
+        try { _startVerseRotation(); } catch (e) {}
+        waiters.splice(0).forEach(function(r) { r(true); });
+      };
+      s.onerror = function() {
+        // فشل التحميل (أوفلاين مثلًا): نفضل على الآية الافتتاحية الثابتة، ونسمح بمحاولة تانية لاحقًا
+        clearTimeout(noteTimer);
+        state = 'idle';
+        if (s.parentNode) s.parentNode.removeChild(s);
+        if (userInitiated) note('تعذّر تحميل الآيات الآن، تأكد من الاتصال وحاول مرة أخرى', 4000);
+        waiters.splice(0).forEach(function(r) { r(false); });
+      };
+      document.head.appendChild(s);
+    });
+  }
+  window.loadVersesData = function() { return load(true); };
+
+  // (1) أول لمسة/سحب على منطقة الآية
+  function onTouchVerse(e) {
+    var t = e.target;
+    if (!t || !t.closest || !t.closest('#quranVerse')) return;
+    if (state === 'ready') { document.removeEventListener('pointerdown', onTouchVerse, true); return; }
+    load(true);
+  }
+  document.addEventListener('pointerdown', onTouchVerse, true);
+
+  // (2) تحميل تلقائي بعد فترة هدوء، بس لو الاتصال يسمح
+  function connectionOk() {
+    var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (!c) return true;
+    if (c.saveData) return false;
+    if (c.type === 'cellular') return false;
+    if (/^(slow-2g|2g|3g)$/.test(c.effectiveType || '')) return false;
+    return true;
+  }
+  function autoLoad() {
+    if (state !== 'idle') return;
+    if (document.visibilityState !== 'visible' || window._quranLiveSyncActive || !connectionOk()) return;
+    load(false);
+  }
+  function arm() {
+    setTimeout(function() {
+      if ('requestIdleCallback' in window) requestIdleCallback(autoLoad, { timeout: 5000 });
+      else autoLoad();
+    }, 20000);
+  }
+  if (document.readyState === 'complete') arm(); else window.addEventListener('load', arm);
 })();
 
 setTimeout(autoScaleVerseFont, 100);
