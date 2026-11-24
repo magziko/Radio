@@ -45811,12 +45811,12 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 })();
 </script>
 <!-- ===== اختيار سورة محددة من محطات القرّاء (mp3) =====
-     أيقونة 🔢 على زر كل قارئ عنده ملفات سور مرقّمة → تفتح قائمة بالسور (أو اكتب رقم السورة)
+     على زر كل قارئ عنده ملفات سور مرقّمة بتتحوّل أيقونة 🔁 لـ 🔢، وبالضغط عليها تفتح قائمة بالسور (أو اكتب رقم السورة)؛ باقى المحطات بتفضل بـ 🔁 العادية
      وتشغّل السورة المختارة بالتحديد، مش الاختيار العشوائى بين الروابط.
      مستقلة بالكامل: ما بتغيّرش أى كود موجود، وبتستخدم toggleRadio الموجودة للتشغيل. -->
 <style id="surahPickStyle">
-.surah-pick-icon{display:inline-block;margin:0 6px;padding:0 5px;border-radius:8px;font-size:.85em;line-height:1.5;cursor:pointer;background:rgba(128,128,128,.22);user-select:none;-webkit-user-select:none;vertical-align:middle}
-.surah-pick-icon:hover,.surah-pick-icon:focus{background:rgba(40,167,69,.45);outline:none}
+.multi-icon.surah-pick-on{cursor:pointer}
+.multi-icon.surah-pick-on:hover{filter:brightness(1.25)}
 #surahPickOverlay{position:fixed;inset:0;z-index:999990;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);padding:12px;box-sizing:border-box}
 #surahPickOverlay.open{display:flex}
 #surahPickCard{width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.45);border:1px solid rgba(128,128,128,.35);overflow:hidden;font-family:inherit}
@@ -46018,36 +46018,43 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     }
   }
 
-  // ───────── الأيقونات ─────────
-  function addIcons() {
-    var btns = document.querySelectorAll('.button[data-reciter-type="mp3"][data-urls]');
-    for (var i = 0; i < btns.length; i++) {
-      var btn = btns[i];
-      if (btn.querySelector('.surah-pick-icon')) continue;
-      if (!surahMap(btn)) continue;
-      var ic = document.createElement('span');
-      ic.className = 'surah-pick-icon';
-      ic.setAttribute('role', 'button');
-      ic.setAttribute('tabindex', '0');
-      ic.textContent = '🔢';
-      var tip = T('اختيار سورة محددة', 'Choose a specific surah');
-      ic.title = tip; ic.setAttribute('aria-label', tip);
-      (function (b, icon) {
-        function go(e) { e.stopPropagation(); e.preventDefault(); open(b); }
-        icon.addEventListener('click', go);
-        icon.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter' || e.key === ' ') go(e);
-        });
-      })(btn, ic);
-      var st = btn.querySelector('.station-text');
-      if (st && st.parentNode === btn) st.insertAdjacentElement('afterend', ic);
-      else btn.appendChild(ic);
+  // ───────── أيقونة 🔁 الموجودة أصلًا هى اللى بتفتح الشاشة ─────────
+  function eligibleBtn(el) {
+    var btn = el && el.closest ? el.closest('[data-urls]') : null;
+    if (!btn || btn.getAttribute('data-reciter-type') !== 'mp3') return null;
+    return surahMap(btn) ? btn : null;
+  }
+
+  // لقرّاء قوائم السور بس: الأيقونة تبقى 🔢 + مؤشر "إصبع" + نص التلميح يضيف سطر عن اختيار السورة
+  function markTriggers() {
+    var icons = document.querySelectorAll('[data-reciter-type="mp3"][data-urls] .multi-icon');
+    for (var i = 0; i < icons.length; i++) {
+      var ic = icons[i];
+      if (ic.classList.contains('surah-pick-on')) continue;
+      if (!eligibleBtn(ic)) continue;
+      ic.classList.add('surah-pick-on');
+      // الأيقونة بتتغيّر 🔁 → 🔢 لقرّاء قوائم السور بس، عشان يتميّزوا عن باقى المحطات
+      if (ic.textContent.trim() === '\uD83D\uDD01') ic.textContent = '\uD83D\uDD22';
+      var t = ic.getAttribute('title') || '';
+      ic.setAttribute('title', t + (t ? '\n' : '') + T('🔢 اضغط على الأيقونة لاختيار سورة محددة', '🔢 Click the icon to choose a specific surah'));
     }
   }
 
-  addIcons();
-  window.addEventListener('load', addIcons);
-  window.addSurahPickIcons = addIcons;   // لو اتضافت أزرار قرّاء جديدة بعد التحميل
+  // اعتراض الضغط على الأيقونة (قبل ما يوصل لزر المحطة) وفتح الشاشة بدل تشغيل المحطة
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    var ic = t && t.closest ? t.closest('.multi-icon') : null;
+    if (!ic) return;
+    var btn = eligibleBtn(ic);
+    if (!btn) return;                 // محطات تانية فيها 🔁: تفضل زى ما هى
+    e.stopPropagation();
+    e.preventDefault();
+    open(btn);
+  }, true);
+
+  markTriggers();
+  window.addEventListener('load', markTriggers);
+  window.addSurahPickIcons = markTriggers;   // لو اتضافت أزرار قرّاء جديدة بعد التحميل
 })();
 </script>
 </body>
