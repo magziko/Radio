@@ -2791,7 +2791,7 @@ function _startVerseRotation() {
 }
 // ───── تحميل verses.js عند الحاجة فقط (≈1.9MB مضغوط) ─────
 // مش بيتحمّل مع بداية الموقع: بيتحمّل (1) لما المستخدم يلمس/يسحب على الآية أو الترجمة،
-// أو (2) بعد فترة هدوء (٢٠ ثانية) والصفحة ظاهرة والاتصال سريع وغير محدود (مش Data Saver ولا 3G/2G ولا شبكة جوال)،
+// أو (2) بعد فترة هدوء (٥ ثوانٍ) والصفحة ظاهرة والاتصال سريع وغير محدود (مش Data Saver ولا 3G/2G ولا شبكة جوال)،
 // أو (3) لما حد من الأكواد التانية ينادي window.loadVersesData(). لحد ما يوصل بتفضل الآية الافتتاحية الثابتة ظاهرة.
 (function() {
   var state = 'idle';            // idle | loading | ready
@@ -2879,7 +2879,7 @@ function _startVerseRotation() {
     setTimeout(function() {
       if ('requestIdleCallback' in window) requestIdleCallback(autoLoad, { timeout: 5000 });
       else autoLoad();
-    }, 20000);
+    }, 5000);
   }
   if (document.readyState === 'complete') arm(); else window.addEventListener('load', arm);
 })();
