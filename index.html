@@ -20967,11 +20967,14 @@ function applyInitialLanguage() {
       if (!b.hasAttribute('data-hidden-sub')) {
         var resetAll = st.querySelector('.reset-all');
         var newText = b.getAttribute('data-en');
+        var _mi = st.querySelector('.multi-icon');
+        if (_mi && _mi.parentNode === st) st.removeChild(_mi); else _mi = null;
         if (resetAll) {
           st.firstChild.textContent = newText;
         } else {
           st.textContent = newText;
         }
+        if (_mi) { st.appendChild(document.createTextNode(' ')); st.appendChild(_mi); }
         if (st.hasAttribute('title') && newText) st.setAttribute('title', newText);
       }
     });
@@ -25958,6 +25961,13 @@ document.addEventListener('keydown', function(e) {
 // مساعد عام: تحديث نص "station-text" عند تبديل اللغة مع الحفاظ على أسطر <br> وفصل جملة الاستعاذة
 function _applyStationTextLang(stEl, newText) {
   if (!newText) return;
+  // أيقونة الاختصار (🔁/🔢) جزء من نص الزر: لازم تفضل بعد تبديل اللغة بدل ما textContent يمسحها
+  var _multiIcon = stEl.querySelector('.multi-icon');
+  if (_multiIcon && _multiIcon.parentNode === stEl) stEl.removeChild(_multiIcon); else _multiIcon = null;
+  try { return _applyStationTextLangCore(stEl, newText); }
+  finally { if (_multiIcon) { stEl.appendChild(document.createTextNode(' ')); stEl.appendChild(_multiIcon); } }
+}
+function _applyStationTextLangCore(stEl, newText) {
   var resetAll = stEl.querySelector('.reset-all');
   var target = resetAll ? stEl.firstChild : stEl;
   var _istiadhaAr = 'أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ';
@@ -26119,11 +26129,14 @@ function toggleLanguage() {
     if (button.hasAttribute('data-hidden-sub')) return;
     const newText = isArabic ? button.getAttribute("data-ar") : button.getAttribute("data-en");
     const resetAll = buttonText.querySelector('.reset-all');
+    var _mi2 = buttonText.querySelector('.multi-icon');
+    if (_mi2 && _mi2.parentNode === buttonText) buttonText.removeChild(_mi2); else _mi2 = null;
     if (resetAll) {
       buttonText.firstChild.textContent = newText;
     } else {
       buttonText.textContent = newText;
     }
+    if (_mi2) { buttonText.appendChild(document.createTextNode(' ')); buttonText.appendChild(_mi2); }
     if (buttonText.hasAttribute('title') && newText) buttonText.setAttribute('title', newText);
   });
 
