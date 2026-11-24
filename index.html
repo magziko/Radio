@@ -3320,7 +3320,7 @@ setTimeout(autoScaleVerseFont, 100);
       box.appendChild(badge);
     }
     var ar = _isAr();
-    badge.textContent = '📖 ' + (ar ? (_sync.name || '') + ' — الآيات بتتابع التلاوة الآن'
+    badge.textContent = '📖 ' + (ar ? (_sync.name || '') + ' — الآيات تتابع التلاوة الآن'
                                     : 'Surah ' + _sync.surahNumber + ' — ayahs now follow the recitation');
     badge.classList.add('show');
     box.classList.remove('sync-attn'); void box.offsetWidth; box.classList.add('sync-attn');   // يعيد تشغيل الوميض
@@ -3507,7 +3507,7 @@ setTimeout(autoScaleVerseFont, 100);
     if (typeof showToast !== 'function') return r;
     var ar = _isAr();
     if (!r.ok) {
-      if (r.reason === 'edge') showToast(r.dir < 0 ? (ar ? '⏮️ دى أول آية' : '⏮️ This is the first ayah') : (ar ? '⏭️ دى آخر آية' : '⏭️ This is the last ayah'));
+      if (r.reason === 'edge') showToast(r.dir < 0 ? (ar ? '⏮️ هذه أول آية' : '⏮️ This is the first ayah') : (ar ? '⏭️ هذه آخر آية' : '⏭️ This is the last ayah'));
       else showToast(ar ? 'المعايرة متاحة بعد بدء تشغيل التلاوة' : 'Calibration is available once playback has started');
       return r;
     }
@@ -3516,7 +3516,7 @@ setTimeout(autoScaleVerseFont, 100);
       : (ar ? '🎯 تمت المعايرة — الآية ' : '🎯 Calibrated — ayah ') + r.num + (ar ? ' من ' : ' of ') + r.total;
     if (r.learned) {
       var p = r.learned.to;
-      msg += (ar ? ' · 💾 اتحفظت سرعة القارئ (' : ' · 💾 Reciter speed saved (') + (p > 0 ? '+' : '') + p + '%)';
+      msg += (ar ? ' · 💾 حُفظت سرعة القارئ (' : ' · 💾 Reciter speed saved (') + (p > 0 ? '+' : '') + p + '%)';
       showToast(msg, { actionLabel: ar ? 'تراجع' : 'Undo', duration: 7000, onAction: function() { window.undoLearnedSyncSpeed(r.learned.from); } });
     } else {
       showToast(msg);
@@ -3828,7 +3828,7 @@ setTimeout(autoScaleVerseFont, 100);
 <div class="subfilter-scroll-strip">
 <button class="more-sub-btn active" data-sub="all" data-ar="📂 الكل" data-en="All" data-fr="Tout" data-es="Todo" data-sv="Alla" data-nl="Alles" data-ga="Uile" data-de="Alle" data-ru="Все" data-tr="Tümü" data-pt="Tudo" data-zh="全部" data-ur="تمام" onclick="filterMoreSub('all',this)">📂 الكل</button>
 <button class="more-sub-btn" data-sub="more-mushaf" data-ar="📖 مصاحف" data-en="Mushafs" data-fr="Mushafs" data-es="Mushafs" data-sv="Mushafer" data-nl="Mushafs" data-ga="Mushafanna" data-de="Mushafs" data-ru="Мусхафы" data-tr="Mushaflar" data-pt="Mushafs" data-zh="古兰经抄本" data-ur="مصاحف" onclick="filterMoreSub('more-mushaf',this)">📖 مصاحف</button>
-<button class="more-sub-btn" data-sub="more-azkar" data-ar="🌿 أذكار" data-en="Azkar" data-fr="Azkar" data-es="Azkar" data-sv="Azkar" data-nl="Azkar" data-ga="Azkar" data-de="Azkar" data-ru="Азкар" data-tr="Ezkâr" data-pt="Azkar" data-zh="赞念" data-ur="اذکار" onclick="filterMoreSub('more-azkar',this)">🌿 أذكار</button>
+<button class="more-sub-btn" data-sub="more-azkar" data-ar="🌿 أذكار" data-en="Adhkar" data-fr="Azkar" data-es="Azkar" data-sv="Azkar" data-nl="Azkar" data-ga="Azkar" data-de="Azkar" data-ru="Азкар" data-tr="Ezkâr" data-pt="Azkar" data-zh="赞念" data-ur="اذکار" onclick="filterMoreSub('more-azkar',this)">🌿 أذكار</button>
 <button class="more-sub-btn" data-sub="more-translations" data-ar="🌍 ترجمات" data-en="Translations" data-fr="Traductions" data-es="Traducciones" data-sv="Översättningar" data-nl="Vertalingen" data-ga="Aistriúcháin" data-de="Übersetzungen" data-ru="Переводы" data-tr="Çeviriler" data-pt="Traduções" data-zh="翻译" data-ur="تراجم" onclick="filterMoreSub('more-translations',this)">🌍 ترجمات</button>
 <button class="more-sub-btn" data-sub="more-hadith" data-ar="📜 أحاديث" data-en="Hadith" data-fr="Hadith" data-es="Hadiz" data-sv="Hadith" data-nl="Hadith" data-ga="Hadith" data-de="Hadith" data-ru="Хадис" data-tr="Hadis" data-pt="Hadith" data-zh="圣训" data-ur="حدیث" onclick="filterMoreSub('more-hadith',this)">📜 أحاديث</button>
 <button class="more-sub-btn" data-sub="more-radio" data-ar="📻 إذاعة" data-en="Radio" data-fr="Radio" data-es="Radio" data-sv="Radio" data-nl="Radio" data-ga="Raidió" data-de="Radio" data-ru="Радио" data-tr="Radyo" data-pt="Rádio" data-zh="广播" data-ur="ریڈیو" onclick="filterMoreSub('more-radio',this)">📻 راديو</button>
@@ -5506,7 +5506,7 @@ setTimeout(autoScaleVerseFont, 100);
       <label for="welcomePhasePrioToggle" class="wtb-text" data-ar="أوقات اليوم أولًا" data-en="Time-of-day designs first" style="cursor:pointer; margin:0;">أوقات اليوم أولًا</label>
       <input type="checkbox" id="welcomePhasePrioToggle" class="wtb-switch" checked onchange="window.toggleWelcomePhasePrio && window.toggleWelcomePhasePrio()">
     </div>
-        <div id="settings-wrestore-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="يلغي اختيارك المؤقت ويرجّع التصميم التلقائى (المناسبة/الجمعة/وقت اليوم) فورًا، وإن لم يوجد تصميم تلقائى الآن يرجع التصميم الذى كان مفعّلًا عند فتح الصفحة / Cancels your temporary choice and brings back the automatic design (occasion/Friday/time of day) right away; if none applies now, it returns to the design that was active when the page opened">
+        <div id="settings-wrestore-item" data-stab="welcome" class="welcome-toggle-btn" style="gap:7px;" title="يلغي اختيارك المؤقت ويعيد التصميم التلقائى (المناسبة/الجمعة/وقت اليوم) فورًا، وإن لم يوجد تصميم تلقائى الآن يرجع التصميم الذى كان مفعّلًا عند فتح الصفحة / Cancels your temporary choice and brings back the automatic design (occasion/Friday/time of day) right away; if none applies now, it returns to the design that was active when the page opened">
       <span class="wtb-icon">↩️</span>
       <span class="wtb-text" data-ar="الثيم التلقائي" data-en="Automatic theme" data-fr="Rétablir le thème par défaut (automatique)" data-es="Restaurar el tema predeterminado (automático)" data-sv="Återställ standarddesign (automatisk)" data-nl="Standaardthema (automatisch) herstellen" data-ga="Athchóirigh an téama réamhshocraithe (uathoibríoch)" data-de="Standarddesign (automatisch) wiederherstellen" data-ru="Вернуть тему по умолчанию (автоматическую)" data-tr="Varsayılan (otomatik) temayı geri yükle" data-pt="Restaurar o tema padrão (automático)" data-zh="恢复默认（自动）主题" data-ur="ڈیفالٹ (خودکار) تھیم بحال کریں" style="margin:0;">الثيم التلقائي</span>
       <button type="button" class="welcome-toggle-inline-input" data-ar="استعادة" data-en="Restore" data-fr="Rétablir" data-es="Restaurar" data-sv="Återställ" data-nl="Herstellen" data-ga="Athchóirigh" data-de="Zurücksetzen" data-ru="Вернуть" data-tr="Geri yükle" data-pt="Restaurar" data-zh="恢复" data-ur="بحال کریں" style="cursor:pointer;padding:4px 12px;" onclick="window.restoreDefaultWelcomeTheme && window.restoreDefaultWelcomeTheme()">استعادة</button>
@@ -6001,7 +6001,7 @@ setTimeout(autoScaleVerseFont, 100);
   <div id="adhkar-tip-settings" class="adhkar-tahlil-settings">
     <div class="tahlil-row tahlil-row-count">
       <span class="tahlil-title" data-ar="💬 تلميح الذكر (الفضل والشرح)" data-en="💬 Dhikr tooltip (virtue / info)">💬 تلميح الذكر (الفضل والشرح)</span>
-      <span class="tahlil-note" data-ar="يظهر عند الضغط على الذكر. اختر مدة ظهوره أو أخفِه. ويمكن إغلاقه بزر ✕ أو بالضغط فى أى مكان فاضى." data-en="Shown when you tap a dhikr. Choose how long it stays, or hide it. Close it with ✕ or by tapping any empty area.">يظهر عند الضغط على الذكر. اختر مدة ظهوره أو أخفِه. ويمكن إغلاقه بزر ✕ أو بالضغط فى أى مكان فاضى.</span>
+      <span class="tahlil-note" data-ar="يظهر عند الضغط على الذكر. اختر مدة ظهوره أو أخفِه. ويمكن إغلاقه بزر ✕ أو بالضغط في أي مكان خارجه." data-en="Shown when you tap a dhikr. Choose how long it stays, or hide it. Close it with ✕ or by tapping any empty area.">يظهر عند الضغط على الذكر. اختر مدة ظهوره أو أخفِه. ويمكن إغلاقه بزر ✕ أو بالضغط فى أى مكان فاضى.</span>
       <div class="tahlil-count-group tip-dur-group">
         <button type="button" class="tahlil-count-btn" data-sec="0" data-ar="إخفاء" data-en="Off" onclick="setDhikrTipDuration(0)">إخفاء</button>
         <button type="button" class="tahlil-count-btn" data-sec="4" data-ar="٤ ث" data-en="4s" onclick="setDhikrTipDuration(4)">٤ ث</button>
@@ -6042,7 +6042,7 @@ setTimeout(autoScaleVerseFont, 100);
         <span data-ar="🔒 تثبيت السرعة" data-en="🔒 Lock speed" style="font-size:14px;font-weight:700;color:var(--theme-c4);">🔒 تثبيت السرعة</span>
         <div id="adhkarPaceLockToggle" class="mini-toggle-switch" role="switch" aria-checked="false" tabindex="0" onclick="toggleTasbihPaceOpt('adhkarPaceLock')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTasbihPaceOpt('adhkarPaceLock');}" style="margin-inline-start:auto;flex-shrink:0;"></div>
       </div>
-      <div data-ar="يوقف التعلّم التلقائى، والتغيير اليدوى بأزرار 🐢/🐇 يفضل شغال" data-en="Stops automatic learning; the 🐢/🐇 buttons still work" style="font-size:11.5px;color:var(--theme-c3);margin-top:3px;line-height:1.5;">يوقف التعلّم التلقائى، والتغيير اليدوى بأزرار 🐢/🐇 يفضل شغال</div>
+      <div data-ar="يوقف التعلّم التلقائي، ويبقى التغيير اليدوي بأزرار 🐢/🐇 فعّالًا" data-en="Stops automatic learning; the 🐢/🐇 buttons still work" style="font-size:11.5px;color:var(--theme-c3);margin-top:3px;line-height:1.5;">يوقف التعلّم التلقائي، ويبقى التغيير اليدوي بأزرار 🐢/🐇 فعّالًا</div>
     </div>
   </div>
 
@@ -6128,8 +6128,8 @@ setTimeout(autoScaleVerseFont, 100);
     <span data-ar="⏱️ سرعة العدّ التلقائى" data-en="⏱️ Auto-Count Speed" data-fr="⏱️ Vitesse du comptage automatique" data-es="⏱️ Velocidad del conteo automático" data-sv="⏱️ Automatisk räknehastighet" data-nl="⏱️ Automatische telsnelheid" data-ga="⏱️ Luas an Chomhairimh Uathoibríoch" data-de="⏱️ Geschwindigkeit der automatischen Zählung" data-ru="⏱️ Скорость автосчёта" data-tr="⏱️ Otomatik Sayım Hızı" data-pt="⏱️ Velocidade da contagem automática" data-zh="⏱️ 自动计数速度" data-ur="⏱️ خودکار شمار کی رفتار"
       style="font-size:15px;font-weight:700;color:var(--theme-c4);white-space:nowrap;">⏱️ سرعة العدّ التلقائى</span>
 
-    <span data-ar="تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار (وبتتحكّم كمان فى سرعة عدّاد التسبيح العائم فى باقى الصفحة)" data-en="Control how fast auto-laps and auto-advance move between adhkar (also controls the speed of the floating tasbih counter elsewhere on the page)" data-fr="Contrôlez la vitesse des tours et du passage automatique entre les Adhkar (contrôle aussi le compteur de tasbih flottant)" data-es="Controla la velocidad de las vueltas y el avance automático entre Adhkar (también controla el contador de tasbih flotante)" data-sv="Styr hastigheten på varvet och det automatiska bytet mellan Adhkar (styr även den flytande tasbih-räknaren)" data-nl="Bepaal de snelheid van de automatische rondes en overgang tussen Adhkar (bepaalt ook de zwevende tasbih-teller)" data-ga="Rialaigh luas na lapaí agus an dul ar aghaidh uathoibríoch idir Adhkar (rialaíonn sé freisin an áireamhóir tasbih ar snámh)" data-de="Steuere die Geschwindigkeit der automatischen Runden und des Wechsels zwischen Adhkar (steuert auch den schwebenden Tasbih-Zähler)" data-ru="Настройте скорость автоповтора и автоперехода между азкар (также управляет плавающим счётчиком тасбих)" data-tr="Ezkâr arasındaki otomatik tur ve geçiş hızını kontrol edin (yüzen tesbih sayacını da kontrol eder)" data-pt="Controle a velocidade das voltas e do avanço automático entre Adhkar (também controla o contador de tasbih flutuante)" data-zh="控制赞念之间自动圈数和自动前进的速度（也控制悬浮赞念计数器的速度）" data-ur="اذکار کے درمیان خودکار چکر اور پیش رفت کی رفتار کو کنٹرول کریں (فلوٹنگ تسبیح کاؤنٹر کی رفتار بھی کنٹرول کرتا ہے)"
-      style="font-size:12px;color:var(--theme-c3);">تحكّم فى سرعة اللفّات والانتقال التلقائى بين الأذكار (وبتتحكّم كمان فى سرعة عدّاد التسبيح العائم فى باقى الصفحة)</span>
+    <span data-ar="تحكّم في سرعة اللفّات والانتقال التلقائي بين الأذكار (ويتحكّم أيضًا في سرعة عدّاد التسبيح العائم في بقية الصفحة)" data-en="Control how fast auto-laps and auto-advance move between adhkar (also controls the speed of the floating tasbih counter elsewhere on the page)" data-fr="Contrôlez la vitesse des tours et du passage automatique entre les Adhkar (contrôle aussi le compteur de tasbih flottant)" data-es="Controla la velocidad de las vueltas y el avance automático entre Adhkar (también controla el contador de tasbih flotante)" data-sv="Styr hastigheten på varvet och det automatiska bytet mellan Adhkar (styr även den flytande tasbih-räknaren)" data-nl="Bepaal de snelheid van de automatische rondes en overgang tussen Adhkar (bepaalt ook de zwevende tasbih-teller)" data-ga="Rialaigh luas na lapaí agus an dul ar aghaidh uathoibríoch idir Adhkar (rialaíonn sé freisin an áireamhóir tasbih ar snámh)" data-de="Steuere die Geschwindigkeit der automatischen Runden und des Wechsels zwischen Adhkar (steuert auch den schwebenden Tasbih-Zähler)" data-ru="Настройте скорость автоповтора и автоперехода между азкар (также управляет плавающим счётчиком тасбих)" data-tr="Ezkâr arasındaki otomatik tur ve geçiş hızını kontrol edin (yüzen tesbih sayacını da kontrol eder)" data-pt="Controle a velocidade das voltas e do avanço automático entre Adhkar (também controla o contador de tasbih flutuante)" data-zh="控制赞念之间自动圈数和自动前进的速度（也控制悬浮赞念计数器的速度）" data-ur="اذکار کے درمیان خودکار چکر اور پیش رفت کی رفتار کو کنٹرول کریں (فلوٹنگ تسبیح کاؤنٹر کی رفتار بھی کنٹرول کرتا ہے)"
+      style="font-size:12px;color:var(--theme-c3);">تحكّم في سرعة اللفّات والانتقال التلقائي بين الأذكار (ويتحكّم أيضًا في سرعة عدّاد التسبيح العائم في بقية الصفحة)</span>
 
     <div style="display:flex;align-items:center;gap:8px;margin-inline-start:auto;">
       <button type="button" onclick="adjustTasbihSpeed(1)"
@@ -7195,7 +7195,7 @@ setTimeout(autoScaleVerseFont, 100);
     /* لا يسمح بالاستبدال إلا لو الرابط الجديد اتعمله "اختبر ▶" ونجح فعلاً،
        ولسه نفس القيمة (لو غيّرها بعد الاختبار، لازم يعيد الاختبار). */
     if (!lcNewUrlTested || newU !== lcNewUrlTestedValue) {
-      log.textContent = '⚠️ لازم تضغط "اختبر الرابط الجديد ▶" أولًا ويشتغل بنجاح قبل الاستبدال.';
+      log.textContent = '⚠️ يجب أن تضغط "اختبر الرابط الجديد ▶" أولًا وأن يعمل بنجاح قبل الاستبدال.';
       return;
     }
 
@@ -7210,7 +7210,7 @@ setTimeout(autoScaleVerseFont, 100);
     }
 
     /* تأكيد نهائي بملخص العملية قبل التنفيذ الفعلي (طبقة تحقق إضافية غير عدد الضغطات) */
-    var confirmMsg = 'هيتم استبدال ' + matchCount + ' تكرار من:\n' + oldU + '\n\nبـ:\n' + newU + '\n\nهل تريد المتابعة؟';
+    var confirmMsg = 'سيتم استبدال ' + matchCount + ' تكرار من:\n' + oldU + '\n\nبـ:\n' + newU + '\n\nهل تريد المتابعة؟';
     if (!confirm(confirmMsg)) { log.textContent = 'تم إلغاء العملية.'; return; }
 
     /* حفظ نسخة قبل التنفيذ لإتاحة التراجع لاحقًا */
@@ -7400,8 +7400,8 @@ setTimeout(autoScaleVerseFont, 100);
     </div>
     <div id="mainStationSearchBar" style="width:96%; max-width:460px; margin:10px auto 12px; position:relative;">
       <span aria-hidden="true" style="position:absolute; top:50%; right:16px; transform:translateY(-50%); font-size:16px; opacity:.55; pointer-events:none;">🔍</span>
-      <input type="text" id="searchInput" class="search-input" style="width:100%; max-width:100%; margin:0; padding-right:40px; padding-left:64px; box-sizing:border-box;" data-ar=" ابحث هنا عن إذاعة أو اسم القارىء" data-en="Search for a station or reciter name" data-fr="Rechercher une station ou le nom d'un récitateur" data-es="Buscar una emisora o el nombre de un recitador" data-sv="Sök efter en station eller ett recitatörsnamn" data-nl="Zoek een station of de naam van een reciteerder" data-ga="Cuardaigh stáisiún nó ainm aithriseora" data-de="Nach einem Sender oder Rezitatornamen suchen" data-ru="Поиск радиостанции или имени чтеца" data-tr="Bir istasyon veya kari adı ara" data-pt="Pesquisar uma estação ou o nome de um recitador" data-zh="搜索电台或诵读者姓名" data-ur="اسٹیشن یا قاری کا نام تلاش کریں" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
-      <button type="button" id="micSearchBtn" onclick="startVoiceSearch()" aria-label="بحث أو أمر صوتي" title="بحث صوتي، أو قول: شغّل / وقف / التالي / السابق / ارفع الصوت / اخفض الصوت / اكتم الصوت / بطل كتم / شغل قناة كذا" style="display:none; position:absolute; top:50%; left:10px; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; opacity:.65; line-height:1; padding:4px;">🎤</button>
+      <input type="text" id="searchInput" class="search-input" style="width:100%; max-width:100%; margin:0; padding-right:40px; padding-left:64px; box-sizing:border-box;" data-ar="ابحث عن إذاعة أو اسم القارئ" data-en="Search for a station or reciter name" data-fr="Rechercher une station ou le nom d'un récitateur" data-es="Buscar una emisora o el nombre de un recitador" data-sv="Sök efter en station eller ett recitatörsnamn" data-nl="Zoek een station of de naam van een reciteerder" data-ga="Cuardaigh stáisiún nó ainm aithriseora" data-de="Nach einem Sender oder Rezitatornamen suchen" data-ru="Поиск радиостанции или имени чтеца" data-tr="Bir istasyon veya kari adı ara" data-pt="Pesquisar uma estação ou o nome de um recitador" data-zh="搜索电台或诵读者姓名" data-ur="اسٹیشن یا قاری کا نام تلاش کریں" placeholder="ابحث هنا عن إذاعة أو اسم القارئ">
+      <button type="button" id="micSearchBtn" onclick="startVoiceSearch()" aria-label="بحث أو أمر صوتي" title="بحث صوتي، أو قل: شغّل / أوقف / التالي / السابق / ارفع الصوت / اخفض الصوت / اكتم الصوت / فك الكتم / شغّل قناة كذا" style="display:none; position:absolute; top:50%; left:10px; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; opacity:.65; line-height:1; padding:4px;">🎤</button>
       <button type="button" id="searchInputClearBtn" onclick="(function(){var s=document.getElementById('searchInput');s.value='';s.dispatchEvent(new Event('input'));s.focus();})()" aria-label="مسح البحث" title="مسح البحث" style="display:none; position:absolute; top:50%; left:38px; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; opacity:.55; line-height:1; padding:4px;">✕</button>
     </div>
 
@@ -8680,7 +8680,7 @@ const moreSites = [{
 }, ];
 const moreAzkar = [{
   ar: 'أذكار اليوم',
-  en: 'Al Azkar Today',
+  en: 'Adhkar Today',
   fr: 'Al Azkar Aujourd\'hui',
   es: 'Al Azkar Hoy',
   sv: 'Al Azkar Idag',
@@ -8695,7 +8695,7 @@ const moreAzkar = [{
   url: 'https://alazkar.today/'
 }, {
   ar: 'أذكار الصباح والمساء',
-  en: 'Morning & Evening Azkar',
+  en: 'Morning & Evening Adhkar',
   fr: 'Matin & Soir Azkar',
   es: 'Mañana & Tarde Azkar',
   sv: 'Morgon & Kväll Azkar',
@@ -8725,7 +8725,7 @@ const moreAzkar = [{
   url: 'https://masba7a.com/'
 }, {
   ar: 'أذكار المسلم',
-  en: 'Azkar Muslim',
+  en: 'Muslim Adhkar',
   fr: 'Azkar Musulman',
   es: 'Azkar Musulmán',
   sv: 'Azkar Muslimsk',
@@ -8770,7 +8770,7 @@ const moreAzkar = [{
   url: 'https://kalemtayeb.com/adeiah/section/17'
 }, {
   ar: 'أدعية وأذكار',
-  en: 'Duas & Azkar',
+  en: 'Duas & Adhkar',
   fr: 'Invocations & Azkar',
   es: 'Súplicas & Azkar',
   sv: 'Böner & Azkar',
@@ -11192,7 +11192,7 @@ const moreTranslations = [{
 
     var body = document.createElement('p');
     body.style.cssText = 'margin:0 0 20px;font-size:14px;color:#2c5f7a;line-height:1.6;';
-    body.textContent = ar ? 'اختر ما ترغب بتصفيره:' : 'Choose what you want to reset:';
+    body.textContent = ar ? 'اختر ما ترغب في تصفيره:' : 'Choose what you want to reset:';
 
     function makeBtn(text, bg) {
       var b = document.createElement('button');
@@ -11604,7 +11604,7 @@ const moreTranslations = [{
       en: 'Open PiP then press ⏭ to count from any tab'
     },
     pipNoSupport: {
-      ar: '⚠️ متصفحك لا يدعم PiP — جرب Chrome أو Edge',
+      ar: '⚠️ متصفحك لا يدعم PiP — جرّب Chrome أو Edge',
       en: '⚠️ Your browser does not support PiP — try Chrome or Edge'
     },
     pipError: {
@@ -12486,7 +12486,7 @@ const moreTranslations = [{
     if (!wrap.children.length) {
       var hint = document.createElement('div');
       hint.className = 'sp-dd-empty';
-      hint.textContent = isAr ? 'اضغط ☆ جنب أي ذكر عشان يظهر هنا فى المفضلة' : 'Tap ☆ next to any dhikr to see it here';
+      hint.textContent = isAr ? 'اضغط ☆ بجانب أي ذكر ليظهر هنا في المفضلة' : 'Tap ☆ next to any dhikr to see it here';
       wrap.appendChild(hint);
     }
     var ms = document.getElementById('sp-athkar-search');
@@ -13372,12 +13372,12 @@ const moreTranslations = [{
         '<div>' +
           '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">' + (isAr ? 'استخدام موقعك؟' : 'Use your location?') + '</div>' +
           '<div style="font-size:12.5px;color:' + muted + ';line-height:1.6;">' + (isAr
-            ? 'محتاجين نفتح GPS عشان نحسب مواقيت الصلاة واتجاه القبلة بدقة حسب مكانك. تقدر تغيّر رأيك في أي وقت من إعدادات مواقيت الصلاة.'
+            ? 'نحتاج إلى تفعيل تحديد الموقع (GPS) لحساب مواقيت الصلاة واتجاه القبلة بدقة حسب مكانك. يمكنك تغيير رأيك في أي وقت من إعدادات مواقيت الصلاة.'
             : 'We need to open GPS to accurately calculate prayer times and the Qibla direction for your location. You can change this anytime from Prayer Times settings.') + '</div>' +
         '</div>' +
       '</div>' +
       '<div style="display:flex;gap:8px;">' +
-        '<button id="geoConsentDeny" style="flex:1;padding:9px;border-radius:10px;border:1px solid ' + border + ';background:transparent;color:' + muted + ';font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;">' + (isAr ? 'مش دلوقتي' : 'Not now') + '</button>' +
+        '<button id="geoConsentDeny" style="flex:1;padding:9px;border-radius:10px;border:1px solid ' + border + ';background:transparent;color:' + muted + ';font-family:Cairo,sans-serif;font-size:13px;cursor:pointer;">' + (isAr ? 'ليس الآن' : 'Not now') + '</button>' +
         '<button id="geoConsentAllow" style="flex:1;padding:9px;border-radius:10px;border:none;background:' + green + ';color:#fff;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;">' + (isAr ? '✅ سماح' : '✅ Allow') + '</button>' +
       '</div>';
 
@@ -13569,7 +13569,7 @@ var PRAYER_I18N = {
   adhanSoundLabel:{ ar: '🔊 صوت الأذان التلقائي', en: '🔊 Automatic Adhan sound', fr: '🔊 Son automatique de l\'Adhan', es: '🔊 Sonido automático del Adhan', sv: '🔊 Automatiskt böneutropsljud', nl: '🔊 Automatisch Adhan-geluid', ga: '🔊 Fuaim uathoibríoch Adhan', de: '🔊 Automatischer Adhan-Klang', ru: '🔊 Автоматический звук азана', tr: '🔊 Otomatik Ezan sesi', pt: '🔊 Som automático do Adhan', zh: '🔊 自动宣礼声音', ur: '🔊 خودکار اذان کی آواز' },
   soundShort:    { ar: 'قصير (يعمل أوفلاين)', en: 'Short (works offline)', fr: 'Court (fonctionne hors ligne)', es: 'Corto (funciona sin conexión)', sv: 'Kort (fungerar offline)', nl: 'Kort (werkt offline)', ga: 'Gearr (oibríonn as líne)', de: 'Kurz (funktioniert offline)', ru: 'Короткий (работает офлайн)', tr: 'Kısa (çevrimdışı çalışır)', pt: 'Curto (funciona offline)', zh: '短版（可离线播放）', ur: 'مختصر (آف لائن کام کرتا ہے)' },
   soundFull:     { ar: 'كامل', en: 'Full', fr: 'Complet', es: 'Completo', sv: 'Fullständig', nl: 'Volledig', ga: 'Iomlán', de: 'Vollständig', ru: 'Полный', tr: 'Tam', pt: 'Completo', zh: '完整版', ur: 'مکمل' },
-  soundNote:     { ar: 'الأذان الكامل أطول ولازم اتصال إنترنت وقت الصلاة (مش محفوظ للعمل أوفلاين)', en: 'The full Adhan is longer and needs an internet connection at prayer time (not cached for offline use)', fr: "L'Adhan complet est plus long et nécessite une connexion Internet à l'heure de la prière (non mis en cache hors ligne)", es: 'El Adhan completo es más largo y necesita conexión a Internet en el momento de la oración (no disponible sin conexión)', sv: 'Det fullständiga böneutropet är längre och kräver internetanslutning vid bönetid (sparas inte för offline)', nl: 'De volledige Adhan is langer en vereist een internetverbinding op gebedstijd (niet offline beschikbaar)', ga: 'Tá an Adhan iomlán níos faide agus teastaíonn ceangal Idirlín ag am urnaí (níl sé ar fáil as líne)', de: 'Der vollständige Adhan ist länger und benötigt zur Gebetszeit eine Internetverbindung (nicht offline verfügbar)', ru: 'Полный азан длиннее и требует интернет-соединения во время намаза (не сохраняется офлайн)', tr: 'Tam Ezan daha uzundur ve namaz vaktinde internet bağlantısı gerektirir (çevrimdışı için kaydedilmez)', pt: 'O Adhan completo é mais longo e precisa de conexão à internet no horário da oração (não fica salvo offline)', zh: '完整版宣礼较长，需要在礼拜时间联网播放（不支持离线缓存）', ur: 'مکمل اذان لمبی ہے اور نماز کے وقت انٹرنیٹ کنکشن درکار ہے (آف لائن محفوظ نہیں)' },
+  soundNote:     { ar: 'الأذان الكامل أطول ولازم اتصال إنترنت وقت الصلاة (غير محفوظ للعمل دون اتصال)', en: 'The full Adhan is longer and needs an internet connection at prayer time (not cached for offline use)', fr: "L'Adhan complet est plus long et nécessite une connexion Internet à l'heure de la prière (non mis en cache hors ligne)", es: 'El Adhan completo es más largo y necesita conexión a Internet en el momento de la oración (no disponible sin conexión)', sv: 'Det fullständiga böneutropet är längre och kräver internetanslutning vid bönetid (sparas inte för offline)', nl: 'De volledige Adhan is langer en vereist een internetverbinding op gebedstijd (niet offline beschikbaar)', ga: 'Tá an Adhan iomlán níos faide agus teastaíonn ceangal Idirlín ag am urnaí (níl sé ar fáil as líne)', de: 'Der vollständige Adhan ist länger und benötigt zur Gebetszeit eine Internetverbindung (nicht offline verfügbar)', ru: 'Полный азан длиннее и требует интернет-соединения во время намаза (не сохраняется офлайн)', tr: 'Tam Ezan daha uzundur ve namaz vaktinde internet bağlantısı gerektirir (çevrimdışı için kaydedilmez)', pt: 'O Adhan completo é mais longo e precisa de conexão à internet no horário da oração (não fica salvo offline)', zh: '完整版宣礼较长，需要在礼拜时间联网播放（不支持离线缓存）', ur: 'مکمل اذان لمبی ہے اور نماز کے وقت انٹرنیٹ کنکشن درکار ہے (آف لائن محفوظ نہیں)' },
   preReminderLabel:{ ar: '⏰ تنبيه صامت قبل الأذان', en: '⏰ Silent reminder before Adhan', fr: "⏰ Rappel silencieux avant l'Adhan", es: '⏰ Recordatorio silencioso antes del Adhan', sv: '⏰ Tyst påminnelse före böneutropet', nl: '⏰ Stille herinnering vóór Adhan', ga: '⏰ Meabhrúchán ciúin roimh Adhan', de: '⏰ Stille Erinnerung vor dem Adhan', ru: '⏰ Беззвучное напоминание перед азаном', tr: '⏰ Ezandan önce sessiz hatırlatma', pt: '⏰ Lembrete silencioso antes do Adhan', zh: '⏰ 宣礼前静音提醒', ur: '⏰ اذان سے پہلے خاموش یاد دہانی' },
   off:           { ar: 'متوقف', en: 'Off', fr: 'Désactivé', es: 'Desactivado', sv: 'Av', nl: 'Uit', ga: 'As', de: 'Aus', ru: 'Выкл.', tr: 'Kapalı', pt: 'Desativado', zh: '关闭', ur: 'بند' },
   minBefore:     { ar: 'قبل {v} دقيقة', en: '{v} min before', fr: '{v} min avant', es: '{v} min antes', sv: '{v} min innan', nl: '{v} min ervoor', ga: '{v} nóiméad roimhe', de: '{v} Min. davor', ru: 'за {v} мин', tr: '{v} dk önce', pt: '{v} min antes', zh: '提前{v}分钟', ur: '{v} منٹ پہلے' },
@@ -15179,7 +15179,7 @@ window._ptComputeDuha = _ptComputeDuha;
         accEl.style.display = 'block';
         accEl.style.color = '#dc3545';
         accEl.textContent = window._qcIsAr
-          ? '🧲 تشويش مغناطيسي قوي — ابعد عن المعادن والأجهزة الكهربائية أو غيّر مكانك'
+          ? '🧲 تشويش مغناطيسي قوي — ابتعد عن المعادن والأجهزة الكهربائية أو غيّر مكانك'
           : '🧲 Strong magnetic interference — move away from metal/electronics or change location';
       } else if (iosNeedsCalibration) {
         accEl.style.display = 'block';
@@ -15296,10 +15296,10 @@ window._ptComputeDuha = _ptComputeDuha;
         '<div id="qcLocationHint" style="font-size:10.5px;line-height:1.5;color:' + (isStale ? '#c77700' : muted) + ';font-weight:' + (isStale ? '700' : '400') + ';margin-top:10px;padding:0 6px;">' +
           (isStale
             ? (isAr
-                ? '⏰ آخر تحديث للموقع من ' + _qcAgeText(ts, isAr) + '. لو انتقلت لمكان تاني (خصوصًا مدينة/دولة مختلفة) من ساعتها، اضغط "تحديث الموقع" الآن قبل ما تعتمد على الاتجاه'
+                ? '⏰ آخر تحديث للموقع من ' + _qcAgeText(ts, isAr) + '. إن انتقلت إلى مكان آخر (خصوصًا مدينة/دولة مختلفة) منذ ذلك الحين، فاضغط "تحديث الموقع" الآن قبل الاعتماد على الاتجاه'
                 : '⏰ Location last updated ' + _qcAgeText(ts, isAr) + ' ago. If you have moved since then (especially a new city/country), tap "Update Location" now before relying on the direction')
             : (isAr
-                ? '📍 لو غيّرت مكانك (سافرت أو انتقلت لمدينة تانية)، لازم تضغط "تحديث الموقع" فوق عشان يتحسب اتجاه القبلة من جديد — الاتجاه بيفضل محفوظ من آخر مرة لحد ما تحدّثه بنفسك'
+                ? '📍 إن غيّرت مكانك (سافرت أو انتقلت إلى مدينة أخرى) فاضغط "تحديث الموقع" أعلاه ليُحسب اتجاه القبلة من جديد — يبقى الاتجاه محفوظًا من آخر مرة حتى تحدّثه بنفسك'
                 : '📍 If you change location (travel or move to a new city), tap "Update Location" above to recalculate the Qibla direction — it stays saved from last time until you refresh it yourself')
           ) +
         '</div>' +
@@ -15551,7 +15551,7 @@ window._ptComputeDuha = _ptComputeDuha;
       '</div>' +
       '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;color:' + muted + ';margin-bottom:4px;">' +
         '<span>🥈 ' + (isAr ? 'جرام الفضة:' : 'Silver/g:') + ' <b style="color:var(--theme-g1);">' + _zkFmt(_zkPrices.silverGram) + '</b></span>' +
-        '<span style="opacity:.75;">' + (isAr ? 'النصاب دايمًا محسوب بعيار 24' : 'Nisab always in 24k') + '</span>' +
+        '<span style="opacity:.75;">' + (isAr ? 'النصاب محسوب دائمًا بعيار 24' : 'Nisab always in 24k') + '</span>' +
       '</div>' +
       '<div style="font-size:10px;color:' + muted + ';opacity:.75;text-align:' + (isAr ? 'right' : 'left') + ';">' + (isAr ? 'آخر تحديث للأسعار: ' : 'Prices last updated: ') + timeStr + '</div>' +
       prevHtml +
@@ -15903,7 +15903,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "کم از کم ایک ختمہ باقی رہنی چاہیے"
   },
   "confirmDelete": {
-    "ar": "هيتم حذف \"{name}\" نهائيًا بكل تقدمها، متأكد؟",
+    "ar": "سيتم حذف \"{name}\" نهائيًا بكل تقدّمها، هل أنت متأكد؟",
     "en": "This will permanently delete \"{name}\" and all its progress. Continue?",
     "fr": "Cela supprimera définitivement « {name} » et toute sa progression. Continuer ?",
     "es": "Esto eliminará permanentemente \"{name}\" y todo su progreso. ¿Continuar?",
@@ -15967,7 +15967,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "en": "Reset progress"
   },
   "confirmResetProgress": {
-    "ar": "هيتصفّر تقدم \"{name}\" بالكامل (العداد وسجل القراءة والمتتالية) وترجع للبداية، الاسم والإنجازات هيفضلوا زي ما هما. متأكد؟",
+    "ar": "سيُصفَّر تقدّم \"{name}\" بالكامل (العداد وسجل القراءة والمتتالية) ويعود إلى البداية، ويبقى الاسم والإنجازات كما هما. هل أنت متأكد؟",
     "en": "This will reset all progress for \"{name}\" (count, reading log, and streak) back to zero. The name and achievements will stay. Continue?"
   },
   "progressResetToast": {
@@ -16185,7 +16185,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "ہٹائیں"
   },
   "goalDoneToday": {
-    "ar": "خلصت ورد النهاردة",
+    "ar": "أتممتُ ورد اليوم",
     "en": "Today's wird is done",
     "fr": "Le wird d'aujourd'hui est terminé",
     "es": "El wird de hoy está completo",
@@ -16200,7 +16200,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "آج کا ورد مکمل ہو گیا"
   },
   "goalRemainingToday": {
-    "ar": "باقي عليك النهاردة: {n} {unit}",
+    "ar": "المتبقي لك اليوم: {n} {unit}",
     "en": "{n} {unit} left today",
     "fr": "Il te reste {n} {unit} aujourd'hui",
     "es": "Te quedan {n} {unit} hoy",
@@ -16249,7 +16249,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "en": "🎉 {n2} {unitPl} ahead of schedule"
   },
   "goalPace": {
-    "ar": "بمعدل الورد ده هتخلص الختمة خلال ~{n} يوم",
+    "ar": "بهذا الورد ستُنهي الختمة خلال ~{n} يوم",
     "en": "At this pace, ~{n} days to finish",
     "fr": "À ce rythme, ~{n} jours pour terminer",
     "es": "A este ritmo, ~{n} días para terminar",
@@ -16309,7 +16309,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "📻 قرآن ریڈیو"
   },
   "copiedClipboard": {
-    "ar": "📋 اتنسخ للحافظة",
+    "ar": "📋 تم النسخ إلى الحافظة",
     "en": "📋 Copied to clipboard",
     "fr": "📋 Copié dans le presse-papiers",
     "es": "📋 Copiado al portapapeles",
@@ -16324,7 +16324,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "📋 کلپ بورڈ پر کاپی ہو گیا"
   },
   "backupDownloaded": {
-    "ar": "📦 اتحمّل ملف النسخة الاحتياطية",
+    "ar": "📦 تم تنزيل ملف النسخة الاحتياطية",
     "en": "📦 Backup file downloaded",
     "fr": "📦 Fichier de sauvegarde téléchargé",
     "es": "📦 Archivo de copia de seguridad descargado",
@@ -16354,7 +16354,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "⚠️ ایکسپورٹ ناکام ہو گئی"
   },
   "confirmImport": {
-    "ar": "هيتم استبدال كل الختمات الحالية بالبيانات المستوردة، متأكد؟",
+    "ar": "سيتم استبدال كل الختمات الحالية بالبيانات المستوردة، هل أنت متأكد؟",
     "en": "This will replace all current khatmas with the imported data. Continue?",
     "fr": "Cela remplacera toutes les Khatmas actuelles par les données importées. Continuer ?",
     "es": "Esto reemplazará todas las Khatmas actuales con los datos importados. ¿Continuar?",
@@ -16369,7 +16369,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "اس سے تمام موجودہ ختمیں درآمد شدہ ڈیٹا سے بدل جائیں گی، جاری رکھیں؟"
   },
   "dataRestored": {
-    "ar": "✅ اترجعت البيانات بنجاح",
+    "ar": "✅ تمت استعادة البيانات بنجاح",
     "en": "✅ Data restored successfully",
     "fr": "✅ Données restaurées avec succès",
     "es": "✅ Datos restaurados con éxito",
@@ -16429,7 +16429,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "📥 درآمد"
   },
   "reminderSingle": {
-    "ar": "⏰ متنساش ورد \"{name}\" النهاردة",
+    "ar": "⏰ لا تنسَ ورد \"{name}\" اليوم",
     "en": "⏰ Don't forget your \"{name}\" reading today",
     "fr": "⏰ N'oublie pas ta lecture « {name} » aujourd'hui",
     "es": "⏰ No olvides tu lectura \"{name}\" de hoy",
@@ -16444,7 +16444,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "⏰ آج اپنی \"{name}\" کی تلاوت مت بھولیں"
   },
   "reminderMulti": {
-    "ar": "⏰ عندك {n} ختمات مستنياك النهاردة",
+    "ar": "⏰ لديك {n} ختمات بانتظارك اليوم",
     "en": "⏰ {n} khatmas waiting for you today",
     "fr": "⏰ {n} Khatmas t'attendent aujourd'hui",
     "es": "⏰ {n} Khatmas te esperan hoy",
@@ -16939,7 +16939,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "✅ آپ ٹریک پر ہیں، جاری رکھیں!"
   },
   "behindTrack": {
-    "ar": "⚠️ متأخر شوية، حاول تعوّض",
+    "ar": "⚠️ متأخر قليلًا، حاول التعويض",
     "en": "⚠️ A bit behind, try to catch up",
     "fr": "⚠️ Un peu en retard, essaie de rattraper",
     "es": "⚠️ Un poco atrasado, intenta ponerte al día",
@@ -16954,7 +16954,7 @@ window._ptComputeDuha = _ptComputeDuha;
     "ur": "⚠️ تھوڑا پیچھے ہیں، آگے بڑھنے کی کوشش کریں"
   },
   "currentPace": {
-    "ar": "📊 بمعدلك الحالي هتخلص الختمة خلال ~{n} يوم",
+    "ar": "📊 بمعدلك الحالي ستُنهي الختمة خلال ~{n} يوم",
     "en": "📊 At your current pace, ~{n} days left",
     "fr": "📊 À ton rythme actuel, ~{n} jours restants",
     "es": "📊 A tu ritmo actual, quedan ~{n} días",
@@ -18152,18 +18152,18 @@ window._ptComputeDuha = _ptComputeDuha;
     m_smart: ['ذكي (بدون تكرار)','Smart (no repeats)','Intelligent (sans répétition)','Inteligente (sin repeticiones)','Smart (utan upprepning)','Slim (zonder herhaling)','Cliste (gan athrá)','Smart (ohne Wiederholung)','Умный (без повторов)','Akıllı (tekrarsız)','Inteligente (sem repetição)','智能（去重）','سمارٹ (تکرار کے بغیر)'],
     m_phrase: ['جملة بجملة','Phrase by phrase','Phrase par phrase','Frase por frase','Fras för fras','Zin voor zin','Frása i ndiaidh frása','Satz für Satz','По фразам','Cümle cümle','Frase a frase','逐句','جملہ بہ جملہ'],
     m_review: ['عند الإيقاف','On stop','À l’arrêt','Al detener','Vid stopp','Bij stoppen','Ag stopadh','Beim Stoppen','После остановки','Durdurunca','Ao parar','停止后','روکنے پر'],
-    h_live: ['يكتب الكلام وإنت بتتكلم — الأسرع، وممكن يتكرر على بعض الأجهزة','Writes as you speak — fastest, may repeat on some devices','Écrit pendant que vous parlez — le plus rapide, peut se répéter sur certains appareils','Escribe mientras hablas: lo más rápido, puede repetir en algunos dispositivos','Skriver medan du pratar – snabbast, kan upprepas på vissa enheter','Schrijft terwijl je praat – het snelst, kan zich herhalen op sommige apparaten','Scríobhann sé agus tú ag labhairt — an ceann is gasta, d’fhéadfadh athrá tarlú ar roinnt gléasanna','Schreibt beim Sprechen – am schnellsten, kann sich auf manchen Geräten wiederholen','Пишет по мере речи — быстрее всего, на некоторых устройствах возможны повторы','Konuştukça yazar — en hızlısı, bazı cihazlarda tekrar edebilir','Escreve enquanto você fala — o mais rápido, pode repetir em alguns aparelhos','边说边写——最快，部分设备可能重复','بولتے وقت لکھتا ہے — سب سے تیز، بعض آلات پر دہرا سکتا ہے'],
-    h_smart: ['يراجع الكلام ويحذف المكرر قبل ما يضيفه للملاحظة','Reviews the speech and removes repeats before adding it to the note','Vérifie le texte et retire les répétitions avant de l’ajouter à la note','Revisa lo dicho y elimina repeticiones antes de añadirlo a la nota','Granskar talet och tar bort upprepningar innan det läggs till','Controleert de tekst en verwijdert herhalingen voordat die wordt toegevoegd','Athbhreithníonn sé an chaint agus baineann sé athrá sula gcuirtear leis an nóta é','Prüft das Gesagte und entfernt Wiederholungen, bevor es eingefügt wird','Проверяет речь и убирает повторы перед добавлением в заметку','Konuşmayı gözden geçirir, tekrarları silip nota öyle ekler','Revisa a fala e remove repetições antes de adicionar à nota','先检查并删除重复内容，再加入笔记','بات کا جائزہ لے کر تکرار ہٹاتا ہے پھر نوٹ میں شامل کرتا ہے'],
-    h_phrase: ['يضيف كل جملة بعد ما تخلصها — الأنسب للنت الضعيف وبعض الموبايلات','Adds each phrase after you finish it — best for slow internet and some phones','Ajoute chaque phrase une fois terminée — idéal pour une connexion lente et certains téléphones','Añade cada frase al terminarla: ideal con internet lento y algunos móviles','Lägger till varje fras när du är klar – bäst vid långsamt nät och vissa telefoner','Voegt elke zin toe nadat je klaar bent – ideaal bij traag internet en sommige telefoons','Cuireann sé gach frása leis tar éis duit é a chríochnú — is fearr le hidirlíon mall agus roinnt fón','Fügt jede Phrase nach dem Sprechen hinzu – ideal bei langsamem Internet und manchen Handys','Добавляет каждую фразу после её окончания — лучше при медленном интернете и на некоторых телефонах','Her cümleyi bitirince ekler — yavaş internet ve bazı telefonlar için en uygunu','Adiciona cada frase ao terminá-la — ideal para internet lenta e alguns celulares','每说完一句再添加——适合网速慢和部分手机','ہر جملہ مکمل ہونے پر شامل کرتا ہے — سست انٹرنیٹ اور بعض فونز کے لیے بہترین'],
+    h_live: ['يكتب الكلام أثناء حديثك — الأسرع، وقد يتكرر على بعض الأجهزة','Writes as you speak — fastest, may repeat on some devices','Écrit pendant que vous parlez — le plus rapide, peut se répéter sur certains appareils','Escribe mientras hablas: lo más rápido, puede repetir en algunos dispositivos','Skriver medan du pratar – snabbast, kan upprepas på vissa enheter','Schrijft terwijl je praat – het snelst, kan zich herhalen op sommige apparaten','Scríobhann sé agus tú ag labhairt — an ceann is gasta, d’fhéadfadh athrá tarlú ar roinnt gléasanna','Schreibt beim Sprechen – am schnellsten, kann sich auf manchen Geräten wiederholen','Пишет по мере речи — быстрее всего, на некоторых устройствах возможны повторы','Konuştukça yazar — en hızlısı, bazı cihazlarda tekrar edebilir','Escreve enquanto você fala — o mais rápido, pode repetir em alguns aparelhos','边说边写——最快，部分设备可能重复','بولتے وقت لکھتا ہے — سب سے تیز، بعض آلات پر دہرا سکتا ہے'],
+    h_smart: ['يراجع الكلام ويحذف المكرر قبل إضافته إلى الملاحظة','Reviews the speech and removes repeats before adding it to the note','Vérifie le texte et retire les répétitions avant de l’ajouter à la note','Revisa lo dicho y elimina repeticiones antes de añadirlo a la nota','Granskar talet och tar bort upprepningar innan det läggs till','Controleert de tekst en verwijdert herhalingen voordat die wordt toegevoegd','Athbhreithníonn sé an chaint agus baineann sé athrá sula gcuirtear leis an nóta é','Prüft das Gesagte und entfernt Wiederholungen, bevor es eingefügt wird','Проверяет речь и убирает повторы перед добавлением в заметку','Konuşmayı gözden geçirir, tekrarları silip nota öyle ekler','Revisa a fala e remove repetições antes de adicionar à nota','先检查并删除重复内容，再加入笔记','بات کا جائزہ لے کر تکرار ہٹاتا ہے پھر نوٹ میں شامل کرتا ہے'],
+    h_phrase: ['يضيف كل جملة بعد أن تنهيها — الأنسب للإنترنت الضعيف وبعض الهواتف','Adds each phrase after you finish it — best for slow internet and some phones','Ajoute chaque phrase une fois terminée — idéal pour une connexion lente et certains téléphones','Añade cada frase al terminarla: ideal con internet lento y algunos móviles','Lägger till varje fras när du är klar – bäst vid långsamt nät och vissa telefoner','Voegt elke zin toe nadat je klaar bent – ideaal bij traag internet en sommige telefoons','Cuireann sé gach frása leis tar éis duit é a chríochnú — is fearr le hidirlíon mall agus roinnt fón','Fügt jede Phrase nach dem Sprechen hinzu – ideal bei langsamem Internet und manchen Handys','Добавляет каждую фразу после её окончания — лучше при медленном интернете и на некоторых телефонах','Her cümleyi bitirince ekler — yavaş internet ve bazı telefonlar için en uygunu','Adiciona cada frase ao terminá-la — ideal para internet lenta e alguns celulares','每说完一句再添加——适合网速慢和部分手机','ہر جملہ مکمل ہونے پر شامل کرتا ہے — سست انٹرنیٹ اور بعض فونز کے لیے بہترین'],
     h_review: ['يجمع كلامك ويضيفه كله مرة واحدة لما تضغط إيقاف','Collects your speech and adds it all at once when you tap stop','Rassemble ce que vous dites et l’ajoute en une fois à l’arrêt','Reúne lo que dices y lo añade todo de una vez al detener','Samlar det du säger och lägger till allt på en gång när du stoppar','Verzamelt wat je zegt en voegt alles in één keer toe als je stopt','Bailíonn sé do chuid cainte agus cuireann sé ar fad leis ag an am céanna nuair a stopann tú','Sammelt das Gesagte und fügt alles beim Stoppen auf einmal ein','Собирает речь и добавляет всё сразу при остановке','Konuşmanızı toplar, durdurduğunuzda hepsini birden ekler','Reúne sua fala e adiciona tudo de uma vez ao parar','先收集你说的话，点击停止时一次性加入','آپ کی بات جمع کر کے روکنے پر ایک ساتھ شامل کرتا ہے'],
     dictRecommended: ['موصى به لاتصالك الحالي','Recommended for your connection','Recommandé pour votre connexion','Recomendado para tu conexión','Rekommenderas för din anslutning','Aanbevolen voor jouw verbinding','Molta do do nasc','Empfohlen für Ihre Verbindung','Рекомендуется для вашего соединения','Bağlantınız için önerilir','Recomendado para sua conexão','推荐用于当前网络','آپ کے کنکشن کے لیے تجویز کردہ'],
     m_lecture: ['محاضرة (سماعات)','Lecture (speakers)','Conférence (haut-parleurs)','Conferencia (altavoces)','Föreläsning (högtalare)','Lezing (luidsprekers)','Léacht (callairí)','Vortrag (Lautsprecher)','Лекция (колонки)','Ders (hoparlörler)','Palestra (alto-falantes)','讲座（扩音器）','لیکچر (اسپیکرز)'],
     h_lecture: ['للتسجيل من سماعات محاضرة أو قاعة فيها أكثر من سماعة: يحذف صدى الجملة المكررة ويقسّم الكلام لفقرات عند كل وقفة','For recording lecture-hall speakers when there are several loudspeakers: removes echoed repeats and starts a new paragraph at each pause','Pour enregistrer des haut-parleurs de conférence (plusieurs enceintes) : supprime les phrases répétées par l’écho et crée un paragraphe à chaque pause','Para grabar altavoces de una conferencia con varios altavoces: elimina frases repetidas por el eco y crea un párrafo en cada pausa','För inspelning från föreläsningshögtalare med flera högtalare: tar bort ekade upprepningar och startar nytt stycke vid varje paus','Voor opnemen van lezingluidsprekers met meerdere speakers: verwijdert echo-herhalingen en start een nieuwe alinea bij elke pauze','Chun callairí léachta le roinnt callairí a thaifeadadh: baineann sé athrá macalla agus tosaíonn sé míre nua ag gach sos','Zum Aufnehmen von Vortragslautsprechern mit mehreren Boxen: entfernt Echo-Wiederholungen und beginnt bei jeder Pause einen neuen Absatz','Для записи с колонок на лекции, когда их несколько: убирает повторы из-за эха и начинает новый абзац после каждой паузы','Birden fazla hoparlörlü ders/salon sesini kaydetmek için: yankı tekrarlarını siler, her duraklamada yeni paragraf açar','Para gravar alto-falantes de palestra com vários alto-falantes: remove repetições por eco e inicia novo parágrafo a cada pausa','用于录制有多个扩音器的讲座：去除回声重复，并在每次停顿处另起一段','متعدد اسپیکرز والے لیکچر کی ریکارڈنگ کے لیے: گونج سے دہرائے جملے ہٹاتا ہے اور ہر وقفے پر نیا پیراگراف بناتا ہے'],
     dictate:        ['إملاء الملاحظة بالصوت','Dictate note by voice','Dicter la note à la voix','Dictar la nota por voz','Diktera anteckning med rösten','Notitie inspreken','Deachtaigh nóta le do ghuth','Notiz per Sprache diktieren','Надиктовать заметку голосом','Notu sesle dikte et','Ditar nota por voz','语音输入笔记','آواز سے نوٹ لکھیں'],
-    dictateListening:['جارِ الاستماع... اضغط تاني للإيقاف','Listening... tap again to stop','Écoute en cours... appuyez à nouveau pour arrêter','Escuchando... toca de nuevo para detener','Lyssnar... tryck igen för att stoppa','Luisteren... tik nogmaals om te stoppen','Ag éisteacht... brúigh arís chun stopadh','Höre zu... erneut tippen zum Stoppen','Слушаю... нажмите ещё раз, чтобы остановить','Dinleniyor... durdurmak için tekrar dokunun','Ouvindo... toque novamente para parar','正在聆听…再次点击以停止','سن رہا ہے... روکنے کے لیے دوبارہ دبائیں'],
+    dictateListening:['جارِ الاستماع... اضغط مرة أخرى للإيقاف','Listening... tap again to stop','Écoute en cours... appuyez à nouveau pour arrêter','Escuchando... toca de nuevo para detener','Lyssnar... tryck igen för att stoppa','Luisteren... tik nogmaals om te stoppen','Ag éisteacht... brúigh arís chun stopadh','Höre zu... erneut tippen zum Stoppen','Слушаю... нажмите ещё раз, чтобы остановить','Dinleniyor... durdurmak için tekrar dokunun','Ouvindo... toque novamente para parar','正在聆听…再次点击以停止','سن رہا ہے... روکنے کے لیے دوبارہ دبائیں'],
     dictateNotSupported:['المتصفح لا يدعم الإملاء الصوتي','This browser does not support voice dictation','Ce navigateur ne prend pas en charge la dictée vocale','Este navegador no admite el dictado por voz','Den här webbläsaren stöder inte röstdiktering','Deze browser ondersteunt geen spraakinvoer','Ní thacaíonn an brabhsálaí seo le deachtú gutha','Dieser Browser unterstützt keine Sprachdiktierfunktion','Этот браузер не поддерживает голосовой ввод','Bu tarayıcı sesli yazdırmayı desteklemiyor','Este navegador não suporta ditado por voz','此浏览器不支持语音输入','یہ براؤزر صوتی املا کو سپورٹ نہیں کرتا'],
     dictateSecure:  ['الإملاء الصوتي يحتاج فتح الموقع عبر HTTPS','Voice dictation requires an HTTPS connection','La dictée vocale nécessite une connexion HTTPS','El dictado por voz requiere una conexión HTTPS','Röstdiktering kräver en HTTPS-anslutning','Spraakinvoer vereist een HTTPS-verbinding','Teastaíonn nasc HTTPS le haghaidh deachtú gutha','Für die Sprachdiktierfunktion ist eine HTTPS-Verbindung erforderlich','Для голосового ввода требуется соединение HTTPS','Sesli yazdırma için HTTPS bağlantısı gereklidir','O ditado por voz requer uma conexão HTTPS','语音输入需要 HTTPS 连接','صوتی املا کے لیے HTTPS کنکشن ضروری ہے'],
-    dictateOffline: ['الإملاء الصوتي يحتاج اتصال بالإنترنت — تقدر تكتب أو تسجّل صوت عادي بدون نت','Voice dictation needs an internet connection — you can still type or record a voice note offline','La dictée vocale nécessite une connexion Internet — vous pouvez toujours taper ou enregistrer une note vocale hors ligne','El dictado por voz necesita conexión a Internet — aún puedes escribir o grabar una nota de voz sin conexión','Röstdiktering kräver internetanslutning — du kan fortfarande skriva eller spela in en röstanteckning offline','Spraakinvoer vereist een internetverbinding — je kunt nog steeds typen of een spraaknotitie offline opnemen','Teastaíonn ceangal Idirlín le haghaidh deachtú gutha — is féidir leat fós clóscríobh nó nóta gutha a thaifeadadh as líne','Für die Sprachdiktierfunktion ist eine Internetverbindung erforderlich — du kannst weiterhin offline tippen oder eine Sprachnotiz aufnehmen','Для голосового ввода нужен интернет — вы всё ещё можете печатать текст или записать голосовую заметку офлайн','Sesli yazdırma internet bağlantısı gerektirir — çevrimdışı yine de yazabilir veya sesli not kaydedebilirsiniz','O ditado por voz precisa de conexão à internet — você ainda pode digitar ou gravar uma nota de voz offline','语音输入需要联网 — 你仍然可以离线打字或录制语音笔记','صوتی املا کے لیے انٹرنیٹ کنکشن ضروری ہے — آپ اب بھی آف لائن ٹائپ کر سکتے ہیں یا صوتی نوٹ ریکارڈ کر سکتے ہیں'],
+    dictateOffline: ['الإملاء الصوتي يحتاج اتصال بالإنترنت — يمكنك الكتابة أو تسجيل ملاحظة صوتية عادية دون إنترنت','Voice dictation needs an internet connection — you can still type or record a voice note offline','La dictée vocale nécessite une connexion Internet — vous pouvez toujours taper ou enregistrer une note vocale hors ligne','El dictado por voz necesita conexión a Internet — aún puedes escribir o grabar una nota de voz sin conexión','Röstdiktering kräver internetanslutning — du kan fortfarande skriva eller spela in en röstanteckning offline','Spraakinvoer vereist een internetverbinding — je kunt nog steeds typen of een spraaknotitie offline opnemen','Teastaíonn ceangal Idirlín le haghaidh deachtú gutha — is féidir leat fós clóscríobh nó nóta gutha a thaifeadadh as líne','Für die Sprachdiktierfunktion ist eine Internetverbindung erforderlich — du kannst weiterhin offline tippen oder eine Sprachnotiz aufnehmen','Для голосового ввода нужен интернет — вы всё ещё можете печатать текст или записать голосовую заметку офлайн','Sesli yazdırma internet bağlantısı gerektirir — çevrimdışı yine de yazabilir veya sesli not kaydedebilirsiniz','O ditado por voz precisa de conexão à internet — você ainda pode digitar ou gravar uma nota de voz offline','语音输入需要联网 — 你仍然可以离线打字或录制语音笔记','صوتی املا کے لیے انٹرنیٹ کنکشن ضروری ہے — آپ اب بھی آف لائن ٹائپ کر سکتے ہیں یا صوتی نوٹ ریکارڈ کر سکتے ہیں'],
     dictateNoSpeech:['لم يتم سماع أي صوت، حاول مرة أخرى','No speech detected, try again','Aucune voix détectée, réessayez','No se detectó voz, inténtalo de nuevo','Inget tal upptäcktes, försök igen','Geen spraak gedetecteerd, probeer opnieuw','Níor aimsíodh aon chaint, bain triail eile as','Keine Sprache erkannt, bitte erneut versuchen','Речь не обнаружена, попробуйте ещё раз','Konuşma algılanamadı, tekrar deneyin','Nenhuma fala detectada, tente novamente','未检测到语音，请重试','کوئی آواز نہیں ملی، دوبارہ کوشش کریں'],
     pin:          ['تثبيت','Pin','Épingler','Fijar','Fäst','Vastmaken','Pinnáil','Anheften','Закрепить','Sabitle','Fixar','置顶','پن کریں'],
     unpin:        ['إلغاء التثبيت','Unpin','Détacher','Desfijar','Lossa','Losmaken','Díphinnáil','Loslösen','Открепить','Sabitlemeyi kaldır','Desafixar','取消置顶','پن ہٹائیں'],
@@ -18182,20 +18182,20 @@ window._ptComputeDuha = _ptComputeDuha;
     tagReminder:  ['تذكير','Reminder','Rappel','Recordatorio','Påminnelse','Herinnering','Meabhrúchán','Erinnerung','Напоминание','Hatırlatma','Lembrete','提醒','یاد دہانی'],
     tagGeneral:   ['عام','General','Général','General','Allmänt','Algemeen','Ginearálta','Allgemein','Общее','Genel','Geral','常规','عام'],
     tagAll:       ['الكل','All','Tout','Todo','Alla','Alle','Gach ceann','Alle','Все','Tümü','Todos','全部','تمام'],
-    backupReminder:['📦 لسه معملتش نسخة احتياطية من ملاحظاتك من فترة — اضغط زرار النسخ الاحتياطي تحت','📦 You haven\'t backed up your notes in a while — tap the backup button below','📦 Vous n\'avez pas sauvegardé vos notes depuis un moment — appuyez sur le bouton de sauvegarde ci-dessous','📦 No has hecho una copia de seguridad de tus notas en un tiempo — toca el botón de copia de seguridad abajo','📦 Du har inte säkerhetskopierat dina anteckningar på ett tag — tryck på säkerhetskopieringsknappen nedan','📦 Je hebt je notities al een tijd niet geback-upt — tik op de back-upknop hieronder','📦 Níor chúltaca tú do nótaí le tamall — brúigh an cnaipe cúltaca thíos','📦 Du hast deine Notizen schon länger nicht gesichert — tippe unten auf die Sicherungsschaltfläche','📦 Вы давно не создавали резервную копию заметок — нажмите кнопку резервного копирования ниже','📦 Notlarını uzun süredir yedeklemedin — aşağıdaki yedekleme düğmesine dokun','📦 Você não faz backup das suas notas há um tempo — toque no botão de backup abaixo','📦 你有一段时间没备份笔记了 — 点击下面的备份按钮','📦 آپ نے کافی عرصے سے اپنے نوٹس کا بیک اپ نہیں لیا — نیچے بیک اپ بٹن دبائیں'],
+    backupReminder:['📦 لم تنشئ نسخة احتياطية من ملاحظاتك منذ فترة — اضغط زر النسخ الاحتياطي بالأسفل','📦 You haven\'t backed up your notes in a while — tap the backup button below','📦 Vous n\'avez pas sauvegardé vos notes depuis un moment — appuyez sur le bouton de sauvegarde ci-dessous','📦 No has hecho una copia de seguridad de tus notas en un tiempo — toca el botón de copia de seguridad abajo','📦 Du har inte säkerhetskopierat dina anteckningar på ett tag — tryck på säkerhetskopieringsknappen nedan','📦 Je hebt je notities al een tijd niet geback-upt — tik op de back-upknop hieronder','📦 Níor chúltaca tú do nótaí le tamall — brúigh an cnaipe cúltaca thíos','📦 Du hast deine Notizen schon länger nicht gesichert — tippe unten auf die Sicherungsschaltfläche','📦 Вы давно не создавали резервную копию заметок — нажмите кнопку резервного копирования ниже','📦 Notlarını uzun süredir yedeklemedin — aşağıdaki yedekleme düğmesine dokun','📦 Você não faz backup das suas notas há um tempo — toque no botão de backup abaixo','📦 你有一段时间没备份笔记了 — 点击下面的备份按钮','📦 آپ نے کافی عرصے سے اپنے نوٹس کا بیک اپ نہیں لیا — نیچے بیک اپ بٹن دبائیں'],
     deletedUndo:  ['🗑️ تم حذف الملاحظة','🗑️ Note deleted','🗑️ Note supprimée','🗑️ Nota eliminada','🗑️ Anteckning raderad','🗑️ Notitie verwijderd','🗑️ Nóta scriosta','🗑️ Notiz gelöscht','🗑️ Заметка удалена','🗑️ Not silindi','🗑️ Nota excluída','🗑️ 笔记已删除','🗑️ نوٹ حذف ہو گیا'],
     undo:         ['تراجع','Undo','Annuler','Deshacer','Ångra','Ongedaan maken','Cealaigh','Rückgängig','Отменить','Geri al','Desfazer','撤销','واپس لیں'],
     deviceRec:    ['تسجيل صوت المحطة الحالية','Record current station audio','Enregistrer le son de la station actuelle','Grabar el audio de la emisora actual','Spela in ljudet från aktuell station','Geluid van huidig station opnemen','Taifead fuaim an stáisiúin reatha','Ton des aktuellen Senders aufnehmen','Записать звук текущей станции','Mevcut istasyonun sesini kaydet','Gravar o áudio da estação atual','录制当前电台的声音','موجودہ اسٹیشن کی آواز ریکارڈ کریں'],
     deviceRecUnsupported:['المتصفح لا يدعم تسجيل صوت الجهاز مباشرة','Your browser doesn\'t support recording device audio directly','Votre navigateur ne prend pas en charge l\'enregistrement direct du son de l\'appareil','Tu navegador no admite grabar el audio del dispositivo directamente','Din webbläsare stöder inte direkt inspelning av enhetsljud','Je browser ondersteunt het rechtstreeks opnemen van apparaatgeluid niet','Ní thacaíonn do bhrabhsálaí le fuaim an ghléis a thaifeadadh go díreach','Dein Browser unterstützt die direkte Aufnahme von Geräteton nicht','Ваш браузер не поддерживает прямую запись звука устройства','Tarayıcın cihaz sesini doğrudan kaydetmeyi desteklemiyor','Seu navegador não suporta gravar o áudio do dispositivo diretamente','你的浏览器不支持直接录制设备音频','آپ کا براؤزر ڈیوائس آڈیو کی براہ راست ریکارڈنگ کو سپورٹ نہیں کرتا'],
-    deviceRecNothingPlaying:['شغّل محطة الأول عشان تقدر تسجّل صوتها','Play a station first so you can record its audio','Lancez une station d\'abord pour pouvoir enregistrer son son','Reproduce una emisora primero para poder grabar su audio','Spela en station först för att kunna spela in dess ljud','Speel eerst een station af om het geluid ervan op te nemen','Seinn stáisiún ar dtús chun a fhuaim a thaifeadadh','Spiele zuerst einen Sender ab, um dessen Ton aufzunehmen','Сначала включите станцию, чтобы записать её звук','Sesini kaydedebilmek için önce bir istasyon çal','Reproduza uma estação primeiro para poder gravar o áudio dela','请先播放电台才能录制其声音','آڈیو ریکارڈ کرنے کے لیے پہلے اسٹیشن چلائیں'],
-    deviceRecSilent:['⚠️ التسجيل طلع صامت — المحطة دي غالبًا بتمنع التسجيل المباشر من متصفحك','⚠️ The recording came out silent — this station likely blocks direct browser recording','⚠️ L\'enregistrement est silencieux — cette station bloque probablement l\'enregistrement direct depuis le navigateur','⚠️ La grabación salió en silencio — esta emisora probablemente bloquea la grabación directa desde el navegador','⚠️ Inspelningen blev tyst — den här stationen blockerar troligen direkt inspelning från webbläsaren','⚠️ De opname is stil — dit station blokkeert waarschijnlijk directe opname vanuit de browser','⚠️ Bhí an taifeadadh ciúin — is dócha go gcuireann an stáisiún seo bac ar thaifeadadh díreach ón mbrabhsálaí','⚠️ Die Aufnahme ist stumm — dieser Sender blockiert wahrscheinlich die direkte Aufnahme über den Browser','⚠️ Запись получилась без звука — эта станция, вероятно, блокирует прямую запись из браузера','⚠️ Kayıt sessiz çıktı — bu istasyon muhtemelen tarayıcıdan doğrudan kaydı engelliyor','⚠️ A gravação ficou muda — esta estação provavelmente bloqueia a gravação direta pelo navegador','⚠️ 录音是静音的 — 该电台可能阻止了浏览器直接录制','⚠️ ریکارڈنگ خاموش نکلی — یہ اسٹیشن غالباً براؤزر سے براہ راست ریکارڈنگ روکتا ہے'],
+    deviceRecNothingPlaying:['شغّل محطة أولًا لتتمكن من تسجيل صوتها','Play a station first so you can record its audio','Lancez une station d\'abord pour pouvoir enregistrer son son','Reproduce una emisora primero para poder grabar su audio','Spela en station först för att kunna spela in dess ljud','Speel eerst een station af om het geluid ervan op te nemen','Seinn stáisiún ar dtús chun a fhuaim a thaifeadadh','Spiele zuerst einen Sender ab, um dessen Ton aufzunehmen','Сначала включите станцию, чтобы записать её звук','Sesini kaydedebilmek için önce bir istasyon çal','Reproduza uma estação primeiro para poder gravar o áudio dela','请先播放电台才能录制其声音','آڈیو ریکارڈ کرنے کے لیے پہلے اسٹیشن چلائیں'],
+    deviceRecSilent:['⚠️ خرج التسجيل صامتًا — غالبًا تمنع هذه المحطة التسجيل المباشر من متصفحك','⚠️ The recording came out silent — this station likely blocks direct browser recording','⚠️ L\'enregistrement est silencieux — cette station bloque probablement l\'enregistrement direct depuis le navigateur','⚠️ La grabación salió en silencio — esta emisora probablemente bloquea la grabación directa desde el navegador','⚠️ Inspelningen blev tyst — den här stationen blockerar troligen direkt inspelning från webbläsaren','⚠️ De opname is stil — dit station blokkeert waarschijnlijk directe opname vanuit de browser','⚠️ Bhí an taifeadadh ciúin — is dócha go gcuireann an stáisiún seo bac ar thaifeadadh díreach ón mbrabhsálaí','⚠️ Die Aufnahme ist stumm — dieser Sender blockiert wahrscheinlich die direkte Aufnahme über den Browser','⚠️ Запись получилась без звука — эта станция, вероятно, блокирует прямую запись из браузера','⚠️ Kayıt sessiz çıktı — bu istasyon muhtemelen tarayıcıdan doğrudan kaydı engelliyor','⚠️ A gravação ficou muda — esta estação provavelmente bloqueia a gravação direta pelo navegador','⚠️ 录音是静音的 — 该电台可能阻止了浏览器直接录制','⚠️ ریکارڈنگ خاموش نکلی — یہ اسٹیشن غالباً براؤزر سے براہ راست ریکارڈنگ روکتا ہے'],
     deviceRecPickTab:['📌 هيفتحلك كروم نافذة اختيار — دوس على "هذه التبويبة" وفعّل مشاركة الصوت','📌 Chrome will open a picker — choose "This Tab" and enable audio sharing','📌 Chrome va ouvrir une fenêtre de sélection — choisissez « Cet onglet » et activez le partage audio','📌 Chrome abrirá un selector — elige "Esta pestaña" y activa compartir audio','📌 Chrome öppnar en väljare — välj "Den här fliken" och aktivera ljuddelning','📌 Chrome opent een kiezer — kies "Dit tabblad" en schakel audio delen in','📌 Osclóidh Chrome roghnóir — roghnaigh "An Cluaisín Seo" agus cumasaigh comhroinnt fuaime','📌 Chrome öffnet eine Auswahl — wähle „Dieser Tab" und aktiviere die Audiofreigabe','📌 Chrome откроет окно выбора — выберите «Эта вкладка» и включите передачу звука','📌 Chrome bir seçim penceresi açacak — "Bu Sekme"yi seçin ve ses paylaşımını etkinleştirin','📌 O Chrome abrirá um seletor — escolha "Esta guia" e ative o compartilhamento de áudio','📌 Chrome 会打开选择窗口 — 选择"此标签页"并启用音频共享','📌 کروم ایک انتخابی ونڈو کھولے گا — "یہ ٹیب" منتخب کریں اور آڈیو شیئرنگ فعال کریں'],
-    deviceRecNoTabAudio:['⚠️ محتاج تفعّل خانة "مشاركة الصوت" وانت بتختار التبويبة','⚠️ You need to enable "share audio" when choosing the tab','⚠️ Vous devez activer « partager l\'audio » en choisissant l\'onglet','⚠️ Debes activar "compartir audio" al elegir la pestaña','⚠️ Du måste aktivera "dela ljud" när du väljer fliken','⚠️ Je moet "audio delen" inschakelen bij het kiezen van het tabblad','⚠️ Ní mór duit "comhroinnt fuaime" a chumasú agus tú ag roghnú an chluaisín','⚠️ Du musst „Audio freigeben" aktivieren, wenn du den Tab auswählst','⚠️ Нужно включить опцию «передавать звук» при выборе вкладки','⚠️ Sekmeyi seçerken "sesi paylaş" seçeneğini etkinleştirmelisin','⚠️ Você precisa ativar "compartilhar áudio" ao escolher a guia','⚠️ 选择标签页时需要启用"共享音频"','⚠️ ٹیب منتخب کرتے وقت آپ کو "آڈیو شیئر کریں" فعال کرنا ہوگا'],
-    deviceRecMobileUnsupported:['📱 تسجيل صوت المحطة دي مش متاح على متصفحات الموبايل (سيرفرها مش بيدعم المعالجة المباشرة) — تقدر تستخدم 🎙️ لتسجيل الصوت من السماعة بدل كده','📱 Recording this station isn\'t available on mobile browsers (its server doesn\'t support direct capture) — you can use 🎙️ to record from the speaker instead','📱 L\'enregistrement de cette station n\'est pas disponible sur les navigateurs mobiles (son serveur ne prend pas en charge la capture directe) — vous pouvez utiliser 🎙️ pour enregistrer depuis le haut-parleur','📱 Grabar esta emisora no está disponible en navegadores móviles (su servidor no admite captura directa) — puedes usar 🎙️ para grabar desde el altavoz','📱 Att spela in den här stationen är inte tillgängligt i mobila webbläsare (dess server stöder inte direkt infångning) — du kan använda 🎙️ för att spela in från högtalaren istället','📱 Dit station opnemen is niet beschikbaar in mobiele browsers (de server ondersteunt geen directe opname) — je kunt in plaats daarvan 🎙️ gebruiken om vanaf de luidspreker op te nemen','📱 Níl taifeadadh an stáisiúin seo ar fáil ar bhrabhsálaithe soghluaiste (ní thacaíonn a fhreastalaí le gabháil dhíreach) — is féidir leat 🎙️ a úsáid chun taifeadadh ón gcaingean ina áit','📱 Die Aufnahme dieses Senders ist in mobilen Browsern nicht verfügbar (der Server unterstützt keine direkte Aufnahme) — du kannst stattdessen 🎙️ verwenden, um vom Lautsprecher aufzunehmen','📱 Запись этой станции недоступна в мобильных браузерах (её сервер не поддерживает прямой захват) — вместо этого вы можете использовать 🎙️ для записи с динамика','📱 Bu istasyonun kaydı mobil tarayıcılarda kullanılamıyor (sunucusu doğrudan yakalamayı desteklemiyor) — bunun yerine hoparlörden kaydetmek için 🎙️ kullanabilirsin','📱 A gravação desta estação não está disponível em navegadores móveis (o servidor dela não suporta captura direta) — você pode usar 🎙️ para gravar do alto-falante','📱 该电台的录制在移动浏览器上不可用（其服务器不支持直接捕获）— 你可以改用 🎙️ 从扬声器录制','📱 اس اسٹیشن کی ریکارڈنگ موبائل براؤزرز پر دستیاب نہیں (اس کا سرور براہ راست کیپچر سپورٹ نہیں کرتا) — اس کے بجائے آپ اسپیکر سے ریکارڈ کرنے کے لیے 🎙️ استعمال کر سکتے ہیں'],
-    deviceRecBrowserUnsupported:['⚠️ المتصفح ده مش بيدعم تسجيل صوت المحطة دي مباشرة — جرب كروم أو إيدج، أو استخدم 🎙️ للتسجيل من السماعة','⚠️ This browser doesn\'t support recording this station directly — try Chrome or Edge, or use 🎙️ to record from the speaker','⚠️ Ce navigateur ne prend pas en charge l\'enregistrement direct de cette station — essayez Chrome ou Edge, ou utilisez 🎙️ pour enregistrer depuis le haut-parleur','⚠️ Este navegador no admite grabar esta emisora directamente — prueba Chrome o Edge, o usa 🎙️ para grabar desde el altavoz','⚠️ Den här webbläsaren stöder inte direkt inspelning av den här stationen — prova Chrome eller Edge, eller använd 🎙️ för att spela in från högtalaren','⚠️ Deze browser ondersteunt het rechtstreeks opnemen van dit station niet — probeer Chrome of Edge, of gebruik 🎙️ om vanaf de luidspreker op te nemen','⚠️ Ní thacaíonn an brabhsálaí seo le taifeadadh díreach an stáisiúin seo — bain triail as Chrome nó Edge, nó úsáid 🎙️ chun taifeadadh ón gcaingean','⚠️ Dieser Browser unterstützt die direkte Aufnahme dieses Senders nicht — probiere Chrome oder Edge, oder nutze 🎙️, um vom Lautsprecher aufzunehmen','⚠️ Этот браузер не поддерживает прямую запись этой станции — попробуйте Chrome или Edge, либо используйте 🎙️ для записи с динамика','⚠️ Bu tarayıcı bu istasyonun doğrudan kaydını desteklemiyor — Chrome veya Edge deneyin, ya da hoparlörden kaydetmek için 🎙️ kullanın','⚠️ Este navegador não suporta gravar esta estação diretamente — experimente o Chrome ou o Edge, ou use 🎙️ para gravar do alto-falante','⚠️ 此浏览器不支持直接录制该电台 — 请尝试 Chrome 或 Edge，或使用 🎙️ 从扬声器录制','⚠️ یہ براؤزر اس اسٹیشن کی براہ راست ریکارڈنگ سپورٹ نہیں کرتا — کروم یا ایج آزمائیں، یا اسپیکر سے ریکارڈ کرنے کے لیے 🎙️ استعمال کریں'],
+    deviceRecNoTabAudio:['⚠️ يجب تفعيل خانة "مشاركة الصوت" عند اختيار التبويبة','⚠️ You need to enable "share audio" when choosing the tab','⚠️ Vous devez activer « partager l\'audio » en choisissant l\'onglet','⚠️ Debes activar "compartir audio" al elegir la pestaña','⚠️ Du måste aktivera "dela ljud" när du väljer fliken','⚠️ Je moet "audio delen" inschakelen bij het kiezen van het tabblad','⚠️ Ní mór duit "comhroinnt fuaime" a chumasú agus tú ag roghnú an chluaisín','⚠️ Du musst „Audio freigeben" aktivieren, wenn du den Tab auswählst','⚠️ Нужно включить опцию «передавать звук» при выборе вкладки','⚠️ Sekmeyi seçerken "sesi paylaş" seçeneğini etkinleştirmelisin','⚠️ Você precisa ativar "compartilhar áudio" ao escolher a guia','⚠️ 选择标签页时需要启用"共享音频"','⚠️ ٹیب منتخب کرتے وقت آپ کو "آڈیو شیئر کریں" فعال کرنا ہوگا'],
+    deviceRecMobileUnsupported:['📱 تسجيل صوت هذه المحطة غير متاح على متصفحات الهاتف (خادمها لا يدعم المعالجة المباشرة) — يمكنك استخدام 🎙️ لتسجيل الصوت من السماعة بدلًا من ذلك','📱 Recording this station isn\'t available on mobile browsers (its server doesn\'t support direct capture) — you can use 🎙️ to record from the speaker instead','📱 L\'enregistrement de cette station n\'est pas disponible sur les navigateurs mobiles (son serveur ne prend pas en charge la capture directe) — vous pouvez utiliser 🎙️ pour enregistrer depuis le haut-parleur','📱 Grabar esta emisora no está disponible en navegadores móviles (su servidor no admite captura directa) — puedes usar 🎙️ para grabar desde el altavoz','📱 Att spela in den här stationen är inte tillgängligt i mobila webbläsare (dess server stöder inte direkt infångning) — du kan använda 🎙️ för att spela in från högtalaren istället','📱 Dit station opnemen is niet beschikbaar in mobiele browsers (de server ondersteunt geen directe opname) — je kunt in plaats daarvan 🎙️ gebruiken om vanaf de luidspreker op te nemen','📱 Níl taifeadadh an stáisiúin seo ar fáil ar bhrabhsálaithe soghluaiste (ní thacaíonn a fhreastalaí le gabháil dhíreach) — is féidir leat 🎙️ a úsáid chun taifeadadh ón gcaingean ina áit','📱 Die Aufnahme dieses Senders ist in mobilen Browsern nicht verfügbar (der Server unterstützt keine direkte Aufnahme) — du kannst stattdessen 🎙️ verwenden, um vom Lautsprecher aufzunehmen','📱 Запись этой станции недоступна в мобильных браузерах (её сервер не поддерживает прямой захват) — вместо этого вы можете использовать 🎙️ для записи с динамика','📱 Bu istasyonun kaydı mobil tarayıcılarda kullanılamıyor (sunucusu doğrudan yakalamayı desteklemiyor) — bunun yerine hoparlörden kaydetmek için 🎙️ kullanabilirsin','📱 A gravação desta estação não está disponível em navegadores móveis (o servidor dela não suporta captura direta) — você pode usar 🎙️ para gravar do alto-falante','📱 该电台的录制在移动浏览器上不可用（其服务器不支持直接捕获）— 你可以改用 🎙️ 从扬声器录制','📱 اس اسٹیشن کی ریکارڈنگ موبائل براؤزرز پر دستیاب نہیں (اس کا سرور براہ راست کیپچر سپورٹ نہیں کرتا) — اس کے بجائے آپ اسپیکر سے ریکارڈ کرنے کے لیے 🎙️ استعمال کر سکتے ہیں'],
+    deviceRecBrowserUnsupported:['⚠️ هذا المتصفح لا يدعم تسجيل صوت هذه المحطة مباشرة — جرّب Chrome أو Edge، أو استخدم 🎙️ للتسجيل من السماعة','⚠️ This browser doesn\'t support recording this station directly — try Chrome or Edge, or use 🎙️ to record from the speaker','⚠️ Ce navigateur ne prend pas en charge l\'enregistrement direct de cette station — essayez Chrome ou Edge, ou utilisez 🎙️ pour enregistrer depuis le haut-parleur','⚠️ Este navegador no admite grabar esta emisora directamente — prueba Chrome o Edge, o usa 🎙️ para grabar desde el altavoz','⚠️ Den här webbläsaren stöder inte direkt inspelning av den här stationen — prova Chrome eller Edge, eller använd 🎙️ för att spela in från högtalaren','⚠️ Deze browser ondersteunt het rechtstreeks opnemen van dit station niet — probeer Chrome of Edge, of gebruik 🎙️ om vanaf de luidspreker op te nemen','⚠️ Ní thacaíonn an brabhsálaí seo le taifeadadh díreach an stáisiúin seo — bain triail as Chrome nó Edge, nó úsáid 🎙️ chun taifeadadh ón gcaingean','⚠️ Dieser Browser unterstützt die direkte Aufnahme dieses Senders nicht — probiere Chrome oder Edge, oder nutze 🎙️, um vom Lautsprecher aufzunehmen','⚠️ Этот браузер не поддерживает прямую запись этой станции — попробуйте Chrome или Edge, либо используйте 🎙️ для записи с динамика','⚠️ Bu tarayıcı bu istasyonun doğrudan kaydını desteklemiyor — Chrome veya Edge deneyin, ya da hoparlörden kaydetmek için 🎙️ kullanın','⚠️ Este navegador não suporta gravar esta estação diretamente — experimente o Chrome ou o Edge, ou use 🎙️ para gravar do alto-falante','⚠️ 此浏览器不支持直接录制该电台 — 请尝试 Chrome 或 Edge，或使用 🎙️ 从扬声器录制','⚠️ یہ براؤزر اس اسٹیشن کی براہ راست ریکارڈنگ سپورٹ نہیں کرتا — کروم یا ایج آزمائیں، یا اسپیکر سے ریکارڈ کرنے کے لیے 🎙️ استعمال کریں'],
     today:        ['اليوم','Today','Aujourd\'hui','Hoy','Idag','Vandaag','Inniu','Heute','Сегодня','Bugün','Hoje','今天','آج'],
     yesterday:    ['أمس','Yesterday','Hier','Ayer','Igår','Gisteren','Inné','Gestern','Вчера','Dün','Ontem','昨天','کل'],
-    storageWarning:['⚠️ مساحة التخزين المحلي قربت تخلص — احذف ملاحظات قديمة أو اعمل نسخة احتياطية (📦) عشان تفرّغ مكان','⚠️ Local storage space is running low — delete old notes or make a backup (📦) to free up room','⚠️ L\'espace de stockage local est presque plein — supprimez d\'anciennes notes ou faites une sauvegarde (📦) pour libérer de la place','⚠️ El espacio de almacenamiento local casi se agota — elimina notas antiguas o haz una copia de seguridad (📦) para liberar espacio','⚠️ Det lokala lagringsutrymmet börjar ta slut — ta bort gamla anteckningar eller gör en säkerhetskopia (📦) för att frigöra plats','⚠️ De lokale opslagruimte raakt bijna vol — verwijder oude notities of maak een back-up (📦) om ruimte vrij te maken','⚠️ Tá spás stórála áitiúil ag éirí gann — scrios seanótaí nó déan cúltaca (📦) chun spás a shaoradh','⚠️ Der lokale Speicherplatz wird knapp — lösche alte Notizen oder erstelle eine Sicherung (📦), um Platz freizugeben','⚠️ Локальное хранилище почти заполнено — удалите старые заметки или сделайте резервную копию (📦), чтобы освободить место','⚠️ Yerel depolama alanı azalıyor — yer açmak için eski notları sil veya yedekleme (📦) yap','⚠️ O espaço de armazenamento local está ficando cheio — exclua notas antigas ou faça um backup (📦) para liberar espaço','⚠️ 本地存储空间快用完了 — 删除旧笔记或备份 (📦) 以释放空间','⚠️ لوکل اسٹوریج کی جگہ ختم ہو رہی ہے — پرانے نوٹس حذف کریں یا جگہ خالی کرنے کے لیے بیک اپ (📦) بنائیں'],
+    storageWarning:['⚠️ مساحة التخزين المحلي توشك على النفاد — احذف ملاحظات قديمة أو أنشئ نسخة احتياطية (📦) لتفريغ مساحة','⚠️ Local storage space is running low — delete old notes or make a backup (📦) to free up room','⚠️ L\'espace de stockage local est presque plein — supprimez d\'anciennes notes ou faites une sauvegarde (📦) pour libérer de la place','⚠️ El espacio de almacenamiento local casi se agota — elimina notas antiguas o haz una copia de seguridad (📦) para liberar espacio','⚠️ Det lokala lagringsutrymmet börjar ta slut — ta bort gamla anteckningar eller gör en säkerhetskopia (📦) för att frigöra plats','⚠️ De lokale opslagruimte raakt bijna vol — verwijder oude notities of maak een back-up (📦) om ruimte vrij te maken','⚠️ Tá spás stórála áitiúil ag éirí gann — scrios seanótaí nó déan cúltaca (📦) chun spás a shaoradh','⚠️ Der lokale Speicherplatz wird knapp — lösche alte Notizen oder erstelle eine Sicherung (📦), um Platz freizugeben','⚠️ Локальное хранилище почти заполнено — удалите старые заметки или сделайте резервную копию (📦), чтобы освободить место','⚠️ Yerel depolama alanı azalıyor — yer açmak için eski notları sil veya yedekleme (📦) yap','⚠️ O espaço de armazenamento local está ficando cheio — exclua notas antigas ou faça um backup (📦) para liberar espaço','⚠️ 本地存储空间快用完了 — 删除旧笔记或备份 (📦) 以释放空间','⚠️ لوکل اسٹوریج کی جگہ ختم ہو رہی ہے — پرانے نوٹس حذف کریں یا جگہ خالی کرنے کے لیے بیک اپ (📦) بنائیں'],
     download:     ['تحميل','Download','Télécharger','Descargar','Ladda ner','Downloaden','Íoslódáil','Herunterladen','Скачать','İndir','Baixar','下载','ڈاؤن لوڈ']
   };
 
@@ -22735,7 +22735,7 @@ function _handleVoiceCommand(rawText) {
       if (_fuzzyReqBtn) {
         var _fuzzyReqName = _fuzzyReqBtn.getAttribute('data-ar') || _fuzzyReqBtn.getAttribute('data-station') || '';
         if (typeof showToast === 'function') {
-          showToast((_isAr ? '❓ لم يتم العثور على "' + _reqName + '" — تقصد: ' : '❓ "' + _reqName + '" not found — did you mean: ') + _fuzzyReqName + '؟');
+          showToast((_isAr ? '❓ لم يتم العثور على "' + _reqName + '" — هل تقصد: ' : '❓ "' + _reqName + '" not found — did you mean: ') + _fuzzyReqName + '؟');
         }
       } else {
         if (typeof showToast === 'function') showToast(_isAr ? '❓ لم يتم العثور على: ' + _reqName : '❓ Not found: ' + _reqName);
@@ -23015,11 +23015,11 @@ window.startVoiceSearch = _createVoiceSearchController({
   micBtnId: 'micSearchBtn',
   displayStyle: 'block',
   listeningTitle: {
-    ar: 'جارِ الاستماع... قول اسم محطة أو "شغّل/وقف/التالي"',
+    ar: 'جارِ الاستماع... قل اسم محطة أو "شغّل/أوقف/التالي"',
     en: 'Listening... say a station name or "play/stop/next"'
   },
   idleTitle: {
-    ar: 'بحث صوتي، أو قول: شغّل / وقف / التالي / السابق / ارفع الصوت / اخفض الصوت / اكتم الصوت / بطل كتم / شغل قناة كذا',
+    ar: 'بحث صوتي، أو قل: شغّل / أوقف / التالي / السابق / ارفع الصوت / اخفض الصوت / اكتم الصوت / فك الكتم / شغّل قناة كذا',
     en: 'Voice search, or say: play / stop / next / previous / volume up / volume down / mute / unmute / play channel X'
   },
   onFinalTranscript: function(transcript, input, _isAr) {
@@ -23042,7 +23042,7 @@ window.startVoiceSearch = _createVoiceSearchController({
       var _fuzzyBtn = _fuzzyBestStationMatch(transcript);
       if (_fuzzyBtn && typeof showToast === 'function') {
         var _fuzzyName = _fuzzyBtn.getAttribute('data-ar') || _fuzzyBtn.getAttribute('data-station') || '';
-        showToast((_isAr ? 'مفيش نتيجة مطابقة — تقصد: ' : 'No exact match — did you mean: ') + _fuzzyName + '؟');
+        showToast((_isAr ? 'لا توجد نتيجة مطابقة — هل تقصد: ' : 'No exact match — did you mean: ') + _fuzzyName + '؟');
       }
     }
   }
@@ -23058,7 +23058,7 @@ window.startSpAthkarVoiceSearch = _createVoiceSearchController({
   micBtnId: 'sp-athkar-mic-btn',
   displayStyle: 'inline-flex',
   listeningTitle: {
-    ar: 'جارِ الاستماع... قول اسم ذكر أو دعاء',
+    ar: 'جارِ الاستماع... قل اسم ذكر أو دعاء',
     en: 'Listening... say a dhikr or dua name'
   },
   idleTitle: {
@@ -25640,17 +25640,17 @@ function importSettingsBackup(file) {
     var obj = null;
     try { obj = JSON.parse(reader.result); } catch (e) {}
     if (!obj || obj.app !== 'radio-ma-settings' || !obj.data || typeof obj.data !== 'object') {
-      _settingsToast(ar ? '⚠️ الملف ده مش نسخة إعدادات صالحة' : '⚠️ Not a valid settings backup file');
+      _settingsToast(ar ? '⚠️ هذا الملف ليس نسخة إعدادات صالحة' : '⚠️ Not a valid settings backup file');
       return;
     }
     var keys = Object.keys(obj.data).filter(function(k) {
       return !_SETTINGS_EXCLUDE.test(k) && typeof obj.data[k] === 'string';
     });
     if (!keys.length) {
-      _settingsToast(ar ? '⚠️ الملف فاضي' : '⚠️ The file is empty');
+      _settingsToast(ar ? '⚠️ الملف فارغ' : '⚠️ The file is empty');
       return;
     }
-    if (!confirm(ar ? ('استيراد ' + keys.length + ' إعداد؟ هيتم استبدال إعداداتك الحالية وإعادة تحميل الصفحة.')
+    if (!confirm(ar ? ('استيراد ' + keys.length + ' إعداد؟ سيتم استبدال إعداداتك الحالية وإعادة تحميل الصفحة.')
                     : ('Import ' + keys.length + ' settings? Your current settings will be replaced and the page will reload.'))) return;
     try {
       keys.forEach(function(k) { localStorage.setItem(k, obj.data[k]); });
@@ -25665,7 +25665,7 @@ function importSettingsBackup(file) {
 
 function resetAllSettings() {
   var ar = _settingsIsAr();
-  if (!confirm(ar ? 'تصفير كل الإعدادات للوضع الافتراضي؟ (المفضلة وتقدم التسبيح مش هيتمسحوا) هيتم إعادة تحميل الصفحة.'
+  if (!confirm(ar ? 'تصفير كل الإعدادات للوضع الافتراضي؟ (لن تُمسح المفضلة وتقدّم التسبيح) وسيتم إعادة تحميل الصفحة.'
                   : 'Reset all settings to default? (Favorites and tasbih progress are kept.) The page will reload.')) return;
   // التصفير بقائمة صريحة بمفاتيح الإعدادات بس، عشان ما نمسحش أى بيانات للمستخدم (مفضلة / ختمة / تقدّم / عدّادات)
   var toRemove = [];
@@ -25730,7 +25730,7 @@ function settingsFindRun(q) {
   if (!hits.length) {
     var none = document.createElement('div');
     none.className = 'sfr-none';
-    none.textContent = ar ? 'مفيش نتائج' : 'No results';
+    none.textContent = ar ? 'لا توجد نتائج' : 'No results';
     box.appendChild(none);
   }
   hits.forEach(function(h) {
@@ -26166,7 +26166,7 @@ function toggleLanguage() {
   document.getElementById("searchInput").placeholder = isArabic ? "ابــحــث هـنـا عـن إذاعـة أو إسـم الـقـارئ" : "Search here for a station or reciter's name";
   var micBtnToggle = document.getElementById('micSearchBtn');
   if (micBtnToggle) {
-    var micTxt = isArabic ? 'بحث صوتي، أو قول: شغّل / وقف / التالي / السابق' : 'Voice search, or say: play / stop / next / previous';
+    var micTxt = isArabic ? 'بحث صوتي، أو قل: شغّل / أوقف / التالي / السابق' : 'Voice search, or say: play / stop / next / previous';
     micBtnToggle.title = micTxt;
     micBtnToggle.setAttribute('aria-label', isArabic ? 'بحث أو أمر صوتي' : 'Voice search or command');
   }
@@ -34461,7 +34461,7 @@ function showAdhkarDoneModal(type) {
     if (!_st.firstEver && _st.repeatToday && _st.streak > 1) _stText += '\n🔥 سلسلتك: ' + _toArD(_st.streak) + (_st.streak <= 10 ? ' أيام' : ' يومًا');
     // السطر الثانى: العدّ الفعلى
     if (_st.total > 1) {
-      _stText += '\n📿 إجمالى الأيام التى أتممتَ فيها أذكار ' + _what + ': ' + _toArD(_st.total);
+      _stText += '\n📿 إجمالي الأيام التي أتممتَ فيها أذكار ' + _what + ': ' + _toArD(_st.total);
       if (_st.best > _st.streak) _stText += ' • أفضل سلسلة: ' + _toArD(_st.best);
     }
   } else {
@@ -34503,7 +34503,7 @@ function resetTasbih(event) {
 
   var confirmReset = confirm(
     isAr ?
-    "هل ترغب بتصفير هذا العداد؟" :
+    "هل ترغب في تصفير هذا العداد؟" :
     "Reset this counter?"
   );
   if (!confirmReset) return;
@@ -34597,7 +34597,7 @@ function copyAllAdhkar(event) {
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
   var pack = _buildAllAdhkarText();
   if (!pack) {
-    alert(isAr ? 'افتح قسم الأذكار الأول (الكل / صباح / مساء / عامة / رقية) عشان تقدر تنسخها' : 'Open the Adhkar section first (All / Morning / Evening / General / Ruqyah) to copy them');
+    alert(isAr ? 'افتح قسم الأذكار أولًا (الكل / صباح / مساء / عامة / رقية) لتتمكن من نسخها' : 'Open the Adhkar section first (All / Morning / Evening / General / Ruqyah) to copy them');
     return;
   }
   _copyTextAny(pack.text,
@@ -34610,7 +34610,7 @@ function shareAllAdhkar(event, type) {
   var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
   var pack = _buildAllAdhkarText(type);
   if (!pack) {
-    alert(isAr ? 'افتح قسم الأذكار الأول (الكل / صباح / مساء / عامة / رقية) عشان تقدر تشاركها' : 'Open the Adhkar section first (All / Morning / Evening / General / Ruqyah) to share them');
+    alert(isAr ? 'افتح قسم الأذكار أولًا (الكل / صباح / مساء / عامة / رقية) لتتمكن من مشاركتها' : 'Open the Adhkar section first (All / Morning / Evening / General / Ruqyah) to share them');
     return;
   }
   if (navigator.share) {
@@ -34652,7 +34652,7 @@ function shareDhikrAsCard(event) {
 
   if (!button) {
     alert(isAr ?
-      'افتح أذكار الصباح أو المساء أو العامة الأول عشان تقدر تشارك ذكر' :
+      'افتح أذكار الصباح أو المساء أو العامة أولًا لتتمكن من مشاركة ذكر' :
       'Open Morning, Evening or General Adhkar first to share a dhikr');
     return;
   }
@@ -34678,7 +34678,7 @@ function shareSpDhikrAsCard(event) {
 
   var dhikrText = (typeof window.spGetDhikr === 'function') ? window.spGetDhikr() : '';
   if (!dhikrText) {
-    alert(isAr ? 'مفيش ذكر متاح للمشاركة دلوقتى' : 'No dhikr available to share right now');
+    alert(isAr ? 'لا يوجد ذكر متاح للمشاركة حاليًا' : 'No dhikr available to share right now');
     return;
   }
 
@@ -35232,7 +35232,7 @@ function confirmResetAll(event) {
   var body = document.createElement('p');
   body.style.cssText = 'margin:0 0 22px;font-size:14px;color:#2c5f7a;line-height:1.6;';
   body.textContent = isAr ?
-    'هل ترغب بتصفير جميع العدادات للأزرار قبل البدء؟' :
+    'هل ترغب في تصفير جميع العدادات للأزرار قبل البدء؟' :
     'Reset all button counters before starting?';
 
   var btnConfirm = document.createElement('button');
@@ -35346,7 +35346,7 @@ function confirmResetAllAdhkar(event) {
   var body = document.createElement('p');
   body.style.cssText = 'margin:0 0 22px;font-size:14px;color:#2c5f7a;line-height:1.6;';
   body.textContent = isAr ?
-    'هل ترغب بتصفير جميع عدادات الأذكار (الصباح والمساء)؟' :
+    'هل ترغب في تصفير جميع عدادات الأذكار (الصباح والمساء)؟' :
     'Reset all adhkar counters (morning and evening)?';
 
   var btnConfirm = document.createElement('button');
@@ -41601,7 +41601,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     {
       keys: ['الثيمات', 'ثيمات', 'تبديل الثيم', 'تغيير الثيم', 'ثيم الفيديو', 'ثيم الصور'],
-      reply: '🎨 ثيمات الموقع:\n\nتقدر تغيّر شكل الموقع بثلاثة أنواع من الثيمات: ألوان سادة، وصور، وفيديو. وتتنقل بينها بسرعة من الكيبورد:\n\n• G — التنقل بين الثيمات السادة (الألوان)\n• X — التنقل بين ثيمات الصور\n• V — التنقل بين ثيمات الفيديو\n• أضف Shift (مثل Shift+G) للرجوع للثيم السابق\n\nوتجد خيارات الألوان أيضاً في ⚙️ الإعدادات > لون الخلفية. والوضع الليلي/النهاري بزر D 🌿',
+      reply: '🎨 ثيمات الموقع:\n\nيمكنك تغيير شكل الموقع بثلاثة أنواع من الثيمات: ألوان سادة، وصور، وفيديو. وتتنقل بينها بسرعة من لوحة المفاتيح:\n\n• G — التنقل بين الثيمات السادة (الألوان)\n• X — التنقل بين ثيمات الصور\n• V — التنقل بين ثيمات الفيديو\n• أضف Shift (مثل Shift+G) للرجوع إلى الثيم السابق\n\nوتجد خيارات الألوان أيضاً في ⚙️ الإعدادات > لون الخلفية. والوضع الليلي/النهاري بزر D 🌿',
       keys_en: ['cycle themes', 'change theme with keyboard', 'theme shortcut', 'solid themes', 'photo themes', 'video themes', 'what themes', 'available themes', 'themes'],
       reply_en: '🎨 Site Themes:\n\nYou can change the look of the site with three kinds of themes: solid colors, photos and video. Switch between them quickly from the keyboard:\n\n• G — cycle solid (color) themes\n• X — cycle photo themes\n• V — cycle video themes\n• Add Shift (e.g. Shift+G) to go back to the previous theme\n\nColor options are also in ⚙️ Settings > Background Color. Dark/Light mode is on the D key 🌿'
     },
@@ -44276,7 +44276,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   window.recLoopSetRotate = function (on) {
     try { localStorage.setItem(LS_ROT, on ? 'true' : 'false'); } catch (e) {}
     if (on && clips.length < 2) note(T('التناوب يحتاج مقطعين محفوظين على الأقل', 'Rotation needs at least two saved clips'), 3500);
-    else note(on ? T('🔀 هيتناوب التكرار بين كل المقاطع المحفوظة', '🔀 Looping will rotate through all saved clips')
+    else note(on ? T('🔀 سيتناوب التكرار بين كل المقاطع المحفوظة', '🔀 Looping will rotate through all saved clips')
                  : T('🔁 التكرار على المقطع المختار فقط', '🔁 Looping the selected clip only'), 3000);
     // لو فيه تكرار شغّال دلوقتى نطبّق الإعداد فوراً
     try {
@@ -44331,7 +44331,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   function persist(c) {
     var saved = { id: c.id, name: c.name, blob: c.blob, mime: c.mime, ms: c.ms, savedAt: c.savedAt, src: c.src };
     return dbOp('readwrite', function (st) { return st.put(saved, c.id); }).catch(function () {
-      note(T('تعذّر حفظ المقطع على الجهاز (هيشتغل لحد إغلاق الصفحة)', 'Couldn\u2019t save the clip on this device (works until the page closes)'), 5000);
+      note(T('تعذّر حفظ المقطع على الجهاز (سيعمل حتى إغلاق الصفحة)', 'Couldn\u2019t save the clip on this device (works until the page closes)'), 5000);
     });
   }
   function addClip(c) {
