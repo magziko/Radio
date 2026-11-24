@@ -20555,3 +20555,66 @@ html.wstyle-jumuaeve body #welcomeLogo::after {
     content: ""; position: absolute; inset: -9px -14px; }
   .favsub-heart, #favHeart, .toast-close-btn, .toast-play-btn { position: relative; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   إمكانية الوصول (دفعة ٣): تباين الألوان، مؤشر التركيز بلوحة المفاتيح، وتقليل الحركة
+   — لا يغيّر شكل الموقع للماوس أو اللمس؛ يظهر مؤشر التركيز فقط عند التنقل بلوحة المفاتيح.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ١) مؤشر تركيز واضح على أي خلفية (حلقة زرقاء داكنة + هالة بيضاء) */
+html body :is(button, a[href], input:not([type="range"]), select, textarea, summary, [role="button"], [role="tab"], [role="switch"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 3px solid #0b4f9e !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.92) !important;
+}
+html body input[type="range"]:focus-visible {
+  outline: 3px solid #0b4f9e !important;
+  outline-offset: 4px !important;
+}
+html body.dark-mode :is(button, a[href], input:not([type="range"]), select, textarea, summary, [role="button"], [role="tab"], [role="switch"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline-color: #ffd54f !important;
+  box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.75) !important;
+}
+html body.dark-mode input[type="range"]:focus-visible { outline-color: #ffd54f !important; }
+
+/* ٢) تباين النصوص (الوضع الفاتح): نغمّق لون التمييز للنص الصغير فقط عند الحاجة، بدون تغيير التصميم */
+body:not(.dark-mode):not(.media-theme-glass) .filter-label-text,
+body:not(.dark-mode):not(.media-theme-glass) #adhan-next-info:not(.adhan-now) {
+  color: color-mix(in srgb, var(--theme-g1) 52%, #000);
+}
+body:not(.dark-mode):not(.media-theme-glass) .sp-chip:not(.sp-chip-active),
+body:not(.dark-mode):not(.media-theme-glass) #sp-alarm-btn:not(.active),
+body:not(.dark-mode):not(.media-theme-glass) #sp-auto-btn,
+body:not(.dark-mode):not(.media-theme-glass) #sp-pip-toggle,
+body:not(.dark-mode):not(.media-theme-glass) #salah-pip-hint {
+  color: color-mix(in srgb, var(--theme-g2, var(--theme-g1)) 38%, #000);
+}
+/* نص أبيض فوق لون التمييز: نغمّق الخلفية قليلًا ليصل التباين إلى ٤٫٥ على الأقل */
+body:not(.dark-mode):not(.media-theme-glass) .sp-chip.sp-chip-active,
+body:not(.dark-mode):not(.media-theme-glass) #sp-alarm-btn.active {
+  background: color-mix(in srgb, var(--theme-g1) 50%, #000);
+  border-color: color-mix(in srgb, var(--theme-g1) 50%, #000);
+}
+/* رمادي #888 على الخلفيات الفاتحة (٣٫٤:١ أو أقل) */
+body:not(.dark-mode) #hijri-date-display,
+body:not(.dark-mode) #sp-alarm-status,
+body:not(.dark-mode) #sp-pip-note { color: #5d6662; }
+body:not(.dark-mode) #hijri-date-display { opacity: 1 !important; }
+/* شريط الحالة: لون التمييز الفاتح (الأصفر/البيج) غير مقروء عليه */
+body:not(.dark-mode):not(.media-theme-glass) #status:not(.status-error) {
+  color: color-mix(in srgb, var(--theme-c2) 50%, #000) !important;
+}
+body:not(.dark-mode):not(.media-theme-glass) .sp-fs-val { color: color-mix(in srgb, var(--theme-g2, var(--theme-g1)) 55%, #000); }
+
+/* ٣) تقليل الحركة لمن فعّل الإعداد في نظامه (يعطّل الحركات والانتقالات والتمرير الناعم) */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}
