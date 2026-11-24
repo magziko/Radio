@@ -6,6 +6,7 @@ const CACHE_STATIC = 'quran-radio-static-v6';
 const CACHE_AUDIO  = 'quran-radio-audio-v2';
 const CACHE_ALARM  = 'quran-radio-alarm-v5';
 const MAX_AUDIO_FILES = 50;
+const MAX_STORAGE_RATIO = 0.7; // لو استخدام التخزين تعدّى 70% من حصّة الموقع نبدأ نحذف أقدم الصوتيات
 
 const ALARM_AUDIO_URLS = [
   /* ✅ ملف الـ intro (صل على النبي) — أولاً لضمان تحميله قبل أي شيء */
@@ -238,6 +239,11 @@ self.addEventListener('message', async event => {
     event.source.postMessage({ type: 'CACHED_URL_RESULT', url: found, urls: urlsMap });
   }
 
+  // ── الصفحة حفظت ملفًا صوتيًا مباشرة في الكاش (زر التنزيل): طبّق حدود العدد والحجم عليه كمان ──
+  if (data.type === 'TRIM_AUDIO_CACHE') {
+    try { await trimAudioCache(await caches.open(CACHE_AUDIO)); } catch (e) {}
+  }
+
   // ── الصفحة بعتت الإحداثيات عشان الـ SW يجدول الأذان ──
   // ممكن كمان تبعت "timings" (آخر مواقيت محفوظة عند الصفحة نفسها لنفس اليوم) عشان
   // نجدول عليها فورًا كـ fallback لو النت مقطوع؛ لو نجحنا نجيب نسخة جديدة من النت
@@ -407,8 +413,10 @@ async function handleAudio(request) {
     // بتبقى opaque (status = 0 دايماً) حتى لو الملف اتحمّل صح فعلاً.
     // فمينفعش نشرط status === 200 بس؛ لازم نقبل النوعين (basic/cors سليم، أو opaque).
     if (response && (response.status === 200 || response.type === 'opaque')) {
-      cache.put(request, response.clone()).catch(() => {});
-      trimAudioCache(cache).catch(() => {});
+      // لو الحفظ فشل (المساحة خلصت QuotaExceeded) نفضّي الأقدم عشان المرة الجاية تنجح، وإلا نطبّق الحدود عادي
+      cache.put(request, response.clone())
+        .then(() => trimAudioCache(cache), () => trimAudioCache(cache))
+        .catch(() => {});
     }
     return response;
   } catch {
@@ -417,11 +425,24 @@ async function handleAudio(request) {
 }
 
 async function trimAudioCache(cache) {
-  const keys = await cache.keys();
+  // الحد الأول: عدد الملفات (الأقدم يُحذف أولاً)
+  let keys = await cache.keys();
   if (keys.length > MAX_AUDIO_FILES) {
-    const toDelete = keys.slice(0, keys.length - MAX_AUDIO_FILES);
-    await Promise.all(toDelete.map(k => cache.delete(k)));
+    await Promise.all(keys.slice(0, keys.length - MAX_AUDIO_FILES).map(k => cache.delete(k)));
+    keys = await cache.keys();
   }
+  // الحد الثاني: حجم التخزين. الملفات الصوتية كبيرة (عشرات الميجابايت للملف)،
+  // فلو المساحة المستخدمة تعدّت حدًا من حصّة الموقع نحذف الأقدم حتى نرجع تحته،
+  // وبنسيب آخر ملفين دايمًا (اللي بيتشغّل حاليًا).
+  try {
+    if (navigator.storage && navigator.storage.estimate) {
+      for (let i = 0; i < keys.length - 2; i++) {
+        const est = await navigator.storage.estimate();
+        if (!est.quota || est.usage / est.quota < MAX_STORAGE_RATIO) break;
+        await cache.delete(keys[i]);
+      }
+    }
+  } catch (e) {}
 }
 
 /* ══════════════════════════════════════
