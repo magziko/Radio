@@ -45810,5 +45810,245 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   setInterval(tick, 600);
 })();
 </script>
+<!-- ===== اختيار سورة محددة من محطات القرّاء (mp3) =====
+     أيقونة 🔢 على زر كل قارئ عنده ملفات سور مرقّمة → تفتح قائمة بالسور (أو اكتب رقم السورة)
+     وتشغّل السورة المختارة بالتحديد، مش الاختيار العشوائى بين الروابط.
+     مستقلة بالكامل: ما بتغيّرش أى كود موجود، وبتستخدم toggleRadio الموجودة للتشغيل. -->
+<style id="surahPickStyle">
+.surah-pick-icon{display:inline-block;margin:0 6px;padding:0 5px;border-radius:8px;font-size:.85em;line-height:1.5;cursor:pointer;background:rgba(128,128,128,.22);user-select:none;-webkit-user-select:none;vertical-align:middle}
+.surah-pick-icon:hover,.surah-pick-icon:focus{background:rgba(40,167,69,.45);outline:none}
+#surahPickOverlay{position:fixed;inset:0;z-index:999990;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55);padding:12px;box-sizing:border-box}
+#surahPickOverlay.open{display:flex}
+#surahPickCard{width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.45);border:1px solid rgba(128,128,128,.35);overflow:hidden;font-family:inherit}
+#surahPickHead{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid rgba(128,128,128,.3)}
+#surahPickTitle{flex:1;font-weight:700;font-size:1rem;line-height:1.4}
+#surahPickClose{cursor:pointer;border:0;background:rgba(128,128,128,.25);color:inherit;border-radius:8px;width:32px;height:32px;font-size:1rem}
+#surahPickBar{display:flex;gap:8px;padding:10px 14px}
+#surahPickInput{flex:1;min-width:0;padding:8px 10px;border-radius:8px;border:1px solid rgba(128,128,128,.5);background:rgba(128,128,128,.12);color:inherit;font-size:1rem;font-family:inherit}
+#surahPickGo{cursor:pointer;border:0;border-radius:8px;padding:8px 14px;background:#28a745;color:#fff;font-weight:700;font-family:inherit}
+#surahPickGrid{overflow-y:auto;padding:4px 14px 14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px}
+.surah-pick-chip{cursor:pointer;border:1px solid rgba(128,128,128,.35);background:rgba(128,128,128,.12);color:inherit;border-radius:8px;padding:7px 8px;text-align:start;font-size:.92rem;font-family:inherit;line-height:1.3}
+.surah-pick-chip:hover{background:rgba(40,167,69,.3)}
+.surah-pick-chip b{opacity:.65;margin-inline-end:5px;font-weight:700}
+.surah-pick-chip.now{border-color:#28a745;box-shadow:0 0 0 1px #28a745 inset}
+.surah-pick-chip[disabled]{opacity:.3;cursor:not-allowed;background:transparent}
+#surahPickNote{padding:0 14px 10px;font-size:.8rem;opacity:.7}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__surahPickInstalled) return;
+  window.__surahPickInstalled = true;
+
+  var AR = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
+  var EN = ["Al-Fatihah","Al-Baqarah","Ali 'Imran","An-Nisa","Al-Ma'idah","Al-An'am","Al-A'raf","Al-Anfal","At-Tawbah","Yunus","Hud","Yusuf","Ar-Ra'd","Ibrahim","Al-Hijr","An-Nahl","Al-Isra","Al-Kahf","Maryam","Ta-Ha","Al-Anbiya","Al-Hajj","Al-Mu'minun","An-Nur","Al-Furqan","Ash-Shu'ara","An-Naml","Al-Qasas","Al-Ankabut","Ar-Rum","Luqman","As-Sajdah","Al-Ahzab","Saba","Fatir","Ya-Sin","As-Saffat","Sad","Az-Zumar","Ghafir","Fussilat","Ash-Shura","Az-Zukhruf","Ad-Dukhan","Al-Jathiyah","Al-Ahqaf","Muhammad","Al-Fath","Al-Hujurat","Qaf","Adh-Dhariyat","At-Tur","An-Najm","Al-Qamar","Ar-Rahman","Al-Waqi'ah","Al-Hadid","Al-Mujadila","Al-Hashr","Al-Mumtahanah","As-Saff","Al-Jumu'ah","Al-Munafiqun","At-Taghabun","At-Talaq","At-Tahrim","Al-Mulk","Al-Qalam","Al-Haqqah","Al-Ma'arij","Nuh","Al-Jinn","Al-Muzzammil","Al-Muddaththir","Al-Qiyamah","Al-Insan","Al-Mursalat","An-Naba","An-Nazi'at","'Abasa","At-Takwir","Al-Infitar","Al-Mutaffifin","Al-Inshiqaq","Al-Buruj","At-Tariq","Al-A'la","Al-Ghashiyah","Al-Fajr","Al-Balad","Ash-Shams","Al-Layl","Ad-Duha","Ash-Sharh","At-Tin","Al-'Alaq","Al-Qadr","Al-Bayyinah","Az-Zalzalah","Al-'Adiyat","Al-Qari'ah","At-Takathur","Al-'Asr","Al-Humazah","Al-Fil","Quraysh","Al-Ma'un","Al-Kawthar","Al-Kafirun","An-Nasr","Al-Masad","Al-Ikhlas","Al-Falaq","An-Nas"];
+
+  function isAr() { return (typeof isArabic === 'undefined') ? true : !!isArabic; }
+  function T(ar, en) { return isAr() ? ar : en; }
+  function sName(n) { return isAr() ? AR[n - 1] : EN[n - 1]; }
+
+  // تطبيع للبحث: شيل التشكيل ووحّد الألف والياء والتاء المربوطة، وصغّر الحروف اللاتينية
+  function norm(s) {
+    return String(s || '').toLowerCase()
+      .replace(/[\u064B-\u0652\u0670\u0640]/g, '')
+      .replace(/[\u0623\u0625\u0622]/g, '\u0627')
+      .replace(/\u0649/g, '\u064A')
+      .replace(/\u0629/g, '\u0647')
+      .replace(/['’\-\s]/g, '');
+  }
+
+  // رقم السورة → مكانها فى قائمة روابط الزر (من رقم الملف فى آخر الرابط، مش من ترتيبه)
+  function surahMap(btn) {
+    var raw = btn.getAttribute('data-urls');
+    if (!raw) return null;
+    var urls;
+    try { urls = JSON.parse(raw); } catch (e) { return null; }
+    if (!Array.isArray(urls)) return null;
+    var map = {}, count = 0;
+    for (var i = 0; i < urls.length; i++) {
+      var u = urls[i];
+      if (typeof u !== 'string') continue;
+      var m = u.match(/(\d{1,3})\.mp3(?:[?#].*)?$/i);
+      if (!m) continue;
+      var s = parseInt(m[1], 10);
+      if (s < 1 || s > 114 || map[s] !== undefined) continue;
+      map[s] = i;
+      count++;
+    }
+    return count >= 20 ? { map: map, count: count, len: urls.length } : null;
+  }
+
+  function stationName(btn) {
+    return (isAr() ? btn.getAttribute('data-ar') : btn.getAttribute('data-en')) ||
+           btn.getAttribute('data-ar') || btn.getAttribute('data-station') || '';
+  }
+
+  // ───────── النافذة ─────────
+  var overlay, card, titleEl, input, grid, note, goBtn;
+  var curBtn = null, curInfo = null;
+
+  function build() {
+    if (overlay) return;
+    overlay = document.createElement('div');
+    overlay.id = 'surahPickOverlay';
+    overlay.innerHTML =
+      '<div id="surahPickCard" role="dialog" aria-modal="true">' +
+        '<div id="surahPickHead"><div id="surahPickTitle"></div>' +
+        '<button type="button" id="surahPickClose" aria-label="إغلاق">✕</button></div>' +
+        '<div id="surahPickBar"><input id="surahPickInput" type="text" inputmode="search" autocomplete="off">' +
+        '<button type="button" id="surahPickGo"></button></div>' +
+        '<div id="surahPickGrid"></div>' +
+        '<div id="surahPickNote"></div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+    card = overlay.querySelector('#surahPickCard');
+    titleEl = overlay.querySelector('#surahPickTitle');
+    input = overlay.querySelector('#surahPickInput');
+    grid = overlay.querySelector('#surahPickGrid');
+    note = overlay.querySelector('#surahPickNote');
+    goBtn = overlay.querySelector('#surahPickGo');
+
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    overlay.querySelector('#surahPickClose').addEventListener('click', close);
+    goBtn.addEventListener('click', submit);
+    input.addEventListener('input', renderGrid);
+    // منع اختصارات الموقع (لوحة المفاتيح) من إنها تتفعّل وأنت بتكتب هنا
+    ['keydown', 'keyup', 'keypress'].forEach(function (ev) {
+      input.addEventListener(ev, function (e) { e.stopPropagation(); });
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); submit(); }
+      else if (e.key === 'Escape') { e.preventDefault(); close(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+    });
+    grid.addEventListener('click', function (e) {
+      var chip = e.target.closest ? e.target.closest('.surah-pick-chip') : null;
+      if (!chip || chip.disabled) return;
+      play(parseInt(chip.getAttribute('data-s'), 10));
+    });
+  }
+
+  function currentlyPlayingSurah() {
+    if (!curBtn || !curBtn.classList.contains('playing') || !curInfo) return 0;
+    var idx = parseInt(curBtn.getAttribute('data-current-index'), 10);
+    if (isNaN(idx)) return 0;
+    var playingIdx = (idx - 1 + curInfo.len) % curInfo.len;   // الزر بيحفظ "التالى"، فالشغّال هو اللى قبله
+    for (var s in curInfo.map) { if (curInfo.map[s] === playingIdx) return parseInt(s, 10); }
+    return 0;
+  }
+
+  function matches(n, q) {
+    if (!q) return true;
+    if (/^\d+$/.test(q)) return String(n) === q || String(n).indexOf(q) === 0;
+    var nq = norm(q);
+    return norm(AR[n - 1]).indexOf(nq) !== -1 || norm(EN[n - 1]).indexOf(nq) !== -1;
+  }
+
+  function renderGrid() {
+    var q = input.value.trim();
+    var now = currentlyPlayingSurah();
+    var html = '', shown = 0;
+    for (var n = 1; n <= 114; n++) {
+      if (!matches(n, q)) continue;
+      var ok = curInfo.map[n] !== undefined;
+      html += '<button type="button" class="surah-pick-chip' + (n === now ? ' now' : '') + '" data-s="' + n + '"' +
+              (ok ? '' : ' disabled') + '><b>' + n + '</b>' + sName(n) + '</button>';
+      shown++;
+    }
+    grid.innerHTML = html || '<div style="grid-column:1/-1;opacity:.7;padding:10px 0">' + T('لا توجد نتيجة', 'No results') + '</div>';
+    goBtn.textContent = '▶ ' + T('تشغيل', 'Play');
+    note.textContent = (curInfo.count < 114)
+      ? T('المتاح لهذا القارئ ' + curInfo.count + ' سورة، والباقى معطّل.', curInfo.count + ' surahs available for this reciter; the rest are disabled.')
+      : '';
+  }
+
+  function open(btn) {
+    var info = surahMap(btn);
+    if (!info) return;
+    build();
+    curBtn = btn; curInfo = info;
+    titleEl.textContent = T('اختر السورة — ', 'Choose a surah — ') + stationName(btn);
+    input.placeholder = T('اكتب رقم السورة أو اسمها', 'Type surah number or name');
+    input.value = '';
+    renderGrid();
+    overlay.classList.add('open');
+    // نفس ألوان الموقع الحالية (فاتح/داكن) من غير ما نفترض ثيم معيّن
+    var cs = getComputedStyle(document.body);
+    var bg = cs.backgroundColor;
+    card.style.background = (!bg || bg === 'transparent' || /rgba\([^)]*,\s*0\)$/.test(bg)) ? '#fff' : bg;
+    card.style.color = cs.color || '#111';
+    var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    if (!coarse) { try { input.focus(); } catch (e) {} }
+  }
+
+  function close() { if (overlay) overlay.classList.remove('open'); }
+
+  function submit() {
+    var q = input.value.trim();
+    var n = 0;
+    if (/^\d+$/.test(q)) n = parseInt(q, 10);
+    else {
+      var found = [];
+      for (var i = 1; i <= 114; i++) if (matches(i, q) && curInfo.map[i] !== undefined) found.push(i);
+      if (found.length === 1) n = found[0];
+    }
+    if (n >= 1 && n <= 114 && curInfo.map[n] !== undefined) play(n);
+    else {
+      input.select && input.select();
+      note.textContent = T('اكتب رقمًا من 1 إلى 114 متاحًا لهذا القارئ، أو اختر من القائمة.', 'Enter a number from 1 to 114 that is available for this reciter, or pick from the list.');
+    }
+  }
+
+  // ───────── التشغيل: سورة محددة بالضبط، عن طريق toggleRadio الموجودة ─────────
+  function play(n) {
+    var btn = curBtn, info = curInfo;
+    if (!btn || !info || info.map[n] === undefined) return;
+    close();
+    // لو الزر شغّال دلوقتى، toggleRadio هتعتبرها "إيقاف" → نشيل حالة التشغيل الأول عشان تبدأ السورة الجديدة
+    btn.classList.remove('playing');
+    btn.setAttribute('data-random-played', 'true');          // تخطّى الاختيار العشوائى + تخطّى القفز لنص الملف
+    btn.setAttribute('data-current-index', String(info.map[n]));
+    try {
+      // حدث فاضى: يمنع toggleRadio من قراءة Ctrl/Shift من النقرة الحالية
+      window.toggleRadio(btn, { ctrlKey: false, metaKey: false, shiftKey: false });
+    } catch (e) {
+      console.error('surahPick: تعذّر تشغيل السورة', e);
+    }
+  }
+
+  // ───────── الأيقونات ─────────
+  function addIcons() {
+    var btns = document.querySelectorAll('.button[data-reciter-type="mp3"][data-urls]');
+    for (var i = 0; i < btns.length; i++) {
+      var btn = btns[i];
+      if (btn.querySelector('.surah-pick-icon')) continue;
+      if (!surahMap(btn)) continue;
+      var ic = document.createElement('span');
+      ic.className = 'surah-pick-icon';
+      ic.setAttribute('role', 'button');
+      ic.setAttribute('tabindex', '0');
+      ic.textContent = '🔢';
+      var tip = T('اختيار سورة محددة', 'Choose a specific surah');
+      ic.title = tip; ic.setAttribute('aria-label', tip);
+      (function (b, icon) {
+        function go(e) { e.stopPropagation(); e.preventDefault(); open(b); }
+        icon.addEventListener('click', go);
+        icon.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') go(e);
+        });
+      })(btn, ic);
+      var st = btn.querySelector('.station-text');
+      if (st && st.parentNode === btn) st.insertAdjacentElement('afterend', ic);
+      else btn.appendChild(ic);
+    }
+  }
+
+  addIcons();
+  window.addEventListener('load', addIcons);
+  window.addSurahPickIcons = addIcons;   // لو اتضافت أزرار قرّاء جديدة بعد التحميل
+})();
+</script>
 </body>
 </html>
