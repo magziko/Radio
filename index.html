@@ -12,7 +12,7 @@
     var origPlay = proto.play;
     proto.play = function() {
       try {
-        seen.add(this);a
+        seen.add(this);
         if (seen.size > 80) seen.forEach(function(e) { if (e.paused) seen.delete(e); });
       } catch (e) {}
       return origPlay.apply(this, arguments);
@@ -1705,7 +1705,13 @@ customAudioPlayer.addEventListener('ended', function() {
 (function() {
   if (!('mediaSession' in navigator)) return;
 
-  var FAVICON = new URL('icon-192.png', document.baseURI).href, FAVICON512 = new URL('icon-512.png', document.baseURI).href;   // من نفس الموقع: تظهر على شاشة القفل حتى أوفلاين
+  // صور شاشة القفل من نفس الموقع (تعمل أوفلاين). دالة واحدة يستخدمها تحديث المحطة وتحديث الأذان
+  window._radioMsArtwork = function() {
+    return [
+      { src: new URL('icon-192.png', document.baseURI).href, sizes: '192x192', type: 'image/png' },
+      { src: new URL('icon-512.png', document.baseURI).href, sizes: '512x512', type: 'image/png' }
+    ];
+  };
 
   window._radioUpdateMediaSession = function(name) {
     if (!('mediaSession' in navigator)) return;
@@ -1715,15 +1721,7 @@ customAudioPlayer.addEventListener('ended', function() {
       title: stName,
       artist: '\u0625\u0630\u0627\u0639\u0629 \u0627\u0644\u0642\u0631\u0622\u0646 \u0627\u0644\u0643\u0631\u064a\u0645 | Quran Radio',
       album: '\u0628\u062b \u0645\u0628\u0627\u0634\u0631',
-      artwork: [{
-        src: FAVICON,
-        sizes: '192x192',
-        type: 'image/png'
-      }, {
-        src: FAVICON512,
-        sizes: '512x512',
-        type: 'image/png'
-      }]
+      artwork: window._radioMsArtwork()
     });
     navigator.mediaSession.playbackState = 'playing';
   };
@@ -1737,19 +1735,26 @@ customAudioPlayer.addEventListener('ended', function() {
     return customAudioPlayer;
   }
 
-  navigator.mediaSession.setActionHandler('play', function() {
-    var target = _msActiveTarget();
-    if (target === mainAudio) window._mainPlayAllowed = true;
-    target.play().catch(function() {});
-  });
-  navigator.mediaSession.setActionHandler('pause', function() {
-    _msActiveTarget().pause();
-  });
-  navigator.mediaSession.setActionHandler('stop', function() {
-    var target = _msActiveTarget();
-    target.pause();
-    if (target !== mainAudio) target.src = '';
-  });
+  // تسجيل أزرار شاشة القفل في مكان واحد. الكتلة الثانية (استعادة الجلسة بعد الأذان/المسبحة) تستدعيها بدل تكرار نفس الكود
+  function _bindHandlers() {
+    navigator.mediaSession.setActionHandler('play', function() {
+      var target = _msActiveTarget();
+      if (target === mainAudio) window._mainPlayAllowed = true;
+      target.play().catch(function() {});
+    });
+    navigator.mediaSession.setActionHandler('pause', function() {
+      _msActiveTarget().pause();
+    });
+    navigator.mediaSession.setActionHandler('stop', function() {
+      var target = _msActiveTarget();
+      target.pause();
+      if (target !== mainAudio) target.src = '';
+    });
+    navigator.mediaSession.setActionHandler('nexttrack', function() { window._radioMsSkip(1); });
+    navigator.mediaSession.setActionHandler('previoustrack', function() { window._radioMsSkip(-1); });
+  }
+  window._radioBindMediaHandlers = _bindHandlers;
+
   // التالي/السابق من شاشة القفل: نفس منطق أسهم الكيبورد. الشاشة الترحيبية مفتوحة = محطة المشغّل الترحيبي،
   // ومغلقة = أزرار التالي/السابق الخاصة بالمشغّل الرئيسي (وإلا لا يحدث شيء لأن المشغّل الترحيبي هو اللي كان بيتحرّك)
   window._radioMsSkip = function(dir) {
@@ -1760,8 +1765,7 @@ customAudioPlayer.addEventListener('ended', function() {
     if (dir > 0) { if (typeof nextStationFunc === 'function') nextStationFunc(); }
     else if (typeof previousStation === 'function') previousStation();
   };
-  navigator.mediaSession.setActionHandler('nexttrack', function() { window._radioMsSkip(1); });
-  navigator.mediaSession.setActionHandler('previoustrack', function() { window._radioMsSkip(-1); });
+  _bindHandlers();
 
   window._radioUpdateMediaSession();
 })();
@@ -21762,8 +21766,13 @@ function toggleFavoritesView() {
   }
 }
 
+// أزرار المحطات الظاهرة والصالحة للتشغيل التلقائي (يستخدمها التالي/السابق/التبديل التلقائي)
+function _visibleStationButtons() {
+  return Array.from(buttons).filter(button => button.style.display !== 'none' && !button.classList.contains('no-auto-play'));
+}
+
 function switchToNextButton() {
-  let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none' && !button.classList.contains('no-auto-play'));
+  let visibleButtons = _visibleStationButtons();
   if (!visibleButtons.length) return;
 
   let playingBtn = document.querySelector('.button.playing:not(#prevButton):not(#nextButton):not(#randomButton)');
@@ -22190,7 +22199,7 @@ document.getElementById('sleepCheckbox').addEventListener('change', activateSlee
 })();
 
 document.getElementById('prevButton').addEventListener('click', function() {
-  let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none' && !button.classList.contains('no-auto-play'));
+  let visibleButtons = _visibleStationButtons();
   if (!visibleButtons.length) return;
   let playingBtn = document.querySelector('.button.playing:not(#prevButton):not(#nextButton):not(#randomButton)');
   let visibleIndex = playingBtn ? visibleButtons.indexOf(playingBtn) : 0;
@@ -22201,7 +22210,7 @@ document.getElementById('prevButton').addEventListener('click', function() {
 });
 
 document.getElementById('nextButton').addEventListener('click', function() {
-  let visibleButtons = Array.from(buttons).filter(button => button.style.display !== 'none' && !button.classList.contains('no-auto-play'));
+  let visibleButtons = _visibleStationButtons();
   if (!visibleButtons.length) return;
   let playingBtn = document.querySelector('.button.playing:not(#prevButton):not(#nextButton):not(#randomButton)');
   let visibleIndex = playingBtn ? visibleButtons.indexOf(playingBtn) : -1;
@@ -31778,22 +31787,13 @@ window.addEventListener("load", function() {
       // Media Session بعد ما الصوت بدأ فعلاً
       adhanAudio.addEventListener('playing', function() {
         if (!('mediaSession' in navigator)) return;
-        var FAVICON = new URL('icon-192.png', document.baseURI).href, FAVICON512 = new URL('icon-512.png', document.baseURI).href;   // من نفس الموقع: تظهر على شاشة القفل حتى أوفلاين
         var arName = PRAYER_NAMES_AR[prayerName] || prayerName;
         var enName = PRAYER_NAMES_EN[prayerName] || prayerName;
         navigator.mediaSession.metadata = new MediaMetadata({
           title: 'أذان ' + arName + '  —  ' + enName + ' Adhan',
           artist: 'إذاعة القرآن الكريم | Quran Radio',
           album: 'أذان تلقائي',
-          artwork: [{
-        src: FAVICON,
-        sizes: '192x192',
-        type: 'image/png'
-      }, {
-        src: FAVICON512,
-        sizes: '512x512',
-        type: 'image/png'
-      }]
+          artwork: (typeof window._radioMsArtwork === 'function') ? window._radioMsArtwork() : []
         });
         navigator.mediaSession.playbackState = 'playing';
         navigator.mediaSession.setActionHandler('pause', function() {
@@ -43121,20 +43121,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   }
   function bindHandlers() {
     if (!HAS_MS) return;
-    var main = function () { return document.getElementById('currentAudio'); };
-    setHandler('play', function () {
-      var t = activeTarget(); if (!t) return;
-      if (t === main()) window._mainPlayAllowed = true;
-      t.play().catch(function () {});
-    });
-    setHandler('pause', function () { var t = activeTarget(); if (t) t.pause(); });
-    setHandler('stop', function () {
-      var t = activeTarget(); if (!t) return;
-      t.pause();
-      if (t !== main()) t.src = '';
-    });
-    setHandler('nexttrack', function () { if (typeof window._radioMsSkip === 'function') window._radioMsSkip(1); else if (typeof nextStationFunc === 'function') nextStationFunc(); });
-    setHandler('previoustrack', function () { if (typeof window._radioMsSkip === 'function') window._radioMsSkip(-1); else if (typeof previousStation === 'function') previousStation(); });
+    if (typeof window._radioBindMediaHandlers === 'function') window._radioBindMediaHandlers();
   }
 
   function syncPlaybackState() {
