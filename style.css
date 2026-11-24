@@ -20512,3 +20512,46 @@ html.wstyle-jumuaeve body #welcomeLogo::after {
 #settings-panel[data-active-tab="welcome"] #settingsQuickGrid #settings-wrestore-item .welcome-toggle-inline-input {
   flex: 0 0 auto; margin-inline-start: auto; white-space: nowrap;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   أهداف لمس مريحة (٤٤ بكسل) على الموبايل فقط — لا تغيّر تصميم الديسكتوب
+   الأيقونات الصغيرة تكبر فعليًا، والعناصر الدقيقة جدًا (قلوب المفضلة وزر الإغلاق)
+   تكبر منطقة اللمس فقط بدون تغيير الحجم الظاهر.
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  /* أزرار الأيقونات */
+  #closeButton, #welcomeTopAiBtn, #welcomeTopSearchBtn, #welcomeDarkModeBtn, #welcomeMoreBtn,
+  #pnb-prev, #pnb-next, #pnb-random, #pnb-autosw, #pnb-copy, #pnb-share,
+  #shareStationBtn, #historyBtn, #micSearchBtn,
+  #adhan-settings-btn, #adhan-gps-btn, #adhan-test-btn,
+  #sp-athkar-mic-btn, #sp-athkar-prev, #sp-athkar-play-btn, #sp-athkar-next,
+  #sp-speed-slower-btn, #sp-speed-faster-btn, #sp-speed-reset-btn, #sp-vibrate-btn, #sp-autonext-btn,
+  #mabBack, #mabNext, #mabShareBtn, #mabOpen, #mabClose {
+    min-width: 44px; min-height: 44px; box-sizing: border-box;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  html body #mabBack, html body #mabNext, html body #mabShareBtn, html body #mabOpen, html body #mabClose,
+  html body #sp-athkar-prev, html body #sp-athkar-play-btn, html body #sp-athkar-next {
+    min-width: 44px !important; min-height: 44px !important; box-sizing: border-box;
+  }
+  /* أزرار وحقول عريضة: نرفع الارتفاع فقط */
+  .filter-button, #viewFavoritesButton, .quransciences-sub-btn, #settings-toggle-bar,
+  #sp-collapse-head, #sp-custom-dd-btn, #sp-athkar-search, #sp-target-sel,
+  .sp-chip, #sp-chip-custom, #sp-auto-btn, #sp-restore-btn, #sp-reset-btn, #sp-alarm-btn,
+  #sp-alarm-interval-sel, #sp-pip-toggle, #sp-share-btn, .share-btn, #footerEmailBtn {
+    min-height: 44px; box-sizing: border-box;
+  }
+  .sp-chip, #sp-chip-custom { min-width: 44px; }
+  /* روابط الفوتر */
+  #facebookFollowBtn, #footerWhatsappBtn, #footerTelegramBtn, #privacyPolicyFooterLink {
+    display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box;
+  }
+  /* تسمية خانة التنبيه */
+  label.sp-alarm-label { display: inline-flex; align-items: center; min-height: 44px; }
+  /* مزلاج الصوت: نكبّر منطقة اللمس (المسار نفسه بيفضل بنفس الشكل) */
+  html body #customVolumeRange { height: 44px !important; margin-top: 0; margin-bottom: 0; background-clip: content-box; }
+  /* توسيع منطقة اللمس فقط (بدون تغيير الحجم الظاهر) */
+  .favorite-icon::after, .favsub-heart::after, #favHeart::after, .toast-close-btn::after, .toast-play-btn::after {
+    content: ""; position: absolute; inset: -9px -14px; }
+  .favsub-heart, #favHeart, .toast-close-btn, .toast-play-btn { position: relative; }
+}
