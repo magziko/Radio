@@ -2,7 +2,7 @@
    Service Worker — إذاعة القرآن الكريم
    ============================================ */
 
-const CACHE_STATIC = 'quran-radio-static-v5';
+const CACHE_STATIC = 'quran-radio-static-v6';
 const CACHE_AUDIO  = 'quran-radio-audio-v2';
 const CACHE_ALARM  = 'quran-radio-alarm-v5';
 const MAX_AUDIO_FILES = 50;
@@ -176,6 +176,25 @@ self.addEventListener('fetch', event => {
   // السبب: لو الـ SW مرّر البث عن طريقه، وقت انقطاع الإنترنت الرد بيتقطع للمشغّل بخطأ فوري
   // فيقفل المشغّل ويضيع المخزّن، وده بيوقف ميزة تكرار آخر مقطع. وكمان ما كانش فيه أي كاش لهذه الطلبات أصلاً.
   if (new URL(url).origin !== self.location.origin) return;
+
+  // ملفات البيانات الكبيرة (verses.js / stations.js): بتتخزن عند أول استخدام (مش وقت التثبيت).
+  // بعد كده: من الكاش فورًا، وبنتأكد في الخلفية بطلب شرطي (ETag → 304 خفيف) ولو اتغيّر الملف بنحدّث الكاش.
+  // لو مفيش كاش والنت واقع: الطلب بيفشل عادي والصفحة بتتعامل مع الفشل (fallback).
+  if (/\/(verses|stations)\.js$/.test(new URL(url).pathname)) {
+    event.respondWith(
+      caches.open(CACHE_STATIC).then(cache =>
+        cache.match(event.request).then(cached => {
+          const refresh = fetch(event.request, { cache: 'no-cache' }).then(res => {
+            if (res && res.status === 200 && res.type === 'basic') cache.put(event.request, res.clone()).catch(() => {});
+            return res;
+          });
+          if (cached) { refresh.catch(() => {}); return cached; }
+          return refresh;
+        })
+      )
+    );
+    return;
+  }
 
   // باقي الطلبات (وأهمها index.html): Network First
   // نستخدم cache:'no-store' في طلب الشبكة عشان نضمن إن المتصفح/GitHub Pages
