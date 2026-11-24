@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
 <script>
@@ -90,6 +90,9 @@
     var browserLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
     return browserLang.startsWith('ar');
   })();
+  /* اتجاه الصفحة من أول رسم: كان dir يُضبط بعد تحميل السكريبت الكبير (applyDirection)، فتظهر أزرار الشريط العلوي
+     على اليمين (اتجاه LTR) ثم تقفز لمكانها. نضبطه هنا فورًا بنفس قاعدة applyDirection (عربي = rtl، غير ذلك = ltr). */
+  try { document.documentElement.setAttribute('dir', isArabic ? 'rtl' : 'ltr'); document.documentElement.setAttribute('lang', isArabic ? 'ar' : 'en'); } catch (e) {}
 
   /* اختيار النص بحسب لغة الواجهة (عربي/إنجليزي) — تُستخدم في رسائل الإعدادات */
   function _tAE(ar, en) { return (typeof isArabic === 'undefined' || isArabic) ? ar : en; }
