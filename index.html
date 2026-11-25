@@ -46227,6 +46227,10 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
 </div>
 <script>
 var INTRO_VIDEO_ID='w1HFy8DRlMI', INTRO_SHORTS_ID='UMSszk-Wz9k';
+var INTRO_VIDEO_ID_FR='X1TV_A_Ryms', INTRO_SHORTS_ID_FR='uoOXVwH4Vlw';
+function _introVideoIsFrench(){
+  try { return (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang === 'fr'); } catch(e){ return false; }
+}
 function openIntroVideo(videoId, vertical){
   try { if (window.stopRadiosForMedia) window.stopRadiosForMedia(); } catch(e){}
   var h=document.getElementById('introVideoHolder');
@@ -46235,9 +46239,13 @@ function openIntroVideo(videoId, vertical){
   if(vertical){ if(wrap) wrap.style.width='min(400px,100%)'; if(box) box.style.aspectRatio='9/16'; }
   else { if(wrap) wrap.style.width='min(960px,100%)'; if(box) box.style.aspectRatio='16/9'; }
   h.innerHTML='';
+  var isFr=_introVideoIsFrench();
+  var resolvedId;
+  if(vertical){ resolvedId = isFr ? INTRO_SHORTS_ID_FR : (videoId||INTRO_SHORTS_ID); }
+  else { resolvedId = isFr ? INTRO_VIDEO_ID_FR : (videoId||INTRO_VIDEO_ID); }
   var f=document.createElement('iframe');
-  f.src='https://www.youtube-nocookie.com/embed/'+(videoId||INTRO_VIDEO_ID)+'?rel=0&autoplay=1';
-  f.title= vertical ? 'Radio Quran Karim shorts video' : 'Radio Quran Karim intro video';
+  f.src='https://www.youtube-nocookie.com/embed/'+resolvedId+'?rel=0&autoplay=1';
+  f.title= vertical ? (isFr ? 'Vidéo courte Radio Coran' : 'Radio Quran Karim shorts video') : (isFr ? 'Vidéo de présentation Radio Coran' : 'Radio Quran Karim intro video');
   f.loading='lazy'; f.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
   f.allowFullscreen=true; f.referrerPolicy='strict-origin-when-cross-origin';
   f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;';
