@@ -42971,6 +42971,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     SCREENS.forEach(function(sc) {
       menu.appendChild(row(sc[0], sc[3][l] || sc[3].en, function() { close(); openScreen(sc[1], sc[2]); }));
     });
+    menu.appendChild(row('🎬', l === 'ar' ? 'شاهد نسخة الشورتس' : 'Watch the Shorts version', function() { close(); if (typeof openIntroVideo === 'function') openIntroVideo('UMSszk-Wz9k', true); }));
     menu.appendChild(row('📲', DL_T[l] || DL_T.en, function() { close(); downloadApk(); }));
     var sep = document.createElement('div');
     sep.style.cssText = 'height:1px;margin:4px 6px;background:rgba(0,0,0,0.12);';
