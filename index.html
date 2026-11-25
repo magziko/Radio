@@ -6242,7 +6242,8 @@ setTimeout(autoScaleVerseFont, 100);
         <div class="stab-i18n sdt-title" data-ar="🎬 فيديو الشورتس" data-en="🎬 Shorts video">🎬 فيديو الشورتس</div>
         <div class="sdt-desc" dir="auto"><span class="stab-i18n" data-ar="نسخة قصيرة رأسية من جولة الموقع، مناسبة للموبايل." data-en="A short vertical version of the site tour, made for phones.">نسخة قصيرة رأسية من جولة الموقع، مناسبة للموبايل.</span></div>
         <div class="sdt-btns">
-          <button id="intro-shorts-btn" type="button" class="sdt-btn" onclick="openIntroVideo('UMSszk-Wz9k', true)"><span class="stab-i18n" data-ar="▶️ شاهد نسخة الشورتس" data-en="▶️ Watch the Shorts version">▶️ شاهد نسخة الشورتس</span></button>
+          <button id="intro-shorts-btn" type="button" class="sdt-btn" onclick="openIntroVideo('short')"><span class="stab-i18n" data-ar="▶️ شاهد نسخة الشورتس" data-en="▶️ Watch the Shorts version">▶️ شاهد نسخة الشورتس</span></button>
+          <button id="intro-full-btn" type="button" class="sdt-btn" onclick="openIntroVideo('full')"><span class="stab-i18n" data-ar="▶️ شاهد الفيديو الكامل" data-en="▶️ Watch the full video">▶️ شاهد الفيديو الكامل</span></button>
         </div>
       </div>
 
@@ -42973,7 +42974,8 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
     SCREENS.forEach(function(sc) {
       menu.appendChild(row(sc[0], sc[3][l] || sc[3].en, function() { close(); openScreen(sc[1], sc[2]); }));
     });
-    menu.appendChild(row('🎬', l === 'ar' ? 'شاهد نسخة الشورتس' : 'Watch the Shorts version', function() { close(); if (typeof openIntroVideo === 'function') openIntroVideo('UMSszk-Wz9k', true); }));
+    menu.appendChild(row('🎬', l === 'ar' ? 'شاهد نسخة الشورتس' : 'Watch the Shorts version', function() { close(); if (typeof openIntroVideo === 'function') openIntroVideo('short'); }));
+    menu.appendChild(row('▶️', l === 'ar' ? 'شاهد الفيديو الكامل' : 'Watch the full video', function() { close(); if (typeof openIntroVideo === 'function') openIntroVideo('full'); }));
     menu.appendChild(row('📲', DL_T[l] || DL_T.en, function() { close(); downloadApk(); }));
     var sep = document.createElement('div');
     sep.style.cssText = 'height:1px;margin:4px 6px;background:rgba(0,0,0,0.12);';
@@ -46228,26 +46230,49 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   </div>
 </div>
 <script>
-var INTRO_VIDEO_ID='w1HFy8DRlMI', INTRO_SHORTS_ID='UMSszk-Wz9k';
-var INTRO_VIDEO_ID_FR='X1TV_A_Ryms', INTRO_SHORTS_ID_FR='uoOXVwH4Vlw';
-function _introVideoIsFrench(){
-  try { return (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang === 'fr'); } catch(e){ return false; }
+/* Intro videos: language + device decided at click time.
+   ar -> Arabic pair, fr -> French pair, en and every other language -> English pair.
+   Phone: 9:16 short. Desktop: 16:9 full. Explicit 'short' / 'full' override the device. */
+var INTRO_VIDEOS = {
+  ar: { full: 'w1HFy8DRlMI', short: 'UMSszk-Wz9k' },
+  fr: { full: 'X1TV_A_Ryms', short: 'uoOXVwH4Vlw' },
+  en: { full: 'SbTCUFfPT0g', short: 'TzWBonDvVq4' }
+};
+function _introVideoLang(){
+  var l = 'ar';
+  try { if (typeof welcomeDisplayLang !== 'undefined' && welcomeDisplayLang) l = String(welcomeDisplayLang); } catch(e){}
+  return INTRO_VIDEOS[l] ? l : 'en';
 }
-function openIntroVideo(videoId, vertical){
+function _introVideoIsMobile(){
+  try {
+    var ua = /Android|iPhone|iPad|iPod|Mobile|Opera Mini|IEMobile/i.test(navigator.userAgent || '');
+    var w = window.innerWidth || document.documentElement.clientWidth || 1024;
+    var touch = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    return ua || w <= 600 || (touch && w <= 900);
+  } catch(e){ return false; }
+}
+function openIntroVideo(mode, legacyVertical){
   try { if (window.stopRadiosForMedia) window.stopRadiosForMedia(); } catch(e){}
+  if (legacyVertical === true) mode = 'short';
+  var lang = _introVideoLang();
+  var set = INTRO_VIDEOS[lang];
+  var vertical = (mode === 'short') ? true : (mode === 'full') ? false : _introVideoIsMobile();
+  var id = vertical ? set.short : set.full;
+  if (!id || /PLACEHOLDER/.test(id)) { id = set.short; vertical = true; } /* full video not set yet: use the same-language short */
   var h=document.getElementById('introVideoHolder');
   var wrap=document.getElementById('introVideoWrap');
   var box=document.getElementById('introVideoBox');
-  if(vertical){ if(wrap) wrap.style.width='min(400px,100%)'; if(box) box.style.aspectRatio='9/16'; }
+  if(vertical){ if(wrap) wrap.style.width='min(400px,100%,calc(80vh * 9 / 16))'; if(box) box.style.aspectRatio='9/16'; }
   else { if(wrap) wrap.style.width='min(960px,100%)'; if(box) box.style.aspectRatio='16/9'; }
   h.innerHTML='';
-  var isFr=_introVideoIsFrench();
-  var resolvedId;
-  if(vertical){ resolvedId = isFr ? INTRO_SHORTS_ID_FR : (videoId||INTRO_SHORTS_ID); }
-  else { resolvedId = isFr ? INTRO_VIDEO_ID_FR : (videoId||INTRO_VIDEO_ID); }
+  var titles = {
+    ar: [ 'Radio Quran Karim intro video', 'Radio Quran Karim shorts video' ],
+    fr: [ 'Vidéo de présentation Radio Coran', 'Vidéo courte Radio Coran' ],
+    en: [ 'Quran Radio intro video', 'Quran Radio shorts video' ]
+  };
   var f=document.createElement('iframe');
-  f.src='https://www.youtube-nocookie.com/embed/'+resolvedId+'?rel=0&autoplay=1';
-  f.title= vertical ? (isFr ? 'Vidéo courte Radio Coran' : 'Radio Quran Karim shorts video') : (isFr ? 'Vidéo de présentation Radio Coran' : 'Radio Quran Karim intro video');
+  f.src='https://www.youtube-nocookie.com/embed/'+id+'?rel=0&autoplay=1';
+  f.title = titles[lang][vertical ? 1 : 0];
   f.loading='lazy'; f.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
   f.allowFullscreen=true; f.referrerPolicy='strict-origin-when-cross-origin';
   f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;';
