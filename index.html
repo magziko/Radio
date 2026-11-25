@@ -653,6 +653,13 @@
     <button id="welcomeAdhkarBtn" type="button" style="display:none;align-items:center;gap:6px;cursor:pointer;padding:5px 14px;border-radius:999px;font:700 12.5px/1.5 Cairo,sans-serif;color:inherit;background:rgba(217,162,27,0.22);border:1px solid rgba(217,162,27,0.55);"></button>
 </div>
 
+<!-- Intro video (YouTube, privacy mode, loads only after tap) -->
+<div id="introVideoRow" style="order:2;display:flex;justify-content:center;margin:8px auto 0;">
+    <button id="introVideoBtn" type="button" onclick="openIntroVideo()" aria-label="شاهد الفيديو التعريفي / Watch intro video" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;padding:7px 18px;border-radius:999px;font:700 13px/1.5 Cairo,sans-serif;color:inherit;background:rgba(30,144,255,0.16);border:1px solid rgba(30,144,255,0.45);">
+        <span aria-hidden="true">▶</span><span>شاهد الفيديو التعريفي · Intro video</span>
+    </button>
+</div>
+
 <div id="quranVerse" style="margin: 20px 0; flex-shrink: 0;">
     <p class="basmala-line">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
     <p id="arabicVerse">إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ وَيُبَشِّرُ الْمُؤْمِنِينَ الَّذِينَ يَعْمَلُونَ الصَّالِحَاتِ أَنَّ لَهُمْ أَجْرًا كَبِيرًا</p>
@@ -46199,6 +46206,36 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
   window.addEventListener('load', markTriggers);
   window.addSurahPickIcons = markTriggers;   // لو اتضافت أزرار قرّاء جديدة بعد التحميل
 })();
+</script>
+<!-- Intro video modal -->
+<div id="introVideoModal" role="dialog" aria-modal="true" aria-label="Intro video" style="display:none;position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,0.82);align-items:center;justify-content:center;padding:16px;" onclick="if(event.target===this)closeIntroVideo()">
+  <div style="position:relative;width:min(960px,100%);">
+    <button type="button" onclick="closeIntroVideo()" aria-label="Close" style="position:absolute;top:-42px;right:0;width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;font-size:20px;line-height:36px;background:#fff;color:#111;">&times;</button>
+    <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+      <div id="introVideoHolder" style="position:absolute;inset:0;"></div>
+    </div>
+  </div>
+</div>
+<script>
+function openIntroVideo(){
+  try { if (window.stopRadiosForMedia) window.stopRadiosForMedia(); } catch(e){}
+  var h=document.getElementById('introVideoHolder');
+  if(!h.firstChild){
+    var f=document.createElement('iframe');
+    f.src='https://www.youtube-nocookie.com/embed/RWPzqGoMRfk?rel=0&autoplay=1';
+    f.title='Radio Quran Karim intro video';
+    f.loading='lazy'; f.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+    f.allowFullscreen=true; f.referrerPolicy='strict-origin-when-cross-origin';
+    f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;';
+    h.appendChild(f);
+  }
+  document.getElementById('introVideoModal').style.display='flex';
+}
+function closeIntroVideo(){
+  document.getElementById('introVideoModal').style.display='none';
+  document.getElementById('introVideoHolder').innerHTML='';
+}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){var m=document.getElementById('introVideoModal'); if(m&&m.style.display!=='none') closeIntroVideo(); }});
 </script>
 </body>
 </html>
