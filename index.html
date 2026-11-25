@@ -21036,11 +21036,13 @@ function applyInitialLanguage() {
         if (_mi && _mi.parentNode === st) st.removeChild(_mi); else _mi = null;
         if (resetAll) {
           st.firstChild.textContent = newText;
+        } else if (typeof _applyStationTextLang === 'function') {
+          _applyStationTextLang(st, newText);
         } else {
-          st.textContent = newText;
+          st.textContent = String(newText || '').replace(/<br\s*\/?>/gi, ' ');
         }
         if (_mi) { st.appendChild(document.createTextNode(' ')); st.appendChild(_mi); }
-        if (st.hasAttribute('title') && newText) st.setAttribute('title', newText);
+        if (st.hasAttribute('title') && newText) st.setAttribute('title', String(newText).replace(/<br\s*\/?>/gi, '\n'));
       }
     });
 
@@ -26206,10 +26208,10 @@ function toggleLanguage() {
     if (resetAll) {
       buttonText.firstChild.textContent = newText;
     } else {
-      buttonText.textContent = newText;
+      _applyStationTextLang(buttonText, newText);
     }
     if (_mi2) { buttonText.appendChild(document.createTextNode(' ')); buttonText.appendChild(_mi2); }
-    if (buttonText.hasAttribute('title') && newText) buttonText.setAttribute('title', newText);
+    if (buttonText.hasAttribute('title') && newText) buttonText.setAttribute('title', String(newText).replace(/<br\s*\/?>/gi, '\n'));
   });
 
   // تحديث نصوص جميع أزرار المحطات
