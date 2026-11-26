@@ -6225,7 +6225,7 @@ setTimeout(autoScaleVerseFont, 100);
     <div id="pwa-install-settings" data-stab="general" class="app-card">
         <div class="stab-i18n sdt-title" data-ar="📲 التطبيق على جهازك" data-en="📲 App on your device">📲 التطبيق على جهازك</div>
         <div id="pwa-install-note" class="sdt-desc"><span id="pwa-install-note-text" class="stab-i18n" data-ar="يفتح أسرع ويعمل مثل أي تطبيق على جهازك." data-en="Opens faster and works like any app on your device.">يفتح أسرع ويعمل مثل أي تطبيق على جهازك.</span></div>
-        <div class="sdt-desc"><span class="stab-i18n" data-ar="⌨️ من الكيبورد: Alt+Shift+R أو I" data-en="⌨️ From keyboard: Alt+Shift+R or I">⌨️ من الكيبورد: Alt+Shift+R أو I</span></div>
+        <div class="sdt-desc" style="grid-area:chip;margin:0 0 9px;"><span class="stab-i18n" data-ar="⌨️ من الكيبورد: Alt+Shift+R أو I" data-en="⌨️ From keyboard: Alt+Shift+R or I">⌨️ من الكيبورد: Alt+Shift+R أو I</span></div>
         <div class="sdt-btns">
           <button id="pwa-install-btn" type="button" class="sdt-btn" onclick="pwaInstallFromSettings()"><span id="pwa-install-btn-text" class="stab-i18n" data-ar="⬇️ تثبيت التطبيق" data-en="⬇️ Install App">⬇️ تثبيت التطبيق</span></button>
         </div>
@@ -6234,9 +6234,10 @@ setTimeout(autoScaleVerseFont, 100);
     <div id="pwa-sister-settings" data-stab="general" class="app-card">
         <div class="stab-i18n sdt-title" data-ar="📖 تطبيق المصحف (eQuran)" data-en="📖 eQuran app">📖 تطبيق المصحف (eQuran)</div>
         <div class="sdt-desc"><span class="stab-i18n" data-ar="ثبّت تطبيق المصحف أيضًا على جهازك. سيُفتح في تبويب جديد مع زر التثبيت." data-en="Install the eQuran app on your device too. It opens in a new tab with an install button.">ثبّت تطبيق المصحف أيضًا على جهازك. سيُفتح في تبويب جديد مع زر التثبيت.</span></div>
-        <div class="sdt-desc"><span class="stab-i18n" data-ar="⌨️ من الكيبورد: Alt+Shift+E" data-en="⌨️ From keyboard: Alt+Shift+E">⌨️ من الكيبورد: Alt+Shift+E</span></div>
+        <div class="sdt-desc" style="grid-area:chip;margin:0 0 9px;"><span class="stab-i18n" data-ar="⌨️ من الكيبورد: Alt+Shift+E" data-en="⌨️ From keyboard: Alt+Shift+E">⌨️ من الكيبورد: Alt+Shift+E</span></div>
         <div class="sdt-btns">
           <button id="pwa-sister-btn" type="button" class="sdt-btn" onclick="openSisterAppInstall()"><span class="stab-i18n" data-ar="⬇️ تثبيت تطبيق المصحف" data-en="⬇️ Install eQuran app">⬇️ تثبيت تطبيق المصحف</span></button>
+          <button type="button" class="sdt-btn" onclick="var a=document.createElement('a');a.href='https://raw.githubusercontent.com/magziko/Radio-media/main/eQuran.apk';a.download='eQuran.apk';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ تحميل تطبيق القرآن eQuran" data-en="⬇️ Download eQuran app (APK)">⬇️ تحميل تطبيق القرآن eQuran</span></button>
         </div>
       </div>
 
@@ -6253,7 +6254,7 @@ setTimeout(autoScaleVerseFont, 100);
         <div class="stab-i18n sdt-title" data-ar="🚀 تشغيل التطبيق مع الويندوز" data-en="🚀 Launch with Windows">🚀 تشغيل التطبيق مع الويندوز</div>
         <div class="sdt-desc"><span id="pwa-startup-note-text" class="stab-i18n" data-ar="المتصفح لا يسمح لأي موقع بفتح صفحة التطبيقات مباشرة، فاضغط الزر لنسخ العنوان ثم الصقه في تبويب جديد (لازم يكون التطبيق مثبّتًا أولًا)." data-en="Browsers don't allow websites to open the apps page directly. Tap the button to copy the address, then paste it in a new tab (the app must be installed first).">المتصفح لا يسمح لأي موقع بفتح صفحة التطبيقات مباشرة، فاضغط الزر لنسخ العنوان ثم الصقه في تبويب جديد (لازم يكون التطبيق مثبّتًا أولًا).</span></div>
         <div class="app-card-code"><code id="pwa-startup-url" dir="ltr">chrome://apps</code></div>
-        <div class="sdt-desc"><span class="stab-i18n" data-ar="⌨️ من الكيبورد: Alt+Shift+W" data-en="⌨️ From keyboard: Alt+Shift+W">⌨️ من الكيبورد: Alt+Shift+W</span></div>
+        <div class="sdt-desc" style="grid-area:chip;margin:0 0 9px;"><span class="stab-i18n" data-ar="⌨️ من الكيبورد: Alt+Shift+W" data-en="⌨️ From keyboard: Alt+Shift+W">⌨️ من الكيبورد: Alt+Shift+W</span></div>
         <div class="sdt-btns">
           <button id="pwa-startup-btn" type="button" class="sdt-btn sdt-btn--ghost" onclick="pwaCopyAppsAddress()"><span id="pwa-startup-btn-text" class="stab-i18n" data-ar="📋 نسخ عنوان صفحة التطبيقات" data-en="📋 Copy apps page address">📋 نسخ عنوان صفحة التطبيقات</span></button>
         </div>
