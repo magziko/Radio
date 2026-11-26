@@ -6212,29 +6212,22 @@ setTimeout(autoScaleVerseFont, 100);
   
 
   <div id="app-cards" class="app-cards" data-stab="general">
-    <div id="web-use-settings" data-stab="general" class="app-card">
-        <div class="stab-i18n sdt-title" data-ar="١) استخدام الموقع مباشرة (بدون تثبيت)" data-en="1) Use the site directly (no install)">١) استخدام الموقع مباشرة (بدون تثبيت)</div>
-        <div class="sdt-desc" dir="auto"><span class="stab-i18n" data-ar="افتح الموقع واستخدمه كما هو في أي وقت ومن أي جهاز، بدون تحميل أو تثبيت أي شيء." data-en="Open the site and use it as it is, anytime and on any device, with nothing to download or install.">افتح الموقع واستخدمه كما هو في أي وقت ومن أي جهاز، بدون تحميل أو تثبيت أي شيء.</span></div>
-      </div>
-
-    <div id="pwa-install-settings" data-stab="general" class="app-card">
-        <div class="stab-i18n sdt-title" data-ar="٢) تثبيت التطبيق من المتصفح (نسخة الويب)" data-en="2) Install from the browser (web version)">٢) تثبيت التطبيق من المتصفح (نسخة الويب)</div>
-        <div id="pwa-install-note" class="sdt-desc"><span id="pwa-install-note-text" class="stab-i18n" data-ar="تُضاف من المتصفح مباشرة بدون تحميل أي ملف، وتعمل مثل أي تطبيق على جهازك." data-en="Added straight from the browser, no file to download, and works like any app on your device.">تُضاف من المتصفح مباشرة بدون تحميل أي ملف، وتعمل مثل أي تطبيق على جهازك.</span></div>
-        <div class="sdt-desc"><span class="stab-i18n" data-ar="⌨️ من الكيبورد: Alt+Shift+R أو I" data-en="⌨️ From keyboard: Alt+Shift+R or I">⌨️ من الكيبورد: Alt+Shift+R أو I</span></div>
+    <div id="android-app-settings" data-stab="general" class="app-card app-card--wide app-card--android">
+        <div class="stab-i18n sdt-title" data-ar="🤖 تطبيق الأندرويد" data-en="🤖 Android app">🤖 تطبيق الأندرويد</div>
+        <div class="sdt-desc" dir="auto"><span class="stab-i18n" data-ar="حمّل تطبيق الأندرويد لتجربة أسرع وتشغيل أسهل على هاتفك." data-en="Download the Android app for a faster, easier experience on your phone.">حمّل تطبيق الأندرويد لتجربة أسرع وتشغيل أسهل على هاتفك.</span></div>
         <div class="sdt-btns">
-          <button id="pwa-install-btn" type="button" class="sdt-btn" onclick="pwaInstallFromSettings()"><span id="pwa-install-btn-text" class="stab-i18n" data-ar="⬇️ تثبيت التطبيق" data-en="⬇️ Install App">⬇️ تثبيت التطبيق</span></button>
+          <button id="android-app-btn" type="button" class="sdt-btn" onclick="var a=document.createElement('a');a.href='https://raw.githubusercontent.com/magziko/Radio-media/main/Quran%20Radio%20Ma.apk';a.download='Quran Radio Ma.apk';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ تحميل تطبيق الأندرويد" data-en="⬇️ Download Android app">⬇️ تحميل تطبيق الأندرويد</span></button>
+          <button type="button" class="sdt-btn" onclick="window.open('https://youtu.be/uEQQd8h-ViY','_blank','noopener');"><span class="stab-i18n" data-ar="🎬 شاهد فيديو التطبيق" data-en="🎬 Watch the app video">🎬 شاهد فيديو التطبيق</span></button>
+          <button type="button" class="sdt-btn" onclick="window.open('https://youtube.com/shorts/KRtlOcptDZY','_blank','noopener');"><span class="stab-i18n" data-ar="📱 فيديو قصير (شورت)" data-en="📱 Short video (Shorts)">📱 فيديو قصير (شورت)</span></button>
         </div>
       </div>
 
-    <div id="android-app-settings" data-stab="general" class="app-card app-card--wide app-card--android">
-        <div class="stab-i18n sdt-title" data-ar="٣) تحميل تطبيق أندرويد (ملف APK)" data-en="3) Download the Android app (APK file)">٣) تحميل تطبيق أندرويد (ملف APK)</div>
-        <div class="sdt-desc" dir="auto"><span class="stab-i18n" data-ar="النسخة الأصلية الكاملة: ملف APK يُحمَّل ويُثبَّت مباشرة على هاتفك، بنفس مزايا الموقع." data-en="The full native app: an APK file you download and install directly on your phone, with the same features as the site.">النسخة الأصلية الكاملة: ملف APK يُحمَّل ويُثبَّت مباشرة على هاتفك، بنفس مزايا الموقع.</span></div>
+    <div id="pwa-install-settings" data-stab="general" class="app-card">
+        <div class="stab-i18n sdt-title" data-ar="📲 التطبيق على جهازك" data-en="📲 App on your device">📲 التطبيق على جهازك</div>
+        <div id="pwa-install-note" class="sdt-desc"><span id="pwa-install-note-text" class="stab-i18n" data-ar="يفتح أسرع ويعمل مثل أي تطبيق على جهازك." data-en="Opens faster and works like any app on your device.">يفتح أسرع ويعمل مثل أي تطبيق على جهازك.</span></div>
+        <div class="sdt-desc"><span class="stab-i18n" data-ar="⌨️ من الكيبورد: Alt+Shift+R أو I" data-en="⌨️ From keyboard: Alt+Shift+R or I">⌨️ من الكيبورد: Alt+Shift+R أو I</span></div>
         <div class="sdt-btns">
-          <button id="android-app-btn" type="button" class="sdt-btn" onclick="var a=document.createElement('a');a.href='https://raw.githubusercontent.com/magziko/Radio-media/main/Quran%20Radio%20Ma.apk';a.download='Quran Radio Ma.apk';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ تحميل تطبيق الأندرويد" data-en="⬇️ Download Android app">⬇️ تحميل تطبيق الأندرويد</span></button>
-          <button type="button" class="sdt-btn" onclick="window.open('https://youtu.be/doERxtzA8NE','_blank','noopener');"><span class="stab-i18n" data-ar="🎬 شاهد فيديو التطبيق" data-en="🎬 Watch the app video">🎬 شاهد فيديو التطبيق</span></button>
-          <button type="button" class="sdt-btn" onclick="window.open('https://youtube.com/shorts/KHA3eHrCxqE','_blank','noopener');"><span class="stab-i18n" data-ar="📱 فيديو قصير (شورت)" data-en="📱 Short video (Shorts)">📱 فيديو قصير (شورت)</span></button>
-          <button type="button" class="sdt-btn" onclick="window.open((/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent||'')||window.innerWidth<=600)?'https://youtube.com/shorts/rmDcX_H9Wms':'https://youtu.be/Z0ybrG-O-gQ','_blank','noopener');"><span class="stab-i18n" data-ar="🎬 شاهد فيديو تطبيق القرآن" data-en="🎬 Watch the Quran app video">🎬 شاهد فيديو تطبيق القرآن</span></button>
-          <button type="button" class="sdt-btn" onclick="var a=document.createElement('a');a.href='https://raw.githubusercontent.com/magziko/Radio-media/main/eQuran.apk';a.download='eQuran.apk';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ تحميل تطبيق القرآن (قراءة واستماع)" data-en="⬇️ Download the Quran app (read & listen)">⬇️ تحميل تطبيق القرآن (قراءة واستماع)</span></button>
+          <button id="pwa-install-btn" type="button" class="sdt-btn" onclick="pwaInstallFromSettings()"><span id="pwa-install-btn-text" class="stab-i18n" data-ar="⬇️ تثبيت التطبيق" data-en="⬇️ Install App">⬇️ تثبيت التطبيق</span></button>
         </div>
       </div>
 
@@ -10026,13 +10019,12 @@ const moreTranslations = [{
                  return false;">&#x2764;</span>
 </button>
 
-
 <button class="button palestine no-auto-play"
     data-category="more-sites"
     data-station="🎬 فيديو التطبيق (كامل)"
     data-ar="🎬 فيديو التطبيق (كامل)" data-en="🎬 App video (full)" data-fr="🎬 Vidéo de l'application (complète)" data-es="🎬 Video de la app (completo)" data-sv="🎬 Appvideo (full)" data-nl="🎬 App-video (volledig)" data-ga="🎬 Físeán den aip (iomlán)" data-de="🎬 App-Video (voll)" data-ru="🎬 Видео о приложении (полное)" data-tr="🎬 Uygulama videosu (tam)" data-pt="🎬 Vídeo da app (completo)" data-zh="🎬 应用视频（完整版）" data-ur="🎬 ایپ کی ویڈیو (مکمل)"
     style="border: 2px solid #c4302b; background: #fdf2f1; position: relative;"
-    onclick="window.stopRadiosForMedia && window.stopRadiosForMedia(); window.open('https://youtu.be/doERxtzA8NE', '_blank', 'noopener');">
+    onclick="window.stopRadiosForMedia && window.stopRadiosForMedia(); window.open('https://youtu.be/uEQQd8h-ViY', '_blank', 'noopener');">
   <span class="station-text" style="font-size: 20px; font-weight: bold;">🎬 فيديو التطبيق (كامل)</span>
   <img src="https://cdn.instant.audio/images/equalizer.gif"
        class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
@@ -10043,7 +10035,7 @@ const moreTranslations = [{
     data-station="📱 فيديو قصير (شورت)"
     data-ar="📱 فيديو قصير (شورت)" data-en="📱 Short video (Shorts)" data-fr="📱 Vidéo courte (Shorts)" data-es="📱 Video corto (Shorts)" data-sv="📱 Kort video (Shorts)" data-nl="📱 Korte video (Shorts)" data-ga="📱 Físeán gearr (Shorts)" data-de="📱 Kurzvideo (Shorts)" data-ru="📱 Короткое видео (Shorts)" data-tr="📱 Kısa video (Shorts)" data-pt="📱 Vídeo curto (Shorts)" data-zh="📱 短视频（Shorts）" data-ur="📱 مختصر ویڈیو (شارٹس)"
     style="border: 2px solid #c4302b; background: #fdf2f1; position: relative;"
-    onclick="window.stopRadiosForMedia && window.stopRadiosForMedia(); window.open('https://youtube.com/shorts/KHA3eHrCxqE', '_blank', 'noopener');">
+    onclick="window.stopRadiosForMedia && window.stopRadiosForMedia(); window.open('https://youtube.com/shorts/KRtlOcptDZY', '_blank', 'noopener');">
   <span class="station-text" style="font-size: 20px; font-weight: bold;">📱 فيديو قصير (شورت)</span>
   <img src="https://cdn.instant.audio/images/equalizer.gif"
        class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
@@ -46302,9 +46294,9 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
    ar -> Arabic pair, fr -> French pair, en and every other language -> English pair.
    Phone: 9:16 short. Desktop: 16:9 full. Explicit 'short' / 'full' override the device. */
 var INTRO_VIDEOS = {
-  ar: { full: 'w1HFy8DRlMI', short: 'UMSszk-Wz9k' },
+  ar: { full: ['w1HFy8DRlMI','_RE45kR7_wE'][Math.floor(Math.random()*2)], short: 'UMSszk-Wz9k' }, /* desktop full: random pick per page load */
   fr: { full: 'X1TV_A_Ryms', short: 'uoOXVwH4Vlw' },
-  en: { full: 'ksTmjo0j8xw', short: 'wyTPNfre-aE' }
+  en: (Math.random()<0.5 ? { full: 'ksTmjo0j8xw', short: 'wyTPNfre-aE' } : { full: 'gKAUvCFwBhk', short: 'nbGkmiywFE4' }) /* random pair per page load: old or new */
 };
 function _introVideoLang(){
   var l = 'ar';
