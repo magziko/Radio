@@ -46258,7 +46258,7 @@ if ('serviceWorker' in navigator && location.hostname === 'magziko.github.io') {
    ar -> Arabic pair, fr -> French pair, en and every other language -> English pair.
    Phone: 9:16 short. Desktop: 16:9 full. Explicit 'short' / 'full' override the device. */
 var INTRO_VIDEOS = {
-  ar: { full: 'w1HFy8DRlMI', short: 'UMSszk-Wz9k' },
+  ar: { full: ['w1HFy8DRlMI','_RE45kR7_wE'][Math.floor(Math.random()*2)], short: 'UMSszk-Wz9k' }, /* desktop full: random pick per page load */
   fr: { full: 'X1TV_A_Ryms', short: 'uoOXVwH4Vlw' },
   en: { full: 'ksTmjo0j8xw', short: 'wyTPNfre-aE' }
 };
