@@ -7432,6 +7432,92 @@ setTimeout(autoScaleVerseFont, 100);
       <button type="button" id="searchInputClearBtn" onclick="(function(){var s=document.getElementById('searchInput');s.value='';s.dispatchEvent(new Event('input'));s.focus();})()" aria-label="مسح البحث" title="مسح البحث" style="display:none; position:absolute; top:50%; left:38px; transform:translateY(-50%); background:none; border:none; cursor:pointer; font-size:16px; opacity:.55; line-height:1; padding:4px;">✕</button>
     </div>
 
+
+<style>
+#fridayCard{display:none;width:96%;max-width:720px;margin:10px auto 14px;border-radius:18px;padding:18px 18px 16px;box-sizing:border-box;
+  background:linear-gradient(135deg,#0d1b3e 0%,#16295c 55%,#1e3a7d 100%);
+  border:1px solid #4a63a8;box-shadow:0 6px 24px rgba(13,27,62,.45);color:#eaf0ff;text-align:center;position:relative;}
+#fridayCard .fc-title{font-size:20px;font-weight:800;margin:0 0 8px;color:#f6d98a;}
+#fridayCard .fc-verse{font-size:15.5px;line-height:1.9;color:#e4ecff;margin:0 0 6px;}
+#fridayCard .fc-sub{font-size:13.5px;color:#9fb4e8;margin:0 0 12px;font-weight:600;}
+#fridayCard .fc-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+#fridayCard .fc-btn{border:none;border-radius:12px;padding:9px 14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .12s ease;}
+#fridayCard .fc-btn:active{transform:scale(.96);}
+#fridayCard .fc-play{background:#f6d98a;color:#232a45;}
+#fridayCard .fc-tasbih{background:#3b5a9e;color:#fff;border:1px solid #5f7ec9;}
+#fridayCard .fc-vid{background:#c4302b;color:#fff;}
+#fridayCard .fc-short{background:transparent;color:#ffb3ac;border:1px solid #c4302b;}
+#fridayCard .fc-urge{background:transparent;color:#cdd9ff;border:1px dashed #8fa6e8;}
+#fridayCardClose{position:absolute;top:8px;left:10px;background:none;border:none;color:#8fa6e8;font-size:15px;cursor:pointer;padding:4px;line-height:1;opacity:.8;}
+@media (max-width:600px){
+  #fridayCard{padding:14px 12px 12px;}
+  #fridayCard .fc-title{font-size:17px;}
+  #fridayCard .fc-verse{font-size:14px;}
+  #fridayCard .fc-btn{font-size:13px;padding:8px 11px;}
+}
+</style>
+<div id="fridayCard" role="region" aria-label="Friday reminder">
+  <button type="button" id="fridayCardClose" aria-label="Close" title="إغلاق">✕</button>
+  <p class="fc-title" data-ar="🌙 تذكير الجمعة" data-en="🌙 Friday Reminder" data-fr="🌙 Rappel du vendredi" data-es="🌙 Recordatorio del viernes" data-sv="🌙 Fredagspåminnelse" data-nl="🌙 Vrijdagherinnering" data-ga="🌙 Meabhrúchán Dé hAoine" data-de="🌙 Freitags-Erinnerung" data-ru="🌙 Пятничное напоминание" data-tr="🌙 Cuma Hatırlatması" data-pt="🌙 Lembrete de sexta-feira" data-zh="🌙 主麻提醒" data-ur="🌙 جمعے کی یاد دہانی">🌙 تذكير الجمعة</p>
+  <p class="fc-verse" data-ar="«إِنَّ اللَّهَ وَمَلَائِكَتَهُ يُصَلُّونَ عَلَى النَّبِيِّ ۚ يَا أَيُّهَا الَّذِينَ آمَنُوا صَلُّوا عَلَيْهِ وَسَلِّمُوا تَسْلِيمًا» [الأحزاب: ٥٦]" data-en="“Indeed, Allah and His angels send blessings upon the Prophet. O you who believe, send blessings upon him and peace in abundance.” (Al-Ahzab 33:56)">«إِنَّ اللَّهَ وَمَلَائِكَتَهُ يُصَلُّونَ عَلَى النَّبِيِّ ۚ يَا أَيُّهَا الَّذِينَ آمَنُوا صَلُّوا عَلَيْهِ وَسَلِّمُوا تَسْلِيمًا» [الأحزاب: ٥٦]</p>
+  <p class="fc-sub" data-ar="أكثِروا من الصلاة على النبي ﷺ ليلةَ الجمعة ويومَها" data-en="Send abundant salawat upon the Prophet ﷺ on Friday night and Friday day" data-fr="Multipliez les salawat sur le Prophète ﷺ la nuit et le jour du vendredi" data-es="Envía abundantes salawat sobre el Profeta ﷺ la noche y el día del viernes" data-sv="Sänd rikliga salawat över Profeten ﷺ på fredagsnatten och fredagen" data-nl="Breng veelvuldig salawat over de Profeet ﷺ op de nacht en de dag van vrijdag" data-ga="Seol salawat go flaithiúil ar an bhfáidh ﷺ oíche agus lá Dé hAoine" data-de="Sende reichlich Salawat auf den Propheten ﷺ in der Nacht und am Tag des Freitags" data-ru="Чаще произносите салават Пророку ﷺ в ночь на пятницу и в саму пятницу" data-tr="Cuma gecesi ve Cuma günü Peygamber'e ﷺ çokça salât getirin" data-pt="Envie muitas salawat sobre o Profeta ﷺ na noite e no dia de sexta-feira" data-zh="在主麻之夜和主麻日多多赞圣 ﷺ" data-ur="جمعہ کی رات اور جمعہ کے دن نبی ﷺ پر کثرت سے درود بھیجیں">أكثِروا من الصلاة على النبي ﷺ ليلةَ الجمعة ويومَها</p>
+  <div class="fc-btns">
+    <button type="button" class="fc-btn fc-play" data-ar="▶ إذاعة الصلاة على النبي ﷺ" data-en="▶ Salawat Radio" data-fr="▶ Radio Salawat" data-es="▶ Radio Salawat" data-sv="▶ Salawat-radio" data-nl="▶ Salawat-radio" data-ga="▶ Raidió Salawat" data-de="▶ Salawat-Radio" data-ru="▶ Радио салават" data-tr="▶ Salavat Radyosu" data-pt="▶ Rádio Salawat" data-zh="▶ 赞圣广播" data-ur="▶ درود ریڈیو" onclick="var b=document.querySelector(&quot;button[data-station='إذاعة الصلاة على النبي ﷺ']&quot;); if(b) playFromNotification(b);">▶ إذاعة الصلاة على النبي ﷺ</button>
+    <button type="button" class="fc-btn fc-tasbih" data-ar="📿 عدّاد الصلاة على النبي" data-en="📿 Salawat counter" data-fr="📿 Compteur de salawat" data-es="📿 Contador de salawat" data-sv="📿 Salawat-räknare" data-nl="📿 Salawat-teller" data-ga="📿 Áireamhóir salawat" data-de="📿 Salawat-Zähler" data-ru="📿 Счётчик салават" data-tr="📿 Salavat sayacı" data-pt="📿 Contador de salawat" data-zh="📿 赞圣计数器" data-ur="📿 درود کاؤنٹر" onclick="if(typeof window.openTasbihSection==='function')window.openTasbihSection();">📿 عدّاد الصلاة على النبي</button>
+    <button type="button" class="fc-btn fc-vid" data-ar="🎬 فيديو كامل" data-en="🎬 Full video" data-fr="🎬 Vidéo complète" data-es="🎬 Video completo" data-sv="🎬 Full video" data-nl="🎬 Volledige video" data-ga="🎬 Físeán iomlán" data-de="🎬 Volles Video" data-ru="🎬 Полное видео" data-tr="🎬 Tam video" data-pt="🎬 Vídeo completo" data-zh="🎬 完整视频" data-ur="🎬 مکمل ویڈیو" onclick="window.stopRadiosForMedia && window.stopRadiosForMedia(); window.open('https://www.youtube.com/watch?v=fyJw2wBGbLA','_blank','noopener');">🎬 فيديو كامل</button>
+    <button type="button" class="fc-btn fc-short" data-ar="📱 فيديو قصير" data-en="📱 Short" data-fr="📱 Short" data-es="📱 Video corto" data-sv="📱 Kort video" data-nl="📱 Korte video" data-ga="📱 Físeán gearr" data-de="📱 Kurzvideo" data-ru="📱 Короткое видео" data-tr="📱 Kısa video" data-pt="📱 Vídeo curto" data-zh="📱 短视频" data-ur="📱 مختصر ویڈیو" onclick="window.stopRadiosForMedia && window.stopRadiosForMedia(); window.open('https://www.youtube.com/shorts/0rOemHQsGoo','_blank','noopener');">📱 فيديو قصير</button>
+    <button type="button" id="fridayCardThemeBtn" class="fc-btn fc-urge" data-ar="🌙 فعّل تصميم الجمعة" data-en="🌙 Enable the Friday theme" data-fr="🌙 Activer le thème du vendredi" data-es="🌙 Activar el tema del viernes" data-sv="🌙 Aktivera fredagstemat" data-nl="🌙 Vrijdagthema inschakelen" data-ga="🌙 Cumasaigh téama Dé hAoine" data-de="🌙 Freitags-Design aktivieren" data-ru="🌙 Включить пятничную тему" data-tr="🌙 Cuma temasını etkinleştir" data-pt="🌙 Ativar o tema de sexta-feira" data-zh="🌙 启用主麻主题" data-ur="🌙 جمعہ تھیم فعال کریں" style="display:none;">🌙 فعّل تصميم الجمعة</button>
+  </div>
+</div>
+<script>
+(function(){
+  var card = document.getElementById('fridayCard');
+  if (!card) return;
+  var urge = document.getElementById('fridayCardThemeBtn');
+  function applyLang() {
+    var lang = 'ar';
+    try { lang = (typeof window._settingsUiLang === 'function') ? window._settingsUiLang() : ((typeof isArabic !== 'undefined' && !isArabic) ? 'en' : 'ar'); } catch (e) {}
+    var els = card.querySelectorAll('[data-ar]');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      var t = el.getAttribute('data-' + lang) || el.getAttribute('data-en') || el.getAttribute('data-ar');
+      if (t) el.textContent = t;
+    }
+  }
+  function tick() {
+    var fm = null;
+    try { fm = (typeof window.wsFriMode === 'function') ? window.wsFriMode() : null; } catch (e) {}
+    var hidden = false;
+    try { hidden = sessionStorage.getItem('friCardHide') === '1'; } catch (e) {}
+    card.style.display = (fm && !hidden) ? '' : 'none';
+    if (fm) {
+      applyLang();
+      if (urge) {
+        var de = document.documentElement;
+        var friTheme = de.classList.contains('wstyle-jumuah') || de.classList.contains('wstyle-jumuaeve');
+        urge.style.display = friTheme ? 'none' : '';
+      }
+    }
+  }
+  var x = document.getElementById('fridayCardClose');
+  if (x) x.addEventListener('click', function(){ try { sessionStorage.setItem('friCardHide','1'); } catch(e){} card.style.display = 'none'; });
+  if (urge) urge.addEventListener('click', function(){
+    var fm = null;
+    try { fm = (typeof window.wsFriMode === 'function') ? window.wsFriMode() : null; } catch (e) {}
+    if (fm && typeof window.setWelcomeStyle === 'function') {
+      var prev = null;
+      try { prev = localStorage.getItem('welcomeStyle'); } catch (e) {}
+      window.setWelcomeStyle(fm);
+      /* نرجّع التصميم الأساسي المحفوظ بعد الجمعة: التفعيل من الزر للعرض الحالي فقط، والتبديل التلقائي يتولى الجمعة القادمة */
+      try { if (prev === null) localStorage.removeItem('welcomeStyle'); else localStorage.setItem('welcomeStyle', prev); } catch (e) {}
+    }
+    urge.style.display = 'none';
+  });
+  tick();
+  setInterval(tick, 60000);
+})();
+</script>
+
     <div class="buttons-container">
 
 <script>
