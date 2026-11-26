@@ -25405,8 +25405,15 @@ function _pwaRefreshInstallUI() {
   }
   // الحدث وصل بعد ما اتعرضت التعليمات اليدوية: نرجّع الوصف الأصلي (الزر بقى جاهز)
   if (window._pwaDeferredPrompt && window._pwaManualHelpShown && !_pwaWaiting) _pwaResetNote();
-  // شغّال فعلاً كتطبيق مثبّت: مفيش داعي للزر
-  box.style.display = _pwaIsStandalone() ? 'none' : '';
+  // شغّال فعلاً كتطبيق مثبّت: نظهر الكارت بحالة «تم التثبيت» بدل ما نخفيه
+  if (_pwaIsStandalone()) {
+    btn.disabled = true;
+    btn.style.opacity = '0.75';
+    btn.style.cursor = 'default';
+    _pwaSetText(btnText, '✅ تم التثبيت', '✅ Installed');
+    _pwaSetText(noteText, 'التطبيق مثبّت ويعمل الآن على جهازك. تجد نسخة الأندرويد (APK) في كارت التحميل بالأسفل.', 'The app is installed and running on your device. Find the Android version (APK) in the download card below.');
+  }
+  box.style.display = '';
 }
 window._pwaRefreshInstallUI = _pwaRefreshInstallUI;
 
