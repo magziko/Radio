@@ -7862,6 +7862,7 @@ function lazyRender(arr, container) {
     if (s.bannaType) btn.setAttribute('data-banna-type', s.bannaType);
     if (s.haramain) btn.setAttribute('data-haramain', 'true');
     if (s.rising) btn.setAttribute('data-rising', 'true');
+    if (s.mp3Top) btn.setAttribute('data-mp3-top', 'true');
     if (s.rewaya) btn.setAttribute('data-rewaya', s.rewaya);
     if (s.reciterType) btn.setAttribute('data-reciter-type', s.reciterType);
 
@@ -33212,7 +33213,7 @@ function filterHussarySub(subType, btn) {
   if (subType === 'radio') {
     // يعرض كل محطات الحصري بـ reciterType=radio (مرتل + مجود)
     document.querySelectorAll('button[data-hussary="true"]').forEach(function(b) {
-      _sd(b, b.getAttribute('data-reciter-type') === 'radio');
+      _sd(b, b.getAttribute('data-reciter-type') === 'radio' || b.hasAttribute('data-mp3-top'));
     });
   } else if (subType === 'muratal') {
     document.querySelectorAll('button[data-hussary-type="muratal"]').forEach(function(b) {
@@ -33242,7 +33243,7 @@ function filterMinshawySub(subType, btn) {
     document.querySelectorAll('button[data-minshawi="true"]').forEach(function(b) {
       var mt = b.getAttribute('data-minshawi-type');
       // محطتا الإذاعة (بدون نوع) تظهران في القراء/الأبجدي مثل الحصري والبنا، وتظهران هنا أيضًا
-      _sd(b, mt === 'radio' || (!mt && b.getAttribute('data-reciter-type') === 'radio'));
+      _sd(b, mt === 'radio' || (!mt && b.getAttribute('data-reciter-type') === 'radio') || b.hasAttribute('data-mp3-top'));
     });
   } else if (subType === 'muratal') {
     document.querySelectorAll('button[data-minshawi-type="muratal"]').forEach(function(b) {
@@ -33275,7 +33276,7 @@ function filterBannaSub(subType, btn) {
     document.querySelectorAll('button[data-banna="true"]').forEach(function(b) {
       var rt = b.getAttribute('data-reciter-type');
       var bt = b.getAttribute('data-banna-type');
-      _sd(b, rt === 'radio' && !bt);
+      _sd(b, (rt === 'radio' && !bt) || b.hasAttribute('data-mp3-top'));
     });
   } else if (subType === 'muratal') {
     document.querySelectorAll('button[data-banna-type="muratal"]').forEach(function(b) {
@@ -33303,7 +33304,7 @@ function filterBasitSub(subType, btn) {
   if (subType === 'radio') {
     document.querySelectorAll('button[data-basit="true"]').forEach(function(b) {
       var bt = b.getAttribute('data-basit-type');
-      _sd(b, b.getAttribute('data-reciter-type') === 'radio' && !bt);
+      _sd(b, (b.getAttribute('data-reciter-type') === 'radio' && !bt) || b.hasAttribute('data-mp3-top'));
     });
   } else if (subType === 'muratal') {
     document.querySelectorAll('button[data-basit-type="muratal"]').forEach(function(b) {
@@ -33398,6 +33399,18 @@ function filterRecitersSub(subType, btn) {
       if (b.hasAttribute('data-banna-type') || b.hasAttribute('data-hussary-type') || b.hasAttribute('data-minshawi-type') || b.hasAttribute('data-basit-type')) return;
       _sd2(b, b.getAttribute('data-reciter-type') === 'mp3');
     });
+    // تثبيت محطات mp3 المميزة (محمد رفعت + مشايخ mp3 الجدد) في أول فلتر mp3
+    var _mp3Tops = Array.from(document.querySelectorAll('button[data-category="reciters"][data-mp3-top="true"]'));
+    if (_mp3Tops.length) {
+      var _c0 = _mp3Tops[0].parentElement.classList.contains('pl-check-wrap') ? _mp3Tops[0].parentElement.parentNode : _mp3Tops[0].parentNode;
+      var _anchor = null;
+      _mp3Tops.forEach(function(b) {
+        var node = b.parentElement.classList.contains('pl-check-wrap') ? b.parentElement : b;
+        if (node.parentNode !== _c0) return;
+        if (_anchor) _c0.insertBefore(node, _anchor.nextSibling); else _c0.insertBefore(node, _c0.firstChild);
+        _anchor = node;
+      });
+    }
   } else if (subType === 'basit') {
     var basitSubFilter = document.getElementById('basit-subfilter');
     if (basitSubFilter) basitSubFilter.style.display = 'block';
