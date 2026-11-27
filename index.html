@@ -6283,14 +6283,29 @@ setTimeout(autoScaleVerseFont, 100);
 .app-card--windows .sdt-btn { background: linear-gradient(135deg,#1b9bf0,#0b6fbf); box-shadow: 0 2px 8px rgba(0,120,215,0.30); }
 body.dark-mode .app-card--windows > .sdt-title { color: #6cb9f5; }
 @media (max-width: 599.98px) { #windows-app-settings, .win-dl-btn { display: none !important; } }
+/* بطاقة الويندوز: عمود واحد على الكمبيوتر مع صفَّي أزرار بعنوانين */
+#windows-app-settings .win-btn-label{ flex:0 0 100%; font-size:12px; font-weight:700; color:#0b5cab; margin:6px 0 0; }
+body.dark-mode #windows-app-settings .win-btn-label{ color:#6cb9f5; }
+#windows-app-settings .sdt-btns .sdt-btn{ flex:1 1 170px; }
+/* شارة الزاوية فوق النص: مساحة علوية داخل أزرار التحميل حتى لا تغطي الشارة النص */
+.win-dl-btn{ padding-top:20px !important; }
+@media (min-width: 600px) {
+    #windows-app-settings.app-card--wide{ grid-template-columns: minmax(0,1fr); grid-template-areas: "title" "desc" "chip" "btns"; }
+    #windows-app-settings.app-card--wide > .sdt-btns{ min-width: 0; }
+}
     </style>
     <div id="windows-app-settings" data-stab="general" class="app-card app-card--wide app-card--windows">
         <div class="stab-i18n sdt-title" data-ar="🪟 تطبيق الويندوز" data-en="🪟 Windows app">🪟 تطبيق الويندوز</div>
         <div class="sdt-desc" dir="auto"><span class="stab-i18n" data-ar="نزِّل تطبيق إذاعة القرآن الكريم على الكمبيوتر: يعمل في الخلفية بجوار الساعة، ويشتغل تلقائيًا مع بدء تشغيل ويندوز، مع تنبيهات بأوقات الصلاة." data-en="Download the Quran Radio app for PC: it runs in the background next to the clock, starts automatically with Windows, and gives prayer-time alerts.">نزِّل تطبيق إذاعة القرآن الكريم على الكمبيوتر: يعمل في الخلفية بجوار الساعة، ويشتغل تلقائيًا مع بدء تشغيل ويندوز، مع تنبيهات بأوقات الصلاة.</span></div>
         <div class="sdt-btns">
-          <button type="button" class="sdt-btn" onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-media/releases/download/windows-v1/QuranRadio-Setup-1.0.0.exe';a.download='QuranRadio-Setup-1.0.0.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ نسخة التثبيت — ويندوز ١٠ و١١" data-en="⬇️ Installer — Windows 10/11">⬇️ نسخة التثبيت — ويندوز ١٠ و١١</span></button>
-          <button type="button" class="sdt-btn" onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-media/releases/download/windows-v1/QuranRadio-Portable-1.0.0.exe';a.download='QuranRadio-Portable-1.0.0.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ النسخة المحمولة — ويندوز ١٠ و١١" data-en="⬇️ Portable — Windows 10/11">⬇️ النسخة المحمولة — ويندوز ١٠ و١١</span></button>
-          <button type="button" class="sdt-btn sdt-btn--ghost" onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-media/releases/download/windows-v1/QuranRadio-Legacy-Portable-1.0.0-ia32.exe';a.download='QuranRadio-Legacy-Portable-1.0.0-ia32.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ نسخة ويندوز ٧ و٨ القديمة" data-en="⬇️ Legacy Windows 7/8 version">⬇️ نسخة ويندوز ٧ و٨ القديمة</span></button>
+          <div class="win-btn-label" dir="auto"><span class="stab-i18n" data-ar="📻 إذاعة القرآن الكريم — ويندوز ١٠ و١١:" data-en="📻 Quran Radio — Windows 10 &amp; 11:">📻 إذاعة القرآن الكريم — ويندوز ١٠ و١١:</span></div>
+          <button type="button" class="sdt-btn" onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-media/releases/download/windows-v1/QuranRadio-Setup-1.0.0.exe';a.download='QuranRadio-Setup-1.0.0.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ نسخة التثبيت" data-en="⬇️ Installer">⬇️ نسخة التثبيت</span></button>
+          <button type="button" class="sdt-btn" onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-media/releases/download/windows-v1/QuranRadio-Portable-1.0.0.exe';a.download='QuranRadio-Portable-1.0.0.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ النسخة المحمولة" data-en="⬇️ Portable">⬇️ النسخة المحمولة</span></button>
+          <button type="button" class="sdt-btn sdt-btn--ghost" onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-media/releases/download/windows-v1/QuranRadio-Legacy-Portable-1.0.0-ia32.exe';a.download='QuranRadio-Legacy-Portable-1.0.0-ia32.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ ويندوز ٧ و٨" data-en="⬇️ Windows 7/8">⬇️ ويندوز ٧ و٨</span></button>
+          <div class="win-btn-label" dir="auto"><span class="stab-i18n" data-ar="📖 تطبيق القرآن الكريم (قراءة واستماع) — ويندوز ١٠ و١١:" data-en="📖 eQuran app (read &amp; listen) — Windows 10 &amp; 11:">📖 تطبيق القرآن الكريم (قراءة واستماع) — ويندوز ١٠ و١١:</span></div>
+          <button type="button" class="sdt-btn" onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-du-Coran-FR/releases/download/equran-windows-v1/eQuran-Setup-1.0.0-x64.exe';a.download='eQuran-Setup-1.0.0-x64.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ نسخة التثبيت" data-en="⬇️ Installer">⬇️ نسخة التثبيت</span></button>
+          <button type="button" class="sdt-btn" onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-du-Coran-FR/releases/download/equran-windows-v1/eQuran-Portable-1.0.0-x64.exe';a.download='eQuran-Portable-1.0.0-x64.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ النسخة المحمولة" data-en="⬇️ Portable">⬇️ النسخة المحمولة</span></button>
+          <button type="button" class="sdt-btn sdt-btn--ghost" onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-du-Coran-FR/releases/download/equran-windows-v1/eQuran-Legacy-Portable-1.0.0-ia32.exe';a.download='eQuran-Legacy-Portable-1.0.0-ia32.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();"><span class="stab-i18n" data-ar="⬇️ ويندوز ٧ و٨" data-en="⬇️ Windows 7/8">⬇️ ويندوز ٧ و٨</span></button>
         </div>
       </div>
     <div id="pwa-install-settings" data-stab="general" class="app-card">
@@ -10186,52 +10201,103 @@ const moreTranslations = [{
 
 <button class="button palestine no-auto-play win-dl-btn"
     data-category="more-sites"
-    data-station="⬇️ تطبيق الويندوز — نسخة التثبيت"
-    data-ar="⬇️ تطبيق الويندوز — نسخة التثبيت" data-en="⬇️ Windows app — Installer" data-fr="⬇️ Application Windows — Installateur" data-es="⬇️ App de Windows — Instalador" data-sv="⬇️ Windows-app — Installationsprogram" data-nl="⬇️ Windows-app — Installatie" data-ga="⬇️ Aip Windows — Suiteálaí" data-de="⬇️ Windows-App — Installer" data-ru="⬇️ Приложение Windows — установщик" data-tr="⬇️ Windows uygulaması — Kurulum" data-pt="⬇️ App Windows — Instalador" data-zh="⬇️ Windows 应用 — 安装版" data-ur="⬇️ ونڈوز ایپ — انسٹالر"
+    data-station="⬇️ نسخة التثبيت"
+    data-ar="⬇️ نسخة التثبيت" data-en="⬇️ Installer" data-fr="⬇️ Installateur" data-es="⬇️ Instalador" data-sv="⬇️ Installationsprogram" data-nl="⬇️ Installatie" data-ga="⬇️ Suiteálaí" data-de="⬇️ Installer" data-ru="⬇️ Установщик" data-tr="⬇️ Kurulum" data-pt="⬇️ Instalador" data-zh="⬇️ 安装版" data-ur="⬇️ انسٹالر"
     style="border: 2px solid #0078D7; background: #eef6fd; position: relative;"
     onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-media/releases/download/windows-v1/QuranRadio-Setup-1.0.0.exe';a.download='QuranRadio-Setup-1.0.0.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();">
   <span class="station-text" style="font-size: 20px; font-weight: bold;">
-    ⬇️ تطبيق الويندوز — نسخة التثبيت
+    ⬇️ نسخة التثبيت
   </span>
   <span data-ar="ويندوز" data-en="WINDOWS" data-fr="WINDOWS" data-es="WINDOWS" data-sv="WINDOWS" data-nl="WINDOWS" data-ga="WINDOWS" data-de="WINDOWS" data-ru="WINDOWS" data-tr="WINDOWS" data-pt="WINDOWS" data-zh="WINDOWS" data-ur="ونڈوز" style="position:absolute; top:5px; left:5px; background:#0078D7; color:#fff; font-size:11px; font-weight:bold; padding:2px 8px; border-radius:10px;">ويندوز</span>
   <img src="https://cdn.instant.audio/images/equalizer.gif"
        class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
   <span class="favorite-icon"
-        onclick="toggleFavorite(event, '⬇️ تطبيق الويندوز — نسخة التثبيت');
+        onclick="toggleFavorite(event, '⬇️ نسخة التثبيت');
                  event.stopPropagation();
                  return false;">&#x2764;</span>
 </button>
 <button class="button palestine no-auto-play win-dl-btn"
     data-category="more-sites"
-    data-station="⬇️ تطبيق الويندوز — النسخة المحمولة"
-    data-ar="⬇️ تطبيق الويندوز — النسخة المحمولة" data-en="⬇️ Windows app — Portable" data-fr="⬇️ Application Windows — Portable" data-es="⬇️ App de Windows — Portátil" data-sv="⬇️ Windows-app — Portabel" data-nl="⬇️ Windows-app — Draagbaar" data-ga="⬇️ Aip Windows — Iniompartha" data-de="⬇️ Windows-App — Portable" data-ru="⬇️ Приложение Windows — портативная" data-tr="⬇️ Windows uygulaması — Taşınabilir" data-pt="⬇️ App Windows — Portátil" data-zh="⬇️ Windows 应用 — 便携版" data-ur="⬇️ ونڈوز ایپ — پورٹیبل"
+    data-station="⬇️ النسخة المحمولة"
+    data-ar="⬇️ النسخة المحمولة" data-en="⬇️ Portable" data-fr="⬇️ Portable" data-es="⬇️ Portátil" data-sv="⬇️ Portabel" data-nl="⬇️ Draagbaar" data-ga="⬇️ Iniompartha" data-de="⬇️ Portable" data-ru="⬇️ Портативная" data-tr="⬇️ Taşınabilir" data-pt="⬇️ Portátil" data-zh="⬇️ 便携版" data-ur="⬇️ پورٹیبل"
     style="border: 2px solid #0078D7; background: #eef6fd; position: relative;"
     onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-media/releases/download/windows-v1/QuranRadio-Portable-1.0.0.exe';a.download='QuranRadio-Portable-1.0.0.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();">
   <span class="station-text" style="font-size: 20px; font-weight: bold;">
-    ⬇️ تطبيق الويندوز — النسخة المحمولة
+    ⬇️ النسخة المحمولة
   </span>
   <span data-ar="ويندوز" data-en="WINDOWS" data-fr="WINDOWS" data-es="WINDOWS" data-sv="WINDOWS" data-nl="WINDOWS" data-ga="WINDOWS" data-de="WINDOWS" data-ru="WINDOWS" data-tr="WINDOWS" data-pt="WINDOWS" data-zh="WINDOWS" data-ur="ونڈوز" style="position:absolute; top:5px; left:5px; background:#0078D7; color:#fff; font-size:11px; font-weight:bold; padding:2px 8px; border-radius:10px;">ويندوز</span>
   <img src="https://cdn.instant.audio/images/equalizer.gif"
        class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
   <span class="favorite-icon"
-        onclick="toggleFavorite(event, '⬇️ تطبيق الويندوز — النسخة المحمولة');
+        onclick="toggleFavorite(event, '⬇️ النسخة المحمولة');
                  event.stopPropagation();
                  return false;">&#x2764;</span>
 </button>
 <button class="button palestine no-auto-play win-dl-btn"
     data-category="more-sites"
-    data-station="⬇️ تطبيق الويندوز — لويندوز ٧ و٨ القديمة"
-    data-ar="⬇️ تطبيق الويندوز — لويندوز ٧ و٨ القديمة" data-en="⬇️ Windows app — for old Windows 7/8" data-fr="⬇️ Application Windows — pour Windows 7/8" data-es="⬇️ App de Windows — para Windows 7/8" data-sv="⬇️ Windows-app — för gamla Windows 7/8" data-nl="⬇️ Windows-app — voor oude Windows 7/8" data-ga="⬇️ Aip Windows — do Windows 7/8" data-de="⬇️ Windows-App — für altes Windows 7/8" data-ru="⬇️ Приложение Windows — для старых Windows 7/8" data-tr="⬇️ Windows uygulaması — eski Windows 7/8 için" data-pt="⬇️ App Windows — para Windows 7/8 antigo" data-zh="⬇️ Windows 应用 — 适用旧版 Windows 7/8" data-ur="⬇️ ونڈوز ایپ — پرانے ونڈوز 7/8 کے لیے"
+    data-station="⬇️ ويندوز ٧ و٨"
+    data-ar="⬇️ ويندوز ٧ و٨" data-en="⬇️ Windows 7/8" data-fr="⬇️ Windows 7/8" data-es="⬇️ Windows 7/8" data-sv="⬇️ Windows 7/8" data-nl="⬇️ Windows 7/8" data-ga="⬇️ Windows 7/8" data-de="⬇️ Windows 7/8" data-ru="⬇️ Windows 7/8" data-tr="⬇️ Windows 7/8" data-pt="⬇️ Windows 7/8" data-zh="⬇️ Windows 7/8" data-ur="⬇️ ونڈوز 7/8"
     style="border: 2px solid #0078D7; background: #eef6fd; position: relative;"
     onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-media/releases/download/windows-v1/QuranRadio-Legacy-Portable-1.0.0-ia32.exe';a.download='QuranRadio-Legacy-Portable-1.0.0-ia32.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();">
   <span class="station-text" style="font-size: 20px; font-weight: bold;">
-    ⬇️ تطبيق الويندوز — لويندوز ٧ و٨ القديمة
+    ⬇️ ويندوز ٧ و٨
   </span>
   <span data-ar="ويندوز" data-en="WINDOWS" data-fr="WINDOWS" data-es="WINDOWS" data-sv="WINDOWS" data-nl="WINDOWS" data-ga="WINDOWS" data-de="WINDOWS" data-ru="WINDOWS" data-tr="WINDOWS" data-pt="WINDOWS" data-zh="WINDOWS" data-ur="ونڈوز" style="position:absolute; top:5px; left:5px; background:#0078D7; color:#fff; font-size:11px; font-weight:bold; padding:2px 8px; border-radius:10px;">ويندوز</span>
   <img src="https://cdn.instant.audio/images/equalizer.gif"
        class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
   <span class="favorite-icon"
-        onclick="toggleFavorite(event, '⬇️ تطبيق الويندوز — لويندوز ٧ و٨ القديمة');
+        onclick="toggleFavorite(event, '⬇️ ويندوز ٧ و٨');
+                 event.stopPropagation();
+                 return false;">&#x2764;</span>
+</button>
+<button class="button palestine no-auto-play win-dl-btn"
+    data-category="more-sites"
+    data-station="⬇️ نسخة التثبيت"
+    data-ar="⬇️ نسخة التثبيت" data-en="⬇️ Installer" data-fr="⬇️ Installateur" data-es="⬇️ Instalador" data-sv="⬇️ Installationsprogram" data-nl="⬇️ Installatie" data-ga="⬇️ Suiteálaí" data-de="⬇️ Installer" data-ru="⬇️ Установщик" data-tr="⬇️ Kurulum" data-pt="⬇️ Instalador" data-zh="⬇️ 安装版" data-ur="⬇️ انسٹالر"
+    style="border: 2px solid #5b5bd6; background: #f0f0fd; position: relative;"
+    onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-du-Coran-FR/releases/download/equran-windows-v1/eQuran-Setup-1.0.0-x64.exe';a.download='eQuran-Setup-1.0.0-x64.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();">
+  <span class="station-text" style="font-size: 20px; font-weight: bold;">
+    ⬇️ نسخة التثبيت
+  </span>
+  <span data-ar="قرآن" data-en="QURAN" data-fr="CORAN" data-es="CORÁN" data-sv="KORAN" data-nl="KORAN" data-ga="CÓRÁN" data-de="KORAN" data-ru="КОРАН" data-tr="KURAN" data-pt="ALCORÃO" data-zh="古兰经" data-ur="قرآن" style="position:absolute; top:5px; left:5px; background:#5b5bd6; color:#fff; font-size:11px; font-weight:bold; padding:2px 8px; border-radius:10px;">قرآن</span>
+  <img src="https://cdn.instant.audio/images/equalizer.gif"
+       class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
+  <span class="favorite-icon"
+        onclick="toggleFavorite(event, '⬇️ نسخة التثبيت');
+                 event.stopPropagation();
+                 return false;">&#x2764;</span>
+</button>
+<button class="button palestine no-auto-play win-dl-btn"
+    data-category="more-sites"
+    data-station="⬇️ النسخة المحمولة"
+    data-ar="⬇️ النسخة المحمولة" data-en="⬇️ Portable" data-fr="⬇️ Portable" data-es="⬇️ Portátil" data-sv="⬇️ Portabel" data-nl="⬇️ Draagbaar" data-ga="⬇️ Iniompartha" data-de="⬇️ Portable" data-ru="⬇️ Портативная" data-tr="⬇️ Taşınabilir" data-pt="⬇️ Portátil" data-zh="⬇️ 便携版" data-ur="⬇️ پورٹیبل"
+    style="border: 2px solid #5b5bd6; background: #f0f0fd; position: relative;"
+    onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-du-Coran-FR/releases/download/equran-windows-v1/eQuran-Portable-1.0.0-x64.exe';a.download='eQuran-Portable-1.0.0-x64.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();">
+  <span class="station-text" style="font-size: 20px; font-weight: bold;">
+    ⬇️ النسخة المحمولة
+  </span>
+  <span data-ar="قرآن" data-en="QURAN" data-fr="CORAN" data-es="CORÁN" data-sv="KORAN" data-nl="KORAN" data-ga="CÓRÁN" data-de="KORAN" data-ru="КОРАН" data-tr="KURAN" data-pt="ALCORÃO" data-zh="古兰经" data-ur="قرآن" style="position:absolute; top:5px; left:5px; background:#5b5bd6; color:#fff; font-size:11px; font-weight:bold; padding:2px 8px; border-radius:10px;">قرآن</span>
+  <img src="https://cdn.instant.audio/images/equalizer.gif"
+       class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
+  <span class="favorite-icon"
+        onclick="toggleFavorite(event, '⬇️ النسخة المحمولة');
+                 event.stopPropagation();
+                 return false;">&#x2764;</span>
+</button>
+<button class="button palestine no-auto-play win-dl-btn"
+    data-category="more-sites"
+    data-station="⬇️ ويندوز ٧ و٨"
+    data-ar="⬇️ ويندوز ٧ و٨" data-en="⬇️ Windows 7/8" data-fr="⬇️ Windows 7/8" data-es="⬇️ Windows 7/8" data-sv="⬇️ Windows 7/8" data-nl="⬇️ Windows 7/8" data-ga="⬇️ Windows 7/8" data-de="⬇️ Windows 7/8" data-ru="⬇️ Windows 7/8" data-tr="⬇️ Windows 7/8" data-pt="⬇️ Windows 7/8" data-zh="⬇️ Windows 7/8" data-ur="⬇️ ونڈوز 7/8"
+    style="border: 2px solid #5b5bd6; background: #f0f0fd; position: relative;"
+    onclick="var a=document.createElement('a');a.href='https://github.com/magziko/Radio-du-Coran-FR/releases/download/equran-windows-v1/eQuran-Legacy-Portable-1.0.0-ia32.exe';a.download='eQuran-Legacy-Portable-1.0.0-ia32.exe';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();">
+  <span class="station-text" style="font-size: 20px; font-weight: bold;">
+    ⬇️ ويندوز ٧ و٨
+  </span>
+  <span data-ar="قرآن" data-en="QURAN" data-fr="CORAN" data-es="CORÁN" data-sv="KORAN" data-nl="KORAN" data-ga="CÓRÁN" data-de="KORAN" data-ru="КОРАН" data-tr="KURAN" data-pt="ALCORÃO" data-zh="古兰经" data-ur="قرآن" style="position:absolute; top:5px; left:5px; background:#5b5bd6; color:#fff; font-size:11px; font-weight:bold; padding:2px 8px; border-radius:10px;">قرآن</span>
+  <img src="https://cdn.instant.audio/images/equalizer.gif"
+       class="equalizer" style="display:none;" alt="Equalizer" loading="lazy">
+  <span class="favorite-icon"
+        onclick="toggleFavorite(event, '⬇️ ويندوز ٧ و٨');
                  event.stopPropagation();
                  return false;">&#x2764;</span>
 </button>
