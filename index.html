@@ -658,7 +658,56 @@
     <button id="introVideoBtn" type="button" onclick="openIntroVideo()" aria-label="شاهد الفيديو التعريفي / Watch intro video" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;padding:7px 18px;border-radius:999px;font:700 13px/1.5 Cairo,sans-serif;color:inherit;background:rgba(30,144,255,0.16);border:1px solid rgba(30,144,255,0.45);">
         <span aria-hidden="true">▶</span><span>شاهد الفيديو التعريفي · Intro video</span>
     </button>
+    <span id="fridayVidBtn" style="display:none;align-items:stretch;border-radius:999px;overflow:hidden;border:1px solid rgba(30,144,255,0.45);font:700 13px/1.5 Cairo,sans-serif;">
+        <button id="fridayVidYt" type="button" aria-label="الصلاة على النبي ﷺ · YouTube" style="border:none;cursor:pointer;padding:7px 14px;font:inherit;color:inherit;background:rgba(30,144,255,0.16);">▶ الصلاة على النبي ﷺ · YouTube</button>
+        <button id="fridayVidFb" type="button" aria-label="الصلاة على النبي ﷺ · Facebook" style="border:none;border-inline-start:1px solid rgba(30,144,255,0.45);cursor:pointer;padding:7px 14px;font:inherit;color:inherit;background:rgba(24,119,242,0.16);">Facebook</button>
+    </span>
 </div>
+<script>
+/* استثناء الجمعة: زر الفيديو في شاشة الترحيب يتحول لفيديو الصلاة على النبي ﷺ — زر واحد منقسم نصفين (يوتيوب | فيسبوك)
+   في نفس مكان زر الفيديو التعريفي، ويشتغل في المشغّل الداخلي نفسه. الموبايل: شورت طولي. الديسكتوب: عريض كامل. */
+(function(){
+  var YT_FULL='fyJw2wBGbLA', YT_SHORT='0rOemHQsGoo';
+  var FB_FULL='https://www.facebook.com/reel/1675269200730555', FB_SHORT='https://www.facebook.com/reel/2132470557635864';
+  function _friMode(){ try { return (typeof window.wsFriMode==='function') ? window.wsFriMode() : null; } catch(e){ return null; } }
+  function openSalahVideo(which){
+    try { if (window.stopRadiosForMedia) window.stopRadiosForMedia(); } catch(e){}
+    var mobile = _introVideoIsMobile();
+    var h=document.getElementById('introVideoHolder'), wrap=document.getElementById('introVideoWrap'), box=document.getElementById('introVideoBox');
+    if(!h||!wrap||!box) return;
+    var vertical, src;
+    if (which==='fb') {
+      src='https://www.facebook.com/plugins/video.php?href='+encodeURIComponent(mobile?FB_SHORT:FB_FULL)+'&show_text=false&autoplay=true';
+      vertical=mobile; /* نسخة الديسكتوب من فيسبوك عريضة حسب كلامه */
+    } else {
+      vertical=mobile;
+      src='https://www.youtube-nocookie.com/embed/'+(mobile?YT_SHORT:YT_FULL)+'?rel=0&autoplay=1';
+    }
+    if(vertical){ wrap.style.width='min(400px,100%,calc(80vh * 9 / 16))'; box.style.aspectRatio='9/16'; }
+    else { wrap.style.width='min(960px,100%)'; box.style.aspectRatio='16/9'; }
+    h.innerHTML='';
+    var f=document.createElement('iframe');
+    f.src=src;
+    f.title='Salawat on the Prophet video';
+    f.loading='lazy'; f.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen; clipboard-write';
+    f.allowFullscreen=true; f.referrerPolicy='strict-origin-when-cross-origin';
+    f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;';
+    h.appendChild(f);
+    document.getElementById('introVideoModal').style.display='flex';
+  }
+  function _friTick(){
+    var split=document.getElementById('fridayVidBtn'), btn=document.getElementById('introVideoBtn');
+    if(!split||!btn) return;
+    var f=_friMode();
+    btn.style.display=f?'none':'inline-flex';
+    split.style.display=f?'inline-flex':'none';
+  }
+  var yt=document.getElementById('fridayVidYt'), fb=document.getElementById('fridayVidFb');
+  if(yt) yt.addEventListener('click',function(){ openSalahVideo('yt'); });
+  if(fb) fb.addEventListener('click',function(){ openSalahVideo('fb'); });
+  _friTick(); setInterval(_friTick,60000);
+})();
+</script>
 
 <div id="quranVerse" style="margin: 20px 0; flex-shrink: 0;">
     <p class="basmala-line">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
