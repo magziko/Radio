@@ -34709,7 +34709,24 @@ function checkAdhkarGroupCompletion(completedBtn) {
     var hasTarget = parseInt(b.dataset.target) > 0;
     return !hasTarget || b.classList.contains('completed');
   });
-  if (!allDone) return;
+  if (!allDone) {
+    // وصل المستخدم لآخر ذكر (أو آخر ذكرين) دون أن يُتمّ البقية: نسأله هل يكمل أم تُحتسب الأذكار مكتملة
+    try {
+      var _n = groupBtns.length, _ix = groupBtns.indexOf(completedBtn);
+      if (_ix >= _n - 2 && _ix >= 1) {
+        var _tailDone = true;
+        for (var _t = _ix; _t < _n; _t++) {
+          if (parseInt(groupBtns[_t].dataset.target) > 0 && !groupBtns[_t].classList.contains('completed')) { _tailDone = false; break; }
+        }
+        var _pKey = 'adhkar_partial_prompt_' + type;
+        if (_tailDone && !sessionStorage.getItem(_pKey) && !sessionStorage.getItem('adhkar_done_shown_' + type)) {
+          sessionStorage.setItem(_pKey, '1');
+          showAdhkarPartialPrompt(type);
+        }
+      }
+    } catch (e) {}
+    return;
+  }
 
   var sessionKey = 'adhkar_done_shown_' + type;
   if (sessionStorage.getItem(sessionKey)) return;
@@ -34787,6 +34804,74 @@ function _recordAdhkarStreak(type) {
     repeatToday: repeatToday,
     firstEver: wasFirstEver
   };
+}
+
+// نافذة تظهر عند بلوغ آخر الأذكار دون إتمام ما قبلها: إكمال البقية أو احتساب أذكار اليوم مكتملة
+function showAdhkarPartialPrompt(type) {
+  var old = document.getElementById('adhkar-partial-modal');
+  if (old) old.remove();
+  var isAr = (typeof isArabic !== 'undefined') ? isArabic : true;
+  var isMorning = type === 'morning';
+  var T = {
+    ar: ['بلغتَ المئة في آخر الأذكار. هل تودّ إكمال بقية الأذكار، أم تُحتسب أذكار اليوم مكتملة؟', 'إكمال بقية الأذكار', 'تم الانتهاء من الأذكار'],
+    en: ['You reached 100 in the last adhkar. Would you like to continue the remaining adhkar, or count today\u2019s adhkar as complete?', 'Continue the remaining adhkar', 'I\u2019ve finished the adhkar'],
+    fr: ['Vous avez atteint 100 sur le dernier adhkar. Souhaitez-vous poursuivre les adhkar restants ou compter les adhkar du jour comme terminés ?', 'Poursuivre les adhkar restants', 'J\u2019ai terminé les adhkar'],
+    es: ['Llegaste a 100 en el último adhkar. ¿Quieres continuar con los adhkar restantes o contar los de hoy como completados?', 'Continuar con los adhkar restantes', 'He terminado los adhkar'],
+    sv: ['Du nådde 100 på den sista adhkar. Vill du fortsätta med de återstående adhkar eller räkna dagens adhkar som slutförda?', 'Fortsätt med resten av adhkar', 'Jag har slutfört adhkar'],
+    nl: ['Je hebt 100 bereikt bij de laatste adhkar. Wil je de resterende adhkar voortzetten of de adhkar van vandaag als voltooid tellen?', 'De resterende adhkar voortzetten', 'Ik ben klaar met de adhkar'],
+    ga: ['Shroich tú 100 ag an adhkar deireanach. An bhfuil tú ag iarraidh leanúint leis na adhkar eile, nó adhkar an lae inniu a chomhaireamh mar chríochnaithe?', 'Lean leis na adhkar eile', 'Chríochnaigh mé na adhkar'],
+    de: ['Du hast bei den letzten Adhkar 100 erreicht. Möchtest du die übrigen Adhkar fortsetzen oder die heutigen Adhkar als abgeschlossen zählen?', 'Übrige Adhkar fortsetzen', 'Ich habe die Adhkar beendet'],
+    ru: ['Вы дошли до 100 в последнем азкаре. Хотите продолжить оставшиеся азкары или засчитать сегодняшние азкары как завершённые?', 'Продолжить оставшиеся азкары', 'Я завершил азкары'],
+    tr: ['Son ezkârda 100\u2019e ulaştınız. Kalan ezkârlara devam etmek mi, yoksa bugünkü ezkârı tamamlanmış saymak mı istersiniz?', 'Kalan ezkâra devam et', 'Ezkârı bitirdim'],
+    pt: ['Você chegou a 100 no último adhkar. Deseja continuar com os adhkar restantes ou contar os de hoje como concluídos?', 'Continuar com os adhkar restantes', 'Terminei os adhkar'],
+    zh: ['您已在最后一条赞词达到100次。要继续完成其余赞词，还是将今天的赞词算作已完成？', '继续其余赞词', '我已完成赞词'],
+    ur: ['آپ آخری ذکر میں سو تک پہنچ گئے ہیں۔ کیا آپ باقی اذکار مکمل کرنا چاہیں گے، یا آج کے اذکار کو مکمل شمار کیا جائے؟', 'باقی اذکار مکمل کریں', 'اذکار مکمل ہو گئے']
+  };
+  var _lg = 'ar';
+  if (!isAr) {
+    _lg = 'en';
+    try {
+      var _w = (typeof welcomeDisplayLang === 'string' && welcomeDisplayLang) ? welcomeDisplayLang : localStorage.getItem('welcomeDisplayLang');
+      if (_w && T[_w]) _lg = _w;
+    } catch (e) {}
+  }
+  var _rtl = (_lg === 'ar' || _lg === 'ur');
+  var msg = T[_lg][0], contTxt = T[_lg][1], doneTxt = T[_lg][2];
+
+  var modal = document.createElement('div');
+  modal.id = 'adhkar-partial-modal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.52);z-index:99999;display:flex;align-items:center;justify-content:center;animation:adhkarFadeIn 0.35s ease';
+  var box = document.createElement('div');
+  box.style.cssText = 'background:linear-gradient(145deg,#ffffff,#eaf6ff);border-radius:24px;padding:30px 26px 24px;max-width:360px;width:88%;text-align:center;box-shadow:0 12px 48px rgba(var(--theme-c1-rgb),0.25);animation:adhkarSlideUp 0.4s cubic-bezier(.34,1.56,.64,1);direction:' + (_rtl ? 'rtl' : 'ltr');
+  var ic = document.createElement('div');
+  ic.style.cssText = 'font-size:52px;margin-bottom:10px;line-height:1;';
+  ic.textContent = isMorning ? '🌅' : '🌙';
+  var p = document.createElement('p');
+  p.style.cssText = 'margin:0 0 20px;font-size:16px;color:#1a3a52;line-height:1.8;font-weight:700;font-family:Cairo,Arial,sans-serif;';
+  p.textContent = msg;
+  function mk(txt, primary) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = txt;
+    b.style.cssText = 'display:block;width:100%;margin:8px 0 0;padding:12px 16px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:Cairo,Arial,sans-serif;' +
+      (primary ? 'border:none;color:#fff;background:linear-gradient(135deg,var(--theme-c1),var(--theme-c2));box-shadow:0 4px 16px rgba(var(--theme-c1-rgb),0.35);' :
+                 'border:1.5px solid rgba(var(--theme-c1-rgb),0.45);color:#1a3a52;background:#fff;');
+    return b;
+  }
+  var bDone = mk(doneTxt, true), bCont = mk(contTxt, false);
+  function close() { modal.remove(); }
+  bCont.onclick = function() {
+    close();
+    try { _goToFirstUnfinishedAdhkar(type); } catch (e) {}
+  };
+  bDone.onclick = function() {
+    close();
+    try { sessionStorage.setItem('adhkar_done_shown_' + type, '1'); } catch (e) {}
+    showAdhkarDoneModal(type);   // يسجّل اليوم في السلسلة المتواصلة وعدد المرات
+  };
+  box.appendChild(ic); box.appendChild(p); box.appendChild(bDone); box.appendChild(bCont);
+  modal.appendChild(box);
+  document.body.appendChild(modal);
 }
 
 function showAdhkarDoneModal(type) {
